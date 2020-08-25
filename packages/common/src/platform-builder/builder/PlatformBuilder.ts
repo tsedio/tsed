@@ -1,7 +1,7 @@
 import {classOf, constructorOf, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {IRoute, Platform, PlatformApplication} from "../../platform";
-import {ContextMiddleware} from "../middlewares/ContextMiddleware";
+import {PlatformContextMiddleware} from "../../platform/middlewares/PlatformContextMiddleware";
 import {
   callHook,
   createContainer,
@@ -173,7 +173,7 @@ export abstract class PlatformBuilder {
   }
 
   protected async createContext() {
-    const middleware = new ContextMiddleware(this.injector);
+    const middleware = new PlatformContextMiddleware(this.injector);
 
     return this.app.use(middleware.use.bind(middleware));
   }

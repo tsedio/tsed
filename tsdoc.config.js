@@ -21,6 +21,7 @@ module.exports = {
     "!<rootDir>/packages/packages/testing",
     "!<rootDir>/packages/integration",
     "!<rootDir>/packages/integration-express",
+    "!<rootDir>/packages/platform-test-utils",
     "!<rootDir>/packages/swagger/lib/class",
     "!<rootDir>/packages/swagger/lib/utils",
     "!<rootDir>/packages/swagger/lib/decorators/{baseParameter,consumes,deprecated,description,example,name,produces,responses,returns,returnsArray,security,summary,operation,title}.ts",

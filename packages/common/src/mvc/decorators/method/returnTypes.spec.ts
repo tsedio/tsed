@@ -1,7 +1,7 @@
 import {Get} from "@tsed/common";
 import {getSpec} from "@tsed/schema";
 import {expect} from "chai";
-import {ReturnType} from "./returnType";
+import {Returns, ReturnsArray, ReturnType} from "./returnType";
 
 describe("ReturnType", () => {
   it("should store metadata (when code is given)", () => {
@@ -44,7 +44,7 @@ describe("ReturnType", () => {
           get: {
             operationId: "testGet",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "200": {
                 description: "Description",
@@ -98,5 +98,152 @@ describe("ReturnType", () => {
     }
 
     // THEN
+  });
+});
+
+describe("Returns", () => {
+  it("should store metadata", () => {
+    // GIVEN
+    class TypeC {}
+
+    // WHEN
+    class Test {
+      @Get("/")
+      @(Returns(200, Array).Of(TypeC))
+      get() {}
+    }
+
+    // THEN
+    const spec = getSpec(Test);
+
+    expect(spec).to.deep.eq({
+      definitions: {
+        TypeC: {
+          type: "object"
+        }
+      },
+      paths: {
+        "/": {
+          get: {
+            operationId: "testGet",
+            parameters: [],
+            produces: ["application/json"],
+            responses: {
+              "200": {
+                description: "Success",
+                schema: {
+                  items: {
+                    $ref: "#/definitions/TypeC"
+                  },
+                  type: "array"
+                }
+              }
+            },
+            tags: ["Test"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
+    });
+  });
+  it("Legacy implementation", () => {
+    // GIVEN
+    class TypeC {}
+
+    // WHEN
+    class Test {
+      @Get("/")
+      @Returns(200, {type: TypeC, description: "Description"})
+      get() {}
+    }
+
+    // THEN
+    const spec = getSpec(Test);
+
+    expect(spec).to.deep.eq({
+      definitions: {
+        TypeC: {
+          type: "object"
+        }
+      },
+      paths: {
+        "/": {
+          get: {
+            operationId: "testGet",
+            parameters: [],
+            produces: ["application/json"],
+            responses: {
+              "200": {
+                description: "Description",
+                schema: {
+                  $ref: "#/definitions/TypeC"
+                }
+              }
+            },
+            tags: ["Test"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
+    });
+  });
+});
+
+describe("ReturnArray", () => {
+  it("should store metadata", () => {
+    // GIVEN
+    class TypeC {}
+
+    // WHEN
+    class Test {
+      @Get("/")
+      @ReturnsArray(200, TypeC)
+      get() {}
+    }
+
+    // THEN
+    const spec = getSpec(Test);
+
+    expect(spec).to.deep.eq({
+      definitions: {
+        TypeC: {
+          type: "object"
+        }
+      },
+      paths: {
+        "/": {
+          get: {
+            operationId: "testGet",
+            parameters: [],
+            produces: ["application/json"],
+            responses: {
+              "200": {
+                description: "Success",
+                schema: {
+                  items: {
+                    $ref: "#/definitions/TypeC"
+                  },
+                  type: "array"
+                }
+              }
+            },
+            tags: ["Test"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
+    });
   });
 });

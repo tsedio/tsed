@@ -38,7 +38,7 @@ describe("Status", () => {
           get: {
             operationId: "testGet",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "200": {
                 description: "description",
@@ -101,7 +101,7 @@ describe("Status", () => {
           get: {
             operationId: "testGet",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "204": {
                 description: "description",
@@ -163,7 +163,7 @@ describe("Status", () => {
           get: {
             operationId: "testGet",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "201": {
                 description: "description",
@@ -239,7 +239,7 @@ describe("Status", () => {
           get: {
             operationId: "testGet",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "200": {
                 description: "description",

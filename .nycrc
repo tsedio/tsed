@@ -10,6 +10,7 @@
     "packages/testing/**",
     "packages/**/ExpressRouter.ts",
     "packages/**/RouteService.ts",
+    "packages/platform-test-utils",
     "packages/swagger/src/decorators/{title,description,example}.ts",
     "**/interfaces/**",
     "**/legacy/**",
@@ -25,8 +26,8 @@
     "lcov"
   ],
   "check-coverage": true,
-  "lines": 99.78,
-  "statements": 99.75,
-  "functions": 99.41,
-  "branches": 88.67
+  "lines": 99.73,
+  "statements": 99.66,
+  "functions": 99.36,
+  "branches": 88.66
 }

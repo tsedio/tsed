@@ -1,9 +1,4 @@
-import {applyDecorators} from "@tsed/core";
-import {Produces} from "@tsed/schema";
-import {Next} from "../params/next";
-import {Req} from "../params/request";
-import {Res} from "../params/response";
-import {UseAfter} from "./useAfter";
+import {Returns} from "@tsed/schema";
 
 /**
  * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.
@@ -23,13 +18,8 @@ import {UseAfter} from "./useAfter";
  * @operation
  * @response
  * @headers
+ * @deprecated Use @Returns().ContentType() instead.
  */
 export function ContentType(type: string) {
-  return applyDecorators(
-    Produces(type),
-    UseAfter((request: Req, response: Res, next: Next) => {
-      response.contentType(type);
-      next();
-    })
-  );
+  return Returns().ContentType(type);
 }

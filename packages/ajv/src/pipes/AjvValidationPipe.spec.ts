@@ -10,7 +10,7 @@ import {
   UseParam,
   ValidationError
 } from "@tsed/common";
-import {getJsonSchema, Property, Required} from "@tsed/schema";
+import {getJsonSchema, MinLength, Property, Required} from "@tsed/schema";
 import {expect} from "chai";
 import {AjvValidationPipe} from "./AjvValidationPipe";
 
@@ -229,6 +229,63 @@ describe("AjvValidationPipe", () => {
       expect(error?.message).to.deep.equal(
         "Bad request on parameter \"request.body\".\nModel.user should have required property 'id'. Given value: {}"
       );
+    });
+    it("should throw an error and hide password value", async () => {
+      class Model {
+        @Required()
+        id: string;
+
+        @Required()
+        @MinLength(8)
+        password: string;
+      }
+
+      class Ctrl {
+        @Post("/")
+        get(@UseParam(ParamTypes.BODY) value: Model) {}
+      }
+
+      const value: any = {
+        id: "id",
+        password: "secret"
+      };
+      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+
+      const error = await validate(value, metadata);
+
+      expect(getJsonSchema(metadata)).to.deep.eq({
+        properties: {
+          id: {
+            minLength: 1,
+            type: "string"
+          },
+          password: {
+            minLength: 8,
+            type: "string"
+          }
+        },
+        required: ["id", "password"],
+        type: "object"
+      });
+
+      expect(error?.origin.errors).to.deep.equal([
+        {
+          data: "[REDACTED]",
+          dataPath: ".password",
+          keyword: "minLength",
+          message: "should NOT be shorter than 8 characters",
+          modelName: "Model",
+          params: {
+            limit: 8
+          },
+          parentSchema: {
+            minLength: 8,
+            type: "string"
+          },
+          schema: 8,
+          schemaPath: "#/properties/password/minLength"
+        }
+      ]);
     });
   });
   describe("With array of model", () => {

@@ -47,9 +47,6 @@ describe("@MultipartFile()", () => {
                 consumes: ["multipart/form-data"],
                 operationId: "testControllerTest",
                 parameters: [],
-                produces: [
-                  "text/json"
-                ],
                 responses: {
                   "400": {
                     description:

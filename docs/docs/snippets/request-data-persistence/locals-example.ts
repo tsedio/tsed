@@ -1,4 +1,4 @@
-import {Controller, Get, Locals, Middleware, Render, UseBefore} from "@tsed/common";
+import {Controller, Get, Locals, Middleware, UseBefore, View} from "@tsed/common";
 
 @Middleware()
 class LocalsMiddleware {
@@ -12,7 +12,7 @@ class LocalsMiddleware {
 @UseBefore(LocalsMiddleware)
 class MyCtrl {
   @Get("/")
-  @Render("home.ejs") // will use locals and returned data to render the page
+  @View("home.ejs") // will use locals and returned data to render the page
   get(@Locals("user") user: any) {
     console.log("user", user);
 

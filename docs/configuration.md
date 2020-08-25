@@ -251,11 +251,15 @@ It's also possible to register resolvers with the @@Module@@ decorator:
 
 <<< @/docs/snippets/configuration/module-resolvers.ts
 
+### acceptMimes
+ 
+Configure the mimes accepted by default for each request by the server. Require adding @@GlobalAcceptMimeMiddleware@@ to work.
+
 ## Express options
 
 Some configuration options are related to PlatformExpress itself.
 
-### routers
+### express.router
 
 The global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
 
@@ -264,10 +268,6 @@ The global configuration for the Express.Router. See express [documentation](htt
 - type: @@IServerMountDirectories@@
 
 Object to mount all directories under to these endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
-
-### acceptMimes
- 
-Configure the mimes accepted by default for each request by the server. Require adding @@GlobalAcceptMimeMiddleware@@ to work.
 
 ## HTTP & HTTPs server
 ### Change address

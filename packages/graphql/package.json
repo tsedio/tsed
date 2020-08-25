@@ -17,7 +17,8 @@
   "devDependencies": {
     "@tsed/common": "6.0.0-alpha.9",
     "@tsed/core": "6.0.0-alpha.9",
-    "graphql": "14.7.0"
+    "graphql": "14.7.0",
+    "apollo-server-testing": "2.16.1"
   },
   "peerDependencies": {}
 }

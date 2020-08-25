@@ -74,7 +74,6 @@ export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
  * }
  * ```
  *
- * @deprecated Use @Returns(200).Header("header", "value")
  * @decorator
  * @operation
  * @response

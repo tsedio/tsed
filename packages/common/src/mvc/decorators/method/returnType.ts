@@ -125,27 +125,27 @@ export function ReturnType(response: Partial<TsED.ResponseOptions> = {}): Return
  * @deprecated Use @Returns decorator from @tsed/schema
  * @ignore
  */
-export function Returns(statusCode: number, options: Partial<TsED.ResponseOptions>): any;
+export function Returns(statusCode: number, options: Partial<TsED.ResponseOptions>): ReturnsChainedDecorators;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
  * @ignore
  */
-export function Returns(options: Partial<TsED.ResponseOptions>): any;
+export function Returns(options: Partial<TsED.ResponseOptions>): ReturnsChainedDecorators;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
  * @ignore
  */
-export function Returns(model: Type<any>): any;
+export function Returns(model: Type<any>): ReturnsChainedDecorators;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
  * @ignore
  */
-export function Returns(statusCode: number, model: Type<any>): any;
+export function Returns(statusCode: number, model: Type<any>): ReturnsChainedDecorators;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
  * @ignore
  */
-export function Returns(model: Type<any>, options: Partial<TsED.ResponseOptions>): any;
+export function Returns(model: Type<any>, options: Partial<TsED.ResponseOptions>): ReturnsChainedDecorators;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
  * @ignore
@@ -188,23 +188,26 @@ export function Returns(...args: any[]) {
  * @response
  * @deprecated Use @Returns decorator from @tsed/schema
  */
-export function ReturnsArray(statusCode: number, options: Partial<TsED.ResponseOptions>): any;
-export function ReturnsArray(statusCode: number, model: Type<any>): any;
+export function ReturnsArray(statusCode: number, options: Partial<TsED.ResponseOptions>): ReturnsChainedDecorators;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
  */
-export function ReturnsArray(options: Partial<TsED.ResponseOptions>): any;
+export function ReturnsArray(statusCode: number, model: Type<any>): ReturnsChainedDecorators;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
  */
-export function ReturnsArray(model: Type<any>): any;
+export function ReturnsArray(options: Partial<TsED.ResponseOptions>): ReturnsChainedDecorators;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
  */
-export function ReturnsArray(model: Type<any>, options: Partial<TsED.ResponseOptions>): any;
+export function ReturnsArray(model: Type<any>): ReturnsChainedDecorators;
 /**
  * @deprecated Use @Returns decorator from @tsed/schema
  */
-export function ReturnsArray(...args: any[]) {
+export function ReturnsArray(model: Type<any>, options: Partial<TsED.ResponseOptions>): ReturnsChainedDecorators;
+/**
+ * @deprecated Use @Returns decorator from @tsed/schema
+ */
+export function ReturnsArray(...args: any[]): ReturnsChainedDecorators {
   return ReturnType({...mapStatusResponseOptions(args), collectionType: Array});
 }

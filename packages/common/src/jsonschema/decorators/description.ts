@@ -5,7 +5,10 @@ import {Description as D} from "@tsed/schema";
  *
  * ::: warning
  * This decorator will be removed in v7.
- * For v6 user, use @@Title@@ from @tsed/schema instead of @tsed/common.
+ *
+ * For v5 user, use @@Description@@ from @tsed/common instead of @tsed/swagger.
+ *
+ * For v6 user, use @@Description@@ from @tsed/schema instead of @tsed/common.
  * :::
  *
  * ## Example

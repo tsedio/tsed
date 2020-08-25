@@ -10,8 +10,6 @@ describe("ContentType", () => {
       test() {}
     }
 
-    expect(EndpointMetadata.get(Test, "test").afterMiddlewares.length).to.eq(1);
-
     const spec = getSpec(Test);
     expect(spec).to.deep.eq({
       definitions: {},
@@ -23,7 +21,9 @@ describe("ContentType", () => {
             produces: ["application/json"],
             responses: {
               "200": {
-                description: "Success"
+                schema: {
+                  type: "object"
+                }
               }
             },
             tags: ["Test"]

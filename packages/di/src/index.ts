@@ -1,3 +1,4 @@
+export * from "./constants/index";
 export * from "./class/Provider";
 export * from "./class/Container";
 export * from "./class/LocalsContainer";

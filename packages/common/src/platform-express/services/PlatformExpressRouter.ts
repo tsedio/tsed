@@ -1,4 +1,4 @@
-import {Configuration, GlobalProviders, Inject, OverrideProvider} from "@tsed/di";
+import {Configuration, Inject, OverrideProvider} from "@tsed/di";
 import * as Express from "express";
 import {PLATFORM_ROUTER_OPTIONS, PlatformHandler, PlatformRouter} from "../../platform";
 
@@ -17,6 +17,6 @@ export class PlatformExpressRouter extends PlatformRouter {
   ) {
     super(platform);
 
-    this.raw = Express.Router(Object.assign({}, configuration.routers, routerOptions));
+    this.raw = Express.Router(Object.assign({}, configuration.express?.router || {}, configuration.routers || {}, routerOptions));
   }
 }

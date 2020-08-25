@@ -14,7 +14,8 @@ describe("Multer integration", () => {
   it("should load a file (with name)", async () => {
     const result = await request
       .post("/rest/archives/with-name")
-      .attach("media", `${__dirname}/data/file.txt`);
+      .attach("media", `${__dirname}/data/file.txt`)
+      .expect(201);
 
     expect(result.text).to.eq("file.txt");
   });

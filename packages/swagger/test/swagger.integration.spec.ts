@@ -1,12 +1,45 @@
-import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
-import {Returns} from "@tsed/schema";
+import {Controller, Get, MergeParams, PathParams, PlatformTest} from "@tsed/common";
+import {Description, Returns} from "@tsed/schema";
+import {Docs, Hidden} from "@tsed/swagger";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Calendar} from "./helpers/models/Calendar";
 import {Server} from "./helpers/Server";
 
-@Controller("/calendars")
-export class CalendarsController {
+@Controller("/admin")
+@Hidden()
+class AdminCtrl {
+  @Get("/")
+  get() {
+  }
+}
+
+@Controller("/events")
+@MergeParams(true)
+class EventCtrl {
+  @Get("/")
+  @Description("Events")
+  get() {
+  }
+}
+
+@Controller("/admin")
+@Docs("admin")
+class BackAdminCtrl {
+  @Get("/")
+  @Description("Admins")
+  get() {
+  }
+}
+
+@Controller({
+  path: "/calendars",
+  children: [
+    AdminCtrl,
+    EventCtrl
+  ]
+})
+class CalendarsController {
   @Get("/:id")
   @Returns(200, Calendar)
   async get(@PathParams("id") id: string): Promise<Calendar> {
@@ -82,7 +115,7 @@ describe("Swagger integration", () => {
             "operationId": "calendarsControllerGetAll",
             "parameters": [],
             "produces": [
-              "text/json"
+              "application/json"
             ],
             "responses": {
               "200": {
@@ -112,7 +145,7 @@ describe("Swagger integration", () => {
               }
             ],
             "produces": [
-              "text/json"
+              "application/json"
             ],
             "responses": {
               "200": {
@@ -126,6 +159,21 @@ describe("Swagger integration", () => {
               "CalendarsController"
             ]
           }
+        },
+        "/rest/events/events": {
+          "get": {
+            "description": "Events",
+            "operationId": "eventCtrlGet",
+            "parameters": [],
+            "responses": {
+              "200": {
+                "description": "Success"
+              }
+            },
+            "tags": [
+              "EventCtrl"
+            ]
+          }
         }
       },
       "produces": [
@@ -134,6 +182,9 @@ describe("Swagger integration", () => {
       "securityDefinitions": {},
       "swagger": "2.0",
       "tags": [
+        {
+          "name": "EventCtrl"
+        },
         {
           "name": "CalendarsController"
         }

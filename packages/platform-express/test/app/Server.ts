@@ -1,0 +1,49 @@
+import {Constant, PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
+import * as bodyParser from "body-parser";
+import * as compress from "compression";
+import {ejs} from "consolidate";
+import * as cookieParser from "cookie-parser";
+import * as session from "express-session";
+import * as methodOverride from "method-override";
+
+export const rootDir = __dirname;
+
+@Configuration({
+  logger: {
+    level: "off"
+  },
+  statics: {
+    "/": `${rootDir}/public`
+  },
+  viewsDir: `${rootDir}/views`
+})
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
+  @Constant("viewsDir")
+  viewsDir: string;
+
+  $beforeRoutesInit() {
+    this.app.raw.set("views", this.viewsDir);
+    this.app.raw.engine("ejs", ejs);
+
+    this.app
+      .use(cookieParser())
+      .use(compress({}))
+      .use(methodOverride())
+      .use(bodyParser.json())
+      .use(bodyParser.urlencoded({
+        extended: true
+      }))
+      .use(session({
+        secret: "keyboard cat", // change secret key
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+          secure: false // set true if HTTPS is enabled
+        }
+      }));
+  }
+}

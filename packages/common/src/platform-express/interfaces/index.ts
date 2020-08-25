@@ -1,17 +1,17 @@
 import * as Express from "express";
 import {RequestContext} from "../../platform";
-import {IRouterSettings} from "./IRouterSettings";
 import "./Express";
+import {PlatformExpressRouterSettings, PlatformExpressSettings} from "./PlatformExpressSettings";
 
-export * from "./IRouterSettings";
+export * from "./PlatformExpressSettings";
 
 declare global {
   namespace TsED {
     export interface Configuration {
       /**
-       * Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
+       * Configuration related to Express platform application.
        */
-      routers: IRouterSettings;
+      express: PlatformExpressSettings;
     }
 
     export interface NextFunction extends Express.NextFunction {}

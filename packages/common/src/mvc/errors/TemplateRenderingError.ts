@@ -16,6 +16,6 @@ export class TemplateRenderingError extends InternalServerError {
    * @returns {string}
    */
   static buildMessage(target: Type<any> | string, method: string | symbol, err: Error) {
-    return `Template rendering error : ${nameOf(target)}.${String(method)}()\n` + err;
+    return `Template rendering error: ${nameOf(target)}.${String(method)}()\n` + err;
   }
 }

@@ -1,11 +1,13 @@
-import {Controller, Get, UseBefore} from "@tsed/common";
-import {AcceptMimesMiddleware} from "./AcceptMimesMiddleware";
+import {Controller, Get} from "@tsed/common";
+import {Accept} from "../decorators/Accept";
 
 @Controller("/test")
-@UseBefore(AcceptMimesMiddleware) // global to the controller
 class MyCtrl {
   @Get("/")
-  @UseBefore(AcceptMimesMiddleware) // only to this endpoint
+  @Accept("application/json")
   getContent() {
+    return {
+      title: "title"
+    };
   }
 }

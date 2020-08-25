@@ -124,7 +124,10 @@ describe("PlatformExpressHandler", () => {
           const value = platformHandler.getParam(param, context);
 
           // THEN
-          expect(value).to.deep.eq({"content-type": "application/json"});
+          expect(value).to.deep.eq({
+            accept: "application/json",
+            "content-type": "application/json"
+          });
         }
       )
     );

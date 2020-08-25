@@ -8,8 +8,7 @@ describe("@Returns", () => {
     class Controller {
       @OperationPath("POST", "/")
       @(Returns(200, String).Description("description"))
-      method() {
-      }
+      method() {}
     }
 
     // THEN
@@ -45,9 +44,11 @@ describe("@Returns", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @Returns().Status(200).Type(String).Description("description")
-      method() {
-      }
+      @(Returns()
+        .Status(200)
+        .Type(String)
+        .Description("description"))
+      method() {}
     }
 
     // THEN
@@ -93,8 +94,7 @@ describe("@Returns", () => {
         .Schema({
           minLength: 3
         }))
-      method() {
-      }
+      method() {}
     }
 
     // THEN
@@ -144,10 +144,9 @@ describe("@Returns", () => {
       @OperationPath("POST", "/")
       @(Returns(200, String)
         .Description("description")
-        .ContentType("text/json")
+        .ContentType("text/html")
         .Examples("Examples"))
-      method() {
-      }
+      method() {}
     }
 
     // THEN
@@ -170,7 +169,7 @@ describe("@Returns", () => {
             responses: {
               "200": {
                 content: {
-                  "text/json": {
+                  "text/html": {
                     schema: {
                       type: "string"
                     }
@@ -190,11 +189,10 @@ describe("@Returns", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @Returns(400).Description("Bad request")
+      @(Returns(400).Description("Bad request"))
       @Returns(401)
-      @Returns(200).Description("Success")
-      method() {
-      }
+      @(Returns(200).Description("Success"))
+      method() {}
     }
 
     // THEN
@@ -212,9 +210,6 @@ describe("@Returns", () => {
           post: {
             operationId: "controllerMethod",
             parameters: [],
-            "produces": [
-              "text/json"
-            ],
             responses: {
               "200": {
                 description: "Success",
@@ -250,8 +245,7 @@ describe("@Returns", () => {
         @(Returns(200, String)
           .Of(Array)
           .Description("description"))
-        method() {
-        }
+        method() {}
       }
     } catch (er) {
       actualError = er;
@@ -268,8 +262,7 @@ describe("@Returns", () => {
         @(Returns(200, Array)
           .Nested(Set)
           .Description("description"))
-        method() {
-        }
+        method() {}
       }
     } catch (er) {
       actualError = er;
@@ -278,8 +271,7 @@ describe("@Returns", () => {
     actualError.message.should.eq("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
   });
   it("should throw an error when the decorator isn't correctly used", async () => {
-    class Test {
-    }
+    class Test {}
 
     // WHEN
     let actualError: any;
@@ -299,8 +291,7 @@ describe("@Returns", () => {
       @(Returns(200, Array)
         .Of(String)
         .Description("description"))
-      method() {
-      }
+      method() {}
     }
 
     // THEN
@@ -318,7 +309,7 @@ describe("@Returns", () => {
           post: {
             operationId: "controllerMethod",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "200": {
                 description: "description",
@@ -348,8 +339,7 @@ describe("@Returns", () => {
       @(Returns(200, Array)
         .Of(Model)
         .Description("description"))
-      method() {
-      }
+      method() {}
     }
 
     // THEN
@@ -376,7 +366,7 @@ describe("@Returns", () => {
           post: {
             operationId: "controllerMethod",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "200": {
                 description: "description",
@@ -454,7 +444,7 @@ describe("@Returns", () => {
           post: {
             operationId: "controllerMethod",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "200": {
                 description: "description",

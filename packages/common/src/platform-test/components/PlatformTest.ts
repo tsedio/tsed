@@ -1,7 +1,7 @@
 import {Env, Type} from "@tsed/core";
 import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
 import {createInjector, loadInjector, PlatformBuilder} from "../../platform-builder";
-import {IRequestContextOptions, RequestContext} from "../../platform/domain/RequestContext";
+import {RequestContext, RequestContextOptions} from "../../platform/domain/RequestContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 
 export interface PlatformTestInvokeOptions {
@@ -56,6 +56,7 @@ export class PlatformTest {
   static bootstrap(mod: any, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       let instance: any;
+      PlatformTest.platformBuilder = options.platform || PlatformTest.platformBuilder;
 
       /* istanbul ignore next */
       if (!PlatformTest.platformBuilder) {
@@ -172,7 +173,7 @@ export class PlatformTest {
     return PlatformTest.injector.get<PlatformApplication>(PlatformApplication)?.callback();
   }
 
-  static createRequestContext(options: Partial<IRequestContextOptions> = {}) {
+  static createRequestContext(options: Partial<RequestContextOptions> = {}) {
     return new RequestContext({
       id: "id",
       logger: this.injector.logger,

@@ -98,7 +98,7 @@ describe("ErrorsParams", () => {
             "operationId": "errorsControllerExampleControllerMethod",
             "parameters": [],
             "produces": [
-              "text/json"
+              "application/json"
             ],
             "responses": {
               "200": {

@@ -1,7 +1,11 @@
 # Templating
 
-@@Render@@ is a decorator which can be used on a controller method (endpoint).
+@@View@@ is a decorator which can be used on a controller method (endpoint).
 This decorator will use the response returned by the method and will use the view to create the output.
+
+::: warning
+@@View@@ is available since v5.63.0. For older version use @@Render@@.
+:::
 
 <figure><img src="./../assets/templating-engine.png" style="max-height: 300px; padding:20px"></figure>
 
@@ -25,9 +29,9 @@ The configuration engine is exactly the same as Express configuration engine.
 ## Usage
 
 A template engine like [EJS](https://ejs.co/) or [Handlebars](https://handlebarsjs.com/) can be used to change the response returned by your endpoint.
-Like Express.js, you need to configure the templating engine so that you can use it later with the @@Render@@ decorator.
+Like Express.js, you need to configure the templating engine so that you can use it later with the @@View@@ decorator.
 
-Here is an example of a controller using the @@Render@@ decorator:
+Here is an example of a controller using the @@View@@ decorator:
 
 <<< @/docs/docs/snippets/controllers/response-templating.ts
 

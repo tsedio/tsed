@@ -55,13 +55,15 @@ export class AjvErrorFormatterPipe {
         }
 
         if (!error.data) {
-          if (error.dataPath && error.dataPath.match(/pwd|password|mdp|secret/)) {
-            error.data = "[REDACTED]";
-          } else if (error.dataPath) {
+          if (error.dataPath) {
             error.data = getValue(error.dataPath.replace(/^./, ""), value);
           } else if (error.schemaPath !== "#/required") {
             error.data = value;
           }
+        }
+
+        if (error.dataPath && error.dataPath.match(/pwd|password|mdp|secret/)) {
+          error.data = "[REDACTED]";
         }
 
         if (type) {

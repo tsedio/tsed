@@ -1218,7 +1218,7 @@ describe("getSpec()", () => {
             post: {
               operationId: "controllerMethod",
               parameters: [],
-              produces: ["text/json"],
+              produces: ["application/json"],
               tags: ["Controller"],
               responses: {
                 "200": {
@@ -1267,7 +1267,7 @@ describe("getSpec()", () => {
               responses: {
                 "200": {
                   content: {
-                    "text/json": {
+                    "application/json": {
                       schema: {
                         items: {
                           type: "string"
@@ -1334,7 +1334,7 @@ describe("getSpec()", () => {
             post: {
               operationId: "controllerMethod",
               parameters: [],
-              produces: ["text/json"],
+              produces: ["application/json"],
               tags: ["Controller"],
               responses: {
                 "200": {
@@ -1441,7 +1441,7 @@ describe("getSpec()", () => {
               responses: {
                 "200": {
                   content: {
-                    "text/json": {
+                    "application/json": {
                       schema: {
                         properties: {
                           data: {
@@ -1551,7 +1551,7 @@ describe("getSpec()", () => {
             post: {
               operationId: "controllerMethod",
               parameters: [],
-              produces: ["text/json"],
+              produces: ["application/json"],
               tags: ["Controller"],
               responses: {
                 "200": {
@@ -1602,7 +1602,7 @@ describe("getSpec()", () => {
             post: {
               operationId: "controller2Method",
               parameters: [],
-              produces: ["text/json"],
+              produces: ["application/json"],
               tags: ["Controller2"],
               responses: {
                 "200": {
@@ -1699,7 +1699,7 @@ describe("getSpec()", () => {
               responses: {
                 "200": {
                   content: {
-                    "text/json": {
+                    "application/json": {
                       schema: {
                         properties: {
                           data: {

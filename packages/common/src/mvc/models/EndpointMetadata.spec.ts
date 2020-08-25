@@ -6,6 +6,64 @@ import {Use} from "../decorators/method/use";
 import {EndpointMetadata} from "./EndpointMetadata";
 
 describe("EndpointMetadata", () => {
+  describe("view", () => {
+    it("should return view value", () => {
+      // GIVEN
+      const middleware3 = () => {};
+
+      class Test {
+        @Use(middleware3)
+        method(): any {}
+      }
+
+      const endpoint = EndpointMetadata.get(Test, "method");
+
+      endpoint.view = {path: "/", test: 1};
+
+      expect(endpoint.view).to.deep.eq({path: "/", test: 1});
+    });
+  });
+
+  describe("redirect", () => {
+    it("should return redirect value", () => {
+      // GIVEN
+      const middleware3 = () => {};
+
+      class Test {
+        @Use(middleware3)
+        method(): any {}
+      }
+
+      const endpoint = EndpointMetadata.get(Test, "method");
+
+      endpoint.redirect = {url: "/path"};
+
+      expect(endpoint.redirect).to.deep.eq({url: "/path", status: 302});
+
+      endpoint.redirect = {url: "/path", status: 301};
+
+      expect(endpoint.redirect).to.deep.eq({url: "/path", status: 301});
+    });
+  });
+
+  describe("location", () => {
+    it("should return location value", () => {
+      // GIVEN
+      const middleware3 = () => {};
+
+      class Test {
+        @Use(middleware3)
+        method(): any {}
+      }
+
+      const endpoint = EndpointMetadata.get(Test, "method");
+
+      endpoint.location = "/location";
+
+      expect(endpoint.location).to.deep.eq("/location");
+    });
+  });
+
   describe("endpoint declaration", () => {
     it("should return an endpoint metadata", () => {
       // GIVEN

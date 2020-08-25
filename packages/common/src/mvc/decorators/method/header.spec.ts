@@ -44,9 +44,6 @@ describe("Header", () => {
               get: {
                 operationId: "myControllerTest",
                 parameters: [],
-                "produces": [
-                  "text/json"
-                ],
                 responses: {
                   "200": {
                     headers: {
@@ -77,8 +74,7 @@ describe("Header", () => {
         class MyController {
           @Get("/")
           @Header("Content-Type", "application/json")
-          test() {
-          }
+          test() {}
         }
 
         const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
@@ -90,9 +86,6 @@ describe("Header", () => {
               get: {
                 operationId: "myControllerTest",
                 parameters: [],
-                "produces": [
-                  "text/json"
-                ],
                 responses: {
                   "200": {
                     headers: {
@@ -130,8 +123,7 @@ describe("Header", () => {
               description: "header description"
             }
           } as any)
-          test() {
-          }
+          test() {}
         }
 
         const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
@@ -143,9 +135,6 @@ describe("Header", () => {
               get: {
                 operationId: "myControllerTest",
                 parameters: [],
-                "produces": [
-                  "text/json"
-                ],
                 responses: {
                   "200": {
                     headers: {

@@ -8,6 +8,16 @@ export interface EndpointConstructorOptions extends JsonEntityStoreOptions {
   afterMiddlewares?: Function[];
 }
 
+export interface EndpointViewOptions {
+  path: string;
+  options: any;
+}
+
+export interface EndpointRedirectOptions {
+  status: number | undefined;
+  url: string;
+}
+
 /**
  * EndpointMetadata contains metadata about a controller and his method.
  * Each annotation (@Get, @Body...) attached to a method are stored in a endpoint.
@@ -58,7 +68,7 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
   }
 
   get params(): ParamMetadata[] {
-    return Array.from(this.children.values()) as ParamMetadata[];
+    return (Array.from(this.children.values()) as unknown) as ParamMetadata[];
   }
 
   get response() {
@@ -78,6 +88,47 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
 
   get responses(): Map<string, JsonResponse> {
     return this.operation.get("responses");
+  }
+
+  get view(): EndpointViewOptions {
+    return this.store.get("view") as EndpointViewOptions;
+  }
+
+  set view(view: EndpointViewOptions) {
+    this.store.set("view", view);
+  }
+
+  get location(): string {
+    return this.store.get("location") as string;
+  }
+
+  set location(url: string) {
+    this.store.set("location", url);
+  }
+
+  get redirect(): EndpointRedirectOptions {
+    return this.store.get("redirect") as any;
+  }
+
+  set redirect(options: EndpointRedirectOptions) {
+    this.store.set("redirect", {
+      status: 302,
+      ...options
+    });
+  }
+
+  /**
+   * @deprecated Will be removed in v6
+   */
+  get contentType(): string {
+    return this.store.get("contentType") as string;
+  }
+
+  /**
+   * @deprecated Will be removed in v6
+   */
+  set contentType(url: string) {
+    this.store.set("contentType", url);
   }
 
   /**

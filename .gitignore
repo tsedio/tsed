@@ -65,3 +65,4 @@ test/**/*.d.ts.map
 /docs/.vuepress/dist
 /mongodb-binaries
 /packages/multipartfiles/test/.tmp/
+/packages/graphql/test/ressources/schema.gql

@@ -1,12 +1,6 @@
 import {deepExtends, uniq, uniqBy} from "@tsed/core";
 import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
-import {
-  JsonExternalDocumentation,
-  JsonHeader,
-  JsonSchemaOptions,
-  JsonSecurityRequirement,
-  JsonTag
-} from "../interfaces";
+import {JsonExternalDocumentation, JsonHeader, JsonSchemaOptions, JsonSecurityRequirement, JsonTag} from "../interfaces";
 import {isSuccessStatus} from "../utils/isSuccessStatus";
 import {JsonMap} from "./JsonMap";
 import {JsonParameter} from "./JsonParameter";
@@ -130,6 +124,14 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
 
   getHeadersOf(status: number): {[key: string]: JsonHeader} {
     return this.getResponseOf(status).get("headers") || {};
+  }
+
+  getContentTypeOf(status: number): any {
+    return [
+      ...this.getResponseOf(status)
+        .get("content")
+        .keys()
+    ][0];
   }
 
   security(security: JsonSecurityRequirement): this {

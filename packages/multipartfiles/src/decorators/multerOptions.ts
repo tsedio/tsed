@@ -44,7 +44,7 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  * @decorator
  * @multer
  */
-export function MulterOptions(options: Multer.Options) {
+export function MulterOptions(options: Multer.Options): MethodDecorator {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const type = decoratorTypeOf([target, propertyKey, descriptor]);
 

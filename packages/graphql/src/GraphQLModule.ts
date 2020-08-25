@@ -1,11 +1,11 @@
 import {AfterListen, Configuration, Constant, InjectorService, Module, OnInit} from "@tsed/common";
-import {IGraphQLSettings} from "./interfaces/IGraphQLSettings";
+import {GraphQLSettings} from "./interfaces/GraphQLSettings";
 import {GraphQLService} from "./services/GraphQLService";
 
 @Module()
 export class GraphQLModule implements OnInit, AfterListen {
   @Constant("graphql", {})
-  private settings: {[key: string]: IGraphQLSettings};
+  private settings: {[key: string]: GraphQLSettings};
 
   constructor(
     private injector: InjectorService,
@@ -21,7 +21,6 @@ export class GraphQLModule implements OnInit, AfterListen {
 
   $afterListen(): Promise<any> | void {
     const host = this.configuration.getHttpPort();
-
     Object.keys(this.settings).map(async key => {
       const {path} = this.settings[key];
       this.injector.logger.info(`[${key}] GraphQL server is available on http://${host.address}:${host.port}/${path.replace(/^\//, "")}`);

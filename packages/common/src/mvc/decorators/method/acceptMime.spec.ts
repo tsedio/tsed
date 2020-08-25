@@ -8,8 +8,7 @@ describe("AcceptMime", () => {
     class Test {
       @Get("/")
       @AcceptMime("application/json")
-      test() {
-      }
+      test() {}
     }
 
     const store = Store.fromMethod(Test, "test");
@@ -21,7 +20,7 @@ describe("AcceptMime", () => {
       paths: {
         "/": {
           get: {
-            consumes: ["application/json"],
+            produces: ["application/json"],
             operationId: "testTest",
             parameters: [],
             responses: {
