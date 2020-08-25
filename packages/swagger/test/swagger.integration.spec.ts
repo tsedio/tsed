@@ -1,12 +1,44 @@
-import {Controller, PlatformTest, Get, PathParams} from "@tsed/common";
+import {Controller, Description, Get, MergeParams, PathParams, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Returns, ReturnsArray} from "../src";
+import {Docs, Hidden, Returns, ReturnsArray} from "../src";
 import {Calendar} from "./helpers/models/Calendar";
 import {Server} from "./helpers/Server";
 
-@Controller("/calendars")
-export class CalendarsController {
+@Controller("/admin")
+@Hidden()
+class AdminCtrl {
+  @Get("/")
+  get() {
+  }
+}
+
+@Controller("/events")
+@MergeParams(true)
+class EventCtrl {
+  @Get("/")
+  @Description("Events")
+  get() {
+  }
+}
+
+@Controller("/admin")
+@Docs("admin")
+class BackAdminCtrl {
+  @Get("/")
+  @Description("Admins")
+  get() {
+  }
+}
+
+@Controller({
+  path: "/calendars",
+  children: [
+    AdminCtrl,
+    EventCtrl
+  ]
+})
+class CalendarsController {
   @Get("/:id")
   @Returns(200, {type: Calendar})
   async get(@PathParams("id") id: string): Promise<Calendar> {
@@ -54,6 +86,9 @@ describe("Swagger integration", () => {
       "tags": [
         {
           "name": "CalendarsController"
+        },
+        {
+          "name": "EventCtrl"
         }
       ],
       "consumes": [
@@ -98,6 +133,20 @@ describe("Swagger integration", () => {
             },
             "tags": [
               "CalendarsController"
+            ]
+          }
+        },
+        "/rest/calendars/events": {
+          "get": {
+            "description": "Events",
+            "operationId": "EventCtrl.get",
+            "responses": {
+              "200": {
+                "description": "Success"
+              }
+            },
+            "tags": [
+              "EventCtrl"
             ]
           }
         },

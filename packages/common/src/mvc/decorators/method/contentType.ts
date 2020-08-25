@@ -1,8 +1,5 @@
-import {applyDecorators, StoreMerge} from "@tsed/core";
-import {Next} from "../params/next";
-import {Req} from "../params/request";
-import {Res} from "../params/response";
-import {UseAfter} from "./useAfter";
+import {EndpointFn} from "./endpointFn";
+import {StoreMerge, useDecorators} from "@tsed/core";
 
 /**
  * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.
@@ -24,11 +21,10 @@ import {UseAfter} from "./useAfter";
  * @headers
  */
 export function ContentType(type: string) {
-  return applyDecorators(
+  return useDecorators(
     StoreMerge("produces", [type]),
-    UseAfter((request: Req, response: Res, next: Next) => {
-      response.contentType(type);
-      next();
+    EndpointFn(endpoint => {
+      endpoint.contentType = type;
     })
   );
 }

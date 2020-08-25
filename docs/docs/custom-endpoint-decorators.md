@@ -18,7 +18,7 @@ Many other decorators are implemented and can be taken as an example to build yo
 
 ## Build your own decorator
 
-One of the usecases already implemented by Ts.ED is the @@AcceptMimesMiddleware@@:
+One of the use cases already implemented by Ts.ED is the @@AcceptMimesMiddleware@@:
 
 <<< @/packages/common/src/mvc/middlewares/AcceptMimesMiddleware.ts
 

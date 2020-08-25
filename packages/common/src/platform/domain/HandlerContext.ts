@@ -2,6 +2,7 @@ import {isFunction, isPromise, isStream} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {isObservable} from "rxjs";
 import {HandlerMetadata} from "../../mvc/models/HandlerMetadata";
+import {ABORT} from "../constants/abort";
 import {IHandlerContext} from "../interfaces/IHandlerContext";
 
 const isFinish = (request: TsED.Request, response: TsED.Response) => {
@@ -88,7 +89,7 @@ export class HandlerContext {
     } = this;
 
     if (process) {
-      if (process === response) {
+      if (process === response || process === ABORT) {
         // ABANDON
         this.destroy();
 

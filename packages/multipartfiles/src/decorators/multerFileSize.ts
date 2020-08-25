@@ -26,6 +26,6 @@ import {MulterOptions} from "./multerOptions";
  * @decorator
  * @multer
  */
-export function MulterFileSize(fileSize: number) {
+export function MulterFileSize(fileSize: number): MethodDecorator {
   return MulterOptions({limits: {fileSize}});
 }

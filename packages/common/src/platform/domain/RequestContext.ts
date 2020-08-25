@@ -1,8 +1,10 @@
 import {InjectorService, LocalsContainer} from "@tsed/di";
-import {EndpointMetadata} from "../../mvc";
+import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
+import {PlatformRequest} from "../services/PlatformRequest";
+import {PlatformResponse} from "../services/PlatformResponse";
 import {RequestLogger} from "./RequestLogger";
 
-export interface IRequestContextOptions {
+export interface RequestContextOptions {
   id: string;
   logger: any;
   url: string;
@@ -10,6 +12,9 @@ export interface IRequestContextOptions {
   level?: "debug" | "info" | "warn" | "error" | "off";
   maxStackSize?: number;
   injector?: InjectorService;
+  response?: PlatformResponse;
+  request?: PlatformRequest;
+  endpoint?: EndpointMetadata;
 }
 
 export class RequestContext extends Map<any, any> {
@@ -25,7 +30,7 @@ export class RequestContext extends Map<any, any> {
    * Request id can by customized by changing the server configuration.
    *
    * ```typescript
-   * @ServerSettings({
+   * @Configuration({
    *   logger: {
    *     reqIdBuilder: createUniqId // give your own id generator function
    *   }
@@ -58,14 +63,27 @@ export class RequestContext extends Map<any, any> {
    * Logger attached to the context request.
    */
   public logger: RequestLogger;
-
+  /**
+   * The current @@PlatformResponse@@.
+   */
+  public response: PlatformResponse;
+  /**
+   * The current @@PlatformRequest@@.
+   */
+  public request: PlatformRequest;
+  /**
+   *
+   */
   public injector: InjectorService;
 
-  constructor({id, injector, logger, ...options}: IRequestContextOptions) {
+  constructor({id, injector, logger, response, request, endpoint, ...options}: RequestContextOptions) {
     super();
     this.id = id;
 
     injector && (this.injector = injector);
+    response && (this.response = response);
+    request && (this.request = request);
+    endpoint && (this.endpoint = endpoint);
 
     this.logger = new RequestLogger(logger, {
       id,
@@ -77,6 +95,8 @@ export class RequestContext extends Map<any, any> {
   async destroy() {
     await this.container.destroy();
     this.logger.destroy();
+    this.response.destroy();
+    this.request.destroy();
     // @ts-ignore
     delete this.container;
     // @ts-ignore
@@ -85,6 +105,8 @@ export class RequestContext extends Map<any, any> {
     delete this.injector;
     // @ts-ignore
     delete this.endpoint;
+    // @ts-ignore
+    delete this.response;
   }
 
   async emit(eventName: string, ...args: any[]) {

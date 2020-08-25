@@ -1,9 +1,7 @@
 import {RequestContext, RequestLogger} from "../../platform";
 
 namespace Express {
-  export interface NextFunction extends Function {
-    isCalled: boolean;
-  }
+  export interface NextFunction extends Function {}
 
   export interface Response {
     headersSent: boolean;

@@ -1,63 +1,60 @@
-import {AcceptMimesMiddleware, PlatformTest} from "@tsed/common";
+import {AcceptMime, AcceptMimesMiddleware, EndpointMetadata, Get, PlatformRequest, PlatformTest} from "@tsed/common";
+import {catchError} from "@tsed/core";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {FakeRequest} from "../../../../../test/helper";
+
+const sandbox = Sinon.createSandbox();
 
 describe("AcceptMimesMiddleware", () => {
-  describe("when success", () => {
-    it(
-      "should accept the type",
-      PlatformTest.inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
-        const acceptStub = Sinon.stub();
-        acceptStub.withArgs("application/xml").returns(true);
-        acceptStub.withArgs("application/json").returns(false);
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
+  it("should accept type", async () => {
+    class Test {
+      @Get("/")
+      @AcceptMime("application/json")
+      get() {}
+    }
 
-        const request = {
-          accepts: acceptStub,
-          ctx: {
-            endpoint: {
-              get: () => {
-                return ["application/json", "application/xml"];
-              }
-            }
-          }
-        };
+    const endpoint = EndpointMetadata.get(Test, "get");
+    const request: any = new FakeRequest({
+      sandbox,
+      headers: {
+        accept: "application/json"
+      }
+    });
+    const ctx = PlatformTest.createRequestContext({
+      request: new PlatformRequest(request),
+      endpoint
+    });
 
-        // @ts-ignore
-        const result = middleware.use(request);
-        expect(result).to.equal(undefined);
-        expect(request.accepts).to.have.been.calledWithExactly("application/json").and.calledWithExactly("application/xml");
-      })
-    );
+    const middleware = await PlatformTest.invoke<AcceptMimesMiddleware>(AcceptMimesMiddleware);
+    middleware.use(ctx);
+
+    expect(request.accepts).to.have.been.calledWithExactly(["application/json"]);
   });
+  it("should refuse type", async () => {
+    class Test {
+      @Get("/")
+      @AcceptMime("application/json")
+      get() {}
+    }
 
-  describe("when error", () => {
-    it(
-      "should call request.accepts methods",
-      PlatformTest.inject([AcceptMimesMiddleware], (middleware: AcceptMimesMiddleware) => {
-        const acceptStub = Sinon.stub();
-        acceptStub.withArgs("application/xml").returns(false);
-        acceptStub.withArgs("application/json").returns(false);
+    const endpoint = EndpointMetadata.get(Test, "get");
+    const request: any = new FakeRequest({
+      sandbox,
+      headers: {
+        accept: "application/xml"
+      }
+    });
+    const ctx = PlatformTest.createRequestContext({
+      request: new PlatformRequest(request),
+      endpoint
+    });
+    const middleware = await PlatformTest.invoke<AcceptMimesMiddleware>(AcceptMimesMiddleware);
 
-        const request = {
-          accepts: acceptStub,
-          ctx: {
-            endpoint: {
-              get: () => {
-                return ["application/json", "application/xml"];
-              }
-            }
-          }
-        };
-        let error: any;
+    const error: any = catchError(() => middleware.use(ctx));
 
-        try {
-          // @ts-ignore
-          middleware.use(request);
-        } catch (er) {
-          error = er;
-        }
-        expect(error.message).to.equal("You must accept content-type application/json, application/xml");
-      })
-    );
+    expect(error.message).to.equal("You must accept content-type application/json");
   });
 });

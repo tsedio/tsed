@@ -1,4 +1,4 @@
-import {getDecoratorType, Store} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes, Store} from "@tsed/core";
 import * as Multer from "multer";
 import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
 
@@ -44,14 +44,14 @@ import {MultipartFileMiddleware} from "../middlewares/MultipartFileMiddleware";
  * @decorator
  * @multer
  */
-export function MulterOptions(options: Multer.Options) {
+export function MulterOptions(options: Multer.Options): MethodDecorator {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
-    const type = getDecoratorType([target, propertyKey, descriptor], true);
+    const type = decoratorTypeOf([target, propertyKey, descriptor]);
 
     switch (type) {
       default:
         throw new Error("MulterOptions is only supported on method");
-      case "method":
+      case DecoratorTypes.METHOD:
         Store.fromMethod(target, propertyKey).merge(MultipartFileMiddleware, {
           options
         });

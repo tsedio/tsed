@@ -6,7 +6,7 @@
     "**/*.d.ts",
     "node_modules",
     "packages/**/*.spec.ts",
-    "packages/integration/**",
+    "packages/platform-test-utils/**",
     "packages/testing/**",
     "packages/**/ExpressRouter.ts",
     "packages/**/RouteService.ts",
@@ -25,8 +25,8 @@
     "lcov"
   ],
   "check-coverage": true,
-  "lines": 99.83,
-  "statements": 99.82,
-  "functions": 99.6,
-  "branches": 88.67
+  "lines": 99.76,
+  "statements": 99.75,
+  "functions": 99.56,
+  "branches": 88.47
 }

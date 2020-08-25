@@ -9,27 +9,27 @@ meta:
 
 <Banner src="https://graphql.org/img/logo.svg" href="https://graphql.org/" height="128" />
 
-> GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools.
+GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools.
 
 ## Feature
 
-Currently, `@tsed/graphql` allows you to configure a GraphQL server in your project.
+Currently, `@tsed/graphql` allows you to configure one or more GraphQL server in your project.
 This package uses [`apollo-server-express`](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html) to create GraphQL server and [`type-graphql`](https://19majkel94.github.io/type-graphql/)
-for the decorators.
+as decorator library.
 
 ## Installation
 
-To begin, install the GraphQL module for TS.ED:
+To begin, install the GraphQL module for TS.ED, graphql and apollo-server-testing:
 ```bash
-npm install --save @tsed/graphql
+npm install --save @tsed/graphql graphql@14.7.0 apollo-server-testing
 ```
 
 [Type-graphql](https://19majkel94.github.io/type-graphql/) requires to update your `tsconfig.json` by adding extra options as following:
 
 ```json
 {
-  "target": "es2016",
-  "lib": ["es2016", "esnext.asynciterable"],
+  "target": "es2018",
+  "lib": ["es2018", "esnext.asynciterable"],
   "allowSyntheticDefaultImports": true
 }
 ```
@@ -61,7 +61,6 @@ type Recipe {
 }
 ```
 
-
 So we create the Recipe class with all properties and types:
 
 ```typescript
@@ -76,7 +75,7 @@ class Recipe {
 
 Then we decorate the class and its properties with decorators:
 
-<<< @/docs/tutorials/snippets/graphql/recipe-type-graphql.ts
+<<< @/docs/tutorials/snippets/graphql/recipe-type.ts
 
 The detailed rules for when to use nullable, array and others are described in [fields and types docs](https://19majkel94.github.io/type-graphql/docs/types-and-fields.html).
 
@@ -97,4 +96,40 @@ Then you can retrieve your data source through the context in your resolver like
 
 <<< @/docs/tutorials/snippets/graphql/resolver-data-source.ts
 
-<div class="sharethis-inline-share-buttons"></div>
+### Testing
+
+Now we want to test the recipe by sending a graphQL query.
+Here is an example to create a test server and run a query:
+
+<Tabs class="-code">
+  <Tab label="Jest">
+  
+<<< @/docs/tutorials/snippets/graphql/testing.jest.ts
+
+  </Tab>
+  <Tab label="Mocha">
+  
+<<< @/docs/tutorials/snippets/graphql/testing.mocha.ts
+
+  </Tab>  
+  <Tab label="RecipeResolver.ts">
+    
+<<< @/docs/tutorials/snippets/graphql/resolver-service.ts
+  
+  </Tab>   
+  <Tab label="RecipesService.ts">
+    
+<<< @/docs/tutorials/snippets/graphql/recipes-service.ts
+  
+  </Tab>
+  <Tab label="Recipe.ts">
+    
+<<< @/docs/tutorials/snippets/graphql/recipe-type.ts
+  
+  </Tab>  
+  <Tab label="RecipeArgs.ts">
+    
+<<< @/docs/tutorials/snippets/graphql/recipe-args.ts
+  
+  </Tab>      
+</Tabs>  

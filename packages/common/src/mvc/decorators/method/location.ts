@@ -1,18 +1,4 @@
-import {Next} from "../params/next";
-import {Req} from "../params/request";
-import {Res} from "../params/response";
-import {UseAfter} from "./useAfter";
-
-/**
- * @ignore
- * @param location
- */
-export const locationMiddleware = (location: string) =>
-  (request: Req, response: Res, next: Next) => {
-    response.location(location);
-
-    next();
-  };
+import {EndpointFn} from "./endpointFn";
 
 /**
  * Sets the response Location HTTP header to the specified path parameter.
@@ -34,5 +20,7 @@ export const locationMiddleware = (location: string) =>
  * @operation
  */
 export function Location(location: string): Function {
-  return UseAfter(locationMiddleware(location));
+  return EndpointFn(endpoint => {
+    endpoint.location = location;
+  });
 }

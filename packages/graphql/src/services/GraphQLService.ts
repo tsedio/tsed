@@ -5,8 +5,8 @@ import {ApolloServer} from "apollo-server-express";
 import {GraphQLSchema} from "graphql";
 import * as typeGraphql from "type-graphql";
 import {buildSchema, BuildSchemaOptions} from "type-graphql";
-import {IGraphQLServer} from "../interfaces/IGraphQLServer";
-import {IGraphQLSettings} from "../interfaces/IGraphQLSettings";
+import {GraphQLServer} from "../interfaces/GraphQLServer";
+import {GraphQLSettings} from "../interfaces/GraphQLSettings";
 import {PROVIDER_TYPE_DATASOURCE_SERVICE} from "../registries/DataSourceServiceRegistry";
 import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../registries/ResolverServiceRegistry";
 
@@ -19,7 +19,7 @@ export class GraphQLService {
    * @type {Map<any, any>}
    * @private
    */
-  private _servers: Map<string, IGraphQLServer> = new Map();
+  private _servers: Map<string, GraphQLServer> = new Map();
 
   constructor(private app: PlatformApplication, @HttpServer private httpServer: HttpServer, private injectorService: InjectorService) {}
 
@@ -27,7 +27,7 @@ export class GraphQLService {
    *
    * @returns {Promise<ApolloServer>}
    */
-  async createServer(id: string, settings: IGraphQLSettings): Promise<any> {
+  async createServer(id: string, settings: GraphQLSettings): Promise<any> {
     const {
       path,
       server: customServer,
@@ -86,7 +86,7 @@ export class GraphQLService {
       /* istanbul ignore next */
       this.injectorService.logger.error(err);
       /* istanbul ignore next */
-      process.exit();
+      process.exit(-1);
     }
   }
 

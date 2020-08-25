@@ -1,9 +1,7 @@
-import {PlatformTest} from "@tsed/common/src";
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "../../../src/Server";
-import {ExpressApplication} from "@tsed/common";
 
 describe("Session", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;

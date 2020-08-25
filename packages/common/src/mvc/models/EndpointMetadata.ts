@@ -28,6 +28,16 @@ export interface EndpointConstructorOptions extends EntityOptions {
   statusCode?: number;
 }
 
+export interface EndpointViewOptions {
+  path: string;
+  options: any;
+}
+
+export interface EndpointRedirectOptions {
+  status: number | undefined;
+  url: string;
+}
+
 /**
  * EndpointMetadata contains metadata about a controller and his method.
  * Each annotation (@Get, @Body...) attached to a method are stored in a endpoint.
@@ -123,6 +133,47 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
 
   get response() {
     return this.responses.get(this.statusCode)!;
+  }
+
+  get view(): EndpointViewOptions {
+    return this.store.get("view") as EndpointViewOptions;
+  }
+
+  set view(view: EndpointViewOptions) {
+    this.store.set("view", view);
+  }
+
+  get location(): string {
+    return this.store.get("location") as string;
+  }
+
+  set location(url: string) {
+    this.store.set("location", url);
+  }
+
+  get redirect(): EndpointRedirectOptions {
+    return this.store.get("redirect") as any;
+  }
+
+  set redirect(options: EndpointRedirectOptions) {
+    this.store.set("redirect", {
+      status: 302,
+      ...options
+    });
+  }
+
+  /**
+   * @deprecated Will be removed in v6
+   */
+  get contentType(): string {
+    return this.store.get("contentType") as string;
+  }
+
+  /**
+   * @deprecated Will be removed in v6
+   */
+  set contentType(url: string) {
+    this.store.set("contentType", url);
   }
 
   /**

@@ -2,7 +2,7 @@ import {Env, isInheritedFrom, Type} from "@tsed/core";
 import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
 import {createInjector, loadInjector, PlatformBuilder} from "../../platform-builder";
 import {ServerLoader} from "../../platform-express/components/ServerLoader";
-import {IRequestContextOptions, RequestContext} from "../../platform/domain/RequestContext";
+import {RequestContext, RequestContextOptions} from "../../platform/domain/RequestContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 
 export interface PlatformTestInvokeOptions {
@@ -66,6 +66,8 @@ export class PlatformTest {
           ...options
         });
       } else {
+        PlatformTest.platformBuilder = options.platform || PlatformTest.platformBuilder;
+
         /* istanbul ignore next */
         if (!PlatformTest.platformBuilder) {
           throw new Error(
@@ -182,7 +184,7 @@ export class PlatformTest {
     return PlatformTest.injector.get<PlatformApplication>(PlatformApplication)?.callback();
   }
 
-  static createRequestContext(options: Partial<IRequestContextOptions> = {}) {
+  static createRequestContext(options: Partial<RequestContextOptions> = {}) {
     return new RequestContext({
       id: "id",
       logger: this.injector.logger,

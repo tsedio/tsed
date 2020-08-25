@@ -1,6 +1,6 @@
 import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
 import {EndpointMetadata, HandlerMetadata} from "../../mvc";
-import {ControllerBuilder} from "../builder/ControllerBuilder";
+import {PlatformControllerBuilder} from "../builder/PlatformControllerBuilder";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {IRoute, IRouteController, IRouteDetails} from "../interfaces/IRoute";
 import {PlatformApplication} from "./PlatformApplication";
@@ -48,7 +48,7 @@ export class Platform {
       .getProviders(ProviderType.CONTROLLER)
       .map(provider => {
         if (!provider.hasParent()) {
-          return new ControllerBuilder(provider as ControllerProvider).build(injector);
+          return new PlatformControllerBuilder(provider as ControllerProvider).build(injector);
         }
       })
       .filter(Boolean);

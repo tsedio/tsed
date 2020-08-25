@@ -1,5 +1,5 @@
 import {StoreMerge} from "@tsed/core";
-import {IRouterSettings} from "../interfaces";
+import {PlatformExpressRouterSettings} from "../interfaces/PlatformExpressSettings";
 
 /**
  * Specify the behavior of the router controller.
@@ -23,6 +23,6 @@ import {IRouterSettings} from "../interfaces";
  * @param routerOptions
  * @express
  */
-export function RouterSettings(routerOptions: IRouterSettings): Function {
+export function RouterSettings(routerOptions: PlatformExpressRouterSettings): Function {
   return StoreMerge("routerOptions", routerOptions);
 }

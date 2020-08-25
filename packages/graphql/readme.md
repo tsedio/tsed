@@ -37,14 +37,14 @@ Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your Serv
 
 ```typescript
 import {Configuration} from "@tsed/common";
-import {IGraphQLSettings} from "@tsed/graphql"; 
+import {GraphQLSettings} from "@tsed/graphql"; 
 
 @Configuration({
    graphql: {
     'server1': {
       resolvers:[]
     }
-  } as IGraphQLSettings
+  } as GraphQLSettings
 })
 export class Server {
 
