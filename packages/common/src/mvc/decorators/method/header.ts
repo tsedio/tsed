@@ -1,35 +1,4 @@
 import {JsonHeader, JsonHeaders, Returns} from "@tsed/schema";
-import {IResponseHeader, IResponseHeaders} from "../../interfaces";
-
-export type IHeaderOptions = string | number | IResponseHeader;
-
-export interface IHeadersOptions {
-  [key: string]: IHeaderOptions;
-}
-
-/**
- * @ignore
- */
-export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
-  return Object.keys(headers).reduce<IResponseHeaders>((newHeaders: IResponseHeaders, key: string, index: number, array: string[]) => {
-    const value: any = headers[key];
-    let type = typeof value;
-    let options: any = {
-      value
-    };
-
-    if (type === "object") {
-      options = value;
-      type = typeof options.value;
-    }
-
-    options.type = options.type || type;
-
-    newHeaders[key] = options;
-
-    return newHeaders;
-  }, {});
-}
 
 /**
  * Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.

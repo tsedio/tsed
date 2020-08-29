@@ -1,5 +1,5 @@
 import {ReturnsChainedDecorators} from "@tsed/schema";
-import {ReturnType} from "./returnType";
+import {ReturnType, ReturnTypeOptions} from "./returnType";
 
 /**
  * Set the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
@@ -23,7 +23,7 @@ export function Status(code: number): ReturnsChainedDecorators;
  * @param options
  * @deprecated
  */
-export function Status(code: number, options: Partial<TsED.ResponseOptions>): ReturnsChainedDecorators;
+export function Status(code: number, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
 /**
  * Set the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
  *
@@ -31,7 +31,7 @@ export function Status(code: number, options: Partial<TsED.ResponseOptions>): Re
  * @param options
  * @deprecated
  */
-export function Status(code: number, options: Partial<TsED.ResponseOptions> = {}): ReturnsChainedDecorators {
+export function Status(code: number, options: Partial<ReturnTypeOptions> = {}): ReturnsChainedDecorators {
   return ReturnType({
     ...options,
     code,
