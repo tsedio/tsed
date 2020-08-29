@@ -1,12 +1,12 @@
 import {Constant} from "@tsed/di";
 import {Exception} from "@tsed/exceptions";
-import {Err, IMiddlewareError, IResponseError, Middleware, Req, Res} from "../../mvc";
+import {Err, IMiddleware, IResponseError, Middleware, Req, Res} from "../../mvc";
 
 /**
  * @middleware
  */
 @Middleware()
-export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
+export class GlobalErrorHandlerMiddleware implements IMiddleware {
   @Constant("errors.headerName", "errors")
   protected headerName: string;
 

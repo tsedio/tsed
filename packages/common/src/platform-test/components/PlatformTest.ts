@@ -3,6 +3,8 @@ import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di"
 import {createInjector, loadInjector, PlatformBuilder} from "../../platform-builder";
 import {RequestContext, RequestContextOptions} from "../../platform/domain/RequestContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
+import {PlatformRequest} from "../../platform/services/PlatformRequest";
+import {PlatformResponse} from "../../platform/services/PlatformResponse";
 
 export interface PlatformTestInvokeOptions {
   token?: TokenProvider;
@@ -174,9 +176,13 @@ export class PlatformTest {
   }
 
   static createRequestContext(options: Partial<RequestContextOptions> = {}) {
+    options.request = options.request || new PlatformRequest({} as any);
+    options.response = options.response || new PlatformResponse({} as any);
+
     return new RequestContext({
       id: "id",
-      logger: this.injector.logger,
+      injector: PlatformTest.injector,
+      logger: PlatformTest.injector.logger,
       url: "/",
       ...options
     });
