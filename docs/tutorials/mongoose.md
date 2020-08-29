@@ -130,7 +130,7 @@ Mongoose and `@tsed/mongoose` support both lists and maps.
 <<< @/docs/tutorials/snippets/mongoose/references.ts
 
 Be aware of circular dependencies. Direct references must be declared after the referred class has been declared. 
-This means the virtual reference cannot know the referred class directly at runtime.
+This means the reference cannot know the referred class directly at runtime.
 
 <<< @/docs/tutorials/snippets/mongoose/references-circular.ts
 
