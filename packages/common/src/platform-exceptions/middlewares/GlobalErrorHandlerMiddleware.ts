@@ -1,12 +1,22 @@
 import {Constant} from "@tsed/di";
 import {Exception} from "@tsed/exceptions";
-import {Err, IMiddlewareError, IResponseError, Middleware, Req, Res} from "../../mvc";
+import {Err, IMiddleware, Middleware, Req, Res, ResponseErrorObject} from "../../mvc";
+import "../components/StringErrorFilter";
+import {getExceptionTypes} from "../domain/ExceptionTypesContainer";
 
 /**
+ * Catch all errors and return the json error with the right status code when it's possible.
+ *
+ * ::: warning
+ * Use @@Catch@@ decorator to handler a specific exception.
+ * :::
+ *
  * @middleware
+ * @deprecated Use Catch decorator to handler a specific exception.
  */
 @Middleware()
-export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
+export class GlobalErrorHandlerMiddleware implements IMiddleware {
+  types = getExceptionTypes();
   @Constant("errors.headerName", "errors")
   protected headerName: string;
 
@@ -33,7 +43,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
     }
 
     if (typeof error === "string") {
-      response.status(404).send(toHTML(error));
+      this.types.get(String)!.catch(error, request.ctx);
 
       return;
     }
@@ -54,12 +64,12 @@ export class GlobalErrorHandlerMiddleware implements IMiddlewareError {
     return;
   }
 
-  setHeaders(response: Res, ...args: IResponseError[]) {
+  setHeaders(response: Res, ...args: ResponseErrorObject[]) {
     let hErrors: any = [];
 
     args
       .filter(o => !!o)
-      .forEach(({headers, errors}: IResponseError) => {
+      .forEach(({headers, errors}: ResponseErrorObject) => {
         if (headers) {
           response.set(headers);
         }

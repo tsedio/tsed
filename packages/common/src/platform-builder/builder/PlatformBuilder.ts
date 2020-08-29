@@ -1,6 +1,7 @@
 import {classOf, constructorOf, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {IRoute, Platform, PlatformApplication} from "../../platform";
+import {PlatformExceptionsMiddleware} from "../../platform-exceptions";
 import {PlatformContextMiddleware} from "../../platform/middlewares/PlatformContextMiddleware";
 import {
   callHook,
@@ -192,6 +193,8 @@ export abstract class PlatformBuilder {
     await this.loadStatics();
 
     await this.callHook("$afterRoutesInit");
+
+    this.app.use(PlatformExceptionsMiddleware);
   }
 
   protected createInjector(module: Type<any>, settings: any) {

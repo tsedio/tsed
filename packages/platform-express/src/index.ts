@@ -5,7 +5,6 @@ import {PlatformExpress} from "./components/PlatformExpress";
 PlatformTest.platformBuilder = PlatformExpress;
 
 export * from "./decorators";
-export * from "./middlewares";
 export * from "./services";
 export * from "./utils";
 export * from "./components/PlatformExpress";

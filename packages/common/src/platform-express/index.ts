@@ -2,7 +2,6 @@ import "./registries/ControllerRegistry";
 
 export * from "./interfaces";
 export * from "./components/ServerLoader";
-export * from "./middlewares/GlobalErrorHandlerMiddleware";
 export * from "./middlewares/LogIncomingRequestMiddleware";
 
 // DECORATORS

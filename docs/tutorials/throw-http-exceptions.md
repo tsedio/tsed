@@ -19,9 +19,9 @@ It is also possible to create your own exception from any Exception of [@tsed/ex
 
 ```typescript
 import {BadRequest} from "@tsed/exceptions";
-import {IResponseError} from "@tsed/common";
+import {ResponseErrorObject} from "@tsed/common";
 
-export class RequiredUserName extends BadRequest implements IResponseError {
+export class RequiredUserName extends BadRequest implements ResponseErrorObject {
     headers = {};
     errors = [];
 

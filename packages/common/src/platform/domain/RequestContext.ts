@@ -92,6 +92,10 @@ export class RequestContext extends Map<any, any> {
     });
   }
 
+  get env() {
+    return this.injector.settings.env;
+  }
+
   async destroy() {
     await this.container.destroy();
     this.logger.destroy();

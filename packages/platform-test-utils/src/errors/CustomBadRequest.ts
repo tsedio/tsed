@@ -1,7 +1,7 @@
-import {IResponseError} from "@tsed/common";
+import {ResponseErrorObject} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 
-export class CustomBadRequest extends BadRequest implements IResponseError {
+export class CustomBadRequest extends BadRequest implements ResponseErrorObject {
   name = "CUSTOM_BAD_REQUEST";
   errors: any[];
   headers = {};

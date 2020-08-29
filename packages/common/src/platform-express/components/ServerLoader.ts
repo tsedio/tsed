@@ -15,13 +15,14 @@ import {
 } from "../../platform-builder";
 import {ExpressApplication} from "../decorators/expressApplication";
 import {IServerLifecycle} from "../interfaces";
-import {GlobalErrorHandlerMiddleware} from "../middlewares/GlobalErrorHandlerMiddleware";
+import {GlobalErrorHandlerMiddleware} from "../../platform-exceptions/middlewares/GlobalErrorHandlerMiddleware";
 import {LogIncomingRequestMiddleware} from "../middlewares/LogIncomingRequestMiddleware";
 
 import "../services/PlatformExpressApplication";
 import "../services/PlatformExpressRouter";
 import {ServeStaticService} from "../services/ServeStaticService";
 import {createExpressApplication} from "../utils";
+import {PlatformExceptionsMiddleware} from "../../platform-exceptions/middlewares/PlatformExceptionsMiddleware";
 
 const VERSION = require("../../../package.json").version;
 
@@ -361,7 +362,7 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
     await super.loadRoutes(routes);
 
     // Import the globalErrorHandler
-    this.use(GlobalErrorHandlerMiddleware);
+    this.use(PlatformExceptionsMiddleware);
   }
 
   protected async loadStatics() {

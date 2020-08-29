@@ -1,6 +1,5 @@
-import {IRoute, PlatformBuilder} from "@tsed/common";
+import {GlobalAcceptMimesMiddleware, IRoute, LogIncomingRequestMiddleware, PlatformBuilder} from "@tsed/common";
 import {Type} from "@tsed/core";
-import {GlobalAcceptMimesMiddleware, GlobalErrorHandlerMiddleware, LogIncomingRequestMiddleware} from "../middlewares";
 import {PlatformExpressStatics} from "../services";
 import {createExpressApplication, createHttpServer, createHttpsServer} from "../utils";
 
@@ -20,8 +19,6 @@ export class PlatformExpress extends PlatformBuilder {
     this.app.use(GlobalAcceptMimesMiddleware);
 
     await super.loadRoutes(routes);
-
-    this.app.use(GlobalErrorHandlerMiddleware);
   }
 
   protected createInjector(module: Type<any>, settings: any) {

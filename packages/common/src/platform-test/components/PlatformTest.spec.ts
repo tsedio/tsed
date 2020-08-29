@@ -6,7 +6,6 @@ import {
   createHttpsServer,
   Get,
   GlobalAcceptMimesMiddleware,
-  GlobalErrorHandlerMiddleware,
   InjectorService,
   IRoute,
   LogIncomingRequestMiddleware,
@@ -17,6 +16,7 @@ import {
 import {Type} from "@tsed/core";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
+import {PlatformExceptionsMiddleware} from "../../platform-exceptions";
 
 @Configuration({})
 class Server {}
@@ -47,7 +47,7 @@ describe("PlatformTest", () => {
 
         await super.loadRoutes(routes);
 
-        this.app.use(GlobalErrorHandlerMiddleware);
+        this.app.use(PlatformExceptionsMiddleware);
       }
 
       protected createInjector(module: Type<any>, settings: any) {
