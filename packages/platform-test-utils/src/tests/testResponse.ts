@@ -263,7 +263,12 @@ export function testResponse(options: PlatformTestOptions) {
       it("should throw a badRequest when path params isn't set as number", async () => {
         const response = await request.get("/rest/response/scenario9/kkk").expect(400);
 
-        expect(response.text).to.equal("Bad request on parameter \"request.path.id\".<br />Cast error. Expression value is not a number.");
+        expect(response.body).to.deep.equal({
+          name: "BAD_REQUEST",
+          message: "Bad request on parameter \"request.path.id\".\nCast error. Expression value is not a number.",
+          status: 400,
+          errors: []
+        });
       });
     });
   });

@@ -58,9 +58,13 @@ export function testView(options: PlatformTestOptions) {
     it("should throw an error when extension is not defined", async () => {
       const response = await request.get("/rest/views/scenario-2").expect(500);
 
-      expect(response.text).to.deep.equal(
-        "Template rendering error: ViewCtrl.testScenario2()<br />Error: No default engine was specified and no extension was provided."
-      );
+      expect(response.body).to.deep.equal({
+        name: "TEMPLATING_RENDER_ERROR",
+        message:
+          "Template rendering error: ViewCtrl.testScenario2()\nError: No default engine was specified and no extension was provided.",
+        status: 500,
+        errors: []
+      });
     });
   });
 }

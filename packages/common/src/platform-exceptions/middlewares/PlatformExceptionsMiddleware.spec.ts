@@ -1,59 +1,111 @@
-import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
+import {PlatformTest, ValidationError} from "@tsed/common";
+import {Env} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
 import {expect} from "chai";
-import {FakeRequest, FakeResponse} from "../../../../../test/helper";
+import * as Sinon from "sinon";
 import {PlatformExceptionsMiddleware} from "./PlatformExceptionsMiddleware";
 
+const sandbox = Sinon.createSandbox();
 describe("PlatformExceptionsMiddleware", () => {
-  beforeEach(() => PlatformTest.create());
-  afterEach(() => PlatformTest.reset());
+  describe("Env.TEST", () => {
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
 
-  describe("use()", () => {
-    describe("instanceof Exception", () => {
-      it(
-        "should call the middleware",
-        PlatformTest.inject([PlatformExceptionsMiddleware], (middleware: PlatformExceptionsMiddleware) => {
-          const response = new FakeResponse();
-          const request = new FakeRequest();
-          const error: any = new BadRequest("test");
-          error.origin = "origin";
+    it("should map string error", () => {
+      const middleware = PlatformTest.get<PlatformExceptionsMiddleware>(PlatformExceptionsMiddleware);
 
-          const ctx = PlatformTest.createRequestContext({
-            response: new PlatformResponse(response as any),
-            request: new PlatformRequest(request as any)
-          });
+      const ctx = PlatformTest.createRequestContext();
+      sandbox.stub(ctx.response, "body").returnsThis();
+      sandbox.stub(ctx.response, "setHeaders").returnsThis();
+      sandbox.stub(ctx.response, "status").returnsThis();
 
-          let actualError: any;
-          try {
-            middleware.use(error, ctx);
-          } catch (er) {
-            actualError = er;
-          }
+      const error = "MyError";
 
-          expect(actualError.message).is.equal("test");
-        })
-      );
+      middleware.use(error, ctx);
+
+      expect(ctx.response.body).to.have.been.calledWithExactly("MyError");
     });
 
-    describe("Error as string", () => {
-      it(
-        "should call the middleware",
-        PlatformTest.inject([PlatformExceptionsMiddleware], (middleware: PlatformExceptionsMiddleware) => {
-          const response = new FakeResponse();
-          const request = new FakeRequest();
-          const error = "message";
+    it("should map exception", () => {
+      const middleware = PlatformTest.get<PlatformExceptionsMiddleware>(PlatformExceptionsMiddleware);
 
-          const ctx = PlatformTest.createRequestContext({
-            response: new PlatformResponse(response as any),
-            request: new PlatformRequest(request as any)
-          });
-          // @ts-ignore
-          middleware.use(error, ctx);
+      const ctx = PlatformTest.createRequestContext();
+      sandbox.stub(ctx.response, "body").returnsThis();
+      sandbox.stub(ctx.response, "setHeaders").returnsThis();
+      sandbox.stub(ctx.response, "status").returnsThis();
 
-          expect(response._body).is.equal("message");
-          expect(response.statusCode).is.equal(404);
-        })
-      );
+      const origin = new ValidationError("wrong ID", [
+        {
+          path: "id",
+          error: "format"
+        }
+      ]);
+
+      const error = new BadRequest("Bad request on ID", origin);
+      error.headers = {
+        "x-path": "id"
+      };
+
+      middleware.use(error, ctx);
+
+      expect(ctx.response.setHeaders).to.have.been.calledWithExactly({"x-path": "id"});
+      expect(ctx.response.body).to.have.been.calledWithExactly({
+        errors: [
+          {
+            error: "format",
+            path: "id"
+          }
+        ],
+        message: "Bad request on ID, innerException: wrong ID",
+        name: "VALIDATION_ERROR",
+        status: 400
+      });
+    });
+    it("should map error", () => {
+      const middleware = PlatformTest.get<PlatformExceptionsMiddleware>(PlatformExceptionsMiddleware);
+
+      const ctx = PlatformTest.createRequestContext();
+      sandbox.stub(ctx.response, "body").returnsThis();
+      sandbox.stub(ctx.response, "setHeaders").returnsThis();
+      sandbox.stub(ctx.response, "status").returnsThis();
+
+      class Custom extends Error {}
+
+      const error = new Custom("My message");
+
+      middleware.use(error, ctx);
+
+      expect(ctx.response.setHeaders).to.have.been.calledWithExactly({});
+      expect(ctx.response.body).to.have.been.calledWithExactly({
+        errors: [],
+        message: "My message",
+        name: "Error",
+        status: 500
+      });
+    });
+  });
+
+  describe("Env.PROD", () => {
+    beforeEach(() =>
+      PlatformTest.create({
+        env: Env.PROD
+      })
+    );
+    afterEach(() => PlatformTest.reset());
+    it("should map error return internal error in prod profile", () => {
+      const middleware = PlatformTest.get<PlatformExceptionsMiddleware>(PlatformExceptionsMiddleware);
+
+      const ctx = PlatformTest.createRequestContext();
+      sandbox.stub(ctx.response, "body").returnsThis();
+      sandbox.stub(ctx.response, "setHeaders").returnsThis();
+      sandbox.stub(ctx.response, "status").returnsThis();
+
+      const error = new Error("My message");
+
+      middleware.use(error, ctx);
+
+      expect(ctx.response.setHeaders).to.have.been.calledWithExactly({});
+      expect(ctx.response.body).to.have.been.calledWithExactly("InternalServerError");
     });
   });
 });

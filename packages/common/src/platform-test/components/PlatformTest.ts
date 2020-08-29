@@ -46,7 +46,7 @@ export class PlatformTest {
   static createInjector(options: any = {}): InjectorService {
     const injector = createInjector(options);
 
-    injector.settings.env = Env.TEST;
+    injector.settings.env = options.env || Env.TEST;
 
     return injector;
   }

@@ -1,11 +1,13 @@
 import {classOf} from "@tsed/core";
-import {Inject} from "@tsed/di";
+import {Exception} from "@tsed/exceptions";
 import {Middleware} from "../../mvc/decorators/class/middleware";
 import {Err} from "../../mvc/decorators/params/error";
 import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
 import {Context} from "../../platform/decorators/context";
+import "../components/ErrorFilter";
+import "../components/ExceptionFilter";
+import "../components/StringErrorFilter";
 import {getExceptionTypes} from "../domain/ExceptionTypesContainer";
-import {GlobalErrorHandlerMiddleware} from "./GlobalErrorHandlerMiddleware";
 
 /**
  * Catch all errors and return the json error with the right status code when it's possible.
@@ -14,9 +16,6 @@ import {GlobalErrorHandlerMiddleware} from "./GlobalErrorHandlerMiddleware";
  */
 @Middleware()
 export class PlatformExceptionsMiddleware implements IMiddleware {
-  @Inject()
-  middleware: GlobalErrorHandlerMiddleware;
-
   types = getExceptionTypes();
 
   use(@Err() error: any, @Context() ctx: Context): any {
@@ -26,6 +25,10 @@ export class PlatformExceptionsMiddleware implements IMiddleware {
       return exceptionFilter.catch(error, ctx);
     }
 
-    throw error;
+    if (error instanceof Exception || error.status) {
+      return this.types.get(Exception)!.catch(error, ctx);
+    }
+
+    return this.types.get(Error)!.catch(error, ctx);
   }
 }

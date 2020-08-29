@@ -1,5 +1,6 @@
 import "@tsed/ajv";
 import {BodyParams, Controller, Get, PlatformTest, Post} from "@tsed/common";
+import {Env} from "@tsed/core";
 import {Description, Name, Required, Returns, Summary} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -71,6 +72,7 @@ export function testErrors(options: PlatformTestOptions) {
   before(
     PlatformTest.bootstrap(options.server, {
       ...options,
+      env: Env.TEST,
       mount: {
         "/rest": [ErrorsCtrl]
       }
@@ -85,85 +87,95 @@ export function testErrors(options: PlatformTestOptions) {
     const response: any = await request.get("/rest/errors/scenario-1").expect(400);
 
     expect(response.headers["x-header-error"]).to.eq("deny");
-    expect(response.text).to.deep.eq("Custom Bad Request");
-    // expect(response.body).to.deep.eq({
-    //   "name": "CUSTOM_BAD_REQUEST",
-    //   "message": "Custom Bad Request",
-    //   "status": 400,
-    //   "errors": ["test"]
-    // });
+    expect(response.body).to.deep.eq({
+      name: "CUSTOM_BAD_REQUEST",
+      message: "Custom Bad Request",
+      status: 400,
+      errors: ["test"]
+    });
   });
 
   it("Scenario 2: GET /rest/errors/scenario-2", async () => {
     const response: any = await request.get("/rest/errors/scenario-2").expect(500);
 
-    expect(response.text).to.deep.eq("Internal Error");
-    // expect(response.body).to.deep.eq({
-    //   "errors": [],
-    //   "message": "My error",
-    //   "name": "Error",
-    //   "status": 500
-    // });
+    expect(response.body).to.deep.eq({
+      errors: [],
+      message: "My error",
+      name: "Error",
+      status: 500
+    });
   });
 
   it("Scenario 3: GET /rest/errors/scenario-3", async () => {
     const response: any = await request.get("/rest/errors/scenario-3").expect(500);
 
     expect(response.headers["x-header-error"]).to.eq("deny");
-    expect(response.text).to.deep.eq("My custom error");
-    // expect(response.body).to.deep.eq({
-    //   "name": "CUSTOM_INTERNAL_SERVER_ERROR",
-    //   "message": "My custom error",
-    //   "status": 500,
-    //   "errors": ["test"]
-    // });
+    expect(response.body).to.deep.eq({
+      name: "CUSTOM_INTERNAL_SERVER_ERROR",
+      message: "My custom error",
+      status: 500,
+      errors: ["test"]
+    });
   });
 
   it("Scenario 4: POST /rest/errors/scenario-4", async () => {
     const response: any = await request.post("/rest/errors/scenario-4").expect(400);
 
-    expect(response.text).to.deep.eq("Bad request on parameter \"request.body.name\".<br />It should have required parameter 'name'");
-    // expect(response.body).to.deep.eq({
-    //   "name": "REQUIRED_VALIDATION_ERROR",
-    //   "message": "Bad request on parameter \"request.body.name\".\nIt should have required parameter 'name'",
-    //   "status": 400,
-    //   "errors": [{
-    //     "dataPath": "",
-    //     "keyword": "required",
-    //     "message": "It should have required parameter 'name'",
-    //     "modelName": "body",
-    //     "params": {"missingProperty": "name"},
-    //     "schemaPath": "#/required"
-    //   }]
-    // });
+    expect(response.body).to.deep.eq({
+      name: "REQUIRED_VALIDATION_ERROR",
+      message: "Bad request on parameter \"request.body.name\".\nIt should have required parameter 'name'",
+      status: 400,
+      errors: [
+        {
+          dataPath: "",
+          keyword: "required",
+          message: "It should have required parameter 'name'",
+          modelName: "body",
+          params: {missingProperty: "name"},
+          schemaPath: "#/required"
+        }
+      ]
+    });
   });
 
   it("Scenario 5: POST /rest/errors/scenario-5", async () => {
     const response: any = await request.post("/rest/errors/scenario-5").expect(400);
 
-    expect(response.text).to.deep.eq(
-      "Bad request on parameter \"request.body\".<br />CustomModel should have required property 'name'. Given value: \"undefined\""
-    );
-    // expect(response.body).to.deep.eq({
-    //   "name": "AJV_VALIDATION_ERROR",
-    //   "message": "Bad request on parameter \"request.body\".\nCustomModel should have required property 'name'. Given value: \"undefined\"",
-    //   "status": 400,
-    //   "errors": [{
-    //     "keyword": "required",
-    //     "dataPath": "",
-    //     "schemaPath": "#/required",
-    //     "params": {"missingProperty": "name"},
-    //     "message": "should have required property 'name'",
-    //     "modelName": "CustomModel"
-    //   }]
-    // });
+    expect(response.body).to.deep.eq({
+      name: "AJV_VALIDATION_ERROR",
+      message: "Bad request on parameter \"request.body\".\nCustomModel should have required property 'name'. Given value: \"undefined\"",
+      status: 400,
+      errors: [
+        {
+          keyword: "required",
+          dataPath: "",
+          schemaPath: "#/required",
+          params: {missingProperty: "name"},
+          message: "should have required property 'name'",
+          modelName: "CustomModel"
+        }
+      ]
+    });
   });
 
   it("Scenario 6: POST /rest/errors/scenario-6", async () => {
     const response: any = await request.post(`/rest/errors/scenario-6`).send({}).expect(400);
 
-    expect(response.text).to.deep.eq(
-      "Bad request on parameter \"request.body\".<br />CustomPropModel should have required property 'role_item'. Given value: \"undefined\""
-    );
+    expect(response.body).to.deep.eq({
+      name: "AJV_VALIDATION_ERROR",
+      message:
+        "Bad request on parameter \"request.body\".\nCustomPropModel should have required property 'role_item'. Given value: \"undefined\"",
+      status: 400,
+      errors: [
+        {
+          keyword: "required",
+          dataPath: "",
+          schemaPath: "#/required",
+          params: {missingProperty: "role_item"},
+          message: "should have required property 'role_item'",
+          modelName: "CustomPropModel"
+        }
+      ]
+    });
   });
 }

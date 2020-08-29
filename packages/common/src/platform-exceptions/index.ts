@@ -10,4 +10,3 @@ export * from "./interfaces/ExceptionFilterMethods";
 
 // middlewares
 export * from "./middlewares/PlatformExceptionsMiddleware";
-export * from "./middlewares/GlobalErrorHandlerMiddleware";

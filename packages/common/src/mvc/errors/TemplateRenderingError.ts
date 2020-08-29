@@ -5,7 +5,7 @@ import {InternalServerError} from "@tsed/exceptions";
  * @private
  */
 export class TemplateRenderingError extends InternalServerError {
-  name: "TEMPLATING_RENDER_ERROR";
+  name = "TEMPLATING_RENDER_ERROR";
 
   constructor(target: Type<any> | string, method: string | symbol, err: Error) {
     super(TemplateRenderingError.buildMessage(target, method, err));

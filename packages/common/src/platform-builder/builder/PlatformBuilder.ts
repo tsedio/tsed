@@ -1,7 +1,7 @@
 import {classOf, constructorOf, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {GlobalAcceptMimesMiddleware, IRoute, Platform, PlatformApplication, PlatformContextMiddleware} from "../../platform";
-import {GlobalErrorHandlerMiddleware, PlatformExceptionsMiddleware} from "../../platform-exceptions";
+import {PlatformExceptionsMiddleware} from "../../platform-exceptions";
 import {PlatformLogMiddleware} from "../../platform/middlewares/PlatformLogMiddleware";
 import {
   callHook,
@@ -206,7 +206,6 @@ export abstract class PlatformBuilder {
     await this.callHook("$afterRoutesInit");
 
     this.app.use(PlatformExceptionsMiddleware);
-    this.app.use(GlobalErrorHandlerMiddleware);
   }
 
   protected createInjector(module: Type<any>, settings: any) {

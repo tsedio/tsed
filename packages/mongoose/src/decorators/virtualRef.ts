@@ -44,30 +44,6 @@ function mapToSchema(opts: any) {
   return schema;
 }
 
-function mapOptions(options: string | MongooseVirtualRefOptions, propertyKey: string, foreignField: string | undefined) {
-  let schema: any, type: any;
-
-  if (typeof options === "object") {
-    type = options.type;
-
-    schema = {
-      ref: type,
-      localField: options.localField || propertyKey,
-      foreignField: options.foreignField,
-      justOne: options.justOne || false,
-      options: options.options
-    };
-  } else {
-    schema = {
-      ref: options,
-      localField: propertyKey,
-      foreignField
-    };
-  }
-
-  return {schema, type};
-}
-
 /**
  * Define a property as mongoose virtual reference to other Model (decorated with @Model).
  *

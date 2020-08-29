@@ -134,9 +134,21 @@ export function testQueryParams(options: PlatformTestOptions) {
     });
     it("should throw bad request", async () => {
       const response = await request.get(`${endpoint}?test=error`).expect(400);
-      expect(response.text).to.deep.equal(
-        "Bad request on parameter \"request.query.test\".<br />Value should be number. Given value: \"error\""
-      );
+      expect(response.body).to.deep.equal({
+        name: "AJV_VALIDATION_ERROR",
+        message: "Bad request on parameter \"request.query.test\".\nValue should be number. Given value: \"error\"",
+        status: 400,
+        errors: [
+          {
+            keyword: "type",
+            dataPath: "",
+            schemaPath: "#/type",
+            params: {type: "number"},
+            message: "should be number",
+            data: "error"
+          }
+        ]
+      });
     });
     it("should return undefined when query is empty", async () => {
       const response = await request.get(`${endpoint}?test=null`).expect(200);
