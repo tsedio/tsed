@@ -1,7 +1,48 @@
-import {Property} from "@tsed/common";
-import {applyDecorators, Store, StoreMerge} from "@tsed/core";
+import {CollectionOf, Property} from "@tsed/common";
+import {isPlainObject, isString, Store, StoreMerge, Type, useDecorators} from "@tsed/core";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
-import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
+
+export interface MongooseVirtualRefOptions {
+  /**
+   * @deprecated Use ref instead.
+   */
+  type?: string | Type<any>;
+  ref?: string | Type<any>;
+  foreignField?: string;
+  localField?: string;
+  justOne?: boolean;
+  options?: object;
+}
+
+function getRef(opts: any) {
+  const ref = opts.ref || opts.type;
+
+  return isString(ref) ? ref : Store.from(ref).get(MONGOOSE_MODEL_NAME);
+}
+
+function getType(opts: any) {
+  const ref = opts.ref || opts.type;
+
+  return !isString(ref) ? ref : Object;
+}
+
+function getInitialOpts(options: string | MongooseVirtualRefOptions, foreignField?: string): any {
+  return isPlainObject(options) ? options : {type: options as any, foreignField};
+}
+
+function mapToSchema(opts: any) {
+  const ref = getRef(opts);
+
+  const schema: any = {
+    ref,
+    localField: opts.localField || "_id",
+    foreignField: opts.foreignField,
+    justOne: opts.justOne || false,
+    options: opts.options
+  };
+
+  return schema;
+}
 
 /**
  * Define a property as mongoose virtual reference to other Model (decorated with @Model).
@@ -15,24 +56,7 @@ import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions
  *
  * ### Example
  *
- * ```typescript
- *
- * @Model()
- * class FooModel {
- *
- *    @VirtualRef("Foo2Model", "foo")
- *    field: VirtualRef<Foo2Model>
- *
- *    @VirtualRef("Foo2Model", "foo")
- *    list: VirtualRefs<Foo2Model>
- * }
- *
- * @Model()
- * class Foo2Model {
- *    @Ref(FooModel)
- *    foo: Ref<FooModel>;
- * }
- * ```
+ * <<< @/docs/tutorials/snippets/mongoose/virtual-references.ts
  *
  * @param type
  * @param foreignField
@@ -44,33 +68,12 @@ import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions
 export function VirtualRef(type: string, foreignField: string): Function;
 export function VirtualRef(options: MongooseVirtualRefOptions): Function;
 export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function;
-
 export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function {
-  return (target: any, propertyKey: string, descriptor: any) => {
-    let schema: any, type: any;
-    if (typeof options === "object") {
-      type = options.type;
-      schema = {
-        ref: typeof type === "string" ? type : Store.from(type).get(MONGOOSE_MODEL_NAME),
-        localField: options.localField || propertyKey,
-        foreignField: options.foreignField,
-        justOne: options.justOne || false,
-        options: options.options
-      };
-    } else {
-      schema = {
-        ref: options,
-        localField: propertyKey,
-        foreignField
-      };
-    }
+  const opts = getInitialOpts(options, foreignField);
+  const schema = mapToSchema(opts);
+  const type = getType(opts);
 
-    return applyDecorators(Property({name: schema.localField, use: type}), StoreMerge(MONGOOSE_SCHEMA, schema))(
-      target,
-      propertyKey,
-      descriptor
-    );
-  };
+  return useDecorators(StoreMerge(MONGOOSE_SCHEMA, schema), type && (schema.justOne ? Property(type) : CollectionOf(type)));
 }
 
 export type VirtualRef<T> = T | null;

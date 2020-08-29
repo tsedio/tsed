@@ -1,16 +1,4 @@
-import {
-  CollectionOf,
-  Default,
-  Enum,
-  Maximum,
-  MaxLength,
-  Minimum,
-  MinLength,
-  Pattern,
-  Property,
-  Name,
-  Required
-} from "@tsed/common";
+import {CollectionOf, Default, Enum, Maximum, MaxLength, Minimum, MinLength, Pattern, Property, Name, Required} from "@tsed/common";
 import {expect} from "chai";
 import {Schema as SchemaMongoose} from "mongoose";
 import {OpenApiModelSchemaBuilder} from "../../../swagger/src/class/OpenApiModelSchemaBuilder";
@@ -275,7 +263,7 @@ describe("createSchema", () => {
 
     @Model()
     class Test5 {
-      @VirtualRef({type: Children2, foreignField: "foo"})
+      @VirtualRef({ref: Children2, foreignField: "foo"})
       test: VirtualRef<Children2>;
     }
 
@@ -287,7 +275,7 @@ describe("createSchema", () => {
     expect(testSchema.virtuals.test.options).to.deep.includes({
       foreignField: "foo",
       justOne: true,
-      localField: "test",
+      localField: "_id",
       options: undefined,
       ref: "Children2"
     });
@@ -447,7 +435,7 @@ describe("createSchema", () => {
     expect(testSchema.virtuals.tests.options).to.deep.includes({
       foreignField: "foo",
       justOne: false,
-      localField: "tests",
+      localField: "_id",
       options: undefined,
       ref: "Children4"
     });
