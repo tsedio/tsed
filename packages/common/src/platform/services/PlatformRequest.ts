@@ -94,6 +94,7 @@ export class PlatformRequest {
   }
 
   destroy() {
+    // @ts-ignore
     delete this.raw;
   }
 }

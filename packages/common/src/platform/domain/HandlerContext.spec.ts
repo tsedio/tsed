@@ -299,12 +299,13 @@ describe("HandlerContext", () => {
     return expect(handlerContext.next).to.not.have.been.called;
   });
   it("should do when request is detached", async () => {
-    const {request, handlerContext} = await getHandlerContext({
+    const {handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "getValue",
       args: []
     });
 
+    // @ts-ignore
     delete handlerContext.request;
     Sinon.stub(handlerContext, "next");
 
@@ -315,12 +316,13 @@ describe("HandlerContext", () => {
     return expect(handlerContext.next).to.not.have.been.called;
   });
   it("should do when response is detached", async () => {
-    const {request, handlerContext} = await getHandlerContext({
+    const {handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "getValue",
       args: []
     });
 
+    // @ts-ignore
     delete handlerContext.response;
     Sinon.stub(handlerContext, "next");
 

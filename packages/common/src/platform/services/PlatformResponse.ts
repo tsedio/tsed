@@ -163,6 +163,7 @@ export class PlatformResponse {
   }
 
   destroy() {
+    // @ts-ignore
     delete this.raw;
   }
 }
