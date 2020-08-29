@@ -15,6 +15,14 @@ export class PlatformRequest {
     return this.raw.originalUrl || this.raw.url;
   }
 
+  get headers() {
+    return this.raw.headers;
+  }
+
+  get method() {
+    return this.raw.method;
+  }
+
   /**
    * Contains key-value pairs of data submitted in the request body. By default, it is `undefined`, and is populated when you use
    * `body-parsing` middleware such as `express.json()` or `express.urlencoded()`.

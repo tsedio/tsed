@@ -1,6 +1,6 @@
-import {Middleware} from "@tsed/common";
 import {classOf} from "@tsed/core";
 import {Inject} from "@tsed/di";
+import {Middleware} from "../../mvc/decorators/class/middleware";
 import {Err} from "../../mvc/decorators/params/error";
 import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
 import {Context} from "../../platform/decorators/context";
@@ -26,6 +26,6 @@ export class PlatformExceptionsMiddleware implements IMiddleware {
       return exceptionFilter.catch(error, ctx);
     }
 
-    return this.middleware.use(error, ctx.request.raw, ctx.response.raw);
+    throw error;
   }
 }

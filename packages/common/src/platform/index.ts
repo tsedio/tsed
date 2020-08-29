@@ -16,9 +16,13 @@ export * from "./interfaces/IPlatformDriver";
 export * from "./middlewares/SendResponseMiddleware";
 export * from "./middlewares/PlatformResponseMiddleware";
 export * from "./middlewares/PlatformHeadersMiddleware";
+export * from "./middlewares/PlatformLogMiddleware";
+export * from "./middlewares/PlatformContextMiddleware";
 export * from "./middlewares/bindEndpointMiddleware";
 export * from "./middlewares/GlobalAcceptMimesMiddleware";
 export * from "./middlewares/ResponseViewMiddleware";
+export * from "./middlewares/LogIncomingRequestMiddleware";
+
 // domain
 export * from "./domain/HandlerContext";
 export * from "./domain/RequestContext";

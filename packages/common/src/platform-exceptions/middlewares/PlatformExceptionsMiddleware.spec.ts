@@ -22,11 +22,15 @@ describe("PlatformExceptionsMiddleware", () => {
             response: new PlatformResponse(response as any),
             request: new PlatformRequest(request as any)
           });
-          // @ts-ignore
-          middleware.use(error, ctx);
 
-          expect(response._body).is.equal("test");
-          expect(response.statusCode).is.equal(error.status);
+          let actualError: any;
+          try {
+            middleware.use(error, ctx);
+          } catch (er) {
+            actualError = er;
+          }
+
+          expect(actualError.message).is.equal("test");
         })
       );
     });

@@ -1,8 +1,15 @@
 import {classOf, constructorOf, Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {IRoute, Platform, PlatformApplication} from "../../platform";
-import {PlatformExceptionsMiddleware} from "../../platform-exceptions";
-import {PlatformContextMiddleware} from "../../platform/middlewares/PlatformContextMiddleware";
+import {
+  GlobalAcceptMimesMiddleware,
+  IRoute,
+  LogIncomingRequestMiddleware,
+  Platform,
+  PlatformApplication,
+  PlatformContextMiddleware
+} from "../../platform";
+import {GlobalErrorHandlerMiddleware, PlatformExceptionsMiddleware} from "../../platform-exceptions";
+import {PlatformLogMiddleware} from "../../platform/middlewares/PlatformLogMiddleware";
 import {
   callHook,
   createContainer,
@@ -183,6 +190,19 @@ export abstract class PlatformBuilder {
   protected async loadRoutes(routes: IRoute[]) {
     const {logger, platform} = this;
 
+    // istanbul ignore next
+    if (this.settings.logger.level !== "off") {
+      if (classOf(this.injector.get(LogIncomingRequestMiddleware)) !== LogIncomingRequestMiddleware) {
+        this.app.use(LogIncomingRequestMiddleware);
+      } else {
+        this.app.use(PlatformLogMiddleware);
+      }
+    }
+
+    if (this.settings.acceptMimes?.length) {
+      this.app.use(GlobalAcceptMimesMiddleware);
+    }
+
     logger.info("Load routes");
     await this.callHook("$beforeRoutesInit"); // deprecated
 
@@ -195,6 +215,7 @@ export abstract class PlatformBuilder {
     await this.callHook("$afterRoutesInit");
 
     this.app.use(PlatformExceptionsMiddleware);
+    this.app.use(GlobalErrorHandlerMiddleware);
   }
 
   protected createInjector(module: Type<any>, settings: any) {

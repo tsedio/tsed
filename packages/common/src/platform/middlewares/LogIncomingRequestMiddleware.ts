@@ -3,12 +3,15 @@ import {ILoggerSettings} from "../../config/interfaces/ILoggerSettings";
 import {IMiddleware, Middleware, Req, Res} from "../../mvc";
 
 /**
+ * @deprecated Use PlatformLogMiddleware instead of.
  * @middleware
  */
 @Middleware()
 export class LogIncomingRequestMiddleware implements IMiddleware {
   protected static DEFAULT_FIELDS = ["reqId", "method", "url", "duration"];
+
   $onResponse: any;
+
   protected settings: ILoggerSettings;
 
   // tslint:disable-next-line: no-unused-variable
@@ -81,11 +84,8 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
    * @param request
    */
   protected configureRequest(request: Req) {
-    const minimalInfo = this.minimalRequestPicker(request);
-    const requestObj = this.requestToObject(request);
-
-    request.ctx.logger.minimalRequestPicker = (obj: any) => ({...minimalInfo, ...obj});
-    request.ctx.logger.completeRequestPicker = (obj: any) => ({...requestObj, ...obj});
+    request.ctx.logger.minimalRequestPicker = (obj: any) => ({...this.minimalRequestPicker(request), ...obj});
+    request.ctx.logger.completeRequestPicker = (obj: any) => ({...this.requestToObject(request), ...obj});
   }
 
   /**

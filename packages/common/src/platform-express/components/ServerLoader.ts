@@ -13,16 +13,15 @@ import {
   PlatformBuilder,
   setLoggerLevel
 } from "../../platform-builder";
+import {GlobalErrorHandlerMiddleware, PlatformExceptionsMiddleware} from "../../platform-exceptions";
+import {LogIncomingRequestMiddleware} from "../../platform/middlewares/LogIncomingRequestMiddleware";
 import {ExpressApplication} from "../decorators/expressApplication";
 import {IServerLifecycle} from "../interfaces";
-import {GlobalErrorHandlerMiddleware} from "../../platform-exceptions/middlewares/GlobalErrorHandlerMiddleware";
-import {LogIncomingRequestMiddleware} from "../middlewares/LogIncomingRequestMiddleware";
 
 import "../services/PlatformExpressApplication";
 import "../services/PlatformExpressRouter";
 import {ServeStaticService} from "../services/ServeStaticService";
 import {createExpressApplication} from "../utils";
-import {PlatformExceptionsMiddleware} from "../../platform-exceptions/middlewares/PlatformExceptionsMiddleware";
 
 const VERSION = require("../../../package.json").version;
 
@@ -355,7 +354,7 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
    * @param routes
    */
   protected async loadRoutes(routes: IRoute[]) {
-    this.settings.logger.level !== "off" && this.app.use(LogIncomingRequestMiddleware); // FIXME will be deprecated
+    this.settings.logger.level !== "off" && this.app.use(LogIncomingRequestMiddleware);
 
     await this.callHook("$onMountingMiddlewares"); // deprecated
 
@@ -363,6 +362,7 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
 
     // Import the globalErrorHandler
     this.use(PlatformExceptionsMiddleware);
+    this.use(GlobalErrorHandlerMiddleware);
   }
 
   protected async loadStatics() {
