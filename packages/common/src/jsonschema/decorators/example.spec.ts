@@ -17,10 +17,10 @@ describe("@Example", () => {
       properties: {
         method: {
           examples: ["Examples"],
-          type: "string"
-        }
+          type: "string",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare description on property (with obj)", () => {
@@ -38,13 +38,13 @@ describe("@Example", () => {
         method: {
           examples: [
             {
-              id: "id"
-            }
+              id: "id",
+            },
           ],
-          type: "object"
-        }
+          type: "object",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare description on property (with array)", () => {
@@ -63,17 +63,17 @@ describe("@Example", () => {
           examples: [
             [
               {
-                id: "id"
-              }
-            ]
+                id: "id",
+              },
+            ],
           ],
           items: {
-            type: "object"
+            type: "object",
           },
-          type: "array"
-        }
+          type: "array",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare description on property (with two params on class)", () => {
@@ -89,14 +89,14 @@ describe("@Example", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       definitions: {},
       example: {
-        method: "description"
+        method: "description",
       },
       properties: {
         method: {
-          type: "string"
-        }
+          type: "string",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
 });

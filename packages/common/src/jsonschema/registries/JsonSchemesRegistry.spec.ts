@@ -10,71 +10,71 @@ describe("JsonSchemesRegistry", () => {
       expect(j(JsonSchemesRegistry.get(JsonFoo2))).to.deep.eq({
         properties: {
           ageModel: {
-            $ref: "#/definitions/JsonAgeModel"
+            $ref: "#/definitions/JsonAgeModel",
           },
           arrayOfString: {
             items: {
-              type: "string"
+              type: "string",
             },
-            type: "array"
+            type: "array",
           },
           dateStart: {
-            type: "string"
+            type: "string",
           },
           foo: {
-            $ref: "#/definitions/JsonFoo"
+            $ref: "#/definitions/JsonFoo",
           },
           foos: {
             items: {
-              $ref: "#/definitions/JsonFoo"
+              $ref: "#/definitions/JsonFoo",
             },
-            type: "array"
+            type: "array",
           },
 
           foos2: {
             items: {
-              $ref: "#/definitions/JsonFoo1"
+              $ref: "#/definitions/JsonFoo1",
             },
-            type: "array"
+            type: "array",
           },
           mapOfString: {
             additionalProperties: {
-              type: "string"
-            }
+              type: "string",
+            },
           },
           name: {
             minLength: 3,
-            type: "string"
+            type: "string",
           },
           nameModel: {
-            $ref: "#/definitions/JsonNameModel"
+            $ref: "#/definitions/JsonNameModel",
           },
           password: {
-            type: "string"
+            type: "string",
           },
           object: {
-            type: "object"
+            type: "object",
           },
           test: {
             minLength: 3,
-            type: "string"
+            type: "string",
           },
           theMap: {
             additionalProperties: {
-              $ref: "#/definitions/JsonFoo1"
-            }
+              $ref: "#/definitions/JsonFoo1",
+            },
           },
           theSet: {
             additionalProperties: {
-              $ref: "#/definitions/JsonFoo1"
-            }
+              $ref: "#/definitions/JsonFoo1",
+            },
           },
           uint: {
-            type: "number"
-          }
+            type: "number",
+          },
         },
         required: ["test", "foo"],
-        type: "object"
+        type: "object",
       });
     });
   });

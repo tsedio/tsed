@@ -12,7 +12,7 @@ const rootDir = process.cwd();
  */
 @Injectable({
   scope: ProviderScope.SINGLETON,
-  global: true
+  global: true,
 })
 export class ServerSettingsService extends DIConfiguration {
   constructor() {
@@ -24,27 +24,27 @@ export class ServerSettingsService extends DIConfiguration {
       version: "1.0.0",
       uploadDir: "${rootDir}/uploads",
       scopes: {
-        [ProviderType.CONTROLLER]: ProviderScope.SINGLETON
+        [ProviderType.CONTROLLER]: ProviderScope.SINGLETON,
       },
       logger: {
         debug: false,
         level: "info",
         logRequest: true,
-        jsonIndentation: process.env.NODE_ENV === Env.PROD ? 0 : 2
+        jsonIndentation: process.env.NODE_ENV === Env.PROD ? 0 : 2,
       },
       errors: {
-        headerName: "errors"
+        headerName: "errors",
       },
       mount: {
-        "/rest": "${rootDir}/controllers/**/*.ts"
+        "/rest": "${rootDir}/controllers/**/*.ts",
       },
       exclude: ["**/*.spec.ts", "**/*.spec.js"],
       componentsScan: [
         "${rootDir}/mvc/**/*.ts",
         "${rootDir}/services/**/*.ts",
         "${rootDir}/middlewares/**/*.ts",
-        "${rootDir}/converters/**/*.ts"
-      ]
+        "${rootDir}/converters/**/*.ts",
+      ],
     });
   }
 
@@ -209,8 +209,8 @@ export class ServerSettingsService extends DIConfiguration {
         levels: ["info", "debug"],
         layout: {
           type: "pattern",
-          pattern: logger.format
-        }
+          pattern: logger.format,
+        },
       });
 
       $log.appenders.set("stderr", {
@@ -218,8 +218,8 @@ export class ServerSettingsService extends DIConfiguration {
         type: "stderr",
         layout: {
           type: "pattern",
-          pattern: logger.format
-        }
+          pattern: logger.format,
+        },
       });
     }
   }

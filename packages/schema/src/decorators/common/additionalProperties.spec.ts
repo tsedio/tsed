@@ -12,13 +12,13 @@ describe("AdditionalProperties", () => {
     }
 
     expect(getJsonSchema(Model)).to.deep.eq({
-      "additionalProperties": true,
-      "properties": {
-        "id": {
-          "type": "string"
-        }
+      additionalProperties: true,
+      properties: {
+        id: {
+          type: "string",
+        },
       },
-      "type": "object"
+      type: "object",
     });
   });
 });

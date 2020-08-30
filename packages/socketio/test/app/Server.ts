@@ -16,16 +16,16 @@ const rootDir = resolve(__dirname);
   httpsPort: false,
   logger: {
     level: "info",
-    logRequest: true
+    logRequest: true,
   },
   mount: {
-    "/": [SocketPageCtrl]
+    "/": [SocketPageCtrl],
   },
 
   statics: {
-    "/": "${rootDir}/views"
+    "/": "${rootDir}/views",
   },
-  socketIO: {}
+  socketIO: {},
 })
 export class Server {
   @Inject()
@@ -40,7 +40,7 @@ export class Server {
       .use(bodyParser.json())
       .use(
         bodyParser.urlencoded({
-          extended: true
+          extended: true,
         })
       )
       .use(cookieParser())

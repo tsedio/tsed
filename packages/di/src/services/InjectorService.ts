@@ -9,7 +9,7 @@ import {
   Metadata,
   nameOf,
   prototypeOf,
-  Store
+  Store,
 } from "@tsed/core";
 
 import * as util from "util";
@@ -31,7 +31,7 @@ import {
   IInvokeOptions,
   InjectablePropertyType,
   ProviderScope,
-  TokenProvider
+  TokenProvider,
 } from "../interfaces";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {DIConfiguration} from "./DIConfiguration";
@@ -71,7 +71,7 @@ interface InvokeSettings {
  */
 @Injectable({
   scope: ProviderScope.SINGLETON,
-  global: true
+  global: true,
 })
 export class InjectorService extends Container {
   public settings: TsED.Configuration & DIConfiguration = new DIConfiguration() as any;
@@ -121,7 +121,7 @@ export class InjectorService extends Container {
    * Return a list of instance build by the injector.
    */
   public toArray(): any[] {
-    return super.toArray().map(provider => provider.instance);
+    return super.toArray().map((provider) => provider.instance);
   }
 
   /**
@@ -314,7 +314,7 @@ export class InjectorService extends Container {
     }
     const mergedConfiguration = new Map();
 
-    super.forEach(provider => {
+    super.forEach((provider) => {
       if (provider.configuration) {
         Object.entries(provider.configuration).forEach(([key, value]) => {
           mergedConfiguration.set(key, mergedConfiguration.has(key) ? deepExtends(mergedConfiguration.get(key), value) : deepClone(value));
@@ -346,11 +346,11 @@ export class InjectorService extends Container {
 
       return {
         ...properties,
-        ...(store.get(INJECTABLE_PROP) || {})
+        ...(store.get(INJECTABLE_PROP) || {}),
       };
     }, {});
 
-    Object.values(properties).forEach(definition => {
+    Object.values(properties).forEach((definition) => {
       switch (definition.bindingType) {
         case InjectablePropertyType.METHOD:
           this.bindMethod(instance, definition);
@@ -410,7 +410,7 @@ export class InjectorService extends Container {
     locals.delete(DI_PARAM_OPTIONS);
 
     Object.defineProperty(instance, propertyKey, {
-      get: () => bean
+      get: () => bean,
     });
   }
 
@@ -425,7 +425,7 @@ export class InjectorService extends Container {
       get: () => this.settings.get(expression) || defaultValue,
       set: (value: any) => this.settings.set(expression, value),
       enumerable: true,
-      configurable: true
+      configurable: true,
     };
     Object.defineProperty(instance, propertyKey, descriptor);
   }
@@ -449,7 +449,7 @@ export class InjectorService extends Container {
       get: () => clone(this.settings.get(expression)),
 
       enumerable: true,
-      configurable: true
+      configurable: true,
     };
     Object.defineProperty(instance, propertyKey, descriptor);
 
@@ -483,7 +483,7 @@ export class InjectorService extends Container {
         args,
         options,
         proceed: util.deprecate(next, "context.proceed() is deprecated. Use context.next() or next() parameters instead."),
-        next
+        next,
       };
 
       const interceptor = this.get<IInterceptor>(useType)!;
@@ -500,7 +500,7 @@ export class InjectorService extends Container {
       return interceptor.intercept!(
         {
           ...context,
-          options
+          options,
         },
         next
       );
@@ -611,7 +611,7 @@ export class InjectorService extends Container {
     if (!this.hasProvider(token)) {
       provider = new Provider(token);
 
-      this.resolvers.forEach(resolver => {
+      this.resolvers.forEach((resolver) => {
         const result = resolver.get(token, locals.get(DI_PARAM_OPTIONS));
 
         if (result !== undefined) {
@@ -646,7 +646,7 @@ export class InjectorService extends Container {
       imports: imports || [],
       isBindable,
       construct,
-      provider
+      provider,
     };
   }
 }

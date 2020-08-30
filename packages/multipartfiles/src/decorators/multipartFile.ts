@@ -69,8 +69,8 @@ export function MultipartFile(name?: string | multer.Options, maxCount?: number)
           .merge("responses", {
             "400": {
               description: `<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName]
-                            Example: File too long file1`
-            }
+                            Example: File too long file1`,
+            },
           })
           .set("multipartAdded", true);
 
@@ -82,17 +82,17 @@ export function MultipartFile(name?: string | multer.Options, maxCount?: number)
         if (name === undefined) {
           store.merge(MultipartFileMiddleware, {
             options,
-            any: true
+            any: true,
           });
         } else {
           store.merge(MultipartFileMiddleware, {
             fields: [
               {
                 name,
-                maxCount
-              }
+                maxCount,
+              },
             ],
-            options
+            options,
           });
         }
 

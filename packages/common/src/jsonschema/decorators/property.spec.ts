@@ -13,16 +13,16 @@ describe("Property()", () => {
     }
 
     expect(getJsonSchema(Model)).to.deep.eq({
-      "definitions": {},
-      "properties": {
-        "test": {
-          "items": {
-            "type": "string"
+      definitions: {},
+      properties: {
+        test: {
+          items: {
+            type: "string",
           },
-          "type": "array"
-        }
+          type: "array",
+        },
       },
-      "type": "object"
+      type: "object",
     });
   });
   it("should create schema from Name", () => {
@@ -32,13 +32,13 @@ describe("Property()", () => {
     }
 
     expect(getJsonSchema(Model)).to.deep.eq({
-      "definitions": {},
-      "properties": {
-        "test": {
-          "type": "string"
-        }
+      definitions: {},
+      properties: {
+        test: {
+          type: "string",
+        },
       },
-      "type": "object"
+      type: "object",
     });
   });
   it("should create schema from Class", () => {
@@ -48,16 +48,16 @@ describe("Property()", () => {
     }
 
     expect(getJsonSchema(Model)).to.deep.eq({
-      "definitions": {},
-      "properties": {
-        "test": {
-          "items": {
-            "type": "string"
+      definitions: {},
+      properties: {
+        test: {
+          items: {
+            type: "string",
           },
-          "type": "array"
-        }
+          type: "array",
+        },
       },
-      "type": "object"
+      type: "object",
     });
   });
   it("should create a schema", () => {
@@ -66,101 +66,101 @@ describe("Property()", () => {
         JsonAgeModel: {
           properties: {
             age: {
-              type: "number"
+              type: "number",
             },
             id: {
-              type: "string"
-            }
+              type: "string",
+            },
           },
-          type: "object"
+          type: "object",
         },
 
         JsonFoo1: {
           properties: {
             test: {
-              type: "string"
-            }
+              type: "string",
+            },
           },
-          type: "object"
+          type: "object",
         },
         JsonNameModel: {
           properties: {
             name: {
-              type: "string"
+              type: "string",
             },
             id: {
-              type: "string"
-            }
+              type: "string",
+            },
           },
-          type: "object"
-        }
+          type: "object",
+        },
       },
       required: ["test", "foo"],
       properties: {
         ageModel: {
-          $ref: "#/definitions/JsonAgeModel"
+          $ref: "#/definitions/JsonAgeModel",
         },
         arrayOfString: {
           items: {
-            type: "string"
+            type: "string",
           },
-          type: "array"
+          type: "array",
         },
         dateStart: {
-          type: "string"
+          type: "string",
         },
         foo: {
-          type: "object"
+          type: "object",
         },
         foos: {
           items: {
-            type: "object"
+            type: "object",
           },
-          type: "array"
+          type: "array",
         },
         foos2: {
           items: {
-            $ref: "#/definitions/JsonFoo1"
+            $ref: "#/definitions/JsonFoo1",
           },
-          type: "array"
+          type: "array",
         },
         mapOfString: {
           additionalProperties: {
-            type: "string"
-          }
+            type: "string",
+          },
         },
         name: {
           minLength: 3,
-          type: "string"
+          type: "string",
         },
         object: {
-          type: "object"
+          type: "object",
         },
         password: {
-          type: "string"
+          type: "string",
         },
         nameModel: {
-          $ref: "#/definitions/JsonNameModel"
+          $ref: "#/definitions/JsonNameModel",
         },
         test: {
           minLength: 3,
-          type: "string"
+          type: "string",
         },
         theMap: {
           additionalProperties: {
-            $ref: "#/definitions/JsonFoo1"
-          }
+            $ref: "#/definitions/JsonFoo1",
+          },
         },
         theSet: {
           additionalProperties: {
-            $ref: "#/definitions/JsonFoo1"
-          }
+            $ref: "#/definitions/JsonFoo1",
+          },
         },
         uint: {
-          type: "number"
-        }
+          type: "number",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
 });

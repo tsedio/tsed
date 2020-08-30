@@ -13,7 +13,7 @@ describe("@Description", () => {
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
       description: "Description",
-      type: "object"
+      type: "object",
     });
   });
   it("should declare description on method", () => {
@@ -36,14 +36,14 @@ describe("@Description", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
-            tags: ["Model"]
-          }
-        }
+            tags: ["Model"],
+          },
+        },
       },
-      tags: [{name: "Model"}]
+      tags: [{name: "Model"}],
     });
   });
   it("should declare description on property", () => {
@@ -59,10 +59,10 @@ describe("@Description", () => {
       properties: {
         method: {
           description: "Description",
-          type: "string"
-        }
+          type: "string",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare description on params (QUERY)", () => {
@@ -78,8 +78,8 @@ describe("@Description", () => {
       definitions: {},
       tags: [
         {
-          name: "Model"
-        }
+          name: "Model",
+        },
       ],
       paths: {
         "/": {
@@ -90,18 +90,18 @@ describe("@Description", () => {
                 description: "Description",
                 in: "query",
                 required: false,
-                type: "string"
-              }
+                type: "string",
+              },
             ],
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
-            tags: ["Model"]
-          }
-        }
-      }
+            tags: ["Model"],
+          },
+        },
+      },
     });
   });
   it("should declare description on params (BODY)", () => {
@@ -122,16 +122,16 @@ describe("@Description", () => {
         MyModel: {
           properties: {
             id: {
-              type: "string"
-            }
+              type: "string",
+            },
           },
-          type: "object"
-        }
+          type: "object",
+        },
       },
       tags: [
         {
-          name: "MyController"
-        }
+          name: "MyController",
+        },
       ],
       paths: {
         "/": {
@@ -144,19 +144,19 @@ describe("@Description", () => {
                 required: false,
                 description: "Description",
                 schema: {
-                  $ref: "#/definitions/MyModel"
-                }
-              }
+                  $ref: "#/definitions/MyModel",
+                },
+              },
             ],
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
-            tags: ["MyController"]
-          }
-        }
-      }
+            tags: ["MyController"],
+          },
+        },
+      },
     });
   });
   it("should declare description on params (BODY - openapi3)", () => {
@@ -178,17 +178,17 @@ describe("@Description", () => {
           MyModel: {
             properties: {
               id: {
-                type: "string"
-              }
+                type: "string",
+              },
             },
-            type: "object"
-          }
-        }
+            type: "object",
+          },
+        },
       },
       tags: [
         {
-          name: "MyController"
-        }
+          name: "MyController",
+        },
       ],
       paths: {
         "/": {
@@ -199,22 +199,22 @@ describe("@Description", () => {
               content: {
                 "application/json": {
                   schema: {
-                    $ref: "#/components/schemas/MyModel"
-                  }
-                }
+                    $ref: "#/components/schemas/MyModel",
+                  },
+                },
               },
               description: "Description",
-              required: false
+              required: false,
             },
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
-            tags: ["MyController"]
-          }
-        }
-      }
+            tags: ["MyController"],
+          },
+        },
+      },
     });
   });
   it("should throw error when the decorator isn't used with a supported decorator type", () => {

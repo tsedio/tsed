@@ -15,7 +15,7 @@ registerProvider({
   global: true,
   useFactory(platformApplication: PlatformApplication) {
     return Http.createServer(platformApplication.callback());
-  }
+  },
 });
 
 export async function listenHttpServer(injector: InjectorService) {

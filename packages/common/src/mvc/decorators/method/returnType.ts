@@ -24,7 +24,7 @@ function mapStatusResponseOptions(args: any[]): any {
     ...options,
     code,
     type: options.type || options.use,
-    collectionType: options.collectionType || options.collection
+    collectionType: options.collectionType || options.collection,
   };
 }
 
@@ -54,7 +54,7 @@ function mapStatusResponseOptions(args: any[]): any {
  * @deprecated Use @Returns decorator from @tsed/schema
  */
 export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
-  return EndpointFn(endpoint => {
+  return EndpointFn((endpoint) => {
     const {responses, statusCode} = endpoint;
     const code = response.code || statusCode; // implicit
 
@@ -68,7 +68,7 @@ export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
     response = {
       description: "",
       ...deepMerge(endpoint.responses.get(code), cleanObject(response)),
-      code
+      code,
     };
 
     endpoint.responses.set(response.code!, response as IResponseOptions);

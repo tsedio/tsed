@@ -56,13 +56,13 @@ export function SocketUseAfter(...middlewares: Type<any>[]) {
       Store.from(target).merge("socketIO", {
         handlers: {
           [propertyKey]: {
-            useAfter: middlewares
-          }
-        }
+            useAfter: middlewares,
+          },
+        },
       });
     } else {
       Store.from(target).merge("socketIO", {
-        useAfter: middlewares
+        useAfter: middlewares,
       });
     }
   };

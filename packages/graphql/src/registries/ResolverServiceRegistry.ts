@@ -12,7 +12,7 @@ export const PROVIDER_TYPE_RESOLVER_SERVICE = "graphQLResolverService";
  */
 // tslint:disable-next-line: variable-name
 export const ResolverServiceRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(PROVIDER_TYPE_RESOLVER_SERVICE, Provider, {
-  injectable: true
+  injectable: true,
 });
 /**
  * Add a new service in the `ProviderRegistry`. This service will be built when `InjectorService` will be loaded.

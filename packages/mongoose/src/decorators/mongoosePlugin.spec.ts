@@ -20,9 +20,9 @@ describe("@MongoosePlugin()", () => {
       plugins: [
         {
           plugin: fn,
-          options: {}
-        }
-      ]
+          options: {},
+        },
+      ],
     });
   });
 });

@@ -10,7 +10,7 @@ export enum OperationMethods {
   HEAD = "HEAD",
   DELETE = "DELETE",
   OPTIONS = "OPTIONS",
-  CUSTOM = "CUSTOM"
+  CUSTOM = "CUSTOM",
 }
 
 /**

@@ -6,7 +6,7 @@ import {
   isPrimitiveOrPrimitiveClass,
   isString,
   Type,
-  UnsupportedDecoratorType
+  UnsupportedDecoratorType,
 } from "@tsed/core";
 import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
@@ -311,7 +311,7 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
   decorator.Headers = (headers: JsonHeaders) => {
     response.headers({
       ...(response.get("headers") || {}),
-      ...mapHeaders(headers)
+      ...mapHeaders(headers),
     });
 
     return decorator;
@@ -319,7 +319,7 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
 
   decorator.Header = (key: string, value: string | JsonHeader) => {
     decorator.Headers({
-      [key]: value
+      [key]: value,
     });
 
     return decorator;
@@ -352,7 +352,7 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
   decorator.Of = (...types: (Type<any> | any)[]) => {
     checkPrimitive(model);
 
-    actions.push(ctx => {
+    actions.push((ctx) => {
       const {store} = ctx;
 
       if (isCollection(model)) {
@@ -371,7 +371,7 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
     checkPrimitive(model);
     checkCollection(model);
 
-    actions.push(ctx => {
+    actions.push((ctx) => {
       const {store} = ctx;
       store.nestedGenerics.push(generics);
     });

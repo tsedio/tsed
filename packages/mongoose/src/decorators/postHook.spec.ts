@@ -12,8 +12,7 @@ describe("@PostHook()", () => {
 
       // WHEN
       @PostHook("method", fn)
-      class Test {
-      }
+      class Test {}
 
       // THEN
       const options = schemaOptions(Test);
@@ -22,9 +21,9 @@ describe("@PostHook()", () => {
         post: [
           {
             method: "method",
-            fn
-          }
-        ]
+            fn,
+          },
+        ],
       });
     });
   });
@@ -33,12 +32,11 @@ describe("@PostHook()", () => {
     it("should call applySchemaOptions", () => {
       class Test {
         @PostHook("save")
-        static method() {
-        }
+        static method() {}
       }
 
       const {
-        post: [options]
+        post: [options],
       } = schemaOptions(Test);
 
       expect(options.method).to.eq("save");

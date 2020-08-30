@@ -55,8 +55,8 @@ export function testHandlers(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [HandlersCtrl]
-      }
+        "/rest": [HandlersCtrl],
+      },
     })
   );
   before(() => {

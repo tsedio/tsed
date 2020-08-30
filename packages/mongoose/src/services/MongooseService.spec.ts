@@ -10,8 +10,8 @@ describe("Mongoose", () => {
     beforeEach(async () => {
       await PlatformTest.create({
         logger: {
-          level: "off"
-        }
+          level: "off",
+        },
       });
       sandbox.stub(Mongoose, "createConnection");
     });
@@ -26,7 +26,7 @@ describe("Mongoose", () => {
       // GIVEN
       const instance = {
         readyState: 1,
-        close: Sinon.stub()
+        close: Sinon.stub(),
       };
 
       (Mongoose.createConnection as any).resolves(instance);
@@ -47,7 +47,7 @@ describe("Mongoose", () => {
       const mongooseService = PlatformTest.get<MongooseService>(MongooseService);
       // GIVEN
       const instance = {
-        close: Sinon.stub()
+        close: Sinon.stub(),
       };
       (Mongoose.createConnection as any).resolves(instance);
 
@@ -63,7 +63,7 @@ describe("Mongoose", () => {
       const mongooseService = PlatformTest.get<MongooseService>(MongooseService);
       // GIVEN
       const instance = {
-        close: Sinon.stub()
+        close: Sinon.stub(),
       };
       (Mongoose.createConnection as any).resolves(instance);
 

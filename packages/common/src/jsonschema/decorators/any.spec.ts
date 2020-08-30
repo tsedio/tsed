@@ -15,10 +15,10 @@ describe("Any", () => {
       definitions: {},
       properties: {
         prop: {
-          type: ["integer", "number", "string", "boolean", "array", "object", "null"]
-        }
+          type: ["integer", "number", "string", "boolean", "array", "object", "null"],
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare any prop (uniq type)", () => {
@@ -33,10 +33,10 @@ describe("Any", () => {
       definitions: {},
       properties: {
         prop: {
-          type: "string"
-        }
+          type: "string",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare any prop (with list)", () => {
@@ -48,18 +48,13 @@ describe("Any", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      "definitions": {},
-      "properties": {
-        "num": {
-          "type": [
-            "string",
-            "number",
-            "boolean",
-            "null"
-          ]
-        }
+      definitions: {},
+      properties: {
+        num: {
+          type: ["string", "number", "boolean", "null"],
+        },
       },
-      "type": "object"
+      type: "object",
     });
   });
   it("should declare any prop (with string, list)", () => {
@@ -71,16 +66,13 @@ describe("Any", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      "definitions": {},
-      "properties": {
-        "num": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
+      definitions: {},
+      properties: {
+        num: {
+          type: ["string", "null"],
+        },
       },
-      "type": "object"
+      type: "object",
     });
   });
 });

@@ -4,8 +4,7 @@ import * as Sinon from "sinon";
 import {EndpointMetadata, UseBeforeEach} from "../../../../src/mvc";
 
 class CustomMiddleware {
-  use() {
-  }
+  use() {}
 }
 
 describe("UseBeforeEach()", () => {
@@ -13,8 +12,7 @@ describe("UseBeforeEach()", () => {
     it("should add the middleware on the use stack", () => {
       @UseBeforeEach(CustomMiddleware)
       class Test {
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
@@ -27,8 +25,7 @@ describe("UseBeforeEach()", () => {
       // WHEN
       class Test {
         @UseBeforeEach(CustomMiddleware)
-        test() {
-        }
+        test() {}
       }
 
       // THEN
@@ -39,8 +36,7 @@ describe("UseBeforeEach()", () => {
 
   describe("when the decorator is use in another way", () => {
     class Test {
-      test() {
-      }
+      test() {}
     }
 
     it("should add the middleware on the use stack", () => {

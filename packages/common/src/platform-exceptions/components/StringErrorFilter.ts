@@ -1,6 +1,6 @@
-import {Context} from "../../platform/decorators/context";
+import type {Context} from "../../platform/decorators/context";
+import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
 import {Catch} from "../decorators/catch";
-import {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
 
 const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
 

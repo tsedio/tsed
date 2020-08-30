@@ -10,7 +10,7 @@ import {
   Post,
   Property,
   Returns,
-  Status
+  Status,
 } from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Summary} from "@tsed/swagger";
@@ -38,7 +38,7 @@ export class BaseController<T extends {id: string}> {
     @PathParams("id")
     id: string
   ): Promise<any> {
-    const resource = this.resources.find(resource => resource.id === id);
+    const resource = this.resources.find((resource) => resource.id === id);
 
     if (!resource) {
       throw new NotFound("Not found");
@@ -90,8 +90,8 @@ export function testInheritanceController(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [ResourcesCtrl]
-      }
+        "/rest": [ResourcesCtrl],
+      },
     })
   );
   before(() => {
@@ -110,7 +110,7 @@ export function testInheritanceController(options: PlatformTestOptions) {
 
     expect(body).to.deep.eq({
       id: "1",
-      name: "John hello You!"
+      name: "John hello You!",
     });
   });
 
@@ -118,7 +118,7 @@ export function testInheritanceController(options: PlatformTestOptions) {
     const {body} = await request
       .post("/rest/resources")
       .send({
-        name: "july"
+        name: "july",
       })
       .expect(201);
 

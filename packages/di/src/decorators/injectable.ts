@@ -25,7 +25,7 @@ export function Injectable(options: Partial<IProvider<any>> = {}): Function {
   return (provide: Type<any>) => {
     registerProvider({
       ...options,
-      provide
+      provide,
     });
   };
 }

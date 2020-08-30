@@ -6,42 +6,34 @@ describe("DI", () => {
     @Controller("/global")
     class ControllerGlobal {
       @Get("/")
-      get() {
-      }
+      get() {}
     }
 
     @Controller("/module")
     class ControllerModule {
       @Get("/")
-      get() {
-      }
+      get() {}
     }
 
     @Module({
       mount: {
-        "/rest": [
-          ControllerModule
-        ]
-      }
+        "/rest": [ControllerModule],
+      },
     })
-    class MyModule {
-    }
+    class MyModule {}
 
     const injector = createInjector({
       mount: {
-        "/rest": [ControllerGlobal]
+        "/rest": [ControllerGlobal],
       },
-      imports: [MyModule]
+      imports: [MyModule],
     });
     injector.add(MyModule);
 
     injector.resolveConfiguration();
 
     expect(injector.settings.mount).to.deep.eq({
-      "/rest": [
-        ControllerModule,
-        ControllerGlobal
-      ]
+      "/rest": [ControllerModule, ControllerGlobal],
     });
   });
 });

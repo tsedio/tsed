@@ -20,19 +20,19 @@ describe("JsonOperation", () => {
         description: "Success",
         headers: {
           "x-token2": {example: "token2", type: "string"},
-          "x-token": {example: "token", type: "string"}
+          "x-token": {example: "token", type: "string"},
         },
-        schema: {type: "object"}
+        schema: {type: "object"},
       });
       expect(entity.operation?.getHeadersOf(200)).to.deep.equal({
         "x-token": {
           example: "token",
-          type: "string"
+          type: "string",
         },
         "x-token2": {
           example: "token2",
-          type: "string"
-        }
+          type: "string",
+        },
       });
     });
   });
@@ -54,23 +54,23 @@ describe("JsonOperation", () => {
                   in: "body",
                   name: "body",
                   required: false,
-                  type: "string"
-                }
+                  type: "string",
+                },
               ],
               responses: {
                 "200": {
-                  description: "Success"
-                }
+                  description: "Success",
+                },
               },
-              tags: ["MyController"]
-            }
-          }
+              tags: ["MyController"],
+            },
+          },
         },
         tags: [
           {
-            name: "MyController"
-          }
-        ]
+            name: "MyController",
+          },
+        ],
       });
     });
   });

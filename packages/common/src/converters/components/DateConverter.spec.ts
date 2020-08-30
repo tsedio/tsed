@@ -29,9 +29,7 @@ describe("DateConverter", () => {
 
   describe("serialize()", () => {
     it("should serialize data to a string", () => {
-      expect(dateConverter.serialize(date))
-        .to.be.a("string")
-        .and.to.equals(date.toISOString());
+      expect(dateConverter.serialize(date)).to.be.a("string").and.to.equals(date.toISOString());
     });
   });
 });

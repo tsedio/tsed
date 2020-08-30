@@ -6,8 +6,7 @@ import {MultipartFile} from "../../src";
 import {MultipartFileMiddleware} from "../../src/middlewares/MultipartFileMiddleware";
 
 class Test {
-  test() {
-  }
+  test() {}
 }
 
 describe("@MultipartFile()", () => {
@@ -47,10 +46,10 @@ describe("@MultipartFile()", () => {
           fields: [
             {
               maxCount: 1,
-              name: "file1"
-            }
+              name: "file1",
+            },
           ],
-          options: undefined
+          options: undefined,
         });
       });
 
@@ -85,10 +84,10 @@ describe("@MultipartFile()", () => {
           fields: [
             {
               maxCount: 8,
-              name: "file1"
-            }
+              name: "file1",
+            },
           ],
-          options: undefined
+          options: undefined,
         });
       });
 
@@ -128,8 +127,8 @@ describe("@MultipartFile()", () => {
           expect(store.get(MultipartFileMiddleware)).to.deep.eq({
             any: true,
             options: {
-              options: "options"
-            }
+              options: "options",
+            },
           });
         });
 
@@ -164,8 +163,8 @@ describe("@MultipartFile()", () => {
           expect(store.get(MultipartFileMiddleware)).to.deep.eq({
             any: true,
             options: {
-              options: "options"
-            }
+              options: "options",
+            },
           });
         });
 

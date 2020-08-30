@@ -4,7 +4,7 @@ import {IPipe, ParamMetadata} from "../models/ParamMetadata";
 import {ValidationService} from "../services/ValidationService";
 
 @Injectable({
-  type: "validator"
+  type: "validator",
 })
 export class ValidationPipe implements IPipe {
   constructor(protected validationService: ValidationService) {}

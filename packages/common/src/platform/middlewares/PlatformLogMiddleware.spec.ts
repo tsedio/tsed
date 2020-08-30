@@ -15,7 +15,7 @@ function createContext(settings: any) {
     debug: Sinon.stub(),
     trace: Sinon.stub(),
     error: Sinon.stub(),
-    flush: Sinon.stub()
+    flush: Sinon.stub(),
   };
 
   const middleware = new PlatformLogMiddleware(injector as any);
@@ -30,7 +30,7 @@ function createContext(settings: any) {
 
   const ctx = PlatformTest.createRequestContext({
     request: new PlatformRequest(request as any),
-    response: new PlatformResponse(response as any)
+    response: new PlatformResponse(response as any),
   });
 
   // @ts-ignore
@@ -65,7 +65,7 @@ describe("PlatformLogMiddleware", () => {
           event: "request.start",
           method: "GET",
           reqId: "id",
-          url: "originalUrl"
+          url: "originalUrl",
         })
       );
       expect(injector.logger.info).to.have.been.calledWithExactly(
@@ -74,7 +74,7 @@ describe("PlatformLogMiddleware", () => {
           method: "GET",
           reqId: "id",
           url: "originalUrl",
-          status: 200
+          status: 200,
         })
       );
       expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
@@ -84,7 +84,7 @@ describe("PlatformLogMiddleware", () => {
       // GIVEN
       const {request, ctx, middleware, injector} = createContext({
         debug: true,
-        logRequest: true
+        logRequest: true,
       });
       // @ts-ignore
       ctx.logger.level = levels().DEBUG;
@@ -100,7 +100,7 @@ describe("PlatformLogMiddleware", () => {
           event: "request.start",
           method: "GET",
           reqId: "id",
-          url: "url"
+          url: "url",
         })
       );
       expect(injector.logger.debug).to.have.been.calledWithExactly(
@@ -110,7 +110,7 @@ describe("PlatformLogMiddleware", () => {
           reqId: "id",
           url: "url",
           status: 200,
-          data: "test"
+          data: "test",
         })
       );
       expect(injector.logger.debug).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
@@ -130,7 +130,7 @@ describe("PlatformLogMiddleware", () => {
       // THEN
       expect(injector.logger.info).to.have.been.calledWithExactly(
         Sinon.match({
-          event: "request.start"
+          event: "request.start",
         })
       );
       expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
@@ -153,7 +153,7 @@ describe("PlatformLogMiddleware", () => {
           method: "GET",
           reqId: "id",
           url: "url",
-          status: 200
+          status: 200,
         })
       );
       expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));

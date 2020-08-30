@@ -26,7 +26,7 @@ import {
   UnprocessableEntity,
   UnsupportedMediaType,
   UpgradeRequired,
-  ExpectationFailed
+  ExpectationFailed,
 } from "@tsed/exceptions";
 import {expect} from "chai";
 

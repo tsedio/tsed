@@ -11,7 +11,7 @@ import {
   HttpsServer,
   importProviders,
   PlatformBuilder,
-  setLoggerLevel
+  setLoggerLevel,
 } from "../../platform-builder";
 import {GlobalErrorHandlerMiddleware, PlatformExceptionsMiddleware} from "../../platform-exceptions";
 import {LogIncomingRequestMiddleware} from "../../platform/middlewares/LogIncomingRequestMiddleware";
@@ -391,7 +391,7 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
     createHttpsServer(this.injector);
     createHttpServer(this.injector);
 
-    this.settings.imports?.forEach(token => {
+    this.settings.imports?.forEach((token) => {
       this.injector.invoke(token);
     });
   }

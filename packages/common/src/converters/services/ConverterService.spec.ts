@@ -55,27 +55,19 @@ describe("ConverterService", () => {
       });
 
       it("should convert a string to Number", () => {
-        expect(converterService.deserialize("1", Number))
-          .to.be.a("number")
-          .and.to.equals(1);
+        expect(converterService.deserialize("1", Number)).to.be.a("number").and.to.equals(1);
       });
 
       it("should convert number to Number", () => {
-        expect(converterService.deserialize(1, Number))
-          .to.be.a("number")
-          .and.to.equals(1);
+        expect(converterService.deserialize(1, Number)).to.be.a("number").and.to.equals(1);
       });
 
       it("should convert a string to String", () => {
-        expect(converterService.deserialize("1", String))
-          .to.be.a("string")
-          .and.to.equals("1");
+        expect(converterService.deserialize("1", String)).to.be.a("string").and.to.equals("1");
       });
 
       it("should convert number to String", () => {
-        expect(converterService.deserialize(1, String))
-          .to.be.a("string")
-          .and.to.equals("1");
+        expect(converterService.deserialize(1, String)).to.be.a("string").and.to.equals("1");
       });
 
       it("should convert a null/undefined to null/undefined", () => {
@@ -106,19 +98,15 @@ describe("ConverterService", () => {
         const foo = converterService.deserialize(
           {
             test: 1,
-            foo: "test"
+            foo: "test",
           },
           JsonFoo as any
         );
         expect(foo).to.be.instanceof(JsonFoo);
         expect(foo.method).to.be.a("function");
 
-        expect(foo.test)
-          .to.be.a("number")
-          .and.to.equals(1);
-        expect(foo.foo)
-          .to.be.a("string")
-          .and.to.equals("test");
+        expect(foo.test).to.be.a("number").and.to.equals(1);
+        expect(foo.foo).to.be.a("string").and.to.equals("test");
       })
     );
 
@@ -133,23 +121,23 @@ describe("ConverterService", () => {
             dateStart: new Date().toISOString(),
             object: {test: "2ez"},
             foo: {
-              test: "2"
+              test: "2",
             },
             foos: [
               {
-                test: "1"
+                test: "1",
               },
               {
-                test: "2"
-              }
+                test: "2",
+              },
             ],
             foos2: {
-              test: "15"
+              test: "15",
             },
             theMap: {
-              f1: {test: "1"}
+              f1: {test: "1"},
             },
-            theSet: [{test: "13"}, {test: "1re"}]
+            theSet: [{test: "13"}, {test: "1re"}],
           },
           JsonFoo2
         );
@@ -183,7 +171,7 @@ describe("ConverterService", () => {
       "should use function onDeserialize to Deserialize property",
       PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
         class Test {
-          @OnDeserialize(v => v + "to")
+          @OnDeserialize((v) => v + "to")
           test: string;
         }
 
@@ -210,7 +198,7 @@ describe("ConverterService", () => {
           // GIVEN
           const converterService = await invokeConverterService({
             validationModelStrict: true,
-            configuration
+            configuration,
           });
 
           // WHEN
@@ -220,7 +208,7 @@ describe("ConverterService", () => {
               {
                 test: 1,
                 foo: "test",
-                notPropertyAllowed: "tst"
+                notPropertyAllowed: "tst",
               },
               JsonFoo4 as any
             );
@@ -237,7 +225,7 @@ describe("ConverterService", () => {
           // GIVEN
           const converterService = await invokeConverterService({
             validationModelStrict: false,
-            configuration
+            configuration,
           });
 
           // WHEN
@@ -245,7 +233,7 @@ describe("ConverterService", () => {
             {
               test: 1,
               foo: "test",
-              notPropertyAllowed: "tst"
+              notPropertyAllowed: "tst",
             },
             JsonFoo5 as any
           );
@@ -254,7 +242,7 @@ describe("ConverterService", () => {
           expect(result).to.deep.equal({
             foo: "test",
             notPropertyAllowed: "tst",
-            test: 1
+            test: 1,
           });
         })
       );
@@ -267,7 +255,7 @@ describe("ConverterService", () => {
           // GIVEN
           const converterService = await invokeConverterService({
             additionalProperties: "error",
-            configuration
+            configuration,
           });
 
           // WHEN
@@ -277,7 +265,7 @@ describe("ConverterService", () => {
               {
                 test: 1,
                 foo: "test",
-                notPropertyAllowed: "tst"
+                notPropertyAllowed: "tst",
               },
               JsonFoo4 as any
             );
@@ -294,7 +282,7 @@ describe("ConverterService", () => {
           // GIVEN
           const converterService = await invokeConverterService({
             additionalProperties: "ignore",
-            configuration
+            configuration,
           });
 
           // WHEN
@@ -302,14 +290,14 @@ describe("ConverterService", () => {
             {
               test: 1,
               foo: "test",
-              notPropertyAllowed: "tst"
+              notPropertyAllowed: "tst",
             },
             JsonFoo5 as any
           );
           // THEN
           expect(result).to.be.instanceof(JsonFoo5);
           expect(result).to.deep.equal({
-            test: 1
+            test: 1,
           });
         })
       );
@@ -319,7 +307,7 @@ describe("ConverterService", () => {
           // GIVEN
           const converterService = await invokeConverterService({
             additionalProperties: "accept",
-            configuration
+            configuration,
           });
 
           // WHEN
@@ -327,7 +315,7 @@ describe("ConverterService", () => {
             {
               test: 1,
               foo: "test",
-              notPropertyAllowed: "tst"
+              notPropertyAllowed: "tst",
             },
             JsonFoo5 as any
           );
@@ -336,7 +324,7 @@ describe("ConverterService", () => {
           expect(result).to.deep.equal({
             foo: "test",
             notPropertyAllowed: "tst",
-            test: 1
+            test: 1,
           });
         })
       );
@@ -352,7 +340,7 @@ describe("ConverterService", () => {
         try {
           converterService.deserialize(
             {
-              test: undefined
+              test: undefined,
             },
             JsonFoo2
           );
@@ -372,7 +360,7 @@ describe("ConverterService", () => {
         try {
           converterService.deserialize(
             {
-              test: null
+              test: null,
             },
             JsonFoo2
           );
@@ -392,7 +380,7 @@ describe("ConverterService", () => {
         try {
           converterService.deserialize(
             {
-              test: ""
+              test: "",
             },
             JsonFoo2
           );
@@ -441,19 +429,13 @@ describe("ConverterService", () => {
         expect(converterService.serialize(undefined)).to.equals(undefined);
       });
       it("should convert boolean to a boolean", () => {
-        expect(converterService.serialize(true))
-          .to.be.a("boolean")
-          .and.to.equal(true);
+        expect(converterService.serialize(true)).to.be.a("boolean").and.to.equal(true);
       });
       it("should convert number to a number", () => {
-        expect(converterService.serialize(1))
-          .to.be.a("number")
-          .and.to.equal(1);
+        expect(converterService.serialize(1)).to.be.a("number").and.to.equal(1);
       });
       it("should convert string to a string", () => {
-        expect(converterService.serialize("1"))
-          .to.be.a("string")
-          .and.to.equal("1");
+        expect(converterService.serialize("1")).to.be.a("string").and.to.equal("1");
       });
     });
 
@@ -527,15 +509,11 @@ describe("ConverterService", () => {
       });
 
       it("should have an attribut with date type", () => {
-        expect(foo.dateStart)
-          .to.be.a("string")
-          .and.to.equals(foo2.dateStart.toISOString());
+        expect(foo.dateStart).to.be.a("string").and.to.equals(foo2.dateStart.toISOString());
       });
 
       it("should have an attribut Name (because metadata said Name instead of name)", () => {
-        expect(foo.Name)
-          .to.be.a("string")
-          .and.to.equals("Test");
+        expect(foo.Name).to.be.a("string").and.to.equals("Test");
       });
 
       it("should haven't an attribut name (because metadata said Name instead of name)", () => {
@@ -586,7 +564,7 @@ describe("ConverterService", () => {
         const converterService = await PlatformTest.invoke<ConverterService>(ConverterService, []);
 
         class Test {
-          @OnSerialize(v => v + "to")
+          @OnSerialize((v) => v + "to")
           test: string;
         }
 
@@ -602,15 +580,14 @@ describe("ConverterService", () => {
   });
 
   describe("getAdditionalPropertyLevel()", () => {
-    class Test {
-    }
+    class Test {}
 
     it(
       "should return accept when there is no model",
       PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           validationModelStrict: true,
-          configuration
+          configuration,
         });
 
         // @ts-ignore
@@ -623,7 +600,7 @@ describe("ConverterService", () => {
       PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           validationModelStrict: true,
-          configuration
+          configuration,
         });
 
         // @ts-ignore
@@ -636,7 +613,7 @@ describe("ConverterService", () => {
       PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           validationModelStrict: false,
-          configuration
+          configuration,
         });
 
         // @ts-ignore
@@ -649,7 +626,7 @@ describe("ConverterService", () => {
       PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           additionalProperties: "error",
-          configuration
+          configuration,
         });
 
         // @ts-ignore
@@ -662,7 +639,7 @@ describe("ConverterService", () => {
       PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           additionalProperties: "accept",
-          configuration
+          configuration,
         });
 
         // @ts-ignore
@@ -675,7 +652,7 @@ describe("ConverterService", () => {
       PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         const converterService = await invokeConverterService({
           additionalProperties: "ignore",
-          configuration
+          configuration,
         });
 
         // @ts-ignore
@@ -687,12 +664,11 @@ describe("ConverterService", () => {
       "should return return return error when model is strict and global is acccept",
       PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         @ModelStrict(true)
-        class Test {
-        }
+        class Test {}
 
         const converterService = await invokeConverterService({
           additionalProperties: "accept",
-          configuration
+          configuration,
         });
 
         // @ts-ignore
@@ -704,12 +680,11 @@ describe("ConverterService", () => {
       "should return return return error when model is strict and global is acccept",
       PlatformTest.inject([Configuration], async (configuration: Configuration) => {
         @ModelStrict(false)
-        class Test {
-        }
+        class Test {}
 
         const converterService = await invokeConverterService({
           additionalProperties: "error",
-          configuration
+          configuration,
         });
 
         // @ts-ignore
@@ -732,13 +707,13 @@ async function invokeConverterService({validationModelStrict = true, additionalP
 
           if (key === "converter") {
             return {
-              additionalProperties
+              additionalProperties,
             };
           }
 
           return configuration.get(key);
-        }
-      }
-    }
+        },
+      },
+    },
   ]);
 }

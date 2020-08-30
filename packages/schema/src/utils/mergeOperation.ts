@@ -17,8 +17,8 @@ export function mergeOperation(obj: any, operation: any, {rootPath, operationId,
         operationId: operation.operationId || operationId(path),
         ...operation,
         tags: operationTags.map(({name}: any) => name),
-        parameters
-      }
+        parameters,
+      },
     };
 
     tags.push(...operationTags);

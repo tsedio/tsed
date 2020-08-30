@@ -41,7 +41,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @input
  */
 export function Default(defaultValue: string | number | boolean | {}) {
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     store.itemSchema.default(defaultValue);
   });
 }

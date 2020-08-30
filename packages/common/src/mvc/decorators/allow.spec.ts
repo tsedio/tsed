@@ -17,8 +17,7 @@ describe("Allow", () => {
     it("should called with the correct parameters", () => {
       // WHEN
       class Test {
-        test(@Allow(null) test: string) {
-        }
+        test(@Allow(null) test: string) {}
       }
 
       const metadata = ParamMetadata.get(prototypeOf(Test), "test", 0);
@@ -46,8 +45,7 @@ describe("Allow", () => {
 
     it("should called with the correct parameters (class)", () => {
       // WHEN
-      class Children {
-      }
+      class Children {}
 
       class Test {
         @Allow(null)
@@ -62,12 +60,12 @@ describe("Allow", () => {
       expect(metadata.schema.toJSON()).to.deep.eq({
         oneOf: [
           {
-            type: "null"
+            type: "null",
           },
           {
-            $ref: "#/definitions/Children"
-          }
-        ]
+            $ref: "#/definitions/Children",
+          },
+        ],
       });
     });
   });

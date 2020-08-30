@@ -5,16 +5,13 @@ import {HandlerType} from "../../../src/mvc/interfaces/HandlerType";
 import {HandlerMetadata} from "../../../src/mvc/models/HandlerMetadata";
 
 class Test {
-  use(req: any, res: any, next: any) {
-  }
+  use(req: any, res: any, next: any) {}
 
-  test(req: any, res: any, next: any) {
-  }
+  test(req: any, res: any, next: any) {}
 }
 
 class Test2 {
-  use(err: any, req: any, res: any, next: any) {
-  }
+  use(err: any, req: any, res: any, next: any) {}
 }
 
 describe("HandlerMetadata", () => {
@@ -22,8 +19,7 @@ describe("HandlerMetadata", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
       const options = {
-        target(req: any, res: any, next: any) {
-        }
+        target(req: any, res: any, next: any) {},
       };
       // WHEN
       const handlerMetadata = new HandlerMetadata(options);
@@ -41,8 +37,7 @@ describe("HandlerMetadata", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
       const options = {
-        target(err: any, req: any, res: any, next: any) {
-        }
+        target(err: any, req: any, res: any, next: any) {},
       };
       // WHEN
       const handlerMetadata = new HandlerMetadata(options);
@@ -57,20 +52,20 @@ describe("HandlerMetadata", () => {
       expect(handlerMetadata.parameters).to.deep.eq([
         new ParamMetadata({
           index: 0,
-          paramType: ParamTypes.ERR
+          paramType: ParamTypes.ERR,
         }),
         new ParamMetadata({
           index: 1,
-          paramType: ParamTypes.REQUEST
+          paramType: ParamTypes.REQUEST,
         }),
         new ParamMetadata({
           index: 2,
-          paramType: ParamTypes.RESPONSE
+          paramType: ParamTypes.RESPONSE,
         }),
         new ParamMetadata({
           index: 3,
-          paramType: ParamTypes.NEXT_FN
-        })
+          paramType: ParamTypes.NEXT_FN,
+        }),
       ]);
     });
   });
@@ -79,8 +74,7 @@ describe("HandlerMetadata", () => {
     it("should create a new handlerMetadata with right metadata", () => {
       // GIVEN
       const options = {
-        target(req: any, res: any) {
-        }
+        target(req: any, res: any) {},
       };
 
       // WHEN
@@ -101,7 +95,7 @@ describe("HandlerMetadata", () => {
       const options: IHandlerConstructorOptions = {
         target: Test,
         propertyKey: "test",
-        type: HandlerType.CONTROLLER
+        type: HandlerType.CONTROLLER,
       };
       // WHEN
       const handlerMetadata = new HandlerMetadata(options);
@@ -123,7 +117,7 @@ describe("HandlerMetadata", () => {
       const options = {
         target: Test,
         propertyKey: "test",
-        type: HandlerType.CONTROLLER
+        type: HandlerType.CONTROLLER,
       };
       // WHEN
       const handlerMetadata = new HandlerMetadata(options);
@@ -145,7 +139,7 @@ describe("HandlerMetadata", () => {
       const options = {
         target: Test2,
         propertyKey: "use",
-        type: HandlerType.MIDDLEWARE
+        type: HandlerType.MIDDLEWARE,
       };
       // WHEN
       const handlerMetadata = new HandlerMetadata(options);
@@ -166,7 +160,7 @@ describe("HandlerMetadata", () => {
       const options = {
         target: Test2,
         propertyKey: "use",
-        type: HandlerType.MIDDLEWARE
+        type: HandlerType.MIDDLEWARE,
       };
       // WHEN
       const handlerMetadata = new HandlerMetadata(options);

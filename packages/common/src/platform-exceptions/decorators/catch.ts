@@ -8,7 +8,7 @@ import {registerExceptionType} from "../domain/ExceptionTypesContainer";
  */
 export function Catch(...types: Type<Error | any>[]) {
   return (target: any) => {
-    types.forEach(type => {
+    types.forEach((type) => {
       registerExceptionType(type, target as any);
     });
   };

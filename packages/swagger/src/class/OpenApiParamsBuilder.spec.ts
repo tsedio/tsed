@@ -29,8 +29,8 @@ describe("OpenApiParamsBuilder", () => {
             in: "formData",
             name: "expression",
             required: false,
-            type: "string"
-          }
+            type: "string",
+          },
         ]);
       });
     });
@@ -52,9 +52,9 @@ describe("OpenApiParamsBuilder", () => {
             name: "body",
             required: false,
             schema: {
-              $ref: "#/definitions/CtrlTestPayload"
-            }
-          }
+              $ref: "#/definitions/CtrlTestPayload",
+            },
+          },
         ]);
       });
     });
@@ -101,23 +101,23 @@ describe("OpenApiParamsBuilder", () => {
           expression: "expression1",
           required: true,
           store: {
-            get: storeGet
-          }
+            get: storeGet,
+          },
         },
         {
           paramType: ParamTypes.PATH,
           store: {
-            get: storeGet
-          }
+            get: storeGet,
+          },
         },
         {
           paramType: ParamTypes.QUERY,
           expression: "expression2",
           required: false,
           store: {
-            get: storeGet
-          }
-        }
+            get: storeGet,
+          },
+        },
       ];
 
       this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns(this.params);
@@ -145,15 +145,15 @@ describe("OpenApiParamsBuilder", () => {
           name: "expression1",
           required: true,
           test: "test",
-          type: "string"
+          type: "string",
         },
         {
           in: "query",
           name: "expression2",
           required: false,
           test: "test",
-          type: "string"
-        }
+          type: "string",
+        },
       ]);
     });
   });
@@ -175,17 +175,17 @@ describe("OpenApiParamsBuilder", () => {
           required: true,
           type: String,
           store: {
-            get: storeGet
-          }
+            get: storeGet,
+          },
         },
         {
           paramType: ParamTypes.QUERY,
           expression: "expression2",
           required: false,
           store: {
-            get: storeGet
-          }
-        }
+            get: storeGet,
+          },
+        },
       ];
 
       this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns(this.params);
@@ -195,14 +195,14 @@ describe("OpenApiParamsBuilder", () => {
           in: "path",
           type: "string",
           name: "expression1",
-          required: true
+          required: true,
         },
         {
           in: "path",
           type: "string",
           name: "test",
-          required: true
-        }
+          required: true,
+        },
       ]);
 
       this.result = this.builder.getInPathParams();
@@ -218,14 +218,14 @@ describe("OpenApiParamsBuilder", () => {
           name: "expression1",
           required: true,
           test: "test",
-          type: "string"
+          type: "string",
         },
         {
           in: "path",
           name: "test",
           required: true,
-          type: "string"
-        }
+          type: "string",
+        },
       ]);
     });
   });
@@ -247,17 +247,17 @@ describe("OpenApiParamsBuilder", () => {
           required: true,
           type: String,
           store: {
-            get: storeGet
-          }
+            get: storeGet,
+          },
         },
         {
           paramType: ParamTypes.FORM_DATA,
           expression: "expression2.0",
           required: false,
           store: {
-            get: storeGet
-          }
-        }
+            get: storeGet,
+          },
+        },
       ];
 
       this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns(this.params);
@@ -277,15 +277,15 @@ describe("OpenApiParamsBuilder", () => {
           name: "expression1",
           required: true,
           test: "test",
-          type: "string"
+          type: "string",
         },
         {
           in: "formData",
           name: "expression2",
           required: false,
           test: "test",
-          type: "file"
-        }
+          type: "file",
+        },
       ]);
     });
   });
@@ -308,11 +308,11 @@ describe("OpenApiParamsBuilder", () => {
           Model: {
             properties: {
               prop: {
-                type: "string"
-              }
+                type: "string",
+              },
             },
-            type: "object"
-          }
+            type: "object",
+          },
         });
 
         expect(builder.parameters).to.deep.equal([
@@ -322,9 +322,9 @@ describe("OpenApiParamsBuilder", () => {
             name: "body",
             required: true,
             schema: {
-              $ref: "#/definitions/Model"
-            }
-          }
+              $ref: "#/definitions/Model",
+            },
+          },
         ]);
       });
     });
@@ -347,8 +347,8 @@ describe("OpenApiParamsBuilder", () => {
             type: String,
             typeName: "Test",
             store: {
-              get: storeGet
-            }
+              get: storeGet,
+            },
           },
           {
             paramType: ParamTypes.BODY,
@@ -357,9 +357,9 @@ describe("OpenApiParamsBuilder", () => {
             type: Number,
             typeName: "Test",
             store: {
-              get: storeGet
-            }
-          }
+              get: storeGet,
+            },
+          },
         ];
 
         this.getParamsStub = Sinon.stub(ParamMetadata, "getParams").returns(this.params);
@@ -379,8 +379,8 @@ describe("OpenApiParamsBuilder", () => {
           name: "body",
           required: true,
           schema: {
-            $ref: "#/definitions/CtrlTestPayload"
-          }
+            $ref: "#/definitions/CtrlTestPayload",
+          },
         });
       });
 
@@ -390,16 +390,16 @@ describe("OpenApiParamsBuilder", () => {
             properties: {
               test: {
                 test: "test",
-                type: "string"
+                type: "string",
               },
               test2: {
                 test: "test",
-                type: "number"
-              }
+                type: "number",
+              },
             },
             required: ["test"],
-            type: "object"
-          }
+            type: "object",
+          },
         });
       });
     });
@@ -427,19 +427,19 @@ describe("OpenApiParamsBuilder", () => {
                 properties: {
                   t2: {
                     properties: {
-                      t3: {}
+                      t3: {},
                     },
                     required: ["t3"],
-                    type: "object"
-                  }
+                    type: "object",
+                  },
                 },
                 required: ["t2"],
-                type: "object"
-              }
+                type: "object",
+              },
             },
             required: ["t1"],
-            type: "object"
-          }
+            type: "object",
+          },
         });
       });
     });
@@ -460,10 +460,10 @@ describe("OpenApiParamsBuilder", () => {
           currentProperty: {},
           schema: {
             properties: {
-              event: {}
+              event: {},
             },
-            type: "object"
-          }
+            type: "object",
+          },
         });
       });
     });
@@ -483,7 +483,7 @@ describe("OpenApiParamsBuilder", () => {
       it("should create a schema", () => {
         expect(this.result).to.deep.eq({
           currentProperty: {},
-          schema: {}
+          schema: {},
         });
       });
     });
@@ -502,8 +502,8 @@ describe("OpenApiParamsBuilder", () => {
           isClass: false,
           isCollection: false,
           store: {
-            get: () => {}
-          }
+            get: () => {},
+          },
         });
       });
       after(() => {
@@ -518,16 +518,16 @@ describe("OpenApiParamsBuilder", () => {
                 t2: {
                   properties: {
                     t3: {
-                      type: "string"
-                    }
+                      type: "string",
+                    },
                   },
-                  type: "object"
-                }
+                  type: "object",
+                },
               },
-              type: "object"
-            }
+              type: "object",
+            },
           },
-          type: "object"
+          type: "object",
         });
       });
     });
@@ -563,10 +563,10 @@ describe("OpenApiParamsBuilder", () => {
             schema: {
               type: "array",
               items: {
-                type: "string"
-              }
-            }
-          }
+                type: "string",
+              },
+            },
+          },
         ]);
       });
     });
@@ -586,8 +586,8 @@ describe("OpenApiParamsBuilder", () => {
           isCollection: false,
           typeName: "Test",
           store: {
-            get: () => Test
-          }
+            get: () => Test,
+          },
         });
       });
       after(() => {
@@ -598,10 +598,10 @@ describe("OpenApiParamsBuilder", () => {
         expect(this.result).to.deep.eq({
           properties: {
             event: {
-              $ref: "#/definitions/Test"
-            }
+              $ref: "#/definitions/Test",
+            },
           },
-          type: "object"
+          type: "object",
         });
       });
     });
@@ -619,7 +619,7 @@ describe("OpenApiParamsBuilder", () => {
           type: String,
           isClass: false,
           isCollection: false,
-          isArray: false
+          isArray: false,
         });
       });
       after(() => {
@@ -628,8 +628,8 @@ describe("OpenApiParamsBuilder", () => {
       it("should return the right schema", () => {
         expect(this.result).to.deep.equal([
           {
-            type: "string"
-          }
+            type: "string",
+          },
         ]);
       });
     });
@@ -645,7 +645,7 @@ describe("OpenApiParamsBuilder", () => {
           type: String,
           isClass: false,
           isCollection: true,
-          isArray: true
+          isArray: true,
         });
       });
       after(() => {
@@ -657,9 +657,9 @@ describe("OpenApiParamsBuilder", () => {
             type: "array",
             collectionFormat: "multi",
             items: {
-              type: "string"
-            }
-          }
+              type: "string",
+            },
+          },
         ]);
       });
     });
@@ -683,16 +683,16 @@ describe("OpenApiParamsBuilder", () => {
           type: String,
           isClass: false,
           isCollection: true,
-          isArray: false
+          isArray: false,
         });
 
         expect(result).to.deep.equal([
           {
             type: "object",
             additionalProperties: {
-              type: "string"
-            }
-          }
+              type: "string",
+            },
+          },
         ]);
       });
     });
@@ -713,9 +713,9 @@ describe("OpenApiParamsBuilder", () => {
           name: "body",
           required: false,
           schema: {
-            $ref: "#/definitions/SwaFoo2"
-          }
-        }
+            $ref: "#/definitions/SwaFoo2",
+          },
+        },
       ]);
 
       expect(builder.definitions).to.deep.eq({
@@ -724,66 +724,66 @@ describe("OpenApiParamsBuilder", () => {
             age: {
               description: "The age",
               title: "age",
-              type: "number"
+              type: "number",
             },
             id: {
               description: "Unique identifier.",
               title: "id",
-              type: "string"
-            }
+              type: "string",
+            },
           },
-          type: "object"
+          type: "object",
         },
         SwaFoo: {
           properties: {
             foo: {
               description: "Description.foo",
               title: "SwaFoo.foo",
-              type: "object"
+              type: "object",
             },
             test: {
               description: "Description.test",
               title: "SwaFoo.test",
-              type: "object"
-            }
+              type: "object",
+            },
           },
-          type: "object"
+          type: "object",
         },
         SwaFoo2: {
           description: "Description Class",
           properties: {
             Name: {
-              type: "string"
+              type: "string",
             },
             ageModel: {
-              $ref: "#/definitions/SwaAgeModel"
+              $ref: "#/definitions/SwaAgeModel",
             },
             arrayOfString: {
               items: {
-                type: "string"
+                type: "string",
               },
-              type: "array"
+              type: "array",
             },
             dateStart: {
-              type: "string"
+              type: "string",
             },
             foo: {
-              $ref: "#/definitions/SwaFoo"
+              $ref: "#/definitions/SwaFoo",
             },
             foos: {
               description: "SwaFoo2.foos description",
               examples: ["TODO"],
               items: {
-                $ref: "#/definitions/SwaFoo"
+                $ref: "#/definitions/SwaFoo",
               },
               title: "SwaFoo2.foos",
-              type: "array"
+              type: "array",
             },
             mapOfString: {
               type: "object",
               additionalProperties: {
-                type: "string"
-              }
+                type: "string",
+              },
             },
             mapAny: {
               type: "object",
@@ -791,96 +791,96 @@ describe("OpenApiParamsBuilder", () => {
                 nullable: true,
                 oneOf: [
                   {
-                    type: "integer"
+                    type: "integer",
                   },
                   {
-                    type: "number"
+                    type: "number",
                   },
                   {
-                    type: "string"
+                    type: "string",
                   },
                   {
-                    type: "boolean"
+                    type: "boolean",
                   },
                   {
-                    type: "array"
+                    type: "array",
                   },
                   {
-                    type: "object"
-                  }
-                ]
-              }
+                    type: "object",
+                  },
+                ],
+              },
             },
             anyValue: {
               nullable: true,
               oneOf: [
                 {
-                  type: "integer"
+                  type: "integer",
                 },
                 {
-                  type: "number"
+                  type: "number",
                 },
                 {
-                  type: "string"
+                  type: "string",
                 },
                 {
-                  type: "boolean"
+                  type: "boolean",
                 },
                 {
-                  type: "array"
+                  type: "array",
                 },
                 {
-                  type: "object"
-                }
-              ]
+                  type: "object",
+                },
+              ],
             },
             nameModel: {
-              $ref: "#/definitions/SwaNameModel"
+              $ref: "#/definitions/SwaNameModel",
             },
             test: {
               description: "Description test",
               title: "Test",
-              type: "string"
+              type: "string",
             },
             theMap: {
               type: "object",
               additionalProperties: {
-                $ref: "#/definitions/SwaFoo"
+                $ref: "#/definitions/SwaFoo",
               },
               description: "SwaFoo2.theMap description",
-              title: "SwaFoo2.theMap"
+              title: "SwaFoo2.theMap",
             },
             theSet: {
               type: "object",
               additionalProperties: {
-                $ref: "#/definitions/SwaFoo"
+                $ref: "#/definitions/SwaFoo",
               },
               description: "SwaFoo2.theSet description",
-              title: "SwaFoo2.theSet"
+              title: "SwaFoo2.theSet",
             },
             uint: {
-              type: "number"
-            }
+              type: "number",
+            },
           },
           required: ["test"],
           title: "SwaFoo2",
-          type: "object"
+          type: "object",
         },
         SwaNameModel: {
           properties: {
             id: {
               description: "Unique identifier.",
               title: "id",
-              type: "string"
+              type: "string",
             },
             name: {
               description: "The name",
               title: "name",
-              type: "string"
-            }
+              type: "string",
+            },
           },
-          type: "object"
-        }
+          type: "object",
+        },
       });
     });
     it("should create query params", () => {
@@ -905,21 +905,21 @@ describe("OpenApiParamsBuilder", () => {
           in: "query",
           name: "name",
           required: true,
-          type: "string"
+          type: "string",
         },
         {
           in: "query",
           minLength: 1,
           name: "start",
           required: false,
-          type: "string"
+          type: "string",
         },
         {
           in: "query",
           name: "id",
           required: false,
-          type: "string"
-        }
+          type: "string",
+        },
       ]);
     });
   });

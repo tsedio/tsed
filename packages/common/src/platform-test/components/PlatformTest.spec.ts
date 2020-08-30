@@ -11,7 +11,7 @@ import {
   LogIncomingRequestMiddleware,
   PlatformBuilder,
   PlatformTest,
-  RequestContext
+  RequestContext,
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {expect} from "chai";
@@ -61,8 +61,8 @@ describe("PlatformTest", () => {
   beforeEach(
     PlatformTest.bootstrap(Server, {
       mount: {
-        "/rest": [MyController]
-      }
+        "/rest": [MyController],
+      },
     })
   );
   beforeEach(() => {

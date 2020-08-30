@@ -54,7 +54,7 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
 
     return {
       ...newObj,
-      [key]: value
+      [key]: value,
     };
   }, {});
 }
@@ -63,7 +63,7 @@ function toObject(obj: any, options: JsonSerializerOptions): any {
   return getObjectProperties(obj).reduce(
     (newObj, [key, value]) => ({
       ...newObj,
-      [key]: serialize(value, options)
+      [key]: serialize(value, options),
     }),
     {}
   );
@@ -95,7 +95,7 @@ export function serialize(obj: any, {type, collectionType, ...options}: JsonSeri
   const context = new JsonMapperContext({
     type,
     options,
-    next: (data, {type, ...options}) => serialize(data, options)
+    next: (data, {type, ...options}) => serialize(data, options),
   });
 
   if (types.has(type)) {

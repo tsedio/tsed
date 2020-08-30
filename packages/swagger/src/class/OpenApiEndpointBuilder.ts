@@ -59,7 +59,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
 
     deepExtends(responses, builderResponses);
 
-    Array.from(this.endpoint.responses.keys()).forEach(code => {
+    Array.from(this.endpoint.responses.keys()).forEach((code) => {
       responses[code] = this.createResponse(code, responses[code] || {});
     });
 
@@ -85,7 +85,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
         consumes,
         responses: this.createResponses(builder.responses),
         security,
-        produces
+        produces,
       },
       this.endpoint.get("operation") || {}
     );
@@ -113,7 +113,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
   private createResponse(code: string | number, options: any): Response {
     const {type, collectionType, code: _, headers, ...obj} = {
       ...options,
-      ...this.endpoint.statusResponse(code)
+      ...this.endpoint.statusResponse(code),
     } as any;
 
     const response = deepClone(obj);
@@ -124,7 +124,7 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
       response.schema = this.createSchema({
         schema: this.endpoint.get("schema"),
         type: isPromise(type) || isArrayOrArrayClass(type) || type === Object ? undefined! : type,
-        collectionType
+        collectionType,
       });
     }
 
@@ -133,8 +133,8 @@ export class OpenApiEndpointBuilder extends OpenApiModelSchemaBuilder {
         return {
           ...obj,
           [key]: {
-            ...schema
-          }
+            ...schema,
+          },
         };
       }, {});
     }

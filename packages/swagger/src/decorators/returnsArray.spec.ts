@@ -9,7 +9,7 @@ describe("ReturnsArray()", () => {
     it("should set the responses", () => {
       class Ctrl {
         @ReturnsArray(Test, {
-          description: "Success"
+          description: "Success",
         })
         test() {}
       }
@@ -20,7 +20,7 @@ describe("ReturnsArray()", () => {
         code: 200,
         description: "Success",
         type: Test,
-        collectionType: Array
+        collectionType: Array,
       });
     });
   });
@@ -39,7 +39,7 @@ describe("ReturnsArray()", () => {
         code: 200,
         description: "",
         type: Test,
-        collectionType: Array
+        collectionType: Array,
       });
     });
   });
@@ -53,9 +53,9 @@ describe("ReturnsArray()", () => {
           type: Test,
           headers: {
             "Content-Type": {
-              type: "string"
-            }
-          }
+              type: "string",
+            },
+          },
         })
         test() {}
       }
@@ -69,9 +69,9 @@ describe("ReturnsArray()", () => {
         collectionType: Array,
         headers: {
           "Content-Type": {
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       });
     });
   });

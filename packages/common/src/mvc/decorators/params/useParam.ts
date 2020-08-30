@@ -18,7 +18,7 @@ function mapPipes(options: IParamOptions<any> = {}) {
     options.useType && UseType(options.useType),
     options.expression && UseParamExpression(options.expression),
     options.useValidation && UseValidation(),
-    options.useConverter && UseDeserialization()
+    options.useConverter && UseDeserialization(),
   ];
 }
 
@@ -63,7 +63,7 @@ export function UseFilter(token: Type<IFilter> | ParamTypes | string, options: I
   return require("util").deprecate(
     applyDecorators(
       filter &&
-        ParamFn(param => {
+        ParamFn((param) => {
           // deprecated
           param.filter = filter;
         }),

@@ -29,11 +29,11 @@ export function Authenticated(options: IAuthOptions = {}): Function {
   options = {
     responses: {
       "401": {
-        description: "Unauthorized"
+        description: "Unauthorized",
       },
-      ...(options.responses || {})
+      ...(options.responses || {}),
     },
-    ...options
+    ...options,
   };
 
   return UseAuth(AuthenticatedMiddleware, options);

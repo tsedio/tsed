@@ -11,7 +11,7 @@ class FakeServer {
   injector = new InjectorService();
 
   settings = {
-    logger: {}
+    logger: {},
   };
 
   async start() {
@@ -22,9 +22,7 @@ class FakeServer {
 }
 
 class FakeService {
-  $onInit() {
-
-  }
+  $onInit() {}
 }
 
 describe("TestContext", () => {

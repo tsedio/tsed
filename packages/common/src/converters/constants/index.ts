@@ -8,4 +8,3 @@
  * @type {string}
  */
 export const CONVERTER = "tsed:converter";
-

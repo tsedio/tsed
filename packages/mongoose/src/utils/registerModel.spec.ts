@@ -20,7 +20,7 @@ describe("registerModel()", () => {
       expect(mergeStub).to.have.been.calledWithExactly(Test, {
         instance: {model: "model"},
         provide: Test,
-        type: "mongooseModel"
+        type: "mongooseModel",
       });
     });
   });
@@ -42,7 +42,7 @@ describe("registerModel()", () => {
       expect(mergeStub).to.have.been.calledWithExactly(Test, {
         instance: {model: "model"},
         provide: Test,
-        type: "mongooseModel"
+        type: "mongooseModel",
       });
     });
   });

@@ -28,17 +28,17 @@ describe("GraphQL", () => {
   it("should get recipes", async () => {
     const response = await request.query({
       query: GET_RECIPES,
-      variables: {}
+      variables: {},
     });
 
     expect(response.data).to.deep.eq({
-      "recipes": [
+      recipes: [
         {
-          "creationDate": "2020-08-20T00:00:00.000Z",
-          "description": "Description",
-          "title": "title"
-        }
-      ]
+          creationDate: "2020-08-20T00:00:00.000Z",
+          description: "Description",
+          title: "title",
+        },
+      ],
     });
   });
 });

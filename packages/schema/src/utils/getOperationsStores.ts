@@ -10,8 +10,8 @@ export function getOperationsStores<T = JsonEntityStore>(target: Type<any> | any
     const stores = getInheritedStores(store);
     store.$operations = new Map();
 
-    stores.forEach(currentStore => {
-      currentStore.children.forEach(propStore => {
+    stores.forEach((currentStore) => {
+      currentStore.children.forEach((propStore) => {
         if (propStore.operation && !store.$operations.has(propStore.propertyKey)) {
           store.$operations.set(propStore.propertyKey, propStore);
         }

@@ -13,7 +13,7 @@ import {ParamFn} from "./paramFn";
  * @alias CollectionOf
  */
 export function UseType(type: any | Type<any>) {
-  return ParamFn(param => {
+  return ParamFn((param) => {
     param.type = type;
   });
 }

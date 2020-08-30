@@ -29,10 +29,10 @@ export function schemaOptions(target: any, options?: MongooseSchemaOptions) {
  */
 export function buildPreHook(fn: Function) {
   return fn.length === 2
-    ? function(next: HookNextFunction) {
+    ? function (next: HookNextFunction) {
         return fn(this, next);
       }
-    : function(next: HookNextFunction, done: HookDoneFunction) {
+    : function (next: HookNextFunction, done: HookDoneFunction) {
         return fn(this, next, done);
       };
 }
@@ -44,18 +44,18 @@ export function buildPreHook(fn: Function) {
  */
 export function applySchemaOptions(schema: Schema, options: MongooseSchemaOptions) {
   if (options.plugins) {
-    options.plugins.forEach(item => schema.plugin(item.plugin, item.options));
+    options.plugins.forEach((item) => schema.plugin(item.plugin, item.options));
   }
 
   if (options.indexes) {
-    options.indexes.forEach(item => schema.index(item.fields, item.options));
+    options.indexes.forEach((item) => schema.index(item.fields, item.options));
   }
 
   if (options.pre) {
-    options.pre.forEach(item => schema.pre(item.method, !!item.parallel, buildPreHook(item.fn), item.errorCb));
+    options.pre.forEach((item) => schema.pre(item.method, !!item.parallel, buildPreHook(item.fn), item.errorCb));
   }
 
   if (options.post) {
-    options.post.forEach(item => schema.post(item.method, item.fn as any));
+    options.post.forEach((item) => schema.post(item.method, item.fn as any));
   }
 }

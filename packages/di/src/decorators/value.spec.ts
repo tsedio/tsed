@@ -12,15 +12,13 @@ describe("@Value()", () => {
     Value("expression")(Test, "test");
 
     // THEN
-    expect(Store.from(Test)
-      .get(INJECTABLE_PROP))
-      .to.deep.eq({
-        test: {
-          bindingType: "value",
-          propertyKey: "test",
-          expression: "expression",
-          defaultValue: undefined
-        }
-      });
+    expect(Store.from(Test).get(INJECTABLE_PROP)).to.deep.eq({
+      test: {
+        bindingType: "value",
+        propertyKey: "test",
+        expression: "expression",
+        defaultValue: undefined,
+      },
+    });
   });
 });

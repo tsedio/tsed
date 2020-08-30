@@ -7,7 +7,7 @@ describe("@Example", () => {
   it("should declare description on class", () => {
     // WHEN
     @Example({
-      default: {id: "id"}
+      default: {id: "id"},
     })
     class Model {}
 
@@ -15,10 +15,10 @@ describe("@Example", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       examples: [
         {
-          id: "id"
-        }
+          id: "id",
+        },
       ],
-      type: "object"
+      type: "object",
     });
   });
   it("should declare description on class with description", () => {
@@ -29,7 +29,7 @@ describe("@Example", () => {
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
       examples: ["description"],
-      type: "object"
+      type: "object",
     });
   });
   it("should declare description on property", () => {
@@ -45,10 +45,10 @@ describe("@Example", () => {
       properties: {
         method: {
           examples: ["Examples"],
-          type: "string"
-        }
+          type: "string",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should throw error when the decorator isn't used with a supported decorator type", () => {

@@ -29,7 +29,7 @@ describe("Provider", () => {
         "imports",
         "useFactory",
         "useAsyncFactory",
-        "useValue"
+        "useValue",
       ]);
       expect(provider.clone()).to.deep.eq(provider);
     });

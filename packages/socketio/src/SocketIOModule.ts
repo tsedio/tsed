@@ -40,7 +40,7 @@ export class SocketIOModule implements AfterListen {
       this.io.adapter(this.settings.adapter);
     }
 
-    this.getWebsocketServices().forEach(provider => this.socketIOService.addSocketProvider(provider));
+    this.getWebsocketServices().forEach((provider) => this.socketIOService.addSocketProvider(provider));
 
     if (!this.disableRoutesSummary) {
       this.printSocketEvents();
@@ -64,7 +64,7 @@ export class SocketIOModule implements AfterListen {
 
       if (namespace) {
         Object.keys(handlers)
-          .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
+          .filter((key) => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
           .forEach((key: string) => {
             const handler = handlers[key];
             acc.push({
@@ -72,7 +72,7 @@ export class SocketIOModule implements AfterListen {
               inputEvent: handler.eventName,
               outputEvent: (handler.returns && handler.returns.eventName) || "",
               outputType: (handler.returns && handler.returns.type) || "",
-              name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
+              name: `${nameOf(provider.useClass)}.${handler.methodClassName}`,
             });
           });
       }
@@ -89,8 +89,8 @@ export class SocketIOModule implements AfterListen {
         inputEvent: "Input event",
         outputEvent: "Output event",
         outputType: "Output type",
-        name: "Class method"
-      }
+        name: "Class method",
+      },
     });
 
     this.injector.logger.info("\n" + str.trim());

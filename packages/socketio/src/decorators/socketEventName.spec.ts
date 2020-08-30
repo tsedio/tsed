@@ -17,11 +17,11 @@ describe("@SocketEventName", () => {
           parameters: {
             "0": {
               filter: "eventName",
-              mapIndex: undefined
-            }
-          }
-        }
-      }
+              mapIndex: undefined,
+            },
+          },
+        },
+      },
     });
   });
 });

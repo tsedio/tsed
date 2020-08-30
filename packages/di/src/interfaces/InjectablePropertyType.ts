@@ -3,5 +3,5 @@ export enum InjectablePropertyType {
   PROPERTY = "property",
   CONSTANT = "constant",
   VALUE = "value",
-  INTERCEPTOR = "interceptor"
+  INTERCEPTOR = "interceptor",
 }

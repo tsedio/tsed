@@ -19,7 +19,7 @@ export class MapConverter implements IConverter {
   deserialize<T>(data: any, target: any, baseType: T, deserializer: IDeserializer): Map<string, T> {
     const obj = new Map<string, T>();
 
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
       obj.set(key, deserializer(data[key], baseType) as T);
     });
 

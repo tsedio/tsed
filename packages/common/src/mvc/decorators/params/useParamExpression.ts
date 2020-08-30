@@ -11,7 +11,7 @@ import {ParamFn} from "./paramFn";
  * @pipe
  */
 export function UseParamExpression(expression: string) {
-  return ParamFn(param => {
+  return ParamFn((param) => {
     param.expression = expression;
     param.pipes.push(ParseExpressionPipe);
   });

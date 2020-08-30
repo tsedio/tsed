@@ -18,7 +18,7 @@ describe("Enum", () => {
   describe("when is a typescript enum (string)", () => {
     enum SomeEnum {
       ENUM_1 = "enum1",
-      ENUM_2 = "enum2"
+      ENUM_2 = "enum2",
     }
 
     it("should store data", () => {
@@ -38,7 +38,7 @@ describe("Enum", () => {
   describe("when is a typescript enum (index)", () => {
     enum SomeEnum {
       ENUM_1,
-      ENUM_2
+      ENUM_2,
     }
 
     it("should store data", () => {
@@ -58,7 +58,7 @@ describe("Enum", () => {
     enum SomeEnum {
       ENUM_1,
       ENUM_2 = "test",
-      ENUM_3 = "test2"
+      ENUM_3 = "test2",
     }
 
     it("should store data", () => {

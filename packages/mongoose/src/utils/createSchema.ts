@@ -15,14 +15,14 @@ export interface MongooseSchemaMetadata {
 }
 
 function setUpTarget(target: Type<any>) {
-  target.prototype.serialize = function(options: IConverterOptions, converter: ConverterService) {
+  target.prototype.serialize = function (options: IConverterOptions, converter: ConverterService) {
     const {checkRequiredValue, ignoreCallback, withIgnoredProps = true} = options;
 
     return converter.serializeClass(this, {
       type: getClass(target),
       checkRequiredValue,
       ignoreCallback,
-      withIgnoredProps
+      withIgnoredProps,
     });
   };
 }
@@ -101,10 +101,10 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
 
   let schemaTypeOptions: SchemaTypeOpts<any> = {
     required: propertyMetadata.required
-      ? function() {
-        return propertyMetadata.isRequired(this[key]);
-      }
-      : false
+      ? function () {
+          return propertyMetadata.isRequired(this[key]);
+        }
+      : false,
   };
 
   if (!propertyMetadata.isClass) {
@@ -125,7 +125,7 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
       minlength,
       maxlength,
       enum: jsonSchema["enum"],
-      default: jsonSchema["default"]
+      default: jsonSchema["default"],
     };
   } else if (!rawMongooseSchema.ref) {
     // References are handled by the final merge

@@ -69,7 +69,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @schema
  */
 export function Minimum(minimum: number, exclusive: boolean = false) {
-  return decoratorSchemaFactory(schema => {
+  return decoratorSchemaFactory((schema) => {
     if (exclusive) {
       schema.mapper.exclusiveMinimum = minimum;
     } else {

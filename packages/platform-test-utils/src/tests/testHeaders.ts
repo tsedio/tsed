@@ -31,8 +31,8 @@ export function testHeaders(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [HeadersCtrl]
-      }
+        "/rest": [HeadersCtrl],
+      },
     })
   );
   before(() => {

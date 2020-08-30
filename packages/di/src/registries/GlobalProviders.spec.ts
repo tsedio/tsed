@@ -16,7 +16,7 @@ describe("GlobalProviderRegistry", () => {
 
       // WHEN
       const result = providers.createRegistry("test", Provider, {
-        injectable: false
+        injectable: false,
       });
 
       // THEN
@@ -24,7 +24,7 @@ describe("GlobalProviderRegistry", () => {
 
       expect(setStub).to.have.been.calledWithExactly("test", {
         registry: result,
-        injectable: false
+        injectable: false,
       });
     });
   });
@@ -96,7 +96,7 @@ describe("GlobalProviderRegistry", () => {
         // THEN
         expect(result).to.deep.eq({
           registry: providers,
-          injectable: true
+          injectable: true,
         });
         expect(hasStub).to.have.been.calledWithExactly("type");
 
@@ -110,7 +110,7 @@ describe("GlobalProviderRegistry", () => {
       // GIVEN
       const providers = new GlobalProviderRegistry();
       const registryStub = {
-        merge: Sinon.stub()
+        merge: Sinon.stub(),
       };
 
       // @ts-ignore
@@ -125,7 +125,7 @@ describe("GlobalProviderRegistry", () => {
       expect(registryStub.merge).to.have.been.calledWithExactly("provide", {
         provide: "provide",
         instance: undefined,
-        type: "type"
+        type: "type",
       });
     });
   });

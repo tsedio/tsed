@@ -4,7 +4,7 @@
 export enum Env {
   PROD = "production",
   DEV = "development",
-  TEST = "test"
+  TEST = "test",
 }
 
 /**

@@ -6,8 +6,7 @@ describe("AcceptMime", () => {
   it("should set metadata", () => {
     class Test {
       @AcceptMime("application/json")
-      test() {
-      }
+      test() {}
     }
 
     const store = Store.fromMethod(Test, "test");

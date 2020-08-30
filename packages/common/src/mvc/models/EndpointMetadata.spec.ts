@@ -84,17 +84,11 @@ describe("EndpointMetadata", () => {
       const store: any = Object.fromEntries(Array.from(endpoint.store.entries()));
 
       // THEN
-      expect(endpoint.beforeMiddlewares)
-        .to.be.an("array")
-        .and.have.length(1);
+      expect(endpoint.beforeMiddlewares).to.be.an("array").and.have.length(1);
 
-      expect(endpoint.middlewares)
-        .to.be.an("array")
-        .and.have.length(1);
+      expect(endpoint.middlewares).to.be.an("array").and.have.length(1);
 
-      expect(endpoint.beforeMiddlewares)
-        .to.be.an("array")
-        .and.have.length(1);
+      expect(endpoint.beforeMiddlewares).to.be.an("array").and.have.length(1);
 
       expect(endpoint.target).to.equal(Test);
 
@@ -112,15 +106,13 @@ describe("EndpointMetadata", () => {
       const endpoint = EndpointMetadata.get(Test, "method");
 
       // THEN
-      expect(endpoint.middlewares)
-        .to.be.an("array")
-        .and.have.length(1);
+      expect(endpoint.middlewares).to.be.an("array").and.have.length(1);
 
       expect(endpoint.pathsMethods).to.deep.equal([
         {
           method: undefined,
-          path: "/"
-        }
+          path: "/",
+        },
       ]);
     });
     it("should add endpoint with path and method", () => {
@@ -135,15 +127,13 @@ describe("EndpointMetadata", () => {
       const endpoint = EndpointMetadata.get(Test, "method");
 
       // THEN
-      expect(endpoint.middlewares)
-        .to.be.an("array")
-        .and.have.length(1);
+      expect(endpoint.middlewares).to.be.an("array").and.have.length(1);
 
       expect(endpoint.pathsMethods).to.deep.equal([
         {
           method: "get",
-          path: "/"
-        }
+          path: "/",
+        },
       ]);
     });
   });
@@ -205,15 +195,13 @@ describe("EndpointMetadata", () => {
         const endpointMetadata = EndpointMetadata.get(Test, "method");
         Sinon.stub(endpointMetadata.store, "get");
 
-        stub(endpointMetadata.store.get)
-          .withArgs("responses")
-          .returns({});
+        stub(endpointMetadata.store.get).withArgs("responses").returns({});
 
         // WHEN
         const result = endpointMetadata.statusResponse(200);
 
         expect(result).to.deep.eq({
-          code: 200
+          code: 200,
         });
 
         expect(endpointMetadata.type).to.eq(undefined);
@@ -234,7 +222,7 @@ describe("EndpointMetadata", () => {
         stub(endpointMetadata.store.get)
           .withArgs("responses")
           .returns({
-            [200]: {}
+            [200]: {},
           });
 
         // WHEN
@@ -242,7 +230,7 @@ describe("EndpointMetadata", () => {
 
         // THEN
         expect(result).to.deep.eq({
-          code: 200
+          code: 200,
         });
 
         expect(endpointMetadata.type).to.eq(undefined);
@@ -263,9 +251,9 @@ describe("EndpointMetadata", () => {
           headers: {
             headerName: {
               type: "string",
-              value: "x-content"
-            }
-          }
+              value: "x-content",
+            },
+          },
         } as any);
 
         // WHEN
@@ -276,10 +264,10 @@ describe("EndpointMetadata", () => {
           headers: {
             headerName: {
               type: "string",
-              value: "x-content"
-            }
+              value: "x-content",
+            },
           },
-          type: Test
+          type: Test,
         });
         expect(endpointMetadata.type).to.eq(Test);
         expect(endpointMetadata.collectionType).to.eq(undefined);

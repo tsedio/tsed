@@ -16,13 +16,13 @@ describe("LogIncomingRequestMiddleware", () => {
         debug: Sinon.stub(),
         trace: Sinon.stub(),
         error: Sinon.stub(),
-        flush: Sinon.stub()
+        flush: Sinon.stub(),
       };
 
       const middleware = new LogIncomingRequestMiddleware(injector as any);
 
       const request = new FakeRequest({
-        logger: injector.logger
+        logger: injector.logger,
       });
 
       request.method = "GET";
@@ -44,7 +44,7 @@ describe("LogIncomingRequestMiddleware", () => {
           event: "request.start",
           method: "GET",
           reqId: "id",
-          url: "originalUrl"
+          url: "originalUrl",
         })
       );
       expect(injector.logger.info).to.have.been.calledWithExactly(
@@ -53,7 +53,7 @@ describe("LogIncomingRequestMiddleware", () => {
           method: "GET",
           reqId: "id",
           url: "originalUrl",
-          status: 200
+          status: 200,
         })
       );
       expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
@@ -64,7 +64,7 @@ describe("LogIncomingRequestMiddleware", () => {
       const injector = new InjectorService();
       injector.settings.logger = {
         debug: true,
-        logRequest: true
+        logRequest: true,
       };
       injector.logger = {
         info: Sinon.stub(),
@@ -72,13 +72,13 @@ describe("LogIncomingRequestMiddleware", () => {
         debug: Sinon.stub(),
         trace: Sinon.stub(),
         error: Sinon.stub(),
-        flush: Sinon.stub()
+        flush: Sinon.stub(),
       };
 
       const middleware = new LogIncomingRequestMiddleware(injector as any);
 
       const request = new FakeRequest({
-        logger: injector.logger
+        logger: injector.logger,
       });
 
       request.method = "GET";
@@ -99,7 +99,7 @@ describe("LogIncomingRequestMiddleware", () => {
           event: "request.start",
           method: "GET",
           reqId: "id",
-          url: "url"
+          url: "url",
         })
       );
       expect(injector.logger.debug).to.have.been.calledWithExactly(
@@ -109,7 +109,7 @@ describe("LogIncomingRequestMiddleware", () => {
           reqId: "id",
           url: "url",
           status: 200,
-          data: "test"
+          data: "test",
         })
       );
       expect(injector.logger.debug).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
@@ -125,13 +125,13 @@ describe("LogIncomingRequestMiddleware", () => {
         debug: Sinon.stub(),
         trace: Sinon.stub(),
         error: Sinon.stub(),
-        flush: Sinon.stub()
+        flush: Sinon.stub(),
       };
 
       const middleware = new LogIncomingRequestMiddleware(injector as any);
 
       const request = new FakeRequest({
-        logger: injector.logger
+        logger: injector.logger,
       });
       request.method = "GET";
       request.url = "url";
@@ -149,7 +149,7 @@ describe("LogIncomingRequestMiddleware", () => {
       // THEN
       expect(injector.logger.info).to.have.been.calledWithExactly(
         Sinon.match({
-          event: "request.start"
+          event: "request.start",
         })
       );
       expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));
@@ -165,13 +165,13 @@ describe("LogIncomingRequestMiddleware", () => {
         debug: Sinon.stub(),
         trace: Sinon.stub(),
         error: Sinon.stub(),
-        flush: Sinon.stub()
+        flush: Sinon.stub(),
       };
 
       const middleware = new LogIncomingRequestMiddleware(injector as any);
 
       const request = new FakeRequest({
-        logger: injector.logger
+        logger: injector.logger,
       });
       request.method = "GET";
       request.url = "url";
@@ -193,7 +193,7 @@ describe("LogIncomingRequestMiddleware", () => {
           method: "GET",
           reqId: "id",
           url: "originalUrl",
-          status: 200
+          status: 200,
         })
       );
       expect(injector.logger.info).to.have.been.calledWithExactly(Sinon.match.has("duration", Sinon.match.number));

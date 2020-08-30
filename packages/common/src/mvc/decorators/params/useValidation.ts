@@ -10,7 +10,7 @@ import {ParamFn} from "./paramFn";
  * @pipe
  */
 export function UseValidation() {
-  return ParamFn(param => {
+  return ParamFn((param) => {
     if (param.type || param.collectionType) {
       param.pipes.push(ValidationPipe);
     }

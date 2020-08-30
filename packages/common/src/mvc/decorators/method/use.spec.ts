@@ -6,13 +6,11 @@ import {Use} from "./use";
 describe("Use()", () => {
   describe("when the decorator is use on a method", () => {
     it("should add the middleware on the use stack", () => {
-      const middleware = () => {
-      };
+      const middleware = () => {};
 
       class Test {
         @Use(middleware)
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
@@ -22,13 +20,11 @@ describe("Use()", () => {
 
   describe("when the decorator is use on a class", () => {
     it("should add the middleware on the use stack", () => {
-      const middleware = () => {
-      };
+      const middleware = () => {};
 
       @Use(middleware)
       class Test {
-        test() {
-        }
+        test() {}
       }
 
       const store = Store.from(Test).get("middlewares");

@@ -8,7 +8,7 @@ import {
   IHandlerConstructorOptions,
   IPipe,
   ParamMetadata,
-  ParamTypes
+  ParamTypes,
 } from "../../mvc";
 import {ValidationError} from "../../mvc/errors/ValidationError";
 import {HandlerContext} from "../domain/HandlerContext";
@@ -20,7 +20,7 @@ import {UnknownFilterError} from "../errors/UnknownFilterError";
  * @platform
  */
 @Injectable({
-  scope: ProviderScope.SINGLETON
+  scope: ProviderScope.SINGLETON,
 })
 export class PlatformHandler {
   constructor(protected injector: InjectorService) {}
@@ -36,7 +36,7 @@ export class PlatformHandler {
         token: provider.provide,
         target: provider.useClass,
         type: HandlerType.CONTROLLER,
-        propertyKey: obj.propertyKey
+        propertyKey: obj.propertyKey,
       };
     } else {
       const provider = injector.getProvider(obj);
@@ -46,12 +46,12 @@ export class PlatformHandler {
           token: provider.provide,
           target: provider.useClass,
           type: HandlerType.MIDDLEWARE,
-          propertyKey: "use"
+          propertyKey: "use",
         };
       } else {
         options = {
           target: obj,
-          type: HandlerType.FUNCTION
+          type: HandlerType.FUNCTION,
         };
       }
     }
@@ -85,7 +85,7 @@ export class PlatformHandler {
   getParam(param: ParamMetadata, context: HandlerContext) {
     const {
       ctx,
-      ctx: {request, response}
+      ctx: {request, response},
     } = context;
 
     switch (param.paramType) {
@@ -168,7 +168,7 @@ export class PlatformHandler {
       next,
       err,
       metadata,
-      args: []
+      args: [],
     });
   }
 
@@ -180,7 +180,7 @@ export class PlatformHandler {
             request,
             response,
             next,
-            err
+            err,
           })
         );
     } else {
@@ -194,11 +194,11 @@ export class PlatformHandler {
     }
 
     const {
-      metadata: {parameters}
+      metadata: {parameters},
     } = context;
 
     try {
-      context.args = await Promise.all(parameters.map(param => this.mapParam(param, context)));
+      context.args = await Promise.all(parameters.map((param) => this.mapParam(param, context)));
 
       await context.callHandler();
     } catch (error) {

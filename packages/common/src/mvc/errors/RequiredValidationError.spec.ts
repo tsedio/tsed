@@ -5,7 +5,7 @@ describe("RequiredValidationError", () => {
   it("should have a message", () => {
     const error = RequiredValidationError.from({
       service: "name",
-      expression: "expression"
+      expression: "expression",
     } as any);
     expect(error.message).to.equal("It should have required parameter 'expression'");
     expect(error.name).to.equal("REQUIRED_VALIDATION_ERROR");
@@ -21,11 +21,11 @@ describe("RequiredValidationError", () => {
           message: "It should have required parameter 'expression'",
           modelName: "name",
           params: {
-            missingProperty: "expression"
+            missingProperty: "expression",
           },
-          schemaPath: "#/required"
-        }
-      ]
+          schemaPath: "#/required",
+        },
+      ],
     });
   });
 });

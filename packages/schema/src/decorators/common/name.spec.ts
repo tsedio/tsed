@@ -16,10 +16,10 @@ describe("@Name", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       properties: {
         num2: {
-          type: "number"
-        }
+          type: "number",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare name on class", () => {
@@ -37,8 +37,8 @@ describe("@Name", () => {
       definitions: {},
       tags: [
         {
-          name: "AwesomeController"
-        }
+          name: "AwesomeController",
+        },
       ],
       paths: {
         "/": {
@@ -48,13 +48,13 @@ describe("@Name", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
-            tags: ["AwesomeController"]
-          }
-        }
-      }
+            tags: ["AwesomeController"],
+          },
+        },
+      },
     });
   });
 });

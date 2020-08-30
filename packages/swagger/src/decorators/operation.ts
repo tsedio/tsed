@@ -1,10 +1,4 @@
-import {
-  decorateMethodsOf,
-  DecoratorParameters,
-  getDecoratorType,
-  StoreMerge,
-  UnsupportedDecoratorType
-} from "@tsed/core";
+import {decorateMethodsOf, DecoratorParameters, getDecoratorType, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
 import {Operation as IOperation} from "swagger-schema-official";
 
 /**

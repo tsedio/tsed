@@ -72,7 +72,7 @@ export function MultipleOf(multipleOf: number) {
     throw new Error("The value of multipleOf MUST be a number, strictly greater than 0.");
   }
 
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     store.itemSchema.multipleOf(multipleOf);
   });
 }

@@ -8,5 +8,5 @@ export const ControllerRegistry: TypedProvidersRegistry = GlobalProviders.create
 
   onInvoke(provider: ControllerProvider, locals: any) {
     locals.set(PlatformRouter, provider.router);
-  }
+  },
 });

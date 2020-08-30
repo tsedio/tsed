@@ -23,7 +23,7 @@ import {EndpointFn} from "./endpointFn";
  * @response
  */
 export function View(path: string, options?: Object): MethodDecorator {
-  return EndpointFn(endpoint => {
+  return EndpointFn((endpoint) => {
     endpoint.view = {path, options};
   });
 }

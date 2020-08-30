@@ -12,7 +12,7 @@ import {
   PlatformRequest,
   PlatformResponse,
   PlatformTest,
-  QueryParams
+  QueryParams,
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {InjectorService, Provider} from "@tsed/di";
@@ -33,7 +33,7 @@ function build(injector: InjectorService, type: string | ParamTypes | Type<any>,
   const response: any = new FakeResponse();
   request.ctx = PlatformTest.createRequestContext({
     response: new PlatformResponse(response),
-    request: new PlatformRequest(request)
+    request: new PlatformRequest(request),
   });
 
   const next: any = Sinon.stub();
@@ -43,7 +43,7 @@ function build(injector: InjectorService, type: string | ParamTypes | Type<any>,
     response,
     next,
     args: [],
-    metadata: {} as any
+    metadata: {} as any,
   });
 
   if (expression) {
@@ -58,7 +58,7 @@ function build(injector: InjectorService, type: string | ParamTypes | Type<any>,
     param,
     request,
     response,
-    next
+    next,
   };
 }
 
@@ -92,7 +92,7 @@ describe("PlatformHandler", () => {
         sandbox.stub(injector, "getProvider").returns(new Provider(Test));
         const endpoint = new EndpointMetadata({
           target: Test,
-          propertyKey: "get"
+          propertyKey: "get",
         });
 
         // WHEN
@@ -140,27 +140,27 @@ describe("PlatformHandler", () => {
       "should return a native metadata (success middleware)",
       PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
-        sandbox.stub(Test.prototype, "get").callsFake(o => o);
+        sandbox.stub(Test.prototype, "get").callsFake((o) => o);
         injector.invoke(Test);
 
         const request: any = new FakeRequest();
         const response: any = new FakeRequest();
         request.ctx = PlatformTest.createRequestContext({
           response: new PlatformResponse(response),
-          request: new PlatformRequest(request)
+          request: new PlatformRequest(request),
         });
 
         const handlerMetadata = new HandlerMetadata({
           token: Test,
           target: Test,
           type: HandlerType.CONTROLLER,
-          propertyKey: "get"
+          propertyKey: "get",
         });
 
         // WHEN
         const handler = platformHandler.createHandler(handlerMetadata);
 
-        const result = await new Promise(resolve => {
+        const result = await new Promise((resolve) => {
           handler(request, response, resolve);
         });
 
@@ -173,7 +173,7 @@ describe("PlatformHandler", () => {
       "should return a native metadata (from native metadata)",
       PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
-        sandbox.stub(Test.prototype, "get").callsFake(o => o);
+        sandbox.stub(Test.prototype, "get").callsFake((o) => o);
         sandbox.stub(injector, "invoke").callsFake(() => new Test());
 
         const request = new FakeRequest();
@@ -193,7 +193,7 @@ describe("PlatformHandler", () => {
       "should return a native metadata (error middleware)",
       PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
-        sandbox.stub(Test.prototype, "use").callsFake(o => o);
+        sandbox.stub(Test.prototype, "use").callsFake((o) => o);
         sandbox.stub(injector, "invoke").callsFake(() => new Test());
 
         const request = new FakeRequest();
@@ -204,13 +204,13 @@ describe("PlatformHandler", () => {
           token: Test,
           target: Test,
           type: HandlerType.CONTROLLER,
-          propertyKey: "use"
+          propertyKey: "use",
         });
 
         // WHEN
         const handler = platformHandler.createHandler(handlerMetadata);
 
-        const result = await new Promise(resolve => {
+        const result = await new Promise((resolve) => {
           handler(error, request, response, resolve);
         });
 
@@ -226,7 +226,7 @@ describe("PlatformHandler", () => {
       "should do nothing when request is aborted",
       PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
-        sandbox.stub(Test.prototype, "get").callsFake(o => o);
+        sandbox.stub(Test.prototype, "get").callsFake((o) => o);
         sandbox.stub(injector, "invoke").callsFake(() => new Test());
 
         const request = new FakeRequest();
@@ -237,7 +237,7 @@ describe("PlatformHandler", () => {
           token: Test,
           target: Test,
           type: HandlerType.CONTROLLER,
-          propertyKey: "get"
+          propertyKey: "get",
         });
 
         // WHEN
@@ -396,7 +396,7 @@ describe("PlatformHandler", () => {
         // THEN
         expect(value).to.deep.eq({
           accept: "application/json",
-          "content-type": "application/json"
+          "content-type": "application/json",
         });
       })
     );

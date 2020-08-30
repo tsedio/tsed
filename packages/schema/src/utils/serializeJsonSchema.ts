@@ -19,7 +19,7 @@ function shouldMapAlias(key: string, value: any, useAlias: boolean) {
 }
 
 function getRequired(schema: any, useAlias: boolean) {
-  return Array.from(schema.$required).map(key => (useAlias ? (schema.alias.get(key) as string) || key : key));
+  return Array.from(schema.$required).map((key) => (useAlias ? (schema.alias.get(key) as string) || key : key));
 }
 
 /**
@@ -33,7 +33,7 @@ export function createRef(value: any, options: JsonSchemaOptions = {}) {
     return serializeAny(store.schema, {
       ...options,
       ...popGenerics(value),
-      root: false
+      root: false,
     });
   }
 
@@ -43,7 +43,7 @@ export function createRef(value: any, options: JsonSchemaOptions = {}) {
       store.schema,
       mapGenericsOptions({
         ...options,
-        root: false
+        root: false,
       })
     );
   }
@@ -51,7 +51,7 @@ export function createRef(value: any, options: JsonSchemaOptions = {}) {
   const {host = `#/${options.spec === "openapi3" ? "components/schemas" : "definitions"}`} = options;
 
   return {
-    $ref: `${host}/${name}`
+    $ref: `${host}/${name}`,
   };
 }
 
@@ -144,13 +144,13 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
   if (generics && obj.$ref) {
     if (generics.has(obj.$ref)) {
       const model = {
-        class: generics.get(obj.$ref)
+        class: generics.get(obj.$ref),
       };
 
       if (options.nestedGenerics.length === 0) {
         return createRef(model, {
           ...options,
-          generics: undefined
+          generics: undefined,
         });
       }
 
@@ -159,7 +159,7 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
       return serializeJsonSchema(store.schema, {
         ...options,
         ...popGenerics(options),
-        root: false
+        root: false,
       });
     }
   }
@@ -194,7 +194,7 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
         ...options,
         useAlias,
         schemas,
-        root: false
+        root: false,
       });
     } else {
       value = serializeAny(value, {
@@ -203,7 +203,7 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
         schemas,
         root: false,
         genericTypes,
-        genericLabels: schema.genericLabels
+        genericLabels: schema.genericLabels,
       });
     }
 

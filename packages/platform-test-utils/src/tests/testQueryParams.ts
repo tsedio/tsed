@@ -33,8 +33,8 @@ export function testQueryParams(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [TestQueryParamsCtrl]
-      }
+        "/rest": [TestQueryParamsCtrl],
+      },
     })
   );
   before(() => {

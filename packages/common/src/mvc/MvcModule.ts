@@ -5,6 +5,6 @@ import {ParseService} from "./services/ParseService";
 import {ValidationService} from "./services/ValidationService";
 
 @Module({
-  imports: [ConverterModule, ParseService, ValidationService, JsonSchemesService]
+  imports: [ConverterModule, ParseService, ValidationService, JsonSchemesService],
 })
 export class MvcModule {}

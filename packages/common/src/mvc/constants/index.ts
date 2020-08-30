@@ -1,4 +1,3 @@
-
 export const HTTP_METHODS = [
   "all",
   "checkout",
@@ -27,5 +26,5 @@ export const HTTP_METHODS = [
   "subscribe",
   "trace",
   "unlock",
-  "unsuscribe"
+  "unsuscribe",
 ];

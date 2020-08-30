@@ -16,10 +16,10 @@ export function SocketFilter(filter: SocketFilters, mapIndex?: number) {
           parameters: {
             [index]: {
               filter,
-              mapIndex
-            }
-          }
-        }
-      }
+              mapIndex,
+            },
+          },
+        },
+      },
     });
 }

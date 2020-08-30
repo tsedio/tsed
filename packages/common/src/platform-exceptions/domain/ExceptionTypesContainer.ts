@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
+import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
 
 // tslint:disable-next-line:variable-name
 const ExceptionTypesContainer: Map<Type<any> | Symbol, {token: Type<ExceptionFilterMethods>; instance: ExceptionFilterMethods}> = new Map();

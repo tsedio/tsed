@@ -62,7 +62,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @schema
  */
 export function Const(constValue: JSONSchema6Type | any) {
-  return decoratorSchemaFactory(schema => {
+  return decoratorSchemaFactory((schema) => {
     schema.mapper.const = constValue;
   });
 }

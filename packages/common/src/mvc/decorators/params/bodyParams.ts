@@ -53,6 +53,6 @@ export function BodyParams(...args: any[]): ParameterDecorator {
     expression,
     useType,
     useConverter,
-    useValidation
+    useValidation,
   });
 }

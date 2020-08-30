@@ -19,9 +19,9 @@ export function testModule(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [TestRootCtrl]
+        "/rest": [TestRootCtrl],
       },
-      imports: [FeatureModule]
+      imports: [FeatureModule],
     })
   );
   before(() => {

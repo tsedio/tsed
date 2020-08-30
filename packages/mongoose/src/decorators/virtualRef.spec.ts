@@ -22,7 +22,7 @@ describe("@VirtualRef()", () => {
         justOne: false,
         foreignField: "foreign",
         localField: "_id",
-        options: undefined
+        options: undefined,
       });
     });
   });
@@ -43,7 +43,7 @@ describe("@VirtualRef()", () => {
         localField: "_id",
         foreignField: "foreign",
         justOne: false,
-        options: undefined
+        options: undefined,
       });
     });
   });
@@ -57,7 +57,7 @@ describe("@VirtualRef()", () => {
           foreignField: "foreign",
           localField: "test_2",
           justOne: true,
-          options: {}
+          options: {},
         })
         test: any;
       }
@@ -70,7 +70,7 @@ describe("@VirtualRef()", () => {
         localField: "test_2",
         foreignField: "foreign",
         justOne: true,
-        options: {}
+        options: {},
       });
     });
   });
@@ -94,7 +94,7 @@ describe("@VirtualRef()", () => {
           foreignField: "foreign",
           localField: "test_2",
           justOne: true,
-          options: {}
+          options: {},
         })
         members: VirtualRef<TestPerson>;
       }
@@ -107,17 +107,17 @@ describe("@VirtualRef()", () => {
         localField: "test_2",
         foreignField: "foreign",
         justOne: true,
-        options: {}
+        options: {},
       });
 
       expect(getJsonSchema(TestBand)).to.deep.equal({
         definitions: {},
         properties: {
           members: {
-            type: "object"
-          }
+            type: "object",
+          },
         },
-        type: "object"
+        type: "object",
       });
     });
   });

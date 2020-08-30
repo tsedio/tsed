@@ -19,7 +19,7 @@ export class SetConverter implements IConverter {
   deserialize<T>(data: any, target: any, baseType: T, deserializer: IDeserializer): Set<T> {
     const obj = new Set<T>();
 
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
       obj.add(deserializer(data[key], baseType) as T);
     });
 
@@ -34,7 +34,7 @@ export class SetConverter implements IConverter {
   serialize<T>(data: Set<T>, serializer: ISerializer): any[] {
     const array: any[] = [];
 
-    data.forEach(value => array.push(serializer(value)));
+    data.forEach((value) => array.push(serializer(value)));
 
     return array;
   }

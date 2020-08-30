@@ -11,12 +11,10 @@ describe("loadInjector", () => {
   it("should load injector", () => {
     // GIVEN
     @Injectable()
-    class TestService {
-    }
+    class TestService {}
 
     @Injectable()
-    class TestService2 {
-    }
+    class TestService2 {}
 
     const injector = new InjectorService();
 

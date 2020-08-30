@@ -93,7 +93,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @schema
  */
 export function Pattern(pattern: string | RegExp) {
-  return decoratorSchemaFactory(schema => {
+  return decoratorSchemaFactory((schema) => {
     if (typeof pattern === "object") {
       pattern = pattern.toString().slice(1, -1);
     }

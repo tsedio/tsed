@@ -13,8 +13,8 @@ describe("JsonSchema", () => {
         expect(schema.toJSON()).to.deep.eq({
           type: "array",
           items: {
-            type: "string"
-          }
+            type: "string",
+          },
         });
       });
     });
@@ -27,8 +27,8 @@ describe("JsonSchema", () => {
         expect(schema.toJSON()).to.deep.eq({
           type: "array",
           items: {
-            type: "object"
-          }
+            type: "object",
+          },
         });
       });
     });
@@ -38,7 +38,7 @@ describe("JsonSchema", () => {
         const schema = new JsonSchema();
         schema.type = ["number", "string"];
         expect(schema.toJSON()).to.deep.eq({
-          type: ["number", "string"]
+          type: ["number", "string"],
         });
       });
     });
@@ -51,8 +51,8 @@ describe("JsonSchema", () => {
         expect(schema.toJSON()).to.deep.eq({
           type: "array",
           items: {
-            type: ["number", "string"]
-          }
+            type: ["number", "string"],
+          },
         });
       });
     });
@@ -66,8 +66,8 @@ describe("JsonSchema", () => {
         expect(schema.toJSON()).to.deep.eq({
           type: "array",
           items: {
-            type: ["number", "string"]
-          }
+            type: ["number", "string"],
+          },
         });
       });
     });
@@ -85,8 +85,8 @@ describe("JsonSchema", () => {
           type: "array",
           items: {
             type: ["number", "string"],
-            enum: ["1", "2"]
-          }
+            enum: ["1", "2"],
+          },
         });
       });
     });
@@ -114,8 +114,8 @@ describe("JsonSchema", () => {
           type: "array",
           items: {
             enum: ["1", "2"],
-            type: "string"
-          }
+            type: "string",
+          },
         });
       });
     });
@@ -129,8 +129,8 @@ describe("JsonSchema", () => {
         expect(schema.toJSON()).to.deep.eq({
           additionalProperties: {
             enum: ["1", "2"],
-            type: "string"
-          }
+            type: "string",
+          },
         });
       });
     });

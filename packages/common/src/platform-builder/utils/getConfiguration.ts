@@ -5,7 +5,7 @@ export function getConfiguration(module: Type<any>, configuration: any = {}) {
 
   const config = {
     ...store,
-    ...configuration
+    ...configuration,
   };
 
   if (store.mount && configuration.mount) {
@@ -13,10 +13,7 @@ export function getConfiguration(module: Type<any>, configuration: any = {}) {
   }
 
   if (store.componentsScan && configuration.componentsScan) {
-    config.mount = [
-      ...store.componentsScan,
-      ...configuration.componentsScan
-    ];
+    config.mount = [...store.componentsScan, ...configuration.componentsScan];
   }
 
   return config;

@@ -14,8 +14,8 @@ describe("Security", () => {
       definitions: {},
       tags: [
         {
-          name: "MyController"
-        }
+          name: "MyController",
+        },
       ],
       paths: {
         "/": {
@@ -24,16 +24,16 @@ describe("Security", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
             security: {
-              oauth: ["user"]
+              oauth: ["user"],
             },
-            tags: ["MyController"]
-          }
-        }
-      }
+            tags: ["MyController"],
+          },
+        },
+      },
     });
   });
   it("should store metadata (class)", () => {
@@ -51,8 +51,8 @@ describe("Security", () => {
       definitions: {},
       tags: [
         {
-          name: "MyController"
-        }
+          name: "MyController",
+        },
       ],
       paths: {
         "/": {
@@ -61,29 +61,29 @@ describe("Security", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
             security: {
-              oauth: ["user"]
+              oauth: ["user"],
             },
-            tags: ["MyController"]
+            tags: ["MyController"],
           },
           post: {
             operationId: "myControllerPost",
             parameters: [],
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
             security: {
-              oauth: ["admin", "user"]
+              oauth: ["admin", "user"],
             },
-            tags: ["MyController"]
-          }
-        }
-      }
+            tags: ["MyController"],
+          },
+        },
+      },
     });
   });
   it("should throw error for unsupported usage", () => {

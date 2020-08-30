@@ -3,8 +3,7 @@ import {expect} from "chai";
 import {EndpointMetadata, UseBefore} from "../../../../src/mvc";
 
 class CustomMiddleware {
-  use() {
-  }
+  use() {}
 }
 
 describe("UseBefore()", () => {
@@ -13,8 +12,7 @@ describe("UseBefore()", () => {
       // WHEN
       @UseBefore(CustomMiddleware)
       class Test {
-        test() {
-        }
+        test() {}
       }
 
       // THEN
@@ -28,8 +26,7 @@ describe("UseBefore()", () => {
       // WHEN
       class Test {
         @UseBefore(CustomMiddleware)
-        test() {
-        }
+        test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
@@ -39,8 +36,7 @@ describe("UseBefore()", () => {
   });
   describe("when the decorator is use in another way", () => {
     class Test {
-      test() {
-      }
+      test() {}
     }
 
     it("should add the middleware on the use stack", () => {

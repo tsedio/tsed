@@ -14,7 +14,7 @@ describe("@Trim()", () => {
 
   it("should set metadata", () => {
     expect(this.store.get(MONGOOSE_SCHEMA)).to.deep.eq({
-      trim: true
+      trim: true,
     });
   });
 });

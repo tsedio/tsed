@@ -14,17 +14,17 @@ describe("SocketIOService", () => {
     before(
       PlatformTest.inject([InjectorService], (injector: InjectorService) => {
         namespace = {
-          on: Sinon.stub()
+          on: Sinon.stub(),
         };
         ioStub = {
-          of: Sinon.stub().returns(namespace)
+          of: Sinon.stub().returns(namespace),
         };
         instance = {
           onConnection: Sinon.stub(),
-          onDisconnect: Sinon.stub()
+          onDisconnect: Sinon.stub(),
         };
         socket = {
-          on: Sinon.stub()
+          on: Sinon.stub(),
         };
 
         const service = new SocketIOService(injector, ioStub, {} as any);

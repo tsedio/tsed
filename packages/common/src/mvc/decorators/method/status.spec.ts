@@ -15,9 +15,9 @@ describe("Status", () => {
         description: "description",
         headers: {
           "x-header": {
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       })
       get() {}
     }
@@ -32,9 +32,9 @@ describe("Status", () => {
       type: TypeC,
       headers: {
         "x-header": {
-          type: "string"
-        }
-      }
+          type: "string",
+        },
+      },
     };
 
     expect(endpoint.responses.get(200)).to.deep.eq(response);
@@ -52,9 +52,9 @@ describe("Status", () => {
         description: "description",
         headers: {
           "x-header": {
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       })
       get() {}
     }
@@ -69,9 +69,9 @@ describe("Status", () => {
       type: TypeC,
       headers: {
         "x-header": {
-          type: "string"
-        }
-      }
+          type: "string",
+        },
+      },
     };
 
     expect(endpoint.responses.get(204)).to.deep.eq(response);
@@ -89,9 +89,9 @@ describe("Status", () => {
         description: "description",
         headers: {
           "x-header": {
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       })
       get() {}
     }
@@ -106,9 +106,9 @@ describe("Status", () => {
       type: TypeC,
       headers: {
         "x-header": {
-          type: "string"
-        }
-      }
+          type: "string",
+        },
+      },
     };
 
     expect(endpoint.responses.get(201)).to.deep.eq(response);
@@ -127,9 +127,9 @@ describe("Status", () => {
         description: "description",
         headers: {
           "x-error": {
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       })
       @Status(200, {
         type: TypeC,
@@ -137,9 +137,9 @@ describe("Status", () => {
         description: "description",
         headers: {
           "x-map": {
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       })
       get() {}
     }
@@ -152,9 +152,9 @@ describe("Status", () => {
       type: CustomError,
       headers: {
         "x-error": {
-          type: "string"
-        }
-      }
+          type: "string",
+        },
+      },
     });
     expect(endpoint.statusCode).to.eq(200);
     expect(endpoint.responses.get(200)).to.deep.eq({
@@ -164,9 +164,9 @@ describe("Status", () => {
       type: TypeC,
       headers: {
         "x-map": {
-          type: "string"
-        }
-      }
+          type: "string",
+        },
+      },
     });
   });
 });

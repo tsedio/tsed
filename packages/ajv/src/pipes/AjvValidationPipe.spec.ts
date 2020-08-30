@@ -9,7 +9,7 @@ import {
   QueryParams,
   Required,
   UseParam,
-  ValidationError
+  ValidationError,
 } from "@tsed/common";
 import {expect} from "chai";
 import {AjvValidationPipe} from "./AjvValidationPipe";
@@ -32,8 +32,8 @@ describe("AjvValidationPipe", () => {
   beforeEach(() =>
     PlatformTest.create({
       ajv: {
-        verbose: true
-      }
+        verbose: true,
+      },
     })
   );
   afterEach(() => PlatformTest.reset());
@@ -41,8 +41,7 @@ describe("AjvValidationPipe", () => {
   describe("With raw json schema", () => {
     it("should validate object", async () => {
       class Ctrl {
-        get(@BodyParams() @UseSchema({type: "object"}) value: any) {
-        }
+        get(@BodyParams() @UseSchema({type: "object"}) value: any) {}
       }
 
       const value = {};
@@ -52,8 +51,7 @@ describe("AjvValidationPipe", () => {
     });
     it("should throw an error", async () => {
       class Ctrl {
-        get(@BodyParams() @UseSchema({type: "object"}) value: any) {
-        }
+        get(@BodyParams() @UseSchema({type: "object"}) value: any) {}
       }
 
       const value: any[] = [];
@@ -68,22 +66,21 @@ describe("AjvValidationPipe", () => {
           keyword: "type",
           message: "should be object",
           params: {
-            type: "object"
+            type: "object",
           },
           parentSchema: {
-            type: "object"
+            type: "object",
           },
           schema: "object",
-          schemaPath: "#/type"
-        }
+          schemaPath: "#/type",
+        },
       ]);
     });
   });
   describe("With String", () => {
     it("should validate value", async () => {
       class Ctrl {
-        get(@BodyParams() value: string) {
-        }
+        get(@BodyParams() value: string) {}
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -91,8 +88,7 @@ describe("AjvValidationPipe", () => {
     });
     it("should validate value (array)", async () => {
       class Ctrl {
-        get(@BodyParams({useType: String}) value: string[]) {
-        }
+        get(@BodyParams({useType: String}) value: string[]) {}
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -102,8 +98,7 @@ describe("AjvValidationPipe", () => {
   describe("With QueryParam with boolean", () => {
     it("should validate value", async () => {
       class Ctrl {
-        get(@QueryParams("test") value: boolean) {
-        }
+        get(@QueryParams("test") value: boolean) {}
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -122,12 +117,11 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY) value: Model) {
-        }
+        get(@UseParam(ParamTypes.BODY) value: Model) {}
       }
 
       const value = {
-        id: "hello"
+        id: "hello",
       };
       const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
 
@@ -141,8 +135,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY) value: Model) {
-        }
+        get(@UseParam(ParamTypes.BODY) value: Model) {}
       }
 
       const value: any = {};
@@ -160,25 +153,25 @@ describe("AjvValidationPipe", () => {
           message: "should have required property 'id'",
           modelName: "Model",
           params: {
-            missingProperty: "id"
+            missingProperty: "id",
           },
           parentSchema: {
             definitions: {},
             properties: {
               id: {
-                type: "string"
-              }
+                type: "string",
+              },
             },
             required: ["id"],
-            type: "object"
+            type: "object",
           },
           schema: {
             id: {
-              type: "string"
-            }
+              type: "string",
+            },
           },
-          schemaPath: "#/required"
-        }
+          schemaPath: "#/required",
+        },
       ]);
     });
     it("should throw an error (deep property)", async () => {
@@ -196,13 +189,12 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY) value: Model) {
-        }
+        get(@UseParam(ParamTypes.BODY) value: Model) {}
       }
 
       const value: any = {
         id: "id",
-        user: {}
+        user: {},
       };
 
       const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
@@ -221,14 +213,13 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {}
       }
 
       const value = [
         {
-          id: "hello"
-        }
+          id: "hello",
+        },
       ];
       const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
 
@@ -242,8 +233,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {}
       }
 
       const value: any = [{}];
@@ -269,15 +259,14 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {}
       }
 
       const value: any = [
         {
           id: "id",
-          user: {}
-        }
+          user: {},
+        },
       ];
 
       const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
@@ -296,14 +285,13 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {}
       }
 
       const value = {
         key1: {
-          id: "hello"
-        }
+          id: "hello",
+        },
       };
       const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
 
@@ -317,8 +305,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {}
       }
 
       const value: any = {key1: {}};
@@ -344,15 +331,14 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
-        }
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {}
       }
 
       const value: any = {
         key1: {
           id: "id",
-          user: {}
-        }
+          user: {},
+        },
       };
 
       const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));

@@ -13,7 +13,7 @@ describe("@SocketUseAfter", () => {
 
     it("should store metadata", () => {
       expect(Store.from(Test).get("socketIO")).to.deep.eq({
-        useAfter: [this.middleware]
+        useAfter: [this.middleware],
       });
     });
   });
@@ -30,9 +30,9 @@ describe("@SocketUseAfter", () => {
       expect(Store.from(Test).get("socketIO")).to.deep.eq({
         handlers: {
           test: {
-            useAfter: [this.middleware]
-          }
-        }
+            useAfter: [this.middleware],
+          },
+        },
       });
     });
   });

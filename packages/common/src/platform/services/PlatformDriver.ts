@@ -63,7 +63,7 @@ export class PlatformDriver<T> implements IPlatformDriver<T> {
   }
 
   mapHandlers(handlers: any[]): any[] {
-    return handlers.map(handler => {
+    return handlers.map((handler) => {
       if (typeof handler === "string") {
         return handler;
       }

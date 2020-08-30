@@ -58,7 +58,7 @@ export function Redirect(status: string | number, url?: string): Function {
 
   return useDecorators(
     Status(status),
-    EndpointFn(endpoint => {
+    EndpointFn((endpoint) => {
       endpoint.redirect = {status: +status, url: url!};
     })
   );

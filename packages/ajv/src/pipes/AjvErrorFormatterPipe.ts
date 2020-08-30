@@ -17,7 +17,7 @@ function defaultFormatter(error: AjvErrorObject, index: string | number) {
       index !== undefined && error.modelName && isNaN(+index) && ".",
       `${error.modelName || ""}`,
       error.dataPath,
-      ` ${error.message}. Given value: ${value}`
+      ` ${error.message}. Given value: ${value}`,
     ]
       // @ts-ignore
       .filter<string>(Boolean)

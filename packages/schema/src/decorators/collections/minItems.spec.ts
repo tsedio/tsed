@@ -16,13 +16,13 @@ describe("@MinItems", () => {
       properties: {
         num: {
           items: {
-            type: "number"
+            type: "number",
           },
           minItems: 10,
-          type: "array"
-        }
+          type: "array",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should throw error", () => {

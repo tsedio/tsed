@@ -6,10 +6,9 @@ import {RecipeNotFoundError} from "./RecipeNotFoundError";
 
 @ResolverService(Recipe)
 export class RecipeResolver {
-  constructor(private recipeService: RecipeService) {
-  }
+  constructor(private recipeService: RecipeService) {}
 
-  @Query(returns => Recipe)
+  @Query((returns) => Recipe)
   async recipe(@Arg("id") id: string) {
     const recipe = await this.recipeService.findById(id);
 
@@ -20,7 +19,7 @@ export class RecipeResolver {
     return recipe;
   }
 
-  @Query(returns => [Recipe], {description: "Get all the recipes from around the world "})
+  @Query((returns) => [Recipe], {description: "Get all the recipes from around the world "})
   async recipes(): Promise<Recipe[]> {
     return this.recipeService.findAll({});
   }

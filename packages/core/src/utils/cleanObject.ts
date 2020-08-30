@@ -10,7 +10,7 @@ export function cleanObject(obj: any): any {
         ? obj
         : {
             ...obj,
-            [key]: value
+            [key]: value,
           },
     {}
   );

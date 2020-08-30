@@ -20,8 +20,8 @@ function mapOptions(options: IMDBOptions | MDBConnection[]): MDBConnection[] {
         {
           id: "default",
           url,
-          connectionOptions
-        }
+          connectionOptions,
+        },
       ];
     }
 
@@ -31,16 +31,16 @@ function mapOptions(options: IMDBOptions | MDBConnection[]): MDBConnection[] {
 
         return {
           ...options,
-          connectionOptions: options.connectionOptions
+          connectionOptions: options.connectionOptions,
         };
       });
     }
   }
 
-  return (options as MDBConnection[]).map(settings => {
+  return (options as MDBConnection[]).map((settings) => {
     return {
       ...settings,
-      connectionOptions: settings.connectionOptions
+      connectionOptions: settings.connectionOptions,
     };
   });
 }
@@ -59,7 +59,7 @@ registerProvider({
         current.url,
         current.connectionOptions || {
           useNewUrlParser: true,
-          useUnifiedTopology: true
+          useUnifiedTopology: true,
         },
         isDefault
       );
@@ -68,5 +68,5 @@ registerProvider({
     }
 
     return mongooseService;
-  }
+  },
 });

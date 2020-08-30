@@ -43,7 +43,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @input
  */
 export function Any(...types: (JSONSchema6TypeName | Type<any> | any)[]) {
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     store.itemSchema.any(...types);
   });
 }

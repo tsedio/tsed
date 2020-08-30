@@ -11,7 +11,7 @@ import {ParamFn} from "./paramFn";
  * @pipe
  */
 export function UseParamType(paramType: string | ParamTypes) {
-  return ParamFn(param => {
+  return ParamFn((param) => {
     param.paramType = paramType;
   });
 }

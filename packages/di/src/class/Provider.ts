@@ -140,7 +140,7 @@ export class Provider<T = any> implements IProvider<T> {
   clone(): Provider<any> {
     const provider = new (classOf(this))(this.token);
 
-    getKeys(this).forEach(key => {
+    getKeys(this).forEach((key) => {
       if (this[key] !== undefined) {
         provider[key] = this[key];
       }

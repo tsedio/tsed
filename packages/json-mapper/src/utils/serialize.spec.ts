@@ -50,7 +50,7 @@ describe("serialize()", () => {
       const result = serialize({
         toJSON() {
           return "hello";
-        }
+        },
       });
 
       expect(result).to.deep.equal("hello");
@@ -62,15 +62,15 @@ describe("serialize()", () => {
 
       const result = serialize({
         prop: "1",
-        roles: [{label: "Admin"}]
+        roles: [{label: "Admin"}],
       });
       expect(result).to.deep.equal({
         prop: "1",
         roles: [
           {
-            label: "Admin"
-          }
-        ]
+            label: "Admin",
+          },
+        ],
       });
     });
     it("should serialize plain object (2)", () => {
@@ -80,13 +80,13 @@ describe("serialize()", () => {
 
       const result = serialize({
         prop: "1",
-        roles
+        roles,
       });
       expect(result).to.deep.equal({
         prop: "1",
         roles: {
-          ro: "le"
-        }
+          ro: "le",
+        },
       });
     });
   });
@@ -108,7 +108,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -128,9 +128,9 @@ describe("serialize()", () => {
         mapped_prop: "hellotest",
         roles: {
           olo: {
-            label: "label"
-          }
-        }
+            label: "label",
+          },
+        },
       });
 
       expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
@@ -138,9 +138,9 @@ describe("serialize()", () => {
         mappedProp: "hellotest",
         roles: {
           olo: {
-            label: "label"
-          }
-        }
+            label: "label",
+          },
+        },
       });
     });
     it("should serialize model Array", () => {
@@ -160,7 +160,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -181,10 +181,10 @@ describe("serialize()", () => {
           mapped_prop: "hellotest",
           roles: {
             olo: {
-              label: "label"
-            }
-          }
-        }
+              label: "label",
+            },
+          },
+        },
       ]);
     });
     it("should serialize model (inherited class)", () => {
@@ -209,7 +209,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
       }
@@ -226,9 +226,9 @@ describe("serialize()", () => {
         mapped_prop: "hellotest",
         roles: {
           olo: {
-            label: "label"
-          }
-        }
+            label: "label",
+          },
+        },
       });
 
       expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
@@ -236,9 +236,9 @@ describe("serialize()", () => {
         mappedProp: "hellotest",
         roles: {
           olo: {
-            label: "label"
-          }
-        }
+            label: "label",
+          },
+        },
       });
     });
     it("should serialize model (recursive class)", () => {
@@ -257,10 +257,10 @@ describe("serialize()", () => {
           name: "name",
           posts: [
             {
-              id: "id"
-            }
-          ]
-        }
+              id: "id",
+            },
+          ],
+        },
       });
     });
   });
@@ -282,7 +282,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -296,20 +296,20 @@ describe("serialize()", () => {
         return {
           id: "id",
           password: "hellopassword",
-          mappedProp: "hello"
+          mappedProp: "hello",
         };
       };
 
       expect(serialize(model, {type: Model})).to.deep.equal({
         id: "id",
         mapped_prop: "hellotest",
-        password: "hellopassword"
+        password: "hellopassword",
       });
 
       expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
         id: "id",
         mappedProp: "hello",
-        password: "hellopassword"
+        password: "hellopassword",
       });
     });
     it("should serialize model Array", () => {
@@ -329,7 +329,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -350,10 +350,10 @@ describe("serialize()", () => {
           mapped_prop: "hellotest",
           roles: {
             olo: {
-              label: "label"
-            }
-          }
-        }
+              label: "label",
+            },
+          },
+        },
       ]);
     });
     it("should serialize model (inherited class)", () => {
@@ -378,7 +378,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
       }
@@ -395,9 +395,9 @@ describe("serialize()", () => {
         mapped_prop: "hellotest",
         roles: {
           olo: {
-            label: "label"
-          }
-        }
+            label: "label",
+          },
+        },
       });
 
       expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
@@ -405,9 +405,9 @@ describe("serialize()", () => {
         mappedProp: "hellotest",
         roles: {
           olo: {
-            label: "label"
-          }
-        }
+            label: "label",
+          },
+        },
       });
     });
     it("should serialize model (recursive class)", () => {
@@ -426,10 +426,10 @@ describe("serialize()", () => {
           name: "name",
           posts: [
             {
-              id: "id"
-            }
-          ]
-        }
+              id: "id",
+            },
+          ],
+        },
       });
     });
   });
@@ -440,7 +440,7 @@ describe("serialize()", () => {
         serialize({
           serialize() {
             return {id: "id"};
-          }
+          },
         })
       ).to.deep.equal({id: "id"});
     });

@@ -69,7 +69,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @schema
  */
 export function Maximum(maximum: number, exclusive: boolean = false) {
-  return decoratorSchemaFactory(schema => {
+  return decoratorSchemaFactory((schema) => {
     if (exclusive) {
       schema.mapper.exclusiveMaximum = maximum;
     } else {

@@ -13,9 +13,6 @@ export class SymbolConverter implements IConverter {
   }
 
   serialize(object: Symbol): any {
-    return object
-      .toString()
-      .replace("Symbol(", "")
-      .replace(")", "");
+    return object.toString().replace("Symbol(", "").replace(")", "");
   }
 }

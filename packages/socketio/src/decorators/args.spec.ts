@@ -18,11 +18,11 @@ describe("Args", () => {
             parameters: {
               "0": {
                 filter: "args",
-                useConverter: false
-              }
-            }
-          }
-        }
+                useConverter: false,
+              },
+            },
+          },
+        },
       });
     });
   });
@@ -45,11 +45,11 @@ describe("Args", () => {
                 filter: "args",
                 mapIndex: 1,
                 type: undefined,
-                useConverter: true
-              }
-            }
-          }
-        }
+                useConverter: true,
+              },
+            },
+          },
+        },
       });
     });
   });

@@ -43,6 +43,6 @@ export function HeaderParams(...args: any[]): ParameterDecorator {
     expression,
     useType,
     useConverter,
-    useValidation
+    useValidation,
   });
 }

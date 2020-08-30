@@ -63,9 +63,7 @@ export interface MapOfChainedDecorators {
   MaxProperties(maxProperties: number): this;
 }
 
-export interface CollectionOfChainedDecorators extends MapOfChainedDecorators, ArrayOfChainedDecorators {
-
-}
+export interface CollectionOfChainedDecorators extends MapOfChainedDecorators, ArrayOfChainedDecorators {}
 
 /**
  * Set the type of the item collection. The possible value is String, Boolean, Number, Date, Object, Class, etc...

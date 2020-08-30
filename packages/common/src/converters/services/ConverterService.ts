@@ -3,21 +3,14 @@ import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {IConverterSettings} from "../../config/interfaces/IConverterSettings";
 import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 import {getJsonSchema} from "../../jsonschema/utils/getJsonSchema";
-import {
-  ArrayConverter,
-  DateConverter,
-  MapConverter,
-  PrimitiveConverter,
-  SetConverter,
-  SymbolConverter
-} from "../components";
+import {ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter} from "../components";
 import {CONVERTER} from "../constants/index";
 import {RequiredPropertyError} from "../errors/RequiredPropertyError";
 import {UnknownPropertyError} from "../errors/UnknownPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
 
 @Injectable({
-  imports: [ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter]
+  imports: [ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter],
 })
 export class ConverterService {
   private converterSettings: IConverterSettings;
@@ -46,7 +39,7 @@ export class ConverterService {
     }
 
     let property;
-    properties.forEach(p => {
+    properties.forEach((p) => {
       if (p.name === propertyKey || p.propertyKey === propertyKey) {
         property = p;
       }
@@ -110,7 +103,7 @@ export class ConverterService {
     const properties = PropertyMetadata.getProperties(options.type || obj, {withIgnoredProps});
     const keys = properties.size ? Array.from(properties.keys()) : Object.keys(obj);
 
-    keys.forEach(propertyKey => {
+    keys.forEach((propertyKey) => {
       if (typeof obj[propertyKey] !== "function") {
         let propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyKey);
         let propertyValue = obj[propertyKey];
@@ -119,7 +112,7 @@ export class ConverterService {
         propertyValue = this.serialize(propertyValue, {
           checkRequiredValue,
           withIgnoredProps,
-          type: propertyMetadata!.type
+          type: propertyMetadata!.type,
         });
 
         if (typeof propertyMetadata!.onSerialize === "function") {

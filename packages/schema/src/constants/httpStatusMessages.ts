@@ -58,5 +58,5 @@ export const HTTP_STATUS_MESSAGES: {[key: string]: string} = {
   "508": "Loop Detected",
   "509": "Unassigned",
   "510": "Not Extended",
-  "511": "Network Authentication Required"
+  "511": "Network Authentication Required",
 };

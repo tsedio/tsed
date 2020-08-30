@@ -14,8 +14,8 @@ export class FakeRequest {
   public cookies: any = {
     test: "testValue",
     obj: {
-      test: "testValue"
-    }
+      test: "testValue",
+    },
   };
   /**
    *
@@ -24,8 +24,8 @@ export class FakeRequest {
   public body: any = {
     test: "testValue",
     obj: {
-      test: "testValue"
-    }
+      test: "testValue",
+    },
   };
   /**
    *
@@ -34,8 +34,8 @@ export class FakeRequest {
   public query: any = {
     test: "testValue",
     obj: {
-      test: "testValue"
-    }
+      test: "testValue",
+    },
   };
   /**
    *
@@ -44,19 +44,19 @@ export class FakeRequest {
   public params: any = {
     test: "testValue",
     obj: {
-      test: "testValue"
-    }
+      test: "testValue",
+    },
   };
   public session: any = {
     test: "testValue",
     obj: {
-      test: "testValue"
-    }
+      test: "testValue",
+    },
   };
 
   public headers: any = {
     "content-type": "application/json",
-    "accept": "application/json"
+    accept: "application/json",
   };
 
   public ctx: RequestContext;
@@ -72,13 +72,13 @@ export class FakeRequest {
       warn: sandbox.stub(),
       error: sandbox.stub(),
       trace: sandbox.stub(),
-      flush: sandbox.stub()
+      flush: sandbox.stub(),
     };
 
     this.ctx = new RequestContext({
       id: id || "id",
       url: url || "url",
-      logger
+      logger,
     });
 
     this.ctx.data = data;
@@ -99,11 +99,11 @@ export class FakeRequest {
   }
 
   get(value?: any) {
-    return value ? (this.headers[value.toLowerCase()] || "headerValue") : this.headers;
+    return value ? this.headers[value.toLowerCase()] || "headerValue" : this.headers;
   }
 
   accepts(mime?: string | string[]) {
-    mime = ([].concat(mime as any) as string[]);
+    mime = [].concat(mime as any) as string[];
 
     return mime.find((m: string) => m === this.headers.accept);
   }

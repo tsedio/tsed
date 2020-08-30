@@ -15,9 +15,9 @@ describe("Input", () => {
       handlers: {
         test: {
           eventName: "eventName",
-          methodClassName: "test"
-        }
-      }
+          methodClassName: "test",
+        },
+      },
     });
   });
 });

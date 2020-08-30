@@ -59,7 +59,7 @@ export class JsonParameter extends JsonMap<JsonParameterOptions> implements Nest
     const {type, schema, ...parameter} = super.toJSON(options);
     const jsonSchema = serializeItem(this.$schema, {
       ...options,
-      ...popGenerics(this)
+      ...popGenerics(this),
     });
 
     parameter.required = parameter.required || this.get("in") === "path";
@@ -77,14 +77,14 @@ export class JsonParameter extends JsonMap<JsonParameterOptions> implements Nest
           type: "array",
           collectionFormat: "multi",
           items: {
-            type: "string"
-          }
+            type: "string",
+          },
         };
       }
 
       return {
         ...parameter,
-        ...jsonSchema
+        ...jsonSchema,
       };
     } else {
       parameter.schema = jsonSchema;
@@ -107,8 +107,8 @@ export class JsonParameter extends JsonMap<JsonParameterOptions> implements Nest
           ...parameter,
           name: key,
           required: (schema.required || []).includes(key),
-          ...prop
-        }
+          ...prop,
+        },
       ];
     }, []);
   }

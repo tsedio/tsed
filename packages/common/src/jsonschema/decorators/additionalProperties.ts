@@ -15,7 +15,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @schema
  */
 export function AdditionalProperties(value: boolean | JSONSchema6) {
-  return decoratorSchemaFactory(schema => {
+  return decoratorSchemaFactory((schema) => {
     schema.mapper.additionalProperties = value;
   });
 }

@@ -19,10 +19,10 @@ export class RequiredValidationError extends ValidationError {
         message,
         modelName: type,
         params: {
-          missingProperty: expression
+          missingProperty: expression,
         },
-        schemaPath: "#/required"
-      }
+        schemaPath: "#/required",
+      },
     ];
 
     return new RequiredValidationError(message, errors);

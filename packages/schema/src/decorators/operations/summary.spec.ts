@@ -14,8 +14,8 @@ describe("Summary", () => {
       definitions: {},
       tags: [
         {
-          name: "MyController"
-        }
+          name: "MyController",
+        },
       ],
       paths: {
         "/": {
@@ -24,14 +24,14 @@ describe("Summary", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
             summary: "summary",
-            tags: ["MyController"]
-          }
-        }
-      }
+            tags: ["MyController"],
+          },
+        },
+      },
     });
   });
   it("should throw error for unsupported usage", () => {

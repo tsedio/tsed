@@ -19,9 +19,9 @@ export function Converter(...classes: any[]): Function {
 
     registerConverter({
       provide: target,
-      type: "converter"
+      type: "converter",
     });
 
-    classes.forEach(clazz => Metadata.set(CONVERTER, target, clazz));
+    classes.forEach((clazz) => Metadata.set(CONVERTER, target, clazz));
   };
 }

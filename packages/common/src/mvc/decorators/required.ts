@@ -65,8 +65,8 @@ export function Required(...allowedRequiredValues: any[]): any {
     },
     StoreMerge("responses", {
       "400": {
-        description: "BadRequest"
-      }
+        description: "BadRequest",
+      },
     })
   );
 }

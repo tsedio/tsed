@@ -13,7 +13,7 @@ describe("Ajv", () => {
     expect(
       ajv.validate(
         {
-          type: "object"
+          type: "object",
         },
         {}
       )
@@ -21,7 +21,7 @@ describe("Ajv", () => {
 
     ajv.validate(
       {
-        type: "object"
+        type: "object",
       },
       []
     );
@@ -32,10 +32,10 @@ describe("Ajv", () => {
         keyword: "type",
         message: "should be object",
         params: {
-          type: "object"
+          type: "object",
         },
-        schemaPath: "#/type"
-      }
+        schemaPath: "#/type",
+      },
     ]);
   });
 });

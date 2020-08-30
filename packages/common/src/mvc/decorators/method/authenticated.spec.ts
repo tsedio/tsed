@@ -8,7 +8,7 @@ const middleware: any = Sinon.stub();
 const UseAuth: any = Sinon.stub().returns(middleware);
 
 const {Authenticated} = Proxyquire.load("../../../../src/mvc/decorators/method/authenticated", {
-  "./useAuth": {UseAuth}
+  "./useAuth": {UseAuth},
 });
 
 describe("Authenticated", () => {
@@ -27,9 +27,9 @@ describe("Authenticated", () => {
         options: "options",
         responses: {
           "401": {
-            description: "Unauthorized"
-          }
-        }
+            description: "Unauthorized",
+          },
+        },
       });
     });
   });

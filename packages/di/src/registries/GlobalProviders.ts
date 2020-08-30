@@ -26,7 +26,7 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
     options: Partial<RegistrySettings> = {injectable: true}
   ): TypedProvidersRegistry {
     const registry = new Registry<Provider<any>, IProvider<any>>(model, {
-      onCreate: this.set.bind(this)
+      onCreate: this.set.bind(this),
     });
 
     this._registries.set(
@@ -34,7 +34,7 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
       Object.assign(
         {
           registry,
-          injectable: true
+          injectable: true,
         },
         options
       )
@@ -66,7 +66,7 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
 
     return {
       registry: this,
-      injectable: true
+      injectable: true,
     };
   }
 
@@ -78,7 +78,7 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
     return (provider: any | IProvider<any>, instance?: any): void => {
       if (!provider.provide) {
         provider = {
-          provide: provider
+          provide: provider,
         };
       }
 

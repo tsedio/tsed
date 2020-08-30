@@ -37,7 +37,7 @@ export function deepExtends(out: any, obj: any, reducers: {[key: string]: (colle
     }
   };
 
-  Object.keys(obj).forEach(key => {
+  Object.keys(obj).forEach((key) => {
     let value = obj[key];
 
     if (value === undefined || value === null) {

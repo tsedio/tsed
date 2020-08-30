@@ -14,7 +14,7 @@ describe("@Select()", () => {
 
   it("should set metadata", () => {
     expect(this.store.get(MONGOOSE_SCHEMA)).to.deep.eq({
-      select: true
+      select: true,
     });
   });
 });

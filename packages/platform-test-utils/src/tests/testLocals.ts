@@ -17,7 +17,7 @@ class LocalsCtrl {
   @Use(middleware)
   public testStackMiddlewares(@Request("user") user: any, @Locals("id") id: any, @Context("uid") uid: string): any {
     return {
-      id: `${user}-${id}-${uid}`
+      id: `${user}-${id}-${uid}`,
     };
   }
 }
@@ -28,8 +28,8 @@ export function testLocals(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [LocalsCtrl]
-      }
+        "/rest": [LocalsCtrl],
+      },
     })
   );
   before(() => {

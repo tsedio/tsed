@@ -24,9 +24,9 @@ describe("@PreHook()", () => {
             method: "method",
             parallel: true,
             fn,
-            errorCb
-          }
-        ]
+            errorCb,
+          },
+        ],
       });
     });
   });
@@ -36,13 +36,13 @@ describe("@PreHook()", () => {
       class Test {
         @PreHook("save", {
           parallel: true,
-          errorCb: () => {}
+          errorCb: () => {},
         })
         static method() {}
       }
 
       const {
-        pre: [options]
+        pre: [options],
       } = schemaOptions(Test);
 
       expect(options.method).to.eq("save");

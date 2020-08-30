@@ -10,8 +10,7 @@ describe("Description()", () => {
     it("should set the operation", () => {
       class Test {
         @Description("description")
-        test(a: any) {
-        }
+        test(a: any) {}
       }
 
       const store = Store.fromMethod(Test, "test");
@@ -22,8 +21,7 @@ describe("Description()", () => {
   describe("on param", () => {
     it("should set the baseParameter", () => {
       class Test {
-        test(@Description("description") a: any) {
-        }
+        test(@Description("description") a: any) {}
       }
 
       const store = Store.from(Test, "test", 0);
@@ -43,8 +41,7 @@ describe("Description()", () => {
 
     it("should store data", () => {
       @Description("description")
-      class Test {
-      }
+      class Test {}
 
       const schema = new JsonSchema();
 

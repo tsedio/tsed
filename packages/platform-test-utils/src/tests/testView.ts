@@ -18,7 +18,7 @@ class ViewCtrl {
   @View("view.ejs", {opts: "opts"})
   testScenario1() {
     return {
-      world: "world"
+      world: "world",
     };
   }
 
@@ -26,7 +26,7 @@ class ViewCtrl {
   @View("view", {opts: "opts"}) // missing extension
   testScenario2() {
     return {
-      world: "world"
+      world: "world",
     };
   }
 }
@@ -38,8 +38,8 @@ export function testView(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [ViewCtrl]
-      }
+        "/rest": [ViewCtrl],
+      },
     })
   );
   before(() => {

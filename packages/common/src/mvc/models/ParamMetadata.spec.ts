@@ -3,8 +3,7 @@ import {expect} from "chai";
 import {IFilter, ParamMetadata, ParamTypes, Req} from "../../../src/mvc";
 
 class Test {
-  method(arg1: any, arg2: any) {
-  }
+  method(arg1: any, arg2: any) {}
 }
 
 class TestFilter implements IFilter {
@@ -23,15 +22,11 @@ describe("ParamMetadata", () => {
       paramMetadata.type = Test;
     });
     it("should return the required value", () => {
-      expect(paramMetadata.required)
-        .to.be.a("boolean")
-        .and.to.eq(true);
+      expect(paramMetadata.required).to.be.a("boolean").and.to.eq(true);
     });
 
     it("should return the expression", () => {
-      expect(paramMetadata.expression)
-        .to.be.a("string")
-        .and.to.eq("test");
+      expect(paramMetadata.expression).to.be.a("string").and.to.eq("test");
     });
 
     it("should return collectionType", () => {
@@ -62,9 +57,7 @@ describe("ParamMetadata", () => {
     });
 
     it("should return the service", () => {
-      expect(paramMetadata.service)
-        .to.be.a("string")
-        .to.eq(ParamTypes.ERR);
+      expect(paramMetadata.service).to.be.a("string").to.eq(ParamTypes.ERR);
     });
   });
 
@@ -159,8 +152,7 @@ describe("ParamMetadata", () => {
     it("should returns params", () => {
       // GIVEN
       class Test {
-        test(@Req() req: any) {
-        }
+        test(@Req() req: any) {}
       }
 
       // WHEN

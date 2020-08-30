@@ -1,5 +1,5 @@
-import {Context} from "../../platform/decorators/Context";
+import type {RequestContext} from "../../platform/domain/RequestContext";
 
 export interface ExceptionFilterMethods<T = unknown> {
-  catch(error: T, ctx: Context): void;
+  catch(error: T, ctx: RequestContext): void;
 }

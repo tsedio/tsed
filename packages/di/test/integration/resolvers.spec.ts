@@ -5,14 +5,11 @@ describe("DI Resolvers", () => {
   describe("create new injector", () => {
     it("should load all providers with the SINGLETON scope only", async () => {
       class ExternalService {
-        constructor() {
-        }
+        constructor() {}
       }
 
       class MyService {
-        constructor(public externalService: ExternalService) {
-
-        }
+        constructor(public externalService: ExternalService) {}
       }
 
       const externalDi = new Map();
@@ -23,7 +20,7 @@ describe("DI Resolvers", () => {
 
       const container = new Container();
       container.add(MyService, {
-        deps: [ExternalService]
+        deps: [ExternalService],
       });
 
       // WHEN

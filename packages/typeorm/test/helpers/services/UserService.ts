@@ -11,6 +11,5 @@ export class UserService {
   @UseConnection("db2")
   repo3: UserRepository;
 
-  constructor(@UseConnection("db2") public repo4: UserRepository, public repo1: UserRepository) {
-  }
+  constructor(@UseConnection("db2") public repo4: UserRepository, public repo1: UserRepository) {}
 }

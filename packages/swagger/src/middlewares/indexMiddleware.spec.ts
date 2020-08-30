@@ -15,7 +15,7 @@ describe("indexMiddleware and redirect", () => {
       showExplorer: false,
       cssPath: "/path.css",
       jsPath: "/path.js",
-      urls: []
+      urls: [],
     };
 
     indexMiddleware(viewPath, conf)(req as any, res as any);
@@ -27,7 +27,7 @@ describe("indexMiddleware and redirect", () => {
       showExplorer: false,
       swaggerOptions: {},
       url: "/doc/swagger.json",
-      urls: []
+      urls: [],
     });
   });
 });

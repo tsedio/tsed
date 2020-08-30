@@ -13,20 +13,20 @@ describe("RouteService", () => {
       routes: [],
       addRoutes: Sinon.stub(),
       addRoute: Sinon.stub(),
-      getRoutes: Sinon.stub()
+      getRoutes: Sinon.stub(),
     };
     const routeService = await PlatformTest.invoke<RouteService>(RouteService, [
       {
         token: Platform,
-        use: platform
-      }
+        use: platform,
+      },
     ]);
 
     routeService.addRoutes([
       {
         token: Test,
-        route: "/"
-      }
+        route: "/",
+      },
     ]);
     routeService.addRoute("/", Test);
     routeService.getRoutes();
@@ -36,8 +36,8 @@ describe("RouteService", () => {
     expect(platform.addRoutes).to.have.been.calledWithExactly([
       {
         token: Test,
-        route: "/"
-      }
+        route: "/",
+      },
     ]);
     expect(platform.getRoutes).to.have.been.calledWithExactly();
   });

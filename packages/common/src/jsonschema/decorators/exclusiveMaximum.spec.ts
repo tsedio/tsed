@@ -18,10 +18,8 @@ describe("ExclusiveMaximum", () => {
   });
 
   describe("without explicit parameter", () => {
-    before(() => {
-    });
-    after(() => {
-    });
+    before(() => {});
+    after(() => {});
 
     it("should store data", () => {
       const decorateStub = stubSchemaDecorator();

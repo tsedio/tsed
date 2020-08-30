@@ -4,7 +4,7 @@ import {Platform} from "./services/Platform";
 import {RouteService} from "./services/RouteService";
 
 @Module({
-  imports: [InjectorService, MvcModule, Platform, RouteService]
+  imports: [InjectorService, MvcModule, Platform, RouteService],
 })
 export class PlatformModule {
   constructor(platform: Platform) {

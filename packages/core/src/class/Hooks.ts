@@ -25,7 +25,7 @@ export class Hooks {
     if (this.listeners.has(event)) {
       this.listeners.set(
         event,
-        this.listeners.get(event)!.filter(item => item === cb)
+        this.listeners.get(event)!.filter((item) => item === cb)
       );
     }
 

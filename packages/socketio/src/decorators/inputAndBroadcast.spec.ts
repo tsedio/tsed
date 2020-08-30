@@ -18,10 +18,10 @@ describe("InputAndBroadcast", () => {
           methodClassName: "test",
           returns: {
             eventName: "eventName",
-            type: "broadcast"
-          }
-        }
-      }
+            type: "broadcast",
+          },
+        },
+      },
     });
   });
 });

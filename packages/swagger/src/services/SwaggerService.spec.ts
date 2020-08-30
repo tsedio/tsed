@@ -27,7 +27,7 @@ describe("SwaggerService", () => {
     describe("when specPath is given", () => {
       it("should return default spec", () => {
         const result = swaggerService.getDefaultSpec({
-          specPath: __dirname + "/data/spec.json"
+          specPath: __dirname + "/data/spec.json",
         });
 
         expect(result).to.deep.equals(require("./data/spec.expected.json"));
@@ -38,8 +38,8 @@ describe("SwaggerService", () => {
       it("should return default spec", () => {
         const result = swaggerService.getDefaultSpec({
           spec: {
-            produces: ["application/json", "application/octet-stream", "application/xml"]
-          }
+            produces: ["application/json", "application/octet-stream", "application/xml"],
+          },
         });
 
         expect(result).to.deep.equals({
@@ -50,11 +50,11 @@ describe("SwaggerService", () => {
             license: undefined,
             termsOfService: "",
             title: "Api documentation",
-            version: "1.0.0"
+            version: "1.0.0",
           },
           produces: ["application/json", "application/octet-stream", "application/xml"],
           consumes: ["application/json"],
-          securityDefinitions: {}
+          securityDefinitions: {},
         });
       });
     });
@@ -70,11 +70,11 @@ describe("SwaggerService", () => {
             license: undefined,
             termsOfService: "",
             title: "Api documentation",
-            version: "1.0.0"
+            version: "1.0.0",
           },
           produces: ["application/json"],
           securityDefinitions: {},
-          swagger: "2.0"
+          swagger: "2.0",
         });
       });
     });
@@ -92,11 +92,11 @@ describe("SwaggerService", () => {
             license: undefined,
             termsOfService: "",
             title: "Api documentation",
-            version: "1.0.0"
+            version: "1.0.0",
           },
           produces: ["application/json"],
           securityDefinitions: {},
-          swagger: "2.0"
+          swagger: "2.0",
         });
       });
     });
@@ -114,7 +114,7 @@ describe("SwaggerService", () => {
       it("should return an array with tags", () => {
         // GIVEN
         const store = {
-          get: Sinon.stub()
+          get: Sinon.stub(),
         };
 
         stub(Store.from).returns(store);
@@ -142,7 +142,7 @@ describe("SwaggerService", () => {
       it("should return an array with tags", () => {
         // GIVEN
         const store = {
-          get: Sinon.stub()
+          get: Sinon.stub(),
         };
 
         stub(Store.from).returns(store);

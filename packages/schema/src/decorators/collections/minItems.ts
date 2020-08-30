@@ -52,7 +52,7 @@ export function MinItems(minItems: number) {
     throw new Error("The value of minItems MUST be a non-negative integer.");
   }
 
-  return JsonEntityFn(storedJson => {
+  return JsonEntityFn((storedJson) => {
     storedJson.schema.minItems(minItems);
   });
 }

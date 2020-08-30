@@ -42,11 +42,11 @@ export class PlatformLogMiddleware implements IMiddleware {
     if (logStart !== false) {
       if (debug) {
         ctx.logger.debug({
-          event: "request.start"
+          event: "request.start",
         });
       } else if (logRequest) {
         ctx.logger.info({
-          event: "request.start"
+          event: "request.start",
         });
       }
     }
@@ -63,12 +63,12 @@ export class PlatformLogMiddleware implements IMiddleware {
         ctx.logger.debug({
           event: "request.end",
           status: ctx.response.statusCode,
-          data: ctx.data
+          data: ctx.data,
         });
       } else if (logRequest) {
         ctx.logger.info({
           event: "request.end",
-          status: ctx.response.statusCode
+          status: ctx.response.statusCode,
         });
       }
     }
@@ -98,7 +98,7 @@ export class PlatformLogMiddleware implements IMiddleware {
       headers: request.headers,
       body: request.body,
       query: request.query,
-      params: request.params
+      params: request.params,
     };
   }
 

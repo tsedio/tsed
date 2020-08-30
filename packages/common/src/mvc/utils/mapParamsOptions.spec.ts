@@ -1,8 +1,7 @@
 import {expect} from "chai";
 import {mapParamsOptions} from "./mapParamsOptions";
 
-class Test {
-}
+class Test {}
 
 describe("mapParamsOptions", () => {
   it("should return default params when params is empty", () => {
@@ -24,7 +23,7 @@ describe("mapParamsOptions", () => {
   it("should return default params when params have an object", () => {
     expect(mapParamsOptions([{expression: "expression", useType: Test}])).to.deep.eq({
       expression: "expression",
-      useType: Test
+      useType: Test,
     });
   });
 });

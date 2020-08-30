@@ -16,7 +16,7 @@ describe("PassportSerializerService", () => {
       userInfo.email = "email@email.fr";
       userInfo.password = "password";
 
-      const result = await new Promise(resolve => service.serialize(userInfo, (...args: any[]) => resolve(args)));
+      const result = await new Promise((resolve) => service.serialize(userInfo, (...args: any[]) => resolve(args)));
 
       expect(result).to.deep.eq([null, "{\"id\":\"id\",\"email\":\"email@email.fr\"}"]);
     })
@@ -38,7 +38,7 @@ describe("PassportSerializerService", () => {
         throw error;
       });
 
-      const result = await new Promise(resolve => service.serialize(userInfo, (...args: any[]) => resolve(args)));
+      const result = await new Promise((resolve) => service.serialize(userInfo, (...args: any[]) => resolve(args)));
 
       expect(result).to.deep.eq([error]);
     })
@@ -47,7 +47,7 @@ describe("PassportSerializerService", () => {
   it(
     "should deserialize model",
     PlatformTest.inject([PassportSerializerService], async (service: PassportSerializerService) => {
-      const result = await new Promise(resolve =>
+      const result = await new Promise((resolve) =>
         service.deserialize("{\"id\":\"id\",\"email\":\"email@email.fr\"}", (...args: any[]) => resolve(args))
       );
 
@@ -55,8 +55,8 @@ describe("PassportSerializerService", () => {
         null,
         {
           email: "email@email.fr",
-          id: "id"
-        }
+          id: "id",
+        },
       ]);
     })
   );
@@ -71,7 +71,7 @@ describe("PassportSerializerService", () => {
         throw error;
       });
 
-      const result = await new Promise(resolve =>
+      const result = await new Promise((resolve) =>
         service.deserialize("{\"id\":\"id\",\"email\":\"email@email.fr\"}", (...args: any[]) => resolve(args))
       );
 

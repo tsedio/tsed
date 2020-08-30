@@ -7,7 +7,7 @@ describe("applyBefore", () => {
     const originalMethod = Sinon.stub();
     originalMethod.returns("returns");
     const obj = {
-      method: originalMethod
+      method: originalMethod,
     };
     const cbStub = Sinon.stub();
 

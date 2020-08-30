@@ -38,8 +38,8 @@ export function Inject(symbol?: any): Function {
           [propertyKey]: {
             bindingType,
             propertyKey,
-            useType: symbol || Metadata.getType(target, propertyKey)
-          }
+            useType: symbol || Metadata.getType(target, propertyKey),
+          },
         });
         break;
 
@@ -47,8 +47,8 @@ export function Inject(symbol?: any): Function {
         Store.from(target).merge(INJECTABLE_PROP, {
           [propertyKey]: {
             bindingType,
-            propertyKey
-          }
+            propertyKey,
+          },
         });
 
         return descriptor;

@@ -3,7 +3,7 @@ import {FeatureController} from "./controllers/FeatureController";
 
 @Module({
   mount: {
-    "/rest": [FeatureController]
-  }
+    "/rest": [FeatureController],
+  },
 })
 export class FeatureModule {}

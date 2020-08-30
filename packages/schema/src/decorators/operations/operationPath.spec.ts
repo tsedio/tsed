@@ -12,8 +12,8 @@ describe("OperationPath", () => {
       definitions: {},
       tags: [
         {
-          name: "MyController"
-        }
+          name: "MyController",
+        },
       ],
       paths: {
         "/": {
@@ -22,13 +22,13 @@ describe("OperationPath", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
-            tags: ["MyController"]
-          }
-        }
-      }
+            tags: ["MyController"],
+          },
+        },
+      },
     });
   });
   it("should throw error for unsupported usage", () => {

@@ -10,13 +10,13 @@ describe("bindEndpointMiddleware", () => {
   it("should bind endpoint to the request", async () => {
     const endpoint = new EndpointMetadata({
       target: Test,
-      propertyKey: "test"
+      propertyKey: "test",
     });
 
     const request: any = new FakeRequest();
     const response: any = new FakeRequest();
 
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       bindEndpointMiddleware(endpoint)(request, response, resolve);
     });
 

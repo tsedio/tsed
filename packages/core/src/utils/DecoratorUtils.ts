@@ -9,7 +9,7 @@ export enum DecoratorTypes {
   PROP_STC = "property.static",
   METHOD = "method",
   METHOD_STC = "method.static",
-  CLASS = "class"
+  CLASS = "class",
 }
 
 /**
@@ -86,7 +86,7 @@ export function decorateMethodsOf(klass: any, decorator: any) {
       Object.defineProperty(prototypeOf(klass), propertyKey, {
         value(...args: any[]) {
           return prototypeOf(target)[propertyKey].apply(this, args);
-        }
+        },
       });
     }
 
@@ -116,6 +116,6 @@ export function useMethodDecorator(decorator: AnyDecorator) {
 
 export function useMethodDecorators(...decorators: AnyDecorator[]) {
   return (target: any, propertyKey: string | symbol) => {
-    decorators.filter(Boolean).forEach(decorator => decorator(target, propertyKey, descriptorOf(target, propertyKey)));
+    decorators.filter(Boolean).forEach((decorator) => decorator(target, propertyKey, descriptorOf(target, propertyKey)));
   };
 }

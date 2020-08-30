@@ -12,7 +12,7 @@ export class SetMapper implements JsonMapperMethods {
   deserialize<T>(data: any, ctx: JsonMapperCtx): Set<T> {
     const obj = new Set<T>();
 
-    Object.keys(data).forEach(key => {
+    Object.keys(data).forEach((key) => {
       obj.add(ctx.next(data[key]));
     });
 
@@ -22,7 +22,7 @@ export class SetMapper implements JsonMapperMethods {
   serialize<T>(data: Set<T>, ctx: JsonMapperCtx): any[] {
     const array: any[] = [];
 
-    data.forEach(value => array.push(ctx.next(value)));
+    data.forEach((value) => array.push(ctx.next(value)));
 
     return array;
   }

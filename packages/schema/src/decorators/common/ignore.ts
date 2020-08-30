@@ -62,7 +62,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @schema
  */
 export function Ignore(cb: boolean | IgnoreCallback = () => true) {
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     store.itemSchema.ignore(cb);
   });
 }

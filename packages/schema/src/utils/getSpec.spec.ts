@@ -8,7 +8,7 @@ import {getSpec} from "./getSpec";
 const validate = async (spec: any, version = SpecTypes.SWAGGER) => {
   const file = __dirname + "/spec.json";
   spec = {
-    ...spec
+    ...spec,
   };
   try {
     if (version === SpecTypes.OPENAPI) {
@@ -22,13 +22,13 @@ const validate = async (spec: any, version = SpecTypes.SWAGGER) => {
       description: "Description",
       termsOfService: "termsOfService",
       contact: {
-        email: "apiteam@swagger.io"
+        email: "apiteam@swagger.io",
       },
       license: {
         name: "Apache 2.0",
-        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+        url: "http://www.apache.org/licenses/LICENSE-2.0.html",
       },
-      version: "1.0.0"
+      version: "1.0.0",
     };
 
     writeJsonSync(file, spec, {encoding: "utf8"});
@@ -56,7 +56,7 @@ describe("getSpec()", () => {
 
         // THEN
         const spec = getSpec(Controller, {
-          spec: SpecTypes.SWAGGER
+          spec: SpecTypes.SWAGGER,
         });
         expect(await validate(spec)).to.eq(true);
       });
@@ -75,8 +75,8 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/": {
@@ -85,11 +85,11 @@ describe("getSpec()", () => {
                 parameters: [],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
+                    description: "Success",
+                  },
                 },
-                tags: ["Controller"]
-              }
+                tags: ["Controller"],
+              },
             },
             "/{id}": {
               get: {
@@ -99,18 +99,18 @@ describe("getSpec()", () => {
                     in: "path",
                     name: "id",
                     required: true,
-                    type: "string"
-                  }
+                    type: "string",
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
+                    description: "Success",
+                  },
                 },
-                tags: ["Controller"]
-              }
-            }
-          }
+                tags: ["Controller"],
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly with expression", async () => {
@@ -128,8 +128,8 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/": {
@@ -139,10 +139,10 @@ describe("getSpec()", () => {
                 tags: ["Controller"],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
+                    description: "Success",
+                  },
+                },
+              },
             },
             "/{id}": {
               get: {
@@ -153,17 +153,17 @@ describe("getSpec()", () => {
                     in: "path",
                     name: "id",
                     required: true,
-                    type: "string"
-                  }
+                    type: "string",
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
       });
     });
@@ -182,8 +182,8 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/{id}": {
@@ -195,23 +195,23 @@ describe("getSpec()", () => {
                     in: "path",
                     name: "id",
                     required: true,
-                    type: "string"
+                    type: "string",
                   },
                   {
                     in: "query",
                     name: "basic",
                     required: false,
-                    type: "string"
-                  }
+                    type: "string",
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (query - swagger2 - model)", async () => {
@@ -236,8 +236,8 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/{id}": {
@@ -249,29 +249,29 @@ describe("getSpec()", () => {
                     in: "path",
                     name: "id",
                     required: true,
-                    type: "string"
+                    type: "string",
                   },
                   {
                     in: "query",
                     name: "id",
                     required: false,
-                    type: "string"
+                    type: "string",
                   },
                   {
                     in: "query",
                     name: "name",
                     required: false,
-                    type: "string"
-                  }
+                    type: "string",
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (query - openapi3 - model)", async () => {
@@ -298,15 +298,15 @@ describe("getSpec()", () => {
               QueryModel: {
                 properties: {
                   id: {
-                    type: "string"
+                    type: "string",
                   },
                   name: {
-                    type: "string"
-                  }
+                    type: "string",
+                  },
                 },
-                type: "object"
-              }
-            }
+                type: "object",
+              },
+            },
           },
           paths: {
             "/{id}": {
@@ -317,30 +317,30 @@ describe("getSpec()", () => {
                     in: "path",
                     name: "id",
                     required: true,
-                    type: "string"
+                    type: "string",
                   },
                   {
                     in: "query",
                     required: false,
                     schema: {
-                      $ref: "#/components/schemas/QueryModel"
-                    }
-                  }
+                      $ref: "#/components/schemas/QueryModel",
+                    },
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
+                    description: "Success",
+                  },
                 },
-                tags: ["Controller"]
-              }
-            }
+                tags: ["Controller"],
+              },
+            },
           },
           tags: [
             {
-              name: "Controller"
-            }
-          ]
+              name: "Controller",
+            },
+          ],
         });
       });
       it("should declare all schema correctly (query - swagger2 - array string)", async () => {
@@ -357,8 +357,8 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/{id}": {
@@ -370,27 +370,27 @@ describe("getSpec()", () => {
                     in: "path",
                     name: "id",
                     required: true,
-                    type: "string"
+                    type: "string",
                   },
                   {
                     collectionFormat: "multi",
                     in: "query",
                     items: {
-                      type: "string"
+                      type: "string",
                     },
                     name: "basic",
                     required: false,
-                    type: "array"
-                  }
+                    type: "array",
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (query - openapi3 - array string)", async () => {
@@ -405,7 +405,7 @@ describe("getSpec()", () => {
 
         expect(spec).to.deep.equal({
           components: {
-            schemas: {}
+            schemas: {},
           },
           paths: {
             "/{id}": {
@@ -416,7 +416,7 @@ describe("getSpec()", () => {
                     in: "path",
                     name: "id",
                     required: true,
-                    type: "string"
+                    type: "string",
                   },
                   {
                     in: "query",
@@ -424,26 +424,26 @@ describe("getSpec()", () => {
                     required: false,
                     schema: {
                       items: {
-                        type: "object"
+                        type: "object",
                       },
-                      type: "array"
-                    }
-                  }
+                      type: "array",
+                    },
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
+                    description: "Success",
+                  },
                 },
-                tags: ["Controller"]
-              }
-            }
+                tags: ["Controller"],
+              },
+            },
           },
           tags: [
             {
-              name: "Controller"
-            }
-          ]
+              name: "Controller",
+            },
+          ],
         });
       });
       it("should declare all schema correctly (query - swagger2 - Map)", async () => {
@@ -460,8 +460,8 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/{id}": {
@@ -473,7 +473,7 @@ describe("getSpec()", () => {
                     in: "path",
                     name: "id",
                     required: true,
-                    type: "string"
+                    type: "string",
                   },
                   {
                     in: "query",
@@ -481,18 +481,18 @@ describe("getSpec()", () => {
                     required: false,
                     type: "object",
                     additionalProperties: {
-                      type: "string"
-                    }
-                  }
+                      type: "string",
+                    },
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (query - openapi3 - Map)", async () => {
@@ -507,7 +507,7 @@ describe("getSpec()", () => {
 
         expect(spec).to.deep.equal({
           components: {
-            schemas: {}
+            schemas: {},
           },
           paths: {
             "/{id}": {
@@ -518,7 +518,7 @@ describe("getSpec()", () => {
                     in: "path",
                     name: "id",
                     required: true,
-                    type: "string"
+                    type: "string",
                   },
                   {
                     in: "query",
@@ -526,26 +526,26 @@ describe("getSpec()", () => {
                     required: false,
                     schema: {
                       additionalProperties: {
-                        type: "string"
+                        type: "string",
                       },
-                      type: "object"
-                    }
-                  }
+                      type: "object",
+                    },
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
+                    description: "Success",
+                  },
                 },
-                tags: ["Controller"]
-              }
-            }
+                tags: ["Controller"],
+              },
+            },
           },
           tags: [
             {
-              name: "Controller"
-            }
-          ]
+              name: "Controller",
+            },
+          ],
         });
       });
     });
@@ -571,15 +571,15 @@ describe("getSpec()", () => {
               type: "object",
               properties: {
                 prop: {
-                  type: "string"
-                }
-              }
-            }
+                  type: "string",
+                },
+              },
+            },
           },
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/": {
@@ -592,19 +592,19 @@ describe("getSpec()", () => {
                     name: "body",
                     required: true,
                     schema: {
-                      $ref: "#/definitions/MyModel"
-                    }
-                  }
+                      $ref: "#/definitions/MyModel",
+                    },
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
+                    description: "Success",
+                  },
                 },
-                tags: ["Controller"]
-              }
-            }
-          }
+                tags: ["Controller"],
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (model - openapi3)", async () => {
@@ -628,17 +628,17 @@ describe("getSpec()", () => {
               MyModel: {
                 properties: {
                   prop: {
-                    type: "string"
-                  }
+                    type: "string",
+                  },
                 },
-                type: "object"
-              }
-            }
+                type: "object",
+              },
+            },
           },
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/": {
@@ -649,21 +649,21 @@ describe("getSpec()", () => {
                   content: {
                     "application/json": {
                       schema: {
-                        $ref: "#/components/schemas/MyModel"
-                      }
-                    }
+                        $ref: "#/components/schemas/MyModel",
+                      },
+                    },
                   },
-                  required: true
+                  required: true,
                 },
                 tags: ["Controller"],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (Array - model - swagger2)", async () => {
@@ -688,16 +688,16 @@ describe("getSpec()", () => {
             Product: {
               properties: {
                 title: {
-                  type: "string"
-                }
+                  type: "string",
+                },
               },
-              type: "object"
-            }
+              type: "object",
+            },
           },
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/": {
@@ -711,20 +711,20 @@ describe("getSpec()", () => {
                     schema: {
                       type: "array",
                       items: {
-                        $ref: "#/definitions/Product"
-                      }
-                    }
-                  }
+                        $ref: "#/definitions/Product",
+                      },
+                    },
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
+                    description: "Success",
+                  },
                 },
-                tags: ["Controller"]
-              }
-            }
-          }
+                tags: ["Controller"],
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (Map - model - swagger2)", async () => {
@@ -749,16 +749,16 @@ describe("getSpec()", () => {
             Product: {
               properties: {
                 title: {
-                  type: "string"
-                }
+                  type: "string",
+                },
               },
-              type: "object"
-            }
+              type: "object",
+            },
           },
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/": {
@@ -771,21 +771,21 @@ describe("getSpec()", () => {
                     required: false,
                     schema: {
                       additionalProperties: {
-                        $ref: "#/definitions/Product"
+                        $ref: "#/definitions/Product",
                       },
-                      type: "object"
-                    }
-                  }
+                      type: "object",
+                    },
+                  },
                 ],
                 tags: ["Controller"],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (inline - swagger2)", async () => {
@@ -802,8 +802,8 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/": {
@@ -820,26 +820,26 @@ describe("getSpec()", () => {
                       properties: {
                         num: {
                           minimum: 0,
-                          type: "number"
+                          type: "number",
                         },
                         test: {
                           minimum: 0,
-                          type: "number"
-                        }
+                          type: "number",
+                        },
                       },
                       required: ["num", "test"],
-                      type: "object"
-                    }
-                  }
+                      type: "object",
+                    },
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (Array - inline - swagger2)", async () => {
@@ -859,8 +859,8 @@ describe("getSpec()", () => {
           definitions: {},
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/": {
@@ -879,27 +879,27 @@ describe("getSpec()", () => {
                           type: "array",
                           items: {
                             minimum: 0,
-                            type: "number"
-                          }
+                            type: "number",
+                          },
                         },
                         test: {
                           minimum: 0,
-                          type: "number"
-                        }
+                          type: "number",
+                        },
                       },
                       required: ["num", "test"],
-                      type: "object"
-                    }
-                  }
+                      type: "object",
+                    },
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (inline - openapi3)", async () => {
@@ -917,12 +917,12 @@ describe("getSpec()", () => {
         expect(await validate(spec, SpecTypes.OPENAPI)).to.eq(true);
         expect(spec).to.deep.equal({
           components: {
-            schemas: {}
+            schemas: {},
           },
           tags: [
             {
-              name: "Controller"
-            }
+              name: "Controller",
+            },
           ],
           paths: {
             "/": {
@@ -937,31 +937,31 @@ describe("getSpec()", () => {
                           num: {
                             items: {
                               minimum: 0,
-                              type: "number"
+                              type: "number",
                             },
-                            type: "array"
+                            type: "array",
                           },
                           test: {
                             minimum: 0,
-                            type: "number"
-                          }
+                            type: "number",
+                          },
                         },
                         required: ["num", "test"],
-                        type: "object"
-                      }
-                    }
+                        type: "object",
+                      },
+                    },
                   },
-                  required: true
+                  required: true,
                 },
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
+                    description: "Success",
+                  },
                 },
-                tags: ["Controller"]
-              }
-            }
-          }
+                tags: ["Controller"],
+              },
+            },
+          },
         });
       });
       it("should declare all schema correctly (generics - openapi3)", () => {
@@ -1008,27 +1008,27 @@ describe("getSpec()", () => {
             Product: {
               properties: {
                 title: {
-                  type: "string"
-                }
+                  type: "string",
+                },
               },
-              type: "object"
+              type: "object",
             },
             Submission: {
               properties: {
                 _id: {
-                  type: "string"
+                  type: "string",
                 },
                 data: {
-                  $ref: "#/definitions/Product"
-                }
+                  $ref: "#/definitions/Product",
+                },
               },
-              type: "object"
-            }
+              type: "object",
+            },
           },
           tags: [
             {
-              name: "Controller1"
-            }
+              name: "Controller1",
+            },
           ],
           paths: {
             "/": {
@@ -1041,45 +1041,45 @@ describe("getSpec()", () => {
                     name: "body",
                     required: false,
                     schema: {
-                      $ref: "#/definitions/Submission"
-                    }
-                  }
+                      $ref: "#/definitions/Submission",
+                    },
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
         expect(spec2).to.deep.equal({
           definitions: {
             Article: {
               properties: {
                 id: {
-                  type: "string"
-                }
+                  type: "string",
+                },
               },
-              type: "object"
+              type: "object",
             },
             Submission: {
               properties: {
                 _id: {
-                  type: "string"
+                  type: "string",
                 },
                 data: {
-                  $ref: "#/definitions/Article"
-                }
+                  $ref: "#/definitions/Article",
+                },
               },
-              type: "object"
-            }
+              type: "object",
+            },
           },
           tags: [
             {
-              name: "Controller2"
-            }
+              name: "Controller2",
+            },
           ],
           paths: {
             "/": {
@@ -1092,18 +1092,18 @@ describe("getSpec()", () => {
                     name: "body",
                     required: false,
                     schema: {
-                      $ref: "#/definitions/Submission"
-                    }
-                  }
+                      $ref: "#/definitions/Submission",
+                    },
+                  },
                 ],
                 responses: {
                   "200": {
-                    description: "Success"
-                  }
-                }
-              }
-            }
-          }
+                    description: "Success",
+                  },
+                },
+              },
+            },
+          },
         });
       });
     });
@@ -1128,8 +1128,8 @@ describe("getSpec()", () => {
         tags: [
           {
             name: "AliasController",
-            description: "Class description"
-          }
+            description: "Class description",
+          },
         ],
         paths: {
           "/": {
@@ -1141,13 +1141,13 @@ describe("getSpec()", () => {
                 "200": {
                   description: "description",
                   schema: {
-                    type: "string"
-                  }
-                }
-              }
-            }
-          }
-        }
+                    type: "string",
+                  },
+                },
+              },
+            },
+          },
+        },
       });
     });
     it("should declare all schema correctly (openapi3)", async () => {
@@ -1163,12 +1163,12 @@ describe("getSpec()", () => {
 
       expect(spec).to.deep.equal({
         components: {
-          schemas: {}
+          schemas: {},
         },
         tags: [
           {
-            name: "Controller"
-          }
+            name: "Controller",
+          },
         ],
         paths: {
           "/": {
@@ -1181,25 +1181,23 @@ describe("getSpec()", () => {
                   content: {
                     "*/*": {
                       schema: {
-                        type: "string"
-                      }
-                    }
+                        type: "string",
+                      },
+                    },
                   },
-                  description: "description"
-                }
-              }
-            }
-          }
-        }
+                  description: "description",
+                },
+              },
+            },
+          },
+        },
       });
     });
     it("should declare an Array of string (swagger2)", async () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array)
-          .Of(String)
-          .Description("description"))
+        @(Returns(200, Array).Of(String).Description("description"))
         method() {}
       }
 
@@ -1210,8 +1208,8 @@ describe("getSpec()", () => {
         definitions: {},
         tags: [
           {
-            name: "Controller"
-          }
+            name: "Controller",
+          },
         ],
         paths: {
           "/": {
@@ -1225,24 +1223,22 @@ describe("getSpec()", () => {
                   description: "description",
                   schema: {
                     items: {
-                      type: "string"
+                      type: "string",
                     },
-                    type: "array"
-                  }
-                }
-              }
-            }
-          }
-        }
+                    type: "array",
+                  },
+                },
+              },
+            },
+          },
+        },
       });
     });
     it("should declare an Array of string (openapi3)", async () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array)
-          .Of(String)
-          .Description("description"))
+        @(Returns(200, Array).Of(String).Description("description"))
         method() {}
       }
 
@@ -1251,12 +1247,12 @@ describe("getSpec()", () => {
 
       expect(spec).to.deep.equal({
         components: {
-          schemas: {}
+          schemas: {},
         },
         tags: [
           {
-            name: "Controller"
-          }
+            name: "Controller",
+          },
         ],
         paths: {
           "/": {
@@ -1270,18 +1266,18 @@ describe("getSpec()", () => {
                     "text/json": {
                       schema: {
                         items: {
-                          type: "string"
+                          type: "string",
                         },
-                        type: "array"
-                      }
-                    }
+                        type: "array",
+                      },
+                    },
                   },
-                  description: "description"
-                }
-              }
-            }
-          }
-        }
+                  description: "description",
+                },
+              },
+            },
+          },
+        },
       });
     });
     it("should declare an Generic of Model (swagger2)", async () => {
@@ -1302,9 +1298,7 @@ describe("getSpec()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Product)
-          .Description("description"))
+        @(Returns(200, Pagination).Of(Product).Description("description"))
         async method(): Promise<Pagination<Product> | null> {
           return null;
         }
@@ -1318,16 +1312,16 @@ describe("getSpec()", () => {
           Product: {
             properties: {
               title: {
-                type: "string"
-              }
+                type: "string",
+              },
             },
-            type: "object"
-          }
+            type: "object",
+          },
         },
         tags: [
           {
-            name: "Controller"
-          }
+            name: "Controller",
+          },
         ],
         paths: {
           "/": {
@@ -1343,21 +1337,21 @@ describe("getSpec()", () => {
                     properties: {
                       data: {
                         items: {
-                          $ref: "#/definitions/Product"
+                          $ref: "#/definitions/Product",
                         },
-                        type: "array"
+                        type: "array",
                       },
                       totalCount: {
-                        type: "number"
-                      }
+                        type: "number",
+                      },
                     },
-                    type: "object"
-                  }
-                }
-              }
-            }
-          }
-        }
+                    type: "object",
+                  },
+                },
+              },
+            },
+          },
+        },
       });
     });
     it("should declare an Generic of Model (openspec3)", async () => {
@@ -1387,10 +1381,7 @@ describe("getSpec()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(Product)
-          .Description("description"))
+        @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
@@ -1400,15 +1391,15 @@ describe("getSpec()", () => {
         properties: {
           data: {
             items: {
-              $ref: "T"
+              $ref: "T",
             },
-            type: "array"
+            type: "array",
           },
           totalCount: {
-            type: "number"
-          }
+            type: "number",
+          },
         },
-        type: "object"
+        type: "object",
       });
 
       // THEN
@@ -1420,17 +1411,17 @@ describe("getSpec()", () => {
             Product: {
               properties: {
                 title: {
-                  type: "string"
-                }
+                  type: "string",
+                },
               },
-              type: "object"
-            }
-          }
+              type: "object",
+            },
+          },
         },
         tags: [
           {
-            name: "Controller"
-          }
+            name: "Controller",
+          },
         ],
         paths: {
           "/": {
@@ -1448,30 +1439,30 @@ describe("getSpec()", () => {
                             items: {
                               properties: {
                                 data: {
-                                  $ref: "#/components/schemas/Product"
+                                  $ref: "#/components/schemas/Product",
                                 },
                                 _id: {
-                                  type: "string"
-                                }
+                                  type: "string",
+                                },
                               },
-                              type: "object"
+                              type: "object",
                             },
-                            type: "array"
+                            type: "array",
                           },
                           totalCount: {
-                            type: "number"
-                          }
+                            type: "number",
+                          },
                         },
-                        type: "object"
-                      }
-                    }
+                        type: "object",
+                      },
+                    },
                   },
-                  description: "description"
-                }
-              }
-            }
-          }
-        }
+                  description: "description",
+                },
+              },
+            },
+          },
+        },
       });
     });
     it("should declare a nested Generics of Model (swagger2)", () => {
@@ -1506,10 +1497,7 @@ describe("getSpec()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(Product)
-          .Description("description"))
+        @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
         method(): Pagination<Submission<Product>> | null {
           return null;
         }
@@ -1517,10 +1505,7 @@ describe("getSpec()", () => {
 
       class Controller2 {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(Article)
-          .Description("description"))
+        @(Returns(200, Pagination).Of(Submission).Nested(Article).Description("description"))
         method(): Pagination<Submission<Article>> | null {
           return null;
         }
@@ -1535,16 +1520,16 @@ describe("getSpec()", () => {
           Product: {
             properties: {
               title: {
-                type: "string"
-              }
+                type: "string",
+              },
             },
-            type: "object"
-          }
+            type: "object",
+          },
         },
         tags: [
           {
-            name: "Controller"
-          }
+            name: "Controller",
+          },
         ],
         paths: {
           "/": {
@@ -1561,41 +1546,41 @@ describe("getSpec()", () => {
                       data: {
                         properties: {
                           _id: {
-                            type: "string"
+                            type: "string",
                           },
                           data: {
-                            $ref: "#/definitions/Product"
-                          }
+                            $ref: "#/definitions/Product",
+                          },
                         },
-                        type: "object"
+                        type: "object",
                       },
                       totalCount: {
-                        type: "number"
-                      }
+                        type: "number",
+                      },
                     },
-                    type: "object"
-                  }
-                }
-              }
-            }
-          }
-        }
+                    type: "object",
+                  },
+                },
+              },
+            },
+          },
+        },
       });
       expect(spec2).to.deep.equal({
         definitions: {
           Article: {
             properties: {
               id: {
-                type: "string"
-              }
+                type: "string",
+              },
             },
-            type: "object"
-          }
+            type: "object",
+          },
         },
         tags: [
           {
-            name: "Controller2"
-          }
+            name: "Controller2",
+          },
         ],
         paths: {
           "/": {
@@ -1612,25 +1597,25 @@ describe("getSpec()", () => {
                       data: {
                         properties: {
                           _id: {
-                            type: "string"
+                            type: "string",
                           },
                           data: {
-                            $ref: "#/definitions/Article"
-                          }
+                            $ref: "#/definitions/Article",
+                          },
                         },
-                        type: "object"
+                        type: "object",
                       },
                       totalCount: {
-                        type: "number"
-                      }
+                        type: "number",
+                      },
                     },
-                    type: "object"
-                  }
-                }
-              }
-            }
-          }
-        }
+                    type: "object",
+                  },
+                },
+              },
+            },
+          },
+        },
       });
     });
     it("should declare a nested Generics of Model (openspec3)", async () => {
@@ -1660,10 +1645,7 @@ describe("getSpec()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(Product)
-          .Description("description"))
+        @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
@@ -1678,17 +1660,17 @@ describe("getSpec()", () => {
             Product: {
               properties: {
                 title: {
-                  type: "string"
-                }
+                  type: "string",
+                },
               },
-              type: "object"
-            }
-          }
+              type: "object",
+            },
+          },
         },
         tags: [
           {
-            name: "Controller"
-          }
+            name: "Controller",
+          },
         ],
         paths: {
           "/": {
@@ -1707,29 +1689,29 @@ describe("getSpec()", () => {
                               type: "object",
                               properties: {
                                 _id: {
-                                  type: "string"
+                                  type: "string",
                                 },
                                 data: {
-                                  $ref: "#/components/schemas/Product"
-                                }
-                              }
+                                  $ref: "#/components/schemas/Product",
+                                },
+                              },
                             },
-                            type: "array"
+                            type: "array",
                           },
                           totalCount: {
-                            type: "number"
-                          }
+                            type: "number",
+                          },
                         },
-                        type: "object"
-                      }
-                    }
+                        type: "object",
+                      },
+                    },
                   },
-                  description: "description"
-                }
-              }
-            }
-          }
-        }
+                  description: "description",
+                },
+              },
+            },
+          },
+        },
       });
     });
   });

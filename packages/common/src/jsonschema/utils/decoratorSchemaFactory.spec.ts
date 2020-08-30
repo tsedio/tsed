@@ -4,8 +4,7 @@ import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
 import {JsonSchemesRegistry} from "../registries/JsonSchemesRegistry";
 import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
-class Test {
-}
+class Test {}
 
 const sandbox = Sinon.createSandbox();
 describe("decoratorSchemaFactory()", () => {

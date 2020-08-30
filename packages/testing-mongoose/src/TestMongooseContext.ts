@@ -14,8 +14,8 @@ export class TestMongooseContext extends PlatformTest {
         ...options,
         binary: {
           ...(options.binary || {}),
-          downloadDir
-        }
+          downloadDir,
+        },
       });
     }
 
@@ -30,7 +30,7 @@ export class TestMongooseContext extends PlatformTest {
       const config = await TestMongooseContext.install(options.mongod);
       const before = PlatformTest.bootstrap(mod, {
         ...options,
-        mongoose: config
+        mongoose: config,
       });
 
       await before();
@@ -61,7 +61,7 @@ export class TestMongooseContext extends PlatformTest {
     const promises: any[] = [];
 
     for (const connection of mongooseService.connections.values()) {
-      promises.push(...Object.values(connection.collections).map(collection => collection.deleteMany({})));
+      promises.push(...Object.values(connection.collections).map((collection) => collection.deleteMany({})));
     }
 
     await Promise.all(promises);
@@ -77,8 +77,8 @@ export class TestMongooseContext extends PlatformTest {
         useNewUrlParser: true,
         autoReconnect: true,
         reconnectTries: Number.MAX_VALUE,
-        reconnectInterval: 1000
-      }
+        reconnectInterval: 1000,
+      },
     };
   }
 }

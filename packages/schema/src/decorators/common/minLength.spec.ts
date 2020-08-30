@@ -18,10 +18,10 @@ describe("@MinLength", () => {
       properties: {
         word: {
           minLength: 0,
-          type: "string"
-        }
+          type: "string",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should throw error", () => {
@@ -53,20 +53,18 @@ describe("@MinLength", () => {
           type: "array",
           items: {
             minLength: 0,
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare minimum value on collection (collection)", () => {
     // WHEN
     class Model {
       @MinLength(0)
-      @(CollectionOf(String)
-        .MinItems(0)
-        .MaxItems(10))
+      @(CollectionOf(String).MinItems(0).MaxItems(10))
       words: string[];
     }
 
@@ -79,13 +77,13 @@ describe("@MinLength", () => {
           type: "array",
           items: {
             minLength: 0,
-            type: "string"
+            type: "string",
           },
           maxItems: 10,
-          minItems: 0
-        }
+          minItems: 0,
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
 });

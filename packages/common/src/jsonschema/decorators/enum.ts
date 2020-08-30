@@ -98,7 +98,7 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @schema
  */
 export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
-  return decoratorSchemaFactory(schema => {
+  return decoratorSchemaFactory((schema) => {
     if (typeof enumValue === "object") {
       const info = Object.keys(enumValue).reduce(
         (acc: any, key: any) => {

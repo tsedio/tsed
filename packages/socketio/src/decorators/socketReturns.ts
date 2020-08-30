@@ -15,10 +15,10 @@ export function SocketReturns(eventName: string, type: SocketReturnsTypes) {
         [propertyKey]: {
           returns: {
             eventName,
-            type
-          }
-        }
-      }
+            type,
+          },
+        },
+      },
     });
   };
 }

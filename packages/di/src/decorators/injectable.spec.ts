@@ -17,8 +17,7 @@ describe("@Injectable()", () => {
 
     it("should called registerProvider", () => {
       // GIVEN
-      class Test {
-      }
+      class Test {}
 
       // WHEN
       Injectable({options: "options"})(Test);
@@ -26,7 +25,7 @@ describe("@Injectable()", () => {
       // THEN
       expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
         options: "options",
-        provide: Test
+        provide: Test,
       });
     });
   });
@@ -42,15 +41,14 @@ describe("@Injectable()", () => {
 
     it("should called registerProvider", () => {
       // GIVEN
-      class Test {
-      }
+      class Test {}
 
       // WHEN
       Injectable()(Test);
 
       // THEN
       expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
-        provide: Test
+        provide: Test,
       });
     });
   });

@@ -23,7 +23,7 @@ describe("Service", () => {
     expect(serviceRegistry.merge).to.have.been.calledWithExactly(Test, {
       instance: undefined,
       provide: Test,
-      type: ProviderType.SERVICE
+      type: ProviderType.SERVICE,
     });
   });
 });

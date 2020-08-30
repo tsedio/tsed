@@ -18,11 +18,11 @@ describe("Nsp", () => {
             parameters: {
               "0": {
                 filter: "nsp",
-                mapIndex: undefined
-              }
-            }
-          }
-        }
+                mapIndex: undefined,
+              },
+            },
+          },
+        },
       });
     });
   });
@@ -37,7 +37,7 @@ describe("Nsp", () => {
 
     it("should set metadata", () => {
       expect(this.store.get("socketIO")).to.deep.eq({
-        injectNamespaces: [{propertyKey: "test"}]
+        injectNamespaces: [{propertyKey: "test"}],
       });
     });
   });
@@ -54,7 +54,7 @@ describe("Nsp", () => {
 
     it("should set metadata", () => {
       expect(this.store.get("socketIO")).to.deep.eq({
-        injectNamespaces: [{propertyKey: "property", nsp: "/test"}]
+        injectNamespaces: [{propertyKey: "property", nsp: "/test"}],
       });
     });
   });

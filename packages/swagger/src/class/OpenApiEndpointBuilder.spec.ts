@@ -18,7 +18,7 @@ describe("OpenApiParamsBuilder", () => {
       "/test",
       {
         path: "/",
-        method: "get"
+        method: "get",
       },
       (s: any) => s
     );
@@ -28,7 +28,7 @@ describe("OpenApiParamsBuilder", () => {
 
   describe("getTagName()", () => {
     const store = {
-      get: Sinon.stub()
+      get: Sinon.stub(),
     };
     before(() => {
       Sinon.stub(Store, "from");
@@ -89,7 +89,7 @@ describe("OpenApiParamsBuilder", () => {
     it("should return the response when the type is missing", () => {
       const endpoint = new EndpointMetadata({
         target: Test,
-        propertyKey: "test"
+        propertyKey: "test",
       });
 
       const builder = new OpenApiEndpointBuilder(
@@ -97,7 +97,7 @@ describe("OpenApiParamsBuilder", () => {
         "/test",
         {
           path: "/",
-          method: "get"
+          method: "get",
         },
         (s: any) => s
       );
@@ -111,9 +111,9 @@ describe("OpenApiParamsBuilder", () => {
         headers: {
           header: {
             type: "string",
-            value: "application/json"
-          }
-        }
+            value: "application/json",
+          },
+        },
       } as any);
 
       expect(result).to.deep.eq({
@@ -121,9 +121,9 @@ describe("OpenApiParamsBuilder", () => {
         examples: "examples",
         headers: {
           header: {
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       });
     });
     it("should return the response when the type is given (200)", () => {
@@ -134,10 +134,10 @@ describe("OpenApiParamsBuilder", () => {
 
       const endpoint = new EndpointMetadata({
         target: Test,
-        propertyKey: "test"
+        propertyKey: "test",
       });
       endpoint.responses.set(200, {
-        type: MyModel
+        type: MyModel,
       } as any);
 
       const builder = new OpenApiEndpointBuilder(
@@ -145,7 +145,7 @@ describe("OpenApiParamsBuilder", () => {
         "/test",
         {
           path: "/",
-          method: "get"
+          method: "get",
         },
         (s: any) => s
       );
@@ -157,9 +157,9 @@ describe("OpenApiParamsBuilder", () => {
         headers: {
           header: {
             type: "string",
-            value: "application/json"
-          }
-        }
+            value: "application/json",
+          },
+        },
       } as any);
 
       expect(result).to.deep.eq({
@@ -167,12 +167,12 @@ describe("OpenApiParamsBuilder", () => {
         examples: "examples",
         headers: {
           header: {
-            type: "string"
-          }
+            type: "string",
+          },
         },
         schema: {
-          $ref: "#/definitions/MyModel"
-        }
+          $ref: "#/definitions/MyModel",
+        },
       });
     });
     it("should return the response when the type is given (400)", () => {
@@ -183,14 +183,14 @@ describe("OpenApiParamsBuilder", () => {
 
       const endpoint = new EndpointMetadata({
         target: Test,
-        propertyKey: "test"
+        propertyKey: "test",
       });
       endpoint.responses.set(400, {
-        type: NotFound
+        type: NotFound,
       } as any);
       endpoint.responses.set(200, {
         type: undefined,
-        description: "Success"
+        description: "Success",
       } as any);
 
       const builder = new OpenApiEndpointBuilder(
@@ -198,7 +198,7 @@ describe("OpenApiParamsBuilder", () => {
         "/test",
         {
           path: "/",
-          method: "get"
+          method: "get",
         },
         (s: any) => s
       );
@@ -210,9 +210,9 @@ describe("OpenApiParamsBuilder", () => {
         headers: {
           header: {
             type: "string",
-            value: "application/json"
-          }
-        }
+            value: "application/json",
+          },
+        },
       } as any);
 
       expect(result).to.deep.eq({
@@ -220,12 +220,12 @@ describe("OpenApiParamsBuilder", () => {
         examples: "examples",
         headers: {
           header: {
-            type: "string"
-          }
+            type: "string",
+          },
         },
         schema: {
-          $ref: "#/definitions/NotFound"
-        }
+          $ref: "#/definitions/NotFound",
+        },
       });
 
       // @ts-ignore
@@ -235,9 +235,9 @@ describe("OpenApiParamsBuilder", () => {
         headers: {
           header: {
             type: "string",
-            value: "application/json"
-          }
-        }
+            value: "application/json",
+          },
+        },
       } as any);
 
       expect(result2).to.deep.eq({
@@ -245,9 +245,9 @@ describe("OpenApiParamsBuilder", () => {
         examples: "examples",
         headers: {
           header: {
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       });
     });
   });

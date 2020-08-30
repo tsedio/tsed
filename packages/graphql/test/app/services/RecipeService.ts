@@ -9,8 +9,8 @@ export class RecipeService {
       title: "title",
       description: "Description",
       creationDate: new Date("2020-08-20"),
-      ingredients: []
-    })
+      ingredients: [],
+    }),
   ];
 
   async findById(id: string) {

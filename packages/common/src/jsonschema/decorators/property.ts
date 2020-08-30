@@ -197,14 +197,12 @@ export function Property(options?: IPropertyOptions | string | Type<any>): Funct
   return PropertyFn((propertyMetadata: PropertyMetadata) => {
     /* istanbul ignore next */
     if (typeof options === "string") {
-      util.deprecate(() => {
-      }, "@Property(name: string) are deprecated. Use @Name() instead")();
+      util.deprecate(() => {}, "@Property(name: string) are deprecated. Use @Name() instead")();
       propertyMetadata.name = options as string;
     } else if (options && !isPlainObject(options)) {
       propertyMetadata.type = options as any;
     } else if (typeof options === "object") {
-      util.deprecate(() => {
-      }, "@Property(options) is deprecated. Use @Name() or/and @CollectionOf() instead")();
+      util.deprecate(() => {}, "@Property(options) is deprecated. Use @Name() or/and @CollectionOf() instead")();
       propertyMetadata.name = options.name as string;
 
       if (!isEmpty((options as IPropertyOptions).use)) {

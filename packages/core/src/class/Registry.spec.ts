@@ -235,7 +235,7 @@ describe("Registry", () => {
       let hooks: any;
       before(() => {
         hooks = {
-          onCreate: Sinon.stub()
+          onCreate: Sinon.stub(),
         };
         registry = new Registry(FakeMetadata, hooks);
         hasStub = Sinon.stub(registry, "has").returns(false);

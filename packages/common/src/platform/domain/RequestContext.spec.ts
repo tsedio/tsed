@@ -14,7 +14,7 @@ describe("RequestContext", () => {
       id: "id",
       injector: PlatformTest.injector,
       response: new PlatformResponse(res),
-      request: new PlatformRequest(req)
+      request: new PlatformRequest(req),
     });
 
     expect(context.id).to.eq("id");

@@ -53,7 +53,7 @@ export function Allow(...allowedRequiredValues: any[]): any {
 
     metadata.allowedRequiredValues = allowedRequiredValues;
 
-    if (getDecoratorType(decoratorArgs, true) === "property" && allowedRequiredValues.some(e => e == null)) {
+    if (getDecoratorType(decoratorArgs, true) === "property" && allowedRequiredValues.some((e) => e == null)) {
       allowNullInSchema(decoratorArgs[0], decoratorArgs[1]);
     }
   };

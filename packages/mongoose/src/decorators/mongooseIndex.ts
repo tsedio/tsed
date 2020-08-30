@@ -29,7 +29,7 @@ import {schemaOptions} from "../utils/schemaOptions";
 export function MongooseIndex(fields: object, options?: any): Function {
   return (target: any) => {
     schemaOptions(target, {
-      indexes: [{fields, options}]
+      indexes: [{fields, options}],
     });
   };
 }

@@ -46,7 +46,7 @@ export function mapGenericsOptions(options: Partial<GenericTypes & GenericLabels
 
     return {
       ...ops,
-      generics: getGenericsMap(genericLabels, genericTypes)
+      generics: getGenericsMap(genericLabels, genericTypes),
     };
   }
 
@@ -62,6 +62,6 @@ export function popGenerics(value: NestedGenerics): NestedGenerics & GenericType
 
   return {
     genericTypes,
-    nestedGenerics: out
+    nestedGenerics: out,
   };
 }

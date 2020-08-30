@@ -14,13 +14,13 @@ describe("@Pattern", () => {
     const classSchema = JsonEntityStore.from(Model);
 
     expect(classSchema.schema.toJSON()).to.deep.equal({
-      "properties": {
-        "num": {
-          "pattern": "(a|b)",
-          "type": "string"
-        }
+      properties: {
+        num: {
+          pattern: "(a|b)",
+          type: "string",
+        },
       },
-      "type": "object"
+      type: "object",
     });
   });
 });

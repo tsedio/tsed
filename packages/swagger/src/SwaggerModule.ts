@@ -23,7 +23,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   ) {}
 
   get settings() {
-    return ([] as SwaggerSettings[]).concat(this.configuration.get<SwaggerSettings[]>("swagger")).filter(o => !!o);
+    return ([] as SwaggerSettings[]).concat(this.configuration.get<SwaggerSettings[]>("swagger")).filter((o) => !!o);
   }
 
   /**
@@ -47,7 +47,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   }
 
   $onRoutesInit() {
-    this.settings.forEach(conf => {
+    this.settings.forEach((conf) => {
       const {outFile} = conf;
       const spec = this.swaggerService.getOpenAPISpec(conf);
 
@@ -61,7 +61,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     const {httpsPort, httpPort} = this.configuration;
 
     const displayLog = (host: any) => {
-      this.settings.forEach(conf => {
+      this.settings.forEach((conf) => {
         const {path = "/", doc} = conf;
         const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 

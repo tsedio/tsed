@@ -12,7 +12,7 @@ export function mapHeaders(headers: JsonHeaders): {[key: string]: JsonHeader} {
     let type = typeof value;
 
     let options: any = {
-      example: value
+      example: value,
     };
 
     if (type === "object") {

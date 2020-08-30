@@ -111,7 +111,7 @@ const transformTsEnum = (enumValue: any) => {
  * @input
  */
 export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     const values = [enumValue].concat(enumValues).reduce((acc, value) => {
       if (isObject(value) && value !== null) {
         value = transformTsEnum(value);

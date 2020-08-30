@@ -92,7 +92,7 @@ export class PropertyMetadata extends Storable implements IPropertyOptions {
     const map = new Map<string | symbol, PropertyMetadata>();
     const ignored: string[] = [];
 
-    ancestorsOf(target).forEach(klass => {
+    ancestorsOf(target).forEach((klass) => {
       this.getOwnProperties(klass).forEach((v: PropertyMetadata, k: string) => {
         /* istanbul ignore next */
         if (ignored.indexOf(k) !== -1) {

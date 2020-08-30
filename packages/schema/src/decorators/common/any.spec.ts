@@ -14,10 +14,10 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       properties: {
         prop: {
-          type: ["integer", "number", "string", "boolean", "array", "object", "null"]
-        }
+          type: ["integer", "number", "string", "boolean", "array", "object", "null"],
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare any prop (uniq type)", () => {
@@ -31,10 +31,10 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       properties: {
         prop: {
-          type: "string"
-        }
+          type: "string",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare any prop (with list)", () => {
@@ -48,10 +48,10 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       properties: {
         prop: {
-          type: ["string", "number", "boolean", "null"]
-        }
+          type: ["string", "number", "boolean", "null"],
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare any prop (with string, list)", () => {
@@ -63,15 +63,12 @@ describe("@Any", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      "properties": {
-        "prop": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
+      properties: {
+        prop: {
+          type: ["string", "null"],
+        },
       },
-      "type": "object"
+      type: "object",
     });
   });
 });

@@ -4,36 +4,29 @@ import {Container, GlobalProviders, InjectorService, ProviderScope, Scope, Servi
 describe("DI Singleton", () => {
   @Service()
   class ServiceSingleton {
-    constructor(public injector: InjectorService) {
-    }
+    constructor(public injector: InjectorService) {}
   }
 
   @Service()
   @Scope(ProviderScope.REQUEST)
   class ServiceRequest {
-    constructor() {
-
-    }
+    constructor() {}
   }
 
   @Service()
   @Scope(ProviderScope.INSTANCE)
   class ServiceInstance {
-    constructor() {
-
-    }
+    constructor() {}
   }
 
   @Service()
   class ServiceSingletonWithRequestDep {
-    constructor(public serviceRequest: ServiceRequest, public serviceRequest2: ServiceRequest) {
-    }
+    constructor(public serviceRequest: ServiceRequest, public serviceRequest2: ServiceRequest) {}
   }
 
   @Service()
   class ServiceSingletonWithInstanceDep {
-    constructor(public serviceInstance: ServiceInstance, public serviceInstance2: ServiceInstance) {
-    }
+    constructor(public serviceInstance: ServiceInstance, public serviceInstance2: ServiceInstance) {}
   }
 
   after(() => {

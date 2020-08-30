@@ -81,7 +81,7 @@ export function MinLength(minLength: number) {
     throw new Error("The value of minLength MUST be a non-negative integer.");
   }
 
-  return decoratorSchemaFactory(schema => {
+  return decoratorSchemaFactory((schema) => {
     schema.mapper.minLength = minLength;
   });
 }

@@ -19,7 +19,7 @@ export abstract class Storable extends Entity {
       target,
       propertyKey,
       index: (isNumber(index) ? index : undefined) as any,
-      descriptor: isObject(index) ? index : undefined
+      descriptor: isObject(index) ? index : undefined,
     });
 
     this._target = target;

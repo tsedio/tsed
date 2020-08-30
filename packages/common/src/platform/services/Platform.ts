@@ -13,7 +13,7 @@ import {PlatformRouter} from "./PlatformRouter";
  * @platform
  */
 @Injectable({
-  scope: ProviderScope.SINGLETON
+  scope: ProviderScope.SINGLETON,
 })
 export class Platform {
   private _routes: IRouteController[] = [];
@@ -48,7 +48,7 @@ export class Platform {
 
     return injector
       .getProviders(ProviderType.CONTROLLER)
-      .map(provider => {
+      .map((provider) => {
         if (!provider.hasParent()) {
           return new PlatformControllerBuilder(provider as ControllerProvider).build(injector);
         }
@@ -65,7 +65,7 @@ export class Platform {
   }
 
   public addRoutes(routes: IRoute[]) {
-    routes.forEach(routeSettings => {
+    routes.forEach((routeSettings) => {
       this.addRoute(routeSettings.route, routeSettings.token);
     });
   }
@@ -82,7 +82,7 @@ export class Platform {
         if (!provider.hasParent()) {
           this._routes.push({
             route,
-            provider
+            provider,
           });
           this.app.use(route, provider.router.callback());
         }
@@ -117,7 +117,7 @@ export class Platform {
     let routes: IRouteDetails[] = [];
 
     ctrl.children
-      .map(ctrl => injector.getProvider(ctrl))
+      .map((ctrl) => injector.getProvider(ctrl))
       .forEach((provider: ControllerProvider) => {
         routes = routes.concat(this.buildRoutes(`${endpointUrl}${provider.path}`, provider));
       });
@@ -133,7 +133,7 @@ export class Platform {
             url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/"),
             className: targetName,
             methodClassName: String(propertyKey),
-            parameters: params
+            parameters: params,
           });
         }
       });

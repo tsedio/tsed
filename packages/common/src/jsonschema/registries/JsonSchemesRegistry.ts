@@ -58,7 +58,7 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
   property(target: Type<any>, propertyKey: string, type: any, collectionType?: any): JsonSchema {
     if (!this.has(target)) {
       this.merge(target, {
-        type: target
+        type: target,
       });
       Store.from(target).set("schema", this.get(target));
     }
@@ -102,7 +102,7 @@ export class JsonSchemaRegistry extends Registry<any, Partial<JsonSchema>> {
   getSchemaDefinition(target: Type<any>, options: Partial<GetSchemaOptions> = {}): JSONSchema6 {
     if (isPrimitiveOrPrimitiveClass(target)) {
       return {
-        type: getJsonType(target)
+        type: getJsonType(target),
       };
     }
 

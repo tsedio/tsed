@@ -17,10 +17,10 @@ describe("@MaxLength", () => {
       properties: {
         word: {
           maxLength: 0,
-          type: "string"
-        }
+          type: "string",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should throw error", () => {
@@ -52,11 +52,11 @@ describe("@MaxLength", () => {
           type: "array",
           items: {
             maxLength: 0,
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
 });

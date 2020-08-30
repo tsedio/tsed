@@ -10,7 +10,7 @@ describe("Returns()", () => {
     it("should set the responses", () => {
       class Ctrl {
         @Returns(400, {
-          description: "Bad Request"
+          description: "Bad Request",
         })
         test() {}
       }
@@ -19,7 +19,7 @@ describe("Returns()", () => {
 
       expect(endpoint.responses.get(400)).to.deep.eq({
         code: 400,
-        description: "Bad Request"
+        description: "Bad Request",
       });
     });
   });
@@ -37,7 +37,7 @@ describe("Returns()", () => {
       expect(endpoint.responses.get(200)).to.deep.eq({
         code: 200,
         description: "",
-        type: Test
+        type: Test,
       });
     });
   });
@@ -46,7 +46,7 @@ describe("Returns()", () => {
     it("should set the responses", () => {
       class Ctrl {
         @Returns(Test, {
-          description: "Success"
+          description: "Success",
         })
         test() {}
       }
@@ -56,7 +56,7 @@ describe("Returns()", () => {
       expect(endpoint.response).to.deep.eq({
         code: 200,
         description: "Success",
-        type: Test
+        type: Test,
       });
     });
   });
@@ -74,7 +74,7 @@ describe("Returns()", () => {
       expect(endpoint.response).to.deep.eq({
         code: 200,
         description: "",
-        type: Test
+        type: Test,
       });
     });
   });
@@ -88,9 +88,9 @@ describe("Returns()", () => {
           type: Test,
           headers: {
             "Content-Type": {
-              type: "string"
-            }
-          }
+              type: "string",
+            },
+          },
         })
         test() {}
       }
@@ -103,9 +103,9 @@ describe("Returns()", () => {
         type: Test,
         headers: {
           "Content-Type": {
-            type: "string"
-          }
-        }
+            type: "string",
+          },
+        },
       });
     });
   });

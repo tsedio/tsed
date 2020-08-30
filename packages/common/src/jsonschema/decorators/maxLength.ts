@@ -80,7 +80,7 @@ export function MaxLength(maxLength: number) {
     throw new Error("The value of maxLength MUST be a non-negative integer.");
   }
 
-  return decoratorSchemaFactory(schema => {
+  return decoratorSchemaFactory((schema) => {
     schema.mapper.maxLength = maxLength;
   });
 }

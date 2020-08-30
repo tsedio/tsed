@@ -6,19 +6,19 @@ describe("Schema()", () => {
   it("should store data", () => {
     class Test {
       @Schema({
-        pattern: "a|b"
+        pattern: "a|b",
       })
       test: string;
     }
 
     expect(getJsonSchema(Test)).to.deep.equal({
-      "properties": {
-        "test": {
-          "pattern": "a|b",
-          "type": "string"
-        }
+      properties: {
+        test: {
+          pattern: "a|b",
+          type: "string",
+        },
       },
-      "type": "object"
+      type: "object",
     });
   });
 });

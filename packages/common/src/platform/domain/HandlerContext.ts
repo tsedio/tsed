@@ -65,7 +65,7 @@ export class HandlerContext {
 
     const {
       metadata: {hasNextFunction},
-      request: {ctx}
+      request: {ctx},
     } = this;
 
     if (error) {
@@ -89,7 +89,7 @@ export class HandlerContext {
       metadata: {hasNextFunction},
       request,
       response,
-      next
+      next,
     } = this;
 
     if (process) {

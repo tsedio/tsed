@@ -126,7 +126,7 @@ export class JsonSchema implements JSONSchema6 {
         schema.mapValue(propertyKey, value);
 
         return true;
-      }
+      },
     } as any);
   }
 
@@ -307,7 +307,7 @@ export class JsonSchema implements JSONSchema6 {
    * @param {string} property
    */
   private forwardKeysTo(instance: any, property: string) {
-    AUTO_MAP_KEYS.forEach(key => {
+    AUTO_MAP_KEYS.forEach((key) => {
       if (instance[key]) {
         instance[property][key] = instance[key];
         delete instance[key];

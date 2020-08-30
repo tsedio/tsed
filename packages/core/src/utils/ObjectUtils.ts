@@ -19,17 +19,13 @@ export function constructorOf(target: any): Type<any> {
 export function toStringConstructor(target: any): string {
   const ctr = getConstructor(target);
   const strings = ctr.toString().split("\n");
-  const ctrString = strings.find(s => s.indexOf("constructor(") > -1) || "constructor()";
+  const ctrString = strings.find((s) => s.indexOf("constructor(") > -1) || "constructor()";
 
   return `${ctrString.replace("{", "").trim()}`;
 }
 
 export function getConstructorArgNames(target: any) {
-  return toStringConstructor(target)
-    .replace("constructor(", "")
-    .replace(")", "")
-    .split(", ")
-    .filter(Boolean);
+  return toStringConstructor(target).replace("constructor(", "").replace(")", "").split(", ").filter(Boolean);
 }
 
 /**
@@ -333,11 +329,7 @@ export function nameOfClass(targetClass: any): string {
  * Get symbol name.
  * @param sym
  */
-export const nameOfSymbol = (sym: symbol): string =>
-  sym
-    .toString()
-    .replace("Symbol(", "")
-    .replace(")", "");
+export const nameOfSymbol = (sym: symbol): string => sym.toString().replace("Symbol(", "").replace(")", "");
 
 /**
  * Return the descriptor for a given class and propertyKey
@@ -413,7 +405,7 @@ export function methodsOf(target: any) {
   const methods = new Map();
   target = classOf(target);
 
-  ancestorsOf(target).forEach(target => {
+  ancestorsOf(target).forEach((target) => {
     const keys = Reflect.ownKeys(prototypeOf(target));
 
     keys.forEach((propertyKey: string) => {

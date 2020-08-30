@@ -19,14 +19,14 @@ describe("AuthOptions()", () => {
       AuthOptions(Guard, {
         security: [
           {
-            auth: ["email"]
-          }
+            auth: ["email"],
+          },
         ],
         responses: {
           "200": {
-            description: "Success"
-          }
-        }
+            description: "Success",
+          },
+        },
       })(...decoratorArgs(prototypeOf(Test), "test"));
 
       // THEN
@@ -35,14 +35,14 @@ describe("AuthOptions()", () => {
       expect(store.get("operation")).to.deep.eq({
         security: [
           {
-            auth: ["email"]
-          }
-        ]
+            auth: ["email"],
+          },
+        ],
       });
       expect(store.get("responses")).to.deep.eq({
         "200": {
-          description: "Success"
-        }
+          description: "Success",
+        },
       });
       store.set("operation", {});
       store.set("responses", {});
@@ -58,14 +58,14 @@ describe("AuthOptions()", () => {
       AuthOptions(Guard, {
         security: [
           {
-            auth: ["email"]
-          }
+            auth: ["email"],
+          },
         ],
         responses: {
           "200": {
-            description: "Success"
-          }
-        }
+            description: "Success",
+          },
+        },
       })(Test);
 
       // THEN
@@ -74,14 +74,14 @@ describe("AuthOptions()", () => {
       expect(store.get("operation")).to.deep.eq({
         security: [
           {
-            auth: ["email"]
-          }
-        ]
+            auth: ["email"],
+          },
+        ],
       });
       expect(store.get("responses")).to.deep.eq({
         "200": {
-          description: "Success"
-        }
+          description: "Success",
+        },
       });
 
       store.set("operation", {});

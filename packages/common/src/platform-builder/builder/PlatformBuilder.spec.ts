@@ -8,7 +8,7 @@ import {
   BeforeRoutesInit,
   Controller,
   InjectorService,
-  OnReady
+  OnReady,
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
@@ -35,11 +35,11 @@ describe("PlatformBuilder", () => {
 
   @Configuration({
     logger: {
-      level: "off"
+      level: "off",
     },
     mount: {
-      "/rest": [RestCtrl]
-    }
+      "/rest": [RestCtrl],
+    },
   })
   class ServerModule implements BeforeInit, AfterInit, BeforeRoutesInit, AfterRoutesInit, BeforeListen, AfterListen, OnReady {
     $onInit(): Promise<any> | void {
@@ -99,7 +99,7 @@ describe("PlatformBuilder", () => {
       // WHEN
       const server = await PlatformTest.bootstrap(ServerModule, {
         httpPort: false,
-        httpsPort: false
+        httpsPort: false,
       });
 
       // THEN
@@ -132,8 +132,8 @@ describe("PlatformBuilder", () => {
       expect(server.platform.addRoutes).to.have.been.calledWithExactly([
         {
           route: "/rest",
-          token: RestCtrl
-        }
+          token: RestCtrl,
+        },
       ]);
     });
   });
@@ -154,7 +154,7 @@ describe("PlatformBuilder", () => {
         join(process.cwd(), "services/**/*.ts"),
         join(process.cwd(), "middlewares/**/*.ts"),
         join(process.cwd(), "converters/**/*.ts"),
-        MyClass
+        MyClass,
       ]);
     });
   });

@@ -110,7 +110,7 @@ export class RequestLogger {
       return;
     }
 
-    const match = this.ignoreUrlPatterns.find(reg => !!this.url.match(reg));
+    const match = this.ignoreUrlPatterns.find((reg) => !!this.url.match(reg));
 
     !match && cb();
 

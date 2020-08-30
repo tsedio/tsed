@@ -4,8 +4,5 @@
  * @ignore
  */
 export function buildPath(path: string) {
-  return path
-    .split("/")
-    .filter(Boolean)
-    .join("/");
+  return path.split("/").filter(Boolean).join("/");
 }

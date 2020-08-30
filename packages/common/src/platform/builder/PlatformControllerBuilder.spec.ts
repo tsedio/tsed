@@ -21,7 +21,7 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
     get: use,
     use,
     post: use,
-    all: use
+    all: use,
   };
 
   // @ts-ignore
@@ -30,16 +30,16 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
   const injector = new InjectorService();
 
   injector.addProvider(PlatformRouter, {
-    useClass: PlatformRouter
+    useClass: PlatformRouter,
   });
   injector.addProvider(PlatformHandler, {
-    useClass: PlatformHandler
+    useClass: PlatformHandler,
   });
   injector.addProvider(PlatformApplication, {
-    useClass: PlatformApplication
+    useClass: PlatformApplication,
   });
   injector.addProvider(Platform, {
-    useClass: Platform
+    useClass: Platform,
   });
 
   const provider = new ControllerProvider(TestCtrl);
@@ -48,7 +48,7 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
     provider.middlewares = {
       use: [function controllerUse() {}],
       useAfter: [function controllerAfter() {}],
-      useBefore: [function controllerBefore() {}]
+      useBefore: [function controllerBefore() {}],
     };
   }
 
@@ -73,7 +73,7 @@ describe("ControllerBuilder", () => {
   beforeEach(() => {
     // @ts-ignore
     sandbox.stub(PlatformRouter, "createRawRouter");
-    sandbox.stub(PlatformDriver.prototype, "mapHandlers").callsFake(o => o);
+    sandbox.stub(PlatformDriver.prototype, "mapHandlers").callsFake((o) => o);
     sandbox.stub(EndpointMetadata, "getEndpoints");
   });
   afterEach(() => {
@@ -87,7 +87,7 @@ describe("ControllerBuilder", () => {
     endpoint.pathsMethods.push({
       path: "/",
       method: "get",
-      isFinal: true
+      isFinal: true,
     });
 
     // WHEN
@@ -119,7 +119,7 @@ describe("ControllerBuilder", () => {
     const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder();
 
     endpoint.pathsMethods.push({
-      path: "/"
+      path: "/",
     });
 
     // WHEN
@@ -173,20 +173,20 @@ describe("ControllerBuilder", () => {
     // GIVEN
     const {endpoint, controllerBuilder, router, injector, TestCtrl} = getControllerBuilder({
       propertyKey: "getMethod",
-      withMiddleware: false
+      withMiddleware: false,
     });
 
     endpoint.pathsMethods.push({
       method: "get",
       path: "/",
-      isFinal: true
+      isFinal: true,
     });
 
     const endpointAll = new EndpointMetadata({target: TestCtrl, propertyKey: "allMethod"});
     endpointAll.pathsMethods.push({
       method: "all",
       path: "/",
-      isFinal: true
+      isFinal: true,
     });
 
     // @ts-ignore

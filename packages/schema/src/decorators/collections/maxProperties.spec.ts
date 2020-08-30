@@ -16,10 +16,10 @@ describe("@MaxProperties", () => {
       properties: {
         prop: {
           maxProperties: 10,
-          type: "object"
-        }
+          type: "object",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare max value (Map<any>)", () => {
@@ -34,10 +34,10 @@ describe("@MaxProperties", () => {
       properties: {
         prop: {
           maxProperties: 10,
-          type: "object"
-        }
+          type: "object",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should declare max value on class", () => {
@@ -48,7 +48,7 @@ describe("@MaxProperties", () => {
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
       maxProperties: 10,
-      type: "object"
+      type: "object",
     });
   });
   it("should declare max value on param", () => {
@@ -63,8 +63,8 @@ describe("@MaxProperties", () => {
       definitions: {},
       tags: [
         {
-          name: "MyController"
-        }
+          name: "MyController",
+        },
       ],
       paths: {
         "/": {
@@ -77,19 +77,19 @@ describe("@MaxProperties", () => {
                 required: false,
                 schema: {
                   maxProperties: 10,
-                  type: "object"
-                }
-              }
+                  type: "object",
+                },
+              },
             ],
             responses: {
               "200": {
-                description: "Success"
-              }
+                description: "Success",
+              },
             },
-            tags: ["MyController"]
-          }
-        }
-      }
+            tags: ["MyController"],
+          },
+        },
+      },
     });
   });
   it("should throw an error when the given parameters is as negative integer", () => {

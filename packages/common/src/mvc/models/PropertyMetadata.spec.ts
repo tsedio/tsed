@@ -3,8 +3,7 @@ import {expect} from "chai";
 import {PropertyMetadata} from "./PropertyMetadata";
 
 class Test {
-  method(arg1: any, arg2: any) {
-  }
+  method(arg1: any, arg2: any) {}
 }
 
 class Parent {
@@ -37,9 +36,7 @@ describe("PropertyMetadata", () => {
     });
 
     it("should return the required value", () => {
-      expect(propertyMetadata.required)
-        .to.be.a("boolean")
-        .and.to.eq(true);
+      expect(propertyMetadata.required).to.be.a("boolean").and.to.eq(true);
     });
 
     it("should return collectionType", () => {
@@ -146,8 +143,7 @@ describe("PropertyMetadata", () => {
     });
   });
   describe("get()", () => {
-    before(() => {
-    });
+    before(() => {});
 
     it("should return the propertyMetadata", () => {
       const propertyMetadata = PropertyMetadata.get(Test, "test");
@@ -213,8 +209,7 @@ describe("PropertyMetadata", () => {
     });
 
     describe("when is the Parent class", () => {
-      before(() => {
-      });
+      before(() => {});
       it("should have a property name metadata from Parent class", () => {
         const result = PropertyMetadata.getProperties(Parent);
         expect(result.has("test")).to.eq(false);

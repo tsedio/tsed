@@ -21,8 +21,8 @@ export function testCookies(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [CookiesCtrl]
-      }
+        "/rest": [CookiesCtrl],
+      },
     })
   );
   before(() => {
@@ -30,10 +30,7 @@ export function testCookies(options: PlatformTestOptions) {
   });
   after(PlatformTest.reset);
   it("Scenario 1: GET /rest/cookies/scenario-1", async () => {
-    const {body} = await request
-      .get("/rest/cookies/scenario-1")
-      .set("Cookie", "authorization=eOIjdkk=")
-      .expect(200);
+    const {body} = await request.get("/rest/cookies/scenario-1").set("Cookie", "authorization=eOIjdkk=").expect(200);
 
     expect(body.authorization).to.eq("eOIjdkk=");
   });

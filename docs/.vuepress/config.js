@@ -136,18 +136,6 @@ module.exports = {
           }
         ],
         sidebar: {
-          "/docs/middlewares/": [{
-            title: "Middlewares",
-            collapsable: false,
-            children: [
-              "call-sequence",
-              "override-middleware",
-              "override/authentication",
-              "override/global-error-handler",
-              "override/response-view",
-              "override/send-response"
-            ]
-          }],
           "/docs/": [
             {
               title: "Overview",

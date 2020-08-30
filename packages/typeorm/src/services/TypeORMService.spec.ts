@@ -21,12 +21,12 @@ describe("TypeORMService", () => {
       const connection: any = {
         isConnected: true,
         connect: Sinon.stub().resolves(),
-        close: Sinon.stub()
+        close: Sinon.stub(),
       };
       let called = false;
       const connectionManager = {
         create: Sinon.stub().returns(connection),
-        has: Sinon.stub().callsFake(id => {
+        has: Sinon.stub().callsFake((id) => {
           if (called) {
             return true;
           }
@@ -35,7 +35,7 @@ describe("TypeORMService", () => {
           return false;
         }),
         get: Sinon.stub().returns(connection),
-        connections: [connection]
+        connections: [connection],
       };
 
       // @ts-ignore
@@ -47,8 +47,8 @@ describe("TypeORMService", () => {
         logger: {
           info: Sinon.stub(),
           error: Sinon.stub(),
-          debug: Sinon.stub()
-        }
+          debug: Sinon.stub(),
+        },
       } as any;
 
       // WHEN

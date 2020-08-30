@@ -8,20 +8,17 @@ import {rootDir, Server} from "./app/Server";
 const utils = PlatformTestUtils.create({
   rootDir,
   platform: PlatformExpress,
-  server: Server
+  server: Server,
 });
 
 @Controller("/merge-params/:parentId")
 @MergeParams(true)
 class TestMergeParamsCtrl {
   @Get("/:id")
-  get(
-    @PathParams("parentId") parentId: string,
-    @PathParams("id") id: string
-  ) {
+  get(@PathParams("parentId") parentId: string, @PathParams("id") id: string) {
     return {
       parentId,
-      id
+      id,
     };
   }
 }
@@ -29,13 +26,13 @@ class TestMergeParamsCtrl {
 describe("MergeParams", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(utils.bootstrap({
-    mount: {
-      "/rest": [
-        TestMergeParamsCtrl
-      ]
-    }
-  }));
+  before(
+    utils.bootstrap({
+      mount: {
+        "/rest": [TestMergeParamsCtrl],
+      },
+    })
+  );
   after(utils.reset);
 
   before(() => {
@@ -47,7 +44,7 @@ describe("MergeParams", () => {
 
     expect(body).to.deep.eq({
       id: "ID",
-      parentId: "parentID"
+      parentId: "parentID",
     });
   });
 });

@@ -6,7 +6,7 @@ import {
   LogIncomingRequestMiddleware,
   Platform,
   PlatformApplication,
-  PlatformContextMiddleware
+  PlatformContextMiddleware,
 } from "../../platform";
 import {GlobalErrorHandlerMiddleware, PlatformExceptionsMiddleware} from "../../platform-exceptions";
 import {PlatformLogMiddleware} from "../../platform/middlewares/PlatformLogMiddleware";
@@ -21,7 +21,7 @@ import {
   listenHttpsServer,
   loadInjector,
   printRoutes,
-  setLoggerLevel
+  setLoggerLevel,
 } from "../utils";
 
 /**

@@ -52,7 +52,7 @@ export class ControllerProvider extends Provider<any> {
   @Enumerable()
   set children(children: IChildrenController[]) {
     this._children = children;
-    this._children.forEach(d => (d.$parentCtrl = this));
+    this._children.forEach((d) => (d.$parentCtrl = this));
   }
 
   /**
@@ -88,7 +88,7 @@ export class ControllerProvider extends Provider<any> {
       {
         use: [],
         useAfter: [],
-        useBefore: []
+        useBefore: [],
       },
       this.store.get("middlewares") || {}
     );

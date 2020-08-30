@@ -28,7 +28,7 @@ describe("@Controller", () => {
     Controller({
       path: "/test",
       children: [Dep],
-      scope: ProviderScope.REQUEST
+      scope: ProviderScope.REQUEST,
     })(Test);
 
     // THEN

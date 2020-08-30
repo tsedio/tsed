@@ -8,12 +8,12 @@ describe("deepExtends", () => {
         expect(
           deepExtends(
             {
-              security: ["o"]
+              security: ["o"],
             },
             undefined
           )
         ).to.deep.eq({
-          security: ["o"]
+          security: ["o"],
         });
       });
       it("should merge data (2)", () => {
@@ -22,18 +22,18 @@ describe("deepExtends", () => {
         };
         const result = deepExtends(
           {
-            security: ["o"]
+            security: ["o"],
           },
           {
             security: ["o", "o1"],
-            withClass: new klass()
+            withClass: new klass(),
           }
         );
         expect(result).to.deep.eq({
           security: ["o", "o1"],
           withClass: {
-            test: "test"
-          }
+            test: "test",
+          },
         });
 
         expect(result.withClass).to.be.instanceof(klass);
@@ -43,14 +43,14 @@ describe("deepExtends", () => {
         expect(
           deepExtends(
             {
-              security: [{"1": "o"}]
+              security: [{"1": "o"}],
             },
             {
-              security: [{"1": "o"}, {"2": "o1"}]
+              security: [{"1": "o"}, {"2": "o1"}],
             }
           )
         ).to.deep.eq({
-          security: [{"1": "o"}, {"1": "o"}, {"2": "o1"}]
+          security: [{"1": "o"}, {"1": "o"}, {"2": "o1"}],
         });
       });
     });
@@ -67,7 +67,7 @@ describe("deepExtends", () => {
           {"4": "4"},
           {"1": "1"},
           {"2": "2"},
-          {"3": "3"}
+          {"3": "3"},
         ]);
       });
     });
@@ -79,10 +79,10 @@ describe("deepExtends", () => {
         expect(
           deepExtends(
             {
-              security: ["o"]
+              security: ["o"],
             },
             {
-              security: ["o", "o1"]
+              security: ["o", "o1"],
             },
             {
               default: (collection, value) => {
@@ -91,11 +91,11 @@ describe("deepExtends", () => {
                 }
 
                 return collection;
-              }
+              },
             }
           )
         ).to.deep.eq({
-          security: ["o", "o1"]
+          security: ["o", "o1"],
         });
       });
 
@@ -108,9 +108,9 @@ describe("deepExtends", () => {
                 {
                   in: "test",
                   name: "post",
-                  description: "test"
-                }
-              ]
+                  description: "test",
+                },
+              ],
             },
             {
               parameters: [
@@ -118,13 +118,13 @@ describe("deepExtends", () => {
                 {
                   in: "test",
                   name: "util",
-                  description: "test2"
-                }
-              ]
+                  description: "test2",
+                },
+              ],
             },
             {
               parameters: (collection, value) => {
-                const current = collection.find(current => current.in === value.in && current.name === value.name);
+                const current = collection.find((current) => current.in === value.in && current.name === value.name);
 
                 if (current) {
                   deepExtends(current, value);
@@ -133,15 +133,15 @@ describe("deepExtends", () => {
                 }
 
                 return collection;
-              }
+              },
             }
           )
         ).to.deep.eq({
           parameters: [
             {in: "test", name: "get", description: "test2"},
             {in: "test", name: "post", description: "test"},
-            {in: "test", name: "util", description: "test2"}
-          ]
+            {in: "test", name: "util", description: "test2"},
+          ],
         });
       });
     });
@@ -158,7 +158,7 @@ describe("deepExtends", () => {
           {"4": "4"},
           {"1": "1"},
           {"2": "2"},
-          {"3": "3"}
+          {"3": "3"},
         ]);
       });
     });

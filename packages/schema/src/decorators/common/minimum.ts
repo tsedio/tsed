@@ -70,7 +70,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @input
  */
 export function Minimum(minimum: number, exclusive: boolean = false) {
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     exclusive ? store.itemSchema.exclusiveMinimum(minimum) : store.itemSchema.minimum(minimum);
   });
 }

@@ -19,7 +19,7 @@ describe("schemaOptions", () => {
     it("should return schema options (3)", () => {
       expect(schemaOptions(Test, {options2: "options2"} as any)).to.deep.eq({
         options: "options",
-        options2: "options2"
+        options2: "options2",
       });
     });
   });
@@ -58,7 +58,7 @@ describe("schemaOptions", () => {
       pre: Sinon.stub(),
       post: Sinon.stub(),
       plugin: Sinon.stub(),
-      index: Sinon.stub()
+      index: Sinon.stub(),
     };
 
     before(() => {
@@ -68,17 +68,17 @@ describe("schemaOptions", () => {
             method: "method",
             parallel: true,
             fn: (doc: any, pre: any) => {},
-            errorCb: "errorCb"
-          }
+            errorCb: "errorCb",
+          },
         ],
         post: [
           {
             method: "method",
-            fn: "fn"
-          }
+            fn: "fn",
+          },
         ],
         plugins: [{plugin: "plugin", options: "options"}],
-        indexes: [{fields: "fields", options: "options"}]
+        indexes: [{fields: "fields", options: "options"}],
       } as any);
     });
 

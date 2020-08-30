@@ -1,14 +1,6 @@
 import {getJsonSchema, ParamMetadata, ParamTypes} from "@tsed/common";
 import {deepExtends, nameOf, Store, Type} from "@tsed/core";
-import {
-  BodyParameter,
-  FormDataParameter,
-  HeaderParameter,
-  Parameter,
-  PathParameter,
-  QueryParameter,
-  Schema
-} from "swagger-schema-official";
+import {BodyParameter, FormDataParameter, HeaderParameter, Parameter, PathParameter, QueryParameter, Schema} from "swagger-schema-official";
 import {swaggerType} from "../utils";
 import {OpenApiModelSchemaBuilder} from "./OpenApiModelSchemaBuilder";
 
@@ -19,7 +11,7 @@ function serializeModelToParameter(model: ParamMetadata) {
     return {
       name: [model.expression, key].filter(Boolean).join("."),
       required: (schema.required || []).includes(key),
-      ...item
+      ...item,
     };
   });
 }
@@ -35,7 +27,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
     super(target);
     this.name = `${nameOf(target)}${methodClassName.charAt(0).toUpperCase() + methodClassName.slice(1)}`;
 
-    this.injectedParams = ParamMetadata.getParams(target, methodClassName).filter(param => {
+    this.injectedParams = ParamMetadata.getParams(target, methodClassName).filter((param) => {
       if (param.paramType === ParamTypes.BODY) {
         this.hasBody = true;
       }
@@ -99,7 +91,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
       super.createSchema({
         schema: param.store.get("schema"),
         type: param.type,
-        collectionType: param.collectionType
+        collectionType: param.collectionType,
       })
     );
 
@@ -120,9 +112,9 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
             type: "array",
             collectionFormat: "multi",
             items: {
-              type
-            }
-          }
+              type,
+            },
+          },
         ] as any[];
       }
 
@@ -130,9 +122,9 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
         {
           type: "object",
           additionalProperties: {
-            type
-          }
-        }
+            type,
+          },
+        },
       ];
     }
 
@@ -142,8 +134,8 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
     return [
       {
-        type
-      }
+        type,
+      },
     ];
   }
 
@@ -154,12 +146,12 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
   private getInHeaders(): HeaderParameter[] {
     return this.injectedParams
       .filter((param: ParamMetadata) => param.paramType === ParamTypes.HEADER)
-      .map(param => {
+      .map((param) => {
         return Object.assign({}, param.store.get("baseParameter"), {
           in: "header",
           name: param.expression,
           type: swaggerType(param.type),
-          required: param.required
+          required: param.required,
         });
       });
   }
@@ -171,7 +163,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
   private getInFormData(): FormDataParameter[] {
     return this.injectedParams
       .filter((param: ParamMetadata) => param.paramType === ParamTypes.BODY || param.paramType === ParamTypes.FORM_DATA)
-      .map(param => {
+      .map((param) => {
         const name = ((param.expression as string) || "").replace(".0", "").replace(/^files./, "");
 
         const type = param.paramType === ParamTypes.FORM_DATA ? "file" : swaggerType(param.paramType);
@@ -180,7 +172,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
           in: "formData",
           name,
           required: param.required,
-          type
+          type,
         });
       });
   }
@@ -202,7 +194,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
       this._definitions = {
         ...this._definitions,
-        ...builder.definitions
+        ...builder.definitions,
       };
 
       if (param.required) {
@@ -216,8 +208,8 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
         schema: this.createSchema({
           schema: param.store.get("schema"),
           type: param.type,
-          collectionType: param.collectionType
-        })
+          collectionType: param.collectionType,
+        }),
       });
     }
 
@@ -242,8 +234,8 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
       required,
       description: "",
       schema: {
-        $ref: `#/definitions/${model}`
-      }
+        $ref: `#/definitions/${model}`,
+      },
     };
   }
 
@@ -261,12 +253,12 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
       }
     });
 
-    this.pathParameters.forEach(pathParam => {
+    this.pathParameters.forEach((pathParam) => {
       if (pathParams.has(pathParam.name)) {
         const param = pathParams.get(pathParam.name);
 
         pathParam = Object.assign({}, pathParam, param.store.get("baseParameter") || {}, {
-          type: swaggerType(param.type)
+          type: swaggerType(param.type),
         });
       }
 
@@ -290,15 +282,15 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
         return [
           ...params,
-          ...this.createSchemaFromQueryParam(param).map(item => {
+          ...this.createSchemaFromQueryParam(param).map((item) => {
             return {
               ...(param.store.get<any>("baseParameter") || {}),
               in: "query",
               name: param.expression,
               required: Boolean(param.required),
-              ...item
+              ...item,
             };
-          })
+          }),
         ];
       }, []);
   }
@@ -314,7 +306,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
     if (!!expression) {
       const keys = expression.split(".");
-      keys.forEach(key => {
+      keys.forEach((key) => {
         current.type = "object";
         current.properties = current.properties || {};
         current.properties![key] = {} as Schema;

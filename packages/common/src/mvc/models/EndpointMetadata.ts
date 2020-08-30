@@ -12,7 +12,7 @@ import {
   prototypeOf,
   Storable,
   Store,
-  Type
+  Type,
 } from "@tsed/core";
 import {IPathMethod} from "../interfaces/IPathMethod";
 import {IResponseOptions} from "../interfaces/IResponseOptions";
@@ -93,7 +93,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
       middlewares = [],
       afterMiddlewares = [],
       pathsMethods = [],
-      type
+      type,
     } = options;
 
     this.provide = target;
@@ -110,7 +110,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
       this.responses = responses;
     } else {
       this.responses.set(this.statusCode, {
-        code: this.statusCode
+        code: this.statusCode,
       } as any);
     }
   }
@@ -158,7 +158,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
   set redirect(options: EndpointRedirectOptions) {
     this.store.set("redirect", {
       status: 302,
-      ...options
+      ...options,
     });
   }
 
@@ -199,9 +199,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
       }
     };
 
-    ancestorsOf(target)
-      .reverse()
-      .forEach(set);
+    ancestorsOf(target).reverse().forEach(set);
 
     return Array.from(map.values());
   }
@@ -234,9 +232,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
 
   /* istanbul ignore next */
   static has(target: Type<any>, method: string | symbol): boolean {
-    return Store.from(target)
-      .get("endpoints")
-      .has(method);
+    return Store.from(target).get("endpoints").has(method);
   }
 
   /**
@@ -375,7 +371,7 @@ export class EndpointMetadata extends Storable implements EndpointConstructorOpt
       pathsMethods: this.pathsMethods,
       type: this.type,
       responses: this.responses,
-      statusCode: this.statusCode
+      statusCode: this.statusCode,
     });
   }
 }

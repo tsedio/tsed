@@ -12,7 +12,7 @@ describe("PlatformContextMiddleware", () => {
     const response: any = {
       send: sandbox.stub(),
       end: sandbox.stub(),
-      req: request
+      req: request,
     };
 
     const next = sandbox.stub();
@@ -35,7 +35,7 @@ describe("PlatformContextMiddleware", () => {
     const request: any = {};
     const response: any = {
       end: sandbox.stub(),
-      req: request
+      req: request,
     };
 
     const next = sandbox.stub();
@@ -44,7 +44,7 @@ describe("PlatformContextMiddleware", () => {
       reqIdBuilder() {
         return "1";
       },
-      ignoreUrlPatterns: []
+      ignoreUrlPatterns: [],
     });
 
     sandbox.stub(injector, "emit");

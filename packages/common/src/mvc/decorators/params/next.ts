@@ -11,7 +11,7 @@ import {UseParam} from "./useParam";
 export function Next(): ParameterDecorator {
   return UseParam(ParamTypes.NEXT_FN, {
     useConverter: false,
-    useValidation: false
+    useValidation: false,
   });
 }
 

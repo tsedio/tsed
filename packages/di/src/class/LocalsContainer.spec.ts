@@ -7,7 +7,7 @@ describe("LocalsContainer", () => {
     it("should destroy container", async () => {
       // GIVEN
       const instance = {
-        $onDestroy: Sinon.stub().resolves()
+        $onDestroy: Sinon.stub().resolves(),
       };
       const container = new LocalsContainer<any>();
       container.set("TOKEN", instance);

@@ -4,8 +4,7 @@ import {EndpointMetadata, ReturnType} from "../../../../src/mvc";
 describe("ReturnType", () => {
   it("should store metadata (when code is given)", () => {
     // GIVEN
-    class TypeC {
-    }
+    class TypeC {}
 
     // WHEN
     class Test {
@@ -16,12 +15,11 @@ describe("ReturnType", () => {
         headers: {
           // @ts-ignore
           "x-header": {
-            value: "test"
-          }
-        }
+            value: "test",
+          },
+        },
       })
-      get() {
-      }
+      get() {}
     }
 
     // THEN
@@ -35,15 +33,14 @@ describe("ReturnType", () => {
       description: "",
       headers: {
         "x-header": {
-          value: "test"
-        }
-      }
+          value: "test",
+        },
+      },
     });
   });
   it("should store metadata (when code is not given)", () => {
     // GIVEN
-    class TypeC {
-    }
+    class TypeC {}
 
     // WHEN
     class Test {
@@ -53,12 +50,11 @@ describe("ReturnType", () => {
         headers: {
           // @ts-ignore
           "x-header": {
-            value: "test"
-          }
-        }
+            value: "test",
+          },
+        },
       })
-      get() {
-      }
+      get() {}
     }
 
     // THEN
@@ -71,9 +67,9 @@ describe("ReturnType", () => {
       description: "",
       headers: {
         "x-header": {
-          value: "test"
-        }
-      }
+          value: "test",
+        },
+      },
     });
   });
 });

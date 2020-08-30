@@ -10,7 +10,7 @@ describe("@SchemaIgnore()", () => {
     SchemaIgnore()(Test, "test", descriptorOf(Test, "test"));
     const store = Store.from(Test, "test", descriptorOf(Test, "test"));
     expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
-      schemaIgnore: true
+      schemaIgnore: true,
     });
   });
 });

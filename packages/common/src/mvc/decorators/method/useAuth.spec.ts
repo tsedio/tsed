@@ -5,8 +5,7 @@ import {prototypeOf, UnsupportedDecoratorType} from "../../../../../core/src/uti
 import {EndpointMetadata, UseAuth} from "../../../../src/mvc";
 
 class Guard {
-  use() {
-  }
+  use() {}
 }
 
 describe("UseAuth()", () => {
@@ -16,18 +15,17 @@ describe("UseAuth()", () => {
       @UseAuth(Guard, {
         security: [
           {
-            auth: ["email"]
-          }
+            auth: ["email"],
+          },
         ],
         responses: {
           "200": {
-            description: "Success"
-          }
-        }
+            description: "Success",
+          },
+        },
       })
       class Test {
-        test() {
-        }
+        test() {}
       }
 
       // THEN
@@ -40,14 +38,14 @@ describe("UseAuth()", () => {
       expect(store.get("operation")).to.deep.eq({
         security: [
           {
-            auth: ["email"]
-          }
-        ]
+            auth: ["email"],
+          },
+        ],
       });
       expect(store.get("responses")).to.deep.eq({
         "200": {
-          description: "Success"
-        }
+          description: "Success",
+        },
       });
       store.set("operation", {});
       store.set("responses", {});
@@ -59,18 +57,17 @@ describe("UseAuth()", () => {
       @UseAuth(Guard, {
         security: [
           {
-            auth: ["email"]
-          }
+            auth: ["email"],
+          },
         ],
         responses: {
           "200": {
-            description: "Success"
-          }
-        }
+            description: "Success",
+          },
+        },
       })
       class Test {
-        test() {
-        }
+        test() {}
       }
 
       // THEN
@@ -84,14 +81,14 @@ describe("UseAuth()", () => {
       expect(store.get("operation")).to.deep.eq({
         security: [
           {
-            auth: ["email"]
-          }
-        ]
+            auth: ["email"],
+          },
+        ],
       });
       expect(store.get("responses")).to.deep.eq({
         "200": {
-          description: "Success"
-        }
+          description: "Success",
+        },
       });
 
       store.set("operation", {});
@@ -105,11 +102,9 @@ describe("UseAuth()", () => {
       @UseAuth(Guard, {defaultRole: "test"})
       class Test {
         @UseAuth(Guard, {role: "test2"})
-        test() {
-        }
+        test() {}
 
-        test2() {
-        }
+        test2() {}
       }
 
       // THEN
@@ -131,8 +126,7 @@ describe("UseAuth()", () => {
       // WHEN
       let actualError;
       try {
-        class Test {
-        }
+        class Test {}
 
         UseAuth(Guard)(Test, "property");
       } catch (er) {

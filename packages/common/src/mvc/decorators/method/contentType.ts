@@ -23,7 +23,7 @@ import {StoreMerge, useDecorators} from "@tsed/core";
 export function ContentType(type: string) {
   return useDecorators(
     StoreMerge("produces", [type]),
-    EndpointFn(endpoint => {
+    EndpointFn((endpoint) => {
       endpoint.contentType = type;
     })
   );

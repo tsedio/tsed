@@ -25,9 +25,9 @@ export function Input(eventName: string) {
       handlers: {
         [propertyKey]: {
           eventName,
-          methodClassName: propertyKey
-        }
-      }
+          methodClassName: propertyKey,
+        },
+      },
     });
   };
 }

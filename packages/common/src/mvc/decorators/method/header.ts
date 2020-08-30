@@ -16,7 +16,7 @@ export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
     const value: any = headers[key];
     let type = typeof value;
     let options: any = {
-      value
+      value,
     };
 
     if (type === "object") {
@@ -85,7 +85,7 @@ export function Header(headerName: string | number | IHeadersOptions, headerValu
   }
   const headers: IResponseHeaders = mapHeaders(headerName as IHeadersOptions);
 
-  return EndpointFn(endpoint => {
+  return EndpointFn((endpoint) => {
     const {response} = endpoint;
 
     response.headers = deepMerge(response.headers || {}, headers);

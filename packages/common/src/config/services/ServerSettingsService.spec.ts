@@ -21,23 +21,23 @@ describe("ServerSettingsService", () => {
         version: "1.0.0",
         uploadDir: "${rootDir}/uploads",
         scopes: {
-          [ProviderType.CONTROLLER]: ProviderScope.SINGLETON
+          [ProviderType.CONTROLLER]: ProviderScope.SINGLETON,
         },
         logger: {
           debug: false,
           level: "info",
           logRequest: true,
-          jsonIndentation: process.env.NODE_ENV === Env.PROD ? 0 : 2
+          jsonIndentation: process.env.NODE_ENV === Env.PROD ? 0 : 2,
         },
         errors: {
-          headerName: "errors"
+          headerName: "errors",
         },
         mount: {
-          "/rest": "${rootDir}/controllers/**/*.ts"
+          "/rest": "${rootDir}/controllers/**/*.ts",
         },
         exclude: ["**/*.spec.ts", "**/*.spec.js"],
         componentsScan: ["${rootDir}/controllers/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/converters/**/*.ts"],
-        controllerScope: ProviderScope.SINGLETON
+        controllerScope: ProviderScope.SINGLETON,
       }).forEach(([key, value]) => {
         settings[key] = value;
       });
@@ -89,14 +89,14 @@ describe("ServerSettingsService", () => {
     it("should return httpsPort", () => {
       expect(settings.getHttpsPort()).to.deep.equal({
         address: "address",
-        port: 8080
+        port: 8080,
       });
     });
 
     it("should return httpPort", () => {
       expect(settings.getHttpPort()).to.deep.equal({
         address: "address",
-        port: 8081
+        port: 8081,
       });
     });
 
@@ -180,14 +180,14 @@ describe("ServerSettingsService", () => {
       it("should return address and port from a concatened address and port", () => {
         expect((ServerSettingsService as any).buildAddressAndPort("0.0.0.0:9000")).to.deep.eq({
           address: "0.0.0.0",
-          port: 9000
+          port: 9000,
         });
       });
 
       it("should return address and port from a port number", () => {
         expect((ServerSettingsService as any).buildAddressAndPort(9000)).to.deep.eq({
           address: "0.0.0.0",
-          port: 9000
+          port: 9000,
         });
       });
     });
@@ -216,26 +216,26 @@ describe("ServerSettingsService", () => {
         const store = new Storage();
         const result = settings.resolve({
           path: "${rootDir}",
-          storage: store
+          storage: store,
         });
 
         expect(result).to.deep.eq({
           path: process.cwd(),
-          storage: new Storage()
+          storage: new Storage(),
         });
       });
 
       it("should replace rootDir", () => {
         expect(settings.resolve({other: null, resolve: "${rootDir}"})).to.deep.eq({
           other: null,
-          resolve: process.cwd()
+          resolve: process.cwd(),
         });
       });
 
       it("should replace rootDir", () => {
         expect(settings.resolve({other: 808, resolve: "${rootDir}"})).to.deep.eq({
           other: 808,
-          resolve: process.cwd()
+          resolve: process.cwd(),
         });
       });
     });
@@ -262,7 +262,7 @@ describe("ServerSettingsService", () => {
       Sinon.stub($log.appenders, "set");
 
       settings.logger = {
-        format: "format"
+        format: "format",
       };
     });
 
@@ -277,8 +277,8 @@ describe("ServerSettingsService", () => {
         levels: ["info", "debug"],
         layout: {
           type: "pattern",
-          pattern: "format"
-        }
+          pattern: "format",
+        },
       });
 
       expect($log.appenders.set).to.have.been.calledWithExactly("stderr", {
@@ -286,8 +286,8 @@ describe("ServerSettingsService", () => {
         type: "stderr",
         layout: {
           type: "pattern",
-          pattern: "format"
-        }
+          pattern: "format",
+        },
       });
     });
   });

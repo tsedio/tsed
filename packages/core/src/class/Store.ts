@@ -204,7 +204,7 @@ export class Store extends Metadata {
    * @param args
    */
   storeValues(options: {[key: string]: any}) {
-    Object.keys(options).forEach(key => this.set(key as any, options[key]));
+    Object.keys(options).forEach((key) => this.set(key as any, options[key]));
   }
 
   /**

@@ -3,7 +3,7 @@
  */
 export function concatParameters(parameters: any[], operation: any) {
   return parameters
-    .map(param => {
+    .map((param) => {
       const f = operation.parameters.find((p: any) => p.in === param.in && p.name === param.name);
 
       return f || param;

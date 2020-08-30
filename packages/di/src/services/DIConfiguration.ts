@@ -12,7 +12,7 @@ export class DIConfiguration {
       scopes: {},
       resolvers: [],
       imports: [],
-      ...initialProps
+      ...initialProps,
     }).forEach(([key, value]) => {
       this.default.set(key, value);
     });
@@ -55,10 +55,8 @@ export class DIConfiguration {
       },
 
       ownKeys(target: DIConfiguration): PropertyKey[] {
-        return Reflect.ownKeys(target)
-          .concat(Array.from(target.default.keys()))
-          .concat(Array.from(target.map.keys()));
-      }
+        return Reflect.ownKeys(target).concat(Array.from(target.default.keys())).concat(Array.from(target.map.keys()));
+      },
     });
   }
 
@@ -92,7 +90,7 @@ export class DIConfiguration {
    * @param thisArg
    */
   forEach(callbackfn: (value: any, index: string, map: Map<string, any>) => void, thisArg?: any) {
-    return new Set([...Array.from(this.default.keys()), ...Array.from(this.map.keys())]).forEach(key => {
+    return new Set([...Array.from(this.default.keys()), ...Array.from(this.map.keys())]).forEach((key) => {
       callbackfn(this.getRaw(key), key, this.map);
     }, thisArg);
   }

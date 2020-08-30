@@ -34,7 +34,7 @@ export function Args(mapIndex?: number, useType?: any): any {
     const type = Metadata.getParamTypes(target, propertyKey)[index];
     const param = {
       filter: SocketFilters.ARGS,
-      useConverter: false
+      useConverter: false,
     };
 
     if (mapIndex !== undefined) {
@@ -42,7 +42,7 @@ export function Args(mapIndex?: number, useType?: any): any {
         mapIndex,
         useConverter: true,
         type: useType || type,
-        collectionType: isCollection(type) ? type : undefined
+        collectionType: isCollection(type) ? type : undefined,
       });
     }
 
@@ -50,10 +50,10 @@ export function Args(mapIndex?: number, useType?: any): any {
       handlers: {
         [propertyKey]: {
           parameters: {
-            [index]: param
-          }
-        }
-      }
+            [index]: param,
+          },
+        },
+      },
     });
   };
 }

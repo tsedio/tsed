@@ -11,5 +11,4 @@ export class Calendar {
     this.id = id;
     this.name = name;
   }
-
 }

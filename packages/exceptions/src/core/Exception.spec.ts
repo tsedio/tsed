@@ -8,7 +8,7 @@ describe("Exception", () => {
     exception.setHeader("key", "value");
 
     expect(exception.headers).to.deep.equal({
-      key: "value"
+      key: "value",
     });
     expect(exception.status).to.equal(500);
     expect(exception.toString()).to.equal("HTTP_EXCEPTION(500): test, innerException: test");
@@ -19,7 +19,7 @@ describe("Exception", () => {
     exception.setHeaders({key: "value"});
 
     expect(exception.headers).to.deep.equal({
-      key: "value"
+      key: "value",
     });
     expect(exception.status).to.equal(203);
     expect(exception.toString()).to.equal("HTTP_EXCEPTION(203): test, innerException: test");

@@ -59,7 +59,7 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
     operationIdFormatter: options.operationIdFormatter || operationIdFormatter(options.operationIdPattern),
     ...options,
     root: false,
-    spec: options.spec
+    spec: options.spec,
   };
 
   return get(model, options, () => {
@@ -68,12 +68,12 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
     const ctrlPath = store.path;
     const defaultTags = cleanObject({
       name: store.schema.getName(),
-      description: store.schema.get("description")
+      description: store.schema.get("description"),
     });
 
     const specJson: any = {paths};
 
-    getOperationsStores(model).forEach(operationStore => {
+    getOperationsStores(model).forEach((operationStore) => {
       const operation = operationStore.operation!.toJSON({...options, spec, schemas});
 
       operationStore.operation!.operationPaths.forEach(({path, method}: {path: string; method: string}) => {
@@ -89,7 +89,7 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
                 operationStore.parent.schema.get("name") || operationStore.parent.targetName,
                 operationStore.propertyName,
                 path
-              )
+              ),
           });
         }
       });
@@ -99,7 +99,7 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
 
     if (spec === SpecTypes.OPENAPI) {
       specJson.components = {
-        schemas
+        schemas,
       };
     } else {
       specJson.definitions = schemas;

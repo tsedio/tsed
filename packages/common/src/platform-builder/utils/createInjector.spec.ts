@@ -15,7 +15,7 @@ describe("createInjector", () => {
   it("should create injector and stop logger in env Test", () => {
     const settings = {
       test: "test",
-      env: Env.TEST
+      env: Env.TEST,
     };
 
     const injector = createInjector(settings);
@@ -29,7 +29,7 @@ describe("createInjector", () => {
   it("should create injector", () => {
     const settings = {
       test: "test",
-      env: Env.PROD
+      env: Env.PROD,
     };
 
     const injector = createInjector(settings);

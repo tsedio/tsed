@@ -1,14 +1,5 @@
 import {expect} from "chai";
-import {
-  Container,
-  GlobalProviders,
-  IInterceptor,
-  IInterceptorContext,
-  InjectorService,
-  Intercept,
-  Interceptor,
-  Service
-} from "@tsed/di";
+import {Container, GlobalProviders, IInterceptor, IInterceptorContext, InjectorService, Intercept, Interceptor, Service} from "@tsed/di";
 
 describe("DI Interceptor", () => {
   @Interceptor()

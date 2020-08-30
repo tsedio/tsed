@@ -15,7 +15,7 @@ declare global {
  * @platform
  */
 @Injectable({
-  scope: ProviderScope.SINGLETON
+  scope: ProviderScope.SINGLETON,
 })
 export class PlatformApplication<T = TsED.Application> extends PlatformDriver<T> {
   constructor(platformHandler: PlatformHandler) {

@@ -23,17 +23,17 @@ describe("MongooseConnections", () => {
           get() {
             return {
               url: "mongodb://test",
-              connectionOptions: {options: "options"}
+              connectionOptions: {options: "options"},
             };
-          }
-        }
+          },
+        },
       },
       {
         token: MongooseService,
         use: {
-          connect: connectStub
-        }
-      }
+          connect: connectStub,
+        },
+      },
     ]);
 
     // THEN
@@ -53,18 +53,18 @@ describe("MongooseConnections", () => {
               {
                 id: "id",
                 url: "mongodb://test",
-                connectionOptions: {options: "options"}
-              }
+                connectionOptions: {options: "options"},
+              },
             ];
-          }
-        }
+          },
+        },
       },
       {
         token: MongooseService,
         use: {
-          connect: connectStub
-        }
-      }
+          connect: connectStub,
+        },
+      },
     ]);
 
     // THEN
@@ -84,19 +84,19 @@ describe("MongooseConnections", () => {
               urls: {
                 db1: {
                   url: "mongodb://test",
-                  connectionOptions: {options: "options"}
-                }
-              }
+                  connectionOptions: {options: "options"},
+                },
+              },
             };
-          }
-        }
+          },
+        },
       },
       {
         token: MongooseService,
         use: {
-          connect: connectStub
-        }
-      }
+          connect: connectStub,
+        },
+      },
     ]);
 
     // THEN

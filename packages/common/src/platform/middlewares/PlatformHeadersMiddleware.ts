@@ -8,7 +8,7 @@ function toHeaders(headers: {[key: string]: any}) {
   return Object.entries(headers).reduce((headers, [key, item]) => {
     return {
       ...headers,
-      [key]: String(item.value)
+      [key]: String(item.value),
     };
   }, {});
 }
@@ -31,7 +31,7 @@ export class PlatformHeadersMiddleware implements IMiddleware {
       response: {headers = {}},
       contentType,
       redirect,
-      location
+      location,
     } = ctx.endpoint;
 
     if (response.statusCode === 200) {

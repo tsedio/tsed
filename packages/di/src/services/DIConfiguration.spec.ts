@@ -9,18 +9,18 @@ describe("DIConfiguration", () => {
 
       configuration.set({
         scopes: {
-          [ProviderType.VALUE]: ProviderScope.SINGLETON
+          [ProviderType.VALUE]: ProviderScope.SINGLETON,
         },
         shouldResolved: "${scopes.value}",
         shouldResolved2: "<scopes.value>",
-        shouldResolved3: "{{scopes.value}}"
+        shouldResolved3: "{{scopes.value}}",
       });
       // WHEN
       configuration.merge({
         scopes: {
           [ProviderType.VALUE]: ProviderScope.INSTANCE,
-          [ProviderType.PROVIDER]: ProviderScope.SINGLETON
-        }
+          [ProviderType.PROVIDER]: ProviderScope.SINGLETON,
+        },
       });
 
       // THEN
@@ -30,12 +30,12 @@ describe("DIConfiguration", () => {
           "scopes",
           {
             provider: "singleton",
-            value: "singleton"
-          }
+            value: "singleton",
+          },
         ],
         ["shouldResolved", "${scopes.value}"],
         ["shouldResolved2", "<scopes.value>"],
-        ["shouldResolved3", "{{scopes.value}}"]
+        ["shouldResolved3", "{{scopes.value}}"],
       ]);
 
       expect(configuration.get<any>("shouldResolved")!).to.eq("singleton");

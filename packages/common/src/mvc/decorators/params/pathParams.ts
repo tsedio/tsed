@@ -48,7 +48,7 @@ export function PathParams(...args: any[]): ParameterDecorator {
     expression,
     useType,
     useConverter,
-    useValidation
+    useValidation,
   });
 }
 

@@ -5,7 +5,7 @@ import {rootDir, Server} from "./app/Server";
 const utils = PlatformTestUtils.create({
   rootDir,
   platform: PlatformExpress,
-  server: Server
+  server: Server,
 });
 
 describe("PlatformExpress", () => {

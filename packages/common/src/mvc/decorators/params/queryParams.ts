@@ -53,7 +53,7 @@ export function QueryParams(...args: any[]): ParameterDecorator {
     expression,
     useType,
     useConverter,
-    useValidation
+    useValidation,
   });
 }
 

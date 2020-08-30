@@ -69,7 +69,7 @@ export class TypeORMService {
   }
 
   closeConnections(): Promise<any> {
-    const promises = this.connectionManager.connections.map(instance => {
+    const promises = this.connectionManager.connections.map((instance) => {
       if (instance.isConnected) {
         return instance.close();
       }

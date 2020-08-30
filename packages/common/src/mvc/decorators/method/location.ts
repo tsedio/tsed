@@ -20,7 +20,7 @@ import {EndpointFn} from "./endpointFn";
  * @operation
  */
 export function Location(location: string): Function {
-  return EndpointFn(endpoint => {
+  return EndpointFn((endpoint) => {
     endpoint.location = location;
   });
 }

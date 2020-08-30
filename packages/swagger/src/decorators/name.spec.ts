@@ -7,8 +7,7 @@ class Test {
   @Name("name")
   props: string;
 
-  test(a: any) {
-  }
+  test(a: any) {}
 }
 
 describe("Name()", () => {

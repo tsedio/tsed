@@ -35,7 +35,7 @@ describe("ResponseViewMiddleware :", () => {
       "view",
       {
         data: "data",
-        options: "options"
+        options: "options",
       },
       Sinon.match.func
     );

@@ -4,7 +4,7 @@ import * as Sinon from "sinon";
 
 const registerSocketService: any = Sinon.stub();
 const {SocketService} = require("proxyquire")("../../src/decorators/socketService", {
-  "../registries/SocketServiceRegistry": {registerSocketService}
+  "../registries/SocketServiceRegistry": {registerSocketService},
 });
 
 describe("SocketService", () => {
@@ -22,7 +22,7 @@ describe("SocketService", () => {
     it("should set metadata", () => {
       expect(this.store.get("socketIO")).to.deep.eq({
         namespace: "/namespace",
-        type: "service"
+        type: "service",
       });
     });
 
@@ -44,7 +44,7 @@ describe("SocketService", () => {
     it("should set metadata", () => {
       expect(this.store.get("socketIO")).to.deep.eq({
         namespace: "/",
-        type: "service"
+        type: "service",
       });
     });
     it("should call socketServiceRegistry", () => {

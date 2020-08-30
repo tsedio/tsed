@@ -20,7 +20,7 @@ describe("UseOpts", () => {
     class MyService {
       @Inject()
       @UseOpts({
-        source: "test1"
+        source: "test1",
       })
       service1: MyProvider;
 

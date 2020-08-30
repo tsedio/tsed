@@ -17,7 +17,7 @@ export class InjectionError extends Error {
       if (isString(origin)) {
         this.origin = {
           message: origin,
-          stack: this.stack
+          stack: this.stack,
         };
       } else {
         if (origin.tokens) {
@@ -31,7 +31,7 @@ export class InjectionError extends Error {
     }
 
     const originMessage = this.origin ? "\nOrigin: " + this.origin.message : "";
-    const tokensMessage = this.tokens.map(token => nameOf(token)).join(" > ");
+    const tokensMessage = this.tokens.map((token) => nameOf(token)).join(" > ");
 
     this.message = `Injection failed on ${tokensMessage}${originMessage}`;
   }

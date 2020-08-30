@@ -27,7 +27,7 @@ export class MultipartFileMiddleware implements IMiddleware {
     const options = {
       dest,
       ...(this.configuration.get<any>("multer") || {}),
-      ...(conf.options || {})
+      ...(conf.options || {}),
     };
 
     /* istanbul ignore next */

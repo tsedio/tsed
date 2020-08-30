@@ -15,10 +15,10 @@ describe("Description", () => {
       properties: {
         prop: {
           type: "string",
-          description: "Description"
-        }
+          description: "Description",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
 });

@@ -26,8 +26,8 @@ export function testRedirect(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [RedirectCtrl]
-      }
+        "/rest": [RedirectCtrl],
+      },
     })
   );
   before(() => {

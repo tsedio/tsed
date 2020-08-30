@@ -45,7 +45,7 @@ export class Exception extends Error {
   setHeaders(headers: {[key: string]: any}) {
     this.headers = {
       ...this.headers,
-      ...headers
+      ...headers,
     };
 
     return this;

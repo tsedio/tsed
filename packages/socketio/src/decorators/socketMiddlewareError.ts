@@ -59,9 +59,9 @@ export function SocketMiddlewareError(): Function {
 
       handlers: {
         use: {
-          methodClassName: "use"
-        }
-      }
+          methodClassName: "use",
+        },
+      },
     });
 
     return Middleware()(target);

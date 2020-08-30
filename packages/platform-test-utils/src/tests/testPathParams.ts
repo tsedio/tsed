@@ -47,8 +47,8 @@ export function testPathParams(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [TestPathParamsCtrl]
-      }
+        "/rest": [TestPathParamsCtrl],
+      },
     })
   );
   before(() => {

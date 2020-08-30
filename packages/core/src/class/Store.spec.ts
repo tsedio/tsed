@@ -53,8 +53,8 @@ describe("Store", () => {
           FakeMetadata,
           "get",
           {
-            value: () => {}
-          }
+            value: () => {},
+          },
         ]);
       });
       after(() => {
@@ -89,8 +89,8 @@ describe("Store", () => {
           FakeMetadata,
           "get",
           {
-            set: () => {}
-          }
+            set: () => {},
+          },
         ]);
       });
       after(() => {
@@ -110,8 +110,8 @@ describe("Store", () => {
           FakeMetadata,
           "get",
           {
-            get: () => {}
-          }
+            get: () => {},
+          },
         ]);
       });
       after(() => {

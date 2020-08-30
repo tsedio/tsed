@@ -4,7 +4,7 @@ function getVariable(subpath: string) {
 
   return {
     name,
-    postfix: splited.length ? `.${splited.join(".")}` : ""
+    postfix: splited.length ? `.${splited.join(".")}` : "",
   };
 }
 
@@ -13,11 +13,7 @@ function getVariable(subpath: string) {
  */
 export function getJsonPathParameters(base: string, path: string | RegExp | (string | RegExp)[] = ""): {path: string; parameters: any[]}[] {
   if (path instanceof RegExp) {
-    path = path
-      .toString()
-      .replace(/^\//, "")
-      .replace(/\/$/, "")
-      .replace(/\\/, "");
+    path = path.toString().replace(/^\//, "").replace(/\/$/, "").replace(/\\/, "");
   }
 
   const params: any[] = [];
@@ -28,8 +24,8 @@ export function getJsonPathParameters(base: string, path: string | RegExp | (str
   `${base}${path}`
     .replace(/\((.*)\)/gi, "")
     .split("/")
-    .filter(o => !!o)
-    .map(key => {
+    .filter((o) => !!o)
+    .map((key) => {
       const subpath = key.replace(":", "").replace("?", "");
 
       if (key.includes(":")) {
@@ -41,7 +37,7 @@ export function getJsonPathParameters(base: string, path: string | RegExp | (str
 
           paths.push({
             path: current,
-            parameters: [].concat(params as any)
+            parameters: [].concat(params as any),
           });
         }
 
@@ -52,13 +48,13 @@ export function getJsonPathParameters(base: string, path: string | RegExp | (str
           in: "path",
           name,
           type: "string",
-          required: true
+          required: true,
         });
 
         if (optional && isOptional) {
           paths.push({
             path: current,
-            parameters: [].concat(params as any)
+            parameters: [].concat(params as any),
           });
         }
       } else {
@@ -71,7 +67,7 @@ export function getJsonPathParameters(base: string, path: string | RegExp | (str
     : [
         {
           path: current,
-          parameters: [].concat(params as any)
-        }
+          parameters: [].concat(params as any),
+        },
       ];
 }

@@ -9,7 +9,7 @@ export async function importFiles(patterns: string | string[], exclude: string[]
   for (const file of files) {
     try {
       const exports = await import(file);
-      Object.keys(exports).forEach(key => symbols.push(exports[key]));
+      Object.keys(exports).forEach((key) => symbols.push(exports[key]));
     } catch (er) {
       /* istanbul ignore next */
       $log.error(er);

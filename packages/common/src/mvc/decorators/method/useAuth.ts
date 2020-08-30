@@ -6,7 +6,7 @@ import {
   Store,
   StoreFn,
   Type,
-  UnsupportedDecoratorType
+  UnsupportedDecoratorType,
 } from "@tsed/core";
 import {AuthOptions, IAuthOptions} from "./authOptions";
 import {UseBefore} from "./useBefore";

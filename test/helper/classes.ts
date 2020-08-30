@@ -19,13 +19,12 @@ export class JsonFoo {
   test: any;
   foo: any;
 
-  method() {
-  }
+  method() {}
 
   deserialize(obj: any) {
     const self: any = this;
 
-    Object.getOwnPropertyNames(obj).forEach(key => {
+    Object.getOwnPropertyNames(obj).forEach((key) => {
       if (typeof self[key] !== "function") {
         self[key] = obj[key];
       }
@@ -35,7 +34,7 @@ export class JsonFoo {
   serialize() {
     return {
       test: this.test,
-      foo: this.foo
+      foo: this.foo,
     };
   }
 }
@@ -95,8 +94,7 @@ export class JsonFoo2 {
   @Ignore()
   password: string;
 
-  method() {
-  }
+  method() {}
 }
 
 export class JsonFoo3 {

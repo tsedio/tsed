@@ -19,7 +19,7 @@ export class PlatformControllerBuilder {
   public build(injector: InjectorService): IPlatformDriver {
     const {
       routerOptions,
-      middlewares: {useBefore, useAfter}
+      middlewares: {useBefore, useAfter},
     } = this.provider;
 
     this.provider.router = PlatformRouter.create(injector, routerOptions);
@@ -48,7 +48,7 @@ export class PlatformControllerBuilder {
       pathMethod.isFinal = true;
     };
     endpoints.forEach(({pathsMethods}) => {
-      pathsMethods.forEach(pathMethod => {
+      pathsMethods.forEach((pathMethod) => {
         pathMethod.method = pathMethod.method || "use";
 
         if (pathMethod.method !== "use") {
@@ -61,7 +61,7 @@ export class PlatformControllerBuilder {
       });
     });
 
-    endpoints.forEach(endpoint => {
+    endpoints.forEach((endpoint) => {
       this.buildEndpoint(endpoint);
     });
 
@@ -72,7 +72,7 @@ export class PlatformControllerBuilder {
     const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares, pathsMethods} = endpoint;
     const {
       router,
-      middlewares: {use}
+      middlewares: {use},
     } = this.provider;
     // Endpoint lifecycle
     let handlers: any[] = [];
@@ -120,7 +120,7 @@ export class PlatformControllerBuilder {
     const {router} = this.provider;
 
     middlewares
-      .filter(o => typeof o === "function")
+      .filter((o) => typeof o === "function")
       .forEach((middleware: any) => {
         router.use(middleware);
       });

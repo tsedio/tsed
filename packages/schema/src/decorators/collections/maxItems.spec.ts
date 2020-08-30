@@ -16,13 +16,13 @@ describe("@MaxItems", () => {
       properties: {
         num: {
           items: {
-            type: "number"
+            type: "number",
           },
           maxItems: 10,
-          type: "array"
-        }
+          type: "array",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
   it("should throw error", () => {

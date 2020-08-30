@@ -9,7 +9,7 @@ import {
   UnsupportedDecoratorType,
   useDecorators,
   useMethodDecorator,
-  useMethodDecorators
+  useMethodDecorators,
 } from "../../src";
 
 class Test {}
@@ -35,8 +35,8 @@ describe("DecoratorUtils", () => {
             Test.prototype,
             "props",
             {
-              get: () => {}
-            }
+              get: () => {},
+            },
           ])
         ).to.equal("property");
       });
@@ -47,8 +47,8 @@ describe("DecoratorUtils", () => {
             Test.prototype,
             "props",
             {
-              set: () => {}
-            }
+              set: () => {},
+            },
           ])
         ).to.equal("property");
       });
@@ -59,8 +59,8 @@ describe("DecoratorUtils", () => {
             Test,
             "props",
             {
-              value: () => {}
-            }
+              value: () => {},
+            },
           ])
         ).to.equal("method");
       });
@@ -71,8 +71,8 @@ describe("DecoratorUtils", () => {
             Test.prototype,
             "props",
             {
-              value: () => {}
-            }
+              value: () => {},
+            },
           ])
         ).to.equal("method");
       });
@@ -109,8 +109,8 @@ describe("DecoratorUtils", () => {
               Test.prototype,
               "props",
               {
-                get: () => {}
-              }
+                get: () => {},
+              },
             ],
             true
           )
@@ -124,8 +124,8 @@ describe("DecoratorUtils", () => {
               Test.prototype,
               "props",
               {
-                set: () => {}
-              }
+                set: () => {},
+              },
             ],
             true
           )
@@ -139,8 +139,8 @@ describe("DecoratorUtils", () => {
               Test,
               "props",
               {
-                value: () => {}
-              }
+                value: () => {},
+              },
             ],
             true
           )
@@ -154,8 +154,8 @@ describe("DecoratorUtils", () => {
               Test.prototype,
               "props",
               {
-                value: () => {}
-              }
+                value: () => {},
+              },
             ],
             true
           )
@@ -199,8 +199,8 @@ describe("DecoratorUtils", () => {
           Test.prototype,
           "props",
           {
-            get: () => {}
-          }
+            get: () => {},
+          },
         ])
       ).to.equal("Decorator cannot be used as property decorator on Test.props");
     });
@@ -211,8 +211,8 @@ describe("DecoratorUtils", () => {
           Test.prototype,
           "props",
           {
-            set: () => {}
-          }
+            set: () => {},
+          },
         ])
       ).to.equal("Decorator cannot be used as property decorator on Test.props");
     });
@@ -223,8 +223,8 @@ describe("DecoratorUtils", () => {
           Test,
           "props",
           {
-            value: () => {}
-          }
+            value: () => {},
+          },
         ])
       ).to.equal("Decorator cannot be used as method.static decorator on Test.props");
     });
@@ -235,8 +235,8 @@ describe("DecoratorUtils", () => {
           Test.prototype,
           "props",
           {
-            value: () => {}
-          }
+            value: () => {},
+          },
         ])
       ).to.equal("Decorator cannot be used as method decorator on Test.props");
     });
@@ -289,13 +289,13 @@ describe("DecoratorUtils", () => {
 
   describe("applyDecorators", () => {
     function decorator1(value: any) {
-      return StoreFn(store => {
+      return StoreFn((store) => {
         store.set("decorator1", value);
       });
     }
 
     function decorator2(value: any) {
-      return StoreFn(store => {
+      return StoreFn((store) => {
         store.set("decorator2", value);
       });
     }
@@ -314,13 +314,13 @@ describe("DecoratorUtils", () => {
   });
   describe("useDecorators", () => {
     function decorator1(value: any) {
-      return StoreFn(store => {
+      return StoreFn((store) => {
         store.set("decorator1", value);
       });
     }
 
     function decorator2(value: any) {
-      return StoreFn(store => {
+      return StoreFn((store) => {
         store.set("decorator2", value);
       });
     }
@@ -340,13 +340,13 @@ describe("DecoratorUtils", () => {
   describe("useMethodDecorators", () => {
     it("should apply all decorators", () => {
       function decorator1(value: any) {
-        return StoreFn(store => {
+        return StoreFn((store) => {
           store.set("decorator1", value);
         });
       }
 
       function decorator2(value: any) {
-        return StoreFn(store => {
+        return StoreFn((store) => {
           store.set("decorator2", value);
         });
       }

@@ -14,7 +14,7 @@ describe("ControllerRegistry", () => {
     const provider = new ControllerProvider(Test);
     // @ts-ignore
     provider.router = {
-      raw: {}
+      raw: {},
     };
 
     settings.onInvoke!(provider, locals, []);

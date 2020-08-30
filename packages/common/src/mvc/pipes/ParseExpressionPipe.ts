@@ -4,7 +4,7 @@ import {IPipe, ParamMetadata} from "../models/ParamMetadata";
 import {ParamTypes} from "../models/ParamTypes";
 
 @Injectable({
-  priority: -1
+  priority: -1,
 })
 export class ParseExpressionPipe implements IPipe {
   transform(value: any, param: ParamMetadata) {

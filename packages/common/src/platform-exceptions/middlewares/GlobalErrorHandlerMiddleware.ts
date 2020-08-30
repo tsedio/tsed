@@ -31,8 +31,8 @@ export class GlobalErrorHandlerMiddleware implements IMiddleware {
           message: error.message,
           stack: error.stack,
           status: error.status,
-          origin: error.origin
-        }
+          origin: error.origin,
+        },
       });
 
       this.setHeaders(response, error, error.origin);
@@ -53,8 +53,8 @@ export class GlobalErrorHandlerMiddleware implements IMiddleware {
         status: 500,
         message: error.message,
         stack: error.stack,
-        origin: error.origin
-      }
+        origin: error.origin,
+      },
     });
 
     this.setHeaders(response, error, error.origin);
@@ -68,7 +68,7 @@ export class GlobalErrorHandlerMiddleware implements IMiddleware {
     let hErrors: any = [];
 
     args
-      .filter(o => !!o)
+      .filter((o) => !!o)
       .forEach(({headers, errors}: ResponseErrorObject) => {
         if (headers) {
           response.set(headers);

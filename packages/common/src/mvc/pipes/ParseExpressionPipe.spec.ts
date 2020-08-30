@@ -21,7 +21,7 @@ describe("ParseExpressionPipe", () => {
         target: Test,
         propertyKey: "test",
         expression: "test",
-        paramType: ParamTypes.REQUEST
+        paramType: ParamTypes.REQUEST,
       });
       // @ts-ignore
       param._type = String;
@@ -29,7 +29,7 @@ describe("ParseExpressionPipe", () => {
       // WHEN
       const value = pipe.transform(
         {
-          test: "value"
+          test: "value",
         },
         param
       );
@@ -48,7 +48,7 @@ describe("ParseExpressionPipe", () => {
         target: Test,
         propertyKey: "test",
         expression: "test",
-        paramType: ParamTypes.REQUEST
+        paramType: ParamTypes.REQUEST,
       });
       // @ts-ignore
       param._type = String;
@@ -70,7 +70,7 @@ describe("ParseExpressionPipe", () => {
         target: Test,
         propertyKey: "test",
         expression: "Content-Type",
-        paramType: ParamTypes.HEADER
+        paramType: ParamTypes.HEADER,
       });
       // @ts-ignore
       param._type = String;
@@ -78,7 +78,7 @@ describe("ParseExpressionPipe", () => {
       // WHEN
       const value = pipe.transform(
         {
-          "content-type": "application/json"
+          "content-type": "application/json",
         },
         param
       );
@@ -97,14 +97,14 @@ describe("ParseExpressionPipe", () => {
         target: Test,
         propertyKey: "test",
         expression: "test",
-        paramType: ParamTypes.QUERY
+        paramType: ParamTypes.QUERY,
       });
       // @ts-ignore
       param._type = Boolean;
       // WHEN
       const value = pipe.transform(
         {
-          test: ""
+          test: "",
         },
         param
       );
@@ -123,14 +123,14 @@ describe("ParseExpressionPipe", () => {
         target: Test,
         propertyKey: "test",
         expression: "test",
-        paramType: ParamTypes.QUERY
+        paramType: ParamTypes.QUERY,
       });
       // @ts-ignore
       param._type = String;
       // WHEN
       const value = pipe.transform(
         {
-          test: ""
+          test: "",
         },
         param
       );
@@ -149,14 +149,14 @@ describe("ParseExpressionPipe", () => {
         target: Test,
         propertyKey: "test",
         expression: "test",
-        paramType: ParamTypes.PATH
+        paramType: ParamTypes.PATH,
       });
       // @ts-ignore
       param._type = Boolean;
       // WHEN
       const value = pipe.transform(
         {
-          test: ""
+          test: "",
         },
         param
       );
@@ -175,14 +175,14 @@ describe("ParseExpressionPipe", () => {
         target: Test,
         propertyKey: "test",
         expression: "test",
-        paramType: ParamTypes.PATH
+        paramType: ParamTypes.PATH,
       });
       // @ts-ignore
       param._type = String;
       // WHEN
       const value = pipe.transform(
         {
-          test: ""
+          test: "",
         },
         param
       );

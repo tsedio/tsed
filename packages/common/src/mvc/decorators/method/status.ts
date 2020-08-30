@@ -51,6 +51,6 @@ export function Status(code: number, options: Partial<TsED.ResponseOptions> = {}
     ...options,
     code,
     type: options.type || use,
-    collectionType: options.collectionType || collection
+    collectionType: options.collectionType || collection,
   });
 }

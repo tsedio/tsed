@@ -17,10 +17,10 @@ describe("@ExclusiveMaximum", () => {
       properties: {
         num: {
           exclusiveMaximum: 0,
-          type: "number"
-        }
+          type: "number",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
 });

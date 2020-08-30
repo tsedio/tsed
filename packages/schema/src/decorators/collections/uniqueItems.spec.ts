@@ -17,13 +17,13 @@ describe("@UniqueItems", () => {
       properties: {
         num: {
           items: {
-            type: "number"
+            type: "number",
           },
           uniqueItems: true,
-          type: "array"
-        }
+          type: "array",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
 });

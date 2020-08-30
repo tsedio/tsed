@@ -88,7 +88,7 @@ export class RequestContext extends Map<any, any> {
     this.logger = new RequestLogger(logger, {
       id,
       startDate: this.dateStart,
-      ...options
+      ...options,
     });
   }
 

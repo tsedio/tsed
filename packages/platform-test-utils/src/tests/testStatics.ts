@@ -10,8 +10,8 @@ export function testStatics(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/": []
-      }
+        "/": [],
+      },
     })
   );
   beforeEach(() => {

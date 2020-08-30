@@ -60,7 +60,7 @@ export class HandlerMetadata {
       parameters.push(
         new ParamMetadata({
           index: 0,
-          paramType: ParamTypes.ERR
+          paramType: ParamTypes.ERR,
         })
       );
     }
@@ -68,13 +68,13 @@ export class HandlerMetadata {
     parameters.push(
       new ParamMetadata({
         index: parameters.length,
-        paramType: ParamTypes.REQUEST
+        paramType: ParamTypes.REQUEST,
       })
     );
     parameters.push(
       new ParamMetadata({
         index: parameters.length,
-        paramType: ParamTypes.RESPONSE
+        paramType: ParamTypes.RESPONSE,
       })
     );
 
@@ -82,7 +82,7 @@ export class HandlerMetadata {
       parameters.push(
         new ParamMetadata({
           index: parameters.length,
-          paramType: ParamTypes.NEXT_FN
+          paramType: ParamTypes.NEXT_FN,
         })
       );
     }
@@ -95,6 +95,6 @@ export class HandlerMetadata {
   }
 
   public hasParamType(paramType: any): boolean {
-    return this.getParams().findIndex(p => p.paramType === paramType) > -1;
+    return this.getParams().findIndex((p) => p.paramType === paramType) > -1;
   }
 }

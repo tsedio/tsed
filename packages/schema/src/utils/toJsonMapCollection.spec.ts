@@ -6,13 +6,13 @@ describe("toJsonMapCollection", () => {
   it("should transform object to JsonMapCollection", () => {
     const result = toJsonMapCollection({
       test: {
-        schema: "schema"
-      }
+        schema: "schema",
+      },
     });
 
     expect(result).to.deep.eq(
       new JsonMap({
-        test: new JsonMap({schema: "schema"})
+        test: new JsonMap({schema: "schema"}),
       })
     );
   });

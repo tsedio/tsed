@@ -6,7 +6,7 @@ import {GlobalProviders, Provider, ProviderType, TypedProvidersRegistry} from "@
  */
 // tslint:disable-next-line: variable-name
 export const FilterRegistry: TypedProvidersRegistry = GlobalProviders.createRegistry(ProviderType.FILTER, Provider, {
-  injectable: true
+  injectable: true,
 });
 
 /**

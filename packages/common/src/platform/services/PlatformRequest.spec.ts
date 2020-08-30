@@ -39,33 +39,33 @@ describe("PlatformRequest", () => {
       expect(request.url).to.equal("/");
       expect(request.body).to.deep.equal({
         obj: {
-          test: "testValue"
+          test: "testValue",
         },
-        test: "testValue"
+        test: "testValue",
       });
       expect(request.params).to.deep.equal({
         obj: {
-          test: "testValue"
+          test: "testValue",
         },
-        test: "testValue"
+        test: "testValue",
       });
       expect(request.query).to.deep.equal({
         obj: {
-          test: "testValue"
+          test: "testValue",
         },
-        test: "testValue"
+        test: "testValue",
       });
       expect(request.cookies).to.deep.equal({
         obj: {
-          test: "testValue"
+          test: "testValue",
         },
-        test: "testValue"
+        test: "testValue",
       });
       expect(request.session).to.deep.equal({
         obj: {
-          test: "testValue"
+          test: "testValue",
         },
-        test: "testValue"
+        test: "testValue",
       });
     });
   });

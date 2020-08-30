@@ -18,10 +18,10 @@ describe("@Minimum", () => {
       properties: {
         num: {
           minimum: 0,
-          type: "number"
-        }
+          type: "number",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
 
@@ -39,10 +39,10 @@ describe("@Minimum", () => {
       properties: {
         num: {
           exclusiveMinimum: 0,
-          type: "number"
-        }
+          type: "number",
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
 
@@ -63,11 +63,11 @@ describe("@Minimum", () => {
           type: "array",
           items: {
             minimum: 0,
-            type: "number"
-          }
-        }
+            type: "number",
+          },
+        },
       },
-      type: "object"
+      type: "object",
     });
   });
 });

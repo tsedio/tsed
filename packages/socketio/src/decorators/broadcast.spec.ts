@@ -16,10 +16,10 @@ describe("Broadcast", () => {
         test: {
           returns: {
             eventName: "eventName",
-            type: "broadcast"
-          }
-        }
-      }
+            type: "broadcast",
+          },
+        },
+      },
     });
   });
 });

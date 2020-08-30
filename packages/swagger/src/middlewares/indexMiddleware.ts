@@ -11,7 +11,7 @@ export function indexMiddleware(viewPath: string, conf: SwaggerSettings & {urls:
       showExplorer,
       cssPath,
       jsPath,
-      swaggerOptions: options
+      swaggerOptions: options,
     });
   };
 }

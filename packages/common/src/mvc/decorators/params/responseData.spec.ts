@@ -4,8 +4,7 @@ import {ParamMetadata, ParamTypes, ResponseData} from "../../../../src/mvc";
 describe("@ResponseData", () => {
   it("should register a new ParamMetadata instance with the correct property", () => {
     class Ctrl {
-      test(@ResponseData() arg: any) {
-      }
+      test(@ResponseData() arg: any) {}
     }
 
     const param = ParamMetadata.get(Ctrl, "test", 0);

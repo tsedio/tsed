@@ -45,6 +45,6 @@ export function Session(...args: any[]): ParameterDecorator {
     expression,
     useType,
     useConverter,
-    useValidation
+    useValidation,
   });
 }

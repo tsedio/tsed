@@ -4,14 +4,11 @@ import {Consumes} from "../index";
 
 describe("Consumes()", () => {
   describe("when is used as method decorator", () => {
-    before(() => {
-
-    });
+    before(() => {});
     it("should set the produces", () => {
       class Test {
         @Consumes("text/html")
-        test() {
-        }
+        test() {}
       }
       const store = Store.from(Test.prototype, "test", descriptorOf(Test, "test"));
 

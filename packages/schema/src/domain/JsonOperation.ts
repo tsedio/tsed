@@ -1,12 +1,6 @@
 import {deepExtends, uniq, uniqBy} from "@tsed/core";
 import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
-import {
-  JsonExternalDocumentation,
-  JsonHeader,
-  JsonSchemaOptions,
-  JsonSecurityRequirement,
-  JsonTag
-} from "../interfaces";
+import {JsonExternalDocumentation, JsonHeader, JsonSchemaOptions, JsonSecurityRequirement, JsonTag} from "../interfaces";
 import {isSuccessStatus} from "../utils/isSuccessStatus";
 import {JsonMap} from "./JsonMap";
 import {JsonParameter} from "./JsonParameter";
@@ -97,9 +91,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     if (isSuccessStatus(statusCode) && !this._status) {
       const res = this.getResponseOf(200);
 
-      this.getResponses()
-        .set(statusCode.toString(), res)
-        .delete("200");
+      this.getResponses().set(statusCode.toString(), res).delete("200");
 
       this.defaultStatus(Number(statusCode));
     }
@@ -192,7 +184,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     this.operationPaths.set(String(method) + String(path), {
       ...options,
       method,
-      path
+      path,
     });
 
     return this;
@@ -220,8 +212,8 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     if (this.get("responses").size === 0) {
       operation.responses = {
         "200": {
-          description: HTTP_STATUS_MESSAGES[200]
-        }
+          description: HTTP_STATUS_MESSAGES[200],
+        },
       };
     }
 
@@ -259,7 +251,7 @@ function toJsonParameter(parameter: any) {
   return new JsonParameter({
     in: JsonParameterTypes.BODY,
     name: JsonParameterTypes.BODY,
-    ...parameter
+    ...parameter,
   });
 }
 
@@ -269,7 +261,7 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[]) {
   const refs: JsonSchema[] = [];
   let propsLength = 0;
 
-  parameters.forEach(parameter => {
+  parameters.forEach((parameter) => {
     const name = parameter.get("name");
 
     Array.from(parameter.entries())

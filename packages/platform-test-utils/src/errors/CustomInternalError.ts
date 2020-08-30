@@ -10,7 +10,7 @@ export class CustomInternalError extends InternalServerError implements Response
     super(message);
     this.errors = ["test"];
     this.headers = {
-      "X-HEADER-ERROR": "deny"
+      "X-HEADER-ERROR": "deny",
     };
   }
 }

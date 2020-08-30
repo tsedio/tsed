@@ -11,7 +11,7 @@ import {
   Name,
   OperationPath,
   Property,
-  Required
+  Required,
 } from "@tsed/schema";
 import {expect} from "chai";
 import {Post} from "../../test/helpers/Post";
@@ -25,7 +25,7 @@ function mapToObject(value: any): any {
   return Array.from(value.entries()).reduce((obj: any, [key, value]) => {
     return {
       ...obj,
-      [key]: value
+      [key]: value,
     };
   }, {});
 }
@@ -83,7 +83,7 @@ describe("deserialize()", () => {
           {},
           {
             collectionType: Array,
-            type: Object
+            type: Object,
           }
         )
       ).to.deep.equal([{}]);
@@ -97,7 +97,7 @@ describe("deserialize()", () => {
       expect(mapToObject(deserialize(false, options))).to.deep.equal({});
       expect(mapToObject(deserialize(true, options))).to.deep.equal({});
       expect(mapToObject(deserialize({test: 1}, options))).to.deep.equal({
-        test: "1"
+        test: "1",
       });
     });
   });
@@ -143,7 +143,7 @@ describe("deserialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnDeserialize(value => String(value) + "test")
+        @OnDeserialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -157,7 +157,7 @@ describe("deserialize()", () => {
           password: "string",
           mapped_prop: "mappedProp",
           roles: undefined,
-          add: true
+          add: true,
         },
         {type: Model, additionalProperties: false}
       );
@@ -167,7 +167,7 @@ describe("deserialize()", () => {
         id: "id",
         mappedProp: "mappedProptest",
         password: "string",
-        roles: new Map()
+        roles: new Map(),
       });
     });
     it("should transform object to class (additionalProperties = false)", () => {
@@ -187,7 +187,7 @@ describe("deserialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnDeserialize(value => String(value) + "test")
+        @OnDeserialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -202,10 +202,10 @@ describe("deserialize()", () => {
           mapped_prop: "mappedProp",
           roles: {
             role1: {
-              label: "role"
-            }
+              label: "role",
+            },
           },
-          add: true
+          add: true,
         },
         {type: Model, additionalProperties: false}
       );
@@ -215,7 +215,7 @@ describe("deserialize()", () => {
         id: "id",
         mappedProp: "mappedProptest",
         password: "string",
-        roles: new Map().set("role1", new Role({label: "role"}))
+        roles: new Map().set("role1", new Role({label: "role"})),
       });
     });
     it("should transform object to class (additionalProperties = true)", () => {
@@ -235,7 +235,7 @@ describe("deserialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnDeserialize(value => String(value) + "test")
+        @OnDeserialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -250,10 +250,10 @@ describe("deserialize()", () => {
           mapped_prop: "mappedProp",
           roles: {
             role1: {
-              label: "role"
-            }
+              label: "role",
+            },
           },
-          add: true
+          add: true,
         },
         {type: Model, additionalProperties: true}
       );
@@ -264,7 +264,7 @@ describe("deserialize()", () => {
         mappedProp: "mappedProptest",
         password: "string",
         roles: new Map().set("role1", new Role({label: "role"})),
-        add: true
+        add: true,
       });
     });
     it("should transform object to class (inherited class)", () => {
@@ -289,7 +289,7 @@ describe("deserialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnDeserialize(value => String(value) + "test")
+        @OnDeserialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
       }
@@ -301,10 +301,10 @@ describe("deserialize()", () => {
           mapped_prop: "mappedProp",
           roles: {
             role1: {
-              label: "role"
-            }
+              label: "role",
+            },
           },
-          add: true
+          add: true,
         },
         {type: Model}
       );
@@ -314,7 +314,7 @@ describe("deserialize()", () => {
         id: "id",
         mappedProp: "mappedProptest",
         password: "string",
-        roles: new Map().set("role1", new Role({label: "role"}))
+        roles: new Map().set("role1", new Role({label: "role"})),
       });
     });
     it("should transform object to class (recursive class)", () => {
@@ -325,10 +325,10 @@ describe("deserialize()", () => {
             name: "name",
             posts: [
               {
-                id: "id"
-              }
-            ]
-          }
+                id: "id",
+              },
+            ],
+          },
         },
         {type: Post}
       );
@@ -342,10 +342,10 @@ describe("deserialize()", () => {
           name: "name",
           posts: [
             {
-              id: "id"
-            }
-          ]
-        }
+              id: "id",
+            },
+          ],
+        },
       });
     });
   });
@@ -367,7 +367,7 @@ describe("deserialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnDeserialize(value => String(value) + "test")
+        @OnDeserialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -383,11 +383,11 @@ describe("deserialize()", () => {
             mapped_prop: "mappedProp",
             roles: {
               role1: {
-                label: "role"
-              }
+                label: "role",
+              },
             },
-            add: true
-          }
+            add: true,
+          },
         ],
         {type: Model, collectionType: Array, additionalProperties: false}
       );
@@ -398,8 +398,8 @@ describe("deserialize()", () => {
           id: "id",
           mappedProp: "mappedProptest",
           password: "string",
-          roles: new Map().set("role1", new Role({label: "role"}))
-        }
+          roles: new Map().set("role1", new Role({label: "role"})),
+        },
       ]);
     });
     it("should transform object to class (array parameter)", () => {
@@ -420,19 +420,19 @@ describe("deserialize()", () => {
       const result = deserialize(
         [
           {
-            title: "title"
-          }
+            title: "title",
+          },
         ],
         {
-          store: JsonEntityStore.from(Controller, "method", 0)
+          store: JsonEntityStore.from(Controller, "method", 0),
         }
       );
 
       expect(result[0]).to.be.instanceof(Product);
       expect(result).to.deep.eq([
         {
-          title: "title"
-        }
+          title: "title",
+        },
       ]);
     });
   });
@@ -477,11 +477,11 @@ describe("deserialize()", () => {
         {
           _id: "id",
           data: {
-            title: "title"
-          }
+            title: "title",
+          },
         },
         {
-          store: JsonEntityStore.from(Controller, "method", 0)
+          store: JsonEntityStore.from(Controller, "method", 0),
         }
       );
 
@@ -490,19 +490,19 @@ describe("deserialize()", () => {
       expect(result).to.deep.eq({
         _id: "id",
         data: {
-          title: "title"
-        }
+          title: "title",
+        },
       });
 
       const result2 = deserialize(
         {
           _id: "id",
           data: {
-            id: "id"
-          }
+            id: "id",
+          },
         },
         {
-          store: JsonEntityStore.from(Controller2, "method", 0)
+          store: JsonEntityStore.from(Controller2, "method", 0),
         }
       );
 
@@ -511,8 +511,8 @@ describe("deserialize()", () => {
       expect(result2).to.deep.eq({
         _id: "id",
         data: {
-          id: "id"
-        }
+          id: "id",
+        },
       });
     });
     it("should transform object to class (generics property)", () => {
@@ -554,9 +554,9 @@ describe("deserialize()", () => {
             name: "name",
             id: "id",
             role: {
-              level: "level"
-            }
-          }
+              level: "level",
+            },
+          },
         },
         {store: JsonEntityStore.from(Content)}
       );
@@ -570,9 +570,9 @@ describe("deserialize()", () => {
           id: "id",
           name: "name",
           role: {
-            level: "level"
-          }
-        }
+            level: "level",
+          },
+        },
       });
     });
   });
