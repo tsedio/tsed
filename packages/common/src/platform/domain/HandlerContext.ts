@@ -50,6 +50,10 @@ export class HandlerContext {
     return this._isDone;
   }
 
+  get ctx() {
+    return this.request?.ctx;
+  }
+
   get container() {
     return this.request?.ctx?.container;
   }
