@@ -9,6 +9,8 @@ import {PlatformRouter} from "./PlatformRouter";
 
 /**
  * `Platform` is used to provide all routes collected by annotation `@Controller`.
+ *
+ * @platform
  */
 @Injectable({
   scope: ProviderScope.SINGLETON

@@ -27,6 +27,7 @@ export function Res(): ParameterDecorator;
 export function Res(): ParameterDecorator {
   return UseParam(ParamTypes.RESPONSE);
 }
+
 declare global {
   namespace TsED {
     export interface Response {
@@ -146,8 +147,7 @@ declare global {
  * @input
  * @response
  */
-export interface Response extends TsED.Response {
-}
+export interface Response extends TsED.Response {}
 /**
  * Response service.
  *
@@ -157,5 +157,4 @@ export interface Response extends TsED.Response {
  * @input
  * @response
  */
-export interface Res extends TsED.Response {
-}
+export interface Res extends TsED.Response {}

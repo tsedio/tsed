@@ -7,11 +7,13 @@ export const PLATFORM_ROUTER_OPTIONS = Symbol.for("PlatformRouterOptions");
 
 declare global {
   namespace TsED {
-    export interface Router {
-    }
+    export interface Router {}
   }
 }
-
+/**
+ * Platform Router abstraction layer.
+ * @platform
+ */
 @Injectable({
   scope: ProviderScope.INSTANCE
 })

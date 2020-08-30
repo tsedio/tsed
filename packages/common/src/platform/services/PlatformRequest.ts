@@ -1,6 +1,11 @@
 import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
+import {IncomingHttpHeaders} from "http";
 import {Req} from "../../mvc/decorators/params/request";
 
+/**
+ * Platform Request abstraction layer.
+ * @platform
+ */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
 export class PlatformRequest {
@@ -15,11 +20,11 @@ export class PlatformRequest {
     return this.raw.originalUrl || this.raw.url;
   }
 
-  get headers() {
+  get headers(): IncomingHttpHeaders {
     return this.raw.headers;
   }
 
-  get method() {
+  get method(): string {
     return this.raw.method;
   }
 
@@ -27,7 +32,7 @@ export class PlatformRequest {
    * Contains key-value pairs of data submitted in the request body. By default, it is `undefined`, and is populated when you use
    * `body-parsing` middleware such as `express.json()` or `express.urlencoded()`.
    */
-  get body() {
+  get body(): any {
     return this.raw.body;
   }
 
@@ -35,7 +40,7 @@ export class PlatformRequest {
    * When using `cookie-parser` middleware, this property is an object that contains cookies sent by the request.
    * If the request contains no cookies, it defaults to `{}`.
    */
-  get cookies() {
+  get cookies(): {[key: string]: any} {
     return this.raw.cookies;
   }
 
@@ -44,7 +49,7 @@ export class PlatformRequest {
    * For example, if you have the route `/user/:name`, then the `name` property is available as `req.params.name`.
    * This object defaults to `{}`.
    */
-  get params() {
+  get params(): {[key: string]: any} {
     return this.raw.params;
   }
 
@@ -52,7 +57,7 @@ export class PlatformRequest {
    * This property is an object containing a property for each query string parameter in the route.
    * When query parser is set to disabled, it is an empty object `{}`, otherwise it is the result of the configured query parser.
    */
-  get query() {
+  get query(): {[key: string]: any} {
     return this.raw.query;
   }
 
@@ -60,8 +65,8 @@ export class PlatformRequest {
    * This property is an object containing a property for each session attributes set by any code.
    * It require to install a middleware like express-session to work.
    */
-  get session() {
-    return this.raw.session;
+  get session(): {[key: string]: any} {
+    return this.raw.session as any;
   }
 
   /**
@@ -96,7 +101,9 @@ export class PlatformRequest {
    *
    * @param mime
    */
-  accepts(mime?: string | string[]) {
+  accepts(mime: string): string | false;
+  accepts(mime: string[]): string[] | false;
+  accepts(mime?: string | string[]): string | string[] | false {
     // @ts-ignore
     return this.raw.accepts(mime);
   }

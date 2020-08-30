@@ -134,9 +134,9 @@ Then use the command `npm install && npm start` to start your server.
 
 
 ## Quick start
-### Create your express server
+### Create your server
 
-Ts.ED use now, the Platform API to create an application. Platform API give an abstraction layer 
+Ts.ED use now, the [Platform API](/docs/platform-api.html) to create an application. Platform API give an abstraction layer 
 between your code written with Ts.ED and the Express code. It means, a large part of your code
 isn't coupled with Express itself and can be used with another Platform like Koa in future (Ts.ED v6).
 

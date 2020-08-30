@@ -8,7 +8,7 @@ meta:
 # Exceptions
 
 Ts.ED http exceptions provide classes to throw standard HTTP exceptions. These exceptions can be used on Controller, Middleware or injectable Service.
-Emitted exceptions will be handle by the @@GlobalErrorHandlerMiddleware@@ and formatted to an Express response with the right status code and headers.
+Emitted exceptions will be handle by the @@PlatformExceptionMiddleware@@ and formatted to an Express response with the right status code and headers.
 
 An other thing. This module can be used with a pure Express application.
 
@@ -66,14 +66,39 @@ These are exposed from the @tsed/exceptions package, and represent many of the m
 
 <ApiList query="module == '@tsed/exceptions' && symbolType === 'class' && path.indexOf('serverErrors') > -1" />
 
-## Handle all errors
+## Exception filter
 
-All errors are intercepted by the @@GlobalErrorHandlerMiddleware@@.
+All errors are intercepted by the @@PlatformExceptionMiddleware@@ since v5.64.0+, and by @@GlobalErrorHandlerMiddleware@@ before.
 
 By default, all HTTP Exceptions are automatically sent to the client, and technical errors are
 sent as Internal Server Error.
 
 The default format is an HTML content, but it couldn't be useful for your consumers. 
+
+### with Catch decorator <Badge text="v5.64.0+" />
+
+The new [Platform API](/docs/platform-api.md) introduce a new way to catch an exception with the @@Catch@@ decorator and 
+to let you control the exact flow of control and the content of the response sent back to the client.
+
+Let's create an exception filter that is responsible for catching exceptions which are an instance of the @@Exception@@ class, 
+and implementing custom response logic for them. 
+
+To do this, we'll need to access the underlying platform Request and Response objects by using the @@Context@@ decorator. 
+We'll access the Request object, so we can pull out the original url and include that in the logging information.
+We'll use the Response object to take direct control of the response that is sent, using the `response.body()` method.
+
+
+<<< @/docs/docs/snippets/exceptions/http-exception-filter.ts
+
+::: tip note
+All exception filters should implement the generic `ExceptionFilterMethods<T>` interface. This requires you to provide the catch(exception: T, ctx: Context) method with its indicated signature. `T` indicates the type of the exception.
+:::
+
+The `@Catch(Exception)` decorator binds the required metadata to the exception filter, telling Ts.ED that this particular filter is looking for exceptions of type @@Exception@@ and nothing else. 
+The @@Catch@@ decorator may take a single parameter, or a comma-separated list. This lets you set up the filter for several types of exceptions at once.
+
+### With legacy GlobalErrorHandlerMiddleware <Badge type="warning" text="deprecated" />
+
 You can register your own exception handler and change the response sent to your consumers.
 
 <<< @/docs/docs/snippets/exceptions/custom-global-error-handler.ts
@@ -81,14 +106,3 @@ You can register your own exception handler and change the response sent to your
 Then you just have adding this middleware in your `Server.ts` as following:
 
 <<< @/docs/docs/snippets/exceptions/custom-global-error-handler-usage.ts
-
-### Advanced example
-
-Here is another example of GlobalErrorHandlerMiddleware implementation. This example show you, how
-you can handler any kind of error and transform the error to a proper JSON response.
-
-<<< @/docs/docs/snippets/exceptions/advanced-custom-global-error-handler.ts
-
-Here is the original @@GlobalErrorHandlerMiddleware@@:
-
-<<< @/packages/common/src/platform-express/middlewares/GlobalErrorHandlerMiddleware.ts

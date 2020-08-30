@@ -24,6 +24,9 @@ import {
   setLoggerLevel
 } from "../utils";
 
+/**
+ * @platform
+ */
 export abstract class PlatformBuilder {
   protected startedAt = new Date();
   protected _rootModule: any;

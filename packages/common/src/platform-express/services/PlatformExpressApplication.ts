@@ -9,6 +9,10 @@ declare global {
   }
 }
 
+/**
+ * @platform
+ * @express
+ */
 @OverrideProvider(PlatformApplication)
 export class PlatformExpressApplication extends PlatformApplication {
   constructor(platformHandler: PlatformHandler) {

@@ -10,6 +10,9 @@ export interface PlatformTestInvokeOptions {
   use: any;
 }
 
+/**
+ * @platform
+ */
 export class PlatformTest {
   public static platformBuilder: Type<PlatformBuilder>;
   protected static _injector: InjectorService | null = null;

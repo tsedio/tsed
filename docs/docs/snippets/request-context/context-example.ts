@@ -1,15 +1,16 @@
-import {Context, Controller, Get, Middleware, Req, UseBefore} from "@tsed/common";
+import {Context, Controller, Get, Middleware, UseBefore} from "@tsed/common";
 import {Forbidden} from "@tsed/exceptions";
+import {AuthToken} from "../domain/auth/AuthToken";
 
 @Middleware()
 class AuthTokenMiddleware {
-  use(@Req() request: Express.Request, @Context() context: Context) {
-    if (!context.has("auth")) {
-      context.set("auth", new AuthToken(request));
+  use(@Context() ctx: Context) {
+    if (!ctx.has("auth")) {
+      ctx.set("auth", new AuthToken(ctx.request));
     }
 
     try {
-      context.get("auth").claims(); // check token
+      ctx.get("auth").claims(); // check token
     } catch (er) {
       throw new Forbidden("Access forbidden - Bad token");
     }

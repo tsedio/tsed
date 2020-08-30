@@ -5,6 +5,7 @@ import {Context} from "../decorators/context";
 
 /**
  * @middleware
+ * @platform
  */
 export class PlatformLogMiddleware implements IMiddleware {
   protected static DEFAULT_FIELDS = ["reqId", "method", "url", "duration"];

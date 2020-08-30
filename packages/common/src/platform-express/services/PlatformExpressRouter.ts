@@ -8,6 +8,10 @@ declare global {
   }
 }
 
+/**
+ * @platform
+ * @express
+ */
 @OverrideProvider(PlatformRouter)
 export class PlatformExpressRouter extends PlatformRouter {
   constructor(

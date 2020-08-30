@@ -5,18 +5,19 @@ import {PlatformHandler} from "./PlatformHandler";
 
 declare global {
   namespace TsED {
-    export interface Application {
-    }
+    export interface Application {}
   }
 }
 
 /**
  * `PlatformApplication` is used to provide all routes collected by annotation `@Controller`.
+ *
+ * @platform
  */
 @Injectable({
   scope: ProviderScope.SINGLETON
 })
-export class PlatformApplication extends PlatformDriver<TsED.Application> {
+export class PlatformApplication<T = TsED.Application> extends PlatformDriver<T> {
   constructor(platformHandler: PlatformHandler) {
     super(platformHandler);
     this.raw = PlatformApplication.createRawApp() as any; // f

@@ -15,6 +15,10 @@ import {HandlerContext} from "../domain/HandlerContext";
 import {ParamValidationError} from "../errors/ParamValidationError";
 import {UnknownFilterError} from "../errors/UnknownFilterError";
 
+/**
+ * Platform Handler abstraction layer. Wrap original class method to a pure platform handler (Express, Koa, etc...).
+ * @platform
+ */
 @Injectable({
   scope: ProviderScope.SINGLETON
 })

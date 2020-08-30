@@ -3,6 +3,10 @@ import {Type} from "@tsed/core";
 import {PlatformExpressStatics} from "../services";
 import {createExpressApplication, createHttpServer, createHttpsServer} from "../utils";
 
+/**
+ * @platform
+ * @express
+ */
 export class PlatformExpress extends PlatformBuilder {
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
     return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
