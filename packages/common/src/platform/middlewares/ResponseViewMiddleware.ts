@@ -10,7 +10,6 @@ import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
  *
  * @middleware
  * @deprecated Will be removed in favor of PlatformResponseMiddleware in v6.
- * @ignore
  */
 @Middleware()
 export class ResponseViewMiddleware implements IMiddleware {
