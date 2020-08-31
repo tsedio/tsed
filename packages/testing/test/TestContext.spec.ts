@@ -11,7 +11,7 @@ class FakeServer {
   injector = new InjectorService();
 
   settings = {
-    logger: {},
+    logger: {}
   };
 
   async start() {

@@ -18,10 +18,10 @@ describe("@Maximum", () => {
       properties: {
         num: {
           maximum: 0,
-          type: "number",
-        },
+          type: "number"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 
@@ -39,10 +39,10 @@ describe("@Maximum", () => {
       properties: {
         num: {
           exclusiveMaximum: 0,
-          type: "number",
-        },
+          type: "number"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should declare maximum value (collection)", () => {
@@ -62,11 +62,11 @@ describe("@Maximum", () => {
           type: "array",
           items: {
             maximum: 0,
-            type: "number",
-          },
-        },
+            type: "number"
+          }
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

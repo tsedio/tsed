@@ -18,23 +18,23 @@ const rootDir = Path.resolve(__dirname);
   multer: {},
   logger: {
     level: "info",
-    logRequest: true,
+    logRequest: true
   },
   mount: {
-    "/rest": [ArchiveController],
+    "/rest": [ArchiveController]
   },
   swagger: [
     {
-      path: "/api-doc",
-    },
-  ],
+      path: "/api-doc"
+    }
+  ]
 })
 export class Server extends ServerLoader {
   public $beforeRoutesInit(): void {
     this.use(bodyParser.json())
       .use(
         bodyParser.urlencoded({
-          extended: true,
+          extended: true
         })
       )
       .use(cookieParser())

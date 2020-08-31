@@ -19,12 +19,12 @@ describe("@CollectionOf", () => {
       properties: {
         num: {
           items: {
-            type: "number",
+            type: "number"
           },
-          type: "array",
-        },
+          type: "array"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should declare a collection (Array of Model)", () => {
@@ -55,23 +55,23 @@ describe("@CollectionOf", () => {
         Nested: {
           properties: {
             id: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       properties: {
         prop: {
           items: {
-            $ref: "#/definitions/Nested",
+            $ref: "#/definitions/Nested"
           },
           minItems: 1,
           maxItems: 10,
-          type: "array",
-        },
+          type: "array"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should declare a collection (Array of Model on param)", () => {
@@ -101,27 +101,27 @@ describe("@CollectionOf", () => {
         Model: {
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             prop: {
-              $ref: "#/definitions/Nested",
-            },
+              $ref: "#/definitions/Nested"
+            }
           },
-          type: "object",
+          type: "object"
         },
         Nested: {
           properties: {
             id: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       items: {
-        $ref: "#/definitions/Model",
+        $ref: "#/definitions/Model"
       },
-      type: "array",
+      type: "array"
     });
   });
   it("should declare a collection (Map of)", () => {
@@ -138,14 +138,14 @@ describe("@CollectionOf", () => {
       properties: {
         num: {
           additionalProperties: {
-            type: "number",
+            type: "number"
           },
           maxProperties: 5,
           minProperties: 2,
-          type: "object",
-        },
+          type: "object"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should declare a collection (Set of)", () => {
@@ -162,13 +162,13 @@ describe("@CollectionOf", () => {
       properties: {
         num: {
           items: {
-            type: "number",
+            type: "number"
           },
           type: "array",
-          uniqueItems: true,
-        },
+          uniqueItems: true
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should declare collection with additional props", () => {
@@ -186,14 +186,14 @@ describe("@CollectionOf", () => {
         words: {
           type: "array",
           items: {
-            type: "string",
+            type: "string"
           },
           maxItems: 10,
           minItems: 0,
-          uniqueItems: true,
-        },
+          uniqueItems: true
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should declare collection with additional props and contains", () => {
@@ -211,13 +211,13 @@ describe("@CollectionOf", () => {
         words: {
           type: "array",
           contains: {
-            type: "string",
+            type: "string"
           },
           maxItems: 10,
-          minItems: 0,
-        },
+          minItems: 0
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });
@@ -241,12 +241,12 @@ describe("@ArrayOf", () => {
       properties: {
         num: {
           items: {
-            type: "number",
+            type: "number"
           },
-          type: "array",
-        },
+          type: "array"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });
@@ -270,14 +270,14 @@ describe("@MapOf", () => {
       properties: {
         num: {
           additionalProperties: {
-            type: "number",
+            type: "number"
           },
           maxProperties: 5,
           minProperties: 2,
-          type: "object",
-        },
+          type: "object"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

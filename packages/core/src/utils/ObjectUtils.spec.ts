@@ -15,7 +15,7 @@ import {
   methodsOf,
   nameOf,
   nameOfClass,
-  primitiveOf,
+  primitiveOf
 } from "../../src";
 
 class Base {
@@ -273,7 +273,7 @@ describe("ObjectUtils", () => {
       expect(methods).to.deep.eq([
         {propertyKey: "test1", target: Test},
         {propertyKey: "test3", target: Base},
-        {propertyKey: "test2", target: Test},
+        {propertyKey: "test2", target: Test}
       ]);
     });
   });

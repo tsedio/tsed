@@ -9,7 +9,7 @@ import {
   TemporaryRedirect,
   TooManyRedirects,
   UseProxy,
-  NotModified,
+  NotModified
 } from "@tsed/exceptions";
 
 describe("Redirections", () => {

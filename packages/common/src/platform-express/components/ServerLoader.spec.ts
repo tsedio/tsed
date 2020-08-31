@@ -8,7 +8,7 @@ function createServer() {
     debug: true,
     port: 8000,
     httpsPort: 8080,
-    imports: [class Test {}],
+    imports: [class Test {}]
   })
   class TestServer extends ServerLoader {
     $onInit() {}
@@ -165,7 +165,7 @@ describe("ServerLoader", () => {
 
       // WHEN
       const server = await ServerLoader.bootstrap(TestServer, {
-        ownSettings: "test",
+        ownSettings: "test"
       });
 
       server.scan(["/rest"], "/rest");

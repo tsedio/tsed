@@ -13,9 +13,9 @@ describe("MulterFileSize", () => {
     expect(store.get(MultipartFileMiddleware)).to.deep.eq({
       options: {
         limits: {
-          fileSize: 100,
-        },
-      },
+          fileSize: 100
+        }
+      }
     });
   });
 });

@@ -5,14 +5,14 @@ describe("ValidationError", () => {
   it("should return error", () => {
     const error = new ValidationError("should have required property", [
       {
-        dataPath: "hello",
-      },
+        dataPath: "hello"
+      }
     ]);
 
     expect(error.errors).to.deep.eq([
       {
-        dataPath: "hello",
-      },
+        dataPath: "hello"
+      }
     ]);
     expect(error.message).to.eq("should have required property");
   });

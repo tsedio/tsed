@@ -15,10 +15,10 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: ["0", "1"],
-            type: "string",
-          },
+            type: "string"
+          }
         },
-        type: "object",
+        type: "object"
       });
     });
     it("should declare prop (mixed type)", () => {
@@ -32,10 +32,10 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: ["0", "1", 10],
-            type: ["string", "number"],
-          },
+            type: ["string", "number"]
+          }
         },
-        type: "object",
+        type: "object"
       });
     });
     it("should declare prop (mixed type and null)", () => {
@@ -49,10 +49,10 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: ["0", "1", 10, null],
-            type: ["string", "number", "null"],
-          },
+            type: ["string", "number", "null"]
+          }
         },
-        type: "object",
+        type: "object"
       });
     });
   });
@@ -60,7 +60,7 @@ describe("@Enum", () => {
   describe("when is a typescript enum (string)", () => {
     enum SomeEnum {
       ENUM_1 = "enum1",
-      ENUM_2 = "enum2",
+      ENUM_2 = "enum2"
     }
 
     it("should declare prop", () => {
@@ -74,10 +74,10 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: ["enum1", "enum2"],
-            type: "string",
-          },
+            type: "string"
+          }
         },
-        type: "object",
+        type: "object"
       });
     });
   });
@@ -85,7 +85,7 @@ describe("@Enum", () => {
   describe("when is a typescript enum (index)", () => {
     enum SomeEnum {
       ENUM_1,
-      ENUM_2,
+      ENUM_2
     }
 
     it("should declare prop", () => {
@@ -99,10 +99,10 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: [0, 1],
-            type: "number",
-          },
+            type: "number"
+          }
         },
-        type: "object",
+        type: "object"
       });
     });
   });
@@ -111,7 +111,7 @@ describe("@Enum", () => {
     enum SomeEnum {
       ENUM_1,
       ENUM_2 = "test",
-      ENUM_3 = "test2",
+      ENUM_3 = "test2"
     }
 
     it("should declare prop", () => {
@@ -125,10 +125,10 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: [0, "test", "test2"],
-            type: ["number", "string"],
-          },
+            type: ["number", "string"]
+          }
         },
-        type: "object",
+        type: "object"
       });
     });
   });

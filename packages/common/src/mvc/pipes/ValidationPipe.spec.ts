@@ -9,7 +9,7 @@ describe("ValidationPipe", () => {
   it("should return value", async () => {
     const validate = Sinon.stub();
     const validator = new ValidationPipe({
-      validate,
+      validate
     });
 
     class Test {}
@@ -18,7 +18,7 @@ describe("ValidationPipe", () => {
       index: 0,
       target: Test,
       propertyKey: "test",
-      paramType: ParamTypes.REQUEST,
+      paramType: ParamTypes.REQUEST
     });
     // @ts-ignore
     param._type = String;
@@ -35,7 +35,7 @@ describe("ValidationPipe", () => {
     const validator = new ValidationPipe({
       validate() {
         throw error;
-      },
+      }
     });
 
     class Test {

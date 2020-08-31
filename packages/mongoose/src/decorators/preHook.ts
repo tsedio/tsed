@@ -71,9 +71,9 @@ export function PreHook(
         {
           ...(options || {}),
           method,
-          fn: fn as MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>,
-        },
-      ],
+          fn: fn as MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>
+        }
+      ]
     });
   };
 }

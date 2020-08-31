@@ -5,7 +5,7 @@ import {ISocketHandlerMetadata} from "./ISocketHandlerMetadata";
  */
 export enum SocketProviderTypes {
   SERVICE = "service",
-  MIDDLEWARE = "middleware",
+  MIDDLEWARE = "middleware"
 }
 
 /**

@@ -24,7 +24,7 @@ function mapStatusResponseOptions(args: any[]): any {
     ...options,
     code,
     type: options.type || options.use,
-    collectionType: options.collectionType || options.collection,
+    collectionType: options.collectionType || options.collection
   };
 }
 
@@ -68,7 +68,7 @@ export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
     response = {
       description: "",
       ...deepMerge(endpoint.responses.get(code), cleanObject(response)),
-      code,
+      code
     };
 
     endpoint.responses.set(response.code!, response as IResponseOptions);

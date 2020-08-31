@@ -8,7 +8,7 @@ import {
   isCollection,
   isPromise,
   Store,
-  Type,
+  Type
 } from "@tsed/core";
 import {JsonOperation} from "./JsonOperation";
 import {JsonParameter} from "./JsonParameter";
@@ -21,7 +21,7 @@ export interface JsonEntityStoreOptions extends EntityOptions {
 const getSchema = (type: any) => {
   if (isCollection(type) || !isClass(type)) {
     return JsonSchema.from({
-      type,
+      type
     });
   }
 
@@ -170,7 +170,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
         target: args[0],
         propertyKey: args[1],
         index: typeof args[2] === "number" ? args[2] : undefined,
-        descriptor: typeof args[2] === "object" ? args[2] : undefined,
+        descriptor: typeof args[2] === "object" ? args[2] : undefined
       });
 
       store.set(JsonEntityStore, jsonSchemaStore);
@@ -219,7 +219,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
 
       case DecoratorTypes.CLASS:
         this._schema = JsonSchema.from({
-          type: this.type,
+          type: this.type
         });
         break;
       case DecoratorTypes.METHOD:
@@ -244,7 +244,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
       parentStore.children.set(this.propertyName, this);
 
       schema = JsonSchema.from({
-        type: this.collectionType || this.type,
+        type: this.collectionType || this.type
       });
 
       if (this.collectionType) {
@@ -275,7 +275,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
     }
 
     this._schema = JsonSchema.from({
-      type: this.collectionType || this.type,
+      type: this.collectionType || this.type
     });
 
     if (this.collectionType) {

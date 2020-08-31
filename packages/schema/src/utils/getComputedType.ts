@@ -8,7 +8,7 @@ import {
   isPrimitiveOrPrimitiveClass,
   isPromise,
   isSymbol,
-  Type,
+  Type
 } from "@tsed/core";
 
 export function getComputedType(target: any): Type<any> {

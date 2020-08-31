@@ -51,7 +51,7 @@ export class OpenApiModelSchemaBuilder {
       schema.properties![String(propertyKey)] = this.createSchema({
         schema: property.store.get("schema"),
         type: property.type,
-        collectionType: property.collectionType,
+        collectionType: property.collectionType
       });
     });
 
@@ -69,7 +69,7 @@ export class OpenApiModelSchemaBuilder {
   protected createSchema({
     schema = {},
     type,
-    collectionType,
+    collectionType
   }: {
     schema: Partial<Schema> | any;
     type: Type<any>;
@@ -88,7 +88,7 @@ export class OpenApiModelSchemaBuilder {
 
       this._definitions = {
         ...this._definitions,
-        ...builder.definitions,
+        ...builder.definitions
       };
     }
 
@@ -99,7 +99,7 @@ export class OpenApiModelSchemaBuilder {
         if (!schema.items) {
           if (isClass(type)) {
             schema.items = {
-              $ref: `#/definitions/${typeName}`,
+              $ref: `#/definitions/${typeName}`
             };
           } else {
             schema.items = swaggerApplyType({}, (isObject(schema.additionalProperties) && schema.additionalProperties.type) || type);
@@ -113,7 +113,7 @@ export class OpenApiModelSchemaBuilder {
 
       if (isClass(type)) {
         schema.additionalProperties = {
-          $ref: `#/definitions/${typeName}`,
+          $ref: `#/definitions/${typeName}`
         };
 
         return schema;

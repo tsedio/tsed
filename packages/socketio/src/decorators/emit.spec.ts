@@ -16,10 +16,10 @@ describe("Emit", () => {
         test: {
           returns: {
             eventName: "eventName",
-            type: "emit",
-          },
-        },
-      },
+            type: "emit"
+          }
+        }
+      }
     });
   });
 });

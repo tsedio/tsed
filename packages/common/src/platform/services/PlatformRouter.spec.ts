@@ -10,7 +10,7 @@ describe("PlatformRouter", () => {
       const injector = new InjectorService();
       Sinon.stub(injector, "invoke");
       const routerOptions: any = {
-        test: "options",
+        test: "options"
       };
 
       // WHEN

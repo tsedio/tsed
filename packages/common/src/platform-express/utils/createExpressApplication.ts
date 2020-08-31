@@ -13,5 +13,5 @@ registerProvider({
   global: true,
   useFactory(platformApplication: PlatformApplication) {
     return platformApplication.raw;
-  },
+  }
 });

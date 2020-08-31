@@ -8,7 +8,7 @@ import {Server} from "./helpers/Server";
 
 @Model({
   connection: "customer",
-  collection: "accounts",
+  collection: "accounts"
 })
 class CustomerAccount {
   @ObjectID()
@@ -21,7 +21,7 @@ class CustomerAccount {
 // models/ProductData.ts
 @Model({
   connection: "product",
-  collection: "data",
+  collection: "data"
 })
 class ProductData {
   @ObjectID()
@@ -43,18 +43,18 @@ describe("Mongoose", () => {
             url: config.url,
             connectionOptions: {
               ...config.connectionOptions,
-              dbName: "customerDB",
-            },
+              dbName: "customerDB"
+            }
           },
           {
             id: "product",
             url: config.url,
             connectionOptions: {
               ...config.connectionOptions,
-              dbName: "productDB",
-            },
-          },
-        ],
+              dbName: "productDB"
+            }
+          }
+        ]
       })();
     });
     afterEach(TestMongooseContext.clearDatabase);

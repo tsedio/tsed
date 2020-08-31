@@ -10,7 +10,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: String,
         collectionType: undefined,
-        next: Sinon.stub(),
+        next: Sinon.stub()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -23,7 +23,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: String,
         collectionType: undefined,
-        next: Sinon.stub(),
+        next: Sinon.stub()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -36,7 +36,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: Sinon.stub(),
+        next: Sinon.stub()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -49,7 +49,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: Sinon.stub(),
+        next: Sinon.stub()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -62,7 +62,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: Sinon.stub(),
+        next: Sinon.stub()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -75,7 +75,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: Sinon.stub(),
+        next: Sinon.stub()
       };
 
       const value = mapper.deserialize(data, ctx);
@@ -88,7 +88,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Number,
         collectionType: undefined,
-        next: Sinon.stub(),
+        next: Sinon.stub()
       };
 
       let actualError: any;
@@ -105,7 +105,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Boolean,
         collectionType: undefined,
-        next: Sinon.stub(),
+        next: Sinon.stub()
       };
 
       expect(mapper.deserialize(1, ctx)).to.deep.eq(true);
@@ -118,7 +118,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Boolean,
         collectionType: undefined,
-        next: Sinon.stub(),
+        next: Sinon.stub()
       };
 
       expect(mapper.deserialize(0, ctx)).to.deep.eq(false);
@@ -133,7 +133,7 @@ describe("PrimitiveMapper", () => {
       const ctx = {
         type: Boolean,
         collectionType: undefined,
-        next: Sinon.stub(),
+        next: Sinon.stub()
       };
 
       expect(mapper.deserialize(null, ctx)).to.deep.eq(null);

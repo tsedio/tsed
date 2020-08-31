@@ -16,8 +16,8 @@ export function testCustom404(options: PlatformTestOptions) {
     PlatformTest.bootstrap(CustomServer, {
       ...options,
       mount: {
-        "/rest": [],
-      },
+        "/rest": []
+      }
     })
   );
 

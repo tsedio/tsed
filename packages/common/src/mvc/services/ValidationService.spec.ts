@@ -11,7 +11,7 @@ describe("ValidationService", () => {
         new ParamMetadata({
           target: Test,
           propertyKey: "method",
-          index: 0,
+          index: 0
         })
       )
     ).to.be.true;

@@ -8,13 +8,13 @@ describe("mapReturnedResponse", () => {
         description: "description",
         type: "type",
         collection: "collection",
-        headers: "headers",
+        headers: "headers"
       })
     ).to.deep.eq({
       description: "description",
       type: "type",
       collectionType: "collection",
-      headers: "headers",
+      headers: "headers"
     });
   });
 
@@ -24,13 +24,13 @@ describe("mapReturnedResponse", () => {
         description: "description",
         use: "use",
         collection: "collection",
-        headers: "headers",
+        headers: "headers"
       })
     ).to.deep.eq({
       description: "description",
       type: "use",
       collectionType: "collection",
-      headers: "headers",
+      headers: "headers"
     });
   });
 });

@@ -111,8 +111,8 @@ describe("EndpointMetadata", () => {
       expect(endpoint.pathsMethods).to.deep.equal([
         {
           method: undefined,
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
     });
     it("should add endpoint with path and method", () => {
@@ -132,8 +132,8 @@ describe("EndpointMetadata", () => {
       expect(endpoint.pathsMethods).to.deep.equal([
         {
           method: "get",
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
     });
   });
@@ -201,7 +201,7 @@ describe("EndpointMetadata", () => {
         const result = endpointMetadata.statusResponse(200);
 
         expect(result).to.deep.eq({
-          code: 200,
+          code: 200
         });
 
         expect(endpointMetadata.type).to.eq(undefined);
@@ -222,7 +222,7 @@ describe("EndpointMetadata", () => {
         stub(endpointMetadata.store.get)
           .withArgs("responses")
           .returns({
-            [200]: {},
+            [200]: {}
           });
 
         // WHEN
@@ -230,7 +230,7 @@ describe("EndpointMetadata", () => {
 
         // THEN
         expect(result).to.deep.eq({
-          code: 200,
+          code: 200
         });
 
         expect(endpointMetadata.type).to.eq(undefined);
@@ -251,9 +251,9 @@ describe("EndpointMetadata", () => {
           headers: {
             headerName: {
               type: "string",
-              value: "x-content",
-            },
-          },
+              value: "x-content"
+            }
+          }
         } as any);
 
         // WHEN
@@ -264,10 +264,10 @@ describe("EndpointMetadata", () => {
           headers: {
             headerName: {
               type: "string",
-              value: "x-content",
-            },
+              value: "x-content"
+            }
           },
-          type: Test,
+          type: Test
         });
         expect(endpointMetadata.type).to.eq(Test);
         expect(endpointMetadata.collectionType).to.eq(undefined);

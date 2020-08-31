@@ -66,7 +66,7 @@ export class AjvValidationPipe extends ValidationPipe implements IPipe {
     const options = {
       ignoreCallback: (obj: any, type: any) => type === Date,
       checkRequiredValue: false,
-      additionalProperties: metadata.paramType === ParamTypes.QUERY ? "ignore" : undefined,
+      additionalProperties: metadata.paramType === ParamTypes.QUERY ? "ignore" : undefined
     };
 
     if (metadata.isCollection) {

@@ -27,28 +27,28 @@ describe("getJsonSchema", () => {
       properties: {
         prop1: {
           minLength: 1,
-          type: "string",
+          type: "string"
         },
         prop2: {
           type: "array",
           items: {
-            type: "string",
-          },
+            type: "string"
+          }
         },
         prop3: {
           type: "array",
           uniqueItems: true,
           items: {
-            type: "string",
-          },
+            type: "string"
+          }
         },
         prop4: {
           type: "object",
           additionalProperties: {
-            type: "string",
-          },
-        },
-      },
+            type: "string"
+          }
+        }
+      }
     });
   });
   it("should declare all schema correctly (alias)", () => {
@@ -68,9 +68,9 @@ describe("getJsonSchema", () => {
       properties: {
         prop_1: {
           minLength: 1,
-          type: "string",
-        },
-      },
+          type: "string"
+        }
+      }
     });
   });
   it("should declare prop with a nested model", () => {
@@ -97,37 +97,37 @@ describe("getJsonSchema", () => {
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         prop1: {
-          type: "string",
-        },
-      },
+          type: "string"
+        }
+      }
     });
 
     expect(getJsonSchema(Model)).to.deep.equal({
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         nested: {
-          $ref: "#/definitions/NestedModel",
-        },
+          $ref: "#/definitions/NestedModel"
+        }
       },
       definitions: {
         NestedModel: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             prop1: {
-              type: "string",
-            },
-          },
-        },
-      },
+              type: "string"
+            }
+          }
+        }
+      }
     });
   });
   it("should declare prop with a nested model with named model", () => {
@@ -154,37 +154,37 @@ describe("getJsonSchema", () => {
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         prop1: {
-          type: "string",
-        },
-      },
+          type: "string"
+        }
+      }
     });
 
     expect(getJsonSchema(Model)).to.deep.equal({
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         nested: {
-          $ref: "#/definitions/Nested",
-        },
+          $ref: "#/definitions/Nested"
+        }
       },
       definitions: {
         Nested: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             prop1: {
-              type: "string",
-            },
-          },
-        },
-      },
+              type: "string"
+            }
+          }
+        }
+      }
     });
   });
   it("should declare prop with a nested of nested model (Array)", () => {
@@ -218,79 +218,79 @@ describe("getJsonSchema", () => {
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         prop1: {
-          type: "string",
-        },
-      },
+          type: "string"
+        }
+      }
     });
 
     expect(getJsonSchema(NestedModel)).to.deep.equal({
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         children: {
           type: "array",
           items: {
-            $ref: "#/definitions/ChildModel",
-          },
-        },
+            $ref: "#/definitions/ChildModel"
+          }
+        }
       },
       definitions: {
         ChildModel: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             prop1: {
-              type: "string",
-            },
-          },
-        },
-      },
+              type: "string"
+            }
+          }
+        }
+      }
     });
 
     expect(getJsonSchema(Model)).to.deep.equal({
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         nested: {
-          $ref: "#/definitions/NestedModel",
-        },
+          $ref: "#/definitions/NestedModel"
+        }
       },
       definitions: {
         NestedModel: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             children: {
               type: "array",
               items: {
-                $ref: "#/definitions/ChildModel",
-              },
-            },
-          },
+                $ref: "#/definitions/ChildModel"
+              }
+            }
+          }
         },
         ChildModel: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             prop1: {
-              type: "string",
-            },
-          },
-        },
-      },
+              type: "string"
+            }
+          }
+        }
+      }
     });
   });
   it("should declare prop with a nested of nested model (Set)", () => {
@@ -324,81 +324,81 @@ describe("getJsonSchema", () => {
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         prop1: {
-          type: "string",
-        },
-      },
+          type: "string"
+        }
+      }
     });
 
     expect(getJsonSchema(NestedModel)).to.deep.equal({
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         children: {
           type: "array",
           uniqueItems: true,
           items: {
-            $ref: "#/definitions/ChildModel",
-          },
-        },
+            $ref: "#/definitions/ChildModel"
+          }
+        }
       },
       definitions: {
         ChildModel: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             prop1: {
-              type: "string",
-            },
-          },
-        },
-      },
+              type: "string"
+            }
+          }
+        }
+      }
     });
 
     expect(getJsonSchema(Model)).to.deep.equal({
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         nested: {
-          $ref: "#/definitions/NestedModel",
-        },
+          $ref: "#/definitions/NestedModel"
+        }
       },
       definitions: {
         NestedModel: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             children: {
               type: "array",
               uniqueItems: true,
               items: {
-                $ref: "#/definitions/ChildModel",
-              },
-            },
-          },
+                $ref: "#/definitions/ChildModel"
+              }
+            }
+          }
         },
         ChildModel: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             prop1: {
-              type: "string",
-            },
-          },
-        },
-      },
+              type: "string"
+            }
+          }
+        }
+      }
     });
   });
   it("should declare prop with a nested of nested model (Map)", () => {
@@ -432,79 +432,79 @@ describe("getJsonSchema", () => {
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         prop1: {
-          type: "string",
-        },
-      },
+          type: "string"
+        }
+      }
     });
 
     expect(getJsonSchema(NestedModel)).to.deep.equal({
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         children: {
           type: "object",
           additionalProperties: {
-            $ref: "#/definitions/ChildModel",
-          },
-        },
+            $ref: "#/definitions/ChildModel"
+          }
+        }
       },
       definitions: {
         ChildModel: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             prop1: {
-              type: "string",
-            },
-          },
-        },
-      },
+              type: "string"
+            }
+          }
+        }
+      }
     });
 
     expect(getJsonSchema(Model)).to.deep.equal({
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         nested: {
-          $ref: "#/definitions/NestedModel",
-        },
+          $ref: "#/definitions/NestedModel"
+        }
       },
       definitions: {
         NestedModel: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             children: {
               type: "object",
               additionalProperties: {
-                $ref: "#/definitions/ChildModel",
-              },
-            },
-          },
+                $ref: "#/definitions/ChildModel"
+              }
+            }
+          }
         },
         ChildModel: {
           type: "object",
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             prop1: {
-              type: "string",
-            },
-          },
-        },
-      },
+              type: "string"
+            }
+          }
+        }
+      }
     });
   });
   it("should accept circular ref", () => {
@@ -518,38 +518,38 @@ describe("getJsonSchema", () => {
         Post: {
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             owner: {
-              $ref: "#/definitions/User",
-            },
+              $ref: "#/definitions/User"
+            }
           },
-          type: "object",
+          type: "object"
         },
         User: {
           properties: {
             name: {
-              type: "string",
+              type: "string"
             },
             posts: {
               items: {
-                $ref: "#/definitions/Post",
+                $ref: "#/definitions/Post"
               },
-              type: "array",
-            },
+              type: "array"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         owner: {
-          $ref: "#/definitions/User",
-        },
+          $ref: "#/definitions/User"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should return the json schema for an inherited model", () => {
@@ -574,18 +574,18 @@ describe("getJsonSchema", () => {
       type: "object",
       properties: {
         id: {
-          type: "string",
+          type: "string"
         },
         email: {
           type: "string",
           minLength: 0,
-          format: "email",
+          format: "email"
         },
         name: {
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      required: ["email"],
+      required: ["email"]
     });
   });
   it("should return the json schema for an inherited model and generics", () => {
@@ -625,11 +625,11 @@ describe("getJsonSchema", () => {
         Role: {
           properties: {
             level: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       properties: {
         payload: {
@@ -637,23 +637,23 @@ describe("getJsonSchema", () => {
             email: {
               format: "email",
               minLength: 0,
-              type: "string",
+              type: "string"
             },
             id: {
-              type: "string",
+              type: "string"
             },
             name: {
-              type: "string",
+              type: "string"
             },
             role: {
-              $ref: "#/definitions/Role",
-            },
+              $ref: "#/definitions/Role"
+            }
           },
           required: ["email"],
-          type: "object",
-        },
+          type: "object"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should return the json schema with hosted schemes", () => {
@@ -693,11 +693,11 @@ describe("getJsonSchema", () => {
         Role: {
           properties: {
             level: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       properties: {
         payload: {
@@ -705,23 +705,23 @@ describe("getJsonSchema", () => {
             email: {
               format: "email",
               minLength: 0,
-              type: "string",
+              type: "string"
             },
             id: {
-              type: "string",
+              type: "string"
             },
             name: {
-              type: "string",
+              type: "string"
             },
             role: {
-              $ref: "http://example.com/schema/Role",
-            },
+              $ref: "http://example.com/schema/Role"
+            }
           },
           required: ["email"],
-          type: "object",
-        },
+          type: "object"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

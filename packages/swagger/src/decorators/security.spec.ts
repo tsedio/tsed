@@ -16,8 +16,8 @@ describe("Security()", () => {
     it("should set the security", () => {
       expect(this.store.get("operation").security).to.deep.eq([
         {
-          securityDefinitionName: ["scope1", "scope2"],
-        },
+          securityDefinitionName: ["scope1", "scope2"]
+        }
       ]);
     });
   });

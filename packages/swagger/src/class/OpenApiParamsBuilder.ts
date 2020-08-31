@@ -11,7 +11,7 @@ function serializeModelToParameter(model: ParamMetadata) {
     return {
       name: [model.expression, key].filter(Boolean).join("."),
       required: (schema.required || []).includes(key),
-      ...item,
+      ...item
     };
   });
 }
@@ -91,7 +91,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
       super.createSchema({
         schema: param.store.get("schema"),
         type: param.type,
-        collectionType: param.collectionType,
+        collectionType: param.collectionType
       })
     );
 
@@ -112,9 +112,9 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
             type: "array",
             collectionFormat: "multi",
             items: {
-              type,
-            },
-          },
+              type
+            }
+          }
         ] as any[];
       }
 
@@ -122,9 +122,9 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
         {
           type: "object",
           additionalProperties: {
-            type,
-          },
-        },
+            type
+          }
+        }
       ];
     }
 
@@ -134,8 +134,8 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
     return [
       {
-        type,
-      },
+        type
+      }
     ];
   }
 
@@ -151,7 +151,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
           in: "header",
           name: param.expression,
           type: swaggerType(param.type),
-          required: param.required,
+          required: param.required
         });
       });
   }
@@ -172,7 +172,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
           in: "formData",
           name,
           required: param.required,
-          type,
+          type
         });
       });
   }
@@ -194,7 +194,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
 
       this._definitions = {
         ...this._definitions,
-        ...builder.definitions,
+        ...builder.definitions
       };
 
       if (param.required) {
@@ -208,8 +208,8 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
         schema: this.createSchema({
           schema: param.store.get("schema"),
           type: param.type,
-          collectionType: param.collectionType,
-        }),
+          collectionType: param.collectionType
+        })
       });
     }
 
@@ -234,8 +234,8 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
       required,
       description: "",
       schema: {
-        $ref: `#/definitions/${model}`,
-      },
+        $ref: `#/definitions/${model}`
+      }
     };
   }
 
@@ -258,7 +258,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
         const param = pathParams.get(pathParam.name);
 
         pathParam = Object.assign({}, pathParam, param.store.get("baseParameter") || {}, {
-          type: swaggerType(param.type),
+          type: swaggerType(param.type)
         });
       }
 
@@ -288,9 +288,9 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
               in: "query",
               name: param.expression,
               required: Boolean(param.required),
-              ...item,
+              ...item
             };
-          }),
+          })
         ];
       }, []);
   }

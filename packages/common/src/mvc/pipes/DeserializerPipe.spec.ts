@@ -22,7 +22,7 @@ describe("DeserializerPipe", () => {
         index: 0,
         target: Test,
         propertyKey: "test",
-        paramType: ParamTypes.REQUEST,
+        paramType: ParamTypes.REQUEST
       });
       // @ts-ignore
       param._type = String;
@@ -46,7 +46,7 @@ describe("DeserializerPipe", () => {
         index: 0,
         target: Test,
         propertyKey: "test",
-        paramType: ParamTypes.QUERY,
+        paramType: ParamTypes.QUERY
       });
       // @ts-ignore
       param._type = String;

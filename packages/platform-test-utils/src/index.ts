@@ -12,14 +12,14 @@ export class PlatformTestUtils {
   test(name: string, options: any = {}) {
     specsContainer.get(name)!({
       ...this.options,
-      ...options,
+      ...options
     });
   }
 
   bootstrap(options: any = {}) {
     return PlatformTest.bootstrap(this.options.server, {
       ...this.options,
-      ...options,
+      ...options
     });
   }
 

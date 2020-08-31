@@ -9,7 +9,7 @@ import {
   QueryParams,
   Required,
   UseParam,
-  ValidationError,
+  ValidationError
 } from "@tsed/common";
 import {expect} from "chai";
 import {AjvValidationPipe} from "./AjvValidationPipe";
@@ -32,8 +32,8 @@ describe("AjvValidationPipe", () => {
   beforeEach(() =>
     PlatformTest.create({
       ajv: {
-        verbose: true,
-      },
+        verbose: true
+      }
     })
   );
   afterEach(() => PlatformTest.reset());
@@ -66,14 +66,14 @@ describe("AjvValidationPipe", () => {
           keyword: "type",
           message: "should be object",
           params: {
-            type: "object",
+            type: "object"
           },
           parentSchema: {
-            type: "object",
+            type: "object"
           },
           schema: "object",
-          schemaPath: "#/type",
-        },
+          schemaPath: "#/type"
+        }
       ]);
     });
   });
@@ -121,7 +121,7 @@ describe("AjvValidationPipe", () => {
       }
 
       const value = {
-        id: "hello",
+        id: "hello"
       };
       const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
 
@@ -153,25 +153,25 @@ describe("AjvValidationPipe", () => {
           message: "should have required property 'id'",
           modelName: "Model",
           params: {
-            missingProperty: "id",
+            missingProperty: "id"
           },
           parentSchema: {
             definitions: {},
             properties: {
               id: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
             required: ["id"],
-            type: "object",
+            type: "object"
           },
           schema: {
             id: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          schemaPath: "#/required",
-        },
+          schemaPath: "#/required"
+        }
       ]);
     });
     it("should throw an error (deep property)", async () => {
@@ -194,7 +194,7 @@ describe("AjvValidationPipe", () => {
 
       const value: any = {
         id: "id",
-        user: {},
+        user: {}
       };
 
       const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
@@ -218,8 +218,8 @@ describe("AjvValidationPipe", () => {
 
       const value = [
         {
-          id: "hello",
-        },
+          id: "hello"
+        }
       ];
       const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
 
@@ -265,8 +265,8 @@ describe("AjvValidationPipe", () => {
       const value: any = [
         {
           id: "id",
-          user: {},
-        },
+          user: {}
+        }
       ];
 
       const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
@@ -290,8 +290,8 @@ describe("AjvValidationPipe", () => {
 
       const value = {
         key1: {
-          id: "hello",
-        },
+          id: "hello"
+        }
       };
       const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
 
@@ -337,8 +337,8 @@ describe("AjvValidationPipe", () => {
       const value: any = {
         key1: {
           id: "id",
-          user: {},
-        },
+          user: {}
+        }
       };
 
       const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));

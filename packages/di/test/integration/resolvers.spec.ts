@@ -20,7 +20,7 @@ describe("DI Resolvers", () => {
 
       const container = new Container();
       container.add(MyService, {
-        deps: [ExternalService],
+        deps: [ExternalService]
       });
 
       // WHEN

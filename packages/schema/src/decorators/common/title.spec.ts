@@ -12,10 +12,10 @@ describe("Title()", () => {
       properties: {
         test: {
           title: "Title",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

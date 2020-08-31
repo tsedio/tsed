@@ -28,9 +28,9 @@ describe("@SocketMiddlewareError", () => {
       error: true,
       handlers: {
         use: {
-          methodClassName: "use",
-        },
-      },
+          methodClassName: "use"
+        }
+      }
     });
 
     expect(common.Middleware).to.have.been.calledWithExactly();

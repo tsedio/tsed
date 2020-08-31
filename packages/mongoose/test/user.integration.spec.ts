@@ -15,7 +15,7 @@ describe("Mongoose", () => {
         // GIVEN
         const user = new userModel({
           email: "test@test.fr",
-          password: "test",
+          password: "test"
         });
 
         // WHEN
@@ -41,7 +41,7 @@ describe("Mongoose", () => {
       TestMongooseContext.inject([TestUser], async (userModel: MongooseModel<TestUser>) => {
         // GIVEN
         const user = new userModel({
-          email: "test@test.fr",
+          email: "test@test.fr"
         });
 
         // WHEN

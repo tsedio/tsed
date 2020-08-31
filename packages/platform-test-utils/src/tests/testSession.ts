@@ -12,7 +12,7 @@ import {
   Required,
   Returns,
   Session,
-  Status,
+  Status
 } from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Indexed, Unique} from "@tsed/mongoose";
@@ -78,8 +78,8 @@ export function testSession(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [SessionCtrl],
-      },
+        "/rest": [SessionCtrl]
+      }
     })
   );
   before(() => {
@@ -97,7 +97,7 @@ export function testSession(options: PlatformTestOptions) {
       await request.post("/rest/session/connect").send({
         name: "name",
         email: "test@test.fr",
-        password: "password1234",
+        password: "password1234"
       });
 
       // @ts-ignore
@@ -105,7 +105,7 @@ export function testSession(options: PlatformTestOptions) {
 
       expect(response.body).to.deep.eq({
         email: "test@test.fr",
-        name: "name",
+        name: "name"
       });
 
       await request.get("/rest/session/logout").expect(204);

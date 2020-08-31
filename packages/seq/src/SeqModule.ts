@@ -5,7 +5,7 @@ import {ISeqSettings} from "./interfaces/ISeqSettings";
 @Module({})
 export class SeqModule implements AfterRoutesInit {
   @Constant("seq", {
-    url: "http://localhost:5341",
+    url: "http://localhost:5341"
   })
   private config: ISeqSettings;
 
@@ -18,7 +18,7 @@ export class SeqModule implements AfterRoutesInit {
         type: "seq",
         levels: ["info", "debug", "trace", "fatal", "error", "warn"],
         url: this.config.url,
-        apiKey: this.config.apiKey,
+        apiKey: this.config.apiKey
       });
     }
   }

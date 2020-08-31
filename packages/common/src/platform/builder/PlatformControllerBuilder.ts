@@ -19,7 +19,7 @@ export class PlatformControllerBuilder {
   public build(injector: InjectorService): IPlatformDriver {
     const {
       routerOptions,
-      middlewares: {useBefore, useAfter},
+      middlewares: {useBefore, useAfter}
     } = this.provider;
 
     this.provider.router = PlatformRouter.create(injector, routerOptions);
@@ -72,7 +72,7 @@ export class PlatformControllerBuilder {
     const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares, pathsMethods} = endpoint;
     const {
       router,
-      middlewares: {use},
+      middlewares: {use}
     } = this.provider;
     // Endpoint lifecycle
     let handlers: any[] = [];

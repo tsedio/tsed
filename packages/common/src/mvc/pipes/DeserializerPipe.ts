@@ -9,7 +9,7 @@ export class DeserializerPipe implements IPipe {
 
   transform(value: any, param: ParamMetadata) {
     return this.converterService.deserialize(value, param.collectionType || param.type, param.type, {
-      additionalProperties: param.paramType === ParamTypes.QUERY ? "ignore" : undefined,
+      additionalProperties: param.paramType === ParamTypes.QUERY ? "ignore" : undefined
     });
   }
 }

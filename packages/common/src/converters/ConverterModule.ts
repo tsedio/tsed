@@ -2,6 +2,6 @@ import {Module} from "@tsed/di";
 import {ConverterService} from "./services/ConverterService";
 
 @Module({
-  imports: [ConverterService],
+  imports: [ConverterService]
 })
 export class ConverterModule {}

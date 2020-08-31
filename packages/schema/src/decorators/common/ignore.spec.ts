@@ -16,10 +16,10 @@ describe("@Ignore", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       properties: {
         prop2: {
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 
@@ -36,10 +36,10 @@ describe("@Ignore", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       properties: {
         prop2: {
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

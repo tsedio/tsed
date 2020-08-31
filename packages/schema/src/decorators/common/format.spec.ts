@@ -15,10 +15,10 @@ describe("@Format", () => {
       properties: {
         email: {
           format: "email",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });
@@ -36,10 +36,10 @@ describe("@Email", () => {
       properties: {
         email: {
           format: "email",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });
@@ -57,10 +57,10 @@ describe("@DateFormat", () => {
       properties: {
         prop: {
           format: "date",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });
@@ -78,10 +78,10 @@ describe("@TimeFormat", () => {
       properties: {
         prop: {
           format: "time",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });
@@ -99,10 +99,10 @@ describe("@DateTime", () => {
       properties: {
         prop: {
           format: "date-time",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });
@@ -120,10 +120,10 @@ describe("@Uri", () => {
       properties: {
         prop: {
           format: "uri",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

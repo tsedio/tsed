@@ -14,8 +14,8 @@ describe("@MulterOptions()", () => {
 
       expect(store.get(MultipartFileMiddleware)).to.deep.equal({
         options: {
-          dest: "/",
-        },
+          dest: "/"
+        }
       });
     });
   });

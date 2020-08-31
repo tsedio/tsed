@@ -20,12 +20,12 @@ describe("AcceptMimesMiddleware", () => {
     const request: any = new FakeRequest({
       sandbox,
       headers: {
-        accept: "application/json",
-      },
+        accept: "application/json"
+      }
     });
     const ctx = PlatformTest.createRequestContext({
       request: new PlatformRequest(request),
-      endpoint,
+      endpoint
     });
 
     const middleware = await PlatformTest.invoke<AcceptMimesMiddleware>(AcceptMimesMiddleware);
@@ -44,12 +44,12 @@ describe("AcceptMimesMiddleware", () => {
     const request: any = new FakeRequest({
       sandbox,
       headers: {
-        accept: "application/xml",
-      },
+        accept: "application/xml"
+      }
     });
     const ctx = PlatformTest.createRequestContext({
       request: new PlatformRequest(request),
-      endpoint,
+      endpoint
     });
     const middleware = await PlatformTest.invoke<AcceptMimesMiddleware>(AcceptMimesMiddleware);
 

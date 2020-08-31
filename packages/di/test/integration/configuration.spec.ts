@@ -17,23 +17,23 @@ describe("DI", () => {
 
     @Module({
       mount: {
-        "/rest": [ControllerModule],
-      },
+        "/rest": [ControllerModule]
+      }
     })
     class MyModule {}
 
     const injector = createInjector({
       mount: {
-        "/rest": [ControllerGlobal],
+        "/rest": [ControllerGlobal]
       },
-      imports: [MyModule],
+      imports: [MyModule]
     });
     injector.add(MyModule);
 
     injector.resolveConfiguration();
 
     expect(injector.settings.mount).to.deep.eq({
-      "/rest": [ControllerModule, ControllerGlobal],
+      "/rest": [ControllerModule, ControllerGlobal]
     });
   });
 });

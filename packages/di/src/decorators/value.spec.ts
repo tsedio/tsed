@@ -17,8 +17,8 @@ describe("@Value()", () => {
         bindingType: "value",
         propertyKey: "test",
         expression: "expression",
-        defaultValue: undefined,
-      },
+        defaultValue: undefined
+      }
     });
   });
 });

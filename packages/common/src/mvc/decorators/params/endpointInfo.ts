@@ -13,6 +13,6 @@ export type EndpointInfo = EndpointMetadata;
 export function EndpointInfo(): Function {
   return UseParam(ParamTypes.ENDPOINT_INFO, {
     useConverter: false,
-    useValidation: false,
+    useValidation: false
   });
 }

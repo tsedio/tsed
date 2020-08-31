@@ -11,7 +11,7 @@ import {
   HttpsServer,
   importProviders,
   PlatformBuilder,
-  setLoggerLevel,
+  setLoggerLevel
 } from "../../platform-builder";
 import {GlobalErrorHandlerMiddleware, PlatformExceptionsMiddleware} from "../../platform-exceptions";
 import {LogIncomingRequestMiddleware} from "../../platform/middlewares/LogIncomingRequestMiddleware";

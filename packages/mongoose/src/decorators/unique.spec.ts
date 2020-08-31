@@ -14,7 +14,7 @@ describe("@Unique()", () => {
 
   it("should set metadata", () => {
     expect(this.store.get(MONGOOSE_SCHEMA)).to.deep.eq({
-      unique: true,
+      unique: true
     });
   });
 });

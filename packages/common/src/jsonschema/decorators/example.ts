@@ -26,7 +26,7 @@ export function Example(...args: any[]): Function {
       case DecoratorTypes.PROP:
       case DecoratorTypes.METHOD:
         return Schema({
-          examples: isArray(name) ? [name] : [].concat(name),
+          examples: isArray(name) ? [name] : [].concat(name)
         })(...args);
     }
   };

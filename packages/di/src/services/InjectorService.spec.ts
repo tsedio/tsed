@@ -106,7 +106,7 @@ describe("InjectorService", () => {
         expect(injector.get).to.have.been.calledWithExactly(token);
         expect((injector as any).resolve).to.have.been.calledWithExactly(token, locals, {rebuild: true});
         expect((injector as any).invoke).to.have.been.calledWithExactly(InjectorService, locals, {
-          parent: token,
+          parent: token
         });
       });
     });
@@ -230,7 +230,7 @@ describe("InjectorService", () => {
         const token = class Test {};
 
         const registry = {
-          onInvoke: Sinon.stub(),
+          onInvoke: Sinon.stub()
         };
 
         // @ts-ignore
@@ -514,11 +514,11 @@ describe("InjectorService", () => {
         injector.add(token, {
           deps: [Provider],
           configuration: {
-            test: "test",
+            test: "test"
           },
           useFactory(provider: any) {
             return {to: provider};
-          },
+          }
         });
 
         // WHEN
@@ -537,7 +537,7 @@ describe("InjectorService", () => {
           deps: [Configuration],
           useFactory(settings: any) {
             return {to: settings};
-          },
+          }
         });
 
         // WHEN
@@ -571,20 +571,20 @@ describe("InjectorService", () => {
 
       const injectableProperties = {
         testMethod: {
-          bindingType: "method",
+          bindingType: "method"
         },
         testProp: {
-          bindingType: "property",
+          bindingType: "property"
         },
         testConst: {
-          bindingType: "constant",
+          bindingType: "constant"
         },
         testValue: {
-          bindingType: "value",
+          bindingType: "value"
         },
         testInterceptor: {
-          bindingType: "interceptor",
-        },
+          bindingType: "interceptor"
+        }
       };
 
       Store.from(TestBind).set(INJECTABLE_PROP, injectableProperties);
@@ -641,7 +641,7 @@ describe("InjectorService", () => {
         {
           bindingType: "property",
           propertyKey: "prop",
-          useType: InjectorService,
+          useType: InjectorService
         } as any,
         new Map(),
         {}
@@ -743,7 +743,7 @@ describe("InjectorService", () => {
       injector.bindInterceptor(instance, {
         bindingType: "interceptor",
         propertyKey: "test3",
-        useType: InterceptorTest,
+        useType: InterceptorTest
       } as any);
 
       const result = (instance as any).test3("test");
@@ -777,7 +777,7 @@ describe("InjectorService", () => {
       injector.bindInterceptor(instance, {
         bindingType: "interceptor",
         propertyKey: "test3",
-        useType: InterceptorTest,
+        useType: InterceptorTest
       } as any);
 
       const result = (instance as any).test3("test");
@@ -797,29 +797,29 @@ describe("InjectorService", () => {
 
       injector.settings.set({
         scopes: {
-          [ProviderType.VALUE]: ProviderScope.SINGLETON,
-        },
+          [ProviderType.VALUE]: ProviderScope.SINGLETON
+        }
       });
 
       expect(injector.settings.get("scopes")).to.deep.eq({
-        [ProviderType.VALUE]: ProviderScope.SINGLETON,
+        [ProviderType.VALUE]: ProviderScope.SINGLETON
       });
 
       injector.add(Symbol.for("TOKEN1"), {
         configuration: {
           custom: "config",
           scopes: {
-            provider_custom: ProviderScope.SINGLETON,
-          },
-        },
+            provider_custom: ProviderScope.SINGLETON
+          }
+        }
       });
 
       injector.add(Symbol.for("TOKEN2"), {
         configuration: {
           scopes: {
-            provider_custom_2: ProviderScope.SINGLETON,
-          },
-        },
+            provider_custom_2: ProviderScope.SINGLETON
+          }
+        }
       });
 
       // WHEN
@@ -830,7 +830,7 @@ describe("InjectorService", () => {
       expect(injector.settings.get<any>("scopes")).to.deep.eq({
         provider_custom_2: "singleton",
         provider_custom: "singleton",
-        value: "singleton",
+        value: "singleton"
       });
     });
   });
@@ -853,7 +853,7 @@ describe("InjectorService", () => {
 
       const container = new Container();
       container.add(MyService, {
-        deps: [ExternalService],
+        deps: [ExternalService]
       });
 
       // WHEN

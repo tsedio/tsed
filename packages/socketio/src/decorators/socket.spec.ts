@@ -17,11 +17,11 @@ describe("Socket", () => {
           parameters: {
             "0": {
               filter: "socket",
-              mapIndex: undefined,
-            },
-          },
-        },
-      },
+              mapIndex: undefined
+            }
+          }
+        }
+      }
     });
   });
 });

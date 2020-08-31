@@ -72,7 +72,7 @@ export class SocketIOModule implements AfterListen {
               inputEvent: handler.eventName,
               outputEvent: (handler.returns && handler.returns.eventName) || "",
               outputType: (handler.returns && handler.returns.type) || "",
-              name: `${nameOf(provider.useClass)}.${handler.methodClassName}`,
+              name: `${nameOf(provider.useClass)}.${handler.methodClassName}`
             });
           });
       }
@@ -89,8 +89,8 @@ export class SocketIOModule implements AfterListen {
         inputEvent: "Input event",
         outputEvent: "Output event",
         outputType: "Output type",
-        name: "Class method",
-      },
+        name: "Class method"
+      }
     });
 
     this.injector.logger.info("\n" + str.trim());

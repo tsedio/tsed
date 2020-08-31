@@ -72,8 +72,8 @@ export function testErrors(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [ErrorsCtrl],
-      },
+        "/rest": [ErrorsCtrl]
+      }
     })
   );
   before(() => {

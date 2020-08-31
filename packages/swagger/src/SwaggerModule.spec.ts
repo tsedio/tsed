@@ -40,7 +40,7 @@ describe("SwaggerModule", () => {
           showExplorer: true,
           cssPath: "cssPath",
           jsPath: "jsPath",
-          hidden: false,
+          hidden: false
         },
         {
           path: "/doc2",
@@ -50,8 +50,8 @@ describe("SwaggerModule", () => {
           showExplorer: false,
           cssPath: "cssPath",
           jsPath: "jsPath",
-          hidden: true,
-        },
+          hidden: true
+        }
       ];
 
       expressGet = Sinon.stub(app, "get");
@@ -79,15 +79,15 @@ describe("SwaggerModule", () => {
       expect(createRouterStub.getCall(0)).to.have.been.calledWithExactly(config[0], [
         {
           url: "/doc1/swagger.json",
-          name: "doc1",
-        },
+          name: "doc1"
+        }
       ]);
 
       expect(createRouterStub.getCall(1)).to.have.been.calledWithExactly(config[1], [
         {
           url: "/doc1/swagger.json",
-          name: "doc1",
-        },
+          name: "doc1"
+        }
       ]);
     });
 
@@ -120,7 +120,7 @@ describe("SwaggerModule", () => {
           showExplorer: true,
           cssPath: "cssPath",
           jsPath: "jsPath",
-          hidden: false,
+          hidden: false
         },
         {
           path: "/doc2",
@@ -130,8 +130,8 @@ describe("SwaggerModule", () => {
           showExplorer: false,
           cssPath: "cssPath",
           jsPath: "jsPath",
-          hidden: true,
-        },
+          hidden: true
+        }
       ];
       settingsService.get.returns(config);
       swaggerModule.swaggerService.getOpenAPISpec.returns({spec: "spec"});
@@ -169,7 +169,7 @@ describe("SwaggerModule", () => {
           showExplorer: true,
           cssPath: "cssPath",
           jsPath: "jsPath",
-          hidden: false,
+          hidden: false
         },
         {
           path: "/doc2",
@@ -179,13 +179,13 @@ describe("SwaggerModule", () => {
           showExplorer: false,
           cssPath: "cssPath",
           jsPath: "jsPath",
-          hidden: true,
-        },
+          hidden: true
+        }
       ];
 
       settingsService.getHttpPort.returns({
         address: "0.0.0.0",
-        port: 8080,
+        port: 8080
       });
 
       settingsService.get.withArgs("swagger").returns(config);
@@ -208,7 +208,7 @@ describe("SwaggerModule", () => {
           showExplorer: true,
           cssPath: "cssPath",
           jsPath: "jsPath",
-          hidden: false,
+          hidden: false
         },
         {
           path: "/doc2",
@@ -218,13 +218,13 @@ describe("SwaggerModule", () => {
           showExplorer: false,
           cssPath: "cssPath",
           jsPath: "jsPath",
-          hidden: true,
-        },
+          hidden: true
+        }
       ];
 
       settingsService.getHttpsPort.returns({
         address: "0.0.0.0",
-        port: 8081,
+        port: 8081
       });
 
       settingsService.get.withArgs("swagger").returns(config);
@@ -288,7 +288,7 @@ describe("SwaggerModule", () => {
         showExplorer: false,
         cssPath: "cssPath",
         jsPath: "jsPath",
-        hidden: true,
+        hidden: true
       };
 
       swaggerModule.swaggerService.getOpenAPISpec.returns({spec: "spec"});
@@ -296,7 +296,7 @@ describe("SwaggerModule", () => {
       const req = {};
       const res = {
         status: sandbox.stub().returnsThis(),
-        json: sandbox.stub().returnsThis(),
+        json: sandbox.stub().returnsThis()
       };
       // WHEN
       swaggerModule.middlewareSwaggerJson(config)(req, res);

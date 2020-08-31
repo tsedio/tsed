@@ -53,7 +53,7 @@ export function MulterOptions(options: Multer.Options): MethodDecorator {
         throw new Error("MulterOptions is only supported on method");
       case DecoratorTypes.METHOD:
         Store.fromMethod(target, propertyKey).merge(MultipartFileMiddleware, {
-          options,
+          options
         });
 
         return descriptor;

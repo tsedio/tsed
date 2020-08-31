@@ -17,10 +17,10 @@ describe("@Default", () => {
       properties: {
         num: {
           default: "10",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

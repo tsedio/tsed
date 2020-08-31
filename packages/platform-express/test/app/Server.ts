@@ -11,12 +11,12 @@ export const rootDir = __dirname;
 
 @Configuration({
   logger: {
-    level: "off",
+    level: "off"
   },
   statics: {
-    "/": `${rootDir}/public`,
+    "/": `${rootDir}/public`
   },
-  viewsDir: `${rootDir}/views`,
+  viewsDir: `${rootDir}/views`
 })
 export class Server {
   @Inject()
@@ -36,7 +36,7 @@ export class Server {
       .use(bodyParser.json())
       .use(
         bodyParser.urlencoded({
-          extended: true,
+          extended: true
         })
       )
       .use(
@@ -45,8 +45,8 @@ export class Server {
           resave: false,
           saveUninitialized: true,
           cookie: {
-            secure: false, // set true if HTTPS is enabled
-          },
+            secure: false // set true if HTTPS is enabled
+          }
         })
       );
   }

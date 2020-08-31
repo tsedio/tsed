@@ -15,7 +15,7 @@ const rootDir = resolve(__dirname);
   httpsPort: false,
   logger: {
     level: "info",
-    logRequest: true,
+    logRequest: true
   },
   mount: {},
   componentsScan: ["${rootDir}/services/**/*.ts", "${rootDir}/graphql/**/*.ts"],
@@ -23,10 +23,10 @@ const rootDir = resolve(__dirname);
     default: {
       path: "/api/graphql",
       buildSchemaOptions: {
-        emitSchemaFile: resolve(__dirname, "../ressources/schema.gql"),
-      },
-    },
-  },
+        emitSchemaFile: resolve(__dirname, "../ressources/schema.gql")
+      }
+    }
+  }
 })
 export class Server {
   @Inject()
@@ -41,7 +41,7 @@ export class Server {
       .use(bodyParser.json())
       .use(
         bodyParser.urlencoded({
-          extended: true,
+          extended: true
         })
       )
       .use(cookieParser())

@@ -54,13 +54,13 @@ export function Controller(options: PathParamsType | IControllerOptions, ...chil
       registerController({
         provide: target,
         path: options,
-        children,
+        children
       });
     } else {
       registerController({
         provide: target,
         children: (options as IControllerOptions).dependencies || (options as IControllerOptions).children,
-        ...options,
+        ...options
       });
     }
   };

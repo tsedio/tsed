@@ -5,7 +5,7 @@ export function getConfiguration(module: Type<any>, configuration: any = {}) {
 
   const config = {
     ...store,
-    ...configuration,
+    ...configuration
   };
 
   if (store.mount && configuration.mount) {

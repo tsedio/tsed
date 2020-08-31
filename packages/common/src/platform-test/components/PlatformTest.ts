@@ -64,9 +64,9 @@ export class PlatformTest {
       if (isInheritedFrom(mod, ServerLoader)) {
         instance = await ServerLoader.bootstrap(mod, {
           logger: {
-            level: "off",
+            level: "off"
           },
-          ...options,
+          ...options
         });
       } else {
         PlatformTest.platformBuilder = options.platform || PlatformTest.platformBuilder;
@@ -81,9 +81,9 @@ export class PlatformTest {
         // @ts-ignore
         instance = await PlatformBuilder.build(PlatformTest.platformBuilder).bootstrap(mod, {
           logger: {
-            level: "off",
+            level: "off"
           },
-          ...options,
+          ...options
         });
       }
 
@@ -192,7 +192,7 @@ export class PlatformTest {
       id: "id",
       logger: this.injector.logger,
       url: "/",
-      ...options,
+      ...options
     });
   }
 }

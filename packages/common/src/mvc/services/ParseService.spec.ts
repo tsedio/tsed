@@ -19,7 +19,7 @@ describe("ParseService :", () => {
   it("should eval expression with a scope and return value", inject([ParseService], (parserService: ParseService) => {
     expect(
       parserService.eval(undefined!, {
-        test: "yes",
+        test: "yes"
       }).test
     ).to.equal("yes");
 
@@ -29,7 +29,7 @@ describe("ParseService :", () => {
   it("should eval expression with a scope and return value", inject([ParseService], (parserService: ParseService) => {
     expect(
       parserService.eval("test", {
-        test: "yes",
+        test: "yes"
       })
     ).to.equal("yes");
   }));
@@ -37,7 +37,7 @@ describe("ParseService :", () => {
   it("should eval expression with a scope and return value", inject([ParseService], (parserService: ParseService) => {
     expect(
       parserService.eval("test.foo", {
-        test: "yes",
+        test: "yes"
       })
     ).to.equal(undefined);
   }));
@@ -45,8 +45,8 @@ describe("ParseService :", () => {
   it("should eval expression with a scope and return a new object", inject([ParseService], (parserService: ParseService) => {
     const scope = {
       test: {
-        foo: "yes",
-      },
+        foo: "yes"
+      }
     };
 
     const value = parserService.eval("test", scope);

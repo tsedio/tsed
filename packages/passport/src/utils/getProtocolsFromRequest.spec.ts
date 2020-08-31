@@ -30,8 +30,8 @@ describe("getProtocolsFromRequest", () => {
     const defaultProtocols = ["default"];
     const req = {
       params: {
-        protocol: "basic",
-      },
+        protocol: "basic"
+      }
     };
     const result = getProtocolsFromRequest(req, ":protocol", defaultProtocols);
 
@@ -41,7 +41,7 @@ describe("getProtocolsFromRequest", () => {
   it("should not get protocol from request", () => {
     const defaultProtocols = ["default"];
     const req = {
-      params: {},
+      params: {}
     };
     const result = getProtocolsFromRequest(req, ":protocol", defaultProtocols);
 
@@ -52,8 +52,8 @@ describe("getProtocolsFromRequest", () => {
     const defaultProtocols = ["default"];
     const req = {
       query: {
-        protocol: "basic",
-      },
+        protocol: "basic"
+      }
     };
     const result = getProtocolsFromRequest(req, ":protocol", defaultProtocols);
 
@@ -64,8 +64,8 @@ describe("getProtocolsFromRequest", () => {
     const defaultProtocols = ["default"];
     const req = {
       body: {
-        protocol: "basic",
-      },
+        protocol: "basic"
+      }
     };
     const result = getProtocolsFromRequest(req, ":protocol", defaultProtocols);
 
@@ -76,8 +76,8 @@ describe("getProtocolsFromRequest", () => {
     const defaultProtocols = ["default"];
     const req = {
       params: {
-        protocol: "basic",
-      },
+        protocol: "basic"
+      }
     };
     const result = getProtocolsFromRequest(req, "basic", defaultProtocols);
 
@@ -88,8 +88,8 @@ describe("getProtocolsFromRequest", () => {
     const defaultProtocols = ["default"];
     const req = {
       params: {
-        protocol: "basic",
-      },
+        protocol: "basic"
+      }
     };
     const result = getProtocolsFromRequest(req, "other", defaultProtocols);
 

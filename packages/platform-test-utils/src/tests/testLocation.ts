@@ -19,8 +19,8 @@ export function testLocation(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [LocationCtrl],
-      },
+        "/rest": [LocationCtrl]
+      }
     })
   );
   before(() => {

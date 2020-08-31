@@ -12,7 +12,7 @@ export class DIConfiguration {
       scopes: {},
       resolvers: [],
       imports: [],
-      ...initialProps,
+      ...initialProps
     }).forEach(([key, value]) => {
       this.default.set(key, value);
     });
@@ -56,7 +56,7 @@ export class DIConfiguration {
 
       ownKeys(target: DIConfiguration): PropertyKey[] {
         return Reflect.ownKeys(target).concat(Array.from(target.default.keys())).concat(Array.from(target.map.keys()));
-      },
+      }
     });
   }
 

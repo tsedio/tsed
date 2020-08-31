@@ -24,9 +24,9 @@ describe("@SocketMiddleware", () => {
       type: SocketProviderTypes.MIDDLEWARE,
       handlers: {
         use: {
-          methodClassName: "use",
-        },
-      },
+          methodClassName: "use"
+        }
+      }
     });
   });
 

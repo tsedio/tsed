@@ -45,8 +45,8 @@ export function Value(expression: any, defaultValue?: any) {
         bindingType: InjectablePropertyType.VALUE,
         propertyKey,
         expression,
-        defaultValue,
-      },
+        defaultValue
+      }
     } as IInjectableProperties);
   };
 }

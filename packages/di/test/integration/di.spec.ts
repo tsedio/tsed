@@ -9,7 +9,7 @@ import {
   OnDestroy,
   ProviderScope,
   Scope,
-  Service,
+  Service
 } from "../../src";
 
 describe("DI", () => {

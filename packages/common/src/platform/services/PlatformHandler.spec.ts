@@ -12,7 +12,7 @@ import {
   PlatformRequest,
   PlatformResponse,
   PlatformTest,
-  QueryParams,
+  QueryParams
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {InjectorService, Provider} from "@tsed/di";
@@ -33,7 +33,7 @@ function build(injector: InjectorService, type: string | ParamTypes | Type<any>,
   const response: any = new FakeResponse();
   request.ctx = PlatformTest.createRequestContext({
     response: new PlatformResponse(response),
-    request: new PlatformRequest(request),
+    request: new PlatformRequest(request)
   });
 
   const next: any = Sinon.stub();
@@ -43,7 +43,7 @@ function build(injector: InjectorService, type: string | ParamTypes | Type<any>,
     response,
     next,
     args: [],
-    metadata: {} as any,
+    metadata: {} as any
   });
 
   if (expression) {
@@ -58,7 +58,7 @@ function build(injector: InjectorService, type: string | ParamTypes | Type<any>,
     param,
     request,
     response,
-    next,
+    next
   };
 }
 
@@ -92,7 +92,7 @@ describe("PlatformHandler", () => {
         sandbox.stub(injector, "getProvider").returns(new Provider(Test));
         const endpoint = new EndpointMetadata({
           target: Test,
-          propertyKey: "get",
+          propertyKey: "get"
         });
 
         // WHEN
@@ -147,14 +147,14 @@ describe("PlatformHandler", () => {
         const response: any = new FakeRequest();
         request.ctx = PlatformTest.createRequestContext({
           response: new PlatformResponse(response),
-          request: new PlatformRequest(request),
+          request: new PlatformRequest(request)
         });
 
         const handlerMetadata = new HandlerMetadata({
           token: Test,
           target: Test,
           type: HandlerType.CONTROLLER,
-          propertyKey: "get",
+          propertyKey: "get"
         });
 
         // WHEN
@@ -204,7 +204,7 @@ describe("PlatformHandler", () => {
           token: Test,
           target: Test,
           type: HandlerType.CONTROLLER,
-          propertyKey: "use",
+          propertyKey: "use"
         });
 
         // WHEN
@@ -237,7 +237,7 @@ describe("PlatformHandler", () => {
           token: Test,
           target: Test,
           type: HandlerType.CONTROLLER,
-          propertyKey: "get",
+          propertyKey: "get"
         });
 
         // WHEN
@@ -396,7 +396,7 @@ describe("PlatformHandler", () => {
         // THEN
         expect(value).to.deep.eq({
           accept: "application/json",
-          "content-type": "application/json",
+          "content-type": "application/json"
         });
       })
     );

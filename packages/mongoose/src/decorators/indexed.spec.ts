@@ -14,7 +14,7 @@ describe("@Indexed()", () => {
 
   it("should set metadata", () => {
     expect(this.store.get(MONGOOSE_SCHEMA)).to.deep.eq({
-      index: true,
+      index: true
     });
   });
 });

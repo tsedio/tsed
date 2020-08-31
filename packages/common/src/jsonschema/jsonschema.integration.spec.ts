@@ -14,101 +14,101 @@ describe("JsonSchemesService", () => {
           JsonAgeModel: {
             properties: {
               age: {
-                type: "number",
+                type: "number"
               },
               id: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
-            type: "object",
+            type: "object"
           },
           JsonFoo1: {
             properties: {
               test: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
-            type: "object",
+            type: "object"
           },
           JsonNameModel: {
             properties: {
               id: {
-                type: "string",
+                type: "string"
               },
               name: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
-            type: "object",
-          },
+            type: "object"
+          }
         },
         properties: {
           ageModel: {
-            $ref: "#/definitions/JsonAgeModel",
+            $ref: "#/definitions/JsonAgeModel"
           },
           arrayOfString: {
             items: {
-              type: "string",
+              type: "string"
             },
-            type: "array",
+            type: "array"
           },
           dateStart: {
-            type: "string",
+            type: "string"
           },
           foo: {
-            type: "object",
+            type: "object"
           },
           foos: {
             items: {
-              type: "object",
+              type: "object"
             },
-            type: "array",
+            type: "array"
           },
 
           foos2: {
             items: {
-              $ref: "#/definitions/JsonFoo1",
+              $ref: "#/definitions/JsonFoo1"
             },
-            type: "array",
+            type: "array"
           },
           mapOfString: {
             additionalProperties: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
           name: {
             minLength: 3,
-            type: "string",
+            type: "string"
           },
           nameModel: {
-            $ref: "#/definitions/JsonNameModel",
+            $ref: "#/definitions/JsonNameModel"
           },
           object: {
-            type: "object",
+            type: "object"
           },
           password: {
-            type: "string",
+            type: "string"
           },
           test: {
             minLength: 3,
-            type: "string",
+            type: "string"
           },
           theMap: {
             additionalProperties: {
-              $ref: "#/definitions/JsonFoo1",
-            },
+              $ref: "#/definitions/JsonFoo1"
+            }
           },
           theSet: {
             additionalProperties: {
-              $ref: "#/definitions/JsonFoo1",
-            },
+              $ref: "#/definitions/JsonFoo1"
+            }
           },
           uint: {
-            type: "number",
-          },
+            type: "number"
+          }
         },
         required: ["test", "foo"],
-        type: "object",
+        type: "object"
       });
     });
   });
@@ -120,29 +120,29 @@ describe("JsonSchemesService", () => {
           Stuff: {
             properties: {
               name: {
-                type: "string",
+                type: "string"
               },
               nested: {
-                $ref: "#/definitions/Nested",
-              },
+                $ref: "#/definitions/Nested"
+              }
             },
-            type: "object",
+            type: "object"
           },
           Nested: {
             properties: {
               count: {
-                type: "number",
-              },
+                type: "number"
+              }
             },
-            type: "object",
-          },
+            type: "object"
+          }
         },
         properties: {
           stuff: {
-            $ref: "#/definitions/Stuff",
-          },
+            $ref: "#/definitions/Stuff"
+          }
         },
-        type: "object",
+        type: "object"
       });
     });
   });
@@ -168,34 +168,34 @@ describe("JsonSchemesService", () => {
         definitions: {},
         properties: {
           age: {
-            type: "number",
+            type: "number"
           },
           name: {
-            type: "string",
-          },
+            type: "string"
+          }
         },
-        type: "object",
+        type: "object"
       });
       expect(getJsonSchema(M3)).to.deep.eq({
         definitions: {
           M2: {
             properties: {
               name: {
-                type: "string",
+                type: "string"
               },
               age: {
-                type: "number",
-              },
+                type: "number"
+              }
             },
-            type: "object",
-          },
+            type: "object"
+          }
         },
         properties: {
           nested: {
-            $ref: "#/definitions/M2",
-          },
+            $ref: "#/definitions/M2"
+          }
         },
-        type: "object",
+        type: "object"
       });
     });
   });
@@ -207,18 +207,18 @@ describe("JsonSchemesService", () => {
           Circular: {
             properties: {
               parent: {
-                $ref: "#/definitions/Circular",
-              },
+                $ref: "#/definitions/Circular"
+              }
             },
-            type: "object",
-          },
+            type: "object"
+          }
         },
         properties: {
           parent: {
-            $ref: "#/definitions/Circular",
-          },
+            $ref: "#/definitions/Circular"
+          }
         },
-        type: "object",
+        type: "object"
       });
     });
   });
@@ -230,26 +230,26 @@ describe("JsonSchemesService", () => {
           Dependency: {
             properties: {
               dep: {
-                $ref: "#/definitions/IndirectCircular",
-              },
+                $ref: "#/definitions/IndirectCircular"
+              }
             },
-            type: "object",
+            type: "object"
           },
           IndirectCircular: {
             properties: {
               parent: {
-                $ref: "#/definitions/Dependency",
-              },
+                $ref: "#/definitions/Dependency"
+              }
             },
-            type: "object",
-          },
+            type: "object"
+          }
         },
         properties: {
           parent: {
-            $ref: "#/definitions/Dependency",
-          },
+            $ref: "#/definitions/Dependency"
+          }
         },
-        type: "object",
+        type: "object"
       });
     });
   });

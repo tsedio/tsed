@@ -26,5 +26,5 @@ export const HTTP_METHODS = [
   "subscribe",
   "trace",
   "unlock",
-  "unsuscribe",
+  "unsuscribe"
 ];

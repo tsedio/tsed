@@ -12,12 +12,12 @@ describe("GlobalAcceptMimesMiddleware", () => {
     it("should return nothing", () => {
       const request: any = new FakeRequest({
         headers: {
-          accept: "application/json",
-        },
+          accept: "application/json"
+        }
       });
 
       const context = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request),
+        request: new PlatformRequest(request)
       });
 
       const settings = new ServerSettingsService();
@@ -33,12 +33,12 @@ describe("GlobalAcceptMimesMiddleware", () => {
     it("should throws NotAcceptable", () => {
       const request: any = new FakeRequest({
         headers: {
-          accept: "text/html",
-        },
+          accept: "text/html"
+        }
       });
 
       const context = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request),
+        request: new PlatformRequest(request)
       });
 
       const settings = new ServerSettingsService();

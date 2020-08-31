@@ -16,19 +16,19 @@ describe("importComponents", () => {
     expect(symbols).to.deep.eq([
       {
         route: undefined,
-        token: Test1,
+        token: Test1
       },
       {
         route: undefined,
-        token: Test2,
-      },
+        token: Test2
+      }
     ]);
   });
 
   it("should import symbols with endpoints", async () => {
     // GIVEN
     const config = {
-      "/path/to/endpoint": join(__dirname, "data/*.ts"),
+      "/path/to/endpoint": join(__dirname, "data/*.ts")
     };
 
     // WHEN
@@ -38,12 +38,12 @@ describe("importComponents", () => {
     expect(symbols).to.deep.eq([
       {
         route: "/path/to/endpoint",
-        token: Test1,
+        token: Test1
       },
       {
         route: "/path/to/endpoint",
-        token: Test2,
-      },
+        token: Test2
+      }
     ]);
   });
 });

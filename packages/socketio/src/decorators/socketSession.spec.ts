@@ -17,11 +17,11 @@ describe("SocketSession", () => {
           parameters: {
             "0": {
               filter: "session",
-              mapIndex: undefined,
-            },
-          },
-        },
-      },
+              mapIndex: undefined
+            }
+          }
+        }
+      }
     });
   });
 });

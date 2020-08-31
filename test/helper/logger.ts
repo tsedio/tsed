@@ -44,7 +44,7 @@ export const $logStub: LogStub = {
     this.error.reset();
     this.warn.reset();
     this.trace.reset();
-  },
+  }
 } as any;
 
 $logStub.stub();

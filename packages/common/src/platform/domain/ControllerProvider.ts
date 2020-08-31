@@ -88,7 +88,7 @@ export class ControllerProvider extends Provider<any> {
       {
         use: [],
         useAfter: [],
-        useBefore: [],
+        useBefore: []
       },
       this.store.get("middlewares") || {}
     );

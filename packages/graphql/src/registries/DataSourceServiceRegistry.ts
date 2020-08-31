@@ -15,7 +15,7 @@ export const DataSourceServiceRegistry: TypedProvidersRegistry = GlobalProviders
   PROVIDER_TYPE_DATASOURCE_SERVICE,
   Provider,
   {
-    injectable: true,
+    injectable: true
   }
 );
 /**

@@ -20,7 +20,7 @@ describe("PlatformExceptionsMiddleware", () => {
 
           const ctx = PlatformTest.createRequestContext({
             response: new PlatformResponse(response as any),
-            request: new PlatformRequest(request as any),
+            request: new PlatformRequest(request as any)
           });
 
           let actualError: any;
@@ -45,7 +45,7 @@ describe("PlatformExceptionsMiddleware", () => {
 
           const ctx = PlatformTest.createRequestContext({
             response: new PlatformResponse(response as any),
-            request: new PlatformRequest(request as any),
+            request: new PlatformRequest(request as any)
           });
           // @ts-ignore
           middleware.use(error, ctx);

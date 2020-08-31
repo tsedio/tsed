@@ -19,7 +19,7 @@ describe("ControllerProvider", () => {
     controllerProvider.middlewares = {
       useBefore: [new Function()],
       use: [new Function()],
-      useAfter: [new Function()],
+      useAfter: [new Function()]
     };
   });
 
@@ -37,7 +37,7 @@ describe("ControllerProvider", () => {
       "imports",
       "useFactory",
       "useAsyncFactory",
-      "useValue",
+      "useValue"
     ]);
   });
 

@@ -21,8 +21,8 @@ export function testCookies(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [CookiesCtrl],
-      },
+        "/rest": [CookiesCtrl]
+      }
     })
   );
   before(() => {

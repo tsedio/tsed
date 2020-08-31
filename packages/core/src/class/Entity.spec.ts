@@ -19,7 +19,7 @@ describe("EntityDescription", () => {
       const entityDescription = new EntityTest({
         target: Test,
         propertyKey: "test",
-        index: 0,
+        index: 0
       });
       // entityDescription.required = true;
       entityDescription.type = Test;

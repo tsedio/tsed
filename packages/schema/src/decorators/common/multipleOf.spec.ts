@@ -15,10 +15,10 @@ describe("MultipleOf", () => {
       properties: {
         num: {
           multipleOf: 2,
-          type: "number",
-        },
+          type: "number"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 

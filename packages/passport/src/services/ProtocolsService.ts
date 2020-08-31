@@ -44,8 +44,8 @@ export class ProtocolsService {
       useStrategy,
       settings: {
         ...settings,
-        passReqToCallback: true,
-      },
+        passReqToCallback: true
+      }
     };
   }
 
@@ -54,7 +54,7 @@ export class ProtocolsService {
       token: provider.provide,
       target: provider.useClass,
       type: HandlerType.CONTROLLER,
-      propertyKey: "$onVerify",
+      propertyKey: "$onVerify"
     });
 
     const platform = this.injector.get<Platform>(Platform)!;

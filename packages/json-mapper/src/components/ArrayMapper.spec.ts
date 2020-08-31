@@ -10,7 +10,7 @@ describe("ArrayMapper", () => {
         type: String,
         collectionType: Array,
         next: Sinon.stub().callsFake((o) => String("testMap")),
-        options: {},
+        options: {}
       });
 
       const arrayMapper = new ArrayMapper();
@@ -26,7 +26,7 @@ describe("ArrayMapper", () => {
         type: String,
         collectionType: Array,
         next: Sinon.stub().callsFake((o) => String("testMap")),
-        options: {},
+        options: {}
       });
 
       const arrayMapper = new ArrayMapper();

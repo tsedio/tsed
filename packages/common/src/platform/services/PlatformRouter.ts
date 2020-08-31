@@ -15,7 +15,7 @@ declare global {
  * @platform
  */
 @Injectable({
-  scope: ProviderScope.INSTANCE,
+  scope: ProviderScope.INSTANCE
 })
 export class PlatformRouter extends PlatformDriver<TsED.Router> {
   constructor(platform: PlatformHandler) {

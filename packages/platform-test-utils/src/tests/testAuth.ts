@@ -58,9 +58,9 @@ export function OAuth(options: any = {}): Function {
           in: "header",
           name: "Authorization",
           type: "string",
-          required: true,
-        },
-      ],
+          required: true
+        }
+      ]
     }),
     Returns(401, {description: "Unauthorized"}),
     Returns(403, {description: "Forbidden"})
@@ -77,7 +77,7 @@ class TestAuthCtrl {
     this.tokenService.token("access_token");
 
     return {
-      access_token: this.tokenService.token(),
+      access_token: this.tokenService.token()
     };
   }
 
@@ -86,7 +86,7 @@ class TestAuthCtrl {
   token() {
     return {
       id: "id",
-      name: "name",
+      name: "name"
     };
   }
 
@@ -94,7 +94,7 @@ class TestAuthCtrl {
   @OAuth({role: "admin", scopes: ["admin"]})
   admin() {
     return {
-      granted: true,
+      granted: true
     };
   }
 
@@ -103,7 +103,7 @@ class TestAuthCtrl {
     this.tokenService.token("admin_token");
 
     return {
-      access_token: this.tokenService.token(),
+      access_token: this.tokenService.token()
     };
   }
 }
@@ -115,14 +115,14 @@ export function testAuth(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [TestAuthCtrl],
+        "/rest": [TestAuthCtrl]
       },
       swagger: [
         {
           path: "/doc",
-          spec: baseSpec as any,
-        },
-      ],
+          spec: baseSpec as any
+        }
+      ]
     })
   );
   before(() => {
@@ -136,7 +136,7 @@ export function testAuth(options: PlatformTestOptions) {
       await request
         .get("/rest/auth/userinfo")
         .set({
-          Authorization: "wrong",
+          Authorization: "wrong"
         })
         .expect(400);
 
@@ -147,24 +147,24 @@ export function testAuth(options: PlatformTestOptions) {
       const {body: userInfo} = await request
         .get("/rest/auth/userinfo")
         .set({
-          Authorization: body.access_token,
+          Authorization: body.access_token
         })
         .expect(200);
 
       expect(userInfo).to.deep.eq({
         id: "id",
-        name: "name",
+        name: "name"
       });
 
       await request
         .get("/rest/auth/admin")
         .set({
-          Authorization: body.access_token,
+          Authorization: body.access_token
         })
         .expect(403);
 
       const {
-        body: {access_token},
+        body: {access_token}
       } = await request.post("/rest/auth/stepUp").expect(200);
 
       expect(access_token).to.equal("admin_token");
@@ -172,12 +172,12 @@ export function testAuth(options: PlatformTestOptions) {
       const {body: result} = await request
         .get("/rest/auth/admin")
         .set({
-          Authorization: access_token,
+          Authorization: access_token
         })
         .expect(200);
 
       expect(result).to.deep.eq({
-        granted: true,
+        granted: true
       });
     });
   });
@@ -193,7 +193,7 @@ export function testAuth(options: PlatformTestOptions) {
           description: "",
           termsOfService: "",
           title: "Api documentation",
-          version: "1.0.0",
+          version: "1.0.0"
         },
         paths: {
           "/rest/auth/admin": {
@@ -204,49 +204,49 @@ export function testAuth(options: PlatformTestOptions) {
                   in: "header",
                   name: "Authorization",
                   required: true,
-                  type: "string",
-                },
+                  type: "string"
+                }
               ],
               responses: {
                 "200": {
-                  description: "Success",
+                  description: "Success"
                 },
                 "401": {
-                  description: "Unauthorized",
+                  description: "Unauthorized"
                 },
                 "403": {
-                  description: "Forbidden",
-                },
+                  description: "Forbidden"
+                }
               },
               security: [
                 {
-                  global_auth: ["admin"],
-                },
+                  global_auth: ["admin"]
+                }
               ],
-              tags: ["TestAuthCtrl"],
-            },
+              tags: ["TestAuthCtrl"]
+            }
           },
           "/rest/auth/authorize": {
             post: {
               operationId: "TestAuthCtrl.authorize",
               responses: {
                 "200": {
-                  description: "Success",
-                },
+                  description: "Success"
+                }
               },
-              tags: ["TestAuthCtrl"],
-            },
+              tags: ["TestAuthCtrl"]
+            }
           },
           "/rest/auth/stepUp": {
             post: {
               operationId: "TestAuthCtrl.stepUp",
               responses: {
                 "200": {
-                  description: "Success",
-                },
+                  description: "Success"
+                }
               },
-              tags: ["TestAuthCtrl"],
-            },
+              tags: ["TestAuthCtrl"]
+            }
           },
           "/rest/auth/userinfo": {
             get: {
@@ -256,37 +256,37 @@ export function testAuth(options: PlatformTestOptions) {
                   in: "header",
                   name: "Authorization",
                   required: true,
-                  type: "string",
-                },
+                  type: "string"
+                }
               ],
               responses: {
                 "200": {
-                  description: "Success",
+                  description: "Success"
                 },
                 "401": {
-                  description: "Unauthorized",
+                  description: "Unauthorized"
                 },
                 "403": {
-                  description: "Forbidden",
-                },
+                  description: "Forbidden"
+                }
               },
               security: [
                 {
-                  global_auth: [],
-                },
+                  global_auth: []
+                }
               ],
-              tags: ["TestAuthCtrl"],
-            },
-          },
+              tags: ["TestAuthCtrl"]
+            }
+          }
         },
         produces: ["application/json"],
         securityDefinitions: {},
         swagger: "2.0",
         tags: [
           {
-            name: "TestAuthCtrl",
-          },
-        ],
+            name: "TestAuthCtrl"
+          }
+        ]
       });
     });
   });

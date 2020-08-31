@@ -22,7 +22,7 @@ function setUpTarget(target: Type<any>) {
       type: getClass(target),
       checkRequiredValue,
       ignoreCallback,
-      withIgnoredProps,
+      withIgnoredProps
     });
   };
 }
@@ -104,7 +104,7 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
       ? function () {
           return propertyMetadata.isRequired(this[key]);
         }
-      : false,
+      : false
   };
 
   if (!propertyMetadata.isClass) {
@@ -125,7 +125,7 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
       minlength,
       maxlength,
       enum: jsonSchema["enum"],
-      default: jsonSchema["default"],
+      default: jsonSchema["default"]
     };
   } else if (!rawMongooseSchema.ref) {
     // References are handled by the final merge

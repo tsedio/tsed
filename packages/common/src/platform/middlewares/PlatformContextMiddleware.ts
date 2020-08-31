@@ -54,7 +54,7 @@ export class PlatformContextMiddleware {
       maxStackSize,
       injector: this.injector,
       response,
-      request,
+      request
     });
 
     // deprecated

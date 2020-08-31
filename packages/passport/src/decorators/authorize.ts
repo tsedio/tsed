@@ -13,6 +13,6 @@ export function Authorize(protocol: string | string[] = "*", options: AuthorizeO
     method: "authorize",
     security: options.security,
     originalUrl: options.originalUrl === undefined ? true : options.originalUrl,
-    options,
+    options
   });
 }

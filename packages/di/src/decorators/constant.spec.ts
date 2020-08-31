@@ -18,8 +18,8 @@ describe("@Constant()", () => {
         bindingType: "constant",
         propertyKey: "test",
         expression: "expression",
-        defaultValue: undefined,
-      },
+        defaultValue: undefined
+      }
     });
   });
 });

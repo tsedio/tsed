@@ -13,5 +13,5 @@ export enum JsonFormatTypes {
   JSON_POINTER = "json-pointer",
   RELATIVE_JSON_POINTER = "relative-json-pointer",
   UUID = "uuid",
-  REGEX = "regex",
+  REGEX = "regex"
 }

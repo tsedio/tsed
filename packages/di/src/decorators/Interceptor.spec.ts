@@ -25,7 +25,7 @@ describe("@Interceptor", () => {
     expect(interceptorRegistry.merge).to.have.been.calledWithExactly(Test, {
       instance: undefined,
       provide: Test,
-      type: ProviderType.INTERCEPTOR,
+      type: ProviderType.INTERCEPTOR
     });
   });
 });

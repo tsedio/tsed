@@ -16,8 +16,8 @@ describe("ProtocolsService", () => {
     useStrategy: Strategy as any,
     settings: {
       prop1: "prop1",
-      prop2: "prop2",
-    },
+      prop2: "prop2"
+    }
   })
   class LocalProtocol {
     $onInstall() {}
@@ -34,11 +34,11 @@ describe("ProtocolsService", () => {
           local: {
             settings: {
               prop2: "prop2-server",
-              prop3: "prop3",
-            },
-          },
-        },
-      },
+              prop3: "prop3"
+            }
+          }
+        }
+      }
     })
   );
   afterEach(PlatformTest.reset);
@@ -72,7 +72,7 @@ describe("ProtocolsService", () => {
           passReqToCallback: true,
           prop1: "prop1",
           prop2: "prop2-server",
-          prop3: "prop3",
+          prop3: "prop3"
         },
         Sinon.match.func
       );
@@ -88,7 +88,7 @@ describe("ProtocolsService", () => {
       const provider = injector.getProvider(LocalProtocol)!;
       const req = {
         res: {},
-        ctx: new RequestContext({id: "1", logger: {}, url: "/"}),
+        ctx: new RequestContext({id: "1", logger: {}, url: "/"})
       };
       // WHEN
       const result = protocolService.invoke(provider);
@@ -112,7 +112,7 @@ describe("ProtocolsService", () => {
       const provider = injector.getProvider(LocalProtocol)!;
       const req = {
         res: {},
-        ctx: new RequestContext({id: "1", logger: {}, url: "/"}),
+        ctx: new RequestContext({id: "1", logger: {}, url: "/"})
       };
       // WHEN
       const result = protocolService.invoke(provider);

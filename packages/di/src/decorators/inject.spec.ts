@@ -49,8 +49,8 @@ describe("@Inject()", () => {
       expect(store).to.deep.eq({
         test: {
           bindingType: "method",
-          propertyKey: "test",
-        },
+          propertyKey: "test"
+        }
       });
     });
   });
@@ -73,8 +73,8 @@ describe("@Inject()", () => {
         test: {
           bindingType: "property",
           propertyKey: "test",
-          useType: String,
-        },
+          useType: String
+        }
       });
     });
   });

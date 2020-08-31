@@ -18,13 +18,13 @@ describe("Platform", () => {
       "should create a router",
       PlatformTest.inject([InjectorService, Platform], async (injector: InjectorService, platform: Platform) => {
         const givenRouter = {
-          use: sandbox.stub(),
+          use: sandbox.stub()
         };
 
         injector.addProvider(PlatformRouter, {
           useFactory() {
             return givenRouter;
-          },
+          }
         });
 
         sandbox.spy(injector, "invoke");
@@ -52,15 +52,15 @@ describe("Platform", () => {
         const driver = {
           use: sandbox.stub(),
           raw: {
-            use: sandbox.stub(),
-          },
+            use: sandbox.stub()
+          }
         };
 
         const platform = await PlatformTest.invoke<Platform>(Platform, [
           {
             token: PlatformApplication,
-            use: driver,
-          },
+            use: driver
+          }
         ]);
 
         // WHEN
@@ -88,15 +88,15 @@ describe("Platform", () => {
       const driver = {
         use: sandbox.stub(),
         raw: {
-          use: sandbox.stub(),
-        },
+          use: sandbox.stub()
+        }
       };
 
       const platform = await PlatformTest.invoke<Platform>(Platform, [
         {
           token: PlatformApplication,
-          use: driver,
-        },
+          use: driver
+        }
       ]);
 
       // WHEN

@@ -45,10 +45,10 @@ class Test {
     return {
       data: "data",
       headers: {
-        "Content-Type": "type",
+        "Content-Type": "type"
       },
       status: 200,
-      statusText: "OK",
+      statusText: "OK"
     };
   }
 
@@ -67,7 +67,7 @@ async function getHandlerContext({token, propertyKey, args}: any = {}) {
     target: token,
     token,
     propertyKey,
-    type: HandlerType.CONTROLLER,
+    type: HandlerType.CONTROLLER
   });
   const request: any = new FakeRequest();
   const response: any = new FakeResponse();
@@ -79,7 +79,7 @@ async function getHandlerContext({token, propertyKey, args}: any = {}) {
     request,
     response,
     args,
-    next,
+    next
   });
 
   return {
@@ -94,7 +94,7 @@ async function getHandlerContext({token, propertyKey, args}: any = {}) {
         }
         handlerContext.callHandler().catch((err) => handlerContext.next(err));
       });
-    },
+    }
   };
 }
 
@@ -103,7 +103,7 @@ describe("HandlerContext", () => {
     const {request, run, handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "getValue",
-      args: ["value"],
+      args: ["value"]
     });
 
     Sinon.spy(handlerContext, "handle");
@@ -130,7 +130,7 @@ describe("HandlerContext", () => {
     const {request, run, handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "catchError",
-      args: ["value"],
+      args: ["value"]
     });
 
     Sinon.spy(handlerContext, "handle");
@@ -157,7 +157,7 @@ describe("HandlerContext", () => {
     const {request, run} = await getHandlerContext({
       token: Test,
       propertyKey: "getValueWithPromise",
-      args: ["value"],
+      args: ["value"]
     });
 
     // WHEN
@@ -171,7 +171,7 @@ describe("HandlerContext", () => {
     const {run, request} = await getHandlerContext({
       token: Test,
       propertyKey: "getBuffer",
-      args: ["value"],
+      args: ["value"]
     });
 
     // WHEN
@@ -186,7 +186,7 @@ describe("HandlerContext", () => {
     const {run, request} = await getHandlerContext({
       token: Test,
       propertyKey: "getStream",
-      args: ["value"],
+      args: ["value"]
     });
 
     // WHEN
@@ -200,7 +200,7 @@ describe("HandlerContext", () => {
     const {run, request} = await getHandlerContext({
       token: Test,
       propertyKey: "getResponse",
-      args: ["value"],
+      args: ["value"]
     });
 
     // WHEN
@@ -214,7 +214,7 @@ describe("HandlerContext", () => {
     const {run, request} = await getHandlerContext({
       token: Test,
       propertyKey: "getObservable",
-      args: ["value"],
+      args: ["value"]
     });
 
     // WHEN
@@ -228,7 +228,7 @@ describe("HandlerContext", () => {
     const {run} = await getHandlerContext({
       token: Test,
       propertyKey: "returnMiddleware",
-      args: ["value"],
+      args: ["value"]
     });
 
     // WHEN
@@ -241,7 +241,7 @@ describe("HandlerContext", () => {
     const {run, request} = await getHandlerContext({
       token: Test,
       propertyKey: "empty",
-      args: ["value"],
+      args: ["value"]
     });
 
     // WHEN
@@ -255,7 +255,7 @@ describe("HandlerContext", () => {
     const {run, request, handlerContext, response} = await getHandlerContext({
       token: Test,
       propertyKey: "getValue",
-      args: [],
+      args: []
     });
 
     handlerContext.args = [response];
@@ -270,7 +270,7 @@ describe("HandlerContext", () => {
     const {run, request, handlerContext, response} = await getHandlerContext({
       token: Test,
       propertyKey: "responseHeadersSent",
-      args: [],
+      args: []
     });
 
     handlerContext.args = [response];
@@ -286,7 +286,7 @@ describe("HandlerContext", () => {
     const {request, handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "getValue",
-      args: [],
+      args: []
     });
 
     request.aborted = true;
@@ -302,7 +302,7 @@ describe("HandlerContext", () => {
     const {handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "getValue",
-      args: [],
+      args: []
     });
 
     // @ts-ignore
@@ -319,7 +319,7 @@ describe("HandlerContext", () => {
     const {handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "getValue",
-      args: [],
+      args: []
     });
 
     // @ts-ignore

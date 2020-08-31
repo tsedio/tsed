@@ -175,7 +175,7 @@ describe("ProxyMap", () => {
       it("should return a list", () => {
         expect(Array.from(service)).to.deep.eq([
           ["test", {type: "type1"}],
-          ["test3", {type: "type1"}],
+          ["test3", {type: "type1"}]
         ]);
       });
     });

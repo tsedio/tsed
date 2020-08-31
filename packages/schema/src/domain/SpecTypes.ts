@@ -1,5 +1,5 @@
 export enum SpecTypes {
   JSON = "jsonschema",
   SWAGGER = "swagger2",
-  OPENAPI = "openapi3",
+  OPENAPI = "openapi3"
 }

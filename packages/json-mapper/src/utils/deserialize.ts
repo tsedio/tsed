@@ -46,7 +46,7 @@ function transformCollection<T = any>(src: any, options: JsonDeserializerOptions
     type,
     collectionType,
     options,
-    next: (data, {collectionType, ...options}) => deserialize(data, options),
+    next: (data, {collectionType, ...options}) => deserialize(data, options)
   });
 
   return types?.get(options.collectionType)?.deserialize<T>(src, context);
@@ -58,7 +58,7 @@ function transformType<T = any>(src: any, options: JsonDeserializerOptions<any, 
   const context = new JsonMapperContext({
     type,
     options,
-    next: (data, {type, ...options}) => deserialize(data, options),
+    next: (data, {type, ...options}) => deserialize(data, options)
   });
 
   return types?.get(type)?.deserialize<T>(src, context);
@@ -101,7 +101,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
 
     value = deserialize(value, {
       ...next,
-      collectionType: propStore.collectionType,
+      collectionType: propStore.collectionType
     });
 
     if (value !== undefined) {
@@ -132,7 +132,7 @@ function buildOptions(options: JsonDeserializerOptions<any, any>): any {
 
   return {
     ...options,
-    types: options.types ? options.types : getJsonMapperTypes(),
+    types: options.types ? options.types : getJsonMapperTypes()
   };
 }
 

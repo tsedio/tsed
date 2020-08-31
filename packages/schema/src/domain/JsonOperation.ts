@@ -184,7 +184,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     this.operationPaths.set(String(method) + String(path), {
       ...options,
       method,
-      path,
+      path
     });
 
     return this;
@@ -212,8 +212,8 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     if (this.get("responses").size === 0) {
       operation.responses = {
         "200": {
-          description: HTTP_STATUS_MESSAGES[200],
-        },
+          description: HTTP_STATUS_MESSAGES[200]
+        }
       };
     }
 
@@ -251,7 +251,7 @@ function toJsonParameter(parameter: any) {
   return new JsonParameter({
     in: JsonParameterTypes.BODY,
     name: JsonParameterTypes.BODY,
-    ...parameter,
+    ...parameter
   });
 }
 

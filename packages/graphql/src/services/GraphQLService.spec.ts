@@ -19,8 +19,8 @@ class ApolloServer {
 
 const {GraphQLService} = proxyquire("../../src/services/GraphQLService", {
   "apollo-server-express": {
-    ApolloServer,
-  },
+    ApolloServer
+  }
 });
 
 describe("GraphQLService", () => {
@@ -50,7 +50,7 @@ describe("GraphQLService", () => {
         // WHEN
 
         const result1 = await service.createServer("key", {
-          path: "/path",
+          path: "/path"
         } as any);
         const result2 = await service.createServer("key", {path: "/path"} as any);
 
@@ -58,12 +58,12 @@ describe("GraphQLService", () => {
         expect(result1.args).to.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
         expect(service.createSchema).to.have.been.calledOnceWithExactly({
           resolvers: [],
-          container: service.injectorService,
+          container: service.injectorService
         });
         expect(result1.applyMiddleware).to.have.been.calledOnceWithExactly(
           Sinon.match({
             app: Sinon.match.func,
-            path: "/path",
+            path: "/path"
           })
         );
       });
@@ -99,19 +99,19 @@ describe("GraphQLService", () => {
           server(options: any) {
             return new ApolloServer(options);
           },
-          installSubscriptionHandlers: true,
+          installSubscriptionHandlers: true
         } as any);
 
         expect(result.args).to.deep.eq([{schema: {schema: "schema"}, dataSources: noop}]);
         expect(service.createSchema).to.have.been.calledOnceWithExactly({
           resolvers: [],
-          container: service.injectorService,
+          container: service.injectorService
         });
 
         expect(result.applyMiddleware).to.have.been.calledOnceWithExactly(
           Sinon.match({
             app: Sinon.match.func,
-            path: "/path",
+            path: "/path"
           })
         );
 
@@ -140,7 +140,7 @@ describe("GraphQLService", () => {
       service.createSchema.returns({schema: "schema"});
 
       await service.createServer("key", {
-        path: "/path",
+        path: "/path"
       } as any);
 
       // WHEN
@@ -154,17 +154,17 @@ describe("GraphQLService", () => {
       "should return a function with all dataSources",
       PlatformTest.inject([GraphQLService], (service: any) => {
         const dataSources = sandbox.stub().returns({
-          api: "api",
+          api: "api"
         });
         const serverConfigSources = sandbox.stub().returns({
-          api2: "api2",
+          api2: "api2"
         });
 
         const fn = service.createDataSources(dataSources, serverConfigSources);
 
         expect(fn()).to.deep.eq({
           api2: "api2",
-          api: "api",
+          api: "api"
         });
       })
     );
@@ -187,8 +187,8 @@ describe("GraphQLService", () => {
         sandbox.stub(service.injectorService, "getProviders").returns([
           {
             name: DataSource.name,
-            provide: DataSource,
-          },
+            provide: DataSource
+          }
         ]);
         sandbox.stub(service.injectorService, "invoke").returns(new DataSource());
       })
@@ -200,7 +200,7 @@ describe("GraphQLService", () => {
       const result = service.getDataSources();
 
       expect(result).to.deep.eq({
-        dataSource: new DataSource(),
+        dataSource: new DataSource()
       });
     });
   });

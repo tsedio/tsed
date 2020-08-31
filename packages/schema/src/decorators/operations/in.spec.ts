@@ -10,7 +10,7 @@ describe("In", () => {
 
     // THEN
     getSpec(Controller, {
-      spec: SpecTypes.SWAGGER,
+      spec: SpecTypes.SWAGGER
     });
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
@@ -23,14 +23,14 @@ describe("In", () => {
           in: "path",
           name: "basic",
           required: true,
-          type: "string",
-        },
+          type: "string"
+        }
       ],
       responses: {
         "200": {
-          description: "Success",
-        },
-      },
+          description: "Success"
+        }
+      }
     });
   });
   it("should declare all schema correctly (method)", async () => {
@@ -42,7 +42,7 @@ describe("In", () => {
 
     // THEN
     getSpec(Controller, {
-      spec: SpecTypes.SWAGGER,
+      spec: SpecTypes.SWAGGER
     });
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
@@ -55,21 +55,21 @@ describe("In", () => {
           in: "path",
           name: "basic",
           required: true,
-          type: "string",
+          type: "string"
         },
         {
           in: "header",
           name: "Authorization",
           required: true,
           type: "string",
-          description: "description",
-        },
+          description: "description"
+        }
       ],
       responses: {
         "200": {
-          description: "Success",
-        },
-      },
+          description: "Success"
+        }
+      }
     });
   });
   it("should throw error for unsupported usage", () => {

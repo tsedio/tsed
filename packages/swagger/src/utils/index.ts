@@ -7,7 +7,7 @@ function getVariable(subpath: string) {
 
   return {
     name,
-    postfix: splited.length ? `.${splited.join(".")}` : "",
+    postfix: splited.length ? `.${splited.join(".")}` : ""
   };
 }
 
@@ -37,7 +37,7 @@ export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path
 
           paths.push({
             path: current,
-            pathParams: [].concat(params as any),
+            pathParams: [].concat(params as any)
           });
         }
 
@@ -48,13 +48,13 @@ export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path
           in: "path",
           name,
           type: "string",
-          required: true,
+          required: true
         });
 
         if (optional && isOptional) {
           paths.push({
             path: current,
-            pathParams: [].concat(params as any),
+            pathParams: [].concat(params as any)
           });
         }
       } else {
@@ -67,8 +67,8 @@ export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path
     : [
         {
           path: current,
-          pathParams: [].concat(params as any),
-        },
+          pathParams: [].concat(params as any)
+        }
       ];
 }
 
@@ -159,6 +159,6 @@ export function getReducers(): {[key: string]: (collection: any[], value: any) =
       }
 
       return collection;
-    },
+    }
   };
 }

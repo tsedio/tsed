@@ -14,10 +14,10 @@ describe("@Integer", () => {
       properties: {
         prop: {
           multipleOf: 1,
-          type: "integer",
-        },
+          type: "integer"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

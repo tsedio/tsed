@@ -4,7 +4,7 @@ import {MONGOOSE_CONNECTIONS} from "./services/MongooseConnections";
 import {MongooseService} from "./services/MongooseService";
 
 @Module({
-  imports: [MONGOOSE_CONNECTIONS],
+  imports: [MONGOOSE_CONNECTIONS]
 })
 export class MongooseModule implements AfterRoutesInit {
   constructor(private platformApplication: PlatformApplication, private mongooseService: MongooseService) {}

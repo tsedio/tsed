@@ -17,7 +17,7 @@ registerProvider({
     const options = settings.httpsOptions!;
 
     return Https.createServer(options, platformApplication.callback());
-  },
+  }
 });
 
 export async function listenHttpsServer(injector: InjectorService) {

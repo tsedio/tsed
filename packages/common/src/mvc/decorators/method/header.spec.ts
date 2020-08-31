@@ -10,16 +10,16 @@ describe("mapHeaders", () => {
         header2: "content",
         header3: {
           value: "content2",
-          type: "string",
-        },
+          type: "string"
+        }
       } as any)
     ).to.deep.eq({
       header1: {value: 1, type: "number"},
       header2: {value: "content", type: "string"},
       header3: {
         value: "content2",
-        type: "string",
-      },
+        type: "string"
+      }
     });
   });
 });
@@ -40,9 +40,9 @@ describe("Header", () => {
           headers: {
             "Content-Type": {
               type: "string",
-              value: "application/json",
-            },
-          },
+              value: "application/json"
+            }
+          }
         });
       });
     });
@@ -60,9 +60,9 @@ describe("Header", () => {
           headers: {
             "Content-Type": {
               type: "string",
-              value: "application/json",
-            },
-          },
+              value: "application/json"
+            }
+          }
         });
       });
     });
@@ -74,8 +74,8 @@ describe("Header", () => {
             "Content-Length": 123,
             ETag: {
               value: "12345",
-              description: "header description",
-            },
+              description: "header description"
+            }
           } as any)
           test() {}
         }
@@ -87,18 +87,18 @@ describe("Header", () => {
           headers: {
             "Content-Length": {
               type: "number",
-              value: 123,
+              value: 123
             },
             "Content-Type": {
               type: "string",
-              value: "text/plain",
+              value: "text/plain"
             },
             ETag: {
               description: "header description",
               type: "string",
-              value: "12345",
-            },
-          },
+              value: "12345"
+            }
+          }
         });
       });
     });

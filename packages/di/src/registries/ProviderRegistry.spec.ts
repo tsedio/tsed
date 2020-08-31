@@ -40,7 +40,7 @@ describe("ProviderRegistry", () => {
       registerProvider({provide: Test});
 
       expect(GlobalProviders.merge).to.have.been.calledWithExactly(Test, {
-        provide: Test,
+        provide: Test
       });
     });
   });
@@ -66,7 +66,7 @@ describe("ProviderRegistry", () => {
         provide: token,
         useValue: "myValue",
         scope: ProviderScope.SINGLETON,
-        type: ProviderType.VALUE,
+        type: ProviderType.VALUE
       });
     });
 
@@ -79,7 +79,7 @@ describe("ProviderRegistry", () => {
         provide: token,
         useValue: "myValue",
         scope: ProviderScope.REQUEST,
-        type: ProviderType.VALUE,
+        type: ProviderType.VALUE
       });
     });
   });
@@ -106,7 +106,7 @@ describe("ProviderRegistry", () => {
         provide: token,
         useFactory: Sinon.match.func,
         scope: ProviderScope.SINGLETON,
-        type: ProviderType.FACTORY,
+        type: ProviderType.FACTORY
       });
 
       // @ts-ignore
@@ -121,14 +121,14 @@ describe("ProviderRegistry", () => {
         scope: ProviderScope.REQUEST,
         useFactory() {
           return {factory: "factory"};
-        },
+        }
       });
 
       expect(GlobalProviders.getRegistry(ProviderType.FACTORY).merge).to.have.been.calledWithExactly(token, {
         provide: token,
         useFactory: Sinon.match.func,
         scope: ProviderScope.REQUEST,
-        type: ProviderType.FACTORY,
+        type: ProviderType.FACTORY
       });
     });
   });

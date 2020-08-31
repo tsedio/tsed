@@ -29,7 +29,7 @@ export class ArchiveController {
     return {
       file: media.originalname,
       formId,
-      event,
+      event
     };
   }
 }

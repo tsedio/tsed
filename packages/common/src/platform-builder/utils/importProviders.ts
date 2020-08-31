@@ -14,7 +14,7 @@ async function importAll(settings: any): Promise<IProvider<any>[]> {
   const results = await Promise.all([
     importComponents(settings.imports, settings.exclude),
     importComponents(settings.mount, settings.exclude),
-    importComponents(settings.componentsScan, settings.exclude),
+    importComponents(settings.componentsScan, settings.exclude)
   ]);
 
   const providers: IProvider<any>[] = ([] as any).concat(...results);

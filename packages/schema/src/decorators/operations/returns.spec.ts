@@ -18,8 +18,8 @@ describe("@Returns", () => {
       definitions: {},
       tags: [
         {
-          name: "Controller",
-        },
+          name: "Controller"
+        }
       ],
       paths: {
         "/": {
@@ -30,14 +30,14 @@ describe("@Returns", () => {
               "200": {
                 description: "description",
                 schema: {
-                  type: "string",
-                },
-              },
+                  type: "string"
+                }
+              }
             },
-            tags: ["Controller"],
-          },
-        },
-      },
+            tags: ["Controller"]
+          }
+        }
+      }
     });
   });
   it("should declare a return type (Status().Type())", async () => {
@@ -55,8 +55,8 @@ describe("@Returns", () => {
       definitions: {},
       tags: [
         {
-          name: "Controller",
-        },
+          name: "Controller"
+        }
       ],
       paths: {
         "/": {
@@ -67,14 +67,14 @@ describe("@Returns", () => {
               "200": {
                 description: "description",
                 schema: {
-                  type: "string",
-                },
-              },
+                  type: "string"
+                }
+              }
             },
-            tags: ["Controller"],
-          },
-        },
-      },
+            tags: ["Controller"]
+          }
+        }
+      }
     });
   });
   it("should declare a return type with headers", async () => {
@@ -85,11 +85,11 @@ describe("@Returns", () => {
         .Description("description")
         .Header("x-token", "token")
         .Header("x-header", {
-          value: "",
+          value: ""
         })
         .Examples({test: "Examples"})
         .Schema({
-          minLength: 3,
+          minLength: 3
         }))
       method() {}
     }
@@ -101,8 +101,8 @@ describe("@Returns", () => {
       definitions: {},
       tags: [
         {
-          name: "Controller",
-        },
+          name: "Controller"
+        }
       ],
       paths: {
         "/": {
@@ -115,24 +115,24 @@ describe("@Returns", () => {
                 headers: {
                   "x-header": {
                     example: "",
-                    type: "string",
+                    type: "string"
                   },
                   "x-token": {
                     example: "token",
-                    type: "string",
-                  },
+                    type: "string"
+                  }
                 },
                 examples: {test: "Examples"},
                 schema: {
                   type: "string",
-                  minLength: 3,
-                },
-              },
+                  minLength: 3
+                }
+              }
             },
-            tags: ["Controller"],
-          },
-        },
-      },
+            tags: ["Controller"]
+          }
+        }
+      }
     });
   });
   it("should declare a return type with content-type", async () => {
@@ -148,12 +148,12 @@ describe("@Returns", () => {
 
     expect(spec).to.deep.equal({
       components: {
-        schemas: {},
+        schemas: {}
       },
       tags: [
         {
-          name: "Controller",
-        },
+          name: "Controller"
+        }
       ],
       paths: {
         "/": {
@@ -165,18 +165,18 @@ describe("@Returns", () => {
                 content: {
                   "text/json": {
                     schema: {
-                      type: "string",
-                    },
-                  },
+                      type: "string"
+                    }
+                  }
                 },
                 description: "description",
-                examples: ["Examples"],
-              },
+                examples: ["Examples"]
+              }
             },
-            tags: ["Controller"],
-          },
-        },
-      },
+            tags: ["Controller"]
+          }
+        }
+      }
     });
   });
   it("should declare error response", async () => {
@@ -196,8 +196,8 @@ describe("@Returns", () => {
       definitions: {},
       tags: [
         {
-          name: "Controller",
-        },
+          name: "Controller"
+        }
       ],
       paths: {
         "/": {
@@ -209,26 +209,26 @@ describe("@Returns", () => {
               "200": {
                 description: "Success",
                 schema: {
-                  type: "object",
-                },
+                  type: "object"
+                }
               },
               "401": {
                 description: "Unauthorized",
                 schema: {
-                  type: "string",
-                },
+                  type: "string"
+                }
               },
               "400": {
                 description: "Bad request",
                 schema: {
-                  type: "string",
-                },
-              },
+                  type: "string"
+                }
+              }
             },
-            tags: ["Controller"],
-          },
-        },
-      },
+            tags: ["Controller"]
+          }
+        }
+      }
     });
   });
   it("should throw an error when using of with String", async () => {
@@ -290,8 +290,8 @@ describe("@Returns", () => {
       definitions: {},
       tags: [
         {
-          name: "Controller",
-        },
+          name: "Controller"
+        }
       ],
       paths: {
         "/": {
@@ -304,16 +304,16 @@ describe("@Returns", () => {
                 description: "description",
                 schema: {
                   items: {
-                    type: "string",
+                    type: "string"
                   },
-                  type: "array",
-                },
-              },
+                  type: "array"
+                }
+              }
             },
-            tags: ["Controller"],
-          },
-        },
-      },
+            tags: ["Controller"]
+          }
+        }
+      }
     });
   });
   it("should declare an Array of Model", async () => {
@@ -337,16 +337,16 @@ describe("@Returns", () => {
         Model: {
           properties: {
             id: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       tags: [
         {
-          name: "Controller",
-        },
+          name: "Controller"
+        }
       ],
       paths: {
         "/": {
@@ -359,16 +359,16 @@ describe("@Returns", () => {
                 description: "description",
                 schema: {
                   items: {
-                    $ref: "#/definitions/Model",
+                    $ref: "#/definitions/Model"
                   },
-                  type: "array",
-                },
-              },
+                  type: "array"
+                }
+              }
             },
-            tags: ["Controller"],
-          },
-        },
-      },
+            tags: ["Controller"]
+          }
+        }
+      }
     });
   });
   it("should declare an Generic of Model", async () => {
@@ -412,16 +412,16 @@ describe("@Returns", () => {
         Product: {
           properties: {
             title: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       tags: [
         {
-          name: "Controller",
-        },
+          name: "Controller"
+        }
       ],
       paths: {
         "/": {
@@ -439,27 +439,27 @@ describe("@Returns", () => {
                         type: "object",
                         properties: {
                           _id: {
-                            type: "string",
+                            type: "string"
                           },
                           data: {
-                            $ref: "#/definitions/Product",
-                          },
-                        },
+                            $ref: "#/definitions/Product"
+                          }
+                        }
                       },
-                      type: "array",
+                      type: "array"
                     },
                     totalCount: {
-                      type: "number",
-                    },
+                      type: "number"
+                    }
                   },
-                  type: "object",
-                },
-              },
+                  type: "object"
+                }
+              }
             },
-            tags: ["Controller"],
-          },
-        },
-      },
+            tags: ["Controller"]
+          }
+        }
+      }
     });
   });
 });

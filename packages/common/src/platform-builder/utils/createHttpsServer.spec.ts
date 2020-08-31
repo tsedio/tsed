@@ -20,7 +20,7 @@ describe("createHttpsServer", () => {
     injector.settings = {
       httpsPort: true,
       getHttpsPort: Sinon.stub().returns({address: "address", port: "port"}),
-      setHttpsPort: Sinon.stub(),
+      setHttpsPort: Sinon.stub()
     };
 
     createHttpsServer(injector);
@@ -54,7 +54,7 @@ describe("createHttpsServer", () => {
     injector.settings = {
       httpsPort: 0,
       getHttpsPort: Sinon.stub().returns({address: "address", port: "port"}),
-      setHttpsPort: Sinon.stub(),
+      setHttpsPort: Sinon.stub()
     };
 
     createHttpsServer(injector);
@@ -86,7 +86,7 @@ describe("createHttpsServer", () => {
     injector.logger.stop();
     // @ts-ignore
     injector.settings = {
-      httpsPort: false,
+      httpsPort: false
     };
 
     createHttpsServer(injector);

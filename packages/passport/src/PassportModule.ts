@@ -4,7 +4,7 @@ import {PassportSerializerService} from "./services/PassportSerializerService";
 import {ProtocolsService} from "./services/ProtocolsService";
 
 @Module({
-  scope: ProviderScope.SINGLETON,
+  scope: ProviderScope.SINGLETON
 })
 export class PassportModule implements OnInit, BeforeRoutesInit {
   @Constant("passport.userProperty")

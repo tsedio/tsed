@@ -18,101 +18,101 @@ describe("JsonSchemesService", () => {
           JsonAgeModel: {
             properties: {
               age: {
-                type: "number",
+                type: "number"
               },
               id: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
-            type: "object",
+            type: "object"
           },
           JsonFoo1: {
             properties: {
               test: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
-            type: "object",
+            type: "object"
           },
           JsonNameModel: {
             properties: {
               name: {
-                type: "string",
+                type: "string"
               },
               id: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
-            type: "object",
-          },
+            type: "object"
+          }
         },
         properties: {
           ageModel: {
-            $ref: "#/definitions/JsonAgeModel",
+            $ref: "#/definitions/JsonAgeModel"
           },
           arrayOfString: {
             items: {
-              type: "string",
+              type: "string"
             },
-            type: "array",
+            type: "array"
           },
           dateStart: {
-            type: "string",
+            type: "string"
           },
           foo: {
-            type: "object",
+            type: "object"
           },
           foos: {
             items: {
-              type: "object",
+              type: "object"
             },
-            type: "array",
+            type: "array"
           },
 
           foos2: {
             items: {
-              $ref: "#/definitions/JsonFoo1",
+              $ref: "#/definitions/JsonFoo1"
             },
-            type: "array",
+            type: "array"
           },
           mapOfString: {
             additionalProperties: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
           name: {
             minLength: 3,
-            type: "string",
+            type: "string"
           },
           nameModel: {
-            $ref: "#/definitions/JsonNameModel",
+            $ref: "#/definitions/JsonNameModel"
           },
           object: {
-            type: "object",
+            type: "object"
           },
           password: {
-            type: "string",
+            type: "string"
           },
           test: {
             minLength: 3,
-            type: "string",
+            type: "string"
           },
           theMap: {
             additionalProperties: {
-              $ref: "#/definitions/JsonFoo1",
-            },
+              $ref: "#/definitions/JsonFoo1"
+            }
           },
           theSet: {
             additionalProperties: {
-              $ref: "#/definitions/JsonFoo1",
-            },
+              $ref: "#/definitions/JsonFoo1"
+            }
           },
           uint: {
-            type: "number",
-          },
+            type: "number"
+          }
         },
         required: ["test", "foo"],
-        type: "object",
+        type: "object"
       });
     })
   );

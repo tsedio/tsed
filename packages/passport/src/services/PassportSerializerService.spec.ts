@@ -55,8 +55,8 @@ describe("PassportSerializerService", () => {
         null,
         {
           email: "email@email.fr",
-          id: "id",
-        },
+          id: "id"
+        }
       ]);
     })
   );

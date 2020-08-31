@@ -28,61 +28,61 @@ describe("OpenApiModelSchemaBuilder", () => {
         required: ["test"],
         properties: {
           Name: {
-            type: "string",
+            type: "string"
           },
           ageModel: {
-            $ref: "#/definitions/SwaAgeModel",
+            $ref: "#/definitions/SwaAgeModel"
           },
           nameModel: {
-            $ref: "#/definitions/SwaNameModel",
+            $ref: "#/definitions/SwaNameModel"
           },
           foo: {
-            $ref: "#/definitions/SwaFoo",
+            $ref: "#/definitions/SwaFoo"
           },
           dateStart: {
-            type: "string",
+            type: "string"
           },
           foos: {
             description: "SwaFoo2.foos description",
             examples: ["TODO"],
             items: {
-              $ref: "#/definitions/SwaFoo",
+              $ref: "#/definitions/SwaFoo"
             },
             title: "SwaFoo2.foos",
-            type: "array",
+            type: "array"
           },
           arrayOfString: {
             type: "array",
             items: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
           test: {
             description: "Description test",
             title: "Test",
-            type: "string",
+            type: "string"
           },
           theMap: {
             type: "object",
             additionalProperties: {
-              $ref: "#/definitions/SwaFoo",
+              $ref: "#/definitions/SwaFoo"
             },
             description: "SwaFoo2.theMap description",
-            title: "SwaFoo2.theMap",
+            title: "SwaFoo2.theMap"
           },
           theSet: {
             type: "object",
             additionalProperties: {
-              $ref: "#/definitions/SwaFoo",
+              $ref: "#/definitions/SwaFoo"
             },
             description: "SwaFoo2.theSet description",
-            title: "SwaFoo2.theSet",
+            title: "SwaFoo2.theSet"
           },
           mapOfString: {
             type: "object",
             additionalProperties: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
           mapAny: {
             type: "object",
@@ -90,53 +90,53 @@ describe("OpenApiModelSchemaBuilder", () => {
               nullable: true,
               oneOf: [
                 {
-                  type: "integer",
+                  type: "integer"
                 },
                 {
-                  type: "number",
+                  type: "number"
                 },
                 {
-                  type: "string",
+                  type: "string"
                 },
                 {
-                  type: "boolean",
+                  type: "boolean"
                 },
                 {
-                  type: "array",
+                  type: "array"
                 },
                 {
-                  type: "object",
-                },
-              ],
-            },
+                  type: "object"
+                }
+              ]
+            }
           },
           anyValue: {
             nullable: true,
             oneOf: [
               {
-                type: "integer",
+                type: "integer"
               },
               {
-                type: "number",
+                type: "number"
               },
               {
-                type: "string",
+                type: "string"
               },
               {
-                type: "boolean",
+                type: "boolean"
               },
               {
-                type: "array",
+                type: "array"
               },
               {
-                type: "object",
-              },
-            ],
+                type: "object"
+              }
+            ]
           },
           uint: {
-            type: "number",
-          },
-        },
+            type: "number"
+          }
+        }
       });
       expect(schemaBuilder.definitions).to.deep.eq({
         SwaFoo: {
@@ -144,70 +144,70 @@ describe("OpenApiModelSchemaBuilder", () => {
             foo: {
               description: "Description.foo",
               title: "SwaFoo.foo",
-              type: "object",
+              type: "object"
             },
             test: {
               description: "Description.test",
               title: "SwaFoo.test",
-              type: "object",
-            },
+              type: "object"
+            }
           },
-          type: "object",
+          type: "object"
         },
         SwaFoo2: {
           description: "Description Class",
           required: ["test"],
           properties: {
             Name: {
-              type: "string",
+              type: "string"
             },
             ageModel: {
-              $ref: "#/definitions/SwaAgeModel",
+              $ref: "#/definitions/SwaAgeModel"
             },
             nameModel: {
-              $ref: "#/definitions/SwaNameModel",
+              $ref: "#/definitions/SwaNameModel"
             },
             foo: {
-              $ref: "#/definitions/SwaFoo",
+              $ref: "#/definitions/SwaFoo"
             },
             dateStart: {
-              type: "string",
+              type: "string"
             },
             foos: {
               description: "SwaFoo2.foos description",
               examples: ["TODO"],
               items: {
-                $ref: "#/definitions/SwaFoo",
+                $ref: "#/definitions/SwaFoo"
               },
               title: "SwaFoo2.foos",
-              type: "array",
+              type: "array"
             },
             arrayOfString: {
               type: "array",
               items: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
             test: {
               description: "Description test",
               title: "Test",
-              type: "string",
+              type: "string"
             },
             theMap: {
               type: "object",
               additionalProperties: {
-                $ref: "#/definitions/SwaFoo",
+                $ref: "#/definitions/SwaFoo"
               },
               description: "SwaFoo2.theMap description",
-              title: "SwaFoo2.theMap",
+              title: "SwaFoo2.theMap"
             },
             theSet: {
               type: "object",
               additionalProperties: {
-                $ref: "#/definitions/SwaFoo",
+                $ref: "#/definitions/SwaFoo"
               },
               description: "SwaFoo2.theSet description",
-              title: "SwaFoo2.theSet",
+              title: "SwaFoo2.theSet"
             },
 
             mapAny: {
@@ -216,92 +216,92 @@ describe("OpenApiModelSchemaBuilder", () => {
                 nullable: true,
                 oneOf: [
                   {
-                    type: "integer",
+                    type: "integer"
                   },
                   {
-                    type: "number",
+                    type: "number"
                   },
                   {
-                    type: "string",
+                    type: "string"
                   },
                   {
-                    type: "boolean",
+                    type: "boolean"
                   },
                   {
-                    type: "array",
+                    type: "array"
                   },
                   {
-                    type: "object",
-                  },
-                ],
-              },
+                    type: "object"
+                  }
+                ]
+              }
             },
             anyValue: {
               nullable: true,
               oneOf: [
                 {
-                  type: "integer",
+                  type: "integer"
                 },
                 {
-                  type: "number",
+                  type: "number"
                 },
                 {
-                  type: "string",
+                  type: "string"
                 },
                 {
-                  type: "boolean",
+                  type: "boolean"
                 },
                 {
-                  type: "array",
+                  type: "array"
                 },
                 {
-                  type: "object",
-                },
-              ],
+                  type: "object"
+                }
+              ]
             },
             mapOfString: {
               type: "object",
               additionalProperties: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
             uint: {
-              type: "number",
-            },
+              type: "number"
+            }
           },
           title: "SwaFoo2",
-          type: "object",
+          type: "object"
         },
         SwaAgeModel: {
           properties: {
             age: {
               description: "The age",
               title: "age",
-              type: "number",
+              type: "number"
             },
             id: {
               description: "Unique identifier.",
               title: "id",
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
+          type: "object"
         },
         SwaNameModel: {
           properties: {
             name: {
               description: "The name",
               title: "name",
-              type: "string",
+              type: "string"
             },
             id: {
               description: "Unique identifier.",
               title: "id",
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       });
     });
   });
@@ -312,14 +312,14 @@ describe("OpenApiModelSchemaBuilder", () => {
       expect(schemaBuilder.schema).to.deep.eq({
         properties: {
           childPropertyB: {
-            type: "string",
+            type: "string"
           },
           parentProperty: {
-            type: "string",
-          },
+            type: "string"
+          }
         },
         required: ["parentProperty", "childPropertyB"],
-        type: "object",
+        type: "object"
       });
     });
   });
@@ -342,14 +342,14 @@ describe("OpenApiModelSchemaBuilder", () => {
           description: "description",
           properties: {
             name: {
-              type: "string",
+              type: "string"
             },
             test2: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
           required: ["test2"],
-          type: "object",
+          type: "object"
         });
       });
     });
@@ -367,21 +367,21 @@ describe("OpenApiModelSchemaBuilder", () => {
         expect(builder.schema).to.deep.equal({
           properties: {
             test: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
+          type: "object"
         });
 
         expect(builder.definitions).to.deep.equal({
           Model: {
             properties: {
               test: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
-            type: "object",
-          },
+            type: "object"
+          }
         });
       });
     });
@@ -397,21 +397,21 @@ describe("OpenApiModelSchemaBuilder", () => {
         expect(builder.schema).to.deep.equal({
           properties: {
             test: {
-              type: "object",
-            },
+              type: "object"
+            }
           },
-          type: "object",
+          type: "object"
         });
 
         expect(builder.definitions).to.deep.equal({
           Model: {
             properties: {
               test: {
-                type: "object",
-              },
+                type: "object"
+              }
             },
-            type: "object",
-          },
+            type: "object"
+          }
         });
       });
     });
@@ -432,24 +432,24 @@ describe("OpenApiModelSchemaBuilder", () => {
             properties: {
               test: {
                 items: {
-                  type: "string",
+                  type: "string"
                 },
-                type: "array",
-              },
+                type: "array"
+              }
             },
-            type: "object",
-          },
+            type: "object"
+          }
         });
         expect(builder.schema).to.deep.equal({
           properties: {
             test: {
               items: {
-                type: "string",
+                type: "string"
               },
-              type: "array",
-            },
+              type: "array"
+            }
           },
-          type: "object",
+          type: "object"
         });
       });
     });
@@ -471,34 +471,34 @@ describe("OpenApiModelSchemaBuilder", () => {
           properties: {
             test: {
               items: {
-                $ref: "#/definitions/Items",
+                $ref: "#/definitions/Items"
               },
-              type: "array",
-            },
+              type: "array"
+            }
           },
-          type: "object",
+          type: "object"
         });
 
         expect(builder.definitions).to.deep.equal({
           Items: {
             properties: {
               value: {
-                type: "string",
-              },
+                type: "string"
+              }
             },
-            type: "object",
+            type: "object"
           },
           Model: {
             properties: {
               test: {
                 items: {
-                  $ref: "#/definitions/Items",
+                  $ref: "#/definitions/Items"
                 },
-                type: "array",
-              },
+                type: "array"
+              }
             },
-            type: "object",
-          },
+            type: "object"
+          }
         });
       });
     });

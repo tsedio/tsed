@@ -26,26 +26,26 @@ describe("PlatformExpressRouter", () => {
         delete: sandbox.stub(),
         patch: sandbox.stub(),
         head: sandbox.stub(),
-        options: sandbox.stub(),
+        options: sandbox.stub()
       };
 
       stub(Express.Router).returns(nativeDriver);
 
       const platformHandler = {
-        createHandler: sandbox.stub().callsFake((o) => o),
+        createHandler: sandbox.stub().callsFake((o) => o)
       };
 
       const injector = new InjectorService();
       injector.addProvider(PlatformHandler, {
-        useValue: platformHandler,
+        useValue: platformHandler
       });
       injector.addProvider(PlatformRouter);
       injector.settings.routers = {
-        mergeParams: true,
+        mergeParams: true
       };
 
       const routerOptions: any = {
-        test: "options",
+        test: "options"
       };
 
       // WHEN

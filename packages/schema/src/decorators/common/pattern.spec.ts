@@ -17,10 +17,10 @@ describe("@Pattern", () => {
       properties: {
         num: {
           pattern: "(a|b)",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

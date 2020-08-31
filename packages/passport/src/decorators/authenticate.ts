@@ -13,6 +13,6 @@ export function Authenticate(protocol: string | string[] = "*", options: Authent
     method: "authenticate",
     security: options.security,
     originalUrl: options.originalUrl === undefined ? true : options.originalUrl,
-    options,
+    options
   });
 }

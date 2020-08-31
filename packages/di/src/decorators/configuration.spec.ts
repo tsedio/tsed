@@ -17,7 +17,7 @@ describe("@Configuration", () => {
 
   it("should inject configuration", async () => {
     @Configuration({
-      feature: "feature",
+      feature: "feature"
     })
     @Injectable()
     class Test {

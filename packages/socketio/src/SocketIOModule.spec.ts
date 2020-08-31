@@ -34,7 +34,7 @@ describe("SocketIOModule", () => {
             {token: HttpServer, use: httpServer},
             {token: HttpsServer, use: httpsServer},
             {token: SocketIOServer, use: socketIOServer},
-            {token: SocketIOService, use: socketIOService},
+            {token: SocketIOService, use: socketIOService}
           ]);
 
           getWebsocketServicesStub.returns([{provider: "provider"}]);
@@ -43,11 +43,11 @@ describe("SocketIOModule", () => {
 
           expect(socketIOServer.attach).to.have.been.calledWithExactly(httpServer, {
             adapter: "adapter",
-            config: "config",
+            config: "config"
           });
           expect(socketIOServer.attach).to.have.been.calledWithExactly(httpsServer, {
             adapter: "adapter",
-            config: "config",
+            config: "config"
           });
 
           expect(getWebsocketServicesStub).to.have.been.calledWithExactly();
@@ -84,7 +84,7 @@ describe("SocketIOModule", () => {
             {token: HttpServer, use: httpServer},
             {token: HttpsServer, use: httpsServer},
             {token: SocketIOServer, use: socketIOServer},
-            {token: SocketIOService, use: socketIOService},
+            {token: SocketIOService, use: socketIOService}
           ]);
 
           getWebsocketServicesStub.returns([{provider: "provider"}]);
@@ -92,7 +92,7 @@ describe("SocketIOModule", () => {
           await socketIOModule.$afterListen();
 
           expect(socketIOServer.attach).to.have.been.calledWithExactly(httpsServer, {
-            config: "config",
+            config: "config"
           });
 
           expect(getWebsocketServicesStub).to.have.been.calledWithExactly();

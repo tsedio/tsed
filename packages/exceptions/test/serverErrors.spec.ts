@@ -9,7 +9,7 @@ import {
   NotImplemented,
   ProxyError,
   ServiceUnvailable,
-  VariantAlsoNegotiates,
+  VariantAlsoNegotiates
 } from "@tsed/exceptions";
 import {expect} from "chai";
 

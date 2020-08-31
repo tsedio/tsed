@@ -11,9 +11,9 @@ describe("getJsonPathParameters", () => {
             in: "path",
             name: "path1",
             required: true,
-            type: "string",
-          },
-        ],
+            type: "string"
+          }
+        ]
       },
       {
         path: "/rest/get/{path1}/{path2}",
@@ -22,16 +22,16 @@ describe("getJsonPathParameters", () => {
             in: "path",
             name: "path1",
             required: true,
-            type: "string",
+            type: "string"
           },
           {
             in: "path",
             name: "path2",
             required: true,
-            type: "string",
-          },
-        ],
-      },
+            type: "string"
+          }
+        ]
+      }
     ]);
   });
   it("should return params and path(2)", () => {
@@ -43,32 +43,32 @@ describe("getJsonPathParameters", () => {
             in: "path",
             name: "path1",
             required: true,
-            type: "string",
+            type: "string"
           },
           {
             in: "path",
             name: "path2",
             required: true,
-            type: "string",
-          },
-        ],
-      },
+            type: "string"
+          }
+        ]
+      }
     ]);
   });
   it("should return params and path(3)", () => {
     expect(getJsonPathParameters("/rest/", "/get/path1/path2")).to.deep.eq([
       {
         path: "/rest/get/path1/path2",
-        parameters: [],
-      },
+        parameters: []
+      }
     ]);
   });
   it("should return params and path(4)", () => {
     expect(getJsonPathParameters("/rest/calendar/", "/")).to.deep.eq([
       {
         path: "/rest/calendar",
-        parameters: [],
-      },
+        parameters: []
+      }
     ]);
   });
   it("should return params and path /file/:filename.json", () => {
@@ -80,10 +80,10 @@ describe("getJsonPathParameters", () => {
             in: "path",
             name: "filename",
             required: true,
-            type: "string",
-          },
-        ],
-      },
+            type: "string"
+          }
+        ]
+      }
     ]);
   });
   it("should return params and path /category/:category([a-zA-Z/_-]+).json", () => {
@@ -95,18 +95,18 @@ describe("getJsonPathParameters", () => {
             in: "path",
             name: "category",
             required: true,
-            type: "string",
-          },
-        ],
-      },
+            type: "string"
+          }
+        ]
+      }
     ]);
   });
   it("should return params and path regexp", () => {
     expect(getJsonPathParameters("/rest/", /\*json$/)).to.deep.eq([
       {
         parameters: [],
-        path: "/rest/*json$",
-      },
+        path: "/rest/*json$"
+      }
     ]);
   });
 });

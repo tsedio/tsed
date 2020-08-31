@@ -10,7 +10,7 @@ describe("createSchema", () => {
   it("should create schema", () => {
     enum MyEnum {
       V1 = "v1",
-      V2 = "v2",
+      V2 = "v2"
     }
 
     // GIVEN
@@ -41,7 +41,7 @@ describe("createSchema", () => {
       enum: {
         enum: ["v1", "v2"],
         required: false,
-        type: String,
+        type: String
       },
       name: {
         default: "defaultValue",
@@ -49,14 +49,14 @@ describe("createSchema", () => {
         maxlength: 100,
         minlength: 0,
         required: false,
-        type: String,
+        type: String
       },
       test: {
         max: 10,
         min: 0,
         required: false,
-        type: Number,
-      },
+        type: Number
+      }
     });
   });
   it("should create schema with required property", () => {
@@ -77,7 +77,7 @@ describe("createSchema", () => {
     // GIVEN
     enum MyEnum {
       V1 = "v1",
-      V2 = "v2",
+      V2 = "v2"
     }
 
     @Schema()
@@ -113,15 +113,15 @@ describe("createSchema", () => {
     expect(testSchema.obj).to.deep.eq({
       test: {
         type: childrenSchema,
-        required: false,
-      },
+        required: false
+      }
     });
 
     expect(childrenSchema.obj).to.deep.eq({
       enum: {
         enum: ["v1", "v2"],
         required: false,
-        type: String,
+        type: String
       },
       name: {
         default: "defaultValue",
@@ -129,21 +129,21 @@ describe("createSchema", () => {
         maxlength: 100,
         minlength: 0,
         required: false,
-        type: String,
+        type: String
       },
       test: {
         max: 10,
         min: 0,
         required: false,
-        type: Number,
-      },
+        type: Number
+      }
     });
   });
   it("should create schema with ref", () => {
     // GIVEN
     enum MyEnum {
       V1 = "v1",
-      V2 = "v2",
+      V2 = "v2"
     }
 
     @Model()
@@ -180,15 +180,15 @@ describe("createSchema", () => {
       test: {
         type: SchemaMongoose.Types.ObjectId,
         ref: "Children",
-        required: false,
-      },
+        required: false
+      }
     });
 
     expect(childrenSchema.obj).to.deep.eq({
       enum: {
         enum: ["v1", "v2"],
         required: false,
-        type: String,
+        type: String
       },
       name: {
         default: "defaultValue",
@@ -196,14 +196,14 @@ describe("createSchema", () => {
         maxlength: 100,
         minlength: 0,
         required: false,
-        type: String,
+        type: String
       },
       test: {
         max: 10,
         min: 0,
         required: false,
-        type: Number,
-      },
+        type: Number
+      }
     });
 
     const result = new OpenApiModelSchemaBuilder(Test4).build();
@@ -215,11 +215,11 @@ describe("createSchema", () => {
             test: {
               description: "Mongoose Ref ObjectId",
               example: "5ce7ad3028890bd71749d477",
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       _responses: {},
       _schema: {
@@ -227,19 +227,19 @@ describe("createSchema", () => {
           test: {
             description: "Mongoose Ref ObjectId",
             example: "5ce7ad3028890bd71749d477",
-            type: "string",
-          },
+            type: "string"
+          }
         },
-        type: "object",
+        type: "object"
       },
-      target: Test4,
+      target: Test4
     });
   });
   it("should create schema with virtual ref", () => {
     // GIVEN
     enum MyEnum {
       V1 = "v1",
-      V2 = "v2",
+      V2 = "v2"
     }
 
     @Model()
@@ -277,14 +277,14 @@ describe("createSchema", () => {
       justOne: true,
       localField: "_id",
       options: undefined,
-      ref: "Children2",
+      ref: "Children2"
     });
   });
   it("should create schema with collection (Array of subdocument)", () => {
     // GIVEN
     enum MyEnum {
       V1 = "v1",
-      V2 = "v2",
+      V2 = "v2"
     }
 
     @Schema()
@@ -321,16 +321,16 @@ describe("createSchema", () => {
       tests: [
         {
           type: childrenSchema,
-          required: false,
-        },
-      ],
+          required: false
+        }
+      ]
     });
 
     expect(childrenSchema.obj).to.deep.eq({
       enum: {
         enum: ["v1", "v2"],
         required: false,
-        type: String,
+        type: String
       },
       name: {
         default: "defaultValue",
@@ -338,21 +338,21 @@ describe("createSchema", () => {
         maxlength: 100,
         minlength: 0,
         required: false,
-        type: String,
+        type: String
       },
       test: {
         max: 10,
         min: 0,
         required: false,
-        type: Number,
-      },
+        type: Number
+      }
     });
   });
   it("should create schema with collection (Array of ref)", () => {
     // GIVEN
     enum MyEnum {
       V1 = "v1",
-      V2 = "v2",
+      V2 = "v2"
     }
 
     @Model()
@@ -389,16 +389,16 @@ describe("createSchema", () => {
         {
           type: SchemaMongoose.Types.ObjectId,
           ref: "Children3",
-          required: false,
-        },
-      ],
+          required: false
+        }
+      ]
     });
   });
   it("should create schema with collection (Array of virtual ref", () => {
     // GIVEN
     enum MyEnum {
       V1 = "v1",
-      V2 = "v2",
+      V2 = "v2"
     }
 
     @Model()
@@ -437,14 +437,14 @@ describe("createSchema", () => {
       justOne: false,
       localField: "_id",
       options: undefined,
-      ref: "Children4",
+      ref: "Children4"
     });
   });
   it("should create schema with collection (Map of subdocument)", () => {
     // GIVEN
     enum MyEnum {
       V1 = "v1",
-      V2 = "v2",
+      V2 = "v2"
     }
 
     @Schema()
@@ -482,16 +482,16 @@ describe("createSchema", () => {
         type: Map,
         of: {
           type: childrenSchema,
-          required: false,
-        },
-      },
+          required: false
+        }
+      }
     });
 
     expect(childrenSchema.obj).to.deep.eq({
       enum: {
         enum: ["v1", "v2"],
         required: false,
-        type: String,
+        type: String
       },
       name: {
         default: "defaultValue",
@@ -499,21 +499,21 @@ describe("createSchema", () => {
         maxlength: 100,
         minlength: 0,
         required: false,
-        type: String,
+        type: String
       },
       test: {
         max: 10,
         min: 0,
         required: false,
-        type: Number,
-      },
+        type: Number
+      }
     });
   });
   it("should throw error with collection (Set of subdocument)", () => {
     // GIVEN
     enum MyEnum {
       V1 = "v1",
-      V2 = "v2",
+      V2 = "v2"
     }
 
     let actualError: any;
@@ -563,8 +563,8 @@ describe("createSchema", () => {
     expect(testSchema.obj).to.deep.eq({
       field: {
         required: false,
-        type: String,
-      },
+        type: String
+      }
     });
   });
 });

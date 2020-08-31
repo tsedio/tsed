@@ -19,7 +19,7 @@ export function mapConfiguration(config: any): {endpoint?: string; values: any[]
   if (isArray(config)) {
     return config.map((value: any) => {
       return {
-        values: [].concat(value),
+        values: [].concat(value)
       };
     });
   }
@@ -27,7 +27,7 @@ export function mapConfiguration(config: any): {endpoint?: string; values: any[]
   return Object.keys(config).reduce((list: any[], key: string) => {
     list.push({
       endpoint: key,
-      values: [].concat(config[key]),
+      values: [].concat(config[key])
     });
 
     return list;

@@ -61,9 +61,9 @@ export function SocketMiddleware(): Function {
       type: SocketProviderTypes.MIDDLEWARE,
       handlers: {
         use: {
-          methodClassName: "use",
-        },
-      },
+          methodClassName: "use"
+        }
+      }
     });
 
     return Middleware()(target);

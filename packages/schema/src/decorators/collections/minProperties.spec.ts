@@ -16,10 +16,10 @@ describe("@MinProperties", () => {
       properties: {
         prop: {
           minProperties: 10,
-          type: "object",
-        },
+          type: "object"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should declare min value (Map<any>)", () => {
@@ -34,10 +34,10 @@ describe("@MinProperties", () => {
       properties: {
         prop: {
           minProperties: 10,
-          type: "object",
-        },
+          type: "object"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should declare min value on class", () => {
@@ -48,7 +48,7 @@ describe("@MinProperties", () => {
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
       minProperties: 10,
-      type: "object",
+      type: "object"
     });
   });
   it("should declare min value on param", () => {
@@ -63,8 +63,8 @@ describe("@MinProperties", () => {
       definitions: {},
       tags: [
         {
-          name: "MyController",
-        },
+          name: "MyController"
+        }
       ],
       paths: {
         "/": {
@@ -77,19 +77,19 @@ describe("@MinProperties", () => {
                 required: false,
                 schema: {
                   minProperties: 10,
-                  type: "object",
-                },
-              },
+                  type: "object"
+                }
+              }
             ],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["MyController"],
-          },
-        },
-      },
+            tags: ["MyController"]
+          }
+        }
+      }
     });
   });
   it("should throw an error when the given parameters is as negative integer", () => {

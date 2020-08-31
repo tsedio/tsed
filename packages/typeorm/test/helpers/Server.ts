@@ -17,8 +17,8 @@ const rootDir = Path.resolve(__dirname);
   httpsPort: false,
   logger: {
     level: "info",
-    logRequest: true,
-  },
+    logRequest: true
+  }
 })
 export class Server {
   @Inject()
@@ -29,7 +29,7 @@ export class Server {
       .use(bodyParser.json())
       .use(
         bodyParser.urlencoded({
-          extended: true,
+          extended: true
         })
       )
       .use(cookieParser())

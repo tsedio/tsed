@@ -9,7 +9,7 @@ import {
   Metadata,
   nameOf,
   prototypeOf,
-  Store,
+  Store
 } from "@tsed/core";
 
 import * as util from "util";
@@ -31,7 +31,7 @@ import {
   IInvokeOptions,
   InjectablePropertyType,
   ProviderScope,
-  TokenProvider,
+  TokenProvider
 } from "../interfaces";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {DIConfiguration} from "./DIConfiguration";
@@ -71,7 +71,7 @@ interface InvokeSettings {
  */
 @Injectable({
   scope: ProviderScope.SINGLETON,
-  global: true,
+  global: true
 })
 export class InjectorService extends Container {
   public settings: TsED.Configuration & DIConfiguration = new DIConfiguration() as any;
@@ -346,7 +346,7 @@ export class InjectorService extends Container {
 
       return {
         ...properties,
-        ...(store.get(INJECTABLE_PROP) || {}),
+        ...(store.get(INJECTABLE_PROP) || {})
       };
     }, {});
 
@@ -410,7 +410,7 @@ export class InjectorService extends Container {
     locals.delete(DI_PARAM_OPTIONS);
 
     Object.defineProperty(instance, propertyKey, {
-      get: () => bean,
+      get: () => bean
     });
   }
 
@@ -425,7 +425,7 @@ export class InjectorService extends Container {
       get: () => this.settings.get(expression) || defaultValue,
       set: (value: any) => this.settings.set(expression, value),
       enumerable: true,
-      configurable: true,
+      configurable: true
     };
     Object.defineProperty(instance, propertyKey, descriptor);
   }
@@ -449,7 +449,7 @@ export class InjectorService extends Container {
       get: () => clone(this.settings.get(expression)),
 
       enumerable: true,
-      configurable: true,
+      configurable: true
     };
     Object.defineProperty(instance, propertyKey, descriptor);
 
@@ -483,7 +483,7 @@ export class InjectorService extends Container {
         args,
         options,
         proceed: util.deprecate(next, "context.proceed() is deprecated. Use context.next() or next() parameters instead."),
-        next,
+        next
       };
 
       const interceptor = this.get<IInterceptor>(useType)!;
@@ -500,7 +500,7 @@ export class InjectorService extends Container {
       return interceptor.intercept!(
         {
           ...context,
-          options,
+          options
         },
         next
       );
@@ -646,7 +646,7 @@ export class InjectorService extends Container {
       imports: imports || [],
       isBindable,
       construct,
-      provider,
+      provider
     };
   }
 }

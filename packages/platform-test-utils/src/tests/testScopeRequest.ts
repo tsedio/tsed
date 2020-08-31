@@ -54,8 +54,8 @@ export function testScopeRequest(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [ScopeRequestCtrl],
-      },
+        "/rest": [ScopeRequestCtrl]
+      }
     })
   );
   before(() => {
@@ -91,20 +91,20 @@ export function testScopeRequest(options: PlatformTestOptions) {
             id: "0",
             idCtrl: "0",
             idSrv: "0",
-            userId: "0",
+            userId: "0"
           },
           {
             id: "1",
             idCtrl: "1",
             idSrv: "1",
-            userId: "1",
+            userId: "1"
           },
           {
             id: "2",
             idCtrl: "2",
             idSrv: "2",
-            userId: "2",
-          },
+            userId: "2"
+          }
         ]);
       });
     });

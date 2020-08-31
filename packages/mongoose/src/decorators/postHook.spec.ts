@@ -21,9 +21,9 @@ describe("@PostHook()", () => {
         post: [
           {
             method: "method",
-            fn,
-          },
-        ],
+            fn
+          }
+        ]
       });
     });
   });
@@ -36,7 +36,7 @@ describe("@PostHook()", () => {
       }
 
       const {
-        post: [options],
+        post: [options]
       } = schemaOptions(Test);
 
       expect(options.method).to.eq("save");

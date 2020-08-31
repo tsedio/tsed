@@ -12,7 +12,7 @@ describe("Responses()", () => {
     it("should set the responses", () => {
       // WHEN
       Responses(400, {
-        description: "Bad Request",
+        description: "Bad Request"
       })(prototypeOf(Test), "test", descriptorOf(Test, "test"));
 
       // THEN
@@ -20,8 +20,8 @@ describe("Responses()", () => {
 
       expect(store.get("responses")).to.deep.eq({
         "400": {
-          description: "Bad Request",
-        },
+          description: "Bad Request"
+        }
       });
     });
   });
@@ -34,7 +34,7 @@ describe("Responses()", () => {
     it("should set the responses", () => {
       // WHEN
       Responses(400, {
-        description: "Bad Request",
+        description: "Bad Request"
       })(Test);
 
       // THEN
@@ -42,8 +42,8 @@ describe("Responses()", () => {
 
       expect(store.get("responses")).to.deep.eq({
         "400": {
-          description: "Bad Request",
-        },
+          description: "Bad Request"
+        }
       });
     });
   });
@@ -58,7 +58,7 @@ describe("Responses()", () => {
       let actualError;
       try {
         Responses(400, {
-          description: "Bad Request",
+          description: "Bad Request"
         })(prototypeOf(Test), "test");
       } catch (er) {
         actualError = er;

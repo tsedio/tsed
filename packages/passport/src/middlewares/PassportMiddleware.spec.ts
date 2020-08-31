@@ -17,7 +17,7 @@ describe("PassportMiddleware", () => {
     // GIVEN
     const middleware = new PassportMiddleware();
     middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local"]),
+      getProtocolsNames: sandbox.stub().returns(["local"])
     } as any;
 
     const request: any = {};
@@ -26,9 +26,9 @@ describe("PassportMiddleware", () => {
         get: sandbox.stub().returns({
           options: {},
           protocol: "local",
-          method: "authenticate",
-        }),
-      },
+          method: "authenticate"
+        })
+      }
     };
 
     // WHEN
@@ -41,23 +41,23 @@ describe("PassportMiddleware", () => {
     // GIVEN
     const middleware = new PassportMiddleware();
     middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local"]),
+      getProtocolsNames: sandbox.stub().returns(["local"])
     } as any;
 
     const request: any = {
       user: {},
       isAuthenticated() {
         return true;
-      },
+      }
     };
     const endpoint: any = {
       store: {
         get: sandbox.stub().returns({
           options: {},
           protocol: "local",
-          method: "authenticate",
-        }),
-      },
+          method: "authenticate"
+        })
+      }
     };
 
     // WHEN
@@ -71,7 +71,7 @@ describe("PassportMiddleware", () => {
     // GIVEN
     const middleware = new PassportMiddleware();
     middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local", "basic"]),
+      getProtocolsNames: sandbox.stub().returns(["local", "basic"])
     } as any;
 
     const request: any = {};
@@ -80,9 +80,9 @@ describe("PassportMiddleware", () => {
         get: sandbox.stub().returns({
           options: {},
           protocol: "*",
-          method: "authenticate",
-        }),
-      },
+          method: "authenticate"
+        })
+      }
     };
 
     // WHEN
@@ -95,24 +95,24 @@ describe("PassportMiddleware", () => {
     // GIVEN
     const middleware = new PassportMiddleware();
     middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local", "basic"]),
+      getProtocolsNames: sandbox.stub().returns(["local", "basic"])
     } as any;
 
     const request: any = {
       url: "/",
       originalUrl: "/rest",
       query: {
-        protocol: "basic",
-      },
+        protocol: "basic"
+      }
     };
     const endpoint: any = {
       store: {
         get: sandbox.stub().returns({
           options: {},
           protocol: ":protocol",
-          method: "authenticate",
-        }),
-      },
+          method: "authenticate"
+        })
+      }
     };
 
     // WHEN
@@ -126,7 +126,7 @@ describe("PassportMiddleware", () => {
     // GIVEN
     const middleware = new PassportMiddleware();
     middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local", "basic"]),
+      getProtocolsNames: sandbox.stub().returns(["local", "basic"])
     } as any;
 
     const request: any = {};
@@ -135,9 +135,9 @@ describe("PassportMiddleware", () => {
         get: sandbox.stub().returns({
           options: {},
           protocol: ":protocol",
-          method: "authenticate",
-        }),
-      },
+          method: "authenticate"
+        })
+      }
     };
 
     // WHEN

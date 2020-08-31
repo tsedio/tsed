@@ -55,9 +55,9 @@ export function PostHook(method: string, fn?: MongoosePostHookCB<any> | Mongoose
       post: [
         {
           method,
-          fn: fn as MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>,
-        },
-      ],
+          fn: fn as MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>
+        }
+      ]
     });
   };
 }

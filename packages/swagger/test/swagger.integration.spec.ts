@@ -30,7 +30,7 @@ class BackAdminCtrl {
 
 @Controller({
   path: "/calendars",
-  children: [AdminCtrl, EventCtrl],
+  children: [AdminCtrl, EventCtrl]
 })
 class CalendarsController {
   @Get("/:id")
@@ -51,8 +51,8 @@ describe("Swagger integration", () => {
   beforeEach(
     PlatformTest.bootstrap(Server, {
       mount: {
-        "/rest": [CalendarsController],
-      },
+        "/rest": [CalendarsController]
+      }
     })
   );
   beforeEach(() => {
@@ -67,43 +67,43 @@ describe("Swagger integration", () => {
     expect(result.body).to.deep.eq([
       {
         id: 1,
-        name: "name",
+        name: "name"
       },
       {
         id: 2,
-        name: "name",
-      },
+        name: "name"
+      }
     ]);
     expect(response.body).to.deep.eq({
       swagger: "2.0",
       tags: [
         {
-          name: "CalendarsController",
+          name: "CalendarsController"
         },
         {
-          name: "EventCtrl",
-        },
+          name: "EventCtrl"
+        }
       ],
       consumes: ["application/json"],
       definitions: {
         Calendar: {
           properties: {
             id: {
-              type: "string",
+              type: "string"
             },
             name: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
           required: ["name"],
-          type: "object",
-        },
+          type: "object"
+        }
       },
       info: {
         description: "",
         termsOfService: "",
         title: "Api documentation",
-        version: "1.0.0",
+        version: "1.0.0"
       },
       paths: {
         "/rest/calendars": {
@@ -114,14 +114,14 @@ describe("Swagger integration", () => {
                 description: "Success",
                 schema: {
                   items: {
-                    $ref: "#/definitions/Calendar",
+                    $ref: "#/definitions/Calendar"
                   },
-                  type: "array",
-                },
-              },
+                  type: "array"
+                }
+              }
             },
-            tags: ["CalendarsController"],
-          },
+            tags: ["CalendarsController"]
+          }
         },
         "/rest/calendars/events": {
           get: {
@@ -129,11 +129,11 @@ describe("Swagger integration", () => {
             operationId: "EventCtrl.get",
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["EventCtrl"],
-          },
+            tags: ["EventCtrl"]
+          }
         },
         "/rest/calendars/{id}": {
           get: {
@@ -143,23 +143,23 @@ describe("Swagger integration", () => {
                 in: "path",
                 name: "id",
                 required: true,
-                type: "string",
-              },
+                type: "string"
+              }
             ],
             responses: {
               "200": {
                 description: "Success",
                 schema: {
-                  $ref: "#/definitions/Calendar",
-                },
-              },
+                  $ref: "#/definitions/Calendar"
+                }
+              }
             },
-            tags: ["CalendarsController"],
-          },
-        },
+            tags: ["CalendarsController"]
+          }
+        }
       },
       produces: ["application/json"],
-      securityDefinitions: {},
+      securityDefinitions: {}
     });
   });
 });

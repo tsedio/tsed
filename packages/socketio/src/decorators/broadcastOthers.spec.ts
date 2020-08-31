@@ -16,10 +16,10 @@ describe("BroadcastOthers", () => {
         test: {
           returns: {
             eventName: "eventName",
-            type: "broadcastOthers",
-          },
-        },
-      },
+            type: "broadcastOthers"
+          }
+        }
+      }
     });
   });
 });

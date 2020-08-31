@@ -20,7 +20,7 @@ describe("@Ref()", () => {
     it("should set metadata", () => {
       expect(this.store.get(MONGOOSE_SCHEMA)).to.deep.eq({
         type: Schema.Types.ObjectId,
-        ref: "RefTest",
+        ref: "RefTest"
       });
     });
   });
@@ -39,7 +39,7 @@ describe("@Ref()", () => {
     it("should set metadata", () => {
       expect(this.store.get(MONGOOSE_SCHEMA)).to.deep.eq({
         type: Schema.Types.ObjectId,
-        ref: "RefTest",
+        ref: "RefTest"
       });
     });
   });

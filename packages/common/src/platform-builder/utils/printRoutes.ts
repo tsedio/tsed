@@ -8,7 +8,7 @@ export function printRoutes(routes: IRouteDetails[]) {
     PUT: "blue",
     DELETE: "red",
     PATCH: "magenta",
-    ALL: "cyan",
+    ALL: "cyan"
   };
 
   routes = routes.map((route) => {
@@ -18,7 +18,7 @@ export function printRoutes(routes: IRouteDetails[]) {
       length: method.length,
       toString: () => {
         return colorize(method, mapColor[method]);
-      },
+      }
     } as any;
 
     return route;
@@ -29,8 +29,8 @@ export function printRoutes(routes: IRouteDetails[]) {
     header: {
       method: "Method",
       url: "Endpoint",
-      name: "Class method",
-    },
+      name: "Class method"
+    }
   });
 
   return "\n" + str.trim();

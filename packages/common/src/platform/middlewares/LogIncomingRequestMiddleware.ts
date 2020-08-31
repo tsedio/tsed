@@ -43,11 +43,11 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
     if (logStart !== false) {
       if (debug) {
         request.ctx.logger.debug({
-          event: "request.start",
+          event: "request.start"
         });
       } else if (logRequest) {
         request.ctx.logger.info({
-          event: "request.start",
+          event: "request.start"
         });
       }
     }
@@ -66,12 +66,12 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
         request.ctx.logger.debug({
           event: "request.end",
           status: response.statusCode,
-          data: request.ctx.data,
+          data: request.ctx.data
         });
       } else if (logRequest) {
         request.ctx.logger.info({
           event: "request.end",
-          status: response.statusCode,
+          status: response.statusCode
         });
       }
     }
@@ -100,7 +100,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
       headers: request.headers,
       body: request.body,
       query: request.query,
-      params: request.params,
+      params: request.params
     };
   }
 

@@ -23,8 +23,8 @@ describe("Route decorators", () => {
       expect(endpoint.pathsMethods).to.deep.eq([
         {
           method: "all",
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
@@ -44,8 +44,8 @@ describe("Route decorators", () => {
       expect(endpoint.pathsMethods).to.deep.eq([
         {
           method: "get",
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
@@ -64,8 +64,8 @@ describe("Route decorators", () => {
       expect(endpoint.pathsMethods).to.deep.eq([
         {
           method: "get",
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
       expect(endpoint.propertyKey).to.equal("test");
       expect(endpoint.middlewares).to.deep.equal([middleware]);
@@ -86,8 +86,8 @@ describe("Route decorators", () => {
       expect(endpoint.pathsMethods).to.deep.eq([
         {
           method: "post",
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
@@ -107,8 +107,8 @@ describe("Route decorators", () => {
       expect(endpoint.pathsMethods).to.deep.eq([
         {
           method: "put",
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
@@ -128,8 +128,8 @@ describe("Route decorators", () => {
       expect(endpoint.pathsMethods).to.deep.eq([
         {
           method: "delete",
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
@@ -149,8 +149,8 @@ describe("Route decorators", () => {
       expect(endpoint.pathsMethods).to.deep.eq([
         {
           method: "head",
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
@@ -170,8 +170,8 @@ describe("Route decorators", () => {
       expect(endpoint.pathsMethods).to.deep.eq([
         {
           method: "patch",
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
@@ -191,8 +191,8 @@ describe("Route decorators", () => {
       expect(endpoint.pathsMethods).to.deep.eq([
         {
           method: "options",
-          path: "/",
-        },
+          path: "/"
+        }
       ]);
       expect(endpoint.propertyKey).to.equal("test");
     });

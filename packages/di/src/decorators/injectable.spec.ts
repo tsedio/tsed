@@ -25,7 +25,7 @@ describe("@Injectable()", () => {
       // THEN
       expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
         options: "options",
-        provide: Test,
+        provide: Test
       });
     });
   });
@@ -48,7 +48,7 @@ describe("@Injectable()", () => {
 
       // THEN
       expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
-        provide: Test,
+        provide: Test
       });
     });
   });

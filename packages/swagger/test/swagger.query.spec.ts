@@ -32,8 +32,8 @@ describe("QueryParams", () => {
   beforeEach(
     PlatformTest.bootstrap(Server, {
       mount: {
-        "/rest": [QueryParamsSwaggerController],
-      },
+        "/rest": [QueryParamsSwaggerController]
+      }
     })
   );
   beforeEach(() => {
@@ -50,7 +50,7 @@ describe("QueryParams", () => {
         description: "",
         termsOfService: "",
         title: "Api documentation",
-        version: "1.0.0",
+        version: "1.0.0"
       },
       paths: {
         "/rest/scenarios/1": {
@@ -61,16 +61,16 @@ describe("QueryParams", () => {
                 in: "query",
                 name: "id",
                 required: false,
-                type: "string",
-              },
+                type: "string"
+              }
             ],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["QueryParamsSwaggerController"],
-          },
+            tags: ["QueryParamsSwaggerController"]
+          }
         },
         "/rest/scenarios/2": {
           get: {
@@ -80,20 +80,20 @@ describe("QueryParams", () => {
                 collectionFormat: "multi",
                 in: "query",
                 items: {
-                  type: "string",
+                  type: "string"
                 },
                 name: "ids",
                 required: false,
-                type: "array",
-              },
+                type: "array"
+              }
             ],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["QueryParamsSwaggerController"],
-          },
+            tags: ["QueryParamsSwaggerController"]
+          }
         },
         "/rest/scenarios/3": {
           get: {
@@ -101,21 +101,21 @@ describe("QueryParams", () => {
             parameters: [
               {
                 additionalProperties: {
-                  type: "string",
+                  type: "string"
                 },
                 in: "query",
                 name: "ids",
                 required: false,
-                type: "object",
-              },
+                type: "object"
+              }
             ],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["QueryParamsSwaggerController"],
-          },
+            tags: ["QueryParamsSwaggerController"]
+          }
         },
         "/rest/scenarios/4": {
           get: {
@@ -126,38 +126,38 @@ describe("QueryParams", () => {
                 minLength: 1,
                 name: "name",
                 required: true,
-                type: "string",
+                type: "string"
               },
               {
                 in: "query",
                 name: "duration",
                 required: false,
-                type: "number",
+                type: "number"
               },
               {
                 in: "query",
                 name: "locale",
                 required: false,
-                type: "string",
-              },
+                type: "string"
+              }
             ],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["QueryParamsSwaggerController"],
-          },
-        },
+            tags: ["QueryParamsSwaggerController"]
+          }
+        }
       },
       produces: ["application/json"],
       securityDefinitions: {},
       swagger: "2.0",
       tags: [
         {
-          name: "QueryParamsSwaggerController",
-        },
-      ],
+          name: "QueryParamsSwaggerController"
+        }
+      ]
     });
 
     await request.get("/rest/scenarios/4?name=name&duration=1&locale=fr-FR");

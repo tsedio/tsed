@@ -10,7 +10,7 @@ import {UnknownPropertyError} from "../errors/UnknownPropertyError";
 import {IConverter, IConverterOptions, IDeserializer, ISerializer} from "../interfaces/index";
 
 @Injectable({
-  imports: [ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter],
+  imports: [ArrayConverter, DateConverter, MapConverter, PrimitiveConverter, SetConverter, SymbolConverter]
 })
 export class ConverterService {
   private converterSettings: IConverterSettings;
@@ -112,7 +112,7 @@ export class ConverterService {
         propertyValue = this.serialize(propertyValue, {
           checkRequiredValue,
           withIgnoredProps,
-          type: propertyMetadata!.type,
+          type: propertyMetadata!.type
         });
 
         if (typeof propertyMetadata!.onSerialize === "function") {

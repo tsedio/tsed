@@ -10,14 +10,14 @@ describe("MapMapper", () => {
         type: String,
         collectionType: Map,
         next: Sinon.stub().callsFake((o) => String("testMap")),
-        options: {},
+        options: {}
       });
 
       const mapper = new MapMapper();
 
       const value = mapper.deserialize(
         {
-          test: "test",
+          test: "test"
         },
         ctx
       );
@@ -31,7 +31,7 @@ describe("MapMapper", () => {
       const ctx = {
         type: String,
         collectionType: Array,
-        next: Sinon.stub().callsFake((o) => String("testMap")),
+        next: Sinon.stub().callsFake((o) => String("testMap"))
       };
 
       const mapper = new MapMapper();

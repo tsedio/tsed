@@ -23,7 +23,7 @@ export class TestContext extends PlatformTest {
     providers = providers.map((p) => {
       return {
         token: p.token || p.provide,
-        use: p.use,
+        use: p.use
       };
     });
 

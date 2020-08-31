@@ -22,11 +22,11 @@ describe("@MongooseIndex()", () => {
       indexes: [
         {
           fields: {
-            field: "1",
+            field: "1"
           },
-          options: {},
-        },
-      ],
+          options: {}
+        }
+      ]
     });
   });
 });

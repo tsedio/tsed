@@ -4,7 +4,7 @@ import {deepClone} from "../../src/utils/deepClone";
 describe("deepClone", () => {
   it("should clone object", () => {
     const externalObject = {
-      color: "red",
+      color: "red"
     };
 
     class Base {
@@ -40,7 +40,7 @@ describe("deepClone", () => {
       h: Infinity,
       i: externalObject,
       j: new Test("test"),
-      k: [new Test("test"), false, 1, Test],
+      k: [new Test("test"), false, 1, Test]
     };
 
     const cloned = deepClone(original);

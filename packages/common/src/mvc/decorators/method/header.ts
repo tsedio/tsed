@@ -16,7 +16,7 @@ export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
     const value: any = headers[key];
     let type = typeof value;
     let options: any = {
-      value,
+      value
     };
 
     if (type === "object") {

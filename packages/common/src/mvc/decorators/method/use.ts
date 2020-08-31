@@ -25,7 +25,7 @@ function mapOptions(args: any[]) {
   return {
     path,
     method,
-    middlewares,
+    middlewares
   };
 }
 
@@ -59,7 +59,7 @@ export function Use(...args: any[]): Function {
       options.path &&
         endpoint.pathsMethods.push({
           method: options.method,
-          path: options.path!,
+          path: options.path!
         });
 
       endpoint.use(args);
@@ -68,7 +68,7 @@ export function Use(...args: any[]): Function {
     }
 
     Store.from(target).merge("middlewares", {
-      use: args,
+      use: args
     });
   };
 }

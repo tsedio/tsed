@@ -12,7 +12,7 @@ describe("ResponseView", () => {
     const endpoint = EndpointMetadata.get(Test, "test");
     expect(endpoint.view).to.deep.eq({
       path: "page",
-      options: {test: "test"},
+      options: {test: "test"}
     });
   });
   it("should set metadata", () => {
@@ -24,7 +24,7 @@ describe("ResponseView", () => {
     const endpoint = EndpointMetadata.get(Test, "test");
     expect(endpoint.view).to.deep.eq({
       path: "page",
-      options: {test: "test"},
+      options: {test: "test"}
     });
   });
   it("should set metadata", () => {
@@ -36,7 +36,7 @@ describe("ResponseView", () => {
     const endpoint = EndpointMetadata.get(Test, "test");
     expect(endpoint.view).to.deep.eq({
       path: "page",
-      options: {test: "test"},
+      options: {test: "test"}
     });
   });
 });

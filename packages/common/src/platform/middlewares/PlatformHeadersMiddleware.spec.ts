@@ -8,7 +8,7 @@ import {
   PlatformResponse,
   PlatformTest,
   Redirect,
-  Status,
+  Status
 } from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";

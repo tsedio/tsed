@@ -29,29 +29,29 @@ describe("@GenericOf", () => {
         Product: {
           properties: {
             label: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       properties: {
         submissions: {
           properties: {
             data: {
               items: {
-                $ref: "#/definitions/Product",
+                $ref: "#/definitions/Product"
               },
-              type: "array",
+              type: "array"
             },
             totalCount: {
-              type: "number",
-            },
+              type: "number"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should generate Generic pagination with nested model", () => {
@@ -79,26 +79,26 @@ describe("@GenericOf", () => {
         Product: {
           properties: {
             label: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       properties: {
         submission: {
           properties: {
             _id: {
-              type: "string",
+              type: "string"
             },
             data: {
-              $ref: "#/definitions/Product",
-            },
+              $ref: "#/definitions/Product"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should generate Generic pagination with nested model (deep generics)", () => {
@@ -135,11 +135,11 @@ describe("@GenericOf", () => {
         Product: {
           properties: {
             label: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       properties: {
         submissions: {
@@ -148,24 +148,24 @@ describe("@GenericOf", () => {
               items: {
                 properties: {
                   _id: {
-                    type: "string",
+                    type: "string"
                   },
                   data: {
-                    $ref: "#/definitions/Product",
-                  },
+                    $ref: "#/definitions/Product"
+                  }
                 },
-                type: "object",
+                type: "object"
               },
-              type: "array",
+              type: "array"
             },
             totalCount: {
-              type: "number",
-            },
+              type: "number"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

@@ -15,10 +15,10 @@ describe("AdditionalProperties", () => {
       additionalProperties: true,
       properties: {
         id: {
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

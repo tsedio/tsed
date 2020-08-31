@@ -12,14 +12,14 @@ describe("Operation()", () => {
     it("should set the operation", () => {
       // WHEN
       Operation({
-        security: [{auth: ["scope"]}],
+        security: [{auth: ["scope"]}]
       })(prototypeOf(Test), "test", descriptorOf(Test, "test"));
 
       // THEN
       const store = Store.fromMethod(Test, "test");
 
       expect(store.get("operation")).to.deep.eq({
-        security: [{auth: ["scope"]}],
+        security: [{auth: ["scope"]}]
       });
     });
   });
@@ -32,14 +32,14 @@ describe("Operation()", () => {
     it("should set the operation", () => {
       // WHEN
       Operation({
-        security: [{auth: ["scope"]}],
+        security: [{auth: ["scope"]}]
       })(Test);
 
       // THEN
       const store = Store.fromMethod(Test, "test");
 
       expect(store.get("operation")).to.deep.eq({
-        security: [{auth: ["scope"]}],
+        security: [{auth: ["scope"]}]
       });
     });
   });
@@ -54,7 +54,7 @@ describe("Operation()", () => {
       let actualError;
       try {
         Operation({
-          security: [{auth: ["scope"]}],
+          security: [{auth: ["scope"]}]
         })(prototypeOf(Test), "test");
       } catch (er) {
         actualError = er;

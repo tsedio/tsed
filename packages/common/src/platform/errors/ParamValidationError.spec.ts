@@ -9,7 +9,7 @@ describe("ParseExpressionError", () => {
     const error = ParamValidationError.from(
       {
         service: "name",
-        expression: "expression",
+        expression: "expression"
       } as any,
       {message: "message"}
     );
@@ -25,14 +25,14 @@ describe("ParseExpressionError", () => {
       status: 400,
       type: "HTTP_EXCEPTION",
       origin: {
-        message: "message",
-      },
+        message: "message"
+      }
     });
   });
   it("should throw error from origin error (RequiredValidationError)", () => {
     const metadata = {
       service: "name",
-      expression: "expression",
+      expression: "expression"
     } as any;
     const origin = RequiredValidationError.from(metadata);
 
@@ -53,30 +53,30 @@ describe("ParseExpressionError", () => {
             message: "It should have required parameter 'expression'",
             modelName: "name",
             params: {
-              missingProperty: "expression",
+              missingProperty: "expression"
             },
-            schemaPath: "#/required",
-          },
+            schemaPath: "#/required"
+          }
         ],
         headers: {},
         name: "REQUIRED_VALIDATION_ERROR",
         status: 400,
-        type: "HTTP_EXCEPTION",
+        type: "HTTP_EXCEPTION"
       },
       requestType: "name",
       status: 400,
-      type: "HTTP_EXCEPTION",
+      type: "HTTP_EXCEPTION"
     });
   });
   it("should throw error from origin error (ValidationError)", () => {
     const metadata = {
       service: "name",
-      expression: "expression",
+      expression: "expression"
     } as any;
     const origin = new ValidationError("It should have 1 item", [
       {
-        dataPath: "hello",
-      },
+        dataPath: "hello"
+      }
     ]);
 
     const error = ParamValidationError.from(metadata, origin);
@@ -91,17 +91,17 @@ describe("ParseExpressionError", () => {
       origin: {
         errors: [
           {
-            dataPath: "hello",
-          },
+            dataPath: "hello"
+          }
         ],
         headers: {},
         name: "VALIDATION_ERROR",
         status: 400,
-        type: "HTTP_EXCEPTION",
+        type: "HTTP_EXCEPTION"
       },
       requestType: "name",
       status: 400,
-      type: "HTTP_EXCEPTION",
+      type: "HTTP_EXCEPTION"
     });
   });
 });

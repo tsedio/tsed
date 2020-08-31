@@ -7,12 +7,12 @@ describe("MultipartFileMiddleware", () => {
     before(() => {
       this.settings = {
         uploadDir: "/",
-        get: Sinon.stub().withArgs("multer").returns({options: "options"}),
+        get: Sinon.stub().withArgs("multer").returns({options: "options"})
       };
       this.middleware = new MultipartFileMiddleware(this.settings);
       this.expressMiddleware = Sinon.stub();
       this.middleware.multer = Sinon.stub().returns({
-        any: Sinon.stub().returns(this.expressMiddleware),
+        any: Sinon.stub().returns(this.expressMiddleware)
       });
 
       this.result = this.middleware.use(
@@ -20,9 +20,9 @@ describe("MultipartFileMiddleware", () => {
           get() {
             return {
               options: {options: "options"},
-              any: true,
+              any: true
             };
-          },
+          }
         },
         {request: "request"},
         {response: "response"}
@@ -46,12 +46,12 @@ describe("MultipartFileMiddleware", () => {
     before(() => {
       this.settings = {
         uploadDir: "/",
-        get: Sinon.stub().withArgs("multer").returns({options: "options"}),
+        get: Sinon.stub().withArgs("multer").returns({options: "options"})
       };
       this.middleware = new MultipartFileMiddleware(this.settings);
       this.expressMiddleware = Sinon.stub();
       this.multerApiStub = {
-        fields: Sinon.stub().returns(this.expressMiddleware),
+        fields: Sinon.stub().returns(this.expressMiddleware)
       };
 
       this.middleware.multer = Sinon.stub().returns(this.multerApiStub);
@@ -61,9 +61,9 @@ describe("MultipartFileMiddleware", () => {
           get() {
             return {
               options: {options: "options"},
-              fields: [{name: "test"}, {name: "test1", maxCount: 4}],
+              fields: [{name: "test"}, {name: "test1", maxCount: 4}]
             };
-          },
+          }
         },
         {request: "request"},
         {response: "response"}
@@ -82,12 +82,12 @@ describe("MultipartFileMiddleware", () => {
       expect(this.multerApiStub.fields).to.have.been.calledWithExactly([
         {
           maxCount: undefined,
-          name: "test",
+          name: "test"
         },
         {
           maxCount: 4,
-          name: "test1",
-        },
+          name: "test1"
+        }
       ]);
     });
     it("should create middleware and call it", () => {
@@ -99,12 +99,12 @@ describe("MultipartFileMiddleware", () => {
     before(() => {
       this.settings = {
         uploadDir: "/",
-        get: Sinon.stub().withArgs("multer").returns({options: "options"}),
+        get: Sinon.stub().withArgs("multer").returns({options: "options"})
       };
       this.middleware = new MultipartFileMiddleware(this.settings);
       this.expressMiddleware = Sinon.stub();
       this.multerApiStub = {
-        fields: Sinon.stub().returns(this.expressMiddleware),
+        fields: Sinon.stub().returns(this.expressMiddleware)
       };
 
       this.middleware.multer = Sinon.stub().returns(this.multerApiStub);
@@ -114,9 +114,9 @@ describe("MultipartFileMiddleware", () => {
           get() {
             return {
               options: {options: "options"},
-              fields: [{name: "test"}, {name: "test1", maxCount: 4}],
+              fields: [{name: "test"}, {name: "test1", maxCount: 4}]
             };
-          },
+          }
         },
         {request: "request"},
         {response: "response"}
@@ -140,12 +140,12 @@ describe("MultipartFileMiddleware", () => {
       expect(this.multerApiStub.fields).to.have.been.calledWithExactly([
         {
           maxCount: undefined,
-          name: "test",
+          name: "test"
         },
         {
           maxCount: 4,
-          name: "test1",
-        },
+          name: "test1"
+        }
       ]);
     });
 

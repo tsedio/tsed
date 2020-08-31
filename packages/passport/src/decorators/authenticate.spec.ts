@@ -14,10 +14,10 @@ describe("@Authenticate", () => {
     expect(store.get(PassportMiddleware)).to.deep.equal({
       method: "authenticate",
       options: {
-        security: "security",
+        security: "security"
       },
       protocol: "local",
-      originalUrl: true,
+      originalUrl: true
     });
   });
   it("should store data (without originalUrl)", () => {
@@ -32,10 +32,10 @@ describe("@Authenticate", () => {
       method: "authenticate",
       options: {
         security: "security",
-        originalUrl: false,
+        originalUrl: false
       },
       protocol: "local",
-      originalUrl: false,
+      originalUrl: false
     });
   });
 });

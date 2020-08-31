@@ -75,14 +75,14 @@ export function Namespace(target: any, propertyKey?: string, index?: number): an
 
     return (target: any, propertyKey: string) => {
       Store.from(target).merge("socketIO", {
-        injectNamespaces: [{propertyKey, nsp}],
+        injectNamespaces: [{propertyKey, nsp}]
       });
     };
   }
 
   if (index === undefined) {
     Store.from(target).merge("socketIO", {
-      injectNamespaces: [{propertyKey}],
+      injectNamespaces: [{propertyKey}]
     });
 
     return;

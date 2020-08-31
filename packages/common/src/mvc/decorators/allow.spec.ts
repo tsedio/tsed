@@ -60,12 +60,12 @@ describe("Allow", () => {
       expect(metadata.schema.toJSON()).to.deep.eq({
         oneOf: [
           {
-            type: "null",
+            type: "null"
           },
           {
-            $ref: "#/definitions/Children",
-          },
-        ],
+            $ref: "#/definitions/Children"
+          }
+        ]
       });
     });
   });

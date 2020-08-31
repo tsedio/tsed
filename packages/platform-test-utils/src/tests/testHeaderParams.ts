@@ -24,7 +24,7 @@ export class HeaderParamsCtrl {
   public scenario1(@Req() request: Req, @HeaderParams("authorization") auth: string): any {
     return {
       user: request.user,
-      token: auth,
+      token: auth
     };
   }
 
@@ -40,8 +40,8 @@ export function testHeaderParams(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [HeaderParamsCtrl],
-      },
+        "/rest": [HeaderParamsCtrl]
+      }
     })
   );
   before(() => {
@@ -54,7 +54,7 @@ export function testHeaderParams(options: PlatformTestOptions) {
       const {body}: any = await request
         .get("/rest/header-params/scenario-1")
         .set({
-          Authorization: "tokenauth",
+          Authorization: "tokenauth"
         })
         .expect(200);
 
@@ -68,12 +68,12 @@ export function testHeaderParams(options: PlatformTestOptions) {
       const response = await request
         .post("/rest/header-params/scenario-2")
         .set({
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         })
         .expect(200);
 
       expect(response.body).to.deep.equal({
-        contentType: "application/json",
+        contentType: "application/json"
       });
     });
   });

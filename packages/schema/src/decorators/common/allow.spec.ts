@@ -20,11 +20,11 @@ describe("@Allow", () => {
       properties: {
         allow: {
           type: "string",
-          minLength: 1,
-        },
+          minLength: 1
+        }
       },
       required: ["allow"],
-      type: "object",
+      type: "object"
     });
 
     const validate = new Ajv().compile(classSchema);
@@ -45,11 +45,11 @@ describe("@Allow", () => {
     expect(classSchema).to.deep.equal({
       properties: {
         allow: {
-          type: "string",
-        },
+          type: "string"
+        }
       },
       required: ["allow"],
-      type: "object",
+      type: "object"
     });
 
     const validate = new Ajv().compile(classSchema);
@@ -70,11 +70,11 @@ describe("@Allow", () => {
       properties: {
         allow: {
           minLength: 1,
-          type: ["string", "null"],
-        },
+          type: ["string", "null"]
+        }
       },
       required: ["allow"],
-      type: "object",
+      type: "object"
     });
 
     const validate = new Ajv().compile(classSchema);
@@ -101,26 +101,26 @@ describe("@Allow", () => {
         NestedModel: {
           properties: {
             prop: {
-              type: "string",
-            },
+              type: "string"
+            }
           },
-          type: "object",
-        },
+          type: "object"
+        }
       },
       properties: {
         allow: {
           oneOf: [
             {
-              type: "null",
+              type: "null"
             },
             {
-              $ref: "#/definitions/NestedModel",
-            },
-          ],
-        },
+              $ref: "#/definitions/NestedModel"
+            }
+          ]
+        }
       },
       required: ["allow"],
-      type: "object",
+      type: "object"
     });
 
     const validate = new Ajv().compile(classSchema);

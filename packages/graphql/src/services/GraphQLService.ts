@@ -36,7 +36,7 @@ export class GraphQLService {
       dataSources,
       serverConfig = {},
       serverRegistration = {},
-      buildSchemaOptions = {} as any,
+      buildSchemaOptions = {} as any
     } = settings;
 
     if (this.has(id)) {
@@ -58,13 +58,13 @@ export class GraphQLService {
       const schema = await this.createSchema({
         container: this.injectorService,
         ...buildSchemaOptions,
-        resolvers: [...this.getResolvers(), ...resolvers, ...(buildSchemaOptions.resolvers || [])],
+        resolvers: [...this.getResolvers(), ...resolvers, ...(buildSchemaOptions.resolvers || [])]
       });
 
       const defaultServerConfig = {
         ...serverConfig,
         dataSources: this.createDataSources(dataSources, serverConfig.dataSources),
-        schema,
+        schema
       };
 
       const server = customServer ? customServer(defaultServerConfig) : new ApolloServer(defaultServerConfig);
@@ -78,7 +78,7 @@ export class GraphQLService {
 
       this._servers.set(id || "default", {
         instance: server,
-        schema,
+        schema
       });
 
       return server;
@@ -158,7 +158,7 @@ export class GraphQLService {
       return {
         ...sources,
         ...(dataSources ? dataSources() : {}),
-        ...(serverConfigSources ? serverConfigSources() : {}),
+        ...(serverConfigSources ? serverConfigSources() : {})
       };
     };
   }

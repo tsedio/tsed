@@ -22,8 +22,8 @@ describe("buildMongooseSchema", () => {
       expect(result.schema).to.deep.eq({
         test: {
           required: false,
-          type: String,
-        },
+          type: String
+        }
       });
 
       expect(result.virtuals.size).to.eq(0);
@@ -41,7 +41,7 @@ describe("buildMongooseSchema", () => {
       propertyMetadata.store.set(MONGOOSE_SCHEMA, {
         ref: "ref",
         localField: "localField",
-        foreignField: "foreignField",
+        foreignField: "foreignField"
       });
 
       PropertyMetadata.get(Test, "_id");
@@ -56,7 +56,7 @@ describe("buildMongooseSchema", () => {
         foreignField: "foreignField",
         justOne: true,
         localField: "localField",
-        ref: "ref",
+        ref: "ref"
       });
     });
   });

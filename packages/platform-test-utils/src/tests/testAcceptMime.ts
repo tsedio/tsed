@@ -9,7 +9,7 @@ class TestAcceptMimeCtrl {
   @AcceptMime("application/json")
   scenario1(@HeaderParams("Accept") accept: string) {
     return {
-      accept,
+      accept
     };
   }
 }
@@ -21,8 +21,8 @@ export function testAcceptMime(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [TestAcceptMimeCtrl],
-      },
+        "/rest": [TestAcceptMimeCtrl]
+      }
     })
   );
   before(() => {
@@ -34,19 +34,19 @@ export function testAcceptMime(options: PlatformTestOptions) {
       const response = await request
         .post("/rest/accept-mime/scenario-1")
         .set({
-          Accept: "application/json",
+          Accept: "application/json"
         })
         .expect(200);
 
       expect(response.body).to.deep.equal({
-        accept: "application/json",
+        accept: "application/json"
       });
     });
     it("should return a 406 response when Accept header doesn't match with @AcceptMime(\"application/json\")", async () => {
       const response = await request
         .post("/rest/accept-mime/scenario-1")
         .set({
-          Accept: "application/xml",
+          Accept: "application/xml"
         })
         .expect(406);
 

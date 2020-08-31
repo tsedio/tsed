@@ -17,10 +17,10 @@ describe("@ExclusiveMinimum", () => {
       properties: {
         num: {
           exclusiveMinimum: 0,
-          type: "number",
-        },
+          type: "number"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

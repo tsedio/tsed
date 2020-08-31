@@ -25,32 +25,32 @@ describe("ServeStaticService", () => {
       it("should call the express use method", async () => {
         // GIVEN
         const request = {
-          test: "request",
+          test: "request"
         };
         const response = {
-          headersSent: false,
+          headersSent: false
         };
         const nextSpy = sandbox.spy();
         const middlewareServeStatic = sandbox.stub();
         const platformApp = {
-          use: sandbox.stub(),
+          use: sandbox.stub()
         };
 
         const serverSettingService = {
           statics: {
-            "/path": "/views",
-          },
+            "/path": "/views"
+          }
         };
 
         const serveStaticService = await PlatformTest.invoke(ServeStaticService, [
           {
             token: PlatformApplication,
-            use: platformApp,
+            use: platformApp
           },
           {
             token: ServerSettingsService,
-            use: serverSettingService,
-          },
+            use: serverSettingService
+          }
         ]);
 
         // @ts-ignore
@@ -73,32 +73,32 @@ describe("ServeStaticService", () => {
       it("should call the express use method", async () => {
         // GIVEN
         const request = {
-          test: "request",
+          test: "request"
         };
         const response = {
-          headersSent: true,
+          headersSent: true
         };
         const nextSpy = sandbox.spy();
         const middlewareServeStatic = sandbox.stub();
         const platformApp = {
-          use: sandbox.stub(),
+          use: sandbox.stub()
         };
 
         const serverSettingService = {
           statics: {
-            "/path": "/views",
-          },
+            "/path": "/views"
+          }
         };
 
         const serveStaticService = await PlatformTest.invoke(ServeStaticService, [
           {
             token: PlatformApplication,
-            use: platformApp,
+            use: platformApp
           },
           {
             token: ServerSettingsService,
-            use: serverSettingService,
-          },
+            use: serverSettingService
+          }
         ]);
 
         // @ts-ignore

@@ -34,7 +34,7 @@ export class JsonFoo {
   serialize() {
     return {
       test: this.test,
-      foo: this.foo,
+      foo: this.foo
     };
   }
 }

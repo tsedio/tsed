@@ -16,8 +16,8 @@ export function Intercept<T extends IInterceptor>(interceptor: Type<T>, options?
         bindingType: InjectablePropertyType.INTERCEPTOR,
         propertyKey,
         useType: interceptor,
-        options,
-      },
+        options
+      }
     } as IInjectableProperties);
 
     return descriptor;

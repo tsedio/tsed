@@ -6,7 +6,7 @@ describe("Schema()", () => {
   it("should store data", () => {
     class Test {
       @Schema({
-        pattern: "a|b",
+        pattern: "a|b"
       })
       test: string;
     }
@@ -15,10 +15,10 @@ describe("Schema()", () => {
       properties: {
         test: {
           pattern: "a|b",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

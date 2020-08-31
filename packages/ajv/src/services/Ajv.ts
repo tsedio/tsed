@@ -16,7 +16,7 @@ registerProvider({
     return new Ajv({
       verbose: false,
       ...props,
-      ...options,
+      ...options
     });
-  },
+  }
 });

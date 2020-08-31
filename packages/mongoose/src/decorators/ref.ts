@@ -39,14 +39,14 @@ export function Ref(model: string | any, type: MongooseSchemaTypes = MongooseSch
     Schema({
       type: String,
       example: "5ce7ad3028890bd71749d477",
-      description: "Mongoose Ref ObjectId",
+      description: "Mongoose Ref ObjectId"
     }),
     StoreFn((store: Store) => {
       delete store.get("schema").$ref;
     }),
     StoreMerge(MONGOOSE_SCHEMA, {
       type: MongooseSchema.Types[type],
-      ref: typeof model === "string" ? model : Store.from(model).get(MONGOOSE_MODEL_NAME),
+      ref: typeof model === "string" ? model : Store.from(model).get(MONGOOSE_MODEL_NAME)
     })
   );
 }

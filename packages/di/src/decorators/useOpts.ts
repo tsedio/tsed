@@ -52,8 +52,8 @@ export function UseOpts(options: {[key: string]: any}): Function {
       case DecoratorTypes.PROP:
         Store.from(target).merge(INJECTABLE_PROP, {
           [propertyKey as string]: {
-            options,
-          },
+            options
+          }
         });
         break;
 

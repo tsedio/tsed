@@ -26,7 +26,7 @@ describe("@UseParam", () => {
             useConverter: true,
             useValidation: true,
             paramType: ParamTypes.BODY,
-            useType: Test,
+            useType: Test
           })
           body: Test
         ) {}
@@ -47,7 +47,7 @@ describe("@UseParam", () => {
             useConverter: true,
             useValidation: true,
             paramType: ParamTypes.BODY,
-            useType: Test,
+            useType: Test
           })
           body: Test
         ) {}
@@ -74,7 +74,7 @@ describe("@UseParam", () => {
             useConverter: true,
             useValidation: true,
             paramType: ParamTypes.BODY,
-            useType: Test,
+            useType: Test
           })
           body: Test
         ) {}

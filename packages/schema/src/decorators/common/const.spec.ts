@@ -18,10 +18,10 @@ describe("@Const", () => {
       properties: {
         num: {
           const: "10",
-          type: "string",
-        },
+          type: "string"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

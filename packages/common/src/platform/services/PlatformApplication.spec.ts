@@ -16,19 +16,19 @@ function createDriver() {
     delete: sandbox.stub(),
     patch: sandbox.stub(),
     head: sandbox.stub(),
-    options: sandbox.stub(),
+    options: sandbox.stub()
   };
 }
 
 async function getPlatformApp() {
   const platformHandler = {
-    createHandler: sandbox.stub().callsFake((o) => o),
+    createHandler: sandbox.stub().callsFake((o) => o)
   };
   const platformApp = await PlatformTest.invoke<PlatformApplication>(PlatformApplication, [
     {
       token: PlatformHandler,
-      use: platformHandler,
-    },
+      use: platformHandler
+    }
   ]);
 
   platformApp.raw = createDriver() as any;

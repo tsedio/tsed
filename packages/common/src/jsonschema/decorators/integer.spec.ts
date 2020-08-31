@@ -13,10 +13,10 @@ describe("Integer", () => {
       definitions: {},
       properties: {
         prop: {
-          type: "integer",
-        },
+          type: "integer"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
 });

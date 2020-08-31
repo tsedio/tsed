@@ -15,10 +15,10 @@ export class UnknownPropertyError extends ValidationError {
         message: `should not have property '${String(propertyName)}'`,
         modelName: nameOf(target),
         params: {
-          missingProperty: propertyName,
+          missingProperty: propertyName
         },
-        schemaPath: "#/unknown",
-      },
+        schemaPath: "#/unknown"
+      }
     ]);
   }
 }

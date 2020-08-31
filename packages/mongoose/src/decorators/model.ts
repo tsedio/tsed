@@ -57,7 +57,7 @@ export function Model(options: MongooseModelOptions = {}) {
         applySchemaOptions(schema, schemaOptions(target));
 
         return createModel(target, schema, options.name, options.collection, options.skipInit, connections.get(options.connection));
-      },
+      }
     });
   };
 }

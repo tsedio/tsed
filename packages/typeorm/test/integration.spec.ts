@@ -17,16 +17,16 @@ describe("TypeORM integration", () => {
           type: "mongodb",
           url,
           entities: [User],
-          useUnifiedTopology: true,
+          useUnifiedTopology: true
         },
         {
           name: "db2",
           type: "mongodb",
           url,
           entities: [User],
-          useUnifiedTopology: true,
-        },
-      ],
+          useUnifiedTopology: true
+        }
+      ]
     });
 
     await bstrp();

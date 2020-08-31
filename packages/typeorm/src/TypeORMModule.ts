@@ -30,8 +30,8 @@ registerProvider({
         try {
           return getCustomRepository(type, options.connection || "default");
         } catch (er) {}
-      },
-    },
+      }
+    }
   ],
   injectable: false,
   async useAsyncFactory(configuration: Configuration, typeORMService: TypeORMService, injector: InjectorService) {
@@ -39,7 +39,7 @@ registerProvider({
       {
         get<T>(type: ContainedType<T>): T {
           return injector.hasProvider(type) ? injector.get<T>(type as any)! : undefined!;
-        },
+        }
       },
       {fallback: true}
     );
@@ -48,5 +48,5 @@ registerProvider({
     await typeORMModule.init();
 
     return typeORMModule;
-  },
+  }
 });

@@ -44,7 +44,7 @@ export class ParamRegistry extends ParamMetadata {
       param.expression && ParseExpressionPipe,
       useValidation && (param.type || param.collectionType) && ValidationPipe,
       useConverter && DeserializerPipe,
-      ...param.pipes,
+      ...param.pipes
     ].filter(Boolean) as Type<IPipe>[];
 
     return param;

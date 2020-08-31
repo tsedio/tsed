@@ -28,7 +28,7 @@ class ErrorsController {
   @Returns(500, {type: TestModel500})
   public async exampleControllerMethod() {
     return {
-      exampleItem: 1,
+      exampleItem: 1
     };
   }
 }
@@ -38,8 +38,8 @@ describe("ErrorsParams", () => {
   beforeEach(
     PlatformTest.bootstrap(Server, {
       mount: {
-        "/rest": [ErrorsController],
-      },
+        "/rest": [ErrorsController]
+      }
     })
   );
   beforeEach(() => {
@@ -55,36 +55,36 @@ describe("ErrorsParams", () => {
         TestModel200: {
           properties: {
             exampleItem: {
-              type: "number",
-            },
+              type: "number"
+            }
           },
           required: ["exampleItem"],
-          type: "object",
+          type: "object"
         },
         TestModel400: {
           properties: {
             error: {
-              type: "boolean",
-            },
+              type: "boolean"
+            }
           },
           required: ["error"],
-          type: "object",
+          type: "object"
         },
         TestModel500: {
           properties: {
             error: {
-              type: "boolean",
-            },
+              type: "boolean"
+            }
           },
           required: ["error"],
-          type: "object",
-        },
+          type: "object"
+        }
       },
       info: {
         description: "",
         termsOfService: "",
         title: "Api documentation",
-        version: "1.0.0",
+        version: "1.0.0"
       },
       paths: {
         "/rest/scenarios": {
@@ -94,34 +94,34 @@ describe("ErrorsParams", () => {
               "200": {
                 description: "Success",
                 schema: {
-                  $ref: "#/definitions/TestModel200",
-                },
+                  $ref: "#/definitions/TestModel200"
+                }
               },
               "400": {
                 description: "Bad Request",
                 schema: {
-                  $ref: "#/definitions/TestModel400",
-                },
+                  $ref: "#/definitions/TestModel400"
+                }
               },
               "500": {
                 description: "Internal Server Error",
                 schema: {
-                  $ref: "#/definitions/TestModel500",
-                },
-              },
+                  $ref: "#/definitions/TestModel500"
+                }
+              }
             },
-            tags: ["ErrorsController"],
-          },
-        },
+            tags: ["ErrorsController"]
+          }
+        }
       },
       produces: ["application/json"],
       securityDefinitions: {},
       swagger: "2.0",
       tags: [
         {
-          name: "ErrorsController",
-        },
-      ],
+          name: "ErrorsController"
+        }
+      ]
     });
 
     await request.get("/rest/scenarios/4?name=name&duration=1&locale=fr-FR");

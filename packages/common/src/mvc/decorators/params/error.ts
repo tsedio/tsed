@@ -11,6 +11,6 @@ import {UseParam} from "./useParam";
 export function Err(): Function {
   return UseParam(ParamTypes.ERR, {
     useValidation: false,
-    useConverter: false,
+    useConverter: false
   });
 }

@@ -63,7 +63,7 @@ export class SocketHandlersBuilder {
 
     handlers[hook] = Object.assign(handlers[hook] || {}, {
       eventName,
-      methodClassName: hook,
+      methodClassName: hook
     });
 
     this.socketProviderMetadata.handlers = handlers;
@@ -146,7 +146,7 @@ export class SocketHandlersBuilder {
       args,
       socket,
       nsp,
-      eventName: handlerMetadata.eventName,
+      eventName: handlerMetadata.eventName
     };
 
     promise = promise.then(() => this.deserialize(handlerMetadata, scope));

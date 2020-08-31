@@ -22,7 +22,7 @@ export class JsonMapperContext implements JsonMapperCtx {
   next(data: any) {
     return this._next(data, {
       ...this.options,
-      type: this.type,
+      type: this.type
     });
   }
 }

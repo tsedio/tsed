@@ -15,10 +15,10 @@ export class RequiredPropertyError extends ValidationError {
         message: `should have required property '${String(propertyName)}'`,
         modelName: nameOf(target),
         params: {
-          missingProperty: propertyName,
+          missingProperty: propertyName
         },
-        schemaPath: "#/required",
-      },
+        schemaPath: "#/required"
+      }
     ]);
   }
 }

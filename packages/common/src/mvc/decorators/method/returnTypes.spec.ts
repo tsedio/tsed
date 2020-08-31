@@ -15,9 +15,9 @@ describe("ReturnType", () => {
         headers: {
           // @ts-ignore
           "x-header": {
-            value: "test",
-          },
-        },
+            value: "test"
+          }
+        }
       })
       get() {}
     }
@@ -33,9 +33,9 @@ describe("ReturnType", () => {
       description: "",
       headers: {
         "x-header": {
-          value: "test",
-        },
-      },
+          value: "test"
+        }
+      }
     });
   });
   it("should store metadata (when code is not given)", () => {
@@ -50,9 +50,9 @@ describe("ReturnType", () => {
         headers: {
           // @ts-ignore
           "x-header": {
-            value: "test",
-          },
-        },
+            value: "test"
+          }
+        }
       })
       get() {}
     }
@@ -67,9 +67,9 @@ describe("ReturnType", () => {
       description: "",
       headers: {
         "x-header": {
-          value: "test",
-        },
-      },
+          value: "test"
+        }
+      }
     });
   });
 });

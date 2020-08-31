@@ -10,7 +10,7 @@ export class CustomBadRequest extends BadRequest implements ResponseErrorObject 
     super(message);
     this.errors = ["test"];
     this.headers = {
-      "X-HEADER-ERROR": "deny",
+      "X-HEADER-ERROR": "deny"
     };
   }
 }

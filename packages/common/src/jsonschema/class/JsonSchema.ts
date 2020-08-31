@@ -126,7 +126,7 @@ export class JsonSchema implements JSONSchema6 {
         schema.mapValue(propertyKey, value);
 
         return true;
-      },
+      }
     } as any);
   }
 

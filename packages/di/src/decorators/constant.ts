@@ -45,8 +45,8 @@ export function Constant(expression: string, defaultValue?: any): any {
         bindingType: InjectablePropertyType.CONSTANT,
         propertyKey,
         expression,
-        defaultValue,
-      },
+        defaultValue
+      }
     } as IInjectableProperties);
   };
 }

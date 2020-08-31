@@ -40,14 +40,14 @@ export function DynamicRef(refPath: string) {
     Schema({
       type: String,
       example: "5ce7ad3028890bd71749d477",
-      description: "Mongoose Ref ObjectId",
+      description: "Mongoose Ref ObjectId"
     }),
     StoreFn((store: Store) => {
       delete store.get("schema").$ref;
     }),
     StoreMerge(MONGOOSE_SCHEMA, {
       type: MongooseSchema.Types.ObjectId,
-      refPath,
+      refPath
     })
   );
 }

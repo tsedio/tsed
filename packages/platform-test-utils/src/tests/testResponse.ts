@@ -41,7 +41,7 @@ class TestResponseParamsCtrl {
     response.status(201);
 
     return {
-      id: 1,
+      id: 1
     };
   }
 
@@ -67,7 +67,7 @@ class TestResponseParamsCtrl {
     });
 
     return {
-      id: 1,
+      id: 1
     };
   }
 
@@ -125,8 +125,8 @@ export function testResponse(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [TestResponseParamsCtrl],
-      },
+        "/rest": [TestResponseParamsCtrl]
+      }
     })
   );
   before(() => {

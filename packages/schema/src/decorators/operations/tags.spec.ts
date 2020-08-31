@@ -20,13 +20,13 @@ describe("Tags", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["api"],
-          },
-        },
-      },
+            tags: ["api"]
+          }
+        }
+      }
     });
   });
   it("should store metadata (method - map)", () => {
@@ -41,8 +41,8 @@ describe("Tags", () => {
       tags: [
         {
           name: "api",
-          description: "description",
-        },
+          description: "description"
+        }
       ],
       paths: {
         "/": {
@@ -51,13 +51,13 @@ describe("Tags", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["api"],
-          },
-        },
-      },
+            tags: ["api"]
+          }
+        }
+      }
     });
   });
   it("should store metadata (class)", () => {
@@ -81,23 +81,23 @@ describe("Tags", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["api"],
+            tags: ["api"]
           },
           post: {
             operationId: "myControllerPost",
             parameters: [],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["allow", "api"],
-          },
-        },
-      },
+            tags: ["allow", "api"]
+          }
+        }
+      }
     });
   });
   it("should throw error for unsupported usage", () => {

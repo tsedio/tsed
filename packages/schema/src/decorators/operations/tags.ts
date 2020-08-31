@@ -6,7 +6,7 @@ function mapTags(tags: (string | JsonTag)[]) {
   return tags.map((tag) => {
     if (typeof tag === "string") {
       return {
-        name: tag,
+        name: tag
       };
     }
 

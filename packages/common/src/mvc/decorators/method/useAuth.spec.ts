@@ -15,14 +15,14 @@ describe("UseAuth()", () => {
       @UseAuth(Guard, {
         security: [
           {
-            auth: ["email"],
-          },
+            auth: ["email"]
+          }
         ],
         responses: {
           "200": {
-            description: "Success",
-          },
-        },
+            description: "Success"
+          }
+        }
       })
       class Test {
         test() {}
@@ -38,14 +38,14 @@ describe("UseAuth()", () => {
       expect(store.get("operation")).to.deep.eq({
         security: [
           {
-            auth: ["email"],
-          },
-        ],
+            auth: ["email"]
+          }
+        ]
       });
       expect(store.get("responses")).to.deep.eq({
         "200": {
-          description: "Success",
-        },
+          description: "Success"
+        }
       });
       store.set("operation", {});
       store.set("responses", {});
@@ -57,14 +57,14 @@ describe("UseAuth()", () => {
       @UseAuth(Guard, {
         security: [
           {
-            auth: ["email"],
-          },
+            auth: ["email"]
+          }
         ],
         responses: {
           "200": {
-            description: "Success",
-          },
-        },
+            description: "Success"
+          }
+        }
       })
       class Test {
         test() {}
@@ -81,14 +81,14 @@ describe("UseAuth()", () => {
       expect(store.get("operation")).to.deep.eq({
         security: [
           {
-            auth: ["email"],
-          },
-        ],
+            auth: ["email"]
+          }
+        ]
       });
       expect(store.get("responses")).to.deep.eq({
         "200": {
-          description: "Success",
-        },
+          description: "Success"
+        }
       });
 
       store.set("operation", {});

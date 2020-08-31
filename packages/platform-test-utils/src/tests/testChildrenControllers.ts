@@ -13,7 +13,7 @@ class TestChildController {
 
 @Controller({
   path: "/controllers",
-  children: [TestChildController],
+  children: [TestChildController]
 })
 class TestController {
   @Get("/scenario-1")
@@ -28,8 +28,8 @@ export function testChildrenControllers(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [TestController],
-      },
+        "/rest": [TestController]
+      }
     })
   );
   beforeEach(() => {

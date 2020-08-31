@@ -13,8 +13,8 @@ describe("Consumes", () => {
       definitions: {},
       tags: [
         {
-          name: "MyController",
-        },
+          name: "MyController"
+        }
       ],
       paths: {
         "/": {
@@ -24,13 +24,13 @@ describe("Consumes", () => {
             consumes: ["text/json"],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["MyController"],
-          },
-        },
-      },
+            tags: ["MyController"]
+          }
+        }
+      }
     });
   });
   it("should store metadata (openspec)", () => {
@@ -42,12 +42,12 @@ describe("Consumes", () => {
 
     expect(getSpec(MyController, {spec: SpecTypes.OPENAPI})).to.deep.eq({
       components: {
-        schemas: {},
+        schemas: {}
       },
       tags: [
         {
-          name: "MyController",
-        },
+          name: "MyController"
+        }
       ],
       paths: {
         "/": {
@@ -56,13 +56,13 @@ describe("Consumes", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["MyController"],
-          },
-        },
-      },
+            tags: ["MyController"]
+          }
+        }
+      }
     });
   });
   it("should store metadata (class)", () => {
@@ -79,8 +79,8 @@ describe("Consumes", () => {
       definitions: {},
       tags: [
         {
-          name: "MyController",
-        },
+          name: "MyController"
+        }
       ],
       paths: {
         "/": {
@@ -90,10 +90,10 @@ describe("Consumes", () => {
             consumes: ["text/json"],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["MyController"],
+            tags: ["MyController"]
           },
           post: {
             operationId: "myControllerPost",
@@ -101,13 +101,13 @@ describe("Consumes", () => {
             consumes: ["text/json"],
             responses: {
               "200": {
-                description: "Success",
-              },
+                description: "Success"
+              }
             },
-            tags: ["MyController"],
-          },
-        },
-      },
+            tags: ["MyController"]
+          }
+        }
+      }
     });
   });
   it("should throw error for unsupported usage", () => {

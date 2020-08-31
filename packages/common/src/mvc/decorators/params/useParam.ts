@@ -18,7 +18,7 @@ function mapPipes(options: IParamOptions<any> = {}) {
     options.useType && UseType(options.useType),
     options.expression && UseParamExpression(options.expression),
     options.useValidation && UseValidation(),
-    options.useConverter && UseDeserialization(),
+    options.useConverter && UseDeserialization()
   ];
 }
 

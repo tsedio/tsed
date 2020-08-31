@@ -16,11 +16,11 @@ describe("@Required", () => {
     expect(classSchema.schema.toJSON()).to.deep.equal({
       properties: {
         num: {
-          type: "number",
-        },
+          type: "number"
+        }
       },
       required: ["num"],
-      type: "object",
+      type: "object"
     });
   });
   it("should declare required field (false)", () => {
@@ -36,10 +36,10 @@ describe("@Required", () => {
     expect(classSchema.schema.toJSON()).to.deep.equal({
       properties: {
         num: {
-          type: "number",
-        },
+          type: "number"
+        }
       },
-      type: "object",
+      type: "object"
     });
   });
   it("should throw error when the decorator isn't used with a supported decorator type", () => {

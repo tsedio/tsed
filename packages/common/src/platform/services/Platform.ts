@@ -13,7 +13,7 @@ import {PlatformRouter} from "./PlatformRouter";
  * @platform
  */
 @Injectable({
-  scope: ProviderScope.SINGLETON,
+  scope: ProviderScope.SINGLETON
 })
 export class Platform {
   private _routes: IRouteController[] = [];
@@ -82,7 +82,7 @@ export class Platform {
         if (!provider.hasParent()) {
           this._routes.push({
             route,
-            provider,
+            provider
           });
           this.app.use(route, provider.router.callback());
         }
@@ -133,7 +133,7 @@ export class Platform {
             url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/"),
             className: targetName,
             methodClassName: String(propertyKey),
-            parameters: params,
+            parameters: params
           });
         }
       });

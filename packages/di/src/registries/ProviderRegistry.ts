@@ -28,7 +28,7 @@ GlobalProviders.createRegistry(ProviderType.INTERCEPTOR, Provider);
  *
  */
 GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider, {
-  injectable: false,
+  injectable: false
 });
 
 /**
@@ -109,7 +109,7 @@ export function registerProvider(provider: Partial<IProvider<any>>): void {
 export const registerFactory = (provider: any | IProvider<any>, instance?: any): void => {
   if (!provider.provide) {
     provider = {
-      provide: provider,
+      provide: provider
     };
   }
 
@@ -118,7 +118,7 @@ export const registerFactory = (provider: any | IProvider<any>, instance?: any):
       scope: ProviderScope.SINGLETON,
       useFactory() {
         return instance;
-      },
+      }
     },
     provider,
     {type: ProviderType.FACTORY}
@@ -150,14 +150,14 @@ export const registerFactory = (provider: any | IProvider<any>, instance?: any):
 export const registerValue = (provider: any | IProvider<any>, value?: any): void => {
   if (!provider.provide) {
     provider = {
-      provide: provider,
+      provide: provider
     };
   }
 
   provider = Object.assign(
     {
       scope: ProviderScope.SINGLETON,
-      useValue: value,
+      useValue: value
     },
     provider,
     {type: ProviderType.VALUE}

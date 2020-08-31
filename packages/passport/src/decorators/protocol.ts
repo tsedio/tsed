@@ -16,9 +16,9 @@ export function Protocol<T = any>(options: ProtocolOptionsDecorator<T>) {
     Configuration({
       passport: {
         protocols: {
-          [options.name]: options,
-        },
-      },
+          [options.name]: options
+        }
+      }
     })
   );
 }

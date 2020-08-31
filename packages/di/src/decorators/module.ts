@@ -49,7 +49,7 @@ export function Module(options: Partial<IModuleOptions> = {}) {
       imports,
       deps,
       injectable: false,
-      resolvers,
+      resolvers
     })
   );
 }

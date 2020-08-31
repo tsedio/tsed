@@ -17,11 +17,11 @@ describe("@SocketErr", () => {
           parameters: {
             "0": {
               filter: "error",
-              mapIndex: undefined,
-            },
-          },
-        },
-      },
+              mapIndex: undefined
+            }
+          }
+        }
+      }
     });
   });
 });

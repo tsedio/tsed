@@ -34,7 +34,7 @@ export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonS
     ...options,
     root: true,
     spec: options.spec || SpecTypes.JSON,
-    schemas: {},
+    schemas: {}
   };
 
   const entity = model instanceof JsonEntityStore ? model : JsonEntityStore.from(model);

@@ -23,7 +23,7 @@ describe("@Ref()", () => {
 
     expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
       type: Schema.Types.ObjectId,
-      refPath: "RefTest",
+      refPath: "RefTest"
     });
   });
 });

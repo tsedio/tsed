@@ -4,7 +4,7 @@ function getVariable(subpath: string) {
 
   return {
     name,
-    postfix: splited.length ? `.${splited.join(".")}` : "",
+    postfix: splited.length ? `.${splited.join(".")}` : ""
   };
 }
 
@@ -37,7 +37,7 @@ export function getJsonPathParameters(base: string, path: string | RegExp | (str
 
           paths.push({
             path: current,
-            parameters: [].concat(params as any),
+            parameters: [].concat(params as any)
           });
         }
 
@@ -48,13 +48,13 @@ export function getJsonPathParameters(base: string, path: string | RegExp | (str
           in: "path",
           name,
           type: "string",
-          required: true,
+          required: true
         });
 
         if (optional && isOptional) {
           paths.push({
             path: current,
-            parameters: [].concat(params as any),
+            parameters: [].concat(params as any)
           });
         }
       } else {
@@ -67,7 +67,7 @@ export function getJsonPathParameters(base: string, path: string | RegExp | (str
     : [
         {
           path: current,
-          parameters: [].concat(params as any),
-        },
+          parameters: [].concat(params as any)
+        }
       ];
 }

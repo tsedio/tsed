@@ -11,9 +11,9 @@ describe("parseSwaggerPath()", () => {
             in: "path",
             name: "path1",
             required: true,
-            type: "string",
-          },
-        ],
+            type: "string"
+          }
+        ]
       },
       {
         path: "/rest/get/{path1}/{path2}",
@@ -22,16 +22,16 @@ describe("parseSwaggerPath()", () => {
             in: "path",
             name: "path1",
             required: true,
-            type: "string",
+            type: "string"
           },
           {
             in: "path",
             name: "path2",
             required: true,
-            type: "string",
-          },
-        ],
-      },
+            type: "string"
+          }
+        ]
+      }
     ]);
   });
 
@@ -44,16 +44,16 @@ describe("parseSwaggerPath()", () => {
             in: "path",
             name: "path1",
             required: true,
-            type: "string",
+            type: "string"
           },
           {
             in: "path",
             name: "path2",
             required: true,
-            type: "string",
-          },
-        ],
-      },
+            type: "string"
+          }
+        ]
+      }
     ]);
   });
 
@@ -61,8 +61,8 @@ describe("parseSwaggerPath()", () => {
     expect(parseSwaggerPath("/rest/", "/get/path1/path2")).to.deep.eq([
       {
         path: "/rest/get/path1/path2",
-        pathParams: [],
-      },
+        pathParams: []
+      }
     ]);
   });
 
@@ -70,8 +70,8 @@ describe("parseSwaggerPath()", () => {
     expect(parseSwaggerPath("/rest/calendar/", "/")).to.deep.eq([
       {
         path: "/rest/calendar",
-        pathParams: [],
-      },
+        pathParams: []
+      }
     ]);
   });
   it("should return params and path /file/:filename.json", () => {
@@ -83,10 +83,10 @@ describe("parseSwaggerPath()", () => {
             in: "path",
             name: "filename",
             required: true,
-            type: "string",
-          },
-        ],
-      },
+            type: "string"
+          }
+        ]
+      }
     ]);
   });
 
@@ -99,10 +99,10 @@ describe("parseSwaggerPath()", () => {
             in: "path",
             name: "category",
             required: true,
-            type: "string",
-          },
-        ],
-      },
+            type: "string"
+          }
+        ]
+      }
     ]);
   });
 });

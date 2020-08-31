@@ -24,10 +24,10 @@ function applyNullRule(store: JsonEntityStore, values: any[]) {
         properties[store.propertyKey as any] = {
           oneOf: [
             {
-              type: "null",
+              type: "null"
             },
-            propSchema,
-          ],
+            propSchema
+          ]
         };
       }
     } else {

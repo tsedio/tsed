@@ -13,7 +13,7 @@ describe("@AdditionalProperties", () => {
 
     expect(schema).to.deep.equal({
       additionalProperties: true,
-      definitions: {},
+      definitions: {}
     });
   });
 });

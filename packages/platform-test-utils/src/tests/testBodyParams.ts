@@ -34,8 +34,8 @@ export function testBodyParams(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [TestBodyParamsCtrl],
-      },
+        "/rest": [TestBodyParamsCtrl]
+      }
     })
   );
   before(() => {
@@ -48,18 +48,18 @@ export function testBodyParams(options: PlatformTestOptions) {
       const response = await request
         .post("/rest/body-params/scenario-1")
         .set({
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         })
         .send({
-          id: "id",
+          id: "id"
         })
         .expect(201);
 
       expect(response.body).to.deep.equal({
         contentType: "application/json",
         payload: {
-          id: "id",
-        },
+          id: "id"
+        }
       });
     });
   });
@@ -68,7 +68,7 @@ export function testBodyParams(options: PlatformTestOptions) {
       const response = await request
         .post("/rest/body-params/scenario-2")
         .send({
-          test: ["value"],
+          test: ["value"]
         })
         .expect(200);
 

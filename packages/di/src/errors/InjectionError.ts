@@ -17,7 +17,7 @@ export class InjectionError extends Error {
       if (isString(origin)) {
         this.origin = {
           message: origin,
-          stack: this.stack,
+          stack: this.stack
         };
       } else {
         if (origin.tokens) {

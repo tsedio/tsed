@@ -37,8 +37,8 @@ export function testRouting(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [TestRoutingController],
-      },
+        "/rest": [TestRoutingController]
+      }
     })
   );
   before(() => {

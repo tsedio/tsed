@@ -43,7 +43,7 @@ export class SwaggerService {
       {
         tags,
         paths,
-        definitions,
+        definitions
       },
       getReducers()
     );
@@ -59,7 +59,7 @@ export class SwaggerService {
       conf.spec ||
       ({
         info: {},
-        securityDefinitions: {},
+        securityDefinitions: {}
       } as any);
 
     const specPath = conf.specPath;
@@ -84,11 +84,11 @@ export class SwaggerService {
           description,
           termsOfService,
           contact,
-          license,
+          license
         },
         consumes: this.configuration.acceptMimes.concat(spec.consumes || []),
         produces: spec.produces || ["application/json"],
-        securityDefinitions: spec.securityDefinitions || {},
+        securityDefinitions: spec.securityDefinitions || {}
       },
       specPathContent,
       getReducers()
@@ -163,7 +163,7 @@ export class SwaggerService {
     return Object.assign(
       {
         name: ctrlStore.get("name") || nameOf(clazz),
-        description: ctrlStore.get("description"),
+        description: ctrlStore.get("description")
       },
       ctrlStore.get("tag") || {}
     );
