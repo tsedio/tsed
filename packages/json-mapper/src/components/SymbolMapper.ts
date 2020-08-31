@@ -14,9 +14,6 @@ export class SymbolMapper implements JsonMapperMethods {
   }
 
   serialize(object: Symbol): any {
-    return object
-      .toString()
-      .replace("Symbol(", "")
-      .replace(")", "");
+    return object.toString().replace("Symbol(", "").replace(")", "");
   }
 }

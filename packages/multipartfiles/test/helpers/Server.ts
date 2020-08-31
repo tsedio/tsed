@@ -1,6 +1,6 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/swagger";
-import "@tsed/platform-express"
+import "@tsed/platform-express";
 import * as Path from "path";
 import "../../src";
 import {ArchiveController} from "./controllers/ArchiveController";
@@ -22,9 +22,7 @@ const rootDir = Path.resolve(__dirname);
     logRequest: true
   },
   mount: {
-    "/rest": [
-      ArchiveController
-    ]
+    "/rest": [ArchiveController]
   },
   swagger: [
     {
@@ -37,8 +35,7 @@ export class Server {
   app: PlatformApplication;
 
   public $beforeRoutesInit(): void {
-    this
-      .app
+    this.app
       .use(bodyParser.json())
       .use(
         bodyParser.urlencoded({

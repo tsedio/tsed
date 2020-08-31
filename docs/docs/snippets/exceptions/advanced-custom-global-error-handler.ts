@@ -1,4 +1,4 @@
-import {Err, IMiddleware, IResponseError, Middleware, Req, Res} from "@tsed/common";
+import {Err, IMiddleware, ResponseErrorObject, Middleware, Req, Res} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Constant} from "@tsed/di";
 import {Exception} from "@tsed/exceptions";
@@ -8,7 +8,7 @@ const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
 function getErrors(error: any) {
   return [error, error.origin]
     .filter(Boolean)
-    .reduce((errs, {errors}: IResponseError) => {
+    .reduce((errs, {errors}: ResponseErrorObject) => {
       return [
         ...errs,
         ...errors || []
@@ -19,7 +19,7 @@ function getErrors(error: any) {
 function getHeaders(error: any) {
   return [error, error.origin]
     .filter(Boolean)
-    .reduce((obj, {headers}: IResponseError) => {
+    .reduce((obj, {headers}: ResponseErrorObject) => {
       return {
         ...obj,
         ...headers || {}

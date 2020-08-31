@@ -1197,9 +1197,7 @@ describe("getSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array)
-          .Of(String)
-          .Description("description"))
+        @(Returns(200, Array).Of(String).Description("description"))
         method() {}
       }
 
@@ -1240,9 +1238,7 @@ describe("getSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array)
-          .Of(String)
-          .Description("description"))
+        @(Returns(200, Array).Of(String).Description("description"))
         method() {}
       }
 
@@ -1302,9 +1298,7 @@ describe("getSpec()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Product)
-          .Description("description"))
+        @(Returns(200, Pagination).Of(Product).Description("description"))
         async method(): Promise<Pagination<Product> | null> {
           return null;
         }
@@ -1387,10 +1381,7 @@ describe("getSpec()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(Product)
-          .Description("description"))
+        @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
@@ -1506,10 +1497,7 @@ describe("getSpec()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(Product)
-          .Description("description"))
+        @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
         method(): Pagination<Submission<Product>> | null {
           return null;
         }
@@ -1517,10 +1505,7 @@ describe("getSpec()", () => {
 
       class Controller2 {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(Article)
-          .Description("description"))
+        @(Returns(200, Pagination).Of(Submission).Nested(Article).Description("description"))
         method(): Pagination<Submission<Article>> | null {
           return null;
         }
@@ -1660,10 +1645,7 @@ describe("getSpec()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(Product)
-          .Description("description"))
+        @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }

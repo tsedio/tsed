@@ -4,6 +4,10 @@ import {Res} from "../../mvc/decorators/params/response";
 
 const onFinished = require("on-finished");
 
+/**
+ * Platform Response abstraction layer.
+ * @platform
+ */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
 export class PlatformResponse {
@@ -14,6 +18,15 @@ export class PlatformResponse {
    */
   get statusCode() {
     return this.raw.statusCode;
+  }
+
+  /**
+   * An object that contains response local variables scoped to the request, and therefore available only to the view(s) rendered during that request / response cycle (if any). Otherwise, this property is identical to app.locals.
+   *
+   * This property is useful for exposing request-level information such as the request path name, authenticated user, user settings, and so on.
+   */
+  get locals() {
+    return this.raw.locals;
   }
 
   /**

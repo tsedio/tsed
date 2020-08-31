@@ -10,7 +10,7 @@ export class TypeORMModule implements OnDestroy {
   }
 
   async init(): Promise<any> {
-    const promises = Object.keys(this.settings).map(key => this.typeORMService.createConnection(key, this.settings[key]));
+    const promises = Object.keys(this.settings).map((key) => this.typeORMService.createConnection(key, this.settings[key]));
 
     return Promise.all(promises);
   }

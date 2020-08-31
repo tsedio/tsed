@@ -85,7 +85,7 @@ describe("PlatformControllerBuilder", () => {
   beforeEach(() => {
     // @ts-ignore
     sandbox.stub(PlatformRouter, "createRawRouter");
-    sandbox.stub(PlatformDriver.prototype, "mapHandlers").callsFake(o => o);
+    sandbox.stub(PlatformDriver.prototype, "mapHandlers").callsFake((o) => o);
     sandbox.stub(EndpointMetadata, "getEndpoints");
   });
   afterEach(() => {

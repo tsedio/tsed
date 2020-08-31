@@ -48,8 +48,8 @@ export async function importComponents(config: any, excludes: string[]): Promise
         const symbols = await resolveSymbols(value, excludes);
 
         return symbols
-          .filter(symbol => isClass(symbol))
-          .map(symbol => {
+          .filter((symbol) => isClass(symbol))
+          .map((symbol) => {
             const provider: Partial<IProvider<any>> = {token: symbol, route: option.endpoint};
 
             return provider;

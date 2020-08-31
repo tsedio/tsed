@@ -12,8 +12,7 @@ export class SwaggerService {
     private injectorService: InjectorService,
     private platform: Platform,
     @Configuration() private configuration: Configuration
-  ) {
-  }
+  ) {}
 
   /**
    *
@@ -73,7 +72,7 @@ export class SwaggerService {
 
     /* istanbul ignore next */
     const {title = "Api documentation", description = "", version: versionInfo, termsOfService = "", contact, license} =
-    spec.info || ({} as any);
+      spec.info || ({} as any);
 
     return deepExtends(
       {
@@ -116,7 +115,7 @@ export class SwaggerService {
    */
   private buildRoutes(ctrl: ControllerProvider, options: SpecSerializerOptions): Tag[] {
     ctrl.children
-      .map(ctrl => this.injectorService.getProvider(ctrl))
+      .map((ctrl) => this.injectorService.getProvider(ctrl))
       .forEach((provider: ControllerProvider) => {
         if (!provider.store.get("hidden")) {
           const spec = this.buildRoutes(provider, {

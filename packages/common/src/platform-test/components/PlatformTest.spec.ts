@@ -4,11 +4,7 @@ import {
   createHttpServer,
   createHttpsServer,
   Get,
-  GlobalAcceptMimesMiddleware,
-  GlobalErrorHandlerMiddleware,
   InjectorService,
-  IRoute,
-  LogIncomingRequestMiddleware,
   PlatformBuilder,
   PlatformTest,
   RequestContext
@@ -39,15 +35,6 @@ describe("PlatformTest", () => {
       }
 
       async loadStatics() {}
-
-      protected async loadRoutes(routes: IRoute[]): Promise<void> {
-        this.app.use(LogIncomingRequestMiddleware);
-        this.app.use(GlobalAcceptMimesMiddleware);
-
-        await super.loadRoutes(routes);
-
-        this.app.use(GlobalErrorHandlerMiddleware);
-      }
 
       protected createInjector(module: Type<any>, settings: any) {
         super.createInjector(module, settings);

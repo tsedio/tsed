@@ -7,7 +7,7 @@ describe("@OnSerialize", () => {
     const converterService = await PlatformTest.invoke<ConverterService>(ConverterService, []);
 
     class Test {
-      @OnSerialize(v => v + "to")
+      @OnSerialize((v) => v + "to")
       test: string;
     }
 

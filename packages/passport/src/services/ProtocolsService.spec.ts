@@ -92,7 +92,7 @@ describe("ProtocolsService", () => {
       };
       // WHEN
       const result = protocolService.invoke(provider);
-      const resultDone: any = await new Promise(resolve => {
+      const resultDone: any = await new Promise((resolve) => {
         Strategy.args[0][1](req, "test", (...args: any[]) => resolve(args));
       });
 
@@ -116,7 +116,7 @@ describe("ProtocolsService", () => {
       };
       // WHEN
       const result = protocolService.invoke(provider);
-      const resultDone: any = await new Promise(resolve => {
+      const resultDone: any = await new Promise((resolve) => {
         Strategy.args[0][1](req, "test", (...args: any[]) => resolve(args));
       });
 

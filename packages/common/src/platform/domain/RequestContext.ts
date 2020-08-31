@@ -92,6 +92,10 @@ export class RequestContext extends Map<any, any> {
     });
   }
 
+  get env() {
+    return this.injector.settings.env;
+  }
+
   async destroy() {
     await this.container.destroy();
     this.logger.destroy();
@@ -111,5 +115,19 @@ export class RequestContext extends Map<any, any> {
 
   async emit(eventName: string, ...args: any[]) {
     return this.injector && this.injector.emit(eventName, ...args);
+  }
+
+  /**
+   * Return the original request instance.
+   */
+  getRequest<T = any>(): T {
+    return this.request.raw as any;
+  }
+
+  /**
+   * Return the original response instance.
+   */
+  getResponse<T = any>(): T {
+    return this.response.raw as any;
   }
 }

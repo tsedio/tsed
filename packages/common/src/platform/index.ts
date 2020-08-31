@@ -15,6 +15,8 @@ export * from "./interfaces/IPlatformDriver";
 // middlewares
 export * from "./middlewares/PlatformResponseMiddleware";
 export * from "./middlewares/PlatformHeadersMiddleware";
+export * from "./middlewares/PlatformLogMiddleware";
+export * from "./middlewares/PlatformContextMiddleware";
 export * from "./middlewares/bindEndpointMiddleware";
 export * from "./middlewares/GlobalAcceptMimesMiddleware";
 

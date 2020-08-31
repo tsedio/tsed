@@ -16,8 +16,8 @@ export function getPropertiesStores<T extends JsonEntityStore = JsonEntityStore>
     const stores = getInheritedStores(store);
     store.$properties = new Map();
 
-    stores.forEach(currentStore => {
-      currentStore.children.forEach(propStore => {
+    stores.forEach((currentStore) => {
+      currentStore.children.forEach((propStore) => {
         if (!store.$properties.has(propStore.propertyKey)) {
           store.$properties.set(propStore.propertyKey, propStore);
         }

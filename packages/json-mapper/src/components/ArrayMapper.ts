@@ -9,10 +9,10 @@ import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods"
 @JsonMapper(Array)
 export class ArrayMapper implements JsonMapperMethods {
   deserialize<T = any>(data: any, options: JsonMapperCtx): T[] {
-    return [].concat(data).map(item => options.next(item));
+    return [].concat(data).map((item) => options.next(item));
   }
 
   serialize(data: any[], options: JsonMapperCtx): any {
-    return [].concat(data as any).map(item => options.next(item));
+    return [].concat(data as any).map((item) => options.next(item));
   }
 }

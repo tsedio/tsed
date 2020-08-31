@@ -53,7 +53,7 @@ export class SessionCtrl {
     delete session.user;
 
     return new Promise((resolve, reject) => {
-      session.destroy(err => (err ? reject(err) : resolve()));
+      session.destroy((err) => (err ? reject(err) : resolve()));
     });
   }
 }

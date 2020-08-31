@@ -4,7 +4,6 @@ import {Event} from "../models/Event";
 
 @Controller("/archives")
 export class ArchiveController {
-
   @Post("/with-name")
   @Status(201)
   @MulterOptions({dest: `${__dirname}/../../.tmp`})
@@ -22,9 +21,11 @@ export class ArchiveController {
   @Post("/with-payload")
   @Status(201)
   @MulterOptions({dest: `${__dirname}/../../.tmp`})
-  uploadWithPayload(@MultipartFile("media") media: Express.Multer.File,
-                    @BodyParams("form_id") formId: string,
-                    @BodyParams("event") event: Event) {
+  uploadWithPayload(
+    @MultipartFile("media") media: Express.Multer.File,
+    @BodyParams("form_id") formId: string,
+    @BodyParams("event") event: Event
+  ) {
     return {
       file: media.originalname,
       formId,

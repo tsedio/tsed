@@ -74,7 +74,7 @@ export function MaxProperties(maxProperties: number) {
     throw new Error("The value of maxProperties MUST be a non-negative integer.");
   }
 
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     store.isCollection ? store.schema.maxProperties(maxProperties) : store.itemSchema.maxProperties(maxProperties);
   });
 }

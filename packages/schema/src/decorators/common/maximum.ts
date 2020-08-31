@@ -69,7 +69,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @input
  */
 export function Maximum(maximum: number, exclusive: boolean = false) {
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     exclusive ? store.itemSchema.exclusiveMaximum(maximum) : store.itemSchema.maximum(maximum);
   });
 }

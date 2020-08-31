@@ -16,18 +16,14 @@ describe("TypeORM integration", () => {
           name: "default",
           type: "mongodb",
           url,
-          entities: [
-            User
-          ],
+          entities: [User],
           useUnifiedTopology: true
         },
         {
           name: "db2",
           type: "mongodb",
           url,
-          entities: [
-            User
-          ],
+          entities: [User],
           useUnifiedTopology: true
         }
       ]

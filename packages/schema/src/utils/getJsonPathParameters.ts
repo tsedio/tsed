@@ -13,11 +13,7 @@ function getVariable(subpath: string) {
  */
 export function getJsonPathParameters(base: string, path: string | RegExp | (string | RegExp)[] = ""): {path: string; parameters: any[]}[] {
   if (path instanceof RegExp) {
-    path = path
-      .toString()
-      .replace(/^\//, "")
-      .replace(/\/$/, "")
-      .replace(/\\/, "");
+    path = path.toString().replace(/^\//, "").replace(/\/$/, "").replace(/\\/, "");
   }
 
   const params: any[] = [];
@@ -28,8 +24,8 @@ export function getJsonPathParameters(base: string, path: string | RegExp | (str
   `${base}${path}`
     .replace(/\((.*)\)/gi, "")
     .split("/")
-    .filter(o => !!o)
-    .map(key => {
+    .filter((o) => !!o)
+    .map((key) => {
       const subpath = key.replace(":", "").replace("?", "");
 
       if (key.includes(":")) {

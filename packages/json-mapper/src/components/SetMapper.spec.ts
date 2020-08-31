@@ -9,7 +9,7 @@ describe("SetMapper", () => {
       const ctx = new JsonMapperContext({
         type: String,
         collectionType: Set,
-        next: Sinon.stub().callsFake(o => String("testMap")),
+        next: Sinon.stub().callsFake((o) => String("testMap")),
         options: {}
       });
 
@@ -26,7 +26,7 @@ describe("SetMapper", () => {
       const ctx = {
         type: String,
         collectionType: Set,
-        next: Sinon.stub().callsFake(o => String("testMap"))
+        next: Sinon.stub().callsFake((o) => String("testMap"))
       };
 
       const arrayMapper = new SetMapper();

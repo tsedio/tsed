@@ -5,6 +5,10 @@ import {ValidationError} from "../../mvc/errors/ValidationError";
 import {HandlerContext} from "../domain/HandlerContext";
 import {ParamValidationError} from "../errors/ParamValidationError";
 
+/**
+ * Platform Handler abstraction layer. Wrap original class method to a pure platform handler (Express, Koa, etc...).
+ * @platform
+ */
 @Injectable({
   scope: ProviderScope.SINGLETON
 })
@@ -69,6 +73,11 @@ export class PlatformHandler {
    * @param context
    */
   getParam(param: ParamMetadata, context: HandlerContext) {
+    const {
+      ctx,
+      ctx: {request, response}
+    } = context;
+
     switch (param.paramType) {
       case ParamTypes.FORM_DATA:
         return context.request;
@@ -86,13 +95,34 @@ export class PlatformHandler {
         return context.err;
 
       case ParamTypes.CONTEXT:
-        return context.request.ctx;
+        return ctx;
 
       case ParamTypes.ENDPOINT_INFO:
-        return context.request.ctx.endpoint;
+        return ctx.endpoint;
 
       case ParamTypes.RESPONSE_DATA:
-        return context.request.ctx.data;
+        return ctx.data;
+
+      case ParamTypes.BODY:
+        return request.body;
+
+      case ParamTypes.QUERY:
+        return request.query;
+
+      case ParamTypes.PATH:
+        return request.params;
+
+      case ParamTypes.HEADER:
+        return request.headers;
+
+      case ParamTypes.COOKIES:
+        return request.cookies;
+
+      case ParamTypes.SESSION:
+        return request.session;
+
+      case ParamTypes.LOCALS:
+        return response.locals;
 
       default:
         return context.request;
@@ -144,7 +174,7 @@ export class PlatformHandler {
     } = context;
 
     try {
-      context.args = await Promise.all(parameters.map(param => this.mapParam(param, context)));
+      context.args = await Promise.all(parameters.map((param) => this.mapParam(param, context)));
 
       await context.callHandler();
     } catch (error) {

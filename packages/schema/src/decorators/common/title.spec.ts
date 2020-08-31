@@ -9,13 +9,13 @@ describe("Title()", () => {
     }
 
     expect(getJsonSchema(Test)).to.deep.equal({
-      "properties": {
-        "test": {
-          "title": "Title",
-          "type": "string"
+      properties: {
+        test: {
+          title: "Title",
+          type: "string"
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
 });

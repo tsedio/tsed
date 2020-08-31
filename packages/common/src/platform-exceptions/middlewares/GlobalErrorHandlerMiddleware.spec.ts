@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 import {expect} from "chai";
 import * as Sinon from "sinon";
@@ -38,6 +38,11 @@ describe("GlobalErrorHandlerMiddleware", () => {
           const response = new FakeResponse();
           const request = new FakeRequest();
           const error = "message";
+
+          request.ctx = PlatformTest.createRequestContext({
+            response: new PlatformResponse(response as any),
+            request: new PlatformRequest(request as any)
+          });
 
           // @ts-ignore
           middleware.use(error, request, response);

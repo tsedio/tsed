@@ -7,11 +7,7 @@ import {AjvErrorObject, ErrorFormatter} from "../interfaces/IAjvSettings";
 
 function defaultFormatter(error: AjvErrorObject) {
   const value = JSON.stringify(error.data === undefined ? "undefined" : error.data);
-  const join = (list: any[]): string =>
-    list
-      .filter(Boolean)
-      .join("")
-      .trim();
+  const join = (list: any[]): string => list.filter(Boolean).join("").trim();
 
   if (error.collectionName) {
     switch (error.collectionName) {

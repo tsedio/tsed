@@ -34,16 +34,20 @@ export class Server {
       .use(compress({}))
       .use(methodOverride())
       .use(bodyParser.json())
-      .use(bodyParser.urlencoded({
-        extended: true
-      }))
-      .use(session({
-        secret: "keyboard cat", // change secret key
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-          secure: false // set true if HTTPS is enabled
-        }
-      }));
+      .use(
+        bodyParser.urlencoded({
+          extended: true
+        })
+      )
+      .use(
+        session({
+          secret: "keyboard cat", // change secret key
+          resave: false,
+          saveUninitialized: true,
+          cookie: {
+            secure: false // set true if HTTPS is enabled
+          }
+        })
+      );
   }
 }

@@ -13,7 +13,7 @@ import {ParamFn} from "./paramFn";
  * @pipe
  */
 export function UsePipe(token: Type<IPipe>, options: any = {}) {
-  return ParamFn(param => {
+  return ParamFn((param) => {
     param.store.set(token, options);
     param.pipes.push(token);
   });

@@ -26,7 +26,7 @@ describe("TypeORMService", () => {
       let called = false;
       const connectionManager = {
         create: Sinon.stub().returns(connection),
-        has: Sinon.stub().callsFake(id => {
+        has: Sinon.stub().callsFake((id) => {
           if (called) {
             return true;
           }

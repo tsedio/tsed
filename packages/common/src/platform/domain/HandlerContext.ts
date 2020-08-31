@@ -50,6 +50,10 @@ export class HandlerContext {
     return this._isDone;
   }
 
+  get ctx() {
+    return this.request?.ctx;
+  }
+
   get container() {
     return this.request?.ctx?.container;
   }
@@ -158,11 +162,13 @@ export class HandlerContext {
     delete this.response;
     // @ts-ignore
     delete this.args;
+    // @ts-ignore
     delete this._next;
     // @ts-ignore
     delete this.metadata;
     // @ts-ignore
     delete this.injector;
+    // @ts-ignore
     delete this.err;
     this._isDone = true;
   }

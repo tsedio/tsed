@@ -95,6 +95,6 @@ export class HandlerMetadata {
   }
 
   public hasParamType(paramType: any): boolean {
-    return this.getParams().findIndex(p => p.paramType === paramType) > -1;
+    return this.getParams().findIndex((p) => p.paramType === paramType) > -1;
   }
 }

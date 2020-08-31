@@ -49,27 +49,19 @@ describe("ConverterService", () => {
       });
 
       it("should convert a string to Number", () => {
-        expect(converterService.deserialize("1", Number))
-          .to.be.a("number")
-          .and.to.equals(1);
+        expect(converterService.deserialize("1", Number)).to.be.a("number").and.to.equals(1);
       });
 
       it("should convert number to Number", () => {
-        expect(converterService.deserialize(1, Number))
-          .to.be.a("number")
-          .and.to.equals(1);
+        expect(converterService.deserialize(1, Number)).to.be.a("number").and.to.equals(1);
       });
 
       it("should convert a string to String", () => {
-        expect(converterService.deserialize("1", String))
-          .to.be.a("string")
-          .and.to.equals("1");
+        expect(converterService.deserialize("1", String)).to.be.a("string").and.to.equals("1");
       });
 
       it("should convert number to String", () => {
-        expect(converterService.deserialize(1, String))
-          .to.be.a("string")
-          .and.to.equals("1");
+        expect(converterService.deserialize(1, String)).to.be.a("string").and.to.equals("1");
       });
 
       it("should convert a null/undefined to null/undefined", () => {
@@ -107,12 +99,8 @@ describe("ConverterService", () => {
         expect(foo).to.be.instanceof(JsonFoo);
         expect(foo.method).to.be.a("function");
 
-        expect(foo.test)
-          .to.be.a("number")
-          .and.to.equals(1);
-        expect(foo.foo)
-          .to.be.a("string")
-          .and.to.equals("test");
+        expect(foo.test).to.be.a("number").and.to.equals(1);
+        expect(foo.foo).to.be.a("string").and.to.equals("test");
       })
     );
 
@@ -247,19 +235,13 @@ describe("ConverterService", () => {
         expect(converterService.serialize(undefined)).to.equals(undefined);
       });
       it("should convert boolean to a boolean", () => {
-        expect(converterService.serialize(true))
-          .to.be.a("boolean")
-          .and.to.equal(true);
+        expect(converterService.serialize(true)).to.be.a("boolean").and.to.equal(true);
       });
       it("should convert number to a number", () => {
-        expect(converterService.serialize(1))
-          .to.be.a("number")
-          .and.to.equal(1);
+        expect(converterService.serialize(1)).to.be.a("number").and.to.equal(1);
       });
       it("should convert string to a string", () => {
-        expect(converterService.serialize("1"))
-          .to.be.a("string")
-          .and.to.equal("1");
+        expect(converterService.serialize("1")).to.be.a("string").and.to.equal("1");
       });
     });
 
@@ -333,15 +315,11 @@ describe("ConverterService", () => {
       });
 
       it("should have an attribut with date type", () => {
-        expect(foo.dateStart)
-          .to.be.a("string")
-          .and.to.equals(foo2.dateStart.toISOString());
+        expect(foo.dateStart).to.be.a("string").and.to.equals(foo2.dateStart.toISOString());
       });
 
       it("should have an attribut Name (because metadata said Name instead of name)", () => {
-        expect(foo.Name)
-          .to.be.a("string")
-          .and.to.equals("Test");
+        expect(foo.Name).to.be.a("string").and.to.equals("Test");
       });
 
       it("should haven't an attribut name (because metadata said Name instead of name)", () => {
@@ -397,7 +375,7 @@ describe("ConverterService", () => {
     );
     it("should transform class", () => {
       class Test {
-        @OnSerialize(v => `${v}to`)
+        @OnSerialize((v) => `${v}to`)
         test: string;
       }
 

@@ -17,8 +17,7 @@ describe("@Injectable()", () => {
 
     it("should called registerProvider", () => {
       // GIVEN
-      class Test {
-      }
+      class Test {}
 
       // WHEN
       Injectable({options: "options"})(Test);
@@ -42,8 +41,7 @@ describe("@Injectable()", () => {
 
     it("should called registerProvider", () => {
       // GIVEN
-      class Test {
-      }
+      class Test {}
 
       // WHEN
       Injectable()(Test);

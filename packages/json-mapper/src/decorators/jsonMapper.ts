@@ -7,8 +7,8 @@ import {registerJsonTypeMapper} from "../domain/JsonMapperTypesContainer";
  * @constructor
  */
 export function JsonMapper(...types: (any | Type)[]): ClassDecorator {
-  return target => {
-    types.forEach(type => {
+  return (target) => {
+    types.forEach((type) => {
       registerJsonTypeMapper(type, target as any);
     });
   };

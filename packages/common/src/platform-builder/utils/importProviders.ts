@@ -7,7 +7,7 @@ export async function importProviders(injector: InjectorService): Promise<IRoute
 
   const providers = await importAll(injector.settings);
 
-  return providers.filter(provider => !!provider.route).map(({route, token}) => ({route, token}));
+  return providers.filter((provider) => !!provider.route).map(({route, token}) => ({route, token}));
 }
 
 async function importAll(settings: any): Promise<IProvider<any>[]> {
@@ -21,7 +21,7 @@ async function importAll(settings: any): Promise<IProvider<any>[]> {
 
   const promises: any = providers
     .map(({token}) => GlobalProviders.get(token))
-    .filter(provider => provider?.type === ProviderType.MODULE && provider.configuration)
+    .filter((provider) => provider?.type === ProviderType.MODULE && provider.configuration)
     .map((provider: Provider) => importAll({exclude: settings.exclude, ...provider.configuration}));
 
   return ([] as any).concat(...(await Promise.all(promises)), providers);

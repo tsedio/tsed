@@ -409,20 +409,20 @@ You can configure this output from configuration:
 import {Configuration} from "@tsed/common";
 
 @Configuration({
-   logger: {
-       requestFields: ["reqId", "method", "url", "headers", "body", "query","params", "duration"]
-   }
+  logger: {
+    requestFields: ["reqId", "method", "url", "headers", "body", "query","params", "duration"]
+  }
 })
 export class Server {
 
 }
 ```
 
-or you can override the middleware with @@OverrideMiddleware@@.
+or you can override the middleware with @@OverrideProvider@@.
 
 Example: 
 
-<<< @/docs/snippets/configuration/override-log-incoming-request.ts
+<<< @/docs/snippets/configuration/override-platform-log-middleware.ts
 
 ### Shutdown logger
 
@@ -449,9 +449,9 @@ The configuration can be reused throughout your application in different ways.
 ### From service (DI)
 
 ```typescript
-import {Configuration, Service} from "@tsed/di";
+import {Configuration, Injectable} from "@tsed/di";
 
-@Service() // or Controller or Middleware
+@Injectable() // or Controller or Middleware
 export class MyService {
   constructor(@Configuration() configuration: Configuration) {}
 }
@@ -461,11 +461,11 @@ export class MyService {
 
 Decorators @@Constant@@ and @@Value@@ can be used in all classes including: 
  
+ - [Provider](/docs/providers.md),
+ - [Interceptor](/docs/interceptors.md),
  - [Service](/docs/services.md),
  - [Controller](/docs/controllers.md),
- - [Middleware](/docs/middlewares.md),
- - [Filter](/docs/filters.md)
- - [Converter](/docs/converters.md).
+ - [Middleware](/docs/middlewares.md).
  
 @@Constant@@ and @@Value@@ accept an expression as parameters to inspect the configuration object and return the value.
 

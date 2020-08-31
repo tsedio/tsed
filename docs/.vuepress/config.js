@@ -88,13 +88,14 @@ module.exports = {
                   {link: "/docs/interceptors.html", text: "Interceptors"},
                   {link: "/docs/authentication.html", text: "Authentication"},
                   {link: "/docs/hooks.html", text: "Hooks"},
-                  {link: "/docs/exceptions.html", text: "Exceptions"}
+                  {link: "/docs/exceptions.html", text: "Exceptions"},
+                  {link: "/docs/platform-api.html", text: "Platform API"},
                 ]
               },
               {
                 text: "Advanced",
                 items: [
-                  {link: "/docs/request-data-persistence.html", text: "Request data persistence"},
+                  {link: "/docs/request-context.html", text: "Request context"},
                   {link: "/docs/validation.html", text: "Validation"},
                   {link: "/docs/injection-scopes.html", text: "Injection scopes"},
                   {link: "/docs/custom-providers.html", text: "Custom providers"},
@@ -144,18 +145,6 @@ module.exports = {
           }
         ],
         sidebar: {
-          "/docs/middlewares/": [{
-            title: "Middlewares",
-            collapsable: false,
-            children: [
-              "call-sequence",
-              "override-middleware",
-              "override/authentication",
-              "override/global-error-handler",
-              "override/response-view",
-              "override/send-response"
-            ]
-          }],
           "/docs/": [
             {
               title: "Overview",
@@ -170,14 +159,15 @@ module.exports = {
                 "interceptors",
                 "authentication",
                 "hooks",
-                "exceptions"
+                "exceptions",
+                "platform-api"
               ]
             },
             {
               title: "Advanced",
               collapsable: false,
               children: [
-                "request-data-persistence",
+                "request-context",
                 "validation",
                 "injection-scopes",
                 "custom-providers",

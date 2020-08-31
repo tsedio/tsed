@@ -13,11 +13,7 @@ function getVariable(subpath: string) {
 
 export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path: string; pathParams: any[]}[] {
   if (path instanceof RegExp) {
-    path = path
-      .toString()
-      .replace(/^\//, "")
-      .replace(/\/$/, "")
-      .replace(/\\/, "");
+    path = path.toString().replace(/^\//, "").replace(/\/$/, "").replace(/\\/, "");
   }
 
   const params: any[] = [];
@@ -28,8 +24,8 @@ export function parseSwaggerPath(base: string, path: PathParamsType = ""): {path
   `${base}${path}`
     .replace(/\((.*)\)/gi, "")
     .split("/")
-    .filter(o => !!o)
-    .map(key => {
+    .filter((o) => !!o)
+    .map((key) => {
       const subpath = key.replace(":", "").replace("?", "");
 
       if (key.includes(":")) {
@@ -93,7 +89,7 @@ export function swaggerType(type: any): string {
 export function swaggerApplyType(schema: any, type: any): any {
   const types = []
     .concat(swaggerType(type) as any)
-    .filter(type => {
+    .filter((type) => {
       if (type === "null") {
         schema.nullable = true;
 
@@ -102,13 +98,13 @@ export function swaggerApplyType(schema: any, type: any): any {
 
       return type;
     })
-    .map(type => String(type));
+    .map((type) => String(type));
 
   if (types.length === 1) {
     schema.type = types[0];
   } else {
     delete schema.type;
-    schema.oneOf = types.map(type => ({type}));
+    schema.oneOf = types.map((type) => ({type}));
   }
 
   return schema;
@@ -131,7 +127,7 @@ export function getReducers(): {[key: string]: (collection: any[], value: any) =
     default: defaultReducer,
     security: (collection, value) => {
       const current = collection.find((current: any): any => {
-        return Object.keys(value).find(key => !!current[key]);
+        return Object.keys(value).find((key) => !!current[key]);
       });
 
       if (current) {
@@ -143,7 +139,7 @@ export function getReducers(): {[key: string]: (collection: any[], value: any) =
       return collection;
     },
     parameters: (collection, value) => {
-      const current = collection.find(current => current.in === value.in && current.name === value.name);
+      const current = collection.find((current) => current.in === value.in && current.name === value.name);
 
       if (current) {
         deepExtends(current, value);
@@ -154,7 +150,7 @@ export function getReducers(): {[key: string]: (collection: any[], value: any) =
       return collection;
     },
     oneOf: (collection, value) => {
-      const current = collection.find(current => current.type === value.type);
+      const current = collection.find((current) => current.type === value.type);
 
       if (current) {
         deepExtends(current, value);

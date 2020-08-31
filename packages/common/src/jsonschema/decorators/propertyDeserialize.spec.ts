@@ -7,7 +7,7 @@ describe("@OnSerialize", () => {
     "should use function onDeserialize to Deserialize property",
     PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
       class Test {
-        @OnDeserialize(v => v + "to")
+        @OnDeserialize((v) => v + "to")
         test: string;
       }
 

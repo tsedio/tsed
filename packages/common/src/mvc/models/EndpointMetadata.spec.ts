@@ -82,17 +82,11 @@ describe("EndpointMetadata", () => {
       const endpoint = EndpointMetadata.get(Test, "method");
 
       // THEN
-      expect(endpoint.beforeMiddlewares)
-        .to.be.an("array")
-        .and.have.length(1);
+      expect(endpoint.beforeMiddlewares).to.be.an("array").and.have.length(1);
 
-      expect(endpoint.middlewares)
-        .to.be.an("array")
-        .and.have.length(1);
+      expect(endpoint.middlewares).to.be.an("array").and.have.length(1);
 
-      expect(endpoint.beforeMiddlewares)
-        .to.be.an("array")
-        .and.have.length(1);
+      expect(endpoint.beforeMiddlewares).to.be.an("array").and.have.length(1);
 
       expect(endpoint.token).to.equal(Test);
 
@@ -110,9 +104,7 @@ describe("EndpointMetadata", () => {
       const endpoint = EndpointMetadata.get(Test, "method");
 
       // THEN
-      expect(endpoint.middlewares)
-        .to.be.an("array")
-        .and.have.length(1);
+      expect(endpoint.middlewares).to.be.an("array").and.have.length(1);
     });
     it("should add endpoint with path and method", () => {
       // GIVEN
@@ -126,9 +118,7 @@ describe("EndpointMetadata", () => {
       const endpoint = EndpointMetadata.get(Test, "method");
 
       // THEN
-      expect(endpoint.middlewares)
-        .to.be.an("array")
-        .and.have.length(1);
+      expect(endpoint.middlewares).to.be.an("array").and.have.length(1);
 
       expect([...endpoint.operationPaths.values()]).to.deep.equal([
         {
@@ -259,105 +249,6 @@ describe("EndpointMetadata", () => {
       expect(endpoints[3].store.get("test")).to.equal("Test2");
     });
   });
-  // describe("statusResponse()", () => {
-  //   describe("when haven't responses", () => {
-  //     it("should haven't type, headers and collectionType", () => {
-  //       class Test {
-  //         method() {
-  //         }
-  //       }
-  //
-  //       // GIVEN
-  //       const endpoint = EndpointMetadata.get(Test, "method");
-  //       Sinon.stub(endpoint.store, "get");
-  //
-  //       stub(endpoint.store.get)
-  //         .withArgs("responses")
-  //         .returns({});
-  //
-  //       // WHEN
-  //       const result = endpoint.statusResponse(200);
-  //
-  //       expect(result).to.deep.eq({
-  //         code: 200
-  //       });
-  //
-  //       expect(endpoint.type).to.eq(undefined);
-  //       expect(endpoint.collectionType).to.eq(undefined);
-  //
-  //       stub(endpoint.store.get).restore();
-  //     });
-  //   });
-  //
-  //   describe("when have empty responses", () => {
-  //     it("should haven't type, headers and collectionType", () => {
-  //       class Test {
-  //         method() {
-  //         }
-  //       }
-  //
-  //       // GIVEN
-  //       const endpointMetadata = EndpointMetadata.get(Test, "method");
-  //       Sinon.stub(endpointMetadata.store, "get");
-  //
-  //       stub(endpointMetadata.store.get)
-  //         .withArgs("responses")
-  //         .returns({
-  //           [200]: {}
-  //         });
-  //
-  //       // WHEN
-  //       const result = endpointMetadata.statusResponse(200);
-  //
-  //       // THEN
-  //       expect(result).to.deep.eq({
-  //         code: 200
-  //       });
-  //
-  //       expect(endpointMetadata.type).to.eq(undefined);
-  //       expect(endpointMetadata.collectionType).to.eq(undefined);
-  //
-  //       stub(endpointMetadata.store.get).restore();
-  //     });
-  //   });
-  //
-  //   describe("when have responses", () => {
-  //     it("should have type and headers and haven't collectionType", () => {
-  //       class Test {
-  //         method() {
-  //         }
-  //       }
-  //
-  //       // GIVEN
-  //       const endpointMetadata = EndpointMetadata.get(Test, "method");
-  //       endpointMetadata.responses.set(200, {
-  //         type: Test,
-  //         headers: {
-  //           headerName: {
-  //             type: "string",
-  //             value: "x-content"
-  //           }
-  //         }
-  //       } as any);
-  //
-  //       // WHEN
-  //       const result = endpointMetadata.statusResponse(200);
-  //
-  //       // THEN
-  //       expect(result).to.deep.eq({
-  //         headers: {
-  //           headerName: {
-  //             type: "string",
-  //             value: "x-content"
-  //           }
-  //         },
-  //         type: Test
-  //       });
-  //       expect(endpointMetadata.type).to.eq(Test);
-  //       expect(endpointMetadata.collectionType).to.eq(undefined);
-  //     });
-  //   });
-  // });
 });
 
 describe("JsonEntityStore with EndpointMetadata", () => {
@@ -403,9 +294,7 @@ describe("JsonEntityStore with EndpointMetadata", () => {
     expect(storeProp?.parent).to.deep.eq(storeClass);
 
     // PARAMETERS
-    const storeParam = JsonEntityStore.from(Model)
-      .children.get("method")
-      ?.children.get(0);
+    const storeParam = JsonEntityStore.from(Model).children.get("method")?.children.get(0);
 
     expect(storeParam).to.be.instanceOf(JsonEntityStore);
     expect(storeParam?.propertyKey).to.eq("method");

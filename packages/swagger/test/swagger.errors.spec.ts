@@ -35,11 +35,13 @@ class ErrorsController {
 
 describe("ErrorsParams", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  beforeEach(PlatformTest.bootstrap(Server, {
-    mount: {
-      "/rest": [ErrorsController]
-    }
-  }));
+  beforeEach(
+    PlatformTest.bootstrap(Server, {
+      mount: {
+        "/rest": [ErrorsController]
+      }
+    })
+  );
   beforeEach(() => {
     request = SuperTest(PlatformTest.callback());
   });
@@ -48,92 +50,78 @@ describe("ErrorsParams", () => {
   it("should generate swagger", async () => {
     const response = await request.get("/api-doc/swagger.json").expect(200);
     expect(response.body).to.deep.eq({
-      "consumes": [
-        "application/json"
-      ],
-      "definitions": {
-        "TestModel200": {
-          "properties": {
-            "exampleItem": {
-              "type": "number"
+      consumes: ["application/json"],
+      definitions: {
+        TestModel200: {
+          properties: {
+            exampleItem: {
+              type: "number"
             }
           },
-          "required": [
-            "exampleItem"
-          ],
-          "type": "object"
+          required: ["exampleItem"],
+          type: "object"
         },
-        "TestModel400": {
-          "properties": {
-            "error": {
-              "type": "boolean"
+        TestModel400: {
+          properties: {
+            error: {
+              type: "boolean"
             }
           },
-          "required": [
-            "error"
-          ],
-          "type": "object"
+          required: ["error"],
+          type: "object"
         },
-        "TestModel500": {
-          "properties": {
-            "error": {
-              "type": "boolean"
+        TestModel500: {
+          properties: {
+            error: {
+              type: "boolean"
             }
           },
-          "required": [
-            "error"
-          ],
-          "type": "object"
+          required: ["error"],
+          type: "object"
         }
       },
-      "info": {
-        "description": "",
-        "termsOfService": "",
-        "title": "Api documentation",
-        "version": "1.0.0"
+      info: {
+        description: "",
+        termsOfService: "",
+        title: "Api documentation",
+        version: "1.0.0"
       },
-      "paths": {
+      paths: {
         "/rest/scenarios": {
-          "get": {
-            "operationId": "errorsControllerExampleControllerMethod",
-            "parameters": [],
-            "produces": [
-              "application/json"
-            ],
-            "responses": {
+          get: {
+            operationId: "errorsControllerExampleControllerMethod",
+            parameters: [],
+            produces: ["application/json"],
+            responses: {
               "200": {
-                "description": "Success",
-                "schema": {
-                  "$ref": "#/definitions/TestModel200"
+                description: "Success",
+                schema: {
+                  $ref: "#/definitions/TestModel200"
                 }
               },
               "400": {
-                "description": "Bad Request",
-                "schema": {
-                  "$ref": "#/definitions/TestModel400"
+                description: "Bad Request",
+                schema: {
+                  $ref: "#/definitions/TestModel400"
                 }
               },
               "500": {
-                "description": "Internal Server Error",
-                "schema": {
-                  "$ref": "#/definitions/TestModel500"
+                description: "Internal Server Error",
+                schema: {
+                  $ref: "#/definitions/TestModel500"
                 }
               }
             },
-            "tags": [
-              "ErrorsController"
-            ]
+            tags: ["ErrorsController"]
           }
         }
       },
-      "produces": [
-        "application/json"
-      ],
-      "securityDefinitions": {},
-      "swagger": "2.0",
-      "tags": [
+      produces: ["application/json"],
+      securityDefinitions: {},
+      swagger: "2.0",
+      tags: [
         {
-          "name": "ErrorsController"
+          name: "ErrorsController"
         }
       ]
     });

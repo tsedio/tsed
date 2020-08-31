@@ -1,87 +1,56 @@
+import {getJsonSchema, Property} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {getJsonSchema, Property} from "@tsed/schema";
+import {Model} from "@tsed/mongoose";
 import {expect} from "chai";
-import {MONGOOSE_SCHEMA} from "../../src/constants";
-import {VirtualRef} from "../../src/decorators";
+import {MONGOOSE_SCHEMA} from "../constants";
+import {VirtualRef} from "./virtualRef";
 
 describe("@VirtualRef()", () => {
   describe("when type and foreign value are given", () => {
     it("should set metadata", () => {
-      // GIVEN
-      class RefTest {}
-
+      // WHEN
       class Test {
         @VirtualRef("RefTest", "foreign")
-        @Property(() => RefTest)
-        test: VirtualRef<RefTest>;
+        test: any;
       }
 
       // THEN
       const store = Store.from(Test, "test");
+
       expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
         ref: "RefTest",
+        justOne: false,
         foreignField: "foreign",
-        localField: "test"
-      });
-
-      expect(getJsonSchema(Test)).to.deep.eq({
-        definitions: {
-          RefTest: {
-            type: "object"
-          }
-        },
-        properties: {
-          test: {
-            $ref: "#/definitions/RefTest"
-          }
-        },
-        type: "object"
+        localField: "_id",
+        options: undefined
       });
     });
   });
 
   describe("when options is given with minimal fields", () => {
     it("should set metadata", () => {
-      // GIVEN
-      class RefTest {}
-
-      const type = () => RefTest;
-
+      // WHEN
       class Test {
-        @VirtualRef({type, foreignField: "foreign"})
-        test: VirtualRef<RefTest>;
+        @VirtualRef({type: "RefTest", foreignField: "foreign"})
+        test: any;
       }
 
       // THEN
       const store = Store.from(Test, "test");
+
       expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
-        ref: type,
-        localField: "test",
+        ref: "RefTest",
+        localField: "_id",
         foreignField: "foreign",
         justOne: false,
         options: undefined
-      });
-      expect(getJsonSchema(Test)).to.deep.eq({
-        definitions: {
-          RefTest: {
-            type: "object"
-          }
-        },
-        properties: {
-          test: {
-            $ref: "#/definitions/RefTest"
-          }
-        },
-        type: "object"
       });
     });
   });
 
   describe("when options is given with all fields", () => {
     it("should set metadata", () => {
-      // GIVEN
-      class RefTest {}
-
+      // WHEN
       class Test {
         @VirtualRef({
           type: "RefTest",
@@ -90,11 +59,12 @@ describe("@VirtualRef()", () => {
           justOne: true,
           options: {}
         })
-        test: VirtualRef<RefTest>;
+        test: any;
       }
 
       // THEN
       const store = Store.from(Test, "test");
+
       expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
         ref: "RefTest",
         localField: "test_2",
@@ -102,16 +72,61 @@ describe("@VirtualRef()", () => {
         justOne: true,
         options: {}
       });
+    });
+  });
 
-      expect(getJsonSchema(Test)).to.deep.eq({
+  describe("with a given model", () => {
+    it("should set metadata", () => {
+      @Model({name: "VirtualTestPerson"})
+      class TestPerson {
+        @Property()
+        name: string;
+
+        @Property()
+        band: string;
+      }
+
+      // WHEN
+      @Model({name: "VirtualTestBand"})
+      class TestBand {
+        @VirtualRef({
+          ref: TestPerson,
+          foreignField: "foreign",
+          localField: "test_2",
+          justOne: true,
+          options: {}
+        })
+        members: VirtualRef<TestPerson>;
+      }
+
+      // THEN
+      const store = Store.from(TestBand, "members");
+
+      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+        ref: "VirtualTestPerson",
+        localField: "test_2",
+        foreignField: "foreign",
+        justOne: true,
+        options: {}
+      });
+
+      expect(getJsonSchema(TestBand)).to.deep.equal({
         definitions: {
-          VirtualRef: {
+          TestPerson: {
+            properties: {
+              band: {
+                type: "string"
+              },
+              name: {
+                type: "string"
+              }
+            },
             type: "object"
           }
         },
         properties: {
-          test_2: {
-            $ref: "#/definitions/VirtualRef"
+          members: {
+            $ref: "#/definitions/TestPerson"
           }
         },
         type: "object"

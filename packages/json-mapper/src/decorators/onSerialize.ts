@@ -23,7 +23,7 @@ export interface OnSerializeCallback {
  * @param cb
  */
 export function OnSerialize(cb: OnSerializeCallback): PropertyDecorator {
-  return JsonEntityFn(storedJson => {
+  return JsonEntityFn((storedJson) => {
     storedJson.itemSchema.$hooks.on("onSerialize", cb);
   });
 }

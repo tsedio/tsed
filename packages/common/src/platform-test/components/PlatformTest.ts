@@ -11,6 +11,9 @@ export interface PlatformTestInvokeOptions {
   use: any;
 }
 
+/**
+ * @platform
+ */
 export class PlatformTest {
   public static platformBuilder: Type<PlatformBuilder>;
   protected static _injector: InjectorService | null = null;
@@ -129,7 +132,7 @@ export class PlatformTest {
    */
   static invoke<T = any>(target: TokenProvider, providers: PlatformTestInvokeOptions[] = []): T | Promise<T> {
     const locals = new LocalsContainer();
-    providers.forEach(p => {
+    providers.forEach((p) => {
       locals.set(p.token, p.use);
     });
 

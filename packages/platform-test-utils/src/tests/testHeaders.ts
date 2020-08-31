@@ -13,10 +13,7 @@ export class HeadersCtrl {
   }
 
   @Get("/scenario-2")
-  @(Returns(200, String)
-    .Header("x-token-test", "test")
-    .Header("x-token-test-2", "test2")
-    .ContentType("application/xml"))
+  @(Returns(200, String).Header("x-token-test", "test").Header("x-token-test-2", "test2").ContentType("application/xml"))
   testScenario2() {
     return "<xml></xml>";
   }

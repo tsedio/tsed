@@ -119,7 +119,7 @@ export class InjectorService extends Container {
    * Return a list of instance build by the injector.
    */
   public toArray(): any[] {
-    return super.toArray().map(provider => provider.instance);
+    return super.toArray().map((provider) => provider.instance);
   }
 
   /**
@@ -312,7 +312,7 @@ export class InjectorService extends Container {
     }
     const mergedConfiguration = new Map();
 
-    super.forEach(provider => {
+    super.forEach((provider) => {
       if (provider.configuration) {
         Object.entries(provider.configuration).forEach(([key, value]) => {
           mergedConfiguration.set(key, mergedConfiguration.has(key) ? deepExtends(mergedConfiguration.get(key), value) : deepClone(value));
@@ -348,7 +348,7 @@ export class InjectorService extends Container {
       };
     }, {});
 
-    Object.values(properties).forEach(definition => {
+    Object.values(properties).forEach((definition) => {
       switch (definition.bindingType) {
         case InjectablePropertyType.METHOD:
           this.bindMethod(instance, definition);
@@ -598,7 +598,7 @@ export class InjectorService extends Container {
     if (!this.hasProvider(token)) {
       provider = new Provider(token);
 
-      this.resolvers.forEach(resolver => {
+      this.resolvers.forEach((resolver) => {
         const result = resolver.get(token, locals.get(DI_PARAM_OPTIONS));
 
         if (result !== undefined) {

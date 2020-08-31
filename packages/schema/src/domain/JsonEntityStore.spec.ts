@@ -44,9 +44,7 @@ describe("JsonEntityStore", () => {
     expect(storeProp?.parent).to.deep.eq(storeClass);
 
     // PARAMETERS
-    const storeParam = JsonEntityStore.from(Model)
-      .children.get("method")
-      ?.children.get(0);
+    const storeParam = JsonEntityStore.from(Model).children.get("method")?.children.get(0);
     expect(storeParam).to.be.instanceOf(JsonEntityStore);
     expect(storeParam?.propertyKey).to.eq("method");
     expect(storeParam?.propertyName).to.eq("method");

@@ -20,13 +20,10 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     private swaggerService: SwaggerService,
     @Configuration() private configuration: Configuration,
     private platformApplication: PlatformApplication
-  ) {
-  }
+  ) {}
 
   get settings() {
-    return ([] as SwaggerSettings[])
-      .concat(this.configuration.get<SwaggerSettings[]>("swagger"))
-      .filter(o => !!o);
+    return ([] as SwaggerSettings[]).concat(this.configuration.get<SwaggerSettings[]>("swagger")).filter((o) => !!o);
   }
 
   /**

@@ -63,15 +63,12 @@ describe("@Any", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      "properties": {
-        "prop": {
-          "type": [
-            "string",
-            "null"
-          ]
+      properties: {
+        prop: {
+          type: ["string", "null"]
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
 });

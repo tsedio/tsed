@@ -61,7 +61,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @input
  */
 export function Integer() {
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     store.itemSchema.type("integer");
   });
 }

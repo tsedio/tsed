@@ -97,7 +97,7 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
 
   let schemaTypeOptions: SchemaTypeOpts<any> = {
     required: propertyMetadata.required
-      ? function() {
+      ? function () {
           return propertyMetadata.isRequired(this[key]);
         }
       : false

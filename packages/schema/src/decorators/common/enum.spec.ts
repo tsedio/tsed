@@ -46,22 +46,13 @@ describe("@Enum", () => {
       }
 
       expect(getJsonSchema(Model)).to.deep.equal({
-        "properties": {
-          "num": {
-            "enum": [
-              "0",
-              "1",
-              10,
-              null
-            ],
-            "type": [
-              "string",
-              "number",
-              "null"
-            ]
+        properties: {
+          num: {
+            enum: ["0", "1", 10, null],
+            type: ["string", "number", "null"]
           }
         },
-        "type": "object"
+        type: "object"
       });
     });
   });

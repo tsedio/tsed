@@ -1,7 +1,7 @@
-import {IResponseError} from "@tsed/common";
+import {ResponseErrorObject} from "@tsed/common";
 import {InternalServerError} from "@tsed/exceptions";
 
-export class CustomInternalError extends InternalServerError implements IResponseError {
+export class CustomInternalError extends InternalServerError implements ResponseErrorObject {
   name = "CUSTOM_INTERNAL_SERVER_ERROR";
   errors: any[];
   headers = {};

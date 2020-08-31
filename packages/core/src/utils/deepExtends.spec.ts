@@ -124,7 +124,7 @@ describe("deepExtends", () => {
             },
             {
               parameters: (collection, value) => {
-                const current = collection.find(current => current.in === value.in && current.name === value.name);
+                const current = collection.find((current) => current.in === value.in && current.name === value.name);
 
                 if (current) {
                   deepExtends(current, value);

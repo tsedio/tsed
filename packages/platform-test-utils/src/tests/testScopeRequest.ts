@@ -85,7 +85,7 @@ export function testScopeRequest(options: PlatformTestOptions) {
       promises.push(send("1"));
       promises.push(send("2"));
 
-      return Promise.all(promises).then(responses => {
+      return Promise.all(promises).then((responses) => {
         expect(responses).to.deep.eq([
           {
             id: "0",

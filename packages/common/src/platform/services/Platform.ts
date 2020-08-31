@@ -9,6 +9,8 @@ import {PlatformRouter} from "./PlatformRouter";
 
 /**
  * `Platform` is used to provide all routes collected by annotation `@Controller`.
+ *
+ * @platform
  */
 @Injectable({
   scope: ProviderScope.SINGLETON
@@ -46,7 +48,7 @@ export class Platform {
 
     return injector
       .getProviders(ProviderType.CONTROLLER)
-      .map(provider => {
+      .map((provider) => {
         if (!provider.hasParent()) {
           return new PlatformControllerBuilder(provider as ControllerProvider).build(injector);
         }
@@ -63,7 +65,7 @@ export class Platform {
   }
 
   public addRoutes(routes: IRoute[]) {
-    routes.forEach(routeSettings => {
+    routes.forEach((routeSettings) => {
       this.addRoute(routeSettings.route, routeSettings.token);
     });
   }
@@ -115,7 +117,7 @@ export class Platform {
     let routes: IRouteDetails[] = [];
 
     ctrl.children
-      .map(ctrl => injector.getProvider(ctrl))
+      .map((ctrl) => injector.getProvider(ctrl))
       .forEach((provider: ControllerProvider) => {
         routes = routes.concat(this.buildRoutes(`${endpointUrl}${provider.path}`, provider));
       });

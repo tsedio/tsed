@@ -76,7 +76,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @input
  */
 export function Format(format: JsonFormatTypes | ValueOf<JsonFormatTypes>) {
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     store.itemSchema.format(format);
   });
 }

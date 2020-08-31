@@ -76,36 +76,24 @@ export function testBodyParams(options: PlatformTestOptions) {
       expect(response.body).to.deep.equal({value: ["value"]});
     });
     it("should return an empty array (1)", async () => {
-      const response = await request
-        .post("/rest/body-params/scenario-2")
-        .send()
-        .expect(200);
+      const response = await request.post("/rest/body-params/scenario-2").send().expect(200);
 
       expect(response.body).to.deep.equal({});
     });
     it("should return an empty value (2)", async () => {
-      const response = await request
-        .post("/rest/body-params/scenario-2")
-        .send({})
-        .expect(200);
+      const response = await request.post("/rest/body-params/scenario-2").send({}).expect(200);
 
       expect(response.body).to.deep.equal({});
     });
   });
   describe("Scenario3: without expression Array<string>", () => {
     it("should return value", async () => {
-      const response = await request
-        .post("/rest/body-params/scenario-3")
-        .send(["value"])
-        .expect(200);
+      const response = await request.post("/rest/body-params/scenario-3").send(["value"]).expect(200);
 
       expect(response.body).to.deep.equal({value: ["value"]});
     });
     it("should return an empty array (1)", async () => {
-      const response = await request
-        .post("/rest/body-params/scenario-3")
-        .send()
-        .expect(200);
+      const response = await request.post("/rest/body-params/scenario-3").send().expect(200);
 
       expect(response.body).to.deep.equal({value: [{}]});
     });
@@ -120,10 +108,7 @@ export function testBodyParams(options: PlatformTestOptions) {
       expect(response.body).to.deep.equal({value: ["value"]});
     });
     it("should return an empty array (1)", async () => {
-      const response = await request
-        .post("/rest/body-params/scenario-4")
-        .send()
-        .expect(400);
+      const response = await request.post("/rest/body-params/scenario-4").send().expect(400);
 
       expect(response.text).to.deep.equal("Bad request on parameter \"request.body.test\".<br />It should have required parameter 'test'");
     });

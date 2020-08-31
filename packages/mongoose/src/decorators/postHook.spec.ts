@@ -12,8 +12,7 @@ describe("@PostHook()", () => {
 
       // WHEN
       @PostHook("method", fn)
-      class Test {
-      }
+      class Test {}
 
       // THEN
       const options = schemaOptions(Test);
@@ -33,8 +32,7 @@ describe("@PostHook()", () => {
     it("should call applySchemaOptions", () => {
       class Test {
         @PostHook("save")
-        static method() {
-        }
+        static method() {}
       }
 
       const {

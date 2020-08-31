@@ -17,13 +17,9 @@ describe("ParamMetadata", () => {
       paramMetadata.expression = "test";
       paramMetadata.type = Test;
 
-      expect(paramMetadata.required)
-        .to.be.a("boolean")
-        .and.to.eq(true);
+      expect(paramMetadata.required).to.be.a("boolean").and.to.eq(true);
 
-      expect(paramMetadata.expression)
-        .to.be.a("string")
-        .and.to.eq("test");
+      expect(paramMetadata.expression).to.be.a("string").and.to.eq("test");
 
       expect(paramMetadata.collectionType).to.eq(undefined);
       expect(paramMetadata.type).to.eq(Test);
@@ -40,9 +36,7 @@ describe("ParamMetadata", () => {
       paramMetadata.type = Test;
       paramMetadata.paramType = ParamTypes.ERR;
 
-      expect(paramMetadata.service)
-        .to.be.a("string")
-        .to.eq(ParamTypes.ERR);
+      expect(paramMetadata.service).to.be.a("string").to.eq(ParamTypes.ERR);
     });
   });
 

@@ -7,6 +7,8 @@ import {
   HandlerType,
   ParamMetadata,
   ParamTypes,
+  PlatformRequest,
+  PlatformResponse,
   PlatformTest,
   QueryParams
 } from "@tsed/common";
@@ -26,6 +28,11 @@ function build(injector: InjectorService, type: string, {expression, required}: 
 
   const request: any = new FakeRequest();
   const response: any = new FakeResponse();
+  request.ctx = PlatformTest.createRequestContext({
+    response: new PlatformResponse(response),
+    request: new PlatformRequest(request)
+  });
+
   const next: any = Sinon.stub();
   const context = new HandlerContext({
     injector,
@@ -130,11 +137,15 @@ describe("PlatformHandler", () => {
       "should return a native metadata (success middleware)",
       PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
-        sandbox.stub(Test.prototype, "get").callsFake(o => o);
+        sandbox.stub(Test.prototype, "get").callsFake((o) => o);
         injector.invoke(Test);
 
-        const request = new FakeRequest();
-        const response = new FakeRequest();
+        const request: any = new FakeRequest();
+        const response: any = new FakeRequest();
+        request.ctx = PlatformTest.createRequestContext({
+          response: new PlatformResponse(response),
+          request: new PlatformRequest(request)
+        });
 
         const handlerMetadata = new HandlerMetadata({
           token: Test,
@@ -146,7 +157,7 @@ describe("PlatformHandler", () => {
         // WHEN
         const handler = platformHandler.createHandler(handlerMetadata);
 
-        const result = await new Promise(resolve => {
+        const result = await new Promise((resolve) => {
           handler(request, response, resolve);
         });
 
@@ -159,7 +170,7 @@ describe("PlatformHandler", () => {
       "should return a native metadata (from native metadata)",
       PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
-        sandbox.stub(Test.prototype, "get").callsFake(o => o);
+        sandbox.stub(Test.prototype, "get").callsFake((o) => o);
         sandbox.stub(injector, "invoke").callsFake(() => new Test());
 
         const request = new FakeRequest();
@@ -179,7 +190,7 @@ describe("PlatformHandler", () => {
       "should return a native metadata (error middleware)",
       PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
-        sandbox.stub(Test.prototype, "use").callsFake(o => o);
+        sandbox.stub(Test.prototype, "use").callsFake((o) => o);
         sandbox.stub(injector, "invoke").callsFake(() => new Test());
 
         const request = new FakeRequest();
@@ -196,7 +207,7 @@ describe("PlatformHandler", () => {
         // WHEN
         const handler = platformHandler.createHandler(handlerMetadata);
 
-        const result = await new Promise(resolve => {
+        const result = await new Promise((resolve) => {
           handler(error, request, response, resolve);
         });
 
@@ -212,7 +223,7 @@ describe("PlatformHandler", () => {
       "should do nothing when request is aborted",
       PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
         // GIVEN
-        sandbox.stub(Test.prototype, "get").callsFake(o => o);
+        sandbox.stub(Test.prototype, "get").callsFake((o) => o);
         sandbox.stub(injector, "invoke").callsFake(() => new Test());
 
         const request = new FakeRequest();
@@ -329,6 +340,101 @@ describe("PlatformHandler", () => {
 
         // THEN
         expect(value).to.deep.eq(request.ctx.endpoint);
+      })
+    );
+    it(
+      "should return BODY",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
+        // GIVEN
+        const {param, context} = build(injector, ParamTypes.BODY);
+
+        // WHEN
+        const value = platformHandler.getParam(param, context);
+
+        // THEN
+        expect(value).to.deep.eq(context.request.body);
+      })
+    );
+    it(
+      "should return PATH",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
+        // GIVEN
+        const {param, context} = build(injector, ParamTypes.PATH);
+
+        // WHEN
+        const value = platformHandler.getParam(param, context);
+
+        // THEN
+        expect(value).to.deep.eq(context.request.params);
+      })
+    );
+    it(
+      "should return QUERY",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
+        // GIVEN
+        const {param, context} = build(injector, ParamTypes.QUERY);
+
+        // WHEN
+        const value = platformHandler.getParam(param, context);
+
+        // THEN
+        expect(value).to.deep.eq(context.request.query);
+      })
+    );
+    it(
+      "should return HEADER",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
+        // GIVEN
+        const {param, context} = build(injector, ParamTypes.HEADER);
+
+        // WHEN
+        const value = platformHandler.getParam(param, context);
+
+        // THEN
+        expect(value).to.deep.eq({
+          accept: "application/json",
+          "content-type": "application/json"
+        });
+      })
+    );
+    it(
+      "should return COOKIES",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
+        // GIVEN
+        const {param, context} = build(injector, ParamTypes.COOKIES);
+
+        // WHEN
+        const value = platformHandler.getParam(param, context);
+
+        // THEN
+        expect(value).to.deep.eq(context.request.cookies);
+      })
+    );
+    it(
+      "should return SESSION",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
+        // GIVEN
+        const {param, context} = build(injector, ParamTypes.SESSION);
+
+        // WHEN
+        const value = platformHandler.getParam(param, context);
+
+        // THEN
+        expect(value).to.deep.eq(context.request.session);
+      })
+    );
+    it(
+      "should return LOCALS",
+      PlatformTest.inject([InjectorService, PlatformHandler], async (injector: InjectorService, platformHandler: PlatformHandler) => {
+        // GIVEN
+        const {param, context} = build(injector, ParamTypes.LOCALS);
+        context.err = new Error();
+
+        // WHEN
+        const value = platformHandler.getParam(param, context);
+
+        // THEN
+        expect(value).to.deep.eq(context.response.locals);
       })
     );
     it(

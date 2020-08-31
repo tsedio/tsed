@@ -44,10 +44,7 @@ describe("@Returns", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @(Returns()
-        .Status(200)
-        .Type(String)
-        .Description("description"))
+      @(Returns().Status(200).Type(String).Description("description"))
       method() {}
     }
 
@@ -142,10 +139,7 @@ describe("@Returns", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @(Returns(200, String)
-        .Description("description")
-        .ContentType("text/html")
-        .Examples("Examples"))
+      @(Returns(200, String).Description("description").ContentType("text/html").Examples("Examples"))
       method() {}
     }
 
@@ -242,9 +236,7 @@ describe("@Returns", () => {
     try {
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String)
-          .Of(Array)
-          .Description("description"))
+        @(Returns(200, String).Of(Array).Description("description"))
         method() {}
       }
     } catch (er) {
@@ -259,9 +251,7 @@ describe("@Returns", () => {
     try {
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array)
-          .Nested(Set)
-          .Description("description"))
+        @(Returns(200, Array).Nested(Set).Description("description"))
         method() {}
       }
     } catch (er) {
@@ -288,9 +278,7 @@ describe("@Returns", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @(Returns(200, Array)
-        .Of(String)
-        .Description("description"))
+      @(Returns(200, Array).Of(String).Description("description"))
       method() {}
     }
 
@@ -336,9 +324,7 @@ describe("@Returns", () => {
 
     class Controller {
       @OperationPath("POST", "/")
-      @(Returns(200, Array)
-        .Of(Model)
-        .Description("description"))
+      @(Returns(200, Array).Of(Model).Description("description"))
       method() {}
     }
 
@@ -411,10 +397,7 @@ describe("@Returns", () => {
 
     class Controller {
       @OperationPath("POST", "/")
-      @(Returns(200, Pagination)
-        .Of(Submission)
-        .Nested(Product)
-        .Description("description"))
+      @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
       async method(): Promise<Pagination<Submission<Product>> | null> {
         return null;
       }

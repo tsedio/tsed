@@ -19,7 +19,7 @@ function shouldMapAlias(key: string, value: any, useAlias: boolean) {
 }
 
 function getRequired(schema: any, useAlias: boolean) {
-  return Array.from(schema.$required).map(key => (useAlias ? (schema.alias.get(key) as string) || key : key));
+  return Array.from(schema.$required).map((key) => (useAlias ? (schema.alias.get(key) as string) || key : key));
 }
 
 /**

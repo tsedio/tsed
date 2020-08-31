@@ -11,7 +11,7 @@ export function printRoutes(routes: IRouteDetails[]) {
     ALL: "cyan"
   };
 
-  routes = routes.map(route => {
+  routes = routes.map((route) => {
     const method = route.method.toUpperCase();
 
     route.method = {

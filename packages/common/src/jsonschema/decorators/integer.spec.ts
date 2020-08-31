@@ -10,13 +10,13 @@ describe("Integer", () => {
     }
 
     expect(getJsonSchema(IntegerModel)).to.deep.eq({
-      "properties": {
-        "prop": {
-          "multipleOf": 1,
-          "type": "integer"
+      properties: {
+        prop: {
+          multipleOf: 1,
+          type: "integer"
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
 });

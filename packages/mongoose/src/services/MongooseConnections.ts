@@ -24,7 +24,7 @@ function mapOptions(options: Omit<MDBConnection, "id"> | MDBConnection[]): MDBCo
     ];
   }
 
-  return (options as MDBConnection[]).map(settings => {
+  return (options as MDBConnection[]).map((settings) => {
     return {
       ...settings,
       connectionOptions: settings.connectionOptions

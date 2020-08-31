@@ -1,8 +1,7 @@
 import {expect} from "chai";
 import {mapParamsOptions} from "./mapParamsOptions";
 
-class Test {
-}
+class Test {}
 
 describe("mapParamsOptions", () => {
   it("should return default params when params is empty", () => {

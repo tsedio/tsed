@@ -15,9 +15,7 @@ describe("PropertyMetadata", () => {
       propertyMetadata.required = true;
       propertyMetadata.type = Test;
 
-      expect(propertyMetadata.required)
-        .to.be.a("boolean")
-        .and.to.eq(true);
+      expect(propertyMetadata.required).to.be.a("boolean").and.to.eq(true);
 
       expect(propertyMetadata.collectionType).to.eq(undefined);
       expect(propertyMetadata.type).to.eq(Test);

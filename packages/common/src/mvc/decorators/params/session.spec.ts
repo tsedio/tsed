@@ -3,12 +3,10 @@ import {ParamMetadata, ParamTypes, Session} from "../../../../src/mvc";
 
 describe("@Session", () => {
   it("should call ParamFilter.useParam method with the correct parameters", () => {
-    class Test {
-    }
+    class Test {}
 
     class Ctrl {
-      test(@Session({expression: "expression", useType: Test}) body: Test) {
-      }
+      test(@Session({expression: "expression", useType: Test}) body: Test) {}
     }
 
     const param = ParamMetadata.get(Ctrl, "test", 0);

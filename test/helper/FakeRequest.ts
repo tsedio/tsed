@@ -56,7 +56,7 @@ export class FakeRequest {
 
   public headers: any = {
     "content-type": "application/json",
-    "accept": "application/json"
+    accept: "application/json"
   };
 
   public ctx: RequestContext;
@@ -99,11 +99,11 @@ export class FakeRequest {
   }
 
   get(value?: any) {
-    return value ? (this.headers[value.toLowerCase()] || "headerValue") : this.headers;
+    return value ? this.headers[value.toLowerCase()] || "headerValue" : this.headers;
   }
 
   accepts(mime?: string | string[]) {
-    mime = ([].concat(mime as any) as string[]);
+    mime = [].concat(mime as any) as string[];
 
     return mime.find((m: string) => m === this.headers.accept);
   }

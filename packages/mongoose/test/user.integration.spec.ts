@@ -9,23 +9,26 @@ describe("Mongoose", () => {
     beforeEach(TestMongooseContext.create);
     afterEach(TestMongooseContext.reset);
 
-    it("should run pre and post hook", TestMongooseContext.inject([TestUser], async (userModel: MongooseModel<TestUser>) => {
-      // GIVEN
-      const user = new userModel({
-        email: "test@test.fr",
-        password: "test"
-      });
+    it(
+      "should run pre and post hook",
+      TestMongooseContext.inject([TestUser], async (userModel: MongooseModel<TestUser>) => {
+        // GIVEN
+        const user = new userModel({
+          email: "test@test.fr",
+          password: "test"
+        });
 
-      // WHEN
-      await user.save();
+        // WHEN
+        await user.save();
 
-      // THEN
-      expect(user.email).to.equal("test@test.fr");
-      expect(user.password).to.equal("test");
+        // THEN
+        expect(user.email).to.equal("test@test.fr");
+        expect(user.password).to.equal("test");
 
-      expect(user.pre).to.equal("hello pre");
-      expect(user.post).to.equal("hello post");
-    }));
+        expect(user.pre).to.equal("hello pre");
+        expect(user.post).to.equal("hello post");
+      })
+    );
   });
 
   describe("UserModel", () => {
@@ -33,18 +36,21 @@ describe("Mongoose", () => {
     afterEach(TestMongooseContext.clearDatabase);
     afterEach(TestMongooseContext.reset);
 
-    it("should run pre and post hook", TestMongooseContext.inject([TestUser], async (userModel: MongooseModel<TestUser>) => {
-      // GIVEN
-      const user = new userModel({
-        email: "test@test.fr"
-      });
+    it(
+      "should run pre and post hook",
+      TestMongooseContext.inject([TestUser], async (userModel: MongooseModel<TestUser>) => {
+        // GIVEN
+        const user = new userModel({
+          email: "test@test.fr"
+        });
 
-      // WHEN
-      await user.save();
+        // WHEN
+        await user.save();
 
-      // THEN
-      expect(user.pre).to.equal("hello pre");
-      expect(user.post).to.equal("hello post");
-    }));
+        // THEN
+        expect(user.pre).to.equal("hello pre");
+        expect(user.post).to.equal("hello post");
+      })
+    );
   });
 });

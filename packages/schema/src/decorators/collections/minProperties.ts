@@ -73,7 +73,7 @@ export function MinProperties(minProperties: number) {
     throw new Error("The value of minProperties MUST be a non-negative integer.");
   }
 
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     store.isCollection ? store.schema.minProperties(minProperties) : store.itemSchema.minProperties(minProperties);
   });
 }

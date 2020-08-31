@@ -57,7 +57,7 @@ export function AuthOptions(guardAuth: Type<any>, options: IAuthOptions = {}): F
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
     switch (decoratorTypeOf(args)) {
       case DecoratorTypes.METHOD:
-        return EndpointFn(endpoint => {
+        return EndpointFn((endpoint) => {
           const store = endpoint.store;
 
           if (options.responses) {
@@ -68,7 +68,7 @@ export function AuthOptions(guardAuth: Type<any>, options: IAuthOptions = {}): F
 
           if (options.security) {
             const {security} = options;
-            [].concat(security as any).forEach(security => {
+            [].concat(security as any).forEach((security) => {
               Object.entries(security).forEach(([name, scopes]: [string, string[]]) => {
                 endpoint.operation.addSecurityScopes(name, scopes);
               });

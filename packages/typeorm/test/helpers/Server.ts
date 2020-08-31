@@ -25,8 +25,7 @@ export class Server {
   app: PlatformApplication;
 
   public $beforeRoutesInit(): void {
-    this
-      .app
+    this.app
       .use(bodyParser.json())
       .use(
         bodyParser.urlencoded({

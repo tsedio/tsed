@@ -160,10 +160,7 @@ export function testErrors(options: PlatformTestOptions) {
   });
 
   it("Scenario 6: POST /rest/errors/scenario-6", async () => {
-    const response: any = await request
-      .post(`/rest/errors/scenario-6`)
-      .send({})
-      .expect(400);
+    const response: any = await request.post(`/rest/errors/scenario-6`).send({}).expect(400);
 
     expect(response.text).to.deep.eq(
       "Bad request on parameter \"request.body\".<br />CustomPropModel should have required property 'role_item'. Given value: \"undefined\""

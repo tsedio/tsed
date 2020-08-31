@@ -28,7 +28,7 @@ export class SocketIOService {
 
       this.namespaces.set(namespace, conf);
 
-      conf.nsp.on("connection", socket => {
+      conf.nsp.on("connection", (socket) => {
         conf.instances.forEach((builder: SocketHandlersBuilder) => {
           builder.onConnection(socket, conf.nsp);
         });

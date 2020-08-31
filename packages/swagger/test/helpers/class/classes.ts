@@ -34,8 +34,7 @@ export class SwaFoo {
   @Description("Description.foo")
   foo: any;
 
-  method() {
-  }
+  method() {}
 }
 
 @Title("SwaFoo2")
@@ -94,12 +93,10 @@ export class SwaFoo2 {
   @Any()
   anyValue: any;
 
-  method() {
-  }
+  method() {}
 }
 
-export class Ctrl {
-}
+export class Ctrl {}
 
 export class ParentModel {
   @Required()

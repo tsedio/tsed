@@ -73,7 +73,7 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
 
     const specJson: any = {paths};
 
-    getOperationsStores(model).forEach(operationStore => {
+    getOperationsStores(model).forEach((operationStore) => {
       const operation = operationStore.operation!.toJSON({...options, spec, schemas});
 
       operationStore.operation!.operationPaths.forEach(({path, method}: {path: string; method: string}) => {

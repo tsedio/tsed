@@ -40,7 +40,7 @@ export class SocketHandlersBuilder {
 
     instance._nspSession = getNspSession(namespace!);
 
-    injectNamespaces.forEach(setting => {
+    injectNamespaces.forEach((setting) => {
       instance[setting.propertyKey] = nsps.get(setting.nsp || namespace);
     });
 
@@ -118,7 +118,7 @@ export class SocketHandlersBuilder {
    */
   private buildHandlers(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
     Object.keys(this.socketProviderMetadata.handlers)
-      .filter(key => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
+      .filter((key) => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
       .forEach((propertyKey: string) => {
         const handlerMetadata: ISocketHandlerMetadata = this.socketProviderMetadata.handlers[propertyKey];
         const eventName: string = handlerMetadata.eventName!;
@@ -152,11 +152,11 @@ export class SocketHandlersBuilder {
     promise = promise.then(() => this.deserialize(handlerMetadata, scope));
 
     if (useBefore) {
-      useBefore.forEach(target => (promise = this.bindMiddleware(target, scope, promise)));
+      useBefore.forEach((target) => (promise = this.bindMiddleware(target, scope, promise)));
     }
 
     if (handlerMetadata.useBefore) {
-      handlerMetadata.useBefore.forEach(target => (promise = this.bindMiddleware(target, scope, promise)));
+      handlerMetadata.useBefore.forEach((target) => (promise = this.bindMiddleware(target, scope, promise)));
     }
 
     promise = promise
@@ -164,11 +164,11 @@ export class SocketHandlersBuilder {
       .then(SocketHandlersBuilder.bindResponseMiddleware(handlerMetadata, scope));
 
     if (handlerMetadata.useAfter) {
-      handlerMetadata.useAfter.forEach(target => (promise = this.bindMiddleware(target, scope, promise)));
+      handlerMetadata.useAfter.forEach((target) => (promise = this.bindMiddleware(target, scope, promise)));
     }
 
     if (useAfter) {
-      useAfter.forEach(target => (promise = this.bindMiddleware(target, scope, promise)));
+      useAfter.forEach((target) => (promise = this.bindMiddleware(target, scope, promise)));
     }
 
     return promise.catch((er: any) => {

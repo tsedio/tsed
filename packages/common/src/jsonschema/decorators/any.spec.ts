@@ -46,17 +46,12 @@ describe("Any", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      "properties": {
-        "num": {
-          "type": [
-            "string",
-            "number",
-            "boolean",
-            "null"
-          ]
+      properties: {
+        num: {
+          type: ["string", "number", "boolean", "null"]
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
   it("should declare any prop (with string, list)", () => {
@@ -68,15 +63,12 @@ describe("Any", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      "properties": {
-        "num": {
-          "type": [
-            "string",
-            "null"
-          ]
+      properties: {
+        num: {
+          type: ["string", "null"]
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
 });

@@ -18,10 +18,7 @@ const rootDir = resolve(__dirname);
     logRequest: true
   },
   mount: {},
-  componentsScan: [
-    "${rootDir}/services/**/*.ts",
-    "${rootDir}/graphql/**/*.ts"
-  ],
+  componentsScan: ["${rootDir}/services/**/*.ts", "${rootDir}/graphql/**/*.ts"],
   graphql: {
     default: {
       path: "/api/graphql",

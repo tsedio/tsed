@@ -131,7 +131,6 @@ export class ServerSettingsService extends DIConfiguration {
     this.setRaw("statics", value);
   }
 
-
   get acceptMimes(): string[] {
     return this.getRaw("acceptMimes") || ["application/json"];
   }

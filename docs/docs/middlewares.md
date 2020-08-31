@@ -8,7 +8,6 @@ This method can use all parameters decorators as you could see with the [Control
 
 <figure><img src="./../assets/middleware.svg" style="max-height: 300px; padding: 30px"></figure>
 
-
 ## Configuration
 
 To begin, you must add the `middlewares` folder on the `componentsScan` attribute in your server settings as follow :
@@ -21,13 +20,13 @@ Then, create a new file in your middlewares folder. Create a new Class definitio
 
 You have different usecases to declare and use a middleware as following:
 
- * Global Middleware, this middleware can be used on the Server,
- * Endpoint Middleware, this middleware can be used on a controller method,
- * Error middleware, this middleware can be used to handle errors.
+ * [Global middleware](/docs/middlewares.html#global-middleware): this middleware can be used on the Server,
+ * [Endpoint middleware](/docs/middlewares.html#endpoint-middleware): this middleware can be used on a controller method,
+ * [Error middleware](/docs/middlewares.html#error-middleware): this middleware can be used to handle errors.
  
 ::: tip Note
 Global middleware and endpoint middleware are similar, except that the Endpoint middleware 
-can retrieve endpoint information that is executed. 
+can access to the last executed endpoint information. 
 :::
 
 ## Global middleware 
@@ -74,6 +73,44 @@ Middleware can be used on a class controller or endpoint method with the followi
 - or routes decorators: @@Get@@, @@Post@@, @@Delete@@, @@Put@@ and @@Patch@@
 
 <<< @/docs/docs/snippets/middlewares/endpoint-use-decorator-usage.ts
+
+
+## Error middleware
+
+Express allows you to handle any error when your middleware have 4 parameters like this:
+
+```javascript
+function (error, req, res, next){}
+```
+
+Ts.ED has the same mechanism with @@Err@@ decorator. Use this decorator on a middleware to create a handler which will only
+called when an error occurs on th decorated endpoint.
+
+```typescript
+import {Err, Middleware, Next} from "@tsed/common";
+
+@Middleware()
+export class MyMiddlewareError {
+  use(@Err() err: unknown, @Next() next: Next) {
+    console.log('===> Error:', err);
+  }
+}
+```
+
+The following example is the GlobalErrorHandlerMiddleware
+used by Ts.ED to handle all errors thrown by your application.
+
+If you planed to catch errors globally see our [Exception filter](/docs/exceptions.md) page.
+
+## Specifics parameters decorators
+
+In addition, you have these specifics parameters decorators for the middlewares:
+
+Signature | Description
+--- | ---
+@@Err@@ | Inject the `Express.Err` service.
+@@ResponseData@@ | Provide the data returned by the previous middlewares.
+@@EndpointInfo@@ | Provide the endpoint information.
 
 ## Call sequences
 
@@ -126,29 +163,6 @@ According to the call sequence scheme, the stack calls will be there:
 - **MdlwCtrlAfter**, but this middleware will not be called because a response is sent.
 - **Middleware** added in Server (not called too).
 
-## Handle error
-
-Express allows you to handle any error when your middleware have 4 parameters like this:
-
-```javascript
-function (error, req, res, next){}
-```
-
-Ts.ED has the same mechanism with @@Err@@ decorator. The following example is the GlobalErrorHandlerMiddleware
-used by Ts.ED to handle all errors thrown by your application.
-
-<<< @/docs/docs/snippets/middlewares/global-middleware-error.ts
-
-## Specifics parameters decorators
-
-In addition, you have these specifics parameters decorators for the middlewares:
-
-Signature | Description
---- | --- | ---
-@@Err@@ | Inject the `Express.Err` service. (Decorator for middleware).
-@@ResponseData@@ | Provide the data returned by the previous middlewares.
-@@EndpointInfo@@ | Provide the endpoint settings.
-
 ## Override existing middlewares
 
 The decorator @@OverrideProvider@@ gives you the ability to override some internal Ts.ED middlewares.
@@ -162,15 +176,11 @@ You are able to override this middleware to change the initial behavior of this 
 
 <<< @/docs/docs/snippets/middlewares/override-platform-response-middleware.ts
 
-Here we use the new Platform API to write our middleware. By using @@Context@@ decorator and @@RequestContext@@ class we can get
-some information:
+Here we use the new [Platform API](/docs/platform-api.md) to write our middleware. By using @@Context@@ decorator and @@RequestContext@@ class we can get some information:
 
 - The data returned by the last executed endpoint,
 - The @@EndpointMetadata@@ itself,
-- The @@PlatformRequest@@ and @@PlatformResponse@@ classes abstraction.
-
-
-these classes allow better code abstraction by exposing methods that are agnostic to Express.js.
+- The @@PlatformRequest@@ and @@PlatformResponse@@ classes abstraction. These classes allow better code abstraction by exposing methods that are agnostic to Express.js.
 
 ::: warning
 Ts.ED have is own @@GlobalErrorHandlerMiddleware@@. Override this middleware is not necessary, since you can create you own middleware and

@@ -3,8 +3,7 @@
  */
 export const createFakeRawDriver = () => {
   // istanbul ignore next
-  function FakeRawDriver() {
-  }
+  function FakeRawDriver() {}
 
   // istanbul ignore next
   function use() {

@@ -22,7 +22,7 @@ export const $logStub: LogStub = {
   warn: Sinon.stub(),
   trace: Sinon.stub(),
   // tslint:disable-next-line
-  stub: function() {
+  stub: function () {
     this.info = Sinon.stub($log, "info");
     this.debug = Sinon.stub($log, "debug");
     this.error = Sinon.stub($log, "error");
@@ -30,7 +30,7 @@ export const $logStub: LogStub = {
     this.trace = Sinon.stub($log, "trace");
   },
   // tslint:disable-next-line
-  restore: function() {
+  restore: function () {
     this.info.restore();
     this.debug.restore();
     this.error.restore();
@@ -38,7 +38,7 @@ export const $logStub: LogStub = {
     this.trace.restore();
   },
   // tslint:disable-next-line
-  reset: function() {
+  reset: function () {
     this.info.reset();
     this.debug.reset();
     this.error.reset();

@@ -86,7 +86,7 @@ export class Registry<T, O> extends Map<RegistryKey, T> {
   merge(target: RegistryKey, options: Partial<O>): void {
     const meta: {[key: string]: any} = this.createIfNotExists(target);
 
-    Object.keys(options).forEach(key => {
+    Object.keys(options).forEach((key) => {
       meta[key] = (options as any)[key];
     });
 

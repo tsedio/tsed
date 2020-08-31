@@ -108,7 +108,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -160,7 +160,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -209,7 +209,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
       }
@@ -282,7 +282,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -329,7 +329,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
 
@@ -378,7 +378,7 @@ describe("serialize()", () => {
         @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
         password: string;
 
-        @OnSerialize(value => String(value) + "test")
+        @OnSerialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
       }

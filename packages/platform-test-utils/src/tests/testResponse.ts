@@ -47,7 +47,7 @@ class TestResponseParamsCtrl {
 
   @Get("/scenario4/:id")
   async testScenario4Assert(@PathParams("id") id: number, @Req() request: Req, @Next() next: Next) {
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
 
@@ -62,7 +62,7 @@ class TestResponseParamsCtrl {
 
   @Get("/scenario5")
   async testScenario5Promise() {
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
 

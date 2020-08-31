@@ -5,8 +5,7 @@ describe("In", () => {
   it("should declare all schema correctly (param)", async () => {
     // WHEN
     class Controller {
-      method(@In("path") @Name("basic") basic: string) {
-      }
+      method(@In("path") @Name("basic") basic: string) {}
     }
 
     // THEN
@@ -37,9 +36,8 @@ describe("In", () => {
   it("should declare all schema correctly (method)", async () => {
     // WHEN
     class Controller {
-      @In("header").Type(String).Name("Authorization").Required().Description("description")
-      method(@In("path") @Name("basic") basic: string) {
-      }
+      @(In("header").Type(String).Name("Authorization").Required().Description("description"))
+      method(@In("path") @Name("basic") basic: string) {}
     }
 
     // THEN
@@ -76,8 +74,7 @@ describe("In", () => {
   });
   it("should throw error for unsupported usage", () => {
     class Test {
-      test() {
-      }
+      test() {}
     }
 
     let actualError: any;

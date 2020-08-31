@@ -128,7 +128,7 @@ export class GraphQLService {
    * @returns {Provider<any>[]}
    */
   protected getResolvers(): Type<any>[] {
-    return Array.from(this.injectorService.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE)).map(provider =>
+    return Array.from(this.injectorService.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE)).map((provider) =>
       this.injectorService.invoke(provider.provide)
     );
   }

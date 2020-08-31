@@ -4,20 +4,16 @@ import {EndpointMetadata} from "../../models/EndpointMetadata";
 import {UseAfter} from "./useAfter";
 
 class CustomMiddleware {
-  use() {
-  }
+  use() {}
 }
 
 describe("UseAfter()", () => {
   describe("when the decorator is use on a class", () => {
-
-
     it("should add the middleware on the use stack", () => {
       // WHEN
       @UseAfter(CustomMiddleware)
       class Test {
-        test() {
-        }
+        test() {}
       }
 
       // THEN
@@ -31,8 +27,7 @@ describe("UseAfter()", () => {
       // WHEN
       class Test {
         @UseAfter(CustomMiddleware)
-        test() {
-        }
+        test() {}
       }
 
       // THEN
@@ -42,8 +37,7 @@ describe("UseAfter()", () => {
   });
   describe("when the decorator is use in another way", () => {
     class Test {
-      test() {
-      }
+      test() {}
     }
 
     it("should add the middleware on the use stack", () => {

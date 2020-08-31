@@ -1,7 +1,6 @@
 import {Allow, Ignore, MinLength, Property, Required} from "@tsed/schema";
 import {Model, ObjectID, PostHook, PreHook, Unique} from "../../../src/decorators";
 
-
 export class TestUserCreation {
   @ObjectID("id")
   _id: string;

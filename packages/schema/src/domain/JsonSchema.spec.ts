@@ -37,10 +37,7 @@ describe("JsonSchema", () => {
     describe("Length", () => {
       // https://json-schema.org/understanding-json-schema/reference/string.html#length
       it("should create a new jsonSchema", () => {
-        const schema = JsonSchema.from({type: String})
-          .minLength(2)
-          .maxLength(3)
-          .toObject();
+        const schema = JsonSchema.from({type: String}).minLength(2).maxLength(3).toObject();
 
         const validate = new Ajv().compile(schema);
 
@@ -60,9 +57,7 @@ describe("JsonSchema", () => {
     describe("Regular expression", () => {
       // https://json-schema.org/understanding-json-schema/reference/string.html#regular-expressions
       it("should build json schema", () => {
-        const schema = JsonSchema.from({type: String})
-          .pattern(new RegExp("^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"))
-          .toObject();
+        const schema = JsonSchema.from({type: String}).pattern(new RegExp("^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$")).toObject();
 
         const validate = new Ajv().compile(schema);
 
@@ -89,9 +84,7 @@ describe("JsonSchema", () => {
       });
 
       it("should create a new jsonSchema with format", () => {
-        const result = JsonSchema.from({type: Date})
-          .format("date-time")
-          .toObject();
+        const result = JsonSchema.from({type: Date}).format("date-time").toObject();
 
         expect(result).to.deep.equal({
           type: "string",
@@ -1415,9 +1408,7 @@ describe("JsonSchema", () => {
 
   describe("Any types", () => {
     it("should create a new jsonSchema", () => {
-      const result = JsonSchema.from({type: Object})
-        .any()
-        .toObject();
+      const result = JsonSchema.from({type: Object}).any().toObject();
 
       expect(result).to.deep.equal({
         type: ["integer", "number", "string", "boolean", "array", "object", "null"]

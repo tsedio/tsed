@@ -289,13 +289,13 @@ describe("DecoratorUtils", () => {
 
   describe("applyDecorators", () => {
     function decorator1(value: any) {
-      return StoreFn(store => {
+      return StoreFn((store) => {
         store.set("decorator1", value);
       });
     }
 
     function decorator2(value: any) {
-      return StoreFn(store => {
+      return StoreFn((store) => {
         store.set("decorator2", value);
       });
     }
@@ -314,13 +314,13 @@ describe("DecoratorUtils", () => {
   });
   describe("useDecorators", () => {
     function decorator1(value: any) {
-      return StoreFn(store => {
+      return StoreFn((store) => {
         store.set("decorator1", value);
       });
     }
 
     function decorator2(value: any) {
-      return StoreFn(store => {
+      return StoreFn((store) => {
         store.set("decorator2", value);
       });
     }
@@ -340,13 +340,13 @@ describe("DecoratorUtils", () => {
   describe("useMethodDecorators", () => {
     it("should apply all decorators", () => {
       function decorator1(value: any) {
-        return StoreFn(store => {
+        return StoreFn((store) => {
           store.set("decorator1", value);
         });
       }
 
       function decorator2(value: any) {
-        return StoreFn(store => {
+        return StoreFn((store) => {
           store.set("decorator2", value);
         });
       }

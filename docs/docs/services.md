@@ -11,14 +11,14 @@ You must add the `services` folder on `componentsScan` attribute in your server 
 import {Configuration} from "@tsed/common";
 
 @Configuration({
-   rootDir: __dirname,
-   mount: {
-      '/rest': `./controllers/**/**.js`
-   },
-   componentsScan: [
-       `./services/**/**.js`
-   ],
-   customServiceOptions: {}
+  rootDir: __dirname,
+  mount: {
+    '/rest': `./controllers/**/**.js`
+  },
+  componentsScan: [
+    `./services/**/**.js`
+  ],
+  customServiceOptions: {}
 })
 export class Server {
 }       
@@ -33,20 +33,17 @@ export class Server {
 Create a new file in your services folder. Create a new Class definition and add the `@Service()` annotation on your class.
 
 ```typescript
-import {Configuration, Injectable} from "@tsed/di";
+import {Configuration, Injectable, Constant} from "@tsed/di";
 import {OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady} from "@tsed/common"
 
 @Injectable()
-export class MyService implements OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnReady {
-    private settings = {};
-    
-    constructor(@Configuration() private configuration: Configuration) {
-        this.settings = this.configuration.get<any>('customServiceOptions');
-    }
-    
-    public getSettings() {
-        return this.settings;
-    }
+export class MyService implements OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady {
+  @Constant("customServiceOptions", {})
+  private settings: any;
+
+  public getSettings() {
+    return this.settings;
+  }
 }
 ```
 
@@ -57,23 +54,26 @@ import {MyService} from "./MyService";
 
 @Injectable()
 export class FooService {
-    constructor(private myService: MyService) {
-    
-    }
+  constructor(private myService: MyService) {
+  }
 }
 ```
+
 Or to another controller: 
 
 ```typescript
-import {Controller} from "@tsed/di";
-
+import {Controller, Inject} from "@tsed/di";
 import {MyService} from "./MyService";
 
 @Controller('/rest') 
 class MyController {
-    constructor(private myService: MyService){
-    
-    }
+  @Inject()
+  service: MyService;
+  
+  // OR from constructor
+  constructor(private myService: MyService){
+  
+  }
 }  
 ```
 
@@ -85,11 +85,11 @@ override some internal Ts.ED service like the @@ParseService@@.
 Example usage:
 ```typescript
 import {OverrideProvider} from "@tsed/di";
-import {ParseService} from "@tsed/common";
+import {SomeService} from "@tsed/common";
 
-@OverrideProvider(ParseService)
-class CustomParseService extends ParseService {
-    
+@OverrideProvider(SomeService)
+class CustomService extends SomeService {
+  // do something  
 }
 ```
 
@@ -163,5 +163,5 @@ $onDestroy | Respond when a Service or Controller is destroyed (uniquely when cl
 The interfaces are optionals for JavaScript and Typescript developers from a purely technical perspective.
 The JavaScript language doesn't have interfaces. Ts.ED can't see TypeScript interfaces at runtime because they disappear from the transpiled JavaScript.
 
-Nonetheless, it's good practice to add interfaces to TypeScript directive classes in order to benefit from strong typing and editor tooling.
+Nonetheless, it's good practice adding interfaces to TypeScript directive classes in order to benefit from strong typing and editor tooling.
 :::

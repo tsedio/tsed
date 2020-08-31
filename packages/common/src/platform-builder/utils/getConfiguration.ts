@@ -13,10 +13,7 @@ export function getConfiguration(module: Type<any>, configuration: any = {}) {
   }
 
   if (store.componentsScan && configuration.componentsScan) {
-    config.mount = [
-      ...store.componentsScan,
-      ...configuration.componentsScan
-    ];
+    config.mount = [...store.componentsScan, ...configuration.componentsScan];
   }
 
   return config;

@@ -61,7 +61,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @schema
  */
 export function Const(constValue: JSONSchema6Type | any) {
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     store.itemSchema.const(constValue);
   });
 }

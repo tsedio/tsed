@@ -17,23 +17,18 @@ describe("DI", () => {
     @Service()
     @Scope(ProviderScope.INSTANCE)
     class ServiceInstance {
-      constructor() {
-
-      }
+      constructor() {}
     }
 
     @Service()
     class ServiceSingleton {
-      constructor() {
-      }
+      constructor() {}
     }
 
     @Service()
     @Scope(ProviderScope.REQUEST)
     class ServiceRequest implements OnDestroy {
-      constructor(public serviceSingleton: ServiceSingleton, public serviceInstance: ServiceInstance) {
-
-      }
+      constructor(public serviceSingleton: ServiceSingleton, public serviceInstance: ServiceInstance) {}
 
       $onDestroy(): Promise<any> | void {
         return undefined;
@@ -72,12 +67,10 @@ describe("DI", () => {
   });
 
   describe("it should invoke service with abstract class", () => {
-    abstract class BaseService {
-    }
+    abstract class BaseService {}
 
     @Injectable()
-    class NestedService extends BaseService {
-    }
+    class NestedService extends BaseService {}
 
     class BaseMyService {
       @Inject(NestedService)
@@ -85,8 +78,7 @@ describe("DI", () => {
     }
 
     @Injectable()
-    class MyService extends BaseMyService {
-    }
+    class MyService extends BaseMyService {}
 
     after(() => {
       GlobalProviders.delete(MyService);

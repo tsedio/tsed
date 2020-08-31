@@ -139,7 +139,7 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
   static getEndpoints(target: Type<any>): EndpointMetadata[] {
     const operations = getOperationsStores<EndpointMetadata>(target);
 
-    return Array.from(operations.values()).map(endpoint => {
+    return Array.from(operations.values()).map((endpoint) => {
       endpoint = endpoint.clone();
       endpoint.token = classOf(target);
 

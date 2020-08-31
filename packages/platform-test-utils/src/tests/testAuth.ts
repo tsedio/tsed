@@ -52,10 +52,7 @@ export function OAuth(options: any = {}): Function {
   return useDecorators(
     UseAuth(OAuthMiddleware, options),
     Security("global_auth", ...(options.scopes || [])),
-    In("header")
-      .Type(String)
-      .Name("Authorization")
-      .Required(),
+    In("header").Type(String).Name("Authorization").Required(),
     Returns(401).Description("Unauthorized"),
     Returns(403).Description("Forbidden")
   );

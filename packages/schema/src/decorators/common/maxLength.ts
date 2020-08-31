@@ -80,7 +80,7 @@ export function MaxLength(maxLength: number) {
     throw new Error("The value of maxLength MUST be a non-negative integer.");
   }
 
-  return JsonEntityFn(store => {
+  return JsonEntityFn((store) => {
     store.itemSchema.maxLength(maxLength);
   });
 }

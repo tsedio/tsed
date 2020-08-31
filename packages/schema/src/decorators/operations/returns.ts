@@ -368,7 +368,7 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
   decorator.Of = (...types: (Type<any> | any)[]) => {
     checkPrimitive(model);
 
-    actions.push(ctx => {
+    actions.push((ctx) => {
       const {store} = ctx;
 
       if (isCollection(model)) {
@@ -387,7 +387,7 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
     checkPrimitive(model);
     checkCollection(model);
 
-    actions.push(ctx => {
+    actions.push((ctx) => {
       const {store} = ctx;
       store.nestedGenerics.push(generics);
     });

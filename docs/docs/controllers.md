@@ -157,6 +157,21 @@ For the session, cookies, locals or context data attached on the request, it wor
 - @@Locals@@
 - @@Context@@
 
+#### Locals
+
+@@Locals@@ is a request property used by third-party like template engine to render a page by the server.
+If you attach data on it, you'll expose this data to the template.
+
+If you don't want that, don't use this attribute!
+
+Here is an example:
+
+<<< @/docs/docs/snippets/controllers/locals-example.ts
+
+#### Context
+
+See our dedicated page on [RequestContext](/docs/request-context.md) for more details.
+
 ## Response
 
 ### Decorators

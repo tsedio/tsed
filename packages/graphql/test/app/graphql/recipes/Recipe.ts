@@ -2,7 +2,7 @@ import {Field, ID, ObjectType} from "type-graphql";
 
 @ObjectType({description: "Object representing cooking recipe"})
 export class Recipe {
-  @Field(type => ID)
+  @Field((type) => ID)
   id: string;
 
   @Field()
@@ -14,7 +14,7 @@ export class Recipe {
   @Field()
   creationDate: Date;
 
-  @Field(type => [String])
+  @Field((type) => [String])
   ingredients: string[];
 
   constructor(options: Partial<Recipe> = {}) {

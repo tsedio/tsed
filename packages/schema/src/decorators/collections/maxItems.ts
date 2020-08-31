@@ -51,7 +51,7 @@ export function MaxItems(maxItems: number) {
     throw new Error("The value of maxItems MUST be a non-negative integer.");
   }
 
-  return JsonEntityFn(storedJson => {
+  return JsonEntityFn((storedJson) => {
     storedJson.schema.maxItems(maxItems);
   });
 }

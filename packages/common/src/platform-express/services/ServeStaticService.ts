@@ -21,7 +21,7 @@ export class ServeStaticService {
 
   statics(statics: IServerMountDirectories) {
     /* istanbul ignore else */
-    Object.keys(statics).forEach(path => {
+    Object.keys(statics).forEach((path) => {
       [].concat(statics[path] as any).forEach((directory: string) => this.mount(path, directory));
     });
   }

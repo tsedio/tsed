@@ -1,6 +1,5 @@
 import {OnSerialize as S} from "@tsed/json-mapper";
 
-
 /**
  * Call the function after property serialization.
  *

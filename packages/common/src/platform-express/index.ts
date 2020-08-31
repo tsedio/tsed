@@ -1,6 +1,4 @@
 export * from "./interfaces";
-export * from "./middlewares/GlobalErrorHandlerMiddleware";
-export * from "./middlewares/LogIncomingRequestMiddleware";
 
 // DECORATORS
 export * from "./decorators/mergeParams";

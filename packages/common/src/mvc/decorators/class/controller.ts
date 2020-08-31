@@ -57,7 +57,7 @@ function mapOptions(options: any): ControllerOptions {
 export function Controller(options: PathParamsType | ControllerOptions, ...children: Type<any>[]): ClassDecorator {
   const opts = mapOptions(options);
 
-  return target => {
+  return (target) => {
     registerController({
       provide: target,
       ...opts,

@@ -1,9 +1,12 @@
 import {IRoute, PlatformBuilder} from "@tsed/common";
 import {Type} from "@tsed/core";
-import {GlobalAcceptMimesMiddleware, GlobalErrorHandlerMiddleware, LogIncomingRequestMiddleware} from "../middlewares";
 import {PlatformExpressStatics} from "../services";
 import {createHttpServer, createHttpsServer} from "../utils";
 
+/**
+ * @platform
+ * @express
+ */
 export class PlatformExpress extends PlatformBuilder {
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
     return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
@@ -16,12 +19,7 @@ export class PlatformExpress extends PlatformBuilder {
   }
 
   protected async loadRoutes(routes: IRoute[]): Promise<void> {
-    this.app.use(LogIncomingRequestMiddleware);
-    this.app.use(GlobalAcceptMimesMiddleware);
-
     await super.loadRoutes(routes);
-
-    this.app.use(GlobalErrorHandlerMiddleware);
   }
 
   protected createInjector(module: Type<any>, settings: any) {

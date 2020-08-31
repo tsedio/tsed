@@ -50,21 +50,15 @@ describe("ControllerProvider", () => {
   });
 
   it("should get endpoints", () => {
-    expect(controllerProvider.endpoints)
-      .to.be.an("array")
-      .and.have.length(0);
+    expect(controllerProvider.endpoints).to.be.an("array").and.have.length(0);
   });
 
   it("should get children", () => {
-    expect(controllerProvider.children)
-      .to.be.an("array")
-      .and.have.length(1);
+    expect(controllerProvider.children).to.be.an("array").and.have.length(1);
   });
 
   it("should have a dependency witch have $parentCtrl attributs", () => {
-    expect(controllerProvider.children[0])
-      .to.equals(Test2)
-      .and.have.property("$parentCtrl");
+    expect(controllerProvider.children[0]).to.equals(Test2).and.have.property("$parentCtrl");
   });
 
   it("should get a scope", () => {

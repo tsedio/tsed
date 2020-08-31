@@ -25,7 +25,7 @@ export class BaseController<T extends {id: string}> {
     @PathParams("id")
     id: string
   ): Promise<any> {
-    const resource = this.resources.find(resource => resource.id === id);
+    const resource = this.resources.find((resource) => resource.id === id);
 
     if (!resource) {
       throw new NotFound("Not found");

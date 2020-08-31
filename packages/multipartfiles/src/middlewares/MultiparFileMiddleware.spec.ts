@@ -7,9 +7,7 @@ describe("MultipartFileMiddleware", () => {
     before(() => {
       this.settings = {
         uploadDir: "/",
-        get: Sinon.stub()
-          .withArgs("multer")
-          .returns({options: "options"})
+        get: Sinon.stub().withArgs("multer").returns({options: "options"})
       };
       this.middleware = new MultipartFileMiddleware(this.settings);
       this.expressMiddleware = Sinon.stub();
@@ -48,9 +46,7 @@ describe("MultipartFileMiddleware", () => {
     before(() => {
       this.settings = {
         uploadDir: "/",
-        get: Sinon.stub()
-          .withArgs("multer")
-          .returns({options: "options"})
+        get: Sinon.stub().withArgs("multer").returns({options: "options"})
       };
       this.middleware = new MultipartFileMiddleware(this.settings);
       this.expressMiddleware = Sinon.stub();
@@ -103,9 +99,7 @@ describe("MultipartFileMiddleware", () => {
     before(() => {
       this.settings = {
         uploadDir: "/",
-        get: Sinon.stub()
-          .withArgs("multer")
-          .returns({options: "options"})
+        get: Sinon.stub().withArgs("multer").returns({options: "options"})
       };
       this.middleware = new MultipartFileMiddleware(this.settings);
       this.expressMiddleware = Sinon.stub();

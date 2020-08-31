@@ -2,6 +2,11 @@ import {PathParamsType} from "../../mvc";
 import {IPlatformDriver, IPlatformRouteOptions} from "../interfaces/IPlatformDriver";
 import {PlatformHandler} from "./PlatformHandler";
 
+/**
+ * Platform driver abstraction layer.
+ *
+ * @platform
+ */
 export class PlatformDriver<T> implements IPlatformDriver<T> {
   public raw: T;
 
@@ -58,7 +63,7 @@ export class PlatformDriver<T> implements IPlatformDriver<T> {
   }
 
   mapHandlers(handlers: any[]): any[] {
-    return handlers.map(handler => {
+    return handlers.map((handler) => {
       if (typeof handler === "string") {
         return handler;
       }

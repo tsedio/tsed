@@ -6,24 +6,18 @@ describe("DI Request", () => {
   @Service()
   @Scope(ProviderScope.INSTANCE)
   class ServiceInstance {
-    constructor() {
-
-    }
+    constructor() {}
   }
 
   @Service()
   class ServiceSingleton {
-    constructor() {
-    }
+    constructor() {}
   }
-
 
   @Service()
   @Scope(ProviderScope.REQUEST)
   class ServiceRequest implements OnDestroy {
-    constructor(public serviceSingleton: ServiceSingleton, public serviceInstance: ServiceInstance) {
-
-    }
+    constructor(public serviceSingleton: ServiceSingleton, public serviceInstance: ServiceInstance) {}
 
     $onDestroy(): Promise<any> | void {
       return undefined;

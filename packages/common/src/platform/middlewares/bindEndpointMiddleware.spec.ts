@@ -16,7 +16,7 @@ describe("bindEndpointMiddleware", () => {
     const request: any = new FakeRequest();
     const response: any = new FakeRequest();
 
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       bindEndpointMiddleware(endpoint)(request, response, resolve);
     });
 

@@ -1,4 +1,3 @@
-
 export const HTTP_METHODS = [
   "all",
   "checkout",

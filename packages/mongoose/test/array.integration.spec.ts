@@ -47,4 +47,3 @@ describe("Mongoose", () => {
     });
   });
 });
-

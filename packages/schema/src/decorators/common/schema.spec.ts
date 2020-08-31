@@ -12,13 +12,13 @@ describe("Schema()", () => {
     }
 
     expect(getJsonSchema(Test)).to.deep.equal({
-      "properties": {
-        "test": {
-          "pattern": "a|b",
-          "type": "string"
+      properties: {
+        test: {
+          pattern: "a|b",
+          type: "string"
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
 });

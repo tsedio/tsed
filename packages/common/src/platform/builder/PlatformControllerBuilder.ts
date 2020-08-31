@@ -53,7 +53,7 @@ export class PlatformControllerBuilder {
     };
 
     endpoints.forEach(({operation}) => {
-      operation?.operationPaths.forEach(operationPath => {
+      operation?.operationPaths.forEach((operationPath) => {
         if (operationPath.method !== OperationMethods.CUSTOM) {
           const key = getKey(operationPath.method, operationPath.path);
           updateFinalRouteState(key);
@@ -64,7 +64,7 @@ export class PlatformControllerBuilder {
       });
     });
 
-    endpoints.forEach(endpoint => {
+    endpoints.forEach((endpoint) => {
       this.buildEndpoint(endpoint);
     });
 
@@ -122,7 +122,7 @@ export class PlatformControllerBuilder {
     const {router} = this.provider;
 
     middlewares
-      .filter(o => typeof o === "function")
+      .filter((o) => typeof o === "function")
       .forEach((middleware: any) => {
         router.use(middleware);
       });

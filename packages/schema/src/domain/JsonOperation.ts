@@ -91,9 +91,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     if (isSuccessStatus(statusCode) && !this._status) {
       const res = this.getResponseOf(200);
 
-      this.getResponses()
-        .set(statusCode.toString(), res)
-        .delete("200");
+      this.getResponses().set(statusCode.toString(), res).delete("200");
 
       this.defaultStatus(Number(statusCode));
     }
@@ -127,11 +125,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   }
 
   getContentTypeOf(status: number): any {
-    return [
-      ...this.getResponseOf(status)
-        .get("content")
-        .keys()
-    ][0];
+    return [...this.getResponseOf(status).get("content").keys()][0];
   }
 
   security(security: JsonSecurityRequirement): this {
@@ -271,7 +265,7 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[]) {
   const refs: JsonSchema[] = [];
   let propsLength = 0;
 
-  parameters.forEach(parameter => {
+  parameters.forEach((parameter) => {
     const name = parameter.get("name");
 
     Array.from(parameter.entries())

@@ -32,7 +32,7 @@ describe("PlatformExpressRouter", () => {
       stub(Express.Router).returns(nativeDriver);
 
       const platformHandler = {
-        createHandler: sandbox.stub().callsFake(o => o)
+        createHandler: sandbox.stub().callsFake((o) => o)
       };
 
       const injector = new InjectorService();
