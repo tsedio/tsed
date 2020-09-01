@@ -1,5 +1,6 @@
 import {InjectorService} from "@tsed/di";
 import {ILoggerSettings} from "../../config/interfaces/ILoggerSettings";
+import {Middleware} from "../../mvc/decorators/class/middleware";
 import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
 import {Context} from "../decorators/context";
 
@@ -7,6 +8,7 @@ import {Context} from "../decorators/context";
  * @middleware
  * @platform
  */
+@Middleware()
 export class PlatformLogMiddleware implements IMiddleware {
   protected static DEFAULT_FIELDS = ["reqId", "method", "url", "duration"];
 
