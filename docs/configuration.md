@@ -147,7 +147,7 @@ See the [HTTPs project example](https://github.com/TypedProject/example-ts-expre
 
 ### mount
 
-- type: @@IServerMountDirectories@@
+- type: @@EndpointDirectoriesMapping@@
 
 Mount all controllers under a directory to an endpoint.
 
@@ -230,12 +230,6 @@ export class Server {
 
 Logger configuration.
 
-### errors
-
-- type: @@IErrorsSettings@@
-
-Errors configuration. See [Throw Http exceptions](/tutorials/throw-http-exceptions.md) for more details.
- 
 ### resolvers - External DI <Badge text="v5.39.0+" />
 
 - type: @@IDIResolver@@
@@ -265,7 +259,7 @@ The global configuration for the Express.Router. See express [documentation](htt
 
 ### statics
 
-- type: @@IServerMountDirectories@@
+- type: @@EndpointDirectoriesMapping@@
 
 Object to mount all directories under to these endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
 

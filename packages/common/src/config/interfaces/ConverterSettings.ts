@@ -5,4 +5,4 @@ export interface ConverterSettings {
   additionalProperties?: "error" | "accept" | "ignore";
 }
 
-export interface IConverterSettings extends ConverterSettings {}
+export interface ConverterSettings extends ConverterSettings {}

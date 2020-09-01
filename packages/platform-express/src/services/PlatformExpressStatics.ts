@@ -1,4 +1,4 @@
-import {IServerMountDirectories, PlatformApplication} from "@tsed/common";
+import {EndpointDirectoriesMapping, PlatformApplication} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import * as Express from "express";
 
@@ -19,7 +19,7 @@ function statics(directory: string) {
 export class PlatformExpressStatics {
   constructor(private platformApplication: PlatformApplication) {}
 
-  statics(statics: IServerMountDirectories) {
+  statics(statics: EndpointDirectoriesMapping) {
     /* istanbul ignore else */
     Object.keys(statics).forEach((path) => {
       [].concat(statics[path] as any).forEach((directory: string) => this.mount(path, directory));

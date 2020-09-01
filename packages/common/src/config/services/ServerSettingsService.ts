@@ -2,8 +2,8 @@ import {Env} from "@tsed/core";
 import {DIConfiguration, Injectable, ProviderScope, ProviderType} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import * as Https from "https";
-import {IErrorsSettings, ILoggerSettings, IServerMountDirectories} from "../interfaces";
-import {IConverterSettings} from "../interfaces/IConverterSettings";
+import {LoggerSettings, EndpointDirectoriesMapping} from "../interfaces";
+import {ConverterSettings} from "../interfaces/ConverterSettings";
 
 const rootDir = process.cwd();
 
@@ -107,11 +107,11 @@ export class ServerSettingsService extends DIConfiguration {
     this.setRaw("env", value);
   }
 
-  get mount(): IServerMountDirectories {
+  get mount(): EndpointDirectoriesMapping {
     return this.get("mount");
   }
 
-  set mount(value: IServerMountDirectories) {
+  set mount(value: EndpointDirectoriesMapping) {
     this.setRaw("mount", value);
   }
 
@@ -123,11 +123,11 @@ export class ServerSettingsService extends DIConfiguration {
     this.setRaw("componentsScan", value);
   }
 
-  get statics(): IServerMountDirectories {
+  get statics(): EndpointDirectoriesMapping {
     return this.getRaw("statics") || {};
   }
 
-  set statics(value: IServerMountDirectories) {
+  set statics(value: EndpointDirectoriesMapping) {
     this.setRaw("statics", value);
   }
 
@@ -147,19 +147,19 @@ export class ServerSettingsService extends DIConfiguration {
     this.logger = {...this.logger, level: debug ? "debug" : "info"};
   }
 
-  get converter(): Partial<IConverterSettings> {
+  get converter(): Partial<ConverterSettings> {
     return this.get("converter") || {};
   }
 
-  set converter(options: Partial<IConverterSettings>) {
+  set converter(options: Partial<ConverterSettings>) {
     this.setRaw("converter", options);
   }
 
-  get logger(): Partial<ILoggerSettings> {
+  get logger(): Partial<LoggerSettings> {
     return this.get("logger");
   }
 
-  set logger(value: Partial<ILoggerSettings>) {
+  set logger(value: Partial<LoggerSettings>) {
     const logger = {...this.logger, ...value};
     logger.debug = logger.level === "debug";
 
@@ -193,22 +193,6 @@ export class ServerSettingsService extends DIConfiguration {
 
   set exclude(exclude: string[]) {
     this.setRaw("exclude", exclude);
-  }
-
-  /**
-   *
-   * @returns {IRouterSettings}
-   */
-  get errors(): IErrorsSettings {
-    return this.get("errors");
-  }
-
-  /**
-   *
-   * @param {IRouterSettings} options
-   */
-  set errors(options: IErrorsSettings) {
-    this.setRaw("errors", options);
   }
 
   /**

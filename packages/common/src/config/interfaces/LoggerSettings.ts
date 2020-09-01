@@ -1,4 +1,4 @@
-export interface ILoggerSettings {
+export interface LoggerSettings {
   /**
    * Enable debug mode. By default debug is false.
    */

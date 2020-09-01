@@ -1,6 +1,6 @@
 import {Service} from "@tsed/di";
 import * as Express from "express";
-import {IServerMountDirectories} from "../../config";
+import {EndpointDirectoriesMapping} from "../../config";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 
 function statics(directory: string) {
@@ -19,7 +19,7 @@ function statics(directory: string) {
 export class ServeStaticService {
   constructor(private platformApplication: PlatformApplication) {}
 
-  statics(statics: IServerMountDirectories) {
+  statics(statics: EndpointDirectoriesMapping) {
     /* istanbul ignore else */
     Object.keys(statics).forEach((path) => {
       [].concat(statics[path] as any).forEach((directory: string) => this.mount(path, directory));

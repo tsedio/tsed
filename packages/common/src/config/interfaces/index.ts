@@ -1,10 +1,8 @@
 import {Env} from "@tsed/core";
-import {ProviderScope} from "@tsed/di";
 import * as Https from "https";
-import {IErrorsSettings} from "./IErrorSettings";
-import {ILoggerSettings} from "./ILoggerSettings";
-import {IServerMountDirectories} from "./IServerMountDirectories";
-import {IConverterSettings} from "./IConverterSettings";
+import {LoggerSettings} from "./LoggerSettings";
+import {EndpointDirectoriesMapping} from "./EndpointDirectoriesMapping";
+import {ConverterSettings} from "./ConverterSettings";
 
 declare global {
   namespace TsED {
@@ -44,7 +42,7 @@ declare global {
       /**
        * Mount all controllers under a directories to an endpoint.
        */
-      mount: IServerMountDirectories;
+      mount: EndpointDirectoriesMapping;
       /**
        * List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
        */
@@ -64,23 +62,18 @@ declare global {
       /**
        * Converter configuration.
        */
-      converter: Partial<IConverterSettings>;
+      converter: Partial<ConverterSettings>;
       /**
        * Logger configuration.
        */
-      logger: Partial<ILoggerSettings>;
-      /**
-       * Errors configuration.
-       */
-      errors: Partial<IErrorsSettings>;
+      logger: Partial<LoggerSettings>;
       /**
        * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
        */
-      statics: IServerMountDirectories;
+      statics: EndpointDirectoriesMapping;
     }
   }
 }
 
-export * from "./IErrorSettings";
-export * from "./ILoggerSettings";
-export * from "./IServerMountDirectories";
+export * from "./LoggerSettings";
+export * from "./EndpointDirectoriesMapping";

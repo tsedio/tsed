@@ -1,7 +1,7 @@
 import {classOf, MetadataTypes, Type} from "@tsed/core";
 import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {classToPlainObject, deserialize, JsonDeserializerOptions, JsonSerializerOptions, serialize} from "@tsed/json-mapper";
-import {ConverterSettings} from "../../config/interfaces/IConverterSettings";
+import {ConverterSettings} from "../../config/interfaces/ConverterSettings";
 
 /**
  * @deprecated
