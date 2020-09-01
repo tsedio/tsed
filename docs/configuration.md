@@ -231,16 +231,10 @@ export class Server {
 ```
 ### logger
 
-- type: @@ILoggerSettings@@
+- type: @@PlatformLoggerSettings@@
 
 Logger configuration.
 
-### errors
-
-- type: @@IErrorsSettings@@
-
-Errors configuration. See [Throw Http exceptions](/tutorials/throw-http-exceptions.md) for more details.
- 
 ### resolvers - External DI <Badge text="v5.39.0+" />
 
 - type: @@IDIResolver@@
