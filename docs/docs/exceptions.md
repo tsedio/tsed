@@ -87,7 +87,6 @@ To do this, we'll need to access the underlying platform Request and Response ob
 We'll access the Request object, so we can pull out the original url and include that in the logging information.
 We'll use the Response object to take direct control of the response that is sent, using the `response.body()` method.
 
-
 <<< @/docs/docs/snippets/exceptions/http-exception-filter.ts
 
 ::: tip note
@@ -96,6 +95,10 @@ All exception filters should implement the generic `ExceptionFilterMethods<T>` i
 
 The `@Catch(Exception)` decorator binds the required metadata to the exception filter, telling Ts.ED that this particular filter is looking for exceptions of type @@Exception@@ and nothing else. 
 The @@Catch@@ decorator may take a single parameter, or a comma-separated list. This lets you set up the filter for several types of exceptions at once.
+
+If you want to catch all errors, just use the @@Catch@@ decorator with the `Error` class:
+
+<<< @/docs/docs/snippets/exceptions/error-filter.ts
 
 ### With legacy GlobalErrorHandlerMiddleware <Badge type="warning" text="deprecated" />
 
@@ -106,3 +109,34 @@ You can register your own exception handler and change the response sent to your
 Then you just have adding this middleware in your `Server.ts` as following:
 
 <<< @/docs/docs/snippets/exceptions/custom-global-error-handler-usage.ts
+
+### Migrate to Exception filter
+
+Exception filter and GlobalErrorHandlerMiddleware can be used at the same time excepted if you register your own middleware 
+via the $afterRoutesInit hook. 
+
+To facilitate your migration, remove the line where you add you custom middleware in the server:
+
+```typescript
+$afterRoutesInit() {
+  this.app.use(CustomGlobalErrorHandlerMiddleware); // remove this
+}
+```
+
+Then, use the @@OverrideProvider@@ decorator over your custom middleware:
+
+```typescript
+import {OverrideProvider} from "@tsed/di";
+import {GlobalErrorHandlerMiddleware} from "@tsed/common";
+
+@OverrideProvider(GlobalErrorHandlerMiddleware)
+export class CustomGlobalErrorHandlerMiddleware extends GlobalErrorHandlerMiddleware {
+
+}
+```
+
+Now you are able to create your own exception filter. Start with the HttpException example:
+
+<<< @/docs/docs/snippets/exceptions/http-exception-filter.ts
+
+Then try with another error type and finally, remove your custom middleware. 
