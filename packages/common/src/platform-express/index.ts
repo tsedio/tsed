@@ -1,12 +1,6 @@
 export * from "./interfaces";
 
-// DECORATORS
-export * from "./decorators/mergeParams";
-export * from "./decorators/strict";
-export * from "./decorators/caseSensitive";
-
 // SERVICE
-export * from "./services/ServeStaticService";
 export * from "./services/PlatformExpressApplication";
 export * from "./services/PlatformExpressRouter";
 export * from "./services/PlatformExpressHandler";
