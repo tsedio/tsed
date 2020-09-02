@@ -1,5 +1,5 @@
-import {Controller, Get, MergeParams, PathParams, PlatformTest} from "@tsed/common";
-import {PlatformExpress} from "@tsed/platform-express";
+import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
+import {MergeParams, PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {expect} from "chai";
 import * as SuperTest from "supertest";

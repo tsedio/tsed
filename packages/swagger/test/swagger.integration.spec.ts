@@ -1,4 +1,5 @@
-import {Controller, Get, MergeParams, PathParams, PlatformTest} from "@tsed/common";
+import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
+import {MergeParams} from "@tsed/platform-express";
 import {Description, Returns} from "@tsed/schema";
 import {Docs, Hidden} from "@tsed/swagger";
 import {expect} from "chai";
@@ -10,7 +11,8 @@ import {Server} from "./helpers/Server";
 @Hidden()
 class AdminCtrl {
   @Get("/")
-  get() {}
+  get() {
+  }
 }
 
 @Controller("/events")
@@ -18,7 +20,8 @@ class AdminCtrl {
 class EventCtrl {
   @Get("/")
   @Description("Events")
-  get() {}
+  get() {
+  }
 }
 
 @Controller("/admin")
@@ -26,7 +29,8 @@ class EventCtrl {
 class BackAdminCtrl {
   @Get("/")
   @Description("Admins")
-  get() {}
+  get() {
+  }
 }
 
 @Controller({

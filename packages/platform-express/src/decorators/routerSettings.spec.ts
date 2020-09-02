@@ -1,5 +1,5 @@
-import {CaseSensitive, MergeParams, Strict} from "@tsed/common";
 import {Store} from "@tsed/core";
+import {CaseSensitive, MergeParams, Strict} from "@tsed/platform-express";
 import {expect} from "chai";
 
 class Test {}
