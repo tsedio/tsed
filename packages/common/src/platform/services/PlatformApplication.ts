@@ -1,4 +1,5 @@
 import {Injectable, ProviderScope} from "@tsed/di";
+import {PlatformStaticsOptions} from "../../config/interfaces";
 import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformDriver} from "./PlatformDriver";
 import {PlatformHandler} from "./PlatformHandler";
@@ -25,5 +26,9 @@ export class PlatformApplication<T = TsED.Application> extends PlatformDriver<T>
 
   protected static createRawApp(): any {
     return createFakeRawDriver();
+  }
+
+  statics(endpoint: string, options: PlatformStaticsOptions) {
+    console.log("Statics methods aren't implemented on this platform");
   }
 }

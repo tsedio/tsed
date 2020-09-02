@@ -5,6 +5,7 @@ import {IErrorsSettings} from "./IErrorSettings";
 import {PlatformLoggerSettings} from "./PlatformLoggerSettings";
 import {EndpointDirectoriesSettings} from "./EndpointDirectoriesSettings";
 import {IConverterSettings} from "./IConverterSettings";
+import {PlatformStaticsOptions, PlatformStaticsSettings} from "./PlatformStaticsSettings";
 
 declare global {
   namespace TsED {
@@ -83,6 +84,7 @@ declare global {
       logger: Partial<PlatformLoggerSettings>;
       /**
        * Errors configuration.
+       * @deprecated
        */
       errors: Partial<IErrorsSettings>;
       /**
@@ -97,7 +99,7 @@ declare global {
       /**
        * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
        */
-      statics: EndpointDirectoriesSettings;
+      statics: PlatformStaticsSettings;
     }
   }
 }
@@ -106,3 +108,4 @@ export * from "./IErrorSettings";
 export * from "./PlatformLoggerSettings";
 export * from "./EndpointDirectoriesSettings";
 export * from "./IServerSettings";
+export * from "./PlatformStaticsSettings";
