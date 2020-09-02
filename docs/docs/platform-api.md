@@ -190,6 +190,43 @@ With the Platform API, your able also to use @@Context@@ decorator to deal with 
 
 See [Request context](/docs/request-context.md#request-and-response-abstraction) page to get more details. 
 
+## Statics files
+
+Since v5.65.0 Platform API manage also the statics files. The @@ServeStaticService@@ is now deprecated in favor of `PlatformApplication.statics()` method.
+
+Before:
+```typescript
+import {Injectable} from "@tsed/di";
+import {ServeStaticService} from "@tsed/common";
+
+@Injectable()
+class MyService {
+  constructor(private service: ServeStaticService) {
+  }
+ 
+  $onReady () {
+    this.service.statics({"/endpoint":  __dirname + "/publics"});
+  }
+} 
+```
+
+After:
+
+```typescript
+import {Injectable} from "@tsed/di";
+import {PlatformApplication} from "@tsed/common"; 
+
+@Injectable()
+class MyService {
+  constructor(private app: PlatformApplication) {
+  }
+ 
+  $onReady () {
+    this.app.statics("/endpoint",   {root: __dirname + "/publics"});
+  }
+} 
+```
+
 ## Catch exceptions
 
 The new [Platform API](/docs/platform-api.md) introduce a new way to catch an exception with the @@Catch@@ decorator and 

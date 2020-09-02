@@ -1,8 +1,9 @@
 import {Env} from "@tsed/core";
 import * as Https from "https";
-import {LoggerSettings} from "./LoggerSettings";
-import {EndpointDirectoriesMapping} from "./EndpointDirectoriesMapping";
 import {ConverterSettings} from "./ConverterSettings";
+import {EndpointDirectoriesSettings} from "./EndpointDirectoriesSettings";
+import {PlatformLoggerSettings} from "./PlatformLoggerSettings";
+import {PlatformStaticsSettings} from "./PlatformStaticsSettings";
 
 declare global {
   namespace TsED {
@@ -42,7 +43,7 @@ declare global {
       /**
        * Mount all controllers under a directories to an endpoint.
        */
-      mount: EndpointDirectoriesMapping;
+      mount: EndpointDirectoriesSettings;
       /**
        * List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
        */
@@ -66,14 +67,15 @@ declare global {
       /**
        * Logger configuration.
        */
-      logger: Partial<LoggerSettings>;
+      logger: Partial<PlatformLoggerSettings>;
       /**
        * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
        */
-      statics: EndpointDirectoriesMapping;
+      statics: PlatformStaticsSettings;
     }
   }
 }
 
-export * from "./LoggerSettings";
-export * from "./EndpointDirectoriesMapping";
+export * from "./PlatformLoggerSettings";
+export * from "./EndpointDirectoriesSettings";
+export * from "./PlatformStaticsSettings";

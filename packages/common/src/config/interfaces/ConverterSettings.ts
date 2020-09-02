@@ -4,5 +4,3 @@ export interface ConverterSettings {
    */
   additionalProperties?: "error" | "accept" | "ignore";
 }
-
-export interface ConverterSettings extends ConverterSettings {}

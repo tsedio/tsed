@@ -73,4 +73,18 @@ describe("PlatformTest", () => {
       expect(PlatformTest.createRequestContext()).to.be.instanceOf(RequestContext);
     });
   });
+
+  describe("invoke", () => {
+    it("should return request context", async () => {
+      class Test {
+        called: boolean;
+
+        async $onInit() {
+          this.called = true;
+        }
+      }
+
+      expect(await PlatformTest.invoke(Test)).to.deep.eq({called: true});
+    });
+  });
 });

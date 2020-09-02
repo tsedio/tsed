@@ -152,6 +152,25 @@ export abstract class PlatformBuilder {
     return callHook(this.injector, this.rootModule, key, ...args);
   }
 
+  async loadStatics(): Promise<void> {
+    const {settings} = this;
+
+    if (settings.statics) {
+      Object.entries(settings.statics).forEach(([path, items]) => {
+        [].concat(items as any).forEach((options) => {
+          const opts =
+            typeof options === "string"
+              ? {
+                  root: options
+                }
+              : options;
+
+          this.platform.app.statics(path, opts);
+        });
+      });
+    }
+  }
+
   protected async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     this.createInjector(module, settings);
     this.createRootModule(module);
@@ -160,8 +179,6 @@ export abstract class PlatformBuilder {
 
     return this;
   }
-
-  protected abstract async loadStatics(): Promise<void>;
 
   protected async listenServers(): Promise<void> {
     await Promise.all([listenHttpServer(this.injector), listenHttpsServer(this.injector)]);

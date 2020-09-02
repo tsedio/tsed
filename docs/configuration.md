@@ -42,13 +42,7 @@ The default configuration is as following:
 
 You can customize your configuration as following on `Server.ts`level:
 
-<Tabs class="-code">
-  <Tab label="v5.56.0+">
-  
 <<< @/docs/snippets/configuration/server.ts
-
-  </Tab>
-</Tabs>  
 
 or when you bootstrap your Server (e.g. `index.ts`):
 
@@ -147,9 +141,9 @@ See the [HTTPs project example](https://github.com/TypedProject/example-ts-expre
 
 ### mount
 
-- type: @@EndpointDirectoriesMapping@@
+- type: @@EndpointDirectoriesSettings@@
 
-Mount all controllers under a directory to an endpoint.
+Mount all given controllers and map controllers to his corresponding endpoints.
 
 Ts.ED provides the possibility to mount multiple Rest path instead of the default path `/rest`.
 This option allow you to define a version for an endpoint and select which controllers you want associate with the given path.
@@ -226,7 +220,7 @@ export class Server {
 ```
 ### logger
 
-- type: @@ILoggerSettings@@
+- type: @@PlatformLoggerSettings@@
 
 Logger configuration.
 
@@ -259,9 +253,9 @@ The global configuration for the Express.Router. See express [documentation](htt
 
 ### statics
 
-- type: @@EndpointDirectoriesMapping@@
+- type: @@PlatformStaticsOptions@@
 
-Object to mount all directories under to these endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
+Object to mount all directories under an endpoint. See more on [Serve Static](/tutorials/serve-static-files.md).
 
 ## HTTP & HTTPs server
 ### Change address

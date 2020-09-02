@@ -1,4 +1,4 @@
-export interface LoggerSettings {
+export interface PlatformLoggerSettings {
   /**
    * Enable debug mode. By default debug is false.
    */
@@ -50,3 +50,7 @@ export interface LoggerSettings {
    */
   maxStackSize?: number;
 }
+/**
+ * @deprecated Use PlatformLoggerSettings interface instead
+ */
+export interface ILoggerSettings extends PlatformLoggerSettings {}

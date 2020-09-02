@@ -2,7 +2,7 @@ import {Env} from "@tsed/core";
 import {DIConfiguration, Injectable, ProviderScope, ProviderType} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import * as Https from "https";
-import {LoggerSettings, EndpointDirectoriesMapping} from "../interfaces";
+import {PlatformLoggerSettings, EndpointDirectoriesSettings} from "../interfaces";
 import {ConverterSettings} from "../interfaces/ConverterSettings";
 
 const rootDir = process.cwd();
@@ -107,11 +107,11 @@ export class ServerSettingsService extends DIConfiguration {
     this.setRaw("env", value);
   }
 
-  get mount(): EndpointDirectoriesMapping {
+  get mount(): EndpointDirectoriesSettings {
     return this.get("mount");
   }
 
-  set mount(value: EndpointDirectoriesMapping) {
+  set mount(value: EndpointDirectoriesSettings) {
     this.setRaw("mount", value);
   }
 
@@ -123,11 +123,11 @@ export class ServerSettingsService extends DIConfiguration {
     this.setRaw("componentsScan", value);
   }
 
-  get statics(): EndpointDirectoriesMapping {
-    return this.getRaw("statics") || {};
+  get statics(): EndpointDirectoriesSettings {
+    return this.getRaw("statics") || this.getRaw("serveStatic") || {};
   }
 
-  set statics(value: EndpointDirectoriesMapping) {
+  set statics(value: EndpointDirectoriesSettings) {
     this.setRaw("statics", value);
   }
 
@@ -155,11 +155,11 @@ export class ServerSettingsService extends DIConfiguration {
     this.setRaw("converter", options);
   }
 
-  get logger(): Partial<LoggerSettings> {
+  get logger(): Partial<PlatformLoggerSettings> {
     return this.get("logger");
   }
 
-  set logger(value: Partial<LoggerSettings>) {
+  set logger(value: Partial<PlatformLoggerSettings>) {
     const logger = {...this.logger, ...value};
     logger.debug = logger.level === "debug";
 

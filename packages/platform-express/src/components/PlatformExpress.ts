@@ -1,6 +1,5 @@
 import {IRoute, PlatformBuilder} from "@tsed/common";
 import {Type} from "@tsed/core";
-import {PlatformExpressStatics} from "../services";
 import {createHttpServer, createHttpsServer} from "../utils";
 
 /**
@@ -10,12 +9,6 @@ import {createHttpServer, createHttpsServer} from "../utils";
 export class PlatformExpress extends PlatformBuilder {
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
     return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
-  }
-
-  async loadStatics() {
-    const {injector} = this;
-    const staticsService = injector.get<PlatformExpressStatics>(PlatformExpressStatics)!;
-    staticsService.statics(injector.settings.statics);
   }
 
   protected async loadRoutes(routes: IRoute[]): Promise<void> {
