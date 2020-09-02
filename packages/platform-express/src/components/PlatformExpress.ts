@@ -1,6 +1,5 @@
 import {IRoute, PlatformBuilder} from "@tsed/common";
 import {Type} from "@tsed/core";
-import {PlatformExpressStatics} from "../services";
 import {createExpressApplication, createHttpServer, createHttpsServer} from "../utils";
 
 /**

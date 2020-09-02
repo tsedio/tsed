@@ -20,7 +20,6 @@ import {IServerLifecycle} from "../interfaces";
 
 import "../services/PlatformExpressApplication";
 import "../services/PlatformExpressRouter";
-import {ServeStaticService} from "../services/ServeStaticService";
 import {createExpressApplication} from "../utils";
 
 const VERSION = require("../../../package.json").version;
@@ -363,11 +362,6 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
     // Import the globalErrorHandler
     this.use(PlatformExceptionsMiddleware);
     this.use(GlobalErrorHandlerMiddleware);
-  }
-
-  protected async loadStatics() {
-    const staticsService = this.injector.get<ServeStaticService>(ServeStaticService)!;
-    staticsService.statics(this.injector.settings.statics);
   }
 
   /* istanbul ignore next */
