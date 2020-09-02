@@ -1,6 +1,6 @@
 {
   "name": "@tsed/testing",
-  "version": "5.64.2",
+  "version": "5.65.0",
   "description": "A TypeScript Framework on top of Express",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -11,7 +11,7 @@
     "tslib": "1.11.0"
   },
   "devDependencies": {
-    "@tsed/common": "5.64.2"
+    "@tsed/common": "5.65.0"
   },
   "private": false,
   "peerDependencies": {}
