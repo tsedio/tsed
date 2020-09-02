@@ -1,5 +1,6 @@
 import {expect} from "chai";
 import {
+  ancestorsOf,
   classOf,
   constructorOf,
   getClass,
@@ -264,6 +265,16 @@ describe("ObjectUtils", () => {
 
     it("should return the class when prototype is given", () => {
       expect(classOf(Test.prototype)).to.eq(Test);
+    });
+  });
+  describe("ancestorsOf()", () => {
+    it("should returns ancestors", () => {
+      class Base {}
+
+      class Test extends Base {}
+
+      expect(ancestorsOf(Test)).to.deep.eq([Base, Test]);
+      expect(ancestorsOf(Test).reverse()).to.deep.eq([Test, Base]);
     });
   });
 
