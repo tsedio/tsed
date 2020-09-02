@@ -12,12 +12,6 @@ export class PlatformExpress extends PlatformBuilder {
     return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
   }
 
-  async loadStatics() {
-    const {injector} = this;
-    const staticsService = injector.get<PlatformExpressStatics>(PlatformExpressStatics)!;
-    staticsService.statics(injector.settings.statics);
-  }
-
   protected async loadRoutes(routes: IRoute[]): Promise<void> {
     await super.loadRoutes(routes);
   }

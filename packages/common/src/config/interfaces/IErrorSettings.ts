@@ -1,5 +1,5 @@
 /**
- * @deprecated
+ * @deprecated Will be removed in v6.
  */
 export interface IErrorsSettings {
   /**

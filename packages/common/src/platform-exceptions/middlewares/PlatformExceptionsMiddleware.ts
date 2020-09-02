@@ -1,4 +1,4 @@
-import {classOf} from "@tsed/core";
+import {ancestorsOf} from "@tsed/core";
 import {Inject} from "@tsed/di";
 import {Middleware} from "../../mvc/decorators/class/middleware";
 import {Err} from "../../mvc/decorators/params/error";
@@ -20,10 +20,12 @@ export class PlatformExceptionsMiddleware implements IMiddleware {
   types = getExceptionTypes();
 
   use(@Err() error: any, @Context() ctx: Context): any {
-    const exceptionFilter = this.types.get(classOf(error));
+    const target = ancestorsOf(error)
+      .reverse()
+      .find((target) => this.types.has(target));
 
-    if (exceptionFilter) {
-      return exceptionFilter.catch(error, ctx);
+    if (target) {
+      return this.types.get(target)!.catch(error, ctx);
     }
 
     throw error;

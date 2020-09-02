@@ -1,5 +1,5 @@
 import {InjectorService} from "@tsed/di";
-import {ILoggerSettings} from "../../config/interfaces/ILoggerSettings";
+import {PlatformLoggerSettings} from "../../config/interfaces/PlatformLoggerSettings";
 import {IMiddleware, Middleware, Req, Res} from "../../mvc";
 
 /**
@@ -12,7 +12,7 @@ export class LogIncomingRequestMiddleware implements IMiddleware {
 
   $onResponse: any;
 
-  protected settings: ILoggerSettings;
+  protected settings: PlatformLoggerSettings;
 
   // tslint:disable-next-line: no-unused-variable
   constructor(injector: InjectorService) {

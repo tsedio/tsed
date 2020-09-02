@@ -45,7 +45,7 @@ Example:
 
 <<< @/docs/docs/snippets/exceptions/custom-exception.ts
 
-Since IDFormatException extends the @@BadRequest@, it will work seamlessly with the built-in exception handler, and therefore we can use it inside a controller method.
+Since IDFormatException extends the @@BadRequest@@, it will work seamlessly with the built-in exception handler, and therefore we can use it inside a controller method.
 
 <<< @/docs/docs/snippets/exceptions/custom-exception-usage.ts
 

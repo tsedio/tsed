@@ -2,9 +2,10 @@ import {Env} from "@tsed/core";
 import {ProviderScope} from "@tsed/di";
 import * as Https from "https";
 import {IErrorsSettings} from "./IErrorSettings";
-import {ILoggerSettings} from "./ILoggerSettings";
-import {IServerMountDirectories} from "./IServerMountDirectories";
+import {PlatformLoggerSettings} from "./PlatformLoggerSettings";
+import {EndpointDirectoriesSettings} from "./EndpointDirectoriesSettings";
 import {IConverterSettings} from "./IConverterSettings";
+import {PlatformStaticsOptions, PlatformStaticsSettings} from "./PlatformStaticsSettings";
 
 declare global {
   namespace TsED {
@@ -44,7 +45,7 @@ declare global {
       /**
        * Mount all controllers under a directories to an endpoint.
        */
-      mount: IServerMountDirectories;
+      mount: EndpointDirectoriesSettings;
       /**
        * List of directories to scan [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
        */
@@ -80,9 +81,10 @@ declare global {
       /**
        * Logger configuration.
        */
-      logger: Partial<ILoggerSettings>;
+      logger: Partial<PlatformLoggerSettings>;
       /**
        * Errors configuration.
+       * @deprecated
        */
       errors: Partial<IErrorsSettings>;
       /**
@@ -97,17 +99,13 @@ declare global {
       /**
        * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
        */
-      statics: IServerMountDirectories;
-      /**
-       * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
-       * @deprecated
-       */
-      serveStatic: IServerMountDirectories;
+      statics: PlatformStaticsSettings;
     }
   }
 }
 
 export * from "./IErrorSettings";
-export * from "./ILoggerSettings";
-export * from "./IServerMountDirectories";
+export * from "./PlatformLoggerSettings";
+export * from "./EndpointDirectoriesSettings";
 export * from "./IServerSettings";
+export * from "./PlatformStaticsSettings";
