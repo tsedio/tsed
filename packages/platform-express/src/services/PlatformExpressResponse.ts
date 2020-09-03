@@ -1,11 +1,9 @@
-import {OverrideProvider} from "@tsed/di";
-import {PlatformResponse} from "../../platform/services/PlatformResponse";
+import {PlatformResponse} from "@tsed/common";
 
 /**
  * @platform
  * @express
  */
-@OverrideProvider(PlatformResponse)
 export class PlatformExpressResponse extends PlatformResponse {
   /**
    * Render a view from given data

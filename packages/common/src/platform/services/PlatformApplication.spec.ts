@@ -1,5 +1,5 @@
-import {expect} from "chai";
 import {PlatformRouter, PlatformTest} from "@tsed/common";
+import {expect} from "chai";
 import * as Sinon from "sinon";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformHandler} from "./PlatformHandler";
@@ -186,6 +186,20 @@ describe("PlatformApplication", () => {
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
       expect(platformApp.raw.options).to.have.been.calledWithExactly("/", handler);
+    });
+  });
+  describe("statics()", () => {
+    it("should call statics", async () => {
+      // GIVEN
+      const {platformApp} = await getPlatformApp();
+
+      sandbox.stub(console, "warn");
+
+      // WHEN
+      platformApp.statics("/", {root: "/root"});
+
+      // THEN
+      expect(console.warn).to.have.been.calledWithExactly("Statics methods aren't implemented on this platform");
     });
   });
 });

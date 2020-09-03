@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {
   AfterInit,
   AfterListen,
@@ -12,6 +11,7 @@ import {
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
+import {expect} from "chai";
 import {join} from "path";
 import * as Sinon from "sinon";
 import {Platform} from "../../platform/services/Platform";
@@ -24,6 +24,12 @@ describe("PlatformBuilder", () => {
   class RestCtrl {}
 
   class PlatformTest extends PlatformBuilder {
+    static providers = [
+      {
+        provide: class Test {}
+      }
+    ];
+
     static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
       return PlatformBuilder.build<PlatformTest>(this).bootstrap(module, settings);
     }
