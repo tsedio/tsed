@@ -1,10 +1,11 @@
 import {PlatformResponse} from "@tsed/common";
+import type * as Express from "express";
 
 /**
  * @platform
  * @express
  */
-export class PlatformExpressResponse extends PlatformResponse {
+export class PlatformExpressResponse extends PlatformResponse<Express.Response> {
   /**
    * Render a view from given data
    * @param path

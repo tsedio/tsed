@@ -1,8 +1,18 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
-import {Res} from "../../mvc/decorators/params/response";
 
 const onFinished = require("on-finished");
+
+declare global {
+  namespace TsED {
+    export interface Response {
+      headersSent: boolean;
+      writableEnded: boolean;
+      writableFinished: boolean;
+      statusCode: number;
+    }
+  }
+}
 
 /**
  * Platform Response abstraction layer.
@@ -10,8 +20,8 @@ const onFinished = require("on-finished");
  */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
-export class PlatformResponse {
-  constructor(@Opts public raw: Res) {}
+export class PlatformResponse<T extends TsED.Response & {[key: string]: any} = any> {
+  constructor(@Opts public raw: T) {}
 
   /**
    * Get the current statusCode
@@ -34,7 +44,7 @@ export class PlatformResponse {
    * @param injector
    * @param res
    */
-  static create(injector: InjectorService, res: Res) {
+  static create(injector: InjectorService, res: any) {
     const locals = new Map();
     locals.set(DI_PARAM_OPTIONS, res);
 

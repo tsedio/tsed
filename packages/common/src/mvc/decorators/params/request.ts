@@ -1,3 +1,4 @@
+import type {PlatformBaseRequest} from "../../../platform/services/PlatformRequest";
 import {Type} from "@tsed/core";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
@@ -45,13 +46,6 @@ export function Req(...args: any[]): ParameterDecorator {
   });
 }
 
-declare global {
-  namespace TsED {
-    export interface Request {
-      aborted: boolean;
-    }
-  }
-}
 /**
  * Request service.
  *
@@ -59,7 +53,8 @@ declare global {
  * @operation
  * @input
  */
-export interface Request extends TsED.Request {}
+export interface Request extends PlatformBaseRequest, TsED.Request {}
+
 /**
  * Request service.
  *
@@ -68,4 +63,4 @@ export interface Request extends TsED.Request {}
  * @operation
  * @input
  */
-export interface Req extends TsED.Request {}
+export interface Req extends PlatformBaseRequest, TsED.Request {}

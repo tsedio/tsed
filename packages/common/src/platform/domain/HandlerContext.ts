@@ -5,7 +5,7 @@ import {HandlerMetadata} from "../../mvc/models/HandlerMetadata";
 import {ABORT} from "../constants/abort";
 import {IHandlerContext} from "../interfaces/IHandlerContext";
 
-const isFinish = (request: TsED.Request, response: TsED.Response) => {
+const isFinish = (request: any, response: any) => {
   if (!response || !request) {
     return true;
   }
@@ -20,8 +20,8 @@ function isResponse(obj: any) {
 export class HandlerContext {
   public injector: InjectorService;
   public metadata: HandlerMetadata;
-  public request: TsED.Request;
-  public response: TsED.Response;
+  public request: TsED.Request & any;
+  public response: TsED.Response & any;
   public err: any;
   public args: any[];
   private _isDone: boolean = false;

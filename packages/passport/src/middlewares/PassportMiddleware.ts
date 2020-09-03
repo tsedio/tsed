@@ -9,7 +9,7 @@ export class PassportMiddleware {
   @Inject(ProtocolsService)
   protocolsService: ProtocolsService;
 
-  use(@Req() request: Req, @EndpointInfo() endpoint: EndpointInfo) {
+  use(@Req() request: any, @EndpointInfo() endpoint: EndpointInfo) {
     if (request.user && request.isAuthenticated()) {
       return;
     }

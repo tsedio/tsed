@@ -1,5 +1,11 @@
-import {PlatformApplication, PlatformHandler, PlatformResponse, PlatformRouter} from "@tsed/common";
-import {PlatformExpressApplication, PlatformExpressHandler, PlatformExpressResponse, PlatformExpressRouter} from "@tsed/platform-express";
+import {PlatformApplication, PlatformHandler, PlatformRequest, PlatformResponse, PlatformRouter} from "@tsed/common";
+import {
+  PlatformExpressApplication,
+  PlatformExpressHandler,
+  PlatformExpressRequest,
+  PlatformExpressResponse,
+  PlatformExpressRouter
+} from "@tsed/platform-express";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stub} from "../../../../test/helper/tools";
@@ -42,6 +48,10 @@ describe("PlatformExpress", () => {
       {
         provide: PlatformResponse,
         useClass: PlatformExpressResponse
+      },
+      {
+        provide: PlatformRequest,
+        useClass: PlatformExpressRequest
       }
     ]);
   });

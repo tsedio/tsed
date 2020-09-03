@@ -1,9 +1,12 @@
-import {PlatformApplication, PlatformBuilder, PlatformHandler, PlatformResponse, PlatformRouter} from "@tsed/common";
+import {PlatformApplication, PlatformBuilder, PlatformHandler, PlatformRequest, PlatformResponse, PlatformRouter} from "@tsed/common";
 import {Type} from "@tsed/core";
-import {PlatformExpressApplication} from "../services/PlatformExpressApplication";
-import {PlatformExpressHandler} from "../services/PlatformExpressHandler";
-import {PlatformExpressResponse} from "../services/PlatformExpressResponse";
-import {PlatformExpressRouter} from "../services/PlatformExpressRouter";
+import {
+  PlatformExpressApplication,
+  PlatformExpressHandler,
+  PlatformExpressRequest,
+  PlatformExpressResponse,
+  PlatformExpressRouter
+} from "../services";
 
 /**
  * @platform
@@ -26,6 +29,10 @@ export class PlatformExpress extends PlatformBuilder {
     {
       provide: PlatformResponse,
       useClass: PlatformExpressResponse
+    },
+    {
+      provide: PlatformRequest,
+      useClass: PlatformExpressRequest
     }
   ];
 

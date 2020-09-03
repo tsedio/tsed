@@ -1,6 +1,17 @@
 import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
 import {IncomingHttpHeaders} from "http";
-import {Req} from "../../mvc/decorators/params/request";
+import {RequestContext} from "../domain/RequestContext";
+
+export interface PlatformBaseRequest {
+  id: string;
+  ctx: RequestContext;
+}
+
+declare global {
+  namespace TsED {
+    export interface Request {}
+  }
+}
 
 /**
  * Platform Request abstraction layer.
@@ -8,8 +19,8 @@ import {Req} from "../../mvc/decorators/params/request";
  */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
-export class PlatformRequest {
-  constructor(@Opts public raw: Req) {}
+export class PlatformRequest<T extends TsED.Request & {[key: string]: any} = any> {
+  constructor(@Opts public raw: T) {}
 
   /**
    * Get the url of the request.
@@ -74,7 +85,7 @@ export class PlatformRequest {
    * @param injector
    * @param req
    */
-  static create(injector: InjectorService, req: Req) {
+  static create(injector: InjectorService, req: TsED.Request) {
     const locals = new Map();
     locals.set(DI_PARAM_OPTIONS, req);
 
