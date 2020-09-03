@@ -1,8 +1,7 @@
-import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Express from "express";
 import * as Sinon from "sinon";
-import {stub} from "../../../../../test/helper/tools";
+import {stub} from "../../../../test/helper/tools";
 import {staticsMiddleware} from "./staticsMiddleware";
 
 const sandbox = Sinon.createSandbox();

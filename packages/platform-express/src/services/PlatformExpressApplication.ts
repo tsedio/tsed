@@ -1,8 +1,5 @@
-import {OverrideProvider} from "@tsed/di";
+import {PlatformApplication, PlatformHandler, PlatformStaticsOptions} from "@tsed/common";
 import * as Express from "express";
-import {PlatformStaticsOptions} from "../../config/interfaces/PlatformStaticsSettings";
-import {PlatformApplication} from "../../platform/services/PlatformApplication";
-import {PlatformHandler} from "../../platform/services/PlatformHandler";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 
 declare global {
@@ -88,7 +85,6 @@ declare global {
  * @platform
  * @express
  */
-@OverrideProvider(PlatformApplication)
 export class PlatformExpressApplication extends PlatformApplication {
   constructor(platformHandler: PlatformHandler) {
     super(platformHandler);

@@ -74,10 +74,7 @@ export class TestMongooseContext extends PlatformTest {
       url,
       connectionOptions: {
         useUnifiedTopology: true,
-        useNewUrlParser: true,
-        autoReconnect: true,
-        reconnectTries: Number.MAX_VALUE,
-        reconnectInterval: 1000
+        useNewUrlParser: true
       }
     };
   }

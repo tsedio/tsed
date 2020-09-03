@@ -1,11 +1,23 @@
 import {classOf, constructorOf, Type} from "@tsed/core";
-import {InjectorService} from "@tsed/di";
-import {GlobalAcceptMimesMiddleware, IRoute, Platform, PlatformApplication, PlatformContextMiddleware} from "../../platform";
+import {Container, InjectorService, IProvider} from "@tsed/di";
+import {
+  GlobalAcceptMimesMiddleware,
+  IRoute,
+  Platform,
+  PlatformApplication,
+  PlatformContextMiddleware,
+  PlatformHandler,
+  PlatformRequest,
+  PlatformResponse,
+  PlatformRouter
+} from "../../platform";
 import {PlatformExceptionsMiddleware} from "../../platform-exceptions";
 import {PlatformLogMiddleware} from "../../platform/middlewares/PlatformLogMiddleware";
 import {
   callHook,
   createContainer,
+  createHttpServer,
+  createHttpsServer,
   createInjector,
   createPlatformApplication,
   getConfiguration,
@@ -17,6 +29,10 @@ import {
   setLoggerLevel
 } from "../utils";
 
+export interface PlatformType<T = any> extends Type<T> {
+  providers: IProvider[];
+}
+
 /**
  * @platform
  */
@@ -24,6 +40,17 @@ export abstract class PlatformBuilder {
   protected startedAt = new Date();
   protected _rootModule: any;
   protected _injector: InjectorService;
+  protected locals: Container;
+
+  constructor() {
+    this.locals = new Container()
+      .add(PlatformHandler)
+      .add(PlatformResponse)
+      .add(PlatformRequest)
+      .add(PlatformRouter)
+      .add(PlatformApplication)
+      .add(Platform);
+  }
 
   get injector(): InjectorService {
     return this._injector;
@@ -70,8 +97,10 @@ export abstract class PlatformBuilder {
     return this.injector.logger;
   }
 
-  static build<T extends PlatformBuilder>(platformBuildClass: Type<T>): T {
-    return new platformBuildClass();
+  static build<T extends PlatformBuilder>(platformBuildClass: PlatformType<T>): T {
+    const platform = new platformBuildClass();
+
+    return platform.useProviders(platformBuildClass.providers || []);
   }
 
   /**
@@ -171,6 +200,24 @@ export abstract class PlatformBuilder {
     }
   }
 
+  useProvider(token: Type<any>, settings: Partial<IProvider>) {
+    if (this.locals.hasProvider(token)) {
+      Object.assign(this.locals.getProvider(token), settings);
+    } else {
+      this.locals.addProvider(token, settings);
+    }
+
+    return this;
+  }
+
+  useProviders(providers: IProvider<any>[]) {
+    providers.forEach(({provide, ...settings}) => {
+      this.useProvider(provide, settings);
+    });
+
+    return this;
+  }
+
   protected async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     this.createInjector(module, settings);
     this.createRootModule(module);
@@ -227,13 +274,19 @@ export abstract class PlatformBuilder {
 
   protected createInjector(module: Type<any>, settings: any) {
     this._injector = createInjector(getConfiguration(module, settings));
+
+    // configure locals providers
+    this.locals.forEach((provider) => {
+      this.injector.addProvider(provider.token, provider);
+    });
+
     createPlatformApplication(this.injector);
+    createHttpsServer(this.injector);
+    createHttpServer(this.injector);
   }
 
   protected createRootModule(module: Type<any>) {
-    this._rootModule = this.injector.invoke(module, undefined, {
-      // imports: this.settings.imports
-    });
+    this._rootModule = this.injector.invoke(module);
 
     this.injector.delete(constructorOf(this._rootModule));
     this.injector.delete(classOf(this._rootModule));

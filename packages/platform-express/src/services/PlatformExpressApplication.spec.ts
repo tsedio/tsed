@@ -1,14 +1,21 @@
 import {PlatformApplication, PlatformTest} from "@tsed/common";
+import {classOf} from "@tsed/core";
+import {PlatformExpress} from "@tsed/platform-express";
 import {expect} from "chai";
 import * as Express from "express";
 import * as Sinon from "sinon";
-import {stub} from "../../../../../test/helper/tools";
-import "./PlatformExpressApplication";
+import {stub} from "../../../../test/helper/tools";
 
 const sandbox = Sinon.createSandbox();
 
 describe("PlatformExpressApplication", () => {
-  beforeEach(() => PlatformTest.create());
+  class TestServer {}
+
+  beforeEach(
+    PlatformTest.bootstrap(TestServer, {
+      platform: PlatformExpress
+    })
+  );
   afterEach(() => PlatformTest.reset());
 
   describe("statics()", () => {

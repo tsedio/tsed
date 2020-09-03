@@ -150,6 +150,15 @@ export class Provider<T = any> implements IProvider<T> {
   }
 
   toString() {
-    return `Token:${this.name}`;
+    return [
+      "Token",
+      this.name,
+      this.useClass && nameOf(this.useClass),
+      this.useFactory && "Factory",
+      this.useValue && "Value",
+      this.useAsyncFactory && "AsyncFactory"
+    ]
+      .filter(Boolean)
+      .join(":");
   }
 }

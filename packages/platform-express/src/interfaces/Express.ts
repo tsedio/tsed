@@ -1,4 +1,4 @@
-import {RequestContext, RequestLogger} from "../../platform";
+import {RequestContext, RequestLogger} from "@tsed/common/src/platform";
 
 namespace Express {
   export interface NextFunction extends Function {}

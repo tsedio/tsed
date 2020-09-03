@@ -1,5 +1,5 @@
 import {StoreMerge} from "@tsed/core";
-import {PlatformExpressRouterSettings} from "../interfaces/PlatformExpressSettings";
+import {PlatformExpressRouterSettings} from "@tsed/common/src/platform-express/interfaces/PlatformExpressSettings";
 
 /**
  * Specify the behavior of the router controller.

@@ -28,6 +28,7 @@ import {
   InterceptorContext,
   InterceptorMethods,
   InvokeOptions,
+  IProvider,
   ProviderScope,
   TokenProvider
 } from "../interfaces";
@@ -101,16 +102,18 @@ export class InjectorService extends Container {
   /**
    * Clone a provider from GlobalProviders and the given token. forkProvider method build automatically the provider if the instance parameter ins't given.
    * @param token
-   * @param instance
+   * @param settings
    */
-  public forkProvider(token: TokenProvider, instance?: any): Provider {
-    const provider = this.addProvider(token).getProvider(token)!;
-
-    if (!instance) {
-      instance = this.invoke(token);
+  public forkProvider(token: TokenProvider, settings: Partial<IProvider<any>> = {}): Provider {
+    if (!this.hasProvider(token)) {
+      this.addProvider(token);
     }
 
-    provider.instance = instance;
+    const provider = this.getProvider(token)!;
+
+    Object.assign(provider, settings);
+
+    provider.instance = this.invoke(token);
 
     return provider;
   }

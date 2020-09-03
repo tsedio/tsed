@@ -1,7 +1,7 @@
+import {RequestContext} from "@tsed/common";
 import * as Express from "express";
-import {RequestContext} from "../../platform";
 import "./Express";
-import {PlatformExpressRouterSettings, PlatformExpressSettings} from "./PlatformExpressSettings";
+import {PlatformExpressSettings} from "./PlatformExpressSettings";
 
 export * from "./PlatformExpressSettings";
 

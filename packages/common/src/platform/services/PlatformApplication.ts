@@ -29,6 +29,6 @@ export class PlatformApplication<T = TsED.Application> extends PlatformDriver<T>
   }
 
   statics(endpoint: string, options: PlatformStaticsOptions) {
-    console.log("Statics methods aren't implemented on this platform");
+    console.warn("Statics methods aren't implemented on this platform");
   }
 }

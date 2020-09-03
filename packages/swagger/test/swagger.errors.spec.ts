@@ -33,7 +33,7 @@ class ErrorsController {
   }
 }
 
-describe("ErrorsParams", () => {
+describe("Swagger errors params", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   beforeEach(
     PlatformTest.bootstrap(Server, {

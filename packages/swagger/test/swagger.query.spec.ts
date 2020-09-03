@@ -27,7 +27,7 @@ class QueryParamsSwaggerController {
   scenario4(@QueryParams() params: QueryParamModel, @QueryParams("locale") locale: string) {}
 }
 
-describe("QueryParams", () => {
+describe("Swagger query params", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   beforeEach(
     PlatformTest.bootstrap(Server, {
