@@ -108,5 +108,5 @@ This is possible with the combination of @@Opts@@ and @@UseOpts@@ decorators.
 <<< @/docs/docs/snippets/providers/configurable-provider.ts
 
 ::: warning
-Using @@Opts@@ decorator on a constructor parameter change the scope of the provider to `ProviderScope.INSTANCE`.
+Using @@Opts@@ decorator on a constructor parameter changes the scope of the provider to `ProviderScope.INSTANCE`.
 :::
