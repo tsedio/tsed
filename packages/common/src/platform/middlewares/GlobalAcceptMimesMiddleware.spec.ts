@@ -2,7 +2,7 @@ import {PlatformRequest, PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {expect} from "chai";
 import {FakeRequest} from "../../../../../test/helper";
-import {ServerSettingsService} from "../../config";
+import {PlatformConfiguration} from "../../config";
 import {GlobalAcceptMimesMiddleware} from "./GlobalAcceptMimesMiddleware";
 
 describe("GlobalAcceptMimesMiddleware", () => {
@@ -20,7 +20,7 @@ describe("GlobalAcceptMimesMiddleware", () => {
         request: new PlatformRequest(request)
       });
 
-      const settings = new ServerSettingsService();
+      const settings = new PlatformConfiguration();
       settings.acceptMimes = ["application/json"];
 
       const middleware = new GlobalAcceptMimesMiddleware(settings as any);
@@ -41,7 +41,7 @@ describe("GlobalAcceptMimesMiddleware", () => {
         request: new PlatformRequest(request)
       });
 
-      const settings = new ServerSettingsService();
+      const settings = new PlatformConfiguration();
       settings.acceptMimes = ["application/json"];
 
       const middleware = new GlobalAcceptMimesMiddleware(settings as any);

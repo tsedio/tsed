@@ -3,14 +3,14 @@ import {$log} from "@tsed/logger";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {ProviderScope, ProviderType} from "../../../../di/src/interfaces";
-import {ServerSettingsService} from "../../../src/config/services/ServerSettingsService";
+import {PlatformConfiguration} from "./PlatformConfiguration";
 
-describe("ServerSettingsService", () => {
+describe("PlatformConfiguration", () => {
   let settings: any;
 
   describe("Test ENV", () => {
     before(() => {
-      settings = new ServerSettingsService();
+      settings = new PlatformConfiguration();
 
       Object.entries({
         rootDir: process.cwd(),
@@ -173,14 +173,14 @@ describe("ServerSettingsService", () => {
 
     describe("buildAddressAndPort()", () => {
       it("should return address and port from a concatened address and port", () => {
-        expect((ServerSettingsService as any).buildAddressAndPort("0.0.0.0:9000")).to.deep.eq({
+        expect((PlatformConfiguration as any).buildAddressAndPort("0.0.0.0:9000")).to.deep.eq({
           address: "0.0.0.0",
           port: 9000
         });
       });
 
       it("should return address and port from a port number", () => {
-        expect((ServerSettingsService as any).buildAddressAndPort(9000)).to.deep.eq({
+        expect((PlatformConfiguration as any).buildAddressAndPort(9000)).to.deep.eq({
           address: "0.0.0.0",
           port: 9000
         });
@@ -189,7 +189,7 @@ describe("ServerSettingsService", () => {
 
     describe("port", () => {
       it("should set port", () => {
-        const settings = new ServerSettingsService();
+        const settings = new PlatformConfiguration();
 
         settings.set({port: 8081});
 
@@ -239,7 +239,7 @@ describe("ServerSettingsService", () => {
   describe("Test PRODUCTION", () => {
     before(() => {
       process.env.NODE_ENV = "production";
-      settings = new ServerSettingsService();
+      settings = new PlatformConfiguration();
     });
 
     it("should return env PROD", () => {
@@ -253,7 +253,7 @@ describe("ServerSettingsService", () => {
 
   describe("set logger format", () => {
     before(() => {
-      settings = new ServerSettingsService();
+      settings = new PlatformConfiguration();
       Sinon.stub($log.appenders, "set");
 
       settings.logger = {

@@ -87,7 +87,7 @@ export abstract class PlatformBuilder {
    * }
    * ```
    *
-   * @returns {ServerSettingsService}
+   * @returns {PlatformConfiguration}
    */
   get settings() {
     return this.injector.settings;

@@ -1,6 +1,6 @@
 import {GlobalProviders, IDIConfigurationOptions, InjectorService} from "@tsed/di";
 import {$log} from "@tsed/logger";
-import {ServerSettingsService} from "../../config/services/ServerSettingsService";
+import {PlatformConfiguration} from "../../config/services/PlatformConfiguration";
 
 $log.name = "TSED";
 $log.level = "info";
@@ -20,11 +20,11 @@ export function createInjector(settings: Partial<TsED.Configuration> = {}) {
   return injector;
 }
 
-function createSettingsService(injector: InjectorService): ServerSettingsService & TsED.Configuration {
-  const provider = GlobalProviders.get(ServerSettingsService)!.clone();
+function createSettingsService(injector: InjectorService): PlatformConfiguration & TsED.Configuration {
+  const provider = GlobalProviders.get(PlatformConfiguration)!.clone();
 
-  provider.instance = injector.invoke<ServerSettingsService>(provider.useClass);
-  injector.addProvider(ServerSettingsService, provider);
+  provider.instance = injector.invoke<PlatformConfiguration>(provider.useClass);
+  injector.addProvider(PlatformConfiguration, provider);
 
   return provider.instance as any;
 }

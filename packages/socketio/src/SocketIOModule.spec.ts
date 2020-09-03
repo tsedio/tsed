@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {HttpServer, HttpsServer, PlatformTest} from "@tsed/common";
-import {ServerSettingsService} from "@tsed/common/src/config";
+import {PlatformConfiguration} from "@tsed/common/src/config";
 import * as Sinon from "sinon";
 import {SocketIOModule, SocketIOServer, SocketIOService} from "./index";
 
@@ -21,7 +21,7 @@ describe("SocketIOModule", () => {
 
       it(
         "should call attach method",
-        PlatformTest.inject([ServerSettingsService], async (serverSettingsService: ServerSettingsService) => {
+        PlatformTest.inject([PlatformConfiguration], async (serverSettingsService: PlatformConfiguration) => {
           // GIVEN
           const socketIOServer = {attach: Sinon.stub(), adapter: Sinon.stub()};
           const httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
@@ -70,7 +70,7 @@ describe("SocketIOModule", () => {
 
       it(
         "should call attach method",
-        PlatformTest.inject([ServerSettingsService], async (serverSettingsService: ServerSettingsService) => {
+        PlatformTest.inject([PlatformConfiguration], async (serverSettingsService: PlatformConfiguration) => {
           // GIVEN
           const socketIOServer = {attach: Sinon.stub(), adapter: Sinon.stub()};
           const httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
