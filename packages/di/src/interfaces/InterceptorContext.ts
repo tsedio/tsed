@@ -2,11 +2,6 @@ export interface InterceptorNext {
   <T>(err?: Error): T;
 }
 
-/**
- * @deprecated Use InterceptorNext
- */
-export interface IInterceptorNextHandler extends InterceptorNext {}
-
 export interface InterceptorContext<T> {
   target: T;
   propertyKey: string;
@@ -14,8 +9,3 @@ export interface InterceptorContext<T> {
   next: InterceptorNext;
   options?: any;
 }
-
-/**
- * @deprecated Use InterceptorContext
- */
-export interface IInterceptorContext<T> extends InterceptorContext<T> {}

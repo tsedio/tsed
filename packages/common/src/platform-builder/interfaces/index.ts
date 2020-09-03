@@ -9,4 +9,3 @@ export * from "./OnRoutesInit";
 export * from "./OnReady";
 export * from "./OnRequest";
 export * from "./OnResponse";
-export * from "./IHooks";
