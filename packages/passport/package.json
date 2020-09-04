@@ -18,9 +18,11 @@
     "@types/passport": "1.0.4",
     "@types/passport-http": "0.3.8",
     "@types/passport-local": "1.0.33",
+    "@types/passport-strategy": "0.2.35",
     "passport": "0.4.1",
     "passport-http": "0.3.0",
-    "passport-local": "1.0.0"
+    "passport-local": "1.0.0",
+    "passport-strategy": "1.0.0"
   },
   "private": false,
   "directories": {
