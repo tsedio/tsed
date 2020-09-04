@@ -1,6 +1,6 @@
 {
   "name": "@tsed/testing-mongoose",
-  "version": "6.0.0-alpha.12",
+  "version": "6.0.0-alpha.13",
   "description": "A TypeScript Framework on top of Express",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -17,8 +17,8 @@
     "mongoose": "^5.9.27"
   },
   "devDependencies": {
-    "@tsed/common": "6.0.0-alpha.12",
-    "@tsed/core": "6.0.0-alpha.12",
-    "@tsed/mongoose": "6.0.0-alpha.12"
+    "@tsed/common": "6.0.0-alpha.13",
+    "@tsed/core": "6.0.0-alpha.13",
+    "@tsed/mongoose": "6.0.0-alpha.13"
   }
 }
