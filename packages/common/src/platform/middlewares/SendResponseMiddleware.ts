@@ -16,6 +16,6 @@ export class SendResponseMiddleware implements IMiddleware {
   middleware: PlatformResponseMiddleware;
 
   public use(@Req() req: Req, @Res() res: Res) {
-    return this.middleware.use(req.ctx);
+    return this.middleware.use(req.$ctx);
   }
 }

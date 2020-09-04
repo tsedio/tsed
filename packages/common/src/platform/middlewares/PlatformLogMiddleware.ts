@@ -22,7 +22,7 @@ export class PlatformLogMiddleware implements IMiddleware {
     this.settings.requestFields = this.settings.requestFields || PlatformLogMiddleware.DEFAULT_FIELDS;
 
     if (this.settings.level !== "off") {
-      this.$onResponse = (request: any) => this.onLogEnd(request.ctx);
+      this.$onResponse = (request: any) => this.onLogEnd(request.$ctx);
     }
   }
 

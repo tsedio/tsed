@@ -28,7 +28,7 @@ describe("LogIncomingRequestMiddleware", () => {
       request.method = "GET";
       request.url = "url";
       request.originalUrl = "originalUrl";
-      request.ctx.data = "test";
+      request.$ctx.data = "test";
 
       const response = new FakeResponse();
       response.statusCode = 200;
@@ -83,7 +83,7 @@ describe("LogIncomingRequestMiddleware", () => {
 
       request.method = "GET";
       request.url = "url";
-      request.ctx.data = "test";
+      request.$ctx.data = "test";
 
       const response = new FakeResponse();
       response.statusCode = 200;
@@ -136,7 +136,7 @@ describe("LogIncomingRequestMiddleware", () => {
       request.method = "GET";
       request.url = "url";
       request.originalUrl = "originalUrl";
-      request.ctx.data = "test";
+      request.$ctx.data = "test";
 
       const response = new FakeResponse();
       response.statusCode = 200;
@@ -176,7 +176,7 @@ describe("LogIncomingRequestMiddleware", () => {
       request.method = "GET";
       request.url = "url";
       request.originalUrl = "originalUrl";
-      request.ctx.data = "test";
+      request.$ctx.data = "test";
 
       const response = new FakeResponse();
       response.statusCode = 200;

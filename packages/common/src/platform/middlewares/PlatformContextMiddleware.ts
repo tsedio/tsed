@@ -28,13 +28,14 @@ export class PlatformContextMiddleware {
     this.reqIdBuilder = reqIdBuilder;
   }
 
-  static async onClose(err: any, response: any) {
+  static async onClose(err: any, response: TsED.Response) {
     const {req: request} = response;
 
-    await request.ctx.emit("$onResponse", request, response);
-    await request.ctx.destroy();
+    await request.$ctx.emit("$onResponse", request, response);
+    await request.$ctx.destroy();
 
     delete request.ctx;
+    // @ts-ignore
     delete request.log;
   }
 
@@ -45,7 +46,7 @@ export class PlatformContextMiddleware {
     const request = PlatformRequest.create(this.injector, req);
     const response = PlatformResponse.create(this.injector, res);
 
-    req.ctx = new PlatformContext({
+    req.$ctx = new PlatformContext({
       id,
       logger: this.injector.logger,
       url: request.url,
@@ -58,10 +59,11 @@ export class PlatformContextMiddleware {
     });
 
     // deprecated
+    req.ctx = req.$ctx;
     // @ts-ignore
-    req.log = req.ctx.logger;
+    req.log = req.$ctx.logger;
 
-    req.ctx.response.onEnd(PlatformContextMiddleware.onClose);
+    req.$ctx.response.onEnd(PlatformContextMiddleware.onClose);
 
     await this.injector.emit("$onRequest", req, res);
 

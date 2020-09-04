@@ -39,7 +39,7 @@ describe("GlobalErrorHandlerMiddleware", () => {
           const request = new FakeRequest();
           const error = "message";
 
-          request.ctx = PlatformTest.createRequestContext({
+          request.$ctx = PlatformTest.createRequestContext({
             response: new PlatformResponse(response as any),
             request: new PlatformRequest(request as any)
           });

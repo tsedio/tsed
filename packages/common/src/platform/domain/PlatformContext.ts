@@ -4,7 +4,7 @@ import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
 import {RequestLogger, RequestLoggerOptions} from "./RequestLogger";
 
-export interface RequestContextOptions extends RequestLoggerOptions {
+export interface RequestContextOptions extends Omit<RequestLoggerOptions, "dateStart"> {
   id: string;
   logger: any;
   injector?: InjectorService;

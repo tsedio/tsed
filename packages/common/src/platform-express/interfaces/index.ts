@@ -24,9 +24,15 @@ declare global {
 
     export interface Request extends Express.Request {
       id: string;
+      /**
+       * @deprecated v6 will use $ctx to support Koa
+       */
       ctx: PlatformContext;
+      $ctx: PlatformContext;
     }
 
-    export interface Response extends Express.Response {}
+    export interface Response extends Express.Response {
+      req: Request;
+    }
   }
 }

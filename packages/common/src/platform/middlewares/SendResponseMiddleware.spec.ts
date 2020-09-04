@@ -16,12 +16,12 @@ describe("SendResponseMiddleware", () => {
 
     const request = new FakeRequest();
     const response: any = new FakeResponse(sandbox);
-    request.ctx = PlatformTest.createRequestContext();
+    request.$ctx = PlatformTest.createRequestContext();
 
     // WHEN
     const result = middleware.use(request as any, response as any);
 
     // THEN
-    expect(middleware.middleware.use).to.have.been.calledWithExactly(request.ctx);
+    expect(middleware.middleware.use).to.have.been.calledWithExactly(request.$ctx);
   });
 });

@@ -58,8 +58,7 @@ export class FakeRequest {
     "content-type": "application/json",
     accept: "application/json"
   };
-
-  public ctx: PlatformContext;
+  public $ctx: PlatformContext;
   public log: {[key: string]: SinonStub};
   public isAuthenticated: SinonStub;
 
@@ -75,14 +74,14 @@ export class FakeRequest {
       flush: sandbox.stub()
     };
 
-    this.ctx = new PlatformContext({
+    this.$ctx = new PlatformContext({
       id: id || "id",
       url: url || "url",
       logger
     });
 
-    this.ctx.data = data;
-    this.ctx.endpoint = endpoint;
+    this.$ctx.data = data;
+    this.$ctx.endpoint = endpoint;
     this.log = logger;
 
     this.isAuthenticated = sandbox.stub();
@@ -96,6 +95,13 @@ export class FakeRequest {
 
     sandbox.spy(this, "accepts");
     sandbox.spy(this, "get");
+  }
+
+  /**
+   * @deprecated
+   */
+  get ctx() {
+    return this.$ctx;
   }
 
   get(value?: any) {

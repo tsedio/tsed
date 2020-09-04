@@ -31,7 +31,7 @@ function build(injector: InjectorService, type: string | ParamTypes | Type<any>,
 
   const request: any = new FakeRequest();
   const response: any = new FakeResponse();
-  request.ctx = PlatformTest.createRequestContext({
+  request.$ctx = PlatformTest.createRequestContext({
     response: new PlatformResponse(response),
     request: new PlatformRequest(request)
   });
@@ -145,7 +145,7 @@ describe("PlatformHandler", () => {
 
         const request: any = new FakeRequest();
         const response: any = new FakeRequest();
-        request.ctx = PlatformTest.createRequestContext({
+        request.$ctx = PlatformTest.createRequestContext({
           response: new PlatformResponse(response),
           request: new PlatformRequest(request)
         });
@@ -218,7 +218,7 @@ describe("PlatformHandler", () => {
         expect(result).to.eq(undefined);
         expect(handler.length).to.eq(4);
         expect(Test.prototype.use).to.have.been.calledWithExactly(error);
-        expect(request.ctx.data).to.deep.eq(error);
+        expect(request.$ctx.data).to.deep.eq(error);
       })
     );
 
@@ -315,7 +315,7 @@ describe("PlatformHandler", () => {
         const value = platformHandler.getParam(param, context);
 
         // THEN
-        expect(value).to.deep.eq(context.request.ctx);
+        expect(value).to.deep.eq(context.request.$ctx);
       })
     );
     it(
@@ -328,7 +328,7 @@ describe("PlatformHandler", () => {
         const value = platformHandler.getParam(param, context);
 
         // THEN
-        expect(value).to.deep.eq(context.request.ctx.data);
+        expect(value).to.deep.eq(context.request.$ctx.data);
       })
     );
     it(
@@ -337,12 +337,12 @@ describe("PlatformHandler", () => {
         // GIVEN
         const {param, request, context} = build(injector, ParamTypes.ENDPOINT_INFO);
 
-        request.ctx.endpoint = "endpoint";
+        request.$ctx.endpoint = "endpoint";
         // WHEN
         const value = platformHandler.getParam(param, context);
 
         // THEN
-        expect(value).to.deep.eq(request.ctx.endpoint);
+        expect(value).to.deep.eq(request.$ctx.endpoint);
       })
     );
     it(
