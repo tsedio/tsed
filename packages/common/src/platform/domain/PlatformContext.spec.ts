@@ -1,16 +1,16 @@
 import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
-import {RequestContext} from "./RequestContext";
+import {PlatformContext} from "./PlatformContext";
 
-describe("RequestContext", () => {
+describe("PlatformContext", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
   it("should create a new Context", () => {
     const req: any = new FakeRequest();
     const res: any = new FakeResponse();
     // @ts-ignore
-    const context = new RequestContext({
+    const context = new PlatformContext({
       id: "id",
       injector: PlatformTest.injector,
       response: new PlatformResponse(res),

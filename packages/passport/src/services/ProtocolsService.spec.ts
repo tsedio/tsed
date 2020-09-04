@@ -1,4 +1,4 @@
-import {PlatformTest, RequestContext, Req} from "@tsed/common";
+import {PlatformContext, PlatformTest, Req} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import * as Passport from "passport";
@@ -86,9 +86,9 @@ describe("ProtocolsService", () => {
       // GIVEN
       stub(LocalProtocol.prototype.$onVerify).returns({id: 0});
       const provider = injector.getProvider(LocalProtocol)!;
-      const req = {
+      const req: any = {
         res: {},
-        ctx: new RequestContext({id: "1", logger: {}, url: "/"})
+        $ctx: new PlatformContext({id: "1", logger: {}, url: "/"})
       };
       // WHEN
       const result = protocolService.invoke(provider);
@@ -112,7 +112,7 @@ describe("ProtocolsService", () => {
       const provider = injector.getProvider(LocalProtocol)!;
       const req = {
         res: {},
-        ctx: new RequestContext({id: "1", logger: {}, url: "/"})
+        $ctx: new PlatformContext({id: "1", logger: {}, url: "/"})
       };
       // WHEN
       const result = protocolService.invoke(provider);

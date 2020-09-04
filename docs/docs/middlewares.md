@@ -176,7 +176,7 @@ You are able to override this middleware to change the initial behavior of this 
 
 <<< @/docs/docs/snippets/middlewares/override-platform-response-middleware.ts
 
-Here we use the new [Platform API](/docs/platform-api.md) to write our middleware. By using @@Context@@ decorator and @@RequestContext@@ class we can get some information:
+Here we use the new [Platform API](/docs/platform-api.md) to write our middleware. By using @@Context@@ decorator and @@PlatformContext@@ class we can get some information:
 
 - The data returned by the last executed endpoint,
 - The @@EndpointMetadata@@ itself,

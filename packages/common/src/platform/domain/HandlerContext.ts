@@ -51,11 +51,11 @@ export class HandlerContext {
   }
 
   get ctx() {
-    return this.request?.ctx;
+    return this.request?.$ctx;
   }
 
   get container() {
-    return this.request?.ctx?.container;
+    return this.request?.$ctx?.container;
   }
 
   done(error: any, result?: any) {
@@ -65,7 +65,7 @@ export class HandlerContext {
 
     const {
       metadata: {hasNextFunction},
-      request: {ctx}
+      ctx
     } = this;
 
     if (error) {

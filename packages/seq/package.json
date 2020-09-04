@@ -30,6 +30,8 @@
   "private": false,
   "devDependencies": {
     "@tsed/common": "6.0.0-alpha.12",
-    "@tsed/core": "6.0.0-alpha.12"
+    "@tsed/core": "6.0.0-alpha.12",
+    "@types/bunyan": "1.8.6",
+    "@types/bunyan-seq": "0.2.2"
   }
 }

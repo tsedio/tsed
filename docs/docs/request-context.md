@@ -5,7 +5,7 @@ next: true
 # Request context
 
 Ts.ED provides an util to get request, response, to store and share data along all middlewares/endpoints during a request
-with @@RequestContext@@. This context is created by Ts.ED when the request is handled by the server.
+with @@PlatformContext@@. This context is created by Ts.ED when the request is handled by the server.
 
 It contains some information as following:
 
@@ -64,9 +64,9 @@ class MyCtrl {
 
 ## Request and Response abstraction
 
-@@RequestContext@@ provide a @@PlatformRequest@@ and @@PlatformResponse@@ classes which are an abstraction layer of the targeted platform (Express.js, Koa.js, etc...).
+@@PlatformContext@@ provide a @@PlatformRequest@@ and @@PlatformResponse@@ classes which are an abstraction layer of the targeted platform (Express.js, Koa.js, etc...).
 
-By using the RequestContext interface, your code will be compatible with any platform.
+By using the PlatformContext interface, your code will be compatible with any platform.
 But, the abstraction doesn't or cannot provide all necessaries properties or methods. It's also
 possible to get the original request or response by different ways.
 

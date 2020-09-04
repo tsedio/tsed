@@ -55,7 +55,7 @@ describe("PlatformContextMiddleware", () => {
     // THEN
     expect(injector.emit).to.have.been.calledWithExactly("$onRequest", request, response);
 
-    expect(request.ctx.logger.id).to.deep.equal(request.ctx.id);
-    expect(request.ctx.logger.id).to.equal("1");
+    expect(request.$ctx.logger.id).to.deep.equal(request.$ctx.id);
+    expect(request.$ctx.logger.id).to.equal("1");
   });
 });

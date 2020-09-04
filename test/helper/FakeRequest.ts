@@ -1,4 +1,4 @@
-import {RequestContext} from "@tsed/common/src/platform/domain/RequestContext";
+import {PlatformContext} from "@tsed/common/src/platform/domain/PlatformContext";
 import * as Sinon from "sinon";
 import {SinonStub} from "sinon";
 
@@ -58,8 +58,7 @@ export class FakeRequest {
     "content-type": "application/json",
     accept: "application/json"
   };
-
-  public ctx: RequestContext;
+  public $ctx: PlatformContext;
   public log: {[key: string]: SinonStub};
   public isAuthenticated: SinonStub;
 
@@ -75,14 +74,14 @@ export class FakeRequest {
       flush: sandbox.stub()
     };
 
-    this.ctx = new RequestContext({
+    this.$ctx = new PlatformContext({
       id: id || "id",
       url: url || "url",
       logger
     });
 
-    this.ctx.data = data;
-    this.ctx.endpoint = endpoint;
+    this.$ctx.data = data;
+    this.$ctx.endpoint = endpoint;
     this.log = logger;
 
     this.isAuthenticated = sandbox.stub();

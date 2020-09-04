@@ -22,7 +22,7 @@ export * from "./middlewares/GlobalAcceptMimesMiddleware";
 
 // domain
 export * from "./domain/HandlerContext";
-export * from "./domain/RequestContext";
+export * from "./domain/PlatformContext";
 export * from "./domain/RequestLogger";
 export * from "./domain/RequestLogger";
 export * from "./domain/ControllerProvider";

@@ -114,7 +114,7 @@ describe("HandlerContext", () => {
 
     // THEN
     expect(result).to.eq(undefined);
-    expect(request.ctx.data).to.eq("value");
+    expect(request.$ctx.data).to.eq("value");
     expect(handlerContext.isDone).to.eq(true);
     expect(handlerContext.injector).to.eq(undefined);
     expect(handlerContext.metadata).to.eq(undefined);
@@ -141,7 +141,7 @@ describe("HandlerContext", () => {
     // THEN
     // @ts-ignore
     expect(result.message).to.deep.eq("value");
-    expect(request.ctx.data).to.eq(undefined);
+    expect(request.$ctx.data).to.eq(undefined);
     expect(handlerContext.isDone).to.eq(true);
     expect(handlerContext.injector).to.eq(undefined);
     expect(handlerContext.metadata).to.eq(undefined);
@@ -165,7 +165,7 @@ describe("HandlerContext", () => {
 
     // THEN
     expect(result).to.eq(undefined);
-    expect(request.ctx.data).to.eq("value");
+    expect(request.$ctx.data).to.eq("value");
   });
   it("should return the value from BUFFER", async () => {
     const {run, request} = await getHandlerContext({
@@ -179,8 +179,8 @@ describe("HandlerContext", () => {
 
     // THEN
     expect(result).to.eq(undefined);
-    expect(Buffer.isBuffer(request.ctx.data)).to.eq(true);
-    expect(request.ctx.data.toString("utf8")).to.eq("value");
+    expect(Buffer.isBuffer(request.$ctx.data)).to.eq(true);
+    expect(request.$ctx.data.toString("utf8")).to.eq("value");
   });
   it("should return the value from STREAM", async () => {
     const {run, request} = await getHandlerContext({
@@ -194,7 +194,7 @@ describe("HandlerContext", () => {
 
     // THEN
     expect(result).to.eq(undefined);
-    expect(isStream(request.ctx.data)).to.eq(true);
+    expect(isStream(request.$ctx.data)).to.eq(true);
   });
   it("should proxy axios/custom response", async () => {
     const {run, request} = await getHandlerContext({
@@ -208,7 +208,7 @@ describe("HandlerContext", () => {
 
     // THEN
     expect(result).to.eq(undefined);
-    expect(request.ctx.data).to.eq("data");
+    expect(request.$ctx.data).to.eq("data");
   });
   it("should return the value from OBSERVABLE", async () => {
     const {run, request} = await getHandlerContext({
@@ -222,7 +222,7 @@ describe("HandlerContext", () => {
 
     // THEN
     expect(result).to.eq(undefined);
-    expect(request.ctx.data).to.deep.eq(["value"]);
+    expect(request.$ctx.data).to.deep.eq(["value"]);
   });
   it("should return the value from FUNCTION", async () => {
     const {run} = await getHandlerContext({
@@ -249,7 +249,7 @@ describe("HandlerContext", () => {
 
     // THEN
     expect(result).to.eq(undefined);
-    expect(request.ctx.data).to.eq(undefined);
+    expect(request.$ctx.data).to.eq(undefined);
   });
   it("should do nothing when response is returned", async () => {
     const {run, request, handlerContext, response} = await getHandlerContext({
@@ -264,7 +264,7 @@ describe("HandlerContext", () => {
     run();
 
     // THEN
-    expect(request.ctx.data).to.eq(undefined);
+    expect(request.$ctx.data).to.eq(undefined);
   });
   it("should do nothing when response has already sent headers", async () => {
     const {run, request, handlerContext, response} = await getHandlerContext({
@@ -279,7 +279,7 @@ describe("HandlerContext", () => {
     run();
 
     // THEN
-    expect(request.ctx.data).to.eq(undefined);
+    expect(request.$ctx.data).to.eq(undefined);
     expect(response.headersSent).to.eq(true);
   });
   it("should do when request is aborted", async () => {

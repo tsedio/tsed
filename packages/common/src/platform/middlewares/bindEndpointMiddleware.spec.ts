@@ -20,6 +20,6 @@ describe("bindEndpointMiddleware", () => {
       bindEndpointMiddleware(endpoint)(request, response, resolve);
     });
 
-    expect(request.ctx.endpoint).to.equal(endpoint);
+    expect(request.$ctx.endpoint).to.equal(endpoint);
   });
 });

@@ -1,4 +1,4 @@
-import {Configuration, Controller, Get, InjectorService, PlatformTest, RequestContext} from "@tsed/common";
+import {Configuration, Controller, Get, InjectorService, PlatformTest, PlatformContext} from "@tsed/common";
 import {expect} from "chai";
 
 @Configuration({})
@@ -22,7 +22,7 @@ describe("PlatformTest", () => {
 
   describe("createRequestContext", () => {
     it("should return request context", () => {
-      expect(PlatformTest.createRequestContext()).to.be.instanceOf(RequestContext);
+      expect(PlatformTest.createRequestContext()).to.be.instanceOf(PlatformContext);
     });
   });
 

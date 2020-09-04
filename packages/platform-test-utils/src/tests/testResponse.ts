@@ -1,4 +1,4 @@
-import {ContentType, Controller, Get, Next, PathParams, PlatformTest, Post, Req, Res, Status} from "@tsed/common";
+import {ContentType, Controller, Get, Next, PathParams, PlatformTest, Post, Req, Res, Status, Context} from "@tsed/common";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import {join} from "path";
@@ -9,26 +9,26 @@ import {PlatformTestOptions} from "../interfaces";
 @Controller("/response")
 class TestResponseParamsCtrl {
   @Get("/scenario1/:id")
-  public testScenario1Assert(@PathParams("id") id: number, @Req() request: Req) {
-    request.ctx.set("test", "value");
+  public testScenario1Assert(@PathParams("id") id: number, @Context() ctx: Context) {
+    ctx.set("test", "value");
   }
 
   @Get("/scenario1/:id")
-  public testScenario1Get(@PathParams("id") id: number, @Req() request: Req) {
-    return id + request.ctx.get("test");
+  public testScenario1Get(@PathParams("id") id: number, @Context() ctx: Context) {
+    return id + ctx.get("test");
   }
 
   @Get("/scenario2/:id")
-  public testScenario2Assert(@PathParams("id") id: number, @Req() request: Req, @Next() next: Next) {
+  public testScenario2Assert(@PathParams("id") id: number, @Next() next: Next, @Context() ctx: Context) {
     setTimeout(() => {
-      request.ctx.set("test", "value");
+      ctx.set("test", "value");
       next();
     }, 100);
   }
 
   @Get("/scenario2/:id")
-  public testScenario2Get(@PathParams("id") id: number, @Req() request: Req) {
-    return id + request.ctx.get("test");
+  public testScenario2Get(@PathParams("id") id: number, @Context() ctx: Context) {
+    return id + ctx.get("test");
   }
 
   @Post("/scenario3/:id?")
@@ -46,18 +46,18 @@ class TestResponseParamsCtrl {
   }
 
   @Get("/scenario4/:id")
-  async testScenario4Assert(@PathParams("id") id: number, @Req() request: Req, @Next() next: Next) {
+  async testScenario4Assert(@PathParams("id") id: number, @Next() next: Next, @Context() ctx: Context) {
     await new Promise((resolve) => {
       setTimeout(resolve, 100);
     });
 
-    request.ctx.set("test", "value");
+    ctx.set("test", "value");
     next();
   }
 
   @Get("/scenario4/:id")
-  public testScenario4Get(@PathParams("id") id: number, @Req() request: Req) {
-    return id + request.ctx.get("test");
+  public testScenario4Get(@PathParams("id") id: number, @Context() ctx: Context) {
+    return id + ctx.get("test");
   }
 
   @Get("/scenario5")

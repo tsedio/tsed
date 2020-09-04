@@ -1,6 +1,6 @@
 import {InjectorService} from "@tsed/di";
 import {Req} from "../../mvc/decorators/params/request";
-import {RequestContext} from "../domain/RequestContext";
+import {PlatformContext} from "../domain/PlatformContext";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
 
@@ -28,13 +28,14 @@ export class PlatformContextMiddleware {
     this.reqIdBuilder = reqIdBuilder;
   }
 
-  static async onClose(err: any, response: any) {
+  static async onClose(err: any, response: TsED.Response) {
     const {req: request} = response;
 
-    await request.ctx.emit("$onResponse", request, response);
-    await request.ctx.destroy();
+    await request.$ctx.emit("$onResponse", request, response);
+    await request.$ctx.destroy();
 
     delete request.ctx;
+    // @ts-ignore
     delete request.log;
   }
 
@@ -45,7 +46,7 @@ export class PlatformContextMiddleware {
     const request = PlatformRequest.create(this.injector, req);
     const response = PlatformResponse.create(this.injector, res);
 
-    req.ctx = new RequestContext({
+    req.$ctx = new PlatformContext({
       id,
       logger: this.injector.logger,
       url: request.url,

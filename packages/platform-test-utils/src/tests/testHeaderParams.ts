@@ -6,7 +6,7 @@ import {PlatformTestOptions} from "../interfaces";
 function rawMiddleware(request: Req, response: Res, next: Next) {
   request["user"] = 1;
   response.locals.id = "local-10909";
-  request.ctx.set("uid", "ctx-10909");
+  request.$ctx.set("uid", "ctx-10909");
 
   next();
 }

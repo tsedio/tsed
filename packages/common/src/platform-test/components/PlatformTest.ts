@@ -1,7 +1,7 @@
 import {Env, Type} from "@tsed/core";
 import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
 import {createInjector, loadInjector, PlatformBuilder, PlatformType} from "../../platform-builder";
-import {RequestContext, RequestContextOptions} from "../../platform/domain/RequestContext";
+import {PlatformContext, RequestContextOptions} from "../../platform/domain/PlatformContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 import {PlatformRequest} from "../../platform/services/PlatformRequest";
 import {PlatformResponse} from "../../platform/services/PlatformResponse";
@@ -182,7 +182,7 @@ export class PlatformTest {
     options.request = options.request || new PlatformRequest({} as any);
     options.response = options.response || new PlatformResponse({} as any);
 
-    return new RequestContext({
+    return new PlatformContext({
       id: "id",
       injector: PlatformTest.injector,
       logger: PlatformTest.injector.logger,

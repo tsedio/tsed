@@ -38,7 +38,7 @@ function createContext(settings: any) {
   ctx.logger.maxStackSize = 0;
   ctx.data = "test";
 
-  request.ctx = ctx;
+  request.$ctx = ctx;
 
   return {request, ctx, injector, middleware};
 }
