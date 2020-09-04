@@ -2,7 +2,7 @@ import {Env, isInheritedFrom, Type} from "@tsed/core";
 import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
 import {createInjector, loadInjector, PlatformBuilder} from "../../platform-builder";
 import {ServerLoader} from "../../platform-express/components/ServerLoader";
-import {RequestContext, RequestContextOptions} from "../../platform/domain/RequestContext";
+import {PlatformContext, RequestContextOptions} from "../../platform/domain/PlatformContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 
 export interface PlatformTestInvokeOptions {
@@ -188,7 +188,7 @@ export class PlatformTest {
   }
 
   static createRequestContext(options: Partial<RequestContextOptions> = {}) {
-    return new RequestContext({
+    return new PlatformContext({
       id: "id",
       logger: this.injector.logger,
       url: "/",

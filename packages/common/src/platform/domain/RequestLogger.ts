@@ -1,9 +1,20 @@
 import {levels, LogLevel} from "@tsed/logger";
 
+export interface RequestLoggerOptions {
+  id: string;
+  dateStart: Date;
+  url: string;
+  ignoreUrlPatterns?: any[];
+  level?: "debug" | "info" | "warn" | "error" | "off" | "all";
+  maxStackSize?: number;
+  minimalRequestPicker?: (o: any) => any;
+  completeRequestPicker?: (o: any) => any;
+}
+
 export class RequestLogger {
   readonly id: string;
   readonly url: string;
-  readonly startDate: Date;
+  readonly dateStart: Date;
   public maxStackSize: number;
   public minimalRequestPicker: Function;
   public completeRequestPicker: Function;
@@ -13,11 +24,20 @@ export class RequestLogger {
 
   constructor(
     private logger: any,
-    {id, startDate, url, ignoreUrlPatterns = [], minimalRequestPicker, completeRequestPicker, level = "all", maxStackSize = 30}: any
+    {
+      id,
+      dateStart,
+      url,
+      ignoreUrlPatterns = [],
+      minimalRequestPicker,
+      completeRequestPicker,
+      level = "all",
+      maxStackSize = 30
+    }: RequestLoggerOptions
   ) {
     this.id = id;
     this.url = url;
-    this.startDate = startDate;
+    this.dateStart = dateStart;
     this.ignoreUrlPatterns = ignoreUrlPatterns.map((pattern: string | RegExp) =>
       typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern
     );
@@ -94,7 +114,7 @@ export class RequestLogger {
    * @returns {number}
    */
   protected getDuration(): number {
-    return new Date().getTime() - this.startDate.getTime();
+    return new Date().getTime() - this.dateStart.getTime();
   }
 
   protected getData(obj: any) {

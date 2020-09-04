@@ -167,7 +167,7 @@ Here is an example:
 
 #### Context
 
-See our dedicated page on [RequestContext](/docs/request-context.md) for more details.
+See our dedicated page on [PlatformContext](/docs/request-context.md) for more details.
 
 ## Response
 

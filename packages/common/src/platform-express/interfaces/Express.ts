@@ -1,4 +1,4 @@
-import {RequestContext, RequestLogger} from "../../platform";
+import {PlatformContext, RequestLogger} from "../../platform";
 
 namespace Express {
   export interface NextFunction extends Function {}
@@ -11,7 +11,7 @@ namespace Express {
 
   export interface Request {
     id: string;
-    ctx: RequestContext;
+    ctx: PlatformContext;
     /**
      * @deprecated
      */

@@ -1,5 +1,5 @@
 import * as Express from "express";
-import {RequestContext} from "../../platform";
+import {PlatformContext} from "../../platform";
 import "./Express";
 import {PlatformExpressRouterSettings, PlatformExpressSettings} from "./PlatformExpressSettings";
 
@@ -24,7 +24,7 @@ declare global {
 
     export interface Request extends Express.Request {
       id: string;
-      ctx: RequestContext;
+      ctx: PlatformContext;
     }
 
     export interface Response extends Express.Response {}

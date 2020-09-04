@@ -11,7 +11,7 @@ import {
   LogIncomingRequestMiddleware,
   PlatformBuilder,
   PlatformTest,
-  RequestContext
+  PlatformContext
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {expect} from "chai";
@@ -85,7 +85,7 @@ describe("PlatformTest", () => {
 
   describe("createRequestContext", () => {
     it("should return request context", () => {
-      expect(PlatformTest.createRequestContext()).to.be.instanceOf(RequestContext);
+      expect(PlatformTest.createRequestContext()).to.be.instanceOf(PlatformContext);
     });
   });
 });

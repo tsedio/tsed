@@ -1,10 +1,10 @@
 import {UseParam} from "../../mvc/decorators/params/useParam";
 import {ParamTypes} from "../../mvc/models/ParamTypes";
 import {mapParamsOptions} from "../../mvc/utils/mapParamsOptions";
-import {RequestContext} from "../domain/RequestContext";
+import {PlatformContext} from "../domain/PlatformContext";
 
 /**
- * Context decorator return the @@RequestContext@@ created by Ts.ED when request is handled by the server.
+ * Context decorator return the @@PlatformContext@@ created by Ts.ED when request is handled by the server.
  *
  * It contains some information as following:
  *
@@ -14,7 +14,7 @@ import {RequestContext} from "../domain/RequestContext";
  * - The data return by the previous endpoint if you use multiple handler on the same route. By default data is empty.
  *
  * ::: tip
- * The @@RequestContext@@ inherit from Map class. So you can store any information with.
+ * The @@PlatformContext@@ inherit from Map class. So you can store any information with.
  * :::
  *
  * #### Example
@@ -22,7 +22,7 @@ import {RequestContext} from "../domain/RequestContext";
  * ```typescript
  * @Middleware()
  * class AuthTokenMiddleware {
- *   use(@Req() request: Req, @Context() context: RequestContext) {
+ *   use(@Req() request: Req, @Context() context: PlatformContext) {
  *      if (!context.has('auth')){
  *        context.set('auth', new AuthToken(request))
  *      }
@@ -66,4 +66,4 @@ export function Context(...args: any[]): ParameterDecorator {
   });
 }
 
-export type Context = RequestContext;
+export type Context = PlatformContext;

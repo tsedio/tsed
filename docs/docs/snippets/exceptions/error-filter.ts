@@ -1,9 +1,9 @@
-import {Catch, RequestContext, ExceptionFilterMethods, ResponseErrorObject} from "@tsed/common";
+import {Catch, PlatformContext, ExceptionFilterMethods, ResponseErrorObject} from "@tsed/common";
 import {Exception} from "@tsed/exceptions";
 
 @Catch(Error)
 export class ErrorFilter implements ExceptionFilterMethods {
-  catch(exception: Exception, ctx: RequestContext) {
+  catch(exception: Exception, ctx: PlatformContext) {
     const {response, logger} = ctx;
     const error = this.mapError(exception);
     const headers = this.getHeaders(exception);
