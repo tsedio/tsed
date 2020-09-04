@@ -46,4 +46,4 @@ export interface Response extends TsED.Response {}
  * @input
  * @response
  */
-export interface Res extends TsED.Response {}
+export interface Res extends Response {}

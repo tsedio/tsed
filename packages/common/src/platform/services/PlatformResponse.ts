@@ -5,11 +5,9 @@ const onFinished = require("on-finished");
 
 declare global {
   namespace TsED {
+    // @ts-ignore
     export interface Response {
-      headersSent: boolean;
-      writableEnded: boolean;
-      writableFinished: boolean;
-      statusCode: number;
+      req: TsED.Request;
     }
   }
 }
@@ -20,7 +18,7 @@ declare global {
  */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
-export class PlatformResponse<T extends TsED.Response & {[key: string]: any} = any> {
+export class PlatformResponse<T extends {[key: string]: any} = any> {
   constructor(@Opts public raw: T) {}
 
   /**

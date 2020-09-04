@@ -6,6 +6,7 @@ import {PlatformHandler} from "./PlatformHandler";
 
 declare global {
   namespace TsED {
+    // @ts-ignore
     export interface Application {}
   }
 }

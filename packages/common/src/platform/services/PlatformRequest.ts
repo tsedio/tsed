@@ -1,15 +1,14 @@
 import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
 import {IncomingHttpHeaders} from "http";
-import {RequestContext} from "../domain/RequestContext";
-
-export interface PlatformBaseRequest {
-  id: string;
-  ctx: RequestContext;
-}
+import type {PlatformContext} from "../domain/PlatformContext";
 
 declare global {
   namespace TsED {
-    export interface Request {}
+    // @ts-ignore
+    export interface Request {
+      id: string;
+      $ctx: PlatformContext;
+    }
   }
 }
 

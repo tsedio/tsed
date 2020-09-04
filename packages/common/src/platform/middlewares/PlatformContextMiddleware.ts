@@ -33,10 +33,6 @@ export class PlatformContextMiddleware {
 
     await request.$ctx.emit("$onResponse", request, response);
     await request.$ctx.destroy();
-
-    delete request.ctx;
-    // @ts-ignore
-    delete request.log;
   }
 
   async use(req: Req, res: any, next: any) {

@@ -129,8 +129,3 @@ export class PlatformContext extends Map<any, any> {
     return this.response.raw as any;
   }
 }
-
-/**
- * @deprecated Use PlatformContext instead.
- */
-export class RequestContext extends PlatformContext {}

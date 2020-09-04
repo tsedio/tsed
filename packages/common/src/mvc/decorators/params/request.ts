@@ -1,4 +1,3 @@
-import type {PlatformBaseRequest} from "../../../platform/services/PlatformRequest";
 import {Type} from "@tsed/core";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
@@ -53,7 +52,7 @@ export function Req(...args: any[]): ParameterDecorator {
  * @operation
  * @input
  */
-export interface Request extends PlatformBaseRequest, TsED.Request {}
+export interface Request extends TsED.Request {}
 
 /**
  * Request service.
@@ -63,4 +62,4 @@ export interface Request extends PlatformBaseRequest, TsED.Request {}
  * @operation
  * @input
  */
-export interface Req extends PlatformBaseRequest, TsED.Request {}
+export interface Req extends Request {}

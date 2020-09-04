@@ -13,9 +13,5 @@ declare global {
     }
 
     export interface NextFunction extends Express.NextFunction {}
-
-    export interface Request extends Express.Request {}
-
-    export interface Response extends Express.Response {}
   }
 }

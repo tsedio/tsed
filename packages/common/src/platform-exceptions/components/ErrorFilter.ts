@@ -1,12 +1,12 @@
 import {Env} from "@tsed/core";
 import type {ResponseErrorObject} from "../../mvc/interfaces/ResponseErrorObject";
-import type {RequestContext} from "../../platform/domain/RequestContext";
+import type {PlatformContext} from "../../platform/domain/PlatformContext";
 import {Catch} from "../decorators/catch";
 import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
 
 @Catch(Error)
 export class ErrorFilter implements ExceptionFilterMethods {
-  catch(error: unknown, ctx: RequestContext): void {
+  catch(error: unknown, ctx: PlatformContext): void {
     const {response, logger, env} = ctx;
     const err = this.mapError(error);
 
