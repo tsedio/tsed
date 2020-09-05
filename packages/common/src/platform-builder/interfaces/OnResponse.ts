@@ -1,3 +1,5 @@
+import {PlatformResponse} from "../../platform/services/PlatformResponse";
+
 export interface OnResponse {
-  $onResponse(request: TsED.Request, response: TsED.Response): void;
+  $onResponse(ctx: PlatformResponse): void;
 }

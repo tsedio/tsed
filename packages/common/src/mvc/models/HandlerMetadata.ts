@@ -3,7 +3,7 @@ import {HandlerType} from "../interfaces/HandlerType";
 import {ParamMetadata} from "../models/ParamMetadata";
 import {ParamTypes} from "./ParamTypes";
 
-export interface IHandlerConstructorOptions {
+export interface HandlerConstructorOptions {
   target: Type<any> | Function;
   token?: Type<any>;
   propertyKey?: string | symbol;
@@ -20,7 +20,7 @@ export class HandlerMetadata {
   readonly hasNextFunction: boolean = false;
   handler: any;
 
-  constructor(options: IHandlerConstructorOptions) {
+  constructor(options: HandlerConstructorOptions) {
     const {target, token, propertyKey, type = HandlerType.FUNCTION} = options;
 
     this.type = type;
@@ -38,6 +38,10 @@ export class HandlerMetadata {
     if (!this.injectable) {
       this.hasErrorParam = this.handler.length === 4;
       this.hasNextFunction = this.handler.length >= 3;
+
+      if (this.handler.length === 1) {
+        this.type = HandlerType.$CTX;
+      }
     }
   }
 

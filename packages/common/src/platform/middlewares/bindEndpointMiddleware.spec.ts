@@ -3,7 +3,8 @@ import {expect} from "chai";
 import {FakeRequest} from "../../../../../test/helper";
 
 class Test {
-  test() {}
+  test() {
+  }
 }
 
 describe("bindEndpointMiddleware", () => {
@@ -14,11 +15,8 @@ describe("bindEndpointMiddleware", () => {
     });
 
     const request: any = new FakeRequest();
-    const response: any = new FakeRequest();
 
-    await new Promise((resolve) => {
-      bindEndpointMiddleware(endpoint)(request, response, resolve);
-    });
+    bindEndpointMiddleware(endpoint)(request.$ctx);
 
     expect(request.$ctx.endpoint).to.equal(endpoint);
   });

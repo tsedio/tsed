@@ -7,7 +7,7 @@ declare global {
   namespace TsED {
     // @ts-ignore
     export interface Response {
-      req: TsED.Request;
+      req: any;
     }
   }
 }

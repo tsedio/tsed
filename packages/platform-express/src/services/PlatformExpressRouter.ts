@@ -4,7 +4,8 @@ import * as Express from "express";
 
 declare global {
   namespace TsED {
-    export interface Router extends Express.Router {}
+    export interface Router extends Express.Router {
+    }
   }
 }
 
@@ -20,6 +21,7 @@ export class PlatformExpressRouter extends PlatformRouter {
   ) {
     super(platform);
 
-    this.raw = Express.Router(Object.assign({}, configuration.express?.router || {}, configuration.routers || {}, routerOptions));
+    const options = Object.assign({}, configuration.express?.router || {}, routerOptions);
+    this.raw = Express.Router(options);
   }
 }

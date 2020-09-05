@@ -20,6 +20,8 @@ declare global {
   scope: ProviderScope.SINGLETON
 })
 export class PlatformApplication<T = TsED.Application> extends PlatformDriver<T> {
+  public raw: T;
+
   constructor(platformHandler: PlatformHandler) {
     super(platformHandler);
     this.raw = PlatformApplication.createRawApp() as any; // f

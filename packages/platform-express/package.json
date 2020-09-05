@@ -40,7 +40,8 @@
     "url": "git+https://github.com/TypedProject//tsed.git"
   },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
+    "build": "tsc --build tsconfig.compile.json",
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "peerDependencies": {
     "@types/express": "^4",

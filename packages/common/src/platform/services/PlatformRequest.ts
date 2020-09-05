@@ -18,7 +18,7 @@ declare global {
  */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
-export class PlatformRequest<T extends TsED.Request & {[key: string]: any} = any> {
+export class PlatformRequest<T extends {[key: string]: any} = any> {
   constructor(@Opts public raw: T) {}
 
   /**

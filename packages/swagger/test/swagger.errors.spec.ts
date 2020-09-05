@@ -1,4 +1,5 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express/src";
 import {Required, Returns} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -37,6 +38,7 @@ describe("Swagger errors params", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   beforeEach(
     PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress,
       mount: {
         "/rest": [ErrorsController]
       }

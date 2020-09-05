@@ -20,7 +20,7 @@ export class PlatformConfiguration extends DIConfiguration {
       rootDir,
       env: (process.env.NODE_ENV as Env) || Env.DEV,
       httpPort: 8080,
-      httpsPort: 8000,
+      httpsPort: false,
       version: "1.0.0",
       uploadDir: "${rootDir}/uploads",
       scopes: {

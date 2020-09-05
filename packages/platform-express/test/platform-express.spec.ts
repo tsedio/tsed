@@ -1,4 +1,4 @@
-import {PlatformTestUtils} from "../../platform-test-utils/src";
+import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
 

@@ -10,8 +10,9 @@ import * as methodOverride from "method-override";
 export const rootDir = __dirname;
 
 @Configuration({
+  port: 8081,
   logger: {
-    level: "off"
+    // level: ""
   },
   statics: {
     "/": `${rootDir}/public`

@@ -73,7 +73,7 @@ export class PlatformTest {
       // @ts-ignore
       instance = await PlatformBuilder.build(platform).bootstrap(mod, {
         logger: {
-          level: "off"
+          // level: "off"
         },
         ...options
       });

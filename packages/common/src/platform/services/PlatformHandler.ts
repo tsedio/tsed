@@ -1,7 +1,14 @@
 import {Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
-import {EndpointMetadata, HandlerMetadata, HandlerType, IHandlerConstructorOptions, IPipe, ParamMetadata, ParamTypes} from "../../mvc";
-import {ValidationError} from "../../mvc/errors/ValidationError";
+import {
+  EndpointMetadata,
+  HandlerConstructorOptions,
+  HandlerMetadata,
+  HandlerType,
+  IPipe,
+  ParamMetadata,
+  ParamTypes
+} from "../../mvc";
 import {HandlerContext} from "../domain/HandlerContext";
 import {ParamValidationError} from "../errors/ParamValidationError";
 
@@ -12,12 +19,33 @@ import {ParamValidationError} from "../errors/ParamValidationError";
 @Injectable({
   scope: ProviderScope.SINGLETON
 })
-export class PlatformHandler {
-  constructor(protected injector: InjectorService) {}
+export abstract class PlatformHandler {
+  constructor(protected injector: InjectorService) {
+  }
 
-  createHandlerMetadata(obj: any | EndpointMetadata) {
+  /**
+   * Create a native middleware based on the given metadata and return an instance of HandlerContext
+   * @param metadata
+   */
+  createHandler(metadata: HandlerMetadata | any) {
+    if (!(metadata instanceof HandlerMetadata)) {
+      metadata = this.createHandlerMetadata(metadata);
+    }
+
+    if ([HandlerType.CONTROLLER, HandlerType.MIDDLEWARE].includes(metadata.type)) {
+      this.sortPipes(metadata);
+    }
+
+    return this.createRawHandler(metadata);
+  }
+
+  /**
+   * Create handler metadata
+   * @param obj
+   */
+  public createHandlerMetadata(obj: any | EndpointMetadata) {
     const {injector} = this;
-    let options: IHandlerConstructorOptions;
+    let options: HandlerConstructorOptions;
 
     if (obj instanceof EndpointMetadata) {
       const provider = injector.getProvider(obj.token)!;
@@ -50,51 +78,33 @@ export class PlatformHandler {
   }
 
   /**
-   * Create a native middleware based on the given metadata and return an instance of HandlerContext
-   * @param metadata
+   * Get argument from parameter medata or handler context.
+   * @param type
+   * @param h
    */
-  createHandler(metadata: HandlerMetadata | any) {
-    if (!(metadata instanceof HandlerMetadata)) {
-      metadata = this.createHandlerMetadata(metadata);
-    }
-
-    if (metadata.type === HandlerType.FUNCTION) {
-      return metadata.handler;
-    }
-
-    this.sortPipes(metadata);
-
-    return this.createRawHandler(metadata);
-  }
-
-  /**
-   * Get param from the context
-   * @param param
-   * @param context
-   */
-  getParam(param: ParamMetadata, context: HandlerContext) {
+  protected getArg(type: ParamTypes | string, h: HandlerContext) {
     const {
       ctx,
       ctx: {request, response}
-    } = context;
+    } = h;
 
-    switch (param.paramType) {
+    switch (type) {
       case ParamTypes.FORM_DATA:
-        return context.request;
+        return h.request;
 
       case ParamTypes.RESPONSE:
-        return context.response;
+        return h.response;
 
       case ParamTypes.REQUEST:
-        return context.request;
+        return h.request;
 
       case ParamTypes.NEXT_FN:
-        return context.next;
+        return h.next;
 
       case ParamTypes.ERR:
-        return context.err;
+        return h.err;
 
-      case ParamTypes.CONTEXT:
+      case ParamTypes.$CTX: // tsed ctx
         return ctx;
 
       case ParamTypes.ENDPOINT_INFO:
@@ -125,63 +135,73 @@ export class PlatformHandler {
         return response.locals;
 
       default:
-        return context.request;
+        return h.request;
     }
   }
 
-  mapHandlerContext(metadata: HandlerMetadata, {request, response, err, next}: any): HandlerContext {
-    return new HandlerContext({
-      injector: this.injector,
-      request,
-      response,
-      next,
-      err,
-      metadata,
-      args: []
-    });
-  }
-
-  createRawHandler(metadata: HandlerMetadata): Function {
-    if (metadata.hasErrorParam) {
-      return (err: any, request: any, response: any, next: any) =>
-        this.onRequest(
-          this.mapHandlerContext(metadata, {
-            request,
-            response,
-            next,
-            err
-          })
-        );
-    } else {
-      return (request: any, response: any, next: any) =>
-        this.onRequest(
-          this.mapHandlerContext(metadata, {
-            request,
-            response,
-            next
-          })
-        );
-    }
-  }
-
-  protected async onRequest(context: HandlerContext) {
-    if (context.isDone) {
+  /**
+   * Call handler when a request his handle
+   * @param h
+   */
+  protected async onRequest(h: HandlerContext): Promise<any> {
+    if (h.isDone) {
       return;
     }
 
-    const {
-      metadata: {parameters}
-    } = context;
-
     try {
-      context.args = await Promise.all(parameters.map((param) => this.mapParam(param, context)));
+      h.args = await this.getArgs(h);
 
-      await context.callHandler();
+      await h.callHandler();
     } catch (error) {
-      context.next(error);
+      return this.onError(error, h);
     }
   }
 
+  /**
+   * Implement how the handler should handle error.
+   * @param error
+   * @param h
+   */
+  protected onError(error: unknown, h: HandlerContext): any {
+    return h.next(error);
+  }
+
+  /**
+   * create Raw handler
+   * @param metadata
+   */
+  protected createRawHandler(metadata: HandlerMetadata): Function {
+    return (request: any, response: any, next: any) =>
+      this.onRequest(
+        new HandlerContext({
+          injector: this.injector,
+          request,
+          response,
+          res: response,
+          req: request,
+          next,
+          metadata,
+          args: []
+        })
+      );
+  }
+
+  /**
+   * Return arguments to
+   * @param h
+   */
+  private async getArgs(h: HandlerContext) {
+    const {
+      metadata: {parameters}
+    } = h;
+
+    return Promise.all(parameters.map((param) => this.mapArg(param, h)));
+  }
+
+  /**
+   *
+   * @param metadata
+   */
   private sortPipes(metadata: HandlerMetadata) {
     const get = (pipe: Type<any>) => {
       return this.injector.getProvider(pipe)!.priority || 0;
@@ -197,11 +217,11 @@ export class PlatformHandler {
   /**
    *
    * @param metadata
-   * @param context
+   * @param h
    */
-  private async mapParam(metadata: ParamMetadata, context: HandlerContext) {
-    const {injector} = context;
-    const value = this.getParam(metadata, context);
+  private async mapArg(metadata: ParamMetadata, h: HandlerContext) {
+    const {injector} = h;
+    const value = this.getArg(metadata.paramType, h);
 
     // istanbul ignore next
     const handleError = async (cb: Function) => {

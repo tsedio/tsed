@@ -1,9 +1,9 @@
+import {PlatformContext} from "@tsed/common";
+
 export function redirectMiddleware(path: string) {
-  return (req: any, res: any, next: any) => {
-    if (req.url === path && !req.url.match(/\/$/)) {
-      res.redirect(`${path}/`);
-    } else {
-      next();
+  return (ctx: PlatformContext) => {
+    if (ctx.request.url === path && !ctx.request.url.match(/\/$/)) {
+      ctx.response.redirect(302, `${path}/`);
     }
   };
 }

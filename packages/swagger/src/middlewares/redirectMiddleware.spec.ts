@@ -1,28 +1,29 @@
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../test/helper";
+import {creatFakePlatformRequest} from "../../../../test/helper/createFakePlatformRequest";
 import {redirectMiddleware} from "./redirectMiddleware";
 
 const sandbox = Sinon.createSandbox();
 describe("redirectMiddleware and redirect", () => {
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
   it("should create a middleware", () => {
-    const res = new FakeResponse(sandbox);
-    const req = new FakeRequest();
-    const next = sandbox.stub();
-    req.url = "/path";
+    const ctx = creatFakePlatformRequest(sandbox);
 
-    redirectMiddleware("/path")(req as any, res as any, next);
+    ctx.request.raw.url = "/path";
 
-    expect(res.redirect).to.have.been.calledWithExactly("/path/");
+    redirectMiddleware("/path")(ctx);
+
+    expect(ctx.response.raw.redirect).to.have.been.calledWithExactly(302, "/path/");
   });
   it("should create a middleware and call next", () => {
-    const res = new FakeResponse(sandbox);
-    const req = new FakeRequest();
-    const next = sandbox.stub();
-    req.url = "/path/";
+    const ctx = creatFakePlatformRequest(sandbox);
 
-    redirectMiddleware("/path")(req as any, res as any, next);
+    ctx.request.raw.url = "/path/";
 
-    expect(next).to.have.been.calledWithExactly();
+    redirectMiddleware("/path")(ctx);
+
+    expect(ctx.response.raw.redirect).to.not.have.been.called;
   });
 });

@@ -1,9 +1,9 @@
 import {isFunction, isPromise, isStream} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
+import {IncomingMessage, ServerResponse} from "http";
 import {isObservable} from "rxjs";
 import {HandlerMetadata} from "../../mvc/models/HandlerMetadata";
 import {ABORT} from "../constants/abort";
-import {IHandlerContext} from "../interfaces/IHandlerContext";
 
 const isFinish = (request: any, response: any) => {
   if (!response || !request) {
@@ -17,24 +17,40 @@ function isResponse(obj: any) {
   return obj.data && obj.headers && obj.status && obj.statusText;
 }
 
+export interface HandlerContextOptions {
+  injector: InjectorService;
+  request: TsED.Request;
+  response: TsED.Response;
+  req: IncomingMessage;
+  res: ServerResponse;
+  next: TsED.NextFunction;
+  metadata: HandlerMetadata;
+  args: any[];
+  err: any;
+}
+
 export class HandlerContext {
   public injector: InjectorService;
   public metadata: HandlerMetadata;
   public request: TsED.Request & any;
   public response: TsED.Response & any;
+  public req: IncomingMessage;
+  public res: ServerResponse;
   public err: any;
   public args: any[];
   private _isDone: boolean = false;
   private _next: any;
 
-  constructor({injector, request, response, next, err, metadata, args}: IHandlerContext) {
-    this.injector = injector!;
-    this.request = request;
-    this.response = response;
-    this._next = next;
-    this.err = err;
-    this.metadata = metadata!;
-    this.args = args || [];
+  constructor({injector, request, response, req, res, next, err, metadata, args}: Partial<HandlerContextOptions>) {
+    injector && (this.injector = injector);
+    request && (this.request = request);
+    response && (this.response = response);
+    req && (this.req = req);
+    res && (this.res = res);
+    next && (this._next = next);
+    err && (this.err = err);
+    metadata && (this.metadata = metadata);
+    args && (this.args = args || []);
 
     this.next = this.next.bind(this);
   }
@@ -160,6 +176,10 @@ export class HandlerContext {
     delete this.request;
     // @ts-ignore
     delete this.response;
+    // @ts-ignore
+    delete this.req;
+    // @ts-ignore
+    delete this.res;
     // @ts-ignore
     delete this.args;
     // @ts-ignore

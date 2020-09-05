@@ -23,7 +23,7 @@ describe("PlatformBuilder", () => {
   @Controller("/")
   class RestCtrl {}
 
-  class PlatformTest extends PlatformBuilder {
+  class PlatformCustom extends PlatformBuilder {
     static providers = [
       {
         provide: class Test {}
@@ -31,7 +31,7 @@ describe("PlatformBuilder", () => {
     ];
 
     static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-      return PlatformBuilder.build<PlatformTest>(this).bootstrap(module, settings);
+      return PlatformBuilder.build<PlatformCustom>(this).bootstrap(module, settings);
     }
 
     async loadStatics(): Promise<void> {
@@ -85,9 +85,9 @@ describe("PlatformBuilder", () => {
     sandbox.stub(ServerModule.prototype, "$beforeInit");
     sandbox.stub(ServerModule.prototype, "$beforeListen");
     sandbox.stub(ServerModule.prototype, "$onReady");
-    sandbox.stub(PlatformTest.prototype, "loadStatics");
+    sandbox.stub(PlatformCustom.prototype, "loadStatics");
     // @ts-ignore
-    sandbox.spy(PlatformTest.prototype, "listenServers");
+    sandbox.spy(PlatformCustom.prototype, "listenServers");
     sandbox.stub(InjectorService.prototype, "emit");
     sandbox.stub(Platform.prototype, "addRoutes");
   });
@@ -98,7 +98,7 @@ describe("PlatformBuilder", () => {
   describe("bootstrap()", () => {
     it("should bootstrap platform", async () => {
       // WHEN
-      const server = await PlatformTest.bootstrap(ServerModule, {
+      const server = await PlatformCustom.bootstrap(ServerModule, {
         httpPort: false,
         httpsPort: false
       });
@@ -136,11 +136,10 @@ describe("PlatformBuilder", () => {
       ]);
     });
   });
-
   describe("addComponents", () => {
     it("should add components", async () => {
       // GIVEN
-      const server = await PlatformTest.bootstrap(ServerModule, {});
+      const server = await PlatformCustom.bootstrap(ServerModule, {});
 
       class MyClass {}
 
@@ -159,7 +158,7 @@ describe("PlatformBuilder", () => {
   describe("addControllers", () => {
     it("should add controllers", async () => {
       // GIVEN
-      const server = await PlatformTest.bootstrap(ServerModule, {});
+      const server = await PlatformCustom.bootstrap(ServerModule, {});
 
       class MyClass {}
 

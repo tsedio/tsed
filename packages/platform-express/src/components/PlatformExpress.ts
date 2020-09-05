@@ -39,4 +39,13 @@ export class PlatformExpress extends PlatformBuilder {
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
     return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
   }
+
+  protected useContext(): this {
+    this.app.use(async (req: any, res: any, next: any) => {
+      await this.createContext(req, res);
+      next();
+    });
+
+    return this;
+  }
 }

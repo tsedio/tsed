@@ -8,10 +8,7 @@ PlatformTest.platformBuilder = PlatformExpress;
 export * from "./interfaces";
 
 // decorators
-export * from "./decorators/caseSensitive";
-export * from "./decorators/mergeParams";
-export * from "./decorators/routerSettings";
-export * from "./decorators/strict";
+export * from "./decorators";
 
 // services
 export * from "./services";

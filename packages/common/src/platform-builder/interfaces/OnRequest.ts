@@ -1,3 +1,5 @@
+import {PlatformContext} from "../../platform/domain/PlatformContext";
+
 export interface OnRequest {
-  $onResponse(request: TsED.Request, response: TsED.Response): void;
+  $onResponse(ctx: PlatformContext): void;
 }

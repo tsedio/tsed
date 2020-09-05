@@ -1,10 +1,11 @@
-import {PlatformApplication, PlatformHandler, PlatformStaticsOptions} from "@tsed/common";
+import {Inject, PlatformApplication, PlatformHandler, PlatformStaticsOptions} from "@tsed/common";
 import * as Express from "express";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 
 declare global {
   namespace TsED {
-    export interface Application extends Express.Application {}
+    export interface Application extends Express.Application {
+    }
 
     export interface StaticsOptions {
       /**
@@ -85,8 +86,8 @@ declare global {
  * @platform
  * @express
  */
-export class PlatformExpressApplication extends PlatformApplication {
-  constructor(platformHandler: PlatformHandler) {
+export class PlatformExpressApplication extends PlatformApplication<Express.Application> {
+  constructor(@Inject() platformHandler: PlatformHandler) {
     super(platformHandler);
     this.raw = Express();
   }

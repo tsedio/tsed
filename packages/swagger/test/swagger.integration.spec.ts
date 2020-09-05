@@ -1,5 +1,5 @@
 import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
-import {MergeParams} from "@tsed/platform-express";
+import {MergeParams, PlatformExpress} from "@tsed/platform-express";
 import {Description, Returns} from "@tsed/schema";
 import {Docs, Hidden} from "@tsed/swagger";
 import {expect} from "chai";
@@ -55,6 +55,7 @@ describe("Swagger integration", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   beforeEach(
     PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress,
       mount: {
         "/rest": [CalendarsController]
       }

@@ -1,4 +1,5 @@
 import {Controller, PlatformTest, QueryParams, Get, MinLength, Property, Required} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express/src";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "./helpers/Server";
@@ -31,6 +32,7 @@ describe("Swagger query params", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   beforeEach(
     PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress,
       mount: {
         "/rest": [QueryParamsSwaggerController]
       }

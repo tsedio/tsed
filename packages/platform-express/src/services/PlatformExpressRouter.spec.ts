@@ -42,8 +42,10 @@ describe("PlatformExpressRouter", () => {
       injector.addProvider(PlatformRouter, {
         useClass: PlatformExpressRouter
       });
-      injector.settings.routers = {
-        mergeParams: true
+      injector.settings.express = {
+        router: {
+          mergeParams: true
+        }
       };
 
       const routerOptions: any = {
@@ -54,7 +56,7 @@ describe("PlatformExpressRouter", () => {
       const router = PlatformRouter.create(injector, routerOptions);
 
       // THEN
-      expect(Express.Router).to.have.been.calledWithExactly({...injector.settings.routers, ...routerOptions});
+      expect(Express.Router).to.have.been.calledWithExactly({...injector.settings.express.router, ...routerOptions});
 
       expect(router.raw).to.deep.eq(nativeDriver);
     });

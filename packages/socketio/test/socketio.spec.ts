@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import "@tsed/platform-express";
+import {PlatformExpress} from "@tsed/platform-express/src";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Server} from "./app/Server";
@@ -7,7 +8,9 @@ import {Server} from "./app/Server";
 describe("SocketIO", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(PlatformTest.bootstrap(Server));
+  before(PlatformTest.bootstrap(Server, {
+    platform: PlatformExpress
+  }));
   before(() => (request = SuperTest(PlatformTest.callback())));
   after(PlatformTest.reset);
 
