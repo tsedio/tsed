@@ -1,161 +1,30 @@
-import {
-  EndpointMetadata,
-  Err,
-  Get,
-  HandlerContext,
-  HandlerMetadata,
-  HandlerType,
-  ParamTypes,
-  PlatformRequest,
-  PlatformResponse,
-  PlatformTest,
-  QueryParams
-} from "@tsed/common";
-import {Provider} from "@tsed/di";
+import {Err, HandlerMetadata, HandlerType, ParamTypes, PlatformTest} from "@tsed/common";
+import {PlatformExpressHandler} from "@tsed/platform-express";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {FakeRequest} from "../../../../../test/helper";
-import {buildPlatformHandler} from "../../../../../test/helper/buildPlatformHandler";
-import {PlatformHandler} from "./PlatformHandler";
+import {buildPlatformHandler, invokePlatformHandler} from "../../../../test/helper/buildPlatformHandler";
 
 const sandbox = Sinon.createSandbox();
 
-class Test {
-  @Get("/")
-  get(@QueryParams("test") v: string) {
-    return v;
-  }
-
-  use(@Err() error: any) {
-    return error;
-  }
-
-  useErr(err: any, req: any, res: any, next: any) {
-  }
-}
-
-class CustomPlatformHandler extends PlatformHandler {
-  protected createRawHandler(metadata: HandlerMetadata): Function {
-    return metadata.handler;
-  }
-
-  protected onError(error: unknown, h: HandlerContext): any {
-
-  }
-}
-
-describe("PlatformHandler", () => {
+describe("PlatformExpressHandler", () => {
   beforeEach(PlatformTest.create);
-  beforeEach(() => {
-    PlatformTest.injector.getProvider(PlatformHandler)!.useClass = CustomPlatformHandler;
-  });
   afterEach(PlatformTest.reset);
   afterEach(() => {
     sandbox.restore();
   });
 
-  describe("createHandlerMetadata", () => {
-    it(
-      "should return metadata from Endpoint", async () => {
-
-        // GIVEN
-
-        const endpoint = new EndpointMetadata({
-          target: Test,
-          propertyKey: "get"
-        });
-
-        const platformHandler = await PlatformTest.invoke<CustomPlatformHandler>(PlatformHandler);
-        sandbox.stub(PlatformTest.injector, "getProvider").returns(new Provider(Test));
-
-        // WHEN
-        const handlerMetadata = platformHandler.createHandlerMetadata(endpoint);
-
-        // THEN
-        expect(handlerMetadata.target).to.eq(Test);
-        expect(handlerMetadata.propertyKey).to.eq("get");
-        expect(handlerMetadata.type).to.eq(HandlerType.CONTROLLER);
-      });
-
-    it(
-      "should return metadata from Middleware", async () => {
-        // GIVEN
-        const platformHandler = await PlatformTest.invoke<CustomPlatformHandler>(PlatformHandler);
-        sandbox.stub(PlatformTest.injector, "getProvider").returns(new Provider(Test));
-
-        // WHEN
-        const handlerMetadata = platformHandler.createHandlerMetadata(Test);
-
-        // THEN
-        expect(handlerMetadata.target).to.eq(Test);
-        expect(handlerMetadata.propertyKey).to.eq("use");
-        expect(handlerMetadata.type).to.eq(HandlerType.MIDDLEWARE);
-      });
-
-    it(
-      "should return metadata from Function", async () => {
-        const platformHandler = await PlatformTest.invoke<CustomPlatformHandler>(PlatformHandler);
-
-        // GIVEN
-        sandbox.stub(PlatformTest.injector, "getProvider").returns(undefined);
-
-        // WHEN
-        const handlerMetadata = platformHandler.createHandlerMetadata(() => {
-        });
-
-        // THEN
-        expect(handlerMetadata.type).to.eq(HandlerType.FUNCTION);
-      });
-  });
   describe("createHandler", () => {
-    it("should return a native handler (success middleware)", async () => {
-      // GIVEN
-      sandbox.stub(Test.prototype, "get").callsFake((o) => o);
-
-      PlatformTest.invoke(Test);
-
-      const handlerMetadata = new HandlerMetadata({
-        token: Test,
-        target: Test,
-        type: HandlerType.CONTROLLER,
-        propertyKey: "get"
-      });
-
-      const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
-
-      // WHEN
-      const handler = platformHandler.createHandler(handlerMetadata);
-
-      // THEN
-      expect(handler).to.eq(handlerMetadata.handler);
-    });
-    it(
-      "should return a native metadata (from native metadata)", async () => {
+    describe("CONTROLLER", () => {
+      it("should return a native handler with 3 params", async () => {
         // GIVEN
-        const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
-        sandbox.stub(Test.prototype, "get").callsFake((o) => o);
+        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
 
-        const nativeHandler = (req: any, res: any, next: any) => {
-        };
+        class Test {
+          get() {
+          }
+        }
 
-        // WHEN
-        const handler = platformHandler.createHandler(nativeHandler);
-
-        // THEN
-        expect(nativeHandler).to.eq(handler);
-      });
-
-
-    it(
-      "should do nothing when request is aborted", async () => {
-        // GIVEN
-        const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
-        sandbox.stub(Test.prototype, "get").callsFake((o) => o);
-        sandbox.stub(PlatformTest.injector, "invoke").callsFake(() => new Test());
-
-        const request = new FakeRequest();
-        request.aborted = true;
-        const response = new FakeRequest();
+        PlatformTest.invoke(Test);
 
         const handlerMetadata = new HandlerMetadata({
           token: Test,
@@ -164,22 +33,160 @@ describe("PlatformHandler", () => {
           propertyKey: "get"
         });
 
+
         // WHEN
         const handler = platformHandler.createHandler(handlerMetadata);
-        const next = Sinon.stub();
-
-        handler(request, response, next);
 
         // THEN
-        return expect(next).to.not.have.been.called;
+        expect(handler).to.not.eq(handlerMetadata.handler);
+        expect(handler.length).to.eq(3);
       });
+      it("should return a native handler with 4 params", async () => {
+        // GIVEN
+        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+
+        class Test {
+          get(@Err() err: unknown) {
+          }
+        }
+
+        PlatformTest.invoke(Test);
+
+        const metadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          type: HandlerType.CONTROLLER,
+          propertyKey: "get"
+        });
+
+
+        // WHEN
+        const handler = platformHandler.createHandler(metadata);
+
+        // THEN
+        expect(metadata.hasErrorParam).to.eq(true);
+        expect(handler).to.not.eq(metadata.handler);
+        expect(handler.length).to.eq(4);
+      });
+    });
+    describe("MIDDLEWARE", () => {
+      it("should return a native handler with 3 params", async () => {
+        // GIVEN
+        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+
+        class Test {
+          use() {
+          }
+        }
+
+        PlatformTest.invoke(Test);
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          type: HandlerType.MIDDLEWARE,
+          propertyKey: "use"
+        });
+
+
+        // WHEN
+        const handler = platformHandler.createHandler(handlerMetadata);
+
+        // THEN
+        expect(handler).to.not.eq(handlerMetadata.handler);
+        expect(handler.length).to.eq(3);
+      });
+      it("should return a native handler with 4 params", async () => {
+        // GIVEN
+        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+
+        class Test {
+          use(@Err() err: unknown) {
+          }
+        }
+
+        PlatformTest.invoke(Test);
+
+        const metadata = new HandlerMetadata({
+          token: Test,
+          target: Test,
+          type: HandlerType.MIDDLEWARE,
+          propertyKey: "use"
+        });
+
+
+        // WHEN
+        const handler = platformHandler.createHandler(metadata);
+
+        // THEN
+        expect(metadata.hasErrorParam).to.eq(true);
+        expect(handler).to.not.eq(metadata.handler);
+        expect(handler.length).to.eq(4);
+      });
+    });
+    describe("$CTX", () => {
+      it("should return a native handler with 3 params", async () => {
+        // GIVEN
+        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+
+        class Test {
+          use() {
+          }
+        }
+
+        PlatformTest.invoke(Test);
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: (ctx: any) => {
+          },
+          type: HandlerType.$CTX
+        });
+
+
+        // WHEN
+        const handler = platformHandler.createHandler(handlerMetadata);
+
+        // THEN
+        expect(handler).to.not.eq(handlerMetadata.handler);
+        expect(handler.length).to.eq(3);
+      });
+    });
+    describe("FUNCTION", () => {
+      it("should return a native handler with 3 params", async () => {
+        // GIVEN
+        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+
+        class Test {
+          use() {
+          }
+        }
+
+        PlatformTest.invoke(Test);
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: (req: any, res: any, next: any) => {
+          },
+          type: HandlerType.FUNCTION
+        });
+
+
+        // WHEN
+        const handler = platformHandler.createHandler(handlerMetadata);
+
+        // THEN
+        expect(handler).to.eq(handlerMetadata.handler);
+      });
+    });
   });
+
   describe("getArg()", () => {
     it("should return REQUEST", async () => {
       // GIVEN
       const {param, request, h, platformHandler} = await buildPlatformHandler({
-        token: CustomPlatformHandler,
         sandbox,
+        token: PlatformExpressHandler,
         type: ParamTypes.REQUEST
       });
 
@@ -193,8 +200,8 @@ describe("PlatformHandler", () => {
     it("should return RESPONSE", async () => {
       // GIVEN
       const {param, response, h, platformHandler} = await buildPlatformHandler({
-        token: CustomPlatformHandler,
         sandbox,
+        token: PlatformExpressHandler,
         type: ParamTypes.RESPONSE
       });
 
@@ -209,8 +216,8 @@ describe("PlatformHandler", () => {
       "should return NEXT", async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.NEXT_FN
         });
 
@@ -226,8 +233,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.ERR
         });
         h.err = new Error();
@@ -245,8 +252,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.$CTX
         });
 
@@ -263,8 +270,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.RESPONSE_DATA
         });
 
@@ -281,8 +288,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, request, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.ENDPOINT_INFO
         });
 
@@ -300,8 +307,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.BODY
         });
 
@@ -318,8 +325,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.PATH
         });
 
@@ -336,8 +343,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.QUERY
         });
 
@@ -354,8 +361,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.HEADER
         });
 
@@ -375,8 +382,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.COOKIES
         });
 
@@ -393,8 +400,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.SESSION
         });
 
@@ -411,8 +418,8 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
           sandbox,
+          token: PlatformExpressHandler,
           type: ParamTypes.LOCALS
         });
         h.err = new Error();
@@ -430,9 +437,9 @@ describe("PlatformHandler", () => {
       async () => {
         // GIVEN
         const {param, h, platformHandler} = await buildPlatformHandler({
-          token: CustomPlatformHandler,
+          type: "UNKNOWN",
           sandbox,
-          type: "UNKNOWN"
+          token: PlatformExpressHandler
         });
         param.expression = "test";
 

@@ -1,6 +1,7 @@
 import {Inject, PlatformApplication, PlatformHandler, PlatformStaticsOptions} from "@tsed/common";
 import * as Express from "express";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
+import {PlatformExpressDriver} from "./PlatformExpressDriver";
 
 declare global {
   namespace TsED {
@@ -86,17 +87,9 @@ declare global {
  * @platform
  * @express
  */
-export class PlatformExpressApplication extends PlatformApplication<Express.Application> {
+export class PlatformExpressApplication extends PlatformExpressDriver<Express.Application> {
   constructor(@Inject() platformHandler: PlatformHandler) {
     super(platformHandler);
     this.raw = Express();
-  }
-
-  statics(endpoint: string, options: PlatformStaticsOptions) {
-    const {root, ...props} = options;
-
-    this.use(endpoint, staticsMiddleware(root, props));
-
-    return this;
   }
 }

@@ -1,5 +1,13 @@
-import {BeforeRoutesInit, Configuration, InjectorService, Module, OnReady, PlatformApplication} from "@tsed/common";
-import * as Express from "express";
+import {
+  BeforeRoutesInit,
+  Configuration,
+  Inject,
+  InjectorService,
+  Module,
+  OnReady,
+  PlatformApplication,
+  PlatformRouter
+} from "@tsed/common";
 import * as Fs from "fs";
 import {join} from "path";
 import {SwaggerSettings} from "./interfaces";
@@ -13,14 +21,19 @@ const swaggerUiPath = require("swagger-ui-dist").absolutePath();
 
 @Module()
 export class SwaggerModule implements BeforeRoutesInit, OnReady {
-  private loaded = false;
+  @Inject()
+  injector: InjectorService;
 
-  constructor(
-    private injector: InjectorService,
-    private swaggerService: SwaggerService,
-    @Configuration() private configuration: Configuration,
-    private platformApplication: PlatformApplication
-  ) {}
+  @Inject()
+  app: PlatformApplication;
+
+  @Configuration()
+  configuration: Configuration;
+
+  @Inject()
+  swaggerService: SwaggerService;
+
+  private loaded = false;
 
   get settings() {
     return ([] as SwaggerSettings[]).concat(this.configuration.get<SwaggerSettings[]>("swagger")).filter((o) => !!o);
@@ -39,8 +52,8 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     this.settings.forEach((conf: SwaggerSettings) => {
       const {path = "/"} = conf;
 
-      this.platformApplication.get(path, redirectMiddleware(path));
-      this.platformApplication.use(path, this.createRouter(conf, urls));
+      this.app.get(path, redirectMiddleware(path));
+      this.app.use(path, this.createRouter(conf, urls));
     });
 
     this.loaded = true;
@@ -58,23 +71,24 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   }
 
   $onReady() {
-    const {httpsPort, httpPort} = this.configuration;
+    const {configuration, injector} = this;
+    const {httpsPort, httpPort} = configuration;
 
     const displayLog = (host: any) => {
       this.settings.forEach((conf) => {
         const {path = "/", doc} = conf;
         const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 
-        this.injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${path}/swagger.json`);
-        this.injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
+        injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${path}/swagger.json`);
+        injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
       });
     };
 
     if (httpsPort) {
-      const host = this.configuration.getHttpsPort();
+      const host = configuration.getHttpsPort();
       displayLog({protocol: "https", ...host});
     } else if (httpPort) {
-      const host = this.configuration.getHttpPort();
+      const host = configuration.getHttpPort();
       displayLog({protocol: "http", ...host});
     }
   }
@@ -97,7 +111,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
    */
   private createRouter(conf: SwaggerSettings, urls: string[]) {
     const {cssPath, jsPath, viewPath = join(__dirname, "../views/index.ejs")} = conf;
-    const router = Express.Router();
+    const router = PlatformRouter.create(this.injector);
 
     router.get("/swagger.json", this.middlewareSwaggerJson(conf));
 
@@ -111,7 +125,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
       }
 
       router.get("/", indexMiddleware(viewPath, {urls, ...conf}));
-      router.use(Express.static(swaggerUiPath));
+      router.statics("/", {root: swaggerUiPath});
     }
 
     return router;

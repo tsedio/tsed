@@ -3,7 +3,7 @@ import {PlatformExpress} from "@tsed/platform-express/src";
 import {Required, Returns} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Server} from "./helpers/Server";
+import {Server} from "./app/Server";
 
 export class TestModel200 {
   @Required()

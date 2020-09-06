@@ -1,3 +1,4 @@
+import {PlatformStaticsOptions} from "@tsed/common";
 import {PathParamsType} from "../../mvc";
 import {IPlatformDriver, IPlatformRouteOptions} from "../interfaces/IPlatformDriver";
 import {PlatformHandler} from "./PlatformHandler";
@@ -60,6 +61,10 @@ export class PlatformDriver<T> implements IPlatformDriver<T> {
 
   options(path: PathParamsType, ...handlers: any[]) {
     return this.addRoute({method: "options", path, handlers});
+  }
+
+  statics(path: string, options: PlatformStaticsOptions) {
+    console.warn("Statics methods aren't implemented on this platform");
   }
 
   mapHandlers(handlers: any[]): any[] {

@@ -4,8 +4,8 @@ import {Description, Returns} from "@tsed/schema";
 import {Docs, Hidden} from "@tsed/swagger";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Calendar} from "./helpers/models/Calendar";
-import {Server} from "./helpers/Server";
+import {Calendar} from "./app/models/Calendar";
+import {Server} from "./app/Server";
 
 @Controller("/admin")
 @Hidden()

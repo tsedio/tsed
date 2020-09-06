@@ -1,6 +1,6 @@
 {
   "name": "@tsed/schema",
-  "version": "6.0.0-alpha.13",
+  "version": "6.0.0-alpha.14",
   "description": "JsonSchema module for Ts.ED Framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -15,7 +15,7 @@
     "tsed"
   ],
   "dependencies": {
-    "@tsed/core": "6.0.0-alpha.13",
+    "@tsed/core": "6.0.0-alpha.14",
     "change-case": "4.1.1",
     "tslib": "1.11.0"
   },
@@ -26,9 +26,8 @@
   "devDependencies": {
     "@apidevtools/swagger-parser": "9.0.1",
     "@types/change-case": "2.3.1",
-    "@types/json-schema": "7.0.5",
     "@types/fs-extra": "9.0.1",
+    "@types/json-schema": "7.0.5",
     "fs-extra": "9.0.1"
-  },
-  "peerDependencies": {}
+  }
 }

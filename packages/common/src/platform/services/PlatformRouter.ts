@@ -29,7 +29,7 @@ export class PlatformRouter extends PlatformDriver<TsED.Router> {
    * @param injector
    * @param routerOptions
    */
-  static create(injector: InjectorService, routerOptions: any) {
+  static create(injector: InjectorService, routerOptions: any = {}) {
     const locals = new Map();
     locals.set(PLATFORM_ROUTER_OPTIONS, routerOptions);
 

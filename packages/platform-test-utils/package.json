@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-test-utils",
-  "version": "6.0.0-alpha.13",
+  "version": "6.0.0-alpha.14",
   "description": "Integration packages",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -22,7 +22,5 @@
     "@tsed/testing-mongoose": "5.62.5",
     "@tsed/typeorm": "5.62.5"
   },
-  "private": true,
-  "devDependencies": {},
-  "peerDependencies": {}
+  "private": true
 }

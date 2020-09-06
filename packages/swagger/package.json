@@ -1,11 +1,12 @@
 {
   "name": "@tsed/swagger",
-  "version": "6.0.0-alpha.13",
+  "version": "6.0.0-alpha.14",
   "description": "Swagger package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
+    "build": "tsc --build tsconfig.compile.json",
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
     "ejs": "^3.1.3",
@@ -17,7 +18,7 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.0.0-alpha.13",
+    "@tsed/common": "6.0.0-alpha.14",
     "@types/swagger-schema-official": "2.0.21"
   }
 }

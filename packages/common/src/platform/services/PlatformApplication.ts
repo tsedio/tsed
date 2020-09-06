@@ -30,8 +30,4 @@ export class PlatformApplication<T = TsED.Application> extends PlatformDriver<T>
   protected static createRawApp(): any {
     return createFakeRawDriver();
   }
-
-  statics(endpoint: string, options: PlatformStaticsOptions) {
-    console.warn("Statics methods aren't implemented on this platform");
-  }
 }

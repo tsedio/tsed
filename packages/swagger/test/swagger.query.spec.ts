@@ -2,7 +2,7 @@ import {Controller, PlatformTest, QueryParams, Get, MinLength, Property, Require
 import {PlatformExpress} from "@tsed/platform-express/src";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Server} from "./helpers/Server";
+import {Server} from "./app/Server";
 
 class QueryParamModel {
   @Required()

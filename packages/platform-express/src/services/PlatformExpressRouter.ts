@@ -1,6 +1,8 @@
-import {PLATFORM_ROUTER_OPTIONS, PlatformHandler, PlatformRouter} from "@tsed/common";
+import {PLATFORM_ROUTER_OPTIONS, PlatformHandler, PlatformRouter, PlatformStaticsOptions} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import * as Express from "express";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware";
+import {PlatformExpressDriver} from "./PlatformExpressDriver";
 
 declare global {
   namespace TsED {
@@ -13,7 +15,7 @@ declare global {
  * @platform
  * @express
  */
-export class PlatformExpressRouter extends PlatformRouter {
+export class PlatformExpressRouter extends PlatformExpressDriver<Express.Router> {
   constructor(
     platform: PlatformHandler,
     @Configuration() configuration: Configuration,
