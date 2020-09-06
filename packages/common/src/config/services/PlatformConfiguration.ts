@@ -22,7 +22,6 @@ export class PlatformConfiguration extends DIConfiguration {
       httpPort: 8080,
       httpsPort: false,
       version: "1.0.0",
-      uploadDir: "${rootDir}/uploads",
       scopes: {
         [ProviderType.CONTROLLER]: ProviderScope.SINGLETON
       },
@@ -89,14 +88,6 @@ export class PlatformConfiguration extends DIConfiguration {
 
   set httpsPort(value: string | number | false) {
     this.setRaw("httpsPort", value);
-  }
-
-  get uploadDir(): string {
-    return this.get("uploadDir");
-  }
-
-  set uploadDir(value: string) {
-    this.setRaw("uploadDir", value);
   }
 
   get env(): Env {

@@ -6,8 +6,6 @@ import {
   HandlerMetadata,
   HandlerType,
   ParamTypes,
-  PlatformRequest,
-  PlatformResponse,
   PlatformTest,
   QueryParams
 } from "@tsed/common";

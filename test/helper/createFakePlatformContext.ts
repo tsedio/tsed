@@ -2,7 +2,7 @@ import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
 import {FakeRequest} from "./FakeRequest";
 import {FakeResponse} from "./FakeResponse";
 
-export function creatFakePlatformContext(sandbox: any) {
+export function createFakePlatformContext(sandbox: any) {
   const res = new FakeResponse(sandbox);
   const req = new FakeRequest();
 

@@ -1,8 +1,8 @@
 import {HandlerContext, ParamMetadata, PlatformTest} from "@tsed/common/src";
-import {creatFakePlatformContext} from "./createFakePlatformContext";
+import {createFakePlatformContext} from "./createFakePlatformContext";
 
 export function createFakeHandlerContext(param: ParamMetadata, sandbox: any) {
-  const ctx = creatFakePlatformContext(sandbox);
+  const ctx = createFakePlatformContext(sandbox);
   const next: any = sandbox.stub();
 
   return new HandlerContext({

@@ -89,8 +89,8 @@ export abstract class PlatformHandler {
     } = h;
 
     switch (type) {
-      case ParamTypes.FORM_DATA:
-        return h.request;
+      case ParamTypes.FILES:
+        return h.request.files;
 
       case ParamTypes.RESPONSE:
         return h.response;

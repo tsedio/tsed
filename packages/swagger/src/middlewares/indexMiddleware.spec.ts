@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {creatFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
+import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
 import {indexMiddleware} from "./indexMiddleware";
 
 const sandbox = Sinon.createSandbox();
@@ -9,7 +9,7 @@ describe("indexMiddleware and redirect", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
   it("should create a middleware", async () => {
-    const ctx = creatFakePlatformContext(sandbox);
+    const ctx = createFakePlatformContext(sandbox);
     sandbox.stub(ctx.response, "render");
 
     const viewPath = "/swagger.ejs";

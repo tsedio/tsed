@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Fs from "fs";
 import * as Sinon from "sinon";
-import {creatFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
+import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
 import {cssMiddleware} from "./cssMiddleware";
 
 const sandbox = Sinon.createSandbox();
@@ -16,7 +16,7 @@ describe("cssMiddleware", () => {
     sandbox.restore();
   });
   it("should create a middleware", () => {
-    const ctx = creatFakePlatformContext(sandbox);
+    const ctx = createFakePlatformContext(sandbox);
 
     cssMiddleware("/path")(ctx);
 

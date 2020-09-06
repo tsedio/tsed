@@ -1,4 +1,2 @@
-export * from "./decorators/multipartFile";
-export * from "./decorators/multerOptions";
-export * from "./decorators/multerFileSize";
-export * from "./middlewares/MultipartFileMiddleware";
+export {MultipartFile, MulterOptions, MulterFileSize} from "@tsed/common";
+

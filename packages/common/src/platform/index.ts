@@ -6,6 +6,7 @@ export * from "./builder/PlatformControllerBuilder";
 
 // decorators
 export * from "./decorators/context";
+export * from "./decorators/multer";
 
 // interfaces
 export * from "./interfaces/IRoute";
@@ -15,6 +16,7 @@ export * from "./interfaces/IPlatformDriver";
 export * from "./middlewares/PlatformResponseMiddleware";
 export * from "./middlewares/PlatformHeadersMiddleware";
 export * from "./middlewares/PlatformLogMiddleware";
+export * from "./middlewares/PlatformMulterMiddleware";
 export * from "./middlewares/bindEndpointMiddleware";
 export * from "./middlewares/GlobalAcceptMimesMiddleware";
 

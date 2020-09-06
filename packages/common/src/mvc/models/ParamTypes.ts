@@ -15,7 +15,5 @@ export enum ParamTypes {
   COOKIES = "COOKIES",
   LOCALS = "LOCALS",
   SESSION = "SESSION",
-  FORM_DATA = "FORM_DATA",
-  FILE = "FILE",
   FILES = "FILES"
 }

@@ -13,6 +13,7 @@ import {testInheritanceController} from "./testInheritanceController";
 import {testLocals} from "./testLocals";
 import {testLocation} from "./testLocation";
 import {testModule} from "./testModule";
+import {testMulter} from "./testMulter";
 import {testPathParams} from "./testPathParams";
 import {testQueryParams} from "./testQueryParams";
 import {testRedirect} from "./testRedirect";
@@ -48,6 +49,7 @@ specsContainer.set("bodyParams", testBodyParams);
 specsContainer.set("pathParams", testPathParams);
 specsContainer.set("queryParams", testQueryParams);
 specsContainer.set("locals", testLocals);
+specsContainer.set("multer", testMulter);
 
 // ROUTING
 specsContainer.set("scopeRequest", testScopeRequest);

@@ -9,12 +9,12 @@ const rootDir = __dirname;
   mount: {
     "/rest": `${rootDir}/controllers/**/**.js`
   },
-  uploadDir: `${rootDir}/custom-dir`,
   componentsScan: [
     `${rootDir}/services/**/**.js`
   ],
 
   multer: {
+    dest: `${rootDir}/uploads`
     // see multer options
   }
 })

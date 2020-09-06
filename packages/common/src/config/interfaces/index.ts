@@ -3,6 +3,7 @@ import * as Https from "https";
 import {ConverterSettings} from "./ConverterSettings";
 import {EndpointDirectoriesSettings} from "./EndpointDirectoriesSettings";
 import {PlatformLoggerSettings} from "./PlatformLoggerSettings";
+import {PlatformMulterSettings} from "./PlatformMulterSettings";
 import {PlatformStaticsSettings} from "./PlatformStaticsSettings";
 
 declare global {
@@ -37,10 +38,6 @@ declare global {
        */
       httpsOptions: Https.ServerOptions;
       /**
-       * The temporary directory to upload the documents. See more on [Upload file with Multer](/tutorials/multer.md)
-       */
-      uploadDir: string;
-      /**
        * Mount all controllers under a directories to an endpoint.
        */
       mount: EndpointDirectoriesSettings;
@@ -72,6 +69,10 @@ declare global {
        * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
        */
       statics: PlatformStaticsSettings;
+      /**
+       * Object configure Multer. See more on [Upload file](/tutorials/serve-static-files.md).
+       */
+      multer: PlatformMulterSettings;
     }
   }
 }
@@ -79,3 +80,4 @@ declare global {
 export * from "./PlatformLoggerSettings";
 export * from "./EndpointDirectoriesSettings";
 export * from "./PlatformStaticsSettings";
+export * from "./PlatformMulterSettings";

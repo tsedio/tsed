@@ -1,5 +1,5 @@
-import {PlatformContext} from "@tsed/common";
 import {EndpointMetadata} from "../../mvc";
+import type {PlatformContext} from "../domain/PlatformContext";
 
 /**
  * @ignore

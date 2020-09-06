@@ -22,7 +22,6 @@ Before using the @@MultipartFile@@ you must install [multer](https://github.com/
 ```bash
 npm install --save multer 
 npm install --save @types/multer
-npm install --save @tsed/multipartfiles
 ```
 
 ## Configure the File upload directory

@@ -19,7 +19,6 @@ describe("PlatformConfiguration", () => {
         httpPort: 8080,
         httpsPort: 8000,
         version: "1.0.0",
-        uploadDir: "${rootDir}/uploads",
         scopes: {
           [ProviderType.CONTROLLER]: ProviderScope.SINGLETON
         },
@@ -102,10 +101,6 @@ describe("PlatformConfiguration", () => {
 
     it("should return componentsScan", () => {
       expect(settings.componentsScan).to.be.an("array");
-    });
-
-    it("should return uploadDir", () => {
-      expect(settings.uploadDir).to.contains("uploads");
     });
 
     it("should return mount", () => {

@@ -1,4 +1,6 @@
-import {PlatformStaticsOptions} from "@tsed/common";
+import {promisify} from "util";
+import {PlatformStaticsOptions} from "../../config";
+import {PlatformMulter, PlatformMulterSettings} from "../../config/interfaces";
 import {PathParamsType} from "../../mvc";
 import {IPlatformDriver, IPlatformRouteOptions} from "../interfaces/IPlatformDriver";
 import {PlatformHandler} from "./PlatformHandler";
@@ -11,7 +13,8 @@ import {PlatformHandler} from "./PlatformHandler";
 export class PlatformDriver<T> implements IPlatformDriver<T> {
   public raw: T;
 
-  constructor(protected platformHandler: PlatformHandler) {}
+  constructor(protected platformHandler: PlatformHandler) {
+  }
 
   callback(): any {
     return this.raw;
@@ -65,6 +68,31 @@ export class PlatformDriver<T> implements IPlatformDriver<T> {
 
   statics(path: string, options: PlatformStaticsOptions) {
     console.warn("Statics methods aren't implemented on this platform");
+  }
+
+  multer(options: PlatformMulterSettings): PlatformMulter {
+    const m = require("multer")(options);
+
+    const makePromise = (multer: any, name: string) => {
+      // istanbul ignore next
+      if (!multer[name]) return;
+
+      const fn = multer[name];
+
+      multer[name] = function apply() {
+        const middleware = Reflect.apply(fn, this, arguments);
+
+        return (req: any, res: any) => promisify(middleware)(req, res);
+      };
+    };
+
+    makePromise(m, "any");
+    makePromise(m, "array");
+    makePromise(m, "fields");
+    makePromise(m, "none");
+    makePromise(m, "single");
+
+    return m;
   }
 
   mapHandlers(handlers: any[]): any[] {
