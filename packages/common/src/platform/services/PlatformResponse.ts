@@ -7,7 +7,7 @@ declare global {
   namespace TsED {
     // @ts-ignore
     export interface Response {
-      req: any;
+      // req: any;
     }
   }
 }
