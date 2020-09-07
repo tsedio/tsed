@@ -1,6 +1,8 @@
-import {PlatformRouter, PlatformTest} from "@tsed/common";
+import {PlatformContext, PlatformRouter, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
+import {FakeRequest, FakeResponse} from "../../../../../test/helper";
+import {stub} from "../../../../../test/helper/tools";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformHandler} from "./PlatformHandler";
 
@@ -30,8 +32,9 @@ async function getPlatformApp() {
       use: platformHandler
     }
   ]);
-
-  platformApp.raw = createDriver() as any;
+  platformApp.injector.settings.logger = {};
+  platformApp.rawRouter = createDriver() as any;
+  platformApp.rawApp = platformApp.raw = createDriver() as any;
 
   return {platformApp, platformHandler};
 }
@@ -40,6 +43,51 @@ describe("PlatformApplication", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
 
+  describe("getApp()", () => {
+    it("should return app", async () => {
+      // GIVEN
+      const {platformApp} = await getPlatformApp();
+
+      // WHEN
+      expect(platformApp.getApp()).to.eq(platformApp.raw);
+    });
+  });
+  describe("getRouter()", () => {
+    it("should return app", async () => {
+      // GIVEN
+      const {platformApp} = await getPlatformApp();
+
+      // WHEN
+      expect(platformApp.getRouter()).to.eq(platformApp.rawRouter);
+    });
+  });
+  describe("useContext()", () => {
+    beforeEach(() => {
+      // @ts-ignore
+      sandbox.stub(PlatformRouter, "createRawRouter").returns(createDriver() as any);
+    });
+    afterEach(() => {
+      sandbox.restore();
+    });
+    it("should create context", async () => {
+      // GIVEN
+      const {platformApp} = await getPlatformApp();
+      const request: any = new FakeRequest(sandbox);
+      const response: any = new FakeResponse();
+      const next = sandbox.stub();
+
+      // WHEN
+      platformApp.useContext();
+
+      // THEN
+      expect(platformApp.raw.use).to.have.been.calledWithExactly(Sinon.match.func);
+
+      await stub(platformApp.raw.use).getCall(0).args[0](request, response, next);
+
+      expect(request.$ctx).to.be.instanceof(PlatformContext);
+      expect(next).to.have.been.calledWithExactly();
+    });
+  });
   describe("use()", () => {
     beforeEach(() => {
       // @ts-ignore
@@ -58,7 +106,7 @@ describe("PlatformApplication", () => {
 
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
-      expect(platformApp.raw.use).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.use).to.have.been.calledWithExactly("/", handler);
     });
     it("should add router to app", async () => {
       // GIVEN
@@ -73,7 +121,7 @@ describe("PlatformApplication", () => {
       // THEN
       // @ts-ignore
       expect(PlatformRouter.createRawRouter).to.have.been.calledWithExactly();
-      expect(platformApp.raw.use).to.have.been.calledWithExactly("/", handler.raw);
+      expect(platformApp.rawRouter.use).to.have.been.calledWithExactly("/", handler.raw);
     });
   });
   describe("get()", () => {
@@ -87,7 +135,7 @@ describe("PlatformApplication", () => {
 
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
-      expect(platformApp.raw.get).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.get).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("all()", () => {
@@ -101,7 +149,7 @@ describe("PlatformApplication", () => {
 
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
-      expect(platformApp.raw.all).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.all).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("post()", () => {
@@ -115,7 +163,7 @@ describe("PlatformApplication", () => {
 
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
-      expect(platformApp.raw.post).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.post).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("put()", () => {
@@ -129,7 +177,7 @@ describe("PlatformApplication", () => {
 
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
-      expect(platformApp.raw.put).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.put).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("patch()", () => {
@@ -143,7 +191,7 @@ describe("PlatformApplication", () => {
 
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
-      expect(platformApp.raw.patch).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.patch).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("head()", () => {
@@ -157,7 +205,7 @@ describe("PlatformApplication", () => {
 
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
-      expect(platformApp.raw.head).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.head).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("delete()", () => {
@@ -171,7 +219,7 @@ describe("PlatformApplication", () => {
 
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
-      expect(platformApp.raw.delete).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.delete).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("options()", () => {
@@ -185,7 +233,7 @@ describe("PlatformApplication", () => {
 
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
-      expect(platformApp.raw.options).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.options).to.have.been.calledWithExactly("/", handler);
     });
   });
   describe("statics()", () => {

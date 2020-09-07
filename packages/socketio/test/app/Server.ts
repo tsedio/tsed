@@ -47,7 +47,7 @@ export class Server {
       .use(compress({}))
       .use(methodOverride());
 
-    this.app.raw
+    this.app.getApp()
       .engine(".html", require("ejs").__express)
       .set("views", `${rootDir}/views`)
       .set("view engine", "html")

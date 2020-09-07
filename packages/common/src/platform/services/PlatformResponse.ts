@@ -1,4 +1,4 @@
-import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
+import {classOf, isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
 
 const onFinished = require("on-finished");

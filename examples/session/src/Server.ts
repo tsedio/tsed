@@ -30,7 +30,7 @@ export class Server {
   app: PlatformApplication;
 
   $beforeRoutesInit(): void | Promise<any> {
-    this.app.raw.set("trust proxy", 1); // trust first proxy
+    this.app.getApp().set("trust proxy", 1); // trust first proxy
 
     this.app
       .use(GlobalAcceptMimesMiddleware)

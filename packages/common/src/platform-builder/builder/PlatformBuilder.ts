@@ -1,6 +1,5 @@
 import {classOf, constructorOf, Type} from "@tsed/core";
 import {Container, InjectorService, IProvider} from "@tsed/di";
-import {createContext} from "../utils/createContext";
 import {
   GlobalAcceptMimesMiddleware,
   IRoute,
@@ -28,11 +27,11 @@ import {
   printRoutes,
   setLoggerLevel
 } from "../utils";
+import {createContext} from "../../platform/utils/createContext";
 
 export interface PlatformType<T = any> extends Type<T> {
   providers: IProvider[];
 }
-
 
 /**
  * @platform
@@ -144,7 +143,6 @@ export abstract class PlatformBuilder {
     const routes = await importProviders(this.injector);
 
     await this.loadInjector();
-    await this.useContext();
     await this.loadRoutes(routes);
     await this.logRoutes();
   }
@@ -191,8 +189,8 @@ export abstract class PlatformBuilder {
           const opts =
             typeof options === "string"
               ? {
-                root: options
-              }
+                  root: options
+                }
               : options;
 
           this.platform.app.statics(path, opts);
@@ -241,15 +239,6 @@ export abstract class PlatformBuilder {
     }
   }
 
-  protected useContext(): this {
-    this.app.use(async (req: any, res: any, next: any) => {
-      await this.createContext(req, res);
-      next();
-    });
-
-    return this;
-  }
-
   protected async loadRoutes(routes: IRoute[]) {
     const {logger, platform} = this;
 
@@ -294,9 +283,5 @@ export abstract class PlatformBuilder {
 
     this.injector.delete(constructorOf(this._rootModule));
     this.injector.delete(classOf(this._rootModule));
-  }
-
-  protected async createContext(req: any, res: any) {
-    return createContext(this.injector, req, res);
   }
 }

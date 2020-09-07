@@ -38,8 +38,8 @@ export class Server {
   app: PlatformApplication;
 
   $beforeInit(): void | Promise<any> {
-    this.app.raw.set("views", this.settings.get("viewsDir"));
-    this.app.raw.engine("ejs", ejs);
+    this.app.getApp().set("views", this.settings.get("viewsDir"));
+    this.app.getApp().engine("ejs", ejs);
   }
 
   $beforeRoutesInit() {

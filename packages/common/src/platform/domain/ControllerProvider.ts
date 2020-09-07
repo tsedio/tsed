@@ -2,8 +2,7 @@ import {Enumerable, NotEnumerable, Type} from "@tsed/core";
 import {Provider, ProviderType} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
 import {EndpointMetadata, ControllerMiddlewares} from "../../mvc";
-
-import {IPlatformDriver} from "../interfaces/IPlatformDriver";
+import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 
 export interface IChildrenController extends Type<any> {
   $parentCtrl?: ControllerProvider;
@@ -11,7 +10,7 @@ export interface IChildrenController extends Type<any> {
 
 export class ControllerProvider extends Provider<any> {
   @NotEnumerable()
-  public router: IPlatformDriver;
+  public router: PlatformRouterMethods;
 
   @NotEnumerable()
   readonly entity: JsonEntityStore;

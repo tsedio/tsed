@@ -1,12 +1,10 @@
-import {Inject, PlatformApplication, PlatformHandler, PlatformStaticsOptions} from "@tsed/common";
+import {Configuration, createContext, Inject, PlatformApplication, PlatformHandler} from "@tsed/common";
 import * as Express from "express";
-import {staticsMiddleware} from "../middlewares/staticsMiddleware";
-import {PlatformExpressDriver} from "./PlatformExpressDriver";
+import {PlatformExpressRouter} from "./PlatformExpressRouter";
 
 declare global {
   namespace TsED {
-    export interface Application extends Express.Application {
-    }
+    export interface Application extends Express.Application {}
 
     export interface StaticsOptions {
       /**
@@ -87,9 +85,36 @@ declare global {
  * @platform
  * @express
  */
-export class PlatformExpressApplication extends PlatformExpressDriver<Express.Application> {
-  constructor(@Inject() platformHandler: PlatformHandler) {
-    super(platformHandler);
-    this.raw = Express();
+export class PlatformExpressApplication extends PlatformExpressRouter implements PlatformApplication<Express.Application> {
+  app: Express.Application;
+  rawApp: Express.Application;
+  rawRouter: Express.Router;
+
+  constructor(@Inject() platformHandler: PlatformHandler, @Configuration() configuration: Configuration) {
+    super(platformHandler, configuration, {
+      mergeParams: true
+    });
+
+    this.rawApp = configuration.get("express.app") || Express();
+
+    this.useContext().getApp().use(this.getRouter());
+  }
+
+  getApp() {
+    return this.rawApp;
+  }
+
+  callback() {
+    return this.rawApp;
+  }
+
+  useContext(): this {
+    this.getApp().use(async (req: any, res: any, next: any) => {
+      await createContext(this.injector, req, res);
+
+      return next();
+    });
+
+    return this;
   }
 }
