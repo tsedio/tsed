@@ -8,7 +8,6 @@ import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {PlatformHeadersMiddleware} from "../middlewares/PlatformHeadersMiddleware";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
-import {PlatformDriver} from "../services/PlatformDriver";
 import {PlatformHandler} from "../services/PlatformHandler";
 import {PlatformRouter} from "../services/PlatformRouter";
 import {PlatformControllerBuilder} from "./PlatformControllerBuilder";
@@ -85,7 +84,7 @@ describe("PlatformControllerBuilder", () => {
   beforeEach(() => {
     // @ts-ignore
     sandbox.stub(PlatformRouter, "createRawRouter");
-    sandbox.stub(PlatformDriver.prototype, "mapHandlers").callsFake((o) => o);
+    sandbox.stub(PlatformRouter.prototype, "mapHandlers").callsFake((o) => o);
     sandbox.stub(EndpointMetadata, "getEndpoints");
   });
   afterEach(() => {

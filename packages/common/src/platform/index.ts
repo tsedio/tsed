@@ -10,7 +10,7 @@ export * from "./decorators/multer";
 
 // interfaces
 export * from "./interfaces/IRoute";
-export * from "./interfaces/IPlatformDriver";
+export * from "./interfaces/PlatformRouterMethods";
 
 // middlewares
 export * from "./middlewares/PlatformResponseMiddleware";
@@ -32,7 +32,6 @@ export * from "./errors/ParamValidationError";
 
 // providers
 export * from "./services/Platform";
-export * from "./services/PlatformDriver";
 export * from "./services/PlatformHandler";
 export * from "./services/PlatformRouter";
 export * from "./services/PlatformApplication";
@@ -41,3 +40,4 @@ export * from "./services/PlatformRequest";
 
 // registries
 export * from "./registries/ControllerRegistry";
+export * from "./utils/createContext";

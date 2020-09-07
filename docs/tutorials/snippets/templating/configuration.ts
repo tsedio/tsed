@@ -18,7 +18,7 @@ class Server {
   app: PlatformApplication;
 
   $onInit() {
-    this.app.raw.set("views", this.viewsDir);
-    this.app.raw.engine("ejs", ejs);
+    this.app.getApp().set("views", this.viewsDir);
+    this.app.getApp().engine("ejs", ejs);
   }
 }

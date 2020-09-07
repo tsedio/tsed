@@ -1,7 +1,8 @@
-import {PLATFORM_ROUTER_OPTIONS, PlatformHandler} from "@tsed/common";
+import {InjectorService, PLATFORM_ROUTER_OPTIONS, PlatformHandler, PlatformRouter, PlatformStaticsOptions} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import * as Express from "express";
-import {PlatformExpressDriver} from "./PlatformExpressDriver";
+import {RouterOptions} from "express";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 
 declare global {
   namespace TsED {
@@ -13,15 +14,23 @@ declare global {
  * @platform
  * @express
  */
-export class PlatformExpressRouter extends PlatformExpressDriver<Express.Router> {
+export class PlatformExpressRouter extends PlatformRouter<Express.Router> {
   constructor(
     platform: PlatformHandler,
     @Configuration() configuration: Configuration,
-    @Inject(PLATFORM_ROUTER_OPTIONS) routerOptions: any
+    @Inject(PLATFORM_ROUTER_OPTIONS) routerOptions: Partial<RouterOptions> = {}
   ) {
     super(platform);
 
     const options = Object.assign({}, configuration.express?.router || {}, routerOptions);
-    this.raw = Express.Router(options);
+    this.rawRouter = this.raw = Express.Router(options);
+  }
+
+  statics(endpoint: string, options: PlatformStaticsOptions) {
+    const {root, ...props} = options;
+
+    this.use(endpoint, staticsMiddleware(root, props));
+
+    return this;
   }
 }

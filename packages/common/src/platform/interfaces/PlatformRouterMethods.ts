@@ -1,17 +1,16 @@
 import {PathParamsType} from "../../mvc";
 
-export interface IPlatformRouteOptions {
+export interface PlatformRouteOptions {
   method: string;
   path: PathParamsType;
   handlers: any[];
 }
 
-export interface IPlatformDriver<T = any> {
-  raw: T;
-
-  addRoute(routeOptions: IPlatformRouteOptions): this;
+export interface PlatformRouterMethods<T = any> {
+  addRoute(routeOptions: PlatformRouteOptions): this;
 
   use(...handlers: any[]): this;
 
   callback(): any;
+  getRouter(): T;
 }

@@ -1,6 +1,5 @@
 export * from "./callHook";
 export * from "./createInjector";
-export * from "./createContext";
 export * from "./cleanGlobPatterns";
 export * from "./createContainer";
 export * from "./createPlatformApplication";

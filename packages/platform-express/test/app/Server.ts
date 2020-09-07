@@ -27,8 +27,8 @@ export class Server {
   viewsDir: string;
 
   $beforeRoutesInit() {
-    this.app.raw.set("views", this.viewsDir);
-    this.app.raw.engine("ejs", ejs);
+    this.app.getApp().set("views", this.viewsDir);
+    this.app.getApp().engine("ejs", ejs);
 
     this.app
       .use(cookieParser())

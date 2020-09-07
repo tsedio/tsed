@@ -18,7 +18,8 @@ export class PlatformExpressHandler extends PlatformHandler {
       case HandlerType.$CTX:
         return async (req: any, res: any, next: any) => {
           await metadata.handler(req.$ctx);
-          next();
+
+          return next();
         };
 
       case HandlerType.CONTROLLER:

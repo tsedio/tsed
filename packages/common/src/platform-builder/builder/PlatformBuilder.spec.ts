@@ -24,14 +24,12 @@ const sandbox = Sinon.createSandbox();
 
 describe("PlatformBuilder", () => {
   @Controller("/")
-  class RestCtrl {
-  }
+  class RestCtrl {}
 
   class PlatformCustom extends PlatformBuilder {
     static providers = [
       {
-        provide: class Test {
-        }
+        provide: class Test {}
       }
     ];
 
@@ -146,8 +144,7 @@ describe("PlatformBuilder", () => {
       // GIVEN
       const server = await PlatformCustom.bootstrap(ServerModule, {});
 
-      class MyClass {
-      }
+      class MyClass {}
 
       // WHEN
       server.addComponents(MyClass);
@@ -166,35 +163,13 @@ describe("PlatformBuilder", () => {
       // GIVEN
       const server = await PlatformCustom.bootstrap(ServerModule, {});
 
-      class MyClass {
-      }
+      class MyClass {}
 
       // WHEN
       server.addControllers("/test", MyClass);
 
       // THEN
       expect(server.injector.settings.mount["/test"]).to.deep.eq([MyClass]);
-    });
-  });
-
-  describe("useContext", () => {
-    it("should add middleware", async () => {
-      const platform = await PlatformCustom.bootstrap(ServerModule, {});
-      sandbox.stub(platform.app, "use");
-
-      const request: any = new FakeRequest(sandbox);
-      const response: any = new FakeResponse();
-      response.req = request;
-
-      const next = sandbox.stub();
-      // @ts-ignore
-      platform.useContext();
-
-      await stub(platform.app.use).getCall(0).args[0](request, response, next);
-
-      expect(request.$ctx).to.be.instanceof(PlatformContext);
-
-      expect(next).to.have.been.calledWithExactly();
     });
   });
 });

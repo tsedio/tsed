@@ -1,14 +1,6 @@
 import {Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
-import {
-  EndpointMetadata,
-  HandlerConstructorOptions,
-  HandlerMetadata,
-  HandlerType,
-  IPipe,
-  ParamMetadata,
-  ParamTypes
-} from "../../mvc";
+import {EndpointMetadata, HandlerConstructorOptions, HandlerMetadata, HandlerType, IPipe, ParamMetadata, ParamTypes} from "../../mvc";
 import {HandlerContext} from "../domain/HandlerContext";
 import {ParamValidationError} from "../errors/ParamValidationError";
 
@@ -19,9 +11,8 @@ import {ParamValidationError} from "../errors/ParamValidationError";
 @Injectable({
   scope: ProviderScope.SINGLETON
 })
-export abstract class PlatformHandler {
-  constructor(protected injector: InjectorService) {
-  }
+export class PlatformHandler {
+  constructor(protected injector: InjectorService) {}
 
   /**
    * Create a native middleware based on the given metadata and return an instance of HandlerContext

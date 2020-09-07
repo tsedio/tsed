@@ -4,7 +4,7 @@ import {InjectorService} from "@tsed/di";
 import {JsonMethodPath, OperationMethods} from "@tsed/schema";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {ControllerProvider} from "../domain/ControllerProvider";
-import {IPlatformDriver} from "../interfaces/IPlatformDriver";
+import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
 import {PlatformResponseMiddleware} from "../middlewares/PlatformResponseMiddleware";
 import {PlatformRouter} from "../services/PlatformRouter";
@@ -20,7 +20,7 @@ export class PlatformControllerBuilder {
    *
    * @returns {any}
    */
-  public build(injector: InjectorService): IPlatformDriver {
+  public build(injector: InjectorService): PlatformRouterMethods {
     const {
       routerOptions,
       middlewares: {useBefore, useAfter}
