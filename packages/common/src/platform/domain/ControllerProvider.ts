@@ -2,6 +2,7 @@ import {Enumerable, NotEnumerable, Type} from "@tsed/core";
 import {Provider, ProviderType} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
 import {ControllerMiddlewares, EndpointMetadata} from "../../mvc";
+import {ROUTER_OPTIONS} from "../constants/routerOptions";
 import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 
 export interface IChildrenController extends Type<any> {
@@ -64,18 +65,17 @@ export class ControllerProvider<T = any> extends Provider<T> {
 
   /**
    *
-   * @returns {IRouterSettings}
    */
-  get routerOptions(): any {
-    return this.store.get("routerOptions") || {};
+  get routerOptions(): TsED.RouterOptions {
+    return this.store.get(ROUTER_OPTIONS) || ({} as any);
   }
 
   /**
    *
    * @param value
    */
-  set routerOptions(value: any) {
-    this.store.set("routerOptions", value);
+  set routerOptions(value: TsED.RouterOptions) {
+    this.store.set(ROUTER_OPTIONS, value);
   }
 
   /**

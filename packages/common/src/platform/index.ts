@@ -9,6 +9,7 @@ export * from "./decorators/context";
 export * from "./decorators/multer";
 
 // interfaces
+export * from "./constants/routerOptions";
 export * from "./interfaces/IRoute";
 export * from "./interfaces/PlatformRouterMethods";
 

@@ -62,7 +62,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   }
 
   hasStatus() {
-    return this.statusCode === 200;
+    return this.statusCode !== 200;
   }
 
   /**

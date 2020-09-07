@@ -152,7 +152,7 @@ describe("PlatformExpressHandler", () => {
 
       // WHEN
       // @ts-ignore
-      const value = platformHandler.getArg(param.type, h);
+      const value = platformHandler.getArg(param.paramType, h);
 
       // THEN
       expect(value).to.deep.eq(request);
@@ -367,7 +367,7 @@ describe("PlatformExpressHandler", () => {
       const value = platformHandler.getArg(param.paramType, h);
 
       // THEN
-      expect(value).to.deep.eq(h.response.locals);
+      expect(value).to.deep.eq(h.getResponse().locals);
     });
 
     it("should return request by default", async () => {

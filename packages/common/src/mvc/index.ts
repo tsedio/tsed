@@ -31,3 +31,4 @@ export * from "./errors/ValidationError";
 
 // decorators
 export * from "./decorators";
+export * from "./utils/mapParamsOptions";

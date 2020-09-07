@@ -14,7 +14,7 @@ function createResponse() {
   return {res, response};
 }
 
-describe("PlatformResponse", () => {
+describe("PlatformExpressResponse", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
   it("should create a PlatformResponse instance", () => {

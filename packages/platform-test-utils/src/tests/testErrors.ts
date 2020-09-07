@@ -1,5 +1,5 @@
 import "@tsed/ajv";
-import {BodyParams, Controller, Get, PlatformTest, Post} from "@tsed/common";
+import {BodyParams, Controller, Err, Get, Middleware, PlatformTest, Post, UseAfter} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Description, Name, Required, Returns, Summary} from "@tsed/schema";
 import {expect} from "chai";
@@ -16,6 +16,24 @@ class CustomPropModel {
   @Name("role_item")
   @Required()
   roleItem: string;
+}
+
+@Middleware()
+class ErrorMiddleware {
+  use(@Err() error: any) {
+    return {
+      message: "no error"
+    };
+  }
+}
+
+@Middleware()
+class FakeMiddleware {
+  use() {
+    return {
+      message: "should not be called by the platform when endpoint throw an error"
+    };
+  }
 }
 
 @Controller("/errors")
@@ -64,6 +82,14 @@ export class ErrorsCtrl {
     model: CustomPropModel
   ) {
     return model;
+  }
+
+  @Get("/scenario-7")
+  @(Returns(400).Description("Bad request"))
+  @UseAfter(FakeMiddleware)
+  @UseAfter(ErrorMiddleware)
+  public scenario7() {
+    throw new CustomInternalError("My custom error");
   }
 }
 
@@ -176,6 +202,14 @@ export function testErrors(options: PlatformTestOptions) {
           modelName: "CustomPropModel"
         }
       ]
+    });
+  });
+
+  it("Scenario 7: GET /rest/errors/scenario-7", async () => {
+    const response: any = await request.get("/rest/errors/scenario-7").expect(200);
+
+    expect(response.body).to.deep.eq({
+      message: "no error"
     });
   });
 }
