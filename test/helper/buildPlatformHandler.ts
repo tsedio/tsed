@@ -25,7 +25,7 @@ export async function buildPlatformHandler({type, token, sandbox, expression, re
   }
 
   const param = new ParamMetadata({target: Test, propertyKey: "test", index: 0});
-  param.service = type;
+  param.paramType = type;
 
   const h = createFakeHandlerContext(param, sandbox);
 

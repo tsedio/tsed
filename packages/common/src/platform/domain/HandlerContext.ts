@@ -2,7 +2,6 @@ import {isPromise, isStream} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {isObservable} from "rxjs";
 import {HandlerMetadata} from "../../mvc/models/HandlerMetadata";
-import {ABORT} from "../constants/abort";
 import {PlatformContext} from "./PlatformContext";
 
 function isResponse(obj: any) {
@@ -183,7 +182,7 @@ export class HandlerContext {
     } = this;
 
     if (process) {
-      if (process === $ctx.getResponse() || process === ABORT) {
+      if (process === $ctx.getResponse()) {
         // ABANDON
         return this.cancel();
       }
