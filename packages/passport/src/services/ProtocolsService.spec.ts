@@ -3,6 +3,7 @@ import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import * as Passport from "passport";
 import * as Sinon from "sinon";
+import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
 import {stub} from "../../../../test/helper/tools";
 import {Protocol, ProtocolsService} from "../index";
 
@@ -86,18 +87,16 @@ describe("ProtocolsService", () => {
       // GIVEN
       stub(LocalProtocol.prototype.$onVerify).returns({id: 0});
       const provider = injector.getProvider(LocalProtocol)!;
-      const req: any = {
-        res: {},
-        $ctx: new PlatformContext({id: "1", logger: {}, url: "/"})
-      };
+      const ctx = createFakePlatformContext(sandbox);
+
       // WHEN
       const result = protocolService.invoke(provider);
       const resultDone: any = await new Promise((resolve) => {
-        Strategy.args[0][1](req, "test", (...args: any[]) => resolve(args));
+        Strategy.args[0][1](ctx.getRequest(), "test", (...args: any[]) => resolve(args));
       });
 
       // THEN
-      expect(result.$onVerify).to.have.been.calledWithExactly(req);
+      expect(result.$onVerify).to.have.been.calledWithExactly(ctx.getRequest());
       expect(resultDone).to.deep.equal([null, {id: 0}]);
     })
   );
@@ -110,18 +109,16 @@ describe("ProtocolsService", () => {
       stub(LocalProtocol.prototype.$onVerify).rejects(error);
 
       const provider = injector.getProvider(LocalProtocol)!;
-      const req = {
-        res: {},
-        $ctx: new PlatformContext({id: "1", logger: {}, url: "/"})
-      };
+      const ctx = createFakePlatformContext(sandbox);
+
       // WHEN
       const result = protocolService.invoke(provider);
       const resultDone: any = await new Promise((resolve) => {
-        Strategy.args[0][1](req, "test", (...args: any[]) => resolve(args));
+        Strategy.args[0][1](ctx.getRequest(), "test", (...args: any[]) => resolve(args));
       });
 
       // THEN
-      expect(result.$onVerify).to.have.been.calledWithExactly(req);
+      expect(result.$onVerify).to.have.been.calledWithExactly(ctx.getRequest());
       expect(resultDone).to.deep.equal([error, false, {message: "message"}]);
     })
   );

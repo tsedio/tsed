@@ -1,8 +1,18 @@
-import {Type} from "@tsed/core";
+import {isFunction, isStream, Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
 import {EndpointMetadata, HandlerConstructorOptions, HandlerMetadata, HandlerType, IPipe, ParamMetadata, ParamTypes} from "../../mvc";
-import {HandlerContext} from "../domain/HandlerContext";
+import {HandlerContext, HandlerContextStatus} from "../domain/HandlerContext";
+import {PlatformContext} from "../domain/PlatformContext";
 import {ParamValidationError} from "../errors/ParamValidationError";
+
+export interface OnRequestOptions {
+  $ctx: PlatformContext;
+  next: any;
+  metadata: HandlerMetadata;
+  err?: any;
+
+  [key: string]: any;
+}
 
 /**
  * Platform Handler abstraction layer. Wrap original class method to a pure platform handler (Express, Koa, etc...).
@@ -75,19 +85,19 @@ export class PlatformHandler {
    */
   protected getArg(type: ParamTypes | string, h: HandlerContext) {
     const {
-      ctx,
-      ctx: {request, response}
+      $ctx,
+      $ctx: {request, response}
     } = h;
 
     switch (type) {
       case ParamTypes.FILES:
-        return h.request.files;
+        return h.getRequest().files;
 
       case ParamTypes.RESPONSE:
-        return h.response;
+        return h.getResponse();
 
       case ParamTypes.REQUEST:
-        return h.request;
+        return h.getRequest();
 
       case ParamTypes.NEXT_FN:
         return h.next;
@@ -96,13 +106,13 @@ export class PlatformHandler {
         return h.err;
 
       case ParamTypes.$CTX: // tsed ctx
-        return ctx;
+        return $ctx;
 
       case ParamTypes.ENDPOINT_INFO:
-        return ctx.endpoint;
+        return $ctx.endpoint;
 
       case ParamTypes.RESPONSE_DATA:
-        return ctx.data;
+        return $ctx.data;
 
       case ParamTypes.BODY:
         return request.body;
@@ -133,28 +143,33 @@ export class PlatformHandler {
   /**
    * Call handler when a request his handle
    * @param h
+   * @param next
    */
-  protected async onRequest(h: HandlerContext): Promise<any> {
-    if (h.isDone) {
-      return;
-    }
+  protected async onRequest({metadata, $ctx, next, err}: OnRequestOptions): Promise<any> {
+    const h = new HandlerContext({
+      $ctx,
+      metadata,
+      args: [],
+      err
+    });
 
     try {
       h.args = await this.getArgs(h);
 
-      await h.callHandler();
-    } catch (error) {
-      return this.onError(error, h);
-    }
-  }
+      const data = await h.callHandler();
 
-  /**
-   * Implement how the handler should handle error.
-   * @param error
-   * @param h
-   */
-  protected onError(error: unknown, h: HandlerContext): any {
-    return h.next(error);
+      if (h.status === HandlerContextStatus.RESOLVED && isFunction(data) && !isStream(data)) {
+        data($ctx.getRequest(), $ctx.getResponse(), next);
+
+        return;
+      }
+
+      if (HandlerContextStatus.RESOLVED) {
+        next();
+      }
+    } catch (error) {
+      return next(error);
+    }
   }
 
   /**
@@ -162,19 +177,7 @@ export class PlatformHandler {
    * @param metadata
    */
   protected createRawHandler(metadata: HandlerMetadata): Function {
-    return (request: any, response: any, next: any) =>
-      this.onRequest(
-        new HandlerContext({
-          injector: this.injector,
-          request,
-          response,
-          res: response,
-          req: request,
-          next,
-          metadata,
-          args: []
-        })
-      );
+    return (request: any, response: any, next: any) => this.onRequest({metadata, next, $ctx: request.$ctx});
   }
 
   /**

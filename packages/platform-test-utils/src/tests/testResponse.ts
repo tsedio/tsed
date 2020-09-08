@@ -1,4 +1,4 @@
-import {ContentType, Controller, Get, Next, PathParams, PlatformTest, Post, Req, Res, Status, Context} from "@tsed/common";
+import {ContentType, Context, Controller, Get, Next, PathParams, PlatformTest, Post, Req, Res, Status} from "@tsed/common";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import {join} from "path";

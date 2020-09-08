@@ -42,6 +42,7 @@ export async function buildPlatformHandler({type, token, sandbox, expression, re
     param,
     response: h.response,
     request: h.request,
-    ctx: h.ctx
+    ctx: h.$ctx,
+    $ctx: h.$ctx
   };
 }
