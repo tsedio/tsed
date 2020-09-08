@@ -10,6 +10,7 @@ export const PLATFORM_ROUTER_OPTIONS = Symbol.for("PlatformRouterOptions");
 
 declare global {
   namespace TsED {
+    // @ts-ignore
     export interface Router {}
   }
 }
@@ -132,16 +133,16 @@ export class PlatformRouter<Router = TsED.Router> {
   }
 
   mapHandlers(handlers: any[]): any[] {
-    return handlers.map((handler) => {
+    return handlers.reduce((middlewares, handler) => {
       if (typeof handler === "string") {
-        return handler;
+        return middlewares.concat(handler);
       }
 
       if (handler instanceof PlatformRouter) {
-        return handler.callback();
+        return middlewares.concat(handler.callback());
       }
 
-      return this.platformHandler.createHandler(handler);
-    });
+      return middlewares.concat(this.platformHandler.createHandler(handler));
+    }, []);
   }
 }

@@ -1,14 +1,10 @@
-import {HandlerContext, HandlerMetadata, HandlerType, PlatformHandler} from "@tsed/common";
+import {HandlerMetadata, HandlerType, PlatformHandler} from "@tsed/common";
 
 /**
  * @platform
  * @express
  */
 export class PlatformExpressHandler extends PlatformHandler {
-  protected onError(error: unknown, h: HandlerContext) {
-    return h.next(error);
-  }
-
   protected createRawHandler(metadata: HandlerMetadata): Function {
     switch (metadata.type) {
       default:
@@ -26,38 +22,15 @@ export class PlatformExpressHandler extends PlatformHandler {
       case HandlerType.MIDDLEWARE:
         if (metadata.hasErrorParam) {
           return (err: any, request: any, response: any, next: any) =>
-            this.onRequest(
-              this.mapHandlerContext(metadata, {
-                request,
-                response,
-                next,
-                err
-              })
-            );
+            this.onRequest({
+              err,
+              $ctx: request.$ctx,
+              next,
+              metadata
+            });
         }
 
-        return (request: any, response: any, next: any) =>
-          this.onRequest(
-            this.mapHandlerContext(metadata, {
-              request,
-              response,
-              next
-            })
-          );
+        return (request: any, response: any, next: any) => this.onRequest({$ctx: request.$ctx, next, metadata});
     }
-  }
-
-  private mapHandlerContext(metadata: HandlerMetadata, {request, response, err, next}: any): HandlerContext {
-    return new HandlerContext({
-      injector: this.injector,
-      request,
-      response,
-      res: response,
-      req: request,
-      next,
-      err,
-      metadata,
-      args: []
-    });
   }
 }

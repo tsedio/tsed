@@ -118,6 +118,10 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
     return this.raw.accepts(mime);
   }
 
+  isAborted() {
+    return this.raw.aborted;
+  }
+
   destroy() {
     // @ts-ignore
     delete this.raw;

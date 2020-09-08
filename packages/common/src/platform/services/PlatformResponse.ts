@@ -1,4 +1,4 @@
-import {classOf, isBoolean, isNumber, isStream, isString} from "@tsed/core";
+import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
 
 const onFinished = require("on-finished");
@@ -181,6 +181,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    */
   onEnd(cb: Function) {
     onFinished(this.raw, cb);
+  }
+
+  isDone() {
+    return this.raw.headersSent || this.raw.writableEnded || this.raw.writableFinished;
   }
 
   destroy() {

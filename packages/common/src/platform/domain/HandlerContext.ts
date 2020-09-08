@@ -1,53 +1,46 @@
-import {isFunction, isPromise, isStream} from "@tsed/core";
+import {isPromise, isStream} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {IncomingMessage, ServerResponse} from "http";
 import {isObservable} from "rxjs";
 import {HandlerMetadata} from "../../mvc/models/HandlerMetadata";
 import {ABORT} from "../constants/abort";
-
-const isFinish = (request: any, response: any) => {
-  if (!response || !request) {
-    return true;
-  }
-
-  return request.aborted || response.headersSent || response.writableEnded || response.writableFinished;
-};
+import {PlatformContext} from "./PlatformContext";
 
 function isResponse(obj: any) {
   return obj.data && obj.headers && obj.status && obj.statusText;
 }
 
 export interface HandlerContextOptions {
-  injector: InjectorService;
-  request: TsED.Request;
-  response: TsED.Response;
-  req: IncomingMessage;
-  res: ServerResponse;
-  next: TsED.NextFunction;
+  $ctx: PlatformContext;
   metadata: HandlerMetadata;
   args: any[];
-  err: any;
+  err?: any;
+}
+
+export enum HandlerContextStatus {
+  PENDING = "pending",
+  CANCELED = "canceled",
+  RESOLVED = "resolved",
+  REJECTED = "rejected"
 }
 
 export class HandlerContext {
-  public injector: InjectorService;
+  public status = HandlerContextStatus.PENDING;
   public metadata: HandlerMetadata;
-  public request: TsED.Request & any;
-  public response: TsED.Response & any;
-  public req: IncomingMessage;
-  public res: ServerResponse;
+  public $ctx: PlatformContext;
   public err: any;
   public args: any[];
-  private _isDone: boolean = false;
-  private _next: any;
+  private resolves: any;
+  private rejects: any;
+  private promise: Promise<any>;
 
-  constructor({injector, request, response, req, res, next, err, metadata, args}: Partial<HandlerContextOptions>) {
-    injector && (this.injector = injector);
-    request && (this.request = request);
-    response && (this.response = response);
-    req && (this.req = req);
-    res && (this.res = res);
-    next && (this._next = next);
+  constructor({$ctx, err, metadata, args}: HandlerContextOptions) {
+    this.promise = new Promise((resolve: any, reject: any) => {
+      this.resolves = resolve;
+      this.rejects = reject;
+    });
+
+    this.$ctx = $ctx;
+
     err && (this.err = err);
     metadata && (this.metadata = metadata);
     args && (this.args = args || []);
@@ -55,45 +48,128 @@ export class HandlerContext {
     this.next = this.next.bind(this);
   }
 
-  get isDone(): boolean {
-    const {response, request} = this;
-
-    // @ts-ignore
-    if (!this._isDone && isFinish(request, response)) {
-      this.destroy();
-    }
-
-    return this._isDone;
-  }
-
-  get ctx() {
-    return this.request?.$ctx;
+  get injector(): InjectorService {
+    return this.$ctx?.injector;
   }
 
   get container() {
-    return this.request?.$ctx?.container;
+    return this.$ctx?.container;
   }
 
-  done(error: any, result?: any) {
+  get request() {
+    return this.$ctx?.getRequest<TsED.Request>();
+  }
+
+  get response() {
+    return this.$ctx?.getResponse<TsED.Response>();
+  }
+
+  get isDone(): boolean {
+    const {$ctx} = this;
+    if (!$ctx) {
+      return true;
+    }
+
+    if ($ctx.request.isAborted() || $ctx.response.isDone()) {
+      this.destroy();
+
+      if (this.status === HandlerContextStatus.PENDING) {
+        this.status = HandlerContextStatus.RESOLVED;
+      }
+    }
+
+    return this.status !== HandlerContextStatus.PENDING;
+  }
+
+  /**
+   * Return the original request instance.
+   */
+  getRequest<T = any>(): T {
+    return this.$ctx?.request?.raw as any;
+  }
+
+  /**
+   * Return the original response instance.
+   */
+  getResponse<T = any>(): T {
+    return this.$ctx?.response?.raw as any;
+  }
+
+  /**
+   *
+   */
+  async callHandler() {
+    if (this.isDone) {
+      return this;
+    }
+
+    const {token, propertyKey} = this.metadata;
+
+    const instance: any = this.injector.invoke(token, this.container);
+    const handler = instance[propertyKey!].bind(instance);
+
+    try {
+      this.handle(handler(...this.args));
+    } catch (er) {
+      this.reject(er);
+    }
+
+    return this.promise;
+  }
+
+  reject(er: any) {
     if (this.isDone) {
       return;
     }
 
-    const {
-      metadata: {hasNextFunction},
-      ctx
-    } = this;
+    this.destroy();
+    this.status = HandlerContextStatus.REJECTED;
+    this.rejects(er);
+  }
 
-    if (error) {
-      return this.next(error);
+  resolve(data?: any) {
+    if (this.isDone) {
+      return;
     }
 
-    if (!hasNextFunction) {
-      if (!result !== undefined) {
-        ctx.data = result;
-      }
-      this.next();
+    if (this.$ctx && data !== undefined) {
+      this.$ctx.data = data;
     }
+
+    this.destroy();
+    this.status = HandlerContextStatus.RESOLVED;
+
+    this.resolves(data);
+  }
+
+  next(error?: any) {
+    if (this.isDone) {
+      return;
+    }
+
+    return error ? this.reject(error) : this.resolve();
+  }
+
+  destroy() {
+    // @ts-ignore
+    delete this.$ctx;
+    // @ts-ignore
+    delete this.args;
+    // @ts-ignore
+    delete this.metadata;
+    // @ts-ignore
+    delete this.err;
+  }
+
+  cancel() {
+    if (this.isDone) {
+      return;
+    }
+
+    this.destroy();
+    this.status = HandlerContextStatus.CANCELED;
+
+    return this.resolves();
   }
 
   handle(process: any): any {
@@ -103,17 +179,13 @@ export class HandlerContext {
 
     const {
       metadata: {hasNextFunction},
-      request,
-      response,
-      next
+      $ctx
     } = this;
 
     if (process) {
-      if (process === response || process === ABORT) {
+      if (process === $ctx.getResponse() || process === ABORT) {
         // ABANDON
-        this.destroy();
-
-        return;
+        return this.cancel();
       }
 
       if (isObservable(process)) {
@@ -121,75 +193,24 @@ export class HandlerContext {
       }
 
       if (isResponse(process)) {
-        response.set(process.headers);
-        response.status(process.status);
+        $ctx.response.setHeaders(process.headers);
+        $ctx.response.status(process.status);
 
         return this.handle(process.data);
       }
 
       if (isStream(process) || Buffer.isBuffer(process)) {
-        return this.done(null, process);
-      }
-
-      if (isFunction(process)) {
-        // when process return a middleware
-        return process(request, response, next.bind(this));
+        return this.resolve(process);
       }
 
       if (isPromise(process)) {
-        return process.then((result: any) => this.handle(result)).catch((error: any) => this.done(error));
+        return process.then((result: any) => this.handle(result)).catch((error: unknown) => this.reject(error));
       }
     }
 
     if (!hasNextFunction) {
       // no next function and empty response
-      this.done(null, process);
+      return this.resolve(process);
     }
-  }
-
-  /**
-   *
-   */
-  async callHandler() {
-    if (this.isDone) {
-      return;
-    }
-
-    const {token, propertyKey} = this.metadata;
-
-    const instance: any = this.injector.invoke(token, this.container);
-    const handler = instance[propertyKey!].bind(instance);
-
-    await this.handle(handler(...this.args));
-  }
-
-  next(error?: any) {
-    const {_next: next} = this;
-
-    this.destroy();
-
-    return next && next(error);
-  }
-
-  destroy() {
-    // @ts-ignore
-    delete this.request;
-    // @ts-ignore
-    delete this.response;
-    // @ts-ignore
-    delete this.req;
-    // @ts-ignore
-    delete this.res;
-    // @ts-ignore
-    delete this.args;
-    // @ts-ignore
-    delete this._next;
-    // @ts-ignore
-    delete this.metadata;
-    // @ts-ignore
-    delete this.injector;
-    // @ts-ignore
-    delete this.err;
-    this._isDone = true;
   }
 }
