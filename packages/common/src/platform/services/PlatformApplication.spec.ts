@@ -105,7 +105,7 @@ describe("PlatformApplication", () => {
       platformApp.use("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: false});
       expect(platformApp.rawRouter.use).to.have.been.calledWithExactly("/", handler);
     });
     it("should add router to app", async () => {
@@ -134,7 +134,11 @@ describe("PlatformApplication", () => {
       platformApp.get("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+        isFinal: true,
+        method: "get",
+        path: "/"
+      });
       expect(platformApp.rawRouter.get).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -148,7 +152,11 @@ describe("PlatformApplication", () => {
       platformApp.all("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+        isFinal: true,
+        method: "all",
+        path: "/"
+      });
       expect(platformApp.rawRouter.all).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -162,7 +170,7 @@ describe("PlatformApplication", () => {
       platformApp.post("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "post", path: "/"});
       expect(platformApp.rawRouter.post).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -176,7 +184,7 @@ describe("PlatformApplication", () => {
       platformApp.put("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "put", path: "/"});
       expect(platformApp.rawRouter.put).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -190,7 +198,7 @@ describe("PlatformApplication", () => {
       platformApp.patch("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "patch", path: "/"});
       expect(platformApp.rawRouter.patch).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -204,7 +212,7 @@ describe("PlatformApplication", () => {
       platformApp.head("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "head", path: "/"});
       expect(platformApp.rawRouter.head).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -218,7 +226,7 @@ describe("PlatformApplication", () => {
       platformApp.delete("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "delete", path: "/"});
       expect(platformApp.rawRouter.delete).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -232,7 +240,7 @@ describe("PlatformApplication", () => {
       platformApp.options("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler);
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "options", path: "/"});
       expect(platformApp.rawRouter.options).to.have.been.calledWithExactly("/", handler);
     });
   });

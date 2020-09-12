@@ -53,24 +53,24 @@ export class ProtocolsService {
     const handlerMetadata = new HandlerMetadata({
       token: provider.provide,
       target: provider.useClass,
-      type: HandlerType.CONTROLLER,
+      type: HandlerType.CUSTOM,
       propertyKey: "$onVerify"
     });
 
     const platform = this.injector.get<Platform>(Platform)!;
     const middleware = platform.createHandler(handlerMetadata);
 
-    return (req: any, ...args: any[]) => {
+    return async (req: any, ...args: any[]) => {
       const done = args[args.length - 1];
       req.args = args.slice(0, -1);
+      const ctx = req.$ctx;
 
-      return middleware(req, req.res, (err: any) => {
-        if (err) {
-          done(err, false, {message: err.message});
-        } else {
-          done(null, ...[].concat(req.$ctx.data));
-        }
-      });
+      try {
+        await middleware(ctx);
+        done(null, ...[].concat(ctx.data));
+      } catch (err) {
+        done(err, false, {message: err.message});
+      }
     };
   }
 }

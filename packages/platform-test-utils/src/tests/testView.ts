@@ -59,7 +59,7 @@ export function testView(options: PlatformTestOptions) {
       const response = await request.get("/rest/views/scenario-2").expect(500);
 
       expect(response.body).to.deep.equal({
-        name: "TEMPLATING_RENDER_ERROR",
+        name: "TEMPLATE_RENDER_ERROR",
         message:
           "Template rendering error: ViewCtrl.testScenario2()\nError: No default engine was specified and no extension was provided.",
         status: 500,

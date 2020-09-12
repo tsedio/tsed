@@ -5,7 +5,8 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
+    "build": "tsc --build tsconfig.compile.json",
+    "tsc": "tsc --build tsconfig.check.json"
   },
   "dependencies": {
     "tslib": "1.11.0"

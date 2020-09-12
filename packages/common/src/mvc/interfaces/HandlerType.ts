@@ -1,6 +1,9 @@
 export enum HandlerType {
-  FUNCTION = "function",
-  $CTX = "context",
+  CUSTOM = "custom",
+  ENDPOINT = "endpoint",
   MIDDLEWARE = "middleware",
-  CONTROLLER = "controller"
+  ERR_MIDDLEWARE = "err:middleware",
+  CTX_FN = "context",
+  RAW_FN = "raw:middleware",
+  RAW_ERR_FN = "raw:err:middleware"
 }

@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
+import {createReadStream} from "fs";
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../test/helper";
 import {PlatformResponse} from "./PlatformResponse";
@@ -83,6 +84,38 @@ describe("PlatformResponse", () => {
       response.location("/path");
 
       expect(res.location).to.have.been.calledWithExactly("/path");
+    });
+  });
+  describe("body()", () => {
+    it("should call body with undefined", () => {
+      const {res, response} = createResponse();
+
+      response.body(undefined);
+
+      expect(res.send).to.have.been.calledWithExactly();
+    });
+    it("should call body with string", () => {
+      const {res, response} = createResponse();
+
+      response.body("string");
+
+      expect(res.send).to.have.been.calledWithExactly("string");
+    });
+    it("should call body with stream", () => {
+      const {res, response} = createResponse();
+      const stream = createReadStream(__dirname + "/__mock__/data.txt");
+      sandbox.stub(stream, "pipe");
+
+      response.body(stream);
+
+      expect(stream.pipe).to.have.been.calledWithExactly(res);
+    });
+    it("should call body with {}", () => {
+      const {res, response} = createResponse();
+
+      response.body({});
+
+      expect(res.json).to.have.been.calledWithExactly({});
     });
   });
   describe("destroy()", () => {

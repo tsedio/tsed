@@ -1,19 +1,18 @@
 import {Enumerable, NotEnumerable, Type} from "@tsed/core";
 import {Provider, ProviderType} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
-import {EndpointMetadata, ControllerMiddlewares} from "../../mvc";
+import {ControllerMiddlewares, EndpointMetadata} from "../../mvc";
 import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 
 export interface IChildrenController extends Type<any> {
   $parentCtrl?: ControllerProvider;
 }
 
-export class ControllerProvider extends Provider<any> {
-  @NotEnumerable()
-  public router: PlatformRouterMethods;
-
+export class ControllerProvider<T = any> extends Provider<T> {
   @NotEnumerable()
   readonly entity: JsonEntityStore;
+  @NotEnumerable()
+  private router: PlatformRouterMethods;
   /**
    * Controllers that depend to this controller.
    * @type {Array}
@@ -144,5 +143,15 @@ export class ControllerProvider extends Provider<any> {
    */
   public hasParent(): boolean {
     return !!this.provide.$parentCtrl;
+  }
+
+  public getRouter<T extends PlatformRouterMethods = any>(): T {
+    return this.router as any;
+  }
+
+  public setRouter(router: PlatformRouterMethods) {
+    this.router = router;
+
+    return this;
   }
 }

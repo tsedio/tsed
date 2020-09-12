@@ -58,7 +58,8 @@ describe("PlatformExceptionsMiddleware", () => {
         ],
         message: "Bad request on ID, innerException: wrong ID",
         name: "VALIDATION_ERROR",
-        status: 400
+        status: 400,
+        stack: undefined
       });
     });
     it("should map error", () => {
@@ -80,7 +81,8 @@ describe("PlatformExceptionsMiddleware", () => {
         errors: [],
         message: "My message",
         name: "Error",
-        status: 500
+        status: 500,
+        stack: undefined
       });
     });
   });

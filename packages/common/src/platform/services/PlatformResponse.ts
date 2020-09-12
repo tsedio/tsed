@@ -152,6 +152,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    * @param data
    */
   body(data: any) {
+    if (this.isDone()) {
+      return;
+    }
+
     if (data === undefined) {
       this.raw.send();
 
@@ -179,8 +183,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    * Add a listener to handler the end of the request/response.
    * @param cb
    */
-  onEnd(cb: Function) {
+  onEnd(cb: Function): this {
     onFinished(this.raw, cb);
+
+    return this;
   }
 
   isDone() {

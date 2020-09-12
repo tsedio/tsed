@@ -70,7 +70,7 @@ async function getHandlerContext({token, propertyKey, args}: any = {}) {
     target: token,
     token,
     propertyKey,
-    type: HandlerType.CONTROLLER
+    type: HandlerType.ENDPOINT
   });
 
   const $ctx = createFakePlatformContext(sandbox);

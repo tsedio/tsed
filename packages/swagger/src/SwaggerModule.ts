@@ -6,7 +6,9 @@ import {
   Module,
   OnReady,
   PlatformApplication,
-  PlatformRouter
+  PlatformContext,
+  PlatformRouter,
+  useCtxHandler
 } from "@tsed/common";
 import * as Fs from "fs";
 import {join} from "path";
@@ -52,7 +54,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     this.settings.forEach((conf: SwaggerSettings) => {
       const {path = "/"} = conf;
 
-      this.app.get(path, redirectMiddleware(path));
+      this.app.get(path, useCtxHandler(redirectMiddleware(path)));
       this.app.use(path, this.createRouter(conf, urls));
     });
 
@@ -113,18 +115,18 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     const {cssPath, jsPath, viewPath = join(__dirname, "../views/index.ejs")} = conf;
     const router = PlatformRouter.create(this.injector);
 
-    router.get("/swagger.json", this.middlewareSwaggerJson(conf));
+    router.get("/swagger.json", useCtxHandler(this.middlewareSwaggerJson(conf)));
 
     if (viewPath) {
       if (cssPath) {
-        router.get("/main.css", cssMiddleware(cssPath));
+        router.get("/main.css", useCtxHandler(cssMiddleware(cssPath)));
       }
 
       if (jsPath) {
-        router.get("/main.js", jsMiddleware(jsPath));
+        router.get("/main.js", useCtxHandler(jsMiddleware(jsPath)));
       }
 
-      router.get("/", indexMiddleware(viewPath, {urls, ...conf}));
+      router.get("/", useCtxHandler(indexMiddleware(viewPath, {urls, ...conf})));
       router.statics("/", {root: swaggerUiPath});
     }
 
@@ -132,8 +134,8 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   }
 
   private middlewareSwaggerJson(conf: SwaggerSettings) {
-    return (req: any, res: any) => {
-      res.status(200).json(this.swaggerService.getOpenAPISpec(conf));
+    return (ctx: PlatformContext) => {
+      ctx.response.status(200).body(this.swaggerService.getOpenAPISpec(conf));
     };
   }
 }

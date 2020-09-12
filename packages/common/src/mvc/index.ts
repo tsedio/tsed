@@ -26,7 +26,6 @@ export * from "./pipes/DeserializerPipe";
 export * from "./services/ConverterService";
 
 // errors
-export * from "./errors/TemplateRenderingError";
 export * from "./errors/RequiredValidationError";
 export * from "./errors/ValidationError";
 
