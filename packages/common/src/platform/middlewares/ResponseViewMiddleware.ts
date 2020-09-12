@@ -9,7 +9,7 @@ import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
  * Render a view.
  *
  * @middleware
- * @deprecated Will be removed in favor of PlatformResponseMiddleware in v6.
+ * @deprecated Will be removed in v6.
  */
 @Middleware()
 export class ResponseViewMiddleware implements IMiddleware {

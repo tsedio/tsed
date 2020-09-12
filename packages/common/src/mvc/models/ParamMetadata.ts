@@ -1,4 +1,4 @@
-import {Enumerable, Storable, Store, Type} from "@tsed/core";
+import {ancestorsOf, Enumerable, Storable, Store, Type} from "@tsed/core";
 import {IFilter} from "../interfaces/IFilter";
 import {ParamTypes} from "./ParamTypes";
 
@@ -72,7 +72,7 @@ export class ParamMetadata extends Storable implements IParamConstructorOptions 
   }
 
   static get(target: Type<any>, propertyKey: string | symbol, index: number): ParamMetadata {
-    const params = this.getParams(target, propertyKey);
+    const params = Store.fromMethod(target, String(propertyKey)).get("params") || [];
 
     if (!this.has(target, propertyKey, index)) {
       params[index] = new ParamMetadata({target, propertyKey, index});
@@ -83,19 +83,30 @@ export class ParamMetadata extends Storable implements IParamConstructorOptions 
   }
 
   static has(target: Type<any>, propertyKey: string | symbol, index: number) {
-    return !!this.getParams(target, propertyKey)[index];
+    const params = Store.fromMethod(target, String(propertyKey)).get("params") || [];
+
+    return !!params[index];
   }
 
   static set(target: Type<any>, propertyKey: string | symbol, index: number, paramMetadata: ParamMetadata): void {
-    const params = this.getParams(target, propertyKey);
+    const store = Store.fromMethod(target, String(propertyKey));
+    const params = store.get<ParamMetadata[]>("params") || [];
 
     params[index] = paramMetadata;
 
-    Store.fromMethod(target, String(propertyKey)).set("params", params);
+    store.set("params", params);
   }
 
   static getParams(target: Type<any>, propertyKey: string | symbol): ParamMetadata[] {
-    return Store.fromMethod(target, String(propertyKey)).get<ParamMetadata[]>("params") || [];
+    const klass = ancestorsOf(target)
+      .reverse()
+      .find((target) => Store.fromMethod(target, String(propertyKey)).has("params"));
+
+    if (!klass) {
+      return [];
+    }
+
+    return Store.fromMethod(klass, String(propertyKey)).get<ParamMetadata[]>("params") || [];
   }
 
   /**

@@ -8,7 +8,7 @@ import {PlatformResponseMiddleware} from "./PlatformResponseMiddleware";
 /**
  * See example to override SendResponseMiddleware [here](/docs/middlewares/override/send-response.md).
  *
- * @deprecated Will be replaced by PlatformResponseMiddleware in v6.
+ * @deprecated Will be removed in v6.
  */
 @Middleware()
 export class SendResponseMiddleware implements IMiddleware {

@@ -18,6 +18,7 @@ function toHeaders(headers: {[key: string]: any}) {
  *
  * @platform
  * @middleware
+ * @deprecated Will be removed in v6.
  */
 @Middleware()
 export class PlatformHeadersMiddleware implements IMiddleware {

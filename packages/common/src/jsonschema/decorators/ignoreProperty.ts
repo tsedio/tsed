@@ -66,7 +66,7 @@ import {PropertyFn} from "./property";
  * @decorator
  * @jsonMapper
  * @schema
- * @deprecated Use IgnoreProperty instead. Will be removed in v6.
+ * @deprecated Use Ignore instead. Will be removed in v6.
  */
 export function IgnoreProperty() {
   return PropertyFn((propertyMetadata: PropertyMetadata) => {

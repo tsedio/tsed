@@ -12,6 +12,7 @@ import {ResponseViewMiddleware} from "./ResponseViewMiddleware";
  *
  * @platform
  * @middleware
+ * @deprecated Will be removed in v6.
  */
 @Middleware()
 export class PlatformResponseMiddleware implements IMiddleware {
