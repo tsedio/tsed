@@ -1,11 +1,10 @@
-import {All, ControllerProvider, Get, PlatformResponseMiddleware, Use} from "@tsed/common";
+import {All, ControllerProvider, Get, Use} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {OperationMethods} from "@tsed/schema";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
-import {PlatformHeadersMiddleware} from "../middlewares/PlatformHeadersMiddleware";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
@@ -84,6 +83,7 @@ describe("PlatformControllerBuilder", () => {
   beforeEach(() => {
     // @ts-ignore
     sandbox.stub(PlatformRouter, "createRawRouter");
+    // @ts-ignore
     sandbox.stub(PlatformRouter.prototype, "mapHandlers").callsFake((o) => o);
     sandbox.stub(EndpointMetadata, "getEndpoints");
   });
@@ -115,9 +115,7 @@ describe("PlatformControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
-      PlatformHeadersMiddleware,
-      endpoint.afterMiddlewares[0],
-      PlatformResponseMiddleware
+      endpoint.afterMiddlewares[0]
     );
   });
 
@@ -142,7 +140,6 @@ describe("PlatformControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
-      Sinon.match.func,
       endpoint.afterMiddlewares[0]
     );
 
@@ -167,7 +164,6 @@ describe("PlatformControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
-      Sinon.match.func,
       endpoint.afterMiddlewares[0]
     );
 
@@ -195,13 +191,7 @@ describe("PlatformControllerBuilder", () => {
     // THEN
     expect(result).to.be.instanceof(PlatformRouter);
     // ENDPOINT
-    expect(router.use.getCall(0)).to.have.been.calledWithExactly("/", Sinon.match.func, endpointAll, PlatformHeadersMiddleware);
-    expect(router.use.getCall(1)).to.have.been.calledWithExactly(
-      "/",
-      Sinon.match.func,
-      endpoint,
-      Sinon.match.func,
-      PlatformResponseMiddleware
-    );
+    expect(router.use.getCall(0)).to.have.been.calledWithExactly("/", Sinon.match.func, endpointAll);
+    expect(router.use.getCall(1)).to.have.been.calledWithExactly("/", Sinon.match.func, endpoint);
   });
 });

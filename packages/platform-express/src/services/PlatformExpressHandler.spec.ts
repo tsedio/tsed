@@ -14,14 +14,13 @@ describe("PlatformExpressHandler", () => {
   });
 
   describe("createHandler", () => {
-    describe("CONTROLLER", () => {
+    describe("ENDPOINT", () => {
       it("should return a native handler with 3 params", async () => {
         // GIVEN
-        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+        const platformHandler = await invokePlatformHandler<PlatformExpressHandler>(PlatformExpressHandler);
 
         class Test {
-          get() {
-          }
+          get() {}
         }
 
         PlatformTest.invoke(Test);
@@ -29,10 +28,9 @@ describe("PlatformExpressHandler", () => {
         const handlerMetadata = new HandlerMetadata({
           token: Test,
           target: Test,
-          type: HandlerType.CONTROLLER,
+          type: HandlerType.ENDPOINT,
           propertyKey: "get"
         });
-
 
         // WHEN
         const handler = platformHandler.createHandler(handlerMetadata);
@@ -40,33 +38,6 @@ describe("PlatformExpressHandler", () => {
         // THEN
         expect(handler).to.not.eq(handlerMetadata.handler);
         expect(handler.length).to.eq(3);
-      });
-      it("should return a native handler with 4 params", async () => {
-        // GIVEN
-        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
-
-        class Test {
-          get(@Err() err: unknown) {
-          }
-        }
-
-        PlatformTest.invoke(Test);
-
-        const metadata = new HandlerMetadata({
-          token: Test,
-          target: Test,
-          type: HandlerType.CONTROLLER,
-          propertyKey: "get"
-        });
-
-
-        // WHEN
-        const handler = platformHandler.createHandler(metadata);
-
-        // THEN
-        expect(metadata.hasErrorParam).to.eq(true);
-        expect(handler).to.not.eq(metadata.handler);
-        expect(handler.length).to.eq(4);
       });
     });
     describe("MIDDLEWARE", () => {
@@ -75,8 +46,7 @@ describe("PlatformExpressHandler", () => {
         const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
 
         class Test {
-          use() {
-          }
+          use() {}
         }
 
         PlatformTest.invoke(Test);
@@ -87,7 +57,6 @@ describe("PlatformExpressHandler", () => {
           type: HandlerType.MIDDLEWARE,
           propertyKey: "use"
         });
-
 
         // WHEN
         const handler = platformHandler.createHandler(handlerMetadata);
@@ -101,8 +70,7 @@ describe("PlatformExpressHandler", () => {
         const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
 
         class Test {
-          use(@Err() err: unknown) {
-          }
+          use(@Err() err: unknown) {}
         }
 
         PlatformTest.invoke(Test);
@@ -113,7 +81,6 @@ describe("PlatformExpressHandler", () => {
           type: HandlerType.MIDDLEWARE,
           propertyKey: "use"
         });
-
 
         // WHEN
         const handler = platformHandler.createHandler(metadata);
@@ -130,19 +97,16 @@ describe("PlatformExpressHandler", () => {
         const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
 
         class Test {
-          use() {
-          }
+          use() {}
         }
 
         PlatformTest.invoke(Test);
 
         const handlerMetadata = new HandlerMetadata({
           token: Test,
-          target: (ctx: any) => {
-          },
-          type: HandlerType.$CTX
+          target: (ctx: any) => {},
+          type: HandlerType.CTX_FN
         });
-
 
         // WHEN
         const handler = platformHandler.createHandler(handlerMetadata);
@@ -158,19 +122,16 @@ describe("PlatformExpressHandler", () => {
         const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
 
         class Test {
-          use() {
-          }
+          use() {}
         }
 
         PlatformTest.invoke(Test);
 
         const handlerMetadata = new HandlerMetadata({
           token: Test,
-          target: (req: any, res: any, next: any) => {
-          },
-          type: HandlerType.FUNCTION
+          target: (req: any, res: any, next: any) => {},
+          type: HandlerType.RAW_FN
         });
-
 
         // WHEN
         const handler = platformHandler.createHandler(handlerMetadata);
@@ -180,7 +141,6 @@ describe("PlatformExpressHandler", () => {
       });
     });
   });
-
   describe("getArg()", () => {
     it("should return REQUEST", async () => {
       // GIVEN
@@ -212,243 +172,219 @@ describe("PlatformExpressHandler", () => {
       // THEN
       expect(value).to.deep.eq(response);
     });
-    it(
-      "should return NEXT", async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.NEXT_FN
-        });
-
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
-
-        // THEN
-        expect(value).to.deep.eq(h.next);
-      });
-    it(
-      "should return ERR",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.ERR
-        });
-        h.err = new Error();
-
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
-
-        // THEN
-        expect(value).to.deep.eq(h.err);
+    it("should return NEXT", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.NEXT_FN
       });
 
-    it(
-      "should return $CTX",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.$CTX
-        });
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq(h.next);
+    });
+    it("should return ERR", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.ERR
+      });
+      h.err = new Error();
 
-        // THEN
-        expect(value).to.deep.eq(h.request.$ctx);
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
+
+      // THEN
+      expect(value).to.deep.eq(h.err);
+    });
+
+    it("should return $CTX", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.$CTX
       });
 
-    it(
-      "should return RESPONSE_DATA",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.RESPONSE_DATA
-        });
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq(h.request.$ctx);
+    });
 
-        // THEN
-        expect(value).to.deep.eq(h.request.$ctx.data);
+    it("should return RESPONSE_DATA", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.RESPONSE_DATA
       });
 
-    it(
-      "should return ENDPOINT_INFO",
-      async () => {
-        // GIVEN
-        const {param, request, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.ENDPOINT_INFO
-        });
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        request.$ctx.endpoint = "endpoint";
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq(h.request.$ctx.data);
+    });
 
-        // THEN
-        expect(value).to.deep.eq(request.$ctx.endpoint);
+    it("should return ENDPOINT_INFO", async () => {
+      // GIVEN
+      const {param, request, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.ENDPOINT_INFO
       });
 
-    it(
-      "should return BODY",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.BODY
-        });
+      // @ts-ignore
+      request.$ctx.endpoint = "endpoint";
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq(request.$ctx.endpoint);
+    });
 
-        // THEN
-        expect(value).to.deep.eq(h.request.body);
+    it("should return BODY", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.BODY
       });
 
-    it(
-      "should return PATH",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.PATH
-        });
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq(h.getRequest().body);
+    });
 
-        // THEN
-        expect(value).to.deep.eq(h.request.params);
+    it("should return PATH", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.PATH
       });
 
-    it(
-      "should return QUERY",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.QUERY
-        });
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq(h.getRequest().params);
+    });
 
-        // THEN
-        expect(value).to.deep.eq(h.request.query);
+    it("should return QUERY", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.QUERY
       });
 
-    it(
-      "should return HEADER",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.HEADER
-        });
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq(h.getRequest().query);
+    });
 
-        // THEN
-        expect(value).to.deep.eq({
-          accept: "application/json",
-          "content-type": "application/json"
-        });
+    it("should return HEADER", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.HEADER
       });
 
-    it(
-      "should return COOKIES",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.COOKIES
-        });
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq({
+        accept: "application/json",
+        "content-type": "application/json"
+      });
+    });
 
-        // THEN
-        expect(value).to.deep.eq(h.request.cookies);
+    it("should return COOKIES", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.COOKIES
       });
 
-    it(
-      "should return SESSION",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.SESSION
-        });
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq(h.getRequest().cookies);
+    });
 
-        // THEN
-        expect(value).to.deep.eq(h.request.session);
+    it("should return SESSION", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.SESSION
       });
 
-    it(
-      "should return LOCALS",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          sandbox,
-          token: PlatformExpressHandler,
-          type: ParamTypes.LOCALS
-        });
-        h.err = new Error();
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq(h.request.session);
+    });
 
-        // THEN
-        expect(value).to.deep.eq(h.response.locals);
+    it("should return LOCALS", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        sandbox,
+        token: PlatformExpressHandler,
+        type: ParamTypes.LOCALS
       });
+      h.err = new Error();
 
-    it(
-      "should return request by default",
-      async () => {
-        // GIVEN
-        const {param, h, platformHandler} = await buildPlatformHandler({
-          type: "UNKNOWN",
-          sandbox,
-          token: PlatformExpressHandler
-        });
-        param.expression = "test";
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
 
-        // WHEN
-        // @ts-ignore
-        const value = platformHandler.getArg(param.paramType, h);
+      // THEN
+      expect(value).to.deep.eq(h.response.locals);
+    });
 
-        // THEN
-        expect(value).to.deep.eq(h.request);
+    it("should return request by default", async () => {
+      // GIVEN
+      const {param, h, platformHandler} = await buildPlatformHandler({
+        type: "UNKNOWN",
+        sandbox,
+        token: PlatformExpressHandler
       });
+      param.expression = "test";
+
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
+
+      // THEN
+      expect(value).to.deep.eq(h.getRequest());
+    });
   });
 });

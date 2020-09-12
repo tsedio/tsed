@@ -1,10 +1,12 @@
 import {Type} from "@tsed/core";
+import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../../platform/interfaces/PlatformRouterMethods";
 import {HandlerType} from "../interfaces/HandlerType";
 import {ParamMetadata} from "../models/ParamMetadata";
 import {ParamTypes} from "./ParamTypes";
 
-export interface HandlerConstructorOptions {
-  target: Type<any> | Function;
+export interface HandlerMetadataOptions {
+  target: (Type<any> | Function) & {type?: HandlerType};
+  routeOptions?: PlatformRouteWithoutHandlers;
   token?: Type<any>;
   propertyKey?: string | symbol;
   type?: HandlerType;
@@ -15,15 +17,16 @@ export class HandlerMetadata {
   readonly token: Type<any>;
   readonly propertyKey: string | symbol;
   readonly injectable: boolean = false;
-  readonly type: HandlerType = HandlerType.FUNCTION;
-  readonly hasErrorParam: boolean = false;
+  readonly type: HandlerType = HandlerType.RAW_FN;
   readonly hasNextFunction: boolean = false;
+  readonly routeOptions: Partial<PlatformRouteOptions>;
   handler: any;
 
-  constructor(options: HandlerConstructorOptions) {
-    const {target, token, propertyKey, type = HandlerType.FUNCTION} = options;
+  constructor(options: HandlerMetadataOptions) {
+    const {target, token, propertyKey, type, routeOptions} = options;
 
-    this.type = type;
+    this.type = type || target.type || HandlerType.RAW_FN;
+    this.routeOptions = routeOptions || {};
     this.handler = propertyKey ? target.prototype[propertyKey] : target;
 
     if (propertyKey) {
@@ -31,18 +34,24 @@ export class HandlerMetadata {
       this.token = token!;
       this.propertyKey = propertyKey;
       this.hasNextFunction = this.hasParamType(ParamTypes.NEXT_FN);
-      this.hasErrorParam = this.hasParamType(ParamTypes.ERR);
+
+      if (this.hasParamType(ParamTypes.ERR)) {
+        this.type = HandlerType.ERR_MIDDLEWARE;
+      }
+
       this.injectable = ParamMetadata.getParams(target as any, propertyKey).length > 0;
     }
 
     if (!this.injectable) {
-      this.hasErrorParam = this.handler.length === 4;
-      this.hasNextFunction = this.handler.length >= 3;
-
-      if (this.handler.length === 1) {
-        this.type = HandlerType.$CTX;
+      if (this.handler.length === 4) {
+        this.type = HandlerType.RAW_ERR_FN;
       }
+      this.hasNextFunction = this.handler.length >= 3;
     }
+  }
+
+  get hasErrorParam() {
+    return this.type === HandlerType.ERR_MIDDLEWARE || this.type === HandlerType.RAW_ERR_FN;
   }
 
   get parameters(): ParamMetadata[] {
@@ -100,5 +109,9 @@ export class HandlerMetadata {
 
   public hasParamType(paramType: any): boolean {
     return this.getParams().findIndex((p) => p.paramType === paramType) > -1;
+  }
+
+  public isFinal() {
+    return this.routeOptions?.isFinal || false;
   }
 }

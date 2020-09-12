@@ -10,10 +10,10 @@ export interface TestPlatformHandlerOptions {
   required?: boolean;
 }
 
-export function invokePlatformHandler(token: any) {
+export function invokePlatformHandler<T extends PlatformHandler>(token: any): T {
   PlatformTest.injector.getProvider(PlatformHandler)!.useClass = token;
 
-  return PlatformTest.invoke<PlatformHandler>(PlatformHandler);
+  return PlatformTest.invoke<T>(PlatformHandler) as T;
 }
 
 export async function buildPlatformHandler({type, token, sandbox, expression, required}: TestPlatformHandlerOptions) {

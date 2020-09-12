@@ -4,11 +4,11 @@ import {InternalServerError} from "@tsed/exceptions";
 /**
  * @private
  */
-export class TemplateRenderingError extends InternalServerError {
-  name = "TEMPLATING_RENDER_ERROR";
+export class TemplateRenderError extends InternalServerError {
+  name = "TEMPLATE_RENDER_ERROR";
 
   constructor(target: Type<any> | string, method: string | symbol, err: Error) {
-    super(TemplateRenderingError.buildMessage(target, method, err));
+    super(TemplateRenderError.buildMessage(target, method, err));
   }
 
   /**

@@ -2,7 +2,7 @@ import {Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
 import {promisify} from "util";
 import {PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "../../config";
 import {PathParamsType} from "../../mvc/interfaces/PathParamsType";
-import {PlatformRouteOptions} from "../interfaces/PlatformRouterMethods";
+import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouterMethods";
 import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformHandler} from "./PlatformHandler";
 
@@ -64,43 +64,44 @@ export class PlatformRouter<Router = TsED.Router> {
     return this;
   }
 
-  addRoute({method, path, handlers}: PlatformRouteOptions) {
+  addRoute(options: PlatformRouteOptions) {
+    const {method, path, handlers, isFinal} = options;
     // @ts-ignore
-    this.getRouter()[method](path, ...this.mapHandlers(handlers));
+    this.getRouter()[method](path, ...this.mapHandlers(handlers, {method, path, isFinal}));
 
     return this;
   }
 
   all(path: PathParamsType, ...handlers: any[]) {
-    return this.addRoute({method: "all", path, handlers});
+    return this.addRoute({method: "all", path, handlers, isFinal: true});
   }
 
   get(path: PathParamsType, ...handlers: any[]) {
-    return this.addRoute({method: "get", path, handlers});
+    return this.addRoute({method: "get", path, handlers, isFinal: true});
   }
 
   post(path: PathParamsType, ...handlers: any[]) {
-    return this.addRoute({method: "post", path, handlers});
+    return this.addRoute({method: "post", path, handlers, isFinal: true});
   }
 
   put(path: PathParamsType, ...handlers: any[]) {
-    return this.addRoute({method: "put", path, handlers});
+    return this.addRoute({method: "put", path, handlers, isFinal: true});
   }
 
   delete(path: PathParamsType, ...handlers: any[]) {
-    return this.addRoute({method: "delete", path, handlers});
+    return this.addRoute({method: "delete", path, handlers, isFinal: true});
   }
 
   patch(path: PathParamsType, ...handlers: any[]) {
-    return this.addRoute({method: "patch", path, handlers});
+    return this.addRoute({method: "patch", path, handlers, isFinal: true});
   }
 
   head(path: PathParamsType, ...handlers: any[]) {
-    return this.addRoute({method: "head", path, handlers});
+    return this.addRoute({method: "head", path, handlers, isFinal: true});
   }
 
   options(path: PathParamsType, ...handlers: any[]) {
-    return this.addRoute({method: "options", path, handlers});
+    return this.addRoute({method: "options", path, handlers, isFinal: true});
   }
 
   statics(path: string, options: PlatformStaticsOptions) {
@@ -132,17 +133,22 @@ export class PlatformRouter<Router = TsED.Router> {
     return m;
   }
 
-  mapHandlers(handlers: any[]): any[] {
-    return handlers.reduce((middlewares, handler) => {
+  protected mapHandlers(handlers: any[], options: PlatformRouteWithoutHandlers = {}): any[] {
+    return handlers.reduce((list, handler, index) => {
       if (typeof handler === "string") {
-        return middlewares.concat(handler);
+        return list.concat(handler);
       }
 
       if (handler instanceof PlatformRouter) {
-        return middlewares.concat(handler.callback());
+        return list.concat(handler.callback());
       }
 
-      return middlewares.concat(this.platformHandler.createHandler(handler));
+      return list.concat(
+        this.platformHandler.createHandler(handler, {
+          ...options,
+          isFinal: options.isFinal ? index === handlers.length - 1 : false
+        })
+      );
     }, []);
   }
 }

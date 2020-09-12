@@ -7,7 +7,8 @@ import {
   HandlerType,
   ParamTypes,
   PlatformTest,
-  QueryParams
+  QueryParams,
+  useCtxHandler
 } from "@tsed/common";
 import {Provider} from "@tsed/di";
 import {expect} from "chai";
@@ -49,54 +50,6 @@ describe("PlatformHandler", () => {
     sandbox.restore();
   });
 
-  describe("createHandlerMetadata", () => {
-    it("should return metadata from Endpoint", async () => {
-      // GIVEN
-
-      const endpoint = new EndpointMetadata({
-        target: Test,
-        propertyKey: "get"
-      });
-
-      const platformHandler = await PlatformTest.invoke<CustomPlatformHandler>(PlatformHandler);
-      sandbox.stub(PlatformTest.injector, "getProvider").returns(new Provider(Test));
-
-      // WHEN
-      const handlerMetadata = platformHandler.createHandlerMetadata(endpoint);
-
-      // THEN
-      expect(handlerMetadata.target).to.eq(Test);
-      expect(handlerMetadata.propertyKey).to.eq("get");
-      expect(handlerMetadata.type).to.eq(HandlerType.CONTROLLER);
-    });
-
-    it("should return metadata from Middleware", async () => {
-      // GIVEN
-      const platformHandler = await PlatformTest.invoke<CustomPlatformHandler>(PlatformHandler);
-      sandbox.stub(PlatformTest.injector, "getProvider").returns(new Provider(Test));
-
-      // WHEN
-      const handlerMetadata = platformHandler.createHandlerMetadata(Test);
-
-      // THEN
-      expect(handlerMetadata.target).to.eq(Test);
-      expect(handlerMetadata.propertyKey).to.eq("use");
-      expect(handlerMetadata.type).to.eq(HandlerType.MIDDLEWARE);
-    });
-
-    it("should return metadata from Function", async () => {
-      const platformHandler = await PlatformTest.invoke<CustomPlatformHandler>(PlatformHandler);
-
-      // GIVEN
-      sandbox.stub(PlatformTest.injector, "getProvider").returns(undefined);
-
-      // WHEN
-      const handlerMetadata = platformHandler.createHandlerMetadata(() => {});
-
-      // THEN
-      expect(handlerMetadata.type).to.eq(HandlerType.FUNCTION);
-    });
-  });
   describe("createHandler", () => {
     it("should return a native handler (success middleware)", async () => {
       // GIVEN
@@ -107,7 +60,7 @@ describe("PlatformHandler", () => {
       const handlerMetadata = new HandlerMetadata({
         token: Test,
         target: Test,
-        type: HandlerType.CONTROLLER,
+        type: HandlerType.ENDPOINT,
         propertyKey: "get"
       });
 
@@ -132,7 +85,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(nativeHandler).to.eq(handler);
     });
-
     it("should do nothing when request is aborted", async () => {
       // GIVEN
       const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
@@ -146,7 +98,7 @@ describe("PlatformHandler", () => {
       const handlerMetadata = new HandlerMetadata({
         token: Test,
         target: Test,
-        type: HandlerType.CONTROLLER,
+        type: HandlerType.ENDPOINT,
         propertyKey: "get"
       });
 

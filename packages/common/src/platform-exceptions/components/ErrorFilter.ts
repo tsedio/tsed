@@ -6,26 +6,30 @@ import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods"
 
 @Catch(Error)
 export class ErrorFilter implements ExceptionFilterMethods {
-  catch(error: unknown, ctx: PlatformContext): void {
+  catch(error: any, ctx: PlatformContext): void {
     const {response, logger, env} = ctx;
-    const err = this.mapError(error);
+    const err = this.mapError(error, env);
 
     logger.error({
-      error: err
+      error: {...err, stack: error.stack}
     });
 
     response
+      .onEnd(() => {
+        env === "development" && ctx.injector.logger.error(error);
+      })
       .setHeaders(this.getHeaders(error))
       .status(err.status)
       .body(env === Env.PROD ? "InternalServerError" : err);
   }
 
-  mapError(error: any) {
+  mapError(error: any, env?: Env) {
     return {
       name: error.origin?.name || error.name,
       message: error.message,
       status: error.status || 500,
-      errors: this.getErrors(error)
+      errors: this.getErrors(error),
+      stack: env === Env.DEV ? error.stack : undefined
     };
   }
 

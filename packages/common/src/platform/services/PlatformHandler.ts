@@ -1,17 +1,30 @@
-import {isFunction, isStream, Type} from "@tsed/core";
+import {isBoolean, isFunction, isNumber, isStream, isString, Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
-import {EndpointMetadata, HandlerConstructorOptions, HandlerMetadata, HandlerType, IPipe, ParamMetadata, ParamTypes} from "../../mvc";
+import {ConverterService, EndpointMetadata, HandlerMetadata, HandlerType, IPipe, ParamMetadata, ParamTypes} from "../../mvc";
 import {HandlerContext, HandlerContextStatus} from "../domain/HandlerContext";
 import {PlatformContext} from "../domain/PlatformContext";
 import {ParamValidationError} from "../errors/ParamValidationError";
+import {PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouterMethods";
+import {createHandlerMetadata} from "../utils/createHandlerMetadata";
+import {renderView} from "../utils/renderView";
+import {setResponseContentType} from "../utils/setResponseContentType";
+import {setResponseHeaders} from "../utils/setResponseHeaders";
 
 export interface OnRequestOptions {
   $ctx: PlatformContext;
-  next: any;
   metadata: HandlerMetadata;
+  next?: any;
   err?: any;
 
   [key: string]: any;
+}
+
+function shouldBeSerialized(data: any) {
+  return !(isStream(data) || shouldBeSent(data) || data === undefined);
+}
+
+function shouldBeSent(data: any) {
+  return Buffer.isBuffer(data) || isBoolean(data) || isNumber(data) || isString(data) || data === null;
 }
 
 /**
@@ -26,16 +39,13 @@ export class PlatformHandler {
 
   /**
    * Create a native middleware based on the given metadata and return an instance of HandlerContext
-   * @param metadata
+   * @param input
+   * @param options
    */
-  createHandler(metadata: HandlerMetadata | any) {
-    if (!(metadata instanceof HandlerMetadata)) {
-      metadata = this.createHandlerMetadata(metadata);
-    }
+  createHandler(input: EndpointMetadata | HandlerMetadata | any, options: PlatformRouteWithoutHandlers = {}) {
+    const metadata: HandlerMetadata = this.createHandlerMetadata(input, options);
 
-    if ([HandlerType.CONTROLLER, HandlerType.MIDDLEWARE].includes(metadata.type)) {
-      this.sortPipes(metadata);
-    }
+    this.sortPipes(metadata);
 
     return this.createRawHandler(metadata);
   }
@@ -43,39 +53,10 @@ export class PlatformHandler {
   /**
    * Create handler metadata
    * @param obj
+   * @param routeOptions
    */
-  public createHandlerMetadata(obj: any | EndpointMetadata) {
-    const {injector} = this;
-    let options: HandlerConstructorOptions;
-
-    if (obj instanceof EndpointMetadata) {
-      const provider = injector.getProvider(obj.token)!;
-
-      options = {
-        token: provider.token,
-        target: provider.useClass,
-        type: HandlerType.CONTROLLER,
-        propertyKey: obj.propertyKey
-      };
-    } else {
-      const provider = injector.getProvider(obj);
-
-      if (provider) {
-        options = {
-          token: provider.token,
-          target: provider.useClass,
-          type: HandlerType.MIDDLEWARE,
-          propertyKey: "use"
-        };
-      } else {
-        options = {
-          target: obj,
-          type: HandlerType.FUNCTION
-        };
-      }
-    }
-
-    return new HandlerMetadata(options);
+  public createHandlerMetadata(obj: any | EndpointMetadata, routeOptions: PlatformRouteWithoutHandlers = {}): HandlerMetadata {
+    return createHandlerMetadata(this.injector, obj, routeOptions);
   }
 
   /**
@@ -142,34 +123,117 @@ export class PlatformHandler {
 
   /**
    * Call handler when a request his handle
-   * @param h
-   * @param next
+   * @param requestOptions
    */
-  protected async onRequest({metadata, $ctx, next, err}: OnRequestOptions): Promise<any> {
-    const h = new HandlerContext({
-      $ctx,
-      metadata,
-      args: [],
-      err
-    });
+  protected async onRequest(requestOptions: OnRequestOptions): Promise<any> {
+    const {metadata, $ctx, err} = requestOptions;
 
     try {
+      const h = new HandlerContext({
+        $ctx,
+        metadata,
+        args: [],
+        err
+      });
+
       h.args = await this.getArgs(h);
 
-      const data = await h.callHandler();
+      await h.callHandler();
 
-      if (h.status === HandlerContextStatus.RESOLVED && isFunction(data) && !isStream(data)) {
-        data($ctx.getRequest(), $ctx.getResponse(), next);
-
-        return;
+      if (h.status === HandlerContextStatus.RESOLVED) {
+        // Can be canceled by the handler itself
+        return await this.onSuccess($ctx.data, requestOptions);
       }
-
-      if (HandlerContextStatus.RESOLVED) {
-        next();
-      }
-    } catch (error) {
-      return next(error);
+    } catch (er) {
+      return this.onError(er, requestOptions);
     }
+  }
+
+  protected onError(er: unknown, requestOptions: OnRequestOptions) {
+    const {next} = requestOptions;
+
+    if (!next) {
+      throw er;
+    }
+
+    return next(er);
+  }
+
+  /**
+   * Manage success scenario
+   * @param data
+   * @param requestOptions
+   * @protected
+   */
+  protected async onSuccess(data: any, requestOptions: OnRequestOptions) {
+    const {metadata, $ctx, next} = requestOptions;
+
+    // set headers each times that an endpoint is called
+    if (metadata.type === HandlerType.ENDPOINT) {
+      this.setHeaders($ctx);
+    }
+
+    // call returned middleware
+    if (isFunction(data) && !isStream(data)) {
+      return this.callReturnedMiddleware(data, $ctx, next);
+    }
+
+    if (metadata.isFinal() && !$ctx.response.isDone()) {
+      return this.flush(data, $ctx);
+    }
+
+    return !$ctx.response.isDone() && next && next();
+  }
+
+  /**
+   * Call the returned middleware by the handler.
+   * @param middleware
+   * @param ctx
+   * @param next
+   * @protected
+   */
+  protected callReturnedMiddleware(middleware: any, ctx: PlatformContext, next: any) {
+    return middleware(ctx.getRequest(), ctx.getResponse(), next);
+  }
+
+  /**
+   * Send the response to the consumer.
+   * @param data
+   * @param ctx
+   * @protected
+   */
+  protected async flush(data: any, ctx: PlatformContext) {
+    const {response, endpoint} = ctx;
+
+    if (endpoint.view) {
+      data = await this.render(data, ctx);
+    } else if (shouldBeSerialized(data)) {
+      data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {type: endpoint.type});
+    }
+
+    this.setContentType(data, ctx);
+
+    response.body(data);
+  }
+
+  /**
+   * Set the right content type from the current endpoint
+   * @param data
+   * @param ctx
+   * @protected
+   */
+  protected setContentType(data: any, ctx: PlatformContext) {
+    return setResponseContentType(data, ctx);
+  }
+
+  /**
+   * Render the view if the endpoint has a configured view.
+   * @param data
+   * @param ctx
+   * @protected
+   */
+  protected async render(data: any, ctx: PlatformContext) {
+    return renderView(data, ctx);
   }
 
   /**
@@ -177,11 +241,31 @@ export class PlatformHandler {
    * @param metadata
    */
   protected createRawHandler(metadata: HandlerMetadata): Function {
-    return (request: any, response: any, next: any) => this.onRequest({metadata, next, $ctx: request.$ctx});
+    switch (metadata.type) {
+      case HandlerType.CUSTOM:
+        return (ctx: PlatformContext) => this.onRequest({metadata, $ctx: ctx});
+      case HandlerType.RAW_ERR_FN:
+      case HandlerType.RAW_FN:
+        return metadata.handler;
+
+      default:
+      case HandlerType.ENDPOINT:
+      case HandlerType.MIDDLEWARE:
+        return (request: any, response: any, next: any) => this.onRequest({$ctx: request.$ctx, next, metadata});
+    }
   }
 
   /**
-   * Return arguments to
+   * Set response headers
+   * @param ctx
+   * @protected
+   */
+  protected setHeaders(ctx: PlatformContext) {
+    return setResponseHeaders(ctx);
+  }
+
+  /**
+   * Return arguments to call handler
    * @param h
    */
   private async getArgs(h: HandlerContext) {
@@ -193,10 +277,14 @@ export class PlatformHandler {
   }
 
   /**
-   *
+   * Sort pipes before calling it
    * @param metadata
    */
   private sortPipes(metadata: HandlerMetadata) {
+    if (!metadata.injectable) {
+      return;
+    }
+
     const get = (pipe: Type<any>) => {
       return this.injector.getProvider(pipe)!.priority || 0;
     };
@@ -209,7 +297,7 @@ export class PlatformHandler {
   }
 
   /**
-   *
+   * Map argument by calling pipe.
    * @param metadata
    * @param h
    */

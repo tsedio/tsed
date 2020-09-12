@@ -1,4 +1,3 @@
-import {PlatformHeadersMiddleware} from "../middlewares/PlatformHeadersMiddleware";
 import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {JsonMethodPath, OperationMethods} from "@tsed/schema";
@@ -6,8 +5,8 @@ import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
-import {PlatformResponseMiddleware} from "../middlewares/PlatformResponseMiddleware";
 import {PlatformRouter} from "../services/PlatformRouter";
+import {useCtxHandler} from "../utils/useCtxHandler";
 
 function formatMethod(method: string | undefined) {
   return (method === OperationMethods.CUSTOM ? "use" : method || "use").toLowerCase();
@@ -26,14 +25,15 @@ export class PlatformControllerBuilder {
       middlewares: {useBefore, useAfter}
     } = this.provider;
 
-    this.provider.router = PlatformRouter.create(injector, routerOptions);
+    this.provider.setRouter(PlatformRouter.create(injector, routerOptions));
+
     // Controller lifecycle
     this.buildMiddlewares(useBefore) // Controller before-middleware
       .buildEndpoints() // All endpoints and his middlewares
       .buildMiddlewares(useAfter) // Controller after-middleware
       .buildChildrenCtrls(injector); // Children controllers
 
-    return this.provider.router;
+    return this.provider.getRouter();
   }
 
   private buildEndpoints() {
@@ -74,26 +74,30 @@ export class PlatformControllerBuilder {
   private buildEndpoint(endpoint: EndpointMetadata) {
     const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares, operation} = endpoint;
     const {
-      router,
       middlewares: {use}
     } = this.provider;
+
+    const router = this.provider.getRouter<PlatformRouter>();
     // Endpoint lifecycle
     let handlers: any[] = [];
 
     handlers = handlers
-      .concat(bindEndpointMiddleware(endpoint))
+      .concat(useCtxHandler(bindEndpointMiddleware(endpoint)))
       .concat(use) // Controller use-middlewares
       .concat(beforeMiddlewares) // Endpoint before-middlewares
       .concat(mldwrs) // Endpoint middlewares
       .concat(endpoint) // Endpoint metadata
-      .concat(PlatformHeadersMiddleware)
       .concat(afterMiddlewares) // Endpoint after-middlewares
       .filter((item: any) => !!item);
 
     // Add handlers to the router
     operation?.operationPaths.forEach(({path, method, isFinal}) => {
-      const localHandlers = isFinal ? handlers.concat(PlatformResponseMiddleware) : handlers;
-      router.addRoute({method: formatMethod(method), path, handlers: localHandlers});
+      router.addRoute({
+        method: formatMethod(method),
+        path,
+        handlers,
+        isFinal
+      });
     });
 
     if (!operation?.operationPaths.size) {
@@ -102,7 +106,8 @@ export class PlatformControllerBuilder {
   }
 
   private buildChildrenCtrls(injector: InjectorService) {
-    const {children, router} = this.provider;
+    const {children} = this.provider;
+    const router = this.provider.getRouter<PlatformRouter>();
 
     children.forEach((child: Type<any>) => {
       const provider = injector.getProvider(child) as ControllerProvider;
@@ -114,12 +119,12 @@ export class PlatformControllerBuilder {
 
       new PlatformControllerBuilder(provider).build(injector);
 
-      router.use(provider.path, provider.router);
+      router.use(provider.path, provider.getRouter<PlatformRouter>());
     });
   }
 
   private buildMiddlewares(middlewares: any[]) {
-    const {router} = this.provider;
+    const router = this.provider.getRouter<PlatformRouter>();
 
     middlewares
       .filter((o) => typeof o === "function")

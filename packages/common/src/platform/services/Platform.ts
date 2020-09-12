@@ -84,7 +84,7 @@ export class Platform {
             route,
             provider
           });
-          this.app.use(route, ...[].concat(provider.router.callback()));
+          this.app.use(route, ...[].concat(provider.getRouter().callback()));
         }
       }
     }

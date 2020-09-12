@@ -13,8 +13,6 @@ export * from "./interfaces/IRoute";
 export * from "./interfaces/PlatformRouterMethods";
 
 // middlewares
-export * from "./middlewares/PlatformResponseMiddleware";
-export * from "./middlewares/PlatformHeadersMiddleware";
 export * from "./middlewares/PlatformLogMiddleware";
 export * from "./middlewares/PlatformMulterMiddleware";
 export * from "./middlewares/bindEndpointMiddleware";
@@ -29,6 +27,7 @@ export * from "./domain/ControllerProvider";
 
 // errors
 export * from "./errors/ParamValidationError";
+export * from "./errors/TemplateRenderError";
 
 // providers
 export * from "./services/Platform";
@@ -41,3 +40,4 @@ export * from "./services/PlatformRequest";
 // registries
 export * from "./registries/ControllerRegistry";
 export * from "./utils/createContext";
+export * from "./utils/useCtxHandler";
