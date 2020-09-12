@@ -4,6 +4,7 @@ import {testAuth} from "./testAuth";
 import {testBodyParams} from "./testBodyParams";
 import {testChildrenControllers} from "./testChildrenControllers";
 import {testCookies} from "./testCookies";
+import {testCtrlInheritance} from "./testCtrlInheritance";
 import {testCustom404} from "./testCustom404";
 import {testErrors} from "./testErrors";
 import {testHandlers} from "./testHandlers";
@@ -54,6 +55,7 @@ specsContainer.set("multer", testMulter);
 // ROUTING
 specsContainer.set("scopeRequest", testScopeRequest);
 specsContainer.set("routing", testRouting);
+specsContainer.set("inheritance", testCtrlInheritance);
 
 // CODE ORGANIZATION
 specsContainer.set("childrenControllers", testChildrenControllers);

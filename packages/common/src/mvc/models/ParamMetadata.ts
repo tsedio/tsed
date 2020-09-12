@@ -1,4 +1,4 @@
-import {DecoratorTypes, Enumerable, prototypeOf, Type} from "@tsed/core";
+import {ancestorsOf, DecoratorTypes, Enumerable, prototypeOf, Type} from "@tsed/core";
 import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonParameter} from "@tsed/schema";
 import {mapAllowedRequiredValues} from "../utils/mapAllowedRequiredValues";
 import {ParamTypes} from "./ParamTypes";
@@ -81,7 +81,15 @@ export class ParamMetadata extends JsonEntityStore implements ParamConstructorOp
   static getParams(target: Type<any>, propertyKey: string | symbol): ParamMetadata[] {
     const params: ParamMetadata[] = [];
 
-    JsonEntityStore.fromMethod(target, propertyKey).children.forEach((param: ParamMetadata, index) => {
+    const klass = ancestorsOf(target)
+      .reverse()
+      .find((target) => JsonEntityStore.fromMethod(target, propertyKey).children.size);
+
+    if (!klass) {
+      return [];
+    }
+
+    JsonEntityStore.fromMethod(klass, propertyKey).children.forEach((param: ParamMetadata, index) => {
       params[+index] = param;
     });
 

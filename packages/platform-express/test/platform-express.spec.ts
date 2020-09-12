@@ -72,6 +72,9 @@ describe("PlatformExpress", () => {
   describe("Routing", () => {
     utils.test("routing");
   });
+  describe("Controller inheritance", () => {
+    utils.test("inheritance");
+  });
   describe("Locals", () => {
     utils.test("locals");
   });

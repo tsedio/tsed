@@ -1,5 +1,6 @@
-import {Controller, Req} from "@tsed/common";
+import {Controller, QueryParams, Req} from "@tsed/common";
 import {prototypeOf, Store} from "@tsed/core";
+import {JsonEntityStore} from "@tsed/schema";
 import {expect} from "chai";
 import {Get} from "../decorators/method/route";
 import {ParamMetadata} from "./ParamMetadata";
@@ -69,6 +70,33 @@ describe("ParamMetadata", () => {
       // THEN
 
       expect(result[0].paramType).to.deep.eq(ParamTypes.REQUEST);
+    });
+    it("should returns params from inherited", () => {
+      // GIVEN
+      class BaseTest {
+        list(@QueryParams("search") search: string) {}
+
+        base(@QueryParams("base") test: string) {}
+      }
+
+      class Test extends BaseTest {
+        test(@Req() req: any) {}
+
+        base(@QueryParams("test") test: string) {}
+      }
+
+      // WHEN
+      const result1 = ParamMetadata.getParams(Test, "list");
+      const result2 = ParamMetadata.getParams(Test, "test");
+      const result3 = ParamMetadata.getParams(Test, "unknown");
+      const result4 = ParamMetadata.getParams(Test, "base");
+
+      // THEN
+      expect(result1.length).to.deep.eq(1);
+      expect(result2.length).to.deep.eq(1);
+      expect(result3).to.deep.eq([]);
+      expect(result4.length).to.deep.eq(1);
+      expect(result4[0].token).to.eq(Test);
     });
   });
 });
