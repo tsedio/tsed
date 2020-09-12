@@ -1,6 +1,6 @@
 import {prototypeOf, Store} from "@tsed/core";
 import {expect} from "chai";
-import {IFilter, ParamMetadata, ParamTypes, Req} from "../../../src/mvc";
+import {IFilter, ParamMetadata, ParamTypes, QueryParams, Req} from "../../../src/mvc";
 
 class Test {
   method(arg1: any, arg2: any) {}
@@ -163,6 +163,32 @@ describe("ParamMetadata", () => {
       param1.paramType = ParamTypes.REQUEST;
 
       expect(result).to.deep.eq([param1]);
+    });
+    it("should returns params from inherited", () => {
+      // GIVEN
+      class BaseTest {
+        list(@QueryParams("search") search: string) {}
+
+        base(@QueryParams("base") test: string) {}
+      }
+
+      class Test extends BaseTest {
+        test(@Req() req: any) {}
+
+        base(@QueryParams("test") test: string) {}
+      }
+
+      // WHEN
+      const result1 = ParamMetadata.getParams(Test, "list");
+      const result2 = ParamMetadata.getParams(Test, "test");
+      const result3 = ParamMetadata.getParams(Test, "unknown");
+      const result4 = ParamMetadata.getParams(Test, "base");
+
+      // THEN
+      expect(result1).to.deep.eq(Store.fromMethod(BaseTest, "list").get("params"));
+      expect(result2).to.deep.eq(Store.fromMethod(Test, "test").get("params"));
+      expect(result3).to.deep.eq([]);
+      expect(result4).to.deep.eq(Store.fromMethod(Test, "base").get("params"));
     });
   });
 });
