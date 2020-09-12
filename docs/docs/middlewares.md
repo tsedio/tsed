@@ -169,13 +169,6 @@ The decorator @@OverrideProvider@@ gives you the ability to override some intern
 
 <<< @/docs/docs/snippets/middlewares/override-middleware.ts
 
-Since v5.63.0, Ts.ED provide a PlatformResponseMiddleware (it replaces @@SendResponseMiddleware@@ and @@ResponseViewMiddleware@@),
-to render a view and send the appropriate response to your consumer according to the executed endpoint.
-
-You are able to override this middleware to change the initial behavior of this middleware.
-
-<<< @/docs/docs/snippets/middlewares/override-platform-response-middleware.ts
-
 Here we use the new [Platform API](/docs/platform-api.md) to write our middleware. By using @@Context@@ decorator and @@PlatformContext@@ class we can get some information:
 
 - The data returned by the last executed endpoint,
