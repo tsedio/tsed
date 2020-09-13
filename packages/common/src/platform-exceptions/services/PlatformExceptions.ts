@@ -1,9 +1,6 @@
 import {ancestorsOf} from "@tsed/core";
-import {Exception} from "@tsed/exceptions";
-import {Middleware} from "../../mvc/decorators/class/middleware";
-import {Err} from "../../mvc/decorators/params/error";
-import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
-import {Context} from "../../platform/decorators/context";
+import {Injectable} from "@tsed/di";
+import {PlatformContext} from "../../platform/domain/PlatformContext";
 import "../components/ErrorFilter";
 import "../components/ExceptionFilter";
 import "../components/StringErrorFilter";
@@ -11,14 +8,14 @@ import {getExceptionTypes} from "../domain/ExceptionTypesContainer";
 
 /**
  * Catch all errors and return the json error with the right status code when it's possible.
- * @middleware
+ *
  * @platform
  */
-@Middleware()
-export class PlatformExceptionsMiddleware implements IMiddleware {
+@Injectable()
+export class PlatformExceptions {
   types = getExceptionTypes();
 
-  use(@Err() error: any, @Context() ctx: Context): any {
+  catch(error: unknown, ctx: PlatformContext) {
     const target = ancestorsOf(error)
       .reverse()
       .find((target) => this.types.has(target));

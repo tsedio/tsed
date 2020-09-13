@@ -17,7 +17,7 @@ export function setResponseHeaders(ctx: PlatformContext) {
     return;
   }
 
-  if (response.statusCode === 200) {
+  if (response.hasStatus()) {
     // apply status only if the isn't already modified
     response.status(operation.getStatus());
   }

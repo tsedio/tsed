@@ -9,4 +9,4 @@ export * from "./domain/ExceptionTypesContainer";
 export * from "./interfaces/ExceptionFilterMethods";
 
 // middlewares
-export * from "./middlewares/PlatformExceptionsMiddleware";
+export * from "./services/PlatformExceptions";

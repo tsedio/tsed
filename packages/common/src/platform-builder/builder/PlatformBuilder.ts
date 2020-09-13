@@ -10,7 +10,6 @@ import {
   PlatformResponse,
   PlatformRouter
 } from "../../platform";
-import {PlatformExceptionsMiddleware} from "../../platform-exceptions";
 import {PlatformLogMiddleware} from "../../platform/middlewares/PlatformLogMiddleware";
 import {
   callHook,
@@ -27,7 +26,6 @@ import {
   printRoutes,
   setLoggerLevel
 } from "../utils";
-import {createContext} from "../../platform/utils/createContext";
 
 export interface PlatformType<T = any> extends Type<T> {
   providers: IProvider[];
@@ -261,8 +259,6 @@ export abstract class PlatformBuilder {
     await this.loadStatics();
 
     await this.callHook("$afterRoutesInit");
-
-    this.app.use(PlatformExceptionsMiddleware);
   }
 
   protected createInjector(module: Type<any>, settings: any) {

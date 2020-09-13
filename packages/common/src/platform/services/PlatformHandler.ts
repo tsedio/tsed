@@ -206,14 +206,16 @@ export class PlatformHandler {
     const {response, endpoint} = ctx;
 
     if (endpoint.view) {
+      this.setContentType("data", ctx);
       data = await this.render(data, ctx);
     } else if (shouldBeSerialized(data)) {
       data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {type: endpoint.type});
     }
 
-    this.setContentType(data, ctx);
-
-    response.body(data);
+    if (!response.isDone()) {
+      this.setContentType(data, ctx);
+      response.body(data);
+    }
   }
 
   /**

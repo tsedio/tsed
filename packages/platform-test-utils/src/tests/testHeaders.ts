@@ -53,7 +53,7 @@ export function testHeaders(options: PlatformTestOptions) {
 
         expect(response.headers["x-token-test"]).to.equal("test");
         expect(response.headers["x-token-test-2"]).to.equal("test2");
-        expect(response.headers["content-type"]).to.equal("application/xml; charset=utf-8");
+        expect(response.headers["content-type"]).to.contains("application/xml");
 
         done();
       });

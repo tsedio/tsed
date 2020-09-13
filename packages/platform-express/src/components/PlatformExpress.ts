@@ -1,4 +1,13 @@
-import {PlatformApplication, PlatformBuilder, PlatformHandler, PlatformRequest, PlatformResponse, PlatformRouter} from "@tsed/common";
+import {
+  IRoute,
+  PlatformApplication,
+  PlatformBuilder,
+  PlatformExceptions,
+  PlatformHandler,
+  PlatformRequest,
+  PlatformResponse,
+  PlatformRouter
+} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {
   PlatformExpressApplication,
@@ -38,5 +47,13 @@ export class PlatformExpress extends PlatformBuilder {
 
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
     return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
+  }
+
+  protected async loadRoutes(routes: IRoute[]): Promise<void> {
+    await super.loadRoutes(routes);
+
+    this.app.use((err: any, req: any, res: any, next: any) => {
+      this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(err, req.$ctx);
+    });
   }
 }

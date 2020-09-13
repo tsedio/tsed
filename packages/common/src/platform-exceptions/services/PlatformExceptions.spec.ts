@@ -3,16 +3,16 @@ import {Env} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {PlatformExceptionsMiddleware} from "./PlatformExceptionsMiddleware";
+import {PlatformExceptions} from "./PlatformExceptions";
 
 const sandbox = Sinon.createSandbox();
-describe("PlatformExceptionsMiddleware", () => {
+describe("PlatformExceptions", () => {
   describe("Env.TEST", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());
 
     it("should map string error", () => {
-      const middleware = PlatformTest.get<PlatformExceptionsMiddleware>(PlatformExceptionsMiddleware);
+      const platformExceptions = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
       sandbox.stub(ctx.response, "body").returnsThis();
@@ -21,13 +21,13 @@ describe("PlatformExceptionsMiddleware", () => {
 
       const error = "MyError";
 
-      middleware.use(error, ctx);
+      platformExceptions.catch(error, ctx);
 
       expect(ctx.response.body).to.have.been.calledWithExactly("MyError");
     });
 
     it("should map exception", () => {
-      const middleware = PlatformTest.get<PlatformExceptionsMiddleware>(PlatformExceptionsMiddleware);
+      const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
       sandbox.stub(ctx.response, "body").returnsThis();
@@ -46,7 +46,7 @@ describe("PlatformExceptionsMiddleware", () => {
         "x-path": "id"
       };
 
-      middleware.use(error, ctx);
+      middleware.catch(error, ctx);
 
       expect(ctx.response.setHeaders).to.have.been.calledWithExactly({"x-path": "id"});
       expect(ctx.response.body).to.have.been.calledWithExactly({
@@ -63,7 +63,7 @@ describe("PlatformExceptionsMiddleware", () => {
       });
     });
     it("should map error", () => {
-      const middleware = PlatformTest.get<PlatformExceptionsMiddleware>(PlatformExceptionsMiddleware);
+      const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
       sandbox.stub(ctx.response, "body").returnsThis();
@@ -74,7 +74,7 @@ describe("PlatformExceptionsMiddleware", () => {
 
       const error = new Custom("My message");
 
-      middleware.use(error, ctx);
+      middleware.catch(error, ctx);
 
       expect(ctx.response.setHeaders).to.have.been.calledWithExactly({});
       expect(ctx.response.body).to.have.been.calledWithExactly({
@@ -95,7 +95,7 @@ describe("PlatformExceptionsMiddleware", () => {
     );
     afterEach(() => PlatformTest.reset());
     it("should map error return internal error in prod profile", () => {
-      const middleware = PlatformTest.get<PlatformExceptionsMiddleware>(PlatformExceptionsMiddleware);
+      const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
       sandbox.stub(ctx.response, "body").returnsThis();
@@ -104,7 +104,7 @@ describe("PlatformExceptionsMiddleware", () => {
 
       const error = new Error("My message");
 
-      middleware.use(error, ctx);
+      middleware.catch(error, ctx);
 
       expect(ctx.response.setHeaders).to.have.been.calledWithExactly({});
       expect(ctx.response.body).to.have.been.calledWithExactly("InternalServerError");

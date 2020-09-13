@@ -111,6 +111,10 @@ export class PlatformContext extends Map<any, any> {
     delete this.request;
   }
 
+  isDone() {
+    return !this.request || !this.response;
+  }
+
   async emit(eventName: string, ...args: any[]) {
     return this.injector && this.injector.emit(eventName, ...args);
   }
