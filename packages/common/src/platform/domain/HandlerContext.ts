@@ -66,7 +66,7 @@ export class HandlerContext {
 
   get isDone(): boolean {
     const {$ctx} = this;
-    if (!$ctx) {
+    if (!$ctx || $ctx.isDone()) {
       return true;
     }
 

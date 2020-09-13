@@ -49,6 +49,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     return injector.invoke<PlatformResponse>(PlatformResponse, locals);
   }
 
+  hasStatus() {
+    return this.statusCode === 200;
+  }
+
   /**
    * Sets the HTTP status for the response.
    *
@@ -152,10 +156,6 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    * @param data
    */
   body(data: any) {
-    if (this.isDone()) {
-      return;
-    }
-
     if (data === undefined) {
       this.raw.send();
 
@@ -190,7 +190,11 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   }
 
   isDone() {
-    return this.raw.headersSent || this.raw.writableEnded || this.raw.writableFinished;
+    if (!this.raw) {
+      return true;
+    }
+
+    return this.raw?.headersSent || this.raw.writableEnded || this.raw.writableFinished;
   }
 
   destroy() {
