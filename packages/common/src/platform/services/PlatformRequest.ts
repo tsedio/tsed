@@ -1,5 +1,5 @@
 import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
-import {IncomingHttpHeaders} from "http";
+import {IncomingHttpHeaders, IncomingMessage} from "http";
 import type {PlatformContext} from "../domain/PlatformContext";
 
 declare global {
@@ -125,5 +125,12 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
   destroy() {
     // @ts-ignore
     delete this.raw;
+  }
+
+  /**
+   * Return the Node.js response object
+   */
+  getReq(): IncomingMessage {
+    return this.raw as any;
   }
 }

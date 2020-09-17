@@ -1,5 +1,6 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
+import {ServerResponse} from "http";
 
 const onFinished = require("on-finished");
 
@@ -49,6 +50,17 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     return injector.invoke<PlatformResponse>(PlatformResponse, locals);
   }
 
+  static onFinished(res: any, cb: Function) {
+    onFinished(res, cb);
+  }
+
+  /**
+   * Return the Node.js response object
+   */
+  getRes(): ServerResponse {
+    return this.raw as any;
+  }
+
   hasStatus() {
     return this.statusCode === 200;
   }
@@ -78,8 +90,14 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   setHeaders(headers: {[key: string]: any}) {
     // apply headers
     Object.entries(headers).forEach(([key, item]) => {
-      this.raw.set(key, String(item));
+      this.setHeader(key, item);
     });
+
+    return this;
+  }
+
+  setHeader(key: string, item: any) {
+    this.raw.set(key, String(item));
 
     return this;
   }
@@ -184,7 +202,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    * @param cb
    */
   onEnd(cb: Function): this {
-    onFinished(this.raw, cb);
+    PlatformResponse.onFinished(this.getRes(), cb);
 
     return this;
   }
@@ -193,8 +211,9 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     if (!this.raw) {
       return true;
     }
+    const res = this.getRes();
 
-    return this.raw?.headersSent || this.raw.writableEnded || this.raw.writableFinished;
+    return res.headersSent || res.writableEnded || res.writableFinished;
   }
 
   destroy() {

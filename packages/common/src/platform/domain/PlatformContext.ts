@@ -1,5 +1,7 @@
 import {InjectorService, LocalsContainer} from "@tsed/di";
+import {IncomingMessage, ServerResponse} from "http";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
+import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
 import {RequestLogger, RequestLoggerOptions} from "./RequestLogger";
@@ -120,16 +122,37 @@ export class PlatformContext extends Map<any, any> {
   }
 
   /**
-   * Return the original request instance.
+   * Return the framework request instance (Express, Koa, etc...)
    */
   getRequest<T = any>(): T {
     return this.request.raw as any;
   }
 
   /**
-   * Return the original response instance.
+   * Return the framework response instance (Express, Koa, etc...)
    */
   getResponse<T = any>(): T {
     return this.response.raw as any;
+  }
+
+  /**
+   * Get Node.js request
+   */
+  getReq(): IncomingMessage {
+    return this.request.getReq();
+  }
+
+  /**
+   * Get Node.js response
+   */
+  getRes(): ServerResponse {
+    return this.response.getRes();
+  }
+
+  /**
+   * Return the original application instance.
+   */
+  getApp<T = any>(): T {
+    return this.injector.get<PlatformApplication>(PlatformApplication)?.getApp() as any;
   }
 }
