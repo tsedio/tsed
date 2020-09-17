@@ -14,7 +14,7 @@ export class PlatformExpressHandler extends PlatformHandler {
         return async (req: any, res: any, next: any) => {
           await metadata.handler(req.$ctx);
 
-          return next && next();
+          return !res.headersSent && next && next();
         };
 
       case HandlerType.ERR_MIDDLEWARE:

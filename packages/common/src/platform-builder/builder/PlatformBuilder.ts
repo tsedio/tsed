@@ -1,4 +1,4 @@
-import {classOf, constructorOf, Type} from "@tsed/core";
+import {classOf, constructorOf, nameOf, Type} from "@tsed/core";
 import {Container, InjectorService, IProvider} from "@tsed/di";
 import {
   GlobalAcceptMimesMiddleware,
@@ -36,6 +36,7 @@ export interface PlatformType<T = any> extends Type<T> {
  */
 export abstract class PlatformBuilder {
   protected startedAt = new Date();
+  protected PLATFORM_NAME: string = "";
   protected _rootModule: any;
   protected _injector: InjectorService;
   protected locals: Container;
@@ -97,6 +98,7 @@ export abstract class PlatformBuilder {
 
   static build<T extends PlatformBuilder>(platformBuildClass: PlatformType<T>): T {
     const platform = new platformBuildClass();
+    platform.PLATFORM_NAME = nameOf(platformBuildClass).replace("Platform", "").toLowerCase();
 
     return platform.useProviders(platformBuildClass.providers || []);
   }
@@ -216,7 +218,10 @@ export abstract class PlatformBuilder {
   }
 
   protected async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    this.createInjector(module, settings);
+    this.createInjector(module, {
+      ...settings,
+      PLATFORM_NAME: this.PLATFORM_NAME
+    });
     this.createRootModule(module);
 
     await this.runLifecycle();

@@ -18,6 +18,7 @@ describe("PlatformExceptions", () => {
       sandbox.stub(ctx.response, "body").returnsThis();
       sandbox.stub(ctx.response, "setHeaders").returnsThis();
       sandbox.stub(ctx.response, "status").returnsThis();
+      sandbox.stub(ctx.response, "contentType").returnsThis();
 
       const error = "MyError";
 
@@ -33,6 +34,7 @@ describe("PlatformExceptions", () => {
       sandbox.stub(ctx.response, "body").returnsThis();
       sandbox.stub(ctx.response, "setHeaders").returnsThis();
       sandbox.stub(ctx.response, "status").returnsThis();
+      sandbox.stub(ctx.response, "contentType").returnsThis();
 
       const origin = new ValidationError("wrong ID", [
         {
@@ -69,6 +71,7 @@ describe("PlatformExceptions", () => {
       sandbox.stub(ctx.response, "body").returnsThis();
       sandbox.stub(ctx.response, "setHeaders").returnsThis();
       sandbox.stub(ctx.response, "status").returnsThis();
+      sandbox.stub(ctx.response, "contentType").returnsThis();
 
       class Custom extends Error {}
 
@@ -101,6 +104,7 @@ describe("PlatformExceptions", () => {
       sandbox.stub(ctx.response, "body").returnsThis();
       sandbox.stub(ctx.response, "setHeaders").returnsThis();
       sandbox.stub(ctx.response, "status").returnsThis();
+      sandbox.stub(ctx.response, "contentType").returnsThis();
 
       const error = new Error("My message");
 

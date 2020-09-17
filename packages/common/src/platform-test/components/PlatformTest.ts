@@ -26,11 +26,11 @@ export class PlatformTest {
     /* istanbul ignore next */
     throw new Error(
       "PlatformTest.injector is not initialized. Use PlatformTest.create(): Promise before PlatformTest.invoke() or PlatformTest.injector.\n" +
-      "Example:\n" +
-      "before(async () => {\n" +
-      "   await PlatformTest.create()\n" +
-      "   await PlatformTest.invoke(MyService, [])\n" +
-      "})"
+        "Example:\n" +
+        "before(async () => {\n" +
+        "   await PlatformTest.create()\n" +
+        "   await PlatformTest.invoke(MyService, [])\n" +
+        "})"
     );
   }
 
@@ -72,9 +72,10 @@ export class PlatformTest {
 
       // @ts-ignore
       instance = await PlatformBuilder.build(platform).bootstrap(mod, {
+        env: Env.TEST,
         logger: {
           level: "off",
-          ...options.logger || {}
+          ...(options.logger || {})
         },
         ...options
       });

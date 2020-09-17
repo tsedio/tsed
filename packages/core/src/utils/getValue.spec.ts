@@ -24,6 +24,14 @@ describe("getValue()", () => {
     const map = new Map([["user", "name"]]);
     expect(getValue("user", map)).to.deep.eq("name");
   });
+  it("should return from an object with get method", () => {
+    const map = {
+      get() {
+        return "name";
+      }
+    };
+    expect(getValue("user", map)).to.deep.eq("name");
+  });
   it("should return undefined", () => {
     expect(getValue("user", undefined)).to.deep.eq(undefined);
   });

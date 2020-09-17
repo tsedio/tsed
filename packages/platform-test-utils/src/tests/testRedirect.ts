@@ -47,4 +47,11 @@ export function testRedirect(options: PlatformTestOptions) {
     expect(response.text).to.deep.equal("Moved Permanently. Redirecting to /test");
     expect(response.header.location).to.deep.equal("/test");
   });
+
+  it("Scenario3: HEAD /rest/redirect/scenario-1", async () => {
+    const response = await request.head("/rest/redirect/scenario-1").expect(302);
+
+    expect(response.text).to.deep.equal(undefined);
+    expect(response.header.location).to.deep.equal("/test");
+  });
 }

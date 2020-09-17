@@ -119,12 +119,14 @@ describe("PlatformResponse", () => {
     });
   });
   describe("destroy()", () => {
-    it("should return a string", async () => {
+    it("should destroy response", async () => {
       const {response} = createResponse();
 
-      const result = await response.render("view", {});
+      expect(response.isDone()).to.eq(false);
 
-      expect(result).to.eq("PlatformResponse.render method is not implemented");
+      response.destroy();
+
+      expect(response.isDone()).to.eq(true);
     });
   });
 });

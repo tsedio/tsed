@@ -20,6 +20,7 @@ export class ErrorFilter implements ExceptionFilterMethods {
       })
       .setHeaders(this.getHeaders(error))
       .status(err.status)
+      .contentType("application/json")
       .body(env === Env.PROD ? "InternalServerError" : err);
   }
 

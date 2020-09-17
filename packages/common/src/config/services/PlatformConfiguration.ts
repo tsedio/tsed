@@ -2,7 +2,7 @@ import {Env} from "@tsed/core";
 import {DIConfiguration, Injectable, ProviderScope, ProviderType} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import * as Https from "https";
-import {PlatformLoggerSettings, EndpointDirectoriesSettings} from "../interfaces";
+import {EndpointDirectoriesSettings, PlatformLoggerSettings} from "../interfaces";
 import {ConverterSettings} from "../interfaces/ConverterSettings";
 
 const rootDir = process.cwd();
@@ -123,7 +123,7 @@ export class PlatformConfiguration extends DIConfiguration {
   }
 
   get acceptMimes(): string[] {
-    return this.getRaw("acceptMimes") || ["application/json"];
+    return this.getRaw("acceptMimes");
   }
 
   set acceptMimes(value: string[]) {

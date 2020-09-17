@@ -1,4 +1,4 @@
-import {createHttpServer, createHttpsServer, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 
 import {PlatformExpress} from "./components/PlatformExpress";
 
@@ -15,5 +15,3 @@ export * from "./services";
 
 // components
 export * from "./components/PlatformExpress";
-
-export {createHttpServer, createHttpsServer};

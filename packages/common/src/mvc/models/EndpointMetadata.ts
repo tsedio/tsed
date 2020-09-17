@@ -118,20 +118,6 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
   }
 
   /**
-   * @deprecated Will be removed in v6
-   */
-  get contentType(): string {
-    return this.store.get("contentType") as string;
-  }
-
-  /**
-   * @deprecated Will be removed in v6
-   */
-  set contentType(url: string) {
-    this.store.set("contentType", url);
-  }
-
-  /**
    * Get all endpoints from a given class and his parents.
    * @param {Type<any>} target
    * @returns {EndpointMetadata[]}
