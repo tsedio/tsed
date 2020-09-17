@@ -86,7 +86,7 @@ export class SwaggerService {
           contact,
           license
         },
-        consumes: this.configuration.acceptMimes.concat(spec.consumes || []),
+        consumes: (this.configuration.acceptMimes || ["application/json"]).concat(spec.consumes || []),
         produces: spec.produces || ["application/json"],
         securityDefinitions: spec.securityDefinitions || {}
       },

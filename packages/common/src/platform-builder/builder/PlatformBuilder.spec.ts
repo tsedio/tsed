@@ -7,16 +7,13 @@ import {
   BeforeRoutesInit,
   Controller,
   InjectorService,
-  OnReady,
-  PlatformContext
+  OnReady
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
 import {expect} from "chai";
 import {join} from "path";
 import * as Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../../test/helper";
-import {stub} from "../../../../../test/helper/tools";
 import {Platform} from "../../platform/services/Platform";
 import {PlatformBuilder} from "./PlatformBuilder";
 
@@ -48,7 +45,8 @@ describe("PlatformBuilder", () => {
     },
     mount: {
       "/rest": [RestCtrl]
-    }
+    },
+    acceptMimes: ["application/json"]
   })
   class ServerModule implements BeforeInit, AfterInit, BeforeRoutesInit, AfterRoutesInit, BeforeListen, AfterListen, OnReady {
     $beforeRoutesInit(): void | Promise<any> {
