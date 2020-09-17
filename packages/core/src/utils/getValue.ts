@@ -1,3 +1,5 @@
+import {isFunction} from "./ObjectUtils";
+
 /**
  *
  * @param {string} expression
@@ -18,7 +20,7 @@ export function getValue(expression: string | undefined, scope: any, defaultValu
   const keys: string[] = expression.split(separator);
 
   const getValue = (key: string) => {
-    if (scope instanceof Map) {
+    if (scope instanceof Map || isFunction(scope.get)) {
       return scope.get(key);
     }
 
