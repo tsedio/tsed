@@ -104,8 +104,10 @@ export class PlatformRouter<Router = TsED.Router> {
     return this.addRoute({method: "options", path, handlers, isFinal: true});
   }
 
-  statics(path: string, options: PlatformStaticsOptions) {
+  statics(path: string, options: PlatformStaticsOptions): this {
     console.warn("Statics methods aren't implemented on this platform");
+
+    return this;
   }
 
   multer(options: PlatformMulterSettings): PlatformMulter {

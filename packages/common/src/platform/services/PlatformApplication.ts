@@ -1,4 +1,4 @@
-import {Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {Injectable, ProviderScope} from "@tsed/di";
 import {createContext} from "../utils/createContext";
 import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformHandler} from "./PlatformHandler";

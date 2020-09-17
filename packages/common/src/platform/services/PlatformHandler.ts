@@ -149,8 +149,9 @@ export class PlatformHandler {
     }
   }
 
-  protected onError(er: unknown, requestOptions: OnRequestOptions) {
-    const {next} = requestOptions;
+  protected async onError(er: unknown, requestOptions: OnRequestOptions) {
+    const {next, $ctx} = requestOptions;
+    $ctx.data = er;
 
     if (!next) {
       throw er;
@@ -174,6 +175,7 @@ export class PlatformHandler {
     }
 
     // call returned middleware
+
     if (isFunction(data) && !isStream(data)) {
       return this.callReturnedMiddleware(data, $ctx, next);
     }
@@ -206,8 +208,11 @@ export class PlatformHandler {
     const {response, endpoint} = ctx;
 
     if (endpoint.view) {
-      this.setContentType("data", ctx);
       data = await this.render(data, ctx);
+
+      if (data === undefined) {
+        return;
+      }
     } else if (shouldBeSerialized(data)) {
       data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {type: endpoint.type});
     }

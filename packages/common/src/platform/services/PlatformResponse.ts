@@ -207,13 +207,13 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     return this;
   }
 
-  isDone() {
+  isDone(): boolean {
     if (!this.raw) {
       return true;
     }
     const res = this.getRes();
 
-    return res.headersSent || res.writableEnded || res.writableFinished;
+    return Boolean(res.headersSent || res.writableEnded || res.writableFinished);
   }
 
   destroy() {

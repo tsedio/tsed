@@ -1,20 +1,9 @@
-import {
-  EndpointMetadata,
-  Err,
-  Get,
-  HandlerContext,
-  HandlerMetadata,
-  HandlerType,
-  ParamTypes,
-  PlatformTest,
-  QueryParams,
-  useCtxHandler
-} from "@tsed/common";
-import {Provider} from "@tsed/di";
+import {Context, Err, Get, HandlerMetadata, HandlerType, Middleware, ParamTypes, PlatformTest, QueryParams} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {FakeRequest} from "../../../../../test/helper";
 import {buildPlatformHandler} from "../../../../../test/helper/buildPlatformHandler";
+import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 import {PlatformHandler} from "./PlatformHandler";
 
 const sandbox = Sinon.createSandbox();
@@ -32,13 +21,7 @@ class Test {
   useErr(err: any, req: any, res: any, next: any) {}
 }
 
-class CustomPlatformHandler extends PlatformHandler {
-  protected createRawHandler(metadata: HandlerMetadata): Function {
-    return metadata.handler;
-  }
-
-  protected onError(error: unknown, h: HandlerContext): any {}
-}
+class CustomPlatformHandler extends PlatformHandler {}
 
 describe("PlatformHandler", () => {
   beforeEach(PlatformTest.create);
@@ -70,7 +53,7 @@ describe("PlatformHandler", () => {
       const handler = platformHandler.createHandler(handlerMetadata);
 
       // THEN
-      expect(handler).to.eq(handlerMetadata.handler);
+      expect(handler).to.be.a("function");
     });
     it("should return a native metadata (from native metadata)", async () => {
       // GIVEN
@@ -110,6 +93,37 @@ describe("PlatformHandler", () => {
 
       // THEN
       return expect(next).to.not.have.been.called;
+    });
+
+    it("should call returned function", async () => {
+      // GIVEN
+      const internalMiddleware = sandbox.stub().returns("hello");
+
+      @Middleware()
+      class Test {
+        use(@Context() ctx: Context) {
+          return internalMiddleware;
+        }
+      }
+
+      const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
+
+      const ctx = createFakePlatformContext(sandbox);
+      const next = sandbox.stub();
+
+      const handlerMetadata = new HandlerMetadata({
+        token: Test,
+        target: Test,
+        type: HandlerType.MIDDLEWARE,
+        propertyKey: "use"
+      });
+
+      // WHEN
+      const handler = platformHandler.createHandler(handlerMetadata);
+
+      await handler(ctx.getRequest(), ctx.getResponse(), next);
+      // THEN
+      expect(internalMiddleware).to.have.been.calledWithExactly(ctx.getRequest(), ctx.getResponse(), next);
     });
   });
   describe("getArg()", () => {
