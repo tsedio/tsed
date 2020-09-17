@@ -52,6 +52,12 @@ export class PlatformExpress extends PlatformBuilder {
   protected async loadRoutes(routes: IRoute[]): Promise<void> {
     await super.loadRoutes(routes);
 
+    // NOT FOUND
+    this.app.use((req: any, res: any) => {
+      this.injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound(req.$ctx);
+    });
+
+    // EXCEPTION FILTERS
     this.app.use((err: any, req: any, res: any, next: any) => {
       this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(err, req.$ctx);
     });
