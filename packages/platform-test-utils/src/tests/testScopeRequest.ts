@@ -27,15 +27,21 @@ export class ScopeRequestCtrl {
 
     return new Promise((resolve, reject) => {
       if (userId === "0") {
-        resolve({userId, idSrv: this.scopeRequestService.user, idCtrl: this.userId});
+        setTimeout(() => {
+          resolve({userId, idSrv: this.scopeRequestService.user, idCtrl: this.userId});
+        }, 500);
       }
 
       if (userId === "1") {
-        resolve({userId, idSrv: this.scopeRequestService.user, idCtrl: this.userId});
+        setTimeout(() => {
+          resolve({userId, idSrv: this.scopeRequestService.user, idCtrl: this.userId});
+        }, 300);
       }
 
       if (userId === "2") {
-        resolve({userId, idSrv: this.scopeRequestService.user, idCtrl: this.userId});
+        setTimeout(() => {
+          resolve({userId, idSrv: this.scopeRequestService.user, idCtrl: this.userId});
+        }, 150);
       }
     });
   }

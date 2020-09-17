@@ -13,6 +13,9 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
   @Constant("passport.pauseStream")
   pauseStream: boolean;
 
+  @Constant("PLATFORM_NAME")
+  platformName: string;
+
   constructor(
     private app: PlatformApplication,
     private protocolsService: ProtocolsService,
@@ -30,7 +33,15 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
 
   $beforeRoutesInit(): void | Promise<any> {
     const {userProperty, pauseStream} = this;
-    this.app.use(Passport.initialize({userProperty}));
-    this.app.use(Passport.session({pauseStream}));
+    switch (this.platformName) {
+      case "express":
+        this.app.use(Passport.initialize({userProperty}));
+        this.app.use(Passport.session({pauseStream}));
+
+        return;
+
+      default:
+        console.warn(`Platform "${this.platformName}" not supported by @tsed/passport`);
+    }
   }
 }

@@ -1,14 +1,15 @@
-import {Controller, Get, HeaderParams, Next, PlatformTest, Post, Req, Res, Use} from "@tsed/common";
+import {Context, Controller, Get, HeaderParams, Locals, Middleware, PlatformTest, Post, Req, Use} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
-function rawMiddleware(request: Req, response: Res, next: Next) {
-  request["user"] = 1;
-  response.locals.id = "local-10909";
-  request.$ctx.set("uid", "ctx-10909");
-
-  next();
+@Middleware()
+class SetId {
+  use(@Req() request: any, @Locals() locals: any, @Context() $ctx: Context) {
+    request["user"] = 1;
+    locals.id = "local-10909";
+    $ctx.set("uid", "ctx-10909");
+  }
 }
 
 @Controller("/header-params")
@@ -20,7 +21,7 @@ export class HeaderParamsCtrl {
    * @param auth
    */
   @Get("/scenario-1")
-  @Use(rawMiddleware)
+  @Use(SetId)
   public scenario1(@Req() request: Req, @HeaderParams("authorization") auth: string): any {
     return {
       user: request.user,

@@ -1,4 +1,4 @@
-import {BodyParams, ContentType, Controller, Get, Header, PlatformTest} from "@tsed/common";
+import {BodyParams, Controller, Get, PlatformTest} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -25,6 +25,9 @@ export function testHeaders(options: PlatformTestOptions) {
   before(
     PlatformTest.bootstrap(options.server, {
       ...options,
+      logger: {
+        level: "info"
+      },
       mount: {
         "/rest": [HeadersCtrl]
       }
