@@ -20,7 +20,9 @@ for the decorators.
 
 To begin, install the GraphQL module for TS.ED:
 ```bash
-npm install --save @tsed/graphql
+npm install --save @tsed/graphql type-graphql graphql@14.7.0
+npm install --save apollo-datasource apollo-datasource-rest apollo-server-express
+npm install --save-dev  apollo-server-testing
 ```
 
 [Type-graphql](https://19majkel94.github.io/type-graphql/) require to update your `tsconfig.json` by adding extra options as following:

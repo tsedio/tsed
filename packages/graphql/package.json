@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "apollo-datasource": "^0.7.2",
-    "apollo-datasource-rest": "0.9.3",
-    "apollo-server-express": "2.16.1",
+    "apollo-datasource-rest": "^0.9.3",
+    "apollo-server-express": "^2.16.1",
     "tslib": "1.11.0",
     "type-graphql": "^0.17.6"
   },
@@ -22,5 +22,10 @@
     "apollo-server-testing": "2.16.1",
     "graphql": "14.7.0"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "apollo-datasource": "^0.7.2",
+    "apollo-datasource-rest": "^0.9.3",
+    "apollo-server-express": "^2.16.1",
+    "type-graphql": "^0.17.6"
+  }
 }
