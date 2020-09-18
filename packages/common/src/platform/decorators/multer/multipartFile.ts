@@ -1,12 +1,4 @@
-import {
-  DecoratorParameters,
-  Metadata,
-  Store,
-  StoreMerge,
-  StoreSet,
-  useDecorators,
-  useMethodDecorators
-} from "@tsed/core";
+import {DecoratorParameters, Metadata, Store, StoreMerge, StoreSet, useDecorators, useMethodDecorators} from "@tsed/core";
 import {Consumes, Returns} from "@tsed/schema";
 import {Req, Use, UseParamType} from "../../../mvc/decorators";
 import {ParamTypes} from "../../../mvc/models/ParamTypes";
@@ -28,7 +20,7 @@ function mapOptions(name: string, maxCount: number | undefined): MulterInputOpti
  *
  * ```typescript
  * import {Controller, Post} from "@tsed/common";
- * import {MulterOptions, MultipartFile} from "@tsed/multipartfiles";
+ * import {MulterOptions, MultipartFile} from "@tsed/common";
  * import {Multer} from "@types/multer";
  *
  * type MulterFile = Express.Multer.File;

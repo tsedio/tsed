@@ -17,17 +17,17 @@
   "dependencies": {
     "@tsed/core": "6.0.0-alpha.18",
     "change-case": "4.1.1",
-    "tslib": "1.11.0"
+    "tslib": "2.0.1"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
   },
   "private": false,
   "devDependencies": {
-    "@apidevtools/swagger-parser": "9.0.1",
+    "@apidevtools/swagger-parser": "10.0.2",
     "@types/change-case": "2.3.1",
     "@types/fs-extra": "9.0.1",
-    "@types/json-schema": "7.0.5",
+    "@types/json-schema": "7.0.6",
     "fs-extra": "9.0.1"
   },
   "peerDependencies": {}

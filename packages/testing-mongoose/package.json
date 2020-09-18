@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "mongodb-memory-server": "^6.3.3",
-    "tslib": "1.11.0"
+    "tslib": "2.0.1"
   },
   "private": false,
   "peerDependencies": {

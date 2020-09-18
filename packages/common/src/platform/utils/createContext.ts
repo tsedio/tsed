@@ -3,7 +3,7 @@ import {PlatformContext} from "../domain/PlatformContext";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
 
-const uuidv4 = require("uuid/v4");
+const uuidv4 = require("uuid").v4;
 const defaultReqIdBuilder = () => uuidv4().replace(/-/gi, "");
 
 /**

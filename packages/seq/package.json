@@ -19,7 +19,7 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "tslib": "1.11.0"
+    "tslib": "2.0.1"
   },
   "peerDependencies": {
     "@types/bunyan": "^1.8.6",

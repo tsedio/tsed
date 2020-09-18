@@ -18,7 +18,7 @@
   ],
   "dependencies": {
     "@tsed/core": "6.0.0-alpha.18",
-    "tslib": "1.11.0"
+    "tslib": "2.0.1"
   },
   "devDependencies": {
     "@tsed/schema": "6.0.0-alpha.18"

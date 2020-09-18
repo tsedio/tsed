@@ -5,7 +5,7 @@ import {MulterOptions} from "./multerOptions";
  *
  * ```typescript
  * import {Controller, Post} from "@tsed/common";
- * import {MulterOptions, MultipartFile} from "@tsed/multipartfiles";
+ * import {MulterOptions, MultipartFile} from "@tsed/common";
  * import {Multer} from "@types/multer";
  *
  * type MulterFile = Express.Multer.File;

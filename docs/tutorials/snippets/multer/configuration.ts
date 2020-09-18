@@ -1,5 +1,4 @@
 import {Configuration} from "@tsed/common";
-import "@tsed/multipartfiles";
 import "@tsed/platform-express";
 
 const rootDir = __dirname;

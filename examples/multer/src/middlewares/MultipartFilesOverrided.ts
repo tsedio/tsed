@@ -1,5 +1,5 @@
 // import {Configuration, EndpointInfo, EndpointMetadata, IMiddleware, OverrideProvider, Req, Res} from "@tsed/common";
-// import {MultipartFileMiddleware} from "@tsed/multipartfiles";
+// import {MultipartFileMiddleware} from "@tsed/common";
 // import * as Express from "express";
 // import * as multer from "multer";
 // import {BadRequest} from "@tsed/exceptions";

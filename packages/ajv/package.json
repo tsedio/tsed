@@ -9,7 +9,7 @@
     "tsc": "tsc --build tsconfig.check.json"
   },
   "dependencies": {
-    "tslib": "1.11.0"
+    "tslib": "2.0.1"
   },
   "peerDependencies": {
     "ajv": "^6.12.4"

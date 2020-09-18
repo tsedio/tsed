@@ -1,5 +1,5 @@
 import {Controller, Put, Status, UseBefore, Returns} from "@tsed/common";
-import {MulterOptions, MultipartFile} from "@tsed/multipartfiles";
+import {MulterOptions, MultipartFile} from "@tsed/common";
 import {BeforeMiddleware} from "../../middlewares/BeforeMiddleware";
 
 @Controller("/upload")

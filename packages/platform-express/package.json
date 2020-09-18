@@ -37,7 +37,7 @@
   "homepage": "http://tsed.io/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TypedProject//tsed.git"
+    "url": "git+https://github.com/TypedProject/tsed.git"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
