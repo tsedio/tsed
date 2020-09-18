@@ -8,11 +8,7 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "apollo-datasource": "^0.7.2",
-    "apollo-datasource-rest": "0.9.3",
-    "apollo-server-express": "2.16.1",
     "tslib": "1.11.0",
-    "type-graphql": "^0.17.6"
   },
   "private": false,
   "devDependencies": {
@@ -20,7 +16,16 @@
     "@tsed/core": "6.0.0-alpha.18",
     "@types/graphql": "^14.5.0",
     "apollo-server-testing": "2.16.1",
+    "apollo-datasource": "^0.7.2",
+    "apollo-datasource-rest": "^0.9.3",
+    "apollo-server-express": "^2.16.1",
+    "type-graphql": "^0.17.6",
     "graphql": "14.7.0"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "apollo-datasource": "^0.7.2",
+    "apollo-datasource-rest": "^0.9.3",
+    "apollo-server-express": "^2.16.1",
+    "type-graphql": "^0.17.6"
+  }
 }

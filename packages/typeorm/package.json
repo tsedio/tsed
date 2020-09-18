@@ -8,13 +8,15 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "tslib": "1.11.0",
-    "typeorm": "0.2.25"
+    "tslib": "1.11.0"
   },
   "private": false,
   "devDependencies": {
     "@tsed/common": "6.0.0-alpha.18",
-    "@tsed/core": "6.0.0-alpha.18"
+    "@tsed/core": "6.0.0-alpha.18",
+    "typeorm": "^0.2.26"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "typeorm": "^0.2.26"
+  }
 }
