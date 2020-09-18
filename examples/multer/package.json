@@ -54,6 +54,7 @@
     "@types/sinon": "9.0.4",
     "@types/sinon-chai": "3.2.4",
     "@types/supertest": "2.0.10",
+    "@types/multer": "1.4.4",
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "concurrently": "5.2.0",
