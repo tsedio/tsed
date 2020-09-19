@@ -1,6 +1,6 @@
-import {EndpointMetadata} from "../../models/EndpointMetadata";
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "@tsed/schema";
+import {EndpointMetadata} from "../../models/EndpointMetadata";
 
 /**
  * Mounts the specified middleware function or functions at the specified path: the middleware function is executed when
@@ -26,11 +26,18 @@ export function UseBefore(...args: any[]): Function {
   return JsonEntityFn((entity, parameters) => {
     switch (entity.decoratorType) {
       case DecoratorTypes.METHOD:
-        (entity as EndpointMetadata).before(args);
+        const endpoint = entity as EndpointMetadata;
+        endpoint.beforeMiddlewares = args.concat(endpoint.beforeMiddlewares);
+
         break;
 
       case DecoratorTypes.CLASS:
-        entity.store.merge("middlewares", {useBefore: args});
+        const middlewares = entity.store.get("middlewares") || {};
+
+        entity.store.set("middlewares", {
+          ...middlewares,
+          useBefore: [...args, ...(middlewares.useBefore || [])]
+        });
         break;
 
       default:

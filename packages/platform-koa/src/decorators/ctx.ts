@@ -1,9 +1,11 @@
-import {mapParamsOptions, UseParam} from "@tsed/common";
+import {UseParam} from "@tsed/common";
 import type {Context} from "koa";
 
 /**
  * Return the original Koa context.
  * @decorator
+ * @operation
+ * @input
  * @koa
  */
 export function KoaCtx(): ParameterDecorator {
@@ -16,6 +18,8 @@ export function KoaCtx(): ParameterDecorator {
 /**
  * Return the original Koa context.
  * @decorator
+ * @operation
+ * @input
  * @koa
  */
 export function Ctx(): ParameterDecorator {

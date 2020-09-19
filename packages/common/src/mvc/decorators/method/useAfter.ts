@@ -26,11 +26,18 @@ export function UseAfter(...args: any[]): Function {
   return JsonEntityFn((entity, parameters) => {
     switch (entity.decoratorType) {
       case DecoratorTypes.METHOD:
-        (entity as EndpointMetadata).after(args);
+        const endpoint = entity as EndpointMetadata;
+        endpoint.afterMiddlewares = args.concat(endpoint.afterMiddlewares);
+
         break;
 
       case DecoratorTypes.CLASS:
-        entity.store.merge("middlewares", {useAfter: args});
+        const middlewares = entity.store.get("middlewares") || {};
+
+        entity.store.set("middlewares", {
+          ...middlewares,
+          useAfter: [...args, ...(middlewares.useAfter || [])]
+        });
         break;
 
       default:
