@@ -6,11 +6,16 @@ class CustomMiddleware {
   use() {}
 }
 
+class CustomMiddleware2 {
+  use() {}
+}
+
 describe("UseBefore()", () => {
   describe("when the decorator is use on a class", () => {
     it("should add the middleware on the use stack", () => {
       // WHEN
       @UseBefore(CustomMiddleware)
+      @UseBefore(CustomMiddleware2)
       class Test {
         test() {}
       }
@@ -18,7 +23,7 @@ describe("UseBefore()", () => {
       // THEN
       const result = Store.from(Test).get("middlewares");
 
-      expect(result).to.deep.eq({useBefore: [CustomMiddleware]});
+      expect(result).to.deep.eq({useBefore: [CustomMiddleware, CustomMiddleware2]});
     });
   });
   describe("when the decorator is use on a method", () => {
@@ -26,12 +31,13 @@ describe("UseBefore()", () => {
       // WHEN
       class Test {
         @UseBefore(CustomMiddleware)
+        @UseBefore(CustomMiddleware2)
         test() {}
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
       // THEN
-      expect(endpoint.beforeMiddlewares).to.deep.eq([CustomMiddleware]);
+      expect(endpoint.beforeMiddlewares).to.deep.eq([CustomMiddleware, CustomMiddleware2]);
     });
   });
   describe("when the decorator is use in another way", () => {

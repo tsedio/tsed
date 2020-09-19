@@ -69,12 +69,12 @@
     "ejs": "3.1.5"
   },
   "dependencies": {
-    "@koa/router": "9.4.0",
-    "koa-compose": "4.1.0",
-    "koa-static": "5.0.0",
-    "koa-mount": "4.0.0",
-    "multer": "1.4.2",
-    "encodeurl": "1.0.2"
+    "@koa/router": "^9.4.0",
+    "koa-compose": "^4.1.0",
+    "koa-static": "^5.0.0",
+    "koa-mount": "^4.0.0",
+    "multer": "^1.4.2",
+    "encodeurl": "^1.0.2"
   },
   "peerDependencies": {}
 }
