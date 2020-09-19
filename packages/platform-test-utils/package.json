@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-test-utils",
-  "version": "6.0.0-alpha.19",
+  "version": "6.0.0-alpha.20",
   "description": "Integration packages",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -8,11 +8,9 @@
     "start": "ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
-    "@tsed/common": "6.0.0-alpha.19",
-    "@tsed/core": "6.0.0-alpha.19",
-    "@tsed/di": "6.0.0-alpha.19"
+    "@tsed/common": "6.0.0-alpha.20",
+    "@tsed/core": "6.0.0-alpha.20",
+    "@tsed/di": "6.0.0-alpha.20"
   },
-  "private": true,
-  "devDependencies": {},
-  "peerDependencies": {}
+  "private": true
 }

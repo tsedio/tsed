@@ -1,6 +1,6 @@
 {
   "name": "@tsed/common",
-  "version": "6.0.0-alpha.19",
+  "version": "6.0.0-alpha.20",
   "description": "A TypeScript Framework on top of Express",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -45,12 +45,12 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/core": "6.0.0-alpha.19",
-    "@tsed/di": "6.0.0-alpha.19",
-    "@tsed/exceptions": "6.0.0-alpha.19",
-    "@tsed/json-mapper": "6.0.0-alpha.19",
+    "@tsed/core": "6.0.0-alpha.20",
+    "@tsed/di": "6.0.0-alpha.20",
+    "@tsed/exceptions": "6.0.0-alpha.20",
+    "@tsed/json-mapper": "6.0.0-alpha.20",
     "@tsed/logger": "5.5.3",
-    "@tsed/schema": "6.0.0-alpha.19",
+    "@tsed/schema": "6.0.0-alpha.20",
     "@types/json-schema": "7.0.6",
     "globby": "11.0.1",
     "json-schema": "^0.2.3",
@@ -60,7 +60,5 @@
     "ts-log-debug": "^5.5.3",
     "tslib": "2.0.1",
     "uuid": "8.3.0"
-  },
-  "devDependencies": {},
-  "peerDependencies": {}
+  }
 }

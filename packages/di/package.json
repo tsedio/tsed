@@ -1,18 +1,16 @@
 {
   "name": "@tsed/di",
-  "version": "6.0.0-alpha.19",
+  "version": "6.0.0-alpha.20",
   "description": "DI module for Ts.ED Framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "dependencies": {
-    "@tsed/core": "6.0.0-alpha.19",
+    "@tsed/core": "6.0.0-alpha.20",
     "chalk": "4.1.0",
     "tslib": "2.0.1"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
   },
-  "private": false,
-  "devDependencies": {},
-  "peerDependencies": {}
+  "private": false
 }
