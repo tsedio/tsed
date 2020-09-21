@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-express",
-  "version": "6.0.0-alpha.20",
+  "version": "6.0.0-alpha.21",
   "description": "A TypeScript Framework on top of Express",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -44,10 +44,10 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "devDependencies": {
-    "@tsed/common": "6.0.0-alpha.20",
-    "@tsed/core": "6.0.0-alpha.20",
-    "@tsed/di": "6.0.0-alpha.20",
-    "@tsed/platform-test-utils": "6.0.0-alpha.20",
+    "@tsed/common": "6.0.0-alpha.21",
+    "@tsed/core": "6.0.0-alpha.21",
+    "@tsed/di": "6.0.0-alpha.21",
+    "@tsed/platform-test-utils": "6.0.0-alpha.21",
     "@types/body-parser": "1.19.0",
     "@types/compression": "1.7.0",
     "@types/consolidate": "0.14.0",
@@ -68,5 +68,6 @@
   "dependencies": {
     "express": "^4.17.1",
     "multer": "^1.4.2"
-  }
+  },
+  "peerDependencies": {}
 }
