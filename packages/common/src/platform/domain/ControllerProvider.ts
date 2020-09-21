@@ -66,7 +66,7 @@ export class ControllerProvider<T = any> extends Provider<T> {
   /**
    *
    */
-  get routerOptions(): TsED.RouterOptions {
+  get routerOptions(): any {
     return this.store.get(ROUTER_OPTIONS) || ({} as any);
   }
 
@@ -74,7 +74,7 @@ export class ControllerProvider<T = any> extends Provider<T> {
    *
    * @param value
    */
-  set routerOptions(value: TsED.RouterOptions) {
+  set routerOptions(value: any) {
     this.store.set(ROUTER_OPTIONS, value);
   }
 
