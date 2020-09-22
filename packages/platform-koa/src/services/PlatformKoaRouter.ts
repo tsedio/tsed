@@ -1,9 +1,18 @@
 import * as KoaRouter from "@koa/router";
 import {RouterOptions as KoaRouterOptions} from "@koa/router";
 
-import {PLATFORM_ROUTER_OPTIONS, PlatformHandler, PlatformMulter, PlatformMulterSettings, PlatformRouter} from "@tsed/common";
+import {
+  PLATFORM_ROUTER_OPTIONS,
+  PlatformHandler,
+  PlatformMulter,
+  PlatformMulterSettings,
+  PlatformRouter,
+  PlatformStaticsOptions
+} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import {ServerResponse} from "http";
+import * as send from "koa-send";
+import {resolve} from "path";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 import {getMulter} from "../utils/multer";
 
 declare global {
@@ -12,19 +21,22 @@ declare global {
 
     export interface RouterOptions extends KoaRouterOptions {}
 
-    export interface StaticsOptions {
-      maxage?: number;
-      hidden?: boolean;
-      index?: string | boolean | string[];
-      defer?: boolean;
-      brotli?: boolean;
-      extensions?: false | string[] | undefined;
-
-      // @ts-ignore
-      setHeaders?(res: ServerResponse, path: string, stats: any): void;
-    }
+    export interface StaticsOptions extends send.SendOptions {}
   }
 }
+
+// @ts-ignore
+KoaRouter.prototype.$$match = KoaRouter.prototype.match;
+KoaRouter.prototype.match = function match(...args: any[]) {
+  const matched = this.$$match(...args);
+  if (matched) {
+    if (matched.path.length) {
+      matched.route = true;
+    }
+  }
+
+  return matched;
+};
 
 export class PlatformKoaRouter extends PlatformRouter<KoaRouter> {
   constructor(
@@ -44,5 +56,11 @@ export class PlatformKoaRouter extends PlatformRouter<KoaRouter> {
 
   multer(options: PlatformMulterSettings): PlatformMulter {
     return getMulter(options);
+  }
+
+  statics(path: string, options: PlatformStaticsOptions) {
+    this.rawRouter.use(path, staticsMiddleware(options) as any);
+
+    return this;
   }
 }

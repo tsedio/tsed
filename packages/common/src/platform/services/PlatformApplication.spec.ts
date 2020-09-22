@@ -253,9 +253,6 @@ describe("PlatformApplication", () => {
 
       // WHEN
       platformApp.statics("/", {root: "/root"});
-
-      // THEN
-      expect(console.warn).to.have.been.calledWithExactly("Statics methods aren't implemented on this platform");
     });
   });
 });

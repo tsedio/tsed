@@ -1,4 +1,5 @@
-import {Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {Env} from "@tsed/core";
+import {Constant, Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
 import {promisify} from "util";
 import {PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "../../config";
 import {PathParamsType} from "../../mvc/interfaces/PathParamsType";
@@ -28,6 +29,9 @@ export class PlatformRouter<Router = TsED.Router> {
 
   @Inject()
   injector: InjectorService;
+
+  @Constant("env")
+  env: Env;
 
   constructor(protected platformHandler: PlatformHandler) {
     this.rawRouter = this.raw = PlatformRouter.createRawRouter();
@@ -105,7 +109,7 @@ export class PlatformRouter<Router = TsED.Router> {
   }
 
   statics(path: string, options: PlatformStaticsOptions): this {
-    console.warn("Statics methods aren't implemented on this platform");
+    this.env !== Env.TEST && console.warn("Statics methods aren't implemented on this platform");
 
     return this;
   }

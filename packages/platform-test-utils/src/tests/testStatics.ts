@@ -1,8 +1,18 @@
-import {PlatformTest} from "@tsed/common";
+import {Controller, PlatformRouter, PlatformTest} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import {expect} from "chai";
 import {readFileSync} from "fs";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
+
+@Controller("/statics")
+class CustomStaticsCtrl {
+  constructor(router: PlatformRouter, @Configuration() config: Configuration) {
+    router.statics("/", {
+      root: String(config.statics["/"])
+    });
+  }
+}
 
 export function testStatics(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
@@ -10,7 +20,7 @@ export function testStatics(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/": []
+        "/rest": [CustomStaticsCtrl]
       }
     })
   );
@@ -27,6 +37,12 @@ export function testStatics(options: PlatformTestOptions) {
 
   it("should return index HTML (2)", async () => {
     const response = await request.get("/index.html").expect(200);
+
+    expect(response.text).to.equal(readFileSync(`${options.rootDir}/public/index.html`, {encoding: "utf8"}));
+  });
+
+  it("should return index HTML (3)", async () => {
+    const response = await request.get("/rest/statics/index.html").expect(200);
 
     expect(response.text).to.equal(readFileSync(`${options.rootDir}/public/index.html`, {encoding: "utf8"}));
   });

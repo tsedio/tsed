@@ -1,7 +1,17 @@
-import {Context, Err, Get, HandlerMetadata, HandlerType, Middleware, ParamTypes, PlatformTest, QueryParams} from "@tsed/common";
+import {
+  Context,
+  EndpointMetadata,
+  Err,
+  Get,
+  HandlerMetadata,
+  HandlerType,
+  Middleware,
+  ParamTypes,
+  PlatformTest,
+  QueryParams
+} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {FakeRequest} from "../../../../../test/helper";
 import {buildPlatformHandler} from "../../../../../test/helper/buildPlatformHandler";
 import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 import {PlatformHandler} from "./PlatformHandler";
@@ -71,12 +81,12 @@ describe("PlatformHandler", () => {
     it("should do nothing when request is aborted", async () => {
       // GIVEN
       const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
-      sandbox.stub(Test.prototype, "get").callsFake((o) => o);
       sandbox.stub(PlatformTest.injector, "invoke").callsFake(() => new Test());
 
-      const request = new FakeRequest();
-      request.aborted = true;
-      const response = new FakeRequest();
+      const $ctx = createFakePlatformContext(sandbox);
+
+      $ctx.request.raw.aborted = true;
+      $ctx.endpoint = EndpointMetadata.get(Test, "get");
 
       const handlerMetadata = new HandlerMetadata({
         token: Test,
@@ -89,7 +99,7 @@ describe("PlatformHandler", () => {
       const handler = platformHandler.createHandler(handlerMetadata);
       const next = Sinon.stub();
 
-      handler(request, response, next);
+      await handler($ctx.getRequest(), $ctx.getResponse(), next);
 
       // THEN
       return expect(next).to.not.have.been.called;

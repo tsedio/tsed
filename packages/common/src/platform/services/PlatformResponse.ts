@@ -211,13 +211,18 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     if (!this.raw) {
       return true;
     }
+
     const res = this.getRes();
 
-    return Boolean(res.headersSent || res.writableEnded || res.writableFinished);
+    return Boolean(this.isHeadersSent() || res.writableEnded || res.writableFinished);
   }
 
   destroy() {
     // @ts-ignore
     delete this.raw;
+  }
+
+  isHeadersSent() {
+    return this.getRes().headersSent;
   }
 }
