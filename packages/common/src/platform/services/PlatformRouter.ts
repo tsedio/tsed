@@ -30,9 +30,6 @@ export class PlatformRouter<Router = TsED.Router> {
   @Inject()
   injector: InjectorService;
 
-  @Constant("env")
-  env: Env;
-
   constructor(protected platformHandler: PlatformHandler) {
     this.rawRouter = this.raw = PlatformRouter.createRawRouter();
   }
@@ -109,8 +106,6 @@ export class PlatformRouter<Router = TsED.Router> {
   }
 
   statics(path: string, options: PlatformStaticsOptions): this {
-    this.env !== Env.TEST && console.warn("Statics methods aren't implemented on this platform");
-
     return this;
   }
 
