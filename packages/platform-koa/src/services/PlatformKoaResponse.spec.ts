@@ -71,20 +71,6 @@ describe("PlatformKoaResponse", () => {
       expect(res.body).to.equal("body");
     });
   });
-  describe("render()", () => {
-    it("should render view", async () => {
-      const {res, response} = createResponse();
-
-      res.ctx = {
-        render: sandbox.stub().resolves("HTML")
-      };
-
-      const result = await response.render("view", {test: "test"});
-
-      expect(result).to.eq("HTML");
-      expect(res.ctx.render).to.have.been.calledWithExactly("view", {test: "test"});
-    });
-  });
   describe("location", () => {
     it("should set header location", async () => {
       const {res, response} = createResponse();

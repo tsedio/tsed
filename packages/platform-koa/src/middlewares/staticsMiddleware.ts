@@ -1,11 +1,11 @@
 import {PlatformStaticsOptions} from "@tsed/common";
-import {KoaCtx} from "@tsed/platform-koa";
+import type {Context} from "koa";
 import * as send from "koa-send";
 
-export function staticsMiddleware(options: PlatformStaticsOptions) {
+export function staticsMiddleware(options: PlatformStaticsOptions): any {
   if (options.index !== false) options.index = options.index || "index.html";
 
-  return async (ctx: KoaCtx, next: any) => {
+  return async (ctx: Context, next: any) => {
     if (["GET", "HEAD"].includes(ctx.method)) {
       let path = ctx.path;
 
@@ -13,7 +13,7 @@ export function staticsMiddleware(options: PlatformStaticsOptions) {
         path = path.replace(String(ctx._matchedRoute).replace("/(.*)", ""), "");
       }
       try {
-        const done = await send(ctx, path, options as send.SendOptions);
+        const done = await send(ctx as any, path, options as send.SendOptions);
 
         if (done) {
           return;

@@ -4,12 +4,14 @@ import {createReadStream} from "fs";
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../test/helper";
 import {PlatformResponse} from "./PlatformResponse";
+import {PlatformViews} from "./PlatformViews";
 
 const sandbox = Sinon.createSandbox();
 
 function createResponse() {
   const res: any = new FakeResponse(sandbox);
   const response = new PlatformResponse(res);
+  response.platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
 
   return {res, response};
 }
@@ -72,9 +74,18 @@ describe("PlatformResponse", () => {
     it("should return a string", async () => {
       const {response} = createResponse();
 
-      const result = await response.render("view", {});
+      response.locals.locale = "fr-FR";
+      sandbox.stub(response.platformViews, "render").resolves("HTML");
 
-      expect(result).to.eq("PlatformResponse.render method is not implemented");
+      const result = await response.render("view", {
+        test: "test"
+      });
+
+      expect(response.platformViews.render).to.have.been.calledWithExactly("view", {
+        locale: "fr-FR",
+        test: "test"
+      });
+      expect(result).to.eq("HTML");
     });
   });
   describe("location()", () => {

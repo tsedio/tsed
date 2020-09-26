@@ -9,7 +9,6 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "ejs": "3.1.5",
     "swagger-ui-dist": "^3.31.1",
     "tslib": "2.0.1"
   },

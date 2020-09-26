@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Swagger UI</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700"
+          rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./swagger-ui.css">
+    <link rel="icon" type="image/png" href="./favicon-32x32.png" sizes="32x32"/>
+    <link rel="icon" type="image/png" href="./favicon-16x16.png" sizes="16x16"/>
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            background: #fafafa;
+        }
+
+        
+        .swagger-ui .topbar .download-url-wrapper {
+            display: none
+        }
+
+        
+    </style>
+    
+    <link rel="stylesheet" type="text/css" href="./main.css">
+    
+</head>
+
+<body>
+<div id="swagger-ui"></div>
+
+<script src="./swagger-ui-bundle.js"></script>
+<script src="./swagger-ui-standalone-preset.js"></script>
+<script>
+  if (typeof Object.assign !== 'function') {
+    // Must be writable: true, enumerable: false, configurable: true
+    Object.defineProperty(Object, "assign", {
+      value: function assign(target, varArgs) { // .length of function is 2
+        'use strict';
+        if (target == null) { // TypeError if undefined or null
+          throw new TypeError('Cannot convert undefined or null to object');
+        }
+
+        var to = Object(target);
+
+        for (var index = 1; index < arguments.length; index++) {
+          var nextSource = arguments[index];
+
+          if (nextSource != null) { // Skip over if undefined or null
+            for (var nextKey in nextSource) {
+              // Avoid bugs when hasOwnProperty is shadowed
+              if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+                to[nextKey] = nextSource[nextKey];
+              }
+            }
+          }
+        }
+        return to;
+      },
+      writable: true,
+      configurable: true
+    });
+  }
+</script>
+<script>
+  const origin = window.location.origin;
+  const initialOptions = {};
+  const currentUrl = origin + "/doc/swagger.json";
+  const urls = []
+  .map(function (o) {
+    if (!o.url.match(/^https?:/)) {
+      const url = origin + o.url;
+      return {
+        name: o.name,
+        url: url,
+        selected: url === currentUrl
+      }
+    }
+    return o;
+  })
+    .sort(function (a, b) {
+      return a.selected ? -1 : 1
+    });
+
+  const SwaggerUIBuilder = {
+    config: Object.assign({
+      urls: urls,
+      dom_id: '#swagger-ui',
+      deepLinking: true,
+      presets: [
+        SwaggerUIBundle.presets.apis,
+        SwaggerUIStandalonePreset
+      ],
+      plugins: [
+        SwaggerUIBundle.plugins.DownloadUrl
+      ],
+      layout: "StandaloneLayout",
+      validatorUrl: origin.match('0.0.0.0') || origin.match('localhost') ? null : undefined
+    }, initialOptions),
+    /**
+     *
+     */
+    init: function () {
+      this.ui = SwaggerUIBundle(this.config);
+
+      if (this.config.oauth) {
+        this.ui.initOAuth(this.config.oauth);
+      }
+
+      if (this.config.authorize) {
+        this.ui.authActions.authorize(this.config.authorize);
+      }
+
+      window.ui = this.ui;
+
+      const event = new Event('swagger.init');
+      document.dispatchEvent(event);
+    }
+  }
+
+</script>
+
+<script src="./main.js"></script>
+
+<script>
+  window.onload = function () {
+    SwaggerUIBuilder.init();
+  }
+</script>
+
+</body>
+</html>

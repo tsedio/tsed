@@ -363,7 +363,7 @@ describe("PlatformHandler", () => {
       const value = platformHandler.getArg(param.paramType, h);
 
       // THEN
-      expect(value).to.deep.eq(h.getRequest().locals);
+      expect(value).to.deep.eq(h.getResponse().locals);
     });
 
     it("should return request by default", async () => {

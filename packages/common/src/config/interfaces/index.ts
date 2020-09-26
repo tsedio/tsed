@@ -5,6 +5,7 @@ import {EndpointDirectoriesSettings} from "./EndpointDirectoriesSettings";
 import {PlatformLoggerSettings} from "./PlatformLoggerSettings";
 import {PlatformMulterSettings} from "./PlatformMulterSettings";
 import {PlatformStaticsSettings} from "./PlatformStaticsSettings";
+import {PlatformViewsSettings} from "./PlatformViewsSettings";
 
 declare global {
   namespace TsED {
@@ -73,6 +74,10 @@ declare global {
        * Object configure Multer. See more on [Upload file](/tutorials/serve-static-files.md).
        */
       multer: PlatformMulterSettings;
+      /**
+       * Object to configure Views engines with Consolidate. See more on [View engine](/docs/template-engine.md).
+       */
+      views: PlatformViewsSettings;
     }
   }
 }

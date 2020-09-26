@@ -15,11 +15,11 @@ describe("ControllerRegistry", () => {
     // @ts-ignore
     provider.router = {
       raw: {}
-    };
+    } as any;
 
     settings.onInvoke!(provider, locals, []);
 
     expect(locals.has(PlatformRouter)).to.eq(true);
-    expect(locals.get(PlatformRouter)).to.deep.eq(provider.router);
+    expect(locals.get(PlatformRouter)).to.deep.eq(provider.getRouter());
   });
 });

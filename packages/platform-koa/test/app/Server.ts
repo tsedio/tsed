@@ -4,7 +4,6 @@ import Application from "koa";
 import * as bodyParser from "koa-bodyparser";
 import * as compress from "koa-compress";
 import * as session from "koa-session";
-import * as views from "koa-views";
 
 const methodOverride = require("koa-override");
 
@@ -15,22 +14,18 @@ export const rootDir = __dirname;
   statics: {
     "/": `${rootDir}/public`
   },
-  viewsDir: `${rootDir}/views`
+  views: {
+    path: `${rootDir}/views`,
+    extensions: {
+      ejs: "ejs"
+    }
+  }
 })
 export class Server {
   @Inject()
   app: PlatformApplication<Application>;
 
-  @Constant("viewsDir")
-  viewsDir: string;
-
   $beforeRoutesInit() {
-    this.app.use(views(this.viewsDir, {
-      autoRender: false,
-      map: {
-        html: "ejs"
-      }
-    }));
     this.app.getApp().keys = ["some secret hurr"];
     this.app
       .use(compress())

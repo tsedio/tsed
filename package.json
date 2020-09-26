@@ -71,11 +71,12 @@
     "@tsed/logger": "5.5.3",
     "ajv": "6.12.4",
     "uuid": "8.3.0",
-    "ejs": "3.1.5",
+    "ejs": "^3.1.5",
     "ejs-lint": "1.1.0",
     "globby": "11.0.1",
     "lerna": "3.22.1",
-    "reflect-metadata": "0.1.13"
+    "reflect-metadata": "0.1.13",
+    "consolidate": "0.16.0"
   },
   "devDependencies": {
     "@tsed/monorepo-utils": "1.9.1",

@@ -20,6 +20,10 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
     return this.raw.status;
   }
 
+  get locals() {
+    return this.raw.ctx.state;
+  }
+
   /**
    * Return the Node.js response object
    */
@@ -103,14 +107,5 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
     this.setHeader("Location", encodeUrl(location));
 
     return this;
-  }
-
-  /**
-   * Render a view from given data
-   * @param path
-   * @param options
-   */
-  async render(path: string, options: any = {}): Promise<any> {
-    return this.raw.ctx.render(path, options);
   }
 }

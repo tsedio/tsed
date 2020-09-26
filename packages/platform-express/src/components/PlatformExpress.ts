@@ -8,6 +8,7 @@ import {
   PlatformResponse,
   PlatformRouter
 } from "@tsed/common";
+import {PlatformViews} from "@tsed/common/src/platform/services/PlatformViews";
 import {Type} from "@tsed/core";
 import {
   PlatformExpressApplication,
@@ -50,6 +51,8 @@ export class PlatformExpress extends PlatformBuilder {
   }
 
   protected async loadRoutes(routes: IRoute[]): Promise<void> {
+    this.configureViewsEngine();
+
     await super.loadRoutes(routes);
 
     // NOT FOUND
@@ -61,5 +64,16 @@ export class PlatformExpress extends PlatformBuilder {
     this.app.use((err: any, req: any, res: any, next: any) => {
       this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(err, req.$ctx);
     });
+  }
+
+  private configureViewsEngine() {
+    const platformViews = this.injector.get<PlatformViews>(PlatformViews)!;
+
+    platformViews.getEngines().forEach(({extension, engine}) => {
+      this.app.getApp().engine(extension, engine);
+    });
+
+    platformViews.viewEngine && this.app.getApp().set("view engine", platformViews.viewEngine);
+    platformViews.path && this.app.getApp().set("views", platformViews.path);
   }
 }
