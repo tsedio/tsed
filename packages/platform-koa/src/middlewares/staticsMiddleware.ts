@@ -6,7 +6,7 @@ export function staticsMiddleware(options: PlatformStaticsOptions): any {
   if (options.index !== false) options.index = options.index || "index.html";
 
   return async (ctx: Context, next: any) => {
-    if (["GET", "HEAD"].includes(ctx.method)) {
+    if (["GET", "HEAD"].includes(ctx.method) && !ctx.body) {
       let path = ctx.path;
 
       if (ctx._matchedRoute && ctx._matchedRoute !== "/") {
