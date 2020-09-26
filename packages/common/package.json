@@ -56,11 +56,15 @@
     "json-schema": "^0.2.3",
     "normalize-path": "3.0.0",
     "on-finished": "2.3.0",
-    "rxjs": "^6.5.2",
     "ts-log-debug": "^5.5.3",
     "tslib": "2.0.1",
-    "uuid": "8.3.0"
+    "uuid": "8.3.0",
+    "consolidate": "^0.16.0",
+    "ejs": "^3.1.5"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/consolidate": "0.14.0",
+    "rxjs": "^6.5.2"
+  },
   "peerDependencies": {}
 }

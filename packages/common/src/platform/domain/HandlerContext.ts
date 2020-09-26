@@ -1,6 +1,5 @@
-import {isPromise, isStream} from "@tsed/core";
+import {isObservable, isPromise, isStream} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {isObservable} from "rxjs";
 import {HandlerMetadata} from "../../mvc/models/HandlerMetadata";
 import {PlatformContext} from "./PlatformContext";
 

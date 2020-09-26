@@ -121,6 +121,14 @@ export class PlatformHandler {
     }
   }
 
+  protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {
+    const {metadata, $ctx} = requestOptions;
+
+    await metadata.handler($ctx);
+
+    return this.next(requestOptions);
+  }
+
   /**
    * Call handler when a request his handle
    * @param requestOptions
@@ -157,7 +165,7 @@ export class PlatformHandler {
       throw er;
     }
 
-    return next(er);
+    return !$ctx.response.isHeadersSent() && next && next(er);
   }
 
   /**
@@ -169,22 +177,25 @@ export class PlatformHandler {
   protected async onSuccess(data: any, requestOptions: OnRequestOptions) {
     const {metadata, $ctx, next} = requestOptions;
 
+    if ($ctx.request.isAborted() || $ctx.response.isDone()) {
+      return;
+    }
+
     // set headers each times that an endpoint is called
     if (metadata.type === HandlerType.ENDPOINT) {
       this.setHeaders($ctx);
     }
 
     // call returned middleware
-
     if (isFunction(data) && !isStream(data)) {
       return this.callReturnedMiddleware(data, $ctx, next);
     }
 
-    if (metadata.isFinal() && !$ctx.response.isDone()) {
+    if (metadata.isFinal()) {
       return this.flush(data, $ctx);
     }
 
-    return !$ctx.response.isDone() && next && next();
+    return this.next(requestOptions);
   }
 
   /**
@@ -209,10 +220,6 @@ export class PlatformHandler {
 
     if (endpoint.view) {
       data = await this.render(data, ctx);
-
-      if (data === undefined) {
-        return;
-      }
     } else if (shouldBeSerialized(data)) {
       data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {type: endpoint.type});
     }
@@ -269,6 +276,12 @@ export class PlatformHandler {
    */
   protected setHeaders(ctx: PlatformContext) {
     return setResponseHeaders(ctx);
+  }
+
+  protected next(requestOptions: OnRequestOptions) {
+    const {$ctx, next} = requestOptions;
+
+    return !$ctx.response.isDone() && next && next();
   }
 
   /**

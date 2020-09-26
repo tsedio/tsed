@@ -1,6 +1,7 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
+import {DI_PARAM_OPTIONS, Inject, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
 import {ServerResponse} from "http";
+import {PlatformViews} from "./PlatformViews";
 
 const onFinished = require("on-finished");
 
@@ -20,6 +21,9 @@ declare global {
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
 export class PlatformResponse<T extends {[key: string]: any} = any> {
+  @Inject()
+  platformViews: PlatformViews;
+
   constructor(@Opts public raw: T) {}
 
   /**
@@ -162,7 +166,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    * @param options
    */
   async render(path: string, options: any = {}) {
-    return "PlatformResponse.render method is not implemented";
+    return this.platformViews.render(path, {
+      ...this.locals,
+      ...options
+    });
   }
 
   /**
@@ -211,13 +218,18 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     if (!this.raw) {
       return true;
     }
+
     const res = this.getRes();
 
-    return Boolean(res.headersSent || res.writableEnded || res.writableFinished);
+    return Boolean(this.isHeadersSent() || res.writableEnded || res.writableFinished);
   }
 
   destroy() {
     // @ts-ignore
     delete this.raw;
+  }
+
+  isHeadersSent() {
+    return this.getRes().headersSent;
   }
 }

@@ -22,36 +22,4 @@ describe("PlatformExpressResponse", () => {
 
     expect(response.raw).to.eq(res);
   });
-
-  describe("render()", () => {
-    it("should render view", async () => {
-      const {res, response} = createResponse();
-
-      res.render.callsFake((view: any, options: any, cb: any) => {
-        cb(null, "HTML");
-      });
-
-      const result = await response.render("view", {test: "test"});
-
-      expect(result).to.eq("HTML");
-      expect(res.render).to.have.been.calledWithExactly("view", {test: "test"}, Sinon.match.func);
-    });
-
-    it("should throw an error", async () => {
-      const {res, response} = createResponse();
-
-      res.render.callsFake((view: any, options: any, cb: any) => {
-        cb(new Error("parse error"));
-      });
-
-      let actualError: any;
-      try {
-        await response.render("view", {test: "test"});
-      } catch (er) {
-        actualError = er;
-      }
-
-      expect(actualError.message).to.eq("parse error");
-    });
-  });
 });

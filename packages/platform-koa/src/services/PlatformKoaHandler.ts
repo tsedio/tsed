@@ -23,11 +23,12 @@ export class PlatformKoaHandler extends PlatformHandler {
         return super.createRawHandler(metadata);
 
       case HandlerType.CTX_FN:
-        return async (ctx: Koa.Context, next: any) => {
-          await metadata.handler(ctx.request.$ctx);
-
-          return next();
-        };
+        return async (ctx: Koa.Context, next: any) =>
+          this.onCtxRequest({
+            metadata,
+            next,
+            $ctx: ctx.request.$ctx
+          });
 
       case HandlerType.RAW_ERR_FN:
       case HandlerType.RAW_FN:
@@ -78,11 +79,25 @@ export class PlatformKoaHandler extends PlatformHandler {
     $ctx.data = error;
 
     if (!next || metadata.isFinal()) {
-      $ctx.getApp().emit("error", error, $ctx.getRequest().ctx);
+      this.throwError(error, $ctx);
 
       return;
     }
 
     return next();
+  }
+
+  protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {
+    const {$ctx} = requestOptions;
+
+    try {
+      return await super.onCtxRequest(requestOptions);
+    } catch (error) {
+      this.throwError(error, $ctx);
+    }
+  }
+
+  protected throwError(error: any, $ctx: PlatformContext) {
+    $ctx.getApp().emit("error", error, $ctx.getRequest().ctx);
   }
 }

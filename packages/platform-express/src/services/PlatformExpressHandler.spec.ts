@@ -3,6 +3,7 @@ import {PlatformExpressHandler} from "@tsed/platform-express";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {buildPlatformHandler, invokePlatformHandler} from "../../../../test/helper/buildPlatformHandler";
+import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
 
 const sandbox = Sinon.createSandbox();
 
@@ -114,6 +115,40 @@ describe("PlatformExpressHandler", () => {
         // THEN
         expect(handler).to.not.eq(handlerMetadata.handler);
         expect(handler.length).to.eq(3);
+      });
+      it("should catch error from handler", async () => {
+        // GIVEN
+        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+
+        class Test {
+          use() {}
+        }
+
+        const error = new Error("test");
+        PlatformTest.invoke(Test);
+
+        const $ctx = createFakePlatformContext(sandbox);
+
+        const handlerMetadata = new HandlerMetadata({
+          token: Test,
+          target: (ctx: any) => {
+            throw error;
+          },
+          type: HandlerType.CTX_FN
+        });
+
+        // WHEN
+        const handler = platformHandler.createHandler(handlerMetadata);
+
+        // THEN
+        expect(handler).to.not.eq(handlerMetadata.handler);
+        expect(handler.length).to.eq(3);
+
+        const next = sandbox.stub();
+
+        await handler($ctx.getRequest(), $ctx.getResponse(), next);
+
+        expect(next).to.have.been.calledWithExactly(error);
       });
     });
     describe("FUNCTION", () => {

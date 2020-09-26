@@ -1,4 +1,4 @@
-import {HandlerMetadata, HandlerType, PlatformHandler} from "@tsed/common";
+import {HandlerMetadata, HandlerType, OnRequestOptions, PlatformHandler} from "@tsed/common";
 
 /**
  * @platform
@@ -12,9 +12,11 @@ export class PlatformExpressHandler extends PlatformHandler {
 
       case HandlerType.CTX_FN:
         return async (req: any, res: any, next: any) => {
-          await metadata.handler(req.$ctx);
-
-          return !res.headersSent && next && next();
+          await this.onCtxRequest({
+            metadata,
+            next,
+            $ctx: req.$ctx
+          });
         };
 
       case HandlerType.ERR_MIDDLEWARE:
@@ -25,6 +27,14 @@ export class PlatformExpressHandler extends PlatformHandler {
             next,
             metadata
           });
+    }
+  }
+
+  protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {
+    try {
+      return await super.onCtxRequest(requestOptions);
+    } catch (er) {
+      return this.onError(er, requestOptions);
     }
   }
 }

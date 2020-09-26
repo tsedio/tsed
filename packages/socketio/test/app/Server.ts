@@ -1,7 +1,7 @@
 import "@tsed/ajv";
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
-import "@tsed/socketio";
 import "@tsed/platform-express";
+import "@tsed/socketio";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
@@ -26,6 +26,13 @@ const rootDir = resolve(__dirname);
   statics: {
     "/": "${rootDir}/views"
   },
+  views: {
+    path: `${rootDir}/views`,
+    extensions: {
+      html: "ejs"
+    },
+    viewEngine: "html"
+  },
   socketIO: {}
 })
 export class Server {
@@ -48,10 +55,6 @@ export class Server {
       .use(compress({}))
       .use(methodOverride());
 
-    this.app.getApp()
-      .engine(".html", require("ejs").__express)
-      .set("views", `${rootDir}/views`)
-      .set("view engine", "html")
-      .set("trust proxy", 1);
+    this.app.getApp().set("trust proxy", 1);
   }
 }

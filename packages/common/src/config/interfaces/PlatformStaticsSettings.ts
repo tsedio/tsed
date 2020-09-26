@@ -1,5 +1,6 @@
 declare global {
   namespace TsED {
+    // @ts-ignore
     export interface StaticsOptions {
       root: string;
 
