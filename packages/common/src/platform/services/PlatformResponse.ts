@@ -59,6 +59,13 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   }
 
   /**
+   * Return the Framework response object (express, koa, etc...)
+   */
+  getResponse<Res = T>(): Res {
+    return this.raw as any;
+  }
+
+  /**
    * Return the Node.js response object
    */
   getRes(): ServerResponse {

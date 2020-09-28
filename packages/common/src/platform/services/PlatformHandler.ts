@@ -71,6 +71,12 @@ export class PlatformHandler {
     } = h;
 
     switch (type) {
+      case ParamTypes.NODE_RESPONSE:
+        return $ctx.getRes();
+
+      case ParamTypes.NODE_REQUEST:
+        return $ctx.getReq();
+
       case ParamTypes.FILES:
         return h.getRequest().files;
 
@@ -79,6 +85,12 @@ export class PlatformHandler {
 
       case ParamTypes.REQUEST:
         return h.getRequest();
+
+      case ParamTypes.PLATFORM_RESPONSE:
+        return response;
+
+      case ParamTypes.PLATFORM_REQUEST:
+        return request;
 
       case ParamTypes.NEXT_FN:
         return h.next;

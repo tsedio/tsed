@@ -88,10 +88,22 @@ export class PlatformContext extends Map<any, any> {
       id,
       dateStart: this.dateStart
     });
+
+    if (this.response) {
+      this.container.set(PlatformResponse, this.response);
+    }
+
+    if (this.response) {
+      this.container.set(PlatformRequest, this.request);
+    }
   }
 
   get env() {
     return this.injector.settings.env;
+  }
+
+  get app() {
+    return this.injector.get<PlatformApplication>(PlatformApplication)!;
   }
 
   async destroy() {
@@ -124,15 +136,15 @@ export class PlatformContext extends Map<any, any> {
   /**
    * Return the framework request instance (Express, Koa, etc...)
    */
-  getRequest<T = any>(): T {
-    return this.request.raw as any;
+  getRequest<Req = any>(): Req {
+    return this.request.getRequest<Req>();
   }
 
   /**
    * Return the framework response instance (Express, Koa, etc...)
    */
-  getResponse<T = any>(): T {
-    return this.response.raw as any;
+  getResponse<Res = any>(): Res {
+    return this.response.getResponse<Res>();
   }
 
   /**

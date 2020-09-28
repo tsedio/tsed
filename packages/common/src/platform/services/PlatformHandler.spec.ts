@@ -137,9 +137,24 @@ describe("PlatformHandler", () => {
     });
   });
   describe("getArg()", () => {
-    it("should return REQUEST", async () => {
+    it("should return REQUEST (node)", async () => {
       // GIVEN
-      const {param, request, h, platformHandler} = await buildPlatformHandler({
+      const {param, $ctx, h, platformHandler} = await buildPlatformHandler({
+        token: CustomPlatformHandler,
+        sandbox,
+        type: ParamTypes.NODE_REQUEST
+      });
+
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
+
+      // THEN
+      expect(value).to.deep.eq($ctx.getReq());
+    });
+    it("should return REQUEST (framework)", async () => {
+      // GIVEN
+      const {param, $ctx, h, platformHandler} = await buildPlatformHandler({
         token: CustomPlatformHandler,
         sandbox,
         type: ParamTypes.REQUEST
@@ -147,14 +162,44 @@ describe("PlatformHandler", () => {
 
       // WHEN
       // @ts-ignore
-      const value = platformHandler.getArg(param.type, h);
+      const value = platformHandler.getArg(param.paramType, h);
 
       // THEN
-      expect(value).to.deep.eq(request);
+      expect(value).to.deep.eq($ctx.getRequest());
     });
-    it("should return RESPONSE", async () => {
+    it("should return REQUEST (platform)", async () => {
       // GIVEN
-      const {param, response, h, platformHandler} = await buildPlatformHandler({
+      const {param, h, $ctx, platformHandler} = await buildPlatformHandler({
+        token: CustomPlatformHandler,
+        sandbox,
+        type: ParamTypes.PLATFORM_REQUEST
+      });
+
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
+
+      // THEN
+      expect(value).to.deep.eq($ctx.request);
+    });
+    it("should return RESPONSE (node)", async () => {
+      // GIVEN
+      const {param, $ctx, h, platformHandler} = await buildPlatformHandler({
+        token: CustomPlatformHandler,
+        sandbox,
+        type: ParamTypes.NODE_RESPONSE
+      });
+
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
+
+      // THEN
+      expect(value).to.deep.eq($ctx.getRes());
+    });
+    it("should return RESPONSE (framework)", async () => {
+      // GIVEN
+      const {param, $ctx, h, platformHandler} = await buildPlatformHandler({
         token: CustomPlatformHandler,
         sandbox,
         type: ParamTypes.RESPONSE
@@ -165,7 +210,22 @@ describe("PlatformHandler", () => {
       const value = platformHandler.getArg(param.paramType, h);
 
       // THEN
-      expect(value).to.deep.eq(response);
+      expect(value).to.deep.eq($ctx.getResponse());
+    });
+    it("should return RESPONSE (platform)", async () => {
+      // GIVEN
+      const {param, $ctx, h, platformHandler} = await buildPlatformHandler({
+        token: CustomPlatformHandler,
+        sandbox,
+        type: ParamTypes.PLATFORM_RESPONSE
+      });
+
+      // WHEN
+      // @ts-ignore
+      const value = platformHandler.getArg(param.paramType, h);
+
+      // THEN
+      expect(value).to.deep.eq($ctx.response);
     });
     it("should return NEXT", async () => {
       // GIVEN
@@ -198,7 +258,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(value).to.deep.eq(h.err);
     });
-
     it("should return $CTX", async () => {
       // GIVEN
       const {param, h, platformHandler} = await buildPlatformHandler({
@@ -214,7 +273,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(value).to.deep.eq(h.request.$ctx);
     });
-
     it("should return RESPONSE_DATA", async () => {
       // GIVEN
       const {param, h, platformHandler} = await buildPlatformHandler({
@@ -230,7 +288,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(value).to.deep.eq(h.request.$ctx.data);
     });
-
     it("should return ENDPOINT_INFO", async () => {
       // GIVEN
       const {param, request, h, platformHandler} = await buildPlatformHandler({
@@ -249,7 +306,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(value).to.deep.eq(request.$ctx.endpoint);
     });
-
     it("should return BODY", async () => {
       // GIVEN
       const {param, h, platformHandler} = await buildPlatformHandler({
@@ -265,7 +321,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(value).to.deep.eq(h.getRequest().body);
     });
-
     it("should return PATH", async () => {
       // GIVEN
       const {param, h, platformHandler} = await buildPlatformHandler({
@@ -281,7 +336,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(value).to.deep.eq(h.getRequest().params);
     });
-
     it("should return QUERY", async () => {
       // GIVEN
       const {param, h, platformHandler} = await buildPlatformHandler({
@@ -297,7 +351,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(value).to.deep.eq(h.getRequest().query);
     });
-
     it("should return HEADER", async () => {
       // GIVEN
       const {param, h, platformHandler} = await buildPlatformHandler({
@@ -316,7 +369,6 @@ describe("PlatformHandler", () => {
         "content-type": "application/json"
       });
     });
-
     it("should return COOKIES", async () => {
       // GIVEN
       const {param, h, platformHandler} = await buildPlatformHandler({
@@ -332,7 +384,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(value).to.deep.eq(h.getRequest().cookies);
     });
-
     it("should return SESSION", async () => {
       // GIVEN
       const {param, h, platformHandler} = await buildPlatformHandler({
@@ -348,7 +399,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(value).to.deep.eq(h.request.session);
     });
-
     it("should return LOCALS", async () => {
       // GIVEN
       const {param, h, platformHandler} = await buildPlatformHandler({
@@ -365,7 +415,6 @@ describe("PlatformHandler", () => {
       // THEN
       expect(value).to.deep.eq(h.getResponse().locals);
     });
-
     it("should return request by default", async () => {
       // GIVEN
       const {param, h, platformHandler} = await buildPlatformHandler({

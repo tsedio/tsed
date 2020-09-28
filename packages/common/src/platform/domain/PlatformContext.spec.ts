@@ -1,4 +1,4 @@
-import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
+import {PlatformApplication, PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
 import {nameOf} from "@tsed/core";
 import {expect} from "chai";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
@@ -26,6 +26,7 @@ describe("PlatformContext", () => {
     expect(context.getResponse()).to.be.instanceof(FakeResponse);
     expect(context.getReq()).to.be.instanceof(FakeRequest);
     expect(context.getRes()).to.be.instanceof(FakeResponse);
+    expect(context.app).to.be.instanceof(PlatformApplication);
     expect(nameOf(context.getApp())).to.eq("FakeRawDriver");
   });
 });

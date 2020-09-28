@@ -128,6 +128,13 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
   }
 
   /**
+   * Return the Framework response object (express, koa, etc...)
+   */
+  getRequest<Req = T>(): Req {
+    return this.raw as any;
+  }
+
+  /**
    * Return the Node.js response object
    */
   getReq(): IncomingMessage {

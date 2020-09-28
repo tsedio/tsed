@@ -1,8 +1,25 @@
-import {Type} from "@tsed/core";
+import {isClass, Metadata, nameOf, Type} from "@tsed/core";
+import {IncomingMessage} from "http";
 import {IParamOptions} from "../../interfaces/IParamOptions";
 import {ParamTypes} from "../../models/ParamTypes";
 import {mapParamsOptions} from "../../utils/mapParamsOptions";
 import {UseParam} from "./useParam";
+
+function getParamType(target: Object, propertyKey: string | symbol, parameterIndex: number) {
+  const type = Metadata.getOwnParamTypes(target, propertyKey)[parameterIndex];
+
+  if (isClass(type)) {
+    if (nameOf(type) === "PlatformRequest") {
+      return ParamTypes.PLATFORM_REQUEST;
+    }
+
+    if (type === IncomingMessage) {
+      return ParamTypes.NODE_REQUEST;
+    }
+  }
+
+  return ParamTypes.REQUEST;
+}
 
 /**
  * Request service.
@@ -37,12 +54,16 @@ export function Req(): ParameterDecorator;
 export function Req(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
 
-  return UseParam(ParamTypes.REQUEST, {
-    expression,
-    useType,
-    useConverter,
-    useValidation
-  });
+  return (target, propertyKey, parameterIndex) => {
+    const paramType = getParamType(target, propertyKey, parameterIndex);
+
+    UseParam(paramType, {
+      expression,
+      useType,
+      useConverter,
+      useValidation
+    })(target, propertyKey, parameterIndex);
+  };
 }
 
 /**
