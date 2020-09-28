@@ -9,7 +9,6 @@ import {
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import * as Koa from "koa";
-import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
 import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse, PlatformKoaRouter} from "../services";
 
 /**

@@ -37,6 +37,7 @@ export * from "./services/PlatformRouter";
 export * from "./services/PlatformApplication";
 export * from "./services/PlatformResponse";
 export * from "./services/PlatformRequest";
+export * from "./services/PlatformViews";
 
 // registries
 export * from "./registries/ControllerRegistry";

@@ -6,9 +6,9 @@ import {
   PlatformHandler,
   PlatformRequest,
   PlatformResponse,
-  PlatformRouter
+  PlatformRouter,
+  PlatformViews
 } from "@tsed/common";
-import {PlatformViews} from "@tsed/common/src/platform/services/PlatformViews";
 import {Type} from "@tsed/core";
 import {
   PlatformExpressApplication,

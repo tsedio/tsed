@@ -79,7 +79,7 @@
     "consolidate": "0.16.0"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.9.1",
+    "@tsed/monorepo-utils": "1.9.2",
     "@typedproject/ts-doc": "4.0.9",
     "@types/chai": "4.2.12",
     "@types/chai-as-promised": "7.1.3",
