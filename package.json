@@ -130,10 +130,10 @@
     "watchpack": "1.6.1"
   },
   "monorepo": {
-    "productionBranch": "alpha",
-    "developBranch": "alpha",
+    "productionBranch": "beta",
+    "developBranch": "beta",
     "npmAccess": "public",
-    "npmDistTag": "alpha",
+    "npmDistTag": "beta",
     "ignoreSyncDependencies": [
       "express",
       "@types/express"

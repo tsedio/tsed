@@ -20,11 +20,11 @@ jobs:
     - stage: deploy-npm
       name: 'Deploy packages'
       node_js: 12
-      if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha)
+      if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha || branch = beta)
       script: yarn release
     - stage: deploy-artifacts
       name: 'Deploy github pages'
-      if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha)
+      if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha || branch = beta)
       script: monorepo ci configure && git fetch --quiet && git rebase origin/${TRAVIS_BRANCH} && yarn docs:publish
     - stage: deploy-artifacts
       name: 'Deploy examples'
