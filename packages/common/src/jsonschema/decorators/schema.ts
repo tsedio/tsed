@@ -44,7 +44,7 @@ import {JSONSchema6} from "json-schema";
  * @classDecorator
  * @input
  * @ignore
- * @deprecated Use @Schema decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Schema decorator from @tsed/schema instead of.
  */
 export function Schema(partialSchema: Partial<JSONSchema6>) {
   return S(partialSchema);

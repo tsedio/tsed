@@ -4,7 +4,7 @@ import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 
 export interface MongooseVirtualRefOptions {
   /**
-   * @deprecated Use ref instead.
+   * @deprecated Since v6. Use ref instead.
    */
   type?: string | Type<any>;
   ref?: string | Type<any>;

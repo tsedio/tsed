@@ -29,7 +29,7 @@ import {Allow as A} from "@tsed/schema";
  * @schema
  * @validation
  * @ignore
- * @deprecated Use @Allow decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Allow decorator from @tsed/schema instead of.
  */
 export function Allow(...allowedRequiredValues: any[]): any {
   return A(...allowedRequiredValues);

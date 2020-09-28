@@ -4,10 +4,6 @@ import {mapAllowedRequiredValues} from "../utils/mapAllowedRequiredValues";
 import {ParamTypes} from "./ParamTypes";
 
 export interface ParamConstructorOptions extends JsonEntityStoreOptions {
-  /**
-   * @deprecated
-   */
-  required?: boolean;
   expression?: string;
   useType?: Type<any>;
   paramType?: string | ParamTypes;

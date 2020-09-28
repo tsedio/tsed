@@ -24,7 +24,7 @@ import {OnDeserialize as D} from "@tsed/json-mapper";
  * @schema
  * @property
  * @ignore
- * @deprecated Use @OnDeserialize from @tsed/json-mapper
+ * @deprecated Since v6. Use @OnDeserialize from @tsed/json-mapper
  */
 export function OnDeserialize(fn: (value: any) => any) {
   return D(fn);

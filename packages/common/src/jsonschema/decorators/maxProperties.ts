@@ -42,7 +42,7 @@ import {MaxProperties as M} from "@tsed/schema";
  * @schema
  * @collections
  * @ignore
- * @deprecated Use @MaxProperties decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @MaxProperties decorator from @tsed/schema instead of.
  */
 export function MaxProperties(maxProperties: number) {
   return M(maxProperties);

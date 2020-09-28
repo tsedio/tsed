@@ -68,7 +68,7 @@ import {Minimum as M} from "@tsed/schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @Minimum decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Minimum decorator from @tsed/schema instead of.
  */
 export function Minimum(minimum: number, exclusive: boolean = false) {
   return M(minimum, exclusive);

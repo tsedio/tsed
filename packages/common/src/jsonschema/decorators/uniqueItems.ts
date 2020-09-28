@@ -50,7 +50,7 @@ import {UniqueItems as U} from "@tsed/schema";
  * @input
  * @ignore
  * @collections
- * @deprecated Use @UniqueItems decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @UniqueItems decorator from @tsed/schema instead of.
  */
 export function UniqueItems(uniqueItems: boolean = true) {
   return U(uniqueItems);

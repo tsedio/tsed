@@ -21,7 +21,7 @@ export function Status(code: number): ReturnsChainedDecorators;
  *
  * @param code
  * @param options
- * @deprecated
+ * @deprecated Since v6.
  */
 export function Status(code: number, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
 /**
@@ -29,7 +29,7 @@ export function Status(code: number, options: Partial<ReturnTypeOptions>): Retur
  *
  * @param code
  * @param options
- * @deprecated
+ * @deprecated Since v6.
  */
 export function Status(code: number, options: Partial<ReturnTypeOptions> = {}): ReturnsChainedDecorators {
   return ReturnType({

@@ -18,7 +18,7 @@ import {Returns} from "@tsed/schema";
  * @operation
  * @response
  * @headers
- * @deprecated Use @Returns().ContentType() instead.
+ * @deprecated Since v6. Use @Returns().ContentType() instead.
  */
 export function ContentType(type: string) {
   return Returns().ContentType(type);

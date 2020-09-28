@@ -67,7 +67,7 @@ import {MultipleOf as M} from "@tsed/schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @MultipleOf decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @MultipleOf decorator from @tsed/schema instead of.
  */
 export function MultipleOf(multipleOf: number) {
   return M(multipleOf);

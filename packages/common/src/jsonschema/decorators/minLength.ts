@@ -76,7 +76,7 @@ import {MinLength as M} from "@tsed/schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @MinLength decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @MinLength decorator from @tsed/schema instead of.
  */
 export function MinLength(minLength: number) {
   return M(minLength);

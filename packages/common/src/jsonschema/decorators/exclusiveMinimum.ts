@@ -68,7 +68,7 @@ import {ExclusiveMinimum as E} from "@tsed/schema";
  * @validation
  * @property
  * @ignore
- * @deprecated Use @ExclusiveMinimum decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @ExclusiveMinimum decorator from @tsed/schema instead of.
  */
 export function ExclusiveMinimum(minimum: number, exclusiveMinimum: boolean = true) {
   return E(minimum, exclusiveMinimum);

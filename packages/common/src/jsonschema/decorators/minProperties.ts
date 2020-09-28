@@ -46,7 +46,7 @@ import {MinProperties as M} from "@tsed/schema";
  * @schema
  * @collections
  * @ignore
- * @deprecated Use @MinProperties decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @MinProperties decorator from @tsed/schema instead of.
  */
 export function MinProperties(minProperties: number) {
   return M(minProperties);

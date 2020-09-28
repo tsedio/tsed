@@ -92,7 +92,7 @@ import {Pattern as P} from "@tsed/schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @Pattern decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Pattern decorator from @tsed/schema instead of.
  */
 export function Pattern(pattern: string | RegExp) {
   return P(pattern);

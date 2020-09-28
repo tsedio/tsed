@@ -97,7 +97,7 @@ import {JSONSchema6Type} from "json-schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @Enum decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Enum decorator from @tsed/schema instead of.
  */
 export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
   return E(enumValue, ...enumValues);

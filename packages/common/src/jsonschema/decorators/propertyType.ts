@@ -48,7 +48,7 @@ import {CollectionOf as C} from "@tsed/schema";
  * @property
  * @collections
  * @ignore
- * @deprecated Use @CollectionOf decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @CollectionOf decorator from @tsed/schema instead of.
  */
 export function CollectionOf(type: Type<any>) {
   return C(type);

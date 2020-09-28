@@ -9,17 +9,17 @@ import {Example as E} from "@tsed/schema";
  * @methodDecorator
  * @classDecorator
  * @ignore
- * @deprecated Use @Example decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Example decorator from @tsed/schema instead of.
  * @param name
  * @param description
  */
 export function Example(name: string | any, description: string): Function;
 /**
- * @deprecated Use @Example decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Example decorator from @tsed/schema instead of.
  */
 export function Example(example: any): Function;
 /**
- * @deprecated Use @Example decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Example decorator from @tsed/schema instead of.
  */
 export function Example(...args: any[]): Function {
   // @ts-ignore

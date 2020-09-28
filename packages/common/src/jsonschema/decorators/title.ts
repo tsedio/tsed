@@ -42,7 +42,7 @@ import {Title as T} from "@tsed/schema";
  * @propertyDecorator
  * @input
  * @ignore
- * @deprecated Use @Title decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Title decorator from @tsed/schema instead of.
  */
 export function Title(title: string) {
   return T(title);

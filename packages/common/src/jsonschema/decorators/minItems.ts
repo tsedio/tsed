@@ -48,7 +48,7 @@ import {MinItems as M} from "@tsed/schema";
  * @schema
  * @collections
  * @ignore
- * @deprecated Use @MinItems decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @MinItems decorator from @tsed/schema instead of.
  */
 export function MinItems(minItems: number) {
   return M(minItems);

@@ -74,7 +74,7 @@ import {Format as F} from "@tsed/schema";
  * @schema
  * @input
  * @ignore
- * @deprecated Use @Format decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Format decorator from @tsed/schema instead of.
  */
 export function Format(format: string) {
   return F(format);

@@ -11,7 +11,7 @@ import {EndpointFn} from "./endpointFn";
 
 export interface IAuthOptions {
   /**
-   * @deprecated Use @Returns from @tsed/schema
+   * @deprecated Since v6. Use @Returns from @tsed/schema
    */
   responses?: {
     [statusCode: string]: {
@@ -19,7 +19,7 @@ export interface IAuthOptions {
     };
   };
   /**
-   * @deprecated Use @Security from @tsed/schema
+   * @deprecated Since v6. Use @Security from @tsed/schema
    */
   security?:
     | {

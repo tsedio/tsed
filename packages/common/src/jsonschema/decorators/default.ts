@@ -40,7 +40,7 @@ import {Default as D} from "@tsed/schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @Default decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Default decorator from @tsed/schema instead of.
  */
 export function Default(defaultValue: string | number | boolean | {}) {
   return D(defaultValue);

@@ -14,7 +14,7 @@ import {JSONSchema6} from "json-schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @AdditionalProperties decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @AdditionalProperties decorator from @tsed/schema instead of.
  */
 export function AdditionalProperties(value: boolean | JSONSchema6) {
   return A(value as any);

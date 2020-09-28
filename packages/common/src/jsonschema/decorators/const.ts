@@ -61,7 +61,7 @@ import {JSONSchema6Type} from "json-schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @Const decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Const decorator from @tsed/schema instead of.
  */
 export function Const(constValue: JSONSchema6Type | any) {
   return C(constValue);

@@ -2,14 +2,14 @@ import {MetadataTypes, Type} from "@tsed/core";
 import {Returns as R, ReturnsChainedDecorators} from "@tsed/schema";
 
 /**
- * @deprecated
+ * @deprecated Since v6.
  */
 export interface ReturnTypeHeader {
   value?: string | number;
 }
 
 /**
- * @deprecated
+ * @deprecated Since v6.
  */
 export interface ReturnTypeOptions extends Partial<MetadataTypes> {
   code?: number;
@@ -67,7 +67,7 @@ function mapStatusResponseOptions(args: any[]): any {
  * @decorator
  * @operation
  * @response
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  */
 export function ReturnType(response: Partial<ReturnTypeOptions> = {}): ReturnsChainedDecorators {
   const {code = "default", collectionType, type, headers, description, examples, schema} = response;
@@ -141,32 +141,32 @@ export function ReturnType(response: Partial<ReturnTypeOptions> = {}): ReturnsCh
  * @operation
  * @response
  * @decorator
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  * @ignore
  */
 export function Returns(statusCode: number, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
 /**
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  * @ignore
  */
 export function Returns(options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
 /**
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  * @ignore
  */
 export function Returns(model: Type<any>): ReturnsChainedDecorators;
 /**
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  * @ignore
  */
 export function Returns(statusCode: number, model: Type<any>): ReturnsChainedDecorators;
 /**
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  * @ignore
  */
 export function Returns(model: Type<any>, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
 /**
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  * @ignore
  */
 export function Returns(...args: any[]) {
@@ -205,27 +205,27 @@ export function Returns(...args: any[]) {
  * @swagger
  * @operation
  * @response
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  */
 export function ReturnsArray(statusCode: number, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
 /**
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  */
 export function ReturnsArray(statusCode: number, model: Type<any>): ReturnsChainedDecorators;
 /**
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  */
 export function ReturnsArray(options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
 /**
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  */
 export function ReturnsArray(model: Type<any>): ReturnsChainedDecorators;
 /**
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  */
 export function ReturnsArray(model: Type<any>, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
 /**
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  */
 export function ReturnsArray(...args: any[]): ReturnsChainedDecorators {
   return ReturnType({...mapStatusResponseOptions(args), collectionType: Array});

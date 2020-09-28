@@ -45,7 +45,7 @@ import {MaxItems as M} from "@tsed/schema";
  * @schema
  * @collections
  * @ignore
- * @deprecated Use @MaxItems decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @MaxItems decorator from @tsed/schema instead of.
  */
 export function MaxItems(maxItems: number) {
   return M(maxItems);

@@ -88,17 +88,17 @@ import {Property as P} from "@tsed/schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @Property() from @tsed/schema
+ * @deprecated Since v6. Use @Property() from @tsed/schema
  */
 export function Property(type?: Type<any>): PropertyDecorator;
 /**
  * @ignore
- * @deprecated Use @Property() from @tsed/schema
+ * @deprecated Since v6. Use @Property() from @tsed/schema
  */
 export function Property(generic: string): PropertyDecorator;
 /**
  * @ignore
- * @deprecated Use @Property() from @tsed/schema
+ * @deprecated Since v6. Use @Property() from @tsed/schema
  */
 export function Property(type?: string | Type<any>): Function {
   return P(type);

@@ -7,12 +7,6 @@ declare global {
       fieldname: string;
       /** Name of the file on the uploader's computer. */
       originalname: string;
-      /**
-       * Value of the `Content-Transfer-Encoding` header for this file.
-       * @deprecated since July 2015
-       * @see RFC 7578, Section 4.7
-       */
-      encoding: string;
       /** Value of the `Content-Type` header for this file. */
       mimetype: string;
       /** Size of the file in bytes. */
@@ -32,8 +26,7 @@ declare global {
       buffer: Buffer;
     }
 
-    export interface MulterStorageEngine {
-    }
+    export interface MulterStorageEngine {}
 
     export interface MulterOptions {
       /**
@@ -141,6 +134,4 @@ declare global {
 export type PlatformMulter = TsED.Multer;
 export type PlatformMulterSettings = TsED.MulterOptions;
 export type PlatformMulterFile = TsED.MulterFile;
-export type PlatformMulterField = TsED.MulterField ;
-
-
+export type PlatformMulterField = TsED.MulterField;

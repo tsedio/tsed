@@ -60,7 +60,7 @@ import {Ignore as I} from "@tsed/schema";
  * @jsonMapper
  * @schema
  * @ignore
- * @deprecated Use @Ignore decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Ignore decorator from @tsed/schema instead of.
  */
 export function Ignore() {
   return I();

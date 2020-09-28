@@ -39,7 +39,7 @@ import {Description as D} from "@tsed/schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @Description decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Description decorator from @tsed/schema instead of.
  */
 export function Description(description: string) {
   return D(description);

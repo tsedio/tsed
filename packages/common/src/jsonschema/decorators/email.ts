@@ -65,7 +65,7 @@ import {Email as E} from "@tsed/schema";
  * @validation
  * @property
  * @ignore
- * @deprecated Use @Email decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Email decorator from @tsed/schema instead of.
  */
 export function Email() {
   return E();

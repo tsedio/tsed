@@ -4,7 +4,7 @@ import {classToPlainObject, deserialize, JsonDeserializerOptions, JsonSerializer
 import {ConverterSettings} from "../../config/interfaces/ConverterSettings";
 
 /**
- * @deprecated
+ * @deprecated Since v6.
  */
 export interface ConverterOptions extends MetadataTypes {
   withIgnoredProps?: boolean;
@@ -58,7 +58,7 @@ export class ConverterService {
    */
   serialize(obj: any, options?: JsonSerializerOptions): any;
   /**
-   * @deprecated
+   * @deprecated Since v6.
    */
   serialize(obj: any, options?: ConverterOptions): any;
   serialize(obj: any, options: ConverterOptions | JsonSerializerOptions = {}): any {
@@ -69,7 +69,7 @@ export class ConverterService {
   }
 
   /**
-   * @deprecated Use classToPlainObject from @tsed/json-mapper instead
+   * @deprecated Since v6. Use classToPlainObject from @tsed/json-mapper instead
    */
   serializeClass(obj: any, options: ConverterOptions = {}) {
     return classToPlainObject(obj, options);
@@ -89,11 +89,11 @@ export class ConverterService {
    */
   deserialize(obj: any, options?: JsonDeserializerOptions): any;
   /**
-   * @deprecated
+   * @deprecated Since v6.
    */
   deserialize(obj: any, type: any, options?: ConverterOptions): any;
   /**
-   * @deprecated
+   * @deprecated Since v6.
    */
   deserialize(obj: any, collectionType: any, baseType: any, options?: ConverterOptions): any;
   deserialize(

@@ -75,7 +75,7 @@ import {MaxLength as M} from "@tsed/schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @MaxLength decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @MaxLength decorator from @tsed/schema instead of.
  */
 export function MaxLength(maxLength: number) {
   return M(maxLength);

@@ -36,7 +36,7 @@ import {JSONSchema6TypeName} from "json-schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @Any decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Any decorator from @tsed/schema instead of.
  */
 export function Any(...types: (Type<any> | JSONSchema6TypeName | null)[]) {
   return A(...types);

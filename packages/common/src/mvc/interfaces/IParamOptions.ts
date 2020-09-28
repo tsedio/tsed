@@ -2,10 +2,6 @@ import {Type} from "@tsed/core";
 import {ParamTypes} from "../models/ParamTypes";
 
 export interface IParamOptions<T> {
-  /**
-   * @deprecated
-   */
-  required?: boolean;
   expression?: string;
   useType?: Type<T>;
   useConverter?: boolean;

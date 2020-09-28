@@ -23,7 +23,7 @@ import {Name as N} from "@tsed/schema";
  * @schema
  * @property
  * @ignore
- * @deprecated Use @Name decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Name decorator from @tsed/schema instead of.
  */
 export function Name(name: string): PropertyDecorator {
   return N(name) as any;

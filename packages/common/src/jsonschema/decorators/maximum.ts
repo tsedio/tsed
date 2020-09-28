@@ -68,7 +68,7 @@ import {Maximum as M} from "@tsed/schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @Maximum decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Maximum decorator from @tsed/schema instead of.
  */
 export function Maximum(maximum: number, exclusive: boolean = false) {
   return M(maximum, exclusive);

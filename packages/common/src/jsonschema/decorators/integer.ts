@@ -60,7 +60,7 @@ import {Integer as I} from "@tsed/schema";
  * @swagger
  * @schema
  * @ignore
- * @deprecated Use @Integer decorator from @tsed/schema instead of.
+ * @deprecated Since v6. Use @Integer decorator from @tsed/schema instead of.
  */
 export function Integer() {
   return I();
