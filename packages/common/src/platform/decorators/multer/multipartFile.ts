@@ -1,3 +1,4 @@
+import {PlatformMulterFile} from "@tsed/common";
 import {DecoratorParameters, Metadata, Store, StoreMerge, StoreSet, useDecorators, useMethodDecorators} from "@tsed/core";
 import {Consumes, Returns} from "@tsed/schema";
 import {Req, Use, UseParamType} from "../../../mvc/decorators";
@@ -87,3 +88,5 @@ export function MultipartFile(name: string, maxCount?: number): ParameterDecorat
     decorators(...args);
   };
 }
+
+export type MultipartFile = PlatformMulterFile;
