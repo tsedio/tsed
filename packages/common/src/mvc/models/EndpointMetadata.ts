@@ -167,7 +167,7 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
   }
 
   /**
-   *
+   * Append middlewares to the beforeMiddlewares list.
    * @param args
    * @returns {EndpointMetadata}
    */
@@ -178,7 +178,7 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
   }
 
   /**
-   *
+   * Append middlewares to the afterMiddlewares list.
    * @param args
    * @returns {EndpointMetadata}
    */
@@ -196,17 +196,6 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
     this.middlewares = this.middlewares.concat(args).filter(isFunction);
 
     return this;
-  }
-
-  /**
-   * Store all arguments collected via Annotation.
-   * @param args
-   * @deprecated
-   */
-
-  /* istanbul ignore next */
-  public merge(args: any[]): this {
-    return this.use(args);
   }
 
   public clone() {
