@@ -1,6 +1,6 @@
 {
   "name": "@tsed/exceptions",
-  "version": "6.0.0-alpha.25",
+  "version": "6.0.0-beta.1",
   "description": "HTTP exceptions module for Ts.ED Framework and other pure Express application",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
