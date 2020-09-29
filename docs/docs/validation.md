@@ -1,5 +1,4 @@
 # Validation
-<Badge text="5.50.0+"/>
 
 Ts.ED provide by default a [AJV](/tutorials/ajv.md) package `@tsed/ajv` to perform a validation on a [Model](/docs/models.html). 
 

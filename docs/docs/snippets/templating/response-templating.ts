@@ -1,10 +1,9 @@
 import {Controller, Get, View} from "@tsed/common";
 
 @Controller("/events")
-export class EventCtrl {
-
+export class EventsCtrl {
   @Get("/:id")
-  @View("eventCard.ejs")
+  @View("event.ejs")
   public get(): any {
     return {startDate: new Date(), name: "MyEvent"};
   }

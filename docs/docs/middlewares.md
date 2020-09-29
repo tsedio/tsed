@@ -116,7 +116,7 @@ Signature | Description
 
 As you see in the previous section, a middleware can be used on different contexts:
 
-- [Server](/getting-started.md),
+- [Server](/docs/configuration.md),
 - [Controller](/docs/controllers.md),
 - [Endpoint](/docs/controllers.md).
 
@@ -177,7 +177,7 @@ By using @@Context@@ decorator and @@PlatformContext@@ class we can get some inf
 - The @@PlatformRequest@@ and @@PlatformResponse@@ classes abstraction. These classes allow better code abstraction by exposing methods that are agnostic to Express.js.
 
 ::: tip
-By default, the server imports automatically your middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
+By default, the server imports automatically your middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/docs/configuration.md)).
 
 ```
 .
@@ -189,7 +189,7 @@ By default, the server imports automatically your middlewares matching with this
 └── package.json
 ```
 
-If not, just import your middleware in your server or edit the [componentScan configuration](/configuration.md).
+If not, just import your middleware in your server or edit the [componentScan configuration](/docs/configuration.md).
 
 ```typescript
 import {Configuration} from "@tsed/common";

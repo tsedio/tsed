@@ -1,13 +1,13 @@
 import {$log} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Server} from "./Server";
-
-const config = require("dotenv").config({path: "/full/custom/path/to/your/env/vars"});
+import {Server} from "./server";
 
 async function bootstrap() {
   try {
     $log.debug("Start server...");
-    const platform = await PlatformExpress.bootstrap(Server, config.parsed);
+    const platform = await PlatformExpress.bootstrap(Server, {
+      // extra settings
+    });
 
     await platform.listen();
     $log.debug("Server initialized");
