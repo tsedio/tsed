@@ -1,4 +1,4 @@
-import {Configuration, GlobalAcceptMimesMiddleware, Inject, PlatformApplication} from "@tsed/common";
+import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/swagger";
 import * as bodyParser from "body-parser";
@@ -39,7 +39,7 @@ const rootDir = __dirname;
     token: true
   },
   statics: {
-    "/statics": join(__dirname, "..", "statics")
+    "/": join(__dirname, "..", "statics")
   }
 })
 export class Server {
@@ -53,7 +53,6 @@ export class Server {
   $beforeRoutesInit(): void | Promise<any> {
     this.app
       .use(cors())
-      .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())

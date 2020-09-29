@@ -1,4 +1,4 @@
-import {Description, Example, Minimum, Required} from "@tsed/common";
+import {Description, Example, Minimum, Required} from "@tsed/schema";
 import {Column} from "typeorm";
 import {Credentials} from "./Credentials";
 

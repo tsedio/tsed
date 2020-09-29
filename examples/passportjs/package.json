@@ -25,9 +25,11 @@
     "@tsed/common": "6.0.0-beta.2",
     "@tsed/core": "6.0.0-beta.2",
     "@tsed/di": "6.0.0-beta.2",
-    "@tsed/platform-express": "6.0.0-beta.2",
     "@tsed/exceptions": "6.0.0-beta.2",
+    "@tsed/schema": "6.0.0-beta.2",
+    "@tsed/json-mapper": "6.0.0-beta.2",
     "@tsed/swagger": "6.0.0-beta.2",
+    "@tsed/platform-express": "6.0.0-beta.2",
     "@tsed/passport": "6.0.0-beta.2",
     "@types/swagger-schema-official": "2.0.21",
     "body-parser": "1.19.0",
@@ -40,7 +42,6 @@
     "node-uuid": "^1.4.8",
     "passport": "0.4.1",
     "passport-local": "^1.0.0",
-    "ts-json-properties": "2.0.3",
     "cors": "2.8.5"
   },
   "devDependencies": {
@@ -52,7 +53,6 @@
     "@types/node": "14.11.1",
     "@types/passport": "1.0.4",
     "@types/passport-local": "^1.0.33",
-    "@types/request-promise": "^4.1.41",
     "@types/sinon": "9.0.5",
     "@types/sinon-chai": "3.2.4",
     "@types/supertest": "2.0.10",

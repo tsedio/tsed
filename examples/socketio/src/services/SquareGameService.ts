@@ -27,6 +27,12 @@ export class SquareGameService {
    */
   private _maxPlayers: number = 2;
 
+  /***
+   *
+   * @type {number}
+   */
+  private _scoreMax: number = 10;
+
   get maxPlayers(): number {
     return this._maxPlayers;
   }
@@ -36,12 +42,6 @@ export class SquareGameService {
     this.initGame();
     this.updatePlayersReady();
   }
-
-  /***
-   *
-   * @type {number}
-   */
-  private _scoreMax: number = 10;
 
   get scoreMax(): number {
     return this._scoreMax;
@@ -105,6 +105,7 @@ export class SquareGameService {
 
     if (this.players.size === this._maxPlayers) {
       $log.debug("stack overflow :p");
+
       return;
     }
 

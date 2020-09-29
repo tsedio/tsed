@@ -1,5 +1,6 @@
-import {Middleware, PathParams, Req, Required} from "@tsed/common";
+import {Middleware, PathParams, Req} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
+import {Required} from "@tsed/schema";
 import {User} from "../models/User";
 import {CalendarsService} from "../services/calendars/CalendarsService";
 

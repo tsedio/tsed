@@ -23,11 +23,14 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@tsed/ajv": "6.0.0-beta.2",
     "@tsed/common": "6.0.0-beta.2",
     "@tsed/core": "6.0.0-beta.2",
     "@tsed/di": "6.0.0-beta.2",
-    "@tsed/platform-express": "6.0.0-beta.2",
     "@tsed/exceptions": "6.0.0-beta.2",
+    "@tsed/schema": "6.0.0-beta.2",
+    "@tsed/json-mapper": "6.0.0-beta.2",
+    "@tsed/swagger": "6.0.0-beta.2",
     "@tsed/socketio": "6.0.0-beta.2",
     "@tsed/swagger": "6.0.0-beta.2",
     "@types/swagger-schema-official": "2.0.21",
@@ -44,8 +47,7 @@
     "method-override": "3.0.0",
     "node-uuid": "^1.4.8",
     "pug": "^2.0.3",
-    "socket.io": "2.3.0",
-    "ts-json-properties": "1.2.0"
+    "socket.io": "2.3.0"
   },
   "devDependencies": {
     "@types/chai": "4.2.12",
@@ -54,7 +56,6 @@
     "@types/http-proxy": "^1.16.2",
     "@types/mocha": "8.0.3",
     "@types/node": "14.11.1",
-    "@types/request-promise": "^4.1.41",
     "@types/sinon": "9.0.5",
     "@types/sinon-chai": "3.2.4",
     "@types/supertest": "2.0.10",

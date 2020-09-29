@@ -16,7 +16,7 @@ export class LoginLocalProtocol implements OnVerify, OnInstall {
   constructor(private userRepository: UserRepository) {
   }
 
-  async $onVerify(@Req() request: Req, @BodyParams() credentials: Credentials) {
+  async $onVerify(@BodyParams() credentials: Credentials) {
     const {email, password} = credentials;
 
     const user = await this.userRepository.findOne({email});

@@ -8,12 +8,11 @@ import {
   Put,
   QueryParams,
   Req,
-  Required,
   Status,
-  Returns
 } from "@tsed/common";
 import {Authorize} from "@tsed/passport";
 import {NotFound} from "@tsed/exceptions";
+import {Required, Returns} from "@tsed/schema";
 import {Calendar, CalendarCreation} from "../../models/Calendar";
 import {User} from "../../models/User";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
@@ -33,7 +32,7 @@ export class CalendarCtrl {
   }
 
   @Get("/:id")
-  @Returns(Calendar)
+  @Returns(200, Calendar)
   @Authorize("basic")
   async get(@Req("user") user: User,
             @Required() @PathParams("id") id: string): Promise<Calendar> {
@@ -47,7 +46,7 @@ export class CalendarCtrl {
   }
 
   @Put("/")
-  @Returns(201, {type: Calendar})
+  @Returns(201, Calendar)
   @Authorize("basic")
   create(@Req("user") user: User,
          @BodyParams() calendar: CalendarCreation): Promise<Calendar> {
@@ -55,8 +54,8 @@ export class CalendarCtrl {
   }
 
   @Post("/:id")
-  @Returns(200, {type: Calendar})
-  @Returns(404, {description: "Calendar not found"})
+  @Returns(200, Calendar)
+  @Returns(404).Description("Calendar not found")
   @Authorize("basic")
   async update(@Req("user") user: User,
                @PathParams("id") @Required() id: string,
@@ -68,7 +67,7 @@ export class CalendarCtrl {
 
   @Delete("/")
   @Status(204)
-  @Returns(404, {description: "Calendar not found"})
+  @Returns(404).Description("Calendar not found")
   @Authorize("basic")
   async remove(@Req("user") user: User,
                @BodyParams("id") @Required() id: string): Promise<void> {

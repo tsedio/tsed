@@ -28,7 +28,7 @@ jobs:
       script: monorepo ci configure && git fetch --quiet && git rebase origin/${TRAVIS_BRANCH} && yarn docs:publish
     - stage: deploy-artifacts
       name: 'Deploy examples'
-      if: (NOT type IN (pull_request)) AND (branch = production)
+      if: (NOT type IN (pull_request)) AND (branch = production || branch = beta)
       script: monorepo ci configure && git fetch --quiet && git rebase origin/${TRAVIS_BRANCH} && yarn examples:publish
 
 stages:

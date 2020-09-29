@@ -1,4 +1,3 @@
-import {GlobalAcceptMimesMiddleware} from "@tsed/common";
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import "@tsed/mongoose";
@@ -13,7 +12,6 @@ import * as methodOverride from "method-override";
   rootDir: __dirname,
   acceptMimes: ["application/json"],
   port: process.env.PORT || 8000,
-  httpsPort: false,
   passport: {},
   mongoose: {
     url: process.env.mongoose_url || "mongodb://127.0.0.1:27017/example-mongoose-test",
@@ -22,9 +20,9 @@ import * as methodOverride from "method-override";
       useUnifiedTopology: true
     }
   },
-  swagger: {
+  swagger: [{
     path: "/api-docs"
-  },
+  }],
   debug: false
 })
 export class Server {
@@ -33,7 +31,6 @@ export class Server {
 
   $beforeRoutesInit(): void | Promise<any> {
     this.app
-      .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())

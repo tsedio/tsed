@@ -1,8 +1,8 @@
-import {Service} from "@tsed/common";
+import {Injectable} from "@tsed/common";
 import {Calendar} from "../../models/Calendar";
 import {MemoryCollection} from "../../utils/MemoryCollection";
 
-@Service()
+@Injectable()
 export class CalendarsService extends MemoryCollection<Calendar> {
   constructor() {
     super(Calendar, require("../../../resources/calendars.json"));

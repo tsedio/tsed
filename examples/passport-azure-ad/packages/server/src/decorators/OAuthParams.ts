@@ -1,5 +1,5 @@
+import {Context, UsePipe} from "@tsed/common";
 import {applyDecorators, StoreSet} from "@tsed/core";
-import {UsePipe, Context} from "@tsed/common";
 import {OAuthParamsPipe} from "../pipes/OAuthParamsPipe";
 
 export function OAuthParams(expression) {
@@ -7,5 +7,5 @@ export function OAuthParams(expression) {
     Context,
     StoreSet(OAuthParamsPipe, expression),
     UsePipe(OAuthParamsPipe)
-  )
+  );
 }

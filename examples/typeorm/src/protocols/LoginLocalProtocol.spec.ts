@@ -11,7 +11,6 @@ describe("LoginLocalProtocol", () => {
   describe(".$onVerify()", () => {
     it("should return a user", async () => {
       // GIVEN
-      const request = {};
       const email = "email@domain.fr";
       const password = "password";
       const user = new User();
@@ -30,7 +29,7 @@ describe("LoginLocalProtocol", () => {
       ]);
 
       // WHEN
-      const result = await protocol.$onVerify(request as any, {email, password});
+      const result = await protocol.$onVerify({email, password});
 
       // THEN
       userRepository.findOne.should.be.calledWithExactly({email: "email@domain.fr"});
@@ -38,7 +37,6 @@ describe("LoginLocalProtocol", () => {
     });
     it("should return a user", async () => {
       // GIVEN
-      const request = {};
       const email = "email@domain.fr";
       const password = "password";
       const user = new User();
@@ -57,7 +55,7 @@ describe("LoginLocalProtocol", () => {
       ]);
 
       // WHEN
-      const result = await protocol.$onVerify(request as any, {email, password});
+      const result = await protocol.$onVerify({email, password});
 
       // THEN
       userRepository.findOne.should.be.calledWithExactly({email: "email@domain.fr"});
@@ -81,7 +79,7 @@ describe("LoginLocalProtocol", () => {
       ]);
 
       // WHEN
-      const result = await protocol.$onVerify(request as any, {email, password});
+      const result = await protocol.$onVerify({email, password});
 
       // THEN
       userRepository.findOne.should.be.calledWithExactly({email: "email@domain.fr"});

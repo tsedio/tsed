@@ -1,4 +1,4 @@
-import {Ignore, Description} from "@tsed/common";
+import {Ignore, Description} from "@tsed/schema";
 import {Entity, PrimaryGeneratedColumn} from "typeorm";
 import {UserCreation} from "../models/UserCreation";
 

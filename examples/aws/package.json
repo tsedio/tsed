@@ -39,15 +39,17 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@types/swagger-schema-official": "2.0.21",
+    "@types/aws-serverless-express": "3.3.1",
+    "@tsed/ajv": "6.0.0-beta.2",
     "@tsed/common": "6.0.0-beta.2",
     "@tsed/core": "6.0.0-beta.2",
     "@tsed/di": "6.0.0-beta.2",
     "@tsed/exceptions": "6.0.0-beta.2",
+    "@tsed/schema": "6.0.0-beta.2",
+    "@tsed/json-mapper": "6.0.0-beta.2",
     "@tsed/swagger": "6.0.0-beta.2",
     "@tsed/platform-express": "6.0.0-beta.2",
-    "@tsed/testing": "5.60.2",
-    "@types/swagger-schema-official": "2.0.21",
-    "@types/aws-serverless-express": "3.3.1",
     "aws-serverless-express": "3.3.6",
     "body-parser": "1.19.0",
     "compression": "1.7.4",
@@ -56,8 +58,7 @@
     "cookie-parser": "1.4.5",
     "express": "4.17.1",
     "method-override": "^3.0.0",
-    "node-uuid": "^1.4.8",
-    "ts-json-properties": "2.0.3"
+    "node-uuid": "^1.4.8"
   },
   "devDependencies": {
     "@types/chai": "4.2.12",

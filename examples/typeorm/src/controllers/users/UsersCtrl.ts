@@ -1,4 +1,5 @@
-import {Returns, ReturnsArray, BodyParams, Controller, Get, PathParams, Post} from "@tsed/common";
+import {BodyParams, Controller, Get, PathParams, Post} from "@tsed/common";
+import {Returns} from "@tsed/schema"
 import {User} from "../../entities/User";
 import {UserCreation} from "../../models/UserCreation";
 import {UserRepository} from "../../repositories/UserRepository";
@@ -21,7 +22,7 @@ export class UsersCtrl {
   }
 
   @Get("/")
-  @ReturnsArray(200, User)
+  @Returns(200, Array).Of(User)
   async getList(): Promise<User[]> {
     return this.userRepository.find();
   }
