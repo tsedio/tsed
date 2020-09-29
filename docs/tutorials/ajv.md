@@ -10,7 +10,7 @@ projects:
    src: /tsed.png
 ---
 
-# AJV <Badge text="beta" type="warn"/>
+# AJV
 
 <Banner src="https://ajv.js.org/images/ajv_logo.png" href="https://ajv.js.org/" height="100" />
 
@@ -133,3 +133,18 @@ This information can be retrieved in the response headers:
  vary: Accept-Encoding
  x-powered-by: Express
 ```
+
+## Author 
+
+<GithubContributors users="['Romakita']"/>
+
+## Maintainers
+
+<GithubContributors users="['Romakita']"/>
+
+
+<div class="container--centered container--padded">
+<a href="/contributing.html" class="nav-link button">
+ Become maintainer
+</a>
+</div>

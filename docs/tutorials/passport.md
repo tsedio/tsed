@@ -171,4 +171,16 @@ Finally, we can use this decorator on an Endpoint like this:
 
 <ApiList query="module == '@tsed/passport' && symbolType === 'decorator'" />
 
+## Author 
 
+<GithubContributors users="['Romakita']"/>
+
+## Maintainers <Badge text="Help wanted" />
+
+<GithubContributors users="['Romakita']"/>
+
+<div class="container--centered container--padded">
+<a href="/contributing.html" class="nav-link button">
+ Become maintainer
+</a>
+</div>

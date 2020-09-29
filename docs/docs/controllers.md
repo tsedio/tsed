@@ -159,10 +159,8 @@ For the session, cookies, locals or context data attached on the request, it wor
 
 #### Locals
 
-@@Locals@@ is a request property used by third-party like template engine to render a page by the server.
-If you attach data on it, you'll expose this data to the template.
-
-If you don't want that, don't use this attribute!
+@@Locals@@ is a response property used by third-party like template engine to render a page by the server.
+If you attach data on it, template engine will use it to render the template.
 
 Here is an example:
 
@@ -240,15 +238,14 @@ You can inject @@PlatformRouter@@ in your controller to add anything related to 
 All of these routes added by this way won't be discovered by Ts.ED to produce Swagger documentation.
 :::
 
-## Advanced usage
-### Templating
+## Templating
 
 A template engine like [EJS](https://ejs.co/) or [Handlebars](https://handlebarsjs.com/) can be used to change the response returned by your endpoint.
 Like Express.js, you need to configure the templating engine so that you can use it later with the @@View@@ decorator.
 
 Here is an example of a controller which uses the @@View@@ decorator:
 
-<<< @/docs/docs/snippets/controllers/response-templating.ts
+<<< @/docs/docs/snippets/templating/response-templating.ts
 
 And its view:
 
@@ -263,7 +260,7 @@ And its view:
 To configure a template engine with Ts.ED, see our guide to [install the engine rendering](/tutorials/templating.md) with Ts.ED.
 :::
 
-### Middlewares
+## Middlewares
 
 The middleware is a function which is called before the route handler. 
 Middleware functions have access to the request and response objects, and the next middleware function in the application’s request-response cycle. 
@@ -277,12 +274,12 @@ The following decorators lets you add custom middleware on a method or on contro
 
 <ApiList query="['Use', 'UseBefore', 'UseAfter', 'UseBeforeEach'].indexOf(symbolName) > -1" />
 
-#### Example
+### Example
 
 <<< @/docs/docs/snippets/controllers/middlewares.ts
 
 
-#### Middleware call sequence
+### Middleware call sequence
 
 When a request is sent to the server all middlewares added on the Server, Controller or Endpoint
  will be called while a response isn't sent by one of the middleware in the lifecycle.
@@ -293,9 +290,9 @@ When a request is sent to the server all middlewares added on the Server, Contro
 See [middlewares section](/docs/middlewares.md) for more information.
 :::
 
-### Child controllers
+## Nested controllers
 
-A controller can have one or more child controllers. This feature allows you to combine your controllers with each other to define your routes. 
+A controller can have one or more nested controllers. This feature allows you to combine your controllers with each other to define your routes. 
 One controller can be added to multiple controllers, so you can easily reuse the same controller.
 
 <Tabs class="-code">
@@ -321,8 +318,6 @@ One controller can be added to multiple controllers, so you can easily reuse the
   </Tab>      
 </Tabs>  
 
-
-
 This example will produce these following routes:
 
 Verb | Route | Method
@@ -332,27 +327,7 @@ GET | `/rest/calendars` | `CalendarCtrl.get()`
 GET | `/rest/calendars/events` | `EventCtrl.get()`
 GET | `/rest/events` | `EventCtrl.get()`
 
-### Merge Params
-
-In some cases you need to have complex routes like this `rest/calendars/:calendarId/events/:eventId`.
-This route can be written with Ts.ED like this :
-
-<<< @/docs/docs/snippets/controllers/merge-params-1.ts
-
-In this case, the calendarId will be `undefined` because `Express.Router` didn't merge params by
-default from the parent `Router` (see [Express documentation](http://expressjs.com/fr/api.html#express.router)).
-
-To solve it you can use the @@MergeParams@@ decorator. See this example:
-
-<<< @/docs/docs/snippets/controllers/merge-params-2.ts
-
-> Now, calendarId will have the value given in the context path.
-
-::: tip
-`caseSensitive` and `strict` options are also supported with their respective decorators @@CaseSensitive@@ and @@Strict@@.
-:::
-
-### Inheritance
+## Inheritance
 
 Ts.ED supports the ES6 inheritance class. So you can declare a controller that implement some generic method
 and use it on a children class.
