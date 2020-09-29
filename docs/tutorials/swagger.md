@@ -49,7 +49,7 @@ spec | `{swagger: "2.0"}` | The default information spec.
 specPath | `${rootDir}/spec/swagger.base.json` | Load the base spec documentation from the specified path.
 outFile | `${rootDir}/spec/swagger.json` | Write the `swagger.json` spec documentation on the specified path.
 hidden | `true` | Hide the documentation in the dropdown explorer list.
-options | Swagger-UI options | SwaggerUI options. See (https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/configuration.md)
+options | Swagger-UI options | SwaggerUI options. See (https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/docs/configuration.md)
 operationIdFormat | `%c.%m` | Format of operationId field (`%c`: class name, `%m`: method name).
 
 ### Multi documentations
@@ -110,6 +110,10 @@ document.addEventListener('swagger.init', (evt) => {
 });
 ```
 
-::: tip Credits
-Thanks to [vologab](https://github.com/vologab) for his contribution.
-:::
+## Author 
+
+<GithubContributors users="['vologab']"/>
+
+## Maintainers
+
+<GithubContributors users="['Romakita']"/>

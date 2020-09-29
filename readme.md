@@ -115,7 +115,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-To customize the server settings see [Configure server with decorator](https://tsed.io/configuration.html)
+To customize the server settings see [Configure server with decorator](https://tsed.io/docs/configuration.md)
 
 #### Controller example
 

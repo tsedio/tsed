@@ -1,6 +1,6 @@
 import {$log} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Server} from "./Server";
+import {Server} from "./server";
 
 // /!\ configuration file must be outside of your src directory
 process.env["NODE_CONFIG_DIR"] = `${__dirname}/../config`;

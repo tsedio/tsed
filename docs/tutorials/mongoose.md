@@ -43,7 +43,7 @@ npm install --save-dev @types/mongoose
 npm install --save-dev @tsed/testing-mongoose
 ```
 
-Then import `@tsed/mongoose` in your [Configuration](/configuration.md):
+Then import `@tsed/mongoose` in your [Configuration](/docs/configuration.md):
 
 <<< @/docs/tutorials/snippets/mongoose/configuration.ts
 
@@ -239,3 +239,17 @@ This example shows you how can test the model:
 
 
 <div class="sharethis-inline-share-buttons"></div>
+
+## Author 
+
+<GithubContributors users="['Romakita']"/>
+
+## Maintainers
+
+<GithubContributors users="['Romakita']"/>
+
+<div class="container--centered container--padded">
+<a href="/contributing.html" class="nav-link button">
+ Become maintainer
+</a>
+</div>
