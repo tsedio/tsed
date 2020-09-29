@@ -1,6 +1,6 @@
-import {PlatformMulterFile} from "@tsed/common";
 import {DecoratorParameters, Metadata, Store, StoreMerge, StoreSet, useDecorators, useMethodDecorators} from "@tsed/core";
 import {Consumes, Returns} from "@tsed/schema";
+import {PlatformMulterFile} from "../../../config/interfaces/PlatformMulterSettings";
 import {Req, Use, UseParamType} from "../../../mvc/decorators";
 import {ParamTypes} from "../../../mvc/models/ParamTypes";
 import {MulterInputOptions, PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware";
