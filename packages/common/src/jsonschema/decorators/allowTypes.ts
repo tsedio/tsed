@@ -64,7 +64,7 @@ import {Any} from "./any";
  * @schema
  * @swagger
  * @validation
- * @deprecated Use @Any decorator instead of. Will be removed in v6.
+ * @deprecated Use @Any decorator from @tsed/common instead of. Will be removed in v6.
  */
 export function AllowTypes(type: JSONSchema6TypeName, ...types: JSONSchema6TypeName[]) {
   return Any(type, ...types);
