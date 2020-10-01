@@ -33,7 +33,7 @@ export class PlatformContextMiddleware {
 
     await request.$ctx.emit("$onResponse", request, response);
     await request.$ctx.destroy();
-
+    // @ts-ignore
     delete request.ctx;
     // @ts-ignore
     delete request.log;
