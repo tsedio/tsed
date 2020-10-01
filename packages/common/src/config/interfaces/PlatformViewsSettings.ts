@@ -50,8 +50,25 @@ export type PlatformViewsEngineOptions = {
 };
 
 export interface PlatformViewsSettings {
-  path?: string;
+  /**
+   * Views directory.
+   */
+  root?: string;
+  /**
+   * Enable cache. Ts.ED enable cache in PRODUCTION profile by default.
+   */
+  cache?: boolean;
+  /**
+   * Provide extensions mapping to match the expected engines.
+   */
   extensions?: Partial<PlatformViewsExtensionsTypes>;
+  /**
+   * Default view engine extension.
+   * Allow omitting extension when using View decorator or render method.
+   */
   viewEngine?: string;
+  /**
+   * Options mapping for each engine.
+   */
   options?: Partial<PlatformViewsEngineOptions>;
 }

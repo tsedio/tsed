@@ -32,7 +32,7 @@ describe("PlatformViews", () => {
       const result = await platformViews.render("views.ejs");
 
       expect(result).to.equal("HTML");
-      expect(platformViews.consolidate.ejs).to.have.been.calledWithExactly("views.ejs", {global: "global"});
+      expect(platformViews.consolidate.ejs).to.have.been.calledWithExactly("views.ejs", {cache: false, global: "global"});
     });
     it("should render a template without extension", async () => {
       const platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
@@ -43,6 +43,7 @@ describe("PlatformViews", () => {
 
       expect(result).to.equal("HTML");
       expect(platformViews.consolidate.ejs).to.have.been.calledWithExactly("views.ejs", {
+        cache: false,
         global: "global",
         test: "test"
       });

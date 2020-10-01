@@ -27,7 +27,7 @@ const rootDir = resolve(__dirname);
     "/": "${rootDir}/views"
   },
   views: {
-    path: `${rootDir}/views`,
+    root: `${rootDir}/views`,
     extensions: {
       html: "ejs"
     },
