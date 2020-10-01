@@ -2161,9 +2161,9 @@
     tslib "1.11.0"
 
 "@tsed/monorepo-utils@^1.9.2":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.9.2.tgz#b6cc6dbfc36b4c1c0af1a188bf2d3b73d5357e7c"
-  integrity sha512-PpduqM5tdfX1Dsa6o2C9wDDsZqSKSUMqMFO7Ys6xvzHTbJTeLaHr0n2XKzHTUIrvxVxcUO/48ha+7JZkYMYlsA==
+  version "1.9.3"
+  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.9.3.tgz#96eb5fb846186d3926fcecbbd0e50aecd75712c5"
+  integrity sha512-EG0SBvzMRqfXqavQpWtZ2CEiQvtfzOsYVvbpcP065MepL1CZ+3+jHzUAL4yluaCfDBUYPqt9U3lp6yfAegbTiA==
   dependencies:
     axios "0.19.2"
     chalk "3.0.0"
