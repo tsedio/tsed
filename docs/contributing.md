@@ -28,37 +28,36 @@ sponsors:
 
 First, thank you for considering contributing to Ts.ED! It is people like you that make the open source community such a great community! 😊
 
-We welcome any type of contribution, not only code. You can help with
+We welcome any type of contribution, not just code. You can help with:
 
 - QA: file bug reports, the more details you can give the better (e.g. screenshots with the console open)
-- Marketing: writing blog posts, howto's, printing stickers, ...
+- Marketing: writing blog posts, how to's, printing stickers, ...
 - Community: presenting the project at meetups, organizing a dedicated meetup for the local community, ...
-- Code: take a look at the [open issues](https://github.com/TypedProject/tsed/issues). Even if you can't write code, commenting on them, showing that you care about a given issue matters. It helps us triage them.
+- Code: take a look at the [open issues](https://github.com/TypedProject/tsed/issues). Even if you can't write code, commenting on them and showing that you care about a given issue matters. It helps us triage them.
 - Money: we welcome financial contributions in full transparency on our [open collective](https://opencollective.com/tsed).
 
 ## Your First Contribution
 
-Working on your first Pull Request? You can learn how from this free series, [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
+Working on your first Pull Request? You can learn how from this free series: [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
 
 ## Submitting code
 
 Any code change should be submitted as a pull request. The description should explain what the code does and give steps to execute it. The pull request should also contain tests.
-Code review process
 
 The bigger the pull request, the longer it will take to review and merge. Try to break down large pull requests in smaller chunks that are easier to review and merge. It is also always helpful to have some context for your pull request. What was the purpose? Why does it matter to you?
 
 ::: warning
-Ts.ED project use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) as format commit message.
+Ts.ED project uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) as format commit message.
 
 Release note and tagging version are based on the message commits.
-If you don't follow the format, our CI won't be able to increment correctly the version and your feature won't be released on NPM.
+If you don't follow the format, our CI won't be able to increment the version correctly and your feature won't be released on NPM.
 
-To write your commit message see [convention page here](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
+To write your commit message, see [convention page here](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
 :::
 
 ## Financial contributions
 
-We also welcome financial contributions in full transparency on our open collective. Anyone can file an expense. If the expense makes sense for the development of the community, it will be "merged" in the ledger of our [open collective](https://opencollective.com/tsed) by the core contributors and the person who filed the expense will be reimbursed.
+We also welcome financial contributions in full transparency on our open collective. Anyone can file an expense. If the expense makes sense for the development of the community, it will be "merged" in the ledger of our [open collective](https://opencollective.com/tsed) by the core contributors, and the person who filed the expense will be reimbursed.
 
 ## Questions
 
@@ -98,7 +97,7 @@ npm run test
 
 ### Gflow (optional)
 
-[Gflow](https://www.npmjs.com/package/gflow) is a command line tool to help developer with the Git process used in Ts.ED.
+[Gflow](https://www.npmjs.com/package/gflow) is a command line tool to help developers with the Git process used in Ts.ED.
 
 Gflow helps you create a branch from production, rebase and run the tests before pushing your branch on your remote repository.
 
@@ -119,7 +118,7 @@ gflow new feat name_of_feat
 
 ### Commit & Push a feature
 
-This command rebases your branch feature from the production branch, runs the test and pushes your branch.
+This command rebases your branch feature from the production branch, runs the test, and pushes your branch.
 
 ```bash
 git commit -m "feat(domain): Your message"
@@ -167,9 +166,9 @@ npm run doc:serve
 
 - Ts.ED follows the git flow to generate a release note. To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
 - Please try to combine multiple commits before pushing
-- Please use TDD when fixing bugs. This means that you should write a unit test that fails because it reproduces the issue, then fix the issue and finally run the test to ensure that the issue has been resolved. This helps us prevent fixed bugs from happening again in the future
+- Please use TDD when fixing bugs. This means that you should write a unit test that fails because it reproduces the issue, fixes the issue, and then finally runs the test to ensure that the issue has been resolved. This helps us prevent fixed bugs from happening again in the future
 - Please keep the test coverage at 100%. Write additional unit tests if necessary
-- Please create an issue before sending a PR if it is going to change the public interface of Ts.ED or include significant architecture changes,
+- Please create an issue before sending a PR if it is going to change the public interface of Ts.ED or include significant architecture changes
 - Feel free to ask for help from other members of the Ts.ED team
 
 <!-- This `CONTRIBUTING.md` is based on @nayafia's template https://github.com/nayafia/contributing-template -->
