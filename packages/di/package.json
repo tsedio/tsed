@@ -1,11 +1,11 @@
 {
   "name": "@tsed/di",
-  "version": "5.65.3",
+  "version": "5.65.4",
   "description": "DI module for Ts.ED Framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "dependencies": {
-    "@tsed/core": "5.65.3",
+    "@tsed/core": "5.65.4",
     "chalk": "4.1.0",
     "tslib": "1.11.0"
   },
