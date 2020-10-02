@@ -55,7 +55,7 @@
     "rxjs": "^6.5.2",
     "ts-log-debug": "^5.5.3",
     "tslib": "1.11.0",
-    "uuid": "3.3.3"
+    "uuid": "8.3.0"
   },
   "peerDependencies": {
     "@types/express": "^4",
