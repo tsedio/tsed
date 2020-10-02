@@ -145,7 +145,8 @@ module.exports = {
               "/docs/injection-scopes",
               "/docs/custom-providers",
               "/docs/custom-endpoint-decorators",
-              "/docs/testing"
+              "/docs/testing",
+              "/api"
             ]
           },
           {

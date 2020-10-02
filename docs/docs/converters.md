@@ -15,17 +15,20 @@ It uses all decorators from `@tsed/schema` package and TypeScript metadata to wo
 Ts.ED use this package to transform any input parameters sent by your consumer to a class and transform returned value by your endpoint
 to a plain javascript object to your consumer.
 
-::: warning
-For v5 developer, this package is the new API under the @@ConverterService@@. There are some breaking changes between the previous service implementation:
+::: warning Breaking change
+For v5 developer, `@tsed/json-mapper` package is the new API under the @@ConverterService@@. There are some breaking changes between the previous service implementation:
 
 - The `@Converter` decorator have been removed in favor of @@JsonMapper@@ decorator.
-- Classes like `ArrayConverter`, `SetConverter`, etc... replaced by his equivalents @@ArrayMapper@@, @@SetMapper@@, etc... These classes cannot be injected to another provider.
+- Classes like `ArrayConverter`, `SetConverter`, etc... replaced by his equivalents Types mapper: @@ArrayMapper@@, @@SetMapper@@, etc... 
+- Type mapper classes are no longer injectable services. 
 - ConverterService is always available and can be injected to another provider, but now, ConverterService doesn't perform data validation. Validation is performed by [`@tsed/ajv`](/tutorials/ajv.md) package or any other validation library.
+- `PropertyDeserialize` and `PropertySerialize` have been removed and replaced by @@OnDeserialize@@ and @@OnSerialize@@.
+- Methods Signatures of Type mapper (like ArrayConverter) have changed.
 :::
 
 ## Usage
 
-JsonMapper work with a class and decorators. Use decorators on properties to describe a model and use this model as an input parameter or return value by your endpoint. Here is a model example:
+JsonMapper works with a class and decorators. Use decorators on properties to describe a model and use this model as an input parameter or return value by your endpoint. Here is a model example:
 
 <Tabs class="-code">
   <Tab label="Person.ts">
@@ -45,7 +48,9 @@ JsonMapper work with a class and decorators. Use decorators on properties to des
   </Tab>
 </Tabs>
 
-> Note: Take a look on Jest/Mocha tabs to see @@serialize@@ and @@deserialize@@ functions usage.
+::: tip Note
+Take a look on Jest/Mocha tabs to see @@serialize@@ and @@deserialize@@ functions usage.
+:::
 
 Now we can use the `Person` model on a controller:
 
@@ -161,12 +166,14 @@ export class Person {
 
 `@tsed/json-mapper` use classes to transform an input value to the expected value:
 
-- Primitives: @@PrimitiveMapper@@, 
-- Symbol: @@SymbolMapper@@,
-- Objects: @@DateMapper@@,
-- Collections: @@ArrayMapper@@, @@MapMapper@@ and @@SetMapper@@.
+Type | Mapper
+---|---
+Primitives | @@PrimitiveMapper@@, 
+Symbol | @@SymbolMapper@@,
+Objects | @@DateMapper@@,
+Collections | @@ArrayMapper@@, @@MapMapper@@ and @@SetMapper@@.
 
-It's possible de to change add your own type mapper by using the @@JsonMapper@@ decorator on a class. Just copy a mapper implementation 
+It's possible to add your own type mapper by using the @@JsonMapper@@ decorator on a class. Just copy a mapper implementation 
 and import the mapper in your application.
 
 ### Primitives
