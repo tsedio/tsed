@@ -40,7 +40,7 @@ meta:
 
 # Getting started
 
-Save your time by starting your project with our Cli:
+Save time by starting your project with our Cli:
 
 ```
 npm install -g @tsed/cli
@@ -136,9 +136,9 @@ Then use the command `npm install && npm start` to start your server.
 ## Quick start
 ### Create your server
 
-Ts.ED use now, the [Platform API](/docs/platform-api.html) to create an application. Platform API give an abstraction layer 
-between your code written with Ts.ED and the Express code. It means, a large part of your code
-isn't coupled with Express itself and can be used with another Platform like Koa in future (Ts.ED v6).
+To use Ts.ED now, use the [Platform API](/docs/platform-api.html) to create an application. Platform API gives an abstraction layer 
+between your code written with Ts.ED and the Express code. It means a large part of your code
+isn't coupled with Express itself, and can be used with another Platform like Koa in the future (Ts.ED v6).
 
 Ts.ED provides a @@Configuration@@ decorator to declare a new application. 
 Just create a `server.ts` in your root project :
@@ -192,10 +192,10 @@ It is also possible to use [node-config](https://www.npmjs.com/package/config) o
 Create a new `CalendarCtrl.ts` in your controllers directory (by default `root/controllers`).
 All controllers declared with @@Controller@@ decorators are considered as Express routers. 
 An Express router requires a path (here, the path is `/calendars`) to expose an url on your server. 
-More precisely, it's a part of path, and the entire exposed url depends on the Server configuration (see [Configuration](configuration.md)) 
+More precisely, it's a part of a path, and the entire exposed url depends on the Server configuration (see [Configuration](configuration.md)) 
 and the [children controllers](/docs/controllers.md).
 
-In this case, we haven't dependencies and the root endpoint is set to `/rest`. 
+In this case, we have no dependencies and the root endpoint is set to `/rest`. 
 So the controller's url will be `http://host/rest/calendars`.
 
 <<< @/docs/docs/snippets/controllers/basic-controller.ts

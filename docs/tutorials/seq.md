@@ -62,6 +62,10 @@ export class Calendar {
 
 Then we should see the log in the Seq panel (by default `localhost:5341`)
 
-::: tip Credits
-Thanks to [OskarLebuda](https://github.com/OskarLebuda) to his contribution.
-:::
+## Author 
+
+<GithubContributors users="['OskarLebuda']"/>
+
+## Maintainers
+
+<GithubContributors users="['OskarLebuda', 'Romakita']"/>
