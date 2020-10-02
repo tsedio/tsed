@@ -1,7 +1,7 @@
 import {Ignore as I} from "@tsed/schema";
 
 /**
- * Disable serialization for this property when the Converters service will render the JSON object.
+ * Ignore the property when JsonMapper serialize the class to a Plain Object JavaScript.
  *
  * ::: tip
  * This decorator is used by the Converters to serialize correctly your model.
