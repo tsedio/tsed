@@ -129,7 +129,7 @@
     "typescript": "3.9.4",
     "vue-analytics": "5.22.1",
     "vuepress": "1.5.3",
-    "vuepress-theme-tsed": "2.9.1"
+    "vuepress-theme-tsed": "2.9.2"
   },
   "directories": {
     "packages": "packages",
