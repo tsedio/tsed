@@ -84,6 +84,7 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
             method,
             defaultTags,
             tags,
+            spec,
             operationId: (path: string) =>
               options.operationIdFormatter?.(
                 operationStore.parent.schema.get("name") || operationStore.parent.targetName,
@@ -97,12 +98,14 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
 
     specJson.tags = uniqBy(tags, "name");
 
-    if (spec === SpecTypes.OPENAPI) {
-      specJson.components = {
-        schemas
-      };
-    } else {
-      specJson.definitions = schemas;
+    if (Object.keys(schemas).length) {
+      if (spec === SpecTypes.OPENAPI) {
+        specJson.components = {
+          schemas
+        };
+      } else {
+        specJson.definitions = schemas;
+      }
     }
 
     return specJson;

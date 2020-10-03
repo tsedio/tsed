@@ -12,7 +12,6 @@ describe("ContentType", () => {
 
     const spec = getSpec(Test);
     expect(spec).to.deep.eq({
-      definitions: {},
       paths: {
         "/": {
           get: {

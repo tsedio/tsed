@@ -10,7 +10,6 @@ describe("Deprecated", () => {
     }
 
     expect(getSpec(MyController)).to.deep.eq({
-      definitions: {},
       tags: [
         {
           name: "MyController"
@@ -41,9 +40,6 @@ describe("Deprecated", () => {
     }
 
     expect(getSpec(MyController, {spec: SpecTypes.OPENAPI})).to.deep.eq({
-      components: {
-        schemas: {}
-      },
       tags: [
         {
           name: "MyController"
@@ -77,7 +73,6 @@ describe("Deprecated", () => {
     }
 
     expect(getSpec(MyController)).to.deep.eq({
-      definitions: {},
       tags: [
         {
           name: "MyController"

@@ -36,6 +36,10 @@ export interface SwaggerSettings {
    */
   path: string;
   /**
+   * Specify the spec version you want to generate.
+   */
+  specVersion?: string;
+  /**
    * Swagger file name. By default swagger.json
    */
   fileName?: string;

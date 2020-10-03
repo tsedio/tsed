@@ -60,7 +60,6 @@ describe("@MaxProperties", () => {
 
     // THEN
     expect(getSpec(MyController)).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "MyController"

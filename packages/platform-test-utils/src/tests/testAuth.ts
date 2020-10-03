@@ -179,7 +179,6 @@ export function testAuth(options: PlatformTestOptions) {
 
       expect(spec).to.deep.equal({
         consumes: ["application/json"],
-        definitions: {},
         info: {
           description: "",
           termsOfService: "",

@@ -66,7 +66,6 @@ export function testCtrlInheritance(options: PlatformTestOptions) {
 
   it("should generate swagger json", () => {
     expect(getSpec(TestChildController)).to.deep.eq({
-      definitions: {},
       paths: {
         "/test": {
           get: {

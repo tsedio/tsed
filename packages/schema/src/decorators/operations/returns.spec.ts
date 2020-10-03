@@ -15,7 +15,6 @@ describe("@Returns", () => {
     const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Controller"
@@ -52,7 +51,6 @@ describe("@Returns", () => {
     const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Controller"
@@ -98,7 +96,6 @@ describe("@Returns", () => {
     const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Controller"
@@ -147,9 +144,6 @@ describe("@Returns", () => {
     const spec = getSpec(Controller, {spec: SpecTypes.OPENAPI});
 
     expect(spec).to.deep.equal({
-      components: {
-        schemas: {}
-      },
       tags: [
         {
           name: "Controller"
@@ -193,7 +187,6 @@ describe("@Returns", () => {
     const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Controller"
@@ -286,7 +279,6 @@ describe("@Returns", () => {
     const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Controller"

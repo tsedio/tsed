@@ -48,7 +48,6 @@ describe("@UseParam", () => {
       const spec = getSpec(Ctrl);
 
       expect(spec).to.deep.equal({
-        definitions: {},
         paths: {
           "/": {
             get: {
