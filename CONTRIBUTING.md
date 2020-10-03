@@ -24,6 +24,7 @@ The bigger the pull request, the longer it will take to review and merge. Try to
 
 ---
 ### WARNING
+
 Ts.ED project use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) as format commit message.
 
 Release note and tagging version are based the message commits.
@@ -56,12 +57,11 @@ yarn
 > After installing dependencies, yarn/npm run the `postinstall` hook and mounted all packages with `npm link` (e.g. `yarn run repo:bootstrap`).
 
 Compile TypeScript:
+
 ```bash
-tsc
-# or
-yarn tsc
-# or
-npm run tsc
+yarn build
+// or 
+npm run build
 ```
 
 ### Test
@@ -114,36 +114,33 @@ gflow push
 
 When your feature is ready to review, you can open a PR on Ts.ED github.
 
-### Finish a feature (repo owner and maintainers)
+### Submitting your PR
 
-After the PR has been accepted, the feature will be automatically merge on the master branch, but
-your feature isn't merge with the production branch.
+Create the PR on the production branch. A valid PR must follows these points:
 
-To publish your feature on the production branch you need to run a this command:
+- Unit test is correctly implemented and cover the new scenario.
+- If the code introduce new feature, please add documentation in the `/docs` or describe the feature in the PR description.
+- The commit message follows the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) format.
 
-```bash
-gflow finish 
-```
-
-> Note: This action works only on the Ts.ED repository (not on your fork).
+The review is always takes priority over other tasks. We can validate the PR very quickly if everything is clear and it's aligned with the evolution/vision of the framework.
 
 ### Write documentation
 
-Ts.ED use docsify to convert markdown to HTML. In addition, all documentation in your code will be used to generate
-the Api documentation. To preview your comments on a class you can run this command:
+Ts.ED use vuepress to convert markdown to web application. In addition, all documentation in your code will be used to generate
+the API documentation. To run the website on your local, run this command:
 
-```
-npm run doc:serve
+```sh
+yarn vuepress:serve
 ```
 
 ### Guidelines
 
-- Ts.ED follow the git flow to generate a release note. To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
-- Please try to combine multiple commits before pushing
-- Please use TDD when fixing bugs. This means that you should write a unit test that fails because it reproduces the issue, then fix the issue and finally run the test to ensure that the issue has been resolved. This helps us prevent fixed bugs from happening again in the future
-- Please keep the test coverage at 100%. Write additional unit tests if necessary
-- Please create an issue before sending a PR if it is going to change the public interface of Ts.ED or includes significant architecture changes,
-- Feel free to ask for help from other members of the Ts.ED team
+- Ts.ED follow the git flow to generate a release note. To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit).
+- Please try to combine multiple commits before pushing.
+- Please use TDD when fixing bugs. This means that you should write a unit test that fails because it reproduces the issue, then fix the issue and finally run the test to ensure that the issue has been resolved. This helps us prevent fixed bugs from happening again in the future.
+- Please keep the test coverage. Write additional unit tests if necessary.
+- Please create an issue before sending a PR if it is going to change the public interface of Ts.ED or includes significant architecture changes.
+- Feel free to ask for help from other members of the Ts.ED team.
 
 ## Credits
 ### Contributors
