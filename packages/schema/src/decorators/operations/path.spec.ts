@@ -10,7 +10,6 @@ describe("Path", () => {
     }
 
     expect(getSpec(MyController)).to.deep.eq({
-      definitions: {},
       tags: [
         {
           name: "MyController"

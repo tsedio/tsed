@@ -3,7 +3,7 @@ import {deepExtends} from "@tsed/core";
 import {getSpec, SpecSerializerOptions, SpecTypes} from "@tsed/schema";
 import * as Fs from "fs";
 import {Spec, Tag} from "swagger-schema-official";
-import {SwaggerSettings, SwaggerSpec} from "../interfaces";
+import {SwaggerSettings} from "../interfaces";
 import {getReducers} from "../utils";
 
 @Service()
@@ -27,7 +27,7 @@ export class SwaggerService {
       paths: {},
       tags: [],
       schemas: {},
-      spec: SpecTypes.SWAGGER,
+      spec: defaultSpec.openapi ? SpecTypes.OPENAPI : SpecTypes.SWAGGER,
       append(spec: any) {
         deepExtends(finalSpec, spec, getReducers());
       }
@@ -53,31 +53,39 @@ export class SwaggerService {
   /**
    * Return the global api information.
    */
-  public getDefaultSpec(conf: Partial<SwaggerSettings>): Spec {
+  public getDefaultSpec(conf: Partial<SwaggerSettings>): any {
     const {version} = this.configuration;
-    const spec: SwaggerSpec =
+    const spec: any =
       conf.spec ||
       ({
-        info: {},
-        securityDefinitions: {}
+        info: {}
       } as any);
 
-    const specPath = conf.specPath;
+    const {specPath} = conf;
 
-    let specPathContent = {};
+    let specPathContent: any = {};
 
     if (specPath) {
       specPathContent = this.readSpecPath(specPath);
     }
 
+    const {specVersion = specPathContent.openapi || specPathContent.swagger || "2.0"} = conf;
     /* istanbul ignore next */
     const {title = "Api documentation", description = "", version: versionInfo, termsOfService = "", contact, license} =
       spec.info || ({} as any);
 
+    if ((specVersion || "").startsWith("3.")) {
+      spec.openapi = specVersion;
+    } else {
+      spec.swagger = specVersion;
+      spec.consumes = (this.configuration.acceptMimes || ["application/json"]).concat(spec.consumes || []);
+      spec.produces = spec.produces || ["application/json"];
+      spec.securityDefinitions = {};
+    }
+
     return deepExtends(
       {
         ...spec,
-        swagger: "2.0",
         info: {
           version: versionInfo || version,
           title,
@@ -86,8 +94,6 @@ export class SwaggerService {
           contact,
           license
         },
-        consumes: (this.configuration.acceptMimes || ["application/json"]).concat(spec.consumes || []),
-        produces: spec.produces || ["application/json"],
         securityDefinitions: spec.securityDefinitions || {}
       },
       specPathContent,

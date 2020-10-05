@@ -5,8 +5,7 @@ import {expect} from "chai";
 import * as Sinon from "sinon";
 
 class Test {
-  test() {
-  }
+  test() {}
 }
 
 describe("@MultipartFile()", () => {
@@ -17,8 +16,7 @@ describe("@MultipartFile()", () => {
       // WHEN
       class TestController {
         @Post("/")
-        test(@MultipartFile("file1", 1) file: any) {
-        }
+        test(@MultipartFile("file1", 1) file: any) {}
       }
 
       // THEN
@@ -38,7 +36,6 @@ describe("@MultipartFile()", () => {
       expect(param.paramType).to.eq(ParamTypes.FILES);
 
       expect(getSpec(TestController)).to.deep.eq({
-        definitions: {},
         paths: {
           "/": {
             post: {

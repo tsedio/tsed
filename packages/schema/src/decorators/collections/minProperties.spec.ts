@@ -60,7 +60,6 @@ describe("@MinProperties", () => {
 
     // THEN
     expect(getSpec(MyController)).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "MyController"

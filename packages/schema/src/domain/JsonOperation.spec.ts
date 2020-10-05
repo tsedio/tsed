@@ -44,7 +44,6 @@ describe("JsonOperation", () => {
       }
 
       expect(getSpec(MyController)).to.deep.eq({
-        definitions: {},
         paths: {
           "/": {
             get: {

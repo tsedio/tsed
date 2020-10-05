@@ -22,7 +22,6 @@ describe("ValidationPipe", () => {
     const result = validator.transform("value", param);
     // THEN
     expect(getSpec(Test)).to.deep.eq({
-      definitions: {},
       paths: {
         "/": {
           post: {
@@ -73,7 +72,6 @@ describe("ValidationPipe", () => {
 
     // THEN
     expect(getSpec(Test)).to.deep.eq({
-      definitions: {},
       paths: {
         "/": {
           post: {
@@ -124,7 +122,6 @@ describe("ValidationPipe", () => {
 
     // THEN
     expect(getSpec(Test)).to.deep.eq({
-      definitions: {},
       paths: {
         "/": {
           post: {

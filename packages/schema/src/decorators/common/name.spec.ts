@@ -34,7 +34,6 @@ describe("@Name", () => {
 
     // THEN
     expect(getSpec(MyController)).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "AwesomeController"

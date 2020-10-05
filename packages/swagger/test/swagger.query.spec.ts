@@ -47,7 +47,6 @@ describe("Swagger query params", () => {
     const response = await request.get("/api-doc/swagger.json").expect(200);
     expect(response.body).to.deep.eq({
       consumes: ["application/json"],
-      definitions: {},
       info: {
         description: "",
         termsOfService: "",

@@ -16,7 +16,6 @@ describe("Header", () => {
         const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
         expect(spec).to.deep.eq({
-          definitions: {},
           paths: {
             "/": {
               get: {
@@ -58,7 +57,6 @@ describe("Header", () => {
         const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
         expect(spec).to.deep.eq({
-          definitions: {},
           paths: {
             "/": {
               get: {
@@ -107,7 +105,6 @@ describe("Header", () => {
         const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
         expect(spec).to.deep.eq({
-          definitions: {},
           paths: {
             "/": {
               get: {

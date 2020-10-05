@@ -27,7 +27,6 @@ describe("@Description", () => {
 
     // THEN
     expect(getSpec(Model)).to.deep.equal({
-      definitions: {},
       paths: {
         "/": {
           get: {
@@ -75,7 +74,6 @@ describe("@Description", () => {
 
     // THEN
     expect(getSpec(Model)).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Model"

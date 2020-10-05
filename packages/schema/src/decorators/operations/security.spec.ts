@@ -11,7 +11,6 @@ describe("Security", () => {
     }
 
     expect(getSpec(MyController)).to.deep.eq({
-      definitions: {},
       tags: [
         {
           name: "MyController"
@@ -48,7 +47,6 @@ describe("Security", () => {
     }
 
     expect(getSpec(MyController)).to.deep.eq({
-      definitions: {},
       tags: [
         {
           name: "MyController"

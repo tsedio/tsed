@@ -11,7 +11,6 @@ describe("Tags", () => {
     }
 
     expect(getSpec(MyController)).to.deep.eq({
-      definitions: {},
       tags: [{name: "api"}],
       paths: {
         "/": {
@@ -37,7 +36,6 @@ describe("Tags", () => {
     }
 
     expect(getSpec(MyController)).to.deep.eq({
-      definitions: {},
       tags: [
         {
           name: "api",
@@ -72,7 +70,6 @@ describe("Tags", () => {
     }
 
     expect(getSpec(MyController)).to.deep.eq({
-      definitions: {},
       tags: [{name: "api"}, {name: "allow"}],
       paths: {
         "/": {
