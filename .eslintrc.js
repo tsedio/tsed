@@ -28,7 +28,6 @@ module.exports = {
     "no-case-declarations": "off",
     "no-empty": "off",
     "prefer-const": "off",
-    "no-fallthrough": "off",
-    "no-prototype-builtins": "off"
+    "no-fallthrough": "off"
   }
 };
