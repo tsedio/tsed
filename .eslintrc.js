@@ -27,7 +27,6 @@ module.exports = {
     "@typescript-eslint/no-non-null-assertion": "off",
     "no-case-declarations": "off",
     "no-empty": "off",
-    "no-extra-boolean-cast": "off",
     "prefer-const": "off",
     "no-fallthrough": "off",
     "no-prototype-builtins": "off"
