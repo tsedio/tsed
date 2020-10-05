@@ -19,6 +19,6 @@
   "devDependencies": {
     "@tsed/common": "5.65.5",
     "@tsed/core": "5.65.5",
-    "@types/multer": "1.4.3"
+    "@types/multer": "1.4.4"
   }
 }
