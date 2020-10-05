@@ -1,4 +1,4 @@
-import {InjectorService, PLATFORM_ROUTER_OPTIONS, PlatformHandler, PlatformRouter, PlatformStaticsOptions} from "@tsed/common";
+import {PLATFORM_ROUTER_OPTIONS, PlatformHandler, PlatformRouter, PlatformStaticsOptions} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import * as Express from "express";
 import {RouterOptions} from "express";
@@ -22,7 +22,13 @@ export class PlatformExpressRouter extends PlatformRouter<Express.Router> {
   ) {
     super(platform);
 
-    const options = Object.assign({}, configuration.express?.router || {}, routerOptions);
+    const options = Object.assign(
+      {
+        mergeParams: true
+      },
+      configuration.express?.router || {},
+      routerOptions
+    );
     this.rawRouter = this.raw = Express.Router(options);
   }
 
