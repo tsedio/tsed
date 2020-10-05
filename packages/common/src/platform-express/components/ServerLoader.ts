@@ -135,7 +135,7 @@ export abstract class ServerLoader extends PlatformBuilder implements IServerLif
    *
    * key | type | Description
    * ---|---|---
-   * port | number | Port number
+   * port | number | Port number
    * key | string, [Buffer](https://nodejs.org/api/buffer.html#buffer_class_buffer), Object | The private key of the server in PEM format. To support multiple keys using different algorithms an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers that make use of private keys.
    * passphrase | string | A string containing the passphrase for the private key or pfx.
    * cert | string, [Buffer](https://nodejs.org/api/buffer.html#buffer_class_buffer) | A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
