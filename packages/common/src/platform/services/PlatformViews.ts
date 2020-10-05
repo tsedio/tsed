@@ -1,3 +1,4 @@
+import {Env} from "@tsed/core";
 import {Constant, Injectable} from "@tsed/di";
 import * as cons from "consolidate";
 import * as Fs from "fs";
@@ -13,8 +14,14 @@ import {
  */
 @Injectable()
 export class PlatformViews {
-  @Constant("views.path", `${process.cwd()}/views`)
-  readonly path: string;
+  @Constant("env")
+  env: Env;
+
+  @Constant("views.root", `${process.cwd()}/views`)
+  readonly root: string;
+
+  @Constant("views.cache")
+  readonly cache: boolean;
 
   @Constant("views.viewEngine", "ejs")
   readonly viewEngine: string;
@@ -30,7 +37,7 @@ export class PlatformViews {
   $onInit() {
     this.extensionsMap = new Map(
       Object.entries({
-        hsb: "handlebars",
+        hbs: "handlebars",
         ejs: "ejs",
         ...this.extensions
       })
@@ -69,10 +76,7 @@ export class PlatformViews {
       throw new Error(`Engine not found for the ".${extension}" file extension`);
     }
 
-    return render(this.resolve(viewPath), {
-      ...engineOptions,
-      ...options
-    });
+    return render(this.resolve(viewPath), Object.assign({cache: this.cache || this.env === Env.PROD}, engineOptions, options));
   }
 
   protected resolve(viewPath: string) {
@@ -83,7 +87,7 @@ export class PlatformViews {
     return (
       [
         viewPath,
-        resolve(join(this.path, viewPath)),
+        resolve(join(this.root, viewPath)),
         resolve(join(process.cwd(), "views", viewPath)),
         resolve(join(process.cwd(), "public", viewPath))
       ].find((file) => Fs.existsSync(file)) || viewPath

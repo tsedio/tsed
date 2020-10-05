@@ -30,7 +30,7 @@ const rootDir = __dirname;
   }],
   socketIO: {},
   views: {
-    path: `${rootDir}/../views`,
+    root: `${rootDir}/../views`,
     viewEngine: "ejs",
     extensions: {
       html: "ejs"

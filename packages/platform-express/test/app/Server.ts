@@ -19,7 +19,7 @@ export const rootDir = __dirname;
     "/": `${rootDir}/public`
   },
   views: {
-    path: `${rootDir}/views`,
+    root: `${rootDir}/views`,
     extensions: {
       ejs: "ejs"
     }

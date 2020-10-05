@@ -11,7 +11,6 @@ import {
 } from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import * as send from "koa-send";
-import {resolve} from "path";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 import {getMulter} from "../utils/multer";
 
