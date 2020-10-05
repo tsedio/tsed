@@ -2211,6 +2211,20 @@
   dependencies:
     "@types/node" "*"
 
+"@types/aws-lambda@*":
+  version "8.10.63"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.63.tgz#3316174e7a23b8505d1b7bdc979a5c3030d5e203"
+  integrity sha512-XEE+3iJxyeCmZTUoHZRbnxSy8aMxXXwrALgsoDBGcgkbll+8bDfuk4XbIJ9Oaec/Pxee6rno6SGMiV6EbqhF+A==
+
+"@types/aws-serverless-express@3.3.3":
+  version "3.3.3"
+  resolved "https://registry.yarnpkg.com/@types/aws-serverless-express/-/aws-serverless-express-3.3.3.tgz#8af184bf16e1ba0269de318ac7b7fd638c7df70c"
+  integrity sha512-gIPinyiEsda2Z6Dx6GdQs47/GXaBGEGOMkYWtmqFDsVSDHzWtnIKBBBVQKyMdcK/0ZXa31zzlT+CobFnwNbsTQ==
+  dependencies:
+    "@types/aws-lambda" "*"
+    "@types/express" "*"
+    "@types/node" "*"
+
 "@types/bluebird@*":
   version "3.5.32"
   resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.32.tgz#381e7b59e39f010d20bbf7e044e48f5caf1ab620"
@@ -3948,6 +3962,21 @@ autoprefixer@^9.4.5, autoprefixer@^9.5.1:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
+aws-serverless-express@3.3.8, aws-serverless-express@^3.3.5:
+  version "3.3.8"
+  resolved "https://registry.yarnpkg.com/aws-serverless-express/-/aws-serverless-express-3.3.8.tgz#8c05e0ce3651fc277725c6d2e1b8f8a36dbe4f4b"
+  integrity sha512-2TQdF5EhxnAtGeEi+wSi2M3xCfpiemuImnpU7HKih3onH0izJ/G2tkM+gwcGHZEsW/gLWFl/JjQAYGa3fILfvw==
+  dependencies:
+    binary-case "^1.0.0"
+    type-is "^1.6.16"
+
+aws-serverless-koa@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/aws-serverless-koa/-/aws-serverless-koa-1.0.1.tgz#e81cb05e265d2a8d2fc4b0258178b98fd9f2a32c"
+  integrity sha512-PYS9rvAgbCj9q0da/XOUJqUgVp7n3Y+RQ7mAt647OJk8kF9bgtZ+DOsHiACwMGGvZGFNoZaPQB3jRANHQKMEag==
+  dependencies:
+    aws-serverless-express "^3.3.5"
+
 aws-sign2@~0.7.0:
   version "0.7.0"
   resolved "https://registry.yarnpkg.com/aws-sign2/-/aws-sign2-0.7.0.tgz#b46e890934a9591f2d2f6f86d7e6a9f1b3fe76a8"
@@ -4066,6 +4095,11 @@ bin-links@^1.1.2, bin-links@^1.1.8:
     graceful-fs "^4.1.15"
     npm-normalize-package-bin "^1.0.0"
     write-file-atomic "^2.3.0"
+
+binary-case@^1.0.0:
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/binary-case/-/binary-case-1.1.4.tgz#d687104d59e38f2b9e658d3a58936963c59ab931"
+  integrity sha512-9Kq8m6NZTAgy05Ryuh7U3Qc4/ujLQU1AZ5vMw4cr3igTdi5itZC6kCNrRr2X8NzPiDn2oUIFTfa71DKMnue/Zg==
 
 binary-extensions@^1.0.0:
   version "1.13.1"

@@ -1,14 +1,68 @@
-# @tsed/platform-koa
+# @tsed/platform-express
 
-A package of Ts.ED framework. See website: https://tsed.io/getting-started/
+A package of Ts.ED framework. See website: https://tsed.io/tutorials/aws.html
 
 ## Installation
 
 Run npm command (or yarn):
 
 ```bash
-npm install --save @tsed/platform-koa koa
-npm install --save-dev @types/koa
+npm install --save @tsed/platform-aws
+```
+
+## Usage
+
+Create a new `LambdaServer.ts` in `src` directory:
+
+```typescript
+import {PlatformAws} from "@tsed/platform-aws";
+import "@tsed/platform-express" 
+// or import "@tsed/platform-koa"
+
+PlatformAws.bootstrap(Server, {
+ aws: {
+   binaryMimeTypes: [ // optional
+     // mime types list 
+   ]
+ },
+ // additional Ts.ED options. See https://tsed.io/tutorials/aws.html
+});
+
+// Handler used by AWS
+export const handler = PlatformAws.callback();
+```
+
+Then create `lambda.js` on your root project:
+
+```javascript
+module.exports = require("./dist/LambdaServer.js");
+```
+
+This file will be used by AWS to forward request to your application.
+
+Finally, [package and create your Lambda function](http://docs.aws.amazon.com/lambda/latest/dg/nodejs-create-deployment-pkg.html), 
+then configure a simple proxy API using Amazon API Gateway and integrate it with your Lambda function.
+
+See more details on [`aws-serveless-express`](https://github.com/awslabs/aws-serverless-express) project.
+
+## Getting the API Gateway event object
+
+This package includes decorators to easily get the event object Lambda received from API Gateway:
+
+```typescript
+import {Controller, Get} from "@tsed/common"; 
+import {AwsEvent, AwsContext} from "@tsed/platform-aws"; 
+
+@Controller('/')
+class MyCtrl {
+ @Get('/')
+ get(@AwsEvent() event: any, @AwsContext() context: any) {
+   console.log("Event", apiGateway.event);
+   console.log("Context", apiGateway.context);
+   
+   return apiGateway;
+ }
+}
 ```
 
 ## Contributors
@@ -16,7 +70,6 @@ npm install --save-dev @types/koa
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 

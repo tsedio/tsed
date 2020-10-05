@@ -85,20 +85,21 @@ export class DIConfiguration {
   /**
    *
    * @param propertyKey
+   * @param defaultValue
    * @returns {undefined|any}
    */
-  get<T = any>(propertyKey: string): T {
-    return this.resolve(this.getRaw(propertyKey));
+  get<T = any>(propertyKey: string, defaultValue?: T): T {
+    return this.resolve(this.getRaw(propertyKey, defaultValue));
   }
 
-  getRaw(propertyKey: string): any {
+  getRaw(propertyKey: string, defaultValue?: any): any {
     const value = getValue(propertyKey, this.map);
 
     if (value !== undefined) {
       return value;
     }
 
-    return getValue(propertyKey, this.default);
+    return getValue(propertyKey, this.default, defaultValue);
   }
 
   merge(obj: Partial<TsED.Configuration>) {
@@ -149,6 +150,6 @@ export class DIConfiguration {
     this.forEach((value, key) => this.map.set(key, this.resolve(value)));
 
     this.set = this.setRaw;
-    this.get = this.getRaw = (propertyKey: string) => getValue(propertyKey, this.map);
+    this.get = this.getRaw = (propertyKey: string, defaultValue?: any) => getValue(propertyKey, this.map, defaultValue);
   }
 }
