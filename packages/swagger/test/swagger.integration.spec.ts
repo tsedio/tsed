@@ -59,13 +59,7 @@ describe("Swagger integration", () => {
         platform: PlatformExpress,
         mount: {
           "/rest": [CalendarsController]
-        },
-        swagger: [
-          {
-            path: "/api-doc",
-            specVersion: "2.0"
-          }
-        ]
+        }
       })
     );
     beforeEach(() => {
@@ -74,7 +68,7 @@ describe("Swagger integration", () => {
     afterEach(PlatformTest.reset);
 
     it("should swagger spec", async () => {
-      const response = await request.get("/api-doc/swagger.json").expect(200);
+      const response = await request.get("/v2/doc/swagger.json").expect(200);
       const result = await request.get("/rest/calendars").expect(200);
 
       expect(result.body).to.deep.eq([
@@ -188,13 +182,7 @@ describe("Swagger integration", () => {
         platform: PlatformExpress,
         mount: {
           "/rest": [CalendarsController]
-        },
-        swagger: [
-          {
-            path: "/api-doc",
-            specVersion: "3.0.1"
-          }
-        ]
+        }
       })
     );
     beforeEach(() => {
@@ -203,7 +191,7 @@ describe("Swagger integration", () => {
     afterEach(PlatformTest.reset);
 
     it("should swagger spec", async () => {
-      const response = await request.get("/api-doc/swagger.json").expect(200);
+      const response = await request.get("/v3/doc/swagger.json").expect(200);
       const result = await request.get("/rest/calendars").expect(200);
 
       expect(result.body).to.deep.eq([

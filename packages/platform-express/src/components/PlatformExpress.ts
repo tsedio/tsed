@@ -74,6 +74,6 @@ export class PlatformExpress extends PlatformBuilder {
     });
 
     platformViews.viewEngine && this.app.getApp().set("view engine", platformViews.viewEngine);
-    platformViews.path && this.app.getApp().set("views", platformViews.path);
+    platformViews.root && this.app.getApp().set("views", platformViews.root);
   }
 }

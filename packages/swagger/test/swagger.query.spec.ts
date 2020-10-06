@@ -44,7 +44,7 @@ describe("Swagger query params", () => {
   afterEach(PlatformTest.reset);
 
   it("should generate swagger", async () => {
-    const response = await request.get("/api-doc/swagger.json").expect(200);
+    const response = await request.get("/v2/doc/swagger.json").expect(200);
     expect(response.body).to.deep.eq({
       consumes: ["application/json"],
       info: {

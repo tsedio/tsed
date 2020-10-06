@@ -38,7 +38,7 @@ export interface SwaggerSettings {
   /**
    * Specify the spec version you want to generate.
    */
-  specVersion?: string;
+  specVersion?: "2.0" | "3.0.1";
   /**
    * Swagger file name. By default swagger.json
    */
@@ -79,10 +79,6 @@ export interface SwaggerSettings {
    * Write the `swagger.json` spec documentation on the specified path.
    */
   outFile?: string;
-  /**
-   *
-   */
-  operationIdFormat?: string;
   /**
    *
    */
