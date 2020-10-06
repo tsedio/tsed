@@ -883,6 +883,30 @@ describe("OpenApiParamsBuilder", () => {
         }
       });
     });
+
+    it("should create a swagger schema from BodyParams with String type", () => {
+      // GIVEN
+      class MyCtrl {
+        test(@BodyParams() test: string) {}
+      }
+
+      // WHEN
+      const builder = new OpenApiParamsBuilder(MyCtrl, "test").build();
+
+      // THEN
+      expect(builder.parameters).to.deep.eq([
+        {
+          description: "",
+          in: "body",
+          required: false,
+          name: "body",
+          schema: {
+            type: "string"
+          }
+        }
+      ]);
+    });
+
     it("should create query params", () => {
       class ParameterModel {
         @Property()

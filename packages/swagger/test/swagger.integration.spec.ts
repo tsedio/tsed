@@ -1,4 +1,4 @@
-import {Controller, Description, Get, MergeParams, PathParams, PlatformTest} from "@tsed/common";
+import {BodyParams, ContentType, Controller, Description, Get, Post, MergeParams, PathParams, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {Docs, Hidden, Returns, ReturnsArray} from "../src";
@@ -9,7 +9,8 @@ import {Server} from "./helpers/Server";
 @Hidden()
 class AdminCtrl {
   @Get("/")
-  get() {}
+  get() {
+  }
 }
 
 @Controller("/events")
@@ -17,7 +18,8 @@ class AdminCtrl {
 class EventCtrl {
   @Get("/")
   @Description("Events")
-  get() {}
+  get() {
+  }
 }
 
 @Controller("/admin")
@@ -25,7 +27,8 @@ class EventCtrl {
 class BackAdminCtrl {
   @Get("/")
   @Description("Admins")
-  get() {}
+  get() {
+  }
 }
 
 @Controller({
@@ -43,6 +46,12 @@ class CalendarsController {
   @ReturnsArray(200, {type: Calendar})
   async getAll(): Promise<Calendar[]> {
     return [new Calendar({id: 1, name: "name"}), new Calendar({id: 2, name: "name"})];
+  }
+
+  @ContentType("text/plain")
+  @Post("/csv")
+  async csv(@BodyParams() csvLines: string): Promise<string> {
+    return "";
   }
 }
 
@@ -152,6 +161,30 @@ describe("Swagger integration", () => {
                 schema: {
                   $ref: "#/definitions/Calendar"
                 }
+              }
+            },
+            tags: ["CalendarsController"]
+          }
+        },
+        "/rest/calendars/csv": {
+          post: {
+            operationId: "CalendarsController.csv",
+            parameters: [
+              {
+                in: "body",
+                name: "body",
+                required: false,
+                schema: {
+                  type: "string"
+                }
+              }
+            ],
+            produces: [
+              "text/plain"
+            ],
+            responses: {
+              "200": {
+                description: "Success"
               }
             },
             tags: ["CalendarsController"]
