@@ -9,8 +9,7 @@ import {Server} from "./helpers/Server";
 @Hidden()
 class AdminCtrl {
   @Get("/")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/events")
@@ -18,8 +17,7 @@ class AdminCtrl {
 class EventCtrl {
   @Get("/")
   @Description("Events")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/admin")
@@ -27,8 +25,7 @@ class EventCtrl {
 class BackAdminCtrl {
   @Get("/")
   @Description("Admins")
-  get() {
-  }
+  get() {}
 }
 
 @Controller({
