@@ -15,7 +15,13 @@ const rootDir = Path.resolve(__dirname);
   port: 8001,
   swagger: [
     {
-      path: "/api-doc",
+      path: "/v2/doc",
+      specVersion: "2.0",
+      showExplorer: true
+    },
+    {
+      path: "/v3/doc",
+      specVersion: "3.0.1",
       showExplorer: true
     }
   ]
