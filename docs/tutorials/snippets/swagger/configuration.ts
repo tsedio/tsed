@@ -6,7 +6,12 @@ import "@tsed/swagger"; // import swagger Ts.ED module
   rootDir: __dirname,
   swagger: [
     {
-      path: "/api-docs"
+      path: "/v2/docs",
+      specVersion: "2.0.0" // by default
+    },
+    {
+      path: "/v3/docs",
+      specVersion: "3.0.1"
     }
   ]
 })

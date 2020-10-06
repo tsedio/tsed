@@ -45,7 +45,8 @@ New features are available:
 
 - Managing models using Typescript generics.
 - Management response models by content-type and status code (OAS3).
-- Configure swagger to generate OpenSpec3.
+- Add validation decorator on endpoint parameters.
+- [Configure swagger to generate OpenSpec3](/tutorials/swagger.md).
 
 :::
 
