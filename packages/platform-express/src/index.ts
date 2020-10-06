@@ -1,8 +1,9 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformBuilder, PlatformTest} from "@tsed/common";
 
 import {PlatformExpress} from "./components/PlatformExpress";
 
 PlatformTest.platformBuilder = PlatformExpress;
+PlatformBuilder.currentPlatform = PlatformExpress;
 
 // interfaces
 export * from "./interfaces";

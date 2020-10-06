@@ -216,7 +216,7 @@ describe("Swagger integration", () => {
           name: "name"
         }
       ]);
-      console.log(response.text);
+
       expect(response.body).to.deep.eq({
         "info": {"version": "1.0.0", "title": "Api documentation", "description": "", "termsOfService": ""},
         "openapi": "3.0.1",

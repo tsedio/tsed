@@ -1,0 +1,59 @@
+{
+  "name": "@tsed/platform-aws",
+  "version": "6.0.0-beta.5",
+  "description": "Module to support AWS function with Ts.ED",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "private": false,
+  "keywords": [
+    "aws",
+    "lambda",
+    "functions",
+    "TypeScript",
+    "typescript",
+    "Decorator",
+    "decorators",
+    "decorator",
+    "express",
+    "koa",
+    "Controller",
+    "Inject",
+    "ioc",
+    "di",
+    "mvc",
+    "swagger",
+    "swagger ui",
+    "ES2015",
+    "ES6",
+    "server",
+    "rest",
+    "api",
+    "validation"
+  ],
+  "author": {
+    "name": "Romain Lenzotti"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TypedProject/tsed/issues"
+  },
+  "homepage": "http://tsed.io/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TypedProject/tsed.git"
+  },
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json"
+  },
+  "devDependencies": {
+    "@types/aws-serverless-express": "3.3.3",
+    "@tsed/common": "6.0.0-beta.5",
+    "@tsed/core": "6.0.0-beta.5",
+    "@tsed/di": "6.0.0-beta.5",
+    "aws-serverless-express": "3.3.8",
+    "aws-serverless-koa": "1.0.1"
+  },
+  "dependencies": {
+    "aws-serverless-express": "^3.3.8"
+  }
+}

@@ -31,10 +31,15 @@ export interface PlatformType<T = any> extends Type<T> {
   providers: IProvider[];
 }
 
+export interface PlatformBootstrap {
+  bootstrap(module: Type<any>, settings?: Partial<TsED.Configuration>): Promise<PlatformBuilder>;
+}
+
 /**
  * @platform
  */
 export abstract class PlatformBuilder {
+  static currentPlatform: Type<PlatformBuilder> & PlatformBootstrap;
   protected startedAt = new Date();
   protected PLATFORM_NAME: string = "";
   protected _rootModule: any;
@@ -49,6 +54,10 @@ export abstract class PlatformBuilder {
       .add(PlatformRouter)
       .add(PlatformApplication)
       .add(Platform);
+  }
+
+  get name() {
+    return this.PLATFORM_NAME;
   }
 
   get injector(): InjectorService {
@@ -160,7 +169,6 @@ export abstract class PlatformBuilder {
   }
 
   async listen() {
-    const {logger, startedAt} = this;
     await this.callHook("$beforeListen");
 
     await this.listenServers();
@@ -168,12 +176,15 @@ export abstract class PlatformBuilder {
     await this.callHook("$afterListen");
 
     await this.ready();
-    logger.info(`Started in ${new Date().getTime() - startedAt.getTime()} ms`);
   }
 
   public async ready() {
+    const {logger, startedAt} = this;
+
     await this.callHook("$onReady");
     await this.injector.emit("$onServerReady");
+
+    logger.info(`Started in ${new Date().getTime() - startedAt.getTime()} ms`);
   }
 
   callHook(key: string, ...args: any[]) {

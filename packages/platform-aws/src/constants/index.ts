@@ -1,0 +1,1 @@
+export const AWS_API_GATEWAY = "AWS_API_GATEWAY";
