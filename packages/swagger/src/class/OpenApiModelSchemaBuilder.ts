@@ -1,5 +1,5 @@
 import {JsonSchema, JsonSchemesRegistry, PropertyMetadata} from "@tsed/common";
-import {isArrayOrArrayClass, isClass, isCollection, isObject, nameOf, Storable, Store, Type} from "@tsed/core";
+import {isArrayOrArrayClass, isClass, isCollection, isObject, isPrimitiveOrPrimitiveClass, nameOf, Storable, Store, Type} from "@tsed/core";
 import {Schema} from "swagger-schema-official";
 import {OpenApiDefinitions} from "../interfaces/OpenApiDefinitions";
 import {OpenApiResponses} from "../interfaces/OpenApiResponses";
@@ -32,6 +32,11 @@ export class OpenApiModelSchemaBuilder {
    * @returns {OpenApiModelSchemaBuilder}
    */
   build(): this {
+    // Stop from creating primitive schemas (#921)
+    if (isPrimitiveOrPrimitiveClass(this.target)) {
+      return this;
+    }
+
     const properties = PropertyMetadata.getProperties(this.target);
     const store = Store.from(this.target);
     const schema: Schema = this.getClassSchema();
