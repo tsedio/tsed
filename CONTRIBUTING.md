@@ -39,7 +39,7 @@ We also welcome financial contributions in full transparency on our open collect
 
 ## Questions
 
-If you have any questions, create an [issue](https://github.com/TypedProject/tsed/issues) (protip: do a quick search first to see if someone else didn't ask the same question before!). You can also reach us at hello@tsed.opencollective.com.
+If you have any questions, create an [issue](https://github.com/TypedProject/tsed/issues) (protip: do a quick search first to see if someone else didn't ask the same question before!). You can also reach us at https://gitter.im/Tsed-io/community.
 
 ## How to work on Ts.ED
 ### Setup
