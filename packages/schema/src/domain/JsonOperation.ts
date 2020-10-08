@@ -1,6 +1,8 @@
 import {deepExtends, uniq, uniqBy} from "@tsed/core";
+import {OpenSpecTag, OS3Operation} from "@tsed/openspec";
+import {OpenSpecSecurity} from "../../../openspec/src/common/OpenSpecSecurity";
 import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
-import {JsonExternalDocumentation, JsonHeader, JsonSchemaOptions, JsonSecurityRequirement, JsonTag} from "../interfaces";
+import {JsonHeader, JsonSchemaOptions} from "../interfaces";
 import {isSuccessStatus} from "../utils/isSuccessStatus";
 import {JsonMap} from "./JsonMap";
 import {JsonParameter} from "./JsonParameter";
@@ -17,20 +19,9 @@ export interface JsonMethodPath {
   [key: string]: any;
 }
 
-export interface JsonOperationOptions {
-  tags: string[];
-  summary: string;
-  description: string;
+export interface JsonOperationOptions extends OS3Operation<JsonSchema, JsonParameter, JsonMap<JsonResponse>> {
   consumes: string[];
   produces: string[];
-  operationId: string;
-  parameters: JsonParameter[];
-  deprecated: boolean;
-  security?: JsonSecurityRequirement[];
-  responses: any;
-  externalDocs: JsonExternalDocumentation;
-  // callbacks?: {[callback: string]: ReferenceObject | CallbackObject};
-  // servers?: ServerObject[];
 }
 
 export class JsonOperation extends JsonMap<JsonOperationOptions> {
@@ -49,13 +40,13 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return this._status;
   }
 
-  tags(tags: JsonTag[]): this {
+  tags(tags: OpenSpecTag[]): this {
     super.set("tags", tags);
 
     return this;
   }
 
-  addTags(tags: JsonTag[]) {
+  addTags(tags: OpenSpecTag[]) {
     tags = uniqBy([...(this.get("tags") || []), ...tags], "name");
 
     return this.tags(tags);
@@ -120,7 +111,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return (status === "default" ? this.response : this.getResponses().get(String(status))) || new JsonResponse();
   }
 
-  getHeadersOf(status: number): {[key: string]: JsonHeader} {
+  getHeadersOf(status: number): { [key: string]: JsonHeader } {
     return this.getResponseOf(status).get("headers") || {};
   }
 
@@ -128,7 +119,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return [...this.getResponseOf(status).get("content").keys()][0];
   }
 
-  security(security: JsonSecurityRequirement): this {
+  security(security: OpenSpecSecurity): this {
     this.set("security", security);
 
     return this;

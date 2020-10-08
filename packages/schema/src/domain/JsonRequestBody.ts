@@ -1,15 +1,9 @@
-import {JsonMediaType} from "../interfaces";
+import {OpenSpecHash, OS3MediaType, OS3RequestBody} from "@tsed/openspec";
 import {toJsonMapCollection} from "../utils/toJsonMapCollection";
 import {JsonMap} from "./JsonMap";
 import {JsonSchema} from "./JsonSchema";
 
-export interface JsonRequestBodyOptions {
-  description: string;
-  content: {
-    [media: string]: JsonSchema;
-  };
-  required: boolean;
-}
+export type JsonRequestBodyOptions = OS3RequestBody<JsonSchema>
 
 export class JsonRequestBody extends JsonMap<JsonRequestBodyOptions> {
   constructor(obj: Partial<JsonRequestBodyOptions> = {}) {
@@ -24,7 +18,7 @@ export class JsonRequestBody extends JsonMap<JsonRequestBodyOptions> {
     return this;
   }
 
-  content(content: {[media: string]: JsonMediaType}) {
+  content(content: OpenSpecHash<OS3MediaType<JsonSchema>>) {
     this.set("content", toJsonMapCollection(content));
 
     return this;
