@@ -47,7 +47,7 @@
     "@tsed/di": "5.65.6",
     "@tsed/exceptions": "5.65.6",
     "@tsed/logger": "5.5.3",
-    "@types/json-schema": "7.0.5",
+    "@types/json-schema": "7.0.6",
     "globby": "11.0.1",
     "json-schema": "^0.2.3",
     "normalize-path": "3.0.0",
