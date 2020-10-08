@@ -1,21 +1,14 @@
 import {Type} from "@tsed/core";
+import {OS3Parameter} from "@tsed/openspec";
 import {JsonSchemaOptions} from "../interfaces";
 import {NestedGenerics, popGenerics} from "../utils/generics";
 import {serializeItem} from "../utils/serializeJsonSchema";
 import {JsonMap} from "./JsonMap";
-import {isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
+import {isParameterType} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
 import {SpecTypes} from "./SpecTypes";
 
-export class JsonParameterOptions {
-  name: string;
-  description: string;
-  in: JsonParameterTypes | string;
-  required: boolean;
-  schema: JsonSchema;
-}
-
-export class JsonParameter extends JsonMap<JsonParameterOptions> implements NestedGenerics {
+export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
   nestedGenerics: Type<any>[][] = [];
   $schema: JsonSchema;
 

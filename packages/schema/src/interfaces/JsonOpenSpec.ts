@@ -1,66 +1,8 @@
-import {JsonSchema} from "../domain";
+import {OS3Header} from "@tsed/openspec";
 
-export interface JsonHeader extends JsonParameterBase {}
+export interface JsonHeader extends OS3Header {
+}
 
 export interface JsonHeaders {
-  [key: string]: number | string | (JsonHeader & {value?: string | number});
-}
-
-export interface JsonExternalDocumentation {
-  description?: string;
-  url: string;
-}
-
-export interface JsonSecurityRequirement {
-  [key: string]: string[];
-}
-
-export interface JsonParameterBase {
-  description?: string;
-  required?: boolean;
-  deprecated?: boolean;
-  allowEmptyValue?: boolean;
-  style?: string;
-  explode?: boolean;
-  allowReserved?: boolean;
-  schema?: JsonSchema;
-  example?: any;
-  examples?: {
-    [name: string]: JsonExample;
-  };
-  content?: {
-    [media: string]: JsonMediaType;
-  };
-}
-
-export interface JsonExample {
-  summary?: string;
-  description?: string;
-  value?: any;
-  externalValue?: string;
-}
-
-export interface JsonEncoding {
-  contentType?: string;
-  headers?: {
-    [header: string]: JsonHeader;
-  };
-  style?: string;
-  explode?: boolean;
-  allowReserved?: boolean;
-}
-
-export interface JsonMediaType {
-  schema?: JsonSchema;
-  example?: any;
-  examples?: {
-    [media: string]: JsonExample;
-  };
-  encoding?: {[media: string]: JsonEncoding};
-}
-
-export interface JsonTag {
-  name: string;
-  description?: string;
-  externalDocs?: JsonExternalDocumentation;
+  [key: string]: number | string | (JsonHeader & { value?: string | number });
 }
