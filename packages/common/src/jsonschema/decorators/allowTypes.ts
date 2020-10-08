@@ -15,7 +15,7 @@ import {Any} from "./any";
  * ```typescript
  * class Model {
  *    @AllowTypes("string", "number", "boolean", "array")
- *    property: "string" | "number" | "boolean" | "array";
+ *    property: "string" | "number" | "boolean" | "array";
  * }
  * ```
  *
@@ -37,7 +37,7 @@ import {Any} from "./any";
  * ```typescript
  * class Model {
  *    @AllowTypes("string", "number", "boolean", "array")
- *    property: ("string" | "number" | "boolean" | "array")[];
+ *    property: ("string" | "number" | "boolean" | "array")[];
  * }
  * ```
  *

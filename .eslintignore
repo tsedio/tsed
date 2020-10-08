@@ -1,0 +1,4 @@
+docs
+examples
+
+packages/**/test/**/*.ts

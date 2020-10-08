@@ -4,7 +4,7 @@
   "packages": [
     "packages/*"
   ],
-  "version": "5.65.4",
+  "version": "5.65.6",
   "command": {
     "bootstrap": {
       "npmClientArgs": [

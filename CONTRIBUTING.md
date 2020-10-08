@@ -1,19 +1,19 @@
 # Contributing 
 ## Introduction
 
-First, thank you for considering contributing to Ts.ED! It's people like you that make the open source community such a great community! 😊
+First, thank you for considering contributing to Ts.ED! It is people like you that make the open source community such a great community! 😊
 
-We welcome any type of contribution, not only code. You can help with
+We welcome any type of contribution, not just code. You can help with:
 
 - QA: file bug reports, the more details you can give the better (e.g. screenshots with the console open)
-- Marketing: writing blog posts, howto's, printing stickers, ...
+- Marketing: writing blog posts, how to's, printing stickers, ...
 - Community: presenting the project at meetups, organizing a dedicated meetup for the local community, ...
-- Code: take a look at the [open issues](https://github.com/TypedProject/ts-express-decorators/issues). Even if you can't write code, commenting on them, showing that you care about a given issue matters. It helps us triage them.
+- Code: take a look at the [open issues](https://github.com/TypedProject/tsed/issues). Even if you can't write code, commenting on them and showing that you care about a given issue matters. It helps us triage them.
 - Money: we welcome financial contributions in full transparency on our [open collective](https://opencollective.com/tsed).
 
 ## Your First Contribution
 
-Working on your first Pull Request? You can learn how from this free series, [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
+Working on your first Pull Request? You can learn how from this free series: [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
 
 ## Submitting code
 
@@ -24,21 +24,22 @@ The bigger the pull request, the longer it will take to review and merge. Try to
 
 ---
 ### WARNING
-Ts.ED project use [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) as format commit message.
 
-Release note and tagging version are based the message commits.
-If you don't follow the format, our CI won't be able to increment correctly the version and your feature won't be release on NPM.
+Ts.ED project uses [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) as format commit message.
 
-To write your commit message see [convention page here](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
+Release note and tagging version are based on the message commits.
+If you don't follow the format, our CI won't be able to increment the version correctly and your feature won't be released on NPM.
+
+To write your commit message, see [convention page here](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
 ---
 
 ## Financial contributions
 
-We also welcome financial contributions in full transparency on our open collective. Anyone can file an expense. If the expense makes sense for the development of the community, it will be "merged" in the ledger of our [open collective](https://opencollective.com/tsed) by the core contributors and the person who filed the expense will be reimbursed.
+We also welcome financial contributions in full transparency on our open collective. Anyone can file an expense. If the expense makes sense for the development of the community, it will be "merged" in the ledger of our [open collective](https://opencollective.com/tsed) by the core contributors, and the person who filed the expense will be reimbursed.
 
 ## Questions
 
-If you have any questions, create an [issue](https://github.com/TypedProject/ts-express-decorators/issues) (protip: do a quick search first to see if someone else didn't ask the same question before!). You can also reach us at https://gitter.im/Tsed-io/community.
+If you have any questions, create an [issue](https://github.com/TypedProject/tsed/issues) (protip: do a quick search first to see if someone else didn't ask the same question before!). You can also reach us at hello@tsed.opencollective.com.
 
 ## How to work on Ts.ED
 ### Setup
@@ -46,7 +47,7 @@ If you have any questions, create an [issue](https://github.com/TypedProject/ts-
 Clone your fork of the repository
 
 ```bash
-$ git clone https://github.com/YOUR_USERNAME/ts-express-decorators.git
+$ git clone https://github.com/YOUR_USERNAME/tsed.git
 ```
 
 Install npm dependencies with yarn (not with NPM!):
@@ -56,12 +57,11 @@ yarn
 > After installing dependencies, yarn/npm run the `postinstall` hook and mounted all packages with `npm link` (e.g. `yarn run repo:bootstrap`).
 
 Compile TypeScript:
+
 ```bash
-tsc
-# or
-yarn tsc
-# or
-npm run tsc
+yarn build
+// or 
+npm run build
 ```
 
 ### Test
@@ -74,9 +74,9 @@ npm run test
 
 ### Gflow (optional)
 
-[Gflow](https://www.npmjs.com/package/gflow) is a command line tool to help developer with the Git process used in Ts.ED.
+[Gflow](https://www.npmjs.com/package/gflow) is a command line tool to help developers with the Git process used in Ts.ED.
 
-Gflow help you to create a branch from production, rebase and run the test before pushing your branch on your remote repository.
+Gflow helps you create a branch from production, rebase and run the tests before pushing your branch on your remote repository.
 
 ```bash
 npm install -g gflow
@@ -95,7 +95,7 @@ gflow new feat name_of_feat
 
 ### Commit & Push a feature
 
-This command rebase your branch feature from the production branch, run the test and push your branch.
+This command rebases your branch feature from the production branch, runs the test, and pushes your branch.
 
 ```bash
 git commit -m "feat(domain): Your message"
@@ -114,36 +114,33 @@ gflow push
 
 When your feature is ready to review, you can open a PR on Ts.ED github.
 
-### Finish a feature (repo owner and maintainers)
+### Submitting your PR
 
-After the PR has been accepted, the feature will be automatically merge on the master branch, but
-your feature isn't merge with the production branch.
+Create the PR on the production branch. A valid PR must follows these points:
 
-To publish your feature on the production branch you need to run a this command:
+- Unit test is correctly implemented and cover the new scenario.
+- If the code introduce new feature, please add documentation in the `/docs` or describe the feature in the PR description.
+- The commit message follows the [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.4/) format.
 
-```bash
-gflow finish 
-```
-
-> Note: This action works only on the Ts.ED repository (not on your fork).
+The review is always takes priority over other tasks. We can validate the PR very quickly if everything is clear and it's aligned with the evolution/vision of the framework.
 
 ### Write documentation
 
-Ts.ED use docsify to convert markdown to HTML. In addition, all documentation in your code will be used to generate
-the Api documentation. To preview your comments on a class you can run this command:
+Ts.ED use vuepress to convert markdown to web application. In addition, all documentation in your code will be used to generate
+the API documentation. To run the website on your local, run this command:
 
-```
-npm run doc:serve
+```sh
+yarn vuepress:serve
 ```
 
 ### Guidelines
 
-- Ts.ED follow the git flow to generate a release note. To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
-- Please try to combine multiple commits before pushing
-- Please use TDD when fixing bugs. This means that you should write a unit test that fails because it reproduces the issue, then fix the issue and finally run the test to ensure that the issue has been resolved. This helps us prevent fixed bugs from happening again in the future
-- Please keep the test coverage at 100%. Write additional unit tests if necessary
-- Please create an issue before sending a PR if it is going to change the public interface of Ts.ED or includes significant architecture changes,
-- Feel free to ask for help from other members of the Ts.ED team
+- Ts.ED follows the git flow to generate a release note. To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit).
+- Please try to combine multiple commits before pushing.
+- Please use TDD when fixing bugs. This means that you should write a unit test that fails because it reproduces the issue, then fix the issue and finally run the test to ensure that the issue has been resolved. This helps us prevent fixed bugs from happening again in the future.
+- Please keep the test coverage. Write additional unit tests if necessary.
+- Please create an issue before sending a PR if it is going to change the public interface of Ts.ED or includes significant architecture changes.
+- Feel free to ask for help from other members of the Ts.ED team.
 
 ## Credits
 ### Contributors

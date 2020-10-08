@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-express",
-  "version": "5.65.4",
+  "version": "5.65.6",
   "description": "A TypeScript Framework on top of Express",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -47,10 +47,10 @@
     "express": "^4"
   },
   "devDependencies": {
-    "@tsed/common": "5.65.4",
-    "@tsed/core": "5.65.4",
-    "@tsed/di": "5.65.4",
-    "@tsed/platform-test-utils": "5.65.4",
+    "@tsed/common": "5.65.6",
+    "@tsed/core": "5.65.6",
+    "@tsed/di": "5.65.6",
+    "@tsed/platform-test-utils": "5.65.6",
     "@types/body-parser": "1.19.0",
     "@types/compression": "1.7.0",
     "@types/consolidate": "0.14.0",

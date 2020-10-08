@@ -53,7 +53,7 @@ const transformTsEnum = (enumValue: any) => {
  * ```typescript
  * class Model {
  *    @Enum("value1", "value2")
- *    property: ("value1" | "value2")[];
+ *    property: ("value1" | "value2")[];
  * }
  * ```
  *
