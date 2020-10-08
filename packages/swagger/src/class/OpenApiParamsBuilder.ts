@@ -304,7 +304,7 @@ export class OpenApiParamsBuilder extends OpenApiModelSchemaBuilder {
     let current = schema;
     const expression: string = (param.expression as any) || "";
 
-    if (!!expression) {
+    if (expression) {
       const keys = expression.split(".");
       keys.forEach((key) => {
         current.type = "object";

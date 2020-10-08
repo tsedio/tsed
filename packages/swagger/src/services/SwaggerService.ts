@@ -140,7 +140,7 @@ export class SwaggerService {
 
       endpoint.pathsMethods.forEach((pathMethod) => {
         /* istanbul ignore else */
-        if (!!pathMethod.method) {
+        if (pathMethod.method) {
           const builder = new OpenApiEndpointBuilder(endpoint, endpointUrl, pathMethod, getOperationId).build();
 
           deepExtends(paths, builder.paths);
