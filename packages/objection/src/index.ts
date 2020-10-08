@@ -4,7 +4,7 @@ import {Config} from "knex";
 declare global {
   namespace TsED {
     interface Configuration {
-      knex: Config[];
+      knex: Config;
     }
   }
 }
