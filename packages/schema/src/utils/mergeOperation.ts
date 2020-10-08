@@ -8,7 +8,7 @@ import {getJsonPathParameters} from "./getJsonPathParameters";
 export function mergeOperation(obj: any, operation: any, {rootPath, spec, operationId, defaultTags, tags, path, method}: any) {
   return getJsonPathParameters(rootPath, path).reduce((obj, {path, parameters}) => {
     parameters = concatParameters(parameters, operation);
-    path = !!path ? path : "/";
+    path = path ? path : "/";
 
     const operationTags = operation.tags?.length ? operation.tags : [defaultTags];
 

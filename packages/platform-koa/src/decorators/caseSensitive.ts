@@ -13,8 +13,8 @@ import {RouterSettings} from "./routerSettings";
  *
  * Property | Description | Default
  * ---|---|---
- * CaseSensitive | Enable case sensitivity. | Disabled by default, treating “/Foo” and “/foo” as the same.
- * Strict | Enable strict routing. | Disabled by default, “/foo” and “/foo/” are treated the same by the router.
+ * CaseSensitive | Enable case sensitivity. | Disabled by default, treating “/Foo” and “/foo” as the same.
+ * Strict | Enable strict routing. | Disabled by default, “/foo” and “/foo/” are treated the same by the router.
  *
  * @returns {Function}
  * @decorator

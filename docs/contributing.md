@@ -30,9 +30,9 @@ First, thank you for considering contributing to Ts.ED! It is people like you th
 
 We welcome any type of contribution, not just code. You can help with:
 
-- QA: file bug reports, the more details you can give the better (e.g. screenshots with the console open)
-- Marketing: writing blog posts, how to's, printing stickers, ...
-- Community: presenting the project at meetups, organizing a dedicated meetup for the local community, ...
+- QA: file bug reports, the more details you can give the better (e.g. screenshots with the console open).
+- Marketing: writing blog posts, how to's, printing stickers....
+- Community: presenting the project at meetups, organizing a dedicated meetup for the local community....
 - Code: take a look at the [open issues](https://github.com/TypedProject/tsed/issues). Even if you can't write code, commenting on them and showing that you care about a given issue matters. It helps us triage them.
 - Money: we welcome financial contributions in full transparency on our [open collective](https://opencollective.com/tsed).
 
@@ -66,7 +66,7 @@ If you have any questions, create an [issue](https://github.com/TypedProject/tse
 ## How to work on Ts.ED
 ### Setup
 
-Clone your fork of the repository
+Clone your fork of the repository:
 
 ```bash
 $ git clone https://github.com/YOUR_USERNAME/tsed.git
@@ -76,7 +76,7 @@ Install npm dependencies with yarn (not with NPM!):
 ```bash
 yarn
 ```
-> After installing dependencies, yarn/npm run the `postinstall` hook and mounted all packages with `npm link` (e.g. `yarn run repo:bootstrap`).
+> After installing dependencies, yarn/npm run the `postinstall` hook and mount all packages with `npm link` (e.g. `yarn run repo:bootstrap`).
 
 Compile TypeScript:
 ```bash
@@ -123,7 +123,7 @@ This command rebases your branch feature from the production branch, runs the te
 ```bash
 git commit -m "feat(domain): Your message"
 ```
-> To write your commit message see [convention page](https://www.conventionalcommits.org/en/v1.0.0-beta.4/)
+> To write your commit message see [convention page](https://www.conventionalcommits.org/en/v1.0.0-beta.4/).
 
 Then:
 ```bash
@@ -156,7 +156,7 @@ This action works only on the Ts.ED repository (not on your fork).
 ### Write documentation
 
 Ts.ED uses docsify to convert markdown to HTML. In addition, all documentation in your code will be used to generate
-the Api documentation. To preview your comments on a class you can run this command:
+the API documentation. To preview your comments on a class you can run this command:
 
 ```
 npm run doc:serve
@@ -164,11 +164,11 @@ npm run doc:serve
 
 ### Guidelines
 
-- Ts.ED follows the git flow to generate a release note. To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit)
-- Please try to combine multiple commits before pushing
-- Please use TDD when fixing bugs. This means that you should write a unit test that fails because it reproduces the issue, fixes the issue, and then finally runs the test to ensure that the issue has been resolved. This helps us prevent fixed bugs from happening again in the future
-- Please keep the test coverage at 100%. Write additional unit tests if necessary
-- Please create an issue before sending a PR if it is going to change the public interface of Ts.ED or include significant architecture changes
-- Feel free to ask for help from other members of the Ts.ED team
+- Ts.ED follows the git flow to generate a release note. To write your commit message see [convention page](https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit).
+- Please try to combine multiple commits before pushing.
+- Please use TDD when fixing bugs. This means that you should write a unit test that fails because it reproduces the issue, fixes the issue, and then finally runs the test to ensure that the issue has been resolved. This helps us prevent fixed bugs from happening again in the future.
+- Please keep the test coverage at 100%. Write additional unit tests if necessary.
+- Please create an issue before sending a PR if it is going to change the public interface of Ts.ED or include significant architecture changes.
+- Feel free to ask for help from other members of the Ts.ED team.
 
 <!-- This `CONTRIBUTING.md` is based on @nayafia's template https://github.com/nayafia/contributing-template -->

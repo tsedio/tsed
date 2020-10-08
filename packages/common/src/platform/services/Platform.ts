@@ -126,7 +126,7 @@ export class Platform {
       const {operationPaths, params, targetName, propertyKey} = endpoint;
 
       operationPaths.forEach(({path, method}) => {
-        if (!!method) {
+        if (method) {
           routes.push({
             method,
             name: `${targetName}.${String(propertyKey)}()`,

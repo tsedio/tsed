@@ -41,7 +41,7 @@ import {JSONSchema6Type} from "json-schema";
  * ```typescript
  * class Model {
  *    @Enum("value1", "value2")
- *    property: ("value1" | "value2")[];
+ *    property: ("value1" | "value2")[];
  * }
  * ```
  *

@@ -33,8 +33,8 @@ function makePromise(multer: any, name: string) {
 
   const fn = multer[name];
 
-  multer[name] = function apply() {
-    const middleware = Reflect.apply(fn, this, arguments);
+  multer[name] = function apply(...args: any[]) {
+    const middleware = Reflect.apply(fn, this, args);
 
     return createRawMiddleware(promisify(middleware));
   };

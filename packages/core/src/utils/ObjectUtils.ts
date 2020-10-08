@@ -382,7 +382,7 @@ export function isEnumerable(obj: any, key: string) {
     }
   }
 
-  return obj.propertyIsEnumerable(key);
+  return Object.prototype.propertyIsEnumerable.call(obj, key);
 }
 
 /**

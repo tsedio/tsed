@@ -1,6 +1,6 @@
-import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
+import {BodyParams, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
 import {MergeParams, PlatformExpress} from "@tsed/platform-express";
-import {Description, Returns} from "@tsed/schema";
+import {Consumes, Description, Returns} from "@tsed/schema";
 import {Docs, Hidden} from "@tsed/swagger";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -48,6 +48,13 @@ class CalendarsController {
   @(Returns(200, Array).Of(Calendar))
   async getAll(): Promise<Calendar[]> {
     return [new Calendar({id: 1, name: "name"}), new Calendar({id: 2, name: "name"})];
+  }
+
+  @Post("/csv")
+  @Consumes("text/plain")
+  @(Returns(200, String).ContentType("text/plain"))
+  async csv(@BodyParams() csvLines: string): Promise<string> {
+    return "";
   }
 }
 
@@ -145,6 +152,36 @@ describe("Swagger integration", () => {
                 }
               },
               tags: ["CalendarsController"]
+            }
+          },
+          "/rest/calendars/csv": {
+            "post": {
+              "operationId": "calendarsControllerCsv",
+              "parameters": [
+                {
+                  "in": "body",
+                  "name": "body",
+                  "required": false,
+                  "type": "string"
+                }
+              ],
+              "produces": [
+                "text/plain"
+              ],
+              "consumes": [
+                "text/plain"
+              ],
+              "responses": {
+                "200": {
+                  "description": "Success",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "tags": [
+                "CalendarsController"
+              ]
             }
           },
           "/rest/events/events": {
@@ -249,6 +286,37 @@ describe("Swagger integration", () => {
                 }
               },
               "tags": ["CalendarsController"]
+            }
+          },
+          "/rest/calendars/csv": {
+            "post": {
+              "operationId": "calendarsControllerCsv",
+              "parameters": [],
+              "requestBody": {
+                "content": {
+                  "text/plain": {
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "required": false
+              },
+              "responses": {
+                "200": {
+                  "content": {
+                    "text/plain": {
+                      "schema": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "description": "Success"
+                }
+              },
+              "tags": [
+                "CalendarsController"
+              ]
             }
           }
         },

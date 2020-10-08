@@ -1,4 +1,4 @@
-<!-- This template it's just here to help you for write your Pull Request -->
+<!-- For hacktoberfest PR: Unrelevant modification will be automatically closed and tagged as spam and invalid! -->
 
 ## Informations
 

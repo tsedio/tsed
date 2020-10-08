@@ -2,6 +2,7 @@ import {Controller, Get, Locals, Middleware, PlatformTest, UseBefore, View} from
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
+import {EOL} from "os";
 
 @Middleware()
 class LocalsMiddleware {
@@ -50,7 +51,7 @@ export function testView(options: PlatformTestOptions) {
     it("should render a view", async () => {
       const response = await request.get("/rest/views/scenario-1").expect(200);
 
-      expect(response.text).to.deep.equal("<p>Hello world with opts and ID local-10909</p>\n");
+      expect(response.text).to.deep.equal(`<p>Hello world with opts and ID local-10909</p>${EOL}`);
     });
   });
 
