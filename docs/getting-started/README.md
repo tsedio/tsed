@@ -108,7 +108,7 @@ Compatibility for Koa.js with Passport.js is planed.
 
 ## Installation
 
-To get started, you can either scaffold the project with the Ts.ED CLI, or clone a starter project (see.
+To get started, you can either scaffold the project with the Ts.ED CLI, or clone a starter project.
 
 To scaffold the project with the CLI, run the following commands. This will create a new project directory, 
 and populate the directory with the initial core Ts.ED files and supporting modules, creating a conventional base structure for your project. 
