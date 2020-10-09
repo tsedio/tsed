@@ -2238,10 +2238,10 @@
     streamroller "^1.0.3"
     tslib "1.10.0"
 
-"@tsed/monorepo-utils@1.9.2":
-  version "1.9.2"
-  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.9.2.tgz#b6cc6dbfc36b4c1c0af1a188bf2d3b73d5357e7c"
-  integrity sha512-PpduqM5tdfX1Dsa6o2C9wDDsZqSKSUMqMFO7Ys6xvzHTbJTeLaHr0n2XKzHTUIrvxVxcUO/48ha+7JZkYMYlsA==
+"@tsed/monorepo-utils@1.9.5":
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.9.5.tgz#087331a5de28a37504f951d552da4832f4132fa1"
+  integrity sha512-g7RbRszoCIDYEb5dAJaHJUt5gMaxg3agKa/CkFVV33OnjN/n6guN9qztXL3y/wRiJCoskVjjCALA8ZJP688q4A==
   dependencies:
     axios "0.19.2"
     chalk "3.0.0"
@@ -2255,7 +2255,7 @@
     has-yarn "^2.1.0"
     inquirer "7.1.0"
     listr "0.14.3"
-    lodash "4.17.15"
+    lodash "4.17.19"
     normalize-path "3.0.0"
     read-package-json "2.1.1"
     semver "7.3.2"
@@ -10390,10 +10390,10 @@ lodash.without@~4.4.0:
   resolved "https://registry.yarnpkg.com/lodash.without/-/lodash.without-4.4.0.tgz#3cd4574a00b67bae373a94b748772640507b7aac"
   integrity sha1-PNRXSgC2e643OpS3SHcmQFB7eqw=
 
-lodash@4.17.15:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+lodash@4.17.19:
+  version "4.17.19"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.19.tgz#e48ddedbe30b3321783c5b4301fbd353bc1e4a4b"
+  integrity sha512-JNvd8XER9GQX0v2qJgsaN/mzFCNA5BRe/j8JN9d+tWyGLSodKQHKFicdwNYzWwI3wjRnaKPsGj1XkBjx/F96DQ==
 
 lodash@^4.17.11, lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.20, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.17.5, lodash@^4.2.1:
   version "4.17.20"
