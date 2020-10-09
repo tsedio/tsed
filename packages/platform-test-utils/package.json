@@ -12,5 +12,7 @@
     "@tsed/core": "6.0.0-beta.12",
     "@tsed/di": "6.0.0-beta.12"
   },
-  "private": true
+  "private": true,
+  "devDependencies": {},
+  "peerDependencies": {}
 }

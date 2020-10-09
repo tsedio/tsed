@@ -29,5 +29,6 @@
     "@types/fs-extra": "9.0.1",
     "@types/json-schema": "7.0.6",
     "fs-extra": "9.0.1"
-  }
+  },
+  "peerDependencies": {}
 }

@@ -28,5 +28,6 @@
   "directories": {
     "lib": "lib",
     "src": "src"
-  }
+  },
+  "peerDependencies": {}
 }

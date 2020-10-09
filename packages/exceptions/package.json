@@ -10,5 +10,7 @@
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
   },
-  "private": false
+  "private": false,
+  "devDependencies": {},
+  "peerDependencies": {}
 }

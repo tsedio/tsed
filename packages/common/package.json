@@ -65,5 +65,6 @@
   "devDependencies": {
     "@types/consolidate": "0.14.0",
     "rxjs": "^6.5.2"
-  }
+  },
+  "peerDependencies": {}
 }
