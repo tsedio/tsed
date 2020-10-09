@@ -8,25 +8,46 @@ notifications:
     on_failure: always  # options: [always|never|change] default: always
     on_start: never     # options: [always|never|change] default: always
 
-node_js:
-  - 14
-  - 12
-  - 10
-
-script: yarn test && (yarn coveralls || true)
-
 jobs:
   include:
+    #######################################################################
+    # JOB: Test and build
+    #######################################################################
+    - stage: test
+      name: 'Node.js: 14'
+      node_js: 14
+      script: yarn test && (yarn coveralls || true)
+    - stage: test
+      name: 'Node.js: 12'
+      node_js: 12
+      script: yarn test
+    - stage: test
+      name: 'Node.js: 10'
+      node_js: 10
+      script: yarn test
+    - stage: test
+      name: 'Build'
+      node_js: 14
+      script: yarn build
+    #######################################################################
+    # JOB: NPM
+    #######################################################################
     - stage: deploy-npm
       name: 'Deploy packages'
       node_js: 12
       if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha || branch = beta)
       script: yarn release
+
+    #######################################################################
+    # JOB: Deploy
+    #######################################################################
     - stage: deploy-artifacts
+      node_js: 12
       name: 'Deploy github pages'
       if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha || branch = beta)
       script: monorepo ci configure && git fetch --quiet && git rebase origin/${TRAVIS_BRANCH} && yarn docs:publish
     - stage: deploy-artifacts
+      node_js: 12
       name: 'Deploy examples'
       if: (NOT type IN (pull_request)) AND (branch = production || branch = beta)
       script: monorepo ci configure && git fetch --quiet && git rebase origin/${TRAVIS_BRANCH} && yarn examples:publish
