@@ -32,30 +32,30 @@ jobs:
     #######################################################################
     # JOB: NPM
     #######################################################################
-    - stage: deploy-npm
-      name: 'Deploy packages'
-      node_js: 12
-      if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha || branch = beta)
-      script: yarn release
+#    - stage: deploy-npm
+#      name: 'Deploy packages'
+#      node_js: 12
+#      if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha || branch = beta)
+#      script: yarn release
 
     #######################################################################
     # JOB: Deploy
     #######################################################################
-    - stage: deploy-artifacts
-      node_js: 12
-      name: 'Deploy github pages'
-      if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha || branch = beta)
-      script: monorepo ci configure && git fetch --quiet && git rebase origin/${TRAVIS_BRANCH} && yarn docs:publish
-    - stage: deploy-artifacts
-      node_js: 12
-      name: 'Deploy examples'
-      if: (NOT type IN (pull_request)) AND (branch = production || branch = beta)
-      script: monorepo ci configure && git fetch --quiet && git rebase origin/${TRAVIS_BRANCH} && yarn examples:publish
+#    - stage: deploy-artifacts
+#      node_js: 12
+#      name: 'Deploy github pages'
+#      if: (NOT type IN (pull_request)) AND (branch = production || branch = alpha || branch = beta)
+#      script: monorepo ci configure && git fetch --quiet && git rebase origin/${TRAVIS_BRANCH} && yarn docs:publish
+#    - stage: deploy-artifacts
+#      node_js: 12
+#      name: 'Deploy examples'
+#      if: (NOT type IN (pull_request)) AND (branch = production || branch = beta)
+#      script: monorepo ci configure && git fetch --quiet && git rebase origin/${TRAVIS_BRANCH} && yarn examples:publish
 
 stages:
   - test
-  - deploy-npm
-  - deploy-artifacts
+#  - deploy-npm
+#  - deploy-artifacts
 branches:
   except:
     - /^v\d+\.\d+\.\d+$/

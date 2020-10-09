@@ -30,6 +30,7 @@ build/Release
 node_modules
 
 .idea
+reports
 
 # Typings
 typings/
