@@ -1,10 +1,4 @@
-import {
-  createExpressApplication,
-  createHttpServer,
-  createHttpsServer,
-  ExpressApplication,
-  PlatformTest
-} from "@tsed/common";
+import {createExpressApplication, createHttpServer, createHttpsServer, ExpressApplication, PlatformTest} from "@tsed/common";
 
 import {PlatformExpress} from "./components/PlatformExpress";
 

@@ -13,7 +13,7 @@ describe("ParseExpressionError", () => {
       } as any,
       {message: "message"}
     );
-    expect(error.message).to.equal("Bad request on parameter \"request.name.expression\".\nmessage");
+    expect(error.message).to.equal('Bad request on parameter "request.name.expression".\nmessage');
     expect(error.name).to.equal("PARAM_VALIDATION_ERROR");
     expect(error.dataPath).to.equal("expression");
     expect(error.requestType).to.equal("name");
@@ -80,7 +80,7 @@ describe("ParseExpressionError", () => {
     ]);
 
     const error = ParamValidationError.from(metadata, origin);
-    expect(error.message).to.equal("Bad request on parameter \"request.name.expression\".\nIt should have 1 item");
+    expect(error.message).to.equal('Bad request on parameter "request.name.expression".\nIt should have 1 item');
     expect(error.dataPath).to.equal("expression");
     expect(error.requestType).to.equal("name");
 
