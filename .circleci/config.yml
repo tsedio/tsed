@@ -1,0 +1,195 @@
+version: 2.1
+orbs:
+  node: circleci/node@3.0.1
+
+workflows:
+  main:
+    jobs:
+      - lint:
+          version: 14
+      - test:
+          version: 14
+      - test:
+          version: 12
+      - test:
+          version: 10
+      - build:
+          version: 14
+      - deploy-npm:
+          requires:
+            - lint
+            - test
+            - build
+          version: 14
+          context: tsed
+          filters:
+            branches:
+              only: /^(production|alpha|beta|rc)$/
+      - deploy-ghpages:
+          requires:
+            - deploy-npm
+          version: 14
+          context: tsed
+          filters:
+            branches:
+              only: /^(production|alpha|beta|rc)$/
+      - deploy-examples:
+          requires:
+            - deploy-npm
+          version: 14
+          context: tsed
+          filters:
+            branches:
+              only: /^(production|beta|rc)$/
+
+commands:
+  yarn-install:
+    parameters:
+      version:
+        type: string
+    description: "Yarn install"
+    steps:
+      - node/install:
+        install-yarn: true
+        node-version: << parameters.version >>
+      - version-info
+      - run: node --version
+      - run: npm --version
+      - run: yarn --version
+
+jobs:
+  #######################################################################
+  # JOB: LINT
+  #######################################################################
+  lint:
+    machine: true
+    parameters:
+      version:
+        type: string
+    steps:
+      - checkout
+      - yarn-install:
+          node-version: << parameters.version >>
+      - run:
+          name: Run linter
+          command: |
+            mkdir -p reports/eslint
+            yarn test:lint:junit
+      - store_test_results:
+          path: reports
+      - store_artifacts:
+          path: ./reports
+  #######################################################################
+  # JOB: TEST
+  #######################################################################
+  test:
+    machine: true
+    parameters:
+      version:
+        type: string
+    steps:
+      - checkout
+      - yarn-install:
+          node-version: << parameters.version >>
+      - run:
+          name: Run unit test
+          command: |
+            mkdir -p reports/mocha
+            yarn test:coverage:junit
+      - store_test_results:
+          path: reports
+      - store_artifacts:
+          path: ./reports
+  #######################################################################
+  # JOB: BUILD
+  #######################################################################
+  build:
+    machine: true
+    parameters:
+      version:
+        type: string
+    steps:
+      - checkout
+      - yarn-install:
+          node-version: << parameters.version >>
+      - run:
+          name: Run unit test
+          command: yarn test:coverage
+      - store_test_results:
+          path: reports
+      - store_artifacts:
+          path: ./reports
+      - persist_to_workspace:
+          root: .
+          paths:
+            - packages/*/lib
+  #######################################################################
+  # JOB: DEPLOY NPM
+  #######################################################################
+  deploy-npm:
+    machine: true
+    parameters:
+      version:
+        type: string
+    steps:
+      - checkout
+      - yarn-install:
+          node-version: << parameters.version >>
+      - attach_workspace:
+          at: .
+      - run:
+          name: Release
+          command: yarn release
+      - persist_to_workspace:
+          root: .
+          paths:
+            - packages/*/lib
+            - package.json
+            - lerna.json
+            - packages/*/package.json
+  #######################################################################
+  # JOB: DEPLOY WEBSITE
+  #######################################################################
+  deploy-ghpages:
+    machine: true
+    parameters:
+      version:
+        type: string
+    steps:
+      - checkout
+      - yarn-install:
+          node-version: << parameters.version >>
+      - attach_workspace:
+          at: .
+      - run:
+          name: Configure
+          command: monorepo ci configure
+      - run:
+          name: Fetch
+          command: git fetch --quiet
+      - run:
+          name: Publish GHPages
+          command: yarn docs:publish
+  #######################################################################
+  # JOB: DEPLOY EXAMPLES
+  #######################################################################
+  deploy-examples:
+    machine: true
+    parameters:
+      version:
+        type: string
+    steps:
+      - checkout
+      - yarn-install:
+          node-version: << parameters.version >>
+      - attach_workspace:
+          at: .
+      - run:
+          name: Configure
+          command: monorepo ci configure
+      - run:
+          name: Fetch
+          command: git fetch --quiet
+      - run:
+          name: Publish Examples
+          command: yarn examples:publish
