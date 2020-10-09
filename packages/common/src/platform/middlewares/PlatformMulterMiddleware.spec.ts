@@ -1,10 +1,4 @@
-import {
-  EndpointMetadata,
-  MultipartFile,
-  PlatformApplication,
-  PlatformMulterMiddleware,
-  PlatformTest
-} from "@tsed/common";
+import {EndpointMetadata, MultipartFile, PlatformApplication, PlatformMulterMiddleware, PlatformTest} from "@tsed/common";
 import {Exception} from "@tsed/exceptions";
 import {expect} from "chai";
 import * as Sinon from "sinon";
@@ -14,8 +8,7 @@ const sandbox = Sinon.createSandbox();
 
 async function build() {
   class Test {
-    upload(@MultipartFile("file1") file1: any) {
-    }
+    upload(@MultipartFile("file1") file1: any) {}
   }
 
   const multerMiddleware = sandbox.stub();
@@ -39,11 +32,13 @@ async function build() {
 }
 
 describe("PlatformMulterMiddleware", () => {
-  beforeEach(() => PlatformTest.create({
-    multer: {
-      dest: "/dest"
-    }
-  }));
+  beforeEach(() =>
+    PlatformTest.create({
+      multer: {
+        dest: "/dest"
+      }
+    })
+  );
   afterEach(() => PlatformTest.reset());
   it("should create middleware", async () => {
     const {middleware, ctx, multer, app, multerMiddleware} = await build();

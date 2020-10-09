@@ -6,19 +6,21 @@ import {SwaggerModule} from "./index";
 
 const sandbox = Sinon.createSandbox();
 describe("SwaggerModule", () => {
-  beforeEach(() => PlatformTest.create({
-    httpPort: 8080,
-    httpsPort: 8081,
-    swagger: [
-      {
-        path: "/doc",
-        cssPath: "/cssPath",
-        jsPath: "/jsPath",
-        viewPath: "/viewsPath",
-        outFile: "/spec.json"
-      }
-    ]
-  }));
+  beforeEach(() =>
+    PlatformTest.create({
+      httpPort: 8080,
+      httpsPort: 8081,
+      swagger: [
+        {
+          path: "/doc",
+          cssPath: "/cssPath",
+          jsPath: "/jsPath",
+          viewPath: "/viewsPath",
+          outFile: "/spec.json"
+        }
+      ]
+    })
+  );
   afterEach(PlatformTest.reset);
   afterEach(() => sandbox.restore());
 

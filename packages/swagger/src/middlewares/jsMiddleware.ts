@@ -5,9 +5,6 @@ import {resolve} from "path";
 export function jsMiddleware(path: string) {
   return (ctx: PlatformContext) => {
     const content = Fs.readFileSync(resolve(path), {encoding: "utf8"});
-    ctx.response
-      .setHeaders({"Content-Type": "application/javascript"})
-      .status(200)
-      .body(content);
+    ctx.response.setHeaders({"Content-Type": "application/javascript"}).status(200).body(content);
   };
 }

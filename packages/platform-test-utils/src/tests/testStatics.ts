@@ -52,7 +52,7 @@ export function testStatics(options: PlatformTestOptions) {
 
     expect(response.body).to.deep.equal({
       errors: [],
-      message: "Resource \"/index-te.html\" not found",
+      message: 'Resource "/index-te.html" not found',
       name: "NOT_FOUND",
       status: 404
     });

@@ -11,8 +11,7 @@ import {Server} from "./app/Server";
 @Hidden()
 class AdminCtrl {
   @Get("/")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/events")
@@ -20,8 +19,7 @@ class AdminCtrl {
 class EventCtrl {
   @Get("/")
   @Description("Events")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/admin")
@@ -29,8 +27,7 @@ class EventCtrl {
 class BackAdminCtrl {
   @Get("/")
   @Description("Admins")
-  get() {
-  }
+  get() {}
 }
 
 @Controller({
@@ -155,33 +152,27 @@ describe("Swagger integration", () => {
             }
           },
           "/rest/calendars/csv": {
-            "post": {
-              "operationId": "calendarsControllerCsv",
-              "parameters": [
+            post: {
+              operationId: "calendarsControllerCsv",
+              parameters: [
                 {
-                  "in": "body",
-                  "name": "body",
-                  "required": false,
-                  "type": "string"
+                  in: "body",
+                  name: "body",
+                  required: false,
+                  type: "string"
                 }
               ],
-              "produces": [
-                "text/plain"
-              ],
-              "consumes": [
-                "text/plain"
-              ],
-              "responses": {
+              produces: ["text/plain"],
+              consumes: ["text/plain"],
+              responses: {
                 "200": {
-                  "description": "Success",
-                  "schema": {
-                    "type": "string"
+                  description: "Success",
+                  schema: {
+                    type: "string"
                   }
                 }
               },
-              "tags": [
-                "CalendarsController"
-              ]
+              tags: ["CalendarsController"]
             }
           },
           "/rest/events/events": {
@@ -243,90 +234,89 @@ describe("Swagger integration", () => {
       ]);
 
       expect(response.body).to.deep.eq({
-        "info": {"version": "1.0.0", "title": "Api documentation", "description": "", "termsOfService": ""},
-        "openapi": "3.0.1",
-        "securityDefinitions": {},
-        "paths": {
+        info: {version: "1.0.0", title: "Api documentation", description: "", termsOfService: ""},
+        openapi: "3.0.1",
+        securityDefinitions: {},
+        paths: {
           "/rest/events/events": {
-            "get": {
-              "operationId": "eventCtrlGet",
-              "parameters": [],
-              "responses": {"200": {"description": "Success"}},
-              "description": "Events",
-              "tags": ["EventCtrl"]
+            get: {
+              operationId: "eventCtrlGet",
+              parameters: [],
+              responses: {"200": {description: "Success"}},
+              description: "Events",
+              tags: ["EventCtrl"]
             }
           },
           "/rest/calendars/{id}": {
-            "get": {
-              "operationId": "calendarsControllerGet",
-              "parameters": [{"in": "path", "name": "id", "required": true, "schema": {"type": "string"}}],
-              "responses": {
+            get: {
+              operationId: "calendarsControllerGet",
+              parameters: [{in: "path", name: "id", required: true, schema: {type: "string"}}],
+              responses: {
                 "200": {
-                  "content": {"application/json": {"schema": {"$ref": "#/components/schemas/Calendar"}}},
-                  "description": "Success"
+                  content: {"application/json": {schema: {$ref: "#/components/schemas/Calendar"}}},
+                  description: "Success"
                 }
               },
-              "tags": ["CalendarsController"]
+              tags: ["CalendarsController"]
             }
           },
           "/rest/calendars": {
-            "get": {
-              "operationId": "calendarsControllerGetAll",
-              "parameters": [],
-              "responses": {
+            get: {
+              operationId: "calendarsControllerGetAll",
+              parameters: [],
+              responses: {
                 "200": {
-                  "content": {
+                  content: {
                     "application/json": {
-                      "schema": {
-                        "type": "array",
-                        "items": {"$ref": "#/components/schemas/Calendar"}
-                      }
-                    }
-                  }, "description": "Success"
-                }
-              },
-              "tags": ["CalendarsController"]
-            }
-          },
-          "/rest/calendars/csv": {
-            "post": {
-              "operationId": "calendarsControllerCsv",
-              "parameters": [],
-              "requestBody": {
-                "content": {
-                  "text/plain": {
-                    "schema": {
-                      "type": "string"
-                    }
-                  }
-                },
-                "required": false
-              },
-              "responses": {
-                "200": {
-                  "content": {
-                    "text/plain": {
-                      "schema": {
-                        "type": "string"
+                      schema: {
+                        type: "array",
+                        items: {$ref: "#/components/schemas/Calendar"}
                       }
                     }
                   },
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "CalendarsController"
-              ]
+              tags: ["CalendarsController"]
+            }
+          },
+          "/rest/calendars/csv": {
+            post: {
+              operationId: "calendarsControllerCsv",
+              parameters: [],
+              requestBody: {
+                content: {
+                  "text/plain": {
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                },
+                required: false
+              },
+              responses: {
+                "200": {
+                  content: {
+                    "text/plain": {
+                      schema: {
+                        type: "string"
+                      }
+                    }
+                  },
+                  description: "Success"
+                }
+              },
+              tags: ["CalendarsController"]
             }
           }
         },
-        "tags": [{"name": "EventCtrl"}, {"name": "CalendarsController"}],
-        "components": {
-          "schemas": {
-            "Calendar": {
-              "type": "object",
-              "properties": {"id": {"type": "string"}, "name": {"type": "string", "minLength": 1}},
-              "required": ["name"]
+        tags: [{name: "EventCtrl"}, {name: "CalendarsController"}],
+        components: {
+          schemas: {
+            Calendar: {
+              type: "object",
+              properties: {id: {type: "string"}, name: {type: "string", minLength: 1}},
+              required: ["name"]
             }
           }
         }

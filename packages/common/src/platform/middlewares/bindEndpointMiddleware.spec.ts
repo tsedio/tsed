@@ -3,8 +3,7 @@ import {expect} from "chai";
 import {FakeRequest} from "../../../../../test/helper";
 
 class Test {
-  test() {
-  }
+  test() {}
 }
 
 describe("bindEndpointMiddleware", () => {

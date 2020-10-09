@@ -8,9 +8,11 @@ describe("SocketIOModule", () => {
   let getWebsocketServicesStub: any, printSocketEventsStub: any;
   describe("$afterListen()", () => {
     describe("with http server", () => {
-      before(() => PlatformTest.create({
-        httpsPort: 8081
-      }));
+      before(() =>
+        PlatformTest.create({
+          httpsPort: 8081
+        })
+      );
       before(() => {
         getWebsocketServicesStub = Sinon.stub(SocketIOModule.prototype as any, "getWebsocketServices");
         printSocketEventsStub = Sinon.stub(SocketIOModule.prototype as any, "printSocketEvents");
@@ -57,9 +59,11 @@ describe("SocketIOModule", () => {
       });
     });
     describe("with https server", () => {
-      before(() => PlatformTest.create({
-        httpsPort: 8081
-      }));
+      before(() =>
+        PlatformTest.create({
+          httpsPort: 8081
+        })
+      );
       before(() => {
         getWebsocketServicesStub = Sinon.stub(SocketIOModule.prototype as any, "getWebsocketServices");
         printSocketEventsStub = Sinon.stub(SocketIOModule.prototype as any, "printSocketEvents");

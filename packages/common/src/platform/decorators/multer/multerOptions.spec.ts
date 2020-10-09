@@ -6,8 +6,7 @@ describe("@MulterOptions()", () => {
   it("should store metadata", () => {
     class Test {
       @MulterOptions({dest: "/"})
-      test() {
-      }
+      test() {}
     }
 
     const store = Store.fromMethod(Test.prototype, "test");

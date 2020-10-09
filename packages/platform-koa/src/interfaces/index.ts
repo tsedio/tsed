@@ -12,7 +12,6 @@ declare global {
       koa: PlatformKoaSettings;
     }
 
-    export interface NextFunction extends Koa.Next {
-    }
+    export interface NextFunction extends Koa.Next {}
   }
 }

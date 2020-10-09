@@ -8,9 +8,11 @@ import {Server} from "./app/Server";
 describe("SocketIO", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(PlatformTest.bootstrap(Server, {
-    platform: PlatformExpress
-  }));
+  before(
+    PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress
+    })
+  );
   before(() => (request = SuperTest(PlatformTest.callback())));
   after(PlatformTest.reset);
 

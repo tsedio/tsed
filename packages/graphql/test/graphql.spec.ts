@@ -19,9 +19,11 @@ const GET_RECIPES = gql`
 
 describe("GraphQL", () => {
   let request: ApolloServerTestClient;
-  before(PlatformTest.bootstrap(Server, {
-    platform: PlatformExpress
-  }));
+  before(
+    PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress
+    })
+  );
   before(() => {
     const server = PlatformTest.get<GraphQLService>(GraphQLService).get("default")!;
     request = createTestClient(server);

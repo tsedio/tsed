@@ -136,7 +136,7 @@ export function testQueryParams(options: PlatformTestOptions) {
       const response = await request.get(`${endpoint}?test=error`).expect(400);
       expect(response.body).to.deep.equal({
         name: "AJV_VALIDATION_ERROR",
-        message: "Bad request on parameter \"request.query.test\".\nValue should be number. Given value: \"error\"",
+        message: 'Bad request on parameter "request.query.test".\nValue should be number. Given value: "error"',
         status: 400,
         errors: [
           {

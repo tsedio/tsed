@@ -60,7 +60,7 @@ describe("PlatformViews", () => {
         error = er;
       }
 
-      expect(error.message).to.equal("Engine not found for the \".toto\" file extension");
+      expect(error.message).to.equal('Engine not found for the ".toto" file extension');
     });
   });
 });

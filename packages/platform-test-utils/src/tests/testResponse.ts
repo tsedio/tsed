@@ -235,7 +235,7 @@ export function testResponse(options: PlatformTestOptions) {
 
         expect(response.body).to.deep.equal({
           name: "BAD_REQUEST",
-          message: "Bad request on parameter \"request.path.id\".\nCast error. Expression value is not a number.",
+          message: 'Bad request on parameter "request.path.id".\nCast error. Expression value is not a number.',
           status: 400,
           errors: []
         });

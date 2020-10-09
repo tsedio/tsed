@@ -120,6 +120,5 @@ export class FakeResponse {
     return (this as any)["_" + key];
   }
 
-  end() {
-  }
+  end() {}
 }

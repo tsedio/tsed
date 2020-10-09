@@ -1,14 +1,13 @@
-import { $log, Controller, Get } from "@tsed/common";
-import { PlatformKoa } from "../../src/index";
-import { Server } from "./Server";
+import {$log, Controller, Get} from "@tsed/common";
+import {PlatformKoa} from "../../src/index";
+import {Server} from "./Server";
 
 if (process.env.NODE_ENV !== "test") {
-
   @Controller("/hello")
   class HelloWorld {
     @Get("/")
     get() {
-      return { test: "Hello world" };
+      return {test: "Hello world"};
     }
   }
 
@@ -17,9 +16,7 @@ if (process.env.NODE_ENV !== "test") {
       $log.debug("Start server...");
       const platform = await PlatformKoa.bootstrap(Server, {
         mount: {
-          "/rest": [
-            HelloWorld
-          ]
+          "/rest": [HelloWorld]
         }
       });
 

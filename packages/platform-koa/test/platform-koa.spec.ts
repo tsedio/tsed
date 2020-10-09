@@ -1,6 +1,6 @@
-import { PlatformTestUtils } from "@tsed/platform-test-utils";
-import { PlatformKoa } from "../src";
-import { rootDir, Server } from "./app/Server";
+import {PlatformTestUtils} from "@tsed/platform-test-utils";
+import {PlatformKoa} from "../src";
+import {rootDir, Server} from "./app/Server";
 
 const utils = PlatformTestUtils.create({
   rootDir,

@@ -20,8 +20,7 @@ export async function buildPlatformHandler({type, token, sandbox, expression, re
   const platformHandler = await invokePlatformHandler(token);
 
   class Test {
-    test() {
-    }
+    test() {}
   }
 
   const param = new ParamMetadata({target: Test, propertyKey: "test", index: 0});

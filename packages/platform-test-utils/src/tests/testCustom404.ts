@@ -26,7 +26,7 @@ export function testCustom404(options: PlatformTestOptions) {
 
     expect(response.body).to.deep.eq({
       name: "NOT_FOUND",
-      message: "Resource \"/\" not found",
+      message: 'Resource "/" not found',
       status: 404,
       errors: []
     });
