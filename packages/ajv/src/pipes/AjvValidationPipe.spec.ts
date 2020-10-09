@@ -58,7 +58,7 @@ describe("AjvValidationPipe", () => {
 
       const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
 
-      expect(error?.message).to.deep.equal("Bad request on parameter \"request.body\".\nValue should be object. Given value: []");
+      expect(error?.message).to.deep.equal('Bad request on parameter "request.body".\nValue should be object. Given value: []');
       expect(error?.origin?.errors).to.deep.equal([
         {
           data: [],

@@ -136,7 +136,7 @@ export function testQueryParams(options: PlatformTestOptions) {
       const response = await request.get(`${endpoint}?test=error`).expect(400);
       // FIXME REMOVE THIS when @tsed/schema is out
       expect(response.text).to.deep.equal(
-        "Bad request on parameter \"request.query.test\".<br />Cast error. Expression value is not a number."
+        'Bad request on parameter "request.query.test".<br />Cast error. Expression value is not a number.'
       );
     });
     it("should return undefined when query is empty", async () => {

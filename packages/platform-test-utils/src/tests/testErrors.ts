@@ -142,7 +142,7 @@ export function testErrors(options: PlatformTestOptions) {
     const response: any = await request.post("/rest/errors/scenario-5").expect(400);
 
     expect(response.text).to.deep.eq(
-      "Bad request on parameter \"request.body\".<br />CustomModel should have required property 'name'. Given value: \"undefined\""
+      'Bad request on parameter "request.body".<br />CustomModel should have required property \'name\'. Given value: "undefined"'
     );
     // expect(response.body).to.deep.eq({
     //   "name": "AJV_VALIDATION_ERROR",
@@ -163,7 +163,7 @@ export function testErrors(options: PlatformTestOptions) {
     const response: any = await request.post(`/rest/errors/scenario-6`).send({}).expect(400);
 
     expect(response.text).to.deep.eq(
-      "Bad request on parameter \"request.body\".<br />CustomPropModel should have required property 'role_item'. Given value: \"undefined\""
+      'Bad request on parameter "request.body".<br />CustomPropModel should have required property \'role_item\'. Given value: "undefined"'
     );
   });
 }

@@ -176,9 +176,7 @@ describe("Swagger integration", () => {
                 }
               }
             ],
-            produces: [
-              "text/plain"
-            ],
+            produces: ["text/plain"],
             responses: {
               "200": {
                 description: "Success"

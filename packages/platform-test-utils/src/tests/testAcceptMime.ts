@@ -30,7 +30,7 @@ export function testAcceptMime(options: PlatformTestOptions) {
   });
   after(PlatformTest.reset);
   describe("Scenario 1: POST /rest/accept-mime/scenario-1", () => {
-    it("should return a 200 response when Accept header match with @AcceptMime(\"application/json\")", async () => {
+    it('should return a 200 response when Accept header match with @AcceptMime("application/json")', async () => {
       const response = await request
         .post("/rest/accept-mime/scenario-1")
         .set({
@@ -42,7 +42,7 @@ export function testAcceptMime(options: PlatformTestOptions) {
         accept: "application/json"
       });
     });
-    it("should return a 406 response when Accept header doesn't match with @AcceptMime(\"application/json\")", async () => {
+    it('should return a 406 response when Accept header doesn\'t match with @AcceptMime("application/json")', async () => {
       const response = await request
         .post("/rest/accept-mime/scenario-1")
         .set({
