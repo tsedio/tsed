@@ -1,7 +1,7 @@
 {
   "packages/*/src/**/*.ts": [
      "prettier --write",
-     "yarn test:lint:fix",
+     "eslint --fix",
      "git add"
    ]
 }
