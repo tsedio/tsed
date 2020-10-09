@@ -86,7 +86,7 @@
     "method-override": "3.0.0"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "^1.9.2",
+    "@tsed/monorepo-utils": "^1.9.4",
     "@typedproject/ts-doc": "4.0.9",
     "@types/chai": "4.2.12",
     "@types/chai-as-promised": "7.1.3",
