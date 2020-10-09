@@ -137,10 +137,11 @@ export class DIConfiguration {
     }
 
     if (typeof value === "string") {
+      const replacer = (match: string, key: string) => getValue(this.map, key);
       return value
-        .replace(/\${([\w.]+)}/gi, (match, key) => getValue(key, this.map))
-        .replace(/<([\w.]+)>/gi, (match, key) => getValue(key, this.map))
-        .replace(/{{([\w.]+)}}/gi, (match, key) => getValue(key, this.map));
+        .replace(/\${([\w.]+)}/gi, replacer)
+        .replace(/<([\w.]+)>/gi, replacer)
+        .replace(/{{([\w.]+)}}/gi, replacer);
     }
 
     return value;

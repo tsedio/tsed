@@ -2172,61 +2172,6 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@tsed/common@6.0.0-beta.5":
-  version "6.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@tsed/common/-/common-6.0.0-beta.5.tgz#792d9cd729c97ac1eaffc3edc4aebd683f64fbf9"
-  integrity sha512-CfZh5XV7iixBS6VrGqJlZ/k6A8lPBIBuAn1vSkqVlWwzHv5O8G1+Jk2ZEr2+5/g8i4VLdlKl1p+h8RK7V3L5Dw==
-  dependencies:
-    "@tsed/core" "6.0.0-beta.5"
-    "@tsed/di" "6.0.0-beta.5"
-    "@tsed/exceptions" "6.0.0-beta.5"
-    "@tsed/json-mapper" "6.0.0-beta.5"
-    "@tsed/logger" "5.5.3"
-    "@tsed/schema" "6.0.0-beta.5"
-    "@types/json-schema" "7.0.6"
-    consolidate "^0.16.0"
-    ejs "^3.1.5"
-    globby "11.0.1"
-    json-schema "^0.2.3"
-    normalize-path "3.0.0"
-    on-finished "2.3.0"
-    ts-log-debug "^5.5.3"
-    tslib "2.0.1"
-    uuid "8.3.0"
-
-"@tsed/core@6.0.0-beta.5":
-  version "6.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@tsed/core/-/core-6.0.0-beta.5.tgz#a82f270bcfc1c334c427d64858a659549e3d711d"
-  integrity sha512-OVupBtfUZa9EYUMAaHRjifXeYmZMSA/7M/ehhX8+BOF+F4Gt8oz63PGm8+8/k1suHnUAE9Z7Cd0QIf3adnVN7g==
-  dependencies:
-    reflect-metadata "^0.1.13"
-    source-map-support "0.5.19"
-    tslib "2.0.1"
-
-"@tsed/di@6.0.0-beta.5":
-  version "6.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@tsed/di/-/di-6.0.0-beta.5.tgz#9c39064d9d2443ad4a9c084af1ed39068de322cb"
-  integrity sha512-GbemuBW7YDnlQr4+o5yRmTPcNj6of+HCCom11QC7axZtSPM6hS2+tduJCA2Q1Jttq8fMHq9uByRHdnLjEq7zIA==
-  dependencies:
-    "@tsed/core" "6.0.0-beta.5"
-    chalk "4.1.0"
-    tslib "2.0.1"
-
-"@tsed/exceptions@6.0.0-beta.5":
-  version "6.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@tsed/exceptions/-/exceptions-6.0.0-beta.5.tgz#2e8ef570a436bec76864565ab55079705f1f7d41"
-  integrity sha512-O8OWLNuDBG0YSFEG0V9D+lD08xJjdGJ1MRRDS5s7/KrBg/4Invbp9hNX8xNZn0MQmJLwd1AVV0u2LiWAEUucVw==
-  dependencies:
-    tslib "2.0.1"
-
-"@tsed/json-mapper@6.0.0-beta.5":
-  version "6.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@tsed/json-mapper/-/json-mapper-6.0.0-beta.5.tgz#fa126fd6d87e273a4d2cd5626e2cebbc79f80a48"
-  integrity sha512-/TqGsl5ocHncqLaNVh3DSceoEhgnvnlDf4DgO1sx/FiXlBk3xG7lJzFDF569lMSpq/86lLGTuns3ttNdAzT5Dw==
-  dependencies:
-    "@tsed/core" "6.0.0-beta.5"
-    tslib "2.0.1"
-
 "@tsed/logger@5.5.3":
   version "5.5.3"
   resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-5.5.3.tgz#930980d07aede214345c486aa2372aeb25378a64"
@@ -2260,15 +2205,6 @@
     read-package-json "2.1.1"
     semver "7.3.2"
 
-"@tsed/schema@6.0.0-beta.5":
-  version "6.0.0-beta.5"
-  resolved "https://registry.yarnpkg.com/@tsed/schema/-/schema-6.0.0-beta.5.tgz#e4207cf86be875330d6aef7a61eeb080a8de61dd"
-  integrity sha512-kQEkRLN07tcHQzik7IbvII/Rg50MGXSGBYxa+SR068dze8wCud/YX7SiOwv1kobi0WaCKWSxy9ZsnDEx17EG9g==
-  dependencies:
-    "@tsed/core" "6.0.0-beta.5"
-    change-case "4.1.1"
-    tslib "2.0.1"
-
 "@typedproject/ts-doc@4.0.9":
   version "4.0.9"
   resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-4.0.9.tgz#2def5d828950baa66dc75eb91e8d8693f4274d42"
@@ -2296,7 +2232,7 @@
   resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.63.tgz#3316174e7a23b8505d1b7bdc979a5c3030d5e203"
   integrity sha512-XEE+3iJxyeCmZTUoHZRbnxSy8aMxXXwrALgsoDBGcgkbll+8bDfuk4XbIJ9Oaec/Pxee6rno6SGMiV6EbqhF+A==
 
-"@types/aws-serverless-express@3.3.3":
+"@types/aws-serverless-express@^3.3.3":
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/@types/aws-serverless-express/-/aws-serverless-express-3.3.3.tgz#8af184bf16e1ba0269de318ac7b7fd638c7df70c"
   integrity sha512-gIPinyiEsda2Z6Dx6GdQs47/GXaBGEGOMkYWtmqFDsVSDHzWtnIKBBBVQKyMdcK/0ZXa31zzlT+CobFnwNbsTQ==
@@ -4117,20 +4053,13 @@ autoprefixer@^9.4.5, autoprefixer@^9.5.1:
     postcss "^7.0.32"
     postcss-value-parser "^4.1.0"
 
-aws-serverless-express@^3.3.5, aws-serverless-express@^3.3.8:
+aws-serverless-express@^3.3.8:
   version "3.3.8"
   resolved "https://registry.yarnpkg.com/aws-serverless-express/-/aws-serverless-express-3.3.8.tgz#8c05e0ce3651fc277725c6d2e1b8f8a36dbe4f4b"
   integrity sha512-2TQdF5EhxnAtGeEi+wSi2M3xCfpiemuImnpU7HKih3onH0izJ/G2tkM+gwcGHZEsW/gLWFl/JjQAYGa3fILfvw==
   dependencies:
     binary-case "^1.0.0"
     type-is "^1.6.16"
-
-aws-serverless-koa@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/aws-serverless-koa/-/aws-serverless-koa-1.0.1.tgz#e81cb05e265d2a8d2fc4b0258178b98fd9f2a32c"
-  integrity sha512-PYS9rvAgbCj9q0da/XOUJqUgVp7n3Y+RQ7mAt647OJk8kF9bgtZ+DOsHiACwMGGvZGFNoZaPQB3jRANHQKMEag==
-  dependencies:
-    aws-serverless-express "^3.3.5"
 
 aws-sign2@~0.7.0:
   version "0.7.0"
