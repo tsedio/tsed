@@ -69,7 +69,7 @@
   "homepage": "http://tsed.io/",
   "dependencies": {
     "@tsed/logger": "5.5.3",
-    "ajv": "6.12.4",
+    "ajv": "6.12.5",
     "globby": "11.0.1",
     "lerna": "3.20.2",
     "reflect-metadata": "0.1.13",

@@ -17,6 +17,6 @@
   "devDependencies": {
     "@tsed/common": "5.65.6",
     "@tsed/core": "5.65.6",
-    "ajv": "6.12.4"
+    "ajv": "6.12.5"
   }
 }
