@@ -1,4 +1,5 @@
-import {OpenSpecHash, OS3MediaType, OS3Response} from "@tsed/openspec";
+import {OS3MediaType, OS3Response} from "@tsed/openspec";
+import {HashOf} from "@tsed/core";
 import {JsonHeader, JsonSchemaOptions} from "../interfaces";
 import {mapHeaders} from "../utils/mapHeaders";
 import {serializeItem} from "../utils/serializeJsonSchema";
@@ -24,13 +25,13 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
     return this;
   }
 
-  headers(headers: OpenSpecHash<string | JsonHeader>): this {
+  headers(headers: HashOf<string | JsonHeader>): this {
     this.set("headers", mapHeaders(headers));
 
     return this;
   }
 
-  content(content: OpenSpecHash<OS3MediaType<JsonSchema>>) {
+  content(content: HashOf<OS3MediaType<JsonSchema>>) {
     this.set("content", toJsonMapCollection(content));
 
     return this;
@@ -50,7 +51,7 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
   toJSON(options: JsonSchemaOptions = {}): any {
     const response = super.toJSON(options);
 
-    if (options.spec !== SpecTypes.OPENAPI) {
+    if (options.specType !== SpecTypes.OPENAPI) {
       delete response.content;
 
       response.schema = serializeItem(this.$schema, options);

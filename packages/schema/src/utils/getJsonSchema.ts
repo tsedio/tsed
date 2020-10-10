@@ -33,7 +33,7 @@ export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonS
   options = {
     ...options,
     root: true,
-    spec: options.spec || SpecTypes.JSON,
+    specType: options.specType || SpecTypes.JSON,
     schemas: {}
   };
 

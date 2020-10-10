@@ -3,7 +3,7 @@ import {toJsonMapCollection} from "../utils/toJsonMapCollection";
 import {JsonMap} from "./JsonMap";
 import {JsonSchema} from "./JsonSchema";
 
-export type JsonRequestBodyOptions = OS3RequestBody<JsonSchema>
+export type JsonRequestBodyOptions = OS3RequestBody<JsonSchema>;
 
 export class JsonRequestBody extends JsonMap<JsonRequestBodyOptions> {
   constructor(obj: Partial<JsonRequestBodyOptions> = {}) {

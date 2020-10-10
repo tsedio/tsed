@@ -1,6 +1,5 @@
 import {deepExtends, uniq, uniqBy} from "@tsed/core";
-import {OpenSpecTag, OS3Operation} from "@tsed/openspec";
-import {OpenSpecSecurity} from "../../../openspec/src/common/OpenSpecSecurity";
+import {OpenSpecSecurity, OpenSpecTag, OS3Operation} from "@tsed/openspec";
 import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
 import {JsonHeader, JsonSchemaOptions} from "../interfaces";
 import {isSuccessStatus} from "../utils/isSuccessStatus";
@@ -111,7 +110,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return (status === "default" ? this.response : this.getResponses().get(String(status))) || new JsonResponse();
   }
 
-  getHeadersOf(status: number): { [key: string]: JsonHeader } {
+  getHeadersOf(status: number): {[key: string]: JsonHeader} {
     return this.getResponseOf(status).get("headers") || {};
   }
 
@@ -214,14 +213,14 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
 
     if (bodyParameters.length) {
       const parameter = buildSchemaFromBodyParameters(bodyParameters);
-      if (options.spec === SpecTypes.OPENAPI) {
+      if (options.specType === SpecTypes.OPENAPI) {
         operation.requestBody = toRequestBody(this, parameter).toJSON(options);
       } else {
         operation.parameters.push(toJsonParameter(parameter).toJSON(options));
       }
     }
 
-    if (options.spec === SpecTypes.OPENAPI) {
+    if (options.specType === SpecTypes.OPENAPI) {
       delete operation.consumes;
       delete operation.produces;
     }

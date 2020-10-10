@@ -48,7 +48,7 @@ export function createRef(value: any, options: JsonSchemaOptions = {}) {
     );
   }
 
-  const {host = `#/${options.spec === "openapi3" ? "components/schemas" : "definitions"}`} = options;
+  const {host = `#/${options.specType === "openapi3" ? "components/schemas" : "definitions"}`} = options;
 
   return {
     $ref: `${host}/${name}`
@@ -185,7 +185,7 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
       value = schema.getJsonType();
     }
 
-    if (key === "examples" && isObject(value) && options.spec !== SpecTypes.SWAGGER) {
+    if (key === "examples" && isObject(value) && options.specType !== SpecTypes.SWAGGER) {
       value = Object.values(value);
     }
 

@@ -59,7 +59,7 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
     if (!jsonSchema.$ref && (this.get("in") === "path" || Object.keys(jsonSchema).length === 1)) {
       parameter.type = jsonSchema.type;
-    } else if (options.spec === SpecTypes.SWAGGER && this.get("in") === "query") {
+    } else if (options.specType === SpecTypes.SWAGGER && this.get("in") === "query") {
       if (jsonSchema.$ref) {
         return this.refToParameters(parameter, options, schemas);
       }
@@ -87,10 +87,10 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
   }
 
   private refToParameters(parameter: any, options: JsonSchemaOptions, schemas: any) {
-    const schema = options.schemas[this.$schema.getName()];
+    const schema = options.schemas![this.$schema.getName()];
 
-    if (options.schemas[this.$schema.getName()] && !schemas[this.$schema.getName()]) {
-      delete options.schemas[this.$schema.getName()];
+    if (options.schemas![this.$schema.getName()] && !schemas[this.$schema.getName()]) {
+      delete options.schemas![this.$schema.getName()];
     }
 
     return Object.entries(schema.properties || {}).reduce((params, [key, prop]: [string, any]) => {
