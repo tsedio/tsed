@@ -2796,8 +2796,8 @@
 <testsuite package="org.eslint" time="0" tests="1" errors="0" name="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/services/SwaggerService.ts">
 <testcase time="0" name="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/services/SwaggerService.ts" classname="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/services/SwaggerService" />
 </testsuite>
-<testsuite package="org.eslint" time="0" tests="1" errors="0" name="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/getReducers.spec.ts">
-<testcase time="0" name="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/getReducers.spec.ts" classname="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/index.spec" />
+<testsuite package="org.eslint" time="0" tests="1" errors="0" name="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/mergeSpec.spec.ts">
+<testcase time="0" name="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/mergeSpec.spec.ts" classname="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/index.spec" />
 </testsuite>
 <testsuite package="org.eslint" time="0" tests="1" errors="0" name="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/index.ts">
 <testcase time="0" name="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/index.ts" classname="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/index" />
