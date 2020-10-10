@@ -12,7 +12,7 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
       tags: [
@@ -48,7 +48,7 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
       tags: [
@@ -93,7 +93,7 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
       tags: [
@@ -141,7 +141,7 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.OPENAPI});
+    const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
     expect(spec).to.deep.equal({
       tags: [
@@ -184,7 +184,7 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
       tags: [
@@ -276,7 +276,7 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
       tags: [
@@ -321,7 +321,7 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
       definitions: {
@@ -396,7 +396,7 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
       definitions: {

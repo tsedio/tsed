@@ -1,4 +1,6 @@
-import {JsonHeader, JsonMediaType, JsonSchemaOptions} from "../interfaces";
+import {OS3MediaType, OS3Response} from "@tsed/openspec";
+import {HashOf} from "@tsed/core";
+import {JsonHeader, JsonSchemaOptions} from "../interfaces";
 import {mapHeaders} from "../utils/mapHeaders";
 import {serializeItem} from "../utils/serializeJsonSchema";
 import {toJsonMapCollection} from "../utils/toJsonMapCollection";
@@ -6,14 +8,7 @@ import {JsonMap} from "./JsonMap";
 import {JsonSchema} from "./JsonSchema";
 import {SpecTypes} from "./SpecTypes";
 
-export interface JsonResponseOptions {
-  description: string;
-  headers: {[header: string]: JsonHeader};
-  content: {
-    [media: string]: JsonSchema;
-  };
-  links: {[link: string]: any};
-}
+export type JsonResponseOptions = OS3Response<JsonSchema, string | JsonHeader>;
 
 export class JsonResponse extends JsonMap<JsonResponseOptions> {
   $schema: JsonSchema;
@@ -30,13 +25,13 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
     return this;
   }
 
-  headers(headers: {[header: string]: string | JsonHeader}): this {
+  headers(headers: HashOf<string | JsonHeader>): this {
     this.set("headers", mapHeaders(headers));
 
     return this;
   }
 
-  content(content: {[media: string]: JsonMediaType}) {
+  content(content: HashOf<OS3MediaType<JsonSchema>>) {
     this.set("content", toJsonMapCollection(content));
 
     return this;
@@ -56,7 +51,7 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
   toJSON(options: JsonSchemaOptions = {}): any {
     const response = super.toJSON(options);
 
-    if (options.spec !== SpecTypes.OPENAPI) {
+    if (options.specType !== SpecTypes.OPENAPI) {
       delete response.content;
 
       response.schema = serializeItem(this.$schema, options);

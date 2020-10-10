@@ -1,8 +1,8 @@
 import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonTag} from "../../interfaces/JsonOpenSpec";
+import {OpenSpecTag} from "@tsed/openspec";
 import {JsonEntityFn} from "../common/jsonEntityFn";
 
-function mapTags(tags: (string | JsonTag)[]) {
+function mapTags(tags: (string | OpenSpecTag)[]) {
   return tags.map((tag) => {
     if (typeof tag === "string") {
       return {
@@ -35,7 +35,7 @@ function mapTags(tags: (string | JsonTag)[]) {
  * @classDecorator
  * @operation
  */
-export function Tags(...tags: (string | JsonTag)[]) {
+export function Tags(...tags: (string | OpenSpecTag)[]) {
   return JsonEntityFn((store, args) => {
     switch (store.decoratorType) {
       case DecoratorTypes.METHOD:

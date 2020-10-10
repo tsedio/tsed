@@ -39,7 +39,7 @@ describe("Consumes", () => {
       get() {}
     }
 
-    expect(getSpec(MyController, {spec: SpecTypes.OPENAPI})).to.deep.eq({
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
       tags: [
         {
           name: "MyController"

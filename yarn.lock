@@ -2183,10 +2183,10 @@
     streamroller "^1.0.3"
     tslib "1.10.0"
 
-"@tsed/monorepo-utils@1.9.5":
-  version "1.9.5"
-  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.9.5.tgz#087331a5de28a37504f951d552da4832f4132fa1"
-  integrity sha512-g7RbRszoCIDYEb5dAJaHJUt5gMaxg3agKa/CkFVV33OnjN/n6guN9qztXL3y/wRiJCoskVjjCALA8ZJP688q4A==
+"@tsed/monorepo-utils@1.10.0":
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.10.0.tgz#a868c4cbe18adf1d364ee9fc85242cfd7b8e6496"
+  integrity sha512-uSbl4sdfvxYgywF2hgYcjuXqNKqPkpUn0KRhy8RSBTCEcLE8PVR3ar+qzsTvKpxfVIHDOB5LAgiQH4ZUQ7GOQA==
   dependencies:
     axios "0.19.2"
     chalk "3.0.0"
@@ -2756,11 +2756,6 @@
   integrity sha512-Xt8TbEyZTnD5Xulw95GLMOkmjGICrOQyJ2jqgkSjAUR3mm7pAIzSR0NFBaMcwlzVvlpCjNwbATcWWwjNiZiFrQ==
   dependencies:
     "@types/superagent" "*"
-
-"@types/swagger-schema-official@2.0.21":
-  version "2.0.21"
-  resolved "https://registry.yarnpkg.com/@types/swagger-schema-official/-/swagger-schema-official-2.0.21.tgz#56812a86dcd57ba60e5c51705ee96a2b2dc9b374"
-  integrity sha512-n9BbLOjR4Hre7B4TSGGMPohOgOg8tcp00uxqsIE00uuWQC0QuX57G1bqC1csLsk2DpTGtHkd0dEb3ipsCZ9dAA==
 
 "@types/tmp@^0.2.0":
   version "0.2.0"

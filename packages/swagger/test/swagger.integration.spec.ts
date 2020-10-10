@@ -56,7 +56,7 @@ class CalendarsController {
 }
 
 describe("Swagger integration", () => {
-  describe("swagger 2", () => {
+  describe("OpenSpec2", () => {
     let request: SuperTest.SuperTest<SuperTest.Test>;
     beforeEach(
       PlatformTest.bootstrap(Server, {
@@ -190,7 +190,6 @@ describe("Swagger integration", () => {
           }
         },
         produces: ["application/json"],
-        securityDefinitions: {},
         swagger: "2.0",
         tags: [
           {
@@ -234,10 +233,9 @@ describe("Swagger integration", () => {
       ]);
 
       expect(response.body).to.deep.eq({
-        info: {version: "1.0.0", title: "Api documentation", description: "", termsOfService: ""},
-        openapi: "3.0.1",
-        securityDefinitions: {},
-        paths: {
+        "info": {"version": "1.0.0", "title": "Api documentation", "description": "", "termsOfService": ""},
+        "openapi": "3.0.1",
+        "paths": {
           "/rest/events/events": {
             get: {
               operationId: "eventCtrlGet",
