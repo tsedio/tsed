@@ -19,7 +19,7 @@ A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/swagger
 Before using the Swagger, we have to install the [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express) module.
 
 ```bash
-npm install --save @types/swagger-schema-official @tsed/swagger
+npm install --save @tsed/swagger
 ```
 
 Then add the following configuration in your Server:
@@ -33,7 +33,7 @@ const rootDir = resolve(__dirname)
 @Configuration({
   rootDir,
   swagger: [{
-      path: "/api-docs"
+    path: "/api-docs"
   }]
 })
 export class Server {
@@ -46,7 +46,6 @@ Normally, Swagger-ui is ready. You can start your server and check if it work fi
 
 > Note: Ts.ED will print the swagger url in the console.
 
-
 ### Swagger options
 
 Some options is available to configure Swagger-ui, Ts.ED and the default spec information.
@@ -54,6 +53,7 @@ Some options is available to configure Swagger-ui, Ts.ED and the default spec in
 Key | Example | Description
 ---|---|---
 path | `/api-doc` |  The url subpath to access to the documentation.
+specVersion | `2.0`, `3.0.1`  | The spec version.
 doc | `hidden-doc` |  The documentation key used by `@Docs` decorator to create several swagger documentations.
 cssPath | `${rootDir}/spec/style.css` | The path to the CSS file.
 jsPath | `${rootDir}/spec/main.js` | The path to the JS file.
@@ -63,8 +63,6 @@ specPath | `${rootDir}/spec/swagger.base.json` | Load the base spec documentatio
 outFile | `${rootDir}/spec/swagger.json` | Write the `swagger.json` spec documentation on the specified path.
 hidden | `true` | Hide the documentation in the dropdown explorer list.
 options | Swagger-UI options | SwaggerUI options. See (https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/configuration.md)
-operationIdFormat | `%c.%m` | Format of operationId field (`%c`: class name, `%m`: method name).
-
 
 ### Multi documentations
 

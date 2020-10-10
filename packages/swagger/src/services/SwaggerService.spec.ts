@@ -48,8 +48,7 @@ describe("SwaggerService", () => {
             version: "1.0.0"
           },
           produces: ["application/json", "application/octet-stream", "application/xml"],
-          consumes: ["application/json"],
-          securityDefinitions: {}
+          consumes: ["application/json"]
         });
       });
     });
@@ -68,7 +67,6 @@ describe("SwaggerService", () => {
             version: "1.0.0"
           },
           produces: ["application/json"],
-          securityDefinitions: {},
           swagger: "2.0"
         });
       });
@@ -90,7 +88,6 @@ describe("SwaggerService", () => {
             version: "1.0.0"
           },
           produces: ["application/json"],
-          securityDefinitions: {},
           swagger: "2.0"
         });
       });

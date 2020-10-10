@@ -119,7 +119,6 @@ describe("Swagger errors params", () => {
         }
       },
       produces: ["application/json"],
-      securityDefinitions: {},
       swagger: "2.0",
       tags: [
         {
