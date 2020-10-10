@@ -274,7 +274,6 @@ export function testAuth(options: PlatformTestOptions) {
           }
         },
         produces: ["application/json"],
-        securityDefinitions: {},
         swagger: "2.0",
         tags: [
           {

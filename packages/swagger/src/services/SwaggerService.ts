@@ -1,12 +1,13 @@
-import {Configuration, ControllerProvider, InjectorService, Platform, Service} from "@tsed/common";
-import {deepExtends} from "@tsed/core";
-import {getSpec, SpecSerializerOptions, SpecTypes} from "@tsed/schema";
+import {Configuration, ControllerProvider, Injectable, InjectorService, Platform} from "@tsed/common";
+import {getValue} from "@tsed/core";
+import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
+import {getSpec, mergeSpec, SpecSerializerOptions} from "@tsed/schema";
+import {SwaggerOS3Settings, SwaggerOS2Settings, SwaggerSettings} from "../interfaces/SwaggerSettings";
 import * as Fs from "fs";
-import {Spec, Tag} from "swagger-schema-official";
-import {SwaggerSettings} from "../interfaces";
-import {getReducers} from "../utils";
+import {getSpecTypeFromSpec} from "../utils/getSpecType";
+import {mapOpenSpec} from "../utils/mapOpenSpec";
 
-@Service()
+@Injectable()
 export class SwaggerService {
   constructor(
     private injectorService: InjectorService,
@@ -15,21 +16,25 @@ export class SwaggerService {
   ) {}
 
   /**
-   *
+   * Generate Spec for the given configuration
    * @returns {Spec}
    */
-  public getOpenAPISpec(conf: SwaggerSettings): Spec {
-    const defaultSpec = this.getDefaultSpec(conf);
-    const doc = conf.doc;
-    const finalSpec = {};
+  public getOpenAPISpec(conf: SwaggerOS3Settings): OpenSpec3;
+  public getOpenAPISpec(conf: SwaggerOS2Settings): OpenSpec2;
+  public getOpenAPISpec(conf: SwaggerSettings): OpenSpec2;
+  public getOpenAPISpec(conf: SwaggerSettings) {
+    const defaultSpec: any = this.getDefaultSpec(conf);
+    const specType = getSpecTypeFromSpec(defaultSpec);
+    const {doc} = conf;
+    const finalSpec: any = {};
 
-    const options = {
+    const options: SpecSerializerOptions = {
       paths: {},
       tags: [],
       schemas: {},
-      spec: defaultSpec.openapi ? SpecTypes.OPENAPI : SpecTypes.SWAGGER,
+      specType,
       append(spec: any) {
-        deepExtends(finalSpec, spec, getReducers());
+        mergeSpec(finalSpec, spec);
       }
     };
 
@@ -47,61 +52,26 @@ export class SwaggerService {
       }
     });
 
-    return deepExtends(defaultSpec, finalSpec, getReducers());
+    return mergeSpec(defaultSpec, finalSpec) as any;
   }
 
   /**
    * Return the global api information.
    */
-  public getDefaultSpec(conf: Partial<SwaggerSettings>): any {
-    const {version} = this.configuration;
-    const spec: any =
-      conf.spec ||
-      ({
-        info: {}
-      } as any);
+  protected getDefaultSpec(conf: Partial<SwaggerSettings>): Partial<OpenSpec2 | OpenSpec3> {
+    const {version, acceptMimes} = this.configuration;
+    const {specPath, specVersion} = conf;
+    const fileSpec: Partial<OpenSpec2 | OpenSpec3> = specPath ? this.readSpecPath(specPath) : {};
 
-    const {specPath} = conf;
-
-    let specPathContent: any = {};
-
-    if (specPath) {
-      specPathContent = this.readSpecPath(specPath);
-    }
-
-    const {specVersion = specPathContent.openapi || specPathContent.swagger || "2.0"} = conf;
-    /* istanbul ignore next */
-    const {title = "Api documentation", description = "", version: versionInfo, termsOfService = "", contact, license} =
-      spec.info || ({} as any);
-
-    if ((specVersion || "").startsWith("3.")) {
-      spec.openapi = specVersion;
-    } else {
-      spec.swagger = specVersion;
-      spec.consumes = (this.configuration.acceptMimes || ["application/json"]).concat(spec.consumes || []);
-      spec.produces = spec.produces || ["application/json"];
-      spec.securityDefinitions = {};
-    }
-
-    return deepExtends(
-      {
-        ...spec,
-        info: {
-          version: versionInfo || version,
-          title,
-          description,
-          termsOfService,
-          contact,
-          license
-        },
-        securityDefinitions: spec.securityDefinitions || {}
-      },
-      specPathContent,
-      getReducers()
-    );
+    return mapOpenSpec(getValue(conf, "spec", {}), {
+      fileSpec,
+      version,
+      specVersion,
+      acceptMimes
+    });
   }
 
-  private readSpecPath(path: string) {
+  protected readSpecPath(path: string) {
     path = this.configuration.resolve(path);
     if (Fs.existsSync(path)) {
       const json = Fs.readFileSync(path, {encoding: "utf8"});
@@ -119,7 +89,7 @@ export class SwaggerService {
    * @param ctrl
    * @param options
    */
-  private buildRoutes(ctrl: ControllerProvider, options: SpecSerializerOptions): Tag[] {
+  protected buildRoutes(ctrl: ControllerProvider, options: SpecSerializerOptions) {
     ctrl.children
       .map((ctrl) => this.injectorService.getProvider(ctrl))
       .forEach((provider: ControllerProvider) => {
@@ -135,27 +105,4 @@ export class SwaggerService {
 
     return getSpec(ctrl.token, options);
   }
-
-  // private createOperationIdFormatter = (conf: ISwaggerSettings) => {
-  //   const OPERATION_IDS: any = {};
-  //
-  //   return (targetName: string, methodName: string) => {
-  //     const {operationIdFormat = "%c.%m"} = conf || {};
-  //
-  //     const operationId = operationIdFormat.replace(/%c/, targetName).replace(/%m/, methodName);
-  //     const operationKey = targetName + methodName;
-  //
-  //     if (OPERATION_IDS[operationKey] === undefined) {
-  //       OPERATION_IDS[operationKey] = 0;
-  //
-  //       return operationId;
-  //     }
-  //
-  //     const id = OPERATION_IDS[operationKey] + 1;
-  //
-  //     OPERATION_IDS[operationKey] = id;
-  //
-  //     return `${operationId}_${id}`;
-  //   };
-  // };
 }

@@ -13,11 +13,14 @@
     "tslib": "2.0.1"
   },
   "peerDependencies": {
-    "@types/swagger-schema-official": "^2.0.21"
+    "@tsed/common": "6.0.0-beta.13",
+    "@tsed/openspec": "6.0.0-beta.13",
+    "@tsed/schema": "6.0.0-beta.13"
   },
   "private": false,
   "devDependencies": {
     "@tsed/common": "6.0.0-beta.13",
-    "@types/swagger-schema-official": "2.0.21"
+    "@tsed/openspec": "6.0.0-beta.13",
+    "@tsed/schema": "6.0.0-beta.13"
   }
 }

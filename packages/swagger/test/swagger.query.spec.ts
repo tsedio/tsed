@@ -152,7 +152,6 @@ describe("Swagger query params", () => {
         }
       },
       produces: ["application/json"],
-      securityDefinitions: {},
       swagger: "2.0",
       tags: [
         {
