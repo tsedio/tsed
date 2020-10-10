@@ -1,13 +1,16 @@
+import {HashOf} from "../interfaces/HashOf";
 import {classOf, isArrayOrArrayClass, isPrimitive, isPrimitiveOrPrimitiveClass} from "./ObjectUtils";
 
+export type DeepExtendsReducers = HashOf<(collection: any[], value: any) => any>;
+
 /**
- *
+ * Deep extends a model with another one.
  * @param out
  * @param obj
- * @param {{[p: string]: (collection: any[], value: any) => any}} reducers
+ * @param reducers
  * @returns {any}
  */
-export function deepExtends(out: any, obj: any, reducers: {[key: string]: (collection: any[], value: any) => any} = {}): any {
+export function deepExtends(out: any, obj: any, reducers: DeepExtendsReducers = {}): any {
   if (obj === undefined || obj === null) {
     return out;
   }
