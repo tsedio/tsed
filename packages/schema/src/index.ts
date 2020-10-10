@@ -3,6 +3,7 @@ export * from "./utils/getJsonType";
 export * from "./utils/getPropertiesStores";
 export * from "./utils/getOperationsStores";
 export * from "./utils/getSpec";
+export * from "./utils/mergeSpec";
 export * from "./utils/generics";
 export * from "./utils/mapHeaders";
 export * from "./utils/isSuccessStatus";

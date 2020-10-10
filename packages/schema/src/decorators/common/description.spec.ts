@@ -169,8 +169,10 @@ describe("@Description", () => {
       method(@In("body") @Description("Description") payload: MyModel) {}
     }
 
+    const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+
     // THEN
-    expect(getSpec(MyController, {spec: SpecTypes.OPENAPI})).to.deep.equal({
+    expect(spec).to.deep.equal({
       components: {
         schemas: {
           MyModel: {
