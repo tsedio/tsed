@@ -4644,8 +4644,8 @@
     <testcase name="JsonSchema Combining Schema allOf should create a new jsonSchema" time="0.0030" classname="should create a new jsonSchema">
     </testcase>
   </testsuite>
-  <testsuite name="oneOf" timestamp="2020-10-09T18:19:56" tests="1" file="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/schema/src/domain/JsonSchema.spec.ts" time="0.0030" failures="0">
-    <testcase name="JsonSchema Combining Schema oneOf should create a new jsonSchema" time="0.0030" classname="should create a new jsonSchema">
+  <testsuite name="schemesReducer" timestamp="2020-10-09T18:19:56" tests="1" file="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/schema/src/domain/JsonSchema.spec.ts" time="0.0030" failures="0">
+    <testcase name="JsonSchema Combining Schema schemesReducer should create a new jsonSchema" time="0.0030" classname="should create a new jsonSchema">
     </testcase>
   </testsuite>
   <testsuite name="not" timestamp="2020-10-09T18:19:56" tests="1" file="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/schema/src/domain/JsonSchema.spec.ts" time="0.0030" failures="0">
@@ -5176,7 +5176,7 @@
     <testcase name="SwaggerModule $onReady should display the right log" time="0.0010" classname="should display the right log">
     </testcase>
   </testsuite>
-  <testsuite name="parseSwaggerPath()" timestamp="2020-10-09T18:19:57" tests="6" file="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/getReducers.spec.ts" time="0.0010" failures="0">
+  <testsuite name="parseSwaggerPath()" timestamp="2020-10-09T18:19:57" tests="6" file="/Users/romainlenzotti/workspace/ts-projects/ts-express-decorators/packages/swagger/src/utils/mergeSpec.spec.ts" time="0.0010" failures="0">
     <testcase name="parseSwaggerPath() should return params and path(1)" time="0.0000" classname="should return params and path(1)">
     </testcase>
     <testcase name="parseSwaggerPath() should return params and path(2)" time="0.0010" classname="should return params and path(2)">
