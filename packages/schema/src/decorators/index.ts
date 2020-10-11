@@ -14,12 +14,15 @@ export * from "./generics/genericOf";
 // operations
 export * from "./operations/deprecated";
 export * from "./operations/consumes";
+export * from "./operations/contentType";
 export * from "./operations/in";
 export * from "./operations/operationId";
 export * from "./operations/operationPath";
 export * from "./operations/path";
 export * from "./operations/produces";
 export * from "./operations/returns";
+export * from "./operations/status";
+export * from "./operations/header";
 export * from "./operations/security";
 export * from "./operations/tags";
 export * from "./operations/summary";
