@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 export enum HandlerType {
   CUSTOM = "custom",
   ENDPOINT = "endpoint",

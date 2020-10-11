@@ -2,9 +2,6 @@ import {ConnectionOptions, getConnectionManager} from "typeorm";
 
 const connections = new Map();
 
-/**
- * @ignore
- */
 export async function createConnection(connectionOptions: ConnectionOptions) {
   const connectionManager = getConnectionManager();
   const name = connectionOptions.name!;

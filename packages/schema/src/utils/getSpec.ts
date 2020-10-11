@@ -42,8 +42,14 @@ export interface OS2SpecSerializerOptions extends SpecSerializerOptions {
   specType: SpecTypes.SWAGGER;
 }
 
+/**
+ * @ignore
+ */
 const caches: Map<Type<any>, Map<string, any>> = new Map();
 
+/**
+ * @ignore
+ */
 function get(model: Type<any>, options: any, cb: any) {
   if (!caches.has(model)) {
     caches.set(model, new Map());

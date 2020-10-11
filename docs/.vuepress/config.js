@@ -257,7 +257,6 @@ module.exports = {
           "/tutorials/throw-http-exceptions",
           "/tutorials/not-found-page",
           "/tutorials/aws",
-          "/tutorials/jest",
           "/tutorials/seq",
           "/docs/controllers",
           "/docs/providers",

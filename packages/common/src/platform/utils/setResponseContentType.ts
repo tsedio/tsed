@@ -1,6 +1,9 @@
 import {PlatformContext} from "../domain/PlatformContext";
 import {isObject} from "@tsed/core";
 
+/**
+ * @ignore
+ */
 export function setResponseContentType(data: any, ctx: PlatformContext) {
   const {endpoint, response} = ctx;
   const {operation} = endpoint;

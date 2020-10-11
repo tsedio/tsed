@@ -1,5 +1,10 @@
 import {PlatformContext, PlatformExceptions} from "@tsed/common";
 
+/**
+ * @ignore
+ * @param ctx
+ * @param next
+ */
 export async function resourceNotFoundMiddleware(ctx: any, next: any) {
   const $ctx: PlatformContext = ctx.request.$ctx;
   await next();

@@ -3,6 +3,9 @@ import * as Passport from "passport";
 import {PassportSerializerService} from "./services/PassportSerializerService";
 import {ProtocolsService} from "./services/ProtocolsService";
 
+/**
+ * @ignore
+ */
 @Module({
   scope: ProviderScope.SINGLETON
 })

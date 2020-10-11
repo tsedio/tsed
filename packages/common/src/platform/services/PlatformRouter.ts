@@ -1,5 +1,4 @@
-import {Env} from "@tsed/core";
-import {Constant, Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
 import {promisify} from "util";
 import {PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "../../config";
 import {PathParamsType} from "../../mvc/interfaces/PathParamsType";
@@ -7,6 +6,9 @@ import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces/
 import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformHandler} from "./PlatformHandler";
 
+/**
+ * @ignore
+ */
 export const PLATFORM_ROUTER_OPTIONS = Symbol.for("PlatformRouterOptions");
 
 declare global {

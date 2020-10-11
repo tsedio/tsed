@@ -3,10 +3,16 @@ import {InjectorService} from "@tsed/di";
 import {HandlerMetadata} from "../../mvc/models/HandlerMetadata";
 import {PlatformContext} from "./PlatformContext";
 
+/**
+ * @ignore
+ */
 function isResponse(obj: any) {
   return obj.data && obj.headers && obj.status && obj.statusText;
 }
 
+/**
+ * @ignore
+ */
 export interface HandlerContextOptions {
   $ctx: PlatformContext;
   metadata: HandlerMetadata;
@@ -14,6 +20,9 @@ export interface HandlerContextOptions {
   err?: any;
 }
 
+/**
+ * @ignore
+ */
 export enum HandlerContextStatus {
   PENDING = "pending",
   CANCELED = "canceled",

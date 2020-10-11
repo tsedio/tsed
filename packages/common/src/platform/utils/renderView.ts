@@ -1,6 +1,9 @@
 import {TemplateRenderError} from "../errors/TemplateRenderError";
 import {PlatformContext} from "../domain/PlatformContext";
 
+/**
+ * @ignore
+ */
 export async function renderView(data: any, ctx: PlatformContext) {
   const {response, endpoint} = ctx;
   try {

@@ -2,6 +2,10 @@ import {PlatformStaticsOptions} from "@tsed/common";
 import type {Context} from "koa";
 import * as send from "koa-send";
 
+/**
+ * @ignore
+ * @param options
+ */
 export function staticsMiddleware(options: PlatformStaticsOptions): any {
   if (options.index !== false) options.index = options.index || "index.html";
 

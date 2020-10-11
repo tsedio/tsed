@@ -1,10 +1,9 @@
 import {PropertyMetadata} from "@tsed/common";
-import {Store, Type} from "@tsed/core";
+import {cleanObject, Store, Type} from "@tsed/core";
 import * as mongoose from "mongoose";
 import {SchemaDefinition, SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
-import {cleanProps} from "./cleanProps";
 import {resolveRefType} from "./resolveRefType";
 import {schemaOptions} from "./schemaOptions";
 
@@ -44,6 +43,11 @@ export function createSchema(target: Type<any>, options: MongooseSchemaOptions =
   return schema;
 }
 
+/**
+ * Get a schema already created. If the schema doesn't exists in registry, it'll be created.
+ * @param target
+ * @param options
+ */
 export function getSchema(target: Type<any>, options: MongooseSchemaOptions = {}): mongoose.Schema {
   const store = Store.from(target);
 
@@ -128,7 +132,7 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
     schemaTypeOptions = {...schemaTypeOptions, type: getSchema(propertyMetadata.type)};
   }
 
-  schemaTypeOptions = cleanProps({...schemaTypeOptions, ...rawMongooseSchema});
+  schemaTypeOptions = cleanObject({...schemaTypeOptions, ...rawMongooseSchema});
 
   if (propertyMetadata.isCollection) {
     if (propertyMetadata.isArray) {

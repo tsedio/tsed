@@ -5,6 +5,14 @@ import {getSpecType} from "./getSpecType";
 import {mapOpenSpec2} from "./mapOpenSpec2";
 import {mapOpenSpec3} from "./mapOpenSpec3";
 
+/**
+ * @ignore
+ * @param spec
+ * @param fileSpec
+ * @param version
+ * @param acceptMimes
+ * @param specVersion
+ */
 export function mapOpenSpec(spec: any, {fileSpec, version, acceptMimes, specVersion}: any): Partial<OpenSpec2 | OpenSpec3> {
   specVersion = specVersion || getValue<OpenSpecVersions>(spec, "openapi", getValue(spec, "swagger", "2.0"));
 

@@ -27,10 +27,16 @@ import {
   setLoggerLevel
 } from "../utils";
 
+/**
+ * @ignore
+ */
 export interface PlatformType<T = any> extends Type<T> {
   providers: IProvider[];
 }
 
+/**
+ * @ignore
+ */
 export interface PlatformBootstrap {
   bootstrap(module: Type<any>, settings?: Partial<TsED.Configuration>): Promise<PlatformBuilder>;
 }

@@ -1,12 +1,25 @@
-import {DecoratorParameters} from "../interfaces";
 import {deepClone, deepExtends, descriptorOf, getDecoratorType, isSymbol, nameOf} from "../utils";
 import {Metadata} from "./Metadata";
 
+/**
+ * @ignore
+ */
 export const CLASS_STORE = "tsed:class:store";
+/**
+ * @ignore
+ */
 export const METHOD_STORE = "tsed:method:store";
+/**
+ * @ignore
+ */
 export const PROPERTY_STORE = "tsed:property:store";
+/**
+ * @ignore
+ */
 export const PARAM_STORE = "tsed:param:store";
-
+/**
+ * @ignore
+ */
 export type StoreMap = Map<string, any>;
 
 const stores = new Map<symbol, any>();
