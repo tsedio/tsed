@@ -1,5 +1,5 @@
-import {$log, BodyParams, Controller, Get, Post, Session, Status} from "@tsed/common";
-
+import {$log, BodyParams, Controller, Get, Post, Session} from "@tsed/common";
+import {Status} from "@tsed/schema";
 @Controller("/")
 export class RestCtrl {
   @Get("/whoami")

@@ -1,23 +1,18 @@
 import {
-  Authenticated,
   BodyParams,
   Controller,
   Delete,
   Get,
-  MergeParams,
   PathParams,
   Post,
   Put,
-  Required,
-  Status
 } from "@tsed/common";
+import {Status, Required} from "@tsed/schema";
 import {NotFound} from "@tsed/exceptions";
 import {Event} from "../../interfaces/Event";
 import {Task} from "../../interfaces/Task";
 
-
 @Controller("/:calendarId/events")
-@MergeParams(true)
 export class EventsCtrl {
   private AUTO_INC = 5;
   private events: Event[] = require("../../../resources/events.json");
@@ -96,7 +91,6 @@ export class EventsCtrl {
    *
    */
   @Delete("/:id")
-  @Authenticated()
   @Status(204)
   async remove(@Required() @PathParams("calendarId") calendarId: string,
                @PathParams("id") id: string): Promise<Event> {
