@@ -1,4 +1,5 @@
-import {Header as H} from "@tsed/schema";
+import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
+import {Returns} from "./returns";
 
 /**
  * Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.
@@ -46,8 +47,11 @@ import {Header as H} from "@tsed/schema";
  * @decorator
  * @operation
  * @response
- * @ignore
- * @deprecated Since v6. Use @Header from @tsed/schema.
- * @ignore
  */
-export const Header = H;
+export function Header(headers: string | number | JsonHeaders, value?: string | number | JsonHeader): Function {
+  if (value !== undefined) {
+    headers = {[headers as string]: value};
+  }
+
+  return Returns().Headers(headers as JsonHeaders);
+}
