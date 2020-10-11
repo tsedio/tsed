@@ -1,19 +1,20 @@
 import {Controller, Get, Next, Req, Res} from "@tsed/common";
 import * as Express from "express";
+import {promisify} from "util";
 
 @Controller("/calendars")
 export class CalendarCtrl {
   @Get("/:id")
-  get(
+  async get(
     @Req() request: Express.Request,
     @Res() response: Express.Response,
     @Next() next: Express.NextFunction
-  ): void {
+  ) {
     setTimeout(() => {
-      response
-        .status(200)
-        .send({id: request.params.id, name: "test"});
-      next();
+      myExpressMiddleware(request, response, next)
     });
+
+    // But it's also possible to do this
+    await promisify(myExpressMiddleware)(request, response)
   }
 }

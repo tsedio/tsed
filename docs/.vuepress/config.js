@@ -111,8 +111,7 @@ module.exports = {
             collapsable: true,
             children: [
               "/getting-started/migration-from-v5",
-              "/getting-started/migrate-from-express",
-              "/getting-started/migrate-from-koa"
+              "/getting-started/migrate-from-express"
             ]
           },
           {

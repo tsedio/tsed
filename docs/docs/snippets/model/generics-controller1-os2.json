@@ -1,0 +1,53 @@
+{
+  "definitions": {
+    "Product": {
+      "properties": {
+        "title": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    },
+    "Submission": {
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "data": {
+          "$ref": "#/definitions/Product"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "tags": [
+    {
+      "name": "MyController"
+    }
+  ],
+  "paths": {
+    "/": {
+      "post": {
+        "operationId": "myControllerMethod",
+        "tags": [
+          "MyController"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "required": false,
+            "schema": {
+              "$ref": "#/definitions/Submission"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  }
+}
