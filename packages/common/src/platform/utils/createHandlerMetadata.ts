@@ -8,6 +8,9 @@ function isMetadata(input: any) {
   return input instanceof HandlerMetadata;
 }
 
+/**
+ * @ignore
+ */
 export function createHandlerMetadata(
   injector: InjectorService,
   obj: any | EndpointMetadata,

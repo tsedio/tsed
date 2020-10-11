@@ -1,5 +1,9 @@
 import {PlatformContext} from "@tsed/common";
 
+/**
+ * @ignore
+ * @param path
+ */
 export function redirectMiddleware(path: string) {
   return (ctx: PlatformContext) => {
     if (ctx.request.url === path && !ctx.request.url.match(/\/$/)) {

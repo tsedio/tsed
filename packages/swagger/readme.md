@@ -32,9 +32,16 @@ const rootDir = resolve(__dirname)
 
 @Configuration({
   rootDir,
-  swagger: [{
-    path: "/api-docs"
-  }]
+  swagger: [
+    {
+     path: "/v2/docs",
+     specVersion: "2.0"
+    },
+    {
+     path: "/v3/docs",
+     specVersion: "3.0.1"
+    }
+  ]
 })
 export class Server {
 

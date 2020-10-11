@@ -1,7 +1,7 @@
 # Platform API
 
 Ts.ED use now, the Platform API to create an application. Platform API give an abstraction layer between your code written with Ts.ED and the [Express.js](https://expressjs.com/fr/) code. 
-It means, a large part of your code isn't coupled with Express itself and can be used with another Platform like [Koa.js](https://koajs.com/) in future (Ts.ED v6).
+It means, a large part of your code isn't coupled with Express.js itself and can be used with another Platform like [Koa.js](https://koajs.com/). 
 
 There are some changes between ServerLoader API (v4/v5) and Platform API (v5.56.0+/v6), to get the original Express Application, Request or Response.
 This page will describe how you can get these instance with the new API. 
@@ -19,7 +19,7 @@ This page will describe how you can get these instance with the new API.
 
 ## Create application
 
-The way to create Ts.ED application, add [middlewares](/docs/middlewares.html), configure Express.Application are impacted by the new Platform API.
+The way to create Ts.ED application, add [middlewares](/docs/middlewares.html), configure Express or Koa are impacted by the new Platform API.
 
 If you use @@ServerLoader@@, you'll probably know this example to create a Ts.ED application:
 
@@ -71,7 +71,10 @@ export const rootDir = __dirname;
 
 @Configuration({
   rootDir,
-  viewsDir: `${rootDir}/views`
+  views: {
+    root: `${rootDir}/views`,
+    viewEngine: 'ejs'
+  }
 })
 export class Server {
   @Constant("viewsDir")
@@ -90,10 +93,6 @@ export class Server {
      .use(bodyParser.urlencoded({
        extended: true
      }));
-  
-    // configure express app
-    this.app.raw.set("views", this.viewsDir);
-    this.app.raw.engine("ejs", ejs);
   }
 }
 ```

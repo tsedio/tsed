@@ -3,7 +3,7 @@ import {IDIResolver, ProviderScope, ProviderType, TokenProvider} from "../interf
 import {Configuration} from "./configuration";
 import {Injectable} from "./injectable";
 
-export interface IModuleOptions extends Omit<TsED.Configuration, "scopes"> {
+export interface ModuleOptions extends Omit<TsED.Configuration, "scopes"> {
   /**
    * Provider scope
    */
@@ -38,7 +38,7 @@ export interface IModuleOptions extends Omit<TsED.Configuration, "scopes"> {
  * @param options
  * @decorator
  */
-export function Module(options: Partial<IModuleOptions> = {}) {
+export function Module(options: Partial<ModuleOptions> = {}) {
   const {scopes, imports, resolvers, deps, scope, ...configuration} = options;
 
   return applyDecorators(

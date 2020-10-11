@@ -2,6 +2,13 @@ import {getValue, uniq} from "@tsed/core";
 import {OpenSpec2} from "@tsed/openspec";
 import {mapOpenSpecInfo} from "./mapOpenSpecInfo";
 
+/**
+ * @ignore
+ * @param spec
+ * @param version
+ * @param specVersion
+ * @param acceptMimes
+ */
 export function mapOpenSpec2(
   spec: Partial<OpenSpec2>,
   {version, specVersion, acceptMimes = ["application/json"]}: any

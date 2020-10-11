@@ -78,15 +78,15 @@ We can use this model with a Controller like that:
 
 ## EntityRepository
 
-TypeORM provides EntityRepository to manipulate an Entity. TsED provides a decorator to declare @@EntityRepository@@
-for both TypeORM and Ts.ED. This decorator is useful if you have to inject the repository to another Ts.ED service, controller or provider.
+You can create a custom repository which should contain methods to work with your database. 
+Usually custom repositories are created for a single entity and contains its specific queries.
+For example, let's say we want to have a method called `findByName(firstName: string, lastName: string)` which will search for users by a given first and last names. 
+The best place for this method is in Repository, so we could call it like `userRepository.findByName(...)`. 
+You can achieve this using custom repositories.
 
-::: tip 
-Since v5.39.1, it isn't necessary to use EntityRepository from Ts.ED. The TypeORM DI is used by Ts.ED DI to resolve 
-injected repository to another class annotated with @@Service@@, @@Module@@, @@Middleware@@, @@Protocol@@, etc...
-:::
+`@tsed/typeorm` plugin configures the DI so that repositories declared for TypeORM can be injected into a Ts.ED controller or service
 
-Here is a quick example:
+The first way to create a custom repository is to extend Repository. Example:
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-entity-repository.ts
 
@@ -97,3 +97,17 @@ Then inject your repository to another service:
 ::: tip
 Use @@UseConnection@@ decorator to select which database connection the injected repository should be used (require Ts.ED v5.58.0+).
 :::
+
+## Author 
+
+<GithubContributors :users="['Romakita']"/>
+
+## Maintainers <Badge text="Help wanted" />
+
+<GithubContributors :users="['Romakita']"/>
+
+<div class="container--centered container--padded">
+<a href="/contributing.html" class="nav-link button">
+ Become maintainer
+</a>
+</div>

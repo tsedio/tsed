@@ -1,5 +1,5 @@
 /**
- *
+ * @ignore
  */
 export enum SocketReturnsTypes {
   BROADCAST = "broadcast",

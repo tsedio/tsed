@@ -1,23 +1,35 @@
 import {classOf, deepExtends, isArray, isObject} from "@tsed/core";
-import {SpecTypes} from "../domain/SpecTypes";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonSchema} from "../domain/JsonSchema";
+import {SpecTypes} from "../domain/SpecTypes";
 import {alterIgnore} from "../hooks/ignoreHook";
 import {JsonSchemaOptions} from "../interfaces";
 import {GenericsContext, mapGenericsOptions, popGenerics} from "./generics";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 
+/**
+ * @ignore
+ */
 const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics"];
 
+/**
+ * @ignore
+ */
 function isEmptyProperties(key: string, value: any) {
   return typeof value === "object" && ["items", "properties", "additionalProperties"].includes(key) && Object.keys(value).length === 0;
 }
 
+/**
+ * @ignore
+ */
 function shouldMapAlias(key: string, value: any, useAlias: boolean) {
   return typeof value === "object" && useAlias && ["properties", "additionalProperties"].includes(key);
 }
 
+/**
+ * @ignore
+ */
 function getRequired(schema: any, useAlias: boolean) {
   return Array.from(schema.$required).map((key) => (useAlias ? (schema.alias.get(key) as string) || key : key));
 }

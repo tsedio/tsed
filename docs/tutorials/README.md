@@ -29,7 +29,7 @@ projects:
    src: /azure.png   
 meta:
  - name: description
-   content: Start a new REST application with Ts.ED framework. Ts.ED is built on top of Express and use TypeScript language.
+   content: Start a new REST application with Ts.ED framework. Ts.ED is built on top of Express/Koa and use TypeScript language.
  - name: keywords
    content: examples kits starters ts.ed express typescript node.js javascript decorators mvc class models
 ---

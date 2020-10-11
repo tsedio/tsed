@@ -1,6 +1,9 @@
 import * as Koa from "koa";
 import {promisify} from "util";
 
+/**
+ * @ignore
+ */
 function createRawMiddleware(middleware: any) {
   return async (request: Koa.Request) => {
     const ctx: any = request.ctx;
@@ -27,6 +30,9 @@ function createRawMiddleware(middleware: any) {
   };
 }
 
+/**
+ * @ignore
+ */
 function makePromise(multer: any, name: string) {
   // istanbul ignore next
   if (!multer[name]) return;
@@ -40,6 +46,9 @@ function makePromise(multer: any, name: string) {
   };
 }
 
+/**
+ * @ignore
+ */
 export function getMulter(options: any) {
   const m = require("multer")(options);
 

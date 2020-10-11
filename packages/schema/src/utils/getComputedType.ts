@@ -11,6 +11,9 @@ import {
   Type
 } from "@tsed/core";
 
+/**
+ * @ignore
+ */
 export function getComputedType(target: any): Type<any> {
   if (isPromise(target)) {
     return Object;

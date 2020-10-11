@@ -2,6 +2,10 @@ import {PlatformContext} from "@tsed/common";
 import * as Fs from "fs";
 import {resolve} from "path";
 
+/**
+ * @ignore
+ * @param path
+ */
 export function cssMiddleware(path: string) {
   return (ctx: PlatformContext) => {
     const content = Fs.readFileSync(resolve(path), {encoding: "utf8"});

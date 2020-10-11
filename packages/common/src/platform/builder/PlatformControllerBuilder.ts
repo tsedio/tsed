@@ -8,10 +8,16 @@ import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
 import {PlatformRouter} from "../services/PlatformRouter";
 import {useCtxHandler} from "../utils/useCtxHandler";
 
+/**
+ * @ignore
+ */
 function formatMethod(method: string | undefined) {
   return (method === OperationMethods.CUSTOM ? "use" : method || "use").toLowerCase();
 }
 
+/**
+ * @ignore
+ */
 export class PlatformControllerBuilder {
   constructor(private provider: ControllerProvider) {}
 

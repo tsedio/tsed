@@ -9,6 +9,9 @@ function toHeaders(headers: {[key: string]: any}) {
   }, {});
 }
 
+/**
+ * @ignore
+ */
 export function setResponseHeaders(ctx: PlatformContext) {
   const {response, endpoint} = ctx;
   const {operation} = endpoint;

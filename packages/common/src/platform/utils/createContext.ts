@@ -11,6 +11,7 @@ const defaultReqIdBuilder = () => uuidv4().replace(/-/gi, "");
  * @param injector
  * @param req
  * @param res
+ * @ignore
  */
 export async function createContext(injector: InjectorService, req: any, res: any): Promise<PlatformContext> {
   const {level, ignoreUrlPatterns, maxStackSize, reqIdBuilder = defaultReqIdBuilder} = injector.settings.logger;

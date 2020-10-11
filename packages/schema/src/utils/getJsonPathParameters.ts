@@ -1,3 +1,6 @@
+/**
+ * @ignore
+ */
 function getVariable(subpath: string) {
   const splited = subpath.split(".");
   const name = splited.splice(0, 1)[0];

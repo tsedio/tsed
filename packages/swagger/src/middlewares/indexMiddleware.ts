@@ -1,6 +1,11 @@
 import {PlatformContext} from "@tsed/common";
 import {SwaggerSettings} from "../interfaces/SwaggerSettings";
 
+/**
+ * @ignore
+ * @param viewPath
+ * @param conf
+ */
 export function indexMiddleware(viewPath: string, conf: SwaggerSettings & {urls: string[]}) {
   return async (ctx: PlatformContext) => {
     const {path = "/", options = {}, showExplorer, cssPath, jsPath, urls} = conf;

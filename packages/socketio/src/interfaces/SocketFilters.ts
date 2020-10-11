@@ -1,5 +1,5 @@
 /**
- *
+ * @ignore
  */
 export enum SocketFilters {
   ARGS = "args",

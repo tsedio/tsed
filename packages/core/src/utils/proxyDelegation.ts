@@ -1,8 +1,22 @@
+/**
+ * @ignore
+ */
 export type ProxyDelegationGetter<T = any> = (target: T, property: PropertyKey) => any | undefined;
+/**
+ * @ignore
+ */
 export type ProxyDelegationRemove<T = any> = (target: T, property: PropertyKey) => any;
+/**
+ * @ignore
+ */
 export type ProxyDelegationSetter<T = any> = (target: T, property: PropertyKey, value: any, receiver: any) => any;
+/**
+ * @ignore
+ */
 export type ProxyDelegationOwnKeys<T = any> = (target: T) => PropertyKey[];
-
+/**
+ * @ignore
+ */
 export interface ProxyDelegation<T extends object> {
   handlers?: ProxyHandler<T>;
   getter?: ProxyDelegationGetter<T>;
@@ -15,6 +29,7 @@ export interface ProxyDelegation<T extends object> {
  * Create a complete and iterable trap.
  * @param self
  * @param options
+ * @ignore
  */
 export function proxyDelegation<T extends object = any>(self: any, options: ProxyDelegation<T> = {}) {
   const {handlers = {}, remove, ownKeys} = options;

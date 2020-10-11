@@ -4,23 +4,24 @@ layout: home
 pageClass: homepage
 meta:
  - name: description
-   content: A Node.js and TypeScript Framework on top of Express. Ts.ED is a framework on top of Express to write your application with TypeScript (or ES6). It provides a lot of decorators and guideline to make your code more readable and less error-prone.
+   content: A Node.js and TypeScript Framework on top of Express/Koa.js. Ts.ED is a framework on top of Express/Koa to write your application with TypeScript (or ES6). It provides a lot of decorators and guideline to make your code more readable and less error-prone.
  - name: keywords
    content: Ts.ED nodejs express typescript javascript es6 decorators mvc model ioc service model middleware socket.io swagger typeorm mongoose ajv
 actionText: Get Started →
-actionLink: /getting-started.html
+actionLink: /getting-started/
 repoText: Github
 repoLink: https://github.com/TypedProject/tsed
 heroText: Ts.ED
-heroDescription: A Node.js and TypeScript Framework on top of Express
+heroDescription: Build your awesome server-side application!
 heroTerms:
+- Express/Koa
 - Decorators
 - Rest API
 - Dependency Injection
 - Controller
 testimonial:
   title: What is it ?
-  details: Ts.ED is a Node.js and TypeScript framework on top of Express to write your application with TypeScript (or ES6). It provides a lot of decorators and guideline to make your code more readable and less error-prone.
+  details: Ts.ED is a Node.js and TypeScript framework on top of Express/Koa to write your application with TypeScript (or ES6). It provides a lot of decorators and guideline to make your code more readable and less error-prone.
 features:
 - title: Rest API
   details: Create your Rest API easily and create different version paths of your API
