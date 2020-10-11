@@ -1,5 +1,5 @@
 import {useDecorators} from "@tsed/core";
-import {Status} from "./status";
+import {Status} from "@tsed/schema";
 import {EndpointFn} from "./endpointFn";
 
 /**

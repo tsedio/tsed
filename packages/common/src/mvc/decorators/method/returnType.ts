@@ -1,12 +1,14 @@
 import {MetadataTypes, Type} from "@tsed/core";
+import {OS3Header} from "@tsed/openspec";
 import {Returns as R, ReturnsChainedDecorators} from "@tsed/schema";
 
 /**
  * @deprecated Since v6.
  * @ignore
  */
-export interface ReturnTypeHeader {
+export interface ReturnTypeHeader extends OS3Header {
   value?: string | number;
+  type?: string;
 }
 
 /**
@@ -70,6 +72,7 @@ function mapStatusResponseOptions(args: any[]): any {
  * @operation
  * @response
  * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ * @ignore
  */
 export function ReturnType(response: Partial<ReturnTypeOptions> = {}): ReturnsChainedDecorators {
   const {code = "default", collectionType, type, headers, description, examples, schema} = response;
