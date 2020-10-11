@@ -11,7 +11,7 @@ import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
 import {getNspSession} from "../registries/NspSessionRegistry";
 
 /**
- * @experimental
+ * @ignore
  */
 export class SocketHandlersBuilder {
   private socketProviderMetadata: ISocketProviderMetadata;

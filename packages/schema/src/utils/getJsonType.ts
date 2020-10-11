@@ -1,8 +1,7 @@
 import {isArrayOrArrayClass, isDate, isPrimitiveOrPrimitiveClass, primitiveOf} from "@tsed/core";
 
 /**
- *
- * @type {string[]}
+ * @ignore
  */
 export const JSON_TYPES = ["string", "number", "integer", "boolean", "object", "array", "null", "any"];
 

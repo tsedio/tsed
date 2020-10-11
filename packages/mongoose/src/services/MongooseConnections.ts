@@ -3,8 +3,14 @@ import {isArray} from "@tsed/core";
 import {MDBConnection} from "../interfaces";
 import {MongooseService} from "../services/MongooseService";
 
+/**
+ * @ignore
+ */
 // tslint:disable-next-line:variable-name
 export const MONGOOSE_CONNECTIONS = Symbol.for("MONGOOSE_CONNECTIONS");
+/**
+ * @ignore
+ */
 export type MONGOOSE_CONNECTIONS = MongooseService;
 
 function mapOptions(options: Omit<MDBConnection, "id"> | MDBConnection[]): MDBConnection[] {

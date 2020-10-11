@@ -3,6 +3,7 @@ import {Returns as R, ReturnsChainedDecorators} from "@tsed/schema";
 
 /**
  * @deprecated Since v6.
+ * @ignore
  */
 export interface ReturnTypeHeader {
   value?: string | number;
@@ -10,6 +11,7 @@ export interface ReturnTypeHeader {
 
 /**
  * @deprecated Since v6.
+ * @ignore
  */
 export interface ReturnTypeOptions extends Partial<MetadataTypes> {
   code?: number;

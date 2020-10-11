@@ -5,24 +5,36 @@ import {Type} from "@tsed/core";
  */
 export type GenericsMap = Map<string, Type<any>>;
 
+/**
+ * @ignore
+ */
 export interface GenericTypes {
   genericTypes: Type<any>[];
 
   [key: string]: any;
 }
 
+/**
+ * @ignore
+ */
 export interface GenericLabels {
   genericLabels: string[];
 
   [key: string]: any;
 }
 
+/**
+ * @ignore
+ */
 export interface NestedGenerics {
   nestedGenerics: Type<any>[][];
 
   [key: string]: any;
 }
 
+/**
+ * @ignore
+ */
 export interface GenericsContext extends GenericTypes, GenericLabels, NestedGenerics {
   generics: GenericsMap;
 }

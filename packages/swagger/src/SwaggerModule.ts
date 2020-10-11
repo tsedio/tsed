@@ -21,6 +21,9 @@ import {SwaggerService} from "./services/SwaggerService";
 
 const swaggerUiPath = require("swagger-ui-dist").absolutePath();
 
+/**
+ * @ignore
+ */
 @Module()
 export class SwaggerModule implements BeforeRoutesInit, OnReady {
   @Inject()

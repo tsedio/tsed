@@ -2,6 +2,9 @@ import {AfterListen, Configuration, Constant, InjectorService, Module, OnInit} f
 import {GraphQLSettings} from "./interfaces/GraphQLSettings";
 import {GraphQLService} from "./services/GraphQLService";
 
+/**
+ * @ignore
+ */
 @Module()
 export class GraphQLModule implements OnInit, AfterListen {
   @Constant("graphql", {})

@@ -6,6 +6,9 @@ import {ISocketProviderMetadata} from "./interfaces/ISocketProviderMetadata";
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "./registries/SocketServiceRegistry";
 import {SocketIOService} from "./services/SocketIOService";
 
+/**
+ * @ignore
+ */
 @Module()
 export class SocketIOModule implements AfterListen {
   @Constant("logger.disableRoutesSummary", false)
