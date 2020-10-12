@@ -17,7 +17,8 @@
     "emitDecoratorMetadata": true,
     "sourceMap": true,
     "declaration": false,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true
   },
   "include": [
     "./src/**/*.ts"

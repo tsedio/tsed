@@ -43,11 +43,17 @@ You can therefore use it for your projects without installing the whole framewor
 ::: tip See also
 New features are available:
 
-- Managing models using Typescript generics.
-- Management response models by content-type and status code (OAS3).
-- Add validation decorator on endpoint parameters.
+- [Managing models using Typescript generics](/docs/controllers.md#generics).
+- [Add validation decorator on endpoint parameters](/docs/controllers.md#validation)
+- [Management response models by content-type and status code (OAS3)](/tutorials/swagger.md).
 - [Configure swagger to generate OpenSpec3](/tutorials/swagger.md).
 
+:::
+
+::: warning
+These decorators have moved from `@tsed/common`/`@tsed/swagger` to `@tsed/schema`:
+
+<ApiList query="['Status', 'Header', 'ContentType', 'Returns'].includes(symbolName) || module === '@tsed/schema' && status.includes('decorator') && status.includes('schema')" />
 :::
 
 ### JsonMapper
@@ -264,3 +270,84 @@ target/baseType | JsonMapperCtx.type/JsonMapperCtx.collectionType | The types of
 See our [JsonMapper](/docs/converters.md#type-mapper) documentation page for details on Type mapper.
 
 :::
+
+### Status decorator
+
+@@Status@@ decorator from `@tsed/schema` is different from `@tsed/common`:
+
+<Tabs class="-code">
+  <Tab label="Before">
+
+```typescript
+import {Status, Controller, Get} from "@tsed/common";
+
+@Controller("/")
+class MyController {
+  @Get("/")
+  @Status(200, {
+    type: TypeC,
+    collectionType: Array,
+    description: "description",
+    headers: {
+      "x-header": {
+        type: "string"
+      }
+    }
+  })
+  get(){}
+}
+```  
+  
+  </Tab>
+  <Tab label="After">
+
+```typescript
+import {Controller, Get} from "@tsed/common";
+import {Status} from "@tsed/schema";
+
+@Controller("/")
+class MyController {
+  @Get("/")
+  @Status(200, Array).Of(TypeC).Description( "description").Header("x-header", {type: "string"})
+  get(){}
+}
+```    
+  
+  </Tab>
+</Tabs>
+
+### ReturnsArray decorator
+
+`ReturnsArray` is deprecated and will be remove in v7. You have to use @@Returns@@.
+
+<Tabs class="-code">
+  <Tab label="Before">
+
+```typescript
+import {ReturnsArray, Controller, Get} from "@tsed/common";
+
+@Controller("/")
+class MyController {
+  @Get("/")
+  @ReturnsArray(200, Model)
+  get(){}
+}
+```  
+  
+  </Tab>
+  <Tab label="After">
+
+```typescript
+import {Controller, Get} from "@tsed/common";
+import {Returns} from "@tsed/schema";
+
+@Controller("/")
+class MyController {
+  @Get("/")
+  @Returns(200, Array).Of(TypeC)
+  get(){}
+}
+```    
+  
+  </Tab>
+</Tabs>  

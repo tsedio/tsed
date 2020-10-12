@@ -1,6 +1,5 @@
-import {getSpec, SpecTypes} from "@tsed/schema";
+import {getSpec, OperationPath, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
-import {Get} from "../../../../src/mvc";
 import {Header} from "./header";
 
 describe("Header", () => {
@@ -9,7 +8,7 @@ describe("Header", () => {
       it("should set Header", () => {
         class MyController {
           @Header({"Content-Type": "application/json"})
-          @Get("/")
+          @OperationPath("GET", "/")
           test() {}
         }
 
@@ -49,7 +48,7 @@ describe("Header", () => {
     describe("with two params has object", () => {
       it("should set Header", () => {
         class MyController {
-          @Get("/")
+          @OperationPath("GET", "/")
           @Header("Content-Type", "application/json")
           test() {}
         }
@@ -90,7 +89,7 @@ describe("Header", () => {
     describe("with swagger params has object", () => {
       it("should set Header", () => {
         class MyController {
-          @Get("/")
+          @OperationPath("GET", "/")
           @Header({
             "Content-Type": "text/plain",
             "Content-Length": 123,

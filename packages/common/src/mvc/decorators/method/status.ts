@@ -15,23 +15,29 @@ import {ReturnType, ReturnTypeOptions} from "./returnType";
  * @operation
  * @response
  * @alias @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Status decorator from @tsed/schema
+ * @ignore
  */
 export function Status(code: number): ReturnsChainedDecorators;
 /**
  *
  * @param code
  * @param options
- * @deprecated Since v6.
+ * @deprecated Since v6. Use @Status decorator from @tsed/schema
+ * @ignore
  */
-export function Status(code: number, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
+export function Status(code: number, options: ReturnTypeOptions): ReturnsChainedDecorators;
 /**
  * Set the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
  *
  * @param code
- * @param options
- * @deprecated Since v6.
+ * @param obj
+ * @deprecated Since v6. Use @Status decorator from @tsed/schema
+ * @ignore
  */
-export function Status(code: number, options: Partial<ReturnTypeOptions> = {}): ReturnsChainedDecorators {
+export function Status(code: number, obj: any = {}): ReturnsChainedDecorators {
+  const options: Partial<ReturnTypeOptions> = obj;
+
   return ReturnType({
     ...options,
     code,

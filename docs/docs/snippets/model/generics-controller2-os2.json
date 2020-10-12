@@ -1,0 +1,58 @@
+{
+  "definitions": {
+    "Product": {
+      "properties": {
+        "title": {
+          "type": "string"
+        }
+      },
+      "type": "object"
+    }
+  },
+  "paths": {
+    "/": {
+      "post": {
+        "operationId": "myControllerMethod",
+        "parameters": [],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "description",
+            "schema": {
+              "properties": {
+                "data": {
+                  "items": {
+                    "properties": {
+                      "_id": {
+                        "type": "string"
+                      },
+                      "data": {
+                        "$ref": "#/definitions/Product"
+                      }
+                    },
+                    "type": "object"
+                  },
+                  "type": "array"
+                },
+                "totalCount": {
+                  "type": "number"
+                }
+              },
+              "type": "object"
+            }
+          }
+        },
+        "tags": [
+          "MyController"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "MyController"
+    }
+  ]
+}

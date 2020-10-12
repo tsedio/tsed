@@ -1,24 +1,20 @@
 import {
-  Authenticated,
   BodyParams,
   Controller,
   Delete,
   Get,
-  MergeParams,
   PathParams,
   Post,
   Put,
-  Required,
-  Status,
   UseBefore
 } from "@tsed/common";
+import {Status, Required} from "@tsed/schema";
 import {NotFound} from "@tsed/exceptions";
 import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
 import {Event} from "../../interfaces/Event";
 import {Task} from "../../interfaces/Task";
 
 @Controller("/:calendarId/events")
-@MergeParams(true)
 @UseBefore(CheckCalendarIdMiddleware)
 export class EventsCtrl {
   private AUTO_INC = 5;
@@ -80,7 +76,6 @@ export class EventsCtrl {
   }
 
   @Delete("/:id")
-  @Authenticated()
   @Status(204)
   async remove(@Required() @PathParams("calendarId") calendarId: string,
                @PathParams("id") id: string): Promise<void> {

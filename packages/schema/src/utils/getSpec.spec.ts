@@ -311,7 +311,7 @@ describe("getSpec()", () => {
           }
         });
       });
-      it("should declare all schema correctly (query - openapi3 - model)", async () => {
+      it("should declare all schema correctly (query -  openspec3 - model)", async () => {
         // WHEN
         class QueryModel {
           @Property()
@@ -429,7 +429,7 @@ describe("getSpec()", () => {
           }
         });
       });
-      it("should declare all schema correctly (query - openapi3 - array string)", async () => {
+      it("should declare all schema correctly (query -  openspec3 - array string)", async () => {
         // WHEN
         class Controller {
           @OperationPath("GET", "/:id")
@@ -527,7 +527,7 @@ describe("getSpec()", () => {
           }
         });
       });
-      it("should declare all schema correctly (query - openapi3 - Map)", async () => {
+      it("should declare all schema correctly (query -  openspec3 - Map)", async () => {
         // WHEN
         class Controller {
           @OperationPath("GET", "/:id")
@@ -636,7 +636,7 @@ describe("getSpec()", () => {
           }
         });
       });
-      it("should declare all schema correctly (model - openapi3)", async () => {
+      it("should declare all schema correctly (model -  openspec3)", async () => {
         class MyModel {
           @Property()
           prop: string;
@@ -929,7 +929,7 @@ describe("getSpec()", () => {
           }
         });
       });
-      it("should declare all schema correctly (inline - openapi3)", async () => {
+      it("should declare all schema correctly (inline -  openspec3)", async () => {
         class Controller {
           @Consumes("application/json")
           @OperationPath("POST", "/")
@@ -988,7 +988,7 @@ describe("getSpec()", () => {
           }
         });
       });
-      it("should declare all schema correctly (generics - openapi3)", () => {
+      it("should declare all schema correctly (generics - openspec2)", () => {
         // WHEN
         @Generics("T")
         class Submission<T> {
@@ -1130,6 +1130,240 @@ describe("getSpec()", () => {
           }
         });
       });
+      it("should declare all schema correctly (generics - openspec3)", () => {
+        // WHEN
+        @Generics("T")
+        class Submission<T> {
+          @Property()
+          _id: string;
+
+          @Property("T")
+          data: T;
+        }
+
+        class Product {
+          @Property()
+          title: string;
+        }
+
+        class Controller1 {
+          @OperationPath("POST", "/")
+          async method(@In("body") @GenericOf(Product) submission: Submission<Product>) {
+            return null;
+          }
+        }
+
+        // THEN
+        const spec1 = getSpec(Controller1, {specType: SpecTypes.OPENAPI});
+
+        expect(spec1).to.deep.equal({
+          components: {
+            schemas: {
+              Product: {
+                properties: {
+                  title: {
+                    type: "string"
+                  }
+                },
+                type: "object"
+              },
+              Submission: {
+                properties: {
+                  _id: {
+                    type: "string"
+                  },
+                  data: {
+                    $ref: "#/components/schemas/Product"
+                  }
+                },
+                type: "object"
+              }
+            }
+          },
+          paths: {
+            "/": {
+              post: {
+                operationId: "controller1Method",
+                parameters: [],
+                requestBody: {
+                  content: {
+                    "application/json": {
+                      schema: {
+                        $ref: "#/components/schemas/Submission"
+                      }
+                    }
+                  },
+                  required: false
+                },
+                responses: {
+                  "200": {
+                    description: "Success"
+                  }
+                },
+                tags: ["Controller1"]
+              }
+            }
+          },
+          tags: [
+            {
+              name: "Controller1"
+            }
+          ]
+        });
+      });
+      it("should declare all schema correctly (generics - nested - openspec3 and 2)", () => {
+        // WHEN
+        @Generics("T")
+        class Pagination<T> {
+          @CollectionOf("T")
+          data: T[];
+
+          @Property()
+          totalCount: number;
+        }
+
+        @Generics("T")
+        class Submission<T> {
+          @Property()
+          _id: string;
+
+          @Property("T")
+          data: T;
+        }
+
+        class Product {
+          @Property()
+          title: string;
+        }
+
+        class MyController {
+          @OperationPath("POST", "/")
+          @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
+          async method(): Promise<Pagination<Submission<Product>> | null> {
+            return null;
+          }
+        }
+
+        // THEN
+        const spec1 = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+
+        expect(spec1).to.deep.equal({
+          components: {
+            schemas: {
+              Product: {
+                properties: {
+                  title: {
+                    type: "string"
+                  }
+                },
+                type: "object"
+              }
+            }
+          },
+          paths: {
+            "/": {
+              post: {
+                operationId: "myControllerMethod",
+                parameters: [],
+                responses: {
+                  "200": {
+                    content: {
+                      "application/json": {
+                        schema: {
+                          properties: {
+                            data: {
+                              items: {
+                                properties: {
+                                  _id: {
+                                    type: "string"
+                                  },
+                                  data: {
+                                    $ref: "#/components/schemas/Product"
+                                  }
+                                },
+                                type: "object"
+                              },
+                              type: "array"
+                            },
+                            totalCount: {
+                              type: "number"
+                            }
+                          },
+                          type: "object"
+                        }
+                      }
+                    },
+                    description: "description"
+                  }
+                },
+                tags: ["MyController"]
+              }
+            }
+          },
+          tags: [
+            {
+              name: "MyController"
+            }
+          ]
+        });
+
+        const spec2 = getSpec(MyController, {specType: SpecTypes.SWAGGER});
+
+        expect(spec2).to.deep.equal({
+          definitions: {
+            Product: {
+              properties: {
+                title: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            }
+          },
+          paths: {
+            "/": {
+              post: {
+                operationId: "myControllerMethod",
+                parameters: [],
+                produces: ["application/json"],
+                responses: {
+                  "200": {
+                    description: "description",
+                    schema: {
+                      properties: {
+                        data: {
+                          items: {
+                            properties: {
+                              _id: {
+                                type: "string"
+                              },
+                              data: {
+                                $ref: "#/definitions/Product"
+                              }
+                            },
+                            type: "object"
+                          },
+                          type: "array"
+                        },
+                        totalCount: {
+                          type: "number"
+                        }
+                      },
+                      type: "object"
+                    }
+                  }
+                },
+                tags: ["MyController"]
+              }
+            }
+          },
+          tags: [
+            {
+              name: "MyController"
+            }
+          ]
+        });
+      });
     });
   });
 
@@ -1173,7 +1407,7 @@ describe("getSpec()", () => {
         }
       });
     });
-    it("should declare all schema correctly (openapi3)", async () => {
+    it("should declare all schema correctly ( openspec3)", async () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
@@ -1253,7 +1487,7 @@ describe("getSpec()", () => {
         }
       });
     });
-    it("should declare an Array of string (openapi3)", async () => {
+    it("should declare an Array of string ( openspec3)", async () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")

@@ -1,11 +1,10 @@
-import {ContentType, EndpointMetadata, Get} from "@tsed/common";
-import {getSpec} from "@tsed/schema";
+import {ContentType, getSpec, OperationPath} from "@tsed/schema";
 import {expect} from "chai";
 
 describe("ContentType", () => {
   it("should create middleware", () => {
     class Test {
-      @Get("/")
+      @OperationPath("GET", "/")
       @ContentType("application/json")
       test() {}
     }

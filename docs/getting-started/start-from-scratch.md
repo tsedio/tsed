@@ -18,7 +18,7 @@ You can get the latest version of Ts.ED using the following npm command:
   
 ```bash
 $ yarn add -D typescript @types/express
-$ yarn add express@4 @tsed/core @tsed/di @tsed/common
+$ yarn add -D express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json-mapper @tsed/exception @tsed/platform-express
 ```
 
   </Tab>
@@ -26,7 +26,7 @@ $ yarn add express@4 @tsed/core @tsed/di @tsed/common
   
 ```bash
 $ npm install --save-dev typescript @types/express
-$ npm install --save express@4 @tsed/core @tsed/di @tsed/common
+$ npm install --save express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @tsed/json-mapper @tsed/exception @tsed/platform-express
 ```
      
   </Tab>
@@ -73,7 +73,7 @@ To prevent errors, fix the version for each Ts.ED packages:
 :::
 
 ::: warning
-Ts.ED requires Node >= 10, Express >= 4, TypeScript >= 3.0 and 
+Ts.ED requires Node >= 10, Express >= 4, TypeScript >= 4.0.2 and 
 the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
 options in your `tsconfig.json` file.
 :::

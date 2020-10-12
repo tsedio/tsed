@@ -10,14 +10,12 @@ import {
   UseBefore
 } from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
-import {MergeParams} from "@tsed/platform-express";
 import {Required} from "@tsed/schema";
 import {Event} from "../../interfaces/Event";
 import {Task} from "../../interfaces/Task";
 import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
 
 @Controller("/:calendarId/events")
-@MergeParams(true)
 @UseBefore(CheckCalendarIdMiddleware)
 export class EventsCtrl {
   private AUTO_INC = 5;

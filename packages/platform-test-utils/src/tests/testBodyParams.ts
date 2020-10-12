@@ -1,4 +1,5 @@
-import {BodyParams, Controller, HeaderParams, PlatformTest, Post, Status} from "@tsed/common";
+import {BodyParams, Controller, HeaderParams, PlatformTest, Post} from "@tsed/common";
+import {Status} from "@tsed/schema";
 import {Required} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";

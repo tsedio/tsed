@@ -1,8 +1,7 @@
-import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, Status, UseBefore} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, UseBefore} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Authorize} from "@tsed/passport";
-import {MergeParams} from "@tsed/platform-express";
-import {Returns, Required} from "@tsed/schema";
+import {Status, Returns, Required} from "@tsed/schema";
 import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
 import {CalendarCreation} from "../../models/Calendar";
 import {Event, EventCreation} from "../../models/Event";
@@ -10,7 +9,6 @@ import {Task} from "../../models/Task";
 import {CalendarEventsService} from "../../services/events/CalendarEventsService";
 
 @Controller("/:calendarId/events")
-@MergeParams(true)
 @UseBefore(CheckCalendarIdMiddleware)
 export class EventsCtrl {
   constructor(private calendarEventsService: CalendarEventsService) {

@@ -11,6 +11,14 @@ npm install --save @tsed/ajv
 
 But, you can choose another library as model validator.
 
+## Data input validation
+
+Ts.ED support the data input validation with the decorators provided by `@tsed/schema`.
+
+Example:
+
+<<< @/docs/docs/snippets/controllers/request-input-validation.ts
+
 ## Custom Validation 
 
 Ts.ED allows you to change the default @@ValidationPipe@@ by your own library. The principle is simple.

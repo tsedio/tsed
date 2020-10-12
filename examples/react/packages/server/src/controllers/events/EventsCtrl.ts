@@ -1,13 +1,12 @@
-import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, Status, UseBefore} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, UseBefore} from "@tsed/common";
+import {Status} from "@tsed/schema";
 import {NotFound} from "@tsed/exceptions";
-import {MergeParams} from "@tsed/platform-express";
 import {Required} from "@tsed/schema";
 import {Event} from "../../interfaces/Event";
 import {Task} from "../../interfaces/Task";
 import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
 
 @Controller("/:calendarId/events")
-@MergeParams(true)
 @UseBefore(CheckCalendarIdMiddleware)
 export class EventsCtrl {
   private AUTO_INC = 5;

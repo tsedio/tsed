@@ -1,4 +1,4 @@
-import {ContentType as C} from "@tsed/schema";
+import {Returns} from "./returns";
 
 /**
  * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.
@@ -18,7 +18,7 @@ import {ContentType as C} from "@tsed/schema";
  * @operation
  * @response
  * @headers
- * @deprecated Since v6. Use @ContentType() from @tsed/schema.
- * @ignore
  */
-export const ContentType = C;
+export function ContentType(type: string) {
+  return Returns().ContentType(type);
+}

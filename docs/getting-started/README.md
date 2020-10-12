@@ -106,6 +106,67 @@ Features | Express.js  | Koa.js
 Compatibility for Koa.js with Passport.js is planed.
 :::
 
+
+## What's news ?
+### Platform API
+
+V6 marks a major evolution of the Ts.ED framework. 
+A lot of work has been done on the internal Ts.ED code since v5 in order to prepare the arrival of this new version. 
+This work was mainly oriented on the creation of an abstraction layer between the Ts.ED framework and Express.js.
+ 
+ The v5 introduced the [Platform API](/docs/platform-api.md) 
+and the v6 is the confirmation of this API which allows supporting [Express.js](https://expressjs.com/) and [Koa.js](https://koajs.com/) and many more in the future.
+
+We are glad this work resulted in the creation of the [@tsed/platform-express](/https://www.npmjs.com/package/@tsed/platform-express) and 
+[@tsed/platform-koa](/https://www.npmjs.com/package/@tsed/platform-koa).
+
+::: tip See also
+
+- Template engine: [Configure template engine with Platform API](/docs/templating.md).
+- Statics files: [Configure statics files with Platform API](/docs/serve-files.md).
+- Upload files: [Multer is now a part of @tsed/common](/docs/serve-files.md).
+
+:::
+
+### Schema and OpenSpec
+
+This release finally adds support for [OpenSpec 3](https://swagger.io/docs/specification/about/) while supporting 
+the previous version [Swagger2](https://swagger.io/docs/specification/2-0/basic-structure/). 
+The management of OpenSpec is at the heart of the framework as is [JsonSchema](https://json-schema.org/).
+
+All decorators related to the declaration of schema, routes and endpoints are now integrated in a single module [`@tsed/schema`](https://www.npmjs.com/package/@tsed/schema).
+This module has been designed to be used independently of the Ts.ED framework. 
+You can therefore use it for your projects without installing the whole framework!
+
+::: tip See also
+New features are available:
+
+- [Managing models using Typescript generics](/docs/controllers.md#generics).
+- [Add validation decorator on endpoint parameters](/docs/controllers.md#validation)
+- [Management response models by content-type and status code (OAS3)](/tutorials/swagger.md).
+- [Configure swagger to generate OpenSpec3](/tutorials/swagger.md).
+
+:::
+
+### JsonMapper
+
+In the same idea, the convertersService code was taken out of the [`@tsed/common`](https://www.npmjs.com/package/@tsed/common) module
+ to the new [`@tsed/json-mapper`](https://www.npmjs.com/package/@tsed/json-mapper) module.
+ It's based on the [`@tsed/schema`](https://www.npmjs.com/package/@tsed/schema) module to perform the mapping of your classes 
+ to a Plain Object JavaScript object and vice versa.
+ 
+You can therefore use it for your projects without installing the whole framework!
+
+::: tip See also
+
+- @@Ignore@@ decorator accept a callback to define when the property should be ignored!
+- @@serialize@@ and @@deserialize@@ function can be used in place of @@ConverterService@@.
+- `@Converter` have been replaced in favor of @@JsonMapper@@. See our [migration guide](/gettings-started/migration-from-v5.md#converter-to-jsonmapper).
+
+:::
+
+See our [migration guide](/getting-started/migration-from-v5.md) for more details.
+
 ## Installation
 
 To get started, you can either scaffold the project with the Ts.ED CLI, or clone a starter project.
@@ -129,10 +190,9 @@ Alternatively, you can checkout one of these projects:
 
 If none of previous solutions aren't satisfying maybe you are in these cases:
 
+- [I want to create application from scratch](/getting-started/from-scratch.md)
 - [I want to migrate my application from Ts.ED v5](/getting-started/migration-from-v5.md)
 - [I want to migrate my application from Express.js](/getting-started/migrate-from-express.md)
-- [I want to migrate my application from Koa.js](/getting-started/migrate-from-koa.md)
-- [I want to create application from scratch](/getting-started/from-scratch.md)
 
 ## What's next?
 

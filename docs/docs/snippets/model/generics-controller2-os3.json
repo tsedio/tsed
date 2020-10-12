@@ -1,0 +1,61 @@
+{
+  "components": {
+    "schemas": {
+      "Product": {
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  },
+  "paths": {
+    "/": {
+      "post": {
+        "operationId": "myControllerMethod",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "properties": {
+                    "data": {
+                      "items": {
+                        "properties": {
+                          "_id": {
+                            "type": "string"
+                          },
+                          "data": {
+                            "$ref": "#/components/schemas/Product"
+                          }
+                        },
+                        "type": "object"
+                      },
+                      "type": "array"
+                    },
+                    "totalCount": {
+                      "type": "number"
+                    }
+                  },
+                  "type": "object"
+                }
+              }
+            },
+            "description": "description"
+          }
+        },
+        "tags": [
+          "MyController"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "MyController"
+    }
+  ]
+}
