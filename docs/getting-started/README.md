@@ -107,7 +107,7 @@ Compatibility for Koa.js with Passport.js is planed.
 :::
 
 
-## What's news ?
+## What's new ?
 ### Platform API
 
 V6 marks a major evolution of the Ts.ED framework. 

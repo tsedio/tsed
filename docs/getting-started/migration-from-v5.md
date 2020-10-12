@@ -9,7 +9,7 @@ meta:
    content: migration getting started ts.ed express typescript node.js javascript decorators mvc class models
 ---
 # Migrate from v5
-## What's news ?
+## What's new ?
 ### Platform API
 
 V6 marks a major evolution of the Ts.ED framework. 
@@ -140,7 +140,7 @@ See our [Platform API](/docs/platform-api.md) documentation page.
 
 ### Inject service in the Server
 
-With @@ServerLoader@@, inject a provider can be done as follows:
+With the `ServerLoader` API in v4/5, inject a provider can be done as follows:
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
