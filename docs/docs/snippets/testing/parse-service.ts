@@ -10,7 +10,7 @@ export class ParseService {
       return typeof scope === "object" && clone ? ParseService.clone(scope) : scope;
     }
 
-    const value = getValue(expression, scope);
+    const value = getValue(scope, expression);
 
     return typeof value === "object" && clone ? ParseService.clone(value) : value;
   }

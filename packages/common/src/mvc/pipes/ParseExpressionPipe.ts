@@ -19,7 +19,7 @@ export class ParseExpressionPipe implements IPipe {
       expression = String(param.expression).toLowerCase();
     }
 
-    value = getValue(expression, value);
+    value = getValue(value, expression);
 
     if ([ParamTypes.QUERY, ParamTypes.PATH].includes(paramType as ParamTypes) && value === "" && type !== String) {
       return undefined;
