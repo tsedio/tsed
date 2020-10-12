@@ -132,10 +132,10 @@
     ]
   },
   "monorepo": {
-    "productionBranch": "beta",
-    "developBranch": "beta",
+    "productionBranch": "rc",
+    "developBranch": "rc",
     "npmAccess": "public",
-    "npmDistTag": "beta",
+    "npmDistTag": "rc",
     "ignoreSyncDependencies": [
       "express",
       "@types/express"
