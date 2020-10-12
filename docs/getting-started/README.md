@@ -44,8 +44,8 @@ to develop your application.
 
 It uses [Express.js](https://expressjs.com/) HTTP server frameworks by default, but it's also possible to use [Koa.js](https://koajs.com) as well.
 
-Ts.ED provides a level of abstraction above theses common Node.js framework (Express/Koa) with the [Platform API](/docs/platform-api.md)
-but also exposes their APIs directly for the developer. This gives developers the freedom to use the myriad of third-party 
+Ts.ED provides a level of abstraction above these common Node.js frameworks (Express/Koa) with the [Platform API](/docs/platform-api.md)
+but also exposes their APIs directly for the developer. It gives developers the freedom to use the myriad of third-party 
 node modules which are available for the underlying platform.
 
 ## Philosophy
@@ -61,7 +61,7 @@ To achieve this, Ts.ED provides out-of-the-box an application architecture, high
 
 ## Platform features support
 
-Here the features list provided by Ts.ED and the compatibility with the different platforms:
+Here are the features list provided by Ts.ED and the compatibility with the different platforms:
 
 <div class="table-features">
 
@@ -86,7 +86,7 @@ Features | Express.js  | Koa.js
 
 ## Platform plugins support
 
-Here the plugins provided by Ts.ED and the compatibility with the different platforms:
+Here are the plugins provided by Ts.ED and the compatibility with the different platforms:
 
 <div class="table-features">
 
@@ -141,10 +141,10 @@ You can therefore use it for your projects without installing the whole framewor
 ::: tip See also
 New features are available:
 
-- [Managing models using Typescript generics](/docs/controllers.md#generics).
+- [Manage models using Typescript generics](/docs/controllers.md#generics).
 - [Add validation decorator on endpoint parameters](/docs/controllers.md#validation)
-- [Management response models by content-type and status code (OAS3)](/tutorials/swagger.md).
-- [Configure swagger to generate OpenSpec3](/tutorials/swagger.md).
+- [Manage response models by content-type and status code (OAS3)](/tutorials/swagger.md).
+- [Configure Swagger to generate OpenSpec3](/tutorials/swagger.md).
 
 :::
 
@@ -159,9 +159,9 @@ You can therefore use it for your projects without installing the whole framewor
 
 ::: tip See also
 
-- @@Ignore@@ decorator accept a callback to define when the property should be ignored!
+- @@Ignore@@ decorator accepts a callback to define when the property should be ignored.
 - @@serialize@@ and @@deserialize@@ function can be used in place of @@ConverterService@@.
-- `@Converter` have been replaced in favor of @@JsonMapper@@. See our [migration guide](/gettings-started/migration-from-v5.md#converter-to-jsonmapper).
+- `@Converter` has been replaced in favor of @@JsonMapper@@. See our [migration guide](/gettings-started/migration-from-v5.md#converter-to-jsonmapper).
 
 :::
 
@@ -188,7 +188,7 @@ Alternatively, you can checkout one of these projects:
 
 <Projects type="getting-started" />
 
-If none of previous solutions aren't satisfying maybe you are in these cases:
+If none of previous solutions are satisfying maybe you are in these cases:
 
 - [I want to create application from scratch](/getting-started/from-scratch.md)
 - [I want to migrate my application from Ts.ED v5](/getting-started/migration-from-v5.md)
@@ -196,7 +196,7 @@ If none of previous solutions aren't satisfying maybe you are in these cases:
 
 ## What's next?
 
-Now we can follow one of these links to develop your new application:
+Now you can follow one of these links to develop your new application:
 
 - [Create your first controller](/getting-started/create-your-first-controller.md)
 - [Change server configuration](/docs/configuration.md)
