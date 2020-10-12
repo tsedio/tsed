@@ -1,4 +1,4 @@
-import {classOf, MetadataTypes, Type} from "@tsed/core";
+import {classOf, isCollection, MetadataTypes, Type} from "@tsed/core";
 import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {classToPlainObject, deserialize, JsonDeserializerOptions, JsonSerializerOptions, serialize} from "@tsed/json-mapper";
 import {ConverterSettings} from "../../config/interfaces/ConverterSettings";
@@ -23,8 +23,8 @@ function mapDeserializeOptions(args: any[]) {
 
     return {
       ...options,
-      type: baseType,
-      collectionType: targetType,
+      type: baseType || targetType,
+      collectionType: isCollection(targetType) ? targetType : undefined,
       additionalProperties: options.additionalProperties === "accept"
     };
   }
@@ -63,6 +63,7 @@ export class ConverterService {
   serialize(obj: any, options?: ConverterOptions): any;
   serialize(obj: any, options: ConverterOptions | JsonSerializerOptions = {}): any {
     return serialize(obj, {
+      useAlias: true,
       additionalProperties: this.converterSettings.additionalProperties === "accept",
       ...options
     });
@@ -88,9 +89,6 @@ export class ConverterService {
    * @returns {any}
    */
   deserialize(obj: any, options?: JsonDeserializerOptions): any;
-  /**
-   * @deprecated Since v6.
-   */
   deserialize(obj: any, type: any, options?: ConverterOptions): any;
   /**
    * @deprecated Since v6.
@@ -105,6 +103,7 @@ export class ConverterService {
       | [Type<any> | any, Type<any> | any | undefined, ConverterOptions]
   ): any {
     const options = {
+      useAlias: true,
       additionalProperties: this.converterSettings.additionalProperties === "accept",
       ...mapDeserializeOptions(args)
     };
