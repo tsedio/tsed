@@ -43,9 +43,9 @@ You can therefore use it for your projects without installing the whole framewor
 ::: tip See also
 New features are available:
 
-- [Managing models using Typescript generics](/docs/controllers.md#generics).
-- [Add validation decorator on endpoint parameters](/docs/controllers.md#validation)
-- [Management response models by content-type and status code (OAS3)](/tutorials/swagger.md).
+- [Manage models using Typescript generics](/docs/controllers.md#generics).
+- [Add validation decorator on endpoint parameters](/docs/controllers.md#validation).
+- [Manage response models by content-type and status code (OAS3)](/tutorials/swagger.md).
 - [Configure swagger to generate OpenSpec3](/tutorials/swagger.md).
 
 :::
@@ -67,18 +67,18 @@ You can therefore use it for your projects without installing the whole framewor
 
 ::: tip See also
 
-- @@Ignore@@ decorator accept a callback to define when the property should be ignored!
+- @@Ignore@@ decorator accepts a callback to define when the property should be ignored.
 - @@serialize@@ and @@deserialize@@ function can be used in place of @@ConverterService@@.
-- `@Converter` have been replaced in favor of @@JsonMapper@@. See our [migration guide](/gettings-started/migration-from-v5.md#converter-to-jsonmapper).
+- `@Converter` has been replaced in favor of @@JsonMapper@@. See our [migration guide](/gettings-started/migration-from-v5.md#converter-to-jsonmapper).
 
 :::
  
 ## Breaking changes
 ### Api & Features
 
-- `ServerLoader` API have been remove in favor of Platform API. See [Platform API](/docs/platform-api.md).
-- `Filter` feature have been removed in favor of [Pipes](/docs/pipes.md).
-- `GlobalErrorHandlerMiddleware` have been.removed in favor of [Exception Filters](/docs/exceptions.md#exception-filter).
+- `ServerLoader` API has been remove in favor of Platform API. See [Platform API](/docs/platform-api.md).
+- `Filter` feature has been removed in favor of [Pipes](/docs/pipes.md).
+- `GlobalErrorHandlerMiddleware` has been removed in favor of [Exception Filters](/docs/exceptions.md#exception-filter).
 - @@ConverterService@@ doesn't perform data validation. Validation is performed by [`@tsed/ajv`](/tutorials/ajv.md) package or any other validation library.
 
 ### Modules
@@ -100,10 +100,10 @@ The following decorators have been removed:
 #### @tsed/common
 
 - `@ServerSettings`: Use @@Configuration@@.
-- `@ExpressApplication`: Use @@PlatformApplication@@ instead of.
-- `@ExpressRouter`: Use @@PlatformRouter@@ instead of.
-- `@ResponseView`: Use @@View@@ decorator instead of.
-- `@Filter`: Filter feature have been removed.
+- `@ExpressApplication`: Use @@PlatformApplication@@ instead.
+- `@ExpressRouter`: Use @@PlatformRouter@@ instead.
+- `@ResponseView`: Use @@View@@ decorator instead.
+- `@Filter`: Filter feature has been removed.
 - `@MiddlewareError`: Use @@Middleware@@.
 - `@Converter`: @Converter is replaced by @@JsonMapper@@ from `@tsed/json-mapper`. See [Converter to JsonMapper](/getting-started/migration-from-v5.md#converter-to-jsonmapper) section for more details.
 - `PropertyDeserialize` and `PropertySerialize` have been removed and replaced by @@OnDeserialize@@ and @@OnSerialize@@ from `@tsed/json-mapper`.
@@ -118,29 +118,29 @@ Import the following decorators from `@tsed/schema`:
 
 <ApiList query="['Consumes', 'Deprecated', 'Description', 'Example', 'Name', 'Produces', 'Returns','Security', 'Summary', 'Title'].includes(symbolName)" />
 
-- `@BaseParameter` have been removed.
-- `@Operation` have been removed.
-- `@Responses` have been remove.
-- `@ReturnsArray` have been removed. Use @@Returns@@ from `@tsed/schema`.
+- `@BaseParameter` has been removed.
+- `@Operation` has been removed.
+- `@Responses` has been remove.
+- `@ReturnsArray` has been removed. Use @@Returns@@ from `@tsed/schema`.
 
 ### Classes
 
 #### @tsed/common
 
-- Classes like `ArrayConverter`, `SetConverter`, etc... replaced by his equivalents @@ArrayMapper@@, @@SetMapper@@, etc... These classes cannot be injected to another provider.
+- Classes like `ArrayConverter`, `SetConverter`, etc... are replaced by their equivalents @@ArrayMapper@@, @@SetMapper@@, etc... These classes cannot be injected to another provider.
 
 
 ## Migration guide
 ### ServerLoader to Platform API
 
-All change related to [Platform API](/docs/platform-api.md) and how to migrate the Server on this new API, is described on a dedicated page.
+All changes related to [Platform API](/docs/platform-api.md) and how to migrate the Server on this new API, are described on a dedicated page.
 We encourage you to browse the entire page to migrate from v4/v5 to v6.
 
 See our [Platform API](/docs/platform-api.md) documentation page.
 
 ### Inject service in the Server
 
-With the `ServerLoader` API in v4/5, inject a provider can be done as follows:
+With the `ServerLoader` API in v4/5, injecting a provider can be done as follows:
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -158,7 +158,7 @@ export class Server extends ServerLoader {
 ```
 
 Now Platform API, the Server class is considered as a @@Provider@@. 
-It means, you can use decorator like @@Constant@@ and @@Inject@@ to get any configuration, provider or service from the DI registry.
+It means that you can use decorator like @@Constant@@ and @@Inject@@ to get any configuration, provider or service from the DI registry.
 
 ```typescript
 import {Configuration} from "@tsed/common"; 
@@ -180,7 +180,7 @@ export class Server {
 
 ::: warning Breaking changes
 
-- CustomGlobalErrorHandlerMiddleware have been removed.
+- CustomGlobalErrorHandlerMiddleware has been removed.
 - Default [Exception Filter](/docs/exceptions.html#exception-filter) returns a Json object to your consumer.
 
 :::
@@ -196,12 +196,11 @@ class Server {
 ```
 
 ::: tip
-To migrate your `CustomGlobalErrorHandlerMiddleware` to create an exception filter.
-See our [Exception Filter](/docs/exceptions.html#exception-filter) documentation page to know what is the appropriate implementation 
+To migrate your `CustomGlobalErrorHandlerMiddleware` to create an exception filter, see our [Exception Filter](/docs/exceptions.html#exception-filter) documentation page to know what is the appropriate implementation 
 for your use case.
 :::
 
-Exception Filter use @@Catch@@ decorator to catch a specific instance error. For example, if you want to catch an Http exception
+Exception Filter uses @@Catch@@ decorator to catch a specific instance error. For example, if you want to catch an Http exception
 you have to provide the generic @@Exception@@ class to the decorator as follows:
 
 <<< @/docs/docs/snippets/exceptions/http-exception-filter.ts
@@ -210,13 +209,13 @@ you have to provide the generic @@Exception@@ class to the decorator as follows:
 
 The `@tsed/json-mapper` package is now responsible to map a plain object to a model and a model to a plain object.
 
-It provides two functions @@serialize@@ and @@deserialize@@ to transform object depending on which operation you want to perform.
+It provides two functions @@serialize@@ and @@deserialize@@ to transform objects depending on which operation you want to perform.
 It uses all decorators from `@tsed/schema` package and TypeScript metadata to work.
 
 ::: warning Breaking changes
 
-- The `@Converter` decorator have been removed in favor of @@JsonMapper@@ decorator.
-- Classes like `ArrayConverter`, `SetConverter`, etc... replaced by his equivalents Types mapper: @@ArrayMapper@@, @@SetMapper@@, etc... 
+- The `@Converter` decorator has been removed in favor of @@JsonMapper@@ decorator.
+- Classes like `ArrayConverter`, `SetConverter`, etc... are replaced by their equivalents Types mapper: @@ArrayMapper@@, @@SetMapper@@, etc... 
 - Type mapper classes are no longer injectable services. 
 - ConverterService is always available and can be injected to another provider, but now, ConverterService doesn't perform data validation. Validation is performed by [`@tsed/ajv`](/tutorials/ajv.md) package or any other validation library.
 - `PropertyDeserialize` and `PropertySerialize` have been removed and replaced by @@OnDeserialize@@ and @@OnSerialize@@.
@@ -261,7 +260,7 @@ To help you migrate your custom mapper, here is a small table of equivalent poin
 
 V5 | V6 | Description
 ---|---|---
-Converter | JsonMapper | The decorator have the same behavior. You can use JsonMapper to override an existing mapper.
+Converter | JsonMapper | The decorator has the same behavior. You can use JsonMapper to override an existing mapper.
 deserializer/serializer | options.next(item) | Call the next function to deserialize/serialize object.
 target/baseType | JsonMapperCtx.type/JsonMapperCtx.collectionType | The types of the object and the collection.
 
@@ -318,7 +317,7 @@ class MyController {
 
 ### ReturnsArray decorator
 
-`ReturnsArray` is deprecated and will be remove in v7. You have to use @@Returns@@.
+`ReturnsArray` is deprecated and will be removed in v7. You have to use @@Returns@@.
 
 <Tabs class="-code">
   <Tab label="Before">
@@ -329,7 +328,7 @@ import {ReturnsArray, Controller, Get} from "@tsed/common";
 @Controller("/")
 class MyController {
   @Get("/")
-  @ReturnsArray(200, Model)
+  @ReturnsArray(200, TypeC)
   get(){}
 }
 ```  
