@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {OnSerialize} from "@tsed/json-mapper";
-import {CollectionOf, Default} from "@tsed/schema";
+import {CollectionOf, Default, Name, Property} from "@tsed/schema";
 import {expect} from "chai";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3} from "../../../../../test/helper/classes";
 import {ConverterService} from "./ConverterService";
@@ -82,6 +82,36 @@ describe("ConverterService", () => {
         "should convert a date",
         PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
           expect(converterService.deserialize(new Date().toISOString(), Date)).to.be.instanceof(Date);
+        })
+      );
+      it(
+        "should convert object with legacy options",
+        PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
+          const data = {
+            id: "id",
+            additionalProperties: "hello"
+          };
+
+          class Model {
+            @Property()
+            id: string;
+
+            [key: string]: any;
+
+            constructor({id, ...props}: any = {}) {
+              this.id = id;
+              Object.assign(this, props);
+            }
+          }
+
+          expect(
+            converterService.deserialize(data, Model, Model, {
+              additionalProperties: "ignore"
+            })
+          ).to.deep.eq({
+            id: "id",
+            additionalProperties: "hello"
+          });
         })
       );
     });
@@ -217,6 +247,65 @@ describe("ConverterService", () => {
       const result = converter.deserialize({test: "test"});
 
       expect(result).to.deep.equal({test: "test"});
+    });
+
+    it("should convert object to model with alias", () => {
+      class UserInfo {
+        @Property()
+        id: string;
+
+        @Property()
+        email: string;
+
+        @Name("first_name")
+        firstName: string;
+
+        @Name("last_name")
+        lastName: string;
+
+        @Name("clubmed_id")
+        clubmedId: string;
+
+        @CollectionOf(String)
+        scopes: string[] = [];
+
+        hasScope(scope: string) {
+          return this.scopes.includes(scope);
+        }
+      }
+
+      const converter = PlatformTest.get<ConverterService>(ConverterService)!;
+      const data = {
+        sub: "sub",
+        name: "name family_name",
+        family_name: "family_name",
+        email: "email",
+        id: "sub",
+        first_name: "name",
+        last_name: "family_name",
+        scopes: ["go", "api_admin"]
+      };
+
+      const result1 = converter.deserialize(data, {type: UserInfo, useAlias: true, additionalProperties: false});
+      const result2 = converter.deserialize(data, UserInfo, null, {
+        useAlias: true,
+        additionalProperties: "ignore"
+      });
+
+      expect(result1).to.deep.eq({
+        email: "email",
+        firstName: "name",
+        id: "sub",
+        lastName: "family_name",
+        scopes: ["go", "api_admin"]
+      });
+      expect(result2).to.deep.eq({
+        email: "email",
+        firstName: "name",
+        id: "sub",
+        lastName: "family_name",
+        scopes: ["go", "api_admin"]
+      });
     });
   });
   describe("serialize()", () => {
