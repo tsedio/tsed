@@ -159,17 +159,16 @@ module.exports = {
               "/tutorials/socket-io",
               { title: "Seq logger", path: "/tutorials/seq" },
               "/tutorials/swagger",
-              "/tutorials/ajv"
+              "/tutorials/ajv",
+              "/tutorials/aws"
             ]
           },
           {
             title: "Extras",
             children: [
               "/tutorials/",
-              "/tutorials/aws",
               "/tutorials/throw-http-exceptions",
               "/tutorials/not-found-page",
-
               "/contributing",
               "/license"
             ]
