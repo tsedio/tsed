@@ -75,7 +75,7 @@ export class AjvErrorFormatterPipe {
   }
 
   private mapClassError(error: AjvErrorObject, targetType: Type<any>) {
-    const propertyKey = getValue("params.missingProperty", error);
+    const propertyKey = getValue(error, "params.missingProperty");
 
     if (propertyKey) {
       const prop = PropertyMetadata.get(targetType, propertyKey);

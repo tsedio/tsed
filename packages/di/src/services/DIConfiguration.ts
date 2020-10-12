@@ -99,7 +99,7 @@ export class DIConfiguration {
       return value;
     }
 
-    return getValue(propertyKey, this.default, defaultValue);
+    return getValue(this.default, propertyKey, defaultValue);
   }
 
   merge(obj: Partial<TsED.Configuration>) {
@@ -151,6 +151,6 @@ export class DIConfiguration {
     this.forEach((value, key) => this.map.set(key, this.resolve(value)));
 
     this.set = this.setRaw;
-    this.get = this.getRaw = (propertyKey: string, defaultValue?: any) => getValue(propertyKey, this.map, defaultValue);
+    this.get = this.getRaw = (propertyKey: string, defaultValue?: any) => getValue(this.map, propertyKey, defaultValue);
   }
 }

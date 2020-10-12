@@ -9,6 +9,6 @@ export class OAuthParamsPipe {
     const {options = {}} = context.endpoint.get(PassportMiddleware) || {};
     const key = context.endpoint.get(OAuthParamsPipe);
 
-    return getValue(key, options);
+    return getValue(options, key);
   }
 }

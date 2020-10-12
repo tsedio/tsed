@@ -69,9 +69,8 @@ export function getValue(...args: any[]) {
 
   const getValue = (key: string) => {
     if (scope instanceof Map || isFunction(scope.get)) {
-      return scope.get(key);
+      return scope[key] || scope.get(key);
     }
-
     return scope[key];
   };
 

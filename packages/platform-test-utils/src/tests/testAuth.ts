@@ -1,4 +1,4 @@
-import {Context, Controller, Get, Inject, Injectable, Middleware, PlatformTest, Post, UseAuth} from "@tsed/common";
+import {Context, Controller, Get, Inject, Injectable, Middleware, PlatformTest, Post, Req, UseAuth} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
 import {BadRequest, Forbidden, Unauthorized} from "@tsed/exceptions";
 import {In, Returns, Security} from "@tsed/schema";
@@ -45,6 +45,11 @@ class OAuthMiddleware {
     if (options && options.role === "admin" && request.get("authorization") !== "admin_token") {
       throw new Forbidden("Forbidden");
     }
+
+    ctx.getRequest().user = {
+      id: "id",
+      name: "name"
+    };
   }
 }
 
@@ -74,11 +79,8 @@ class TestAuthCtrl {
 
   @Get("/userinfo")
   @OAuth()
-  token() {
-    return {
-      id: "id",
-      name: "name"
-    };
+  token(@Req("user") user: any) {
+    return user;
   }
 
   @Get("/admin")
