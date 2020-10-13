@@ -7,7 +7,7 @@ meta:
 ---
 # Serve files
 
-To serve static files such as images, CSS files, and JavaScript files, Ts.ED use `express.static` and `koa-send` for Express and Koa respectively.
+To serve static files such as images, CSS files, and JavaScript files, Ts.ED uses `express.static` and `koa-send` for Express and Koa respectively.
 
 ## Configuration
 
@@ -43,7 +43,7 @@ http://localhost:3000/images/bg.png
 http://localhost:3000/hello.html
 ```
 
-To create a virtual path prefix (where the path does not actually exist in the file system) for files that are served by the Ts.ED, specify a mount path for the static directory, as shown below:
+To create a virtual path prefix (where the path does not actually exist in the file system) for files that are served by Ts.ED, specify a mount path for the static directory, as shown below:
 
 ```typescript
 import {Configuration} from "@tsed/common";
@@ -75,7 +75,7 @@ http://localhost:3000/static/hello.html
 
 ## Statics options
 
-Statics options depend on which platform your work (Express, Koa, etc...). 
+Statics options depend on which platform you work (Express, Koa, etc...). 
 
 <Tabs class="-code">
   <Tab label="Express.js">
@@ -117,7 +117,7 @@ interface KoaStaticsOptions {
 ## Expose a webapp
 
 Exposing a webapp (React, Vue.js, Angular) with Ts.ED is quite possible. 
-The configuration can be a bit complicated because you have to add the right headers and redirection rule so that all queries are redirected to your webapp when the urls is managed by your front-end application.
+The configuration can be a bit complicated because you have to add the right headers and redirection rule so that all queries are redirected to your webapp when the urls are managed by your front-end application.
 
 Here is a small example to configure statics directory with the right headers and redirection rules.
 
