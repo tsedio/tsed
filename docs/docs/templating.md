@@ -1,7 +1,7 @@
 ---
 meta:
  - name: description
-   content: Use template engine with Ts.ED by using decorators. Ts.ED is built on top of Express/Koa and use TypeScript language.
+   content: Use template engine with Ts.ED by using decorators. Ts.ED is built on top of Express/Koa and uses TypeScript language.
  - name: keywords
    content: template engine consolidate ts.ed express typescript node.js javascript decorators
 ---
@@ -15,7 +15,7 @@ This decorator will use the data returned by the method, and the configured view
 ## Configuration
 
 Ts.ED is using [consolidate](https://github.com/tj/consolidate.js) under the hood.
-The default, template engine installed with Ts.ED is [EJS](https://ejs.co/).
+The default template engine installed with Ts.ED is [EJS](https://ejs.co/).
 If you want to use another engine, please refer to the engine documentation and [consolidate](https://github.com/tj/consolidate.js) to install the engine correctly.
 
 <<< @/docs/docs/snippets/templating/configuration.ts
@@ -33,7 +33,7 @@ export interface PlatformViewsSettings {
   */
   root?: string;
   /**
-   * Enable cache. Ts.ED enable cache in PRODUCTION profile by default.
+   * Enable cache. Ts.ED enables cache in PRODUCTION profile by default.
    */
   cache?: boolean;
  /**
@@ -77,14 +77,14 @@ Here is an example of a controller using the @@View@@ decorator:
 
 ::: tip
 
-Like Express.js or Koa.js, @@View@@ decorator use `express.response.locals` or `koa.context.state` to populate data before 
+Like Express.js or Koa.js, @@View@@ decorator uses `express.response.locals` or `koa.context.state` to populate data before 
 rendering the template. See [Locals](/docs/controllers.html#locals) decorator usage for more information.
 
 :::
 
 ### With render method
 
-It's also possible to render a views by injecting and using @@PlatformResponse@@ instance.
+It's also possible to render a view by injecting and using @@PlatformResponse@@ instance.
 
 <Tabs class="-code">
   <Tab label="EventCtrl.ts">
@@ -106,18 +106,18 @@ It's also possible to render a views by injecting and using @@PlatformResponse@@
 
 ### With PlatformViews
 
-Ts.ED provides the @@PlatformViews@@ service to render views. In fact, @@View@@ decorator use `PlatformResponse.render()` method which itself uses the `PlatformViews.render()` method.
-It useful, if you want render a template from a service.
+Ts.ED provides the @@PlatformViews@@ service to render views. In fact, @@View@@ decorator uses `PlatformResponse.render()` method which itself uses the `PlatformViews.render()` method.
+It is useful if you want to render a template from a service.
 
 <<< @/docs/docs/snippets/templating/template-platform-views.ts
 
 ## Caching
 
-To enable caching simply pass `{ cache: true }` to the @@View@@ decorator.
-All engines that consolidate.js implements I/O for will cache the file contents, ideal for production environments.
+To enable caching, simply pass `{ cache: true }` to the @@View@@ decorator.
+All engines that consolidate.js implements I/O for, will cache the file contents, ideal for production environments.
 
 <<< @/docs/docs/snippets/templating/template-cache.ts
 
 ::: tip
-Ts.ED enable cache by default in `PRODUCTION` profile.
+Ts.ED enables cache by default in `PRODUCTION` profile.
 :::
