@@ -84,7 +84,7 @@ Example:
 <<< @/docs/tutorials/snippets/socketio/socket-send-response.ts
 
 ::: tip
-All methods accepts a promise as returned value. Ts.ED handle promise before returning a response to your consumer.
+All methods accept a promise as returned value. Ts.ED handles promise before returning a response to your consumer.
 :::
 
 ::: warning

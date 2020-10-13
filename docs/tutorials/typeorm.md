@@ -79,12 +79,12 @@ We can use this model with a Controller like that:
 ## EntityRepository
 
 You can create a custom repository which should contain methods to work with your database. 
-Usually custom repositories are created for a single entity and contains its specific queries.
+Usually custom repositories are created for a single entity and contain their specific queries.
 For example, let's say we want to have a method called `findByName(firstName: string, lastName: string)` which will search for users by a given first and last names. 
 The best place for this method is in Repository, so we could call it like `userRepository.findByName(...)`. 
 You can achieve this using custom repositories.
 
-`@tsed/typeorm` plugin configures the DI so that repositories declared for TypeORM can be injected into a Ts.ED controller or service
+`@tsed/typeorm` plugin configures the DI so that repositories declared for TypeORM can be injected into a Ts.ED controller or service.
 
 The first way to create a custom repository is to extend Repository. Example:
 
