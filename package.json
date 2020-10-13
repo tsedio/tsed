@@ -127,7 +127,7 @@
     "semantic-release": "^15.13.18",
     "sinon": "9.0.2",
     "sinon-chai": "3.5.0",
-    "supertest": "4.0.2",
+    "supertest": "5.0.0",
     "ts-node": "9.0.0",
     "tsconfig-paths": "3.9.0",
     "tslib": "1.11.0",
