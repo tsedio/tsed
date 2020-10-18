@@ -363,41 +363,6 @@ export function prototypeOf(target: any) {
 }
 
 /**
- *
- * @param obj
- * @param key
- */
-export function isEnumerable(obj: any, key: string) {
-  const klass = getClass(obj);
-
-  if (klass) {
-    const descriptor = inheritedDescriptorOf(klass, key);
-
-    if (descriptor) {
-      return descriptor.enumerable;
-    }
-  }
-
-  return Object.prototype.propertyIsEnumerable.call(obj, key);
-}
-
-/**
- * Return all enumerable keys of the given object
- * @param obj
- */
-export function getKeys(obj: any) {
-  const keys: string[] = [];
-
-  for (const key in obj) {
-    if (isEnumerable(obj, key)) {
-      keys.push(key);
-    }
-  }
-
-  return keys;
-}
-
-/**
  * Return all methods for a given class.
  * @param target
  */

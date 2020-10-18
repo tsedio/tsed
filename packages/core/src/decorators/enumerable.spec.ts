@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {Enumerable, getKeys, NotEnumerable} from "../../src";
+import {Enumerable, getEnumerableKeys, NotEnumerable} from "../../src";
 
 class Test1 {
   test: string = "test";
@@ -46,14 +46,14 @@ class Test2 extends Parent1 {
 
 describe("Enumerable", () => {
   it("should have some keys with Test1", () => {
-    expect(getKeys(new Test1())).to.deep.eq(["test", "name"]);
+    expect(getEnumerableKeys(new Test1())).to.deep.eq(["test", "name"]);
     expect(Object.keys(new Test1())).to.deep.eq(["test"]);
     expect(Object.getOwnPropertyNames(new Test1())).to.deep.eq(["test"]);
     expect(Reflect.ownKeys(new Test2())).to.deep.eq(["prop", "test", "_privateTest"]);
   });
 
   it("should have some keys with Test2", () => {
-    expect(getKeys(new Test2())).to.deep.eq(["prop", "test", "first", "privateTest", "name", "parentProp"]);
+    expect(getEnumerableKeys(new Test2())).to.deep.eq(["prop", "test", "first", "privateTest", "name", "parentProp"]);
     expect(Object.keys(new Test2())).to.deep.eq(["prop", "test", "_privateTest"]);
     expect(Object.getOwnPropertyNames(new Test2())).to.deep.eq(["prop", "test", "_privateTest"]);
     expect(Reflect.ownKeys(new Test2())).to.deep.eq(["prop", "test", "_privateTest"]);

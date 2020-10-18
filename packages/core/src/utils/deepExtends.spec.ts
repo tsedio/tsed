@@ -38,7 +38,6 @@ describe("deepExtends", () => {
 
         expect(result.withClass).to.be.instanceof(klass);
       });
-
       it("should merge data (3)", () => {
         expect(
           deepExtends(
@@ -52,6 +51,22 @@ describe("deepExtends", () => {
         ).to.deep.eq({
           security: [{"1": "o"}, {"1": "o"}, {"2": "o1"}]
         });
+      });
+      it("should merge data and prevent prototype pollution", () => {
+        const obj = JSON.parse('{"__proto__": {"a": "vulnerable"}, "security":  [{"1": "o"}, {"2": "o1"}]}');
+
+        expect(
+          deepExtends(
+            {
+              security: [{"1": "o"}]
+            },
+            obj
+          )
+        ).to.deep.eq({
+          security: [{"1": "o"}, {"1": "o"}, {"2": "o1"}]
+        });
+
+        expect(({} as any).a).to.eq(undefined);
       });
     });
 

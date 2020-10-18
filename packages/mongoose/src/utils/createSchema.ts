@@ -1,10 +1,9 @@
 import {ConverterService, IConverterOptions, JsonSchema, PropertyMetadata} from "@tsed/common";
-import {getClass, Store, Type} from "@tsed/core";
+import {cleanObject, getClass, Store, Type} from "@tsed/core";
 import * as mongoose from "mongoose";
 import {SchemaDefinition, SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
-import {cleanProps} from "./cleanProps";
 import {schemaOptions} from "./schemaOptions";
 
 const MONGOOSE_RESERVED_KEYS = ["_id"];
@@ -132,7 +131,7 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
     schemaTypeOptions = {...schemaTypeOptions, type: getSchema(propertyMetadata.type)};
   }
 
-  schemaTypeOptions = cleanProps({...schemaTypeOptions, ...rawMongooseSchema});
+  schemaTypeOptions = cleanObject({...schemaTypeOptions, ...rawMongooseSchema});
 
   if (propertyMetadata.isCollection) {
     if (propertyMetadata.isArray) {

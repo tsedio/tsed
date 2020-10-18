@@ -1,4 +1,4 @@
-import {getKeys} from "@tsed/core";
+import {getEnumerableKeys} from "@tsed/core";
 import {ProviderScope} from "@tsed/di";
 import {expect} from "chai";
 import {ControllerProvider} from "./ControllerProvider";
@@ -24,7 +24,7 @@ describe("ControllerProvider", () => {
   });
 
   it("should return all keys available for serialisation", () => {
-    expect(getKeys(controllerProvider)).to.deep.equal([
+    expect(getEnumerableKeys(controllerProvider)).to.deep.equal([
       "type",
       "injectable",
       "path",
