@@ -1,4 +1,4 @@
-import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, Type} from "@tsed/core";
+import {getClass, isArrayOrArrayClass, isEmpty, isPrimitiveOrPrimitiveClass, Metadata, objectKeys, Type} from "@tsed/core";
 import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {IConverterSettings} from "../../config/interfaces/IConverterSettings";
 import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
@@ -101,7 +101,7 @@ export class ConverterService {
 
     const plainObject: any = {};
     const properties = PropertyMetadata.getProperties(options.type || obj, {withIgnoredProps});
-    const keys = properties.size ? Array.from(properties.keys()) : Object.keys(obj);
+    const keys = properties.size ? Array.from(properties.keys()) : objectKeys(obj);
 
     keys.forEach((propertyKey) => {
       if (typeof obj[propertyKey] !== "function") {
@@ -179,7 +179,7 @@ export class ConverterService {
     const instance = new targetType();
     const properties = PropertyMetadata.getProperties(targetType);
 
-    Object.keys(obj).forEach((propertyName: string) => {
+    objectKeys(obj).forEach((propertyName: string) => {
       const propertyMetadata = ConverterService.getPropertyMetadata(properties, propertyName);
 
       return this.convertProperty(obj, instance, propertyName, propertyMetadata, options);

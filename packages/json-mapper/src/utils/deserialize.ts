@@ -1,4 +1,4 @@
-import {isArray, isEmpty, isNil, MetadataTypes, nameOf, Type} from "@tsed/core";
+import {isArray, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
 import {getPropertiesStores, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
 import "../components";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
@@ -77,7 +77,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   const {type, store = JsonEntityStore.from(type), ...next} = options;
   const propertiesMap = getPropertiesStores(store);
 
-  let keys = Object.keys(src);
+  let keys = objectKeys(src);
   const additionalProperties = propertiesMap.size ? !!store.schema.get("additionalProperties") || options.additionalProperties : true;
   const out: any = new type(src);
 

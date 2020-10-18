@@ -1,3 +1,4 @@
+import {objectKeys} from "@tsed/core";
 import {Converter} from "../decorators/converter";
 import {IConverter, IDeserializer, ISerializer} from "../interfaces/index";
 
@@ -19,7 +20,7 @@ export class SetConverter implements IConverter {
   deserialize<T>(data: any, target: any, baseType: T, deserializer: IDeserializer): Set<T> {
     const obj = new Set<T>();
 
-    Object.keys(data).forEach((key) => {
+    objectKeys(data).forEach((key) => {
       obj.add(deserializer(data[key], baseType) as T);
     });
 
