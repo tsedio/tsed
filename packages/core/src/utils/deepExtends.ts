@@ -1,7 +1,16 @@
 import {HashOf} from "../interfaces/HashOf";
+import {objectKeys} from "./objectKeys";
 import {classOf, isArrayOrArrayClass, isPrimitive, isPrimitiveOrPrimitiveClass} from "./ObjectUtils";
 
 export type DeepExtendsReducers = HashOf<(collection: any[], value: any) => any>;
+
+function reducer() {
+  return (collection: any[], value: any) => {
+    collection.indexOf(value) === -1 && collection.push(value);
+
+    return collection;
+  };
+}
 
 /**
  * Deep extends a model with another one.
@@ -25,13 +34,8 @@ export function deepExtends(out: any, obj: any, reducers: DeepExtendsReducers = 
     out = out || (obj ? (classOf(obj) !== Object ? Object.create(obj) : {}) : {});
   }
 
-  const defaultReducer = reducers["default"]
-    ? reducers["default"]
-    : (collection: any[], value: any) => {
-        collection.indexOf(value) === -1 && collection.push(value);
+  const defaultReducer = reducers["default"] ? reducers["default"] : reducer();
 
-        return collection;
-      };
   const set = (key: string | number, value: any) => {
     if (isArrayOrArrayClass(obj)) {
       out.indexOf(value) === -1 && out.push(value);
@@ -40,7 +44,7 @@ export function deepExtends(out: any, obj: any, reducers: DeepExtendsReducers = 
     }
   };
 
-  Object.keys(obj).forEach((key) => {
+  objectKeys(obj).forEach((key) => {
     let value = obj[key];
 
     if (value === undefined || value === null) {

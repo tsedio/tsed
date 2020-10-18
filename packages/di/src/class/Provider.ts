@@ -1,4 +1,4 @@
-import {classOf, Enumerable, getKeys, isClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
+import {classOf, Enumerable, getEnumerableKeys, isClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
 import {ProviderScope} from "../interfaces";
 import {IProvider} from "../interfaces/IProvider";
 import {ProviderType} from "../interfaces/ProviderType";
@@ -140,7 +140,7 @@ export class Provider<T = any> implements IProvider<T> {
   clone(): Provider<any> {
     const provider = new (classOf(this))(this.token);
 
-    getKeys(this).forEach((key) => {
+    getEnumerableKeys(this).forEach((key) => {
       if (this[key] !== undefined) {
         provider[key] = this[key];
       }

@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {getKeys} from "../../../core/src/utils";
+import {getEnumerableKeys} from "../../../core/src/utils";
 import {Provider} from "../../src/class/Provider";
 import {ProviderScope} from "../../src/interfaces";
 
@@ -17,7 +17,7 @@ describe("Provider", () => {
       expect(provider.provide).to.eq(T1);
       expect(provider.useClass).to.eq(T1);
       expect(!!provider.store).to.eq(true);
-      expect(getKeys(provider)).to.deep.eq([
+      expect(getEnumerableKeys(provider)).to.deep.eq([
         "type",
         "injectable",
         "customProp",
