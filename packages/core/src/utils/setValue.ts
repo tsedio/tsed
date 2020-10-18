@@ -1,7 +1,13 @@
+import {isProtectedKey} from "./isProtectedKey";
+
 export function setValue(expression: string, value: any, scope: any, separator = ".") {
   const keys: string[] = expression.split(separator);
 
   const setValue = (key: string, add: boolean) => {
+    if (isProtectedKey(key)) {
+      return false;
+    }
+
     if (add) {
       if (typeof scope.set === "function") {
         scope.set(key, value);

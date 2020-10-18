@@ -50,4 +50,13 @@ describe("setValue()", () => {
       expect(map.test.t1).to.eq("value2");
     });
   });
+
+  describe("when object with dep (without defined value)", () => {
+    it("should set value", () => {
+      const obj = {};
+      setValue("__proto__", "vulnerable", obj);
+      expect(obj).to.deep.eq({});
+      expect(({} as any).a).to.eq(undefined);
+    });
+  });
 });
