@@ -183,17 +183,11 @@ export function JsonProperty(options?: IPropertyOptions | string): Function {
  * @swagger
  * @schema
  */
-export function Property(options?: IPropertyOptions | string | Type<any>): Function;
+export function Property(): PropertyDecorator;
 export function Property(type: Type<any>): PropertyDecorator;
-/**
- * @deprecated
- */
-export function Property(options: IPropertyOptions): PropertyDecorator;
-/**
- * @deprecated
- */
+export function Property(options?: IPropertyOptions | string | Type<any>): PropertyDecorator;
 export function Property(name: string): PropertyDecorator;
-export function Property(options?: IPropertyOptions | string | Type<any>): Function {
+export function Property(options?: any): Function {
   return PropertyFn((propertyMetadata: PropertyMetadata) => {
     /* istanbul ignore next */
     if (typeof options === "string") {
