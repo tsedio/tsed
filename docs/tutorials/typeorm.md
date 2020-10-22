@@ -11,7 +11,7 @@ projects:
 ---
 # TypeORM <Badge text="Contributors are welcome" />
 
-<Banner src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" href="https://typeorm.io/" height="128" />
+<Banner src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" href="https://typeorm.io/" height="200" />
 
 This tutorial provides two ways to create connection:
 
@@ -22,7 +22,7 @@ Additionally, this topic shows you how you can use Entity from Typeorm with Ts.E
 
 <Projects type="typeorm"/>
 
-### Feature
+## Features
 
 Currently, `@tsed/typeorm` allows you to:
 
@@ -30,7 +30,7 @@ Currently, `@tsed/typeorm` allows you to:
 - Use the Entity TypeORM as Model for Controllers, AJV Validation and Swagger.
 - Declare a connection with asyncProvider or automatically by server configuration.
 
-### Installation
+## Installation
 
 To begin, install the TypeORM module for TS.ED:
 ```bash
@@ -42,7 +42,7 @@ Then import `@tsed/typeorm` in your Server:
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-configuration.ts
 
-### TypeORMService
+## TypeORMService
 
 TypeORMService lets you retrieve an instance of TypeORM Connection.
 
@@ -50,7 +50,7 @@ TypeORMService lets you retrieve an instance of TypeORM Connection.
 
 For more information about TypeORM, look its documentation [here](https://github.com/typeorm/typeorm);
 
-### Declare your connection as provider
+## Declare your connection as provider
 
 It is also possible to create your connection with the `useAsyncFactory` feature (See [custom providers](/docs/custom-provider.md))
 This approach allows you to inject your connection as a Service to another one.

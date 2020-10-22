@@ -5,7 +5,7 @@ module.exports = {
   title,
   description,
   serviceWorker: false,
-  theme: "tsed",
+  theme: "tsed2",
   head: [
     ["link", { canonical: url }],
     ["link", { rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon" }],
@@ -34,8 +34,15 @@ module.exports = {
   ],
 
   themeConfig: {
-    shortTitle: "Ts.ED v6",
+    shortTitle: "Ts.ED",
+    htmlTitle: "<strong class=\"font-medium\"><span class='text-blue'>Ts</span>.ED</strong>",
     version: require("../../package").version,
+    licenseType: "MIT",
+    author: "Lenzotti Romain",
+    copyrightDates: {
+      start: "2016",
+      end: new Date().getFullYear()
+    },
     repo: "TypedProject/tsed",
     openCollective: "tsed",
     gitterUrl: "https://gitter.im/Tsed-io/community",
@@ -44,6 +51,7 @@ module.exports = {
     editLinks: true,
     docsDir: "docs",
     sidebar: "auto",
+    docsBranch: "production",
     api: require("./public/api.json"),
     smoothScroll: true,
     algolia: {
@@ -79,7 +87,74 @@ module.exports = {
             title: `Documentation | ${title}`
           },
           {
+            icon: "bx bx-dots-horizontal-rounded text-lg",
+            link: "/docs/controllers.html",
+            title: `More`,
+            items: [
+              {
+                text: "Plugins",
+                link: "/plugins",
+                items: [
+                  {
+                    text: "AJV",
+                    link: "/tutorials/ajv.md"
+                  },
+                  {
+                    text: "AWS",
+                    link: "/tutorials/aws.md"
+                  },
+                  {
+                    text: "Passport.js",
+                    link: "/tutorials/passport.md"
+                  },
+                  {
+                    text: "TypeORM",
+                    link: "/tutorials/typeorm.md"
+                  },
+                  {
+                    text: "Mongoose",
+                    link: "/tutorials/mongoose.md"
+                  },
+                  {
+                    text: "GraphQL",
+                    link: "/tutorials/graphql.md"
+                  },
+                  {
+                    text: "Socket.io",
+                    link: "/tutorials/socket-io.md"
+                  },
+                  {
+                    text: "Swagger",
+                    link: "/tutorials/swagger.md"
+                  }
+                ]
+              },
+              {
+                text: "Extra",
+                items: [
+                  {
+                    text: "CLI",
+                    link: "http://cli.tsed.io"
+                  },
+                  {
+                    text: "Api reference",
+                    link: "/api.html"
+                  },
+                  {
+                    text: "Contributes",
+                    link: "/tutorials/contributing.md"
+                  },
+                  {
+                    text: "License",
+                    link: "/tutorials/licence.md"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             text: "Versions",
+            position: "right",
             items: [
               {
                 text: "v4 (obsolete)",
@@ -174,72 +249,6 @@ module.exports = {
             ]
           }
         ],
-        //
-        // {
-        // "/": [
-        //   {
-        //     title: "Getting started",
-        //     collapsable: true,
-        //     children: [
-        //       "getting-started",
-        //       "start-application-from-scratch",
-        //       "create-your-first-controller"
-        //     ]
-        //   },
-        //   {
-        //     title: "Migration",
-        //     collapsable: true,
-        //     children: [
-        //       "migration-from-v5",
-        //       "migrate-from-express",
-        //       "migrate-from-koa"
-        //     ]
-        //   },
-        //   {
-        //     title: "Documentation",
-        //     collapsable: true,
-        //     children: [
-        //       "configuration",
-        //       "controllers",
-        //       "providers",
-        //       "model",
-        //       "converters",
-        //       "middlewares",
-        //       "pipes",
-        //       "interceptors",
-        //       "authentication",
-        //       "hooks",
-        //       "exceptions",
-        //       "platform-api"
-        //     ]
-        //   },
-        //
-        //   {
-        //     title: "Plugins",
-        //     collapsable: false,
-        //     children: [
-        //       "passport",
-        //       "typeorm",
-        //       "mongoose",
-        //       "graphql",
-        //       "socket-io",
-        //       "seq",
-        //       "swagger",
-        //       "ajv",
-        //       "multer"
-        //     ]
-        //   },
-        //   {
-        //     title: "Extras",
-        //     collapsable: true,
-        //     children: [
-        //       "",
-        //       "throw-http-exceptions",
-        //       "aws"
-        //     ]
-        //   }
-        // ]
-        // },
         otherTopics: [
           "/tutorials/session",
           "/tutorials/passport",
@@ -269,19 +278,7 @@ module.exports = {
           "/docs/custom-providers",
           "/docs/custom-endpoint-decorators",
           "/docs/testing"
-        ],
-
-        footer: {
-          lastUpdated: "Last update",
-          caughtMistake: "Caught a mistake or want to contribute to the documentation?",
-          editPageOnGithub: "Edit on Github",
-          contribute: "Contribute",
-          helpToContribute: "Help shape the future of Ts.Ed by joining our team and send us pull requests via our",
-          githubRepository: "GitHub repository!",
-          license: "License",
-          releaseUnder: "Released under the",
-          documentationGeneratedWith: "Documentation generated with"
-        }
+        ]
       }
     },
     plugins: [
@@ -296,7 +293,7 @@ module.exports = {
   markdown: {
     lineNumbers: true,
     extendMarkdown: md => {
-      md.use(require("vuepress-theme-tsed/plugins/markdown-it-symbol"));
+      md.use(require("@tsed/markdown-it-symbols"));
     }
   }
 };

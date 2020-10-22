@@ -11,13 +11,13 @@ projects:
 ---
 # Mongoose <Badge text="Contributors are welcome" />
 
-<Banner src="http://mongodb-tools.com/img/mongoose.png" height="128" href="http://mongoosejs.com/"></Banner>
+<Banner src="http://mongodb-tools.com/img/mongoose.png" height="200" href="http://mongoosejs.com/"></Banner>
 
 This tutorial show yous how you can use mongoose package with Ts.ED. 
 
 <Projects type="examples"/>
 
-## Feature
+## Features
 
 Currently, [`@tsed/mongoose`](https://www.npmjs.com/package/@tsed/mongoose) allows you to:
  
