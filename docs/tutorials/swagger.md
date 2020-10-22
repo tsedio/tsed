@@ -7,7 +7,7 @@ meta:
 ---
 # Swagger
 
-<Banner src="https://swagger.io/swagger/media/assets/images/swagger_logo.svg" href="https://swagger.io/" :height="100" />
+<Banner src="https://swagger.io/swagger/media/assets/images/swagger_logo.svg" href="https://swagger.io/" :height="180" />
 
 
 This page shows you how you can configure Swagger-ui with Ts.ED. Swagger uses the OpenApi

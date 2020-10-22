@@ -11,6 +11,8 @@ projects:
 ---
 # AWS
 
+<Banner src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/langfr-220px-Amazon_Web_Services_Logo.svg.png" href="https://aws.amazon.com/fr/" :height="180" />
+
 Amazon Web Services is one possible way to host your Node.js application.
 
 This tutorial shows you how to configure the Express application written with Ts.ED, to be executed as an AWS Lambda Function.
