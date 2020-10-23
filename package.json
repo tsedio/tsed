@@ -5,6 +5,7 @@
   "private": true,
   "scripts": {
     "postinstall": "node tasks/yarn/postinstall.js",
+    "configure": "monorepo ci configure",
     "clean": "monorepo clean workspace",
     "test": "yarn clean && yarn test:lint && yarn test:coverage",
     "test:unit": "cross-env NODE_ENV=test mocha",
@@ -80,7 +81,7 @@
   },
   "devDependencies": {
     "@tsed/markdown-it-symbols": "2.15.3",
-    "@tsed/monorepo-utils": "1.10.0",
+    "@tsed/monorepo-utils": "1.11.0",
     "@typedproject/ts-doc": "4.0.9",
     "@types/chai": "4.2.12",
     "@types/chai-as-promised": "7.1.3",
