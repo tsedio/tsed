@@ -2,7 +2,7 @@
  <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
-[![Build Status](https://travis-ci.org/TypedProject/tsed.svg?branch=master)](https://travis-ci.org/TypedProject/tsed)
+[![Build & Release](https://github.com/TypedProject/tsed/workflows/Build%20&%20Release/badge.svg?branch=master)](https://github.com/TypedProject/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![Coverage Status](https://coveralls.io/repos/github/TypedProject/tsed/badge.svg?branch=production)](https://coveralls.io/github/TypedProject/tsed?branch=production)
 ![npm](https://img.shields.io/npm/dm/@tsed/common.svg)
 [![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Fcommon)

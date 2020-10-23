@@ -2181,10 +2181,10 @@
   dependencies:
     tslib "1.11.0"
 
-"@tsed/monorepo-utils@^1.9.5":
-  version "1.9.5"
-  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.9.5.tgz#087331a5de28a37504f951d552da4832f4132fa1"
-  integrity sha512-g7RbRszoCIDYEb5dAJaHJUt5gMaxg3agKa/CkFVV33OnjN/n6guN9qztXL3y/wRiJCoskVjjCALA8ZJP688q4A==
+"@tsed/monorepo-utils@1.11.0":
+  version "1.11.0"
+  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.11.0.tgz#ef045b0bc2f16ff80421597a0f42c07f76771760"
+  integrity sha512-eKbzA9humqbXfq9fNuilMEJ1t53XLxSnElrBI4VxJgafNUb+HpZmp4Xm90HtajX37/xm/5NlV16Ng0F+ubgXTg==
   dependencies:
     axios "0.19.2"
     chalk "3.0.0"
