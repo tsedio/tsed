@@ -18,8 +18,8 @@
 
 ## What it is
 
-Ts.ED is a framework on top of Express that helps you to write your application in TypeScript (or in ES6). It provides a lot of decorators 
-to make your code more readable and less error-prone.
+Ts.ED is a Node.js and TypeScript Framework on top of Express/Koa.js. Ts.ED is a framework on top of Express/Koa to write your application with TypeScript (or ES6). 
+It provides a lot of decorators and guideline to make your code more readable and less error-prone.
 
 ## Features
 

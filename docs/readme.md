@@ -14,7 +14,7 @@ liveDemoUrl: https://codesandbox.io/embed/laughing-kepler-ripfl?fontsize=14&hide
 features:
 - title: Rest API
   icon: bx-server
-  details: Create your Rest API easily and create different version paths of your API
+  details: Create your Rest API easily and create different version paths of your API.
 - title: Configuration
   icon: bx-shape-square
   details: Don't waste your time with configuration, the server is preconfigured to start quickly!
@@ -26,7 +26,7 @@ features:
   details: A lot of decorators are provided to structure your code and define route and method.
 - title: Testing
   icon: bx-test-tube
-  details: To test or not to test? isn't a question. Ts.ED embeds some features to test your code! <a href="/docs/testing.html">See more</a>
+  details: To test or not to test? isn't a question. Ts.ED embeds some features to test your code! <a class="underline hover:text-blue-active transition-all" href="/docs/testing.html">See more</a>.
 contributors:
   classes: bg-gray-lighter
   title: Our awesome <b>contributors</b>
@@ -56,6 +56,43 @@ sponsors:
    label: Become sponsor
    url: https://opencollective.com/tsed#sponsor
 showContent: false
+frameworks:
+- title: TypeScript
+  href: https://www.typescriptlang.org/
+  src: /typescript.png 
+- title: Express.js
+  href: https://expressjs.com/
+  src: /expressjs.svg
+- title: Koa.js
+  href: https://koajs.com/
+  src: /koa.svg
+- title: Jest
+  href: https://jestjs.io/
+  src: /jest.svg
+- title: Mocha
+  href: https://mochajs.org/
+  src: /mochajs.svg
+- title: AJV
+  href: /tutorials/ajv.html
+  src: https://ajv.js.org/images/ajv_logo.png
+- title: Swagger
+  href: /tutorials/swagger.html
+  src: /swagger.svg 
+- title: Passport
+  href: /tutorials/passport.html 
+  src: /passportjs.png
+- title: Mongoose
+  href: /tutorials/mongoose.html
+  src: /mongoose.png   
+- title: TypeORM
+  href: /tutorials/typeorm.html
+  src: /typeorm.png
+- title: TypeGraphQL
+  href: /tutorials/graphql.html
+  src: /typegraphql.png
+- title: Socket.io
+  href: /tutorials/socketio.html
+  src: /socketio.svg
 ---
 
 ::: slot hero-brand
@@ -68,7 +105,7 @@ Build your awesome server-size **application.** <WordsSlider>#Decorators, #Rest 
 :::
 
 ::: slot hero-content
-
+<img src="/hero-bg.svg" class="animate-hero" />
 :::
 
 ::: slot testimonial-title
@@ -76,6 +113,14 @@ Why <span class="text-blue">Ts</span>.ED?
 :::
 
 ::: slot testimonial-content
-Ts.ED is a Node.js and TypeScript framework on top of Express to write your application with TypeScript (or
-ES6). It provides a lot of decorators and guideline to make your code more readable and less error-prone.
+Ts.ED is a Node.js and TypeScript Framework on top of Express/Koa.js. Ts.ED is a framework on top of Express/Koa to write your application with TypeScript (or ES6). 
+It provides a lot of decorators and guideline to make your code more readable and less error-prone.
 :::
+
+<div class="w-full max-w-site mx-auto px-5 py-5 md:py-10">
+
+<p class="text-center font-normal text-xl m-auto max-w-lg">There are some of the libraries and the technologies that we use or supports with this <strong>framework</strong></p>
+
+<Frameworks />
+
+</div>
