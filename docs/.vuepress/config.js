@@ -5,7 +5,7 @@ module.exports = {
   title,
   description,
   serviceWorker: false,
-  theme: "tsed2",
+  theme: "tsed",
   head: [
     ["link", { canonical: url }],
     ["link", { rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon" }],
