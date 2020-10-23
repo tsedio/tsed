@@ -14,7 +14,7 @@
   },
   "private": false,
   "devDependencies": {
-    "@apidevtools/swagger-parser": "9.0.1",
+    "@apidevtools/swagger-parser": "10.0.1",
     "@types/change-case": "2.3.1",
     "@types/fs-extra": "9.0.2",
     "fs-extra": "9.0.1"
