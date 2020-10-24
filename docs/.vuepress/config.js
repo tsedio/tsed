@@ -37,6 +37,7 @@ module.exports = {
     shortTitle: "Ts.ED",
     htmlTitle: "<strong class=\"font-medium\"><span class='text-blue'>Ts</span>.ED</strong>",
     version: require("../../package").version,
+    teams: require("../../teams"),
     licenseType: "MIT",
     author: "Lenzotti Romain",
     copyrightDates: {
@@ -219,8 +220,7 @@ module.exports = {
               "/docs/injection-scopes",
               "/docs/custom-providers",
               "/docs/custom-endpoint-decorators",
-              "/docs/testing",
-              "/api"
+              "/docs/testing"
             ]
           },
           {
@@ -244,6 +244,7 @@ module.exports = {
               "/tutorials/",
               "/tutorials/throw-http-exceptions",
               "/tutorials/not-found-page",
+              "/api",
               "/contributing",
               "/license"
             ]

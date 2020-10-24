@@ -23,11 +23,3 @@
         transform: scale(1.3) translateY(-20px) translateX(-20px) rotate(5deg);
     }
 }
-
-#nprogress .bar.bar {
-    @apply bg-blue;
-}
-
-#nprogress .peg.peg {
-    box-shadow: 0 0 10px theme('colors.blue'), 0 0 5px theme('colors.blue');
-}
