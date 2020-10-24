@@ -37,6 +37,7 @@ module.exports = {
     shortTitle: "Ts.ED",
     htmlTitle: "<strong class=\"font-medium\"><span class='text-blue'>Ts</span>.ED</strong>",
     version: require("../../package").version,
+    teams: require("../../teams"),
     licenseType: "MIT",
     author: "Lenzotti Romain",
     copyrightDates: {
@@ -54,6 +55,7 @@ module.exports = {
     docsBranch: "production",
     api: require("./public/api.json"),
     smoothScroll: true,
+    lastUpdated: 'Last updated',
     algolia: {
       apiKey: "f8a038207e461aaac0e2fd16403c2b01",
       indexName: "ts_ed"
@@ -219,8 +221,7 @@ module.exports = {
               "/docs/injection-scopes",
               "/docs/custom-providers",
               "/docs/custom-endpoint-decorators",
-              "/docs/testing",
-              "/api"
+              "/docs/testing"
             ]
           },
           {
@@ -244,6 +245,7 @@ module.exports = {
               "/tutorials/",
               "/tutorials/throw-http-exceptions",
               "/tutorials/not-found-page",
+              "/api",
               "/contributing",
               "/license"
             ]

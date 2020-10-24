@@ -46,15 +46,15 @@ backers:
 sponsors:
  type: cols
  classes:
- title: Our <b>Sponsors</b>
+ title: Our <b>Sponsors / Partners</b>
  description: Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
  image:
    src: /sponsors.svg
    href: http://www.freepik.com
    title: Designed by pch.vector / Freepik
  cta:
-   label: Become sponsor
-   url: https://opencollective.com/tsed#sponsor
+   label: Become a sponsor
+   url: /support.html
 showContent: false
 frameworks:
 - title: TypeScript
@@ -121,6 +121,8 @@ It provides a lot of decorators and guideline to make your code more readable an
 
 <p class="text-center font-normal text-xl m-auto max-w-lg">There are some of the libraries and the technologies that we use or supports with this <strong>framework</strong></p>
 
+<div class="mt-5 pt-5">
 <Frameworks />
+</div>
 
 </div>

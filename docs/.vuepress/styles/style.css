@@ -1,33 +1,25 @@
 .hero-banner {
-    overflow: hidden;
+  overflow: hidden;
 }
 
 .animate-hero {
-    transform: scale(1.1);
-    transition: all ease-in-out 0.5s;
-    transition-delay: 0.5s;
+  transform: scale(1.1);
+  transition: all ease-in-out 0.5s;
+  transition-delay: 0.5s;
 }
 
 @screen sm {
-    .animate-hero {
-        transform: scale(1.2) translateY(50px) translateX(30px)
-    }
+  .animate-hero {
+    transform: scale(1.2) translateY(50px) translateX(30px)
+  }
 }
 
 @screen md {
-    .animate-hero {
-        transform: scale(1.1);
-    }
+  .animate-hero {
+    transform: scale(1.1);
+  }
 
-    .hero-banner:hover .animate-hero {
-        transform: scale(1.3) translateY(-20px) translateX(-20px) rotate(5deg);
-    }
-}
-
-#nprogress .bar.bar {
-    @apply bg-blue;
-}
-
-#nprogress .peg.peg {
-    box-shadow: 0 0 10px theme('colors.blue'), 0 0 5px theme('colors.blue');
+  .hero-banner:hover .animate-hero {
+    transform: scale(1.3) translateY(-20px) translateX(-20px) rotate(5deg);
+  }
 }
