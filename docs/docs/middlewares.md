@@ -206,4 +206,4 @@ export class Server {
 
 ## Provided middlewares
 
-<ApiList query="symbolType === 'class' && status.indexOf('middleware') > -1" />
+<ApiList query="symbolType: class AND tags: middleware" />

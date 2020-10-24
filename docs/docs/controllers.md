@@ -32,7 +32,7 @@ map every corresponding request to this handler. Since we've declared a prefix f
 
 Ts.ED provides a decorator for each HTTP verb which can be used to handle a request:
 
-<ApiList query="status.includes('decorator') && status.includes('httpMethod')" />
+<ApiList query="tags:decorator AND tags:httpMethod" />
 
 Other decorators are provided to describe your route with OpenSpec, adding middlewares, adding some constraints or adding headers:
 
@@ -412,4 +412,4 @@ Then, on your child controller:
 
 ## Decorators
 
-<ApiList query="status.includes('decorator') && (status.includes('operation') || status.includes('controller'))" />
+<ApiList query="tags: decorator AND operation OR controller"/>

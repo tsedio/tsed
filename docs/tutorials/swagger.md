@@ -7,7 +7,7 @@ meta:
 ---
 # Swagger
 
-<Banner src="https://swagger.io/swagger/media/assets/images/swagger_logo.svg" href="https://swagger.io/" :height="180" />
+<Banner src="https://swagger.io/swagger/media/assets/images/swagger_logo.svg" href="https://swagger.io/" :height="200" />
 
 
 This page shows you how you can configure Swagger-ui with Ts.ED. Swagger uses the OpenApi
@@ -123,17 +123,17 @@ document.addEventListener('swagger.init', (evt) => {
 
 These decorators already add a documentation on Swagger:
 
-<ApiList query="['Header', 'Status'].indexOf(symbolName) > -1 || (status.includes('decorator') && status.includes('schema'))" />
+<ApiList query="((symbolName: Header OR Status) OR (tags: schema)) AND tags: decorator" />
 
 In addition, the Ts.ED Swagger plugin gives some decorators to manage documentation:
 
-<ApiList query="module === '@tsed/swagger' && symbolType === 'decorator'" />
+<ApiList query="(symbolName: Docs OR Hidden) AND symbolType: decorator" />
 
 
 ## Authors
 
-<GithubContributors users="['vologab', 'Romakita']"/>
+<GithubContributors :users="['vologab', 'Romakita']"/>
 
 ## Maintainers
 
-<GithubContributors users="['Romakita']"/>
+<GithubContributors :users="['Romakita']"/>
