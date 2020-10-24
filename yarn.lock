@@ -2352,24 +2352,24 @@
     read-package-json "2.1.1"
     semver "7.3.2"
 
-"@tsed/vuepress-common@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@tsed/vuepress-common/-/vuepress-common-3.0.2.tgz#e320ab3e70f279ce8d85f42dc898c790e7039625"
-  integrity sha512-aBms5k9jmr57IiK+5YJfgsPBQ+XUW7zWa0K5ov+JHxvP/yDCIcylVGwEkn3j9zyy8lgkrY9FsDxoNhd70ztxUw==
+"@tsed/vuepress-common@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@tsed/vuepress-common/-/vuepress-common-3.1.0.tgz#fb49cd70e03977d69506fbebbf166a02a510203f"
+  integrity sha512-AjC6tiWPMv4CfToYQAA0TPfp5PguhPip7W+6F6K84CiyvJTvjIr5VYxaOh3cupNQTOfOjO82lCOTPUsc+1UAWA==
   dependencies:
     "@docsearch/css" "1.0.0-alpha.28"
     "@docsearch/js" "1.0.0-alpha.28"
-    axios "0.19.2"
+    axios "0.20.0"
     lodash "^4.17.15"
     lucene-filter "0.1.3"
     lucene-query-parser "1.2.0"
     normalize.css "8.0.1"
-    prismjs "1.20.0"
+    prismjs "1.21.0"
 
-"@tsed/vuepress-tailwind-config@3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@tsed/vuepress-tailwind-config/-/vuepress-tailwind-config-3.0.2.tgz#cdadc88fe967f96f11037c4661f7c0e84007cf13"
-  integrity sha512-xhMQeFyEsARBVPTx75GH8NuCsMg3chNW2HD1munXdIKYnHENh+1bXnyvNfsI+SgTAnubqV6XFqRze1aKtbpfFA==
+"@tsed/vuepress-tailwind-config@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@tsed/vuepress-tailwind-config/-/vuepress-tailwind-config-3.1.0.tgz#4329ce76b019938c22c7c1689f5b2db08fadcc86"
+  integrity sha512-dUM73P1lfxm7qVMUebXtXYqZRtrn0kV1WVmeN85d7rgzn5un/EyluZL640Kv4kAkWbg1cF8uYiW+DpJ4lm1YlA==
   dependencies:
     tailwindcss "1.4.6"
 
@@ -4282,6 +4282,13 @@ axios@0.19.2:
   integrity sha512-fjgm5MvRHLhx+osE2xoekY70AhARk3a6hkN+3Io1jc00jtquGvxYlKlsFUhmUET0V5te6CcZI7lcv2Ym61mjHA==
   dependencies:
     follow-redirects "1.5.10"
+
+axios@0.20.0:
+  version "0.20.0"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.20.0.tgz#057ba30f04884694993a8cd07fa394cff11c50bd"
+  integrity sha512-ANA4rr2BDcmmAQLOKft2fufrtuvlqR+cXNNinUmvfeSNCOF98PZL+7M/v1zIdGo7OLjEA9J2gXJL+j4zGsl0bA==
+  dependencies:
+    follow-redirects "^1.10.0"
 
 babel-loader@^8.0.4:
   version "8.1.0"
@@ -7741,7 +7748,7 @@ follow-redirects@1.5.10:
   dependencies:
     debug "=3.1.0"
 
-follow-redirects@^1.0.0:
+follow-redirects@^1.0.0, follow-redirects@^1.10.0:
   version "1.13.0"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.13.0.tgz#b42e8d93a2a7eea5ed88633676d6597bc8e384db"
   integrity sha512-aq6gF1BEKje4a9i9+5jimNFIpq4Q1WiwBToeRK5NvZBd/TRsmW8BsJfOEGkr76TbOyPVD3OVDN910EcUNtRYEA==
@@ -13369,14 +13376,7 @@ pretty-time@^1.1.0:
   resolved "https://registry.yarnpkg.com/pretty-time/-/pretty-time-1.1.0.tgz#ffb7429afabb8535c346a34e41873adf3d74dd0e"
   integrity sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==
 
-prismjs@1.20.0:
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.20.0.tgz#9b685fc480a3514ee7198eac6a3bf5024319ff03"
-  integrity sha512-AEDjSrVNkynnw6A+B1DsFkd6AVdTnp+/WoUixFRULlCLZVRZlVQMVWio/16jv7G1FscUxQxOQhWwApgbnxr6kQ==
-  optionalDependencies:
-    clipboard "^2.0.0"
-
-prismjs@^1.13.0:
+prismjs@1.21.0, prismjs@^1.13.0:
   version "1.21.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.21.0.tgz#36c086ec36b45319ec4218ee164c110f9fc015a3"
   integrity sha512-uGdSIu1nk3kej2iZsLyDoJ7e9bnPzIgY0naW/HdknGj61zScaprVEVGHrPoXqI+M9sP0NDnTK2jpkvmldpuqDw==
@@ -16678,23 +16678,23 @@ vuepress-plugin-smooth-scroll@^0.0.9:
   dependencies:
     smoothscroll-polyfill "^0.4.4"
 
-vuepress-theme-tsed@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.0.2.tgz#ddb5c56754781a690f20d7252e67f6c4e9cd52f2"
-  integrity sha512-NofU+rpWU67WgNtRK4vQc7ChrlhWZ8UZSV4D5GnXMrYl6rFNH4qMraWGjOmULYiwTAfz2TPjxl18PVO8exMkyw==
+vuepress-theme-tsed@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.1.0.tgz#cae2bd77efdbfa635563e7b0fa8197a2b7bf9111"
+  integrity sha512-w5paS66HEF8H+zD5dfogtGaY+N/HGH0ZgGfbAi97c15BPDW4dzoV9SWl5ZtTyiJcTwrfqAJmNEsVBrbS8rLXng==
   dependencies:
     "@docsearch/css" "1.0.0-alpha.28"
     "@docsearch/js" "1.0.0-alpha.28"
     "@sass-collective/sass-rem" "^1.4.1"
     "@silvanite/vuepress-plugin-tailwind" "^1.3.0"
     "@tsed/markdown-it-symbols" "2.15.0"
-    "@tsed/vuepress-common" "3.0.2"
-    "@tsed/vuepress-tailwind-config" "3.0.2"
+    "@tsed/vuepress-common" "3.1.0"
+    "@tsed/vuepress-tailwind-config" "3.1.0"
     "@vuepress/plugin-active-header-links" "1.2.0"
     "@vuepress/plugin-nprogress" "1.6.0"
     "@vuepress/plugin-search" "1.2.0"
     "@vuepress/theme-default" "1.5.0"
-    axios "0.19.2"
+    axios "0.20.0"
     lodash "^4.17.15"
     lucene-filter "0.1.3"
     lucene-query-parser "1.2.0"
