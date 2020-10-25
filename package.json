@@ -21,7 +21,7 @@
     "examples:sync": "monorepo sync examples",
     "examples:publish": "monorepo publish examples",
     "api:build": "lerna run build && ts-doc",
-    "vuepress:build": "cross-env NODE_ENV=production vuepress build docs",
+    "vuepress:build": "cross-env NODE_ENV=production node --max_old_space_size=8192 ./node_modules/vuepress/cli.js build docs",
     "vuepress:serve": "vuepress dev docs",
     "prettier": "prettier '{packages,test}/**/*.ts' --write",
     "release": "semantic-release",
@@ -150,17 +150,19 @@
     "watchpack": "1.6.1"
   },
   "monorepo": {
-    "productionBranch": "production",
+    "productionBranch": "5.x",
+    "developBranch": "5.x",
     "npmAccess": "public",
+    "npmDistTag": "maintenance",
     "ignoreSyncDependencies": [
       "express",
       "@types/express"
     ],
     "ghpages": {
       "dir": "./docs/.vuepress/dist",
-      "url": "https://github.com/TypedProject/tsed.git",
-      "branch": "gh-pages",
-      "cname": "tsed.io"
+      "url": "https://github.com/TypedProject/v5.tsed.io.git",
+      "branch": "master",
+      "cname": "v5.tsed.io"
     },
     "examples": {
       "dir": "./examples",

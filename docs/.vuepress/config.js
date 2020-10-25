@@ -45,10 +45,6 @@ module.exports = {
     docsDir: "docs",
     sidebar: "auto",
     api: require("./public/api.json"),
-    algolia: {
-      apiKey: "f8a038207e461aaac0e2fd16403c2b01",
-      indexName: "ts_ed"
-    },
     locales: {
       "/": {
         label: "English",
@@ -138,8 +134,8 @@ module.exports = {
                 link: "http://v4.tsed.io"
               },
               {
-                text: "v6 (next)",
-                link: "http://v6.tsed.io"
+                text: "v6 (current)",
+                link: "http://tsed.io"
               }
             ]
           }
