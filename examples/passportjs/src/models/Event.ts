@@ -1,4 +1,4 @@
-import {Format, Property, CollectionOf} from "@tsed/common";
+import {Format, Property, CollectionOf} from "@tsed/schema";
 import {Task} from "./Task";
 
 export class EventCreation {

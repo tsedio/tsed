@@ -1,4 +1,4 @@
-import {Description, Ignore} from "@tsed/common";
+import {Description, Ignore} from "@tsed/schema";
 import {UserCreation} from "./UserCreation";
 
 export class User extends UserCreation {

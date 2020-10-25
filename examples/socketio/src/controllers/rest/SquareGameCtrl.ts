@@ -4,9 +4,7 @@ import {SquareGameService} from "../../services/SquareGameService";
 
 @Controller("/squaregame")
 export class SquareGameCtrl {
-
   constructor(private squareGameService: SquareGameService) {
-
   }
 
   @Get("/settings")

@@ -1,27 +1,28 @@
+import {CollectionOf, getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import {JsonSchema, MinItems} from "../../../src/jsonschema";
-import {stubSchemaDecorator} from "./utils";
+import {MinItems} from "./minItems";
 
 describe("MinItems", () => {
   it("should store data", () => {
-    const decorateStub = stubSchemaDecorator();
-    const schema = new JsonSchema();
-
-    MinItems(10);
-    // @ts-ignore
-    decorateStub.getCall(0).args[0](schema);
-
-    expect(schema.minItems).to.eq(10);
-
-    decorateStub.restore();
-  });
-  it("should throw an error when the given parameters is as negative integer", () => {
-    let error: any;
-    try {
-      MinItems(-10);
-    } catch (er) {
-      error = er;
+    // WHEN
+    class Model {
+      @CollectionOf(Number)
+      @MinItems(10)
+      num: number[];
     }
-    expect(error.message).to.deep.equal("The value of minItems MUST be a non-negative integer.");
+
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      properties: {
+        num: {
+          items: {
+            type: "number"
+          },
+          minItems: 10,
+          type: "array"
+        }
+      },
+      type: "object"
+    });
   });
 });

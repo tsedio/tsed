@@ -9,8 +9,8 @@ describe("@Args", () => {
     }
 
     const param = ParamMetadata.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("args");
-    expect(param.paramType).to.eq(ParamTypes.REQUEST);
+    expect(param.expression).to.eq("PROTOCOL_ARGS");
+    expect(param.paramType).to.eq(ParamTypes.$CTX);
   });
 });
 
@@ -21,7 +21,7 @@ describe("@Arg", () => {
     }
 
     const param = ParamMetadata.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("args.0");
-    expect(param.paramType).to.eq(ParamTypes.REQUEST);
+    expect(param.expression).to.eq("PROTOCOL_ARGS.0");
+    expect(param.paramType).to.eq(ParamTypes.$CTX);
   });
 });

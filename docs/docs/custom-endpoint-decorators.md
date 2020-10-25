@@ -14,7 +14,7 @@ It's based on the middleware and use one of these decorators to work:
 
 Many other decorators are implemented and can be taken as an example to build your own endpoint decorator. Just follow the links here and click on source link to see source code on Github:
 
-<ApiList query="status.indexOf('endpoint') > -1 && status.indexOf('decorator') > -1" />
+<ApiList query="status.indexOf('operation') > -1 && status.indexOf('decorator') > -1" />
 
 ## Build your own decorator
 

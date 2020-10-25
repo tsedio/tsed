@@ -1,5 +1,5 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
-import {GlobalAcceptMimesMiddleware} from "@tsed/platform-express";
+import "@tsed/platform-express";
 import "@tsed/swagger";
 import "@tsed/typeorm";
 import * as bodyParser from "body-parser";
@@ -38,7 +38,6 @@ const clientDir = path.join(rootDir, "../../client/build");
   componentsScan: [
     "${rootDir}/middlewares/**/*.ts",
     "${rootDir}/services/**/*.ts",
-    "${rootDir}/converters/**/*.ts",
     "${rootDir}/repositories/**/*.ts"
   ],
   swagger: [
@@ -85,7 +84,6 @@ export class Server {
    */
   $beforeRoutesInit(): void | Promise<any> {
     this.app
-      .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())

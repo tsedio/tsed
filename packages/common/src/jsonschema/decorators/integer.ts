@@ -1,12 +1,11 @@
-import {JsonSchema} from "../class/JsonSchema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {Integer as I} from "@tsed/schema";
 
 /**
  * Set integer type.
  *
  * ::: warning
  * This decorator will be removed in v7.
- * For v6 user, use @@Integer@@ from @tsed/schema instead of @@AllowTypes@@ from @tsed/common.
+ * For v6 user, use @@Integer@@ from @tsed/schema instead of @@Integer@@ from @tsed/common.
  * :::
  *
  * ## Example
@@ -60,9 +59,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Since v6. Use @Integer decorator from @tsed/schema instead of.
  */
 export function Integer() {
-  return decoratorSchemaFactory((schema: JsonSchema) => {
-    schema.mapper.type = "integer";
-  });
+  return I();
 }

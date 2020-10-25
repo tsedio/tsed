@@ -1,4 +1,4 @@
-import {HandlerMetadata, HandlerType} from "@tsed/common";
+import {HandlerContextStatus, HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
 import {isStream} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
@@ -6,7 +6,10 @@ import {createReadStream} from "fs";
 import {of} from "rxjs";
 import * as Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
+import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 import {HandlerContext} from "./HandlerContext";
+
+const sandbox = Sinon.createSandbox();
 
 class Test {
   getValue(body: any) {
@@ -60,74 +63,100 @@ class Test {
 }
 
 async function getHandlerContext({token, propertyKey, args}: any = {}) {
-  const injector = new InjectorService();
+  const injector = PlatformTest.injector;
   injector.addProvider(Test);
 
   const metadata = new HandlerMetadata({
     target: token,
     token,
     propertyKey,
-    type: HandlerType.CONTROLLER
+    type: HandlerType.ENDPOINT
   });
-  const request: any = new FakeRequest();
-  const response: any = new FakeResponse();
-  const next = () => {};
+
+  const $ctx = createFakePlatformContext(sandbox);
 
   const handlerContext: HandlerContext = new HandlerContext({
-    injector,
+    $ctx,
     metadata,
-    request,
-    response,
-    args,
-    next
+    args
   });
 
   return {
-    response,
-    request,
-    handlerContext,
-    run() {
-      return new Promise((resolve) => {
-        if (!handlerContext.isDone) {
-          // @ts-ignore
-          handlerContext._next = resolve;
-        }
-        handlerContext.callHandler().catch((err) => handlerContext.next(err));
-      });
-    }
+    $ctx,
+    handlerContext
   };
 }
 
 describe("HandlerContext", () => {
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
+  afterEach(() => sandbox.restore());
+
   it("should declare a new HandlerContext and return value", async () => {
-    const {request, run, handlerContext} = await getHandlerContext({
+    const {$ctx, handlerContext: h} = await getHandlerContext({
       token: Test,
       propertyKey: "getValue",
       args: ["value"]
     });
 
-    Sinon.spy(handlerContext, "handle");
+    // @ts-ignore
+    Sinon.spy(h, "handle");
+
+    expect(h.injector).to.be.instanceof(InjectorService);
+    expect(h.metadata).to.be.instanceof(HandlerMetadata);
+    expect(h.request).to.be.instanceof(FakeRequest);
+    expect(h.response).to.be.instanceof(FakeResponse);
+    expect(h.args).to.deep.eq(["value"]);
 
     // WHEN
-    const result = await run();
-    run();
+    const result = await h.callHandler();
+    h.cancel();
+    h.next();
+    h.resolve();
+    h.reject(new Error("error"));
+    await h.callHandler();
 
     // THEN
-    expect(result).to.eq(undefined);
-    expect(request.$ctx.data).to.eq("value");
-    expect(handlerContext.isDone).to.eq(true);
-    expect(handlerContext.injector).to.eq(undefined);
-    expect(handlerContext.metadata).to.eq(undefined);
-    expect(handlerContext.request).to.eq(undefined);
-    expect(handlerContext.response).to.eq(undefined);
-    expect(handlerContext.args).to.eq(undefined);
+    expect(result).to.eq("value");
+    expect($ctx.data).to.eq("value");
+    expect(h.isDone).to.eq(true);
+    expect(h.status).to.eq(HandlerContextStatus.RESOLVED);
+    expect(h.injector).to.eq(undefined);
+    expect(h.metadata).to.eq(undefined);
+    expect(h.request).to.eq(undefined);
+    expect(h.response).to.eq(undefined);
+    expect(h.args).to.eq(undefined);
     // @ts-ignore
-    expect(handlerContext._next).to.eq(undefined);
-    expect(handlerContext.handle).to.have.been.calledWithExactly("value");
-    expect(handlerContext.handle).to.have.been.callCount(1);
+    expect(h.handle).to.have.been.calledWithExactly("value");
+    expect(h.handle).to.have.been.callCount(1);
   });
+
+  it("should call handler inside native middleware", async () => {
+    const {$ctx, handlerContext: h} = await getHandlerContext({
+      token: Test,
+      propertyKey: "getValue",
+      args: ["value"]
+    });
+    const next = Sinon.stub();
+
+    // WHEN
+    const middleware = async (req: any, res: any, next: any) => {
+      try {
+        await h.callHandler();
+
+        return next();
+      } catch (er) {
+        return next(er);
+      }
+    };
+
+    await middleware($ctx.getRequest(), $ctx.getResponse(), next);
+
+    expect(next).to.have.been.calledWithExactly();
+  });
+
   it("should declare a new HandlerContext and catch error", async () => {
-    const {request, run, handlerContext} = await getHandlerContext({
+    const {handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "catchError",
       args: ["value"]
@@ -136,200 +165,146 @@ describe("HandlerContext", () => {
     Sinon.spy(handlerContext, "handle");
 
     // WHEN
-    const result = await run();
+    let actualError: any;
+    try {
+      await handlerContext.callHandler();
+    } catch (er) {
+      actualError = er;
+    }
 
     // THEN
     // @ts-ignore
-    expect(result.message).to.deep.eq("value");
-    expect(request.$ctx.data).to.eq(undefined);
+    expect(actualError.message).to.deep.eq("value");
     expect(handlerContext.isDone).to.eq(true);
-    expect(handlerContext.injector).to.eq(undefined);
-    expect(handlerContext.metadata).to.eq(undefined);
-    expect(handlerContext.request).to.eq(undefined);
-    expect(handlerContext.response).to.eq(undefined);
-    expect(handlerContext.args).to.eq(undefined);
-    // @ts-ignore
-    expect(handlerContext._next).to.eq(undefined);
-
+    expect(handlerContext.status).to.eq(HandlerContextStatus.REJECTED);
     expect(handlerContext.handle).to.have.been.callCount(0);
   });
   it("should return the value from PROMISE", async () => {
-    const {request, run} = await getHandlerContext({
+    const {handlerContext, $ctx} = await getHandlerContext({
       token: Test,
       propertyKey: "getValueWithPromise",
       args: ["value"]
     });
 
     // WHEN
-    const result = await run();
+    const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.eq(undefined);
-    expect(request.$ctx.data).to.eq("value");
+    expect(result).to.eq("value");
+    expect($ctx.data).to.eq("value");
   });
   it("should return the value from BUFFER", async () => {
-    const {run, request} = await getHandlerContext({
+    const {handlerContext, $ctx} = await getHandlerContext({
       token: Test,
       propertyKey: "getBuffer",
       args: ["value"]
     });
 
     // WHEN
-    const result = await run();
+    const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.eq(undefined);
-    expect(Buffer.isBuffer(request.$ctx.data)).to.eq(true);
-    expect(request.$ctx.data.toString("utf8")).to.eq("value");
+    expect(Buffer.isBuffer(result)).to.eq(true);
+    expect(Buffer.isBuffer($ctx.data)).to.eq(true);
+    expect($ctx.data.toString("utf8")).to.eq("value");
   });
   it("should return the value from STREAM", async () => {
-    const {run, request} = await getHandlerContext({
+    const {handlerContext, $ctx} = await getHandlerContext({
       token: Test,
       propertyKey: "getStream",
       args: ["value"]
     });
 
     // WHEN
-    const result = await run();
+    const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.eq(undefined);
-    expect(isStream(request.$ctx.data)).to.eq(true);
+    expect(isStream(result)).to.eq(true);
+    expect(isStream($ctx.data)).to.eq(true);
   });
   it("should proxy axios/custom response", async () => {
-    const {run, request} = await getHandlerContext({
+    const {$ctx, handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "getResponse",
       args: ["value"]
     });
 
     // WHEN
-    const result = await run();
+    const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.eq(undefined);
-    expect(request.$ctx.data).to.eq("data");
+    expect(result).to.eq("data");
+    expect($ctx.data).to.eq("data");
   });
   it("should return the value from OBSERVABLE", async () => {
-    const {run, request} = await getHandlerContext({
+    const {$ctx, handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "getObservable",
       args: ["value"]
     });
 
     // WHEN
-    const result = await run();
+    const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.eq(undefined);
-    expect(request.$ctx.data).to.deep.eq(["value"]);
+    expect(result).to.deep.eq(["value"]);
+    expect($ctx.data).to.deep.eq(["value"]);
   });
   it("should return the value from FUNCTION", async () => {
-    const {run} = await getHandlerContext({
+    const {handlerContext} = await getHandlerContext({
       token: Test,
       propertyKey: "returnMiddleware",
       args: ["value"]
     });
 
     // WHEN
-    const result = await run();
+    const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.eq(undefined);
+    expect(result).to.be.a("function");
   });
   it("should call next immediately", async () => {
-    const {run, request} = await getHandlerContext({
+    const {handlerContext, $ctx} = await getHandlerContext({
       token: Test,
       propertyKey: "empty",
       args: ["value"]
     });
 
     // WHEN
-    const result = await run();
+    const result = await handlerContext.callHandler();
 
     // THEN
     expect(result).to.eq(undefined);
-    expect(request.$ctx.data).to.eq(undefined);
+    expect($ctx.data).to.eq(undefined);
   });
   it("should do nothing when response is returned", async () => {
-    const {run, request, handlerContext, response} = await getHandlerContext({
+    const {handlerContext, $ctx} = await getHandlerContext({
       token: Test,
       propertyKey: "getValue",
       args: []
     });
 
-    handlerContext.args = [response];
+    handlerContext.args = [$ctx.getResponse()];
 
     // WHEN
-    run();
+    await handlerContext.callHandler();
 
     // THEN
-    expect(request.$ctx.data).to.eq(undefined);
+    expect($ctx.data).to.eq(undefined);
   });
   it("should do nothing when response has already sent headers", async () => {
-    const {run, request, handlerContext, response} = await getHandlerContext({
+    const {handlerContext, $ctx} = await getHandlerContext({
       token: Test,
       propertyKey: "responseHeadersSent",
       args: []
     });
 
-    handlerContext.args = [response];
+    handlerContext.args = [$ctx.getResponse()];
 
     // WHEN
-    run();
+    await handlerContext.callHandler();
 
     // THEN
-    expect(request.$ctx.data).to.eq(undefined);
-    expect(response.headersSent).to.eq(true);
-  });
-  it("should do when request is aborted", async () => {
-    const {request, handlerContext} = await getHandlerContext({
-      token: Test,
-      propertyKey: "getValue",
-      args: []
-    });
-
-    request.aborted = true;
-    Sinon.stub(handlerContext, "next");
-
-    // WHEN
-    handlerContext.done(null, {});
-
-    // THEN
-    return expect(handlerContext.next).to.not.have.been.called;
-  });
-  it("should do when request is detached", async () => {
-    const {handlerContext} = await getHandlerContext({
-      token: Test,
-      propertyKey: "getValue",
-      args: []
-    });
-
-    // @ts-ignore
-    delete handlerContext.request;
-    Sinon.stub(handlerContext, "next");
-
-    // WHEN
-    handlerContext.done(null, {});
-
-    // THEN
-    return expect(handlerContext.next).to.not.have.been.called;
-  });
-  it("should do when response is detached", async () => {
-    const {handlerContext} = await getHandlerContext({
-      token: Test,
-      propertyKey: "getValue",
-      args: []
-    });
-
-    // @ts-ignore
-    delete handlerContext.response;
-    Sinon.stub(handlerContext, "next");
-
-    // WHEN
-    handlerContext.done(null, {});
-
-    // THEN
-    return expect(handlerContext.next).to.not.have.been.called;
+    expect($ctx.data).to.eq(undefined);
   });
 });

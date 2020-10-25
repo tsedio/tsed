@@ -17,7 +17,6 @@ export const rootDir = __dirname;
 @Configuration({
   rootDir,
   httpPort: process.env.PORT || 8083,
-  httpsPort: false,
   acceptMimes: ["application/json"],
   mount: {
     "/v1": [
@@ -54,7 +53,7 @@ export const rootDir = __dirname;
       ]
     }
   ],
-  swagger: {
+  swagger: [{
     path: "/api-docs",
     spec: {
       securityDefinitions: {
@@ -63,7 +62,7 @@ export const rootDir = __dirname;
         }
       }
     }
-  }
+  }]
 })
 export class Server {
   @Inject()
@@ -71,7 +70,6 @@ export class Server {
 
   $beforeRoutesInit(): void | Promise<any> {
     this.app
-      .use(GlobalAcceptMimesMiddleware)
       .use(cors())
       .use(cookieParser())
       .use(compress({}))

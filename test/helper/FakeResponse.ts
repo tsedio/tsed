@@ -7,6 +7,7 @@ export class FakeResponse {
   _body: any = "";
   _headers: string = "";
   headersSent: boolean = false;
+  locals = {};
 
   constructor(sandbox?: any) {
     if (sandbox) {

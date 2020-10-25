@@ -1,11 +1,17 @@
 import {isArray} from "@tsed/core";
 
+/**
+ * @ignore
+ */
 function getProtocolName(req: any) {
   const {query = {}, params = {}, body = {}} = req;
 
   return params.protocol || query.protocol || body.protocol;
 }
 
+/**
+ * @ignore
+ */
 export function getProtocolsFromRequest(req: any, protocol: string | string[], defaultProtocols: string[]): string[] {
   if (!isArray(protocol)) {
     if (protocol === "*") {

@@ -1,0 +1,56 @@
+{
+  "components": {
+    "schemas": {
+      "Product": {
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      },
+      "Submission": {
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Product"
+          }
+        }
+        "type": "object"
+      }
+    }
+  },
+  "paths": {
+    "/": {
+      "post": {
+        "operationId": "myControllerMethod",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Submission"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        },
+        "tags": [
+          "MyController"
+        ]
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "MyController"
+    }
+  ]
+}

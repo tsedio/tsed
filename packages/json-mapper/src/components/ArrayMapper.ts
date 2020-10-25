@@ -2,9 +2,8 @@ import {JsonMapper} from "../decorators/jsonMapper";
 import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
 /**
- * Converter component for the `Array` Type.
+ * Mapper for `Array` type.
  * @jsonmapper
- * @converter
  * @component
  */
 @JsonMapper(Array)

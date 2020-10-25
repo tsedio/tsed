@@ -7,6 +7,6 @@ export const ControllerRegistry: TypedProvidersRegistry = GlobalProviders.create
   injectable: false,
 
   onInvoke(provider: ControllerProvider, locals: any) {
-    locals.set(PlatformRouter, provider.router);
+    locals.set(PlatformRouter, provider.getRouter());
   }
 });

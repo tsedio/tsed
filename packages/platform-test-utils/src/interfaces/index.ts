@@ -5,4 +5,6 @@ export interface PlatformTestOptions {
   rootDir: string;
   platform: Type<PlatformBuilder>;
   server: Type<any>;
+
+  [key: string]: any;
 }

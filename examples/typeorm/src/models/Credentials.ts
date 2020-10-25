@@ -1,4 +1,4 @@
-import {Format, Required, Description, Example} from "@tsed/common";
+import {Format, Required, Description, Example} from "@tsed/schema";
 import {Column} from "typeorm";
 
 export class Credentials {

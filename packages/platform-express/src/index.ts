@@ -1,13 +1,18 @@
-import {createExpressApplication, createHttpServer, createHttpsServer, ExpressApplication, PlatformTest} from "@tsed/common";
+import {PlatformBuilder, PlatformTest} from "@tsed/common";
 
 import {PlatformExpress} from "./components/PlatformExpress";
 
 PlatformTest.platformBuilder = PlatformExpress;
+PlatformBuilder.currentPlatform = PlatformExpress;
 
+// interfaces
+export * from "./interfaces";
+
+// decorators
 export * from "./decorators";
-export * from "./services";
-export * from "./utils";
-export * from "./components/PlatformExpress";
 
-export {GlobalAcceptMimesMiddleware, GlobalErrorHandlerMiddleware} from "@tsed/common";
-export {createExpressApplication, createHttpServer, createHttpsServer, ExpressApplication};
+// services
+export * from "./services";
+
+// components
+export * from "./components/PlatformExpress";

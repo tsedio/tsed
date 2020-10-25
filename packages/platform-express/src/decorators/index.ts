@@ -1,3 +1,4 @@
-import {CaseSensitive, ExpressApplication, MergeParams, RouterSettings, Strict} from "@tsed/common";
-
-export {ExpressApplication, CaseSensitive, Strict, RouterSettings, MergeParams};
+export * from "./routerSettings";
+export * from "./caseSensitive";
+export * from "./mergeParams";
+export * from "./strict";

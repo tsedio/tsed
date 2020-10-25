@@ -2,6 +2,7 @@ import {InjectorService} from "@tsed/di";
 import {PlatformLoggerSettings} from "../../config/interfaces/PlatformLoggerSettings";
 import {Middleware} from "../../mvc/decorators/class/middleware";
 import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
+import {OnResponse} from "../../platform-builder/interfaces/OnResponse";
 import {Context} from "../decorators/context";
 
 /**
@@ -9,7 +10,7 @@ import {Context} from "../decorators/context";
  * @platform
  */
 @Middleware()
-export class PlatformLogMiddleware implements IMiddleware {
+export class PlatformLogMiddleware implements IMiddleware, OnResponse {
   protected static DEFAULT_FIELDS = ["reqId", "method", "url", "duration"];
 
   $onResponse: any;
@@ -22,7 +23,7 @@ export class PlatformLogMiddleware implements IMiddleware {
     this.settings.requestFields = this.settings.requestFields || PlatformLogMiddleware.DEFAULT_FIELDS;
 
     if (this.settings.level !== "off") {
-      this.$onResponse = (request: any) => this.onLogEnd(request.$ctx);
+      this.$onResponse = this.onLogEnd.bind(this);
     }
   }
 

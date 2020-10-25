@@ -1,18 +1,15 @@
-import {ContentType, Controller, Get, Render} from "@tsed/common";
-import {Name} from "@tsed/swagger";
+import {Controller, Get, View} from "@tsed/common";
+import {Name} from "@tsed/schema";
 import {SquareGameService} from "../../services/SquareGameService";
 
 @Controller("/")
 @Name("Pages")
 export class IndexCtrl {
-
   constructor(private squareGameService: SquareGameService) {
-
   }
 
-  @Get("")
-  @Render("index.ejs")
-  @ContentType("text/html")
+  @Get("/")
+  @View("index.ejs")
   async getIndex() {
     return {
       appName: "SquareGame",

@@ -1,4 +1,4 @@
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {Maximum as M} from "@tsed/schema";
 
 /**
  * The value of `maximum` MUST be a number, representing an inclusive upper limit for a numeric instance.
@@ -67,13 +67,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Since v6. Use @Maximum decorator from @tsed/schema instead of.
  */
 export function Maximum(maximum: number, exclusive: boolean = false) {
-  return decoratorSchemaFactory((schema) => {
-    if (exclusive) {
-      schema.mapper.exclusiveMaximum = maximum;
-    } else {
-      schema.mapper.maximum = maximum;
-    }
-  });
+  return M(maximum, exclusive);
 }

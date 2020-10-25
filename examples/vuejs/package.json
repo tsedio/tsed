@@ -26,12 +26,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lerna": "3.20.2",
+    "lerna": "3.22.1",
     "pm2": "4.1.2"
   },
   "devDependencies": {
-    "husky": "4.2.5",
-    "lint-staged": "10.2.11",
+    "husky": "4.3.0",
+    "lint-staged": "10.4.0",
     "cross-env": "7.0.2"
   },
   "workspaces": {

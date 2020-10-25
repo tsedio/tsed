@@ -1,5 +1,5 @@
+import {Property} from "@tsed/schema";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Property } from "@tsed/common";
 
 @Entity("Employee")
 export class Employee {

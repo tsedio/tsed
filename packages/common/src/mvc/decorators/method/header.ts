@@ -1,36 +1,4 @@
-import {deepMerge} from "@tsed/core";
-import {IResponseHeader, IResponseHeaders} from "../../interfaces";
-import {EndpointFn} from "./endpointFn";
-
-export type IHeaderOptions = string | number | IResponseHeader;
-
-export interface IHeadersOptions {
-  [key: string]: IHeaderOptions;
-}
-
-/**
- * @ignore
- */
-export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
-  return Object.keys(headers).reduce<IResponseHeaders>((newHeaders: IResponseHeaders, key: string, index: number, array: string[]) => {
-    const value: any = headers[key];
-    let type = typeof value;
-    let options: any = {
-      value
-    };
-
-    if (type === "object") {
-      options = value;
-      type = typeof options.value;
-    }
-
-    options.type = options.type || type;
-
-    newHeaders[key] = options;
-
-    return newHeaders;
-  }, {});
-}
+import {Header as H} from "@tsed/schema";
 
 /**
  * Sets the response’s HTTP header field to value. To set multiple fields at once, pass an object as the parameter.
@@ -78,16 +46,8 @@ export function mapHeaders(headers: IHeadersOptions): IResponseHeaders {
  * @decorator
  * @operation
  * @response
+ * @ignore
+ * @deprecated Since v6. Use @Header from @tsed/schema.
+ * @ignore
  */
-export function Header(headerName: string | number | IHeadersOptions, headerValue?: IHeaderOptions): Function {
-  if (headerValue !== undefined) {
-    headerName = {[headerName as string]: headerValue};
-  }
-  const headers: IResponseHeaders = mapHeaders(headerName as IHeadersOptions);
-
-  return EndpointFn((endpoint) => {
-    const {response} = endpoint;
-
-    response.headers = deepMerge(response.headers || {}, headers);
-  });
-}
+export const Header = H;

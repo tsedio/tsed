@@ -4,9 +4,7 @@ import {MONGOOSE_SCHEMA_OPTIONS} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
 
 /**
- *
- * @param target
- * @param {MongooseSchemaOptions} options
+ * @ignore
  */
 export function schemaOptions(target: any, options?: MongooseSchemaOptions) {
   const store = Store.from(target);
@@ -23,9 +21,7 @@ export function schemaOptions(target: any, options?: MongooseSchemaOptions) {
 }
 
 /**
- *
- * @param {Function} fn
- * @returns {any}
+ * @ignore
  */
 export function buildPreHook(fn: Function) {
   return fn.length === 2
@@ -38,9 +34,7 @@ export function buildPreHook(fn: Function) {
 }
 
 /**
- *
- * @param schema
- * @param {MongooseSchemaOptions} options
+ * @ignore
  */
 export function applySchemaOptions(schema: Schema, options: MongooseSchemaOptions) {
   if (options.plugins) {

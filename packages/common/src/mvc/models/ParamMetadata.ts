@@ -1,18 +1,11 @@
-import {ancestorsOf, Enumerable, Storable, Store, Type} from "@tsed/core";
-import {IFilter} from "../interfaces/IFilter";
+import {ancestorsOf, DecoratorTypes, Enumerable, prototypeOf, Type} from "@tsed/core";
+import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonParameter} from "@tsed/schema";
+import {mapAllowedRequiredValues} from "../utils/mapAllowedRequiredValues";
 import {ParamTypes} from "./ParamTypes";
 
-export interface IParamConstructorOptions {
-  target?: Type<any>;
-  propertyKey?: string | symbol;
-  index: number;
-  required?: boolean;
+export interface ParamConstructorOptions extends JsonEntityStoreOptions {
   expression?: string;
   useType?: Type<any>;
-  /**
-   * @deprecated use pipe instead
-   */
-  filter?: Type<IFilter>;
   paramType?: string | ParamTypes;
   pipes?: Type<IPipe>[];
 }
@@ -21,16 +14,8 @@ export interface IPipe<T = any, R = any> {
   transform(value: T, metadata: ParamMetadata): R;
 }
 
-export class ParamMetadata extends Storable implements IParamConstructorOptions {
-  /**
-   * Allowed value when the entity is required.
-   * @type {Array}
-   */
-  public allowedRequiredValues: any[] = [];
-  /**
-   * Required entity.
-   */
-  public required: boolean = false;
+@JsonEntityComponent(DecoratorTypes.PARAM)
+export class ParamMetadata extends JsonEntityStore implements ParamConstructorOptions {
   /**
    *
    */
@@ -45,68 +30,66 @@ export class ParamMetadata extends Storable implements IParamConstructorOptions 
   @Enumerable()
   pipes: Type<IPipe>[] = [];
 
-  @Enumerable()
-  filter?: Type<IFilter>;
+  constructor(options: ParamConstructorOptions) {
+    super(options);
 
-  constructor(options: IParamConstructorOptions) {
-    super(options.target as Type<any>, options.propertyKey!, options.index);
-
-    const {expression, paramType, filter, pipes} = options;
+    const {expression, paramType, pipes} = options;
 
     this.expression = expression || this.expression;
     this.paramType = paramType || this.paramType;
-    this.filter = filter;
     this.pipes = pipes || [];
   }
 
-  get service(): string | Type<any> | ParamTypes {
-    return this.filter || this.paramType;
+  /**
+   * Return the JsonOperation
+   */
+  get parameter(): JsonParameter {
+    return this._parameter;
   }
 
-  set service(service: string | Type<any> | ParamTypes) {
-    if (typeof service === "string") {
-      this.paramType = service;
-    } else {
-      this.filter = service;
-    }
+  get service(): string | ParamTypes {
+    return this.paramType;
+  }
+
+  set service(service: string | ParamTypes) {
+    this.paramType = service;
+  }
+
+  get required(): boolean {
+    return this.parameter.get("required");
+  }
+
+  set required(bool: boolean) {
+    this.parameter.required(bool);
+  }
+
+  get allowedRequiredValues() {
+    const schema = this.parameter.$schema;
+    const type: string | string[] = schema.get("type") || "";
+
+    return mapAllowedRequiredValues(type, schema.toJSON());
   }
 
   static get(target: Type<any>, propertyKey: string | symbol, index: number): ParamMetadata {
-    const params = Store.fromMethod(target, String(propertyKey)).get("params") || [];
-
-    if (!this.has(target, propertyKey, index)) {
-      params[index] = new ParamMetadata({target, propertyKey, index});
-      this.set(target, propertyKey, index, params[index]);
-    }
-
-    return params[index];
-  }
-
-  static has(target: Type<any>, propertyKey: string | symbol, index: number) {
-    const params = Store.fromMethod(target, String(propertyKey)).get("params") || [];
-
-    return !!params[index];
-  }
-
-  static set(target: Type<any>, propertyKey: string | symbol, index: number, paramMetadata: ParamMetadata): void {
-    const store = Store.fromMethod(target, String(propertyKey));
-    const params = store.get<ParamMetadata[]>("params") || [];
-
-    params[index] = paramMetadata;
-
-    store.set("params", params);
+    return JsonEntityStore.from<ParamMetadata>(prototypeOf(target), propertyKey, index);
   }
 
   static getParams(target: Type<any>, propertyKey: string | symbol): ParamMetadata[] {
+    const params: ParamMetadata[] = [];
+
     const klass = ancestorsOf(target)
       .reverse()
-      .find((target) => Store.fromMethod(target, String(propertyKey)).has("params"));
+      .find((target) => JsonEntityStore.fromMethod(target, propertyKey).children.size);
 
     if (!klass) {
       return [];
     }
 
-    return Store.fromMethod(klass, String(propertyKey)).get<ParamMetadata[]>("params") || [];
+    JsonEntityStore.fromMethod(klass, propertyKey).children.forEach((param: ParamMetadata, index) => {
+      params[+index] = param;
+    });
+
+    return params;
   }
 
   /**

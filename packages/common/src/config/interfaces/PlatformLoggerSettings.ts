@@ -50,7 +50,3 @@ export interface PlatformLoggerSettings {
    */
   maxStackSize?: number;
 }
-/**
- * @deprecated Use PlatformLoggerSettings interface instead
- */
-export interface ILoggerSettings extends PlatformLoggerSettings {}

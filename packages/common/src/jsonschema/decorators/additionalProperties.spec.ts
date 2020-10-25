@@ -1,4 +1,4 @@
-import {JsonSchemesRegistry} from "@tsed/common";
+import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
 import {AdditionalProperties} from "./additionalProperties";
 
@@ -9,11 +9,11 @@ describe("@AdditionalProperties", () => {
       [key: string]: any;
     }
 
-    const schema = JsonSchemesRegistry.getSchemaDefinition(MyModel);
+    const schema = getJsonSchema(MyModel);
 
     expect(schema).to.deep.equal({
       additionalProperties: true,
-      definitions: {}
+      type: "object"
     });
   });
 });

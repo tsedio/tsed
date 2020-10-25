@@ -208,19 +208,17 @@ A middleware can be also used on a `SocketService` either on a class or on a met
 Here an example of a middleware:
 
 ```typescript
-import {ConverterService} from "@tsed/common";
+import {deserialize} from "@tsed/json-mapper";
 import {SocketMiddleware, Args} from "@tsed/socketio";
 import {User} from "../models/User";
 
 @SocketMiddleware()
 export class UserConverterSocketMiddleware {
-    constructor(private converterService: ConverterService) {
-    }
     async use(@Args() args: any[]) {
         
         let [user] = args;
         // update Arguments
-        user = ConverterService.deserialize(user, User);
+        user = deserialize(user, {type: User});
 
         return [user];
     }
@@ -232,7 +230,7 @@ You can also declare a middleware to handle an error with `@SocketMiddlewareErro
 Here an example:
 
 ```typescript
-import {SocketMiddleware, Args} from "@tsed/socketio";
+import {SocketMiddlewareError, SocketErr, Socket} from "@tsed/socketio";
 
 @SocketMiddlewareError()
 export class ErrorHandlerSocketMiddleware {

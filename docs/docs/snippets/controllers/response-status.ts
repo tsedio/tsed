@@ -1,4 +1,5 @@
-import {BodyParams, Controller, Put, Status} from "@tsed/common";
+import {BodyParams, Controller, Put} from "@tsed/common";
+import {Status} from "@tsed/schema";
 
 interface Calendar {
   id: string;

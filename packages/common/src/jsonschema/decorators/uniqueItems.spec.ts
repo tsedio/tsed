@@ -1,18 +1,28 @@
+import {CollectionOf, getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import {JsonSchema, UniqueItems} from "../../../src/jsonschema";
-import {stubSchemaDecorator} from "./utils";
+import {UniqueItems} from "../../../src/jsonschema";
 
 describe("UniqueItems", () => {
   it("should store data", () => {
-    const decorateStub = stubSchemaDecorator();
-    const schema = new JsonSchema();
-    UniqueItems(true);
-    UniqueItems();
-    // @ts-ignore
-    decorateStub.getCall(0).args[0](schema);
+    // WHEN
+    class Model {
+      @CollectionOf(Number)
+      @UniqueItems(true)
+      num: number[];
+    }
 
-    expect(schema.uniqueItems).to.eq(true);
-
-    decorateStub.restore();
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      properties: {
+        num: {
+          items: {
+            type: "number"
+          },
+          uniqueItems: true,
+          type: "array"
+        }
+      },
+      type: "object"
+    });
   });
 });

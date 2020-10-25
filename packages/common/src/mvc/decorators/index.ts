@@ -9,7 +9,6 @@ export * from "./method/acceptMime";
 export * from "./method/location";
 export * from "./method/redirect";
 export * from "./method/status";
-export * from "./method/authenticated";
 export * from "./method/authOptions";
 export * from "./method/contentType";
 export * from "./method/returnType";
@@ -23,10 +22,7 @@ export * from "./allow";
 
 // class
 export * from "./class/controller";
-export * from "./class/filter";
 export * from "./class/middleware";
-export * from "./class/middlewareError";
-export * from "./class/overrideMiddleware";
 
 // Params
 export * from "./params/usePipe";
@@ -54,4 +50,3 @@ export * from "./params/paramFn";
 
 // utils
 export * from "../utils/mapReturnedResponse";
-export * from "../utils/getStorableMetadata";

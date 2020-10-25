@@ -3,27 +3,28 @@ import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
-@Controller("/children")
-class TestChildController {
-  @Get("/scenario-2")
-  get() {
-    return "hello child";
-  }
-}
-
-@Controller({
-  path: "/controllers",
-  children: [TestChildController]
-})
-class TestController {
-  @Get("/scenario-1")
-  scenario1() {
-    return "hello world";
-  }
-}
-
 export function testChildrenControllers(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
+
+  @Controller("/children")
+  class TestChildController {
+    @Get("/scenario-2")
+    get() {
+      return "hello child";
+    }
+  }
+
+  @Controller({
+    path: "/controllers",
+    children: [TestChildController]
+  })
+  class TestController {
+    @Get("/scenario-1")
+    scenario1() {
+      return "hello world";
+    }
+  }
+
   beforeEach(
     PlatformTest.bootstrap(options.server, {
       ...options,

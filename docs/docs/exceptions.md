@@ -68,17 +68,13 @@ These are exposed from the @tsed/exceptions package, and represent many of the m
 
 ## Exception filter
 
-All errors are intercepted by the @@PlatformExceptionMiddleware@@ since v5.64.0+, and by @@GlobalErrorHandlerMiddleware@@ before.
+All errors are intercepted by the @@PlatformExceptionMiddleware@@.
 
 By default, all HTTP Exceptions are automatically sent to the client, and technical errors are
 sent as Internal Server Error.
 
-The default format is an HTML content, but it couldn't be useful for your consumers. 
-
-### with Catch decorator <Badge text="v5.64.0+" />
-
-The new [Platform API](/docs/platform-api.md) introduce a new way to catch an exception with the @@Catch@@ decorator and 
-to let you control the exact flow of control and the content of the response sent back to the client.
+The [Platform API](/docs/platform-api.md) provide @@Catch@@ decorator to catch error. 
+It let you control the exact flow of control and the content of the response sent back to the client.
 
 Let's create an exception filter that is responsible for catching exceptions which are an instance of the @@Exception@@ class, 
 and implementing custom response logic for them. 
@@ -100,43 +96,30 @@ If you want to catch all errors, just use the @@Catch@@ decorator with the `Erro
 
 <<< @/docs/docs/snippets/exceptions/error-filter.ts
 
-### With legacy GlobalErrorHandlerMiddleware <Badge type="warning" text="deprecated" />
+## 404 ResourceNotFound
 
-You can register your own exception handler and change the response sent to your consumers.
+Ts.ED throw a @@ResourceNotFound@@ error when nothing routes are resolved by the router.
+By using Exception filter, is now possible to manage this error and customize the
+response sent to your consumer.
 
-<<< @/docs/docs/snippets/exceptions/custom-global-error-handler.ts
+Create a new ResourceNotFoundFilter in the filters directories and copy/paste this example:
 
-Then you just have adding this middleware in your `Server.ts` as following:
+<<< @/docs/docs/snippets/exceptions/resource-not-found-filter.ts
 
-<<< @/docs/docs/snippets/exceptions/custom-global-error-handler-usage.ts
+::: warning
+`response.render()` require to configure the template engine before. See our page over [Templating engine](/tutorials/templating.html#installation) installation for more details.
+:::
 
-### Migrate to Exception filter
-
-Exception filter and GlobalErrorHandlerMiddleware can be used at the same time excepted if you register your own middleware 
-via the $afterRoutesInit hook. 
-
-To facilitate your migration, remove the line where you add you custom middleware in the server:
-
-```typescript
-$afterRoutesInit() {
-  this.app.use(CustomGlobalErrorHandlerMiddleware); // remove this
-}
-```
-
-Then, use the @@OverrideProvider@@ decorator over your custom middleware:
+Then import the custom filter in your server:
 
 ```typescript
-import {OverrideProvider} from "@tsed/di";
-import {GlobalErrorHandlerMiddleware} from "@tsed/common";
+import {Inject} from "@tsed/di";
+import {Configuration, PlatformApplication} from "@tsed/common";
+import "./filters/ResourceNotFoundFilter"; // Importing filter with ES6 import is enough
 
-@OverrideProvider(GlobalErrorHandlerMiddleware)
-export class CustomGlobalErrorHandlerMiddleware extends GlobalErrorHandlerMiddleware {
-
+@Configuration({
+  // ...
+})
+export class Server {
 }
 ```
-
-Now you are able to create your own exception filter. Start with the HttpException example:
-
-<<< @/docs/docs/snippets/exceptions/http-exception-filter.ts
-
-Then try with another error type and finally, remove your custom middleware. 

@@ -1,26 +1,24 @@
+import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import {JsonSchema, MultipleOf} from "../../../src/jsonschema";
-import {stubSchemaDecorator} from "./utils";
+import {MultipleOf} from "./multipleOf";
 
 describe("MultipleOf", () => {
   it("should store data", () => {
-    const decorateStub = stubSchemaDecorator();
-    const schema = new JsonSchema();
-    MultipleOf(10);
-    // @ts-ignore
-    decorateStub.getCall(0).args[0](schema);
-
-    expect(schema.multipleOf).to.eq(10);
-    decorateStub.restore();
-  });
-
-  it("should throw an error when the given parameters is as negative integer", () => {
-    let error: any;
-    try {
-      MultipleOf(0);
-    } catch (er) {
-      error = er;
+    // WHEN
+    class Model {
+      @MultipleOf(2)
+      num: number;
     }
-    expect(error.message).to.deep.equal("The value of multipleOf MUST be a number, strictly greater than 0.");
+
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      properties: {
+        num: {
+          multipleOf: 2,
+          type: "number"
+        }
+      },
+      type: "object"
+    });
   });
 });

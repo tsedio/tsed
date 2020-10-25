@@ -28,8 +28,6 @@ describe("PassportCtrl", () => {
     user.lastName = "Doe";
     user.age = 18;
 
-    console.log(usersRepository)
-
     return usersRepository.save(user);
   });
   after(PlatformTest.reset);

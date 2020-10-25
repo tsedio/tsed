@@ -1,5 +1,6 @@
-import {DecoratorParameters, decoratorTypeOf, DecoratorTypes, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
-import {EndpointFn} from "./endpointFn";
+import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
+import {JsonEntityFn} from "@tsed/schema";
+import {EndpointMetadata} from "../../models/EndpointMetadata";
 
 /**
  * Mounts the specified middleware function or functions at the specified path: the middleware function is executed when
@@ -22,19 +23,25 @@ import {EndpointFn} from "./endpointFn";
  * @operation
  */
 export function UseAfter(...args: any[]): Function {
-  return <T>(...decoratorArgs: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
-    switch (decoratorTypeOf(decoratorArgs)) {
+  return JsonEntityFn((entity, parameters) => {
+    switch (entity.decoratorType) {
       case DecoratorTypes.METHOD:
-        EndpointFn((endpoint) => {
-          endpoint.after(args);
-        })(...(decoratorArgs as [any, string, PropertyDescriptor]));
+        const endpoint = entity as EndpointMetadata;
+        endpoint.afterMiddlewares = args.concat(endpoint.afterMiddlewares);
 
-        return decoratorArgs[2] as any;
-      case DecoratorTypes.CLASS:
-        StoreMerge("middlewares", {useAfter: args})(...decoratorArgs);
         break;
+
+      case DecoratorTypes.CLASS:
+        const middlewares = entity.store.get("middlewares") || {};
+
+        entity.store.set("middlewares", {
+          ...middlewares,
+          useAfter: [...args, ...(middlewares.useAfter || [])]
+        });
+        break;
+
       default:
-        throw new UnsupportedDecoratorType(UseAfter, decoratorArgs);
+        throw new UnsupportedDecoratorType(UseAfter, parameters);
     }
-  };
+  });
 }

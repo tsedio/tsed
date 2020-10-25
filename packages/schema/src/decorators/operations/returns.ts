@@ -3,6 +3,7 @@ import {
   deepExtends,
   getDecoratorType,
   isCollection,
+  isPlainObject,
   isPrimitiveOrPrimitiveClass,
   isString,
   Type,
@@ -118,8 +119,8 @@ function initSchemaAction(ctx: ReturnsActionContext) {
 function setContentTypeAction({contentType, model, response, store}: ReturnsActionContext) {
   const operation = store.operation!;
 
-  if (!isPrimitiveOrPrimitiveClass(model)) {
-    contentType = "text/json";
+  if (model && !isPlainObject(model) && !isPrimitiveOrPrimitiveClass(model)) {
+    contentType = contentType || "application/json";
   }
 
   contentType && operation.addProduce(contentType);
@@ -150,11 +151,14 @@ function checkCollection(model: any) {
  * :::
  *
  * ```typescript
- *  @Returns(404, String).Description("Not Found")
- *  @Returns(200, Model).Description("Success")
- *  async myMethod(): Promise<Model>  {
+ * import {Returns} from "@tsed/schema";
  *
- *  }
+ * @Controller("/")
+ * class MyController {
+ *   @Returns(404, String).Description("Not Found")
+ *   @Returns(200, Model).Description("Success")
+ *   async myMethod(): Promise<Model> {}
+ * }
  * ```
  *
  * ::: tip
@@ -195,6 +199,18 @@ function checkCollection(model: any) {
  * }
  * ```
  *
+ * Deprecated version:
+ *
+ * ```typescript
+ * import {ReturnsArray} from "@tsed/common";
+ * import {Returns} from "@tsed/schema";
+ *
+ * @Controller("/")
+ * class MyController {
+ *   @ReturnsArray(200, Model) // deprecated
+ *   async myMethod(): Promise<Model> {}
+ * }
+ * ```
  *
  * ### Declaring a generic model <Badge text="6+"/>
  *

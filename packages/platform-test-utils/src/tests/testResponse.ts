@@ -1,4 +1,5 @@
-import {ContentType, Controller, Get, Next, PathParams, PlatformTest, Post, Req, Res, Status, Context} from "@tsed/common";
+import {Context, Controller, Get, Next, PathParams, PlatformTest, Post} from "@tsed/common";
+import {ContentType, Status} from "@tsed/schema";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import {join} from "path";
@@ -33,37 +34,22 @@ class TestResponseParamsCtrl {
 
   @Post("/scenario3/:id?")
   @Status(204)
-  public testScenario3EmptyResponse(@PathParams("id") id: number, @Res() response: Res) {
+  public testScenario3EmptyResponse(@PathParams("id") id: number, @Context() ctx: Context) {
     if (id) {
       return;
     }
 
-    response.status(201);
+    ctx.response.status(201);
 
     return {
       id: 1
     };
   }
 
-  @Get("/scenario4/:id")
-  async testScenario4Assert(@PathParams("id") id: number, @Next() next: Next, @Context() ctx: Context) {
-    await new Promise((resolve) => {
-      setTimeout(resolve, 100);
-    });
-
-    ctx.set("test", "value");
-    next();
-  }
-
-  @Get("/scenario4/:id")
-  public testScenario4Get(@PathParams("id") id: number, @Context() ctx: Context) {
-    return id + ctx.get("test");
-  }
-
   @Get("/scenario5")
   async testScenario5Promise() {
     await new Promise((resolve) => {
-      setTimeout(resolve, 100);
+      resolve();
     });
 
     return {
@@ -93,19 +79,13 @@ class TestResponseParamsCtrl {
     return createReadStream(join(__dirname, "../data/response.data.json"));
   }
 
-  @Get("/scenario8")
-  testScenario8Middleware() {
-    return (req: Req, res: Res, next: Next) => {
-      res.json({id: 1});
-    };
-  }
-
-  @Get("/scenario8b")
-  async testScenario8bMiddleware() {
-    return (req: Req, res: Res, next: Next) => {
-      res.json({id: 1});
-    };
-  }
+  // @Get("/scenario8")
+  // testScenario8Middleware() {
+  //   // TODO get the current platform type
+  //   return (req: Req, res: Res, next: Next) => {
+  //     res.json({id: 1});
+  //   };
+  // }
 
   @Get("/scenario9/static")
   public testScenario9Get(): string {
@@ -169,15 +149,6 @@ export function testResponse(options: PlatformTestOptions) {
       });
     });
   });
-  describe("Scenario4: when endpoint use a promise and next", () => {
-    describe("GET /rest/response/scenario4/10", () => {
-      it("should return a body", async () => {
-        const response = await request.get("/rest/response/scenario4/10");
-
-        expect(response.text).to.deep.equal("10value");
-      });
-    });
-  });
 
   describe("Scenario5: when endpoint response from promise", () => {
     describe("GET /rest/response/scenario5", () => {
@@ -225,22 +196,22 @@ export function testResponse(options: PlatformTestOptions) {
     });
   });
 
-  describe("Scenario8: when endpoint return a middleware", () => {
-    describe("GET /rest/response/scenario8", () => {
-      it("should return a body", async () => {
-        const response = await request.get("/rest/response/scenario8");
-
-        expect(response.body).to.deep.equal({id: 1});
-      });
-    });
-    describe("GET /rest/response/scenario8b", () => {
-      it("should return a body", async () => {
-        const response = await request.get("/rest/response/scenario8b");
-
-        expect(response.body).to.deep.equal({id: 1});
-      });
-    });
-  });
+  // describe("Scenario8: when endpoint return a middleware", () => {
+  //   describe("GET /rest/response/scenario8", () => {
+  //     it("should return a body", async () => {
+  //       const response = await request.get("/rest/response/scenario8");
+  //
+  //       expect(response.body).to.deep.equal({id: 1});
+  //     });
+  //   });
+  //   describe("GET /rest/response/scenario8b", () => {
+  //     it("should return a body", async () => {
+  //       const response = await request.get("/rest/response/scenario8b");
+  //
+  //       expect(response.body).to.deep.equal({id: 1});
+  //     });
+  //   });
+  // });
 
   describe("Scenario9: routes without parameters must be defined first in express", () => {
     describe("GET /rest/response/scenario9/static", () => {
@@ -263,7 +234,12 @@ export function testResponse(options: PlatformTestOptions) {
       it("should throw a badRequest when path params isn't set as number", async () => {
         const response = await request.get("/rest/response/scenario9/kkk").expect(400);
 
-        expect(response.text).to.equal('Bad request on parameter "request.path.id".<br />Cast error. Expression value is not a number.');
+        expect(response.body).to.deep.equal({
+          name: "BAD_REQUEST",
+          message: 'Bad request on parameter "request.path.id".\nCast error. Expression value is not a number.',
+          status: 400,
+          errors: []
+        });
       });
     });
   });

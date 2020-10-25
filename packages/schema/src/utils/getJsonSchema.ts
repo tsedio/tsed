@@ -4,12 +4,21 @@ import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces";
 import {serializeJsonSchema} from "./serializeJsonSchema";
 
+/**
+ * @ignore
+ */
 const CACHE_KEY = "$cache:schemes";
 
+/**
+ * @ignore
+ */
 function getKey(options: any) {
   return JSON.stringify(options);
 }
 
+/**
+ * @ignore
+ */
 function get(entity: JsonEntityStore, options: any) {
   const cache: Map<string, any> = entity.store.get(CACHE_KEY) || new Map();
   const key = getKey(options);
@@ -33,7 +42,7 @@ export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonS
   options = {
     ...options,
     root: true,
-    spec: options.spec || SpecTypes.JSON,
+    specType: options.specType || SpecTypes.JSON,
     schemas: {}
   };
 

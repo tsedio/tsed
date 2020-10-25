@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {createInjector, ServerSettingsService} from "@tsed/common";
+import {createInjector, PlatformConfiguration} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {$log} from "@tsed/logger";
 import * as Sinon from "sinon";
@@ -20,7 +20,7 @@ describe("createInjector", () => {
 
     const injector = createInjector(settings);
 
-    expect(injector.settings).to.be.instanceof(ServerSettingsService);
+    expect(injector.settings).to.be.instanceof(PlatformConfiguration);
     expect(injector.settings.test).to.eq("test");
     expect(injector.logger).to.eq($log);
     expect(injector.logger.stop).to.have.been.calledWithExactly();

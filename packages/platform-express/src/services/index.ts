@@ -1,3 +1,5 @@
-import {PlatformExpressApplication, PlatformExpressRouter} from "@tsed/common";
-
-export {PlatformExpressApplication, PlatformExpressRouter};
+export * from "./PlatformExpressApplication";
+export * from "./PlatformExpressHandler";
+export * from "./PlatformExpressResponse";
+export * from "./PlatformExpressRequest";
+export * from "./PlatformExpressRouter";

@@ -35,13 +35,6 @@ describe("UseAuth()", () => {
       const endpoint = EndpointMetadata.get(...args);
 
       expect(endpoint.beforeMiddlewares).to.deep.equal([Guard]);
-      expect(store.get("operation")).to.deep.eq({
-        security: [
-          {
-            auth: ["email"]
-          }
-        ]
-      });
       expect(store.get("responses")).to.deep.eq({
         "200": {
           description: "Success"
@@ -78,13 +71,6 @@ describe("UseAuth()", () => {
 
       expect(endpoint.beforeMiddlewares).to.deep.equal([Guard]);
 
-      expect(store.get("operation")).to.deep.eq({
-        security: [
-          {
-            auth: ["email"]
-          }
-        ]
-      });
       expect(store.get("responses")).to.deep.eq({
         "200": {
           description: "Success"

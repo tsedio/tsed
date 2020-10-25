@@ -10,7 +10,6 @@ describe("OperationId", () => {
     }
 
     expect(getSpec(MyController)).to.deep.eq({
-      definitions: {},
       tags: [
         {
           name: "MyController"

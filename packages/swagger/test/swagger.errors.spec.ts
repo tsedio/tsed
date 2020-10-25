@@ -1,8 +1,9 @@
-import {Controller, Get, PlatformTest, Required} from "@tsed/common";
+import {Controller, Get, PlatformTest} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express/src";
+import {Required, Returns} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Returns} from "../src/decorators/returns";
-import {Server} from "./helpers/Server";
+import {Server} from "./app/Server";
 
 export class TestModel200 {
   @Required()
@@ -23,9 +24,9 @@ export class TestModel500 {
 class ErrorsController {
   @Get("/")
   // This shows up in swagger
-  @Returns(200, {type: TestModel200})
-  @Returns(400, {type: TestModel400})
-  @Returns(500, {type: TestModel500})
+  @Returns(200, TestModel200)
+  @Returns(400, TestModel400)
+  @Returns(500, TestModel500)
   public async exampleControllerMethod() {
     return {
       exampleItem: 1
@@ -33,10 +34,11 @@ class ErrorsController {
   }
 }
 
-describe("ErrorsParams", () => {
+describe("Swagger errors params", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   beforeEach(
     PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress,
       mount: {
         "/rest": [ErrorsController]
       }
@@ -48,7 +50,7 @@ describe("ErrorsParams", () => {
   afterEach(PlatformTest.reset);
 
   it("should generate swagger", async () => {
-    const response = await request.get("/api-doc/swagger.json").expect(200);
+    const response = await request.get("/v2/doc/swagger.json").expect(200);
     expect(response.body).to.deep.eq({
       consumes: ["application/json"],
       definitions: {
@@ -89,7 +91,9 @@ describe("ErrorsParams", () => {
       paths: {
         "/rest/scenarios": {
           get: {
-            operationId: "ErrorsController.exampleControllerMethod",
+            operationId: "errorsControllerExampleControllerMethod",
+            parameters: [],
+            produces: ["application/json"],
             responses: {
               "200": {
                 description: "Success",
@@ -115,7 +119,6 @@ describe("ErrorsParams", () => {
         }
       },
       produces: ["application/json"],
-      securityDefinitions: {},
       swagger: "2.0",
       tags: [
         {

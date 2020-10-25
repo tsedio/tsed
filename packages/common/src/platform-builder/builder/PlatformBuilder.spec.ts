@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {
   AfterInit,
   AfterListen,
@@ -12,6 +11,7 @@ import {
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
+import {expect} from "chai";
 import {join} from "path";
 import * as Sinon from "sinon";
 import {Platform} from "../../platform/services/Platform";
@@ -23,9 +23,15 @@ describe("PlatformBuilder", () => {
   @Controller("/")
   class RestCtrl {}
 
-  class PlatformTest extends PlatformBuilder {
+  class PlatformCustom extends PlatformBuilder {
+    static providers = [
+      {
+        provide: class Test {}
+      }
+    ];
+
     static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-      return PlatformBuilder.build<PlatformTest>(this).bootstrap(module, settings);
+      return PlatformBuilder.build<PlatformCustom>(this).bootstrap(module, settings);
     }
 
     async loadStatics(): Promise<void> {
@@ -39,13 +45,10 @@ describe("PlatformBuilder", () => {
     },
     mount: {
       "/rest": [RestCtrl]
-    }
+    },
+    acceptMimes: ["application/json"]
   })
   class ServerModule implements BeforeInit, AfterInit, BeforeRoutesInit, AfterRoutesInit, BeforeListen, AfterListen, OnReady {
-    $onInit(): Promise<any> | void {
-      return undefined;
-    }
-
     $beforeRoutesInit(): void | Promise<any> {
       return undefined;
     }
@@ -76,7 +79,6 @@ describe("PlatformBuilder", () => {
   }
 
   beforeEach(() => {
-    sandbox.stub(ServerModule.prototype, "$onInit");
     sandbox.stub(ServerModule.prototype, "$beforeRoutesInit");
     sandbox.stub(ServerModule.prototype, "$afterRoutesInit");
     sandbox.stub(ServerModule.prototype, "$afterInit");
@@ -84,9 +86,9 @@ describe("PlatformBuilder", () => {
     sandbox.stub(ServerModule.prototype, "$beforeInit");
     sandbox.stub(ServerModule.prototype, "$beforeListen");
     sandbox.stub(ServerModule.prototype, "$onReady");
-    sandbox.stub(PlatformTest.prototype, "loadStatics");
+    sandbox.stub(PlatformCustom.prototype, "loadStatics");
     // @ts-ignore
-    sandbox.spy(PlatformTest.prototype, "listenServers");
+    sandbox.spy(PlatformCustom.prototype, "listenServers");
     sandbox.stub(InjectorService.prototype, "emit");
     sandbox.stub(Platform.prototype, "addRoutes");
   });
@@ -97,13 +99,12 @@ describe("PlatformBuilder", () => {
   describe("bootstrap()", () => {
     it("should bootstrap platform", async () => {
       // WHEN
-      const server = await PlatformTest.bootstrap(ServerModule, {
+      const server = await PlatformCustom.bootstrap(ServerModule, {
         httpPort: false,
         httpsPort: false
       });
 
       // THEN
-      expect(server.rootModule.$onInit).to.have.been.calledWithExactly();
       expect(server.rootModule.$beforeRoutesInit).to.have.been.calledWithExactly();
       expect(server.rootModule.$afterRoutesInit).to.have.been.calledWithExactly();
       expect(server.rootModule.$afterInit).to.have.been.calledWithExactly();
@@ -111,7 +112,6 @@ describe("PlatformBuilder", () => {
       expect(server.injector.emit).to.have.been.calledWithExactly("$beforeRoutesInit");
       expect(server.injector.emit).to.have.been.calledWithExactly("$afterRoutesInit");
       expect(server.injector.emit).to.not.have.been.calledWithExactly("$afterInit");
-      expect(server.injector.emit).to.not.have.been.calledWithExactly("$onInit");
       expect(server.injector.emit).to.not.have.been.calledWithExactly("$beforeInit");
 
       await server.listen();
@@ -129,6 +129,7 @@ describe("PlatformBuilder", () => {
 
       // THEN
       expect(server.rootModule).to.be.instanceof(ServerModule);
+      expect(server.name).to.eq("custom");
       expect(server.platform.addRoutes).to.have.been.calledWithExactly([
         {
           route: "/rest",
@@ -137,11 +138,10 @@ describe("PlatformBuilder", () => {
       ]);
     });
   });
-
   describe("addComponents", () => {
     it("should add components", async () => {
       // GIVEN
-      const server = await PlatformTest.bootstrap(ServerModule, {});
+      const server = await PlatformCustom.bootstrap(ServerModule, {});
 
       class MyClass {}
 
@@ -153,7 +153,6 @@ describe("PlatformBuilder", () => {
         join(process.cwd(), "mvc/**/*.ts"),
         join(process.cwd(), "services/**/*.ts"),
         join(process.cwd(), "middlewares/**/*.ts"),
-        join(process.cwd(), "converters/**/*.ts"),
         MyClass
       ]);
     });
@@ -161,7 +160,7 @@ describe("PlatformBuilder", () => {
   describe("addControllers", () => {
     it("should add controllers", async () => {
       // GIVEN
-      const server = await PlatformTest.bootstrap(ServerModule, {});
+      const server = await PlatformCustom.bootstrap(ServerModule, {});
 
       class MyClass {}
 

@@ -1,9 +1,10 @@
 {
   "name": "@tsed/seq",
-  "version": "5.65.9",
+  "version": "6.0.0-rc.5",
   "description": "Seq package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./src/index.ts",
+  "private": false,
   "author": {
     "name": "OskarLebuda"
   },
@@ -19,7 +20,7 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "tslib": "1.11.0"
+    "tslib": "2.0.1"
   },
   "peerDependencies": {
     "@types/bunyan": "^1.8.6",
@@ -27,11 +28,12 @@
     "bunyan": "^1.8.14",
     "bunyan-seq": "^0.4.0"
   },
-  "private": false,
   "devDependencies": {
-    "@tsed/common": "5.65.9",
-    "@tsed/core": "5.65.9",
+    "@tsed/common": "6.0.0-rc.5",
+    "@tsed/core": "6.0.0-rc.5",
     "@types/bunyan": "1.8.6",
-    "@types/bunyan-seq": "0.2.2"
+    "@types/bunyan-seq": "0.2.2",
+    "bunyan": "^1.8.14",
+    "bunyan-seq": "^0.4.0"
   }
 }

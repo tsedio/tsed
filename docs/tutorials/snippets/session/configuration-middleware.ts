@@ -23,8 +23,8 @@ class Server {
         extended: true
       }));
 
-    this.app.raw.set("trust proxy", 1); // trust first proxy
-    this.app.raw.use(session({
+    this.app.getApp().set("trust proxy", 1); // trust first proxy
+    this.app.getApp().use(session({
       secret: "keyboard cat", // change secret key
       resave: false,
       saveUninitialized: true,

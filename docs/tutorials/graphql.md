@@ -135,3 +135,19 @@ Here is an example to create a test server and run a query:
   
   </Tab>      
 </Tabs>  
+
+
+## Author 
+
+<GithubContributors users="['Romakita']"/>
+
+## Maintainers
+
+<GithubContributors users="['Romakita']"/>
+
+
+<div class="container--centered container--padded">
+<a href="/contributing.html" class="nav-link button">
+ Become maintainer
+</a>
+</div>

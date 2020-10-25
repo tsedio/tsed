@@ -1,4 +1,4 @@
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {Pattern as P} from "@tsed/schema";
 
 /**
  * The pattern and Pattern Properties keywords use regular expressions to express constraints.
@@ -91,13 +91,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Since v6. Use @Pattern decorator from @tsed/schema instead of.
  */
 export function Pattern(pattern: string | RegExp) {
-  return decoratorSchemaFactory((schema) => {
-    if (typeof pattern === "object") {
-      pattern = pattern.toString().slice(1, -1);
-    }
-
-    schema.mapper.pattern = pattern;
-  });
+  return P(pattern);
 }

@@ -1,5 +1,4 @@
-import {Controller, Get, PlatformTest} from "@tsed/common";
-import {Redirect} from "@tsed/common/src/mvc/decorators/method/redirect";
+import {Controller, Get, PlatformTest, Redirect} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -46,6 +45,13 @@ export function testRedirect(options: PlatformTestOptions) {
     const response = await request.get("/rest/redirect/scenario-2").expect(301);
 
     expect(response.text).to.deep.equal("Moved Permanently. Redirecting to /test");
+    expect(response.header.location).to.deep.equal("/test");
+  });
+
+  it("Scenario3: HEAD /rest/redirect/scenario-1", async () => {
+    const response = await request.head("/rest/redirect/scenario-1").expect(302);
+
+    expect(response.text).to.deep.equal(undefined);
     expect(response.header.location).to.deep.equal("/test");
   });
 }

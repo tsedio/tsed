@@ -111,10 +111,22 @@ describe("@VirtualRef()", () => {
       });
 
       expect(getJsonSchema(TestBand)).to.deep.equal({
-        definitions: {},
+        definitions: {
+          TestPerson: {
+            properties: {
+              band: {
+                type: "string"
+              },
+              name: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        },
         properties: {
           members: {
-            type: "object"
+            $ref: "#/definitions/TestPerson"
           }
         },
         type: "object"

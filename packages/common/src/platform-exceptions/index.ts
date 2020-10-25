@@ -9,5 +9,7 @@ export * from "./domain/ExceptionTypesContainer";
 export * from "./interfaces/ExceptionFilterMethods";
 
 // middlewares
-export * from "./middlewares/PlatformExceptionsMiddleware";
-export * from "./middlewares/GlobalErrorHandlerMiddleware";
+export * from "./services/PlatformExceptions";
+
+// errors
+export * from "./errors/ResourceNotFound";

@@ -12,10 +12,9 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Controller"
@@ -49,10 +48,9 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Controller"
@@ -95,10 +93,9 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Controller"
@@ -139,17 +136,14 @@ describe("@Returns", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @(Returns(200, String).Description("description").ContentType("text/json").Examples("Examples"))
+      @(Returns(200, String).Description("description").ContentType("text/html").Examples("Examples"))
       method() {}
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.OPENAPI});
+    const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
     expect(spec).to.deep.equal({
-      components: {
-        schemas: {}
-      },
       tags: [
         {
           name: "Controller"
@@ -163,7 +157,7 @@ describe("@Returns", () => {
             responses: {
               "200": {
                 content: {
-                  "text/json": {
+                  "text/html": {
                     schema: {
                       type: "string"
                     }
@@ -190,10 +184,9 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Controller"
@@ -204,7 +197,6 @@ describe("@Returns", () => {
           post: {
             operationId: "controllerMethod",
             parameters: [],
-            produces: ["text/json"],
             responses: {
               "200": {
                 description: "Success",
@@ -284,10 +276,9 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      definitions: {},
       tags: [
         {
           name: "Controller"
@@ -298,7 +289,7 @@ describe("@Returns", () => {
           post: {
             operationId: "controllerMethod",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "200": {
                 description: "description",
@@ -330,7 +321,7 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
       definitions: {
@@ -353,7 +344,7 @@ describe("@Returns", () => {
           post: {
             operationId: "controllerMethod",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "200": {
                 description: "description",
@@ -405,7 +396,7 @@ describe("@Returns", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
       definitions: {
@@ -428,7 +419,7 @@ describe("@Returns", () => {
           post: {
             operationId: "controllerMethod",
             parameters: [],
-            produces: ["text/json"],
+            produces: ["application/json"],
             responses: {
               "200": {
                 description: "description",

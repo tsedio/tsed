@@ -1,4 +1,4 @@
-export function uniq(list: any | string[]) {
+export function uniq<T = any>(list: T[]): T[] {
   return Array.from(new Set(list).values());
 }
 

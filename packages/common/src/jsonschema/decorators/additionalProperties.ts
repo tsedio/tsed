@@ -1,5 +1,5 @@
+import {AdditionalProperties as A} from "@tsed/schema";
 import {JSONSchema6} from "json-schema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  * Accept unknown properties on the deserialized model.
@@ -13,9 +13,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Since v6. Use @AdditionalProperties decorator from @tsed/schema instead of.
  */
 export function AdditionalProperties(value: boolean | JSONSchema6) {
-  return decoratorSchemaFactory((schema) => {
-    schema.mapper.additionalProperties = value;
-  });
+  return A(value as any);
 }

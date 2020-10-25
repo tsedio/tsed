@@ -6,8 +6,3 @@ export interface ResponseErrorObject extends Error {
   origin?: Error;
   headers?: {};
 }
-
-/**
- * @deprecated Use ResponseErrorObject interface instead.
- */
-export interface IResponseError extends ResponseErrorObject {}

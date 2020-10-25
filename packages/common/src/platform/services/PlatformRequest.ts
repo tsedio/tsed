@@ -1,6 +1,16 @@
 import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
-import {IncomingHttpHeaders} from "http";
-import {Req} from "../../mvc/decorators/params/request";
+import {IncomingHttpHeaders, IncomingMessage} from "http";
+import type {PlatformContext} from "../domain/PlatformContext";
+
+declare global {
+  namespace TsED {
+    // @ts-ignore
+    export interface Request {
+      id: string;
+      $ctx: PlatformContext;
+    }
+  }
+}
 
 /**
  * Platform Request abstraction layer.
@@ -8,8 +18,8 @@ import {Req} from "../../mvc/decorators/params/request";
  */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
-export class PlatformRequest {
-  constructor(@Opts public raw: Req) {}
+export class PlatformRequest<T extends {[key: string]: any} = any> {
+  constructor(@Opts public raw: T) {}
 
   /**
    * Get the url of the request.
@@ -74,7 +84,7 @@ export class PlatformRequest {
    * @param injector
    * @param req
    */
-  static create(injector: InjectorService, req: Req) {
+  static create(injector: InjectorService, req: TsED.Request) {
     const locals = new Map();
     locals.set(DI_PARAM_OPTIONS, req);
 
@@ -108,8 +118,26 @@ export class PlatformRequest {
     return this.raw.accepts(mime);
   }
 
+  isAborted() {
+    return this.raw.aborted;
+  }
+
   destroy() {
     // @ts-ignore
     delete this.raw;
+  }
+
+  /**
+   * Return the Framework response object (express, koa, etc...)
+   */
+  getRequest<Req = T>(): Req {
+    return this.raw as any;
+  }
+
+  /**
+   * Return the Node.js response object
+   */
+  getReq(): IncomingMessage {
+    return this.raw as any;
   }
 }

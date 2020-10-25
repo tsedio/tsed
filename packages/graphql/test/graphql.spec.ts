@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import "@tsed/platform-express";
+import {PlatformExpress} from "@tsed/platform-express";
 import {ApolloServerTestClient, createTestClient} from "apollo-server-testing";
 import {expect} from "chai";
 import gql from "graphql-tag";
@@ -18,7 +19,11 @@ const GET_RECIPES = gql`
 
 describe("GraphQL", () => {
   let request: ApolloServerTestClient;
-  before(PlatformTest.bootstrap(Server));
+  before(
+    PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress
+    })
+  );
   before(() => {
     const server = PlatformTest.get<GraphQLService>(GraphQLService).get("default")!;
     request = createTestClient(server);

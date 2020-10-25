@@ -1,6 +1,6 @@
 {
   "name": "@tsed/root",
-  "version": "5.65.9",
+  "version": "6.0.0-rc.5",
   "description": "A TypeScript Framework on top of Express",
   "private": true,
   "scripts": {
@@ -21,7 +21,7 @@
     "examples:sync": "monorepo sync examples",
     "examples:publish": "monorepo publish examples",
     "api:build": "lerna run build && ts-doc",
-    "vuepress:build": "cross-env NODE_ENV=production vuepress build docs",
+    "vuepress:build": "cross-env NODE_ENV=production node --max_old_space_size=8192 ./node_modules/vuepress/cli.js build docs",
     "vuepress:serve": "vuepress dev docs",
     "prettier": "prettier '{packages,test}/**/*.ts' --write",
     "release": "semantic-release",
@@ -71,41 +71,28 @@
   "dependencies": {
     "@tsed/logger": "5.5.3",
     "ajv": "6.12.4",
-    "globby": "11.0.1",
-    "lerna": "3.20.2",
-    "reflect-metadata": "0.1.13",
-    "rxjs": "^6.4.0",
-    "cors": "2.8.5",
-    "compression": "1.7.4",
-    "consolidate": "0.15.1",
-    "cookie-parser": "1.4.5",
-    "body-parser": "1.19.0",
-    "ejs": "3.1.3",
+    "uuid": "8.3.0",
+    "ejs": "^3.1.5",
     "ejs-lint": "1.1.0",
-    "express": "4.17.1",
-    "express-session": "1.17.1",
-    "method-override": "3.0.0"
+    "globby": "11.0.1",
+    "lerna": "3.22.1",
+    "reflect-metadata": "0.1.13",
+    "consolidate": "0.16.0"
   },
   "devDependencies": {
+    "@tsed/markdown-it-symbols": "^3.2.1",
     "@tsed/monorepo-utils": "1.11.0",
     "@typedproject/ts-doc": "4.0.9",
     "@types/chai": "4.2.12",
     "@types/chai-as-promised": "7.1.3",
-    "@types/mocha": "8.0.1",
-    "@types/node": "14.0.27",
+    "@types/globby": "9.1.0",
+    "@types/mocha": "8.0.3",
+    "@types/node": "14.11.1",
     "@types/proxyquire": "1.3.28",
-    "@types/sinon": "9.0.4",
+    "@types/sinon": "9.0.5",
     "@types/sinon-chai": "3.2.4",
     "@types/superagent": "4.1.10",
     "@types/supertest": "2.0.10",
-    "@types/json-schema": "7.0.6",
-    "@types/compression": "1.7.0",
-    "@types/consolidate": "0.14.0",
-    "@types/cookie-parser": "1.4.2",
-    "@types/express": "4.17.7",
-    "@types/express-session": "1.17.0",
-    "@types/method-override": "0.0.31",
-    "@types/globby": "9.1.0",
     "@typescript-eslint/eslint-plugin": "^4.3.0",
     "@typescript-eslint/parser": "^4.3.0",
     "chai": "4.2.0",
@@ -120,22 +107,22 @@
     "eslint-plugin-mocha": "8.0.0",
     "fs-extra": "9.0.1",
     "husky": "4.3.0",
-    "lint-staged": "10.2.11",
-    "mocha": "8.1.1",
+    "lint-staged": "10.4.0",
+    "mocha": "8.1.3",
     "nyc": "15.1.0",
     "prettier": "2.1.2",
     "proxyquire": "2.1.3",
-    "semantic-release": "^15.13.18",
-    "sinon": "9.0.2",
+    "semantic-release": "17.1.2",
+    "sinon": "9.0.3",
     "sinon-chai": "3.5.0",
     "supertest": "4.0.2",
     "ts-node": "9.0.0",
     "tsconfig-paths": "3.9.0",
-    "tslib": "1.11.0",
-    "typescript": "3.9.4",
+    "tslib": "2.0.1",
+    "typescript": "4.0.2",
     "vue-analytics": "5.22.1",
-    "vuepress": "1.5.3",
-    "vuepress-theme-tsed": "2.9.2"
+    "vuepress": "1.7.1",
+    "vuepress-theme-tsed": "~3.2.1"
   },
   "directories": {
     "packages": "packages",
@@ -146,21 +133,20 @@
       "packages/*"
     ]
   },
-  "resolutions": {
-    "watchpack": "1.6.1"
-  },
   "monorepo": {
-    "productionBranch": "production",
+    "productionBranch": "rc",
+    "developBranch": "rc",
     "npmAccess": "public",
+    "npmDistTag": "rc",
     "ignoreSyncDependencies": [
       "express",
       "@types/express"
     ],
     "ghpages": {
       "dir": "./docs/.vuepress/dist",
-      "url": "https://github.com/TypedProject/tsed.git",
-      "branch": "gh-pages",
-      "cname": "tsed.io"
+      "url": "https://github.com/TypedProject/v6.tsed.io.git",
+      "branch": "master",
+      "cname": "v6.tsed.io"
     },
     "examples": {
       "dir": "./examples",

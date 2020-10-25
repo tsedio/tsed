@@ -1,14 +1,17 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
+import {createReadStream} from "fs";
 import * as Sinon from "sinon";
 import {FakeResponse} from "../../../../../test/helper";
 import {PlatformResponse} from "./PlatformResponse";
+import {PlatformViews} from "./PlatformViews";
 
 const sandbox = Sinon.createSandbox();
 
 function createResponse() {
   const res: any = new FakeResponse(sandbox);
   const response = new PlatformResponse(res);
+  response.platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
 
   return {res, response};
 }
@@ -71,9 +74,18 @@ describe("PlatformResponse", () => {
     it("should return a string", async () => {
       const {response} = createResponse();
 
-      const result = await response.render("view", {});
+      response.locals.locale = "fr-FR";
+      sandbox.stub(response.platformViews, "render").resolves("HTML");
 
-      expect(result).to.eq("PlatformResponse.render method is not implemented");
+      const result = await response.render("view", {
+        test: "test"
+      });
+
+      expect(response.platformViews.render).to.have.been.calledWithExactly("view", {
+        locale: "fr-FR",
+        test: "test"
+      });
+      expect(result).to.eq("HTML");
     });
   });
   describe("location()", () => {
@@ -85,13 +97,47 @@ describe("PlatformResponse", () => {
       expect(res.location).to.have.been.calledWithExactly("/path");
     });
   });
+  describe("body()", () => {
+    it("should call body with undefined", () => {
+      const {res, response} = createResponse();
+
+      response.body(undefined);
+
+      expect(res.send).to.have.been.calledWithExactly();
+    });
+    it("should call body with string", () => {
+      const {res, response} = createResponse();
+
+      response.body("string");
+
+      expect(res.send).to.have.been.calledWithExactly("string");
+    });
+    it("should call body with stream", () => {
+      const {res, response} = createResponse();
+      const stream = createReadStream(__dirname + "/__mock__/data.txt");
+      sandbox.stub(stream, "pipe");
+
+      response.body(stream);
+
+      expect(stream.pipe).to.have.been.calledWithExactly(res);
+    });
+    it("should call body with {}", () => {
+      const {res, response} = createResponse();
+
+      response.body({});
+
+      expect(res.json).to.have.been.calledWithExactly({});
+    });
+  });
   describe("destroy()", () => {
-    it("should return a string", async () => {
+    it("should destroy response", async () => {
       const {response} = createResponse();
 
-      const result = await response.render("view", {});
+      expect(response.isDone()).to.eq(false);
 
-      expect(result).to.eq("PlatformResponse.render method is not implemented");
+      response.destroy();
+
+      expect(response.isDone()).to.eq(true);
     });
   });
 });

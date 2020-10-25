@@ -11,7 +11,7 @@ projects:
 ---
 # Socket.io
 
-<Banner src="https://socket.io/css/images/logo.svg" href="https://socket.io" height="90" style="margin-left:-40px" />
+<Banner src="https://socket.io/css/images/logo.svg" href="https://socket.io" height="180" style="margin-left:-40px" />
 
 Socket.io enables real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
 
@@ -25,7 +25,7 @@ Before using Socket.io, we need to install the [Socket.io](https://www.npmjs.com
 npm install --save socket.io @types/socket.io
 ```
 
-Then add the following configuration in your server [Configuration](/configuration.md):
+Then add the following configuration in your server [Configuration](/docs/configuration.md):
 
 <<< @/docs/tutorials/snippets/socketio/configuration.ts
 
@@ -77,13 +77,15 @@ Then, you can inject your socket service into another Service, Controller, etc. 
 
 You have many choices to send a response to your client. Ts.ED offers some decorators to send a response:
 
-![socketio](./../assets/socketio.png)
+<img alt="socketio" src="./../assets/socketio.png" style="max-width: 100%" />
 
 Example:
 
 <<< @/docs/tutorials/snippets/socketio/socket-send-response.ts
 
-> The method accepts a promise as returned value.
+::: tip
+All methods accept a promise as returned value. Ts.ED handles promise before returning a response to your consumer.
+:::
 
 ::: warning
 Return value is only possible when the method is decorated by @@Emit@@, @@Broadcast@@ and @@BroadcastOthers@@.
@@ -134,3 +136,11 @@ Middlewares chain uses the `Promise` to run it. If one of this middlewares/metho
 ## Decorators
 
 <ApiList query="module.match('@tsed/socketio') && symbolType === 'decorator'" />
+
+## Author 
+
+<GithubContributors users="['Romakita']"/>
+
+## Maintainers <Badge text="Help wanted" />
+
+<GithubContributors users="['Romakita']"/>

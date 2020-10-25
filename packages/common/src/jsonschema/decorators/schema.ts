@@ -1,5 +1,5 @@
-import {JsonSchema} from "../class/JsonSchema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {Schema as S} from "@tsed/schema";
+import {JSONSchema6} from "json-schema";
 
 /**
  * Write data formatted to JsonSchema.
@@ -43,9 +43,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @schema
  * @classDecorator
  * @input
+ * @ignore
+ * @deprecated Since v6. Use @Schema decorator from @tsed/schema instead of.
  */
-export function Schema(partialSchema: Partial<JsonSchema>) {
-  return decoratorSchemaFactory((schema: JsonSchema) => {
-    schema.merge(partialSchema);
-  });
+export function Schema(partialSchema: Partial<JSONSchema6>) {
+  return S(partialSchema);
 }

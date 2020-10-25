@@ -1,4 +1,4 @@
-import {getJsonSchema} from "@tsed/common";
+import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
 import {Any} from "../../../src/jsonschema";
 
@@ -12,7 +12,6 @@ describe("Any", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      definitions: {},
       properties: {
         prop: {
           type: ["integer", "number", "string", "boolean", "array", "object", "null"]
@@ -30,7 +29,6 @@ describe("Any", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      definitions: {},
       properties: {
         prop: {
           type: "string"
@@ -48,7 +46,6 @@ describe("Any", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      definitions: {},
       properties: {
         num: {
           type: ["string", "number", "boolean", "null"]
@@ -66,7 +63,6 @@ describe("Any", () => {
 
     // THEN
     expect(getJsonSchema(Model)).to.deep.equal({
-      definitions: {},
       properties: {
         num: {
           type: ["string", "null"]

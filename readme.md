@@ -2,7 +2,7 @@
  <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
-[![Build & Release](https://github.com/TypedProject/tsed/workflows/Build%20&%20Release/badge.svg?branch=production)](https://github.com/TypedProject/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
+[![Build & Release](https://github.com/TypedProject/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/TypedProject/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![Coverage Status](https://coveralls.io/repos/github/TypedProject/tsed/badge.svg?branch=production)](https://coveralls.io/github/TypedProject/tsed?branch=production)
 ![npm](https://img.shields.io/npm/dm/@tsed/common.svg)
 [![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Fcommon)
@@ -18,8 +18,8 @@
 
 ## What it is
 
-Ts.ED is a framework on top of Express that helps you to write your application in TypeScript (or in ES6). It provides a lot of decorators 
-to make your code more readable and less error-prone.
+Ts.ED is a Node.js and TypeScript Framework on top of Express/Koa.js. Ts.ED is a framework on top of Express/Koa to write your application with TypeScript (or ES6). 
+It provides a lot of decorators and guideline to make your code more readable and less error-prone.
 
 ## Features
 
@@ -115,7 +115,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-To customize the server settings see [Configure server with decorator](https://tsed.io/configuration.html)
+To customize the server settings see [Configure server with decorator](https://tsed.io/docs/configuration.md)
 
 #### Controller example
 

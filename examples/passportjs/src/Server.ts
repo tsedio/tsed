@@ -1,5 +1,5 @@
 import "@tsed/ajv";
-import {GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
 import {Configuration} from "@tsed/di";
 import {Inject} from "@tsed/di/src";
 import "@tsed/passport";
@@ -35,9 +35,9 @@ const rootDir = __dirname;
       PassportCtrl
     ]
   },
-  swagger: {
+  swagger: [{
     path: "/api-docs"
-  },
+  }],
   calendar: {
     token: true
   },
@@ -51,7 +51,6 @@ export class Server {
 
   $beforeRoutesInit(): void | Promise<any> {
     this.app
-      .use(GlobalAcceptMimesMiddleware)
       .use(cors())
       .use(cookieParser())
       .use(compress({}))

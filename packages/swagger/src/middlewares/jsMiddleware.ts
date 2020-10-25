@@ -1,10 +1,14 @@
+import {PlatformContext} from "@tsed/common";
 import * as Fs from "fs";
 import {resolve} from "path";
 
+/**
+ * @ignore
+ * @param path
+ */
 export function jsMiddleware(path: string) {
-  return (req: any, res: any) => {
+  return (ctx: PlatformContext) => {
     const content = Fs.readFileSync(resolve(path), {encoding: "utf8"});
-    res.set("Content-Type", "application/javascript");
-    res.status(200).send(content);
+    ctx.response.setHeaders({"Content-Type": "application/javascript"}).status(200).body(content);
   };
 }

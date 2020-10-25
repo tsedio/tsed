@@ -1,6 +1,4 @@
-import {BodyParams, Controller, Get, HeaderParams, PlatformTest, Post, Required, Status} from "@tsed/common";
-import {PathParams} from "@tsed/common/src/mvc/decorators/params/pathParams";
-import {Res} from "@tsed/common/src/mvc/decorators/params/response";
+import {Context, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -32,11 +30,11 @@ class TestPathParamsCtrl {
   }
 
   @Post("/scenario-4/:scope/:scopeId")
-  async testScenario4(@PathParams("scope") scope: string, @Res() response: any): Promise<any[]> {
+  async testScenario4(@PathParams("scope") scope: string, @Context() ctx: Context) {
     expect(scope).to.eq("abc");
 
     // This way it works  in version 5.44.13
-    return response.json(["a", "b", "c"]);
+    ctx.response.body(["a", "b", "c"]);
   }
 }
 

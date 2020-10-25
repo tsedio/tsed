@@ -1,8 +1,28 @@
-import {cleanObject, deepMerge, Type} from "@tsed/core";
-import {IResponseOptions} from "../../interfaces/IResponseOptions";
-import {EndpointFn} from "./endpointFn";
+import {MetadataTypes, Type} from "@tsed/core";
+import {OS3Header} from "@tsed/openspec";
+import {Returns as R, ReturnsChainedDecorators} from "@tsed/schema";
 
-const isSuccessStatus = (code: number | undefined) => code && 200 <= code && code < 300;
+/**
+ * @deprecated Since v6.
+ * @ignore
+ */
+export interface ReturnTypeHeader extends OS3Header {
+  value?: string | number;
+  type?: string;
+}
+
+/**
+ * @deprecated Since v6.
+ * @ignore
+ */
+export interface ReturnTypeOptions extends Partial<MetadataTypes> {
+  code?: number;
+  headers?: {
+    [key: string]: ReturnTypeHeader;
+  };
+
+  [key: string]: any;
+}
 
 /**
  * @ignore
@@ -51,28 +71,39 @@ function mapStatusResponseOptions(args: any[]): any {
  * @decorator
  * @operation
  * @response
- * @deprecated Use @Returns decorator from @tsed/schema
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ * @ignore
  */
-export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
-  return EndpointFn((endpoint) => {
-    const {responses, statusCode} = endpoint;
-    const code = response.code || statusCode; // implicit
+export function ReturnType(response: Partial<ReturnTypeOptions> = {}): ReturnsChainedDecorators {
+  const {code = "default", collectionType, type, headers, description, examples, schema} = response;
 
-    if (isSuccessStatus(response.code)) {
-      const {response} = endpoint;
-      responses.delete(statusCode);
-      endpoint.statusCode = code;
-      endpoint.responses.set(code, response);
-    }
+  let decorator = R(code);
 
-    response = {
-      description: "",
-      ...deepMerge(endpoint.responses.get(code), cleanObject(response)),
-      code
-    };
+  if (collectionType || type) {
+    decorator.Type(collectionType || type);
+  }
 
-    endpoint.responses.set(response.code!, response as IResponseOptions);
-  });
+  if (collectionType) {
+    decorator = decorator.Of(type);
+  }
+
+  if (headers) {
+    decorator = decorator.Headers(headers);
+  }
+
+  if (description) {
+    decorator = decorator.Description(description);
+  }
+
+  if (examples) {
+    decorator = decorator.Examples(examples);
+  }
+
+  if (schema) {
+    decorator = decorator.Schema(schema as any);
+  }
+
+  return decorator;
 }
 
 /**
@@ -110,65 +141,39 @@ export function ReturnType(response: Partial<IResponseOptions> = {}): Function {
  * }
  * ```
  *
- * ### Without status code
- *
- * Returns can be use without status code. In this case, the response will be added to the default status code
- * (200 or the status code seated with `@Status`).
- *
- * ```typescript
- *  @Returns({description: "Description"})
- *  async myMethod(): Promise<Model>  {
- *
- *  }
- * ```
- *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "200": {
- *       "description": "Description"
- *     }
- *   }
- * }
- * ```
- *
- * ### With type schema
- *
- * Returns accept another signature with a type.
- *
- * ```typescript
- *  @Returns(Model, {description: "Description"}) //OR
- *  @Returns(Model)
- *  async myMethod(): Promise<Model>  {
- *
- *  }
- * ```
- *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "200": {
- *       "description": "Description",
- *       "schema": {"schemaOfModel": "..."}
- *     }
- *   }
- * }
- * ```
  * @param statusCode Code status
  * @param options Swagger responses documentations
  * @operation
  * @response
  * @decorator
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ * @ignore
  */
-export function Returns(statusCode: number, options: Partial<IResponseOptions>): any;
-export function Returns(statusCode: number, model: Type<any>): any;
-export function Returns(options: Partial<IResponseOptions>): any;
-export function Returns(model: Type<any>): any;
-export function Returns(model: Type<any>, options: Partial<IResponseOptions>): any;
+export function Returns(statusCode: number, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ * @ignore
+ */
+export function Returns(options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ * @ignore
+ */
+export function Returns(model: Type<any>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ * @ignore
+ */
+export function Returns(statusCode: number, model: Type<any>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ * @ignore
+ */
+export function Returns(model: Type<any>, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ * @ignore
+ */
 export function Returns(...args: any[]) {
   return ReturnType(mapStatusResponseOptions(args));
 }
@@ -185,77 +190,16 @@ export function Returns(...args: any[]) {
  * ## With status code
  *
  * ```typescript
- *  @ReturnsArray(200, {description: "OK", type: Model})
- *  async myMethod(): Promise<Model>  {
+ * import {ReturnsArray} from "@tsed/common";
+ * import {Returns} from "@tsed/schema";
  *
- *  }
- * ```
+ * @Controller("/")
+ * class MyController {
+ *   @ReturnsArray(200, Model) // deprecated
+ *   async myMethod(): Promise<Model> {}
  *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "2OO": {
- *       "description": "Description",
- *       "schema": {"type": "array"}
- *     }
- *   }
- * }
- * ```
- *
- * ### Without status code
- *
- * ReturnsArray can be use without status code. In this case, the response will be added to the default status code
- * (200 or the status code seated with `@Status`).
- *
- * ```typescript
- *  @ReturnsArray({description: "Description"})
- *  async myMethod(): Promise<Model>  {
- *
- *  }
- * ```
- *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "200": {
- *       "description": "Description",
- *       "schema": {"type": "array"}
- *     }
- *   }
- * }
- * ```
- *
- * ### With type schema
- *
- * ReturnsArray accept another signature with a type.
- *
- * ```typescript
- *  @ReturnsArray(Model, {description: "Description"}) //OR
- *  @ReturnsArray(Model)
- *  async myMethod(): Promise<Model>  {
- *
- *  }
- * ```
- *
- * This example will produce this documentation in swagger:
- *
- * ```json
- * {
- *   "responses": {
- *     "200": {
- *       "description": "Description",
- *       "schema": {
- *         "type": "array",
- *         "items": {
- *           $ref: "Model"
- *         }
- *       }
- *     }
- *   }
+ *   @Returns(200, Array).Of(Model).Description('description')
+ *   async myMethod(): Promise<Model> {}
  * }
  * ```
  *
@@ -266,12 +210,28 @@ export function Returns(...args: any[]) {
  * @swagger
  * @operation
  * @response
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
  */
-export function ReturnsArray(statusCode: number, options: Partial<IResponseOptions>): any;
-export function ReturnsArray(statusCode: number, model: Type<any>): any;
-export function ReturnsArray(options: Partial<IResponseOptions>): any;
-export function ReturnsArray(model: Type<any>): any;
-export function ReturnsArray(model: Type<any>, options: Partial<IResponseOptions>): any;
-export function ReturnsArray(...args: any[]) {
+export function ReturnsArray(statusCode: number, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ */
+export function ReturnsArray(statusCode: number, model: Type<any>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ */
+export function ReturnsArray(options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ */
+export function ReturnsArray(model: Type<any>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ */
+export function ReturnsArray(model: Type<any>, options: Partial<ReturnTypeOptions>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since v6. Use @Returns decorator from @tsed/schema
+ */
+export function ReturnsArray(...args: any[]): ReturnsChainedDecorators {
   return ReturnType({...mapStatusResponseOptions(args), collectionType: Array});
 }

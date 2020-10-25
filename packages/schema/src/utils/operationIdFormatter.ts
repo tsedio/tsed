@@ -1,5 +1,8 @@
 import {camelCase} from "change-case";
 
+/**
+ * @ignore
+ */
 export function operationIdFormatter(pattern = "%c.%m") {
   const OPERATION_IDS = new Map<string, number>();
 

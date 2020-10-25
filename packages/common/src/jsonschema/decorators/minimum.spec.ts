@@ -1,34 +1,28 @@
+import {JsonEntityStore} from "@tsed/schema";
 import {expect} from "chai";
-import {JsonSchema, Minimum} from "../../../src/jsonschema";
-import {stubSchemaDecorator} from "./utils";
+import {Minimum} from "./minimum";
 
 describe("Minimum", () => {
   describe("when it used without exclusive value", () => {
     it("should store data", () => {
-      const decorateStub = stubSchemaDecorator();
-      const schema = new JsonSchema();
-      Minimum(10);
+      // WHEN
+      class Model {
+        @Minimum(0)
+        num: number;
+      }
 
-      // @ts-ignore
-      decorateStub.getCall(0).args[0](schema);
-      expect(schema.minimum).to.eq(10);
-      decorateStub.restore();
-    });
-  });
-  describe("when it used with exclusive value", () => {
-    before(() => {});
-    after(() => {});
+      // THEN
+      const classSchema = JsonEntityStore.from(Model);
 
-    it("should store exclusiveMinimum data", () => {
-      const decorateStub = stubSchemaDecorator();
-      const schema = new JsonSchema();
-      Minimum(10, true);
-      // @ts-ignore
-      decorateStub.getCall(0).args[0](schema);
-
-      expect(schema.exclusiveMinimum).to.eq(10);
-
-      decorateStub.restore();
+      expect(classSchema.schema.toJSON()).to.deep.equal({
+        properties: {
+          num: {
+            minimum: 0,
+            type: "number"
+          }
+        },
+        type: "object"
+      });
     });
   });
 });

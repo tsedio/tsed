@@ -1,14 +1,12 @@
-import {Controller, Put, Status, UseBefore, Returns} from "@tsed/common";
-import {MulterOptions, MultipartFile} from "@tsed/multipartfiles";
-import {BeforeMiddleware} from "../../middlewares/BeforeMiddleware";
+import {Controller, MulterOptions, MultipartFile, Put} from "@tsed/common";
+import {Returns} from "@tsed/schema";
 
 @Controller("/upload")
-@UseBefore(BeforeMiddleware, {})
 export class UploadController {
   @Put("/")
   @Returns(201, {description: "Created"})
   @MulterOptions({dest: `${process.cwd()}/.tmp`})
-  async add(@MultipartFile("file") file: Express.Multer.File): Promise<any> {
+  async add(@MultipartFile("file") file: MultipartFile): Promise<any> {
     return true;
   }
 }

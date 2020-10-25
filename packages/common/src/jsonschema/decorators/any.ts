@@ -1,8 +1,6 @@
 import {Type} from "@tsed/core";
+import {Any as A} from "@tsed/schema";
 import {JSONSchema6TypeName} from "json-schema";
-import {JsonSchema} from "../class/JsonSchema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
-import {getJsonType} from "../utils/getJsonType";
 
 /**
  * Set the type of the array items.
@@ -37,11 +35,9 @@ import {getJsonType} from "../utils/getJsonType";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Since v6. Use @Any decorator from @tsed/schema instead of.
  */
-export function Any(...types: (JSONSchema6TypeName | Type<any> | null)[]) {
-  return decoratorSchemaFactory((schema: JsonSchema) => {
-    types = types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"];
-    types = types.map(getJsonType) as any[];
-    schema.mapper.type = (types.length === 1 ? types[0] : types) as any;
-  });
+export function Any(...types: (Type<any> | JSONSchema6TypeName | null)[]) {
+  return A(...types);
 }

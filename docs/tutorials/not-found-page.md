@@ -1,40 +1,29 @@
 # Customize 404
 
-The guide shows you how you can customize the 404 response error emitted by Express.js.
+The guide shows you how you can customize the 404 response error when a resource or route isn't resolved by 
+the router.
 
-To begin, create a new Middleware named `NotFoundMiddleware`:
+Customizing error is possible by using the [Exception filter feature](/docs/exceptions.html#exception-filter) and by catching 
+the @@ResourceNotFound@@ error class. This error is thrown by Ts.ED when nothing routes are resolved.
 
-```typescript
-import {Middleware, Res, Next} from "@tsed/common";
+Create a new ResourceNotFoundFilter in the filters directories and copy/paste this example:
 
-@Middleware()
-export class NotFoundMiddleware {
-  use(@Res() response: Res, @Next() next: Next) {
-    // Json response
-    response.status(404).json({status: 404, message: 'Not found'});
+<<< @/docs/docs/snippets/exceptions/resource-not-found-filter.ts
 
-    // Or with ejs
-    response.status(404).render("404.ejs", {}, next);
-  }
-}
-```
+::: warning
+`response.render()` require to configure the template engine before. See our page over [Templating engine](/tutorials/templating.html#installation) installation for more details.
+:::
 
-Then register your middleware on the `$afterRoutesInit` in your Server:
+Then import the custom filter in your server:
 
 ```typescript
 import {Inject} from "@tsed/di";
 import {Configuration, PlatformApplication} from "@tsed/common";
-import {NotFoundMiddleware} from "./middlewares/NotFoundMiddleware";
+import "./filters/ResourceNotFoundFilter"; // Importing filter with ES6 import is enough
 
 @Configuration({
   // ...
 })
 export class Server {
-  @Inject()
-  app: PlatformApplication;
-
-  public $afterRoutesInit() {
-    this.app.use(NotFoundMiddleware);
-  }
 }
 ```

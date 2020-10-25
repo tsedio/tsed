@@ -1,19 +1,6 @@
-import {
-  BodyParams,
-  Controller,
-  Description,
-  Get,
-  MaxLength,
-  MinLength,
-  PathParams,
-  PlatformTest,
-  Post,
-  Property,
-  Returns,
-  Status
-} from "@tsed/common";
+import {BodyParams, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
-import {Summary} from "@tsed/swagger";
+import {Description, MaxLength, MinLength, Property, Returns, Summary} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -73,10 +60,9 @@ export class ResourcesCtrl extends BaseController<Resource> {
   }
 
   @Post("/")
-  @Status(201)
-  @Returns(Resource)
+  @(Returns(201).Type(Resource))
   async post(@BodyParams() resource: Resource) {
-    resource.id = require("uuid/v4")();
+    resource.id = require("uuid").v4();
     this.resources.push(resource);
 
     return resource;

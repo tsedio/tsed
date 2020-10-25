@@ -1,23 +1,10 @@
-import {
-  Allow,
-  BodyParams,
-  Controller,
-  Email,
-  Get,
-  Ignore,
-  MinLength,
-  PlatformTest,
-  Post,
-  Property,
-  Required,
-  Returns,
-  Session,
-  Status
-} from "@tsed/common";
+import {BodyParams, Constant, Controller, Get, PlatformTest, Post, Req, Session, Status} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Indexed, Unique} from "@tsed/mongoose";
+import {Allow, Email, Ignore, MinLength, Property, Required, Returns} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
+import {promisify} from "util";
 import {PlatformTestOptions} from "../interfaces";
 
 export class UserCreation {
@@ -44,6 +31,9 @@ export class User extends UserCreation {
 
 @Controller("/session")
 export class SessionCtrl {
+  @Constant("PLATFORM_NAME")
+  platformName: string;
+
   @Post("/connect")
   async connect(@Session() session: any, @BodyParams() user: UserCreation) {
     session.user = user;
@@ -63,12 +53,15 @@ export class SessionCtrl {
 
   @Get("/logout")
   @Status(204)
-  async logout(@Session() session: Express.Session) {
-    delete session.user;
+  async logout(@Req() req: any) {
+    switch (this.platformName) {
+      case "koa":
+        return (req.ctx.session = null);
+      case "express":
+        delete req.session.user;
 
-    return new Promise((resolve, reject) => {
-      session.destroy((err) => (err ? reject(err) : resolve()));
-    });
+        return promisify(req.session.destroy.bind(req.session))();
+    }
   }
 }
 
@@ -89,10 +82,7 @@ export function testSession(options: PlatformTestOptions) {
 
   describe("Scenario1: POST /rest/session/connected", () => {
     it("should keep connected user in session and destroy session", async () => {
-      await request
-        .get("/rest/session/userinfo")
-        .expect("set-cookie", /connect.sid/)
-        .expect(404);
+      await request.get("/rest/session/userinfo").expect(404);
 
       await request.post("/rest/session/connect").send({
         name: "name",

@@ -1,5 +1,5 @@
+import {Enum as E} from "@tsed/schema";
 import {JSONSchema6Type} from "json-schema";
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
 
 /**
  * The enum keyword is used to restrict a value to a fixed set of values.
@@ -96,32 +96,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Since v6. Use @Enum decorator from @tsed/schema instead of.
  */
 export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
-  return decoratorSchemaFactory((schema) => {
-    if (typeof enumValue === "object") {
-      const info = Object.keys(enumValue).reduce(
-        (acc: any, key: any) => {
-          if (isNaN(+key)) {
-            const value = enumValue[key];
-            const type = typeof value;
-
-            if (acc.type.indexOf(type) === -1) {
-              acc.type.push(type);
-            }
-
-            acc.values.push(value);
-          }
-
-          return acc;
-        },
-        {type: [], values: []}
-      );
-
-      schema.mapper.type = info.type.length === 1 ? info.type[0] : info.type;
-      schema.mapper.enum = info.values;
-    } else {
-      schema.mapper.enum = [enumValue].concat(enumValues);
-    }
-  });
+  return E(enumValue, ...enumValues);
 }

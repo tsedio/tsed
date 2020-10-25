@@ -1,19 +1,19 @@
-import {GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/socketio";
 import "@tsed/swagger";
 import * as  bodyParser from "body-parser";
-import {ejs} from "consolidate";
+import * as compress from "compression";
+import * as cookieParser from "cookie-parser";
+import * as cors from "cors";
 import * as methodOverride from "method-override";
 
 const rootDir = __dirname;
 
 @Configuration({
   rootDir,
-  viewsDir: `${rootDir}/../views`,
   port: 3008,
-  httpsPort: false,
   acceptMimes: ["application/json"],
   mount: {
     "/": `${rootDir}/controllers/pages/**/*.ts`,
@@ -25,10 +25,17 @@ const rootDir = __dirname;
       "./node_modules"
     ]
   },
-  swagger: {
+  swagger: [{
     path: "/docs"
-  },
-  socketIO: {}
+  }],
+  socketIO: {},
+  views: {
+    root: `${rootDir}/../views`,
+    viewEngine: "ejs",
+    extensions: {
+      html: "ejs"
+    }
+  }
 })
 export class Server {
   @Configuration()
@@ -37,14 +44,11 @@ export class Server {
   @Inject()
   app: PlatformApplication;
 
-  $beforeInit(): void | Promise<any> {
-    this.app.raw.set("views", this.settings.get("viewsDir"));
-    this.app.raw.engine("ejs", ejs);
-  }
-
   $beforeRoutesInit() {
     this.app
-      .use(GlobalAcceptMimesMiddleware)
+      .use(cors())
+      .use(cookieParser())
+      .use(compress({}))
       .use(methodOverride())
       .use(bodyParser.json())
       .use(bodyParser.urlencoded({

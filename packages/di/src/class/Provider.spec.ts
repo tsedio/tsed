@@ -81,7 +81,7 @@ describe("Provider", () => {
 
   describe("toString()", () => {
     it("should return the class name", () => {
-      expect(new Provider(T1).toString()).to.eq("Token:T1");
+      expect(new Provider(T1).toString()).to.eq("Token:T1:T1");
     });
   });
 

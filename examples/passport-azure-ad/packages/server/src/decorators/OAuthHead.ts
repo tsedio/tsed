@@ -1,10 +1,10 @@
 import {Context, UseBefore} from "@tsed/common";
-import {OAuthBearerOptions} from "../protocols/BearerStrategy";
+import {PassportMiddleware} from "@tsed/passport";
 
 export class OAuthHeadMiddleware {
   use(@Context() ctx: Context) {
     const {response, request, endpoint} = ctx;
-    const {scopes = []} = endpoint.get(OAuthBearerOptions) || {};
+    const {options: {scopes = []}} = endpoint.get(PassportMiddleware) || {};
 
     response.setHeaders({
       "Access-Control-Expose-Headers": "scopes",

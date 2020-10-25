@@ -37,7 +37,6 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
 
   return getSchemaProperties(entity).reduce((newObj, [key, propStore]) => {
     const schema = propStore.schema;
-
     if (alterIgnore(schema, {useAlias, ...props, self: obj})) {
       return newObj;
     }

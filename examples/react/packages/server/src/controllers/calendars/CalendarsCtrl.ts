@@ -6,12 +6,10 @@ import {
   PathParams,
   Post,
   Put,
-  Required,
-  Status,
-  Returns,
-  ReturnsArray
+  Status
 } from "@tsed/common";
 import { NotFound } from "@tsed/exceptions";
+import {Required} from "@tsed/schema";
 import { Calendar, CreateCalendar } from "../../models/Calendar";
 import { CalendarsService } from "../../services/calendars/CalendarsService";
 import { EventsCtrl } from "../events/EventsCtrl";
@@ -32,7 +30,7 @@ export class CalendarsCtrl {
   constructor(private calendarsService: CalendarsService) {}
 
   @Get("/:id")
-  @Returns(Calendar)
+  @Status(200).Type(Calendar)
   async get(@Required() @PathParams("id") id: string): Promise<Calendar> {
     const calendar = await this.calendarsService.find(id);
 
@@ -44,14 +42,13 @@ export class CalendarsCtrl {
   }
 
   @Put("/")
-  @Status(201)
-  @Returns(Calendar)
+  @Status(201).Type(Calendar)
   save(@BodyParams() calendar: CreateCalendar): Promise<Calendar> {
     return this.calendarsService.create(calendar);
   }
 
   @Post("/:id")
-  @Returns(Calendar)
+  @Status(200).Type(Calendar)
   async update(
     @PathParams("id") @Required() id: string,
     @BodyParams() @Required() calendar: CreateCalendar
@@ -66,7 +63,7 @@ export class CalendarsCtrl {
   }
 
   @Get("/")
-  @ReturnsArray(Calendar)
+  @Status(200).Type(Array).Of(Calendar)
   async getAllCalendars() {
     return this.calendarsService.query();
   }

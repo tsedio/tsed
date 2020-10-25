@@ -33,7 +33,7 @@ export class Platform {
   }
 
   /**
-   * Create a native metadata base on the metadata or to the given Class.
+   * Create a native handler function based on the given handlerMetadata.
    * @param handler
    */
   public createHandler(handler: HandlerMetadata | any) {
@@ -84,7 +84,7 @@ export class Platform {
             route,
             provider
           });
-          this.app.use(route, provider.router.callback());
+          this.app.use(route, ...[].concat(provider.getRouter().callback()));
         }
       }
     }
@@ -123,9 +123,9 @@ export class Platform {
       });
 
     ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
-      const {pathsMethods, params, targetName, propertyKey} = endpoint;
+      const {operationPaths, params, targetName, propertyKey} = endpoint;
 
-      pathsMethods.forEach(({path, method}) => {
+      operationPaths.forEach(({path, method}) => {
         if (method) {
           routes.push({
             method,

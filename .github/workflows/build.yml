@@ -91,7 +91,7 @@ jobs:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn configure && git fetch --quiet && git rebase origin/production && yarn docs:publish
+        run: yarn configure && git fetch --quiet && git rebase origin/${GITHUB_REF##*/} && yarn docs:publish
 
   publish-examples:
     runs-on: ubuntu-latest
@@ -115,5 +115,5 @@ jobs:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn configure && git fetch --quiet && git rebase origin/production && yarn examples:publish
+        run: yarn configure && git fetch --quiet && git rebase origin/${GITHUB_REF##*/} && yarn examples:publish
 

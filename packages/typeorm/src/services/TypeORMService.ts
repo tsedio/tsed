@@ -10,18 +10,9 @@ export class TypeORMService {
    * @private
    */
   readonly connectionManager: ConnectionManager = getConnectionManager();
+
   @Inject(InjectorService)
   private injector: InjectorService;
-
-  /**
-   *
-   * @type {Map<any, any>}
-   * @deprecated
-   */
-  // istanbul ignore next
-  get instances() {
-    return this.connectionManager;
-  }
 
   /**
    *

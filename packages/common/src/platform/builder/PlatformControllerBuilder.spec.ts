@@ -1,20 +1,30 @@
+import {All, ControllerProvider, Get, Use} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
+import {OperationMethods} from "@tsed/schema";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
-import {ControllerProvider} from "../domain/ControllerProvider";
-import {PlatformHeadersMiddleware} from "../middlewares/PlatformHeadersMiddleware";
-import {SendResponseMiddleware} from "../middlewares/SendResponseMiddleware";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
-import {PlatformDriver} from "../services/PlatformDriver";
 import {PlatformHandler} from "../services/PlatformHandler";
 import {PlatformRouter} from "../services/PlatformRouter";
 import {PlatformControllerBuilder} from "./PlatformControllerBuilder";
 
 function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any = {}) {
-  class TestCtrl {}
+  class TestCtrl {
+    @All("/")
+    allMethod() {}
+
+    @Get("/")
+    getMethod() {}
+
+    @Use("/")
+    use() {}
+
+    @Use()
+    use2() {}
+  }
 
   const use = Sinon.stub();
   const router = {
@@ -52,7 +62,7 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
     };
   }
 
-  const endpoint = new EndpointMetadata({target: TestCtrl, propertyKey});
+  const endpoint = EndpointMetadata.get(TestCtrl, propertyKey);
 
   if (withMiddleware) {
     endpoint.before([function endpointBefore() {}]);
@@ -69,11 +79,12 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
 }
 
 const sandbox = Sinon.createSandbox();
-describe("ControllerBuilder", () => {
+describe("PlatformControllerBuilder", () => {
   beforeEach(() => {
     // @ts-ignore
     sandbox.stub(PlatformRouter, "createRawRouter");
-    sandbox.stub(PlatformDriver.prototype, "mapHandlers").callsFake((o) => o);
+    // @ts-ignore
+    sandbox.stub(PlatformRouter.prototype, "mapHandlers").callsFake((o) => o);
     sandbox.stub(EndpointMetadata, "getEndpoints");
   });
   afterEach(() => {
@@ -82,13 +93,9 @@ describe("ControllerBuilder", () => {
 
   it("should build controller with single endpoint", () => {
     // GIVEN
-    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder();
+    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder({propertyKey: "getMethod"});
 
-    endpoint.pathsMethods.push({
-      path: "/",
-      method: "get",
-      isFinal: true
-    });
+    endpoint.addOperationPath(OperationMethods.GET, "/", {isFinal: true});
 
     // WHEN
     const result = controllerBuilder.build(injector);
@@ -108,19 +115,15 @@ describe("ControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
-      PlatformHeadersMiddleware,
-      endpoint.afterMiddlewares[0],
-      SendResponseMiddleware
+      endpoint.afterMiddlewares[0]
     );
   });
 
   it("should build controller with only route configured", () => {
     // GIVEN
-    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder();
+    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder({propertyKey: "use"});
 
-    endpoint.pathsMethods.push({
-      path: "/"
-    });
+    endpoint.addOperationPath(OperationMethods.CUSTOM, "/");
 
     // WHEN
     const result = controllerBuilder.build(injector);
@@ -137,7 +140,6 @@ describe("ControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
-      Sinon.match.func,
       endpoint.afterMiddlewares[0]
     );
 
@@ -146,7 +148,7 @@ describe("ControllerBuilder", () => {
 
   it("should build controller without route and method", () => {
     // GIVEN
-    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder();
+    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder({propertyKey: "use2"});
 
     // WHEN
     const result = controllerBuilder.build(injector);
@@ -162,7 +164,6 @@ describe("ControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
-      Sinon.match.func,
       endpoint.afterMiddlewares[0]
     );
 
@@ -176,18 +177,10 @@ describe("ControllerBuilder", () => {
       withMiddleware: false
     });
 
-    endpoint.pathsMethods.push({
-      method: "get",
-      path: "/",
-      isFinal: true
-    });
+    endpoint.addOperationPath(OperationMethods.GET, "/", {isFinal: true});
 
-    const endpointAll = new EndpointMetadata({target: TestCtrl, propertyKey: "allMethod"});
-    endpointAll.pathsMethods.push({
-      method: "all",
-      path: "/",
-      isFinal: true
-    });
+    const endpointAll = EndpointMetadata.get(TestCtrl, "allMethod");
+    endpoint.addOperationPath(OperationMethods.ALL, "/", {isFinal: true});
 
     // @ts-ignore
     EndpointMetadata.getEndpoints.returns([endpointAll, endpoint]);
@@ -198,7 +191,7 @@ describe("ControllerBuilder", () => {
     // THEN
     expect(result).to.be.instanceof(PlatformRouter);
     // ENDPOINT
-    expect(router.use.getCall(0)).to.have.been.calledWithExactly("/", Sinon.match.func, endpointAll, PlatformHeadersMiddleware);
-    expect(router.use.getCall(1)).to.have.been.calledWithExactly("/", Sinon.match.func, endpoint, Sinon.match.func, SendResponseMiddleware);
+    expect(router.use.getCall(0)).to.have.been.calledWithExactly("/", Sinon.match.func, endpointAll);
+    expect(router.use.getCall(1)).to.have.been.calledWithExactly("/", Sinon.match.func, endpoint);
   });
 });

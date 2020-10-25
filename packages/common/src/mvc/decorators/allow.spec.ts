@@ -1,28 +1,22 @@
-import {prototypeOf} from "@tsed/core";
+import {Get} from "@tsed/common";
+import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import * as Sinon from "sinon";
-import {Allow} from "../../../src/mvc/decorators";
 import {ParamMetadata} from "../models/ParamMetadata";
 import {PropertyMetadata} from "../models/PropertyMetadata";
+import {Allow} from "./allow";
 
-const sandbox = Sinon.createSandbox();
 describe("Allow", () => {
-  before(() => {
-    sandbox.spy(PropertyMetadata, "get");
-    sandbox.spy(ParamMetadata, "get");
-  });
-  after(() => sandbox.restore());
-
   describe("when decorator is used as param", () => {
     it("should called with the correct parameters", () => {
       // WHEN
       class Test {
+        @Get("/")
         test(@Allow(null) test: string) {}
       }
 
-      const metadata = ParamMetadata.get(prototypeOf(Test), "test", 0);
+      const metadata = ParamMetadata.get(Test, "test", 0);
+
       // THEN
-      expect(ParamMetadata.get).to.have.been.calledWithExactly(prototypeOf(Test), "test", 0);
       expect(metadata.allowedRequiredValues).to.deep.eq([null]);
     });
   });
@@ -35,12 +29,10 @@ describe("Allow", () => {
         test: string;
       }
 
-      const metadata = PropertyMetadata.get(prototypeOf(Test), "test");
+      const metadata = PropertyMetadata.get(Test, "test");
 
       // THEN
-      expect(PropertyMetadata.get).to.have.been.calledWithExactly(prototypeOf(Test), "test");
       expect(metadata.allowedRequiredValues).to.deep.eq([null]);
-      expect(metadata.schema.toJSON()).to.deep.eq({type: ["string", "null"]});
     });
 
     it("should called with the correct parameters (class)", () => {
@@ -52,21 +44,31 @@ describe("Allow", () => {
         test: Children;
       }
 
-      const metadata = PropertyMetadata.get(prototypeOf(Test), "test");
+      const metadata = PropertyMetadata.get(Test, "test");
 
       // THEN
-      expect(PropertyMetadata.get).to.have.been.calledWithExactly(prototypeOf(Test), "test");
-      expect(metadata.allowedRequiredValues).to.deep.eq([null]);
-      expect(metadata.schema.toJSON()).to.deep.eq({
-        oneOf: [
-          {
-            type: "null"
-          },
-          {
-            $ref: "#/definitions/Children"
+      expect(getJsonSchema(Test)).to.deep.eq({
+        definitions: {
+          Children: {
+            type: "object"
           }
-        ]
+        },
+        properties: {
+          test: {
+            oneOf: [
+              {
+                type: "null"
+              },
+              {
+                $ref: "#/definitions/Children"
+              }
+            ]
+          }
+        },
+        required: ["test"],
+        type: "object"
       });
+      expect(metadata.allowedRequiredValues).to.deep.eq([null]);
     });
   });
 

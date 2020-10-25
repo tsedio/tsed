@@ -1,21 +1,19 @@
 import {Enumerable, NotEnumerable, Type} from "@tsed/core";
 import {Provider, ProviderType} from "@tsed/di";
-import {EndpointMetadata, IControllerMiddlewares} from "../../mvc";
-
-import {IPlatformDriver} from "../interfaces/IPlatformDriver";
+import {JsonEntityStore} from "@tsed/schema";
+import {ControllerMiddlewares, EndpointMetadata} from "../../mvc";
+import {ROUTER_OPTIONS} from "../constants/routerOptions";
+import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 
 export interface IChildrenController extends Type<any> {
   $parentCtrl?: ControllerProvider;
 }
 
-export class ControllerProvider extends Provider<any> {
+export class ControllerProvider<T = any> extends Provider<T> {
   @NotEnumerable()
-  public router: IPlatformDriver;
-  /**
-   * The path for the controller
-   */
-  @Enumerable()
-  public path: string;
+  readonly entity: JsonEntityStore;
+  @NotEnumerable()
+  private router: PlatformRouterMethods;
   /**
    * Controllers that depend to this controller.
    * @type {Array}
@@ -27,6 +25,16 @@ export class ControllerProvider extends Provider<any> {
   constructor(provide: any) {
     super(provide);
     this.type = ProviderType.CONTROLLER;
+    this.entity = JsonEntityStore.from(provide);
+  }
+
+  get path() {
+    return this.entity.path;
+  }
+
+  @Enumerable()
+  set path(path: string) {
+    this.entity.path = path;
   }
 
   /**
@@ -57,10 +65,9 @@ export class ControllerProvider extends Provider<any> {
 
   /**
    *
-   * @returns {IRouterSettings}
    */
   get routerOptions(): any {
-    return this.store.get("routerOptions") || {};
+    return this.store.get(ROUTER_OPTIONS) || ({} as any);
   }
 
   /**
@@ -68,7 +75,7 @@ export class ControllerProvider extends Provider<any> {
    * @param value
    */
   set routerOptions(value: any) {
-    this.store.set("routerOptions", value);
+    this.store.set(ROUTER_OPTIONS, value);
   }
 
   /**
@@ -83,7 +90,7 @@ export class ControllerProvider extends Provider<any> {
    *
    * @returns {any[]}
    */
-  get middlewares(): IControllerMiddlewares {
+  get middlewares(): ControllerMiddlewares {
     return Object.assign(
       {
         use: [],
@@ -98,7 +105,7 @@ export class ControllerProvider extends Provider<any> {
    *
    * @param middlewares
    */
-  set middlewares(middlewares: IControllerMiddlewares) {
+  set middlewares(middlewares: ControllerMiddlewares) {
     const mdlwrs = this.middlewares;
     const concat = (key: string, a: any, b: any) => (a[key] = a[key].concat(b[key]));
 
@@ -136,5 +143,15 @@ export class ControllerProvider extends Provider<any> {
    */
   public hasParent(): boolean {
     return !!this.provide.$parentCtrl;
+  }
+
+  public getRouter<T extends PlatformRouterMethods = any>(): T {
+    return this.router as any;
+  }
+
+  public setRouter(router: PlatformRouterMethods) {
+    this.router = router;
+
+    return this;
   }
 }

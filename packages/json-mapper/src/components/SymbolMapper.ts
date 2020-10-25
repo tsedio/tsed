@@ -2,7 +2,7 @@ import {JsonMapper} from "../decorators/jsonMapper";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
 /**
- * Converter component for the `Symbol` Type.
+ * Mapper for the `Symbol` type.
  *
  * @jsonmapper
  * @component

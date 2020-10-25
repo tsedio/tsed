@@ -1,8 +1,18 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
-import {Res} from "../../mvc/decorators/params/response";
+import {DI_PARAM_OPTIONS, Inject, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
+import {ServerResponse} from "http";
+import {PlatformViews} from "./PlatformViews";
 
 const onFinished = require("on-finished");
+
+declare global {
+  namespace TsED {
+    // @ts-ignore
+    export interface Response {
+      // req: any;
+    }
+  }
+}
 
 /**
  * Platform Response abstraction layer.
@@ -10,8 +20,11 @@ const onFinished = require("on-finished");
  */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
-export class PlatformResponse {
-  constructor(@Opts public raw: Res) {}
+export class PlatformResponse<T extends {[key: string]: any} = any> {
+  @Inject()
+  platformViews: PlatformViews;
+
+  constructor(@Opts public raw: T) {}
 
   /**
    * Get the current statusCode
@@ -34,11 +47,33 @@ export class PlatformResponse {
    * @param injector
    * @param res
    */
-  static create(injector: InjectorService, res: Res) {
+  static create(injector: InjectorService, res: any) {
     const locals = new Map();
     locals.set(DI_PARAM_OPTIONS, res);
 
     return injector.invoke<PlatformResponse>(PlatformResponse, locals);
+  }
+
+  static onFinished(res: any, cb: Function) {
+    onFinished(res, cb);
+  }
+
+  /**
+   * Return the Framework response object (express, koa, etc...)
+   */
+  getResponse<Res = T>(): Res {
+    return this.raw as any;
+  }
+
+  /**
+   * Return the Node.js response object
+   */
+  getRes(): ServerResponse {
+    return this.raw as any;
+  }
+
+  hasStatus() {
+    return this.statusCode !== 200;
   }
 
   /**
@@ -66,8 +101,14 @@ export class PlatformResponse {
   setHeaders(headers: {[key: string]: any}) {
     // apply headers
     Object.entries(headers).forEach(([key, item]) => {
-      this.raw.set(key, String(item));
+      this.setHeader(key, item);
     });
+
+    return this;
+  }
+
+  setHeader(key: string, item: any) {
+    this.raw.set(key, String(item));
 
     return this;
   }
@@ -132,7 +173,10 @@ export class PlatformResponse {
    * @param options
    */
   async render(path: string, options: any = {}) {
-    return "PlatformResponse.render method is not implemented";
+    return this.platformViews.render(path, {
+      ...this.locals,
+      ...options
+    });
   }
 
   /**
@@ -171,12 +215,28 @@ export class PlatformResponse {
    * Add a listener to handler the end of the request/response.
    * @param cb
    */
-  onEnd(cb: Function) {
-    onFinished(this.raw, cb);
+  onEnd(cb: Function): this {
+    PlatformResponse.onFinished(this.getRes(), cb);
+
+    return this;
+  }
+
+  isDone(): boolean {
+    if (!this.raw) {
+      return true;
+    }
+
+    const res = this.getRes();
+
+    return Boolean(this.isHeadersSent() || res.writableEnded || res.writableFinished);
   }
 
   destroy() {
     // @ts-ignore
     delete this.raw;
+  }
+
+  isHeadersSent() {
+    return this.getRes().headersSent;
   }
 }

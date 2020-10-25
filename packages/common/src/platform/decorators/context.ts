@@ -51,14 +51,13 @@ import {PlatformContext} from "../domain/PlatformContext";
  * @decorator
  * @operation
  * @input
- * @returns {Function}
  */
 export function Context(expression: string): ParameterDecorator;
 export function Context(): ParameterDecorator;
 export function Context(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
 
-  return UseParam(ParamTypes.CONTEXT, {
+  return UseParam(ParamTypes.$CTX, {
     expression,
     useType,
     useConverter,

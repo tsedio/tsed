@@ -32,7 +32,7 @@ map every corresponding request to this handler. Since we've declared a prefix f
 
 Ts.ED provides a decorator for each HTTP verb which can be used to handle a request:
 
-<ApiList query="status.includes('decorator') && status.includes('httpMethod')" />
+<ApiList query="tags:decorator AND tags:httpMethod" />
 
 Other decorators are provided to describe your route with OpenSpec, adding middlewares, adding some constraints or adding headers:
 
@@ -122,6 +122,9 @@ Finally, @@BodyParams@@ accepts to give a @@IParamOptions@@ object as parameter 
 Since v5.51.0+, @@QueryParams@@ decorator accept a model to transform `Express.request.query` plain object to a Class.
 
 ```typescript
+import {Controller, Get, QueryParams} from "@tsed/common";
+import {Required, MinLength, Property} from "@tsed/schema";
+
 class QueryParamsModel {
   @Required()
   @MinLength(1)
@@ -141,7 +144,7 @@ class QueryController {
 
 ### Headers
 
-@@HeaderParams@@ decorator provides you a quick access to the `Express.request.get()`
+@@HeaderParams@@ decorator provides you quick access to the `Express.request.get()`:
 
 <<< @/docs/docs/snippets/controllers/request-headers.ts
 
@@ -156,10 +159,8 @@ For the session, cookies, locals or context data attached on the request, it wor
 
 #### Locals
 
-@@Locals@@ is a request property used by third-party like template engine to render a page by the server.
-If you attach data on it, you'll expose this data to the template.
-
-If you don't want that, don't use this attribute!
+@@Locals@@ is a response property used by third-party like template engine to render a page by the server.
+If you attach data on it, template engine will use it to render the template.
 
 Here is an example:
 
@@ -168,6 +169,26 @@ Here is an example:
 #### Context
 
 See our dedicated page on [PlatformContext](/docs/request-context.md) for more details.
+
+#### Validation
+
+Ts.ED support the data input validation with the decorators provided by `@tsed/schema`.
+
+Example:
+
+<<< @/docs/docs/snippets/controllers/request-input-validation.ts
+
+::: warning
+Validation require the `@tsed/ajv` plugins to work. 
+
+```sh
+npm install --save @tsed/ajv
+``` 
+:::
+
+**Supported decorators:**
+
+<ApiList query="module === '@tsed/schema' && status.includes('decorator') && status.includes('schema') && !status.includes('operation') && !['Property'].includes(symbolName)" />
 
 ## Response
 
@@ -194,6 +215,42 @@ You can set the response header with the @@Header@@ decorator:
 
 <<< @/docs/docs/snippets/controllers/response-headers.ts
 
+### Generics
+
+One of the new usage allowed by the @@Returns@@ is the support of the Generics from TypeScript.
+
+This feature is basically there to meet the need to generate correct Swagger documentation when using generic templates.
+
+For example, you want to return a generic `Document` payload which contains a data (Product) and links to allow a commuter to discover your endpoints linked to this data.
+
+With @@Returns@@ you can document correctly your endpoint to reflect the correct model:
+
+<Tabs class="-code">
+  <Tab label="MyController.ts">
+
+<<< @/docs/docs/snippets/controllers/response-generics-controller.ts
+
+  </Tab>
+  <Tab label="Document.ts">
+
+<<< @/docs/docs/snippets/controllers/response-generics-document.ts  
+  
+  </Tab>  
+  <Tab label="Product.ts">
+
+<<< @/docs/docs/snippets/controllers/response-generics-product.ts
+
+  </Tab>
+  <Tab label="CodeSandbox">
+<iframe src="https://codesandbox.io/embed/laughing-kepler-ripfl?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="tsed-swagger-example"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
+  </Tab>
+</Tabs>
+                                                            
+
 ### Throw exceptions
 
 You can use [@tsed/exceptions](/docs/exceptions.md)  or similar module to throw an http exception.
@@ -213,39 +270,52 @@ This example will produce a response with status code 400 and "Not a number" mes
 See our guide on [HttpExceptions to throw customer HttpExceptions](/tutorials/throw-http-exceptions.md)
 :::
 
-## Inject request, response and next
+## Inject Request and Response
 
-You can use a decorator to inject `Express.Request`, `Express.Response` and
-`Express.NextFunction` services instead of the classic call provided by Express API.
+You can use a decorator to inject the Request in order to retrieve information from the request that you cannot get through decorators.
+In the same way you can inject the Response instance in order to modify some of its information. 
 
-- @@Req@@
-- @@Res@@
-- @@Next@@
+This is not recommended, however, because your will potentially be specific to the platform you are using (Express.js, Koa.js, etc ...)
 
-Here an example to use these decorators:
+You can with the Req and Request decorators retrieve the originals request and response as follows:
 
-<<< @/docs/docs/snippets/controllers/raw-req-res-next.ts
+<<< @/docs/docs/snippets/controllers/inject-req-res-target.ts
+
+It's also possible to inject the high level PlatformRequest and PlatformResponse:
+
+<<< @/docs/docs/snippets/controllers/inject-req-res-target.ts
+
+Finally, it is also possible to retrieve the request and response in Node.js version:
+ 
+<<< @/docs/docs/snippets/controllers/inject-req-res-node.ts
+
+## Inject next
+
+Use @@Next@@ decorator isn't recommended because Ts.ED use Promise/Observable to return a response, but something it's required to get next function
+to chain middlewares.
+
+<<< @/docs/docs/snippets/controllers/inject-next.ts
 
 ## Inject router
 
 Each controller has a @@PlatformRouter@@ which wrap the original router from [Express.Router](http://expressjs.com/en/guide/routing.html
-You can inject @@PlatformRouter@@ in your controller to add anything related to the Router itself.
+or KoaRouter.
+You can inject @@PlatformRouter@@ in your controller to add anything related to the current Router controller.
 
-<<< @/docs/docs/snippets/controllers/handle-router-controller.ts
+<<< @/docs/docs/snippets/controllers/inject-router.ts
 
 ::: warning
 All of these routes added by this way won't be discovered by Ts.ED to produce Swagger documentation.
 :::
 
-## Advanced usage
-### Templating
+## Templating
 
 A template engine like [EJS](https://ejs.co/) or [Handlebars](https://handlebarsjs.com/) can be used to change the response returned by your endpoint.
 Like Express.js, you need to configure the templating engine so that you can use it later with the @@View@@ decorator.
 
 Here is an example of a controller which uses the @@View@@ decorator:
 
-<<< @/docs/docs/snippets/controllers/response-templating.ts
+<<< @/docs/docs/snippets/templating/response-templating.ts
 
 And its view:
 
@@ -260,7 +330,7 @@ And its view:
 To configure a template engine with Ts.ED, see our guide to [install the engine rendering](/tutorials/templating.md) with Ts.ED.
 :::
 
-### Middlewares
+## Middlewares
 
 The middleware is a function which is called before the route handler. 
 Middleware functions have access to the request and response objects, and the next middleware function in the application’s request-response cycle. 
@@ -274,12 +344,11 @@ The following decorators lets you add custom middleware on a method or on contro
 
 <ApiList query="['Use', 'UseBefore', 'UseAfter', 'UseBeforeEach'].indexOf(symbolName) > -1" />
 
-#### Example
+### Example
 
 <<< @/docs/docs/snippets/controllers/middlewares.ts
 
-
-#### Middleware call sequence
+### Middleware call sequence
 
 When a request is sent to the server all middlewares added on the Server, Controller or Endpoint
  will be called while a response isn't sent by one of the middleware in the lifecycle.
@@ -290,9 +359,9 @@ When a request is sent to the server all middlewares added on the Server, Contro
 See [middlewares section](/docs/middlewares.md) for more information.
 :::
 
-### Child controllers
+## Nested controllers
 
-A controller can have one or more child controllers. This feature allows you to combine your controllers with each other to define your routes. 
+A controller can have one or more nested controllers. This feature allows you to combine your controllers with each other to define your routes. 
 One controller can be added to multiple controllers, so you can easily reuse the same controller.
 
 <Tabs class="-code">
@@ -318,8 +387,6 @@ One controller can be added to multiple controllers, so you can easily reuse the
   </Tab>      
 </Tabs>  
 
-
-
 This example will produce these following routes:
 
 Verb | Route | Method
@@ -329,27 +396,7 @@ GET | `/rest/calendars` | `CalendarCtrl.get()`
 GET | `/rest/calendars/events` | `EventCtrl.get()`
 GET | `/rest/events` | `EventCtrl.get()`
 
-### Merge Params
-
-In some cases you need to have complex routes like this `rest/calendars/:calendarId/events/:eventId`.
-This route can be written with Ts.ED like this :
-
-<<< @/docs/docs/snippets/controllers/merge-params-1.ts
-
-In this case, the calendarId will be `undefined` because `Express.Router` didn't merge params by
-default from the parent `Router` (see [Express documentation](http://expressjs.com/fr/api.html#express.router)).
-
-To solve it you can use the @@MergeParams@@ decorator. See this example:
-
-<<< @/docs/docs/snippets/controllers/merge-params-2.ts
-
-> Now, calendarId will have the value given in the context path.
-
-::: tip
-`caseSensitive` and `strict` options are also supported with their respective decorators @@CaseSensitive@@ and @@Strict@@.
-:::
-
-### Inheritance
+## Inheritance
 
 Ts.ED supports the ES6 inheritance class. So you can declare a controller that implement some generic method
 and use it on a children class.
@@ -365,4 +412,4 @@ Then, on your child controller:
 
 ## Decorators
 
-<ApiList query="status.includes('decorator') && (status.includes('operation') || status.includes('controller'))" />
+<ApiList query="tags: decorator AND operation OR controller"/>

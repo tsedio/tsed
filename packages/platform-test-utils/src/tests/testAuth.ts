@@ -1,7 +1,7 @@
-import {Context, Controller, Get, Inject, Injectable, Middleware, PlatformTest, Post, Returns, UseAuth} from "@tsed/common";
-import {applyDecorators} from "@tsed/core";
+import {Context, Controller, Get, Inject, Injectable, Middleware, PlatformTest, Post, Req, UseAuth} from "@tsed/common";
+import {useDecorators} from "@tsed/core";
 import {BadRequest, Forbidden, Unauthorized} from "@tsed/exceptions";
-import {Operation, Security} from "@tsed/swagger";
+import {In, Returns, Security} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import baseSpec from "../data/swagger.json";
@@ -45,25 +45,21 @@ class OAuthMiddleware {
     if (options && options.role === "admin" && request.get("authorization") !== "admin_token") {
       throw new Forbidden("Forbidden");
     }
+
+    ctx.getRequest().user = {
+      id: "id",
+      name: "name"
+    };
   }
 }
 
 export function OAuth(options: any = {}): Function {
-  return applyDecorators(
+  return useDecorators(
     UseAuth(OAuthMiddleware, options),
     Security("global_auth", ...(options.scopes || [])),
-    Operation({
-      parameters: [
-        {
-          in: "header",
-          name: "Authorization",
-          type: "string",
-          required: true
-        }
-      ]
-    }),
-    Returns(401, {description: "Unauthorized"}),
-    Returns(403, {description: "Forbidden"})
+    In("header").Type(String).Name("Authorization").Required(),
+    Returns(401).Description("Unauthorized"),
+    Returns(403).Description("Forbidden")
   );
 }
 
@@ -83,11 +79,8 @@ class TestAuthCtrl {
 
   @Get("/userinfo")
   @OAuth()
-  token() {
-    return {
-      id: "id",
-      name: "name"
-    };
+  token(@Req("user") user: any) {
+    return user;
   }
 
   @Get("/admin")
@@ -188,7 +181,6 @@ export function testAuth(options: PlatformTestOptions) {
 
       expect(spec).to.deep.equal({
         consumes: ["application/json"],
-        definitions: {},
         info: {
           description: "",
           termsOfService: "",
@@ -198,7 +190,7 @@ export function testAuth(options: PlatformTestOptions) {
         paths: {
           "/rest/auth/admin": {
             get: {
-              operationId: "TestAuthCtrl.admin",
+              operationId: "testAuthCtrlAdmin",
               parameters: [
                 {
                   in: "header",
@@ -208,27 +200,29 @@ export function testAuth(options: PlatformTestOptions) {
                 }
               ],
               responses: {
-                "200": {
-                  description: "Success"
-                },
                 "401": {
-                  description: "Unauthorized"
+                  description: "Unauthorized",
+                  schema: {
+                    type: "string"
+                  }
                 },
                 "403": {
-                  description: "Forbidden"
+                  description: "Forbidden",
+                  schema: {
+                    type: "string"
+                  }
                 }
               },
-              security: [
-                {
-                  global_auth: ["admin"]
-                }
-              ],
+              security: {
+                global_auth: ["admin"]
+              },
               tags: ["TestAuthCtrl"]
             }
           },
           "/rest/auth/authorize": {
             post: {
-              operationId: "TestAuthCtrl.authorize",
+              operationId: "testAuthCtrlAuthorize",
+              parameters: [],
               responses: {
                 "200": {
                   description: "Success"
@@ -239,7 +233,8 @@ export function testAuth(options: PlatformTestOptions) {
           },
           "/rest/auth/stepUp": {
             post: {
-              operationId: "TestAuthCtrl.stepUp",
+              operationId: "testAuthCtrlStepUp",
+              parameters: [],
               responses: {
                 "200": {
                   description: "Success"
@@ -250,7 +245,7 @@ export function testAuth(options: PlatformTestOptions) {
           },
           "/rest/auth/userinfo": {
             get: {
-              operationId: "TestAuthCtrl.token",
+              operationId: "testAuthCtrlToken",
               parameters: [
                 {
                   in: "header",
@@ -260,27 +255,27 @@ export function testAuth(options: PlatformTestOptions) {
                 }
               ],
               responses: {
-                "200": {
-                  description: "Success"
-                },
                 "401": {
-                  description: "Unauthorized"
+                  description: "Unauthorized",
+                  schema: {
+                    type: "string"
+                  }
                 },
                 "403": {
-                  description: "Forbidden"
+                  description: "Forbidden",
+                  schema: {
+                    type: "string"
+                  }
                 }
               },
-              security: [
-                {
-                  global_auth: []
-                }
-              ],
+              security: {
+                global_auth: []
+              },
               tags: ["TestAuthCtrl"]
             }
           }
         },
         produces: ["application/json"],
-        securityDefinitions: {},
         swagger: "2.0",
         tags: [
           {

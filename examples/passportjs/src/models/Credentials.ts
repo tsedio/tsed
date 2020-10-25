@@ -1,4 +1,4 @@
-import {Description, Example, Format, Required} from "@tsed/common";
+import {Description, Example, Format, Required} from "@tsed/schema";
 
 export class Credentials {
   @Description("User password")

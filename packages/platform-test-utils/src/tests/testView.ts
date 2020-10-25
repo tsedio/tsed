@@ -1,5 +1,4 @@
-import {Controller, Get, Middleware, PlatformTest, UseBefore, View} from "@tsed/common";
-import {Locals} from "@tsed/common/src/mvc/decorators/params/locals";
+import {Controller, Get, Locals, Middleware, PlatformTest, UseBefore, View} from "@tsed/common";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -60,9 +59,9 @@ export function testView(options: PlatformTestOptions) {
     it("should throw an error when extension is not defined", async () => {
       const response = await request.get("/rest/views/scenario-2").expect(500);
 
-      expect(response.text).to.deep.equal(
-        "Template rendering error: ViewCtrl.testScenario2()<br />Error: No default engine was specified and no extension was provided."
-      );
+      expect(response.body.name).to.deep.equal("TEMPLATE_RENDER_ERROR");
+      expect(response.body.message).to.contain("Template rendering error: ViewCtrl.testScenario2()");
+      expect(response.body.status).to.eq(500);
     });
   });
 }

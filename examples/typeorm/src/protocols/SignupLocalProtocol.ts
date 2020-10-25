@@ -17,7 +17,7 @@ export class SignupLocalProtocol implements OnVerify, OnInstall {
   constructor(private userRepository: UserRepository) {
   }
 
-  async $onVerify(@Req() request: Req, @BodyParams() user: UserCreation) {
+  async $onVerify(@BodyParams() user: UserCreation) {
     const {email} = user;
     const found = await this.userRepository.findOne({email});
 

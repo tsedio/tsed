@@ -1,4 +1,4 @@
-import {Maximum} from "./maximum";
+import {ExclusiveMaximum as E} from "@tsed/schema";
 
 /**
  * The value of `exclusiveMaximum` MUST be number, representing an exclusive upper limit for a numeric instance.
@@ -67,7 +67,9 @@ import {Maximum} from "./maximum";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Since v6. Use @ExclusiveMaximum decorator from @tsed/schema instead of.
  */
 export function ExclusiveMaximum(maximum: number, exclusiveMaximum: boolean = true) {
-  return Maximum(maximum, exclusiveMaximum);
+  return E(maximum, exclusiveMaximum);
 }

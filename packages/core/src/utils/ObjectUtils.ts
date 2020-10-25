@@ -249,8 +249,12 @@ export function isPromise(target: any): boolean {
   );
 }
 
-export function isStream(obj: any) {
+export function isStream(obj: any): boolean {
   return obj !== null && typeof obj === "object" && typeof obj.pipe === "function";
+}
+
+export function isObservable<T>(obj: any): boolean {
+  return !!obj && typeof obj.lift === "function" && typeof obj.subscribe === "function";
 }
 
 /**

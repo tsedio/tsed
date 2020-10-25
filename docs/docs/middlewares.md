@@ -116,7 +116,7 @@ Signature | Description
 
 As you see in the previous section, a middleware can be used on different contexts:
 
-- [Server](/getting-started.md),
+- [Server](/docs/configuration.md),
 - [Controller](/docs/controllers.md),
 - [Endpoint](/docs/controllers.md).
 
@@ -169,19 +169,15 @@ The decorator @@OverrideProvider@@ gives you the ability to override some intern
 
 <<< @/docs/docs/snippets/middlewares/override-middleware.ts
 
-Here we use the new [Platform API](/docs/platform-api.md) to write our middleware. By using @@Context@@ decorator and @@PlatformContext@@ class we can get some information:
+Here we use the new [Platform API](/docs/platform-api.md) to write our middleware. 
+By using @@Context@@ decorator and @@PlatformContext@@ class we can get some information:
 
 - The data returned by the last executed endpoint,
 - The @@EndpointMetadata@@ itself,
 - The @@PlatformRequest@@ and @@PlatformResponse@@ classes abstraction. These classes allow better code abstraction by exposing methods that are agnostic to Express.js.
 
-::: warning
-Ts.ED have is own @@GlobalErrorHandlerMiddleware@@. Override this middleware is not necessary, since you can create you own middleware and
-register it in your server before the original GlobalErrorHandlerMiddleware. For more details, see our [Exceptions](/docs/exceptions.md#handle-all-errors) documentation page.
-:::
-
 ::: tip
-By default, the server imports automatically your middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/configuration.md)).
+By default, the server imports automatically your middlewares matching with this rules `${rootDir}/middlewares/**/*.ts` (See [componentScan configuration](/docs/configuration.md)).
 
 ```
 .
@@ -193,7 +189,7 @@ By default, the server imports automatically your middlewares matching with this
 └── package.json
 ```
 
-If not, just import your middleware in your server or edit the [componentScan configuration](/configuration.md).
+If not, just import your middleware in your server or edit the [componentScan configuration](/docs/configuration.md).
 
 ```typescript
 import {Configuration} from "@tsed/common";
@@ -210,4 +206,4 @@ export class Server {
 
 ## Provided middlewares
 
-<ApiList query="symbolType === 'class' && status.indexOf('middleware') > -1" />
+<ApiList query="symbolType: class AND tags: middleware" />

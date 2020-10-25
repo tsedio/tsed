@@ -1,11 +1,11 @@
 import {Env} from "@tsed/core";
-import {ProviderScope} from "@tsed/di";
 import * as Https from "https";
-import {IErrorsSettings} from "./IErrorSettings";
-import {PlatformLoggerSettings} from "./PlatformLoggerSettings";
+import {ConverterSettings} from "./ConverterSettings";
 import {EndpointDirectoriesSettings} from "./EndpointDirectoriesSettings";
-import {IConverterSettings} from "./IConverterSettings";
-import {PlatformStaticsOptions, PlatformStaticsSettings} from "./PlatformStaticsSettings";
+import {PlatformLoggerSettings} from "./PlatformLoggerSettings";
+import {PlatformMulterSettings} from "./PlatformMulterSettings";
+import {PlatformStaticsSettings} from "./PlatformStaticsSettings";
+import {PlatformViewsSettings} from "./PlatformViewsSettings";
 
 declare global {
   namespace TsED {
@@ -39,10 +39,6 @@ declare global {
        */
       httpsOptions: Https.ServerOptions;
       /**
-       * The temporary directory to upload the documents. See more on [Upload file with Multer](/tutorials/multer.md)
-       */
-      uploadDir: string;
-      /**
        * Mount all controllers under a directories to an endpoint.
        */
       mount: EndpointDirectoriesSettings;
@@ -63,49 +59,30 @@ declare global {
        */
       debug: boolean;
       /**
-       * @deprecated Use logger.requestField
-       */
-      logRequestFields: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration")[];
-      /**
-       * Use a strict validation when a model is used by the converter.
-       * When a property is unknown, it throw a `BadRequest` (see [Converters](/docs/converters.md)).
-       * By default true.
-       *
-       * @deprecated Use converter.additionalProperties
-       */
-      validationModelStrict: boolean;
-      /**
        * Converter configuration.
        */
-      converter: Partial<IConverterSettings>;
+      converter: Partial<ConverterSettings>;
       /**
        * Logger configuration.
        */
       logger: Partial<PlatformLoggerSettings>;
       /**
-       * Errors configuration.
-       * @deprecated
-       */
-      errors: Partial<IErrorsSettings>;
-      /**
-       * Configure the default scope of the controllers.
-       *
-       * - Default: `singleton`. See [Scope](/docs/injection-scopes.md).
-       * - Values: `singleton`, `request`.
-       *
-       * @deprecated Use scopes["CONTROLLER"] instead.
-       */
-      controllerScope: ProviderScope;
-      /**
        * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
        */
       statics: PlatformStaticsSettings;
+      /**
+       * Object configure Multer. See more on [Upload file](/tutorials/serve-static-files.md).
+       */
+      multer: PlatformMulterSettings;
+      /**
+       * Object to configure Views engines with Consolidate. See more on [View engine](/docs/template-engine.md).
+       */
+      views: PlatformViewsSettings;
     }
   }
 }
 
-export * from "./IErrorSettings";
 export * from "./PlatformLoggerSettings";
 export * from "./EndpointDirectoriesSettings";
-export * from "./IServerSettings";
 export * from "./PlatformStaticsSettings";
+export * from "./PlatformMulterSettings";

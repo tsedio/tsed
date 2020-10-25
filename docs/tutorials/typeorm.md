@@ -11,7 +11,7 @@ projects:
 ---
 # TypeORM <Badge text="Contributors are welcome" />
 
-<Banner src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" href="https://typeorm.io/" height="128" />
+<Banner src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" href="https://typeorm.io/" height="200" />
 
 This tutorial provides two ways to create connection:
 
@@ -22,7 +22,7 @@ Additionally, this topic shows you how you can use Entity from Typeorm with Ts.E
 
 <Projects type="typeorm"/>
 
-### Feature
+## Features
 
 Currently, `@tsed/typeorm` allows you to:
 
@@ -30,7 +30,7 @@ Currently, `@tsed/typeorm` allows you to:
 - Use the Entity TypeORM as Model for Controllers, AJV Validation and Swagger.
 - Declare a connection with asyncProvider or automatically by server configuration.
 
-### Installation
+## Installation
 
 To begin, install the TypeORM module for TS.ED:
 ```bash
@@ -42,7 +42,7 @@ Then import `@tsed/typeorm` in your Server:
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-configuration.ts
 
-### TypeORMService
+## TypeORMService
 
 TypeORMService lets you retrieve an instance of TypeORM Connection.
 
@@ -50,7 +50,7 @@ TypeORMService lets you retrieve an instance of TypeORM Connection.
 
 For more information about TypeORM, look its documentation [here](https://github.com/typeorm/typeorm);
 
-### Declare your connection as provider
+## Declare your connection as provider
 
 It is also possible to create your connection with the `useAsyncFactory` feature (See [custom providers](/docs/custom-provider.md))
 This approach allows you to inject your connection as a Service to another one.
@@ -78,15 +78,15 @@ We can use this model with a Controller like that:
 
 ## EntityRepository
 
-TypeORM provides EntityRepository to manipulate an Entity. TsED provides a decorator to declare @@EntityRepository@@
-for both TypeORM and Ts.ED. This decorator is useful if you have to inject the repository to another Ts.ED service, controller or provider.
+You can create a custom repository which should contain methods to work with your database. 
+Usually custom repositories are created for a single entity and contain their specific queries.
+For example, let's say we want to have a method called `findByName(firstName: string, lastName: string)` which will search for users by a given first and last names. 
+The best place for this method is in Repository, so we could call it like `userRepository.findByName(...)`. 
+You can achieve this using custom repositories.
 
-::: tip 
-Since v5.39.1, it isn't necessary to use EntityRepository from Ts.ED. The TypeORM DI is used by Ts.ED DI to resolve 
-injected repository to another class annotated with @@Service@@, @@Module@@, @@Middleware@@, @@Protocol@@, etc...
-:::
+`@tsed/typeorm` plugin configures the DI so that repositories declared for TypeORM can be injected into a Ts.ED controller or service.
 
-Here is a quick example:
+The first way to create a custom repository is to extend Repository. Example:
 
 <<< @/docs/tutorials/snippets/typeorm/typeorm-entity-repository.ts
 
@@ -97,3 +97,17 @@ Then inject your repository to another service:
 ::: tip
 Use @@UseConnection@@ decorator to select which database connection the injected repository should be used (require Ts.ED v5.58.0+).
 :::
+
+## Author 
+
+<GithubContributors :users="['Romakita']"/>
+
+## Maintainers <Badge text="Help wanted" />
+
+<GithubContributors :users="['Romakita']"/>
+
+<div class="container--centered container--padded">
+<a href="/contributing.html" class="nav-link button">
+ Become maintainer
+</a>
+</div>

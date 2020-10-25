@@ -1,9 +1,10 @@
-import {Env, isInheritedFrom, Type} from "@tsed/core";
+import {Env, Type} from "@tsed/core";
 import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
-import {createInjector, loadInjector, PlatformBuilder} from "../../platform-builder";
-import {ServerLoader} from "../../platform-express/components/ServerLoader";
+import {createInjector, loadInjector, PlatformBuilder, PlatformType} from "../../platform-builder";
 import {PlatformContext, RequestContextOptions} from "../../platform/domain/PlatformContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
+import {PlatformRequest} from "../../platform/services/PlatformRequest";
+import {PlatformResponse} from "../../platform/services/PlatformResponse";
 
 export interface PlatformTestInvokeOptions {
   token?: TokenProvider;
@@ -45,7 +46,7 @@ export class PlatformTest {
   static createInjector(options: any = {}): InjectorService {
     const injector = createInjector(options);
 
-    injector.settings.env = Env.TEST;
+    injector.settings.env = options.env || Env.TEST;
 
     return injector;
   }
@@ -60,34 +61,24 @@ export class PlatformTest {
   static bootstrap(mod: any, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       let instance: any;
+      const platform: PlatformType = options.platform || PlatformTest.platformBuilder;
 
-      if (isInheritedFrom(mod, ServerLoader)) {
-        instance = await ServerLoader.bootstrap(mod, {
-          logger: {
-            level: "off",
-            ...(options.logger || {})
-          },
-          ...options
-        });
-      } else {
-        PlatformTest.platformBuilder = options.platform || PlatformTest.platformBuilder;
-
-        /* istanbul ignore next */
-        if (!PlatformTest.platformBuilder) {
-          throw new Error(
-            "Platform type is not specified. Have you added at least `import @tsed/platform-express` (or equivalent) on your Server.ts ?"
-          );
-        }
-
-        // @ts-ignore
-        instance = await PlatformBuilder.build(PlatformTest.platformBuilder).bootstrap(mod, {
-          logger: {
-            level: "off",
-            ...(options.logger || {})
-          },
-          ...options
-        });
+      /* istanbul ignore next */
+      if (!platform) {
+        throw new Error(
+          "Platform type is not specified. Have you added at least `import @tsed/platform-express` (or equivalent) on your Server.ts ?"
+        );
       }
+
+      // @ts-ignore
+      instance = await PlatformBuilder.build(platform).bootstrap(mod, {
+        env: Env.TEST,
+        logger: {
+          level: "off",
+          ...(options.logger || {})
+        },
+        ...options
+      });
 
       await instance.callHook("$beforeListen");
       await instance.callHook("$afterListen");
@@ -190,9 +181,13 @@ export class PlatformTest {
   }
 
   static createRequestContext(options: Partial<RequestContextOptions> = {}) {
+    options.request = options.request || new PlatformRequest({} as any);
+    options.response = options.response || new PlatformResponse({} as any);
+
     return new PlatformContext({
       id: "id",
-      logger: this.injector.logger,
+      injector: PlatformTest.injector,
+      logger: PlatformTest.injector.logger,
       url: "/",
       ...options
     });

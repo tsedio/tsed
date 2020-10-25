@@ -1,18 +1,21 @@
-import {classOf, constructorOf, Type} from "@tsed/core";
-import {InjectorService} from "@tsed/di";
+import {classOf, constructorOf, nameOf, Type} from "@tsed/core";
+import {Container, InjectorService, IProvider} from "@tsed/di";
 import {
   GlobalAcceptMimesMiddleware,
   IRoute,
-  LogIncomingRequestMiddleware,
   Platform,
   PlatformApplication,
-  PlatformContextMiddleware
+  PlatformHandler,
+  PlatformRequest,
+  PlatformResponse,
+  PlatformRouter
 } from "../../platform";
-import {GlobalErrorHandlerMiddleware, PlatformExceptionsMiddleware} from "../../platform-exceptions";
 import {PlatformLogMiddleware} from "../../platform/middlewares/PlatformLogMiddleware";
 import {
   callHook,
   createContainer,
+  createHttpServer,
+  createHttpsServer,
   createInjector,
   createPlatformApplication,
   getConfiguration,
@@ -25,12 +28,43 @@ import {
 } from "../utils";
 
 /**
+ * @ignore
+ */
+export interface PlatformType<T = any> extends Type<T> {
+  providers: IProvider[];
+}
+
+/**
+ * @ignore
+ */
+export interface PlatformBootstrap {
+  bootstrap(module: Type<any>, settings?: Partial<TsED.Configuration>): Promise<PlatformBuilder>;
+}
+
+/**
  * @platform
  */
 export abstract class PlatformBuilder {
+  static currentPlatform: Type<PlatformBuilder> & PlatformBootstrap;
   protected startedAt = new Date();
+  protected PLATFORM_NAME: string = "";
   protected _rootModule: any;
   protected _injector: InjectorService;
+  protected locals: Container;
+
+  constructor() {
+    this.locals = new Container()
+      .add(PlatformHandler)
+      .add(PlatformResponse)
+      .add(PlatformRequest)
+      .add(PlatformRouter)
+      .add(PlatformApplication)
+      .add(Platform);
+  }
+
+  get name() {
+    return this.PLATFORM_NAME;
+  }
 
   get injector(): InjectorService {
     return this._injector;
@@ -67,7 +101,7 @@ export abstract class PlatformBuilder {
    * }
    * ```
    *
-   * @returns {ServerSettingsService}
+   * @returns {PlatformConfiguration}
    */
   get settings() {
     return this.injector.settings;
@@ -77,8 +111,11 @@ export abstract class PlatformBuilder {
     return this.injector.logger;
   }
 
-  static build<T extends PlatformBuilder>(platformBuildClass: Type<T>): T {
-    return new platformBuildClass();
+  static build<T extends PlatformBuilder>(platformBuildClass: PlatformType<T>): T {
+    const platform = new platformBuildClass();
+    platform.PLATFORM_NAME = nameOf(platformBuildClass).replace("Platform", "").toLowerCase();
+
+    return platform.useProviders(platformBuildClass.providers || []);
   }
 
   /**
@@ -121,7 +158,6 @@ export abstract class PlatformBuilder {
     const routes = await importProviders(this.injector);
 
     await this.loadInjector();
-    await this.createContext();
     await this.loadRoutes(routes);
     await this.logRoutes();
   }
@@ -129,7 +165,6 @@ export abstract class PlatformBuilder {
   async loadInjector() {
     const {injector, logger} = this;
     await this.callHook("$beforeInit");
-    await this.callHook("$onInit");
 
     logger.info("Build providers");
 
@@ -140,7 +175,6 @@ export abstract class PlatformBuilder {
   }
 
   async listen() {
-    const {logger, startedAt} = this;
     await this.callHook("$beforeListen");
 
     await this.listenServers();
@@ -148,12 +182,15 @@ export abstract class PlatformBuilder {
     await this.callHook("$afterListen");
 
     await this.ready();
-    logger.info(`Started in ${new Date().getTime() - startedAt.getTime()} ms`);
   }
 
   public async ready() {
+    const {logger, startedAt} = this;
+
     await this.callHook("$onReady");
     await this.injector.emit("$onServerReady");
+
+    logger.info(`Started in ${new Date().getTime() - startedAt.getTime()} ms`);
   }
 
   callHook(key: string, ...args: any[]) {
@@ -179,8 +216,29 @@ export abstract class PlatformBuilder {
     }
   }
 
+  useProvider(token: Type<any>, settings: Partial<IProvider>) {
+    if (this.locals.hasProvider(token)) {
+      Object.assign(this.locals.getProvider(token), settings);
+    } else {
+      this.locals.addProvider(token, settings);
+    }
+
+    return this;
+  }
+
+  useProviders(providers: IProvider<any>[]) {
+    providers.forEach(({provide, ...settings}) => {
+      this.useProvider(provide, settings);
+    });
+
+    return this;
+  }
+
   protected async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    this.createInjector(module, settings);
+    this.createInjector(module, {
+      ...settings,
+      PLATFORM_NAME: this.PLATFORM_NAME
+    });
     this.createRootModule(module);
 
     await this.runLifecycle();
@@ -201,22 +259,12 @@ export abstract class PlatformBuilder {
     }
   }
 
-  protected async createContext() {
-    const middleware = new PlatformContextMiddleware(this.injector);
-
-    return this.app.use(middleware.use.bind(middleware));
-  }
-
   protected async loadRoutes(routes: IRoute[]) {
     const {logger, platform} = this;
 
     // istanbul ignore next
     if (this.settings.logger.level !== "off") {
-      if (classOf(this.injector.get(LogIncomingRequestMiddleware)) !== LogIncomingRequestMiddleware) {
-        this.app.use(LogIncomingRequestMiddleware);
-      } else {
-        this.app.use(PlatformLogMiddleware);
-      }
+      this.app.use(PlatformLogMiddleware);
     }
 
     if (this.settings.acceptMimes?.length) {
@@ -233,20 +281,23 @@ export abstract class PlatformBuilder {
     await this.loadStatics();
 
     await this.callHook("$afterRoutesInit");
-
-    this.app.use(PlatformExceptionsMiddleware);
-    this.app.use(GlobalErrorHandlerMiddleware);
   }
 
   protected createInjector(module: Type<any>, settings: any) {
     this._injector = createInjector(getConfiguration(module, settings));
+
+    // configure locals providers
+    this.locals.forEach((provider) => {
+      this.injector.addProvider(provider.token, provider);
+    });
+
     createPlatformApplication(this.injector);
+    createHttpsServer(this.injector);
+    createHttpServer(this.injector);
   }
 
   protected createRootModule(module: Type<any>) {
-    this._rootModule = this.injector.invoke(module, undefined, {
-      // imports: this.settings.imports
-    });
+    this._rootModule = this.injector.invoke(module);
 
     this.injector.delete(constructorOf(this._rootModule));
     this.injector.delete(classOf(this._rootModule));

@@ -1,11 +1,14 @@
-import {PlatformTestUtils} from "../../platform-test-utils/src";
+import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
 
 const utils = PlatformTestUtils.create({
   rootDir,
   platform: PlatformExpress,
-  server: Server
+  server: Server,
+  logger: {
+    level: "info"
+  }
 });
 
 describe("PlatformExpress", () => {
@@ -74,6 +77,9 @@ describe("PlatformExpress", () => {
   });
   describe("Locals", () => {
     utils.test("locals");
+  });
+  describe("Multer", () => {
+    utils.test("multer");
   });
   describe("Auth", () => {
     utils.test("auth");

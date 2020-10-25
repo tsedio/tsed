@@ -1,46 +1,18 @@
-# Ts.ED
+# @tsed/platform-express
 
-[![Build Status](https://travis-ci.org/TypedProject/tsed.svg?branch=master)](https://travis-ci.org/TypedProject/tsed)
-[![Coverage Status](https://coveralls.io/repos/github/TypedProject/tsed/badge.svg?branch=production)](https://coveralls.io/github/TypedProject/tsed?branch=production)
-![npm](https://img.shields.io/npm/dm/@tsed/common.svg)
-[![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Fcommon)
-[![Dependencies](https://david-dm.org/TypedProject/tsed.svg)](https://david-dm.org/TypedProject/tsed#info=dependencies)
-[![img](https://david-dm.org/TypedProject/tsed/dev-status.svg)](https://david-dm.org/TypedProject/tsed/#info=devDependencies)
-[![img](https://david-dm.org/TypedProject/tsed/peer-status.svg)](https://david-dm.org/TypedProject/tsed/#info=peerDependenciess)
-[![Known Vulnerabilities](https://snyk.io/test/github/TypedProject/tsed/badge.svg)](https://snyk.io/test/github/TypedProject/tsed)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![backers](https://opencollective.com/tsed/tiers/badge.svg)](https://opencollective.com/tsed)
+A package of Ts.ED framework. See website: https://tsed.io/getting-started/
 
-> A TypeScript Framework on top of Express !
+## Installation
 
-## What is it
+Run npm command (or yarn):
 
-Ts.ED is a framework on top of Express to write your application with TypeScript (or in ES6). It provides a lot of decorators 
-to write your code.
-
-## Features
-
-* Define class as Controller,
-* Define class as Service (IoC),
-* Define class as Middleware and MiddlewareError,
-* Define class as Converter (POJ to Model and Model to POJ),
-* Define root path for an entire controller and versioning your Rest API,
-* Define as sub-route path for a method,
-* Define routes on GET, POST, PUT, DELETE and HEAD verbs,
-* Define middlewares on routes,
-* Define required parameters,
-* Inject data from query string, path parameters, entire body, cookies, session or header,
-* Inject Request, Response, Next object from Express request,
-* Template (View),
-* Swagger documentation and Swagger-ui,
-* Testing.
-
-## Documentation
-
-Documentation is available on [https://tsed.io](https://tsed.io)
+```bash
+npm install --save @tsed/platform-express express
+npm install --save-dev @types/express
+```
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
@@ -50,7 +22,7 @@ Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
-<a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
+<a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
 
 
 ## Sponsors
@@ -68,6 +40,3 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-[travis]: https://travis-ci.org/
-

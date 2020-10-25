@@ -1,6 +1,6 @@
 ---
 layout: contributing
-pageClass: contributingpage
+pageClass: contributing page
 heroText: TS.ED
 heroVersion: community
 heroDescription: Become contributors

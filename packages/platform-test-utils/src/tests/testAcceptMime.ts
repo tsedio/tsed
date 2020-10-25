@@ -50,7 +50,12 @@ export function testAcceptMime(options: PlatformTestOptions) {
         })
         .expect(406);
 
-      expect(response.text).to.deep.equal("You must accept content-type application/json");
+      expect(response.body).to.deep.equal({
+        name: "NOT_ACCEPTABLE",
+        message: "You must accept content-type application/json",
+        status: 406,
+        errors: []
+      });
     });
   });
 }

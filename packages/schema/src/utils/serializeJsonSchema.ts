@@ -1,23 +1,35 @@
 import {classOf, deepExtends, isArray, isObject} from "@tsed/core";
-import {SpecTypes} from "../domain/SpecTypes";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonSchema} from "../domain/JsonSchema";
+import {SpecTypes} from "../domain/SpecTypes";
 import {alterIgnore} from "../hooks/ignoreHook";
 import {JsonSchemaOptions} from "../interfaces";
 import {GenericsContext, mapGenericsOptions, popGenerics} from "./generics";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 
+/**
+ * @ignore
+ */
 const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics"];
 
+/**
+ * @ignore
+ */
 function isEmptyProperties(key: string, value: any) {
   return typeof value === "object" && ["items", "properties", "additionalProperties"].includes(key) && Object.keys(value).length === 0;
 }
 
+/**
+ * @ignore
+ */
 function shouldMapAlias(key: string, value: any, useAlias: boolean) {
   return typeof value === "object" && useAlias && ["properties", "additionalProperties"].includes(key);
 }
 
+/**
+ * @ignore
+ */
 function getRequired(schema: any, useAlias: boolean) {
   return Array.from(schema.$required).map((key) => (useAlias ? (schema.alias.get(key) as string) || key : key));
 }
@@ -48,7 +60,7 @@ export function createRef(value: any, options: JsonSchemaOptions = {}) {
     );
   }
 
-  const {host = `#/${options.spec === "openapi3" ? "components/schemas" : "definitions"}`} = options;
+  const {host = `#/${options.specType === "openapi3" ? "components/schemas" : "definitions"}`} = options;
 
   return {
     $ref: `${host}/${name}`
@@ -185,7 +197,7 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
       value = schema.getJsonType();
     }
 
-    if (key === "examples" && isObject(value) && options.spec !== SpecTypes.SWAGGER) {
+    if (key === "examples" && isObject(value) && options.specType !== SpecTypes.SWAGGER) {
       value = Object.values(value);
     }
 

@@ -1,15 +1,11 @@
-import {SwaggerSettings} from "./ISwaggerSettings";
+import {SwaggerSettings} from "./SwaggerSettings";
 
 declare global {
   namespace TsED {
     interface Configuration {
-      swagger: SwaggerSettings | SwaggerSettings[];
+      swagger: SwaggerSettings[];
     }
   }
 }
 
-export * from "./ISwaggerPaths";
-export * from "./ISwaggerSettings";
-export * from "./ISwaggerResponses";
-export * from "./OpenApiResponses";
-export * from "./OpenApiDefinitions";
+export * from "./SwaggerSettings";

@@ -3,22 +3,18 @@ import {
   Controller,
   Delete,
   Get,
-  MergeParams,
   PathParams,
   Post,
   Put,
-  Required,
-  Status,
   UseBefore
 } from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
-import {Description, Summary} from "@tsed/swagger";
+import {Description, Summary, Required, Status} from "@tsed/schema";
 import {CheckCalendarIdMiddleware} from "../../middlewares/calendars/CheckCalendarId";
 import {CalendarEvent} from "../../models/events/CalendarEvent";
 import {CalendarEventsService} from "../../services/calendars/CalendarEventsService";
 
 @Controller("/:calendarId/events")
-@MergeParams(true)
 export class EventsCtrl {
   constructor(private calendarEventsService: CalendarEventsService) {
 

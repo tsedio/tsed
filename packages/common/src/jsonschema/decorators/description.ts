@@ -1,5 +1,4 @@
-import {decoratorTypeOf, DecoratorTypes, Store, StoreMerge} from "@tsed/core";
-import {Schema} from "./schema";
+import {Description as D} from "@tsed/schema";
 
 /**
  * Add description metadata on the decorated element.
@@ -39,20 +38,9 @@ import {Schema} from "./schema";
  * @decorator
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Since v6. Use @Description decorator from @tsed/schema instead of.
  */
 export function Description(description: string) {
-  return (...args: any[]) => {
-    const type = decoratorTypeOf(args);
-    switch (type) {
-      case DecoratorTypes.METHOD:
-        return StoreMerge("operation", {description})(...args);
-      case DecoratorTypes.PARAM:
-        return StoreMerge("baseParameter", {description})(...args);
-      case DecoratorTypes.CLASS:
-        Store.from(...args).set("description", description);
-
-      default:
-        Schema({description})(...args);
-    }
-  };
+  return D(description);
 }

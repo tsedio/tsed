@@ -6,17 +6,24 @@ import {ejs} from "consolidate";
 import * as cookieParser from "cookie-parser";
 import * as session from "express-session";
 import * as methodOverride from "method-override";
+import "../../src";
 
 export const rootDir = __dirname;
 
 @Configuration({
+  port: 8081,
   logger: {
-    level: "off"
+    // level: ""
   },
   statics: {
     "/": `${rootDir}/public`
   },
-  viewsDir: `${rootDir}/views`
+  views: {
+    root: `${rootDir}/views`,
+    extensions: {
+      ejs: "ejs"
+    }
+  }
 })
 export class Server {
   @Inject()
@@ -26,9 +33,6 @@ export class Server {
   viewsDir: string;
 
   $beforeRoutesInit() {
-    this.app.raw.set("views", this.viewsDir);
-    this.app.raw.engine("ejs", ejs);
-
     this.app
       .use(cookieParser())
       .use(compress({}))

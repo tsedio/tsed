@@ -56,7 +56,7 @@ describe("PlatformLogMiddleware", () => {
       middleware.use(ctx);
 
       // THEN
-      middleware.$onResponse(request);
+      middleware.$onResponse(request.$ctx);
 
       // expect(stub(injector.logger.info).getCalls()[0].args[0]).to.deep.eq({});
       // THEN
@@ -92,7 +92,7 @@ describe("PlatformLogMiddleware", () => {
       middleware.use(ctx);
 
       // THEN
-      middleware.$onResponse(request as any);
+      middleware.$onResponse(request.$ctx as any);
 
       // THEN
       expect(injector.logger.debug).to.have.been.calledWithExactly(
@@ -125,7 +125,7 @@ describe("PlatformLogMiddleware", () => {
       middleware.use(ctx);
 
       // THEN
-      middleware.$onResponse(request as any);
+      middleware.$onResponse(request.$ctx as any);
 
       // THEN
       expect(injector.logger.info).to.have.been.calledWithExactly(
@@ -144,7 +144,7 @@ describe("PlatformLogMiddleware", () => {
       middleware.use(ctx);
 
       // THEN
-      middleware.$onResponse(request as any);
+      middleware.$onResponse(request.$ctx as any);
 
       // THEN
       expect(injector.logger.info).to.have.been.calledWithExactly(

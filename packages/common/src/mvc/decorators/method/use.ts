@@ -1,4 +1,5 @@
-import {decoratorTypeOf, DecoratorTypes, Store, Type} from "@tsed/core";
+import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
+import {JsonEntityFn, OperationMethods, OperationPath} from "@tsed/schema";
 import {HTTP_METHODS} from "../../constants/index";
 import {EndpointMetadata} from "../../models/EndpointMetadata";
 
@@ -51,24 +52,25 @@ function mapOptions(args: any[]) {
  * @operation
  */
 export function Use(...args: any[]): Function {
-  return <T>(target: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void => {
-    if (decoratorTypeOf([target, targetKey, descriptor]) === DecoratorTypes.METHOD) {
-      const options = mapOptions(args);
-      const endpoint = EndpointMetadata.get(target, targetKey!);
+  return JsonEntityFn((entity, parameters) => {
+    switch (entity.decoratorType) {
+      case DecoratorTypes.METHOD:
+        const endpoint = entity as EndpointMetadata;
+        const options = mapOptions(args);
 
-      options.path &&
-        endpoint.pathsMethods.push({
-          method: options.method,
-          path: options.path!
+        options.path && OperationPath(options.method || OperationMethods.CUSTOM, options.path)(...parameters);
+
+        endpoint.use(args);
+        break;
+
+      case DecoratorTypes.CLASS:
+        entity.store.merge("middlewares", {
+          use: args
         });
+        break;
 
-      endpoint.use(args);
-
-      return descriptor;
+      default:
+        throw new UnsupportedDecoratorType(Use, parameters);
     }
-
-    Store.from(target).merge("middlewares", {
-      use: args
-    });
-  };
+  });
 }

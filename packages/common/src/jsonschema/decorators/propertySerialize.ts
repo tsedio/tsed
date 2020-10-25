@@ -1,5 +1,4 @@
-import {PropertyMetadata} from "../../mvc/models/PropertyMetadata";
-import {PropertyFn} from "./property";
+import {OnSerialize as S} from "@tsed/json-mapper";
 
 /**
  * Call the function after property serialization.
@@ -24,33 +23,9 @@ import {PropertyFn} from "./property";
  * @jsonMapper
  * @schema
  * @property
- * @deprecated Use OnSerialize instead. Will be removed in v6.
- */
-export function PropertySerialize(fn: (value: any) => any) {
-  return PropertyFn((propertyMetadata: PropertyMetadata) => {
-    propertyMetadata.onSerialize = fn;
-  });
-}
-
-/**
- * Call the function after property serialization.
- *
- * ## Example
- *
- * ```typescript
- * class Model {
- *    @OnSerialize(v => v + 1)
- *    property: string;
- * }
- * ```
- *
- * @param {Function} fn
- * @returns {Function}
- * @decorator
- * @jsonMapper
- * @schema
- * @property
+ * @ignore
+ * @deprecated Since v6. Use @OnSerialize from @tsed/json-mapper
  */
 export function OnSerialize(fn: (value: any) => any) {
-  return PropertySerialize(fn);
+  return S(fn);
 }

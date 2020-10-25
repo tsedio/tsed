@@ -11,13 +11,13 @@ projects:
 ---
 # Mongoose <Badge text="Contributors are welcome" />
 
-<Banner src="http://mongodb-tools.com/img/mongoose.png" height="128" href="http://mongoosejs.com/"></Banner>
+<Banner src="http://mongodb-tools.com/img/mongoose.png" height="200" href="http://mongoosejs.com/"></Banner>
 
 This tutorial show yous how you can use mongoose package with Ts.ED. 
 
 <Projects type="examples"/>
 
-## Feature
+## Features
 
 Currently, [`@tsed/mongoose`](https://www.npmjs.com/package/@tsed/mongoose) allows you to:
  
@@ -43,7 +43,7 @@ npm install --save-dev @types/mongoose
 npm install --save-dev @tsed/testing-mongoose
 ```
 
-Then import `@tsed/mongoose` in your [Configuration](/configuration.md):
+Then import `@tsed/mongoose` in your [Configuration](/docs/configuration.md):
 
 <<< @/docs/tutorials/snippets/mongoose/configuration.ts
 
@@ -217,11 +217,6 @@ This example shows you how you can test your Rest API with superagent and a mock
 <<< @/docs/tutorials/snippets/mongoose/testing-api.mocha.ts
 
 </Tab>
-<Tab label="Legacy">
-
-<<< @/docs/tutorials/snippets/mongoose/testing-api.legacy.ts
-
-</Tab>
 </Tabs>
 
 
@@ -240,12 +235,21 @@ This example shows you how can test the model:
 <<< @/docs/tutorials/snippets/mongoose/testing-model.mocha.ts
 
 </Tab>
-<Tab label="Legacy">
-
-<<< @/docs/tutorials/snippets/mongoose/testing-model.legacy.ts
-
-</Tab>
 </Tabs>
 
 
 <div class="sharethis-inline-share-buttons"></div>
+
+## Author 
+
+<GithubContributors users="['Romakita']"/>
+
+## Maintainers
+
+<GithubContributors users="['Romakita']"/>
+
+<div class="container--centered container--padded">
+<a href="/contributing.html" class="nav-link button">
+ Become maintainer
+</a>
+</div>

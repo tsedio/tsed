@@ -46,7 +46,6 @@ $log.info(`Scopes to use: ${scopes}`);
     `${rootDir}/filters/**/*.ts`
   ],
   middlewares: [
-    GlobalAcceptMimesMiddleware,
     CookieParser(),
     compress({}),
     methodOverride(),
@@ -66,9 +65,9 @@ $log.info(`Scopes to use: ${scopes}`);
       }
     })
   ],
-  swagger: {
+  swagger: [{
     path: "/api-docs"
-  },
+  }],
   passport: {},
   "azure-bearer": {
     identityMetadata: `https://login.microsoftonline.com/${tenantId}/v2.0/.well-known/openid-configuration`,

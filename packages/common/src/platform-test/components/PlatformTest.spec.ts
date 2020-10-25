@@ -1,22 +1,5 @@
-import {
-  Configuration,
-  Controller,
-  createExpressApplication,
-  createHttpServer,
-  createHttpsServer,
-  Get,
-  GlobalAcceptMimesMiddleware,
-  InjectorService,
-  IRoute,
-  LogIncomingRequestMiddleware,
-  PlatformBuilder,
-  PlatformTest,
-  PlatformContext
-} from "@tsed/common";
-import {Type} from "@tsed/core";
+import {Configuration, Controller, Get, InjectorService, PlatformTest, PlatformContext} from "@tsed/common";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
-import {PlatformExceptionsMiddleware} from "../../platform-exceptions";
 
 @Configuration({})
 class Server {}
@@ -30,62 +13,30 @@ class MyController {
 }
 
 describe("PlatformTest", () => {
-  let platform: any;
-  let request: SuperTest.SuperTest<SuperTest.Test>;
-  beforeEach(() => {
-    platform = PlatformTest.platformBuilder;
-    PlatformTest.platformBuilder = class PlatformExpress extends PlatformBuilder {
-      static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
-        return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
-      }
-
-      async loadStatics() {}
-
-      protected async loadRoutes(routes: IRoute[]): Promise<void> {
-        this.app.use(LogIncomingRequestMiddleware);
-        this.app.use(GlobalAcceptMimesMiddleware);
-
-        await super.loadRoutes(routes);
-
-        this.app.use(PlatformExceptionsMiddleware);
-      }
-
-      protected createInjector(module: Type<any>, settings: any) {
-        super.createInjector(module, settings);
-        createExpressApplication(this.injector);
-        createHttpsServer(this.injector);
-        createHttpServer(this.injector);
-      }
-    };
-  });
-  beforeEach(
-    PlatformTest.bootstrap(Server, {
-      mount: {
-        "/rest": [MyController]
-      }
-    })
-  );
-  beforeEach(() => {
-    request = SuperTest(PlatformTest.callback());
-  });
-
+  beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
-  afterEach(() => {
-    PlatformTest.platformBuilder = platform;
-  });
 
   it("should get symbol from injector", () => {
     expect(PlatformTest.get(InjectorService)).to.be.instanceOf(InjectorService);
   });
 
-  it("should create server and mount the controller", async () => {
-    const result = await request.get("/rest");
-    expect(result.text).to.equal("hello");
-  });
-
   describe("createRequestContext", () => {
     it("should return request context", () => {
       expect(PlatformTest.createRequestContext()).to.be.instanceOf(PlatformContext);
+    });
+  });
+
+  describe("invoke", () => {
+    it("should return request context", async () => {
+      class Test {
+        called: boolean;
+
+        async $onInit() {
+          this.called = true;
+        }
+      }
+
+      expect(await PlatformTest.invoke(Test)).to.deep.eq({called: true});
     });
   });
 });

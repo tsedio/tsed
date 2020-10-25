@@ -1,4 +1,4 @@
-import {Format} from "./format";
+import {Email as E} from "@tsed/schema";
 
 /**
  * Apply an email validation on property.
@@ -64,7 +64,9 @@ import {Format} from "./format";
  * @decorator
  * @validation
  * @property
+ * @ignore
+ * @deprecated Since v6. Use @Email decorator from @tsed/schema instead of.
  */
 export function Email() {
-  return Format("email");
+  return E();
 }

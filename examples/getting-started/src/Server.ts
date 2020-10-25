@@ -1,4 +1,4 @@
-import {Configuration, GlobalAcceptMimesMiddleware, Inject, PlatformApplication} from "@tsed/common";
+import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/swagger";
 import * as bodyParser from "body-parser";
@@ -7,7 +7,6 @@ import * as cookieParser from "cookie-parser";
 import * as cors from "cors";
 import * as methodOverride from "method-override";
 import {join} from "path";
-import {GlobalErrorHandlerMiddleware} from "./middlewares/GlobalErrorHandlerMiddleware";
 
 const rootDir = __dirname;
 
@@ -29,8 +28,7 @@ const rootDir = __dirname;
   componentsScan: [
     "${rootDir}/mvc/**/*.ts",
     "${rootDir}/services/**/*.ts",
-    "${rootDir}/middlewares/**/*.ts",
-    "${rootDir}/converters/**/*.ts"
+    "${rootDir}/middlewares/**/*.ts"
   ],
   swagger: [
     {
@@ -41,7 +39,7 @@ const rootDir = __dirname;
     token: true
   },
   statics: {
-    "/statics": join(__dirname, "..", "statics")
+    "/": join(__dirname, "..", "statics")
   }
 })
 export class Server {
@@ -55,7 +53,6 @@ export class Server {
   $beforeRoutesInit(): void | Promise<any> {
     this.app
       .use(cors())
-      .use(GlobalAcceptMimesMiddleware)
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())
@@ -65,9 +62,5 @@ export class Server {
       }));
 
     return null;
-  }
-
-  $afterRoutesInit() {
-    this.app.use(GlobalErrorHandlerMiddleware);
   }
 }

@@ -1,5 +1,5 @@
-import {Description, Example, Name} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
+import {Description, Example, Name} from "@tsed/schema";
 import {Types} from "mongoose";
 
 /**

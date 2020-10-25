@@ -1,8 +1,11 @@
 import {EndpointMetadata} from "../../mvc";
+import type {PlatformContext} from "../domain/PlatformContext";
 
+/**
+ * @ignore
+ */
 export function bindEndpointMiddleware(endpoint: EndpointMetadata) {
-  return (request: TsED.Request, response: TsED.Response, next: any) => {
-    request.$ctx.endpoint = endpoint;
-    next();
+  return (ctx: PlatformContext) => {
+    ctx.endpoint = endpoint;
   };
 }

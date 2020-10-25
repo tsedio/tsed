@@ -1,6 +1,4 @@
-import {applyDecorators, DecoratorParameters, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
-import {Allow} from "./allow";
-import {getStorableMetadata} from "../utils/getStorableMetadata";
+import {Allow} from "@tsed/schema";
 
 /**
  * Add required annotation for a function argument.
@@ -42,31 +40,13 @@ import {getStorableMetadata} from "../utils/getStorableMetadata";
  *
  * @returns {Function}
  * @decorator
- * @decorator
  * @operation
  * @input
  * @schema
  * @validation
+ * @deprecated Since v6. Use @Allow decorator from @tsed/schema instead of.
+ * @ignore
  */
 export function Required(...allowedRequiredValues: any[]): any {
-  return applyDecorators(
-    (...decoratorArgs: DecoratorParameters) => {
-      const metadata = getStorableMetadata(decoratorArgs);
-
-      if (!metadata) {
-        throw new UnsupportedDecoratorType(Required, decoratorArgs);
-      }
-
-      metadata.required = true;
-
-      if (allowedRequiredValues.length) {
-        Allow(...allowedRequiredValues)(...decoratorArgs);
-      }
-    },
-    StoreMerge("responses", {
-      "400": {
-        description: "BadRequest"
-      }
-    })
-  );
+  return Allow(...allowedRequiredValues);
 }

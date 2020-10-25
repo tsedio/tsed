@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {getJsonSchema, Schema} from "../../../src/jsonschema";
+import {getJsonSchema} from "../../../src/jsonschema";
 import {Integer} from "./integer";
 
 describe("Integer", () => {
@@ -10,9 +10,9 @@ describe("Integer", () => {
     }
 
     expect(getJsonSchema(IntegerModel)).to.deep.eq({
-      definitions: {},
       properties: {
         prop: {
+          multipleOf: 1,
           type: "integer"
         }
       },

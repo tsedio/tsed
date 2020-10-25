@@ -1,5 +1,4 @@
-import {BodyParams, ContentType, Controller, Get, Header, PlatformTest} from "@tsed/common";
-import {PlatformExpress} from "@tsed/platform-express";
+import {BodyParams, Controller, Get, PlatformTest} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -8,17 +7,13 @@ import {PlatformTestOptions} from "../interfaces";
 @Controller("/headers")
 export class HeadersCtrl {
   @Get("/scenario-1")
-  @Returns(200, String)
-  @Header("test", "x-token")
+  @(Returns(200, String).Header("test", "x-token"))
   testScenario1(@BodyParams("test") value: string[]): any {
     return "hello";
   }
 
   @Get("/scenario-2")
-  @Returns(200, String)
-  @Header("x-token-test", "test")
-  @Header("x-token-test-2", "test2")
-  @ContentType("application/xml")
+  @(Returns(200, String).Header("x-token-test", "test").Header("x-token-test-2", "test2").ContentType("application/xml"))
   testScenario2() {
     return "<xml></xml>";
   }
@@ -30,6 +25,9 @@ export function testHeaders(options: PlatformTestOptions) {
   before(
     PlatformTest.bootstrap(options.server, {
       ...options,
+      logger: {
+        level: "info"
+      },
       mount: {
         "/rest": [HeadersCtrl]
       }
@@ -58,7 +56,7 @@ export function testHeaders(options: PlatformTestOptions) {
 
         expect(response.headers["x-token-test"]).to.equal("test");
         expect(response.headers["x-token-test-2"]).to.equal("test2");
-        expect(response.headers["content-type"]).to.equal("application/xml; charset=utf-8");
+        expect(response.headers["content-type"]).to.contains("application/xml");
 
         done();
       });

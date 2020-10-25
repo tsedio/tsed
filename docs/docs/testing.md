@@ -157,11 +157,6 @@ process.on("unhandledRejection", (reason, p) => {
 </Tabs>  
 
 ### Usage
-Since [Platform Api](/getting-started.html#quick-start) is available, Ts.ED provides two way to test your
-code. If you use @@ServerLoader@@, look on the Legacy tab. If you use Platform API, look on v5.56.0+ tab.
-
-<Tabs>
-  <Tab label="v5.56.0+">
 
 Ts.ED provides @@PlatformTest@@ to create a new context to inject your Services, Controllers, Middlewares, etc... registered with annotations like @@Injectable@@.
 
@@ -190,25 +185,6 @@ Here is an example to test the ParseService:
 
   </Tab>  
 </Tabs>
- 
-  </Tab>
-  <Tab label="Legacy">
-
-Ts.ED is bundled with a testing module `@tsed/testing`.
-This module provides @@TestContext@@ to create a new context to inject your Services, Controllers, Middlewares, etc... registered with annotations like @@Service@@.
-
-The process to test any components is the same thing:
-
-- Create a new context for your unit test with `TestContext.create`,
-- Inject or invoke your component with `TestContext.inject` or `TestContext.invoke`,
-- Reset the context with `TestContext.reset`.
-
-Here is an example to test the ParseService:
-
-<<< @/docs/docs/snippets/testing/parse-service-legacy.spec.ts
-  
-  </Tab>
-</Tabs>  
 
 
 ### Async / Await
@@ -226,11 +202,6 @@ Testing asynchronous method is also possible using `Promises` (`async`/`await`):
 <<< @/docs/docs/snippets/testing/db-service-async-await.mocha.ts
 
   </Tab>
-  <Tab label="Legacy">
-
-<<< @/docs/docs/snippets/testing/db-service-async-await.legacy.ts
-
-  </Tab>  
 </Tabs>
 
 ### Mock dependencies
@@ -247,12 +218,7 @@ PlatformTest API provides an `invoke` method to create a new instance of your co
 
 <<< @/docs/docs/snippets/testing/db-service-mock-dependencies.mocha.ts
 
-  </Tab>
-  <Tab label="Legacy">
-
-<<< @/docs/docs/snippets/testing/db-service-mock-dependencies.legacy.ts
-
-  </Tab>  
+  </Tab> 
 </Tabs>
 
 ::: tip
@@ -295,12 +261,7 @@ $ npm install --save-dev supertest @types/supertest
 
 <<< @/docs/docs/snippets/testing/supertest.mocha.ts
 
-  </Tab>
-  <Tab label="Legacy">
-
-<<< @/docs/docs/snippets/testing/supertest.legacy.ts
-
-  </Tab>  
+  </Tab> 
 </Tabs>
 
 ::: warning
@@ -327,11 +288,6 @@ To install session with Ts.ED see our [tutorial](/tutorials/session.md).
 <Tab label="Mocha">
 
 <<< @/docs/tutorials/snippets/session/example-test.mocha.ts
-
-</Tab>
-<Tab label="Legacy">
-
-<<< @/docs/tutorials/snippets/session/example-test.legacy.ts
 
 </Tab>
 </Tabs>

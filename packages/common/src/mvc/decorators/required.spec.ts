@@ -60,7 +60,7 @@ describe("Required", () => {
         actualError = er;
       }
 
-      expect(actualError.message).to.deep.eq("Required cannot be used as class decorator on Test");
+      expect(actualError.message).to.deep.eq("Allow cannot be used as class decorator on Test");
     });
   });
 });

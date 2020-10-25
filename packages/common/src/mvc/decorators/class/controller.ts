@@ -2,21 +2,27 @@ import {isArrayOrArrayClass, Type} from "@tsed/core";
 import {IProvider, registerController} from "@tsed/di";
 import {PathParamsType} from "../../interfaces";
 
-export interface IControllerMiddlewares {
+export interface ControllerMiddlewares {
   useBefore: any[];
   use: any[];
   useAfter: any[];
 }
 
-export interface IControllerOptions extends Partial<IProvider<any>> {
+export interface ControllerOptions extends Partial<IProvider<any>> {
   path?: PathParamsType;
-  /**
-   * @deprecated
-   */
-  dependencies?: Type<any>[];
   children?: Type<any>[];
   routerOptions?: any;
-  middlewares?: Partial<IControllerMiddlewares>;
+  middlewares?: Partial<ControllerMiddlewares>;
+}
+
+function mapOptions(options: any): ControllerOptions {
+  if (typeof options === "string" || options instanceof RegExp || isArrayOrArrayClass(options)) {
+    return {
+      path: options
+    };
+  }
+
+  return options;
 }
 
 /**
@@ -48,20 +54,14 @@ export interface IControllerOptions extends Partial<IProvider<any>> {
  * @decorator
  * @classDecorator
  */
-export function Controller(options: PathParamsType | IControllerOptions, ...children: Type<any>[]): Function {
-  return (target: any): void => {
-    if (typeof options === "string" || options instanceof RegExp || isArrayOrArrayClass(options)) {
-      registerController({
-        provide: target,
-        path: options,
-        children
-      });
-    } else {
-      registerController({
-        provide: target,
-        children: (options as IControllerOptions).dependencies || (options as IControllerOptions).children,
-        ...options
-      });
-    }
+export function Controller(options: PathParamsType | ControllerOptions, ...children: Type<any>[]): ClassDecorator {
+  const opts = mapOptions(options);
+
+  return (target) => {
+    registerController({
+      provide: target,
+      ...opts,
+      children: (opts.children || []).concat(children)
+    });
   };
 }

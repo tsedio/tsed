@@ -1,4 +1,4 @@
-import {Minimum} from "./minimum";
+import {ExclusiveMinimum as E} from "@tsed/schema";
 
 /**
  * The value of `exclusiveMinimum` MUST be number, representing an exclusive upper limit for a numeric instance.
@@ -67,7 +67,9 @@ import {Minimum} from "./minimum";
  * @decorator
  * @validation
  * @property
+ * @ignore
+ * @deprecated Since v6. Use @ExclusiveMinimum decorator from @tsed/schema instead of.
  */
 export function ExclusiveMinimum(minimum: number, exclusiveMinimum: boolean = true) {
-  return Minimum(minimum, exclusiveMinimum);
+  return E(minimum, exclusiveMinimum);
 }

@@ -11,6 +11,8 @@ projects:
 ---
 # AWS
 
+<Banner src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/langfr-220px-Amazon_Web_Services_Logo.svg.png" href="https://aws.amazon.com/fr/" :height="180" />
+
 Amazon Web Services is one possible way to host your Node.js application.
 
 This tutorial shows you how to configure the Express application written with Ts.ED, to be executed as an AWS Lambda Function.
@@ -19,50 +21,53 @@ More information here: [Official AWS Docs](http://docs.aws.amazon.com/lambda/lat
 
 <Projects type="examples"/>
 
-#### Installation
+## Installation
 
-First, install the `aws-serverless-express` module:
+First, install the `tsed/platform-aws` module:
 
 ```bash
-npm install --save aws-serverless-express
+npm install --save @tsed/platform-aws
 ```
 
-#### Configuration
+## Configuration
 
-You need to create three files:
-
- - One for the `Server` configuration,
- - One for AWS, named `lambda.ts` (the entry point on AWS Lambda, which contains the function handler),
- - One for the local development, for example "index.js" (that you can use to run the app locally with `ts-node local.ts`)
-
-Create the server and add the AWS middleware: 
-
-<<< @/docs/tutorials/snippets/aws/server-configuration.ts
-
-Then create the lambda.ts:
+Create a new `LambdaServer.ts` in `src` directory:
 
 <<< @/docs/tutorials/snippets/aws/lambda.ts
 
-And finally create an index.ts to run your server in development mode:
-```typescript
-import {$log} from "@tsed/common";
-import {PlatformExpress} from "@tsed/platform-express";
-import {Server} from "./Server";
+Then create `lambda.js` on your root project:
 
-async function bootstrap() {
-  try {
-    $log.debug("Start server...");
-    const server = await PlatformExpress.bootstrap(Server);
-
-    await server.listen();
-    $log.debug("Server initialized");
-  } catch (er) {
-    $log.error(er);
-  }
-}
-
-bootstrap();
+```javascript
+module.exports = require("./dist/LambdaServer.js");
 ```
+
+This file will be used by AWS to forward request to your application.
+
+Finally, [package and create your Lambda function](http://docs.aws.amazon.com/lambda/latest/dg/nodejs-create-deployment-pkg.html), 
+then configure a simple proxy API using Amazon API Gateway and integrate it with your Lambda function.
+
+See more details on [`aws-serveless-express`](https://github.com/awslabs/aws-serverless-express) project.
+
+## Getting the API Gateway event object
+
+This package includes decorators to easily get the event object Lambda received from API Gateway:
+
+```typescript
+import {Controller, Get} from "@tsed/common"; 
+import {AwsEvent, AwsContext} from "@tsed/platform-aws"; 
+
+@Controller('/')
+class MyCtrl {
+ @Get('/')
+ get(@AwsEvent() event: any, @AwsContext() context: any) {
+   console.log("Event", apiGateway.event);
+   console.log("Context", apiGateway.context);
+   
+   return apiGateway;
+ }
+}
+```
+
 ::: tip
 You can find a project example with [AWS configuration here](https://github.com/TypedProject/tsed-example-aws).
 :::
@@ -71,6 +76,16 @@ You can find a project example with [AWS configuration here](https://github.com/
 You can see an example provided by the AWS Team on this [github repository](https://github.com/awslabs/aws-serverless-express/tree/master/examples/basic-starter).
 :::
 
-::: tip Credits
-Thanks to [vetras](https://github.com/vetras) for his contribution.
-:::
+## Author 
+
+<GithubContributors :users="['Romakita']"/>
+
+## Maintainers <Badge text="Help wanted" />
+
+<GithubContributors :users="['Romakita', 'vetras']"/>
+
+<div class="container--centered container--padded">
+<a href="/contributing.html" class="nav-link button">
+ Become maintainer
+</a>
+</div>

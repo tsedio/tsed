@@ -1,4 +1,5 @@
 import {cleanObject, Type, uniqBy} from "@tsed/core";
+import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces";
@@ -8,28 +9,47 @@ import {mergeOperation} from "./mergeOperation";
 import {operationIdFormatter} from "./operationIdFormatter";
 
 export interface SpecSerializerOptions extends JsonSchemaOptions {
+  specType?: SpecTypes.SWAGGER | SpecTypes.OPENAPI;
   /**
    * Paths
    */
   paths?: any;
   /**
-   *
+   * Root path. This paths will be added to all generated paths Object.
    */
   rootPath?: string;
   /**
-   *
-   * @param target
-   * @param propertyKey
+   * A function to generate the operationId.
    */
   operationIdFormatter?: (name: string, propertyKey: string, path: string) => string;
   /**
-   *
+   * A pattern to generate the operationId.
    */
   operationIdPattern?: string;
 }
 
+export interface OS3SpecSerializerOptions extends SpecSerializerOptions {
+  /**
+   * Define Spec types level
+   */
+  specType: SpecTypes.OPENAPI;
+}
+
+export interface OS2SpecSerializerOptions extends SpecSerializerOptions {
+  /**
+   * Define Spec types level
+   */
+  specType: SpecTypes.SWAGGER;
+}
+
+/**
+ * @ignore
+ */
 const caches: Map<Type<any>, Map<string, any>> = new Map();
 
+/**
+ * @ignore
+ */
 function get(model: Type<any>, options: any, cb: any) {
   if (!caches.has(model)) {
     caches.set(model, new Map());
@@ -46,25 +66,39 @@ function get(model: Type<any>, options: any, cb: any) {
 }
 
 /**
- * Return the swagger or open spec for the given class
+ * Return the swagger or open spec for the given class.
  * @param model
  * @param options
  */
-export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
-  if (!options.spec || options.spec === SpecTypes.JSON) {
-    options.spec = SpecTypes.SWAGGER;
+export function getSpec(model: Type<any>, options: OS2SpecSerializerOptions): Partial<OpenSpec2>;
+export function getSpec(model: Type<any>): Partial<OpenSpec2>;
+export function getSpec(model: Type<any>, options: SpecSerializerOptions): Partial<OpenSpec2>;
+/**
+ * Return the swagger or open spec for the given class.
+ * @param model
+ * @param options
+ */
+export function getSpec(model: Type<any>, options: OS3SpecSerializerOptions): Partial<OpenSpec3>;
+/**
+ * Return the swagger or open spec for the given class.
+ * @param model
+ * @param options
+ */
+export function getSpec(model: Type<any>, options: SpecSerializerOptions = {specType: SpecTypes.SWAGGER}): Partial<OpenSpec2 | OpenSpec3> {
+  if (!options.specType) {
+    options.specType = SpecTypes.SWAGGER;
   }
 
   options = {
-    operationIdFormatter: options.operationIdFormatter || operationIdFormatter(options.operationIdPattern),
     ...options,
+    operationIdFormatter: options.operationIdFormatter || operationIdFormatter(options.operationIdPattern),
     root: false,
-    spec: options.spec
+    specType: options.specType
   };
 
   return get(model, options, () => {
     const store = JsonEntityStore.from(model);
-    const {spec = SpecTypes.SWAGGER, schemas = {}, paths = {}, rootPath = "/", tags = []} = options;
+    const {specType = SpecTypes.SWAGGER, schemas = {}, paths = {}, rootPath = "/", tags = []} = options;
     const ctrlPath = store.path;
     const defaultTags = cleanObject({
       name: store.schema.getName(),
@@ -74,7 +108,7 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
     const specJson: any = {paths};
 
     getOperationsStores(model).forEach((operationStore) => {
-      const operation = operationStore.operation!.toJSON({...options, spec, schemas});
+      const operation = operationStore.operation!.toJSON({...options, specType, schemas});
 
       operationStore.operation!.operationPaths.forEach(({path, method}: {path: string; method: string}) => {
         if (method) {
@@ -84,8 +118,9 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
             method,
             defaultTags,
             tags,
+            specType,
             operationId: (path: string) =>
-              options.operationIdFormatter?.(
+              options.operationIdFormatter!(
                 operationStore.parent.schema.get("name") || operationStore.parent.targetName,
                 operationStore.propertyName,
                 path
@@ -97,12 +132,14 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}) {
 
     specJson.tags = uniqBy(tags, "name");
 
-    if (spec === SpecTypes.OPENAPI) {
-      specJson.components = {
-        schemas
-      };
-    } else {
-      specJson.definitions = schemas;
+    if (Object.keys(schemas).length) {
+      if (specType === SpecTypes.OPENAPI) {
+        specJson.components = {
+          schemas
+        };
+      } else {
+        specJson.definitions = schemas;
+      }
     }
 
     return specJson;

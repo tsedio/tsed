@@ -1,4 +1,4 @@
-import {Schema} from "./schema";
+import {Format as F} from "@tsed/schema";
 
 /**
  * The following formats are supported for string validation with `format` keyword:
@@ -73,7 +73,9 @@ import {Schema} from "./schema";
  * @swagger
  * @schema
  * @input
+ * @ignore
+ * @deprecated Since v6. Use @Format decorator from @tsed/schema instead of.
  */
 export function Format(format: string) {
-  return Schema({format});
+  return F(format);
 }

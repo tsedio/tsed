@@ -26,6 +26,7 @@ export class BearerProtocol implements OnVerify {
       }
 
       ctx.logger.info({event: "BearerStrategy - user: ", token});
+
       return [user, token];
     } catch (error) {
       ctx.logger.error({event: "BearerStrategy", token, error});

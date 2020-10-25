@@ -1,7 +1,8 @@
 import {Controller, PlatformTest, QueryParams, Get, MinLength, Property, Required} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express/src";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Server} from "./helpers/Server";
+import {Server} from "./app/Server";
 
 class QueryParamModel {
   @Required()
@@ -27,10 +28,11 @@ class QueryParamsSwaggerController {
   scenario4(@QueryParams() params: QueryParamModel, @QueryParams("locale") locale: string) {}
 }
 
-describe("QueryParams", () => {
+describe("Swagger query params", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
   beforeEach(
     PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress,
       mount: {
         "/rest": [QueryParamsSwaggerController]
       }
@@ -42,10 +44,9 @@ describe("QueryParams", () => {
   afterEach(PlatformTest.reset);
 
   it("should generate swagger", async () => {
-    const response = await request.get("/api-doc/swagger.json").expect(200);
+    const response = await request.get("/v2/doc/swagger.json").expect(200);
     expect(response.body).to.deep.eq({
       consumes: ["application/json"],
-      definitions: {},
       info: {
         description: "",
         termsOfService: "",
@@ -55,7 +56,7 @@ describe("QueryParams", () => {
       paths: {
         "/rest/scenarios/1": {
           get: {
-            operationId: "QueryParamsSwaggerController.scenario1",
+            operationId: "queryParamsSwaggerControllerScenario1",
             parameters: [
               {
                 in: "query",
@@ -74,7 +75,7 @@ describe("QueryParams", () => {
         },
         "/rest/scenarios/2": {
           get: {
-            operationId: "QueryParamsSwaggerController.scenario2",
+            operationId: "queryParamsSwaggerControllerScenario2",
             parameters: [
               {
                 collectionFormat: "multi",
@@ -97,7 +98,7 @@ describe("QueryParams", () => {
         },
         "/rest/scenarios/3": {
           get: {
-            operationId: "QueryParamsSwaggerController.scenario3",
+            operationId: "queryParamsSwaggerControllerScenario3",
             parameters: [
               {
                 additionalProperties: {
@@ -119,7 +120,7 @@ describe("QueryParams", () => {
         },
         "/rest/scenarios/4": {
           get: {
-            operationId: "QueryParamsSwaggerController.scenario4",
+            operationId: "queryParamsSwaggerControllerScenario4",
             parameters: [
               {
                 in: "query",
@@ -151,7 +152,6 @@ describe("QueryParams", () => {
         }
       },
       produces: ["application/json"],
-      securityDefinitions: {},
       swagger: "2.0",
       tags: [
         {

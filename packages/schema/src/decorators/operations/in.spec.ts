@@ -10,7 +10,7 @@ describe("In", () => {
 
     // THEN
     getSpec(Controller, {
-      spec: SpecTypes.SWAGGER
+      specType: SpecTypes.SWAGGER
     });
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
@@ -42,7 +42,7 @@ describe("In", () => {
 
     // THEN
     getSpec(Controller, {
-      spec: SpecTypes.SWAGGER
+      specType: SpecTypes.SWAGGER
     });
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);

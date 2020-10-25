@@ -1,4 +1,4 @@
-import {Format, Property} from "@tsed/common";
+import {Format, Property} from "@tsed/schema";
 
 export class UserInfo {
   @Property()

@@ -1,5 +1,5 @@
-import {Controller, Get, PathParams, PlatformTest, Res} from "@tsed/common";
-import {Property, Required, Title} from "@tsed/schema/src";
+import {Context, Controller, Get, PathParams, PlatformTest} from "@tsed/common";
+import {Property, Required, Title} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -27,7 +27,7 @@ export class HandlersCtrl {
 
   @Get("/scenario-2/:id") // Ts.ED style with response injection
   public scenario2(
-    @Res() response: Res,
+    @Context() ctx: Context,
     @PathParams("id")
     @Required()
     id: string
@@ -36,7 +36,11 @@ export class HandlersCtrl {
     model.id = "1";
     model.name = "test";
 
-    response.status(202).json(model);
+    try {
+      ctx.response.status(202).body(model);
+    } catch (er) {
+      console.log(er);
+    }
   }
 
   @Get("/scenario-3/:id") // Ts.ED style

@@ -1,13 +1,17 @@
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../test/helper";
+import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
 import {indexMiddleware} from "./indexMiddleware";
 
 const sandbox = Sinon.createSandbox();
 describe("indexMiddleware and redirect", () => {
-  it("should create a middleware", () => {
-    const res = new FakeResponse(sandbox);
-    const req = new FakeRequest();
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
+  it("should create a middleware", async () => {
+    const ctx = createFakePlatformContext(sandbox);
+    sandbox.stub(ctx.response, "render");
+
     const viewPath = "/swagger.ejs";
     const conf = {
       path: "/doc",
@@ -18,9 +22,9 @@ describe("indexMiddleware and redirect", () => {
       urls: []
     };
 
-    indexMiddleware(viewPath, conf)(req as any, res as any);
+    await indexMiddleware(viewPath, conf)(ctx);
 
-    expect(res.render).to.have.been.calledWithExactly(viewPath, {
+    expect(ctx.response.render).to.have.been.calledWithExactly(viewPath, {
       spec: {},
       cssPath: "/path.css",
       jsPath: "/path.js",

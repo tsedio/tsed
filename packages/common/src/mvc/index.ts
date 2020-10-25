@@ -13,12 +13,8 @@ export * from "./models/PropertyMetadata";
 
 // registries
 export * from "./registries/MiddlewareRegistry";
-export * from "./registries/ParamRegistry";
-export * from "./registries/FilterRegistry";
-export * from "./registries/PropertyRegistry";
 
 // components
-export * from "./middlewares/AuthenticatedMiddleware";
 export * from "./middlewares/AcceptMimesMiddleware";
 
 // pipes
@@ -27,16 +23,12 @@ export * from "./pipes/ParseExpressionPipe";
 export * from "./pipes/DeserializerPipe";
 
 // services
-export * from "./services/ParseService";
-export * from "./services/ValidationService";
+export * from "./services/ConverterService";
 
 // errors
-export * from "./errors/TemplateRenderingError";
 export * from "./errors/RequiredValidationError";
 export * from "./errors/ValidationError";
 
 // decorators
 export * from "./decorators";
-
-// Module
-export * from "./MvcModule";
+export * from "./utils/mapParamsOptions";

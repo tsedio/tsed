@@ -1,4 +1,4 @@
-import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
+import {MaxLength as M} from "@tsed/schema";
 
 /**
  * A string instance is valid against this keyword if its length is greater than, or equal to, the value of this keyword.
@@ -74,13 +74,9 @@ import {decoratorSchemaFactory} from "../utils/decoratorSchemaFactory";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Since v6. Use @MaxLength decorator from @tsed/schema instead of.
  */
 export function MaxLength(maxLength: number) {
-  if (maxLength < 0) {
-    throw new Error("The value of maxLength MUST be a non-negative integer.");
-  }
-
-  return decoratorSchemaFactory((schema) => {
-    schema.mapper.maxLength = maxLength;
-  });
+  return M(maxLength);
 }

@@ -1,4 +1,5 @@
-import {All, Delete, Get, Head, Options, Patch, Post, Put, EndpointMetadata} from "@tsed/common";
+import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
+import {OperationMethods} from "@tsed/schema";
 import {expect} from "chai";
 import * as Sinon from "sinon";
 
@@ -20,9 +21,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
         {
-          method: "all",
+          method: OperationMethods.ALL,
           path: "/"
         }
       ]);
@@ -41,9 +42,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
         {
-          method: "get",
+          method: OperationMethods.GET,
           path: "/"
         }
       ]);
@@ -61,9 +62,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
         {
-          method: "get",
+          method: OperationMethods.GET,
           path: "/"
         }
       ]);
@@ -83,9 +84,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
         {
-          method: "post",
+          method: OperationMethods.POST,
           path: "/"
         }
       ]);
@@ -104,9 +105,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
         {
-          method: "put",
+          method: OperationMethods.PUT,
           path: "/"
         }
       ]);
@@ -125,9 +126,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
         {
-          method: "delete",
+          method: OperationMethods.DELETE,
           path: "/"
         }
       ]);
@@ -146,9 +147,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
         {
-          method: "head",
+          method: OperationMethods.HEAD,
           path: "/"
         }
       ]);
@@ -167,9 +168,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
         {
-          method: "patch",
+          method: OperationMethods.PATCH,
           path: "/"
         }
       ]);
@@ -188,9 +189,9 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect(endpoint.pathsMethods).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).to.deep.eq([
         {
-          method: "options",
+          method: OperationMethods.OPTIONS,
           path: "/"
         }
       ]);

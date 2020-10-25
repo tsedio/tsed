@@ -3,9 +3,8 @@ import {JsonMapper} from "../decorators/jsonMapper";
 import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
 /**
- * Converter component for the `Map` Type.
+ * Mapper for `Map` type.
  * @jsonmapper
- * @converter
  * @component
  */
 @JsonMapper(Map)

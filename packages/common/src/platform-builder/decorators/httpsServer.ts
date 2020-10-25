@@ -2,18 +2,6 @@ import {Type} from "@tsed/core";
 import {Inject} from "@tsed/di";
 import * as Https from "https";
 
-export interface IHttpsFactory {
-  (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;
-
-  /**
-   * @deprecated
-   * @returns {"https".Server}
-   */
-  get(): Https.Server;
-}
-
-export type HttpsServer = Https.Server & IHttpsFactory;
-
 /**
  * Inject the Https.Server instance.
  *
@@ -39,3 +27,5 @@ export type HttpsServer = Https.Server & IHttpsFactory;
 export function HttpsServer(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
   return Inject(HttpsServer)(target, targetKey, descriptor);
 }
+
+export type HttpsServer = Https.Server;

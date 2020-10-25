@@ -10,6 +10,6 @@ describe("@Context ", () => {
 
     const param = ParamMetadata.get(Ctrl, "test", 0);
     expect(param.expression).to.eq("expression");
-    expect(param.paramType).to.eq(ParamTypes.CONTEXT);
+    expect(param.paramType).to.eq(ParamTypes.$CTX);
   });
 });

@@ -1,4 +1,4 @@
-import {Schema} from "./schema";
+import {Default as D} from "@tsed/schema";
 
 /**
  * There are no restrictions placed on the value of this keyword.
@@ -39,7 +39,9 @@ import {Schema} from "./schema";
  * @validation
  * @swagger
  * @schema
+ * @ignore
+ * @deprecated Since v6. Use @Default decorator from @tsed/schema instead of.
  */
 export function Default(defaultValue: string | number | boolean | {}) {
-  return Schema({default: defaultValue});
+  return D(defaultValue);
 }

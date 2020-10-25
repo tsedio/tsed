@@ -9,6 +9,5 @@ export enum ProviderType {
 
   // NOT STANDARD
   CONVERTER = "converter",
-  FILTER = "filter",
   MIDDLEWARE = "middleware"
 }

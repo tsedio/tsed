@@ -1,4 +1,4 @@
-import {CollectionOf, Ignore, MinLength, Name, Property, Required} from "@tsed/common";
+import {CollectionOf, Ignore, MinLength, Name, Property, Required} from "@tsed/schema";
 
 export class JsonBaseModel {
   @Property()
@@ -135,7 +135,7 @@ export class Circular {
 }
 
 export class Dependency {
-  @Property()
+  @Property(() => IndirectCircular)
   dep: any;
 }
 
@@ -143,5 +143,3 @@ export class IndirectCircular {
   @Property()
   parent: Dependency;
 }
-
-CollectionOf(IndirectCircular)(Dependency, "dep");

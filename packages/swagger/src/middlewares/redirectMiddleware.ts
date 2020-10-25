@@ -1,11 +1,13 @@
-import {Next, Req, Res} from "@tsed/common";
+import {PlatformContext} from "@tsed/common";
 
+/**
+ * @ignore
+ * @param path
+ */
 export function redirectMiddleware(path: string) {
-  return (req: Req, res: Res, next: Next) => {
-    if (req.url === path && !req.url.match(/\/$/)) {
-      res.redirect(`${path}/`);
-    } else {
-      next();
+  return (ctx: PlatformContext) => {
+    if (ctx.request.url === path && !ctx.request.url.match(/\/$/)) {
+      ctx.response.redirect(302, `${path}/`);
     }
   };
 }

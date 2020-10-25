@@ -1,7 +1,4 @@
-import {DecoratorParameters, getDecoratorType, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonSchema} from "../../jsonschema/class/JsonSchema";
-import {decoratorSchemaFactory} from "../../jsonschema/utils/decoratorSchemaFactory";
-import {getStorableMetadata} from "../utils/getStorableMetadata";
+import {Allow as A} from "@tsed/schema";
 
 /**
  * Add allowed values when the property or parameters is required.
@@ -31,30 +28,9 @@ import {getStorableMetadata} from "../utils/getStorableMetadata";
  * @input
  * @schema
  * @validation
+ * @ignore
+ * @deprecated Since v6. Use @Allow decorator from @tsed/schema instead of.
  */
 export function Allow(...allowedRequiredValues: any[]): any {
-  const allowNullInSchema = decoratorSchemaFactory((schema: JsonSchema) => {
-    if (schema && schema.mapper) {
-      if (schema.mapper.$ref) {
-        schema.mapper.oneOf = [{type: "null"}, {$ref: schema.mapper.$ref}];
-        delete schema.mapper.$ref;
-      } else {
-        schema.mapper.type = [].concat(schema.type, ["null"] as any);
-      }
-    }
-  });
-
-  return (...decoratorArgs: DecoratorParameters): void => {
-    const metadata = getStorableMetadata(decoratorArgs);
-
-    if (!metadata) {
-      throw new UnsupportedDecoratorType(Allow, decoratorArgs);
-    }
-
-    metadata.allowedRequiredValues = allowedRequiredValues;
-
-    if (getDecoratorType(decoratorArgs, true) === "property" && allowedRequiredValues.some((e) => e == null)) {
-      allowNullInSchema(decoratorArgs[0], decoratorArgs[1]);
-    }
-  };
+  return A(...allowedRequiredValues);
 }

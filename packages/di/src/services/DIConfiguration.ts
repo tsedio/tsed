@@ -1,4 +1,4 @@
-import {classOf, deepExtends, getValue, setValue} from "@tsed/core";
+import {classOf, deepExtends, getValue, proxyDelegation, setValue} from "@tsed/core";
 import {IDIResolver, ProviderScope, TokenProvider} from "../interfaces";
 
 export class DIConfiguration {
@@ -17,45 +17,9 @@ export class DIConfiguration {
       this.default.set(key, value);
     });
 
-    return new Proxy(this, {
-      getOwnPropertyDescriptor(target: any, p: PropertyKey): PropertyDescriptor | undefined {
-        return Reflect.getOwnPropertyDescriptor(target, p);
-      },
-
-      has(target: any, p: PropertyKey): boolean {
-        if (Reflect.has(target, p) || typeof p === "symbol") {
-          return Reflect.has(target, p);
-        }
-
-        return target.get(p as any) !== undefined;
-      },
-
-      get(target: any, p: PropertyKey, receiver: any): any {
-        if (Reflect.has(target, p) || typeof p === "symbol") {
-          return Reflect.get(target, p, receiver);
-        }
-
-        return target.get(p as any);
-      },
-
-      set(target: DIConfiguration, p: PropertyKey, value: any, receiver: any): boolean {
-        if (Reflect.has(target, p) || typeof p === "symbol") {
-          return Reflect.set(target, p, value, receiver);
-        }
-
-        return !!target.set(p as any, value);
-      },
-
-      deleteProperty(target: any, p: PropertyKey): boolean {
-        return Reflect.deleteProperty(target, p);
-      },
-
-      defineProperty(target: any, p: PropertyKey, attributes: PropertyDescriptor): boolean {
-        return Reflect.defineProperty(target, p, attributes);
-      },
-
-      ownKeys(target: DIConfiguration): PropertyKey[] {
-        return Reflect.ownKeys(target).concat(Array.from(target.default.keys())).concat(Array.from(target.map.keys()));
+    return proxyDelegation<DIConfiguration>(this, {
+      ownKeys(target) {
+        return [...target.default.keys(), ...target.map.keys()];
       }
     });
   }
@@ -121,20 +85,21 @@ export class DIConfiguration {
   /**
    *
    * @param propertyKey
+   * @param defaultValue
    * @returns {undefined|any}
    */
-  get<T = any>(propertyKey: string): T {
-    return this.resolve(this.getRaw(propertyKey));
+  get<T = any>(propertyKey: string, defaultValue?: T): T {
+    return this.resolve(this.getRaw(propertyKey, defaultValue));
   }
 
-  getRaw(propertyKey: string): any {
+  getRaw(propertyKey: string, defaultValue?: any): any {
     const value = getValue(propertyKey, this.map);
 
     if (value !== undefined) {
       return value;
     }
 
-    return getValue(propertyKey, this.default);
+    return getValue(this.default, propertyKey, defaultValue);
   }
 
   merge(obj: Partial<TsED.Configuration>) {
@@ -172,10 +137,11 @@ export class DIConfiguration {
     }
 
     if (typeof value === "string") {
+      const replacer = (match: string, key: string) => getValue(this.map, key);
       return value
-        .replace(/\${([\w.]+)}/gi, (match, key) => getValue(key, this.map))
-        .replace(/<([\w.]+)>/gi, (match, key) => getValue(key, this.map))
-        .replace(/{{([\w.]+)}}/gi, (match, key) => getValue(key, this.map));
+        .replace(/\${([\w.]+)}/gi, replacer)
+        .replace(/<([\w.]+)>/gi, replacer)
+        .replace(/{{([\w.]+)}}/gi, replacer);
     }
 
     return value;
@@ -185,6 +151,6 @@ export class DIConfiguration {
     this.forEach((value, key) => this.map.set(key, this.resolve(value)));
 
     this.set = this.setRaw;
-    this.get = this.getRaw = (propertyKey: string) => getValue(propertyKey, this.map);
+    this.get = this.getRaw = (propertyKey: string, defaultValue?: any) => getValue(this.map, propertyKey, defaultValue);
   }
 }

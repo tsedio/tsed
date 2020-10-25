@@ -3,6 +3,9 @@ import {ValidationErrorMiddleware} from "./middlewares/ValidationErrorMiddleware
 import {MONGOOSE_CONNECTIONS} from "./services/MongooseConnections";
 import {MongooseService} from "./services/MongooseService";
 
+/**
+ * @ignore
+ */
 @Module({
   imports: [MONGOOSE_CONNECTIONS]
 })

@@ -1,13 +1,13 @@
-import {CollectionOf, Property} from "@tsed/common";
+import {CollectionOf, Property} from "@tsed/schema";
 import {isPlainObject, isString, Store, StoreMerge, Type, useDecorators} from "@tsed/core";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 
 export interface MongooseVirtualRefOptions {
   /**
-   * @deprecated Use ref instead.
+   * @deprecated Since v6. Use ref instead.
    */
-  type?: string | Type<any>;
-  ref?: string | Type<any>;
+  type?: string | Type<any> | (() => Type<any>);
+  ref?: string | Type<any> | (() => Type<any>);
   foreignField?: string;
   localField?: string;
   justOne?: boolean;

@@ -97,13 +97,6 @@ export class FakeRequest {
     sandbox.spy(this, "get");
   }
 
-  /**
-   * @deprecated
-   */
-  get ctx() {
-    return this.$ctx;
-  }
-
   get(value?: any) {
     return value ? this.headers[value.toLowerCase()] || "headerValue" : this.headers;
   }

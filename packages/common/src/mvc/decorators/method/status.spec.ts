@@ -1,6 +1,7 @@
+import {getSpec} from "@tsed/schema";
 import "@tsed/swagger";
 import {expect} from "chai";
-import {EndpointMetadata, EndpointMetadata, Status} from "../../../../src/mvc";
+import {Get, Status} from "../../../../src/mvc";
 
 describe("Status", () => {
   it("should store metadata (200)", () => {
@@ -9,6 +10,7 @@ describe("Status", () => {
 
     // WHEN
     class Test {
+      @Get("/")
       @Status(200, {
         type: TypeC,
         collectionType: Array,
@@ -23,22 +25,47 @@ describe("Status", () => {
     }
 
     // THEN
-    const endpoint = EndpointMetadata.get(Test, "get");
+    const spec = getSpec(Test);
 
-    const response = {
-      code: 200,
-      collectionType: Array,
-      description: "description",
-      type: TypeC,
-      headers: {
-        "x-header": {
-          type: "string"
+    expect(spec).to.deep.eq({
+      definitions: {
+        TypeC: {
+          type: "object"
         }
-      }
-    };
-
-    expect(endpoint.responses.get(200)).to.deep.eq(response);
-    expect(endpoint.statusCode).to.eq(200);
+      },
+      paths: {
+        "/": {
+          get: {
+            operationId: "testGet",
+            parameters: [],
+            produces: ["application/json"],
+            responses: {
+              "200": {
+                description: "description",
+                headers: {
+                  "x-header": {
+                    example: undefined,
+                    type: "string"
+                  }
+                },
+                schema: {
+                  items: {
+                    $ref: "#/definitions/TypeC"
+                  },
+                  type: "array"
+                }
+              }
+            },
+            tags: ["Test"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
+    });
   });
   it("should store metadata (204)", () => {
     // GIVEN
@@ -46,6 +73,7 @@ describe("Status", () => {
 
     // WHEN
     class Test {
+      @Get("/")
       @Status(204, {
         type: TypeC,
         collectionType: Array,
@@ -60,22 +88,46 @@ describe("Status", () => {
     }
 
     // THEN
-    const endpoint = EndpointMetadata.get(Test, "get");
+    const spec = getSpec(Test);
 
-    const response = {
-      code: 204,
-      collectionType: Array,
-      description: "description",
-      type: TypeC,
-      headers: {
-        "x-header": {
-          type: "string"
+    expect(spec).to.deep.eq({
+      definitions: {
+        TypeC: {
+          type: "object"
         }
-      }
-    };
-
-    expect(endpoint.responses.get(204)).to.deep.eq(response);
-    expect(endpoint.statusCode).to.eq(204);
+      },
+      paths: {
+        "/": {
+          get: {
+            operationId: "testGet",
+            parameters: [],
+            produces: ["application/json"],
+            responses: {
+              "204": {
+                description: "description",
+                headers: {
+                  "x-header": {
+                    type: "string"
+                  }
+                },
+                schema: {
+                  items: {
+                    $ref: "#/definitions/TypeC"
+                  },
+                  type: "array"
+                }
+              }
+            },
+            tags: ["Test"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
+    });
   });
   it("should store metadata (201)", () => {
     // GIVEN
@@ -83,6 +135,7 @@ describe("Status", () => {
 
     // WHEN
     class Test {
+      @Get("/")
       @Status(201, {
         type: TypeC,
         collectionType: Array,
@@ -97,22 +150,46 @@ describe("Status", () => {
     }
 
     // THEN
-    const endpoint = EndpointMetadata.get(Test, "get");
+    const spec = getSpec(Test);
 
-    const response = {
-      code: 201,
-      collectionType: Array,
-      description: "description",
-      type: TypeC,
-      headers: {
-        "x-header": {
-          type: "string"
+    expect(spec).to.deep.eq({
+      definitions: {
+        TypeC: {
+          type: "object"
         }
-      }
-    };
-
-    expect(endpoint.responses.get(201)).to.deep.eq(response);
-    expect(endpoint.statusCode).to.eq(201);
+      },
+      paths: {
+        "/": {
+          get: {
+            operationId: "testGet",
+            parameters: [],
+            produces: ["application/json"],
+            responses: {
+              "201": {
+                description: "description",
+                headers: {
+                  "x-header": {
+                    type: "string"
+                  }
+                },
+                schema: {
+                  items: {
+                    $ref: "#/definitions/TypeC"
+                  },
+                  type: "array"
+                }
+              }
+            },
+            tags: ["Test"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
+    });
   });
   it("should store metadata (404)", () => {
     // GIVEN
@@ -122,6 +199,7 @@ describe("Status", () => {
 
     // WHEN
     class Test {
+      @Get("/")
       @Status(404, {
         type: CustomError,
         description: "description",
@@ -145,28 +223,61 @@ describe("Status", () => {
     }
 
     // THEN
-    const endpoint = EndpointMetadata.get(Test, "get");
-    expect(endpoint.responses.get(404)).to.deep.eq({
-      code: 404,
-      description: "description",
-      type: CustomError,
-      headers: {
-        "x-error": {
-          type: "string"
+    const spec = getSpec(Test);
+
+    expect(spec).to.deep.eq({
+      definitions: {
+        CustomError: {
+          type: "object"
+        },
+        TypeC: {
+          type: "object"
         }
-      }
-    });
-    expect(endpoint.statusCode).to.eq(200);
-    expect(endpoint.responses.get(200)).to.deep.eq({
-      code: 200,
-      collectionType: Array,
-      description: "description",
-      type: TypeC,
-      headers: {
-        "x-map": {
-          type: "string"
+      },
+      paths: {
+        "/": {
+          get: {
+            operationId: "testGet",
+            parameters: [],
+            produces: ["application/json"],
+            responses: {
+              "200": {
+                description: "description",
+                headers: {
+                  "x-map": {
+                    example: undefined,
+                    type: "string"
+                  }
+                },
+                schema: {
+                  items: {
+                    $ref: "#/definitions/TypeC"
+                  },
+                  type: "array"
+                }
+              },
+              "404": {
+                description: "description",
+                headers: {
+                  "x-error": {
+                    example: undefined,
+                    type: "string"
+                  }
+                },
+                schema: {
+                  $ref: "#/definitions/CustomError"
+                }
+              }
+            },
+            tags: ["Test"]
+          }
         }
-      }
+      },
+      tags: [
+        {
+          name: "Test"
+        }
+      ]
     });
   });
 });

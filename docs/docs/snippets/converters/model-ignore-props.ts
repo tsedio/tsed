@@ -1,6 +1,6 @@
-import {Ignore, Property} from "@tsed/common";
+import {Ignore, Property, Required} from "@tsed/schema";
 
-export class User {
+export class UserCreation {
   @Ignore()
   _id: string;
 
@@ -10,6 +10,11 @@ export class User {
   @Property()
   lastName: string;
 
+  @Required()
+  password: string;
+}
+
+export class User extends UserCreation {
   @Ignore()
   password: string;
 }

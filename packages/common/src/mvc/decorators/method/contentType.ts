@@ -1,5 +1,4 @@
-import {EndpointFn} from "./endpointFn";
-import {StoreMerge, useDecorators} from "@tsed/core";
+import {ContentType as C} from "@tsed/schema";
 
 /**
  * Sets the Content-Type HTTP header to the MIME type as determined by mime.lookup() for the specified type.
@@ -19,12 +18,7 @@ import {StoreMerge, useDecorators} from "@tsed/core";
  * @operation
  * @response
  * @headers
+ * @deprecated Since v6. Use @ContentType() from @tsed/schema.
+ * @ignore
  */
-export function ContentType(type: string) {
-  return useDecorators(
-    StoreMerge("produces", [type]),
-    EndpointFn((endpoint) => {
-      endpoint.contentType = type;
-    })
-  );
-}
+export const ContentType = C;
