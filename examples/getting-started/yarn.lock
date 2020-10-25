@@ -288,6 +288,13 @@
   resolved "https://registry.yarnpkg.com/@sinonjs/text-encoding/-/text-encoding-0.7.1.tgz#8da5c6530915653f3a1f38fd5f101d8c3f8079c5"
   integrity sha512-+iTbntw2IZPb/anVDbypzfQa+ay64MW0Zo8aJ8gZPWMMK6/OubMVb6lUPMagqjOPnmtauXnFCACVl3O7ogjeqQ==
 
+"@tsed/ajv@6.0.0-beta.2":
+  version "6.0.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@tsed/ajv/-/ajv-6.0.0-beta.2.tgz#9af0886dbcfc98f82c7ad13518f1f92674fa482c"
+  integrity sha512-aH83prVUWM7HbWQj42pg0ktpNRhESSqKXsjrCrQVXxcmSSe9pXHj9H2RQng8KmXgHdawZhSPfQ5k4q40tJTFMw==
+  dependencies:
+    tslib "2.0.1"
+
 "@tsed/common@6.0.0-beta.2":
   version "6.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/@tsed/common/-/common-6.0.0-beta.2.tgz#d2a8afd038562f6f4d12216232e172cd2f9f26d9"
@@ -2769,9 +2776,9 @@ lodash.get@^4.4.2:
   integrity sha1-LRd/ZS+jHpObRDjVNBSZ36OCXpk=
 
 lodash@^4.17.13, lodash@^4.17.14, lodash@^4.17.15:
-  version "4.17.15"
-  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.15.tgz#b447f6670a0455bbfeedd11392eff330ea097548"
-  integrity sha512-8xOcRHvCjnocdS5cpwXQXVzmmh5e5+saE2QGoeQmbKmRS6J3VQppPOIt0MnmE+4xlZoumy0GPG0D0MVIQbNA1A==
+  version "4.17.20"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.20.tgz#b44a9b6297bcb698f1c51a3545a2b3b368d59c52"
+  integrity sha512-PlhdFcillOINfeV7Ni6oF1TAEayyZBoZ8bcshTHqOYJYlrqzRK5hagpagky5o4HfCzzd1TRkXPMFq6cKk9rGmA==
 
 log-symbols@4.0.0:
   version "4.0.0"
