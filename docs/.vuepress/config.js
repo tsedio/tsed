@@ -139,6 +139,10 @@ module.exports = {
                     link: "http://cli.tsed.io"
                   },
                   {
+                    text: "Logger",
+                    link: "http://logger.tsed.io"
+                  },
+                  {
                     text: "Api reference",
                     link: "/api.html"
                   },
