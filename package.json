@@ -134,19 +134,18 @@
     ]
   },
   "monorepo": {
-    "productionBranch": "rc",
-    "developBranch": "rc",
+    "productionBranch": "production",
+    "developBranch": "production",
     "npmAccess": "public",
-    "npmDistTag": "rc",
     "ignoreSyncDependencies": [
       "express",
       "@types/express"
     ],
     "ghpages": {
       "dir": "./docs/.vuepress/dist",
-      "url": "https://github.com/TypedProject/v6.tsed.io.git",
-      "branch": "master",
-      "cname": "v6.tsed.io"
+      "url": "https://github.com/TypedProject/tsed.git",
+      "branch": "gh-pages",
+      "cname": "tsed.io"
     },
     "examples": {
       "dir": "./examples",
