@@ -93,6 +93,9 @@ frameworks:
 - title: Socket.io
   href: /tutorials/socketio.html
   src: /socketio.svg
+- title: AWS
+  href: /tutorials/aws.html
+  src: /aws.png
 ---
 
 ::: slot hero-brand
@@ -101,7 +104,7 @@ frameworks:
 :::        
 
 ::: slot hero-slogan
-Build your awesome server-size **application.** <WordsSlider>#Decorators, #Rest API, #DI, #Controller</WordsSlider>
+Build your awesome server-side **application.** <WordsSlider>#Decorators, #Rest API, #DI, #Controller</WordsSlider>
 :::
 
 ::: slot hero-content
