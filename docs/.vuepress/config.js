@@ -25,12 +25,6 @@ module.exports = {
     ["meta", { name: "twitter:title", content: title }],
     ["meta", { name: "twitter:description", content: description }],
     ["meta", { name: "twitter:card", content: "summary" }]
-
-    // ["script", {
-    //   type: "text/javascript",
-    //   src: "https://platform-api.sharethis.com/js/sharethis.js#property=5e294abd381cb7001234a73b&product=inline-share-buttons&cms=website",
-    //   async: "async"
-    // }]
   ],
 
   themeConfig: {
@@ -159,7 +153,7 @@ module.exports = {
             ]
           },
           {
-            text: "Versions",
+            text: `v${require("../../package").version}`,
             position: "right",
             items: [
               {
@@ -167,8 +161,8 @@ module.exports = {
                 link: "http://v4.tsed.io"
               },
               {
-                text: "v5 (current)",
-                link: "http://tsed.io"
+                text: "v5 (maintenance)",
+                link: "http://v5.tsed.io"
               }
             ]
           }
