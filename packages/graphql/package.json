@@ -18,7 +18,7 @@
     "apollo-datasource": "^0.7.2",
     "apollo-datasource-rest": "^0.9.3",
     "apollo-server-express": "^2.16.1",
-    "apollo-server-testing": "2.16.1",
+    "apollo-server-testing": "2.18.2",
     "graphql": "14.7.0",
     "type-graphql": "^0.17.6"
   },
