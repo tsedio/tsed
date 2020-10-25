@@ -2575,10 +2575,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/fs-extra@9.0.1":
-  version "9.0.1"
-  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-9.0.1.tgz#91c8fc4c51f6d5dbe44c2ca9ab09310bd00c7918"
-  integrity sha512-B42Sxuaz09MhC3DDeW5kubRcQ5by4iuVQ0cRRWM2lggLzAa/KVom0Aft/208NgMvNQQZ86s5rVcqDdn/SH0/mg==
+"@types/fs-extra@9.0.2":
+  version "9.0.2"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-9.0.2.tgz#e1e1b578c48e8d08ae7fc36e552b94c6f4621609"
+  integrity sha512-jp0RI6xfZpi5JL8v7WQwpBEQTq63RqW2kxwTZt+m27LcJqQdPVU1yGnT1ZI4EtCDynQQJtIGyQahkiCGCS7e+A==
   dependencies:
     "@types/node" "*"
 
@@ -3816,9 +3816,9 @@ apollo-cache-control@^0.11.1:
     apollo-server-plugin-base "^0.9.1"
 
 apollo-datasource-rest@^0.9.3:
-  version "0.9.3"
-  resolved "https://registry.yarnpkg.com/apollo-datasource-rest/-/apollo-datasource-rest-0.9.3.tgz#3d7d0326d2848a14e52621e2ccdab567363a4bc3"
-  integrity sha512-DqSmcziPpSSz79zS+bmixFhlf5fVDKbAKqU5Hqd77jRjrrzpYN0pgT7NJTd4IhC1jVLTE+/9bZ6Q7Cr8fcID/A==
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/apollo-datasource-rest/-/apollo-datasource-rest-0.9.4.tgz#b3a99bee82796e9a1a7b4147b8fdda930b6e4dbd"
+  integrity sha512-JBtjLsmYE+D8Vb5GPf6iRed5vIRpViifg9LVq1oSiBGc4oAhtvr07+gY89/bXU2XbznBF90AYt35j9d5881dMA==
   dependencies:
     apollo-datasource "^0.7.2"
     apollo-server-caching "^0.5.2"
