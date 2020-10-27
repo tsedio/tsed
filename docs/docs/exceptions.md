@@ -8,9 +8,9 @@ meta:
 # Exceptions
 
 Ts.ED http exceptions provide classes to throw standard HTTP exceptions. These exceptions can be used on Controller, Middleware or injectable Service.
-Emitted exceptions will be handle by the @@PlatformExceptionMiddleware@@ and formatted to an Express response with the right status code and headers.
+Emitted exceptions will be handled by the @@PlatformExceptionMiddleware@@ and formatted to an Express response with the right status code and headers.
 
-An other thing. This module can be used with a pure Express application.
+And another thing. This module can be used with a pure Express application.
 
 ## Installation
 
@@ -22,7 +22,7 @@ yarn add @tsed/exceptions
 
 ## Throwing standard exceptions
 
-Here is two example to throw exceptions based on this package in Ts.ED context or Express.js context:
+Here is two examples to throw exceptions based on this package in Ts.ED context or Express.js context:
 
 <Tabs class="-code">
   <Tab label="Ts.ED">
@@ -73,8 +73,8 @@ All errors are intercepted by the @@PlatformExceptionMiddleware@@.
 By default, all HTTP Exceptions are automatically sent to the client, and technical errors are
 sent as Internal Server Error.
 
-The [Platform API](/docs/platform-api.md) provide @@Catch@@ decorator to catch error. 
-It let you control the exact flow of control and the content of the response sent back to the client.
+The [Platform API](/docs/platform-api.md) provides @@Catch@@ decorator to catch error. 
+It lets you control the exact flow of control and the content of the response sent back to the client.
 
 Let's create an exception filter that is responsible for catching exceptions which are an instance of the @@Exception@@ class, 
 and implementing custom response logic for them. 
@@ -99,7 +99,7 @@ If you want to catch all errors, just use the @@Catch@@ decorator with the `Erro
 ## 404 ResourceNotFound
 
 Ts.ED throw a @@ResourceNotFound@@ error when nothing routes are resolved by the router.
-By using Exception filter, is now possible to manage this error and customize the
+By using Exception filter, it is now possible to manage this error and customize the
 response sent to your consumer.
 
 Create a new ResourceNotFoundFilter in the filters directories and copy/paste this example:
@@ -107,7 +107,7 @@ Create a new ResourceNotFoundFilter in the filters directories and copy/paste th
 <<< @/docs/docs/snippets/exceptions/resource-not-found-filter.ts
 
 ::: warning
-`response.render()` require to configure the template engine before. See our page over [Templating engine](/tutorials/templating.html#installation) installation for more details.
+`response.render()` requires to configure the template engine before. See our page over [Templating engine](/tutorials/templating.html#installation) installation for more details.
 :::
 
 Then import the custom filter in your server:
