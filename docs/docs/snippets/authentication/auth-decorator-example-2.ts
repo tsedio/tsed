@@ -1,3 +1,4 @@
+import {In} from "@tsed/schema";
 import {IAuthOptions, Returns, UseAuth} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
 import {Operation, Security} from "@tsed/swagger";
@@ -12,16 +13,7 @@ export function CustomAuth(options: ICustomAuthOptions = {}): Function {
   return useDecorators(
     UseAuth(CustomAuthMiddleware, options),
     Security("oauth", ...(options.scopes || [])),
-    Operation({ // will be remove in v6. Example will be updated
-      "parameters": [
-        {
-          "in": "header",
-          "name": "Authorization",
-          "type": "string",
-          "required": true
-        }
-      ]
-    }),
+    In("header").Name("Authorization").Type(String).Required(true),
     Returns(401, {description: "Unauthorized"}),
     Returns(403, {description: "Forbidden"})
   );
