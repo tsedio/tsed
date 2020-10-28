@@ -1,5 +1,6 @@
 import {Type} from "@tsed/core";
-import {registerExceptionType} from "../domain/ExceptionTypesContainer";
+import {registerProvider} from "@tsed/di";
+import {registerExceptionType} from "../domain/ExceptionFiltersContainer";
 
 /**
  * Register a new class to handle an specific exception.
@@ -10,6 +11,10 @@ export function Catch(...types: Type<Error | any>[]) {
   return (target: any) => {
     types.forEach((type) => {
       registerExceptionType(type, target as any);
+    });
+    registerProvider({
+      provide: target,
+      useClass: target
     });
   };
 }
