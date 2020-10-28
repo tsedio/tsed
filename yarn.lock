@@ -2325,10 +2325,10 @@
   resolved "https://registry.yarnpkg.com/@tsed/markdown-it-symbols/-/markdown-it-symbols-2.15.0.tgz#0e1a1f0b72d6ae5e655228913befe617a5407dad"
   integrity sha512-0l8P4k6bcRqwxzy8piMoDdS3fqgTw2gMO0xyI/woIqHm7yhbpmrleh2OAmc0bi5SJrrZv1aDUyeyeFoYP8B53g==
 
-"@tsed/markdown-it-symbols@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@tsed/markdown-it-symbols/-/markdown-it-symbols-3.2.1.tgz#f95d2468d30ec6d511db06535be12b1b7e3a6410"
-  integrity sha512-vWUdH0R+k9gKLcMa9BdkZNS3ugViM3uKLWNVMZ9y33fq+T9PAC5v5+y+3+8BJFlY9C0VdusTp3NzXGz+1MdMgw==
+"@tsed/markdown-it-symbols@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@tsed/markdown-it-symbols/-/markdown-it-symbols-3.3.0.tgz#a48b8c4f295dc056d0914a5e3cb3de4a432d6a32"
+  integrity sha512-vY6yPAx2i/bGSVPsOmD28psHEOMQdZbqJGiSgTTHOMi3cWJ4WXi08hIHhaVQbTSaaB2FB8UraGFTI+S9Rs8V/Q==
 
 "@tsed/monorepo-utils@1.11.0":
   version "1.11.0"
@@ -2352,10 +2352,10 @@
     read-package-json "2.1.1"
     semver "7.3.2"
 
-"@tsed/vuepress-common@3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@tsed/vuepress-common/-/vuepress-common-3.2.1.tgz#8a3185015366097890228aae325ba484c2d5ccfb"
-  integrity sha512-LOji5IYTxyOvHaMBfaX9wpUuG8uNjCyAVPA0k67J58BIFM8DPj9ImJm+PeGZzR7SFjLLNQtUuK7kaOWDvTdbvw==
+"@tsed/vuepress-common@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@tsed/vuepress-common/-/vuepress-common-3.3.0.tgz#6039230d44f037d48cbf3465ebcbd848c397e275"
+  integrity sha512-Fsu3GU4sl3sCSUkoq0yFTfXw05a3DCsTgtNN9xKOuTEh4sPVGGHjyYD9RVCEh2n+kmqrCcsS0ef1rNsK0II2Aw==
   dependencies:
     "@docsearch/css" "1.0.0-alpha.28"
     "@docsearch/js" "1.0.0-alpha.28"
@@ -2366,10 +2366,10 @@
     normalize.css "8.0.1"
     prismjs "1.21.0"
 
-"@tsed/vuepress-tailwind-config@3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@tsed/vuepress-tailwind-config/-/vuepress-tailwind-config-3.2.1.tgz#70b2493dc870a9229c50877bdc2e14c648744a29"
-  integrity sha512-A3D2WnDyN85kdEFnuJyySHIIIJL8QLTQGcXbqYcMmRcVzXSa75HOpCpQcvsdjBamjtY4FVfNC9ISmpCdkCaZ8w==
+"@tsed/vuepress-tailwind-config@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@tsed/vuepress-tailwind-config/-/vuepress-tailwind-config-3.3.0.tgz#ff6c3abc210b9649259f67d5d59f7e7b69054cb6"
+  integrity sha512-XGgzJmafIgbc5VbYsYS+oDF4dDG3YoHezHfKeii6OTv+NHJs2BaONmWYiK7scH8hYcMmgfMZYwGQ1Xhnpv/v6A==
   dependencies:
     tailwindcss "1.4.6"
 
@@ -16683,18 +16683,18 @@ vuepress-plugin-smooth-scroll@^0.0.9:
   dependencies:
     smoothscroll-polyfill "^0.4.4"
 
-vuepress-theme-tsed@~3.2.1:
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.2.1.tgz#d242174027213ca695fa3d99e44f7305e968ab37"
-  integrity sha512-ROfSkl6PfElW/0xb5eWo7So5PcGQyO1EaFxk9ACOOQ0Ub3Ue7vH8o/RXXKCkKeYXWrFdMdVA80oKJUiwwxzqOA==
+vuepress-theme-tsed@3.3.0:
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.3.0.tgz#41e3a0b84c2ddff7b7e03c2c28480957039691c1"
+  integrity sha512-Gw6nQOsb11r8vM1XEkz2G+NTLFuhwdBXPZyICowjqoMtAEvwiwa6uUvuWhZ5Kaa7AiJi3N/pt7k2Kdp6LvmVgw==
   dependencies:
     "@docsearch/css" "1.0.0-alpha.28"
     "@docsearch/js" "1.0.0-alpha.28"
     "@sass-collective/sass-rem" "^1.4.1"
     "@silvanite/vuepress-plugin-tailwind" "^1.3.0"
     "@tsed/markdown-it-symbols" "2.15.0"
-    "@tsed/vuepress-common" "3.2.1"
-    "@tsed/vuepress-tailwind-config" "3.2.1"
+    "@tsed/vuepress-common" "3.3.0"
+    "@tsed/vuepress-tailwind-config" "3.3.0"
     "@vuepress/plugin-active-header-links" "1.2.0"
     "@vuepress/plugin-nprogress" "1.6.0"
     "@vuepress/plugin-search" "1.2.0"

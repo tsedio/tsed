@@ -68,6 +68,12 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn release
+      - uses: actions/upload-artifact@v2
+        with:
+          name: packages
+          path: |
+            package.json
+            packages/*/package.json
 
   publish-pages:
     runs-on: ubuntu-latest
@@ -80,12 +86,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${GITHUB_REF##*/}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: actions/download-artifact@v2
+        with:
+          name: packages
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Publish pages
@@ -93,7 +100,7 @@ jobs:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn configure && git fetch --quiet && git rebase origin/${GITHUB_REF##*/} && yarn docs:publish
+        run: yarn docs:publish
 
   publish-examples:
     runs-on: ubuntu-latest
@@ -106,12 +113,13 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${GITHUB_REF##*/}
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
+      - uses: actions/download-artifact@v2
+        with:
+          name: packages
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Publish examples
@@ -119,5 +127,5 @@ jobs:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn configure && git fetch --quiet && git rebase origin/${GITHUB_REF##*/} && yarn examples:publish
+        run: yarn examples:publish
 
