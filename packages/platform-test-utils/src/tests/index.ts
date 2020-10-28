@@ -19,6 +19,7 @@ import {testPathParams} from "./testPathParams";
 import {testQueryParams} from "./testQueryParams";
 import {testRedirect} from "./testRedirect";
 import {testResponse} from "./testResponse";
+import {testResponseFilter} from "./testResponseFilter";
 import {testRouting} from "./testRouting";
 import {testScopeRequest} from "./testScopeRequest";
 import {testSession} from "./testSession";
@@ -39,6 +40,7 @@ specsContainer.set("redirect", testRedirect);
 specsContainer.set("view", testView);
 specsContainer.set("errors", testErrors);
 specsContainer.set("response", testResponse);
+specsContainer.set("responseFilter", testResponseFilter);
 specsContainer.set("custom404", testCustom404);
 specsContainer.set("statics", testStatics);
 

@@ -1,10 +1,10 @@
-import {PlatformContext} from "../domain/PlatformContext";
 import {isObject} from "@tsed/core";
+import {PlatformContext} from "../domain/PlatformContext";
 
 /**
  * @ignore
  */
-export function setResponseContentType(data: any, ctx: PlatformContext) {
+export function getContentType(data: any, ctx: PlatformContext) {
   const {endpoint, response} = ctx;
   const {operation} = endpoint;
 
@@ -13,10 +13,24 @@ export function setResponseContentType(data: any, ctx: PlatformContext) {
   if (contentType && contentType !== "*/*") {
     if (contentType === "application/json") {
       if (isObject(data)) {
-        response.contentType(contentType);
+        return contentType;
       }
     } else {
-      response.contentType(contentType);
+      return contentType;
     }
   }
+}
+
+/**
+ * @ignore
+ */
+export function setResponseContentType(data: any, ctx: PlatformContext) {
+  const {response} = ctx;
+  const contentType = getContentType(data, ctx);
+
+  if (contentType) {
+    response.contentType(contentType);
+  }
+
+  return contentType;
 }
