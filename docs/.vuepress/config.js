@@ -203,6 +203,7 @@ module.exports = {
               "/docs/interceptors",
               "/docs/authentication",
               "/docs/hooks",
+              "/docs/response-filter",
               "/docs/exceptions",
               { title: "Context", path: "/docs/request-context" },
               "/docs/platform-api"

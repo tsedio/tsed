@@ -1,4 +1,4 @@
-import {EndpointMetadata, Get, PlatformResponse, PlatformResponseMiddleware, PlatformTest, View} from "@tsed/common";
+import {EndpointMetadata, Get, PlatformResponse, PlatformTest, View} from "@tsed/common";
 import {Ignore, Property, Returns} from "@tsed/schema";
 import {expect} from "chai";
 import * as Sinon from "sinon";

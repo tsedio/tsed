@@ -176,6 +176,121 @@ export class Server {
 }
 ```
 
+### SendResponseMiddleware/PlatformResponseMiddleware to ResponseFilter
+
+::: warning Breaking changes
+
+- SendResponseMiddleware has been removed.
+- PlatformResponseMiddleware has been removed.
+:::
+
+To reach cross compatibility and performance with Express.js and Koa.js, the SendResponseMiddleware (aka PlatformResponseMiddleware in latest v5 version) has been removed.
+
+Now, when a request is sent to the server all middlewares added in the Server, [Controller](/docs/controllers.md) or Endpoint with decorators
+ will be called while a response isn't sent by one of the handlers/middlewares in the stack.
+
+<figure><img src="./../assets/middleware-in-sequence.svg" style="max-width:400px; padding:30px"></figure>
+
+For each executed endpoints and middlewares, Platform API store the return value to the @@Context@@. We have two scenarios:
+
+1) If a data is stored in the @@Context@@ object, the response will be immediately send to your consumer after the UseAfterEach middleware (if present).
+2) If no data is stored in the @@Context@@ object, the call sequence middlewares continue to the next endpoint (if present) or to the UseAfter then Global middlewares until a data isn't returned by a handler.
+
+By removing this middleware, isn't possible for the v5 application to override the middleware and change the response format before send it to the consumer.
+
+The [Response Filter](/docs/response-filter.md) implemented in v6.1.0, allows this possibility again but in a more elegant way by using the `@ResponseFilter` decorator and a class.
+
+<Tabs class="-code">
+<Tab label="WrapperResponseFilter.ts" icon="bx-code-alt">
+
+```typescript
+import {ResponseFilter, Context, ResponseFilterMethods} from "@tsed/common";
+
+@ResponseFilter("application/json")
+export class WrapperResponseFilter implements ResponseFilterMethods {
+  transform(data: any, ctx: Context) {
+    return {data, errors: [], links: []};
+  }
+}
+```
+
+</Tab>
+<Tab label="UserCtrl.ts" icon="bx-code-alt">
+
+```typescript
+import {Configuration} from "@tsed/common";
+import {Returns} from "@tsed/schema";
+
+@Controller("/users")
+export class UsersCtrl {
+  @Get("/:id")
+  @Returns(200, User).ContentType("application/json")
+  @Returns(200, String).ContentType("text/xml")
+  async getUser(@PathParams("id") id: string) {
+    return new User({id});
+  }
+}
+```
+
+</Tab>
+<Tab label="Server.ts" icon="bxs-server">
+
+```typescript
+import {Configuration} from "@tsed/common";
+import {WrapperResponseFilter} from "./filters/WrapperResponseFilter"; 
+
+@Configuration({
+  responseFilters: [
+    WrapperResponseFilter
+  ]
+})
+```
+
+</Tab>
+<Tab label="UsersCtrl.spec.ts" icon="bx-test-tube">
+
+```typescript
+import {UsersCtrl} from "@tsed/common";
+import * as SuperTest from "supertest";
+import {UsersCtrl} from "./UsersCtrl";
+import {Server} from "../../Server";
+
+describe('UserCtrl', () => {
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+
+  before(
+    PlatformTest.bootstrap(Server, {
+      mount: {
+        "/rest": [UsersCtrl]
+      },
+      responseFilters: [XmlResponseFilter]
+    })
+  );
+  before(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  after(PlatformTest.reset);
+  it("should return the wrapped data", async () => {
+    const response = await request
+      .get("/rest/users/1")
+      .expect(200);
+    
+    expect(response.body).toEqual({data: {id: "1"}, errors: [], links: []});
+  });
+});
+```
+
+</Tab>
+</Tabs>
+
+::: warning
+The wrapper won't be documented in your generated `swagger.json`!
+:::
+
+::: tip
+See all possibility of this new feature on his dedicated page [Response Filter](/docs/response-filter.md).
+:::
+
 ### GlobalErrorHandler to Exception Filter
 
 ::: warning Breaking changes

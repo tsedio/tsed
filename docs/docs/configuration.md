@@ -235,9 +235,21 @@ It's also possible to register resolvers with the @@Module@@ decorator:
 
 <<< @/docs/docs/snippets/configuration/module-resolvers.ts
 
+### views
+
+Object to configure Views engines with Consolidate. See more on [View engine](/docs/template-engine.md).
+
 ### acceptMimes
  
 Configure the mimes accepted by default for each request by the server.
+
+### responseFilters
+
+A list of response filters must be called before returning a response to the consumer. See more on [Response filters](/docs/response-filter.md).
+
+### multer
+
+Object configure Multer. See more on [Upload file](/tutorials/serve-static-files.md).
 
 ## Platform Options
 
