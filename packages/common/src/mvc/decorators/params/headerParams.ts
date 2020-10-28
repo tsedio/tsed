@@ -5,7 +5,7 @@ import {UseParam} from "./useParam";
 import {mapParamsOptions} from "../../utils/mapParamsOptions";
 
 /**
- * HeaderParams return the value from [request.params](http://expressjs.com/en/4x/api.html#req.params) object.
+ * HeaderParams return the value from [`request.get()`](http://expressjs.com/en/4x/api.html#req.get) method.
  *
  * #### Example
  *
@@ -13,20 +13,18 @@ import {mapParamsOptions} from "../../utils/mapParamsOptions";
  * @Controller('/')
  * class MyCtrl {
  *    @Get('/')
- *    get(@Header() body: any) {
+ *    get(@HeaderParams() body: any) {
  *       console.log('Entire body', body);
  *    }
  *
  *    @Get('/')
- *    get(@Header('x-token') token: string) {
+ *    get(@HeaderParams('x-token') token: string) {
  *       console.log('token', id);
  *    }
  * }
  * ```
- * > For more information on deserialization see [converters](/docs/converters.md) page.
  *
  * @param expression The path of the property to get.
- * @param useType The type of the class that to be used to deserialize the data.
  * @decorator
  * @operation
  * @input
