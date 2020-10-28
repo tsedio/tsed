@@ -10,11 +10,14 @@ This page will describe how you can get these instance with the new API.
 
 <Tabs>
   <Tab label="Abstraction">
-  <ApiList query="status.includes('platform') && !status.includes('express')" />
+  <ApiList query="status.includes('platform') && !tags.match(/express|koa/)" />
   </Tab>
   <Tab label="Express.js">
   <ApiList query="status.includes('platform') && status.includes('express')" />
   </Tab>
+  <Tab label="Koa.js">
+  <ApiList query="status.includes('platform') && status.includes('koa')" />
+  </Tab>  
 </Tabs>
 
 ## Create application
