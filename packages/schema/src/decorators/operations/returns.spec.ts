@@ -3,454 +3,526 @@ import {expect} from "chai";
 import {getSpec} from "../../utils/getSpec";
 
 describe("@Returns", () => {
-  it("should declare a return type", async () => {
-    // WHEN
-    class Controller {
-      @OperationPath("POST", "/")
-      @(Returns(200, String).Description("description"))
-      method() {}
-    }
-
-    // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
-
-    expect(spec).to.deep.equal({
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            responses: {
-              "200": {
-                description: "description",
-                schema: {
-                  type: "string"
-                }
-              }
-            },
-            tags: ["Controller"]
-          }
-        }
+  describe("Single contentType", () => {
+    it("should declare a return type", async () => {
+      // WHEN
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, String).Description("description"))
+        method() {}
       }
-    });
-  });
-  it("should declare a return type (Status().Type())", async () => {
-    // WHEN
-    class Controller {
-      @OperationPath("POST", "/")
-      @(Returns().Status(200).Type(String).Description("description"))
-      method() {}
-    }
 
-    // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.equal({
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            responses: {
-              "200": {
-                description: "description",
-                schema: {
-                  type: "string"
-                }
-              }
-            },
-            tags: ["Controller"]
+      expect(spec).to.deep.equal({
+        tags: [
+          {
+            name: "Controller"
           }
-        }
-      }
-    });
-  });
-  it("should declare a return type with headers", async () => {
-    // WHEN
-    class Controller {
-      @OperationPath("POST", "/")
-      @(Returns(200, String)
-        .Description("description")
-        .Header("x-token", "token")
-        .Header("x-header", {
-          value: ""
-        })
-        .Examples({test: "Examples"})
-        .Schema({
-          minLength: 3
-        }))
-      method() {}
-    }
-
-    // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
-
-    expect(spec).to.deep.equal({
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            responses: {
-              "200": {
-                description: "description",
-                headers: {
-                  "x-header": {
-                    example: "",
-                    type: "string"
-                  },
-                  "x-token": {
-                    example: "token",
+        ],
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  description: "description",
+                  schema: {
                     type: "string"
                   }
-                },
-                examples: {test: "Examples"},
-                schema: {
-                  type: "string",
-                  minLength: 3
                 }
-              }
-            },
-            tags: ["Controller"]
+              },
+              tags: ["Controller"]
+            }
           }
         }
-      }
+      });
     });
-  });
-  it("should declare a return type with content-type", async () => {
-    // WHEN
-    class Controller {
-      @OperationPath("POST", "/")
-      @(Returns(200, String).Description("description").ContentType("text/html").Examples("Examples"))
-      method() {}
-    }
+    it("should declare a return type (Status().Type())", async () => {
+      // WHEN
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns().Status(200).Type(String).Description("description"))
+        method() {}
+      }
 
-    // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.equal({
-      tags: [
-        {
-          name: "Controller"
+      expect(spec).to.deep.equal({
+        tags: [
+          {
+            name: "Controller"
+          }
+        ],
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  description: "description",
+                  schema: {
+                    type: "string"
+                  }
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
         }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            responses: {
-              "200": {
-                content: {
-                  "text/html": {
-                    schema: {
+      });
+    });
+    it("should declare a return type with headers", async () => {
+      // WHEN
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, String)
+          .Description("description")
+          .Header("x-token", "token")
+          .Header("x-header", {
+            value: ""
+          })
+          .Examples({test: "Examples"})
+          .Schema({
+            minLength: 3
+          }))
+        method() {}
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+
+      expect(spec).to.deep.equal({
+        tags: [
+          {
+            name: "Controller"
+          }
+        ],
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  description: "description",
+                  headers: {
+                    "x-header": {
+                      example: "",
+                      type: "string"
+                    },
+                    "x-token": {
+                      example: "token",
                       type: "string"
                     }
+                  },
+                  examples: {test: "Examples"},
+                  schema: {
+                    type: "string",
+                    minLength: 3
                   }
-                },
-                description: "description",
-                examples: ["Examples"]
-              }
-            },
-            tags: ["Controller"]
-          }
-        }
-      }
-    });
-  });
-  it("should declare error response", async () => {
-    // WHEN
-    class Controller {
-      @OperationPath("POST", "/")
-      @(Returns(400).Description("Bad request"))
-      @Returns(401)
-      @(Returns(200).Description("Success"))
-      method() {}
-    }
-
-    // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
-
-    expect(spec).to.deep.equal({
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            responses: {
-              "200": {
-                description: "Success",
-                schema: {
-                  type: "object"
                 }
               },
-              "401": {
-                description: "Unauthorized",
-                schema: {
-                  type: "string"
-                }
-              },
-              "400": {
-                description: "Bad request",
-                schema: {
-                  type: "string"
-                }
-              }
-            },
-            tags: ["Controller"]
+              tags: ["Controller"]
+            }
           }
         }
-      }
+      });
     });
-  });
-  it("should throw an error when using of with String", async () => {
-    // WHEN
-    let actualError: any;
-    try {
+    it("should declare a return type with content-type", async () => {
+      // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String).Of(Array).Description("description"))
+        @(Returns(200, String).Description("description").ContentType("text/html").Examples("Examples"))
         method() {}
       }
-    } catch (er) {
-      actualError = er;
-    }
 
-    actualError.message.should.eq("Returns.Of cannot be used with the following primitive classes: String, Number, Boolean");
-  });
-  it("should throw an error when using of with Collection", async () => {
-    // WHEN
-    let actualError: any;
-    try {
-      class Controller {
-        @OperationPath("POST", "/")
-        @(Returns(200, Array).Nested(Set).Description("description"))
-        method() {}
-      }
-    } catch (er) {
-      actualError = er;
-    }
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-    actualError.message.should.eq("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
-  });
-  it("should throw an error when the decorator isn't correctly used", async () => {
-    class Test {}
-
-    // WHEN
-    let actualError: any;
-    try {
-      // @ts-ignore
-      Returns(200)(Test, "property");
-    } catch (er) {
-      actualError = er;
-    }
-
-    actualError.message.should.eq("Returns cannot be used as property.static decorator on Test.property");
-  });
-  it("should declare an Array of string", async () => {
-    // WHEN
-    class Controller {
-      @OperationPath("POST", "/")
-      @(Returns(200, Array).Of(String).Description("description"))
-      method() {}
-    }
-
-    // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
-
-    expect(spec).to.deep.equal({
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            produces: ["application/json"],
-            responses: {
-              "200": {
-                description: "description",
-                schema: {
-                  items: {
-                    type: "string"
-                  },
-                  type: "array"
-                }
-              }
-            },
-            tags: ["Controller"]
+      expect(spec).to.deep.equal({
+        tags: [
+          {
+            name: "Controller"
           }
-        }
-      }
-    });
-  });
-  it("should declare an Array of Model", async () => {
-    // WHEN
-    class Model {
-      @Property()
-      id: string;
-    }
-
-    class Controller {
-      @OperationPath("POST", "/")
-      @(Returns(200, Array).Of(Model).Description("description"))
-      method() {}
-    }
-
-    // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
-
-    expect(spec).to.deep.equal({
-      definitions: {
-        Model: {
-          properties: {
-            id: {
-              type: "string"
-            }
-          },
-          type: "object"
-        }
-      },
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            produces: ["application/json"],
-            responses: {
-              "200": {
-                description: "description",
-                schema: {
-                  items: {
-                    $ref: "#/definitions/Model"
-                  },
-                  type: "array"
-                }
-              }
-            },
-            tags: ["Controller"]
-          }
-        }
-      }
-    });
-  });
-  it("should declare an Generic of Model", async () => {
-    // WHEN
-    @Generics("T")
-    class Pagination<T> {
-      @CollectionOf("T")
-      data: T[];
-
-      @Property()
-      totalCount: number;
-    }
-
-    @Generics("T")
-    class Submission<T> {
-      @Property()
-      _id: string;
-
-      @Property("T")
-      data: T;
-    }
-
-    class Product {
-      @Property()
-      title: string;
-    }
-
-    class Controller {
-      @OperationPath("POST", "/")
-      @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
-      async method(): Promise<Pagination<Submission<Product>> | null> {
-        return null;
-      }
-    }
-
-    // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
-
-    expect(spec).to.deep.equal({
-      definitions: {
-        Product: {
-          properties: {
-            title: {
-              type: "string"
-            }
-          },
-          type: "object"
-        }
-      },
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            produces: ["application/json"],
-            responses: {
-              "200": {
-                description: "description",
-                schema: {
-                  properties: {
-                    data: {
-                      items: {
-                        type: "object",
-                        properties: {
-                          _id: {
-                            type: "string"
-                          },
-                          data: {
-                            $ref: "#/definitions/Product"
-                          }
-                        }
-                      },
-                      type: "array"
-                    },
-                    totalCount: {
-                      type: "number"
+        ],
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  content: {
+                    "text/html": {
+                      schema: {
+                        type: "string"
+                      }
                     }
                   },
-                  type: "object"
+                  description: "description",
+                  examples: ["Examples"]
                 }
-              }
-            },
-            tags: ["Controller"]
+              },
+              tags: ["Controller"]
+            }
           }
         }
+      });
+    });
+    it("should declare error response", async () => {
+      // WHEN
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(400).Description("Bad request"))
+        @Returns(401)
+        @(Returns(200).Description("Success"))
+        method() {}
       }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+
+      expect(spec).to.deep.equal({
+        tags: [
+          {
+            name: "Controller"
+          }
+        ],
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  description: "Success",
+                  schema: {
+                    type: "object"
+                  }
+                },
+                "401": {
+                  description: "Unauthorized",
+                  schema: {
+                    type: "string"
+                  }
+                },
+                "400": {
+                  description: "Bad request",
+                  schema: {
+                    type: "string"
+                  }
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        }
+      });
+    });
+    it("should throw an error when using of with String", async () => {
+      // WHEN
+      let actualError: any;
+      try {
+        class Controller {
+          @OperationPath("POST", "/")
+          @(Returns(200, String).Of(Array).Description("description"))
+          method() {}
+        }
+      } catch (er) {
+        actualError = er;
+      }
+
+      actualError.message.should.eq("Returns.Of cannot be used with the following primitive classes: String, Number, Boolean");
+    });
+    it("should throw an error when using of with Collection", async () => {
+      // WHEN
+      let actualError: any;
+      try {
+        class Controller {
+          @OperationPath("POST", "/")
+          @(Returns(200, Array).Nested(Set).Description("description"))
+          method() {}
+        }
+      } catch (er) {
+        actualError = er;
+      }
+
+      actualError.message.should.eq("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
+    });
+    it("should throw an error when the decorator isn't correctly used", async () => {
+      class Test {}
+
+      // WHEN
+      let actualError: any;
+      try {
+        // @ts-ignore
+        Returns(200)(Test, "property");
+      } catch (er) {
+        actualError = er;
+      }
+
+      actualError.message.should.eq("Returns cannot be used as property.static decorator on Test.property");
+    });
+    it("should declare an Array of string", async () => {
+      // WHEN
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Array).Of(String).Description("description"))
+        method() {}
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+
+      expect(spec).to.deep.equal({
+        tags: [
+          {
+            name: "Controller"
+          }
+        ],
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              produces: ["application/json"],
+              responses: {
+                "200": {
+                  description: "description",
+                  schema: {
+                    items: {
+                      type: "string"
+                    },
+                    type: "array"
+                  }
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        }
+      });
+    });
+    it("should declare an Array of Model", async () => {
+      // WHEN
+      class Model {
+        @Property()
+        id: string;
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Array).Of(Model).Description("description"))
+        method() {}
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+
+      expect(spec).to.deep.equal({
+        definitions: {
+          Model: {
+            properties: {
+              id: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        },
+        tags: [
+          {
+            name: "Controller"
+          }
+        ],
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              produces: ["application/json"],
+              responses: {
+                "200": {
+                  description: "description",
+                  schema: {
+                    items: {
+                      $ref: "#/definitions/Model"
+                    },
+                    type: "array"
+                  }
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        }
+      });
+    });
+    it("should declare an Generic of Model", async () => {
+      // WHEN
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      class Product {
+        @Property()
+        title: string;
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
+        async method(): Promise<Pagination<Submission<Product>> | null> {
+          return null;
+        }
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+
+      expect(spec).to.deep.equal({
+        definitions: {
+          Product: {
+            properties: {
+              title: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        },
+        tags: [
+          {
+            name: "Controller"
+          }
+        ],
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              produces: ["application/json"],
+              responses: {
+                "200": {
+                  description: "description",
+                  schema: {
+                    properties: {
+                      data: {
+                        items: {
+                          type: "object",
+                          properties: {
+                            _id: {
+                              type: "string"
+                            },
+                            data: {
+                              $ref: "#/definitions/Product"
+                            }
+                          }
+                        },
+                        type: "array"
+                      },
+                      totalCount: {
+                        type: "number"
+                      }
+                    },
+                    type: "object"
+                  }
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        }
+      });
+    });
+  });
+  describe("Multiple contentType", () => {
+    it("should manage multiple content and model", () => {
+      // WHEN
+      class Model {
+        @Property()
+        id: string;
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Model).Description("description"))
+        @(Returns(200, String).ContentType("text/html"))
+        @(Returns(200, String).ContentType("text/xml"))
+        method() {}
+      }
+
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).to.deep.eq({
+        components: {
+          schemas: {
+            Model: {
+              properties: {
+                id: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            }
+          }
+        },
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  content: {
+                    "application/json": {
+                      schema: {
+                        $ref: "#/components/schemas/Model"
+                      }
+                    },
+                    "text/html": {
+                      schema: {
+                        type: "string"
+                      }
+                    },
+                    "text/xml": {
+                      schema: {
+                        type: "string"
+                      }
+                    }
+                  },
+                  description: "description"
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Controller"
+          }
+        ]
+      });
     });
   });
 });
