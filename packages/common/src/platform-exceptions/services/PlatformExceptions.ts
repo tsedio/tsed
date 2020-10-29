@@ -1,11 +1,12 @@
 import {ancestorsOf} from "@tsed/core";
-import {Injectable} from "@tsed/di";
-import {ResourceNotFound} from "../errors/ResourceNotFound";
+import {Inject, Injectable, InjectorService} from "@tsed/di";
 import {PlatformContext} from "../../platform/domain/PlatformContext";
 import "../components/ErrorFilter";
 import "../components/ExceptionFilter";
 import "../components/StringErrorFilter";
-import {getExceptionTypes} from "../domain/ExceptionTypesContainer";
+import {ExceptionFilterKey, ExceptionFiltersContainer} from "../domain/ExceptionFiltersContainer";
+import {ResourceNotFound} from "../errors/ResourceNotFound";
+import {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
 
 /**
  * Catch all errors and return the json error with the right status code when it's possible.
@@ -14,7 +15,16 @@ import {getExceptionTypes} from "../domain/ExceptionTypesContainer";
  */
 @Injectable()
 export class PlatformExceptions {
-  types = getExceptionTypes();
+  types: Map<ExceptionFilterKey, ExceptionFilterMethods> = new Map();
+
+  @Inject()
+  injector: InjectorService;
+
+  $onInit() {
+    ExceptionFiltersContainer.forEach((token, type) => {
+      this.types.set(type, this.injector.get(token)!);
+    });
+  }
 
   catch(error: unknown, ctx: PlatformContext) {
     const target = ancestorsOf(error)

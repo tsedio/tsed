@@ -59,6 +59,7 @@ test/**/*.d.ts.map
 /docs/api
 /docs/api/**/*.md
 .vscode
+/reports
 
 /.nyc_output/
 /test/integration/app/spec/swagger.json

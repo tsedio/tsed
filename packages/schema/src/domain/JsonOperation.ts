@@ -115,7 +115,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   }
 
   getContentTypeOf(status: number): any {
-    return [...this.getResponseOf(status).get("content").keys()][0];
+    return [...this.getResponseOf(status).get("content").keys()].slice(-1)[0];
   }
 
   security(security: OpenSpecSecurity): this {

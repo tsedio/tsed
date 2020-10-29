@@ -128,9 +128,10 @@ When a request is sent to the server all middlewares added in the Server, [Contr
 
 <figure><img src="./../assets/middleware-in-sequence.svg" style="max-width:400px; padding:30px"></figure>
 
-::: tip Note
-@@PlatformResponseMiddleware@@ send a response only when data is returned by the endpoint method or if the endpoint is the latest called endpoint for the resolved route. 
-:::
+For each executed endpoints and middlewares, Platform API store the return value to the @@Context@@. We have two scenarios:
+
+1) If a data is stored in the @@Context@@ object, the response will be immediately send to your consumer after the UseAfterEach middleware (if present).
+2) If no data is stored in the @@Context@@ object, the call sequence middlewares continue to the next endpoint (if present) or to the UseAfter then Global middlewares until a data isn't returned by a handler.
 
 ::: tip
 The middlewares shown in the Endpoints box will be replayed as many times as it has endpoint that matches 

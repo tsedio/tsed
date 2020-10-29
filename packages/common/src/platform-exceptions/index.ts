@@ -5,7 +5,7 @@ export * from "./components/StringErrorFilter";
 export * from "./decorators/catch";
 
 // domain
-export * from "./domain/ExceptionTypesContainer";
+export * from "./domain/ExceptionFiltersContainer";
 export * from "./interfaces/ExceptionFilterMethods";
 
 // middlewares

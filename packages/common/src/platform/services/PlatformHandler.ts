@@ -1,13 +1,13 @@
 import {isBoolean, isFunction, isNumber, isStream, isString, Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
 import {ConverterService, EndpointMetadata, HandlerMetadata, HandlerType, IPipe, ParamMetadata, ParamTypes} from "../../mvc";
+import {PlatformResponseFilter} from "../../platform-response-filter/services/PlatformResponseFilter";
 import {HandlerContext, HandlerContextStatus} from "../domain/HandlerContext";
 import {PlatformContext} from "../domain/PlatformContext";
 import {ParamValidationError} from "../errors/ParamValidationError";
 import {PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouterMethods";
 import {createHandlerMetadata} from "../utils/createHandlerMetadata";
 import {renderView} from "../utils/renderView";
-import {setResponseContentType} from "../utils/setResponseContentType";
 import {setResponseHeaders} from "../utils/setResponseHeaders";
 
 export interface OnRequestOptions {
@@ -19,12 +19,12 @@ export interface OnRequestOptions {
   [key: string]: any;
 }
 
-function shouldBeSerialized(data: any) {
-  return !(isStream(data) || shouldBeSent(data) || data === undefined);
-}
-
 function shouldBeSent(data: any) {
   return Buffer.isBuffer(data) || isBoolean(data) || isNumber(data) || isString(data) || data === null;
+}
+
+function shouldBeSerialized(data: any) {
+  return !(isStream(data) || shouldBeSent(data) || data === undefined);
 }
 
 /**
@@ -237,19 +237,10 @@ export class PlatformHandler {
     }
 
     if (!response.isDone()) {
-      this.setContentType(data, ctx);
-      response.body(data);
-    }
-  }
+      const responseFilter = this.injector.get<PlatformResponseFilter>(PlatformResponseFilter)!;
 
-  /**
-   * Set the right content type from the current endpoint
-   * @param data
-   * @param ctx
-   * @protected
-   */
-  protected setContentType(data: any, ctx: PlatformContext) {
-    return setResponseContentType(data, ctx);
+      response.body(responseFilter.transform(data, ctx));
+    }
   }
 
   /**

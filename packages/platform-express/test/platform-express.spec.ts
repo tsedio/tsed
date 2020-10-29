@@ -69,6 +69,9 @@ describe("PlatformExpress", () => {
   describe("Response", () => {
     utils.test("response");
   });
+  describe("ResponseFilters", () => {
+    utils.test("responseFilter");
+  });
   describe("Routing", () => {
     utils.test("routing");
   });
