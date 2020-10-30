@@ -1,4 +1,4 @@
-import {GlobalAcceptMimesMiddleware, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import "@tsed/passport";
 import "@tsed/platform-express";

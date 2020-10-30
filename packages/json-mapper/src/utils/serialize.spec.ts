@@ -263,6 +263,39 @@ describe("serialize()", () => {
         }
       });
     });
+    it("should discover property dynamicly when any schema decorators are used", () => {
+      function log(): PropertyDecorator {
+        return () => {};
+      }
+
+      class User {
+        @log()
+        id: string;
+
+        test: string;
+
+        [key: string]: any;
+
+        constructor({id, test}: any = {}) {
+          this.id = id;
+          test && (this.test = test);
+        }
+      }
+
+      const user1 = new User({id: "id"});
+      const user2 = new User({id: "id", test: "test"});
+      const user3 = new User({id: "id", test: "test"});
+
+      user3.extra = "extra";
+
+      expect(serialize(user1, {type: User})).to.deep.eq({id: "id"});
+      expect(serialize(user2, {type: User})).to.deep.eq({id: "id", test: "test"});
+      expect(serialize(user3, {type: User})).to.deep.eq({
+        extra: "extra",
+        id: "id",
+        test: "test"
+      });
+    });
   });
   describe("Mongoose class", () => {
     it("should serialize model", () => {
