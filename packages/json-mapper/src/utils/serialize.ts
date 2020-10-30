@@ -1,4 +1,4 @@
-import {classOf, isClass, isCollection, isEmpty, isFunction, isPlainObject, MetadataTypes, Type} from "@tsed/core";
+import {classOf, isClass, isCollection, isEmpty, isFunction, isPlainObject, MetadataTypes, objectKeys, Type} from "@tsed/core";
 import {alterIgnore, getPropertiesStores, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
 import "../components";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
@@ -22,8 +22,18 @@ function alterValue(schema: JsonSchema, value: any, options: JsonHookContext) {
   return schema.$hooks.alter("onSerialize", value, [options]);
 }
 
-function getSchemaProperties(storedJson: JsonEntityStore) {
-  return Array.from(getPropertiesStores(storedJson).entries());
+function getSchemaProperties(storedJson: JsonEntityStore, obj: any) {
+  const stores = Array.from(getPropertiesStores(storedJson).entries());
+
+  if (!stores.length) {
+    // fallback to auto discovering field from obj
+    objectKeys(obj).forEach((key) => {
+      const propStore = JsonEntityStore.from([storedJson.target, key]);
+      stores.push([key, propStore]);
+    });
+  }
+
+  return stores;
 }
 
 function getObjectProperties(obj: any): [string, any][] {
@@ -35,7 +45,7 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
 
   const entity = JsonEntityStore.from(type || obj);
 
-  return getSchemaProperties(entity).reduce((newObj, [key, propStore]) => {
+  return getSchemaProperties(entity, obj).reduce((newObj, [key, propStore]) => {
     const schema = propStore.schema;
     if (alterIgnore(schema, {useAlias, ...props, self: obj})) {
       return newObj;
