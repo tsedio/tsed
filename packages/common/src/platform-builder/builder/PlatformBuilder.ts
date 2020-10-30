@@ -184,6 +184,11 @@ export abstract class PlatformBuilder {
     await this.ready();
   }
 
+  async stop() {
+    await this.callHook("$onDestroy");
+    return this.injector.destroy();
+  }
+
   public async ready() {
     const {logger, startedAt} = this;
 

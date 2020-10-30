@@ -136,6 +136,9 @@ describe("PlatformBuilder", () => {
           token: RestCtrl
         }
       ]);
+
+      await server.stop();
+      expect(server.injector.emit).to.have.been.calledWithExactly("$onDestroy");
     });
   });
   describe("addComponents", () => {
