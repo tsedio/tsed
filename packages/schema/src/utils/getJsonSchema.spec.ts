@@ -1,6 +1,20 @@
-import {CollectionOf, Email, GenericOf, Generics, getJsonSchema, JsonEntityStore, MinLength, Name, Property, Required} from "../index";
+import {ancestorsOf, nameOf} from "@tsed/core";
+import {Type} from "@tsed/core/src/interfaces/Type";
 import {expect} from "chai";
 import {Post} from "../../test/helpers/Post";
+import {
+  CollectionOf,
+  Email,
+  Format,
+  GenericOf,
+  Generics,
+  getJsonSchema,
+  JsonEntityStore,
+  MinLength,
+  Name,
+  Property,
+  Required
+} from "../index";
 
 describe("getJsonSchema", () => {
   it("should declare all schema correctly (basic)", () => {
@@ -721,6 +735,79 @@ describe("getJsonSchema", () => {
           type: "object"
         }
       },
+      type: "object"
+    });
+  });
+  it("should keep required meta from inherited class", () => {
+    // WHEN
+    const AutoUUID = <T extends Type<any>>(Base: T) => {
+      class AutoUUIDMixin extends Base {
+        @Property() //showing up in swagger as a property
+        @Format("uuid") //showing up as a uuid in swagger
+        @Required(true)
+        id: string;
+      }
+
+      return AutoUUIDMixin;
+    };
+
+    const WithDates = <T extends Type<any>>(Base: T) => {
+      class WithDates extends Base {
+        @Property() //showing up in swagger as a property
+        @Format("datetime") //showing up as a uuid in swagger
+        @Required(true)
+        created_at: string;
+
+        @Property() //showing up in swagger as a property
+        @Format("datetime") //showing up as a uuid in swagger
+        @Required(true)
+        updated_at: string;
+      }
+
+      return WithDates;
+    };
+
+    class Model {
+      @Required()
+      name: string;
+    }
+
+    const DefaultMixins = <T extends Type<any>>(Base: T) => AutoUUID(WithDates(Base));
+
+    class EmailTemplate extends DefaultMixins(Model) {
+      @Required()
+      engine: string;
+    }
+
+    // THEN
+    expect(ancestorsOf(EmailTemplate).map(nameOf)).to.deep.equal(["Model", "WithDates", "AutoUUIDMixin", "EmailTemplate"]);
+    expect(getJsonSchema(EmailTemplate)).to.deep.equal({
+      properties: {
+        created_at: {
+          format: "datetime",
+          minLength: 1,
+          type: "string"
+        },
+        engine: {
+          minLength: 1,
+          type: "string"
+        },
+        id: {
+          format: "uuid",
+          minLength: 1,
+          type: "string"
+        },
+        name: {
+          minLength: 1,
+          type: "string"
+        },
+        updated_at: {
+          format: "datetime",
+          minLength: 1,
+          type: "string"
+        }
+      },
+      required: ["name", "created_at", "updated_at", "id", "engine"],
       type: "object"
     });
   });
