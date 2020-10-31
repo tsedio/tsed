@@ -175,7 +175,7 @@ describe("Swagger integration", () => {
               tags: ["CalendarsController"]
             }
           },
-          "/rest/events/events": {
+          "/rest/calendars/events": {
             get: {
               description: "Events",
               operationId: "eventCtrlGet",
@@ -236,7 +236,7 @@ describe("Swagger integration", () => {
         "info": {"version": "1.0.0", "title": "Api documentation", "description": "", "termsOfService": ""},
         "openapi": "3.0.1",
         "paths": {
-          "/rest/events/events": {
+          "/rest/calendars/events": {
             get: {
               operationId: "eventCtrlGet",
               parameters: [],
