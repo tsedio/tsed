@@ -7,5 +7,6 @@ export * from "./platform";
 export * from "./platform-builder";
 export * from "./platform-exceptions";
 export * from "./platform-test";
+export * from "./platform-response-filter";
 
 export {$log} from "@tsed/logger";
