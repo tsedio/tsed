@@ -1,4 +1,4 @@
-import {classOf, deepExtends, isArray, isObject} from "@tsed/core";
+import {classOf, deepExtends, isArray, isObject, uniq} from "@tsed/core";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
@@ -239,7 +239,7 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
   obj = serializeGenerics(obj, {...options, root: false, schemas} as any);
 
   if (schema.$required.size) {
-    obj.required = getRequired(schema, useAlias);
+    obj.required = uniq([...(obj.required || []), ...getRequired(schema, useAlias)]);
   }
 
   return obj;
