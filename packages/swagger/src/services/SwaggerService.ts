@@ -2,8 +2,8 @@ import {Configuration, ControllerProvider, Injectable, InjectorService, Platform
 import {getValue} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {getSpec, mergeSpec, SpecSerializerOptions} from "@tsed/schema";
-import {SwaggerOS3Settings, SwaggerOS2Settings, SwaggerSettings} from "../interfaces/SwaggerSettings";
 import * as Fs from "fs";
+import {SwaggerOS2Settings, SwaggerOS3Settings, SwaggerSettings} from "../interfaces/SwaggerSettings";
 import {getSpecTypeFromSpec} from "../utils/getSpecType";
 import {mapOpenSpec} from "../utils/mapOpenSpec";
 
@@ -90,13 +90,15 @@ export class SwaggerService {
    * @param options
    */
   protected buildRoutes(ctrl: ControllerProvider, options: SpecSerializerOptions) {
+    const rootPath = options.rootPath + ctrl.path;
+
     ctrl.children
       .map((ctrl) => this.injectorService.getProvider(ctrl))
       .forEach((provider: ControllerProvider) => {
         if (!provider.store.get("hidden")) {
           const spec = this.buildRoutes(provider, {
             ...options,
-            rootPath: `${options.rootPath}${provider.path}`
+            rootPath
           });
 
           options.append(spec);
