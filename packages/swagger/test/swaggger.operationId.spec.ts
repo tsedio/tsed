@@ -12,8 +12,7 @@ import {Server} from "./app/Server";
 @Hidden()
 class AdminCtrl {
   @Get("/")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/events")
@@ -21,8 +20,7 @@ class AdminCtrl {
 class EventCtrl {
   @Get("/")
   @Description("Events")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/admin")
@@ -30,8 +28,7 @@ class EventCtrl {
 class BackAdminCtrl {
   @Get("/")
   @Description("Admins")
-  get() {
-  }
+  get() {}
 }
 
 @Controller({
@@ -217,141 +214,131 @@ describe("Swagger integration", () => {
       const response = await request.get("/v3/doc/swagger.json").expect(200);
 
       expect(response.body).to.deep.eq({
-        "components": {
-          "schemas": {
-            "Calendar": {
-              "properties": {
-                "id": {
-                  "type": "string"
+        components: {
+          schemas: {
+            Calendar: {
+              properties: {
+                id: {
+                  type: "string"
                 },
-                "name": {
-                  "minLength": 1,
-                  "type": "string"
+                name: {
+                  minLength: 1,
+                  type: "string"
                 }
               },
-              "required": [
-                "name"
-              ],
-              "type": "object"
+              required: ["name"],
+              type: "object"
             }
           }
         },
-        "info": {
-          "title": "Api documentation",
-          "version": "1.0.0"
+        info: {
+          title: "Api documentation",
+          version: "1.0.0"
         },
-        "openapi": "3.0.1",
-        "paths": {
+        openapi: "3.0.1",
+        paths: {
           "/rest/calendars": {
-            "get": {
-              "operationId": "CalendarsController__getAll",
-              "parameters": [],
-              "responses": {
+            get: {
+              operationId: "CalendarsController__getAll",
+              parameters: [],
+              responses: {
                 "200": {
-                  "content": {
+                  content: {
                     "application/json": {
-                      "schema": {
-                        "items": {
-                          "$ref": "#/components/schemas/Calendar"
+                      schema: {
+                        items: {
+                          $ref: "#/components/schemas/Calendar"
                         },
-                        "type": "array"
+                        type: "array"
                       }
                     }
                   },
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "CalendarsController"
-              ]
+              tags: ["CalendarsController"]
             }
           },
           "/rest/calendars/csv": {
-            "post": {
-              "operationId": "CalendarsController__csv",
-              "parameters": [],
-              "requestBody": {
-                "content": {
+            post: {
+              operationId: "CalendarsController__csv",
+              parameters: [],
+              requestBody: {
+                content: {
                   "text/plain": {
-                    "schema": {
-                      "type": "string"
+                    schema: {
+                      type: "string"
                     }
                   }
                 },
-                "required": false
+                required: false
               },
-              "responses": {
+              responses: {
                 "200": {
-                  "content": {
+                  content: {
                     "text/plain": {
-                      "schema": {
-                        "type": "string"
+                      schema: {
+                        type: "string"
                       }
                     }
                   },
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "CalendarsController"
-              ]
+              tags: ["CalendarsController"]
             }
           },
           "/rest/calendars/events": {
-            "get": {
-              "description": "Events",
-              "operationId": "EventCtrl__get",
-              "parameters": [],
-              "responses": {
+            get: {
+              description: "Events",
+              operationId: "EventCtrl__get",
+              parameters: [],
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "EventCtrl"
-              ]
+              tags: ["EventCtrl"]
             }
           },
           "/rest/calendars/{id}": {
-            "get": {
-              "operationId": "CalendarsController__get",
-              "parameters": [
+            get: {
+              operationId: "CalendarsController__get",
+              parameters: [
                 {
-                  "description": "Mongoose ObjectId",
-                  "in": "path",
-                  "name": "id",
-                  "required": true,
-                  "schema": {
-                    "example": "5ce7ad3028890bd71749d477",
-                    "pattern": "^[0-9a-fA-F]{24}$",
-                    "type": "string"
+                  description: "Mongoose ObjectId",
+                  in: "path",
+                  name: "id",
+                  required: true,
+                  schema: {
+                    example: "5ce7ad3028890bd71749d477",
+                    pattern: "^[0-9a-fA-F]{24}$",
+                    type: "string"
                   }
                 }
               ],
-              "responses": {
+              responses: {
                 "200": {
-                  "content": {
+                  content: {
                     "application/json": {
-                      "schema": {
-                        "$ref": "#/components/schemas/Calendar"
+                      schema: {
+                        $ref: "#/components/schemas/Calendar"
                       }
                     }
                   },
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "CalendarsController"
-              ]
+              tags: ["CalendarsController"]
             }
           }
         },
-        "tags": [
+        tags: [
           {
-            "name": "EventCtrl"
+            name: "EventCtrl"
           },
           {
-            "name": "CalendarsController"
+            name: "CalendarsController"
           }
         ]
       });

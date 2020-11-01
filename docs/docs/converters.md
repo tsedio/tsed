@@ -90,10 +90,10 @@ It means, if you missed decorating one or more properties on your model, these p
 :::
 
 ## Ignore properties
+### Usage
+@@Ignore@@ decorator can be used to ignore explicitly a property when a transformation have been performed.
 
-@@Ignore@@ decorator is provided to ignore explicitly a property when a transformation is performed.
-
-For example, you have a base model to create a User named `UserCreation` where the `password` is required but
+For example, you have a base model to create a User named `UserCreation` where the `password` is required, but
 you don't want to expose this field in other cases. One of the solution is to use class inheritance to solve this problem.
 
 <Tabs class="-code">
@@ -114,9 +114,43 @@ you don't want to expose this field in other cases. One of the solution is to us
   </Tab>
 </Tabs>
 
+### With a callback
+
+@@Ignore@@ decorator since v6.13.0 accept a callback which will be called when a property have been serialized or deserialized.
+The callback will give you more control over the way to ignore a property.
+
+```typescript
+class User {
+  @Name("id")
+  _id: string;
+
+  @Property()
+  firstName: string;
+
+  @Property()
+  lastName: string;
+
+  @Ignore((value, ctx) => ctx.endpoint) // should not serialized when the object is returned by an endpoint.
+  password: string;
+
+  @Ignore((value, ctx) => ctx.mongoose) // should be serialized when the object is returned by an endpoint.
+  scopes: string[];
+
+  @Ignore()
+  alwaysIgnored: string;
+}
+```
+
+Here is the available options on ctx:
+
+Prop | Type | Description
+---|---|---
+endpoint | boolean | It's an endpoint context
+mongoose | boolean | It's a mongoose context
+
 ## Additional properties
 
-@@AdditionalProperties@@ decorator is provided to accept any additional properties on a specific model.
+@@AdditionalProperties@@ decorator can be used to accept any additional properties on a specific model.
 
 <Tabs class="-code">
   <Tab label="Person.ts">

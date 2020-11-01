@@ -34,19 +34,19 @@ describe("Mongoose", () => {
       // THEN
 
       expect(serialize(result[0], {type: UserWorkspace})).to.deep.eq({
-        "workspaces": [
+        workspaces: [
           {
-            "title": "MyTest",
-            "workspaceId": result[0].workspaces[0].workspaceId.toString()
+            title: "MyTest",
+            workspaceId: result[0].workspaces[0].workspaceId.toString()
           }
         ]
       });
       expect(serialize(result, {type: UserWorkspace, collectionType: Array})).to.deep.eq([
         {
-          "workspaces": [
+          workspaces: [
             {
-              "title": "MyTest",
-              "workspaceId": result[0].workspaces[0].workspaceId.toString()
+              title: "MyTest",
+              workspaceId: result[0].workspaces[0].workspaceId.toString()
             }
           ]
         }

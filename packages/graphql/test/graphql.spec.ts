@@ -9,13 +9,13 @@ import {GraphQLService} from "../src";
 import {Server} from "./app/Server";
 
 const GET_RECIPES = gql`
-    query GetRecipes {
-        recipes {
-            title
-            description
-            creationDate
-        }
+  query GetRecipes {
+    recipes {
+      title
+      description
+      creationDate
     }
+  }
 `;
 
 describe("GraphQL", () => {

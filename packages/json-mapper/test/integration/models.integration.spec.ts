@@ -38,7 +38,6 @@ export class SubItem {
   subMenu: SubMenu;
 }
 
-
 describe("Menu", () => {
   it("should serialize object correctly", () => {
     const subItems = new SubItem();
@@ -48,16 +47,12 @@ describe("Menu", () => {
     const submenu = new SubMenu();
     submenu.id = "id";
     submenu.label = "label";
-    submenu.subItems = [
-      subItems
-    ];
+    submenu.subItems = [subItems];
 
     const menu = new Menu();
     menu.id = "id";
     menu.label = "label";
-    menu.subMenus = [
-      submenu
-    ];
+    menu.subMenus = [submenu];
 
     expect(serialize(menu, {type: Menu})).to.deep.eq({
       id: "id",

@@ -12,8 +12,7 @@ import {Server} from "./app/Server";
 @Hidden()
 class AdminCtrl {
   @Get("/")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/events")
@@ -21,8 +20,7 @@ class AdminCtrl {
 class EventCtrl {
   @Get("/")
   @Description("Events")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/admin")
@@ -30,8 +28,7 @@ class EventCtrl {
 class BackAdminCtrl {
   @Get("/")
   @Description("Admins")
-  get() {
-  }
+  get() {}
 }
 
 @Controller({
@@ -237,9 +234,9 @@ describe("Swagger integration", () => {
       ]);
 
       expect(response.body).to.deep.eq({
-        "info": {"version": "1.0.0", "title": "Api documentation"},
-        "openapi": "3.0.1",
-        "paths": {
+        info: {version: "1.0.0", title: "Api documentation"},
+        openapi: "3.0.1",
+        paths: {
           "/rest/calendars/events": {
             get: {
               operationId: "eventCtrlGet",
@@ -252,17 +249,19 @@ describe("Swagger integration", () => {
           "/rest/calendars/{id}": {
             get: {
               operationId: "calendarsControllerGet",
-              parameters: [{
-                description: "Mongoose ObjectId",
-                in: "path",
-                name: "id",
-                required: true,
-                schema: {
-                  example: "5ce7ad3028890bd71749d477",
-                  pattern: "^[0-9a-fA-F]{24}$",
-                  type: "string"
+              parameters: [
+                {
+                  description: "Mongoose ObjectId",
+                  in: "path",
+                  name: "id",
+                  required: true,
+                  schema: {
+                    example: "5ce7ad3028890bd71749d477",
+                    pattern: "^[0-9a-fA-F]{24}$",
+                    type: "string"
+                  }
                 }
-              }],
+              ],
               responses: {
                 "200": {
                   content: {"application/json": {schema: {$ref: "#/components/schemas/Calendar"}}},

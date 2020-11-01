@@ -18,93 +18,83 @@ class Product {
 class TestNullableCtrl {
   @OperationPath("GET", "/")
   @Returns(200, Product)
-  async get() {
-  }
+  async get() {}
 }
 
 describe("Spec: Nullable", () => {
   it("should generate the JSON", () => {
     const schema = getJsonSchema(Product);
     expect(schema).to.deep.eq({
-      "properties": {
-        "id": {
-          "type": "string"
+      properties: {
+        id: {
+          type: "string"
         },
-        "price": {
-          "type": [
-            "number",
-            "null"
-          ]
+        price: {
+          type: ["number", "null"]
         },
-        "priceDetails": {
-          "type": [
-            "string",
-            "number",
-            "null"
-          ]
+        priceDetails: {
+          type: ["string", "number", "null"]
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
   it("should generate the OS3", async () => {
     const spec = getSpec(TestNullableCtrl, {specType: SpecTypes.OPENAPI});
 
     expect(spec).to.deep.eq({
-      "components": {
-        "schemas": {
-          "Product": {
-            "properties": {
-              "id": {
-                "type": "string"
+      components: {
+        schemas: {
+          Product: {
+            properties: {
+              id: {
+                type: "string"
               },
-              "price": {
+              price: {
                 type: "number",
                 nullable: true
               },
-              "priceDetails": {
-                "oneOf": [
+              priceDetails: {
+                oneOf: [
                   {
-                    "nullable": true,
-                    "type": "string"
+                    nullable: true,
+                    type: "string"
                   },
                   {
-                    "nullable": true,
-                    "type": "number"
+                    nullable: true,
+                    type: "number"
                   }
                 ]
               }
             },
-            "type": "object"
+            type: "object"
           }
         }
       },
-      "paths": {
+      paths: {
         "/nullable": {
-          "get": {
-            "operationId": "testNullableCtrlGet",
-            "parameters": [],
-            "responses": {
+          get: {
+            operationId: "testNullableCtrlGet",
+            parameters: [],
+            responses: {
               "200": {
-                "content": {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/Product"
+                    schema: {
+                      $ref: "#/components/schemas/Product"
                     }
                   }
                 },
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "TestNullableCtrl"
-            ]
+            tags: ["TestNullableCtrl"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "TestNullableCtrl"
+          name: "TestNullableCtrl"
         }
       ]
     });
@@ -115,54 +105,43 @@ describe("Spec: Nullable", () => {
 
     expect(await validateSpec(spec)).to.eq(true);
     expect(spec).to.deep.eq({
-      "definitions": {
-        "Product": {
-          "properties": {
-            "id": {
-              "type": "string"
+      definitions: {
+        Product: {
+          properties: {
+            id: {
+              type: "string"
             },
-            "price": {
-              "type": [
-                "number",
-                "null"
-              ]
+            price: {
+              type: ["number", "null"]
             },
-            "priceDetails": {
-              "type": [
-                "string",
-                "number",
-                "null"
-              ]
+            priceDetails: {
+              type: ["string", "number", "null"]
             }
           },
-          "type": "object"
+          type: "object"
         }
       },
-      "paths": {
+      paths: {
         "/nullable": {
-          "get": {
-            "operationId": "testNullableCtrlGet",
-            "parameters": [],
-            "produces": [
-              "application/json"
-            ],
-            "responses": {
+          get: {
+            operationId: "testNullableCtrlGet",
+            parameters: [],
+            produces: ["application/json"],
+            responses: {
               "200": {
-                "description": "Success",
-                "schema": {
-                  "$ref": "#/definitions/Product"
+                description: "Success",
+                schema: {
+                  $ref: "#/definitions/Product"
                 }
               }
             },
-            "tags": [
-              "TestNullableCtrl"
-            ]
+            tags: ["TestNullableCtrl"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "TestNullableCtrl"
+          name: "TestNullableCtrl"
         }
       ]
     });

@@ -7,23 +7,17 @@ import {Server} from "./app/Server";
 @Controller("/:campaignID/polls")
 export class PollCtrl {
   @Get("/:pollId")
-  get() {
-
-  }
+  get() {}
 }
 
 @Controller({path: "/:orgName/campaigns", children: [PollCtrl]})
-export class CampaignCtrl {
-
-}
+export class CampaignCtrl {}
 
 @Controller({
   path: "/orgs",
   children: [CampaignCtrl]
 })
-export class OrgCtrl {
-
-}
+export class OrgCtrl {}
 
 describe("Swagger integration", () => {
   describe("OpenSpec2", () => {
@@ -45,55 +39,49 @@ describe("Swagger integration", () => {
       const response = await request.get("/v2/doc/swagger.json").expect(200);
 
       expect(response.body).to.deep.eq({
-        "consumes": [
-          "application/json"
-        ],
-        "info": {
-          "title": "Swagger title",
-          "version": "1.2.0"
+        consumes: ["application/json"],
+        info: {
+          title: "Swagger title",
+          version: "1.2.0"
         },
-        "paths": {
+        paths: {
           "/api/v1/orgs/{orgName}/campaigns/{campaignID}/polls/{pollId}": {
-            "get": {
-              "operationId": "pollCtrlGet",
-              "parameters": [
+            get: {
+              operationId: "pollCtrlGet",
+              parameters: [
                 {
-                  "in": "path",
-                  "name": "orgName",
-                  "required": true,
-                  "type": "string"
+                  in: "path",
+                  name: "orgName",
+                  required: true,
+                  type: "string"
                 },
                 {
-                  "in": "path",
-                  "name": "campaignID",
-                  "required": true,
-                  "type": "string"
+                  in: "path",
+                  name: "campaignID",
+                  required: true,
+                  type: "string"
                 },
                 {
-                  "in": "path",
-                  "name": "pollId",
-                  "required": true,
-                  "type": "string"
+                  in: "path",
+                  name: "pollId",
+                  required: true,
+                  type: "string"
                 }
               ],
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "PollCtrl"
-              ]
+              tags: ["PollCtrl"]
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
-        "swagger": "2.0",
-        "tags": [
+        produces: ["application/json"],
+        swagger: "2.0",
+        tags: [
           {
-            "name": "PollCtrl"
+            name: "PollCtrl"
           }
         ]
       });

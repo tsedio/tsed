@@ -45,7 +45,7 @@ class ResourcesCtrl {
   }
 
   @Get("/")
-  @Returns(200, Array).Of(TestUser)
+  @(Returns(200, Array).Of(TestUser))
   getAll() {
     return this.repository.findAll();
   }
@@ -55,12 +55,14 @@ describe("Mongoose", () => {
   describe("Test Resource", () => {
     let request: SuperTest.SuperTest<SuperTest.Test>;
     let currentUser: TestUserCreation;
-    before(TestMongooseContext.bootstrap(Server, {
-      platform: PlatformExpress,
-      mount: {
-        "/rest": [ResourcesCtrl]
-      }
-    }));
+    before(
+      TestMongooseContext.bootstrap(Server, {
+        platform: PlatformExpress,
+        mount: {
+          "/rest": [ResourcesCtrl]
+        }
+      })
+    );
     before(async () => {
       const repository = PlatformTest.get<ResourcesRepository>(ResourcesRepository)!;
 
@@ -95,11 +97,13 @@ describe("Mongoose", () => {
     it("should get users", async () => {
       const {body} = await request.get(`/rest/resources`);
 
-      expect(body).to.deep.eq([{
-        email: "email@email.fr",
-        id: currentUser._id.toString(),
-        pre: "hello pre"
-      }]);
+      expect(body).to.deep.eq([
+        {
+          email: "email@email.fr",
+          id: currentUser._id.toString(),
+          pre: "hello pre"
+        }
+      ]);
     });
   });
 });
