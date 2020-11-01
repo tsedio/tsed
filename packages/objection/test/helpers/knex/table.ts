@@ -7,6 +7,6 @@ export function createTableStub(sandbox: any) {
     primary: sandbox.stub().returnsThis(),
     string: sandbox.stub().returnsThis(),
     decimal: sandbox.stub().returnsThis(),
-    boolean: sandbox.stub().returnsThis(),
+    boolean: sandbox.stub().returnsThis()
   } as unknown) as Knex.TableBuilder;
 }

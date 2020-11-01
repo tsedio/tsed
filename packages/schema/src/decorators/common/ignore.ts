@@ -2,6 +2,11 @@ import {IgnoreCallback} from "../../interfaces";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
+ * @ignore
+ */
+const defaultCB = (value: any, ctx: any) => ctx.mongoose !== true;
+
+/**
  * Ignore the property when JsonMapper serialize the class to a Plain Object JavaScript.
  *
  * ::: warning
@@ -57,7 +62,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  */
-export function Ignore(cb: boolean | IgnoreCallback = () => true) {
+export function Ignore(cb: boolean | IgnoreCallback = defaultCB) {
   return JsonEntityFn((store) => {
     store.itemSchema.ignore(cb);
   });

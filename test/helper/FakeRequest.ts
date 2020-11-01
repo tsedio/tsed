@@ -61,7 +61,7 @@ export class FakeRequest {
     accept: "application/json"
   };
   public $ctx: PlatformContext;
-  public log: { [key: string]: SinonStub };
+  public log: {[key: string]: SinonStub};
   public isAuthenticated: SinonStub;
 
   [key: string]: any;

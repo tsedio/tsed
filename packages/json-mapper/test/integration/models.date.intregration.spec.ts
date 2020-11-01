@@ -31,26 +31,28 @@ class ProductCalendarParameters {
 
 describe("Date mapper", () => {
   it("should serialize object correctly", () => {
-
-    const productCalendarParameters = deserialize({
-      duration: 7,
-      first_date: "2020-11-13T14:48:24.651Z",
-      last_date: "2020-12-13T14:48:24.652Z",
-      number_of_adults: 2
-    }, {type: ProductCalendarParameters});
+    const productCalendarParameters = deserialize(
+      {
+        duration: 7,
+        first_date: "2020-11-13T14:48:24.651Z",
+        last_date: "2020-12-13T14:48:24.652Z",
+        number_of_adults: 2
+      },
+      {type: ProductCalendarParameters}
+    );
 
     expect(productCalendarParameters).to.deep.eq({
-      "duration": 7,
-      "firstDate": new Date("2020-11-13T14:48:24.651Z"),
-      "lastDate": new Date("2020-12-13T14:48:24.652Z"),
-      "numberOfAdults": 2
+      duration: 7,
+      firstDate: new Date("2020-11-13T14:48:24.651Z"),
+      lastDate: new Date("2020-12-13T14:48:24.652Z"),
+      numberOfAdults: 2
     });
 
     expect(serialize(productCalendarParameters)).to.deep.eq({
-      "duration": 7,
-      "first_date": "20201113",
-      "last_date": "20201213",
-      "number_of_adults": 2
+      duration: 7,
+      first_date: "20201113",
+      last_date: "20201213",
+      number_of_adults: 2
     });
   });
 });

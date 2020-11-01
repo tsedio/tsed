@@ -1,13 +1,13 @@
-import * as Knex from 'knex';
+import * as Knex from "knex";
 
 export function seed(knex: Knex): Promise<any> {
   const userData = [
     {
-      name: 'John',
+      name: "John"
     },
     {
-      name: 'Jane'
+      name: "Jane"
     }
-  ]
-  return knex('users').insert(userData)
+  ];
+  return knex("users").insert(userData);
 }
