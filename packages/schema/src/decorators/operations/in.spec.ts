@@ -1,4 +1,4 @@
-import {getSpec, In, JsonEntityStore, Name, SpecTypes} from "@tsed/schema";
+import {getSpec, In, JsonEntityStore, Name, OperationPath, Path, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 
 describe("In", () => {
@@ -15,7 +15,9 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON();
+    const operation = methodSchema.operation!.toJSON({
+      specType: SpecTypes.SWAGGER
+    });
 
     expect(operation).to.deep.equal({
       parameters: [
@@ -47,7 +49,9 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON();
+    const operation = methodSchema.operation!.toJSON({
+      specType: SpecTypes.SWAGGER
+    });
 
     expect(operation).to.deep.equal({
       parameters: [
@@ -70,6 +74,99 @@ describe("In", () => {
           description: "Success"
         }
       }
+    });
+  });
+  it("should extra schema", async () => {
+    // WHEN
+    @Path("/:parentId")
+    class Controller {
+      @(In("path")
+        .Type(String)
+        .Name("parentId")
+        .Required()
+        .Description("description")
+        .Pattern(/^[0-9a-fA-F]{24}$/))
+      @OperationPath("GET", "/:path")
+      method(@In("path") @Name("basic") basic: string) {}
+    }
+
+    // THEN
+    const spec = getSpec(Controller, {
+      specType: SpecTypes.OPENAPI
+    });
+
+    const paramSchema = JsonEntityStore.from(Controller, "method", 0);
+    const methodSchema = paramSchema.parent;
+    const operation = methodSchema.operation!.toJSON({
+      specType: SpecTypes.OPENAPI
+    });
+
+    expect(operation).to.deep.equal({
+      parameters: [
+        {
+          in: "path",
+          name: "basic",
+          required: true,
+          schema: {
+            type: "string"
+          }
+        },
+        {
+          description: "description",
+          in: "path",
+          name: "parentId",
+          required: true,
+          schema: {
+            pattern: "^[0-9a-fA-F]{24}$",
+            type: "string"
+          }
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success"
+        }
+      }
+    });
+    expect(spec).to.deep.equal({
+      paths: {
+        "/{parentId}/{path}": {
+          get: {
+            operationId: "controllerMethod",
+            parameters: [
+              {
+                description: "description",
+                in: "path",
+                name: "parentId",
+                required: true,
+                schema: {
+                  type: "string",
+                  pattern: "^[0-9a-fA-F]{24}$"
+                }
+              },
+              {
+                in: "path",
+                name: "path",
+                required: true,
+                schema: {
+                  type: "string"
+                }
+              }
+            ],
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            tags: ["Controller"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "Controller"
+        }
+      ]
     });
   });
   it("should throw error for unsupported usage", () => {

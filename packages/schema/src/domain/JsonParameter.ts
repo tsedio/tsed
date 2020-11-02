@@ -57,31 +57,36 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
     parameter.required = parameter.required || this.get("in") === "path";
 
-    if (!jsonSchema.$ref && (this.get("in") === "path" || Object.keys(jsonSchema).length === 1)) {
-      parameter.type = jsonSchema.type;
-    } else if (options.specType === SpecTypes.SWAGGER && this.get("in") === "query") {
-      if (jsonSchema.$ref) {
-        return this.refToParameters(parameter, options, schemas);
+    if (options.specType === SpecTypes.SWAGGER) {
+      if (!jsonSchema.$ref && Object.keys(jsonSchema).length === 1) {
+        parameter.type = jsonSchema.type;
+        return parameter;
       }
 
-      if (jsonSchema.type === "array") {
+      if (this.get("in") === "query") {
+        if (jsonSchema.$ref) {
+          return this.refToParameters(parameter, options, schemas);
+        }
+
+        if (jsonSchema.type === "array") {
+          return {
+            ...parameter,
+            type: "array",
+            collectionFormat: "multi",
+            items: {
+              type: "string"
+            }
+          };
+        }
+
         return {
           ...parameter,
-          type: "array",
-          collectionFormat: "multi",
-          items: {
-            type: "string"
-          }
+          ...jsonSchema
         };
       }
-
-      return {
-        ...parameter,
-        ...jsonSchema
-      };
-    } else {
-      parameter.schema = jsonSchema;
     }
+
+    parameter.schema = jsonSchema;
 
     return parameter;
   }
