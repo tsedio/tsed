@@ -1,27 +1,32 @@
 ---
-layout: contributing
-pageClass: contributing page
-heroText: TS.ED
-heroVersion: community
-heroDescription: Become contributors
 contributors:
- title: Our<br /><b>Contributors</b>
+  classes: bg-gray-lighter
+  title: Our awesome <b>contributors</b>
+  cta:
+    label: Become contributor
+    url: /contributing.html
+  badge:
+    width: 45
+    bgColor: white
 backers:
- title: Our<br /><b>Backers</b>
- details: Thank you to all our backers! 🙏
- src: https://opencollective.com/tsed/tiers/backer.svg?width=890
- link: https://opencollective.com/tsed#backers
- button:
-   text: Become backers
-   link: https://opencollective.com/tsed#backers
+ type: cols
+ title: Our <b>Backers</b>
+ description: Thank you to all our backers who contributes to our project! 🙏
+ cta:
+   label: Become Backers
+   url: https://opencollective.com/tsed#backers
 sponsors:
- title: Our<br /><b>sponsors</b>
- details: Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
- src: https://opencollective.com/tsed/tiers/sponsor.svg?width=890
- link: https://opencollective.com/tsed#sponsor
- button:
-   text: Become sponsor
-   link: https://opencollective.com/tsed#sponsor
+ type: cols
+ classes:
+ title: Our <b>Sponsors / Partners</b>
+ description: Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
+ image:
+   src: /sponsors.svg
+   href: http://www.freepik.com
+   title: Designed by pch.vector / Freepik
+ cta:
+   label: Become a sponsor
+   url: /support.html
 ---
 # Contributing
 ## Introduction
