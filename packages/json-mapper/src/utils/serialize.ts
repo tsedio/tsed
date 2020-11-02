@@ -28,7 +28,7 @@ function getSchemaProperties(storedJson: JsonEntityStore, obj: any) {
   if (!stores.length) {
     // fallback to auto discovering field from obj
     objectKeys(obj).forEach((key) => {
-      const propStore = JsonEntityStore.from([storedJson.target, key]);
+      const propStore = JsonEntityStore.from(storedJson.target.prototype, key);
       stores.push([key, propStore]);
     });
   }
@@ -38,6 +38,14 @@ function getSchemaProperties(storedJson: JsonEntityStore, obj: any) {
 
 function getObjectProperties(obj: any): [string, any][] {
   return Object.entries(obj).filter(([, value]) => !isFunction(value));
+}
+
+function getType(propStore: JsonEntityStore, value: any) {
+  if (value === null || value === undefined) {
+    return Object;
+  }
+
+  return propStore.type === Object ? classOf(value) : propStore.type;
 }
 
 export function classToPlainObject(obj: any, options: JsonSerializerOptions<any, any>) {
@@ -53,7 +61,12 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
 
     let value = alterValue(schema, obj[key], {useAlias, ...props, self: obj});
 
-    value = serialize(value, {useAlias, ...props});
+    value = serialize(value, {
+      useAlias,
+      type: getType(propStore, value),
+      collectionType: propStore.collectionType,
+      ...props
+    });
 
     if (value === undefined) {
       return newObj;
@@ -104,7 +117,12 @@ export function serialize(obj: any, {type, collectionType, ...options}: JsonSeri
   const context = new JsonMapperContext({
     type,
     options,
-    next: (data, {type, ...options}) => serialize(data, options)
+    next: (data) =>
+      serialize(data, {
+        ...options,
+        collectionType: undefined,
+        type: options.type
+      })
   });
 
   if (types.has(type)) {
