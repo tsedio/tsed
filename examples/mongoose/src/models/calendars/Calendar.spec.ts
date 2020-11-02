@@ -7,7 +7,8 @@ describe("UserModel", () => {
   beforeEach(TestMongooseContext.create);
   afterEach(TestMongooseContext.reset);
 
-  it("should run pre and post hook", TestMongooseContext.inject([Calendar], async (calendarModel: MongooseModel<Calendar>) => {
+  it("should run pre and post hook", async () => {
+    const calendarModel = TestMongooseContext.get<MongooseModel<Calendar>>(Calendar);
     // GIVEN
     const calendar = new calendarModel({
       name: "name"
@@ -18,5 +19,5 @@ describe("UserModel", () => {
 
     // THEN
     expect(calendar.name).to.equal("name");
-  }));
+  });
 });

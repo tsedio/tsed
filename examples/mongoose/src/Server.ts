@@ -21,6 +21,7 @@ import * as methodOverride from "method-override";
     }
   },
   swagger: [{
+    specVersion: "3.0.1",
     path: "/api-docs"
   }],
   debug: false

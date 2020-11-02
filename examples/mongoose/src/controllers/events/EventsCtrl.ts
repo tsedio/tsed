@@ -1,71 +1,40 @@
-import {
-  BodyParams,
-  Controller,
-  Delete,
-  Get,
-  PathParams,
-  Post,
-  Put,
-  UseBefore
-} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, Inject, PathParams, Post, Put} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
-import {Description, Summary, Required, Status} from "@tsed/schema";
-import {CheckCalendarIdMiddleware} from "../../middlewares/calendars/CheckCalendarId";
+import {Description, Required, Returns, Status, Summary} from "@tsed/schema";
+import {InCalendarId} from "../../decorators/calendarId";
+import {EventId} from "../../decorators/eventId";
 import {CalendarEvent} from "../../models/events/CalendarEvent";
 import {CalendarEventsService} from "../../services/calendars/CalendarEventsService";
 
 @Controller("/:calendarId/events")
+@InCalendarId()
 export class EventsCtrl {
-  constructor(private calendarEventsService: CalendarEventsService) {
+  @Inject()
+  private calendarEventsService: CalendarEventsService;
 
-  }
 
-  /**
-   *
-   * @returns {null}
-   */
   @Get("/:id")
-  @UseBefore(CheckCalendarIdMiddleware)
   @Summary("Get an event from his ID")
-  @Status(200, {description: "Success"})
-  async get(@Description("The event id")
-            @PathParams("id") id: string): Promise<CalendarEvent> {
+  @Returns(200).Description("Success")
+  async get(@EventId() @PathParams("id") id: string): Promise<CalendarEvent> {
     return this.calendarEventsService
       .find(id)
       .catch((err) => {
-        throw new NotFound("Event not found");
+        throw new NotFound("Event not found", err);
       });
   }
 
-  /**
-   *
-   * @returns {null}
-   */
-  @Put("/")
-  @UseBefore(CheckCalendarIdMiddleware)
+  @Post("/")
   @Summary("Create an event")
-  @Status(201, {description: "Created"})
-  async save(@Description("The calendar id of the event")
-             @Required() @PathParams("calendarId") calendarId: string,
-             @BodyParams() calendarEvent: CalendarEvent): Promise<CalendarEvent> {
-
-    calendarEvent.calendarId = calendarId;
-
+  @Status(201).Description("Created")
+  async save(@BodyParams() calendarEvent: CalendarEvent): Promise<CalendarEvent> {
     return this.calendarEventsService.save(calendarEvent);
   }
 
-  /**
-   *
-   * @returns {null}
-   */
-  @Post("/:id")
-  @UseBefore(CheckCalendarIdMiddleware)
+  @Put("/:id")
   @Summary("Update event information")
-  @Status(200, {description: "Success"})
-  async update(@Description("The calendar id of the event")
-               @Required()
-               @PathParams("calendarId") calendarId: string,
-               @Description("The event id")
+  @Status(200).Description("Success")
+  async update(@EventId()
                @PathParams("id") id: string,
                @BodyParams() calendarEvent: CalendarEvent): Promise<CalendarEvent> {
 
@@ -78,13 +47,9 @@ export class EventsCtrl {
       });
   }
 
-  /**
-   *
-   */
   @Delete("/:id")
-  @UseBefore(CheckCalendarIdMiddleware)
   @Summary("Remove an event")
-  @Status(204, {description: "No content"})
+  @Status(204).Description("No content")
   async remove(@Description("The calendar id of the event")
                @Required() @PathParams("calendarId") calendarId: string,
                @Description("The event id")
@@ -94,7 +59,7 @@ export class EventsCtrl {
 
   @Get("/")
   @Summary("Get all events for a calendar")
-  @Status(200, {description: "Success"})
+  @Status(200).Description("Success")
   async getEvents(@Description("The calendar id of the event")
                   @Required() @PathParams("calendarId") calendarId: string): Promise<CalendarEvent[]> {
     return this.calendarEventsService.query(calendarId);

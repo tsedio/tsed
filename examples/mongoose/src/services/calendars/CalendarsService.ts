@@ -1,6 +1,6 @@
 import {Inject, Service} from "@tsed/common";
-import {MongooseModel} from "@tsed/mongoose";
 import {$log} from "@tsed/logger";
+import {MongooseModel} from "@tsed/mongoose";
 import {Calendar} from "../../models/calendars/Calendar";
 
 
@@ -61,7 +61,7 @@ export class CalendarsService {
    * @returns {Calendar[]}
    */
   async query(options = {}): Promise<Calendar[]> {
-    return this.Calendar.find(options).exec();
+    return this.Calendar.find(options);
   }
 
   /**
@@ -69,7 +69,9 @@ export class CalendarsService {
    * @param id
    * @returns {Promise<Calendar>}
    */
-  async remove(id: string): Promise<Calendar> {
-    return await this.Calendar.findById(id).remove().exec();
+  async remove(id: string) {
+    await this.Calendar.deleteOne({
+      _id: id
+    }).exec();
   }
 }
