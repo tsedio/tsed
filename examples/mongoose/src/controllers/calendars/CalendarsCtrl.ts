@@ -1,6 +1,7 @@
-import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, Required, Status} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, PathParams, Post, Put} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
-import {Description, Summary} from "@tsed/swagger";
+import {Description, Required, Returns, Status, Summary} from "@tsed/schema";
+import {CalendarId} from "../../decorators/calendarId";
 import {Calendar} from "../../models/calendars/Calendar";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {EventsCtrl} from "../events/EventsCtrl";
@@ -19,19 +20,12 @@ import {EventsCtrl} from "../events/EventsCtrl";
 })
 export class CalendarsCtrl {
   constructor(private calendarsService: CalendarsService) {
-
   }
 
-  /**
-   *
-   * @param {string} id
-   * @returns {Promise<ICalendar>}
-   */
   @Get("/:id")
   @Summary("Return a calendar from his ID")
-  @Status(200, {description: "Success", type: Calendar})
-  async get(@Required() @PathParams("id") id: string): Promise<Calendar> {
-
+  @Status(200, Calendar).Description("Success")
+  async get(@PathParams("id") @CalendarId() id: string): Promise<Calendar> {
     const calendar = await this.calendarsService.find(id);
 
     if (calendar) {
@@ -41,54 +35,34 @@ export class CalendarsCtrl {
     throw new NotFound("Calendar not found");
   }
 
-  /**
-   *
-   * @param {Calendar} calendar
-   * @returns {Promise<Calendar>}
-   */
-  @Put("/")
+  @Post("/")
   @Summary("Create a new Calendar")
-  @Status(201, {description: "Created", type: Calendar})
+  @Returns(201, Calendar).Description("Created")
   save(@Description("Calendar model")
        @BodyParams() @Required() calendar: Calendar) {
     return this.calendarsService.save(calendar);
   }
 
-  /**
-   *
-   * @param id
-   * @param calendar
-   * @returns {Promise<Calendar>}
-   */
-  @Post("/:id")
+  @Put("/:id")
   @Summary("Update calendar information")
-  @Status(200, {description: "Success", type: Calendar})
-  async update(@PathParams("id") @Required() id: string,
+  @Returns(200, Calendar).Description("Success")
+  async update(@PathParams("id") @CalendarId() id: string,
                @BodyParams() @Required() calendar: Calendar): Promise<Calendar> {
     calendar._id = id;
 
     return this.calendarsService.save(calendar);
   }
 
-  /**
-   *
-   * @param id
-   * @returns {{id: string, name: string}}
-   */
   @Delete("/:id")
   @Summary("Remove a calendar.")
-  @Status(204, {description: "No content"})
-  async remove(@PathParams("id") id: string): Promise<void> {
+  @Returns(204).Description("No content")
+  async remove(@PathParams("id") @CalendarId() id: string): Promise<void> {
     await this.calendarsService.remove(id);
   }
 
-  /**
-   *
-   * @returns {Promise<ICalendar[]>}
-   */
   @Get("/")
   @Summary("Return all calendars")
-  @Status(200, {description: "Success", type: Calendar, collectionType: Array})
+  @Returns(200, Array).Of(Calendar)
   async getAllCalendars(): Promise<Calendar[]> {
     return this.calendarsService.query();
   }

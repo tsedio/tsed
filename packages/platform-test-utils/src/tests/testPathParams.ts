@@ -1,4 +1,5 @@
 import {Context, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
+import {Pattern} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -35,6 +36,11 @@ class TestPathParamsCtrl {
 
     // This way it works  in version 5.44.13
     ctx.response.body(["a", "b", "c"]);
+  }
+
+  @Get("/scenario-5/:scopeId")
+  async testScenario5(@PathParams("scopeId") @Pattern(/^[0-9a-fA-F]{24}$/) scopeId: string, @Context() ctx: Context) {
+    return "test";
   }
 }
 
@@ -76,5 +82,30 @@ export function testPathParams(options: PlatformTestOptions) {
     const response = await request.post("/rest/path-params/scenario-4/abc/1").expect(200);
 
     expect(response.body).to.deep.equal(["a", "b", "c"]);
+  });
+
+  it("Scenario 5 a: GET /rest/path-params/scenario-5/scopeId", async () => {
+    const response = await request.get("/rest/path-params/scenario-5/1").expect(400);
+
+    expect(response.body).to.deep.equal({
+      errors: [
+        {
+          data: "1",
+          dataPath: "",
+          keyword: "pattern",
+          message: 'should match pattern "^[0-9a-fA-F]{24}$"',
+          params: {
+            pattern: "^[0-9a-fA-F]{24}$"
+          },
+          schemaPath: "#/pattern"
+        }
+      ],
+      message: 'Bad request on parameter "request.path.scopeId".\nValue should match pattern "^[0-9a-fA-F]{24}$". Given value: "1"',
+      name: "AJV_VALIDATION_ERROR",
+      status: 400
+    });
+  });
+  it("Scenario 5b: GET /rest/path-params/scenario-5/scopeId", async () => {
+    await request.get("/rest/path-params/scenario-5/5ce4ee471495836c5e2e4cb0").expect(200);
   });
 }

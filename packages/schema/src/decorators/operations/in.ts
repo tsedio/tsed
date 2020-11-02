@@ -1,5 +1,5 @@
-import {DecoratorTypes, MetadataTypes, Type, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityStore, JsonParameter, JsonSchema} from "../../domain";
+import {DecoratorTypes, Type, UnsupportedDecoratorType} from "@tsed/core";
+import {JsonEntityStore, JsonParameter, JsonSchema, JsonSchemaObject} from "../../domain";
 import {JsonParameterTypes} from "../../domain/JsonParameterTypes";
 
 export interface InChainedDecorators {
@@ -30,6 +30,18 @@ export interface InChainedDecorators {
    * @param required
    */
   Required(required?: boolean): this;
+
+  /**
+   * Add pattern constraint. Only available for OPENAPI.
+   * @param pattern
+   */
+  Pattern(pattern: string | RegExp): this;
+
+  /**
+   * Add custom schema.
+   * @param schema
+   */
+  Schema(schema: Partial<JsonSchemaObject>): this;
 }
 
 /**
@@ -59,7 +71,7 @@ export interface InChainedDecorators {
  */
 export function In(inType: JsonParameterTypes | string): InChainedDecorators {
   const jsonParameter = new JsonParameter();
-  const types: MetadataTypes = {};
+  const schema: any = {};
 
   const decorator = (target: any, propertyKey: string | symbol, index: PropertyDescriptor | number) => {
     const store = JsonEntityStore.from(target, propertyKey, index);
@@ -72,7 +84,7 @@ export function In(inType: JsonParameterTypes | string): InChainedDecorators {
         jsonParameter.in(inType);
         store.operation!.addParameter(-1, jsonParameter);
 
-        jsonParameter.schema(JsonSchema.from({type: types.type}));
+        jsonParameter.schema(JsonSchema.from(schema));
         break;
       default:
         throw new UnsupportedDecoratorType(In, [target, propertyKey, index]);
@@ -80,7 +92,7 @@ export function In(inType: JsonParameterTypes | string): InChainedDecorators {
   };
 
   decorator.Type = (type: Type<any>) => {
-    types.type = type;
+    schema.type = type;
 
     return decorator;
   };
@@ -99,6 +111,16 @@ export function In(inType: JsonParameterTypes | string): InChainedDecorators {
 
   decorator.Required = (required: boolean = true) => {
     jsonParameter.required(required);
+
+    return decorator;
+  };
+
+  decorator.Pattern = (pattern: string | RegExp) => {
+    return decorator.Schema({pattern: pattern.toString()});
+  };
+
+  decorator.Schema = (_schema: any) => {
+    Object.assign(schema, _schema);
 
     return decorator;
   };

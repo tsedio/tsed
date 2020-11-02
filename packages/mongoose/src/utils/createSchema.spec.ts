@@ -237,6 +237,7 @@ describe("createSchema", () => {
         id: {
           description: "Mongoose ObjectId",
           examples: ["5ce7ad3028890bd71749d477"],
+          pattern: "^[0-9a-fA-F]{24}$",
           type: "string"
         },
         name: {

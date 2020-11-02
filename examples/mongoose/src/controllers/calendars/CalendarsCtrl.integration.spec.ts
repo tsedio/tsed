@@ -2,9 +2,9 @@ import {PlatformTest} from "@tsed/common";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
-import {Server} from "../../src/Server";
+import {Server} from "../../Server";
 
-async function getCalendar(request: SuperTest.SuperTest<SuperTest.Test>): Promise<any> {
+async function getCalendarFixture(request: SuperTest.SuperTest<SuperTest.Test>): Promise<any> {
   const response = await request.get("/rest/calendars").expect(200);
 
   return response.body[0];
@@ -31,8 +31,7 @@ describe("Calendars", () => {
   describe("GET /rest/calendars/:id", () => {
     it("should return all calendars", async () => {
       // GIVEN
-      const calendar = await getCalendar(request);
-
+      const calendar = await getCalendarFixture(request);
       // WHEN
       const response = await request.get(`/rest/calendars/${calendar.id}`).expect(200);
 
@@ -42,36 +41,41 @@ describe("Calendars", () => {
 
     it("should return a 400 when the id has the wrong format", async () => {
       // WHEN
-      const response = await request.get(`/rest/calendars/1`).expect(400);
+      const response = await request.get(`/rest/calendars/1`).expect(500);
 
-      expect(response.text).to.eq(`Cast to ObjectId failed for value "1" at path "_id" for model "Calendar"`);
+      expect(response.body).to.eq({});
     });
 
     it("should return a 404", async () => {
       // WHEN
       const response = await request.get(`/rest/calendars/5ce4ee471495836c5e2e4cb0`).expect(404);
 
-      expect(response.text).to.eq(`Calendar not found`);
+      expect(response.body).to.deep.eq({
+        "name": "NOT_FOUND",
+        "message": "Calendar not found",
+        "status": 404,
+        "errors": []
+      });
     });
   });
 
-  describe("POST /rest/calendars", () => {
+  describe("PUT /rest/calendars/:id", () => {
     it("should  throw a bad request when payload is empty", async () => {
       // GIVEN
-      const calendar = await getCalendar(request);
+      const calendar = await getCalendarFixture(request);
 
       // WHEN
-      const response = await request.post(`/rest/calendars/${calendar.id}`).expect(400);
+      const response = await request.put(`/rest/calendars/${calendar.id}`).expect(400);
 
       expect(response.text).to.eq("Property name on class Calendar is required. Given value: undefined");
     });
 
     it("should update the calendar", async () => {
       // GIVEN
-      const calendar = await getCalendar(request);
+      const calendar = await getCalendarFixture(request);
 
       // WHEN
-      const response = await request.post(`/rest/calendars/${calendar.id}`)
+      const response = await request.put(`/rest/calendars/${calendar.id}`)
         .send({
           ...calendar,
           name: "New name"
@@ -85,17 +89,17 @@ describe("Calendars", () => {
     });
   });
 
-  describe("PUT /rest/calendars", () => {
+  describe("POST /rest/calendars", () => {
     it("should throw a bad request when payload is empty", async () => {
       // WHEN
-      const response = await request.put(`/rest/calendars`).expect(400);
+      const response = await request.post(`/rest/calendars`).expect(400);
 
       expect(response.text).to.eq("Property name on class Calendar is required. Given value: undefined");
     });
 
     it("should add and delete a calendar", async () => {
       // WHEN
-      const response = await request.put(`/rest/calendars`)
+      const response = await request.post(`/rest/calendars`)
         .send({
           name: "New name"
         })

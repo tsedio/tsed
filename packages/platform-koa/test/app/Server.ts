@@ -1,4 +1,5 @@
-import {Constant, PlatformApplication} from "@tsed/common";
+import "@tsed/ajv";
+import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import Application from "koa";
 import * as bodyParser from "koa-bodyparser";
