@@ -1,8 +1,8 @@
+import "@tsed/ajv";
 import {Constant, PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
-import {ejs} from "consolidate";
 import * as cookieParser from "cookie-parser";
 import * as session from "express-session";
 import * as methodOverride from "method-override";

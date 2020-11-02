@@ -1,4 +1,4 @@
-import {Inject, IPipe, OverrideProvider, ParamMetadata, ValidationPipe} from "@tsed/common";
+import {Inject, IPipe, OverrideProvider, ParamMetadata, ParamTypes, ValidationPipe} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
 import {getJsonSchema} from "@tsed/schema";
 import {AJV} from "../services/Ajv";
@@ -38,7 +38,15 @@ export class AjvValidationPipe extends ValidationPipe implements IPipe {
     return value;
   }
 
+  skip(value: any, metadata: ParamMetadata) {
+    return metadata.paramType === ParamTypes.PATH && !metadata.isPrimitive;
+  }
+
   transform(value: any, metadata: ParamMetadata): any {
+    if (this.skip(value, metadata)) {
+      return value;
+    }
+
     value = this.coerceTypes(value, metadata);
 
     this.checkIsRequired(value, metadata);

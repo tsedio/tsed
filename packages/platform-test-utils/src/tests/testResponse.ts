@@ -235,10 +235,21 @@ export function testResponse(options: PlatformTestOptions) {
         const response = await request.get("/rest/response/scenario9/kkk").expect(400);
 
         expect(response.body).to.deep.equal({
-          name: "BAD_REQUEST",
-          message: 'Bad request on parameter "request.path.id".\nCast error. Expression value is not a number.',
-          status: 400,
-          errors: []
+          errors: [
+            {
+              data: "kkk",
+              dataPath: "",
+              keyword: "type",
+              message: "should be number",
+              params: {
+                type: "number"
+              },
+              schemaPath: "#/type"
+            }
+          ],
+          message: 'Bad request on parameter "request.path.id".\nValue should be number. Given value: "kkk"',
+          name: "AJV_VALIDATION_ERROR",
+          status: 400
         });
       });
     });
