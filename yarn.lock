@@ -2373,10 +2373,10 @@
   dependencies:
     tailwindcss "1.4.6"
 
-"@typedproject/ts-doc@4.0.9":
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-4.0.9.tgz#2def5d828950baa66dc75eb91e8d8693f4274d42"
-  integrity sha512-cx54uMcoO8uXPGC8GBBCtF0YtEjsba6ZwfV82sq8tUz1ota9hIk2X0uJZNkTfeSqllVmq1ELs/JxwZzcy+20lQ==
+"@typedproject/ts-doc@4.0.10":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-4.0.10.tgz#ed20891d96f57cace3f6a239c718a5b715ac426d"
+  integrity sha512-smtf+gYcwgbiKeqnk+QYDpyZxtFasHhzcJeb8mErK/rIYB3YLg4pTrbdPh8umeF9tqyWEE4LgD5kLffueW30IA==
   dependencies:
     chalk "3.0.0"
     ejs "2.7.1"
