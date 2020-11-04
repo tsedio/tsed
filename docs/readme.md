@@ -39,7 +39,7 @@ contributors:
 backers:
  type: cols
  title: Our <b>Backers</b>
- description: Thank you to all our backers who contributes to our project! 🙏
+ description: Many thanks to each of our backers for contributing to our project! 🙏
  cta:
    label: Become Backers
    url: https://opencollective.com/tsed#backers
@@ -116,13 +116,13 @@ Why <span class="text-blue">Ts</span>.ED?
 :::
 
 ::: slot testimonial-content
-Ts.ED is a Node.js and TypeScript Framework on top of Express/Koa.js. Ts.ED is a framework on top of Express/Koa to write your application with TypeScript (or ES6). 
-It provides a lot of decorators and guideline to make your code more readable and less error-prone.
+Ts.ED is a Node.js Framework on top of Express/Koa.js. Based on Typescript, it helps you build your server-side application easily. 
+It provides a lot of decorators and guidelines to make your code more readable and less error-prone.
 :::
 
 ::: slot features-footer
 <div class="hidden sm:block pt-10 pb-5 mt-10">
-<h3 class="text-center font-normal text-xl m-auto max-w-lg pb-5">See our <span class="text-blue">Ts</span>.ED live demo look like without leaving
+<h3 class="text-center font-normal text-xl m-auto max-w-lg pb-5">See in our live demo what <span class="text-blue">Ts</span>.ED looks like, without leaving
    your personal browser.</h3>
 
 <div class="bg-code-active p-5 mt-5 rounded-small">
@@ -137,7 +137,7 @@ It provides a lot of decorators and guideline to make your code more readable an
 
 <div class="w-full max-w-site mx-auto px-5 py-5 md:py-10">
 
-<p class="text-center font-normal text-xl m-auto max-w-lg">There are some of the libraries and the technologies that we use or supports with this <strong>framework</strong></p>
+<p class="text-center font-normal text-xl m-auto max-w-lg">Here are some of the libraries and technologies that we use or support with this <strong>framework</strong></p>
 
 <div class="mt-5 pt-5">
 <Frameworks />
