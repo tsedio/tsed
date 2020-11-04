@@ -107,7 +107,6 @@ describe("ValidationPipe", () => {
     expect(result).to.deep.eq(["test"]);
   });
   it("should throw an error (Query required)", async () => {
-    const validate = Sinon.stub();
     const validator = new ValidationPipe();
 
     class Test {

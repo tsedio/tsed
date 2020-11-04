@@ -1,4 +1,5 @@
 import {BodyParams, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
+import {ObjectID} from "@tsed/mongoose";
 import {MergeParams, PlatformExpress} from "@tsed/platform-express";
 import {Consumes, Description, Returns} from "@tsed/schema";
 import {Docs, Hidden} from "@tsed/swagger";
@@ -11,7 +12,8 @@ import {Server} from "./app/Server";
 @Hidden()
 class AdminCtrl {
   @Get("/")
-  get() {}
+  get() {
+  }
 }
 
 @Controller("/events")
@@ -19,7 +21,8 @@ class AdminCtrl {
 class EventCtrl {
   @Get("/")
   @Description("Events")
-  get() {}
+  get() {
+  }
 }
 
 @Controller("/admin")
@@ -27,7 +30,8 @@ class EventCtrl {
 class BackAdminCtrl {
   @Get("/")
   @Description("Admins")
-  get() {}
+  get() {
+  }
 }
 
 @Controller({
@@ -37,7 +41,7 @@ class BackAdminCtrl {
 class CalendarsController {
   @Get("/:id")
   @Returns(200, Calendar)
-  async get(@PathParams("id") id: string): Promise<Calendar> {
+  async get(@PathParams("id") @ObjectID() id: string): Promise<Calendar> {
     return new Calendar({id, name: "test"});
   }
 
@@ -133,8 +137,11 @@ describe("Swagger integration", () => {
               operationId: "calendarsControllerGet",
               parameters: [
                 {
+                  description: "Mongoose ObjectId",
+                  example: "5ce7ad3028890bd71749d477",
                   in: "path",
                   name: "id",
+                  pattern: "^[0-9a-fA-F]{24}$",
                   required: true,
                   type: "string"
                 }
@@ -248,7 +255,17 @@ describe("Swagger integration", () => {
           "/rest/calendars/{id}": {
             get: {
               operationId: "calendarsControllerGet",
-              parameters: [{in: "path", name: "id", required: true, schema: {type: "string"}}],
+              parameters: [{
+                description: "Mongoose ObjectId",
+                in: "path",
+                name: "id",
+                required: true,
+                schema: {
+                  example: "5ce7ad3028890bd71749d477",
+                  pattern: "^[0-9a-fA-F]{24}$",
+                  type: "string"
+                }
+              }],
               responses: {
                 "200": {
                   content: {"application/json": {schema: {$ref: "#/components/schemas/Calendar"}}},

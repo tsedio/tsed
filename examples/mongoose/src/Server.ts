@@ -1,14 +1,16 @@
-import { Configuration, Inject } from "@tsed/di";
-import { PlatformApplication } from "@tsed/common";
+import "@tsed/ajv";
+import {PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
+import "@tsed/mongoose";
 import "@tsed/platform-express"; // /!\ keep this import
+import "@tsed/swagger";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as methodOverride from "method-override";
-import "@tsed/ajv";
-import "@tsed/swagger";
-import "@tsed/mongoose";
 import mongooseConfig from "./config/mongoose";
+import {IndexCtrl} from "./controllers/pages/IndexCtrl";
+import {CalendarsCtrl} from "./controllers/rest/calendars/CalendarsCtrl";
 
 export const rootDir = __dirname;
 
@@ -19,9 +21,10 @@ export const rootDir = __dirname;
   httpsPort: false, // CHANGE
   mongoose: mongooseConfig,
   mount: {
-    "/rest": [`${rootDir}/controllers/rest/**/*.ts`],
-    "/": [`${rootDir}/controllers/pages/**/*.ts`]
+    "/rest": [CalendarsCtrl],
+    "/": [IndexCtrl]
   },
+  componentsScan: [],
   swagger: [
     {
       path: "/v2/docs",
