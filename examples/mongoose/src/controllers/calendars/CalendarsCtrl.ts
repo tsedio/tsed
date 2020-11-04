@@ -19,12 +19,11 @@ import {EventsCtrl} from "../events/EventsCtrl";
   children: [EventsCtrl]
 })
 export class CalendarsCtrl {
-  constructor(private calendarsService: CalendarsService) {
-  }
+  constructor(private calendarsService: CalendarsService) {}
 
   @Get("/:id")
   @Summary("Return a calendar from his ID")
-  @Status(200, Calendar).Description("Success")
+  @(Status(200, Calendar).Description("Success"))
   async get(@PathParams("id") @CalendarId() id: string): Promise<Calendar> {
     const calendar = await this.calendarsService.find(id);
 
@@ -37,17 +36,20 @@ export class CalendarsCtrl {
 
   @Post("/")
   @Summary("Create a new Calendar")
-  @Returns(201, Calendar).Description("Created")
-  save(@Description("Calendar model")
-       @BodyParams() @Required() calendar: Calendar) {
+  @(Returns(201, Calendar).Description("Created"))
+  save(
+    @Description("Calendar model")
+    @BodyParams()
+    @Required()
+    calendar: Calendar
+  ) {
     return this.calendarsService.save(calendar);
   }
 
   @Put("/:id")
   @Summary("Update calendar information")
-  @Returns(200, Calendar).Description("Success")
-  async update(@PathParams("id") @CalendarId() id: string,
-               @BodyParams() @Required() calendar: Calendar): Promise<Calendar> {
+  @(Returns(200, Calendar).Description("Success"))
+  async update(@PathParams("id") @CalendarId() id: string, @BodyParams() @Required() calendar: Calendar): Promise<Calendar> {
     calendar._id = id;
 
     return this.calendarsService.save(calendar);
@@ -55,14 +57,14 @@ export class CalendarsCtrl {
 
   @Delete("/:id")
   @Summary("Remove a calendar.")
-  @Returns(204).Description("No content")
+  @(Returns(204).Description("No content"))
   async remove(@PathParams("id") @CalendarId() id: string): Promise<void> {
     await this.calendarsService.remove(id);
   }
 
   @Get("/")
   @Summary("Return all calendars")
-  @Returns(200, Array).Of(Calendar)
+  @(Returns(200, Array).Of(Calendar))
   async getAllCalendars(): Promise<Calendar[]> {
     return this.calendarsService.query();
   }

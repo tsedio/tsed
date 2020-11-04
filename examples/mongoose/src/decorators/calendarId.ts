@@ -5,10 +5,7 @@ import {Description, In, JsonParameterTypes} from "@tsed/schema";
 import {CheckCalendarIdMiddleware} from "../middlewares/calendars/CheckCalendarId";
 
 export function CalendarId() {
-  return useDecorators(
-    ObjectID(),
-    Description("The calendar id")
-  );
+  return useDecorators(ObjectID(), Description("The calendar id"));
 }
 
 export function InCalendarId(): ClassDecorator {

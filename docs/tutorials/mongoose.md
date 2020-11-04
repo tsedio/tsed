@@ -219,6 +219,23 @@ This example shows you how you can test your Rest API with superagent and a mock
 </Tab>
 </Tabs>
 
+### Jest additional setup
+
+Add a script to close connection after all unit test. In your jest configuration file add the following line:
+
+```json
+{
+  "globalTeardown": "./scripts/jest/teardown.js"
+}
+```
+
+And create the script with the following content:
+
+```js
+module.exports = async () => {
+  await global.__MONGOD__.stop();
+};
+```
 
 ### Testing Model
 

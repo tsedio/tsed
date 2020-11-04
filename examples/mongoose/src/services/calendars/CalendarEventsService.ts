@@ -32,7 +32,7 @@ export class CalendarEventsService {
    * @param id
    * @returns {undefined|EventModel}
    */
-  async find(id: string): Promise<CalendarEvent> {
+  async find(id: string): Promise<CalendarEvent | null> {
     return await this.Event.findById(id).exec();
   }
 
@@ -55,9 +55,7 @@ export class CalendarEventsService {
    * @returns {CalendarEvent[]}
    */
   async query(calendarId: string): Promise<CalendarEvent[]> {
-    const events = await this.Event
-      .find({calendarId: calendarId})
-      .exec();
+    const events = await this.Event.find({calendarId: calendarId}).exec();
 
     return events;
   }

@@ -6,11 +6,15 @@ import {resolve} from "path";
 const downloadDir = resolve(`${require.resolve("mongodb-memory-server")}/../../.cache/mongodb-memory-server/mongodb-binaries`);
 
 export class TestMongooseContext extends PlatformTest {
-  private static mongod: MongoMemoryServer;
+  static getMongo(): MongoMemoryServer {
+    // @ts-ignore
+    return global.__MONGOD__;
+  }
 
   static async install(options: any = {binary: {}}) {
-    if (!this.mongod) {
-      this.mongod = new MongoMemoryServer({
+    if (!TestMongooseContext.getMongo()) {
+      // @ts-ignore
+      global.__MONGOD__ = new MongoMemoryServer({
         ...options,
         binary: {
           ...(options.binary || {}),
@@ -28,6 +32,13 @@ export class TestMongooseContext extends PlatformTest {
   static bootstrap(mod: any, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       const config = await TestMongooseContext.install(options.mongod);
+      const mongod = TestMongooseContext.getMongo();
+
+      // istanbul ignore next
+      if (!mongod.runningInstance) {
+        await mongod.start();
+      }
+
       const before = PlatformTest.bootstrap(mod, {
         ...options,
         mongoose: config
@@ -49,9 +60,7 @@ export class TestMongooseContext extends PlatformTest {
   static async reset() {
     await new Promise((resolve) => setTimeout(resolve, 100));
     await PlatformTest.reset();
-    await TestMongooseContext.mongod.stop();
-    // @ts-ignore
-    delete TestMongooseContext.mongod;
+    await TestMongooseContext.getMongo().stop();
   }
 
   /**
@@ -69,7 +78,7 @@ export class TestMongooseContext extends PlatformTest {
   }
 
   static async getMongooseOptions() {
-    const url = await TestMongooseContext.mongod.getConnectionString();
+    const url = await TestMongooseContext.getMongo().getUri();
 
     return {
       url,
