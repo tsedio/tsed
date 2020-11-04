@@ -3,8 +3,5 @@ import {ObjectID} from "@tsed/mongoose";
 import {Description} from "@tsed/schema";
 
 export function EventId() {
-  return useDecorators(
-    ObjectID(),
-    Description("The event id")
-  );
+  return useDecorators(ObjectID(), Description("The event id"));
 }

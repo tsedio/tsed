@@ -29,13 +29,13 @@ To checkout another version just replace `v5.18.1` by the desired version.
 > **Important!** Ts.ED requires Node >= 8, Express >= 4 and TypeScript >= 3.
 
 ```batch
-npm install
+yarn install
 ```
 
 ## Run
 
 ```
-npm start
+yarn start
 ```
 
 ## Contributing

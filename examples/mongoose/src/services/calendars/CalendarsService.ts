@@ -3,7 +3,6 @@ import {$log} from "@tsed/logger";
 import {MongooseModel} from "@tsed/mongoose";
 import {Calendar} from "../../models/calendars/Calendar";
 
-
 @Service()
 export class CalendarsService {
   @Inject(Calendar)
@@ -17,7 +16,7 @@ export class CalendarsService {
     const calendars = await this.Calendar.find({});
 
     if (calendars.length === 0) {
-      const promises = require("../../../resources/calendars.json").map(calendar => this.save(calendar));
+      const promises = require("../../../resources/calendars.json").map((calendar: any) => this.save(calendar));
       await Promise.all(promises);
     }
   }
@@ -27,11 +26,12 @@ export class CalendarsService {
    * @param id
    * @returns {undefined|Calendar}
    */
-  async find(id: string): Promise<Calendar> {
+  async find(id: string): Promise<Calendar | null> {
     $log.debug("Search a calendar from ID", id);
     const calendar = await this.Calendar.findById(id).exec();
 
     $log.debug("Found", calendar);
+
     return calendar;
   }
 
