@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import {isArray} from "@tsed/core";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import * as SuperTest from "supertest";
-import {Server} from "../../Server";
+import {Server} from "../../../Server";
 
 async function getCalendarFixture(request: SuperTest.SuperTest<SuperTest.Test>): Promise<any> {
   const response = await request.get("/rest/calendars").expect(200);

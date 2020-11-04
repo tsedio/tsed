@@ -1,9 +1,9 @@
 import {BodyParams, Controller, Delete, Get, PathParams, Post, Put} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Description, Required, Returns, Status, Summary} from "@tsed/schema";
-import {CalendarId} from "../../decorators/calendarId";
-import {Calendar} from "../../models/calendars/Calendar";
-import {CalendarsService} from "../../services/calendars/CalendarsService";
+import {CalendarId} from "../../../decorators/calendarId";
+import {Calendar} from "../../../models/calendars/Calendar";
+import {CalendarsService} from "../../../services/calendars/CalendarsService";
 import {EventsCtrl} from "../events/EventsCtrl";
 
 /**
