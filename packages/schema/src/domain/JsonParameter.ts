@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import {cleanObject, Type} from "@tsed/core";
 import {OS3Parameter} from "@tsed/openspec";
 import {JsonSchemaOptions} from "../interfaces";
 import {NestedGenerics, popGenerics} from "../utils/generics";
@@ -63,26 +63,30 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
         return parameter;
       }
 
-      if (this.get("in") === "query") {
+      if (["formData", "query"].includes(this.get("in"))) {
         if (jsonSchema.$ref) {
           return this.refToParameters(parameter, options, schemas);
         }
 
         if (jsonSchema.type === "array") {
-          return {
+          const {minLength, ...props} = jsonSchema;
+          return cleanObject({
             ...parameter,
+            ...props,
             type: "array",
             collectionFormat: "multi",
             items: {
               type: "string"
             }
-          };
+          });
         }
+      }
 
-        return {
+      if (this.get("in") !== "body") {
+        return cleanObject({
           ...parameter,
           ...jsonSchema
-        };
+        });
       }
     }
 

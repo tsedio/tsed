@@ -197,8 +197,9 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
       value = schema.getJsonType();
     }
 
-    if (key === "examples" && isObject(value) && options.specType !== SpecTypes.SWAGGER) {
-      value = Object.values(value);
+    if (key === "examples" && isObject(value) && [SpecTypes.OPENAPI, SpecTypes.SWAGGER].includes(options.specType!)) {
+      key = "example";
+      value = Object.values(value)[0];
     }
 
     if (!root && ["properties", "additionalProperties", "items"].includes(key) && value.isClass) {

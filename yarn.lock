@@ -2352,10 +2352,10 @@
     read-package-json "2.1.1"
     semver "7.3.2"
 
-"@tsed/vuepress-common@3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@tsed/vuepress-common/-/vuepress-common-3.3.0.tgz#6039230d44f037d48cbf3465ebcbd848c397e275"
-  integrity sha512-Fsu3GU4sl3sCSUkoq0yFTfXw05a3DCsTgtNN9xKOuTEh4sPVGGHjyYD9RVCEh2n+kmqrCcsS0ef1rNsK0II2Aw==
+"@tsed/vuepress-common@3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@tsed/vuepress-common/-/vuepress-common-3.4.0.tgz#df7bd5e96925ffc3790ce4e3262467c4820e8006"
+  integrity sha512-YMWmo3KwLo0DrO3O9tUdMCabqLKcYMr7QVeQAPt4gVmfkLT+d/+NXvTDtbL8qB4E/RD/mvKnr/BggmVbChdPXQ==
   dependencies:
     "@docsearch/css" "1.0.0-alpha.28"
     "@docsearch/js" "1.0.0-alpha.28"
@@ -2364,14 +2364,14 @@
     lucene-filter "0.1.3"
     lucene-query-parser "1.2.0"
     normalize.css "8.0.1"
-    prismjs "1.21.0"
+    prismjs "1.22.0"
 
-"@tsed/vuepress-tailwind-config@3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@tsed/vuepress-tailwind-config/-/vuepress-tailwind-config-3.3.0.tgz#ff6c3abc210b9649259f67d5d59f7e7b69054cb6"
-  integrity sha512-XGgzJmafIgbc5VbYsYS+oDF4dDG3YoHezHfKeii6OTv+NHJs2BaONmWYiK7scH8hYcMmgfMZYwGQ1Xhnpv/v6A==
+"@tsed/vuepress-tailwind-config@3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@tsed/vuepress-tailwind-config/-/vuepress-tailwind-config-3.4.0.tgz#745d5f842048c889ab76c7354e0b29ba73979b70"
+  integrity sha512-AaXinXgZ8kzXVkJfh7exGo4HexLqsiVP2H5iLsAimDZ49rOy6lhdaOMH3MI4WalGa36gmwd7oqT6JWdVRx/4lA==
   dependencies:
-    tailwindcss "1.4.6"
+    tailwindcss "1.9.6"
 
 "@typedproject/ts-doc@4.0.10":
   version "4.0.10"
@@ -3199,20 +3199,6 @@
     markdown-it-table-of-contents "^0.4.0"
     prismjs "^1.13.0"
 
-"@vuepress/plugin-active-header-links@1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@vuepress/plugin-active-header-links/-/plugin-active-header-links-1.2.0.tgz#46495c89e51a95e57139be007dffbcae4b229260"
-  integrity sha512-vdi7l96pElJvEmcx6t9DWJNH25TIurS8acjN3+b7o4NzdaszFn5j6klN6WtI4Z+5BVDrxHP5W1F3Ebw8SZyupA==
-  dependencies:
-    lodash.debounce "^4.0.8"
-
-"@vuepress/plugin-active-header-links@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@vuepress/plugin-active-header-links/-/plugin-active-header-links-1.5.0.tgz#a7b9ce361e97119928f5209aeda69b699205bd31"
-  integrity sha512-jVMOo4mgGpRe7dNopsLEsoUvQQFDIZmM1IhOJi9bsv6NLRPP3Ej2MwIYV+JQ1akSQn9zmGB8t6aO9DKRaK8J3g==
-  dependencies:
-    lodash.debounce "^4.0.8"
-
 "@vuepress/plugin-active-header-links@1.7.1":
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/@vuepress/plugin-active-header-links/-/plugin-active-header-links-1.7.1.tgz#5a16281bebb977fc1c2b93d992b1a3b7ff840641"
@@ -3226,13 +3212,6 @@
   integrity sha512-VW5jhBuO0WRHDsBmFsKC6QtEyBLCgyhuH9nQ65aairCn3tdoJPz0uQ4g3lr/boVbgsPexO677Sn3dRPgYqnMug==
   dependencies:
     cross-spawn "^6.0.5"
-
-"@vuepress/plugin-nprogress@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@vuepress/plugin-nprogress/-/plugin-nprogress-1.5.0.tgz#bbf5d331a4acc1d862e2c7143b3b7587c3e4f0cc"
-  integrity sha512-0xs5Y0igCpA03/WXBvo01crJLVkirglh+JAIZY+daJUdjY38u4FXtrxe4/Nq7Nwo++Qy/OGFCWoilukgzpL8tA==
-  dependencies:
-    nprogress "^0.2.0"
 
 "@vuepress/plugin-nprogress@1.6.0":
   version "1.6.0"
@@ -3259,11 +3238,6 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@vuepress/plugin-search/-/plugin-search-1.2.0.tgz#0b27c467b7fd42bd4d9e32de0fe2fb81a24bd311"
   integrity sha512-QU3JfnMfImDAArbJOVH1q1iCDE5QrT99GLpNGo6KQYZWqY1TWAbgyf8C2hQdaI03co1lkU2Wn/iqzHJ5WHlueg==
-
-"@vuepress/plugin-search@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@vuepress/plugin-search/-/plugin-search-1.5.0.tgz#d47a29402945649b69aa6a9db15315075c1651ea"
-  integrity sha512-zZ7awYWzube+FwYQP2GcrCeoGUxcOWQm6cOaxQ9BiEn+M8sj4/fn18sKjGkzREQ+BVJguxHw0y29gUlvHALPhQ==
 
 "@vuepress/plugin-search@1.7.1":
   version "1.7.1"
@@ -3299,21 +3273,6 @@
     semver "^6.0.0"
     toml "^3.0.0"
     upath "^1.1.0"
-
-"@vuepress/theme-default@1.5.0":
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/@vuepress/theme-default/-/theme-default-1.5.0.tgz#8df53c77c6f464452867bdd80c2037b1f715343c"
-  integrity sha512-qdV0TVuKt0N9s0sVKRPmrW9o1aLcW2AZvkHATdDmAjKk8R34JC7Gqa0QiBsGLrIr7dUvEVYXy9T0r6IG2Z+dog==
-  dependencies:
-    "@vuepress/plugin-active-header-links" "1.5.0"
-    "@vuepress/plugin-nprogress" "1.5.0"
-    "@vuepress/plugin-search" "1.5.0"
-    docsearch.js "^2.5.2"
-    lodash "^4.17.15"
-    stylus "^0.54.5"
-    stylus-loader "^3.0.2"
-    vuepress-plugin-container "^2.0.2"
-    vuepress-plugin-smooth-scroll "^0.0.3"
 
 "@vuepress/theme-default@1.7.1":
   version "1.7.1"
@@ -13377,7 +13336,14 @@ pretty-time@^1.1.0:
   resolved "https://registry.yarnpkg.com/pretty-time/-/pretty-time-1.1.0.tgz#ffb7429afabb8535c346a34e41873adf3d74dd0e"
   integrity sha512-28iF6xPQrP8Oa6uxE6a1biz+lWeTOAPKggvjB8HAs6nVMKZwf5bG++632Dx614hIWgUPkgivRfG+a8uAXGTIbA==
 
-prismjs@1.21.0, prismjs@^1.13.0:
+prismjs@1.22.0:
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.22.0.tgz#73c3400afc58a823dd7eed023f8e1ce9fd8977fa"
+  integrity sha512-lLJ/Wt9yy0AiSYBf212kK3mM5L8ycwlyTlSxHBAneXLR0nzFMlZ5y7riFPF3E33zXOF2IH95xdY5jIyZbM9z/w==
+  optionalDependencies:
+    clipboard "^2.0.0"
+
+prismjs@^1.13.0:
   version "1.21.0"
   resolved "https://registry.yarnpkg.com/prismjs/-/prismjs-1.21.0.tgz#36c086ec36b45319ec4218ee164c110f9fc015a3"
   integrity sha512-uGdSIu1nk3kej2iZsLyDoJ7e9bnPzIgY0naW/HdknGj61zScaprVEVGHrPoXqI+M9sP0NDnTK2jpkvmldpuqDw==
@@ -15606,27 +15572,30 @@ tailwindcss-transforms@^2.2.0:
   dependencies:
     lodash "^4.17.11"
 
-tailwindcss@1.4.6:
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.4.6.tgz#17b37166ccda08d7e7f9ca995ea48ce1e0089700"
-  integrity sha512-qV0qInUq1FWih39Bc5CWECdgObSzRrbjGD4ke4kAPSIq6WXrPhv0wwOcUWJgJ66ltT9j+XnSRYikG8WNRU/fTQ==
+tailwindcss@1.9.6:
+  version "1.9.6"
+  resolved "https://registry.yarnpkg.com/tailwindcss/-/tailwindcss-1.9.6.tgz#0c5089911d24e1e98e592a31bfdb3d8f34ecf1a0"
+  integrity sha512-nY8WYM/RLPqGsPEGEV2z63riyQPcHYZUJpAwdyBzVpxQHOHqHE+F/fvbCeXhdF1+TA5l72vSkZrtYCB9hRcwkQ==
   dependencies:
     "@fullhuman/postcss-purgecss" "^2.1.2"
     autoprefixer "^9.4.5"
     browserslist "^4.12.0"
     bytes "^3.0.0"
-    chalk "^4.0.0"
+    chalk "^3.0.0 || ^4.0.0"
     color "^3.1.2"
     detective "^5.2.0"
     fs-extra "^8.0.0"
-    lodash "^4.17.15"
+    html-tags "^3.1.0"
+    lodash "^4.17.20"
     node-emoji "^1.8.1"
     normalize.css "^8.0.1"
+    object-hash "^2.0.3"
     postcss "^7.0.11"
     postcss-functions "^3.0.0"
     postcss-js "^2.0.0"
     postcss-nested "^4.1.1"
     postcss-selector-parser "^6.0.0"
+    postcss-value-parser "^4.1.0"
     pretty-hrtime "^1.0.3"
     reduce-css-calc "^2.1.6"
     resolve "^1.14.2"
@@ -16666,6 +16635,13 @@ vuepress-plugin-container@^2.0.2:
     "@vuepress/shared-utils" "^1.2.0"
     markdown-it-container "^2.0.0"
 
+vuepress-plugin-smooth-scroll@^0.0.10:
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/vuepress-plugin-smooth-scroll/-/vuepress-plugin-smooth-scroll-0.0.10.tgz#6cb6926032bd5abd7b928df6e7b73b8dd31b5f9d"
+  integrity sha512-1B7cc0OxROX9aPdktTF6lGqASGh3h0mtiUCmbAVZfGDtTOGUYDDA1BhLV96zkz/v1Zh/UvKP2gF6ADrcV83BMg==
+  dependencies:
+    smoothscroll-polyfill "^0.4.4"
+
 vuepress-plugin-smooth-scroll@^0.0.3:
   version "0.0.3"
   resolved "https://registry.yarnpkg.com/vuepress-plugin-smooth-scroll/-/vuepress-plugin-smooth-scroll-0.0.3.tgz#6eff2d4c186cca917cc9f7df2b0af7de7c8c6438"
@@ -16673,29 +16649,22 @@ vuepress-plugin-smooth-scroll@^0.0.3:
   dependencies:
     smoothscroll-polyfill "^0.4.3"
 
-vuepress-plugin-smooth-scroll@^0.0.9:
-  version "0.0.9"
-  resolved "https://registry.yarnpkg.com/vuepress-plugin-smooth-scroll/-/vuepress-plugin-smooth-scroll-0.0.9.tgz#6c5d01db60def3d7b976b53404e56b97da9e8f39"
-  integrity sha512-UXX+HLZO1NKVwyiOJlj0smh8F9dKnwybjEi7w/Mj9EYLhKrNYr5uXs+N+OTt8VwKCn3f0vZ1XAwFIjsPlD7GJA==
-  dependencies:
-    smoothscroll-polyfill "^0.4.4"
-
-vuepress-theme-tsed@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.3.0.tgz#41e3a0b84c2ddff7b7e03c2c28480957039691c1"
-  integrity sha512-Gw6nQOsb11r8vM1XEkz2G+NTLFuhwdBXPZyICowjqoMtAEvwiwa6uUvuWhZ5Kaa7AiJi3N/pt7k2Kdp6LvmVgw==
+vuepress-theme-tsed@3.4.0:
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.4.0.tgz#3e500d14e5a52ae552dd291ae349a8dbf692ede7"
+  integrity sha512-yhV4ojtkplI7QP+VT3q23qFoKbeJu1N2pkCriDXUJxG5D8PN78pfFpxd6FDSafvYDnstP39QqVxTNnsf1uBtoQ==
   dependencies:
     "@docsearch/css" "1.0.0-alpha.28"
     "@docsearch/js" "1.0.0-alpha.28"
     "@sass-collective/sass-rem" "^1.4.1"
     "@silvanite/vuepress-plugin-tailwind" "^1.3.0"
     "@tsed/markdown-it-symbols" "2.15.0"
-    "@tsed/vuepress-common" "3.3.0"
-    "@tsed/vuepress-tailwind-config" "3.3.0"
-    "@vuepress/plugin-active-header-links" "1.2.0"
+    "@tsed/vuepress-common" "3.4.0"
+    "@tsed/vuepress-tailwind-config" "3.4.0"
+    "@vuepress/plugin-active-header-links" "1.7.1"
     "@vuepress/plugin-nprogress" "1.6.0"
     "@vuepress/plugin-search" "1.2.0"
-    "@vuepress/theme-default" "1.5.0"
+    "@vuepress/theme-default" "1.7.1"
     axios "0.20.0"
     lodash "^4.17.15"
     lucene-filter "0.1.3"
@@ -16712,7 +16681,7 @@ vuepress-theme-tsed@3.3.0:
     tailwindcss-inset "^1.0.0"
     tailwindcss-transforms "^2.2.0"
     vuepress-plugin-container "^2.0.2"
-    vuepress-plugin-smooth-scroll "^0.0.9"
+    vuepress-plugin-smooth-scroll "^0.0.10"
 
 vuepress@1.7.1:
   version "1.7.1"

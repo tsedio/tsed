@@ -120,6 +120,21 @@ Ts.ED is a Node.js and TypeScript Framework on top of Express/Koa.js. Ts.ED is a
 It provides a lot of decorators and guideline to make your code more readable and less error-prone.
 :::
 
+::: slot features-footer
+<div class="hidden sm:block pt-10 pb-5 mt-10">
+<h3 class="text-center font-normal text-xl m-auto max-w-lg pb-5">See our <span class="text-blue">Ts</span>.ED live demo look like without leaving
+   your personal browser.</h3>
+
+<div class="bg-code-active p-5 mt-5 rounded-small">
+<iframe src="https://codesandbox.io/embed/tsed-mongoose-example-omkbm?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="tsed-mongoose-example"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
+</div>
+</div>
+:::
+
 <div class="w-full max-w-site mx-auto px-5 py-5 md:py-10">
 
 <p class="text-center font-normal text-xl m-auto max-w-lg">There are some of the libraries and the technologies that we use or supports with this <strong>framework</strong></p>
