@@ -41,9 +41,21 @@ describe("Calendars", () => {
 
     it("should return a 400 when the id has the wrong format", async () => {
       // WHEN
-      const response = await request.get(`/rest/calendars/1`).expect(500);
+      const response = await request.get(`/rest/calendars/1`).expect(400);
 
-      expect(response.body).to.eq({});
+      expect(response.body).to.deep.eq({
+        "name": "AJV_VALIDATION_ERROR",
+        "message": "Bad request on parameter \"request.path.id\".\nValue should match pattern \"^[0-9a-fA-F]{24}$\". Given value: \"1\"",
+        "status": 400,
+        "errors": [{
+          "data": "1",
+          "keyword": "pattern",
+          "dataPath": "",
+          "schemaPath": "#/pattern",
+          "params": {"pattern": "^[0-9a-fA-F]{24}$"},
+          "message": "should match pattern \"^[0-9a-fA-F]{24}$\""
+        }]
+      });
     });
 
     it("should return a 404", async () => {
@@ -67,7 +79,19 @@ describe("Calendars", () => {
       // WHEN
       const response = await request.put(`/rest/calendars/${calendar.id}`).expect(400);
 
-      expect(response.text).to.eq("Property name on class Calendar is required. Given value: undefined");
+      expect(response.body).to.deep.eq({
+        "name": "AJV_VALIDATION_ERROR",
+        "message": "Bad request on parameter \"request.body\".\nCalendar should have required property 'name'. Given value: \"undefined\"",
+        "status": 400,
+        "errors": [{
+          "keyword": "required",
+          "dataPath": "",
+          "schemaPath": "#/required",
+          "params": {"missingProperty": "name"},
+          "message": "should have required property 'name'",
+          "modelName": "Calendar"
+        }]
+      });
     });
 
     it("should update the calendar", async () => {
@@ -94,7 +118,19 @@ describe("Calendars", () => {
       // WHEN
       const response = await request.post(`/rest/calendars`).expect(400);
 
-      expect(response.text).to.eq("Property name on class Calendar is required. Given value: undefined");
+      expect(response.body).to.deep.eq({
+        "name": "AJV_VALIDATION_ERROR",
+        "message": "Bad request on parameter \"request.body\".\nCalendar should have required property 'name'. Given value: \"undefined\"",
+        "status": 400,
+        "errors": [{
+          "keyword": "required",
+          "dataPath": "",
+          "schemaPath": "#/required",
+          "params": {"missingProperty": "name"},
+          "message": "should have required property 'name'",
+          "modelName": "Calendar"
+        }]
+      });
     });
 
     it("should add and delete a calendar", async () => {

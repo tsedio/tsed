@@ -20,7 +20,7 @@ export function InCalendarId(): ClassDecorator {
           .Type(String)
           .Name("calendarId")
           .Description("The calendar id")
-          .Schema({pattern: /^[0-9a-fA-F]{24}$/}),
+          .Pattern(/^[0-9a-fA-F]{24}$/),
         UseBefore(CheckCalendarIdMiddleware)
       )
     );
