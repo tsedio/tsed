@@ -22,7 +22,7 @@
   "devDependencies": {
     "@tsed/common": "6.2.0",
     "@tsed/core": "6.2.0",
-    "@types/mongoose": "5.7.34",
+    "@types/mongoose": "5.7.37",
     "mongoose": "^5.9.27"
   }
 }
