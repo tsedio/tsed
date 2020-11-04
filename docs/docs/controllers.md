@@ -226,22 +226,22 @@ For example, you want to return a generic `Document` payload which contains a da
 With @@Returns@@ you can document correctly your endpoint to reflect the correct model:
 
 <Tabs class="-code">
-  <Tab label="MyController.ts">
+  <Tab label="MyController.ts" icon="bx-code-alt">
 
 <<< @/docs/docs/snippets/controllers/response-generics-controller.ts
 
   </Tab>
-  <Tab label="Document.ts">
+  <Tab label="Document.ts" icon="bx-code-alt">
 
 <<< @/docs/docs/snippets/controllers/response-generics-document.ts  
   
   </Tab>  
-  <Tab label="Product.ts">
+  <Tab label="Product.ts" icon="bx-code-alt">
 
 <<< @/docs/docs/snippets/controllers/response-generics-product.ts
 
   </Tab>
-  <Tab label="CodeSandbox">
+  <Tab label="CodeSandbox" icon="bxl-codepen">
 <iframe src="https://codesandbox.io/embed/laughing-kepler-ripfl?fontsize=14&hidenavigation=1&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
      title="tsed-swagger-example"

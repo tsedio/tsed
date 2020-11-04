@@ -45,8 +45,21 @@ npm install --save-dev @tsed/testing-mongoose
 
 Then import `@tsed/mongoose` in your [Configuration](/docs/configuration.md):
 
+<Tabs class="-code">
+  <Tab label="Configuration" icon="bx-code-alt">
+  
 <<< @/docs/tutorials/snippets/mongoose/configuration.ts
-
+  </Tab>
+  </Tab>
+  <Tab label="CodeSandbox" icon="bxl-codepen">
+<iframe src="https://codesandbox.io/embed/tsed-mongoose-example-omkbm?fontsize=14&hidenavigation=1&theme=dark" 
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" 
+     title="tsed-mongoose-example"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
+  </Tab>
+</Tabs>
+     
 ## MongooseService
 
 @@MongooseService@@ lets you to retrieve an instance of Mongoose.Connection. 
