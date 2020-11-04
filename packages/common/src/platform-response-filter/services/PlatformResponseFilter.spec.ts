@@ -23,9 +23,15 @@ describe("PlatformResponseFilter", () => {
   afterEach(() => PlatformTest.reset());
 
   it("should transform data for custom/json", () => {
+    class Test {
+      @Get("/")
+      test() {}
+    }
+
     const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
 
     const ctx = PlatformTest.createRequestContext();
+    ctx.endpoint = EndpointMetadata.get(Test, "test");
     const data = {text: "test"};
 
     sandbox.stub(ctx.response, "contentType");
@@ -42,9 +48,14 @@ describe("PlatformResponseFilter", () => {
   });
 
   it("should transform data for application/json", () => {
+    class Test {
+      @Get("/")
+      test() {}
+    }
     const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
 
     const ctx = PlatformTest.createRequestContext();
+    ctx.endpoint = EndpointMetadata.get(Test, "test");
     const data = {text: "test"};
 
     sandbox.stub(ctx.response, "contentType");
@@ -59,10 +70,16 @@ describe("PlatformResponseFilter", () => {
   });
 
   it("should transform data for any content type", () => {
+    class Test {
+      @Get("/")
+      test() {}
+    }
+
     const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
 
     const ctx = PlatformTest.createRequestContext();
     const data = {text: "test"};
+    ctx.endpoint = EndpointMetadata.get(Test, "test");
 
     sandbox.stub(ctx.response, "contentType");
     sandbox.stub(ctx.request, "get").returns("application/json");

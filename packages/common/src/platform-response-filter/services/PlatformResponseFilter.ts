@@ -24,6 +24,10 @@ export function getContentType(data: any, ctx: PlatformContext) {
       return contentType;
     }
   }
+
+  if (typeof data === "string" && endpoint.view) {
+    return "text/html";
+  }
 }
 
 /**
@@ -40,7 +44,7 @@ export class PlatformResponseFilter {
   protected responseFilters: Type<ResponseFilterMethods>[];
 
   get contentTypes(): ResponseFilterKey[] {
-    return [...this.types.keys(), "application/json"];
+    return [...this.types.keys()];
   }
 
   $onInit() {
@@ -52,15 +56,17 @@ export class PlatformResponseFilter {
   }
 
   getBestContentType(data: any, ctx: PlatformContext) {
+    const contentType = getContentType(data, ctx);
+
     if (ctx.request.get("Accept")) {
-      const bestContentType = ctx.request.accepts(this.contentTypes);
+      const bestContentType = ctx.request.accepts([contentType].concat(this.contentTypes).filter(Boolean));
 
       if (bestContentType) {
         return [].concat(bestContentType as any)[0];
       }
     }
 
-    return getContentType(data, ctx);
+    return contentType;
   }
 
   transform(data: unknown, ctx: PlatformContext) {
