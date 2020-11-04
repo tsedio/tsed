@@ -1,5 +1,5 @@
-import {Configuration, Inject} from "@tsed/di";
-import {PlatformApplication} from "@tsed/common";
+import { Configuration, Inject } from "@tsed/di";
+import { PlatformApplication } from "@tsed/common";
 import "@tsed/platform-express"; // /!\ keep this import
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
@@ -17,16 +17,25 @@ export const rootDir = __dirname;
   acceptMimes: ["application/json"],
   httpPort: process.env.PORT || 8083,
   httpsPort: false, // CHANGE
+  mongoose: mongooseConfig,
   mount: {
-    "/rest": [`${rootDir}/controllers/**/*.ts`]
+    "/rest": [`${rootDir}/controllers/rest/**/*.ts`],
+    "/": [`${rootDir}/controllers/pages/**/*.ts`]
   },
   swagger: [
     {
-      specVersion: "3.0.1",
-      path: "/api-docs"
+      path: "/v2/docs",
+      specVersion: "2.0"
+    },
+    {
+      path: "/v3/docs",
+      specVersion: "3.0.1"
     }
   ],
-  mongoose: mongooseConfig,
+  views: {
+    root: `${rootDir}/../views`,
+    viewEngine: "ejs"
+  },
   exclude: ["**/*.spec.ts"]
 })
 export class Server {

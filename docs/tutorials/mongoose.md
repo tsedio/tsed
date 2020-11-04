@@ -233,7 +233,7 @@ And create the script with the following content:
 
 ```js
 module.exports = async () => {
-  await global.__MONGOD__.stop();
+  await global.__MONGOD__ && global.__MONGOD__.stop();
 };
 ```
 
