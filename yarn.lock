@@ -15965,13 +15965,6 @@ ts-log-debug@5.1.1:
     streamroller "^1.0.3"
     tslib "^1.9.3"
 
-ts-log-debug@^5.5.3:
-  version "5.5.3"
-  resolved "https://registry.yarnpkg.com/ts-log-debug/-/ts-log-debug-5.5.3.tgz#057c65162209a1c50d11889c2012f7d70af983f3"
-  integrity sha512-WvSeDO/6a8G9Mbk0dZ+d4QBWnfRl+UW1HcUr6Cv53ViXqUpfOwgusieWuxnG2CigIjuZqh6llLZIcv0+VZXQIw==
-  dependencies:
-    "@tsed/logger" "5.5.3"
-
 ts-node@9.0.0:
   version "9.0.0"
   resolved "https://registry.yarnpkg.com/ts-node/-/ts-node-9.0.0.tgz#e7699d2a110cc8c0d3b831715e417688683460b3"

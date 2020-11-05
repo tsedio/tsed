@@ -1,5 +1,5 @@
-import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
+import {expect} from "chai";
 import * as proxyquire from "proxyquire";
 import * as Sinon from "sinon";
 
@@ -27,7 +27,11 @@ describe("GraphQLService", () => {
   describe("createServer()", () => {
     describe("when server options isn't given", () => {
       let service: any;
-      before(PlatformTest.create);
+      before(() =>
+        PlatformTest.create({
+          PLATFORM_NAME: "express"
+        })
+      );
       before(
         PlatformTest.inject([GraphQLService], (_service_: any) => {
           service = _service_;

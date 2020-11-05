@@ -1,7 +1,7 @@
-import {ApolloServer} from "apollo-server-express";
+import {ApolloServerBase} from "apollo-server-core";
 import {GraphQLSchema} from "graphql";
 
 export interface GraphQLServer {
-  instance: ApolloServer;
+  instance: ApolloServerBase;
   schema: GraphQLSchema;
 }

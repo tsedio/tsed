@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  server:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      args:
+        - http_proxy
+        - https_proxy
+        - no_proxy
+    image: graphql/server:latest
+    ports:
+      - "8081:8081"
+    stdin_open: true  # -i
+    tty: true         # -t
+
