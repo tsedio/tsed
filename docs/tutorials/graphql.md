@@ -14,14 +14,14 @@ GraphQL is a query language for APIs and a runtime for fulfilling those queries 
 ## Feature
 
 Currently, `@tsed/graphql` allows you to configure one or more GraphQL server in your project.
-This package uses [`apollo-server-express`](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html) to create GraphQL server and [`type-graphql`](https://19majkel94.github.io/type-graphql/)
+This package uses [`apollo-server-express`](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html) to create GraphQL server and [`type-graphql`](https://typegraphql.com/)
 as decorator library.
 
 ## Installation
 
 To begin, install the GraphQL module for TS.ED, graphql and apollo-server-testing:
 
-<Tabs>
+<Tabs class="-code">
 <Tab label="Express.js">
 
 ```bash
@@ -55,7 +55,22 @@ npm install --save-dev  apollo-server-testing
 
 Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your Server:
 
+<Tabs class="-code">
+  <Tab label="Configuration" icon="bx-code-alt">
+
 <<< @/docs/tutorials/snippets/graphql/server-configuration.ts
+
+  </Tab>
+  <Tab label="CodeSandbox" icon="bxl-codepen">
+  
+<iframe src="https://codesandbox.io/embed/nifty-einstein-pgvfz?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="TsED Graphql"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
+
+   </Tab>
+</Tabs>
 
 ## GraphQlService
 
