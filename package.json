@@ -182,6 +182,9 @@
         },
         "react": {
           "url": "https://github.com/TypedProject/tsed-example-react.git"
+        },
+        "graphql": {
+          "url": "https://github.com/TypedProject/tsed-example-graphql.git"
         }
       }
     }

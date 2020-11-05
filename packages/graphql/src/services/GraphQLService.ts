@@ -1,7 +1,7 @@
 import {Constant, HttpServer, InjectorService, PlatformApplication, Provider, Service} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {DataSource} from "apollo-datasource";
-import {ApolloServer} from "apollo-server-express";
+import {ApolloServerBase} from "apollo-server-core";
 import {GraphQLSchema} from "graphql";
 import * as typeGraphql from "type-graphql";
 import {buildSchema, BuildSchemaOptions} from "type-graphql";
@@ -14,6 +14,10 @@ import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../registries/ResolverServiceRegis
 export class GraphQLService {
   @Constant("httpPort")
   httpPort: string | number;
+
+  @Constant("PLATFORM_NAME")
+  platformName: string;
+
   /**
    *
    * @type {Map<any, any>}
@@ -30,9 +34,7 @@ export class GraphQLService {
   async createServer(id: string, settings: GraphQLSettings): Promise<any> {
     const {
       path,
-      server: customServer,
       installSubscriptionHandlers,
-      resolvers = [],
       dataSources,
       serverConfig = {},
       serverRegistration = {},
@@ -55,10 +57,12 @@ export class GraphQLService {
         typeGraphql.useContainer(this.injectorService);
       }
 
+      const resolvers = [...this.getResolvers(), ...(settings.resolvers || []), ...(buildSchemaOptions.resolvers || [])];
+
       const schema = await this.createSchema({
         container: this.injectorService,
         ...buildSchemaOptions,
-        resolvers: [...this.getResolvers(), ...resolvers, ...(buildSchemaOptions.resolvers || [])]
+        resolvers
       });
 
       const defaultServerConfig = {
@@ -67,21 +71,21 @@ export class GraphQLService {
         schema
       };
 
-      const server = customServer ? customServer(defaultServerConfig) : new ApolloServer(defaultServerConfig);
+      const server = this.createInstance(defaultServerConfig, settings);
 
-      // @ts-ignore
-      server.applyMiddleware({path, ...serverRegistration, app: this.app.callback()});
+      if (server) {
+        server.applyMiddleware({path, ...serverRegistration, app: this.app.raw});
+        if (installSubscriptionHandlers && this.httpPort) {
+          server.installSubscriptionHandlers(this.httpServer);
+        }
 
-      if (installSubscriptionHandlers && this.httpPort) {
-        server.installSubscriptionHandlers(this.httpServer);
+        this._servers.set(id || "default", {
+          instance: server,
+          schema
+        });
+
+        return server;
       }
-
-      this._servers.set(id || "default", {
-        instance: server,
-        schema
-      });
-
-      return server;
     } catch (err) {
       /* istanbul ignore next */
       this.injectorService.logger.error(err);
@@ -102,7 +106,7 @@ export class GraphQLService {
    * Get an instance of ApolloServer from his id
    * @returns ApolloServer
    */
-  get(id: string = "default"): ApolloServer | undefined {
+  get(id: string = "default"): ApolloServerBase | undefined {
     return this._servers.get(id)!.instance;
   }
 
@@ -128,9 +132,7 @@ export class GraphQLService {
    * @returns {Provider<any>[]}
    */
   protected getResolvers(): Type<any>[] {
-    return Array.from(this.injectorService.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE)).map((provider) =>
-      this.injectorService.invoke(provider.provide)
-    );
+    return this.injectorService.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE).map((provider) => provider.useClass);
   }
 
   protected getDataSources(): {[serviceName: string]: DataSource} {
@@ -161,5 +163,31 @@ export class GraphQLService {
         ...(serverConfigSources ? serverConfigSources() : {})
       };
     };
+  }
+
+  protected createInstance(
+    defaultServerConfig: any,
+    settings: GraphQLSettings
+  ): (ApolloServerBase & {applyMiddleware(settings: any): any}) | undefined {
+    const {server: customServer} = settings;
+
+    // istanbul ignore next
+    if (customServer) {
+      return customServer(defaultServerConfig);
+    }
+
+    // istanbul ignore next
+    try {
+      const Server = require(`apollo-server-${this.platformName || "express"}`).ApolloServer;
+
+      return new Server(defaultServerConfig);
+    } catch (er) {
+      this.injectorService.logger.error(`Platform "${this.platformName}" not supported by @tsed/graphql`);
+    }
+
+    // istanbul ignore next
+    if (!this.platformName) {
+      this.injectorService.logger.error(`Platform "${this.platformName}" not supported by @tsed/graphql`);
+    }
   }
 }

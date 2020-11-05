@@ -58,7 +58,6 @@
     "json-schema": "^0.2.3",
     "normalize-path": "3.0.0",
     "on-finished": "2.3.0",
-    "ts-log-debug": "^5.5.3",
     "tslib": "2.0.1",
     "uuid": "8.3.0"
   },

@@ -23,7 +23,7 @@ const rootDir = resolve(__dirname);
     default: {
       path: "/api/graphql",
       buildSchemaOptions: {
-        emitSchemaFile: resolve(__dirname, "../ressources/schema.gql")
+        emitSchemaFile: resolve(__dirname, "../resources/schema.gql")
       }
     }
   }

@@ -4,17 +4,18 @@ import {PlatformExpress} from "@tsed/platform-express";
 import {ApolloServerTestClient, createTestClient} from "apollo-server-testing";
 import {expect} from "chai";
 import gql from "graphql-tag";
+import * as SuperTest from "supertest";
 import {GraphQLService} from "../src";
 import {Server} from "./app/Server";
 
 const GET_RECIPES = gql`
-  query GetRecipes {
-    recipes {
-      title
-      description
-      creationDate
+    query GetRecipes {
+        recipes {
+            title
+            description
+            creationDate
+        }
     }
-  }
 `;
 
 describe("GraphQL", () => {
