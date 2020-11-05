@@ -28,7 +28,7 @@ features:
   icon: bx-test-tube
   details: To test or not to test? isn't a question. Ts.ED embeds some features to test your code! <a class="underline hover:text-blue-active transition-all" href="/docs/testing.html">See more</a>.
 contributors:
-  classes: bg-gray-lighter
+  classes: bg-gray-lighter mb-10
   title: Our awesome <b>contributors</b>
   cta:
     label: Become contributor
@@ -44,17 +44,32 @@ backers:
    label: Become Backers
    url: https://opencollective.com/tsed#backers
 sponsors:
- type: cols
  classes:
- title: Our <b>Sponsors / Partners</b>
- description: Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
- image:
-   src: /sponsors.svg
-   href: http://www.freepik.com
-   title: Designed by pch.vector / Freepik
+ title: Support us
+ description: Ts.ED is under MIT-license and is an open-source project. Many thanks to our backers/sponsors/partners who contribute to promote and support our project!
  cta:
    label: Become a sponsor
-   url: /support.html
+   url: /support.html    
+ items:
+  - title: Sponsors
+    class: w-1/2 sm:w-1/6 px-5 py-3
+    style:
+      maxHeight: 150px
+    items:
+      - title: Medayo
+        href: https://www.medayo.com
+        src: https://images.opencollective.com/medayo/1ef2d6b/logo/256.png
+  - title: They use it
+    class: w-1/3 sm:w-1/6 px-5 py-3
+    style:
+      maxHeight: 80px
+    items:
+      - title: Artips
+        href: https://artips.fr
+        src: https://artips.fr/resources/img/artips/artips.png
+      - title: Yumi.us
+        src: https://yumi.us/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6bc09fed-4612-4aa0-9192-225a0b3c7a30%2FYumi-logo-circle.png?table=block&id=1a875820-287a-4a97-aa40-ba3c8f3de9ae&width=250&userId=&cache=v2
+        href: https://yumi.us/
 showContent: false
 frameworks:
 - title: TypeScript
@@ -122,8 +137,7 @@ It provides a lot of decorators and guideline to make your code more readable an
 
 ::: slot features-footer
 <div class="hidden sm:block pt-10 pb-5 mt-10">
-<h3 class="text-center font-normal text-xl m-auto max-w-lg pb-5">See our <span class="text-blue">Ts</span>.ED live demo look like without leaving
-   your personal browser.</h3>
+<h3 class="text-center font-normal text-xl m-auto max-w-lg pb-5">See in our live demo what <span class="text-blue">Ts</span>.ED looks like, without leaving your personal browser.</h3>
 
 <div class="bg-code-active p-5 mt-5 rounded-small">
 <iframe src="https://codesandbox.io/embed/tsed-mongoose-example-omkbm?fontsize=14&hidenavigation=1&theme=dark"
@@ -137,10 +151,9 @@ It provides a lot of decorators and guideline to make your code more readable an
 
 <div class="w-full max-w-site mx-auto px-5 py-5 md:py-10">
 
-<p class="text-center font-normal text-xl m-auto max-w-lg">There are some of the libraries and the technologies that we use or supports with this <strong>framework</strong></p>
+<p class="text-center font-normal text-xl m-auto max-w-lg">Here are some of the libraries and technologies that we use or support with this <strong>framework</strong></p>
 
 <div class="mt-5 pt-5">
 <Frameworks />
 </div>
-
 </div>
