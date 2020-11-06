@@ -1,4 +1,4 @@
-import {getSpec, OperationPath} from "@tsed/schema";
+import {getSpec, OperationPath, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import {Security} from "./security";
 
@@ -26,9 +26,29 @@ describe("Security", () => {
                 description: "Success"
               }
             },
-            security: {
-              oauth: ["user"]
+            security: [{oauth: ["user"]}],
+            tags: ["MyController"]
+          }
+        }
+      }
+    });
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+      tags: [
+        {
+          name: "MyController"
+        }
+      ],
+      paths: {
+        "/": {
+          post: {
+            operationId: "myControllerGet",
+            parameters: [],
+            responses: {
+              "200": {
+                description: "Success"
+              }
             },
+            security: [{oauth: ["user"]}],
             tags: ["MyController"]
           }
         }
@@ -62,9 +82,11 @@ describe("Security", () => {
                 description: "Success"
               }
             },
-            security: {
-              oauth: ["user"]
-            },
+            security: [
+              {
+                oauth: ["user"]
+              }
+            ],
             tags: ["MyController"]
           },
           post: {
@@ -75,9 +97,11 @@ describe("Security", () => {
                 description: "Success"
               }
             },
-            security: {
-              oauth: ["admin", "user"]
-            },
+            security: [
+              {
+                oauth: ["admin", "user"]
+              }
+            ],
             tags: ["MyController"]
           }
         }

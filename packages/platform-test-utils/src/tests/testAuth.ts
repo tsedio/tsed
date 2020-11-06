@@ -211,9 +211,11 @@ export function testAuth(options: PlatformTestOptions) {
                   }
                 }
               },
-              security: {
-                global_auth: ["admin"]
-              },
+              security: [
+                {
+                  global_auth: ["admin"]
+                }
+              ],
               tags: ["TestAuthCtrl"]
             }
           },
@@ -266,9 +268,11 @@ export function testAuth(options: PlatformTestOptions) {
                   }
                 }
               },
-              security: {
-                global_auth: []
-              },
+              security: [
+                {
+                  global_auth: []
+                }
+              ],
               tags: ["TestAuthCtrl"]
             }
           }
