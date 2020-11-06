@@ -48,3 +48,15 @@ And use it on our controller and endpoints:
 
 <<< @/docs/docs/snippets/authentication/auth-custom-auth-example.ts
 
+## With Passport.js
+
+Another solution is to use [Passport.js](/tutorials/passport.md) to protect your API. Ts.ED provide 
+a [@tsed/passport](/tutorials/passport.md) plugin in order to facilitate the use of this library within the framework.
+
+The following codesandbox example show you how you can use this plugin combined with Swagger to describe your API:
+
+<iframe src="https://codesandbox.io/embed/tsed-swagger-with-authorization-dzhcy?fontsize=14&hidenavigation=1&theme=dark"
+     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+     title="tsed-swagger-with-authorization"
+     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>

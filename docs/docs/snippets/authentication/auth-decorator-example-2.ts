@@ -1,15 +1,15 @@
 import {In} from "@tsed/schema";
-import {IAuthOptions, Returns, UseAuth} from "@tsed/common";
+import {IAuthOptions, UseAuth} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
-import {Operation, Security} from "@tsed/swagger";
+import {Security, Returns} from "@tsed/schema";
 import {CustomAuthMiddleware} from "../guards/CustomAuthMiddleware";
 
-export interface ICustomAuthOptions extends IAuthOptions {
+export interface CustomAuthOptions extends IAuthOptions {
   role?: string;
   scopes?: string[];
 }
 
-export function CustomAuth(options: ICustomAuthOptions = {}): Function {
+export function CustomAuth(options: CustomAuthOptions = {}): Function {
   return useDecorators(
     UseAuth(CustomAuthMiddleware, options),
     Security("oauth", ...(options.scopes || [])),

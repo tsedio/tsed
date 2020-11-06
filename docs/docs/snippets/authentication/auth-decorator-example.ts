@@ -1,6 +1,6 @@
 import {IAuthOptions, Returns, UseAuth} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
-import {Security} from "@tsed/swagger";
+import {Security, Returns} from "@tsed/schema";
 import {CustomAuthMiddleware} from "../guards/CustomAuthMiddleware";
 
 export interface ICustomAuthOptions extends IAuthOptions {
