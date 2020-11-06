@@ -17,7 +17,7 @@ we have to use the @@UseAuth@@ decorator.
 If you planed to use `Passport.js`, it's recommended to follow the [Passport.js guide here](/tutorials/passport.md).
 :::
 
-Any middleware can be used as an authentication strategy. Just keep in mind, to work properly, the middleware must use @@EndpointInfo@@
+Any middleware can be used as an authentication strategy. Just keep in mind, to work properly, the middleware must use @@Context@@
 decorator to retrieve the endpoint context execution.
 
 Here is an example of the CustomAuth middleware using the Passport.js method to check authentication:
