@@ -49,7 +49,7 @@ sponsors:
  description: Ts.ED is under MIT-license and is an open-source project. Many thanks to our backers/sponsors/partners who contribute to promote and support our project!
  cta:
    label: Become a sponsor
-   url: /support.html    
+   url: /support.html 
  items:
   - title: Sponsors
     class: w-1/2 sm:w-1/6 px-5 py-3
