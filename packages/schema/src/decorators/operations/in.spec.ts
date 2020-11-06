@@ -76,16 +76,57 @@ describe("In", () => {
       }
     });
   });
+  it("should declare all schema correctly (class)", async () => {
+    // WHEN
+    class Controller {
+      @(In("header").Type(String).Name("Authorization").Required().Description("description"))
+      method(@In("path") @Name("basic") basic: string) {}
+    }
+
+    // THEN
+    getSpec(Controller, {
+      specType: SpecTypes.SWAGGER
+    });
+
+    const paramSchema = JsonEntityStore.from(Controller, "method", 0);
+    const methodSchema = paramSchema.parent;
+    const operation = methodSchema.operation!.toJSON({
+      specType: SpecTypes.SWAGGER
+    });
+
+    expect(operation).to.deep.equal({
+      parameters: [
+        {
+          in: "path",
+          name: "basic",
+          required: true,
+          type: "string"
+        },
+        {
+          in: "header",
+          name: "Authorization",
+          required: true,
+          type: "string",
+          description: "description"
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success"
+        }
+      }
+    });
+  });
   it("should extra schema", async () => {
     // WHEN
     @Path("/:parentId")
+    @(In("path")
+      .Type(String)
+      .Name("parentId")
+      .Required()
+      .Description("description")
+      .Pattern(/^[0-9a-fA-F]{24}$/))
     class Controller {
-      @(In("path")
-        .Type(String)
-        .Name("parentId")
-        .Required()
-        .Description("description")
-        .Pattern(/^[0-9a-fA-F]{24}$/))
       @OperationPath("GET", "/:path")
       method(@In("path") @Name("basic") basic: string) {}
     }

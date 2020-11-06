@@ -224,6 +224,63 @@ describe("@Returns", () => {
         }
       });
     });
+    it("should declare error response on class", async () => {
+      // WHEN
+      @(Returns(400).Description("Bad request").Header("x-token", "token"))
+      @Returns(401)
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200).Description("Success"))
+        @(Returns(400).Description("Bad request2").Header("x-token", "token2"))
+        method() {}
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+
+      expect(spec).to.deep.equal({
+        tags: [
+          {
+            name: "Controller"
+          }
+        ],
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  description: "Success",
+                  schema: {
+                    type: "object"
+                  }
+                },
+                "401": {
+                  description: "Unauthorized",
+                  schema: {
+                    type: "string"
+                  }
+                },
+                "400": {
+                  description: "Bad request2",
+                  schema: {
+                    type: "string"
+                  },
+                  headers: {
+                    "x-token": {
+                      example: "token2",
+                      type: "string"
+                    }
+                  }
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        }
+      });
+    });
     it("should throw an error when using of with String", async () => {
       // WHEN
       let actualError: any;

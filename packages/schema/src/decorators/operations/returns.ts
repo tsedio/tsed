@@ -1,4 +1,5 @@
 import {
+  decorateMethodsOf,
   DecoratorTypes,
   deepExtends,
   getDecoratorType,
@@ -17,7 +18,11 @@ import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
 import {isSuccessStatus} from "../../utils/isSuccessStatus";
 import {mapHeaders} from "../../utils/mapHeaders";
 
-export interface ReturnsChainedDecorators extends MethodDecorator {
+export interface ReturnsChainedDecorators {
+  <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void;
+
+  (target: Function): void;
+
   /**
    * Set a Content-Type for the current response
    * @param value
@@ -90,6 +95,7 @@ interface ReturnsActionContext {
   response: JsonResponse;
   model: Type<any> | any;
   schema: any;
+  decoratorContext: DecoratorTypes;
 }
 
 interface ReturnsActionHandler {
@@ -97,9 +103,20 @@ interface ReturnsActionHandler {
 }
 
 function initSchemaAction(ctx: ReturnsActionContext) {
-  const {status, model, response, store, schema} = ctx;
+  const {status, model, response, store, schema, decoratorContext} = ctx;
   const operation = store.operation!;
   const currentStatus = status || "default";
+
+  if (decoratorContext === DecoratorTypes.CLASS) {
+    const current = operation.getResponseOf(currentStatus);
+
+    current.get("description") && response.description(current.get("description"));
+    current.get("headers") &&
+      response.headers({
+        ...(response.get("headers") || {}),
+        ...current.get("headers")
+      });
+  }
 
   ctx.response = operation.addResponse(currentStatus, response).getResponseOf(currentStatus);
 
@@ -297,6 +314,7 @@ function checkCollection(model: any) {
  */
 export function Returns(status?: string | number, model?: Type<any> | any): ReturnsChainedDecorators {
   const response = new JsonResponse();
+  let decoratorContext: DecoratorTypes;
   const schema = {};
   let contentType: string;
 
@@ -309,18 +327,24 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
   const decorator = (...args: any[]) => {
     const type = getDecoratorType(args, true);
 
-    if (type === DecoratorTypes.METHOD) {
-      const store = JsonEntityStore.from(...args);
+    switch (type) {
+      case DecoratorTypes.METHOD:
+        const store = JsonEntityStore.from(...args);
 
-      if (store.operation) {
-        const ctx: ReturnsActionContext = {status, contentType, response, model, store, schema};
+        if (store.operation) {
+          const ctx: ReturnsActionContext = {status, contentType, response, model, store, schema, decoratorContext};
 
-        actions.forEach((action: any) => {
-          action(ctx);
-        });
-      }
-    } else {
-      throw new UnsupportedDecoratorType(Returns, args);
+          actions.forEach((action: any) => {
+            action(ctx);
+          });
+        }
+        break;
+      case DecoratorTypes.CLASS:
+        decoratorContext = DecoratorTypes.CLASS;
+        decorateMethodsOf(args[0], decorator);
+        break;
+      default:
+        throw new UnsupportedDecoratorType(Returns, args);
     }
   };
 
