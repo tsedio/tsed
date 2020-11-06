@@ -182,8 +182,6 @@ export function testAuth(options: PlatformTestOptions) {
       expect(spec).to.deep.equal({
         consumes: ["application/json"],
         info: {
-          description: "",
-          termsOfService: "",
           title: "Api documentation",
           version: "1.0.0"
         },

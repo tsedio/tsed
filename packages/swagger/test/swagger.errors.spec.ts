@@ -83,10 +83,8 @@ describe("Swagger errors params", () => {
         }
       },
       info: {
-        description: "",
-        termsOfService: "",
-        title: "Api documentation",
-        version: "1.0.0"
+        title: "Swagger title",
+        version: "1.2.0"
       },
       paths: {
         "/rest/scenarios": {

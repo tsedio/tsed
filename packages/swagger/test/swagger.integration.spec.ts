@@ -107,10 +107,8 @@ describe("Swagger integration", () => {
           }
         },
         info: {
-          description: "",
-          termsOfService: "",
-          title: "Api documentation",
-          version: "1.0.0"
+          title: "Swagger title",
+          version: "1.2.0"
         },
         paths: {
           "/rest/calendars": {
@@ -240,7 +238,7 @@ describe("Swagger integration", () => {
       ]);
 
       expect(response.body).to.deep.eq({
-        "info": {"version": "1.0.0", "title": "Api documentation", "description": "", "termsOfService": ""},
+        "info": {"version": "1.0.0", "title": "Api documentation"},
         "openapi": "3.0.1",
         "paths": {
           "/rest/calendars/events": {

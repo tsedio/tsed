@@ -1,6 +1,6 @@
 import {isProtectedKey} from "./isProtectedKey";
 
-export function setValue(expression: string, value: any, scope: any, separator = ".") {
+export function setValue(scope: any, expression: string, value: any, separator = ".") {
   const keys: string[] = expression.split(separator);
 
   const setValue = (key: string, add: boolean) => {

@@ -1,4 +1,4 @@
-import {Controller, PlatformTest, QueryParams, Get, MinLength, Property, Required} from "@tsed/common";
+import {Controller, Get, MinLength, PlatformTest, Property, QueryParams, Required} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express/src";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -48,10 +48,8 @@ describe("Swagger query params", () => {
     expect(response.body).to.deep.eq({
       consumes: ["application/json"],
       info: {
-        description: "",
-        termsOfService: "",
-        title: "Api documentation",
-        version: "1.0.0"
+        title: "Swagger title",
+        version: "1.2.0"
       },
       paths: {
         "/rest/scenarios/1": {

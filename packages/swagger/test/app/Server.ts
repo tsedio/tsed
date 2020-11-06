@@ -17,7 +17,10 @@ const rootDir = Path.resolve(__dirname);
     {
       path: "/v2/doc",
       specVersion: "2.0",
-      showExplorer: true
+      showExplorer: true,
+      spec: {
+        info: {title: "Swagger title", version: "1.2.0"}
+      }
     },
     {
       path: "/v3/doc",

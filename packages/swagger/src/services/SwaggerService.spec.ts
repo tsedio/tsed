@@ -40,10 +40,6 @@ describe("SwaggerService", () => {
         expect(result).to.deep.equals({
           swagger: "2.0",
           info: {
-            contact: undefined,
-            description: "",
-            license: undefined,
-            termsOfService: "",
             title: "Api documentation",
             version: "1.0.0"
           },
@@ -55,14 +51,11 @@ describe("SwaggerService", () => {
 
     describe("when nothing is given", () => {
       it("should return default spec", () => {
+        // @ts-ignore
         const result = swaggerService.getDefaultSpec({});
         expect(result).to.deep.equals({
           consumes: ["application/json"],
           info: {
-            contact: undefined,
-            description: "",
-            license: undefined,
-            termsOfService: "",
             title: "Api documentation",
             version: "1.0.0"
           },
@@ -80,10 +73,6 @@ describe("SwaggerService", () => {
         expect(result).to.deep.equals({
           consumes: ["application/json"],
           info: {
-            contact: undefined,
-            description: "",
-            license: undefined,
-            termsOfService: "",
             title: "Api documentation",
             version: "1.0.0"
           },
