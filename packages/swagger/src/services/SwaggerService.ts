@@ -1,5 +1,5 @@
 import {Configuration, ControllerProvider, Injectable, InjectorService, Platform} from "@tsed/common";
-import {getValue} from "@tsed/core";
+import {getValue, setValue} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {getSpec, mergeSpec, SpecSerializerOptions} from "@tsed/schema";
 import * as Fs from "fs";
@@ -63,12 +63,17 @@ export class SwaggerService {
     const {specPath, specVersion} = conf;
     const fileSpec: Partial<OpenSpec2 | OpenSpec3> = specPath ? this.readSpecPath(specPath) : {};
 
-    return mapOpenSpec(getValue(conf, "spec", {}), {
+    const finalSpec = mapOpenSpec(getValue(conf, "spec", {}), {
       fileSpec,
       version,
       specVersion,
       acceptMimes
     });
+
+    setValue(finalSpec, "info.title", getValue(finalSpec, "info.title", "Api documentation"));
+    setValue(finalSpec, "info.version", getValue(finalSpec, "info.version", "1.0.0"));
+
+    return finalSpec;
   }
 
   protected readSpecPath(path: string) {

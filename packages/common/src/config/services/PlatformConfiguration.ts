@@ -21,7 +21,6 @@ export class PlatformConfiguration extends DIConfiguration {
       env: (process.env.NODE_ENV as Env) || Env.DEV,
       httpPort: 8080,
       httpsPort: false,
-      version: "1.0.0",
       scopes: {
         [ProviderType.CONTROLLER]: ProviderScope.SINGLETON
       },

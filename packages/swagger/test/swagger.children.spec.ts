@@ -49,10 +49,8 @@ describe("Swagger integration", () => {
           "application/json"
         ],
         "info": {
-          "description": "",
-          "termsOfService": "",
-          "title": "Api documentation",
-          "version": "1.0.0"
+          "title": "Swagger title",
+          "version": "1.2.0"
         },
         "paths": {
           "/api/v1/orgs/{orgName}/campaigns/{campaignID}/polls/{pollId}": {

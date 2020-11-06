@@ -7,7 +7,7 @@ describe("setValue()", () => {
     before(() => {
       map = new Map();
 
-      setValue("test", "value", map);
+      setValue(map, "test", "value");
     });
 
     it("should set value", () => {
@@ -20,7 +20,7 @@ describe("setValue()", () => {
     before(() => {
       map = new Map();
       map.set("test", {t1: "value"});
-      setValue("test.t1", "value2", map);
+      setValue(map, "test.t1", "value2");
     });
 
     it("should set value", () => {
@@ -32,7 +32,7 @@ describe("setValue()", () => {
     let map: Map<any, any>;
     before(() => {
       map = new Map();
-      setValue("test.t1", "value2", map);
+      setValue(map, "test.t1", "value2");
     });
 
     it("should set value", () => {
@@ -43,7 +43,7 @@ describe("setValue()", () => {
   describe("when object with dep (without defined value)", () => {
     const map: any = {test: {t1: "value"}};
     before(() => {
-      setValue("test.t1", "value2", map);
+      setValue(map, "test.t1", "value2");
     });
 
     it("should set value", () => {
@@ -54,7 +54,7 @@ describe("setValue()", () => {
   describe("when object with dep (without defined value)", () => {
     it("should set value", () => {
       const obj = {};
-      setValue("__proto__", "vulnerable", obj);
+      setValue(obj, "__proto__", "vulnerable");
       expect(obj).to.deep.eq({});
       expect(({} as any).a).to.eq(undefined);
     });

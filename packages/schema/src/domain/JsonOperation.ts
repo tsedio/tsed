@@ -189,6 +189,10 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     const bodyParameters: JsonParameter[] = [];
     const parameters: any[] = [];
 
+    if (operation.security) {
+      operation.security = [].concat(operation.security);
+    }
+
     this.get("parameters").forEach((parameter: JsonParameter) => {
       if (!isParameterType(this.get("in"))) {
         if (parameter.get("in")) {

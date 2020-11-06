@@ -77,7 +77,7 @@ export class DIConfiguration {
   }
 
   setRaw(propertyKey: string, value: any) {
-    setValue(propertyKey, value, this.map);
+    setValue(this.map, propertyKey, value);
 
     return this;
   }
@@ -93,7 +93,7 @@ export class DIConfiguration {
   }
 
   getRaw(propertyKey: string, defaultValue?: any): any {
-    const value = getValue(propertyKey, this.map);
+    const value = getValue(this.map, propertyKey);
 
     if (value !== undefined) {
       return value;

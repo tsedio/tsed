@@ -81,7 +81,7 @@ export class AjvErrorFormatterPipe {
       const prop = PropertyMetadata.get(targetType, propertyKey);
 
       if (prop) {
-        setValue("params.missingProperty", error, prop.name || propertyKey);
+        setValue(error, "params.missingProperty", prop.name || propertyKey);
 
         return error.message!.replace(`'${propertyKey}'`, `'${prop.name || propertyKey}'`);
       }

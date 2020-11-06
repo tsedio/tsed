@@ -1,4 +1,4 @@
-import {DecoratorTypes, Type, UnsupportedDecoratorType} from "@tsed/core";
+import {decorateMethodsOf, DecoratorTypes, Type, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityStore, JsonParameter, JsonSchema, JsonSchemaObject} from "../../domain";
 import {JsonParameterTypes} from "../../domain/JsonParameterTypes";
 
@@ -6,6 +6,7 @@ export interface InChainedDecorators {
   <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void;
 
   (target: Object, propertyKey: string | symbol, parameterIndex: number): void;
+  (target: Function): void;
 
   /**
    * Type of this in parameter
@@ -73,7 +74,7 @@ export function In(inType: JsonParameterTypes | string): InChainedDecorators {
   const jsonParameter = new JsonParameter();
   const schema: any = {};
 
-  const decorator = (target: any, propertyKey: string | symbol, index: PropertyDescriptor | number) => {
+  const decorator = (target: any, propertyKey?: string | symbol, index?: PropertyDescriptor | number) => {
     const store = JsonEntityStore.from(target, propertyKey, index);
 
     switch (store.decoratorType) {
@@ -86,6 +87,11 @@ export function In(inType: JsonParameterTypes | string): InChainedDecorators {
 
         jsonParameter.schema(JsonSchema.from(schema));
         break;
+
+      case DecoratorTypes.CLASS:
+        decorateMethodsOf(target, decorator);
+        break;
+
       default:
         throw new UnsupportedDecoratorType(In, [target, propertyKey, index]);
     }
