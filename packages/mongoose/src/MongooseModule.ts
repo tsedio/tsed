@@ -1,5 +1,4 @@
-import {AfterRoutesInit, Module, PlatformApplication} from "@tsed/common";
-import {ValidationErrorMiddleware} from "./middlewares/ValidationErrorMiddleware";
+import {Module, OnDestroy} from "@tsed/common";
 import {MONGOOSE_CONNECTIONS} from "./services/MongooseConnections";
 import {MongooseService} from "./services/MongooseService";
 
@@ -9,12 +8,8 @@ import {MongooseService} from "./services/MongooseService";
 @Module({
   imports: [MONGOOSE_CONNECTIONS]
 })
-export class MongooseModule implements AfterRoutesInit {
-  constructor(private platformApplication: PlatformApplication, private mongooseService: MongooseService) {}
-
-  $afterRoutesInit(): void {
-    this.platformApplication.use(ValidationErrorMiddleware as any);
-  }
+export class MongooseModule implements OnDestroy {
+  constructor(private mongooseService: MongooseService) {}
 
   $onDestroy(): Promise<any> | void {
     return this.mongooseService.closeConnections();
