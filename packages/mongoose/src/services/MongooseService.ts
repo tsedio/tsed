@@ -1,10 +1,14 @@
-import {$log, Service} from "@tsed/common";
+import {Inject, Service} from "@tsed/di";
+import {Logger} from "@tsed/logger";
 import * as Mongoose from "mongoose";
 
 @Service()
 export class MongooseService {
   readonly connections: Map<string, Mongoose.Connection> = new Map();
   private defaultConnection: string = "default";
+
+  @Inject()
+  logger: Logger;
 
   /**
    *
@@ -15,9 +19,9 @@ export class MongooseService {
       return await this.get(id)!;
     }
 
-    $log.info(`Connect to mongo database: ${id}`);
-    $log.debug(`Url: ${url}`);
-    $log.debug(`options: ${JSON.stringify(connectionOptions)}`);
+    this.logger.info(`Connect to mongo database: ${id}`);
+    this.logger.debug(`Url: ${url}`);
+    this.logger.debug(`options: ${JSON.stringify(connectionOptions)}`);
 
     try {
       const connection = await Mongoose.createConnection(url, connectionOptions);
@@ -30,7 +34,7 @@ export class MongooseService {
       return connection;
     } catch (er) {
       /* istanbul ignore next */
-      $log.error(er);
+      this.logger.error(er);
       /* istanbul ignore next */
       process.exit();
     }

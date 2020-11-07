@@ -7,7 +7,7 @@ import {schemaOptions} from "../utils/schemaOptions";
  * define the hook function like you normally would in Mongoose.
  *
  * ```typescript
- * import {Ignore, Required} from "@tsed/common";
+ * import {Ignore, Required} from "@tsed/di";
  * import {PostHook, Model} from "@tsed/mongoose";
  *
  * @Model()

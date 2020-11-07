@@ -14,7 +14,7 @@ export interface PreHookOptions {
  * define the hook function like you normally would in Mongoose.
  *
  * ```typescript
- * import {Ignore, Required} from "@tsed/common";
+ * import {Ignore, Required} from "@tsed/di";
  * import {PreHook, Model} from "@tsed/mongoose";
  *
  * @Model()

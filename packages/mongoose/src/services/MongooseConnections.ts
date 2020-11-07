@@ -1,4 +1,4 @@
-import {Configuration, registerProvider} from "@tsed/common";
+import {Configuration, registerProvider} from "@tsed/di";
 import {isArray} from "@tsed/core";
 import {MDBConnection} from "../interfaces";
 import {MongooseService} from "../services/MongooseService";

@@ -1,8 +1,4 @@
-/**
- *
- * @type {Registry<Provider<any>, IProvider<any>>}
- */
-import {GlobalProviders, Provider, TypedProvidersRegistry} from "@tsed/common";
+import {GlobalProviders, Provider, TypedProvidersRegistry} from "@tsed/di";
 
 export const PROVIDER_TYPE_MONGOOSE_MODEL = "mongooseModel";
 // tslint:disable-next-line: variable-name
@@ -17,7 +13,7 @@ export const MongooseModelRegistry: TypedProvidersRegistry = GlobalProviders.cre
  * #### Example
  *
  * ```typescript
- * import {registerModel, InjectorService} from "@tsed/common";
+ * import {registerModel, InjectorService} from "@tsed/di";
  *
  * export default class MyModel {
  *     constructor(){}

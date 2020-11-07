@@ -20,7 +20,7 @@
     "src": "src"
   },
   "devDependencies": {
-    "@tsed/common": "6.6.3",
+    "@tsed/di": "6.6.3",
     "@tsed/core": "6.6.3",
     "@types/mongoose": "5.7.37",
     "mongoose": "^5.9.27"

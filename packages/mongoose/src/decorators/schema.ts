@@ -1,4 +1,4 @@
-import {Property} from "@tsed/common";
+import {Property} from "@tsed/schema";
 import {applyDecorators, getDecoratorType, StoreMerge} from "@tsed/core";
 import {SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";

@@ -1,4 +1,4 @@
-import {Module, OnDestroy} from "@tsed/common";
+import {Inject, Module, OnDestroy} from "@tsed/common";
 import {MONGOOSE_CONNECTIONS} from "./services/MongooseConnections";
 import {MongooseService} from "./services/MongooseService";
 
@@ -9,7 +9,8 @@ import {MongooseService} from "./services/MongooseService";
   imports: [MONGOOSE_CONNECTIONS]
 })
 export class MongooseModule implements OnDestroy {
-  constructor(private mongooseService: MongooseService) {}
+  @Inject()
+  private mongooseService: MongooseService;
 
   $onDestroy(): Promise<any> | void {
     return this.mongooseService.closeConnections();
