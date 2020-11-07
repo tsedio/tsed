@@ -1,9 +1,10 @@
-import {ancestorsOf} from "@tsed/core";
+import {ancestorsOf, classOf, nameOf} from "@tsed/core";
 import {Inject, Injectable, InjectorService} from "@tsed/di";
 import {PlatformContext} from "../../platform/domain/PlatformContext";
 import "../components/ErrorFilter";
 import "../components/ExceptionFilter";
 import "../components/StringErrorFilter";
+import "../components/MongooseErrorFilter";
 import {ExceptionFilterKey, ExceptionFiltersContainer} from "../domain/ExceptionFiltersContainer";
 import {ResourceNotFound} from "../errors/ResourceNotFound";
 import {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
@@ -27,6 +28,12 @@ export class PlatformExceptions {
   }
 
   catch(error: unknown, ctx: PlatformContext) {
+    const name = nameOf(classOf(error));
+
+    if (name && this.types.has(name)) {
+      return this.types.get(name)!.catch(error, ctx);
+    }
+
     const target = ancestorsOf(error)
       .reverse()
       .find((target) => this.types.has(target));
