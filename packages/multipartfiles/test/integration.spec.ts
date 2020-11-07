@@ -17,6 +17,12 @@ describe("Multer integration", () => {
     expect(result.text).to.eq("file.txt");
   });
 
+  it("should throw an exception when there is no file", async () => {
+    const result = await request.post("/rest/archives/with-name").expect(400);
+
+    expect(result.text).to.eq("Bad request on parameter \"request.form_data.files.media.0\".<br />It should have required parameter 'files.media.0'");
+  });
+
   it("should load a file (without name)", async () => {
     const result = await request.post("/rest/archives/with-name").attach("media", `${__dirname}/data/file.txt`);
 
