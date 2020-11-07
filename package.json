@@ -125,7 +125,7 @@
     "nyc": "15.1.0",
     "prettier": "2.1.2",
     "proxyquire": "2.1.3",
-    "semantic-release": "^15.13.18",
+    "semantic-release": "^17.2.2",
     "sinon": "9.0.2",
     "sinon-chai": "3.5.0",
     "supertest": "4.0.2",
