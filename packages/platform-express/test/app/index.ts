@@ -13,7 +13,6 @@ if (process.env.NODE_ENV !== "test") {
 
   async function bootstrap() {
     try {
-      $log.debug("Start server...");
       const platform = await PlatformExpress.bootstrap(Server, {
         mount: {"/rest": [HelloWorld]}
       });

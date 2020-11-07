@@ -1,54 +1,29 @@
-import {Env, Type} from "@tsed/core";
-import {InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
+import {Env, getValue, Type} from "@tsed/core";
+import {DITestInvokeOptions, InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
+import {DITest} from "@tsed/di";
 import {createInjector, loadInjector, PlatformBuilder, PlatformType} from "../../platform-builder";
 import {PlatformContext, RequestContextOptions} from "../../platform/domain/PlatformContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 import {PlatformRequest} from "../../platform/services/PlatformRequest";
 import {PlatformResponse} from "../../platform/services/PlatformResponse";
 
-export interface PlatformTestInvokeOptions {
-  token?: TokenProvider;
-  use: any;
-}
-
 /**
  * @platform
  */
-export class PlatformTest {
+export class PlatformTest extends DITest {
   public static platformBuilder: Type<PlatformBuilder>;
-  protected static _injector: InjectorService | null = null;
-
-  static get injector(): InjectorService {
-    if (this._injector) {
-      return this._injector!;
-    }
-
-    /* istanbul ignore next */
-    throw new Error(
-      "PlatformTest.injector is not initialized. Use PlatformTest.create(): Promise before PlatformTest.invoke() or PlatformTest.injector.\n" +
-        "Example:\n" +
-        "before(async () => {\n" +
-        "   await PlatformTest.create()\n" +
-        "   await PlatformTest.invoke(MyService, [])\n" +
-        "})"
-    );
-  }
 
   static async create(options: Partial<TsED.Configuration> = {}) {
-    PlatformTest._injector = PlatformTest.createInjector(options);
+    DITest.injector = PlatformTest.createInjector(options);
 
-    await loadInjector(PlatformTest._injector);
+    await loadInjector(DITest.injector);
   }
 
   /**
    * Create a new injector with the right default services
    */
-  static createInjector(options: any = {}): InjectorService {
-    const injector = createInjector(options);
-
-    injector.settings.env = options.env || Env.TEST;
-
-    return injector;
+  static createInjector(settings: any = {}): InjectorService {
+    return createInjector(DITest.configure(settings));
   }
 
   /**
@@ -58,10 +33,10 @@ export class PlatformTest {
    * @param options
    * @returns {Promise<void>}
    */
-  static bootstrap(mod: any, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
+  static bootstrap(mod: any, settings: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       let instance: any;
-      const platform: PlatformType = options.platform || PlatformTest.platformBuilder;
+      const platform: PlatformType = settings.platform || PlatformTest.platformBuilder;
 
       /* istanbul ignore next */
       if (!platform) {
@@ -71,32 +46,15 @@ export class PlatformTest {
       }
 
       // @ts-ignore
-      instance = await PlatformBuilder.build(platform).bootstrap(mod, {
-        env: Env.TEST,
-        logger: {
-          level: "off",
-          ...(options.logger || {})
-        },
-        ...options
-      });
+      instance = await PlatformBuilder.build(platform).bootstrap(mod, DITest.configure(settings));
 
       await instance.callHook("$beforeListen");
       await instance.callHook("$afterListen");
       await instance.ready();
 
       // used by inject method
-      PlatformTest._injector = instance.injector;
+      DITest.injector = instance.injector;
     };
-  }
-
-  /**
-   * Resets the test injector of the test context, so it won't pollute your next test. Call this in your `tearDown` logic.
-   */
-  static async reset() {
-    if (PlatformTest._injector) {
-      await PlatformTest._injector.destroy();
-      PlatformTest._injector = null;
-    }
   }
 
   /**
@@ -112,11 +70,11 @@ export class PlatformTest {
    */
   static inject<T>(targets: any[], func: (...args: any[]) => Promise<T> | T): () => Promise<T> {
     return async (): Promise<T> => {
-      if (!PlatformTest._injector) {
+      if (!DITest.hasInjector()) {
         await PlatformTest.create();
       }
 
-      const injector: InjectorService = PlatformTest.injector;
+      const injector: InjectorService = DITest.injector;
       const deps = [];
 
       for (const target of targets) {
@@ -125,39 +83,6 @@ export class PlatformTest {
 
       return await func(...deps);
     };
-  }
-
-  /**
-   * Invoke a provider and return a fresh instance
-   * @param target
-   * @param providers
-   */
-  static invoke<T = any>(target: TokenProvider, providers: PlatformTestInvokeOptions[] = []): T | Promise<T> {
-    const locals = new LocalsContainer();
-    providers.forEach((p) => {
-      locals.set(p.token, p.use);
-    });
-
-    const instance: OnInit = PlatformTest.injector.invoke(target, locals, {rebuild: true});
-
-    if (instance && instance.$onInit) {
-      // await instance.$onInit();
-      const result = instance.$onInit();
-      if (result instanceof Promise) {
-        return result.then(() => instance as any);
-      }
-    }
-
-    return instance as any;
-  }
-
-  /**
-   * Return the instance from injector registry
-   * @param target
-   * @param options
-   */
-  static get<T = any>(target: TokenProvider, options: any = {}): T {
-    return PlatformTest.injector.get<T>(target, options)!;
   }
 
   /**
@@ -177,7 +102,7 @@ export class PlatformTest {
    * ```
    */
   static callback() {
-    return PlatformTest.injector.get<PlatformApplication>(PlatformApplication)?.callback();
+    return DITest.injector.get<PlatformApplication>(PlatformApplication)?.callback();
   }
 
   static createRequestContext(options: Partial<RequestContextOptions> = {}) {
@@ -186,8 +111,8 @@ export class PlatformTest {
 
     return new PlatformContext({
       id: "id",
-      injector: PlatformTest.injector,
-      logger: PlatformTest.injector.logger,
+      injector: DITest.injector,
+      logger: DITest.injector.logger,
       url: "/",
       ...options
     });

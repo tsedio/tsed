@@ -1,4 +1,4 @@
-import {Configuration, getConfiguration} from "@tsed/common";
+import {Configuration, getConfiguration} from "@tsed/di";
 import {expect} from "chai";
 
 describe("getConfiguration", () => {

@@ -1,11 +1,11 @@
-import {PlatformTest, ProviderScope, Scope} from "@tsed/common";
+import {DITest, ProviderScope, Scope} from "@tsed/di";
 import {descriptorOf} from "@tsed/core";
 import {Inject, Injectable, Opts, UseOpts} from "@tsed/di";
 import {expect} from "chai";
 
 describe("UseOpts", () => {
-  beforeEach(() => PlatformTest.create());
-  afterEach(() => PlatformTest.reset());
+  beforeEach(() => DITest.create());
+  afterEach(() => DITest.reset());
   it("should inject provider with options", async () => {
     @Injectable()
     class MyProvider {
@@ -27,7 +27,7 @@ describe("UseOpts", () => {
       constructor(@UseOpts({source: "test2"}) public service2: MyProvider) {}
     }
 
-    const service = await PlatformTest.invoke<MyService>(MyService);
+    const service = await DITest.invoke<MyService>(MyService);
 
     expect(service.service2.source).to.equal("test2");
     expect(service.service2).to.not.equal(service.service1);
@@ -56,7 +56,7 @@ describe("UseOpts", () => {
     @Scope(ProviderScope.SINGLETON)
     class MyRepoService extends MyProvider {}
 
-    await PlatformTest.invoke<MyRepoService>(MyRepoService);
+    await DITest.invoke<MyRepoService>(MyRepoService);
   });
   it("should store metadata", () => {
     // GIVEN

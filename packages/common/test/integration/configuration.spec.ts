@@ -1,4 +1,5 @@
-import {Controller, createInjector, Get, Module} from "@tsed/common/src";
+import {Controller, createInjector, Get} from "@tsed/common";
+import {Module} from "@tsed/di";
 import {expect} from "chai";
 
 describe("DI", () => {

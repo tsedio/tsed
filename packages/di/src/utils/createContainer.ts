@@ -1,5 +1,6 @@
 import {Type} from "@tsed/core";
-import {Container, GlobalProviders} from "@tsed/di";
+import {Container} from "../class/Container";
+import {GlobalProviders} from "../registries/GlobalProviders";
 
 export function createContainer(rootModule?: Type<any>) {
   const container = new Container(GlobalProviders.entries());

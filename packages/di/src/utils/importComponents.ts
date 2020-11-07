@@ -1,5 +1,5 @@
 import {isArray, isClass} from "@tsed/core";
-import {IProvider} from "@tsed/di";
+import {IProvider} from "../interfaces/IProvider";
 import {importFiles} from "./importFiles";
 
 async function resolveSymbols(item: any, excludes: string[]) {
