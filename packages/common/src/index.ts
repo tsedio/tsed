@@ -9,4 +9,4 @@ export * from "./platform-exceptions";
 export * from "./platform-test";
 export * from "./platform-response-filter";
 
-export {$log} from "@tsed/logger";
+export {$log, Logger} from "@tsed/logger";
