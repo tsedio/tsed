@@ -175,19 +175,4 @@ describe("@MultipartFile()", () => {
       });
     });
   });
-
-  describe("when error", () => {
-    let error: any;
-    before(() => {
-      try {
-        MultipartFile()(Test, "test", {});
-      } catch (er) {
-        error = er;
-      }
-    });
-
-    it("should store metadata", () => {
-      expect(error.message).to.eq("MultipartFile is only supported on parameters");
-    });
-  });
 });

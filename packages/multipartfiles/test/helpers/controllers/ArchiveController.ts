@@ -1,4 +1,4 @@
-import {BodyParams, Controller, Post, Status} from "@tsed/common";
+import {BodyParams, Controller, Post, Required, Status} from "@tsed/common";
 import {MulterOptions, MultipartFile} from "../../../src";
 import {Event} from "../models/Event";
 
@@ -7,7 +7,7 @@ export class ArchiveController {
   @Post("/with-name")
   @Status(201)
   @MulterOptions({dest: `${__dirname}/../../.tmp`})
-  uploadWithName(@MultipartFile("media") media: Express.Multer.File) {
+  uploadWithName(@Required() @MultipartFile("media") media: Express.Multer.File) {
     return media.originalname;
   }
 
