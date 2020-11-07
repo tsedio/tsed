@@ -1,5 +1,6 @@
 import {Type} from "@tsed/core";
 import {JsonEntityStore} from "../domain/JsonEntityStore";
+import {alterIgnore} from "../hooks/ignoreHook";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 
@@ -26,4 +27,24 @@ export function getPropertiesStores<T extends JsonEntityStore = JsonEntityStore>
   }
 
   return store.$properties;
+}
+
+export interface GetPropertiesOptions {
+  withIgnoredProps?: boolean;
+
+  [type: string]: any;
+}
+
+export function getProperties(target: Type<any>, options: GetPropertiesOptions = {}) {
+  const stores = getPropertiesStores(target);
+
+  stores.forEach((store, key) => {
+    if (!options.withIgnoredProps) {
+      if (alterIgnore(store.itemSchema, {})) {
+        stores.delete(key);
+      }
+    }
+  });
+
+  return stores;
 }

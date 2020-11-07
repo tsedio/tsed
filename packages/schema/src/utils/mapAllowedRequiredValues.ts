@@ -1,7 +1,7 @@
 /**
  * @ignore
  */
-export function mapAllowedRequiredValues(type: string | string[], schema: any) {
+export function mapAllowedRequiredValues(type: string | string[], schema: any): (string | number | null)[] {
   const allowedRequiredValues = [];
 
   if (type.includes("string") && !schema.minLength) {

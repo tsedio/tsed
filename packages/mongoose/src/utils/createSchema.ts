@@ -1,5 +1,5 @@
-import {PropertyMetadata} from "@tsed/common";
 import {cleanObject, Store, Type} from "@tsed/core";
+import {JsonEntityStore, getProperties} from "@tsed/schema";
 import * as mongoose from "mongoose";
 import {SchemaDefinition, SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
@@ -62,7 +62,7 @@ export function getSchema(target: Type<any>, options: MongooseSchemaOptions = {}
  * @ignore
  */
 export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
-  const properties = PropertyMetadata.getProperties(target, {withIgnoredProps: true});
+  const properties = getProperties(target, {withIgnoredProps: true, mongoose: true});
   const schema: MongooseSchemaMetadata = {schema: {}, virtuals: new Map()};
 
   properties.forEach((propertyMetadata, key) => {
@@ -95,20 +95,20 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
 /**
  * @ignore
  */
-export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): SchemaTypeOpts<any> {
-  const key = propertyMetadata.propertyKey;
-  const rawMongooseSchema = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
+export function createSchemaTypeOptions(propEntity: JsonEntityStore): SchemaTypeOpts<any> {
+  const key = propEntity.propertyKey;
+  const rawMongooseSchema = propEntity.store.get(MONGOOSE_SCHEMA) || {};
 
   let schemaTypeOptions: SchemaTypeOpts<any> = {
-    required: propertyMetadata.required
+    required: propEntity.required
       ? function () {
-          return propertyMetadata.isRequired(this[key]);
+          return propEntity.isRequired(this[key]);
         }
       : false
   };
 
-  if (!propertyMetadata.isClass) {
-    const jsonSchema = propertyMetadata.itemSchema.toJSON();
+  if (!propEntity.isClass) {
+    const jsonSchema = propEntity.itemSchema.toJSON();
     const {minimum: min, maximum: max, minLength: minlength, maxLength: maxlength} = jsonSchema;
 
     let match: string | RegExp = jsonSchema.pattern;
@@ -118,7 +118,7 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
 
     schemaTypeOptions = {
       ...schemaTypeOptions,
-      type: propertyMetadata.type,
+      type: propEntity.type,
       match,
       min,
       max,
@@ -129,19 +129,19 @@ export function createSchemaTypeOptions(propertyMetadata: PropertyMetadata): Sch
     };
   } else if (!rawMongooseSchema.ref) {
     // References are handled by the final merge
-    schemaTypeOptions = {...schemaTypeOptions, type: getSchema(propertyMetadata.type)};
+    schemaTypeOptions = {...schemaTypeOptions, type: getSchema(propEntity.type)};
   }
 
   schemaTypeOptions = cleanObject({...schemaTypeOptions, ...rawMongooseSchema});
 
-  if (propertyMetadata.isCollection) {
-    if (propertyMetadata.isArray) {
+  if (propEntity.isCollection) {
+    if (propEntity.isArray) {
       schemaTypeOptions = [schemaTypeOptions];
     } else {
       // Can be a Map or a Set;
       // Mongoose implements only Map;
-      if (propertyMetadata.collectionType !== Map) {
-        throw new Error(`Invalid collection type. ${propertyMetadata.collectionName} is not supported.`);
+      if (propEntity.collectionType !== Map) {
+        throw new Error(`Invalid collection type. ${propEntity.collectionName} is not supported.`);
       }
 
       schemaTypeOptions = {type: Map, of: schemaTypeOptions};
