@@ -81,7 +81,7 @@ export function MultipartFile(name: string, maxCount?: number): ParameterDecorat
         !added && Use(PlatformMulterMiddleware),
         StoreMerge(PlatformMulterMiddleware, mapOptions(name, maxCount))
       ),
-      Req(expression),
+      Req({expression, useValidation: true}),
       UseParamType(ParamTypes.FILES)
     );
 

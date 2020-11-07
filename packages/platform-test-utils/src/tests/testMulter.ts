@@ -1,6 +1,5 @@
-import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformTest, Post, Status} from "@tsed/common";
-import {PlatformMulterFile} from "@tsed/common/src/config/interfaces";
-import {CollectionOf, Property, Required} from "@tsed/schema";
+import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest, Post} from "@tsed/common";
+import {CollectionOf, Property, Required, Status} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -27,7 +26,7 @@ export class TestMulterController {
   @Post("/scenario-1")
   @Status(201)
   @MulterOptions({dest: `${__dirname}/../.tmp`})
-  uploadWithName(@MultipartFile("media") media: PlatformMulterFile) {
+  uploadWithName(@Required() @MultipartFile("media") media: PlatformMulterFile) {
     return media.originalname;
   }
 
@@ -67,6 +66,26 @@ export function testMulter(options: PlatformTestOptions) {
       const result = await request.post("/rest/multer/scenario-1").attach("media", `${__dirname}/../data/file.txt`).expect(201);
 
       expect(result.text).to.eq("file.txt");
+    });
+
+    it("should throw an exception when there is no file", async () => {
+      const result = await request.post("/rest/multer/scenario-1").expect(400);
+
+      expect(result.body).to.deep.eq({
+        name: "REQUIRED_VALIDATION_ERROR",
+        message: "Bad request on parameter \"request.files.media.0\".\nIt should have required parameter 'media.0'",
+        status: 400,
+        errors: [
+          {
+            dataPath: "",
+            keyword: "required",
+            message: "It should have required parameter 'media.0'",
+            modelName: "files",
+            params: {missingProperty: "media.0"},
+            schemaPath: "#/required"
+          }
+        ]
+      });
     });
   });
 }
