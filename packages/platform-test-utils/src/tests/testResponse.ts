@@ -1,11 +1,27 @@
 import {Context, Controller, Get, Next, PathParams, PlatformTest, Post} from "@tsed/common";
-import {ContentType, Status} from "@tsed/schema";
+import {ContentType, Ignore, Property, Status} from "@tsed/schema";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import {join} from "path";
 import {of} from "rxjs";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
+
+class Base {
+  @Ignore()
+  ignoreMeBase: string;
+
+  @Property()
+  fooBase: string;
+}
+
+class MyModel extends Base {
+  @Property()
+  foo: string;
+
+  @Ignore()
+  ignoreMe: string;
+}
 
 @Controller("/response")
 class TestResponseParamsCtrl {
@@ -79,14 +95,6 @@ class TestResponseParamsCtrl {
     return createReadStream(join(__dirname, "../data/response.data.json"));
   }
 
-  // @Get("/scenario8")
-  // testScenario8Middleware() {
-  //   // TODO get the current platform type
-  //   return (req: Req, res: Res, next: Next) => {
-  //     res.json({id: 1});
-  //   };
-  // }
-
   @Get("/scenario9/static")
   public testScenario9Get(): string {
     return "value";
@@ -95,6 +103,17 @@ class TestResponseParamsCtrl {
   @Get("/scenario9/:id")
   public testScenario9WithDynamicParam(@PathParams("id") id: number): string {
     return "value" + id;
+  }
+
+  @Get("/scenario10")
+  public testScenario10() {
+    const model = new MyModel();
+    model.foo = "foo";
+    model.ignoreMe = "ignoreMe";
+    model.fooBase = "fooBase";
+    model.ignoreMeBase = "ignoreMeBase";
+
+    return model;
   }
 }
 
@@ -196,24 +215,7 @@ export function testResponse(options: PlatformTestOptions) {
     });
   });
 
-  // describe("Scenario8: when endpoint return a middleware", () => {
-  //   describe("GET /rest/response/scenario8", () => {
-  //     it("should return a body", async () => {
-  //       const response = await request.get("/rest/response/scenario8");
-  //
-  //       expect(response.body).to.deep.equal({id: 1});
-  //     });
-  //   });
-  //   describe("GET /rest/response/scenario8b", () => {
-  //     it("should return a body", async () => {
-  //       const response = await request.get("/rest/response/scenario8b");
-  //
-  //       expect(response.body).to.deep.equal({id: 1});
-  //     });
-  //   });
-  // });
-
-  describe("Scenario9: routes without parameters must be defined first in express", () => {
+  describe("Scenario9: routes without parameters must be defined first", () => {
     describe("GET /rest/response/scenario9/static", () => {
       it("should return the test", async () => {
         const response = await request.get("/rest/response/scenario9/static").expect(200);
@@ -251,6 +253,17 @@ export function testResponse(options: PlatformTestOptions) {
           name: "AJV_VALIDATION_ERROR",
           status: 400
         });
+      });
+    });
+  });
+
+  describe("Scenario10: return a model with ignored props", () => {
+    it("should return a body", async () => {
+      const response = await request.get("/rest/response/scenario10");
+
+      expect(response.body).to.deep.equal({
+        foo: "foo",
+        fooBase: "fooBase"
       });
     });
   });
