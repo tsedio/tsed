@@ -8,6 +8,8 @@ import {isParameterType} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
 import {SpecTypes} from "./SpecTypes";
 
+const IGNORE_OS2_PROPS = ["example", "examples", "title"];
+
 export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
   nestedGenerics: Type<any>[][] = [];
   $schema: JsonSchema;
@@ -70,23 +72,29 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
         if (jsonSchema.type === "array") {
           const {minLength, ...props} = jsonSchema;
-          return cleanObject({
-            ...parameter,
-            ...props,
-            type: "array",
-            collectionFormat: "multi",
-            items: {
-              type: "string"
-            }
-          });
+          return cleanObject(
+            {
+              ...parameter,
+              ...props,
+              type: "array",
+              collectionFormat: "multi",
+              items: {
+                type: "string"
+              }
+            },
+            IGNORE_OS2_PROPS
+          );
         }
       }
 
       if (this.get("in") !== "body") {
-        return cleanObject({
-          ...parameter,
-          ...jsonSchema
-        });
+        return cleanObject(
+          {
+            ...parameter,
+            ...jsonSchema
+          },
+          IGNORE_OS2_PROPS
+        );
       }
     }
 
