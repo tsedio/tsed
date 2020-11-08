@@ -263,7 +263,7 @@ describe("serialize()", () => {
         }
       });
     });
-    it("should discover property dynamicly when any schema decorators are used", () => {
+    it("should discover property dynamically when any schema decorators are used", () => {
       function log(): PropertyDecorator {
         return () => {};
       }

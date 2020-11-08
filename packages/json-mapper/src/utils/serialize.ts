@@ -94,6 +94,9 @@ function toObject(obj: any, options: JsonSerializerOptions): any {
 export function serialize(obj: any, {type, collectionType, ...options}: JsonSerializerOptions = {}): any {
   const types = options.types ? options.types : getJsonMapperTypes();
 
+  // prevent Object metadata assignation. TypeScript set Object by default on endpoint.type
+  type = type === Object ? undefined : type;
+
   if (isEmpty(obj)) {
     return obj;
   }
