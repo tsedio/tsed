@@ -28,8 +28,11 @@ describe("getConfiguration", () => {
         componentsScan: ["/root2-services/*.ts"]
       })
     ).to.deep.eq({
-      componentsScan: ["/root2-services/*.ts"],
-      mount: ["/root1-services/*.ts", "/root2-services/*.ts"]
+      componentsScan: ["/root1-services/*.ts", "/root2-services/*.ts"],
+      mount: {
+        "/v1": ["/root1/*.ts"],
+        "/v2": ["/root2/*.ts"]
+      }
     });
   });
 });
