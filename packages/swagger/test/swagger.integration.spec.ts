@@ -136,7 +136,6 @@ describe("Swagger integration", () => {
               parameters: [
                 {
                   description: "Mongoose ObjectId",
-                  example: "5ce7ad3028890bd71749d477",
                   in: "path",
                   name: "id",
                   pattern: "^[0-9a-fA-F]{24}$",
