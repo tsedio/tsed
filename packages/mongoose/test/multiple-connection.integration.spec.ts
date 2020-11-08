@@ -35,27 +35,25 @@ class ProductData {
 describe("Mongoose", () => {
   describe("MultipleConnection", () => {
     beforeEach(async () => {
-      const config: any = await TestMongooseContext.install();
-
-      await PlatformTest.bootstrap(Server, {
+      const mongooseSettings: any = await TestMongooseContext.install({
         mongoose: [
           {
             id: "customer",
-            url: config.url,
             connectionOptions: {
-              ...config.connectionOptions,
               dbName: "customerDB"
             }
           },
           {
             id: "product",
-            url: config.url,
             connectionOptions: {
-              ...config.connectionOptions,
               dbName: "productDB"
             }
           }
         ]
+      });
+
+      await PlatformTest.bootstrap(Server, {
+        mongoose: mongooseSettings
       })();
     });
     afterEach(TestMongooseContext.clearDatabase);

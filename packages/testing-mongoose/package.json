@@ -8,13 +8,13 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "mongodb-memory-server": "^6.3.3",
+    "mongodb-memory-server": "^6.9.2",
     "tslib": "2.0.1"
   },
   "private": false,
   "peerDependencies": {
-    "@types/mongoose": "^5.7.34",
-    "mongoose": "^5.9.27"
+    "@types/mongoose": "^5.7.37",
+    "mongoose": "^5.10.13"
   },
   "devDependencies": {
     "@tsed/common": "6.6.3",

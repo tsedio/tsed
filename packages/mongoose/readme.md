@@ -1,6 +1,6 @@
 # @tsed/mongoose
 
-[![Build Status](https://travis-ci.org/TypedProject/tsed.svg?branch=master)](https://travis-ci.org/TypedProject/tsed)
+[![Build & Release](https://github.com/TypedProject/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/TypedProject/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![Coverage Status](https://coveralls.io/repos/github/TypedProject/tsed/badge.svg?branch=production)](https://coveralls.io/github/TypedProject/tsed?branch=production)
 ![npm](https://img.shields.io/npm/dm/@tsed/common.svg)
 [![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Fcommon)
@@ -12,26 +12,126 @@
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![backers](https://opencollective.com/tsed/tiers/badge.svg)](https://opencollective.com/tsed)
 
+<p style="text-align: center" align="center">
+ <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+</p>
 
 <p style="text-align: center" align="center">
  <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
-A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/mongoose
+Ts.ED Mongoose. Use Ts.ED decorators to build your mongoose models and schema.
+
+See website: https://tsed.io/tutorials/mongoose.html
 
 ## Feature
 
 Currently, `@tsed/mongoose` allows you:
+
+- Use decorators to declare mongoose Models,
+- Add a plugin, PreHook method and PostHook on your model. 
+- Configure one or more MongoDB database connections. 
+- Inject a Model to a Service, Controller, Middleware, etc... (with Ts.ED framework)
+
+This module can be used in standalone, without Ts.ED server framework.
+
+## Standalone
+
+Since v6, it's possible to use `@tsed/mongoose` without the entire Ts.ED framework.
+You only need to install the following packages:
+
+```sh
+npm install --save mongoose
+npm install --save @tsed/di @tsed/core @tsed/schema @tsed/mongoose
+npm install --save-dev @types/mongoose
+```
+
+Then create the boostrap all database with the `mongooseFactory` function:
+
+```typescript
+import {Configuration} from "@tsed/di";
+import {mongooseFactory, MongooseService, MongooseDocument} from "@tsed/mongoose"; // import mongoose ts.ed module
+
+const rootDir = __dirname;
+
+export async function bootstrap(settings: MongooseFactoryOptions) {
+  // Resolve DI, boostrap module, services, etc.. and create connections with database.
+  const injector = await mongooseFactory(settings)
  
-- Configure one or more MongoDB database connections via the `@ServerSettings` configuration. 
-All databases will be initialized when the server starts during the server's `OnInit` phase.
-- Declare a Model from a class with annotation,
-- Add a plugin, PreHook method and PostHook on your model.
-- Inject a Model to a Service, Controller, Middleware, etc...
+  // Get services and models 
+  const mongooseService = injector.get<MongooseService>(MongooseService); // to get connections
+  const myModel = injector.get<MongooseDocument<MyModel>>(MyModel); // get a mongoose model
+  // do something
 
-> Note: `@tsed/mongoose` use the JsonSchema and his decorators to generate the mongoose schema.
+  // emit $onDestroy event and close connections.
+  await injector.destroy()
+}
 
-## Installation
+boostrap({
+  imports: [
+    `${rootDir}/models/**/*.ts`,
+    `${rootDir}/services/**/*.ts`
+  ],
+  databases: [ // alias of mongoose in Ts.ED framework
+    {
+       id: "default",
+       url: "mongodb://127.0.0.1:27017/db1",
+       connectionOptions: {}
+     }
+  ]
+}).catch(er => console.error(er))
+```
+
+Optionally, you are able to create your modules and services with `@tsed/di`:
+
+Example of a module:
+
+```typescript
+import {Module, Inject, OnInit, OnDestroy} from "@tsed/di";
+
+@Module()
+export class MyMongooseModule implements OnInit, OnDestroy {
+  @Inject()
+  mongooseService: mongoose;
+  
+  $onInit() {
+    // do something on database
+  }
+  
+  $onDestroy() {
+    // do something
+  }
+}
+```
+
+Example of a service:
+
+```typescript
+import {Module, Inject, Injectable} from "@tsed/di";
+
+@Model({dbName: 'default'}) // dbName is optional. By default dbName is equal to default
+export class Product {
+  @ObjectID()
+  _id: string;
+  
+  @Unique()
+  @Required()
+  label: string;
+}
+
+@Injectable()
+export class ProductsRepository {
+  @Inject()
+  productModel: MongooseDocument<Product>; 
+  
+  findAll(): Promise<Product[]> {
+    return this.productModel.find().exec() 
+  }
+}
+```
+
+## With Ts.ED server
+### Installation
 
 Before using the `@tsed/mongoose` package, we need to install the [mongoose](https://www.npmjs.com/package/mongoose) module.
 
@@ -44,7 +144,7 @@ npm install --save-dev @types/mongoose
 Then import `@tsed/mongoose` in your Server:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
 @Configuration({
@@ -56,9 +156,7 @@ import "@tsed/mongoose"; // import mongoose ts.ed module
    }
  ]
 })
-export class Server {
-
-}
+export class Server {}
 ```
 
 ## Multi databases
@@ -67,26 +165,24 @@ The mongoose module of Ts.ED Mongoose allows to configure several basic connecti
 Here is an example configuration:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
 @Configuration({
  mongoose: [
    {
-     id: "default",
+     id: "db1",
      url: "mongodb://127.0.0.1:27017/db1",
      connectionOptions: {}
    },
    {
-     id: "default",
+     id: "db2",
      url: "mongodb://127.0.0.1:27017/db2",
      connectionOptions: {}
    }
  ]
 })
-export class Server {
-
-}
+export class Server {}
 ```
 
 ## MongooseService
@@ -94,7 +190,7 @@ export class Server {
 MongooseService let you to retrieve an instance of Mongoose.Connection. 
 
 ```typescript
-import {Service} from "@tsed/common";
+import {Service} from "@tsed/di";
 import {MongooseService} from "@tsed/mongoose";
 
 @Service()
@@ -111,17 +207,14 @@ export class MyService {
 ## Declaring a Model
 
 By default, Ts.ED mongoose will reuse the metadata stored by the decorators dedicated
-to describe a JsonSchema. This decorators come from the `@tsed/common` package.
-
-
-Here a model example:
+to describe a JsonSchema. These decorators come from the `@tsed/schema` package.
 
 ```typescript
 import {
     Minimum, Maximum, MaxLength, MinLength, 
     Enum, Pattern, Required, 
     CollectionOf
-} from "@tsed/common";
+} from "@tsed/schema";
 import {Model, Unique, Indexed, Ref, ObjectID} from "@tsed/mongoose"
 
 enum Categories {
@@ -131,68 +224,67 @@ enum Categories {
 
 @Model({dbName: 'default'}) // dbName is optional. By default dbName is equal to default
 export class MyModel {
-    @ObjectID()
-    _id: string;
-    
-    @Unique()
-    @Required()
-    unique: string;
-    
-    @Indexed()
-    @MinLength(3)
-    @MaxLength(50)
-    indexed: string;
-    
-    @Minimum(0)
-    @Maximum(100)
-    rate: Number;
-    
-    @Enum(Categories)
-    // or @Enum("type1", "type2")
-    category: Categories;
-    
-    @Pattern(/[a-z]/) // equivalent of match field in mongoose 
-    pattern: String;
-    
-    @CollectionOf(String)
-    arrayOf: string[];
-    
-    @Ref(OtherModel)
-    ref: Ref<OtherModel>;
-    
-    @Ref(OtherModel)
-    refs: Ref<OtherModel>[];
+  @ObjectID()
+  _id: string;
+  
+  @Unique()
+  @Required()
+  unique: string;
+  
+  @Indexed()
+  @MinLength(3)
+  @MaxLength(50)
+  indexed: string;
+  
+  @Minimum(0)
+  @Maximum(100)
+  rate: Number;
+  
+  @Enum(Categories)
+  // or @Enum("type1", "type2")
+  category: Categories;
+  
+  @Pattern(/[a-z]/) // equivalent of match field in mongoose 
+  pattern: String;
+  
+  @CollectionOf(String)
+  arrayOf: string[];
+  
+  @Ref(OtherModel)
+  ref: Ref<OtherModel>;
+  
+  @Ref(OtherModel)
+  refs: Ref<OtherModel>[];
 }
 ```
 
 ## Inject model
 
 ```typescript
-import {Service, Inject} from "@tsed/common";
+import {Service, Inject} from "@tsed/di";
 import {MongooseModel} from "@tsed/mongoose";
 import {MyModel} from "./models/MyModel";
 
 @Service()
 export class MyService {
-    constructor(@Inject(MyModel) private model: MongooseModel<MyModel>): MyModel {
-        console.log(model) // Mongoose.model class
-    }
+  constructor(@Inject(MyModel) private model: MongooseModel<MyModel>): MyModel {
+    console.log(model) // Mongoose.model class
+  }
+  
+  async save(obj: MyModel): MongooseModel<MyModel> {
+    const doc = new this.model(obj);
+    await doc.save();
     
-    async save(obj: MyModel): MongooseModel<MyModel> {
-        
-        const doc = new this.model(obj);
-        await doc.save();
-        
-        return doc;
-    }
-    
-    async find(query: any) {
-        const list = await this.model.find(query).exec();
-        
-        console.log(list);
-        
-        return list;
-    }
+    return doc;
+  }
+  
+  async find(query: any) {
+      const list = await this.model.find(query).exec();
+      
+      console.log(list);
+      
+      return list;
+  }
 }
 ```
 
@@ -209,7 +301,7 @@ We can simply attach a `@PreHook` decorator to your model class and
  define the hook function like you normally would in Mongoose.
  
 ```typescript
-import {Required} from "@tsed/common";
+import {Required} from "@tsed/schema";
 import {PreHook, Model, ObjectID} from "@tsed/mongoose";
 
 @Model()
@@ -248,8 +340,8 @@ We can simply attach a `@PostHook` decorator to your model class and
  define the hook function like you normally would in Mongoose.
  
 ```typescript
-import {ObjectID, Required} from "@tsed/common";
-import {PostHook, Model} from "@tsed/mongoose";
+import {Required} from "@tsed/di";
+import {ObjectID, PostHook, Model} from "@tsed/mongoose";
 
 @Model()
 @PostHook("save", (car: CarModel) => {
@@ -286,7 +378,7 @@ Just like the regular `schema.plugin()` call, the decorator accepts 1 or 2 param
 Multiple `plugin` decorator can be used for a single model class.
 
 ```typescript
-import {Service} from "@tsed/common";
+import {Service} from "@tsed/di";
 import {MongoosePlugin, Model, MongooseModel} from "@tsed/mongoose";
 import * as findOrCreate from 'mongoose-findorcreate';
 
