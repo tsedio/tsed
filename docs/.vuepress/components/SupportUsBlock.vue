@@ -4,13 +4,13 @@
       <div class="hidden lg:block absolute right-0  top-0 opacity-10 z-0 w-1/4 p-5 m-10">
         <img src="/sponsors.svg" alt="https://www.freepik.com/" title="https://www.freepik.com/" />
       </div>
-      <div class="w-full max-w-site mx-auto px-5 py-5 md:py-10 relative z-1">
+      <div class="w-full max-w-site mx-auto px-5 py-5 relative z-1">
         <div>
           <div class="flex flex-col items-center">
-            <h2 class="text-center text-4xl normal-case mb-10 text-blue"
+            <h2 class="text-center text-4xl normal-case mb-5 text-blue font-bold"
                 v-html="sponsors.title" />
 
-            <p class="text-center font-normal text-lg m-auto max-w-lg mb-10" v-html="sponsors.description" />
+            <p class="text-center font-normal text-normal m-auto max-w-md mb-10" v-html="sponsors.description" />
 
             <template v-for="(item, index) in sponsors.items">
               <h3 class="text-xl font-bold mb-10">{{ item.title }}</h3>
@@ -29,9 +29,15 @@
               </div>
             </template>
 
-            <div class="mt-5 text-center w-full">
+            <h3 class="text-xl font-bold mb-10">Our backers</h3>
+
+            <div class="flex flex-wrap justify-center items-stretch pb-5 w-full">
+              <OpenCollectiveBackers v-bind="backers.badge" />
+            </div>
+
+            <div class="mt-5 mb-5 text-center w-full">
               <Button
-                  class="w-1/2 sm:w-1/4 md:w-1/6 mb-5 sm:mr-2"
+                  class="w-full sm:w-1/4 md:w-1/6 mb-5 sm:mx-2"
                   :bg-color="sponsors.cta.bgColor"
                   :color="sponsors.cta.color"
                   rounded="medium"
@@ -40,10 +46,19 @@
               </Button>
 
               <Button
+                  class="w-full sm:w-1/3 md:w-1/6 mb-5 sm:mx-2"
+                  :bg-color="backers.cta.bgColor"
+                  :color="backers.cta.color"
+                  rounded="medium"
+                  :href="backers.cta.url">
+                {{ backers.cta.label }}
+              </Button>
+
+              <Button
                   bg-color="button-white"
                   color="blue"
                   data-mode="popup"
-                  class="w-1/2 sm:w-1/4 md:w-1/6 sm:ml-2 typeform-share"
+                  class="w-full sm:w-1/3 md:w-1/6 sm:mx-2 typeform-share"
                   rounded="medium"
                   href="https://form.typeform.com/to/uJLP7anG">
                 Contact us
@@ -53,23 +68,6 @@
         </div>
       </div>
     </div>
-
-    <Showcase :class="backers.classes"
-              v-bind="backers"
-              v-if="backers">
-
-      <OpenCollectiveBackers v-bind="backers.badge" />
-
-      <template #showcase-cta>
-        <Button
-            :bg-color="backers.cta.bgColor"
-            :color="backers.cta.color"
-            rounded="medium"
-            :href="backers.cta.url">
-          {{ backers.cta.label }}
-        </Button>
-      </template>
-    </Showcase>
   </div>
 </template>
 <script>
