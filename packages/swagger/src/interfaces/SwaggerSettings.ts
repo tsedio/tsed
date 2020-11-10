@@ -61,6 +61,14 @@ export interface SwaggerSettingsBase {
    * Write the `swagger.json` spec documentation on the specified path.
    */
   outFile?: string;
+  /**
+   * A function to generate the operationId.
+   */
+  operationIdFormatter?: (name: string, propertyKey: string, path: string) => string;
+  /**
+   * A pattern to generate the operationId. Format of operationId field (%c: class name, %m: method name).
+   */
+  operationIdPattern?: string;
 }
 
 export interface SwaggerOS2Settings extends SwaggerSettingsBase {

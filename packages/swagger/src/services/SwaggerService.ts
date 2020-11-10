@@ -33,6 +33,8 @@ export class SwaggerService {
       tags: [],
       schemas: {},
       specType,
+      operationIdFormatter: conf.operationIdFormatter,
+      operationIdPattern: conf.operationIdPattern,
       append(spec: any) {
         mergeSpec(finalSpec, spec);
       }
