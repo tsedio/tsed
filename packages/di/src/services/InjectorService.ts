@@ -6,6 +6,7 @@ import {
   getClassOrSymbol,
   isFunction,
   isInheritedFrom,
+  isPromise,
   Metadata,
   nameOf,
   prototypeOf,
@@ -394,6 +395,7 @@ export class InjectorService extends Container {
    * @param instance
    * @param {string} propertyKey
    * @param {any} useType
+   * @param options
    * @param locals
    * @param invokeOptions
    */
@@ -406,9 +408,15 @@ export class InjectorService extends Container {
     invokeOptions = {...invokeOptions};
     locals.set(DI_PARAM_OPTIONS, {...options});
 
-    const bean: any = this.invoke(useType, locals, invokeOptions);
+    let bean: any = this.invoke(useType, locals, invokeOptions);
 
     locals.delete(DI_PARAM_OPTIONS);
+
+    if (isPromise(bean)) {
+      bean.then((result: any) => {
+        bean = result;
+      });
+    }
 
     Object.defineProperty(instance, propertyKey, {
       get: () => bean
