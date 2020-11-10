@@ -1,13 +1,20 @@
 import {camelCase} from "change-case";
 
+const DEFAULT_PATTERN = "%c.%m";
+
 /**
  * @ignore
  */
-export function operationIdFormatter(pattern = "%c.%m") {
+export function operationIdFormatter(pattern: string = "") {
   const OPERATION_IDS = new Map<string, number>();
 
+  const transform = (name: string, propertyKey: string) => {
+    const str = (pattern || DEFAULT_PATTERN).replace(/%c/, name).replace(/%m/, propertyKey);
+    return pattern === "" ? camelCase(str) : str;
+  };
+
   return (name: string, propertyKey: string, path: string = "") => {
-    const operationId = camelCase(pattern.replace(/%c/, name).replace(/%m/, propertyKey));
+    const operationId = transform(name, propertyKey);
     const operationKey = name + propertyKey;
 
     if (!OPERATION_IDS.has(operationKey)) {
