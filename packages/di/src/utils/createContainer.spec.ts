@@ -1,4 +1,4 @@
-import {Container, createContainer, Module} from "@tsed/common";
+import {Container, createContainer, Module} from "@tsed/di";
 import {expect} from "chai";
 
 describe("createContainer", () => {

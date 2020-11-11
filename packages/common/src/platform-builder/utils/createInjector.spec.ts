@@ -23,7 +23,6 @@ describe("createInjector", () => {
     expect(injector.settings).to.be.instanceof(PlatformConfiguration);
     expect(injector.settings.test).to.eq("test");
     expect(injector.logger).to.eq($log);
-    expect(injector.logger.stop).to.have.been.calledWithExactly();
   });
 
   it("should create injector", () => {

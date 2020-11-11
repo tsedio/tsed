@@ -98,7 +98,7 @@ export class CalendarService {
   }
 }
 ```
-> Note: Controller isn't a part of `@tsed/di`. `@Controller` decorator are defined by `@tsed/common` package because it's a specific provider
+> Note: Controller isn't a part of `@tsed/di`. `@Controller` decorator is exposed by `@tsed/common` package because it's a specific provider
 used by the Ts.ED framework. Ts.ED DI allow you to define your own Provider and decorator.
 
 
