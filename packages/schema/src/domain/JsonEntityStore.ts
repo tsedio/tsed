@@ -10,6 +10,7 @@ import {
   Store,
   Type
 } from "@tsed/core";
+import {mapAllowedRequiredValues} from "../utils/mapAllowedRequiredValues";
 import {JsonOperation} from "./JsonOperation";
 import {JsonParameter} from "./JsonParameter";
 import {JsonSchema} from "./JsonSchema";
@@ -156,6 +157,62 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
   }
 
   /**
+   * Return the required state.
+   * @returns {boolean}
+   */
+  get required(): boolean {
+    switch (this.decoratorType) {
+      case DecoratorTypes.PROP:
+        return this.parent.schema.isRequired(this.propertyKey as string);
+      case DecoratorTypes.PARAM:
+        return this.parameter!.get("required");
+    }
+
+    return false;
+  }
+
+  /**
+   * Change the state of the required data.
+   * @param value
+   */
+  set required(value: boolean) {
+    switch (this.decoratorType) {
+      case DecoratorTypes.PROP:
+        if (value) {
+          this.parent.schema.addRequired(this.propertyKey as string);
+        } else {
+          this.parent.schema.removeRequired(this.propertyKey as string);
+        }
+        break;
+      case DecoratorTypes.PARAM:
+        this.parameter!.required(value);
+        break;
+    }
+  }
+
+  get allowedRequiredValues() {
+    if (!this._allowedRequiredValues) {
+      this._allowedRequiredValues = [];
+      if (this.decoratorType === DecoratorTypes.PROP) {
+        const schema = this.parent.schema.toJSON({useAlias: false}).properties[this.propertyName];
+
+        const type: string | string[] = schema.type || "";
+
+        this._allowedRequiredValues = mapAllowedRequiredValues(type, schema);
+      }
+
+      if (this.decoratorType === DecoratorTypes.PARAM) {
+        const schema = this.parameter!.$schema;
+        const type: string | string[] = schema.get("type") || "";
+
+        this._allowedRequiredValues = mapAllowedRequiredValues(type, schema.toJSON());
+      }
+    }
+
+    return this._allowedRequiredValues;
+  }
+
+  /**
    *
    * @param args
    */
@@ -181,6 +238,15 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
 
   static fromMethod(target: any, propertyKey: string | symbol) {
     return this.from(target, propertyKey, descriptorOf(target, propertyKey));
+  }
+
+  /**
+   * Check precondition between value, required and allowedRequiredValues to know if the entity is required.
+   * @param value
+   * @returns {boolean}
+   */
+  isRequired(value: any): boolean {
+    return this.required && [undefined, null, ""].includes(value) && !this.allowedRequiredValues.includes(value);
   }
 
   protected build() {
