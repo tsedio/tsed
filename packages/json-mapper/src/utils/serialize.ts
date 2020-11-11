@@ -1,4 +1,4 @@
-import {classOf, isClass, isCollection, isEmpty, isFunction, isPlainObject, MetadataTypes, objectKeys, Type} from "@tsed/core";
+import {classOf, isClass, isCollection, isEmpty, isFunction, isNil, isPlainObject, MetadataTypes, objectKeys, Type} from "@tsed/core";
 import {alterIgnore, getPropertiesStores, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
 import "../components";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
@@ -41,11 +41,11 @@ function getObjectProperties(obj: any): [string, any][] {
 }
 
 function getType(propStore: JsonEntityStore, value: any) {
-  if (value === null || value === undefined) {
-    return Object;
+  if (isNil(value) || propStore.type === Object || isCollection(propStore.type)) {
+    return undefined;
   }
 
-  return propStore.type === Object ? classOf(value) : propStore.type;
+  return propStore.type;
 }
 
 export function classToPlainObject(obj: any, options: JsonSerializerOptions<any, any>) {
@@ -93,7 +93,6 @@ function toObject(obj: any, options: JsonSerializerOptions): any {
 
 export function serialize(obj: any, {type, collectionType, ...options}: JsonSerializerOptions = {}): any {
   const types = options.types ? options.types : getJsonMapperTypes();
-
   // prevent Object metadata assignation. TypeScript set Object by default on endpoint.type
   type = type === Object ? undefined : type;
 
