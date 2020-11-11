@@ -42,17 +42,15 @@ export class PlatformViews {
         ...this.extensions
       })
     );
-    this.loadEngineRequires()
+    this.loadEngineRequires();
   }
-  
-  loadEngineRequires(){
-    Object.keys(this.engineOptions)
-    .map(engineType => {
-      const options = this.getEngineOptions(engineType)
-      if (options && options.requires)
-        this.consolidate.requires[engineType] = options.requires
-      })
-    }
+
+  loadEngineRequires() {
+    return Object.keys(this.engineOptions).map((engineType: PlatformViewsSupportedEngines) => {
+      const options = this.getEngineOptions(engineType);
+      if (options && options.requires) this.consolidate.requires[engineType] = options.requires;
+    });
+  }
 
   getExtensions(): Map<string, PlatformViewsSupportedEngines> {
     return this.extensionsMap;
