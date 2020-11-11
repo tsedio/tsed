@@ -62,13 +62,29 @@ export const security = (collection: any[], value: any) => {
 /**
  * @ignore
  */
+export const tagsReducer = (collection: any[], value: any) => {
+  const current = collection.find((current) => current.name === value.name);
+
+  if (current) {
+    deepExtends(current, value);
+  } else {
+    collection.push(value);
+  }
+
+  return collection;
+};
+
+/**
+ * @ignore
+ */
 const SPEC_REDUCERS = {
   default: defaultReducer,
   security,
   parameters,
   oneOf: schemesReducer,
   anyOf: schemesReducer,
-  allOf: schemesReducer
+  allOf: schemesReducer,
+  tags: tagsReducer
 };
 
 /**
