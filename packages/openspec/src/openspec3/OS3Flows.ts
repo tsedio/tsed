@@ -23,14 +23,14 @@ export interface OS3FlowPassword extends OS3Flow {
   tokenUrl: string;
 }
 
-export interface OS3FlowClientCredentials {
+export interface OS3FlowClientCredentials extends OS3Flow {
   /**
    * The token URL to be used for this flow. This MUST be in the form of a URL.
    */
   tokenUrl: string;
 }
 
-export interface OS3FlowAuthorizationCode {
+export interface OS3FlowAuthorizationCode extends OS3Flow {
   /**
    * The authorization URL to be used for this flow. This MUST be in the form of a URL.
    */

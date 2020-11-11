@@ -36,10 +36,6 @@ export interface OS3SecurityOAuth2 extends OS3SecurityBase {
    * An object containing configuration information for the flow types supported.
    */
   flows: OS3Flows;
-  /**
-   * The available scopes for the OAuth2 security scheme.
-   */
-  scopes: OpenSpecHash<string>;
 }
 
 export interface OS3SecurityHTTP extends OS3SecurityBase {
