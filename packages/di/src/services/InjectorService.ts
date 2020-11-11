@@ -297,10 +297,6 @@ export class InjectorService extends Container {
     // Resolve all configuration
     this.resolveConfiguration();
 
-    this.settings.forEach((value, key) => {
-      this.logger.debug(`settings.${key} =>`, value);
-    });
-
     return this;
   }
   /**
