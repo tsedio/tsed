@@ -19,6 +19,7 @@ export * from "./decorators/useOpts";
 export * from "./registries/ProviderRegistry";
 export * from "./registries/GlobalProviders";
 export * from "./services/InjectorService";
+export * from "./services/DILogger";
 export * from "./services/DIConfiguration";
 export * from "./errors/InjectionError";
 export * from "./errors/UndefinedTokenError";
