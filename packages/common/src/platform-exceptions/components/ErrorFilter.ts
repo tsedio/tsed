@@ -1,4 +1,5 @@
-import {Env} from "@tsed/core";
+import {classOf, Env, nameOf} from "@tsed/core";
+import {BadRequest} from "@tsed/exceptions";
 import type {ResponseErrorObject} from "../../mvc/interfaces/ResponseErrorObject";
 import type {PlatformContext} from "../../platform/domain/PlatformContext";
 import {Catch} from "../decorators/catch";

@@ -26,7 +26,6 @@ describe("PlatformExceptions", () => {
 
       expect(ctx.response.body).to.have.been.calledWithExactly("MyError");
     });
-
     it("should map exception", () => {
       const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
@@ -86,6 +85,30 @@ describe("PlatformExceptions", () => {
         name: "Error",
         status: 500,
         stack: undefined
+      });
+    });
+    it("should map error from given name", () => {
+      const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
+
+      const ctx = PlatformTest.createRequestContext();
+      sandbox.stub(ctx.response, "body").returnsThis();
+      sandbox.stub(ctx.response, "setHeaders").returnsThis();
+      sandbox.stub(ctx.response, "status").returnsThis();
+      sandbox.stub(ctx.response, "contentType").returnsThis();
+
+      class MongooseError extends Error {}
+
+      const error = new MongooseError("My message");
+
+      middleware.catch(error, ctx);
+
+      expect(ctx.response.setHeaders).to.have.been.calledWithExactly({});
+      expect(ctx.response.body).to.have.been.calledWithExactly({
+        errors: [],
+        message: "My message, innerException: My message",
+        name: "Error",
+        stack: undefined,
+        status: 400
       });
     });
   });
