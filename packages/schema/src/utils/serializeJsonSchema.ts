@@ -12,6 +12,10 @@ import {getJsonEntityStore} from "./getJsonEntityStore";
  * @ignore
  */
 const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics"];
+/**
+ * @ignore
+ */
+const IGNORES_OPENSPEC = ["const"];
 
 /**
  * @ignore
@@ -179,6 +183,10 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
   return obj;
 }
 
+function shouldSkipKey(key: string, {specType = SpecTypes.JSON}: JsonSchemaOptions) {
+  return IGNORES.includes(key) || (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key));
+}
+
 /**
  * Convert JsonSchema instance to plain json object
  * @param schema
@@ -189,7 +197,7 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
   const {useAlias = true, schemas = {}, root = true, genericTypes} = options;
 
   let obj: any = Array.from(schema.entries()).reduce((item: any, [key, value]) => {
-    if (IGNORES.includes(key)) {
+    if (shouldSkipKey(key, options)) {
       return item;
     }
 
