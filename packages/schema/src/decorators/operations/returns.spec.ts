@@ -208,13 +208,13 @@ describe("@Returns", () => {
                 "401": {
                   description: "Unauthorized",
                   schema: {
-                    type: "string"
+                    type: "object"
                   }
                 },
                 "400": {
                   description: "Bad request",
                   schema: {
-                    type: "string"
+                    type: "object"
                   }
                 }
               },
@@ -259,13 +259,13 @@ describe("@Returns", () => {
                 "401": {
                   description: "Unauthorized",
                   schema: {
-                    type: "string"
+                    type: "object"
                   }
                 },
                 "400": {
                   description: "Bad request2",
                   schema: {
-                    type: "string"
+                    type: "object"
                   },
                   headers: {
                     "x-token": {
@@ -564,6 +564,107 @@ describe("@Returns", () => {
                     "text/xml": {
                       schema: {
                         type: "string"
+                      }
+                    }
+                  },
+                  description: "description"
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Controller"
+          }
+        ]
+      });
+    });
+  });
+  describe("Title", () => {
+    it("should declare an Generic of Model", async () => {
+      // WHEN
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      class Product {
+        @Property()
+        title: string;
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Pagination).Of(Submission).Nested(Product).Title("PaginatedSubmissionProduct").Description("description"))
+        async method(): Promise<Pagination<Submission<Product>> | null> {
+          return null;
+        }
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).to.deep.equal({
+        components: {
+          schemas: {
+            Product: {
+              properties: {
+                title: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            },
+            PaginatedSubmissionProduct: {
+              properties: {
+                data: {
+                  items: {
+                    properties: {
+                      _id: {
+                        type: "string"
+                      },
+                      data: {
+                        $ref: "#/components/schemas/Product"
+                      }
+                    },
+                    type: "object"
+                  },
+                  type: "array"
+                },
+                totalCount: {
+                  type: "number"
+                }
+              },
+              type: "object"
+            }
+          }
+        },
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  content: {
+                    "application/json": {
+                      schema: {
+                        $ref: "#/components/schemas/PaginatedSubmissionProduct"
                       }
                     }
                   },

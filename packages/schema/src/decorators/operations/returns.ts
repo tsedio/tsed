@@ -1,7 +1,6 @@
 import {
   decorateMethodsOf,
   DecoratorTypes,
-  deepExtends,
   getDecoratorType,
   isCollection,
   isPlainObject,
@@ -10,12 +9,12 @@ import {
   Type,
   UnsupportedDecoratorType
 } from "@tsed/core";
+import {isSuccessStatus} from "../../utils/isSuccessStatus";
 import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonResponse} from "../../domain/JsonResponse";
 import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
-import {isSuccessStatus} from "../../utils/isSuccessStatus";
 import {mapHeaders} from "../../utils/mapHeaders";
 
 export interface ReturnsChainedDecorators {
@@ -85,6 +84,12 @@ export interface ReturnsChainedDecorators {
    */
   Schema(schema: Partial<JsonSchemaObject>): this;
 
+  /**
+   * Add an inline title for the return model.
+   * @param title
+   */
+  Title(title: string): this;
+
   [key: string]: any;
 }
 
@@ -94,18 +99,30 @@ interface ReturnsActionContext {
   contentType: string;
   response: JsonResponse;
   model: Type<any> | any;
-  schema: any;
   decoratorContext: DecoratorTypes;
+  currentSchema?: JsonSchema;
 }
 
 interface ReturnsActionHandler {
   (ctx: ReturnsActionContext): void;
 }
 
+function getContentType({contentType, model}: ReturnsActionContext) {
+  if (model && !isPlainObject(model) && !isPrimitiveOrPrimitiveClass(model)) {
+    contentType = contentType || "application/json";
+  }
+
+  return contentType;
+}
+
+function getStatus({status}: ReturnsActionContext) {
+  return status || "default";
+}
+
 function initSchemaAction(ctx: ReturnsActionContext) {
-  const {status, model, response, store, schema, decoratorContext} = ctx;
+  const {model, response, store, decoratorContext} = ctx;
   const operation = store.operation!;
-  const currentStatus = status || "default";
+  const currentStatus = getStatus(ctx);
 
   if (decoratorContext === DecoratorTypes.CLASS) {
     const current = operation.getResponseOf(currentStatus);
@@ -118,30 +135,25 @@ function initSchemaAction(ctx: ReturnsActionContext) {
       });
   }
 
-  ctx.response = operation.addResponse(currentStatus, response).getResponseOf(currentStatus);
+  const contentType = getContentType(ctx);
+  const currentResponse = operation.addResponse(currentStatus, response).getResponseOf(currentStatus);
+  const media = currentResponse.getMedia(contentType || "*/*");
+  const schema = media.get("schema") || new JsonSchema({type: model});
 
-  if (isSuccessStatus(status) || currentStatus === "default") {
+  model && schema.type(model);
+
+  ctx.currentSchema = schema;
+
+  media.schema(schema);
+
+  if (isSuccessStatus(ctx.status) || currentStatus === "default") {
     if (model) {
       store.type = model;
     }
-
-    ctx.response.$schema = ctx.response.$schema || store.schema;
-  } else {
-    ctx.response.$schema = new JsonSchema({type: model || String});
   }
 
-  ctx.response.$schema.assign(schema || {});
-}
-
-function setContentTypeAction({contentType, model, response, store}: ReturnsActionContext) {
-  const operation = store.operation!;
-
-  if (model && !isPlainObject(model) && !isPrimitiveOrPrimitiveClass(model)) {
-    contentType = contentType || "application/json";
-  }
-
+  // additional info for OS2
   contentType && operation.addProduce(contentType);
-  response.addContent(contentType || "*/*", store.schema);
 }
 
 function checkPrimitive(model: any) {
@@ -315,14 +327,13 @@ function checkCollection(model: any) {
 export function Returns(status?: string | number, model?: Type<any> | any): ReturnsChainedDecorators {
   const response = new JsonResponse();
   let decoratorContext: DecoratorTypes;
-  const schema = {};
   let contentType: string;
 
   if (status && HTTP_STATUS_MESSAGES[status]) {
     response.description(HTTP_STATUS_MESSAGES[status]);
   }
 
-  const actions: ReturnsActionHandler[] = [initSchemaAction, setContentTypeAction];
+  const actions: ReturnsActionHandler[] = [initSchemaAction];
 
   const decorator = (...args: any[]) => {
     const type = getDecoratorType(args, true);
@@ -332,7 +343,7 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
         const store = JsonEntityStore.from(...args);
 
         if (store.operation) {
-          const ctx: ReturnsActionContext = {status, contentType, response, model, store, schema, decoratorContext};
+          const ctx: ReturnsActionContext = {status, contentType, response, model, store, decoratorContext};
 
           actions.forEach((action: any) => {
             action(ctx);
@@ -393,14 +404,14 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
     checkPrimitive(model);
 
     actions.push((ctx) => {
-      const {store} = ctx;
+      const {currentSchema} = ctx;
 
       if (isCollection(model)) {
         // @ts-ignore
-        store._type = types[0];
-        store.itemSchema.assign({type: types[0]});
+        // store._type = types[0];
+        currentSchema?.itemSchema({type: types[0]});
       } else {
-        store.nestedGenerics.push(types);
+        currentSchema?.nestedGenerics.push(types);
       }
     });
 
@@ -412,17 +423,25 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
     checkCollection(model);
 
     actions.push((ctx) => {
-      const {store} = ctx;
-      store.nestedGenerics.push(generics);
+      const {currentSchema} = ctx;
+      currentSchema!.nestedGenerics.push(generics);
     });
 
     return decorator;
   };
 
-  decorator.Schema = (input: Partial<JsonSchemaObject>) => {
-    deepExtends(schema, input);
+  decorator.Schema = (schema: Partial<JsonSchemaObject>) => {
+    actions.push((ctx) => {
+      const {currentSchema} = ctx;
+
+      currentSchema!.assign(schema);
+    });
 
     return decorator;
+  };
+
+  decorator.Title = (title: string) => {
+    return decorator.Schema({title});
   };
 
   decorator.Status = (code: string | number) => {

@@ -201,13 +201,13 @@ export function testAuth(options: PlatformTestOptions) {
                 "401": {
                   description: "Unauthorized",
                   schema: {
-                    type: "string"
+                    type: "object"
                   }
                 },
                 "403": {
                   description: "Forbidden",
                   schema: {
-                    type: "string"
+                    type: "object"
                   }
                 }
               },
@@ -258,13 +258,13 @@ export function testAuth(options: PlatformTestOptions) {
                 "401": {
                   description: "Unauthorized",
                   schema: {
-                    type: "string"
+                    type: "object"
                   }
                 },
                 "403": {
                   description: "Forbidden",
                   schema: {
-                    type: "string"
+                    type: "object"
                   }
                 }
               },

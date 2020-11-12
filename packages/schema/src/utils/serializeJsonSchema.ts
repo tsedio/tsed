@@ -44,13 +44,31 @@ function getRequired(schema: any, useAlias: boolean) {
 export function createRef(value: any, options: JsonSchemaOptions = {}) {
   const store = getJsonEntityStore(value.class);
   const name = store.schema.getName() || value.getName();
+  const {host = `#/${options.specType === "openapi3" ? "components/schemas" : "definitions"}`} = options;
 
   if (value.hasGenerics) {
-    return serializeAny(store.schema, {
-      ...options,
-      ...popGenerics(value),
-      root: false
-    });
+    // Inline generic
+    const {type, properties, additionalProperties, items, ...props} = value.toJSON(options);
+    const schema = {
+      ...serializeAny(store.schema, {
+        ...options,
+        ...popGenerics(value),
+        root: false
+      }),
+      ...props
+    };
+
+    if (schema.title) {
+      const {title} = schema;
+      options.schemas![title] = schema;
+      delete schema.title;
+
+      return {
+        $ref: `${host}/${title}`
+      };
+    }
+
+    return schema;
   }
 
   if (options.schemas && !options.schemas[name]) {
@@ -63,8 +81,6 @@ export function createRef(value: any, options: JsonSchemaOptions = {}) {
       })
     );
   }
-
-  const {host = `#/${options.specType === "openapi3" ? "components/schemas" : "definitions"}`} = options;
 
   return {
     $ref: `${host}/${name}`
@@ -196,7 +212,7 @@ function shouldSkipKey(key: string, {specType = SpecTypes.JSON}: JsonSchemaOptio
 export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptions = {}): any {
   const {useAlias = true, schemas = {}, root = true, genericTypes} = options;
 
-  let obj: any = Array.from(schema.entries()).reduce((item: any, [key, value]) => {
+  let obj: any = [...schema.entries()].reduce((item: any, [key, value]) => {
     if (shouldSkipKey(key, options)) {
       return item;
     }
