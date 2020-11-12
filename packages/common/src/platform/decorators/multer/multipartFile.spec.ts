@@ -41,7 +41,22 @@ describe("@MultipartFile()", () => {
             post: {
               consumes: ["multipart/form-data"],
               operationId: "testControllerTest",
-              parameters: [],
+              parameters: [
+                {
+                  in: "body",
+                  name: "body",
+                  required: false,
+                  schema: {
+                    properties: {
+                      file1: {
+                        // name without index
+                        type: "file"
+                      }
+                    },
+                    type: "object"
+                  }
+                }
+              ],
               responses: {
                 "400": {
                   description:

@@ -16,6 +16,10 @@ export function getJsonType(value: any): string {
     }
 
     if (typeof value === "string") {
+      if (value === "file") {
+        return "file";
+      }
+
       return "generic";
     }
 

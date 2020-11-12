@@ -14,6 +14,16 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
   nestedGenerics: Type<any>[][] = [];
   $schema: JsonSchema;
 
+  getName() {
+    const name = this.get("name");
+
+    if (this.get("in") === "files") {
+      return name.split(".")[0];
+    }
+
+    return name;
+  }
+
   name(name: string): this {
     this.set("name", name);
 

@@ -260,7 +260,7 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options?: Js
   let propsLength = 0;
 
   parameters.forEach((parameter) => {
-    const name = parameter.get("name");
+    const name = parameter.getName();
 
     Array.from(parameter.entries())
       .filter(([key]) => !["in", "name"].includes(key))
@@ -271,7 +271,7 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options?: Js
       });
 
     if (name) {
-      schema.addProperties(name, parameter.toJSON(options).schema as JsonSchema);
+      schema.addProperties(name, parameter.toJSON(options).schema);
 
       if (parameter.get("required")) {
         schema.addRequired(name);
