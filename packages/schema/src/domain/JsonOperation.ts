@@ -198,6 +198,16 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
         if (parameter.get("in")) {
           if (parameter.get("in") === JsonParameterTypes.BODY) {
             bodyParameters.push(parameter);
+          } else if (parameter.get("in") === JsonParameterTypes.FILES) {
+            if (options.specType === SpecTypes.OPENAPI) {
+              const schema = parameter.$schema.get("type") === "array" ? parameter.$schema.itemSchema() : parameter.$schema;
+              parameter.$schema.set("type", "string");
+              parameter.$schema.set("format", "binary");
+              bodyParameters.push(parameter);
+            } else {
+              parameter.$schema.set("type", "file");
+              bodyParameters.push(parameter);
+            }
           } else {
             parameters.push(...[].concat(parameter.toJSON(options)));
           }

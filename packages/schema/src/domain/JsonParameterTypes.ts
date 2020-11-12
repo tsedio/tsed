@@ -3,7 +3,8 @@ export enum JsonParameterTypes {
   PATH = "path",
   QUERY = "query",
   HEADER = "header",
-  COOKIES = "cookies"
+  COOKIES = "cookies",
+  FILES = "files"
 }
 
 export function isParameterType(type: string) {
