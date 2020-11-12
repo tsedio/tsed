@@ -196,18 +196,8 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     this.get("parameters").forEach((parameter: JsonParameter) => {
       if (!isParameterType(this.get("in"))) {
         if (parameter.get("in")) {
-          if (parameter.get("in") === JsonParameterTypes.BODY) {
+          if ([JsonParameterTypes.BODY, JsonParameterTypes.FILES].includes(parameter.get("in"))) {
             bodyParameters.push(parameter);
-          } else if (parameter.get("in") === JsonParameterTypes.FILES) {
-            if (options.specType === SpecTypes.OPENAPI) {
-              const schema = parameter.$schema.get("type") === "array" ? parameter.$schema.itemSchema() : parameter.$schema;
-              parameter.$schema.set("type", "string");
-              parameter.$schema.set("format", "binary");
-              bodyParameters.push(parameter);
-            } else {
-              parameter.$schema.set("type", "file");
-              bodyParameters.push(parameter);
-            }
           } else {
             parameters.push(...[].concat(parameter.toJSON(options)));
           }
@@ -226,7 +216,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     }
 
     if (bodyParameters.length) {
-      const parameter = buildSchemaFromBodyParameters(bodyParameters);
+      const parameter = buildSchemaFromBodyParameters(bodyParameters, options);
       if (options.specType === SpecTypes.OPENAPI) {
         operation.requestBody = toRequestBody(this, parameter).toJSON(options);
       } else {
@@ -263,7 +253,7 @@ function toJsonParameter(parameter: any) {
   });
 }
 
-function buildSchemaFromBodyParameters(parameters: JsonParameter[]) {
+function buildSchemaFromBodyParameters(parameters: JsonParameter[], options?: JsonSchemaOptions) {
   let schema = new JsonSchema();
   const props: any = {};
   const refs: JsonSchema[] = [];
@@ -281,7 +271,7 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[]) {
       });
 
     if (name) {
-      schema.addProperties(name, parameter.$schema as JsonSchema);
+      schema.addProperties(name, parameter.toJSON(options).schema as JsonSchema);
 
       if (parameter.get("required")) {
         schema.addRequired(name);
