@@ -15,7 +15,8 @@ describe("PlatformViews", () => {
         viewEngine: "ejs",
         options: {
           ejs: {
-            global: "global"
+            global: "global",
+            requires: "requires"
           }
         }
       }
@@ -61,6 +62,11 @@ describe("PlatformViews", () => {
       }
 
       expect(error.message).to.equal('Engine not found for the ".toto" file extension');
+    });
+    it("should load engine requires", async () => {
+      const platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
+
+      expect(platformViews.consolidate.ejs.requires).to.equal("requires");
     });
   });
 });
