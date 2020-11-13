@@ -4,7 +4,7 @@ import {JsonSchemaOptions} from "../interfaces";
 import {NestedGenerics, popGenerics} from "../utils/generics";
 import {serializeItem} from "../utils/serializeJsonSchema";
 import {JsonMap} from "./JsonMap";
-import {isParameterType} from "./JsonParameterTypes";
+import {isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
 import {SpecTypes} from "./SpecTypes";
 
@@ -67,9 +67,9 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
       ...popGenerics(this)
     });
 
-    parameter.required = parameter.required || this.get("in") === "path";
+    parameter.required = parameter.required || this.get("in") === JsonParameterTypes.PATH;
 
-    if (this.get("in") === "files") {
+    if (this.get("in") === JsonParameterTypes.FILES) {
       const isOpenApi = options.specType === SpecTypes.OPENAPI;
 
       const schema = {
