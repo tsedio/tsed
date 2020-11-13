@@ -1,9 +1,18 @@
 import {expect} from "chai";
-import {Container, GlobalProviders, IInterceptor, InterceptorContext, InjectorService, Intercept, Interceptor, Service} from "@tsed/di";
+import {
+  Container,
+  GlobalProviders,
+  InterceptorContext,
+  InjectorService,
+  Intercept,
+  Interceptor,
+  Service,
+  InterceptorMethods
+} from "@tsed/di";
 
 describe("DI Interceptor", () => {
   @Interceptor()
-  class MyInterceptor implements IInterceptor {
+  class MyInterceptor implements InterceptorMethods {
     constructor(injSrv: InjectorService) {
       // do some logic
     }

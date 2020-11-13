@@ -50,7 +50,7 @@ export function registerProvider(provider: Partial<IProvider<any>>): void {
  *
  *
  * ```typescript
- * import {registerFactory, InjectorService} from "@tsed/common";
+ * import {registerFactory, InjectorService} from "@tsed/di";
  *
  * export interface IMyFooFactory {
  *    getFoo(): string;
@@ -84,7 +84,7 @@ export function registerProvider(provider: Partial<IProvider<any>>): void {
  * #### Example with class
  *
  * ```typescript
- * import {InjectorService, registerFactory} from "@tsed/common";
+ * import {InjectorService, registerFactory} from "@tsed/di";
  *
  * export class MyFooService {
  *  constructor(){}
@@ -133,7 +133,7 @@ export const registerFactory = (provider: any | IProvider<any>, instance?: any):
  *
  *
  * ```typescript
- * import {registerValue, InjectorService} from "@tsed/common";
+ * import {registerValue, InjectorService} from "@tsed/di";
  *
  * const MyValue = Symbol.from("MyValue")
  *
@@ -171,7 +171,7 @@ export const registerValue = (provider: any | IProvider<any>, value?: any): void
  * #### Example
  *
  * ```typescript
- * import {registerService, InjectorService} from "@tsed/common";
+ * import {registerService, InjectorService} from "@tsed/di";
  *
  * export default class MyFooService {
  *     constructor(){}
@@ -200,7 +200,7 @@ export const registerService = GlobalProviders.createRegisterFn(ProviderType.SER
  * #### Example
  *
  * ```typescript
- * import {registerController, InjectorService} from "@tsed/common";
+ * import {registerController, InjectorService} from "@tsed/di";
  *
  * export default class MyController {
  *     constructor(){}
@@ -229,7 +229,7 @@ export const registerController = GlobalProviders.createRegisterFn(ProviderType.
  * #### Example
  *
  * ```typescript
- * import {registerInterceptor, InjectorService} from "@tsed/common";
+ * import {registerInterceptor, InjectorService} from "@tsed/di";
  *
  * export default class MyInterceptor {
  *     intercept() {

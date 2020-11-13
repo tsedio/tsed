@@ -1,5 +1,5 @@
 import {classOf, constructorOf, nameOf, Type} from "@tsed/core";
-import {Container, InjectorService, IProvider} from "@tsed/di";
+import {Container, createContainer, getConfiguration, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
 import {
   GlobalAcceptMimesMiddleware,
   IRoute,
@@ -13,18 +13,15 @@ import {
 import {PlatformLogMiddleware} from "../../platform/middlewares/PlatformLogMiddleware";
 import {
   callHook,
-  createContainer,
   createHttpServer,
   createHttpsServer,
   createInjector,
   createPlatformApplication,
-  getConfiguration,
-  importProviders,
   listenHttpServer,
   listenHttpsServer,
   loadInjector,
-  printRoutes,
-  setLoggerLevel
+  importRoutes,
+  printRoutes
 } from "../utils";
 
 /**
@@ -155,7 +152,7 @@ export abstract class PlatformBuilder {
   public async runLifecycle() {
     setLoggerLevel(this.injector);
 
-    const routes = await importProviders(this.injector);
+    const routes = await importRoutes(this.injector);
 
     await this.loadInjector();
     await this.loadRoutes(routes);

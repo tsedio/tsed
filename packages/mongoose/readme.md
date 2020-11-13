@@ -13,11 +13,9 @@
 [![backers](https://opencollective.com/tsed/tiers/badge.svg)](https://opencollective.com/tsed)
 
 
-<div align="center">
-<a href="http://mongoosejs.com/">
-<img src="http://mongodb-tools.com/img/mongoose.png" height="128">
-</a>
-</div>
+<p style="text-align: center" align="center">
+ <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+</p>
 
 A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/mongoose
 

@@ -10,7 +10,7 @@ import {
   ProviderScope,
   Scope,
   Service
-} from "../../src";
+} from "@tsed/di";
 
 describe("DI", () => {
   describe("create new injector", () => {

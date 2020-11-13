@@ -35,6 +35,7 @@ import {
 } from "../interfaces";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {DIConfiguration} from "./DIConfiguration";
+import {createContainer} from "../utils/createContainer";
 
 interface InvokeSettings {
   token: TokenProvider;
@@ -54,7 +55,7 @@ interface InvokeSettings {
  * ### Example:
  *
  * ```typescript
- * import {InjectorService} from "@tsed/common";
+ * import {InjectorService} from "@tsed/di";
  *
  * // Import the services (all services are decorated with @Service()";
  * import MyService1 from "./services/service1";
@@ -132,7 +133,7 @@ export class InjectorService extends Container {
    * #### Example
    *
    * ```typescript
-   * import {InjectorService} from "@tsed/common";
+   * import {InjectorService} from "@tsed/di";
    * import MyService from "./services";
    *
    * class OtherService {
@@ -179,7 +180,7 @@ export class InjectorService extends Container {
    * #### Example
    *
    * ```typescript
-   * import {InjectorService} from "@tsed/common";
+   * import {InjectorService} from "@tsed/di";
    * import MyService from "./services";
    *
    * class OtherService {
@@ -285,16 +286,26 @@ export class InjectorService extends Container {
   }
 
   /**
+   * Boostrap injector from container and resolve configuration.
+   *
+   * @param container
+   */
+  bootstrap(container: Container = createContainer()) {
+    // Clone all providers in the container
+    this.addProviders(container);
+
+    // Resolve all configuration
+    this.resolveConfiguration();
+
+    return this;
+  }
+  /**
    * Build all providers from given container (or GlobalProviders) and emit `$onInit` event.
    *
    * @param container
    */
-  async load(container: Map<TokenProvider, Provider<any>> = GlobalProviders): Promise<LocalsContainer<any>> {
-    // Clone all providers in the container
-    this.addProviders(container);
-
-    // Resolve configuration from providers
-    this.resolveConfiguration();
+  async load(container: Container = createContainer()): Promise<LocalsContainer<any>> {
+    this.bootstrap(container);
 
     // build async and sync provider
     let locals = await this.loadAsync();

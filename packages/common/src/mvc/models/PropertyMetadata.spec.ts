@@ -22,10 +22,6 @@ describe("PropertyMetadata", () => {
       expect(propertyMetadata.collectionName).to.eq("");
       expect(propertyMetadata.typeName).to.eq("Test");
       expect(propertyMetadata.isCollection).to.eq(false);
-      expect(propertyMetadata.ignoreProperty).to.eq(false);
-
-      propertyMetadata.ignoreProperty = true;
-      expect(propertyMetadata.ignoreProperty).to.eq(true);
     });
   });
 

@@ -7,7 +7,7 @@ import {registerExceptionType} from "../domain/ExceptionFiltersContainer";
  * @decorator
  * @param types
  */
-export function Catch(...types: Type<Error | any>[]) {
+export function Catch(...types: (Type<Error | any> | string)[]) {
   return (target: any) => {
     types.forEach((type) => {
       registerExceptionType(type, target as any);

@@ -427,17 +427,37 @@ Some options are provided:
 It is recommended to disable logRequest in production. Logger has a cost on the performance.
 :::
 
+### Inject logger
+
+Logger can be injected in any injectable provider as following:
+
+```typescript
+import {Logger} from "@tsed/common";
+import {Injectable, Inject} from "@tsed/di";
+
+@Injectable()
+export class MyService {
+  @Inject()
+  logger: Logger;
+  
+  $onInit() {
+    this.logger.info('Hello world');
+  }
+}
+```
+
 ### Request logger
 
 For each Express.Request, a logger will be attached and can be used like here:
 
 ```typescript
-import {Controller, Context, Get, RequestLogger} from "@tsed/common";
+import {Controller, Context, Get} from "@tsed/common";
+import {Logger} from "@tsed/logger";
 
 @Controller("/")
 class MyController {
   @Get('/')
-  get(@Context("logger") logger: RequestLogger) {
+  get(@Context("logger") logger: Logger) {
     logger.info({customData: "test"}); // parameter is optional
     logger.debug({customData: "test"})
     logger.warn({customData: "test"})
