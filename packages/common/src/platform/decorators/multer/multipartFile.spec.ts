@@ -63,7 +63,7 @@ describe("@MultipartFile()", () => {
                   description:
                     "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
                   schema: {
-                    type: "string"
+                    type: "object"
                   }
                 }
               },
