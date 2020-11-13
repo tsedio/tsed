@@ -11,10 +11,6 @@ export interface JsonSchemaOptions {
    */
   schemas?: OpenSpecHash<OS3Schema | OS2Schema>;
   /**
-   * Is root object.
-   */
-  root?: boolean;
-  /**
    * Define Spec types level
    */
   specType?: SpecTypes;

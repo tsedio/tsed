@@ -1,3 +1,5 @@
+import {getStatusConstant} from "@tsed/schema";
+
 export class Exception extends Error {
   /**
    * Exception base name
@@ -38,6 +40,7 @@ export class Exception extends Error {
 
     this.status = status;
     this.message = message;
+    this.name = getStatusConstant(status);
 
     this.setOrigin(origin);
   }
@@ -72,7 +75,7 @@ export class Exception extends Error {
   }
 
   toString() {
-    return (this.name + "(" + this.status + "): " + this.message + " ").trim();
+    return `${this.name}(${this.status}): ${this.message} `.trim();
   }
 }
 

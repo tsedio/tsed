@@ -21,7 +21,8 @@
     "tslib": "2.0.1"
   },
   "devDependencies": {
-    "@tsed/schema": "6.8.1"
+    "@tsed/schema": "6.8.1",
+    "@tsed/exceptions": "6.8.1"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"

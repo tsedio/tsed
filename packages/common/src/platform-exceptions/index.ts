@@ -6,6 +6,7 @@ export * from "./decorators/catch";
 
 // domain
 export * from "./domain/ExceptionFiltersContainer";
+export * from "./domain/ExceptionSchema";
 export * from "./interfaces/ExceptionFilterMethods";
 
 // middlewares

@@ -271,7 +271,7 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options?: Js
       });
 
     if (name) {
-      schema.addProperties(name, parameter.toJSON(options).schema);
+      schema.addProperty(name, parameter.toJSON(options).schema);
 
       if (parameter.get("required")) {
         schema.addRequired(name);

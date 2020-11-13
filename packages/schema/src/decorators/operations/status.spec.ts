@@ -187,38 +187,71 @@ describe("@Status", () => {
     const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
     expect(spec).to.deep.equal({
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
       paths: {
         "/": {
           post: {
             operationId: "controllerMethod",
             parameters: [],
             responses: {
-              "200": {
-                description: "Success",
-                schema: {
-                  type: "object"
-                }
-              },
-              "401": {
-                description: "Unauthorized",
-                schema: {
-                  type: "object"
-                }
-              },
-              "400": {
-                description: "Bad request",
-                schema: {
-                  type: "object"
-                }
-              }
+              "200": {description: "Success", schema: {type: "object"}},
+              "400": {description: "Bad request", schema: {$ref: "#/definitions/BadRequest"}},
+              "401": {description: "Unauthorized", schema: {$ref: "#/definitions/Unauthorized"}}
             },
+            produces: ["application/json"],
             tags: ["Controller"]
           }
+        }
+      },
+      tags: [{name: "Controller"}],
+      definitions: {
+        GenericError: {
+          additionalProperties: true,
+          properties: {
+            message: {
+              description: "An error message",
+              type: "string"
+            },
+            name: {
+              description: "The error name",
+              type: "string"
+            }
+          },
+          required: ["name", "message"],
+          type: "object"
+        },
+        Unauthorized: {
+          type: "object",
+          properties: {
+            name: {type: "string", description: "The error name", example: "UNAUTHORIZED", default: "UNAUTHORIZED"},
+            message: {type: "string", description: "An error message"},
+            status: {type: "number", description: "The status code of the exception", example: 401, default: 401},
+            errors: {
+              type: "array",
+              items: {
+                $ref: "#/definitions/GenericError"
+              },
+              description: "A list of related errors"
+            },
+            stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+          },
+          required: ["name", "message", "status"]
+        },
+        BadRequest: {
+          type: "object",
+          properties: {
+            name: {type: "string", description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
+            message: {type: "string", description: "An error message"},
+            status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
+            errors: {
+              type: "array",
+              items: {
+                $ref: "#/definitions/GenericError"
+              },
+              description: "A list of related errors"
+            },
+            stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+          },
+          required: ["name", "message", "status"]
         }
       }
     });

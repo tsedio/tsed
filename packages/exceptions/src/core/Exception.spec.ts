@@ -11,7 +11,7 @@ describe("Exception", () => {
       key: "value"
     });
     expect(exception.status).to.equal(500);
-    expect(exception.toString()).to.equal("HTTP_EXCEPTION(500): test, innerException: test");
+    expect(exception.toString()).to.equal("INTERNAL_SERVER_ERROR(500): test, innerException: test");
   });
 
   it("should use origin", () => {
@@ -22,21 +22,21 @@ describe("Exception", () => {
       key: "value"
     });
     expect(exception.status).to.equal(203);
-    expect(exception.toString()).to.equal("HTTP_EXCEPTION(203): test, innerException: test");
+    expect(exception.toString()).to.equal("NON_AUTHORITATIVE_INFORMATION(203): test, innerException: test");
   });
 
   it("should use origin as string", () => {
     const exception = new Exception(203, "test", "test");
 
     expect(exception.status).to.equal(203);
-    expect(exception.toString()).to.equal("HTTP_EXCEPTION(203): test, innerException: test");
+    expect(exception.toString()).to.equal("NON_AUTHORITATIVE_INFORMATION(203): test, innerException: test");
   });
 
   it("should use origin as string", () => {
     const exception = new Exception(203, "test", {});
 
     expect(exception.status).to.equal(203);
-    expect(exception.toString()).to.equal("HTTP_EXCEPTION(203): test");
+    expect(exception.toString()).to.equal("NON_AUTHORITATIVE_INFORMATION(203): test");
     expect(exception.body).to.deep.equal({});
   });
 
@@ -44,6 +44,6 @@ describe("Exception", () => {
     const exception = new Exception(203, undefined);
 
     expect(exception.status).to.equal(203);
-    expect(exception.toString()).to.equal("HTTP_EXCEPTION(203):");
+    expect(exception.toString()).to.equal("NON_AUTHORITATIVE_INFORMATION(203):");
   });
 });

@@ -178,112 +178,102 @@ export function testAuth(options: PlatformTestOptions) {
   describe("Scenario 2: GET /swagger.json", () => {
     it("should generate the swagger.spec", async () => {
       const {body: spec} = await request.get("/doc/swagger.json").expect(200);
-
       expect(spec).to.deep.equal({
+        swagger: "2.0",
         consumes: ["application/json"],
-        info: {
-          title: "Api documentation",
-          version: "1.0.0"
-        },
+        produces: ["application/json"],
+        info: {title: "Api documentation", version: "1.0.0"},
         paths: {
-          "/rest/auth/admin": {
-            get: {
-              operationId: "testAuthCtrlAdmin",
-              parameters: [
-                {
-                  in: "header",
-                  name: "Authorization",
-                  required: true,
-                  type: "string"
-                }
-              ],
-              responses: {
-                "401": {
-                  description: "Unauthorized",
-                  schema: {
-                    type: "object"
-                  }
-                },
-                "403": {
-                  description: "Forbidden",
-                  schema: {
-                    type: "object"
-                  }
-                }
-              },
-              security: [
-                {
-                  global_auth: ["admin"]
-                }
-              ],
-              tags: ["TestAuthCtrl"]
-            }
-          },
           "/rest/auth/authorize": {
             post: {
               operationId: "testAuthCtrlAuthorize",
               parameters: [],
-              responses: {
-                "200": {
-                  description: "Success"
-                }
-              },
-              tags: ["TestAuthCtrl"]
-            }
-          },
-          "/rest/auth/stepUp": {
-            post: {
-              operationId: "testAuthCtrlStepUp",
-              parameters: [],
-              responses: {
-                "200": {
-                  description: "Success"
-                }
-              },
+              responses: {"200": {description: "Success"}},
               tags: ["TestAuthCtrl"]
             }
           },
           "/rest/auth/userinfo": {
             get: {
               operationId: "testAuthCtrlToken",
-              parameters: [
-                {
-                  in: "header",
-                  name: "Authorization",
-                  required: true,
-                  type: "string"
-                }
-              ],
+              parameters: [{name: "Authorization", required: true, in: "header", type: "string"}],
               responses: {
-                "401": {
-                  description: "Unauthorized",
-                  schema: {
-                    type: "object"
-                  }
-                },
-                "403": {
-                  description: "Forbidden",
-                  schema: {
-                    type: "object"
-                  }
-                }
+                "401": {description: "Unauthorized", schema: {$ref: "#/definitions/Unauthorized"}},
+                "403": {description: "Forbidden", schema: {$ref: "#/definitions/Forbidden"}}
               },
-              security: [
-                {
-                  global_auth: []
-                }
-              ],
+              security: [{global_auth: []}],
+              produces: ["application/json"],
               tags: ["TestAuthCtrl"]
             }
+          },
+          "/rest/auth/admin": {
+            get: {
+              operationId: "testAuthCtrlAdmin",
+              parameters: [{name: "Authorization", required: true, in: "header", type: "string"}],
+              responses: {
+                "401": {description: "Unauthorized", schema: {$ref: "#/definitions/Unauthorized"}},
+                "403": {description: "Forbidden", schema: {$ref: "#/definitions/Forbidden"}}
+              },
+              security: [{global_auth: ["admin"]}],
+              produces: ["application/json"],
+              tags: ["TestAuthCtrl"]
+            }
+          },
+          "/rest/auth/stepUp": {
+            post: {operationId: "testAuthCtrlStepUp", parameters: [], responses: {"200": {description: "Success"}}, tags: ["TestAuthCtrl"]}
           }
         },
-        produces: ["application/json"],
-        swagger: "2.0",
-        tags: [
-          {
-            name: "TestAuthCtrl"
+        tags: [{name: "TestAuthCtrl"}],
+        definitions: {
+          GenericError: {
+            additionalProperties: true,
+            properties: {
+              message: {
+                description: "An error message",
+                type: "string"
+              },
+              name: {
+                description: "The error name",
+                type: "string"
+              }
+            },
+            required: ["name", "message"],
+            type: "object"
+          },
+          Unauthorized: {
+            type: "object",
+            properties: {
+              name: {type: "string", description: "The error name", example: "UNAUTHORIZED", default: "UNAUTHORIZED"},
+              message: {type: "string", description: "An error message"},
+              status: {type: "number", description: "The status code of the exception", example: 401, default: 401},
+              errors: {
+                type: "array",
+                items: {
+                  $ref: "#/definitions/GenericError"
+                },
+                description: "A list of related errors"
+              },
+              stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+            },
+            required: ["name", "message", "status"]
+          },
+          Forbidden: {
+            type: "object",
+            properties: {
+              name: {type: "string", description: "The error name", example: "FORBIDDEN", default: "FORBIDDEN"},
+              message: {type: "string", description: "An error message"},
+              status: {type: "number", description: "The status code of the exception", example: 403, default: 403},
+              errors: {
+                type: "array",
+                items: {
+                  $ref: "#/definitions/GenericError"
+                },
+                description: "A list of related errors"
+              },
+              stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+            },
+            required: ["name", "message", "status"]
           }
-        ]
+        }
       });
     });
   });
