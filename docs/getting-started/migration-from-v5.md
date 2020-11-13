@@ -69,14 +69,14 @@ You can therefore use it for your projects without installing the whole framewor
 
 - @@Ignore@@ decorator accepts a callback to define when the property should be ignored.
 - @@serialize@@ and @@deserialize@@ function can be used in place of @@ConverterService@@.
-- `@Converter` has been replaced in favor of @@JsonMapper@@. See our [migration guide](/gettings-started/migration-from-v5.md#converter-to-jsonmapper).
+- `@Converter` has been replaced in favor of @@JsonMapper@@.
 
 :::
  
 ## Breaking changes
 ### Api & Features
 
-- `ServerLoader` API has been remove in favor of Platform API. See [Platform API](/docs/platform-api.md).
+- `ServerLoader` API has been removed in favor of Platform API. See [Platform API](/docs/platform-api.md).
 - `Filter` feature has been removed in favor of [Pipes](/docs/pipes.md).
 - `GlobalErrorHandlerMiddleware` has been removed in favor of [Exception Filters](/docs/exceptions.md#exception-filter).
 - @@ConverterService@@ doesn't perform data validation. Validation is performed by [`@tsed/ajv`](/tutorials/ajv.md) package or any other validation library.
@@ -105,7 +105,7 @@ The following decorators have been removed:
 - `@ResponseView`: Use @@View@@ decorator instead.
 - `@Filter`: Filter feature has been removed.
 - `@MiddlewareError`: Use @@Middleware@@.
-- `@Converter`: @Converter is replaced by @@JsonMapper@@ from `@tsed/json-mapper`. See [Converter to JsonMapper](/getting-started/migration-from-v5.md#converter-to-jsonmapper) section for more details.
+- `@Converter`: @Converter is replaced by @@JsonMapper@@ from `@tsed/json-mapper`.
 - `PropertyDeserialize` and `PropertySerialize` have been removed and replaced by @@OnDeserialize@@ and @@OnSerialize@@ from `@tsed/json-mapper`.
 
 #### @tsed/typeorm
@@ -120,14 +120,14 @@ Import the following decorators from `@tsed/schema`:
 
 - `@BaseParameter` has been removed.
 - `@Operation` has been removed.
-- `@Responses` has been remove.
+- `@Responses` has been removed.
 - `@ReturnsArray` has been removed. Use @@Returns@@ from `@tsed/schema`.
 
 ### Classes
 
 #### @tsed/common
 
-- Classes like `ArrayConverter`, `SetConverter`, etc... are replaced by their equivalents @@ArrayMapper@@, @@SetMapper@@, etc... These classes cannot be injected to another provider.
+- Classes like `ArrayConverter`, `SetConverter`, etc. are replaced by their equivalents @@ArrayMapper@@, @@SetMapper@@, etc. These classes cannot be injected to another provider.
 
 
 ## Migration guide
@@ -191,14 +191,14 @@ Now, when a request is sent to the server all middlewares added in the Server, [
 
 <figure><img src="./../assets/middleware-in-sequence.svg" style="max-width:400px; padding:30px"></figure>
 
-For each executed endpoints and middlewares, Platform API store the return value to the @@Context@@. We have two scenarios:
+For each executed endpoints and middlewares, Platform API stores the return value to the @@Context@@. We have two scenarios:
 
-1) If a data is stored in the @@Context@@ object, the response will be immediately send to your consumer after the UseAfterEach middleware (if present).
-2) If no data is stored in the @@Context@@ object, the call sequence middlewares continue to the next endpoint (if present) or to the UseAfter then Global middlewares until a data isn't returned by a handler.
+1) If data is stored in the @@Context@@ object, the response will be immediately sent to your consumer after the UseAfterEach middleware (if present).
+2) If no data is stored in the @@Context@@ object, the call sequence middlewares continue to the next endpoint (if present) or to the UseAfter then Global middlewares until data is returned by a handler.
 
-By removing this middleware, isn't possible for the v5 application to override the middleware and change the response format before send it to the consumer.
+By removing this middleware, it isn't possible for the v5 application to override the middleware and change the response format before sending it to the consumer.
 
-The [Response Filter](/docs/response-filter.md) implemented in v6.1.0, allows this possibility again but in a more elegant way by using the `@ResponseFilter` decorator and a class.
+The [Response Filter](/docs/response-filter.md), implemented in v6.1.0, allows this possibility again but in a more elegant way by using the `@ResponseFilter` decorator and a class.
 
 <Tabs class="-code">
 <Tab label="WrapperResponseFilter.ts" icon="bx-code-alt">
@@ -288,7 +288,7 @@ The wrapper won't be documented in your generated `swagger.json`!
 :::
 
 ::: tip
-See all possibility of this new feature on his dedicated page [Response Filter](/docs/response-filter.md).
+See all possibilities of this new feature on its dedicated page [Response Filter](/docs/response-filter.md).
 :::
 
 ### GlobalErrorHandler to Exception Filter
@@ -312,10 +312,10 @@ class Server {
 
 ::: tip
 To migrate your `CustomGlobalErrorHandlerMiddleware` to create an exception filter, see our [Exception Filter](/docs/exceptions.html#exception-filter) documentation page to know what is the appropriate implementation 
-for your use case.
+for your usecase.
 :::
 
-Exception Filter uses @@Catch@@ decorator to catch a specific instance error. For example, if you want to catch an Http exception
+Exception Filter uses the @@Catch@@ decorator to catch a specific instance error. For example, if you want to catch an Http exception,
 you have to provide the generic @@Exception@@ class to the decorator as follows:
 
 <<< @/docs/docs/snippets/exceptions/http-exception-filter.ts
@@ -330,7 +330,7 @@ It uses all decorators from `@tsed/schema` package and TypeScript metadata to wo
 ::: warning Breaking changes
 
 - The `@Converter` decorator has been removed in favor of @@JsonMapper@@ decorator.
-- Classes like `ArrayConverter`, `SetConverter`, etc... are replaced by their equivalents Types mapper: @@ArrayMapper@@, @@SetMapper@@, etc... 
+- Classes like `ArrayConverter`, `SetConverter`, etc. are replaced by their equivalents Types mapper: @@ArrayMapper@@, @@SetMapper@@, etc.
 - Type mapper classes are no longer injectable services. 
 - ConverterService is always available and can be injected to another provider, but now, ConverterService doesn't perform data validation. Validation is performed by [`@tsed/ajv`](/tutorials/ajv.md) package or any other validation library.
 - `PropertyDeserialize` and `PropertySerialize` have been removed and replaced by @@OnDeserialize@@ and @@OnSerialize@@.
