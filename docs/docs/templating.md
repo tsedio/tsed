@@ -57,11 +57,11 @@ export interface PlatformViewsSettings {
 
 Template engines are exposed via the `PlatformViews.consolidate.requires` object, but they are not instantiated until you've called the `PlatformViews.consolidate[engine].render()` method. You can instantiate them manually beforehand if you want to add filters, globals, mixins, or other engine features.
 
-::: Reference
+::: tip Reference 
 [Template Engine Instances](https://github.com/tj/consolidate.js#template-engine-instances).
 :::
 
-```js
+```typescript
 import { Configuration } from "@tsed/common";
 import nunjucks from "nunjucks";
 
