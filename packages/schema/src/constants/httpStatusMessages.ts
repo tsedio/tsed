@@ -1,4 +1,10 @@
+import {constantCase} from "change-case";
+
 export const HTTP_STATUS_MESSAGES: {[key: string]: string} = {
+  "100": "Continue",
+  "101": "Switching Protocols",
+  "102": "Processing",
+  "103": "Early Hints",
   "200": "Success",
   "201": "Created",
   "202": "Accepted",
@@ -8,6 +14,7 @@ export const HTTP_STATUS_MESSAGES: {[key: string]: string} = {
   "206": "Partial Content",
   "207": "Multi-Status",
   "208": "Already Reported",
+  "226": "IM Used",
   "300": "Multiple Choices",
   "301": "Moved Permanently",
   "302": "Found",
@@ -17,6 +24,7 @@ export const HTTP_STATUS_MESSAGES: {[key: string]: string} = {
   "306": "(Unused)",
   "307": "Temporary Redirect",
   "308": "Permanent Redirect",
+  "310": "Too Many Redirects",
   "400": "Bad Request",
   "401": "Unauthorized",
   "402": "Payment Required",
@@ -30,11 +38,12 @@ export const HTTP_STATUS_MESSAGES: {[key: string]: string} = {
   "410": "Gone",
   "411": "Length Required",
   "412": "Precondition Failed",
-  "413": "Payload Too Large",
-  "414": "URI Too Long",
+  "413": "Request Entity Too Large",
+  "414": "Request URI Too Long",
   "415": "Unsupported Media Type",
-  "416": "Range Not Satisfiable",
+  "416": "Request Range Unsatisfiable",
   "417": "Expectation Failed",
+  "418": "I'm a Teapot",
   "421": "Misdirected Request",
   "422": "Unprocessable Entity",
   "423": "Locked",
@@ -56,7 +65,11 @@ export const HTTP_STATUS_MESSAGES: {[key: string]: string} = {
   "506": "Variant Also Negotiates",
   "507": "Insufficient Storage",
   "508": "Loop Detected",
-  "509": "Unassigned",
+  "509": "Bandwidth Limit Exceeded",
   "510": "Not Extended",
   "511": "Network Authentication Required"
 };
+
+export function getStatusConstant(status: number) {
+  return constantCase(HTTP_STATUS_MESSAGES[status]);
+}

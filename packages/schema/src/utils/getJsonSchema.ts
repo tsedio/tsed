@@ -24,7 +24,7 @@ function get(entity: JsonEntityStore, options: any) {
   const key = getKey(options);
 
   if (!cache.has(key)) {
-    const schema = serializeJsonSchema(entity.schema, {...options, root: false});
+    const schema = serializeJsonSchema(entity.schema, options);
 
     if (Object.keys(options.schemas).length) {
       schema.definitions = options.schemas;
@@ -41,7 +41,6 @@ function get(entity: JsonEntityStore, options: any) {
 export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonSchemaOptions = {}) {
   options = {
     ...options,
-    root: true,
     specType: options.specType || SpecTypes.JSON,
     schemas: {}
   };

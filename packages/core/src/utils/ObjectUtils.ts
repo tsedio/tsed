@@ -206,7 +206,7 @@ export function isClass(target: any) {
     isClassObject(target) ||
     isDate(target) ||
     isPromise(target) ||
-    isArray(target)
+    isArrayOrArrayClass(target)
   );
 }
 

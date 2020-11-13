@@ -1,6 +1,7 @@
 import "@tsed/ajv";
 import {BodyParams, Controller, Err, Get, Middleware, PlatformTest, Post, UseAfter} from "@tsed/common";
 import {Env} from "@tsed/core";
+import {BadRequest, InternalServerError} from "@tsed/exceptions";
 import {Description, Name, Required, Returns, Summary} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -39,7 +40,7 @@ class FakeMiddleware {
 @Controller("/errors")
 export class ErrorsCtrl {
   @Get("/scenario-1")
-  @(Returns(500).Description("Custom Bad Request"))
+  @(Returns(500, InternalServerError).Description("Custom Bad Request"))
   public scenario1() {
     throw new CustomBadRequest("Custom Bad Request");
   }
@@ -51,19 +52,19 @@ export class ErrorsCtrl {
   }
 
   @Get("/scenario-3")
-  @(Returns(400).Description("Bad request"))
+  @(Returns(400, CustomInternalError).Description("Bad request"))
   public scenario3() {
     throw new CustomInternalError("My custom error");
   }
 
   @Post("/scenario-4")
-  @(Returns(400).Description("Bad request"))
+  @Returns(400)
   public scenario4(@Required() @BodyParams("name") name: string) {
     return name;
   }
 
   @Post("/scenario-5")
-  @(Returns(400).Description("Bad request"))
+  @(Returns(400, BadRequest).Description("Bad request"))
   public scenario5(
     @Required()
     @BodyParams()

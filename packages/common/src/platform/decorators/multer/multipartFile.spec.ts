@@ -40,42 +40,77 @@ describe("@MultipartFile()", () => {
         paths: {
           "/": {
             post: {
-              consumes: ["multipart/form-data"],
               operationId: "testControllerTest",
               parameters: [
                 {
                   in: "body",
                   name: "body",
                   required: false,
-                  schema: {
-                    properties: {
-                      file1: {
-                        // name without index
-                        type: "file"
-                      }
-                    },
-                    type: "object"
-                  }
+                  schema: {properties: {file1: {type: "file"}}, type: "object"}
                 }
               ],
               responses: {
                 "400": {
                   description:
                     "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
-                  schema: {
-                    type: "object"
-                  }
+                  schema: {$ref: "#/definitions/BadRequest"}
                 }
               },
+              produces: ["application/json"],
+              consumes: ["multipart/form-data"],
               tags: ["TestController"]
             }
           }
         },
-        tags: [
-          {
-            name: "TestController"
+        tags: [{name: "TestController"}],
+        definitions: {
+          GenericError: {
+            additionalProperties: true,
+            properties: {
+              message: {
+                description: "An error message",
+                type: "string"
+              },
+              name: {
+                description: "The error name",
+                type: "string"
+              }
+            },
+            required: ["name", "message"],
+            type: "object"
+          },
+          BadRequest: {
+            type: "object",
+            properties: {
+              name: {
+                type: "string",
+                description: "The error name",
+                example: "BAD_REQUEST",
+                default: "BAD_REQUEST"
+              },
+              message: {type: "string", description: "An error message"},
+              status: {
+                type: "number",
+                description: "The status code of the exception",
+                example: 400,
+                default: 400
+              },
+              errors: {
+                type: "array",
+                items: {
+                  $ref: "#/definitions/GenericError"
+                },
+                description: "A list of related errors"
+              },
+              stack: {
+                type: "array",
+                items: {type: "string"},
+                description: "The stack trace (only in development mode)"
+              }
+            },
+            required: ["name", "message", "status"]
           }
-        ]
+        }
       });
     });
 
@@ -86,44 +121,58 @@ describe("@MultipartFile()", () => {
             post: {
               operationId: "testControllerTest",
               parameters: [],
-              requestBody: {
-                content: {
-                  "multipart/form-data": {
-                    schema: {
-                      properties: {
-                        file1: {
-                          format: "binary",
-                          type: "string"
-                        }
-                      },
-                      type: "object"
-                    }
-                  }
-                },
-                required: false
-              },
               responses: {
                 "400": {
-                  content: {
-                    "*/*": {
-                      schema: {
-                        type: "object"
-                      }
-                    }
-                  },
+                  content: {"application/json": {schema: {$ref: "#/components/schemas/BadRequest"}}},
                   description:
                     "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1"
                 }
+              },
+              requestBody: {
+                required: false,
+                content: {"multipart/form-data": {schema: {properties: {file1: {type: "string", format: "binary"}}, type: "object"}}}
               },
               tags: ["TestController"]
             }
           }
         },
-        tags: [
-          {
-            name: "TestController"
+        tags: [{name: "TestController"}],
+        components: {
+          schemas: {
+            GenericError: {
+              additionalProperties: true,
+              properties: {
+                message: {
+                  description: "An error message",
+                  type: "string"
+                },
+                name: {
+                  description: "The error name",
+                  type: "string"
+                }
+              },
+              required: ["name", "message"],
+              type: "object"
+            },
+            BadRequest: {
+              type: "object",
+              properties: {
+                name: {type: "string", description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
+                message: {type: "string", description: "An error message"},
+                status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
+                errors: {
+                  type: "array",
+                  items: {
+                    $ref: "#/components/schemas/GenericError"
+                  },
+                  description: "A list of related errors"
+                },
+                stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+              },
+              required: ["name", "message", "status"]
+            }
           }
-        ]
+        }
       });
     });
   });
@@ -157,44 +206,63 @@ describe("@MultipartFile()", () => {
         paths: {
           "/": {
             post: {
-              consumes: ["multipart/form-data"],
               operationId: "testControllerTest",
               parameters: [
                 {
                   in: "body",
                   name: "body",
                   required: false,
-                  schema: {
-                    properties: {
-                      file1: {
-                        items: {
-                          type: "file"
-                        },
-                        type: "array"
-                      }
-                    },
-                    type: "object"
-                  }
+                  schema: {properties: {file1: {type: "array", items: {type: "file"}}}, type: "object"}
                 }
               ],
               responses: {
                 "400": {
                   description:
                     "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
-                  schema: {
-                    type: "object"
-                  }
+                  schema: {$ref: "#/definitions/BadRequest"}
                 }
               },
+              produces: ["application/json"],
+              consumes: ["multipart/form-data"],
               tags: ["TestController"]
             }
           }
         },
-        tags: [
-          {
-            name: "TestController"
+        tags: [{name: "TestController"}],
+        definitions: {
+          GenericError: {
+            additionalProperties: true,
+            properties: {
+              message: {
+                description: "An error message",
+                type: "string"
+              },
+              name: {
+                description: "The error name",
+                type: "string"
+              }
+            },
+            required: ["name", "message"],
+            type: "object"
+          },
+          BadRequest: {
+            type: "object",
+            properties: {
+              name: {type: "string", description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
+              message: {type: "string", description: "An error message"},
+              status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
+              errors: {
+                type: "array",
+                items: {
+                  $ref: "#/definitions/GenericError"
+                },
+                description: "A list of related errors"
+              },
+              stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+            },
+            required: ["name", "message", "status"]
           }
-        ]
+        }
       });
     });
 
@@ -205,47 +273,62 @@ describe("@MultipartFile()", () => {
             post: {
               operationId: "testControllerTest",
               parameters: [],
-              requestBody: {
-                content: {
-                  "multipart/form-data": {
-                    schema: {
-                      properties: {
-                        file1: {
-                          items: {
-                            format: "binary",
-                            type: "string"
-                          },
-                          type: "array"
-                        }
-                      },
-                      type: "object"
-                    }
-                  }
-                },
-                required: false
-              },
               responses: {
                 "400": {
-                  content: {
-                    "*/*": {
-                      schema: {
-                        type: "object"
-                      }
-                    }
-                  },
+                  content: {"application/json": {schema: {$ref: "#/components/schemas/BadRequest"}}},
                   description:
                     "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1"
+                }
+              },
+              requestBody: {
+                required: false,
+                content: {
+                  "multipart/form-data": {
+                    schema: {properties: {file1: {type: "array", items: {type: "string", format: "binary"}}}, type: "object"}
+                  }
                 }
               },
               tags: ["TestController"]
             }
           }
         },
-        tags: [
-          {
-            name: "TestController"
+        tags: [{name: "TestController"}],
+        components: {
+          schemas: {
+            GenericError: {
+              additionalProperties: true,
+              properties: {
+                message: {
+                  description: "An error message",
+                  type: "string"
+                },
+                name: {
+                  description: "The error name",
+                  type: "string"
+                }
+              },
+              required: ["name", "message"],
+              type: "object"
+            },
+            BadRequest: {
+              type: "object",
+              properties: {
+                name: {type: "string", description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
+                message: {type: "string", description: "An error message"},
+                status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
+                errors: {
+                  type: "array",
+                  items: {
+                    $ref: "#/components/schemas/GenericError"
+                  },
+                  description: "A list of related errors"
+                },
+                stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+              },
+              required: ["name", "message", "status"]
+            }
           }
-        ]
+        }
       });
     });
   });

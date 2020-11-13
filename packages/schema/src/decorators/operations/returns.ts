@@ -9,12 +9,13 @@ import {
   Type,
   UnsupportedDecoratorType
 } from "@tsed/core";
-import {isSuccessStatus} from "../../utils/isSuccessStatus";
+import {getStatusModel} from "../../utils/defineStatusModel";
 import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonResponse} from "../../domain/JsonResponse";
 import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
+import {isSuccessStatus} from "../../utils/isSuccessStatus";
 import {mapHeaders} from "../../utils/mapHeaders";
 
 export interface ReturnsChainedDecorators {
@@ -331,6 +332,10 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
 
   if (status && HTTP_STATUS_MESSAGES[status]) {
     response.description(HTTP_STATUS_MESSAGES[status]);
+
+    if (!model) {
+      model = getStatusModel(+status);
+    }
   }
 
   const actions: ReturnsActionHandler[] = [initSchemaAction];

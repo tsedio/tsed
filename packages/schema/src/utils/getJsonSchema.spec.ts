@@ -164,6 +164,7 @@ describe("getJsonSchema", () => {
     }
 
     // THEN
+
     expect(getJsonSchema(NestedModel)).to.deep.equal({
       type: "object",
       properties: {
@@ -176,6 +177,33 @@ describe("getJsonSchema", () => {
       }
     });
 
+    const options = {schemas: {}};
+    expect(JsonEntityStore.from(Model).schema.clone().toJSON(options)).to.deep.eq({
+      type: "object",
+      properties: {
+        id: {
+          type: "string"
+        },
+        nested: {
+          $ref: "#/definitions/Nested"
+        }
+      }
+    });
+    expect(options).to.deep.eq({
+      schemas: {
+        Nested: {
+          properties: {
+            id: {
+              type: "string"
+            },
+            prop1: {
+              type: "string"
+            }
+          },
+          type: "object"
+        }
+      }
+    });
     expect(getJsonSchema(Model)).to.deep.equal({
       type: "object",
       properties: {

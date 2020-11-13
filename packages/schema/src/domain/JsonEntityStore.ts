@@ -318,7 +318,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
       }
     }
 
-    parentStore.schema.addProperties(this.propertyName, schema);
+    parentStore.schema.addProperty(this.propertyName, schema);
 
     return schema;
   }
@@ -348,7 +348,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
       this._schema.itemSchema(this.type);
     }
 
-    parentStore.schema.addProperties(this.propertyName, this.schema);
+    parentStore.schema.addProperty(this.propertyName, this.schema);
 
     return operation;
   }

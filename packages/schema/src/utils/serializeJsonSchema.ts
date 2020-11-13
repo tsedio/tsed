@@ -1,4 +1,4 @@
-import {classOf, deepExtends, isArray, isObject, uniq} from "@tsed/core";
+import {classOf, deepExtends, isArray, isObject} from "@tsed/core";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
@@ -7,6 +7,7 @@ import {JsonSchemaOptions} from "../interfaces";
 import {GenericsContext, mapGenericsOptions, popGenerics} from "./generics";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
+import {getRequiredProperties} from "./getRequiredProperties";
 
 /**
  * @ignore
@@ -34,17 +35,19 @@ function shouldMapAlias(key: string, value: any, useAlias: boolean) {
 /**
  * @ignore
  */
-function getRequired(schema: any, useAlias: boolean) {
-  return Array.from(schema.$required).map((key) => (useAlias ? (schema.alias.get(key) as string) || key : key));
+function createRef(name: string, options: JsonSchemaOptions) {
+  const host = getHost(options);
+  return {
+    $ref: `${host}/${name}`
+  };
 }
 
 /**
  * @ignore
  */
-export function createRef(value: any, options: JsonSchemaOptions = {}) {
+export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
   const store = getJsonEntityStore(value.class);
   const name = store.schema.getName() || value.getName();
-  const {host = `#/${options.specType === "openapi3" ? "components/schemas" : "definitions"}`} = options;
 
   if (value.hasGenerics) {
     // Inline generic
@@ -63,9 +66,7 @@ export function createRef(value: any, options: JsonSchemaOptions = {}) {
       options.schemas![title] = schema;
       delete schema.title;
 
-      return {
-        $ref: `${host}/${title}`
-      };
+      return createRef(title, options);
     }
 
     return schema;
@@ -82,20 +83,31 @@ export function createRef(value: any, options: JsonSchemaOptions = {}) {
     );
   }
 
-  return {
-    $ref: `${host}/${name}`
-  };
+  return createRef(name, options);
+}
+
+/**
+ * ignore
+ * @param options
+ */
+function getHost(options: JsonSchemaOptions) {
+  const {host = `#/${options.specType === "openapi3" ? "components/schemas" : "definitions"}`} = options;
+
+  return host;
+}
+
+function toRef(value: any, schema: any, options: JsonSchemaOptions) {
+  const name = value.getName();
+  options.schemas![value.getName()] = schema;
+
+  return createRef(name, options);
 }
 
 /**
  * @ignore
  */
 export function serializeItem(value: any, options: JsonSchemaOptions) {
-  if (value && value.isClass) {
-    return createRef(value, {...options, root: false});
-  }
-
-  return serializeAny(value, {...options, root: false});
+  return value && value.isClass ? serializeClass(value, options) : serializeAny(value, options);
 }
 
 /**
@@ -106,7 +118,7 @@ export function serializeInherited(obj: any, target: any, options: JsonSchemaOpt
 
   if (stores.length) {
     const schema = stores.reduce((obj, [, store]) => {
-      return deepExtends(obj, serializeJsonSchema(store.schema, {root: true, ...options}));
+      return deepExtends(obj, serializeJsonSchema(store.schema, options));
     }, {});
 
     obj = deepExtends(schema, obj);
@@ -126,7 +138,6 @@ export function serializeMap(input: Map<string, any>, options: JsonSchemaOptions
 
   return Array.from(input.entries()).reduce((obj: any, [key, value]) => {
     obj[key] = serializeItem(value, options);
-
     return obj;
   }, {});
 }
@@ -161,7 +172,9 @@ export function serializeAny(input: any, options: JsonSchemaOptions = {}) {
   }
 
   if ("toJSON" in input) {
-    return input.toJSON(mapGenericsOptions(options));
+    const schema = input.toJSON(mapGenericsOptions(options));
+
+    return input.canRef ? toRef(input, schema, options) : schema;
   }
 
   return serializeObject(input, options);
@@ -180,7 +193,7 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
       };
 
       if (options.nestedGenerics.length === 0) {
-        return createRef(model, {
+        return serializeClass(model, {
           ...options,
           generics: undefined
         });
@@ -210,7 +223,7 @@ function shouldSkipKey(key: string, {specType = SpecTypes.JSON}: JsonSchemaOptio
  * @ignore
  */
 export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptions = {}): any {
-  const {useAlias = true, schemas = {}, root = true, genericTypes} = options;
+  const {useAlias = true, schemas = {}, genericTypes} = options;
 
   let obj: any = [...schema.entries()].reduce((item: any, [key, value]) => {
     if (shouldSkipKey(key, options)) {
@@ -226,22 +239,22 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
       value = Object.values(value)[0];
     }
 
-    if (!root && ["properties", "additionalProperties", "items"].includes(key) && value.isClass) {
-      value = createRef(value, {
-        ...options,
-        useAlias,
-        schemas,
-        root: false
-      });
-    } else {
-      value = serializeAny(value, {
-        ...options,
-        useAlias,
-        schemas,
-        root: false,
-        genericTypes,
-        genericLabels: schema.genericLabels
-      });
+    if (value) {
+      if (value.isClass) {
+        value = serializeClass(value, {
+          ...options,
+          useAlias,
+          schemas
+        });
+      } else {
+        value = serializeAny(value, {
+          ...options,
+          useAlias,
+          schemas,
+          genericTypes,
+          genericLabels: schema.genericLabels
+        });
+      }
     }
 
     if (isEmptyProperties(key, value)) {
@@ -262,10 +275,7 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
   }
 
   obj = serializeGenerics(obj, {...options, root: false, schemas} as any);
-
-  if (schema.$required.size) {
-    obj.required = uniq([...(obj.required || []), ...getRequired(schema, useAlias)]);
-  }
+  obj = getRequiredProperties(obj, schema, useAlias);
 
   return obj;
 }

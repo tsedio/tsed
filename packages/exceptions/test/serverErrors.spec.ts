@@ -127,7 +127,7 @@ describe("ServerErrors", () => {
       });
 
       expect(err.status).to.equal(503);
-      expect(err.toString()).to.equal("SERVICE_UNVAILABLE(503): message");
+      expect(err.toString()).to.equal("SERVICE_UNAVAILABLE(503): message");
     });
   });
 

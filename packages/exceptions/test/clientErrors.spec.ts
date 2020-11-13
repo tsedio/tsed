@@ -15,14 +15,14 @@ import {
   PreconditionFailed,
   PreconditionRequired,
   ProxyAuthentificationRequired,
-  RequestedRangeUnsatisfiable,
+  RequestRangeUnsatisfiable,
   RequestEntityTooLarge,
   RequestHeaderFieldsTooLarge,
   RequestTimeout,
   RequestURITooLong,
   TooManyRequests,
   Unauthorized,
-  UnavailabledForLegalReasons,
+  UnavailableForLegalReasons,
   UnprocessableEntity,
   UnsupportedMediaType,
   UpgradeRequired,
@@ -235,20 +235,20 @@ describe("ClientErrors", () => {
       });
 
       expect(err.status).to.equal(407);
-      expect(err.toString()).to.equal("PROXY_AUTHENTIFICATION_REQUIRED(407): message");
+      expect(err.toString()).to.equal("PROXY_AUTHENTICATION_REQUIRED(407): message");
     });
   });
 
   describe("RequestedRangeUnsatisfiable", () => {
     it("should emit an exception", () => {
-      const err = new RequestedRangeUnsatisfiable("message");
+      const err = new RequestRangeUnsatisfiable("message");
 
       catchError(() => {
         throw err;
       });
 
       expect(err.status).to.equal(416);
-      expect(err.toString()).to.equal("REQUESTED_RANGE_UNSATISFIABLE(416): message");
+      expect(err.toString()).to.equal("REQUEST_RANGE_UNSATISFIABLE(416): message");
     });
   });
 
@@ -330,16 +330,16 @@ describe("ClientErrors", () => {
     });
   });
 
-  describe("UnavailabledForLegalReasons", () => {
+  describe("UnavailableForLegalReasons", () => {
     it("should emit an exception", () => {
-      const err = new UnavailabledForLegalReasons("message");
+      const err = new UnavailableForLegalReasons("message");
 
       catchError(() => {
         throw err;
       });
 
       expect(err.status).to.equal(451);
-      expect(err.toString()).to.equal("UNAVAILABLED_FOR_LEGAL_REASONS(451): message");
+      expect(err.toString()).to.equal("UNAVAILABLE_FOR_LEGAL_REASONS(451): message");
     });
   });
 

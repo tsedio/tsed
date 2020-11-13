@@ -3,6 +3,17 @@ import {expect} from "chai";
 import {JsonSchema} from "./JsonSchema";
 
 describe("JsonSchema", () => {
+  describe("extra Props", () => {
+    // https://json-schema.org/understanding-json-schema/basics.html
+    it("should add extra props", () => {
+      const schema = JsonSchema.from({});
+      schema.set("extra", "test");
+
+      expect(schema.toJSON()).to.deep.equal({
+        extra: "test"
+      });
+    });
+  });
   describe("basics", () => {
     // https://json-schema.org/understanding-json-schema/basics.html
     it("should validate {}", () => {
@@ -252,7 +263,7 @@ describe("JsonSchema", () => {
           })
         ).to.equal(true);
       });
-      it("should create a valid jsonchema (additionalProperties boolean)", () => {
+      it("should create a valid jsonschema (additionalProperties boolean)", () => {
         const schema = JsonSchema.from({
           type: "object",
           properties: {
@@ -339,7 +350,8 @@ describe("JsonSchema", () => {
           },
           required: ["name", "email", "email"]
         });
-        const schema = jsonSchema.toObject();
+
+        const schema = jsonSchema.clone().toObject();
 
         expect(jsonSchema.isRequired("name")).to.equal(true);
         expect(schema).to.deep.equal({

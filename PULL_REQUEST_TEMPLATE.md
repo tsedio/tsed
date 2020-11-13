@@ -1,6 +1,4 @@
-<!-- For hacktoberfest PR: Unrelevant modification will be automatically closed and tagged as spam and invalid! -->
-
-## Informations
+## Information
 
 Type | Breaking change
 ---|---
@@ -14,7 +12,7 @@ A few sentences describing the overall goals of the pull request's commits.
 ## Usage example
 
 Example to use your feature and to improve the documentation after merging your PR:
-```
+```typescript
 import {} from "@tsed/common";
 
 ```
