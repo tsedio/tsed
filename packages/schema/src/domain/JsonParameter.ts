@@ -14,6 +14,16 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
   nestedGenerics: Type<any>[][] = [];
   $schema: JsonSchema;
 
+  getName() {
+    const name = this.get("name");
+
+    if (this.get("in") === "files") {
+      return name.split(".")[0];
+    }
+
+    return name;
+  }
+
   name(name: string): this {
     this.set("name", name);
 
@@ -58,6 +68,31 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     });
 
     parameter.required = parameter.required || this.get("in") === "path";
+
+    if (this.get("in") === "files") {
+      const isOpenApi = options.specType === SpecTypes.OPENAPI;
+
+      const schema = {
+        type: isOpenApi ? "string" : "file",
+        format: isOpenApi ? "binary" : undefined
+      };
+
+      if (jsonSchema.type === "array") {
+        jsonSchema.items = cleanObject({
+          ...jsonSchema.items,
+          ...schema
+        });
+
+        parameter.schema = jsonSchema;
+      } else {
+        parameter.schema = cleanObject({
+          ...jsonSchema,
+          ...schema
+        });
+      }
+
+      return parameter;
+    }
 
     if (options.specType === SpecTypes.SWAGGER) {
       if (!jsonSchema.$ref && Object.keys(jsonSchema).length === 1) {
