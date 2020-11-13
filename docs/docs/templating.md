@@ -53,6 +53,42 @@ export interface PlatformViewsSettings {
 ```
 
 ## Usage
+## Template Engine Instances
+
+Template engines are exposed via the `PlatformViews.consolidate.requires` object, but they are not instantiated until you've called the `PlatformViews.consolidate[engine].render()` method. You can instantiate them manually beforehand if you want to add filters, globals, mixins, or other engine features.
+
+::: Reference
+[Template Engine Instances](https://github.com/tj/consolidate.js#template-engine-instances).
+:::
+
+```js
+import { Configuration } from "@tsed/common";
+import nunjucks from "nunjucks";
+
+const rootDir = Path.resolve(__dirname);
+
+const nunjucksInstances = nunjucks.configure(`${rootDir}/views`);
+nunjucksInstances.addFilter('foo', function () {
+  return 'bar';
+});
+
+@Configuration({
+  views: {
+    root: `${rootDir}/views`,
+    viewEngine: "nunjucks",
+    extensions: {
+      "njk": "nunjucks"
+    },
+    options: {
+      nunjucks: {
+        requires: nunjucksInstances
+      }
+    }
+  },
+})
+export default class ShopApp {}
+```
+
 ### With decorator
 
 Here is an example of a controller using the @@View@@ decorator:
