@@ -63,7 +63,7 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
 
     value = serialize(value, {
       useAlias,
-      type: getType(propStore, value),
+      type: value === obj[key] ? getType(propStore, value) : undefined,
       collectionType: propStore.collectionType,
       ...props
     });
