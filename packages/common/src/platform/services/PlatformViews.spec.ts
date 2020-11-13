@@ -22,6 +22,11 @@ describe("PlatformViews", () => {
       }
     })
   );
+  afterEach(() => {
+    const platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
+
+    delete platformViews.consolidate.requires.ejs;
+  });
   afterEach(() => PlatformTest.reset());
   afterEach(() => sandbox.restore());
   describe("render()", () => {
