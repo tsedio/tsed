@@ -207,13 +207,13 @@ describe("@Status", () => {
               "401": {
                 description: "Unauthorized",
                 schema: {
-                  type: "string"
+                  type: "object"
                 }
               },
               "400": {
                 description: "Bad request",
                 schema: {
-                  type: "string"
+                  type: "object"
                 }
               }
             },
