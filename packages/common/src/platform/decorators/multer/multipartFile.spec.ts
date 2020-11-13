@@ -20,19 +20,20 @@ describe("@MultipartFile()", () => {
 
     // THEN
     const store = Store.fromMethod(TestController, "test");
-
-    expect(store.get(PlatformMulterMiddleware)).to.deep.eq({
-      fields: [
-        {
-          maxCount: 1,
-          name: "file1"
-        }
-      ]
-    });
-
     const param = ParamMetadata.get(TestController, "test", 0);
-    expect(param.expression).to.eq("file1.0");
-    expect(param.paramType).to.eq(ParamTypes.FILES);
+
+    it("should set params properly", () => {
+      expect(store.get(PlatformMulterMiddleware)).to.deep.eq({
+        fields: [
+          {
+            maxCount: 1,
+            name: "file1"
+          }
+        ]
+      });
+      expect(param.expression).to.eq("file1.0");
+      expect(param.paramType).to.eq(ParamTypes.FILES);
+    });
 
     it("should set endpoint metadata - OS2", () => {
       expect(getSpec(TestController)).to.deep.eq({
@@ -136,19 +137,20 @@ describe("@MultipartFile()", () => {
 
     // THEN
     const store = Store.fromMethod(TestController, "test");
-
-    expect(store.get(PlatformMulterMiddleware)).to.deep.eq({
-      fields: [
-        {
-          maxCount: 4,
-          name: "file1"
-        }
-      ]
-    });
-
     const param = ParamMetadata.get(TestController, "test", 0);
-    expect(param.expression).to.eq("file1");
-    expect(param.paramType).to.eq(ParamTypes.FILES);
+
+    it("should set params properly", () => {
+      expect(store.get(PlatformMulterMiddleware)).to.deep.eq({
+        fields: [
+          {
+            maxCount: 4,
+            name: "file1"
+          }
+        ]
+      });
+      expect(param.expression).to.eq("file1");
+      expect(param.paramType).to.eq(ParamTypes.FILES);
+    });
 
     it("should set endpoint metadata - OS2", () => {
       expect(getSpec(TestController)).to.deep.eq({
