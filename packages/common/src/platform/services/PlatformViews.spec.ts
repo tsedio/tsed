@@ -15,12 +15,18 @@ describe("PlatformViews", () => {
         viewEngine: "ejs",
         options: {
           ejs: {
-            global: "global"
+            global: "global",
+            requires: "requires"
           }
         }
       }
     })
   );
+  afterEach(() => {
+    const platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
+
+    delete platformViews.consolidate.requires.ejs;
+  });
   afterEach(() => PlatformTest.reset());
   afterEach(() => sandbox.restore());
   describe("render()", () => {
@@ -32,7 +38,11 @@ describe("PlatformViews", () => {
       const result = await platformViews.render("views.ejs");
 
       expect(result).to.equal("HTML");
-      expect(platformViews.consolidate.ejs).to.have.been.calledWithExactly("views.ejs", {cache: false, global: "global"});
+      expect(platformViews.consolidate.ejs).to.have.been.calledWithExactly("views.ejs", {
+        cache: false,
+        global: "global",
+        requires: "requires"
+      });
     });
     it("should render a template without extension", async () => {
       const platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
@@ -45,7 +55,8 @@ describe("PlatformViews", () => {
       expect(platformViews.consolidate.ejs).to.have.been.calledWithExactly("views.ejs", {
         cache: false,
         global: "global",
-        test: "test"
+        test: "test",
+        requires: "requires"
       });
     });
     it("should render a template without extension", async () => {
@@ -61,6 +72,11 @@ describe("PlatformViews", () => {
       }
 
       expect(error.message).to.equal('Engine not found for the ".toto" file extension');
+    });
+    it("should load engine requires", async () => {
+      const platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
+
+      expect(platformViews.consolidate.requires.ejs).to.equal("requires");
     });
   });
 });

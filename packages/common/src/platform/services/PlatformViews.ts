@@ -42,6 +42,14 @@ export class PlatformViews {
         ...this.extensions
       })
     );
+    this.loadEngineRequires();
+  }
+
+  loadEngineRequires() {
+    return Object.keys(this.engineOptions).map((engineType: PlatformViewsSupportedEngines) => {
+      const options = this.getEngineOptions(engineType);
+      if (options && options.requires) this.consolidate.requires[engineType] = options.requires;
+    });
   }
 
   getExtensions(): Map<string, PlatformViewsSupportedEngines> {
