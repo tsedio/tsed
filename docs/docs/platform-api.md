@@ -145,7 +145,7 @@ export class Server {
 ## Get Application
 
 Express application is the instance initiated on Ts.ED server bootstrapping. Originally, Ts.ED
-exposes an @@ExpressApplication@@ symbol to inject the `Express.Application`.
+exposes a @@ExpressApplication@@ symbol to inject the `Express.Application`.
 
 ```typescript
 import {Injectable} from "@tsed/di";
