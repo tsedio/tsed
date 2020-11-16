@@ -1,12 +1,13 @@
-import * as Knex from 'knex';
+import * as Knex from "knex";
+import {createColumns} from "../../../src/utils/createColumns";
+import {User} from "../models/User";
 
 export async function up(knex: Knex): Promise<any> {
-  return knex.schema.createTable('users', (table: Knex.TableBuilder) => {
-    table.increments('id').primary()
-    table.string('name')
+  return knex.schema.createTable(User.tableName, async (table: Knex.TableBuilder) => {
+    createColumns(table, User);
   });
 }
 
 export async function down(knex: Knex): Promise<any> {
-  return knex.schema.dropTable('users');
+  return knex.schema.dropTable("users");
 }

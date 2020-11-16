@@ -112,6 +112,10 @@ module.exports = {
                     link: "/tutorials/mongoose.md"
                   },
                   {
+                    text: "Objection.js",
+                    link: "/tutorials/objection.md"
+                  },
+                  {
                     text: "GraphQL",
                     link: "/tutorials/graphql.md"
                   },

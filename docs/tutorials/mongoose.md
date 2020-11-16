@@ -9,7 +9,7 @@ projects:
    href: https://github.com/TypedProject/tsed-example-mongoose
    src: /mongoose.png   
 ---
-# Mongoose <Badge text="Contributors are welcome" />
+# Mongoose 
 
 <Banner src="http://mongodb-tools.com/img/mongoose.png" height="200" href="http://mongoosejs.com/"></Banner>
 
@@ -49,6 +49,7 @@ Then import `@tsed/mongoose` in your [Configuration](/docs/configuration.md):
   <Tab label="Configuration" icon="bx-code-alt">
   
 <<< @/docs/tutorials/snippets/mongoose/configuration.ts
+
   </Tab>
   </Tab>
   <Tab label="CodeSandbox" icon="bxl-codepen">
@@ -266,9 +267,6 @@ This example shows you how can test the model:
 
 </Tab>
 </Tabs>
-
-
-<div class="sharethis-inline-share-buttons"></div>
 
 ## Author 
 

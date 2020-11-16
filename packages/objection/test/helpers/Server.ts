@@ -2,7 +2,6 @@ import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import * as Path from "path";
 import "@tsed/platform-express";
 import "@tsed/objection";
-import "./connections/ConnectionProvider";
 
 const cookieParser = require("cookie-parser"),
   bodyParser = require("body-parser"),
