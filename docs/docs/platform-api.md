@@ -1,10 +1,10 @@
 # Platform API
 
-Ts.ED use now, the Platform API to create an application. Platform API give an abstraction layer between your code written with Ts.ED and the [Express.js](https://expressjs.com/fr/) code. 
-It means, a large part of your code isn't coupled with Express.js itself and can be used with another Platform like [Koa.js](https://koajs.com/). 
+Ts.ED uses now the Platform API to create an application. Platform API gives an abstraction layer between your code written with Ts.ED and the [Express.js](https://expressjs.com/fr/) code. 
+It means that a large part of your code isn't coupled with Express.js itself and can be used with another Platform like [Koa.js](https://koajs.com/). 
 
 There are some changes between ServerLoader API (v4/v5) and Platform API (v5.56.0+/v6), to get the original Express Application, Request or Response.
-This page will describe how you can get these instance with the new API. 
+This page will describe how you can get these instances with the new API. 
 
 ## Platform classes
 
@@ -22,7 +22,7 @@ This page will describe how you can get these instance with the new API.
 
 ## Create application
 
-The way to create Ts.ED application, add [middlewares](/docs/middlewares.html), configure Express or Koa are impacted by the new Platform API.
+The way to create a Ts.ED application, add [middlewares](/docs/middlewares.html), configure Express or Koa, all are impacted by the new Platform API.
 
 If you use @@ServerLoader@@, you'll probably know this example to create a Ts.ED application:
 
@@ -101,12 +101,12 @@ export class Server {
 ```
 
 ::: tip
-With Platform API, the Server class is considered as a @@Provider@@. It means, you can use decorator like @@Constant@@ and @@Inject@@ to get any configuration, provider or service from the DI registry.
+With Platform API, the Server class is considered as a @@Provider@@. It means that you can use decorators like @@Constant@@ and @@Inject@@ to get any configuration, provider or service from the DI registry.
 :::
 
 ## Inject service in the Server
 
-With @@ServerLoader@@, inject a provider can be done as follows:
+With @@ServerLoader@@, injecting a provider can be done as follows:
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -123,8 +123,8 @@ export class Server extends ServerLoader {
 }
 ```
 
-Now Platform API, the Server class is considered as a @@Provider@@. 
-It means, you can use decorator like @@Constant@@ and @@Inject@@ to get any configuration, provider or service from the DI registry.
+Now with Platform API, the Server class is considered as a @@Provider@@. 
+It means that you can use decorators like @@Constant@@ and @@Inject@@ to get any configuration, provider or service from the DI registry.
 
 ```typescript
 import {Configuration} from "@tsed/common"; 
@@ -145,7 +145,7 @@ export class Server {
 ## Get Application
 
 Express application is the instance initiated on Ts.ED server bootstrapping. Originally, Ts.ED
-expose an @@ExpressApplication@@ symbol to inject the `Express.Application`.
+exposes a @@ExpressApplication@@ symbol to inject the `Express.Application`.
 
 ```typescript
 import {Injectable} from "@tsed/di";
@@ -162,7 +162,7 @@ class MyService {
 } 
 ```
 
-With Platform API you have to inject @@PlatformApplication@@ and use the raw attribute to get the `Express.Application`:
+With Platform API, you have to inject @@PlatformApplication@@ and use the raw attribute to get the `Express.Application`:
 
 ```typescript
 import {Injectable, Inject} from "@tsed/di";
@@ -179,7 +179,7 @@ class MyService {
   }
   
   $onInit() {
-    // With Platform API is also possible to add middleware with a service, module, etc...
+    // With Platform API, it is also possible to add middlewares with a service, module, etc...
     this.app.use(MyMiddleware); 
   }
 } 
@@ -187,14 +187,14 @@ class MyService {
 
 ## Request and Response
 
-There no big change over Response and Request, you can always get @@Request@@ and @@Response@@ by using decorators. 
-With the Platform API, your able also to use @@Context@@ decorator to deal with the @@PlatformRequest@@ or @@PlatformResponse@@ high level API.
+There is no big change over Response and Request, you can always get @@Request@@ and @@Response@@ by using decorators. 
+With the Platform API, you are also able to use @@Context@@ decorator to deal with the @@PlatformRequest@@ or @@PlatformResponse@@ high level API.
 
 See [Request context](/docs/request-context.md#request-and-response-abstraction) page to get more details. 
 
 ## Statics files
 
-Since v5.65.0 Platform API manage also the statics files. The @@ServeStaticService@@ is now deprecated in favor of `PlatformApplication.statics()` method.
+Since v5.65.0, Platform API manages also the statics files. The @@ServeStaticService@@ is now deprecated in favor of `PlatformApplication.statics()` method.
 
 Before:
 ```typescript
@@ -231,7 +231,7 @@ class MyService {
 
 ## Catch exceptions
 
-The new [Platform API](/docs/platform-api.md) introduce a new way to catch an exception with the @@Catch@@ decorator and 
-to let you control the exact flow of control and the content of the response sent back to the client.
+The new [Platform API](/docs/platform-api.md) introduces a new way to catch an exception with the @@Catch@@ decorator, and 
+to let you control the exact flow of control and the response's content sent back to the client.
 
 See [Exception filter](/docs/exceptions.md#exception-filter) page to get more details. 
