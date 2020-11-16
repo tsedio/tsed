@@ -1,4 +1,3 @@
-import "@tsed/common";
 import {Config} from "knex";
 
 declare global {
@@ -8,5 +7,23 @@ declare global {
     }
   }
 }
-export * from "./decorators/Entity";
+
+// components
+export * from "./components/createStringColumn";
+export * from "./components/createIdColumn";
+export * from "./components/createBooleanColumn";
+export * from "./components/createNumberColumn";
+
+// decorators
+export * from "./decorators/entity";
+export * from "./decorators/decimal";
+export * from "./decorators/idColumn";
+export * from "./decorators/columnOptions";
+
+// services
+export * from "./services/ObjectionConnection";
+
+// utils
 export * from "./utils/connect";
+export * from "./utils/createColumns";
+export * from "./utils/getColumnCtx";

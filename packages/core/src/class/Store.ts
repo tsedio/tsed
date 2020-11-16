@@ -79,10 +79,11 @@ export class Store extends Metadata {
   /**
    * The get() method returns a specified element from a Map object.
    * @param key Required. The key of the element to return from the Map object.
+   * @param defaultValue
    * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
    */
-  get<T = any>(key: any): T {
-    return this._map.get(nameOf(key));
+  get<T = any>(key: any, defaultValue?: any): T {
+    return this._map.get(nameOf(key)) || defaultValue;
   }
 
   /**
