@@ -24,7 +24,7 @@ This page will describe how you can get these instances with the new API.
 
 The way to create a Ts.ED application, add [middlewares](/docs/middlewares.html), configure Express or Koa, all are impacted by the new Platform API.
 
-If you use @@ServerLoader@@, you'll probably know this example to create a Ts.ED application:
+If you use `ServerLoader`, you'll probably know this example to create a Ts.ED application:
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -106,7 +106,7 @@ With Platform API, the Server class is considered as a @@Provider@@. It means th
 
 ## Inject service in the Server
 
-With @@ServerLoader@@, injecting a provider can be done as follows:
+With `ServerLoader`, injecting a provider can be done as follows:
 
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
@@ -142,10 +142,59 @@ export class Server {
 }
 ```
 
+## Bootstrap application
+
+In v5, boostrap a `Server` can be done with the `ServerLoader.boostrap` method:
+
+```typescript
+import {$log, ServerLoader} from "@tsed/common";
+import {Server} from "./server";
+
+async function bootstrap() {
+  try {
+    $log.debug("Start server...");
+    const platform = await ServerLoader.bootstrap(Server, {
+      // extra settings
+    });
+
+    await platform.listen();
+    $log.debug("Server initialized");
+  } catch (er) {
+    $log.error(er);
+  }
+}
+
+bootstrap();
+
+```
+
+Now with Platform API, you have to install `@tsed/platform-express` (or `@tsed/platform-koa`) and change the code by the following example:
+
+```typescript
+import {$log} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express";
+import {Server} from "./server";
+
+async function bootstrap() {
+  try {
+    $log.debug("Start server...");
+    const platform = await PlatformExpress.bootstrap(Server, {
+      // extra settings
+    });
+
+    await platform.listen();
+    $log.debug("Server initialized");
+  } catch (er) {
+    $log.error(er);
+  }
+}
+
+bootstrap();
+```
+
 ## Get Application
 
-Express application is the instance initiated on Ts.ED server bootstrapping. Originally, Ts.ED
-exposes a @@ExpressApplication@@ symbol to inject the `Express.Application`.
+Before with v5, to get `Express.Application`, you had to use `ExpressApplication` decorator:
 
 ```typescript
 import {Injectable} from "@tsed/di";
@@ -162,7 +211,7 @@ class MyService {
 } 
 ```
 
-With Platform API, you have to inject @@PlatformApplication@@ and use the raw attribute to get the `Express.Application`:
+With Platform API, you have to inject @@PlatformApplication@@ and use the `app.raw` or `app.getApp()` to get the `Express.Application`:
 
 ```typescript
 import {Injectable, Inject} from "@tsed/di";
@@ -175,7 +224,7 @@ class MyService {
   app: PlatformApplication<Express.Application>;
  
   getExpressApp(){
-     return this.app.raw;
+     return this.app.raw; // GET Express raw Application. E.g.: const app = express()
   }
   
   $onInit() {
