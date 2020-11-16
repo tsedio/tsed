@@ -242,11 +242,13 @@ With @@Returns@@ you can document correctly your endpoint to reflect the correct
 
   </Tab>
   <Tab label="CodeSandbox" icon="bxl-codepen">
-<iframe src="https://codesandbox.io/embed/laughing-kepler-ripfl?fontsize=14&hidenavigation=1&theme=dark"
+
+<iframe src="https://codesandbox.io/embed/tsed-swagger-example-ripfl?fontsize=14&hidenavigation=1&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
      title="tsed-swagger-example"
      allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
      sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
+     
   </Tab>
 </Tabs>
                                                             

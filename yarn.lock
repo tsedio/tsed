@@ -2352,10 +2352,10 @@
     read-package-json "2.1.1"
     semver "7.3.2"
 
-"@tsed/vuepress-common@3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@tsed/vuepress-common/-/vuepress-common-3.4.0.tgz#df7bd5e96925ffc3790ce4e3262467c4820e8006"
-  integrity sha512-YMWmo3KwLo0DrO3O9tUdMCabqLKcYMr7QVeQAPt4gVmfkLT+d/+NXvTDtbL8qB4E/RD/mvKnr/BggmVbChdPXQ==
+"@tsed/vuepress-common@3.5.1":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@tsed/vuepress-common/-/vuepress-common-3.5.1.tgz#2f12e8dcfdfb564661f6c553f4923d2376fcb07c"
+  integrity sha512-COVgMk8vl9misJ71gx6IPwZ27zuTBFl4EGrfQtC1sfMXHtX0vMqxvXPRsgOf5qiiXtnZhhY9ymPpF3CNHMeNrA==
   dependencies:
     "@docsearch/css" "1.0.0-alpha.28"
     "@docsearch/js" "1.0.0-alpha.28"
@@ -2366,10 +2366,10 @@
     normalize.css "8.0.1"
     prismjs "1.22.0"
 
-"@tsed/vuepress-tailwind-config@3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@tsed/vuepress-tailwind-config/-/vuepress-tailwind-config-3.4.0.tgz#745d5f842048c889ab76c7354e0b29ba73979b70"
-  integrity sha512-AaXinXgZ8kzXVkJfh7exGo4HexLqsiVP2H5iLsAimDZ49rOy6lhdaOMH3MI4WalGa36gmwd7oqT6JWdVRx/4lA==
+"@tsed/vuepress-tailwind-config@3.5.1":
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/@tsed/vuepress-tailwind-config/-/vuepress-tailwind-config-3.5.1.tgz#de32921034b05ab2a76a36b24bcf7e04386230d6"
+  integrity sha512-xUBGh7jIOLTD7gza13WC7QXEZCZEVgOia+hvWLgnqjE91WUIFGARdGAsIhJBgBFdSbfThESOu+EE3rLM9gdMyQ==
   dependencies:
     tailwindcss "1.9.6"
 
@@ -16649,18 +16649,18 @@ vuepress-plugin-smooth-scroll@^0.0.3:
   dependencies:
     smoothscroll-polyfill "^0.4.3"
 
-vuepress-theme-tsed@3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.4.0.tgz#3e500d14e5a52ae552dd291ae349a8dbf692ede7"
-  integrity sha512-yhV4ojtkplI7QP+VT3q23qFoKbeJu1N2pkCriDXUJxG5D8PN78pfFpxd6FDSafvYDnstP39QqVxTNnsf1uBtoQ==
+vuepress-theme-tsed@3.5.1:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.5.1.tgz#6e751d43f4f8dadf42139d69d6ae2307c622effc"
+  integrity sha512-CL4pJVwVGiRCeNuzxAJt/QdPl2IYzUjjcsjM9+naXKOHgQ16Z3WBb/Trx39V6aaXqh1wT+o2wkbwvYwHvaOmyA==
   dependencies:
     "@docsearch/css" "1.0.0-alpha.28"
     "@docsearch/js" "1.0.0-alpha.28"
     "@sass-collective/sass-rem" "^1.4.1"
     "@silvanite/vuepress-plugin-tailwind" "^1.3.0"
     "@tsed/markdown-it-symbols" "2.15.0"
-    "@tsed/vuepress-common" "3.4.0"
-    "@tsed/vuepress-tailwind-config" "3.4.0"
+    "@tsed/vuepress-common" "3.5.1"
+    "@tsed/vuepress-tailwind-config" "3.5.1"
     "@vuepress/plugin-active-header-links" "1.7.1"
     "@vuepress/plugin-nprogress" "1.6.0"
     "@vuepress/plugin-search" "1.2.0"

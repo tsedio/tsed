@@ -63,7 +63,7 @@ Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your Serv
   </Tab>
   <Tab label="CodeSandbox" icon="bxl-codepen">
   
-<iframe src="https://codesandbox.io/embed/nifty-einstein-pgvfz?fontsize=14&hidenavigation=1&theme=dark"
+<iframe src="https://codesandbox.io/embed/tsed-graphql-pgvfz?fontsize=14&hidenavigation=1&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
      title="TsED Graphql"
      allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"

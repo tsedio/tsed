@@ -13,7 +13,7 @@ projects:
 
 <Banner src="http://mongodb-tools.com/img/mongoose.png" height="200" href="http://mongoosejs.com/"></Banner>
 
-This tutorial show yous how you can use mongoose package with Ts.ED. 
+This tutorial shows you how you can use mongoose package with Ts.ED. 
 
 <Projects type="examples"/>
 
