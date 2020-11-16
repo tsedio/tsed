@@ -332,6 +332,8 @@ describe("serialize()", () => {
           mappedProp: "hello"
         };
       };
+      // @ts-ignore
+      model["$getTarget"] = () => Model;
 
       expect(serialize(model, {type: Model})).to.deep.equal({
         id: "id",
@@ -341,8 +343,7 @@ describe("serialize()", () => {
 
       expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
         id: "id",
-        mappedProp: "hello",
-        password: "hellopassword"
+        mappedProp: "hellotest"
       });
     });
     it("should serialize model Array", () => {

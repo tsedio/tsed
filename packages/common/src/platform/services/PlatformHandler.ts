@@ -233,7 +233,7 @@ export class PlatformHandler {
     if (endpoint.view) {
       data = await this.render(data, ctx);
     } else if (shouldBeSerialized(data)) {
-      data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {type: endpoint.type});
+      data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {type: endpoint.responseType});
     }
 
     if (!response.isDone()) {

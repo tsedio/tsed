@@ -412,8 +412,6 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
       const {currentSchema} = ctx;
 
       if (isCollection(model)) {
-        // @ts-ignore
-        // store._type = types[0];
         currentSchema?.itemSchema({type: types[0]});
       } else {
         currentSchema?.nestedGenerics.push(types);
