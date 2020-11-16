@@ -102,7 +102,7 @@ export function serialize(obj: any, {type, collectionType, ...options}: JsonSeri
 
   if (obj.$toObject) {
     // mongoose
-    return serialize(obj.$toObject(options, true), {type, collectionType, ...options});
+    return serialize(obj.$toObject(options, true), {type: type || obj.$getTarget(), collectionType, ...options});
   }
 
   if (type && isClass(type)) {

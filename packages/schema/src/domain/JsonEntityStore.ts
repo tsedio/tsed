@@ -126,6 +126,17 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
     this.build();
   }
 
+  get responseType(): undefined | any {
+    const media = this.operation?.getResponseOf(this.statusCode)?.getMedia("application/json");
+
+    if (media && media.has("schema")) {
+      const schema = media.get("schema") as JsonSchema;
+      return schema.getComputedItemType();
+    }
+
+    return this.type;
+  }
+
   /**
    * Return the itemSchema computed type. if the type is a function used for recursive model, the function will be called to
    * get the right type.

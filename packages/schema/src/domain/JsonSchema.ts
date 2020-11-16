@@ -803,6 +803,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return getComputedType(this._target);
   }
 
+  getComputedItemType(): any {
+    return this._itemSchema ? this._itemSchema.getComputedType() : this.getComputedType();
+  }
+
   /**
    * Return the Json type as string
    */

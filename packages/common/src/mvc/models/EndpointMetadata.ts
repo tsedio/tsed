@@ -71,10 +71,6 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
     return (Array.from(this.children.values()) as unknown) as ParamMetadata[];
   }
 
-  get response() {
-    return this.operation.response;
-  }
-
   /**
    * Return the JsonOperation
    */
@@ -84,10 +80,6 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
 
   get operationPaths() {
     return this.operation.operationPaths;
-  }
-
-  get responses(): Map<string, JsonResponse> {
-    return this.operation.get("responses");
   }
 
   get view(): EndpointViewOptions {

@@ -56,7 +56,10 @@ export function Model(options: MongooseModelOptions = {}) {
       useFactory(connections: MONGOOSE_CONNECTIONS) {
         applySchemaOptions(schema, schemaOptions(target));
 
-        return createModel(target, schema, options.name, options.collection, options.skipInit, connections.get(options.connection));
+        const model = createModel(target, schema, options.name, options.collection, options.skipInit, connections.get(options.connection));
+        (model as any).prototype.$getTarget = () => target;
+
+        return model;
       }
     });
   };
