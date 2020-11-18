@@ -55,7 +55,7 @@ a [@tsed/passport](/tutorials/passport.md) plugin in order to facilitate the use
 
 The following codesandbox example show you how you can use this plugin combined with Swagger to describe your API:
 
-<iframe src="https://codesandbox.io/embed/tsed-swagger-with-authorization-dzhcy?fontsize=14&hidenavigation=1&theme=dark"
+<iframe src="https://codesandbox.io/embed/tsed-swagger-with-authorization-hi5pp?fontsize=14&hidenavigation=1&theme=dark"
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
      title="tsed-swagger-with-authorization"
      allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
