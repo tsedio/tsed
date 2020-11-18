@@ -61,12 +61,12 @@ To prevent errors, fix the version for each Ts.ED packages:
 ```json
 {
   "dependencies": {
-    "@tsed/common": "5.56.0",
-    "@tsed/di": "5.56.0",
-    "@tsed/core": "5.56.0",
-    "@tsed/exceptions": "5.56.0",
-    "@tsed/plaftorm-express": "5.56.0",
-    "@tsed/swagger": "5.56.0"
+    "@tsed/common": "6.10.0",
+    "@tsed/di": "6.10.0",
+    "@tsed/core": "6.10.0",
+    "@tsed/exceptions": "6.10.0",
+    "@tsed/plaftorm-express": "6.10.0",
+    "@tsed/swagger": "6.10.0"
   }
 } 
 ```
