@@ -224,3 +224,7 @@ export class AnyResponseFilter implements ResponseFilterMethods {
   }
 }
 ```
+
+## Pagination
+
+You can find a Gist example [here](https://gist.github.com/Romakita/2dd599b6905a08ab0301414599c3858a) to manage Paginated resource by using Response Filter and models.
