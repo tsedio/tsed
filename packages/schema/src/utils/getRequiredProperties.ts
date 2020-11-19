@@ -10,7 +10,7 @@ export function getRequiredProperties(obj: any, schema: any, useAlias: boolean) 
 
   if (schema.get("properties")) {
     required = Object.entries(schema.get("properties")).reduce((required, [key, prop]: [string, any]) => {
-      if (prop.$selfRequired !== undefined) {
+      if (prop && prop.$selfRequired !== undefined) {
         return prop.$selfRequired ? required.concat(key) : required.filter(key);
       }
 
