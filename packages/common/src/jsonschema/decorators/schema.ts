@@ -6,7 +6,7 @@ import {JSONSchema6} from "json-schema";
  *
  * ::: warning
  * This decorator will be removed in v7.
- * For v6 user, use @@Schema@@ from @tsed/schema instead of @tsed/common.
+ * For v6 user, use @@Schema@@ decorator from @tsed/schema.
  * :::
  *
  * ## Example
