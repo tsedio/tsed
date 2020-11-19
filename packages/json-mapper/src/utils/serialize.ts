@@ -28,7 +28,7 @@ function getSchemaProperties(storedJson: JsonEntityStore, obj: any) {
   if (!stores.length) {
     // fallback to auto discovering field from obj
     objectKeys(obj).forEach((key) => {
-      const propStore = JsonEntityStore.from(storedJson.target.prototype, key);
+      const propStore = JsonEntityStore.from(classOf(storedJson.target), key);
       stores.push([key, propStore]);
     });
   }
