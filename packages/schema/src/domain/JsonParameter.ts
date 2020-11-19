@@ -94,6 +94,12 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
       return parameter;
     }
 
+    if (options.specType === SpecTypes.OPENAPI) {
+      if (["query"].includes(this.get("in")) && jsonSchema.$ref) {
+        return this.refToParameters(parameter, options, schemas);
+      }
+    }
+
     if (options.specType === SpecTypes.SWAGGER) {
       if (!jsonSchema.$ref && Object.keys(jsonSchema).length === 1) {
         parameter.type = jsonSchema.type;
@@ -146,6 +152,18 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     }
 
     return Object.entries(schema.properties || {}).reduce((params, [key, prop]: [string, any]) => {
+      if (options.specType === SpecTypes.OPENAPI) {
+        return [
+          ...params,
+          {
+            ...parameter,
+            name: key,
+            required: (schema.required || []).includes(key),
+            schema: prop
+          }
+        ];
+      }
+
       return [
         ...params,
         {
