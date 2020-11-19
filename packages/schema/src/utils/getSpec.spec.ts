@@ -1,48 +1,8 @@
-import * as SwaggerParser from "@apidevtools/swagger-parser";
 import {expect} from "chai";
-import {unlinkSync, writeJsonSync} from "fs-extra";
+import {validateSpec} from "../../test/helpers/validateSpec";
 import {Consumes, In, Min, Name, OperationPath, Required} from "../decorators";
 import {CollectionOf, Description, GenericOf, Generics, getJsonSchema, Property, Returns, SpecTypes} from "../index";
 import {getSpec} from "./getSpec";
-
-const validate = async (spec: any, version = SpecTypes.SWAGGER) => {
-  const file = __dirname + "/spec.json";
-  spec = {
-    ...spec
-  };
-  try {
-    if (version === SpecTypes.OPENAPI) {
-      spec.openapi = "3.0.1";
-    } else {
-      spec.swagger = "2.0";
-    }
-
-    spec.info = {
-      title: "Title",
-      description: "Description",
-      termsOfService: "termsOfService",
-      contact: {
-        email: "apiteam@swagger.io"
-      },
-      license: {
-        name: "Apache 2.0",
-        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-      },
-      version: "1.0.0"
-    };
-
-    writeJsonSync(file, spec, {encoding: "utf8"});
-    await SwaggerParser.validate(file);
-    unlinkSync(file);
-
-    return true;
-  } catch (er) {
-    console.error(er);
-    // unlinkSync(file);
-
-    return er;
-  }
-};
 
 describe("getSpec()", () => {
   describe("In", () => {
@@ -58,7 +18,7 @@ describe("getSpec()", () => {
         const spec = getSpec(Controller, {
           specType: SpecTypes.SWAGGER
         });
-        expect(await validate(spec)).to.eq(true);
+        expect(await validateSpec(spec)).to.eq(true);
       });
       it("should declare all schema correctly (path optional - swagger2)", async () => {
         // WHEN
@@ -70,7 +30,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(await validate(spec)).to.eq(true);
+        expect(await validateSpec(spec)).to.eq(true);
         expect(spec).to.deep.equal({
           tags: [
             {
@@ -122,7 +82,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(await validate(spec)).to.eq(true);
+        expect(await validateSpec(spec)).to.eq(true);
         expect(spec).to.deep.equal({
           tags: [
             {
@@ -203,7 +163,7 @@ describe("getSpec()", () => {
             }
           ]
         });
-        expect(await validate(spec, SpecTypes.OPENAPI)).to.eq(true);
+        expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
       });
     });
     describe("Query", () => {
@@ -328,56 +288,22 @@ describe("getSpec()", () => {
 
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-
         expect(spec).to.deep.equal({
-          components: {
-            schemas: {
-              QueryModel: {
-                properties: {
-                  id: {
-                    type: "string"
-                  },
-                  name: {
-                    type: "string"
-                  }
-                },
-                type: "object"
-              }
-            }
-          },
           paths: {
             "/{id}": {
               get: {
                 operationId: "controllerMethod",
                 parameters: [
-                  {
-                    in: "path",
-                    name: "id",
-                    required: true,
-                    schema: {type: "string"}
-                  },
-                  {
-                    in: "query",
-                    required: false,
-                    schema: {
-                      $ref: "#/components/schemas/QueryModel"
-                    }
-                  }
+                  {in: "path", name: "id", required: true, schema: {type: "string"}},
+                  {in: "query", required: false, name: "id", schema: {type: "string"}},
+                  {in: "query", required: false, name: "name", schema: {type: "string"}}
                 ],
-                responses: {
-                  "200": {
-                    description: "Success"
-                  }
-                },
+                responses: {"200": {description: "Success"}},
                 tags: ["Controller"]
               }
             }
           },
-          tags: [
-            {
-              name: "Controller"
-            }
-          ]
+          tags: [{name: "Controller"}]
         });
       });
       it("should declare all schema correctly (query - swagger2 - array string)", async () => {
@@ -882,7 +808,7 @@ describe("getSpec()", () => {
 
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
-        expect(await validate(spec)).to.eq(true);
+        expect(await validateSpec(spec)).to.eq(true);
         expect(spec).to.deep.equal({
           tags: [
             {
@@ -941,7 +867,7 @@ describe("getSpec()", () => {
 
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-        expect(await validate(spec, SpecTypes.OPENAPI)).to.eq(true);
+        expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
         expect(spec).to.deep.equal({
           tags: [
             {
