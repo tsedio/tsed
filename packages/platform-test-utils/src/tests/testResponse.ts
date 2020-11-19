@@ -23,6 +23,11 @@ class MyModel extends Base {
   ignoreMe: string;
 }
 
+class EmptyModel {
+  raw: any;
+  affected?: number | null;
+}
+
 @Controller("/response")
 class TestResponseParamsCtrl {
   @Get("/scenario1/:id")
@@ -114,6 +119,16 @@ class TestResponseParamsCtrl {
     model.ignoreMeBase = "ignoreMeBase";
 
     return model;
+  }
+
+  @Get("/scenario11")
+  get() {
+    const t = new EmptyModel();
+
+    t.raw = 1;
+    t.affected = 1;
+
+    return t;
   }
 }
 
@@ -264,6 +279,17 @@ export function testResponse(options: PlatformTestOptions) {
       expect(response.body).to.deep.equal({
         foo: "foo",
         fooBase: "fooBase"
+      });
+    });
+  });
+
+  describe("Scenario11: return models without props", () => {
+    it("should return a body", async () => {
+      const response = await request.get("/rest/response/scenario11");
+
+      expect(response.body).to.deep.equal({
+        affected: 1,
+        raw: 1
       });
     });
   });

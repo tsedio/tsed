@@ -296,6 +296,24 @@ describe("serialize()", () => {
         test: "test"
       });
     });
+    it("should serialize model without props", () => {
+      class Test {
+        raw: any;
+        affected?: number | null;
+      }
+
+      const t = new Test();
+
+      t.raw = 1;
+      t.affected = 1;
+
+      const result = serialize(t, {type: Object});
+
+      expect(result).to.deep.eq({
+        affected: 1,
+        raw: 1
+      });
+    });
   });
   describe("Mongoose class", () => {
     it("should serialize model", () => {
