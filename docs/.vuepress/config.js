@@ -146,7 +146,7 @@ module.exports = {
                   },
                   {
                     text: "Contributes",
-                    link: "/tutorials/contributing.md"
+                    link: "/contributing.md"
                   },
                   {
                     text: "License",

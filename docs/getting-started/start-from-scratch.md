@@ -56,7 +56,7 @@ $ npm install --save-dev ts-node nodemon
 :::
 
 ::: warning
-It is really important to keep the same version for all `@tsed/*` packages.
+It is really important to keep the same version for all `@tsed/*` (excepted @tsed/logger) packages.
 To prevent errors, fix the version for each Ts.ED packages:
 ```json
 {
@@ -70,6 +70,7 @@ To prevent errors, fix the version for each Ts.ED packages:
   }
 } 
 ```
+
 :::
 
 ::: warning

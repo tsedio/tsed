@@ -142,9 +142,8 @@ This information can be retrieved in the response headers:
 
 <GithubContributors users="['Romakita']"/>
 
-
-<div class="container--centered container--padded">
-<a href="/contributing.html" class="nav-link button">
+<div class="flex items-center justify-center p-5">
+<Button href="/contributing.html" class="rounded-medium">
  Become maintainer
-</a>
+</Button>
 </div>

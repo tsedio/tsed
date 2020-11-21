@@ -81,6 +81,7 @@ Features | Express.js  | Koa.js
 [Serve files](/docs/serve-files.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Templating](/docs/templating.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Validation](/docs/validation.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
+[Response Filters](/docs/response-filter.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 
 </div>
 
@@ -95,6 +96,7 @@ Features | Express.js  | Koa.js
 [Passport.js](/tutorials/passport.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/invalid.svg" width="15" alt="no"/>
 [TypeORM](/tutorials/typeorm.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Mongoose](/tutorials/mongoose.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
+[Objection.js](/tutorials/objection.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [GraphQL](/tutorials/graphql.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="no"/>
 [Socket.io](/tutorials/socket-io.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Seq](/tutorials/seq.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>

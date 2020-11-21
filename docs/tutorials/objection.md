@@ -133,8 +133,8 @@ You can also use the common decorators to describe model (See [models](/docs/mod
 
 <GithubContributors :users="['stefanvanherwijnen']"/>
 
-<div class="container--centered container--padded">
-<a href="/contributing.html" class="nav-link button">
+<div class="flex items-center justify-center p-5">
+<Button href="/contributing.html" class="rounded-medium">
  Become maintainer
-</a>
+</Button>
 </div>
