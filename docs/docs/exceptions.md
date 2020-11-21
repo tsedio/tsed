@@ -8,9 +8,11 @@ meta:
 # Exceptions
 
 Ts.ED http exceptions provide classes to throw standard HTTP exceptions. These exceptions can be used on Controller, Middleware or injectable Service.
-Emitted exceptions will be handled by the @@PlatformExceptionMiddleware@@ and formatted to an Express response with the right status code and headers.
+Emitted exceptions will be handled by the @@PlatformExceptions@@ and formatted to a response with the right status code and headers.
 
-And another thing. This module can be used with a pure Express application.
+::: tip
+This module can be used in standalone with a pure Express/Node.js application.
+:::
 
 ## Installation
 

@@ -20,7 +20,7 @@
     "docs:publish": "yarn docs:build && monorepo publish ghpages",
     "examples:sync": "monorepo sync examples",
     "examples:publish": "monorepo publish examples",
-    "api:build": "lerna run build && ts-doc",
+    "api:build": "lerna run build && tsdoc",
     "vuepress:build": "cross-env NODE_ENV=production node --max_old_space_size=8192 ./node_modules/vuepress/cli.js build docs",
     "vuepress:serve": "vuepress dev docs",
     "prettier": "prettier '{packages,test}/**/*.ts' --write",
@@ -69,7 +69,7 @@
   },
   "homepage": "http://tsed.io/",
   "dependencies": {
-    "@tsed/logger": "5.5.3",
+    "@tsed/logger": "^5.5.4",
     "ajv": "6.12.4",
     "uuid": "8.3.0",
     "ejs": "^3.1.5",
@@ -82,7 +82,7 @@
   "devDependencies": {
     "@tsed/markdown-it-symbols": "3.3.0",
     "@tsed/monorepo-utils": "1.11.0",
-    "@typedproject/ts-doc": "4.0.10",
+    "@typedproject/ts-doc": "4.0.12",
     "@types/chai": "4.2.12",
     "@types/chai-as-promised": "7.1.3",
     "@types/globby": "9.1.0",
@@ -122,7 +122,7 @@
     "typescript": "4.0.2",
     "vue-analytics": "5.22.1",
     "vuepress": "1.7.1",
-    "vuepress-theme-tsed": "3.5.1"
+    "vuepress-theme-tsed": "3.5.5"
   },
   "directories": {
     "packages": "packages",

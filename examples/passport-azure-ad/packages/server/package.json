@@ -28,7 +28,7 @@
     "@tsed/swagger": "6.2.0",
     "@tsed/platform-express": "6.2.0",
     "@tsed/passport": "6.2.0",
-    "@tsed/logger": "5.5.3",
+    "@tsed/logger": "^5.5.4",
     "@types/compression": "1.7.0",
     "body-parser": "1.19.0",
     "compression": "1.7.4",

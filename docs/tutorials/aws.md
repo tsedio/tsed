@@ -84,8 +84,8 @@ You can see an example provided by the AWS Team on this [github repository](http
 
 <GithubContributors :users="['Romakita', 'vetras']"/>
 
-<div class="container--centered container--padded">
-<a href="/contributing.html" class="nav-link button">
+<div class="flex items-center justify-center p-5">
+<Button href="/contributing.html" class="rounded-medium">
  Become maintainer
-</a>
+</Button>
 </div>
