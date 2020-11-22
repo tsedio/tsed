@@ -2,7 +2,7 @@ import {Injectable, ProviderScope, ProviderType} from "@tsed/common";
 import {Calendar} from "../models/Calendar";
 
 @Injectable({
-  type: ProviderType.CONTROLLER,
+  type: ProviderType.SERVICE,
   scope: ProviderScope.SINGLETON
 })
 export class CalendarsService {
