@@ -1,9 +1,47 @@
 import {CollectionOf, Generics, OperationPath, Property, Returns, SpecTypes} from "@tsed/schema";
+import "@tsed/common";
+import "@tsed/exceptions";
 import {expect} from "chai";
 import {getSpec} from "../../utils/getSpec";
 
 describe("@Returns", () => {
   describe("Single contentType", () => {
+    it("should declare a return type with object", async () => {
+      // WHEN
+      class Controller {
+        @OperationPath("POST", "/")
+        @Returns(200, {type: String, description: "description"})
+        method() {}
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+
+      expect(spec).to.deep.equal({
+        tags: [
+          {
+            name: "Controller"
+          }
+        ],
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  description: "description",
+                  schema: {
+                    type: "string"
+                  }
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        }
+      });
+    });
     it("should declare a return type", async () => {
       // WHEN
       class Controller {

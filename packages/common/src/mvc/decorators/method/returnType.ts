@@ -75,35 +75,8 @@ function mapStatusResponseOptions(args: any[]): any {
  * @ignore
  */
 export function ReturnType(response: Partial<ReturnTypeOptions> = {}): ReturnsChainedDecorators {
-  const {code = "default", collectionType, type, headers, description, examples, schema} = response;
-
-  let decorator = R(code);
-
-  if (collectionType || type) {
-    decorator.Type(collectionType || type);
-  }
-
-  if (collectionType) {
-    decorator = decorator.Of(type);
-  }
-
-  if (headers) {
-    decorator = decorator.Headers(headers);
-  }
-
-  if (description) {
-    decorator = decorator.Description(description);
-  }
-
-  if (examples) {
-    decorator = decorator.Examples(examples);
-  }
-
-  if (schema) {
-    decorator = decorator.Schema(schema as any);
-  }
-
-  return decorator;
+  const {code = "default"} = response;
+  return R(code, response);
 }
 
 /**

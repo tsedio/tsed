@@ -9,12 +9,12 @@ import {
   Type,
   UnsupportedDecoratorType
 } from "@tsed/core";
-import {getStatusModel} from "../../utils/defineStatusModel";
 import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonResponse} from "../../domain/JsonResponse";
 import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
+import {getStatusModel} from "../../utils/defineStatusModel";
 import {isSuccessStatus} from "../../utils/isSuccessStatus";
 import {mapHeaders} from "../../utils/mapHeaders";
 
@@ -108,6 +108,9 @@ interface ReturnsActionHandler {
   (ctx: ReturnsActionContext): void;
 }
 
+/**
+ * @ignore
+ */
 function getContentType({contentType, model}: ReturnsActionContext) {
   if (model && !isPlainObject(model) && !isPrimitiveOrPrimitiveClass(model)) {
     contentType = contentType || "application/json";
@@ -116,10 +119,16 @@ function getContentType({contentType, model}: ReturnsActionContext) {
   return contentType;
 }
 
+/**
+ * @ignore
+ */
 function getStatus({status}: ReturnsActionContext) {
   return status || "default";
 }
 
+/**
+ * @ignore
+ */
 function initSchemaAction(ctx: ReturnsActionContext) {
   const {model, response, store, decoratorContext} = ctx;
   const operation = store.operation!;
@@ -157,16 +166,54 @@ function initSchemaAction(ctx: ReturnsActionContext) {
   contentType && operation.addProduce(contentType);
 }
 
+/**
+ * @ignore
+ */
 function checkPrimitive(model: any) {
   if (isPrimitiveOrPrimitiveClass(model)) {
     throw new Error("Returns.Of cannot be used with the following primitive classes: String, Number, Boolean");
   }
 }
 
+/**
+ * @ignore
+ */
 function checkCollection(model: any) {
   if (isCollection(model)) {
     throw new Error("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
   }
+}
+
+/**
+ * @ignore
+ */
+function mapLegacy(decorator: any, model: object): ReturnsChainedDecorators {
+  const {collectionType, type, headers, description, examples, schema} = model as any;
+  if (collectionType || type) {
+    decorator.Type(collectionType || type);
+  }
+
+  if (collectionType) {
+    decorator = decorator.Of(type);
+  }
+
+  if (headers) {
+    decorator = decorator.Headers(headers);
+  }
+
+  if (description) {
+    decorator = decorator.Description(description);
+  }
+
+  if (examples) {
+    decorator = decorator.Examples(examples);
+  }
+
+  if (schema) {
+    decorator = decorator.Schema(schema as any);
+  }
+
+  return decorator;
 }
 
 /**
@@ -325,10 +372,29 @@ function checkCollection(model: any) {
  * @response
  * @operation
  */
+export function Returns(status?: string | number, model?: Type<any>): ReturnsChainedDecorators;
+/**
+ * @deprecated Since 2020. Use chained decorator version instead.
+ */
+export function Returns(status?: string | number, model?: object): ReturnsChainedDecorators;
 export function Returns(status?: string | number, model?: Type<any> | any): ReturnsChainedDecorators {
   const response = new JsonResponse();
   let decoratorContext: DecoratorTypes;
   let contentType: string;
+
+  if (model && isPlainObject(model)) {
+    // istanbul ignore
+    if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
+      console.warn("Use object with @Returns to describe schema is deprecated.");
+      console.warn("Use the following example: @Returns(200, Type).Description('description')");
+    }
+
+    const {code = "default"} = model as any;
+
+    let decorator = Returns(code);
+
+    return mapLegacy(decorator, model);
+  }
 
   if (status && HTTP_STATUS_MESSAGES[status]) {
     response.description(HTTP_STATUS_MESSAGES[status]);
