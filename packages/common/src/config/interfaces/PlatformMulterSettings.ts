@@ -1,3 +1,5 @@
+import {Request} from "express";
+import {FileFilterCallback} from "multer";
 import {Readable} from "stream";
 
 declare global {
@@ -65,6 +67,15 @@ declare global {
       };
       /** Preserve the full path of the original filename rather than the basename. (Default: false) */
       preservePath?: boolean;
+      /**
+       * Optional function to control which files are uploaded. This is called
+       * for every file that is processed.
+       *
+       * @param req The Express `Request` object.
+       * @param file Object containing information about the processed file.
+       * @param callback  a function to control which files should be uploaded and which should be skipped.
+       */
+      fileFilter?(req: Request, file: Express.Multer.File, callback: FileFilterCallback): void;
     }
 
     export interface MulterField {

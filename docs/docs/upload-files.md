@@ -38,8 +38,8 @@ By default, the directory used is `${projetRoot}/uploads`. You can configure ano
   - `files` (`number`): For multipart forms, the max number of file fields (Default: Infinity).
   - `parts` (`number`): For multipart forms, the max number of parts (fields + files)(Default: Infinity).
   - `headerPairs` (`number`): For multipart forms, the max number of header `key => value` pairs to parse Default: 2000(same as node's http).
-  - `preservePath` (`boolean`): Keep the full path of files instead of just the base name (Default: false).
-
+- `preservePath` (`boolean`): Keep the full path of files instead of just the base name (Default: false).
+- `fileFilter` (`Function`): Optional function to control which files are uploaded. This is called for every file that is processed.
 
 ## Usage 
 ### Single file
