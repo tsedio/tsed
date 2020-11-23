@@ -1,4 +1,4 @@
-import {EndpointMetadata, MultipartFile, PlatformApplication, PlatformMulterMiddleware, PlatformTest} from "@tsed/common";
+import {EndpointMetadata, MulterOptions, MultipartFile, PlatformApplication, PlatformMulterMiddleware, PlatformTest} from "@tsed/common";
 import {Exception} from "@tsed/exceptions";
 import {expect} from "chai";
 import * as Sinon from "sinon";
@@ -6,8 +6,9 @@ import {createFakePlatformContext} from "../../../../../test/helper/createFakePl
 
 const sandbox = Sinon.createSandbox();
 
-async function build() {
+async function build(options = {}) {
   class Test {
+    @MulterOptions(options)
     upload(@MultipartFile("file1") file1: any) {}
   }
 
@@ -41,12 +42,26 @@ describe("PlatformMulterMiddleware", () => {
   );
   afterEach(() => PlatformTest.reset());
   it("should create middleware", async () => {
-    const {middleware, ctx, multer, app, multerMiddleware} = await build();
+    const {middleware, ctx, multer, app, multerMiddleware} = await build({});
 
     await middleware.use(ctx);
 
     expect(app.multer).to.have.been.calledWithExactly({
       dest: "/dest"
+    });
+    expect(multer.fields).to.have.been.calledWithExactly([{maxCount: undefined, name: "file1"}]);
+    expect(multerMiddleware).to.have.been.calledWithExactly(ctx.request.raw, ctx.response.raw);
+  });
+
+  it("should create middleware with storage", async () => {
+    const {middleware, ctx, multer, app, multerMiddleware} = await build({
+      storage: "storage"
+    });
+
+    await middleware.use(ctx);
+
+    expect(app.multer).to.have.been.calledWithExactly({
+      storage: "storage"
     });
     expect(multer.fields).to.have.been.calledWithExactly([{maxCount: undefined, name: "file1"}]);
     expect(multerMiddleware).to.have.been.calledWithExactly(ctx.request.raw, ctx.response.raw);
