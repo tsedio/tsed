@@ -9,6 +9,7 @@ import {serializeJsonSchema} from "../utils/serializeJsonSchema";
 import {toJsonRegex} from "../utils/toJsonRegex";
 import {AliasMap, AliasType} from "./JsonAliasMap";
 import {JsonFormatTypes} from "./JsonFormatTypes";
+import {SpecTypes} from "./SpecTypes";
 
 export interface JsonSchemaObject extends JSONSchema6 {
   type: (any | JSONSchema6TypeName) | (any | JSONSchema6TypeName)[];
@@ -54,6 +55,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   protected _isGeneric: boolean = false;
   protected _isCollection: boolean = false;
   protected _ref: boolean = false;
+  protected _specs: Map<SpecTypes, any> = new Map();
 
   constructor(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
     super();
@@ -785,8 +787,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
   set(key: string, value: any): this {
     if (key in this) {
-      // @ts-ignore
-      this[key](value);
+      isFunction((this as any)[key]) && (this as any)[key](value);
     } else {
       super.set(key, value);
     }

@@ -52,5 +52,8 @@ export * from "./common/required";
 export * from "./common/property";
 export * from "./common/title";
 export * from "./common/schema";
+export * from "./common/oneOf";
+export * from "./common/allOf";
+export * from "./common/anyOf";
 export * from "./common/jsonEntityFn";
 export * from "./config/jsonEntityComponent";
