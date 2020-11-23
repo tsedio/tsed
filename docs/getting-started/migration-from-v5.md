@@ -430,6 +430,52 @@ class MyController {
   </Tab>
 </Tabs>
 
+### Returns decorator
+
+@@Returns@@ decorator from `@tsed/schema` is different from `@tsed/common`:
+
+<Tabs class="-code">
+  <Tab label="Before">
+
+```typescript
+import {Status, Controller, Get} from "@tsed/common";
+
+@Controller("/")
+class MyController {
+  @Get("/")
+  @Returns(200, {
+    type: TypeC,
+    collectionType: Array,
+    description: "description",
+    headers: {
+      "x-header": {
+        type: "string"
+      }
+    }
+  })
+  get(){}
+}
+```  
+  
+  </Tab>
+  <Tab label="After">
+
+```typescript
+import {Controller, Get} from "@tsed/common";
+import {Status} from "@tsed/schema";
+
+@Controller("/")
+class MyController {
+  @Get("/")
+  @Returns(200, Array).Of(TypeC).Description( "description").Header("x-header", {type: "string"})
+  get(){}
+}
+```    
+  
+  </Tab>
+</Tabs>
+
+
 ### ReturnsArray decorator
 
 `ReturnsArray` is deprecated and will be removed in v7. You have to use @@Returns@@.
