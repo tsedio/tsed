@@ -23,15 +23,18 @@ export class PlatformMulterMiddleware implements IMiddleware {
 
   async use(@Context() ctx: Context) {
     try {
-      const conf = ctx.endpoint.get(PlatformMulterMiddleware);
-      const settings: PlatformMulterSettings = {...this.settings};
+      const {fields, options = {}} = ctx.endpoint.get(PlatformMulterMiddleware);
+      const settings: PlatformMulterSettings = {
+        ...this.settings,
+        ...options
+      };
 
       /* istanbul ignore next */
       if (settings.storage) {
         delete settings.dest;
       }
 
-      const middleware = this.app.multer(settings).fields(this.getFields(conf));
+      const middleware = this.app.multer(settings).fields(this.getFields({fields}));
 
       return await middleware(ctx.getRequest(), ctx.getResponse());
     } catch (er) {
