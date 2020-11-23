@@ -7,47 +7,31 @@ import {
   ResponseFilter,
   ResponseFilterMethods
 } from "@tsed/common";
-import {isArray} from "@tsed/core";
+import {isString} from "@tsed/core/src";
+import {OnDeserialize} from "@tsed/json-mapper/src";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {
+  array,
   CollectionOf,
   Default,
   Description,
+  For,
   Generics,
   getSpec,
   Integer,
-  MaxItems,
   Min,
   MinLength,
+  oneOf,
   Property,
-  Required,
   Returns,
-  SpecTypes
+  SpecTypes,
+  string
 } from "@tsed/schema";
 import {expect} from "chai";
 import * as qs from "querystring";
 import * as SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
-
-class Sort {
-  @Required()
-  property: string;
-
-  @Property()
-  direction: "asc" | "desc" = "asc";
-
-  constructor(options?: [string, "asc" | "desc"][] | Sort) {
-    if (isArray<string>(options)) {
-      this.property = options[0];
-      this.direction = options[1] as "asc" | "desc";
-    } else if (options) {
-      const {property, direction} = options as Sort;
-      this.property = property;
-      this.direction = direction;
-    }
-  }
-}
 
 class Pageable {
   @Integer()
@@ -62,27 +46,21 @@ class Pageable {
   @Description("Number of objects per page.")
   size: number = 20;
 
-  private _sort: Sort;
+  @For(SpecTypes.JSON, oneOf(string(), array().items(string()).maxItems(2)))
+  @For(SpecTypes.OPENAPI, array().items(string()).maxItems(2))
+  @For(SpecTypes.SWAGGER, array().items(string()).maxItems(2))
+  @OnDeserialize((value: string | string[]) => isString(value) ? value.split(",") : value)
+  @Description("Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
+  sort: string | string[];
 
   constructor(options: Partial<Pageable>) {
     options.page && (this.page = options.page);
     options.size && (this.size = options.size);
-    options.sort && (this._sort = options.sort);
+    options.sort && (this.sort = options.sort);
   }
 
   get offset() {
     return this.page ? this.page * this.limit : 0;
-  }
-
-  @CollectionOf(String, Array)
-  @MaxItems(2)
-  @Description("Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
-  get sort(): Sort {
-    return this._sort;
-  }
-
-  set sort(sort: Sort) {
-    this._sort = new Sort(sort);
   }
 
   get limit() {
@@ -275,7 +253,7 @@ describe("Pageable", () => {
     });
   });
 
-  it("should get paginated products with a status 206", async () => {
+  it("should get paginated products with a status 206 (with array)", async () => {
     const options = {
       page: 1,
       size: 10,
@@ -293,10 +271,35 @@ describe("Pageable", () => {
       ],
       "page": 1,
       "size": 10,
-      "sort": {
-        "direction": "asc",
-        "property": "field"
-      },
+      "sort": [
+        "field",
+        "asc"
+      ],
+      "totalCount": 100
+    });
+  });
+  it("should get paginated products with a status 206 (with string)", async () => {
+    const options = {
+      page: 1,
+      size: 10,
+      sort: "field,asc"
+    };
+
+    const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(206);
+
+    expect(body).to.deep.eq({
+      "data": [
+        {
+          "id": "100",
+          "title": "CANON D3000"
+        }
+      ],
+      "page": 1,
+      "size": 10,
+      "sort": [
+        "field",
+        "asc"
+      ],
       "totalCount": 100
     });
   });

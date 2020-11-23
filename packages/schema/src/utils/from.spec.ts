@@ -1,4 +1,23 @@
-import {any, array, boolean, date, datetime, email, from, integer, map, number, object, set, string, time, uri, url} from "@tsed/schema";
+import {
+  allOf,
+  any,
+  anyOf,
+  array,
+  boolean,
+  date,
+  datetime,
+  email,
+  from,
+  integer,
+  map,
+  number,
+  object,
+  set,
+  string,
+  time,
+  uri,
+  url
+} from "@tsed/schema";
 import {expect} from "chai";
 
 describe("from", () => {
@@ -50,6 +69,14 @@ describe("from", () => {
     expect(array().toJSON()).to.deep.eq({type: "array"});
     expect(any().toJSON()).to.deep.eq({
       type: ["integer", "number", "string", "boolean", "array", "object", "null"]
+    });
+
+    expect(anyOf(string(), number()).toJSON()).to.deep.eq({
+      anyOf: [{type: "string"}, {type: "number"}]
+    });
+
+    expect(allOf(string(), number()).toJSON()).to.deep.eq({
+      allOf: [{type: "string"}, {type: "number"}]
     });
   });
   it("should create ref when use a label", () => {

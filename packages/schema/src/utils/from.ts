@@ -79,3 +79,15 @@ export function object(properties: {[key: string]: JsonSchema} = {}) {
 export function any(...types: any[]) {
   return from().any(...types);
 }
+
+export function anyOf(...anyOf: any[]) {
+  return from().anyOf(anyOf);
+}
+
+export function oneOf(...oneOf: any[]) {
+  return from().oneOf(oneOf);
+}
+
+export function allOf(...allOf: any[]) {
+  return from().allOf(allOf);
+}

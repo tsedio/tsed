@@ -1,43 +1,21 @@
 import {QueryParams} from "@tsed/common/src";
-import {isArray} from "@tsed/core";
 import {expect} from "chai";
-import {getSpec, SpecTypes} from "../src";
+import {array, getJsonSchema, getSpec, oneOf, SpecTypes, string} from "../src";
 import {
   CollectionOf,
   Default,
   Description,
+  For,
   Generics,
   Integer,
-  MaxItems,
   Min,
   MinLength,
   OperationPath,
   Path,
   Property,
-  Required,
   Returns
 } from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
-
-
-class Sort {
-  @Required()
-  property: string;
-
-  @Property()
-  direction: "asc" | "desc" = "asc";
-
-  constructor(options?: [string, "asc" | "desc"][] | Sort) {
-    if (isArray<string>(options)) {
-      this.property = options[0];
-      this.direction = options[1] as "asc" | "desc";
-    } else if (options) {
-      const {property, direction} = options as Sort;
-      this.property = property;
-      this.direction = direction;
-    }
-  }
-}
 
 class Pageable {
   @Integer()
@@ -52,27 +30,21 @@ class Pageable {
   @Description("Number of objects per page.")
   size: number = 20;
 
-  private _sort: Sort;
+
+  @For(SpecTypes.JSON, oneOf(string(), array().items(string()).maxItems(2)))
+  @For(SpecTypes.OPENAPI, array().items(string()).maxItems(2))
+  @For(SpecTypes.SWAGGER, array().items(string()).maxItems(2))
+  @Description("Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
+  sort: string[];
 
   constructor(options: Partial<Pageable>) {
     options.page && (this.page = options.page);
     options.size && (this.size = options.size);
-    options.sort && (this._sort = options.sort);
+    options.sort && (this.sort = options.sort);
   }
 
   get offset() {
     return this.page ? this.page * this.limit : 0;
-  }
-
-  @CollectionOf(String, Array)
-  @MaxItems(2)
-  @Description("Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
-  get sort(): Sort {
-    return this._sort;
-  }
-
-  set sort(sort: Sort) {
-    this._sort = new Sort(sort);
   }
 
   get limit() {
@@ -131,9 +103,46 @@ class TestPageableCtrl {
 }
 
 describe("Spec: Pageable", () => {
+  it("should generate the JSON", () => {
+    const schema = getJsonSchema(Pageable);
+    expect(schema).to.deep.eq({
+      "properties": {
+        "page": {
+          "default": 0,
+          "description": "Page number.",
+          "minimum": 0,
+          "multipleOf": 1,
+          "type": "integer"
+        },
+        "size": {
+          "default": 20,
+          "description": "Number of objects per page.",
+          "minimum": 1,
+          "multipleOf": 1,
+          "type": "integer"
+        },
+        "sort": {
+          "description": "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+          "oneOf": [
+            {
+              "type": "string"
+            },
+            {
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 2,
+              "type": "array"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    });
+  });
   it("should generate the OS3", async () => {
     const spec = getSpec(TestPageableCtrl, {specType: SpecTypes.OPENAPI});
-    expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
+
     expect(spec).to.deep.eq({
       "paths": {
         "/pageable": {
@@ -160,10 +169,12 @@ describe("Spec: Pageable", () => {
               "required": false,
               "name": "sort",
               "schema": {
-                "type": "array",
                 "description": "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                "items": {
+                  "type": "string"
+                },
                 "maxItems": 2,
-                "items": {"type": "string"}
+                "type": "array"
               }
             }, {"in": "query", "name": "all", "required": false, "schema": {"type": "boolean"}}],
             "responses": {
@@ -205,10 +216,12 @@ describe("Spec: Pageable", () => {
                 "multipleOf": 1
               },
               "sort": {
-                "type": "array",
                 "description": "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                "items": {
+                  "type": "string"
+                },
                 "maxItems": 2,
-                "items": {"type": "string"}
+                "type": "array"
               },
               "data": {"type": "array", "items": {"$ref": "#/components/schemas/Product"}},
               "totalCount": {"type": "integer", "minLength": 0, "multipleOf": 1}
@@ -217,6 +230,7 @@ describe("Spec: Pageable", () => {
         }
       }
     });
+    expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
   });
   it("should generate the OS2", async () => {
     const spec = getSpec(TestPageableCtrl, {specType: SpecTypes.SWAGGER});

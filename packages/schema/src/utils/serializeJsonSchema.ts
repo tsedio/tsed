@@ -12,7 +12,7 @@ import {getRequiredProperties} from "./getRequiredProperties";
 /**
  * @ignore
  */
-const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics"];
+const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics", SpecTypes.OPENAPI, SpecTypes.SWAGGER, SpecTypes.JSON];
 /**
  * @ignore
  */
@@ -276,6 +276,17 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
 
   obj = serializeGenerics(obj, {...options, root: false, schemas} as any);
   obj = getRequiredProperties(obj, schema, useAlias);
+
+  if (schema.has(options.specType as string)) {
+    obj = {
+      ...obj,
+      ...schema.get(options.specType as string).toJSON(options)
+    };
+  }
+
+  if ((obj.oneOf || obj.allOf || obj.anyOf) && !(obj.items || obj.properties)) {
+    delete obj.type;
+  }
 
   return obj;
 }

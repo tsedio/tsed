@@ -1,4 +1,6 @@
 import {JSONSchema6} from "json-schema";
+import {JsonSchema} from "../../domain/JsonSchema";
+import {SpecTypes} from "../../domain/SpecTypes";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -39,10 +41,27 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @classDecorator
  * @input
  */
-export function Schema(partialSchema: Partial<JSONSchema6>) {
+export function Schema(partialSchema: Partial<JSONSchema6 | JsonSchema>) {
   return JsonEntityFn((entity) => {
     Object.entries(partialSchema).forEach(([key, value]) => {
       entity.schema.set(key, value);
     });
+  });
+}
+
+/**
+ * Apply specific schema depending on the spec version
+ * @param specType
+ * @param schema
+ * @decorator
+ * @validation
+ * @swagger
+ * @schema
+ * @classDecorator
+ * @input
+ */
+export function For(specType: SpecTypes, schema: any) {
+  return JsonEntityFn((entity) => {
+    entity.schema.set(specType, schema);
   });
 }
