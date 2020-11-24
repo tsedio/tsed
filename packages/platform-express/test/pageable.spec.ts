@@ -177,14 +177,15 @@ describe("Pageable", () => {
               "in": "query",
               "required": false,
               "name": "page",
-              "schema": {"type": "integer", "description": "Page number.", "default": 0, "minimum": 0, "multipleOf": 1}
+              "description": "Page number.",
+              "schema": {"type": "integer", "default": 0, "minimum": 0, "multipleOf": 1}
             }, {
               "in": "query",
               "required": false,
               "name": "size",
+              "description": "Number of objects per page.",
               "schema": {
                 "type": "integer",
-                "description": "Number of objects per page.",
                 "default": 20,
                 "minimum": 1,
                 "multipleOf": 1
@@ -193,9 +194,9 @@ describe("Pageable", () => {
               "in": "query",
               "required": false,
               "name": "sort",
+              "description": "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
               "schema": {
                 "type": "array",
-                "description": "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
                 "maxItems": 2,
                 "items": {"type": "string"}
               }
