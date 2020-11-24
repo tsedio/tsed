@@ -151,27 +151,29 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
       delete options.schemas![this.$schema.getName()];
     }
 
-    return Object.entries(schema.properties || {}).reduce((params, [key, prop]: [string, any]) => {
+    return Object.entries(schema.properties || {}).reduce((params, [key, {description, ...prop}]: [string, any]) => {
       if (options.specType === SpecTypes.OPENAPI) {
         return [
           ...params,
-          {
+          cleanObject({
             ...parameter,
             name: key,
             required: (schema.required || []).includes(key),
+            description,
             schema: prop
-          }
+          })
         ];
       }
 
       return [
         ...params,
-        {
+        cleanObject({
           ...parameter,
           name: key,
           required: (schema.required || []).includes(key),
+          description,
           ...prop
-        }
+        })
       ];
     }, []);
   }

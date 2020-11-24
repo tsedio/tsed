@@ -58,6 +58,7 @@ test/**/*.d.ts.map
 /dist
 /docs/api
 /docs/api/**/*.md
+.tmp
 .vscode
 /reports
 
