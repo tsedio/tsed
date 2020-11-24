@@ -74,7 +74,8 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
       const schema = {
         type: isOpenApi ? "string" : "file",
-        format: isOpenApi ? "binary" : undefined
+        format: isOpenApi ? "binary" : undefined,
+        oneOf: undefined
       };
 
       if (jsonSchema.type === "array") {

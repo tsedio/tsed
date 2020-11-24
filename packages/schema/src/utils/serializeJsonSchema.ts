@@ -1,4 +1,4 @@
-import {classOf, deepExtends, isArray, isObject} from "@tsed/core";
+import {classOf, cleanObject, deepExtends, isArray, isObject} from "@tsed/core";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
@@ -216,6 +216,26 @@ function shouldSkipKey(key: string, {specType = SpecTypes.JSON}: JsonSchemaOptio
   return IGNORES.includes(key) || (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key));
 }
 
+function transformTypes(obj: any) {
+  const nullable = obj.type.includes("null") ? true : undefined;
+
+  const types = obj.type.reduce((types: string[], type: string) => {
+    if (type !== "null") {
+      return [...types, cleanObject({type, nullable})];
+    }
+    return types;
+  }, []);
+
+  if (types.length > 1) {
+    obj.oneOf = types;
+  } else {
+    obj.type = types[0].type;
+    obj.nullable = types[0].nullable;
+  }
+
+  return obj;
+}
+
 /**
  * Convert JsonSchema instance to plain json object
  * @param schema
@@ -282,6 +302,10 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
       ...obj,
       ...schema.get(options.specType as string).toJSON(options)
     };
+  }
+
+  if (options.specType === SpecTypes.OPENAPI && isArray(obj.type)) {
+    obj = transformTypes(obj);
   }
 
   if ((obj.oneOf || obj.allOf || obj.anyOf) && !(obj.items || obj.properties)) {
