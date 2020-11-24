@@ -81,7 +81,7 @@
   },
   "devDependencies": {
     "@tsed/markdown-it-symbols": "3.3.0",
-    "@tsed/monorepo-utils": "1.12.4",
+    "@tsed/monorepo-utils": "1.12.6",
     "@typedproject/ts-doc": "4.0.12",
     "@types/chai": "4.2.12",
     "@types/chai-as-promised": "7.1.3",
