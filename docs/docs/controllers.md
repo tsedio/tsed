@@ -285,7 +285,7 @@ You can with the Req and Request decorators retrieve the originals request and r
 
 It's also possible to inject the high level PlatformRequest and PlatformResponse:
 
-<<< @/docs/docs/snippets/controllers/inject-req-res-target.ts
+<<< @/docs/docs/snippets/controllers/inject-req-res-platform.ts
 
 Finally, it is also possible to retrieve the request and response in Node.js version:
  
