@@ -1,4 +1,4 @@
-# Support
+# Support us
 
 Ts.ED is an MIT-licensed open source project with its ongoing development made possible thanks to the support by the community.
 This framework is a result of the long road, full of sleepless nights, working after hours, and busy weekends.

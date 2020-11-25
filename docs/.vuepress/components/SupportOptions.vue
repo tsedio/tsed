@@ -41,7 +41,7 @@
             data-mode="popup"
             class="typeform-share"
             href="https://form.typeform.com/to/uJLP7anG">
-          <BxIcon name="bxs-message-alt-detail" class="mr-1" />
+          <BxIcon name="bx-message-alt-dots" class="mr-1" />
           Reach me directly
         </Button>
       </li>
@@ -51,7 +51,7 @@
             color="blue"
             title="Contact us by e-mail"
             href="mailto:contact@tsed.io">
-          <BxIcon name="bxs-envelope-open" class="mr-1" />
+          <BxIcon name="bx-envelope" class="mr-1" />
           By e-mail
         </Button>
       </li>

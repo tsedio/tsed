@@ -42,7 +42,7 @@ module.exports = {
     openCollective: "tsed",
     gitterUrl: "https://gitter.im/Tsed-io/community",
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
-    sponsorUrl: "https://opencollective.com/tsed",
+    sponsorUrl: "https://tsed.io/support.html",
     twitterUrl: "https://twitter.com/TsED_io",
     editLinks: true,
     docsDir: "docs",
@@ -251,6 +251,7 @@ module.exports = {
               "/tutorials/not-found-page",
               "/api",
               "/contributing",
+              "/support",
               "/license"
             ]
           }
