@@ -8,7 +8,7 @@ export class CalendarCtrl {
     @Res() response: any
   ): void {
     console.log(request) // Express.Request or Koa.Request
-    console.log(response) // Express.Request or Koa.Request
+    console.log(response) // Express.Response or Koa.Response
     response
       .status(200)
       .send({id: request.params.id, name: "test"});
