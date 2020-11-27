@@ -75,7 +75,7 @@ declare global {
        * @param file Object containing information about the processed file.
        * @param callback  a function to control which files should be uploaded and which should be skipped.
        */
-      fileFilter?(req: Request, file: Express.Multer.File, callback: FileFilterCallback): void;
+      fileFilter?(req: Request, file: MulterFile, callback: FileFilterCallback): void;
     }
 
     export interface MulterField {
