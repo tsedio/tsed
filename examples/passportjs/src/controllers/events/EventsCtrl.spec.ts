@@ -17,7 +17,7 @@ describe("EventsCtrl", () => {
         findById: Sinon.stub().resolves(event)
       };
 
-      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, [
         {
           token: CalendarEventsService,
           use: calendarEventsService
@@ -37,7 +37,7 @@ describe("EventsCtrl", () => {
         findById: Sinon.stub().resolves(undefined)
       };
 
-      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, [
         {
           token: CalendarEventsService,
           use: calendarEventsService
@@ -68,7 +68,7 @@ describe("EventsCtrl", () => {
         findById: Sinon.stub().resolves(event)
       };
 
-      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, [
         {
           token: CalendarEventsService,
           use: calendarEventsService
@@ -93,7 +93,7 @@ describe("EventsCtrl", () => {
         create: Sinon.stub().resolves(event)
       };
 
-      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, [
         {
           token: CalendarEventsService,
           use: calendarEventsService
@@ -119,7 +119,7 @@ describe("EventsCtrl", () => {
         update: Sinon.stub().resolves(event)
       };
 
-      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, [
         {
           token: CalendarEventsService,
           use: calendarEventsService
@@ -144,7 +144,7 @@ describe("EventsCtrl", () => {
         update: Sinon.stub().resolves(undefined)
       };
 
-      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, [
         {
           token: CalendarEventsService,
           use: calendarEventsService
@@ -174,7 +174,7 @@ describe("EventsCtrl", () => {
         removeOne: Sinon.stub().resolves(event)
       };
 
-      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, [
         {
           token: CalendarEventsService,
           use: calendarEventsService
@@ -194,7 +194,7 @@ describe("EventsCtrl", () => {
         removeOne: Sinon.stub().resolves(undefined)
       };
 
-      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, [
         {
           token: CalendarEventsService,
           use: calendarEventsService
@@ -221,7 +221,7 @@ describe("EventsCtrl", () => {
         findAll: Sinon.stub().resolves([event])
       };
 
-      const eventsCtrl: EventsCtrl = PlatformTest.invoke(EventsCtrl, [
+      const eventsCtrl: EventsCtrl = await PlatformTest.invoke(EventsCtrl, [
         {
           token: CalendarEventsService,
           use: calendarEventsService

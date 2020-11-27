@@ -1,17 +1,6 @@
-import {
-  BodyParams,
-  Controller,
-  Delete,
-  Get,
-  PathParams,
-  Post,
-  Put,
-  QueryParams,
-  Req,
-  Status,
-} from "@tsed/common";
-import {Authorize} from "@tsed/passport";
+import {BodyParams, Controller, Delete, Get, Inject, PathParams, Post, Put, QueryParams, Req} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
+import {Authorize} from "@tsed/passport";
 import {Required, Returns} from "@tsed/schema";
 import {Calendar, CalendarCreation} from "../../models/Calendar";
 import {User} from "../../models/User";
@@ -28,8 +17,8 @@ import {EventsCtrl} from "../events/EventsCtrl";
  */
 @Controller("/calendars", EventsCtrl)
 export class CalendarCtrl {
-  constructor(private calendarsService: CalendarsService) {
-  }
+  @Inject()
+  calendarsService: CalendarsService;
 
   @Get("/:id")
   @Returns(200, Calendar)
@@ -66,7 +55,7 @@ export class CalendarCtrl {
   }
 
   @Delete("/")
-  @Status(204)
+  @Returns(204)
   @Returns(404).Description("Calendar not found")
   @Authorize("basic")
   async remove(@Req("user") user: User,

@@ -7,9 +7,6 @@ import {UserCreation} from "../../models/UserCreation";
 
 @Controller("/auth")
 export class PassportCtrl {
-  constructor() {
-  }
-
   @Post("/login")
   @Authenticate("login", {failWithError: false})
   @Returns(200, User)

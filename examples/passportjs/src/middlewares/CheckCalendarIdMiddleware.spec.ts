@@ -19,9 +19,9 @@ describe("CheckCalendarIdMiddleware", () => {
 
   beforeEach(async () => {
     await PlatformTest.create();
-    middleware = PlatformTest.invoke(CheckCalendarIdMiddleware, [
+    middleware = await PlatformTest.invoke(CheckCalendarIdMiddleware, [
       {
-        provide: CalendarsService,
+        token: CalendarsService,
         use: calendarsService
       }
     ]);

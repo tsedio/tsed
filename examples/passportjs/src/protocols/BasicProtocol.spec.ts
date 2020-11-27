@@ -73,7 +73,7 @@ describe("BasicProtocol", () => {
         findOne: Sinon.stub().resolves(undefined)
       };
 
-      const protocol: BasicProtocol = PlatformTest.invoke(BasicProtocol, [
+      const protocol: BasicProtocol = await PlatformTest.invoke(BasicProtocol, [
         {
           token: UsersService,
           use: usersService
