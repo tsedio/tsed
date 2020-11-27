@@ -12,7 +12,7 @@
   },
   "peerDependencies": {
     "@types/socket.io": "^2.1.10",
-    "socket.io": "^2.3.0"
+    "socket.io": ""
   },
   "private": false,
   "devDependencies": {

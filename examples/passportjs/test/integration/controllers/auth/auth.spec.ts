@@ -40,7 +40,20 @@ describe("Auth", () => {
           .send({email: "test_test.fr", password: "12345"})
           .expect(400);
 
-        expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At Credentials.email should match format \"email\"");
+        expect(response.body).to.deep.eq({
+          "name": "AJV_VALIDATION_ERROR",
+          "message": "Bad request on parameter \"request.body\".\nCredentials.email should match format \"email\". Given value: \"test_test.fr\"",
+          "status": 400,
+          "errors": [{
+            "keyword": "format",
+            "dataPath": ".email",
+            "schemaPath": "#/properties/email/format",
+            "params": {"format": "email"},
+            "message": "should match format \"email\"",
+            "data": "test_test.fr",
+            "modelName": "Credentials"
+          }]
+        });
       });
     });
     describe("when credential is given", () => {
@@ -87,7 +100,20 @@ describe("Auth", () => {
           })
           .expect(400);
 
-        expect(response.text).to.eq("Bad request on parameter \"request.body\".<br />At UserCreation.email should match format \"email\"");
+        expect(response.body).to.deep.eq({
+          "name": "AJV_VALIDATION_ERROR",
+          "message": "Bad request on parameter \"request.body\".\nUserCreation.email should match format \"email\". Given value: \"wendi.small_undefined.net\"",
+          "status": 400,
+          "errors": [{
+            "keyword": "format",
+            "dataPath": ".email",
+            "schemaPath": "#/properties/email/format",
+            "params": {"format": "email"},
+            "message": "should match format \"email\"",
+            "data": "wendi.small_undefined.net",
+            "modelName": "UserCreation"
+          }]
+        });
       });
     });
 
@@ -103,7 +129,12 @@ describe("Auth", () => {
           })
           .expect(403);
 
-        expect(response.text).to.eq("Email is already registered");
+        expect(response.body).to.deep.eq({
+          "errors": [],
+          "message": "Email is already registered",
+          "name": "FORBIDDEN",
+          "status": 403
+        });
       });
     });
 
