@@ -6,7 +6,6 @@ import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as cors from "cors";
 import * as methodOverride from "method-override";
-import {join} from "path";
 
 const rootDir = __dirname;
 
@@ -32,14 +31,20 @@ const rootDir = __dirname;
   ],
   swagger: [
     {
-      path: "/api-docs"
+      path: "/v2/docs",
+      specVersion: "2.0"
+    },
+    {
+      path: "/v3/docs",
+      specVersion: "3.0.1"
     }
   ],
+  views: {
+    root: `${rootDir}/../views`,
+    viewEngine: "ejs"
+  },
   calendar: {
     token: true
-  },
-  statics: {
-    "/": join(__dirname, "..", "statics")
   }
 })
 export class Server {
