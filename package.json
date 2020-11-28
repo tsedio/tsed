@@ -185,6 +185,9 @@
         },
         "graphql": {
           "url": "https://github.com/TypedProject/tsed-example-graphql.git"
+        },
+        "webpack": {
+          "url": "https://github.com/TypedProject/tsed-example-webpack.git"
         }
       }
     }
