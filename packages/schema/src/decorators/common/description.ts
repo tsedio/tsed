@@ -1,4 +1,4 @@
-import {DecoratorParameters, DecoratorTypes, getDecoratorType, UnsupportedDecoratorType} from "@tsed/core";
+import {DecoratorParameters, decoratorTypeOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonEntityFn} from "./jsonEntityFn";
 
@@ -56,7 +56,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  */
 export function Description(description: any) {
   return JsonEntityFn((store: JsonEntityStore, args: DecoratorParameters) => {
-    switch (getDecoratorType(args, true)) {
+    switch (decoratorTypeOf(args)) {
       case DecoratorTypes.PROP:
       case DecoratorTypes.CLASS:
         store.schema.description(description);

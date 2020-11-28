@@ -1,7 +1,7 @@
 import {
   decorateMethodsOf,
+  decoratorTypeOf,
   DecoratorTypes,
-  getDecoratorType,
   isCollection,
   isPlainObject,
   isPrimitiveOrPrimitiveClass,
@@ -407,7 +407,7 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
   const actions: ReturnsActionHandler[] = [initSchemaAction];
 
   const decorator = (...args: any[]) => {
-    const type = getDecoratorType(args, true);
+    const type = decoratorTypeOf(args);
 
     switch (type) {
       case DecoratorTypes.METHOD:

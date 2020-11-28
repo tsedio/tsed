@@ -1,4 +1,4 @@
-import {Store} from "../class/Store";
+import {Store} from "../domain/Store";
 import {DecoratorParameters} from "../interfaces/DecoratorParameters";
 
 /**

@@ -5,11 +5,8 @@ import "reflect-metadata";
 
 export * from "./interfaces";
 export * from "./utils";
-export * from "./class/Metadata";
-export * from "./class/Hooks";
-export * from "./class/Registry";
-export * from "./class/Store";
-export * from "./class/Entity";
+export * from "./domain";
+export * from "./errors/UnsupportedDecoratorType";
 
 // decorators
 export * from "./decorators";

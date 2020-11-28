@@ -1,4 +1,4 @@
-import {getDecoratorType} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes} from "@tsed/core";
 import {HookErrorCallback} from "mongoose";
 import {MongoosePostErrorHookCB, MongoosePostHookCB, MongoosePreHookAsyncCB, MongoosePreHookSyncCB} from "../interfaces";
 import {schemaOptions} from "../utils/schemaOptions";
@@ -61,7 +61,7 @@ export function PreHook(
   options?: PreHookOptions
 ): Function {
   return (...args: any[]) => {
-    if (getDecoratorType(args) === "method") {
+    if (decoratorTypeOf(args) === DecoratorTypes.METHOD_STC) {
       options = fn as PreHookOptions;
       fn = args[0][args[1]].bind(args[0]);
     }

@@ -7,7 +7,8 @@ import {
   Store,
   StoreFn,
   Type,
-  UnsupportedDecoratorType
+  UnsupportedDecoratorType,
+  useDecorators
 } from "@tsed/core";
 import {AuthOptions, IAuthOptions} from "./authOptions";
 import {UseBefore} from "./useBefore";
@@ -36,7 +37,7 @@ export function UseAuth(guardAuth: Type<any>, options: IAuthOptions = {}): Funct
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
     switch (decoratorTypeOf(args)) {
       case DecoratorTypes.METHOD:
-        return applyDecorators(
+        return useDecorators(
           StoreFn((store: Store) => {
             if (!store.has(guardAuth)) {
               return UseBefore(guardAuth);
