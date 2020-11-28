@@ -1,4 +1,4 @@
-import {DecoratorParameters, DecoratorTypes, getDecoratorType, UnsupportedDecoratorType} from "@tsed/core";
+import {DecoratorParameters, decoratorTypeOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonEntityFn} from "./jsonEntityFn";
 
@@ -14,7 +14,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  */
 export function Example(...examples: any[]): Function {
   return JsonEntityFn((store: JsonEntityStore, args: DecoratorParameters) => {
-    switch (getDecoratorType(args, true)) {
+    switch (decoratorTypeOf(args)) {
       case DecoratorTypes.CLASS:
       case DecoratorTypes.PROP:
       case DecoratorTypes.PARAM:

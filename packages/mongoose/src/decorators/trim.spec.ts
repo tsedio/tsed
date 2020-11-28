@@ -5,15 +5,15 @@ import {expect} from "chai";
 import {MONGOOSE_SCHEMA} from "../../src/constants";
 
 describe("@Trim()", () => {
-  class Test {}
-
-  before(() => {
-    Trim()(Test, "test", descriptorOf(Test, "test"));
-    this.store = Store.from(Test, "test", descriptorOf(Test, "test"));
-  });
+  before(() => {});
 
   it("should set metadata", () => {
-    expect(this.store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+    class Test {
+      @Trim()
+      test: string;
+    }
+    const store = Store.from(Test, "test", descriptorOf(Test, "test"));
+    expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
       trim: true
     });
   });

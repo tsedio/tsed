@@ -1,15 +1,16 @@
 export * from "./applyBefore";
 export * from "./catchError";
-export * from "./DecoratorUtils";
-export * from "./deepExtends";
-export * from "./deepClone";
-export * from "./deepMerge";
-export * from "./getValue";
-export * from "./setValue";
-export * from "./cleanObject";
-export * from "./ObjectUtils";
-export * from "./uniq";
 export * from "./proxyDelegation";
-export * from "./isEnumerable";
-export * from "./getEnumerableKeys";
-export * from "./objectKeys";
+export * from "./uniq";
+
+// methods
+export * from "./decorators/decorateMethodsOf";
+export * from "./decorators/decoratorArgs";
+export * from "./decorators/decoratorTypeOf";
+export * from "./objects/descriptorOf";
+export * from "./decorators/inheritedDescriptorOf";
+export * from "./decorators/useDecorators";
+export * from "./decorators/useMethodDecorators";
+
+// objects
+export * from "./objects";

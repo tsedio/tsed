@@ -42,7 +42,7 @@ export function Ref(model: string | any, type: MongooseSchemaTypes = MongooseSch
       type: MongooseSchema.Types[type],
       ref: typeof model === "string" ? model : Store.from(model).get(MONGOOSE_MODEL_NAME)
     })
-  );
+  ) as PropertyDecorator;
 }
 
 export type Ref<T> = T | string;

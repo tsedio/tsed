@@ -1,4 +1,4 @@
-import {DecoratorTypes, getDecoratorType, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
 import {INJECTABLE_PROP} from "../constants";
 
 /**
@@ -19,8 +19,8 @@ import {INJECTABLE_PROP} from "../constants";
  * @decorator
  */
 export function Inject(symbol?: any): Function {
-  return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any => {
-    const bindingType = getDecoratorType([target, propertyKey, descriptor], true);
+  return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any | void => {
+    const bindingType = decoratorTypeOf([target, propertyKey, descriptor]);
 
     switch (bindingType) {
       case DecoratorTypes.PARAM:

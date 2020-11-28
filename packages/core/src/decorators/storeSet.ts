@@ -1,4 +1,4 @@
-import {Store} from "../class/Store";
+import {Store} from "../domain/Store";
 import {StoreFn} from "./storeFn";
 
 export function StoreSet(key: any, value: any): Function {

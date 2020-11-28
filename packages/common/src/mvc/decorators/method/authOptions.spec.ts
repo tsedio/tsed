@@ -1,7 +1,7 @@
 import {expect} from "chai";
-import {decoratorArgs} from "@tsed/core";
+import {decoratorArgs, UnsupportedDecoratorType} from "@tsed/core";
 import {Store} from "../../../../../core/src";
-import {prototypeOf, UnsupportedDecoratorType} from "../../../../../core/src/utils";
+import {prototypeOf} from "../../../../../core/src/utils";
 import {AuthOptions} from "../../../../src/mvc";
 
 class Guard {

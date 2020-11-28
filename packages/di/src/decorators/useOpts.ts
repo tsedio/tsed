@@ -1,4 +1,4 @@
-import {DecoratorTypes, getDecoratorType, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes, Store, UnsupportedDecoratorType} from "@tsed/core";
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
 
 /**
@@ -42,7 +42,7 @@ import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
  */
 export function UseOpts(options: {[key: string]: any}): Function {
   return (target: Object, propertyKey: string | symbol, index?: number): any => {
-    const bindingType = getDecoratorType([target, propertyKey, index], true);
+    const bindingType = decoratorTypeOf([target, propertyKey, index]);
 
     switch (bindingType) {
       case DecoratorTypes.PARAM_CTOR:

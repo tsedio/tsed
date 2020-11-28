@@ -16,7 +16,7 @@ export function Configuration(configuration: Partial<TsED.Configuration> = {}): 
         break;
       default:
       case DecoratorTypes.PARAM_CTOR:
-        return Inject(Configuration)(...args);
+        return Inject(Configuration)(args[0], args[1], args[2] as number);
     }
   };
 }

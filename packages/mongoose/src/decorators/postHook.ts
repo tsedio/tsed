@@ -1,4 +1,4 @@
-import {getDecoratorType} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes} from "@tsed/core";
 import {MongoosePostErrorHookCB, MongoosePostHookCB} from "../interfaces";
 import {schemaOptions} from "../utils/schemaOptions";
 
@@ -47,7 +47,7 @@ import {schemaOptions} from "../utils/schemaOptions";
  */
 export function PostHook(method: string, fn?: MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>): Function {
   return (...args: any[]) => {
-    if (getDecoratorType(args) === "method") {
+    if (decoratorTypeOf(args) === DecoratorTypes.METHOD_STC) {
       fn = args[0][args[1]].bind(args[0]);
     }
 

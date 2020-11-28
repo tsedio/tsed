@@ -43,7 +43,7 @@ export function DynamicRef(refPath: string): PropertyDecorator {
       type: MongooseSchema.Types.ObjectId,
       refPath
     })
-  );
+  ) as PropertyDecorator;
 }
 
 export type DynamicRef<T> = T | string;
