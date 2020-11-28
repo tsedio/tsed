@@ -79,12 +79,12 @@ the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compila
 options in your `tsconfig.json` file.
 :::
 
-<<< @/docs/snippets/tsconfig.json
+<<< @/docs/getting-started/snippets/base/tsconfig.json
 
 ::: tip
 You can copy this example of `package.json` to develop your application:
 
-<<< @/docs/snippets/package.json
+<<< @/docs/getting-started/snippets/base/package.json
 
 Then use the command `npm install && npm start` to start your server.
 :::

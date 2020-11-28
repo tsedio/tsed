@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "../../../docs/snippets",
     "outDir": "./dist",
     "target": "es2018",
     "lib": [
