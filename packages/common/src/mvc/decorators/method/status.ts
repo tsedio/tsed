@@ -1,5 +1,5 @@
-import {ReturnsChainedDecorators} from "@tsed/schema";
-import {ReturnType, ReturnTypeOptions} from "./returnType";
+import {Returns, ReturnsChainedDecorators} from "@tsed/schema";
+import {ReturnTypeOptions} from "./returnType";
 
 /**
  * Set the HTTP status for the response. It is a chainable alias of Node’s `response.statusCode`.
@@ -37,8 +37,7 @@ export function Status(code: number, options: ReturnTypeOptions): ReturnsChained
  */
 export function Status(code: number, obj: any = {}): ReturnsChainedDecorators {
   const options: Partial<ReturnTypeOptions> = obj;
-
-  return ReturnType({
+  return Returns(code, {
     ...options,
     code,
     collectionType: (options as any).collection || options.collectionType,

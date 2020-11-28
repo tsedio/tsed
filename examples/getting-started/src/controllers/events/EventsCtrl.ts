@@ -1,16 +1,6 @@
-import {
-  BodyParams,
-  Controller,
-  Delete,
-  Get,
-  PathParams,
-  Post,
-  Put,
-  Status,
-  UseBefore
-} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, PathParams, Post, Put, UseBefore} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
-import {Required} from "@tsed/schema";
+import {Required, Returns} from "@tsed/schema";
 import {Event} from "../../interfaces/Event";
 import {Task} from "../../interfaces/Task";
 import {CheckCalendarIdMiddleware} from "../../middlewares/CheckCalendarIdMiddleware";
@@ -77,7 +67,7 @@ export class EventsCtrl {
   }
 
   @Delete("/:id")
-  @Status(204)
+  @Returns(204)
   async remove(@Required() @PathParams("calendarId") calendarId: string,
                @PathParams("id") id: string): Promise<void> {
     this.events = this.events.filter(event => event.id === id && event.calendarId === calendarId);

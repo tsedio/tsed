@@ -385,8 +385,10 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
   if (model && isPlainObject(model)) {
     // istanbul ignore
     if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-      console.warn("Use object with @Returns to describe schema is deprecated.");
+      console.warn("Use @Returns/@Status with an object to describe schema is deprecated.");
       console.warn("Use the following example: @Returns(200, Type).Description('description')");
+      console.warn('import {Returns} from "@tsed/schema"');
+      console.warn("@Returns(200, Type).Description('description')");
     }
 
     const {code = "default"} = model as any;
