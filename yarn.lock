@@ -2358,10 +2358,10 @@
   resolved "https://registry.yarnpkg.com/@tsed/markdown-it-symbols/-/markdown-it-symbols-3.3.0.tgz#a48b8c4f295dc056d0914a5e3cb3de4a432d6a32"
   integrity sha512-vY6yPAx2i/bGSVPsOmD28psHEOMQdZbqJGiSgTTHOMi3cWJ4WXi08hIHhaVQbTSaaB2FB8UraGFTI+S9Rs8V/Q==
 
-"@tsed/monorepo-utils@1.12.7":
-  version "1.12.7"
-  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.12.7.tgz#74acf53ea8d81a7ec9fb4aca7bd7a34a29bf06b1"
-  integrity sha512-rPpRCg7+zOjOH2j/j4Isw01ACdm15Y7QcxWTsdTkQ+mn1H1idFmgXhCDTjF6cy+RR731WtfxkP7aCkO3vn3nyQ==
+"@tsed/monorepo-utils@1.12.8":
+  version "1.12.8"
+  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.12.8.tgz#126ef3e50e193b4e0c05fbf8af59b0dcb2767c6f"
+  integrity sha512-LrNRIh6Jgzj2UwBve5wyre3IYWdPvGfirYx6qvdJKHpcem8fH1qhTWgI9Ft8D+Q+7/2aiS+X7iczfRMaAgy92g==
   dependencies:
     axios "0.19.2"
     chalk "3.0.0"
