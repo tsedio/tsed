@@ -1,8 +1,6 @@
 import {PlatformRequest, PlatformTest} from "@tsed/common";
-import {catchError} from "@tsed/core";
 import {expect} from "chai";
 import {FakeRequest} from "../../../../../test/helper";
-import {PlatformConfiguration} from "../../config";
 import {GlobalAcceptMimesMiddleware} from "./GlobalAcceptMimesMiddleware";
 
 describe("GlobalAcceptMimesMiddleware", () => {
@@ -20,35 +18,9 @@ describe("GlobalAcceptMimesMiddleware", () => {
         request: new PlatformRequest(request)
       });
 
-      const settings = new PlatformConfiguration();
-      settings.acceptMimes = ["application/json"];
-
-      const middleware = new GlobalAcceptMimesMiddleware(settings as any);
+      const middleware = new GlobalAcceptMimesMiddleware();
 
       expect(middleware.use(context)).to.eq(undefined);
-    });
-  });
-
-  describe("not accept", () => {
-    it("should throws NotAcceptable", () => {
-      const request: any = new FakeRequest({
-        headers: {
-          accept: "text/html"
-        }
-      });
-
-      const context = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request)
-      });
-
-      const settings = new PlatformConfiguration();
-      settings.acceptMimes = ["application/json"];
-
-      const middleware = new GlobalAcceptMimesMiddleware(settings as any);
-
-      const error: any = catchError(() => middleware.use(context));
-
-      expect(error.message).to.eq("You must accept content-type application/json");
     });
   });
 });
