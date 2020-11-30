@@ -5,6 +5,7 @@ import {expect} from "chai";
 import * as Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
+import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
@@ -111,6 +112,7 @@ describe("PlatformControllerBuilder", () => {
     expect(router.get).to.have.been.calledWithExactly(
       "/",
       Sinon.match.func,
+      PlatformAcceptMimesMiddleware,
       provider.middlewares.use[0],
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
@@ -136,6 +138,7 @@ describe("PlatformControllerBuilder", () => {
     expect(router.use.getCall(1)).to.have.been.calledWithExactly(
       "/",
       Sinon.match.func,
+      PlatformAcceptMimesMiddleware,
       provider.middlewares.use[0],
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
@@ -160,6 +163,7 @@ describe("PlatformControllerBuilder", () => {
     // ENDPOINT
     expect(router.use.getCall(1)).to.have.been.calledWithExactly(
       Sinon.match.func,
+      PlatformAcceptMimesMiddleware,
       provider.middlewares.use[0],
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
@@ -191,7 +195,7 @@ describe("PlatformControllerBuilder", () => {
     // THEN
     expect(result).to.be.instanceof(PlatformRouter);
     // ENDPOINT
-    expect(router.use.getCall(0)).to.have.been.calledWithExactly("/", Sinon.match.func, endpointAll);
-    expect(router.use.getCall(1)).to.have.been.calledWithExactly("/", Sinon.match.func, endpoint);
+    expect(router.use.getCall(0)).to.have.been.calledWithExactly("/", Sinon.match.func, PlatformAcceptMimesMiddleware, endpointAll);
+    expect(router.use.getCall(1)).to.have.been.calledWithExactly("/", Sinon.match.func, PlatformAcceptMimesMiddleware, endpoint);
   });
 });

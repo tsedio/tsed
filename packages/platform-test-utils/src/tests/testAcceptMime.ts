@@ -1,4 +1,5 @@
-import {AcceptMime, Controller, HeaderParams, PlatformTest, Post} from "@tsed/common";
+import {AcceptMime, Controller, Get, HeaderParams, PlatformTest, Post} from "@tsed/common";
+import {ContentType} from "@tsed/schema";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -11,6 +12,13 @@ class TestAcceptMimeCtrl {
     return {
       accept
     };
+  }
+
+  @Get("/scenario-2")
+  @ContentType("text")
+  @AcceptMime("text")
+  public ping() {
+    return "pong";
   }
 }
 
@@ -53,6 +61,33 @@ export function testAcceptMime(options: PlatformTestOptions) {
       expect(response.body).to.deep.equal({
         name: "NOT_ACCEPTABLE",
         message: "You must accept content-type application/json",
+        status: 406,
+        errors: []
+      });
+    });
+  });
+  describe("Scenario 2: GET /rest/accept-mime/scenario-2", () => {
+    it('should return a 200 response when Accept header match with @AcceptMime("text")', async () => {
+      const response = await request
+        .get("/rest/accept-mime/scenario-2")
+        .set({
+          Accept: "text/*, application/json"
+        })
+        .expect(200);
+
+      expect(response.text).to.equal("pong");
+    });
+    it('should return a 406 response when Accept header doesn\'t match with @AcceptMime("text")', async () => {
+      const response = await request
+        .get("/rest/accept-mime/scenario-2")
+        .set({
+          Accept: "application/xml"
+        })
+        .expect(406);
+
+      expect(response.body).to.deep.equal({
+        name: "NOT_ACCEPTABLE",
+        message: "You must accept content-type text",
         status: 406,
         errors: []
       });

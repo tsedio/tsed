@@ -18,23 +18,23 @@ Many other decorators are implemented and can be taken as an example to build yo
 
 ## Build your own decorator
 
-One of the use cases already implemented by Ts.ED is the @@AcceptMimesMiddleware@@:
+One of the use cases already implemented by Ts.ED is the @@PlatformAcceptMimesMiddleware@@:
 
-<<< @/packages/common/src/mvc/middlewares/AcceptMimesMiddleware.ts
+<<< @/packages/common/src/platform/middlewares/PlatformAcceptMimesMiddleware.ts
 
 You can see in this example the usage of `endpoint.get` from @@EndpointInfo@@. This method contains all options
-which can be passed to the decorator associated to AcceptMimesMiddleware.
+which can be passed to the decorator associated to PlatformAcceptMimesMiddleware.
 
 <<< @/docs/docs/snippets/middlewares/accept-mime-usage.ts
 
 ::: tip
 This example uses @@AcceptMime@@ decorator with one option, the `application/json`. 
-This option will be set to `endpoint.get` seen before with AcceptMimesMiddleware example and can be retrieved by using 
-`endpoint.get(AcceptMimesMiddleware)`.
+This option will be set to `endpoint.get` seen before with PlatformAcceptMimesMiddleware example and can be retrieved by using 
+`endpoint.get(PlatformAcceptMimesMiddleware)`.
 :::
 
 Ts.ED provides API to create your own decorator like @@AcceptMime@@ which registers the options and at least one middleware
-with theses decorators and utils:
+with these decorators and utils:
 
 - @@Use@@, @@UseBeforeEach@@, @@UseBefore@@, or @@UseAfter@@ for middleware registration,
 - @@applyDecorator@@ if you want to combine different decorators,

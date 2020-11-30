@@ -5,6 +5,7 @@ import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
+import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";
 import {PlatformRouter} from "../services/PlatformRouter";
 import {useCtxHandler} from "../utils/useCtxHandler";
 
@@ -89,6 +90,7 @@ export class PlatformControllerBuilder {
 
     handlers = handlers
       .concat(useCtxHandler(bindEndpointMiddleware(endpoint)))
+      .concat(PlatformAcceptMimesMiddleware)
       .concat(use) // Controller use-middlewares
       .concat(beforeMiddlewares) // Endpoint before-middlewares
       .concat(mldwrs) // Endpoint middlewares
