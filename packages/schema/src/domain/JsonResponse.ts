@@ -15,6 +15,11 @@ export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
 
     return this;
   }
+  examples(examples: any) {
+    this.set("examples", examples);
+
+    return this;
+  }
 }
 
 export class JsonResponse extends JsonMap<JsonResponseOptions> {
