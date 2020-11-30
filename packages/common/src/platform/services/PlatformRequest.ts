@@ -92,10 +92,10 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
   }
 
   /**
-   * Returns the HTTP response header specified by field. The match is case-insensitive.
+   * Returns the HTTP request header specified by field. The match is case-insensitive.
    *
    * ```typescript
-   * response.get('Content-Type') // => "text/plain"
+   * request.get('Content-Type') // => "text/plain"
    * ```
    *
    * @param name

@@ -59,6 +59,19 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   }
 
   /**
+   * Returns the HTTP response header specified by field. The match is case-insensitive.
+   *
+   * ```typescript
+   * response.get('Content-Type') // => "text/plain"
+   * ```
+   *
+   * @param name
+   */
+  get(name: string) {
+    return this.raw.get(name);
+  }
+
+  /**
    * Return the Framework response object (express, koa, etc...)
    */
   getResponse<Res = T>(): Res {
@@ -131,6 +144,41 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     return this;
   }
 
+  contentLength(length: number) {
+    this.setHeader("Content-Length", length);
+    return this;
+  }
+
+  getContentLength() {
+    if (this.get("Content-Length")) {
+      return parseInt(this.get("Content-Length"), 10) || 0;
+    }
+  }
+
+  getContentType() {
+    return (this.get("Content-Type") || "").split(";")[0];
+  }
+
+  /**
+   * Sets the HTTP response Content-Disposition header field to “attachment”.
+   * If a filename is given, then it sets the Content-Type based on the extension name via res.type(), and sets the Content-Disposition “filename=” parameter.
+   *
+   * ```typescript
+   * res.attachment()
+   * // Content-Disposition: attachment
+   *
+   * res.attachment('path/to/logo.png')
+   * // Content-Disposition: attachment; filename="logo.png"
+   * // Content-Type: image/png
+   * ```
+   *
+   * @param filename
+   */
+  attachment(filename: string) {
+    this.raw.attachment(filename);
+    return this;
+  }
+
   /**
    * Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an [HTTP status code](http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html).
    * If not specified, status defaults to `302 Found`.
@@ -196,6 +244,17 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
 
     if (isStream(data)) {
       this.stream(data);
+
+      return this;
+    }
+
+    if (Buffer.isBuffer(data)) {
+      if (!this.getContentType()) {
+        this.contentType("application/octet-stream");
+      }
+
+      this.contentLength(data.length);
+      this.raw.send(data.toString());
 
       return this;
     }
