@@ -50,3 +50,21 @@ tsed init .
 ::: tip
 See our [CLI website](https://cli.tsed.io) for more details.
 :::
+
+::: warning
+If you have to upgrade Ts.ED dependencies, keep in mind this point:
+
+It is really important to keep the same version for all `@tsed/*` (excepted @tsed/logger) packages.
+To prevent errors, fix the version for each Ts.ED packages:
+```json
+{
+  "dependencies": {
+    "@tsed/common": "6.10.0",
+    "@tsed/di": "6.10.0",
+    "@tsed/core": "6.10.0",
+    "@tsed/exceptions": "6.10.0",
+    "@tsed/plaftorm-express": "6.10.0",
+    "@tsed/swagger": "6.10.0"
+  }
+} 
+```

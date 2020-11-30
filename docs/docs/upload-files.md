@@ -24,7 +24,19 @@ Originally, multer is provided by Express.js, but Ts.ED implements a multer wrap
 
 By default, the directory used is `${projetRoot}/uploads`. You can configure another directory on your Server settings.
 
+
+<Tabs class="-code">
+  <Tab label="Configuration" icon="bx-code-alt">
+
 <<< @/docs/tutorials/snippets/multer/configuration.ts
+
+  </Tab>
+  <Tab label="CodeSandbox" icon="bxl-codepen">
+
+<CodeSandbox sandboxId="rough-frost-6bi81" title="Multer example" />
+
+  </Tab>
+</Tabs>  
 
 ## Options
 
