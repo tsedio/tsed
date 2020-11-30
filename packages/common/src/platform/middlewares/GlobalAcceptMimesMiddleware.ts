@@ -1,20 +1,13 @@
-import {Configuration} from "@tsed/di";
-import {NotAcceptable} from "@tsed/exceptions";
 import {IMiddleware, Middleware} from "../../mvc";
 import {Context} from "../decorators/context";
 
 /**
- * @middleware
+ * @deprecated Since 2020-11-30. Use PlatformAcceptMimesMiddleware.
+ * @ignore
  */
 @Middleware()
 export class GlobalAcceptMimesMiddleware implements IMiddleware {
-  constructor(@Configuration() private configuration: Configuration) {}
-
   use(@Context() ctx: Context) {
-    const {request} = ctx;
-
-    if (this.configuration.acceptMimes?.length && !request.accepts(this.configuration.acceptMimes)) {
-      throw new NotAcceptable(this.configuration.acceptMimes.join(", "));
-    }
+    return;
   }
 }
