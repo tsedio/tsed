@@ -102,6 +102,7 @@ interface ReturnsActionContext {
   model: Type<any> | any;
   decoratorContext: DecoratorTypes;
   currentSchema?: JsonSchema;
+  examples?: any;
 }
 
 interface ReturnsActionHandler {
@@ -130,7 +131,7 @@ function getStatus({status}: ReturnsActionContext) {
  * @ignore
  */
 function initSchemaAction(ctx: ReturnsActionContext) {
-  const {model, response, store, decoratorContext} = ctx;
+  const {model, response, store, decoratorContext, examples} = ctx;
   const operation = store.operation!;
   const currentStatus = getStatus(ctx);
 
@@ -155,6 +156,8 @@ function initSchemaAction(ctx: ReturnsActionContext) {
   ctx.currentSchema = schema;
 
   media.schema(schema);
+
+  examples && media.examples(examples);
 
   if (isSuccessStatus(ctx.status) || currentStatus === "default") {
     if (model) {
@@ -381,6 +384,7 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
   const response = new JsonResponse();
   let decoratorContext: DecoratorTypes;
   let contentType: string;
+  let examples: any;
 
   if (model && isPlainObject(model)) {
     // istanbul ignore
@@ -416,7 +420,7 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
         const store = JsonEntityStore.from(...args);
 
         if (store.operation) {
-          const ctx: ReturnsActionContext = {status, contentType, response, model, store, decoratorContext};
+          const ctx: ReturnsActionContext = {status, contentType, response, model, store, decoratorContext, examples};
 
           actions.forEach((action: any) => {
             action(ctx);
@@ -461,8 +465,8 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
     return decorator;
   };
 
-  decorator.Examples = (examples: any) => {
-    response.set("examples", isString(examples) ? [examples] : examples);
+  decorator.Examples = (example: any) => {
+    examples = isString(example) ? [example] : example;
 
     return decorator;
   };

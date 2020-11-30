@@ -160,11 +160,11 @@ describe("@Status", () => {
                   "text/html": {
                     schema: {
                       type: "string"
-                    }
+                    },
+                    examples: ["Examples"]
                   }
                 },
-                description: "description",
-                examples: ["Examples"]
+                description: "description"
               }
             },
             tags: ["Controller"]
