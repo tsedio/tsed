@@ -1,5 +1,4 @@
-import {AcceptMime, AcceptMimesMiddleware, Get} from "@tsed/common";
-import {Store} from "@tsed/core";
+import {AcceptMime, EndpointMetadata, Get} from "@tsed/common";
 import {getSpec} from "@tsed/schema";
 import {expect} from "chai";
 
@@ -11,8 +10,9 @@ describe("AcceptMime", () => {
       test() {}
     }
 
-    const store = Store.fromMethod(Test, "test");
-    expect(store.get(AcceptMimesMiddleware)).to.deep.eq(["application/json"]);
+    const endpoint = EndpointMetadata.get(Test, "test");
+    expect(endpoint.acceptMimes).to.deep.eq(["application/json"]);
+
     const spec = getSpec(Test);
 
     expect(spec).to.deep.eq({

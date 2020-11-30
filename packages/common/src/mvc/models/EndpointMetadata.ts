@@ -1,5 +1,5 @@
 import {classOf, DecoratorTypes, deepExtends, descriptorOf, Enumerable, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
-import {getOperationsStores, JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonOperation, JsonResponse} from "@tsed/schema";
+import {getOperationsStores, JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonOperation} from "@tsed/schema";
 import {ParamMetadata} from "./ParamMetadata";
 
 export interface EndpointConstructorOptions extends JsonEntityStoreOptions {
@@ -96,6 +96,14 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
 
   set location(url: string) {
     this.store.set("location", url);
+  }
+
+  get acceptMimes(): string[] {
+    return this.store.get<string[]>("acceptMimes", []);
+  }
+
+  set acceptMimes(mimes: string[]) {
+    this.store.set("acceptMimes", mimes);
   }
 
   get redirect(): EndpointRedirectOptions {
