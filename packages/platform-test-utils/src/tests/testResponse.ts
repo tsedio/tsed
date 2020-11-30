@@ -1,4 +1,4 @@
-import {Context, Controller, Get, Next, PathParams, PlatformTest, Post} from "@tsed/common";
+import {Context, Controller, Get, Next, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
 import {ContentType, Ignore, Property, Status} from "@tsed/schema";
 import {expect} from "chai";
 import {createReadStream} from "fs";
@@ -129,6 +129,13 @@ class TestResponseParamsCtrl {
     t.affected = 1;
 
     return t;
+  }
+
+  @Get("/scenario12")
+  getBuffer(@Res() res: PlatformResponse) {
+    res.attachment("filename");
+
+    return Buffer.from("Hello");
   }
 }
 
@@ -291,6 +298,17 @@ export function testResponse(options: PlatformTestOptions) {
         affected: 1,
         raw: 1
       });
+    });
+  });
+
+  describe("Scenario12: Return buffer", () => {
+    it("should return a body", async () => {
+      const response = await request.get("/rest/response/scenario12");
+
+      expect(response.headers["content-disposition"]).to.equal('attachment; filename="filename"');
+      expect(response.headers["content-type"]).to.contains("application/octet-stream");
+      expect(response.headers["content-length"]).to.equal("5");
+      expect(response.body.toString()).to.deep.equal("Hello");
     });
   });
 }

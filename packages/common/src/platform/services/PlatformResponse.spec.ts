@@ -61,6 +61,35 @@ describe("PlatformResponse", () => {
       expect(res.contentType).to.have.been.calledWithExactly("application/json");
     });
   });
+  describe("getContentType()", () => {
+    it("should get content Type", () => {
+      const {res, response} = createResponse();
+
+      res.get.returns("application/json");
+
+      expect(response.getContentType()).to.equal("application/json");
+      expect(res.get).to.have.been.calledWithExactly("Content-Type");
+    });
+  });
+  describe("contentLength()", () => {
+    it("should set content length", () => {
+      const {res, response} = createResponse();
+
+      response.contentLength(5);
+
+      expect(res.set).to.have.been.calledWithExactly("Content-Length", "5");
+    });
+  });
+  describe("getContentLength()", () => {
+    it("should set content Type", () => {
+      const {res, response} = createResponse();
+
+      res.get.returns("5");
+
+      expect(response.getContentLength()).to.equal(5);
+      expect(res.get).to.have.been.calledWithExactly("Content-Length");
+    });
+  });
   describe("redirect()", () => {
     it("should set redirect", () => {
       const {res, response} = createResponse();
@@ -120,6 +149,16 @@ describe("PlatformResponse", () => {
       response.body(stream);
 
       expect(stream.pipe).to.have.been.calledWithExactly(res);
+    });
+    it("should call body with buffer", () => {
+      const {res, response} = createResponse();
+      const buffer = Buffer.from("string");
+
+      response.body(buffer);
+
+      expect(res.send).to.have.been.calledWithExactly("string");
+      expect(res.contentType).to.have.been.calledWithExactly("application/octet-stream");
+      expect(res.set).to.have.been.calledWithExactly("Content-Length", "6");
     });
     it("should call body with {}", () => {
       const {res, response} = createResponse();

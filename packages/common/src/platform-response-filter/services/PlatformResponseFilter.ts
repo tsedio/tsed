@@ -13,7 +13,7 @@ export function getContentType(data: any, ctx: PlatformContext) {
   const {endpoint, response} = ctx;
   const {operation} = endpoint;
 
-  const contentType = operation.getContentTypeOf(response.statusCode) || "";
+  const contentType = response.getContentType() || operation.getContentTypeOf(response.statusCode) || "";
 
   if (contentType && contentType !== ANY_CONTENT_TYPE) {
     if (contentType === "application/json") {
