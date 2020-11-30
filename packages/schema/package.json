@@ -1,6 +1,6 @@
 {
   "name": "@tsed/schema",
-  "version": "6.12.0",
+  "version": "6.12.1",
   "description": "JsonSchema module for Ts.ED Framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -15,8 +15,8 @@
     "tsed"
   ],
   "dependencies": {
-    "@tsed/core": "6.12.0",
-    "@tsed/openspec": "6.12.0",
+    "@tsed/core": "6.12.1",
+    "@tsed/openspec": "6.12.1",
     "change-case": "4.1.1",
     "tslib": "2.0.1"
   },
