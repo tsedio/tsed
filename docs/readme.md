@@ -86,6 +86,12 @@ frameworks:
 - title: Mocha
   href: https://mochajs.org/
   src: /mochajs.svg
+- title: Babel
+  href: https://babeljs.io/
+  src: /babel.svg    
+- title: Webpack
+  href: https://webpack.js.org/
+  src: /webpack.svg  
 - title: AJV
   href: /tutorials/ajv.html
   src: https://ajv.js.org/images/ajv_logo.png
