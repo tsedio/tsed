@@ -1,6 +1,6 @@
 {
   "name": "@tsed/swagger",
-  "version": "6.11.5",
+  "version": "6.12.0",
   "description": "Swagger package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -14,9 +14,9 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.11.5",
-    "@tsed/openspec": "6.11.5",
-    "@tsed/schema": "6.11.5"
+    "@tsed/common": "6.12.0",
+    "@tsed/openspec": "6.12.0",
+    "@tsed/schema": "6.12.0"
   },
   "peerDependencies": {}
 }
