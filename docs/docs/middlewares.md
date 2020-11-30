@@ -31,8 +31,7 @@ can access to the last executed endpoint information.
 
 ## Global middleware 
 
-Global middlewares are generally used to handle requests before or after controllers. For example the GlobalAcceptMimesMiddleware
-is used to check the mime type set in the request headers and throw an error when the mime don't match with server configuration.
+Global middlewares are generally used to handle requests before or after controllers.
 
 <<< @/docs/docs/snippets/middlewares/global-middleware.ts
 

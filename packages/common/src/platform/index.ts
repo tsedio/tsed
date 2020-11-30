@@ -14,10 +14,11 @@ export * from "./interfaces/IRoute";
 export * from "./interfaces/PlatformRouterMethods";
 
 // middlewares
+export * from "./middlewares/bindEndpointMiddleware";
 export * from "./middlewares/PlatformLogMiddleware";
 export * from "./middlewares/PlatformMulterMiddleware";
-export * from "./middlewares/bindEndpointMiddleware";
 export * from "./middlewares/GlobalAcceptMimesMiddleware";
+export * from "./middlewares/PlatformAcceptMimesMiddleware";
 
 // domain
 export * from "./domain/HandlerContext";

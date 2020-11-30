@@ -2,6 +2,8 @@ import {PlatformContext} from "@tsed/common/src/platform/domain/PlatformContext"
 import * as Sinon from "sinon";
 import {SinonStub} from "sinon";
 
+const accepts = require("accepts");
+
 export class FakeRequest {
   public url = "/";
   public method: string;
@@ -59,7 +61,7 @@ export class FakeRequest {
     accept: "application/json"
   };
   public $ctx: PlatformContext;
-  public log: {[key: string]: SinonStub};
+  public log: { [key: string]: SinonStub };
   public isAuthenticated: SinonStub;
 
   [key: string]: any;
@@ -102,8 +104,6 @@ export class FakeRequest {
   }
 
   accepts(mime?: string | string[]) {
-    mime = [].concat(mime as any) as string[];
-
-    return mime.find((m: string) => m === this.headers.accept);
+    return accepts(this).types([].concat(mime as never));
   }
 }
