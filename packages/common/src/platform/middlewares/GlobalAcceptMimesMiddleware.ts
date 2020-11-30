@@ -13,7 +13,7 @@ export class GlobalAcceptMimesMiddleware implements IMiddleware {
   use(@Context() ctx: Context) {
     const {request} = ctx;
 
-    if (!request.accepts(this.configuration.acceptMimes)) {
+    if (this.configuration.acceptMimes?.length && !request.accepts(this.configuration.acceptMimes)) {
       throw new NotAcceptable(this.configuration.acceptMimes.join(", "));
     }
   }
