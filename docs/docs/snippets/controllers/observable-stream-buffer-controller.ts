@@ -1,4 +1,4 @@
-import {Controller, Get} from "@tsed/common";
+import {Controller, Get, PlatformResponse, Res} from "@tsed/common";
 import {createReadStream, ReadStream} from "fs";
 import {Observable, of} from "rxjs";
 
@@ -14,8 +14,11 @@ export class KindOfResponseCtrl {
     return createReadStream(__dirname + "/response.txt");
   }
 
-  @Get("/stream")
-  buffer(): Buffer {
+  @Get("/buffer")
+  buffer(@Res() res: PlatformResponse): Buffer {
+    // Set attachment: res.attachment("filename")
+    // Set contentType: res.contentType("plain/text");
+
     return Buffer.from("Hello");
   }
 }

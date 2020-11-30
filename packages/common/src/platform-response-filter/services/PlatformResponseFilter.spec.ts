@@ -35,6 +35,7 @@ describe("PlatformResponseFilter", () => {
     const data = {text: "test"};
 
     sandbox.stub(ctx.response, "contentType");
+    sandbox.stub(ctx.response, "get");
     sandbox.stub(ctx.request, "get").returns("custom/json");
     sandbox.stub(ctx.request, "accepts").returns(["custom/json"]);
 
@@ -52,6 +53,7 @@ describe("PlatformResponseFilter", () => {
       @Get("/")
       test() {}
     }
+
     const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
 
     const ctx = PlatformTest.createRequestContext();
@@ -59,6 +61,7 @@ describe("PlatformResponseFilter", () => {
     const data = {text: "test"};
 
     sandbox.stub(ctx.response, "contentType");
+    sandbox.stub(ctx.response, "get");
     sandbox.stub(ctx.request, "get").returns("application/json");
     sandbox.stub(ctx.request, "accepts").returns(["application/json"]);
 
@@ -68,7 +71,29 @@ describe("PlatformResponseFilter", () => {
       text: "test"
     });
   });
+  it("should get content-type set from response", () => {
+    class Test {
+      @Get("/")
+      test() {}
+    }
 
+    const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+
+    const ctx = PlatformTest.createRequestContext();
+    ctx.endpoint = EndpointMetadata.get(Test, "test");
+    const data = {text: "test"};
+
+    sandbox.stub(ctx.response, "contentType");
+    sandbox.stub(ctx.response, "get").returns("text/json; charset: utf-8");
+    sandbox.stub(ctx.request, "get").returns("application/json");
+    sandbox.stub(ctx.request, "accepts").returns(["application/json"]);
+
+    const result = platformResponseFilter.transform(data, ctx);
+
+    expect(result).to.deep.equal({
+      text: "test"
+    });
+  });
   it("should transform data for any content type", () => {
     class Test {
       @Get("/")
@@ -82,6 +107,7 @@ describe("PlatformResponseFilter", () => {
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
     sandbox.stub(ctx.response, "contentType");
+    sandbox.stub(ctx.response, "get");
     sandbox.stub(ctx.request, "get").returns("application/json");
     sandbox.stub(ctx.request, "accepts").returns(["application/json"]);
 
@@ -113,6 +139,7 @@ describe("PlatformResponseFilter", () => {
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
     sandbox.stub(ctx.response, "contentType");
+    sandbox.stub(ctx.response, "get");
     sandbox.stub(ctx.request, "get").returns(undefined);
     sandbox.stub(ctx.request, "accepts").returns(false);
 
@@ -142,6 +169,7 @@ describe("PlatformResponseFilter", () => {
     });
 
     sandbox.stub(ctx.response, "contentType");
+    sandbox.stub(ctx.response, "get");
     sandbox.stub(ctx.request, "get").returns(undefined);
     sandbox.stub(ctx.request, "accepts").returns(false);
 
