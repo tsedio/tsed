@@ -58,7 +58,7 @@
     "@types/koa-send": "4.1.2",
     "@types/koa-session": "5.10.2",
     "@types/koa__router": "8.0.2",
-    "koa": "2.11.0",
+    "koa": "2.13.0",
     "koa-bodyparser": "4.3.0",
     "koa-compress": "5.0.1",
     "koa-override": "3.0.0",
