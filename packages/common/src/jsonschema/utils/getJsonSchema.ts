@@ -10,6 +10,7 @@ import {JSONSchema6} from "json-schema";
  * :::
  *
  * @param target
+ * @deprecated Since 2020-12-01. Use getJsonSchema from @tsed/schema.
  */
 export function getJsonSchema(target: Type<any>): JSONSchema6 {
   return get(target);
