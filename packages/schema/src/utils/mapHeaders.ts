@@ -1,3 +1,4 @@
+import {cleanObject} from "@tsed/core";
 import {JsonHeader, JsonHeaders} from "../interfaces/JsonOpenSpec";
 
 /**
@@ -24,7 +25,7 @@ export function mapHeaders(headers: JsonHeaders): {[key: string]: JsonHeader} {
 
     options.type = options.type || type;
 
-    newHeaders[key] = options;
+    newHeaders[key] = cleanObject(options);
 
     return newHeaders;
   }, {});

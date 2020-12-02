@@ -55,6 +55,7 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
 
   return getSchemaProperties(entity, obj).reduce((newObj, [key, propStore]) => {
     const schema = propStore.schema;
+
     if (alterIgnore(schema, {useAlias, ...props, self: obj})) {
       return newObj;
     }
@@ -91,10 +92,12 @@ function toObject(obj: any, options: JsonSerializerOptions): any {
   );
 }
 
-export function serialize(obj: any, {type, collectionType, ...options}: JsonSerializerOptions = {}): any {
+export function serialize(obj: any, {type, collectionType, groups = false, ...options}: JsonSerializerOptions = {}): any {
   const types = options.types ? options.types : getJsonMapperTypes();
   // prevent Object metadata assignation. TypeScript set Object by default on endpoint.type
   type = type === Object ? undefined : type;
+
+  options.groups = groups;
 
   if (isEmpty(obj)) {
     return obj;

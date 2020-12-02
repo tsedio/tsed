@@ -10,15 +10,22 @@ import {SpecTypes} from "./SpecTypes";
 export type JsonResponseOptions = OS3Response<JsonSchema, string | JsonHeader>;
 
 export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
+  groups: string[];
+
   schema(schema: JsonSchema) {
     this.set("schema", schema);
 
     return this;
   }
+
   examples(examples: any) {
     this.set("examples", examples);
 
     return this;
+  }
+
+  toJSON(options: JsonSchemaOptions = {}): any {
+    return super.toJSON({...options, groups: this.groups});
   }
 }
 

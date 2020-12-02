@@ -1,5 +1,5 @@
 import {cleanObject, Store, Type} from "@tsed/core";
-import {JsonEntityStore, getProperties} from "@tsed/schema";
+import {getProperties, JsonEntityStore} from "@tsed/schema";
 import * as mongoose from "mongoose";
 import {SchemaDefinition, SchemaTypeOpts} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
@@ -62,7 +62,7 @@ export function getSchema(target: Type<any>, options: MongooseSchemaOptions = {}
  * @ignore
  */
 export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
-  const properties = getProperties(target, {withIgnoredProps: true, mongoose: true});
+  const properties = getProperties(target, {withIgnoredProps: true, mongoose: true, groups: false});
   const schema: MongooseSchemaMetadata = {schema: {}, virtuals: new Map()};
 
   properties.forEach((propertyMetadata, key) => {

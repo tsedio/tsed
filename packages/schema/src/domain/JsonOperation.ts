@@ -110,6 +110,11 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return (status === "default" ? this.response : this.getResponses().get(String(status))) || new JsonResponse();
   }
 
+  ensureResponseOf(status: number | string): JsonResponse {
+    this.addResponse(status, this.getResponseOf(status));
+    return this.getResponseOf(status);
+  }
+
   getHeadersOf(status: number): {[key: string]: JsonHeader} {
     return this.getResponseOf(status).get("headers") || {};
   }
@@ -185,7 +190,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   }
 
   toJSON(options: JsonSchemaOptions = {}): any {
-    const operation = super.toJSON(options);
+    const operation = super.toJSON({...options, ignore: ["parameters"]});
     const bodyParameters: JsonParameter[] = [];
     const parameters: any[] = [];
 
@@ -220,7 +225,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
       if (options.specType === SpecTypes.OPENAPI) {
         operation.requestBody = toRequestBody(this, parameter).toJSON(options);
       } else {
-        operation.parameters.push(toJsonParameter(parameter).toJSON(options));
+        operation.parameters.push(toJsonParameter(parameter));
       }
     }
 
@@ -233,7 +238,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   }
 }
 
-function toRequestBody(operation: JsonOperation, {schema, ...props}: any) {
+function toRequestBody(operation: JsonOperation, {schema, in: _, ...props}: any) {
   const requestBody = new JsonRequestBody(props);
 
   const consumes = operation.get("consumes")?.length ? operation.get("consumes") : ["application/json"];
@@ -246,14 +251,14 @@ function toRequestBody(operation: JsonOperation, {schema, ...props}: any) {
 }
 
 function toJsonParameter(parameter: any) {
-  return new JsonParameter({
+  return {
     in: JsonParameterTypes.BODY,
     name: JsonParameterTypes.BODY,
     ...parameter
-  });
+  };
 }
 
-function buildSchemaFromBodyParameters(parameters: JsonParameter[], options?: JsonSchemaOptions) {
+function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: JsonSchemaOptions) {
   let schema = new JsonSchema();
   const props: any = {};
   const refs: JsonSchema[] = [];
@@ -270,8 +275,10 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options?: Js
         }
       });
 
+    const jsonParameter = parameter.toJSON(options);
+
     if (name) {
-      schema.addProperty(name, parameter.toJSON(options).schema);
+      schema.addProperty(name, jsonParameter.schema);
 
       if (parameter.get("required")) {
         schema.addRequired(name);
@@ -279,19 +286,22 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options?: Js
 
       propsLength++;
     } else {
-      refs.push(parameter.$schema);
+      refs.push(jsonParameter);
     }
   });
 
   if (propsLength) {
     schema.type("object");
-  } else if (refs.length === 1) {
-    schema = refs[0];
+    return {schema: schema.toJSON(options), required: false, ...props};
   }
 
-  if (refs.length >= 2) {
+  if (refs.length === 1) {
+    return refs[0];
+  }
+
+  if (refs.length > 0) {
     schema.allOf(refs);
   }
 
-  return {schema, required: false, ...props};
+  return {schema: schema.toJSON(options), required: false, ...props};
 }

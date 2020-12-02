@@ -10,6 +10,7 @@ export class DeserializerPipe implements IPipe {
     return this.converterService.deserialize(value, {
       type: param.type,
       collectionType: param.collectionType,
+      groups: param.parameter.groups,
       ...(param.store.get(DeserializerPipe) || {})
     });
   }

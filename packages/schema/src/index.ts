@@ -11,6 +11,6 @@ export * from "./utils/isSuccessStatus";
 export * from "./utils/from";
 export * from "./utils/defineStatusModel";
 export * from "./domain";
-export * from "./hooks/ignoreHook";
+export * from "./hooks/alterIgnore";
 export * from "./interfaces";
 export * from "./decorators";

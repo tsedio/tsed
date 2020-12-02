@@ -1,3 +1,4 @@
+import {OS2Response} from "./OS2Response";
 import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs";
 import {OpenSpecHash} from "../common/OpenSpecHash";
 import {OpenSpecInfo} from "../common/OpenSpecInfo";
@@ -52,7 +53,7 @@ export interface OpenSpec2 {
   /**
    * An object to hold responses that can be used across operations. This property does not define global responses for all operations.
    */
-  responses?: OpenSpecHash<Response>;
+  responses?: OpenSpecHash<OS2Response>;
   /**
    * A declaration of which security schemes are applied for the API as a whole. The list of values describes alternative security schemes that can be used (that is, there is a logical OR between the security requirements). Individual operations can override this definition.
    */

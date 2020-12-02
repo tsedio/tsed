@@ -40,6 +40,7 @@ export * from "./common/enum";
 export * from "./common/exclusiveMaximum";
 export * from "./common/exclusiveMinimum";
 export * from "./common/format";
+export * from "./common/groups";
 export * from "./common/pattern";
 export * from "./common/ignore";
 export * from "./common/maximum";

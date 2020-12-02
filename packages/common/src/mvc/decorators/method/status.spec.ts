@@ -44,7 +44,6 @@ describe("Status", () => {
                 description: "description",
                 headers: {
                   "x-header": {
-                    example: undefined,
                     type: "string"
                   }
                 },
@@ -245,7 +244,6 @@ describe("Status", () => {
                 description: "description",
                 headers: {
                   "x-map": {
-                    example: undefined,
                     type: "string"
                   }
                 },
@@ -260,7 +258,6 @@ describe("Status", () => {
                 description: "description",
                 headers: {
                   "x-error": {
-                    example: undefined,
                     type: "string"
                   }
                 },

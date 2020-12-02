@@ -2,8 +2,9 @@ import {classOf, cleanObject, deepExtends, isArray, isObject} from "@tsed/core";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
-import {alterIgnore} from "../hooks/ignoreHook";
+import {alterIgnore} from "../hooks/alterIgnore";
 import {JsonSchemaOptions} from "../interfaces";
+import {createRef, createRefName} from "./createRef";
 import {GenericsContext, mapGenericsOptions, popGenerics} from "./generics";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
@@ -35,19 +36,9 @@ function shouldMapAlias(key: string, value: any, useAlias: boolean) {
 /**
  * @ignore
  */
-function createRef(name: string, options: JsonSchemaOptions) {
-  const host = getHost(options);
-  return {
-    $ref: `${host}/${name}`
-  };
-}
-
-/**
- * @ignore
- */
 export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
   const store = getJsonEntityStore(value.class);
-  const name = store.schema.getName() || value.getName();
+  const name = createRefName(store.schema.getName() || value.getName(), options);
 
   if (value.hasGenerics) {
     // Inline generic
@@ -62,11 +53,11 @@ export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
     };
 
     if (schema.title) {
-      const {title} = schema;
-      options.schemas![title] = schema;
+      const name = createRefName(schema.title, options);
+      options.schemas![name] = schema;
       delete schema.title;
 
-      return createRef(title, options);
+      return createRef(name, options);
     }
 
     return schema;
@@ -86,18 +77,9 @@ export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
   return createRef(name, options);
 }
 
-/**
- * ignore
- * @param options
- */
-function getHost(options: JsonSchemaOptions) {
-  const {host = `#/${options.specType === "openapi3" ? "components/schemas" : "definitions"}`} = options;
-
-  return host;
-}
-
 function toRef(value: any, schema: any, options: JsonSchemaOptions) {
-  const name = value.getName();
+  const name = createRefName(value.getName(), options);
+
   options.schemas![value.getName()] = schema;
 
   return createRef(name, options);
@@ -130,13 +112,18 @@ export function serializeInherited(obj: any, target: any, options: JsonSchemaOpt
 /**
  * Serialize class which inherit from Map like JsonMap, JsonOperation, JsonParameter.
  * @param input
+ * @param ignore
  * @param options
  * @ignore
  */
-export function serializeMap(input: Map<string, any>, options: JsonSchemaOptions = {}): any {
+export function serializeMap(input: Map<string, any>, {ignore = [], ...options}: JsonSchemaOptions = {}): any {
   options = mapGenericsOptions(options);
 
   return Array.from(input.entries()).reduce((obj: any, [key, value]) => {
+    if (ignore.includes(key)) {
+      return obj;
+    }
+
     obj[key] = serializeItem(value, options);
     return obj;
   }, {});
@@ -149,9 +136,11 @@ export function serializeMap(input: Map<string, any>, options: JsonSchemaOptions
  * @ignore
  */
 export function serializeObject(input: any, options: JsonSchemaOptions) {
+  const {specType, operationIdFormatter, root, schemas, genericTypes, nestedGenerics, useAlias, genericLabels, ...ctx} = options;
+
   return Object.entries(input).reduce<any>(
     (obj, [key, value]: any[]) => {
-      if (!alterIgnore(value, options)) {
+      if (!alterIgnore(value, ctx)) {
         obj[key] = serializeItem(value, options);
       }
 

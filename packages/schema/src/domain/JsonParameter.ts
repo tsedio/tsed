@@ -1,5 +1,5 @@
-import {cleanObject, Type} from "@tsed/core";
-import {OS3Parameter} from "@tsed/openspec";
+import {cleanObject, toMap, Type} from "@tsed/core";
+import {OS2Schema, OS3Parameter, OS3Schema} from "@tsed/openspec";
 import {JsonSchemaOptions} from "../interfaces";
 import {NestedGenerics, popGenerics} from "../utils/generics";
 import {serializeItem} from "../utils/serializeJsonSchema";
@@ -12,6 +12,7 @@ const IGNORE_OS2_PROPS = ["example", "examples", "title"];
 
 export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
   nestedGenerics: Type<any>[][] = [];
+  groups: string[];
   $schema: JsonSchema;
 
   getName() {
@@ -60,8 +61,14 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
       return null;
     }
 
-    const schemas = {...options.schemas};
+    const schemasContainer = toMap<string, OS2Schema | OS3Schema>(options.schemas || {});
+
+    return this.build({...options, groups: this.groups}, schemasContainer);
+  }
+
+  private build(options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema | OS2Schema>) {
     const {type, schema, ...parameter} = super.toJSON(options);
+
     const jsonSchema = serializeItem(this.$schema, {
       ...options,
       ...popGenerics(this)
@@ -97,7 +104,7 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
     if (options.specType === SpecTypes.OPENAPI) {
       if (["query"].includes(this.get("in")) && jsonSchema.$ref) {
-        return this.refToParameters(parameter, options, schemas);
+        return this.refToParameters(parameter, options, schemasContainer);
       }
     }
 
@@ -109,7 +116,7 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
       if (["formData", "query"].includes(this.get("in"))) {
         if (jsonSchema.$ref) {
-          return this.refToParameters(parameter, options, schemas);
+          return this.refToParameters(parameter, options, schemasContainer);
         }
 
         if (jsonSchema.type === "array") {
@@ -145,10 +152,10 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     return parameter;
   }
 
-  private refToParameters(parameter: any, options: JsonSchemaOptions, schemas: any) {
+  private refToParameters(parameter: any, options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema | OS2Schema>) {
     const schema = options.schemas![this.$schema.getName()];
 
-    if (options.schemas![this.$schema.getName()] && !schemas[this.$schema.getName()]) {
+    if (options.schemas![this.$schema.getName()] && !schemasContainer.has(this.$schema.getName())) {
       delete options.schemas![this.$schema.getName()];
     }
 

@@ -1,4 +1,4 @@
-import {isArrayOrArrayClass, isDate, isPrimitiveOrPrimitiveClass, primitiveOf} from "@tsed/core";
+import {isArray, isDate, isPrimitiveOrPrimitiveClass, primitiveOf} from "@tsed/core";
 
 /**
  * @ignore
@@ -26,12 +26,12 @@ export function getJsonType(value: any): string {
     return primitiveOf(value);
   }
 
-  if (isArrayOrArrayClass(value)) {
-    if (value !== Array) {
-      return value.map(getJsonType);
-    }
-
+  if (value === Array) {
     return "array";
+  }
+
+  if (isArray(value)) {
+    return value.map(getJsonType) as any;
   }
 
   if (value === Set) {
