@@ -18,7 +18,7 @@ export function createColumn(table: Knex.TableBuilder, entity: JsonEntityStore) 
 }
 
 export function getColumns(model: any) {
-  return [...getProperties(model).values()];
+  return [...getProperties(model, {withIgnoredProps: true, objection: true, groups: false}).values()];
 }
 
 export function createColumns(table: Knex.TableBuilder, model: any) {

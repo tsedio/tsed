@@ -234,7 +234,7 @@ export class PlatformHandler {
       data = await this.render(data, ctx);
     } else if (shouldBeSerialized(data)) {
       data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {
-        type: endpoint.responseType,
+        ...endpoint.getResponseOptions(),
         endpoint: true
       });
     }

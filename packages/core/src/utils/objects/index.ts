@@ -37,4 +37,5 @@ export * from "./objectKeys";
 export * from "./primitiveOf";
 export * from "./prototypeOf";
 export * from "./setValue";
+export * from "./toMap";
 export * from "./toStringConstructor";

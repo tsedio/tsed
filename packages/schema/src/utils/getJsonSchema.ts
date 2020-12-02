@@ -41,6 +41,7 @@ function get(entity: JsonEntityStore, options: any) {
 export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonSchemaOptions = {}) {
   options = {
     endpoint: true,
+    groups: [],
     ...options,
     specType: options.specType || SpecTypes.JSON,
     schemas: {}

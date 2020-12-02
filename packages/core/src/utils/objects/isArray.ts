@@ -1,4 +1,9 @@
-export function isArray<T = any>(target: any): target is T[] {
+/**
+ * Return true if value is an array
+ * @param target
+ * @returns {boolean}
+ */
+export function isArray<T = any>(target: unknown): target is T[] {
   return Array.isArray(target);
 }
 
@@ -7,6 +12,6 @@ export function isArray<T = any>(target: any): target is T[] {
  * @param target
  * @returns {boolean}
  */
-export function isArrayOrArrayClass(target: any): boolean {
+export function isArrayOrArrayClass<T = any>(target: unknown): target is T[] {
   return target === Array || isArray(target);
 }

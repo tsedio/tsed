@@ -10,6 +10,7 @@ import {
   UnsupportedDecoratorType
 } from "@tsed/core";
 import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
+import {DecoratorContext} from "../../domain/DecoratorContext";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonResponse} from "../../domain/JsonResponse";
 import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
@@ -91,99 +92,232 @@ export interface ReturnsChainedDecorators {
    */
   Title(title: string): this;
 
+  /**
+   *
+   * @param groups
+   * @constructor
+   */
+  Groups(...groups: string[]): this;
+
   [key: string]: any;
 }
 
-interface ReturnsActionContext {
-  store: JsonEntityStore;
-  status?: string | number;
-  contentType: string;
-  response: JsonResponse;
-  model: Type<any> | any;
-  decoratorContext: DecoratorTypes;
-  currentSchema?: JsonSchema;
-  examples?: any;
-}
-
-interface ReturnsActionHandler {
-  (ctx: ReturnsActionContext): void;
-}
-
 /**
  * @ignore
  */
-function getContentType({contentType, model}: ReturnsActionContext) {
-  if (model && !isPlainObject(model) && !isPrimitiveOrPrimitiveClass(model)) {
-    contentType = contentType || "application/json";
-  }
+class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> {
+  readonly methods: string[] = [
+    "contentType",
+    "description",
+    "examples",
+    "type",
+    "status",
+    "of",
+    "nested",
+    "header",
+    "headers",
+    "schema",
+    "title",
+    "groups"
+  ];
 
-  return contentType;
-}
+  constructor({status, model}: any) {
+    super();
 
-/**
- * @ignore
- */
-function getStatus({status}: ReturnsActionContext) {
-  return status || "default";
-}
+    this.set("status", status);
+    this.set("model", model);
 
-/**
- * @ignore
- */
-function initSchemaAction(ctx: ReturnsActionContext) {
-  const {model, response, store, decoratorContext, examples} = ctx;
-  const operation = store.operation!;
-  const currentStatus = getStatus(ctx);
+    if (status && HTTP_STATUS_MESSAGES[status]) {
+      this.set("description", HTTP_STATUS_MESSAGES[status]);
 
-  if (decoratorContext === DecoratorTypes.CLASS) {
-    const current = operation.getResponseOf(currentStatus);
-
-    current.get("description") && response.description(current.get("description"));
-    current.get("headers") &&
-      response.headers({
-        ...(response.get("headers") || {}),
-        ...current.get("headers")
-      });
-  }
-
-  const contentType = getContentType(ctx);
-  const currentResponse = operation.addResponse(currentStatus, response).getResponseOf(currentStatus);
-  const media = currentResponse.getMedia(contentType || "*/*");
-  const schema = media.get("schema") || new JsonSchema({type: model});
-
-  model && schema.type(model);
-
-  ctx.currentSchema = schema;
-
-  media.schema(schema);
-
-  examples && media.examples(examples);
-
-  if (isSuccessStatus(ctx.status) || currentStatus === "default") {
-    if (model) {
-      store.type = model;
+      if (!model) {
+        this.model(getStatusModel(+status));
+      }
     }
   }
 
-  // additional info for OS2
-  contentType && operation.addProduce(contentType);
-}
-
-/**
- * @ignore
- */
-function checkPrimitive(model: any) {
-  if (isPrimitiveOrPrimitiveClass(model)) {
-    throw new Error("Returns.Of cannot be used with the following primitive classes: String, Number, Boolean");
+  type(model: any) {
+    return this.model(model);
   }
-}
 
-/**
- * @ignore
- */
-function checkCollection(model: any) {
-  if (isCollection(model)) {
-    throw new Error("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
+  model(model: any) {
+    this.set("model", model);
+    return this;
+  }
+
+  status(status: number | string) {
+    this.set("status", status);
+    return this;
+  }
+
+  headers(headers: JsonHeaders) {
+    this.set("headers", {
+      ...(this.get("headers") || {}),
+      ...mapHeaders(headers)
+    });
+
+    return this;
+  }
+
+  header(key: string, value: string | JsonHeader) {
+    return this.headers({[key]: value});
+  }
+
+  groups(...groups: string[]) {
+    this.set("groups", groups);
+    return this;
+  }
+
+  nested(...generics: (Type<any> | any)[]) {
+    const model = this.get("model");
+    this.checkPrimitive(model);
+    this.checkCollection(model);
+
+    this.addAction((ctx) => {
+      (this.get("schema") as JsonSchema).nestedGenerics.push(generics);
+    });
+
+    return this;
+  }
+
+  of(...types: (Type<any> | any)[]) {
+    const model = this.get("model");
+    this.checkPrimitive(model);
+
+    this.addAction(() => {
+      const schema = this.get("schema") as JsonSchema;
+
+      if (isCollection(model)) {
+        schema?.itemSchema({type: types[0]});
+      } else {
+        schema?.nestedGenerics.push(types);
+      }
+    });
+
+    return this;
+  }
+
+  schema(partial: Partial<JsonSchemaObject>) {
+    this.addAction(() => {
+      const schema = this.get("schema") as JsonSchema;
+
+      schema!.assign(partial);
+    });
+
+    return this;
+  }
+
+  examples(examples: any) {
+    this.set("examples", isString(examples) ? [examples] : examples);
+    return this;
+  }
+
+  title(title: string) {
+    return this.schema({title});
+  }
+
+  protected checkPrimitive(model: any) {
+    if (isPrimitiveOrPrimitiveClass(model)) {
+      throw new Error("Returns.Of cannot be used with the following primitive classes: String, Number, Boolean");
+    }
+  }
+
+  protected checkCollection(model: any) {
+    if (isCollection(model)) {
+      throw new Error("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
+    }
+  }
+
+  protected getContentType() {
+    const model = this.get("model");
+    let contentType = this.get("contentType");
+
+    if (model && !isPlainObject(model) && !isPrimitiveOrPrimitiveClass(model)) {
+      contentType = contentType || "application/json";
+    }
+
+    return contentType;
+  }
+
+  protected getStatus() {
+    return this.get("status") || "default";
+  }
+
+  protected onInit(args: any[], decorator: any) {
+    const type = decoratorTypeOf(args);
+    switch (type) {
+      case DecoratorTypes.METHOD:
+        this.store = JsonEntityStore.from(...args);
+        if (this.store.operation) {
+          this.map();
+        }
+        break;
+      case DecoratorTypes.CLASS:
+        this.decoratorType = DecoratorTypes.CLASS;
+        decorateMethodsOf(args[0], decorator);
+        break;
+      default:
+        throw new UnsupportedDecoratorType(Returns, args);
+    }
+  }
+
+  protected map() {
+    const model = this.get("model");
+    const {store, decoratorType} = this;
+    const operation = this.store.operation!;
+    const currentStatus = this.getStatus();
+    const response = operation.ensureResponseOf(currentStatus);
+    const contentType = this.getContentType();
+
+    let {description = response.get("description")} = this.toObject();
+
+    if (description) {
+      description = decoratorType === DecoratorTypes.CLASS ? response.get("description") || description : description;
+      response.description(description);
+    }
+
+    const headers = this.getMergedKey("headers", response.get("headers"));
+
+    if (headers) {
+      response.headers(headers);
+    }
+
+    this.mapMedia(response);
+
+    if (isSuccessStatus(this.get("status")) || currentStatus === "default") {
+      if (model) {
+        store.type = model;
+      }
+    }
+
+    // additional info for OS2
+    contentType && operation.addProduce(contentType);
+
+    // run additional actions
+    return this.runActions();
+  }
+
+  protected mapMedia(response: JsonResponse) {
+    const contentType = this.getContentType();
+    const model = this.get("model");
+    const media = response.getMedia(contentType || "*/*");
+    const schema = media.get("schema") || new JsonSchema({type: model});
+
+    model && schema.type(model);
+
+    this.set("schema", schema);
+
+    media.schema(schema);
+
+    media.groups = this.get("groups");
+
+    const examples = this.get("examples");
+
+    if (examples) {
+      media.examples(examples);
+    }
+
+    return media;
   }
 }
 
@@ -381,13 +515,8 @@ export function Returns(status?: string | number, model?: Type<any>): ReturnsCha
  */
 export function Returns(status?: string | number, model?: object): ReturnsChainedDecorators;
 export function Returns(status?: string | number, model?: Type<any> | any): ReturnsChainedDecorators {
-  const response = new JsonResponse();
-  let decoratorContext: DecoratorTypes;
-  let contentType: string;
-  let examples: any;
-
   if (model && isPlainObject(model)) {
-    // istanbul ignore
+    // istanbul ignore next
     if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
       console.warn("Use @Returns/@Status with an object to describe schema is deprecated.");
       console.warn("Use the following example: @Returns(200, Type).Description('description')");
@@ -397,133 +526,13 @@ export function Returns(status?: string | number, model?: Type<any> | any): Retu
 
     const {code = "default"} = model as any;
 
-    let decorator = Returns(code);
-
-    return mapLegacy(decorator, model);
+    return mapLegacy(Returns(code), model);
   }
 
-  if (status && HTTP_STATUS_MESSAGES[status]) {
-    response.description(HTTP_STATUS_MESSAGES[status]);
+  const context = new ReturnDecoratorContext({
+    status,
+    model
+  });
 
-    if (!model) {
-      model = getStatusModel(+status);
-    }
-  }
-
-  const actions: ReturnsActionHandler[] = [initSchemaAction];
-
-  const decorator = (...args: any[]) => {
-    const type = decoratorTypeOf(args);
-
-    switch (type) {
-      case DecoratorTypes.METHOD:
-        const store = JsonEntityStore.from(...args);
-
-        if (store.operation) {
-          const ctx: ReturnsActionContext = {status, contentType, response, model, store, decoratorContext, examples};
-
-          actions.forEach((action: any) => {
-            action(ctx);
-          });
-        }
-        break;
-      case DecoratorTypes.CLASS:
-        decoratorContext = DecoratorTypes.CLASS;
-        decorateMethodsOf(args[0], decorator);
-        break;
-      default:
-        throw new UnsupportedDecoratorType(Returns, args);
-    }
-  };
-
-  decorator.Headers = (headers: JsonHeaders) => {
-    response.headers({
-      ...(response.get("headers") || {}),
-      ...mapHeaders(headers)
-    });
-
-    return decorator;
-  };
-
-  decorator.Header = (key: string, value: string | JsonHeader) => {
-    decorator.Headers({
-      [key]: value
-    });
-
-    return decorator;
-  };
-
-  decorator.ContentType = (value: string) => {
-    contentType = value;
-
-    return decorator;
-  };
-
-  decorator.Description = (description: string) => {
-    response.description(description);
-
-    return decorator;
-  };
-
-  decorator.Examples = (example: any) => {
-    examples = isString(example) ? [example] : example;
-
-    return decorator;
-  };
-
-  decorator.Type = (type: Type<any> | any) => {
-    model = type;
-
-    return decorator;
-  };
-
-  decorator.Of = (...types: (Type<any> | any)[]) => {
-    checkPrimitive(model);
-
-    actions.push((ctx) => {
-      const {currentSchema} = ctx;
-
-      if (isCollection(model)) {
-        currentSchema?.itemSchema({type: types[0]});
-      } else {
-        currentSchema?.nestedGenerics.push(types);
-      }
-    });
-
-    return decorator;
-  };
-
-  decorator.Nested = (...generics: (Type<any> | any)[]) => {
-    checkPrimitive(model);
-    checkCollection(model);
-
-    actions.push((ctx) => {
-      const {currentSchema} = ctx;
-      currentSchema!.nestedGenerics.push(generics);
-    });
-
-    return decorator;
-  };
-
-  decorator.Schema = (schema: Partial<JsonSchemaObject>) => {
-    actions.push((ctx) => {
-      const {currentSchema} = ctx;
-
-      currentSchema!.assign(schema);
-    });
-
-    return decorator;
-  };
-
-  decorator.Title = (title: string) => {
-    return decorator.Schema({title});
-  };
-
-  decorator.Status = (code: string | number) => {
-    status = code;
-
-    return decorator;
-  };
-
-  return decorator;
+  return context.build();
 }

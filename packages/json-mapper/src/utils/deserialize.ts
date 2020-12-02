@@ -1,5 +1,5 @@
 import {isArray, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
-import {getPropertiesStores, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
+import {getProperties, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
 import "../components";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {getJsonMapperTypes} from "../domain/JsonMapperTypesContainer";
@@ -23,6 +23,10 @@ export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes
    * property is useful when you deal with metadata parameters.
    */
   store?: JsonEntityStore;
+  /**
+   *
+   */
+  groups?: string[] | false;
 
   [key: string]: any;
 }
@@ -75,7 +79,8 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   }
 
   const {type, store = JsonEntityStore.from(type), ...next} = options;
-  const propertiesMap = getPropertiesStores(store);
+
+  const propertiesMap = getProperties(store, options);
 
   let keys = objectKeys(src);
   const additionalProperties = propertiesMap.size ? !!store.schema.get("additionalProperties") || options.additionalProperties : true;
@@ -131,6 +136,7 @@ function buildOptions(options: JsonDeserializerOptions<any, any>): any {
   }
 
   return {
+    groups: false,
     ...options,
     types: options.types ? options.types : getJsonMapperTypes()
   };

@@ -14,6 +14,11 @@ export interface JsonSchemaOptions {
    * Define Spec types level
    */
   specType?: SpecTypes;
+  /**
+   * Define a groups restriction to generate the JsonSchema.
+   * Set false to disable groups.
+   */
+  groups?: string[] | false;
 
   [key: string]: any;
 }

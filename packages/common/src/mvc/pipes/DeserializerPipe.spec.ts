@@ -32,6 +32,7 @@ describe("DeserializerPipe", () => {
 
       // @ts-ignore
       expect(pipe.converterService.deserialize).to.have.been.calledWithExactly(["test"], {
+        groups: undefined,
         collectionType: Array,
         type: String
       });
@@ -57,7 +58,8 @@ describe("DeserializerPipe", () => {
       // @ts-ignore
       expect(pipe.converterService.deserialize).to.have.been.calledWithExactly(["test"], {
         collectionType: Array,
-        type: String
+        type: String,
+        groups: undefined
       });
     })
   );
