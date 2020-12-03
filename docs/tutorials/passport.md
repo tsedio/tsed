@@ -49,12 +49,12 @@ Here is an example with the PassportLocal:
 <Tabs class="-code">
   <Tab label="LoginLocalProtocol.ts">
   
-<<< @/examples/passportjs/src/protocols/LoginLocalProtocol.ts
+<<< @/docs/tutorials/snippets/passport/LoginLocalProtocol.ts
 
   </Tab>
   <Tab label="LoginLocalProtocol.spec.ts">
   
-<<< @/examples/passportjs/src/protocols/LoginLocalProtocol.spec.ts
+<<< @/docs/tutorials/snippets/passport/LoginLocalProtocol.spec.ts
 
   </Tab>  
 </Tabs>  
@@ -83,7 +83,7 @@ This controller will provide all required endpoints that will be used by the dif
 
 It is also possible to use the Basic Auth. To do that, you have to create a Protocol based on `passport-http` strategy.
 
-<<< @/examples/passportjs/src/protocols/BasicProtocol.ts
+<<< <<< @/docs/tutorials/snippets/passport/BasicProtocol.ts
 
 Then, add the protocol name on the @@Authorize@@ decorator:
 
