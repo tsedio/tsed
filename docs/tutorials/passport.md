@@ -83,7 +83,7 @@ This controller will provide all required endpoints that will be used by the dif
 
 It is also possible to use the Basic Auth. To do that, you have to create a Protocol based on `passport-http` strategy.
 
-<<< <<< @/docs/tutorials/snippets/passport/BasicProtocol.ts
+<<< @/docs/tutorials/snippets/passport/BasicProtocol.ts
 
 Then, add the protocol name on the @@Authorize@@ decorator:
 
