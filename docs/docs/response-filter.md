@@ -227,12 +227,12 @@ export class AnyResponseFilter implements ResponseFilterMethods {
 
 ## Pagination
 
-The following advanced example will show you how you can combine the different Ts.ED features to description a Pagination.
-The features used are the following:
+The following advanced example will show you how you can combine the different Ts.ED features to describe Pagination.
+The used features are the following:
 
 - [Generics](/docs/models.html#generics)
 - [Function programming to declare models](/docs/models.html#using-functions)
-- @@For@@ decorator to declare custom model for JsonSchema, OS2 or OS3.
+- @@For@@ decorator to declare a custom model for JsonSchema, OS2 or OS3.
 - [Response Filter](/docs/response-filter.md) to manage paginated response.
 
 <Tabs class="-code">
