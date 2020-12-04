@@ -135,7 +135,7 @@ export class MyService implements Hooks, OnInit {
 }
 ```
 
-Since <Badge text="v4.31.0+" />, it is also possible to handle `$onDestroy` hook when a service or a controller is
+it's also possible to handle `$onDestroy` hook when a service, or a controller is
 annotated with `@Scope('request')`:
 
 ```typescript

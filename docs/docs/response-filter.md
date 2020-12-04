@@ -227,4 +227,44 @@ export class AnyResponseFilter implements ResponseFilterMethods {
 
 ## Pagination
 
-You can find a Gist example [here](https://gist.github.com/Romakita/2dd599b6905a08ab0301414599c3858a) to manage Paginated resource by using Response Filter and models.
+The following advanced example will show you how you can combine the different Ts.ED features to description a Pagination.
+The features used are the following:
+
+- [Generics](/docs/models.html#generics)
+- [Function programming to declare models](/docs/models.html#using-functions)
+- @@For@@ decorator to declare custom model for JsonSchema, OS2 or OS3.
+- [Response Filter](/docs/response-filter.md) to manage paginated response.
+
+<Tabs class="-code">
+  <Tab label="ProductsCtrl.ts">
+
+<<< @/docs/docs/snippets/model/pagination-ctrl.ts 
+  
+  </Tab>  
+  <Tab label="Pageable.ts">
+  
+<<< @/docs/docs/snippets/model/pageable-model.ts
+
+
+  </Tab>  
+  <Tab label="Pagination.ts">
+  
+<<< @/docs/docs/snippets/model/pagination-model.ts
+
+  </Tab>
+  <Tab label="Product.ts">
+  
+<<< @/docs/docs/snippets/model/pageable-product-model.ts
+  
+  </Tab>
+  <Tab label="PaginationFilter.ts">
+  
+<<< @/docs/docs/snippets/model/pagination-filter.ts
+  
+  </Tab>
+  <Tab label="ProductsCtrl.spec.ts">
+  
+<<< @/docs/docs/snippets/model/pageable-product-model.ts
+  
+  </Tab>
+</Tabs>  

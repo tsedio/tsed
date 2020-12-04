@@ -76,7 +76,7 @@ Ts.ED will get the type from Typescript metadata and transform this type to a va
   </Tab>
 </Tabs>
 
-## Integer <Badge text="v5.62.0+" />
+## Integer
 
 The @@Integer@@ decorator is used to set integer type for integral numbers.
 
@@ -95,7 +95,7 @@ The @@Integer@@ decorator is used to set integer type for integral numbers.
 
 ## Any types
 
-The @@Any@@ (before v5.62.0, use @@AllowTypes@@) decorator is used to set one or more types on property. Use this method when you when to set explicitly the json type
+The @@Any@@, decorator is used to set one or more types on property. Use this method when you when to set explicitly the json type
 or when you use a mixed TypeScript types.
 
 <Tabs class="-code">
@@ -239,7 +239,7 @@ For example, to if you only support shipping to the United States for export rea
 ## Collections
 
 Declaring a property that uses a collection is a bit different than declaring a simple property. TypeScript 
-stores only the Array/Set/Map type when you declare the type of your property. The type used by the collection is lost.
+stores only the `Array`/`Set`/`Map` type when you declare the type of your property. The type used by the collection is lost.
 
 To tell Ts.ED (and other third party which uses JsonSchema) that a property uses a collection with a specific type, you must 
 use @@CollectionOf@@ (before v5.62.0, use @@PropertyType@@) decorator as following:
@@ -315,6 +315,113 @@ Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as foll
   
   </Tab>
 </Tabs>
+
+## Groups <Badge text="6.14.0+"/>
+
+@@Groups@@ decorator allow to manage your serialized/deserialized fields by using group label. For example, with a CRUD controller, 
+you can have many methods like `POST`, `PUT`, `GET` or `PATCH` to manage `creation`, `update` and `read` usecase for the exposed resource.
+
+For the creation, you don't need to have the `id` field but for the update, you need to have it. With the previous version for Ts.ED, you have to create
+twice model, one for the `creation` and another one for `update` and `read`. Manage many model can be a pain point for the developer,
+this is why the @@Groups@@ decorator exists.
+
+For example, we have a User model with the following properties:
+
+<<< @/docs/docs/snippets/model/group-user.ts
+
+**Explanation:**
+- `!creation`: This annotation indicates that the field will never be exposed when using the `creation` group.
+- `group.email`: This annotation indicates that the field will be exposed only if the group match with `group.email` or with a glob pattern like `group.*`.
+
+So by using the @@deserialize@@ function with the extra groups options we can data to the expected user instance:
+
+<Tabs class="-code">
+<Tab label="Creation">
+
+```typescript
+import {serialize} from "json-schema";
+
+const result = deserialize({
+  id: "id", // will be ignored because creation doesn't include `id` field
+  firstName: "firstName",
+  lastName: "lastName",
+  email: "email@tsed.io",
+  password: "password"
+}, {type: User, groups: ['creation'] });
+
+console.log(result); // User {firstName, lastName, email, password}
+```
+
+</Tab>
+<Tab label="With group">
+
+```typescript
+import {serialize} from "json-schema";
+
+const result = deserialize({
+  id: "id",
+  firstName: "firstName",
+  lastName: "lastName",
+  email: "email@tsed.io",
+  password: "password",
+  roles: ['admin']
+}, {type: User, groups: ['group.email'] });
+
+console.log(result); // User {id, firstName, lastName, email, password}
+```
+
+</Tab>
+<Tab label="With glob pattern">
+
+```typescript
+import {serialize} from "json-schema";
+
+const result = deserialize({
+  id: "id",
+  firstName: "firstName",
+  lastName: "lastName",
+  email: "email@tsed.io",
+  password: "password",
+  roles: ['admin']
+}, {type: User, groups: ['group.*'] });
+
+console.log(result); // User {id, firstName, lastName, email, password, roles}
+```
+
+</Tab>
+</Tabs>
+
+::: tip Note
+The same principle works with the @@serialize@@ and @@getJsonSchema@@ functions!
+:::
+
+Now let's see how groups work with controllers.
+
+<Tabs class="-code">
+<Tab label="ProductsCtrl.ts">
+
+<<< @/docs/docs/snippets/model/group-users-ctrl.ts
+
+</Tab>
+<Tab label="User.ts">
+
+<<< @/docs/docs/snippets/model/group-user.ts
+
+</Tab>
+<Tab label="OpenSpec">
+
+<<< @/docs/docs/snippets/model/group-users-openspec.json
+
+</Tab>
+</Tabs>
+
+We can see that the @@Groups@@ decorator can be used on parameter level and on the method through the @@Returns@@ decorator.
+The generated open will create automatically the appropriate JsonSchema according to the `groups` configuration! 
+
+::: tip
+You can combine different group labels or use a glob pattern to match multiple group labels.
+It's also possible to use negation by prefixing the group label with `!`.
+:::
 
 ## Generics
 ### Declaring a generic model
@@ -398,9 +505,51 @@ class MyController {
 <<< @/docs/docs/snippets/model/generics-controller2-os3.json
  
  </Tab>  
-</Tabs>  
-   
+</Tabs>
 
+## Pagination
+
+The following advanced example will show you how you can combine the different Ts.ED features to description a Pagination.
+The features used are the following:
+
+- [Generics](/docs/models.html#generics)
+- [Function programming to declare models](/docs/models.html#using-functions)
+- @@For@@ decorator to declare custom model for JsonSchema, OS2 or OS3.
+- [Response Filter](/docs/response-filter.md) to manage paginated response.
+
+<Tabs class="-code">
+  <Tab label="ProductsCtrl.ts">
+
+<<< @/docs/docs/snippets/model/pagination-ctrl.ts 
+  
+  </Tab>  
+  <Tab label="Pageable.ts">
+  
+<<< @/docs/docs/snippets/model/pageable-model.ts
+
+
+  </Tab>  
+  <Tab label="Pagination.ts">
+  
+<<< @/docs/docs/snippets/model/pagination-model.ts
+
+  </Tab>
+  <Tab label="Product.ts">
+  
+<<< @/docs/docs/snippets/model/pageable-product-model.ts
+  
+  </Tab>
+  <Tab label="PaginationFilter.ts">
+  
+<<< @/docs/docs/snippets/model/pagination-filter.ts
+  
+  </Tab>
+  <Tab label="ProductsCtrl.spec.ts">
+  
+<<< @/docs/docs/snippets/model/pageable-product-model.ts
+  
+  </Tab>
+</Tabs>  
 
 ## Annotations
 
@@ -444,23 +593,26 @@ In order not to give any indication to our consumer about the nature of the data
 
 -->
 
-## Set raw schema
+## Set Schema
 
-If Ts.ED doesn't provide the expected decorator to describe your json schema, you can use the @@Schema@@ decorator from `@tsed/common` to set 
-an inline schema:
+If Ts.ED doesn't provide the expected decorator to describe your json schema, you can use the @@Schema@@ decorator from `@tsed/common` to set a custom
+schema.
 
-<Tabs class="-code">
-  <Tab label="Model">
-  
-<<< @/docs/docs/snippets/model/get-spec-generics-controller1.ts  
+### Using JsonSchemaObject
 
-  </Tab>
-  <Tab label="Json schema">
-    
-<<< @/docs/docs/snippets/model/generics-controller1-os3.json
-  
-  </Tab>
-</Tabs>
+You can declare schema by using the @@JsonSchemaObject@@ interface:
+
+<<< @/docs/docs/snippets/model/raw-schema-controller.ts  
+
+### Using functions <Badge text="6.14.0+"/> 
+
+It's also possible to write a valid JsonSchema by using the functional approach (Joi like):
+
+<<< @/docs/docs/snippets/model/functional-schema-controller.ts
+
+Here the list of available functions:
+
+<ApiList query="status.includes('schemaFunctional')" />
 
 ## Get Json schema
 

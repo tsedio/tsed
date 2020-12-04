@@ -265,7 +265,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
     return this;
   }
-
+  /**
+   * Array of examples with no validation effect the value of "default" is usable as an example without repeating it under this keyword
+   * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.4
+   */
   example(...examples: JSONSchema6Type[]) {
     return this.examples(examples);
   }
@@ -421,7 +424,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * The default value is an empty schema which allows any value for additional properties.
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.20
    */
-  additionalProperties(additionalProperties: boolean | JsonSchemaObject | JsonSchema) {
+  additionalProperties(additionalProperties: boolean | JsonSchemaObject | JsonSchema | Type<any>) {
     super.set("additionalProperties", mapToJsonSchema(additionalProperties));
 
     return this;

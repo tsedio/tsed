@@ -99,7 +99,7 @@ Any provider (Provider, Service, Controller, Middleware, etc...) already registe
 
 > Just don't forgot to import your provider in your project !
 
-## Configurable provider <Badge text="v5.58.0+" />
+## Configurable provider
 
 Sometimes you need to inject a provider with a specific configuration to another one.
 

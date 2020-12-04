@@ -1,11 +1,11 @@
-import {AdditionalProperties, getJsonSchema, Property} from "@tsed/common";
+import {AdditionalProperties, Property} from "@tsed/schema";
 
 class AnotherModel {
   @Property()
   name: string;
 }
 
-@AdditionalProperties(getJsonSchema(AnotherModel))
+@AdditionalProperties(AnotherModel)
 export class Model {
   [key: string]: AnotherModel;
 }

@@ -26,7 +26,7 @@ All databases will be initialized when the server starts during the server's `On
 - Declare a Model from a class with annotation,
 - Add a plugin, PreHook method and PostHook on your model
 - Inject a Model to a Service, Controller, Middleware, etc.
-- Create and manage multiple connections <Badge text="v5.35.0" />
+- Create and manage multiple connections
 
 ::: tip Note
 `@tsed/mongoose` uses the JsonSchema and its decorators to generate the mongoose schema.
@@ -208,7 +208,7 @@ It's possible to inject a model into a Service (or Controller, Middleware, etc..
 You can find a working example on [Mongoose here](https://github.com/TypedProject/tsed-example-mongoose).
 :::
 
-## Testing <Badge text="beta" type="warn"/> <Badge text="v5.35.0" />
+## Testing <Badge text="beta" type="warn"/>
 
 The package [`@tsed/testing-mongoose`](https://www.npmjs.com/package/@tsed/testing-mongoose) allows you to test your server with a memory database. 
 

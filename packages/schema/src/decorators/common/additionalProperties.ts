@@ -1,20 +1,18 @@
+import {Type} from "@tsed/core";
+import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
 import {JsonEntityFn} from "./jsonEntityFn";
+
 /**
  * Accept unknown properties on the deserialized model.
  *
- * ::: warning
- * This decorator will be removed in v7.
- * For v6 user, use @@AdditionalProperties@@ from @tsed/schema instead of @tsed/common.
- * :::
- *
- * @param bool
+ * @param schema
  * @decorator
  * @validation
  * @swagger
  * @schema
  */
-export function AdditionalProperties(bool: boolean) {
+export function AdditionalProperties(schema: boolean | JsonSchemaObject | JsonSchema | Type<any>) {
   return JsonEntityFn((entity, parameters) => {
-    entity.itemSchema.additionalProperties(bool);
+    entity.itemSchema.additionalProperties(schema);
   });
 }

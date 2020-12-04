@@ -1,4 +1,4 @@
-import {Description, Example, Name} from "@tsed/common";
+import {Description, Example, Name} from "@tsed/schema";
 import {ObjectID} from "@tsed/mongoose";
 
 export class Model {

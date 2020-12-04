@@ -1,4 +1,4 @@
-import {ExclusiveMaximum, Minimum} from "@tsed/common";
+import {ExclusiveMaximum, Minimum} from "@tsed/schema";
 
 export class Model {
   @Minimum(0)

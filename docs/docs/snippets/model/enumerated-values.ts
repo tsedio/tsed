@@ -1,4 +1,4 @@
-import {Any, Enum} from "@tsed/common";
+import {Any, Enum} from "@tsed/schema";
 
 export enum Colors {
   RED = "red",
