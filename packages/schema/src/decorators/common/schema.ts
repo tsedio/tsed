@@ -1,5 +1,4 @@
-import {JSONSchema6} from "json-schema";
-import {JsonSchema} from "../../domain/JsonSchema";
+import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
 import {SpecTypes} from "../../domain/SpecTypes";
 import {JsonEntityFn} from "./jsonEntityFn";
 
@@ -41,7 +40,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @classDecorator
  * @input
  */
-export function Schema(partialSchema: Partial<JSONSchema6 | JsonSchema>) {
+export function Schema(partialSchema: Partial<JsonSchemaObject> | JsonSchema) {
   return JsonEntityFn((entity) => {
     Object.entries(partialSchema).forEach(([key, value]) => {
       entity.schema.set(key, value);

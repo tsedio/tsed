@@ -1,4 +1,4 @@
-import {Any, Minimum, Required} from "@tsed/common";
+import {Any, Minimum, Required} from "@tsed/schema";
 
 export class Model {
   @Required()

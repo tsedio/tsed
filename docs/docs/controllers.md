@@ -70,7 +70,6 @@ Also, Ts.ED support function that return `Observable`, `Stream` or `Buffer`.
 <<< @/docs/docs/snippets/controllers/observable-stream-buffer-controller.ts
 
 ### Axios response
-<Badge text="5.48.0+"/>
 
 Sometime, you just want call another API to proxy a webservice. 
 Axios is an excellent library to call API in Node.js and Ts.ED is able to handle Axios response to wrap it into an Express.js response.

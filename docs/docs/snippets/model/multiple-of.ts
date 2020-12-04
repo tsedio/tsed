@@ -1,4 +1,4 @@
-import {MultipleOf} from "@tsed/common";
+import {MultipleOf} from "@tsed/schema";
 
 export class Model {
   @MultipleOf(10)

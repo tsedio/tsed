@@ -1,4 +1,4 @@
-import {Default, getJsonSchema, Maximum, Minimum, Property} from "@tsed/common";
+import {Default, getJsonSchema, Maximum, Minimum, Property} from "@tsed/schema";
 
 export class Model {
   _id: string; // Won't be displayed on the Json schema

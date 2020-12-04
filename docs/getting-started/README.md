@@ -148,6 +148,11 @@ New features are available:
 - [Manage response models by content-type and status code (OAS3)](/tutorials/swagger.md).
 - [Configure Swagger to generate OpenSpec3](/tutorials/swagger.md).
 
+Since <Badge text="v6.14.0" />:
+
+- [Manage Groups properties](/docs/models.md#groups).
+- [Use functional programming to declare custom schema](/docs/models.md#using-functions).
+
 :::
 
 ### JsonMapper

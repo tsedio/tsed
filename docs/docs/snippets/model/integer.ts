@@ -1,4 +1,4 @@
-import {Integer} from "@tsed/common";
+import {Integer} from "@tsed/schema";
 
 export class Model {
   @Integer()

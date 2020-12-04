@@ -1,4 +1,4 @@
-import {AdditionalProperties, Property} from "@tsed/common";
+import {AdditionalProperties, Property} from "@tsed/schema";
 
 @AdditionalProperties({type: "string"})
 export class Model {

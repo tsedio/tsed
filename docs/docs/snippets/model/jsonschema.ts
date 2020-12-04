@@ -1,4 +1,4 @@
-import {getJsonSchema, MinLength, Required} from "@tsed/common";
+import {getJsonSchema, MinLength, Required} from "@tsed/schema";
 
 class PersonModel {
   @MinLength(3)

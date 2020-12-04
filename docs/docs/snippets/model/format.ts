@@ -1,4 +1,4 @@
-import {Email, Format} from "@tsed/common";
+import {Email, Format} from "@tsed/schema";
 
 export class Model {
   @Email()

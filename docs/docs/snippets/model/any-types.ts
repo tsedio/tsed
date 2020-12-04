@@ -1,4 +1,4 @@
-import {Any} from "@tsed/common";
+import {Any} from "@tsed/schema";
 
 export class Model {
   @Any()

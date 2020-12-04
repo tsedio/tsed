@@ -1,4 +1,4 @@
-import {Default, Description, Example, Title} from "@tsed/common";
+import {Default, Description, Example, Title} from "@tsed/schema";
 
 export class Model {
   @Title("title")

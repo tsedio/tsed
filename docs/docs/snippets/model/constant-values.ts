@@ -1,4 +1,4 @@
-import {Const} from "@tsed/common";
+import {Const} from "@tsed/schema";
 
 export class Model {
   @Const("United States of America")
