@@ -1,5 +1,5 @@
-import {decoratorTypeOf, DecoratorTypes} from "@tsed/core";
-import {MongoosePostErrorHookCB, MongoosePostHookCB} from "../interfaces";
+import {decoratorTypeOf, DecoratorTypes, StaticMethodDecorator} from "@tsed/core";
+import {MongooseHookOptions, MongoosePostHookCB} from "../interfaces";
 import {schemaOptions} from "../utils/schemaOptions";
 
 /**
@@ -39,15 +39,22 @@ import {schemaOptions} from "../utils/schemaOptions";
  * This will execute the post-save hook each time a `CarModel` document is saved.
  *
  * @param {string} method
- * @param {MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>} fn
+ * @param fn
  * @returns {Function}
  * @decorator
  * @mongoose
  * @class
  */
-export function PostHook(method: string, fn?: MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>): Function {
-  return (...args: any[]) => {
+export function PostHook<T = any>(method: string, fn: MongoosePostHookCB<T>): ClassDecorator;
+export function PostHook<T = any>(method: string, fn: MongoosePostHookCB<T>, options: MongooseHookOptions): ClassDecorator;
+export function PostHook<T = any>(method: string, options: MongooseHookOptions): StaticMethodDecorator;
+export function PostHook<T = any>(method: string, ...params: any[]): Function {
+  return ((...args: any[]) => {
+    let options: MongooseHookOptions = params[1];
+    let fn: MongoosePostHookCB<T> = params[0];
+
     if (decoratorTypeOf(args) === DecoratorTypes.METHOD_STC) {
+      options = params[0];
       fn = args[0][args[1]].bind(args[0]);
     }
 
@@ -55,9 +62,10 @@ export function PostHook(method: string, fn?: MongoosePostHookCB<any> | Mongoose
       post: [
         {
           method,
-          fn: fn as MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>
+          fn,
+          options
         }
       ]
     });
-  };
+  }) as any;
 }

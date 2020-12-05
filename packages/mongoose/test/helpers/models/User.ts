@@ -1,5 +1,14 @@
+import {
+  Model,
+  MongooseDocument,
+  MongooseNextCB,
+  MongoosePostHookCB,
+  ObjectID,
+  PostHook,
+  PreHook,
+  Unique
+} from "@tsed/mongoose";
 import {Allow, Ignore, MinLength, Property, Required} from "@tsed/schema";
-import {Model, ObjectID, PostHook, PreHook, Unique} from "../../../src/decorators";
 
 export class TestUserCreation {
   @ObjectID("id")
@@ -17,12 +26,12 @@ export class TestUserCreation {
 }
 
 @Model({schemaOptions: {timestamps: true}})
-@PreHook("save", (user: TestUser, next: any) => {
+@PreHook("save", (user: TestUser, next: MongooseNextCB) => {
   user.pre = "hello pre";
 
   next();
 })
-@PostHook("save", (user: TestUser, next: any) => {
+@PostHook("save", (user: TestUser, next: MongooseNextCB): void => {
   user.post = "hello post";
 
   next();

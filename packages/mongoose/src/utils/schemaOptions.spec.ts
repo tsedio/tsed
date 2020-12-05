@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import * as Sinon from "sinon";
-import {applySchemaOptions, buildPreHook, schemaOptions} from "../../src/utils/schemaOptions";
+import {applySchemaOptions, schemaOptions} from "../../src/utils/schemaOptions";
 
 describe("schemaOptions", () => {
   describe("schemaOptions()", () => {
@@ -23,36 +23,6 @@ describe("schemaOptions", () => {
       });
     });
   });
-  describe("buildPreHook()", () => {
-    describe("when the function has 1 parameter", () => {
-      before(() => {});
-
-      it("should call the fn with the right parameters", () => {
-        // GIVEN
-        const ctx = {op: "op"};
-        const stub = Sinon.stub();
-        const hook = buildPreHook((t: any, next: any) => {
-          stub(t, next);
-        });
-
-        hook.call(ctx, "next");
-        expect(stub).to.have.been.calledWithExactly(ctx, "next");
-      });
-    });
-
-    describe("when the function has 2 parameters", () => {
-      it("should call the fn with the right parameters", () => {
-        const ctx = {op: "op"};
-        const stub = Sinon.stub();
-        const hook = buildPreHook((t: any, next: any, done: any) => {
-          stub(t, next, done);
-        });
-
-        hook.call(ctx, "next", "done");
-        expect(stub).to.have.been.calledWithExactly(ctx, "next", "done");
-      });
-    });
-  });
   describe("applySchemaOptions()", () => {
     const schema: any = {
       pre: Sinon.stub(),
@@ -66,9 +36,8 @@ describe("schemaOptions", () => {
         pre: [
           {
             method: "method",
-            parallel: true,
             fn: (doc: any, pre: any) => {},
-            errorCb: "errorCb"
+            options: {query: true}
           }
         ],
         post: [
@@ -83,7 +52,7 @@ describe("schemaOptions", () => {
     });
 
     it("should call schema.pre", () => {
-      expect(schema.pre).to.have.been.calledWithExactly("method", true, Sinon.match.func, "errorCb");
+      expect(schema.pre).to.have.been.calledWithExactly("method", {query: true}, Sinon.match.func);
     });
 
     it("should call schema.post", () => {

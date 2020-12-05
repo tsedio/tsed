@@ -49,12 +49,11 @@
     "@tsed/common": "6.14.0",
     "@tsed/core": "6.14.0",
     "@tsed/di": "6.14.0",
-    "@types/aws-serverless-express": "3.3.3",
-    "aws-serverless-express": "3.3.8"
+    "@types/aws-serverless-express": "3.3.3"
   },
   "dependencies": {
     "@types/aws-serverless-express": "^3.3.3",
-    "aws-serverless-express": "^3.3.8"
+    "aws-serverless-express": "3.3.8"
   },
   "peerDependencies": {}
 }

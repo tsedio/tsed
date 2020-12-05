@@ -9,10 +9,9 @@ describe("@PreHook()", () => {
     it("should call applySchemaOptions", () => {
       // GIVEN
       const fn = sandbox.stub();
-      const errorCb = sandbox.stub();
 
       // WHEN
-      @PreHook("method", fn, {parallel: true, errorCb: errorCb as any})
+      @PreHook("method", fn, {query: true})
       class Test {}
 
       // THEN
@@ -22,9 +21,10 @@ describe("@PreHook()", () => {
         pre: [
           {
             method: "method",
-            parallel: true,
             fn,
-            errorCb
+            options: {
+              query: true
+            }
           }
         ]
       });
@@ -35,8 +35,7 @@ describe("@PreHook()", () => {
     it("should call applySchemaOptions", () => {
       class Test {
         @PreHook("save", {
-          parallel: true,
-          errorCb: () => {}
+          query: true
         })
         static method() {}
       }
@@ -46,9 +45,10 @@ describe("@PreHook()", () => {
       } = schemaOptions(Test);
 
       expect(options.method).to.eq("save");
-      expect(options.parallel).to.eq(true);
       expect(options.fn).to.be.a("function");
-      expect(options.errorCb).to.be.a("function");
+      expect(options.options).to.deep.eq({
+        query: true
+      });
     });
   });
 });

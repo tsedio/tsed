@@ -1,6 +1,6 @@
-import {Property} from "@tsed/common";
+import {Property} from "@tsed/schema";
 import {decoratorTypeOf, StoreMerge, useDecorators} from "@tsed/core";
-import {SchemaTypeOpts} from "mongoose";
+import {SchemaTypeOptions} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
 import {createSchema} from "../utils/createSchema";
@@ -30,8 +30,8 @@ import {createSchema} from "../utils/createSchema";
  * @class
  */
 export function Schema(options?: MongooseSchemaOptions): (target: any) => void;
-export function Schema(definition: SchemaTypeOpts<any>): Function;
-export function Schema(options: MongooseSchemaOptions | SchemaTypeOpts<any> = {}) {
+export function Schema(definition: SchemaTypeOptions<any>): Function;
+export function Schema(options: MongooseSchemaOptions | SchemaTypeOptions<any> = {}) {
   return (...parameters: any[]) => {
     switch (decoratorTypeOf(parameters)) {
       case "property":
@@ -69,7 +69,7 @@ export function Schema(options: MongooseSchemaOptions | SchemaTypeOpts<any> = {}
  * @class
  */
 export function MongooseSchema(options?: MongooseSchemaOptions): (target: any) => void;
-export function MongooseSchema(definition: SchemaTypeOpts<any>): Function;
-export function MongooseSchema(options: MongooseSchemaOptions | SchemaTypeOpts<any> = {}) {
-  return Schema(options);
+export function MongooseSchema(definition: SchemaTypeOptions<any>): Function;
+export function MongooseSchema(options: MongooseSchemaOptions | SchemaTypeOptions<any> = {}) {
+  return Schema(options as any);
 }

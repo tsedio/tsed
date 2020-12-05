@@ -1,5 +1,6 @@
-import {PlatformTest, Property} from "@tsed/common/src";
-import {TestMongooseContext} from "@tsed/testing-mongoose/src";
+import {PlatformTest} from "@tsed/common";
+import {Property} from "@tsed/schema";
+import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import {MongooseService} from "../src";
 import {Model, ObjectID} from "../src/decorators";

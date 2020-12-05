@@ -13,5 +13,5 @@ export function resolveRefType(type: string | (() => Type<any>) | Type<any>): st
     type = (type as any)();
   }
 
-  return Store.from(type).get(MONGOOSE_MODEL_NAME) || nameOf("Test");
+  return Store.from(type).get(MONGOOSE_MODEL_NAME) || nameOf(type);
 }

@@ -1,18 +1,7 @@
+import {isPlainObject, isString, Store, StoreMerge, useDecorators} from "@tsed/core";
 import {CollectionOf, Property} from "@tsed/schema";
-import {isPlainObject, isString, Store, StoreMerge, Type, useDecorators} from "@tsed/core";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
-
-export interface MongooseVirtualRefOptions {
-  /**
-   * @deprecated Since v6. Use ref instead.
-   */
-  type?: string | Type<any> | (() => Type<any>);
-  ref?: string | Type<any> | (() => Type<any>);
-  foreignField?: string;
-  localField?: string;
-  justOne?: boolean;
-  options?: object;
-}
+import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 
 function getRef(opts: any) {
   const ref = opts.ref || opts.type;

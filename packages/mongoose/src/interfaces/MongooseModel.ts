@@ -1,3 +1,3 @@
-import * as mongoose from "mongoose";
+import {Document, Model} from "mongoose";
 
-export interface MongooseModel<T> extends mongoose.Model<T & mongoose.Document> {}
+export interface MongooseModel<T> extends Model<T & Document> {}

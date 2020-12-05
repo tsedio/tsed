@@ -1,42 +1,44 @@
-import {HookDoneFunction, HookErrorCallback, HookNextFunction, NativeError, Schema, SchemaOptions} from "mongoose";
+import {NativeError, Schema, SchemaOptions} from "mongoose";
 import {MongooseDocument} from "./MongooseDocument";
 
-export interface MongoosePreHookAsyncCB<T> {
-  (doc: MongooseDocument<T>, next: HookNextFunction, done: HookDoneFunction): any;
-}
+export type MongooseNextCB = (err?: NativeError) => void;
 
-export interface MongoosePreHookSyncCB<T> {
-  (doc: MongooseDocument<T>, next: HookNextFunction): any;
-}
-
-export interface MongoosePostErrorHookCB<T> {
-  (error: any, doc: MongooseDocument<T>, next: (err?: NativeError) => void): void;
-}
-
-export interface MongoosePostHookCB<T> {
-  (doc: MongooseDocument<T>, next: (err?: NativeError) => void): void;
-}
-
-export interface MongoosePreHook {
-  method: string;
-  fn: MongoosePreHookSyncCB<any> | MongoosePreHookAsyncCB<any>;
+export interface MongooseHookOptions {
+  document?: boolean;
+  query?: boolean;
   parallel?: boolean;
-  errorCb?: HookErrorCallback;
 }
 
-export interface MongoosePostHook {
-  method: string;
-  fn: MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>;
+export type MongoosePreHookCB<T = any> =
+  | ((doc: T | MongooseDocument<T>, next: MongooseNextCB) => void)
+  | ((doc: T | MongooseDocument<T>) => Promise<void> | void);
+
+export type MongoosePostHookCB<T = any> =
+  | ((doc: T | MongooseDocument<T>, error: NativeError, next: MongooseNextCB) => void)
+  | ((doc: T | MongooseDocument<T>, error: NativeError) => Promise<void> | void)
+  | ((doc: T | MongooseDocument<T>, next: MongooseNextCB) => void)
+  | ((doc: T | MongooseDocument<T>) => Promise<void> | void);
+
+export interface MongoosePreHook<T = any> {
+  method: string | RegExp;
+  fn: MongoosePreHookCB<T>;
+  options?: MongooseHookOptions;
+}
+
+export interface MongoosePostHook<T = any> {
+  method: string | RegExp;
+  fn: MongoosePostHookCB<T>;
+  options?: MongooseHookOptions;
 }
 
 export interface MongoosePluginOptions {
   plugin: (schema: Schema, options?: any) => void;
-  options?: any;
+  options?: Record<string, unknown>;
 }
 
 export interface MongooseIndexOptions {
   fields: object;
-  options?: any;
+  options?: Record<string, unknown>;
 }
 
 export interface MongooseSchemaOptions {
