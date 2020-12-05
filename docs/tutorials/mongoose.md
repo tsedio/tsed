@@ -39,9 +39,13 @@ Before using the `@tsed/mongoose` package, we need to install the [mongoose](htt
 ```bash
 npm install --save mongoose
 npm install --save @tsed/mongoose
-npm install --save-dev @types/mongoose
 npm install --save-dev @tsed/testing-mongoose
 ```
+
+::: warning
+Since mongoose v5.11.0, the module expose his own file definition and can broke your build! 
+To solve it, install @tsed/mongoose v6.14.1 and remove the `@types/mongoose` dependencies.
+:::
 
 Then import `@tsed/mongoose` in your [Configuration](/docs/configuration.md):
 

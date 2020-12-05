@@ -1,3 +1,3 @@
-import * as mongoose from "mongoose";
+import {Document} from "mongoose";
 
-export type MongooseDocument<T> = T & mongoose.Document;
+export type MongooseDocument<T> = T & Document;

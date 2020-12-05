@@ -1,6 +1,6 @@
-import {Configuration, registerProvider} from "@tsed/common";
+import {Configuration, registerProvider} from "@tsed/di";
 import {isArray} from "@tsed/core";
-import {MDBConnection} from "../interfaces";
+import {MongooseConnectionOptions} from "../interfaces";
 import {MongooseService} from "../services/MongooseService";
 
 /**
@@ -13,7 +13,7 @@ export const MONGOOSE_CONNECTIONS = Symbol.for("MONGOOSE_CONNECTIONS");
  */
 export type MONGOOSE_CONNECTIONS = MongooseService;
 
-function mapOptions(options: Omit<MDBConnection, "id"> | MDBConnection[]): MDBConnection[] {
+function mapOptions(options: Omit<MongooseConnectionOptions, "id"> | MongooseConnectionOptions[]): MongooseConnectionOptions[] {
   if (!options) {
     return [];
   }
@@ -30,7 +30,7 @@ function mapOptions(options: Omit<MDBConnection, "id"> | MDBConnection[]): MDBCo
     ];
   }
 
-  return (options as MDBConnection[]).map((settings) => {
+  return (options as MongooseConnectionOptions[]).map((settings) => {
     return {
       ...settings,
       connectionOptions: settings.connectionOptions
@@ -43,7 +43,7 @@ registerProvider({
   injectable: false,
   deps: [Configuration, MongooseService],
   async useAsyncFactory(configuration: Configuration, mongooseService: MongooseService) {
-    const settings = mapOptions(configuration.get<MDBConnection | MDBConnection[]>("mongoose"));
+    const settings = mapOptions(configuration.get<MongooseConnectionOptions | MongooseConnectionOptions[]>("mongoose"));
     let isDefault = true;
 
     for (const current of settings) {

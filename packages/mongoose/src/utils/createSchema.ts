@@ -1,9 +1,10 @@
 import {cleanObject, Store, Type} from "@tsed/core";
 import {getProperties, JsonEntityStore} from "@tsed/schema";
 import * as mongoose from "mongoose";
-import {SchemaDefinition, SchemaTypeOpts} from "mongoose";
+import {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
+import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 import {resolveRefType} from "./resolveRefType";
 import {schemaOptions} from "./schemaOptions";
 
@@ -11,13 +12,13 @@ const MONGOOSE_RESERVED_KEYS = ["_id"];
 
 export interface MongooseSchemaMetadata {
   schema: SchemaDefinition;
-  virtuals: Map<string, any>;
+  virtuals: Map<string, MongooseVirtualRefOptions>;
 }
 
 /**
  * @ignore
  */
-function setUpSchema({schema, virtuals}: MongooseSchemaMetadata, options?: mongoose.SchemaOptions) {
+function setUpSchema({schema, virtuals}: MongooseSchemaMetadata, options?: SchemaOptions) {
   const mongooseSchema = new mongoose.Schema(schema, options);
 
   for (const [key, options] of virtuals.entries()) {
@@ -30,8 +31,8 @@ function setUpSchema({schema, virtuals}: MongooseSchemaMetadata, options?: mongo
 /**
  * @ignore
  */
-function isVirtualRef(options: SchemaTypeOpts<any>) {
-  return options.ref && options.localField && options.foreignField;
+function isVirtualRef(target: Partial<MongooseVirtualRefOptions>): target is MongooseVirtualRefOptions {
+  return !!(target.ref && target.localField && target.foreignField);
 }
 
 export function createSchema(target: Type<any>, options: MongooseSchemaOptions = {}): mongoose.Schema {
@@ -48,7 +49,7 @@ export function createSchema(target: Type<any>, options: MongooseSchemaOptions =
  * @param target
  * @param options
  */
-export function getSchema(target: Type<any>, options: MongooseSchemaOptions = {}): mongoose.Schema {
+export function getSchema(target: Type<any>, options: MongooseSchemaOptions = {}): Schema {
   const store = Store.from(target);
 
   if (!store.has(MONGOOSE_SCHEMA)) {
@@ -71,14 +72,14 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
     }
 
     // Keeping the Mongoose Schema separate so it can overwrite everything once schema has been built.
-    const schemaTypeOptions = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
+    const schemaTypeOptions: any = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
 
     if (schemaTypeOptions.schemaIgnore) {
       return;
     }
 
     if (isVirtualRef(schemaTypeOptions)) {
-      schemaTypeOptions.ref = resolveRefType(schemaTypeOptions.ref);
+      schemaTypeOptions.ref = resolveRefType(schemaTypeOptions.ref as any);
 
       schemaTypeOptions.justOne = !propertyMetadata.isArray;
       schema.virtuals.set(key as string, schemaTypeOptions);
@@ -95,11 +96,11 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
 /**
  * @ignore
  */
-export function createSchemaTypeOptions(propEntity: JsonEntityStore): SchemaTypeOpts<any> {
+export function createSchemaTypeOptions<T = any>(propEntity: JsonEntityStore): SchemaTypeOptions<T> | SchemaTypeOptions<T>[] {
   const key = propEntity.propertyKey;
   const rawMongooseSchema = propEntity.store.get(MONGOOSE_SCHEMA) || {};
 
-  let schemaTypeOptions: SchemaTypeOpts<any> = {
+  let schemaTypeOptions: SchemaTypeOptions<T> = {
     required: propEntity.required
       ? function () {
           return propEntity.isRequired(this[key]);
@@ -119,7 +120,7 @@ export function createSchemaTypeOptions(propEntity: JsonEntityStore): SchemaType
     schemaTypeOptions = {
       ...schemaTypeOptions,
       type: propEntity.type,
-      match,
+      match: match as RegExp,
       min,
       max,
       minlength,
@@ -129,23 +130,22 @@ export function createSchemaTypeOptions(propEntity: JsonEntityStore): SchemaType
     };
   } else if (!rawMongooseSchema.ref) {
     // References are handled by the final merge
-    schemaTypeOptions = {...schemaTypeOptions, type: getSchema(propEntity.type)};
+    schemaTypeOptions = {...schemaTypeOptions, type: getSchema(propEntity.type) as any};
   }
 
   schemaTypeOptions = cleanObject({...schemaTypeOptions, ...rawMongooseSchema});
 
   if (propEntity.isCollection) {
     if (propEntity.isArray) {
-      schemaTypeOptions = [schemaTypeOptions];
-    } else {
-      // Can be a Map or a Set;
-      // Mongoose implements only Map;
-      if (propEntity.collectionType !== Map) {
-        throw new Error(`Invalid collection type. ${propEntity.collectionName} is not supported.`);
-      }
-
-      schemaTypeOptions = {type: Map, of: schemaTypeOptions};
+      return [schemaTypeOptions];
     }
+    // Can be a Map or a Set;
+    // Mongoose implements only Map;
+    if (propEntity.collectionType !== Map) {
+      throw new Error(`Invalid collection type. ${propEntity.collectionName} is not supported.`);
+    }
+
+    return ({type: Map, of: schemaTypeOptions} as unknown) as SchemaTypeOptions<T>;
   }
 
   return schemaTypeOptions;

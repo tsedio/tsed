@@ -1,4 +1,4 @@
-import {SchemaTypeOpts} from "mongoose";
+import {IndexOptions} from "mongoose";
 import {MongooseSchema} from "./schema";
 
 /**
@@ -18,6 +18,6 @@ import {MongooseSchema} from "./schema";
  * @mongoose
  * @property
  */
-export function Indexed(index: SchemaTypeOpts.IndexOpts | boolean | string = true) {
-  return MongooseSchema({index});
+export function Indexed(index: IndexOptions | boolean | string = true) {
+  return MongooseSchema({index} as any);
 }

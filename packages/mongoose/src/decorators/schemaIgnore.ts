@@ -20,5 +20,5 @@ import {MongooseSchema} from "./schema";
  */
 
 export function SchemaIgnore(): Function {
-  return MongooseSchema({schemaIgnore: true});
+  return MongooseSchema({schemaIgnore: true} as any);
 }

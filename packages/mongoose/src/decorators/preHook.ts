@@ -1,12 +1,6 @@
 import {decoratorTypeOf, DecoratorTypes} from "@tsed/core";
-import {HookErrorCallback} from "mongoose";
-import {MongoosePostErrorHookCB, MongoosePostHookCB, MongoosePreHookAsyncCB, MongoosePreHookSyncCB} from "../interfaces";
+import {MongooseHookOptions, MongoosePreHookCB} from "../interfaces";
 import {schemaOptions} from "../utils/schemaOptions";
-
-export interface PreHookOptions {
-  parallel?: boolean;
-  errorCb?: HookErrorCallback;
-}
 
 /**
  *
@@ -55,23 +49,19 @@ export interface PreHookOptions {
  * @decorator
  * @class
  */
-export function PreHook(
-  method: string,
-  fn?: MongoosePreHookSyncCB<any> | MongoosePreHookAsyncCB<any> | PreHookOptions,
-  options?: PreHookOptions
-): Function {
+export function PreHook<T = any>(method: string, fn?: MongoosePreHookCB<T> | MongooseHookOptions, options?: MongooseHookOptions): Function {
   return (...args: any[]) => {
     if (decoratorTypeOf(args) === DecoratorTypes.METHOD_STC) {
-      options = fn as PreHookOptions;
+      options = fn as MongooseHookOptions;
       fn = args[0][args[1]].bind(args[0]);
     }
 
     schemaOptions(args[0], {
       pre: [
         {
-          ...(options || {}),
           method,
-          fn: fn as MongoosePostHookCB<any> | MongoosePostErrorHookCB<any>
+          fn: fn as MongoosePreHookCB<T>,
+          options
         }
       ]
     });

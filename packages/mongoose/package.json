@@ -11,8 +11,7 @@
     "tslib": "2.0.1"
   },
   "peerDependencies": {
-    "@types/mongoose": "^5.7.34",
-    "mongoose": "^5.9.27"
+    "mongoose": "^5.11.4"
   },
   "private": false,
   "directories": {
@@ -22,7 +21,6 @@
   "devDependencies": {
     "@tsed/common": "6.14.0",
     "@tsed/core": "6.14.0",
-    "@types/mongoose": "5.7.37",
-    "mongoose": "^5.9.27"
+    "mongoose": "^5.11.4"
   }
 }
