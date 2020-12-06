@@ -89,14 +89,14 @@ describe("@Allow", () => {
     }
 
     class Model {
-      @Allow(null)
-      allow: NestedModel;
+      @Allow(null, NestedModel)
+      allow: NestedModel | null;
     }
 
     // THEN
-    const classSchema = getJsonSchema(Model);
+    const spec = getJsonSchema(Model);
 
-    expect(classSchema).to.deep.equal({
+    expect(spec).to.deep.equal({
       definitions: {
         NestedModel: {
           properties: {
@@ -123,7 +123,7 @@ describe("@Allow", () => {
       type: "object"
     });
 
-    const validate = new Ajv().compile(classSchema);
+    const validate = new Ajv().compile(spec);
     expect(validate({allow: null})).to.equal(true);
     expect(validate({})).to.equal(false);
   });

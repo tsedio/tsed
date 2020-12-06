@@ -1,6 +1,9 @@
+import {Allow, getJsonSchema} from "@tsed/schema";
+import * as Ajv from "ajv";
 import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {Required} from "./required";
+import {Property} from "../common/property";
 
 describe("@Required", () => {
   it("should declare required field", () => {
@@ -42,6 +45,53 @@ describe("@Required", () => {
       type: "object"
     });
   });
+
+  it("should declare required field with a model an null", () => {
+    // WHEN
+    class NestedModel {
+      @Property()
+      prop: string;
+    }
+
+    class Model {
+      @Required(true, null, NestedModel)
+      allow: NestedModel | null;
+    }
+
+    // THEN
+    const spec = getJsonSchema(Model);
+
+    expect(spec).to.deep.equal({
+      definitions: {
+        NestedModel: {
+          properties: {
+            prop: {
+              type: "string"
+            }
+          },
+          type: "object"
+        }
+      },
+      properties: {
+        allow: {
+          oneOf: [
+            {
+              type: "null"
+            },
+            {
+              $ref: "#/definitions/NestedModel"
+            }
+          ]
+        }
+      },
+      required: ["allow"],
+      type: "object"
+    });
+
+    const validate = new Ajv().compile(spec);
+    expect(validate({allow: null})).to.equal(true);
+    expect(validate({})).to.equal(false);
+  });
   it("should throw error when the decorator isn't used with a supported decorator type", () => {
     // WHEN
     let actualError: any;
@@ -54,6 +104,6 @@ describe("@Required", () => {
     }
 
     // THEN
-    expect(actualError.message).to.deep.equal("Required cannot be used as parameter.constructor decorator on Model");
+    expect(actualError.message).to.deep.equal("Optional cannot be used as parameter.constructor decorator on Model");
   });
 });

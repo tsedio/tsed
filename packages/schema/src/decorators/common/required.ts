@@ -1,12 +1,10 @@
-import {applyDecorators, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {Allow} from "./allow";
-import {JsonEntityFn} from "./jsonEntityFn";
-import {Property} from "./property";
+import {Optional} from "./optional";
 
 /**
- * Add required annotation for a function argument.
+ * Add required annotation on Property or Parameter.
  *
- * The @Required decorator can be used on two cases.
+ * The @@Required@@ decorator can be used on two cases.
  *
  * To decorate a parameters:
  *
@@ -24,9 +22,11 @@ import {Property} from "./property";
  * }
  * ```
  *
- * > Required will throw a BadRequest when the given value is `null`, an empty string or `undefined`.
+ * ::: tip
+ * Required will throw a BadRequest when the given value is `null`, an empty string or `undefined`.
+ * :::
  *
- * ### Allow a values
+ * ### Allow values
  *
  * In some case, you didn't want trigger a BadRequest when the value is an empty string for example.
  * The decorator `@Allow()`, allow you to configure a value list for which there will be no exception.
@@ -45,20 +45,5 @@ import {Property} from "./property";
  * @input
  */
 export function Required(required: boolean = true, ...allowedRequiredValues: any[]) {
-  return applyDecorators(
-    Property(),
-    required && Allow(allowedRequiredValues),
-    JsonEntityFn((store, args) => {
-      switch (store.decoratorType) {
-        case DecoratorTypes.PARAM:
-          store.parameter!.required(required);
-          break;
-        case DecoratorTypes.PROP:
-          required ? store.parentSchema.addRequired(store.propertyName) : store.parentSchema.removeRequired(store.propertyName);
-          break;
-        default:
-          throw new UnsupportedDecoratorType(Required, args);
-      }
-    })
-  );
+  return required ? Allow(...allowedRequiredValues) : Optional();
 }

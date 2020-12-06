@@ -1,4 +1,5 @@
-import {applyDecorators, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
+import {DecoratorTypes, isClass, UnsupportedDecoratorType, useDecorators} from "@tsed/core";
+import {Property} from "./property";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonEntityFn} from "./jsonEntityFn";
 
@@ -64,7 +65,9 @@ function applyNullRule(store: JsonEntityStore, values: any[]) {
  * @input
  */
 export function Allow(...values: any[]) {
-  return applyDecorators(
+  const model = values.find((item) => isClass(item));
+  return useDecorators(
+    model && Property(model),
     JsonEntityFn((store, args) => {
       switch (store.decoratorType) {
         case DecoratorTypes.PARAM:
