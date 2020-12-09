@@ -21,6 +21,6 @@
   "devDependencies": {
     "@tsed/common": "6.14.2",
     "@tsed/core": "6.14.2",
-    "mongoose": "^5.11.4"
+    "mongoose": "^5.11.5"
   }
 }
