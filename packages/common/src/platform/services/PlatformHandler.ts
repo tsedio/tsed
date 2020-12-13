@@ -1,5 +1,5 @@
 import {isBoolean, isFunction, isNumber, isStream, isString, Type} from "@tsed/core";
-import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {ConverterService, EndpointMetadata, HandlerMetadata, HandlerType, IPipe, ParamMetadata, ParamTypes} from "../../mvc";
 import {PlatformResponseFilter} from "../../platform-response-filter/services/PlatformResponseFilter";
 import {HandlerContext, HandlerContextStatus} from "../domain/HandlerContext";
@@ -44,6 +44,19 @@ export class PlatformHandler {
    */
   createHandler(input: EndpointMetadata | HandlerMetadata | any, options: PlatformRouteWithoutHandlers = {}) {
     const metadata: HandlerMetadata = this.createHandlerMetadata(input, options);
+
+    this.sortPipes(metadata);
+
+    return this.createRawHandler(metadata);
+  }
+
+  createCustomHandler(provider: Provider<any>, propertyKey: string) {
+    const metadata = new HandlerMetadata({
+      token: provider.provide,
+      target: provider.useClass,
+      type: HandlerType.CUSTOM,
+      propertyKey
+    });
 
     this.sortPipes(metadata);
 

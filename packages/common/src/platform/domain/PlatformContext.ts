@@ -96,6 +96,8 @@ export class PlatformContext extends Map<any, any> {
     if (this.response) {
       this.container.set(PlatformRequest, this.request);
     }
+
+    this.container.set(PlatformContext, this);
   }
 
   get env() {
