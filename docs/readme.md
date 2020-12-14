@@ -50,7 +50,7 @@ sponsors:
    label: Become sponsor
    url: /support.html 
  items:
-  - title: Sponsors
+  - title: Premium sponsors
     class: w-1/2 sm:w-1/6 px-5 py-3
     style:
       maxHeight: 150px
@@ -65,10 +65,36 @@ sponsors:
     items:
       - title: Artips
         href: https://artips.fr
-        src: https://artips.fr/resources/img/artips/artips.png
+        src: /they-use-it/artips.png
       - title: Yumi.us
         src: https://yumi.us/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6bc09fed-4612-4aa0-9192-225a0b3c7a30%2FYumi-logo-circle.png?table=block&id=1a875820-287a-4a97-aa40-ba3c8f3de9ae&width=250&userId=&cache=v2
         href: https://yumi.us/
+  - title: Sponsors
+    position: after-backers
+    class: px-3 py-2
+    style:
+      maxHeight: 30px
+    items:
+      - title: PnxBet
+        href: https://pnxbet.com.ph/
+        expireAt: 2021-12-14
+        src: /sponsors/pnxbet-ph-logo.png
+      - title: BestOnlineCasino.com.ph
+        href: https://bestonlinecasino.com.ph/
+        expireAt: 2021-12-14
+        src: /sponsors/BestOnlineCasino.png 
+      - title: SportBetting
+        href: https://sportbetting.ph
+        expireAt: 2021-12-14
+        src: /sponsors/sportsbeting-1.png   
+      - title: OnlineGambling
+        href: https://onlinegambling.com.ph/
+        expireAt: 2021-12-14
+        src: /sponsors/OnlineGambling.png             
+      - title: https://best-casinos.in/
+        href: https://best-casinos.in/
+        expireAt: 2021-12-14
+        src: /sponsors/best-casinos-in-for-white-300x100.png      
 showContent: false
 frameworks:
 - title: TypeScript
