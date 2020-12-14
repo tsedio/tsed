@@ -12,30 +12,21 @@
 
             <p class="text-center font-normal text-normal m-auto max-w-md mb-10" v-html="sponsors.description" />
 
-            <template v-for="(item, index) in sponsors.items">
-              <h3 class="text-xl font-bold mb-10">{{ item.title }}</h3>
-
-              <div v-if="item.items" class="flex flex-wrap justify-center items-stretch pb-5 mb-8 w-full">
-                <div :class="item.class"
-                     v-for="partner in item.items"
-                     :key="partner.href">
-                  <a :href="partner.href" :title="partner.title"
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     class="link external partner-logo flex items-center h-full justify-center">
-                    <img :src="partner.src" :style="item.style" />
-                  </a>
-                </div>
-              </div>
+            <template v-for="(item, index) in sponsorsBeforeBacker">
+              <SponsorsBlock :item="item" :key="index" />
             </template>
 
             <h3 class="text-xl font-bold mb-10">Our backers</h3>
 
-            <div class="flex flex-wrap justify-center items-stretch pb-5 w-full">
+            <div class="flex flex-wrap justify-center items-stretch w-full">
               <OpenCollectiveBackers v-bind="backers.badge" />
             </div>
 
-            <div class="mt-5 mb-5 text-center w-full">
+            <template v-for="(item, index) in sponsorsAfterBacker">
+              <SponsorsBlock :item="item" :key="index" />
+            </template>
+
+            <div class="mt-10 mb-5 text-center w-full">
               <Button
                   class="w-full sm:w-1/4 md:w-1/6 mb-5 sm:mx-2"
                   :bg-color="sponsors.cta.bgColor"
@@ -72,10 +63,12 @@
 </template>
 <script>
 import { Button, OpenCollectiveBackers, OpenCollectiveSponsors, Showcase } from "@tsed/vuepress-common";
+import SponsorsBlock from "./SponsorsBlock";
 
 export default {
   name: "SupportUsBlock",
   components: {
+    SponsorsBlock,
     OpenCollectiveBackers,
     OpenCollectiveSponsors,
     Button,
@@ -89,6 +82,42 @@ export default {
     sponsors() {
       const { sponsors } = this.$page.frontmatter;
       return sponsors;
+    },
+
+    sponsorsBeforeBacker() {
+      const { sponsors } = this.$page.frontmatter;
+      return sponsors.items.filter((item) => {
+        return item.position !== "after-backers";
+      });
+    },
+
+    sponsorsAfterBacker() {
+      const { sponsors } = this.$page.frontmatter;
+      const now = Date.now();
+      let hasItems = false;
+
+      const list = sponsors.items.filter((item) => {
+        return item.position === "after-backers";
+      })
+          .map((item) => {
+            const items = item.items.filter((item) => {
+              return item.expireAt ? new Date(item.expireAt).getTime() > now : true;
+            });
+
+            if (items.length) {
+              hasItems = true;
+            }
+
+            return {
+              ...item,
+              items
+            };
+          });
+
+      if (!hasItems) {
+        return [];
+      }
+      return list;
     }
   }
 };
