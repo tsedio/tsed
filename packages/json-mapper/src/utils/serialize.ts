@@ -103,9 +103,8 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     return obj;
   }
 
-  if (obj.$toObject) {
-    // mongoose
-    return serialize(obj.$toObject(options, true), {type: type || obj.$getTarget(), collectionType, ...options});
+  if (typeof obj.toJSON === "function") {
+    return obj.toJSON(options);
   }
 
   if (type && isClass(type)) {
@@ -134,16 +133,6 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     const jsonMapper = types.get(type)!;
 
     return jsonMapper.serialize(obj, context);
-  }
-
-  if (typeof obj.toJSON === "function") {
-    // serialize from serialize method
-    return obj.toJSON(context);
-  }
-
-  if (typeof obj.serialize === "function") {
-    // serialize from serialize method
-    return obj.serialize(context);
   }
 
   return !isPlainObject(type) ? classToPlainObject(obj, options) : toObject(obj, options);

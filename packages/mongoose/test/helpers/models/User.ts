@@ -1,28 +1,12 @@
-import {
-  Model,
-  MongooseDocument,
-  MongooseNextCB,
-  MongoosePostHookCB,
-  ObjectID,
-  PostHook,
-  PreHook,
-  Unique
-} from "@tsed/mongoose";
-import {Allow, Ignore, MinLength, Property, Required} from "@tsed/schema";
+import {Model, MongooseNextCB, ObjectID, PostHook, PreHook, Schema, Unique} from "@tsed/mongoose";
+import {CollectionOf, Groups, Ignore, MinLength, Property, Required} from "@tsed/schema";
 
-export class TestUserCreation {
-  @ObjectID("id")
-  _id: string;
-
-  @Property()
-  @Required()
-  @Unique()
-  email: string;
-
-  @Required()
-  @MinLength(6)
-  @Allow(null)
-  password: string;
+@Schema({
+  schemaOptions: {_id: false}
+})
+export class UserModuleData {
+  @(CollectionOf(Number).MinItems(1))
+  roles: number[];
 }
 
 @Model({schemaOptions: {timestamps: true}})
@@ -36,8 +20,18 @@ export class TestUserCreation {
 
   next();
 })
-export class TestUser extends TestUserCreation {
-  @Ignore()
+export class TestUser {
+  @ObjectID("id")
+  @Groups("!creation")
+  _id: string;
+
+  @Required()
+  @Unique()
+  email: string;
+
+  @Required()
+  @MinLength(6)
+  @Groups("creation")
   password: string;
 
   @Property()
@@ -45,4 +39,13 @@ export class TestUser extends TestUserCreation {
 
   @Property()
   post: string;
+
+  @Property()
+  current: UserModuleData;
+
+  @CollectionOf(UserModuleData)
+  data: Map<string, UserModuleData>;
+
+  @Ignore((value, ctx) => ctx.endpoint)
+  alwaysIgnored: string = "hello ignore";
 }
