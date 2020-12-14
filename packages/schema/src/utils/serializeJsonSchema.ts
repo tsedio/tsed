@@ -140,7 +140,7 @@ export function serializeObject(input: any, options: JsonSchemaOptions) {
 
   return Object.entries(input).reduce<any>(
     (obj, [key, value]: any[]) => {
-      if (!alterIgnore(value, ctx)) {
+      if (options.withIgnoredProps !== false && !alterIgnore(value, ctx)) {
         obj[key] = serializeItem(value, options);
       }
 

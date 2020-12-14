@@ -1,12 +1,10 @@
-import {Inject, Service} from "@tsed/common";
+import {Inject, Injectable} from "@tsed/common";
 import {MongooseModel} from "@tsed/mongoose";
 import {MyModel} from "./models/MyModel";
 
-@Service()
-export class MyService {
-  constructor(@Inject(MyModel) private model: MongooseModel<MyModel>) {
-    console.log(model); // Mongoose.model class
-  }
+@Injectable()
+export class MyRepository {
+  @Inject(MyModel) private model: MongooseModel<MyModel>;
 
   async save(obj: MyModel): Promise<MongooseModel<MyModel>> {
     const doc = new this.model(obj);

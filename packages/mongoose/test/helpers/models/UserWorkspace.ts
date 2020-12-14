@@ -1,4 +1,4 @@
-import {CollectionOf, Property, PropertyType} from "@tsed/common";
+import {CollectionOf, Property} from "@tsed/schema";
 import {Model, MongooseModel, ObjectID, Ref, Schema} from "@tsed/mongoose";
 import {Types} from "mongoose";
 
@@ -26,5 +26,5 @@ export class UserWorkspace {
   workspaces: MyWorkspace[];
 }
 
-export type UserModel = MongooseModel<UserWorkspace & {workspaces: Types.Array<MyWorkspace>}>;
+export type UserModel = MongooseModel<UserWorkspace & { workspaces: Types.Array<MyWorkspace> }>;
 export type WorkspaceModel = MongooseModel<Workspace>;

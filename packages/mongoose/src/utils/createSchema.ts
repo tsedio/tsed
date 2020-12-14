@@ -1,4 +1,5 @@
 import {cleanObject, Store, Type} from "@tsed/core";
+import {deserialize, serialize} from "@tsed/json-mapper";
 import {getProperties, JsonEntityStore} from "@tsed/schema";
 import * as mongoose from "mongoose";
 import {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
@@ -39,6 +40,15 @@ export function createSchema(target: Type<any>, options: MongooseSchemaOptions =
   const schema = setUpSchema(buildMongooseSchema(target), options.schemaOptions);
 
   schemaOptions(target, options);
+
+  schema.methods.toClass = function toClass(options?: any) {
+    return deserialize(this.$toObject(options, true), {type: target, useAlias: false});
+  };
+
+  schema.methods.toJSON = function toJSON(options?: any) {
+    return serialize(this.toClass(), options);
+  };
+
   schema.loadClass(target);
 
   return schema;

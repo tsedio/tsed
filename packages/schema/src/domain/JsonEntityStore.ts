@@ -194,11 +194,13 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
     if (!this._allowedRequiredValues) {
       this._allowedRequiredValues = [];
       if (this.decoratorType === DecoratorTypes.PROP) {
-        const schema = this.parent.schema.toJSON({useAlias: false}).properties[this.propertyName];
+        const schema = this.parent.schema.toJSON({useAlias: false, withIgnoredProps: true}).properties[this.propertyName];
 
-        const type: string | string[] = schema.type || "";
+        if (schema) {
+          const type: string | string[] = schema.type || "";
 
-        this._allowedRequiredValues = mapAllowedRequiredValues(type, schema);
+          this._allowedRequiredValues = mapAllowedRequiredValues(type, schema);
+        }
       }
 
       if (this.decoratorType === DecoratorTypes.PARAM) {

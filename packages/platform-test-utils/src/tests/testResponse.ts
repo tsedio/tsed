@@ -21,6 +21,9 @@ class MyModel extends Base {
 
   @Ignore()
   ignoreMe: string;
+
+  @Ignore((value, ctx) => ctx.endpoint)
+  ignoreMe2: string;
 }
 
 class EmptyModel {
@@ -115,6 +118,7 @@ class TestResponseParamsCtrl {
     const model = new MyModel();
     model.foo = "foo";
     model.ignoreMe = "ignoreMe";
+    model.ignoreMe2 = "ignoreMe2";
     model.fooBase = "fooBase";
     model.ignoreMeBase = "ignoreMeBase";
 

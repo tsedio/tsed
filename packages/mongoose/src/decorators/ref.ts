@@ -1,5 +1,5 @@
 import {Store, StoreMerge, useDecorators} from "@tsed/core";
-import {Description, Example, Property} from "@tsed/schema";
+import {Description, Example, JsonEntityFn, Property} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
@@ -41,6 +41,9 @@ export function Ref(model: string | any, type: MongooseSchemaTypes = MongooseSch
     StoreMerge(MONGOOSE_SCHEMA, {
       type: MongooseSchema.Types[type],
       ref: typeof model === "string" ? model : Store.from(model).get(MONGOOSE_MODEL_NAME)
+    }),
+    JsonEntityFn((store) => {
+      store.type = String;
     })
   ) as PropertyDecorator;
 }

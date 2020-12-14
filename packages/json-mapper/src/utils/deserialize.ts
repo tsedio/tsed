@@ -87,7 +87,10 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   const out: any = new type(src);
 
   propertiesMap.forEach((propStore) => {
-    const key = propStore.parent.schema.getAliasOf(propStore.propertyName) || propStore.propertyName;
+    const key = options.useAlias
+      ? propStore.parent.schema.getAliasOf(propStore.propertyName) || propStore.propertyName
+      : propStore.propertyName;
+
     keys = keys.filter((k) => k !== key);
 
     let value = alterValue(propStore.schema, src[key], {...options, self: src});
@@ -137,6 +140,7 @@ function buildOptions(options: JsonDeserializerOptions<any, any>): any {
 
   return {
     groups: false,
+    useAlias: true,
     ...options,
     types: options.types ? options.types : getJsonMapperTypes()
   };

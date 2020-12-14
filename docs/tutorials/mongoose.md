@@ -83,7 +83,7 @@ export class MyService {
 }
 ```
 
-## API
+## Decorators
 
 Ts.ED gives some decorators and services to write your code:
 
@@ -211,6 +211,57 @@ It's possible to inject a model into a Service (or Controller, Middleware, etc..
 ::: tip
 You can find a working example on [Mongoose here](https://github.com/TypedProject/tsed-example-mongoose).
 :::
+
+### Caveat <Badge text="v6.14.4" />
+
+Mongoose doesn't return a real instance of your class. If you inspected the returned item by one of mongoose's methods,
+you'll see that the instance is as Model type instead of the expected class:
+
+```typescript
+import {Inject, Injectable} from "@tsed/common";
+import {MongooseModel} from "@tsed/mongoose";
+import {Product} from "./models/Product";
+
+@Injectable()
+export class MyRepository {
+  @Inject(Product) 
+  private model: MongooseModel<Product>;
+
+  async find(query: any) {
+    const list = await this.model.find(query).exec();
+
+    console.log(list[0]); // Model { Product }
+
+    return list;
+  }
+}
+```
+
+There is no proper solution currently to have the expected instance without transforming the current instance to 
+the class with the @@deserialize@@ function.
+
+To simplify this, Ts.ED adds a `toClass` method to the MongooseModel to find, if necessary, an instance of type Product.
+
+```typescript
+import {Inject, Injectable} from "@tsed/common";
+import {MongooseModel} from "@tsed/mongoose";
+import {Product} from "./models/Product";
+
+@Injectable()
+export class MyRepository {
+  @Inject(Product) 
+  private model: MongooseModel<Product>;
+
+  async find(query: any) {
+    const list = await this.model.find(query).exec();
+
+    console.log(list[0]); // Model { Product }
+    console.log(list[0].toClass()); // Product {}
+
+    return list;
+  }
+}
+```
 
 ## Testing <Badge text="beta" type="warn"/>
 

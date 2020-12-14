@@ -1,3 +1,4 @@
+import {deserialize} from "@tsed/json-mapper";
 import {CollectionOf, Ignore, JsonHookContext, Name, Property} from "@tsed/schema";
 import {expect} from "chai";
 import {Post} from "../../test/helpers/Post";
@@ -315,7 +316,7 @@ describe("serialize()", () => {
       });
     });
   });
-  describe("Mongoose class", () => {
+  describe("class with toJSON", () => {
     it("should serialize model", () => {
       class Role {
         @Property()
@@ -343,25 +344,31 @@ describe("serialize()", () => {
 
       const model = new Model();
       // @ts-ignore
-      model["$toObject"] = () => {
-        return {
-          id: "id",
-          password: "hellopassword",
-          mappedProp: "hello"
-        };
+      model["toJSON"] = (options: any) => {
+        return serialize(
+          deserialize(
+            {
+              id: "id",
+              password: "hellopassword",
+              mappedProp: "hello"
+            },
+            {useAlias: false, type: Model}
+          ),
+          options
+        );
       };
-      // @ts-ignore
-      model["$getTarget"] = () => Model;
 
       expect(serialize(model, {type: Model})).to.deep.equal({
         id: "id",
         mapped_prop: "hellotest",
-        password: "hellopassword"
+        password: "hellopassword",
+        roles: {}
       });
 
       expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
         id: "id",
-        mappedProp: "hellotest"
+        mappedProp: "hellotest",
+        roles: {}
       });
     });
     it("should serialize model Array", () => {
@@ -483,18 +490,6 @@ describe("serialize()", () => {
           ]
         }
       });
-    });
-  });
-
-  describe("Legacy serialize method", () => {
-    it("should use serialize method", () => {
-      expect(
-        serialize({
-          serialize() {
-            return {id: "id"};
-          }
-        })
-      ).to.deep.equal({id: "id"});
     });
   });
 });
