@@ -1,4 +1,4 @@
-import {HandlerMetadata, HandlerType, Platform} from "@tsed/common";
+import {PlatformHandler} from "@tsed/common";
 import {Injectable, InjectorService, Provider} from "@tsed/di";
 import * as Passport from "passport";
 import {Strategy} from "passport";
@@ -50,15 +50,8 @@ export class ProtocolsService {
   }
 
   private createHandler(provider: Provider<any>) {
-    const handlerMetadata = new HandlerMetadata({
-      token: provider.provide,
-      target: provider.useClass,
-      type: HandlerType.CUSTOM,
-      propertyKey: "$onVerify"
-    });
-
-    const platform = this.injector.get<Platform>(Platform)!;
-    const middleware = platform.createHandler(handlerMetadata);
+    const platformHandler = this.injector.get<PlatformHandler>(PlatformHandler)!;
+    const middleware = platformHandler.createCustomHandler(provider, "$onVerify");
 
     return async (req: any, ...args: any[]) => {
       const done = args[args.length - 1];
