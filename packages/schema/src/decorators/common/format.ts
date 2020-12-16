@@ -415,3 +415,69 @@ export function TimeFormat() {
 export function Uri() {
   return Format(JsonFormatTypes.URI);
 }
+
+/**
+ * Apply a url validation on property.
+ *
+ * ## Example
+ * ### With primitive type
+ *
+ * ```typescript
+ * class Model {
+ *    @Url()
+ *    property: string;
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "string",
+ *       "format": "uri"
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * ### With array type
+ *
+ * ```typescript
+ * class Model {
+ *    @Uri()
+ *    @CollectionOf(String)
+ *    property: string[];
+ * }
+ * ```
+ *
+ * Will produce:
+ *
+ * ```json
+ * {
+ *   "type": "object",
+ *   "properties": {
+ *     "property": {
+ *       "type": "array",
+ *       "items": {
+ *          "type": "string",
+ *          "format": "uri"
+ *       }
+ *     }
+ *   }
+ * }
+ * ```
+ *
+ * > See [Format](api/common/jsonschema/schema) decorator.
+ * @returns {Function}
+ * @decorator
+ * @validation
+ * @property
+ * @parameter
+ * @schema
+ */
+export function Url() {
+  return Format(JsonFormatTypes.URL);
+}

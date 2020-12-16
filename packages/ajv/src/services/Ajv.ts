@@ -11,9 +11,9 @@ registerProvider({
   deps: [Configuration],
   scope: ProviderScope.SINGLETON,
   useFactory(configuration: Configuration) {
-    const {errorFormatter, ...props} = configuration.get<IAjvSettings>("ajv") || {};
+    const {errorFormatter, Ajv: AjvCustom = Ajv, ...props} = configuration.get<IAjvSettings>("ajv") || {};
 
-    return new Ajv({
+    return new AjvCustom({
       verbose: false,
       coerceTypes: true,
       ...props

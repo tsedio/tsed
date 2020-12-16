@@ -19,6 +19,10 @@ export interface JsonSchemaOptions {
    * Set false to disable groups.
    */
   groups?: string[] | false;
+  /**
+   * Generate custom keys
+   */
+  customKeys?: boolean;
 
   [key: string]: any;
 }

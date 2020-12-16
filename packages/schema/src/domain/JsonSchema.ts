@@ -265,6 +265,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
     return this;
   }
+
   /**
    * Array of examples with no validation effect the value of "default" is usable as an example without repeating it under this keyword
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-7.4
@@ -734,6 +735,24 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    */
   title(title: string): this {
     super.set("title", title);
+
+    return this;
+  }
+
+  readOnly(readOnly: boolean): this {
+    super.set("readOnly", readOnly);
+
+    return this;
+  }
+
+  writeOnly(readOnly: boolean): this {
+    super.set("writeOnly", readOnly);
+
+    return this;
+  }
+
+  customKey(key: string, value: any) {
+    super.set(`#${key}`, value);
 
     return this;
   }
