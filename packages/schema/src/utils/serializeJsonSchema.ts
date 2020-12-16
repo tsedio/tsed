@@ -18,6 +18,7 @@ const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics", SpecTypes.OPE
  * @ignore
  */
 const IGNORES_OPENSPEC = ["const"];
+const IGNORES_OS2 = [, "writeOnly", "readOnly"];
 
 /**
  * @ignore
@@ -201,8 +202,13 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
   return obj;
 }
 
-function shouldSkipKey(key: string, {specType = SpecTypes.JSON}: JsonSchemaOptions) {
-  return IGNORES.includes(key) || (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key));
+function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = false}: JsonSchemaOptions) {
+  return (
+    IGNORES.includes(key) ||
+    (key.startsWith("#") && (customKeys === false || specType !== SpecTypes.JSON)) ||
+    (specType === SpecTypes.SWAGGER && IGNORES_OS2.includes(key)) ||
+    (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key))
+  );
 }
 
 function transformTypes(obj: any) {
@@ -238,6 +244,8 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
     if (shouldSkipKey(key, options)) {
       return item;
     }
+
+    key = key.replace(/^#/, "");
 
     if (key === "type") {
       value = schema.getJsonType();

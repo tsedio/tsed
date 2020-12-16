@@ -58,4 +58,7 @@ export * from "./common/allOf";
 export * from "./common/anyOf";
 export * from "./common/jsonEntityFn";
 export * from "./common/optional";
+export * from "./common/writeOnly";
+export * from "./common/readOnly";
+export * from "./common/customKey";
 export * from "./config/jsonEntityComponent";
