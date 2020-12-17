@@ -316,6 +316,12 @@ Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as foll
   </Tab>
 </Tabs>
 
+## Circular ref
+
+Circular reference can be resolved by using arrow with a @@Property@@ and @@CollectionOf@@ decorators:
+
+<<< @/docs/docs/snippets/model/circular-references.json
+
 ## Groups <Badge text="6.14.0+"/>
 
 @@Groups@@ decorator allows you to manage your serialized/deserialized fields by using group label. For example, with a CRUD controller, 
@@ -570,8 +576,7 @@ None of these `annotation` keywords are required, but they are encouraged for go
   </Tab>
 </Tabs>
 
-<!--
-## Rename property (v6)
+## Alias
 
 @@Name@@ decorator lets you to rename the exposed property in your json schema. 
 
@@ -590,8 +595,6 @@ In order not to give any indication to our consumer about the nature of the data
   
   </Tab>
 </Tabs>
-
--->
 
 ## Set Schema
 
