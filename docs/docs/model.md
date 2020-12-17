@@ -320,7 +320,7 @@ Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as foll
 
 Circular reference can be resolved by using arrow with a @@Property@@ and @@CollectionOf@@ decorators:
 
-<<< @/docs/docs/snippets/model/circular-references.json
+<<< @/docs/docs/snippets/model/circular-references.ts
 
 ## Groups <Badge text="6.14.0+"/>
 
@@ -583,18 +583,7 @@ None of these `annotation` keywords are required, but they are encouraged for go
 For example mongo db uses the `_id` property. 
 In order not to give any indication to our consumer about the nature of the database, it's better to rename the property to `id`.
 
-<Tabs class="-code">
-  <Tab label="Model">
-  
 <<< @/docs/docs/snippets/model/name.ts
-
-  </Tab>
-  <Tab label="Json schema">
-    
-<<< @/docs/docs/snippets/model/name.json
-  
-  </Tab>
-</Tabs>
 
 ## Set Schema
 

@@ -176,19 +176,8 @@ mongoose | boolean | It's a mongoose context
 
 For example mongo db uses the `_id` property. 
 In order not to give any indication to our consumer about the nature of the database, it's better to rename the property to `id`.
-
-<Tabs class="-code">
-  <Tab label="Model">
   
 <<< @/docs/docs/snippets/model/name.ts
-
-  </Tab>
-  <Tab label="Json schema">
-    
-<<< @/docs/docs/snippets/model/name.json
-  
-  </Tab>
-</Tabs>
 
 ## OnSerialize
 
