@@ -14,6 +14,7 @@ registerProvider({
       verbose: false,
       coerceTypes: true,
       async: true,
+      strict: false,
       ...props
     } as any);
 
