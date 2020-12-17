@@ -170,6 +170,26 @@ mongoose | boolean | It's a mongoose context
   </Tab>
 </Tabs>
 
+## Alias
+
+@@Name@@ decorator lets you to rename the exposed property in your json schema. 
+
+For example mongo db uses the `_id` property. 
+In order not to give any indication to our consumer about the nature of the database, it's better to rename the property to `id`.
+
+<Tabs class="-code">
+  <Tab label="Model">
+  
+<<< @/docs/docs/snippets/model/name.ts
+
+  </Tab>
+  <Tab label="Json schema">
+    
+<<< @/docs/docs/snippets/model/name.json
+  
+  </Tab>
+</Tabs>
+
 ## OnSerialize
 
 @@OnSerialize@@ decorator can be used to intercept and change the property value when a serialization is performed on class.

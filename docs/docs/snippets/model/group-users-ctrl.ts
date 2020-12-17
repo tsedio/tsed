@@ -5,7 +5,7 @@ import {User} from "../models/User";
 @Controller("/")
 export class UsersCtrl {
   @Get("/:id")
-  @Returns(200, User).Groups("user.*")
+  @Returns(200, User).Groups("group.*")
   async get(@PathParams("id") id: string) {
   }
 
