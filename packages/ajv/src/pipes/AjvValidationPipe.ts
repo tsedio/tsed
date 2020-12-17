@@ -55,7 +55,7 @@ export class AjvValidationPipe extends ValidationPipe implements IPipe {
       return value;
     }
 
-    const schema = getJsonSchema(metadata, {groups: metadata.parameter.groups});
+    const schema = getJsonSchema(metadata, {groups: metadata.parameter.groups, customKeys: true});
 
     if (schema) {
       const valid = await this.ajv.validate(schema, value);
