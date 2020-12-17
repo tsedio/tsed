@@ -8,32 +8,23 @@ import {AjvErrorObject, ErrorFormatter} from "../interfaces/IAjvSettings";
 function defaultFormatter(error: AjvErrorObject) {
   const value = JSON.stringify(error.data === undefined ? "undefined" : error.data);
   const join = (list: any[]): string => list.filter(Boolean).join("").trim();
+  error.dataPath = error.dataPath ? error.dataPath.replace(/\//gi, ".") : error.dataPath;
+
+  const [, indexPath, ...paths] = error.dataPath.split(".");
+  const deepPaths = paths.length ? "." + paths.join(".") : "";
 
   if (error.collectionName) {
     switch (error.collectionName) {
+      case "Array":
+        return join([`${error.modelName || ""}[${indexPath}]${deepPaths}`, ` ${error.message}. Given value: ${value}`]);
       case "Map":
-        return join([
-          error.dataPath.replace("['", "Map<").replace("']", `, ${error.modelName || ""}>`),
-          ` ${error.message}. Given value: ${value}`
-        ]);
+        return join([`Map<${indexPath}, ${error.modelName || ""}>${deepPaths}`, ` ${error.message}. Given value: ${value}`]);
       case "Set":
-        return join([
-          error.dataPath.replace("[", "Set<").replace("]", `, ${error.modelName || ""}>`),
-          ` ${error.message}. Given value: ${value}`
-        ]);
+        return join([`Set<${indexPath}, ${error.modelName || ""}>${deepPaths}`, ` ${error.message}. Given value: ${value}`]);
     }
   }
 
-  return join([
-    !error.modelName && "Value",
-    // index !== undefined && !error.modelName && ".",
-    // index !== undefined && !isNaN(+index) && `[${index}]`,
-    // index !== undefined && isNaN(+index) && `${index}`,
-    // index !== undefined && error.modelName && isNaN(+index) && ".",
-    `${error.modelName || ""}`,
-    error.dataPath,
-    ` ${error.message}. Given value: ${value}`
-  ]);
+  return join([!error.modelName && "Value", `${error.modelName || ""}`, error.dataPath, ` ${error.message}. Given value: ${value}`]);
 }
 
 @Injectable()

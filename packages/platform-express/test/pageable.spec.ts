@@ -365,7 +365,6 @@ describe("Pageable", () => {
           modelName: "Pageable",
           params: {
             comparison: ">=",
-            exclusive: false,
             limit: 0
           },
           schemaPath: "#/properties/page/minimum"

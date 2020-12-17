@@ -1,15 +1,14 @@
 import {PlatformTest} from "@tsed/common";
-import AjvKlass from "ajv";
+import Ajv from "ajv";
 import {expect} from "chai";
-import {AJV} from "./Ajv";
 
 describe("Ajv", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
   it("should create a new Ajv instance", async () => {
-    const ajv = await PlatformTest.invoke<AJV>(AJV);
+    const ajv = await PlatformTest.invoke<Ajv>(Ajv);
 
-    expect(ajv).to.instanceof(AjvKlass);
+    expect(ajv).to.instanceof(Ajv);
     expect(
       ajv.validate(
         {

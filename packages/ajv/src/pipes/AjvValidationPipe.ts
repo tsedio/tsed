@@ -1,7 +1,7 @@
 import {Inject, IPipe, OverrideProvider, ParamMetadata, ParamTypes, ValidationPipe} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
 import {getJsonSchema} from "@tsed/schema";
-import {AJV} from "../services/Ajv";
+import Ajv from "ajv";
 import {AjvErrorFormatterPipe} from "./AjvErrorFormatterPipe";
 
 @OverrideProvider(ValidationPipe)
@@ -9,8 +9,8 @@ export class AjvValidationPipe extends ValidationPipe implements IPipe {
   @Inject()
   formatter: AjvErrorFormatterPipe;
 
-  @Inject(AJV)
-  ajv: AJV;
+  @Inject()
+  ajv: Ajv;
 
   coerceTypes(value: any, metadata: ParamMetadata) {
     if (value === undefined) {

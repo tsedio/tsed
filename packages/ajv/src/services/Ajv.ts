@@ -1,22 +1,24 @@
-import {Configuration, ProviderScope, registerProvider} from "@tsed/di";
+import {Configuration, InjectorService, ProviderScope, registerProvider} from "@tsed/di";
 import Ajv from "ajv";
+import AjvFormats from "ajv-formats";
 import {IAjvSettings} from "../interfaces/IAjvSettings";
 
-// tslint:disable-next-line:variable-name
-export const AJV: any = Symbol.for("AJV");
-export type AJV = Ajv.Ajv;
-
 registerProvider({
-  provide: AJV,
-  deps: [Configuration],
+  provide: Ajv,
+  deps: [Configuration, InjectorService],
   scope: ProviderScope.SINGLETON,
-  useFactory(configuration: Configuration) {
-    const {errorFormatter, ...props} = configuration.get<IAjvSettings>("ajv") || {};
+  useFactory(configuration: Configuration, injector: InjectorService) {
+    const {errorFormatter, keywords = {}, ...props} = configuration.get<IAjvSettings>("ajv") || {};
 
-    return new Ajv({
+    const ajv = new Ajv({
       verbose: false,
       coerceTypes: true,
+      async: true,
       ...props
-    });
+    } as any);
+
+    AjvFormats(ajv);
+
+    return ajv;
   }
 });
