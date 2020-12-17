@@ -9,15 +9,16 @@
     "tsc": "tsc --build tsconfig.check.json"
   },
   "dependencies": {
-    "tslib": "2.0.1"
+    "tslib": "2.0.1",
+    "ajv-formats": "1.5.1"
   },
   "peerDependencies": {
-    "ajv": "^6.12.4"
+    "ajv": "^7.0.1"
   },
   "private": false,
   "devDependencies": {
     "@tsed/common": "6.15.0",
     "@tsed/core": "6.15.0",
-    "ajv": "6.12.6"
+    "ajv": "7.0.1"
   }
 }

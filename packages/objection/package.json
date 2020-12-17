@@ -26,8 +26,8 @@
     "sqlite3": "^5.0.0"
   },
   "peerDependencies": {
-    "@tsed/ajv": "6.9.0",
-    "@tsed/common": "6.9.0"
+    "@tsed/ajv": "6.15.0",
+    "@tsed/common": "6.15.0"
   },
   "npmPublish": {
     "dist-tag": "alpha"

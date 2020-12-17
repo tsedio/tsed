@@ -191,12 +191,7 @@ describe("AjvValidationPipe", () => {
             required: ["id"],
             type: "object"
           },
-          schema: {
-            id: {
-              minLength: 1,
-              type: "string"
-            }
-          },
+          schema: ["id"],
           schemaPath: "#/required"
         }
       ]);
@@ -273,7 +268,7 @@ describe("AjvValidationPipe", () => {
           data: "[REDACTED]",
           dataPath: ".password",
           keyword: "minLength",
-          message: "should NOT be shorter than 8 characters",
+          message: "should NOT have fewer than 8 characters",
           modelName: "Model",
           params: {
             limit: 8
