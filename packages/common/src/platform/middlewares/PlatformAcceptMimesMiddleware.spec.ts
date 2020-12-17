@@ -1,7 +1,7 @@
 import {AcceptMime, EndpointMetadata, Get, PlatformRequest, PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {FakeRequest} from "../../../../../test/helper";
 import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware";
 

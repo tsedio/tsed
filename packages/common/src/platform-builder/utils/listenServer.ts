@@ -1,5 +1,5 @@
-import * as Http from "http";
-import * as Https from "https";
+import Http from "http";
+import Https from "https";
 
 export function listenServer(
   http: Http.Server | Https.Server,

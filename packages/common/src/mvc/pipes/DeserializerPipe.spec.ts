@@ -1,6 +1,6 @@
 import {ParamMetadata, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {BodyParams} from "../decorators/params/bodyParams";
 import {QueryParams} from "../decorators/params/queryParams";
 import {DeserializerPipe} from "./DeserializerPipe";

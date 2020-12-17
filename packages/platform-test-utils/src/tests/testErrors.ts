@@ -4,7 +4,7 @@ import {Env} from "@tsed/core";
 import {BadRequest, InternalServerError} from "@tsed/exceptions";
 import {Description, Name, Required, Returns, Summary} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {CustomBadRequest} from "../errors/CustomBadRequest";
 import {CustomInternalError} from "../errors/CustomInternalError";
 import {PlatformTestOptions} from "../interfaces";

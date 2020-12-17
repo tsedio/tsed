@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {GlobalProviders, ProviderType, Service} from "@tsed/di";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 
 class Test {}
 

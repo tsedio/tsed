@@ -1,6 +1,6 @@
-import * as KoaRouter from "@koa/router";
+import KoaRouter from "@koa/router";
 import {Configuration, createContext, Inject, PlatformApplication, PlatformHandler} from "@tsed/common";
-import * as Koa from "koa";
+import Koa from "koa";
 import KoaApplication, {Context, Next} from "koa";
 import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
 import {PlatformKoaRouter} from "./PlatformKoaRouter";

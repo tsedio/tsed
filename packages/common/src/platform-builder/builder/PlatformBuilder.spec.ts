@@ -13,7 +13,7 @@ import {Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
 import {expect} from "chai";
 import {join} from "path";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {Platform} from "../../platform/services/Platform";
 import {PlatformBuilder} from "./PlatformBuilder";
 

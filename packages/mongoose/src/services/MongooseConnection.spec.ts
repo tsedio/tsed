@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
 import {Configuration} from "@tsed/di";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {MongooseService} from "../../src";
 import {MONGOOSE_CONNECTIONS} from "../../src/services/MongooseConnections";
 

@@ -1,7 +1,7 @@
 import {PlatformApplication, PlatformHandler, PlatformRequest, PlatformResponse, PlatformRouter} from "@tsed/common";
 import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse, PlatformKoaRouter} from "@tsed/platform-koa";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {stub} from "../../../../test/helper/tools";
 import {PlatformKoa} from "./PlatformKoa";
 

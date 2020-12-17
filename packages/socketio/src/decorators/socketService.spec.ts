@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 
 const registerSocketService: any = Sinon.stub();
 const {SocketService} = require("proxyquire")("../../src/decorators/socketService", {

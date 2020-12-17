@@ -2,7 +2,7 @@ import {Configuration, ControllerProvider, Injectable, InjectorService, Platform
 import {getValue, setValue} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {getSpec, mergeSpec, SpecSerializerOptions} from "@tsed/schema";
-import * as Fs from "fs";
+import Fs from "fs";
 import {SwaggerOS2Settings, SwaggerOS3Settings, SwaggerSettings} from "../interfaces/SwaggerSettings";
 import {getSpecTypeFromSpec} from "../utils/getSpecType";
 import {mapOpenSpec} from "../utils/mapOpenSpec";

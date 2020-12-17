@@ -1,4 +1,4 @@
-import * as SwaggerParser from "@apidevtools/swagger-parser";
+import SwaggerParser from "@apidevtools/swagger-parser";
 import {unlinkSync, writeJsonSync} from "fs-extra";
 import {SpecTypes} from "../../src/domain";
 

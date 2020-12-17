@@ -1,7 +1,7 @@
 import {AcceptMime, Controller, Get, HeaderParams, PlatformTest, Post} from "@tsed/common";
 import {ContentType} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 @Controller("/accept-mime")

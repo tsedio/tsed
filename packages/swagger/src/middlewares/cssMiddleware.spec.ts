@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as Fs from "fs";
-import * as Sinon from "sinon";
+import Fs from "fs";
+import Sinon from "sinon";
 import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
 import {cssMiddleware} from "./cssMiddleware";
 

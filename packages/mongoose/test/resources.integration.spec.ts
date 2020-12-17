@@ -5,8 +5,8 @@ import {PlatformExpress} from "@tsed/platform-express/src";
 import {Groups, Returns} from "@tsed/schema/src";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
-import * as faker from "faker";
-import * as SuperTest from "supertest";
+import faker from "faker";
+import SuperTest from "supertest";
 import {TestUser} from "./helpers/models/User";
 import {Server} from "./helpers/Server";
 

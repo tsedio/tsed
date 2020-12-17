@@ -1,7 +1,7 @@
 import {HttpServer, HttpsServer, PlatformTest} from "@tsed/common";
 import {PlatformConfiguration} from "@tsed/common/src/config";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {SocketIOModule, SocketIOServer, SocketIOService} from "./index";
 
 describe("SocketIOModule", () => {

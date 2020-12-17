@@ -1,7 +1,7 @@
 import {Env} from "@tsed/core";
 import {DIConfiguration, Injectable, ProviderScope, ProviderType} from "@tsed/di";
 import {$log} from "@tsed/logger";
-import * as Https from "https";
+import Https from "https";
 import {EndpointDirectoriesSettings, PlatformLoggerSettings} from "../interfaces";
 import {ConverterSettings} from "../interfaces/ConverterSettings";
 

@@ -1,6 +1,6 @@
 import {ContentType, Controller, Get, View} from "@tsed/common";
 import {Hidden} from "@tsed/swagger";
-import * as fs from "fs";
+import fs from "fs";
 
 @Controller("/")
 @Hidden()

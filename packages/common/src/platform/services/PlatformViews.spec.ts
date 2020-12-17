@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {PlatformViews} from "./PlatformViews";
 
 const sandbox = Sinon.createSandbox();

@@ -1,6 +1,6 @@
 import {Hooks} from "@tsed/core";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 
 const sandbox = Sinon.createSandbox();
 describe("Hooks", () => {

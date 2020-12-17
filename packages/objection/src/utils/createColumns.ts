@@ -1,5 +1,5 @@
 import {getProperties, JsonEntityStore} from "@tsed/schema";
-import * as Knex from "knex";
+import Knex from "knex";
 import "../components/createBooleanColumn";
 import "../components/createIdColumn";
 import "../components/createNumberColumn";

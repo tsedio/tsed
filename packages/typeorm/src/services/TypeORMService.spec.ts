@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import * as TypeORM from "typeorm";
 import {TypeORMService} from "../index";
 

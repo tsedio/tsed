@@ -2,9 +2,9 @@ import "@tsed/ajv";
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import Application from "koa";
-import * as bodyParser from "koa-bodyparser";
-import * as compress from "koa-compress";
-import * as session from "koa-session";
+import bodyParser from "koa-bodyparser";
+import compress from "koa-compress";
+import session from "koa-session";
 
 const methodOverride = require("koa-override");
 

@@ -1,7 +1,7 @@
 import {cleanObject, Store, Type} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {getProperties, JsonEntityStore} from "@tsed/schema";
-import * as mongoose from "mongoose";
+import mongoose from "mongoose";
 import {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";

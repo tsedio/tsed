@@ -2,10 +2,10 @@ import "@tsed/ajv";
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/socketio";
-import * as bodyParser from "body-parser";
-import * as compress from "compression";
-import * as cookieParser from "cookie-parser";
-import * as methodOverride from "method-override";
+import bodyParser from "body-parser";
+import compress from "compression";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
 import {resolve} from "path";
 import {AwsCtrl} from "./controllers/AwsCtrl";
 

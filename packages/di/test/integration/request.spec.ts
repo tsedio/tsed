@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {LocalsContainer, Container, GlobalProviders, InjectorService, OnDestroy, ProviderScope, Scope, Service} from "@tsed/di";
 
 describe("DI Request", () => {

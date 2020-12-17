@@ -1,6 +1,6 @@
 import {PlatformResponse, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {stub} from "../../../../../test/helper/tools";
 import {createContext} from "./createContext";

@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import {createReadStream} from "fs";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {FakeResponse} from "../../../../../test/helper";
 import {PlatformResponse} from "./PlatformResponse";
 import {PlatformViews} from "./PlatformViews";

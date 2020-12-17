@@ -1,5 +1,5 @@
 import {Env, Type} from "@tsed/core";
-import * as Https from "https";
+import Https from "https";
 import {ConverterSettings} from "./ConverterSettings";
 import {EndpointDirectoriesSettings} from "./EndpointDirectoriesSettings";
 import {PlatformLoggerSettings} from "./PlatformLoggerSettings";

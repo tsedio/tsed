@@ -1,5 +1,5 @@
 import {PlatformResponse} from "@tsed/common";
-import type * as Express from "express";
+import type Express from "express";
 
 declare global {
   namespace TsED {

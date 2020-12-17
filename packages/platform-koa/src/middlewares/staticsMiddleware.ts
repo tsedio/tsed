@@ -1,6 +1,6 @@
 import {PlatformStaticsOptions} from "@tsed/common";
 import type {Context} from "koa";
-import * as send from "koa-send";
+import send from "koa-send";
 
 /**
  * @ignore

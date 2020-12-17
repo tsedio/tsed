@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {Inject} from "@tsed/di";
-import * as Https from "https";
+import Https from "https";
 
 /**
  * Inject the Https.Server instance.

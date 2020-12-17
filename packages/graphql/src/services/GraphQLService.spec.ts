@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as proxyquire from "proxyquire";
-import * as Sinon from "sinon";
+import proxyquire from "proxyquire";
+import Sinon from "sinon";
 
 const sandbox = Sinon.createSandbox();
 

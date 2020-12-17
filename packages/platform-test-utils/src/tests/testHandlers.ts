@@ -1,7 +1,7 @@
 import {Context, Controller, Get, PathParams, PlatformTest} from "@tsed/common";
 import {Property, Required, Title} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 export class MyModel {

@@ -1,4 +1,4 @@
-import {UseSchema} from "@tsed/ajv";
+import {Schema} from "@tsed/schema";
 import {
   BodyParams,
   ParamMetadata,
@@ -41,7 +41,7 @@ describe("AjvValidationPipe", () => {
   describe("With raw json schema", () => {
     it("should validate object", async () => {
       class Ctrl {
-        get(@BodyParams() @UseSchema({type: "object"}) value: any) {}
+        get(@BodyParams() @Schema({type: "object"}) value: any) {}
       }
 
       const value = {};
@@ -52,7 +52,7 @@ describe("AjvValidationPipe", () => {
 
     it("should throw an error", async () => {
       class Ctrl {
-        get(@BodyParams() @UseSchema({type: "object"}) value: any) {}
+        get(@BodyParams() @Schema({type: "object"}) value: any) {}
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);

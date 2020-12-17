@@ -1,5 +1,5 @@
 import {DecoratorTypes} from "@tsed/core";
-import * as micromatch from "micromatch";
+import micromatch from "micromatch";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 function matchGroups(groups: string[], compareWith: string[] = []) {

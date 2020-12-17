@@ -1,7 +1,7 @@
 import {Entity, IdColumn} from "@tsed/objection";
 import {expect} from "chai";
-import * as Knex from "knex";
-import * as Sinon from "sinon";
+import Knex from "knex";
+import Sinon from "sinon";
 import {createTableStub} from "../../test/helpers/knex/table";
 import {createColumns} from "../utils/createColumns";
 

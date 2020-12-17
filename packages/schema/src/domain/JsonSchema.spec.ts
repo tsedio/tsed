@@ -1,4 +1,4 @@
-import * as Ajv from "ajv";
+import Ajv from "ajv";
 import {expect} from "chai";
 import {JsonSchema} from "./JsonSchema";
 

@@ -1,6 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {JsonFoo2} from "../../../../../test/helper/classes";
 import {getJsonSchema, PropertyFn} from "../../../src/jsonschema";
 import {Property} from "./property";

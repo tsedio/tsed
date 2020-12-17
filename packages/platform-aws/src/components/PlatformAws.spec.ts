@@ -2,9 +2,9 @@ import {PlatformTest} from "@tsed/common";
 import {BYNARY_MIME_TYPES, PlatformAws} from "@tsed/platform-aws";
 import "@tsed/platform-express";
 import {PlatformExpress} from "@tsed/platform-express";
-import * as aws from "aws-serverless-express";
+import aws from "aws-serverless-express";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 
 const sandbox = Sinon.createSandbox();
 

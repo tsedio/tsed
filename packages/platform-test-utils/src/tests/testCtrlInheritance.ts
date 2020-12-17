@@ -1,7 +1,7 @@
 import {Controller, Get, PathParams, PlatformTest, QueryParams} from "@tsed/common";
 import {getSpec} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 export abstract class TestBaseController {

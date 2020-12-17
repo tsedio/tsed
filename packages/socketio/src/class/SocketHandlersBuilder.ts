@@ -1,6 +1,6 @@
 import {ConverterService, InjectorService, Provider} from "@tsed/common";
 import {Store} from "@tsed/core";
-import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
+import SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "@tsed/logger";
 import {ISocketHandlerMetadata} from "../interfaces/ISocketHandlerMetadata";
 import {ISocketParamMetadata} from "../interfaces/ISocketParamMetadata";

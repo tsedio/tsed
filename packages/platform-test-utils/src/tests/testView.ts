@@ -1,7 +1,7 @@
 import {Controller, Get, Locals, Middleware, PlatformTest, UseBefore, View} from "@tsed/common";
 import {expect} from "chai";
 import {EOL} from "os";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 @Middleware()

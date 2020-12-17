@@ -1,7 +1,7 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
 @Controller("/:campaignID/polls")

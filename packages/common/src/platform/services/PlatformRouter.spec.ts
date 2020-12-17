@@ -1,6 +1,6 @@
 import {InjectorService, PLATFORM_ROUTER_OPTIONS} from "@tsed/common";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {PlatformRouter} from "./PlatformRouter";
 
 describe("PlatformRouter", () => {

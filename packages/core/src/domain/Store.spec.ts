@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {CLASS_STORE, Metadata, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "../../src";
 
 class FakeMetadata {

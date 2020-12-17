@@ -1,4 +1,4 @@
-import * as KoaRouter from "@koa/router";
+import KoaRouter from "@koa/router";
 import {RouterOptions as KoaRouterOptions} from "@koa/router";
 
 import {
@@ -10,7 +10,7 @@ import {
   PlatformStaticsOptions
 } from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import * as send from "koa-send";
+import send from "koa-send";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 import {getMulter} from "../utils/multer";
 

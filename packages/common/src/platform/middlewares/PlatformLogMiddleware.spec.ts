@@ -2,7 +2,7 @@ import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {levels} from "@tsed/logger";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {PlatformLogMiddleware} from "./PlatformLogMiddleware";
 

@@ -4,7 +4,7 @@ import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import {of} from "rxjs";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 import {HandlerContext} from "./HandlerContext";

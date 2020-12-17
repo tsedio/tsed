@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {InjectorService} from "@tsed/di";
 import {PlatformTest} from "@tsed/common";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {SocketIOService} from "../index";
 
 describe("SocketIOService", () => {

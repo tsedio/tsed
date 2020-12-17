@@ -1,7 +1,7 @@
 import {BodyParams, Controller, Get, PlatformTest} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 @Controller("/headers")

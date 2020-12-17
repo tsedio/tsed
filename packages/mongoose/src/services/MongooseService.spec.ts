@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as Mongoose from "mongoose";
-import * as Sinon from "sinon";
+import Mongoose from "mongoose";
+import Sinon from "sinon";
 import {MongooseService} from "../../src";
 
 const sandbox = Sinon.createSandbox();

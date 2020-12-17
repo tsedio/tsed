@@ -1,6 +1,6 @@
 import {Context, Controller, Get, HeaderParams, Locals, Middleware, PlatformTest, Post, Req, Use} from "@tsed/common";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 @Middleware()

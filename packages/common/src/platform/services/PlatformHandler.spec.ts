@@ -11,7 +11,7 @@ import {
   QueryParams
 } from "@tsed/common";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {buildPlatformHandler} from "../../../../../test/helper/buildPlatformHandler";
 import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 import {PlatformHandler} from "./PlatformHandler";

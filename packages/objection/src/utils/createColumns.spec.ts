@@ -2,7 +2,7 @@ import {catchError} from "@tsed/core";
 import {Decimal, Entity, IdColumn} from "@tsed/objection";
 import {MaxLength, Property} from "@tsed/schema";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {createTableStub} from "../../test/helpers/knex/table";
 import {createColumns} from "./createColumns";
 

@@ -1,7 +1,7 @@
 import {EndpointMetadata, Get, PlatformResponse, PlatformTest, View} from "@tsed/common";
 import {Ignore, Property, Returns} from "@tsed/schema";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {FakeResponse} from "../../../../../test/helper";
 import {renderView} from "./renderView";
 

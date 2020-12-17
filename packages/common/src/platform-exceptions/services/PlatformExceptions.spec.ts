@@ -2,7 +2,7 @@ import {PlatformTest, ValidationError} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {PlatformExceptions} from "./PlatformExceptions";
 
 const sandbox = Sinon.createSandbox();

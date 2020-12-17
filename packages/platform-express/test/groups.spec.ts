@@ -4,7 +4,7 @@ import {deserialize} from "@tsed/json-mapper";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {getSpec, Groups, Property, Returns, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
 

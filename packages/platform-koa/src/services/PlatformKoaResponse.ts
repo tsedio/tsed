@@ -1,7 +1,7 @@
 import {PlatformResponse} from "@tsed/common";
 import {HTTP_STATUSES} from "@tsed/exceptions";
 import {ServerResponse} from "http";
-import * as Koa from "koa";
+import Koa from "koa";
 
 const encodeUrl = require("encodeurl");
 

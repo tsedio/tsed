@@ -1,7 +1,7 @@
 import {Controller, Get, PlatformTest, Put} from "@tsed/common";
 import {expect} from "chai";
-import * as Sinon from "sinon";
-import * as SuperTest from "supertest";
+import Sinon from "sinon";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 const stub = Sinon.stub();

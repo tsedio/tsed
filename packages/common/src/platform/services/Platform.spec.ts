@@ -1,6 +1,6 @@
 import {GlobalProviders, InjectorService} from "@tsed/di";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {Controller} from "../../mvc";
 import {PlatformTest} from "../../platform-test/components/PlatformTest";
 import {Platform} from "./Platform";

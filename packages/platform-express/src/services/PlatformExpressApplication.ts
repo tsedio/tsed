@@ -1,5 +1,5 @@
 import {Configuration, createContext, Inject, PlatformApplication, PlatformHandler} from "@tsed/common";
-import * as Express from "express";
+import Express from "express";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
 import {PlatformExpressRouter} from "./PlatformExpressRouter";
 
@@ -15,7 +15,7 @@ declare global {
  * @platform
  * @express
  */
-export class PlatformExpressApplication extends PlatformExpressRouter implements PlatformApplication<Express.Application> {
+export class PlatformExpressApplication extends PlatformExpressRouter implements PlatformApplication<Express.Application, Express.Router> {
   app: Express.Application;
   rawApp: Express.Application;
   rawRouter: Express.Router;
