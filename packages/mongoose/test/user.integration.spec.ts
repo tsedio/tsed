@@ -1,6 +1,6 @@
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
-import * as faker from "faker";
+import faker from "faker";
 import {MongooseModel} from "../src/interfaces";
 import {TestUser} from "./helpers/models/User";
 import {Server} from "./helpers/Server";

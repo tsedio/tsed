@@ -3,7 +3,7 @@ import {NotFound} from "@tsed/exceptions";
 import {Indexed, Unique} from "@tsed/mongoose";
 import {Allow, Email, Ignore, MinLength, Property, Required, Returns} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {promisify} from "util";
 import {PlatformTestOptions} from "../interfaces";
 

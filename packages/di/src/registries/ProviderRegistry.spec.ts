@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {GlobalProviders, ProviderScope, ProviderType, registerFactory, registerProvider, registerValue} from "../../src";
 
 const sandbox = Sinon.createSandbox();

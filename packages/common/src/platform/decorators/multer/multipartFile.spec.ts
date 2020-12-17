@@ -2,7 +2,7 @@ import {MultipartFile, ParamMetadata, ParamTypes, PlatformMulterMiddleware, Post
 import {descriptorOf, Metadata, Store} from "@tsed/core";
 import {getSpec, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 
 class Test {
   test() {}

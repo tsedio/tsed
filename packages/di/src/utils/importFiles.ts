@@ -1,4 +1,4 @@
-import * as globby from "globby";
+import globby from "globby";
 import {$log} from "@tsed/logger";
 import {cleanGlobPatterns} from "./cleanGlobPatterns";
 

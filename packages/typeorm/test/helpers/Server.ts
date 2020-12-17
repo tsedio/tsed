@@ -1,5 +1,5 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
-import * as Path from "path";
+import Path from "path";
 import "@tsed/platform-express";
 import "@tsed/typeorm";
 import "./connections/ConnectionProvider";

@@ -1,8 +1,8 @@
 import {PlatformContext, PlatformTest, Req} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
-import * as Passport from "passport";
-import * as Sinon from "sinon";
+import Passport from "passport";
+import Sinon from "sinon";
 import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
 import {stub} from "../../../../test/helper/tools";
 import {Protocol, ProtocolsService} from "../index";

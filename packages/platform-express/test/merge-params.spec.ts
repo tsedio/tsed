@@ -2,7 +2,7 @@ import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
 import {MergeParams, PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {rootDir, Server} from "./app/Server";
 
 const utils = PlatformTestUtils.create({

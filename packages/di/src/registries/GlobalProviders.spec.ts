@@ -1,6 +1,6 @@
 import {Registry} from "@tsed/core";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {GlobalProviderRegistry, Provider} from "../../src";
 
 const sandbox = Sinon.createSandbox();

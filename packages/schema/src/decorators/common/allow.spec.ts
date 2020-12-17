@@ -1,5 +1,5 @@
 import {getJsonSchema} from "@tsed/schema";
-import * as Ajv from "ajv";
+import Ajv from "ajv";
 import {expect} from "chai";
 import {Allow} from "./allow";
 import {Property} from "./property";

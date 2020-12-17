@@ -1,7 +1,7 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/mongoose";
 import "@tsed/platform-express";
-import * as Path from "path";
+import Path from "path";
 
 const cookieParser = require("cookie-parser"),
   bodyParser = require("body-parser"),

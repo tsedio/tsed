@@ -1,6 +1,6 @@
 import {descriptorOf, Metadata, Store} from "@tsed/core";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {Inject} from "../../src";
 import {INJECTABLE_PROP} from "../constants";
 

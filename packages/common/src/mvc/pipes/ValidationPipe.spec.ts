@@ -2,7 +2,7 @@ import {ParamMetadata, Post} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {CollectionOf, getSpec, Required} from "@tsed/schema";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {BodyParams} from "../decorators/params/bodyParams";
 import {QueryParams} from "../decorators/params/queryParams";
 import {ValidationPipe} from "./ValidationPipe";

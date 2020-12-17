@@ -1,5 +1,5 @@
-import {Allow, getJsonSchema} from "@tsed/schema";
-import * as Ajv from "ajv";
+import {getJsonSchema} from "@tsed/schema";
+import Ajv from "ajv";
 import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {Required} from "./required";

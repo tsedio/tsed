@@ -20,8 +20,8 @@ import {
   string
 } from "@tsed/schema";
 import {expect} from "chai";
-import * as qs from "querystring";
-import * as SuperTest from "supertest";
+import qs from "querystring";
+import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
 

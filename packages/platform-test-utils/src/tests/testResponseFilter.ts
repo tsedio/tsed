@@ -3,7 +3,7 @@ import {ResponseFilter} from "@tsed/common/src/platform-response-filter/decorato
 import {ResponseFilterMethods} from "@tsed/common/src/platform-response-filter/interfaces/ResponseFilterMethods";
 import {Property, Returns} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 class ResponseFilterModel {

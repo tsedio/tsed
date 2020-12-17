@@ -10,7 +10,7 @@ import {
   PlatformRouter,
   useCtxHandler
 } from "@tsed/common";
-import * as Fs from "fs";
+import Fs from "fs";
 import {join} from "path";
 import {SwaggerSettings} from "./interfaces";
 import {cssMiddleware} from "./middlewares/cssMiddleware";

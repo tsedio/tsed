@@ -1,7 +1,7 @@
 import {PlatformRouter, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as Fs from "fs";
-import * as Sinon from "sinon";
+import Fs from "fs";
+import Sinon from "sinon";
 import {SwaggerModule} from "./index";
 
 const sandbox = Sinon.createSandbox();

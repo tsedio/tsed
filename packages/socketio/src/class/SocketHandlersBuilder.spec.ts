@@ -2,7 +2,7 @@ import {Store} from "@tsed/core";
 import {PlatformTest} from "@tsed/common";
 import {InjectorService, ProviderType} from "@tsed/di";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {SocketHandlersBuilder} from "./SocketHandlersBuilder";
 import {SocketFilters} from "../interfaces/SocketFilters";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";

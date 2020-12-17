@@ -1,7 +1,7 @@
 import {Env} from "@tsed/core";
 import {Constant, Injectable} from "@tsed/di";
-import * as cons from "consolidate";
-import * as Fs from "fs";
+import cons from "consolidate";
+import Fs from "fs";
 import {extname, join, resolve} from "path";
 import {
   PlatformViewsEngineOptions,

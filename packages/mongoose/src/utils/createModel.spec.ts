@@ -1,8 +1,6 @@
-import {Store} from "@tsed/core";
 import {expect} from "chai";
-import * as mongoose from "mongoose";
-import * as Sinon from "sinon";
-import {MONGOOSE_MODEL_NAME} from "../../src/constants";
+import mongoose from "mongoose";
+import Sinon from "sinon";
 import {createModel} from "../../src/utils";
 
 describe("createModel()", () => {

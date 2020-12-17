@@ -1,8 +1,8 @@
 import {PlatformHandler, PlatformRouter} from "@tsed/common/src/platform";
 import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
-import * as Express from "express";
-import * as Sinon from "sinon";
+import Express from "express";
+import Sinon from "sinon";
 import {stub} from "../../../../test/helper/tools";
 import {PlatformExpressRouter} from "./PlatformExpressRouter";
 

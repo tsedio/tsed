@@ -1,6 +1,6 @@
 import {prototypeOf, UnsupportedDecoratorType} from "@tsed/core";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {EndpointMetadata, UseBeforeEach} from "../../../../src/mvc";
 
 class CustomMiddleware {

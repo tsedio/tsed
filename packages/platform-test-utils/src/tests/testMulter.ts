@@ -1,7 +1,7 @@
 import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest, Post} from "@tsed/common";
 import {CollectionOf, Property, Required, Status} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 export class Task {

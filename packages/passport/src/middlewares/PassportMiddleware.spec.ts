@@ -1,7 +1,7 @@
 import {Unauthorized} from "@tsed/exceptions";
 import {expect} from "chai";
-import * as Passport from "passport";
-import * as Sinon from "sinon";
+import Passport from "passport";
+import Sinon from "sinon";
 import {PassportMiddleware} from "./PassportMiddleware";
 
 const sandbox = Sinon.createSandbox();

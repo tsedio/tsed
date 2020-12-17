@@ -1,5 +1,5 @@
 import {Configuration, InjectorService, ProviderScope, registerProvider} from "@tsed/di";
-import * as Https from "https";
+import Https from "https";
 import {PlatformApplication} from "../../platform";
 import {HttpsServer} from "../decorators/httpsServer";
 import {listenServer} from "./listenServer";

@@ -1,6 +1,6 @@
 import {Inject, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import * as Mongoose from "mongoose";
+import Mongoose from "mongoose";
 import {ConnectOptions} from "mongoose";
 
 @Service()

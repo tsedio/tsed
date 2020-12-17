@@ -1,4 +1,4 @@
-import * as Express from "express";
+import Express from "express";
 import {PlatformExpressSettings} from "./PlatformExpressSettings";
 
 export * from "./PlatformExpressSettings";

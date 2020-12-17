@@ -1,6 +1,6 @@
 import {Container, Injectable, InjectorService, LocalsContainer} from "@tsed/di";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {PlatformModule} from "../../platform/PlatformModule";
 import {loadInjector} from "./loadInjector";

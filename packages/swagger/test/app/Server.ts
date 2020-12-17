@@ -1,7 +1,7 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/swagger";
-import * as Path from "path";
+import Path from "path";
 
 const cookieParser = require("cookie-parser"),
   bodyParser = require("body-parser"),

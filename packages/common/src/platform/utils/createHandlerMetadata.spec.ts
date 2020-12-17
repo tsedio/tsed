@@ -1,7 +1,7 @@
 import {EndpointMetadata, Err, Get, HandlerType, PlatformTest, QueryParams, useCtxHandler} from "@tsed/common";
 import {Provider} from "@tsed/di";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {createHandlerMetadata} from "./createHandlerMetadata";
 
 const sandbox = Sinon.createSandbox();

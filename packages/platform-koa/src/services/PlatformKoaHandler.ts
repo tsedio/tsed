@@ -1,5 +1,5 @@
 import {HandlerContext, HandlerMetadata, HandlerType, OnRequestOptions, ParamTypes, PlatformContext, PlatformHandler} from "@tsed/common";
-import * as Koa from "koa";
+import Koa from "koa";
 import "./PlatformKoaRequest";
 
 export class PlatformKoaHandler extends PlatformHandler {

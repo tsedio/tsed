@@ -1,5 +1,4 @@
 import {
-  applyDecorators,
   decorateMethodsOf,
   DecoratorParameters,
   decoratorTypeOf,

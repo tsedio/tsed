@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import "@tsed/platform-express";
 import {PlatformExpress} from "@tsed/platform-express/src";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
 describe("SocketIO", () => {

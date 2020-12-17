@@ -1,7 +1,7 @@
 import {Context, EndpointMetadata, Get, PlatformContext, PlatformTest} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {ResponseFilter} from "../decorators/responseFilter";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods";
 import {PlatformResponseFilter} from "./PlatformResponseFilter";

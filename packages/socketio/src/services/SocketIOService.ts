@@ -1,5 +1,5 @@
 import {ConverterService, InjectorService, Provider, Service} from "@tsed/common";
-import * as SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
+import SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
 import {IO} from "../decorators/io";
 import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";

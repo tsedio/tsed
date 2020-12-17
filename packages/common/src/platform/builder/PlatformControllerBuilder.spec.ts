@@ -2,7 +2,7 @@ import {All, ControllerProvider, Get, Use} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {OperationMethods} from "@tsed/schema";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";

@@ -1,6 +1,6 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 export function testChildrenControllers(options: PlatformTestOptions) {

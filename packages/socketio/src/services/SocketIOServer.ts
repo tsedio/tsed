@@ -1,5 +1,5 @@
 import {registerFactory} from "@tsed/common";
-import * as SocketIO from "socket.io";
+import SocketIO from "socket.io";
 
 /**
  *

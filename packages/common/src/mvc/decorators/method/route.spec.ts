@@ -1,7 +1,7 @@
 import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
 import {OperationMethods} from "@tsed/schema";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 
 const middleware: any = Sinon.stub();
 const useStub: any = Sinon.stub().returns(middleware);

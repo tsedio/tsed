@@ -1,5 +1,5 @@
 import {Configuration, ProviderScope, registerProvider} from "@tsed/di";
-import * as Ajv from "ajv";
+import Ajv from "ajv";
 import {IAjvSettings} from "../interfaces/IAjvSettings";
 
 // tslint:disable-next-line:variable-name
@@ -11,9 +11,9 @@ registerProvider({
   deps: [Configuration],
   scope: ProviderScope.SINGLETON,
   useFactory(configuration: Configuration) {
-    const {errorFormatter, Ajv: AjvCustom = Ajv, ...props} = configuration.get<IAjvSettings>("ajv") || {};
+    const {errorFormatter, ...props} = configuration.get<IAjvSettings>("ajv") || {};
 
-    return new AjvCustom({
+    return new Ajv({
       verbose: false,
       coerceTypes: true,
       ...props

@@ -1,7 +1,7 @@
-import * as SwaggerParser from "@apidevtools/swagger-parser";
+import SwaggerParser from "@apidevtools/swagger-parser";
 import {BadRequest, Exception} from "@tsed/exceptions";
 import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
-import * as Ajv from "ajv";
+import Ajv from "ajv";
 import {expect} from "chai";
 import {unlinkSync, writeJsonSync} from "fs-extra";
 import "./ExceptionSchema";

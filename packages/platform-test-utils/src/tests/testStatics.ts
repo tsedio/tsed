@@ -2,7 +2,7 @@ import {Controller, PlatformRouter, PlatformTest} from "@tsed/common";
 import {Configuration} from "@tsed/di";
 import {expect} from "chai";
 import {readFileSync} from "fs";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 @Controller("/statics")

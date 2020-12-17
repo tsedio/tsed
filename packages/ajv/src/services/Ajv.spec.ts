@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import * as AjvKlass from "ajv";
+import AjvKlass from "ajv";
 import {expect} from "chai";
 import {AJV} from "./Ajv";
 

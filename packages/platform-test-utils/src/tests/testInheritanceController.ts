@@ -2,7 +2,7 @@ import {BodyParams, Controller, Get, PathParams, PlatformTest, Post} from "@tsed
 import {NotFound} from "@tsed/exceptions";
 import {Description, MaxLength, MinLength, Property, Returns, Summary} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
 export class Resource {

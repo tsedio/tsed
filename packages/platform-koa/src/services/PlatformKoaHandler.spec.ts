@@ -1,7 +1,7 @@
 import {HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
 import {PlatformKoaHandler} from "@tsed/platform-koa";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {buildPlatformHandler, invokePlatformHandler} from "../../../../test/helper/buildPlatformHandler";
 import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
 

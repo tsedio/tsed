@@ -1,7 +1,7 @@
 import {Err, HandlerMetadata, HandlerType, ParamTypes, PlatformTest} from "@tsed/common";
 import {PlatformExpressHandler} from "@tsed/platform-express";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {buildPlatformHandler, invokePlatformHandler} from "../../../../test/helper/buildPlatformHandler";
 import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
 

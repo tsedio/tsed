@@ -1,6 +1,6 @@
 import {ParamMetadata, ParamTypes, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {ParseExpressionPipe} from "./ParseExpressionPipe";
 
 const sandbox = Sinon.createSandbox();

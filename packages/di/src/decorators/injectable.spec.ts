@@ -1,6 +1,6 @@
 import {Injectable} from "@tsed/di";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import * as ProviderRegistry from "../../src/registries/ProviderRegistry";
 
 describe("@Injectable()", () => {

@@ -1,4 +1,4 @@
-import * as Knex from "knex";
+import Knex from "knex";
 import {createColumns} from "../../../src/utils/createColumns";
 import {User} from "../models/User";
 

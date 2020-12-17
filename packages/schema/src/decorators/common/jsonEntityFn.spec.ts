@@ -1,5 +1,5 @@
 import {JsonEntityFn} from "@tsed/schema";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 
 describe("JsonSchemaStoreFn", () => {
   it("should decorate property", () => {

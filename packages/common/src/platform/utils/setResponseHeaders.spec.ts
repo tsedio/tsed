@@ -1,6 +1,6 @@
 import {EndpointMetadata, Get, Location, PlatformResponse, PlatformTest, Redirect, Status} from "@tsed/common";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {FakeResponse} from "../../../../../test/helper";
 import {setResponseHeaders} from "./setResponseHeaders";
 

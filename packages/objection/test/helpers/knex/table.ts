@@ -1,4 +1,4 @@
-import * as Knex from "knex";
+import Knex from "knex";
 
 export function createTableStub(sandbox: any) {
   return ({

@@ -1,5 +1,5 @@
 import {PlatformContext, PlatformRequest} from "@tsed/common";
-import type * as Express from "express";
+import type Express from "express";
 
 declare module "express" {
   export interface Request {

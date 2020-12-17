@@ -1,7 +1,7 @@
 import {EndpointMetadata, MulterOptions, MultipartFile, PlatformApplication, PlatformMulterMiddleware, PlatformTest} from "@tsed/common";
 import {Exception} from "@tsed/exceptions";
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 
 const sandbox = Sinon.createSandbox();

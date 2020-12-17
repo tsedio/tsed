@@ -3,7 +3,7 @@ import {Type} from "@tsed/core";
 import {DataSource} from "apollo-datasource";
 import {ApolloServerBase} from "apollo-server-core";
 import {GraphQLSchema} from "graphql";
-import * as typeGraphql from "type-graphql";
+import * as TypeGraphql from "type-graphql";
 import {buildSchema, BuildSchemaOptions} from "type-graphql";
 import {GraphQLServer} from "../interfaces/GraphQLServer";
 import {GraphQLSettings} from "../interfaces/GraphQLSettings";
@@ -51,10 +51,10 @@ export class GraphQLService {
     try {
       // istanbul ignore next
       // @ts-ignore
-      if (typeGraphql.useContainer) {
+      if (TypeGraphql.useContainer) {
         // support old version of type-graphql under @v0.17
         // @ts-ignore
-        typeGraphql.useContainer(this.injectorService);
+        TypeGraphql.useContainer(this.injectorService);
       }
 
       const resolvers = [...this.getResolvers(), ...(settings.resolvers || []), ...(buildSchemaOptions.resolvers || [])];

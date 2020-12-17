@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {PrimitiveMapper} from "./PrimitiveMapper";
 
 describe("PrimitiveMapper", () => {

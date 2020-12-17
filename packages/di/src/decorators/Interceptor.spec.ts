@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {GlobalProviders, ProviderType} from "@tsed/di";
-import * as Sinon from "sinon";
+import Sinon from "sinon";
 import {Interceptor} from "../../src";
 
 describe("@Interceptor", () => {

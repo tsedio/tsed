@@ -1,5 +1,5 @@
 import {getConstructorArgNames, isClass, isString, nameOf} from "@tsed/core";
-import * as chalk from "chalk";
+import chalk from "chalk";
 import {TokenProvider} from "../interfaces";
 
 export class InjectionError extends Error {

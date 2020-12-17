@@ -1,6 +1,6 @@
 import {PLATFORM_ROUTER_OPTIONS, PlatformHandler, PlatformRouter, PlatformStaticsOptions} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import * as Express from "express";
+import Express from "express";
 import {RouterOptions} from "express";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 

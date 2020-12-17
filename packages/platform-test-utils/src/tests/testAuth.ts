@@ -3,7 +3,7 @@ import {useDecorators} from "@tsed/core";
 import {BadRequest, Forbidden, Unauthorized} from "@tsed/exceptions";
 import {In, Returns, Security} from "@tsed/schema";
 import {expect} from "chai";
-import * as SuperTest from "supertest";
+import SuperTest from "supertest";
 import baseSpec from "../data/swagger.json";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -182,7 +182,29 @@ export function testAuth(options: PlatformTestOptions) {
         swagger: "2.0",
         consumes: ["application/json"],
         produces: ["application/json"],
-        info: {title: "Api documentation", version: "1.0.0"},
+        info: {
+          contact: {
+            email: "apiteam@swagger.io"
+          },
+          description: "Swagger description",
+          license: {
+            name: "Apache 2.0",
+            url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+          },
+          termsOfService: "http://swagger.io/terms/",
+          title: "Swagger Title",
+          version: "1.0.0"
+        },
+        securityDefinitions: {
+          global_auth: {
+            authorizationUrl: "http://petstore.swagger.io/oauth/dialog",
+            flow: "implicit",
+            scopes: {
+              admin: "Admin access"
+            },
+            type: "oauth2"
+          }
+        },
         paths: {
           "/rest/auth/authorize": {
             post: {
