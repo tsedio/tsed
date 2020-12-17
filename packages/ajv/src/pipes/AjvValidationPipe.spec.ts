@@ -18,7 +18,7 @@ async function validate(value: any, metadata: any) {
   const pipe: AjvValidationPipe = await PlatformTest.invoke<AjvValidationPipe>(AjvValidationPipe);
 
   try {
-    return pipe.transform(value, metadata);
+    return await pipe.transform(value, metadata);
   } catch (er) {
     if (er instanceof ValidationError) {
       return ParamValidationError.from(metadata, er);
