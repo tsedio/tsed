@@ -1,9 +1,11 @@
 // import "@tsed/common";
 import {
+  AdditionalProperties,
   CollectionOf,
   Email,
   GenericOf,
   Generics,
+  Groups,
   Ignore,
   In,
   JsonEntityStore,
@@ -286,6 +288,36 @@ describe("deserialize()", () => {
         roles: new Map().set("role1", new Role({label: "role"})),
         add: true
       });
+    });
+    it("should transform object to class (additionalProperties = true, with group)", () => {
+      class Role {
+        @Property()
+        label: string;
+
+        constructor({label}: any = {}) {
+          this.label = label;
+        }
+      }
+
+      @AdditionalProperties(true)
+      class Model {
+        @Property()
+        id: string;
+
+        @Groups("!update")
+        password: string;
+      }
+
+      const result = deserialize(
+        {
+          id: "id",
+          password: "string"
+        },
+        {type: Model, groups: ["update"]}
+      );
+
+      expect(result).to.be.instanceOf(Model);
+      expect(result).to.deep.eq({id: "id"});
     });
     it("should transform object to class (inherited class)", () => {
       class Role {
