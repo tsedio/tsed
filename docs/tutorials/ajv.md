@@ -80,27 +80,26 @@ be validated by Ajv.
 import {Required, MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "@tsed/common";
 
 export class CalendarModel {
-    
-    @MaxLength(20)
-    @MinLength(3)
-    @Required()
-    title: string;
+  @MaxLength(20)
+  @MinLength(3)
+  @Required()
+  title: string;
 
-    @Minimum(0)
-    @Maximum(10)
-    rating: number;
+  @Minimum(0)
+  @Maximum(10)
+  rating: number;
 
-    @Email()
-    email: string;
+  @Email()
+  email: string;
 
-    @Format("date")  // or date-time, etc...
-    createDate: Date;
-    
-    @Pattern(/hello/)
-    customInput: string;
-    
-    @Enum("value1", "value2")
-    customInput: "value1" | "value2";
+  @Format("date")  // or date-time, etc...
+  createDate: Date;
+  
+  @Pattern(/hello/)
+  customInput: string;
+  
+  @Enum("value1", "value2")
+  customInput: "value1" | "value2";
 }
 ```
 
@@ -121,18 +120,173 @@ When a validation error occurs, AJV generates a list of errors with a full descr
 ]
 ```
 
-This information can be retrieved in the response headers:
+## User defined keywords
 
+Ajv allows you to define custom keywords to validate a property. 
+
+You can find more details on the different ways to declare a custom validator on this page: https://ajv.js.org/docs/keywords.html
+
+Ts.ED introduces the @@Keyword@@ decorator to declare a new custom validator for Ajv. Combined with the @@CustomKey@@ decorator to add keywords to a property of your class, you can use more complex scenarios than what basic JsonSchema allows. 
+
+For example, we can create a custom validator to support the `range` validation over a number. To do that, we have to define
+the custom validator by using @@Keyword@@ decorator:
+   
+```typescript
+import {Keyword, KeywordMethods} from "@tsed/ajv";
+import {array, number} from "@tsed/schema";
+
+@Keyword({
+  keyword: "range",
+  type: "number",
+  schemaType: "array",
+  implements: ["exclusiveRange"],
+  metaSchema: array()
+    .items([number(), number()])
+    .minItems(2)
+    .additionalItems(false)
+})
+class RangeKeyword implements KeywordMethods {
+  compile([min, max]: number[], parentSchema: any) {
+    return parentSchema.exclusiveRange === true
+      ? (data: any) => data > min && data < max
+      : (data: any) => data >= min && data <= max;
+  }
+}
 ```
- connection: keep-alive
- content-length: 18
- content-type: text/html; charset=utf-8
- date: Wed, 16 May 2018 07:32:23 GMT
- errors: [{"keyword": "minLength","dataPath": ".password", "schemaPath": "#/properties/password/minLength", "params": {"limit": 6}, "message": "should NOT be shorter than 6 characters", "modelName": "User"}]
- etag: W/"12-Bpa0T7/lBA6+IACzRWwBc4S6NUY"
- vary: Accept-Encoding
- x-powered-by: Express
+
+Then we can declare a model using the standard decorators from `@tsed/schema`:
+
+<Tabs class="-code">
+  <Tab label="Product.ts">
+  
+```typescript
+import {CustomKey} from "@tsed/schema";
+import {Range, ExclusiveRange} from "../decorators/Range"; // custom decorator
+
+export class Product {
+  @CustomKey("range", [10, 100])
+  @CustomKey("exclusiveRange", true)
+  price: number;
+  
+  // OR
+  
+  @Range(10, 100)
+  @ExclusiveRange(true)
+  price2: number;
+}
 ```
+  </Tab>
+  <Tab label="Range.ts">
+
+```typescript
+import {CustomKey} from "@tsed/schema";
+
+export function Range(min: number, max: number) {
+  return CustomKey("range", [min, max]);
+}
+
+export function ExclusiveRange(bool: boolean) {
+  return CustomKey("exclusiveRange", bool);
+}
+```     
+
+  </Tab>
+</Tabs>
+
+Finally, we can create a unit test to verify if our example works properly:
+
+```typescript
+import "@tsed/ajv";
+import {PlatformTest} from "@tsed/common";
+import {getJsonSchema} from "@tsed/schema";
+import {Product} from "./Product";
+import "../keywords/RangeKeyword";
+
+describe("Product", () => {
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
+
+  it("should call custom keyword validation (compile)", () => {
+    const ajv = PlatformTest.get<Ajv>(Ajv);
+    const schema = getJsonSchema(Product, {customKeys: true});
+    const validate = ajv.compile(schema);
+
+    expect(schema).to.deep.equal({
+      "properties": {
+        "price": {
+          "exclusiveRange": true,
+          "range": [
+            10,
+            100
+          ],
+          "type": "number"
+        }
+      },
+      "type": "object"
+    });
+
+    expect(validate({price: 10.01})).toEqual(true);
+    expect(validate({price: 99.99})).toEqual(true);
+    expect(validate({price: 10})).toEqual(false);
+    expect(validate({price: 100})).toEqual(false);
+  });
+});
+```
+
+### With "code" function
+
+Starting from v7 Ajv uses [CodeGen module](https://ajv.js.org/lib/compile/codegen/index.ts) for all pre-defined keywords - see [codegen.md](https://ajv.js.org/docs/codegen.html) for details.
+
+Example `even` keyword:
+
+<Tabs class="-code">
+  <Tab label="Event.ts">
+  
+```typescript
+import {Keyword, KeywordMethods} from "@tsed/ajv";
+import {array, number} from "@tsed/schema";
+import {_, KeywordCxt} from "ajv";
+
+@Keyword({
+  keyword: "even",
+  type: "number",
+  schemaType: "boolean"
+})
+class EvenKeyword implements KeywordMethods {
+  code(cxt: KeywordCxt) {
+    const {data, schema} = cxt;
+    const op = schema ? _`!==` : _`===`;
+    cxt.fail(_`${data} %2 ${op} 0`);
+  }
+}
+```
+
+  </Tab>
+  <Tab label="Ajv example">
+  
+```typescript
+import ajv, {_, KeywordCxt} from "ajv";
+
+ajv.addKeyword({
+  keyword: "even",
+  type: "number",
+  schemaType: "boolean",
+  // $data: true // to support [$data reference](./validation.html#data-reference), ...
+  code(cxt: KeywordCxt) {
+    const {data, schema} = cxt
+    const op = schema ? _`!==` : _`===`
+    cxt.fail(_`${data} %2 ${op} 0`) // ... the only code change needed is to use `cxt.fail$data` here
+  },
+})
+
+const schema = {even: true}
+const validate = ajv.compile(schema)
+console.log(validate(2)) // true
+console.log(validate(3)) // false
+``` 
+
+  </Tab>
+</Tabs>
 
 ## Author 
 

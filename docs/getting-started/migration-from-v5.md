@@ -10,6 +10,61 @@ meta:
 ---
 # Migrate from v5
 ## What's new ?
+### Since <Badge text="v6.17.0" />
+
+- [Declare custom keys on JsonSchema](/docs/models.md#custom-keys).
+- [Declare custom validator with Ajv](/docs/ajv.md#user-defined-keywords).
+
+### Since <Badge text="v6.16.0" />
+
+Ts.ED uses Ajv 7. 
+
+If you use: 
+```typescript
+import * as Ajv from "ajv"
+```
+
+You have to replace it with:
+
+```typescript
+import Ajv from "ajv"
+```
+
+### Since <Badge text="v6.14.0" />
+
+- [Manage Groups properties](/docs/models.md#groups).
+- [Use functional programming to declare custom schema](/docs/models.md#using-functions).
+
+Example:
+
+```typescript
+import {array, number, object, Returns, Schema, string} from "@tsed/schema";
+
+const ProductSchema = object({
+  id: string().required().description("Product ID"),
+  title: string().required().minLength(3).example("CANON D300").description("Product title"),
+  price: number().minimum(0).example(100).description("Product price"),
+  description: string().description("Product description"),
+  tags: array()
+    .minItems(1)
+    .items(string().minLength(2).maxLength(10).description("Product tag"))
+    .description("Product tags")
+})
+  .label("ProductModel");
+```
+
+### Since <Badge text="v6.11.0" />
+
+- Add @@AnyOf@@, @@AllOf@@, @@OneOf@@ and @@For@@ decorators.
+
+@@For@@ decorator allows conditional JsonSchema depending on the JsonSchema/Swagger version:
+
+```typescript
+@For(SpecTypes.JSON, oneOf(string(), array().items(string()).maxItems(2)))
+@For(SpecTypes.OPENAPI, array().items(string()).maxItems(2))
+@For(SpecTypes.SWAGGER, array().items(string()).maxItems(2))
+```
+
 ### Platform API
 
 V6 marks a major evolution of the Ts.ED framework. 
@@ -47,11 +102,6 @@ New features are available:
 - [Add validation decorator on endpoint parameters](/docs/controllers.md#validation).
 - [Manage response models by content-type and status code (OAS3)](/tutorials/swagger.md).
 - [Configure swagger to generate OpenSpec3](/tutorials/swagger.md).
-
-Since <Badge text="v6.14.0" />:
-
-- [Manage Groups properties](/docs/models.md#groups).
-- [Use functional programming to declare custom schema](/docs/models.md#using-functions).
 
 :::
 

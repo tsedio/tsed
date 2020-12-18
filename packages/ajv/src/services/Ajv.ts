@@ -23,7 +23,8 @@ function bindKeywords(injector: InjectorService): Vocabulary {
       ...options,
       validate: getHandler("validate", service),
       compile: getHandler("compile", service),
-      code: getHandler("code", service)
+      code: getHandler("code", service),
+      macro: getHandler("macro", service)
     });
   });
 }
