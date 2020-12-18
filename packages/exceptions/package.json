@@ -1,11 +1,11 @@
 {
   "name": "@tsed/exceptions",
-  "version": "6.16.1",
+  "version": "6.17.0",
   "description": "HTTP exceptions module for Ts.ED Framework and other pure Express application",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "dependencies": {
-    "@tsed/schema": "6.16.1",
+    "@tsed/schema": "6.17.0",
     "tslib": "2.0.1"
   },
   "scripts": {
