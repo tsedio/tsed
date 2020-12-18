@@ -322,6 +322,116 @@ Circular reference can be resolved by using arrow with a @@Property@@ and @@Coll
 
 <<< @/docs/docs/snippets/model/circular-references.ts
 
+## Custom Keys <Badge text="6.17.0+"/>
+
+Ts.ED introduces the @@Keyword@@ decorator to declare a new custom validator for Ajv. 
+Combined with the @@CustomKey@@ decorator to add keywords to a property of your class, you can use more complex scenarios than what basic JsonSchema allows. 
+
+For example, we can create a custom validator to support the `range` validation over a number. To do that, we have to define
+the custom validator by using @@Keyword@@ decorator:
+   
+```typescript
+import {Keyword, KeywordMethods} from "@tsed/ajv";
+import {array, number} from "@tsed/schema";
+
+@Keyword({
+  keyword: "range",
+  type: "number",
+  schemaType: "array",
+  implements: ["exclusiveRange"],
+  metaSchema: array()
+    .items([number(), number()])
+    .minItems(2)
+    .additionalItems(false)
+})
+class RangeKeyword implements KeywordMethods {
+  compile([min, max]: number[], parentSchema: any) {
+    return parentSchema.exclusiveRange === true
+      ? (data: any) => data > min && data < max
+      : (data: any) => data >= min && data <= max;
+  }
+}
+```
+
+Then we can declare a model using the standard decorators from `@tsed/schema`:
+
+<Tabs class="-code">
+  <Tab label="Product.ts">
+  
+```typescript
+import {CustomKey} from "@tsed/schema";
+import {Range, ExclusiveRange} from "../decorators/Range"; // custom decorator
+
+export class Product {
+  @CustomKey("range", [10, 100])
+  @CustomKey("exclusiveRange", true)
+  price: number;
+  
+  // OR
+  
+  @Range(10, 100)
+  @ExclusiveRange(true)
+  price2: number;
+}
+```
+  </Tab>
+  <Tab label="Range.ts">
+
+```typescript
+import {CustomKey} from "@tsed/schema";
+
+export function Range(min: number, max: number) {
+  return CustomKey("range", [min, max]);
+}
+
+export function ExclusiveRange(bool: boolean) {
+  return CustomKey("exclusiveRange", bool);
+}
+```     
+
+  </Tab>
+</Tabs>
+
+Finally, we can create a unit test to verify if our example works properly:
+
+```typescript
+import "@tsed/ajv";
+import {PlatformTest} from "@tsed/common";
+import {getJsonSchema} from "@tsed/schema";
+import {Product} from "./Product";
+import "../keywords/RangeKeyword";
+
+describe("Product", () => {
+  beforeEach(PlatformTest.create);
+  afterEach(PlatformTest.reset);
+
+  it("should call custom keyword validation (compile)", () => {
+    const ajv = PlatformTest.get<Ajv>(Ajv);
+    const schema = getJsonSchema(Product, {customKeys: true});
+    const validate = ajv.compile(schema);
+
+    expect(schema).to.deep.equal({
+      "properties": {
+        "price": {
+          "exclusiveRange": true,
+          "range": [
+            10,
+            100
+          ],
+          "type": "number"
+        }
+      },
+      "type": "object"
+    });
+
+    expect(validate({price: 10.01})).toEqual(true);
+    expect(validate({price: 99.99})).toEqual(true);
+    expect(validate({price: 10})).toEqual(false);
+    expect(validate({price: 100})).toEqual(false);
+  });
+});
+```
+
 ## Groups <Badge text="6.14.0+"/>
 
 @@Groups@@ decorator allows you to manage your serialized/deserialized fields by using group label. For example, with a CRUD controller, 
@@ -623,6 +733,25 @@ This is possible by using @@getJsonSchema@@. Here is a small example:
 
   </Tab>
 </Tabs>
+
+## Expose a JsonSchema
+
+You can create a controller, or an endpoint to expose a specific schema with the custom keys. 
+This can allow your consumers to retrieve a validation template so that they can use it to validate a form.
+
+```typescript
+import {Controller, Get} from "@tsed/common";
+import {getJsonSchema} from "@tsed/schema";
+import {Product} from "../models/Product";
+
+@Controller("/products")
+export class ProductsCtrl {
+  @Get("/.schema")
+  get(@QueryParams('customKeys') customKeys: boolean, @QueryParams('groups') groups: string[]) {
+    return getJsonSchema(Product, {customKeys, groups});
+  }
+}
+```
 
 ## Get OpenSpec
 

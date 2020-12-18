@@ -20,7 +20,7 @@ export interface JsonSchemaOptions {
    */
   groups?: string[] | false;
   /**
-   * Generate custom keys
+   * Generate custom keys when SpecType is JSON.
    */
   customKeys?: boolean;
 
