@@ -1,4 +1,5 @@
 import {PlatformTest} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import * as SuperTest from "supertest";
@@ -8,9 +9,10 @@ describe("Rest", () => {
   // bootstrap your Server to load all endpoints before run your test
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(TestMongooseContext.bootstrap(Server)); // Create a server with mocked database
-  before(() => {
+  before(TestMongooseContext.bootstrap(Server, {platform: PlatformExpress})); // Create a server with mocked database
+  before((done) => {
     request = SuperTest(PlatformTest.callback());
+    done();
   });
 
   after(TestMongooseContext.reset); // reset database and injector
