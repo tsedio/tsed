@@ -2,6 +2,7 @@ import {nameOf, Store} from "@tsed/core";
 import {MONGOOSE_MODEL_NAME} from "../constants";
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions";
 import {registerModel} from "../registries/MongooseModelRegistry";
+import {MongooseModels} from "../registries/MongooseModels";
 import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections";
 import {createModel, getSchema} from "../utils";
 import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions";
@@ -47,6 +48,7 @@ export function Model(options: MongooseModelOptions = {}) {
   return (target: any) => {
     const name = options.name || nameOf(target);
     Store.from(target).set(MONGOOSE_MODEL_NAME, name);
+    MongooseModels.set(name, target);
 
     const schema = getSchema(target, options);
 

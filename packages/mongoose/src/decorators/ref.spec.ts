@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {getJsonSchema} from "@tsed/schema";
+import {getJsonSchema, Property} from "@tsed/schema";
 import {expect} from "chai";
 import {Schema} from "mongoose";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../../src/constants";
@@ -8,7 +8,10 @@ import {Ref} from "../../src/decorators";
 describe("@Ref()", () => {
   describe("type is a class", () => {
     it("should set metadata", () => {
-      class RefTest {}
+      class RefTest {
+        @Property()
+        id: string;
+      }
 
       Store.from(RefTest).set(MONGOOSE_MODEL_NAME, "RefTest");
 
@@ -18,13 +21,31 @@ describe("@Ref()", () => {
       }
 
       const store = Store.from(Test, "test");
+      const schema = getJsonSchema(Test);
 
-      expect(getJsonSchema(Test)).to.deep.eq({
+      expect(schema).to.deep.eq({
+        definitions: {
+          RefTest: {
+            type: "object",
+            properties: {
+              id: {
+                type: "string"
+              }
+            }
+          }
+        },
         properties: {
           test: {
-            description: "Mongoose Ref ObjectId",
-            examples: ["5ce7ad3028890bd71749d477"],
-            type: "string"
+            oneOf: [
+              {
+                description: "Mongoose Ref ObjectId",
+                examples: ["5ce7ad3028890bd71749d477"],
+                type: "string"
+              },
+              {
+                $ref: "#/definitions/RefTest"
+              }
+            ]
           }
         },
         type: "object"
@@ -32,12 +53,65 @@ describe("@Ref()", () => {
 
       expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
         type: Schema.Types.ObjectId,
-        ref: "RefTest"
+        ref: RefTest
       });
     });
   });
 
-  describe("type is a string", () => {
+  describe("type is a Function", () => {
+    it("should set metadata", () => {
+      class RefTest {
+        @Property()
+        id: string;
+      }
+
+      Store.from(RefTest).set(MONGOOSE_MODEL_NAME, "RefTest");
+      const arrow = () => RefTest;
+
+      class Test {
+        @Ref(arrow)
+        test: Ref<RefTest>;
+      }
+
+      const store = Store.from(Test, "test");
+      const schema = getJsonSchema(Test);
+
+      expect(schema).to.deep.eq({
+        definitions: {
+          RefTest: {
+            type: "object",
+            properties: {
+              id: {
+                type: "string"
+              }
+            }
+          }
+        },
+        properties: {
+          test: {
+            oneOf: [
+              {
+                description: "Mongoose Ref ObjectId",
+                examples: ["5ce7ad3028890bd71749d477"],
+                type: "string"
+              },
+              {
+                $ref: "#/definitions/RefTest"
+              }
+            ]
+          }
+        },
+        type: "object"
+      });
+
+      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+        type: Schema.Types.ObjectId,
+        ref: arrow
+      });
+    });
+  });
+
+  describe("type is a string (deprecated)", () => {
     it("should set metadata", () => {
       class RefTest {}
 
@@ -51,9 +125,16 @@ describe("@Ref()", () => {
       expect(getJsonSchema(Test)).to.deep.eq({
         properties: {
           test: {
-            description: "Mongoose Ref ObjectId",
-            examples: ["5ce7ad3028890bd71749d477"],
-            type: "string"
+            oneOf: [
+              {
+                description: "Mongoose Ref ObjectId",
+                examples: ["5ce7ad3028890bd71749d477"],
+                type: "string"
+              },
+              {
+                type: "object"
+              }
+            ]
           }
         },
         type: "object"

@@ -219,11 +219,47 @@ describe("createSchema", () => {
     });
 
     expect(getJsonSchema(Test4)).to.deep.eq({
+      definitions: {
+        Children: {
+          properties: {
+            enum: {
+              enum: ["v1", "v2"],
+              type: "string"
+            },
+            id: {
+              description: "Mongoose ObjectId",
+              examples: ["5ce7ad3028890bd71749d477"],
+              pattern: "^[0-9a-fA-F]{24}$",
+              type: "string"
+            },
+            name: {
+              default: "defaultValue",
+              maxLength: 100,
+              minLength: 0,
+              pattern: "pattern",
+              type: "string"
+            },
+            test: {
+              maximum: 10,
+              minimum: 0,
+              type: "number"
+            }
+          },
+          type: "object"
+        }
+      },
       properties: {
         test: {
-          description: "Mongoose Ref ObjectId",
-          examples: ["5ce7ad3028890bd71749d477"],
-          type: "string"
+          oneOf: [
+            {
+              description: "Mongoose Ref ObjectId",
+              examples: ["5ce7ad3028890bd71749d477"],
+              type: "string"
+            },
+            {
+              $ref: "#/definitions/Children"
+            }
+          ]
         }
       },
       type: "object"

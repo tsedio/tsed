@@ -1,4 +1,4 @@
-import {Model, MongooseNextCB, ObjectID, PostHook, PreHook, Schema, Unique} from "@tsed/mongoose";
+import {Model, MongooseNextCB, ObjectID, PostHook, PreHook, Ref, Schema, Unique} from "@tsed/mongoose";
 import {CollectionOf, Groups, Ignore, MinLength, Property, Required} from "@tsed/schema";
 
 @Schema({
@@ -8,6 +8,7 @@ export class UserModuleData {
   @(CollectionOf(Number).MinItems(1))
   roles: number[];
 }
+
 
 @Model({schemaOptions: {timestamps: true}})
 @PreHook("save", (user: TestUser, next: MongooseNextCB) => {
@@ -49,3 +50,17 @@ export class TestUser {
   @Ignore((value, ctx) => ctx.endpoint)
   alwaysIgnored: string = "hello ignore";
 }
+
+@Model({name: "profile", schemaOptions: {timestamps: {createdAt: "created", updatedAt: "updated"}}})
+export class TestProfile {
+
+  @Property()
+  image: string;
+
+  @Property()
+  age: number;
+
+  @Ref(TestUser)
+  user: Ref<TestUser>;
+}
+

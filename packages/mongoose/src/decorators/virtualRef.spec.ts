@@ -1,4 +1,4 @@
-import {getJsonSchema, Property} from "@tsed/common";
+import {getJsonSchema, Property} from "@tsed/schema";
 import {Store} from "@tsed/core";
 import {Model} from "@tsed/mongoose";
 import {expect} from "chai";
