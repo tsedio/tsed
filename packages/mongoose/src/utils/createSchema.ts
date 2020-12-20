@@ -1,8 +1,7 @@
 import {cleanObject, Store, Type} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {getProperties, JsonEntityStore} from "@tsed/schema";
-import mongoose from "mongoose";
-import {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
+import mongoose, {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
@@ -88,9 +87,11 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
       return;
     }
 
-    if (isVirtualRef(schemaTypeOptions)) {
+    if (schemaTypeOptions.ref) {
       schemaTypeOptions.ref = resolveRefType(schemaTypeOptions.ref as any);
+    }
 
+    if (isVirtualRef(schemaTypeOptions)) {
       schemaTypeOptions.justOne = !propertyMetadata.isArray;
       schema.virtuals.set(key as string, schemaTypeOptions);
 

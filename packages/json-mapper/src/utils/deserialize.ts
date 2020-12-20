@@ -93,13 +93,13 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
 
     keys = keys.filter((k) => k !== key);
 
+    next.type = propStore.computedType;
+
     if (alterIgnore(propStore.itemSchema, options)) {
       return;
     }
 
     let value = alterValue(propStore.schema, src[key], {...options, self: src});
-
-    next.type = propStore.computedType;
 
     if (propStore.schema.hasGenerics) {
       next.nestedGenerics = propStore.schema.nestedGenerics;
@@ -113,6 +113,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
 
     value = deserialize(value, {
       ...next,
+      type: value === src[key] ? next.type : undefined,
       collectionType: propStore.collectionType
     });
 
