@@ -18,8 +18,15 @@ export function getRequiredProperties(obj: any, schema: any, useAlias: boolean) 
     }, required);
   }
 
+  const props = Object.keys(obj.properties || {});
+
+  required = uniq(required)
+    .map((key) => (useAlias ? (schema.alias.get(key) as string) || key : key))
+    .filter((key) => {
+      return props.includes(key);
+    });
+
   if (required.length) {
-    required = uniq(required).map((key) => (useAlias ? (schema.alias.get(key) as string) || key : key));
     return {
       ...obj,
       required
