@@ -65,10 +65,16 @@ const baseUser = {
   password: faker.internet.password(12)
 };
 
+const baseUser2 = {
+  email: faker.internet.email(),
+  password: faker.internet.password(12)
+};
+
 describe("Mongoose", () => {
   describe("Test Resource", () => {
     let request: SuperTest.SuperTest<SuperTest.Test>;
     let currentUser: TestUser;
+    let currentUser2: TestUser;
     before(
       TestMongooseContext.bootstrap(Server, {
         platform: PlatformExpress,
@@ -80,7 +86,15 @@ describe("Mongoose", () => {
     before(async () => {
       const repository = PlatformTest.get<ResourcesRepository>(ResourcesRepository)!;
 
-      currentUser = await repository.create(baseUser);
+      currentUser2 = await repository.create(baseUser2);
+
+      const dataScope = new Map();
+      dataScope.set("scope1", currentUser2._id);
+
+      currentUser = await repository.create({
+        ...baseUser,
+        dataScope
+      });
     });
     before(() => {
       request = SuperTest(PlatformTest.callback());
@@ -112,6 +126,11 @@ describe("Mongoose", () => {
       const {body} = await request.get(`/rest/resources`);
 
       expect(body).to.deep.eq([
+        {
+          email: baseUser2.email,
+          id: currentUser2._id.toString(),
+          pre: "hello pre"
+        },
         {
           email: baseUser.email,
           id: currentUser._id.toString(),

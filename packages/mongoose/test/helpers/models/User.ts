@@ -47,6 +47,13 @@ export class TestUser {
   @CollectionOf(UserModuleData)
   data: Map<string, UserModuleData>;
 
+  @Ignore((value, ctx) => {
+    return ctx.endpoint;
+  })
+  @Ref(() => TestUser)
+  @CollectionOf(() => TestUser)
+  dataScope: Map<string, Ref<TestUser>>;
+
   @Ignore((value, ctx) => ctx.endpoint)
   alwaysIgnored: string = "hello ignore";
 }
