@@ -292,7 +292,6 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
   }
 
   obj = serializeGenerics(obj, {...options, root: false, schemas} as any);
-  obj = getRequiredProperties(obj, schema, useAlias);
 
   if (schema.has(options.specType as string)) {
     obj = {
@@ -300,6 +299,8 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
       ...schema.get(options.specType as string).toJSON(options)
     };
   }
+
+  obj = getRequiredProperties(obj, schema, useAlias);
 
   if (options.specType === SpecTypes.OPENAPI && isArray(obj.type)) {
     obj = transformTypes(obj);

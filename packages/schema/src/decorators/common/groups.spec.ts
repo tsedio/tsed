@@ -1,4 +1,4 @@
-import {getJsonSchema, getSpec, In, Name, OperationPath, Path, Property, Returns, SpecTypes} from "@tsed/schema";
+import {getJsonSchema, getSpec, In, Name, OperationPath, Path, Property, Required, Returns, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import {Groups} from "./groups";
 
@@ -7,12 +7,15 @@ class MyModel {
   id: string;
 
   @Groups("group.summary")
+  @Required()
   prop1: string;
 
   @Groups("group.extended")
+  @Required()
   prop2: string;
 
   @Property()
+  @Required()
   prop3: string;
 }
 
@@ -29,9 +32,11 @@ describe("@Groups", () => {
             type: "string"
           },
           prop3: {
+            minLength: 1,
             type: "string"
           }
         },
+        required: ["prop3"],
         type: "object"
       });
     });
@@ -45,9 +50,11 @@ describe("@Groups", () => {
             type: "string"
           },
           prop3: {
+            minLength: 1,
             type: "string"
           }
         },
+        required: ["prop3"],
         type: "object"
       });
     });
@@ -63,12 +70,15 @@ describe("@Groups", () => {
             type: "string"
           },
           prop1: {
+            minLength: 1,
             type: "string"
           },
           prop3: {
+            minLength: 1,
             type: "string"
           }
         },
+        required: ["prop1", "prop3"],
         type: "object"
       });
     });
@@ -81,9 +91,11 @@ describe("@Groups", () => {
       expect(spec).to.deep.equal({
         properties: {
           prop3: {
+            minLength: 1,
             type: "string"
           }
         },
+        required: ["prop3"],
         type: "object"
       });
     });
@@ -99,15 +111,19 @@ describe("@Groups", () => {
             type: "string"
           },
           prop1: {
+            minLength: 1,
             type: "string"
           },
           prop2: {
+            minLength: 1,
             type: "string"
           },
           prop3: {
+            minLength: 1,
             type: "string"
           }
         },
+        required: ["prop1", "prop2", "prop3"],
         type: "object"
       });
     });
@@ -140,17 +156,21 @@ describe("@Groups", () => {
                   type: "string"
                 },
                 prop3: {
+                  minLength: 1,
                   type: "string"
                 }
               },
+              required: ["prop3"],
               type: "object"
             },
             MyModelCreation: {
               properties: {
                 prop3: {
+                  minLength: 1,
                   type: "string"
                 }
               },
+              required: ["prop3"],
               type: "object"
             },
             MyModelGroup: {
@@ -159,15 +179,19 @@ describe("@Groups", () => {
                   type: "string"
                 },
                 prop1: {
+                  minLength: 1,
                   type: "string"
                 },
                 prop2: {
+                  minLength: 1,
                   type: "string"
                 },
                 prop3: {
+                  minLength: 1,
                   type: "string"
                 }
               },
+              required: ["prop1", "prop2", "prop3"],
               type: "object"
             }
           }
