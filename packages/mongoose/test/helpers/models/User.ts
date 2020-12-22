@@ -1,6 +1,19 @@
 import {Model, MongooseNextCB, ObjectID, PostHook, PreHook, Ref, Schema, Unique} from "@tsed/mongoose";
 import {CollectionOf, Groups, Ignore, MinLength, Property, Required} from "@tsed/schema";
 
+export class BaseModel {
+  @ObjectID("id")
+  @Groups("!creation")
+  _id: string;
+
+  @Property()
+  created: Date;
+
+  @Property()
+  updated: Date;
+}
+
+
 @Schema({
   schemaOptions: {_id: false}
 })
@@ -10,7 +23,7 @@ export class UserModuleData {
 }
 
 
-@Model({schemaOptions: {timestamps: true}})
+@Model({schemaOptions: {timestamps: {createdAt: "created", updatedAt: "updated"}}})
 @PreHook("save", (user: TestUser, next: MongooseNextCB) => {
   user.pre = "hello pre";
 
@@ -21,11 +34,7 @@ export class UserModuleData {
 
   next();
 })
-export class TestUser {
-  @ObjectID("id")
-  @Groups("!creation")
-  _id: string;
-
+export class TestUser extends BaseModel {
   @Required()
   @Unique()
   email: string;
@@ -59,8 +68,7 @@ export class TestUser {
 }
 
 @Model({name: "profile", schemaOptions: {timestamps: {createdAt: "created", updatedAt: "updated"}}})
-export class TestProfile {
-
+export class TestProfile extends BaseModel {
   @Property()
   image: string;
 

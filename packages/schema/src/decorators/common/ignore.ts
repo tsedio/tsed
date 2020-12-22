@@ -64,6 +64,6 @@ const defaultCB = (value: any, ctx: any) => ctx.mongoose !== true;
  */
 export function Ignore(cb: boolean | IgnoreCallback = defaultCB) {
   return JsonEntityFn((store) => {
-    store.itemSchema.ignore(cb);
+    store.schema.ignore(cb);
   });
 }

@@ -40,12 +40,23 @@ export function createSchema(target: Type<any>, options: MongooseSchemaOptions =
 
   schemaOptions(target, options);
 
-  schema.methods.toClass = function toClass(options?: any) {
-    return deserialize(this.$toObject(options, true), {...options, type: target, useAlias: false});
+  schema.methods.toClass = function toClass() {
+    return deserialize(
+      this.toObject({
+        versionKey: false,
+        flattenMaps: true
+      }),
+      {
+        type: target,
+        useAlias: false,
+        additionalProperties: true,
+        groups: false
+      }
+    );
   };
 
   schema.methods.toJSON = function toJSON(options?: any) {
-    return serialize(this.toClass(options), options);
+    return serialize(this.toClass(), options);
   };
 
   schema.loadClass(target);
