@@ -5,7 +5,7 @@ import {Document, Model} from "mongoose";
 export type MongooseMergedDocument<T> = {[K in keyof T]: T[K]};
 
 export interface MongooseDocumentMethods<T> {
-  toClass(options?: JsonDeserializerOptions): T;
+  toClass(): T;
 }
 
 export interface MongooseModel<T> extends Model<MongooseMergedDocument<Document & T & MongooseDocumentMethods<T>>> {}

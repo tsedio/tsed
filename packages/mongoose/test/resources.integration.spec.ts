@@ -108,7 +108,9 @@ describe("Mongoose", () => {
       expect(body).to.deep.eq({
         email: baseUser.email,
         id: currentUser._id.toString(),
-        pre: "hello pre"
+        pre: "hello pre",
+        created: String(body.created),
+        updated: String(body.updated)
       });
     });
 
@@ -118,7 +120,9 @@ describe("Mongoose", () => {
       expect(body).to.deep.eq({
         email: baseUser.email,
         id: currentUser._id.toString(),
-        pre: "hello pre"
+        pre: "hello pre",
+        created: String(body.created),
+        updated: String(body.updated)
       });
     });
 
@@ -129,12 +133,16 @@ describe("Mongoose", () => {
         {
           email: baseUser2.email,
           id: currentUser2._id.toString(),
-          pre: "hello pre"
+          pre: "hello pre",
+          created: String(body[0].created),
+          updated: String(body[0].updated)
         },
         {
           email: baseUser.email,
           id: currentUser._id.toString(),
-          pre: "hello pre"
+          pre: "hello pre",
+          created: String(body[1].created),
+          updated: String(body[1].updated)
         }
       ]);
     });
@@ -208,7 +216,9 @@ describe("Mongoose", () => {
         "id": body.id,
         "password": user.password,
         "post": "hello post",
-        "pre": "hello pre"
+        "pre": "hello pre",
+        created: String(body.created),
+        updated: String(body.updated)
       });
     });
   });

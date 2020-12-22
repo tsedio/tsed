@@ -13,6 +13,6 @@ export class DateMapper implements JsonMapperMethods {
   }
 
   serialize(object: Date): any {
-    return object.toISOString();
+    return new Date(object).toISOString();
   }
 }
