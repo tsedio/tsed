@@ -6,6 +6,10 @@ import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
 import {MongooseModels} from "../registries/MongooseModels";
 
+function isRef(value: undefined | string | any) {
+  return (value && value._bsontype) || isString(value);
+}
+
 /**
  * Define a property as mongoose reference to other Model (decorated with @Model).
  *
@@ -45,14 +49,14 @@ export function Ref(model: string | (() => Type) | any, type: MongooseSchemaType
       ref: model
     }),
     OnDeserialize((value) => {
-      if (value._bsontype || isString(value)) {
+      if (isRef(value)) {
         return value.toString();
       }
 
       return value;
     }),
     OnSerialize((value: any, ctx) => {
-      if (value._bsontype || isString(value)) {
+      if (isRef(value)) {
         return value.toString();
       }
       const type = getType();
