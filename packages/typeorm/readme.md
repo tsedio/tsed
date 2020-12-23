@@ -13,7 +13,7 @@
  <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
-A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/typeorm
+A package of Ts.ED framework. See website: https://tsed.io/tutorials/typeorm
 
 ## Feature
 

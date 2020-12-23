@@ -6,9 +6,11 @@ const accepts = require("accepts");
 
 export class FakeRequest {
   public url = "/";
+  public originalUrl = "/";
   public method: string;
   public path: string;
   public id: number;
+  public secure: boolean;
   /**
    *
    * @type {{test: string, obj: {test: string}}}
@@ -66,7 +68,7 @@ export class FakeRequest {
 
   [key: string]: any;
 
-  constructor({logger, data, endpoint, method, sandbox = Sinon, headers, params, session, cookies, query, body, id, url}: any = {}) {
+  constructor({logger, method, data, endpoint, sandbox = Sinon, headers, params, session, cookies, query, body, id, url, secure}: any = {}) {
     logger = logger || {
       debug: sandbox.stub(),
       info: sandbox.stub(),
@@ -89,6 +91,7 @@ export class FakeRequest {
     this.isAuthenticated = sandbox.stub();
 
     this.url = url || this.url;
+    this.originalUrl = url;
     this.method = method;
     this.headers = headers || this.headers;
     this.body = body || this.body;
@@ -96,6 +99,7 @@ export class FakeRequest {
     this.params = params || this.params;
     this.session = session || this.session;
     this.cookies = cookies || this.cookies;
+    this.secure = secure;
 
     sandbox.spy(this, "accepts");
     sandbox.spy(this, "get");

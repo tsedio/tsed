@@ -81,7 +81,7 @@ export class PlatformViews {
     return (engineType && this.engineOptions[engineType]) || {};
   }
 
-  render(viewPath: string, options: any = {}) {
+  async render(viewPath: string, options: any = {}): Promise<string> {
     const extension = (extname(viewPath) || this.viewEngine).replace(/\./, "");
     const engineType = this.getExtensions().get(extension)!;
     const engineOptions = this.getEngineOptions(engineType);
