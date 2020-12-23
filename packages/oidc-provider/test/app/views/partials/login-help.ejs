@@ -1,0 +1,9 @@
+<div class="login-help">
+    <a href="/interaction/<%= uid %>/abort">[ Cancel ]</a>
+    <% if (client.tosUri) { %>
+        <a href="<%= client.tosUri %>">[ Terms of Service ]</a>
+    <% } %>
+    <% if (client.policyUri) { %>
+        <a href="<%= client.policyUri %>">[ Privacy Policy ]</a>
+    <% } %>
+</div>

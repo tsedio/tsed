@@ -69,3 +69,4 @@ test/**/*.d.ts.map
 /packages/multipartfiles/test/.tmp/
 /packages/graphql/test/resources/schema.gql
 .db
+**/keys/jwks.json
