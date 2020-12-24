@@ -24,6 +24,8 @@ function createContext(settings: any) {
 
   request.method = "GET";
   request.url = "url";
+  // @ts-ignore
+  request.originalUrl = undefined;
 
   const response = new FakeResponse();
   response.statusCode = 200;

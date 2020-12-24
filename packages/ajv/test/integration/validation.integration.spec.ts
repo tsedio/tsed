@@ -1,4 +1,3 @@
-import {Schema} from "@tsed/schema";
 import {
   BodyParams,
   ParamMetadata,
@@ -8,19 +7,20 @@ import {
   Post,
   QueryParams,
   UseParam,
-  ValidationError
+  ValidationPipe
 } from "@tsed/common";
-import {getJsonSchema, MinLength, Property, Required} from "@tsed/schema";
+import {BadRequest} from "@tsed/exceptions/src";
+import {getJsonSchema, MinLength, Property, Required, Schema} from "@tsed/schema";
 import {expect} from "chai";
-import {AjvValidationPipe} from "./AjvValidationPipe";
+import "@tsed/ajv";
 
 async function validate(value: any, metadata: any) {
-  const pipe: AjvValidationPipe = await PlatformTest.invoke<AjvValidationPipe>(AjvValidationPipe);
+  const pipe: ValidationPipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
 
   try {
     return await pipe.transform(value, metadata);
   } catch (er) {
-    if (er instanceof ValidationError) {
+    if (er instanceof BadRequest) {
       return ParamValidationError.from(metadata, er);
     }
 
@@ -41,7 +41,8 @@ describe("AjvValidationPipe", () => {
   describe("With raw json schema", () => {
     it("should validate object", async () => {
       class Ctrl {
-        get(@BodyParams() @Schema({type: "object"}) value: any) {}
+        get(@BodyParams() @Schema({type: "object"}) value: any) {
+        }
       }
 
       const value = {};
@@ -52,7 +53,8 @@ describe("AjvValidationPipe", () => {
 
     it("should throw an error", async () => {
       class Ctrl {
-        get(@BodyParams() @Schema({type: "object"}) value: any) {}
+        get(@BodyParams() @Schema({type: "object"}) value: any) {
+        }
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -63,7 +65,7 @@ describe("AjvValidationPipe", () => {
         type: "object"
       });
 
-      expect(error?.message).to.deep.equal('Bad request on parameter "request.body".\nValue should be object. Given value: []');
+      expect(error?.message).to.deep.equal("Bad request on parameter \"request.body\".\nValue should be object. Given value: []");
       expect(error?.origin?.errors).to.deep.equal([
         {
           data: [],
@@ -85,7 +87,8 @@ describe("AjvValidationPipe", () => {
   describe("With String", () => {
     it("should validate value", async () => {
       class Ctrl {
-        get(@BodyParams() value: string) {}
+        get(@BodyParams() value: string) {
+        }
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -93,7 +96,8 @@ describe("AjvValidationPipe", () => {
     });
     it("should validate value (array)", async () => {
       class Ctrl {
-        get(@BodyParams({useType: String}) value: string[]) {}
+        get(@BodyParams({useType: String}) value: string[]) {
+        }
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -111,7 +115,8 @@ describe("AjvValidationPipe", () => {
   describe("With QueryParam with boolean", () => {
     it("should validate value", async () => {
       class Ctrl {
-        get(@QueryParams("test") value: boolean) {}
+        get(@QueryParams("test") value: boolean) {
+        }
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -131,7 +136,8 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY) value: Model) {}
+        get(@UseParam(ParamTypes.BODY) value: Model) {
+        }
       }
 
       const value = {
@@ -149,7 +155,8 @@ describe("AjvValidationPipe", () => {
 
       class Ctrl {
         @Post("/")
-        get(@UseParam(ParamTypes.BODY) value: Model) {}
+        get(@UseParam(ParamTypes.BODY) value: Model) {
+        }
       }
 
       const value: any = {};
@@ -211,7 +218,8 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY) value: Model) {}
+        get(@UseParam(ParamTypes.BODY) value: Model) {
+        }
       }
 
       const value: any = {
@@ -237,7 +245,8 @@ describe("AjvValidationPipe", () => {
 
       class Ctrl {
         @Post("/")
-        get(@UseParam(ParamTypes.BODY) value: Model) {}
+        get(@UseParam(ParamTypes.BODY) value: Model) {
+        }
       }
 
       const value: any = {
@@ -292,7 +301,8 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {}
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {
+        }
       }
 
       const value = [
@@ -312,7 +322,8 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {}
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {
+        }
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -357,7 +368,8 @@ describe("AjvValidationPipe", () => {
 
       class Ctrl {
         @Post("/")
-        get(@BodyParams(Model) value: Model[]) {}
+        get(@BodyParams(Model) value: Model[]) {
+        }
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -416,7 +428,8 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {}
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
+        }
       }
 
       const value = {
@@ -436,7 +449,8 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {}
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
+        }
       }
 
       const value: any = {key1: {}};
@@ -462,7 +476,8 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {}
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
+        }
       }
 
       const value: any = {
@@ -521,7 +536,8 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {}
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {
+        }
       }
 
       const value = [
@@ -542,7 +558,8 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {}
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {
+        }
       }
 
       const metadata = ParamMetadata.get(Ctrl, "get", 0);
@@ -588,7 +605,8 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {}
+        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {
+        }
       }
 
       const value: any = [

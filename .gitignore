@@ -68,3 +68,4 @@ test/**/*.d.ts.map
 /mongodb-binaries
 /packages/multipartfiles/test/.tmp/
 /packages/graphql/test/resources/schema.gql
+.db

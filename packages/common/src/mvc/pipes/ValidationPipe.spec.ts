@@ -1,16 +1,18 @@
-import {ParamMetadata, Post} from "@tsed/common";
-import {catchError} from "@tsed/core";
+import {ParamMetadata, PlatformTest, Post} from "@tsed/common";
+import {catchAsyncError, catchError} from "@tsed/core";
 import {CollectionOf, getSpec, Required} from "@tsed/schema";
 import {expect} from "chai";
-import Sinon from "sinon";
 import {BodyParams} from "../decorators/params/bodyParams";
 import {QueryParams} from "../decorators/params/queryParams";
 import {ValidationPipe} from "./ValidationPipe";
 
 describe("ValidationPipe", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
   it("should return value (Body)", async () => {
-    const validate = Sinon.stub();
-    const validator = new ValidationPipe();
+    const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
+    // @ts-ignore
+    validator.validator = undefined;
 
     class Test {
       @Post("/")
@@ -19,7 +21,7 @@ describe("ValidationPipe", () => {
 
     // WHEN
     const param = ParamMetadata.get(Test, "test", 0);
-    const result = validator.transform("value", param);
+    const result = await validator.transform("value", param);
     // THEN
     expect(getSpec(Test)).to.deep.eq({
       paths: {
@@ -57,9 +59,9 @@ describe("ValidationPipe", () => {
     expect(result).to.deep.eq("value");
   });
   it("should return value (Query required)", async () => {
-    const validate = Sinon.stub();
-    const validator = new ValidationPipe();
-
+    const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
+    // @ts-ignore
+    validator.validator = undefined;
     class Test {
       @Post("/")
       test(@QueryParams("test") @Required() @CollectionOf(String) type: string[]) {}
@@ -68,7 +70,7 @@ describe("ValidationPipe", () => {
     // WHEN
     const param = ParamMetadata.get(Test, "test", 0);
 
-    const result: any = validator.transform(["test"], param);
+    const result: any = await validator.transform(["test"], param);
 
     // THEN
     expect(getSpec(Test)).to.deep.eq({
@@ -107,7 +109,9 @@ describe("ValidationPipe", () => {
     expect(result).to.deep.eq(["test"]);
   });
   it("should throw an error (Query required)", async () => {
-    const validator = new ValidationPipe();
+    const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
+    // @ts-ignore
+    validator.validator = undefined;
 
     class Test {
       @Post("/")
@@ -117,7 +121,7 @@ describe("ValidationPipe", () => {
     // WHEN
     const param = ParamMetadata.get(Test, "test", 0);
 
-    const result: any = catchError(() => validator.transform(undefined, param));
+    const result: any = await catchAsyncError(() => validator.transform(undefined, param));
 
     // THEN
     expect(getSpec(Test)).to.deep.eq({
