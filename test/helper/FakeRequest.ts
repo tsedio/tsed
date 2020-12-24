@@ -88,6 +88,8 @@ export class FakeRequest {
 
     this.isAuthenticated = sandbox.stub();
 
+    this.url = url || this.url;
+    this.method = method;
     this.headers = headers || this.headers;
     this.body = body || this.body;
     this.query = query || this.query;

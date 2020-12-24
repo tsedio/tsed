@@ -1,9 +1,10 @@
-import {Constant, PropertyMetadata} from "@tsed/common";
-import {getValue, nameOf, setValue, Type} from "@tsed/core";
-import {Injectable} from "@tsed/di";
-import {ErrorObject} from "ajv";
+import {getValue, nameOf, prototypeOf, setValue, Type} from "@tsed/core";
+import {Constant, Inject, Injectable, registerProvider} from "@tsed/di";
+import {getJsonSchema, JsonEntityStore} from "@tsed/schema";
+import Ajv, {ErrorObject} from "ajv";
 import {AjvValidationError} from "../errors/AjvValidationError";
 import {AjvErrorObject, ErrorFormatter} from "../interfaces/IAjvSettings";
+import "./Ajv";
 
 function defaultFormatter(error: AjvErrorObject) {
   const value = JSON.stringify(error.data === undefined ? "undefined" : error.data);
@@ -28,11 +29,32 @@ function defaultFormatter(error: AjvErrorObject) {
 }
 
 @Injectable()
-export class AjvErrorFormatterPipe {
+export class AjvService {
   @Constant("ajv.errorFormatter", defaultFormatter)
-  errorFormatter: ErrorFormatter;
+  protected errorFormatter: ErrorFormatter;
 
-  transform(errors: ErrorObject[], options: any) {
+  @Inject()
+  protected ajv: Ajv;
+
+  async validate(value: any, {schema, type, collectionType, ...options}: any) {
+    schema = schema || getJsonSchema(type, {...options, customKeys: true});
+
+    if (schema) {
+      const valid = await this.ajv.validate(schema, value);
+      if (!valid) {
+        throw this.mapErrors(this.ajv.errors!, {
+          type,
+          collectionType,
+          async: true,
+          value
+        });
+      }
+    }
+
+    return value;
+  }
+
+  protected mapErrors(errors: ErrorObject[], options: any) {
     const {type, collectionType, value} = options;
 
     const message = errors
@@ -65,16 +87,16 @@ export class AjvErrorFormatterPipe {
     return new AjvValidationError(message, errors);
   }
 
-  private mapClassError(error: AjvErrorObject, targetType: Type<any>) {
+  protected mapClassError(error: AjvErrorObject, targetType: Type<any>) {
     const propertyKey = getValue(error, "params.missingProperty");
 
     if (propertyKey) {
-      const prop = PropertyMetadata.get(targetType, propertyKey);
+      const store = JsonEntityStore.from<JsonEntityStore>(prototypeOf(targetType), propertyKey);
 
-      if (prop) {
-        setValue(error, "params.missingProperty", prop.name || propertyKey);
+      if (store) {
+        setValue(error, "params.missingProperty", store.name || propertyKey);
 
-        return error.message!.replace(`'${propertyKey}'`, `'${prop.name || propertyKey}'`);
+        return error.message!.replace(`'${propertyKey}'`, `'${store.name || propertyKey}'`);
       }
     }
 

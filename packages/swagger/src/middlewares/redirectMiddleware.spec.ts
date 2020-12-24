@@ -12,6 +12,7 @@ describe("redirectMiddleware and redirect", () => {
     const ctx = createFakePlatformContext(sandbox);
 
     ctx.request.raw.url = "/path";
+    ctx.request.raw.originalUrl = "/path";
 
     redirectMiddleware("/path")(ctx);
 
@@ -21,6 +22,7 @@ describe("redirectMiddleware and redirect", () => {
     const ctx = createFakePlatformContext(sandbox);
 
     ctx.request.raw.url = "/path/";
+    ctx.request.raw.originalUrl = "/path/";
 
     redirectMiddleware("/path")(ctx);
 
