@@ -9,6 +9,7 @@ export * from "./decorators/args";
 // Interfaces
 export * from "./interfaces";
 export * from "./domain/UserInfo";
+export * from "./errors/PassportException";
 
 // Registries and Services
 export * from "./registries/ProtocolRegistries";

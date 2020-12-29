@@ -1,6 +1,6 @@
-import {MemoryAdapter} from "@tsed/adapters";
 import {Type} from "@tsed/core";
 import {Constant, DI_PARAM_OPTIONS, Inject, Injectable, InjectorService} from "@tsed/di";
+import {MemoryAdapter} from "../adapters/MemoryAdapter";
 import {Adapter} from "../domain/Adapter";
 
 @Injectable()

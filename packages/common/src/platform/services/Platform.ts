@@ -1,10 +1,9 @@
 import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
-import {EndpointMetadata, HandlerMetadata} from "../../mvc";
+import {EndpointMetadata} from "../../mvc";
 import {PlatformControllerBuilder} from "../builder/PlatformControllerBuilder";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {IRoute, IRouteController, IRouteDetails} from "../interfaces/IRoute";
 import {PlatformApplication} from "./PlatformApplication";
-import {PlatformHandler} from "./PlatformHandler";
 import {PlatformRouter} from "./PlatformRouter";
 
 /**
@@ -18,11 +17,7 @@ import {PlatformRouter} from "./PlatformRouter";
 export class Platform {
   private _routes: IRouteController[] = [];
 
-  constructor(
-    readonly injector: InjectorService,
-    readonly platformApplication: PlatformApplication,
-    readonly platformHandler: PlatformHandler
-  ) {}
+  constructor(readonly injector: InjectorService, readonly platformApplication: PlatformApplication) {}
 
   get app() {
     return this.platformApplication;
@@ -30,14 +25,6 @@ export class Platform {
 
   get routes(): IRouteController[] {
     return this._routes || [];
-  }
-
-  /**
-   * Create a native handler function based on the given handlerMetadata.
-   * @param handler
-   */
-  public createHandler(handler: HandlerMetadata | any) {
-    return this.platformHandler.createHandler(handler);
   }
 
   /**

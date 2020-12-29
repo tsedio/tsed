@@ -66,7 +66,7 @@ export class FakeRequest {
 
   [key: string]: any;
 
-  constructor({logger, data, endpoint, sandbox = Sinon, headers, params, session, cookies, query, body, id, url}: any = {}) {
+  constructor({logger, data, endpoint, method, sandbox = Sinon, headers, params, session, cookies, query, body, id, url}: any = {}) {
     logger = logger || {
       debug: sandbox.stub(),
       info: sandbox.stub(),
