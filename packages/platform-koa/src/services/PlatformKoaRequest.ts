@@ -21,6 +21,10 @@ declare global {
  * @koa
  */
 export class PlatformKoaRequest extends PlatformRequest<Koa.Request> {
+  get secure(): boolean {
+    return this.raw.ctx.request.secure;
+  }
+
   get cookies(): {[p: string]: any} {
     return this.raw.ctx.cookie || this.raw.ctx.cookies;
   }

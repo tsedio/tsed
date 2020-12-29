@@ -40,7 +40,7 @@
     "cookie-parser": "1.4.5",
     "express": "4.17.1",
     "method-override": "^3.0.0",
-    "node-uuid": "1.4.8",
+    "uuid": "8.3.0",
     "cross-env": "7.0.2"
   },
   "devDependencies": {

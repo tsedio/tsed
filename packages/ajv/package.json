@@ -13,10 +13,10 @@
     "tslib": "2.0.1"
   },
   "peerDependencies": {
-    "@tsed/core": "6.17.6",
-    "@tsed/di": "6.17.6",
-    "@tsed/exceptions": "6.17.6",
-    "@tsed/schema": "6.17.6",
+    "@tsed/core": "^6.18.0",
+    "@tsed/di": "^6.18.0",
+    "@tsed/exceptions": "^6.18.0",
+    "@tsed/schema": "^6.18.0",
     "ajv": "^7.0.1"
   },
   "private": false,
