@@ -9,7 +9,7 @@ import {
   PlatformRouter,
   PlatformViews
 } from "@tsed/common";
-import {Type} from "@tsed/core";
+import {Env, Type} from "@tsed/core";
 import {
   PlatformExpressApplication,
   PlatformExpressHandler,
@@ -51,6 +51,9 @@ export class PlatformExpress extends PlatformBuilder {
   }
 
   protected async loadRoutes(routes: IRoute[]): Promise<void> {
+    // disable x-powered-by header
+    this.injector.settings.get("env") === Env.PROD && this.app.getApp().disable("x-powered-by");
+
     this.configureViewsEngine();
 
     await super.loadRoutes(routes);
