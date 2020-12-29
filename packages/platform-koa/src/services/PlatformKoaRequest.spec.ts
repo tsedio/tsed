@@ -22,6 +22,18 @@ describe("PlatformKoaRequest", () => {
     expect(request.raw).to.eq(req);
   });
 
+  describe("secure", () => {
+    it("should get cookies from cookie", () => {
+      const {req, request} = createRequest();
+      req.ctx = {
+        request: {
+          secure: true
+        }
+      };
+
+      expect(request.secure).to.deep.eq(true);
+    });
+  });
   describe("cookies", () => {
     it("should get cookies from cookie", () => {
       const {req, request} = createRequest();
