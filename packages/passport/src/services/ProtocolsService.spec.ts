@@ -1,4 +1,4 @@
-import {PlatformContext, PlatformTest, Req} from "@tsed/common";
+import {PlatformTest, Req} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import Passport from "passport";
@@ -77,7 +77,7 @@ describe("ProtocolsService", () => {
         },
         Sinon.match.func
       );
-      expect(protocolService.getProtocolsNames()).to.deep.equal(["local"]);
+      expect(protocolService.getProtocolsNames().includes("local")).to.deep.equal(true);
     })
   );
 

@@ -77,7 +77,7 @@
     "globby": "11.0.1",
     "lerna": "3.22.1",
     "reflect-metadata": "0.1.13",
-    "uuid": "8.3.0"
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "@tsed/markdown-it-symbols": "3.3.0",

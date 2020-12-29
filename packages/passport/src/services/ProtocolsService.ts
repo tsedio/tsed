@@ -1,7 +1,6 @@
 import {PlatformHandler} from "@tsed/common";
 import {Injectable, InjectorService, Provider} from "@tsed/di";
-import Passport from "passport";
-import {Strategy} from "passport";
+import Passport, {Strategy} from "passport";
 import {IProtocol, IProtocolOptions} from "../interfaces";
 import {PROVIDER_TYPE_PROTOCOL} from "../registries/ProtocolRegistries";
 

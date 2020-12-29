@@ -1,6 +1,8 @@
-import {EndpointInfo, Inject, Middleware, Req} from "@tsed/common";
-import {Unauthorized} from "@tsed/exceptions";
+import {Context, Inject, Middleware, PlatformContext} from "@tsed/common";
+import {ancestorsOf} from "@tsed/core";
+import {Exception, Unauthorized} from "@tsed/exceptions";
 import Passport from "passport";
+import {PassportException} from "../errors/PassportException";
 import {ProtocolsService} from "../services/ProtocolsService";
 import {getProtocolsFromRequest} from "../utils/getProtocolsFromRequest";
 
@@ -9,8 +11,16 @@ export class PassportMiddleware {
   @Inject(ProtocolsService)
   protocolsService: ProtocolsService;
 
-  use(@Req() request: any, @EndpointInfo() endpoint: EndpointInfo) {
-    if (request.user && request.isAuthenticated()) {
+  shouldSkip(ctx: Context) {
+    const request = ctx.getRequest();
+    return request.user && request.isAuthenticated();
+  }
+
+  async use(@Context() ctx: Context) {
+    const endpoint = ctx.endpoint;
+    const request = ctx.getRequest();
+
+    if (this.shouldSkip(ctx)) {
       return;
     }
 
@@ -25,7 +35,33 @@ export class PassportMiddleware {
       request.url = request.originalUrl;
     }
 
-    // @ts-ignore
-    return Passport[method](protocols.length === 1 ? protocols[0] : protocols, options);
+    await this.call(method, protocols, options, ctx);
+  }
+
+  protected catchError(er: any) {
+    if (!ancestorsOf(er).includes(Error)) {
+      throw new PassportException(er);
+    }
+
+    throw er;
+  }
+
+  private async call(method: any, protocols: string[], options: any, ctx: PlatformContext) {
+    const request = ctx.getRequest();
+    const response = ctx.getResponse();
+
+    try {
+      options.failWithError = true;
+      // @ts-ignore
+      const middleware = Passport[method](protocols.length === 1 ? protocols[0] : protocols, options);
+
+      await new Promise((resolve, reject) => {
+        middleware(request, response, (err: any) => {
+          err ? reject(err) : resolve();
+        });
+      });
+    } catch (er) {
+      this.catchError(er);
+    }
   }
 }

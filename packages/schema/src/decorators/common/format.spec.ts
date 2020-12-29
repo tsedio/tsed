@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
-import {DateFormat, DateTime, Email, Format, TimeFormat, Uri} from "./format";
+import {DateFormat, DateTime, Email, Format, TimeFormat, Uri, Url} from "./format";
 
 describe("@Format", () => {
   it("should declare prop", () => {
@@ -120,6 +120,27 @@ describe("@Uri", () => {
       properties: {
         prop: {
           format: "uri",
+          type: "string"
+        }
+      },
+      type: "object"
+    });
+  });
+});
+
+describe("@Url", () => {
+  it("should declare prop", () => {
+    // WHEN
+    class Model {
+      @Url()
+      prop: string;
+    }
+
+    // THEN
+    expect(getJsonSchema(Model)).to.deep.equal({
+      properties: {
+        prop: {
+          format: "url",
           type: "string"
         }
       },

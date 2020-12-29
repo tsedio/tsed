@@ -11,7 +11,7 @@
     "@types/uuid": "8.3.0",
     "@types/lowdb": "1.0.9",
     "tslib": "2.0.1",
-    "uuid": "^8.3.0",
+    "uuid": "8.3.2",
     "lowdb": "1.0.0",
     "fs-extra": "^9.0.1"
   },

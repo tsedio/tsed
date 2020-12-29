@@ -1,16 +1,16 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/passport";
 import "@tsed/platform-express";
-import * as bodyParser from "body-parser";
-import * as cookieParser from "cookie-parser";
-import * as session from "express-session";
-import * as methodOverride from "method-override";
+import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
+import session from "express-session";
+import methodOverride from "method-override";
 
 const rootDir = __dirname;
 
 @Configuration({
   componentsScan: [
-    `${rootDir}/protocols/*{.ts,.js}` // scan protocols directory
+    `${rootDir}/protocols/*.ts` // scan protocols directory
   ],
   passport: {}
 })
