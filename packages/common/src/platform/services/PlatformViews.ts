@@ -46,6 +46,13 @@ export class PlatformViews {
   }
 
   loadEngineRequires() {
+    const ejs = this.consolidate.requires.ejs;
+    this.consolidate.requires.ejs = {
+      compile(str: string, {client, ...options}: any) {
+        return (ejs || require("ejs")).compile(str, options);
+      }
+    };
+
     return Object.keys(this.engineOptions).map((engineType: PlatformViewsSupportedEngines) => {
       const options = this.getEngineOptions(engineType);
       if (options && options.requires) this.consolidate.requires[engineType] = options.requires;
