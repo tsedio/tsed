@@ -27,7 +27,7 @@ export class ParamMetadata extends JsonEntityStore implements ParamConstructorOp
   public paramType: string | ParamTypes;
 
   @Enumerable()
-  pipes: Type<IPipe>[] = [];
+  public pipes: Type<IPipe>[] = [];
 
   constructor(options: ParamConstructorOptions) {
     super(options);
@@ -44,14 +44,6 @@ export class ParamMetadata extends JsonEntityStore implements ParamConstructorOp
    */
   get parameter(): JsonParameter {
     return this._parameter;
-  }
-
-  get service(): string | ParamTypes {
-    return this.paramType;
-  }
-
-  set service(service: string | ParamTypes) {
-    this.paramType = service;
   }
 
   static get(target: Type<any>, propertyKey: string | symbol, index: number): ParamMetadata {

@@ -7,7 +7,7 @@ export class RequiredValidationError extends ValidationError {
   public errors: any[];
 
   static from(metadata: ParamMetadata) {
-    const name = nameOf(metadata.service);
+    const name = nameOf(metadata.paramType);
     const expression = metadata.expression;
     const type = name.toLowerCase().replace(/parse|params|filter/gi, "");
     const message = `It should have required parameter '${expression}'`;
