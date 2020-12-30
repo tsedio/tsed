@@ -4,7 +4,7 @@ import {expect} from "chai";
 describe("RequiredValidationError", () => {
   it("should have a message", () => {
     const error = RequiredValidationError.from({
-      service: "name",
+      paramType: "name",
       expression: "expression"
     } as any);
     expect(error.message).to.equal("It should have required parameter 'expression'");

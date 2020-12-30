@@ -11,7 +11,7 @@ describe("ParseExpressionError", () => {
 
     const error = ParamValidationError.from(
       {
-        service: "name",
+        paramType: "name",
         expression: "expression"
       } as any,
       validationError
@@ -38,7 +38,7 @@ describe("ParseExpressionError", () => {
   });
   it("should throw error from origin error (RequiredValidationError)", () => {
     const metadata = {
-      service: "name",
+      paramType: "name",
       expression: "expression"
     } as any;
     const origin = RequiredValidationError.from(metadata);
@@ -77,7 +77,7 @@ describe("ParseExpressionError", () => {
   });
   it("should throw error from origin error (ValidationError)", () => {
     const metadata = {
-      service: "name",
+      paramType: "name",
       expression: "expression"
     } as any;
     const origin = new ValidationError("It should have 1 item", [

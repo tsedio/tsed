@@ -37,7 +37,7 @@ describe("ParamMetadata", () => {
       paramMetadata.type = Test;
       paramMetadata.paramType = ParamTypes.ERR;
 
-      expect(paramMetadata.service).to.be.a("string").to.eq(ParamTypes.ERR);
+      expect(paramMetadata.paramType).to.be.a("string").to.eq(ParamTypes.ERR);
     });
   });
 

@@ -10,7 +10,7 @@ export class ParamValidationError extends BadRequest {
 
   static from(metadata: ParamMetadata, origin: any = {}) {
     if (origin instanceof ValidationError || origin instanceof BadRequest) {
-      const name = nameOf(metadata.service)
+      const name = nameOf(metadata.paramType)
         .toLowerCase()
         .replace(/parse|params|filter/gi, "");
       const expression = metadata.expression;
@@ -18,7 +18,7 @@ export class ParamValidationError extends BadRequest {
 
       const error = new ParamValidationError(message);
       error.dataPath = String(metadata.expression) || "";
-      error.requestType = nameOf(metadata.service);
+      error.requestType = nameOf(metadata.paramType);
       error.origin = origin.origin || origin;
 
       return error;
