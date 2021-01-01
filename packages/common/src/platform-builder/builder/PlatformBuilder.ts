@@ -17,10 +17,10 @@ import {
   createHttpsServer,
   createInjector,
   createPlatformApplication,
+  importRoutes,
   listenHttpServer,
   listenHttpsServer,
   loadInjector,
-  importRoutes,
   printRoutes
 } from "../utils";
 
@@ -41,7 +41,7 @@ export interface PlatformBootstrap {
 /**
  * @platform
  */
-export abstract class PlatformBuilder {
+export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   static currentPlatform: Type<PlatformBuilder> & PlatformBootstrap;
   protected startedAt = new Date();
   protected PLATFORM_NAME: string = "";
@@ -71,8 +71,8 @@ export abstract class PlatformBuilder {
     return this._rootModule;
   }
 
-  get app(): PlatformApplication {
-    return this.injector.get<PlatformApplication>(PlatformApplication)!;
+  get app(): PlatformApplication<App, Router> {
+    return this.injector.get<PlatformApplication<App, Router>>(PlatformApplication)!;
   }
 
   get platform() {
@@ -108,7 +108,7 @@ export abstract class PlatformBuilder {
     return this.injector.logger;
   }
 
-  static build<T extends PlatformBuilder>(platformBuildClass: PlatformType<T>): T {
+  static build<T extends PlatformBuilder<any, any>>(platformBuildClass: PlatformType<T>): T {
     const platform = new platformBuildClass();
     platform.PLATFORM_NAME = nameOf(platformBuildClass).replace("Platform", "").toLowerCase();
 
@@ -155,6 +155,10 @@ export abstract class PlatformBuilder {
     const routes = await importRoutes(this.injector);
 
     await this.loadInjector();
+
+    this.useContext();
+    this.useRouter();
+
     await this.loadRoutes(routes);
     await this.logRoutes();
   }
@@ -166,6 +170,7 @@ export abstract class PlatformBuilder {
     logger.info("Build providers");
 
     await loadInjector(injector, createContainer(constructorOf(this.rootModule)));
+    await this.callHook("$onInit");
 
     logger.debug("Settings and injector loaded");
     await this.callHook("$afterInit");
@@ -233,6 +238,14 @@ export abstract class PlatformBuilder {
       this.useProvider(provide, settings);
     });
 
+    return this;
+  }
+
+  protected useRouter(): this {
+    return this;
+  }
+
+  protected useContext(): this {
     return this;
   }
 

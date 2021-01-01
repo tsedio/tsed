@@ -1,4 +1,6 @@
+import KoaRouter from "@koa/router";
 import {
+  createContext,
   PlatformApplication,
   PlatformBuilder,
   PlatformExceptions,
@@ -8,14 +10,15 @@ import {
   PlatformRouter
 } from "@tsed/common";
 import {Type} from "@tsed/core";
-import Koa from "koa";
+import Koa, {Context, Next} from "koa";
+import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
 import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse, PlatformKoaRouter} from "../services";
 
 /**
  * @platform
  * @koa
  */
-export class PlatformKoa extends PlatformBuilder {
+export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
   static providers = [
     {
       provide: PlatformResponse,
@@ -52,5 +55,21 @@ export class PlatformKoa extends PlatformBuilder {
 
     this.app.getApp().silent = true;
     this.app.getApp().on("error", listener);
+  }
+
+  protected useRouter(): this {
+    this.app.getApp().use(resourceNotFoundMiddleware).use(this.app.getRouter().routes()).use(this.app.getRouter().allowedMethods());
+
+    return this;
+  }
+
+  protected useContext(): this {
+    this.app.getApp().use(async (ctx: Context, next: Next) => {
+      await createContext(this.injector, ctx.request, ctx.response);
+
+      return next();
+    });
+
+    return this;
   }
 }

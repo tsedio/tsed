@@ -61,33 +61,7 @@ describe("PlatformApplication", () => {
       expect(platformApp.getRouter()).to.eq(platformApp.rawRouter);
     });
   });
-  describe("useContext()", () => {
-    beforeEach(() => {
-      // @ts-ignore
-      sandbox.stub(PlatformRouter, "createRawRouter").returns(createDriver() as any);
-    });
-    afterEach(() => {
-      sandbox.restore();
-    });
-    it("should create context", async () => {
-      // GIVEN
-      const {platformApp} = await getPlatformApp();
-      const request: any = new FakeRequest(sandbox);
-      const response: any = new FakeResponse();
-      const next = sandbox.stub();
 
-      // WHEN
-      platformApp.useContext();
-
-      // THEN
-      expect(platformApp.raw.use).to.have.been.calledWithExactly(Sinon.match.func);
-
-      await stub(platformApp.raw.use).getCall(0).args[0](request, response, next);
-
-      expect(request.$ctx).to.be.instanceof(PlatformContext);
-      expect(next).to.have.been.calledWithExactly();
-    });
-  });
   describe("use()", () => {
     beforeEach(() => {
       // @ts-ignore

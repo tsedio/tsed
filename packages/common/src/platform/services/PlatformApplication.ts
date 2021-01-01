@@ -36,14 +36,4 @@ export class PlatformApplication<App = TsED.Application, Router = TsED.Router> e
   getApp(): App {
     return this.raw;
   }
-
-  useContext(): this {
-    // @ts-ignore
-    this.getApp().use(async (req: any, res: any, next: any) => {
-      await createContext(this.injector, req, res);
-      next();
-    });
-
-    return this;
-  }
 }

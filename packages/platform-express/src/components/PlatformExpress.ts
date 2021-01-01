@@ -1,4 +1,5 @@
 import {
+  createContext,
   IRoute,
   PlatformApplication,
   PlatformBuilder,
@@ -10,6 +11,7 @@ import {
   PlatformViews
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
+import Express from "express";
 import {
   PlatformExpressApplication,
   PlatformExpressHandler,
@@ -22,7 +24,7 @@ import {
  * @platform
  * @express
  */
-export class PlatformExpress extends PlatformBuilder {
+export class PlatformExpress extends PlatformBuilder<Express.Application, Express.Router> {
   static providers = [
     {
       provide: PlatformApplication,
@@ -48,6 +50,24 @@ export class PlatformExpress extends PlatformBuilder {
 
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
     return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
+  }
+
+  protected useRouter(): this {
+    this.logger.info("Mount app router");
+    this.app.getApp().use(this.app.getRouter());
+
+    return this;
+  }
+
+  protected useContext(): this {
+    this.logger.info("Mount app context");
+    this.app.getApp().use(async (req: any, res: any, next: any) => {
+      await createContext(this.injector, req, res);
+
+      return next();
+    });
+
+    return this;
   }
 
   protected async loadRoutes(routes: IRoute[]): Promise<void> {

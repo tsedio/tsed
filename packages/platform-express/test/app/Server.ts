@@ -4,8 +4,10 @@ import {Configuration, Inject} from "@tsed/di";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
+import {Application} from "express";
 import session from "express-session";
 import methodOverride from "method-override";
+import {parse} from "querystring";
 import "../../src";
 
 export const rootDir = __dirname;
@@ -27,10 +29,16 @@ export const rootDir = __dirname;
 })
 export class Server {
   @Inject()
-  app: PlatformApplication;
+  app: PlatformApplication<Application>;
 
   @Constant("viewsDir")
   viewsDir: string;
+
+  $onInit() {
+    this.app.getApp().set("query parser", (queryString: string) => {
+      return parse(queryString);
+    });
+  }
 
   $beforeRoutesInit() {
     this.app
