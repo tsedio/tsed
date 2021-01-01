@@ -26,8 +26,6 @@ export class PlatformExpressApplication extends PlatformExpressRouter implements
     });
 
     this.rawApp = configuration.get("express.app") || Express();
-
-    this.useContext().getApp().use(this.getRouter());
   }
 
   getApp() {
@@ -36,15 +34,5 @@ export class PlatformExpressApplication extends PlatformExpressRouter implements
 
   callback() {
     return this.rawApp;
-  }
-
-  useContext(): this {
-    this.getApp().use(async (req: any, res: any, next: any) => {
-      await createContext(this.injector, req, res);
-
-      return next();
-    });
-
-    return this;
   }
 }

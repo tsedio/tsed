@@ -1,4 +1,4 @@
-import {$log, Controller, Get} from "@tsed/common";
+import {$log, Controller, Get, QueryParams} from "@tsed/common";
 import {PlatformExpress} from "../../src";
 import {Server} from "./Server";
 
@@ -6,7 +6,7 @@ if (process.env.NODE_ENV !== "test") {
   @Controller("/hello")
   class HelloWorld {
     @Get("/")
-    get() {
+    get(@QueryParams("q") query: string[]) {
       return {test: "Hello world"};
     }
   }
