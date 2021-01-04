@@ -127,6 +127,10 @@ module.exports = {
                   {
                     text: "Swagger",
                     link: "/tutorials/swagger.md"
+                  },
+                  {
+                    text: "OIDC",
+                    link: "/tutorials/oidc.md"
                   }
                 ]
               },
@@ -240,7 +244,8 @@ module.exports = {
               { title: "Seq logger", path: "/tutorials/seq" },
               "/tutorials/swagger",
               "/tutorials/ajv",
-              "/tutorials/aws"
+              "/tutorials/aws",
+              "/tutorials/oidc"
             ]
           },
           {
@@ -272,6 +277,7 @@ module.exports = {
           "/tutorials/not-found-page",
           "/tutorials/aws",
           "/tutorials/seq",
+          "/tutorials/oidc",
           "/docs/controllers",
           "/docs/providers",
           "/docs/model",

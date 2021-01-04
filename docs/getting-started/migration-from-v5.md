@@ -10,6 +10,17 @@ meta:
 ---
 # Migrate from v5
 ## What's new ?
+### Since <Badge text="v6.19.0" />
+
+- Add `@tsed/oidc-provider` package.
+- Add `ctx.request.secure` property to check if the request is secure.
+
+### Since <Badge text="v6.18.0" />
+
+- Catch passport errors and transform it to Exception.
+- Remove `x-powered-by` header in production profile.
+- Add `@tsed/adapters` package. This package will be used by `@tsed/oidc-provider`.
+
 ### Since <Badge text="v6.17.0" />
 
 - [Declare custom keys on JsonSchema](/docs/models.md#custom-keys).
