@@ -103,6 +103,7 @@ His interface is the following:
 ```typescript
 class PlatformRequest<T = Req> {
   raw: T;
+  get secure(): boolean;
   get url(): string;
   get headers(): IncomingHttpHeaders;
   get method(): string;

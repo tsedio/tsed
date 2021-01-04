@@ -101,6 +101,7 @@ Features | Express.js  | Koa.js
 [Socket.io](/tutorials/socket-io.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Seq](/tutorials/seq.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Swagger](/tutorials/swagger.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
+[OIDC](/tutorials/oidc.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 
 </div>
 
@@ -109,6 +110,17 @@ Compatibility for Koa.js with Passport.js is planed.
 :::
 
 ## What's new ?
+### Since <Badge text="v6.19.0" />
+
+- Add `@tsed/oidc-provider` package.
+- Add `ctx.request.secure` property to check if the request is secure.
+
+### Since <Badge text="v6.18.0" />
+
+- Catch passport errors and transform it to Exception.
+- Remove `x-powered-by` header in production profile.
+- Add `@tsed/adapters` package. This package will be used by `@tsed/oidc-provider`.
+
 ### Since <Badge text="v6.17.0" />
 
 - [Declare custom keys on JsonSchema](/docs/models.md#custom-keys).

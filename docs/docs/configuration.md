@@ -237,7 +237,7 @@ It's also possible to register resolvers with the @@Module@@ decorator:
 
 ### views
 
-Object to configure Views engines with Consolidate. See more on [View engine](/docs/template-engine.md).
+Object to configure Views engines with Consolidate. See more on [View engine](/docs/templating.md).
 
 ### acceptMimes
  
