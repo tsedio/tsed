@@ -170,7 +170,6 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     logger.info("Build providers");
 
     await loadInjector(injector, createContainer(constructorOf(this.rootModule)));
-    await this.callHook("$onInit");
 
     logger.debug("Settings and injector loaded");
     await this.callHook("$afterInit");

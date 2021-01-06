@@ -1,7 +1,6 @@
 import {Type} from "@tsed/core";
 import {Configuration} from "oidc-provider";
 import {OidcAccountsMethods} from "./OidcAccountsMethods";
-import {OidcClientsMethods} from "./OidcClientsMethods";
 
 export interface OidcSettings extends Configuration {
   /**
@@ -27,7 +26,7 @@ export interface OidcSettings extends Configuration {
   /**
    * Injectable service to manage clients.
    */
-  Clients?: Type<OidcClientsMethods>;
+  // Clients?: Type<OidcClientsMethods>;
 }
 
 declare global {

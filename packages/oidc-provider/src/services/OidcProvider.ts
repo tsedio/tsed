@@ -3,7 +3,7 @@ import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
 import Provider from "oidc-provider";
 import RawOIDCProvider, {Configuration, interactionPolicy} from "oidc-provider";
 import {INTERACTIONS} from "../constants";
-import {OidcAccountsMethods, OidcClientsMethods, OidcSettings} from "../domain";
+import {OidcAccountsMethods, OidcSettings} from "../domain";
 import {OidcAdapters} from "./OidcAdapters";
 import {OidcInteractions} from "./OidcInteractions";
 import {OidcJwks} from "./OidcJwks";
@@ -45,7 +45,7 @@ export class OidcProvider {
 
   async getConfiguration(): Promise<Configuration> {
     const [jwks, adapter] = await Promise.all([this.oidcJwks.getJwks(), this.adapters.createAdapterClass()]);
-    const {issuer, jwksPath, secureKey, proxy, Accounts, Clients, ...options} = this.oidc;
+    const {issuer, jwksPath, secureKey, proxy, Accounts, ...options} = this.oidc;
 
     const configuration: Configuration = {
       ...options,
@@ -96,13 +96,9 @@ export class OidcProvider {
    * Create a new instance of OidcProvider
    */
   async create(): Promise<void | Provider> {
-    const {Clients, proxy, secureKey} = this.oidc;
+    const {proxy, secureKey} = this.oidc;
     const configuration = await this.getConfiguration();
     const oidcProvider = new RawOIDCProvider(this.getIssuer(), configuration);
-
-    if (Clients) {
-      oidcProvider.Client.find = (id: string) => this.injector.get<OidcClientsMethods>(Clients)!.find(id);
-    }
 
     if (proxy || this.env === Env.PROD) {
       oidcProvider.proxy = true;
@@ -117,6 +113,8 @@ export class OidcProvider {
     if (this.env !== Env.PROD) {
       this.allowHttpLocalhost();
     }
+
+    await this.injector.emit("$onCreateOIDC", this.raw);
 
     return this.raw;
   }
@@ -146,11 +144,10 @@ export class OidcProvider {
   }
 
   private getPolicy() {
+    const policy = interactionPolicy.base();
     const interactions = this.oidcInteractions.getInteractions();
 
     if (interactions.length) {
-      const policy = interactionPolicy.base();
-
       interactions.forEach((provider) => {
         const {name, ...options} = provider.store.get("interactionOptions");
 
@@ -167,8 +164,8 @@ export class OidcProvider {
           provider.instance.$onCreate(policy.get(name));
         }
       });
-
-      return policy;
     }
+
+    return this.injector.alter("$alterOidcPolicy", policy);
   }
 }
