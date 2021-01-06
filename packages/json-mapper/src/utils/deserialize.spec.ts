@@ -344,6 +344,9 @@ describe("deserialize()", () => {
         @OnDeserialize((value) => String(value) + "test")
         @Name("mapped_prop")
         mappedProp: string;
+
+        @OnDeserialize((b) => b.filter((v: string) => v === "test"))
+        list: string[];
       }
 
       const result = deserialize(
@@ -356,7 +359,8 @@ describe("deserialize()", () => {
               label: "role"
             }
           },
-          add: true
+          add: true,
+          list: ["test", "value"]
         },
         {type: Model}
       );
@@ -366,7 +370,8 @@ describe("deserialize()", () => {
         id: "id",
         mappedProp: "mappedProptest",
         password: "string",
-        roles: new Map().set("role1", new Role({label: "role"}))
+        roles: new Map().set("role1", new Role({label: "role"})),
+        list: ["test"]
       });
     });
     it("should transform object to class (recursive class)", () => {

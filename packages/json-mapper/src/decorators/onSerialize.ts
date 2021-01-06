@@ -1,4 +1,4 @@
-import {JsonHookContext, JsonEntityFn} from "@tsed/schema";
+import {JsonEntityFn, JsonHookContext} from "@tsed/schema";
 
 export interface OnSerializeCallback {
   (value: any, ctx: JsonHookContext): any;
@@ -24,6 +24,6 @@ export interface OnSerializeCallback {
  */
 export function OnSerialize(cb: OnSerializeCallback): PropertyDecorator {
   return JsonEntityFn((storedJson) => {
-    storedJson.itemSchema.$hooks.on("onSerialize", cb);
+    storedJson.schema.$hooks.on("onSerialize", cb);
   });
 }
