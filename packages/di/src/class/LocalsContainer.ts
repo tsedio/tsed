@@ -17,6 +17,18 @@ export class LocalsContainer<V> extends Map<TokenProvider, V> {
     }
   }
 
+  public alter(eventName: string, value: any, ...args: any[]): any {
+    const instances: any[] = this.toArray();
+
+    for (const instance of instances) {
+      if (typeof instance === "object" && instance && eventName in instance) {
+        value = instance[eventName](value, ...args);
+      }
+    }
+
+    return value;
+  }
+
   toArray() {
     return Array.from(this.values());
   }

@@ -63,7 +63,6 @@ import "@tsed/swagger";
 import {OidcSecureMiddleware} from "@tsed/oidc-provider";
 import {PlatformApplication} from "@tsed/common";
 import {Accounts} from "./services/Accounts"; 
-// import {Clients} from "./services/Clients"; 
 import {InteractionsCtrl} from "./controllers/oidc/InteractionsCtrl"; 
 
 export const rootDir = __dirname;
@@ -81,7 +80,6 @@ export const rootDir = __dirname;
     issuer: "http://localhost:8081",
     jwksPath: join(__dirname, "..", "keys", "jwks.json"),
     Accounts: Accounts, // Injectable service to manage your accounts
-    // Clients: Clients // Injectable service to manage oidc clients
     clients: [ // statics clients
       {
         client_id: "client_id",
@@ -166,10 +164,6 @@ export interface OidcSettings extends Configuration {
    * Injectable service to manage accounts.
    */
   Accounts?: Type<OidcAccountsMethods>;
-  /**
-   * Injectable service to manage clients.
-   */
-  Clients?: Type<OidcClientsMethods>;
 }
 ```
 
@@ -194,7 +188,7 @@ In your controllers directory create the `oidc/InteractionCtrl.ts` file and copy
 
 ```typescript
 import {Get} from "@tsed/common";
-import {Interactions, OidcCtx} from "@tsed/oidc-provider";
+import {Interactions, OidcCtx, DefaultPolicy} from "@tsed/oidc-provider";
 import {LoginInteraction} from "../../interactions/LoginInteraction";
 
 @Interactions({
@@ -389,7 +383,7 @@ import {Account} from "../models/Account";
 
 @Injectable()
 export class Accounts {
-  @InjectAdapter("accounts", Account)
+  @InjectAdapter("Accounts", Account)
   adapter: Adapter<Account>;
 
   async $onInit() {
@@ -452,6 +446,113 @@ export class Account {
 Claims method is used by Oidc to expose this information in the userInfo endpoint.
 :::
 
+## Alter Oidc policy
+
+Ts.ED emit a special `$alterOidcPolicy` event when @tsed/oidc-provider link interactions with Oidc policy. You can change the policy configuration
+by adding `$alterOidcPolicy` on InteractionsCtrl:
+
+```typescript
+import {Get} from "@tsed/common";
+import {Interactions, OidcCtx, DefaultPolicy} from "@tsed/oidc-provider";
+import {LoginInteraction} from "../../interactions/LoginInteraction";
+
+@Interactions({
+  path: "/interaction/:uid",
+  children: [
+    LoginInteraction // register her children interations 
+  ]
+})
+export class InteractionsCtrl {
+  @Get("/")
+  async promptInteraction(@OidcCtx() oidcCtx: OidcCtx) {
+    return oidcCtx.runInteraction();
+  }
+
+  $alterOidcPolicy(policy: DefaultPolicy) {
+    // do something
+   
+    return policy
+  }
+}
+```
+
+## Remove consent interaction
+
+Sometimes with your provider you don't need a consent screen. This use-case might occur if your provider has only first-party clients configured. To achieve that you need to remove consent interaction from provider policy configuration:
+
+```typescript
+import {Get} from "@tsed/common";
+import {Interactions, OidcCtx, DefaultPolicy} from "@tsed/oidc-provider";
+import {LoginInteraction} from "../../interactions/LoginInteraction";
+
+@Interactions({
+  path: "/interaction/:uid",
+  children: [
+    LoginInteraction // register her children interations 
+  ]
+})
+export class InteractionsCtrl {
+  @Get("/")
+  async promptInteraction(@OidcCtx() oidcCtx: OidcCtx) {
+    return oidcCtx.runInteraction();
+  }
+
+  $alterOidcPolicy(policy: DefaultPolicy) {
+    policy.remove("consent");
+   
+    return policy
+  }
+}
+```
+::: warning
+
+Additionally, if you do remove consent prompt, you will get error when your RPs try to request scopes other than `openid` and `offline_access`. In order to accommodate those use-cases, you need to provide accepted property in interaction results whenever `interactionFinished` is called.
+
+```typescript
+import {BodyParams, Inject, Post, View} from "@tsed/common";
+import {Env} from "@tsed/core";
+import {Constant} from "@tsed/di";
+import {BadRequest, Unauthorized} from "@tsed/exceptions";
+import {Interaction, OidcCtx, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
+import {Accounts} from "../services/Accounts";
+
+@Interaction({
+  name: "login"
+})
+export class LoginInteraction {
+  @Constant("env")
+  env: Env;
+
+  @Inject()
+  accounts: Accounts;
+
+  @Post("/login")
+  @View("login")
+  async submit(@BodyParams() payload: any,
+               @Params() params: Params,
+               @Uid() uid: Uid,
+               @OidcSession() session: OidcSession,
+               @Prompt() prompt: Prompt,
+               @OidcCtx() oidcCtx: OidcCtx) {
+    // rest of your code...
+    
+    return oidcCtx.interactionFinished({
+      login: {
+        account: account.accountId
+      },
+      consent: { 
+        rejectedScopes: [], // array of strings representing rejected scopes, see below
+        rejectedClaims: [], // array of strings representing rejected claims, see below
+      }
+    });
+  }
+}
+```
+
+You should also provide of `rejectedScopes` and `rejectedClaims` in `consent` object in order to prevent scopes/claims being exposed to clients you don't want them to be exposed to.
+:::
+
+<!--
 ## Clients
 
 An Clients provider can be given to the Oidc configuration. It'll be responsible to manage clients.
@@ -463,12 +564,12 @@ import {Injectable} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {AccessToken, AuthorizationCode, DeviceCode} from "@tsed/oidc-provider";
 import {ClientMetadata} from "oidc-provider";
-import {Client} from "../models/Client";
+import {OidcClient} from "../models/OidcClient";
 
 @Injectable()
-export class Accounts {
-  @InjectAdapter("clients", Client)
-  adapter: Adapter<Client>;
+export class Clients {
+  @InjectAdapter("Clients", OidcClient)
+  adapter: Adapter<OidcClient>;
 
   async find(clientId: string): Promise<ClientMetadata> {
     return serialize(this.adapter.findById(clientId));
@@ -645,6 +746,7 @@ export enum SubjectTypes {
   
   </Tab>
 </Tabs>
+-->
 
 ## Support Oidc-provider
 
