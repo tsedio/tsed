@@ -34,6 +34,7 @@ export * from "./params/useDeserialization";
 export * from "./params/useParamExpression";
 export * from "./params/useParamType";
 export * from "./params/bodyParams";
+export * from "./params/rawBodyParams";
 export * from "./params/cookies";
 export * from "./params/headerParams";
 export * from "./params/locals";

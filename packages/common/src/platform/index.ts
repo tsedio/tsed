@@ -23,6 +23,7 @@ export * from "./middlewares/PlatformAcceptMimesMiddleware";
 // domain
 export * from "./domain/HandlerContext";
 export * from "./domain/PlatformContext";
+export * from "./domain/PlatformRouteDetails";
 export * from "./domain/RequestLogger";
 export * from "./domain/RequestLogger";
 export * from "./domain/ControllerProvider";

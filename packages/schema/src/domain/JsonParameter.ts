@@ -4,7 +4,7 @@ import {JsonSchemaOptions} from "../interfaces";
 import {NestedGenerics, popGenerics} from "../utils/generics";
 import {serializeItem} from "../utils/serializeJsonSchema";
 import {JsonMap} from "./JsonMap";
-import {isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
+import {formatParameterType, isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
 import {SpecTypes} from "./SpecTypes";
 
@@ -38,7 +38,7 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
   }
 
   in(inType: string, expression: string | any = ""): this {
-    this.set("in", inType.toLowerCase());
+    this.set("in", formatParameterType(inType));
     this.expression = expression;
 
     return this;

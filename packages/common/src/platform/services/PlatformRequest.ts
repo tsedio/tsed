@@ -50,6 +50,10 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
     return this.raw.body;
   }
 
+  get rawBody(): any {
+    return this.raw.rawBody;
+  }
+
   /**
    * When using `cookie-parser` middleware, this property is an object that contains cookies sent by the request.
    * If the request contains no cookies, it defaults to `{}`.

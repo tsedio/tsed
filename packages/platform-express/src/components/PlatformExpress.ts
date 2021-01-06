@@ -12,6 +12,7 @@ import {
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import Express from "express";
+import {rawBodyMiddleware} from "../middlewares/rawBodyMiddleware";
 import {
   PlatformExpressApplication,
   PlatformExpressHandler,
@@ -54,6 +55,7 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
 
   protected useRouter(): this {
     this.logger.info("Mount app router");
+    this.app.getApp().use(rawBodyMiddleware);
     this.app.getApp().use(this.app.getRouter());
 
     return this;
@@ -61,6 +63,7 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
 
   protected useContext(): this {
     this.logger.info("Mount app context");
+
     this.app.getApp().use(async (req: any, res: any, next: any) => {
       await createContext(this.injector, req, res);
 

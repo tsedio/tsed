@@ -1,7 +1,7 @@
 import {$log, colorize} from "@tsed/logger";
-import {IRouteDetails} from "../../platform";
+import {PlatformRouteDetails} from "../../platform/domain/PlatformRouteDetails";
 
-export function printRoutes(routes: IRouteDetails[]) {
+export function printRoutes(routes: PlatformRouteDetails[]) {
   const mapColor: {[key: string]: string} = {
     GET: "green",
     POST: "yellow",
@@ -11,20 +11,21 @@ export function printRoutes(routes: IRouteDetails[]) {
     ALL: "cyan"
   };
 
-  routes = routes.map((route) => {
-    const method = route.method.toUpperCase();
+  const list = routes.map((route) => {
+    const obj = route.toJSON();
+    const method = obj.method.toUpperCase();
 
-    route.method = {
+    obj.method = {
       length: method.length,
       toString: () => {
         return colorize(method, mapColor[method]);
       }
     } as any;
 
-    return route;
+    return obj;
   });
 
-  const str = $log.drawTable(routes, {
+  const str = $log.drawTable(list, {
     padding: 1,
     header: {
       method: "Method",
