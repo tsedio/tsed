@@ -13,6 +13,7 @@ export enum ParamTypes {
   RES = "RES",
   REQ = "REQ",
   BODY = "BODY",
+  RAW_BODY = "RAW_BODY",
   PATH = "PATH",
   QUERY = "QUERY",
   HEADER = "HEADER",

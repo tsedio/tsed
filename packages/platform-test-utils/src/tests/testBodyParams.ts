@@ -1,6 +1,6 @@
 import {BodyParams, Controller, HeaderParams, PlatformTest, Post} from "@tsed/common";
-import {Status} from "@tsed/schema";
-import {Required} from "@tsed/schema";
+import {RawBodyParams} from "@tsed/common/src/mvc/decorators/params/rawBodyParams";
+import {getSpec, Required, SpecTypes, Status} from "@tsed/schema";
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -26,6 +26,11 @@ class TestBodyParamsCtrl {
   @Post("/scenario-4")
   testScenario3(@Required() @BodyParams("test") value: string[]): any {
     return {value};
+  }
+
+  @Post("/scenario-5")
+  testScenario5(@RawBodyParams() payload: any): any {
+    return {value: payload.toString("utf8")};
   }
 }
 
@@ -125,6 +130,15 @@ export function testBodyParams(options: PlatformTestOptions) {
             schemaPath: "#/required"
           }
         ]
+      });
+    });
+  });
+  describe("Scenario5: with raw payload", () => {
+    it("should return value", async () => {
+      const response = await request.post("/rest/body-params/scenario-5").send('{"test": ["value"]}').expect(200);
+
+      expect(response.body).to.deep.equal({
+        value: '{"test": ["value"]}'
       });
     });
   });

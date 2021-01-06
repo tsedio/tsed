@@ -7,6 +7,10 @@ export enum JsonParameterTypes {
   FILES = "files"
 }
 
+export function formatParameterType(type: any): any {
+  return String(type).toLowerCase().replace("raw_", "");
+}
+
 export function isParameterType(type: string) {
-  return Object.values(JsonParameterTypes).includes(String(type).toLowerCase() as any);
+  return Object.values(JsonParameterTypes).includes(formatParameterType(type) as any);
 }

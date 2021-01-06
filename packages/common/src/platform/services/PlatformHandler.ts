@@ -123,6 +123,9 @@ export class PlatformHandler {
       case ParamTypes.BODY:
         return request.body;
 
+      case ParamTypes.RAW_BODY:
+        return request.rawBody;
+
       case ParamTypes.QUERY:
         return request.query;
 
