@@ -131,6 +131,10 @@ module.exports = {
                   {
                     text: "OIDC",
                     link: "/tutorials/oidc.md"
+                  },
+                  {
+                    text: "Stripe",
+                    link: "/tutorials/stripe.md"
                   }
                 ]
               },
@@ -245,7 +249,8 @@ module.exports = {
               "/tutorials/swagger",
               "/tutorials/ajv",
               "/tutorials/aws",
-              "/tutorials/oidc"
+              "/tutorials/oidc",
+              "/tutorials/stripe",
             ]
           },
           {
@@ -278,6 +283,7 @@ module.exports = {
           "/tutorials/aws",
           "/tutorials/seq",
           "/tutorials/oidc",
+          "/tutorials/stripe",
           "/docs/controllers",
           "/docs/providers",
           "/docs/model",

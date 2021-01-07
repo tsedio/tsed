@@ -32,8 +32,11 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  *   "type": "object",
  *   "properties": {
  *     "property": {
- *       "type": "string",
- *       "minItems": 10
+ *       "type": "array",
+ *       "minItems": 10,
+ *       "items": {
+ *         "type": "string"
+ *       }
  *     }
  *   }
  * }

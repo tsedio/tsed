@@ -106,6 +106,7 @@ In order to avoid such side-effects, simply move `findAll()` method above `findO
 Getting parameters from Express Request can be done by using the following decorators:
 
 - @@BodyParams@@: `Express.request.body`
+- @@RawBodyParams@@: `Express.request.rawBody`
 - @@PathParams@@: `Express.request.params`
 - @@RawPathParams@@: `Express.request.params` without transformation and validation,
 - @@QueryParams@@: `Express.request.query`
@@ -141,9 +142,19 @@ class QueryController {
 ```
 :::
 
+### Raw Body <Badge text="v6.20.0+" />
+
+@@RawBodyParams@@ decorator provides you quick access to the `request.rawBody`:
+
+<<< @/docs/docs/snippets/controllers/request-raw-body.ts
+
+::: warning
+There is no performed input validation and deserialization when using the @@RawBodyParams@@!
+:::
+
 ### Headers
 
-@@HeaderParams@@ decorator provides you quick access to the `Express.request.get()`:
+@@HeaderParams@@ decorator provides you quick access to the `request.get()`:
 
 <<< @/docs/docs/snippets/controllers/request-headers.ts
 
@@ -195,7 +206,6 @@ npm install --save @tsed/ajv
 
 <ApiList query="status.includes('decorator') && status.includes('operation') && status.includes('response')" />
 
-
 ### Status
 
 You can change the default response status with the @@Status@@ decorator:
@@ -213,6 +223,85 @@ You can set the response content type with the @@ContentType@@ decorator:
 You can set the response header with the @@Header@@ decorator:
 
 <<< @/docs/docs/snippets/controllers/response-headers.ts
+
+### Redirect
+
+Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to “302 “Found”.
+
+```typescript
+@Controller('/')
+class MyCtrl {
+  @Redirect('/foo/bar')
+  @Redirect(301, 'http://example.com')
+  myMethod() {}
+}
+```
+Redirects can be a fully-qualified URL for redirecting to a different site:
+
+```typescript
+@Controller('/')
+class MyCtrl {
+  @Redirect('http://google.com')
+  myMethod() {}
+}
+```
+
+Redirects can be relative to the root of the host name. For example, if the application is on http://example.com/admin/post/new, the following would redirect to the URL http://example.com/admin:
+
+```typescript
+@Controller('/')
+class MyCtrl {
+  @Redirect('/admin')
+  myMethod() {}
+}
+```
+Redirects can be relative to the current URL. For example, from http://example.com/blog/admin/ (notice the trailing slash), the following would redirect to the URL http://example.com/blog/admin/post/new.
+
+```typescript
+@Controller('/')
+class MyCtrl {
+  @Redirect('post/new')
+  myMethod() {}
+}
+```
+
+Redirecting to post/new from http://example.com/blog/admin (no trailing slash), will redirect to http://example.com/blog/post/new.
+
+If you found the above behavior confusing, think of path segments as directories (with trailing slashes) and files, it will start to make sense.
+
+Path-relative redirects are also possible. If you were on http://example.com/admin/post/new, the following would redirect to http//example.com/admin/post:
+
+```typescript
+@Controller('/')
+class MyCtrl {
+  @Redirect('..')
+  myMethod() {}
+}
+```
+
+A back redirection redirects the request back to the referer, defaulting to / when the referer is missing.
+
+```typescript
+class MyCtrl {
+  @Redirect('back')
+  myMethod() {}
+}
+
+```
+
+Finally, it also possible to perform redirection programmatically:
+
+```typescript
+import {Controller, Get, ctx} from "@tsed/common";
+
+@Controller("/")
+class MyCtrl {
+  @Get("/")
+  myMethod(@Context() ctx: Context) {
+    return ctx.response.redirect("/path/to")
+  }
+}
+```
 
 ### Generics
 
