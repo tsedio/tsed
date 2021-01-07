@@ -1,0 +1,34 @@
+{
+  "name": "@tsed/stripe",
+  "version": "6.19.2",
+  "description": "Stripe package for Ts.ED framework",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "keywords": [
+    "Stripe",
+    "Ts.ED",
+    "tsed",
+    "TypeScript",
+    "decorators",
+    "express",
+    "koa"
+  ],
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json"
+  },
+  "dependencies": {
+    "tslib": "2.0.1"
+  },
+  "private": false,
+  "devDependencies": {
+    "@tsed/core": "6.19.2",
+    "@tsed/di": "6.19.2",
+    "@tsed/common": "6.19.2",
+    "stripe": "^8.129.0"
+  },
+  "peerDependencies": {
+    "@types/body-parser": "^1.19.0",
+    "stripe": "^8.129.0",
+    "body-parser": "^1.19.0"
+  }
+}
