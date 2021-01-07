@@ -21,7 +21,7 @@
     "@tsed/core": "6.20.0",
     "@tsed/di": "6.20.0",
     "@tsed/json-mapper": "6.20.0",
-    "@types/fs-extra": "9.0.1"
+    "@types/fs-extra": "9.0.6"
   },
   "peerDependencies": {}
 }
