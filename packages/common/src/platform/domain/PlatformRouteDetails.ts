@@ -1,4 +1,3 @@
-import {pathToRegexp} from "path-to-regexp";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {ParamTypes} from "../../mvc/models/ParamTypes";
 
@@ -7,14 +6,12 @@ export class PlatformRouteDetails {
   readonly url: string;
   readonly rawBody: boolean;
   readonly endpoint: EndpointMetadata;
-  readonly matcher: RegExp;
 
   constructor({endpoint, method, url}: {endpoint: EndpointMetadata; method: string; url: string}) {
     this.endpoint = endpoint;
     this.method = method;
     this.url = url;
     this.rawBody = !!endpoint.params.find((param) => param.paramType === ParamTypes.RAW_BODY);
-    this.matcher = pathToRegexp(this.url);
   }
 
   get name() {
@@ -31,10 +28,6 @@ export class PlatformRouteDetails {
 
   get parameters() {
     return this.endpoint.params;
-  }
-
-  match(url: string) {
-    return url.match(this.matcher);
   }
 
   toJSON() {
