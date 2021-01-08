@@ -54,6 +54,15 @@
       <div class="mt-5 pt-5">
         <Frameworks />
       </div>
+
+      <div class="pt-5">
+        <p class="text-center font-normal text-xl m-auto max-w-lg">What's new ?</p>
+
+        <div class="mt-5 pt-5">
+          <ReleaseNote style="max-height: 300px" />
+        </div>
+      </div>
+
     </div>
   </div>
 </template>

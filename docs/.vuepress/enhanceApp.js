@@ -11,9 +11,9 @@ export default ({
                 }) => {
   try {
     Vue.use(VueTsED);
-    Vue.component('SupportUsBlock', SupportUsBlock)
+    Vue.component("SupportUsBlock", SupportUsBlock);
     Vue.use(VueAnalytics, {
-      id: siteData.themeConfig.plugins[0][1].ga,
+      id: siteData.themeConfig.plugins["@vuepress/google-analytics"].ga,
       router
     });
   } catch (er) {

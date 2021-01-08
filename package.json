@@ -80,9 +80,9 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@tsed/markdown-it-symbols": "3.3.0",
+    "@tsed/markdown-it-symbols": "3.6.0",
     "@tsed/monorepo-utils": "1.12.8",
-    "@typedproject/ts-doc": "4.0.12",
+    "@typedproject/ts-doc": "4.0.13",
     "@types/chai": "4.2.12",
     "@types/chai-as-promised": "7.1.3",
     "@types/faker": "^5.1.5",
@@ -124,8 +124,8 @@
     "tslib": "2.0.1",
     "typescript": "4.0.2",
     "vue-analytics": "5.22.1",
-    "vuepress": "1.7.1",
-    "vuepress-theme-tsed": "3.5.8"
+    "vuepress": "1.8.0",
+    "vuepress-theme-tsed": "3.6.0"
   },
   "directories": {
     "packages": "packages",

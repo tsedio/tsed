@@ -17,7 +17,7 @@ projects:
 ---
 # Passport.js
 
-<Banner class="--darken" src="http://www.passportjs.org/images/logo.svg" height="128" href="http://www.passportjs.org/"></Banner>
+<Banner src="/passportjs.png" height="128" href="http://www.passportjs.org/"></Banner>
 
 > Passport is an authentication middleware for Node.js.
 
