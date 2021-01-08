@@ -50,7 +50,7 @@ module.exports = {
     docsBranch: "production",
     api: require("./public/api.json"),
     smoothScroll: true,
-    lastUpdated: 'Last updated',
+    lastUpdated: "Last updated",
     algolia: {
       apiKey: "f8a038207e461aaac0e2fd16403c2b01",
       indexName: "ts_ed"
@@ -250,7 +250,7 @@ module.exports = {
               "/tutorials/ajv",
               "/tutorials/aws",
               "/tutorials/oidc",
-              "/tutorials/stripe",
+              "/tutorials/stripe"
             ]
           },
           {
@@ -300,14 +300,20 @@ module.exports = {
         ]
       }
     },
-    plugins: [
-      [
-        "@vuepress/google-analytics",
-        {
-          ga: "UA-35240348-1"
+    plugins: {
+      "@vuepress/google-analytics": {
+        ga: "UA-35240348-1"
+      },
+      "@vuepress/medium-zoom": {
+        selector: "figure img",
+        // medium-zoom options here
+        // See: https://github.com/francoischalifour/medium-zoom#options
+        options: {
+          margin: 16
         }
-      ]
-    ]
+
+      }
+    }
   },
   markdown: {
     lineNumbers: true,

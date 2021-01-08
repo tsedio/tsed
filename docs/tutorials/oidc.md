@@ -9,7 +9,7 @@ meta:
 
 <Badge text="alpha" /> <Badge text="Contributors are welcome" />
 
-<Banner src="https://oauth.net/images/oauth-logo-square.png" height="200" href="https://github.com/panva/node-oidc-provider"></Banner>
+<Banner src="https://oauth.net/images/oauth-logo-square.png" height="100" href="https://github.com/panva/node-oidc-provider"></Banner>
 
 [Oidc-provider](https://github.com/panva/node-oidc-provider) is an OAuth 2.0 Authorization Server with OpenID Connect and many additional features and standards implemented.
 
