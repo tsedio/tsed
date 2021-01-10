@@ -1333,7 +1333,7 @@ describe("getSpec()", () => {
         }
       });
     });
-    it("should declare all schema correctly ( openspec3)", async () => {
+    it("should declare all schema correctly (openspec3)", async () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
@@ -1413,7 +1413,7 @@ describe("getSpec()", () => {
         }
       });
     });
-    it("should declare an Array of string ( openspec3)", async () => {
+    it("should declare an Array of string (openspec3)", async () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")

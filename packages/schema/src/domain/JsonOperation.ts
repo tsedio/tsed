@@ -90,6 +90,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     const currentResponse = this.getResponses().get(currentCode);
 
     if (!currentResponse) {
+      response.status = Number(currentCode);
       this.getResponses().set(currentCode, response);
     } else {
       response.forEach((value, key) => {
@@ -97,6 +98,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
           currentResponse.set(key, deepExtends(currentResponse.get(key), value));
         }
       });
+      currentResponse.status = Number(currentCode);
     }
 
     return this;

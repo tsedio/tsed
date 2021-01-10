@@ -1,3 +1,7 @@
+#### v6.20.1
+
+- Fix swagger spec generation when the status code is 204 ([#1175](https://github.com/TypedProject/tsed/issues/1175)).
+
 #### v6.20.0
 
 - Add `@tsed/stripe` package. See our [documentation](/tutorials/stripe.md).
@@ -41,6 +45,15 @@ You have to replace it with:
 ```typescript
 import Ajv from "ajv"
 ```
+
+---
+
+#### v6.14.1
+
+Fix typings issue with mongoose. 
+
+Since mongoose v5.11.0, the module expose his own file definition and can broke your build! 
+To solve it, install latest version of `mongoose` and `@tsed/mongoose` modules then remove the `@types/mongoose` dependencies.
 
 ---
 
