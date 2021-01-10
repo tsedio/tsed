@@ -30,6 +30,8 @@ export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
 }
 
 export class JsonResponse extends JsonMap<JsonResponseOptions> {
+  status: number;
+
   constructor(obj: Partial<JsonResponseOptions> = {}) {
     super(obj);
 
@@ -77,7 +79,11 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
   toJSON(options: JsonSchemaOptions = {}): any {
     const response = super.toJSON(options);
 
-    if (options.specType !== SpecTypes.OPENAPI) {
+    if (this.status === 204) {
+      delete response.content;
+    }
+
+    if (options.specType !== SpecTypes.OPENAPI && response.content) {
       const key = Object.keys(response.content)[0];
 
       return cleanObject({

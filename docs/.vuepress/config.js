@@ -311,7 +311,6 @@ module.exports = {
         options: {
           margin: 16
         }
-
       }
     }
   },

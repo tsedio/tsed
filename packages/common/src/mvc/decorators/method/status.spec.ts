@@ -108,12 +108,6 @@ describe("Status", () => {
                   "x-header": {
                     type: "string"
                   }
-                },
-                schema: {
-                  items: {
-                    $ref: "#/definitions/TypeC"
-                  },
-                  type: "array"
                 }
               }
             },
