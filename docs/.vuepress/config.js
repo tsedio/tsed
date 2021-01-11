@@ -81,7 +81,42 @@ module.exports = {
           {
             text: "Documentation",
             link: "/docs/controllers.html",
-            title: `Documentation | ${title}`
+            title: `Documentation | ${title}`,
+            items: [
+              {
+                text: "Essentials",
+                items: [
+                  { text: "Configuration", link: "/docs/configuration" },
+                  { text: "Controllers", link: "/docs/controllers" },
+                  { text: "Providers", link: "/docs/providers" },
+                  { text: "Model", link: "/docs/model" },
+                  { text: "JsonMapper", link: "/docs/converters" },
+                  { text: "Middlewares", link: "/docs/middlewares" },
+                  { text: "Pipes", link: "/docs/pipes" },
+                  { text: "Interceptors", link: "/docs/interceptors" },
+                  { text: "Authentication", link: "/docs/authentication" },
+                  { text: "Hooks", link: "/docs/hooks" },
+                  { text: "Response Filter", link: "/docs/response-filter" },
+                  { text: "Exceptions", link: "/docs/exceptions" },
+                  { text: "Logger", path: "/docs/logger" },
+                  { text: "Context", path: "/docs/request-context" },
+                  { text: "Platform API", link: "/docs/platform-api" }
+                ]
+              },
+              {
+                text: "Advanced",
+                items: [
+                  { text: "Validation", link: "/docs/validation" },
+                  { text: "Upload files", link: "/docs/upload-files" },
+                  { text: "Serve files", link: "/docs/serve-files" },
+                  { text: "Templating", link: "/docs/templating" },
+                  { text: "Injection scopes", link: "/docs/injection-scopes" },
+                  { text: "Custom providers", link: "/docs/custom-providers" },
+                  { text: "Custom endpoint decorators", link: "/docs/custom-endpoint-decorators" },
+                  { text: "Testing", link: "/docs/testing" }
+                ]
+              }
+            ]
           },
           {
             icon: "bx bx-dots-horizontal-rounded text-lg",
@@ -218,6 +253,7 @@ module.exports = {
               "/docs/hooks",
               "/docs/response-filter",
               "/docs/exceptions",
+              "/docs/logger",
               { title: "Context", path: "/docs/request-context" },
               "/docs/platform-api"
             ]
@@ -293,6 +329,9 @@ module.exports = {
           "/docs/interceptors",
           "/docs/authentication",
           "/docs/hooks",
+          "/docs/exceptions",
+          "/docs/hooks",
+          "/docs/response-filter",
           "/docs/injection-scopes",
           "/docs/custom-providers",
           "/docs/custom-endpoint-decorators",

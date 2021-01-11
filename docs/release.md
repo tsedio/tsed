@@ -1,3 +1,8 @@
+#### v6.21.0
+
+- Add `x-request-id` header to each response.
+- Add documentation over Ts.Logger. See [Logger](/docs/logger.md) page.
+
 #### v6.20.1
 
 - Fix swagger spec generation when the status code is 204 ([#1175](https://github.com/TypedProject/tsed/issues/1175)).

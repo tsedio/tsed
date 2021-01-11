@@ -35,7 +35,7 @@ export interface PlatformLoggerSettings {
    * A function called for each incoming request to create a request id.
    * @returns {number}
    */
-  reqIdBuilder?: () => string;
+  reqIdBuilder?: (req: TsED.Request) => string;
   /**
    * Disable routes table displayed in the logger. By default debug is `false`.
    */
