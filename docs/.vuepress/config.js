@@ -7,24 +7,24 @@ module.exports = {
   serviceWorker: false,
   theme: "tsed",
   head: [
-    ["link", { canonical: url }],
-    ["link", { rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon" }],
-    ["link", { rel: "icon", href: "/favicon.ico", type: "apple-touch-icon" }],
-    ["link", { rel: "icon", href: "/apple-touch-icon.png", type: "image/x-icon", sizes: "180x180" }],
-    ["link", { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" }],
-    ["link", { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" }],
-    ["link", { rel: "manifest", href: "/site.webmanifest" }],
-    ["meta", { property: "og:url", content: url }],
-    ["meta", { property: "og:type", content: "website" }],
-    ["meta", { property: "og:site_name", content: title }],
-    ["meta", { property: "og:title", content: title }],
-    ["meta", { property: "og:description", content: description }],
-    ["meta", { property: "og:image", content: "https://tsed.io/tsed-og.png" }],
-    ["meta", { property: "og:image:width", content: "1024" }],
-    ["meta", { property: "og:image:height", content: "1024" }],
-    ["meta", { name: "twitter:title", content: title }],
-    ["meta", { name: "twitter:description", content: description }],
-    ["meta", { name: "twitter:card", content: "summary" }]
+    ["link", {canonical: url}],
+    ["link", {rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon"}],
+    ["link", {rel: "icon", href: "/favicon.ico", type: "apple-touch-icon"}],
+    ["link", {rel: "icon", href: "/apple-touch-icon.png", type: "image/x-icon", sizes: "180x180"}],
+    ["link", {rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32"}],
+    ["link", {rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16"}],
+    ["link", {rel: "manifest", href: "/site.webmanifest"}],
+    ["meta", {property: "og:url", content: url}],
+    ["meta", {property: "og:type", content: "website"}],
+    ["meta", {property: "og:site_name", content: title}],
+    ["meta", {property: "og:title", content: title}],
+    ["meta", {property: "og:description", content: description}],
+    ["meta", {property: "og:image", content: "https://tsed.io/tsed-og.png"}],
+    ["meta", {property: "og:image:width", content: "1024"}],
+    ["meta", {property: "og:image:height", content: "1024"}],
+    ["meta", {name: "twitter:title", content: title}],
+    ["meta", {name: "twitter:description", content: description}],
+    ["meta", {name: "twitter:card", content: "summary"}]
   ],
 
   themeConfig: {
@@ -81,42 +81,7 @@ module.exports = {
           {
             text: "Documentation",
             link: "/docs/controllers.html",
-            title: `Documentation | ${title}`,
-            items: [
-              {
-                text: "Essentials",
-                items: [
-                  { text: "Configuration", link: "/docs/configuration" },
-                  { text: "Controllers", link: "/docs/controllers" },
-                  { text: "Providers", link: "/docs/providers" },
-                  { text: "Model", link: "/docs/model" },
-                  { text: "JsonMapper", link: "/docs/converters" },
-                  { text: "Middlewares", link: "/docs/middlewares" },
-                  { text: "Pipes", link: "/docs/pipes" },
-                  { text: "Interceptors", link: "/docs/interceptors" },
-                  { text: "Authentication", link: "/docs/authentication" },
-                  { text: "Hooks", link: "/docs/hooks" },
-                  { text: "Response Filter", link: "/docs/response-filter" },
-                  { text: "Exceptions", link: "/docs/exceptions" },
-                  { text: "Logger", path: "/docs/logger" },
-                  { text: "Context", path: "/docs/request-context" },
-                  { text: "Platform API", link: "/docs/platform-api" }
-                ]
-              },
-              {
-                text: "Advanced",
-                items: [
-                  { text: "Validation", link: "/docs/validation" },
-                  { text: "Upload files", link: "/docs/upload-files" },
-                  { text: "Serve files", link: "/docs/serve-files" },
-                  { text: "Templating", link: "/docs/templating" },
-                  { text: "Injection scopes", link: "/docs/injection-scopes" },
-                  { text: "Custom providers", link: "/docs/custom-providers" },
-                  { text: "Custom endpoint decorators", link: "/docs/custom-endpoint-decorators" },
-                  { text: "Testing", link: "/docs/testing" }
-                ]
-              }
-            ]
+            title: `Documentation | ${title}`
           },
           {
             icon: "bx bx-dots-horizontal-rounded text-lg",
@@ -254,7 +219,7 @@ module.exports = {
               "/docs/response-filter",
               "/docs/exceptions",
               "/docs/logger",
-              { title: "Context", path: "/docs/request-context" },
+              {title: "Context", path: "/docs/request-context"},
               "/docs/platform-api"
             ]
           },
@@ -263,9 +228,9 @@ module.exports = {
             collapsable: true,
             children: [
               "/docs/validation",
-              { title: "Upload files", path: "/docs/upload-files" },
-              { title: "Serve files", path: "/docs/serve-files" },
-              { title: "Templating", path: "/docs/templating" },
+              {title: "Upload files", path: "/docs/upload-files"},
+              {title: "Serve files", path: "/docs/serve-files"},
+              {title: "Templating", path: "/docs/templating"},
               "/docs/injection-scopes",
               "/docs/custom-providers",
               "/docs/custom-endpoint-decorators",
@@ -281,7 +246,7 @@ module.exports = {
               "/tutorials/mongoose",
               "/tutorials/graphql",
               "/tutorials/socket-io",
-              { title: "Seq logger", path: "/tutorials/seq" },
+              {title: "Seq logger", path: "/tutorials/seq"},
               "/tutorials/swagger",
               "/tutorials/ajv",
               "/tutorials/aws",
