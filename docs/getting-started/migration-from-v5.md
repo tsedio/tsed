@@ -179,7 +179,7 @@ export class Server {
 }
 ```
 
-### SendResponseMiddleware/PlatformResponseMiddleware to ResponseFilter
+### SendResponseMiddleware & PlatformResponseMiddleware to ResponseFilter
 
 ::: warning Breaking changes
 
