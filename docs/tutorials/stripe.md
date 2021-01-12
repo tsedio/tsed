@@ -19,13 +19,13 @@ For collecting customer and payment information in the browser, use [Stripe.js](
 
 Currently, [`@tsed/stripe`](https://www.npmjs.com/package/@tsed/stripe) allows you to:
  
-- Configure stripe,
+- Configure Stripe,
 - Create webhooks,
-- Use stripe API.
+- Use Stripe API.
 
 ## Installation
 
-To begin, install the TypeORM module for TS.ED:
+To begin, install the TypeORM module for Ts.ED:
 
 ```bash
 npm install --save @tsed/stripe
