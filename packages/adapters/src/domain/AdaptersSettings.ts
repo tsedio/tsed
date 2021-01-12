@@ -10,10 +10,14 @@ export interface AdaptersSettings {
    *
    */
   lowdbDir?: string;
+
+  [key: string]: any;
 }
 
 declare global {
   namespace TsED {
+    interface AdaptersOptions extends AdaptersSettings {}
+
     interface Configuration {
       adapters: AdaptersSettings;
     }

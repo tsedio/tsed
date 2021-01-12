@@ -12,7 +12,6 @@ export interface AdapterModel {
 }
 
 export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
-  protected model: Type<T>;
   protected db: low.LowdbSync<{collection: T[]}>;
 
   get collection() {
