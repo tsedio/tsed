@@ -3,6 +3,11 @@ import {nameOf, Type} from "@tsed/core";
 import {Configuration, Inject, Opts} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 
+export interface AdapterConstructorOptions<T = any> {
+  model: Type<T> | Object;
+  collectionName?: string;
+}
+
 export abstract class Adapter<T = any> {
   protected model: Type<T> | Object;
   protected collectionName: string;
@@ -10,14 +15,14 @@ export abstract class Adapter<T = any> {
   @Inject()
   private ajvService: AjvService;
 
-  constructor(@Opts options: any, @Configuration() protected configuration: Configuration) {
+  constructor(@Opts options: AdapterConstructorOptions<T>, @Configuration() protected configuration: Configuration) {
     this.model = options.model;
     this.collectionName = options.collectionName || nameOf(options.model);
   }
 
   async validate(value: T): Promise<void> {
     if (this.getModel()) {
-      await this.ajvService.validate(value, {
+      await this.ajvService.validate(this.serialize(value), {
         type: this.model
       });
     }

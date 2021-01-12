@@ -13,61 +13,125 @@ class Client {
 }
 
 describe("FileSyncAdapter", () => {
-  let adapter: Adapter<Client>;
-  beforeEach(() => PlatformTest.create());
-  afterEach(() => PlatformTest.reset());
-  beforeEach(() => {
-    adapter = PlatformTest.get<Adapters>(Adapters).invokeAdapter<any>("clients", Client, FileSyncAdapter);
-  });
-
-  after(async () => {
-    await adapter.deleteMany({});
-  });
-
-  describe("create()", async () => {
-    it("should create a new instance", async () => {
-      const base = {
-        name: faker.name.title()
-      };
-
-      const client = await adapter.create(base);
-
-      expect(client).to.be.instanceOf(Client);
-      expect(client._id).to.be.a("string");
-      expect(client.name).to.equal(base.name);
+  describe("writable", () => {
+    let adapter: Adapter<Client>;
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
+    beforeEach(() => {
+      adapter = PlatformTest.get<Adapters>(Adapters).invokeAdapter<any>("clients", Client, {adapter: FileSyncAdapter});
     });
-  });
 
-  describe("findById()", () => {
-    it("should create a new instance", async () => {
-      const base = {
-        name: faker.name.title()
-      };
-
-      const client = await adapter.create(base);
-      const result = await adapter.findById(client._id);
-
-      expect(result).to.be.instanceOf(Client);
-      expect(result?._id).to.equal(client._id);
-      expect(result?.name).to.equal(base.name);
+    after(async () => {
+      await adapter.deleteMany({});
     });
-  });
 
-  describe("findOne()", () => {
-    it("should create a new instance", async () => {
-      const base = {
-        name: faker.name.title()
-      };
+    describe("create()", async () => {
+      it("should create a new instance", async () => {
+        const base = {
+          name: faker.name.title()
+        };
 
-      const client = await adapter.create(base);
+        const client = await adapter.create(base);
 
-      const result = await adapter.findOne({
-        name: base.name
+        expect(client).to.be.instanceOf(Client);
+        expect(client._id).to.be.a("string");
+        expect(client.name).to.equal(base.name);
       });
+    });
 
-      expect(result).to.be.instanceOf(Client);
-      expect(result?._id).to.equal(client._id);
-      expect(result?.name).to.equal(base.name);
+    describe("findById()", () => {
+      it("should create a new instance", async () => {
+        const base = {
+          name: faker.name.title()
+        };
+
+        const client = await adapter.create(base);
+        const result = await adapter.findById(client._id);
+
+        expect(result).to.be.instanceOf(Client);
+        expect(result?._id).to.equal(client._id);
+        expect(result?.name).to.equal(base.name);
+      });
+    });
+
+    describe("findOne()", () => {
+      it("should create a new instance", async () => {
+        const base = {
+          name: faker.name.title()
+        };
+
+        const client = await adapter.create(base);
+
+        const result = await adapter.findOne({
+          name: base.name
+        });
+
+        expect(result).to.be.instanceOf(Client);
+        expect(result?._id).to.equal(client._id);
+        expect(result?.name).to.equal(base.name);
+      });
+    });
+  });
+  describe("readOnly", () => {
+    let adapter: Adapter<Client>;
+    beforeEach(() => PlatformTest.create());
+    afterEach(() => PlatformTest.reset());
+    beforeEach(() => {
+      adapter = PlatformTest.get<Adapters>(Adapters).invokeAdapter<any>("clients", Client, {
+        readOnly: true,
+        adapter: FileSyncAdapter
+      });
+    });
+
+    after(async () => {
+      await adapter.deleteMany({});
+    });
+
+    describe("create()", async () => {
+      it("should create a new instance", async () => {
+        const base = {
+          name: faker.name.title()
+        };
+
+        const client = await adapter.create(base);
+
+        expect(client).to.be.instanceOf(Client);
+        expect(client._id).to.be.a("string");
+        expect(client.name).to.equal(base.name);
+      });
+    });
+
+    describe("findById()", () => {
+      it("should create a new instance", async () => {
+        const base = {
+          name: faker.name.title()
+        };
+
+        const client = await adapter.create(base);
+        const result = await adapter.findById(client._id);
+
+        expect(result).to.be.instanceOf(Client);
+        expect(result?._id).to.equal(client._id);
+        expect(result?.name).to.equal(base.name);
+      });
+    });
+
+    describe("findOne()", () => {
+      it("should create a new instance", async () => {
+        const base = {
+          name: faker.name.title()
+        };
+
+        const client = await adapter.create(base);
+
+        const result = await adapter.findOne({
+          name: base.name
+        });
+
+        expect(result).to.be.instanceOf(Client);
+        expect(result?._id).to.equal(client._id);
+        expect(result?.name).to.equal(base.name);
+      });
     });
   });
 });
