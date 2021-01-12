@@ -1,10 +1,16 @@
 import {Adapter, Adapters, MemoryAdapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
-import {Name, Property} from "@tsed/schema";
+import {deserialize} from "@tsed/json-mapper";
+import {Format, Name, Property} from "@tsed/schema";
 import {expect} from "chai";
 import * as faker from "faker";
 
-class Client {
+class BaseClient {
+  @Format("date-time")
+  createdAt: Date;
+}
+
+class Client extends BaseClient {
   @Name("id")
   _id: string;
 
@@ -17,20 +23,29 @@ describe("MemoryAdapter", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
   beforeEach(() => {
-    adapter = PlatformTest.get<Adapters>(Adapters).invokeAdapter<any>("clients", Client, MemoryAdapter);
+    adapter = PlatformTest.get<Adapters>(Adapters).invokeAdapter<any>({
+      collectionName: "clients",
+      model: Client,
+      adapter: MemoryAdapter
+    });
   });
 
   describe("create()", () => {
     it("should create a new instance", async () => {
-      const base = {
-        name: faker.name.title()
-      };
+      const base = deserialize(
+        {
+          name: faker.name.title(),
+          createdAt: faker.date.past()
+        },
+        {type: Client}
+      );
 
       const client = await adapter.create(base);
 
       expect(client).to.be.instanceOf(Client);
       expect(client._id).to.be.a("string");
       expect(client.name).to.equal(base.name);
+      expect(client.createdAt).to.deep.equal(base.createdAt);
     });
 
     it("should create a new instance with expireAt", async () => {
