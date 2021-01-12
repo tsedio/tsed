@@ -54,7 +54,7 @@ Then we need to follow these steps:
 
 ## Configuration
 
-Create Oidc server with Ts.ED require some other Ts.ED features to works correctly. 
+Create Oidc server with Ts.ED requires some other Ts.ED features to work properly. 
 
 - Adapters to manage database connection,
 - Ajv to validate 
@@ -151,7 +151,7 @@ import {OidcAccountsMethods, OidcClientsMethods} from "@tsed/oidc-provider";
 
 export interface OidcSettings extends Configuration {
   /**
-   * Issuer URI. By default Ts.ED create issuer with http://localhost:${httpPort}
+   * Issuer URI. By default Ts.ED creates issuer with http://localhost:${httpPort}
    */
   issuer?: string;
   /**
@@ -173,7 +173,7 @@ export interface OidcSettings extends Configuration {
 }
 ```
 
-Documentation over other options properties can be found on the [oidc-provider](https://github.com/panva/node-oidc-provider/blob/master/docs/README.md) documentation page.
+Documentation on other options properties can be found on the [oidc-provider](https://github.com/panva/node-oidc-provider/blob/master/docs/README.md) documentation page.
 
 ## Interactions
 
@@ -183,14 +183,14 @@ We can define many interactions during the authentication flow, for example:
 - Login,
 - E-mail verification,
 - Password recovery,
-- Sharing account data consenting,
-- etc...
+- Sharing account data consent,
+- etc.
 
 To have a working Oidc server with Ts.ED, we need to create at least one interaction.
-To begin we have to create the Interactions` controller which will be responsible to run our all future
+To begin, we have to create the `Interactions` controller which will be responsible to run all of our future
 custom interactions.
 
-In your controllers directory create the `oidc/InteractionCtrl.ts` file and copy the following code:
+In your controllers directory, create the `oidc/InteractionCtrl.ts` file and copy the following code:
 
 ```typescript
 import {Get} from "@tsed/common";
@@ -200,7 +200,7 @@ import {LoginInteraction} from "../../interactions/LoginInteraction";
 @Interactions({
   path: "/interaction/:uid",
   children: [
-    LoginInteraction // register her children interations 
+    LoginInteraction // register its children interations 
   ]
 })
 export class InteractionsCtrl {
@@ -211,14 +211,14 @@ export class InteractionsCtrl {
 }
 ```
 ::: tip Note
-The Interactions controller expose the routes to display any interaction. Here we expose the route GET `/interation/:uid`
+The Interactions controller exposes the routes to display any interaction. Here we expose the route GET `/interation/:uid`
 
 The `uid` is the unique session id used by Oidc-provider to identify the current user flow.
 :::
 
-Now that we have our interactions controllers, we can create our first interaction.
+Now that we have our interactions controller, we can create our first interaction.
 
-Create a new directory `interactions`. We will store all custom interaction in this directory.
+Create a new directory `interactions`. We will store all custom interactions in this directory.
 
 ```typescript
 import {BodyParams, Inject, Post, View} from "@tsed/common";
@@ -306,7 +306,7 @@ export class LoginInteraction {
 :::
 
 ::: tip 
-To start the server correctly create the Accounts class in `services` directory with the authenticate and findAccount methods:
+To start the server properly, create the Accounts class in `services` directory with the authenticate and findAccount methods:
 
 ```typescript
 import {Injectable} from "@tsed/di";
@@ -327,7 +327,7 @@ export class Accounts {
 We will implement these methods later!
 :::
 
-At this step, you can start the Oidc server and by check the logs server to see this if the well-known configuration 
+At this step, you can start the Oidc server and check the logs server to see if the well-known configuration 
 has been correctly exposed:
 
 ```sh
@@ -454,7 +454,7 @@ Claims method is used by Oidc to expose this information in the userInfo endpoin
 
 ## Alter Oidc policy
 
-Ts.ED emit a special `$alterOidcPolicy` event when @tsed/oidc-provider link interactions with Oidc policy. You can change the policy configuration
+Ts.ED emits a special `$alterOidcPolicy` event when @tsed/oidc-provider links interactions with Oidc policy. You can change the policy configuration
 by adding `$alterOidcPolicy` on InteractionsCtrl:
 
 ```typescript
@@ -465,7 +465,7 @@ import {LoginInteraction} from "../../interactions/LoginInteraction";
 @Interactions({
   path: "/interaction/:uid",
   children: [
-    LoginInteraction // register her children interations 
+    LoginInteraction // register its children interations 
   ]
 })
 export class InteractionsCtrl {
@@ -484,7 +484,7 @@ export class InteractionsCtrl {
 
 ## Remove consent interaction
 
-Sometimes with your provider you don't need a consent screen. This use-case might occur if your provider has only first-party clients configured. To achieve that you need to remove consent interaction from provider policy configuration:
+Sometimes with your provider you don't need a consent screen. This use-case might occur if your provider has only first-party clients configured. To achieve that, you need to remove consent interaction from provider policy configuration:
 
 ```typescript
 import {Get} from "@tsed/common";
@@ -494,7 +494,7 @@ import {LoginInteraction} from "../../interactions/LoginInteraction";
 @Interactions({
   path: "/interaction/:uid",
   children: [
-    LoginInteraction // register her children interations 
+    LoginInteraction // register its children interations 
   ]
 })
 export class InteractionsCtrl {
@@ -512,7 +512,7 @@ export class InteractionsCtrl {
 ```
 ::: warning
 
-Additionally, if you do remove consent prompt, you will get error when your RPs try to request scopes other than `openid` and `offline_access`. In order to accommodate those use-cases, you need to provide accepted property in interaction results whenever `interactionFinished` is called.
+Additionally, if you do remove consent prompt, you will get an error when your RPs try to request scopes other than `openid` and `offline_access`. In order to accommodate those usecases, you need to provide accepted property in interaction results whenever `interactionFinished` is called.
 
 ```typescript
 import {BodyParams, Inject, Post, View} from "@tsed/common";
@@ -555,13 +555,13 @@ export class LoginInteraction {
 }
 ```
 
-You should also provide of `rejectedScopes` and `rejectedClaims` in `consent` object in order to prevent scopes/claims being exposed to clients you don't want them to be exposed to.
+You should also provide `rejectedScopes` and `rejectedClaims` in `consent` object in order to prevent scopes/claims being exposed to clients you don't want to be exposed to.
 :::
 
 <!--
 ## Clients
 
-An Clients provider can be given to the Oidc configuration. It'll be responsible to manage clients.
+A Clients provider can be given to the Oidc configuration. It'll be responsible to manage clients.
 
 ```typescript
 import {Adapter, InjectAdapter} from "@tsed/adapters";
@@ -756,7 +756,7 @@ export enum SubjectTypes {
 
 ## Support Oidc-provider
 
-If you or your business use [oidc-provider](https://github.com/panva/node-oidc-provider), please consider becoming a sponsor, so he can continue maintaining it and adding new features carefree.
+If you or your business uses [oidc-provider](https://github.com/panva/node-oidc-provider), please consider becoming a sponsor, so we can continue maintaining it and adding new features carefree.
 
 ## Author 
 
