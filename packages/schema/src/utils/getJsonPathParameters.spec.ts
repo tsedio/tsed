@@ -101,6 +101,21 @@ describe("getJsonPathParameters", () => {
       }
     ]);
   });
+  it("should return params and path /path/JQ=:id", () => {
+    expect(getJsonPathParameters("/rest/", "/path/JQ=:id")).to.deep.eq([
+      {
+        path: "/rest/path/JQ={id}",
+        parameters: [
+          {
+            in: "path",
+            name: "id",
+            required: true,
+            type: "string"
+          }
+        ]
+      }
+    ]);
+  });
   it("should return params and path regexp", () => {
     expect(getJsonPathParameters("/rest/", /\*json$/)).to.deep.eq([
       {
