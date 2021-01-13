@@ -14,7 +14,10 @@ export class OidcAdapters {
       adapter: Adapter<any>;
 
       constructor(name: string) {
-        this.adapter = self.adapters.invokeAdapter<any>(name, Object);
+        this.adapter = self.adapters.invokeAdapter<any>({
+          collectionName: name,
+          model: Object
+        });
       }
 
       async upsert(id: string, payload: any, expiresIn: number): Promise<void> {

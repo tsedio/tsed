@@ -1,0 +1,20 @@
+{
+  "name": "@tsed/adapters-redis",
+  "version": "6.21.0",
+  "description": "Redis adapter for Ts.ED",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json"
+  },
+  "dependencies": {
+    "@tsed/adapters": "6.21.0"
+  },
+  "private": false,
+  "devDependencies": {
+    "@types/ioredis": "4.17.11",
+    "ioredis": "4.19.4",
+    "ioredis-mock": "5.2.0"
+  },
+  "peerDependencies": {}
+}
