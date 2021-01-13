@@ -2,10 +2,12 @@
  * @ignore
  */
 function getVariable(subpath: string) {
-  const splited = subpath.split(".");
+  const [prefix, right] = subpath.split("=");
+  const splited = (right || prefix).split(".");
   const name = splited.splice(0, 1)[0];
 
   return {
+    prefix: right && prefix ? `${prefix}=` : "",
     name,
     postfix: splited.length ? `.${splited.join(".")}` : ""
   };
@@ -44,8 +46,8 @@ export function getJsonPathParameters(base: string, path: string | RegExp | (str
           });
         }
 
-        const {name, postfix} = getVariable(subpath);
-        current += `/{${name}}${postfix}`;
+        const {prefix, name, postfix} = getVariable(subpath);
+        current += `/${prefix}{${name}}${postfix}`;
 
         params.push({
           in: "path",
