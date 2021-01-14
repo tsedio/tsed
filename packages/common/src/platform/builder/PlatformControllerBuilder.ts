@@ -2,10 +2,13 @@ import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {JsonMethodPath, OperationMethods} from "@tsed/schema";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
+import {ParamMetadata} from "../../mvc/models/ParamMetadata";
+import {ParamTypes} from "../../mvc/models/ParamTypes";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";
+import {PlatformMulterMiddleware} from "../middlewares/PlatformMulterMiddleware";
 import {PlatformRouter} from "../services/PlatformRouter";
 import {useCtxHandler} from "../utils/useCtxHandler";
 
@@ -88,9 +91,12 @@ export class PlatformControllerBuilder {
     // Endpoint lifecycle
     let handlers: any[] = [];
 
+    const hasFiles = [...endpoint.children.values()].find((item: ParamMetadata) => item.paramType === ParamTypes.FILES);
+
     handlers = handlers
       .concat(useCtxHandler(bindEndpointMiddleware(endpoint)))
       .concat(PlatformAcceptMimesMiddleware)
+      .concat(hasFiles && PlatformMulterMiddleware)
       .concat(use) // Controller use-middlewares
       .concat(beforeMiddlewares) // Endpoint before-middlewares
       .concat(mldwrs) // Endpoint middlewares

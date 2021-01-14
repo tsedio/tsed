@@ -63,9 +63,7 @@ function mapOptions(name: string, maxCount: number | undefined): MulterInputOpti
 export function MultipartFile(name: string, maxCount?: number): ParameterDecorator {
   return (...args: DecoratorParameters): void => {
     const [target, propertyKey, index] = args;
-    const store = Store.fromMethod(target, String(propertyKey));
     const multiple = Metadata.getParamTypes(target, propertyKey)[index as number] === Array;
-    const added = store.has("multipartAdded");
 
     name = (typeof name === "object" ? undefined : name)!;
 
@@ -77,8 +75,6 @@ export function MultipartFile(name: string, maxCount?: number): ParameterDecorat
           `<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1`
         ),
         Consumes("multipart/form-data"),
-        StoreSet("multipartAdded", true),
-        !added && Use(PlatformMulterMiddleware),
         StoreMerge(PlatformMulterMiddleware, mapOptions(name, maxCount))
       ),
       Req({expression, useValidation: true}),
