@@ -796,6 +796,113 @@ describe("getSpec()", () => {
           }
         });
       });
+      it("should declare all schema correctly (Array - inline - OS3)", async () => {
+        class Product {
+          @Property()
+          title: string;
+        }
+
+        class Controller {
+          @Consumes("application/json")
+          @OperationPath("POST", "/")
+          method(@In("body") @Required() @CollectionOf(Product) products: Product[]) {}
+        }
+
+        // THEN
+        const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+        expect(spec).to.deep.equal({
+          components: {
+            schemas: {
+              Product: {
+                properties: {
+                  title: {
+                    type: "string"
+                  }
+                },
+                type: "object"
+              }
+            }
+          },
+          paths: {
+            "/": {
+              post: {
+                operationId: "controllerMethod",
+                parameters: [],
+                requestBody: {
+                  content: {
+                    "application/json": {
+                      schema: {
+                        items: {
+                          $ref: "#/components/schemas/Product"
+                        },
+                        type: "array"
+                      }
+                    }
+                  },
+                  required: true
+                },
+                responses: {
+                  "200": {
+                    description: "Success"
+                  }
+                },
+                tags: ["Controller"]
+              }
+            }
+          },
+          tags: [
+            {
+              name: "Controller"
+            }
+          ]
+        });
+      });
+      it("should declare all schema correctly (Array - inline - number - OS3)", async () => {
+        class Controller {
+          @Consumes("application/json")
+          @OperationPath("POST", "/")
+          method(@In("body") products: number[]) {}
+        }
+
+        // THEN
+        const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+        expect(spec).to.deep.equal({
+          paths: {
+            "/": {
+              post: {
+                operationId: "controllerMethod",
+                parameters: [],
+                requestBody: {
+                  content: {
+                    "application/json": {
+                      schema: {
+                        type: "array",
+                        items: {
+                          type: "object"
+                        }
+                      }
+                    }
+                  },
+                  required: false
+                },
+                responses: {
+                  "200": {
+                    description: "Success"
+                  }
+                },
+                tags: ["Controller"]
+              }
+            }
+          },
+          tags: [
+            {
+              name: "Controller"
+            }
+          ]
+        });
+      });
       it("should declare all schema correctly (Array - inline - swagger2)", async () => {
         class Controller {
           @Consumes("application/json")

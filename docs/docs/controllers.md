@@ -112,7 +112,33 @@ Getting parameters from Express Request can be done by using the following decor
 - @@QueryParams@@: `Express.request.query`
 - @@RawQueryParams@@: `Express.request.query` without transformation and validation,
 
+<Tabs class="-code">
+  <Tab label="Example">
+
 <<< @/docs/docs/snippets/controllers/params-decorator.ts
+
+  </Tab>
+  <Tab label="Body string">
+
+<<< @/docs/docs/snippets/controllers/params-post-string.ts
+
+  </Tab> 
+  <Tab label="Body with Array">
+
+<<< @/docs/docs/snippets/controllers/params-post-array.ts
+
+  </Tab> 
+  <Tab label="Body with model">
+
+<<< @/docs/docs/snippets/controllers/params-post-array-with-model.ts
+
+  </Tab>
+  <Tab label="Inline validation">
+
+<<< @/docs/docs/snippets/controllers/params-post-inline-validation.ts
+
+  </Tab>  
+</Tabs>
 
 Finally, @@BodyParams@@ accepts to give a @@IParamOptions@@ object as parameter to change the decorator behavior:
 
@@ -140,6 +166,17 @@ class QueryController {
   get(@QueryParams() params: QueryParamsModel, @QueryParams("locale") locale: string) {}
 }
 ```
+:::
+
+::: warning
+
+Since v6.0.0, use `any` as type for a body parameter, will be translated as type `Object`. It means, if you use `@tsed/ajv`, the validation
+will fail if you send a different type as expected in the payload.
+
+<<< @/docs/docs/snippets/controllers/params-post-any.ts
+
+Add @@Any@@ decorator to fix the issue.
+
 :::
 
 ### Raw Body <Badge text="v6.20.0+" />

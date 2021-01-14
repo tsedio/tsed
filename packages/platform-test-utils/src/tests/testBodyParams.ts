@@ -1,6 +1,7 @@
 import {BodyParams, Controller, HeaderParams, PlatformTest, Post} from "@tsed/common";
-import {RawBodyParams} from "@tsed/common/src/mvc/decorators/params/rawBodyParams";
-import {getSpec, Required, SpecTypes, Status} from "@tsed/schema";
+import {RawBodyParams} from "@tsed/common";
+import "@tsed/ajv";
+import {Required, Status} from "@tsed/schema";
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
