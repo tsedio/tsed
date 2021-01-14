@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-express",
-  "version": "6.22.1",
+  "version": "6.22.2",
   "description": "A TypeScript Framework on top of Express",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -44,10 +44,10 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "devDependencies": {
-    "@tsed/common": "6.22.1",
-    "@tsed/core": "6.22.1",
-    "@tsed/di": "6.22.1",
-    "@tsed/platform-test-utils": "6.22.1",
+    "@tsed/common": "6.22.2",
+    "@tsed/core": "6.22.2",
+    "@tsed/di": "6.22.2",
+    "@tsed/platform-test-utils": "6.22.2",
     "@types/body-parser": "1.19.0",
     "@types/compression": "1.7.0",
     "@types/cookie-parser": "1.4.2",
