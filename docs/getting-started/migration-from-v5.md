@@ -388,6 +388,15 @@ See our [JsonMapper](/docs/converters.md#type-mapper) documentation page for det
 
 :::
 
+### Any with BodyParams
+
+Use `any` as type for a body parameter, will be translated as type `Object` by typescript. 
+It means, if you use `@tsed/ajv`, now, the validation will fail if you send a different type as expected in the payload.
+
+<<< @/docs/docs/snippets/controllers/params-post-any.ts
+
+Add @@Any@@ decorator to fix the issue.
+
 ### Status decorator
 
 @@Status@@ decorator from `@tsed/schema` is different from `@tsed/common`:

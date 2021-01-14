@@ -2,7 +2,6 @@ import {BodyParams, Controller, Post} from "@tsed/common";
 import {CalendarModel} from "../models/CalendarModel";
 import {PayloadModel} from "../models/PayloadModel";
 
-
 @Controller("/calendars")
 export class CalendarCtrl {
 
