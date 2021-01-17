@@ -1,0 +1,32 @@
+{
+  "name": "@tsed/formio",
+  "version": "6.22.2",
+  "description": "Formio package for Ts.ED framework",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "keywords": [
+    "Formio",
+    "Ts.ED",
+    "tsed",
+    "TypeScript",
+    "decorators",
+    "express"
+  ],
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json",
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
+  },
+  "dependencies": {
+    "tslib": "2.0.1"
+  },
+  "private": false,
+  "devDependencies": {
+    "@tsed/common": "6.22.2",
+    "@tsed/core": "6.22.2",
+    "@tsed/di": "6.22.2",
+    "formio": "^2.0.0-rc.41"
+  },
+  "peerDependencies": {
+    "formio": "^2.0.0-rc.41"
+  }
+}
