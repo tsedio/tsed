@@ -1,3 +1,18 @@
+#### v6.24.0
+
+- **formio**: Add new @tsed/formio package (pre-release).
+
+#### v6.23.0
+
+- **common**: Add host and protocol getters on PlatformRequest ([f742bcb](https://github.com/TypedProject/tsed/commit/f742bcb9a0f2ef88736126065ed380e6121129e0))
+- **di**: Add alterAsync method on LocalsContainer ([aeac3b5](https://github.com/TypedProject/tsed/commit/aeac3b53cae4ce39a2164a663a95c274449387d5))
+- **swagger**: Add disableSpec option ([164a681](https://github.com/TypedProject/tsed/commit/164a681ac7409a42a0521c69aa7c43c144de6d0e))
+
+#### v6.22.0
+
+- Add new packages @tsed/adapters-redis ([dd023b1](https://github.com/TypedProject/tsed/commit/dd023b1b159d01e21b3eaec42d8d6e49f42f9280))
+- Add readOnly option to FileSyncAdapter ([fbac8c3](https://github.com/TypedProject/tsed/commit/fbac8c360923c96704428bf43be90a400d0cddac))
+
 #### v6.21.0
 
 - Add `x-request-id` header to each response.
