@@ -21,6 +21,14 @@ declare global {
  * @koa
  */
 export class PlatformKoaRequest extends PlatformRequest<Koa.Request> {
+  get protocol(): string {
+    return this.raw.ctx.request.protocol;
+  }
+
+  get host(): string {
+    return this.raw.ctx.request.host;
+  }
+
   get secure(): boolean {
     return this.raw.ctx.request.secure;
   }

@@ -22,8 +22,46 @@ describe("PlatformRequest", () => {
     expect(request.raw).to.eq(req);
   });
 
+  describe("secure()", () => {
+    it("should return the secure request state (false)", () => {
+      const {req, request} = createRequest();
+
+      req.secure = false;
+      expect(request.secure).to.equal(false);
+    });
+    it("should return the secure request state (true)", () => {
+      const {req, request} = createRequest();
+
+      req.secure = true;
+      expect(request.secure).to.equal(true);
+    });
+  });
+
+  describe("protocol()", () => {
+    it("should return the protocol request state (http)", () => {
+      const {req, request} = createRequest();
+
+      req.protocol = "http";
+      expect(request.protocol).to.equal("http");
+    });
+    it("should return the protocol request state (https)", () => {
+      const {req, request} = createRequest();
+
+      req.protocol = "https";
+      expect(request.protocol).to.equal("https");
+    });
+  });
+
+  describe("host()", () => {
+    it("should return the host", () => {
+      const {req, request} = createRequest();
+
+      expect(request.host).to.equal("headerValue");
+    });
+  });
+
   describe("accepts()", () => {
-    it("should set status code", () => {
+    it("should set the accepts header", () => {
       const {req, request} = createRequest();
 
       request.accepts("application/json");

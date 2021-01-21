@@ -34,6 +34,45 @@ describe("PlatformKoaRequest", () => {
       expect(request.secure).to.deep.eq(true);
     });
   });
+
+  describe("protocol()", () => {
+    it("should return the protocol request state (http)", () => {
+      const {req, request} = createRequest();
+
+      req.ctx = {
+        request: {
+          protocol: "http"
+        }
+      };
+
+      req.protocol = "";
+      expect(request.protocol).to.equal("http");
+    });
+    it("should return the protocol request state (https)", () => {
+      const {req, request} = createRequest();
+
+      req.ctx = {
+        request: {
+          protocol: "https"
+        }
+      };
+      expect(request.protocol).to.equal("https");
+    });
+  });
+
+  describe("host()", () => {
+    it("should return the host", () => {
+      const {req, request} = createRequest();
+
+      req.ctx = {
+        request: {
+          host: "host"
+        }
+      };
+      expect(request.host).to.equal("host");
+    });
+  });
+
   describe("cookies", () => {
     it("should get cookies from cookie", () => {
       const {req, request} = createRequest();
