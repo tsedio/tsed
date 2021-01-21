@@ -264,12 +264,12 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     await Promise.all([listenHttpServer(this.injector), listenHttpsServer(this.injector)]);
   }
 
-  protected logRoutes() {
+  protected async logRoutes() {
     const {logger, platform} = this;
 
     if (!this.settings.logger.disableRoutesSummary) {
       logger.info("Routes mounted :");
-      logger.info(printRoutes(platform.getRoutes()));
+      logger.info(printRoutes(await this.injector.alterAsync("$logRoutes", platform.getRoutes())));
     }
   }
 

@@ -17,12 +17,24 @@ export class LocalsContainer<V> extends Map<TokenProvider, V> {
     }
   }
 
-  public alter(eventName: string, value: any, ...args: any[]): any {
+  public alter<T = any>(eventName: string, value: any, ...args: any[]): T {
     const instances: any[] = this.toArray();
 
     for (const instance of instances) {
       if (typeof instance === "object" && instance && eventName in instance) {
         value = instance[eventName](value, ...args);
+      }
+    }
+
+    return value;
+  }
+
+  public async alterAsync<T = any>(eventName: string, value: any, ...args: any[]): Promise<T> {
+    const instances: any[] = this.toArray();
+
+    for (const instance of instances) {
+      if (typeof instance === "object" && instance && eventName in instance) {
+        value = await instance[eventName](value, ...args);
       }
     }
 
