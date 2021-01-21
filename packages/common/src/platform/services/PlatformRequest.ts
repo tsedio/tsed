@@ -25,12 +25,20 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
     return this.raw.secure;
   }
 
+  get host(): string {
+    return this.get("host");
+  }
+
+  get protocol(): string {
+    return this.raw.protocol;
+  }
+
   /**
    * Get the url of the request.
    *
    * Is equivalent of `express.response.originalUrl || express.response.url`.
    */
-  get url() {
+  get url(): string {
     return this.raw.originalUrl || this.raw.url;
   }
 
