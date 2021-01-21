@@ -46,7 +46,7 @@ export class PlatformKoaHandler extends PlatformHandler {
     }
   }
 
-  protected async flush(data: any, ctx: PlatformContext): Promise<void> {
+  public async flush(data: any, ctx: PlatformContext): Promise<void> {
     if (data === undefined && ctx.getResponse().body) {
       data = ctx.getResponse().body;
     }

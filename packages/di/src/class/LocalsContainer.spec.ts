@@ -34,4 +34,20 @@ describe("LocalsContainer", () => {
       expect(value).to.eq("alteredValue");
     });
   });
+
+  describe("alterAsync()", () => {
+    it("should alter value", async () => {
+      // GIVEN
+      const instance = {
+        $alterValue: Sinon.stub().returns("alteredValue")
+      };
+      const container = new LocalsContainer<any>();
+      container.set("TOKEN", instance);
+
+      const value = await container.alter("$alterValue", "value");
+
+      expect(instance.$alterValue).to.have.been.calledWithExactly("value");
+      expect(value).to.eq("alteredValue");
+    });
+  });
 });
