@@ -69,6 +69,10 @@ export interface SwaggerSettingsBase {
    * A pattern to generate the operationId. Format of operationId field (%c: class name, %m: method name).
    */
   operationIdPattern?: string;
+  /**
+   *
+   */
+  disableSpec?: boolean;
 }
 
 export interface SwaggerOS2Settings extends SwaggerSettingsBase {
