@@ -1,7 +1,7 @@
 import {isArray} from "./isArray";
 import {isString} from "./isString";
 
-export type ToMapIdentityCB<V> = (item: V, index: string | number) => string;
+export type ToMapIdentityCB<V> = (item: V, index: string | number) => string | string[];
 export type ToMapIdentity<V> = string | ToMapIdentityCB<V>;
 
 function createIdentityFn<V>(keyOrFn?: ToMapIdentity<V>): ToMapIdentityCB<V> {
@@ -22,7 +22,11 @@ export function toMap<K extends keyof any = any, V = any>(input: Record<K, V> | 
   if (isArray<V>(input)) {
     const identity = createIdentityFn<V>(keyOrFn || "id");
     return input.reduce((map, value, index) => {
-      return map.set(identity(value, index), value);
+      const ids = ([] as string[]).concat(identity(value, index));
+
+      ids.forEach((id) => map.set(id, value));
+
+      return map;
     }, new Map());
   }
 
