@@ -1,11 +1,11 @@
 import {Env, getValue} from "@tsed/core";
-import {Container} from "../class/Container";
 import {$log} from "@tsed/logger";
+import {Container} from "../class/Container";
 import {LocalsContainer} from "../class/LocalsContainer";
 import {OnInit} from "../interfaces/OnInit";
 import {TokenProvider} from "../interfaces/TokenProvider";
-import {InjectorService} from "./InjectorService";
 import {setLoggerLevel} from "../utils/setLoggerLevel";
+import {InjectorService} from "./InjectorService";
 
 export interface DITestInvokeOptions {
   token?: TokenProvider;
@@ -86,6 +86,8 @@ export class DITest {
     providers.forEach((p) => {
       locals.set(p.token, p.use);
     });
+
+    locals.set(InjectorService, DITest.injector);
 
     const instance: OnInit = DITest.injector.invoke(target, locals, {rebuild: true});
 
