@@ -12,7 +12,7 @@ const utils = PlatformTestUtils.create({
   platform: PlatformExpress,
   server: Server,
   logger: {
-    level: "info"
+    level: "off"
   }
 });
 

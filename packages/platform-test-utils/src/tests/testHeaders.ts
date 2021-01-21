@@ -26,7 +26,7 @@ export function testHeaders(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       logger: {
-        level: "info"
+        level: "off"
       },
       mount: {
         "/rest": [HeadersCtrl]

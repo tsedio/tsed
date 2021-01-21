@@ -46,5 +46,3 @@ export const $logStub: LogStub = {
     this.trace.reset();
   }
 } as any;
-
-$logStub.stub();
