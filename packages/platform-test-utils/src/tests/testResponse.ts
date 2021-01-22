@@ -4,6 +4,7 @@ import {expect} from "chai";
 import {createReadStream} from "fs";
 import {join} from "path";
 import {of} from "rxjs";
+import {agent, SuperAgentStatic} from "superagent";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -140,6 +141,19 @@ class TestResponseParamsCtrl {
     res.attachment("filename");
 
     return Buffer.from("Hello");
+  }
+
+  @Get("/scenario13")
+  async GetGoogle(@Res() res: PlatformResponse) {
+    const http: SuperAgentStatic = agent();
+
+    const image_res = await http.get("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
+
+    res.setHeader("Content-Disposition", "inline;filename=googlelogo_color_272x92dp.png;");
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("Content-Type", "image/png");
+
+    return image_res.body;
   }
 }
 
@@ -313,6 +327,16 @@ export function testResponse(options: PlatformTestOptions) {
       expect(response.headers["content-type"]).to.contains("application/octet-stream");
       expect(response.headers["content-length"]).to.equal("5");
       expect(response.body.toString()).to.deep.equal("Hello");
+    });
+  });
+
+  describe("Scenario13: Return buffer", () => {
+    it("should return image", async () => {
+      const response = await request.get("/rest/response/scenario13");
+
+      expect(response.headers["content-disposition"]).to.equal("inline;filename=googlelogo_color_272x92dp.png;");
+      expect(response.headers["content-type"]).to.contains("image/png");
+      expect(response.headers["content-length"]).to.equal("5969");
     });
   });
 }
