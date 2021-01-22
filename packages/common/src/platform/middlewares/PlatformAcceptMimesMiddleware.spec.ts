@@ -63,6 +63,28 @@ describe("PlatformMimesMiddleware", () => {
 
       expect(request.accepts).to.have.been.calledWithExactly(["text", "application/json"]);
     });
+    it("should accept type (text) without endpoint", async () => {
+      class Test {
+        @Get("/")
+        @AcceptMime("text")
+        get() {}
+      }
+
+      const request: any = new FakeRequest({
+        sandbox,
+        headers: {
+          accept: "text/*, application/json"
+        }
+      });
+      const ctx = PlatformTest.createRequestContext({
+        request: new PlatformRequest(request)
+      });
+
+      const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
+      middleware.use(ctx);
+
+      expect(request.accepts).to.have.been.calledWithExactly(["application/json", "text"]);
+    });
     it("should refuse type", async () => {
       class Test {
         @Get("/")

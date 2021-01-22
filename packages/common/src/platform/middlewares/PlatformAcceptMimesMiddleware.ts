@@ -15,7 +15,7 @@ export class PlatformAcceptMimesMiddleware implements IMiddleware {
 
   public use(@Context() ctx: Context): void {
     const {endpoint, request} = ctx;
-    const mimes = uniq((endpoint.get("acceptMimes") || []).concat(this.acceptMimes));
+    const mimes = uniq((endpoint?.get("acceptMimes") || []).concat(this.acceptMimes));
 
     if (mimes.length && !request.accepts(mimes)) {
       throw new NotAcceptable(mimes.join(", "));
