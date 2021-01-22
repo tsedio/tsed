@@ -1,4 +1,6 @@
-import {$log, Controller, Get, QueryParams} from "@tsed/common";
+import {$log, Controller, Get, PlatformResponse, QueryParams, Res} from "@tsed/common";
+import {Returns} from "@tsed/schema";
+import {agent, SuperAgentStatic} from "superagent";
 import {PlatformExpress} from "../../src";
 import {Server} from "./Server";
 
@@ -8,6 +10,21 @@ if (process.env.NODE_ENV !== "test") {
     @Get("/")
     get(@QueryParams("q") query: string[]) {
       return {test: "Hello world"};
+    }
+
+    @Get("/image")
+    @Returns(200).Header("X-Content-Type-Options", "nosniff")
+    async getGoogle(@Res() res: PlatformResponse) {
+      const http: SuperAgentStatic = agent();
+
+      const image_res = await http.get("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
+
+      res.setHeader("Content-Disposition", "inline;filename=googlelogo_color_272x92dp.png;");
+      res.setHeader("X-Content-Type-Options", "nosniff");
+      res.setHeader("Content-Type", "image/png");
+
+      // res.raw.send(image_res.body); // Works
+      return image_res.body; // Does not work
     }
   }
 

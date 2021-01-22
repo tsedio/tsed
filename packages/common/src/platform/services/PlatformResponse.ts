@@ -254,7 +254,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
       }
 
       this.contentLength(data.length);
-      this.raw.send(data.toString());
+      this.raw.send(data);
 
       return this;
     }

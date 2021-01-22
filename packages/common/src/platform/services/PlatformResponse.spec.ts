@@ -156,7 +156,7 @@ describe("PlatformResponse", () => {
 
       response.body(buffer);
 
-      expect(res.send).to.have.been.calledWithExactly("string");
+      expect(res.send).to.have.been.calledWithExactly(buffer);
       expect(res.contentType).to.have.been.calledWithExactly("application/octet-stream");
       expect(res.set).to.have.been.calledWithExactly("Content-Length", "6");
     });
