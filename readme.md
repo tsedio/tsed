@@ -41,7 +41,7 @@ Documentation is available on [https://tsed.io](https://tsed.io)
 
 ## Getting started 
 
-See our [getting started here](https://tsed.io/getting-started.html) to create new Ts.ED project or use
+See our [getting started here](https://tsed.io/getting-started) to create new Ts.ED project or use
 our [CLI](https://cli.tsed.io)
 
 ## Examples
