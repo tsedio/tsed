@@ -54,6 +54,11 @@ class CalendarsController {
   async csv(@BodyParams() csvLines: string): Promise<string> {
     return "";
   }
+
+  @Get("/hidden")
+  @Hidden()
+  @Description("Admins")
+  getHidden() {}
 }
 
 describe("Swagger integration", () => {

@@ -1,4 +1,4 @@
-import {Hidden as H} from "@tsed/schema";
+import {StoreSet} from "@tsed/core";
 
 /**
  * Disable documentation for the class and his endpoint.
@@ -29,8 +29,8 @@ import {Hidden as H} from "@tsed/schema";
  * ```
  *
  * @decorator
- * @swagger
+ * @ignore
  */
 export function Hidden() {
-  return H();
+  return StoreSet("hidden", true);
 }
