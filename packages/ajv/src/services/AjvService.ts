@@ -1,5 +1,5 @@
 import {getValue, nameOf, prototypeOf, setValue, Type} from "@tsed/core";
-import {Constant, Inject, Injectable, registerProvider} from "@tsed/di";
+import {Constant, Inject, Injectable} from "@tsed/di";
 import {getJsonSchema, JsonEntityStore} from "@tsed/schema";
 import Ajv, {ErrorObject} from "ajv";
 import {AjvValidationError} from "../errors/AjvValidationError";
@@ -42,7 +42,7 @@ export class AjvService {
     if (schema) {
       const valid = await this.ajv.validate(schema, value);
       if (!valid) {
-        throw this.mapErrors(this.ajv.errors!, {
+        throw this.mapErrors(this.ajv.errors || [], {
           type,
           collectionType,
           async: true,
