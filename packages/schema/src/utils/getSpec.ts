@@ -108,6 +108,10 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {spec
     const specJson: any = {paths};
 
     getOperationsStores(model).forEach((operationStore) => {
+      if (operationStore.store.get("hidden")) {
+        return;
+      }
+
       const operation = operationStore.operation!.toJSON({...options, specType, schemas});
 
       operationStore.operation!.operationPaths.forEach(({path, method}: {path: string; method: string}) => {
