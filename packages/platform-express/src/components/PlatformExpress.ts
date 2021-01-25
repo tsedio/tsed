@@ -8,7 +8,8 @@ import {
   PlatformRequest,
   PlatformResponse,
   PlatformRouter,
-  PlatformViews
+  PlatformViews,
+  useCtxHandler
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import Express from "express";

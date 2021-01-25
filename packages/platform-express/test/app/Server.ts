@@ -60,6 +60,9 @@ export class Server {
             secure: false // set true if HTTPS is enabled
           }
         })
-      );
+      )
+      .use((req: any, res: any, next: any) => {
+        setTimeout(next, 100);
+      });
   }
 }
