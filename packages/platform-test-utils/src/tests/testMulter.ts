@@ -3,6 +3,7 @@ import {CollectionOf, Property, Required, Status} from "@tsed/schema";
 import {expect} from "chai";
 import {Request} from "express";
 import multer, {FileFilterCallback} from "multer";
+import Sinon from "sinon";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -23,6 +24,10 @@ export class Event {
   tasks: Task[];
 }
 
+const fileFilter = Sinon.stub().callsFake((req: Request, file: PlatformMulterFile, callback: FileFilterCallback) => {
+  callback(null, true);
+});
+
 function getFileConfig(): any {
   return {
     storage: multer.diskStorage({
@@ -31,9 +36,7 @@ function getFileConfig(): any {
         cb(null, path);
       }
     }),
-    fileFilter: (req: Request, file: PlatformMulterFile, callback: FileFilterCallback) => {
-      callback(null, true);
-    }
+    fileFilter: fileFilter
   };
 }
 
@@ -81,6 +84,7 @@ export function testMulter(options: PlatformTestOptions) {
     request = SuperTest(PlatformTest.callback());
   });
   after(PlatformTest.reset);
+  before(() => fileFilter.resetHistory());
   describe("Scenario 1: POST /rest/multer/scenario-1", () => {
     it("should upload file with multer", async () => {
       const result = await request.post("/rest/multer/scenario-1").attach("media", `${__dirname}/../data/file.txt`).expect(201);
@@ -128,6 +132,9 @@ export function testMulter(options: PlatformTestOptions) {
       expect(result.body).to.deep.eq({
         file: "file.txt"
       });
+
+      // filterFilter is called
+      return expect(fileFilter).to.have.been.called;
     });
   });
 }
