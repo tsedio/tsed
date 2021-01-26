@@ -3,7 +3,7 @@ import "@tsed/platform-express";
 
 @Configuration({
   componentsScan: [
-    "${rootDir}/graphql/**/*.ts" // add this pattern to scan resolvers or datasources
+    `${rootDir}/graphql/**/*.ts` // add this pattern to scan resolvers or datasources
   ],
   graphql: {
     "server1": {
