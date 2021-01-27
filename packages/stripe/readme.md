@@ -25,7 +25,7 @@ Currently, `@tsed/stripe` allows you:
 
 ## Installation
 
-To begin, install the TypeORM module for TS.ED:
+To begin, install the Stripe module for TS.ED:
 
 ```bash
 npm install --save @tsed/stripe
