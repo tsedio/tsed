@@ -103,10 +103,7 @@ describe("PlatformControllerBuilder", () => {
 
     // THEN
     expect(result).to.be.instanceof(PlatformRouter);
-    // expect(router.use.callCount).to.deep.eq(3);
     expect(router.use).to.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
-
-    expect(router.use).to.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
 
     // ENDPOINT
     expect(router.get).to.have.been.calledWithExactly(
@@ -117,7 +114,8 @@ describe("PlatformControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
-      endpoint.afterMiddlewares[0]
+      endpoint.afterMiddlewares[0],
+      provider.middlewares.useAfter[0]
     );
   });
 
@@ -143,10 +141,9 @@ describe("PlatformControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
-      endpoint.afterMiddlewares[0]
+      endpoint.afterMiddlewares[0],
+      provider.middlewares.useAfter[0]
     );
-
-    expect(router.use.getCall(2)).to.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
   });
 
   it("should build controller without route and method", () => {
@@ -168,10 +165,9 @@ describe("PlatformControllerBuilder", () => {
       endpoint.beforeMiddlewares[0],
       endpoint.middlewares[0],
       endpoint,
-      endpoint.afterMiddlewares[0]
+      endpoint.afterMiddlewares[0],
+      provider.middlewares.useAfter[0]
     );
-
-    expect(router.use.getCall(2)).to.have.been.calledWithExactly(provider.middlewares.useAfter[0]); // controller
   });
 
   it("should build controller with a all endpoint and get endpoint", () => {
