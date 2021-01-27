@@ -32,7 +32,7 @@ export class PlatformControllerBuilder {
   public build(injector: InjectorService): PlatformRouterMethods {
     const {
       routerOptions,
-      middlewares: {useBefore, useAfter}
+      middlewares: {useBefore}
     } = this.provider;
 
     this.provider.setRouter(PlatformRouter.create(injector, routerOptions));
@@ -40,7 +40,6 @@ export class PlatformControllerBuilder {
     // Controller lifecycle
     this.buildMiddlewares(useBefore) // Controller before-middleware
       .buildEndpoints() // All endpoints and his middlewares
-      .buildMiddlewares(useAfter) // Controller after-middleware
       .buildChildrenCtrls(injector); // Children controllers
 
     return this.provider.getRouter();
@@ -84,7 +83,7 @@ export class PlatformControllerBuilder {
   private buildEndpoint(endpoint: EndpointMetadata) {
     const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares, operation} = endpoint;
     const {
-      middlewares: {use}
+      middlewares: {use, useAfter}
     } = this.provider;
 
     const router = this.provider.getRouter<PlatformRouter>();
@@ -102,6 +101,7 @@ export class PlatformControllerBuilder {
       .concat(mldwrs) // Endpoint middlewares
       .concat(endpoint) // Endpoint metadata
       .concat(afterMiddlewares) // Endpoint after-middlewares
+      .concat(useAfter) // Controller after middlewares (equivalent to afterEach)
       .filter((item: any) => !!item);
 
     // Add handlers to the router

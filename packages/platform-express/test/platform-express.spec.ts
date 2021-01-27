@@ -21,6 +21,9 @@ describe("PlatformExpress", () => {
   describe("Inheritance controllers", () => {
     utils.test("inheritanceController");
   });
+  describe("Middlewares", () => {
+    utils.test("middlewares");
+  });
   describe("Scope Request", () => {
     utils.test("scopeRequest");
   });

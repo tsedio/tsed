@@ -13,6 +13,7 @@ import {testHeaders} from "./testHeaders";
 import {testInheritanceController} from "./testInheritanceController";
 import {testLocals} from "./testLocals";
 import {testLocation} from "./testLocation";
+import {testMiddlewares} from "./testMiddlewares";
 import {testModule} from "./testModule";
 import {testMulter} from "./testMulter";
 import {testPathParams} from "./testPathParams";
@@ -31,6 +32,7 @@ export const specsContainer = new Map<string, (options: PlatformTestOptions) => 
 // HANDLERS AND MIDDLEWARES
 specsContainer.set("handlers", testHandlers);
 specsContainer.set("auth", testAuth);
+specsContainer.set("middlewares", testMiddlewares);
 
 // RESPONSES
 specsContainer.set("headers", testHeaders);
