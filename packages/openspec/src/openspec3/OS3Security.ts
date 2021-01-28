@@ -1,11 +1,10 @@
-import {OpenSpecHash} from "../common/OpenSpecHash";
 import {OS3Flows} from "./OS3Flows";
 
 export interface OS3SecurityBase {
   /**
    * The type of the security scheme
    */
-  type: "apiKey" | "oauth2" | "http";
+  type: "apiKey" | "oauth2" | "http" | "openIdConnect";
   /**
    *
    */
@@ -38,6 +37,14 @@ export interface OS3SecurityOAuth2 extends OS3SecurityBase {
   flows: OS3Flows;
 }
 
+export interface OS3SecurityOpenIDConnect extends OS3SecurityBase {
+  /**
+   * The type of the security scheme
+   */
+  type: "openIdConnect";
+  openIdConnectUrl: string;
+}
+
 export interface OS3SecurityHTTP extends OS3SecurityBase {
   /**
    * The type of the security scheme
@@ -53,4 +60,4 @@ export interface OS3SecurityHTTP extends OS3SecurityBase {
   bearerFormat?: string;
 }
 
-export type OS3Security = OS3SecurityApiKey | OS3SecurityHTTP | OS3SecurityOAuth2;
+export type OS3Security = OS3SecurityApiKey | OS3SecurityHTTP | OS3SecurityOAuth2 | OS3SecurityOpenIDConnect;
