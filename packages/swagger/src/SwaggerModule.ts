@@ -12,6 +12,7 @@ import {
 } from "@tsed/common";
 import Fs from "fs";
 import {join, resolve} from "path";
+import {URL} from "url";
 import {SwaggerSettings} from "./interfaces";
 import {cssMiddleware} from "./middlewares/cssMiddleware";
 import {indexMiddleware} from "./middlewares/indexMiddleware";
@@ -19,6 +20,7 @@ import {jsMiddleware} from "./middlewares/jsMiddleware";
 import {redirectMiddleware} from "./middlewares/redirectMiddleware";
 import {SwaggerService} from "./services/SwaggerService";
 
+const normalizePath = require("normalize-path");
 const swaggerUiPath = require("swagger-ui-dist").absolutePath();
 
 /**
@@ -84,7 +86,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
         const {path = "/", fileName = "swagger.json", doc} = conf;
         const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 
-        injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${resolve(join(path, fileName))}`);
+        injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${normalizePath(join(path, fileName))}`);
         injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
       });
     };
@@ -103,7 +105,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
       const {path = "/", fileName = "swagger.json", doc, hidden} = conf;
 
       if (!hidden) {
-        acc.push({url: resolve(join(path, fileName)), name: doc || path});
+        acc.push({url: normalizePath(join(path, fileName)), name: doc || path});
       }
 
       return acc;
@@ -120,7 +122,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     const router = PlatformRouter.create(this.injector);
 
     if (!disableSpec) {
-      router.get(resolve(join("/", fileName)), useCtxHandler(this.middlewareSwaggerJson(conf)));
+      router.get(normalizePath(join("/", fileName)), useCtxHandler(this.middlewareSwaggerJson(conf)));
     }
 
     if (viewPath) {
