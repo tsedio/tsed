@@ -2,29 +2,41 @@ import {FileSyncAdapter} from "@tsed/adapters";
 import "@tsed/ajv";
 import {Constant, PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import "@tsed/stripe";
+import "@tsed/mongoose";
 import "@tsed/swagger";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import methodOverride from "method-override";
+import "../../src";
+import template from "../template/project.json";
 
 export const rootDir = __dirname;
 
 @Configuration({
-  port: 8081,
+  port: 8083,
   adapters: {
     Adapter: FileSyncAdapter
   },
-  stripe: {
-    apiKey: "the_api_key",
-    apiVersion: "2020-08-27",
-    webhooks: {
-      secret: "whsec_test_secret",
-      tolerance: 1
-    }
+  formio: {
+    baseUrl: "/projects",
+    jwt: {
+      "secret": "--- change me now ---",
+      "expireTime": 240
+    },
+    root: {
+      "email": "admin@tsed.io",
+      "password": "admin@tsed.io"
+    },
+    template
   },
+  mongoose: [
+    {
+      id: "default",
+      url: "mongodb://localhost:27017/formioapp"
+    }
+  ],
   views: {
     root: `${rootDir}/views`,
     extensions: {
@@ -35,6 +47,13 @@ export const rootDir = __dirname;
     {
       path: "/v3/doc",
       specVersion: "3.0.1",
+      showExplorer: true
+    },
+    {
+      path: "/projects/doc",
+      specVersion: "2.0",
+      fileName: "/../spec.json",
+      disableSpec: true,
       showExplorer: true
     }
   ]

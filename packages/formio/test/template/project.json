@@ -1,0 +1,811 @@
+{
+  "title": "ToDo Application",
+  "description": "A simple to-do application.",
+  "version": "2.0.0",
+  "name": "todo",
+  "preview": {
+    "url": "https://formio.github.io/formio-app-todo/dist",
+    "repo": "https://github.com/formio/formio-app-todo"
+  },
+  "roles": {
+    "administrator": {
+      "title": "Administrator",
+      "description": "A role for Administrative Users.",
+      "admin": true,
+      "default": false
+    },
+    "authenticated": {
+      "title": "Authenticated",
+      "description": "A role for Authenticated Users.",
+      "admin": false,
+      "default": false
+    },
+    "anonymous": {
+      "title": "Anonymous",
+      "description": "A role for Anonymous Users.",
+      "admin": false,
+      "default": true
+    }
+  },
+  "forms": {
+    "userRegister": {
+      "title": "User Register",
+      "type": "form",
+      "name": "userRegister",
+      "path": "user/register",
+      "components": [
+        {
+          "lockKey": true,
+          "type": "textfield",
+          "validate": {
+            "customPrivate": false,
+            "custom": "",
+            "pattern": "",
+            "maxLength": "",
+            "minLength": "",
+            "required": true
+          },
+          "persistent": true,
+          "unique": false,
+          "protected": false,
+          "defaultValue": "",
+          "multiple": false,
+          "suffix": "",
+          "prefix": "",
+          "placeholder": "Enter your full name",
+          "key": "fullName",
+          "label": "User Full Name",
+          "inputMask": "",
+          "inputType": "text",
+          "tableView": true,
+          "input": true
+        },
+        {
+          "validate": {
+            "required": true
+          },
+          "input": true,
+          "tableView": true,
+          "inputType": "email",
+          "label": "Email",
+          "lockKey": true,
+          "key": "email",
+          "placeholder": "Enter your email address",
+          "prefix": "",
+          "suffix": "",
+          "defaultValue": "",
+          "protected": false,
+          "unique": false,
+          "persistent": true,
+          "type": "email"
+        },
+        {
+          "validate": {
+            "required": true
+          },
+          "input": true,
+          "tableView": false,
+          "inputType": "password",
+          "label": "Password",
+          "lockKey": true,
+          "key": "password",
+          "placeholder": "Enter your password.",
+          "prefix": "",
+          "suffix": "",
+          "protected": true,
+          "persistent": true,
+          "type": "password"
+        },
+        {
+          "input": true,
+          "tableView": false,
+          "inputType": "password",
+          "label": "Verify Password",
+          "key": "verifyPassword",
+          "placeholder": "Verify your password",
+          "prefix": "",
+          "suffix": "",
+          "protected": true,
+          "persistent": false,
+          "type": "password",
+          "validate": {
+            "required": true,
+            "custom": "valid = (input == '{{ password }}') ? true : 'Passwords must match.';"
+          }
+        },
+        {
+          "tableView": false,
+          "type": "button",
+          "input": true,
+          "label": "Submit",
+          "key": "submit",
+          "size": "md",
+          "leftIcon": "",
+          "rightIcon": "",
+          "block": false,
+          "action": "submit",
+          "disableOnInvalid": true,
+          "theme": "primary"
+        }
+      ],
+      "access": [
+        {
+          "type": "read_all",
+          "roles": [
+            "anonymous"
+          ]
+        }
+      ],
+      "submissionAccess": [
+        {
+          "type": "create_own",
+          "roles": [
+            "anonymous"
+          ]
+        }
+      ]
+    },
+    "userLogin": {
+      "title": "User Login",
+      "type": "form",
+      "name": "userLogin",
+      "path": "user/login",
+      "components": [
+        {
+          "type": "email",
+          "persistent": true,
+          "unique": false,
+          "protected": false,
+          "defaultValue": "",
+          "suffix": "",
+          "prefix": "",
+          "placeholder": "Enter your email address",
+          "key": "email",
+          "lockKey": true,
+          "label": "Email",
+          "inputType": "email",
+          "tableView": true,
+          "input": true,
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "type": "password",
+          "persistent": true,
+          "protected": true,
+          "suffix": "",
+          "prefix": "",
+          "placeholder": "Enter your password.",
+          "key": "password",
+          "lockKey": true,
+          "label": "Password",
+          "inputType": "password",
+          "tableView": false,
+          "input": true,
+          "validate": {
+            "required": true
+          }
+        },
+        {
+          "type": "button",
+          "theme": "primary",
+          "disableOnInvalid": true,
+          "action": "submit",
+          "block": false,
+          "rightIcon": "",
+          "leftIcon": "",
+          "size": "md",
+          "key": "submit",
+          "tableView": false,
+          "label": "Submit",
+          "input": true
+        }
+      ],
+      "access": [
+        {
+          "type": "read_all",
+          "roles": [
+            "anonymous"
+          ]
+        }
+      ],
+      "submissionAccess": [
+        {
+          "type": "create_own",
+          "roles": [
+            "anonymous"
+          ]
+        }
+      ]
+    }
+  },
+  "actions": {
+    "userSave": {
+      "title": "Save Submission",
+      "name": "save",
+      "form": "user",
+      "handler": [
+        "before"
+      ],
+      "method": [
+        "create",
+        "update"
+      ],
+      "priority": 11,
+      "settings": {}
+    },
+    "adminSave": {
+      "title": "Save Submission",
+      "name": "save",
+      "form": "admin",
+      "handler": [
+        "before"
+      ],
+      "method": [
+        "create",
+        "update"
+      ],
+      "priority": 11,
+      "settings": {}
+    },
+    "todoSave": {
+      "title": "Save Submission",
+      "name": "save",
+      "form": "todo",
+      "handler": [
+        "before"
+      ],
+      "method": [
+        "create",
+        "update"
+      ],
+      "priority": 11,
+      "settings": {}
+    },
+    "userLogin": {
+      "name": "login",
+      "title": "Login",
+      "form": "userLogin",
+      "priority": 2,
+      "method": [
+        "create"
+      ],
+      "handler": [
+        "before"
+      ],
+      "settings": {
+        "resources": [
+          "user",
+          "admin"
+        ],
+        "username": "email",
+        "password": "password"
+      }
+    },
+    "userRegisterSave": {
+      "title": "Save Submission",
+      "name": "save",
+      "form": "userRegister",
+      "handler": [
+        "before"
+      ],
+      "method": [
+        "create"
+      ],
+      "priority": 10,
+      "settings": {
+        "resource": "user",
+        "fields": {
+          "fullName": "fullName",
+          "email": "email",
+          "password": "password"
+        }
+      }
+    },
+    "userRegisterLogin": {
+      "name": "login",
+      "title": "Login",
+      "form": "userRegister",
+      "priority": 2,
+      "method": [
+        "create"
+      ],
+      "handler": [
+        "before"
+      ],
+      "settings": {
+        "resources": [
+          "user"
+        ],
+        "username": "email",
+        "password": "password"
+      }
+    },
+    "authenticatedRole": {
+      "name": "role",
+      "title": "Role Assignment",
+      "form": "user",
+      "priority": 1,
+      "handler": [
+        "after"
+      ],
+      "method": [
+        "create"
+      ],
+      "settings": {
+        "role": "authenticated",
+        "type": "add",
+        "association": "new"
+      }
+    },
+    "adminRole": {
+      "name": "role",
+      "title": "Role Assignment",
+      "form": "admin",
+      "priority": 1,
+      "handler": [
+        "after"
+      ],
+      "method": [
+        "create"
+      ],
+      "settings": {
+        "role": "administrator",
+        "type": "add",
+        "association": "new"
+      }
+    }
+  },
+  "resources": {
+    "user": {
+      "title": "User",
+      "type": "resource",
+      "name": "user",
+      "path": "user",
+      "components": [
+        {
+          "input": true,
+          "tableView": true,
+          "inputType": "text",
+          "inputMask": "",
+          "label": "Full Name",
+          "key": "fullName",
+          "placeholder": "Enter your full name",
+          "prefix": "",
+          "suffix": "",
+          "multiple": false,
+          "defaultValue": "",
+          "protected": false,
+          "unique": false,
+          "persistent": true,
+          "validate": {
+            "required": false,
+            "minLength": "",
+            "maxLength": "",
+            "pattern": "",
+            "custom": "",
+            "customPrivate": false
+          },
+          "type": "textfield"
+        },
+        {
+          "type": "email",
+          "persistent": true,
+          "unique": false,
+          "protected": false,
+          "defaultValue": "",
+          "suffix": "",
+          "prefix": "",
+          "placeholder": "Enter your email address",
+          "key": "email",
+          "label": "Email",
+          "inputType": "email",
+          "tableView": true,
+          "input": true
+        },
+        {
+          "type": "password",
+          "persistent": true,
+          "protected": true,
+          "suffix": "",
+          "prefix": "",
+          "placeholder": "Enter your password.",
+          "key": "password",
+          "label": "Password",
+          "inputType": "password",
+          "tableView": false,
+          "input": true
+        },
+        {
+          "type": "button",
+          "theme": "primary",
+          "disableOnInvalid": true,
+          "action": "submit",
+          "block": false,
+          "rightIcon": "",
+          "leftIcon": "",
+          "size": "md",
+          "key": "submit",
+          "tableView": false,
+          "label": "Submit",
+          "input": true
+        }
+      ],
+      "access": [
+        {
+          "type": "read_all",
+          "roles": [
+            "anonymous",
+            "authenticated",
+            "administrator"
+          ]
+        }
+      ],
+      "submissionAccess": [
+        {
+          "type": "create_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "read_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "update_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "delete_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "create_own",
+          "roles": []
+        },
+        {
+          "type": "read_own",
+          "roles": []
+        },
+        {
+          "type": "update_own",
+          "roles": []
+        },
+        {
+          "type": "delete_own",
+          "roles": []
+        }
+      ]
+    },
+    "admin": {
+      "title": "Admin",
+      "type": "resource",
+      "name": "admin",
+      "path": "admin",
+      "components": [
+        {
+          "input": true,
+          "tableView": true,
+          "inputType": "email",
+          "label": "Email",
+          "key": "email",
+          "placeholder": "Enter your email address",
+          "prefix": "",
+          "suffix": "",
+          "defaultValue": "",
+          "protected": false,
+          "unique": false,
+          "persistent": true,
+          "type": "email"
+        },
+        {
+          "input": true,
+          "tableView": false,
+          "inputType": "password",
+          "label": "Password",
+          "key": "password",
+          "placeholder": "Enter your password.",
+          "prefix": "",
+          "suffix": "",
+          "protected": true,
+          "persistent": true,
+          "type": "password"
+        },
+        {
+          "input": true,
+          "label": "Submit",
+          "tableView": false,
+          "key": "submit",
+          "size": "md",
+          "leftIcon": "",
+          "rightIcon": "",
+          "block": false,
+          "action": "submit",
+          "disableOnInvalid": true,
+          "theme": "primary",
+          "type": "button"
+        }
+      ],
+      "access": [
+        {
+          "type": "read_all",
+          "roles": [
+            "anonymous",
+            "authenticated",
+            "administrator"
+          ]
+        }
+      ],
+      "submissionAccess": [
+        {
+          "type": "create_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "read_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "update_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "delete_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "create_own",
+          "roles": []
+        },
+        {
+          "type": "read_own",
+          "roles": []
+        },
+        {
+          "type": "update_own",
+          "roles": []
+        },
+        {
+          "type": "delete_own",
+          "roles": []
+        }
+      ]
+    },
+    "todo": {
+      "title": "ToDo",
+      "type": "resource",
+      "name": "todo",
+      "path": "todo",
+      "components": [
+        {
+          "input": true,
+          "tableView": true,
+          "inputType": "text",
+          "inputMask": "",
+          "label": "Title",
+          "key": "title",
+          "placeholder": "Enter the title of this to-do item.",
+          "prefix": "",
+          "suffix": "",
+          "multiple": false,
+          "defaultValue": "",
+          "protected": false,
+          "unique": false,
+          "persistent": true,
+          "validate": {
+            "required": true,
+            "minLength": "",
+            "maxLength": "",
+            "pattern": "",
+            "custom": "",
+            "customPrivate": false
+          },
+          "type": "textfield"
+        },
+        {
+          "input": true,
+          "tableView": true,
+          "label": "Status",
+          "key": "status",
+          "placeholder": "Select the status of this item",
+          "data": {
+            "values": [
+              {
+                "value": "notstarted",
+                "label": "Not Started"
+              },
+              {
+                "value": "started",
+                "label": "Started"
+              },
+              {
+                "value": "done",
+                "label": "Done"
+              },
+              {
+                "value": "",
+                "label": ""
+              }
+            ],
+            "json": "",
+            "url": ""
+          },
+          "dataSrc": "values",
+          "valueProperty": "",
+          "defaultValue": "",
+          "template": "<span>{{ item.label }}</span>",
+          "multiple": false,
+          "refresh": false,
+          "refreshDelay": 0,
+          "protected": false,
+          "unique": false,
+          "persistent": true,
+          "validate": {
+            "required": false
+          },
+          "type": "select"
+        },
+        {
+          "input": true,
+          "tableView": true,
+          "label": "Description",
+          "key": "description",
+          "placeholder": "Enter the description for this to-do item.",
+          "prefix": "",
+          "suffix": "",
+          "rows": 3,
+          "multiple": false,
+          "defaultValue": "",
+          "validate": {
+            "required": true,
+            "minLength": "",
+            "maxLength": "",
+            "pattern": "",
+            "custom": ""
+          },
+          "type": "textarea"
+        },
+        {
+          "input": true,
+          "tableView": true,
+          "label": "Address",
+          "key": "address",
+          "placeholder": "Where should this happen?",
+          "multiple": false,
+          "protected": false,
+          "unique": false,
+          "persistent": true,
+          "validate": {
+            "required": false
+          },
+          "type": "address"
+        },
+        {
+          "input": true,
+          "tableView": true,
+          "inputMask": "(999) 999-9999",
+          "label": "Phone Number",
+          "key": "phoneNumber",
+          "placeholder": "Enter a phone number for this to-do item.",
+          "prefix": "",
+          "suffix": "",
+          "multiple": false,
+          "protected": false,
+          "unique": false,
+          "persistent": true,
+          "validate": {
+            "required": false
+          },
+          "type": "phoneNumber"
+        },
+        {
+          "input": true,
+          "label": "Submit",
+          "tableView": false,
+          "key": "submit",
+          "size": "md",
+          "leftIcon": "",
+          "rightIcon": "",
+          "block": false,
+          "action": "submit",
+          "disableOnInvalid": true,
+          "theme": "primary",
+          "type": "button"
+        }
+      ],
+      "access": [
+        {
+          "type": "read_all",
+          "roles": [
+            "administrator",
+            "authenticated",
+            "anonymous"
+          ]
+        }
+      ],
+      "submissionAccess": [
+        {
+          "type": "create_all",
+          "roles": []
+        },
+        {
+          "type": "read_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "update_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "delete_all",
+          "roles": [
+            "administrator"
+          ]
+        },
+        {
+          "type": "create_own",
+          "roles": [
+            "authenticated"
+          ]
+        },
+        {
+          "type": "read_own",
+          "roles": [
+            "authenticated"
+          ]
+        },
+        {
+          "type": "update_own",
+          "roles": [
+            "authenticated"
+          ]
+        },
+        {
+          "type": "delete_own",
+          "roles": [
+            "authenticated"
+          ]
+        }
+      ]
+    }
+  },
+  "submissions": {
+    "user": [
+      {
+        "deleted": null,
+        "data": {
+          "email": "user@tsed.io",
+          "password": "$2a$10$PxLOsQy8XU.Qk1jYtOjk/OWM/o2GBBKMjKIwf06iU3ZZClTRAIkqm"
+        },
+        "access": [],
+        "externalIds": [],
+        "created": "Sun Jan 31 2021 17:32:18 GMT+0100 (Central European Standard Time)",
+        "modified": "Sun Jan 31 2021 17:32:18 GMT+0100 (Central European Standard Time)",
+        "roles": [
+          "$machineName:administrator"
+        ],
+        "form": "$machineName:user"
+      }
+    ]
+  }
+}

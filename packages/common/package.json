@@ -56,7 +56,6 @@
     "ejs": "^3.1.5",
     "globby": "11.0.1",
     "json-schema": "^0.2.3",
-    "normalize-path": "3.0.0",
     "on-finished": "2.3.0",
     "tslib": "2.0.1",
     "uuid": "8.3.2"
