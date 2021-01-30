@@ -19,15 +19,16 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/formio.html
 Currently, `@tsed/formio` allows you:
  
 - Configure formio project
-- ...
+- Register Hook
+- Register Actions
 
 ## Installation
 
-To begin, install the TypeORM module for TS.ED:
+To begin, install the formio module for TS.ED:
 
 ```bash
-npm install --save @tsed/formio
-npm install --save formio
+npm install --save @tsed/formio @tsed/mongoose
+npm install --save formio mongoose
 ```
 
 Then import `@tsed/formio` in your Server:

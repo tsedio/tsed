@@ -56,7 +56,7 @@ export function createSchema(target: Type<any>, options: MongooseSchemaOptions =
   };
 
   schema.methods.toJSON = function toJSON(options?: any) {
-    return serialize(this.toClass(), options);
+    return serialize((this as any).toClass(), options);
   };
 
   schema.loadClass(target);
