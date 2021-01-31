@@ -1,6 +1,5 @@
+import {normalizePath} from "@tsed/core";
 import {resolve} from "path";
-
-const normalizePath = require("normalize-path");
 
 function isTsEnv() {
   return (
