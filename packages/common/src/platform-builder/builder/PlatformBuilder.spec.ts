@@ -9,7 +9,7 @@ import {
   InjectorService,
   OnReady
 } from "@tsed/common";
-import {isClass, Type} from "@tsed/core";
+import {normalizePath, Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
 import {expect} from "chai";
 import {join, resolve} from "path";
@@ -17,7 +17,6 @@ import Sinon from "sinon";
 import {Platform} from "../../platform/services/Platform";
 import {PlatformBuilder} from "./PlatformBuilder";
 
-const normalizePath = require("normalize-path");
 const sandbox = Sinon.createSandbox();
 
 describe("PlatformBuilder", () => {
@@ -152,13 +151,9 @@ describe("PlatformBuilder", () => {
       // WHEN
       server.addComponents(MyClass);
 
-      const normalize = (item: any) =>
-        item.map((path: any) => {
-          return isClass(path) ? path : normalizePath(path);
-        });
       // THEN
-      expect(normalize(server.injector.settings.componentsScan)).to.deep.eq(
-        normalize([
+      expect(normalizePath(server.injector.settings.componentsScan)).to.deep.eq(
+        normalizePath([
           resolve(join(process.cwd(), "mvc/**/*.ts")),
           resolve(join(process.cwd(), "services/**/*.ts")),
           resolve(join(process.cwd(), "middlewares/**/*.ts")),
