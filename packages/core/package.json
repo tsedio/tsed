@@ -1,13 +1,13 @@
 {
   "name": "@tsed/core",
-  "version": "6.23.4",
+  "version": "6.24.0",
   "description": "Core module for Ts.ED Framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "dependencies": {
+    "normalize-path": "3.0.0",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "0.5.19",
-    "normalize-path": "3.0.0",
     "tslib": "2.0.1"
   },
   "scripts": {
