@@ -1,6 +1,6 @@
-import {CollectionOf, Generics, OperationPath, Property, Returns, SpecTypes} from "@tsed/schema";
 import "@tsed/common";
 import "@tsed/exceptions";
+import {CollectionOf, Generics, OperationPath, Property, Returns, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import {getSpec} from "../../utils/getSpec";
 

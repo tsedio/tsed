@@ -60,10 +60,10 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
     return this.get("content")!;
   }
 
-  getMedia(mediaType: string): JsonMedia {
-    this.addMedia(mediaType);
+  getMedia(mediaType: string, create = true): JsonMedia {
+    create && this.addMedia(mediaType);
 
-    return this.getContent().get(mediaType) as any;
+    return this.getContent()?.get(mediaType) as any;
   }
 
   addMedia(mediaType: string) {

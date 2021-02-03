@@ -243,7 +243,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
   }
 
   getResponseOptions(contentType: string = "application/json"): undefined | any {
-    const media = this.operation?.getResponseOf(this.statusCode)?.getMedia(contentType);
+    const media = this.operation?.getResponseOf(this.statusCode)?.getMedia(contentType, false);
 
     if (media && media.has("schema")) {
       const schema = media.get("schema") as JsonSchema;

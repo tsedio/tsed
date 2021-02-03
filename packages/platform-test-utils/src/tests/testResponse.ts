@@ -1,5 +1,5 @@
 import {Context, Controller, Get, Next, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
-import {ContentType, Ignore, Property, Status} from "@tsed/schema";
+import {ContentType, getSpec, Ignore, Property, Returns, SpecTypes, Status} from "@tsed/schema";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import {join} from "path";
@@ -127,7 +127,7 @@ class TestResponseParamsCtrl {
   }
 
   @Get("/scenario11")
-  get() {
+  testScenario11() {
     const t = new EmptyModel();
 
     t.raw = 1;
@@ -137,14 +137,14 @@ class TestResponseParamsCtrl {
   }
 
   @Get("/scenario12")
-  getBuffer(@Res() res: PlatformResponse) {
+  testScenario12(@Res() res: PlatformResponse) {
     res.attachment("filename");
 
     return Buffer.from("Hello");
   }
 
   @Get("/scenario13")
-  async GetGoogle(@Res() res: PlatformResponse) {
+  async testScenario13(@Res() res: PlatformResponse) {
     const http: SuperAgentStatic = agent();
 
     const image_res = await http.get("https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png");
