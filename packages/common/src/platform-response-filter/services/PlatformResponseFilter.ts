@@ -62,7 +62,7 @@ export class PlatformResponseFilter {
       const bestContentType = ctx.request.accepts([contentType].concat(this.contentTypes).filter(Boolean));
 
       if (bestContentType) {
-        return [].concat(bestContentType as any)[0];
+        return [].concat(bestContentType as any).filter((type) => type !== "*/*")[0];
       }
     }
 

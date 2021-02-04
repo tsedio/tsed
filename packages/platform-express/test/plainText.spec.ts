@@ -17,11 +17,18 @@ const utils = PlatformTestUtils.create({
 
 @Controller("/plain-text")
 class TestResponseParamsCtrl {
-  @Get("/scenario14")
+  @Get("/scenario-1")
   @(Returns(200, String).ContentType("text/plain"))
   test() {
     return {
       id: "id"
+    };
+  }
+
+  @Get("/scenario-2")
+  public scenario8() {
+    return {
+      jsonexample: 1
     };
   }
 }
@@ -39,43 +46,22 @@ describe("PlainText", () => {
   });
 
   afterEach(utils.reset);
-  describe("plain/text", () => {
-    it("should text", async () => {
-      const spec = getSpec(TestResponseParamsCtrl, {specType: SpecTypes.OPENAPI});
-      const response = await request.get("/rest/plain-text/scenario14");
+  describe("scenario 1", () => {
+    it("should return a plain text", async () => {
+      const response = await request.get("/rest/plain-text/scenario-1");
 
-      expect(spec).to.deep.eq({
-        "paths": {
-          "/plain-text/scenario14": {
-            "get": {
-              "operationId": "testResponseParamsCtrlTest",
-              "parameters": [],
-              "responses": {
-                "200": {
-                  "content": {
-                    "text/plain": {
-                      "schema": {
-                        "type": "string"
-                      }
-                    }
-                  },
-                  "description": "Success"
-                }
-              },
-              "tags": [
-                "TestResponseParamsCtrl"
-              ]
-            }
-          }
-        },
-        "tags": [
-          {
-            "name": "TestResponseParamsCtrl"
-          }
-        ]
-      });
       expect(response.headers["content-type"]).to.equal("text/plain; charset=utf-8");
       expect(response.text).to.equal("{\"id\":\"id\"}");
+    });
+  });
+  describe("scenario 2", () => {
+    it("should return a */* content-type", async () => {
+      const response = await request.get("/rest/plain-text/scenario-2").set("Accept", "*/*").set("Content-Type", "application/json").expect(200);
+
+      expect(response.headers["content-type"]).to.equal("application/json; charset=utf-8");
+      expect(response.body).to.deep.equal({
+        jsonexample: 1
+      });
     });
   });
 });

@@ -155,6 +155,13 @@ class TestResponseParamsCtrl {
 
     return image_res.body;
   }
+
+  @Get("/scenario14")
+  public scenario14() {
+    return {
+      jsonexample: 1
+    };
+  }
 }
 
 export function testResponse(options: PlatformTestOptions) {
@@ -337,6 +344,21 @@ export function testResponse(options: PlatformTestOptions) {
       expect(response.headers["content-disposition"]).to.equal("inline;filename=googlelogo_color_272x92dp.png;");
       expect(response.headers["content-type"]).to.contains("image/png");
       expect(response.headers["content-length"]).to.equal("5969");
+    });
+  });
+
+  describe("Scenario13: Return application/json when Accept is */*", () => {
+    it("should return a */* content-type", async () => {
+      const response = await request
+        .get("/rest/response/scenario14")
+        .set("Accept", "*/*")
+        .set("Content-Type", "application/json")
+        .expect(200);
+
+      expect(response.headers["content-type"]).to.equal("application/json; charset=utf-8");
+      expect(response.body).to.deep.equal({
+        jsonexample: 1
+      });
     });
   });
 }
