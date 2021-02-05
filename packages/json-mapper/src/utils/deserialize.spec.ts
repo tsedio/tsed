@@ -1,6 +1,7 @@
 // import "@tsed/common";
 import {
   AdditionalProperties,
+  Any,
   CollectionOf,
   Email,
   GenericOf,
@@ -12,11 +13,13 @@ import {
   JsonHookContext,
   MinLength,
   Name,
+  Nullable,
   OperationPath,
   Property,
   Required
 } from "@tsed/schema";
 import {expect} from "chai";
+import faker from "faker";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
 import {OnDeserialize} from "../decorators/onDeserialize";
@@ -405,6 +408,21 @@ describe("deserialize()", () => {
           ]
         }
       });
+    });
+    it("should transform object to class (date/nullable)", () => {
+      class Product {
+        @Nullable(Date)
+        updated: Date | null;
+      }
+
+      const product = {
+        updated: faker.date.past().toISOString()
+      };
+
+      const result = deserialize(product, {type: Product});
+
+      expect(result).to.be.instanceOf(Product);
+      expect(result.updated).to.be.instanceOf(Date);
     });
   });
   describe("Array<Model>", () => {

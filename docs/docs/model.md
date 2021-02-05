@@ -111,6 +111,24 @@ or when you use a mixed TypeScript types.
   </Tab>
 </Tabs>
 
+## Nullable <Badge text="6.25.0+"/>
+
+The @@Nullable@@ decorator is used allow a null value on a field while preserving the original Typescript type.
+
+<Tabs class="-code">
+  <Tab label="Model">
+
+<<< @/docs/docs/snippets/model/nullable-properties.ts
+
+  </Tab>
+  <Tab label="Json schema">
+
+<<< @/docs/docs/snippets/model/nullable-properties.json
+
+  </Tab>
+</Tabs>
+
+
 ## Regular expressions
 
 The @@Pattern@@ decorator is used to restrict a string to a particular regular expression. 

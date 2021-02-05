@@ -1,11 +1,11 @@
-import {Any, Minimum, Required} from "@tsed/schema";
+import {Minimum, Nullable, Required} from "@tsed/schema";
 
 export class Model {
   @Required()
   prop1: string;
 
-  @Required(null) // allow null
-  @Any(String, null)
+  @Required(true, null) // allow null
+  @Nullable(String)
   prop2: string | null;
 
   @Required()

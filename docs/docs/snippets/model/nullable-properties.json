@@ -1,0 +1,14 @@
+{
+  "properties": {
+    "prop2": {
+      "type": [
+        "null",
+        "string"
+      ]
+    }
+  },
+  "required": [
+    "prop2"
+  ],
+  "type": "object"
+}
