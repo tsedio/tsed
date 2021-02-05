@@ -17,3 +17,4 @@ export class Model {
   @Any("string", "number", "null") // in v6 not required
   prop3: string | number | null;
 }
+

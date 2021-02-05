@@ -397,6 +397,13 @@ It means, if you use `@tsed/ajv`, now, the validation will fail if you send a di
 
 Add @@Any@@ decorator to fix the issue.
 
+### Enum with BodyParams
+
+Use an enum as default value for a body parameter (or query parameter), will be translated as type `Object` by typescript.
+It means, if you use `@tsed/ajv`, now, the validation will fail if you send a different type as expected in the payload.
+
+<<< @/docs/docs/snippets/controllers/params-post-enum.ts
+
 ### Status decorator
 
 @@Status@@ decorator from `@tsed/schema` is different from `@tsed/common`:

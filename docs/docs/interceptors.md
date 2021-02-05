@@ -1,6 +1,6 @@
 # Interceptors
 
-An interceptor is a class annotated with the @@Interceptor@@ decorator. Interceptors should implement the @@IInterceptor@@ interface.
+An interceptor is a class annotated with the @@Interceptor@@ decorator. Interceptors should implement the @@InterceptorMethods@@ interface.
 
 Interceptors have a set of useful capabilities which are inspired by the [Aspect Oriented Programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming) (AOP) technique.
 
