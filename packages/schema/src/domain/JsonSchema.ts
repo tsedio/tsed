@@ -715,9 +715,6 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
     this.type(types.length === 1 ? types[0] : types);
 
-    // @ts-ignore
-    delete this._target;
-
     return this;
   }
 
