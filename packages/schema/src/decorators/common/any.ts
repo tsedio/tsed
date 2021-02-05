@@ -5,11 +5,6 @@ import {JsonEntityFn} from "./jsonEntityFn";
 /**
  * Set the type of the array items.
  *
- * ::: warning
- * This decorator will be removed in v7.
- * For v6 user, use @@Any@@ from @tsed/schema instead of @tsed/common.
- * :::
- *
  * ## Example
  *
  * ```typescript

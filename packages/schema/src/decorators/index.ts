@@ -62,4 +62,5 @@ export * from "./common/optional";
 export * from "./common/writeOnly";
 export * from "./common/readOnly";
 export * from "./common/customKey";
+export * from "./common/nullable";
 export * from "./config/jsonEntityComponent";
