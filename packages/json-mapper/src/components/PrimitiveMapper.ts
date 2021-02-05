@@ -12,7 +12,7 @@ export class PrimitiveMapper implements JsonMapperMethods {
   deserialize<T>(data: any, ctx: JsonMapperCtx): string | number | boolean | void | null {
     switch (ctx.type) {
       case String:
-        return "" + data;
+        return data === null ? null : "" + data;
 
       case Number:
         if ([null, "null"].includes(data)) return null;

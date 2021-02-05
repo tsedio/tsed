@@ -17,6 +17,7 @@ describe("serialize()", () => {
     it("should serialize values", () => {
       expect(serialize(undefined)).to.eq(undefined);
       expect(serialize(null)).to.eq(null);
+      expect(serialize("null")).to.eq("null");
       expect(serialize(Symbol.for("TEST"))).to.eq("TEST");
       expect(serialize(false)).to.eq(false);
       expect(serialize(true)).to.eq(true);
