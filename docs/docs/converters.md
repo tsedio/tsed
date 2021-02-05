@@ -229,9 +229,16 @@ and import the mapper in your application.
 <<< @/packages/json-mapper/src/components/PrimitiveMapper.ts
   
   </Tab>
-  <Tab label="Cheat sheet">
-    <div style="background: white; padding: 5px 0">
-    
+
+  <Tab label="Spec">
+ 
+<<< @/packages/json-mapper/src/components/PrimitiveMapper.spec.ts
+  
+  </Tab>
+</Tabs>
+
+#### Cheat sheet
+
 Input | Type | Output
 ---|---|---
 `1` | String | `"1"`
@@ -252,15 +259,6 @@ Input | Type | Output
 `""` | Boolean | `false`
 `"null"` | Boolean | `null`
 `undefined` | Boolean | `undefined`
-
-   </div>
-  </Tab>
-  <Tab label="Spec">
- 
-<<< @/packages/json-mapper/src/components/PrimitiveMapper.spec.ts
-  
-  </Tab>
-</Tabs>
 
 ### Symbol
 
