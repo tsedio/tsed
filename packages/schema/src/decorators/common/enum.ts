@@ -110,6 +110,7 @@ const transformTsEnum = (enumValue: any) => {
  * @schema
  * @input
  */
+export function Enum(...enumValues: (JSONSchema6Type | any)[]): Function;
 export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
   return JsonEntityFn((store) => {
     const values = [enumValue].concat(enumValues).reduce((acc, value) => {
