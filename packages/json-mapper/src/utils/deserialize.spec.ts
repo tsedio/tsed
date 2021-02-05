@@ -43,6 +43,7 @@ describe("deserialize()", () => {
   describe("Primitive", () => {
     it("should convert value", () => {
       expect(deserialize(null)).to.equal(null);
+      expect(deserialize(null, {type: String})).to.equal(null);
       expect(deserialize(undefined)).to.equal(undefined);
       expect(deserialize(false)).to.equal(false);
       expect(deserialize(true)).to.equal(true);

@@ -42,6 +42,11 @@ class TestBodyParamsCtrl {
   testScenario6(@BodyParams("type", String) type: keyof typeof MyEnum): any {
     return {type};
   }
+
+  @Post("/scenario-7")
+  testScenario7(@BodyParams("test") value: string): any {
+    return {value};
+  }
 }
 
 export function testBodyParams(options: PlatformTestOptions) {
@@ -161,6 +166,18 @@ export function testBodyParams(options: PlatformTestOptions) {
 
       expect(response.body).to.deep.equal({
         type: "TITLE"
+      });
+    });
+  });
+
+  describe("Scenario7: payload with Null", () => {
+    it("should return value", async () => {
+      const response = await request.post("/rest/body-params/scenario-7").send({
+        test: null
+      });
+
+      expect(response.body).to.deep.equal({
+        value: null
       });
     });
   });
