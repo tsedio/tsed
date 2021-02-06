@@ -279,7 +279,7 @@ Input | Type | Output
 
 ### Date
 
-@@DateMapper@@ is responsible to map a `String` to a `Date` or a `Date` to a `String`.
+@@DateMapper@@ is responsible to map a `Number`, `String` to a `Date` or a `Date` to a `String`.
 
 <Tabs class="-code">
   <Tab label="DateMapper">
