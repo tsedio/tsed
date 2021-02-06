@@ -1,10 +1,9 @@
 ---
 meta:
-- name: description 
-  content: Documentation over Models and decorators provided by Ts.ED framework. Use decorator to
-  build your model and JsonSchema.
-- name: keywords 
-  content: class model decorators ts.ed express typescript node.js javascript jsonschema
+ - name: description 
+   content: Documentation over Models and decorators provided by Ts.ED framework. Use decorator to build your model and JsonSchema.
+ - name: keywords
+   content: class model decorators ts.ed express typescript node.js javascript jsonschema
 ---
 # Model
 
