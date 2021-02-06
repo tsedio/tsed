@@ -10,12 +10,39 @@ on:
       - production
 
 jobs:
-  test-on-linux:
+  lint:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 14.x ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Run lint
+        run: yarn test:lint
+
+  test:
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
         node-version: [ 12.x, 14.x, 15.x ]
+        exclude:
+          - os: macos-latest
+            node-version: 12.x
+          - os: macos-latest
+            node-version: 15.x
+          - os: windows-latest
+            node-version: 12.x
+          - os: windows-latest
+            node-version: 15.x
 
     steps:
       - uses: actions/checkout@v2
@@ -26,43 +53,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Run test
-        run: yarn test && (yarn coveralls || true)
-
-  test-on-mac:
-    runs-on: macos-latest
-
-    strategy:
-      matrix:
-        node-version: [ 14.x ]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Run test
-        run: yarn test:coverage
-
-  test-on-windows:
-    runs-on: windows-latest
-
-    strategy:
-      matrix:
-        node-version: [ 14.x ]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
-      - name: Run test
-        run: yarn test:coverage
+        run: yarn test:coverage && (yarn coveralls || true)
 
   build:
     runs-on: ubuntu-latest
@@ -84,7 +75,7 @@ jobs:
 
   deploy-packages:
     runs-on: ubuntu-latest
-    needs: [test-on-mac, test-on-linux, test-on-windows, build]
+    needs: [lint, test, build]
     if: ${{ github.event_name != 'pull_request' && (contains(github.ref, 'production') || contains(github.ref, 'alpha')  || contains(github.ref, 'beta') || contains(github.ref, 'rc')) }}
 
     strategy:
