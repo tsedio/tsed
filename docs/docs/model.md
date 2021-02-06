@@ -1,12 +1,11 @@
 ---
 meta:
-
-- name: description content: Documentation over Models and decorators provided by Ts.ED framework. Use decorator to
+- name: description 
+  content: Documentation over Models and decorators provided by Ts.ED framework. Use decorator to
   build your model and JsonSchema.
-- name: keywords content: class model decorators ts.ed express typescript node.js javascript jsonschema
-
+- name: keywords 
+  content: class model decorators ts.ed express typescript node.js javascript jsonschema
 ---
-
 # Model
 
 The classes can be used as a model in your application. Ts.ED uses these models to convert JSON objects to their class
