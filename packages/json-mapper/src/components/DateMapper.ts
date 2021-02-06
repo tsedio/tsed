@@ -1,3 +1,4 @@
+import {isBoolean} from "@tsed/core";
 import {JsonMapper} from "../decorators/jsonMapper";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
@@ -8,7 +9,16 @@ import {JsonMapperMethods} from "../interfaces/JsonMapperMethods";
  */
 @JsonMapper(Date)
 export class DateMapper implements JsonMapperMethods {
-  deserialize(data: string): Date {
+  deserialize(data: string | number): Date;
+  deserialize(data: boolean | null | undefined): boolean | null | undefined;
+  deserialize(data: any): any {
+    // don't convert unexpected data. In normal case, Ajv reject unexpected data.
+    // But by default, we have to skip data deserialization and let user to apply
+    // the right mapping
+    if (isBoolean(data) || data === null || data === undefined) {
+      return data;
+    }
+
     return new Date(data);
   }
 
