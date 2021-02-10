@@ -44,6 +44,14 @@ Finally, we can load the injector and use it:
 
 <<< @/docs/docs/snippets/providers/getting-started-serverloader.ts
 
+::: tip NOTE
+You'll notice that we only import the CalendarsCtrl and not the CalendarsService as that would be the case with other DIs (Angular / inversify).
+Ts.ED will discover automatically services/providers as soon as it is imported into your application via an import ES6.
+
+In most case, if a service is used by a controller or another service which is used by a controller, it's not necessary to import it explicitly!
+:::
+
+
 ## Dependency injection
 
 Ts.ED is built around the **dependency injection** pattern. TypeScript emits type metadata on the constructor
