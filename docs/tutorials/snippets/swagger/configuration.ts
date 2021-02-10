@@ -7,7 +7,7 @@ import "@tsed/swagger"; // import swagger Ts.ED module
   swagger: [
     {
       path: "/v2/docs",
-      specVersion: "2.0.0" // by default
+      specVersion: "2.0" // by default
     },
     {
       path: "/v3/docs",
