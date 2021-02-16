@@ -73,7 +73,30 @@ describe("@Inject()", () => {
         test: {
           bindingType: "property",
           propertyKey: "test",
-          useType: String
+          useType: String,
+          onGet: undefined
+        }
+      });
+    });
+
+    it("should store metadata with a onGet function", () => {
+      // GIVEN
+      class Test {
+        test() {}
+      }
+
+      const onGet = () => {};
+      // WHEN
+      Inject(String, onGet)(Test.prototype, "test");
+
+      // THEN
+      const store = Store.from(Test).get(INJECTABLE_PROP);
+      expect(store).to.deep.eq({
+        test: {
+          bindingType: "property",
+          propertyKey: "test",
+          useType: String,
+          onGet
         }
       });
     });

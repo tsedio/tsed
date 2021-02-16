@@ -402,17 +402,19 @@ export class InjectorService extends Container {
   }
 
   /**
+   * Create an injectable property.
    *
    * @param instance
    * @param {string} propertyKey
    * @param {any} useType
+   * @param onGet
    * @param options
    * @param locals
    * @param invokeOptions
    */
   public bindProperty(
     instance: any,
-    {propertyKey, useType, options}: IInjectablePropertyService,
+    {propertyKey, useType, onGet = (f: any) => f, options}: IInjectablePropertyService,
     locals: Map<TokenProvider, any>,
     invokeOptions: Partial<InvokeOptions>
   ) {
@@ -430,7 +432,7 @@ export class InjectorService extends Container {
     }
 
     Object.defineProperty(instance, propertyKey, {
-      get: () => bean
+      get: () => onGet(bean)
     });
   }
 
