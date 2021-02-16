@@ -191,25 +191,37 @@ export class PlatformHandler {
   protected async onRequest(requestOptions: OnRequestOptions): Promise<any> {
     const {metadata, $ctx, err} = requestOptions;
 
-    try {
-      const h = new HandlerContext({
-        $ctx,
-        metadata,
-        args: [],
-        err
-      });
+    return this.run($ctx, async () => {
+      try {
+        const h = new HandlerContext({
+          $ctx,
+          metadata,
+          args: [],
+          err
+        });
 
-      h.args = await this.getArgs(h);
+        h.args = await this.getArgs(h);
 
-      await h.callHandler();
+        await h.callHandler();
 
-      if (h.status === HandlerContextStatus.RESOLVED) {
-        // Can be canceled by the handler itself
-        return await this.onSuccess($ctx.data, requestOptions);
+        if (h.status === HandlerContextStatus.RESOLVED) {
+          // Can be canceled by the handler itself
+          return await this.onSuccess($ctx.data, requestOptions);
+        }
+      } catch (er) {
+        return this.onError(er, requestOptions);
       }
-    } catch (er) {
-      return this.onError(er, requestOptions);
-    }
+    });
+  }
+
+  /**
+   * Allow handler hack for AsyncHookContext plugin.
+   * @param $ctx
+   * @param cb
+   * @protected
+   */
+  run($ctx: PlatformContext, cb: any) {
+    return cb();
   }
 
   protected async onError(er: unknown, requestOptions: OnRequestOptions) {
