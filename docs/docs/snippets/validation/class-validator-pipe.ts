@@ -22,6 +22,6 @@ export class ClassValidationPipe extends ValidationPipe implements IPipe<any> {
   protected shouldValidate(metadata: ParamMetadata): boolean {
     const types: Function[] = [String, Boolean, Number, Array, Object];
 
-    return !super.shouldValidate(metadata) || !types.includes(metadata.type);
+    return !(metadata.type || metadata.collectionType) || !types.includes(metadata.type);
   }
 }
