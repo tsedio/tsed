@@ -15,10 +15,11 @@ import {INJECTABLE_PROP} from "../constants";
  * ```
  *
  * @param symbol
+ * @param onGet Use the given name method to inject
  * @returns {Function}
  * @decorator
  */
-export function Inject(symbol?: any): Function {
+export function Inject(symbol?: any, onGet?: (bean: any) => any): Function {
   return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any | void => {
     const bindingType = decoratorTypeOf([target, propertyKey, descriptor]);
 
@@ -38,6 +39,7 @@ export function Inject(symbol?: any): Function {
           [propertyKey]: {
             bindingType,
             propertyKey,
+            onGet,
             useType: symbol || Metadata.getType(target, propertyKey)
           }
         });
