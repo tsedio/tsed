@@ -1,6 +1,20 @@
+#### v6.26.0
+
+- Add new packages `@tsed/async-hook-context`. See our [documentation over AsyncHookContext](/docs/request-context.md#async-hook-context).
+
+---
+
+#### v6.25.0
+
+- **schema**: Add @@Nullable@@ decorator to declare nullable field.
+
+---
+
 #### v6.24.0
 
-- **formio**: Add new @tsed/formio package (pre-release).
+- **formio**: Add new `@tsed/formio` package (pre-release).
+
+---
 
 #### v6.23.0
 
@@ -8,19 +22,27 @@
 - **di**: Add alterAsync method on LocalsContainer ([aeac3b5](https://github.com/TypedProject/tsed/commit/aeac3b53cae4ce39a2164a663a95c274449387d5))
 - **swagger**: Add disableSpec option ([164a681](https://github.com/TypedProject/tsed/commit/164a681ac7409a42a0521c69aa7c43c144de6d0e))
 
+---
+
 #### v6.22.0
 
-- Add new packages @tsed/adapters-redis ([dd023b1](https://github.com/TypedProject/tsed/commit/dd023b1b159d01e21b3eaec42d8d6e49f42f9280))
+- Add new packages `@tsed/adapters-redis` ([dd023b1](https://github.com/TypedProject/tsed/commit/dd023b1b159d01e21b3eaec42d8d6e49f42f9280))
 - Add readOnly option to FileSyncAdapter ([fbac8c3](https://github.com/TypedProject/tsed/commit/fbac8c360923c96704428bf43be90a400d0cddac))
+
+---
 
 #### v6.21.0
 
 - Add `x-request-id` header to each response.
 - Add documentation over Ts.Logger. See [Logger](/docs/logger.md) page.
 
+---
+
 #### v6.20.1
 
 - Fix swagger spec generation when the status code is 204 ([#1175](https://github.com/TypedProject/tsed/issues/1175)).
+
+---
 
 #### v6.20.0
 

@@ -180,3 +180,71 @@ export class MyMiddleware {
   }
 }
 ```
+
+## AsyncHook context <Badge text="v6.26.0" />
+
+Inject @@PlatformContext@@ from a controller and forward the context to another service could be a pain point. See example:
+
+```typescript
+@Injectable()
+export class CustomRepository {
+  async findById(id: string, ctx: PlatformContext) {
+    ctx.logger.info('Where are in the repository');
+    return {
+      id,
+      headers: this.$ctx?.request.headers
+    };
+  }
+}
+
+@Controller("/async-hooks")
+export class AsyncHookCtrl {
+  @Inject()
+  repository: CustomRepository;
+
+  @Get("/:id")
+  async get(@PathParams("id") id: string, @Context() ctx: PlatformContext) {
+    return this.repository.findById(id, ctx);
+  }
+}
+```
+
+Since v6.26.0, a new package is available to simplify the way to get the @@PlatformContext@@ directly from a Service called by a controller.
+
+This feature uses an experimental Node.js feature [`AsyncLocalStorage`](https://nodejs.org/docs/latest-v14.x/api/async_hooks.html#async_hooks_class_asynclocalstorage) which is only
+available from v13.10.0. So, to avoid a breaking change, you have to install the `@tsed/async-hook-context` package if your environment have the required Node.js
+version.
+
+```bash
+npm install --save @tsed/async-hook-context
+```
+
+With this package, you can inject directly the @@PlatformContext@@ in the service without injecting it in the controller:
+
+```typescript
+@Injectable()
+export class CustomRepository {
+  @InjectContext()
+  $ctx?: PlatformContext;
+
+  async findById(id: string) {
+    this.ctx?.logger.info('Where are in the repository');
+  
+    return {
+      id,
+      headers: this.$ctx?.request.headers
+    };
+  }
+}
+
+@Controller("/async-hooks")
+export class AsyncHookCtrl {
+  @Inject()
+  repository: CustomRepository;
+
+  @Get("/:id")
+  async get(@PathParams("id") id: string) {
+    return this.repository.findById(id);
+  }
+}
+```

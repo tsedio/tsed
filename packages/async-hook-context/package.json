@@ -1,0 +1,41 @@
+{
+  "name": "@tsed/async-hook-context",
+  "version": "6.25.2",
+  "description": "Add Async Hook context support in Ts.ED",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json",
+    "tsc": "tsc --build tsconfig.check.json"
+  },
+  "keywords": [
+    "AsyncHooks",
+    "Express",
+    "Koa",
+    "TypeScript",
+    "typescript",
+    "Decorator",
+    "decorators",
+    "decorator",
+    "express",
+    "koa",
+    "Controller",
+    "Inject",
+    "ioc",
+    "di"
+  ],
+  "dependencies": {
+    "tslib": "2.0.1"
+  },
+  "peerDependencies": {
+    "@tsed/core": "^6.25.2",
+    "@tsed/di": "^6.25.2",
+    "@tsed/common": "^6.25.2"
+  },
+  "private": false,
+  "devDependencies": {
+    "@tsed/core": "6.25.2",
+    "@tsed/di": "6.25.2",
+    "@tsed/common": "6.25.2"
+  }
+}
