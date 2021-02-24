@@ -594,11 +594,12 @@ describe("createSchema", () => {
         enum: MyEnum;
       }
 
-      @Model()
-      class Test9 {
+      class TestWithSet9 {
         @CollectionOf(Children)
         tests: Set<Children>;
       }
+
+      getSchema(TestWithSet9);
     } catch (er) {
       actualError = er;
     }
