@@ -1,9 +1,10 @@
-import {Property} from "@tsed/schema";
 import {decoratorTypeOf, StoreMerge, useDecorators} from "@tsed/core";
+import {registerProvider} from "@tsed/di";
+import {Property} from "@tsed/schema";
 import {SchemaTypeOptions} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
-import {createSchema} from "../utils/createSchema";
+import {getSchema, getSchemaToken} from "../utils/createSchema";
 
 /**
  * Define a class as a Mongoose Schema ready to be used to compose other schemes and models.
@@ -38,7 +39,15 @@ export function Schema(options: MongooseSchemaOptions | SchemaTypeOptions<any> =
         return useDecorators(Property(), StoreMerge(MONGOOSE_SCHEMA, options))(parameters[0], parameters[1], parameters[2]);
 
       case "class":
-        StoreMerge(MONGOOSE_SCHEMA, createSchema(parameters[0], options as MongooseSchemaOptions))(...parameters);
+        const {token} = getSchemaToken(parameters[0], options);
+
+        registerProvider({
+          provide: token,
+          deps: [],
+          useFactory() {
+            return getSchema(parameters[0], options as any);
+          }
+        });
         break;
     }
   };

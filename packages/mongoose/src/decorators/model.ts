@@ -1,10 +1,9 @@
-import {nameOf, Store} from "@tsed/core";
-import {MONGOOSE_MODEL_NAME} from "../constants";
+import {registerProvider} from "@tsed/di";
+import {Schema} from "mongoose";
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions";
 import {registerModel} from "../registries/MongooseModelRegistry";
-import {MongooseModels} from "../registries/MongooseModels";
 import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections";
-import {createModel, getSchema} from "../utils";
+import {createModel, getModelToken, getSchema, getSchemaToken} from "../utils";
 import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions";
 
 /**
@@ -46,19 +45,23 @@ import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions";
  */
 export function Model(options: MongooseModelOptions = {}) {
   return (target: any) => {
-    const name = options.name || nameOf(target);
-    Store.from(target).set(MONGOOSE_MODEL_NAME, name);
-    MongooseModels.set(name, target);
+    const {token, collectionName} = getModelToken(target, options);
 
-    const schema = getSchema(target, options);
+    registerProvider({
+      provide: token,
+      deps: [],
+      useFactory() {
+        return getSchema(target, options as any);
+      }
+    });
 
     registerModel({
       provide: target,
-      deps: [MONGOOSE_CONNECTIONS],
-      useFactory(connections: MONGOOSE_CONNECTIONS) {
+      deps: [MONGOOSE_CONNECTIONS, token],
+      useFactory(connections: MONGOOSE_CONNECTIONS, schema: Schema) {
         applySchemaOptions(schema, schemaOptions(target));
 
-        return createModel(target, schema, options.name, options.collection, options.skipInit, connections.get(options.connection));
+        return createModel(target, schema, collectionName, options.collection, options.skipInit, connections.get(options.connection));
       }
     });
   };

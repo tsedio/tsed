@@ -1,6 +1,8 @@
-import {cleanObject, Store, Type} from "@tsed/core";
+import {cleanObject, nameOf, Store, Type} from "@tsed/core";
+import {registerProvider} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {getProperties, JsonEntityStore} from "@tsed/schema";
+import {pascalCase} from "change-case";
 import mongoose, {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
@@ -61,6 +63,8 @@ export function createSchema(target: Type<any>, options: MongooseSchemaOptions =
 
   schema.loadClass(target);
 
+  Store.from(target).set(MONGOOSE_SCHEMA, schema);
+
   return schema;
 }
 
@@ -73,10 +77,17 @@ export function getSchema(target: Type<any>, options: MongooseSchemaOptions = {}
   const store = Store.from(target);
 
   if (!store.has(MONGOOSE_SCHEMA)) {
-    store.set(MONGOOSE_SCHEMA, createSchema(target, options));
+    createSchema(target, options);
   }
 
   return store.get(MONGOOSE_SCHEMA);
+}
+
+export function getSchemaToken(target: Type<any>, options?: any) {
+  const collectionName = options.name || nameOf(target);
+  const token = Symbol.for(pascalCase(`${collectionName}Schema`));
+
+  return {token, collectionName};
 }
 
 /**
