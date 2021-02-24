@@ -8,3 +8,4 @@ export * from "./JsonFormatTypes";
 export * from "./SpecTypes";
 export * from "./JsonEntityStore";
 export * from "./JsonParameterTypes";
+export * from "./JsonLazyRef";
