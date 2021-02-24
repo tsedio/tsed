@@ -1,6 +1,6 @@
 import {isArrowFn, isString, StoreMerge, Type, useDecorators} from "@tsed/core";
 import {OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
-import {JsonEntityFn, JsonEntityStore, Property, string} from "@tsed/schema";
+import {JsonEntityFn, lazyRef, Property, string} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
@@ -63,13 +63,8 @@ export function Ref(model: string | (() => Type) | any, type: MongooseSchemaType
 
       return serialize(value, {...ctx, type});
     }),
-    JsonEntityFn((store) => {
-      const type = getType();
-
-      store.itemSchema.oneOf([
-        string().example("5ce7ad3028890bd71749d477").description("Mongoose Ref ObjectId"),
-        JsonEntityStore.from(type).schema as any
-      ]);
+    JsonEntityFn(async (store) => {
+      store.itemSchema.oneOf([string().example("5ce7ad3028890bd71749d477").description("Mongoose Ref ObjectId"), lazyRef(getType)]);
 
       store.type = Object;
     })

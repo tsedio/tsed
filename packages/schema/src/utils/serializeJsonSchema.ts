@@ -1,5 +1,6 @@
 import {classOf, cleanObject, deepExtends, isArray, isObject} from "@tsed/core";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
+import {JsonLazyRef} from "../domain/JsonLazyRef";
 import {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
 import {alterIgnore} from "../hooks/alterIgnore";
@@ -151,6 +152,20 @@ export function serializeObject(input: any, options: JsonSchemaOptions) {
   );
 }
 
+export function serializeLazyRef(input: JsonLazyRef, options: JsonSchemaOptions) {
+  const name = input.name;
+
+  if (options.$refs?.find((t: any) => t === input.target)) {
+    return createRef(name, options);
+  }
+
+  options.$refs = [...(options.$refs || []), input.target];
+
+  const schema = input.toJSON(mapGenericsOptions(options));
+
+  return toRef(input.schema, schema, options);
+}
+
 /**
  * @ignore
  */
@@ -159,6 +174,10 @@ export function serializeAny(input: any, options: JsonSchemaOptions = {}) {
 
   if (typeof input !== "object" || input === null) {
     return input;
+  }
+
+  if (input instanceof JsonLazyRef) {
+    return serializeLazyRef(input, options);
   }
 
   if ("toJSON" in input) {
