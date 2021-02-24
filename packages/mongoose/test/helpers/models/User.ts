@@ -79,3 +79,13 @@ export class TestProfile extends BaseModel {
   user: Ref<TestUser>;
 }
 
+
+@Model({ schemaOptions: { timestamps: true } })
+export class SelfUser {
+
+  @ObjectID()
+  _id: string;
+
+  @Ref(() => SelfUser)
+  createdBy: Ref<SelfUser>;
+}
