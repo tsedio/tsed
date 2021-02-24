@@ -6,6 +6,7 @@ import {expect} from "chai";
 import {MongooseModel} from "../src";
 import {TestContract} from "./helpers/models/Contract";
 import {TestCustomer} from "./helpers/models/Customer";
+import {SelfUser} from "./helpers/models/User";
 
 @Injectable()
 class MyService {
@@ -14,6 +15,9 @@ class MyService {
 
   @Inject(TestCustomer)
   customer: MongooseModel<TestCustomer>;
+
+  @Inject(SelfUser)
+  user: MongooseModel<SelfUser>;
 }
 
 describe("Circular Ref", () => {
@@ -25,8 +29,63 @@ describe("Circular Ref", () => {
     expect(!!service.contract).to.be.true;
     expect(!!service.customer).to.be.true;
 
+
     expect(getJsonSchema(TestContract)).to.deep.equal({
       "definitions": {
+        "SelfUser": {
+          "properties": {
+            "_id": {
+              "description": "Mongoose ObjectId",
+              "examples": [
+                "5ce7ad3028890bd71749d477"
+              ],
+              "pattern": "^[0-9a-fA-F]{24}$",
+              "type": "string"
+            },
+            "createdBy": {
+              "oneOf": [
+                {
+                  "description": "Mongoose Ref ObjectId",
+                  "examples": [
+                    "5ce7ad3028890bd71749d477"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/definitions/SelfUser"
+                }
+              ]
+            }
+          },
+          "type": "object"
+        },
+        "TestClient": {
+          "properties": {
+            "_id": {
+              "description": "Mongoose ObjectId",
+              "examples": [
+                "5ce7ad3028890bd71749d477"
+              ],
+              "pattern": "^[0-9a-fA-F]{24}$",
+              "type": "string"
+            },
+            "users": {
+              "oneOf": [
+                {
+                  "description": "Mongoose Ref ObjectId",
+                  "examples": [
+                    "5ce7ad3028890bd71749d477"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/definitions/SelfUser"
+                }
+              ]
+            }
+          },
+          "type": "object"
+        },
         "TestContract": {
           "properties": {
             "_id": {
@@ -63,6 +122,20 @@ describe("Circular Ref", () => {
               ],
               "pattern": "^[0-9a-fA-F]{24}$",
               "type": "string"
+            },
+            "client": {
+              "oneOf": [
+                {
+                  "description": "Mongoose Ref ObjectId",
+                  "examples": [
+                    "5ce7ad3028890bd71749d477"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/definitions/TestClient"
+                }
+              ]
             },
             "contracts": {
               "items": {
@@ -112,4 +185,66 @@ describe("Circular Ref", () => {
       "type": "object"
     });
   });
+  it('should resolve correctly a self reference', async() => {
+    const service = await PlatformTest.invoke<MyService>(MyService);
+
+    expect(!!service.user).to.be.true;
+
+    expect(getJsonSchema(SelfUser)).to.deep.equal({
+      "definitions": {
+        "SelfUser": {
+          "properties": {
+            "_id": {
+              "description": "Mongoose ObjectId",
+              "examples": [
+                "5ce7ad3028890bd71749d477"
+              ],
+              "pattern": "^[0-9a-fA-F]{24}$",
+              "type": "string"
+            },
+            "createdBy": {
+              "oneOf": [
+                {
+                  "description": "Mongoose Ref ObjectId",
+                  "examples": [
+                    "5ce7ad3028890bd71749d477"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/definitions/SelfUser"
+                }
+              ]
+            }
+          },
+          "type": "object"
+        }
+      },
+      "properties": {
+        "_id": {
+          "description": "Mongoose ObjectId",
+          "examples": [
+            "5ce7ad3028890bd71749d477"
+          ],
+          "pattern": "^[0-9a-fA-F]{24}$",
+          "type": "string"
+        },
+        "createdBy": {
+          "oneOf": [
+            {
+              "description": "Mongoose Ref ObjectId",
+              "examples": [
+                "5ce7ad3028890bd71749d477"
+              ],
+              "type": "string"
+            },
+            {
+              "$ref": "#/definitions/SelfUser"
+            }
+          ]
+        }
+      },
+      "type": "object"
+    });
+  })
 });

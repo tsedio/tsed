@@ -252,16 +252,20 @@ export function oneOf(...oneOf: any[]) {
 export function allOf(...allOf: any[]) {
   return from().allOf(allOf);
 }
+
 /**
  * Declare a sub schema which will be resolved later. Use this function when you have a circular reference between two schemes.
  *
  * @schemaFunctional
  */
 export function lazyRef(cb: () => Type<any>) {
-  if (cb()) {
-    // type is already accessible
-    return JsonEntityStore.from(cb()).schema as any;
-  }
+  try {
+    // solve issue with a self referenced model
+    if (cb()) {
+      // type is already accessible
+      return JsonEntityStore.from(cb()).schema as any;
+    }
+  } catch (er) {}
 
   return new JsonLazyRef(cb);
 }
