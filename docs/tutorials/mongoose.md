@@ -152,6 +152,14 @@ This means the reference cannot know the referred class directly at runtime.
 
 <<< @/docs/tutorials/snippets/mongoose/references-circular.ts
 
+### Circular References
+`@tsed/mongoose` supports `mongoose` circular references between defined models.
+When you have models that either both refer to each other, or refer to themselves there is a slightly different way to declare this inside those models.
+
+In this example a **Customer** has many **Contracts** and each **Contract** has a reference back to the **Customer**. This is declared using an arrow function. ```() => ModelName```
+
+<<<@/docs/tutorials/snippets/mongoose/extended-circular-reference.ts
+
 ### Virtual References
 
 `@tsed/mongoose` supports `mongoose` virtual references between defined models.
