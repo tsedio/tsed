@@ -147,11 +147,6 @@ Mongoose and `@tsed/mongoose` support both lists and maps.
 
 <<< @/docs/tutorials/snippets/mongoose/references.ts
 
-Be aware of circular dependencies. Direct references must be declared after the referred class has been declared. 
-This means the reference cannot know the referred class directly at runtime.
-
-<<< @/docs/tutorials/snippets/mongoose/references-circular.ts
-
 ### Circular References
 `@tsed/mongoose` supports `mongoose` circular references between defined models.
 When you have models that either both refer to each other, or refer to themselves there is a slightly different way to declare this inside those models.
@@ -164,8 +159,7 @@ In this example a **Customer** has many **Contracts** and each **Contract** has 
 
 `@tsed/mongoose` supports `mongoose` virtual references between defined models.
 
-Be aware of circular dependencies. Direct references must be declared after the referred class has been declared. 
-This means the virtual reference cannot know the referred class directly at runtime.
+The same rules for Circular References apply (**See above**);
 
 <<< @/docs/tutorials/snippets/mongoose/virtual-references.ts
 
