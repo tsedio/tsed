@@ -1,11 +1,14 @@
 import "@tsed/ajv";
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/graphql";
+import "@tsed/passport";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
+import {buildContext} from "graphql-passport";
 import methodOverride from "method-override";
 import {resolve} from "path";
+import {User} from "./graphql/auth/User";
 
 const rootDir = resolve(__dirname);
 
@@ -18,14 +21,25 @@ const rootDir = resolve(__dirname);
     logRequest: true
   },
   mount: {},
-  componentsScan: ["${rootDir}/services/**/*.ts", "${rootDir}/graphql/**/*.ts"],
+  componentsScan: ["${rootDir}/services/**/*.ts", "${rootDir}/graphql/**/*.ts", "${rootDir}/protocols/**/*.ts"],
   graphql: {
     default: {
       path: "/api/graphql",
       buildSchemaOptions: {
         emitSchemaFile: resolve(__dirname, "../resources/schema.gql")
+      },
+      serverConfig: {
+        context({req, res}) {
+          return buildContext({req, res, User});
+        }
+      },
+      serverRegistration: {
+        cors: false
       }
     }
+  },
+  passport: {
+    userInfoModel: User
   }
 })
 export class Server {
