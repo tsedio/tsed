@@ -1,11 +1,11 @@
-import {ISeqSettings} from "./ISeqSettings";
+import {LoggerSeqSettings} from "./LoggerSeqSettings";
 
 declare global {
   namespace TsED {
     interface Configuration {
-      seq: ISeqSettings;
+      seq: LoggerSeqSettings;
     }
   }
 }
 
-export * from "./ISeqSettings";
+export * from "./LoggerSeqSettings";
