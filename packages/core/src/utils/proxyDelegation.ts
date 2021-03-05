@@ -13,7 +13,7 @@ export type ProxyDelegationSetter<T = any> = (target: T, property: PropertyKey, 
 /**
  * @ignore
  */
-export type ProxyDelegationOwnKeys<T = any> = (target: T) => PropertyKey[];
+export type ProxyDelegationOwnKeys<T = any> = (target: T) => (string | symbol)[];
 /**
  * @ignore
  */
@@ -80,7 +80,7 @@ export function proxyDelegation<T extends object = any>(self: any, options: Prox
       return Reflect.defineProperty(target, p, attributes);
     },
 
-    ownKeys(target: any): PropertyKey[] {
+    ownKeys(target: any) {
       return Reflect.ownKeys(target).concat((ownKeys && ownKeys(target)) || []);
     },
     ...handlers

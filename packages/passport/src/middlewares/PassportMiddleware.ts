@@ -57,7 +57,7 @@ export class PassportMiddleware {
 
       await new Promise((resolve, reject) => {
         middleware(request, response, (err: any) => {
-          err ? reject(err) : resolve();
+          err ? reject(err) : resolve(undefined);
         });
       });
     } catch (er) {
