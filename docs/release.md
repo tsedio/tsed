@@ -1,3 +1,72 @@
+#### v6.28.0
+
+- Add middlewares options to the Server configuration. 
+
+Provide a middleware list (Express.js, Ts.ED, Koa, etc...) which must be loaded on the `$beforeRoutesInit` hook or on the specified hook.
+In addition, it's also possible to configure the `environment` for which the middleware should be loaded.
+
+Here is an example to load middlewares with the previous version (this example will be always available!):
+
+```typescript
+import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
+import {Env} from "@tsed/core";
+
+@Configuration({})
+export class Server {
+  $afterInit(){
+    this.app.use(helmet({contentSecurityPolicy: false}))
+  }
+  $beforeRoutesInit() {
+    if (this.env === Env.PROD) {
+      this.app.use(EnsureHttpsMiddleware);
+    }
+
+    this.app
+      .use(cors())
+      .use(cookieParser())
+      .use(compress({}))
+      .use(methodOverride())
+      .use(bodyParser.json())
+      .use(bodyParser.urlencoded({
+        extended: true
+      }))
+      .use(AuthTokenMiddleware);
+
+    return null;
+  }
+}
+```
+
+After v6.28.0, you can use the middlewares options as alternative way to load middlewares:
+
+```typescript
+import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
+
+@Configuration({
+  middlewares: [
+    {hook: '$afterInit', use: helmet({contentSecurityPolicy: false})},
+    {env: Env.PROD, use: EnsureHttpsMiddleware},
+    cors(),
+    cookieParser(),
+    compress({}),
+    methodOverride(),
+    bodyParser.json(),
+    bodyParser.urlencoded({
+      extended: true
+    }),
+    AuthTokenMiddleware
+  ]
+})
+export class Server {
+}
+```
+
+::: warning Order priority
+The middlewares added through `middlewares` options will always be registered after the middlewares registered through the hook methods!
+:::
+
+---
+
 #### v6.26.0
 
 - Add new packages `@tsed/async-hook-context`. See our [documentation over AsyncHookContext](/docs/request-context.md#async-hook-context).

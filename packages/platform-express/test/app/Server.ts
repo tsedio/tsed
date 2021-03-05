@@ -25,7 +25,32 @@ export const rootDir = __dirname;
     extensions: {
       ejs: "ejs"
     }
-  }
+  },
+  middlewares: [
+    cookieParser(),
+    compress({}),
+    methodOverride(),
+    bodyParser.json(),
+    bodyParser.urlencoded({
+      extended: true
+    }),
+    session({
+      secret: "keyboard cat", // change secret key
+      resave: false,
+      saveUninitialized: true,
+      cookie: {
+        secure: false // set true if HTTPS is enabled
+      }
+    }),
+    {
+      hook: "$afterInit", use: (req: any, res: any, next: any) => {
+        next();
+      }
+    },
+    (req: any, res: any, next: any) => {
+      setTimeout(next, 100);
+    }
+  ]
 })
 export class Server {
   @Inject()
@@ -38,31 +63,5 @@ export class Server {
     this.app.getApp().set("query parser", (queryString: string) => {
       return parse(queryString);
     });
-  }
-
-  $beforeRoutesInit() {
-    this.app
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      )
-      .use(
-        session({
-          secret: "keyboard cat", // change secret key
-          resave: false,
-          saveUninitialized: true,
-          cookie: {
-            secure: false // set true if HTTPS is enabled
-          }
-        })
-      )
-      .use((req: any, res: any, next: any) => {
-        setTimeout(next, 100);
-      });
   }
 }

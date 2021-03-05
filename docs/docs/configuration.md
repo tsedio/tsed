@@ -171,6 +171,72 @@ It is also possible to split the configuration by using the @@Module@@:
 
 List of glob pattern to scan directories which contains [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
 
+### middlewares <Badge text="v6.28.0+" />
+
+- type: `PlatformMiddlewareSettings[]`
+
+A middleware list (Express.js, Ts.ED, Koa, etc...) must be loaded on the `$beforeRoutesInit` hook or on the specified hook. 
+In addition, it's also possible to configure the environment for which the middleware should be loaded.
+
+Here is an example to load middlewares with the previous version (this example will be always available!):
+
+```typescript
+import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
+import {Env} from "@tsed/core";
+
+@Configuration({})
+export class Server {
+  $afterInit(){
+    this.app.use(helmet({contentSecurityPolicy: false}))
+  }
+  $beforeRoutesInit() {
+    if (this.env === Env.PROD) {
+      this.app.use(EnsureHttpsMiddleware);
+    }
+
+    this.app
+      .use(cors())
+      .use(cookieParser())
+      .use(compress({}))
+      .use(methodOverride())
+      .use(bodyParser.json())
+      .use(bodyParser.urlencoded({
+        extended: true
+      }))
+      .use(AuthTokenMiddleware);
+
+    return null;
+  }
+}
+```
+
+After v6.28.0, you can use the middlewares options as follows:
+
+```typescript
+import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
+
+@Configuration({
+  middlewares: [
+    {hook: '$afterInit', use: helmet({contentSecurityPolicy: false})},
+    {env: Env.PROD, use: EnsureHttpsMiddleware},
+    cors(),
+    cookieParser(),
+    compress({}),
+    methodOverride(),
+    bodyParser.json(),
+    bodyParser.urlencoded({
+      extended: true
+    }),
+    AuthTokenMiddleware
+  ]
+})
+export class Server {
+}
+```
+::: warning Order priority
+The middlewares added through `middlewares` options will always be registered after the middlewares registered through the hook methods!
+:::
+
 ### imports
 
 - type: `Type<any>[]`

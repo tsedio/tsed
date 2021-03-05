@@ -1,12 +1,15 @@
 import {Env, Type} from "@tsed/core";
 import Https from "https";
+import {ResponseFilterMethods} from "../../platform-response-filter/interfaces/ResponseFilterMethods";
 import {ConverterSettings} from "./ConverterSettings";
 import {EndpointDirectoriesSettings} from "./EndpointDirectoriesSettings";
 import {PlatformLoggerSettings} from "./PlatformLoggerSettings";
 import {PlatformMulterSettings} from "./PlatformMulterSettings";
 import {PlatformStaticsSettings} from "./PlatformStaticsSettings";
 import {PlatformViewsSettings} from "./PlatformViewsSettings";
-import {ResponseFilterMethods} from "../../platform-response-filter/interfaces/ResponseFilterMethods";
+
+export type PlatformMiddlewareLoadingOptions = {env?: Env; use: Function | Type<any>; hook?: string};
+export type PlatformMiddlewareSettings = Function | Type<any> | PlatformMiddlewareLoadingOptions;
 
 declare global {
   namespace TsED {
@@ -75,6 +78,10 @@ declare global {
        * Object configure Multer. See more on [Upload file](/tutorials/serve-static-files.md).
        */
       multer: PlatformMulterSettings;
+      /**
+       * Load middlewares on the $beforeRoutesInit hook (or on the specified hook event name).
+       */
+      middlewares: PlatformMiddlewareSettings[];
       /**
        * Object to configure Views engines with Consolidate. See more on [View engine](/docs/template-engine.md).
        */
