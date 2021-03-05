@@ -39,7 +39,8 @@ module.exports = {
       end: new Date().getFullYear()
     },
     repo: "TypedProject/tsed",
-    openCollective: "tsed",
+    docsRepo: 'https://api.tsed.io/rest/github/TypedProject/tsed',
+    openCollective: 'https://api.tsed.io/rest/opencollective',
     gitterUrl: "https://gitter.im/Tsed-io/community",
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
     sponsorUrl: "https://tsed.io/support.html",
