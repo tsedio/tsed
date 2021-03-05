@@ -79,7 +79,7 @@
   },
   "homepage": "http://tsed.io/",
   "dependencies": {
-    "@tsed/logger": "^5.5.4",
+    "@tsed/logger": "^5.6.0",
     "ajv": "7.0.1",
     "consolidate": "0.16.0",
     "ejs": "^3.1.5",

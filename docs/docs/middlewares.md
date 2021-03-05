@@ -10,7 +10,7 @@ This method can use all parameters decorators as you could see with the [Control
 
 ## Configuration
 
-To begin, you must add the `middlewares` folder on the `componentsScan` attribute in your server settings as follow :
+To begin, you must add the `middlewares` folder on the `componentsScan` attribute in your server settings as follows:
 
 <<< @/docs/docs/snippets/middlewares/server-configuration.ts
 
@@ -38,6 +38,36 @@ Global middlewares are generally used to handle requests before or after control
 Then add your middleware on the Server by using the right hook:
 
 <<< @/docs/docs/snippets/middlewares/global-middleware-configuration.ts
+
+::: tip
+Since v6.28.0, it's also possible to register middlewares from `middlewares` options on @@Configuration@@ decorator.
+In addition, it's also possible to configure the environment for which the middleware should be loaded.
+
+```typescript
+import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
+
+@Configuration({
+  middlewares: [
+    {hook: '$afterInit', use: helmet({contentSecurityPolicy: false})},
+    {env: Env.PROD, use: EnsureHttpsMiddleware},
+    cors(),
+    cookieParser(),
+    compress({}),
+    methodOverride(),
+    bodyParser.json(),
+    bodyParser.urlencoded({
+      extended: true
+    }),
+    AuthTokenMiddleware
+  ]
+})
+export class Server {
+}
+```
+
+The middlewares added through `middlewares` options will always be registered after the middlewares registered through the hook methods!
+
+:::
 
 ## Endpoint middleware 
 

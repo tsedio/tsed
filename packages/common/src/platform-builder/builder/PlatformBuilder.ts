@@ -1,5 +1,6 @@
-import {classOf, constructorOf, nameOf, Type} from "@tsed/core";
+import {classOf, constructorOf, isFunction, nameOf, Type} from "@tsed/core";
 import {Container, createContainer, getConfiguration, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
+import {PlatformMiddlewareLoadingOptions} from "../../config/interfaces";
 import {
   GlobalAcceptMimesMiddleware,
   IRoute,
@@ -166,6 +167,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   async loadInjector() {
     const {injector, logger} = this;
     await this.callHook("$beforeInit");
+    this.loadMiddlewaresFor("$beforeInit");
 
     logger.info("Build providers");
 
@@ -173,14 +175,17 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
     logger.debug("Settings and injector loaded");
     await this.callHook("$afterInit");
+    this.loadMiddlewaresFor("$afterInit");
   }
 
   async listen() {
     await this.callHook("$beforeListen");
+    this.loadMiddlewaresFor("$beforeListen");
 
     await this.listenServers();
 
     await this.callHook("$afterListen");
+    this.loadMiddlewaresFor("$afterListen");
 
     await this.ready();
   }
@@ -194,13 +199,46 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     const {logger, startedAt} = this;
 
     await this.callHook("$onReady");
+    this.loadMiddlewaresFor("$onReady");
     await this.injector.emit("$onServerReady");
 
     logger.info(`Started in ${new Date().getTime() - startedAt.getTime()} ms`);
   }
 
-  callHook(key: string, ...args: any[]) {
-    return callHook(this.injector, this.rootModule, key, ...args);
+  async callHook(key: string, ...args: any[]) {
+    await callHook(this.injector, this.rootModule, key, ...args);
+  }
+
+  /**
+   * Load middlewares from configuration for the given hook
+   * @param hook
+   * @protected
+   */
+  protected loadMiddlewaresFor(hook: string): void {
+    const {settings} = this;
+    const {env, middlewares = []} = settings;
+    const defaultHook = "$beforeRoutesInit";
+
+    middlewares
+      .map<PlatformMiddlewareLoadingOptions>((middleware) => {
+        return isFunction(middleware)
+          ? {
+              env,
+              hook: defaultHook,
+              use: middleware
+            }
+          : {
+              env,
+              hook: defaultHook,
+              ...middleware
+            };
+      })
+      .filter((options) => {
+        return options.use && options.env === env && options.hook === hook;
+      })
+      .forEach(({use}) => {
+        this.app.use(use);
+      });
   }
 
   async loadStatics(): Promise<void> {
@@ -286,15 +324,18 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     }
 
     logger.info("Load routes");
-    await this.callHook("$beforeRoutesInit"); // deprecated
+    await this.callHook("$beforeRoutesInit");
+    this.loadMiddlewaresFor("$beforeRoutesInit");
 
     platform.addRoutes(routes);
 
     await this.callHook("$onRoutesInit");
+    this.loadMiddlewaresFor("$onRoutesInit");
 
     await this.loadStatics();
 
     await this.callHook("$afterRoutesInit");
+    this.loadMiddlewaresFor("$afterRoutesInit");
   }
 
   protected createInjector(module: Type<any>, settings: any) {
