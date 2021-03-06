@@ -1,6 +1,6 @@
 {
   "name": "@tsed/oidc-provider",
-  "version": "6.28.0",
+  "version": "6.28.1",
   "description": "OIDC provider package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -9,7 +9,7 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "@tsed/adapters": "6.28.0",
+    "@tsed/adapters": "6.28.1",
     "@types/lowdb": "1.0.9",
     "@types/uuid": "8.3.0",
     "lowdb": "1.0.0",
@@ -18,8 +18,8 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.28.0",
-    "@tsed/core": "6.28.0",
+    "@tsed/common": "6.28.1",
+    "@tsed/core": "6.28.1",
     "oidc-provider": "6.29.9"
   },
   "peerDependencies": {
