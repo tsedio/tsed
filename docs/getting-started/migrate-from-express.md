@@ -78,12 +78,12 @@ the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compila
 options in your `tsconfig.json` file.
 :::
 
-<<< @/docs/getting-started/snippets/migrate-from-express/tsconfig.json
+<<< @/getting-started/snippets/migrate-from-express/tsconfig.json
 
 ::: tip
 You can use this example of `package.json` to add npm tasks and dependencies:
 
-<<< @/docs/getting-started/snippets/base/package.json
+<<< @/getting-started/snippets/base/package.json
 :::
 
 ## Create server
@@ -95,7 +95,7 @@ isn't coupled with Express itself, and can be used with another Platform like Ko
 Ts.ED provides a @@Configuration@@ decorator to declare a new application. 
 Just create a `server.ts` in your root project :
 
-<<< @/docs/getting-started/snippets/migrate-from-express/server.ts
+<<< @/getting-started/snippets/migrate-from-express/server.ts
 
 To customize the server settings see [Configuration](configuration.md) page.
 
@@ -104,12 +104,12 @@ Finally, create an `index.ts` file to bootstrap your server with the legacy expr
 <Tabs class="-code">
   <Tab label="Bootstrap">
   
-<<< @/docs/getting-started/snippets/migrate-from-express/bootstrap.ts
+<<< @/getting-started/snippets/migrate-from-express/bootstrap.ts
 
   </Tab>
   <Tab label="server.js">
   
-<<< @/docs/getting-started/snippets/migrate-from-express/server.js
+<<< @/getting-started/snippets/migrate-from-express/server.js
   
   </Tab>
 </Tabs>

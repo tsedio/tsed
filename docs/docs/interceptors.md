@@ -26,13 +26,13 @@ To create an interceptor class you need to implement the `IInterceptor` interfac
 `intercept(context: IInterceptorContext<any>, next?: IInterceptorNextHandler)` method, and use the `@Interceptor()` annotation to register your interceptor class.
 Inside your `src/interceptors/MyInterceptor.ts` folder, create the following simple interceptor.
 
-<<< @/docs/docs/snippets/interceptors/interceptor-example.ts
+<<< @/docs/snippets/interceptors/interceptor-example.ts
 
 ## Use the interceptor
 
 Now that your interceptor logic is in place, you can use it in any other service. You need to use the `@Intercept(InterceptorClass, opts)` annotation to register which interceptor should be used for the specific method you want to intercept. An example service in `src/services/MyService.ts`:
 
-<<< @/docs/docs/snippets/interceptors/interceptor-usage.ts
+<<< @/docs/snippets/interceptors/interceptor-usage.ts
 
 If the service method is executed like `myServiceInstance.mySimpleMethod()` we will get the following output:
 

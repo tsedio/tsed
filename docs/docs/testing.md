@@ -171,17 +171,17 @@ Here is an example to test the ParseService:
 <Tabs class="-code">
   <Tab label="Jest">
 
-<<< @/docs/docs/snippets/testing/parse-service.jest.spec.ts
+<<< @/docs/snippets/testing/parse-service.jest.spec.ts
 
   </Tab>
   <Tab label="Mocha">
 
-<<< @/docs/docs/snippets/testing/parse-service.mocha.spec.ts
+<<< @/docs/snippets/testing/parse-service.mocha.spec.ts
 
   </Tab>
   <Tab label="ParseService.ts">
 
-<<< @/docs/docs/snippets/testing/parse-service.ts
+<<< @/docs/snippets/testing/parse-service.ts
 
   </Tab>  
 </Tabs>
@@ -194,12 +194,12 @@ Testing asynchronous method is also possible using `Promises` (`async`/`await`):
 <Tabs class="-code">
   <Tab label="Jest">
 
-<<< @/docs/docs/snippets/testing/db-service-async-await.jest.ts
+<<< @/docs/snippets/testing/db-service-async-await.jest.ts
 
   </Tab>
   <Tab label="Mocha">
 
-<<< @/docs/docs/snippets/testing/db-service-async-await.mocha.ts
+<<< @/docs/snippets/testing/db-service-async-await.mocha.ts
 
   </Tab>
 </Tabs>
@@ -211,12 +211,12 @@ PlatformTest API provides an `invoke` method to create a new instance of your co
 <Tabs class="-code">
   <Tab label="Jest">
 
-<<< @/docs/docs/snippets/testing/db-service-mock-dependencies.jest.ts
+<<< @/docs/snippets/testing/db-service-mock-dependencies.jest.ts
 
   </Tab>
   <Tab label="Mocha">
 
-<<< @/docs/docs/snippets/testing/db-service-mock-dependencies.mocha.ts
+<<< @/docs/snippets/testing/db-service-mock-dependencies.mocha.ts
 
   </Tab> 
 </Tabs>
@@ -254,12 +254,12 @@ $ npm install --save-dev supertest @types/supertest
 <Tabs class="-code">
   <Tab label="Jest">
 
-<<< @/docs/docs/snippets/testing/supertest.jest.ts
+<<< @/docs/snippets/testing/supertest.jest.ts
 
   </Tab>
   <Tab label="Mocha">
 
-<<< @/docs/docs/snippets/testing/supertest.mocha.ts
+<<< @/docs/snippets/testing/supertest.mocha.ts
 
   </Tab> 
 </Tabs>
@@ -282,12 +282,12 @@ To install session with Ts.ED see our [tutorial](/tutorials/session.md).
 <Tabs class="-code">
 <Tab label="Jest">
 
-<<< @/docs/tutorials/snippets/session/example-test.jest.ts
+<<< @/tutorials/snippets/session/example-test.jest.ts
 
 </Tab>
 <Tab label="Mocha">
 
-<<< @/docs/tutorials/snippets/session/example-test.mocha.ts
+<<< @/tutorials/snippets/session/example-test.mocha.ts
 
 </Tab>
 </Tabs>

@@ -340,27 +340,27 @@ Now, we need to add the Views to display our login page. Create a views director
 <Tabs class="-code">
   <Tab label="login.ejs">
 
-<<< packages/oidc-provider/test/app/views/login.ejs
+<<< @/../packages/oidc-provider/test/app/views/login.ejs
 
   </Tab>
   <Tab label="forms/login-form.ejs">
 
-<<< packages/oidc-provider/test/app/views/forms/login-form.ejs
+<<< @/../packages/oidc-provider/test/app/views/forms/login-form.ejs
     
   </Tab>
   <Tab label="partials/header.ejs">
    
-<<< packages/oidc-provider/test/app/views/partials/header.ejs      
+<<< @/../packages/oidc-provider/test/app/views/partials/header.ejs      
       
   </Tab>
   <Tab label="partials/footer.ejs">
 
-<<< packages/oidc-provider/test/app/views/partials/footer.ejs   
+<<< @/../packages/oidc-provider/test/app/views/partials/footer.ejs   
     
   </Tab>
   <Tab label="partials/login-help.ejs">
   
-<<< packages/oidc-provider/test/app/views/partials/login-help.ejs   
+<<< @/../packages/oidc-provider/test/app/views/partials/login-help.ejs   
   
   </Tab>
 </Tabs>

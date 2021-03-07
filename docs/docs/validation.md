@@ -17,14 +17,14 @@ Ts.ED support the data input validation with the decorators provided by `@tsed/s
 
 Example:
 
-<<< @/docs/docs/snippets/controllers/request-input-validation.ts
+<<< @/docs/snippets/controllers/request-input-validation.ts
 
 ## Custom Validation 
 
 Ts.ED allows you to change the default @@ValidationPipe@@ by your own library. The principle is simple.
 Create a CustomValidationPipe and use @@OverrideProvider@@ to change the default @@ValidationPipe@@.
 
-<<< @/docs/docs/snippets/validation/validator-pipe.ts
+<<< @/docs/snippets/validation/validator-pipe.ts
 
 ::: warning
 Don't forgot to import the new `CustomValidatorPipe` in your `server.ts` !
@@ -49,15 +49,15 @@ We then apply the `schema.validate()` method, which validates our incoming argum
 
 In the next section, you'll see how we supply the appropriate schema for a given controller method using the @@UsePipe@@ decorator.
 
-<<< @/docs/docs/snippets/validation/joi-pipe.ts
+<<< @/docs/snippets/validation/joi-pipe.ts
 
 Now, we have to create a custom decorator to store the Joi schema along with a parameter:
 
-<<< @/docs/docs/snippets/validation/joi-pipe-decorator.ts
+<<< @/docs/snippets/validation/joi-pipe-decorator.ts
 
 And finally, we are able to add Joi schema with our new decorator:
  
-<<< @/docs/docs/snippets/validation/joi-pipe-usage.ts
+<<< @/docs/snippets/validation/joi-pipe-usage.ts
 
 ### Use Class validator
 
@@ -93,7 +93,7 @@ Read more about the class-validator decorators [here](https://github.com/typesta
 
 Now we can create a [ClassValidationPipe] class:
 
-<<< @/docs/docs/snippets/validation/class-validator-pipe.ts
+<<< @/docs/snippets/validation/class-validator-pipe.ts
 
 ::: warning Notice
 Above, we have used the [class-transformer](https://github.com/typestack/class-transformer) library.
@@ -114,7 +114,7 @@ Finally, we return the value when we haven't errors or throws a `ValidationError
 If you use **class-validator**, it also be logical to use [class-transformer](https://github.com/typestack/class-transformer) as Deserializer.
 So we recommend to override also the @@DeserializerPipe@@.
 
-<<< @/docs/docs/snippets/validation/class-transformer-pipe.ts
+<<< @/docs/snippets/validation/class-transformer-pipe.ts
 :::
 
 We just have to import the pipe on our `server.ts` and use model as type on a parameter.

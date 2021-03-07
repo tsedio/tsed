@@ -1,0 +1,72 @@
+{
+  "name": "@tsed/docs",
+  "version": "6.29.0",
+  "description": "Documentation Ts.ED",
+  "private": true,
+  "scripts": {
+    "vuepress:build": "cross-env NODE_ENV=production node --max_old_space_size=8192 ./node_modules/vuepress/cli.js build .",
+    "vuepress:serve": "vuepress dev ."
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "post-commit": "git update-index --again"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TypedProject/tsed.git"
+  },
+  "keywords": [
+    "Express",
+    "Koa",
+    "TypeScript",
+    "decorators",
+    "router",
+    "controllers",
+    "services",
+    "middlewares",
+    "models",
+    "mvc",
+    "injection",
+    "ioc",
+    "di",
+    "api",
+    "ajv",
+    "adapters",
+    "graphql",
+    "json-mapper",
+    "formio",
+    "objection",
+    "openspec",
+    "passport",
+    "awa",
+    "socketio",
+    "stripe",
+    "swagger",
+    "typeoprm",
+    "ES2015",
+    "ES6",
+    "server",
+    "rest",
+    "validation",
+    "multer"
+  ],
+  "author": "Romain Lenzotti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TypedProject/tsed/issues"
+  },
+  "homepage": "http://tsed.io/",
+  "dependencies": {},
+  "devDependencies": {
+    "@tsed/markdown-it-symbols": "3.6.0",
+    "vue-analytics": "5.22.1",
+    "vuepress": "1.8.2",
+    "vuepress-theme-tsed": "3.8.0"
+  },
+  "directories": {
+    "packages": "packages",
+    "test": "test"
+  }
+}

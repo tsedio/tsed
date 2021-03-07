@@ -20,12 +20,12 @@ Many other decorators are implemented and can be taken as an example to build yo
 
 One of the use cases already implemented by Ts.ED is the @@PlatformAcceptMimesMiddleware@@:
 
-<<< @/packages/common/src/platform/middlewares/PlatformAcceptMimesMiddleware.ts
+<<< @/../packages/common/src/platform/middlewares/PlatformAcceptMimesMiddleware.ts
 
 You can see in this example the usage of `endpoint.get` from @@EndpointInfo@@. This method contains all options
 which can be passed to the decorator associated to PlatformAcceptMimesMiddleware.
 
-<<< @/docs/docs/snippets/middlewares/accept-mime-usage.ts
+<<< @/docs/snippets/middlewares/accept-mime-usage.ts
 
 ::: tip
 This example uses @@AcceptMime@@ decorator with one option, the `application/json`. 
@@ -42,11 +42,11 @@ with these decorators and utils:
 
 For example, we can take the @@AcceptMime@@ decorator as an example and see how it works. Here is its code:
 
-<<< @/docs/docs/snippets/middlewares/custom-endpoint-decorator-accept-mime.ts
+<<< @/docs/snippets/middlewares/custom-endpoint-decorator-accept-mime.ts
 
 ::: tip
 It is also possible to create a custom endpoint decorator without Ts.ED middleware. If your action is really small,
 you can register a pure express middleware to reach better performance.
 
-<<< @/docs/docs/snippets/middlewares/custom-endpoint-decorator-status.ts
+<<< @/docs/snippets/middlewares/custom-endpoint-decorator-status.ts
 :::

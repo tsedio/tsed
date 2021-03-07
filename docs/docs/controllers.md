@@ -23,7 +23,7 @@ In order to create a basic controller, we use classes and **decorators**. Decora
 In the following example we'll use the @@Controller@@ decorator which is required to define a basic controller.
  We'll specify a path for the controller which will be used by the routing mechanism to create your routes.
 
-<<< @/docs/docs/snippets/controllers/basic-controller.ts
+<<< @/docs/snippets/controllers/basic-controller.ts
 
 The @@Get@@ decorator before the `findAll()` method tells Ts.ED to create an endpoint for this particular route path and 
 map every corresponding request to this handler. Since we've declared a prefix for every route (`/calendars`), Ts.ED will map every `GET /calendars` request to this method.
@@ -43,7 +43,7 @@ Other decorators are provided to describe your route with OpenSpec, adding middl
 You can add your controller by adding glob pattern on `mount` ServerSettings attributes or by importing manually your controller.
 Here an example:
 
-<<< @/docs/docs/snippets/controllers/routing.ts
+<<< @/docs/snippets/controllers/routing.ts
 
 ### Create multiple versions of your API 
 
@@ -51,7 +51,7 @@ As you have seen in the previous example, the `mount` attribute is an object tha
 
 You can add more configurations to mount different endpoints associated to a folder. Here is another configuration example:
 
-<<< @/docs/docs/snippets/controllers/routing-with-version.ts
+<<< @/docs/snippets/controllers/routing-with-version.ts
 
 ### Async and Promise
 
@@ -61,27 +61,27 @@ This means that you can return a deferred value that Ts.ED will be able to resol
 
 Let's see an example of this:
 
-<<< @/docs/docs/snippets/controllers/async-controller.ts
+<<< @/docs/snippets/controllers/async-controller.ts
 
 ### Observable/Stream/Buffer
 
 Also, Ts.ED support function that return `Observable`, `Stream` or `Buffer`.
 
-<<< @/docs/docs/snippets/controllers/observable-stream-buffer-controller.ts
+<<< @/docs/snippets/controllers/observable-stream-buffer-controller.ts
 
 ### Axios response
 
 Sometime, you just want call another API to proxy a webservice. 
 Axios is an excellent library to call API in Node.js and Ts.ED is able to handle Axios response to wrap it into an Express.js response.
 
-<<< @/docs/docs/snippets/controllers/axios-controller.ts
+<<< @/docs/snippets/controllers/axios-controller.ts
 
 ### Multiple endpoints, single method
 
 Ts.ED lets you define multiple endpoints on the same method, with the same verb like `GET` or `POST`, or with another
 verb like this:
 
-<<< @/docs/docs/snippets/controllers/multiple-endpoint-single-method.ts
+<<< @/docs/snippets/controllers/multiple-endpoint-single-method.ts
 
 ### Routes order
 
@@ -92,7 +92,7 @@ the request will never hit the actual handler because all path parameters are op
  
 See the following example:
 
-<<< @/docs/docs/snippets/controllers/routes-order.ts
+<<< @/docs/snippets/controllers/routes-order.ts
 
 In order to avoid such side-effects, simply move `findAll()` method above `findOne()`.
 
@@ -115,34 +115,34 @@ Getting parameters from Express Request can be done by using the following decor
 <Tabs class="-code">
   <Tab label="Example">
 
-<<< @/docs/docs/snippets/controllers/params-decorator.ts
+<<< @/docs/snippets/controllers/params-decorator.ts
 
   </Tab>
   <Tab label="Body string">
 
-<<< @/docs/docs/snippets/controllers/params-post-string.ts
+<<< @/docs/snippets/controllers/params-post-string.ts
 
   </Tab> 
   <Tab label="Body with Array">
 
-<<< @/docs/docs/snippets/controllers/params-post-array.ts
+<<< @/docs/snippets/controllers/params-post-array.ts
 
   </Tab> 
   <Tab label="Body with model">
 
-<<< @/docs/docs/snippets/controllers/params-post-array-with-model.ts
+<<< @/docs/snippets/controllers/params-post-array-with-model.ts
 
   </Tab>
   <Tab label="Inline validation">
 
-<<< @/docs/docs/snippets/controllers/params-post-inline-validation.ts
+<<< @/docs/snippets/controllers/params-post-inline-validation.ts
 
   </Tab>  
 </Tabs>
 
 Finally, @@BodyParams@@ accepts to give a @@IParamOptions@@ object as parameter to change the decorator behavior:
 
-<<< @/docs/docs/snippets/controllers/params-advanced-usage.ts
+<<< @/docs/snippets/controllers/params-advanced-usage.ts
 
 ::: tip
 Since v5.51.0+, @@QueryParams@@ decorator accept a model to transform `Express.request.query` plain object to a Class.
@@ -173,7 +173,7 @@ class QueryController {
 Since v6.0.0, use `any` as type for a body parameter, will be translated as type `Object`. It means, if you use `@tsed/ajv`, the validation
 will fail if you send a different type as expected in the payload.
 
-<<< @/docs/docs/snippets/controllers/params-post-any.ts
+<<< @/docs/snippets/controllers/params-post-any.ts
 
 Add @@Any@@ decorator to fix the issue.
 
@@ -183,7 +183,7 @@ Add @@Any@@ decorator to fix the issue.
 
 @@RawBodyParams@@ decorator provides you quick access to the `request.rawBody`:
 
-<<< @/docs/docs/snippets/controllers/request-raw-body.ts
+<<< @/docs/snippets/controllers/request-raw-body.ts
 
 ::: warning
 There is no performed input validation and deserialization when using the @@RawBodyParams@@!
@@ -193,7 +193,7 @@ There is no performed input validation and deserialization when using the @@RawB
 
 @@HeaderParams@@ decorator provides you quick access to the `request.get()`:
 
-<<< @/docs/docs/snippets/controllers/request-headers.ts
+<<< @/docs/snippets/controllers/request-headers.ts
 
 ### Session/Cookies/Locals/Context
 
@@ -211,7 +211,7 @@ If you attach data on it, template engine will use it to render the template.
 
 Here is an example:
 
-<<< @/docs/docs/snippets/controllers/locals-example.ts
+<<< @/docs/snippets/controllers/locals-example.ts
 
 #### Context
 
@@ -223,7 +223,7 @@ Ts.ED support the data input validation with the decorators provided by `@tsed/s
 
 Example:
 
-<<< @/docs/docs/snippets/controllers/request-input-validation.ts
+<<< @/docs/snippets/controllers/request-input-validation.ts
 
 ::: warning
 Validation require the `@tsed/ajv` plugins to work. 
@@ -247,19 +247,19 @@ npm install --save @tsed/ajv
 
 You can change the default response status with the @@Status@@ decorator:
 
-<<< @/docs/docs/snippets/controllers/response-status.ts
+<<< @/docs/snippets/controllers/response-status.ts
 
 ### Content Type
 
 You can set the response content type with the @@ContentType@@ decorator:
 
-<<< @/docs/docs/snippets/controllers/response-content-type.ts
+<<< @/docs/snippets/controllers/response-content-type.ts
 
 ### Header
 
 You can set the response header with the @@Header@@ decorator:
 
-<<< @/docs/docs/snippets/controllers/response-headers.ts
+<<< @/docs/snippets/controllers/response-headers.ts
 
 ### Redirect
 
@@ -353,17 +353,17 @@ With @@Returns@@ you can document correctly your endpoint to reflect the correct
 <Tabs class="-code">
   <Tab label="MyController.ts" icon="bx-code-alt">
 
-<<< @/docs/docs/snippets/controllers/response-generics-controller.ts
+<<< @/docs/snippets/controllers/response-generics-controller.ts
 
   </Tab>
   <Tab label="Document.ts" icon="bx-code-alt">
 
-<<< @/docs/docs/snippets/controllers/response-generics-document.ts  
+<<< @/docs/snippets/controllers/response-generics-document.ts  
   
   </Tab>  
   <Tab label="Product.ts" icon="bx-code-alt">
 
-<<< @/docs/docs/snippets/controllers/response-generics-product.ts
+<<< @/docs/snippets/controllers/response-generics-product.ts
 
   </Tab>
   <Tab label="CodeSandbox" icon="bxl-codepen">
@@ -386,7 +386,7 @@ and are sent to the client.
 
 Here is an example:
 
-<<< @/docs/docs/snippets/controllers/response-throw-exceptions.ts
+<<< @/docs/snippets/controllers/response-throw-exceptions.ts
 
 ::: tip
 This example will produce a response with status code 400 and "Not a number" message. 
@@ -406,22 +406,22 @@ This is not recommended, however, because your will potentially be specific to t
 
 You can with the Req and Request decorators retrieve the originals request and response as follows:
 
-<<< @/docs/docs/snippets/controllers/inject-req-res-target.ts
+<<< @/docs/snippets/controllers/inject-req-res-target.ts
 
 It's also possible to inject the high level PlatformRequest and PlatformResponse:
 
-<<< @/docs/docs/snippets/controllers/inject-req-res-platform.ts
+<<< @/docs/snippets/controllers/inject-req-res-platform.ts
 
 Finally, it is also possible to retrieve the request and response in Node.js version:
  
-<<< @/docs/docs/snippets/controllers/inject-req-res-node.ts
+<<< @/docs/snippets/controllers/inject-req-res-node.ts
 
 ## Inject next
 
 Use @@Next@@ decorator isn't recommended because Ts.ED use Promise/Observable to return a response, but something it's required to get next function
 to chain middlewares.
 
-<<< @/docs/docs/snippets/controllers/inject-next.ts
+<<< @/docs/snippets/controllers/inject-next.ts
 
 ## Inject router
 
@@ -429,7 +429,7 @@ Each controller has a @@PlatformRouter@@ which wrap the original router from [Ex
 or KoaRouter.
 You can inject @@PlatformRouter@@ in your controller to add anything related to the current Router controller.
 
-<<< @/docs/docs/snippets/controllers/inject-router.ts
+<<< @/docs/snippets/controllers/inject-router.ts
 
 ::: warning
 All of these routes added by this way won't be discovered by Ts.ED to produce Swagger documentation.
@@ -442,7 +442,7 @@ Like Express.js, you need to configure the templating engine so that you can use
 
 Here is an example of a controller which uses the @@View@@ decorator:
 
-<<< @/docs/docs/snippets/templating/response-templating.ts
+<<< @/docs/snippets/templating/response-templating.ts
 
 And its view:
 
@@ -473,7 +473,7 @@ The following decorators lets you add custom middleware on a method or on contro
 
 ### Example
 
-<<< @/docs/docs/snippets/controllers/middlewares.ts
+<<< @/docs/snippets/controllers/middlewares.ts
 
 ### Middleware call sequence
 
@@ -494,22 +494,22 @@ One controller can be added to multiple controllers, so you can easily reuse the
 <Tabs class="-code">
   <Tab label="RestCtrl.ts">
 
-<<< @/docs/docs/snippets/controllers/child-controllers-rest.ts
+<<< @/docs/snippets/controllers/child-controllers-rest.ts
 
   </Tab>
   <Tab label="CalendarCtrl.ts">
 
-<<< @/docs/docs/snippets/controllers/child-controllers-calendar.ts
+<<< @/docs/snippets/controllers/child-controllers-calendar.ts
 
   </Tab>  
   <Tab label="EventCtrl.ts">
 
-<<< @/docs/docs/snippets/controllers/child-controllers-event.ts
+<<< @/docs/snippets/controllers/child-controllers-event.ts
 
   </Tab>
   <Tab label="Server.ts">
 
-<<< @/docs/docs/snippets/controllers/child-controllers-server.ts
+<<< @/docs/snippets/controllers/child-controllers-server.ts
 
   </Tab>      
 </Tabs>  
@@ -531,11 +531,11 @@ and use it on a children class.
 
 To do that just declare a parent controller without the @@Controller@@ decorator.
 
-<<< @/docs/docs/snippets/controllers/inheritance-base-controller.ts
+<<< @/docs/snippets/controllers/inheritance-base-controller.ts
 
 Then, on your child controller:
 
-<<< @/docs/docs/snippets/controllers/inheritance-child-controller.ts
+<<< @/docs/snippets/controllers/inheritance-child-controller.ts
 
 ## Decorators
 

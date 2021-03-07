@@ -40,13 +40,13 @@ npm install --save typeorm
 
 Then import `@tsed/typeorm` in your Server:
 
-<<< @/docs/tutorials/snippets/typeorm/typeorm-configuration.ts
+<<< @/tutorials/snippets/typeorm/typeorm-configuration.ts
 
 ## TypeORMService
 
 TypeORMService lets you retrieve an instance of TypeORM Connection.
 
-<<< @/docs/tutorials/snippets/typeorm/typeorm-usage.ts
+<<< @/tutorials/snippets/typeorm/typeorm-usage.ts
 
 For more information about TypeORM, look its documentation [here](https://github.com/typeorm/typeorm);
 
@@ -57,24 +57,24 @@ This approach allows you to inject your connection as a Service to another one.
 
 To create a new connection, declare your custom provider as follows:
 
-<<< @/docs/tutorials/snippets/typeorm/typeorm-async-provider.ts
+<<< @/tutorials/snippets/typeorm/typeorm-async-provider.ts
 
 Then inject your connection to another service or provide like this:
 
-<<< @/docs/tutorials/snippets/typeorm/typeorm-injection-async-provider.ts
+<<< @/tutorials/snippets/typeorm/typeorm-injection-async-provider.ts
 
 ## Use Entity TypeORM with Controller
 
 We need to define an Entity TypeORM like this and use Ts.ED Decorator to define the JSON Schema.
 
-<<< @/docs/tutorials/snippets/typeorm/typeorm-entity.ts
+<<< @/tutorials/snippets/typeorm/typeorm-entity.ts
 
 Now, the model is correctly defined and can be used with a [Controller](/docs/controllers.md), [AJV validation](/tutorials/ajv.md),
 [Swagger](/tutorials/swagger.md) and [TypeORM](https://github.com/typeorm/typeorm).
 
 We can use this model with a Controller like that:
 
-<<< @/docs/tutorials/snippets/typeorm/typeorm-entity-controller.ts
+<<< @/tutorials/snippets/typeorm/typeorm-entity-controller.ts
 
 ## EntityRepository
 
@@ -88,11 +88,11 @@ You can achieve this using custom repositories.
 
 The first way to create a custom repository is to extend Repository. Example:
 
-<<< @/docs/tutorials/snippets/typeorm/typeorm-entity-repository.ts
+<<< @/tutorials/snippets/typeorm/typeorm-entity-repository.ts
 
 Then inject your repository to another service:
 
-<<< @/docs/tutorials/snippets/typeorm/typeorm-injection-entity-repository.ts
+<<< @/tutorials/snippets/typeorm/typeorm-injection-entity-repository.ts
 
 ::: tip
 Use @@UseConnection@@ decorator to select which database connection the injected repository should be used (require Ts.ED v5.58.0+).

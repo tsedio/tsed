@@ -27,7 +27,7 @@ npm install --save socket.io @types/socket.io
 
 Then add the following configuration in your server [Configuration](/docs/configuration.md):
 
-<<< @/docs/tutorials/snippets/socketio/configuration.ts
+<<< @/tutorials/snippets/socketio/configuration.ts
 
 
 ## Configuration
@@ -50,23 +50,23 @@ All Socket service work under a namespace and you can create one Socket service 
 
 Example:
 
-<<< @/docs/tutorials/snippets/socketio/socket-service.ts
+<<< @/tutorials/snippets/socketio/socket-service.ts
 
 > @@SocketService@@ inherits from @@Service@@ decorator, meaning a SocketService can be injected to another Service, Controller or Middleware.
 
 Example:
 
-<<< @/docs/tutorials/snippets/socketio/socket-service-nsp.ts
+<<< @/tutorials/snippets/socketio/socket-service-nsp.ts
 
 Then, you can inject your socket service into another Service, Controller, etc. as following:
 
-<<< @/docs/tutorials/snippets/socketio/socket-service-di.ts
+<<< @/tutorials/snippets/socketio/socket-service-di.ts
 
 ### Declaring an Input Event
 
 @@Input@@ decorator declares a method as a new handler for a specific `event`.
 
-<<< @/docs/tutorials/snippets/socketio/socket-input-event.ts
+<<< @/tutorials/snippets/socketio/socket-input-event.ts
 
 - @@Args@@ &lt;any|any[]&gt;: List of the parameters sent by the input event.
 - @@Socket@@ &lt;SocketIO.Socket&gt;: Socket instance.
@@ -81,7 +81,7 @@ You have many choices to send a response to your client. Ts.ED offers some decor
 
 Example:
 
-<<< @/docs/tutorials/snippets/socketio/socket-send-response.ts
+<<< @/tutorials/snippets/socketio/socket-send-response.ts
 
 ::: tip
 All methods accept a promise as returned value. Ts.ED handles promise before returning a response to your consumer.
@@ -95,7 +95,7 @@ Return value is only possible when the method is decorated by @@Emit@@, @@Broadc
 
 Ts.ED creates a new session for each socket.
 
-<<< @/docs/tutorials/snippets/socketio/socket-session.ts
+<<< @/tutorials/snippets/socketio/socket-session.ts
 
 ### Middlewares
 
@@ -103,7 +103,7 @@ A middleware can also be used on a @@SocketService@@ either on a class or on a m
 
 Here is an example of a middleware:
 
-<<< @/docs/tutorials/snippets/socketio/socket-use-middleware.ts
+<<< @/tutorials/snippets/socketio/socket-use-middleware.ts
 
 ::: tip 
 The user instance will be forwarded to the next middleware and to your decorated method.
@@ -112,7 +112,7 @@ The user instance will be forwarded to the next middleware and to your decorated
 You can also declare a middleware to handle an error with @@SocketMiddlewareError@@.
 Here is an example:
 
-<<< @/docs/tutorials/snippets/socketio/socket-middleware.ts
+<<< @/tutorials/snippets/socketio/socket-middleware.ts
 
 Two decorators are provided to attach your middleware on the right place:
 
@@ -131,7 +131,7 @@ The call sequence is the following for each event request:
 
 Middlewares chain uses the `Promise` to run it. If one of this middlewares/method emits an error, the first middleware error will be called.
 
-<<< @/docs/tutorials/snippets/socketio/socket-use-middleware2.ts
+<<< @/tutorials/snippets/socketio/socket-use-middleware2.ts
 
 ## Decorators
 

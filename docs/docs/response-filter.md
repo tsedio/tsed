@@ -238,33 +238,33 @@ The used features are the following:
 <Tabs class="-code">
   <Tab label="ProductsCtrl.ts">
 
-<<< @/docs/docs/snippets/model/pagination-ctrl.ts 
+<<< @/docs/snippets/model/pagination-ctrl.ts 
   
   </Tab>  
   <Tab label="Pageable.ts">
   
-<<< @/docs/docs/snippets/model/pageable-model.ts
+<<< @/docs/snippets/model/pageable-model.ts
 
 
   </Tab>  
   <Tab label="Pagination.ts">
   
-<<< @/docs/docs/snippets/model/pagination-model.ts
+<<< @/docs/snippets/model/pagination-model.ts
 
   </Tab>
   <Tab label="Product.ts">
   
-<<< @/docs/docs/snippets/model/pageable-product-model.ts
+<<< @/docs/snippets/model/pageable-product-model.ts
   
   </Tab>
   <Tab label="PaginationFilter.ts">
   
-<<< @/docs/docs/snippets/model/pagination-filter.ts
+<<< @/docs/snippets/model/pagination-filter.ts
   
   </Tab>
   <Tab label="ProductsCtrl.spec.ts">
   
-<<< @/docs/docs/snippets/model/pageable-product-model.ts
+<<< @/docs/snippets/model/pageable-product-model.ts
   
   </Tab>
 </Tabs>  
