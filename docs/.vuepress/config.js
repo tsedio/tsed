@@ -39,7 +39,7 @@ module.exports = {
       end: new Date().getFullYear()
     },
     repo: "TypedProject/tsed",
-    docsRepo: 'https://api.tsed.io/rest/github/TypedProject/tsed',
+    githubProxyUrl: 'https://api.tsed.io/rest/github/TypedProject/tsed',
     openCollective: 'https://api.tsed.io/rest/opencollective',
     gitterUrl: "https://gitter.im/Tsed-io/community",
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
@@ -221,6 +221,7 @@ module.exports = {
               "/docs/exceptions",
               "/docs/logger",
               {title: "Context", path: "/docs/request-context"},
+              "/docs/cache",
               "/docs/platform-api"
             ]
           },
@@ -296,6 +297,7 @@ module.exports = {
           "/docs/authentication",
           "/docs/hooks",
           "/docs/exceptions",
+          "/docs/cache",
           "/docs/hooks",
           "/docs/response-filter",
           "/docs/injection-scopes",

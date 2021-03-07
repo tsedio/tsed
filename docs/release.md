@@ -1,3 +1,15 @@
+#### v6.30.0
+
+- Add @@UseCache@@ decorator.
+- Add @@PlatformCache@@ do manage cache.
+- Add @@PlatformCacheInterceptor@@.
+
+Ts.ED provide now, a unified cache manager solution based on the awesome [`cache-manager`](https://www.npmjs.com/package/cache-manager).
+
+See our dedicated page on [Cache](/docs/cache.md).
+
+---
+
 #### v6.28.0
 
 - Add middlewares options to the Server configuration. 

@@ -83,6 +83,7 @@ Features | Express.js  | Koa.js
 [Templating](/docs/templating.md) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Validation](/docs/validation.md) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Response Filters](/docs/response-filter.md) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
+[Cache](/docs/cacge.md) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 
 </div>
 
@@ -104,6 +105,7 @@ Features | Express.js  | Koa.js
 [Swagger](/tutorials/swagger.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [OIDC](/tutorials/oidc.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Stripe](/tutorials/stripe.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
+[OIDC](/tutorials/oidc.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 
 </div>
 
@@ -178,6 +180,12 @@ You can therefore use it for your projects without installing the whole framewor
 :::
 
 See our [migration guide](/getting-started/migration-from-v5.md) for more details.
+
+### Cache
+
+Ts.ED provide now, a unified cache manager solution based on the awesome [`cache-manager`](https://www.npmjs.com/package/cache-manager).
+
+See our dedicated page on [Cache](/docs/cache.md).
 
 ## Installation
 
