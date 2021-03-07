@@ -1,5 +1,5 @@
 import {Container, createContainer, InjectorService, LocalsContainer} from "@tsed/di";
-import {PlatformModule} from "../../platform";
+import {PlatformModule} from "../PlatformModule";
 
 /**
  * @ignore

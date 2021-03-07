@@ -14,7 +14,7 @@ import {Configuration} from "@tsed/di";
 import {expect} from "chai";
 import {join, resolve} from "path";
 import Sinon from "sinon";
-import {Platform} from "../../platform/services/Platform";
+import {Platform} from "../services/Platform";
 import {PlatformBuilder} from "./PlatformBuilder";
 
 const sandbox = Sinon.createSandbox();

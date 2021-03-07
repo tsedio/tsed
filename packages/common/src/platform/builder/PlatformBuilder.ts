@@ -1,17 +1,15 @@
 import {classOf, constructorOf, isFunction, nameOf, Type} from "@tsed/core";
 import {Container, createContainer, getConfiguration, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
 import {PlatformMiddlewareLoadingOptions} from "../../config/interfaces";
-import {
-  GlobalAcceptMimesMiddleware,
-  IRoute,
-  Platform,
-  PlatformApplication,
-  PlatformHandler,
-  PlatformRequest,
-  PlatformResponse,
-  PlatformRouter
-} from "../../platform";
-import {PlatformLogMiddleware} from "../../platform/middlewares/PlatformLogMiddleware";
+import {GlobalAcceptMimesMiddleware} from "../middlewares";
+import {Platform} from "../services/Platform";
+import {PlatformApplication} from "../services/PlatformApplication";
+import {PlatformHandler} from "../services/PlatformHandler";
+import {PlatformResponse} from "../services/PlatformResponse";
+import {PlatformRequest} from "../services/PlatformRequest";
+import {PlatformRouter} from "../services/PlatformRouter";
+import {IRoute} from "../interfaces/IRoute";
+import {PlatformLogMiddleware} from "../middlewares/PlatformLogMiddleware";
 import {
   callHook,
   createHttpServer,

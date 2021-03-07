@@ -1,4 +1,4 @@
-import {createHttpServer, createHttpsServer, HttpsServer, listenHttpServer, listenHttpsServer} from "@tsed/common";
+import {createHttpServer, listenHttpServer} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {expect} from "chai";

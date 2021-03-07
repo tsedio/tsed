@@ -1,4 +1,4 @@
-import {PlatformResponse} from "../../platform/services/PlatformResponse";
+import {PlatformResponse} from "../services/PlatformResponse";
 
 export interface OnResponse {
   $onResponse(ctx: PlatformResponse): void;

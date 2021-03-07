@@ -148,7 +148,7 @@ describe("PlatformKoaResponse", () => {
     it("should get headers", () => {
       const {res, response} = createResponse();
 
-      res.headers = sandbox.stub().returns({contentType: "application/json"});
+      res.headers = {contentType: "application/json"};
 
       const result = response.getHeaders();
 
