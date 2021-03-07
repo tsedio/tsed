@@ -75,6 +75,12 @@ You can therefore use it for your projects without installing the whole framewor
 - `@Converter` has been replaced in favor of @@JsonMapper@@.
 
 :::
+
+### Cache
+
+Ts.ED provide now, a unified cache manager solution based on the awesome [`cache-manager`](https://www.npmjs.com/package/cache-manager).
+
+See our dedicated page on [Cache](/docs/cache.md).
  
 ## Breaking changes
 ### Api & Features
