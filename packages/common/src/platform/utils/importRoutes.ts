@@ -1,5 +1,5 @@
 import {importProviders, InjectorService} from "@tsed/di";
-import {IRoute} from "../../platform/interfaces/IRoute";
+import {IRoute} from "../interfaces/IRoute";
 
 export async function importRoutes(injector: InjectorService): Promise<IRoute[]> {
   injector.logger.debug("Scan components");

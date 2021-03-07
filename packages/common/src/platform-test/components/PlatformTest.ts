@@ -1,7 +1,6 @@
-import {Env, getValue, Type} from "@tsed/core";
-import {DITestInvokeOptions, InjectorService, LocalsContainer, OnInit, TokenProvider} from "@tsed/di";
-import {DITest} from "@tsed/di";
-import {createInjector, loadInjector, PlatformBuilder, PlatformType} from "../../platform-builder";
+import {Type} from "@tsed/core";
+import {DITest, InjectorService} from "@tsed/di";
+import {createInjector, loadInjector, PlatformBuilder, PlatformType} from "../../platform";
 import {PlatformContext, RequestContextOptions} from "../../platform/domain/PlatformContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 import {PlatformRequest} from "../../platform/services/PlatformRequest";
