@@ -24,6 +24,8 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   @Inject()
   platformViews: PlatformViews;
 
+  data: any;
+
   constructor(@Opts public raw: T) {}
 
   /**
@@ -69,6 +71,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    */
   get(name: string) {
     return this.raw.get(name);
+  }
+
+  getHeaders(): Record<string, number | string | string[]> {
+    return this.raw.getHeaders();
   }
 
   /**
@@ -236,6 +242,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    * @param data
    */
   body(data: any) {
+    this.data = data;
     if (data === undefined) {
       this.raw.send();
 
@@ -270,6 +277,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     return this;
   }
 
+  getBody() {
+    return this.data;
+  }
+
   /**
    * Add a listener to handler the end of the request/response.
    * @param cb
@@ -293,6 +304,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   destroy() {
     // @ts-ignore
     delete this.raw;
+    delete this.data;
   }
 
   isHeadersSent() {

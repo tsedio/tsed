@@ -24,6 +24,7 @@ export class FakeResponse {
       sandbox.stub(this, "emit").returns(this);
       sandbox.stub(this, "render").returns(this);
       sandbox.stub(this, "contentType").returns(this);
+      sandbox.stub(this, "getHeaders").returns(this);
       sandbox.stub(this, "json").callsFake((o: any) => {
         this.send(JSON.stringify(o));
 
@@ -118,6 +119,12 @@ export class FakeResponse {
 
   public get(key: string) {
     return (this as any)["_" + key];
+  }
+
+  public getHeaders() {
+    return {
+      'x-header': 'test-header'
+    }
   }
 
   end() {}
