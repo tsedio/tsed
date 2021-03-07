@@ -140,6 +140,7 @@ describe("PlatformResponse", () => {
       response.body("string");
 
       expect(res.send).to.have.been.calledWithExactly("string");
+      expect(response.getBody()).to.eq("string");
     });
     it("should call body with stream", () => {
       const {res, response} = createResponse();
@@ -177,6 +178,15 @@ describe("PlatformResponse", () => {
       response.destroy();
 
       expect(response.isDone()).to.eq(true);
+    });
+  });
+  describe("getHeaders()", () => {
+    it("should get headers", () => {
+      const {res, response} = createResponse();
+
+      res.getHeaders.returns({contentType: "application/json"});
+
+      expect(response.getHeaders()).to.deep.equal({contentType: "application/json"});
     });
   });
 });
