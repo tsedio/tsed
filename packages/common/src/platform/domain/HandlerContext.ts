@@ -116,7 +116,7 @@ export class HandlerContext {
     const handler = instance[propertyKey!].bind(instance);
 
     try {
-      this.handle(handler(...this.args));
+      this.handle(handler(...this.args, this.$ctx));
     } catch (er) {
       this.reject(er);
     }

@@ -30,9 +30,6 @@ describe("PlatformExpress", () => {
   describe("Headers", () => {
     utils.test("headers");
   });
-  describe("Custom404", () => {
-    utils.test("custom404");
-  });
   describe("Statics files", () => {
     utils.test("statics");
   });
@@ -92,5 +89,12 @@ describe("PlatformExpress", () => {
   });
   describe("Module", () => {
     utils.test("module");
+  });
+  describe("Cache", () => {
+    utils.test("cache");
+  });
+  // EXTRA
+  describe("Custom404", () => {
+    utils.test("custom404");
   });
 });

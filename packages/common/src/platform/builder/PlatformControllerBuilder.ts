@@ -98,6 +98,7 @@ export class PlatformControllerBuilder {
       .concat(hasFiles && PlatformMulterMiddleware)
       .concat(use) // Controller use-middlewares
       .concat(beforeMiddlewares) // Endpoint before-middlewares
+      // .concat(endpoint.cache && PlatformCacheMiddleware)
       .concat(mldwrs) // Endpoint middlewares
       .concat(endpoint) // Endpoint metadata
       .concat(afterMiddlewares) // Endpoint after-middlewares
