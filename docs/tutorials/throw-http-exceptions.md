@@ -6,7 +6,7 @@ and are sent to the client.
 
 Here is an example:
 
-<<< @/docs/docs/snippets/controllers/response-throw-exceptions.ts
+<<< @/docs/snippets/controllers/response-throw-exceptions.ts
 
 ::: tip
 This example will produce a response with status code 400 and "Not a number" message. 

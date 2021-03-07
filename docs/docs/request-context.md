@@ -18,7 +18,7 @@ It contains some information as following:
 
 Here is an example:
 
-<<< @/docs/docs/snippets/request-context/context-example.ts
+<<< @/docs/snippets/request-context/context-example.ts
 
 ::: tip
 @@RequestLogger@@ is attached to the context `ctx.logger`. The RequestLogger stores all logs and Ts.ED prints (flushes) all logs after the response is sent by the server.

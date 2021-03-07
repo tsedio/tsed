@@ -33,17 +33,17 @@ JsonMapper works with a class and decorators. Use decorators on properties to de
 <Tabs class="-code">
   <Tab label="Person.ts">
 
-<<< @/docs/docs/snippets/converters/model-usage.ts
+<<< @/docs/snippets/converters/model-usage.ts
 
   </Tab>
   <Tab label="Jest">
   
-<<< @/docs/docs/snippets/converters/model-usage.jest.ts
+<<< @/docs/snippets/converters/model-usage.jest.ts
   
   </Tab>
   <Tab label="Mocha">
 
-<<< @/docs/docs/snippets/converters/model-usage.mocha.ts
+<<< @/docs/snippets/converters/model-usage.mocha.ts
 
   </Tab>
 </Tabs>
@@ -54,7 +54,7 @@ Take a look on Jest/Mocha tabs to see @@serialize@@ and @@deserialize@@ function
 
 Now we can use the `Person` model on a controller:
 
-<<< @/docs/docs/snippets/converters/controller-usage.ts
+<<< @/docs/snippets/converters/controller-usage.ts
 
 ::: tip Note
 In the previous example, we can see @@Returns@@ decorator usage.
@@ -71,16 +71,16 @@ It means, if you missed decorating one or more properties on your model, these p
 <Tabs class="-code">
   <Tab label="User.ts">
 
-<<< @/docs/docs/snippets/converters/model-missing-properties.ts
+<<< @/docs/snippets/converters/model-missing-properties.ts
   </Tab>
   <Tab label="Jest">
   
-<<< @/docs/docs/snippets/converters/model-missing-properties.jest.ts
+<<< @/docs/snippets/converters/model-missing-properties.jest.ts
   
   </Tab>
   <Tab label="Mocha">
 
-<<< @/docs/docs/snippets/converters/model-missing-properties.mocha.ts
+<<< @/docs/snippets/converters/model-missing-properties.mocha.ts
 
   </Tab>
 </Tabs>
@@ -99,17 +99,17 @@ you don't want to expose this field in other cases. One of the solution is to us
 <Tabs class="-code">
   <Tab label="User.ts">
 
-<<< @/docs/docs/snippets/converters/model-ignore-props.ts
+<<< @/docs/snippets/converters/model-ignore-props.ts
   
   </Tab>
   <Tab label="Jest">
   
-<<< @/docs/docs/snippets/converters/model-ignore-props.jest.ts
+<<< @/docs/snippets/converters/model-ignore-props.jest.ts
   
   </Tab>
   <Tab label="Mocha">
 
-<<< @/docs/docs/snippets/converters/model-ignore-props.mocha.ts
+<<< @/docs/snippets/converters/model-ignore-props.mocha.ts
 
   </Tab>
 </Tabs>
@@ -155,17 +155,17 @@ mongoose | boolean | It's a mongoose context
 <Tabs class="-code">
   <Tab label="Person.ts">
 
-<<< @/docs/docs/snippets/converters/model-additional-props.ts
+<<< @/docs/snippets/converters/model-additional-props.ts
   
   </Tab>
   <Tab label="Jest">
   
-<<< @/docs/docs/snippets/converters/model-additional-props.jest.ts
+<<< @/docs/snippets/converters/model-additional-props.jest.ts
   
   </Tab>
   <Tab label="Mocha">
 
-<<< @/docs/docs/snippets/converters/model-additional-props.mocha.ts
+<<< @/docs/snippets/converters/model-additional-props.mocha.ts
 
   </Tab>
 </Tabs>
@@ -177,7 +177,7 @@ mongoose | boolean | It's a mongoose context
 For example mongo db uses the `_id` property. 
 In order not to give any indication to our consumer about the nature of the database, it's better to rename the property to `id`.
   
-<<< @/docs/docs/snippets/model/name.ts
+<<< @/docs/snippets/model/name.ts
 
 ## OnSerialize
 
@@ -226,13 +226,13 @@ and import the mapper in your application.
 <Tabs class="-code">
   <Tab label="PrimitiveMapper">
   
-<<< @/packages/json-mapper/src/components/PrimitiveMapper.ts
+<<< @/../packages/json-mapper/src/components/PrimitiveMapper.ts
   
   </Tab>
 
   <Tab label="Spec">
  
-<<< @/packages/json-mapper/src/components/PrimitiveMapper.spec.ts
+<<< @/../packages/json-mapper/src/components/PrimitiveMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -267,12 +267,12 @@ Input | Type | Output
 <Tabs class="-code">
   <Tab label="SymbolMapper">
   
-<<< @/packages/json-mapper/src/components/SymbolMapper.ts
+<<< @/../packages/json-mapper/src/components/SymbolMapper.ts
 
   </Tab>
   <Tab label="Spec">
  
-<<< @/packages/json-mapper/src/components/SymbolMapper.spec.ts
+<<< @/../packages/json-mapper/src/components/SymbolMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -284,12 +284,12 @@ Input | Type | Output
 <Tabs class="-code">
   <Tab label="DateMapper">
   
-<<< @/packages/json-mapper/src/components/DateMapper.ts
+<<< @/../packages/json-mapper/src/components/DateMapper.ts
 
   </Tab>
   <Tab label="Spec">
  
-<<< @/packages/json-mapper/src/components/DateMapper.spec.ts
+<<< @/../packages/json-mapper/src/components/DateMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -301,12 +301,12 @@ Input | Type | Output
 <Tabs class="-code">
   <Tab label="ArrayMapper">
   
-<<< @/packages/json-mapper/src/components/ArrayMapper.ts
+<<< @/../packages/json-mapper/src/components/ArrayMapper.ts
 
   </Tab>
   <Tab label="Spec">
  
-<<< @/packages/json-mapper/src/components/ArrayMapper.spec.ts
+<<< @/../packages/json-mapper/src/components/ArrayMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -318,7 +318,7 @@ Input | Type | Output
 <Tabs class="-code">
   <Tab label="SetMapper">
   
-<<< @/packages/json-mapper/src/components/MapMapper.ts
+<<< @/../packages/json-mapper/src/components/MapMapper.ts
 
   </Tab>
   <Tab label="Example">
@@ -336,7 +336,7 @@ export class Person {
   </Tab>
   <Tab label="Spec">
  
-<<< @/packages/json-mapper/src/components/MapMapper.spec.ts
+<<< @/../packages/json-mapper/src/components/MapMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -348,7 +348,7 @@ export class Person {
 <Tabs class="-code">
   <Tab label="SetMapper">
   
-<<< @/packages/json-mapper/src/components/SetMapper.ts
+<<< @/../packages/json-mapper/src/components/SetMapper.ts
 
   </Tab>
   <Tab label="Example">
@@ -365,7 +365,7 @@ export class Person {
   </Tab>
   <Tab label="Spec">
  
-<<< @/packages/json-mapper/src/components/SetMapper.spec.ts
+<<< @/../packages/json-mapper/src/components/SetMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -404,12 +404,12 @@ You can change the Date converter behavior to transform string to a Moment insta
 <Tabs class="-code">
   <Tab label="MomentMapper">
   
-<<< @/docs/docs/snippets/converters/moment-mapper.ts
+<<< @/docs/snippets/converters/moment-mapper.ts
 
   </Tab>
   <Tab label="Configuration">
 
-<<< @/docs/docs/snippets/converters/server-moment-mapper-import.ts
+<<< @/docs/snippets/converters/server-moment-mapper-import.ts
 
   </Tab>
   <Tab label="Example">

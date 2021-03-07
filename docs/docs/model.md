@@ -38,7 +38,7 @@ Without this package, decorators like @@Email@@ won't have any effect.
 The example below uses decorators to describe a property of the class and store metadata such as the description of the
 field.
 
-<<< @/docs/docs/snippets/model/example.ts
+<<< @/docs/snippets/model/example.ts
 
 ::: tip The Model will generate a JsonSchema which can be used by modules supporting JsonSchema spec
 :::
@@ -54,7 +54,7 @@ generates metadata on properties with at least one of these decorators:
 Our model is now described, we can use it inside a @@Controller@@ as input type parameter for our methods. Ts.ED will
 use the model to convert the raw data to an instance of your model.
 
-<<< @/docs/docs/snippets/model/controller.ts
+<<< @/docs/snippets/model/controller.ts
 
 ## Primitives
 
@@ -64,12 +64,12 @@ model. Ts.ED will get the type from Typescript metadata and transform this type 
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/primitives.ts
+<<< @/docs/snippets/model/primitives.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/primitives.json
+<<< @/docs/snippets/model/primitives.json
 
   </Tab>
 </Tabs>
@@ -81,12 +81,12 @@ The @@Integer@@ decorator is used to set integer type for integral numbers.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/integer.ts
+<<< @/docs/snippets/model/integer.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/integer.json
+<<< @/docs/snippets/model/integer.json
 
   </Tab>
 </Tabs>
@@ -99,12 +99,12 @@ json type or when you use a mixed TypeScript types.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/any-types.ts
+<<< @/docs/snippets/model/any-types.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/any-types.json
+<<< @/docs/snippets/model/any-types.json
 
   </Tab>
 </Tabs>
@@ -116,12 +116,12 @@ The @@Nullable@@ decorator is used allow a null value on a field while preservin
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/nullable-properties.ts
+<<< @/docs/snippets/model/nullable-properties.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/nullable-properties.json
+<<< @/docs/snippets/model/nullable-properties.json
 
   </Tab>
 </Tabs>
@@ -137,12 +137,12 @@ for more information.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/pattern.ts
+<<< @/docs/snippets/model/pattern.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/pattern.json
+<<< @/docs/snippets/model/pattern.json
 
   </Tab>
 </Tabs>
@@ -157,12 +157,12 @@ can do.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/format.ts
+<<< @/docs/snippets/model/format.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/format.json
+<<< @/docs/snippets/model/format.json
 
   </Tab>
 </Tabs>
@@ -193,12 +193,12 @@ more details.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/multiple-of.ts
+<<< @/docs/snippets/model/multiple-of.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/multiple-of.json
+<<< @/docs/snippets/model/multiple-of.json
 
   </Tab>
 </Tabs>
@@ -213,12 +213,12 @@ more details.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/ranges.ts
+<<< @/docs/snippets/model/ranges.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/ranges.json
+<<< @/docs/snippets/model/ranges.json
 
   </Tab>
 </Tabs>
@@ -231,12 +231,12 @@ element, where each element is unique or a TypeScript enum.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/enumerated-values.ts
+<<< @/docs/snippets/model/enumerated-values.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/enumerated-values.json
+<<< @/docs/snippets/model/enumerated-values.json
 
   </Tab>
 </Tabs>
@@ -264,12 +264,12 @@ United States for export reasons:
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/required-properties.ts
+<<< @/docs/snippets/model/required-properties.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/required-properties.json
+<<< @/docs/snippets/model/required-properties.json
 
   </Tab>
 </Tabs>
@@ -285,12 +285,12 @@ must use @@CollectionOf@@ (before v5.62.0, use @@PropertyType@@) decorator as fo
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/collections.ts
+<<< @/docs/snippets/model/collections.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/collections.json
+<<< @/docs/snippets/model/collections.json
 
   </Tab>
 </Tabs>
@@ -316,12 +316,12 @@ Use @@AdditionalProperties@@ on your model to allow this behavior:
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/additional-properties.ts
+<<< @/docs/snippets/model/additional-properties.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/additional-properties.json
+<<< @/docs/snippets/model/additional-properties.json
 
   </Tab>
 </Tabs>
@@ -331,12 +331,12 @@ It is also possible to add contraint on additional properties, by giving a raw J
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/additional-properties-with-schema.ts
+<<< @/docs/snippets/model/additional-properties-with-schema.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/additional-properties-with-schema.json
+<<< @/docs/snippets/model/additional-properties-with-schema.json
 
   </Tab>
 </Tabs>
@@ -346,12 +346,12 @@ Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as foll
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/additional-properties-with-model.ts
+<<< @/docs/snippets/model/additional-properties-with-model.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/additional-properties-with-model.json
+<<< @/docs/snippets/model/additional-properties-with-model.json
 
   </Tab>
 </Tabs>
@@ -360,7 +360,7 @@ Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as foll
 
 Circular reference can be resolved by using arrow with a @@Property@@ and @@CollectionOf@@ decorators:
 
-<<< @/docs/docs/snippets/model/circular-references.ts
+<<< @/docs/snippets/model/circular-references.ts
 
 ## Custom Keys <Badge text="6.17.0+"/>
 
@@ -487,7 +487,7 @@ exists.
 
 For example, we have a User model with the following properties:
 
-<<< @/docs/docs/snippets/model/group-user.ts
+<<< @/docs/snippets/model/group-user.ts
 
 **Explanation:**
 
@@ -561,17 +561,17 @@ Now let's see how groups work with controllers.
 <Tabs class="-code">
 <Tab label="ProductsCtrl.ts">
 
-<<< @/docs/docs/snippets/model/group-users-ctrl.ts
+<<< @/docs/snippets/model/group-users-ctrl.ts
 
 </Tab>
 <Tab label="User.ts">
 
-<<< @/docs/docs/snippets/model/group-user.ts
+<<< @/docs/snippets/model/group-user.ts
 
 </Tab>
 <Tab label="OpenSpec">
 
-<<< @/docs/docs/snippets/model/group-users-openspec.json
+<<< @/docs/snippets/model/group-users-openspec.json
 
 </Tab>
 </Tabs>
@@ -596,28 +596,28 @@ and generate the appropriate OpenSpec documentation.
 
 Starting with the pagination model, by using @@Generics@@ and @@CollectionOf@@:
 
-<<< @/docs/docs/snippets/model/generics-pagination.ts
+<<< @/docs/snippets/model/generics-pagination.ts
 
 Now, we need a model to be used with the generic Pagination model:
 
-<<< @/docs/docs/snippets/model/generics-product.ts
+<<< @/docs/snippets/model/generics-product.ts
 
 Finally, we can use our models on a method as following:
 
 <Tabs class="-code">
  <Tab label="MyController.ts">
 
-<<< @/docs/docs/snippets/model/generics-controller1.ts
+<<< @/docs/snippets/model/generics-controller1.ts
 
  </Tab>
  <Tab label="OpenSpec 2">
 
-<<< @/docs/docs/snippets/model/generics-controller1-os2.json
+<<< @/docs/snippets/model/generics-controller1-os2.json
 
  </Tab>
  <Tab label="OpenSpec 3">
 
-<<< @/docs/docs/snippets/model/generics-controller1-os3.json
+<<< @/docs/snippets/model/generics-controller1-os3.json
 
  </Tab>
 </Tabs>
@@ -645,27 +645,27 @@ class MyController {
   </Tab>
   <Tab label="Submission.ts">
 
-<<< @/docs/docs/snippets/model/generics-submission.ts
+<<< @/docs/snippets/model/generics-submission.ts
 
   </Tab>
   <Tab label="Pagination.ts">
 
-<<< @/docs/docs/snippets/model/generics-pagination.ts
+<<< @/docs/snippets/model/generics-pagination.ts
 
   </Tab>
   <Tab label="Product.ts">
 
-<<< @/docs/docs/snippets/model/generics-product.ts
+<<< @/docs/snippets/model/generics-product.ts
 
   </Tab>
  <Tab label="OpenSpec 2">
 
-<<< @/docs/docs/snippets/model/generics-controller2-os2.json
+<<< @/docs/snippets/model/generics-controller2-os2.json
 
  </Tab>
  <Tab label="OpenSpec 3">
 
-<<< @/docs/docs/snippets/model/generics-controller2-os3.json
+<<< @/docs/snippets/model/generics-controller2-os3.json
 
  </Tab>  
 </Tabs>
@@ -683,33 +683,33 @@ The used features are the following:
 <Tabs class="-code">
   <Tab label="ProductsCtrl.ts">
 
-<<< @/docs/docs/snippets/model/pagination-ctrl.ts
+<<< @/docs/snippets/model/pagination-ctrl.ts
 
   </Tab>  
   <Tab label="Pageable.ts">
 
-<<< @/docs/docs/snippets/model/pageable-model.ts
+<<< @/docs/snippets/model/pageable-model.ts
 
 
   </Tab>  
   <Tab label="Pagination.ts">
 
-<<< @/docs/docs/snippets/model/pagination-model.ts
+<<< @/docs/snippets/model/pagination-model.ts
 
   </Tab>
   <Tab label="Product.ts">
 
-<<< @/docs/docs/snippets/model/pageable-product-model.ts
+<<< @/docs/snippets/model/pageable-product-model.ts
 
   </Tab>
   <Tab label="PaginationFilter.ts">
 
-<<< @/docs/docs/snippets/model/pagination-filter.ts
+<<< @/docs/snippets/model/pagination-filter.ts
 
   </Tab>
   <Tab label="ProductsCtrl.spec.ts">
 
-<<< @/docs/docs/snippets/model/pageable-product-model.ts
+<<< @/docs/snippets/model/pageable-product-model.ts
 
   </Tab>
 </Tabs>  
@@ -726,12 +726,12 @@ schema `self-documenting`.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/annotations.ts
+<<< @/docs/snippets/model/annotations.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/annotations.json
+<<< @/docs/snippets/model/annotations.json
 
   </Tab>
 </Tabs>
@@ -743,7 +743,7 @@ schema `self-documenting`.
 For example mongo db uses the `_id` property. In order not to give any indication to our consumer about the nature of
 the database, it's better to rename the property to `id`.
 
-<<< @/docs/docs/snippets/model/name.ts
+<<< @/docs/snippets/model/name.ts
 
 ## Set Schema
 
@@ -754,13 +754,13 @@ from `@tsed/common` to set a custom schema.
 
 You can declare schema by using the @@JsonSchemaObject@@ interface:
 
-<<< @/docs/docs/snippets/model/raw-schema-controller.ts
+<<< @/docs/snippets/model/raw-schema-controller.ts
 
 ### Using functions <Badge text="6.14.0+"/>
 
 It's also possible to write a valid JsonSchema by using the functional approach (Joi like):
 
-<<< @/docs/docs/snippets/model/functional-schema-controller.ts
+<<< @/docs/snippets/model/functional-schema-controller.ts
 
 Here is the list of available functions:
 
@@ -774,12 +774,12 @@ by using @@getJsonSchema@@. Here is a small example:
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/jsonschema.ts
+<<< @/docs/snippets/model/jsonschema.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/jsonschema.json
+<<< @/docs/snippets/model/jsonschema.json
 
   </Tab>
 </Tabs>
@@ -811,12 +811,12 @@ possible by using @@getSpec@@. Here is a small example:
 <Tabs class="-code">
   <Tab label="MyController">
 
-<<< @/docs/docs/snippets/model/get-spec-generics-controller1.ts
+<<< @/docs/snippets/model/get-spec-generics-controller1.ts
 
   </Tab>
   <Tab label="OpenSpec">
 
-<<< @/docs/docs/snippets/model/generics-controller1-os3.json
+<<< @/docs/snippets/model/generics-controller1-os3.json
 
   </Tab>
 </Tabs>

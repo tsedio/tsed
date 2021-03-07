@@ -28,17 +28,17 @@ For a list of stores, see [compatible session stores](https://www.npmjs.com/pack
 
 Edit your Server and add these lines:
 
-<<< @/docs/tutorials/snippets/session/configuration.ts
+<<< @/tutorials/snippets/session/configuration.ts
 
 
 ## Usage
 ### Session
 
-<<< @/docs/tutorials/snippets/session/example-session.ts
+<<< @/tutorials/snippets/session/example-session.ts
 
 ### Cookies 
 
-<<< @/docs/tutorials/snippets/session/example-cookies.ts
+<<< @/tutorials/snippets/session/example-cookies.ts
 
 ## Initialize session
 
@@ -46,15 +46,15 @@ Sometimes we want to be sure that the session is correctly initialized with the 
 
 Let's start by creating a middleware CreateRequestSessionMiddleware in `middlewares` directory:
 
-<<< @/docs/tutorials/snippets/session/example-create-session.ts
+<<< @/tutorials/snippets/session/example-create-session.ts
 
 Then, add this middleware on the server:
 
-<<< @/docs/tutorials/snippets/session/configuration-middleware.ts
+<<< @/tutorials/snippets/session/configuration-middleware.ts
 
 Finally, you can read and write values in your controller:
 
-<<< @/docs/tutorials/snippets/session/example-session.ts
+<<< @/tutorials/snippets/session/example-session.ts
 
 In addition, you can add integration tests with SuperTest and `@tsed/testing` package.
 Here is an example of Rest API test:
@@ -62,12 +62,12 @@ Here is an example of Rest API test:
 <Tabs class="-code">
 <Tab label="Jest">
 
-<<< @/docs/tutorials/snippets/session/example-test.jest.ts
+<<< @/tutorials/snippets/session/example-test.jest.ts
 
 </Tab>
 <Tab label="Mocha">
 
-<<< @/docs/tutorials/snippets/session/example-test.mocha.ts
+<<< @/tutorials/snippets/session/example-test.mocha.ts
 
 </Tab>
 </Tabs>

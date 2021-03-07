@@ -80,7 +80,7 @@ Statics options depend on which platform you work (Express, Koa, etc...).
 <Tabs class="-code">
   <Tab label="Express.js">
 
-<<< @/packages/platform-express/src/interfaces/PlatformExpressStaticsOptions.ts
+<<< @/../packages/platform-express/src/interfaces/PlatformExpressStaticsOptions.ts
 
   </Tab>
   <Tab label="Koa.js">

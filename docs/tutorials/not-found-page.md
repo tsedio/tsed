@@ -8,7 +8,7 @@ the @@ResourceNotFound@@ error class. This error is thrown by Ts.ED when nothing
 
 Create a new ResourceNotFoundFilter in the filters directories and copy/paste this example:
 
-<<< @/docs/docs/snippets/exceptions/resource-not-found-filter.ts
+<<< @/docs/snippets/exceptions/resource-not-found-filter.ts
 
 ::: warning
 `response.render()` require to configure the template engine before. See our page over [Templating engine](/tutorials/templating.html#installation) installation for more details.

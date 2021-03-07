@@ -33,7 +33,7 @@ npm install --save @tsed/platform-aws
 
 Create a new `LambdaServer.ts` in `src` directory:
 
-<<< @/docs/tutorials/snippets/aws/lambda.ts
+<<< @/tutorials/snippets/aws/lambda.ts
 
 Then create `lambda.js` on your root project:
 

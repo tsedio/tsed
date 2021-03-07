@@ -210,7 +210,7 @@ or you can override the middleware with @@OverrideProvider@@.
 
 Example: 
 
-<<< @/docs/docs/snippets/configuration/override-platform-log-middleware.ts
+<<< @/docs/snippets/configuration/override-platform-log-middleware.ts
 
 ## Shutdown logger
 

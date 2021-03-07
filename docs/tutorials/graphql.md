@@ -58,7 +58,7 @@ Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your Serv
 <Tabs class="-code">
   <Tab label="Configuration" icon="bx-code-alt">
 
-<<< @/docs/tutorials/snippets/graphql/server-configuration.ts
+<<< @/tutorials/snippets/graphql/server-configuration.ts
 
   </Tab>
   <Tab label="CodeSandbox" icon="bxl-codepen">
@@ -76,7 +76,7 @@ Now, we can configure the Ts.ED server by importing `@tsed/graphql` in your Serv
 
 GraphQlService lets you to retrieve an instance of ApolloServer.
 
-<<< @/docs/tutorials/snippets/graphql/get-server-instance.ts
+<<< @/tutorials/snippets/graphql/get-server-instance.ts
 
 For more information about ApolloServer, look at its documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);
 
@@ -109,7 +109,7 @@ class Recipe {
 
 Then we decorate the class and its properties with decorators:
 
-<<< @/docs/tutorials/snippets/graphql/recipe-type.ts
+<<< @/tutorials/snippets/graphql/recipe-type.ts
 
 The detailed rules for when to use nullable, array and others are described in [fields and types docs](https://19majkel94.github.io/type-graphql/docs/types-and-fields.html).
 
@@ -117,18 +117,18 @@ The detailed rules for when to use nullable, array and others are described in [
 
 After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class that will have injected RecipeService in the constructor:
 
-<<< @/docs/tutorials/snippets/graphql/resolver-service.ts
+<<< @/tutorials/snippets/graphql/resolver-service.ts
 
 ### Data Source
 
 Data source is one of the Apollo server features which can be used as option for your Resolver or Query.
 Ts.ED provides a @@DataSourceService@@ decorator to declare a DataSource which will be injected to the Apollo server context.
 
-<<< @/docs/tutorials/snippets/graphql/datasource-service.ts
+<<< @/tutorials/snippets/graphql/datasource-service.ts
 
 Then you can retrieve your data source through the context in your resolver like that:
 
-<<< @/docs/tutorials/snippets/graphql/resolver-data-source.ts
+<<< @/tutorials/snippets/graphql/resolver-data-source.ts
 
 ### Testing
 
@@ -138,32 +138,32 @@ Here is an example to create a test server and run a query:
 <Tabs class="-code">
   <Tab label="Jest">
   
-<<< @/docs/tutorials/snippets/graphql/testing.jest.ts
+<<< @/tutorials/snippets/graphql/testing.jest.ts
 
   </Tab>
   <Tab label="Mocha">
   
-<<< @/docs/tutorials/snippets/graphql/testing.mocha.ts
+<<< @/tutorials/snippets/graphql/testing.mocha.ts
 
   </Tab>  
   <Tab label="RecipeResolver.ts">
     
-<<< @/docs/tutorials/snippets/graphql/resolver-service.ts
+<<< @/tutorials/snippets/graphql/resolver-service.ts
   
   </Tab>   
   <Tab label="RecipesService.ts">
     
-<<< @/docs/tutorials/snippets/graphql/recipes-service.ts
+<<< @/tutorials/snippets/graphql/recipes-service.ts
   
   </Tab>
   <Tab label="Recipe.ts">
     
-<<< @/docs/tutorials/snippets/graphql/recipe-type.ts
+<<< @/tutorials/snippets/graphql/recipe-type.ts
   
   </Tab>  
   <Tab label="RecipeArgs.ts">
     
-<<< @/docs/tutorials/snippets/graphql/recipe-args.ts
+<<< @/tutorials/snippets/graphql/recipe-args.ts
   
   </Tab>      
 </Tabs>  

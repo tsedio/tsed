@@ -40,12 +40,12 @@ to add Pipes:
 <Tabs class="-code">
   <Tab label="BodyParams">
 
-<<< @/docs/docs/snippets/pipes/body-params.ts
+<<< @/docs/snippets/pipes/body-params.ts
   
   </Tab>
   <Tab label="UseParams">
   
-<<< @/docs/docs/snippets/pipes/use-params.ts    
+<<< @/docs/snippets/pipes/use-params.ts    
   
   </Tab>
 </Tabs> 
@@ -56,7 +56,7 @@ Now let's build a validation pipe from scratch to understand the pipe mechanism.
 
 Initially, we'll have it simply take an input value and immediately return the same value, behaving like an identity function.
 
-<<< @/docs/docs/snippets/pipes/validation-pipe-identity.ts
+<<< @/docs/snippets/pipes/validation-pipe-identity.ts
  
 ::: tip
 `IPipe<T, R>` is a generic interface in which `T` indicates the type of the input value, and `R` indicates the return type of the `transform()` method. 
@@ -153,12 +153,12 @@ class PersonModel {
 We want to ensure that any incoming request to the create method contains a valid body.
 So we have to validate the two members of the `PersonModel` object, used as type parameter: 
 
-<<< @/docs/docs/snippets/pipes/controller-model-validation.ts
+<<< @/docs/snippets/pipes/controller-model-validation.ts
 
 By using a pipe, we are able to handle the parameter, get its schema and use a validation library (here AJV)
 and throw an exception when the payload is not valid.
  
-<<< @/docs/docs/snippets/pipes/validation-pipe-with-ajv.ts
+<<< @/docs/snippets/pipes/validation-pipe-with-ajv.ts
 
 The validation pipe is a very specific use case because Ts.ED uses it automatically when a parameter is handled
  by the **routing request**. The previous pipe example, in order to work, needs to be registered with the @@OverrideProvider@@ decorator instead of @@Injectable@@.
@@ -176,11 +176,11 @@ Furthermore, some required data fields may be missing, and we would like to appl
 
 Transformer pipes can perform these functions by interposing a processing function between the client request and the request handler.
 
-<<< @/docs/docs/snippets/pipes/transformer-pipe.ts
+<<< @/docs/snippets/pipes/transformer-pipe.ts
 
 We can simply tie this pipe to the selected param as shown below:
 
-<<< @/docs/docs/snippets/pipes/transformer-pipe-usage.ts
+<<< @/docs/snippets/pipes/transformer-pipe-usage.ts
 
 ::: tip
 On the previous example, we use @@RawPathParams@@ to get the raw value, without transformation or validation from existing Ts.ED Pipe.
@@ -213,23 +213,23 @@ class PersonModel {
 
 We can implement the following pipe to get Person data from database:
 
-<<< @/docs/docs/snippets/pipes/async-transformer-pipe.ts
+<<< @/docs/snippets/pipes/async-transformer-pipe.ts
 
 Then, we can use this pipe on a parameter with @@UsePipe@@:
 
-<<< @/docs/docs/snippets/pipes/async-transformer-pipe-usage.ts
+<<< @/docs/snippets/pipes/async-transformer-pipe-usage.ts
 
 ## Custom pipe decorator
 
 In the previous section, we show you how to use a Pipe on a parameter:
 
-<<< @/docs/docs/snippets/pipes/async-transformer-pipe-usage.ts
+<<< @/docs/snippets/pipes/async-transformer-pipe-usage.ts
 
 In this example, our pipe need to be called with @@RawPathParams@@ two work properly, because our pipe return an instance of `PersonModel`. @@PathParams@@ call automatically the @@DeserializerPipe@@ and it's not what we want. This is why we using @@RawPathParams@@.
 
 To avoid future mistakes, it could be a good idea to summarize these two decorators in one as following:
 
-<<< @/docs/docs/snippets/pipes/pipes-decorator.ts
+<<< @/docs/snippets/pipes/pipes-decorator.ts
 
 Now, we can use our custom decorator on parameter:
 
@@ -256,11 +256,11 @@ Sometimes it might be useful to forward options from a decorator used on paramet
 
 Let's focus on our previous decorator example, by adding extra parameter options:
 
-<<< @/docs/docs/snippets/pipes/pipes-decorator-with-options.ts
+<<< @/docs/snippets/pipes/pipes-decorator-with-options.ts
 
 Now, we can retrieve the options by using the `metadata.store`:
 
-<<< @/docs/docs/snippets/pipes/async-transformer-pipe-with-options.ts
+<<< @/docs/snippets/pipes/async-transformer-pipe-with-options.ts
 
 And finally, we can use our new decorator on a parameter:
 

@@ -19,7 +19,7 @@ and the [children controllers](/docs/controllers.md).
 In this case, we have no dependencies and the root endpoint is set to `/rest`. 
 So the controller's url will be `http://host/rest/calendars`.
 
-<<< @/docs/docs/snippets/controllers/basic-controller.ts
+<<< @/docs/snippets/controllers/basic-controller.ts
 
 ::: tip
 Decorators @@Get@@, @@Post@@, @@Delete@@, @@Put@@, etc., support dynamic pathParams (eg: `/:id`) and `RegExp` like Express API.
