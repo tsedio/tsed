@@ -11,10 +11,10 @@ meta:
 Caching is a great and simple technique that helps improve your app's performance.
 It acts as a temporary data store providing high performance data access.
 
-Ts.ED provide a unified system caching by using the popular [`cache-manager`](https://www.npmjs.com/package/cache-manager) Node.js modules.
-Cache-manager various storage to cache content like Redis, MongoDB, etc... and multi caching!
+Ts.ED provides a unified system caching by using the popular [`cache-manager`](https://www.npmjs.com/package/cache-manager) Node.js module.
+Cache-manager provides various storage to cache content like Redis, MongoDB, etc... and multi caching!
 
-By using the @@UseCache@@ on endpoint method or on service method, you'll be able to cache the response returned by the Ts.ED server
+By using the @@UseCache@@ on endpoint methods or on service methods, you'll be able to cache the response returned by the Ts.ED server
 or the result returned by a Service.
 
 ## Configuration
@@ -95,7 +95,7 @@ To add an item to the cache, use the `set` method:
 await this.cache.set('key', 'value');
 ```
 
-The default expiration time of the cache depend on the configured ttl on Server configuration level.
+The default expiration time of the cache depends on the configured TTL on Server configuration level.
 
 You can manually specify a TTL (expiration time) for this specific key, as follows:
 
@@ -103,7 +103,7 @@ You can manually specify a TTL (expiration time) for this specific key, as follo
 await this.cache.set('key', 'value', { ttl: 1000 });
 ```
 
-To disable expiration of the cache, set the `ttl` configuration property to `null`:
+To disable the expiration of the cache, set the `ttl` configuration property to `null`:
 
 ```typescript
 await this.cache.set('key', 'value', { ttl: null });
@@ -123,7 +123,7 @@ await this.cache.reset();
 
 ## Cache response
 
-To enable cache on endpoint, use @@UseCache@@ decorator on a method as following:
+To enable cache on endpoint, use @@UseCache@@ decorator on a method as follows:
 
 ```typescript
 import {Controller, UseCache, Get, PathParams} from "@tsed/common";
@@ -140,7 +140,7 @@ export class MyController {
 
 ::: tip Note
 UseCache will generate automatically a key based on the Verb and Uri of your route. If @@QueryParams@@ and/or 
-@@PathParams@@ are use on the method, the key will be generated with. 
+@@PathParams@@ are used on the method, the key will be generated with them. 
 According to our previous example, the generated key will be:
 
 ```
@@ -155,7 +155,7 @@ Only `GET` endpoints are cached. Also, HTTP server routes that use the native re
 
 ## Cache a value
 
-Because @@UseCache@@ use @@PlatformCacheInterceptor@@ and not a middleware, you can also apply the decorator on any Service/Provider.
+Because @@UseCache@@ uses @@PlatformCacheInterceptor@@ and not a middleware, you can also apply the decorator on any Service/Provider.
 
 ```typescript
 import {Injectable} from "@tsed/di";
@@ -175,7 +175,7 @@ export class MyService {
 By default, Ts.ED uses the request VERB & URL (in an HTTP app) or cache key (for other Service and Provider) to associate cache records with your endpoints.
 Nevertheless, sometimes you might want to set up the generated key based on different factors, for example, using HTTP headers (e.g. Authorization to properly identify profile endpoints).
 
-There are two to do that. The first one, is to configure globally on the Server:
+There are two ways to do that. The first one is to configure it globally on the Server:
 
 ```typescript
 import {Configuration} from "@tsed/di";
@@ -191,7 +191,7 @@ import {PlatformContext} from "@tsed/common";
 })
 ```
 
-The second way, is to use `key` option with @@UseCache@@ decorator:
+The second way is to use the `key` option with @@UseCache@@ decorator:
 
 ```typescript
 import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
@@ -214,7 +214,7 @@ export class MyController {
 
 ## Configure TTL
 
-TTL can be defined per endpoints with @@UseCache@@:
+TTL can be defined per endpoint with @@UseCache@@:
 
 ```typescript
 import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
@@ -231,7 +231,7 @@ export class MyController {
 
 ## Multi caching
 
-Cache-manager provide a way to use multiple caches. To use it, remove `store` option and use `caches` instead:
+Cache-manager provides a way to use multiple caches. To use it, remove `store` option and use `caches` instead:
 
 ```typescript
 import {Configuration} from "@tsed/common";
@@ -248,7 +248,7 @@ export class Server {}
 
 ## Disable cache for test
 
-It can sometimes be useful during unit tests to disable the cache. You do this by setting the `cache` option to `false`:
+It can sometimes be useful during unit tests to disable the cache. You can do this by setting the `cache` option to `false`:
 
 ```typescript
 describe("MyCtrl", () => {
