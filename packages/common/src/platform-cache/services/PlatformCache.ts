@@ -19,6 +19,10 @@ export class PlatformCache {
 
   cache: Cache | MultiCache | undefined;
 
+  disabled(): boolean {
+    return !this.settings.get<CacheSettings>("cache");
+  }
+
   $onInit() {
     const settings = this.settings.get<CacheSettings>("cache");
 

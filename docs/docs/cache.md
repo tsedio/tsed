@@ -245,3 +245,21 @@ import {Configuration} from "@tsed/common";
 })
 export class Server {}
 ```
+
+## Disable cache for test
+
+It can sometimes be useful during unit tests to disable the cache. You do this by setting the `cache` option to `false`:
+
+```typescript
+describe("MyCtrl", () => {
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+  beforeAll(
+    TestMongooseContext.bootstrap(Server, {
+      cache: false,
+      mount: {
+        "/rest": [MyCtrl]
+      }
+    })
+  );
+});
+```
