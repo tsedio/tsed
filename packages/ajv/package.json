@@ -1,6 +1,6 @@
 {
   "name": "@tsed/ajv",
-  "version": "6.30.1",
+  "version": "6.31.0",
   "description": "AJV package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -21,10 +21,10 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/core": "6.30.1",
-    "@tsed/di": "6.30.1",
-    "@tsed/exceptions": "6.30.1",
-    "@tsed/schema": "6.30.1",
+    "@tsed/core": "6.31.0",
+    "@tsed/di": "6.31.0",
+    "@tsed/exceptions": "6.31.0",
+    "@tsed/schema": "6.31.0",
     "ajv": "7.0.1"
   }
 }
