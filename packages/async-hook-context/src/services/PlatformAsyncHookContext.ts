@@ -22,12 +22,16 @@ export class PlatformAsyncHookContext {
       this.store = new AsyncLocalStorage();
       // override
       this.platformHandler.run = (ctx: PlatformContext, cb: any) => {
-        return this.store.run(ctx, cb);
+        return PlatformAsyncHookContext.run(ctx, cb, this.store);
       };
     } else {
       this.logger.warn(
         `AsyncLocalStorage is not available for your Node.js version (${process.versions.node}). Please upgrade your version at least to v13.10.0.`
       );
     }
+  }
+
+  static run(ctx: PlatformContext, cb: any, store = new AsyncLocalStorage()) {
+    return store.run(ctx, cb);
   }
 }
