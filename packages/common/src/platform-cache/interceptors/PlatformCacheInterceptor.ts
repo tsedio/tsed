@@ -1,4 +1,4 @@
-import {descriptorOf, isClass, isPrimitive, isString, nameOf, prototypeOf, Store} from "@tsed/core";
+import {isClass, isPrimitive, isString, nameOf, Store} from "@tsed/core";
 import {Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {JsonEntityStore} from "@tsed/schema";
@@ -28,6 +28,10 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
   protected cache: PlatformCache;
 
   async intercept(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
+    if (this.cache.disabled()) {
+      return next();
+    }
+
     if (!this.isEndpoint(context)) {
       return this.cacheMethod(context, next);
     }
@@ -36,24 +40,21 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
   }
 
   protected getArgs(context: InterceptorContext<unknown, PlatformCacheOptions>) {
-    return context.args
-      .filter((arg) => {
-        if (arg instanceof PlatformContext || arg instanceof IncomingMessage || arg instanceof ServerResponse) {
-          return false;
-        }
+    return context.args.reduce((args, arg) => {
+      if (arg instanceof PlatformContext || arg instanceof IncomingMessage || arg instanceof ServerResponse) {
+        return args;
+      }
 
-        return isPrimitive(arg) || isClass(arg);
-      })
-      .map((arg) => {
-        return isClass(arg) ? serialize(arg) : arg;
-      });
+      if (isClass(arg)) {
+        return args.concat(serialize(arg));
+      }
+
+      return args.concat(arg);
+    }, []);
   }
 
   protected isEndpoint({target, propertyKey}: InterceptorContext<any, PlatformCacheOptions>) {
-    const descriptor = descriptorOf(prototypeOf(target), propertyKey);
-    const store = Store.from(prototypeOf(target), propertyKey, descriptor);
-
-    return store.has(JsonEntityStore);
+    return Store.fromMethod(target, propertyKey).has(JsonEntityStore);
   }
 
   protected cacheMethod(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
@@ -67,7 +68,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
   }
 
   protected async cacheResponse(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
-    const $ctx = context.args.find((arg) => arg instanceof PlatformContext);
+    const $ctx: PlatformContext = context.args[context.args.length - 1];
     const {request, response} = $ctx;
 
     if (request.method !== "GET") {
