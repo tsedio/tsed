@@ -1,6 +1,6 @@
 import {isClass, isFunction} from "@tsed/core";
 import {Configuration, Injectable} from "@tsed/di";
-import {serialize} from "@tsed/json-mapper";
+import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
 import cacheManager, {Cache, CachingConfig, MultiCache, TtlFunction} from "cache-manager";
 import {PlatformContext} from "../../platform/domain/PlatformContext";
 import {CacheSettings} from "../interfaces";
@@ -61,8 +61,8 @@ export class PlatformCache {
     return this.cache?.wrap<T>(key, fetch, options as any);
   }
 
-  async get<T>(key: string): Promise<T | undefined> {
-    return this.cache?.get<T>(key);
+  async get<T>(key: string, options: JsonDeserializerOptions = {}): Promise<T | undefined> {
+    return deserialize(this.cache?.get<T>(key));
   }
 
   async set<T>(key: string, value: any, options?: CachingConfig): Promise<T | undefined> {

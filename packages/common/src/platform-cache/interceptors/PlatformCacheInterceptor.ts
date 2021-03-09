@@ -1,6 +1,6 @@
 import {isClass, isPrimitive, isString, nameOf, Store} from "@tsed/core";
 import {Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
-import {serialize} from "@tsed/json-mapper";
+import {deserialize, serialize} from "@tsed/json-mapper";
 import {JsonEntityStore} from "@tsed/schema";
 import {IncomingMessage, ServerResponse} from "http";
 import {PlatformContext} from "../../platform/domain/PlatformContext";
@@ -57,14 +57,37 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     return Store.fromMethod(target, propertyKey).has(JsonEntityStore);
   }
 
-  protected cacheMethod(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
-    const {ttl, key: k = this.cache.defaultKeyResolver()} = context.options || {};
-    const keyArgs = isString(k) ? k : k(this.getArgs(context));
+  protected async cacheMethod(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
+    const {ttl, type, collectionType, key: k = this.cache.defaultKeyResolver()} = context.options || {};
+
+    const args = this.getArgs(context);
+    const keyArgs = isString(k) ? k : k(args);
     const key = [nameOf(context.target), context.propertyKey, keyArgs].join(":");
 
-    return this.cache.wrap(key, next, {
-      ttl: ttl as number
-    });
+    const cachedObject = await this.cache.get<PlatformCachedObject>(key);
+
+    if (cachedObject) {
+      const {data} = cachedObject;
+
+      return deserialize(JSON.parse(data), {collectionType, type});
+    }
+
+    const result = await next();
+    const calculatedTtl = this.cache.ttl(result, ttl);
+
+    await this.cache.set<PlatformCachedObject>(
+      key,
+      {
+        ttl: calculatedTtl,
+        args: keyArgs,
+        data: JSON.stringify(serialize(result, {type, collectionType}))
+      },
+      {
+        ttl: calculatedTtl
+      }
+    );
+
+    return result;
   }
 
   protected async cacheResponse(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
@@ -76,10 +99,11 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     }
 
     const {ttl, key: k = this.cache.defaultKeyResolver()} = context.options || {};
-    const args = this.getArgs(context);
 
+    const args = this.getArgs(context);
     const keyArgs = isString(k) ? k : k(this.getArgs(context), $ctx);
     const key = [request.method, request.url, keyArgs].join(":");
+
     const cachedObject = await this.cache.get<PlatformCachedObject>(key);
 
     if (cachedObject && !(response.get("cache-control") === "no-cache")) {
@@ -101,7 +125,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
         })
         .body(data);
 
-      return cachedObject.data;
+      return JSON.parse(cachedObject.data);
     }
 
     const result = await next();
@@ -114,7 +138,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
     // cache final response with his headers and body
     response.onEnd(async () => {
-      const data = response.getBody();
+      const data = JSON.stringify(response.getBody());
       const headers = cleanHeaders(response.getHeaders());
 
       await this.cache.set<PlatformCachedObject>(
