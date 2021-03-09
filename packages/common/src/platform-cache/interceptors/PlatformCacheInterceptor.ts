@@ -1,4 +1,4 @@
-import {isClass, isPrimitive, isString, nameOf, Store} from "@tsed/core";
+import {isClass, isString, nameOf, Store} from "@tsed/core";
 import {Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {JsonEntityStore} from "@tsed/schema";
@@ -53,15 +53,21 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     }, []);
   }
 
+  protected getOptions(context: InterceptorContext<any, PlatformCacheOptions>) {
+    const {ttl, type, collectionType, key: k = this.cache.defaultKeyResolver()} = context.options || {};
+
+    const args = this.getArgs(context);
+    const keyArgs = isString(k) ? k : k(args);
+
+    return {ttl, type, args, collectionType, keyArgs};
+  }
+
   protected isEndpoint({target, propertyKey}: InterceptorContext<any, PlatformCacheOptions>) {
     return Store.fromMethod(target, propertyKey).has(JsonEntityStore);
   }
 
   protected async cacheMethod(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
-    const {ttl, type, collectionType, key: k = this.cache.defaultKeyResolver()} = context.options || {};
-
-    const args = this.getArgs(context);
-    const keyArgs = isString(k) ? k : k(args);
+    const {ttl, type, collectionType, keyArgs, args} = this.getOptions(context);
     const key = [nameOf(context.target), context.propertyKey, keyArgs].join(":");
 
     const cachedObject = await this.cache.get<PlatformCachedObject>(key);
@@ -79,7 +85,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       key,
       {
         ttl: calculatedTtl,
-        args: keyArgs,
+        args,
         data: JSON.stringify(serialize(result, {type, collectionType}))
       },
       {
@@ -98,34 +104,14 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       return next();
     }
 
-    const {ttl, key: k = this.cache.defaultKeyResolver()} = context.options || {};
+    const {ttl, args, keyArgs} = this.getOptions(context);
 
-    const args = this.getArgs(context);
-    const keyArgs = isString(k) ? k : k(this.getArgs(context), $ctx);
     const key = [request.method, request.url, keyArgs].join(":");
 
     const cachedObject = await this.cache.get<PlatformCachedObject>(key);
 
     if (cachedObject && !(response.get("cache-control") === "no-cache")) {
-      const {headers, data, expires} = cachedObject;
-
-      const requestEtag = request.get("if-none-match");
-
-      if (requestEtag && headers.etag === requestEtag) {
-        response.status(304).setHeaders(headers).body(undefined);
-
-        return undefined;
-      }
-
-      $ctx.response
-        .setHeaders({
-          ...headers,
-          "x-cached": "true",
-          "cache-control": `max-age=${(expires - Date.now()).toFixed(0)}`
-        })
-        .body(data);
-
-      return JSON.parse(cachedObject.data);
+      return this.sendResponse(cachedObject, $ctx);
     }
 
     const result = await next();
@@ -157,5 +143,30 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     });
 
     return result;
+  }
+
+  protected sendResponse(cachedObject: PlatformCachedObject, $ctx: PlatformContext) {
+    const {headers, expires} = cachedObject;
+    const {request, response} = $ctx;
+
+    const requestEtag = request.get("if-none-match");
+
+    if (requestEtag && headers.etag === requestEtag) {
+      response.status(304).setHeaders(headers).body(undefined);
+
+      return undefined;
+    }
+
+    const data = JSON.parse(cachedObject.data);
+
+    $ctx.response
+      .setHeaders({
+        ...headers,
+        "x-cached": "true",
+        "cache-control": `max-age=${(expires - Date.now()).toFixed(0)}`
+      })
+      .body(data);
+
+    return data;
   }
 }
