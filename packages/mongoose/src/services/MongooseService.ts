@@ -1,6 +1,6 @@
 import {Inject, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import Mongoose from "mongoose";
+import Mongoose, {Connection} from "mongoose";
 import {ConnectOptions} from "mongoose";
 
 @Service()
@@ -25,7 +25,8 @@ export class MongooseService {
     this.logger.debug(`options: ${JSON.stringify(connectionOptions)}`);
 
     try {
-      const connection = await Mongoose.createConnection(url, connectionOptions);
+      const connection = await this.createConnection(url, connectionOptions, isDefault);
+
       this.connections.set(id, connection);
 
       if (id === "default" || isDefault) {
@@ -39,6 +40,16 @@ export class MongooseService {
       /* istanbul ignore next */
       process.exit();
     }
+  }
+
+  private async createConnection(url: string, connectionOptions: ConnectOptions, isDefault: boolean = false): Promise<Connection> {
+    if (isDefault) {
+      const con = await Mongoose.connect(url, connectionOptions);
+
+      return con.connection;
+    }
+
+    return Mongoose.createConnection(url, connectionOptions);
   }
 
   /**
