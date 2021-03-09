@@ -58,7 +58,9 @@
     "url": "https://github.com/TypedProject/tsed/issues"
   },
   "homepage": "http://tsed.io/",
-  "dependencies": {},
+  "dependencies": {
+    "cross-env": "7.0.3"
+  },
   "devDependencies": {
     "@tsed/markdown-it-symbols": "3.6.0",
     "vue-analytics": "5.22.1",
