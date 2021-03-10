@@ -10,7 +10,7 @@ import {MongooseService} from "./services/MongooseService";
   imports: [MONGOOSE_CONNECTIONS]
 })
 export class MongooseModule implements OnDestroy, OnInit {
-  constructor(private mongooseService: MongooseService, private settings: Configuration) {
+  constructor(private mongooseService: MongooseService, @Configuration() private settings: Configuration) {
     // auto configure the cache manager when mongoose is used with @tsed/mongoose
     const cache = this.settings.get<CacheSettings>("cache");
 
