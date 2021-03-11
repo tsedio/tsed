@@ -20,21 +20,12 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/logger-seq": "^5.6.0",
+    "@tsed/logger-seq": "^5.8.0",
     "tslib": "2.0.1"
   },
-  "peerDependencies": {
-    "@types/bunyan": "^1.8.6",
-    "@types/bunyan-seq": "^0.2.2",
-    "bunyan": "^1.8.14",
-    "bunyan-seq": "^0.4.0"
-  },
+  "peerDependencies": {},
   "devDependencies": {
     "@tsed/common": "6.32.2",
-    "@tsed/core": "6.32.2",
-    "@types/bunyan": "1.8.6",
-    "@types/bunyan-seq": "0.2.2",
-    "bunyan": "^1.8.14",
-    "bunyan-seq": "^0.4.0"
+    "@tsed/core": "6.32.2"
   }
 }

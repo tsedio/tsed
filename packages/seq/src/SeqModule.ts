@@ -18,7 +18,10 @@ export class SeqModule implements AfterRoutesInit {
       this.injector.logger.appenders.set("seq", {
         type: "seq",
         levels: ["info", "debug", "trace", "fatal", "error", "warn"],
-        options: this.config
+        options: {
+          serverUrl: this.config.url,
+          ...this.config
+        }
       });
     }
   }

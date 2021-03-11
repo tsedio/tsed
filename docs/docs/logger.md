@@ -24,6 +24,8 @@ Ts.ED logger supports many features, and is optimized to be used in production.
   - [Stderr](https://logger.tsed.io/appenders/stderr.html),
   - [Smtp](https://logger.tsed.io/appenders/smtp.html),
   - [Seq](https://tsed.io/tutorials/seq.md).
+  - [LogEntries](https://tsed.io/appenders/logentries.md).
+  - [RabbitMQ](https://tsed.io/appenders/rabbitmq.md).
 - @@RequestLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer. See (/docs/logger.md#request-logger).
 
 You can create your own layout/appender:
