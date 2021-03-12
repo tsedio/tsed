@@ -14,18 +14,23 @@ Ts.ED has its own logger available through [`@tsed/logger`](https://logger.tsed.
 Ts.ED logger supports many features, and is optimized to be used in production. 
 
 - Many [layout](https://logger.tsed.io/layouts) formats are supported:
- - [Colored console](https://logger.tsed.io/layouts/colored.html) logging to stdout or stderr,
- - [Json layout](https://logger.tsed.io/layouts/json.html),
+ - [Colored console](https://logger.tsed.io/layouts/colored.html) logging to stdout or stderr.
+ - [Json layout](https://logger.tsed.io/layouts/json.html).
 - Many appender (stream) formats are supported:
-  - [Console](https://logger.tsed.io/appenders/console.html),
-  - [File](https://logger.tsed.io/appenders/file.html),
+  - [Console](https://logger.tsed.io/appenders/console.html).
+  - [File](https://logger.tsed.io/appenders/file.html).
   - [File date](https://logger.tsed.io/appenders/file-date.html), with configurable log rolling based on file size or date.
-  - [Stdout](https://logger.tsed.io/appenders/stdout.html),
-  - [Stderr](https://logger.tsed.io/appenders/stderr.html),
-  - [Smtp](https://logger.tsed.io/appenders/smtp.html),
-  - [Seq](https://tsed.io/tutorials/seq.md).
+  - [Stdout](https://logger.tsed.io/appenders/stdout.html).
+  - [Stderr](https://logger.tsed.io/appenders/stderr.html).
+  - [Insight](https://tsed.io/appenders/insight.md).
   - [LogEntries](https://tsed.io/appenders/logentries.md).
+  - [LogStash HTTP](https://tsed.io/appenders/logstash-http.md).
+  - [LogStash UDP](https://tsed.io/appenders/logstash-udp.md).
+  - [Loggly](https://tsed.io/appenders/loggly.md).
   - [RabbitMQ](https://tsed.io/appenders/rabbitmq.md).
+  - [Seq](https://tsed.io/tutorials/seq.md).
+  - [Slack](https://tsed.io/tutorials/slack.md).
+  - [Smtp](https://logger.tsed.io/appenders/smtp.html),
 - @@RequestLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer. See (/docs/logger.md#request-logger).
 
 You can create your own layout/appender:

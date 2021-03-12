@@ -120,7 +120,7 @@ frameworks:
   src: /webpack.svg  
 - title: AJV
   href: /tutorials/ajv.html
-  src: https://ajv.js.org/images/ajv_logo.png
+  src: https://ajv.js.org/img/ajv.svg
 - title: Swagger
   href: /tutorials/swagger.html
   src: /swagger.svg 
@@ -148,6 +148,27 @@ frameworks:
 - title: Stripe
   href: /tutorials/stripe.html
   src: /stripe.svg
+- title: Seq
+  href: /tutorials/seq.html
+  src: https://blog.datalust.co/content/images/2018/09/Seq-380px-1.png
+- title: LogEntries
+  href: https://logentries.com/
+  src: /logentries.svg
+- title: Insight
+  href: /docs/logger.html
+  src: /rapid7.svg
+- title: RabbitMQ
+  href: /docs/logger.html
+  src: /rabbitmq.svg
+- title: Loggly
+  href: /docs/logger.html
+  src: /loggly.svg
+- title: LogStash
+  href: /docs/logger.html
+  src: /elastic-logstash.svg
+- title: Slack
+  href: /docs/logger.html
+  src: /slack.svg
 ---
 
 ::: slot hero-brand
