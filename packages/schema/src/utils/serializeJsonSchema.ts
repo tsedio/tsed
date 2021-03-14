@@ -19,7 +19,7 @@ const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics", SpecTypes.OPE
  * @ignore
  */
 const IGNORES_OPENSPEC = ["const"];
-const IGNORES_OS2 = [, "writeOnly", "readOnly"];
+const IGNORES_OS2 = ["writeOnly", "readOnly"];
 
 /**
  * @ignore
@@ -143,7 +143,8 @@ export function serializeObject(input: any, options: JsonSchemaOptions) {
   return Object.entries(input).reduce<any>(
     (obj, [key, value]: any[]) => {
       if (options.withIgnoredProps !== false && !alterIgnore(value, ctx)) {
-        obj[key] = serializeItem(value, options);
+        // remove groups to avoid bad schema generation over children models
+        obj[key] = serializeItem(value, {...options, groups: undefined});
       }
 
       return obj;
