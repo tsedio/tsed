@@ -1,4 +1,3 @@
-export * from "./callHook";
 export * from "./createInjector";
 export * from "./createPlatformApplication";
 export * from "./createHttpServer";
