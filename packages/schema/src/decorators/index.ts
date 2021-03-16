@@ -50,6 +50,7 @@ export * from "./common/minLength";
 export * from "./common/multipleOf";
 export * from "./common/name";
 export * from "./common/required";
+export * from "./common/requiredGroups";
 export * from "./common/property";
 export * from "./common/hidden";
 export * from "./common/title";
