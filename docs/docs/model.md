@@ -584,6 +584,32 @@ configuration!
 to use negation by prefixing the group label with `!`.
 :::
 
+## RequiredGroups <Badge text="6.34.0+"/>
+
+As @@Groups@@ decorator, @@RequiredGroups@@ allow you to define when a field is `required` depending on the given groups strategy.
+
+The usage is the same as Groups:
+
+```typescript
+import {RequiredGroups, Groups, Required} from "@tsed/schema";
+
+class MyModel {
+  @Groups("!creation")
+  id: string;
+
+  @Required()
+  prop1: string;
+
+  @RequiredGroups("!patch")
+  @Required()
+  prop2: string;
+
+  @RequiredGroups("patch")
+  @Required()
+  prop3: string;
+}
+```
+
 ## Generics
 
 ### Declaring a generic model
