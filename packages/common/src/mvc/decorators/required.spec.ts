@@ -1,9 +1,9 @@
 import {prototypeOf} from "@tsed/core";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {PropertyMetadata} from "../models/PropertyMetadata";
-import {ParamMetadata} from "../models/ParamMetadata";
 import {Required} from "../../../src/mvc/decorators";
+import {ParamMetadata} from "../models/ParamMetadata";
+import {PropertyMetadata} from "../models/PropertyMetadata";
 
 const sandbox = Sinon.createSandbox();
 describe("Required", () => {
@@ -12,22 +12,6 @@ describe("Required", () => {
     sandbox.spy(ParamMetadata, "get");
   });
   after(() => sandbox.restore());
-
-  describe("when decorator is used as param", () => {
-    it("should called with the correct parameters", () => {
-      // WHEN
-      class Test {
-        test(@Required(null) test: string) {}
-      }
-
-      const metadata = ParamMetadata.get(prototypeOf(Test), "test", 0);
-      // THEN
-      expect(metadata.required).to.eq(true);
-
-      expect(ParamMetadata.get).to.have.been.calledWithExactly(prototypeOf(Test), "test", 0);
-      expect(metadata.allowedRequiredValues).to.deep.eq([null]);
-    });
-  });
 
   describe("when decorator is used as property", () => {
     it("should called with the correct parameters", () => {

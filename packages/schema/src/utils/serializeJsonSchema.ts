@@ -320,7 +320,7 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
     };
   }
 
-  obj = getRequiredProperties(obj, schema, useAlias);
+  obj = getRequiredProperties(obj, schema, {...options, useAlias});
 
   if (options.specType === SpecTypes.OPENAPI && isArray(obj.type)) {
     obj = transformTypes(obj);
