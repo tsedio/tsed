@@ -12,7 +12,7 @@ import {JsonFormatTypes} from "./JsonFormatTypes";
 import {JsonLazyRef} from "./JsonLazyRef";
 import {SpecTypes} from "./SpecTypes";
 
-export interface JsonSchemaObject extends JSONSchema6 {
+export interface JsonSchemaObject extends JSONSchema6, Record<string, any> {
   type: (any | JSONSchema6TypeName) | (any | JSONSchema6TypeName)[];
   additionalProperties?: boolean | JSONSchema6 | any;
   propertyNames?: boolean | JSONSchema6 | any;
@@ -714,15 +714,6 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     }
 
     return this;
-  }
-
-  addTypes(...types: any[]) {
-    types = [].concat(this.get("type")).concat(types as never);
-    types = uniq(types).map(getJsonType);
-
-    this.type(types);
-    // @ts-ignore
-    delete this._target;
   }
 
   any(...types: any[]) {
