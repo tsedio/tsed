@@ -32,6 +32,54 @@ class MyModel {
 
 describe("@Groups", () => {
   describe("JsonSchema", () => {
+    it("should show fields with group annotation", () => {
+      const spec = getJsonSchema(MyModel, {
+        groups: false
+      });
+
+      expect(spec).to.deep.equal({
+        definitions: {
+          ChildModel: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              prop1: {
+                minLength: 1,
+                type: "string"
+              }
+            },
+            required: ["prop1"],
+            type: "object"
+          }
+        },
+        properties: {
+          id: {
+            type: "string"
+          },
+          prop1: {
+            minLength: 1,
+            type: "string"
+          },
+          prop2: {
+            minLength: 1,
+            type: "string"
+          },
+          prop3: {
+            minLength: 1,
+            type: "string"
+          },
+          prop4: {
+            items: {
+              $ref: "#/definitions/ChildModel"
+            },
+            type: "array"
+          }
+        },
+        required: ["prop1", "prop2", "prop3"],
+        type: "object"
+      });
+    });
     it("should show fields with group annotation if the an empty array is given to group fields", () => {
       const spec = getJsonSchema(MyModel, {
         groups: []

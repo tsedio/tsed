@@ -1,6 +1,7 @@
 import {uniq} from "@tsed/core";
-import {JsonSchemaOptions} from "@tsed/schema";
+import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import type {JsonSchema} from "../domain/JsonSchema";
+import {alterRequiredGroups} from "../hooks/alterRequiredGroups";
 
 function applyStringRule(obj: any, propSchema: JsonSchema) {
   if (!propSchema?.$allow.includes("")) {
@@ -61,7 +62,7 @@ function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptio
   };
 }
 
-function extractRequiredProps(obj: any, schema: JsonSchema) {
+function extractRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptions): string[] {
   let required: string[] = obj.required || [];
 
   required = [...required, ...schema.$required];
@@ -76,14 +77,14 @@ function extractRequiredProps(obj: any, schema: JsonSchema) {
     }, required);
   }
 
-  return required;
+  return alterRequiredGroups(uniq(required), schema, options);
 }
 
 /**
  * @ignore
  */
 export function getRequiredProperties(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
-  let required = extractRequiredProps(obj, schema);
+  let required = extractRequiredProps(obj, schema, options);
 
   required = uniq(required).reduce(mapRequiredProps(obj, schema, options), []);
 
