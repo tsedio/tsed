@@ -63,10 +63,12 @@ describe("ExceptionSchema", () => {
           properties: {
             message: {
               description: "An error message",
+              minLength: 1,
               type: "string"
             },
             name: {
               description: "The error name",
+              minLength: 1,
               type: "string"
             }
           },
@@ -84,10 +86,12 @@ describe("ExceptionSchema", () => {
         },
         message: {
           description: "An error message",
+          minLength: 1,
           type: "string"
         },
         name: {
           description: "The error name",
+          minLength: 1,
           type: "string"
         },
         stack: {
@@ -137,10 +141,12 @@ describe("ExceptionSchema", () => {
           properties: {
             message: {
               description: "An error message",
+              minLength: 1,
               type: "string"
             },
             name: {
               description: "The error name",
+              minLength: 1,
               type: "string"
             }
           },
@@ -158,12 +164,14 @@ describe("ExceptionSchema", () => {
             },
             message: {
               description: "An error message",
+              minLength: 1,
               type: "string"
             },
             name: {
               default: "BAD_REQUEST",
               description: "The error name",
               example: "BAD_REQUEST",
+              minLength: 1,
               type: "string"
             },
             stack: {
@@ -228,10 +236,12 @@ describe("ExceptionSchema", () => {
             properties: {
               message: {
                 description: "An error message",
+                minLength: 1,
                 type: "string"
               },
               name: {
                 description: "The error name",
+                minLength: 1,
                 type: "string"
               }
             },
@@ -249,12 +259,14 @@ describe("ExceptionSchema", () => {
               },
               message: {
                 description: "An error message",
+                minLength: 1,
                 type: "string"
               },
               name: {
                 default: "BAD_REQUEST",
                 description: "The error name",
                 example: "BAD_REQUEST",
+                minLength: 1,
                 type: "string"
               },
               stack: {

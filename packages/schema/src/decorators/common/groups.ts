@@ -21,7 +21,15 @@ function matchGroups(groups: string[], compareWith: string[] = []) {
 
   return false;
 }
-
+/**
+ * Apply groups validation strategy
+ *
+ * @decorator
+ * @validation
+ * @swagger
+ * @schema
+ * @input
+ */
 export function Groups(...groups: string[]): Function {
   return JsonEntityFn((entity) => {
     if (entity.decoratorType === DecoratorTypes.PROP) {

@@ -55,6 +55,7 @@ function mapProperties(properties: {[p: string]: any}) {
 export class JsonSchema extends Map<string, any> implements NestedGenerics {
   readonly $hooks = new Hooks();
   readonly $required: Set<string> = new Set();
+  readonly $allow: any[] = [];
   public $selfRequired: boolean;
   protected _genericLabels: string[];
   protected _nestedGenerics: Type<any>[][] = [];
@@ -350,6 +351,11 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   minProperties(minProperties: number) {
     super.set("minProperties", minProperties);
 
+    return this;
+  }
+
+  allow(...allow: any[]) {
+    this.$allow.push(...allow);
     return this;
   }
 

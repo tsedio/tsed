@@ -357,8 +357,8 @@ describe("JsonSchema", () => {
         expect(schema).to.deep.equal({
           type: "object",
           properties: {
-            name: {type: "string"},
-            email: {type: "string"},
+            name: {type: "string", minLength: 1},
+            email: {type: "string", minLength: 1},
             address: {type: "string"},
             telephone: {type: "string"}
           },
@@ -399,14 +399,14 @@ describe("JsonSchema", () => {
         expect(schema).to.deep.equal({
           type: "object",
           properties: {
-            name: {type: "string"}
+            name: {type: "string", minLength: 1}
           },
           required: ["name"]
         });
 
         const validate = new Ajv().compile(schema);
         expect(validate({name: "William Shakespeare"})).to.equal(true);
-        expect(validate({name: ""})).to.equal(true);
+        expect(validate({name: ""})).to.equal(false);
         expect(validate({name: null})).to.equal(false);
         expect(validate({name: 0})).to.equal(false);
         expect(validate({})).to.equal(false);
@@ -557,7 +557,7 @@ describe("JsonSchema", () => {
             type: "object",
 
             properties: {
-              name: {type: "string"},
+              name: {type: "string", minLength: 1},
               credit_card: {type: "number"},
               billing_address: {type: "string"}
             },
@@ -1369,7 +1369,8 @@ describe("JsonSchema", () => {
         type: "object",
         properties: {
           aliasProp: {
-            type: "string"
+            type: "string",
+            minLength: 1
           }
         },
         required: ["aliasProp"]
@@ -1394,7 +1395,8 @@ describe("JsonSchema", () => {
         type: "object",
         properties: {
           prop: {
-            type: "string"
+            type: "string",
+            minLength: 1
           }
         },
         required: ["prop"]

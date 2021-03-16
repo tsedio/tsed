@@ -248,10 +248,12 @@ describe("@Returns", () => {
             properties: {
               message: {
                 description: "An error message",
+                minLength: 1,
                 type: "string"
               },
               name: {
                 description: "The error name",
+                minLength: 1,
                 type: "string"
               }
             },
@@ -261,8 +263,8 @@ describe("@Returns", () => {
           Unauthorized: {
             type: "object",
             properties: {
-              name: {type: "string", description: "The error name", example: "UNAUTHORIZED", default: "UNAUTHORIZED"},
-              message: {type: "string", description: "An error message"},
+              name: {type: "string", minLength: 1, description: "The error name", example: "UNAUTHORIZED", default: "UNAUTHORIZED"},
+              message: {type: "string", minLength: 1, description: "An error message"},
               status: {type: "number", description: "The status code of the exception", example: 401, default: 401},
               errors: {
                 type: "array",
@@ -278,8 +280,8 @@ describe("@Returns", () => {
           BadRequest: {
             type: "object",
             properties: {
-              name: {type: "string", description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
-              message: {type: "string", description: "An error message"},
+              name: {type: "string", minLength: 1, description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
+              message: {type: "string", minLength: 1, description: "An error message"},
               status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
               errors: {
                 type: "array",
@@ -335,10 +337,12 @@ describe("@Returns", () => {
             additionalProperties: true,
             properties: {
               message: {
+                minLength: 1,
                 description: "An error message",
                 type: "string"
               },
               name: {
+                minLength: 1,
                 description: "The error name",
                 type: "string"
               }
@@ -349,8 +353,8 @@ describe("@Returns", () => {
           BadRequest: {
             type: "object",
             properties: {
-              name: {type: "string", description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
-              message: {type: "string", description: "An error message"},
+              name: {type: "string", minLength: 1, description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
+              message: {type: "string", minLength: 1, description: "An error message"},
               status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
               errors: {
                 type: "array",
@@ -366,8 +370,8 @@ describe("@Returns", () => {
           Unauthorized: {
             type: "object",
             properties: {
-              name: {type: "string", description: "The error name", example: "UNAUTHORIZED", default: "UNAUTHORIZED"},
-              message: {type: "string", description: "An error message"},
+              name: {type: "string", minLength: 1, description: "The error name", example: "UNAUTHORIZED", default: "UNAUTHORIZED"},
+              message: {type: "string", minLength: 1, description: "An error message"},
               status: {type: "number", description: "The status code of the exception", example: 401, default: 401},
               errors: {
                 type: "array",

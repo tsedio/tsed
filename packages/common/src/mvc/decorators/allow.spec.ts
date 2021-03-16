@@ -1,26 +1,9 @@
-import {Get} from "@tsed/common";
 import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
-import {ParamMetadata} from "../models/ParamMetadata";
 import {PropertyMetadata} from "../models/PropertyMetadata";
 import {Allow} from "./allow";
 
 describe("Allow", () => {
-  describe("when decorator is used as param", () => {
-    it("should called with the correct parameters", () => {
-      // WHEN
-      class Test {
-        @Get("/")
-        test(@Allow(null) test: string) {}
-      }
-
-      const metadata = ParamMetadata.get(Test, "test", 0);
-
-      // THEN
-      expect(metadata.allowedRequiredValues).to.deep.eq([null]);
-    });
-  });
-
   describe("when decorator is used as property", () => {
     it("should called with the correct parameters (string)", () => {
       // WHEN
