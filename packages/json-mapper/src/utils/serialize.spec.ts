@@ -35,6 +35,12 @@ describe("serialize()", () => {
       expect(serialize([""])).to.deep.eq([""]);
       expect(serialize(["1"])).to.deep.equal(["1"]);
       expect(serialize([1])).to.deep.equal([1]);
+
+      class ArrayLike extends Array {}
+      const arrayLike = new ArrayLike();
+      arrayLike.push(1);
+
+      expect(serialize(arrayLike)).to.deep.equal([1]);
     });
   });
   describe("Map<primitive>", () => {

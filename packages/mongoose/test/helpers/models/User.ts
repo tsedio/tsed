@@ -79,7 +79,6 @@ export class TestProfile extends BaseModel {
   user: Ref<TestUser>;
 }
 
-
 @Model({ schemaOptions: { timestamps: true } })
 export class SelfUser {
 
@@ -88,4 +87,22 @@ export class SelfUser {
 
   @Ref(() => SelfUser)
   createdBy: Ref<SelfUser>;
+}
+
+@Model({name: "role", schemaOptions: {timestamps: {createdAt: "created", updatedAt: "updated"}}})
+export class TestRole extends BaseModel {
+  @Property()
+  name: string;
+
+  @Property()
+  description: string;
+}
+
+@Model({name: "usernew", schemaOptions: {timestamps: {createdAt: "created", updatedAt: "updated"}}})
+export class TestUserNew extends BaseModel {
+  @Property()
+  name: string;
+
+  @Ref(TestRole)
+  roles: Ref<TestRole>[];
 }

@@ -1,4 +1,16 @@
-import {classOf, isClass, isCollection, isEmpty, isFunction, isNil, isPlainObject, MetadataTypes, objectKeys, Type} from "@tsed/core";
+import {
+  classOf,
+  isArray,
+  isClass,
+  isCollection,
+  isEmpty,
+  isFunction,
+  isNil,
+  isPlainObject,
+  MetadataTypes,
+  objectKeys,
+  Type
+} from "@tsed/core";
 import {alterIgnore, getPropertiesStores, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
 import "../components";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
@@ -133,6 +145,11 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     const jsonMapper = types.get(type)!;
 
     return jsonMapper.serialize(obj, context);
+  }
+
+  if (isArray(obj)) {
+    // Serialize Array class like
+    return types.get(Array)?.serialize(obj, context);
   }
 
   return !isPlainObject(type) ? classToPlainObject(obj, options) : toObject(obj, options);
