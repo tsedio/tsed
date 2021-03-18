@@ -67,8 +67,13 @@
   </div>
 </template>
 <script>
+import {ReleaseNote} from "@tsed/vuepress-common";
+
 export default {
-  name: "HomeBody"
+  name: "HomeBody",
+  components: {
+    ReleaseNote
+  }
 };
 </script>
 <style>

@@ -31,7 +31,7 @@ module.exports = {
     shortTitle: "Ts.ED",
     htmlTitle: "<strong class=\"font-medium\"><span class='text-blue'>Ts</span>.ED</strong>",
     version: require("../../package").version,
-    teams: require("../../teams"),
+    team: require("../../team.json"),
     licenseType: "MIT",
     author: "Lenzotti Romain",
     copyrightDates: {
