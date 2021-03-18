@@ -18,6 +18,6 @@ import {MongooseSchema} from "./schema";
  * @mongoose
  * @property
  */
-export function Indexed(index: IndexOptions | boolean | string = true) {
+export function Indexed(index: IndexOptions | boolean | string = true): PropertyDecorator {
   return MongooseSchema({index} as any);
 }
