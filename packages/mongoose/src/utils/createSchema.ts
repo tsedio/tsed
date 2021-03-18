@@ -1,5 +1,4 @@
 import {cleanObject, nameOf, Store, Type} from "@tsed/core";
-import {registerProvider} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {getProperties, JsonEntityStore} from "@tsed/schema";
 import {pascalCase} from "change-case";
