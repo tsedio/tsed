@@ -4,6 +4,9 @@ import Passport, {Strategy} from "passport";
 import {IProtocol, IProtocolOptions} from "../interfaces";
 import {PROVIDER_TYPE_PROTOCOL} from "../registries/ProtocolRegistries";
 
+/**
+ * @ignore
+ */
 @Injectable()
 export class ProtocolsService {
   readonly strategies: Map<string, Strategy> = new Map();

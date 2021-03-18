@@ -19,7 +19,7 @@ This tutorial shows you how to configure the Express application written with Ts
 
 More information here: [Official AWS Docs](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
 
-<Projects type="examples"/>
+<Projects type="projects"/>
 
 ## Installation
 

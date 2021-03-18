@@ -4,6 +4,7 @@ import {AnyDecorator} from "../../interfaces/AnyDecorator";
 /**
  * @deprecated Since 2020-11-28. Use useDecorators function.
  * @param decorators
+ * @ignore
  */
 export function applyDecorators(...decorators: (any | ClassDecorator | MethodDecorator | PropertyDescriptor | ParameterDecorator)[]): any {
   return useDecorators(...decorators);

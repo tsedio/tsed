@@ -3,6 +3,8 @@
  * @param target
  * @param {string} name
  * @param {Function} callback
+ * @ignore
+ * @deprecated
  */
 export function applyBefore(target: any, name: string, callback: Function) {
   const original = target[name];

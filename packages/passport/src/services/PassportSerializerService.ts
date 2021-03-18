@@ -3,6 +3,9 @@ import {Type} from "@tsed/core";
 import {Constant, Service} from "@tsed/di";
 import {UserInfo} from "../domain/UserInfo";
 
+/**
+ * @ignore
+ */
 @Service()
 export class PassportSerializerService {
   @Constant("passport.userInfoModel", UserInfo)

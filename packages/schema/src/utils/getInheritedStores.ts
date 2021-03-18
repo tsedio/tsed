@@ -5,6 +5,7 @@ import {getJsonEntityStore} from "./getJsonEntityStore";
 /**
  * Return store and his inherited stores
  * @param target
+ * @ignore
  */
 export function getInheritedStores(target: Type<any> | any): Map<Type<any>, JsonEntityStore> {
   const store: any = target.isStore ? target : getJsonEntityStore(target);

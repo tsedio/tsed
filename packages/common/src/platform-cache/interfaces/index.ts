@@ -1,7 +1,7 @@
 import {Cache, CacheOptions, CachingConfig, Store} from "cache-manager";
 import {PlatformContext} from "../../platform/domain/PlatformContext";
 
-export interface CacheSettings extends CacheOptions, CachingConfig {
+export interface PlatformCacheSettings extends CacheOptions, CachingConfig {
   caches?: Cache[];
   store?:
     | "memory"
@@ -24,7 +24,7 @@ declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace TsED {
     interface Configuration {
-      cache?: CacheSettings | false;
+      cache?: PlatformCacheSettings | false;
     }
   }
 }

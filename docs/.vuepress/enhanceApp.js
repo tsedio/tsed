@@ -2,6 +2,7 @@ import VueAnalytics from "vue-analytics";
 import VueTsED from "vuepress-theme-tsed/src/install";
 import "./styles/style.css";
 import SupportUsBlock from "./components/SupportUsBlock";
+import {ReleaseNote} from "@tsed/vuepress-common";
 
 export default ({
                   Vue, // the version of Vue being used in the VuePress app
@@ -12,6 +13,7 @@ export default ({
   try {
     Vue.use(VueTsED);
     Vue.component("SupportUsBlock", SupportUsBlock);
+    Vue.component("ReleaseNote", ReleaseNote);
     Vue.use(VueAnalytics, {
       id: siteData.themeConfig.plugins["@vuepress/google-analytics"].ga,
       router

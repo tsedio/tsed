@@ -11,7 +11,7 @@ meta:
 # Migrate from v5
 ## What's new ?
 
-<ReleaseNote style="max-height: 500px" />
+<ReleaseNote style="max-height: 500px" class="overflow-auto mb-5" />
 
 ### Platform API
 

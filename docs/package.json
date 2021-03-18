@@ -4,7 +4,7 @@
   "description": "Documentation Ts.ED",
   "private": true,
   "scripts": {
-    "vuepress:build": "cross-env NODE_ENV=production node --max_old_space_size=8192 ./node_modules/vuepress/cli.js build .",
+    "vuepress:build": "sh .vuepress/scripts/build.sh",
     "vuepress:serve": "vuepress dev ."
   },
   "husky": {
@@ -62,10 +62,10 @@
     "cross-env": "7.0.3"
   },
   "devDependencies": {
-    "@tsed/markdown-it-symbols": "3.6.0",
+    "@tsed/markdown-it-symbols": "3.10.9",
     "vue-analytics": "5.22.1",
     "vuepress": "1.8.2",
-    "vuepress-theme-tsed": "3.8.0"
+    "vuepress-theme-tsed": "3.10.9"
   },
   "directories": {
     "packages": "packages",

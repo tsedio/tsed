@@ -11,6 +11,9 @@ function getHost(options: JsonSchemaOptions) {
   return host;
 }
 
+/**
+ * @ignore
+ */
 export function createRefName(name: string, options: JsonSchemaOptions) {
   if (options.groups && options.groups.length) {
     return pascalCase(`${name} ${options.groups.join(" ")}`);

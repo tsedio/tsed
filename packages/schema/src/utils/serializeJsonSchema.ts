@@ -78,7 +78,9 @@ export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
 
   return createRef(name, options);
 }
-
+/**
+ * @ignore
+ */
 function toRef(value: any, schema: any, options: JsonSchemaOptions) {
   const name = createRefName(value.getName(), options);
 
@@ -152,7 +154,9 @@ export function serializeObject(input: any, options: JsonSchemaOptions) {
     isArray(input) ? [] : {}
   );
 }
-
+/**
+ * @ignore
+ */
 export function serializeLazyRef(input: JsonLazyRef, options: JsonSchemaOptions) {
   const name = input.name;
 
@@ -221,7 +225,9 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
 
   return obj;
 }
-
+/**
+ * @ignore
+ */
 function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = false}: JsonSchemaOptions) {
   return (
     IGNORES.includes(key) ||
@@ -230,7 +236,9 @@ function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = fal
     (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key))
   );
 }
-
+/**
+ * @ignore
+ */
 function transformTypes(obj: any) {
   const nullable = obj.type.includes("null") ? true : undefined;
 

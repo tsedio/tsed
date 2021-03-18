@@ -11,6 +11,7 @@ export function isArray<T = any>(target: unknown): target is T[] {
  * Return true if the clazz is an array.
  * @param target
  * @returns {boolean}
+ * @ignore
  */
 export function isArrayOrArrayClass<T = any>(target: unknown): target is T[] {
   return target === Array || isArray(target);

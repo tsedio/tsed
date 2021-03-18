@@ -2,6 +2,9 @@ import {DecoratorParameters, DecoratorTypes} from "@tsed/core";
 import {pascalCase} from "change-case";
 import {JsonEntityStore} from "./JsonEntityStore";
 
+/**
+ * @ignore
+ */
 export interface DecoratorActionHandler {
   (ctx: Map<string, any>): void;
 }

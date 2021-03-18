@@ -1,5 +1,7 @@
 import micromatch from "micromatch";
-
+/**
+ * @ignore
+ */
 export function matchGroups(groups: string[], compareWith: string[] = []) {
   const groupsExcludes = groups.filter((group) => group.startsWith("!")).map((group) => group.replace("!", ""));
   const groupsIncludes = groups.filter((group) => !group.startsWith("!"));

@@ -24,7 +24,7 @@ projects:
 Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
 A comprehensive set of strategies support authentication using a username and password, Facebook, Twitter, and more.
   
-<Projects type="examples"/>
+<Projects type="projects"/>
   
 ## Installation
 
@@ -62,7 +62,7 @@ Here is an example with the PassportLocal:
 ::: tip
 For signup and basic flow you can checkout one of our examples:
 
-<Projects type="examples"/>
+<Projects type="projects"/>
 :::
 
 ## Create the Passport controller

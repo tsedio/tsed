@@ -2,6 +2,12 @@ import {Type} from "@tsed/core";
 import {getJsonSchema} from "@tsed/schema";
 import {defineStaticGetter} from "../utils/defineStaticGetter";
 
+/**
+ *
+ * @param tableName
+ * @decorator
+ * @objection
+ */
 export function Entity(tableName: string): ClassDecorator {
   if (!tableName) {
     throw new Error("Please provide a table name");

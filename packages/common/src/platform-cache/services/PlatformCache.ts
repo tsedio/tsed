@@ -3,7 +3,7 @@ import {Configuration, Injectable} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
 import cacheManager, {Cache, CachingConfig, MultiCache, TtlFunction} from "cache-manager";
 import {PlatformContext} from "../../platform/domain/PlatformContext";
-import {CacheSettings} from "../interfaces";
+import {PlatformCacheSettings} from "../interfaces";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
@@ -20,11 +20,11 @@ export class PlatformCache {
   cache: Cache | MultiCache | undefined;
 
   disabled(): boolean {
-    return !this.settings.get<CacheSettings>("cache");
+    return !this.settings.get<PlatformCacheSettings>("cache");
   }
 
   $onInit() {
-    const settings = this.settings.get<CacheSettings>("cache");
+    const settings = this.settings.get<PlatformCacheSettings>("cache");
 
     if (settings) {
       const {caches, store = "memory", ttl, ...props} = settings;
