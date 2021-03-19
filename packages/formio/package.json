@@ -17,7 +17,7 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "tslib": "2.0.1"
+    "tslib": "2.1.0"
   },
   "private": false,
   "devDependencies": {

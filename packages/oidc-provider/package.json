@@ -13,7 +13,7 @@
     "@types/lowdb": "1.0.9",
     "@types/uuid": "8.3.0",
     "lowdb": "1.0.0",
-    "tslib": "2.0.1",
+    "tslib": "2.1.0",
     "uuid": "8.3.2"
   },
   "private": false,

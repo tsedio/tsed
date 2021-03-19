@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "swagger-ui-dist": "^3.31.1",
-    "tslib": "2.0.1"
+    "tslib": "2.1.0"
   },
   "private": false,
   "devDependencies": {
