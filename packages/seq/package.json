@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@tsed/logger-seq": "^5.12.0",
-    "tslib": "2.0.1"
+    "tslib": "2.1.0"
   },
   "devDependencies": {
     "@tsed/common": "6.34.2",

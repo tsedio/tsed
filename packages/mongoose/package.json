@@ -8,7 +8,8 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "tslib": "2.0.1"
+    "tslib": "2.1.0",
+    "change-case": "4.1.2"
   },
   "peerDependencies": {
     "mongoose": "^5.11.12"
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@tsed/common": "6.34.2",
     "@tsed/core": "6.34.2",
+    "@tsed/schema": "6.34.2",
     "mongoose": "^5.11.12"
   }
 }
