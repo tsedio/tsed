@@ -170,6 +170,30 @@ export class MyService {
 }
 ```
 
+::: warning
+node-cache-manager serialize all data as JSON object. It means, if you want to cache a complex data like an instance of class, you have to give extra parameters
+to the UseCache decorator. Ts.ED will use @@deserialize@@ function based on the given `type` (and `collectionType`) to return the expected instance.
+
+
+```typescript
+import {Injectable} from "@tsed/di";
+import {UseCache} from "@tsed/common";
+
+@Injectable()
+export class MyService {
+  @UseCache({type: MyClass})
+  get(id: string): MyClass {
+    return new MyClass({id});
+  }
+  
+  @UseCache({type: MyClass, collectionType: Array})
+  getAll(): MyClass[] {
+    return [new MyClass({id: 1})];
+  }
+}
+```
+:::
+
 ## Configure key resolver
 
 By default, Ts.ED uses the request VERB & URL (in an HTTP app) or cache key (for other Service and Provider) to associate cache records with your endpoints.
