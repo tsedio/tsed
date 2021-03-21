@@ -50,6 +50,39 @@ The path option for Swagger will be used to expose the documentation:
 Ts.ED will print the swagger-ui url in the console.
 :::
 
+::: warning
+When using helmet, there may be a problem with CSP, to solve this collision, configure the CSP as shown below:
+
+```typescript
+@Configuration({
+  middlewares: [
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: [`'self'`],
+          styleSrc: [`'self'`, `'unsafe-inline'`],
+          imgSrc: [`'self'`, 'data:', 'validator.swagger.io'],
+          scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+        }
+      }
+    })
+  ]
+})
+export class Server {}
+
+// If you are not going to use CSP at all, you can use this:
+@Configuration({
+  middlewares: [
+    helmet({
+      contentSecurityPolicy: false,
+    })
+  ]
+})
+export class Server {}
+```
+
+:::
+
 ### Swagger options
 
 Some options are available to configure Swagger-ui, Ts.ED and the default spec information.
