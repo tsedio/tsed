@@ -32,11 +32,11 @@ Then add the following configuration in your server [Configuration](/docs/config
 
 ## Configuration
 
-- `path` &lt;string&gt;: name of the path to capture (/socket.io).
-- `serveClient` &lt;boolean&gt;: whether to serve the client files (true).
-- `adapter` &lt;Adapter&gt;: the adapter to use. Defaults to an instance of the Adapter that ships with Socket.io which is memory based. See [socket.io-adapter](https://github.com/socketio/socket.io-adapter).
-- `cors` &lt;string&gt;: Cors configuration.
-- `parser` &lt;Parser&gt;: the parser to use. Defaults to an instance of the Parser that ships with Socket.io. See [socket.io-parser](https://github.com/socketio/socket.io-parser).
+- `path`: name of the path to capture (/socket.io).
+- `serveClient`: whether to serve the client files (true).
+- `adapter`: the adapter to use. Defaults to an instance of the Adapter that ships with Socket.io which is memory based. See [socket.io-adapter](https://github.com/socketio/socket.io-adapter).
+- `cors`: Cors configuration.
+- `parser`: the parser to use. Defaults to an instance of the Parser that ships with Socket.io. See [socket.io-parser](https://github.com/socketio/socket.io-parser).
 
 For more information see [Socket.io documentation](https://socket.io/docs/server-api/#)
 
