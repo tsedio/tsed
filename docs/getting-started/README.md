@@ -115,7 +115,7 @@ Compatibility for Koa.js with Passport.js is planed.
 
 ## What's new ?
 
-<ReleaseNote style="max-height: 500px" />
+<ReleaseNote style="max-height: 500px" class="overflow-auto mb-5" />
 
 ### Platform API
 

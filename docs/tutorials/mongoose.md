@@ -15,7 +15,7 @@ projects:
 
 This tutorial shows you how you can use mongoose package with Ts.ED. 
 
-<Projects type="examples"/>
+<Projects type="projects"/>
 
 ## Features
 

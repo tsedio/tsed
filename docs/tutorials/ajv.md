@@ -19,7 +19,7 @@ This tutorial shows you how you can validate your data with decorators.
 Validation feature uses [Ajv](https://github.com/epoberezkin/ajv)
  and [json-schema](http://json-schema.org/latest/json-schema-validation.html) to perform the model validation.
  
-<Projects type="examples"/>
+<Projects type="projects"/>
 
 ## Installation
 

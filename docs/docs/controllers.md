@@ -394,7 +394,7 @@ This example will produce a response with status code 400 and "Not a number" mes
 :::
 
 ::: tip
-See our guide on [HttpExceptions to throw customer HttpExceptions](/tutorials/throw-http-exceptions.md)
+See our guide on [HttpExceptions to throw customer HttpExceptions](/docs/throw-http-exceptions.md)
 :::
 
 ## Inject Request and Response

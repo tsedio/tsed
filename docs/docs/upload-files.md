@@ -14,7 +14,7 @@ projects:
 Ts.ED supports now the uploading files by default. We use [Multer](https://github.com/expressjs/multer) module
 to handle `multipart/form-data` from request. 
 
-<Projects type="examples"/>
+<Projects type="projects"/>
 
 ::: tip
 Originally, multer is provided by Express.js, but Ts.ED implements a multer wrapper to support Koa.js platform based on the official [@koa/multer](https://www.npmjs.com/package/@koa/multer) module.
