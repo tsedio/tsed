@@ -1,7 +1,6 @@
 import {toMap as tMap} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {MongooseDocument, MongooseModel} from "@tsed/mongoose";
-import {promisify} from "util";
 import {FormioMapper} from "../builder/FormioMapper";
 import {FormioAction} from "../domain/FormioAction";
 import {FormioActionItem, FormioForm, FormioRole, FormioSubmission, FormioToken} from "../domain/FormioModels";
@@ -66,5 +65,29 @@ export class FormioDatabase {
 
   async hasForms(): Promise<boolean> {
     return (await this.formModel.countDocuments()) > 0;
+  }
+
+  async hasForm(name: string): Promise<boolean> {
+    return !!(await this.formModel.countDocuments({machineName: {$eq: name}}));
+  }
+
+  async getForm(name: string) {
+    return this.formModel.findOne({machineName: {$eq: name}});
+  }
+
+  async createFormIfNotExists(form: FormioForm, onCreate?: (form: FormioForm) => any) {
+    if (!(await this.hasForm(form.name))) {
+      const createForm = await this.saveFormDefinition(form);
+
+      onCreate && (await onCreate(createForm));
+    }
+
+    return this.getForm(form.name);
+  }
+
+  async saveFormDefinition(form: FormioForm) {
+    const mapper = await this.getFormioMapper();
+
+    return new this.formModel(mapper.mapToImport(form)).save();
   }
 }

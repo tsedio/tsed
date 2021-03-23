@@ -13,9 +13,13 @@ async function createServiceFixture() {
         role: {
           find: sandbox.stub().resolves([{_id: "role_id", machineName: "role_machine"}])
         },
-        form: {
-          countDocuments: sandbox.stub(),
-          find: sandbox.stub().resolves([{_id: "form_id", machineName: "form_machine"}])
+        form: class {
+          static countDocuments = sandbox.stub();
+          static find = sandbox.stub().resolves([{_id: "form_id", machineName: "form_machine"}]);
+          static findOne = sandbox.stub();
+          save(): any {}
+
+          constructor(public ctrOpts: any) {}
         },
         action: {
           find: sandbox.stub().resolves([{_id: "action_id", machineName: "action_machine"}])
@@ -140,6 +144,52 @@ describe("FormioDatabase", () => {
     it("should return the actionItemModel", async () => {
       const {service, formioService} = await createServiceFixture();
       expect(service.actionItemModel).to.deep.eq(formioService.mongoose.models.actionItem);
+    });
+  });
+  describe("createFormIfNotExists()", () => {
+    it("should return create the form if not exists", async () => {
+      const {service, formioService} = await createServiceFixture();
+      const onCreate = sandbox.stub();
+      const form: any = {
+        name: "name"
+      };
+
+      formioService.mongoose.models.form.countDocuments.resolves(false);
+      formioService.mongoose.models.form.findOne.resolves({
+        _id: "id",
+        name: "name"
+      });
+
+      sandbox.stub(formioService.mongoose.models.form.prototype, "save").resolves({
+        _id: "id",
+        name: "name"
+      });
+
+      await service.createFormIfNotExists(form, onCreate);
+      expect(onCreate).to.have.been.calledWithExactly({
+        _id: "id",
+        name: "name"
+      });
+    });
+    it("should not create form is exists", async () => {
+      const {service, formioService} = await createServiceFixture();
+      const onCreate = sandbox.stub();
+      const form: any = {
+        name: "name"
+      };
+
+      formioService.mongoose.models.form.countDocuments.resolves(true);
+      formioService.mongoose.models.form.findOne.resolves({
+        _id: "id",
+        name: "name"
+      });
+
+      const result = await service.createFormIfNotExists(form, onCreate);
+
+      expect(result).to.deep.equal({
+        _id: "id",
+        name: "name"
+      });
     });
   });
 });
