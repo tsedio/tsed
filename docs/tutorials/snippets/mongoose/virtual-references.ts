@@ -1,4 +1,4 @@
-import {Property} from "@tsed/common";
+import {Property} from "@tsed/schema";
 import {Model, Ref, VirtualRef, VirtualRefs} from "@tsed/mongoose";
 
 @Model()
@@ -26,7 +26,7 @@ class Band {
 
 @Model()
 export class MyRef {
-  @VirtualRef("MyModel")
+  @VirtualRef({ref: "MyModel", justOne: true})
   virtual: VirtualRef<MyModel>;
 
   @VirtualRef("MyModel")
