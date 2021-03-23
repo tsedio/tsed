@@ -113,7 +113,6 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
     }
 
     if (isVirtualRef(schemaTypeOptions)) {
-      schemaTypeOptions.justOne = !propertyMetadata.isArray;
       schema.virtuals.set(key as string, schemaTypeOptions);
 
       return;

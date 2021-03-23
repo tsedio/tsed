@@ -40,6 +40,7 @@ describe("buildMongooseSchema", () => {
       propertyMetadata.type = String;
       propertyMetadata.store.set(MONGOOSE_SCHEMA, {
         ref: "ref",
+        justOne: true,
         localField: "localField",
         foreignField: "foreignField"
       });
