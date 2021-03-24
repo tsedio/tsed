@@ -1,4 +1,3 @@
-import {ConnectOptions} from "mongoose";
 import {FormioSettings} from "./FormioSettings";
 import {FormioTemplate} from "./FormioTemplate";
 
