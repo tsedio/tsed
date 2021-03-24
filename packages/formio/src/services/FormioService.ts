@@ -10,6 +10,7 @@ import {FormioSchemas} from "../domain/FormioModels";
 import {FormioRouter} from "../domain/FormioRouter";
 import {FormioTemplate} from "../domain/FormioTemplate";
 import {FormioExportOptions} from "../domain/FormioTemplateUtil";
+import {FormioHooksService} from "./FormioHooksService";
 
 const createRouter = require("formio");
 const swagger = require("formio/src/util/swagger.js");
@@ -21,6 +22,9 @@ export class FormioService {
 
   @Inject()
   protected injector: InjectorService;
+
+  @Inject()
+  protected hooksService: FormioHooksService;
 
   // istanbul ignore next
   get swagger() {
@@ -93,38 +97,17 @@ export class FormioService {
 
       this.router = this.createRouter(this.mapConfiguration(options));
 
-      return this.router.init(this.getHooks());
+      const formio = await this.router.init(this.hooksService.getHooks());
+
+      this.router.post("/form/:formId/storage/:storageType", (req, res) => {});
+
+      return formio;
     }
   }
 
   // istanbul ignore next
   public createRouter(options: FormioConfig) {
     return createRouter(options);
-  }
-
-  protected getHooksProvider(type: "alter" | "on") {
-    return this.injector.getProviders(`formio:${type}`).reduce((hooks, provider) => {
-      const instance = this.injector.invoke<any>(provider.token);
-      const name = provider.store.get(`formio:${type}:name`);
-      const method = type === "alter" ? "transform" : "on";
-
-      return {
-        ...hooks,
-        [name]: (...args: any[]) =>
-          instance[method](
-            ...args.map((input: any) => {
-              return input && input.$ctx ? input.$ctx : input;
-            })
-          )
-      };
-    }, {});
-  }
-
-  protected getHooks(): FormioHooks {
-    return {
-      alter: this.getHooksProvider("alter"),
-      on: this.getHooksProvider("on")
-    };
   }
 
   protected bindLogger() {
