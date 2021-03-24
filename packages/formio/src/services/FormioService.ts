@@ -104,7 +104,7 @@ export class FormioService {
     if (options && Object.keys(options).length) {
       this.router = this.createRouter(this.mapConfiguration(options));
       this.bindLogger();
-
+///       this.router.post("/form/:formId/storage/:storageType", (req, res) => {});
       return this.router.init(hooks);
     }
   }

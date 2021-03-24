@@ -1985,12 +1985,28 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-8.0.3.tgz#51b21b6acb6d1b923bbdc7725c38f9f455166402"
   integrity sha512-vyxR57nv8NfcU0GZu8EUXZLTbCMupIUwy95LJ6lllN+JRPG25CwMHoB1q5xKh8YKhQnHYRAn4yW2yuHbf/5xgg==
 
+"@types/mongodb@*":
+  version "3.6.10"
+  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.10.tgz#80cceaabeec9f460e5b46844e938e8eba74f9266"
+  integrity sha512-BkwAHFiZSSWdTIqbUVGmgvIsiXXjqAketeK7Izy7oSs6G3N8Bn993tK9eq6QEovQDx6OQ2FGP2KWDDxBzdlJ6Q==
+  dependencies:
+    "@types/bson" "*"
+    "@types/node" "*"
+
 "@types/mongodb@^3.5.27":
   version "3.6.1"
   resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.1.tgz#4d30e4a1506446df0f9157eaf969ac694fa0771e"
   integrity sha512-+osAbNePe5UIQQCuSVkvDQoec76eRD5ZIvu9CBSf+efms1g7cV5Ni+GIPUIdDm9p1pHW4OxyepwBuUXSkFJDtw==
   dependencies:
     "@types/bson" "*"
+    "@types/node" "*"
+
+"@types/mongoose@*":
+  version "5.10.4"
+  resolved "https://registry.yarnpkg.com/@types/mongoose/-/mongoose-5.10.4.tgz#183918f7c6150a05c2081b29de2cf2e839b3206b"
+  integrity sha512-U7fNDcTcdaSGzQ3+mlSBeebiYr6eaacJi330LTLOEh8Sm6mXfuec70ag/UXkL+alFm7pfAjFqfc7jEaJEJvAHQ==
+  dependencies:
+    "@types/mongodb" "*"
     "@types/node" "*"
 
 "@types/multer@^1.4.3":
@@ -2109,6 +2125,14 @@
   dependencies:
     "@types/node" "*"
     safe-buffer "*"
+
+"@types/resourcejs@1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@types/resourcejs/-/resourcejs-1.9.4.tgz#fcc87762e301d2df27804acbabe7a08e5ac45d29"
+  integrity sha512-xJp1qxcpW/8/vPkmUScSOMUV+yAr3W9V8mQFZzujnFKpAxmEHhJE4X+b1hKj6f8zzi9V78zSgDcY4zUEobK8Lg==
+  dependencies:
+    "@types/express" "*"
+    "@types/mongoose" "*"
 
 "@types/retry@^0.12.0":
   version "0.12.0"
