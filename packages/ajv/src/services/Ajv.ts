@@ -1,7 +1,8 @@
 import {cleanObject} from "@tsed/core";
 import {Configuration, InjectorService, ProviderScope, registerProvider} from "@tsed/di";
-import Ajv, {KeywordDefinition, Vocabulary} from "ajv";
+import Ajv, {Format, KeywordDefinition, Vocabulary} from "ajv";
 import AjvFormats from "ajv-formats";
+import {FormatsMethods} from "../interfaces/FormatsMethods";
 import {IAjvSettings} from "../interfaces/IAjvSettings";
 
 function getHandler(key: string, service: any) {
@@ -29,6 +30,26 @@ function bindKeywords(injector: InjectorService): Vocabulary {
   });
 }
 
+function getFormatsProviders(injector: InjectorService) {
+  return injector.getProviders("ajv:formats");
+}
+
+function getFormats(injector: InjectorService): {name: string; options: Format}[] {
+  return getFormatsProviders(injector).map((provider) => {
+    const {name, options} = provider.store.get<any>("ajv:formats", {})!;
+    const service = injector.invoke<FormatsMethods<any>>(provider.token);
+
+    return {
+      name,
+      options: {
+        ...options,
+        validate: service.validate.bind(service),
+        compare: service.compare?.bind(service)
+      }
+    };
+  });
+}
+
 registerProvider({
   provide: Ajv,
   deps: [Configuration, InjectorService],
@@ -46,6 +67,10 @@ registerProvider({
     const ajv = new Ajv(options);
 
     AjvFormats(ajv);
+
+    getFormats(injector).forEach(({name, options}) => {
+      ajv.addFormat(name, options);
+    });
 
     return ajv;
   }

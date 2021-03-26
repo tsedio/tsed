@@ -437,7 +437,7 @@ export function Uri() {
  *   "properties": {
  *     "property": {
  *       "type": "string",
- *       "format": "uri"
+ *       "format": "url"
  *     }
  *   }
  * }
@@ -447,7 +447,7 @@ export function Uri() {
  *
  * ```typescript
  * class Model {
- *    @Uri()
+ *    @Url()
  *    @CollectionOf(String)
  *    property: string[];
  * }
@@ -463,7 +463,7 @@ export function Uri() {
  *       "type": "array",
  *       "items": {
  *          "type": "string",
- *          "format": "uri"
+ *          "format": "url"
  *       }
  *     }
  *   }

@@ -1078,10 +1078,10 @@
   resolved "https://registry.yarnpkg.com/@tsed/markdown-it-symbols/-/markdown-it-symbols-3.10.9.tgz#813a453f47ddbe115f644d5f9cc604785dde36ef"
   integrity sha512-0pZwJsAaynAqyuLDOf4XR3IMTJ4tTzJSuXSlRvoqiPRoKu1/gHTwBMIGspsNDT97I5ViCeL1JFYZu0vzsQnBPg==
 
-"@tsed/vuepress-common@3.11.2":
-  version "3.11.2"
-  resolved "https://registry.yarnpkg.com/@tsed/vuepress-common/-/vuepress-common-3.11.2.tgz#4e4df529f27e758919e8768e0a9b5b10a9883545"
-  integrity sha512-iyWMt16r5bH8mQQqLtZNcAP26qq7FQzx1fDKUab4j4MXVILUpRF62ns3mJ5+vPG+LOIUL8kmLEAHO+bbcIt4Mw==
+"@tsed/vuepress-common@3.11.3":
+  version "3.11.3"
+  resolved "https://registry.yarnpkg.com/@tsed/vuepress-common/-/vuepress-common-3.11.3.tgz#88d2be3bea5fc7fb2da2ed1425c05b3fe1de39fb"
+  integrity sha512-O2fy5qaYYg+Lm91eoRFam6kWnXM8waVZpCotC28ERRdzk1lJPAGMSlzIdfCyGlcggEKSW5V2o1vhiAT2qGFawg==
   dependencies:
     "@docsearch/css" "1.0.0-alpha.28"
     "@docsearch/js" "1.0.0-alpha.28"
@@ -1103,10 +1103,10 @@
     v-tooltip "^2.1.2"
     vue-lazy-hydration "^2.0.0-beta.4"
 
-"@tsed/vuepress-tailwind-config@3.11.2":
-  version "3.11.2"
-  resolved "https://registry.yarnpkg.com/@tsed/vuepress-tailwind-config/-/vuepress-tailwind-config-3.11.2.tgz#e5cde33fdff7e8c12b8a30b4fe2534533cd7ed3f"
-  integrity sha512-CJMamKbxhnVPNJ7nyOf0G+YFzpnnvrBjaR14BiL2+XWqjmhUBxRscq10bjnDkgMnmTAsp2CQOmX/+5X+HdUvaw==
+"@tsed/vuepress-tailwind-config@3.11.3":
+  version "3.11.3"
+  resolved "https://registry.yarnpkg.com/@tsed/vuepress-tailwind-config/-/vuepress-tailwind-config-3.11.3.tgz#09015f751552836cf59764af26302b3903f3dd1f"
+  integrity sha512-4ejCni29OwOh97qM3xUqFLEeLC74iknWR/+nvx9hqeI511eUBImuPRg9JOOSkPxNv4/hgxVRZxoVEDQ/+/VoAw==
   dependencies:
     tailwindcss "1.9.6"
 
@@ -8412,18 +8412,18 @@ vuepress-plugin-smooth-scroll@^0.0.3:
   dependencies:
     smoothscroll-polyfill "^0.4.3"
 
-vuepress-theme-tsed@3.11.2:
-  version "3.11.2"
-  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.11.2.tgz#4f823c728d80cf13330a53042a2b665b0594fc34"
-  integrity sha512-KvkTOSQEC7neZj9sCEkj7dL9yew1LMfs5gJo2a8noN4uwMEDZNr9fYmvrDne/dMsA4ig44ugoajy83gG1KcHtA==
+vuepress-theme-tsed@3.11.3:
+  version "3.11.3"
+  resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.11.3.tgz#b2fc95a6477ec8b3eb19832dfa92ccc395ddedf1"
+  integrity sha512-iiW4hDxo0zoLaP2OmcGME8UtPRnbVjbw24ySLxrrThDoJYxryEHKuUlYbbsKNoce1Big51oQLy1vrC5u/vzLzA==
   dependencies:
     "@docsearch/css" "1.0.0-alpha.28"
     "@docsearch/js" "1.0.0-alpha.28"
     "@sass-collective/sass-rem" "^1.4.1"
     "@silvanite/vuepress-plugin-tailwind" "^1.3.0"
     "@tsed/markdown-it-symbols" "2.15.0"
-    "@tsed/vuepress-common" "3.11.2"
-    "@tsed/vuepress-tailwind-config" "3.11.2"
+    "@tsed/vuepress-common" "3.11.3"
+    "@tsed/vuepress-tailwind-config" "3.11.3"
     "@vuepress/plugin-active-header-links" "1.7.1"
     "@vuepress/plugin-medium-zoom" "^1.8.0"
     "@vuepress/plugin-nprogress" "1.7.1"
