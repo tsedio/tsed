@@ -59,13 +59,14 @@
   },
   "homepage": "http://tsed.io/",
   "dependencies": {
-    "cross-env": "7.0.3"
+    "cross-env": "7.0.3",
+    "millify": "^3.5.0"
   },
   "devDependencies": {
     "@tsed/markdown-it-symbols": "3.10.9",
     "vue-analytics": "5.22.1",
     "vuepress": "1.8.2",
-    "vuepress-theme-tsed": "3.10.9"
+    "vuepress-theme-tsed": "3.11.2"
   },
   "directories": {
     "packages": "packages",
