@@ -80,58 +80,67 @@ module.exports = {
             title: `Configuration | ${title}`
           },
           {
-            text: "Documentation",
+            text: "Docs",
             link: "/docs/controllers.html",
             title: `Documentation | ${title}`
           },
           {
-            title: `Plugins | ${title}`,
-            text: "Plugins",
-            link: "/plugins",
+            title: `Warehouse | ${title}`,
+            text: "Warehouse",
+            link: "/warehouse/",
             items: [
               {
-                text: "AJV",
-                link: "/tutorials/ajv.md"
+                text: "Explore plugins",
+                link: "/warehouse/"
               },
               {
-                text: "AWS",
-                link: "/tutorials/aws.md"
-              },
-              {
-                text: "Passport.js",
-                link: "/tutorials/passport.md"
-              },
-              {
-                text: "TypeORM",
-                link: "/tutorials/typeorm.md"
-              },
-              {
-                text: "Mongoose",
-                link: "/tutorials/mongoose.md"
-              },
-              {
-                text: "Objection.js",
-                link: "/tutorials/objection.md"
-              },
-              {
-                text: "GraphQL",
-                link: "/tutorials/graphql.md"
-              },
-              {
-                text: "Socket.io",
-                link: "/tutorials/socket-io.md"
-              },
-              {
-                text: "Swagger",
-                link: "/tutorials/swagger.md"
-              },
-              {
-                text: "OIDC",
-                link: "/tutorials/oidc.md"
-              },
-              {
-                text: "Stripe",
-                link: "/tutorials/stripe.md"
+                text: "Official plugins",
+                items: [
+                  {
+                    text: "AJV",
+                    link: "/tutorials/ajv.md"
+                  },
+                  {
+                    text: "AWS",
+                    link: "/tutorials/aws.md"
+                  },
+                  {
+                    text: "Passport.js",
+                    link: "/tutorials/passport.md"
+                  },
+                  {
+                    text: "TypeORM",
+                    link: "/tutorials/typeorm.md"
+                  },
+                  {
+                    text: "Mongoose",
+                    link: "/tutorials/mongoose.md"
+                  },
+                  {
+                    text: "Objection.js",
+                    link: "/tutorials/objection.md"
+                  },
+                  {
+                    text: "GraphQL",
+                    link: "/tutorials/graphql.md"
+                  },
+                  {
+                    text: "Socket.io",
+                    link: "/tutorials/socket-io.md"
+                  },
+                  {
+                    text: "Swagger",
+                    link: "/tutorials/swagger.md"
+                  },
+                  {
+                    text: "OIDC",
+                    link: "/tutorials/oidc.md"
+                  },
+                  {
+                    text: "Stripe",
+                    link: "/tutorials/stripe.md"
+                  }
+                ]
               }
             ]
           },
