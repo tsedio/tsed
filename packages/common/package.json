@@ -49,7 +49,7 @@
     "@tsed/di": "6.36.0",
     "@tsed/exceptions": "6.36.0",
     "@tsed/json-mapper": "6.36.0",
-    "@tsed/logger": "^5.12.0",
+    "@tsed/logger": "^5.12.1",
     "@tsed/schema": "6.36.0",
     "@types/cache-manager": "^3.4.0",
     "@types/json-schema": "7.0.6",
