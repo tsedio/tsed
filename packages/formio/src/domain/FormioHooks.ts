@@ -208,5 +208,5 @@ export interface FormioHook {
    * @param event
    * @param args
    */
-  alter(event: string, args: any[]): any;
+  alter(event: string, ...args: any[]): any;
 }
