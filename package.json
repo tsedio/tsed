@@ -146,6 +146,9 @@
       "**/fs-extra/**"
     ]
   },
+  "resolutions": {
+    "mongoose": "5.12.2"
+  },
   "monorepo": {
     "productionBranch": "production",
     "developBranch": "production",
