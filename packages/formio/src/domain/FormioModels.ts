@@ -30,7 +30,7 @@ export interface FormioPermission {
 export interface FormioComponent {
   type: string;
   input?: boolean;
-  label: string;
+  label?: string;
   key: string;
   placeholder?: string;
   template?: string;
@@ -48,7 +48,7 @@ export interface FormioComponent {
     [key: string]: any;
   };
   customConditional?: string;
-  components?: FormioForm[];
+  components?: FormioComponent[];
   legend?: string;
   tree?: boolean;
   tableView?: boolean;
@@ -79,7 +79,7 @@ export interface FormioForm {
   /**
    * The form type.
    */
-  type: "form" | "resource";
+  type: string;
   /**
    * The display method for this form
    */
