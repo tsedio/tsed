@@ -25,10 +25,10 @@
     "@tsed/core": "6.36.0",
     "@tsed/di": "6.36.0",
     "@tsed/mongoose": "6.36.0",
-    "formio": "^2.0.0-rc.42",
-    "mongoose": "^5.11.12"
+    "formio": "^2.0.0",
+    "mongoose": "^5.12.2"
   },
   "peerDependencies": {
-    "formio": "^2.0.0-rc.42"
+    "formio": "^2.0.0"
   }
 }

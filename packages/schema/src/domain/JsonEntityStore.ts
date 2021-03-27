@@ -10,7 +10,6 @@ import {
   Store,
   Type
 } from "@tsed/core";
-import {mapAllowedRequiredValues} from "../utils/mapAllowedRequiredValues";
 import {JsonOperation} from "./JsonOperation";
 import {JsonParameter} from "./JsonParameter";
 import {JsonSchema} from "./JsonSchema";
@@ -191,27 +190,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
   }
 
   get allowedRequiredValues() {
-    if (!this._allowedRequiredValues) {
-      this._allowedRequiredValues = [];
-      if (this.decoratorType === DecoratorTypes.PROP) {
-        const schema = this.parent.schema.toJSON({useAlias: false, withIgnoredProps: true}).properties[this.propertyName];
-
-        if (schema) {
-          const type: string | string[] = schema.type || "";
-
-          this._allowedRequiredValues = mapAllowedRequiredValues(type, schema);
-        }
-      }
-
-      if (this.decoratorType === DecoratorTypes.PARAM) {
-        const schema = this.parameter!.$schema;
-        const type: string | string[] = schema.get("type") || "";
-
-        this._allowedRequiredValues = mapAllowedRequiredValues(type, schema.toJSON());
-      }
-    }
-
-    return this._allowedRequiredValues;
+    return this.schema.$allow;
   }
 
   /**

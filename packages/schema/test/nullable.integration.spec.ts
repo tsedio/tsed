@@ -12,8 +12,6 @@ class Product {
 
   @Any(String, Number, null)
   priceDetails: string | number | null;
-  
-  update
 }
 
 @Path("/nullable")

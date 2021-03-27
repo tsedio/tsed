@@ -29,7 +29,17 @@ class TestBodyParamsCtrl {
   }
 
   @Post("/scenario-4")
-  testScenario3(@Required() @BodyParams("test") value: string[]): any {
+  testScenario4(@Required() @BodyParams("test") value: string[]): any {
+    return {value};
+  }
+
+  @Post("/scenario-4b")
+  testScenario4b(@Required() @BodyParams("test") value: string): any {
+    return {value};
+  }
+
+  @Post("/scenario-4c")
+  testScenario4c(@Required() @BodyParams("test") value: number): any {
     return {value};
   }
 
@@ -128,8 +138,85 @@ export function testBodyParams(options: PlatformTestOptions) {
 
       expect(response.body).to.deep.equal({value: ["value"]});
     });
-    it("should return an empty array (1)", async () => {
+    it("should throw an exception", async () => {
       const response = await request.post("/rest/body-params/scenario-4").send().expect(400);
+
+      expect(response.body).to.deep.equal({
+        name: "REQUIRED_VALIDATION_ERROR",
+        message: "Bad request on parameter \"request.body.test\".\nIt should have required parameter 'test'",
+        status: 400,
+        errors: [
+          {
+            dataPath: "",
+            keyword: "required",
+            message: "It should have required parameter 'test'",
+            modelName: "body",
+            params: {missingProperty: "test"},
+            schemaPath: "#/required"
+          }
+        ]
+      });
+    });
+  });
+
+  describe("Scenario4b: with expression required String", () => {
+    it("should return value", async () => {
+      const response = await request.post("/rest/body-params/scenario-4b").send({test: "value"}).expect(200);
+
+      expect(response.body).to.deep.equal({value: "value"});
+    });
+    it("should throw an exception when nothing is sent", async () => {
+      const response = await request.post("/rest/body-params/scenario-4b").send().expect(400);
+
+      expect(response.body).to.deep.equal({
+        name: "REQUIRED_VALIDATION_ERROR",
+        message: "Bad request on parameter \"request.body.test\".\nIt should have required parameter 'test'",
+        status: 400,
+        errors: [
+          {
+            dataPath: "",
+            keyword: "required",
+            message: "It should have required parameter 'test'",
+            modelName: "body",
+            params: {missingProperty: "test"},
+            schemaPath: "#/required"
+          }
+        ]
+      });
+    });
+    it("should throw an exception when nothing is an empty string is sent", async () => {
+      const response = await request.post("/rest/body-params/scenario-4b").send({test: ""}).expect(400);
+
+      expect(response.body).to.deep.equal({
+        name: "REQUIRED_VALIDATION_ERROR",
+        message: "Bad request on parameter \"request.body.test\".\nIt should have required parameter 'test'",
+        status: 400,
+        errors: [
+          {
+            dataPath: "",
+            keyword: "required",
+            message: "It should have required parameter 'test'",
+            modelName: "body",
+            params: {missingProperty: "test"},
+            schemaPath: "#/required"
+          }
+        ]
+      });
+    });
+  });
+  describe("Scenario4c: with expression required Number", () => {
+    it("should return value (with 1)", async () => {
+      const response = await request.post("/rest/body-params/scenario-4c").send({test: 1}).expect(200);
+
+      expect(response.body).to.deep.equal({value: 1});
+    });
+    it("should return value (with 0)", async () => {
+      const response = await request.post("/rest/body-params/scenario-4c").send({test: 0}).expect(200);
+
+      expect(response.body).to.deep.equal({value: 0});
+    });
+    it("should throw an exception when nothing is sent", async () => {
+      const response = await request.post("/rest/body-params/scenario-4b").send().expect(400);
 
       expect(response.body).to.deep.equal({
         name: "REQUIRED_VALIDATION_ERROR",
