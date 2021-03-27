@@ -13,7 +13,7 @@
   },
   "private": false,
   "peerDependencies": {
-    "mongoose": "^5.11.8"
+    "mongoose": "^5.12.2"
   },
   "devDependencies": {
     "@tsed/common": "6.36.0",

@@ -12,7 +12,7 @@
     "tslib": "2.1.0"
   },
   "peerDependencies": {
-    "mongoose": "^5.11.12"
+    "mongoose": "^5.12.2"
   },
   "private": false,
   "directories": {
@@ -23,6 +23,6 @@
     "@tsed/common": "6.36.0",
     "@tsed/core": "6.36.0",
     "@tsed/schema": "6.36.0",
-    "mongoose": "^5.11.12"
+    "mongoose": "^5.12.2"
   }
 }
