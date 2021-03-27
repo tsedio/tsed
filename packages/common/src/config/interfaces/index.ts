@@ -9,7 +9,7 @@ import {PlatformStaticsSettings} from "./PlatformStaticsSettings";
 import {PlatformViewsSettings} from "./PlatformViewsSettings";
 
 export type PlatformMiddlewareLoadingOptions = {env?: Env; use: Function | Type<any>; hook?: string};
-export type PlatformMiddlewareSettings = Function | Type<any> | PlatformMiddlewareLoadingOptions;
+export type PlatformMiddlewareSettings = Function | Type<any> | PlatformMiddlewareLoadingOptions | any;
 
 declare global {
   namespace TsED {
@@ -98,3 +98,4 @@ export * from "./PlatformLoggerSettings";
 export * from "./EndpointDirectoriesSettings";
 export * from "./PlatformStaticsSettings";
 export * from "./PlatformMulterSettings";
+export * from "./PlatformViewsSettings";
