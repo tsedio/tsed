@@ -5,7 +5,7 @@ import {Mongoose} from "mongoose";
 import {promisify} from "util";
 import {Formio} from "../domain/Formio";
 import {FormioConfig} from "../domain/FormioConfig";
-import {FormioHook, FormioHooks} from "../domain/FormioHooks";
+import {FormioHook} from "../domain/FormioHooks";
 import {FormioSchemas} from "../domain/FormioModels";
 import {FormioRouter} from "../domain/FormioRouter";
 import {FormioTemplate} from "../domain/FormioTemplate";
@@ -97,11 +97,7 @@ export class FormioService {
 
       this.router = this.createRouter(this.mapConfiguration(options));
 
-      const formio = await this.router.init(this.hooksService.getHooks());
-
-      this.router.post("/form/:formId/storage/:storageType", (req, res) => {});
-
-      return formio;
+      return this.router.init(this.hooksService.getHooks());
     }
   }
 
