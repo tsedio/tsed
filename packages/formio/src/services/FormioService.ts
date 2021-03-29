@@ -13,6 +13,7 @@ import {FormioExportOptions} from "../domain/FormioTemplateUtil";
 
 const createRouter = require("formio");
 const swagger = require("formio/src/util/swagger.js");
+const util = require("formio/src/util/util.js");
 
 @Injectable()
 export class FormioService {
@@ -123,7 +124,7 @@ export class FormioService {
   protected bindLogger() {
     const {injector} = this;
 
-    this.util.log = injector.logger.info.bind(injector.logger);
-    this.util.error = injector.logger.error.bind(injector.logger);
+    util.log = injector.logger.info.bind(injector.logger);
+    util.error = injector.logger.error.bind(injector.logger);
   }
 }
