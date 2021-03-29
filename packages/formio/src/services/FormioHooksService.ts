@@ -1,10 +1,31 @@
 import {Inject, Injectable, InjectorService} from "@tsed/common";
+import {promisify} from "util";
 import {FormioHooks} from "../domain/FormioHooks";
+import {FormioService} from "./FormioService";
 
 @Injectable()
 export class FormioHooksService {
   @Inject()
   protected injector: InjectorService;
+
+  @Inject(FormioService)
+  protected formio: FormioService;
+
+  get settings() {
+    return this.formio.hook.settings;
+  }
+
+  get invoke() {
+    return this.formio.hook.invoke;
+  }
+
+  get alter(): (event: string, ...args: any[]) => any {
+    return this.formio.hook.alter;
+  }
+
+  get alterAsync(): (event: string, ...args: any[]) => Promise<any> {
+    return promisify(this.alter);
+  }
 
   getHooks(): FormioHooks {
     return {
@@ -19,26 +40,6 @@ export class FormioHooksService {
 
   protected getHooksProvider(type: "alter" | "on") {
     return this.bindHooks(type, this.createHooks(type));
-  }
-
-  private createHooks(type: "alter" | "on") {
-    return this.getProviders(type).reduce<Record<string, Function[]>>((hooks, provider) => {
-      const instance = this.injector.invoke<any>(provider.token);
-      const name = provider.store.get(`formio:${type}:name`);
-      const pool: Function[] = hooks[name] || [];
-
-      const hook = (...args: any[]) =>
-        instance[type === "alter" ? "transform" : "on"](
-          ...args.map((input: any) => {
-            return input && input.$ctx ? input.$ctx : input;
-          })
-        );
-
-      return {
-        ...hooks,
-        [name]: ([] as Function[]).concat(pool, hook)
-      };
-    }, {});
   }
 
   protected bindHooks(type: "alter" | "on", hooks: Record<string, Function[]>) {
@@ -62,6 +63,26 @@ export class FormioHooksService {
       return {
         ...newHooks,
         [key]: wrap
+      };
+    }, {});
+  }
+
+  private createHooks(type: "alter" | "on") {
+    return this.getProviders(type).reduce<Record<string, Function[]>>((hooks, provider) => {
+      const instance = this.injector.invoke<any>(provider.token);
+      const name = provider.store.get(`formio:${type}:name`);
+      const pool: Function[] = hooks[name] || [];
+
+      const hook = (...args: any[]) =>
+        instance[type === "alter" ? "transform" : "on"](
+          ...args.map((input: any) => {
+            return input && input.$ctx ? input.$ctx : input;
+          })
+        );
+
+      return {
+        ...hooks,
+        [name]: ([] as Function[]).concat(pool, hook)
       };
     }, {});
   }
