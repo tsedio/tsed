@@ -25,6 +25,9 @@ describe("PassportMiddleware", () => {
     sandbox.stub(Passport, "authenticate").callsFake(() => (req: any, res: any, next: any) => {
       return next();
     });
+    sandbox.stub(Passport, "authorize").callsFake(() => (req: any, res: any, next: any) => {
+      return next();
+    });
   });
   afterEach(() => {
     PlatformTest.reset();
@@ -32,12 +35,10 @@ describe("PassportMiddleware", () => {
   });
   it("should call passport with local", async () => {
     // GIVEN
-    const middleware = new PassportMiddleware();
+    const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
     const context = createContextFixture();
 
-    middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local"])
-    } as any;
+    sandbox.stub(middleware.protocolsService, "getProtocolsNames").returns(["local"]);
 
     context.endpoint = {
       store: {
@@ -57,12 +58,10 @@ describe("PassportMiddleware", () => {
   });
   it("should skip auth when user is authenticated", async () => {
     // GIVEN
-    const middleware = new PassportMiddleware();
+    const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
     const context = createContextFixture();
 
-    middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local"])
-    } as any;
+    sandbox.stub(middleware.protocolsService, "getProtocolsNames").returns(["local"]);
 
     context.getRequest().user = {};
     context.getRequest().isAuthenticated = () => {
@@ -88,10 +87,8 @@ describe("PassportMiddleware", () => {
 
   it("should call passport with defaults protocols", async () => {
     // GIVEN
-    const middleware = new PassportMiddleware();
-    middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local", "basic"])
-    } as any;
+    const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
+    sandbox.stub(middleware.protocolsService, "getProtocolsNames").returns(["local", "basic"]);
 
     const context = createContextFixture();
 
@@ -113,10 +110,8 @@ describe("PassportMiddleware", () => {
   });
   it("should call passport with :protocol", async () => {
     // GIVEN
-    const middleware = new PassportMiddleware();
-    middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local", "basic"])
-    } as any;
+    const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
+    sandbox.stub(middleware.protocolsService, "getProtocolsNames").returns(["local", "basic"]);
 
     const context = createContextFixture({
       url: "/",
@@ -143,12 +138,40 @@ describe("PassportMiddleware", () => {
     expect(context.getRequest().url).to.eq(context.getRequest().originalUrl);
     expect(Passport.authenticate).to.have.been.calledWithExactly("basic", {failWithError: true});
   });
+  it("should call passport with authorize", async () => {
+    // GIVEN
+    const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
+    sandbox.stub(middleware.protocolsService, "getProtocolsNames").returns(["local", "basic"]);
+
+    const context = createContextFixture({
+      url: "/",
+      originalUrl: "/rest",
+      query: {
+        protocol: "basic"
+      }
+    });
+
+    context.endpoint = {
+      store: {
+        get: sandbox.stub().returns({
+          options: {},
+          protocol: ":protocol",
+          method: "authorize"
+        })
+      }
+    } as any;
+
+    // WHEN
+    await middleware.use(context);
+
+    // THEN
+    expect(context.getRequest().url).to.eq(context.getRequest().originalUrl);
+    expect(Passport.authorize).to.have.been.calledWithExactly("basic", {failWithError: true});
+  });
   it("should throw errors", async () => {
     // GIVEN
-    const middleware = new PassportMiddleware();
-    middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local", "basic"])
-    } as any;
+    const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
+    sandbox.stub(middleware.protocolsService, "getProtocolsNames").returns(["local", "basic"]);
 
     const context = createContextFixture();
     context.endpoint = {
@@ -174,10 +197,8 @@ describe("PassportMiddleware", () => {
   });
   it("should throw errors from passport (AuthenticationError)", async () => {
     // GIVEN
-    const middleware = new PassportMiddleware();
-    middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local", "basic"])
-    } as any;
+    const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
+    sandbox.stub(middleware.protocolsService, "getProtocolsNames").returns(["local", "basic"]);
 
     stub(Passport.authenticate).callsFake(() => (req: any, res: any, next: any) => {
       const error: any = {message: "message"};
@@ -214,10 +235,8 @@ describe("PassportMiddleware", () => {
   });
   it("should throw errors from passport (AnyError)", async () => {
     // GIVEN
-    const middleware = new PassportMiddleware();
-    middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local", "basic"])
-    } as any;
+    const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
+    sandbox.stub(middleware.protocolsService, "getProtocolsNames").returns(["local", "basic"]);
 
     stub(Passport.authenticate).callsFake(() => (req: any, res: any, next: any) => {
       const error: any = {message: "message"};
@@ -253,10 +272,8 @@ describe("PassportMiddleware", () => {
   });
   it("should throw errors from passport (Error)", async () => {
     // GIVEN
-    const middleware = new PassportMiddleware();
-    middleware.protocolsService = {
-      getProtocolsNames: sandbox.stub().returns(["local", "basic"])
-    } as any;
+    const middleware = await PlatformTest.invoke<PassportMiddleware>(PassportMiddleware);
+    sandbox.stub(middleware.protocolsService, "getProtocolsNames").returns(["local", "basic"]);
 
     stub(Passport.authenticate).callsFake(() => (req: any, res: any, next: any) => {
       const error: any = new Error("message");
