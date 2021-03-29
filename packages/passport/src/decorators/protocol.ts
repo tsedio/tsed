@@ -1,6 +1,6 @@
-import {applyDecorators, StoreSet} from "@tsed/core";
+import {StoreSet, useDecorators} from "@tsed/core";
 import {Configuration} from "@tsed/di";
-import {IProtocolOptions} from "../interfaces/IProtocolOptions";
+import {ProtocolOptions} from "../interfaces/ProtocolOptions";
 import {registerProtocol} from "../registries/ProtocolRegistries";
 
 /**
@@ -10,7 +10,7 @@ import {registerProtocol} from "../registries/ProtocolRegistries";
  * @class
  */
 export function Protocol<T = any>(options: ProtocolOptionsDecorator<T>) {
-  return applyDecorators(
+  return useDecorators(
     registerProtocol,
     StoreSet("protocol", options),
     Configuration({
@@ -23,4 +23,4 @@ export function Protocol<T = any>(options: ProtocolOptionsDecorator<T>) {
   );
 }
 
-export type ProtocolOptionsDecorator<T = any> = {name: string} & Partial<IProtocolOptions<T>>;
+export type ProtocolOptionsDecorator<T = any> = {name: string} & Partial<ProtocolOptions<T>>;
