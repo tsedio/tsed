@@ -37,6 +37,7 @@ export * from "./services/FormioService";
 export * from "./services/FormioDatabase";
 export * from "./services/FormioDatabase";
 export * from "./services/FormioAuthService";
+export * from "./services/FormioHooksService";
 export * from "./components/AlterActions";
 export * from "./components/AlterAudit";
 export * from "./components/AlterLog";
