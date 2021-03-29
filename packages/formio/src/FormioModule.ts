@@ -10,15 +10,31 @@ import {AlterTemplateExportSteps} from "./components/AlterTemplateExportSteps";
 import {AlterTemplateImportSteps} from "./components/AlterTemplateImportSteps";
 import {FormioConfig} from "./domain/FormioConfig";
 import {FormioTemplate} from "./domain/FormioTemplate";
+import {FormioAuthService} from "./services/FormioAuthService";
+import {FormioHooksService} from "./services/FormioHooksService";
 import {FormioInstaller} from "./services/FormioInstaller";
 import {FormioService} from "./services/FormioService";
 
 @Module({
-  imports: [FormioService, AlterActions, AlterHost, AlterAudit, AlterLog, AlterSkip, AlterTemplateImportSteps, AlterTemplateExportSteps]
+  imports: [
+    FormioService,
+    FormioHooksService,
+    FormioAuthService,
+    AlterActions,
+    AlterHost,
+    AlterAudit,
+    AlterLog,
+    AlterSkip,
+    AlterTemplateImportSteps,
+    AlterTemplateExportSteps
+  ]
 })
 export class FormioModule implements OnRoutesInit, OnReady {
   @Inject()
   protected formio: FormioService;
+
+  @Inject()
+  protected hooks: FormioHooksService;
 
   @Inject()
   protected installer: FormioInstaller;
@@ -45,7 +61,11 @@ export class FormioModule implements OnRoutesInit, OnReady {
   protected root?: any;
 
   $onInit() {
-    return this.formio.init(deepClone(this.settings));
+    return this.init(deepClone(this.settings));
+  }
+
+  async init(options: FormioConfig) {
+    return this.formio.init(options, this.hooks.getHooks());
   }
 
   async $onRoutesInit() {
@@ -58,12 +78,6 @@ export class FormioModule implements OnRoutesInit, OnReady {
         await this.installer.install(this.template!, this.root);
       }
     }
-  }
-
-  protected async shouldInstall() {
-    const hasForms = await this.installer.hasForms();
-
-    return this.template && !(hasForms || this.skipInstall);
   }
 
   async $logRoutes(routes: PlatformRouteDetails[]): Promise<PlatformRouteDetails[]> {
@@ -126,5 +140,11 @@ export class FormioModule implements OnRoutesInit, OnReady {
         displayLog({protocol: "http", ...host});
       }
     }
+  }
+
+  protected async shouldInstall() {
+    const hasForms = await this.installer.hasForms();
+
+    return this.template && !(hasForms || this.skipInstall);
   }
 }

@@ -5,16 +5,14 @@ import {Mongoose} from "mongoose";
 import {promisify} from "util";
 import {Formio} from "../domain/Formio";
 import {FormioConfig} from "../domain/FormioConfig";
-import {FormioHook} from "../domain/FormioHooks";
+import {FormioHook, FormioHooks} from "../domain/FormioHooks";
 import {FormioSchemas} from "../domain/FormioModels";
 import {FormioRouter} from "../domain/FormioRouter";
 import {FormioTemplate} from "../domain/FormioTemplate";
 import {FormioExportOptions} from "../domain/FormioTemplateUtil";
-import {FormioHooksService} from "./FormioHooksService";
 
 const createRouter = require("formio");
 const swagger = require("formio/src/util/swagger.js");
-const util = require("formio/src/util/util.js");
 
 @Injectable()
 export class FormioService {
@@ -23,8 +21,13 @@ export class FormioService {
   @Inject()
   protected injector: InjectorService;
 
-  @Inject()
-  protected hooksService: FormioHooksService;
+  get audit(): Function {
+    return this.formio.audit || (() => {});
+  }
+
+  get auth() {
+    return this.formio.auth;
+  }
 
   // istanbul ignore next
   get swagger() {
@@ -91,26 +94,18 @@ export class FormioService {
     return !!this.router;
   }
 
-  async init(options: FormioConfig) {
-    if (options && Object.keys(options).length) {
-      this.bindLogger();
-
-      this.router = this.createRouter(this.mapConfiguration(options));
-
-      return this.router.init(this.hooksService.getHooks());
-    }
-  }
-
   // istanbul ignore next
   public createRouter(options: FormioConfig) {
     return createRouter(options);
   }
 
-  protected bindLogger() {
-    const {injector} = this;
+  public init(options: FormioConfig, hooks: FormioHooks = {}) {
+    if (options && Object.keys(options).length) {
+      this.router = this.createRouter(this.mapConfiguration(options));
+      this.bindLogger();
 
-    util.log = injector.logger.info.bind(injector.logger);
-    util.error = injector.logger.error.bind(injector.logger);
+      return this.router.init(hooks);
+    }
   }
 
   protected mapConfiguration(options: FormioConfig) {
@@ -123,5 +118,12 @@ export class FormioService {
     }
 
     return options;
+  }
+
+  protected bindLogger() {
+    const {injector} = this;
+
+    this.util.log = injector.logger.info.bind(injector.logger);
+    this.util.error = injector.logger.error.bind(injector.logger);
   }
 }

@@ -14,6 +14,7 @@ export class MongooseModule implements OnDestroy, OnInit {
     // auto configure the cache manager when mongoose is used with @tsed/mongoose
     const cache = this.settings.get<PlatformCacheSettings>("cache");
 
+    // istanbul ignore next
     if (cache?.mongoose) {
       cache.connection = this.mongooseService.get();
     }

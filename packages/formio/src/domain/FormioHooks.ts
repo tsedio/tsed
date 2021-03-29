@@ -4,19 +4,13 @@ import {FilterQuery, Schema, SchemaDefinition} from "mongoose";
 import {Formio} from "./Formio";
 import {FormioActions} from "./FormioActionsIndex";
 import {FormioConfig} from "./FormioConfig";
+import {FormioDecodedToken} from "./FormioDecodedToken";
 import {FormioJs} from "./FormioJs";
 import {FormioActionItem, FormioForm, FormioModelsModels, FormioSubmission} from "./FormioModels";
 import {FormioSettings} from "./FormioSettings";
 import {ResourceRestOptions} from "./Resource";
 
 export type FormioInitEvent = "alias" | "params" | "token" | "getTempToken" | "logout" | "current" | "access" | "perms";
-
-export interface FormioDecodedToken {
-  user: {_id: string};
-  form: {_id: string};
-
-  [key: string]: any;
-}
 
 export interface FormioHooks {
   settings?: (settings: FormioSettings, req: Request, cb: Function) => FormioSettings;
