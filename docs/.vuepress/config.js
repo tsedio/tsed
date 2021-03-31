@@ -94,7 +94,7 @@ module.exports = {
                 link: "/warehouse/"
               },
               {
-                text: "Official plugins",
+                text: "Official Tutorials",
                 items: [
                   {
                     text: "AJV",
@@ -107,6 +107,10 @@ module.exports = {
                   {
                     text: "Passport.js",
                     link: "/tutorials/passport.md"
+                  },
+                  {
+                    text: "Keycloak",
+                    link: "/tutorials/keycloak.md"
                   },
                   {
                     text: "TypeORM",
@@ -262,6 +266,7 @@ module.exports = {
             collapsable: true,
             children: [
               "/tutorials/passport",
+              "/tutorials/keycloak",
               "/tutorials/typeorm",
               "/tutorials/mongoose",
               "/tutorials/graphql",
@@ -289,6 +294,7 @@ module.exports = {
         otherTopics: [
           "/tutorials/session",
           "/tutorials/passport",
+          "/tutorials/keycloak",
           "/tutorials/typeorm",
           "/tutorials/mongoose",
           "/tutorials/graphql",
