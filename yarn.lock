@@ -11181,9 +11181,9 @@ optionator@^0.9.1:
     word-wrap "^1.2.3"
 
 oracledb@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/oracledb/-/oracledb-5.0.0.tgz#c357fcc1d3cd18f64ecc8270b677ee0f04b3b233"
-  integrity sha512-NLE3t6KiAkpBHA1/zgjNiKaa9Z4Nnp4PuB3d0b3Kz4C8klrIrMKfHIGUySlwqgDW588m7/2hnPxU7PH6wjBd6g==
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/oracledb/-/oracledb-5.1.0.tgz#2139469d7318a48f3fed6c00f0d98e5049bb769f"
+  integrity sha512-/IpzG729lFj8NBsA0xaOijdf6ZO3VuJbebma/hSf+VUZoIyzI/mCzBX047ramb/W8yJ1SV/HdWgs+XEczbqsXg==
 
 os-homedir@^1.0.0:
   version "1.0.2"
