@@ -19,7 +19,6 @@ module.exports = {
     "!<rootDir>/packages/adapters",
     "!<rootDir>/packages/adapters-redis",
     "!<rootDir>/packages/aws/{components,constants,pipes}",
-    "!<rootDir>/packages/typeorm",
     "!<rootDir>/packages/seq",
     "!<rootDir>/packages/formio",
     ...ignores("<rootDir>/packages/ajv/**", ["interfaces", "services"]),
