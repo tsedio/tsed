@@ -15,7 +15,7 @@ projects:
 
 This tutorial provides two ways to create connection:
 
-- The first one uses @tsed/typeorm module to create multiple connections with @@ServerSettings@@,
+- The first one uses @tsed/typeorm module to create multiple connections with @@Configuration@@,
 - The second uses the new async provider feature introduced in v5.27 to create connection.
 
 Additionally, this topic shows you how you can use Entity from Typeorm with Ts.ED controller (on the bottom of this page).
@@ -26,7 +26,7 @@ Additionally, this topic shows you how you can use Entity from Typeorm with Ts.E
 
 Currently, `@tsed/typeorm` allows you to:
 
-- Configure one or more TypeORM connections via the `@ServerSettings` configuration. All databases will be initialized when the server starts during the server's `OnInit` phase.
+- Configure one or more TypeORM connections via the `@Configuration` configuration. All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Use the Entity TypeORM as Model for Controllers, AJV Validation and Swagger.
 - Declare a connection with asyncProvider or automatically by server configuration.
 
