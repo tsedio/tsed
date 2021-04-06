@@ -52,13 +52,13 @@ describe("TypeORMService", () => {
       } as any;
 
       // WHEN
-      const result1 = await service.createConnection("key", {config: "config"} as any);
-      const result2 = await service.createConnection("key", {config: "config"} as any);
+      const result1 = await service.createConnection({name: "mydb", config: "config"} as any);
+      const result2 = await service.createConnection({name: "mydb", config: "config"} as any);
 
       // THEN
       expect(result1).to.deep.eq(connection);
       expect(result2).to.deep.eq(connection);
-      expect(connectionManager.create).to.have.been.calledOnce.and.calledWithExactly({config: "config", name: "key"});
+      expect(connectionManager.create).to.have.been.calledOnce.and.calledWithExactly({name: "mydb", config: "config"});
 
       // WHEN close
       await service.closeConnections();

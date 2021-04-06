@@ -3,14 +3,14 @@ import {ConnectionOptions, ContainedType, getCustomRepository, useContainer} fro
 import {TypeORMService} from "./services/TypeORMService";
 
 export class TypeORMModule implements OnDestroy {
-  private settings: {[key: string]: ConnectionOptions};
+  private settings: ConnectionOptions[];
 
   constructor(configuration: Configuration, private typeORMService: TypeORMService) {
-    this.settings = configuration.get<{[key: string]: ConnectionOptions}>("typeorm") || {};
+    this.settings = configuration.get<ConnectionOptions[]>("typeorm") || [];
   }
 
   async init(): Promise<any> {
-    const promises = Object.keys(this.settings).map((key) => this.typeORMService.createConnection(key, this.settings[key]));
+    const promises = this.settings.map((opts) => this.typeORMService.createConnection(opts));
 
     return Promise.all(promises);
   }

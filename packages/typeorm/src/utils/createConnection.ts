@@ -4,7 +4,7 @@ const connections = new Map();
 
 export async function createConnection(connectionOptions: ConnectionOptions) {
   const connectionManager = getConnectionManager();
-  const name = connectionOptions.name!;
+  const name = connectionOptions.name ?? "default";
 
   if (!connections.has(name)) {
     const connection = connectionManager.create(connectionOptions!);
