@@ -610,6 +610,35 @@ class MyModel {
 }
 ```
 
+## BeforeDeserialize <Badge text="6.39.0+"/>
+
+If you want to validate or manipulate data before the model has been deserialized you can use the @@BeforeDeserialize@@ decorator.
+
+```typescript
+import {Enum, Property} from "@tsed/schema"; 
+import {BeforeDeserialize} from "@tsed/json-mapper";
+import {BadRequest} from "@tsed/exceptions";
+
+enum AnimalType {
+  DOG="DOG",
+  CAT="CAT"
+}
+
+@BeforeDeserialize((data: Record<string, unknown>) => {
+  if (data.type !== AnimalType.DOG) {
+    throw new BadRequest("Sorry, we're only responsible for dogs")  
+  } else {
+    data.name = `Our dog ${data.name}`
+  }
+})
+export class Animal {
+    @Property()
+    name: string;
+    @Enum(AnimalType)
+    type: AnimalType;
+} 
+```
+
 ## Generics
 
 ### Declaring a generic model
