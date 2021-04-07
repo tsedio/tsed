@@ -12,9 +12,5 @@ export async function createConnection(connectionOptions: ConnectionOptions): Pr
 
   const connection = connectionManager.get(name);
 
-  // Add hook to close connection when server is killed
-  // @ts-ignore
-  connection.$onDestroy = connection.$onDestroy || (() => connection.isConnected && connection.close());
-
   return connection;
 }
