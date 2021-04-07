@@ -17,6 +17,7 @@ enum FoodStatus {
     throw new BadRequest(`The food cannot be ${data.status}`);
   } else {
     data.name = `The ${data.name} is fresh`;
+    return data;
   }
 })
 class Food {
