@@ -14,7 +14,8 @@ export interface BeforeDeserializeCallback {
  *    if (data.prop1 === 'VALUE' && data.prop2 !== 'VALUE2') {
  *      throw BadRequest('MyMessage'); /// or throw a ValidationError
  *    } else {
- *      data.prop2 = 'VALUE2'
+ *      data.prop2 = 'VALUE2';
+ *      return data;
  *    }
  * })
  * class Model {

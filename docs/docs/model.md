@@ -614,6 +614,10 @@ class MyModel {
 
 If you want to validate or manipulate data before the model has been deserialized you can use the @@BeforeDeserialize@@ decorator.
 
+::: tip Note 
+Don't forget to return the data in your callback function.
+:::
+
 ```typescript
 import {Enum, Property} from "@tsed/schema"; 
 import {BeforeDeserialize} from "@tsed/json-mapper";
@@ -628,7 +632,8 @@ enum AnimalType {
   if (data.type !== AnimalType.DOG) {
     throw new BadRequest("Sorry, we're only responsible for dogs")  
   } else {
-    data.name = `Our dog ${data.name}`
+    data.name = `Our dog ${data.name}`;
+    return data;
   }
 })
 export class Animal {
