@@ -3,6 +3,7 @@ import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonSchema
 import "../components";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {getJsonMapperTypes} from "../domain/JsonMapperTypesContainer";
+import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
 export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes<T, C> {
@@ -84,7 +85,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
 
   let keys = objectKeys(src);
   const additionalProperties = propertiesMap.size ? !!store.schema.get("additionalProperties") || options.additionalProperties : true;
-  const out: any = new type(src);
+  const out: any = new type(alterBeforeDeserialize(src, store.schema, options));
 
   propertiesMap.forEach((propStore) => {
     const key = options.useAlias
