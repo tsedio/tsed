@@ -85,7 +85,7 @@ describe("TypeORMService", () => {
       expect(result4).to.deep.eq(defaultConnection);
       expect(connectionManager.create).to.have.been.calledTwice;
       expect(connectionManager.create).calledWithExactly({name: "mydb", config: "config"});
-      expect(connectionManager.create).calledWithExactly({name: undefined, config: "config"});
+      expect(connectionManager.create).calledWithExactly({name: "default", config: "config"});
 
       // WHEN close
       await service.closeConnections();

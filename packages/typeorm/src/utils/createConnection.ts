@@ -1,8 +1,9 @@
-import {ConnectionOptions, getConnectionManager} from "typeorm";
+import {getValue} from "@tsed/core";
+import {Connection, ConnectionOptions, getConnectionManager} from "typeorm";
 
-export async function createConnection(connectionOptions: ConnectionOptions) {
+export async function createConnection(connectionOptions: ConnectionOptions): Promise<Connection> {
   const connectionManager = getConnectionManager();
-  const name = connectionOptions.name ?? "default";
+  const name = getValue<string>(connectionOptions, "name", "default");
 
   if (!connectionManager.has(name)) {
     const connection = connectionManager.create(connectionOptions!);

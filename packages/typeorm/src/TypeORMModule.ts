@@ -6,7 +6,7 @@ export class TypeORMModule implements OnDestroy {
   private settings: ConnectionOptions[];
 
   constructor(configuration: Configuration, private typeORMService: TypeORMService) {
-    this.settings = configuration.get<ConnectionOptions[]>("typeorm") || [];
+    this.settings = configuration.get<ConnectionOptions[]>("typeorm", []);
   }
 
   async init(): Promise<any> {
