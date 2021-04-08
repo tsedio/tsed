@@ -1,0 +1,22 @@
+{
+  "name": "@tsed/terminus",
+  "version": "6.38.5",
+  "description": "Adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications.",
+  "author": "Emilien Leroy <emilien1005@hotmail.fr>",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json",
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
+  },
+  "private": false,
+  "devDependencies": {
+    "@tsed/common": "6.45.1",
+    "@tsed/openspec": "6.45.1",
+    "@tsed/schema": "6.45.1"
+  },
+  "dependencies": {
+    "@godaddy/terminus": "^4.7.1",
+    "tslib": "2.1.0"
+  }
+}
