@@ -104,11 +104,11 @@ export function testCache(options: PlatformTestOptions) {
         const response2 = await request.get("/rest/caches/scenario-1").expect(200);
 
         expect(response.text).to.contains("hello world");
-        expect(response.headers["cache-control"]).to.includes("max-age");
+        expect(response.headers["cache-control"]).to.match(/max-age=300/);
         expect(response.headers["x-cached"]).to.equal(undefined);
 
         expect(response2.text).to.contains("hello world");
-        expect(response2.headers["cache-control"]).to.includes("max-age");
+        expect(response2.headers["cache-control"]).to.match(/max-age=300/);
         expect(response2.headers["x-cached"]).to.equal("true");
         expect(response2.headers["etag"]).to.equal(response.headers["etag"]);
       });
@@ -130,11 +130,11 @@ export function testCache(options: PlatformTestOptions) {
         const response2 = await request.get("/rest/caches/scenario-1").set("cache-control", "no-cache").expect(200);
 
         expect(response.text).to.contains("hello world");
-        expect(response.headers["cache-control"]).to.includes("max-age");
+        expect(response.headers["cache-control"]).to.match(/max-age=300/);
         expect(response.headers["x-cached"]).to.equal(undefined);
 
         expect(response2.text).to.contains("hello world");
-        expect(response2.headers["cache-control"]).to.includes("max-age");
+        expect(response2.headers["cache-control"]).to.match(/max-age=300/);
         expect(response2.headers["x-cached"]).to.equal("true");
         expect(response2.headers["etag"]).to.equal(response.headers["etag"]);
       });
@@ -145,11 +145,11 @@ export function testCache(options: PlatformTestOptions) {
         const response2 = await request.get("/rest/caches/scenario-2").expect(200);
 
         expect(response.body).to.deep.equal({info: "hello child"});
-        expect(response.headers["cache-control"]).to.includes("max-age");
+        expect(response.headers["cache-control"]).to.match(/max-age=400/);
         expect(response.headers["x-cached"]).to.equal(undefined);
 
         expect(response2.body).to.deep.equal({info: "hello child"});
-        expect(response2.headers["cache-control"]).to.includes("max-age");
+        expect(response2.headers["cache-control"]).to.match(/max-age=400/);
         expect(response2.headers["x-cached"]).to.equal("true");
         expect(response2.headers["etag"]).to.equal(response.headers["etag"]);
       });
