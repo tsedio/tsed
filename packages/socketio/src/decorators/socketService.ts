@@ -1,5 +1,5 @@
-import {applyDecorators, StoreMerge, Type} from "@tsed/core";
-import {SocketProviderTypes} from "../interfaces/ISocketProviderMetadata";
+import {useDecorators, StoreMerge, Type} from "@tsed/core";
+import {SocketProviderTypes} from "../interfaces/SocketProviderMetadata";
 import {registerSocketService} from "../registries/SocketServiceRegistry";
 
 /**
@@ -13,7 +13,7 @@ import {registerSocketService} from "../registries/SocketServiceRegistry";
  * @decorator
  */
 export function SocketService(namespace = "/") {
-  return applyDecorators(StoreMerge("socketIO", {namespace, type: SocketProviderTypes.SERVICE}), (target: Type<any>) => {
+  return useDecorators(StoreMerge("socketIO", {namespace, type: SocketProviderTypes.SERVICE}), (target: Type<any>) => {
     registerSocketService(target);
   });
 }

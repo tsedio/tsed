@@ -2,7 +2,7 @@ import {AfterListen, Constant, HttpServer, HttpsServer, Inject, InjectorService,
 import {nameOf} from "@tsed/core";
 import SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {IO} from "./decorators/io";
-import {ISocketProviderMetadata} from "./interfaces/ISocketProviderMetadata";
+import {SocketProviderMetadata} from "./interfaces/SocketProviderMetadata";
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "./registries/SocketServiceRegistry";
 import {SocketIOService} from "./services/SocketIOService";
 
@@ -63,12 +63,12 @@ export class SocketIOModule implements AfterListen {
    */
   protected printSocketEvents() {
     const list = this.getWebsocketServices().reduce((acc: any[], provider) => {
-      const {handlers, namespace}: ISocketProviderMetadata = provider.store.get("socketIO");
+      const {handlers = {}, namespace} = provider.store.get<SocketProviderMetadata>("socketIO");
 
       if (namespace) {
         Object.keys(handlers)
           .filter((key) => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
-          .forEach((key: string) => {
+          .forEach((key) => {
             const handler = handlers[key];
             acc.push({
               namespace,
