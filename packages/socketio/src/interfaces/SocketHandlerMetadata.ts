@@ -1,15 +1,15 @@
-import {ISocketParamMetadata} from "./ISocketParamMetadata";
+import {SocketParamMetadata} from "./SocketParamMetadata";
 import {SocketReturnsTypes} from "./SocketReturnsTypes";
 
 /**
  *
  */
-export interface ISocketHandlerMetadata {
+export interface SocketHandlerMetadata {
   eventName?: string;
   methodClassName: string;
   useBefore?: any[];
   useAfter?: any[];
-  parameters?: {[key: number]: ISocketParamMetadata};
+  parameters?: {[key: number]: SocketParamMetadata};
   returns?: {
     type: SocketReturnsTypes;
     eventName: string;
