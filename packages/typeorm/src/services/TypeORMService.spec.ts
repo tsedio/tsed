@@ -1,63 +1,50 @@
 import {expect} from "chai";
-import {PlatformTest} from "@tsed/common";
-import Sinon from "sinon";
+import Sinon, {spy, stub, SinonSpy, SinonStub} from "sinon";
 import * as TypeORM from "typeorm";
+import {ConnectionManager} from "typeorm";
+import * as Connection from "typeorm/connection/Connection";
 import {TypeORMService} from "../index";
 
 describe("TypeORMService", () => {
+  let connectionManager: ConnectionManager;
+  let connectionManagerCreateSpy: SinonSpy;
+
+  let getConnectionManagerStub: SinonStub;
+  let connectionStub: SinonStub;
+
   const defaultConnection: any = {
+    name: "default",
     isConnected: true,
-    connect: Sinon.stub().resolves(),
-    close: Sinon.stub()
+    connect: stub().resolves(),
+    close: stub()
   };
   const customConnection: any = {
     isConnected: true,
-    connect: Sinon.stub().resolves(),
-    close: Sinon.stub()
-  };
-
-  const connections: TypeORM.Connection[] = [];
-
-  const connectionManager = {
-    create: Sinon.stub().callsFake((opts: TypeORM.ConnectionOptions) => {
-      if (opts.name == null || opts.name === "default") {
-        connections.push(defaultConnection);
-        return defaultConnection;
-      } else {
-        connections.push(customConnection);
-        return customConnection;
-      }
-    }),
-    has: Sinon.stub().callsFake((name) => {
-      if (name == null || name === "default") {
-        return connections.includes(defaultConnection);
-      } else {
-        return connections.includes(customConnection);
-      }
-    }),
-    get: Sinon.stub().callsFake((name) => {
-      if (name == null || name === "default") {
-        return defaultConnection;
-      } else {
-        return customConnection;
-      }
-    }),
-    connections
+    connect: stub().resolves(),
+    close: stub()
   };
 
   beforeEach(() => {
-    Sinon.stub(TypeORM, "getConnectionManager");
+    // create ConnectionManager
+    connectionManager = new ConnectionManager();
+    connectionManagerCreateSpy = spy(connectionManager, "create");
+    // replace
+    getConnectionManagerStub = stub(TypeORM, "getConnectionManager").returns(connectionManager);
 
-    // @ts-ignore
-    TypeORM.getConnectionManager.returns(connectionManager);
-
-    // clear connections store
-    connections.splice(0);
+    // replace Connection constructor
+    connectionStub = stub(Connection, "Connection").callsFake((opts) => {
+      if (opts.name == null || opts.name === "default") {
+        return defaultConnection;
+      } else {
+        customConnection.name = opts.name;
+        return customConnection;
+      }
+    });
   });
 
   afterEach(() => {
-    // @ts-ignore
-    TypeORM.getConnectionManager.restore();
+    getConnectionManagerStub.restore();
+    connectionStub.restore();
   });
 
   describe("createConnection()", () => {
@@ -84,9 +71,9 @@ describe("TypeORMService", () => {
       expect(result2).to.deep.eq(customConnection);
       expect(result3).to.deep.eq(defaultConnection);
       expect(result4).to.deep.eq(defaultConnection);
-      expect(connectionManager.create).to.have.been.calledTwice;
-      expect(connectionManager.create).calledWithExactly({name: "mydb", config: "config"});
-      expect(connectionManager.create).calledWithExactly({name: "default", config: "config"});
+      expect(connectionManagerCreateSpy).calledTwice;
+      expect(connectionManagerCreateSpy).calledWithExactly({name: "mydb", config: "config"});
+      expect(connectionManagerCreateSpy).calledWithExactly({name: "default", config: "config"});
 
       // WHEN close
       await service.closeConnections();
@@ -103,9 +90,11 @@ describe("TypeORMService", () => {
       const service = new TypeORMService();
 
       // WHEN
+      await connectionManager.create({config: "config"} as any);
+      await connectionManager.create({name: "mydb", config: "config"} as any);
       const result1 = service.get();
       const result2 = service.get("default");
-      const result3 = service.get("custom");
+      const result3 = service.get("mydb");
 
       // THEN
       expect(result1).to.deep.eq(defaultConnection);
@@ -122,7 +111,7 @@ describe("TypeORMService", () => {
       // THEN
       expect(service.has()).to.be.false;
       expect(service.has("default")).to.be.false;
-      expect(service.has("custom")).to.be.false;
+      expect(service.has("mydb")).to.be.false;
 
       // WHEN
       await connectionManager.create({name: "mydb", config: "config"} as any);
@@ -130,7 +119,7 @@ describe("TypeORMService", () => {
       // THEN
       expect(service.has()).to.be.false;
       expect(service.has("default")).to.be.false;
-      expect(service.has("custom")).to.be.true;
+      expect(service.has("mydb")).to.be.true;
 
       // WHEN
       await connectionManager.create({config: "config"} as any);
@@ -138,7 +127,7 @@ describe("TypeORMService", () => {
       // THEN
       expect(service.has()).to.be.true;
       expect(service.has("default")).to.be.true;
-      expect(service.has("custom")).to.be.true;
+      expect(service.has("mydb")).to.be.true;
     });
   });
 });
