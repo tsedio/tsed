@@ -148,9 +148,9 @@ export class InjectorService extends Container {
    * @returns {boolean}
    */
   get<T = any>(token: TokenProvider, options: any = {}): T | undefined {
-    const instance = super.has(token) && super.get(getClassOrSymbol(token))!.instance;
+    const instance = super.get(getClassOrSymbol(token))?.instance;
 
-    if (instance) {
+    if (instance !== undefined) {
       return instance;
     }
 
@@ -171,7 +171,7 @@ export class InjectorService extends Container {
    * @param token
    */
   has(token: TokenProvider): boolean {
-    return super.has(getClassOrSymbol(token)) && !!this.get(token);
+    return super.has(getClassOrSymbol(token)) && this.get(token) !== undefined;
   }
 
   /**
@@ -277,7 +277,7 @@ export class InjectorService extends Container {
         this.invoke(provider.token, locals);
       }
 
-      if (provider.instance) {
+      if (provider.instance !== undefined) {
         locals.set(provider.token, provider.instance);
       }
     }
@@ -637,7 +637,7 @@ export class InjectorService extends Container {
     deps = deps || provider.deps;
     imports = imports || provider.imports;
 
-    if (provider.useValue) {
+    if (provider.useValue !== undefined) {
       construct = () => (isFunction(provider.useValue) ? provider.useValue() : provider.useValue);
     } else if (provider.useFactory) {
       construct = (deps: TokenProvider[]) => provider.useFactory(...deps);
