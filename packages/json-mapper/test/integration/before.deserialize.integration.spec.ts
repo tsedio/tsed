@@ -25,7 +25,7 @@ class Food {
 }
 
 describe("BeforeDeserialize", async () => {
-  it("should deserialize object correctly and alter the name", ()  => {
+  it("should deserialize object correctly and alter the name before deserialization", ()  => {
     // GIVEN
     const food: Food = {
       name: "Banana",
