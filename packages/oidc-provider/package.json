@@ -20,7 +20,7 @@
   "devDependencies": {
     "@tsed/common": "6.38.3",
     "@tsed/core": "6.38.3",
-    "oidc-provider": "6.29.9"
+    "oidc-provider": "7.2.0"
   },
   "peerDependencies": {
     "oidc-provider": "^6.29.9"
