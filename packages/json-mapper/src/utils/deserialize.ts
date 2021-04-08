@@ -3,6 +3,7 @@ import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonSchema
 import "../components";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {getJsonMapperTypes} from "../domain/JsonMapperTypesContainer";
+import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize";
 import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
@@ -130,7 +131,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
     });
   }
 
-  return out;
+  return alterAfterDeserialize(out, store.schema, options);
 }
 
 function buildOptions(options: JsonDeserializerOptions<any, any>): any {
