@@ -56,7 +56,7 @@ export class TypeORMService {
    * @param {string} id
    * @returns {boolean}
    */
-  has(id: string): boolean {
+  has(id: string = "default"): boolean {
     return this.connectionManager.has(id);
   }
 

@@ -5,63 +5,64 @@ import * as TypeORM from "typeorm";
 import {TypeORMService} from "../index";
 
 describe("TypeORMService", () => {
+  const defaultConnection: any = {
+    isConnected: true,
+    connect: Sinon.stub().resolves(),
+    close: Sinon.stub()
+  };
+  const customConnection: any = {
+    isConnected: true,
+    connect: Sinon.stub().resolves(),
+    close: Sinon.stub()
+  };
+
+  const connections: TypeORM.Connection[] = [];
+
+  const connectionManager = {
+    create: Sinon.stub().callsFake((opts: TypeORM.ConnectionOptions) => {
+      if (opts.name == null || opts.name === "default") {
+        connections.push(defaultConnection);
+        return defaultConnection;
+      } else {
+        connections.push(customConnection);
+        return customConnection;
+      }
+    }),
+    has: Sinon.stub().callsFake((name) => {
+      if (name == null || name === "default") {
+        return connections.includes(defaultConnection);
+      } else {
+        return connections.includes(customConnection);
+      }
+    }),
+    get: Sinon.stub().callsFake((name) => {
+      if (name == null || name === "default") {
+        return defaultConnection;
+      } else {
+        return customConnection;
+      }
+    }),
+    connections
+  };
+
+  beforeEach(() => {
+    Sinon.stub(TypeORM, "getConnectionManager");
+
+    // @ts-ignore
+    TypeORM.getConnectionManager.returns(connectionManager);
+
+    // clear connections store
+    connections.splice(0);
+  });
+
+  afterEach(() => {
+    // @ts-ignore
+    TypeORM.getConnectionManager.restore();
+  });
+
   describe("createConnection()", () => {
-    before(() => {
-      Sinon.stub(TypeORM, "getConnectionManager");
-    });
-
-    after(() => {
-      PlatformTest.reset();
-      // @ts-ignore
-      TypeORM.getConnectionManager.restore();
-    });
-
     it("should create connection and close connection", async () => {
       // GIVEN
-      const defaultConnection: any = {
-        isConnected: true,
-        connect: Sinon.stub().resolves(),
-        close: Sinon.stub()
-      };
-      const customConnection: any = {
-        isConnected: true,
-        connect: Sinon.stub().resolves(),
-        close: Sinon.stub()
-      };
-
-      let isDefaultConnectionCreated = false;
-      let isCustomConnectionCreated = false;
-
-      const connectionManager = {
-        create: Sinon.stub().callsFake((opts: TypeORM.ConnectionOptions) => {
-          if (opts.name == null || opts.name === "default") {
-            isDefaultConnectionCreated = true;
-            return defaultConnection;
-          } else {
-            isCustomConnectionCreated = true;
-            return customConnection;
-          }
-        }),
-        has: Sinon.stub().callsFake((name) => {
-          if (name == null || name === "default") {
-            return isDefaultConnectionCreated;
-          } else {
-            return isCustomConnectionCreated;
-          }
-        }),
-        get: Sinon.stub().callsFake((name) => {
-          if (name == null || name === "default") {
-            return defaultConnection;
-          } else {
-            return customConnection;
-          }
-        }),
-        connections: [defaultConnection, customConnection]
-      };
-
-      // @ts-ignore
-      TypeORM.getConnectionManager.returns(connectionManager);
-
       const service = new TypeORMService();
       // @ts-ignore
       service.injector = {
@@ -97,34 +98,8 @@ describe("TypeORMService", () => {
   });
 
   describe("get()", () => {
-    before(() => {
-      Sinon.stub(TypeORM, "getConnectionManager");
-    });
-
-    after(() => {
-      PlatformTest.reset();
-      // @ts-ignore
-      TypeORM.getConnectionManager.restore();
-    });
-
     it("should return corresponded connections", async () => {
       // GIVEN
-      const defaultConnection = {name: "default"};
-      const customConnection = {name: "custom"};
-      const connectionManager = {
-        get: Sinon.stub().callsFake((name) => {
-          if (name == null || name === "default") {
-            return defaultConnection;
-          } else if (name === "custom") {
-            return customConnection;
-          }
-          return null;
-        })
-      };
-
-      // @ts-ignore
-      TypeORM.getConnectionManager.returns(connectionManager);
-
       const service = new TypeORMService();
 
       // WHEN
@@ -136,6 +111,34 @@ describe("TypeORMService", () => {
       expect(result1).to.deep.eq(defaultConnection);
       expect(result2).to.deep.eq(defaultConnection);
       expect(result3).to.deep.eq(customConnection);
+    });
+  });
+
+  describe("has()", () => {
+    it("should return corresponded connections existence", async () => {
+      // GIVEN
+      const service = new TypeORMService();
+
+      // THEN
+      expect(service.has()).to.be.false;
+      expect(service.has("default")).to.be.false;
+      expect(service.has("custom")).to.be.false;
+
+      // WHEN
+      await connectionManager.create({name: "mydb", config: "config"} as any);
+
+      // THEN
+      expect(service.has()).to.be.false;
+      expect(service.has("default")).to.be.false;
+      expect(service.has("custom")).to.be.true;
+
+      // WHEN
+      await connectionManager.create({config: "config"} as any);
+
+      // THEN
+      expect(service.has()).to.be.true;
+      expect(service.has("default")).to.be.true;
+      expect(service.has("custom")).to.be.true;
     });
   });
 });
