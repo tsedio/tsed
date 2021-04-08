@@ -46,6 +46,7 @@ describe("InjectorService", () => {
     });
 
     it("should return undefined", () => {
+      console.log("new InjectorService().get(Test)", new InjectorService().get(Test));
       return expect(new InjectorService().get(Test)).to.be.undefined;
     });
   });
@@ -291,6 +292,27 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result).to.eq("TEST");
+      });
+
+      it("should invoke the provider from container with falsy value", async () => {
+        // GIVEN
+        const token = Symbol.for("TokenValue");
+
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
+        provider.useValue = null;
+
+        const injector = new InjectorService();
+        const container = new Container();
+        container.set(token, provider);
+
+        await injector.load(container);
+
+        // WHEN
+        const result: any = injector.invoke(token);
+
+        // THEN
+        expect(result).to.eq(null);
       });
     });
     describe("when provider is a Factory (useFactory)", () => {
