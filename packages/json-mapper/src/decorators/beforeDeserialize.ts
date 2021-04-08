@@ -10,9 +10,9 @@ export interface BeforeDeserializeCallback {
  * ## Example
  *
  * ```typescript
- * @BeforeDeserialize((data: Record<string, unknown>) => {
+ * @BeforeDeserialize((data: Record<string, unknown>) => { // Before deserialize get the data
  *    if (data.prop1 === 'VALUE' && data.prop2 !== 'VALUE2') {
- *      throw BadRequest('MyMessage'); /// or throw a ValidationError
+ *      throw BadRequest('MyMessage'); // or throw a ValidationError
  *    } else {
  *      data.prop2 = 'VALUE2';
  *      return data;
