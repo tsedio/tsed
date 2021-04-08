@@ -610,12 +610,14 @@ class MyModel {
 }
 ```
 
-## BeforeDeserialize <Badge text="6.39.0+"/>
+## Advanced validation
+
+### BeforeDeserialize <Badge text="6.39.0+"/>
 
 If you want to validate or manipulate data before the model has been deserialized you can use the @@BeforeDeserialize@@ decorator.
 
 ::: tip Note 
-Don't forget to return the data in your callback function.
+Don't forget to return the data in your callback function otherwise an error will occur.
 :::
 
 ```typescript
@@ -642,6 +644,62 @@ export class Animal {
     @Enum(AnimalType)
     type: AnimalType;
 } 
+```
+
+### AfterDeserialize <Badge text="6.39.0+"/>
+
+If you want to validate or manipulate data after the model has been deserialized you can use the @@AfterDeserialize@@ decorator.
+
+::: tip Note 
+Don't forget to return the data in your callback function otherwise an error will occur.
+:::
+
+```typescript
+import {Enum, Property} from "@tsed/schema"; 
+import {AfterDeserialize} from "@tsed/json-mapper";
+import {BadRequest} from "@tsed/exceptions";
+
+enum AnimalType {
+  DOG="DOG",
+  CAT="CAT"
+}
+
+@AfterDeserialize((data: Animal) => {
+  if (data.type !== AnimalType.CAT) {
+    throw new BadRequest("Sorry, we're only responsible for cats")  
+  } else {
+    data.name = `Our cat ${data.name}`;
+    return data;
+  }
+})
+export class Animal {
+    @Property()
+    name: string;
+    @Enum(AnimalType)
+    type: AnimalType;
+} 
+```
+
+### Custom validation decorator
+
+Validation can quickly become complex and therefore confusing. In this case you can use your own validation decorator.
+
+```typescript
+import {BeforeDeserialize} from "@tsed/json-mapper";
+
+class MyClass {
+    @RequiredIf((value, data) => data.role === 'owner' && value === undefined)
+    prop1: string;
+}
+
+function RequiredIf(cb) {
+    return (target, property) => {
+         BeforeDeserialize((data) => {
+              cb(data[property], data);
+              return data;
+         })
+    }
+}
 ```
 
 ## Generics
