@@ -685,20 +685,27 @@ export class Animal {
 Validation can quickly become complex and therefore confusing. In this case you can use your own validation decorator.
 
 ```typescript
-import {BeforeDeserialize} from "@tsed/json-mapper";
+import {BeforeDeserialize} from "@tsed/json-mapper"; 
+import {Property, JsonEntityFn} from "@tsed/schema";
+import {BadRequest} from "@tsed/exceptions"; 
 
-class MyClass {
-    @RequiredIf((value, data) => data.role === 'owner' && value === undefined)
-    prop1: string;
+class Company {
+  @Property()
+  name: string;
+  @Property()
+  @RequiredIf((value: any, data: any) => data.name === "tsed" && value !== undefined)
+  location: string;
 }
 
-function RequiredIf(cb) {
-    return (target, property) => {
-         BeforeDeserialize((data) => {
-              cb(data[property], data);
-              return data;
-         })
-    }
+function RequiredIf(cb: any): PropertyDecorator {
+  return JsonEntityFn((store, [target, propertyKey]) => {
+    BeforeDeserialize((data) => {
+      if (!cb(data[propertyKey], data)) {
+        throw new BadRequest(`${String(propertyKey)} is required`);
+      }
+      return data;
+    })(target);
+  });
 }
 ```
 
