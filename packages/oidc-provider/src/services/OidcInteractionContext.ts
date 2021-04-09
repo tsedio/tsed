@@ -1,7 +1,7 @@
 import {Constant, PlatformContext, ProviderScope, Scope} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
-import {Account, AnyObject, InteractionResults, PromptDetail} from "oidc-provider";
+import {Account, InteractionResults, PromptDetail, Provider} from "oidc-provider";
 import {OidcSession} from "../decorators";
 import {OidcClient, OidcInteraction} from "../domain";
 import {debug} from "../utils/debug";
@@ -33,12 +33,16 @@ export class OidcInteractionContext {
     return this.raw.prompt;
   }
 
-  get params(): AnyObject {
+  get params(): Record<string, any> {
     return this.raw.params;
   }
 
   get uid(): string {
     return this.raw.uid;
+  }
+
+  get grantId(): string {
+    return (this.raw as any).grantId;
   }
 
   async runInteraction(name: string = this.prompt.name) {
@@ -63,21 +67,11 @@ export class OidcInteractionContext {
     return this.oidcProvider.get().interactionResult(this.context.getReq(), this.context.getRes(), result, options);
   }
 
-  async setProviderSession(options: {
-    account: string;
-    ts?: number;
-    remember?: boolean;
-    clients?: string[];
-    meta?: AnyObject;
-  }): Promise<OidcSession> {
-    return this.oidcProvider.get().setProviderSession(this.context.getReq(), this.context.getRes(), options);
-  }
-
   async render(view: string, result: any): Promise<string> {
     return this.context.response.render(view, result);
   }
 
-  async save(ttl?: number): Promise<string> {
+  async save(ttl: number): Promise<string> {
     return this.raw.save(ttl);
   }
 
@@ -87,7 +81,7 @@ export class OidcInteractionContext {
 
   async findAccount(sub?: string, token?: any): Promise<Account | undefined> {
     if (!sub && this.session) {
-      sub = this.session.accountId() as any;
+      sub = this.session?.accountId as any;
     }
 
     if (!sub) {
@@ -95,6 +89,21 @@ export class OidcInteractionContext {
     }
 
     return this.oidcProvider.get().Account.findAccount(undefined as any, sub!, token);
+  }
+
+  async getGrant(): Promise<InstanceType<Provider["Grant"]>> {
+    const {Grant} = this.oidcProvider.get() as any;
+    console.log("this.oidcProvider.raw", this.grantId);
+    if (this.grantId) {
+      // we'll be modifying existing grant in existing session
+      // @ts-ignore
+      return await (this.oidcProvider.get().find || Grant.find)(this.grantId);
+    }
+
+    return new Grant({
+      accountId: this.session?.accountId,
+      clientId: this.params.client_id
+    });
   }
 
   debug(obj?: any): any {

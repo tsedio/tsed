@@ -51,7 +51,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000
+        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
         run: yarn test:coverage && (yarn coveralls || true)
 

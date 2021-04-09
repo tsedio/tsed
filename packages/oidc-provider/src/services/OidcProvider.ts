@@ -1,7 +1,6 @@
 import {Env, setValue} from "@tsed/core";
 import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
-import Provider from "oidc-provider";
-import RawOIDCProvider, {Configuration, interactionPolicy} from "oidc-provider";
+import {Provider as OIDCProvider, Configuration, interactionPolicy} from "oidc-provider";
 import {INTERACTIONS} from "../constants";
 import {OidcAccountsMethods, OidcSettings} from "../domain";
 import {OidcAdapters} from "./OidcAdapters";
@@ -10,7 +9,7 @@ import {OidcJwks} from "./OidcJwks";
 
 @Injectable()
 export class OidcProvider {
-  raw: RawOIDCProvider;
+  raw: OIDCProvider;
 
   @Constant("env")
   protected env: Env;
@@ -88,24 +87,24 @@ export class OidcProvider {
     return `http://localhost:${this.httpPort}`;
   }
 
-  get(): Provider {
+  get(): OIDCProvider {
     return this.raw;
   }
 
   /**
    * Create a new instance of OidcProvider
    */
-  async create(): Promise<void | Provider> {
+  async create(): Promise<void | OIDCProvider> {
     const {proxy, secureKey} = this.oidc;
     const configuration = await this.getConfiguration();
-    const oidcProvider = new RawOIDCProvider(this.getIssuer(), configuration);
+    const oidcProvider = new OIDCProvider(this.getIssuer(), configuration);
 
     if (proxy || this.env === Env.PROD) {
       oidcProvider.proxy = true;
     }
 
     if (secureKey) {
-      oidcProvider.keys = secureKey;
+      oidcProvider.app.keys = secureKey;
     }
 
     this.raw = oidcProvider;

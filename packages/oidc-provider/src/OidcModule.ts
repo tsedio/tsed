@@ -27,7 +27,7 @@ export class OidcModule {
     if (this.oidcProvider.hasConfiguration()) {
       const provider = this.oidcProvider.get();
 
-      this.app.use(provider.callback);
+      this.app.use(provider.callback());
     }
   }
 

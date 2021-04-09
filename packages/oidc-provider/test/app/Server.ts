@@ -42,9 +42,6 @@ export const rootDir = __dirname;
       openid: ["sub"],
       email: ["email", "email_verified"]
     },
-    formats: {
-      AccessToken: "jwt"
-    },
     features: {
       // disable the packaged interactions
       devInteractions: {enabled: false},

@@ -77,7 +77,7 @@ export class LoginInteraction {
 
     return oidcCtx.interactionFinished({
       login: {
-        account: account.accountId
+        accountId: account.accountId
       }
     });
   }

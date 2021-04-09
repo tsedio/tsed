@@ -2,7 +2,7 @@ import {Constant, Injectable} from "@tsed/di";
 import {ensureDirSync, existsSync, readFileSync, writeFileSync} from "fs-extra";
 import {dirname, join} from "path";
 
-const jose = require("jose");
+const jose = require("jose2");
 
 @Injectable()
 export class OidcJwks {
@@ -31,10 +31,8 @@ export class OidcJwks {
 
     await Promise.all([
       keystore.generate("RSA", 2048, {use: "sig"}),
-      keystore.generate("RSA", 2048, {use: "enc"}),
-      keystore.generate("EC", "P-256", {use: "sig"}),
-      keystore.generate("EC", "P-256", {use: "enc"}),
-      keystore.generate("OKP", "Ed25519", {use: "sig"})
+      keystore.generate("EC", "P-256", {use: "sig", alg: "ES256"}),
+      keystore.generate("OKP", "Ed25519", {use: "sig", alg: "EdDSA"})
     ]);
 
     this.fs.ensureDirSync(dirname(this.jwksPath));
