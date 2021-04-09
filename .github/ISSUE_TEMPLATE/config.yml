@@ -1,6 +1,6 @@
 blank_issues_enabled: false
-question:
-  - name: Questions / Discussions
+questions:
+  - name: ❓ Questions / Discussions
     url: https://github.com/TypedProject/tsed/discussions
     about: You want to ask a question or discuss with other community members
 contact_links:
