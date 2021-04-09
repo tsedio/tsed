@@ -1,6 +1,6 @@
-import {catchAsyncError, constructorOf} from "@tsed/core/src";
+import {catchAsyncError} from "@tsed/core/src";
 import {BadRequest} from "@tsed/exceptions/src";
-import {Property} from "@tsed/schema/src";
+import {JsonEntityFn, Property} from "@tsed/schema/src";
 import {expect} from "chai";
 import {deserialize} from "../../src";
 import {BeforeDeserialize} from "../../src/decorators/beforeDeserialize";
@@ -9,22 +9,39 @@ class Company {
   @Property()
   name: string;
   @Property()
-  @RequiredIf((value: any, data: any) => data.name === "tsed" && value === undefined)
+  @RequiredIf((value: any, data: any) => data.name === "tsed" && value !== undefined)
   location: string;
 }
 
-function RequiredIf(cb: any) {
-  return (target: any, property: string) => {
+function RequiredIf(cb: any): PropertyDecorator {
+  return JsonEntityFn((store, [target, propertyKey]) => {
     BeforeDeserialize((data) => {
-      if (!cb(data[property], data)) {
-        throw new BadRequest(`${property} is required!`);
+      if (!cb(data[propertyKey], data)) {
+        throw new BadRequest(`${String(propertyKey)} is required`);
       }
       return data;
-    })(constructorOf(target));
-  };
+    })(target);
+  });
 }
 
 describe("CustomValidationDecorator", () => {
+  it("should deserialize object correctly", async () => {
+    // GIVEN
+    const company = {
+      name: "tsed",
+      location: "Paris"
+    };
+
+    // WHEN
+    const companyAfterDeserialization = deserialize(company, {type: Company});
+
+    // THEN
+    expect(companyAfterDeserialization).to.be.deep.eq({
+      name: "tsed",
+      location: "Paris"
+    });
+  });
+
   it("should try to deserialize and throw a bad request error", async () => {
     // GIVEN
     const company = {
