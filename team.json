@@ -18,5 +18,14 @@
     "country": "France",
     "city": "Paris",
     "role": "Framework"
+  },
+  {
+    "title": "Nino Bergen",
+    "job": "Developer Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/39458340?v=4",
+    "github": "xCryzed",
+    "country": "Germany",
+    "city": "Aachen",
+    "role": "Framework"
   }
 ]
