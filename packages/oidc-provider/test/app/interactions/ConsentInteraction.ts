@@ -1,6 +1,6 @@
-import {Post, View} from "@tsed/common";
+import {Inject, Post, View} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
-import {Interaction, OidcCtx, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
+import {Interaction, OidcCtx, OidcProvider, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
 import {Name} from "@tsed/schema";
 
 @Interaction({
@@ -8,6 +8,9 @@ import {Name} from "@tsed/schema";
 })
 @Name("Oidc")
 export class ConsentInteraction {
+  @Inject()
+  oidc: OidcProvider;
+
   @View("interaction")
   async $prompt(@OidcCtx() oidcCtx: OidcCtx,
                 @Prompt() prompt: Prompt,
@@ -32,23 +35,41 @@ export class ConsentInteraction {
       throw new BadRequest("Bad interaction name");
     }
 
-    const result: any = {
-      consent: {
-        // any scopes you do not wish to grant go in here
-        //   otherwise details.scopes.new.concat(details.scopes.accepted) will be granted
-        rejectedScopes: [],
-
-        // any claims you do not wish to grant go in here
-        //   otherwise all claims mapped to granted scopes
-        //   and details.claims.new.concat(details.claims.accepted) will be granted
-        rejectedClaims: [],
-
-        // replace = false means previously rejected scopes and claims remain rejected
-        // changing this to true will remove those rejections in favour of just what you rejected above
-        replace: false
-      }
+    const grant = await oidcCtx.getGrant();
+    const details = prompt.details as {
+      missingOIDCScope: string[],
+      missingResourceScopes: Record<string, string[]>,
+      missingOIDClaims: string[]
     };
 
-    return oidcCtx.interactionFinished(result, {mergeWithLastSubmission: true});
+    const {missingOIDCScope, missingOIDClaims, missingResourceScopes} = details;
+
+    if (missingOIDCScope) {
+      grant.addOIDCScope(missingOIDCScope.join(" "));
+      // use grant.rejectOIDCScope to reject a subset or the whole thing
+    }
+    if (missingOIDClaims) {
+      grant.addOIDCClaims(missingOIDCScope);
+      // use grant.rejectOIDCClaims to reject a subset or the whole thing
+    }
+
+    if (missingResourceScopes) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const [indicator, scopes] of Object.entries(missingResourceScopes)) {
+        grant.addResourceScope(indicator, scopes.join(" "));
+        // use grant.rejectResourceScope to reject a subset or the whole thing
+      }
+    }
+
+    const grantId = await grant.save();
+
+    const consent: any = {};
+
+    if (!oidcCtx.grantId) {
+      // we don't have to pass grantId to consent, we're just modifying existing one
+      consent.grantId = grantId;
+    }
+
+    return oidcCtx.interactionFinished({consent}, {mergeWithLastSubmission: true});
   }
 }

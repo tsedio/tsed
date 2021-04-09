@@ -11,6 +11,8 @@ export class Account {
   @Name("email_verified")
   emailVerified: boolean;
 
+  [key: string]: unknown;
+
   get accountId() {
     return this._id;
   }

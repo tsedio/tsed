@@ -211,7 +211,7 @@ export class InteractionsCtrl {
 }
 ```
 ::: tip Note
-The Interactions controller exposes the routes to display any interaction. Here we expose the route GET `/interation/:uid`
+The controller Interactions exposes the routes to display any interaction. Here we expose the route GET `/interation/:uid`
 
 The `uid` is the unique session id used by Oidc-provider to identify the current user flow.
 :::
@@ -433,6 +433,9 @@ export class Account {
   @Property()
   @Name("email_verified")
   emailVerified: boolean;
+  
+  // Added in v7
+  [key: string]: unknown;
 
   get accountId() {
     return this._id;
@@ -482,6 +485,109 @@ export class InteractionsCtrl {
 }
 ```
 
+## Override Consent interaction
+
+OIDC provider allow you to change the Consent page interaction. With `@tsed/oidc-provider` you can do that by creating a new ContentInteraction
+as following:
+
+```typescript
+import {Inject, Post, View} from "@tsed/common";
+import {BadRequest} from "@tsed/exceptions";
+import {Interaction, OidcCtx, OidcProvider, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
+import {Name} from "@tsed/schema";
+
+@Interaction({
+   name: "consent"
+})
+@Name("Oidc")
+export class ConsentInteraction {
+   @Inject()
+   oidc: OidcProvider;
+
+   @View("interaction")
+   async $prompt(@OidcCtx() oidcCtx: OidcCtx,
+                 @Prompt() prompt: Prompt,
+                 @OidcSession() session: OidcSession,
+                 @Params() params: Params,
+                 @Uid() uid: Uid): Promise<any> {
+      const client = await oidcCtx.findClient();
+
+      return {
+         client,
+         uid,
+         details: prompt.details,
+         params,
+         title: "Authorize",
+         ...oidcCtx.debug()
+      };
+   }
+
+   @Post("/confirm")
+   async confirm(@OidcCtx() oidcCtx: OidcCtx, @Prompt() prompt: Prompt) {
+      if (prompt.name !== "consent") {
+         throw new BadRequest("Bad interaction name");
+      }
+
+      const grant = await oidcCtx.getGrant();
+      const details = prompt.details as {
+         missingOIDCScope: string[],
+         missingResourceScopes: Record<string, string[]>,
+         missingOIDClaims: string[]
+      };
+
+      const {missingOIDCScope, missingOIDClaims, missingResourceScopes} = details;
+
+      if (missingOIDCScope) {
+         grant.addOIDCScope(missingOIDCScope.join(" "));
+         // use grant.rejectOIDCScope to reject a subset or the whole thing
+      }
+      if (missingOIDClaims) {
+         grant.addOIDCClaims(missingOIDCScope);
+         // use grant.rejectOIDCClaims to reject a subset or the whole thing
+      }
+
+      if (missingResourceScopes) {
+         // eslint-disable-next-line no-restricted-syntax
+         for (const [indicator, scopes] of Object.entries(missingResourceScopes)) {
+            grant.addResourceScope(indicator, scopes.join(" "));
+            // use grant.rejectResourceScope to reject a subset or the whole thing
+         }
+      }
+
+      const grantId = await grant.save();
+
+      const consent: any = {};
+
+      if (!oidcCtx.grantId) {
+         // we don't have to pass grantId to consent, we're just modifying existing one
+         consent.grantId = grantId;
+      }
+
+      return oidcCtx.interactionFinished({consent}, {mergeWithLastSubmission: true});
+   }
+}
+```
+Then add the ConsentInteraction in the InteractionsCtrl:
+
+```typescript
+import {Get} from "@tsed/common";
+import {Interactions, OidcCtx, DefaultPolicy} from "@tsed/oidc-provider";
+import {ConsentInteraction} from "../../interactions/ConsentInteraction";
+
+@Interactions({
+  path: "/interaction/:uid",
+  children: [
+     ConsentInteraction // register its children interactions 
+  ]
+})
+export class InteractionsCtrl {
+  @Get("/")
+  async promptInteraction(@OidcCtx() oidcCtx: OidcCtx) {
+    return oidcCtx.runInteraction();
+  }
+}
+```
+
 ## Remove consent interaction
 
 Sometimes with your provider you don't need a consent screen. This use-case might occur if your provider has only first-party clients configured. To achieve that, you need to remove consent interaction from provider policy configuration:
@@ -494,7 +600,7 @@ import {LoginInteraction} from "../../interactions/LoginInteraction";
 @Interactions({
   path: "/interaction/:uid",
   children: [
-    LoginInteraction // register its children interations 
+    LoginInteraction // register its children interactions 
   ]
 })
 export class InteractionsCtrl {

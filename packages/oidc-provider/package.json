@@ -4,25 +4,27 @@
   "description": "OIDC provider package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "private": false,
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
+    "@types/oidc-provider": "^7.1.1",
     "@tsed/adapters": "6.39.0",
     "@types/lowdb": "1.0.9",
     "@types/uuid": "8.3.0",
+    "jose2": "npm:jose@^2.0.4",
     "lowdb": "1.0.0",
     "tslib": "2.1.0",
     "uuid": "8.3.2"
   },
-  "private": false,
   "devDependencies": {
     "@tsed/common": "6.39.0",
     "@tsed/core": "6.39.0",
-    "oidc-provider": "6.29.9"
+    "oidc-provider": "^7.3.0"
   },
   "peerDependencies": {
-    "oidc-provider": "^6.29.9"
+    "oidc-provider": "^7.3.0"
   }
 }
