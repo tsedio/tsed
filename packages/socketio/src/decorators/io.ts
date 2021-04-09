@@ -10,7 +10,7 @@ import {SocketIOServer} from "../services/SocketIOServer";
  * ```typescript
  * @SocketService("/nsp")
  * export class MyWS {
- *   constructor(@IO private io: SocketIO.Server) {}
+ *   constructor(@IO private io: Server) {}
  * }
  * ```
  *

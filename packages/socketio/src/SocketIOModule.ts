@@ -1,6 +1,6 @@
 import {AfterListen, Constant, HttpServer, HttpsServer, Inject, InjectorService, Module, Provider, $log} from "@tsed/common";
 import {nameOf} from "@tsed/core";
-import SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
+import {Server, ServerOptions} from "socket.io"; // tslint:disable-line: no-unused-variable
 import {IO} from "./decorators/io";
 import {SocketProviderMetadata} from "./interfaces/SocketProviderMetadata";
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "./registries/SocketServiceRegistry";
@@ -15,7 +15,7 @@ export class SocketIOModule implements AfterListen {
   disableRoutesSummary: boolean;
 
   @Constant("socketIO", {})
-  settings: SocketIO.ServerOptions;
+  settings: ServerOptions;
 
   @Constant("httpPort")
   httpPort: string | number;
@@ -27,7 +27,7 @@ export class SocketIOModule implements AfterListen {
     private injector: InjectorService,
     @Inject(HttpServer) private httpServer: HttpServer,
     @Inject(HttpsServer) private httpsServer: HttpsServer,
-    @IO private io: SocketIO.Server,
+    @IO private io: Server,
     private socketIOService: SocketIOService
   ) {}
 
