@@ -1,23 +1,16 @@
-import {ConnectionOptions, getConnectionManager} from "typeorm";
+import {getValue} from "@tsed/core";
+import {Connection, ConnectionOptions, getConnectionManager} from "typeorm";
 
-const connections = new Map();
-
-export async function createConnection(connectionOptions: ConnectionOptions) {
+export async function createConnection(connectionOptions: ConnectionOptions): Promise<Connection> {
   const connectionManager = getConnectionManager();
-  const name = connectionOptions.name!;
+  const name = getValue<string>(connectionOptions, "name", "default");
 
-  if (!connections.has(name)) {
+  if (!connectionManager.has(name)) {
     const connection = connectionManager.create(connectionOptions!);
-    connections.set(name, connection.connect());
+    await connection.connect();
   }
 
-  await connections.get(name);
-
   const connection = connectionManager.get(name);
-
-  // Add hook to close connection when server is killed
-  // @ts-ignore
-  connection.$onDestroy = connection.$onDestroy || (() => connection.isConnected && connection.close());
 
   return connection;
 }

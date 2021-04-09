@@ -119,7 +119,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     const calculatedTtl = this.cache.ttl(result, ttl);
     const expires = calculatedTtl + Date.now() / 1000;
     $ctx.response.setHeaders({
-      "cache-control": `max-age=${expires.toFixed(0)}`
+      "cache-control": `max-age=${calculatedTtl}`
     });
 
     // cache final response with his headers and body
@@ -146,7 +146,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
   }
 
   protected sendResponse(cachedObject: PlatformCachedObject, $ctx: PlatformContext) {
-    const {headers, expires} = cachedObject;
+    const {headers, ttl} = cachedObject;
     const {request, response} = $ctx;
 
     const requestEtag = request.get("if-none-match");
@@ -163,7 +163,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       .setHeaders({
         ...headers,
         "x-cached": "true",
-        "cache-control": `max-age=${(expires - Date.now()).toFixed(0)}`
+        "cache-control": `max-age=${ttl}`
       })
       .body(data);
 

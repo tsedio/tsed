@@ -13,7 +13,6 @@ describe("TypeORM integration", () => {
     const bstrp = PlatformTest.bootstrap(Server, {
       typeorm: [
         {
-          name: "default",
           type: "mongodb",
           url,
           entities: [User],
