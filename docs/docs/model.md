@@ -610,6 +610,105 @@ class MyModel {
 }
 ```
 
+## Advanced validation
+
+### BeforeDeserialize <Badge text="6.39.0+"/>
+
+If you want to validate or manipulate data before the model has been deserialized you can use the @@BeforeDeserialize@@ decorator.
+
+::: tip Note 
+Don't forget to return the data in your callback function otherwise an error will occur.
+:::
+
+```typescript
+import {Enum, Property} from "@tsed/schema"; 
+import {BeforeDeserialize} from "@tsed/json-mapper";
+import {BadRequest} from "@tsed/exceptions";
+
+enum AnimalType {
+  DOG="DOG",
+  CAT="CAT"
+}
+
+@BeforeDeserialize((data: Record<string, unknown>) => {
+  if (data.type !== AnimalType.DOG) {
+    throw new BadRequest("Sorry, we're only responsible for dogs")  
+  } else {
+    data.name = `Our dog ${data.name}`;
+    return data;
+  }
+})
+export class Animal {
+    @Property()
+    name: string;
+    @Enum(AnimalType)
+    type: AnimalType;
+} 
+```
+
+### AfterDeserialize <Badge text="6.39.0+"/>
+
+If you want to validate or manipulate data after the model has been deserialized you can use the @@AfterDeserialize@@ decorator.
+
+::: tip Note 
+Don't forget to return the data in your callback function otherwise an error will occur.
+:::
+
+```typescript
+import {Enum, Property} from "@tsed/schema"; 
+import {AfterDeserialize} from "@tsed/json-mapper";
+import {BadRequest} from "@tsed/exceptions";
+
+enum AnimalType {
+  DOG="DOG",
+  CAT="CAT"
+}
+
+@AfterDeserialize((data: Animal) => {
+  if (data.type !== AnimalType.CAT) {
+    throw new BadRequest("Sorry, we're only responsible for cats")  
+  } else {
+    data.name = `Our cat ${data.name}`;
+    return data;
+  }
+})
+export class Animal {
+    @Property()
+    name: string;
+    @Enum(AnimalType)
+    type: AnimalType;
+} 
+```
+
+### Custom validation decorator
+
+Validation can quickly become complex and therefore confusing. In this case you can use your own validation decorator.
+
+```typescript
+import {BeforeDeserialize} from "@tsed/json-mapper"; 
+import {Property, JsonEntityFn} from "@tsed/schema";
+import {BadRequest} from "@tsed/exceptions"; 
+
+class Company {
+  @Property()
+  name: string;
+  @Property()
+  @RequiredIf((value: any, data: any) => data.name === "tsed" && value !== undefined)
+  location: string;
+}
+
+function RequiredIf(cb: any): PropertyDecorator {
+  return JsonEntityFn((store, [target, propertyKey]) => {
+    BeforeDeserialize((data) => {
+      if (!cb(data[propertyKey], data)) {
+        throw new BadRequest(`${String(propertyKey)} is required`);
+      }
+      return data;
+    })(target);
+  });
+}
+```
+
 ## Generics
 
 ### Declaring a generic model
