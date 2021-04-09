@@ -1,4 +1,8 @@
 blank_issues_enabled: false
+question:
+  - name: Questions / Discussions
+    url: https://github.com/TypedProject/tsed/discussions
+    about: You want to ask a question or discuss with other community members
 contact_links:
   - name: 💬 Question or help request
     url: https://gitter.im/Tsed-io/Community
