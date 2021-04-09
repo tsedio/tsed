@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
 import {expect} from "chai";
 import {SocketMiddlewareError} from "../index";
-import {SocketProviderTypes} from "../interfaces/ISocketProviderMetadata";
+import {SocketProviderTypes} from "../interfaces/SocketProviderMetadata";
 
 describe("@SocketMiddlewareError", () => {
   it("should register the metadata and middleware", () => {

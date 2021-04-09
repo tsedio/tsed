@@ -1,6 +1,6 @@
 {
   "name": "@tsed/swagger",
-  "version": "6.39.0",
+  "version": "6.39.2",
   "description": "Swagger package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -9,14 +9,14 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "swagger-ui-dist": "^3.31.1",
+    "swagger-ui-dist": "^3.46.0",
     "tslib": "2.1.0"
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.39.0",
-    "@tsed/openspec": "6.39.0",
-    "@tsed/schema": "6.39.0"
+    "@tsed/common": "6.39.2",
+    "@tsed/openspec": "6.39.2",
+    "@tsed/schema": "6.39.2"
   },
   "peerDependencies": {}
 }

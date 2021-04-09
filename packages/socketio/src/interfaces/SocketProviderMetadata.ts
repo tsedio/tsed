@@ -1,4 +1,4 @@
-import {ISocketHandlerMetadata} from "./ISocketHandlerMetadata";
+import {SocketHandlerMetadata} from "./SocketHandlerMetadata";
 
 /**
  *
@@ -11,7 +11,7 @@ export enum SocketProviderTypes {
 /**
  *
  */
-export interface ISocketProviderMetadata {
+export interface SocketProviderMetadata {
   type: SocketProviderTypes;
   error?: boolean;
   namespace?: string;
@@ -19,6 +19,6 @@ export interface ISocketProviderMetadata {
   useBefore?: any[];
   useAfter?: any[];
   handlers: {
-    [propertyKey: string]: ISocketHandlerMetadata;
+    [propertyKey: string]: SocketHandlerMetadata;
   };
 }

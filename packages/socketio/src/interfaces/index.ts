@@ -8,10 +8,10 @@ declare global {
   }
 }
 
-export * from "./ISocketHandlerMetadata";
+export * from "./SocketHandlerMetadata";
 export * from "./ISocketMiddlewareHandlerMetadata";
-export * from "./ISocketParamMetadata";
-export * from "./ISocketProviderMetadata";
+export * from "./SocketParamMetadata";
+export * from "./SocketProviderMetadata";
 export * from "./OnNamespaceInit";
 export * from "./SocketFilters";
 export * from "./SocketReturnsTypes";

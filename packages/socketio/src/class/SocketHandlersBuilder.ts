@@ -1,12 +1,11 @@
 import {ConverterService, InjectorService, Provider} from "@tsed/common";
 import {Store} from "@tsed/core";
-import SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {$log} from "@tsed/logger";
-import {ISocketHandlerMetadata} from "../interfaces/ISocketHandlerMetadata";
-import {ISocketParamMetadata} from "../interfaces/ISocketParamMetadata";
-import {ISocketProviderMetadata, SocketProviderTypes} from "../interfaces/ISocketProviderMetadata";
-
+import {Namespace, Socket} from "socket.io";
 import {SocketFilters} from "../interfaces/SocketFilters";
+import {SocketHandlerMetadata} from "../interfaces/SocketHandlerMetadata";
+import {SocketParamMetadata} from "../interfaces/SocketParamMetadata";
+import {SocketProviderMetadata, SocketProviderTypes} from "../interfaces/SocketProviderMetadata";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
 import {getNspSession} from "../registries/NspSessionRegistry";
 
@@ -14,7 +13,7 @@ import {getNspSession} from "../registries/NspSessionRegistry";
  * @ignore
  */
 export class SocketHandlersBuilder {
-  private socketProviderMetadata: ISocketProviderMetadata;
+  private socketProviderMetadata: SocketProviderMetadata;
 
   constructor(private provider: Provider<any>, private converterService: ConverterService, private injector: InjectorService) {
     this.socketProviderMetadata = this.provider.store.get("socketIO");
@@ -22,9 +21,35 @@ export class SocketHandlersBuilder {
 
   /**
    *
+   * @param {SocketHandlerMetadata} handlerMetadata
+   * @param scope
+   * @returns {(data) => void}
+   */
+  private static bindResponseMiddleware(handlerMetadata: SocketHandlerMetadata, scope: any) {
+    const {returns} = handlerMetadata;
+
+    return (response: any): void => {
+      if (returns) {
+        switch (returns.type) {
+          case SocketReturnsTypes.BROADCAST:
+            scope.nsp.emit(returns.eventName, response);
+            break;
+          case SocketReturnsTypes.BROADCAST_OTHERS:
+            scope.socket.broadcast.emit(returns.eventName, response);
+            break;
+          case SocketReturnsTypes.EMIT:
+            scope.socket.emit(returns.eventName, response);
+            break;
+        }
+      }
+    };
+  }
+
+  /**
+   *
    * @returns {any}
    */
-  public build(nsps: Map<string, SocketIO.Namespace>) {
+  public build(nsps: Map<string, Namespace>) {
     const {instance} = this.provider;
     const {injectNamespaces = [], namespace = "/"} = this.socketProviderMetadata;
 
@@ -55,6 +80,32 @@ export class SocketHandlersBuilder {
 
   /**
    *
+   * @param {Socket} socket
+   * @param {Namespace} nsp
+   */
+  public onConnection(socket: Socket, nsp: Namespace) {
+    const {instance} = this.provider;
+
+    this.buildHandlers(socket, nsp);
+    this.createSession(socket);
+
+    if (instance.$onConnection) {
+      this.invoke(instance, this.socketProviderMetadata.handlers.$onConnection, {socket, nsp});
+    }
+  }
+
+  public onDisconnect(socket: Socket, nsp: Namespace) {
+    const {instance} = this.provider;
+
+    if (instance.$onDisconnect) {
+      this.invoke(instance, this.socketProviderMetadata.handlers.$onDisconnect, {socket, nsp});
+    }
+
+    this.destroySession(socket);
+  }
+
+  /**
+   *
    * @param {string} hook
    * @param {string} eventName
    */
@@ -71,56 +122,30 @@ export class SocketHandlersBuilder {
 
   /**
    *
-   * @param {SocketIO.Socket} socket
-   * @param {SocketIO.Namespace} nsp
+   * @param {Socket} socket
    */
-  public onConnection(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
-    const {instance} = this.provider;
-
-    this.buildHandlers(socket, nsp);
-    this.createSession(socket);
-
-    if (instance.$onConnection) {
-      this.invoke(instance, this.socketProviderMetadata.handlers.$onConnection, {socket, nsp});
-    }
-  }
-
-  public onDisconnect(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
-    const {instance} = this.provider;
-
-    if (instance.$onDisconnect) {
-      this.invoke(instance, this.socketProviderMetadata.handlers.$onDisconnect, {socket, nsp});
-    }
-
-    this.destroySession(socket);
-  }
-
-  /**
-   *
-   * @param {SocketIO.Socket} socket
-   */
-  private createSession(socket: SocketIO.Socket) {
+  private createSession(socket: Socket) {
     this.provider.instance._nspSession.set(socket.id, new Map());
   }
 
   /**
    *
-   * @param {SocketIO.Socket} socket
+   * @param {Socket} socket
    */
-  private destroySession(socket: SocketIO.Socket) {
+  private destroySession(socket: Socket) {
     this.provider.instance._nspSession.delete(socket.id);
   }
 
   /**
    *
-   * @param {SocketIO.Socket} socket
-   * @param {SocketIO.Namespace} nsp
+   * @param {Socket} socket
+   * @param {Namespace} nsp
    */
-  private buildHandlers(socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+  private buildHandlers(socket: Socket, nsp: Namespace) {
     Object.keys(this.socketProviderMetadata.handlers)
       .filter((key) => ["$onConnection", "$onDisconnect"].indexOf(key) === -1)
       .forEach((propertyKey: string) => {
-        const handlerMetadata: ISocketHandlerMetadata = this.socketProviderMetadata.handlers[propertyKey];
+        const handlerMetadata: SocketHandlerMetadata = this.socketProviderMetadata.handlers[propertyKey];
         const eventName: string = handlerMetadata.eventName!;
 
         if (eventName) {
@@ -133,13 +158,13 @@ export class SocketHandlersBuilder {
 
   /**
    *
-   * @param {ISocketHandlerMetadata} handlerMetadata
+   * @param {SocketHandlerMetadata} handlerMetadata
    * @param args
-   * @param {SocketIO.Socket} socket
-   * @param {SocketIO.Namespace} nsp
+   * @param {Socket} socket
+   * @param {Namespace} nsp
    * @returns {(parameters) => Promise<void>}
    */
-  private async runQueue(handlerMetadata: ISocketHandlerMetadata, args: any[], socket: SocketIO.Socket, nsp: SocketIO.Namespace) {
+  private async runQueue(handlerMetadata: SocketHandlerMetadata, args: any[], socket: Socket, nsp: Namespace) {
     let promise: any = Promise.resolve(args);
     const {useBefore, useAfter} = this.socketProviderMetadata;
     const scope = {
@@ -181,10 +206,10 @@ export class SocketHandlersBuilder {
 
   /**
    *
-   * @param {ISocketHandlerMetadata} handlerMetadata
+   * @param {SocketHandlerMetadata} handlerMetadata
    * @param scope
    */
-  private deserialize(handlerMetadata: ISocketHandlerMetadata, scope: any) {
+  private deserialize(handlerMetadata: SocketHandlerMetadata, scope: any) {
     const {parameters} = handlerMetadata;
     Object.keys(parameters || []).forEach((index: any) => {
       const {filter, useConverter, mapIndex, type, collectionType} = parameters![index];
@@ -199,32 +224,6 @@ export class SocketHandlersBuilder {
 
   /**
    *
-   * @param {ISocketHandlerMetadata} handlerMetadata
-   * @param scope
-   * @returns {(data) => void}
-   */
-  private static bindResponseMiddleware(handlerMetadata: ISocketHandlerMetadata, scope: any) {
-    const {returns} = handlerMetadata;
-
-    return (response: any): void => {
-      if (returns) {
-        switch (returns.type) {
-          case SocketReturnsTypes.BROADCAST:
-            scope.nsp.emit(returns.eventName, response);
-            break;
-          case SocketReturnsTypes.BROADCAST_OTHERS:
-            scope.socket.broadcast.emit(returns.eventName, response);
-            break;
-          case SocketReturnsTypes.EMIT:
-            scope.socket.emit(returns.eventName, response);
-            break;
-        }
-      }
-    };
-  }
-
-  /**
-   *
    * @param target
    * @param scope
    * @param promise
@@ -235,7 +234,7 @@ export class SocketHandlersBuilder {
 
     if (provider) {
       const instance = provider.instance;
-      const handlerMetadata: ISocketProviderMetadata = Store.from(instance).get("socketIO");
+      const handlerMetadata: SocketProviderMetadata = Store.from(instance).get("socketIO");
 
       if (handlerMetadata.type === SocketProviderTypes.MIDDLEWARE) {
         if (handlerMetadata.error) {
@@ -262,7 +261,7 @@ export class SocketHandlersBuilder {
    * @param handlerMetadata
    * @param scope
    */
-  private async invoke(instance: any, handlerMetadata: ISocketHandlerMetadata, scope: any): Promise<any> {
+  private async invoke(instance: any, handlerMetadata: SocketHandlerMetadata, scope: any): Promise<any> {
     const {methodClassName, parameters} = handlerMetadata;
 
     return await instance[methodClassName](...this.buildParameters(parameters!, scope));
@@ -274,9 +273,9 @@ export class SocketHandlersBuilder {
    * @param scope
    * @returns {any[]}
    */
-  private buildParameters(parameters: {[key: number]: ISocketParamMetadata}, scope: any): any[] {
+  private buildParameters(parameters: {[key: number]: SocketParamMetadata}, scope: any): any[] {
     return Object.keys(parameters || []).map((index: any) => {
-      const param: ISocketParamMetadata = parameters[index];
+      const param: SocketParamMetadata = parameters[index];
 
       switch (param.filter) {
         case SocketFilters.ARGS:
