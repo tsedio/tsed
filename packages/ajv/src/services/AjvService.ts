@@ -1,6 +1,6 @@
 import {getValue, nameOf, prototypeOf, setValue, Type} from "@tsed/core";
 import {Constant, Inject, Injectable} from "@tsed/di";
-import {getJsonSchema, JsonEntityStore} from "@tsed/schema";
+import {getJsonSchema, JsonEntityStore, JsonSchema, JsonSchemaObject} from "@tsed/schema";
 import Ajv, {ErrorObject} from "ajv";
 import {AjvValidationError} from "../errors/AjvValidationError";
 import {AjvErrorObject, ErrorFormatter} from "../interfaces/IAjvSettings";
@@ -28,6 +28,12 @@ function defaultFormatter(error: AjvErrorObject) {
   return join([!error.modelName && "Value", `${error.modelName || ""}`, error.dataPath, ` ${error.message}. Given value: ${value}`]);
 }
 
+export interface AjvValidateOptions extends Record<string, any> {
+  schema?: JsonSchema | Partial<JsonSchemaObject>;
+  type?: Type<any> | any;
+  collectionType?: Type<any> | any;
+}
+
 @Injectable()
 export class AjvService {
   @Constant("ajv.errorFormatter", defaultFormatter)
@@ -36,11 +42,13 @@ export class AjvService {
   @Inject()
   protected ajv: Ajv;
 
-  async validate(value: any, {schema, type, collectionType, ...options}: any) {
-    schema = schema || getJsonSchema(type, {...options, customKeys: true});
+  async validate(value: any, options: AjvValidateOptions | JsonSchema): Promise<any> {
+    let {schema, type, collectionType, ...additionalOptions} = this.mapOptions(options);
+
+    schema = schema || getJsonSchema(type, {...additionalOptions, customKeys: true});
 
     if (schema) {
-      const valid = await this.ajv.validate(schema, value);
+      const valid = await this.ajv.validate(schema as any, value);
       if (!valid) {
         throw this.mapErrors(this.ajv.errors || [], {
           type,
@@ -52,6 +60,16 @@ export class AjvService {
     }
 
     return value;
+  }
+
+  protected mapOptions(options: AjvValidateOptions | JsonSchema): AjvValidateOptions {
+    if (options instanceof JsonSchema) {
+      return {
+        schema: options.toJSON({customKeys: true})
+      };
+    }
+
+    return options;
   }
 
   protected mapErrors(errors: ErrorObject[], options: any) {
