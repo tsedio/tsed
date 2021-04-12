@@ -25,7 +25,7 @@ Filip Skokan has [certified](https://openid.net/certification/) that [oidc-provi
 - OP FAPI R/W MTLS and Private Key
 :::
 
-<Projects type="examples"/>
+<Projects type="projects"/>
 
 ## Features
 
