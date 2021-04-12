@@ -9,6 +9,7 @@ import {
   Type,
   UnsupportedDecoratorType
 } from "@tsed/core";
+import {OS3Example} from "@tsed/openspec/src/openspec3/OS3Example";
 import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
 import {DecoratorContext} from "../../domain/DecoratorContext";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
@@ -41,6 +42,8 @@ export interface ReturnsChainedDecorators {
    * Add examples
    * @param examples
    */
+  Examples(examples: Record<string, OS3Example>): this;
+  Examples(examples: Record<string, any>): this;
   Examples(examples: any): this;
 
   /**

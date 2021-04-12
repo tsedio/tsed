@@ -263,7 +263,13 @@ describe("@Returns", () => {
           Unauthorized: {
             type: "object",
             properties: {
-              name: {type: "string", minLength: 1, description: "The error name", example: "UNAUTHORIZED", default: "UNAUTHORIZED"},
+              name: {
+                type: "string",
+                minLength: 1,
+                description: "The error name",
+                example: "UNAUTHORIZED",
+                default: "UNAUTHORIZED"
+              },
               message: {type: "string", minLength: 1, description: "An error message"},
               status: {type: "number", description: "The status code of the exception", example: 401, default: 401},
               errors: {
@@ -280,7 +286,13 @@ describe("@Returns", () => {
           BadRequest: {
             type: "object",
             properties: {
-              name: {type: "string", minLength: 1, description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
+              name: {
+                type: "string",
+                minLength: 1,
+                description: "The error name",
+                example: "BAD_REQUEST",
+                default: "BAD_REQUEST"
+              },
               message: {type: "string", minLength: 1, description: "An error message"},
               status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
               errors: {
@@ -353,7 +365,13 @@ describe("@Returns", () => {
           BadRequest: {
             type: "object",
             properties: {
-              name: {type: "string", minLength: 1, description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
+              name: {
+                type: "string",
+                minLength: 1,
+                description: "The error name",
+                example: "BAD_REQUEST",
+                default: "BAD_REQUEST"
+              },
               message: {type: "string", minLength: 1, description: "An error message"},
               status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
               errors: {
@@ -370,7 +388,13 @@ describe("@Returns", () => {
           Unauthorized: {
             type: "object",
             properties: {
-              name: {type: "string", minLength: 1, description: "The error name", example: "UNAUTHORIZED", default: "UNAUTHORIZED"},
+              name: {
+                type: "string",
+                minLength: 1,
+                description: "The error name",
+                example: "UNAUTHORIZED",
+                default: "UNAUTHORIZED"
+              },
               message: {type: "string", minLength: 1, description: "An error message"},
               status: {type: "number", description: "The status code of the exception", example: 401, default: 401},
               errors: {
@@ -553,7 +577,25 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
+        @(Returns(200, Pagination)
+          .Of(Submission)
+          .Nested(Product)
+          .Description("description")
+          .Examples({
+            Example1: {
+              value: [
+                {
+                  totalCount: 0,
+                  data: [
+                    {
+                      _id: "id",
+                      data: {}
+                    }
+                  ]
+                }
+              ]
+            }
+          }))
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
@@ -587,6 +629,21 @@ describe("@Returns", () => {
               responses: {
                 "200": {
                   description: "description",
+                  examples: {
+                    Example1: {
+                      value: [
+                        {
+                          data: [
+                            {
+                              _id: "id",
+                              data: {}
+                            }
+                          ],
+                          totalCount: 0
+                        }
+                      ]
+                    }
+                  },
                   schema: {
                     properties: {
                       data: {
@@ -615,6 +672,135 @@ describe("@Returns", () => {
             }
           }
         }
+      });
+    });
+    it("should declare an Generic of Model (OS3)", async () => {
+      // WHEN
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      class Product {
+        @Property()
+        title: string;
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Pagination)
+          .Of(Submission)
+          .Nested(Product)
+          .Description("description")
+          .Examples({
+            Example1: {
+              value: [
+                {
+                  totalCount: 0,
+                  data: [
+                    {
+                      _id: "id",
+                      data: {}
+                    }
+                  ]
+                }
+              ]
+            }
+          }))
+        async method(): Promise<Pagination<Submission<Product>> | null> {
+          return null;
+        }
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).to.deep.equal({
+        components: {
+          schemas: {
+            Product: {
+              properties: {
+                title: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            }
+          }
+        },
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  content: {
+                    "application/json": {
+                      examples: {
+                        Example1: {
+                          value: [
+                            {
+                              data: [
+                                {
+                                  _id: "id",
+                                  data: {}
+                                }
+                              ],
+                              totalCount: 0
+                            }
+                          ]
+                        }
+                      },
+                      schema: {
+                        properties: {
+                          data: {
+                            items: {
+                              properties: {
+                                _id: {
+                                  type: "string"
+                                },
+                                data: {
+                                  $ref: "#/components/schemas/Product"
+                                }
+                              },
+                              type: "object"
+                            },
+                            type: "array"
+                          },
+                          totalCount: {
+                            type: "number"
+                          }
+                        },
+                        type: "object"
+                      }
+                    }
+                  },
+                  description: "description"
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Controller"
+          }
+        ]
       });
     });
   });
