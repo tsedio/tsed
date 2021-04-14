@@ -9,7 +9,7 @@ import {
   Type,
   UnsupportedDecoratorType
 } from "@tsed/core";
-import {OS3Example} from "@tsed/openspec/src/openspec3/OS3Example";
+import {OS3Example} from "@tsed/openspec";
 import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
 import {DecoratorContext} from "../../domain/DecoratorContext";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
