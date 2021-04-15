@@ -216,7 +216,7 @@ swagger: [
                 authorizationCode: {
                   authorizationUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/auth",
                   tokenUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/token",
-                  refreshUrl: "https://sso.aeon-events.de/auth/realms/aeon-events-dev/protocol/openid-connect/token",
+                  refreshUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/token",
                   scopes: {openid: "openid", profile: "profile"}
                 }
               }
