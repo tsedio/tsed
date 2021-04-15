@@ -57,6 +57,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   readonly $required: Set<string> = new Set();
   readonly $allow: any[] = [];
   public $selfRequired: boolean;
+  public $forwardGroups: boolean = false;
   protected _genericLabels: string[];
   protected _nestedGenerics: Type<any>[][] = [];
   protected _alias: AliasMap = new Map();

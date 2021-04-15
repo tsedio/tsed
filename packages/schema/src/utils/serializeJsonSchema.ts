@@ -78,6 +78,7 @@ export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
 
   return createRef(name, options);
 }
+
 /**
  * @ignore
  */
@@ -143,10 +144,10 @@ export function serializeObject(input: any, options: JsonSchemaOptions) {
   const {specType, operationIdFormatter, root, schemas, genericTypes, nestedGenerics, useAlias, genericLabels, ...ctx} = options;
 
   return Object.entries(input).reduce<any>(
-    (obj, [key, value]: any[]) => {
+    (obj, [key, value]: [string, any | JsonSchema]) => {
       if (options.withIgnoredProps !== false && !alterIgnore(value, ctx)) {
         // remove groups to avoid bad schema generation over children models
-        obj[key] = serializeItem(value, {...options, groups: undefined});
+        obj[key] = serializeItem(value, {...options, groups: value?.$forwardGroups ? options.groups : undefined});
       }
 
       return obj;
@@ -154,6 +155,7 @@ export function serializeObject(input: any, options: JsonSchemaOptions) {
     isArray(input) ? [] : {}
   );
 }
+
 /**
  * @ignore
  */
@@ -225,6 +227,7 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
 
   return obj;
 }
+
 /**
  * @ignore
  */
@@ -236,6 +239,7 @@ function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = fal
     (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key))
   );
 }
+
 /**
  * @ignore
  */

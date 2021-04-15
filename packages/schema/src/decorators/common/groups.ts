@@ -1,5 +1,4 @@
 import {DecoratorTypes} from "@tsed/core";
-import micromatch from "micromatch";
 import {matchGroups} from "../../utils/matchGroups";
 import {JsonEntityFn} from "./jsonEntityFn";
 
