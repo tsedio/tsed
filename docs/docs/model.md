@@ -584,6 +584,44 @@ configuration!
 to use negation by prefixing the group label with `!`.
 :::
 
+## ForwardGroups <Badge text="6.42.0+" />
+
+Groups configuration isn't forwarded to the nested models to avoid side effect on model generation.
+With @@ForwardGroups@@ decorator, your are able to tell if a property should use or not the Groups configuration to generate correctly 
+a nested model.
+
+```typescript
+class ChildModel {
+  @Groups("!creation")
+  id: string;
+
+  @Required()
+  prop1: string;
+}
+
+class MyModel {
+  @Groups("!creation")
+  id: string;
+
+  @Groups("group.summary")
+  @Required()
+  prop1: string;
+
+  @Groups("group.extended")
+  @Required()
+  prop2: string;
+
+  @Property()
+  @Required()
+  prop3: string;
+
+  @CollectionOf(ChildModel)
+  @ForwardGroups()
+  prop4: ChildModel[];
+}
+```
+Now `prop4` will have a `ChildModel` generated along to groups configuration.
+
 ## RequiredGroups <Badge text="6.34.0+"/>
 
 As @@Groups@@ decorator, @@RequiredGroups@@ allow you to define when a field is `required` depending on the given groups strategy.
