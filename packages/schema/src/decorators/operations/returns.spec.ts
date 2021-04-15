@@ -803,6 +803,189 @@ describe("@Returns", () => {
         ]
       });
     });
+    it("should declare an Generic of Model with enum (OS3)", async () => {
+      // WHEN
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      enum MyEnum {
+        READ = "read",
+        WRITE = "write"
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Submission).Of(MyEnum).Description("description"))
+        async method(): Promise<Submission<MyEnum> | null> {
+          return null;
+        }
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).to.deep.equal({
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  content: {
+                    "application/json": {
+                      schema: {
+                        properties: {
+                          _id: {
+                            type: "string"
+                          },
+                          data: {
+                            enum: ["read", "write"],
+                            type: "string"
+                          }
+                        },
+                        type: "object"
+                      }
+                    }
+                  },
+                  description: "description"
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Controller"
+          }
+        ]
+      });
+    });
+    it("should declare an Generic of Model with enum with pagination(OS3)", async () => {
+      // WHEN
+      @Generics("T")
+      class Pagination<T> {
+        @CollectionOf("T")
+        data: T[];
+
+        @Property()
+        totalCount: number;
+      }
+
+      @Generics("T")
+      class Submission<T> {
+        @Property()
+        _id: string;
+
+        @Property("T")
+        data: T;
+      }
+
+      enum MyEnum {
+        READ = "read",
+        WRITE = "write"
+      }
+
+      class Controller {
+        @OperationPath("POST", "/")
+        @(Returns(200, Pagination)
+          .Of(Submission)
+          .Nested(MyEnum)
+          .Description("description")
+          .Examples({
+            Example1: {
+              value: [
+                {
+                  totalCount: 0,
+                  data: [
+                    {
+                      _id: "id",
+                      data: {}
+                    }
+                  ]
+                }
+              ]
+            }
+          }))
+        async method(): Promise<Pagination<Submission<MyEnum>> | null> {
+          return null;
+        }
+      }
+
+      // THEN
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).to.deep.equal({
+        paths: {
+          "/": {
+            post: {
+              operationId: "controllerMethod",
+              parameters: [],
+              responses: {
+                "200": {
+                  content: {
+                    "application/json": {
+                      examples: {
+                        Example1: {
+                          value: [
+                            {
+                              data: [
+                                {
+                                  _id: "id",
+                                  data: {}
+                                }
+                              ],
+                              totalCount: 0
+                            }
+                          ]
+                        }
+                      },
+                      schema: {
+                        properties: {
+                          data: {
+                            items: {
+                              properties: {
+                                _id: {
+                                  type: "string"
+                                },
+                                data: {
+                                  enum: ["read", "write"],
+                                  type: "string"
+                                }
+                              },
+                              type: "object"
+                            },
+                            type: "array"
+                          },
+                          totalCount: {
+                            type: "number"
+                          }
+                        },
+                        type: "object"
+                      }
+                    }
+                  },
+                  description: "description"
+                }
+              },
+              tags: ["Controller"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "Controller"
+          }
+        ]
+      });
+    });
   });
   describe("Multiple contentType", () => {
     it("should manage multiple content and model", () => {
