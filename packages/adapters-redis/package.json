@@ -1,6 +1,6 @@
 {
   "name": "@tsed/adapters-redis",
-  "version": "6.42.0",
+  "version": "6.43.0",
   "description": "Redis adapter for Ts.ED",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -8,7 +8,7 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/adapters": "6.42.0"
+    "@tsed/adapters": "6.43.0"
   },
   "private": false,
   "devDependencies": {
