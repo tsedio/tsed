@@ -169,6 +169,9 @@ frameworks:
 - title: Slack
   href: /docs/logger.html
   src: /slack.svg
+- title: Keycloak
+  href: /tutorials/keycloak.html
+  src: /keycloak_icon.svg
 ---
 
 ::: slot hero-brand
