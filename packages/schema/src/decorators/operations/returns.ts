@@ -3,6 +3,7 @@ import {
   decoratorTypeOf,
   DecoratorTypes,
   isCollection,
+  isObject,
   isPlainObject,
   isPrimitiveOrPrimitiveClass,
   isString,
@@ -17,6 +18,8 @@ import {JsonResponse} from "../../domain/JsonResponse";
 import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
 import {getStatusModel} from "../../utils/defineStatusModel";
+import {string} from "../../utils/from";
+import {GenericValue} from "../../utils/generics";
 import {isSuccessStatus} from "../../utils/isSuccessStatus";
 import {mapHeaders} from "../../utils/mapHeaders";
 
@@ -43,7 +46,9 @@ export interface ReturnsChainedDecorators {
    * @param examples
    */
   Examples(examples: Record<string, OS3Example>): this;
+
   Examples(examples: Record<string, any>): this;
+
   Examples(examples: any): this;
 
   /**
@@ -63,13 +68,13 @@ export interface ReturnsChainedDecorators {
    * Add the nested types
    * @param types
    */
-  Of(...types: (Type<any> | any)[]): this;
+  Of(...types: GenericValue[]): this;
 
   /**
    * Declare a nested generic models
    * @param generics
    */
-  Nested(...generics: (Type<any> | any)[]): this;
+  Nested(...generics: GenericValue[]): this;
 
   /**
    * Add header.
@@ -103,6 +108,22 @@ export interface ReturnsChainedDecorators {
   Groups(...groups: string[]): this;
 
   [key: string]: any;
+}
+
+/**
+ * @ignore
+ */
+function isEnum(type: any) {
+  return isObject(type) && !("toJSON" in type);
+}
+
+function mapGenerics(types: GenericValue[]) {
+  return types.map((type) => {
+    if (isEnum(type)) {
+      return string().enum(Object.values(type));
+    }
+    return type;
+  });
 }
 
 /**
@@ -171,13 +192,13 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     return this;
   }
 
-  nested(...generics: (Type<any> | any)[]) {
+  nested(...generics: GenericValue[]) {
     const model = this.get("model");
     this.checkPrimitive(model);
     this.checkCollection(model);
 
     this.addAction((ctx) => {
-      (this.get("schema") as JsonSchema).nestedGenerics.push(generics);
+      (this.get("schema") as JsonSchema).nestedGenerics.push(mapGenerics(generics));
     });
 
     return this;
@@ -193,7 +214,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
       if (isCollection(model)) {
         schema?.itemSchema({type: types[0]});
       } else {
-        schema?.nestedGenerics.push(types);
+        schema?.nestedGenerics.push(mapGenerics(types));
       }
     });
 

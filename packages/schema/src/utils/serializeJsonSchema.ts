@@ -1,4 +1,4 @@
-import {classOf, cleanObject, deepExtends, isArray, isObject} from "@tsed/core";
+import {classOf, cleanObject, deepExtends, isArray, isClass, isObject} from "@tsed/core";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonLazyRef} from "../domain/JsonLazyRef";
 import {JsonSchema} from "../domain/JsonSchema";
@@ -204,24 +204,35 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
 
   if (generics && obj.$ref) {
     if (generics.has(obj.$ref)) {
-      const model = {
-        class: generics.get(obj.$ref)
-      };
+      let type = generics.get(obj.$ref);
 
-      if (options.nestedGenerics.length === 0) {
-        return serializeClass(model, {
+      if (type.toJSON) {
+        return type.toJSON({
           ...options,
           generics: undefined
         });
       }
 
-      const store = getJsonEntityStore(model.class);
+      if (isClass(type)) {
+        const model = {
+          class: type
+        };
 
-      return serializeJsonSchema(store.schema, {
-        ...options,
-        ...popGenerics(options),
-        root: false
-      });
+        if (options.nestedGenerics.length === 0) {
+          return serializeClass(model, {
+            ...options,
+            generics: undefined
+          });
+        }
+
+        const store = getJsonEntityStore(model.class);
+
+        return serializeJsonSchema(store.schema, {
+          ...options,
+          ...popGenerics(options),
+          root: false
+        });
+      }
     }
   }
 
