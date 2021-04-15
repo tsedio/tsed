@@ -7,6 +7,8 @@ meta:
 ---
 # Keycloak
 
+<Banner src="/keycloak.svg" height="200" href="https://www.keycloak.org"></Banner>
+
 This tutorial shows you how you can secure your Ts.ED application with an existing Keycloak instance.
 
 ## Installation
@@ -20,7 +22,6 @@ The version of the `keycloak-connect` module should be the same version as your 
 ```bash
 npm install --save keycloak-connect
 npm install --save express-session
-npm install --save-dev @types/keycloak-connect
 npm install --save-dev @types/express-session
 ```
 
@@ -32,19 +33,20 @@ How exactly the file is downloaded can be found in the official [Keycloak docume
 
 ## KeycloakService
 
-Create a KeycloakService in `src/services` that handles the memory store and the Keycloak instance.
+Create a KeycloakService in `src/services` that handles the memory store, the Keycloak instance and the token.
 
 ```typescript
 import {Service} from '@tsed/di';
 import {MemoryStore} from 'express-session';
 import {$log} from "@tsed/common";
+import {Token} from "keycloak-connect";
 import KeycloakConnect = require('keycloak-connect');
 
 @Service()
 export class KeycloakService {
-
     private keycloak: KeycloakConnect.Keycloak;
     private memoryStore: MemoryStore;
+    private token: Token;
 
     constructor() {
         this.initKeycloak();
@@ -71,6 +73,14 @@ export class KeycloakService {
 
     public getMemoryStore(): MemoryStore {
         return this.memoryStore;
+    }
+  
+    public getToken(): Token {
+      return this.token;
+    }
+
+    public setToken(token: Token): void {
+      this.token = token;
     }
 }
 ```
@@ -113,9 +123,13 @@ export class Server {
 }
 ```
 
-### KeycloakMiddleware
+## KeycloakMiddleware
 
 To secure your routes add a KeycloakMiddleware class to `src/middlewares`.
+
+With each request the token is set to the request property `kauth`. 
+
+In order to be able to use the token we set this in the KeycloakService.
 
 ```typescript
 import {Context, IMiddleware, Inject, Middleware} from '@tsed/common';
@@ -131,12 +145,15 @@ export class KeycloakMiddleware implements IMiddleware {
     public use(@Context() ctx: Context) {
         const options: KeycloakAuthOptions = ctx.endpoint.store.get(KeycloakMiddleware);
         const keycloak = this.keycloakService.getKeycloakInstance();
+        if (ctx.getRequest().kauth.grant) {
+          this.keycloakService.setToken(ctx.getRequest().kauth.grant.access_token);
+        }
         return keycloak.protect(options.role);
     }
 }
 ```
 
-### KeycloakAuthDecorator
+## KeycloakAuthDecorator
 
 To protect certain routes create a KeycloakAuthDecorator at `src/decorators`.
 
@@ -161,7 +178,7 @@ export function KeycloakAuth(options: KeycloakAuthOptions = {}): Function {
 }
 ```
 
-### Protecting routes role-based in a controller
+## Protecting routes role-based in a controller
 
 Now we can protect routes with our custom KeycloakAuth decorator.
 
@@ -177,6 +194,38 @@ export class HelloWorldController {
     return "hello";
   }
 }
+```
+
+## Swagger integration
+
+If you would like to log in directly from your Swagger UI add the following code to your Swagger config.
+
+Don't forget to replace `authorizationUrl`, `tokenUrl` and `refreshUrl` with your custom keycloak URLs.
+
+```typescript
+swagger: [
+    {
+      path: `/v3/docs`,
+      specVersion: "3.0.1",
+      spec: {
+        components: {
+          securitySchemes: {
+            "oauth2": {
+              type: "oauth2",
+              flows: {
+                authorizationCode: {
+                  authorizationUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/auth",
+                  tokenUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/token",
+                  refreshUrl: "https://sso.aeon-events.de/auth/realms/aeon-events-dev/protocol/openid-connect/token",
+                  scopes: {openid: "openid", profile: "profile"}
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+]
 ```
 
 ## Author
