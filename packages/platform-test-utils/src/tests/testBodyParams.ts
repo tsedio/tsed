@@ -1,6 +1,6 @@
 import "@tsed/ajv";
 import {BodyParams, Controller, HeaderParams, PlatformTest, Post, RawBodyParams} from "@tsed/common";
-import {Required, Status} from "@tsed/schema";
+import {Required, Status, Property} from "@tsed/schema";
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -8,6 +8,17 @@ import {PlatformTestOptions} from "../interfaces";
 enum MyEnum {
   TITLE,
   AGE
+}
+
+class NullModel {
+  @Property()
+  prop1: string;
+
+  @Property()
+  prop2: number;
+
+  @Property()
+  prop3: Date;
 }
 
 @Controller("/body-params")
@@ -56,6 +67,11 @@ class TestBodyParamsCtrl {
   @Post("/scenario-7")
   testScenario7(@BodyParams("test") value: string): any {
     return {value};
+  }
+
+  @Post("/scenario-8")
+  testScenario8(@BodyParams() model: NullModel) {
+    return {model};
   }
 }
 
@@ -265,6 +281,24 @@ export function testBodyParams(options: PlatformTestOptions) {
 
       expect(response.body).to.deep.equal({
         value: null
+      });
+    });
+  });
+
+  describe("Scenario8: payload with props to null", () => {
+    it("should return value with null value", async () => {
+      const response = await request.post("/rest/body-params/scenario-8").send({
+        prop1: null,
+        prop2: null,
+        prop3: null
+      });
+
+      expect(response.body).to.deep.equal({
+        model: {
+          prop1: null,
+          prop2: null,
+          prop3: null
+        }
       });
     });
   });

@@ -1,4 +1,4 @@
-import {getValue, nameOf, prototypeOf, setValue, Type} from "@tsed/core";
+import {deepClone, getValue, nameOf, prototypeOf, setValue, Type} from "@tsed/core";
 import {Constant, Inject, Injectable} from "@tsed/di";
 import {getJsonSchema, JsonEntityStore, JsonSchema, JsonSchemaObject} from "@tsed/schema";
 import Ajv, {ErrorObject} from "ajv";
@@ -48,13 +48,14 @@ export class AjvService {
     schema = schema || getJsonSchema(type, {...additionalOptions, customKeys: true});
 
     if (schema) {
-      const valid = await this.ajv.validate(schema as any, value);
+      const localValue = deepClone(value);
+      const valid = await this.ajv.validate(schema as any, localValue);
       if (!valid) {
         throw this.mapErrors(this.ajv.errors || [], {
           type,
           collectionType,
           async: true,
-          value
+          value: localValue
         });
       }
     }

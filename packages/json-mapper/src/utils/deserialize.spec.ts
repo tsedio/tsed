@@ -424,6 +424,34 @@ describe("deserialize()", () => {
       expect(result).to.be.instanceOf(Product);
       expect(result.updated).to.be.instanceOf(Date);
     });
+    it("should transform object to class (with null values on props)", () => {
+      class NullModel {
+        @Property()
+        prop1: string;
+
+        @Property()
+        prop2: number;
+
+        @Property()
+        prop3: Date;
+      }
+
+      const result = deserialize(
+        {
+          prop1: null,
+          prop2: null,
+          prop3: null
+        },
+        {type: NullModel}
+      );
+
+      expect(result).to.be.instanceOf(NullModel);
+      expect(result).to.deep.equal({
+        prop1: null,
+        prop2: null,
+        prop3: null
+      });
+    });
   });
   describe("Array<Model>", () => {
     it("should transform object to class (additionalProperties = false)", () => {
