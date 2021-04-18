@@ -242,7 +242,8 @@ module.exports = {
               "/docs/logger",
               { title: "Context", path: "/docs/request-context" },
               "/docs/cache",
-              "/docs/platform-api"
+              "/docs/platform-api",
+              "/docs/command"
             ]
           },
           {
@@ -320,7 +321,7 @@ module.exports = {
           "/docs/exceptions",
           "/docs/throw-http-exceptions",
           "/docs/cache",
-          "/docs/hooks",
+          "/docs/command",
           "/docs/response-filter",
           "/docs/injection-scopes",
           "/docs/custom-providers",
