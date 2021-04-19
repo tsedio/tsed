@@ -1,4 +1,4 @@
-import {classOf, cleanObject, deepExtends, isArray, isClass, isObject} from "@tsed/core";
+import {classOf, deepExtends, isArray, isClass, isObject} from "@tsed/core";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonLazyRef} from "../domain/JsonLazyRef";
 import {JsonSchema} from "../domain/JsonSchema";
@@ -10,6 +10,7 @@ import {GenericsContext, mapGenericsOptions, popGenerics} from "./generics";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 import {getRequiredProperties} from "./getRequiredProperties";
+import {transformTypes} from "./transformTypes";
 
 /**
  * @ignore
@@ -249,29 +250,6 @@ function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = fal
     (specType === SpecTypes.SWAGGER && IGNORES_OS2.includes(key)) ||
     (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key))
   );
-}
-
-/**
- * @ignore
- */
-function transformTypes(obj: any) {
-  const nullable = obj.type.includes("null") ? true : undefined;
-
-  const types = obj.type.reduce((types: string[], type: string) => {
-    if (type !== "null") {
-      return [...types, cleanObject({type, nullable})];
-    }
-    return types;
-  }, []);
-
-  if (types.length > 1) {
-    obj.oneOf = types;
-  } else {
-    obj.type = types[0].type;
-    obj.nullable = types[0].nullable;
-  }
-
-  return obj;
 }
 
 /**

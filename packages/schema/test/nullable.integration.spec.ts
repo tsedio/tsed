@@ -1,6 +1,6 @@
 import {expect} from "chai";
-import {Any, getJsonSchema, getSpec, SpecTypes, string} from "../src";
-import {OperationPath, Path, Property, Returns} from "../src/decorators";
+import {Any, getJsonSchema, getSpec, Required, SpecTypes, string} from "../src";
+import {Nullable, OperationPath, Path, Property, Returns} from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
 
 class Product {
@@ -12,6 +12,10 @@ class Product {
 
   @Any(String, Number, null)
   priceDetails: string | number | null;
+
+  @Required(true, null)
+  @Nullable(String)
+  description: string | null;
 }
 
 @Path("/nullable")
@@ -34,8 +38,12 @@ describe("Spec: Nullable", () => {
         },
         priceDetails: {
           type: ["string", "number", "null"]
+        },
+        description: {
+          type: ["null", "string"]
         }
       },
+      required: ["description"],
       type: "object"
     });
   });
@@ -65,8 +73,13 @@ describe("Spec: Nullable", () => {
                     type: "number"
                   }
                 ]
+              },
+              description: {
+                type: "string",
+                nullable: true
               }
             },
+            required: ["description"],
             type: "object"
           }
         }
@@ -116,8 +129,15 @@ describe("Spec: Nullable", () => {
             },
             priceDetails: {
               type: ["string", "number", "null"]
+            },
+            description: {
+              type: [
+                "null",
+                "string",
+              ]
             }
           },
+          required: ["description"],
           type: "object"
         }
       },
