@@ -1,7 +1,9 @@
-import {uniq} from "@tsed/core";
+import {isArray, uniq} from "@tsed/core";
+import {SpecTypes} from "../domain/SpecTypes";
 import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import type {JsonSchema} from "../domain/JsonSchema";
 import {alterRequiredGroups} from "../hooks/alterRequiredGroups";
+import {transformTypes} from "./transformTypes";
 
 function applyStringRule(obj: any, propSchema: JsonSchema) {
   if (!propSchema?.$allow.includes("")) {
@@ -54,6 +56,10 @@ function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptio
       const serializeSchema = obj.properties[aliasedKey];
 
       obj.properties[aliasedKey] = applyNullRule(applyStringRule(serializeSchema, propSchema), propSchema);
+
+      if (options.specType === SpecTypes.OPENAPI && isArray(obj.properties[aliasedKey].type)) {
+        obj.properties[aliasedKey] = transformTypes(obj.properties[aliasedKey]);
+      }
 
       return keys.concat(aliasedKey);
     }
