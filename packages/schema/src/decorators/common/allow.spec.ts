@@ -70,7 +70,7 @@ describe("@Allow", () => {
       properties: {
         allow: {
           minLength: 1,
-          type: ["string", "null"]
+          type: ["null", "string"]
         }
       },
       required: ["allow"],

@@ -3,6 +3,11 @@ import {Any, getJsonSchema, getSpec, Required, SpecTypes, string} from "../src";
 import {Nullable, OperationPath, Path, Property, Returns} from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
 
+class Nested {
+  @Property()
+  id: string;
+}
+
 class Product {
   @Property()
   id: string;
@@ -16,34 +21,60 @@ class Product {
   @Required(true, null)
   @Nullable(String)
   description: string | null;
+
+  @Required(true, null)
+  @Nullable(Nested)
+  nested: Nested | null;
 }
 
 @Path("/nullable")
 class TestNullableCtrl {
   @OperationPath("GET", "/")
   @Returns(200, Product)
-  async get() {}
+  async get() {
+  }
 }
 
 describe("Spec: Nullable", () => {
   it("should generate the JSON", () => {
     const schema = getJsonSchema(Product);
     expect(schema).to.deep.eq({
+      definitions: {
+        Nested: {
+          properties: {
+            id: {
+              type: "string"
+            }
+          },
+          type: "object"
+        }
+      },
       properties: {
         id: {
           type: "string"
         },
         price: {
-          type: ["number", "null"]
+          type: ["null", "number"]
         },
         priceDetails: {
-          type: ["string", "number", "null"]
+          type: ["null", "string", "number"]
         },
         description: {
+          "minLength": 1,
           type: ["null", "string"]
+        },
+        "nested": {
+          "oneOf": [
+            {
+              "type": "null"
+            },
+            {
+              "$ref": "#/definitions/Nested"
+            }
+          ]
         }
       },
-      required: ["description"],
+      required: ["description", "nested"],
       type: "object"
     });
   });
@@ -53,6 +84,14 @@ describe("Spec: Nullable", () => {
     expect(spec).to.deep.eq({
       components: {
         schemas: {
+          "Nested": {
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "type": "object"
+          },
           Product: {
             properties: {
               id: {
@@ -76,10 +115,19 @@ describe("Spec: Nullable", () => {
               },
               description: {
                 type: "string",
+                minLength: 1,
+                nullable: true
+              },
+              nested: {
+                allOf: [
+                  {
+                    $ref: "#/components/schemas/Nested"
+                  }
+                ],
                 nullable: true
               }
             },
-            required: ["description"],
+            required: ["description", "nested"],
             type: "object"
           }
         }
@@ -119,25 +167,37 @@ describe("Spec: Nullable", () => {
     expect(await validateSpec(spec)).to.eq(true);
     expect(spec).to.deep.eq({
       definitions: {
+        Nested: {
+          "properties": {
+            "id": {
+              "type": "string"
+            }
+          },
+          type: "object"
+        },
         Product: {
           properties: {
             id: {
               type: "string"
             },
             price: {
-              type: ["number", "null"]
+              type: ["null", "number"]
             },
             priceDetails: {
-              type: ["string", "number", "null"]
+              type: ["null", "string", "number"]
+            },
+            nested: {
+              "$ref": "#/definitions/Nested"
             },
             description: {
               type: [
                 "null",
-                "string",
-              ]
+                "string"
+              ],
+              minLength: 1
             }
           },
-          required: ["description"],
+          required: ["description", "nested"],
           type: "object"
         }
       },

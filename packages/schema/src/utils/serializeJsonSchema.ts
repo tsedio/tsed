@@ -10,7 +10,7 @@ import {GenericsContext, mapGenericsOptions, popGenerics} from "./generics";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 import {getRequiredProperties} from "./getRequiredProperties";
-import {transformTypes} from "./transformTypes";
+import {mapNullableType} from "./mapNullableType";
 
 /**
  * @ignore
@@ -39,7 +39,7 @@ function shouldMapAlias(key: string, value: any, useAlias: boolean) {
 /**
  * @ignore
  */
-export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
+export function serializeClass(value: JsonSchema, options: JsonSchemaOptions = {}) {
   const store = getJsonEntityStore(value.class);
   const name = createRefName(store.schema.getName() || value.getName(), options);
 
@@ -60,7 +60,7 @@ export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
       options.schemas![name] = schema;
       delete schema.title;
 
-      return createRef(name, options);
+      return createRef(name, value, options);
     }
 
     return schema;
@@ -77,18 +77,18 @@ export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
     );
   }
 
-  return createRef(name, options);
+  return createRef(name, value, options);
 }
 
 /**
  * @ignore
  */
-function toRef(value: any, schema: any, options: JsonSchemaOptions) {
+function toRef(value: JsonSchema, schema: any, options: JsonSchemaOptions) {
   const name = createRefName(value.getName(), options);
 
   options.schemas![value.getName()] = schema;
 
-  return createRef(name, options);
+  return createRef(name, value, options);
 }
 
 /**
@@ -164,7 +164,7 @@ export function serializeLazyRef(input: JsonLazyRef, options: JsonSchemaOptions)
   const name = input.name;
 
   if (options.$refs?.find((t: any) => t === input.target)) {
-    return createRef(name, options);
+    return createRef(name, input.schema, options);
   }
 
   options.$refs = [...(options.$refs || []), input.target];
@@ -220,7 +220,7 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
         };
 
         if (options.nestedGenerics.length === 0) {
-          return serializeClass(model, {
+          return serializeClass(model as any, {
             ...options,
             generics: undefined
           });
@@ -322,10 +322,7 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
   }
 
   obj = getRequiredProperties(obj, schema, {...options, useAlias});
-
-  if (options.specType === SpecTypes.OPENAPI && isArray(obj.type)) {
-    obj = transformTypes(obj);
-  }
+  obj = mapNullableType(obj, schema, options);
 
   if ((obj.oneOf || obj.allOf || obj.anyOf) && !(obj.items || obj.properties)) {
     delete obj.type;

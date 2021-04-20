@@ -1,4 +1,6 @@
 import {pascalCase} from "change-case";
+import type {JsonSchema} from "../domain/JsonSchema";
+import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 
 /**
@@ -25,9 +27,27 @@ export function createRefName(name: string, options: JsonSchemaOptions) {
 /**
  * @ignore
  */
-export function createRef(name: string, options: JsonSchemaOptions) {
+export function createRef(name: string, schema: JsonSchema, options: JsonSchemaOptions) {
   const host = getHost(options);
-  return {
+  const ref = {
     $ref: `${host}/${name}`
   };
+
+  if (schema.nullable) {
+    switch (options.specType) {
+      case SpecTypes.OPENAPI:
+        return {
+          nullable: true,
+          allOf: [ref]
+        };
+      case SpecTypes.JSON:
+        return {
+          oneOf: [{type: "null"}, ref]
+        };
+      case SpecTypes.SWAGGER: // unsupported
+        break;
+    }
+  }
+
+  return ref;
 }
