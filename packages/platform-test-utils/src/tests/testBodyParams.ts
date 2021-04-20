@@ -1,6 +1,6 @@
 import "@tsed/ajv";
 import {BodyParams, Controller, HeaderParams, PlatformTest, Post, RawBodyParams} from "@tsed/common";
-import {Required, Status, Property} from "@tsed/schema";
+import {Nullable, Property, Required, Status} from "@tsed/schema";
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -8,6 +8,11 @@ import {PlatformTestOptions} from "../interfaces";
 enum MyEnum {
   TITLE,
   AGE
+}
+
+class NestedModel {
+  @Property()
+  id: string;
 }
 
 class NullModel {
@@ -19,6 +24,9 @@ class NullModel {
 
   @Property()
   prop3: Date;
+
+  @Nullable(NestedModel)
+  prop4: NestedModel;
 }
 
 @Controller("/body-params")
@@ -290,14 +298,16 @@ export function testBodyParams(options: PlatformTestOptions) {
       const response = await request.post("/rest/body-params/scenario-8").send({
         prop1: null,
         prop2: null,
-        prop3: null
+        prop3: null,
+        prop4: null
       });
 
       expect(response.body).to.deep.equal({
         model: {
           prop1: null,
           prop2: null,
-          prop3: null
+          prop3: null,
+          prop4: null
         }
       });
     });

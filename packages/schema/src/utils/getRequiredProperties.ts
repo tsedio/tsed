@@ -1,13 +1,11 @@
-import {isArray, uniq} from "@tsed/core";
-import {SpecTypes} from "../domain/SpecTypes";
-import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
+import {uniq} from "@tsed/core";
 import type {JsonSchema} from "../domain/JsonSchema";
 import {alterRequiredGroups} from "../hooks/alterRequiredGroups";
-import {transformTypes} from "./transformTypes";
+import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 
 function applyStringRule(obj: any, propSchema: JsonSchema) {
   if (!propSchema?.$allow.includes("")) {
-    if (propSchema?.get("type") === "string") {
+    if (([] as string[]).concat(propSchema?.get("type")).includes("string")) {
       const minLength = obj?.minLength;
       // Disallow empty string
       if (minLength === undefined) {
@@ -16,28 +14,6 @@ function applyStringRule(obj: any, propSchema: JsonSchema) {
           minLength: 1
         };
       }
-    }
-  }
-
-  return obj;
-}
-
-function applyNullRule(obj: any, propSchema: JsonSchema) {
-  if (propSchema?.$allow.includes(null)) {
-    if (propSchema.isClass) {
-      return {
-        oneOf: [
-          {
-            type: "null"
-          },
-          obj
-        ]
-      };
-    } else {
-      return {
-        ...obj,
-        type: uniq([].concat(obj.type, "null" as any))
-      };
     }
   }
 
@@ -55,11 +31,8 @@ function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptio
       const propSchema = schema.get("properties")[key];
       const serializeSchema = obj.properties[aliasedKey];
 
-      obj.properties[aliasedKey] = applyNullRule(applyStringRule(serializeSchema, propSchema), propSchema);
-
-      if (options.specType === SpecTypes.OPENAPI && isArray(obj.properties[aliasedKey].type)) {
-        obj.properties[aliasedKey] = transformTypes(obj.properties[aliasedKey]);
-      }
+      obj.properties[aliasedKey] = applyStringRule(serializeSchema, propSchema); // applyNullRule(applyStringRule(serializeSchema, propSchema), propSchema);
+      // obj.properties[aliasedKey] = mapNullableType(obj.properties[aliasedKey]);
 
       return keys.concat(aliasedKey);
     }

@@ -58,6 +58,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   readonly $allow: any[] = [];
   public $selfRequired: boolean;
   public $forwardGroups: boolean = false;
+  protected _nullable: boolean = false;
   protected _genericLabels: string[];
   protected _nestedGenerics: Type<any>[][] = [];
   protected _alias: AliasMap = new Map();
@@ -94,6 +95,14 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
   set genericLabels(value: string[]) {
     this._genericLabels = value;
+  }
+
+  get nullable(): boolean {
+    return this._nullable || this.$allow.includes(null);
+  }
+
+  set nullable(value: boolean) {
+    this._nullable = value;
   }
 
   get isClass() {
@@ -720,6 +729,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   any(...types: any[]) {
     types = uniq(types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"]).map(getJsonType);
 
+    if (types.includes("null")) {
+      this.nullable = true;
+    }
+
     this.type(types.length === 1 ? types[0] : types);
 
     return this;
@@ -837,7 +850,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   /**
    * Return the Json type as string
    */
-  getJsonType(): string {
+  getJsonType(): string | string[] {
     return this.get("type") || getJsonType(this.getComputedType());
   }
 
