@@ -9,9 +9,9 @@ declare global {
 }
 
 export * from "./SocketHandlerMetadata";
-export * from "./ISocketMiddlewareHandlerMetadata";
 export * from "./SocketParamMetadata";
-export * from "./SocketProviderMetadata";
+export * from "./SocketProviderTypes";
 export * from "./OnNamespaceInit";
 export * from "./SocketFilters";
 export * from "./SocketReturnsTypes";
+export * from "./SocketInjectableNsp";

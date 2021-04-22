@@ -1,5 +1,5 @@
 import {useDecorators, StoreMerge, Type} from "@tsed/core";
-import {SocketProviderTypes} from "../interfaces/SocketProviderMetadata";
+import {SocketProviderTypes} from "../interfaces/SocketProviderTypes";
 import {registerSocketService} from "../registries/SocketServiceRegistry";
 
 /**
