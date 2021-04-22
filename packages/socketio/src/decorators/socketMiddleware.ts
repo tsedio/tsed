@@ -1,6 +1,6 @@
 import {Middleware} from "@tsed/common";
 import {Store, Type} from "@tsed/core";
-import {SocketProviderTypes} from "../interfaces/SocketProviderMetadata";
+import {SocketProviderTypes} from "../interfaces";
 
 /**
  * Declare a new SocketMiddleware.

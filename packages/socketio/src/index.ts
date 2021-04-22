@@ -2,6 +2,7 @@ export * from "./SocketIOModule";
 
 // interfaces
 export * from "./interfaces";
+export * from "./class/SocketProviderMetadata";
 
 // decorators
 export * from "./decorators/input";
