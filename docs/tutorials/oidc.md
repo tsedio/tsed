@@ -590,78 +590,53 @@ export class InteractionsCtrl {
 
 ## Remove consent interaction
 
-Sometimes with your provider you don't need a consent screen. This use-case might occur if your provider has only first-party clients configured. To achieve that, you need to remove consent interaction from provider policy configuration:
+
+  
+Sometimes your use-case doesn't need a consent screen. This use-case might occur if your provider has only `first-party` clients configured. 
+To achieve that you want to add the requested claims/scopes/resource scopes to the grant:
 
 ```typescript
-import {Get} from "@tsed/common";
-import {Interactions, OidcCtx, DefaultPolicy} from "@tsed/oidc-provider";
-import {LoginInteraction} from "../../interactions/LoginInteraction";
+import {Configuration} from "@tsed/common";
+import {KoaContextWithOIDC} from "oidc-provider";
 
-@Interactions({
-  path: "/interaction/:uid",
-  children: [
-    LoginInteraction // register its children interactions 
-  ]
-})
-export class InteractionsCtrl {
-  @Get("/")
-  async promptInteraction(@OidcCtx() oidcCtx: OidcCtx) {
-    return oidcCtx.runInteraction();
-  }
+async function loadExistingGrant(ctx: KoaContextWithOIDC) {
+  const grantId = (ctx.oidc.result
+    && ctx.oidc.result.consent
+    && ctx.oidc.result.consent.grantId) || ctx.oidc.session.grantIdFor(ctx.oidc.client.clientId);
 
-  $alterOidcPolicy(policy: DefaultPolicy) {
-    policy.remove("consent");
-   
-    return policy
+  if (grantId) {
+     return ctx.oidc.provider.Grant.find(grantId);
+  } 
+  
+  if (isFirstParty(ctx.oidc.client)) { // implement isFirstParty function to determine if client is a firstParty
+     const grant = new ctx.oidc.provider.Grant({
+        clientId: ctx.oidc.client.clientId,
+        accountId: ctx.oidc.session.accountId,
+     });
+
+     grant.addOIDCScope('openid email profile');
+     grant.addOIDCClaims(['first_name']);
+     grant.addResourceScope('urn:example:resource-indicator', 'api:read api:write');
+     await grant.save();
+     return grant;
   }
 }
+
+@Configuration({
+  oidc: {
+    loadExistingGrant
+  }
+})
+export class Server {}
 ```
+
 ::: warning
-
-Additionally, if you do remove consent prompt, you will get an error when your RPs try to request scopes other than `openid` and `offline_access`. In order to accommodate those usecases, you need to provide accepted property in interaction results whenever `interactionFinished` is called.
-
-```typescript
-import {BodyParams, Inject, Post, View} from "@tsed/common";
-import {Env} from "@tsed/core";
-import {Constant} from "@tsed/di";
-import {BadRequest, Unauthorized} from "@tsed/exceptions";
-import {Interaction, OidcCtx, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
-import {Accounts} from "../services/Accounts";
-
-@Interaction({
-  name: "login"
-})
-export class LoginInteraction {
-  @Constant("env")
-  env: Env;
-
-  @Inject()
-  accounts: Accounts;
-
-  @Post("/login")
-  @View("login")
-  async submit(@BodyParams() payload: any,
-               @Params() params: Params,
-               @Uid() uid: Uid,
-               @OidcSession() session: OidcSession,
-               @Prompt() prompt: Prompt,
-               @OidcCtx() oidcCtx: OidcCtx) {
-    // rest of your code...
-    
-    return oidcCtx.interactionFinished({
-      login: {
-        account: account.accountId
-      },
-      consent: { 
-        rejectedScopes: [], // array of strings representing rejected scopes, see below
-        rejectedClaims: [], // array of strings representing rejected claims, see below
-      }
-    });
-  }
-}
-```
-
-You should also provide `rejectedScopes` and `rejectedClaims` in `consent` object in order to prevent scopes/claims being exposed to clients you don't want to be exposed to.
+- No guarantees this is bug-free, no support will be provided for this, you've been warned, you're on your own
+- It's not recommended to have consent-free flows for the obvious issues this poses for native applications
+:::
+  
+::: tip
+This example is based on the original Recipe provided by oidc-provider. See more details on [skip_consent page](https://github.com/panva/node-oidc-provider/blob/main/recipes/skip_consent.md).
 :::
 
 <!--

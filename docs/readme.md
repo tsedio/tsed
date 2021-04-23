@@ -8,8 +8,9 @@ meta:
    content: Ts.ED nodejs express typescript javascript es6 decorators mvc model ioc service model middleware socket.io swagger typeorm mongoose ajv
 gettingStartedText: Getting started
 gettingStartedUrl: /getting-started/
-messengerText: Gitter
-messengerUrl: https://gitter.im/Tsed-io/community
+messengerText: Discussions
+messengerIcon: bxl-slack 
+messengerUrl: https://api.tsed.io/rest/slack/typedproject/tsed
 features:
 - title: Rest API
   icon: bx-server

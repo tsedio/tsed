@@ -41,7 +41,7 @@ module.exports = {
     repo: "TypedProject/tsed",
     githubProxyUrl: "https://api.tsed.io/rest/github/TypedProject/tsed",
     openCollective: "https://api.tsed.io/rest/opencollective",
-    gitterUrl: "https://gitter.im/Tsed-io/community",
+    slackUrl: "https://api.tsed.io/rest/slack/typedproject/tsed",
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
     sponsorUrl: "https://tsed.io/support.html",
     twitterUrl: "https://twitter.com/TsED_io",
