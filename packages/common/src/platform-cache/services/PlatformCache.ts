@@ -62,7 +62,7 @@ export class PlatformCache {
   }
 
   async get<T>(key: string, options: JsonDeserializerOptions = {}): Promise<T | undefined> {
-    return deserialize(this.cache?.get<T>(key));
+    return deserialize(this.cache?.get<T>(key), options);
   }
 
   async set<T>(key: string, value: any, options?: CachingConfig): Promise<T | undefined> {
@@ -76,5 +76,10 @@ export class PlatformCache {
   async reset(): Promise<void> {
     // @ts-ignore
     await this.cache?.reset();
+  }
+
+  async keys() {
+    // @ts-ignore
+    return this.cache.keys();
   }
 }
