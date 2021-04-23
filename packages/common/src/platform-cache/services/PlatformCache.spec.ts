@@ -23,6 +23,10 @@ function createCacheFixture() {
     }),
     del: sandbox.stub().callsFake((key) => {
       map.delete(key);
+    }),
+
+    keys: sandbox.stub().callsFake(() => {
+      return [...map.keys()];
     })
   };
 }
@@ -102,6 +106,7 @@ describe("PlatformCache", () => {
       await cacheManager.set("key2", "value2");
       expect(await cacheManager.get("key")).to.equal("value");
       expect(await cacheManager.get("key2")).to.equal("value2");
+      expect(await cacheManager.keys()).to.deep.equal(["key", "key2"]);
 
       await cacheManager.del("key2");
 
