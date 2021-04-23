@@ -1,9 +1,9 @@
 blank_issues_enabled: false
-questions:
-  - name: ❓ Questions / Discussions
-    url: https://github.com/TypedProject/tsed/discussions
+slack_discussions:
+  - name: 💬 Question or help request (Slack)
+    url: https://api.tsed.io/rest/slack/typedproject/tsed
     about: You want to ask a question or discuss with other community members
-contact_links:
-  - name: 💬 Question or help request
+gitter_discussions:
+  - name: 💬 Question or help request (Gitter deprecated)
     url: https://gitter.im/Tsed-io/Community
     about: You want to ask a question or discuss with other community members
