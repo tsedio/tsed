@@ -1,4 +1,5 @@
-import {classOf, deepExtends, isArray, isClass, isObject} from "@tsed/core";
+import {classOf, deepExtends, isArray, isClass, isObject, isPrimitiveClass, isPrimitiveOrPrimitiveClass} from "@tsed/core";
+import {getJsonType} from "./getJsonType";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonLazyRef} from "../domain/JsonLazyRef";
 import {JsonSchema} from "../domain/JsonSchema";
@@ -206,6 +207,12 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
   if (generics && obj.$ref) {
     if (generics.has(obj.$ref)) {
       let type = generics.get(obj.$ref);
+
+      if (isPrimitiveClass(type)) {
+        return {
+          type: getJsonType(type)
+        };
+      }
 
       if (type.toJSON) {
         return type.toJSON({
