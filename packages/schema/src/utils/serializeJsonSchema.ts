@@ -214,6 +214,13 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
         };
       }
 
+      if (type === Date) {
+        return {
+          type: "string",
+          format: "date-time"
+        };
+      }
+
       if (type.toJSON) {
         return type.toJSON({
           ...options,

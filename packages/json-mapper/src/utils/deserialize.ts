@@ -111,6 +111,11 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
       const genericLabels = propStore.parent.schema.genericLabels || [];
 
       next.type = genericTypes[genericLabels.indexOf(propStore.schema.genericType)] || Object;
+
+      if (next.type instanceof JsonSchema) {
+        next.type = next.type.getTarget();
+      }
+
       next.nestedGenerics = nestedGenerics;
     }
 
