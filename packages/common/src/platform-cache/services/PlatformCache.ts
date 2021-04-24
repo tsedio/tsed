@@ -4,9 +4,14 @@ import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper
 import cacheManager, {Cache, CachingConfig, MultiCache, TtlFunction} from "cache-manager";
 import {PlatformContext} from "../../platform/domain/PlatformContext";
 import {PlatformCacheSettings} from "../interfaces";
+import micromatch from "micromatch";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
+};
+
+export type CacheManager = (Cache | MultiCache) & {
+  keys?(): Promise<string[]>;
 };
 
 /**
@@ -17,7 +22,7 @@ export class PlatformCache {
   @Configuration()
   settings: Configuration;
 
-  cache: Cache | MultiCache | undefined;
+  cache: CacheManager | undefined;
 
   disabled(): boolean {
     return !this.settings.get<PlatformCacheSettings>("cache");
@@ -78,8 +83,25 @@ export class PlatformCache {
     await this.cache?.reset();
   }
 
-  async keys() {
-    // @ts-ignore
-    return this.cache.keys();
+  async keys(): Promise<string[]> {
+    if (this.cache?.keys) {
+      return this.cache.keys();
+    }
+    // istanbul ignore next
+    return [];
+  }
+
+  async getMatchingKeys(patterns: string): Promise<string[]> {
+    const keys = await this.keys();
+
+    return micromatch(keys, patterns);
+  }
+
+  async deleteMatchingKeys(patterns: string): Promise<string[]> {
+    const keys = await this.getMatchingKeys(patterns);
+
+    await Promise.all(keys.map((key: string) => this.del(key)));
+
+    return keys;
   }
 }

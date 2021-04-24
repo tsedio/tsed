@@ -1,6 +1,8 @@
 import {Cache, CacheOptions, CachingConfig, Store} from "cache-manager";
 import {PlatformContext} from "../../platform/domain/PlatformContext";
 
+export * from "./PlatformCachedObject";
+
 export interface PlatformCacheSettings extends CacheOptions, CachingConfig {
   caches?: Cache[];
   store?:
