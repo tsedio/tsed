@@ -81,6 +81,32 @@ describe("PlatformCache", () => {
       expect(cacheManager.ttl({})).to.equal(300);
       expect(cacheManager.ttl()).to.equal(300);
     });
+
+    it("should get matching keys", async () => {
+      const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
+
+      await cacheManager.set("key", "value");
+      await cacheManager.set("key2", "value2");
+
+      const keys1 = await cacheManager.getMatchingKeys("key*");
+      const keys2 = await cacheManager.getMatchingKeys("key2");
+
+      expect(keys1).to.deep.equal(["key", "key2"]);
+      expect(keys2).to.deep.equal(["key2"]);
+    });
+
+    it("should delete matching keys", async () => {
+      const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
+
+      await cacheManager.set("key", "value");
+      await cacheManager.set("key2", "value2");
+
+      const keys1 = await cacheManager.getMatchingKeys("key*");
+      const keys2 = await cacheManager.deleteMatchingKeys("key*");
+
+      expect(keys1).to.deep.equal(["key", "key2"]);
+      expect(keys2).to.deep.equal(["key", "key2"]);
+    });
   });
   describe("with multiple cache", () => {
     let caching: ReturnType<typeof createCacheFixture>;
