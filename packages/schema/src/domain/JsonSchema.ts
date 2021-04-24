@@ -854,6 +854,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this.get("type") || getJsonType(this.getComputedType());
   }
 
+  getTarget() {
+    return this._target;
+  }
+
   /**
    * Get the symbolic name of the entity
    */

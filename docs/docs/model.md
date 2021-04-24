@@ -833,6 +833,42 @@ class MyController {
  </Tab>  
 </Tabs>
 
+### Generics with Types
+
+<Tabs class="-code">
+ <Tab label="String">
+
+<<< @/docs/snippets/model/generics-string.ts
+
+ </Tab>
+ <Tab label="Date">
+
+<<< @/docs/snippets/model/generics-date.ts
+
+ </Tab>
+ <Tab label="Date">
+
+<<< @/docs/snippets/model/generics-enum.ts
+
+ </Tab>
+</Tabs>
+
+
+### Generics with Functional API
+
+<Tabs class="-code">
+ <Tab label="String">
+
+<<< @/docs/snippets/model/generics-string-api.ts
+
+ </Tab>
+ <Tab label="Date">
+
+<<< @/docs/snippets/model/generics-date-api.ts
+
+ </Tab>
+</Tabs>
+
 ## Pagination
 
 The following advanced example will show you how you can combine the different Ts.ED features to describe Pagination.
