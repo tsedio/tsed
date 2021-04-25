@@ -106,7 +106,7 @@ Features | Express.js  | Koa.js
 [Swagger](/tutorials/swagger.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [OIDC](/tutorials/oidc.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Stripe](/tutorials/stripe.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
-[OIDC](/tutorials/oidc.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
+
 
 </div>
 
