@@ -838,17 +838,17 @@ class MyController {
 <Tabs class="-code">
  <Tab label="String">
 
-<<< @/docs/snippets/model/generics-string.ts
+<<< @/docs/snippets/model/generic-string.ts
 
  </Tab>
  <Tab label="Date">
 
-<<< @/docs/snippets/model/generics-date.ts
+<<< @/docs/snippets/model/generic-date.ts
 
  </Tab>
  <Tab label="Date">
 
-<<< @/docs/snippets/model/generics-enum.ts
+<<< @/docs/snippets/model/generic-enum.ts
 
  </Tab>
 </Tabs>
@@ -859,12 +859,12 @@ class MyController {
 <Tabs class="-code">
  <Tab label="String">
 
-<<< @/docs/snippets/model/generics-string-api.ts
+<<< @/docs/snippets/model/generic-string-api.ts
 
  </Tab>
  <Tab label="Date">
 
-<<< @/docs/snippets/model/generics-date-api.ts
+<<< @/docs/snippets/model/generic-date-api.ts
 
  </Tab>
 </Tabs>
