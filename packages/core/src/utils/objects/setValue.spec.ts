@@ -59,4 +59,17 @@ describe("setValue()", () => {
       expect(({} as any).a).to.eq(undefined);
     });
   });
+
+  describe("when a function is given a value", () => {
+    let map: any;
+    before(() => {
+      map = {};
+
+      setValue(map, "test.deep", () => {});
+    });
+
+    it("should set value", () => {
+      expect(map.test.deep).to.a("function");
+    });
+  });
 });

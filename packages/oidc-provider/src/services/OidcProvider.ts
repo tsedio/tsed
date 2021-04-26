@@ -122,9 +122,9 @@ export class OidcProvider {
     const provider = this.injector.getProviders().find((provider) => provider.subType === INTERACTIONS);
 
     if (provider) {
-      return (ctx: any) => {
+      return (ctx: any, interaction: any) => {
         // eslint-disable-line no-unused-vars
-        return provider.path.replace(/:uid/, ctx.oidc.uid);
+        return provider.path.replace(/:uid/, interaction.uid);
       };
     }
   }
