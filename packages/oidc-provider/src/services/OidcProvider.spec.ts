@@ -21,7 +21,7 @@ describe("OidcProvider", () => {
       const oidcProvider = PlatformTest.get<OidcProvider>(OidcProvider);
 
       // @ts-ignore
-      expect(oidcProvider.getInteractionsUrl()({oidc: {uid: "uid"}})).to.deep.eq("/interaction/uid");
+      expect(oidcProvider.getInteractionsUrl()({}, {uid: "uid"})).to.deep.eq("/interaction/uid");
     });
   });
 });
