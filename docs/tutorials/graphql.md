@@ -43,7 +43,7 @@ npm install --save-dev  apollo-server-testing
 </Tabs>
 
 
-[Type-graphql](https://19majkel94.github.io/type-graphql/) requires to update your `tsconfig.json` by adding extra options as following:
+[Type-graphql](https://typegraphql.com/) requires to update your `tsconfig.json` by adding extra options as following:
 
 ```json
 {
