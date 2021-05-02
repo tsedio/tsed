@@ -3,7 +3,7 @@ import SocketIO from "socket.io";
 declare global {
   namespace TsED {
     interface Configuration {
-      socketIO: SocketIO.ServerOptions;
+      socketIO: Partial<SocketIO.ServerOptions>;
     }
   }
 }

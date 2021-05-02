@@ -15,7 +15,7 @@ export class SocketIOModule implements AfterListen {
   disableRoutesSummary: boolean;
 
   @Constant("socketIO", {})
-  settings: ServerOptions;
+  settings: Partial<ServerOptions>;
 
   @Constant("httpPort")
   httpPort: string | number;
