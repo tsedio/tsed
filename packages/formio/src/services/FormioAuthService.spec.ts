@@ -133,7 +133,6 @@ describe("FormioAuthService", () => {
       );
     });
   });
-
   describe("getRoles()", () => {
     it("should return all formio roles", async () => {
       const {service, formioService} = await createServiceFixture();
@@ -156,6 +155,48 @@ describe("FormioAuthService", () => {
       const error = await catchAsyncError(() => service.getRoles({} as any));
       expect(error).to.be.instanceof(BadRequest);
       expect(error?.message).to.eq("EROLESLOAD");
+    });
+  });
+  describe("updateSubmissionRole()", () => {
+    it("should update the role associated to the submission", async () => {
+      const {service, formioService, formioHooksService} = await createServiceFixture();
+      const submission = {
+        _id: "submissionId",
+        save: sandbox.stub()
+      };
+
+      formioService.mongoose.models.submission.exec = sandbox.stub().resolves(submission);
+
+      const user = await service.updateSubmissionRole("submissionId", "roleId", {} as any);
+
+      expect(formioHooksService.alter).to.have.been.calledWithExactly("submissionQuery", {_id: "submissionId", deleted: {$eq: null}}, {});
+      expect(formioService.mongoose.models.submission.findOne).to.have.been.calledWithExactly({_id: "submissionId", deleted: {$eq: null}});
+      expect(user.save).to.have.been.calledWithExactly();
+      expect(user.roles).to.deep.eq(["roleId"]);
+    });
+
+    it("should update the role associated to the submission without save", async () => {
+      const {service, formioService, formioHooksService} = await createServiceFixture();
+      const submission = {
+        _id: "submissionId"
+      };
+
+      formioService.mongoose.models.submission.exec = sandbox.stub().resolves(submission);
+
+      const user = await service.updateSubmissionRole("submissionId", "roleId", {} as any);
+
+      expect(formioHooksService.alter).to.have.been.calledWithExactly("submissionQuery", {_id: "submissionId", deleted: {$eq: null}}, {});
+      expect(formioService.mongoose.models.submission.findOne).to.have.been.calledWithExactly({_id: "submissionId", deleted: {$eq: null}});
+      expect(user.roles).to.deep.eq(["roleId"]);
+    });
+    it("should throw an error when submission doesn't exists", async () => {
+      const {service, formioService} = await createServiceFixture();
+
+      formioService.mongoose.models.submission.exec = sandbox.stub().resolves(null);
+
+      const error = await catchAsyncError(() => service.updateSubmissionRole("submissionId", "roleId", {} as any));
+
+      expect(error).to.be.instanceof(BadRequest);
     });
   });
   describe("setCurrentUser()", () => {
@@ -196,7 +237,6 @@ describe("FormioAuthService", () => {
       expect(ctx.getRequest()["x-jwt-token"]).to.deep.eq("token");
     });
   });
-
   describe("generatePayloadToken()", () => {
     it("should return the payload token", async () => {
       const {service, formioService, formioHooksService} = await createServiceFixture();
@@ -274,7 +314,6 @@ describe("FormioAuthService", () => {
       });
     });
   });
-
   describe("generateSession()", () => {
     it("should generate session", async () => {
       const {service, formioService} = await createServiceFixture();
@@ -319,7 +358,6 @@ describe("FormioAuthService", () => {
       expect(service.tempToken).to.deep.eq(formioService.auth.tempToken);
     });
   });
-
   describe("logout()", () => {
     it("should return logout", async () => {
       const {service, formioService} = await createServiceFixture();

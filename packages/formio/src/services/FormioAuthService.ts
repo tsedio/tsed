@@ -1,4 +1,5 @@
 import {PlatformContext, Req} from "@tsed/common";
+import {isFunction} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {BadRequest, NotFound} from "@tsed/exceptions";
 import {promisify} from "util";
@@ -146,6 +147,37 @@ export class FormioAuthService {
     } catch (err) {
       throw new BadRequest(this.formio.util.errorCodes.role.EROLESLOAD);
     }
+  }
+
+  /**
+   * Update the role of the current submission
+   * @param _id
+   * @param role
+   * @param req
+   */
+  async updateSubmissionRole(_id: string | any, role: string, req?: Req) {
+    const query = this.hooks.alter(
+      "submissionQuery",
+      {
+        _id: this.formio.util.idToBson(_id),
+        deleted: {$eq: null}
+      },
+      req
+    );
+
+    const user = await this.db.submissionModel.findOne(query).exec();
+
+    if (!user) {
+      throw new BadRequest("No Submission was found with the given setting `submission`.");
+    }
+
+    user.roles = [this.formio.util.idToBson(role)];
+
+    if (isFunction(user.save)) {
+      await user.save();
+    }
+
+    return user;
   }
 
   /**
