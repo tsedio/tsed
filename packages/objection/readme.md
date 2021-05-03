@@ -1,4 +1,4 @@
-# @tsed/mongoose
+# @tsed/objection
 
 [![Build Status](https://travis-ci.org/TypedProject/tsed.svg?branch=master)](https://travis-ci.org/TypedProject/tsed)
 [![Coverage Status](https://coveralls.io/repos/github/TypedProject/tsed/badge.svg?branch=production)](https://coveralls.io/github/TypedProject/tsed?branch=production)
