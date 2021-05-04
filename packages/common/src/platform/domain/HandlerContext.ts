@@ -211,7 +211,14 @@ export class HandlerContext {
       }
 
       if (isPromise(process)) {
-        return process.then((result: any) => this.handle(result)).catch((error: unknown) => this.reject(error));
+        return process
+          .then((result: any) => this.handle(result))
+          .catch((error: any) => {
+            if (error.response && isResponse(error.response)) {
+              return this.handle(error.response);
+            }
+            return this.reject(error);
+          });
       }
     }
 
