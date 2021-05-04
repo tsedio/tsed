@@ -1,5 +1,6 @@
 import {Context, Controller, Get, Next, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
-import {ContentType, getSpec, Ignore, Property, Returns, SpecTypes, Status} from "@tsed/schema";
+import {ContentType, Ignore, Property, Status} from "@tsed/schema";
+import axios from "axios";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import {join} from "path";
@@ -74,7 +75,7 @@ class TestResponseParamsCtrl {
   @Get("/scenario5")
   async testScenario5Promise() {
     await new Promise((resolve) => {
-      resolve();
+      resolve(undefined);
     });
 
     return {
@@ -161,6 +162,20 @@ class TestResponseParamsCtrl {
     return {
       jsonexample: 1
     };
+  }
+
+  @Get("/scenario15a")
+  testScenario15a() {
+    return axios.get(`https://tsed.io/api.json`, {
+      responseType: "json"
+    });
+  }
+
+  @Get("/scenario15b")
+  async testScenario15b() {
+    return axios.get(`https://api.tsed.io/rest/github/typed/test`, {
+      responseType: "json"
+    });
   }
 }
 
@@ -347,7 +362,7 @@ export function testResponse(options: PlatformTestOptions) {
     });
   });
 
-  describe("Scenario13: Return application/json when Accept is */*", () => {
+  describe("Scenario14: Return application/json when Accept is */*", () => {
     it("should return a */* content-type", async () => {
       const response = await request
         .get("/rest/response/scenario14")
@@ -359,6 +374,19 @@ export function testResponse(options: PlatformTestOptions) {
       expect(response.body).to.deep.equal({
         jsonexample: 1
       });
+    });
+  });
+  describe("Scenario15: Use axios as proxy", () => {
+    it("should return the response (200)", async () => {
+      const response = await request.get("/rest/response/scenario15a").expect(200);
+
+      expect(response.headers["content-type"]).to.equal("application/json; charset=utf-8");
+    });
+
+    it("should return the response (401)", async () => {
+      const response = await request.get("/rest/response/scenario15b").expect(401);
+
+      expect(response.headers["content-type"]).to.equal("application/json; charset=utf-8");
     });
   });
 }
