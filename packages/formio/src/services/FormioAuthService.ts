@@ -1,10 +1,10 @@
 import {PlatformContext, Req} from "@tsed/common";
 import {isFunction} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
-import {BadRequest, NotFound} from "@tsed/exceptions";
+import {BadRequest, NotFound, Unauthorized} from "@tsed/exceptions";
 import {promisify} from "util";
 import {FormioPayloadToken} from "../domain/FormioDecodedToken";
-import {FormioForm, FormioSubmission} from "../domain/FormioModels";
+import {FormioForm, FormioSubmission, WithID} from "../domain/FormioModels";
 import {FormioDatabase} from "./FormioDatabase";
 import {FormioHooksService} from "./FormioHooksService";
 import {FormioService} from "./FormioService";
@@ -36,7 +36,7 @@ export class FormioAuthService {
     return this.formio.auth.logout;
   }
 
-  setCurrentUser(user: FormioSubmission, token: FormioPayloadToken, ctx: PlatformContext) {
+  setCurrentUser<User = any>(user: WithID<FormioSubmission<User>>, token: FormioPayloadToken, ctx: PlatformContext) {
     const request = ctx.getRequest();
     const response = ctx.getResponse();
 
@@ -54,7 +54,10 @@ export class FormioAuthService {
    * @param user
    * @param ctx
    */
-  async generatePayloadToken(user: FormioSubmission, ctx: PlatformContext): Promise<{user: FormioSubmission; token: FormioPayloadToken}> {
+  async generatePayloadToken<User = any>(
+    user: WithID<FormioSubmission<User>>,
+    ctx: PlatformContext
+  ): Promise<{user: WithID<FormioSubmission<User>>; token: FormioPayloadToken}> {
     const req = ctx.getRequest();
     const audit = this.formio.audit;
     let form: FormioForm | null;
@@ -128,11 +131,16 @@ export class FormioAuthService {
    * @param user
    * @param ctx
    */
-  async generateSession(user: FormioSubmission, ctx: PlatformContext) {
-    const {user: userSession, token} = await this.generatePayloadToken(user, ctx);
-    this.setCurrentUser(userSession, token, ctx);
+  async generateSession<User = any>(user: WithID<FormioSubmission<User>>, ctx: PlatformContext) {
+    try {
+      const {user: userSession, token} = await this.generatePayloadToken(user, ctx);
+      this.setCurrentUser(userSession, token, ctx);
 
-    await this.currentUser(ctx.getRequest(), ctx.getResponse());
+      await this.currentUser(ctx.getRequest(), ctx.getResponse());
+    } catch (err) {
+      ctx.logger.error({event: "Error on OAuthActions", error: err});
+      throw new Unauthorized(err.message);
+    }
   }
 
   /**
@@ -150,12 +158,12 @@ export class FormioAuthService {
   }
 
   /**
-   * Update the role of the current submission
+   * Update the role of the current user submission
    * @param _id
    * @param role
    * @param req
    */
-  async updateSubmissionRole(_id: string | any, role: string, req?: Req) {
+  async updateUserRole(_id: string | any, role: string, req?: Req) {
     const query = this.hooks.alter(
       "submissionQuery",
       {
@@ -184,7 +192,7 @@ export class FormioAuthService {
    * Create a user submission in formio
    * @param user
    */
-  async createUser(user: Partial<FormioSubmission>) {
+  async createUser<User = any>(user: Partial<FormioSubmission<User>>) {
     const submission = new this.db.submissionModel({
       owner: null,
       deleted: null,
@@ -206,7 +214,7 @@ export class FormioAuthService {
    * Update user submission in formio
    * @param user
    */
-  async updateUser(user: Partial<FormioSubmission> & {_id: string}) {
+  async updateUser<User = any>(user: WithID<FormioSubmission<User>>) {
     return this.db.submissionModel.updateOne(
       {
         _id: user._id
