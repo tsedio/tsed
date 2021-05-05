@@ -119,7 +119,7 @@ describe("FormioAuthService", () => {
     it("should update a user submission", async () => {
       const {service, formioService} = await createServiceFixture();
 
-      await service.updateUser({
+      const result = await service.updateUser({
         _id: "id",
         form: "formId",
         data: {
@@ -127,6 +127,13 @@ describe("FormioAuthService", () => {
         }
       });
 
+      expect(result).to.deep.eq({
+        _id: "id",
+        form: "formId",
+        data: {
+          fullname: "fullname"
+        }
+      });
       expect(formioService.mongoose.models.submission.updateOne).to.have.been.calledWithExactly(
         {_id: "id"},
         {$set: {_id: "id", data: {fullname: "fullname"}, form: "formId"}}

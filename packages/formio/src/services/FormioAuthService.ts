@@ -215,11 +215,13 @@ export class FormioAuthService {
    * @param user
    */
   async updateUser<User = any>(user: WithID<FormioSubmission<User>>) {
-    return this.db.submissionModel.updateOne(
+    await this.db.submissionModel.updateOne(
       {
         _id: user._id
       },
       {$set: user}
     );
+
+    return user;
   }
 }
