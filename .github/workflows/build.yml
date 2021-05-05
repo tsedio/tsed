@@ -7,7 +7,7 @@ on:
   push:
   pull_request:
     branches:
-      - production
+      - 5.x
 
 jobs:
   test:
