@@ -12,6 +12,7 @@ import {
 } from "../../mvc";
 import {ValidationError} from "../../mvc/errors/ValidationError";
 import {HandlerContext} from "../domain/HandlerContext";
+import {PlatformContext} from "../domain/PlatformContext";
 import {ParamValidationError} from "../errors/ParamValidationError";
 import {UnknownFilterError} from "../errors/UnknownFilterError";
 
@@ -198,12 +199,18 @@ export class PlatformHandler {
     } = context;
 
     try {
-      context.args = await Promise.all(parameters.map((param) => this.mapParam(param, context)));
+      await this.run(context.ctx, async () => {
+        context.args = await Promise.all(parameters.map((param) => this.mapParam(param, context)));
 
-      await context.callHandler();
+        await context.callHandler();
+      });
     } catch (error) {
       context.next(error);
     }
+  }
+
+  run(ctx: PlatformContext, cb: Function) {
+    return cb();
   }
 
   private sortPipes(metadata: HandlerMetadata) {
