@@ -157,7 +157,7 @@ describe("FormioAuthService", () => {
       expect(error?.message).to.eq("EROLESLOAD");
     });
   });
-  describe("updateSubmissionRole()", () => {
+  describe("updateUserRole()", () => {
     it("should update the role associated to the submission", async () => {
       const {service, formioService, formioHooksService} = await createServiceFixture();
       const submission = {
@@ -167,7 +167,7 @@ describe("FormioAuthService", () => {
 
       formioService.mongoose.models.submission.exec = sandbox.stub().resolves(submission);
 
-      const user = await service.updateSubmissionRole("submissionId", "roleId", {} as any);
+      const user = await service.updateUserRole("submissionId", "roleId", {} as any);
 
       expect(formioHooksService.alter).to.have.been.calledWithExactly("submissionQuery", {_id: "submissionId", deleted: {$eq: null}}, {});
       expect(formioService.mongoose.models.submission.findOne).to.have.been.calledWithExactly({_id: "submissionId", deleted: {$eq: null}});
@@ -183,7 +183,7 @@ describe("FormioAuthService", () => {
 
       formioService.mongoose.models.submission.exec = sandbox.stub().resolves(submission);
 
-      const user = await service.updateSubmissionRole("submissionId", "roleId", {} as any);
+      const user = await service.updateUserRole("submissionId", "roleId", {} as any);
 
       expect(formioHooksService.alter).to.have.been.calledWithExactly("submissionQuery", {_id: "submissionId", deleted: {$eq: null}}, {});
       expect(formioService.mongoose.models.submission.findOne).to.have.been.calledWithExactly({_id: "submissionId", deleted: {$eq: null}});
@@ -194,7 +194,7 @@ describe("FormioAuthService", () => {
 
       formioService.mongoose.models.submission.exec = sandbox.stub().resolves(null);
 
-      const error = await catchAsyncError(() => service.updateSubmissionRole("submissionId", "roleId", {} as any));
+      const error = await catchAsyncError(() => service.updateUserRole("submissionId", "roleId", {} as any));
 
       expect(error).to.be.instanceof(BadRequest);
     });
@@ -349,6 +349,21 @@ describe("FormioAuthService", () => {
         ctx
       );
       expect(formioService.auth.currentUser).to.have.been.calledWithExactly(ctx.getRequest(), ctx.getResponse(), Sinon.match.func);
+    });
+    it("should throw an error when an action isn't permitted", async () => {
+      const {service} = await createServiceFixture();
+      const ctx = PlatformTest.createRequestContext();
+      const user = {
+        _id: "id",
+        form: "605f0d40fe971372e448bcad",
+        data: {}
+      };
+
+      sandbox.stub(service, "setCurrentUser").returns(undefined as any);
+      sandbox.stub(service, "generatePayloadToken").rejects(new Error("Not found"));
+
+      const error = await catchAsyncError(() => service.generateSession(user as any, ctx));
+      expect(error?.message).to.equal("Not found");
     });
   });
   describe("tempToken()", () => {
