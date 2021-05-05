@@ -398,7 +398,7 @@ export class InjectorService extends Container {
    */
   public bindProperty(
     instance: any,
-    {propertyKey, useType, options}: IInjectablePropertyService,
+    {propertyKey, useType, onGet = (f: any) => f, options}: IInjectablePropertyService,
     locals: Map<TokenProvider, any>,
     invokeOptions: Partial<IInvokeOptions>
   ) {
@@ -410,7 +410,7 @@ export class InjectorService extends Container {
     locals.delete(DI_PARAM_OPTIONS);
 
     Object.defineProperty(instance, propertyKey, {
-      get: () => bean
+      get: () => onGet(bean)
     });
   }
 

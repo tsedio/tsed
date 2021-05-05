@@ -9,6 +9,7 @@ export interface IInjectablePropertyService extends IInjectableProperty {
   bindingType: InjectablePropertyType.METHOD | InjectablePropertyType.PROPERTY | InjectablePropertyType.INTERCEPTOR;
   propertyType: string;
   useType: TokenProvider;
+  onGet?: (bean: any) => any;
   options?: any;
 }
 
