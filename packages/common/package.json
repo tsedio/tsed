@@ -52,7 +52,7 @@
     "@tsed/logger": "^5.12.1",
     "@tsed/schema": "6.47.4",
     "@types/cache-manager": "^3.4.0",
-    "@types/json-schema": "7.0.6",
+    "@types/json-schema": "7.0.7",
     "cache-manager": "^3.4.1",
     "consolidate": "^0.16.0",
     "ejs": "^3.1.5",
