@@ -15,7 +15,7 @@ import {JsonSchema} from "../domain/JsonSchema";
  * @schemaFunctional
  */
 export function from(type: Type<any> = Object) {
-  if (isClass(type) && []) {
+  if (isClass(type)) {
     const {schema} = JsonEntityStore.from(type);
 
     schema.properties = function properties(obj: {[key: string]: JsonSchema}) {
