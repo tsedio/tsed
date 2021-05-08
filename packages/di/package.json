@@ -7,7 +7,7 @@
   "dependencies": {
     "@tsed/core": "6.47.4",
     "chalk": "4.1.0",
-    "globby": "11.0.1",
+    "globby": "11.0.3",
     "tslib": "2.1.0"
   },
   "scripts": {
