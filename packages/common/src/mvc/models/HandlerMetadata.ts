@@ -1,4 +1,4 @@
-import {Type} from "@tsed/core";
+import {nameOf, Type} from "@tsed/core";
 import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../../platform/interfaces/PlatformRouterMethods";
 import {HandlerType} from "../interfaces/HandlerType";
 import {ParamMetadata} from "../models/ParamMetadata";
@@ -113,5 +113,9 @@ export class HandlerMetadata {
 
   public isFinal() {
     return this.routeOptions?.isFinal || false;
+  }
+
+  toString() {
+    return [this.target && nameOf(this.target), this.propertyKey].filter(Boolean).join(".");
   }
 }

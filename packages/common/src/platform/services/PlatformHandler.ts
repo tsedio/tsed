@@ -1,5 +1,6 @@
 import {isBoolean, isFunction, isNumber, isStream, isString, Type} from "@tsed/core";
 import {Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
+import {$log} from "@tsed/logger";
 import {ConverterService, EndpointMetadata, HandlerMetadata, HandlerType, IPipe, ParamMetadata, ParamTypes} from "../../mvc";
 import {PlatformResponseFilter} from "../../platform-response-filter/services/PlatformResponseFilter";
 import {HandlerContext, HandlerContextStatus} from "../domain/HandlerContext";
@@ -189,6 +190,16 @@ export class PlatformHandler {
    * @param requestOptions
    */
   protected async onRequest(requestOptions: OnRequestOptions): Promise<any> {
+    // istanbul ignore next
+    if (!requestOptions.$ctx) {
+      $log.error(
+        `Endpoint ${requestOptions.metadata.toString()} is called but the response is already send to your consumer. Check your code and his middlewares please!\n\n${String(
+          requestOptions.metadata.handler
+        )}`
+      );
+      return;
+    }
+
     const {metadata, $ctx, err} = requestOptions;
 
     return this.run($ctx, async () => {
