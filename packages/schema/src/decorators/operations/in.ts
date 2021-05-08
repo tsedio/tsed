@@ -6,6 +6,7 @@ export interface InChainedDecorators {
   <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void;
 
   (target: Object, propertyKey: string | symbol, parameterIndex: number): void;
+
   (target: Function): void;
 
   /**

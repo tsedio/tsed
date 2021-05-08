@@ -178,7 +178,7 @@ export function serializeLazyRef(input: JsonLazyRef, options: JsonSchemaOptions)
 /**
  * @ignore
  */
-export function serializeAny(input: any, options: JsonSchemaOptions = {}) {
+export function serializeAny(input: any, options: JsonSchemaOptions = {}): any {
   options.schemas = options.schemas || {};
 
   if (typeof input !== "object" || input === null) {
