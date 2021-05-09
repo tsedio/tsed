@@ -20,7 +20,7 @@ This tutorial provides two ways to create connection:
 
 Additionally, this topic shows you how you can use Entity from Typeorm with Ts.ED controller (on the bottom of this page).
 
-<Projects type="typeorm"/>
+<Projects type="projects"/>
 
 ## Features
 
