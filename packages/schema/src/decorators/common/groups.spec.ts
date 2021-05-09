@@ -1,4 +1,17 @@
-import {CollectionOf, getJsonSchema, getSpec, In, Name, OperationPath, Path, Property, Required, Returns, SpecTypes} from "@tsed/schema";
+import {
+  CollectionOf,
+  getJsonSchema,
+  getSpec,
+  In,
+  Name,
+  OperationPath,
+  Path,
+  Property,
+  Required,
+  RequiredGroups,
+  Returns,
+  SpecTypes
+} from "@tsed/schema";
 import {expect} from "chai";
 import {Groups} from "./groups";
 
@@ -120,7 +133,6 @@ describe("@Groups", () => {
         type: "object"
       });
     });
-
     it("should show fields with group annotation if the an empty any groups is given", () => {
       const spec = getJsonSchema(MyModel);
 
@@ -159,7 +171,6 @@ describe("@Groups", () => {
         type: "object"
       });
     });
-
     it("should display fields when a group match with (group.summary)", () => {
       const spec = getJsonSchema(MyModel, {
         groups: ["group.summary"]
@@ -204,7 +215,6 @@ describe("@Groups", () => {
         type: "object"
       });
     });
-
     it("should display fields when a group match with (creation)", () => {
       const spec = getJsonSchema(MyModel, {
         groups: ["creation"]
@@ -242,7 +252,6 @@ describe("@Groups", () => {
         type: "object"
       });
     });
-
     it("should display fields when a group match with (pattern)", () => {
       const spec = getJsonSchema(MyModel, {
         groups: ["group.*"]
@@ -288,6 +297,113 @@ describe("@Groups", () => {
           }
         },
         required: ["prop1", "prop2", "prop3"],
+        type: "object"
+      });
+    });
+    it("should show fields with group annotation (by class)", () => {
+      @Groups<User>({
+        // will generate UserCreate
+        creation: ["firstName", "lastName", "email", "password"],
+        // will generate UserUpdate
+        update: ["id", "firstName", "lastName", "email"],
+        // will generate UserChangePassword
+        changePassword: ["id", "password", "newPassword"]
+      })
+      class User {
+        @Required()
+        id: string;
+
+        @Required()
+        @RequiredGroups("creation")
+        firstName: string;
+
+        @Required()
+        @RequiredGroups("creation")
+        lastName: string;
+
+        @Required()
+        @RequiredGroups("creation")
+        email: string;
+
+        @Required()
+        @RequiredGroups("create", "changePassword")
+        password: string;
+
+        @Required()
+        @RequiredGroups("changePassword")
+        newPassword: string;
+      }
+
+      const spec1 = getJsonSchema(User, {
+        groups: ["creation"]
+      });
+
+      expect(spec1).to.deep.equal({
+        properties: {
+          email: {
+            minLength: 1,
+            type: "string"
+          },
+          firstName: {
+            minLength: 1,
+            type: "string"
+          },
+          lastName: {
+            minLength: 1,
+            type: "string"
+          },
+          password: {
+            type: "string"
+          }
+        },
+        required: ["firstName", "lastName", "email"],
+        type: "object"
+      });
+
+      const spec2 = getJsonSchema(User, {
+        groups: ["update"]
+      });
+
+      expect(spec2).to.deep.equal({
+        properties: {
+          email: {
+            type: "string"
+          },
+          firstName: {
+            type: "string"
+          },
+          id: {
+            minLength: 1,
+            type: "string"
+          },
+          lastName: {
+            type: "string"
+          }
+        },
+        required: ["id"],
+        type: "object"
+      });
+
+      const spec3 = getJsonSchema(User, {
+        groups: ["changePassword"]
+      });
+
+      expect(spec3).to.deep.equal({
+        properties: {
+          id: {
+            minLength: 1,
+            type: "string"
+          },
+          newPassword: {
+            minLength: 1,
+            type: "string"
+          },
+          password: {
+            minLength: 1,
+            type: "string"
+          }
+        },
+        required: ["id", "password", "newPassword"],
         type: "object"
       });
     });

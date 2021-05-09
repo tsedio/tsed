@@ -559,7 +559,7 @@ console.log(result); // User {id, firstName, lastName, email, password, roles}
 Now let's see how groups work with controllers.
 
 <Tabs class="-code">
-<Tab label="ProductsCtrl.ts">
+<Tab label="UsersCtrl.ts">
 
 <<< @/docs/snippets/model/group-users-ctrl.ts
 
@@ -583,6 +583,38 @@ configuration!
 ::: tip You can combine different group labels or use a glob pattern to match multiple group labels. It's also possible
 to use negation by prefixing the group label with `!`.
 :::
+
+## Groups class definition <Badge text="6.48.0+" />
+
+It's also possible to define all groups on class instead of declaring it on each property.
+
+<Tabs class="-code">
+<Tab label="UsersCtrl.ts">
+
+<<< @/docs/snippets/model/group-users-ctrl-on-class.ts
+
+</Tab>
+<Tab label="User.ts">
+
+<<< @/docs/snippets/model/group-user-on-class.ts
+
+</Tab>
+<Tab label="Creation">
+
+<<< @/docs/snippets/model/group-user-creation.json
+
+</Tab>
+<Tab label="Update">
+
+<<< @/docs/snippets/model/group-user-update.json
+
+</Tab>
+<Tab label="ChangePassword">
+
+<<< @/docs/snippets/model/group-user-change-password.json
+
+</Tab>
+</Tabs>
 
 ## ForwardGroups <Badge text="6.42.0+" />
 
