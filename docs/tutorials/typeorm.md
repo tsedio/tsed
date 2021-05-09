@@ -42,6 +42,10 @@ Then import `@tsed/typeorm` in your Server:
 
 <<< @/tutorials/snippets/typeorm/typeorm-configuration.ts
 
+::: warning
+Don't forget to import the TypeORM module in the Server. Ts.ED need it to load correctly the TypeORM DI, entities and repositories!
+:::
+
 ## TypeORMService
 
 TypeORMService lets you retrieve an instance of TypeORM Connection.
