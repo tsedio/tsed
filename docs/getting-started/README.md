@@ -207,7 +207,7 @@ See our [CLI website](https://cli.tsed.io) for more details.
 
 Alternatively, you can checkout one of these projects:
 
-<Projects type="getting-started" />
+<Projects type="projects" />
 
 If none of previous solutions are satisfying maybe you are in these cases:
 
