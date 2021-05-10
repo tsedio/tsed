@@ -211,7 +211,7 @@ Alternatively, you can checkout one of these projects:
 
 If none of previous solutions are satisfying maybe you are in these cases:
 
-- [I want to create application from scratch](/getting-started/from-scratch.md)
+- [I want to create application from scratch](/getting-started/start-from-scratch.md)
 - [I want to migrate my application from Ts.ED v5](/getting-started/migration-from-v5.md)
 - [I want to migrate my application from Express.js](/getting-started/migrate-from-express.md)
 
