@@ -70,3 +70,4 @@ test/**/*.d.ts.map
 /packages/graphql/test/resources/schema.gql
 .db
 **/keys/jwks.json
+/packages/prisma/test/prisma/generated
