@@ -405,14 +405,15 @@ describe("Array Body", () => {
             ],
             "dataPath": "",
             "keyword": "type",
-            "message": "should be object",
+            "instancePath": "",
+            "message": "must be object",
             "params": {
               "type": "object"
             },
             "schemaPath": "#/type"
           }
         ],
-        "message": "Bad request on parameter \"request.body\".\nValue should be object. Given value: [{\"test\":\"1\"}]",
+        "message": "Bad request on parameter \"request.body\".\nValue must be object. Given value: [{\"test\":\"1\"}]",
         "name": "AJV_VALIDATION_ERROR",
         "status": 400
       });

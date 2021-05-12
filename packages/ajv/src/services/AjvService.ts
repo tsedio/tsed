@@ -4,29 +4,9 @@ import {getJsonSchema, JsonEntityStore, JsonSchema, JsonSchemaObject} from "@tse
 import Ajv, {ErrorObject} from "ajv";
 import {AjvValidationError} from "../errors/AjvValidationError";
 import {AjvErrorObject, ErrorFormatter} from "../interfaces/IAjvSettings";
+import {defaultErrorFormatter} from "../utils/defaultErrorFormatter";
 import "./Ajv";
-
-function defaultFormatter(error: AjvErrorObject) {
-  const value = JSON.stringify(error.data === undefined ? "undefined" : error.data);
-  const join = (list: any[]): string => list.filter(Boolean).join("").trim();
-  error.dataPath = error.dataPath ? error.dataPath.replace(/\//gi, ".") : error.dataPath;
-
-  const [, indexPath, ...paths] = error.dataPath.split(".");
-  const deepPaths = paths.length ? "." + paths.join(".") : "";
-
-  if (error.collectionName) {
-    switch (error.collectionName) {
-      case "Array":
-        return join([`${error.modelName || ""}[${indexPath}]${deepPaths}`, ` ${error.message}. Given value: ${value}`]);
-      case "Map":
-        return join([`Map<${indexPath}, ${error.modelName || ""}>${deepPaths}`, ` ${error.message}. Given value: ${value}`]);
-      case "Set":
-        return join([`Set<${indexPath}, ${error.modelName || ""}>${deepPaths}`, ` ${error.message}. Given value: ${value}`]);
-    }
-  }
-
-  return join([!error.modelName && "Value", `${error.modelName || ""}`, error.dataPath, ` ${error.message}. Given value: ${value}`]);
-}
+import {getPath} from "../utils/getPath";
 
 export interface AjvValidateOptions extends Record<string, any> {
   schema?: JsonSchema | Partial<JsonSchemaObject>;
@@ -36,7 +16,7 @@ export interface AjvValidateOptions extends Record<string, any> {
 
 @Injectable()
 export class AjvService {
-  @Constant("ajv.errorFormatter", defaultFormatter)
+  @Constant("ajv.errorFormatter", defaultErrorFormatter)
   protected errorFormatter: ErrorFormatter;
 
   @Inject()
@@ -82,15 +62,17 @@ export class AjvService {
           error.collectionName = nameOf(collectionType);
         }
 
+        const dataPath = getPath(error);
+
         if (!error.data) {
-          if (error.dataPath) {
-            error.data = getValue(error.dataPath.replace(/^./, ""), value);
+          if (dataPath) {
+            error.data = getValue(value, dataPath);
           } else if (error.schemaPath !== "#/required") {
             error.data = value;
           }
         }
 
-        if (error.dataPath && error.dataPath.match(/pwd|password|mdp|secret/)) {
+        if (dataPath && dataPath.match(/pwd|password|mdp|secret/)) {
           error.data = "[REDACTED]";
         }
 

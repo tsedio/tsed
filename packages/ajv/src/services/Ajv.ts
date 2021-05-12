@@ -66,7 +66,7 @@ registerProvider({
 
     const ajv = new Ajv(options);
 
-    AjvFormats(ajv);
+    AjvFormats(ajv as any);
 
     getFormats(injector).forEach(({name, options}) => {
       ajv.addFormat(name, options);

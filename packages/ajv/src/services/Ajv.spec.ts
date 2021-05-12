@@ -27,9 +27,9 @@ describe("Ajv", () => {
 
     expect(ajv.errors).to.deep.equal([
       {
-        dataPath: "",
+        instancePath: "",
         keyword: "type",
-        message: "should be object",
+        message: "must be object",
         params: {
           type: "object"
         },
