@@ -54,7 +54,6 @@ export class SocketHandlersBuilder {
   public build(nsps: Map<string, Namespace>) {
     const {instance} = this.provider;
     const {injectNamespaces, namespace} = this.socketProviderMetadata;
-
     const nsp = nsps.get(namespace);
 
     instance.$onConnection && this.socketProviderMetadata.createHook("$onConnection", "connection");

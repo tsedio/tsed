@@ -9,7 +9,7 @@ import {SocketFilters} from "../interfaces/SocketFilters";
  * @decorator
  */
 export function SocketFilter(filter: SocketFilters, mapIndex?: number) {
-  return (target: any, propertyKey: string, index: number) =>
+  return (target: any, propertyKey: string, index: number) => {
     Store.from(target).merge("socketIO", {
       handlers: {
         [propertyKey]: {
@@ -22,4 +22,5 @@ export function SocketFilter(filter: SocketFilters, mapIndex?: number) {
         }
       }
     });
+  };
 }

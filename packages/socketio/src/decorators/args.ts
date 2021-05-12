@@ -46,7 +46,7 @@ export function Args(mapIndex?: number, useType?: any): any {
       });
     }
 
-    return store.merge("socketIO", {
+    store.merge("socketIO", {
       handlers: {
         [propertyKey]: {
           parameters: {
