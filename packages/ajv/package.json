@@ -25,6 +25,6 @@
     "@tsed/di": "6.48.3",
     "@tsed/exceptions": "6.48.3",
     "@tsed/schema": "6.48.3",
-    "ajv": "8.0.3"
+    "ajv": "8.3.0"
   }
 }

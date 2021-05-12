@@ -1,4 +1,12 @@
-import {Controller, Get, PlatformContext, PlatformTest, QueryParams, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
+import {
+  Controller,
+  Get,
+  PlatformContext,
+  PlatformTest,
+  QueryParams,
+  ResponseFilter,
+  ResponseFilterMethods
+} from "@tsed/common";
 import {isString} from "@tsed/core/src";
 import {OnDeserialize} from "@tsed/json-mapper/src";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
@@ -356,23 +364,23 @@ describe("Pageable", () => {
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(400);
 
     expect(body).to.deep.eq({
-      errors: [
+      "errors": [
         {
-          data: -1,
-          dataPath: ".page",
-          keyword: "minimum",
-          message: "should be >= 0",
-          modelName: "Pageable",
-          params: {
-            comparison: ">=",
-            limit: 0
+          "dataPath": ".page",
+          "instancePath": "/page",
+          "keyword": "minimum",
+          "message": "must be >= 0",
+          "modelName": "Pageable",
+          "params": {
+            "comparison": ">=",
+            "limit": 0
           },
-          schemaPath: "#/properties/page/minimum"
+          "schemaPath": "#/properties/page/minimum"
         }
       ],
-      message: 'Bad request on parameter "request.query".\nPageable.page should be >= 0. Given value: -1',
-      name: "AJV_VALIDATION_ERROR",
-      status: 400
+      "message": "Bad request on parameter \"request.query\".\nPageable.page must be >= 0. Given value: \"undefined\"",
+      "name": "AJV_VALIDATION_ERROR",
+      "status": 400
     });
   });
 });

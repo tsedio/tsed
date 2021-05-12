@@ -13,12 +13,15 @@ describe("AjvService", () => {
     const error: any = await catchAsyncError(() => ajvService.validate("test", string().minLength(5)));
     expect(error.errors).to.deep.equal([
       {
-        keyword: "minLength",
+        data: "test",
         dataPath: "",
-        schemaPath: "#/minLength",
-        params: {limit: 5},
-        message: "should NOT have fewer than 5 characters",
-        data: "test"
+        instancePath: "",
+        keyword: "minLength",
+        message: "must NOT have fewer than 5 characters",
+        params: {
+          limit: 5
+        },
+        schemaPath: "#/minLength"
       }
     ]);
   });

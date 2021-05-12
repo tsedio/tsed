@@ -114,9 +114,9 @@ describe("ExceptionSchema", () => {
     ajv.validate(schema, {status: 400});
     expect(ajv.errors).to.deep.eq([
       {
-        dataPath: "",
+        instancePath: "",
         keyword: "required",
-        message: "should have required property 'name'",
+        message: "must have required property 'name'",
         params: {
           missingProperty: "name"
         },

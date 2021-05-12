@@ -149,19 +149,21 @@ export function testErrors(options: PlatformTestOptions) {
     const response: any = await request.post("/rest/errors/scenario-4").expect(400);
 
     expect(response.body).to.deep.eq({
-      name: "REQUIRED_VALIDATION_ERROR",
-      message: "Bad request on parameter \"request.body.name\".\nIt should have required parameter 'name'",
-      status: 400,
       errors: [
         {
           dataPath: "",
           keyword: "required",
           message: "It should have required parameter 'name'",
           modelName: "body",
-          params: {missingProperty: "name"},
+          params: {
+            missingProperty: "name"
+          },
           schemaPath: "#/required"
         }
-      ]
+      ],
+      message: "Bad request on parameter \"request.body.name\".\nIt should have required parameter 'name'",
+      name: "REQUIRED_VALIDATION_ERROR",
+      status: 400
     });
   });
 
@@ -169,19 +171,22 @@ export function testErrors(options: PlatformTestOptions) {
     const response: any = await request.post("/rest/errors/scenario-5").expect(400);
 
     expect(response.body).to.deep.eq({
-      name: "AJV_VALIDATION_ERROR",
-      message: 'Bad request on parameter "request.body".\nCustomModel should have required property \'name\'. Given value: "undefined"',
-      status: 400,
       errors: [
         {
-          keyword: "required",
           dataPath: "",
-          schemaPath: "#/required",
-          params: {missingProperty: "name"},
-          message: "should have required property 'name'",
-          modelName: "CustomModel"
+          instancePath: "",
+          keyword: "required",
+          message: "must have required property 'name'",
+          modelName: "CustomModel",
+          params: {
+            missingProperty: "name"
+          },
+          schemaPath: "#/required"
         }
-      ]
+      ],
+      message: 'Bad request on parameter "request.body".\nCustomModel must have required property \'name\'. Given value: "undefined"',
+      name: "AJV_VALIDATION_ERROR",
+      status: 400
     });
   });
 
@@ -189,20 +194,23 @@ export function testErrors(options: PlatformTestOptions) {
     const response: any = await request.post(`/rest/errors/scenario-6`).send({}).expect(400);
 
     expect(response.body).to.deep.eq({
-      name: "AJV_VALIDATION_ERROR",
-      message:
-        'Bad request on parameter "request.body".\nCustomPropModel should have required property \'role_item\'. Given value: "undefined"',
-      status: 400,
       errors: [
         {
-          keyword: "required",
           dataPath: "",
-          schemaPath: "#/required",
-          params: {missingProperty: "role_item"},
-          message: "should have required property 'role_item'",
-          modelName: "CustomPropModel"
+          instancePath: "",
+          keyword: "required",
+          message: "must have required property 'role_item'",
+          modelName: "CustomPropModel",
+          params: {
+            missingProperty: "role_item"
+          },
+          schemaPath: "#/required"
         }
-      ]
+      ],
+      message:
+        'Bad request on parameter "request.body".\nCustomPropModel must have required property \'role_item\'. Given value: "undefined"',
+      name: "AJV_VALIDATION_ERROR",
+      status: 400
     });
   });
 

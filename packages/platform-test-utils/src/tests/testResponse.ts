@@ -303,15 +303,16 @@ export function testResponse(options: PlatformTestOptions) {
             {
               data: "kkk",
               dataPath: "",
+              instancePath: "",
               keyword: "type",
-              message: "should be number",
+              message: "must be number",
               params: {
                 type: "number"
               },
               schemaPath: "#/type"
             }
           ],
-          message: 'Bad request on parameter "request.path.id".\nValue should be number. Given value: "kkk"',
+          message: 'Bad request on parameter "request.path.id".\nValue must be number. Given value: "kkk"',
           name: "AJV_VALIDATION_ERROR",
           status: 400
         });
