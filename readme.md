@@ -2,14 +2,14 @@
  <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
 </p>
 
-[![Build & Release](https://github.com/TypedProject/tsed/workflows/Build%20&%20Release/badge.svg?branch=production)](https://github.com/TypedProject/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
-[![Coverage Status](https://coveralls.io/repos/github/TypedProject/tsed/badge.svg?branch=production)](https://coveralls.io/github/TypedProject/tsed?branch=production)
+[![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg?branch=production)](https://github.com/tsedio/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
+[![Coverage Status](https://coveralls.io/repos/github/tsedio/tsed/badge.svg?branch=production)](https://coveralls.io/github/tsedio/tsed?branch=production)
 ![npm](https://img.shields.io/npm/dm/@tsed/common.svg)
 [![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Fcommon)
-[![Dependencies](https://david-dm.org/TypedProject/tsed.svg)](https://david-dm.org/TypedProject/tsed#info=dependencies)
-[![img](https://david-dm.org/TypedProject/tsed/dev-status.svg)](https://david-dm.org/TypedProject/tsed/#info=devDependencies)
-[![img](https://david-dm.org/TypedProject/tsed/peer-status.svg)](https://david-dm.org/TypedProject/tsed/#info=peerDependenciess)
-[![Known Vulnerabilities](https://snyk.io/test/github/TypedProject/tsed/badge.svg)](https://snyk.io/test/github/TypedProject/tsed)
+[![Dependencies](https://david-dm.org/tsedio/tsed.svg)](https://david-dm.org/tsedio/tsed#info=dependencies)
+[![img](https://david-dm.org/tsedio/tsed/dev-status.svg)](https://david-dm.org/tsedio/tsed/#info=devDependencies)
+[![img](https://david-dm.org/tsedio/tsed/peer-status.svg)](https://david-dm.org/tsedio/tsed/#info=peerDependenciess)
+[![Known Vulnerabilities](https://snyk.io/test/github/tsedio/tsed/badge.svg)](https://snyk.io/test/github/tsedio/tsed)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![backers](https://opencollective.com/tsed/tiers/badge.svg)](https://opencollective.com/tsed)
@@ -180,7 +180,7 @@ export class UsersCtrl {
 ## Contributors
 Please read [contributing guidelines here](./CONTRIBUTING.md).
 
-<a href="https://github.com/TypedProject/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
+<a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
 
 ## Backers

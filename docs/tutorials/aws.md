@@ -6,7 +6,7 @@ meta:
    content: ts.ed express typescript aws node.js javascript decorators
 projects:   
  - title: Kit AWS
-   href: https://github.com/TypedProject/tsed-example-aws
+   href: https://github.com/tsedio/tsed-example-aws
    src: /aws.png   
 ---
 # AWS
@@ -64,7 +64,7 @@ async function bootstrap() {
 bootstrap();
 ```
 ::: tip
-You can find a project example with [AWS configuration here](https://github.com/TypedProject/tsed-example-aws).
+You can find a project example with [AWS configuration here](https://github.com/tsedio/tsed-example-aws).
 :::
 
 ::: tip Example

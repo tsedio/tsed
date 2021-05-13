@@ -6,7 +6,7 @@ meta:
    content: ts.ed express typescript typeorm node.js javascript decorators
 projects:   
  - title: Kit TypeORM
-   href: https://github.com/TypedProject/tsed-example-typeorm
+   href: https://github.com/tsedio/tsed-example-typeorm
    src: /typeorm.png
 ---
 # TypeORM <Badge text="Contributors are welcome" />
