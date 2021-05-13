@@ -1,4 +1,4 @@
 # Migration
 
-See release note on Github: https://github.com/TypedProject/ts-express-decorators/releases
+See release note on Github: https://github.com/tsedio/ts-express-decorators/releases
 

@@ -33,7 +33,7 @@ npm install -g yarn
 This repository provide getting started project example for each Ts.ED version since `v5.18.1`.
 
 ```bash
-git checkout -b https://github.com/TypedProject/tsed-example-vue-js/tree/v5.18.1
+git checkout -b https://github.com/tsedio/tsed-example-vue-js/tree/v5.18.1
 ```
 
 To checkout another version just replace `v5.18.1` by the desired version.
@@ -62,7 +62,7 @@ Replace all reference `@project` by your project name. `@project` key are refere
 
 ## Contributing
 
-You can make a PR directly on https://github.com/TypedProject/ts-express-decorators repository.
+You can make a PR directly on https://github.com/tsedio/ts-express-decorators repository.
 
 ## Backers
 

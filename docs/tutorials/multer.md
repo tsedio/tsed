@@ -6,7 +6,7 @@ meta:
    content: ts.ed express typescript multer node.js javascript decorators
 projects:   
  - title: Kit Multer
-   href: https://github.com/TypedProject/tsed-example-multer
+   href: https://github.com/tsedio/tsed-example-multer
    src: /express.png     
 ---
 # Multer
@@ -68,5 +68,5 @@ Swagger spec (v2.0) doesn't support multiple files.
 :::
 
 ::: tip
-You can find a working example on [Multer here](https://github.com/TypedProject/tsed-example-multer).
+You can find a working example on [Multer here](https://github.com/tsedio/tsed-example-multer).
 :::

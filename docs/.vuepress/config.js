@@ -36,7 +36,7 @@ module.exports = {
   themeConfig: {
     shortTitle: "Ts.ED",
     version: require("../../package").version,
-    repo: "TypedProject/tsed",
+    repo: "tsedio/tsed",
     openCollective: "tsed",
     gitterUrl: "https://gitter.im/Tsed-io/community",
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",

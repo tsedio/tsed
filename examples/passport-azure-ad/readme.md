@@ -35,7 +35,7 @@ npm install -g yarn
 This repository provide getting started project example for each Ts.ED version since `v5.18.1`.
 
 ```bash
-git checkout -b https://github.com/TypedProject/tsed-example-passport-azure-ad/tree/v5.18.1
+git checkout -b https://github.com/tsedio/tsed-example-passport-azure-ad/tree/v5.18.1
 ```
 
 To checkout another version just replace `v5.18.1` by the desired version.
@@ -100,7 +100,7 @@ Copy the scope(s) created and add them to the configuration in `Server.ts`.
 
 ## Contributing
 
-You can make a PR directly on https://github.com/TypedProject/tsed-example-passport-azure-ad.
+You can make a PR directly on https://github.com/tsedio/tsed-example-passport-azure-ad.
 
 ## Backers
 
