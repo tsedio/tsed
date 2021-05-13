@@ -45,7 +45,7 @@ export interface PlatformLoggerSettings {
    */
   disableBootstrapLog?: boolean;
   /**
-   * Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://typedproject.github.io/logger/).
+   * Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://tsedio.github.io/logger/).
    */
   format?: string;
   /**

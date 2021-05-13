@@ -38,10 +38,10 @@ module.exports = {
       start: "2016",
       end: new Date().getFullYear()
     },
-    repo: "TypedProject/tsed",
-    githubProxyUrl: "https://api.tsed.io/rest/github/TypedProject/tsed",
+    repo: "tsedio/tsed",
+    githubProxyUrl: "https://api.tsed.io/rest/github/tsedio/tsed",
     openCollective: "https://api.tsed.io/rest/opencollective",
-    slackUrl: "https://api.tsed.io/rest/slack/typedproject/tsed",
+    slackUrl: "https://api.tsed.io/rest/slack/tsedio/tsed",
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
     sponsorUrl: "https://tsed.io/support.html",
     twitterUrl: "https://twitter.com/TsED_io",
@@ -366,7 +366,7 @@ module.exports = {
               items: [
                 {
                   label: "Issues",
-                  url: "https://github.com/TypedProject/tsed/issues"
+                  url: "https://github.com/tsedio/tsed/issues"
                 },
                 {
                   label: "Sponsoring & donations",

@@ -1,10 +1,10 @@
 blank_issues_enabled: false
 contact_links:
   - name: 💬 Discussions
-    url: https://github.com/TypedProject/tsed/discussions
+    url: https://github.com/tsedio/tsed/discussions
     about: Open a discussion that can be followed by the whole community on Github!
   - name: 💬 Community channel (Slack)
-    url: https://api.tsed.io/rest/slack/typedproject/tsed
+    url: https://api.tsed.io/rest/slack/tsedio/tsed
     about: Join our slack workspace to discuss directly wiht the team!  
   - name: 💬  Community group (Gitter deprecated)
     url: https://gitter.im/Tsed-io/Community

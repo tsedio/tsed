@@ -6,13 +6,13 @@ meta:
    content: ts.ed express typescript passport.js node.js javascript decorators
 projects:   
  - title: Kit Passport.js
-   href: https://github.com/TypedProject/tsed-example-passportjs
+   href: https://github.com/tsedio/tsed-example-passportjs
    src: /passportjs.png
  - title: Kit TypeORM
-   href: https://github.com/TypedProject/tsed-example-typeorm
+   href: https://github.com/tsedio/tsed-example-typeorm
    src: /typeorm.png
  - title: Kit Azure AD
-   href: https://github.com/TypedProject/tsed-example-passport-azure-ad
+   href: https://github.com/tsedio/tsed-example-passport-azure-ad
    src: /azure.png        
 ---
 # Passport.js

@@ -6,7 +6,7 @@ meta:
    content: upload files ts.ed express typescript multer node.js javascript decorators
 projects:   
  - title: Kit Multer
-   href: https://github.com/TypedProject/tsed-example-multer
+   href: https://github.com/tsedio/tsed-example-multer
    src: /express.png
 ---
 # Upload files

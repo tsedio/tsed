@@ -8,7 +8,7 @@ We welcome any type of contribution, not just code. You can help with:
 - QA: file bug reports, the more details you can give the better (e.g. screenshots with the console open)
 - Marketing: writing blog posts, how to's, printing stickers, ...
 - Community: presenting the project at meetups, organizing a dedicated meetup for the local community, ...
-- Code: take a look at the [open issues](https://github.com/TypedProject/tsed/issues). Even if you can't write code, commenting on them and showing that you care about a given issue matters. It helps us triage them.
+- Code: take a look at the [open issues](https://github.com/tsedio/tsed/issues). Even if you can't write code, commenting on them and showing that you care about a given issue matters. It helps us triage them.
 - Money: we welcome financial contributions in full transparency on our [open collective](https://opencollective.com/tsed).
 
 ## Your First Contribution
@@ -39,7 +39,7 @@ We also welcome financial contributions in full transparency on our open collect
 
 ## Questions
 
-If you have any questions, create an [issue](https://github.com/TypedProject/tsed/issues) (protip: do a quick search first to see if someone else didn't ask the same question before!). You can also reach us at https://gitter.im/Tsed-io/community.
+If you have any questions, create an [issue](https://github.com/tsedio/tsed/issues) (protip: do a quick search first to see if someone else didn't ask the same question before!). You can also reach us at https://gitter.im/Tsed-io/community.
 
 ## How to work on Ts.ED
 ### Setup
@@ -145,7 +145,7 @@ yarn vuepress:serve
 ## Credits
 ### Contributors
 
-<a href="https://github.com/TypedProject/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
+<a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
 
 ### Backers

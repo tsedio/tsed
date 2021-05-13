@@ -73,6 +73,6 @@ Here is an example of Rest API test:
 </Tabs>
 
 ::: tip
-You can find a working example on [Express Session here](https://github.com/TypedProject/tsed-example-session).
+You can find a working example on [Express Session here](https://github.com/tsedio/tsed-example-session).
 :::
 

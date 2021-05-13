@@ -1,34 +1,34 @@
 ---
 projects:
  - title: Kit basic
-   href: https://github.com/TypedProject/tsed-getting-started
+   href: https://github.com/tsedio/tsed-getting-started
    src: /tsed.png
  - title: Kit React
-   href: https://github.com/TypedProject/tsed-example-react
+   href: https://github.com/tsedio/tsed-example-react
    src: /react.png   
  - title: Kit Vue.js
-   href: https://github.com/TypedProject/tsed-example-vuejs
+   href: https://github.com/tsedio/tsed-example-vuejs
    src: /vuejs.png    
  - title: Kit TypeORM
-   href: https://github.com/TypedProject/tsed-example-typeorm
+   href: https://github.com/tsedio/tsed-example-typeorm
    src: /typeorm.png
  - title: Kit Mongoose
-   href: https://github.com/TypedProject/tsed-example-mongoose
+   href: https://github.com/tsedio/tsed-example-mongoose
    src: /mongoose.png
  - title: Kit Socket.io
-   href: https://github.com/TypedProject/tsed-example-socketio
+   href: https://github.com/tsedio/tsed-example-socketio
    src: /socketio.png 
  - title: Kit Passport.js
-   href: https://github.com/TypedProject/tsed-example-passportjs
+   href: https://github.com/tsedio/tsed-example-passportjs
    src: /passportjs.png
  - title: Kit AWS
-   href: https://github.com/TypedProject/tsed-example-aws
+   href: https://github.com/tsedio/tsed-example-aws
    src: /aws.png
  - title: Kit Azure AD
-   href: https://github.com/TypedProject/tsed-example-passport-azure-ad
+   href: https://github.com/tsedio/tsed-example-passport-azure-ad
    src: /azure.png
  - title: Kit OIDC
-   href: https://github.com/TypedProject/tsed-example-oidc
+   href: https://github.com/tsedio/tsed-example-oidc
    src: https://oauth.net/images/oauth-logo-square.png
 sandboxes:
  - title: Mongoose
@@ -51,13 +51,13 @@ sandboxes:
    src: /typegraphql.png
 meetups:
 - title: Artips
-  href: https://github.com/TypedProject/meetup-tsed-artips
+  href: https://github.com/tsedio/meetup-tsed-artips
   src: /they-use-it/artips.png
 - title: Zenika
-  href: https://github.com/TypedProject/meetup-tsed-zenika
+  href: https://github.com/tsedio/meetup-tsed-zenika
   src: /zenika.png
 - title: Publicis
-  href: https://github.com/TypedProject/meetup-tsed-publicis
+  href: https://github.com/tsedio/meetup-tsed-publicis
   src: /meetup.png
 meta:
  - name: description

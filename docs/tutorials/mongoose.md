@@ -6,7 +6,7 @@ meta:
    content: ts.ed express typescript mongoose node.js javascript decorators
 projects:   
  - title: Kit Mongoose
-   href: https://github.com/TypedProject/tsed-example-mongoose
+   href: https://github.com/tsedio/tsed-example-mongoose
    src: /mongoose.png   
 ---
 # Mongoose 
@@ -211,7 +211,7 @@ It's possible to inject a model into a Service (or Controller, Middleware, etc..
 <<< @/tutorials/snippets/mongoose/inject-model.ts
 
 ::: tip
-You can find a working example on [Mongoose here](https://github.com/TypedProject/tsed-example-mongoose).
+You can find a working example on [Mongoose here](https://github.com/tsedio/tsed-example-mongoose).
 :::
 
 ### Caveat <Badge text="v6.14.4" />
