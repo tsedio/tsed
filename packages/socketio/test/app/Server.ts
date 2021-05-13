@@ -22,16 +22,15 @@ const rootDir = resolve(__dirname);
   mount: {
     "/": [SocketPageCtrl]
   },
-
   statics: {
     "/": "${rootDir}/views"
   },
   views: {
-    root: `${rootDir}/views`,
-    extensions: {
-      html: "ejs"
-    },
-    viewEngine: "html"
+    root: `${rootDir}/views`// ,
+    // extensions: {
+    //   html: "ejs"
+    // },
+    // viewEngine: "html"
   },
   socketIO: {}
 })
