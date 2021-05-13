@@ -53,7 +53,13 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:coverage && (yarn coveralls || true)
+        run: yarn test:coverage
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-${{ matrix.test_number }}
+          parallel: true
 
   build:
     runs-on: ubuntu-latest

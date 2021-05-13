@@ -1,4 +1,5 @@
-import {ContentType, Controller, Get, View} from "@tsed/common";
+import {Controller, Get, View} from "@tsed/common";
+import {Returns} from "@tsed/schema";
 import {Hidden} from "@tsed/swagger";
 import fs from "fs";
 
@@ -12,7 +13,7 @@ export class SocketPageCtrl {
   }
 
   @Get("/socket/socket.io.js")
-  @ContentType("application/javascript")
+  @Returns(200).ContentType("application/javascript")
   public getScript() {
     return fs.readFileSync(require.resolve("socket.io-client/dist/socket.io.js"), {encoding: "utf8"});
   }
