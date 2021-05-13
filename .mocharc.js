@@ -4,7 +4,7 @@ module.exports = {
   require: [
     "ts-node/register/transpile-only",
     "tsconfig-paths/register",
-    "tasks/mocha/register"
+    "tools/mocha/register"
   ],
   recursive: true,
   reporter: "dot",

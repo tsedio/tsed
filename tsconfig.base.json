@@ -19,6 +19,7 @@
     "resolveJsonModule": true,
     "newLine": "LF",
     "noEmit": true,
+    "allowJs": true,
     "lib": [
       "es7",
       "dom",
