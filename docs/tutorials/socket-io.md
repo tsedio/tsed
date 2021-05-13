@@ -6,7 +6,7 @@ meta:
    content: ts.ed express typescript socket.io websocket node.js javascript decorators
 projects:
  - title: Kit Socket.io
-   href: https://github.com/TypedProject/tsed-example-socketio
+   href: https://github.com/tsedio/tsed-example-socketio
    src: /socketio.png    
 ---
 # Socket.io

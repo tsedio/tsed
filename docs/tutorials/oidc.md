@@ -6,7 +6,7 @@ meta:
    content: ts.ed express koa oidc typescript node.js javascript decorators
 projects:   
  - title: Kit OIDC
-   href: https://github.com/TypedProject/tsed-example-oidc
+   href: https://github.com/tsedio/tsed-example-oidc
    src: https://oauth.net/images/oauth-logo-square.png      
 ---
 # OIDC 

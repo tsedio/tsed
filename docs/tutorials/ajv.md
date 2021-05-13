@@ -6,7 +6,7 @@ meta:
    content: ts.ed express typescript ajv node.js javascript decorators jsonschema class models
 projects:
  - title: Kit basic
-   href: https://github.com/TypedProject/tsed-getting-started
+   href: https://github.com/tsedio/tsed-getting-started
    src: /tsed.png
 ---
 

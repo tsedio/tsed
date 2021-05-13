@@ -10,7 +10,7 @@ gettingStartedText: Getting started
 gettingStartedUrl: /getting-started/
 messengerText: Discussions
 messengerIcon: bxl-slack 
-messengerUrl: https://api.tsed.io/rest/slack/typedproject/tsed
+messengerUrl: https://api.tsed.io/rest/slack/tsedio/tsed
 features:
 - title: Rest API
   icon: bx-server
