@@ -1,4 +1,4 @@
-import {PlatformResponse, PlatformTest} from "@tsed/common";
+import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {FakeRequest, FakeResponse} from "../../../../../test/helper";
@@ -22,7 +22,7 @@ describe("createContext", () => {
 
     // WHEN
 
-    const ctx = await createContext(injector, request, response);
+    const ctx = await createContext(injector, new PlatformRequest(request), new PlatformResponse(response));
 
     // THEN
     expect(request.$ctx).to.eq(ctx);
@@ -45,7 +45,7 @@ describe("createContext", () => {
     sandbox.stub(PlatformResponse.prototype, "setHeader");
 
     // WHEN
-    const ctx = await createContext(injector, request, response);
+    const ctx = await createContext(injector, new PlatformRequest(request), new PlatformResponse(response));
 
     // THEN
     expect(ctx.response.setHeader).to.have.been.calledWithMatch("x-request-id", /\w+/);
@@ -66,7 +66,7 @@ describe("createContext", () => {
     sandbox.stub(PlatformResponse.prototype, "setHeader");
 
     // WHEN
-    const ctx = await createContext(injector, request, response);
+    const ctx = await createContext(injector, new PlatformRequest(request), new PlatformResponse(response));
 
     // THEN
     expect(ctx.response.setHeader).to.have.been.calledWithMatch("x-request-id", "test-id");
