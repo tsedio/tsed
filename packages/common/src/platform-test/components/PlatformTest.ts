@@ -29,7 +29,7 @@ export class PlatformTest extends DITest {
    * Load the server silently without listening port and configure it on test profile.
    * @decorator
    * @param mod
-   * @param options
+   * @param settings
    * @returns {Promise<void>}
    */
   static bootstrap(mod: any, settings: Partial<TsED.Configuration> = {}): () => Promise<void> {

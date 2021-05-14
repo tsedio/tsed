@@ -1,4 +1,4 @@
-import {classOf, constructorOf, isFunction, nameOf, Type} from "@tsed/core";
+import {classOf, constructorOf, isFunction, nameOf, toMap, Type} from "@tsed/core";
 import {Container, createContainer, getConfiguration, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
 import {PlatformMiddlewareLoadingOptions} from "../../config/interfaces";
 import {IRoute} from "../interfaces/IRoute";
@@ -10,6 +10,7 @@ import {PlatformHandler} from "../services/PlatformHandler";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
 import {PlatformRouter} from "../services/PlatformRouter";
+import {PlatformViews} from "../services/PlatformViews";
 import {
   createHttpServer,
   createHttpsServer,
@@ -43,32 +44,33 @@ export interface PlatformBootstrap {
  */
 export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   static currentPlatform: Type<PlatformBuilder> & PlatformBootstrap;
+  readonly name: string = "";
   protected startedAt = new Date();
-  protected PLATFORM_NAME: string = "";
-  protected _rootModule: any;
-  protected _injector: InjectorService;
   protected locals: Container;
+  #rootModule: any;
+  #injector: InjectorService;
+  #providers: Map<Type, IProvider>;
 
-  constructor() {
-    this.locals = new Container()
-      .add(PlatformHandler)
-      .add(PlatformResponse)
-      .add(PlatformRequest)
-      .add(PlatformRouter)
-      .add(PlatformApplication)
-      .add(Platform);
-  }
+  constructor({name, providers}: {name: string; providers: IProvider[]}) {
+    this.name = name;
+    this.#providers = toMap<any, IProvider>(providers, "provide");
 
-  get name() {
-    return this.PLATFORM_NAME;
+    this.locals = new Container();
+
+    this.useProvider(PlatformHandler, this.#providers.get(PlatformHandler))
+      .useProvider(PlatformResponse, this.#providers.get(PlatformResponse))
+      .useProvider(PlatformRequest, this.#providers.get(PlatformRequest))
+      .useProvider(PlatformRouter, this.#providers.get(PlatformRouter))
+      .useProvider(PlatformApplication, this.#providers.get(PlatformApplication))
+      .useProvider(Platform, this.#providers.get(Platform));
   }
 
   get injector(): InjectorService {
-    return this._injector;
+    return this.#injector;
   }
 
   get rootModule(): any {
-    return this._rootModule;
+    return this.#rootModule;
   }
 
   get app(): PlatformApplication<App, Router> {
@@ -113,10 +115,10 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   static build<T extends PlatformBuilder<any, any>>(platformBuildClass: PlatformType<T>): T {
-    const platform = new platformBuildClass();
-    platform.PLATFORM_NAME = nameOf(platformBuildClass).replace("Platform", "").toLowerCase();
-
-    return platform.useProviders(platformBuildClass.providers || []);
+    return new platformBuildClass({
+      name: nameOf(platformBuildClass).replace("Platform", "").toLowerCase(),
+      providers: platformBuildClass.providers
+    });
   }
 
   log(...data: any[]) {
@@ -247,22 +249,24 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     }
   }
 
-  useProvider(token: Type<any>, settings: Partial<IProvider>) {
-    if (this.locals.hasProvider(token)) {
-      Object.assign(this.locals.getProvider(token), settings);
-    } else {
-      this.locals.addProvider(token, settings);
-    }
+  useProvider(token: Type<any>, settings?: Partial<IProvider>) {
+    this.locals.addProvider(token, settings);
 
     return this;
   }
 
-  useProviders(providers: IProvider<any>[]) {
-    providers.forEach(({provide, ...settings}) => {
-      this.useProvider(provide, settings);
-    });
+  protected createRequest(req: any): PlatformRequest {
+    const Klass = this.#providers.get(PlatformRequest)!.useClass!;
 
-    return this;
+    return new Klass(req);
+  }
+
+  protected createResponse(res: any): PlatformResponse {
+    const Klass = this.#providers.get(PlatformResponse)!.useClass!;
+    const response = new Klass(res);
+    response.platformViews = this.injector.get<PlatformViews>(PlatformViews)!;
+
+    return response;
   }
 
   /**
@@ -308,7 +312,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   protected async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     this.createInjector(module, {
       ...settings,
-      PLATFORM_NAME: this.PLATFORM_NAME
+      PLATFORM_NAME: this.name
     });
     this.createRootModule(module);
 
@@ -355,7 +359,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   protected createInjector(module: Type<any>, settings: any) {
-    this._injector = createInjector(getConfiguration(module, settings));
+    this.#injector = createInjector(getConfiguration(module, settings));
 
     // configure locals providers
     this.locals.forEach((provider) => {
@@ -368,9 +372,9 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   protected createRootModule(module: Type<any>) {
-    this._rootModule = this.injector.invoke(module);
+    this.#rootModule = this.injector.invoke(module);
 
-    this.injector.delete(constructorOf(this._rootModule));
-    this.injector.delete(classOf(this._rootModule));
+    this.injector.delete(constructorOf(this.#rootModule));
+    this.injector.delete(classOf(this.#rootModule));
   }
 }
