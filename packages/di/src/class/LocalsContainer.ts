@@ -1,6 +1,6 @@
 import {TokenProvider} from "../interfaces/TokenProvider";
 
-export class LocalsContainer<V> extends Map<TokenProvider, V> {
+export class LocalsContainer<V = any> extends Map<TokenProvider, V> {
   #events: Map<string, any> = new Map();
 
   /**
