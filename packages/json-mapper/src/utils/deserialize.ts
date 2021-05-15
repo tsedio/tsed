@@ -11,7 +11,7 @@ export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes
   /**
    * Types used to map complex types (Symbol, Array, Set, Map)
    */
-  types?: Map<Type<any>, JsonMapperMethods>;
+  types?: WeakMap<Type<any>, JsonMapperMethods>;
   /**
    * useAlias mapping
    */
