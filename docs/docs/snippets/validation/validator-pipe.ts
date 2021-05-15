@@ -1,8 +1,8 @@
-import {getJsonSchema, IPipe, OverrideProvider, ParamMetadata, ValidationError, ValidationPipe} from "@tsed/common";
+import {getJsonSchema, PipeMethods, OverrideProvider, ParamMetadata, ValidationError, ValidationPipe} from "@tsed/common";
 import {validate} from "./validate";
 
 @OverrideProvider(ValidationPipe)
-export class CustomValidationPipe extends ValidationPipe implements IPipe {
+export class CustomValidationPipe extends ValidationPipe implements PipeMethods {
   public transform(obj: any, metadata: ParamMetadata): void {
     // JSON service contain tool to build the Schema definition of a model.
     const schema = getJsonSchema(metadata.type);

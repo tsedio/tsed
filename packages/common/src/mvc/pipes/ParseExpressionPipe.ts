@@ -1,12 +1,12 @@
 import {getValue} from "@tsed/core";
 import {Injectable} from "@tsed/di";
-import {IPipe, ParamMetadata} from "../models/ParamMetadata";
+import {PipeMethods, ParamMetadata} from "../models/ParamMetadata";
 import {ParamTypes} from "../models/ParamTypes";
 
 @Injectable({
   priority: -1
 })
-export class ParseExpressionPipe implements IPipe {
+export class ParseExpressionPipe implements PipeMethods {
   transform(value: any, param: ParamMetadata) {
     if (!value) {
       return value;
