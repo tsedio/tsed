@@ -1,12 +1,19 @@
 import {isBoolean, isFunction, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
-import {ConverterService, EndpointMetadata, HandlerMetadata, HandlerType, ParamMetadata, ParamTypes} from "../../mvc";
+import {
+  ConverterService,
+  EndpointMetadata,
+  HandlerMetadata,
+  HandlerType,
+  ParamMetadata,
+  ParamTypes,
+  PlatformRouteWithoutHandlers
+} from "../../mvc";
 import {PlatformResponseFilter} from "../../platform-response-filter/services/PlatformResponseFilter";
 import {HandlerContext, HandlerContextStatus} from "../domain/HandlerContext";
 import {PlatformContext} from "../domain/PlatformContext";
 import {ParamValidationError} from "../errors/ParamValidationError";
-import {PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouterMethods";
 import {createHandlerMetadata} from "../utils/createHandlerMetadata";
 import {renderView} from "../utils/renderView";
 import {setResponseHeaders} from "../utils/setResponseHeaders";

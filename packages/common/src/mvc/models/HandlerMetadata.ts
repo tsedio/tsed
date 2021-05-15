@@ -1,7 +1,7 @@
 import {nameOf, Type} from "@tsed/core";
 import {InjectorService, LocalsContainer, ProviderScope} from "@tsed/di";
-import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../../platform/interfaces/PlatformRouterMethods";
 import {HandlerType} from "../interfaces/HandlerType";
+import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouteOptions";
 import {ParamMetadata} from "../models/ParamMetadata";
 import {ParamTypes} from "./ParamTypes";
 
