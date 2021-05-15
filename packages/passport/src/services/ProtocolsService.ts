@@ -5,7 +5,7 @@ import {Unauthorized} from "@tsed/exceptions";
 import Passport, {Strategy} from "passport";
 import {PassportException} from "../errors/PassportException";
 import {IProtocol, ProtocolOptions} from "../interfaces";
-import {PROVIDER_TYPE_PROTOCOL} from "../registries/ProtocolRegistries";
+import {PROVIDER_TYPE_PROTOCOL} from "../contants";
 import {promisify} from "util";
 
 /**
