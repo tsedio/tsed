@@ -346,38 +346,6 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 }
 
 /**
- * @ignore
- */
-function mapLegacy(decorator: any, model: object): ReturnsChainedDecorators {
-  const {collectionType, type, headers, description, examples, schema} = model as any;
-  if (collectionType || type) {
-    decorator.Type(collectionType || type);
-  }
-
-  if (collectionType) {
-    decorator = decorator.Of(type);
-  }
-
-  if (headers) {
-    decorator = decorator.Headers(headers);
-  }
-
-  if (description) {
-    decorator = decorator.Description(description);
-  }
-
-  if (examples) {
-    decorator = decorator.Examples(examples);
-  }
-
-  if (schema) {
-    decorator = decorator.Schema(schema as any);
-  }
-
-  return decorator;
-}
-
-/**
  * Add responses documentation for a specific status code.
  *
  * ## Usage
@@ -534,25 +502,7 @@ function mapLegacy(decorator: any, model: object): ReturnsChainedDecorators {
  * @operation
  */
 export function Returns(status?: string | number, model?: Type<any>): ReturnsChainedDecorators;
-/**
- * @deprecated Since 2020. Use chained decorator version instead.
- */
-export function Returns(status?: string | number, model?: object): ReturnsChainedDecorators;
 export function Returns(status?: string | number, model?: Type<any> | any): ReturnsChainedDecorators {
-  if (model && isPlainObject(model)) {
-    // istanbul ignore next
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-      console.warn("Use @Returns/@Status with an object to describe schema is deprecated.");
-      console.warn("Use the following example: @Returns(200, Type).Description('description')");
-      console.warn('import {Returns} from "@tsed/schema"');
-      console.warn("@Returns(200, Type).Description('description')");
-    }
-
-    const {code = "default"} = model as any;
-
-    return mapLegacy(Returns(code), model);
-  }
-
   const context = new ReturnDecoratorContext({
     status,
     model

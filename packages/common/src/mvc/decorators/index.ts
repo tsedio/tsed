@@ -8,9 +8,7 @@ export * from "./method/route";
 export * from "./method/acceptMime";
 export * from "./method/location";
 export * from "./method/redirect";
-export * from "./method/status";
 export * from "./method/authOptions";
-export * from "./method/returnType";
 export * from "./method/view";
 export * from "./method/endpointFn";
 

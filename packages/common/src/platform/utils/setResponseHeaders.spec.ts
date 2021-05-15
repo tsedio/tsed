@@ -1,4 +1,5 @@
-import {EndpointMetadata, Get, Location, PlatformResponse, PlatformTest, Redirect, Status} from "@tsed/common";
+import {EndpointMetadata, Get, Location, PlatformResponse, PlatformTest, Redirect} from "@tsed/common";
+import {Returns} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {FakeResponse} from "../../../../../test/helper";
@@ -14,7 +15,7 @@ describe("setResponseHeaders", () => {
   it("should set headers, status and contentType", async () => {
     class Test {
       @Get("/")
-      @(Status(200).Header("x-header", "test"))
+      @(Returns(200).Header("x-header", "test"))
       test() {}
     }
 
@@ -75,7 +76,7 @@ describe("setResponseHeaders", () => {
   it("should do nothing when headers is already sent", async () => {
     class Test {
       @Get("/")
-      @(Status(200).Header("x-header", "test"))
+      @(Returns(200).Header("x-header", "test"))
       test() {}
     }
 
