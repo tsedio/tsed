@@ -18,7 +18,7 @@ import {Locals} from "@tsed/common";
  * @UseBefore(StateMiddleware)
  * class MyCtrl {
  *    @Get('/')
- *    @Render('home.ejs') // will use locals and returned data to render the page
+ *    @View('home.ejs') // will use locals and returned data to render the page
  *    get(@State('user') user: any) {
  *       console.log('user', user);
  *
