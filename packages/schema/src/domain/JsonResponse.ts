@@ -1,4 +1,4 @@
-import {cleanObject, HashOf} from "@tsed/core";
+import {cleanObject} from "@tsed/core";
 import {OS3MediaType, OS3Response} from "@tsed/openspec";
 import {JsonHeader, JsonSchemaOptions} from "../interfaces";
 import {mapHeaders} from "../utils/mapHeaders";
@@ -44,13 +44,13 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
     return this;
   }
 
-  headers(headers: HashOf<string | JsonHeader>): this {
+  headers(headers: Record<string, string | JsonHeader>): this {
     this.set("headers", mapHeaders(headers));
 
     return this;
   }
 
-  content(content: HashOf<OS3MediaType<JsonSchema>>) {
+  content(content: Record<string, OS3MediaType<JsonSchema>>) {
     this.set("content", toJsonMapCollection(content, JsonMedia));
 
     return this;

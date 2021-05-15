@@ -1,10 +1,9 @@
-import {HashOf} from "../../interfaces/HashOf";
 import {classOf} from "./classOf";
 import {isArrayOrArrayClass} from "./isArray";
 import {isPrimitive} from "./isPrimitive";
 import {objectKeys} from "./objectKeys";
 
-export type DeepExtendsReducers = HashOf<(collection: any[], value: any) => any>;
+export type DeepExtendsReducers = Record<string, (collection: any[], value: any) => any>;
 
 function reducer() {
   return (collection: any[], value: any) => {

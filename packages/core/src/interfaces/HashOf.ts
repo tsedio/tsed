@@ -1,1 +1,1 @@
-export type HashOf<T> = {[key: string]: T};
+export type HashOf<T> = Record<string, T>;
