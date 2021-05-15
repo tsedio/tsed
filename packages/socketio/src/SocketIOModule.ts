@@ -3,7 +3,7 @@ import {nameOf} from "@tsed/core";
 import {Server, ServerOptions} from "socket.io";
 import {SocketProviderMetadata} from "./class/SocketProviderMetadata"; // tslint:disable-line: no-unused-variable
 import {IO} from "./decorators/io";
-import {PROVIDER_TYPE_SOCKET_SERVICE} from "./registries/SocketServiceRegistry";
+import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants";
 import {SocketIOService} from "./services/SocketIOService";
 
 /**

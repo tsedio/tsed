@@ -1,6 +1,7 @@
-import {useDecorators, StoreMerge, Type} from "@tsed/core";
+import {StoreMerge, useDecorators} from "@tsed/core";
+import {Injectable} from "@tsed/di";
 import {SocketProviderTypes} from "../interfaces/SocketProviderTypes";
-import {registerSocketService} from "../registries/SocketServiceRegistry";
+import {PROVIDER_TYPE_SOCKET_SERVICE} from "../constants";
 
 /**
  * The decorators `@SocketService()` declare a new socket service (and service) can be injected in other service or controller on there `constructor`.
@@ -13,7 +14,10 @@ import {registerSocketService} from "../registries/SocketServiceRegistry";
  * @decorator
  */
 export function SocketService(namespace = "/") {
-  return useDecorators(StoreMerge("socketIO", {namespace, type: SocketProviderTypes.SERVICE}), (target: Type<any>) => {
-    registerSocketService(target);
-  });
+  return useDecorators(
+    StoreMerge("socketIO", {namespace, type: SocketProviderTypes.SERVICE}),
+    Injectable({
+      type: PROVIDER_TYPE_SOCKET_SERVICE
+    })
+  );
 }
