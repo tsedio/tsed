@@ -1,6 +1,5 @@
 export * from "@tsed/di";
 export * from "./config";
-export * from "./jsonschema";
 export * from "./mvc";
 export * from "./platform";
 export * from "./platform-cache";
