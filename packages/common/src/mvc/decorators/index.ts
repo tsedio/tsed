@@ -17,8 +17,6 @@ export * from "./method/endpointFn";
 
 // Shared
 export * from "./method/header";
-export * from "./required";
-export * from "./allow";
 
 // class
 export * from "./class/controller";
