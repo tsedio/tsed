@@ -67,6 +67,7 @@ async function getHandlerContext({token, propertyKey, args}: any = {}) {
   injector.addProvider(Test);
 
   const metadata = new HandlerMetadata({
+    injector,
     target: token,
     token,
     propertyKey,
@@ -102,7 +103,6 @@ describe("HandlerContext", () => {
     // @ts-ignore
     Sinon.spy(h, "handle");
 
-    expect(h.injector).to.be.instanceof(InjectorService);
     expect(h.metadata).to.be.instanceof(HandlerMetadata);
     expect(h.request).to.be.instanceof(FakeRequest);
     expect(h.response).to.be.instanceof(FakeResponse);
@@ -121,7 +121,6 @@ describe("HandlerContext", () => {
     expect($ctx.data).to.eq("value");
     expect(h.isDone).to.eq(true);
     expect(h.status).to.eq(HandlerContextStatus.RESOLVED);
-    expect(h.injector).to.eq(undefined);
     expect(h.metadata).to.eq(undefined);
     expect(h.request).to.eq(undefined);
     expect(h.response).to.eq(undefined);

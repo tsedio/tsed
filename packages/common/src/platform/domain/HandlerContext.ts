@@ -1,5 +1,4 @@
 import {isObservable, isPromise, isStream} from "@tsed/core";
-import {InjectorService} from "@tsed/di";
 import {HandlerMetadata} from "../../mvc/models/HandlerMetadata";
 import {PlatformContext} from "./PlatformContext";
 
@@ -36,31 +35,25 @@ export class HandlerContext {
   public $ctx: PlatformContext;
   public err: any;
   public args: any[];
-  private resolves: any;
-  private rejects: any;
-  private promise: Promise<any>;
+
+  #resolves: any;
+  #rejects: any;
+
+  readonly #promise: Promise<any>;
 
   constructor({$ctx, err, metadata, args}: HandlerContextOptions) {
-    this.promise = new Promise((resolve: any, reject: any) => {
-      this.resolves = resolve;
-      this.rejects = reject;
-    });
-
     this.$ctx = $ctx;
+
+    this.#promise = new Promise((resolve: any, reject: any) => {
+      this.#resolves = resolve;
+      this.#rejects = reject;
+    });
 
     err && (this.err = err);
     metadata && (this.metadata = metadata);
     args && (this.args = args || []);
 
     this.next = this.next.bind(this);
-  }
-
-  get injector(): InjectorService {
-    return this.$ctx?.injector;
-  }
-
-  get container() {
-    return this.$ctx?.container;
   }
 
   get request() {
@@ -89,20 +82,6 @@ export class HandlerContext {
   }
 
   /**
-   * Return the original request instance.
-   */
-  getRequest<T = any>(): T {
-    return this.$ctx?.request?.raw as any;
-  }
-
-  /**
-   * Return the original response instance.
-   */
-  getResponse<T = any>(): T {
-    return this.$ctx?.response?.raw as any;
-  }
-
-  /**
    *
    */
   async callHandler() {
@@ -110,10 +89,7 @@ export class HandlerContext {
       return this;
     }
 
-    const {token, propertyKey} = this.metadata;
-
-    const instance: any = this.injector.invoke(token, this.container);
-    const handler = instance[propertyKey!].bind(instance);
+    const handler = this.metadata.getHandler(this.$ctx.container);
 
     try {
       this.handle(handler(...this.args, this.$ctx));
@@ -121,7 +97,7 @@ export class HandlerContext {
       this.reject(er);
     }
 
-    return this.promise;
+    return this.#promise;
   }
 
   reject(er: any) {
@@ -131,7 +107,7 @@ export class HandlerContext {
 
     this.destroy();
     this.status = HandlerContextStatus.REJECTED;
-    this.rejects(er);
+    this.#rejects(er);
   }
 
   resolve(data?: any) {
@@ -146,7 +122,7 @@ export class HandlerContext {
     this.destroy();
     this.status = HandlerContextStatus.RESOLVED;
 
-    this.resolves(data);
+    this.#resolves(data);
   }
 
   next(error?: any) {
@@ -176,7 +152,7 @@ export class HandlerContext {
     this.destroy();
     this.status = HandlerContextStatus.CANCELED;
 
-    return this.resolves();
+    return this.#resolves();
   }
 
   handle(process: any): any {

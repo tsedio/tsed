@@ -26,6 +26,7 @@ export function createHandlerMetadata(
     const provider = injector.getProvider(obj.token)!;
 
     options = {
+      injector,
       token: provider.token,
       target: provider.useClass,
       type: HandlerType.ENDPOINT,
@@ -36,6 +37,7 @@ export function createHandlerMetadata(
 
     if (provider) {
       options = {
+        injector,
         token: provider.token,
         target: provider.useClass,
         type: HandlerType.MIDDLEWARE,
@@ -43,6 +45,7 @@ export function createHandlerMetadata(
       };
     } else {
       options = {
+        injector,
         target: obj
       };
     }

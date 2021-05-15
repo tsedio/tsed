@@ -1,4 +1,5 @@
 import {ancestorsOf, DecoratorTypes, Enumerable, prototypeOf, Type} from "@tsed/core";
+import {InjectorService, TokenProvider} from "@tsed/di";
 import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonParameter} from "@tsed/schema";
 import {ParamTypes} from "./ParamTypes";
 
@@ -21,15 +22,17 @@ export class ParamMetadata extends JsonEntityStore implements ParamConstructorOp
    *
    */
   @Enumerable()
-  public expression: string;
+  expression: string;
   /**
    *
    */
   @Enumerable()
-  public paramType: string | ParamTypes;
+  paramType: string | ParamTypes;
 
   @Enumerable()
-  public pipes: Type<PipeMethods>[] = [];
+  readonly pipes: Type<PipeMethods>[] = [];
+
+  #cachedPipes: PipeMethods[];
 
   constructor(options: ParamConstructorOptions) {
     super(options);
@@ -68,5 +71,21 @@ export class ParamMetadata extends JsonEntityStore implements ParamConstructorOp
     });
 
     return params;
+  }
+
+  cachePipes(injector: InjectorService) {
+    if (!this.#cachedPipes) {
+      const get = (pipe: TokenProvider) => {
+        return injector.getProvider(pipe)!.priority || 0;
+      };
+      const sort = (p1: TokenProvider, p2: TokenProvider) => (get(p1) < get(p2) ? -1 : get(p1) > get(p2) ? 1 : 0);
+      const map = (token: TokenProvider) => injector.invoke<PipeMethods>(token)!;
+
+      this.#cachedPipes = this.pipes.sort(sort).map(map).filter(Boolean);
+    }
+  }
+
+  getPipes() {
+    return this.#cachedPipes || [];
   }
 }

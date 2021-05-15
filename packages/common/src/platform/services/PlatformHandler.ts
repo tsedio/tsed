@@ -1,7 +1,7 @@
-import {isBoolean, isFunction, isNumber, isStream, isString, Type} from "@tsed/core";
+import {isBoolean, isFunction, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
-import {ConverterService, EndpointMetadata, HandlerMetadata, HandlerType, IPipe, ParamMetadata, ParamTypes} from "../../mvc";
+import {ConverterService, EndpointMetadata, HandlerMetadata, HandlerType, ParamMetadata, ParamTypes} from "../../mvc";
 import {PlatformResponseFilter} from "../../platform-response-filter/services/PlatformResponseFilter";
 import {HandlerContext, HandlerContextStatus} from "../domain/HandlerContext";
 import {PlatformContext} from "../domain/PlatformContext";
@@ -46,20 +46,18 @@ export class PlatformHandler {
   createHandler(input: EndpointMetadata | HandlerMetadata | any, options: PlatformRouteWithoutHandlers = {}) {
     const metadata: HandlerMetadata = this.createHandlerMetadata(input, options);
 
-    this.sortPipes(metadata);
-
     return this.createRawHandler(metadata);
   }
 
-  createCustomHandler(provider: Provider<any>, propertyKey: string) {
+  createCustomHandler(provider: Provider, propertyKey: string) {
     const metadata = new HandlerMetadata({
       token: provider.provide,
       target: provider.useClass,
       type: HandlerType.CUSTOM,
-      propertyKey
+      scope: provider.scope,
+      propertyKey,
+      injector: this.injector
     });
-
-    this.sortPipes(metadata);
 
     return this.createRawHandler(metadata);
   }
@@ -101,15 +99,22 @@ export class PlatformHandler {
   }
 
   /**
+   * Allow handler hack for AsyncHookContext plugin.
+   * @param $ctx
+   * @param cb
+   * @protected
+   */
+  run($ctx: PlatformContext, cb: any) {
+    return cb();
+  }
+
+  /**
    * Get argument from parameter medata or handler context.
    * @param type
    * @param h
    */
   protected getArg(type: ParamTypes | string, h: HandlerContext) {
-    const {
-      $ctx,
-      $ctx: {request, response}
-    } = h;
+    const {$ctx} = h;
 
     switch (type) {
       case ParamTypes.NODE_RESPONSE:
@@ -119,19 +124,19 @@ export class PlatformHandler {
         return $ctx.getReq();
 
       case ParamTypes.FILES:
-        return h.getRequest().files;
+        return $ctx.getRequest().files;
 
       case ParamTypes.RESPONSE:
-        return h.getResponse();
+        return $ctx.getResponse();
 
       case ParamTypes.REQUEST:
-        return h.getRequest();
+        return $ctx.getRequest();
 
       case ParamTypes.PLATFORM_RESPONSE:
-        return response;
+        return $ctx.response;
 
       case ParamTypes.PLATFORM_REQUEST:
-        return request;
+        return $ctx.request;
 
       case ParamTypes.NEXT_FN:
         return h.next;
@@ -149,31 +154,31 @@ export class PlatformHandler {
         return $ctx.data;
 
       case ParamTypes.BODY:
-        return request.body;
+        return $ctx.request.body;
 
       case ParamTypes.RAW_BODY:
-        return request.rawBody;
+        return $ctx.request.rawBody;
 
       case ParamTypes.QUERY:
-        return request.query;
+        return $ctx.request.query;
 
       case ParamTypes.PATH:
-        return request.params;
+        return $ctx.request.params;
 
       case ParamTypes.HEADER:
-        return request.headers;
+        return $ctx.request.headers;
 
       case ParamTypes.COOKIES:
-        return request.cookies;
+        return $ctx.request.cookies;
 
       case ParamTypes.SESSION:
-        return request.session;
+        return $ctx.request.session;
 
       case ParamTypes.LOCALS:
-        return response.locals;
+        return $ctx.response.locals;
 
       default:
-        return h.request;
+        return $ctx.getRequest();
     }
   }
 
@@ -194,23 +199,20 @@ export class PlatformHandler {
     if (!requestOptions.$ctx) {
       $log.error(
         `Endpoint ${requestOptions.metadata.toString()} is called but the response is already send to your consumer. Check your code and his middlewares please!\n\n${String(
-          requestOptions.metadata.handler
+          requestOptions.metadata.printHandler()
         )}`
       );
       return;
     }
 
-    const {metadata, $ctx, err} = requestOptions;
+    const h = new HandlerContext({
+      ...requestOptions,
+      args: []
+    });
+    const {$ctx} = h;
 
     return this.run($ctx, async () => {
       try {
-        const h = new HandlerContext({
-          $ctx,
-          metadata,
-          args: [],
-          err
-        });
-
         h.args = await this.getArgs(h);
 
         await h.callHandler();
@@ -223,16 +225,6 @@ export class PlatformHandler {
         return this.onError(er, requestOptions);
       }
     });
-  }
-
-  /**
-   * Allow handler hack for AsyncHookContext plugin.
-   * @param $ctx
-   * @param cb
-   * @protected
-   */
-  run($ctx: PlatformContext, cb: any) {
-    return cb();
   }
 
   protected async onError(er: unknown, requestOptions: OnRequestOptions) {
@@ -302,9 +294,15 @@ export class PlatformHandler {
    * @param metadata
    */
   protected createRawHandler(metadata: HandlerMetadata): Function {
+    if (metadata.injectable) {
+      metadata.parameters.forEach((param: ParamMetadata) => {
+        param.cachePipes(this.injector);
+      });
+    }
+
     switch (metadata.type) {
       case HandlerType.CUSTOM:
-        return (ctx: PlatformContext, next: any) => this.onRequest({metadata, $ctx: ctx, next});
+        return (ctx: PlatformContext, next: any) => this.onRequest({metadata, next, $ctx: ctx});
       case HandlerType.RAW_ERR_FN:
       case HandlerType.RAW_FN:
         return metadata.handler;
@@ -312,7 +310,7 @@ export class PlatformHandler {
       default:
       case HandlerType.ENDPOINT:
       case HandlerType.MIDDLEWARE:
-        return (request: any, response: any, next: any) => this.onRequest({$ctx: request.$ctx, next, metadata});
+        return (request: any, response: any, next: any) => this.onRequest({metadata, next, $ctx: request.$ctx});
     }
   }
 
@@ -344,47 +342,21 @@ export class PlatformHandler {
   }
 
   /**
-   * Sort pipes before calling it
-   * @param metadata
-   */
-  private sortPipes(metadata: HandlerMetadata) {
-    if (!metadata.injectable) {
-      return;
-    }
-
-    const get = (pipe: Type<any>) => {
-      return this.injector.getProvider(pipe)!.priority || 0;
-    };
-
-    metadata.parameters.forEach((param: ParamMetadata) => {
-      return (param.pipes = param.pipes.sort((p1: Type<any>, p2: Type<any>) => {
-        return get(p1) < get(p2) ? -1 : get(p1) > get(p2) ? 1 : 0;
-      }));
-    });
-  }
-
-  /**
    * Map argument by calling pipe.
    * @param metadata
    * @param h
    */
   private async mapArg(metadata: ParamMetadata, h: HandlerContext) {
-    const {injector} = h;
     const value = this.getArg(metadata.paramType, h);
 
-    // istanbul ignore next
-    const handleError = async (cb: Function) => {
+    return metadata.getPipes().reduce(async (value, pipe) => {
+      value = await value;
+
       try {
-        return await cb();
+        return await pipe.transform(value, metadata);
       } catch (er) {
         throw ParamValidationError.from(metadata, er);
       }
-    };
-
-    return metadata.pipes.reduce(async (value, pipe) => {
-      value = await value;
-
-      return handleError(() => injector.get<IPipe>(pipe)!.transform(value, metadata));
     }, value);
   }
 }
