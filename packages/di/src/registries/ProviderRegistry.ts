@@ -13,7 +13,7 @@ GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider, {
  * Register a provider configuration.
  * @param {IProvider<any>} provider
  */
-export function registerProvider(provider: Partial<IProvider>): void {
+export function registerProvider(provider: Partial<IProvider<any>>): void {
   if (!provider.provide) {
     throw new Error("Provider.provide is required");
   }
@@ -82,27 +82,9 @@ export function registerProvider(provider: Partial<IProvider>): void {
  *      }
  * }
  * ```
- * @deprecated
+ * @deprecated Since 2021-05-15. Use registerProvider instead.
  */
-export const registerFactory = (provider: any | IProvider, instance?: any): void => {
-  if (!provider.provide) {
-    provider = {
-      provide: provider
-    };
-  }
-
-  provider = Object.assign(
-    {
-      scope: ProviderScope.SINGLETON,
-      useFactory() {
-        return instance;
-      }
-    },
-    provider,
-    {type: ProviderType.PROVIDER}
-  );
-  GlobalProviders.getRegistry(ProviderType.PROVIDER).merge(provider.provide, provider);
-};
+export const registerFactory = registerProvider;
 
 /**
  * Add a new value in the `ProviderRegistry`.
@@ -170,9 +152,9 @@ export const registerValue = (provider: any | IProvider<any>, value?: any): void
  * ```
  *
  * @param provider Provider configuration.
- * @deprecated
+ * @deprecated Since 2021-05-15. Use registerProvider instead.
  */
-export const registerService = registerProvider;
+export const registerService = GlobalProviders.createRegisterFn(ProviderType.SERVICE);
 /**
  * Add a new controller in the `ProviderRegistry`. This controller will be built when `InjectorService` will be loaded.
  *
@@ -201,32 +183,4 @@ export const registerService = registerProvider;
  *
  * @param provider Provider configuration.
  */
-export const registerController = (provider: IProvider) => registerProvider({...provider, type: ProviderType.CONTROLLER});
-/**
- * Add a new interceptor in the `ProviderRegistry`. This interceptor will be built when `InjectorService` will be loaded.
- *
- * #### Example
- *
- * ```typescript
- * import {registerInterceptor, InjectorService} from "@tsed/di";
- *
- * export default class MyInterceptor {
- *     intercept() {
- *         return "test";
- *     }
- * }
- *
- * registerInterceptor({provide: MyInterceptor});
- * // or
- * registerInterceptor(MyInterceptor);
- *
- * const injector = new InjectorService()
- * injector.load();
- *
- * const myInterceptor = injector.get<MyInterceptor>(MyInterceptor);
- * myInterceptor.intercept(); // test
- * ```
- *
- * @param provider Provider configuration.
- */
-export const registerInterceptor = (provider: IProvider) => registerProvider({...provider, type: ProviderType.INTERCEPTOR});
+export const registerController = GlobalProviders.createRegisterFn(ProviderType.CONTROLLER);
