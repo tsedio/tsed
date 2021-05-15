@@ -4,28 +4,6 @@ import {GlobalProviders} from "./GlobalProviders";
 
 /**
  *
- * @type {GlobalProviderRegistry}
- */
-// tslint:disable-next-line: variable-name
-GlobalProviders.getRegistry(ProviderType.PROVIDER);
-/**
- *
- * @type {Registry<Provider<any>, IProvider<any>>}
- */
-GlobalProviders.createRegistry(ProviderType.SERVICE, Provider);
-/**
- *`
- * @type {Registry<Provider<any>, IProvider<any>>}
- */
-GlobalProviders.createRegistry(ProviderType.FACTORY, Provider);
-
-/**
- *
- * @type {Registry<Provider<any>, IProvider<any>>}
- */
-GlobalProviders.createRegistry(ProviderType.INTERCEPTOR, Provider);
-/**
- *
  */
 GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider, {
   injectable: false
@@ -35,7 +13,7 @@ GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider, {
  * Register a provider configuration.
  * @param {IProvider<any>} provider
  */
-export function registerProvider(provider: Partial<IProvider<any>>): void {
+export function registerProvider(provider: Partial<IProvider>): void {
   if (!provider.provide) {
     throw new Error("Provider.provide is required");
   }
@@ -104,9 +82,9 @@ export function registerProvider(provider: Partial<IProvider<any>>): void {
  *      }
  * }
  * ```
- *
+ * @deprecated
  */
-export const registerFactory = (provider: any | IProvider<any>, instance?: any): void => {
+export const registerFactory = (provider: any | IProvider, instance?: any): void => {
   if (!provider.provide) {
     provider = {
       provide: provider
@@ -121,9 +99,9 @@ export const registerFactory = (provider: any | IProvider<any>, instance?: any):
       }
     },
     provider,
-    {type: ProviderType.FACTORY}
+    {type: ProviderType.PROVIDER}
   );
-  GlobalProviders.getRegistry(ProviderType.FACTORY).merge(provider.provide, provider);
+  GlobalProviders.getRegistry(ProviderType.PROVIDER).merge(provider.provide, provider);
 };
 
 /**
@@ -192,8 +170,9 @@ export const registerValue = (provider: any | IProvider<any>, value?: any): void
  * ```
  *
  * @param provider Provider configuration.
+ * @deprecated
  */
-export const registerService = GlobalProviders.createRegisterFn(ProviderType.SERVICE);
+export const registerService = registerProvider;
 /**
  * Add a new controller in the `ProviderRegistry`. This controller will be built when `InjectorService` will be loaded.
  *
@@ -222,7 +201,7 @@ export const registerService = GlobalProviders.createRegisterFn(ProviderType.SER
  *
  * @param provider Provider configuration.
  */
-export const registerController = GlobalProviders.createRegisterFn(ProviderType.CONTROLLER);
+export const registerController = (provider: IProvider) => registerProvider({...provider, type: ProviderType.CONTROLLER});
 /**
  * Add a new interceptor in the `ProviderRegistry`. This interceptor will be built when `InjectorService` will be loaded.
  *
@@ -250,4 +229,4 @@ export const registerController = GlobalProviders.createRegisterFn(ProviderType.
  *
  * @param provider Provider configuration.
  */
-export const registerInterceptor = GlobalProviders.createRegisterFn(ProviderType.INTERCEPTOR);
+export const registerInterceptor = (provider: IProvider) => registerProvider({...provider, type: ProviderType.INTERCEPTOR});
