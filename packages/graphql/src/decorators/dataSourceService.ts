@@ -1,5 +1,5 @@
-import {ProviderScope} from "@tsed/common";
-import {registerDataSourceService} from "../registries/DataSourceServiceRegistry";
+import {Injectable, ProviderScope} from "@tsed/common";
+import {PROVIDER_TYPE_DATASOURCE_SERVICE} from "../constants";
 
 /**
  * Create a new DataSource binded with Tsed DI.
@@ -29,7 +29,8 @@ import {registerDataSourceService} from "../registries/DataSourceServiceRegistry
  * @graphql
  */
 export function DataSourceService(): ClassDecorator {
-  return <TFunction extends Function>(target: TFunction): void => {
-    registerDataSourceService({provide: target, scope: ProviderScope.INSTANCE});
-  };
+  return Injectable({
+    type: PROVIDER_TYPE_DATASOURCE_SERVICE,
+    scope: ProviderScope.INSTANCE
+  });
 }
