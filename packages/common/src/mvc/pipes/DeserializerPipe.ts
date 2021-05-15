@@ -1,9 +1,9 @@
 import {Injectable} from "@tsed/di";
-import {IPipe, ParamMetadata} from "../models/ParamMetadata";
+import {PipeMethods, ParamMetadata} from "../models/ParamMetadata";
 import {ConverterService} from "../services/ConverterService";
 
 @Injectable()
-export class DeserializerPipe implements IPipe {
+export class DeserializerPipe implements PipeMethods {
   constructor(private converterService: ConverterService) {}
 
   transform(value: any, param: ParamMetadata) {

@@ -1,7 +1,7 @@
-import {Injectable, IPipe, ParamMetadata, ValidationError} from "@tsed/common";
+import {Injectable, PipeMethods, ParamMetadata, ValidationError} from "@tsed/common";
 
 @Injectable()
-export class ParseIntPipe implements IPipe<string, number> {
+export class ParseIntPipe implements PipeMethods<string, number> {
   transform(value: string, metadata: ParamMetadata): number {
     const val = parseInt(value, 10);
     if (isNaN(val)) {

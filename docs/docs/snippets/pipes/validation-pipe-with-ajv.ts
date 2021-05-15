@@ -1,9 +1,9 @@
-import {getJsonSchema, IPipe, ParamMetadata, ValidationError} from "@tsed/common";
+import {getJsonSchema, PipeMethods, ParamMetadata, ValidationError} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import * as Ajv from "ajv";
 
 @Injectable()
-export class AjvValidationPipe implements IPipe {
+export class AjvValidationPipe implements PipeMethods {
   ajv = new Ajv();
 
   transform(value: any, metadata: ParamMetadata): any {

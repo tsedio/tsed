@@ -1,10 +1,10 @@
-import {Inject, Injectable, IPipe, ParamMetadata} from "@tsed/common";
+import {Inject, Injectable, PipeMethods, ParamMetadata} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {PersonModel} from "../models/PersonModel";
 import {PersonsService} from "../models/PersonsService";
 
 @Injectable()
-export class PersonPipe implements IPipe<string, Promise<PersonModel>> {
+export class PersonPipe implements PipeMethods<string, Promise<PersonModel>> {
   @Inject()
   personsService: PersonsService;
 

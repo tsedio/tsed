@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {IPipe} from "../../models/ParamMetadata";
+import {PipeMethods} from "../../models/ParamMetadata";
 import {ParamFn} from "./paramFn";
 
 /**
@@ -12,7 +12,7 @@ import {ParamFn} from "./paramFn";
  * @input
  * @pipe
  */
-export function UsePipe(token: Type<IPipe>, options: any = {}) {
+export function UsePipe(token: Type<PipeMethods>, options: any = {}) {
   return ParamFn((param) => {
     param.store.set(token, options);
     param.pipes.push(token);

@@ -2,15 +2,17 @@ import {ancestorsOf, DecoratorTypes, Enumerable, prototypeOf, Type} from "@tsed/
 import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonParameter} from "@tsed/schema";
 import {ParamTypes} from "./ParamTypes";
 
+export interface PipeMethods<T = any, R = any> {
+  transform(value: T, metadata: ParamMetadata): R;
+}
+
+export type IPipe<T = any, R = any> = PipeMethods<T, R>;
+
 export interface ParamConstructorOptions extends JsonEntityStoreOptions {
   expression?: string;
   useType?: Type<any>;
   paramType?: string | ParamTypes;
-  pipes?: Type<IPipe>[];
-}
-
-export interface IPipe<T = any, R = any> {
-  transform(value: T, metadata: ParamMetadata): R;
+  pipes?: Type<PipeMethods>[];
 }
 
 @JsonEntityComponent(DecoratorTypes.PARAM)
@@ -27,7 +29,7 @@ export class ParamMetadata extends JsonEntityStore implements ParamConstructorOp
   public paramType: string | ParamTypes;
 
   @Enumerable()
-  public pipes: Type<IPipe>[] = [];
+  public pipes: Type<PipeMethods>[] = [];
 
   constructor(options: ParamConstructorOptions) {
     super(options);
