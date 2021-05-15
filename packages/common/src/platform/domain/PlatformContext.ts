@@ -74,17 +74,19 @@ export class PlatformContext extends Map<any, any> {
    */
   public injector: InjectorService;
 
-  constructor({id, injector, logger, response, request, endpoint, ...options}: RequestContextOptions) {
+  constructor({id, injector, logger, response, request, url, ignoreUrlPatterns, level, maxStackSize}: RequestContextOptions) {
     super();
     this.id = id;
 
     injector && (this.injector = injector);
     response && (this.response = response);
     request && (this.request = request);
-    endpoint && (this.endpoint = endpoint);
 
     this.logger = new RequestLogger(logger, {
-      ...options,
+      url,
+      ignoreUrlPatterns,
+      level,
+      maxStackSize,
       id,
       dateStart: this.dateStart
     });

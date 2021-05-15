@@ -38,9 +38,9 @@ export class PlatformControllerBuilder {
     this.provider.setRouter(PlatformRouter.create(injector, routerOptions));
 
     // Controller lifecycle
-    this.buildMiddlewares(useBefore) // Controller before-middleware
-      .buildEndpoints() // All endpoints and his middlewares
-      .buildChildrenCtrls(injector); // Children controllers
+    // this.buildMiddlewares(useBefore) // Controller before-middleware
+    this.buildEndpoints(); // All endpoints and his middlewares
+    //   .buildChildrenCtrls(injector); // Children controllers
 
     return this.provider.getRouter();
   }
@@ -94,15 +94,15 @@ export class PlatformControllerBuilder {
 
     handlers = handlers
       .concat(useCtxHandler(bindEndpointMiddleware(endpoint)))
-      .concat(PlatformAcceptMimesMiddleware)
-      .concat(hasFiles && PlatformMulterMiddleware)
-      .concat(use) // Controller use-middlewares
-      .concat(beforeMiddlewares) // Endpoint before-middlewares
+      // .concat(PlatformAcceptMimesMiddleware)
+      // .concat(hasFiles && PlatformMulterMiddleware)
+      // .concat(use) // Controller use-middlewares
+      // .concat(beforeMiddlewares) // Endpoint before-middlewares
       // .concat(endpoint.cache && PlatformCacheMiddleware)
-      .concat(mldwrs) // Endpoint middlewares
+      // .concat(mldwrs) // Endpoint middlewares
       .concat(endpoint) // Endpoint metadata
-      .concat(afterMiddlewares) // Endpoint after-middlewares
-      .concat(useAfter) // Controller after middlewares (equivalent to afterEach)
+      // .concat(afterMiddlewares) // Endpoint after-middlewares
+      // .concat(useAfter) // Controller after middlewares (equivalent to afterEach)
       .filter((item: any) => !!item);
 
     // Add handlers to the router

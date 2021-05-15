@@ -203,14 +203,14 @@ export class PlatformHandler {
    */
   protected async onRequest(requestOptions: OnRequestOptions): Promise<any> {
     // istanbul ignore next
-    if (!requestOptions.$ctx) {
-      $log.error(
-        `Endpoint ${requestOptions.metadata.toString()} is called but the response is already send to your consumer. Check your code and his middlewares please!\n\n${String(
-          requestOptions.metadata.printHandler()
-        )}`
-      );
-      return;
-    }
+    // if (!requestOptions.$ctx) {
+    //   $log.error(
+    //     `Endpoint ${requestOptions.metadata.toString()} is called but the response is already send to your consumer. Check your code and his middlewares please!\n\n${String(
+    //       requestOptions.metadata.printHandler()
+    //     )}`
+    //   );
+    //   return;
+    // }
 
     const h = new HandlerContext({
       ...requestOptions,
@@ -220,13 +220,15 @@ export class PlatformHandler {
 
     return this.run($ctx, async () => {
       try {
-        h.args = await this.getArgs(h);
+        // h.args = await this.getArgs(h);
 
         await h.callHandler();
 
+        $ctx.response.body($ctx.data);
+
         if (h.status === HandlerContextStatus.RESOLVED) {
           // Can be canceled by the handler itself
-          return await this.onSuccess($ctx.data, requestOptions);
+          // return await this.onSuccess($ctx.data, requestOptions);
         }
       } catch (er) {
         return this.onError(er, requestOptions);

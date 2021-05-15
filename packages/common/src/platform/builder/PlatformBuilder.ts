@@ -2,8 +2,8 @@ import {classOf, constructorOf, isFunction, nameOf, toMap, Type} from "@tsed/cor
 import {Container, createContainer, getConfiguration, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
 import {PlatformMiddlewareLoadingOptions} from "../../config/interfaces";
 import {IRoute} from "../interfaces/IRoute";
-import {GlobalAcceptMimesMiddleware} from "../middlewares";
-import {PlatformLogMiddleware} from "../middlewares/PlatformLogMiddleware";
+// import {GlobalAcceptMimesMiddleware} from "../middlewares";
+// import {PlatformLogMiddleware} from "../middlewares/PlatformLogMiddleware";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
@@ -167,9 +167,11 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     await this.loadInjector();
 
     this.useContext();
-    this.useRouter();
+    // this.useRouter();
 
-    await this.loadRoutes(routes);
+    (this.app.getApp() as any).get("/", (req: any, res: any) => res.send("Hello world!"));
+
+    // await this.loadRoutes(routes);
     await this.logRoutes();
   }
 
@@ -339,11 +341,11 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
     // istanbul ignore next
     if (this.settings.logger.level !== "off") {
-      this.app.use(PlatformLogMiddleware);
+      // this.app.use(PlatformLogMiddleware);
     }
 
     if (this.settings.acceptMimes?.length) {
-      this.app.use(GlobalAcceptMimesMiddleware);
+      // this.app.use(GlobalAcceptMimesMiddleware);
     }
 
     this.log("Load routes");
@@ -353,7 +355,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
     await this.callHook("$onRoutesInit");
 
-    await this.loadStatics();
+    // await this.loadStatics();
 
     await this.callHook("$afterRoutesInit");
   }

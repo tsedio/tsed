@@ -82,14 +82,14 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
     await super.loadRoutes(routes);
 
     // NOT FOUND
-    this.app.use((req: any, res: any, next: any) => {
-      !res.headersSent && this.injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound(req.$ctx);
-    });
+    // this.app.use((req: any, res: any, next: any) => {
+    //   !res.headersSent && this.injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound(req.$ctx);
+    // });
 
     // EXCEPTION FILTERS
-    this.app.use((err: any, req: any, res: any, next: any) => {
-      !res.headersSent && this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(err, req.$ctx);
-    });
+    // this.app.use((err: any, req: any, res: any, next: any) => {
+    //   !res.headersSent && this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(err, req.$ctx);
+    // });
   }
 
   private configureViewsEngine() {

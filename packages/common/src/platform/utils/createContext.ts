@@ -25,27 +25,27 @@ export async function createContext(
 
   const ctx = new PlatformContext({
     id,
+    injector,
+    response,
+    request,
     logger: injector.logger,
     url: request.url,
     ignoreUrlPatterns,
     level,
-    maxStackSize,
-    injector,
-    response,
-    request
+    maxStackSize
   });
 
   req.$ctx = ctx;
 
   response.setHeader("x-request-id", id);
 
-  response.onEnd(async () => {
-    await ctx.emit("$onResponse", ctx);
-    await ctx.destroy();
-    delete req.$ctx;
-  });
-
-  await ctx.emit("$onRequest", ctx);
+  // response.onEnd(async () => {
+  //   await ctx.emit("$onResponse", ctx);
+  //   await ctx.destroy();
+  //   delete req.$ctx;
+  // });
+  //
+  // await ctx.emit("$onRequest", ctx);
 
   return ctx;
 }

@@ -41,7 +41,7 @@
     "release": "semantic-release",
     "release:dryRun": "semantic-release --dry-run",
     "benchmarks": "lerna run benchmarks",
-    "benchmarks:tsed": "cross-env LIBS=tsed,express,express-router lerna run benchmarks --stream --no-prefix"
+    "benchmarks:tsed": "cross-env LIBS=tsed,express lerna run benchmarks --stream --no-prefix"
   },
   "husky": {
     "hooks": {
