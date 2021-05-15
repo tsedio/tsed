@@ -16,4 +16,3 @@ export * from "./ProviderScope";
 export * from "./ProviderType";
 export * from "./RegistrySettings";
 export * from "./TokenProvider";
-export * from "./TypedProvidersRegistry";

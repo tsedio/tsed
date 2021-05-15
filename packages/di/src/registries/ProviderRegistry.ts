@@ -122,7 +122,7 @@ export const registerValue = (provider: any | IProvider<any>, value?: any): void
     provider,
     {type: ProviderType.VALUE}
   );
-  GlobalProviders.getRegistry(ProviderType.VALUE).merge(provider.provide, provider);
+  GlobalProviders.merge(provider.provide, provider);
 };
 
 /**

@@ -29,7 +29,6 @@ describe("Store", () => {
       });
       after(() => {
         spyGet.restore();
-        store.clear();
       });
 
       it("should have been called the Metadata.get()", () => {
@@ -146,7 +145,7 @@ describe("Store", () => {
       store.set("key", {});
     });
     it("should add a metadata", () => {
-      expect(store.size).to.equal(1);
+      expect(store.get("key")).to.deep.equal({});
     });
   });
 
@@ -154,10 +153,6 @@ describe("Store", () => {
     let store: any;
     before(() => {
       store = new Store([FakeMetadata]);
-    });
-    it("should add a metadata", () => {
-      store.set("key", {});
-      expect(store.size).to.equal(1);
     });
     it("should return true if class is known", () => {
       expect(store.has("key")).to.be.true;
@@ -167,105 +162,16 @@ describe("Store", () => {
     });
   });
 
-  describe("get()", () => {
-    let store: any;
-    before(() => {
-      store = new Store([FakeMetadata]);
-    });
-    it("should add a metadata", () => {
-      store.set("key", {test: true});
-      expect(store.size).to.equal(1);
-    });
-    it("should get metadata", () => {
-      expect(store.get("key").test).to.be.true;
-    });
-  });
-
-  describe("entries()", () => {
-    let store: any;
-    before(() => {
-      store = new Store([FakeMetadata]);
-    });
-    it("should add a metadata", () => {
-      store.set("key", {test: true});
-      expect(store.size).to.equal(1);
-    });
-
-    it("should return entries", () => {
-      expect(typeof store.entries()).to.equal("object");
-    });
-  });
-
-  describe("keys()", () => {
-    let store: any;
-    before(() => {
-      store = new Store([FakeMetadata]);
-      store.set("test", {test: true});
-    });
-
-    it("should return the keys", () => {
-      expect(typeof store.keys()).to.equal("object");
-    });
-  });
-
-  describe("clear()", () => {
-    let store: any;
-    before(() => {
-      store = new Store([FakeMetadata]);
-      store.set("key", {test: true});
-      store.clear();
-    });
-
-    it("should remove all keys", () => {
-      expect(store.size).to.equal(0);
-    });
-  });
-
   describe("delete()", () => {
     let store: any;
     before(() => {
       store = new Store([FakeMetadata]);
     });
-    it("should add a metadata", () => {
+    it("should remove key", () => {
       store.set("key", {test: true});
-      expect(store.size).to.equal(1);
-    });
-
-    it("should remove all keys", () => {
+      expect(store.get("key")).to.deep.equal({test: true});
       store.delete("key");
-      expect(store.size).to.equal(0);
-    });
-  });
-
-  describe("forEach()", () => {
-    let store: any;
-    before(() => {
-      store = new Store([FakeMetadata]);
-    });
-    it("should add a metadata", () => {
-      store.set("key", {test: true});
-      expect(store.size).to.equal(1);
-    });
-
-    it("should loop for each item stored in registry", () => {
-      const o: any = [];
-      store.forEach((e: any) => o.push(e));
-      expect(o.length).to.equal(1);
-    });
-  });
-
-  describe("values()", () => {
-    let store: any;
-    before(() => {
-      store = new Store([FakeMetadata]);
-    });
-    it("should add a metadata", () => {
-      store.set("key", {test: true});
-      expect(store.size).to.equal(1);
-    });
-
-    it("should return the values", () => {
-      expect(typeof store.values()).to.equal("object");
+      expect(store.get("key")).to.equal(undefined);
     });
   });
 
@@ -279,21 +185,6 @@ describe("Store", () => {
 
     it("should merge metadata", () => {
       expect(store.get("key3")).to.deep.equal({attr1: 1, attr2: 2});
-    });
-  });
-
-  describe("storeValues()", () => {
-    let store: any;
-    before(() => {
-      store = new Store([FakeMetadata]);
-      store.storeValues({content: "json", content2: "json2"});
-    });
-
-    it("should store data", () => {
-      expect(store.get("content")).to.eq("json");
-    });
-    it("should store data", () => {
-      expect(store.get("content2")).to.eq("json2");
     });
   });
 

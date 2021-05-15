@@ -1,5 +1,3 @@
-import {RegistryKey} from "@tsed/core";
-/**
- * @alias of RegistryKey
- */
-export type TokenProvider = RegistryKey;
+import {Type} from "@tsed/core";
+
+export type TokenProvider = string | symbol | Type | Function | any;
