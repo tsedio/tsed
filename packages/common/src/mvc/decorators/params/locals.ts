@@ -25,7 +25,7 @@ import {mapParamsOptions} from "../../utils/mapParamsOptions";
  * @UseBefore(LocalsMiddleware)
  * class MyCtrl {
  *    @Get('/')
- *    @Render('home.ejs') // will use locals and returned data to render the page
+ *    @View('home.ejs') // will use locals and returned data to render the page
  *    get(@Locals('user') user: any) {
  *       console.log('user', user);
  *
