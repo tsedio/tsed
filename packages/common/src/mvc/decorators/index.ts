@@ -10,13 +10,9 @@ export * from "./method/location";
 export * from "./method/redirect";
 export * from "./method/status";
 export * from "./method/authOptions";
-export * from "./method/contentType";
 export * from "./method/returnType";
 export * from "./method/view";
 export * from "./method/endpointFn";
-
-// Shared
-export * from "./method/header";
 
 // class
 export * from "./class/controller";
