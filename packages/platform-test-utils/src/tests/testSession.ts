@@ -1,4 +1,4 @@
-import {BodyParams, Constant, Controller, Get, PlatformTest, Post, Req, Session, Status} from "@tsed/common";
+import {BodyParams, Constant, Controller, Get, PlatformTest, Post, Req, Session} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Indexed, Unique} from "@tsed/mongoose";
 import {Allow, Email, Ignore, MinLength, Property, Required, Returns} from "@tsed/schema";
@@ -52,7 +52,7 @@ export class SessionCtrl {
   }
 
   @Get("/logout")
-  @Status(204)
+  @Returns(204)
   async logout(@Req() req: any) {
     switch (this.platformName) {
       case "koa":

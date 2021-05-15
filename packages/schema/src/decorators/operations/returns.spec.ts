@@ -10,7 +10,7 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @Returns(200, {type: String, description: "description"})
+        @(Returns(200, String).Description("description"))
         method() {}
       }
 
