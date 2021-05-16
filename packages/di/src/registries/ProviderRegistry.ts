@@ -4,28 +4,6 @@ import {GlobalProviders} from "./GlobalProviders";
 
 /**
  *
- * @type {GlobalProviderRegistry}
- */
-// tslint:disable-next-line: variable-name
-GlobalProviders.getRegistry(ProviderType.PROVIDER);
-/**
- *
- * @type {Registry<Provider<any>, IProvider<any>>}
- */
-GlobalProviders.createRegistry(ProviderType.SERVICE, Provider);
-/**
- *`
- * @type {Registry<Provider<any>, IProvider<any>>}
- */
-GlobalProviders.createRegistry(ProviderType.FACTORY, Provider);
-
-/**
- *
- * @type {Registry<Provider<any>, IProvider<any>>}
- */
-GlobalProviders.createRegistry(ProviderType.INTERCEPTOR, Provider);
-/**
- *
  */
 GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider, {
   injectable: false
@@ -104,27 +82,9 @@ export function registerProvider(provider: Partial<IProvider<any>>): void {
  *      }
  * }
  * ```
- *
+ * @deprecated Since 2021-05-15. Use registerProvider instead.
  */
-export const registerFactory = (provider: any | IProvider<any>, instance?: any): void => {
-  if (!provider.provide) {
-    provider = {
-      provide: provider
-    };
-  }
-
-  provider = Object.assign(
-    {
-      scope: ProviderScope.SINGLETON,
-      useFactory() {
-        return instance;
-      }
-    },
-    provider,
-    {type: ProviderType.FACTORY}
-  );
-  GlobalProviders.getRegistry(ProviderType.FACTORY).merge(provider.provide, provider);
-};
+export const registerFactory = registerProvider;
 
 /**
  * Add a new value in the `ProviderRegistry`.
@@ -192,6 +152,7 @@ export const registerValue = (provider: any | IProvider<any>, value?: any): void
  * ```
  *
  * @param provider Provider configuration.
+ * @deprecated Since 2021-05-15. Use registerProvider instead.
  */
 export const registerService = GlobalProviders.createRegisterFn(ProviderType.SERVICE);
 /**
@@ -223,31 +184,3 @@ export const registerService = GlobalProviders.createRegisterFn(ProviderType.SER
  * @param provider Provider configuration.
  */
 export const registerController = GlobalProviders.createRegisterFn(ProviderType.CONTROLLER);
-/**
- * Add a new interceptor in the `ProviderRegistry`. This interceptor will be built when `InjectorService` will be loaded.
- *
- * #### Example
- *
- * ```typescript
- * import {registerInterceptor, InjectorService} from "@tsed/di";
- *
- * export default class MyInterceptor {
- *     intercept() {
- *         return "test";
- *     }
- * }
- *
- * registerInterceptor({provide: MyInterceptor});
- * // or
- * registerInterceptor(MyInterceptor);
- *
- * const injector = new InjectorService()
- * injector.load();
- *
- * const myInterceptor = injector.get<MyInterceptor>(MyInterceptor);
- * myInterceptor.intercept(); // test
- * ```
- *
- * @param provider Provider configuration.
- */
-export const registerInterceptor = GlobalProviders.createRegisterFn(ProviderType.INTERCEPTOR);

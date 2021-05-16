@@ -25,7 +25,7 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
     model: Type<Provider<any>>,
     options: Partial<RegistrySettings> = {injectable: true}
   ): TypedProvidersRegistry {
-    const registry = new Registry<Provider<any>, IProvider<any>>(model, {
+    const registry = new Registry<Provider, IProvider>(model, {
       onCreate: this.set.bind(this)
     });
 

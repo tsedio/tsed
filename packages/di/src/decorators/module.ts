@@ -1,4 +1,4 @@
-import {applyDecorators} from "@tsed/core";
+import {useDecorators} from "@tsed/core";
 import {IDIResolver, ProviderScope, ProviderType, TokenProvider} from "../interfaces";
 import {Configuration} from "./configuration";
 import {Injectable} from "./injectable";
@@ -41,7 +41,7 @@ export interface ModuleOptions extends Omit<TsED.Configuration, "scopes"> {
 export function Module(options: Partial<ModuleOptions> = {}) {
   const {scopes, imports, resolvers, deps, scope, ...configuration} = options;
 
-  return applyDecorators(
+  return useDecorators(
     Configuration(configuration),
     Injectable({
       type: ProviderType.MODULE,

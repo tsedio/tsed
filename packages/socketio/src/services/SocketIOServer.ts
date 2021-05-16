@@ -1,4 +1,4 @@
-import {registerFactory} from "@tsed/common";
+import {registerProvider} from "@tsed/common";
 import {Server} from "socket.io";
 
 export type SocketIOServer = Server;
@@ -8,7 +8,7 @@ export const SocketIOServer = Server;
 
 export {Server};
 
-registerFactory({
+registerProvider({
   provide: Server,
   useFactory() {
     return new Server();
