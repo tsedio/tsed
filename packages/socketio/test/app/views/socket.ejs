@@ -74,7 +74,6 @@
       return acc;
     }, {});
 
-    console.log('User =>', User);
     socket.emit('eventUser', user);
     return false;
   });

@@ -3,8 +3,22 @@
   "version": "6.48.5",
   "description": "A TypeScript Framework on top of Express",
   "private": true,
+  "author": "Romain Lenzotti",
+  "license": "MIT",
+  "homepage": "https://tsed.io/",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/tsed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsedio/tsed.git"
+  },
   "scripts": {
-    "postinstall": "node tasks/yarn/postinstall.js && cd docs && yarn install",
+    "postinstall": "node tools/yarn/postinstall.js && cd docs && yarn install && cd .. && opencollective",
     "configure": "monorepo ci configure",
     "clean": "monorepo clean workspace",
     "test": "yarn clean && yarn test:lint && yarn test:coverage",
@@ -25,7 +39,9 @@
     "vuepress:serve": "cd docs && yarn vuepress:serve",
     "prettier": "prettier '{packages,test}/**/*.ts' --write",
     "release": "semantic-release",
-    "release:dryRun": "semantic-release --dry-run"
+    "release:dryRun": "semantic-release --dry-run",
+    "benchmarks": "lerna run benchmarks --stream --no-prefix",
+    "benchmarks:tsed": "cross-env LIBS=tsed,express lerna run benchmarks --stream --no-prefix"
   },
   "husky": {
     "hooks": {
@@ -33,10 +49,7 @@
       "post-commit": "git update-index --again"
     }
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/tsedio/tsed.git"
-  },
+
   "keywords": [
     "Express",
     "Koa",
@@ -72,13 +85,8 @@
     "validation",
     "multer"
   ],
-  "author": "Romain Lenzotti",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/tsedio/tsed/issues"
-  },
-  "homepage": "http://tsed.io/",
   "dependencies": {
+    "@nuxtjs/opencollective": "0.3.2",
     "@tsed/logger": "^5.12.1",
     "axios": "0.21.1",
     "ajv": "8.3.0",
@@ -142,7 +150,8 @@
   },
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "tools/*"
     ],
     "nohoist": [
       "**/fs-extra/**"
@@ -150,6 +159,13 @@
   },
   "resolutions": {
     "mongoose": "5.12.2"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/tsed",
+    "donation": {
+      "text": "Become a partner:"
+    }
   },
   "monorepo": {
     "productionBranch": "production",
