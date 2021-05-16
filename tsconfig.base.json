@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "target": "es2018",
+    "target": "es2019",
     "sourceMap": true,
     "declaration": false,
     "experimentalDecorators": true,
@@ -20,8 +20,7 @@
     "newLine": "LF",
     "noEmit": true,
     "lib": [
-      "es7",
-      "dom",
+      "ES2019",
       "esnext.asynciterable"
     ],
     "typeRoots": [

@@ -1,19 +1,4 @@
-import {PathParamsType} from "../../mvc";
-
-/**
- * @ignore
- */
-export interface PlatformRouteOptions {
-  method: string;
-  path: PathParamsType;
-  handlers: any[];
-  isFinal?: boolean;
-}
-
-/**
- * @ignore
- */
-export type PlatformRouteWithoutHandlers = Partial<Omit<PlatformRouteOptions, "handlers">>;
+import {PlatformRouteOptions} from "../../mvc/interfaces/PlatformRouteOptions";
 
 /**
  * @ignore
