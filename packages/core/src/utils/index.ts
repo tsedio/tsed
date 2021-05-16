@@ -1,4 +1,3 @@
-export * from "./applyBefore";
 export * from "./catchError";
 export * from "./proxyDelegation";
 export * from "./uniq";
