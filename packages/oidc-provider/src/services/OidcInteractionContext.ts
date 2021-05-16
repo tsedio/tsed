@@ -93,7 +93,7 @@ export class OidcInteractionContext {
 
   async getGrant(): Promise<InstanceType<Provider["Grant"]>> {
     const {Grant} = this.oidcProvider.get() as any;
-    console.log("this.oidcProvider.raw", this.grantId);
+
     if (this.grantId) {
       // we'll be modifying existing grant in existing session
       // @ts-ignore

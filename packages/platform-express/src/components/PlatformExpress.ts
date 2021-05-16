@@ -8,8 +8,7 @@ import {
   PlatformRequest,
   PlatformResponse,
   PlatformRouter,
-  PlatformViews,
-  useCtxHandler
+  PlatformViews
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import Express from "express";
@@ -66,7 +65,7 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
     this.logger.info("Mount app context");
 
     this.app.getApp().use(async (req: any, res: any, next: any) => {
-      await createContext(this.injector, req, res);
+      await createContext(this.injector, this.createRequest(req), this.createResponse(res));
 
       return next();
     });

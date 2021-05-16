@@ -1,5 +1,5 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import {DI_PARAM_OPTIONS, Inject, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
+import {Inject, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
 import {ServerResponse} from "http";
 import {PlatformViews} from "./PlatformViews";
 
@@ -42,18 +42,6 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    */
   get locals() {
     return this.raw.locals;
-  }
-
-  /**
-   * Create a new instance of PlatformResponse
-   * @param injector
-   * @param res
-   */
-  static create(injector: InjectorService, res: any) {
-    const locals = new Map();
-    locals.set(DI_PARAM_OPTIONS, res);
-
-    return injector.invoke<PlatformResponse>(PlatformResponse, locals);
   }
 
   static onFinished(res: any, cb: Function) {

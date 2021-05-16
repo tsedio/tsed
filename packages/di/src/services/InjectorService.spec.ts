@@ -46,7 +46,6 @@ describe("InjectorService", () => {
     });
 
     it("should return undefined", () => {
-      console.log("new InjectorService().get(Test)", new InjectorService().get(Test));
       return expect(new InjectorService().get(Test)).to.be.undefined;
     });
   });
