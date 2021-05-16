@@ -1,6 +1,5 @@
 import {HandlerContextStatus, HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
 import {isStream} from "@tsed/core";
-import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import {of} from "rxjs";
@@ -66,6 +65,8 @@ async function getHandlerContext({token, propertyKey, args}: any = {}) {
   const injector = PlatformTest.injector;
   injector.addProvider(Test);
 
+  injector.invoke(Test);
+
   const metadata = new HandlerMetadata({
     target: token,
     token,
@@ -102,7 +103,6 @@ describe("HandlerContext", () => {
     // @ts-ignore
     Sinon.spy(h, "handle");
 
-    expect(h.injector).to.be.instanceof(InjectorService);
     expect(h.metadata).to.be.instanceof(HandlerMetadata);
     expect(h.request).to.be.instanceof(FakeRequest);
     expect(h.response).to.be.instanceof(FakeResponse);
@@ -121,7 +121,6 @@ describe("HandlerContext", () => {
     expect($ctx.data).to.eq("value");
     expect(h.isDone).to.eq(true);
     expect(h.status).to.eq(HandlerContextStatus.RESOLVED);
-    expect(h.injector).to.eq(undefined);
     expect(h.metadata).to.eq(undefined);
     expect(h.request).to.eq(undefined);
     expect(h.response).to.eq(undefined);

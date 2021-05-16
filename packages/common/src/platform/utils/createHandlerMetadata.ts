@@ -1,8 +1,7 @@
 import {InjectorService} from "@tsed/di";
-import {HandlerType} from "../../mvc/interfaces/HandlerType";
+import {HandlerType, PlatformRouteWithoutHandlers} from "../../mvc/interfaces";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {HandlerMetadata, HandlerMetadataOptions} from "../../mvc/models/HandlerMetadata";
-import type {PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouterMethods";
 
 function isMetadata(input: any) {
   return input instanceof HandlerMetadata;
@@ -28,6 +27,7 @@ export function createHandlerMetadata(
     options = {
       token: provider.token,
       target: provider.useClass,
+      scope: provider.scope,
       type: HandlerType.ENDPOINT,
       propertyKey: obj.propertyKey
     };
@@ -38,6 +38,7 @@ export function createHandlerMetadata(
       options = {
         token: provider.token,
         target: provider.useClass,
+        scope: provider.scope,
         type: HandlerType.MIDDLEWARE,
         propertyKey: "use"
       };
