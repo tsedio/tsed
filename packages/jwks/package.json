@@ -1,0 +1,16 @@
+{
+  "name": "@tsed/jwks",
+  "version": "6.48.6",
+  "description": "Utils to generate jwks pair keys",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "private": false,
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json",
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
+  },
+  "dependencies": {
+    "jose2": "npm:jose@^2.0.4",
+    "tslib": "2.1.0"
+  }
+}

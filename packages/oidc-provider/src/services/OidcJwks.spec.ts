@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
+import fs from "fs-extra";
 import {OidcJwks} from "./OidcJwks";
 
 const sandbox = Sinon.createSandbox();
@@ -11,14 +12,14 @@ describe("OidcJwks", () => {
   it("should create files", async () => {
     const oidcJwks = await PlatformTest.invoke<OidcJwks>(OidcJwks);
 
-    sandbox.stub(oidcJwks.fs, "ensureDirSync");
-    sandbox.stub(oidcJwks.fs, "existsSync").returns(false);
-    sandbox.stub(oidcJwks.fs, "readFileSync").returns("{}");
-    sandbox.stub(oidcJwks.fs, "writeFileSync");
+    sandbox.stub(fs, "ensureDirSync");
+    sandbox.stub(fs, "existsSync").returns(false);
+    sandbox.stub(fs, "readFileSync").returns("{}");
+    sandbox.stub(fs, "writeFileSync");
 
     await oidcJwks.getJwks();
 
-    expect(oidcJwks.fs.writeFileSync).to.have.been.called;
+    expect(fs.writeFileSync).to.have.been.called;
     sandbox.restore();
   });
 });

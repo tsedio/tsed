@@ -1,5 +1,6 @@
 import {Type} from "@tsed/core";
 import {Configuration} from "oidc-provider";
+import {JwksKeyParameters} from "../../../jwks/src/getJwks";
 import {OidcAccountsMethods} from "./OidcAccountsMethods";
 
 export interface OidcSettings extends Configuration {
@@ -11,6 +12,10 @@ export interface OidcSettings extends Configuration {
    * Path to store jwks keys.
    */
   jwksPath?: string;
+  /**
+   * Generate jwks from given certificates
+   */
+  certificates?: JwksKeyParameters[];
   /**
    * Secure keys.
    */
