@@ -1,5 +1,6 @@
 import {expect} from "chai";
 import {removeSync} from "fs-extra";
+import {JWK} from "jose2";
 import {join} from "path";
 import {generateJwks, getJwks} from "./getJwks";
 
