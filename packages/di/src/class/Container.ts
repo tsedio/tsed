@@ -5,13 +5,13 @@ import {GlobalProviders} from "../registries/GlobalProviders";
 import {LocalsContainer} from "./LocalsContainer";
 import {Provider} from "./Provider";
 
-export class Container extends LocalsContainer<Provider<any>> {
+export class Container extends LocalsContainer<Provider> {
   /**
    *
    * @param token
    * @param settings
    */
-  public add(token: TokenProvider, settings: Partial<IProvider<any>> = {}): this {
+  public add(token: TokenProvider, settings: Partial<IProvider> = {}): this {
     const provider = GlobalProviders.has(token) ? GlobalProviders.get(token)!.clone() : new Provider(token);
 
     Object.assign(provider, settings);
@@ -24,7 +24,7 @@ export class Container extends LocalsContainer<Provider<any>> {
    * @param token
    * @param settings
    */
-  public addProvider(token: TokenProvider, settings: Partial<IProvider<any>> = {}): this {
+  public addProvider(token: TokenProvider, settings: Partial<IProvider> = {}): this {
     return this.add(token, settings);
   }
 
@@ -41,7 +41,7 @@ export class Container extends LocalsContainer<Provider<any>> {
    * @param token
    * @param provider
    */
-  public setProvider(token: TokenProvider, provider: Provider<any>) {
+  public setProvider(token: TokenProvider, provider: Provider) {
     return super.set(token, provider);
   }
 
@@ -50,7 +50,7 @@ export class Container extends LocalsContainer<Provider<any>> {
    * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
    * @param token
    */
-  public getProvider(token: TokenProvider): Provider<any> | undefined {
+  public getProvider(token: TokenProvider): Provider | undefined {
     return super.get(token);
   }
 
@@ -58,15 +58,15 @@ export class Container extends LocalsContainer<Provider<any>> {
    * Get all providers registered in the injector container.
    *
    * @param {ProviderType} type Filter the list by the given ProviderType.
-   * @returns {[RegistryKey , Provider<any>][]}
+   * @returns {[TokenProvider , Provider<any>][]}
    */
-  public getProviders(type?: ProviderType | string): Provider<any>[] {
+  public getProviders(type?: ProviderType | string): Provider[] {
     return Array.from(this)
-      .filter(([key, provider]) => (type ? provider.type === type : true))
-      .map(([key, provider]) => provider);
+      .filter(([_, provider]) => (type ? provider.type === type : true))
+      .map(([_, provider]) => provider);
   }
 
-  public addProviders(container: Map<TokenProvider, Provider<any>>) {
+  public addProviders(container: Map<TokenProvider, Provider>) {
     container.forEach((provider) => {
       if (!this.hasProvider(provider.provide)) {
         this.setProvider(provider.provide, provider.clone());

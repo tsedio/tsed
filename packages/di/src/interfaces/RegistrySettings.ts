@@ -1,13 +1,13 @@
-import {Registry} from "@tsed/core";
+import {Type} from "@tsed/core";
 import {Provider} from "../class/Provider";
-import {IProvider} from "./IProvider";
 
 /**
  * @ignore
  */
 export interface RegistrySettings {
-  registry: Registry<Provider<any>, IProvider<any>>;
+  // registry: Registry<Provider<any>, IProvider<any>>;
   injectable?: boolean;
+  model?: Type<Provider>;
 
   /**
    *

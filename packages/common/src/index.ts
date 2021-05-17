@@ -1,4 +1,3 @@
-export {Registry} from "@tsed/core";
 export * from "@tsed/di";
 export * from "./config";
 export * from "./jsonschema";
