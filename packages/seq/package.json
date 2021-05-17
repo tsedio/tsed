@@ -20,8 +20,8 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/logger-seq": "^5.12.1",
-    "tslib": "2.1.0"
+    "@tsed/logger-seq": "^5.13.3",
+    "tslib": "2.2.0"
   },
   "devDependencies": {
     "@tsed/common": "6.49.1",

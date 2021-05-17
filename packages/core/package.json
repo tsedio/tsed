@@ -6,14 +6,15 @@
   "typings": "./lib/index.d.ts",
   "dependencies": {
     "normalize-path": "3.0.0",
-    "reflect-metadata": "^0.1.13",
-    "source-map-support": "0.5.19",
-    "tslib": "2.1.0"
+    "reflect-metadata": "0.1.13",
+    "tslib": "2.2.0"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
   },
   "private": false,
-  "devDependencies": {},
+  "devDependencies": {
+    "source-map-support": "0.5.19"
+  },
   "peerDependencies": {}
 }

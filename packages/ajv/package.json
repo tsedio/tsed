@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "ajv-formats": "1.5.1",
-    "tslib": "2.1.0"
+    "tslib": "2.2.0"
   },
   "peerDependencies": {
     "@tsed/core": "^6.18.0",

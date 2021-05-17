@@ -49,7 +49,7 @@
     "@tsed/di": "6.49.1",
     "@tsed/exceptions": "6.49.1",
     "@tsed/json-mapper": "6.49.1",
-    "@tsed/logger": "^5.12.1",
+    "@tsed/logger": "^5.13.3",
     "@tsed/schema": "6.49.1",
     "@types/cache-manager": "^3.4.0",
     "@types/json-schema": "7.0.7",
@@ -58,7 +58,7 @@
     "ejs": "^3.1.5",
     "json-schema": "^0.2.3",
     "on-finished": "2.3.0",
-    "tslib": "2.1.0",
+    "tslib": "2.2.0",
     "uuid": "8.3.2"
   },
   "devDependencies": {

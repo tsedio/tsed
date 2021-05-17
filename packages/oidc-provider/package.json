@@ -16,7 +16,7 @@
     "@types/uuid": "8.3.0",
     "jose2": "npm:jose@^2.0.4",
     "lowdb": "1.0.0",
-    "tslib": "2.1.0",
+    "tslib": "2.2.0",
     "uuid": "8.3.2"
   },
   "devDependencies": {

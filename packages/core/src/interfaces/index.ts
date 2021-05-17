@@ -1,6 +1,5 @@
-export * from "./Type";
-export * from "./Env";
-export * from "./DecoratorParameters";
-export * from "./MetadataTypes";
-export * from "./ValueOf";
-export * from "./HashOf";
+export type {Type} from "./Type";
+export type {DecoratorParameters, DecoratorMethodParameters, StaticMethodDecorator} from "./DecoratorParameters";
+export type {MetadataTypes} from "./MetadataTypes";
+export type {ValueOf} from "./ValueOf";
+export type {HashOf} from "./HashOf";

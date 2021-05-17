@@ -19,7 +19,7 @@
     "@tsed/openspec": "6.49.1",
     "change-case": "4.1.2",
     "micromatch": "4.0.2",
-    "tslib": "2.1.0"
+    "tslib": "2.2.0"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
