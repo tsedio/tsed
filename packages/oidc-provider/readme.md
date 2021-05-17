@@ -27,7 +27,7 @@ Currently, `@tsed/oidc-provider` allows you:
 
 ## Installation
 
-To begin, install the TypeORM module for TS.ED:
+To begin, install the oidc-provider module for TS.ED:
 ```bash
 npm install --save @tsed/oidc-provider
 npm install --save oidc-provider
