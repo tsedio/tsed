@@ -10,6 +10,7 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
+    "fs-extra": "^9.0.1",
     "jose2": "npm:jose@^2.0.4",
     "tslib": "2.1.0"
   },
