@@ -12,5 +12,7 @@
   "dependencies": {
     "jose2": "npm:jose@^2.0.4",
     "tslib": "2.1.0"
-  }
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
 }

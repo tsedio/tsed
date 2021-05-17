@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
+import {JwksKeyParameters} from "@tsed/jwks";
 import {Configuration} from "oidc-provider";
-import {JwksKeyParameters} from "../../../jwks/src/getJwks";
 import {OidcAccountsMethods} from "./OidcAccountsMethods";
 
 export interface OidcSettings extends Configuration {
