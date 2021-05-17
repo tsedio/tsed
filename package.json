@@ -27,7 +27,7 @@
     "test:lint": "eslint packages --ext .ts",
     "test:lint:fix": "eslint packages --ext .ts --fix",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
-    "build": "monorepo build",
+    "build": "monorepo build --verbose",
     "sync:packages": "monorepo sync packages",
     "docs:serve": "yarn api:build && yarn vuepress:serve ",
     "docs:build": "yarn api:build && yarn vuepress:build",
@@ -96,7 +96,7 @@
     "microbundle": "0.13.0"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.17.0",
+    "@tsed/monorepo-utils": "1.17.8",
     "@typedproject/ts-doc": "4.0.13",
     "@types/axios": "0.14.0",
     "@types/chai": "4.2.12",

@@ -2,8 +2,13 @@
   "name": "@tsed/schema",
   "version": "6.49.1",
   "description": "JsonSchema module for Ts.ED Framework",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
   "keywords": [
     "TypeScript",
     "decorators",
@@ -22,7 +27,7 @@
     "tslib": "2.2.0"
   },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
+    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "private": false,
   "devDependencies": {

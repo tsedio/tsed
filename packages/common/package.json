@@ -2,8 +2,13 @@
   "name": "@tsed/common",
   "version": "6.49.1",
   "description": "A TypeScript Framework on top of Express",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
   "private": false,
   "keywords": [
     "Express",
@@ -42,7 +47,7 @@
     "url": "git+https://github.com/tsedio//tsed.git"
   },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
+    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "dependencies": {
     "@tsed/core": "6.49.1",
