@@ -179,7 +179,7 @@ export class SocketHandlersBuilder {
       let value = scope.args[mapIndex!];
 
       if (filter === SocketFilters.ARGS && useConverter) {
-        value = this.converterService.deserialize(value, type, collectionType);
+        value = this.converterService.deserialize(value, {type, collectionType});
         scope.args[mapIndex!] = value;
       }
     });

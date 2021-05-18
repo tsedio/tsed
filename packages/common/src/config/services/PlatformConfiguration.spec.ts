@@ -2,7 +2,7 @@ import {Env} from "@tsed/core";
 import {$log} from "@tsed/logger";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {ProviderScope, ProviderType} from "../../../../di/src/interfaces";
+import {ProviderScope, ProviderType} from "@tsed/di";
 import {PlatformConfiguration} from "./PlatformConfiguration";
 
 describe("PlatformConfiguration", () => {

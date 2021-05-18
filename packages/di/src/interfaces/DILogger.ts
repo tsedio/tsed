@@ -1,4 +1,4 @@
-export interface IDILogger {
+export interface DILogger {
   info(...args: any[]): void | any;
 
   warn(...args: any[]): void | any;

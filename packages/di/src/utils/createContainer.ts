@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {Container} from "../class/Container";
+import {Container} from "../domain/Container";
 import {GlobalProviders} from "../registries/GlobalProviders";
 
 export function createContainer(rootModule?: Type<any>) {

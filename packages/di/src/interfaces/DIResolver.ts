@@ -1,6 +1,6 @@
-import {TokenProvider} from "./TokenProvider";
+import type {TokenProvider} from "./TokenProvider";
 
-export interface IDIResolver {
+export interface DIResolver {
   deps?: TokenProvider[];
   get<T = any>(type: TokenProvider, options: any): T | undefined;
 }

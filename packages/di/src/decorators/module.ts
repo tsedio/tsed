@@ -1,5 +1,6 @@
 import {useDecorators} from "@tsed/core";
-import {IDIResolver, ProviderScope, ProviderType, TokenProvider} from "../interfaces";
+import {ProviderScope, ProviderType} from "../domain";
+import type {DIResolver, TokenProvider} from "../interfaces";
 import {Configuration} from "./configuration";
 import {Injectable} from "./injectable";
 
@@ -19,7 +20,7 @@ export interface ModuleOptions extends Omit<TsED.Configuration, "scopes"> {
   /**
    * A list of resolvers to inject provider from external DI.
    */
-  resolvers?: IDIResolver[];
+  resolvers?: DIResolver[];
 
   /**
    * Additional properties are stored as provider configuration.

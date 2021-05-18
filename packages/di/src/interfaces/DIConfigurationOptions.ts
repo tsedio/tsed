@@ -1,6 +1,6 @@
-import {IDIResolver} from "./IDIResolver";
-import {ProviderScope} from "./ProviderScope";
-import {TokenProvider} from "./TokenProvider";
+import type {DIResolver} from "./DIResolver";
+import type {ProviderScope} from "../domain/ProviderScope";
+import type {TokenProvider} from "./TokenProvider";
 
 declare global {
   namespace TsED {
@@ -9,7 +9,7 @@ declare global {
       /**
        * Define a list of resolvers (it can be an external DI).
        */
-      resolvers: IDIResolver[];
+      resolvers: DIResolver[];
       /**
        * Define dependencies to build the provider
        */
@@ -20,4 +20,4 @@ declare global {
   }
 }
 
-export interface IDIConfigurationOptions extends TsED.Configuration {}
+export interface DIConfigurationOptions extends TsED.Configuration {}
