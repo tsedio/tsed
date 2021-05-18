@@ -1,5 +1,4 @@
-import {Type} from "@tsed/core";
-import {IProvider, ProviderScope} from "../interfaces";
+import type {IProvider} from "../interfaces";
 import {registerProvider} from "../registries/ProviderRegistry";
 
 /**

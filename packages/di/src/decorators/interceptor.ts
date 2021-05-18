@@ -1,4 +1,4 @@
-import {ProviderType} from "../interfaces/ProviderType";
+import {ProviderType} from "../domain/ProviderType";
 import {Injectable} from "./injectable";
 
 /**

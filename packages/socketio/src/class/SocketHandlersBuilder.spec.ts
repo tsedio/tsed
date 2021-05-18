@@ -757,7 +757,7 @@ describe("SocketHandlersBuilder", () => {
 
       builder.deserialize({parameters} as any, scope as any);
 
-      expect(converterService.deserialize).to.have.been.calledWithExactly("any", String, Array);
+      expect(converterService.deserialize).to.have.been.calledWithExactly("any", {type: String, collectionType: Array});
     });
   });
 });

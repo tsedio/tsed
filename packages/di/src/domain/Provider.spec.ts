@@ -1,7 +1,7 @@
+import {ProviderScope} from "@tsed/di";
 import {expect} from "chai";
-import {getEnumerableKeys} from "../../../core/src/utils";
-import {Provider} from "../../src/class/Provider";
-import {ProviderScope} from "../../src/interfaces";
+import {getEnumerableKeys} from "@tsed/core";
+import {Provider} from "./Provider";
 
 class T1 {}
 

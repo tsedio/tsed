@@ -1,8 +1,7 @@
 import {classOf, Enumerable, getEnumerableKeys, isClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
-import {ProviderScope} from "../interfaces";
-import {IProvider} from "../interfaces/IProvider";
-import {ProviderType} from "../interfaces/ProviderType";
-import {TokenProvider} from "../interfaces/TokenProvider";
+import {IProvider, TokenProvider} from "../interfaces";
+import {ProviderScope} from "./ProviderScope";
+import {ProviderType} from "./ProviderType";
 
 export class Provider<T = any> implements IProvider<T> {
   @Enumerable()

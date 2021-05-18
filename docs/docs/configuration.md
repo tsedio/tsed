@@ -288,7 +288,7 @@ Logger configuration. See [logger section for more detail](/docs/logger.md).
 
 ### resolvers - External DI
 
-- type: @@IDIResolver@@
+- type: @@DIResolver@@
 
 Ts.ED has its own DI container, but sometimes you have to work with other DI like Inversify or TypeDI. The version 5.39.0+
 now allows you to configure multiple external DI by using the `resolvers` options. 

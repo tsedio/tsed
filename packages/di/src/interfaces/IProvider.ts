@@ -1,8 +1,8 @@
-import {Type} from "@tsed/core";
-import {IDIResolver} from "./IDIResolver";
-import {ProviderScope} from "./ProviderScope";
-import {ProviderType} from "./ProviderType";
-import {TokenProvider} from "./TokenProvider";
+import type {Type} from "@tsed/core";
+import type {DIResolver} from "./DIResolver";
+import type {ProviderScope} from "../domain/ProviderScope";
+import type {ProviderType} from "../domain/ProviderType";
+import type {TokenProvider} from "./TokenProvider";
 /**
  *
  */
@@ -46,7 +46,7 @@ export interface IProvider<T = any> {
   /**
    * A list of resolvers which will be used to resolve missing Symbol/Class when injector invoke a Class. This property allow external DI usage.
    */
-  resolvers?: IDIResolver[];
+  resolvers?: DIResolver[];
 
   /**
    *

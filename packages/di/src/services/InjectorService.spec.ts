@@ -2,8 +2,8 @@ import {Store} from "@tsed/core";
 import {Container, GlobalProviders, Inject, InjectorService, LocalsContainer, Provider, ProviderScope} from "@tsed/di";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {Configuration} from "../../src/decorators/configuration";
-import {ProviderType} from "../../src/interfaces";
+import {Configuration} from "@tsed/common";
+import {ProviderType} from "@tsed/di";
 import {INJECTABLE_PROP} from "../constants";
 
 class Test {
