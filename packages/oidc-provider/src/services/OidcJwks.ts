@@ -16,7 +16,7 @@ export class OidcJwks {
     return this.getJwks();
   }
 
-  async getJwks() {
+  getJwks() {
     return getJwks({
       path: this.jwksPath,
       certificates: this.certificates

@@ -11,7 +11,7 @@ export interface JwksOptions {
   certificates?: JwksKeyParameters[];
 }
 
-export async function generateJwks(options: Partial<JwksOptions> = {}) {
+export function generateJwks(options: Partial<JwksOptions> = {}) {
   const {certificates} = options;
   const keystore = new JWKS.KeyStore();
 
@@ -25,21 +25,19 @@ export async function generateJwks(options: Partial<JwksOptions> = {}) {
       }
     });
   } else {
-    await Promise.all([
-      keystore.generate("RSA", 2048, {use: "sig"}),
-      keystore.generate("EC", "P-256", {use: "sig", alg: "ES256"}),
-      keystore.generate("OKP", "Ed25519", {use: "sig", alg: "EdDSA"})
-    ]);
+    keystore.generateSync("RSA", 2048, {use: "sig"});
+    keystore.generateSync("EC", "P-256", {use: "sig", alg: "ES256"});
+    keystore.generateSync("OKP", "Ed25519", {use: "sig", alg: "EdDSA"});
   }
 
   return keystore.toJWKS(true);
 }
 
-export async function getJwks(options: JwksOptions) {
+export function getJwks(options: JwksOptions) {
   ensureDirSync(dirname(options.path));
 
   if (!existsSync(options.path)) {
-    const keys = await generateJwks(options);
+    const keys = generateJwks(options);
     writeFileSync(options.path, JSON.stringify(keys, null, 2));
   }
 
