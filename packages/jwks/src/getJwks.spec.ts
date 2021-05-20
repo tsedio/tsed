@@ -51,8 +51,8 @@ describe("GetJwks", () => {
     });
   });
   describe("getJwks()", () => {
-    it("should generate Jwks keys without certificates", async () => {
-      const output = await getJwks({
+    it("should generate Jwks keys without certificates", () => {
+      const output = getJwks({
         path: join(rootDir, "generated", "keys.json")
       });
 
