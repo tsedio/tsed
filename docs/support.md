@@ -15,6 +15,8 @@ In order to help me, I run few supporting platforms:
 - become a backer or sponsor on [OpenCollective](https://opencollective.com/tsed)
 - use [PayPal](https://paypal.me/romainlenzotti) to send a one-time donation
 
+<a href="https://opencollective.com/tsed" target="_blank"><img src="/screens/opencollective-tiers.png" alt="OpenCollective Tiers" /></a>
+
 <SupportOptions />
 
 If you fell in love with Ts.ED, or you run a business which is using Ts.ED, consider sponsoring its development 

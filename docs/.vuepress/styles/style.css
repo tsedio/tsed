@@ -30,3 +30,11 @@
     @apply text-blue-active;
   }
 }
+
+.content__default .custom-block a:not(.reset-link) {
+  text-decoration: none;
+  font-weight: bold;
+  &:hover {
+     text-decoration: underline;
+  }
+}

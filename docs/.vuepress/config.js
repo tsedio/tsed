@@ -113,6 +113,10 @@ module.exports = {
                     link: "/tutorials/keycloak.md"
                   },
                   {
+                    text: "Prisma",
+                    link: "/tutorials/prisma.md"
+                  },
+                  {
                     text: "TypeORM",
                     link: "/tutorials/typeorm.md"
                   },
@@ -268,6 +272,7 @@ module.exports = {
             children: [
               "/tutorials/passport",
               "/tutorials/keycloak",
+              "/tutorials/prisma",
               "/tutorials/typeorm",
               "/tutorials/mongoose",
               "/tutorials/graphql",
@@ -296,6 +301,7 @@ module.exports = {
           "/tutorials/session",
           "/tutorials/passport",
           "/tutorials/keycloak",
+          "/tutorials/prisma",
           "/tutorials/typeorm",
           "/tutorials/mongoose",
           "/tutorials/graphql",
