@@ -30,6 +30,9 @@ projects:
  - title: Kit OIDC
    href: https://github.com/tsedio/tsed-example-oidc
    src: https://oauth.net/images/oauth-logo-square.png
+- title: Kit Prisma
+  href: https://github.com/tsedio/tsed-example-prisma
+  src: prisma-2.svg   
 sandboxes:
  - title: Mongoose
    href: https://codesandbox.io/embed/tsed-mongoose-example-omkbm?fontsize=14&hidenavigation=1&theme=dark
