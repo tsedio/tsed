@@ -32,7 +32,8 @@ If you want to get a quick overview of how Prisma works, you can follow the [Qui
 
 If you are a premium sponsor, or you want to become one, you can ask [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) to get your access to the private packages [`@tsedio/prisma`](/tutorials/prisma-client.md). 
 
-This package generates enums and classes compatible with the Ts.ED decorators like @@Returns@@ and extends possibilities about the `prisma.schema`.
+This package generates enums, and classes compatible with the Ts.ED decorators like @@Returns@@ and extends possibilities about the `prisma.schema`.
+It also generates PrismaService and Repositories!
 
 You should follow this tutorial to create your project properly. You will have more details regarding the installation of the [`@tsedio/prisma`](/tutorials/prisma-client.md) package.
 
@@ -64,10 +65,10 @@ From the CLI, select the following features: Swagger, Eslint, Jest.
 Start by installing the Prisma CLI as a development dependency in your project:
 ```sh
 cd tsed-prisma
-npm install --save-dev prima
+npm install --save-dev prisma
 ```
 
-In the following steps, we'll be utilizing the [Prisma CLI](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-cli). 
+In the following steps, we'll be using the [Prisma CLI](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-cli). 
 As a best practice, it's recommended to invoke the CLI locally by prefixing it with `npx`:
 
 ```sh
@@ -266,7 +267,9 @@ Add the previous command to your `scripts` in the `package.json`:
 
 ## Configure Ts.ED prisma client <Badge text="Premium sponsors" />
 
-Now our `prisma.schema` is ready for the basic usage. It's time to configure [`@tsedio/prisma`](/tutorials/prisma-client.md)
+Now our `prisma.schema` is ready for the basic usage. It's time to configure [`@tsedio/prisma`](/tutorials/prisma-client.md).
+
+The client will generate all enums, classes, repositories and PrismaService for the Ts.ED framework!
 
 ## Create the PrismaService and PostService
 
@@ -298,7 +301,7 @@ export class PrismaService extends PrismaClient implements OnInit, OnDestroy {
 
 Next, you can write services that you can use to make database calls for the `User` and `Post` models from your Prisma schema.
 
-Still inside the `src/services` directory, create a new file called `UserService.ts` and add the following code to it:
+Still inside the `src/services` directory, create a new file called `UsersRepository.ts` and add the following code to it:
 
 ```typescript
 import {Inject, Injectable} from "@tsed/di";
@@ -306,51 +309,28 @@ import {Prisma, User} from "@prisma/client";
 import {PrismaService} from "./PrismaService";
 
 @Injectable()
-export class UserService {
+export class UserRepository {
   @Inject()
   prisma: PrismaService;
 
-  async user(userWhereUniqueInput: Prisma.UserWhereUniqueInput): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: userWhereUniqueInput
-    });
+  async findUnique(args: Prisma.UserFindUniqueArgs): Promise<User | null> {
+    return this.prisma.user.findUnique(args);
   }
 
-  async users(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.UserWhereUniqueInput;
-    where?: Prisma.UserWhereInput;
-    orderBy?: Prisma.UserOrderByInput;
-  }): Promise<User[]> {
-    const {skip, take, cursor, where, orderBy} = params;
-    return this.prisma.user.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy
-    });
+  async findMany(args?: Prisma.UserFindManyArgs): Promise<User[]> {
+    return this.prisma.user.findMany(args);
   }
 
-  async createUser(data: Prisma.UserCreateInput): Promise<User> {
-    return this.prisma.user.create({
-      data
-    });
+  async create(args: Prisma.UserCreateArgs): Promise<User> {
+    return this.prisma.user.create(args);
   }
 
-  async updateUser(params: {where: Prisma.UserWhereUniqueInput; data: Prisma.UserUpdateInput}): Promise<User> {
-    const {where, data} = params;
-    return this.prisma.user.update({
-      data,
-      where
-    });
+  async update(args: Prisma.UserUpdateArg): Promise<User> {
+    return this.prisma.user.update(args);
   }
 
-  async deleteUser(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.prisma.user.delete({
-      where
-    });
+  async delete(args: Prisma.UserDeleteArgs): Promise<User> {
+    return this.prisma.user.delete(args);
   }
 }
 ```
@@ -360,7 +340,7 @@ You therefore save the boilerplate of typing your models and creating additional
 
 Now do the same for the `Post` model.
 
-Still inside the `src` directory, create a new file called `PostService.ts` and add the following code to it:
+Still inside the `src` directory, create a new file called `PostsRepository.ts` and add the following code to it:
 
 ```typescript
 import {Post, Prisma} from "@prisma/client";
@@ -368,58 +348,35 @@ import {Inject, Injectable} from "@tsed/di";
 import {PrismaService} from "./PrismaService";
 
 @Injectable()
-export class PostService {
+export class PostsRepository {
   @Inject()
   prisma: PrismaService;
 
-  async post(postWhereUniqueInput: Prisma.PostWhereUniqueInput): Promise<Post | null> {
-    return this.prisma.post.findUnique({
-      where: postWhereUniqueInput
-    });
+  async findUnique(args: Prisma.PostFindUniqueArgs): Promise<Post | null> {
+    return this.prisma.post.findUnique(args);
   }
 
-  async posts(params: {
-    skip?: number;
-    take?: number;
-    cursor?: Prisma.PostWhereUniqueInput;
-    where?: Prisma.PostWhereInput;
-    orderBy?: Prisma.PostOrderByInput;
-  }): Promise<Post[]> {
-    const {skip, take, cursor, where, orderBy} = params;
-    return this.prisma.post.findMany({
-      skip,
-      take,
-      cursor,
-      where,
-      orderBy
-    });
+  async findMany(args?: Prisma.PostFindManyArgs): Promise<Post[]> {
+    return this.prisma.post.findMany(args);
   }
 
-  async createPost(data: Prisma.PostCreateInput): Promise<Post> {
-    return this.prisma.post.create({
-      data
-    });
+  async create(args: Prisma.PostCreateArgs): Promise<Post> {
+    return this.prisma.post.create(args);
   }
 
-  async updatePost(params: {where: Prisma.PostWhereUniqueInput; data: Prisma.PostUpdateInput}): Promise<Post> {
-    const {data, where} = params;
-    return this.prisma.post.update({
-      data,
-      where
-    });
+  async update(args: Prisma.PostUpdateArg): Promise<Post> {
+    return this.prisma.post.update(args);
   }
 
-  async deletePost(where: Prisma.PostWhereUniqueInput): Promise<Post> {
-    return this.prisma.post.delete({
-      where
-    });
+  async delete(args: Prisma.PostDeleteArgs): Promise<Post> {
+    return this.prisma.post.delete(args);
   }
 }
 ```
 
-Your `UserService` and `PostService` currently wrap the CRUD queries that are available in Prisma Client. 
+Your `UsersRepository` and `PostsRepository` currently wrap the CRUD queries that are available in Prisma Client. 
 In a real world application, the service would also be the place to add business logic to your application. 
-For example, you could have a method called `updatePassword` inside the `UserService` that would be responsible for updating the password of a user.
+For example, you could have a method called `updatePassword` inside the `UsersRepository` that would be responsible for updating the password of a user.
 
 ## Create controllers
 
@@ -431,46 +388,58 @@ Now we have to create controllers to expose your business to our consumers. So c
   <Tab label="UsersController.ts">
 
 ```typescript
-import {Controller, Get} from "@tsed/common";
+import {BodyParams, Controller, Get, Post} from "@tsed/common";
 import {Inject} from "@tsed/di";
-import {Returns} from "@tsed/schema";
-import {UserModel} from "@tsedio/prisma"; // Remove it if you haven't the @tsedio/prisma package access!
-import {UserService} from "../services/UserService";
+import {Groups, Returns, Summary} from "@tsed/schema";
+import {UserModel, UsersRepository} from "@tsedio/prisma";
+
+// import {UsersRepository} from "../services/UsersRepository";
 
 @Controller("/users")
 export class UsersController {
   @Inject()
-  service: UserService;
-  
+  protected service: UsersRepository;
+
+  @Post("/")
+  @Summary("Create a new user")
+  @Returns(201, UserModel)
+  async signupUser(@BodyParams() @Groups("creation") user: UserModel): Promise<UserModel> {
+    return this.service.create({data: user});
+  }
+
   @Get("/")
+  @Summary("Filter posts by title or content")
   @(Returns(200, Array).Of(UserModel).Description("Return a list of User"))
   getAll() {
-    return this.service.users({});
+    return this.service.findMany();
   }
 }
 ````
 
   </Tab>
-  <Tab label="UsersController.ts">
+  <Tab label="PostsController.ts">
 
 ```typescript
-import {Controller, Get, PathParams} from "@tsed/common";
+import {BodyParams, Controller, Delete, Get, PathParams, Post, Put} from "@tsed/common";
 import {Inject} from "@tsed/di";
-import {Name, Returns} from "@tsed/schema";
+import {Description, Groups, Name, Returns, Summary} from "@tsed/schema";
 import {NotFound} from "@tsed/exceptions";
-import {PostModel} from "@tsedio/prisma"; // Remove it if you haven't the @tsedio/prisma package access!
-import {PostService} from "../services/PostService";
+import {PostModel, PostsRepository} from "@tsedio/prisma";
+
+// OR import {PostsRepository} from "../../services/PostsRepository";
 
 @Controller("/posts")
 @Name("Posts")
 export class PostsController {
   @Inject()
-  service: PostService;
+  protected service: PostsRepository;
 
   @Get("/:id")
-  @(Returns(200, PostModel).Description("Get a Post by his id"))
+  @Summary("Fetch a single post by its id")
+  @Returns(200, PostModel)
+  @Returns(404)
   async getById(@PathParams("id") id: string): Promise<PostModel> {
-    const model = await this.service.post({id: Number(id)});
+    const model = await this.service.findUnique({where: {id: Number(id)}});
 
     if (!model) {
       throw new NotFound("Post not found");
@@ -479,10 +448,43 @@ export class PostsController {
     return model;
   }
 
+  @Post("/")
+  @Summary("Create a new post")
+  @Returns(201, PostModel)
+  createDraft(@BodyParams("post") @Groups("creation") post: PostModel, @BodyParams("authorEmail") authorEmail: string) {
+    return this.service.create({
+      data: {
+        title: post.title,
+        content: post.content,
+        author: {
+          connect: {email: authorEmail}
+        }
+      }
+    });
+  }
+
+  @Put("/publish/:id")
+  @Summary("Publish a post by its id")
+  @Returns(200, PostModel)
+  async publishPost(@PathParams("id") id: string): Promise<PostModel> {
+    return this.service.update({
+      where: {id: Number(id)},
+      data: {published: true}
+    });
+  }
+
+  @Delete("/:id")
+  @Summary("Delete a post by its id")
+  @Returns(200, PostModel)
+  async deletePost(@PathParams("id") id: string): Promise<PostModel> {
+    return this.service.delete({where: {id: Number(id)}});
+  }
+
   @Get("/search/:searchString")
+  @Description("Filter posts by title or content")
   @(Returns(200, Array).Of(PostModel))
   async getFilteredPosts(@PathParams("searchString") searchString: string): Promise<PostModel[]> {
-    return this.service.posts({
+    return this.service.findMany({
       where: {
         OR: [
           {
@@ -498,24 +500,25 @@ export class PostsController {
 }
 ```
   </Tab>
-  <Tab label="">
+  <Tab label="FeedsController.ts">
 
 ```typescript
 import {Controller, Get} from "@tsed/common";
 import {Inject} from "@tsed/di";
-import {PostModel} from "@tsedio/prisma"; // Remove it if you haven't the @tsedio/prisma package access!
-import {Returns} from "@tsed/schema";
-import {PostService} from "../services/PostService";
+import {PostModel, PostsRepository} from "@tsedio/prisma";
+import {Returns, Summary} from "@tsed/schema";
+// import {PostsRepository} from "../services/PostsRepository";
 
 @Controller("/feeds")
 export class FeedsController {
   @Inject()
-  service: PostService;
+  protected service: PostsRepository;
 
   @Get("/")
+  @Summary("Fetch all published posts")
   @(Returns(200, Array).Of(PostModel))
-  getFeeds() {
-    return this.service.posts({
+  getFeeds(): Promise<PostModel[]> {
+    return this.service.findMany({
       where: {published: true}
     });
   }
@@ -524,6 +527,8 @@ export class FeedsController {
 
   </Tab>
 </Tabs>
+
+Now start the server and open the Swagger documentation to test your REST API!
 
 ### Summary
 

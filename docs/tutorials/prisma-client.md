@@ -25,7 +25,7 @@ The next version will generate also the PrismaService and Repositories for each 
 
 ## Install a package from Github
 
-Ask Ts.ED team on [Slack](**LIEN VERS SLACK QUI FONCTIONNE**) to get a unique personal GH_TOKEN.
+Ask Ts.ED team on [Slack](https://api.tsed.io/slack/tsedio/tsed) to get a unique personal GH_TOKEN.
 
 Then add on your project (or on profile level) a `.npmrc` file with the following content:
 
@@ -150,8 +150,8 @@ enum Role {
 it will generate the following UserModel:
 
 ```typescript
-import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from "@tsed/schema";
 import { User } from "../client";
+import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from "@tsed/schema";
 import { Role } from "../enums";
 import { PostModel } from "./PostModel";
 
@@ -212,6 +212,82 @@ export class UserModel implements User {
 }
 ```
 
+And, the following repository:
+
+```typescript
+import { isArray } from "@tsed/core";
+import { deserialize } from "@tsed/json-mapper";
+import { Injectable, Inject } from "@tsed/di";
+import { PrismaService } from "../services/PrismaService";
+import { Prisma, User } from "../client";
+import { UserModel } from "../models";
+
+@Injectable()
+export class UsersRepository {
+  @Inject()
+  protected prisma: PrismaService;
+
+  get collection() {
+    return this.prisma.user
+  }
+
+  get groupBy() {
+    return this.collection.groupBy.bind(this.collection)
+  }
+
+  protected deserialize<T>(obj: null | User | User[]): T {
+    return deserialize<T>(obj, { type: UserModel, collectionType: isArray(obj) ? Array : undefined })
+  }
+
+  async findUnique(args: Prisma.UserFindUniqueArgs): Promise<UserModel | null> {
+    const obj = await this.collection.findUnique(args);
+    return this.deserialize<UserModel | null>(obj);
+  }
+
+  async findFirst(args: Prisma.UserFindFirstArgs): Promise<UserModel | null> {
+    const obj = await this.collection.findFirst(args);
+    return this.deserialize<UserModel | null>(obj);
+  }
+
+  async findMany(args?: Prisma.UserFindManyArgs): Promise<UserModel[]> {
+    const obj = await this.collection.findMany(args);
+    return this.deserialize<UserModel[]>(obj);
+  }
+
+  async create(args: Prisma.UserCreateArgs): Promise<UserModel> {
+    const obj = await this.collection.create(args);
+    return this.deserialize<UserModel>(obj);
+  }
+
+  async update(args: Prisma.UserUpdateArgs): Promise<UserModel> {
+    const obj = await this.collection.update(args);
+    return this.deserialize<UserModel>(obj);
+  }
+
+  async upsert(args: Prisma.UserUpsertArgs): Promise<UserModel> {
+    const obj = await this.collection.upsert(args);
+    return this.deserialize<UserModel>(obj);
+  }
+
+  async delete(args: Prisma.UserDeleteArgs): Promise<UserModel> {
+    const obj = await this.collection.delete(args);
+    return this.deserialize<UserModel>(obj);
+  }
+
+  async deleteMany(args: Prisma.UserDeleteManyArgs) {
+    return this.collection.deleteMany(args)
+  }
+
+  async updateMany(args: Prisma.UserUpdateManyArgs) {
+    return this.collection.updateMany(args)
+  }
+
+  async aggregate(args: Prisma.UserAggregateArgs) {
+    return this.collection.aggregate(args)
+  }
+}
+```
+
 ## Add Ts.ED decorator
 
 The generator parse prisma command to find extra Ts.ED decorators. You can use any `@tsed/schema` decorators from Ts.ED by
@@ -247,4 +323,4 @@ export class UserModel implements User {
 }
 ```
 
-Now the Ts.ED generator is correctly configured you can go back (or follow) the tutorial to create the [PrismaService](/tutorials/prisma.md#)
+Now that the Ts.ED generator is correctly configured, you can go back (or follow) the tutorial to create your [first controller](/tutorials/prisma.html#create-controllers)

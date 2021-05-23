@@ -131,6 +131,9 @@ frameworks:
 - title: Mongoose
   href: /tutorials/mongoose.html
   src: /mongoose.png   
+- title: Prisma
+  href: /tutorials/prisma.html
+  src: /prisma-3.svg
 - title: TypeORM
   href: /tutorials/typeorm.html
   src: /typeorm.png
