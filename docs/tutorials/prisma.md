@@ -30,11 +30,11 @@ If you want to get a quick overview of how Prisma works, you can follow the [Qui
 
 ## Prisma generator for Ts.ED <Badge text="Premium sponsors" />
 
-If you are premium sponsors, or you want to become it, you can ask [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) to get your access to the private packages [`@tsedio/prisma`](/tutorials/prisma-client.md). 
+If you are a premium sponsor, or you want to become one, you can ask [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) to get your access to the private packages [`@tsedio/prisma`](/tutorials/prisma-client.md). 
 
-This package generates enums and classes compatible with the Ts.ED decorators like @@Returns@@ and extend the possibility about the `prisma.schema`.
+This package generates enums and classes compatible with the Ts.ED decorators like @@Returns@@ and extends possibilities about the `prisma.schema`.
 
-The following tutorial is to be followed to create your project. You will have more details regarding the installation of the [`@tsedio/prisma`](/tutorials/prisma-client.md) package.
+You should follow this tutorial to create your project properly. You will have more details regarding the installation of the [`@tsedio/prisma`](/tutorials/prisma-client.md) package.
 
 ## Getting started
 
@@ -220,7 +220,7 @@ Add the previous command to your `scripts` in the `package.json`:
 :::
 
 This `prisma migrate dev` command generates SQL files and directly runs them against the database. 
-In this case, the following migration files was created in the existing `prisma` directory:
+In this case, the following migration file was created in the existing `prisma` directory:
 
 ```bash
 $ tree prisma
@@ -249,7 +249,7 @@ In the future, you need to run this command after _every_ change to your Prisma 
 The `prisma generate` command reads your Prisma schema and updates the generated Prisma Client library inside `node_modules/@prisma/client`.
 
 ::: warning
-The generated interfaces cannot be used with `@Returns` to describe the Swagger documentation! You have to use the premium packages [`@tsedio/prisma`](/tutorials/prisma-client.md)
+The generated interfaces cannot be used with `@Returns` to describe the Swagger documentation! You have to use the premium package [`@tsedio/prisma`](/tutorials/prisma-client.md)
 :::
 
 ::: tip
@@ -266,7 +266,7 @@ Add the previous command to your `scripts` in the `package.json`:
 
 ## Configure Ts.ED prisma client <Badge text="Premium sponsors" />
 
-Now our `prisma.schema` is ready for the basic usage. It's time to configure the [`@tsedio/prisma`](/tutorials/prisma-client.md)
+Now our `prisma.schema` is ready for the basic usage. It's time to configure [`@tsedio/prisma`](/tutorials/prisma-client.md)
 
 ## Create the PrismaService and PostService
 
@@ -425,7 +425,7 @@ For example, you could have a method called `updatePassword` inside the `UserSer
 
 Finally, you'll use the services you created in the previous sections to implement the different routes of your app. 
 
-Now we have to create controllers to exposes your business to our consumers. So create the following controllers in `src/controllers` directory:
+Now we have to create controllers to expose your business to our consumers. So create the following controllers in `src/controllers` directory:
 
 <Tabs class="-codes">
   <Tab label="UsersController.ts">
@@ -528,4 +528,4 @@ export class FeedsController {
 ### Summary
 
 In this tutorial, you learned how to use Prisma along with Ts.ED to implement a REST API. 
-The controller that implements the routes of the API is calling a `PrismaService` which in turn uses Prisma Client to send queries to a database to fulfill the data needs of incoming requests.
+The controller implementing the routes of the API is calling a `PrismaService` which in turn uses Prisma Client to send queries to a database to fulfill the data needed by incoming requests.

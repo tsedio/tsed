@@ -13,19 +13,19 @@ meta:
 
 <Badge text="Premium sponsors" />
 
-If you are premium sponsors, or you want to become it, you can ask [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) to get your access to the private packages `@tsedio/prisma`.
+If you are a premium sponsor, or you want to become one, you can ask [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) to get your access to the private packages `@tsedio/prisma`.
 
-This package generates enums and classes compatible with the Ts.ED decorators like @@Returns@@ and extend the possibility about the `prisma.schema`.
+This package generates enums and classes compatible with Ts.ED decorators like @@Returns@@ and extends possibilities about the `prisma.schema`.
 
-The following tutorial is to be followed to create your project. You will have more details regarding the installation of the `@tsedio/prisma` package.
+You should follow this tutorial to create your project properly. You will have more details regarding the installation of the `@tsedio/prisma` package.
 
 ::: tip Roadmap
-The next version will generate also the PrismaService and Repositories for each generated models!
+The next version will generate also the PrismaService and Repositories for each generated model!
 :::
 
 ## Install a package from Github
 
-Ask Ts.ED team on slack to get an uniq personal GH_TOKEN.
+Ask Ts.ED team on [Slack](**LIEN VERS SLACK QUI FONCTIONNE**) to get a unique personal GH_TOKEN.
 
 Then add on your project (or on profile level) a `.npmrc` file with the following content:
 
@@ -66,9 +66,9 @@ npm i @prisma/client
 ```
 
 ::: warning 
-Be aware that `@tsedio/prisma` is designed to work with a selected versions of `prisma`.
+Be aware that `@tsedio/prisma` is designed to work with a selected version of `prisma`.
 
-Please make sure you use `prisma` and `@prisma/client` of version matching `~2.22.0`.
+Please make sure you use `prisma` and `@prisma/client` with version matching `~2.22.0`.
 Otherwise, the runtime check will report an error when you run the generator.
 :::
 
@@ -97,8 +97,8 @@ generator tsed {
 }
 ```
 
-By default, when the output path contains `node_modules`, the generated code is transpiled - consist of `*.js` and `*.d.ts` files that are ready to use (import) in your code.
-However, if you explicitly choose some other folder in `output` config, the generated code will be emitted as a raw TS files which you can use and import as your other source code files.
+By default, when the output path contains `node_modules`, the generated code is transpiled - containing `*.js` and `*.d.ts` files that are ready to use (import) in your code.
+However, if you explicitly choose an other folder in `output` config, the generated code will be emitted as raw TS files which you can use and import as your other source code files.
 
 You can overwrite that by explicitly setting `emitTranspiledCode` config option:
 
