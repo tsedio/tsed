@@ -11,7 +11,10 @@ projects:
    src: /react.png
  - title: Kit Vue.js
    href: https://github.com/tsedio/tsed-example-vuejs
-   src: /vuejs.png    
+   src: /vuejs.png
+ - title: Kit Prisma
+   href: https://github.com/tsedio/tsed-example-prisma
+   src: /prisma-2.png   
  - title: Kit TypeORM
    href: https://github.com/tsedio/tsed-example-typeorm
    src: /typeorm.png
@@ -97,6 +100,7 @@ Here are the plugins provided by Ts.ED and the compatibility with the different 
 Features | Express.js  | Koa.js
 --- | --- | ---
 [Passport.js](/tutorials/passport.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/invalid.svg" width="15" alt="no"/>
+[Prisma](/tutorials/prisma.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [TypeORM](/tutorials/typeorm.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Mongoose](/tutorials/mongoose.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Objection.js](/tutorials/objection.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
