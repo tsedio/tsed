@@ -171,6 +171,18 @@ This works by having a field with the referenced object model's name and a field
 
 <<< @/tutorials/snippets/mongoose/dynamic-references.ts
 
+### Decimal Numbers
+
+`@tsed/mongoose` supports `mongoose` 128-bit decimal floating points data type [Decimal128](https://mongoosejs.com/docs/api.html#mongoose_Mongoose-Decimal128).
+
+The @@NumberDecimal@@ decorator is used to set Decimal128 type for number fields.
+
+<<< @/tutorials/snippets/mongoose/decimal-numbers.ts
+
+Optionally a custom decimal type implementation, such as [big.js](https://www.npmjs.com/package/big.js), can be used by passing a constructor to the field decorator.
+
+<<< @/tutorials/snippets/mongoose/extended-decimal-numbers.ts
+
 ## Register hook
 
 Mongoose allows the developer to add pre and post [hooks / middlewares](http://mongoosejs.com/docs/middleware.html) to the schema. 

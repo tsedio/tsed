@@ -8,6 +8,7 @@ export * from "./lowercase";
 export * from "./model";
 export * from "./mongooseIndex";
 export * from "./mongoosePlugin";
+export * from "./numberDecimal";
 export * from "./objectID";
 export * from "./postHook";
 export * from "./preHook";
