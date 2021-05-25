@@ -1,8 +1,13 @@
-import {EveryOptions} from "../decorators/every";
-import {DefineOptions} from "../decorators/define";
+import {DefineOptions as AgendaDefineOptions, JobOptions} from "agenda";
+
+export interface DefineOptions extends AgendaDefineOptions {
+  name?: string;
+}
+
+export type EveryOptions = JobOptions & DefineOptions;
 
 export interface AgendaStore {
   namespace?: string;
-  define?: {[propertyKey: string]: {descriptor: PropertyDescriptor; options?: DefineOptions}};
-  every?: {[propertyKey: string]: {options: EveryOptions}};
+  define?: {[propertyKey: string]: DefineOptions};
+  every?: {[propertyKey: string]: EveryOptions & {interval: string}};
 }

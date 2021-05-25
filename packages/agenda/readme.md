@@ -88,10 +88,9 @@ import {Job} from "agenda";
 
 @Agenda({ namespace: "email" })
 export class EmailJobService {
-  @Every({
-    interval: "60 minutes",
+  @Every("60 minutes", {
     name: "maintenanceJob",
-    options: { /* any option you would normally pass to agenda.every/define */ }
+    /* ... and any option you would normally pass to agenda.every/define */ }
   })
   async sendAdminStatistics(job: Job) {
     // implement something here
@@ -99,7 +98,7 @@ export class EmailJobService {
 
   @Define({
     name: "sendWelcomeEmail",
-    options: { /* any option you would normally pass to agenda.define(...) */ }
+    /*  ... and any option you would normally pass to agenda.define(...) */
   })
   async sendWelcomeEmail(job: Job) {
     // implement something here
@@ -112,23 +111,20 @@ export class EmailJobService {
 }
 ```
 
-## AgendaService
+## Inject Agenda
 
-AgendaService let you to retrieve an instance of the Agenda instance.
+Inject the Agenda instance to interact with it directly, e.g. to schedule
+a job manually.
 
 ```typescript
 import {Service, AfterRoutesInit} from "@tsed/common";
-import {AgendaService} from "@tsed/agenda";
 import {Agenda} from "agenda";
 
 @Service()
 export class UsersService implements AfterRoutesInit {
-  private agenda: Agenda;
-  constructor(private agendaService: AgendaService) {}
 
-  $afterRoutesInit() {
-    this.agenda = this.agendaService.getAgenda();
-  }
+  @Inject()
+  private agenda: Agenda;
 
   async create(user: User): Promise<User> {
     // do something

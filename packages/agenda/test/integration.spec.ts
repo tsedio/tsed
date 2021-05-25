@@ -1,12 +1,13 @@
 import {PlatformTest} from "@tsed/common";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import { expect } from "chai";
-import {Agenda, Every, Define, AgendaService} from "../src/";
+import {Agenda} from "agenda";
+import {expect} from "chai";
+import {Agenda as AgendaDecorator, Every, Define} from "../src/";
 import {Server} from "./helpers/Server";
 
-@Agenda({namespace: "test-nsp"})
+@AgendaDecorator({namespace: "test-nsp"})
 class Test {
-  @Every({interval: "60 seconds"})
+  @Every("60 seconds")
   test() {
     // test
   }
@@ -17,9 +18,9 @@ class Test {
   }
 }
 
-@Agenda()
+@AgendaDecorator()
 class TestTwo {
-  @Every({interval: "* * * * *"})
+  @Every("* * * * *")
   test3() {
     // test
   }
@@ -42,13 +43,12 @@ describe("Agenda integration", () => {
   afterEach(TestMongooseContext.reset);
 
   it("should have job definitions", async () => {
-    const agendaService = PlatformTest.injector.get<AgendaService>(AgendaService)!;
-    expect(agendaService.getAgenda()._definitions).to.contain.keys("test-nsp.test", "test-nsp.customName", "test3");
+    const agenda = PlatformTest.injector.get<Agenda>(Agenda)!;
+    expect(agenda._definitions).to.contain.keys("test-nsp.test", "test-nsp.customName", "test3");
   });
 
   it("should schedule cron-like jobs", async () => {
-    const agendaService = PlatformTest.injector.get<AgendaService>(AgendaService)!;
-    const agenda = agendaService.getAgenda();
+    const agenda = PlatformTest.injector.get<Agenda>(Agenda)!;
     await agenda.start();
     const jobs = await agenda.jobs();
     await agenda.stop();

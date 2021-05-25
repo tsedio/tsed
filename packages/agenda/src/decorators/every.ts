@@ -1,28 +1,14 @@
-import {Store} from "@tsed/core";
-import {DefineOptions, JobOptions} from "agenda";
+import {Store, useDecorators} from "@tsed/core";
 import {Define} from "./define";
-import {AgendaStore} from "../interfaces/AgendaStore";
+import {AgendaStore, EveryOptions} from "../interfaces/AgendaStore";
 
-export interface EveryOptions {
-  interval: string;
-  name?: string;
-  options?: JobOptions & DefineOptions;
-}
-
-export function Every(options: EveryOptions): MethodDecorator {
-  const define = Define({name: options.name, options: options.options});
-
-  return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
-    define(target, propertyKey, descriptor);
-
+export function Every(interval: string, options: EveryOptions = {}): MethodDecorator {
+  return useDecorators(Define(options), (target: any, propertyKey: string) => {
     const store: AgendaStore = {
       every: {
-        [propertyKey]: {
-          options
-        }
+        [propertyKey]: {...options, interval}
       }
     };
-
     Store.from(target).merge("agenda", store);
-  };
+  });
 }

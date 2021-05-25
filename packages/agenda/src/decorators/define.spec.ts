@@ -1,4 +1,4 @@
-import {descriptorOf, Store} from "@tsed/core";
+import {Store} from "@tsed/core";
 import {expect} from "chai";
 import {Agenda} from "./agenda";
 import {Define} from "./define";
@@ -21,13 +21,8 @@ describe("@Define()", () => {
     const store = Store.from(Test);
 
     expect(store.get("agenda").define).to.deep.eq({
-      testDefineDecorator: {
-        descriptor: descriptorOf(Test, "testDefineDecorator"),
-        options: undefined
-      },
-      testDefineDecorator2: {
-        descriptor: descriptorOf(Test, "testDefineDecorator2")
-      }
+      testDefineDecorator: {},
+      testDefineDecorator2: {}
     });
   });
 
@@ -36,9 +31,7 @@ describe("@Define()", () => {
     class Test {
       @Define({
         name: "testDefineDecoratorCustomName",
-        options: {
-          priority: 20
-        }
+        priority: 20
       })
       test() {
         // test
@@ -48,13 +41,8 @@ describe("@Define()", () => {
     const store = Store.from(Test);
     expect(store.get("agenda").define).to.deep.eq({
       test: {
-        descriptor: descriptorOf(Test, "test"),
-        options: {
-          name: "testDefineDecoratorCustomName",
-          options: {
-            priority: 20
-          }
-        }
+        name: "testDefineDecoratorCustomName",
+        priority: 20
       }
     });
   });
