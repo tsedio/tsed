@@ -3,7 +3,7 @@ import "@tsed/platform-express";
 import {ApolloServerTestClient, createTestClient} from "apollo-server-testing";
 import {expect} from "chai";
 import gql from "graphql-tag";
-import {GraphQLService} from "@tsed/graphql";
+import {ApolloService} from "@tsed/apollo";
 import {Server} from "./app/Server";
 
 const GET_RECIPES = gql`
@@ -20,7 +20,9 @@ describe("Recipes", () => {
   let request: ApolloServerTestClient;
   before(PlatformTest.bootstrap(Server));
   before(() => {
-    const server = PlatformTest.get<GraphQLService>(GraphQLService).get("server1")!;
+    const server = PlatformTest.get<ApolloService>(ApolloService).get("server1")!;
+    // for TypeGraphQL
+    // use PlatformTest.get<ApolloService>(ApolloService).get("typegraphl-server1")!;
     request = createTestClient(server);
   });
   after(PlatformTest.reset);

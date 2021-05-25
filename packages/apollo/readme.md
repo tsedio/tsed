@@ -4,7 +4,7 @@
 
 <div align="center">
 
-   <h1>TypeGraphQL</h1>
+   <h1>Apollo</h1>
 
 [![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/tsedio/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsedio/tsed/blob/master/CONTRIBUTING.md)
@@ -28,149 +28,72 @@
 
 <hr />
 
-> A package of Ts.ED framework. See website: https://tsed.io/tutorials/graphql.html
-
 GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL provides a complete and understandable description of the data in your API, gives clients the power to ask for exactly what they need and nothing more, makes it easier to evolve APIs over time, and enables powerful developer tools.
 
 ## Feature
 
-Currently, `@tsed/typegraphql` allows you to configure a graphql server in your project.
-This package use [`apollo-server-express`](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html) to create GraphQL server and [`type-graphql`](https://19majkel94.github.io/type-graphql/)
-for the decorators.
+- Create and bind Apollo server with Ts.ED.
+- Create multiple Apollo server.
+- Support Express and Koa.
+
+## TypeGraphQL
+
+If you're looking for integration with TypeGraphQL see the [`@tsed/typegraphql`](https://tsed.io/graphql.html#typegraphql) package.
 
 ## Installation
 
-To begin, install the TypeGraphQL module for TS.ED:
+To begin, install the Apollo module for TS.ED:
+
 ```bash
-npm install --save @tsed/typegraphql type-graphql graphql@15
+npm install --save @tsed/apollo graphql@15
 npm install --save apollo-datasource apollo-datasource-rest apollo-server-express
 npm install --save-dev  apollo-server-testing
 ```
 
-Now, we can configure the Ts.ED server by importing `@tsed/typegraphql` in your Server:
+Now, we can configure the Ts.ED server by importing `@tsed/apollo` in your Server:
 
 ```typescript
 import {Configuration} from "@tsed/common";
-import "@tsed/typegraphql"; 
+import "@tsed/apollo";
 
 @Configuration({
-   graphql: {
+  apollo: {
     'server1': {
-      resolvers:[]
+      path: "/",
+      schema: {},
+      resolvers: []
     }
   }
 })
 export class Server {}
 ```
 
-## TypeGraphQlService
+## ApolloService
 
-TypeGraphQlService let you to retrieve an instance of ApolloServer.
+ApolloService let you to retrieve an instance of ApolloServer.
 
 ```typescript
-import {Service, AfterRoutesInit} from "@tsed/common";
-import {TypeGraphQLService} from "@tsed/typegraphql";
+import {Injectable, AfterRoutesInit} from "@tsed/common";
+import {graphQLService} from "@tsed/apollo";
 import {ApolloServer} from "apollo-server-express";
 
-@Service()
+@Injectable()
 export class UsersService implements AfterRoutesInit {
+  @Injec()
+  apolloService: ApolloService;
+  
   private server: ApolloServer;
-
-  @Inject()
-  typeGraphQLService: TypeGraphQLService
-
+  
   $afterRoutesInit() {
-    this.server = this.typeGraphQLService.get("server1");
+    this.server = this.apolloService.get("server1");
   }
 }
 ```
 
 For more information about ApolloServer look his documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);
 
-## Type-graphql
-### Types
-
-We want to get equivalent of this type described in SDL:
-
-```
-type Recipe {
-  id: ID!
-  title: String!
-  description: String
-  creationDate: Date!
-  ingredients: [String!]!
-}
-```
-
-So we create the Recipe class with all properties and types:
-
-```typescript
-class Recipe {
-  id: string;
-  title: string;
-  description?: string;
-  creationDate: Date;
-  ingredients: string[];
-}
-```
-
-Then we decorate the class and it properties with decorators:
-
-```typescript
-import {ObjectType, ID, Field} from "type-graphql"
-
-@ObjectType()
-export class Recipe {
-  @Field(type => ID)
-  id: string;
-
-  @Field()
-  title: string;
-
-  @Field({ nullable: true })
-  description?: string;
-
-  @Field()
-  creationDate: Date;
-
-  @Field(type => [String])
-  ingredients: string[];
-}
-```
-The detailed rules when to use nullable, array and others are described in [fields and types docs](https://19majkel94.github.io/type-graphql/docs/types-and-fields.html).
-
-###  Resolvers
-
-After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class that will have injected RecipeService in constructor:
-
-```typescript
-import {Resolver, Query, Arg, Args, Mutation, Authorized, Ctx} from "type-graphql";
-import {ResolverService} from "@tsed/typegraphql"
-import {Recipe} from "../types/Recipe";
-import {RecipeService} from "../services/RecipeService";
-import {RecipeNotFoundError} from "../errors/RecipeNotFoundError";
-
-@ResolverService(Recipe)
-export class RecipeResolver {
-  constructor(private recipeService: RecipeService) {}
-
-  @Query(returns => Recipe)
-  async recipe(@Arg("id") id: string) {
-    const recipe = await this.recipeService.findById(id);
-    if (recipe === undefined) {
-      throw new RecipeNotFoundError(id);
-    }
-    return recipe;
-  }
-
-  @Query(returns => [Recipe])
-  recipes(@Args() { skip, take }: RecipesArgs) {
-    return this.recipeService.findAll({ skip, take });
-  }
-}
-```
-
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
