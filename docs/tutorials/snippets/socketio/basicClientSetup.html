@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket Test</title>
+    <script src="http://localhost:8083/socket.io/socket.io.js"></script>
+</head>
+
+<body>
+
+</body>
+
+<script>
+    const socket = io("http://localhost:8083/my-socket-namespace?yourId=1234", { path: '/socket.io/my-socket-namespace/' });
+
+    socket.on("connect", () => {
+        console.log('connected to server');
+    });
+
+    // handle the event sent with socket.send()
+    socket.on("disconnect", data => {
+       console.log("disconnected")
+    });
+
+</script>
+
+</html>

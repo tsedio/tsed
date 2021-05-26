@@ -137,9 +137,34 @@ Middlewares chain uses the `Promise` to run it. If one of this middlewares/metho
 
 <ApiList query="module.match('@tsed/socketio') && symbolType === 'decorator'" />
 
+## Connecting the client
+
+Once you have the socket set up on the server, you will want to connect up your client. Here are a few examples based on different configurations and namespaces.
+
+### With default config
+
+With this in your server configuration
+
+```typescript
+@Configuration({
+  rootDir: __dirname,
+  socketIO: {} // uses all default values
+})
+```
+And this in your service
+
+<<< @/docs/tutorials/snippets/socketio/basicSocketService.ts
+
+
+In plain javascript you could connect like this.
+
+<<< @/docs/tutorials/snippets/socketio/basicClientSetup.html
+
+
+
 ## Author 
 
-<GithubContributors users="['Romakita']"/>
+<GithubContributors users="['Romakita', 'superkaleider']"/>
 
 ## Maintainers <Badge text="Help wanted" />
 
