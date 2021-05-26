@@ -118,11 +118,10 @@ a job manually.
 
 ```typescript
 import {Service, AfterRoutesInit} from "@tsed/common";
-import {Agenda} from "agenda";
+import {Agenda} from "agenda"; // NOTE: We import Agenda from "agenda" and not from @tsed/agenda
 
 @Service()
 export class UsersService implements AfterRoutesInit {
-
   @Inject()
   private agenda: Agenda;
 
