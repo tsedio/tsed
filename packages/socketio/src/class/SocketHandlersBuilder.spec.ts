@@ -1,16 +1,33 @@
-import {Store} from "@tsed/core";
 import {PlatformTest} from "@tsed/common";
+import {Store} from "@tsed/core";
 import {InjectorService, ProviderType} from "@tsed/di";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {SocketHandlersBuilder} from "./SocketHandlersBuilder";
 import {SocketFilters} from "../interfaces/SocketFilters";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
+import {SocketHandlersBuilder} from "./SocketHandlersBuilder";
+import {SocketProviderMetadata} from "./SocketProviderMetadata";
+
+const metadata: any = {
+  handlers: {
+    testHandler: {
+      methodClassName: "testHandler",
+      eventName: "eventName",
+      parameters: ["param"],
+      returns: {
+        eventName: "returnEventName",
+        type: "type"
+      }
+    }
+  }
+};
 
 describe("SocketHandlersBuilder", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
   describe("build()", () => {
-    before(() => {
-      this.provider = {
+    function createServiceFixture() {
+      const provider: any = {
         store: {
           get: Sinon.stub()
         },
@@ -21,190 +38,161 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-      this.builder.socketProviderMetadata = {
+      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      builder.socketProviderMetadata = new SocketProviderMetadata({
         namespace: "/",
         injectNamespaces: [{propertyKey: "key1"}, {propertyKey: "key2", nsp: "/test"}],
         handlers: {
-          $onDisconnect: {}
+          $onDisconnect: {} as any
         }
-      };
+      });
 
-      this.nsps = new Map();
-      this.nsps.set("/", "namespace1");
-      this.nsps.set("/test", "namespace2");
+      const nsps = new Map();
+      nsps.set("/", "namespace1");
+      nsps.set("/test", "namespace2");
 
-      this.builder.build(this.nsps);
-    });
+      builder.build(nsps);
+      return {builder, nsps, provider};
+    }
 
     it("should create metadata when $onDisconnect exists", () => {
-      expect(this.builder.socketProviderMetadata).to.deep.eq({
-        namespace: "/",
-        handlers: {
-          $onConnection: {
-            eventName: "connection",
-            methodClassName: "$onConnection"
+      const {builder} = createServiceFixture();
+      expect(builder.socketProviderMetadata).to.deep.eq(
+        new SocketProviderMetadata({
+          namespace: "/",
+          handlers: {
+            $onConnection: {
+              eventName: "connection",
+              methodClassName: "$onConnection"
+            },
+            $onDisconnect: {
+              eventName: "disconnect",
+              methodClassName: "$onDisconnect"
+            }
           },
-          $onDisconnect: {
-            eventName: "disconnect",
-            methodClassName: "$onDisconnect"
-          }
-        },
-        injectNamespaces: [
-          {
-            propertyKey: "key1"
-          },
-          {
-            nsp: "/test",
-            propertyKey: "key2"
-          }
-        ]
-      });
+          injectNamespaces: [
+            {
+              propertyKey: "key1"
+            },
+            {
+              nsp: "/test",
+              propertyKey: "key2"
+            }
+          ]
+        })
+      );
     });
 
     it("should call $onNamespaceInit hook", () => {
-      expect(this.provider.instance.$onNamespaceInit).to.have.been.calledWithExactly("namespace1");
+      const {provider} = createServiceFixture();
+      expect(provider.instance.$onNamespaceInit).to.have.been.calledWithExactly("namespace1");
     });
 
     it("should add namespace1", () => {
-      expect(this.provider.instance.key1).to.deep.eq("namespace1");
+      const {provider} = createServiceFixture();
+      expect(provider.instance.key1).to.deep.eq("namespace1");
     });
 
     it("should add namespace2", () => {
-      expect(this.provider.instance.key2).to.deep.eq("namespace2");
+      const {provider} = createServiceFixture();
+      expect(provider.instance.key2).to.deep.eq("namespace2");
     });
 
     it("should add default nsp", () => {
-      expect(this.provider.instance.nsp).to.deep.eq("namespace1");
+      const {provider} = createServiceFixture();
+      expect(provider.instance.nsp).to.deep.eq("namespace1");
     });
 
     it("should init the nspSession", () => {
-      expect(this.provider.instance._nspSession).to.be.instanceOf(Map);
+      const {provider} = createServiceFixture();
+      expect(provider.instance._nspSession).to.be.instanceOf(Map);
     });
   });
-
-  describe("onConnection", () => {
-    before(() => {
-      this.provider = {
+  describe("onConnection()", () => {
+    it("should build handler and invoke onConnection instance method", () => {
+      const provider: any = {
         store: {
-          get: Sinon.stub()
+          get: Sinon.stub().returns({
+            injectNamespaces: [{nsp: "/nsp", propertyKey: "key"}],
+            handlers: {
+              $onConnection: {
+                eventName: "onConnection"
+              } as any
+            }
+          })
         },
         instance: {
           $onConnection: Sinon.stub()
         }
       };
-      this.nspStub = {nsp: "nsp"};
-      this.socketStub = {
+      const nspStub = {nsp: "nsp"};
+      const socketStub = {
         on: Sinon.stub()
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-      this.builder.socketProviderMetadata = {
-        injectNamespace: "nsp",
-        handlers: {
-          $onConnection: {
-            eventName: "onConnection"
-          }
-        }
-      };
+      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
 
-      this.invokeStub = Sinon.stub(this.builder, "invoke");
-      this.buildHandlersStub = Sinon.stub(this.builder, "buildHandlers");
-      this.createSessionStub = Sinon.stub(this.builder, "createSession");
-      // this.destroySessionStub = Sinon.stub(this.builder, "destroySession");
+      const invokeStub = Sinon.stub(builder, "invoke");
+      const buildHandlersStub = Sinon.stub(builder, "buildHandlers");
+      const createSessionStub = Sinon.stub(builder, "createSession");
+      // destroySessionStub = Sinon.stub(builder, "destroySession");
 
-      this.builder.onConnection(this.socketStub, this.nspStub);
-    });
+      builder.onConnection(socketStub, nspStub);
 
-    it("should call the buildHandlers method", () => {
-      expect(this.buildHandlersStub).to.have.been.calledWithExactly(this.socketStub, this.nspStub);
-    });
-
-    it("should call the createSession method", () => {
-      expect(this.createSessionStub).to.have.been.calledWithExactly(this.socketStub);
-    });
-
-    it("should add metadata when $onConnection exists", () => {
-      expect(this.invokeStub).to.have.been.calledWithExactly(
-        this.provider.instance,
+      expect(buildHandlersStub).to.have.been.calledWithExactly(socketStub, nspStub);
+      expect(createSessionStub).to.have.been.calledWithExactly(socketStub);
+      expect(invokeStub).to.have.been.calledWithExactly(
+        provider.instance,
         {eventName: "onConnection"},
         {
-          socket: this.socketStub,
-          nsp: this.nspStub
+          socket: socketStub,
+          nsp: nspStub
         }
       );
     });
   });
-  describe("onDisconnect", () => {
-    before(() => {
-      this.provider = {
+  describe("onDisconnect()", () => {
+    it("should call the createSession method and create the $onDisconnect method if is missing", () => {
+      const provider: any = {
         store: {
-          get: Sinon.stub()
+          get: Sinon.stub().returns({
+            injectNamespace: "nsp",
+            handlers: {
+              $onDisconnect: {
+                eventName: "onDisconnect"
+              }
+            }
+          })
         },
         instance: {
           $onDisconnect: Sinon.stub()
         }
       };
-      this.nspStub = {nsp: "nsp"};
-      this.socketStub = {
+      const nspStub: any = {nsp: "nsp"};
+      const socketStub: any = {
         on: Sinon.stub()
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-      this.builder.socketProviderMetadata = {
-        injectNamespace: "nsp",
-        handlers: {
-          $onDisconnect: {
-            eventName: "onDisconnect"
-          }
-        }
-      };
+      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const invokeStub = Sinon.stub(builder, "invoke");
+      const destroySessionStub = Sinon.stub(builder, "destroySession");
 
-      this.invokeStub = Sinon.stub(this.builder, "invoke");
-      this.destroySessionStub = Sinon.stub(this.builder, "destroySession");
+      builder.onDisconnect(socketStub, nspStub);
 
-      this.builder.onDisconnect(this.socketStub, this.nspStub);
-    });
-
-    it("should call the createSession method", () => {
-      expect(this.destroySessionStub).to.have.been.calledWithExactly(this.socketStub);
-    });
-
-    it("should add metadata when $onDisconnect exists", () => {
-      expect(this.invokeStub).to.have.been.calledWithExactly(
-        this.provider.instance,
+      expect(destroySessionStub).to.have.been.calledWithExactly(socketStub);
+      expect(invokeStub).to.have.been.calledWithExactly(
+        provider.instance,
         {eventName: "onDisconnect"},
         {
-          socket: this.socketStub,
-          nsp: this.nspStub
+          socket: socketStub,
+          nsp: nspStub
         }
       );
     });
   });
-
   describe("createSession()", () => {
-    before(() => {
-      this.provider = {
-        store: {
-          get: Sinon.stub()
-        },
-        instance: {
-          _nspSession: new Map()
-        }
-      };
-
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-      this.builder.createSession({id: "id"});
-    });
-
     it("should create session for the socket", () => {
-      expect(this.provider.instance._nspSession.get("id")).to.be.instanceof(Map);
-    });
-  });
-
-  describe("destroySession()", () => {
-    before(() => {
-      this.provider = {
+      const provider: any = {
         store: {
           get: Sinon.stub()
         },
@@ -213,107 +201,107 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      this.provider.instance._nspSession.set("id", new Map());
+      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      builder.createSession({id: "id"});
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-      this.builder.destroySession({id: "id"});
-    });
-
-    it("should destroy session for the socket", () => {
-      expect(this.provider.instance._nspSession.get("id")).to.be.undefined;
+      expect(provider.instance._nspSession.get("id")).to.be.instanceof(Map);
     });
   });
+  describe("destroySession()", () => {
+    it("should destroy session for the socket", () => {
+      const provider: any = {
+        store: {
+          get: Sinon.stub()
+        },
+        instance: {
+          _nspSession: new Map()
+        }
+      };
 
+      provider.instance._nspSession.set("id", new Map());
+
+      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      builder.destroySession({id: "id"});
+
+      expect(provider.instance._nspSession.get("id")).to.be.undefined;
+    });
+  });
   describe("buildHandlers()", () => {
-    before(() => {
-      this.metadata = {
+    before(() => {});
+
+    it("should call socket.on() method", () => {
+      const metadata = {
         handlers: {
           testHandler: {
             eventName: "eventName"
           }
         }
       };
-      this.provider = {
+      const provider: any = {
         store: {
-          get: Sinon.stub().returns(this.metadata)
+          get: Sinon.stub().returns(metadata)
         }
       };
-      this.socketStub = {
+      const socketStub = {
         on: Sinon.stub()
       };
-      const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-      this.runQueueStub = Sinon.stub(builder, "runQueue");
+      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const runQueueStub = Sinon.stub(builder, "runQueue");
 
-      builder.buildHandlers(this.socketStub, "ws");
-      this.socketStub.on.getCall(0).args[1]("arg1");
-    });
+      builder.buildHandlers(socketStub, "ws");
+      socketStub.on.getCall(0).args[1]("arg1");
 
-    it("should call socket.on() method", () => {
-      expect(this.socketStub.on).to.have.been.calledWithExactly("eventName", Sinon.match.func);
-    });
-
-    it("should call runQueue method", () => {
-      expect(this.runQueueStub).to.have.been.calledWithExactly(this.metadata.handlers.testHandler, ["arg1"], this.socketStub, "ws");
+      expect(socketStub.on).to.have.been.calledWithExactly("eventName", Sinon.match.func);
+      expect(runQueueStub).to.have.been.calledWithExactly(metadata.handlers.testHandler, ["arg1"], socketStub, "ws");
     });
   });
-
   describe("invoke()", () => {
-    before(() => {
-      this.metadata = {
-        handlers: {
-          testHandler: {
-            methodClassName: "testHandler",
-            eventName: "eventName",
-            parameters: ["param"],
-            returns: {
-              eventName: "returnEventName",
-              type: "type"
-            }
-          }
-        }
-      };
-
-      this.provider = {
+    it("should call the method instance", () => {
+      const provider: any = {
         store: {
-          get: Sinon.stub().returns(this.metadata)
+          get: Sinon.stub().returns(metadata)
         },
         instance: {
           testHandler: Sinon.stub().returns("response")
         }
       };
 
-      const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-      this.buildParametersStub = Sinon.stub(builder, "buildParameters").returns(["argMapped"]);
+      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const buildParametersStub = Sinon.stub(builder, "buildParameters").returns(["argMapped"]);
 
-      builder.invoke(this.provider.instance, this.metadata.handlers.testHandler, {scope: "scope"});
-    });
+      builder.invoke(provider.instance, metadata.handlers.testHandler, {scope: "scope"});
 
-    it("should call buildParameters", () => {
-      expect(this.buildParametersStub).to.have.been.calledWithExactly(["param"], {
+      expect(buildParametersStub).to.have.been.calledWithExactly(["param"], {
         scope: "scope"
       });
-    });
 
-    it("should call the method instance", () => {
-      expect(this.provider.instance.testHandler).to.have.been.calledWithExactly("argMapped");
+      expect(provider.instance.testHandler).to.have.been.calledWithExactly("argMapped");
     });
   });
-
   describe("buildParameters()", () => {
+    function createFixture() {
+      const provider: any = {
+        store: {
+          get: Sinon.stub().returns(metadata)
+        },
+        instance: {
+          testHandler: Sinon.stub().returns("response")
+        }
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+
+      return {
+        builder,
+        provider
+      };
+    }
+
     describe("when ARGS", () => {
-      before(() => {
-        this.provider = {
-          store: {
-            get: Sinon.stub().returns(this.metadata)
-          },
-          instance: {
-            testHandler: Sinon.stub().returns("response")
-          }
-        };
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-
-        this.result = builder.buildParameters(
+        const result = builder.buildParameters(
           {
             0: {
               filter: SocketFilters.ARGS
@@ -321,27 +309,16 @@ describe("SocketHandlersBuilder", () => {
           },
           {args: ["mapValue"]}
         );
-      });
 
-      it("should return a list of parameters", () => {
-        expect(this.result).to.deep.eq([["mapValue"]]);
+        expect(result).to.deep.eq([["mapValue"]]);
       });
     });
 
     describe("when ARGS with mapIndex", () => {
-      before(() => {
-        this.provider = {
-          store: {
-            get: Sinon.stub().returns(this.metadata)
-          },
-          instance: {
-            testHandler: Sinon.stub().returns("response")
-          }
-        };
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-
-        this.result = builder.buildParameters(
+        const result = builder.buildParameters(
           {
             0: {
               filter: SocketFilters.ARGS,
@@ -350,27 +327,16 @@ describe("SocketHandlersBuilder", () => {
           },
           {args: ["mapValue"]}
         );
-      });
 
-      it("should return a list of parameters", () => {
-        expect(this.result).to.deep.eq(["mapValue"]);
+        expect(result).to.deep.eq(["mapValue"]);
       });
     });
 
     describe("when Socket", () => {
-      before(() => {
-        this.provider = {
-          store: {
-            get: Sinon.stub().returns(this.metadata)
-          },
-          instance: {
-            testHandler: Sinon.stub().returns("response")
-          }
-        };
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-
-        this.result = builder.buildParameters(
+        const result = builder.buildParameters(
           {
             0: {
               filter: SocketFilters.SOCKET
@@ -378,27 +344,16 @@ describe("SocketHandlersBuilder", () => {
           },
           {socket: "socket"}
         );
-      });
 
-      it("should return a list of parameters", () => {
-        expect(this.result).to.deep.eq(["socket"]);
+        expect(result).to.deep.eq(["socket"]);
       });
     });
 
     describe("when NSP", () => {
-      before(() => {
-        this.provider = {
-          store: {
-            get: Sinon.stub().returns(this.metadata)
-          },
-          instance: {
-            testHandler: Sinon.stub().returns("response")
-          }
-        };
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-
-        this.result = builder.buildParameters(
+        const result = builder.buildParameters(
           {
             0: {
               filter: SocketFilters.NSP
@@ -406,27 +361,16 @@ describe("SocketHandlersBuilder", () => {
           },
           {nsp: "nsp"}
         );
-      });
 
-      it("should return a list of parameters", () => {
-        expect(this.result).to.deep.eq(["nsp"]);
+        expect(result).to.deep.eq(["nsp"]);
       });
     });
 
     describe("when ERROR", () => {
-      before(() => {
-        this.provider = {
-          store: {
-            get: Sinon.stub().returns(this.metadata)
-          },
-          instance: {
-            testHandler: Sinon.stub().returns("response")
-          }
-        };
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-
-        this.result = builder.buildParameters(
+        const result = builder.buildParameters(
           {
             0: {
               filter: SocketFilters.ERR
@@ -434,27 +378,15 @@ describe("SocketHandlersBuilder", () => {
           },
           {error: "error"}
         );
-      });
 
-      it("should return a list of parameters", () => {
-        expect(this.result).to.deep.eq(["error"]);
+        expect(result).to.deep.eq(["error"]);
       });
     });
 
     describe("when EVENT_NAME", () => {
-      before(() => {
-        this.provider = {
-          store: {
-            get: Sinon.stub().returns(this.metadata)
-          },
-          instance: {
-            testHandler: Sinon.stub().returns("response")
-          }
-        };
-
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
-
-        this.result = builder.buildParameters(
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
+        const result = builder.buildParameters(
           {
             0: {
               filter: SocketFilters.EVENT_NAME
@@ -462,31 +394,21 @@ describe("SocketHandlersBuilder", () => {
           },
           {eventName: "eventName"}
         );
-      });
 
-      it("should return a list of parameters", () => {
-        expect(this.result).to.deep.eq(["eventName"]);
+        expect(result).to.deep.eq(["eventName"]);
       });
     });
 
     describe("when SESSION", () => {
-      before(() => {
+      it("should return a list of parameters", () => {
         const map = new Map();
         map.set("id", new Map());
 
-        this.provider = {
-          store: {
-            get: Sinon.stub().returns(this.metadata)
-          },
-          instance: {
-            testHandler: Sinon.stub().returns("response"),
-            _nspSession: map
-          }
-        };
+        const {builder, provider} = createFixture();
 
-        const builder: any = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
+        provider.instance._nspSession = map;
 
-        this.result = builder.buildParameters(
+        const result = builder.buildParameters(
           {
             0: {
               filter: SocketFilters.SESSION
@@ -494,18 +416,15 @@ describe("SocketHandlersBuilder", () => {
           },
           {socket: {id: "id"}}
         );
-      });
 
-      it("should return a list of parameters", () => {
-        expect(this.result[0]).instanceof(Map);
+        expect(result[0]).instanceof(Map);
       });
     });
   });
-
   describe("bindResponseMiddleware()", () => {
     describe("when BROADCAST", () => {
-      before(() => {
-        this.nspStub = {
+      it("should call the ws.emit method", () => {
+        const nspStub = {
           emit: Sinon.stub()
         };
 
@@ -516,16 +435,15 @@ describe("SocketHandlersBuilder", () => {
               eventName: "eventName"
             }
           },
-          {nsp: this.nspStub}
+          {nsp: nspStub}
         )({response: "response"});
-      });
-      it("should call the ws.emit method", () => {
-        expect(this.nspStub.emit).to.have.been.calledWithExactly("eventName", {response: "response"});
+
+        expect(nspStub.emit).to.have.been.calledWithExactly("eventName", {response: "response"});
       });
     });
     describe("when BROADCAST_OTHERS", () => {
-      before(() => {
-        this.socketStub = {
+      it("should call the socket.broadcast.emit method", () => {
+        const socketStub = {
           broadcast: {
             emit: Sinon.stub()
           }
@@ -538,17 +456,16 @@ describe("SocketHandlersBuilder", () => {
               eventName: "eventName"
             }
           },
-          {socket: this.socketStub}
+          {socket: socketStub}
         )({response: "response"});
-      });
-      it("should call the socket.broadcast.emit method", () => {
-        expect(this.socketStub.broadcast.emit).to.have.been.calledWithExactly("eventName", {response: "response"});
+
+        expect(socketStub.broadcast.emit).to.have.been.calledWithExactly("eventName", {response: "response"});
       });
     });
 
     describe("when EMIT", () => {
-      before(() => {
-        this.socketStub = {
+      it("should call the socket.emit method", () => {
+        const socketStub = {
           emit: Sinon.stub()
         };
 
@@ -559,18 +476,23 @@ describe("SocketHandlersBuilder", () => {
               eventName: "eventName"
             }
           },
-          {socket: this.socketStub}
+          {socket: socketStub}
         )({response: "response"});
-      });
-      it("should call the socket.emit method", () => {
-        expect(this.socketStub.emit).to.have.been.calledWithExactly("eventName", {response: "response"});
+
+        expect(socketStub.emit).to.have.been.calledWithExactly("eventName", {response: "response"});
       });
     });
   });
-
   describe("runQueue()", () => {
+    let provider: any,
+      handlerMetadata: any,
+      bindMiddlewareStub: any,
+      bindResponseMiddlewareStub: any,
+      builder: any,
+      invokeStub: any,
+      deserializeStub: any;
     before(() => {
-      this.provider = {
+      provider = {
         store: {
           get: Sinon.stub().returns({
             useBefore: [{target: "target before global"}],
@@ -580,35 +502,35 @@ describe("SocketHandlersBuilder", () => {
         instance: {instance: "instance"}
       };
 
-      this.handlerMetadata = {
+      handlerMetadata = {
         eventName: "eventName",
         useBefore: [{target: "target before"}],
         useAfter: [{target: "target after"}]
       };
 
-      this.bindResponseMiddlewareStub = Sinon.stub(SocketHandlersBuilder as any, "bindResponseMiddleware");
+      bindResponseMiddlewareStub = Sinon.stub(SocketHandlersBuilder as any, "bindResponseMiddleware");
 
-      this.builder = new SocketHandlersBuilder(this.provider, {} as any, {} as any);
+      builder = new SocketHandlersBuilder(provider, {} as any, {} as any);
 
-      this.invokeStub = Sinon.stub(this.builder, "invoke");
-      this.bindMiddlewareStub = Sinon.stub(this.builder, "bindMiddleware");
-      this.deserializeStub = Sinon.stub(this.builder, "deserialize");
+      invokeStub = Sinon.stub(builder, "invoke");
+      bindMiddlewareStub = Sinon.stub(builder, "bindMiddleware");
+      deserializeStub = Sinon.stub(builder, "deserialize");
 
-      this.bindMiddlewareStub.onCall(0).resolves();
-      this.bindMiddlewareStub.onCall(1).resolves();
-      this.bindMiddlewareStub.onCall(2).resolves();
-      this.bindMiddlewareStub.onCall(3).resolves();
+      bindMiddlewareStub.onCall(0).resolves();
+      bindMiddlewareStub.onCall(1).resolves();
+      bindMiddlewareStub.onCall(2).resolves();
+      bindMiddlewareStub.onCall(3).resolves();
 
-      return this.builder.runQueue(this.handlerMetadata, ["arg1"], "socket", "nsp");
+      return builder.runQueue(handlerMetadata, ["arg1"], "socket", "nsp");
     });
 
     after(() => {
-      this.bindResponseMiddlewareStub.restore();
-      this.deserializeStub.restore();
+      bindResponseMiddlewareStub.restore();
+      deserializeStub.restore();
     });
 
     it("should call bindMiddleware (handler before global)", () => {
-      expect(this.bindMiddlewareStub.getCall(0)).to.have.been.calledWithExactly(
+      expect(bindMiddlewareStub.getCall(0)).to.have.been.calledWithExactly(
         {target: "target before global"},
         {
           eventName: "eventName",
@@ -621,7 +543,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call bindMiddleware (handler before)", () => {
-      expect(this.bindMiddlewareStub.getCall(1)).to.have.been.calledWithExactly(
+      expect(bindMiddlewareStub.getCall(1)).to.have.been.calledWithExactly(
         {target: "target before"},
         {
           eventName: "eventName",
@@ -634,7 +556,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should invoke method instance", () => {
-      expect(this.builder.invoke).to.have.been.calledWithExactly(this.provider.instance, this.handlerMetadata, {
+      expect(builder.invoke).to.have.been.calledWithExactly(provider.instance, handlerMetadata, {
         eventName: "eventName",
         args: ["arg1"],
         socket: "socket",
@@ -643,7 +565,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call SocketHandlersBuilder.bindResponseMiddleware", () => {
-      expect(this.bindResponseMiddlewareStub).to.have.been.calledWithExactly(this.handlerMetadata, {
+      expect(bindResponseMiddlewareStub).to.have.been.calledWithExactly(handlerMetadata, {
         eventName: "eventName",
         args: ["arg1"],
         socket: "socket",
@@ -652,7 +574,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call bindMiddleware (handler after)", () => {
-      expect(this.bindMiddlewareStub.getCall(2)).to.have.been.calledWithExactly(
+      expect(bindMiddlewareStub.getCall(2)).to.have.been.calledWithExactly(
         {target: "target after"},
         {
           eventName: "eventName",
@@ -665,7 +587,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call bindMiddleware (handler after global)", () => {
-      expect(this.bindMiddlewareStub.getCall(3)).to.have.been.calledWithExactly(
+      expect(bindMiddlewareStub.getCall(3)).to.have.been.calledWithExactly(
         {target: "target after global"},
         {
           eventName: "eventName",
@@ -678,7 +600,7 @@ describe("SocketHandlersBuilder", () => {
     });
 
     it("should call deserialize()", () => {
-      expect(this.deserializeStub).to.have.been.calledWithExactly(this.handlerMetadata, {
+      expect(deserializeStub).to.have.been.calledWithExactly(handlerMetadata, {
         eventName: "eventName",
         args: ["arg1"],
         socket: "socket",
@@ -686,162 +608,130 @@ describe("SocketHandlersBuilder", () => {
       });
     });
   });
-
   describe("bindMiddleware()", () => {
     describe("middleware is not registered", () => {
-      class Test {}
-
-      before(
-        PlatformTest.inject([InjectorService], (injector: InjectorService) => {
-          this.instance = new Test();
-          this.provider = {
-            store: {
-              get: Sinon.stub()
-            }
-          };
-
-          Store.from(Test).set("socketIO", {
-            handlers: {
-              use: "use"
-            }
-          });
-
-          this.getStub = Sinon.stub(injector as any, "getProvider").returns(false);
-
-          this.scope = {scope: "scope"};
-
-          this.builder = new SocketHandlersBuilder(this.provider, {} as any, injector);
-          this.invokeStub = Sinon.stub(this.builder, "invoke");
-
-          return this.builder.bindMiddleware({target: "target"}, this.scope, Promise.resolve());
-        })
-      );
-      after(() => {
-        this.getStub.restore();
-      });
-
       it("should call Middleware.get", () => {
-        expect(this.getStub).to.have.been.calledWithExactly({target: "target"});
-      });
+        class Test {}
 
-      it("should invoke method", () => {
-        return expect(this.invokeStub).to.not.have.been.called;
+        const injector = PlatformTest.get(InjectorService);
+        const provider: any = {
+          store: {
+            get: Sinon.stub()
+          }
+        };
+
+        Store.from(Test).set("socketIO", {
+          handlers: {
+            use: "use"
+          }
+        });
+
+        const getStub = Sinon.stub(injector as any, "getProvider").returns(false);
+
+        const scope = {scope: "scope"};
+
+        const builder: any = new SocketHandlersBuilder(provider, {} as any, injector);
+        const invokeStub = Sinon.stub(builder, "invoke");
+
+        builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
+
+        expect(getStub).to.have.been.calledWithExactly({target: "target"});
+        expect(invokeStub).to.not.have.been.called;
+
+        getStub.restore();
       });
     });
 
     describe("middleware", () => {
-      class Test {}
+      it("should call build handler from metadata", async () => {
+        // GIVEN
+        class Test {}
 
-      before(
-        PlatformTest.inject([InjectorService], (injector: InjectorService) => {
-          Sinon.stub(injector as any, "getProvider");
-        })
-      );
-      after(
-        PlatformTest.inject([InjectorService], (injector: InjectorService) => {
-          // @ts-ignore
-          injector.getProvider.restore();
-        })
-      );
+        const injector = PlatformTest.get(InjectorService);
+        const getStubProvider = Sinon.stub(injector as any, "getProvider");
 
-      it(
-        "should call build handler from metadata",
-        PlatformTest.inject([InjectorService], async (injector: InjectorService) => {
-          // GIVEN
-          const instance = new Test();
-          const provider = {
-            store: {
-              get: Sinon.stub()
-            }
-          };
+        const instance = new Test();
+        const provider = {
+          store: {
+            get: Sinon.stub()
+          }
+        };
 
-          Store.from(Test).set("socketIO", {
-            type: ProviderType.MIDDLEWARE,
-            handlers: {
-              use: "use"
-            }
-          });
+        Store.from(Test).set("socketIO", {
+          type: ProviderType.MIDDLEWARE,
+          handlers: {
+            use: "use"
+          }
+        });
 
-          // @ts-ignore
-          injector.getProvider.returns({
-            instance,
-            type: ProviderType.MIDDLEWARE
-          });
+        // @ts-ignore
+        injector.getProvider.returns({
+          instance,
+          type: ProviderType.MIDDLEWARE
+        });
 
-          const scope = {scope: "scope", args: undefined};
-          const builder: any = new SocketHandlersBuilder(provider as any, {} as any, injector);
-          Sinon.stub(builder, "invoke").returns({result: "result"});
+        const scope = {scope: "scope", args: undefined};
+        const builder: any = new SocketHandlersBuilder(provider as any, {} as any, injector);
+        Sinon.stub(builder, "invoke").returns({result: "result"});
 
-          // WHEN
-          await builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
+        // WHEN
+        await builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
 
-          // THEN
-          expect(injector.getProvider).to.have.been.calledWithExactly({target: "target"});
-          expect(builder.invoke).to.have.been.calledWithExactly(instance, "use", scope);
-          expect(scope.args).to.deep.eq([{result: "result"}]);
-        })
-      );
+        // THEN
+        expect(injector.getProvider).to.have.been.calledWithExactly({target: "target"});
+        expect(builder.invoke).to.have.been.calledWithExactly(instance, "use", scope);
+        expect(scope.args).to.deep.eq([{result: "result"}]);
+
+        getStubProvider.restore();
+      });
     });
 
     describe("middleware error", () => {
-      class Test {}
+      it("should call build handler from metadata", async () => {
+        class Test {}
 
-      before(
-        PlatformTest.inject([InjectorService], (injector: InjectorService) => {
-          Sinon.stub(injector as any, "getProvider");
-        })
-      );
-      after(
-        PlatformTest.inject([InjectorService], (injector: InjectorService) => {
-          // @ts-ignore
-          injector.getProvider.restore();
-        })
-      );
+        const injector = PlatformTest.get(InjectorService);
+        const getStubProvider = Sinon.stub(injector as any, "getProvider");
 
-      it(
-        "should call build handler from metadata",
-        PlatformTest.inject([InjectorService], async (injector: InjectorService) => {
-          // GIVEN
-          const instance = new Test();
-          const provider = {
-            store: {
-              get: Sinon.stub()
-            }
-          };
+        const instance = new Test();
+        const provider = {
+          store: {
+            get: Sinon.stub()
+          }
+        };
 
-          Store.from(Test).set("socketIO", {
-            type: ProviderType.MIDDLEWARE,
-            error: true,
-            handlers: {
-              use: "use"
-            }
-          });
+        Store.from(Test).set("socketIO", {
+          type: ProviderType.MIDDLEWARE,
+          error: true,
+          handlers: {
+            use: "use"
+          }
+        });
 
-          // @ts-ignore
-          injector.getProvider.returns({
-            instance,
-            type: ProviderType.MIDDLEWARE
-          });
+        // @ts-ignore
+        injector.getProvider.returns({
+          instance,
+          type: ProviderType.MIDDLEWARE
+        });
 
-          const scope = {scope: "scope", args: undefined};
-          const error = new Error("test");
-          const builder: any = new SocketHandlersBuilder(provider as any, {} as any, injector);
-          Sinon.stub(builder, "invoke").returns({result: "result"});
+        const scope = {scope: "scope", args: undefined};
+        const error = new Error("test");
+        const builder: any = new SocketHandlersBuilder(provider as any, {} as any, injector);
+        Sinon.stub(builder, "invoke").returns({result: "result"});
 
-          // WHEN
-          await builder.bindMiddleware({target: "target"}, scope, Promise.reject(error));
+        // WHEN
+        await builder.bindMiddleware({target: "target"}, scope, Promise.reject(error));
 
-          // THEN
-          expect(injector.getProvider).to.have.been.calledWithExactly({target: "target"});
-          expect(builder.invoke).to.have.been.calledWithExactly(instance, "use", {error, ...scope});
-        })
-      );
+        // THEN
+        expect(injector.getProvider).to.have.been.calledWithExactly({target: "target"});
+        expect(builder.invoke).to.have.been.calledWithExactly(instance, "use", {error, ...scope});
+        getStubProvider.restore();
+      });
     });
   });
-
   describe("deserialize()", () => {
-    before(() => {
-      this.provider = {
+    it("should call ConverterService.deserialize", () => {
+      const provider: any = {
         store: {
           get: Sinon.stub()
         }
@@ -859,17 +749,15 @@ describe("SocketHandlersBuilder", () => {
         args: ["any"]
       };
 
-      this.converterService = {
+      const converterService = {
         deserialize: Sinon.stub().returns("value")
       };
 
-      this.builder = new SocketHandlersBuilder(this.provider, this.converterService as any, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, converterService as any, {} as any);
 
-      this.result = this.builder.deserialize({parameters} as any, scope as any);
-    });
+      builder.deserialize({parameters} as any, scope as any);
 
-    it("should call ConverterService.deserialize", () => {
-      expect(this.converterService.deserialize).to.have.been.calledWithExactly("any", String, Array);
+      expect(converterService.deserialize).to.have.been.calledWithExactly("any", {type: String, collectionType: Array});
     });
   });
 });

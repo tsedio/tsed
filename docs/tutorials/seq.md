@@ -16,7 +16,7 @@ This tutorial shows you how you can configure Seq logger with Ts.ED. Seq is cent
 Run this command to install required dependencies by `@tsed/seq`:
 
 ```bash
-npm install --save @tsed/seq bunyan bunyan-seq @types/bunyan @types/bunyan-seq
+npm install --save @tsed/seq
 ```
 
 Then add the following configuration in your Server:
@@ -28,7 +28,7 @@ import "@tsed/seq"; // import seq Ts.ED module
 @Configuration({
   rootDir: __dirname,
   seq: {
-    url: "http://localhost:5341"
+    serverUrl: "http://localhost:5341" // url props works also
   }
 })
 export class Server {
@@ -49,7 +49,7 @@ Seq module uses the log level from the @@LoggerSettings@@ (default level is debu
 import {Controller, Get, QueryParams} from "@tsed/common";
 import {$log} from "@tsed/logger";
 
-@Controller('/calendars')
+@Controller("/calendars")
 export class Calendar {
     
     @Get('/:id')

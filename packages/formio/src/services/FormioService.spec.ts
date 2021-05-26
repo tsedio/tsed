@@ -3,6 +3,7 @@ import {expect} from "chai";
 import Sinon from "sinon";
 import "../components/AlterAudit";
 import {AlterAudit} from "../components/AlterAudit";
+import {FormioHooksService} from "./FormioHooksService";
 import {FormioService} from "./FormioService";
 
 const sandbox = Sinon.createSandbox();
@@ -11,7 +12,14 @@ async function createFormioFixture(routerOpts: any = {}) {
   const service = await PlatformTest.invoke<FormioService>(FormioService, []);
   const router = {
     init: sandbox.stub().returnsThis(),
-    ...routerOpts
+    ...routerOpts,
+    formio: {
+      ...(routerOpts.formio || {}),
+      util: {
+        log: sandbox.stub(),
+        error: sandbox.stub()
+      }
+    }
   };
   const config: any = {
     baseUrl: "/projects",
@@ -57,7 +65,8 @@ describe("FormioService", () => {
   it("should call hook", async () => {
     const {router, service, config} = await createFormioFixture();
 
-    await service.init(config);
+    await service.init(config, PlatformTest.get<FormioHooksService>(FormioHooksService).getHooks());
+
     // hooks
     const ctx = PlatformTest.createRequestContext();
     const hooks = router.init.getCall(0).args[0];
@@ -145,11 +154,11 @@ describe("FormioService", () => {
           util: {}
         }
       };
-      const {service, config} = await createFormioFixture(routeOpts);
+      const {service, config, router} = await createFormioFixture(routeOpts);
 
       await service.init(config);
 
-      expect(service.util).to.eq(routeOpts.formio.util);
+      expect(service.util).to.eq(router.formio.util);
     });
   });
   describe("hook", () => {
@@ -166,6 +175,45 @@ describe("FormioService", () => {
       expect(service.hook).to.eq(routeOpts.formio.hook);
     });
   });
+  describe("auth", () => {
+    it("should return auth", async () => {
+      const routeOpts = {
+        formio: {
+          auth: {}
+        }
+      };
+      const {service, config} = await createFormioFixture(routeOpts);
+
+      await service.init(config);
+
+      expect(service.auth).to.eq(routeOpts.formio.auth);
+    });
+  });
+  describe("audit", () => {
+    it("should return audit", async () => {
+      const routeOpts = {
+        formio: {
+          audit: {}
+        }
+      };
+      const {service, config} = await createFormioFixture(routeOpts);
+
+      await service.init(config);
+
+      expect(service.audit).to.eq(routeOpts.formio.audit);
+    });
+    it("should return empty fn", async () => {
+      const routeOpts = {
+        formio: {}
+      };
+      const {service, config} = await createFormioFixture(routeOpts);
+
+      await service.init(config);
+
+      expect(typeof service.audit).to.eq("function");
+      expect(service.audit("test")).to.eq(undefined);
+    });
+  });
   describe("formio", () => {
     it("should return formio", async () => {
       const routeOpts = {
@@ -173,11 +221,11 @@ describe("FormioService", () => {
           hook: {}
         }
       };
-      const {service, config} = await createFormioFixture(routeOpts);
+      const {service, config, router} = await createFormioFixture(routeOpts);
 
       await service.init(config);
 
-      expect(service.formio).to.eq(routeOpts.formio);
+      expect(service.formio).to.eq(router.formio);
     });
   });
   describe("schemas", () => {

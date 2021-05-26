@@ -12,30 +12,29 @@ import {
   prototypeOf,
   Store
 } from "@tsed/core";
-import {Container} from "../class/Container";
-import {LocalsContainer} from "../class/LocalsContainer";
-import {Provider} from "../class/Provider";
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
 import {Configuration} from "../decorators/configuration";
 import {Injectable} from "../decorators/injectable";
+import {InjectablePropertyType, ProviderScope} from "../domain";
+import {Container} from "../domain/Container";
+import {LocalsContainer} from "../domain/LocalsContainer";
+import {Provider} from "../domain/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
 import {
-  IDILogger,
-  IInjectableProperties,
-  IInjectablePropertyService,
-  IInjectablePropertyValue,
-  InjectablePropertyType,
+  DILogger,
+  InjectableProperties,
+  InjectablePropertyService,
+  InjectablePropertyValue,
   InterceptorContext,
   InterceptorMethods,
   InvokeOptions,
   IProvider,
-  ProviderScope,
   TokenProvider
 } from "../interfaces";
 import {GlobalProviders} from "../registries/GlobalProviders";
-import {DIConfiguration} from "./DIConfiguration";
 import {createContainer} from "../utils/createContainer";
+import {DIConfiguration} from "./DIConfiguration";
 
 interface InvokeSettings {
   token: TokenProvider;
@@ -76,7 +75,7 @@ interface InvokeSettings {
 })
 export class InjectorService extends Container {
   public settings: TsED.Configuration & DIConfiguration = new DIConfiguration() as any;
-  public logger: IDILogger = console;
+  public logger: DILogger = console;
   private resolvedConfiguration: boolean = false;
 
   constructor() {
@@ -148,9 +147,9 @@ export class InjectorService extends Container {
    * @returns {boolean}
    */
   get<T = any>(token: TokenProvider, options: any = {}): T | undefined {
-    const instance = super.has(token) && super.get(getClassOrSymbol(token))!.instance;
+    const instance = super.get(getClassOrSymbol(token))?.instance;
 
-    if (instance) {
+    if (instance !== undefined) {
       return instance;
     }
 
@@ -171,7 +170,7 @@ export class InjectorService extends Container {
    * @param token
    */
   has(token: TokenProvider): boolean {
-    return super.has(getClassOrSymbol(token)) && !!this.get(token);
+    return super.has(getClassOrSymbol(token)) && this.get(token) !== undefined;
   }
 
   /**
@@ -277,7 +276,7 @@ export class InjectorService extends Container {
         this.invoke(provider.token, locals);
       }
 
-      if (provider.instance) {
+      if (provider.instance !== undefined) {
         locals.set(provider.token, provider.instance);
       }
     }
@@ -299,6 +298,7 @@ export class InjectorService extends Container {
 
     return this;
   }
+
   /**
    * Build all providers from given container (or GlobalProviders) and emit `$onInit` event.
    *
@@ -354,7 +354,7 @@ export class InjectorService extends Container {
    * @param options
    */
   public bindInjectableProperties(instance: any, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions>) {
-    const properties: IInjectableProperties = ancestorsOf(classOf(instance)).reduce((properties: any, target: any) => {
+    const properties: InjectableProperties = ancestorsOf(classOf(instance)).reduce((properties: any, target: any) => {
       const store = Store.from(target);
 
       return {
@@ -389,7 +389,7 @@ export class InjectorService extends Container {
    * @param instance
    * @param {string} propertyKey
    */
-  public bindMethod(instance: any, {propertyKey}: IInjectablePropertyService) {
+  public bindMethod(instance: any, {propertyKey}: InjectablePropertyService) {
     const target = classOf(instance);
     const originalMethod = instance[propertyKey];
     const deps = Metadata.getParamTypes(prototypeOf(target), propertyKey);
@@ -414,7 +414,7 @@ export class InjectorService extends Container {
    */
   public bindProperty(
     instance: any,
-    {propertyKey, useType, onGet = (f: any) => f, options}: IInjectablePropertyService,
+    {propertyKey, useType, onGet = (f: any) => f, options}: InjectablePropertyService,
     locals: Map<TokenProvider, any>,
     invokeOptions: Partial<InvokeOptions>
   ) {
@@ -442,7 +442,7 @@ export class InjectorService extends Container {
    * @param {string} propertyKey
    * @param {any} useType
    */
-  public bindValue(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue) {
+  public bindValue(instance: any, {propertyKey, expression, defaultValue}: InjectablePropertyValue) {
     const descriptor = {
       get: () => this.settings.get(expression) || defaultValue,
       set: (value: any) => this.settings.set(expression, value),
@@ -458,7 +458,7 @@ export class InjectorService extends Container {
    * @param {string} propertyKey
    * @param {any} useType
    */
-  public bindConstant(instance: any, {propertyKey, expression, defaultValue}: IInjectablePropertyValue): PropertyDescriptor {
+  public bindConstant(instance: any, {propertyKey, expression, defaultValue}: InjectablePropertyValue): PropertyDescriptor {
     const clone = (o: any) => {
       if (o) {
         return Object.freeze(deepClone(o));
@@ -485,7 +485,7 @@ export class InjectorService extends Container {
    * @param useType
    * @param options
    */
-  public bindInterceptor(instance: any, {propertyKey, useType, options}: IInjectablePropertyService) {
+  public bindInterceptor(instance: any, {propertyKey, useType, options}: InjectablePropertyService) {
     const target = classOf(instance);
     const originalMethod = instance[propertyKey];
 
@@ -637,7 +637,7 @@ export class InjectorService extends Container {
     deps = deps || provider.deps;
     imports = imports || provider.imports;
 
-    if (provider.useValue) {
+    if (provider.useValue !== undefined) {
       construct = () => (isFunction(provider.useValue) ? provider.useValue() : provider.useValue);
     } else if (provider.useFactory) {
       construct = (deps: TokenProvider[]) => provider.useFactory(...deps);

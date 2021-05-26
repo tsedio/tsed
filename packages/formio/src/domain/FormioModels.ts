@@ -3,7 +3,9 @@ import {Schema} from "mongoose";
 import {FormioActionModelCtor, FormioActionMongooseSchema} from "./FormioAction";
 import {FormioBaseModel, FormioModel, FormioMongooseSchema} from "./FormioBaseModel";
 
-export interface FormioActionItem<T = any> {
+export type WithID<T> = T & {_id: string};
+
+export interface FormioActionItem<Data = any> {
   _id: string | undefined;
   title: string;
   form: string;
@@ -13,7 +15,7 @@ export interface FormioActionItem<T = any> {
   method: string;
   state: "new" | "inprogress" | "complete" | "error";
   messages: any[];
-  data: T;
+  data: Data;
 }
 
 export interface FormioAccess {
@@ -27,10 +29,10 @@ export interface FormioPermission {
   roles: string[];
 }
 
-export interface FormioComponent {
+export interface FormioComponent extends Record<string, any> {
   type: string;
   input?: boolean;
-  label: string;
+  label?: string;
   key: string;
   placeholder?: string;
   template?: string;
@@ -48,7 +50,7 @@ export interface FormioComponent {
     [key: string]: any;
   };
   customConditional?: string;
-  components?: FormioForm[];
+  components?: FormioComponent[];
   legend?: string;
   tree?: boolean;
   tableView?: boolean;
@@ -58,8 +60,6 @@ export interface FormioComponent {
   clearOnHide?: boolean;
   form?: string | FormioForm;
   filter?: string;
-
-  [key: string]: any;
 }
 
 export interface FormioForm {
@@ -79,7 +79,7 @@ export interface FormioForm {
   /**
    * The form type.
    */
-  type: "form" | "resource";
+  type: string;
   /**
    * The display method for this form
    */
@@ -120,7 +120,7 @@ export interface FormioForm {
   [key: string]: any;
 }
 
-export interface FormioRole {
+export interface FormioRole extends Record<string, any> {
   _id: string | undefined;
   title: string;
   description: string;
@@ -136,23 +136,20 @@ export interface FormioSchema {
   value: string;
 }
 
-export interface FormioSubmission<T = any> {
+export interface FormioSubmission<Data = any> extends Record<string, any> {
   _id: string | undefined;
   form: string;
+  data: Data;
   owner?: string;
-  delete: number | null;
+  // delete?: number | null;
   roles?: string[];
   access?: FormioAccess[];
   externalIds?: {type?: string; resource?: string; id?: string}[];
-  /**
-   * Configurable metadata.
-   */
-  metadata: any;
-  data: T;
-  created: string;
-  updated: string;
-  // deleted: string;
-  modified: string;
+  metadata?: Record<string, any>;
+  created?: string;
+  updated?: string;
+  deleted?: string | null;
+  modified?: string;
 }
 
 export interface FormioToken {

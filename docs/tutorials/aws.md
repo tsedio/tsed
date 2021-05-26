@@ -6,7 +6,7 @@ meta:
    content: ts.ed express typescript aws node.js javascript decorators
 projects:   
  - title: Kit AWS
-   href: https://github.com/TypedProject/tsed-example-aws
+   href: https://github.com/tsedio/tsed-example-aws
    src: /aws.png   
 ---
 # AWS
@@ -19,7 +19,7 @@ This tutorial shows you how to configure the Express application written with Ts
 
 More information here: [Official AWS Docs](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
 
-<Projects type="examples"/>
+<Projects type="projects"/>
 
 ## Installation
 
@@ -33,7 +33,7 @@ npm install --save @tsed/platform-aws
 
 Create a new `LambdaServer.ts` in `src` directory:
 
-<<< @/docs/tutorials/snippets/aws/lambda.ts
+<<< @/tutorials/snippets/aws/lambda.ts
 
 Then create `lambda.js` on your root project:
 
@@ -69,7 +69,7 @@ class MyCtrl {
 ```
 
 ::: tip
-You can find a project example with [AWS configuration here](https://github.com/TypedProject/tsed-example-aws).
+You can find a project example with [AWS configuration here](https://github.com/tsedio/tsed-example-aws).
 :::
 
 ::: tip Example

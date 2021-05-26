@@ -1,15 +1,16 @@
-import {registerFactory} from "@tsed/common";
-import SocketIO from "socket.io";
+import {registerProvider} from "@tsed/common";
+import {Server} from "socket.io";
 
-/**
- *
- */
-export interface SocketIOServer extends SocketIO.Server {}
+export type SocketIOServer = Server;
 
-/**
- *
- */
 // tslint:disable-next-line: variable-name
-export const SocketIOServer = Symbol("SocketIOServer");
+export const SocketIOServer = Server;
 
-registerFactory(SocketIOServer, SocketIO());
+export {Server};
+
+registerProvider({
+  provide: Server,
+  useFactory() {
+    return new Server();
+  }
+});

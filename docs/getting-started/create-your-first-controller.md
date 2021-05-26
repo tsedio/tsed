@@ -13,13 +13,13 @@ meta:
 Create a new `CalendarCtrl.ts` in your controllers directory (by default `root/controllers`).
 All controllers declared with @@Controller@@ decorators are considered as Platform routers (Express.Router, Koa.Router, ...). 
 A Platform router requires a path (here, the path is `/calendars`) to expose an url on your server. 
-More precisely, it's a part of a path, and the entire exposed url depends on the Server configuration (see [Configuration](configuration.md)) 
+More precisely, it's a part of a path, and the entire exposed url depends on the Server configuration (see [Configuration](/docs/configuration.md)) 
 and the [children controllers](/docs/controllers.md).
 
 In this case, we have no dependencies and the root endpoint is set to `/rest`. 
 So the controller's url will be `http://host/rest/calendars`.
 
-<<< @/docs/docs/snippets/controllers/basic-controller.ts
+<<< @/docs/snippets/controllers/basic-controller.ts
 
 ::: tip
 Decorators @@Get@@, @@Post@@, @@Delete@@, @@Put@@, etc., support dynamic pathParams (eg: `/:id`) and `RegExp` like Express API.

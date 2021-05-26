@@ -107,6 +107,7 @@
         SwaggerUIBundle.plugins.DownloadUrl
       ],
       layout: "StandaloneLayout",
+      oauth2RedirectUrl: currentUrl.replace('swagger.json', 'oauth2-redirect.html'),
       validatorUrl: origin.match('0.0.0.0') || origin.match('localhost') ? null : undefined
     }, initialOptions),
     /**

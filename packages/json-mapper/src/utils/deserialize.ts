@@ -3,13 +3,15 @@ import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonSchema
 import "../components";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {getJsonMapperTypes} from "../domain/JsonMapperTypesContainer";
+import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize";
+import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
 export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes<T, C> {
   /**
    * Types used to map complex types (Symbol, Array, Set, Map)
    */
-  types?: Map<Type<any>, JsonMapperMethods>;
+  types?: WeakMap<Type<any>, JsonMapperMethods>;
   /**
    * useAlias mapping
    */
@@ -84,6 +86,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
 
   let keys = objectKeys(src);
   const additionalProperties = propertiesMap.size ? !!store.schema.get("additionalProperties") || options.additionalProperties : true;
+  src = alterBeforeDeserialize(src, store.schema, options);
   const out: any = new type(src);
 
   propertiesMap.forEach((propStore) => {
@@ -108,6 +111,11 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
       const genericLabels = propStore.parent.schema.genericLabels || [];
 
       next.type = genericTypes[genericLabels.indexOf(propStore.schema.genericType)] || Object;
+
+      if (next.type instanceof JsonSchema) {
+        next.type = next.type.getTarget();
+      }
+
       next.nestedGenerics = nestedGenerics;
     }
 
@@ -128,7 +136,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
     });
   }
 
-  return out;
+  return alterAfterDeserialize(out, store.schema, options);
 }
 
 function buildOptions(options: JsonDeserializerOptions<any, any>): any {

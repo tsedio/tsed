@@ -1,6 +1,5 @@
-import {JsonSchema} from "../../domain/JsonSchema";
-import {JSONSchema6} from "json-schema";
-import {Schema} from "./schema";
+import {AnyJsonSchema} from "../../domain/JsonSchema";
+import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
  * See https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.27
@@ -17,8 +16,8 @@ import {Schema} from "./schema";
  * @input
  * @param anyOf
  */
-export function AnyOf(...anyOf: (Partial<JSONSchema6> | JsonSchema)[]) {
-  return Schema({
-    anyOf: anyOf as any[]
+export function AnyOf(...anyOf: AnyJsonSchema[]) {
+  return JsonEntityFn((entity) => {
+    entity.itemSchema.anyOf(anyOf);
   });
 }

@@ -1,8 +1,8 @@
 import {ObjectSchema} from "@hapi/joi";
-import {Injectable, IPipe, ParamMetadata, ValidationError} from "@tsed/common";
+import {Injectable, PipeMethods, ParamMetadata, ValidationError} from "@tsed/common";
 
 @Injectable()
-export class JoiValidationPipe implements IPipe {
+export class JoiValidationPipe implements PipeMethods {
   transform(value: any, metadata: ParamMetadata) {
     const schema = metadata.store.get<ObjectSchema>(JoiValidationPipe);
 

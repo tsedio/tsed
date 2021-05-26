@@ -1,10 +1,24 @@
 {
   "name": "@tsed/root",
-  "version": "6.26.3",
+  "version": "6.51.0",
   "description": "A TypeScript Framework on top of Express",
   "private": true,
+  "author": "Romain Lenzotti",
+  "license": "MIT",
+  "homepage": "https://tsed.io/",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/tsed"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tsedio/tsed.git"
+  },
   "scripts": {
-    "postinstall": "node tasks/yarn/postinstall.js",
+    "postinstall": "node tools/yarn/postinstall.js && cd docs && yarn install && cd .. && opencollective",
     "configure": "monorepo ci configure",
     "clean": "monorepo clean workspace",
     "test": "yarn clean && yarn test:lint && yarn test:coverage",
@@ -21,21 +35,19 @@
     "examples:sync": "monorepo sync examples",
     "examples:publish": "monorepo publish examples",
     "api:build": "lerna run build && tsdoc",
-    "vuepress:build": "cross-env NODE_ENV=production node --max_old_space_size=8192 ./node_modules/vuepress/cli.js build docs",
-    "vuepress:serve": "vuepress dev docs",
+    "vuepress:build": "cd docs && yarn vuepress:build",
+    "vuepress:serve": "cd docs && yarn vuepress:serve",
     "prettier": "prettier '{packages,test}/**/*.ts' --write",
     "release": "semantic-release",
-    "release:dryRun": "semantic-release --dry-run"
+    "release:dryRun": "semantic-release --dry-run",
+    "benchmarks": "lerna run benchmarks --stream --no-prefix",
+    "benchmarks:tsed": "cross-env LIBS=tsed,express lerna run benchmarks --stream --no-prefix"
   },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
       "post-commit": "git update-index --again"
     }
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/TypedProject/tsed.git"
   },
   "keywords": [
     "Express",
@@ -72,33 +84,30 @@
     "validation",
     "multer"
   ],
-  "author": "Romain Lenzotti",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/TypedProject/tsed/issues"
-  },
-  "homepage": "http://tsed.io/",
   "dependencies": {
-    "@tsed/logger": "^5.5.4",
-    "ajv": "7.0.1",
+    "@nuxtjs/opencollective": "0.3.2",
+    "@tsed/logger": "^5.12.1",
+    "axios": "0.21.1",
+    "ajv": "8.3.0",
     "consolidate": "0.16.0",
     "ejs": "^3.1.5",
     "ejs-lint": "1.1.0",
-    "globby": "11.0.1",
+    "change-case": "4.1.2",
+    "globby": "11.0.3",
     "lerna": "3.22.1",
     "reflect-metadata": "0.1.13",
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@tsed/markdown-it-symbols": "3.6.0",
-    "@tsed/monorepo-utils": "1.13.0",
+    "@tsed/monorepo-utils": "1.17.0",
     "@typedproject/ts-doc": "4.0.13",
+    "@types/axios": "0.14.0",
     "@types/chai": "4.2.12",
     "@types/chai-as-promised": "7.1.3",
-    "@types/faker": "^5.1.5",
+    "@types/faker": "5.1.7",
     "@types/globby": "9.1.0",
     "@types/mocha": "8.0.3",
-    "@types/node": "14.14.10",
+    "@types/node": "14.14.34",
     "@types/proxyquire": "1.3.28",
     "@types/sinon": "9.0.8",
     "@types/sinon-chai": "3.2.4",
@@ -119,7 +128,7 @@
     "faker": "^5.1.0",
     "fs-extra": "9.0.1",
     "husky": "4.3.0",
-    "lint-staged": "10.4.0",
+    "lint-staged": "10.5.4",
     "micromatch": "4.0.2",
     "mocha": "8.2.1",
     "nyc": "15.1.0",
@@ -127,15 +136,12 @@
     "proxyquire": "2.1.3",
     "semantic-release": "17.2.3",
     "sinon": "9.0.3",
-    "sinon-chai": "3.5.0",
+    "sinon-chai": "3.6.0",
     "supertest": "6.0.0",
     "ts-node": "9.0.0",
     "tsconfig-paths": "3.9.0",
-    "tslib": "2.0.1",
-    "typescript": "4.0.2",
-    "vue-analytics": "5.22.1",
-    "vuepress": "1.8.0",
-    "vuepress-theme-tsed": "3.6.0"
+    "tslib": "2.1.0",
+    "typescript": "4.2.4"
   },
   "directories": {
     "packages": "packages",
@@ -143,11 +149,22 @@
   },
   "workspaces": {
     "packages": [
-      "packages/*"
+      "packages/*",
+      "tools/*"
     ],
     "nohoist": [
       "**/fs-extra/**"
     ]
+  },
+  "resolutions": {
+    "mongoose": "5.12.2"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/tsed",
+    "donation": {
+      "text": "Become a partner:"
+    }
   },
   "monorepo": {
     "productionBranch": "production",
@@ -159,7 +176,7 @@
     ],
     "ghpages": {
       "dir": "./docs/.vuepress/dist",
-      "url": "https://github.com/TypedProject/tsed.git",
+      "url": "https://github.com/tsedio/tsed.git",
       "branch": "gh-pages",
       "cname": "tsed.io"
     },
@@ -167,43 +184,43 @@
       "dir": "./examples",
       "repositories": {
         "getting-started": {
-          "url": "https://github.com/TypedProject/tsed-getting-started.git"
+          "url": "https://github.com/tsedio/tsed-getting-started.git"
         },
         "aws": {
-          "url": "https://github.com/TypedProject/tsed-example-aws.git"
+          "url": "https://github.com/tsedio/tsed-example-aws.git"
         },
         "mongoose": {
-          "url": "https://github.com/TypedProject/tsed-example-mongoose.git"
+          "url": "https://github.com/tsedio/tsed-example-mongoose.git"
         },
         "multer": {
-          "url": "https://github.com/TypedProject/tsed-example-multer.git"
+          "url": "https://github.com/tsedio/tsed-example-multer.git"
         },
         "passportjs": {
-          "url": "https://github.com/TypedProject/tsed-example-passportjs.git"
+          "url": "https://github.com/tsedio/tsed-example-passportjs.git"
         },
         "typeorm": {
-          "url": "https://github.com/TypedProject/tsed-example-typeorm.git"
+          "url": "https://github.com/tsedio/tsed-example-typeorm.git"
         },
         "session": {
-          "url": "https://github.com/TypedProject/tsed-example-session.git"
+          "url": "https://github.com/tsedio/tsed-example-session.git"
         },
         "socketio": {
-          "url": "https://github.com/TypedProject/tsed-example-socketio.git"
+          "url": "https://github.com/tsedio/tsed-example-socketio.git"
         },
         "passport-azure-ad": {
-          "url": "https://github.com/TypedProject/tsed-example-passport-azure-ad.git"
+          "url": "https://github.com/tsedio/tsed-example-passport-azure-ad.git"
         },
         "vuejs": {
-          "url": "https://github.com/TypedProject/tsed-example-vuejs.git"
+          "url": "https://github.com/tsedio/tsed-example-vuejs.git"
         },
         "react": {
-          "url": "https://github.com/TypedProject/tsed-example-react.git"
+          "url": "https://github.com/tsedio/tsed-example-react.git"
         },
         "graphql": {
-          "url": "https://github.com/TypedProject/tsed-example-graphql.git"
+          "url": "https://github.com/tsedio/tsed-example-graphql.git"
         },
         "webpack": {
-          "url": "https://github.com/TypedProject/tsed-example-webpack.git"
+          "url": "https://github.com/tsedio/tsed-example-webpack.git"
         }
       }
     }

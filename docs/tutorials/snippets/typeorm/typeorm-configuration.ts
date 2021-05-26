@@ -1,6 +1,6 @@
 import {Configuration} from "@tsed/common";
 import "@tsed/platform-express";
-import "@tsed/typeorm"; // import typeorm ts.ed module
+import "@tsed/typeorm"; // !!! IMPORTANT TO ADD THIS !!!
 
 @Configuration({
   typeorm: [

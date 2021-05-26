@@ -1,9 +1,8 @@
 import {registerProvider} from "@tsed/di";
 import {Schema} from "mongoose";
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions";
-import {registerModel} from "../registries/MongooseModelRegistry";
 import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections";
-import {createModel, getModelToken, getSchema, getSchemaToken} from "../utils";
+import {createModel, getModelToken, getSchema} from "../utils";
 import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions";
 
 /**
@@ -55,7 +54,7 @@ export function Model(options: MongooseModelOptions = {}) {
       }
     });
 
-    registerModel({
+    registerProvider({
       provide: target,
       deps: [MONGOOSE_CONNECTIONS, token],
       useFactory(connections: MONGOOSE_CONNECTIONS, schema: Schema) {

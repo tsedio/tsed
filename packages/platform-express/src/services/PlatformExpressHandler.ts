@@ -22,10 +22,10 @@ export class PlatformExpressHandler extends PlatformHandler {
       case HandlerType.ERR_MIDDLEWARE:
         return (err: any, request: any, response: any, next: any) =>
           this.onRequest({
-            err,
-            $ctx: request.$ctx,
+            metadata,
             next,
-            metadata
+            $ctx: request.$ctx,
+            err
           });
     }
   }

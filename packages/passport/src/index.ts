@@ -12,7 +12,7 @@ export * from "./domain/UserInfo";
 export * from "./errors/PassportException";
 
 // Registries and Services
-export * from "./registries/ProtocolRegistries";
+export * from "./contants";
 export * from "./services/ProtocolsService";
 export * from "./services/PassportSerializerService";
 

@@ -1,5 +1,6 @@
 import {classOf, deepExtends, getValue, proxyDelegation, setValue} from "@tsed/core";
-import {IDIResolver, ProviderScope, TokenProvider} from "../interfaces";
+import type {DIResolver, TokenProvider} from "../interfaces";
+import {ProviderScope} from "../domain";
 
 export class DIConfiguration {
   readonly default: Map<string, any> = new Map();
@@ -32,11 +33,11 @@ export class DIConfiguration {
     this.setRaw("scopes", value);
   }
 
-  get resolvers(): IDIResolver[] {
+  get resolvers(): DIResolver[] {
     return this.getRaw("resolvers");
   }
 
-  set resolvers(resolvers: IDIResolver[]) {
+  set resolvers(resolvers: DIResolver[]) {
     this.setRaw("resolvers", resolvers);
   }
 

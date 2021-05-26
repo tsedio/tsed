@@ -9,7 +9,7 @@ describe("@Interactions", () => {
         options: {
           claims: {}
         }
-      }
+      } as any
     })
   );
   afterEach(() => PlatformTest.create());

@@ -25,7 +25,7 @@ export function setValue(scope: any, expression: string, value: any, separator =
 
       scope = scope.get(key);
     } else {
-      scope = scope[key] || {};
+      scope = scope[key] = scope[key] || {};
     }
 
     return true;

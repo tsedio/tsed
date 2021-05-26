@@ -2,11 +2,11 @@ import {Adapter, InjectAdapter} from "@tsed/adapters";
 import {PlatformContext} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
-import {AccessToken, AuthorizationCode, DeviceCode} from "@tsed/oidc-provider";
+import {AccessToken, AuthorizationCode, DeviceCode, OidcAccountsMethods} from "@tsed/oidc-provider";
 import {Account} from "../models/Account";
 
 @Injectable()
-export class Accounts {
+export class Accounts implements OidcAccountsMethods {
   @InjectAdapter("accounts", Account)
   adapter: Adapter<Account>;
 

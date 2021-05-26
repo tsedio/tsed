@@ -14,3 +14,4 @@ export * from "./OS3Response";
 export * from "./OS3Schema";
 export * from "./OS3Security";
 export * from "./OS3Server";
+export * from "./OS3Example";

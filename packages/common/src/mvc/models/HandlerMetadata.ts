@@ -1,6 +1,7 @@
-import {Type} from "@tsed/core";
-import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../../platform/interfaces/PlatformRouterMethods";
+import {nameOf, Type} from "@tsed/core";
+import {ProviderScope} from "@tsed/di";
 import {HandlerType} from "../interfaces/HandlerType";
+import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouteOptions";
 import {ParamMetadata} from "../models/ParamMetadata";
 import {ParamTypes} from "./ParamTypes";
 
@@ -9,6 +10,7 @@ export interface HandlerMetadataOptions {
   routeOptions?: PlatformRouteWithoutHandlers;
   token?: Type<any>;
   propertyKey?: string | symbol;
+  scope?: ProviderScope;
   type?: HandlerType;
 }
 
@@ -20,14 +22,17 @@ export class HandlerMetadata {
   readonly type: HandlerType = HandlerType.RAW_FN;
   readonly hasNextFunction: boolean = false;
   readonly routeOptions: Partial<PlatformRouteOptions>;
+  readonly scope: ProviderScope;
+
   handler: any;
 
   constructor(options: HandlerMetadataOptions) {
-    const {target, token, propertyKey, type, routeOptions} = options;
+    const {target, token, propertyKey, type, scope, routeOptions} = options;
 
     this.type = type || target.type || HandlerType.RAW_FN;
+    this.scope = scope || ProviderScope.SINGLETON;
     this.routeOptions = routeOptions || {};
-    this.handler = propertyKey ? target.prototype[propertyKey] : target;
+    const handler = propertyKey ? target.prototype[propertyKey] : target;
 
     if (propertyKey) {
       this.target = target;
@@ -40,13 +45,15 @@ export class HandlerMetadata {
       }
 
       this.injectable = ParamMetadata.getParams(target as any, propertyKey).length > 0;
+    } else {
+      this.handler = handler;
     }
 
     if (!this.injectable) {
-      if (this.handler.length === 4) {
+      if (handler.length === 4) {
         this.type = HandlerType.RAW_ERR_FN;
       }
-      this.hasNextFunction = this.handler.length >= 3;
+      this.hasNextFunction = handler.length >= 3;
     }
   }
 
@@ -113,5 +120,9 @@ export class HandlerMetadata {
 
   public isFinal() {
     return this.routeOptions?.isFinal || false;
+  }
+
+  toString() {
+    return [this.target && nameOf(this.target), this.propertyKey].filter(Boolean).join(".");
   }
 }

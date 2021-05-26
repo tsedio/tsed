@@ -1,4 +1,5 @@
-import {classOf, cleanObject, deepExtends, isArray, isObject} from "@tsed/core";
+import {classOf, deepExtends, isArray, isClass, isObject, isPrimitiveClass, isPrimitiveOrPrimitiveClass} from "@tsed/core";
+import {getJsonType} from "./getJsonType";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonLazyRef} from "../domain/JsonLazyRef";
 import {JsonSchema} from "../domain/JsonSchema";
@@ -10,6 +11,7 @@ import {GenericsContext, mapGenericsOptions, popGenerics} from "./generics";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 import {getRequiredProperties} from "./getRequiredProperties";
+import {mapNullableType} from "./mapNullableType";
 
 /**
  * @ignore
@@ -19,7 +21,7 @@ const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics", SpecTypes.OPE
  * @ignore
  */
 const IGNORES_OPENSPEC = ["const"];
-const IGNORES_OS2 = [, "writeOnly", "readOnly"];
+const IGNORES_OS2 = ["writeOnly", "readOnly"];
 
 /**
  * @ignore
@@ -38,7 +40,7 @@ function shouldMapAlias(key: string, value: any, useAlias: boolean) {
 /**
  * @ignore
  */
-export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
+export function serializeClass(value: JsonSchema, options: JsonSchemaOptions = {}) {
   const store = getJsonEntityStore(value.class);
   const name = createRefName(store.schema.getName() || value.getName(), options);
 
@@ -59,7 +61,7 @@ export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
       options.schemas![name] = schema;
       delete schema.title;
 
-      return createRef(name, options);
+      return createRef(name, value, options);
     }
 
     return schema;
@@ -76,15 +78,18 @@ export function serializeClass(value: any, options: JsonSchemaOptions = {}) {
     );
   }
 
-  return createRef(name, options);
+  return createRef(name, value, options);
 }
 
-function toRef(value: any, schema: any, options: JsonSchemaOptions) {
+/**
+ * @ignore
+ */
+function toRef(value: JsonSchema, schema: any, options: JsonSchemaOptions) {
   const name = createRefName(value.getName(), options);
 
   options.schemas![value.getName()] = schema;
 
-  return createRef(name, options);
+  return createRef(name, value, options);
 }
 
 /**
@@ -141,9 +146,10 @@ export function serializeObject(input: any, options: JsonSchemaOptions) {
   const {specType, operationIdFormatter, root, schemas, genericTypes, nestedGenerics, useAlias, genericLabels, ...ctx} = options;
 
   return Object.entries(input).reduce<any>(
-    (obj, [key, value]: any[]) => {
+    (obj, [key, value]: [string, any | JsonSchema]) => {
       if (options.withIgnoredProps !== false && !alterIgnore(value, ctx)) {
-        obj[key] = serializeItem(value, options);
+        // remove groups to avoid bad schema generation over children models
+        obj[key] = serializeItem(value, {...options, groups: value?.$forwardGroups ? options.groups : undefined});
       }
 
       return obj;
@@ -152,11 +158,14 @@ export function serializeObject(input: any, options: JsonSchemaOptions) {
   );
 }
 
+/**
+ * @ignore
+ */
 export function serializeLazyRef(input: JsonLazyRef, options: JsonSchemaOptions) {
   const name = input.name;
 
   if (options.$refs?.find((t: any) => t === input.target)) {
-    return createRef(name, options);
+    return createRef(name, input.schema, options);
   }
 
   options.$refs = [...(options.$refs || []), input.target];
@@ -169,7 +178,7 @@ export function serializeLazyRef(input: JsonLazyRef, options: JsonSchemaOptions)
 /**
  * @ignore
  */
-export function serializeAny(input: any, options: JsonSchemaOptions = {}) {
+export function serializeAny(input: any, options: JsonSchemaOptions = {}): any {
   options.schemas = options.schemas || {};
 
   if (typeof input !== "object" || input === null) {
@@ -197,30 +206,57 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
 
   if (generics && obj.$ref) {
     if (generics.has(obj.$ref)) {
-      const model = {
-        class: generics.get(obj.$ref)
-      };
+      let type = generics.get(obj.$ref);
 
-      if (options.nestedGenerics.length === 0) {
-        return serializeClass(model, {
+      if (isPrimitiveClass(type)) {
+        return {
+          type: getJsonType(type)
+        };
+      }
+
+      if (type === Date) {
+        return {
+          type: "string",
+          format: "date-time"
+        };
+      }
+
+      if (type.toJSON) {
+        return type.toJSON({
           ...options,
           generics: undefined
         });
       }
 
-      const store = getJsonEntityStore(model.class);
+      if (isClass(type)) {
+        const model = {
+          class: type
+        };
 
-      return serializeJsonSchema(store.schema, {
-        ...options,
-        ...popGenerics(options),
-        root: false
-      });
+        if (options.nestedGenerics.length === 0) {
+          return serializeClass(model as any, {
+            ...options,
+            generics: undefined
+          });
+        }
+
+        const store = getJsonEntityStore(model.class);
+
+        return serializeJsonSchema(store.schema, {
+          ...options,
+          ...popGenerics(options),
+          root: false
+        });
+      }
     }
   }
 
   return obj;
 }
 
+/**
+ * @ignore
+ */
 function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = false}: JsonSchemaOptions) {
   return (
     IGNORES.includes(key) ||
@@ -228,26 +264,6 @@ function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = fal
     (specType === SpecTypes.SWAGGER && IGNORES_OS2.includes(key)) ||
     (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key))
   );
-}
-
-function transformTypes(obj: any) {
-  const nullable = obj.type.includes("null") ? true : undefined;
-
-  const types = obj.type.reduce((types: string[], type: string) => {
-    if (type !== "null") {
-      return [...types, cleanObject({type, nullable})];
-    }
-    return types;
-  }, []);
-
-  if (types.length > 1) {
-    obj.oneOf = types;
-  } else {
-    obj.type = types[0].type;
-    obj.nullable = types[0].nullable;
-  }
-
-  return obj;
 }
 
 /**
@@ -319,11 +335,8 @@ export function serializeJsonSchema(schema: JsonSchema, options: JsonSchemaOptio
     };
   }
 
-  obj = getRequiredProperties(obj, schema, useAlias);
-
-  if (options.specType === SpecTypes.OPENAPI && isArray(obj.type)) {
-    obj = transformTypes(obj);
-  }
+  obj = getRequiredProperties(obj, schema, {...options, useAlias});
+  obj = mapNullableType(obj, schema, options);
 
   if ((obj.oneOf || obj.allOf || obj.anyOf) && !(obj.items || obj.properties)) {
     delete obj.type;

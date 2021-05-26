@@ -109,10 +109,12 @@ describe("from", () => {
           properties: {
             message: {
               description: "An error message",
+              minLength: 1,
               type: "string"
             },
             name: {
               description: "The error name",
+              minLength: 1,
               type: "string"
             }
           },
@@ -130,10 +132,12 @@ describe("from", () => {
         },
         message: {
           description: "An error message",
+          minLength: 1,
           type: "string"
         },
         name: {
           description: "The error name",
+          minLength: 1,
           type: "string"
         },
         stack: {

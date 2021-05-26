@@ -14,7 +14,7 @@ import {
 } from "@tsed/schema";
 import {expect} from "chai";
 import {Schema as SchemaMongoose} from "mongoose";
-import {Model, ObjectID, Ref, Schema, VirtualRef} from "../../src/decorators";
+import {Model, ObjectID, Ref, Schema, VirtualRef, VirtualRefs} from "../../src/decorators";
 import {SchemaIgnore} from "../../src/decorators/schemaIgnore";
 import {getSchema} from "../../src/utils/createSchema";
 
@@ -320,7 +320,7 @@ describe("createSchema", () => {
 
     @Model()
     class Test5 {
-      @VirtualRef({ref: Children2, foreignField: "foo"})
+      @VirtualRef({ref: Children2, foreignField: "foo", justOne: true})
       test: VirtualRef<Children2>;
     }
 
@@ -332,6 +332,51 @@ describe("createSchema", () => {
     expect(testSchema.virtuals.test.options).to.deep.includes({
       foreignField: "foo",
       justOne: true,
+      localField: "_id",
+      options: undefined,
+      ref: "Children2"
+    });
+  });
+  it("should create schema with virtual ref (array)", () => {
+    // GIVEN
+    enum MyEnum {
+      V1 = "v1",
+      V2 = "v2"
+    }
+
+    @Model()
+    class Children2 {
+      @Name("id")
+      _id: string;
+
+      @Minimum(0)
+      @Maximum(10)
+      test: number;
+
+      @MinLength(0)
+      @MaxLength(100)
+      @Pattern("pattern")
+      @Default("defaultValue")
+      name: string = "defaultValue";
+
+      @Enum(MyEnum)
+      enum: MyEnum;
+    }
+
+    @Model()
+    class Test5 {
+      @VirtualRef({ref: Children2, justOne: false, foreignField: "foo"})
+      test: VirtualRefs<Children2>;
+    }
+
+    // WHEN
+    const testSchema: any = getSchema(Test5);
+
+    // THEN
+    expect(testSchema.obj).to.deep.eq({});
+    expect(testSchema.virtuals.test.options).to.deep.includes({
+      foreignField: "foo",
+      justOne: false,
       localField: "_id",
       options: undefined,
       ref: "Children2"

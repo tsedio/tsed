@@ -1,5 +1,5 @@
 export * from "./interfaces";
-export * from "./registries/MongooseModelRegistry";
+export * from "./constants";
 export * from "./services/MongooseService";
 export * from "./MongooseModule";
 export * from "./utils";

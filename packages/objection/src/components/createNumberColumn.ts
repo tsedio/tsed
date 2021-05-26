@@ -2,6 +2,9 @@ import Knex from "knex";
 import {ColumnTypesContainer} from "../services/ColumnTypesContainer";
 import {ColumnCtx} from "../utils/getColumnCtx";
 
+/**
+ * @ignore
+ */
 export function createNumberColumn(table: Knex.TableBuilder, {entity, options}: ColumnCtx) {
   switch (options.type) {
     default:

@@ -41,7 +41,11 @@ export interface PlatformLoggerSettings {
    */
   disableRoutesSummary?: boolean;
   /**
-   * Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://typedproject.github.io/logger/).
+   * Disable bootstrap log displayed in the logger. By default debug is `false`.
+   */
+  disableBootstrapLog?: boolean;
+  /**
+   * Specify log format. Example: `%[%d{[yyyy-MM-dd hh:mm:ss,SSS}] %p%] %m`. See [@tsed/logger configuration](https://tsedio.github.io/logger/).
    */
   format?: string;
   /**

@@ -69,10 +69,12 @@ describe("@MultipartFile()", () => {
             properties: {
               message: {
                 description: "An error message",
+                minLength: 1,
                 type: "string"
               },
               name: {
                 description: "The error name",
+                minLength: 1,
                 type: "string"
               }
             },
@@ -85,10 +87,15 @@ describe("@MultipartFile()", () => {
               name: {
                 type: "string",
                 description: "The error name",
+                minLength: 1,
                 example: "BAD_REQUEST",
                 default: "BAD_REQUEST"
               },
-              message: {type: "string", description: "An error message"},
+              message: {
+                type: "string",
+                minLength: 1,
+                description: "An error message"
+              },
               status: {
                 type: "number",
                 description: "The status code of the exception",
@@ -130,7 +137,14 @@ describe("@MultipartFile()", () => {
               },
               requestBody: {
                 required: false,
-                content: {"multipart/form-data": {schema: {properties: {file1: {type: "string", format: "binary"}}, type: "object"}}}
+                content: {
+                  "multipart/form-data": {
+                    schema: {
+                      properties: {file1: {type: "string", format: "binary"}},
+                      type: "object"
+                    }
+                  }
+                }
               },
               tags: ["TestController"]
             }
@@ -144,10 +158,12 @@ describe("@MultipartFile()", () => {
               properties: {
                 message: {
                   description: "An error message",
+                  minLength: 1,
                   type: "string"
                 },
                 name: {
                   description: "The error name",
+                  minLength: 1,
                   type: "string"
                 }
               },
@@ -157,8 +173,14 @@ describe("@MultipartFile()", () => {
             BadRequest: {
               type: "object",
               properties: {
-                name: {type: "string", description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
-                message: {type: "string", description: "An error message"},
+                name: {
+                  type: "string",
+                  minLength: 1,
+                  description: "The error name",
+                  example: "BAD_REQUEST",
+                  default: "BAD_REQUEST"
+                },
+                message: {type: "string", minLength: 1, description: "An error message"},
                 status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
                 errors: {
                   type: "array",
@@ -167,7 +189,11 @@ describe("@MultipartFile()", () => {
                   },
                   description: "A list of related errors"
                 },
-                stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+                stack: {
+                  type: "array",
+                  items: {type: "string"},
+                  description: "The stack trace (only in development mode)"
+                }
               },
               required: ["name", "message", "status"]
             }
@@ -235,10 +261,12 @@ describe("@MultipartFile()", () => {
             properties: {
               message: {
                 description: "An error message",
+                minLength: 1,
                 type: "string"
               },
               name: {
                 description: "The error name",
+                minLength: 1,
                 type: "string"
               }
             },
@@ -248,8 +276,18 @@ describe("@MultipartFile()", () => {
           BadRequest: {
             type: "object",
             properties: {
-              name: {type: "string", description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
-              message: {type: "string", description: "An error message"},
+              name: {
+                type: "string",
+                minLength: 1,
+                description: "The error name",
+                example: "BAD_REQUEST",
+                default: "BAD_REQUEST"
+              },
+              message: {
+                type: "string",
+                minLength: 1,
+                description: "An error message"
+              },
               status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
               errors: {
                 type: "array",
@@ -284,7 +322,10 @@ describe("@MultipartFile()", () => {
                 required: false,
                 content: {
                   "multipart/form-data": {
-                    schema: {properties: {file1: {type: "array", items: {type: "string", format: "binary"}}}, type: "object"}
+                    schema: {
+                      properties: {file1: {type: "array", items: {type: "string", format: "binary"}}},
+                      type: "object"
+                    }
                   }
                 }
               },
@@ -300,10 +341,12 @@ describe("@MultipartFile()", () => {
               properties: {
                 message: {
                   description: "An error message",
+                  minLength: 1,
                   type: "string"
                 },
                 name: {
                   description: "The error name",
+                  minLength: 1,
                   type: "string"
                 }
               },
@@ -313,8 +356,18 @@ describe("@MultipartFile()", () => {
             BadRequest: {
               type: "object",
               properties: {
-                name: {type: "string", description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
-                message: {type: "string", description: "An error message"},
+                name: {
+                  type: "string",
+                  minLength: 1,
+                  description: "The error name",
+                  example: "BAD_REQUEST",
+                  default: "BAD_REQUEST"
+                },
+                message: {
+                  type: "string",
+                  minLength: 1,
+                  description: "An error message"
+                },
                 status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
                 errors: {
                   type: "array",
@@ -323,7 +376,11 @@ describe("@MultipartFile()", () => {
                   },
                   description: "A list of related errors"
                 },
-                stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+                stack: {
+                  type: "array",
+                  items: {type: "string"},
+                  description: "The stack trace (only in development mode)"
+                }
               },
               required: ["name", "message", "status"]
             }

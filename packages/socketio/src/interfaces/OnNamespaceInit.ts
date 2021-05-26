@@ -1,6 +1,8 @@
+import {Namespace} from "socket.io";
+
 /**
  *
  */
 export interface OnNamespaceInit {
-  $onNamespaceInit(nsp: SocketIO.Namespace): void;
+  $onNamespaceInit(nsp: Namespace): void;
 }

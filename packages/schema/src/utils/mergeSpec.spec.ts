@@ -68,8 +68,8 @@ describe("mergeSpec", () => {
       });
     });
   });
-  describe("oneOf", () => {
-    it("should merge spec", () => {
+  describe("allOf", () => {
+    it("should merge spec by type", () => {
       const spec1: OpenSpec2 = {
         swagger: "2.0",
         paths: {
@@ -157,6 +157,110 @@ describe("mergeSpec", () => {
                           },
                           {
                             type: "boolean"
+                          }
+                        ]
+                      }
+                    },
+                    type: "object"
+                  }
+                }
+              }
+            }
+          }
+        },
+        swagger: "2.0"
+      });
+    });
+    it("should merge spec by $ref", () => {
+      const spec1: OpenSpec2 = {
+        swagger: "2.0",
+        paths: {
+          "/get": {
+            get: {
+              operationId: "id",
+              responses: {
+                "200": {
+                  description: "description",
+                  schema: {
+                    type: "object",
+                    properties: {
+                      test: {
+                        allOf: [
+                          {
+                            $ref: "#/definitions/MyClass1"
+                          },
+                          {
+                            $ref: "#/definitions/MyClass2"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+      const spec2: OpenSpec2 = {
+        swagger: "2.0",
+        paths: {
+          "/get": {
+            get: {
+              operationId: "id",
+              responses: {
+                "200": {
+                  description: "description",
+                  schema: {
+                    type: "object",
+                    properties: {
+                      test: {
+                        allOf: [
+                          {
+                            type: "string"
+                          },
+                          {
+                            type: "number",
+                            minimum: 1
+                          },
+                          {
+                            $ref: "#/definitions/MyClass2"
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      expect(mergeSpec(spec1, spec2)).to.deep.eq({
+        paths: {
+          "/get": {
+            get: {
+              operationId: "id",
+              responses: {
+                "200": {
+                  description: "description",
+                  schema: {
+                    properties: {
+                      test: {
+                        allOf: [
+                          {
+                            $ref: "#/definitions/MyClass1"
+                          },
+                          {
+                            $ref: "#/definitions/MyClass2"
+                          },
+                          {
+                            type: "string"
+                          },
+                          {
+                            minimum: 1,
+                            type: "number"
                           }
                         ]
                       }

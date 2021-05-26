@@ -1,4 +1,4 @@
-import {Store} from "@tsed/core";
+import {decoratorTypeOf, DecoratorTypes, Store} from "@tsed/core";
 import {Namespace as NamespaceType} from "socket.io";
 import {SocketFilters} from "../interfaces/SocketFilters";
 import {SocketFilter} from "./socketFilter";
@@ -80,7 +80,7 @@ export function Namespace(target: any, propertyKey?: string, index?: number): an
     };
   }
 
-  if (index === undefined) {
+  if (decoratorTypeOf([target, propertyKey, index]) === DecoratorTypes.PROP) {
     Store.from(target).merge("socketIO", {
       injectNamespaces: [{propertyKey}]
     });

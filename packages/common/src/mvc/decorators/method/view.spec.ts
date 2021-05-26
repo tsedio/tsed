@@ -1,8 +1,8 @@
-import {EndpointMetadata, Render} from "@tsed/common";
+import {EndpointMetadata} from "@tsed/common";
 import {expect} from "chai";
 import {View} from "./view";
 
-describe("ResponseView", () => {
+describe("View", () => {
   it("should set metadata", () => {
     class Test {
       @View("page", {test: "test"})
@@ -17,7 +17,7 @@ describe("ResponseView", () => {
   });
   it("should set metadata", () => {
     class Test {
-      @Render("page", {test: "test"})
+      @View("page", {test: "test"})
       test() {}
     }
 

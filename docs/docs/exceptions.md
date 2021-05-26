@@ -29,12 +29,12 @@ Here is two examples to throw exceptions based on this package in Ts.ED context 
 <Tabs class="-code">
   <Tab label="Ts.ED">
   
-<<< @/docs/docs/snippets/exceptions/usage-controller.ts
+<<< @/docs/snippets/exceptions/usage-controller.ts
 
   </Tab>
   <Tab label="Express.js">
   
-<<< @/docs/docs/snippets/exceptions/usage-express-route.ts
+<<< @/docs/snippets/exceptions/usage-express-route.ts
 
   </Tab>
 </Tabs> 
@@ -45,11 +45,11 @@ It's possible to create your own exception by creating a class which inherit fro
 
 Example:
 
-<<< @/docs/docs/snippets/exceptions/custom-exception.ts
+<<< @/docs/snippets/exceptions/custom-exception.ts
 
 Since IDFormatException extends the @@BadRequest@@, it will work seamlessly with the built-in exception handler, and therefore we can use it inside a controller method.
 
-<<< @/docs/docs/snippets/exceptions/custom-exception-usage.ts
+<<< @/docs/snippets/exceptions/custom-exception-usage.ts
 
 ## Built-in exceptions
 
@@ -85,7 +85,7 @@ To do this, we'll need to access the underlying platform Request and Response ob
 We'll access the Request object, so we can pull out the original url and include that in the logging information.
 We'll use the Response object to take direct control of the response that is sent, using the `response.body()` method.
 
-<<< @/docs/docs/snippets/exceptions/http-exception-filter.ts
+<<< @/docs/snippets/exceptions/http-exception-filter.ts
 
 ::: tip note
 All exception filters should implement the generic `ExceptionFilterMethods<T>` interface. This requires you to provide the catch(exception: T, ctx: Context) method with its indicated signature. `T` indicates the type of the exception.
@@ -96,7 +96,7 @@ The @@Catch@@ decorator may take a single parameter, or a comma-separated list. 
 
 If you want to catch all errors, just use the @@Catch@@ decorator with the `Error` class:
 
-<<< @/docs/docs/snippets/exceptions/error-filter.ts
+<<< @/docs/snippets/exceptions/error-filter.ts
 
 ## 404 ResourceNotFound
 
@@ -106,7 +106,7 @@ response sent to your consumer.
 
 Create a new ResourceNotFoundFilter in the filters directories and copy/paste this example:
 
-<<< @/docs/docs/snippets/exceptions/resource-not-found-filter.ts
+<<< @/docs/snippets/exceptions/resource-not-found-filter.ts
 
 ::: warning
 `response.render()` requires to configure the template engine before. See our page over [Templating engine](/tutorials/templating.html#installation) installation for more details.

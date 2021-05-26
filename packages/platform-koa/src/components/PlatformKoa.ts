@@ -7,7 +7,8 @@ import {
   PlatformHandler,
   PlatformRequest,
   PlatformResponse,
-  PlatformRouter
+  PlatformRouter,
+  PlatformViews
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import Koa, {Context, Next} from "koa";
@@ -46,6 +47,17 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
     return this.build<PlatformKoa>(PlatformKoa).bootstrap(module, settings);
   }
 
+  createRequest(req: any) {
+    return new PlatformKoaRequest(req);
+  }
+
+  createResponse(res: any) {
+    const response = new PlatformKoaResponse(res);
+    response.platformViews = this.injector.get<PlatformViews>(PlatformViews)!;
+
+    return response;
+  }
+
   protected createInjector(module: Type<any>, settings: any) {
     super.createInjector(module, settings);
 
@@ -64,8 +76,10 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
   }
 
   protected useContext(): this {
+    this.logger.info("Mount app context");
+
     this.app.getApp().use(async (ctx: Context, next: Next) => {
-      await createContext(this.injector, ctx.request, ctx.response);
+      await createContext(this.injector, this.createRequest(ctx.request), this.createResponse(ctx.response));
 
       return next();
     });

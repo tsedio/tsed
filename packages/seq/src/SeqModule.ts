@@ -1,13 +1,14 @@
 import {AfterRoutesInit, Inject, InjectorService} from "@tsed/common";
 import {Constant, Module} from "@tsed/di";
-import {ISeqSettings} from "./interfaces/ISeqSettings";
+import "@tsed/logger-seq";
+import {LoggerSeqSettings} from "./interfaces/LoggerSeqSettings";
 
 @Module({})
 export class SeqModule implements AfterRoutesInit {
   @Constant("seq", {
     url: "http://localhost:5341"
   })
-  private config: ISeqSettings;
+  private config: LoggerSeqSettings;
 
   @Inject()
   private injector: InjectorService;
@@ -17,8 +18,10 @@ export class SeqModule implements AfterRoutesInit {
       this.injector.logger.appenders.set("seq", {
         type: "seq",
         levels: ["info", "debug", "trace", "fatal", "error", "warn"],
-        url: this.config.url,
-        apiKey: this.config.apiKey
+        options: {
+          serverUrl: this.config.url,
+          ...this.config
+        }
       });
     }
   }

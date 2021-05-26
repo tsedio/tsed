@@ -1,4 +1,4 @@
-import {IAuthOptions, Returns, UseAuth} from "@tsed/common";
+import {IAuthOptions, UseAuth} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
 import {Security, Returns} from "@tsed/schema";
 import {CustomAuthMiddleware} from "../guards/CustomAuthMiddleware";
@@ -12,7 +12,7 @@ export function CustomAuth(options: ICustomAuthOptions = {}): Function {
   return useDecorators(
     UseAuth(CustomAuthMiddleware, options),
     Security("oauth", ...(options.scopes || [])),
-    Returns(401, {description: "Unauthorized"}),
-    Returns(403, {description: "Forbidden"})
+    Returns(401),
+    Returns(403)
   );
 }

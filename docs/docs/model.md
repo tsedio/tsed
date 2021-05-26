@@ -38,7 +38,7 @@ Without this package, decorators like @@Email@@ won't have any effect.
 The example below uses decorators to describe a property of the class and store metadata such as the description of the
 field.
 
-<<< @/docs/docs/snippets/model/example.ts
+<<< @/docs/snippets/model/example.ts
 
 ::: tip The Model will generate a JsonSchema which can be used by modules supporting JsonSchema spec
 :::
@@ -54,7 +54,7 @@ generates metadata on properties with at least one of these decorators:
 Our model is now described, we can use it inside a @@Controller@@ as input type parameter for our methods. Ts.ED will
 use the model to convert the raw data to an instance of your model.
 
-<<< @/docs/docs/snippets/model/controller.ts
+<<< @/docs/snippets/model/controller.ts
 
 ## Primitives
 
@@ -64,12 +64,12 @@ model. Ts.ED will get the type from Typescript metadata and transform this type 
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/primitives.ts
+<<< @/docs/snippets/model/primitives.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/primitives.json
+<<< @/docs/snippets/model/primitives.json
 
   </Tab>
 </Tabs>
@@ -81,12 +81,12 @@ The @@Integer@@ decorator is used to set integer type for integral numbers.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/integer.ts
+<<< @/docs/snippets/model/integer.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/integer.json
+<<< @/docs/snippets/model/integer.json
 
   </Tab>
 </Tabs>
@@ -99,12 +99,12 @@ json type or when you use a mixed TypeScript types.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/any-types.ts
+<<< @/docs/snippets/model/any-types.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/any-types.json
+<<< @/docs/snippets/model/any-types.json
 
   </Tab>
 </Tabs>
@@ -116,12 +116,12 @@ The @@Nullable@@ decorator is used allow a null value on a field while preservin
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/nullable-properties.ts
+<<< @/docs/snippets/model/nullable-properties.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/nullable-properties.json
+<<< @/docs/snippets/model/nullable-properties.json
 
   </Tab>
 </Tabs>
@@ -137,12 +137,12 @@ for more information.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/pattern.ts
+<<< @/docs/snippets/model/pattern.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/pattern.json
+<<< @/docs/snippets/model/pattern.json
 
   </Tab>
 </Tabs>
@@ -157,12 +157,12 @@ can do.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/format.ts
+<<< @/docs/snippets/model/format.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/format.json
+<<< @/docs/snippets/model/format.json
 
   </Tab>
 </Tabs>
@@ -193,12 +193,12 @@ more details.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/multiple-of.ts
+<<< @/docs/snippets/model/multiple-of.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/multiple-of.json
+<<< @/docs/snippets/model/multiple-of.json
 
   </Tab>
 </Tabs>
@@ -213,12 +213,12 @@ more details.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/ranges.ts
+<<< @/docs/snippets/model/ranges.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/ranges.json
+<<< @/docs/snippets/model/ranges.json
 
   </Tab>
 </Tabs>
@@ -231,12 +231,12 @@ element, where each element is unique or a TypeScript enum.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/enumerated-values.ts
+<<< @/docs/snippets/model/enumerated-values.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/enumerated-values.json
+<<< @/docs/snippets/model/enumerated-values.json
 
   </Tab>
 </Tabs>
@@ -264,12 +264,12 @@ United States for export reasons:
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/required-properties.ts
+<<< @/docs/snippets/model/required-properties.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/required-properties.json
+<<< @/docs/snippets/model/required-properties.json
 
   </Tab>
 </Tabs>
@@ -285,12 +285,12 @@ must use @@CollectionOf@@ (before v5.62.0, use @@PropertyType@@) decorator as fo
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/collections.ts
+<<< @/docs/snippets/model/collections.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/collections.json
+<<< @/docs/snippets/model/collections.json
 
   </Tab>
 </Tabs>
@@ -316,12 +316,12 @@ Use @@AdditionalProperties@@ on your model to allow this behavior:
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/additional-properties.ts
+<<< @/docs/snippets/model/additional-properties.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/additional-properties.json
+<<< @/docs/snippets/model/additional-properties.json
 
   </Tab>
 </Tabs>
@@ -331,12 +331,12 @@ It is also possible to add contraint on additional properties, by giving a raw J
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/additional-properties-with-schema.ts
+<<< @/docs/snippets/model/additional-properties-with-schema.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/additional-properties-with-schema.json
+<<< @/docs/snippets/model/additional-properties-with-schema.json
 
   </Tab>
 </Tabs>
@@ -346,12 +346,12 @@ Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as foll
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/additional-properties-with-model.ts
+<<< @/docs/snippets/model/additional-properties-with-model.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/additional-properties-with-model.json
+<<< @/docs/snippets/model/additional-properties-with-model.json
 
   </Tab>
 </Tabs>
@@ -360,7 +360,7 @@ Or by using @@getJsonSchema@@ in combination with @@AdditionalProperty@@ as foll
 
 Circular reference can be resolved by using arrow with a @@Property@@ and @@CollectionOf@@ decorators:
 
-<<< @/docs/docs/snippets/model/circular-references.ts
+<<< @/docs/snippets/model/circular-references.ts
 
 ## Custom Keys <Badge text="6.17.0+"/>
 
@@ -487,7 +487,7 @@ exists.
 
 For example, we have a User model with the following properties:
 
-<<< @/docs/docs/snippets/model/group-user.ts
+<<< @/docs/snippets/model/group-user.ts
 
 **Explanation:**
 
@@ -559,19 +559,19 @@ console.log(result); // User {id, firstName, lastName, email, password, roles}
 Now let's see how groups work with controllers.
 
 <Tabs class="-code">
-<Tab label="ProductsCtrl.ts">
+<Tab label="UsersCtrl.ts">
 
-<<< @/docs/docs/snippets/model/group-users-ctrl.ts
+<<< @/docs/snippets/model/group-users-ctrl.ts
 
 </Tab>
 <Tab label="User.ts">
 
-<<< @/docs/docs/snippets/model/group-user.ts
+<<< @/docs/snippets/model/group-user.ts
 
 </Tab>
 <Tab label="OpenSpec">
 
-<<< @/docs/docs/snippets/model/group-users-openspec.json
+<<< @/docs/snippets/model/group-users-openspec.json
 
 </Tab>
 </Tabs>
@@ -583,6 +583,201 @@ configuration!
 ::: tip You can combine different group labels or use a glob pattern to match multiple group labels. It's also possible
 to use negation by prefixing the group label with `!`.
 :::
+
+## Groups class definition <Badge text="6.48.0+" />
+
+It's also possible to define all groups on class instead of declaring it on each property.
+
+<Tabs class="-code">
+<Tab label="UsersCtrl.ts">
+
+<<< @/docs/snippets/model/group-users-ctrl-on-class.ts
+
+</Tab>
+<Tab label="User.ts">
+
+<<< @/docs/snippets/model/group-user-on-class.ts
+
+</Tab>
+<Tab label="Creation">
+
+<<< @/docs/snippets/model/group-user-creation.json
+
+</Tab>
+<Tab label="Update">
+
+<<< @/docs/snippets/model/group-user-update.json
+
+</Tab>
+<Tab label="ChangePassword">
+
+<<< @/docs/snippets/model/group-user-change-password.json
+
+</Tab>
+</Tabs>
+
+## ForwardGroups <Badge text="6.42.0+" />
+
+Groups configuration isn't forwarded to the nested models to avoid side effect on model generation.
+With @@ForwardGroups@@ decorator, your are able to tell if a property should use or not the Groups configuration to generate correctly 
+a nested model.
+
+```typescript
+class ChildModel {
+  @Groups("!creation")
+  id: string;
+
+  @Required()
+  prop1: string;
+}
+
+class MyModel {
+  @Groups("!creation")
+  id: string;
+
+  @Groups("group.summary")
+  @Required()
+  prop1: string;
+
+  @Groups("group.extended")
+  @Required()
+  prop2: string;
+
+  @Property()
+  @Required()
+  prop3: string;
+
+  @CollectionOf(ChildModel)
+  @ForwardGroups()
+  prop4: ChildModel[];
+}
+```
+Now `prop4` will have a `ChildModel` generated along to groups configuration.
+
+## RequiredGroups <Badge text="6.34.0+"/>
+
+As @@Groups@@ decorator, @@RequiredGroups@@ allow you to define when a field is `required` depending on the given groups strategy.
+
+The usage is the same as Groups:
+
+```typescript
+import {RequiredGroups, Groups, Required} from "@tsed/schema";
+
+class MyModel {
+  @Groups("!creation")
+  id: string;
+
+  @Required()
+  prop1: string;
+
+  @RequiredGroups("!patch")
+  @Required()
+  prop2: string;
+
+  @RequiredGroups("patch")
+  @Required()
+  prop3: string;
+}
+```
+
+## Advanced validation
+
+### BeforeDeserialize <Badge text="6.39.0+"/>
+
+If you want to validate or manipulate data before the model has been deserialized you can use the @@BeforeDeserialize@@ decorator.
+
+::: tip Note 
+Don't forget to return the data in your callback function otherwise an error will occur.
+:::
+
+```typescript
+import {Enum, Property} from "@tsed/schema"; 
+import {BeforeDeserialize} from "@tsed/json-mapper";
+import {BadRequest} from "@tsed/exceptions";
+
+enum AnimalType {
+  DOG="DOG",
+  CAT="CAT"
+}
+
+@BeforeDeserialize((data: Record<string, unknown>) => {
+  if (data.type !== AnimalType.DOG) {
+    throw new BadRequest("Sorry, we're only responsible for dogs")  
+  } else {
+    data.name = `Our dog ${data.name}`;
+    return data;
+  }
+})
+export class Animal {
+    @Property()
+    name: string;
+    @Enum(AnimalType)
+    type: AnimalType;
+} 
+```
+
+### AfterDeserialize <Badge text="6.39.0+"/>
+
+If you want to validate or manipulate data after the model has been deserialized you can use the @@AfterDeserialize@@ decorator.
+
+::: tip Note 
+Don't forget to return the data in your callback function otherwise an error will occur.
+:::
+
+```typescript
+import {Enum, Property} from "@tsed/schema"; 
+import {AfterDeserialize} from "@tsed/json-mapper";
+import {BadRequest} from "@tsed/exceptions";
+
+enum AnimalType {
+  DOG="DOG",
+  CAT="CAT"
+}
+
+@AfterDeserialize((data: Animal) => {
+  if (data.type !== AnimalType.CAT) {
+    throw new BadRequest("Sorry, we're only responsible for cats")  
+  } else {
+    data.name = `Our cat ${data.name}`;
+    return data;
+  }
+})
+export class Animal {
+    @Property()
+    name: string;
+    @Enum(AnimalType)
+    type: AnimalType;
+} 
+```
+
+### Custom validation decorator
+
+Validation can quickly become complex and therefore confusing. In this case you can use your own validation decorator.
+
+```typescript
+import {BeforeDeserialize} from "@tsed/json-mapper"; 
+import {Property, JsonEntityFn} from "@tsed/schema";
+import {BadRequest} from "@tsed/exceptions"; 
+
+class Company {
+  @Property()
+  name: string;
+  @Property()
+  @RequiredIf((value: any, data: any) => data.name === "tsed" && value !== undefined)
+  location: string;
+}
+
+function RequiredIf(cb: any): PropertyDecorator {
+  return JsonEntityFn((store, [target, propertyKey]) => {
+    BeforeDeserialize((data) => {
+      if (!cb(data[propertyKey], data)) {
+        throw new BadRequest(`${String(propertyKey)} is required`);
+      }
+      return data;
+    })(target);
+  });
+}
+```
 
 ## Generics
 
@@ -596,28 +791,28 @@ and generate the appropriate OpenSpec documentation.
 
 Starting with the pagination model, by using @@Generics@@ and @@CollectionOf@@:
 
-<<< @/docs/docs/snippets/model/generics-pagination.ts
+<<< @/docs/snippets/model/generics-pagination.ts
 
 Now, we need a model to be used with the generic Pagination model:
 
-<<< @/docs/docs/snippets/model/generics-product.ts
+<<< @/docs/snippets/model/generics-product.ts
 
 Finally, we can use our models on a method as following:
 
 <Tabs class="-code">
  <Tab label="MyController.ts">
 
-<<< @/docs/docs/snippets/model/generics-controller1.ts
+<<< @/docs/snippets/model/generics-controller1.ts
 
  </Tab>
  <Tab label="OpenSpec 2">
 
-<<< @/docs/docs/snippets/model/generics-controller1-os2.json
+<<< @/docs/snippets/model/generics-controller1-os2.json
 
  </Tab>
  <Tab label="OpenSpec 3">
 
-<<< @/docs/docs/snippets/model/generics-controller1-os3.json
+<<< @/docs/snippets/model/generics-controller1-os3.json
 
  </Tab>
 </Tabs>
@@ -645,29 +840,65 @@ class MyController {
   </Tab>
   <Tab label="Submission.ts">
 
-<<< @/docs/docs/snippets/model/generics-submission.ts
+<<< @/docs/snippets/model/generics-submission.ts
 
   </Tab>
   <Tab label="Pagination.ts">
 
-<<< @/docs/docs/snippets/model/generics-pagination.ts
+<<< @/docs/snippets/model/generics-pagination.ts
 
   </Tab>
   <Tab label="Product.ts">
 
-<<< @/docs/docs/snippets/model/generics-product.ts
+<<< @/docs/snippets/model/generics-product.ts
 
   </Tab>
  <Tab label="OpenSpec 2">
 
-<<< @/docs/docs/snippets/model/generics-controller2-os2.json
+<<< @/docs/snippets/model/generics-controller2-os2.json
 
  </Tab>
  <Tab label="OpenSpec 3">
 
-<<< @/docs/docs/snippets/model/generics-controller2-os3.json
+<<< @/docs/snippets/model/generics-controller2-os3.json
 
  </Tab>  
+</Tabs>
+
+### Generics with Types
+
+<Tabs class="-code">
+ <Tab label="String">
+
+<<< @/docs/snippets/model/generic-string.ts
+
+ </Tab>
+ <Tab label="Date">
+
+<<< @/docs/snippets/model/generic-date.ts
+
+ </Tab>
+ <Tab label="Date">
+
+<<< @/docs/snippets/model/generic-enum.ts
+
+ </Tab>
+</Tabs>
+
+
+### Generics with Functional API
+
+<Tabs class="-code">
+ <Tab label="String">
+
+<<< @/docs/snippets/model/generic-string-api.ts
+
+ </Tab>
+ <Tab label="Date">
+
+<<< @/docs/snippets/model/generic-date-api.ts
+
+ </Tab>
 </Tabs>
 
 ## Pagination
@@ -683,33 +914,33 @@ The used features are the following:
 <Tabs class="-code">
   <Tab label="ProductsCtrl.ts">
 
-<<< @/docs/docs/snippets/model/pagination-ctrl.ts
+<<< @/docs/snippets/model/pagination-ctrl.ts
 
   </Tab>  
   <Tab label="Pageable.ts">
 
-<<< @/docs/docs/snippets/model/pageable-model.ts
+<<< @/docs/snippets/model/pageable-model.ts
 
 
   </Tab>  
   <Tab label="Pagination.ts">
 
-<<< @/docs/docs/snippets/model/pagination-model.ts
+<<< @/docs/snippets/model/pagination-model.ts
 
   </Tab>
   <Tab label="Product.ts">
 
-<<< @/docs/docs/snippets/model/pageable-product-model.ts
+<<< @/docs/snippets/model/pageable-product-model.ts
 
   </Tab>
   <Tab label="PaginationFilter.ts">
 
-<<< @/docs/docs/snippets/model/pagination-filter.ts
+<<< @/docs/snippets/model/pagination-filter.ts
 
   </Tab>
   <Tab label="ProductsCtrl.spec.ts">
 
-<<< @/docs/docs/snippets/model/pageable-product-model.ts
+<<< @/docs/snippets/model/pageable-product-model.ts
 
   </Tab>
 </Tabs>  
@@ -726,12 +957,12 @@ schema `self-documenting`.
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/annotations.ts
+<<< @/docs/snippets/model/annotations.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/annotations.json
+<<< @/docs/snippets/model/annotations.json
 
   </Tab>
 </Tabs>
@@ -743,7 +974,7 @@ schema `self-documenting`.
 For example mongo db uses the `_id` property. In order not to give any indication to our consumer about the nature of
 the database, it's better to rename the property to `id`.
 
-<<< @/docs/docs/snippets/model/name.ts
+<<< @/docs/snippets/model/name.ts
 
 ## Set Schema
 
@@ -754,13 +985,13 @@ from `@tsed/common` to set a custom schema.
 
 You can declare schema by using the @@JsonSchemaObject@@ interface:
 
-<<< @/docs/docs/snippets/model/raw-schema-controller.ts
+<<< @/docs/snippets/model/raw-schema-controller.ts
 
 ### Using functions <Badge text="6.14.0+"/>
 
 It's also possible to write a valid JsonSchema by using the functional approach (Joi like):
 
-<<< @/docs/docs/snippets/model/functional-schema-controller.ts
+<<< @/docs/snippets/model/functional-schema-controller.ts
 
 Here is the list of available functions:
 
@@ -774,12 +1005,12 @@ by using @@getJsonSchema@@. Here is a small example:
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/docs/snippets/model/jsonschema.ts
+<<< @/docs/snippets/model/jsonschema.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/docs/snippets/model/jsonschema.json
+<<< @/docs/snippets/model/jsonschema.json
 
   </Tab>
 </Tabs>
@@ -811,12 +1042,12 @@ possible by using @@getSpec@@. Here is a small example:
 <Tabs class="-code">
   <Tab label="MyController">
 
-<<< @/docs/docs/snippets/model/get-spec-generics-controller1.ts
+<<< @/docs/snippets/model/get-spec-generics-controller1.ts
 
   </Tab>
   <Tab label="OpenSpec">
 
-<<< @/docs/docs/snippets/model/generics-controller1-os3.json
+<<< @/docs/snippets/model/generics-controller1-os3.json
 
   </Tab>
 </Tabs>

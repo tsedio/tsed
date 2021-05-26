@@ -1,4 +1,4 @@
-import {Name, Required} from "@tsed/common";
+import {Name, Required} from "@tsed/schema";
 
 export class Calendar {
   @Name("id")

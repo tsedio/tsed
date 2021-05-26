@@ -1,0 +1,289 @@
+---
+meta:
+- name: description
+  content: Documentation over Cache management provided by Ts.ED framework. Use decorator to cache Response or returned value by a service.
+- name: keywords
+  content: cache ts.ed express koa typescript node.js javascript decorators cache-manager class controller service
+---
+# Cache
+<Badge text="6.30.0+" />
+
+Caching is a great and simple technique that helps improve your app's performance.
+It acts as a temporary data store providing high performance data access.
+
+Ts.ED provides a unified system caching by using the popular [`cache-manager`](https://www.npmjs.com/package/cache-manager) Node.js module.
+Cache-manager provides various storage to cache content like Redis, MongoDB, etc... and multi caching!
+
+By using the @@UseCache@@ on endpoint methods or on service methods, you'll be able to cache the response returned by the Ts.ED server
+or the result returned by a Service.
+
+## Configuration
+
+Cache-manager module is already installed with the `@tsed/common` package (since v6.30.0). You just have
+to configure cache options and use the decorator to enable cache.
+
+```typescript
+import {Configuration} from "@tsed/common";
+
+@Configuration({
+  cache: {
+    ttl: 300, // default TTL
+    store: "memory"
+    // options options depending on the choosen storage type
+  }
+})
+export class Server {}
+```
+
+### Store Engines
+
+* [node-cache-manager-redis](https://github.com/dial-once/node-cache-manager-redis) (uses [sol-redis-pool](https://github.com/joshuah/sol-redis-pool))
+* [node-cache-manager-redis-store](https://github.com/dabroek/node-cache-manager-redis-store) (uses [node_redis](https://github.com/NodeRedis/node_redis))
+* [node-cache-manager-ioredis](https://github.com/dabroek/node-cache-manager-ioredis) (uses [ioredis](https://github.com/luin/ioredis))
+* [node-cache-manager-mongodb](https://github.com/v4l3r10/node-cache-manager-mongodb)
+* [node-cache-manager-mongoose](https://github.com/disjunction/node-cache-manager-mongoose)
+* [node-cache-manager-fs](https://github.com/hotelde/node-cache-manager-fs)
+* [node-cache-manager-fs-binary](https://github.com/sheershoff/node-cache-manager-fs-binary)
+* [node-cache-manager-fs-hash](https://github.com/rolandstarke/node-cache-manager-fs-hash)
+* [node-cache-manager-hazelcast](https://github.com/marudor/node-cache-manager-hazelcast)
+* [node-cache-manager-memcached-store](https://github.com/theogravity/node-cache-manager-memcached-store)
+* [node-cache-manager-memory-store](https://github.com/theogravity/node-cache-manager-memory-store)
+
+### Example with mongoose
+
+```typescript
+import {Configuration} from "@tsed/common";
+import mongoose from "mongoose";
+
+const mongooseStore = require("cache-manager-mongoose");
+
+@Configuration({
+  cache: {
+    ttl: 300, // default TTL
+    store: mongooseStore,
+    mongoose,
+    modelOptions: {
+      collection: "caches",
+      versionKey: false
+    }
+  }
+})
+export class Server {}
+```
+
+## Interacting with the cache store
+
+To interact with the cache manager instance, inject it to your class using the @@PlatformCache@@ token, as follows:
+
+```typescript
+@Injectable()
+export class MyService {
+  @Inject()
+  cache: PlatformCache;
+}
+```
+
+The `get` method on the @@PlatformCache@@ instance is used to retrieve items from the cache. 
+
+```typescript
+const value = await this.cache.get('key');
+```
+
+To add an item to the cache, use the `set` method:
+
+```typescript
+await this.cache.set('key', 'value');
+```
+
+The default expiration time of the cache depends on the configured TTL on Server configuration level.
+
+You can manually specify a TTL (expiration time) for this specific key, as follows:
+
+```typescript
+await this.cache.set('key', 'value', { ttl: 1000 });
+```
+
+To disable the expiration of the cache, set the `ttl` configuration property to `null`:
+
+```typescript
+await this.cache.set('key', 'value', { ttl: null });
+```
+
+To remove an item from the cache, use the `del` method:
+
+```typescript
+await this.cache.del('key');
+```
+
+To clear the entire cache, use the `reset` method:
+
+```typescript
+await this.cache.reset();
+```
+
+## Cache response
+
+To enable cache on endpoint, use @@UseCache@@ decorator on a method as follows:
+
+```typescript
+import {Controller, UseCache, Get, PathParams} from "@tsed/common";
+
+@Controller("/my-path")
+export class MyController {
+  @Get("/:id")
+  @UseCache()
+  get(@PathParams("id") id: string) {
+    return "something with  " + id;
+  }
+}
+```
+
+::: tip Note
+UseCache will generate automatically a key based on the Verb and Uri of your route. If @@QueryParams@@ and/or 
+@@PathParams@@ are used on the method, the key will be generated with them. 
+According to our previous example, the generated key will be:
+
+```
+GET:my-path:1  // if the id is 1
+GET:my-path:2  // etc...
+```
+:::
+
+::: warning
+Only `GET` endpoints are cached. Also, HTTP server routes that use the native response object (@@Res@@) cannot use the @@PlatformCacheInterceptor@@.
+:::
+
+## Cache a value
+
+Because @@UseCache@@ uses @@PlatformCacheInterceptor@@ and not a middleware, you can also apply the decorator on any Service/Provider.
+
+```typescript
+import {Injectable} from "@tsed/di";
+import {UseCache} from "@tsed/common";
+
+@Injectable()
+export class MyService {
+  @UseCache()
+  get(id: string) {
+    return "something with " + id;
+  }
+}
+```
+
+::: warning
+node-cache-manager serialize all data as JSON object. It means, if you want to cache a complex data like an instance of class, you have to give extra parameters
+to the UseCache decorator. Ts.ED will use @@deserialize@@ function based on the given `type` (and `collectionType`) to return the expected instance.
+
+
+```typescript
+import {Injectable} from "@tsed/di";
+import {UseCache} from "@tsed/common";
+
+@Injectable()
+export class MyService {
+  @UseCache({type: MyClass})
+  get(id: string): MyClass {
+    return new MyClass({id});
+  }
+  
+  @UseCache({type: MyClass, collectionType: Array})
+  getAll(): MyClass[] {
+    return [new MyClass({id: 1})];
+  }
+}
+```
+:::
+
+## Configure key resolver
+
+By default, Ts.ED uses the request VERB & URL (in an HTTP app) or cache key (for other Service and Provider) to associate cache records with your endpoints.
+Nevertheless, sometimes you might want to set up the generated key based on different factors, for example, using HTTP headers (e.g. Authorization to properly identify profile endpoints).
+
+There are two ways to do that. The first one is to configure it globally on the Server:
+
+```typescript
+import {Configuration} from "@tsed/di";
+import {PlatformContext} from "@tsed/common";
+
+@Configuration({
+  cache: {
+    keyResolver(args: any[], $ctx?: PlatformContext): string {
+      // NOTE $ctx is only available for endpoints
+      return "key"
+    }
+  }
+})
+```
+
+The second way is to use the `key` option with @@UseCache@@ decorator:
+
+```typescript
+import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
+
+@Controller("/my-path")
+export class MyController {
+  @Get("/:id")
+  @UseCache({ key: 'key' })
+  get(@PathParams("id") id: string) {
+    return "something with  " + id;
+  }
+
+  @Get("/:id")
+  @UseCache({ key: (args: any[], $ctx?: PlatformContext) => 'key' })
+  get(@PathParams("id") id: string) {
+    return "something with  " + id;
+  }
+}
+```
+
+## Configure TTL
+
+TTL can be defined per endpoint with @@UseCache@@:
+
+```typescript
+import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
+
+@Controller("/my-path")
+export class MyController {
+  @Get("/:id")
+  @UseCache({ttl: 500})
+  get(@PathParams("id") id: string) {
+    return "something with  " + id;
+  }
+}
+```
+
+## Multi caching
+
+Cache-manager provides a way to use multiple caches. To use it, remove `store` option and use `caches` instead:
+
+```typescript
+import {Configuration} from "@tsed/common";
+
+@Configuration({
+  cache: {
+    ttl: 300, // default TTL
+    caches: [memoryCache, someOtherCache]
+    // options options depending on the choosen storage type
+  }
+})
+export class Server {}
+```
+
+## Disable cache for test
+
+It can sometimes be useful during unit tests to disable the cache. You can do this by setting the `cache` option to `false`:
+
+```typescript
+describe("MyCtrl", () => {
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+  beforeAll(
+    TestMongooseContext.bootstrap(Server, {
+      cache: false,
+      mount: {
+        "/rest": [MyCtrl]
+      }
+    })
+  );
+});
+```

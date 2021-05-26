@@ -1,57 +1,56 @@
-import {getValue, nameOf, prototypeOf, setValue, Type} from "@tsed/core";
+import {deepClone, getValue, nameOf, prototypeOf, setValue, Type} from "@tsed/core";
 import {Constant, Inject, Injectable} from "@tsed/di";
-import {getJsonSchema, JsonEntityStore} from "@tsed/schema";
+import {getJsonSchema, JsonEntityStore, JsonSchema, JsonSchemaObject} from "@tsed/schema";
 import Ajv, {ErrorObject} from "ajv";
 import {AjvValidationError} from "../errors/AjvValidationError";
 import {AjvErrorObject, ErrorFormatter} from "../interfaces/IAjvSettings";
+import {defaultErrorFormatter} from "../utils/defaultErrorFormatter";
 import "./Ajv";
+import {getPath} from "../utils/getPath";
 
-function defaultFormatter(error: AjvErrorObject) {
-  const value = JSON.stringify(error.data === undefined ? "undefined" : error.data);
-  const join = (list: any[]): string => list.filter(Boolean).join("").trim();
-  error.dataPath = error.dataPath ? error.dataPath.replace(/\//gi, ".") : error.dataPath;
-
-  const [, indexPath, ...paths] = error.dataPath.split(".");
-  const deepPaths = paths.length ? "." + paths.join(".") : "";
-
-  if (error.collectionName) {
-    switch (error.collectionName) {
-      case "Array":
-        return join([`${error.modelName || ""}[${indexPath}]${deepPaths}`, ` ${error.message}. Given value: ${value}`]);
-      case "Map":
-        return join([`Map<${indexPath}, ${error.modelName || ""}>${deepPaths}`, ` ${error.message}. Given value: ${value}`]);
-      case "Set":
-        return join([`Set<${indexPath}, ${error.modelName || ""}>${deepPaths}`, ` ${error.message}. Given value: ${value}`]);
-    }
-  }
-
-  return join([!error.modelName && "Value", `${error.modelName || ""}`, error.dataPath, ` ${error.message}. Given value: ${value}`]);
+export interface AjvValidateOptions extends Record<string, any> {
+  schema?: JsonSchema | Partial<JsonSchemaObject>;
+  type?: Type<any> | any;
+  collectionType?: Type<any> | any;
 }
 
 @Injectable()
 export class AjvService {
-  @Constant("ajv.errorFormatter", defaultFormatter)
+  @Constant("ajv.errorFormatter", defaultErrorFormatter)
   protected errorFormatter: ErrorFormatter;
 
   @Inject()
   protected ajv: Ajv;
 
-  async validate(value: any, {schema, type, collectionType, ...options}: any) {
-    schema = schema || getJsonSchema(type, {...options, customKeys: true});
+  async validate(value: any, options: AjvValidateOptions | JsonSchema): Promise<any> {
+    let {schema, type, collectionType, ...additionalOptions} = this.mapOptions(options);
+
+    schema = schema || getJsonSchema(type, {...additionalOptions, customKeys: true});
 
     if (schema) {
-      const valid = await this.ajv.validate(schema, value);
+      const localValue = deepClone(value);
+      const valid = await this.ajv.validate(schema as any, localValue);
       if (!valid) {
         throw this.mapErrors(this.ajv.errors || [], {
           type,
           collectionType,
           async: true,
-          value
+          value: localValue
         });
       }
     }
 
     return value;
+  }
+
+  protected mapOptions(options: AjvValidateOptions | JsonSchema): AjvValidateOptions {
+    if (options instanceof JsonSchema) {
+      return {
+        schema: options.toJSON({customKeys: true})
+      };
+    }
+
+    return options;
   }
 
   protected mapErrors(errors: ErrorObject[], options: any) {
@@ -63,15 +62,17 @@ export class AjvService {
           error.collectionName = nameOf(collectionType);
         }
 
+        const dataPath = getPath(error);
+
         if (!error.data) {
-          if (error.dataPath) {
-            error.data = getValue(error.dataPath.replace(/^./, ""), value);
+          if (dataPath) {
+            error.data = getValue(value, dataPath);
           } else if (error.schemaPath !== "#/required") {
             error.data = value;
           }
         }
 
-        if (error.dataPath && error.dataPath.match(/pwd|password|mdp|secret/)) {
+        if (dataPath && dataPath.match(/pwd|password|mdp|secret/)) {
           error.data = "[REDACTED]";
         }
 

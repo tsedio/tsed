@@ -1,5 +1,4 @@
-import {Type} from "@tsed/core";
-import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
+import {AnyJsonSchema} from "../../domain/JsonSchema";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -11,7 +10,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  */
-export function AdditionalProperties(schema: boolean | JsonSchemaObject | JsonSchema | Type<any>) {
+export function AdditionalProperties(schema: boolean | AnyJsonSchema) {
   return JsonEntityFn((entity, parameters) => {
     entity.itemSchema.additionalProperties(schema);
   });

@@ -1,8 +1,8 @@
 import {ConverterService, InjectorService, Provider, Service} from "@tsed/common";
 import SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
+import {SocketProviderMetadata} from "../class/SocketProviderMetadata";
 import {IO} from "../decorators/io";
-import {ISocketProviderMetadata} from "../interfaces/ISocketProviderMetadata";
 
 /**
  *
@@ -49,7 +49,7 @@ export class SocketIOService {
    * @param {Provider<any>} provider
    */
   public addSocketProvider(provider: Provider<any>) {
-    const wsConfig: ISocketProviderMetadata = provider.store.get("socketIO")!;
+    const wsConfig: SocketProviderMetadata = new SocketProviderMetadata(provider.store.get("socketIO"));
 
     const nspConfig = this.getNsp(wsConfig.namespace);
     const nsps = new Map();

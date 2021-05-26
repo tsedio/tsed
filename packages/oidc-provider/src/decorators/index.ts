@@ -6,3 +6,4 @@ export * from "./oidcSession";
 export * from "./params";
 export * from "./prompt";
 export * from "./uid";
+export * from "./grantId";

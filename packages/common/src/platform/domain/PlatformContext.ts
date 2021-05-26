@@ -132,7 +132,7 @@ export class PlatformContext extends Map<any, any> {
   }
 
   async emit(eventName: string, ...args: any[]) {
-    return this.injector && this.injector.emit(eventName, ...args);
+    return this.injector?.emit(eventName, ...args);
   }
 
   /**
@@ -167,6 +167,6 @@ export class PlatformContext extends Map<any, any> {
    * Return the original application instance.
    */
   getApp<T = any>(): T {
-    return this.injector.get<PlatformApplication>(PlatformApplication)?.getApp() as any;
+    return this.app.getApp() as any;
   }
 }

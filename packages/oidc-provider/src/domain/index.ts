@@ -1,4 +1,4 @@
-import Provider, {interactionPolicy} from "oidc-provider";
+import {Provider, interactionPolicy} from "oidc-provider";
 
 export * from "./OidcAccountsMethods";
 export * from "./OidcInteraction";

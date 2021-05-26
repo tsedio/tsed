@@ -1,4 +1,4 @@
-import {DI_PARAM_OPTIONS, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
+import {Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
 import {IncomingHttpHeaders, IncomingMessage} from "http";
 import type {PlatformContext} from "../domain/PlatformContext";
 
@@ -93,18 +93,6 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
    */
   get session(): {[key: string]: any} {
     return this.raw.session as any;
-  }
-
-  /**
-   * Create a new instance of PlatformRequest
-   * @param injector
-   * @param req
-   */
-  static create(injector: InjectorService, req: TsED.Request) {
-    const locals = new Map();
-    locals.set(DI_PARAM_OPTIONS, req);
-
-    return injector.invoke<PlatformRequest>(PlatformRequest, locals);
   }
 
   /**

@@ -11,9 +11,6 @@ export * from "./models/ParamMetadata";
 export * from "./models/ParamTypes";
 export * from "./models/PropertyMetadata";
 
-// registries
-export * from "./registries/MiddlewareRegistry";
-
 // components
 export * from "./middlewares/AcceptMimesMiddleware";
 

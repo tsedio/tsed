@@ -1,6 +1,6 @@
 {
   "name": "@tsed/formio",
-  "version": "6.26.3",
+  "version": "6.51.0",
   "description": "Formio package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -17,18 +17,18 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "tslib": "2.0.1"
+    "tslib": "2.1.0"
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.26.3",
-    "@tsed/core": "6.26.3",
-    "@tsed/di": "6.26.3",
-    "@tsed/mongoose": "6.26.3",
-    "formio": "^2.0.0-rc.42",
-    "mongoose": "^5.11.12"
+    "@tsed/common": "6.51.0",
+    "@tsed/core": "6.51.0",
+    "@tsed/di": "6.51.0",
+    "@tsed/mongoose": "6.51.0",
+    "formio": "^2.0.0",
+    "mongoose": "^5.12.2"
   },
   "peerDependencies": {
-    "formio": "^2.0.0-rc.42"
+    "formio": "^2.0.0"
   }
 }

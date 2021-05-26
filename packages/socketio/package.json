@@ -1,24 +1,23 @@
 {
   "name": "@tsed/socketio",
-  "version": "6.26.3",
+  "version": "6.51.0",
   "description": "Socket.io package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
+    "build": "tsc --build tsconfig.compile.json",
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "tslib": "2.0.1"
+    "tslib": "2.1.0"
   },
   "peerDependencies": {
-    "@types/socket.io": "^2.1.10",
-    "socket.io": ""
+    "socket.io": "^4.0.0"
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.26.3",
-    "@types/socket.io": "2.1.11",
-    "socket.io": "2.3.0",
-    "socket.io-client": "2.3.0"
+    "@tsed/common": "6.51.0",
+    "socket.io": "4.0.1",
+    "socket.io-client": "4.0.1"
   }
 }

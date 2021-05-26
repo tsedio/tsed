@@ -6,13 +6,13 @@ meta:
    content: ts.ed express typescript passport.js node.js javascript decorators
 projects:   
  - title: Kit Passport.js
-   href: https://github.com/TypedProject/tsed-example-passportjs
+   href: https://github.com/tsedio/tsed-example-passportjs
    src: /passportjs.png
  - title: Kit TypeORM
-   href: https://github.com/TypedProject/tsed-example-typeorm
+   href: https://github.com/tsedio/tsed-example-typeorm
    src: /typeorm.png
  - title: Kit Azure AD
-   href: https://github.com/TypedProject/tsed-example-passport-azure-ad
+   href: https://github.com/tsedio/tsed-example-passport-azure-ad
    src: /azure.png        
 ---
 # Passport.js
@@ -24,7 +24,7 @@ projects:
 Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
 A comprehensive set of strategies support authentication using a username and password, Facebook, Twitter, and more.
   
-<Projects type="examples"/>
+<Projects type="projects"/>
   
 ## Installation
 
@@ -38,7 +38,7 @@ npm install --save passport
 
 Add this configuration to your server:
 
-<<< @/docs/tutorials/snippets/passport/server.ts
+<<< @/tutorials/snippets/passport/server.ts
 
 ## Create a new Protocol
 
@@ -49,12 +49,12 @@ Here is an example with the PassportLocal:
 <Tabs class="-code">
   <Tab label="LoginLocalProtocol.ts">
   
-<<< @/docs/tutorials/snippets/passport/LoginLocalProtocol.ts
+<<< @/tutorials/snippets/passport/LoginLocalProtocol.ts
 
   </Tab>
   <Tab label="LoginLocalProtocol.spec.ts">
   
-<<< @/docs/tutorials/snippets/passport/LoginLocalProtocol.spec.ts
+<<< @/tutorials/snippets/passport/LoginLocalProtocol.spec.ts
 
   </Tab>  
 </Tabs>  
@@ -62,14 +62,14 @@ Here is an example with the PassportLocal:
 ::: tip
 For signup and basic flow you can checkout one of our examples:
 
-<Projects type="examples"/>
+<Projects type="projects"/>
 :::
 
 ## Create the Passport controller
 
 Create a new Passport controller as following:
 
-<<< @/docs/tutorials/snippets/passport/PassportCtrl.ts
+<<< @/tutorials/snippets/passport/PassportCtrl.ts
 
 This controller will provide all required endpoints that will be used by the different protocols.
 
@@ -77,17 +77,17 @@ This controller will provide all required endpoints that will be used by the dif
 
 @@Authorize@@ and @@Authenticate@@ decorators can be used as a Guard to protect your routes.
 
-<<< @/docs/tutorials/snippets/passport/guard-ctrl.ts
+<<< @/tutorials/snippets/passport/guard-ctrl.ts
 
 ## Basic Auth
 
 It is also possible to use the Basic Auth. To do that, you have to create a Protocol based on `passport-http` strategy.
 
-<<< @/docs/tutorials/snippets/passport/BasicProtocol.ts
+<<< @/tutorials/snippets/passport/BasicProtocol.ts
 
 Then, add the protocol name on the @@Authorize@@ decorator:
 
-<<< @/docs/tutorials/snippets/passport/guard-basic-auth.ts
+<<< @/tutorials/snippets/passport/guard-basic-auth.ts
 
 ## Advanced Auth
 ### JWT
@@ -99,17 +99,17 @@ To solve it, the `@tsed/passport` has two decorators @@Arg@@ and @@Args@@ to get
 
 For example, the official `passport-jwt` documentation gives this javascript code to configure the strategy:
 
-<<< @/docs/tutorials/snippets/passport/OriginalJwtPassport.js
+<<< @/tutorials/snippets/passport/OriginalJwtPassport.js
 
 The example code can be written with Ts.ED as following:
 
-<<< @/docs/tutorials/snippets/passport/JwtProtocol.ts
+<<< @/tutorials/snippets/passport/JwtProtocol.ts
 
 ### Azure Bearer Auth
 
 Azure bearer uses another scenario which requires to return multiple arguments. The `$onVerify` method accepts an `Array` to return multiple values.
 
-<<< @/docs/tutorials/snippets/passport/AzureBearerProtocol.ts
+<<< @/tutorials/snippets/passport/AzureBearerProtocol.ts
 
 ### Discord Auth
 
@@ -117,11 +117,11 @@ Discord passport gives an example to refresh the token. To do that you have to c
 
 Here is the JavaScript code:
 
-<<< @/docs/tutorials/snippets/passport/OriginalDiscordProtocol.js
+<<< @/tutorials/snippets/passport/OriginalDiscordProtocol.js
 
 Ts.ED provides a way to handle the strategy built by the `@tsed/passport` by using the `$onInstall` hook.
 
-<<< @/docs/tutorials/snippets/passport/DiscordProtocol.ts
+<<< @/tutorials/snippets/passport/DiscordProtocol.ts
 
 ### Facebook Auth
 
@@ -129,7 +129,7 @@ Facebook passport gives an example to use scope on routes (permissions). We'll s
 
 Here is the corresponding Facebook protocol:
 
-<<< @/docs/tutorials/snippets/passport/FacebookProtocol.ts
+<<< @/tutorials/snippets/passport/FacebookProtocol.ts
 
 ::: tip Note
 In order to use Facebook authentication, you must first create an app at Facebook Developers. When created, an app is assigned an App ID and an App Secret. Your application must also implement a redirect URL, to which Facebook will redirect users after they have approved access for your application.
@@ -143,7 +143,7 @@ For security reasons, the redirection URL must reside on the same host that is r
 
 Then we have to implement routes as following:
 
-<<< @/docs/tutorials/snippets/passport/PassportFacebookCtrl.ts
+<<< @/tutorials/snippets/passport/PassportFacebookCtrl.ts
 
 ::: tip Note
 @@Authenticate@@ decorator accepts a second option to configure the `scope`. It is equivalent to `passport.authenticate('facebook', {scope: 'read_stream' })`
@@ -157,15 +157,15 @@ This section will give basic examples to implement your own roles strategy acces
 
 To begin we have to implement a middleware which will be responsible to check the user role:
 
-<<< @/docs/tutorials/snippets/passport/AcceptRolesMiddleware.ts
+<<< @/tutorials/snippets/passport/AcceptRolesMiddleware.ts
 
 Then, we have to create a decorator `AcceptRoles`. This decorator will store the given roles and register the AcceptRolesMiddleware created before.
 
-<<< @/docs/tutorials/snippets/passport/acceptRoles.ts
+<<< @/tutorials/snippets/passport/acceptRoles.ts
 
 Finally, we can use this decorator on an Endpoint like this:
 
-<<< @/docs/tutorials/snippets/passport/roles-usage.ts
+<<< @/tutorials/snippets/passport/roles-usage.ts
 
 ## Catch Passport Exception <Badge text="6.18.0+" />
 

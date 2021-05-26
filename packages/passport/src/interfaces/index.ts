@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {IProtocolOptions} from "./IProtocolOptions";
+import {ProtocolOptions} from "./ProtocolOptions";
 
 declare global {
   namespace TsED {
@@ -9,14 +9,14 @@ declare global {
         pauseStream?: string;
         userInfoModel?: Type<any>;
         protocols?: {
-          [protocolName: string]: Partial<IProtocolOptions>;
+          [protocolName: string]: Partial<ProtocolOptions>;
         };
       };
     }
   }
 }
 
-export * from "./IProtocolOptions";
+export * from "./ProtocolOptions";
 export * from "./IProtocol";
 export * from "./OnInstall";
 export * from "./OnVerify";

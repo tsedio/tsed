@@ -1,11 +1,12 @@
-import {BodyParams, Controller, Get, Post, Returns, ReturnsArray} from "@tsed/common";
+import {BodyParams, Controller, Get, Post} from "@tsed/common";
+import {Returns} from "@tsed/schema/src";
 import {Person} from "../models/Person";
 
 @Controller("/")
 export class PersonsCtrl {
 
   @Post("/")
-  @Returns(Person)
+  @Returns(200, Person)
   async save1(@BodyParams() person: Person): Promise<Person> {
     console.log(person instanceof Person); // true
 
@@ -14,7 +15,7 @@ export class PersonsCtrl {
 
 
   @Get("/")
-  @ReturnsArray(Person)
+  @Returns(200, Array).Of(Person)
   async getPersons(): Promise<Person[]> {
     return [
       new Person()

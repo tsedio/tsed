@@ -1,5 +1,5 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import {DI_PARAM_OPTIONS, Inject, Injectable, InjectorService, Opts, ProviderScope, Scope} from "@tsed/di";
+import {Inject, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
 import {ServerResponse} from "http";
 import {PlatformViews} from "./PlatformViews";
 
@@ -24,6 +24,8 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   @Inject()
   platformViews: PlatformViews;
 
+  data: any;
+
   constructor(@Opts public raw: T) {}
 
   /**
@@ -42,18 +44,6 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     return this.raw.locals;
   }
 
-  /**
-   * Create a new instance of PlatformResponse
-   * @param injector
-   * @param res
-   */
-  static create(injector: InjectorService, res: any) {
-    const locals = new Map();
-    locals.set(DI_PARAM_OPTIONS, res);
-
-    return injector.invoke<PlatformResponse>(PlatformResponse, locals);
-  }
-
   static onFinished(res: any, cb: Function) {
     onFinished(res, cb);
   }
@@ -69,6 +59,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    */
   get(name: string) {
     return this.raw.get(name);
+  }
+
+  getHeaders(): Record<string, number | string | string[]> {
+    return this.raw.getHeaders();
   }
 
   /**
@@ -236,6 +230,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    * @param data
    */
   body(data: any) {
+    this.data = data;
     if (data === undefined) {
       this.raw.send();
 
@@ -270,6 +265,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     return this;
   }
 
+  getBody() {
+    return this.data;
+  }
+
   /**
    * Add a listener to handler the end of the request/response.
    * @param cb
@@ -293,6 +292,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   destroy() {
     // @ts-ignore
     delete this.raw;
+    delete this.data;
   }
 
   isHeadersSent() {

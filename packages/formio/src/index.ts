@@ -3,10 +3,15 @@ export * from "./decorators/action";
 export * from "./decorators/actionCtx";
 export * from "./decorators/alter";
 export * from "./decorators/on";
+export * from "./decorators/useFormioAuth";
+
+// middlewares
+export * from "./middlewares/FormioAuthMiddleware";
 
 // domain
 export * from "./domain/AlterHook";
 export * from "./domain/Formio";
+export * from "./domain/FormioDecodedToken";
 export * from "./domain/FormioAction";
 export * from "./domain/FormioActionsIndex";
 export * from "./domain/FormioAuth";
@@ -29,6 +34,10 @@ export * from "./domain/OnHook";
 export * from "./FormioModule";
 export * from "./builder/FormioMapper";
 export * from "./services/FormioService";
+export * from "./services/FormioDatabase";
+export * from "./services/FormioDatabase";
+export * from "./services/FormioAuthService";
+export * from "./services/FormioHooksService";
 export * from "./components/AlterActions";
 export * from "./components/AlterAudit";
 export * from "./components/AlterLog";

@@ -1,7 +1,7 @@
-import {applyDecorators, StoreSet} from "@tsed/core";
-import {Configuration} from "@tsed/di";
-import {IProtocolOptions} from "../interfaces/IProtocolOptions";
-import {registerProtocol} from "../registries/ProtocolRegistries";
+import {StoreSet, useDecorators} from "@tsed/core";
+import {Configuration, Injectable} from "@tsed/di";
+import {ProtocolOptions} from "../interfaces/ProtocolOptions";
+import {PROVIDER_TYPE_PROTOCOL} from "../contants";
 
 /**
  * Declare a new Protocol base on a Passport Strategy
@@ -10,8 +10,10 @@ import {registerProtocol} from "../registries/ProtocolRegistries";
  * @class
  */
 export function Protocol<T = any>(options: ProtocolOptionsDecorator<T>) {
-  return applyDecorators(
-    registerProtocol,
+  return useDecorators(
+    Injectable({
+      type: PROVIDER_TYPE_PROTOCOL
+    }),
     StoreSet("protocol", options),
     Configuration({
       passport: {
@@ -23,4 +25,4 @@ export function Protocol<T = any>(options: ProtocolOptionsDecorator<T>) {
   );
 }
 
-export type ProtocolOptionsDecorator<T = any> = {name: string} & Partial<IProtocolOptions<T>>;
+export type ProtocolOptionsDecorator<T = any> = {name: string} & Partial<ProtocolOptions<T>>;

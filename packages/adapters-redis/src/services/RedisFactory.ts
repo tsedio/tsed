@@ -1,7 +1,7 @@
-import {Configuration, registerFactory} from "@tsed/di";
+import {Configuration, registerProvider} from "@tsed/di";
 import IoRedis, {RedisOptions} from "ioredis";
 
-registerFactory({
+registerProvider({
   provide: IoRedis,
   deps: [Configuration],
   useFactory(configuration: Configuration) {

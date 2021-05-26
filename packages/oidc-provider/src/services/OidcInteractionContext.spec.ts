@@ -6,17 +6,18 @@ import {FakeResponse} from "../../../../test/helper";
 
 const sandbox = Sinon.createSandbox();
 
-async function createOidcInteractionContextFixture() {
+async function createOidcInteractionContextFixture(grantId: any = "grantId") {
   const context = PlatformTest.createRequestContext({
     response: new PlatformResponse(new FakeResponse(sandbox))
   });
 
   const session = {
-    accountId: sandbox.stub().returns("accountId")
+    accountId: "accountId"
   };
 
-  const interactionDetails = {
+  const interactionDetails: any = {
     uid: "uid",
+    grantId,
     session,
     prompt: {
       name: "login"
@@ -33,6 +34,10 @@ async function createOidcInteractionContextFixture() {
     interactionFinished: sandbox.stub().resolves(),
     interactionResult: sandbox.stub().resolves(),
     setProviderSession: sandbox.stub().resolves(),
+    find: sandbox.stub().resolves("grant"),
+    Grant: class {
+      static find = sandbox.stub().resolves();
+    },
     Client: {
       find: sandbox.stub().resolves({
         client_id: "client_id"
@@ -76,6 +81,14 @@ describe("OidcInteractionContext", () => {
     });
   });
 
+  describe("grantId()", () => {
+    it("should return uid", async () => {
+      const {oidcCtx} = await createOidcInteractionContextFixture();
+
+      expect(oidcCtx.grantId).to.eq("grantId");
+    });
+  });
+
   describe("session()", () => {
     it("should return session", async () => {
       const {oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
@@ -106,12 +119,12 @@ describe("OidcInteractionContext", () => {
     it("should return call interactionFinished", async () => {
       const {context, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
 
-      await oidcCtx.interactionFinished({login: {account: "string"}}, {mergeWithLastSubmission: false});
+      await oidcCtx.interactionFinished({login: {accountId: "string"}}, {mergeWithLastSubmission: false});
 
       expect(oidcProvider.interactionFinished).to.have.been.calledWithExactly(
         context.getReq(),
         context.getRes(),
-        {login: {account: "string"}},
+        {login: {accountId: "string"}},
         {mergeWithLastSubmission: false}
       );
     });
@@ -121,36 +134,26 @@ describe("OidcInteractionContext", () => {
     it("should return call interactionResult", async () => {
       const {context, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
 
-      await oidcCtx.interactionResult({login: {account: "string"}}, {mergeWithLastSubmission: false});
+      await oidcCtx.interactionResult({login: {accountId: "string"}}, {mergeWithLastSubmission: false});
 
       expect(oidcProvider.interactionResult).to.have.been.calledWithExactly(
         context.getReq(),
         context.getRes(),
-        {login: {account: "string"}},
+        {login: {accountId: "string"}},
         {mergeWithLastSubmission: false}
       );
     });
     it("should return call interactionResult (default)", async () => {
       const {context, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
 
-      await oidcCtx.interactionResult({login: {account: "string"}});
+      await oidcCtx.interactionResult({login: {accountId: "string"}});
 
       expect(oidcProvider.interactionResult).to.have.been.calledWithExactly(
         context.getReq(),
         context.getRes(),
-        {login: {account: "string"}},
+        {login: {accountId: "string"}},
         {mergeWithLastSubmission: false}
       );
-    });
-  });
-
-  describe("setProviderSession()", () => {
-    it("should return call setProviderSession", async () => {
-      const {context, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
-
-      await oidcCtx.setProviderSession({account: "string"});
-
-      expect(oidcProvider.setProviderSession).to.have.been.calledWithExactly(context.getReq(), context.getRes(), {account: "string"});
     });
   });
 
@@ -178,9 +181,9 @@ describe("OidcInteractionContext", () => {
     it("should return call save (default)", async () => {
       const {oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
 
-      await oidcCtx.save();
+      await oidcCtx.save(100);
 
-      expect(interactionDetails.save).to.have.been.calledWithExactly(undefined);
+      expect(interactionDetails.save).to.have.been.calledWithExactly(100);
     });
   });
 
@@ -214,7 +217,6 @@ describe("OidcInteractionContext", () => {
 
       const result = await oidcCtx.findAccount(undefined, "token");
 
-      expect(oidcCtx.session?.accountId).to.have.been.calledWithExactly();
       expect(oidcProvider.Account.findAccount).to.have.been.calledWithExactly(undefined, "accountId", "token");
       expect(result).to.deep.eq({
         accountId: "accountId"
@@ -235,11 +237,27 @@ describe("OidcInteractionContext", () => {
     it("should return call findAccount (without session/accountId)", async () => {
       const {oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
 
-      interactionDetails.session.accountId.returns(undefined);
+      interactionDetails.session.accountId = undefined;
 
       const result = await oidcCtx.findAccount(undefined, "token");
 
       expect(result).to.deep.eq(undefined);
+    });
+  });
+
+  describe("getGrant()", () => {
+    it("should return call grant from grantId", async () => {
+      const {oidcCtx} = await createOidcInteractionContextFixture();
+
+      const result = await oidcCtx.getGrant();
+      expect(result).to.equal("grant");
+    });
+
+    it("should create grant", async () => {
+      const {oidcCtx} = await createOidcInteractionContextFixture(null);
+
+      const result = await oidcCtx.getGrant();
+      expect(result).to.deep.equal({});
     });
   });
 });

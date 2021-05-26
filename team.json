@@ -1,0 +1,31 @@
+[
+  {
+    "title": "Romain Lenzotti",
+    "job": "Tech Lead",
+    "src": "https://avatars3.githubusercontent.com/u/1763311?v=4",
+    "github": "Romakita",
+    "twitter": "RomainLenzotti",
+    "website": "https://tsed.io",
+    "country": "France",
+    "city": "Paris",
+    "role": "Framework Author"
+  },
+  {
+    "title": "Loriane Eymann",
+    "job": "Developer Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/34451946?v=4",
+    "github": "LorianeE",
+    "country": "France",
+    "city": "Paris",
+    "role": "Framework"
+  },
+  {
+    "title": "Nino Bergen",
+    "job": "Developer Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/39458340?v=4",
+    "github": "xCryzed",
+    "country": "Germany",
+    "city": "Aachen",
+    "role": "Framework"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "properties": {
+    "email": {
+      "type": "string"
+    },
+    "firstName": {
+      "type": "string"
+    },
+    "id": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "lastName": {
+      "type": "string"
+    }
+  },
+  "required": ["id"],
+  "type": "object"
+}

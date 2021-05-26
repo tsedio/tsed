@@ -7,6 +7,7 @@ import {getJsonEntityStore} from "./getJsonEntityStore";
 /**
  * Return the list of properties including properties from inherited classes
  * @param target
+ * @ignore
  */
 export function getPropertiesStores<T extends JsonEntityStore = JsonEntityStore>(
   target: Type<any> | any
@@ -28,14 +29,18 @@ export function getPropertiesStores<T extends JsonEntityStore = JsonEntityStore>
 
   return store.$properties;
 }
-
+/**
+ * @ignore
+ */
 export interface GetPropertiesOptions {
   withIgnoredProps?: boolean;
   groups?: string[] | false;
 
   [type: string]: any;
 }
-
+/**
+ * @ignore
+ */
 export function getProperties<T extends JsonEntityStore = JsonEntityStore>(target: Type<any> | any, options: GetPropertiesOptions = {}) {
   const stores = getPropertiesStores<T>(target);
   const map: Map<string | symbol | number, T> = new Map();

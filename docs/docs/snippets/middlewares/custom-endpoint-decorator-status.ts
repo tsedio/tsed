@@ -1,8 +1,8 @@
 import {UseAfter} from "@tsed/common";
-import {applyDecorators} from "@tsed/core";
+import {useDecorators} from "@tsed/core";
 
 export function CustomStatus(code: number) {
-  return applyDecorators(
+  return useDecorators(
     UseAfter((req: any, res: any, next: any) => {
       res.status(code);
       next();

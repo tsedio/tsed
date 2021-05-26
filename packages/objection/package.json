@@ -1,6 +1,6 @@
 {
   "name": "@tsed/objection",
-  "version": "6.26.3",
+  "version": "6.51.0",
   "description": "Objection.js package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -8,18 +8,18 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "tslib": "2.0.1"
+    "tslib": "2.1.0"
   },
   "private": false,
   "devDependencies": {
-    "@tsed/ajv": "6.26.3",
-    "@tsed/core": "6.26.3",
-    "@tsed/di": "6.26.3",
+    "@tsed/ajv": "6.51.0",
+    "@tsed/core": "6.51.0",
+    "@tsed/di": "6.51.0",
     "knex": "^0.21.5",
     "mssql": "^6.2.2",
     "mysql": "^2.18.1",
     "mysql2": "^2.2.5",
-    "objection": "2.2.3",
+    "objection": "2.2.14",
     "oracledb": "^5.0.0",
     "pg": "^8.3.3",
     "sqlite": "^4.0.14",

@@ -3,6 +3,12 @@ import {Property} from "@tsed/schema";
 import {defineStaticGetter} from "../utils/defineStaticGetter";
 import {ColumnOptions} from "./columnOptions";
 
+/**
+ *
+ * @param type
+ * @decorator
+ * @objection
+ */
 export function IdColumn(type: "increments" | "bigIncrements" = "increments"): PropertyDecorator {
   return useDecorators(
     Property(),

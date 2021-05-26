@@ -1,4 +1,5 @@
-import {BodyParams, Controller, Get, Post, Session, Status} from "@tsed/common";
+import {BodyParams, Controller, Get, Post, Session} from "@tsed/common";
+import {Returns} from "@tsed/schema";
 
 @Controller("/")
 export class MyCtrl {
@@ -11,14 +12,14 @@ export class MyCtrl {
   }
 
   @Post("/login")
-  @Status(204)
+  @Returns(204)
   login(@BodyParams("name") name: string, @Session("user") user: any) {
     user.id = "1";
     user.name = name;
   }
 
   @Post("/logout")
-  @Status(204)
+  @Returns(204)
   logout(@Session("user") user: any) {
     user.id = null;
     delete user.name;

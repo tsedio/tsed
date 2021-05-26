@@ -4,31 +4,34 @@ next: /docs/controllers.html
 otherTopics: true
 projects:
  - title: Kit basic
-   href: https://github.com/TypedProject/tsed-getting-started
+   href: https://github.com/tsedio/tsed-getting-started
    src: /tsed.png
  - title: Kit React
-   href: https://github.com/TypedProject/tsed-example-react
+   href: https://github.com/tsedio/tsed-example-react
    src: /react.png
  - title: Kit Vue.js
-   href: https://github.com/TypedProject/tsed-example-vuejs
-   src: /vuejs.png    
+   href: https://github.com/tsedio/tsed-example-vuejs
+   src: /vuejs.png
+ - title: Kit Prisma
+   href: https://github.com/tsedio/tsed-example-prisma
+   src: /prisma-2.png   
  - title: Kit TypeORM
-   href: https://github.com/TypedProject/tsed-example-typeorm
+   href: https://github.com/tsedio/tsed-example-typeorm
    src: /typeorm.png
  - title: Kit Mongoose
-   href: https://github.com/TypedProject/tsed-example-mongoose
+   href: https://github.com/tsedio/tsed-example-mongoose
    src: /mongoose.png
  - title: Kit Socket.io
-   href: https://github.com/TypedProject/tsed-example-socketio
+   href: https://github.com/tsedio/tsed-example-socketio
    src: /socketio.png 
  - title: Kit Passport.js
-   href: https://github.com/TypedProject/tsed-example-passportjs
+   href: https://github.com/tsedio/tsed-example-passportjs
    src: /passportjs.png
  - title: Kit AWS
-   href: https://github.com/TypedProject/tsed-example-aws
+   href: https://github.com/tsedio/tsed-example-aws
    src: /aws.png
  - title: Kit Azure AD
-   href: https://github.com/TypedProject/tsed-example-passport-azure-ad
+   href: https://github.com/tsedio/tsed-example-passport-azure-ad
    src: /azure.png
 meta:
  - name: description
@@ -83,6 +86,8 @@ Features | Express.js  | Koa.js
 [Templating](/docs/templating.md) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Validation](/docs/validation.md) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Response Filters](/docs/response-filter.md) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
+[Cache](/docs/cache.md) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
+[Command](/docs/command.md) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 
 </div>
 
@@ -95,6 +100,7 @@ Here are the plugins provided by Ts.ED and the compatibility with the different 
 Features | Express.js  | Koa.js
 --- | --- | ---
 [Passport.js](/tutorials/passport.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/invalid.svg" width="15" alt="no"/>
+[Prisma](/tutorials/prisma.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [TypeORM](/tutorials/typeorm.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Mongoose](/tutorials/mongoose.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Objection.js](/tutorials/objection.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
@@ -105,6 +111,7 @@ Features | Express.js  | Koa.js
 [OIDC](/tutorials/oidc.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 [Stripe](/tutorials/stripe.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>
 
+
 </div>
 
 ::: tip Note
@@ -113,7 +120,7 @@ Compatibility for Koa.js with Passport.js is planed.
 
 ## What's new ?
 
-<ReleaseNote style="max-height: 500px" />
+<ReleaseNote style="max-height: 500px" class="overflow-auto mb-5" />
 
 ### Platform API
 
@@ -179,6 +186,12 @@ You can therefore use it for your projects without installing the whole framewor
 
 See our [migration guide](/getting-started/migration-from-v5.md) for more details.
 
+### Cache
+
+Ts.ED provide now, a unified cache manager solution based on the awesome [`cache-manager`](https://www.npmjs.com/package/cache-manager).
+
+See our dedicated page on [Cache](/docs/cache.md).
+
 ## Installation
 
 To get started, you can either scaffold the project with the Ts.ED CLI, or clone a starter project.
@@ -198,11 +211,11 @@ See our [CLI website](https://cli.tsed.io) for more details.
 
 Alternatively, you can checkout one of these projects:
 
-<Projects type="getting-started" />
+<Projects type="projects" />
 
 If none of previous solutions are satisfying maybe you are in these cases:
 
-- [I want to create application from scratch](/getting-started/from-scratch.md)
+- [I want to create application from scratch](/getting-started/start-from-scratch.md)
 - [I want to migrate my application from Ts.ED v5](/getting-started/migration-from-v5.md)
 - [I want to migrate my application from Express.js](/getting-started/migrate-from-express.md)
 

@@ -35,18 +35,10 @@ node_modules
 typings/
 
 # Typescript
-index.js
-index.js.map
-!packages/test-artillery/test/server/express.js
-packages/**/src/**/*.js
-packages/**/*.js.map
-packages/**/*.d.ts
-packages/**/*.d.ts.map
 packages/**/lib
-test/**/*.js
-test/**/*.js.map
-test/**/*.d.ts
-test/**/*.d.ts.map
+packages/**/dist
+tools/**/lib
+tools/**/dist
 .npmrc
 
 # Test
@@ -70,3 +62,4 @@ test/**/*.d.ts.map
 /packages/graphql/test/resources/schema.gql
 .db
 **/keys/jwks.json
+/packages/prisma/test/prisma/generated

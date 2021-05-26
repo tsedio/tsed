@@ -145,6 +145,13 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
     return JsonEntityStore.from<EndpointMetadata>(prototypeOf(target), propertyKey, descriptor);
   }
 
+  // static has(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor) {
+  //   descriptor = descriptor || descriptorOf(prototypeOf(target), propertyKey);
+  //   const store = Store.from(prototypeOf(target), propertyKey, descriptor);
+  //
+  //   return store.has(JsonEntityStore);
+  // }
+
   addOperationPath(method: string, path: string | RegExp, options: any = {}) {
     return this.operation.addOperationPath(method, path, options);
   }

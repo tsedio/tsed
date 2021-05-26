@@ -8,8 +8,9 @@ meta:
    content: Ts.ED nodejs express typescript javascript es6 decorators mvc model ioc service model middleware socket.io swagger typeorm mongoose ajv
 gettingStartedText: Getting started
 gettingStartedUrl: /getting-started/
-messengerText: Gitter
-messengerUrl: https://gitter.im/Tsed-io/community
+messengerText: Discussions
+messengerIcon: bxl-slack 
+messengerUrl: https://api.tsed.io/rest/slack/tsedio/tsed
 features:
 - title: Rest API
   icon: bx-server
@@ -120,7 +121,7 @@ frameworks:
   src: /webpack.svg  
 - title: AJV
   href: /tutorials/ajv.html
-  src: https://ajv.js.org/images/ajv_logo.png
+  src: https://ajv.js.org/img/ajv.svg
 - title: Swagger
   href: /tutorials/swagger.html
   src: /swagger.svg 
@@ -130,6 +131,9 @@ frameworks:
 - title: Mongoose
   href: /tutorials/mongoose.html
   src: /mongoose.png   
+- title: Prisma
+  href: /tutorials/prisma.html
+  src: /prisma-3.svg
 - title: TypeORM
   href: /tutorials/typeorm.html
   src: /typeorm.png
@@ -148,6 +152,30 @@ frameworks:
 - title: Stripe
   href: /tutorials/stripe.html
   src: /stripe.svg
+- title: Seq
+  href: /tutorials/seq.html
+  src: https://blog.datalust.co/content/images/2018/09/Seq-380px-1.png
+- title: LogEntries
+  href: https://logentries.com/
+  src: /logentries.svg
+- title: Insight
+  href: /docs/logger.html
+  src: /rapid7.svg
+- title: RabbitMQ
+  href: /docs/logger.html
+  src: /rabbitmq.svg
+- title: Loggly
+  href: /docs/logger.html
+  src: /loggly.svg
+- title: LogStash
+  href: /docs/logger.html
+  src: /elastic-logstash.svg
+- title: Slack
+  href: /docs/logger.html
+  src: /slack.svg
+- title: Keycloak
+  href: /tutorials/keycloak.html
+  src: /keycloak_icon.svg
 ---
 
 ::: slot hero-brand

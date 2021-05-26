@@ -1,5 +1,5 @@
 import {RawPathParams, UsePipe} from "@tsed/common";
-import {applyDecorators} from "@tsed/core";
+import {useDecorators} from "@tsed/core";
 import {PersonPipe} from "../services/PersonPipe";
 
 export interface IUsePersonParamOptions {
@@ -7,7 +7,7 @@ export interface IUsePersonParamOptions {
 }
 
 export function UsePersonParam(expression: string, options: IUsePersonParamOptions = {}): ParameterDecorator {
-  return applyDecorators(
+  return useDecorators(
     RawPathParams(expression),
     UsePipe(PersonPipe, options) // UsePipe accept second parameter to store your options
   );

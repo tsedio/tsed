@@ -25,6 +25,7 @@ import {Property} from "./property";
  * @schema
  * @input
  */
-export function Nullable(...types: (JSONSchema6TypeName | Type<any> | any)[]) {
+export function Nullable(type: JSONSchema6TypeName | Type<any> | any, ...types: (JSONSchema6TypeName | Type<any> | any)[]) {
+  types = [type, ...types];
   return useDecorators(types.length === 1 && Property(types[0]), Any(null, ...types));
 }
