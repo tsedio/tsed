@@ -23,6 +23,7 @@
     "@tsed/common": "6.50.0",
     "@tsed/core": "6.50.0",
     "@tsed/schema": "6.50.0",
+    "@tsed/ajv": "6.50.0",
     "mongoose": "^5.12.2"
   }
 }
