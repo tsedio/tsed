@@ -1,6 +1,6 @@
 {
   "name": "@tsed/benchmarks-apps",
-  "version": "6.50.0",
+  "version": "6.51.0",
   "main": "index.js",
   "dependencies": {
     "@nestjs/common": "7.6.15",
