@@ -1,7 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {OnSerialize} from "@tsed/json-mapper";
 import {CollectionOf, Default, Name, Property} from "@tsed/schema";
 import {expect} from "chai";
 import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3} from "../../../../../test/helper/classes";
@@ -18,55 +17,63 @@ describe("ConverterService", () => {
       });
 
       it("should convert boolean to Boolean", () => {
-        expect(converterService.deserialize(true, Boolean)).to.be.equal(true);
-        expect(converterService.deserialize(false, Boolean)).to.be.equal(false);
+        expect(converterService.deserialize(true, {type: Boolean})).to.be.equal(true);
+        expect(converterService.deserialize(false, {type: Boolean})).to.be.equal(false);
       });
 
       it("should convert boolean string to Boolean", () => {
-        expect(converterService.deserialize("true", Boolean)).to.be.equal(true);
-        expect(converterService.deserialize("false", Boolean)).to.be.equal(false);
+        expect(converterService.deserialize("true", {type: Boolean})).to.be.equal(true);
+        expect(converterService.deserialize("false", {type: Boolean})).to.be.equal(false);
       });
 
       it("should convert empty string to Boolean", () => {
-        expect(converterService.deserialize("", Boolean)).to.be.equal(false);
+        expect(converterService.deserialize("", {type: Boolean})).to.be.equal(false);
       });
 
       it("should convert string to Boolean", () => {
-        expect(converterService.deserialize("test", Boolean)).to.be.equal(true);
+        expect(converterService.deserialize("test", {type: Boolean})).to.be.equal(true);
       });
 
       it("should convert number to Boolean", () => {
-        expect(converterService.deserialize(0, Boolean)).to.be.equal(false);
-        expect(converterService.deserialize(1, Boolean)).to.be.equal(true);
+        expect(converterService.deserialize(0, {type: Boolean})).to.be.equal(false);
+        expect(converterService.deserialize(1, {type: Boolean})).to.be.equal(true);
       });
 
       it("should convert null to Boolean", () => {
-        expect(converterService.deserialize(null, Boolean)).to.be.equal(null);
+        expect(converterService.deserialize(null, {type: Boolean})).to.be.equal(null);
       });
 
       it("should convert undefined to Boolean", () => {
-        expect(converterService.deserialize(undefined, Boolean)).to.be.equal(undefined);
+        expect(converterService.deserialize(undefined, {type: Boolean})).to.be.equal(undefined);
       });
 
       it("should convert a string to Number", () => {
-        expect(converterService.deserialize("1", Number)).to.be.a("number").and.to.equals(1);
+        expect(converterService.deserialize("1", {type: Number}))
+          .to.be.a("number")
+          .and.to.equals(1);
       });
 
       it("should convert number to Number", () => {
-        expect(converterService.deserialize(1, Number)).to.be.a("number").and.to.equals(1);
+        expect(converterService.deserialize(1, {type: Number}))
+          .to.be.a("number")
+          .and.to.equals(1);
       });
 
       it("should convert a string to String", () => {
-        expect(converterService.deserialize("1", String)).to.be.a("string").and.to.equals("1");
+        expect(converterService.deserialize("1", {type: String}))
+          .to.be.a("string")
+          .and.to.equals("1");
       });
 
       it("should convert number to String", () => {
-        expect(converterService.deserialize(1, String)).to.be.a("string").and.to.equals("1");
+        expect(converterService.deserialize(1, {type: String}))
+          .to.be.a("string")
+          .and.to.equals("1");
       });
 
       it("should convert a null/undefined to null/undefined", () => {
-        expect(converterService.deserialize(null, Number)).to.equal(null);
-        expect(converterService.deserialize(undefined, Number)).to.equal(undefined);
+        expect(converterService.deserialize(null, {type: Number})).to.equal(null);
+        expect(converterService.deserialize(undefined, {type: Number})).to.equal(undefined);
       });
     });
 
@@ -74,14 +81,14 @@ describe("ConverterService", () => {
       it(
         "should convert object",
         PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
-          expect(converterService.deserialize({}, Object)).to.be.an("object");
+          expect(converterService.deserialize({}, {type: Object})).to.be.an("object");
         })
       );
 
       it(
         "should convert a date",
         PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
-          expect(converterService.deserialize(new Date().toISOString(), Date)).to.be.instanceof(Date);
+          expect(converterService.deserialize(new Date().toISOString(), {type: Date})).to.be.instanceof(Date);
         })
       );
       it(
@@ -105,8 +112,9 @@ describe("ConverterService", () => {
           }
 
           expect(
-            converterService.deserialize(data, Model, Model, {
-              additionalProperties: "ignore"
+            converterService.deserialize(data, {
+              type: Model,
+              additionalProperties: false
             })
           ).to.deep.eq({
             id: "id",
@@ -115,7 +123,6 @@ describe("ConverterService", () => {
         })
       );
     });
-
     it(
       "should deserialize Foo model",
       PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
@@ -124,7 +131,7 @@ describe("ConverterService", () => {
             test: 1,
             foo: "test"
           },
-          JsonFoo as any
+          {type: JsonFoo}
         );
         expect(foo).to.be.instanceof(JsonFoo);
         expect(foo.method).to.be.a("function");
@@ -163,7 +170,7 @@ describe("ConverterService", () => {
             },
             theSet: [{test: "13"}, {test: "1re"}]
           },
-          JsonFoo2
+          {type: JsonFoo2}
         );
 
         // THEN
@@ -194,7 +201,7 @@ describe("ConverterService", () => {
     it(
       "should emit a BadRequest when the number parsing failed",
       PlatformTest.inject([ConverterService], (converterService: ConverterService) => {
-        const error: any = catchError(() => converterService.deserialize("NK1", Number));
+        const error: any = catchError(() => converterService.deserialize("NK1", {type: Number}));
 
         expect(error.message).to.eq("Cast error. Expression value is not a number.");
       })
@@ -213,7 +220,7 @@ describe("ConverterService", () => {
       const converter = injector.get<ConverterService>(ConverterService)!;
 
       const obj = {foo: "bar"};
-      const result = converter.deserialize(obj, Model);
+      const result = converter.deserialize(obj, {type: Model});
 
       expect(result).to.be.instanceof(Model);
       expect(result.foo).to.equal("bar");
@@ -232,7 +239,7 @@ describe("ConverterService", () => {
       const converter = injector.get<ConverterService>(ConverterService)!;
 
       const obj = {foo: "bar"};
-      const result = converter.deserialize([obj], Array, Model);
+      const result = converter.deserialize([obj], {collectionType: Array, type: Model});
 
       expect(result[0]).to.be.instanceof(Model);
       expect(result[0].foo).to.equal("bar");
@@ -287,9 +294,10 @@ describe("ConverterService", () => {
       };
 
       const result1 = converter.deserialize(data, {type: UserInfo, useAlias: true, additionalProperties: false});
-      const result2 = converter.deserialize(data, UserInfo, null, {
+      const result2 = converter.deserialize(data, {
+        type: UserInfo,
         useAlias: true,
-        additionalProperties: "ignore"
+        additionalProperties: false
       });
 
       expect(result1).to.deep.eq({
@@ -453,26 +461,6 @@ describe("ConverterService", () => {
       it("should use toJSON method", () => {
         expect(converterService.serialize(new JsonFoo3())).to.be.an("object");
       });
-    });
-  });
-  describe("serializeClass()", () => {
-    let converterService: ConverterService;
-    beforeEach(
-      PlatformTest.inject([ConverterService], (_converterService_: ConverterService) => {
-        converterService = _converterService_;
-      })
-    );
-    it("should transform class", () => {
-      class Test {
-        @OnSerialize((v) => `${v}to`)
-        test: string;
-      }
-
-      const input = new Test();
-      input.test = "test";
-
-      const result = converterService.serializeClass(input);
-      expect(result).to.deep.eq({test: "testto"});
     });
   });
 });

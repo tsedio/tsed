@@ -1,3 +1,4 @@
+import "@tsed/ajv";
 import {
   BodyParams,
   ParamMetadata,
@@ -12,7 +13,6 @@ import {
 import {BadRequest} from "@tsed/exceptions/src";
 import {getJsonSchema, MinLength, Property, Required, Schema} from "@tsed/schema";
 import {expect} from "chai";
-import "@tsed/ajv";
 
 async function validate(value: any, metadata: any) {
   const pipe: ValidationPipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
@@ -65,13 +65,14 @@ describe("AjvValidationPipe", () => {
         type: "object"
       });
 
-      expect(error?.message).to.deep.equal("Bad request on parameter \"request.body\".\nValue should be object. Given value: []");
+      expect(error?.message).to.deep.equal("Bad request on parameter \"request.body\".\nValue must be object. Given value: []");
       expect(error?.origin?.errors).to.deep.equal([
         {
           data: [],
           dataPath: "",
+          instancePath: "",
           keyword: "type",
-          message: "should be object",
+          message: "must be object",
           params: {
             type: "object"
           },
@@ -176,14 +177,15 @@ describe("AjvValidationPipe", () => {
       });
 
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nModel should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nModel must have required property 'id'. Given value: {}"
       );
       expect(error?.origin.errors).to.deep.equal([
         {
           data: {},
           dataPath: "",
+          instancePath: "",
           keyword: "required",
-          message: "should have required property 'id'",
+          message: "must have required property 'id'",
           modelName: "Model",
           params: {
             missingProperty: "id"
@@ -230,7 +232,7 @@ describe("AjvValidationPipe", () => {
       const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
 
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nModel.user should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nModel.user must have required property 'id'. Given value: {}"
       );
     });
     it("should throw an error and hide password value", async () => {
@@ -276,8 +278,9 @@ describe("AjvValidationPipe", () => {
         {
           data: "[REDACTED]",
           dataPath: ".password",
+          instancePath: "/password",
           keyword: "minLength",
-          message: "should NOT have fewer than 8 characters",
+          message: "must NOT have fewer than 8 characters",
           modelName: "Model",
           params: {
             limit: 8
@@ -349,7 +352,7 @@ describe("AjvValidationPipe", () => {
         type: "array"
       });
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nModel[0] should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nModel[0] must have required property 'id'. Given value: {}"
       );
     });
     it("should throw an error (deep property)", async () => {
@@ -415,7 +418,7 @@ describe("AjvValidationPipe", () => {
       const error = await validate(value, metadata);
 
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nModel[0].user should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nModel[0].user must have required property 'id'. Given value: {}"
       );
     });
   });
@@ -458,7 +461,7 @@ describe("AjvValidationPipe", () => {
       const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
 
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nMap<key1, Model> should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nMap<key1, Model> must have required property 'id'. Given value: {}"
       );
     });
     it("should throw an error (deep property)", async () => {
@@ -523,7 +526,7 @@ describe("AjvValidationPipe", () => {
       });
 
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nMap<key1, Model>.user should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nMap<key1, Model>.user must have required property 'id'. Given value: {}"
       );
     });
   });
@@ -587,7 +590,7 @@ describe("AjvValidationPipe", () => {
       });
 
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nSet<0, Model> should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nSet<0, Model> must have required property 'id'. Given value: {}"
       );
     });
     it("should throw an error (deep property)", async () => {
@@ -620,7 +623,7 @@ describe("AjvValidationPipe", () => {
       const error = await validate(value, metadata);
 
       expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nSet<0, Model>.user should have required property 'id'. Given value: {}"
+        "Bad request on parameter \"request.body\".\nSet<0, Model>.user must have required property 'id'. Given value: {}"
       );
     });
   });

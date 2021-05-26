@@ -7,7 +7,8 @@ import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import faker from "faker";
 import SuperTest from "supertest";
-import {TestUser} from "./helpers/models/User";
+import {isArray} from "@tsed/core";
+import {TestRole, TestUser, TestUserNew} from "./helpers/models/User";
 import {Server} from "./helpers/Server";
 
 @Injectable()
@@ -35,6 +36,12 @@ class ResourcesCtrl {
   @Inject()
   repository: ResourcesRepository;
 
+  @Inject(TestUserNew)
+  TestUserNew: MongooseModel<TestUserNew>;
+
+  @Inject(TestRole)
+  TestRole: MongooseModel<TestRole>;
+
   @Get("/without/:id")
   @Returns(200, TestUser).Groups("!creation")
   getWithoutType(@PathParams("id") id: string) {
@@ -57,6 +64,27 @@ class ResourcesCtrl {
   @Returns(201, TestUser).Groups("!creation")
   async create(@BodyParams() @Groups("creation") user: TestUser) {
     return this.repository.create(user);
+  }
+
+  @Post("/scenario-1")
+  async createWithoutReturnedType() {
+    const role = new this.TestRole(new TestRole());
+    const user = new this.TestUserNew(new TestUserNew());
+
+    role.name = faker.hacker.verb();
+
+    await role.save();
+
+    user.name = faker.name.firstName();
+
+    user.roles = [role._id];
+
+    await user.save();
+
+    return {
+      id: user._id,
+      roles: user.roles
+    }; // Isn't necessary to map the model.
   }
 }
 
@@ -221,5 +249,10 @@ describe("Mongoose", () => {
         updated: String(body.updated)
       });
     });
+
+    it('should return an array of roles', async () => {
+      const {body} = await request.post('/rest/resources/scenario-1')
+      expect(isArray(body.roles)).to.equal(true)
+    })
   });
 });

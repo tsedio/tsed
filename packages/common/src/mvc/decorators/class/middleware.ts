@@ -1,4 +1,4 @@
-import {registerMiddleware} from "../../registries/MiddlewareRegistry";
+import {Injectable, ProviderType} from "@tsed/di";
 
 /**
  * Register a new Middleware class.
@@ -7,5 +7,7 @@ import {registerMiddleware} from "../../registries/MiddlewareRegistry";
  * @classDecorator
  */
 export function Middleware(): ClassDecorator {
-  return registerMiddleware;
+  return Injectable({
+    type: ProviderType.MIDDLEWARE
+  });
 }

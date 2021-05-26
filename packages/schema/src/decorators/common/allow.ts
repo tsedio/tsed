@@ -1,41 +1,6 @@
 import {DecoratorTypes, isClass, UnsupportedDecoratorType, useDecorators} from "@tsed/core";
-import {Property} from "./property";
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonEntityFn} from "./jsonEntityFn";
-
-function applyStringRule(store: JsonEntityStore, values: any[]) {
-  if (store.type === String) {
-    if (!values.includes("")) {
-      // Disallow empty string
-      (!store.schema.has("minLength") || store.schema.get("minLength") === 0) && store.schema.minLength(1);
-    } else {
-      store.schema.delete("minLength");
-    }
-  }
-}
-
-function applyNullRule(store: JsonEntityStore, values: any[]) {
-  if (values.includes(null)) {
-    if (store.schema.isClass) {
-      const properties = store.parent.schema.get("properties");
-
-      if (properties && properties[store.propertyKey as any]) {
-        const propSchema = properties[store.propertyKey as any];
-
-        properties[store.propertyKey as any] = {
-          oneOf: [
-            {
-              type: "null"
-            },
-            propSchema
-          ]
-        };
-      }
-    } else {
-      store.schema.addTypes("null");
-    }
-  }
-}
+import {Property} from "./property";
 
 /**
  * Add allowed values when the property or parameters is required.
@@ -69,19 +34,14 @@ export function Allow(...values: any[]) {
   return useDecorators(
     model && Property(model),
     JsonEntityFn((store, args) => {
+      store.schema.allow(...values);
+
       switch (store.decoratorType) {
         case DecoratorTypes.PARAM:
           store.parameter!.required(true);
-
-          applyStringRule(store, values);
-          applyNullRule(store, values);
-
           break;
         case DecoratorTypes.PROP:
           store.parentSchema.addRequired(store.propertyName);
-
-          applyStringRule(store, values);
-          applyNullRule(store, values);
           break;
         default:
           throw new UnsupportedDecoratorType(Allow, args);

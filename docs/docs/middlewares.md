@@ -10,13 +10,13 @@ This method can use all parameters decorators as you could see with the [Control
 
 ## Configuration
 
-To begin, you must add the `middlewares` folder on the `componentsScan` attribute in your server settings as follow :
+To begin, you must add the `middlewares` folder on the `componentsScan` attribute in your server settings as follows:
 
-<<< @/docs/docs/snippets/middlewares/server-configuration.ts
+<<< @/docs/snippets/middlewares/server-configuration.ts
 
 Then, create a new file in your middlewares folder. Create a new Class definition then add the @@Middleware@@ decorator.
 
-<<< @/docs/docs/snippets/middlewares/middleware-example.ts
+<<< @/docs/snippets/middlewares/middleware-example.ts
 
 You have different usecases to declare and use a middleware as following:
 
@@ -33,11 +33,41 @@ can access to the last executed endpoint information.
 
 Global middlewares are generally used to handle requests before or after controllers.
 
-<<< @/docs/docs/snippets/middlewares/global-middleware.ts
+<<< @/docs/snippets/middlewares/global-middleware.ts
 
 Then add your middleware on the Server by using the right hook:
 
-<<< @/docs/docs/snippets/middlewares/global-middleware-configuration.ts
+<<< @/docs/snippets/middlewares/global-middleware-configuration.ts
+
+::: tip
+Since v6.28.0, it's also possible to register middlewares from `middlewares` options on @@Configuration@@ decorator.
+In addition, it's also possible to configure the environment for which the middleware should be loaded.
+
+```typescript
+import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
+
+@Configuration({
+  middlewares: [
+    {hook: '$afterInit', use: helmet({contentSecurityPolicy: false})},
+    {env: Env.PROD, use: EnsureHttpsMiddleware},
+    cors(),
+    cookieParser(),
+    compress({}),
+    methodOverride(),
+    bodyParser.json(),
+    bodyParser.urlencoded({
+      extended: true
+    }),
+    AuthTokenMiddleware
+  ]
+})
+export class Server {
+}
+```
+
+The middlewares added through `middlewares` options will always be registered after the middlewares registered through the hook methods!
+
+:::
 
 ## Endpoint middleware 
 
@@ -49,17 +79,17 @@ The following example, show you how to implement the middleware and use it with 
 <Tabs class="-code">
   <Tab label="AcceptMimesMiddleware.ts">
   
-<<< @/docs/docs/snippets/middlewares/endpoint-middleware.ts
+<<< @/docs/snippets/middlewares/endpoint-middleware.ts
 
   </Tab>
   <Tab label="accept.ts">
     
-<<< @/docs/docs/snippets/middlewares/endpoint-middleware-decorator.ts
+<<< @/docs/snippets/middlewares/endpoint-middleware-decorator.ts
    
   </Tab>
   <Tab label="Usage">
 
-<<< @/docs/docs/snippets/middlewares/endpoint-middleware-usage.ts
+<<< @/docs/snippets/middlewares/endpoint-middleware-usage.ts
   
   </Tab>
 </Tabs>
@@ -71,7 +101,7 @@ Middleware can be used on a class controller or endpoint method with the followi
 - @@UseAfter@@
 - or routes decorators: @@Get@@, @@Post@@, @@Delete@@, @@Put@@ and @@Patch@@
 
-<<< @/docs/docs/snippets/middlewares/endpoint-use-decorator-usage.ts
+<<< @/docs/snippets/middlewares/endpoint-use-decorator-usage.ts
 
 
 ## Error middleware
@@ -143,7 +173,7 @@ Only middlewares shown in the Endpoints box can use @@EndpointInfo@@ decorator t
 
 For example:
 
-<<< @/docs/docs/snippets/middlewares/call-sequences.ts
+<<< @/docs/snippets/middlewares/call-sequences.ts
 
 According to the call sequence scheme, the stack calls will be there:
 
@@ -167,7 +197,7 @@ According to the call sequence scheme, the stack calls will be there:
 
 The decorator @@OverrideProvider@@ gives you the ability to override some internal Ts.ED middlewares.
 
-<<< @/docs/docs/snippets/middlewares/override-middleware.ts
+<<< @/docs/snippets/middlewares/override-middleware.ts
 
 Here we use the new [Platform API](/docs/platform-api.md) to write our middleware. 
 By using @@Context@@ decorator and @@PlatformContext@@ class we can get some information:

@@ -1,8 +1,4 @@
-import {Context, Inject, Middleware, PlatformContext} from "@tsed/common";
-import {ancestorsOf} from "@tsed/core";
-import {Exception, Unauthorized} from "@tsed/exceptions";
-import Passport from "passport";
-import {PassportException} from "../errors/PassportException";
+import {Context, Inject, Middleware} from "@tsed/common";
 import {ProtocolsService} from "../services/ProtocolsService";
 import {getProtocolsFromRequest} from "../utils/getProtocolsFromRequest";
 
@@ -23,45 +19,15 @@ export class PassportMiddleware {
     if (this.shouldSkip(ctx)) {
       return;
     }
-
     const {options, protocol, method, originalUrl = true} = endpoint.store.get(PassportMiddleware);
     const protocols = getProtocolsFromRequest(request, protocol, this.protocolsService.getProtocolsNames());
-
-    if (protocols.length === 0) {
-      throw new Unauthorized("Not authorized");
-    }
 
     if (originalUrl) {
       request.url = request.originalUrl;
     }
 
-    await this.call(method, protocols, options, ctx);
-  }
-
-  protected catchError(er: any) {
-    if (!ancestorsOf(er).includes(Error)) {
-      throw new PassportException(er);
-    }
-
-    throw er;
-  }
-
-  private async call(method: any, protocols: string[], options: any, ctx: PlatformContext) {
-    const request = ctx.getRequest();
-    const response = ctx.getResponse();
-
-    try {
-      options.failWithError = true;
-      // @ts-ignore
-      const middleware = Passport[method](protocols.length === 1 ? protocols[0] : protocols, options);
-
-      await new Promise((resolve, reject) => {
-        middleware(request, response, (err: any) => {
-          err ? reject(err) : resolve();
-        });
-      });
-    } catch (er) {
-      this.catchError(er);
-    }
+    await (method === "authenticate"
+      ? this.protocolsService.authenticate(protocols, options, ctx)
+      : this.protocolsService.authorize(protocols, options, ctx));
   }
 }

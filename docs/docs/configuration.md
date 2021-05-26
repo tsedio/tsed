@@ -34,11 +34,11 @@ The default configuration is as follows:
 
 You can customize your configuration as follows on `Server.ts`level:
 
-<<< @/docs/docs/snippets/configuration/server.ts
+<<< @/docs/snippets/configuration/server.ts
 
 or when you bootstrap your Server (e.g. `index.ts`):
 
-<<< @/docs/docs/snippets/configuration/bootstrap.ts
+<<< @/docs/snippets/configuration/bootstrap.ts
 
 ::: tip Note
 Ts.ED supports [ts-node](https://github.com/TypeStrong/ts-node). Ts extension will be replaced by a Js extension if 
@@ -56,12 +56,12 @@ as following:
 <Tabs class="-code">
   <Tab label="node-config">
 
-<<< @/docs/docs/snippets/configuration/bootstrap-with-node-config.ts
+<<< @/docs/snippets/configuration/bootstrap-with-node-config.ts
 
   </Tab>
   <Tab label="dotenv">
 
-<<< @/docs/docs/snippets/configuration/bootstrap-with-dotenv.ts
+<<< @/docs/snippets/configuration/bootstrap-with-dotenv.ts
 
   </Tab>  
 </Tabs>
@@ -132,7 +132,7 @@ Port number for the [HTTPs.Server](https://nodejs.org/api/https.html#https_class
   * `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
   * `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted, several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
 
-See the [HTTPs project example](https://github.com/TypedProject/example-ts-express-decorator/tree/2.0.0/example-https)
+See the [HTTPs project example](https://github.com/tsedio/example-ts-express-decorator/tree/2.0.0/example-https)
 
 ### mount
 
@@ -143,24 +143,24 @@ Mount all given controllers and map controllers to the corresponding endpoints.
 Ts.ED provides the possibility to mount multiple Rest paths instead of the default path `/rest`.
 This option will allow you to define a version for an endpoint and select which controllers you want to associate with the given path.
 
-<<< @/docs/docs/snippets/configuration/server-endpoint-versionning.ts
+<<< @/docs/snippets/configuration/server-endpoint-versionning.ts
 
 It is also possible to split the configuration by using the @@Module@@:
 
 <Tabs class="-code">
   <Tab label="Server.ts">
 
-<<< @/docs/docs/snippets/configuration/server-endpoint-versionning-with-module.ts
+<<< @/docs/snippets/configuration/server-endpoint-versionning-with-module.ts
 
   </Tab>
   <Tab label="ModuleV1.ts">
 
-<<< @/docs/docs/snippets/configuration/modulev1-endpoint-versionning.ts
+<<< @/docs/snippets/configuration/modulev1-endpoint-versionning.ts
 
   </Tab>  
   <Tab label="ModuleV0.ts">
 
-<<< @/docs/docs/snippets/configuration/modulev0-endpoint-versionning.ts
+<<< @/docs/snippets/configuration/modulev0-endpoint-versionning.ts
 
   </Tab>    
 </Tabs>
@@ -171,6 +171,72 @@ It is also possible to split the configuration by using the @@Module@@:
 
 List of glob pattern to scan directories which contains [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
 
+### middlewares <Badge text="v6.28.0+" />
+
+- type: `PlatformMiddlewareSettings[]`
+
+A middleware list (Express.js, Ts.ED, Koa, etc...) must be loaded on the `$beforeRoutesInit` hook or on the specified hook. 
+In addition, it's also possible to configure the environment for which the middleware should be loaded.
+
+Here is an example to load middlewares with the previous version (this example will be always available!):
+
+```typescript
+import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
+import {Env} from "@tsed/core";
+
+@Configuration({})
+export class Server {
+  $afterInit(){
+    this.app.use(helmet({contentSecurityPolicy: false}))
+  }
+  $beforeRoutesInit() {
+    if (this.env === Env.PROD) {
+      this.app.use(EnsureHttpsMiddleware);
+    }
+
+    this.app
+      .use(cors())
+      .use(cookieParser())
+      .use(compress({}))
+      .use(methodOverride())
+      .use(bodyParser.json())
+      .use(bodyParser.urlencoded({
+        extended: true
+      }))
+      .use(AuthTokenMiddleware);
+
+    return null;
+  }
+}
+```
+
+After v6.28.0, you can use the middlewares options as follows:
+
+```typescript
+import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
+
+@Configuration({
+  middlewares: [
+    {hook: '$afterInit', use: helmet({contentSecurityPolicy: false})},
+    {env: Env.PROD, use: EnsureHttpsMiddleware},
+    cors(),
+    cookieParser(),
+    compress({}),
+    methodOverride(),
+    bodyParser.json(),
+    bodyParser.urlencoded({
+      extended: true
+    }),
+    AuthTokenMiddleware
+  ]
+})
+export class Server {
+}
+```
+::: warning Order priority
+The middlewares added through `middlewares` options will always be registered after the middlewares registered through the hook methods!
+:::
+
 ### imports
 
 - type: `Type<any>[]`
@@ -180,12 +246,12 @@ Add providers or modules here. These modules or provider will be built before th
 <Tabs class="-code">
   <Tab label="Server.ts">
 
-<<< @/docs/docs/snippets/configuration/server-options-imports.ts
+<<< @/docs/snippets/configuration/server-options-imports.ts
 
   </Tab>
   <Tab label="MyModule.ts">
 
-<<< @/docs/docs/snippets/configuration/module-options-imports.ts
+<<< @/docs/snippets/configuration/module-options-imports.ts
 
   </Tab>
 </Tabs>
@@ -222,18 +288,18 @@ Logger configuration. See [logger section for more detail](/docs/logger.md).
 
 ### resolvers - External DI
 
-- type: @@IDIResolver@@
+- type: @@DIResolver@@
 
 Ts.ED has its own DI container, but sometimes you have to work with other DI like Inversify or TypeDI. The version 5.39.0+
 now allows you to configure multiple external DI by using the `resolvers` options. 
 
 The resolvers options can be configured as following:
 
-<<< @/docs/docs/snippets/configuration/server-resolvers.ts
+<<< @/docs/snippets/configuration/server-resolvers.ts
 
 It's also possible to register resolvers with the @@Module@@ decorator:
 
-<<< @/docs/docs/snippets/configuration/module-resolvers.ts
+<<< @/docs/snippets/configuration/module-resolvers.ts
 
 ### views
 
@@ -268,7 +334,7 @@ The global configuration for the Express.Router. See express [documentation](htt
 
 Object to mount all directories under an endpoint.
 
-<<< @/packages/platform-express/src/interfaces/PlatformExpressStaticsOptions.ts
+<<< @/../packages/platform-express/src/interfaces/PlatformExpressStaticsOptions.ts
 
   </Tab>
   <Tab label="Koa.js">
@@ -430,7 +496,7 @@ Decorators @@Constant@@ and @@Value@@ can be used in all classes including:
  
 @@Constant@@ and @@Value@@ accepts an expression as parameters to inspect the configuration object and return the value.
 
-<<< @/docs/docs/snippets/providers/binding-configuration.ts
+<<< @/docs/snippets/providers/binding-configuration.ts
 
 ::: warning
 @@Constant@@ returns an Object.freeze() value.

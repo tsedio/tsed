@@ -1,9 +1,12 @@
 import {Type} from "@tsed/core";
+import {JsonSchema} from "../domain";
+
+export type GenericValue = Type<any> | JsonSchema | any;
 
 /**
  * @ignore
  */
-export type GenericsMap = Map<string, Type<any>>;
+export type GenericsMap = Map<string, GenericValue>;
 
 /**
  * @ignore
@@ -27,7 +30,7 @@ export interface GenericLabels {
  * @ignore
  */
 export interface NestedGenerics {
-  nestedGenerics: Type<any>[][];
+  nestedGenerics: GenericValue[][];
 
   [key: string]: any;
 }
@@ -44,7 +47,7 @@ export interface GenericsContext extends GenericTypes, GenericLabels, NestedGene
  * @param genericLabels
  * @param genericTypes
  */
-export function getGenericsMap(genericLabels: string[], genericTypes: Type<any>[]): GenericsMap {
+export function getGenericsMap(genericLabels: string[], genericTypes: GenericValue[]): GenericsMap {
   return genericLabels.reduce((map: Map<string, any>, item: string, index: number) => map.set(item, genericTypes[index]), new Map());
 }
 

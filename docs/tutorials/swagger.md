@@ -27,7 +27,7 @@ Then add the following configuration in your Server:
 <Tabs class="-code">
   <Tab label="Configuration" icon="bx-code-alt">
    
-<<< @/docs/tutorials/snippets/swagger/configuration.ts
+<<< @/tutorials/snippets/swagger/configuration.ts
 
   </Tab>
   <Tab label="CodeSandbox" icon="bxl-codepen">
@@ -48,6 +48,39 @@ The path option for Swagger will be used to expose the documentation:
 - OAS3: [http://localhost:8000/v3/doc](http://localhost:8000/v3/doc)
 
 Ts.ED will print the swagger-ui url in the console.
+:::
+
+::: warning
+When using helmet, there may be a problem with CSP, to solve this collision, configure the CSP as shown below:
+
+```typescript
+@Configuration({
+  middlewares: [
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: [`'self'`],
+          styleSrc: [`'self'`, `'unsafe-inline'`],
+          imgSrc: [`'self'`, 'data:', 'validator.swagger.io'],
+          scriptSrc: [`'self'`, `https: 'unsafe-inline'`],
+        }
+      }
+    })
+  ]
+})
+export class Server {}
+
+// If you are not going to use CSP at all, you can use this:
+@Configuration({
+  middlewares: [
+    helmet({
+      contentSecurityPolicy: false,
+    })
+  ]
+})
+export class Server {}
+```
+
 :::
 
 ### Swagger options
@@ -77,11 +110,11 @@ operationIdPattern | `%c_%m` | A pattern to generate the operationId. Format of 
 
 It is also possible to create several swagger documentations with the `doc` option:
 
-<<< @/docs/tutorials/snippets/swagger/multi-spec.ts
+<<< @/tutorials/snippets/swagger/multi-spec.ts
 
 Then use `@Docs` decorators on your controllers to specify where the controllers should be displayed.
 
-<<< @/docs/tutorials/snippets/swagger/multi-spec-controllers.ts
+<<< @/tutorials/snippets/swagger/multi-spec-controllers.ts
 
 ## Model documentation
 
@@ -90,26 +123,26 @@ JSON Object based on JsonSchema (See [model documentation](/docs/model.md)).
 
 A model can be used on a method controller along with [@BodyParams](/api/common/filters/decorators/BodyParams.md) or other decorators.
 
-<<< @/docs/tutorials/snippets/swagger/model.ts
+<<< @/tutorials/snippets/swagger/model.ts
 
 ## Endpoint documentation
 
 This example shows you how to use the decorators to generate swagger documentation for an endpoint:
 
-<<< @/docs/tutorials/snippets/swagger/endpoint-documentation.ts
+<<< @/tutorials/snippets/swagger/endpoint-documentation.ts
 
 ## Extra parameters
 
 Sometimes you want to display extra `in` parameters like `headers` without consuming it in an endpoint.
 It's possible describe extra parameters by using the @@In@@ decorator over the method.
 
-<<< @/docs/tutorials/snippets/swagger/endpoint-extra-in-params.ts
+<<< @/tutorials/snippets/swagger/endpoint-extra-in-params.ts
 
 ## Import Javascript
 
 It is possible to import a Javascript in the Swagger-ui documentation. This script lets you customize the swagger-ui instance. 
 
-<<< @/docs/tutorials/snippets/swagger/configuration-with-js.ts
+<<< @/tutorials/snippets/swagger/configuration-with-js.ts
 
 In your JavaScript file, you can handle Swagger-ui configuration and the instance:
 

@@ -16,7 +16,9 @@ export const defaultReducer = (collection: any[], value: any) => {
  * @ignore
  */
 export const schemesReducer = (collection: any[], value: any) => {
-  const current = collection.find((current) => current.type === value.type);
+  const current = collection.find(
+    (current) => (current.type && current.type === value.type) || (current.$ref && current.$ref === value.$ref)
+  );
 
   if (current) {
     deepExtends(current, value);

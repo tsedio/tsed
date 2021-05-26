@@ -1,4 +1,5 @@
-import {registerInterceptor} from "../registries/ProviderRegistry";
+import {ProviderType} from "../domain/ProviderType";
+import {Injectable} from "./injectable";
 
 /**
  * The decorators `@Service()` declare a new service can be injected in other service or controller on there `constructor`.
@@ -10,5 +11,7 @@ import {registerInterceptor} from "../registries/ProviderRegistry";
  * @decorator
  */
 export function Interceptor(): Function {
-  return registerInterceptor;
+  return Injectable({
+    type: ProviderType.INTERCEPTOR
+  });
 }

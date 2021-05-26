@@ -14,7 +14,7 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       properties: {
         prop: {
-          type: ["integer", "number", "string", "boolean", "array", "object", "null"]
+          type: ["null", "integer", "number", "string", "boolean", "array", "object"]
         }
       },
       type: "object"
@@ -48,7 +48,7 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       properties: {
         prop: {
-          type: ["string", "number", "boolean", "null"]
+          type: ["null", "string", "number", "boolean"]
         }
       },
       type: "object"
@@ -65,7 +65,7 @@ describe("@Any", () => {
     expect(getJsonSchema(Model)).to.deep.equal({
       properties: {
         prop: {
-          type: ["string", "null"]
+          type: ["null", "string"]
         }
       },
       type: "object"

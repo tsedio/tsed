@@ -1,5 +1,5 @@
 import {PlatformContext} from "@tsed/common";
-import Provider, {Account} from "oidc-provider";
+import {Provider, Account} from "oidc-provider";
 
 export type AuthorizationCode = InstanceType<Provider["AuthorizationCode"]>;
 export type AccessToken = InstanceType<Provider["AccessToken"]>;

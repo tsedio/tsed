@@ -65,6 +65,9 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
     return this;
   }
 
+  getHeaders() {
+    return this.raw.headers;
+  }
   /**
    * Send any data to your consumer.
    *
@@ -79,6 +82,10 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
     return this;
   }
 
+  getBody() {
+    return this.raw.body;
+  }
+
   redirect(status: number, url: string): this {
     status = status || 302;
     // Set location header
@@ -91,7 +98,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
     if (this.raw.ctx.req.method === "HEAD") {
       this.getRes().end();
     } else {
-      this.getRes().end(this.raw.body);
+      this.getRes().end(this.getBody());
     }
 
     return this;

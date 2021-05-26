@@ -1,4 +1,4 @@
-import {CollectionOf, getJsonSchema, Property} from "@tsed/schema";
+import {CollectionOf, getJsonSchema, Property, string} from "@tsed/schema";
 import {expect} from "chai";
 import {GenericOf} from "./genericOf";
 import {Generics} from "./generics";
@@ -160,6 +160,82 @@ describe("@GenericOf", () => {
             },
             totalCount: {
               type: "number"
+            }
+          },
+          type: "object"
+        }
+      },
+      type: "object"
+    });
+  });
+  it("should generate Generic with an enum", () => {
+    @Generics("T")
+    class Submission<T> {
+      @Property()
+      _id: string;
+
+      @Property("T")
+      data: T;
+    }
+
+    enum MyEnum {
+      READ = "read",
+      WRITE = "write"
+    }
+
+    class Content {
+      @GenericOf(MyEnum)
+      submission: Submission<MyEnum>;
+    }
+
+    expect(getJsonSchema(Content)).to.deep.eq({
+      properties: {
+        submission: {
+          properties: {
+            _id: {
+              type: "string"
+            },
+            data: {
+              type: "string",
+              enum: ["read", "write"]
+            }
+          },
+          type: "object"
+        }
+      },
+      type: "object"
+    });
+  });
+  it("should generate Generic with raw json schema", () => {
+    @Generics("T")
+    class Submission<T> {
+      @Property()
+      _id: string;
+
+      @Property("T")
+      data: T;
+    }
+
+    enum MyEnum {
+      READ = "read",
+      WRITE = "write"
+    }
+
+    class Content {
+      @GenericOf(string().enum(["read", "write"]))
+      submission: Submission<MyEnum>;
+    }
+
+    expect(getJsonSchema(Content)).to.deep.eq({
+      properties: {
+        submission: {
+          properties: {
+            _id: {
+              type: "string"
+            },
+            data: {
+              type: "string",
+              enum: ["read", "write"]
             }
           },
           type: "object"

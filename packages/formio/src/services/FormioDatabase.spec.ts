@@ -13,9 +13,16 @@ async function createServiceFixture() {
         role: {
           find: sandbox.stub().resolves([{_id: "role_id", machineName: "role_machine"}])
         },
-        form: {
-          countDocuments: sandbox.stub(),
-          find: sandbox.stub().resolves([{_id: "form_id", machineName: "form_machine"}])
+        form: class {
+          static countDocuments = sandbox.stub();
+          static find = sandbox.stub().resolves([{_id: "form_id", machineName: "form_machine"}]);
+          static findOne = sandbox.stub().returnsThis();
+          static lean = sandbox.stub().returnsThis();
+          static exec = sandbox.stub();
+
+          constructor(public ctrOpts: any) {}
+
+          save(): any {}
         },
         action: {
           find: sandbox.stub().resolves([{_id: "action_id", machineName: "action_machine"}])
@@ -26,6 +33,9 @@ async function createServiceFixture() {
         token: {},
         actionItem: {}
       }
+    },
+    util: {
+      idToBson: sandbox.stub()
     }
   };
   const service = await PlatformTest.invoke<FormioDatabase>(FormioDatabase, [
@@ -140,6 +150,92 @@ describe("FormioDatabase", () => {
     it("should return the actionItemModel", async () => {
       const {service, formioService} = await createServiceFixture();
       expect(service.actionItemModel).to.deep.eq(formioService.mongoose.models.actionItem);
+    });
+  });
+  describe("createFormIfNotExists()", () => {
+    it("should return create the form if not exists", async () => {
+      const {service, formioService} = await createServiceFixture();
+      const onCreate = sandbox.stub();
+      const form: any = {
+        name: "name"
+      };
+
+      formioService.mongoose.models.form.countDocuments.resolves(false);
+      formioService.mongoose.models.form.exec.resolves({
+        _id: "id",
+        name: "name"
+      });
+
+      sandbox.stub(formioService.mongoose.models.form.prototype, "save").resolves({
+        _id: "id",
+        name: "name"
+      });
+
+      await service.createFormIfNotExists(form, onCreate);
+      expect(onCreate).to.have.been.calledWithExactly({
+        _id: "id",
+        name: "name"
+      });
+    });
+    it("should not create form is exists", async () => {
+      const {service, formioService} = await createServiceFixture();
+      const onCreate = sandbox.stub();
+      const form: any = {
+        name: "name"
+      };
+
+      formioService.mongoose.models.form.countDocuments.resolves(true);
+      formioService.mongoose.models.form.exec.resolves({
+        _id: "id",
+        name: "name"
+      });
+
+      const result = await service.createFormIfNotExists(form, onCreate);
+
+      expect(result).to.deep.equal({
+        _id: "id",
+        name: "name"
+      });
+    });
+  });
+
+  describe("getForm", () => {
+    it("should return form from id", async () => {
+      const {service, formioService} = await createServiceFixture();
+
+      await service.getForm("605f0d40fe971372e448bcad");
+
+      expect(formioService.mongoose.models.form.findOne).to.have.been.calledWithExactly({
+        _id: "605f0d40fe971372e448bcad",
+        deleted: {$eq: null}
+      });
+      expect(formioService.mongoose.models.form.lean).to.have.been.calledWithExactly();
+      expect(formioService.mongoose.models.form.exec).to.have.been.calledWithExactly();
+    });
+
+    it("should return form from machineName", async () => {
+      const {service, formioService} = await createServiceFixture();
+
+      await service.getForm("name");
+
+      expect(formioService.mongoose.models.form.findOne).to.have.been.calledWithExactly({
+        machineName: {$eq: "name"},
+        deleted: {$eq: null}
+      });
+      expect(formioService.mongoose.models.form.lean).to.have.been.calledWithExactly();
+      expect(formioService.mongoose.models.form.exec).to.have.been.calledWithExactly();
+    });
+  });
+
+  describe("idToBson", () => {
+    beforeEach(() => {});
+    it("should convert id", async () => {
+      const {service, formioService} = await createServiceFixture();
+      formioService.util.idToBson.returns({bson: "bson"});
+      expect(service.idToBson("id")).to.deep.equal({bson: "bson"});
+      expect(service.idToBson(["id"])).to.deep.equal({$in: [{bson: "bson"}]});
+      expect(service.idToBson({_id: "id"})).to.deep.equal({bson: "bson"});
+      expect(service.idToBson()).to.deep.equal(undefined);
     });
   });
 });

@@ -26,6 +26,7 @@ import {testScopeRequest} from "./testScopeRequest";
 import {testSession} from "./testSession";
 import {testStatics} from "./testStatics";
 import {testView} from "./testView";
+import {testCache} from "./testCache";
 
 export const specsContainer = new Map<string, (options: PlatformTestOptions) => void>();
 
@@ -45,6 +46,7 @@ specsContainer.set("response", testResponse);
 specsContainer.set("responseFilter", testResponseFilter);
 specsContainer.set("custom404", testCustom404);
 specsContainer.set("statics", testStatics);
+specsContainer.set("cache", testCache);
 
 // INPUTS
 specsContainer.set("cookies", testCookies);

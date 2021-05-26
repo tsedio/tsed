@@ -1,53 +1,76 @@
-import {Registry, Type} from "@tsed/core";
-import {Provider} from "../class/Provider";
-import {IProvider, RegistrySettings, TokenProvider, TypedProvidersRegistry} from "../interfaces";
+import {getClassOrSymbol, Type} from "@tsed/core";
+import type {IProvider, RegistrySettings, TokenProvider} from "../interfaces";
+import {Provider, ProviderType} from "../domain";
 
-export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<any>> {
+export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
+  #settings: Map<string, RegistrySettings> = new Map();
+
   /**
-   * Internal Map
-   * @type {Array}
+   * The get() method returns a specified element from a Map object.
+   * @param key Required. The key of the element to return from the Map object.
+   * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
    */
-  private _registries: Map<string, RegistrySettings> = new Map();
+  get(key: TokenProvider): Provider | undefined {
+    return super.get(getClassOrSymbol(key));
+  }
 
-  constructor() {
-    super(Provider);
+  /**
+   * The has() method returns a boolean indicating whether an element with the specified key exists or not.
+   * @param key
+   * @returns {boolean}
+   */
+  has(key: TokenProvider): boolean {
+    return super.has(getClassOrSymbol(key));
+  }
+
+  /**
+   * The set() method adds or updates an element with a specified key and value to a Map object.
+   * @param key Required. The key of the element to add to the Map object.
+   * @param metadata Required. The value of the element to add to the Map object.
+   */
+  set(key: TokenProvider, metadata: Provider): this {
+    super.set(getClassOrSymbol(key), metadata);
+
+    return this;
   }
 
   /**
    *
-   * @param {string} type
-   * @param {Type<Provider<any>>} model
+   * @param target
    * @param options
-   * @returns {Registry<Provider<any>, IProvider<any>>}
    */
-  createRegistry(
-    type: string,
-    model: Type<Provider<any>>,
-    options: Partial<RegistrySettings> = {injectable: true}
-  ): TypedProvidersRegistry {
-    const registry = new Registry<Provider<any>, IProvider<any>>(model, {
-      onCreate: this.set.bind(this)
+  merge(target: TokenProvider, options: Partial<IProvider>): void {
+    const meta = this.createIfNotExists(target, options);
+
+    Object.keys(options).forEach((key) => {
+      meta[key] = (options as any)[key];
     });
 
-    this._registries.set(
-      type,
-      Object.assign(
-        {
-          registry,
-          injectable: true
-        },
-        options
-      )
-    );
-
-    return registry;
+    this.set(target, meta);
   }
 
   /**
-   *
-   * @param {string | TokenProvider} target
-   * @returns {RegistrySettings | undefined}
+   * The delete() method removes the specified element from a Map object.
+   * @param key Required. The key of the element to remove from the Map object.
+   * @returns {boolean} Returns true if an element in the Map object existed and has been removed, or false if the element does not exist.
    */
+  delete(key: TokenProvider): boolean {
+    return super.delete(getClassOrSymbol(key));
+  }
+
+  createRegistry(type: string, model: Type<Provider>, options: Partial<RegistrySettings> = {injectable: true}) {
+    const defaultOptions = this.getRegistrySettings(type);
+
+    options = Object.assign(defaultOptions, {
+      ...options,
+      model
+    });
+
+    this.#settings.set(type, options);
+
+    return this;
+  }
+
   getRegistrySettings(target: string | TokenProvider): RegistrySettings {
     let type: string = "provider";
 
@@ -60,22 +83,16 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
       }
     }
 
-    if (this._registries.has(type)) {
-      return this._registries.get(type)!;
-    }
-
-    return {
-      registry: this,
-      injectable: true
-    };
+    return (
+      this.#settings.get(type) || {
+        model: Provider,
+        injectable: true
+      }
+    );
   }
 
-  /**
-   *
-   * @returns {(provider: (any | IProvider<any>), instance?: any) => void}
-   */
   createRegisterFn(type: string) {
-    return (provider: any | IProvider<any>, instance?: any): void => {
+    return (provider: any | IProvider, instance?: any): void => {
       if (!provider.provide) {
         provider = {
           provide: provider
@@ -83,17 +100,35 @@ export class GlobalProviderRegistry extends Registry<Provider<any>, IProvider<an
       }
 
       provider = Object.assign({instance}, provider, {type});
-      this.getRegistry(type).merge(provider.provide, provider);
+      this.merge(provider.provide, provider);
     };
   }
 
   /**
-   *
-   * @param {string | TokenProvider} target
-   * @returns {Registry<Provider<any>, IProvider<any>>}
+   * @deprecated
    */
-  getRegistry(target: string | TokenProvider): TypedProvidersRegistry {
-    return this.getRegistrySettings(target).registry;
+  // istanbul ignore next
+  getRegistry(target: string | TokenProvider) {
+    return this;
+  }
+
+  /**
+   *
+   * @param key
+   * @param options
+   */
+  protected createIfNotExists(key: TokenProvider, options: Partial<IProvider>): Provider {
+    const type = options.type || ProviderType.PROVIDER;
+
+    if (!this.has(key)) {
+      const {model = Provider} = this.#settings.get(type) || {};
+
+      const item = new model(key);
+
+      this.set(key, item);
+    }
+
+    return this.get(key)!;
   }
 }
 

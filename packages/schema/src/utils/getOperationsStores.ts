@@ -3,6 +3,9 @@ import {JsonEntityStore} from "../domain/JsonEntityStore";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 
+/**
+ * @ignore
+ */
 export function getOperationsStores<T = JsonEntityStore>(target: Type<any> | any): Map<string, T> {
   const store: any = target.isStore ? target : getJsonEntityStore(target);
 

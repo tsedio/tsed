@@ -1,6 +1,6 @@
-import {Provider} from "../class/Provider";
+import {Provider} from "../domain/Provider";
 import {IProvider} from "../interfaces/IProvider";
-import {ProviderType} from "../interfaces/ProviderType";
+import {ProviderType} from "../domain/ProviderType";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {importComponents} from "./importComponents";
 

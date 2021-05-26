@@ -1,4 +1,4 @@
-import {registerService} from "../registries/ProviderRegistry";
+import {Injectable} from "./injectable";
 
 /**
  * The decorators `@Service()` declare a new service can be injected in other service or controller on there `constructor`.
@@ -10,5 +10,5 @@ import {registerService} from "../registries/ProviderRegistry";
  * @decorator
  */
 export function Service(): Function {
-  return registerService;
+  return Injectable();
 }

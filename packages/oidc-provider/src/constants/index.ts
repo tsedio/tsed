@@ -1,5 +1,6 @@
 export const INTERACTION_CONTEXT = "interactionContext";
 export const INTERACTION_PARAMS = "interactionParams";
+export const INTERACTION_GRANT_ID = "interactionGrantId";
 export const INTERACTION_PROMPT = "interactionPrompt";
 export const INTERACTION_UID = "interactionUid";
 export const INTERACTION_SESSION = "interactionSession";

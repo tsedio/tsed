@@ -1,7 +1,16 @@
 import {Controller, Get, PlatformTest, QueryParams} from "@tsed/common";
+import {Maximum, Minimum, Required} from "@tsed/schema";
+import "@tsed/ajv";
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
+
+export class RandomStringModel {
+  @Maximum(250)
+  @Minimum(1)
+  @Required()
+  length: number;
+}
 
 @Controller("/query-params")
 class TestQueryParamsCtrl {
@@ -24,6 +33,11 @@ class TestQueryParamsCtrl {
   testScenario4(@QueryParams("test") value: string): any {
     return {value};
   }
+
+  @Get("/scenario-5")
+  testScenario5(@QueryParams() value: RandomStringModel): any {
+    return {value};
+  }
 }
 
 export function testQueryParams(options: PlatformTestOptions) {
@@ -32,6 +46,9 @@ export function testQueryParams(options: PlatformTestOptions) {
   before(
     PlatformTest.bootstrap(options.server, {
       ...options,
+      ajv: {
+        verbose: false
+      },
       mount: {
         "/rest": [TestQueryParamsCtrl]
       }
@@ -136,15 +153,16 @@ export function testQueryParams(options: PlatformTestOptions) {
       const response = await request.get(`${endpoint}?test=error`).expect(400);
       expect(response.body).to.deep.equal({
         name: "AJV_VALIDATION_ERROR",
-        message: 'Bad request on parameter "request.query.test".\nValue should be number. Given value: "error"',
+        message: 'Bad request on parameter "request.query.test".\nValue must be number. Given value: "error"',
         status: 400,
         errors: [
           {
             keyword: "type",
             dataPath: "",
+            instancePath: "",
             schemaPath: "#/type",
             params: {type: "number"},
-            message: "should be number",
+            message: "must be number",
             data: "error"
           }
         ]

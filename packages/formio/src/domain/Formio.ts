@@ -61,6 +61,7 @@ export interface FormioMiddlewares {
   permissionHandler(req: Request, res: Response, next: NextFunction): void;
 
   restrictRequestTypes(req: Request, res: Response, next: NextFunction): void;
+  tokenHandler(req: Request, res: Response, next: NextFunction): void;
 }
 
 export interface Formio extends FormioBase {

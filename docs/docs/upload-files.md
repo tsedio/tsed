@@ -6,7 +6,7 @@ meta:
    content: upload files ts.ed express typescript multer node.js javascript decorators
 projects:   
  - title: Kit Multer
-   href: https://github.com/TypedProject/tsed-example-multer
+   href: https://github.com/tsedio/tsed-example-multer
    src: /express.png
 ---
 # Upload files
@@ -14,7 +14,7 @@ projects:
 Ts.ED supports now the uploading files by default. We use [Multer](https://github.com/expressjs/multer) module
 to handle `multipart/form-data` from request. 
 
-<Projects type="examples"/>
+<Projects type="projects"/>
 
 ::: tip
 Originally, multer is provided by Express.js, but Ts.ED implements a multer wrapper to support Koa.js platform based on the official [@koa/multer](https://www.npmjs.com/package/@koa/multer) module.
@@ -28,7 +28,7 @@ By default, the directory used is `${projetRoot}/uploads`. You can configure ano
 <Tabs class="-code">
   <Tab label="Configuration" icon="bx-code-alt">
 
-<<< @/docs/tutorials/snippets/multer/configuration.ts
+<<< @/tutorials/snippets/multer/configuration.ts
 
   </Tab>
   <Tab label="CodeSandbox" icon="bxl-codepen">
@@ -57,12 +57,12 @@ By default, the directory used is `${projetRoot}/uploads`. You can configure ano
 ### Single file
 A single file can be injected to your endpoint by using the @@MultipartFile@@ decorator like this:
 
-<<< @/docs/tutorials/snippets/multer/controller.ts
+<<< @/tutorials/snippets/multer/controller.ts
 
 ::: tip
 Many frontend code examples are available on the web and some of them don't work as expected. So, to help you, here is a short vanilla Javascript code example:
 
-<<< @/docs/tutorials/snippets/multer/loading-file.js
+<<< @/tutorials/snippets/multer/loading-file.js
 
 :::
 
@@ -70,7 +70,7 @@ Many frontend code examples are available on the web and some of them don't work
 
 For multiple files, just use `PlatformMulterFile[]` annotation type. Ts.ED will understand that you want to inject a list of files even if your consumer only sends you one:
 
-<<< @/docs/tutorials/snippets/multer/file-array.ts
+<<< @/tutorials/snippets/multer/file-array.ts
 
 ::: warning
 Swagger spec (v2.0) doesn't support multiple files. Enable OAS 3 to support multipart files in swagger-ui.

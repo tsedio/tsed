@@ -1,12 +1,11 @@
-import {Type} from "@tsed/core";
-import {IProvider, ProviderScope} from "../interfaces";
+import type {IProvider} from "../interfaces";
 import {registerProvider} from "../registries/ProviderRegistry";
 
 /**
  * The decorators `@Injectable()` declare a new service can be injected in other service, controller, interceptor, etc.. on there `constructor`.
  * All classes annotated with `@Injectable()` are built one time, excepted if you change the default provider configuration.
  *
- * <<< @/docs/docs/snippets/providers/getting-started-injectable.ts
+ * <<< @/docs/snippets/providers/getting-started-injectable.ts
  *
  * ::: tip
  * `@Injectable()` use the `reflect-metadata` to collect and inject the built provided to other services.
@@ -21,8 +20,8 @@ import {registerProvider} from "../registries/ProviderRegistry";
  * @returns {Function}
  * @decorator
  */
-export function Injectable(options: Partial<IProvider<any>> = {}): Function {
-  return (provide: Type<any>) => {
+export function Injectable(options: Partial<IProvider<any>> = {}): ClassDecorator {
+  return (provide: any) => {
     registerProvider({
       ...options,
       provide

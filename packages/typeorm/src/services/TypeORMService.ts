@@ -1,4 +1,5 @@
 import {Inject, InjectorService, Service} from "@tsed/common";
+import {getValue} from "@tsed/core";
 import {Connection, ConnectionManager, ConnectionOptions, getConnectionManager} from "typeorm";
 import {createConnection} from "../utils/createConnection";
 
@@ -18,20 +19,20 @@ export class TypeORMService {
    *
    * @returns {Promise<"typeorm".Connection>}
    */
-  async createConnection(id: string = "default", settings: ConnectionOptions): Promise<any> {
-    const key = settings.name || id;
+  async createConnection(connectionOptions: ConnectionOptions): Promise<any> {
+    const name = getValue<string>(connectionOptions, "name", "default");
 
-    if (key && this.has(key)) {
-      return this.get(key);
+    if (this.has(name)) {
+      return this.get(name);
     }
 
-    this.injector.logger.info(`Create connection with typeorm to database: ${key}`);
-    this.injector.logger.debug(`options: ${JSON.stringify(settings)}`);
+    this.injector.logger.info(`Create connection with typeorm to database: ${name}`);
+    this.injector.logger.debug(`options: ${JSON.stringify(connectionOptions)}`);
 
     try {
-      const connection = await createConnection({...settings, name: key});
+      const connection = await createConnection({...connectionOptions, name});
 
-      this.injector.logger.info(`Connected with typeorm to database: ${key}`);
+      this.injector.logger.info(`Connected with typeorm to database: ${name}`);
 
       return connection;
     } catch (err) {

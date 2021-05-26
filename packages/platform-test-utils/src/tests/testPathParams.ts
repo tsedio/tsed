@@ -92,15 +92,16 @@ export function testPathParams(options: PlatformTestOptions) {
         {
           data: "1",
           dataPath: "",
+          instancePath: "",
           keyword: "pattern",
-          message: 'should match pattern "^[0-9a-fA-F]{24}$"',
+          message: 'must match pattern "^[0-9a-fA-F]{24}$"',
           params: {
             pattern: "^[0-9a-fA-F]{24}$"
           },
           schemaPath: "#/pattern"
         }
       ],
-      message: 'Bad request on parameter "request.path.scopeId".\nValue should match pattern "^[0-9a-fA-F]{24}$". Given value: "1"',
+      message: 'Bad request on parameter "request.path.scopeId".\nValue must match pattern "^[0-9a-fA-F]{24}$". Given value: "1"',
       name: "AJV_VALIDATION_ERROR",
       status: 400
     });

@@ -2,8 +2,8 @@ import {Store} from "@tsed/core";
 import {Container, GlobalProviders, Inject, InjectorService, LocalsContainer, Provider, ProviderScope} from "@tsed/di";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {Configuration} from "../../src/decorators/configuration";
-import {ProviderType} from "../../src/interfaces";
+import {Configuration} from "@tsed/common";
+import {ProviderType} from "@tsed/di";
 import {INJECTABLE_PROP} from "../constants";
 
 class Test {
@@ -291,6 +291,27 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result).to.eq("TEST");
+      });
+
+      it("should invoke the provider from container with falsy value", async () => {
+        // GIVEN
+        const token = Symbol.for("TokenValue");
+
+        const provider = new Provider<any>(token);
+        provider.scope = ProviderScope.SINGLETON;
+        provider.useValue = null;
+
+        const injector = new InjectorService();
+        const container = new Container();
+        container.set(token, provider);
+
+        await injector.load(container);
+
+        // WHEN
+        const result: any = injector.invoke(token);
+
+        // THEN
+        expect(result).to.eq(null);
       });
     });
     describe("when provider is a Factory (useFactory)", () => {

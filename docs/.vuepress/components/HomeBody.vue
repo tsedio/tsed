@@ -59,16 +59,20 @@
         <p class="text-center font-normal text-xl m-auto max-w-lg">What's new ?</p>
 
         <div class="mt-5 pt-5">
-          <ReleaseNote style="max-height: 300px" />
+          <ReleaseNote style="max-height: 300px" class="overflow-auto" />
         </div>
       </div>
-
     </div>
   </div>
 </template>
 <script>
+import {ReleaseNote} from "@tsed/vuepress-common";
+
 export default {
-  name: "HomeBody"
+  name: "HomeBody",
+  components: {
+    ReleaseNote
+  }
 };
 </script>
 <style>

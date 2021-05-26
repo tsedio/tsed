@@ -3,13 +3,13 @@ import {Injectable, InjectorService} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {getJsonSchema} from "@tsed/schema";
 import {RequiredValidationError} from "../errors/RequiredValidationError";
-import {IPipe, ParamMetadata} from "../models/ParamMetadata";
+import {PipeMethods, ParamMetadata} from "../models/ParamMetadata";
 import {ParamTypes} from "../models/ParamTypes";
 
 @Injectable({
   type: "validator"
 })
-export class ValidationPipe implements IPipe {
+export class ValidationPipe implements PipeMethods {
   private validator: {validate(value: any, options: any): Promise<any>};
 
   constructor(injector: InjectorService) {

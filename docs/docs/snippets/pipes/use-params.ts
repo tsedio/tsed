@@ -4,13 +4,13 @@ import {
   UseDeserialization,
   UseParamExpression,
   UseParamType,
+  UseType,
   UseValidation
 } from "@tsed/common";
-import {UseType} from "@tsed/common";
-import {applyDecorators} from "@tsed/core";
+import {useDecorators} from "@tsed/core";
 
 export function UseParam(paramType: ParamTypes | string, options: IParamOptions<any> = {}): ParameterDecorator {
-  return applyDecorators(
+  return useDecorators(
     UseParamType(paramType),
     options.useType && UseType(options.useType),
     options.expression && UseParamExpression(options.expression),

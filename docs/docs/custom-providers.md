@@ -18,11 +18,11 @@ Let's go through the available options.
 The `useValue` syntax is useful when it comes to either define a constant value, put external library into DI container, 
 or replace a real implementation with the mock object.
 
-<<< @/docs/docs/snippets/providers/custom-provider-use-value-declaration.ts
+<<< @/docs/snippets/providers/custom-provider-use-value-declaration.ts
 
 In order to inject custom provider, we use the @@Inject@@ decorator. This decorator takes a single argument - the token.
 
-<<< @/docs/docs/snippets/providers/custom-provider-use-value-usage.ts
+<<< @/docs/snippets/providers/custom-provider-use-value-usage.ts
 
 ## Use Factory
 
@@ -31,11 +31,11 @@ The actual provider will be equal to a returned value of the factory function.
 The factory function can either depend on several different providers or stay completely independent. 
 It means that factory may accept arguments, that DI will resolve and pass during the instantiation process.
 
-<<< @/docs/docs/snippets/providers/custom-provider-use-factory-declaration.ts
+<<< @/docs/snippets/providers/custom-provider-use-factory-declaration.ts
 
 In order to inject a custom provider, we use the @@Inject@@ decorator. This decorator takes a single argument - the token.
 
-<<< @/docs/docs/snippets/providers/custom-provider-use-value-usage.ts
+<<< @/docs/snippets/providers/custom-provider-use-value-usage.ts
 
 ## Use Async Factory
 
@@ -44,11 +44,11 @@ The actual provider will be equal to a returned value of the factory function.
 The factory function can either depend on several different providers or stay completely independent. 
 It means that factory may accept arguments, that DI will resolve and pass during the instantiation process.
 
-<<< @/docs/docs/snippets/providers/custom-provider-use-async-factory-declaration.ts
+<<< @/docs/snippets/providers/custom-provider-use-async-factory-declaration.ts
 
 In order to inject a custom provider, we use the @@Inject@@ decorator. This decorator takes a single argument - the token.
 
-<<< @/docs/docs/snippets/providers/custom-provider-use-value-usage.ts
+<<< @/docs/snippets/providers/custom-provider-use-value-usage.ts
 
 ::: warning
 Async factory will always be considered as `SINGLETON`. It is not possible to use other scopes like `REQUEST` and `INSTANCE` because asynchronous providers are resolved on server loading. 
@@ -67,7 +67,7 @@ Some factories are built-in Ts.ED. These factories are :
 The `useClass` syntax is similar to register provider via decorator. But it allows you to use different classes per chosen factors.
 For example you can change the class depending on the environment profile `production` or `development`.
 
-<<< @/docs/docs/snippets/providers/custom-provider-use-class-declaration.ts
+<<< @/docs/snippets/providers/custom-provider-use-class-declaration.ts
 
 ::: tip
 registerProvider can be used to add a provider or override an existing provider (like @@OverrideProvider@@ decorator).
@@ -75,5 +75,5 @@ registerProvider can be used to add a provider or override an existing provider 
 
 In this case, even if any class depends on ConfigService, Ts.ED will inject an instance of the provided class (`ConfigService` or `DevConfigService`) instead.
 
-<<< @/docs/docs/snippets/providers/custom-provider-use-class-usage.ts
+<<< @/docs/snippets/providers/custom-provider-use-class-usage.ts
 

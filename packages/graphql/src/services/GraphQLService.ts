@@ -7,8 +7,7 @@ import * as TypeGraphql from "type-graphql";
 import {buildSchema, BuildSchemaOptions} from "type-graphql";
 import {GraphQLServer} from "../interfaces/GraphQLServer";
 import {GraphQLSettings} from "../interfaces/GraphQLSettings";
-import {PROVIDER_TYPE_DATASOURCE_SERVICE} from "../registries/DataSourceServiceRegistry";
-import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../registries/ResolverServiceRegistry";
+import {PROVIDER_TYPE_DATASOURCE_SERVICE, PROVIDER_TYPE_RESOLVER_SERVICE} from "../constants";
 
 @Service()
 export class GraphQLService {

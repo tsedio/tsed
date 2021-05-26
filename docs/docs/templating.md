@@ -18,7 +18,7 @@ Ts.ED is using [consolidate](https://github.com/tj/consolidate.js) under the hoo
 The default template engine installed with Ts.ED is [EJS](https://ejs.co/).
 If you want to use another engine, please refer to the engine documentation and [consolidate](https://github.com/tj/consolidate.js) to install the engine correctly.
 
-<<< @/docs/docs/snippets/templating/configuration.ts
+<<< @/docs/snippets/templating/configuration.ts
 
 ::: tip
 See [supported engines is available here](https://github.com/tj/consolidate.js#supported-template-engines).
@@ -96,7 +96,7 @@ Here is an example of a controller using the @@View@@ decorator:
 <Tabs class="-code">
   <Tab label="EventCtrl.ts">
   
-<<< @/docs/docs/snippets/templating/response-templating.ts
+<<< @/docs/snippets/templating/response-templating.ts
 
   </Tab>
   <Tab label="event.ejs">
@@ -125,7 +125,7 @@ It's also possible to render a view by injecting and using @@PlatformResponse@@ 
 <Tabs class="-code">
   <Tab label="EventCtrl.ts">
   
-<<< @/docs/docs/snippets/templating/template-platform-api.ts
+<<< @/docs/snippets/templating/template-platform-api.ts
 
   </Tab>
   <Tab label="event.ejs">
@@ -145,14 +145,14 @@ It's also possible to render a view by injecting and using @@PlatformResponse@@ 
 Ts.ED provides the @@PlatformViews@@ service to render views. In fact, @@View@@ decorator uses `PlatformResponse.render()` method which itself uses the `PlatformViews.render()` method.
 It is useful if you want to render a template from a service.
 
-<<< @/docs/docs/snippets/templating/template-platform-views.ts
+<<< @/docs/snippets/templating/template-platform-views.ts
 
 ## Caching
 
 To enable caching, simply pass `{ cache: true }` to the @@View@@ decorator.
 All engines that consolidate.js implements I/O for, will cache the file contents, ideal for production environments.
 
-<<< @/docs/docs/snippets/templating/template-cache.ts
+<<< @/docs/snippets/templating/template-cache.ts
 
 ::: tip
 Ts.ED enables cache by default in `PRODUCTION` profile.

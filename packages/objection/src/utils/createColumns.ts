@@ -7,6 +7,9 @@ import "../components/createStringColumn";
 import {ColumnTypesContainer} from "../services/ColumnTypesContainer";
 import {getColumnCtx} from "./getColumnCtx";
 
+/**
+ * @ignore
+ */
 export function createColumn(table: Knex.TableBuilder, entity: JsonEntityStore) {
   const ctx = getColumnCtx(entity);
 
@@ -17,10 +20,16 @@ export function createColumn(table: Knex.TableBuilder, entity: JsonEntityStore) 
   ColumnTypesContainer.get(ctx.columnType)!(table, ctx);
 }
 
+/**
+ * @ignore
+ */
 export function getColumns(model: any) {
   return [...getProperties(model, {withIgnoredProps: true, objection: true, groups: false}).values()];
 }
 
+/**
+ * @ignore
+ */
 export function createColumns(table: Knex.TableBuilder, model: any) {
   getColumns(model).map((entity) => {
     createColumn(table, entity);

@@ -7,6 +7,12 @@ export interface DecimalOptions {
   scale?: number;
 }
 
+/**
+ *
+ * @param options
+ * @decorator
+ * @objection
+ */
 export function Decimal(options: DecimalOptions = {}) {
   return useDecorators(
     Property(),

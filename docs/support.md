@@ -15,16 +15,10 @@ In order to help me, I run few supporting platforms:
 - become a backer or sponsor on [OpenCollective](https://opencollective.com/tsed)
 - use [PayPal](https://paypal.me/romainlenzotti) to send a one-time donation
 
+<a href="https://opencollective.com/tsed" target="_blank"><img src="/screens/opencollective-tiers.png" alt="OpenCollective Tiers" /></a>
+
 <SupportOptions />
 
 If you fell in love with Ts.ED, or you run a business which is using Ts.ED, consider sponsoring its development 
 to ensure that the project which your product relies on is actively maintained and improved. 
 Also, your support could help me and the future teams to work more on content that benefits whole Ts.ED community.
-
-## Our team members
-
-<div class="bg-gray-lighter rounded-small p-5 pt-6 mb-5">
-<div class="-mb-8">
-<GithubContributors :users="$themeConfig.teams" :show-title="true" color="platinium" padding="4" text-size="sm" width="60"/>
-</div>
-</div>

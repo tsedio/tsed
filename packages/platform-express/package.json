@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-express",
-  "version": "6.26.3",
+  "version": "6.51.0",
   "description": "A TypeScript Framework on top of Express",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -32,22 +32,22 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TypedProject/tsed/issues"
+    "url": "https://github.com/tsedio/tsed/issues"
   },
   "homepage": "http://tsed.io/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TypedProject/tsed.git"
+    "url": "git+https://github.com/tsedio/tsed.git"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "devDependencies": {
-    "@tsed/common": "6.26.3",
-    "@tsed/core": "6.26.3",
-    "@tsed/di": "6.26.3",
-    "@tsed/platform-test-utils": "6.26.3",
+    "@tsed/common": "6.51.0",
+    "@tsed/core": "6.51.0",
+    "@tsed/di": "6.51.0",
+    "@tsed/platform-test-utils": "6.51.0",
     "@types/body-parser": "1.19.0",
     "@types/compression": "1.7.0",
     "@types/cookie-parser": "1.4.2",

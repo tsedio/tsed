@@ -1,5 +1,4 @@
-import {classOf, Env, nameOf} from "@tsed/core";
-import {BadRequest} from "@tsed/exceptions";
+import {Env} from "@tsed/core";
 import type {ResponseErrorObject} from "../../mvc/interfaces/ResponseErrorObject";
 import type {PlatformContext} from "../../platform/domain/PlatformContext";
 import {Catch} from "../decorators/catch";
@@ -37,7 +36,7 @@ export class ErrorFilter implements ExceptionFilterMethods {
 
   protected getErrors(error: any) {
     return [error, error.origin].filter(Boolean).reduce((errs, {errors}: ResponseErrorObject) => {
-      return [...errs, ...(errors || [])];
+      return errs.concat(errors).filter(Boolean);
     }, []);
   }
 

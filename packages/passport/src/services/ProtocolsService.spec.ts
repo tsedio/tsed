@@ -96,7 +96,7 @@ describe("ProtocolsService", () => {
       });
 
       // THEN
-      expect(result.$onVerify).to.have.been.calledWithExactly(ctx.getRequest());
+      expect(result.$onVerify).to.have.been.calledWithExactly(ctx.getRequest(), ctx);
       expect(resultDone).to.deep.equal([null, {id: 0}]);
     })
   );
@@ -118,7 +118,7 @@ describe("ProtocolsService", () => {
       });
 
       // THEN
-      expect(result.$onVerify).to.have.been.calledWithExactly(ctx.getRequest());
+      expect(result.$onVerify).to.have.been.calledWithExactly(ctx.getRequest(), ctx);
       expect(resultDone).to.deep.equal([error, false, {message: "message"}]);
     })
   );

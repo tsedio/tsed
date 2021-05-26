@@ -3,12 +3,14 @@ import {
   decoratorTypeOf,
   DecoratorTypes,
   isCollection,
+  isObject,
   isPlainObject,
   isPrimitiveOrPrimitiveClass,
   isString,
   Type,
   UnsupportedDecoratorType
 } from "@tsed/core";
+import {OS3Example} from "@tsed/openspec";
 import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
 import {DecoratorContext} from "../../domain/DecoratorContext";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
@@ -16,6 +18,8 @@ import {JsonResponse} from "../../domain/JsonResponse";
 import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
 import {getStatusModel} from "../../utils/defineStatusModel";
+import {string} from "../../utils/from";
+import {GenericValue} from "../../utils/generics";
 import {isSuccessStatus} from "../../utils/isSuccessStatus";
 import {mapHeaders} from "../../utils/mapHeaders";
 
@@ -41,6 +45,10 @@ export interface ReturnsChainedDecorators {
    * Add examples
    * @param examples
    */
+  Examples(examples: Record<string, OS3Example>): this;
+
+  Examples(examples: Record<string, any>): this;
+
   Examples(examples: any): this;
 
   /**
@@ -60,13 +68,13 @@ export interface ReturnsChainedDecorators {
    * Add the nested types
    * @param types
    */
-  Of(...types: (Type<any> | any)[]): this;
+  Of(...types: GenericValue[]): this;
 
   /**
    * Declare a nested generic models
    * @param generics
    */
-  Nested(...generics: (Type<any> | any)[]): this;
+  Nested(...generics: GenericValue[]): this;
 
   /**
    * Add header.
@@ -100,6 +108,22 @@ export interface ReturnsChainedDecorators {
   Groups(...groups: string[]): this;
 
   [key: string]: any;
+}
+
+/**
+ * @ignore
+ */
+function isEnum(type: any) {
+  return isObject(type) && !("toJSON" in type);
+}
+
+function mapGenerics(types: GenericValue[]) {
+  return types.map((type) => {
+    if (isEnum(type)) {
+      return string().enum(Object.values(type));
+    }
+    return type;
+  });
 }
 
 /**
@@ -168,13 +192,13 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     return this;
   }
 
-  nested(...generics: (Type<any> | any)[]) {
+  nested(...generics: GenericValue[]) {
     const model = this.get("model");
     this.checkPrimitive(model);
     this.checkCollection(model);
 
     this.addAction((ctx) => {
-      (this.get("schema") as JsonSchema).nestedGenerics.push(generics);
+      (this.get("schema") as JsonSchema).nestedGenerics.push(mapGenerics(generics));
     });
 
     return this;
@@ -190,7 +214,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
       if (isCollection(model)) {
         schema?.itemSchema({type: types[0]});
       } else {
-        schema?.nestedGenerics.push(types);
+        schema?.nestedGenerics.push(mapGenerics(types));
       }
     });
 
@@ -319,38 +343,6 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
     return media;
   }
-}
-
-/**
- * @ignore
- */
-function mapLegacy(decorator: any, model: object): ReturnsChainedDecorators {
-  const {collectionType, type, headers, description, examples, schema} = model as any;
-  if (collectionType || type) {
-    decorator.Type(collectionType || type);
-  }
-
-  if (collectionType) {
-    decorator = decorator.Of(type);
-  }
-
-  if (headers) {
-    decorator = decorator.Headers(headers);
-  }
-
-  if (description) {
-    decorator = decorator.Description(description);
-  }
-
-  if (examples) {
-    decorator = decorator.Examples(examples);
-  }
-
-  if (schema) {
-    decorator = decorator.Schema(schema as any);
-  }
-
-  return decorator;
 }
 
 /**
@@ -510,25 +502,7 @@ function mapLegacy(decorator: any, model: object): ReturnsChainedDecorators {
  * @operation
  */
 export function Returns(status?: string | number, model?: Type<any>): ReturnsChainedDecorators;
-/**
- * @deprecated Since 2020. Use chained decorator version instead.
- */
-export function Returns(status?: string | number, model?: object): ReturnsChainedDecorators;
 export function Returns(status?: string | number, model?: Type<any> | any): ReturnsChainedDecorators {
-  if (model && isPlainObject(model)) {
-    // istanbul ignore next
-    if (!process.env.NODE_ENV || process.env.NODE_ENV === "development") {
-      console.warn("Use @Returns/@Status with an object to describe schema is deprecated.");
-      console.warn("Use the following example: @Returns(200, Type).Description('description')");
-      console.warn('import {Returns} from "@tsed/schema"');
-      console.warn("@Returns(200, Type).Description('description')");
-    }
-
-    const {code = "default"} = model as any;
-
-    return mapLegacy(Returns(code), model);
-  }
-
   const context = new ReturnDecoratorContext({
     status,
     model

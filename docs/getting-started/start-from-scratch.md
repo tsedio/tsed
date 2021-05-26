@@ -79,12 +79,12 @@ the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compila
 options in your `tsconfig.json` file.
 :::
 
-<<< @/docs/getting-started/snippets/base/tsconfig.json
+<<< @/getting-started/snippets/base/tsconfig.json
 
 ::: tip
 You can copy this example of `package.json` to develop your application:
 
-<<< @/docs/getting-started/snippets/base/package.json
+<<< @/getting-started/snippets/base/package.json
 
 Then use the command `npm install && npm start` to start your server.
 :::
@@ -98,13 +98,13 @@ isn't coupled with Express itself, and can be used with another Platform like Ko
 Ts.ED provides a @@Configuration@@ decorator to declare a new application. 
 Just create a `server.ts` in your root project :
 
-<<< @/docs/snippets/getting-started/server.ts
+<<< @/snippets/getting-started/server.ts
 
 To customize the server settings see [Configuration](configuration.md) page.
 
 Finally, create an `index.ts` file to bootstrap your server, on the same level of the `Server.ts`:
  
-<<< @/docs/docs/snippets/configuration/bootstrap.ts
+<<< @/docs/snippets/configuration/bootstrap.ts
 
 You should have this directory tree: 
 

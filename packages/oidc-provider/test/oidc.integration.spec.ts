@@ -81,10 +81,11 @@ describe("OIDC", () => {
 
     const consentResponse = await followRedirection(await followRedirection(postResponse, headers), headers);
 
-    expect(consentResponse.text).to.contains(`${authRes.headers.location}/confirm`);
+    const matches = consentResponse.text.match(/action="(.*)" /gi)
+    const interactionUrl = matches[0].split('"')[1]
 
     const confirmResponse = await followRedirection(await request
-      .post(`${authRes.headers.location}/confirm`)
+      .post(interactionUrl)
       .set({
         "Origin": "http://0.0.0.0:8081",
         "Host": "0.0.0.0:8081",

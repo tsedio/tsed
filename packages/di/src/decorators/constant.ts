@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
 import {INJECTABLE_PROP} from "../constants";
-import {IInjectableProperties} from "../interfaces/IInjectableProperties";
-import {InjectablePropertyType} from "../interfaces/InjectablePropertyType";
+import type {InjectableProperties} from "../interfaces";
+import {InjectablePropertyType} from "../domain/InjectablePropertyType";
 
 /**
  * Return value from Configuration.
@@ -47,6 +47,6 @@ export function Constant(expression: string, defaultValue?: any): any {
         expression,
         defaultValue
       }
-    } as IInjectableProperties);
+    } as InjectableProperties);
   };
 }

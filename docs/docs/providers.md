@@ -24,7 +24,7 @@ The providers are plain javascript class and use one of these decorators on top 
 
 Let's start by creating a simple CalendarService provider. 
 
-<<< @/docs/docs/snippets/providers/getting-started-service.ts
+<<< @/docs/snippets/providers/getting-started-service.ts
 
 ::: tip Note
 @@Service@@ and @@Injectable@@ have the same effect. @@Injectable@@ accepts options, @@Service@@ does not.
@@ -32,17 +32,17 @@ A Service is always configured as `singleton`.
 
 Example with @@Injectable@:
 
-<<< @/docs/docs/snippets/providers/getting-started-injectable.ts
+<<< @/docs/snippets/providers/getting-started-injectable.ts
 
 :::
 
 Now we have the service class already done, let's use it inside the `CalendarCtrl`:
 
-<<< @/docs/docs/snippets/providers/getting-started-controller.ts
+<<< @/docs/snippets/providers/getting-started-controller.ts
 
 Finally, we can load the injector and use it:
 
-<<< @/docs/docs/snippets/providers/getting-started-serverloader.ts
+<<< @/docs/snippets/providers/getting-started-serverloader.ts
 
 ::: tip NOTE
 You'll notice that we only import the CalendarsCtrl and not the CalendarsService as that would be the case with other DIs (Angular / inversify).
@@ -83,7 +83,7 @@ All configurations set with @@ServerSettings@@, @@Module@@ or @@Configuration@@ 
 @@Constant@@ and @@Value@@ accept an expression as parameter to
 inspect the configuration object and return the value.
 
-<<< @/docs/docs/snippets/providers/binding-configuration.ts
+<<< @/docs/snippets/providers/binding-configuration.ts
 
 ::: warning
 @@Constant@@ returns an Object.freeze() value.
@@ -103,7 +103,7 @@ Look [here](/docs/custom-providers.md) to find more examples.
 
 Any provider (Provider, Service, Controller, Middleware, etc...) already registered by Ts.ED or third-party can be overridden by your own class.
 
-<<< @/docs/docs/snippets/providers/override-provider.ts
+<<< @/docs/snippets/providers/override-provider.ts
 
 > Just don't forgot to import your provider in your project !
 
@@ -113,7 +113,7 @@ Sometimes you need to inject a provider with a specific configuration to another
 
 This is possible with the combination of @@Opts@@ and @@UseOpts@@ decorators.
 
-<<< @/docs/docs/snippets/providers/configurable-provider.ts
+<<< @/docs/snippets/providers/configurable-provider.ts
 
 ::: warning
 Using @@Opts@@ decorator on a constructor parameter changes the scope of the provider to `ProviderScope.INSTANCE`.

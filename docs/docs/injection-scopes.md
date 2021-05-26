@@ -8,7 +8,7 @@ Ts.ED DI defines 3 types of @@Scope@@: `singleton`, `request` and `instance` whi
 
 Singleton scope is the default behavior of all providers. That means all providers are created during server initialization.
 
-<<< @/docs/docs/snippets/providers/scope-singleton.ts
+<<< @/docs/snippets/providers/scope-singleton.ts
 
 ::: tip Note
 In this example all requests on `/random` endpoint return the same random value.
@@ -19,7 +19,7 @@ In this example all requests on `/random` endpoint return the same random value.
 Request scope will create a new instance of provider for each incoming request. A new container will be created
 and attached to the request. It will contain all providers annotated by `@Scope(ProviderScope.REQUEST)`.
 
-<<< @/docs/docs/snippets/providers/scope-request.ts
+<<< @/docs/snippets/providers/scope-request.ts
 
 Each request on `/random` will return a different random value.
 
@@ -30,11 +30,11 @@ which is annotated by `@Scope(ProviderScope.REQUEST)` too.
 
 Here is a working example:
 
-<<< @/docs/docs/snippets/providers/scope-chain.ts
+<<< @/docs/snippets/providers/scope-chain.ts
 
 And here is an unworking example:
 
-<<< @/docs/docs/snippets/providers/scope-chain-fail.ts
+<<< @/docs/snippets/providers/scope-chain-fail.ts
 
 ::: warning
 The `SINGLETON` annotation avoids the `@Scope(ProviderScope.REQUEST)` annotation put on MyService.
@@ -55,4 +55,4 @@ If your provider doesn't necessarily need to be request-scoped, you should rathe
 
 Instance scope used on a provider tells the injector to create a new instance each time the provider is injected to another one.
 
-<<< @/docs/docs/snippets/providers/scope-instance.ts
+<<< @/docs/snippets/providers/scope-instance.ts

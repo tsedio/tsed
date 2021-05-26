@@ -1,4 +1,4 @@
-import {ProviderScope} from "./ProviderScope";
+import {ProviderScope} from "../domain/ProviderScope";
 import {TokenProvider} from "./TokenProvider";
 
 export interface InvokeOptions<T = any> {

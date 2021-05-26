@@ -1,10 +1,10 @@
-import {toMap as tMap} from "@tsed/core";
+import {isArray, isObject, isString, toMap as tMap} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {MongooseDocument, MongooseModel} from "@tsed/mongoose";
-import {promisify} from "util";
 import {FormioMapper} from "../builder/FormioMapper";
 import {FormioAction} from "../domain/FormioAction";
 import {FormioActionItem, FormioForm, FormioRole, FormioSubmission, FormioToken} from "../domain/FormioModels";
+import {isMongoId} from "../utils/isMongoId";
 import {FormioService} from "./FormioService";
 
 function toMap<T>(list: any[]) {
@@ -66,5 +66,49 @@ export class FormioDatabase {
 
   async hasForms(): Promise<boolean> {
     return (await this.formModel.countDocuments()) > 0;
+  }
+
+  async hasForm(name: string): Promise<boolean> {
+    return !!(await this.formModel.countDocuments({machineName: {$eq: name}}));
+  }
+
+  async getForm(nameOrId: string) {
+    return this.formModel
+      .findOne({
+        deleted: {$eq: null},
+        ...(isMongoId(nameOrId)
+          ? {
+              _id: nameOrId
+            }
+          : {machineName: {$eq: nameOrId}})
+      })
+      .lean()
+      .exec();
+  }
+
+  async createFormIfNotExists(form: FormioForm, onCreate?: (form: FormioForm) => any) {
+    if (!(await this.hasForm(form.name))) {
+      const createForm = await this.saveFormDefinition(form);
+
+      onCreate && (await onCreate(createForm));
+    }
+
+    return this.getForm(form.name);
+  }
+
+  async saveFormDefinition(form: FormioForm) {
+    const mapper = await this.getFormioMapper();
+
+    return new this.formModel(mapper.mapToImport(form)).save();
+  }
+
+  idToBson(form?: any) {
+    if (isArray(form)) {
+      return {$in: form.map(this.formio.util.idToBson)};
+    } else if (isObject(form)) {
+      return this.formio.util.idToBson((form as any)._id);
+    } else if (isString(form)) {
+      return this.formio.util.idToBson(form);
+    }
   }
 }

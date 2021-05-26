@@ -1,7 +1,7 @@
 import {Env, getValue} from "@tsed/core";
 import {$log} from "@tsed/logger";
-import {Container} from "../class/Container";
-import {LocalsContainer} from "../class/LocalsContainer";
+import {Container} from "../domain/Container";
+import {LocalsContainer} from "../domain/LocalsContainer";
 import {OnInit} from "../interfaces/OnInit";
 import {TokenProvider} from "../interfaces/TokenProvider";
 import {setLoggerLevel} from "../utils/setLoggerLevel";

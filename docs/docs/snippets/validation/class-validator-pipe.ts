@@ -1,9 +1,9 @@
-import {IPipe, OverrideProvider, ParamMetadata, ValidationError, ValidationPipe} from "@tsed/common";
+import {PipeMethods, OverrideProvider, ParamMetadata, ValidationError, ValidationPipe} from "@tsed/common";
 import {plainToClass} from "class-transformer";
 import {validate} from "class-validator";
 
 @OverrideProvider(ValidationPipe)
-export class ClassValidationPipe extends ValidationPipe implements IPipe<any> {
+export class ClassValidationPipe extends ValidationPipe implements PipeMethods<any> {
   async transform(value: any, metadata: ParamMetadata) {
     if (!this.shouldValidate(metadata)) { // there is no type and collectionType
       return value;

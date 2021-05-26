@@ -144,4 +144,15 @@ describe("PlatformKoaResponse", () => {
       expect(res.res.end).to.have.been.calledWithExactly("Moved Permanently. Redirecting to https://location");
     });
   });
+  describe("getHeaders()", () => {
+    it("should get headers", () => {
+      const {res, response} = createResponse();
+
+      res.headers = {contentType: "application/json"};
+
+      const result = response.getHeaders();
+
+      expect(result).to.deep.eq({contentType: "application/json"});
+    });
+  });
 });

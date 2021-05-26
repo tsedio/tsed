@@ -11,7 +11,7 @@ meta:
 # Migrate from v5
 ## What's new ?
 
-<ReleaseNote style="max-height: 500px" />
+<ReleaseNote style="max-height: 500px" class="overflow-auto mb-5" />
 
 ### Platform API
 
@@ -75,6 +75,12 @@ You can therefore use it for your projects without installing the whole framewor
 - `@Converter` has been replaced in favor of @@JsonMapper@@.
 
 :::
+
+### Cache
+
+Ts.ED provide now, a unified cache manager solution based on the awesome [`cache-manager`](https://www.npmjs.com/package/cache-manager).
+
+See our dedicated page on [Cache](/docs/cache.md).
  
 ## Breaking changes
 ### Api & Features
@@ -321,7 +327,7 @@ for your usecase.
 Exception Filter uses the @@Catch@@ decorator to catch a specific instance error. For example, if you want to catch an Http exception,
 you have to provide the generic @@Exception@@ class to the decorator as follows:
 
-<<< @/docs/docs/snippets/exceptions/http-exception-filter.ts
+<<< @/docs/snippets/exceptions/http-exception-filter.ts
 
 ### Converter to JsonMapper
 
@@ -393,7 +399,7 @@ See our [JsonMapper](/docs/converters.md#type-mapper) documentation page for det
 Use `any` as type for a body parameter, will be translated as type `Object` by typescript. 
 It means, if you use `@tsed/ajv`, now, the validation will fail if you send a different type as expected in the payload.
 
-<<< @/docs/docs/snippets/controllers/params-post-any.ts
+<<< @/docs/snippets/controllers/params-post-any.ts
 
 Add @@Any@@ decorator to fix the issue.
 
@@ -402,7 +408,7 @@ Add @@Any@@ decorator to fix the issue.
 Use an enum as default value for a body parameter (or query parameter), will be translated as type `Object` by typescript.
 It means, if you use `@tsed/ajv`, now, the validation will fail if you send a different type as expected in the payload.
 
-<<< @/docs/docs/snippets/controllers/params-post-enum.ts
+<<< @/docs/snippets/controllers/params-post-enum.ts
 
 ### Status decorator
 

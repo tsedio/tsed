@@ -49,7 +49,7 @@ describe("@Enum", () => {
         properties: {
           num: {
             enum: ["0", "1", 10, null],
-            type: ["string", "number", "null"]
+            type: ["null", "string", "number"]
           }
         },
         type: "object"

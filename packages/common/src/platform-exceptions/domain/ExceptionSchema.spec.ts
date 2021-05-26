@@ -63,10 +63,12 @@ describe("ExceptionSchema", () => {
           properties: {
             message: {
               description: "An error message",
+              minLength: 1,
               type: "string"
             },
             name: {
               description: "The error name",
+              minLength: 1,
               type: "string"
             }
           },
@@ -84,10 +86,12 @@ describe("ExceptionSchema", () => {
         },
         message: {
           description: "An error message",
+          minLength: 1,
           type: "string"
         },
         name: {
           description: "The error name",
+          minLength: 1,
           type: "string"
         },
         stack: {
@@ -110,9 +114,9 @@ describe("ExceptionSchema", () => {
     ajv.validate(schema, {status: 400});
     expect(ajv.errors).to.deep.eq([
       {
-        dataPath: "",
+        instancePath: "",
         keyword: "required",
-        message: "should have required property 'name'",
+        message: "must have required property 'name'",
         params: {
           missingProperty: "name"
         },
@@ -137,10 +141,12 @@ describe("ExceptionSchema", () => {
           properties: {
             message: {
               description: "An error message",
+              minLength: 1,
               type: "string"
             },
             name: {
               description: "The error name",
+              minLength: 1,
               type: "string"
             }
           },
@@ -158,12 +164,14 @@ describe("ExceptionSchema", () => {
             },
             message: {
               description: "An error message",
+              minLength: 1,
               type: "string"
             },
             name: {
               default: "BAD_REQUEST",
               description: "The error name",
               example: "BAD_REQUEST",
+              minLength: 1,
               type: "string"
             },
             stack: {
@@ -228,10 +236,12 @@ describe("ExceptionSchema", () => {
             properties: {
               message: {
                 description: "An error message",
+                minLength: 1,
                 type: "string"
               },
               name: {
                 description: "The error name",
+                minLength: 1,
                 type: "string"
               }
             },
@@ -249,12 +259,14 @@ describe("ExceptionSchema", () => {
               },
               message: {
                 description: "An error message",
+                minLength: 1,
                 type: "string"
               },
               name: {
                 default: "BAD_REQUEST",
                 description: "The error name",
                 example: "BAD_REQUEST",
+                minLength: 1,
                 type: "string"
               },
               stack: {

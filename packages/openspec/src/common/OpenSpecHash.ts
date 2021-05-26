@@ -1,1 +1,1 @@
-export type OpenSpecHash<T> = {[key: string]: T};
+export type OpenSpecHash<T> = Record<string, T>;

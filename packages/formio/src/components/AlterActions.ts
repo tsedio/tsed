@@ -25,6 +25,7 @@ export class AlterActions implements AlterHook {
       return {
         ...actions,
         [options.name]: class extends Action {
+          static access = options.access;
           static async info(req: any, res: any, next: Function) {
             let opts = {...options};
 

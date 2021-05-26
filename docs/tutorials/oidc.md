@@ -6,7 +6,7 @@ meta:
    content: ts.ed express koa oidc typescript node.js javascript decorators
 projects:   
  - title: Kit OIDC
-   href: https://github.com/TypedProject/tsed-example-oidc
+   href: https://github.com/tsedio/tsed-example-oidc
    src: https://oauth.net/images/oauth-logo-square.png      
 ---
 # OIDC 
@@ -25,7 +25,7 @@ Filip Skokan has [certified](https://openid.net/certification/) that [oidc-provi
 - OP FAPI R/W MTLS and Private Key
 :::
 
-<Projects type="examples"/>
+<Projects type="projects"/>
 
 ## Features
 
@@ -211,7 +211,7 @@ export class InteractionsCtrl {
 }
 ```
 ::: tip Note
-The Interactions controller exposes the routes to display any interaction. Here we expose the route GET `/interation/:uid`
+The controller Interactions exposes the routes to display any interaction. Here we expose the route GET `/interation/:uid`
 
 The `uid` is the unique session id used by Oidc-provider to identify the current user flow.
 :::
@@ -340,27 +340,27 @@ Now, we need to add the Views to display our login page. Create a views director
 <Tabs class="-code">
   <Tab label="login.ejs">
 
-<<< packages/oidc-provider/test/app/views/login.ejs
+<<< @/../packages/oidc-provider/test/app/views/login.ejs
 
   </Tab>
   <Tab label="forms/login-form.ejs">
 
-<<< packages/oidc-provider/test/app/views/forms/login-form.ejs
+<<< @/../packages/oidc-provider/test/app/views/forms/login-form.ejs
     
   </Tab>
   <Tab label="partials/header.ejs">
    
-<<< packages/oidc-provider/test/app/views/partials/header.ejs      
+<<< @/../packages/oidc-provider/test/app/views/partials/header.ejs      
       
   </Tab>
   <Tab label="partials/footer.ejs">
 
-<<< packages/oidc-provider/test/app/views/partials/footer.ejs   
+<<< @/../packages/oidc-provider/test/app/views/partials/footer.ejs   
     
   </Tab>
   <Tab label="partials/login-help.ejs">
   
-<<< packages/oidc-provider/test/app/views/partials/login-help.ejs   
+<<< @/../packages/oidc-provider/test/app/views/partials/login-help.ejs   
   
   </Tab>
 </Tabs>
@@ -433,6 +433,9 @@ export class Account {
   @Property()
   @Name("email_verified")
   emailVerified: boolean;
+  
+  // Added in v7
+  [key: string]: unknown;
 
   get accountId() {
     return this._id;
@@ -482,19 +485,99 @@ export class InteractionsCtrl {
 }
 ```
 
-## Remove consent interaction
+## Override Consent interaction
 
-Sometimes with your provider you don't need a consent screen. This use-case might occur if your provider has only first-party clients configured. To achieve that, you need to remove consent interaction from provider policy configuration:
+OIDC provider allow you to change the Consent page interaction. With `@tsed/oidc-provider` you can do that by creating a new ContentInteraction
+as following:
+
+```typescript
+import {Inject, Post, View} from "@tsed/common";
+import {BadRequest} from "@tsed/exceptions";
+import {Interaction, OidcCtx, OidcProvider, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
+import {Name} from "@tsed/schema";
+
+@Interaction({
+   name: "consent"
+})
+@Name("Oidc")
+export class ConsentInteraction {
+   @Inject()
+   oidc: OidcProvider;
+
+   @View("interaction")
+   async $prompt(@OidcCtx() oidcCtx: OidcCtx,
+                 @Prompt() prompt: Prompt,
+                 @OidcSession() session: OidcSession,
+                 @Params() params: Params,
+                 @Uid() uid: Uid): Promise<any> {
+      const client = await oidcCtx.findClient();
+
+      return {
+         client,
+         uid,
+         details: prompt.details,
+         params,
+         title: "Authorize",
+         ...oidcCtx.debug()
+      };
+   }
+
+   @Post("/confirm")
+   async confirm(@OidcCtx() oidcCtx: OidcCtx, @Prompt() prompt: Prompt) {
+      if (prompt.name !== "consent") {
+         throw new BadRequest("Bad interaction name");
+      }
+
+      const grant = await oidcCtx.getGrant();
+      const details = prompt.details as {
+         missingOIDCScope: string[],
+         missingResourceScopes: Record<string, string[]>,
+         missingOIDClaims: string[]
+      };
+
+      const {missingOIDCScope, missingOIDClaims, missingResourceScopes} = details;
+
+      if (missingOIDCScope) {
+         grant.addOIDCScope(missingOIDCScope.join(" "));
+         // use grant.rejectOIDCScope to reject a subset or the whole thing
+      }
+      if (missingOIDClaims) {
+         grant.addOIDCClaims(missingOIDCScope);
+         // use grant.rejectOIDCClaims to reject a subset or the whole thing
+      }
+
+      if (missingResourceScopes) {
+         // eslint-disable-next-line no-restricted-syntax
+         for (const [indicator, scopes] of Object.entries(missingResourceScopes)) {
+            grant.addResourceScope(indicator, scopes.join(" "));
+            // use grant.rejectResourceScope to reject a subset or the whole thing
+         }
+      }
+
+      const grantId = await grant.save();
+
+      const consent: any = {};
+
+      if (!oidcCtx.grantId) {
+         // we don't have to pass grantId to consent, we're just modifying existing one
+         consent.grantId = grantId;
+      }
+
+      return oidcCtx.interactionFinished({consent}, {mergeWithLastSubmission: true});
+   }
+}
+```
+Then add the ConsentInteraction in the InteractionsCtrl:
 
 ```typescript
 import {Get} from "@tsed/common";
 import {Interactions, OidcCtx, DefaultPolicy} from "@tsed/oidc-provider";
-import {LoginInteraction} from "../../interactions/LoginInteraction";
+import {ConsentInteraction} from "../../interactions/ConsentInteraction";
 
 @Interactions({
   path: "/interaction/:uid",
   children: [
-    LoginInteraction // register its children interations 
+     ConsentInteraction // register its children interactions 
   ]
 })
 export class InteractionsCtrl {
@@ -502,60 +585,58 @@ export class InteractionsCtrl {
   async promptInteraction(@OidcCtx() oidcCtx: OidcCtx) {
     return oidcCtx.runInteraction();
   }
-
-  $alterOidcPolicy(policy: DefaultPolicy) {
-    policy.remove("consent");
-   
-    return policy
-  }
 }
 ```
-::: warning
 
-Additionally, if you do remove consent prompt, you will get an error when your RPs try to request scopes other than `openid` and `offline_access`. In order to accommodate those usecases, you need to provide accepted property in interaction results whenever `interactionFinished` is called.
+## Remove consent interaction
+
+
+  
+Sometimes your use-case doesn't need a consent screen. This use-case might occur if your provider has only `first-party` clients configured. 
+To achieve that you want to add the requested claims/scopes/resource scopes to the grant:
 
 ```typescript
-import {BodyParams, Inject, Post, View} from "@tsed/common";
-import {Env} from "@tsed/core";
-import {Constant} from "@tsed/di";
-import {BadRequest, Unauthorized} from "@tsed/exceptions";
-import {Interaction, OidcCtx, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
-import {Accounts} from "../services/Accounts";
+import {Configuration} from "@tsed/common";
+import {KoaContextWithOIDC} from "oidc-provider";
 
-@Interaction({
-  name: "login"
-})
-export class LoginInteraction {
-  @Constant("env")
-  env: Env;
+async function loadExistingGrant(ctx: KoaContextWithOIDC) {
+  const grantId = (ctx.oidc.result
+    && ctx.oidc.result.consent
+    && ctx.oidc.result.consent.grantId) || ctx.oidc.session.grantIdFor(ctx.oidc.client.clientId);
 
-  @Inject()
-  accounts: Accounts;
+  if (grantId) {
+     return ctx.oidc.provider.Grant.find(grantId);
+  } 
+  
+  if (isFirstParty(ctx.oidc.client)) { // implement isFirstParty function to determine if client is a firstParty
+     const grant = new ctx.oidc.provider.Grant({
+        clientId: ctx.oidc.client.clientId,
+        accountId: ctx.oidc.session.accountId,
+     });
 
-  @Post("/login")
-  @View("login")
-  async submit(@BodyParams() payload: any,
-               @Params() params: Params,
-               @Uid() uid: Uid,
-               @OidcSession() session: OidcSession,
-               @Prompt() prompt: Prompt,
-               @OidcCtx() oidcCtx: OidcCtx) {
-    // rest of your code...
-    
-    return oidcCtx.interactionFinished({
-      login: {
-        account: account.accountId
-      },
-      consent: { 
-        rejectedScopes: [], // array of strings representing rejected scopes, see below
-        rejectedClaims: [], // array of strings representing rejected claims, see below
-      }
-    });
+     grant.addOIDCScope('openid email profile');
+     grant.addOIDCClaims(['first_name']);
+     grant.addResourceScope('urn:example:resource-indicator', 'api:read api:write');
+     await grant.save();
+     return grant;
   }
 }
+
+@Configuration({
+  oidc: {
+    loadExistingGrant
+  }
+})
+export class Server {}
 ```
 
-You should also provide `rejectedScopes` and `rejectedClaims` in `consent` object in order to prevent scopes/claims being exposed to clients you don't want to be exposed to.
+::: warning
+- No guarantees this is bug-free, no support will be provided for this, you've been warned, you're on your own
+- It's not recommended to have consent-free flows for the obvious issues this poses for native applications
+:::
+  
+::: tip
+This example is based on the original Recipe provided by oidc-provider. See more details on [skip_consent page](https://github.com/panva/node-oidc-provider/blob/main/recipes/skip_consent.md).
 :::
 
 <!--

@@ -4,21 +4,24 @@ import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
 
 const uuidv4 = require("uuid").v4;
-const defaultReqIdBuilder = (req: any) => uuidv4().replace(/-/gi, "");
+const defaultReqIdBuilder = (req: any) => req.get("x-request-id") || uuidv4().replace(/-/gi, "");
 
 /**
  * Create the TsED context to wrap request, response, injector, etc...
  * @param injector
- * @param req
- * @param res
+ * @param request
+ * @param response
  * @ignore
  */
-export async function createContext(injector: InjectorService, req: any, res: any): Promise<PlatformContext> {
+export async function createContext(
+  injector: InjectorService,
+  request: PlatformRequest,
+  response: PlatformResponse
+): Promise<PlatformContext> {
   const {level, ignoreUrlPatterns, maxStackSize, reqIdBuilder = defaultReqIdBuilder} = injector.settings.logger;
 
+  const req = request.getRequest();
   const id = reqIdBuilder(req);
-  const request = PlatformRequest.create(injector, req);
-  const response = PlatformResponse.create(injector, res);
 
   const ctx = new PlatformContext({
     id,

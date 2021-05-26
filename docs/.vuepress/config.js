@@ -7,40 +7,41 @@ module.exports = {
   serviceWorker: false,
   theme: "tsed",
   head: [
-    ["link", {canonical: url}],
-    ["link", {rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon"}],
-    ["link", {rel: "icon", href: "/favicon.ico", type: "apple-touch-icon"}],
-    ["link", {rel: "icon", href: "/apple-touch-icon.png", type: "image/x-icon", sizes: "180x180"}],
-    ["link", {rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32"}],
-    ["link", {rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16"}],
-    ["link", {rel: "manifest", href: "/site.webmanifest"}],
-    ["meta", {property: "og:url", content: url}],
-    ["meta", {property: "og:type", content: "website"}],
-    ["meta", {property: "og:site_name", content: title}],
-    ["meta", {property: "og:title", content: title}],
-    ["meta", {property: "og:description", content: description}],
-    ["meta", {property: "og:image", content: "https://tsed.io/tsed-og.png"}],
-    ["meta", {property: "og:image:width", content: "1024"}],
-    ["meta", {property: "og:image:height", content: "1024"}],
-    ["meta", {name: "twitter:title", content: title}],
-    ["meta", {name: "twitter:description", content: description}],
-    ["meta", {name: "twitter:card", content: "summary"}]
+    ["link", { canonical: url }],
+    ["link", { rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon" }],
+    ["link", { rel: "icon", href: "/favicon.ico", type: "apple-touch-icon" }],
+    ["link", { rel: "icon", href: "/apple-touch-icon.png", type: "image/x-icon", sizes: "180x180" }],
+    ["link", { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" }],
+    ["link", { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" }],
+    ["link", { rel: "manifest", href: "/site.webmanifest" }],
+    ["meta", { property: "og:url", content: url }],
+    ["meta", { property: "og:type", content: "website" }],
+    ["meta", { property: "og:site_name", content: title }],
+    ["meta", { property: "og:title", content: title }],
+    ["meta", { property: "og:description", content: description }],
+    ["meta", { property: "og:image", content: "https://tsed.io/tsed-og.png" }],
+    ["meta", { property: "og:image:width", content: "1024" }],
+    ["meta", { property: "og:image:height", content: "1024" }],
+    ["meta", { name: "twitter:title", content: title }],
+    ["meta", { name: "twitter:description", content: description }],
+    ["meta", { name: "twitter:card", content: "summary" }]
   ],
 
   themeConfig: {
     shortTitle: "Ts.ED",
     htmlTitle: "<strong class=\"font-medium\"><span class='text-blue'>Ts</span>.ED</strong>",
     version: require("../../package").version,
-    teams: require("../../teams"),
+    team: require("../../team.json"),
     licenseType: "MIT",
     author: "Lenzotti Romain",
     copyrightDates: {
       start: "2016",
       end: new Date().getFullYear()
     },
-    repo: "TypedProject/tsed",
-    openCollective: "tsed",
-    gitterUrl: "https://gitter.im/Tsed-io/community",
+    repo: "tsedio/tsed",
+    githubProxyUrl: "https://api.tsed.io/rest/github/tsedio/tsed",
+    openCollective: "https://api.tsed.io/rest/opencollective",
+    slackUrl: "https://api.tsed.io/rest/slack/tsedio/tsed",
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
     sponsorUrl: "https://tsed.io/support.html",
     twitterUrl: "https://twitter.com/TsED_io",
@@ -79,18 +80,21 @@ module.exports = {
             title: `Configuration | ${title}`
           },
           {
-            text: "Documentation",
+            text: "Docs",
             link: "/docs/controllers.html",
             title: `Documentation | ${title}`
           },
           {
-            icon: "bx bx-dots-horizontal-rounded text-lg",
-            link: "/docs/controllers.html",
-            title: `More`,
+            title: `Warehouse | ${title}`,
+            text: "Warehouse",
+            link: "/warehouse/",
             items: [
               {
-                text: "Plugins",
-                link: "/plugins",
+                text: "Explore plugins",
+                link: "/warehouse/"
+              },
+              {
+                text: "Official Tutorials",
                 items: [
                   {
                     text: "AJV",
@@ -103,6 +107,14 @@ module.exports = {
                   {
                     text: "Passport.js",
                     link: "/tutorials/passport.md"
+                  },
+                  {
+                    text: "Keycloak",
+                    link: "/tutorials/keycloak.md"
+                  },
+                  {
+                    text: "Prisma",
+                    link: "/tutorials/prisma.md"
                   },
                   {
                     text: "TypeORM",
@@ -137,31 +149,44 @@ module.exports = {
                     link: "/tutorials/stripe.md"
                   }
                 ]
+              }
+            ]
+          },
+          {
+            icon: "bx bx-dots-horizontal-rounded text-lg",
+            title: `Extras`,
+            items: [
+              {
+                text: "Ts.ED CLI",
+                link: "http://cli.tsed.io"
               },
               {
-                text: "Extra",
-                items: [
-                  {
-                    text: "CLI",
-                    link: "http://cli.tsed.io"
-                  },
-                  {
-                    text: "Logger",
-                    link: "http://logger.tsed.io"
-                  },
-                  {
-                    text: "Api reference",
-                    link: "/api.html"
-                  },
-                  {
-                    text: "Contributes",
-                    link: "/contributing.md"
-                  },
-                  {
-                    text: "License",
-                    link: "/tutorials/licence.md"
-                  }
-                ]
+                text: "Ts.ED Logger",
+                link: "http://logger.tsed.io"
+              },
+              {
+                text: "Team",
+                link: "/team.md"
+              },
+              {
+                text: "Resources",
+                link: "/tutorials/readme.md"
+              },
+              {
+                text: "Contributes",
+                link: "/contributing.md"
+              },
+              {
+                text: "Support",
+                link: "/support.md"
+              },
+              {
+                text: "License",
+                link: "/license.md"
+              },
+              {
+                text: "Api reference",
+                link: "/api.html"
               }
             ]
           },
@@ -219,8 +244,10 @@ module.exports = {
               "/docs/response-filter",
               "/docs/exceptions",
               "/docs/logger",
-              {title: "Context", path: "/docs/request-context"},
-              "/docs/platform-api"
+              { title: "Context", path: "/docs/request-context" },
+              "/docs/cache",
+              "/docs/platform-api",
+              "/docs/command"
             ]
           },
           {
@@ -228,12 +255,14 @@ module.exports = {
             collapsable: true,
             children: [
               "/docs/validation",
-              {title: "Upload files", path: "/docs/upload-files"},
-              {title: "Serve files", path: "/docs/serve-files"},
-              {title: "Templating", path: "/docs/templating"},
+              { title: "Upload files", path: "/docs/upload-files" },
+              { title: "Serve files", path: "/docs/serve-files" },
+              { title: "Templating", path: "/docs/templating" },
               "/docs/injection-scopes",
               "/docs/custom-providers",
               "/docs/custom-endpoint-decorators",
+              "/docs/throw-http-exceptions",
+              "/docs/not-found-page",
               "/docs/testing"
             ]
           },
@@ -242,11 +271,13 @@ module.exports = {
             collapsable: true,
             children: [
               "/tutorials/passport",
+              "/tutorials/keycloak",
+              "/tutorials/prisma",
               "/tutorials/typeorm",
               "/tutorials/mongoose",
               "/tutorials/graphql",
               "/tutorials/socket-io",
-              {title: "Seq logger", path: "/tutorials/seq"},
+              { title: "Seq logger", path: "/tutorials/seq" },
               "/tutorials/swagger",
               "/tutorials/ajv",
               "/tutorials/aws",
@@ -257,19 +288,20 @@ module.exports = {
           {
             title: "Extras",
             children: [
+              "/team",
               "/tutorials/",
-              "/tutorials/throw-http-exceptions",
-              "/tutorials/not-found-page",
-              "/api",
               "/contributing",
               "/support",
-              "/license"
+              "/license",
+              "/api"
             ]
           }
         ],
         otherTopics: [
           "/tutorials/session",
           "/tutorials/passport",
+          "/tutorials/keycloak",
+          "/tutorials/prisma",
           "/tutorials/typeorm",
           "/tutorials/mongoose",
           "/tutorials/graphql",
@@ -279,8 +311,6 @@ module.exports = {
           "/tutorials/multer",
           "/tutorials/serve-static-files",
           "/tutorials/templating",
-          "/tutorials/throw-http-exceptions",
-          "/tutorials/not-found-page",
           "/tutorials/aws",
           "/tutorials/seq",
           "/tutorials/oidc",
@@ -295,13 +325,63 @@ module.exports = {
           "/docs/authentication",
           "/docs/hooks",
           "/docs/exceptions",
-          "/docs/hooks",
+          "/docs/throw-http-exceptions",
+          "/docs/cache",
+          "/docs/command",
           "/docs/response-filter",
           "/docs/injection-scopes",
           "/docs/custom-providers",
           "/docs/custom-endpoint-decorators",
-          "/docs/testing"
-        ]
+          "/docs/testing",
+          "/docs/not-found-page"
+        ],
+        footer: {
+          sections: [
+            {
+              title: "Discover",
+              items: [
+                {
+                  label: "Our team",
+                  url: "/team.html"
+                },
+                {
+                  label: "Contact us",
+                  url: "https://form.typeform.com/to/uJLP7anG"
+                }
+              ]
+            },
+            {
+              title: "Help",
+              items: [
+                {
+                  label: "Resources",
+                  url: "/tutorials/index.html"
+                },
+                {
+                  label: "Chat with us",
+                  url: "https://gitter.im/Tsed-io/community"
+                },
+                {
+                  label: "Contribution guide",
+                  url: "/contributing.html"
+                }
+              ]
+            },
+            {
+              title: "Support",
+              items: [
+                {
+                  label: "Issues",
+                  url: "https://github.com/tsedio/tsed/issues"
+                },
+                {
+                  label: "Sponsoring & donations",
+                  url: "/support.html"
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     plugins: {
