@@ -151,9 +151,6 @@
     "packages": [
       "packages/*",
       "tools/*"
-    ],
-    "nohoist": [
-      "**/fs-extra/**"
     ]
   },
   "resolutions": {

@@ -137,9 +137,15 @@ frameworks:
 - title: TypeORM
   href: /tutorials/typeorm.html
   src: /typeorm.png
+- title: Apollo
+  href: /tutorials/graphql.html#apollo
+  src: /apollo-graphql-compact.svg
 - title: TypeGraphQL
-  href: /tutorials/graphql.html
+  href: /tutorials/graphql.html#typegraphql
   src: /typegraphql.png
+- title: Nexus
+  href: /tutorials/graphql.html#nexus
+  src: /nexus.png  
 - title: Socket.io
   href: /tutorials/socketio.html
   src: /socketio.svg

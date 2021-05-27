@@ -1,0 +1,27 @@
+{
+  "name": "@tsed/apollo",
+  "version": "6.51.0",
+  "description": "Apollo package for Ts.ED framework",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json",
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
+  },
+  "dependencies": {
+    "tslib": "2.1.0"
+  },
+  "private": false,
+  "devDependencies": {
+    "@tsed/common": "6.51.0",
+    "@tsed/core": "6.51.0",
+    "@types/graphql": "14.5.0",
+    "apollo-server-core": "^2.17.0",
+    "apollo-server-testing": "2.18.2",
+    "graphql": "15.5.0"
+  },
+  "peerDependencies": {
+    "apollo-server-core": "^2.17.0",
+    "graphql": "15.5.0"
+  }
+}

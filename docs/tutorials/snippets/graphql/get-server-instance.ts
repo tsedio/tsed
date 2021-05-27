@@ -1,16 +1,16 @@
-import {AfterRoutesInit, Service} from "@tsed/common";
-import {GraphQLService} from "@tsed/graphql";
+import {Inject, AfterRoutesInit, Injectable} from "@tsed/common";
+import {ApolloService} from "@tsed/apollo";
 import {ApolloServer} from "apollo-server-express";
 
-@Service()
+@Injectable()
 export class UsersService implements AfterRoutesInit {
+  @Inject()
+  private ApolloService: ApolloService;
+  // or private typeGraphQLService: TypeGraphQLService;
+
   private server: ApolloServer;
 
-  constructor(private graphQLService: GraphQLService) {
-
-  }
-
   $afterRoutesInit() {
-    this.server = this.graphQLService.get("server1")!;
+    this.server = this.apolloService.get("server1")!;
   }
 }

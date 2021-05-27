@@ -1,11 +1,12 @@
 import {Configuration} from "@tsed/common";
 import "@tsed/platform-express";
+import "@tsed/typegraphql";
 
 @Configuration({
   componentsScan: [
     `${rootDir}/graphql/**/*.ts` // add this pattern to scan resolvers or datasources
   ],
-  graphql: {
+  typegraphql: {
     "server1": {
       // GraphQL server configuration
       // path: string;

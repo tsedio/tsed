@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {GraphQLService} from "@tsed/graphql";
+import {ApolloService} from "@tsed/apollo";
 import "@tsed/platform-express";
 import {ApolloServerTestClient, createTestClient} from "apollo-server-testing";
 import {expect} from "chai";
@@ -20,7 +20,8 @@ describe("Recipes", () => {
   let request: ApolloServerTestClient;
   beforeAll(PlatformTest.bootstrap(Server));
   beforeAll(() => {
-    const server = PlatformTest.get<GraphQLService>(GraphQLService).get("server1")!;
+    const server = PlatformTest.get<ApolloService>(ApolloService).get("server1")!;
+    // OR const server = PlatformTest.get<ApolloService>(ApolloService).get("typegraphql-server1")!;
     request = createTestClient(server);
   });
   afterAll(PlatformTest.reset);
