@@ -1,6 +1,6 @@
 {
   "name": "@tsed/typeorm",
-  "version": "6.51.0",
+  "version": "6.52.0",
   "description": "TypeORM package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -12,8 +12,8 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.51.0",
-    "@tsed/core": "6.51.0",
+    "@tsed/common": "6.52.0",
+    "@tsed/core": "6.52.0",
     "typeorm": "^0.2.26"
   },
   "peerDependencies": {
