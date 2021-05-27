@@ -52,7 +52,7 @@ export class PlatformHandler {
    */
   createHandler(input: EndpointMetadata | HandlerMetadata | any, options: PlatformRouteWithoutHandlers = {}) {
     const metadata: HandlerMetadata = this.createHandlerMetadata(input, options);
-
+    this.buildPipe(metadata);
     return this.createRawHandler(metadata);
   }
 
@@ -64,7 +64,7 @@ export class PlatformHandler {
       scope: provider.scope,
       propertyKey
     });
-
+    this.buildPipe(metadata);
     return this.createRawHandler(metadata);
   }
 
@@ -298,12 +298,6 @@ export class PlatformHandler {
    * @param metadata
    */
   protected createRawHandler(metadata: HandlerMetadata): Function {
-    if (metadata.injectable) {
-      metadata.parameters.forEach((param: ParamMetadata) => {
-        param.cachePipes(this.injector);
-      });
-    }
-
     switch (metadata.type) {
       case HandlerType.CUSTOM:
         return (ctx: PlatformContext, next: any) => this.onRequest({metadata, next, $ctx: ctx});
@@ -315,6 +309,14 @@ export class PlatformHandler {
       case HandlerType.ENDPOINT:
       case HandlerType.MIDDLEWARE:
         return (request: any, response: any, next: any) => this.onRequest({metadata, next, $ctx: request.$ctx});
+    }
+  }
+
+  private buildPipe(metadata: HandlerMetadata) {
+    if (metadata.injectable) {
+      metadata.parameters.forEach((param: ParamMetadata) => {
+        param.cachePipes(this.injector);
+      });
     }
   }
 
