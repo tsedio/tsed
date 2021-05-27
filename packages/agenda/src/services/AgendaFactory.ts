@@ -3,6 +3,7 @@ import {Agenda, AgendaConfig} from "agenda";
 
 // create Alias to avoid confusing import between Agenda from "agenda" and Agenda decorator
 export const AgendaService = Agenda;
+export type AgendaService = Agenda;
 
 registerProvider({
   provide: Agenda,

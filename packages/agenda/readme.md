@@ -59,6 +59,7 @@ const mongoConnectionString = "mongodb://127.0.0.1/agenda";
 
 @Configuration({
   agenda: {
+   enabled: true, // Enable Agenda jobs for this instance.
    // pass any options that you would normally pass to new Agenda(), e.g.
    db: {
      address: mongoConnectionString

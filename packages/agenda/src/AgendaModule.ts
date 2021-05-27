@@ -1,18 +1,34 @@
-import {OnDestroy, AfterListen} from "@tsed/common";
-import {Module, InjectorService, Provider} from "@tsed/di";
-import Agenda, {Processor} from "agenda";
+import {OnDestroy, AfterListen, Logger} from "@tsed/common";
+import {Module, InjectorService, Provider, Constant, Inject} from "@tsed/di";
+import {Processor} from "agenda";
 import {PROVIDER_TYPE_AGENDA} from "./constants/index";
 import {AgendaStore} from "./interfaces/AgendaStore";
+import {AgendaService} from "./services/AgendaFactory";
 
 @Module()
 export class AgendaModule implements OnDestroy, AfterListen {
-  constructor(private injector: InjectorService, private agenda: Agenda) {}
+  @Inject()
+  protected logger: Logger;
+
+  @Inject()
+  protected injector: InjectorService;
+
+  @Inject()
+  protected agenda: AgendaService;
+
+  @Constant("agenda.enabled", false)
+  private loadAgenda: boolean;
 
   async $afterListen(): Promise<any> {
-    const providers = this.getProviders();
-    providers.forEach((provider) => this.addAgendaDefinitionsForProvider(provider));
-    await this.agenda.start();
-    providers.forEach((provider) => this.scheduleJobsForProvider(provider));
+    if (this.loadAgenda) {
+      const providers = this.getProviders();
+      providers.forEach((provider) => this.addAgendaDefinitionsForProvider(provider));
+      await this.agenda.start();
+      providers.forEach((provider) => this.scheduleJobsForProvider(provider));
+      this.logger.info("Agenda jobs enabled...");
+    } else {
+      this.logger.info("Agenda jobs disabled...");
+    }
   }
 
   protected getProviders(): Provider<any>[] {
@@ -53,7 +69,10 @@ export class AgendaModule implements OnDestroy, AfterListen {
     return namespace ? `${namespace}.${name}` : name;
   }
 
-  $onDestroy(): Promise<any> {
-    return this.agenda.stop();
+  async $onDestroy(): Promise<any> {
+    if (this.loadAgenda) {
+      await this.agenda.stop();
+      this.logger.info("Agenda jobs stopped...");
+    }
   }
 }
