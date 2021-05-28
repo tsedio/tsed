@@ -9,6 +9,7 @@ registerProvider({
   provide: Agenda,
   deps: [Configuration],
   useFactory(settings: Configuration) {
-    return new Agenda(settings.get<AgendaConfig>("agenda", {}));
+    const opts = settings.get<AgendaConfig & {enabled: boolean}>("agenda", {enabled: false});
+    return opts.enabled ? new Agenda(opts) : {};
   }
 });

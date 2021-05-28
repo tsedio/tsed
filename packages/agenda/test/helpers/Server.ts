@@ -13,11 +13,7 @@ const rootDir = Path.resolve(__dirname);
 @Configuration({
   rootDir,
   port: 8001,
-  httpsPort: false,
-  logger: {
-    level: "info",
-    logRequest: true
-  }
+  httpsPort: false
 })
 export class Server {
   @Inject()

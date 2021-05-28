@@ -7,7 +7,7 @@ declare global {
         /**
          * Enable Agenda jobs. Default false.
          */
-        enabled: boolean;
+        enabled?: boolean;
       } & AgendaConfig;
     }
   }

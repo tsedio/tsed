@@ -1,5 +1,5 @@
-import {OnDestroy, AfterListen, Logger} from "@tsed/common";
-import {Module, InjectorService, Provider, Constant, Inject} from "@tsed/di";
+import {AfterListen, Logger, OnDestroy} from "@tsed/common";
+import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
 import {Processor} from "agenda";
 import {PROVIDER_TYPE_AGENDA} from "./constants/index";
 import {AgendaStore} from "./interfaces/AgendaStore";
@@ -23,11 +23,23 @@ export class AgendaModule implements OnDestroy, AfterListen {
     if (this.loadAgenda) {
       const providers = this.getProviders();
       providers.forEach((provider) => this.addAgendaDefinitionsForProvider(provider));
+
+      this.logger.info("Agenda add definitions...");
       await this.agenda.start();
+
+      this.logger.info("Agenda add scheduled jobs...");
       providers.forEach((provider) => this.scheduleJobsForProvider(provider));
-      this.logger.info("Agenda jobs enabled...");
     } else {
       this.logger.info("Agenda jobs disabled...");
+    }
+  }
+
+  async $onDestroy(): Promise<any> {
+    if (this.loadAgenda) {
+      await this.agenda.stop();
+      await this.agenda.close({force: true});
+
+      this.logger.info("Agenda jobs stopped...");
     }
   }
 
@@ -35,7 +47,7 @@ export class AgendaModule implements OnDestroy, AfterListen {
     return Array.from(this.injector.getProviders(PROVIDER_TYPE_AGENDA));
   }
 
-  protected addAgendaDefinitionsForProvider(provider: Provider<any>): void {
+  protected addAgendaDefinitionsForProvider(provider: Provider): void {
     const store = provider.store.get<AgendaStore>("agenda");
     if (!store.define) {
       return;
@@ -67,12 +79,5 @@ export class AgendaModule implements OnDestroy, AfterListen {
   protected getNameForJob(propertyKey: string, namespace?: string, customName?: string): string {
     const name = customName || propertyKey;
     return namespace ? `${namespace}.${name}` : name;
-  }
-
-  async $onDestroy(): Promise<any> {
-    if (this.loadAgenda) {
-      await this.agenda.stop();
-      this.logger.info("Agenda jobs stopped...");
-    }
   }
 }
