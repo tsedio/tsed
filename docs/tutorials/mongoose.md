@@ -158,7 +158,7 @@ In this example a **Customer** has many **Contracts** and each **Contract** has 
 () => ModelName
 ```
 
-<<< @/docs/tutorials/snippets/mongoose/extended-circular-reference.ts
+<<< @/tutorials/snippets/mongoose/extended-circular-reference.ts
 
 ### Virtual References
 

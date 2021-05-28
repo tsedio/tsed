@@ -158,7 +158,7 @@ And this in your service
 
 In plain javascript you could connect like this.
 
-<<< @/docs/tutorials/snippets/socketio/basicClientSetup.html
+<<< @/tutorials/snippets/socketio/basicClientSetup.html
 
 
 
