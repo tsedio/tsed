@@ -153,7 +153,7 @@ With this in your server configuration
 ```
 And this in your service
 
-<<< @/docs/tutorials/snippets/socketio/basicSocketService.ts
+<<< @/tutorials/snippets/socketio/basicSocketService.ts
 
 
 In plain javascript you could connect like this.
