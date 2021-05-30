@@ -42,6 +42,11 @@ class TestPathParamsCtrl {
   async testScenario5(@PathParams("scopeId") @Pattern(/^[0-9a-fA-F]{24}$/) scopeId: string, @Context() ctx: Context) {
     return "test";
   }
+
+  @Get("/scenario-6/:id")
+  async testScenario6(@PathParams("id") id: number) {
+    return {id};
+  }
 }
 
 export function testPathParams(options: PlatformTestOptions) {
@@ -50,6 +55,9 @@ export function testPathParams(options: PlatformTestOptions) {
   before(
     PlatformTest.bootstrap(options.server, {
       ...options,
+      logger: {
+        level: "info"
+      },
       mount: {
         "/rest": [TestPathParamsCtrl]
       }
@@ -108,5 +116,11 @@ export function testPathParams(options: PlatformTestOptions) {
   });
   it("Scenario 5b: GET /rest/path-params/scenario-5/scopeId", async () => {
     await request.get("/rest/path-params/scenario-5/5ce4ee471495836c5e2e4cb0").expect(200);
+  });
+
+  it("Scenario 6: GET /rest/path-params/scenario-6/id", async () => {
+    const response = await request.get("/rest/path-params/scenario-6/1").expect(200);
+
+    expect(response.body).to.deep.equal({id: 1});
   });
 }
