@@ -147,6 +147,10 @@ module.exports = {
                   {
                     text: "Stripe",
                     link: "/tutorials/stripe.md"
+                  },
+                  {
+                    text: "Agenda",
+                    link: "/tutorials/agenda.md"
                   }
                 ]
               }
@@ -282,7 +286,8 @@ module.exports = {
               "/tutorials/ajv",
               "/tutorials/aws",
               "/tutorials/oidc",
-              "/tutorials/stripe"
+              "/tutorials/stripe",
+              "/tutorials/agenda",
             ]
           },
           {
@@ -315,6 +320,7 @@ module.exports = {
           "/tutorials/seq",
           "/tutorials/oidc",
           "/tutorials/stripe",
+          "/tutorials/agenda",
           "/docs/controllers",
           "/docs/providers",
           "/docs/model",

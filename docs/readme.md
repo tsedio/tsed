@@ -182,6 +182,9 @@ frameworks:
 - title: Keycloak
   href: /tutorials/keycloak.html
   src: /keycloak_icon.svg
+- title: Agenda
+  href: /tutorials/agenda.html
+  src: /agenda.svg
 ---
 
 ::: slot hero-brand
