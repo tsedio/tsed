@@ -269,6 +269,8 @@ Add the previous command to your `scripts` in the `package.json`:
 
 Now our `prisma.schema` is ready for the basic usage. It's time to configure [`@tsedio/prisma`](/tutorials/prisma-client.md).
 
+See our dedicated guide [here](/tutorials/prisma-client.md).
+
 The client will generate all enums, classes, repositories and PrismaService for the Ts.ED framework!
 
 ## Create the PrismaService and PostService
