@@ -82,7 +82,7 @@ generator client {
 }
 
 generator tsed {
-  provider = "@tsedio/prisma"
+  provider = "tsed-prisma"
 }
 ```
 
@@ -92,7 +92,7 @@ You can also configure the default output folder, e.g.:
 
 ```groovy
 generator tsed {
-  provider = "@tsedio/prisma"
+  provider = "tsed-prisma"
   output   = "../prisma/generated/tsed"
 }
 ```
@@ -104,7 +104,7 @@ You can overwrite that by explicitly setting `emitTranspiledCode` config option:
 
 ```groovy
 generator tsed {
-  provider           = "@tsedio/prisma"
+  provider           = "tsed-prisma"
   output             = "../prisma/generated/tsed"
   emitTranspiledCode = true
 }
