@@ -93,7 +93,7 @@ export class PlatformContext extends Map<any, any> {
       this.container.set(PlatformResponse, this.response);
     }
 
-    if (this.response) {
+    if (this.request) {
       this.container.set(PlatformRequest, this.request);
     }
 
