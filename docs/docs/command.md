@@ -10,7 +10,7 @@ meta:
 `@tsed/cli-core` is the npm module that provide API to create CLI. It can be to create your own CLI or to run your Ts.ED
 application code. Ts.ED cli-core use [commander](https://www.npmjs.com/package/commander) to parse cli
 arguments, [Inquirer](https://www.npmjs.com/package/inquirer)
-to display prompt and [Listr](https://www.npmjs.com/package/lisr) to run tasks.
+to display prompt and [Listr](https://www.npmjs.com/package/listr) to run tasks.
 
 The cli-core works as a standalone process, like the classic entry point, and will initialize a container to run your
 code (Service/Provider/etc...).
