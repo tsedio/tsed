@@ -88,7 +88,7 @@
     "@nuxtjs/opencollective": "0.3.2",
     "@tsed/logger": "^5.12.1",
     "axios": "0.21.1",
-    "ajv": "8.3.0",
+    "ajv": "8.5.0",
     "consolidate": "0.16.0",
     "ejs": "^3.1.5",
     "ejs-lint": "1.1.0",
