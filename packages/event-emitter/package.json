@@ -1,0 +1,28 @@
+{
+  "name": "@tsed/event-emitter",
+  "version": "6.53.0",
+  "description": "EventEmitter package for Ts.ED framework",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "contributors": [
+    {
+      "name": "Oliver Christen"
+    }
+  ],
+  "scripts": {
+    "build": "tsc --build tsconfig.compile.json"
+  },
+  "dependencies": {
+    "tslib": "2.1.0"
+  },
+  "private": false,
+  "devDependencies": {
+    "@tsed/common": "6.53.0",
+    "@tsed/core": "6.53.0",
+    "@tsed/di": "6.53.0",
+    "eventemitter2": "^6.4.4"
+  },
+  "peerDependencies": {
+    "eventemitter2": "^6.4.4"
+  }
+}
