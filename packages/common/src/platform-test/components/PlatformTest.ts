@@ -32,7 +32,7 @@ export class PlatformTest extends DITest {
    * @param settings
    * @returns {Promise<void>}
    */
-  static bootstrap(mod: any, settings: Partial<TsED.Configuration> = {}): () => Promise<void> {
+  static bootstrap(mod: any, settings: Partial<TsED.Configuration & {listen: boolean}> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       let instance: any;
       const platform: PlatformType = settings.platform || PlatformTest.platformBuilder;
@@ -47,9 +47,13 @@ export class PlatformTest extends DITest {
       // @ts-ignore
       instance = await PlatformBuilder.build(platform).bootstrap(mod, DITest.configure(settings));
 
-      await instance.callHook("$beforeListen");
-      await instance.callHook("$afterListen");
-      await instance.ready();
+      if (!settings.listen) {
+        await instance.callHook("$beforeListen");
+        await instance.callHook("$afterListen");
+        await instance.ready();
+      } else {
+        await instance.listen();
+      }
 
       // used by inject method
       DITest.injector = instance.injector;

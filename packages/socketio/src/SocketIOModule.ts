@@ -1,16 +1,16 @@
-import {AfterListen, Constant, HttpServer, HttpsServer, Inject, InjectorService, Module, Provider, $log} from "@tsed/common";
-import {nameOf} from "@tsed/core";
+import {$log, AfterListen, Constant, HttpServer, HttpsServer, Inject, InjectorService, Module, OnDestroy, Provider} from "@tsed/common";
+import {catchError, nameOf} from "@tsed/core";
 import {Server, ServerOptions} from "socket.io";
 import {SocketProviderMetadata} from "./class/SocketProviderMetadata"; // tslint:disable-line: no-unused-variable
-import {IO} from "./decorators/io";
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants";
+import {IO} from "./decorators/io";
 import {SocketIOService} from "./services/SocketIOService";
 
 /**
  * @ignore
  */
 @Module()
-export class SocketIOModule implements AfterListen {
+export class SocketIOModule implements AfterListen, OnDestroy {
   @Constant("logger.disableRoutesSummary", false)
   disableRoutesSummary: boolean;
 
@@ -48,6 +48,12 @@ export class SocketIOModule implements AfterListen {
     if (!this.disableRoutesSummary) {
       this.printSocketEvents();
     }
+
+    return this.injector.emit("$afterSocketListen");
+  }
+
+  $onDestroy() {
+    catchError(() => this.io.close());
   }
 
   /**

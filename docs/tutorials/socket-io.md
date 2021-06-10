@@ -22,13 +22,13 @@ Socket.io enables real-time bidirectional event-based communication. It works on
 Before using Socket.io, we need to install the [Socket.io](https://www.npmjs.com/package/socket.io) module.
 
 ```bash
-npm install --save socket.io @types/socket.io
+npm install --save socket.io @types/socket.io @tsed/socketio
+npm install --save-dev @tsed/socketio-testing
 ```
 
 Then add the following configuration in your server [Configuration](/docs/configuration.md):
 
 <<< @/tutorials/snippets/socketio/configuration.ts
-
 
 ## Configuration
 
@@ -160,7 +160,127 @@ In plain javascript you could connect like this.
 
 <<< @/tutorials/snippets/socketio/basicClientSetup.html
 
+## Testing <Badge text="v6.55.0+" />
 
+<Tabs class="-code">
+  <Tab label="Jest">
+
+```typescript
+import {Inject, PlatformTest} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express";
+import {Emit, Input, SocketIOServer, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
+import {SocketClientService} from "@tsed/socketio-testing";
+import {Namespace, Socket as IOSocket} from "socket.io";
+import {Server} from "./app/Server";
+
+@SocketService("/test")
+export class TestWS {
+  @Inject()
+  private io: SocketIOServer;
+
+  $onConnection(socket: IOSocket, nsp: Namespace) {
+  }
+
+  $onDisconnect(socket: IOSocket, nsp: Namespace) {
+  }
+
+  @Input("input:scenario1")
+  @Emit("output:scenario1")
+  async scenario1() {
+    return "My message";
+  }
+}
+
+describe("Socket integration", () => {
+  beforeAll(PlatformTest.bootstrap(Server, {
+    platform: PlatformExpress,
+    listen: true,
+    httpPort: 8999,
+    imports: [TestWS]
+  }));
+  afterAll(PlatformTest.reset);
+
+  describe("RoomWS: eventName", () => {
+    it("should return the data", async () => {
+      const service = PlatformTest.get<SocketClientService>(SocketClientService);
+      const client = await service.get("/test");
+      const client2 = await service.get("/test");
+
+      expect(client).toEqual(client2)
+
+      return new Promise((resolve) => {
+        client.on("output:scenario1", (result) => {
+          expect(result).toEqual("My message");
+          resolve();
+        });
+
+        client.emit("input:scenario1");
+      });
+    });
+  });
+});
+```
+</Tab>
+  <Tab label="Mocha">
+
+```typescript
+import {Inject, PlatformTest} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express";
+import {Emit, Input, SocketIOServer, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
+import {SocketClientService} from "@tsed/socketio-testing";
+import {expect} from "chai";
+import {Namespace, Socket as IOSocket} from "socket.io";
+import {Server} from "./app/Server";
+
+@SocketService("/test")
+export class TestWS {
+  @Inject()
+  private io: SocketIOServer;
+
+  $onConnection(socket: IOSocket, nsp: Namespace) {
+  }
+
+  $onDisconnect(socket: IOSocket, nsp: Namespace) {
+  }
+
+  @Input("input:scenario1")
+  @Emit("output:scenario1")
+  async scenario1() {
+    return "My message";
+  }
+}
+
+describe("Socket integration", () => {
+  before(PlatformTest.bootstrap(Server, {
+    platform: PlatformExpress,
+    listen: true,
+    httpPort: 8999,
+    imports: [TestWS]
+  }));
+  after(PlatformTest.reset);
+
+  describe("RoomWS: eventName", () => {
+    it("should return the data", async () => {
+      const service = PlatformTest.get<SocketClientService>(SocketClientService);
+      const client = await service.get("/test");
+      const client2 = await service.get("/test");
+
+      expect(client).to.eq(client2)
+
+      return new Promise((resolve) => {
+        client.on("output:scenario1", (result) => {
+          expect(result).to.eq("My message");
+          resolve();
+        });
+
+        client.emit("input:scenario1");
+      });
+    });
+  });
+});
+```
+</Tab>
+</Tabs>
 
 ## Author 
 
