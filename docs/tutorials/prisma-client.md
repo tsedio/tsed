@@ -13,17 +13,21 @@ projects:
 
 <Badge text="Premium sponsors" />
 
-If you are a premium sponsor, or you want to become one, you can ask [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) to get your access to the private packages `@tsedio/prisma`.
+Ts.ED Prisma client is only available for [premium sponsors](https://tsed.io/support.html).
 
-This package generates enums and classes compatible with Ts.ED decorators like @@Returns@@ and extends possibilities about the `prisma.schema`.
+- You can read the modalities [here](https://github.com/sponsors/Romakita),
+- Or get your prisma client access ticket [here](https://github.com/sponsors/Romakita/sponsorships?sponsor=Romakita&tier_id=69644&preview=false).
 
-You should follow this tutorial to create your project properly. You will have more details regarding the installation of the `@tsedio/prisma` package.
+Then contact the [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) on Slack so that we add it to the private repository
 
-::: tip Roadmap
-The next version will generate also the PrismaService and Repositories for each generated model!
-:::
+## Why should I paid for the package
 
-## Install a package from Github
+Prisma Client generate only TypeScript interfaces based on the Prisma schema. Because, interfaces have no consistency in JavaScript, isn't possible to infer a Json Schema and therefore generate the Swagger documentation or perform validation on the models (without manually writing code).
+
+The Ts.ED Prisma will generates classes and enums compatible with Ts.ED decorators like @@Returns@@ but also, but it will also generate the `PrismaService` (connection to the database) but also the **repositories** for each **model** of your Prisma schema.
+
+
+## Install the package from Github
 
 Ask Ts.ED team on [Slack](https://api.tsed.io/slack/tsedio/tsed) to get a unique personal GH_TOKEN.
 
