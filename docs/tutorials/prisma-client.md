@@ -18,7 +18,7 @@ Ts.ED Prisma client is only available for [premium sponsors](https://tsed.io/sup
 - You can read the modalities [here](https://github.com/sponsors/Romakita),
 - Or get your prisma client access ticket [here](https://github.com/sponsors/Romakita/sponsorships?sponsor=Romakita&tier_id=69644&preview=false).
 
-Then contact the [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) on Slack so that we add it to the private repository
+Then contact the [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) on Slack so that we add it to the private repository.
 
 ## Why should I paid for the package
 
