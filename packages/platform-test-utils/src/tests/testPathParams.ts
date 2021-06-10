@@ -55,9 +55,6 @@ export function testPathParams(options: PlatformTestOptions) {
   before(
     PlatformTest.bootstrap(options.server, {
       ...options,
-      logger: {
-        level: "info"
-      },
       mount: {
         "/rest": [TestPathParamsCtrl]
       }
