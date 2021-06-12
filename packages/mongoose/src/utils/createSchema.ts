@@ -3,7 +3,7 @@ import {deserialize, serialize} from "@tsed/json-mapper";
 import {getProperties, JsonEntityStore} from "@tsed/schema";
 import {pascalCase} from "change-case";
 import mongoose, {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
-import {MONGOOSE_SCHEMA} from "../constants";
+import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 import {resolveRefType} from "./resolveRefType";
@@ -37,6 +37,9 @@ function isVirtualRef(target: Partial<MongooseVirtualRefOptions>): target is Mon
 }
 
 export function createSchema(target: Type<any>, options: MongooseSchemaOptions = {}): mongoose.Schema {
+  const schemaOptionsFromStore = Store.from(target).get(MONGOOSE_SCHEMA_OPTIONS) || {};
+  options.schemaOptions = {...options.schemaOptions, ...schemaOptionsFromStore};
+
   const schema = setUpSchema(buildMongooseSchema(target), options.schemaOptions);
 
   schemaOptions(target, options);

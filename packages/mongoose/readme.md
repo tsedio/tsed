@@ -19,10 +19,11 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/mongoose.ht
 ## Feature
 
 Currently, `@tsed/mongoose` allows you:
- 
-- Configure one or more MongoDB database connections via the `@ServerSettings` configuration. 
-All databases will be initialized when the server starts during the server's `OnInit` phase.
-- Declare a Model from a class with annotation,
+
+- Configure one or more MongoDB database connections via the `@ServerSettings` configuration.
+  All databases will be initialized when the server starts during the server's `OnInit` phase.
+- Declare a Model from a class with annotation.
+- Declare inhertitated models in a single collection via `@DiscriminatorKey`.
 - Add a plugin, PreHook method and PostHook on your model.
 - Inject a Model to a Service, Controller, Middleware, etc...
 
@@ -305,18 +306,51 @@ class UserService {
 }
 ```
 
+## Discriminators
+
+Set the `@DiscriminatorKey` decorator on a property in the parent class to define the name of the field for the discriminator value.
+
+Extend the child model classes from the parent class. By default the value for the discriminator field is the class name but it can be overwritten via the `discriminatorValue` option on the model.
+
+```typescript
+@Model()
+class EventModel {
+  @ObjectID()
+  _id: string;
+
+  @Required()
+  time: Date = new Date();
+
+  @DiscriminatorKey()
+  type: string;
+}
+
+@Model()
+class ClickedLinkEventModel extends EventModel {
+  @Required()
+  url: string;
+}
+
+@Model({discriminatorValue: "signUpEvent"})
+class SignedUpEventModel extends EventModel {
+  @Required()
+  user: string;
+}
+```
+
+For further information, please refer to the [mongoose documentation about discriminators](https://mongoosejs.com/docs/discriminators.html).
+
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

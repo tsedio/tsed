@@ -1,4 +1,5 @@
 export * from "./auto";
+export * from "./discriminatorKey";
 export * from "./dynamicRef";
 export * from "./excludeIndexes";
 export * from "./expires";

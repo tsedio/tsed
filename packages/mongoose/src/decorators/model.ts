@@ -1,5 +1,7 @@
+import {Store} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
 import {Schema} from "mongoose";
+import {MONGOOSE_MODEL} from "../constants";
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions";
 import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections";
 import {createModel, getModelToken, getSchema} from "../utils";
@@ -59,8 +61,15 @@ export function Model(options: MongooseModelOptions = {}) {
       deps: [MONGOOSE_CONNECTIONS, token],
       useFactory(connections: MONGOOSE_CONNECTIONS, schema: Schema) {
         applySchemaOptions(schema, schemaOptions(target));
-
-        return createModel(target, schema, collectionName, options.collection, options.skipInit, connections.get(options.connection));
+        return createModel(
+          target,
+          schema,
+          collectionName,
+          options.collection,
+          options.skipInit,
+          connections.get(options.connection),
+          options.discriminatorValue
+        );
       }
     });
   };
