@@ -24,6 +24,7 @@ Currently, [`@tsed/mongoose`](https://www.npmjs.com/package/@tsed/mongoose) allo
 - Configure one or more MongoDB database connections via the `@ServerSettings` configuration. 
 All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Declare a Model from a class with annotation,
+- Declare inhertitated models in a single collection via `@DiscriminatorKey`
 - Add a plugin, PreHook method and PostHook on your model
 - Inject a Model to a Service, Controller, Middleware, etc.
 - Create and manage multiple connections
@@ -220,6 +221,18 @@ Just like the regular `schema.plugin()` call, the decorator accepts 1 or 2 param
 Multiple `plugin` decorator can be used for a single model class.
 
 <<< @/tutorials/snippets/mongoose/plugin.ts
+
+## Discriminators
+
+Set the `@DiscriminatorKey` decorator on a property in the parent class to define the name of the field for the discriminator value.
+
+Extend the child model classes from the parent class. By default the value for the discriminator field is the class name but it can be overwritten via the `discriminatorValue` option on the model.
+
+<<< @/tutorials/snippets/mongoose/discriminator.ts
+
+::: tip
+For further information, please refer to the [mongoose documentation about discriminators](https://mongoosejs.com/docs/discriminators.html).
+:::
 
 ## Inject model
 
