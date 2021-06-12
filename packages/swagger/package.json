@@ -2,8 +2,10 @@
   "name": "@tsed/swagger",
   "version": "6.55.2",
   "description": "Swagger package for Ts.ED framework",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "private": false,
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
@@ -12,11 +14,20 @@
     "swagger-ui-dist": "^3.46.0",
     "tslib": "2.2.0"
   },
-  "private": false,
   "devDependencies": {
     "@tsed/common": "6.55.2",
-    "@tsed/openspec": "6.55.2",
-    "@tsed/schema": "6.55.2"
+    "@tsed/core": "6.55.2",
+    "@tsed/di": "6.55.2",
+    "@tsed/schema": "6.55.2",
+    "@tsed/json-mapper": "6.55.2",
+    "@tsed/openspec": "6.55.2"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/common": "^6.48.6",
+    "@tsed/core": "^6.48.6",
+    "@tsed/di": "^6.48.6",
+    "@tsed/schema": "^6.48.6",
+    "@tsed/json-mapper": "^6.48.6",
+    "@tsed/openspec": "^6.48.6"
+  }
 }

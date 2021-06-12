@@ -2,8 +2,10 @@
   "name": "@tsed/di",
   "version": "6.55.2",
   "description": "DI module for Ts.ED Framework",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "private": false,
   "dependencies": {
     "@tsed/core": "6.55.2",
     "chalk": "4.1.0",
@@ -13,7 +15,11 @@
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
   },
-  "private": false,
-  "devDependencies": {},
-  "peerDependencies": {}
+  "devDependencies": {
+    "@tsed/logger": "^5.14.0"
+  },
+  "peerDependencies": {
+    "@tsed/core": "^6.55.2",
+    "@tsed/logger": "^5.14.0"
+  }
 }

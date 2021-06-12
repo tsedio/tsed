@@ -2,8 +2,10 @@
   "name": "@tsed/schema",
   "version": "6.55.2",
   "description": "JsonSchema module for Ts.ED Framework",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "private": false,
   "keywords": [
     "TypeScript",
     "decorators",
@@ -24,7 +26,6 @@
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
   },
-  "private": false,
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.0.2",
     "@types/fs-extra": "9.0.6",

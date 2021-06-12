@@ -4,6 +4,11 @@
   "description": "Passport package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "private": false,
+  "directories": {
+    "lib": "lib",
+    "src": "src"
+  },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
     "start": "ts-node src/index.ts"
@@ -24,10 +29,17 @@
     "passport-local": "1.0.0",
     "passport-strategy": "1.0.0"
   },
-  "private": false,
-  "directories": {
-    "lib": "lib",
-    "src": "src"
-  },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/common": "^6.48.6",
+    "@tsed/core": "^6.48.6",
+    "@tsed/di": "^6.48.6",
+    "@tsed/schema": "^6.48.6",
+    "@tsed/json-mapper": "^6.48.6",
+    "@tsed/openspec": "^6.48.6",
+    "@tsed/logger": "^5.13.3",
+    "passport": "^0.4.1",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0",
+    "passport-strategy": "^1.0.0"
+  }
 }
