@@ -7,12 +7,12 @@ import {DiscriminatorKey} from "./discriminatorKey";
 describe("@DiscriminatorKey()", () => {
   it("should set metadata", () => {
     @Model()
-    class Test {
+    class TestDiscriminatorKey {
       @DiscriminatorKey()
       type: string;
     }
 
-    expect(Store.from(Test).get(MONGOOSE_SCHEMA_OPTIONS)).to.deep.eq({
+    expect(Store.from(TestDiscriminatorKey).get(MONGOOSE_SCHEMA_OPTIONS)).to.deep.eq({
       discriminatorKey: "type"
     });
   });

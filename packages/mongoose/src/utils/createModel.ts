@@ -42,7 +42,12 @@ export function createModel<T>(
   if (ancestor && ancestor !== target) {
     const ancestorModel = Store.from(ancestor).get(MONGOOSE_MODEL) as MongooseModel<typeof target> | undefined;
     if (ancestorModel) {
-      return ancestorModel.discriminator(discriminatorValue || name, schema);
+      const discriminatorName = discriminatorValue || name;
+      if (ancestorModel.discriminators && ancestorModel.discriminators[discriminatorName]) {
+        return ancestorModel.discriminators[discriminatorName];
+      } else {
+        return ancestorModel.discriminator(discriminatorName, schema);
+      }
     }
   }
 
