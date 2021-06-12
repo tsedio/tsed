@@ -3,12 +3,11 @@ import {deserialize, serialize} from "@tsed/json-mapper";
 import {getProperties, JsonEntityStore} from "@tsed/schema";
 import {pascalCase} from "change-case";
 import mongoose, {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
-import {MONGOOSE_SCHEMA} from "../constants";
+import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants";
 import {MongooseSchemaOptions} from "../interfaces";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 import {resolveRefType} from "./resolveRefType";
 import {schemaOptions} from "./schemaOptions";
-import {MONGOOSE_SCHEMA_OPTIONS} from "@tsed/mongoose";
 
 const MONGOOSE_RESERVED_KEYS = ["_id"];
 
