@@ -1,6 +1,6 @@
 {
   "name": "@tsed/benchmarks",
-  "version": "6.55.3",
+  "version": "6.55.4",
   "dependencies": {
     "@codechecks/client": "0.1.10",
     "chalk": "4.1.1",
@@ -18,5 +18,6 @@
     "build": "tsc --build tsconfig.compile.json",
     "benchmarks:codechecks": "codechecks ./src/codeChecksBenchmarks.ts",
     "benchmarks": "yarn build && node ./lib/checkBenchmarks.js"
-  }
+  },
+  "peerDependencies": {}
 }
