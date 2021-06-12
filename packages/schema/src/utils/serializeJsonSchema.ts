@@ -228,6 +228,12 @@ export function serializeGenerics(obj: any, options: GenericsContext) {
         });
       }
 
+      if (type === Object) {
+        return {
+          type: "object"
+        };
+      }
+
       if (isClass(type)) {
         const model = {
           class: type
