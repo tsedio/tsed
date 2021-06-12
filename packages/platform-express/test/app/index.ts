@@ -1,4 +1,4 @@
-import {$log, Controller, Get, PlatformResponse, QueryParams, Res} from "@tsed/common";
+import {$log, BodyParams, Controller, Get, PlatformResponse, Post, QueryParams, Res} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import {agent, SuperAgentStatic} from "superagent";
 import {PlatformExpress} from "../../src";
@@ -25,6 +25,12 @@ if (process.env.NODE_ENV !== "test") {
 
       // res.raw.send(image_res.body); // Works
       return image_res.body; // Does not work
+    }
+
+    @Post("/")
+    @Returns(200)
+    async postPayload(@BodyParams() body: any[]) {
+      return {body};
     }
   }
 
