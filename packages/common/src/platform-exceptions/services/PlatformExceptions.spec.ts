@@ -111,6 +111,31 @@ describe("PlatformExceptions", () => {
         status: 400
       });
     });
+    it("should map raw error", () => {
+      const platformExceptions = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
+
+      const ctx = PlatformTest.createRequestContext();
+      sandbox.stub(ctx.response, "body").returnsThis();
+      sandbox.stub(ctx.response, "setHeaders").returnsThis();
+      sandbox.stub(ctx.response, "status").returnsThis();
+      sandbox.stub(ctx.response, "contentType").returnsThis();
+
+      const error = {
+        status: 413,
+        name: "PayloadTooLargeError",
+        message: "request entity too large"
+      };
+
+      platformExceptions.catch(error, ctx);
+
+      expect(ctx.response.body).to.have.been.calledWithExactly({
+        errors: [],
+        message: "request entity too large",
+        name: "PayloadTooLargeError",
+        stack: undefined,
+        status: 413
+      });
+    });
   });
 
   describe("Env.PROD", () => {
