@@ -1,4 +1,4 @@
-import {BeforeRoutesInit, Constant, Module, OnInit, PlatformApplication, Provider, ProviderScope} from "@tsed/common";
+import {BeforeRoutesInit, Constant, Inject, Module, OnInit, PlatformApplication, Provider, ProviderScope, Logger} from "@tsed/common";
 import Passport from "passport";
 import {PassportSerializerService} from "./services/PassportSerializerService";
 import {ProtocolsService} from "./services/ProtocolsService";
@@ -18,6 +18,9 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
 
   @Constant("PLATFORM_NAME")
   platformName: string;
+
+  @Inject()
+  logger: Logger;
 
   constructor(
     private app: PlatformApplication,
@@ -44,7 +47,7 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
         return;
 
       default:
-        console.warn(`Platform "${this.platformName}" not supported by @tsed/passport`);
+        this.logger.warn(`Platform "${this.platformName}" not supported by @tsed/passport`);
     }
   }
 }
