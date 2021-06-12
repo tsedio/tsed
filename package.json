@@ -99,7 +99,7 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.17.0",
+    "@tsed/monorepo-utils": "1.17.8",
     "@typedproject/ts-doc": "4.0.13",
     "@types/axios": "0.14.0",
     "@types/chai": "4.2.12",
