@@ -6,7 +6,7 @@
   "typings": "./lib/index.d.ts",
   "dependencies": {
     "@tsed/schema": "6.55.2",
-    "tslib": "2.1.0"
+    "tslib": "2.2.0"
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
