@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-koa",
-  "version": "6.55.2",
+  "version": "6.55.3",
   "description": "Koa package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/index.js",
@@ -46,10 +46,10 @@
   },
   "devDependencies": {
     "@koa/cors": "3.1.0",
-    "@tsed/common": "6.55.2",
-    "@tsed/core": "6.55.2",
-    "@tsed/di": "6.55.2",
-    "@tsed/platform-test-utils": "6.55.2",
+    "@tsed/common": "6.55.3",
+    "@tsed/core": "6.55.3",
+    "@tsed/di": "6.55.3",
+    "@tsed/platform-test-utils": "6.55.3",
     "@types/koa": "2.11.3",
     "@types/koa-bodyparser": "4.3.0",
     "@types/koa-compose": "3.2.5",
@@ -67,19 +67,19 @@
   },
   "dependencies": {
     "@koa/router": "^9.4.0",
-    "tslib": "2.2.0",
     "encodeurl": "^1.0.2",
     "koa-send": "5.0.1",
-    "multer": "^1.4.2"
+    "multer": "^1.4.2",
+    "tslib": "2.2.0"
   },
   "peerDependencies": {
     "@tsed/common": "^6.48.6",
     "@tsed/core": "^6.48.6",
     "@tsed/di": "^6.48.6",
-    "@tsed/schema": "^6.48.6",
     "@tsed/json-mapper": "^6.48.6",
-    "@tsed/openspec": "^6.48.6",
     "@tsed/logger": "^5.13.3",
+    "@tsed/openspec": "^6.48.6",
+    "@tsed/schema": "^6.48.6",
     "koa": "2.13.0",
     "koa-bodyparser": "4.3.0",
     "koa-compress": "5.0.1",
