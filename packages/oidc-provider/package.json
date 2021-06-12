@@ -2,6 +2,7 @@
   "name": "@tsed/oidc-provider",
   "version": "6.55.2",
   "description": "OIDC provider package for Ts.ED framework",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "private": false,
@@ -22,9 +23,19 @@
   "devDependencies": {
     "@tsed/common": "6.55.2",
     "@tsed/core": "6.55.2",
+    "@tsed/di": "6.55.2",
+    "@tsed/exceptions": "6.55.2",
     "oidc-provider": "^7.3.0"
   },
   "peerDependencies": {
+    "@tsed/common": "^6.48.6",
+    "@tsed/core": "^6.48.6",
+    "@tsed/di": "^6.48.6",
+    "@tsed/schema": "^6.48.6",
+    "@tsed/json-mapper": "^6.48.6",
+    "@tsed/exceptions": "^6.48.6",
+    "@tsed/openspec": "^6.48.6",
+    "@tsed/logger": "^5.13.3",
     "oidc-provider": "^7.3.0"
   }
 }

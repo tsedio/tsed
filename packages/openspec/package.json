@@ -2,8 +2,10 @@
   "name": "@tsed/openspec",
   "version": "6.55.2",
   "description": "OpenSpec2 and OpenSpec3 interfaces declarations for TypeScript application",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "private": false,
   "keywords": [
     "TypeScript",
     "interfaces",
@@ -17,7 +19,6 @@
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
   },
-  "private": false,
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {}

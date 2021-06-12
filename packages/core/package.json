@@ -2,6 +2,7 @@
   "name": "@tsed/core",
   "version": "6.55.2",
   "description": "Core module for Ts.ED Framework",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "dependencies": {

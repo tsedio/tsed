@@ -2,8 +2,21 @@
   "name": "@tsed/mongoose",
   "version": "6.55.2",
   "description": "Mongoose package for Ts.ED framework",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "private": false,
+  "keywords": [
+    "tsed",
+    "mongoose",
+    "typescript",
+    "decorators",
+    "orm"
+  ],
+  "directories": {
+    "lib": "lib",
+    "src": "src"
+  },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
   },
@@ -11,19 +24,22 @@
     "change-case": "4.1.2",
     "tslib": "2.2.0"
   },
-  "peerDependencies": {
-    "mongoose": "^5.12.2"
-  },
-  "private": false,
-  "directories": {
-    "lib": "lib",
-    "src": "src"
-  },
   "devDependencies": {
     "@tsed/ajv": "6.55.2",
     "@tsed/common": "6.55.2",
     "@tsed/core": "6.55.2",
     "@tsed/schema": "6.55.2",
+    "mongoose": "^5.12.2"
+  },
+  "peerDependencies": {
+    "@tsed/ajv": "6.55.2",
+    "@tsed/common": "6.55.2",
+    "@tsed/core": "6.55.2",
+    "@tsed/schema": "6.55.2",
+    "@tsed/di": "6.55.2",
+    "@tsed/exceptions": "6.55.2",
+    "@tsed/openspec": "6.55.2",
+    "@tsed/logger": "^5.13.3",
     "mongoose": "^5.12.2"
   }
 }

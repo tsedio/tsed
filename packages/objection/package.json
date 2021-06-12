@@ -2,18 +2,21 @@
   "name": "@tsed/objection",
   "version": "6.55.2",
   "description": "Objection.js package for Ts.ED framework",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "private": false,
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
     "tslib": "2.2.0"
   },
-  "private": false,
+
   "devDependencies": {
     "@tsed/ajv": "6.55.2",
     "@tsed/core": "6.55.2",
+    "@tsed/common": "6.55.2",
     "@tsed/di": "6.55.2",
     "knex": "^0.21.5",
     "mssql": "^6.2.2",
@@ -26,8 +29,23 @@
     "sqlite3": "^5.0.0"
   },
   "peerDependencies": {
-    "@tsed/ajv": "6.15.0",
-    "@tsed/common": "6.15.0"
+    "@tsed/common": "^6.48.6",
+    "@tsed/core": "^6.48.6",
+    "@tsed/di": "^6.48.6",
+    "@tsed/schema": "^6.48.6",
+    "@tsed/json-mapper": "^6.48.6",
+    "@tsed/exceptions": "^6.48.6",
+    "@tsed/openspec": "^6.48.6",
+    "@tsed/logger": "^5.13.3",
+    "knex": "^0.21.5",
+    "mssql": "^6.2.2",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.2.5",
+    "objection": "2.2.14",
+    "oracledb": "^5.0.0",
+    "pg": "^8.3.3",
+    "sqlite": "^4.0.14",
+    "sqlite3": "^5.0.0"
   },
   "npmPublish": {
     "dist-tag": "alpha"

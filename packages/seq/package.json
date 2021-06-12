@@ -2,6 +2,7 @@
   "name": "@tsed/seq",
   "version": "6.55.2",
   "description": "Seq package for Ts.ED framework",
+  "sources": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./src/index.ts",
   "private": false,
@@ -20,12 +21,20 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/logger-seq": "^5.12.1",
+    "@tsed/logger-seq": "^5.13.3",
     "tslib": "2.2.0"
   },
   "devDependencies": {
     "@tsed/common": "6.55.2",
     "@tsed/core": "6.55.2"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/common": "^6.48.6",
+    "@tsed/core": "^6.48.6",
+    "@tsed/di": "^6.48.6",
+    "@tsed/schema": "^6.48.6",
+    "@tsed/json-mapper": "^6.48.6",
+    "@tsed/openspec": "^6.48.6",
+    "@tsed/logger": "^5.13.3"
+  }
 }
