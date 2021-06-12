@@ -1,6 +1,6 @@
-import {nameOf, Store, Type} from "@tsed/core";
-import mongoose, {Connection} from "mongoose";
-import {MONGOOSE_MODEL_NAME} from "../constants";
+import {ancestorsOf, nameOf, Store, Type} from "@tsed/core";
+import mongoose, {Connection, Model as MongooseModel} from "mongoose";
+import {MONGOOSE_MODEL, MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA_OPTIONS} from "../constants";
 import {MongooseModels} from "../registries/MongooseModels";
 import {getSchemaToken} from "./createSchema";
 
@@ -30,12 +30,30 @@ export function createModel<T>(
   name: string = nameOf(target),
   collection?: string,
   skipInit?: boolean,
-  connection?: Connection
+  connection?: Connection,
+  discriminatorValue?: string
 ) {
-  /* istanbul ignore else */
-  if (connection) {
-    return connection.model(name, schema, collection);
+  // if ancestor has a discriminatorKey we need to link model with anscestor schema
+  const ancestor = ancestorsOf(target).find((ancestor) => {
+    const options = Store.from(ancestor).get(MONGOOSE_SCHEMA_OPTIONS) || {};
+    return !!options.discriminatorKey;
+  });
+
+  if (ancestor && ancestor !== target) {
+    const ancestorModel = Store.from(ancestor).get(MONGOOSE_MODEL) as MongooseModel<typeof target> | undefined;
+    if (ancestorModel) {
+      return ancestorModel.discriminator(discriminatorValue || name, schema);
+    }
   }
 
-  return mongoose.model(name, schema, collection, skipInit);
+  /* istanbul ignore else */
+  if (connection) {
+    const model = connection.model(name, schema, collection);
+    Store.from(target).set(MONGOOSE_MODEL, model);
+    return model;
+  }
+
+  const model = mongoose.model(name, schema, collection, skipInit);
+  Store.from(target).set(MONGOOSE_MODEL, model);
+  return model;
 }

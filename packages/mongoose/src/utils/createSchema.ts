@@ -8,6 +8,7 @@ import {MongooseSchemaOptions} from "../interfaces";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 import {resolveRefType} from "./resolveRefType";
 import {schemaOptions} from "./schemaOptions";
+import {MONGOOSE_SCHEMA_OPTIONS} from "@tsed/mongoose";
 
 const MONGOOSE_RESERVED_KEYS = ["_id"];
 
@@ -37,6 +38,9 @@ function isVirtualRef(target: Partial<MongooseVirtualRefOptions>): target is Mon
 }
 
 export function createSchema(target: Type<any>, options: MongooseSchemaOptions = {}): mongoose.Schema {
+  const schemaOptionsFromStore = Store.from(target).get(MONGOOSE_SCHEMA_OPTIONS) || {};
+  options.schemaOptions = {...options.schemaOptions, ...schemaOptionsFromStore};
+
   const schema = setUpSchema(buildMongooseSchema(target), options.schemaOptions);
 
   schemaOptions(target, options);

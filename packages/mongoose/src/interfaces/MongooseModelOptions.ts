@@ -5,4 +5,5 @@ export interface MongooseModelOptions extends MongooseSchemaOptions {
   connection?: string;
   collection?: string;
   skipInit?: boolean;
+  discriminatorValue?: string;
 }

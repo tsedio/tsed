@@ -17,6 +17,7 @@ import {Schema as SchemaMongoose} from "mongoose";
 import {Model, ObjectID, Ref, Schema, VirtualRef, VirtualRefs} from "../../src/decorators";
 import {SchemaIgnore} from "../../src/decorators/schemaIgnore";
 import {getSchema} from "../../src/utils/createSchema";
+import {DiscriminatorKey} from "../decorators/discriminatorKey";
 
 describe("createSchema", () => {
   it("should create schema", () => {
@@ -669,5 +670,17 @@ describe("createSchema", () => {
         type: String
       }
     });
+  });
+  it("should create schema with discriminator key", () => {
+    @Model()
+    class Test11 {
+      @DiscriminatorKey()
+      kind: string;
+    }
+    const testSchema = getSchema(Test11);
+    // @ts-ignore
+    const options = testSchema.options;
+
+    expect(options.discriminatorKey).to.eq("kind");
   });
 });
