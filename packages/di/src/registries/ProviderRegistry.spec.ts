@@ -82,5 +82,18 @@ describe("ProviderRegistry", () => {
         type: ProviderType.VALUE
       });
     });
+
+    it("should add provider (legacy)", () => {
+      const token = Symbol.for("CustomTokenValue2");
+
+      registerValue(token, "myValue");
+
+      expect(GlobalProviders.merge).to.have.been.calledWithExactly(token, {
+        provide: token,
+        useValue: "myValue",
+        scope: ProviderScope.SINGLETON,
+        type: ProviderType.VALUE
+      });
+    });
   });
 });

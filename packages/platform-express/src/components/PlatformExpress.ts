@@ -96,7 +96,7 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
     const platformViews = this.injector.get<PlatformViews>(PlatformViews)!;
 
     platformViews.getEngines().forEach(({extension, engine}) => {
-      this.app.getApp().engine(extension, engine);
+      this.app.getApp().engine(extension, engine.render);
     });
 
     platformViews.viewEngine && this.app.getApp().set("view engine", platformViews.viewEngine);

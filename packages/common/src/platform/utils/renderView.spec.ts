@@ -40,6 +40,7 @@ describe("renderView", () => {
     await renderView(ctx.data, ctx);
 
     expect(ctx.response.render).to.have.been.calledWithExactly("view", {
+      $ctx: ctx,
       data: "data",
       options: "options"
     });
