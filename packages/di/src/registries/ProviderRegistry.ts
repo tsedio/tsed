@@ -98,7 +98,7 @@ export const registerFactory = registerProvider;
  *
  * const MyValue = Symbol.from("MyValue")
  *
- * registerValue(MyValue, "myValue");
+ * registerValue({token: MyValue, useValue: "myValue"});
  *
  * @Service()
  * export class OtherService {

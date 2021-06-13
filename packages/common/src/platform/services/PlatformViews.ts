@@ -1,13 +1,30 @@
-import {Env} from "@tsed/core";
-import {Constant, Injectable} from "@tsed/di";
-import cons from "consolidate";
+import {Env, getValue} from "@tsed/core";
+import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
+import {Engine} from "@tsed/engines";
 import Fs from "fs";
 import {extname, join, resolve} from "path";
 import {
+  PlatformViewEngine,
   PlatformViewsEngineOptions,
   PlatformViewsExtensionsTypes,
-  PlatformViewsSupportedEngines
+  PLATFORM_VIEWS_EXTENSIONS
 } from "../../config/interfaces/PlatformViewsSettings";
+
+function patchEJS(ejs: any) {
+  return {
+    compile(str: string, {client, ...options}: any) {
+      return (ejs || require("ejs")).compile(str, options);
+    }
+  };
+}
+
+async function tryImport(name: string) {
+  try {
+    return await import(name);
+  } catch (er) {
+    // istanbul ignore next
+  }
+}
 
 /**
  * @platform
@@ -25,87 +42,133 @@ export class PlatformViews {
 
   @Constant("views.viewEngine", "ejs")
   readonly viewEngine: string;
-  readonly consolidate: any = cons;
 
   @Constant("views.extensions", {})
-  protected extensions: PlatformViewsExtensionsTypes;
-  protected extensionsMap: Map<string, PlatformViewsSupportedEngines>;
+  protected extensionsOptions: PlatformViewsExtensionsTypes;
 
   @Constant("views.options", {})
-  protected engineOptions: PlatformViewsEngineOptions;
+  protected engineOptions: Record<string, PlatformViewsEngineOptions>;
 
-  $onInit() {
-    this.extensionsMap = new Map(
+  #extensions: Map<string, string>;
+  #engines = new Map<string, PlatformViewEngine>();
+  #cachePaths = new Map<string, {path: string; extension: string}>();
+
+  async $onInit() {
+    this.#extensions = new Map(
       Object.entries({
-        hbs: "handlebars",
-        ejs: "ejs",
-        ...this.extensions
+        ...PLATFORM_VIEWS_EXTENSIONS,
+        ...this.extensionsOptions
       })
     );
-    this.loadEngineRequires();
+
+    await this.loadFromConsolidate();
+    await this.loadFromTsedEngines();
   }
 
-  loadEngineRequires() {
-    const ejs = this.consolidate.requires.ejs;
-    this.consolidate.requires.ejs = {
-      compile(str: string, {client, ...options}: any) {
-        return (ejs || require("ejs")).compile(str, options);
-      }
-    };
+  /**
+   * @deprecated
+   */
+  async loadFromConsolidate() {
+    const cons = await tryImport("consolidate");
+    if (cons) {
+      cons.requires.ejs = patchEJS(cons.requires.ejs);
 
-    return Object.keys(this.engineOptions).map((engineType: PlatformViewsSupportedEngines) => {
-      const options = this.getEngineOptions(engineType);
-      if (options && options.requires) this.consolidate.requires[engineType] = options.requires;
-    });
+      this.#extensions.forEach((engineType) => {
+        if ((cons as any)[engineType]) {
+          const options = this.getEngineOptions(engineType);
+
+          if (options.requires) {
+            (cons.requires as any)[engineType] = options.requires;
+          }
+
+          this.registerEngine(engineType, {
+            options,
+            render: (cons as any)[engineType]
+          });
+        }
+      });
+    }
   }
 
-  getExtensions(): Map<string, PlatformViewsSupportedEngines> {
-    return this.extensionsMap;
+  async loadFromTsedEngines() {
+    const tsed = await tryImport("@tsed/engines");
+
+    if (tsed) {
+      tsed.requires.set("ejs", patchEJS(tsed.requires.get("ejs")));
+
+      this.#extensions.forEach((engineType) => {
+        if (tsed.engines.has(engineType)) {
+          const options = this.getEngineOptions(engineType);
+
+          if (options.requires) {
+            tsed.requires.set(engineType, options.requires);
+          }
+
+          this.registerEngine(engineType, {
+            options,
+            render: tsed.getEngine(engineType)
+          });
+        }
+      });
+    }
   }
 
   getEngines() {
-    return Array.from(this.extensionsMap.entries())
-      .map(([extension, engineType]) => {
-        const engine = this.getEngine(engineType);
+    return [...this.#extensions.entries()].map(([extension, engineType]) => {
+      const engine = this.getEngine(this.getExtension(engineType))!;
 
-        return engine && {extension, engine};
-      })
-      .filter(Boolean);
+      return {
+        extension,
+        engine
+      };
+    });
   }
 
-  getEngine(engineType: PlatformViewsSupportedEngines) {
-    return this.consolidate[engineType];
+  registerEngine(engineType: string, engine: PlatformViewEngine) {
+    this.#engines.set(engineType, engine);
+
+    return this;
   }
 
-  getEngineOptions(engineType: PlatformViewsSupportedEngines) {
-    return (engineType && this.engineOptions[engineType]) || {};
+  getEngine(type: string) {
+    return this.#engines.get(this.#extensions.get(type) || type);
+  }
+
+  getEngineOptions(engineType: string): PlatformViewsEngineOptions {
+    return getValue(this.engineOptions, engineType, {});
   }
 
   async render(viewPath: string, options: any = {}): Promise<string> {
-    const extension = (extname(viewPath) || this.viewEngine).replace(/\./, "");
-    const engineType = this.getExtensions().get(extension)!;
-    const engineOptions = this.getEngineOptions(engineType);
-    const render = this.getEngine(engineType);
+    const {path, extension} = this.#cachePaths.get(viewPath) || this.#cachePaths.set(viewPath, this.resolve(viewPath)).get(viewPath)!;
+    const engine = this.getEngine(extension);
 
-    if (!engineType || !render) {
-      throw new Error(`Engine not found for the ".${extension}" file extension`);
+    if (!engine) {
+      throw new Error(`Engine not found to render the following "${viewPath}"`);
     }
 
-    return render(this.resolve(viewPath), Object.assign({cache: this.cache || this.env === Env.PROD}, engineOptions, options));
+    return engine.render(path, Object.assign({cache: this.cache || this.env === Env.PROD}, engine.options, options));
+  }
+
+  protected getExtension(viewPath: string) {
+    return (extname(viewPath) || this.viewEngine).replace(/\./, "");
   }
 
   protected resolve(viewPath: string) {
-    const extension = (extname(viewPath) || this.viewEngine).replace(/\./, "");
+    const extension = this.getExtension(viewPath);
 
     viewPath = viewPath.replace(extname(viewPath), "") + "." + extension;
 
-    return (
+    const path =
       [
         viewPath,
         resolve(join(this.root, viewPath)),
         resolve(join(process.cwd(), "views", viewPath)),
         resolve(join(process.cwd(), "public", viewPath))
-      ].find((file) => Fs.existsSync(file)) || viewPath
-    );
+      ].find((file) => Fs.existsSync(file)) || viewPath;
+
+    return {
+      path,
+      extension
+    };
   }
 }

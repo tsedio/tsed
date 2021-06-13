@@ -1669,6 +1669,14 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
+"@tsed/engines@1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@tsed/engines/-/engines-1.1.2.tgz#876bc66b11933091d003effbe04fde681e9ea432"
+  integrity sha512-U5aAcJdX473obCDYZ2QPodD/Dj8lbewAzgj5UUSOrjJDLmiGgWHbp7INq8OguNETq1uTVNqi1CEKNcClcSqkHQ==
+  dependencies:
+    fs-extra "^10.0.0"
+    tslib "2.2.0"
+
 "@tsed/logger-seq@^5.13.3":
   version "5.15.0"
   resolved "https://registry.yarnpkg.com/@tsed/logger-seq/-/logger-seq-5.15.0.tgz#b22985b79f1a05474c606cfa5bd40028f60d77fa"
@@ -7332,6 +7340,15 @@ fs-extra@9.0.1, fs-extra@^9.0.0:
     graceful-fs "^4.2.0"
     jsonfile "^6.0.1"
     universalify "^1.0.0"
+
+fs-extra@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.0.0.tgz#9ff61b655dde53fb34a82df84bb214ce802e17c1"
+  integrity sha512-C5owb14u9eJwizKGdchcDUQeFtlSHHthBk8pbX9Vc1PFZrLombudjDnNns88aYslCyF6IY5SUw3Roz6xShcEIQ==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
 
 fs-extra@^7.0.1:
   version "7.0.1"

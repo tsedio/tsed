@@ -1,53 +1,64 @@
-export type PlatformViewsSupportedEngines =
-  | "arc-templates"
-  | "atpl"
-  | "bracket"
-  | "dot"
-  | "dust"
-  | "eco"
-  | "ejs"
-  | "ect"
-  | "haml"
-  | "haml-coffee"
-  | "hamlet"
-  | "handlebars"
-  | "hogan"
-  | "htmling"
-  | "jade"
-  | "jazz"
-  | "jqtpl"
-  | "just"
-  | "liquid"
-  | "liquor"
-  | "lodash"
-  | "marko"
-  | "mote"
-  | "mustache"
-  | "nunjucks"
-  | "plates"
-  | "pug"
-  | "qejs"
-  | "ractive"
-  | "razor"
-  | "react"
-  | "slm"
-  | "squirrelly"
-  | "swig"
-  | "teacup"
-  | "templayed"
-  | "toffee"
-  | "twig"
-  | "underscore"
-  | "vash"
-  | "velocityjs"
-  | "walrus"
-  | "whiskers";
+import {PlatformContext} from "../../platform/domain/PlatformContext";
 
-export type PlatformViewsExtensionsTypes = {[key: string]: string};
-
-export type PlatformViewsEngineOptions = {
-  [engine in PlatformViewsSupportedEngines]: any;
+export const PLATFORM_VIEWS_EXTENSIONS = {
+  atpl: "atpl",
+  bracket: "bracket",
+  dot: "dot",
+  dust: "dust",
+  ect: "ect",
+  ejs: "ejs",
+  haml: "haml",
+  "haml-coffee": "haml-coffee",
+  hamlet: "hamlet",
+  hbs: "handlebars",
+  handlebars: "handlebars",
+  hogan: "hogan",
+  htmling: "htmling",
+  jazz: "jazz",
+  jqtpl: "jqtpl",
+  just: "just",
+  kernel: "kernel",
+  liquid: "liquid",
+  liquor: "liquor",
+  lodash: "lodash",
+  mote: "mote",
+  mustache: "mustache",
+  nunjucks: "nunjucks",
+  plates: "plates",
+  pug: "pug",
+  qejs: "qejs",
+  ractive: "ractive",
+  razor: "razor",
+  jsx: "react",
+  slm: "slm",
+  squirelly: "squirelly",
+  swig: "swig",
+  teacup: "teacup",
+  templayed: "templayed",
+  toffee: "toffee",
+  twig: "twig",
+  underscore: "underscore",
+  vash: "vash",
+  velocityjs: "velocityjs",
+  walrus: "walrus",
+  whiskers: "whiskers"
 };
+
+export type PlatformViewsExtensionsTypes = Record<string, string>;
+
+export interface PlatformViewsEngineOptions extends Record<string, unknown> {
+  requires?: any;
+}
+
+export interface PlatformRenderOptions extends Record<string, unknown> {
+  $ctx: PlatformContext;
+}
+
+export interface PlatformViewEngine {
+  options: PlatformViewsEngineOptions;
+
+  render(path: string, options: PlatformRenderOptions): Promise<string>;
+}
 
 export interface PlatformViewsSettings {
   /**
@@ -70,5 +81,5 @@ export interface PlatformViewsSettings {
   /**
    * Options mapping for each engine.
    */
-  options?: Partial<PlatformViewsEngineOptions>;
+  options?: Record<string, PlatformViewsEngineOptions>;
 }
