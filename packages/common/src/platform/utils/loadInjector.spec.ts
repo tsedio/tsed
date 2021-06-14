@@ -36,8 +36,7 @@ describe("loadInjector", () => {
 
     // THEN
     expect(stub(injector.addProviders)).to.have.been.calledWithExactly(container);
-    expect(stub(injector.invoke)).to.have.been.calledWithExactly(PlatformModule);
-    expect(stub(injector.load)).to.have.been.calledWithExactly(container);
+    expect(stub(injector.load)).to.have.been.calledWithExactly(container, PlatformModule);
 
     stub(injector.logger.debug).restore();
   });
