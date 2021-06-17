@@ -63,6 +63,10 @@ function extractRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaO
  * @ignore
  */
 export function getRequiredProperties(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
+  if (options.groups && options.groups.includes("partial")) {
+    return obj;
+  }
+
   let required = extractRequiredProps(obj, schema, options);
 
   required = uniq(required).reduce(mapRequiredProps(obj, schema, options), []);

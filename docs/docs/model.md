@@ -680,8 +680,26 @@ class MyModel {
 }
 ```
 
-## Advanced validation
+## Partial <Badge text="6.58.0+"/>
 
+Partial allow you to create a Partial model on an endpoint:
+
+```typescript
+import {Returns, Patch, Partial} from "@tsed/schema";
+import {Controller} from "@tsed/common";
+import {BodyParams} from "./bodyParams";
+
+@Controller("/")
+class MyController {
+  @Patch("/")
+  @(Returns(200, MyModel).Groups("group.*"))
+  async patch(@BodyParams() @Partial() payload: MyModel) {
+    // ...
+  }
+}
+```
+
+## Advanced validation
 ### BeforeDeserialize <Badge text="6.39.0+"/>
 
 If you want to validate or manipulate data before the model has been deserialized you can use the @@BeforeDeserialize@@ decorator.
