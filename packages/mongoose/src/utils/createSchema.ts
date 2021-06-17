@@ -176,7 +176,7 @@ export function createSchemaTypeOptions<T = any>(propEntity: JsonEntityStore): S
     // Can be a Map or a Set;
     // Mongoose implements only Map;
     if (propEntity.collectionType !== Map) {
-      throw new Error(`Invalid collection type. ${propEntity.collectionName} is not supported.`);
+      throw new Error(`Invalid collection type. ${nameOf(propEntity.collectionType)} is not supported.`);
     }
 
     return ({type: Map, of: schemaTypeOptions} as unknown) as SchemaTypeOptions<T>;

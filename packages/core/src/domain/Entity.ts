@@ -71,15 +71,6 @@ export abstract class Entity {
   }
 
   /**
-   * Return the collection name
-   * @returns {string}
-   * @todo should not be use in final API
-   */
-  get collectionName(): string {
-    return this.collectionType ? nameOf(this.collectionType) : "";
-  }
-
-  /**
    *
    * @returns {Type<any>}
    */
@@ -93,15 +84,6 @@ export abstract class Entity {
    */
   set type(value: Type<any> | any) {
     this._type = value;
-  }
-
-  /**
-   * Return target type name
-   * @returns {string}
-   * @todo should not be use in final API
-   */
-  get typeName(): string {
-    return nameOf(this._type);
   }
 
   /**
