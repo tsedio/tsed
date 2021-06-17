@@ -14,4 +14,14 @@ export class StripeWebhooksCtrl {
       event
     };
   }
+
+  @Post("/callback2")
+  protected successPaymentHook2(
+    @WebhookEvent({secret: "whsec_test_secret1"}) event: Stripe.Event
+  ) {
+    return {
+      received: true,
+      event
+    };
+  }
 }
