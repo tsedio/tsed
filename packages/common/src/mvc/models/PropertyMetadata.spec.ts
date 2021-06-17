@@ -19,8 +19,6 @@ describe("PropertyMetadata", () => {
 
       expect(propertyMetadata.collectionType).to.eq(undefined);
       expect(propertyMetadata.type).to.eq(Test);
-      expect(propertyMetadata.collectionName).to.eq("");
-      expect(propertyMetadata.typeName).to.eq("Test");
       expect(propertyMetadata.isCollection).to.eq(false);
     });
   });

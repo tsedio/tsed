@@ -31,8 +31,6 @@ describe("EntityDescription", () => {
 
       expect(entityDescription.collectionType).to.eq(undefined);
       expect(entityDescription.type).to.eq(Test);
-      expect(entityDescription.collectionName).to.eq("");
-      expect(entityDescription.typeName).to.eq("Test");
       expect(entityDescription.isCollection).to.eq(false);
       // expect(entityDescription.allowedRequiredValues).to.deep.eq([null, ""]);
       expect(entityDescription.isDate).to.be.false;
