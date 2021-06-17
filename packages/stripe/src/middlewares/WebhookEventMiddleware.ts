@@ -16,7 +16,6 @@ export class WebhookEventMiddleware implements MiddlewareMethods {
   protected tolerance: number;
 
   use(@HeaderParams("stripe-signature") signature: string, @RawBodyParams() body: Buffer, @Context() ctx: Context): any {
-    console.log(signature, typeof body, this.secret);
     // istanbul ignore next
     if (!this.secret) {
       throw new InternalServerError(
