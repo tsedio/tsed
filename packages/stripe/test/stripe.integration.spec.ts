@@ -29,7 +29,7 @@ describe("Stripe", () => {
 
   afterEach(() => PlatformTest.reset());
 
-  it("should call the webhook", async () => {
+  it("should call the webhook from server options", async () => {
     const stripe = PlatformTest.get<Stripe>(Stripe);
     const payload = {
       id: "evt_test_webhook",
@@ -53,7 +53,30 @@ describe("Stripe", () => {
       "received": true
     });
   });
+  it("should call the webhook from endpoint configured options", async () => {
+    const stripe = PlatformTest.get<Stripe>(Stripe);
+    const payload = {
+      id: "evt_test_webhook",
+      object: "event"
+    };
+    const payloadString = JSON.stringify(payload, null, 2);
 
+    const signature = stripe.webhooks.generateTestHeaderString({
+      payload: payloadString,
+      secret: "whsec_test_secret1"
+    });
+
+    const response = await request
+      .post("/rest/webhooks/callback2")
+      .send(payloadString)
+      .set("stripe-signature", signature)
+      .expect(200);
+
+    expect(response.body).to.deep.eq({
+      "event": payload,
+      "received": true
+    });
+  });
   it("should throw error", async () => {
     const stripe = PlatformTest.get<Stripe>(Stripe);
     const payload = {
