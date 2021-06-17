@@ -18,17 +18,13 @@ export const PROPERTY_STORE = "tsed:property:store";
  * @ignore
  */
 export const PARAM_STORE = "tsed:param:store";
-/**
- * @ignore
- */
-export type StoreMap = Map<string, any>;
 
-const stores = new Map<symbol, StoreMap>();
+const stores = new Map<symbol, Store>();
 
-function storeGet(key: string, ...args: any[]): StoreMap {
+function storeGet(key: string, ...args: any[]): Store {
   if (isSymbol(args[0])) {
     if (!stores.has(args[0])) {
-      stores.set(args[0], new Map<string, any>());
+      stores.set(args[0], new Store());
     }
 
     return stores.get(args[0])!;
@@ -36,14 +32,14 @@ function storeGet(key: string, ...args: any[]): StoreMap {
     const registry = Metadata as any;
 
     if (!registry.hasOwn(key, ...args)) {
-      registry.set(key, new Map<string, any>(), ...args);
+      registry.set(key, new Store(), ...args);
     }
 
     return registry.getOwn(key, ...args);
   }
 }
 
-function defineStore(args: any[]) {
+function defineStore(args: any[]): Store {
   const [target, propertyKey, descriptor] = args;
 
   switch (decoratorTypeOf(args)) {
@@ -52,7 +48,7 @@ function defineStore(args: any[]) {
     case DecoratorTypes.PARAM:
       const store = storeGet(PARAM_STORE, target, propertyKey);
       if (!store.has("" + descriptor)) {
-        store.set("" + descriptor, new Map<string, any>());
+        store.set("" + descriptor, new Store());
       }
 
       return store.get("" + descriptor);
@@ -67,14 +63,8 @@ function defineStore(args: any[]) {
   }
 }
 
-export class Store extends Metadata {
-  private _map: StoreMap;
-
-  constructor(args: any[]) {
-    super();
-
-    this._map = defineStore(args);
-  }
+export class Store {
+  #entries = new Map<string, any>();
 
   /**
    * Create or get a Store from args {target + methodName + descriptor}
@@ -82,7 +72,7 @@ export class Store extends Metadata {
    * @returns {Store}
    */
   static from(...args: any[]): Store {
-    return new Store(args);
+    return defineStore(args);
   }
 
   /**
@@ -92,7 +82,7 @@ export class Store extends Metadata {
    * @returns {Store}
    */
   static fromMethod(target: any, propertyKey: string | symbol): Store {
-    return new Store([target, propertyKey, descriptorOf(target, propertyKey)]);
+    return Store.from(target, propertyKey, descriptorOf(target, propertyKey));
   }
 
   /**
@@ -102,7 +92,7 @@ export class Store extends Metadata {
    * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
    */
   get<T = any>(key: any, defaultValue?: any): T {
-    return this._map.get(nameOf(key)) || defaultValue;
+    return this.#entries.get(nameOf(key)) || defaultValue;
   }
 
   /**
@@ -111,7 +101,7 @@ export class Store extends Metadata {
    * @returns {boolean}
    */
   has(key: any): boolean {
-    return this._map.has(nameOf(key));
+    return this.#entries.has(nameOf(key));
   }
 
   /**
@@ -120,7 +110,7 @@ export class Store extends Metadata {
    * @param metadata Required. The value of the element to add to the Map object.
    */
   set(key: any, metadata: any): Store {
-    this._map.set(nameOf(key), metadata);
+    this.#entries.set(nameOf(key), metadata);
 
     return this;
   }
@@ -131,7 +121,7 @@ export class Store extends Metadata {
    * @returns {boolean} Returns true if an element in the Map object existed and has been removed, or false if the element does not exist.
    */
   delete(key: string): boolean {
-    return this._map.delete(nameOf(key));
+    return this.#entries.delete(nameOf(key));
   }
 
   /**

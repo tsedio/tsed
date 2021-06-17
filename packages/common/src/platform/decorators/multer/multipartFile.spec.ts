@@ -402,7 +402,7 @@ describe("@MultipartFile()", () => {
 
     let store: Store;
     before(() => {
-      store = new Store([Test.prototype, "test", descriptorOf(Test.prototype, "test")]);
+      store = Store.from(Test.prototype, "test", descriptorOf(Test.prototype, "test"));
       store.delete("multipartAdded");
 
       // @ts-ignore

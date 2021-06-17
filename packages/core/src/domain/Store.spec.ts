@@ -21,9 +21,9 @@ describe("Store", () => {
       let spyGet: any, store: any, store2: any, store3: any;
       before(() => {
         spyGet = Sinon.spy(Metadata, "getOwn");
-        store = new Store([FakeMetadata]);
-        store2 = new Store([FakeMetadata]);
-        store3 = new Store([class {}]);
+        store = Store.from(FakeMetadata);
+        store2 = Store.from(FakeMetadata);
+        store3 = Store.from(class {});
 
         store.set("keyTest", {test: "2"});
       });
@@ -48,13 +48,9 @@ describe("Store", () => {
       let spyGet: any, store: any;
       before(() => {
         spyGet = Sinon.spy(Metadata, "getOwn");
-        store = new Store([
-          FakeMetadata,
-          "get",
-          {
-            value: () => {}
-          }
-        ]);
+        store = Store.from(FakeMetadata, "get", {
+          value: () => {}
+        });
       });
       after(() => {
         spyGet.restore();
@@ -69,7 +65,7 @@ describe("Store", () => {
       let spyGet: any, store: any;
       before(() => {
         spyGet = Sinon.spy(Metadata, "getOwn");
-        store = new Store([FakeMetadata, "get"]);
+        store = Store.from(FakeMetadata, "get");
       });
       after(() => {
         spyGet.restore();
@@ -84,13 +80,9 @@ describe("Store", () => {
       let spyGet: any, store: any;
       before(() => {
         spyGet = Sinon.spy(Metadata, "getOwn");
-        store = new Store([
-          FakeMetadata,
-          "get",
-          {
-            set: () => {}
-          }
-        ]);
+        store = Store.from(FakeMetadata, "get", {
+          set: () => {}
+        });
       });
       after(() => {
         spyGet.restore();
@@ -105,13 +97,9 @@ describe("Store", () => {
       let spyGet: any, store: any;
       before(() => {
         spyGet = Sinon.spy(Metadata, "getOwn");
-        store = new Store([
-          FakeMetadata,
-          "get",
-          {
-            get: () => {}
-          }
-        ]);
+        store = Store.from(FakeMetadata, "get", {
+          get: () => {}
+        });
       });
       after(() => {
         spyGet.restore();
@@ -126,7 +114,7 @@ describe("Store", () => {
       let spyGet: any, store: any;
       before(() => {
         spyGet = Sinon.spy(Metadata, "getOwn");
-        store = new Store([FakeMetadata, "get", 0]);
+        store = Store.from(FakeMetadata, "get", 0);
       });
       after(() => {
         spyGet.restore();
@@ -141,7 +129,7 @@ describe("Store", () => {
   describe("set()", () => {
     let store: any;
     before(() => {
-      store = new Store([FakeMetadata]);
+      store = Store.from(FakeMetadata);
       store.set("key", {});
     });
     it("should add a metadata", () => {
@@ -152,7 +140,7 @@ describe("Store", () => {
   describe("has()", () => {
     let store: any;
     before(() => {
-      store = new Store([FakeMetadata]);
+      store = Store.from(FakeMetadata);
     });
     it("should return true if class is known", () => {
       expect(store.has("key")).to.be.true;
@@ -165,7 +153,7 @@ describe("Store", () => {
   describe("delete()", () => {
     let store: any;
     before(() => {
-      store = new Store([FakeMetadata]);
+      store = Store.from(FakeMetadata);
     });
     it("should remove key", () => {
       store.set("key", {test: true});
@@ -178,7 +166,7 @@ describe("Store", () => {
   describe("merge()", () => {
     let store: any;
     before(() => {
-      store = new Store([FakeMetadata]);
+      store = Store.from(FakeMetadata);
       store.merge("key3", {attr1: 1});
       store.merge("key3", {attr2: 2});
     });

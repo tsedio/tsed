@@ -7,6 +7,7 @@ import {
   isClass,
   isCollection,
   isPromise,
+  Metadata,
   Store,
   Type
 } from "@tsed/core";
@@ -248,16 +249,16 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
 
       switch (this.decoratorType) {
         case DecoratorTypes.PARAM:
-          type = Store.getParamTypes(this.target, this.propertyKey)[this.index!];
+          type = Metadata.getParamTypes(this.target, this.propertyKey)[this.index!];
           break;
         case DecoratorTypes.CLASS:
           type = this.target;
           break;
         case DecoratorTypes.PROP:
-          type = Store.getType(this.target, this.propertyKey);
+          type = Metadata.getType(this.target, this.propertyKey);
           break;
         case DecoratorTypes.METHOD:
-          type = Store.getReturnType(this.target, this.propertyKey);
+          type = Metadata.getReturnType(this.target, this.propertyKey);
           type = isPromise(type) ? undefined : type;
           break;
       }
