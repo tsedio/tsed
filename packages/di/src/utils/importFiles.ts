@@ -6,8 +6,11 @@ export async function importFiles(patterns: string | string[], exclude: string[]
   const symbols: any[] = [];
 
   for (const file of files) {
-    const exports = await import(file);
-    Object.keys(exports).forEach((key) => symbols.push(exports[key]));
+    if (!file.endsWith(".d.ts")) {
+      // prevent .d.ts import if the global pattern isn't correctly configured
+      const exports = await import(file);
+      Object.keys(exports).forEach((key) => symbols.push(exports[key]));
+    }
   }
 
   return symbols;

@@ -16,7 +16,7 @@ function mapExcludes(excludes: string[]) {
 
 function mapExtensions(file: string): string {
   if (!isTsEnv()) {
-    file = file.replace(/\.ts$/i, ".js");
+    file = file.replace(/\.ts$/i, ".js").replace(/{\.ts,\.js}$/i, ".js");
   }
 
   return file;
