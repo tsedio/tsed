@@ -33,7 +33,7 @@ const rootDir = __dirname;
 
 @Configuration({
   componentsScan: [
-     `${rootDir}/protocols/*{.ts,.js}` // scan protocols directory
+     `${rootDir}/protocols/*.ts` // scan protocols directory
   ],
   passport: {
     
