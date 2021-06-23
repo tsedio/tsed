@@ -1,4 +1,4 @@
-import {Context, Controller, Get, PlatformTest, Res, ResponseFilter} from "@tsed/common/src";
+import {Context, Controller, Get, PlatformTest, Res, ResponseFilter} from "@tsed/common";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {Returns} from "@tsed/schema/src";
 import {expect} from "chai";

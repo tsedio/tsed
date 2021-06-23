@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {deserialize, serialize} from "@tsed/json-mapper/src";
+import {deserialize, serialize} from "@tsed/json-mapper";
 import {getJsonSchema} from "@tsed/schema";
 import {expect} from "chai";
 import {Types, Schema} from "mongoose";

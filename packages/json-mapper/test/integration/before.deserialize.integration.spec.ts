@@ -1,7 +1,6 @@
-import {catchAsyncError} from "@tsed/core/src";
-import {BadRequest} from "@tsed/exceptions/src";
-import {Property} from "@tsed/schema/src";
-import {Enum} from "@tsed/schema/src/decorators/common/enum";
+import {catchAsyncError} from "@tsed/core";
+import {BadRequest} from "@tsed/exceptions";
+import {Enum, Property} from "@tsed/schema";
 import {expect} from "chai";
 import {deserialize} from "../../src";
 import {BeforeDeserialize} from "../../src/decorators/beforeDeserialize";
@@ -25,7 +24,7 @@ class Food {
 }
 
 describe("BeforeDeserialize", async () => {
-  it("should deserialize object correctly and alter the name before deserialization", ()  => {
+  it("should deserialize object correctly and alter the name before deserialization", () => {
     // GIVEN
     const food: Food = {
       name: "Banana",
