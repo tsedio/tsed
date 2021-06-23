@@ -1,6 +1,7 @@
 {
   "name": "@tsed/benchmarks",
   "version": "6.59.0",
+  "private": true,
   "dependencies": {
     "@codechecks/client": "0.1.10",
     "chalk": "4.1.1",

@@ -1,6 +1,4 @@
-import {Controller, Get, PlatformContext, PlatformTest} from "@tsed/common";
-import {ResponseFilter} from "@tsed/common/src/platform-response-filter/decorators/responseFilter";
-import {ResponseFilterMethods} from "@tsed/common/src/platform-response-filter/interfaces/ResponseFilterMethods";
+import {Controller, Get, PlatformContext, PlatformTest, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
 import {Property, Returns} from "@tsed/schema";
 import {expect} from "chai";
 import SuperTest from "supertest";
