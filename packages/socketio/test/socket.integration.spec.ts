@@ -1,11 +1,19 @@
 import {Inject, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Emit, Input, SocketIOServer, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
+import {Args, Emit, Input, SocketIOServer, SocketMiddleware, SocketService, SocketUseBefore} from "@tsed/socketio";
 import {SocketClientService} from "@tsed/socketio-testing";
 import {expect} from "chai";
 import {Namespace, Socket as IOSocket} from "socket.io";
-import {ConverterUserSocketMiddleware} from "./app/middlewares/ConverterUserSocketMiddleware";
+import {User} from "./app/models/User";
 import {Server} from "./app/Server";
+
+@SocketMiddleware()
+class CheckUserMiddleware {
+  use(@Args(0) user: User) {
+    expect(user).to.be.instanceOf(User);
+    return [user];
+  }
+}
 
 @SocketService("/test")
 export class TestWS {
@@ -20,9 +28,12 @@ export class TestWS {
 
   @Input("input:scenario1")
   @Emit("output:scenario1")
-  @SocketUseBefore(ConverterUserSocketMiddleware)
-  async scenario1(@SocketSession session: Map<any, any>) {
-    return "my Message " + session.get("test");
+  @SocketUseBefore(CheckUserMiddleware)
+  async scenario1(@Args(0) user: User) {
+    return {
+      message: "User connect: " + user.name,
+      user
+    };
   }
 }
 
@@ -38,21 +49,31 @@ describe("Socket integration", () => {
   }));
   after(PlatformTest.reset);
 
-  describe("RoomWS: eventName", () => {
+  describe("scenario1: Should handle event", () => {
     it("should return the data", async () => {
       const service = PlatformTest.get<SocketClientService>(SocketClientService);
       const client = await service.get("/test");
       const client2 = await service.get("/test");
 
-      expect(client).to.eq(client2)
+      expect(client).to.eq(client2);
 
       return new Promise((resolve) => {
         client.on("output:scenario1", (result) => {
-          expect(result).to.eq("my Message test2");
+          expect(result).to.deep.eq({
+            "message": "User connect: name",
+            "user": {
+              "email": "email@domain.fr",
+              "name": "name"
+            }
+          });
           resolve();
         });
 
-        client.emit("input:scenario1");
+        client.emit("input:scenario1", {
+          id: "id",
+          name: "name",
+          email: "email@domain.fr"
+        });
       });
     });
   });
