@@ -97,7 +97,7 @@
     "source-map-support": "0.5.19"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.18.2",
+    "@tsed/monorepo-utils": "1.18.4",
     "@typedproject/ts-doc": "4.0.13",
     "@types/axios": "0.14.0",
     "@types/chai": "4.2.12",
