@@ -16929,9 +16929,9 @@ sqlite3@^5.0.0:
     node-gyp "3.x"
 
 sqlite@^4.0.14:
-  version "4.0.17"
-  resolved "https://registry.yarnpkg.com/sqlite/-/sqlite-4.0.17.tgz#54a81b0fe67e02497fad414df57aeccdee1f4305"
-  integrity sha512-PaXTQPFHxM83cjblDm5RLzzqW86UFfR2C3RYghUDzweAsZRwTZAc20CrDrr1vrAh2X61nyAnUaS7XITFuyuzvQ==
+  version "4.0.23"
+  resolved "https://registry.yarnpkg.com/sqlite/-/sqlite-4.0.23.tgz#ada09028b38e91883db08ac465d841e814d1bb00"
+  integrity sha512-dSdmSkrdIhUL7xP/fiEMfFuAo4dxb0afag3rK8T4Y9lYxE3g3fXT0J8H9qSFvmcKxnM0zEA8yvLbpdWQ8mom3g==
 
 sqlstring@2.3.1:
   version "2.3.1"
