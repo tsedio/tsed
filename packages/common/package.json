@@ -63,11 +63,11 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@tsed/engines": "1.1.2",
+    "@tsed/engines": "^1.1.4",
     "@types/consolidate": "0.14.0",
     "rxjs": "^6.5.2"
   },
   "peerDependencies": {
-    "@tsed/engines": "^1.1.1"
+    "@tsed/engines": "^1.1.4"
   }
 }
