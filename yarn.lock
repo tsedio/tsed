@@ -2682,10 +2682,10 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-1.1.2.tgz#ccb91445360179a04e7fe6aff78c00ffc1eeaf82"
   integrity sha512-RbzJvlNzmRq5c3O09UipeuXno4tA1FE6ikOjxZK0tuxVv3412l64l5t1W5pj4+rJq9vpkm/kwiR07aZXnsKPxw==
 
-"@tsed/engines@1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@tsed/engines/-/engines-1.1.2.tgz#876bc66b11933091d003effbe04fde681e9ea432"
-  integrity sha512-U5aAcJdX473obCDYZ2QPodD/Dj8lbewAzgj5UUSOrjJDLmiGgWHbp7INq8OguNETq1uTVNqi1CEKNcClcSqkHQ==
+"@tsed/engines@^1.1.4":
+  version "1.1.4"
+  resolved "https://registry.yarnpkg.com/@tsed/engines/-/engines-1.1.4.tgz#a0d42aecc01133cf6f28d149c5f73a0d84afb31c"
+  integrity sha512-E7a1uBS5BPHYkzhd1/GXKva9J5FhjIvt5ms0SG67V4A9HLxf97ICQHHiGHa8lEjsy6KozBvbrqovV7zh2lswjw==
   dependencies:
     fs-extra "^10.0.0"
     tslib "2.2.0"
