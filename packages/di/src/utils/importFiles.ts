@@ -8,8 +8,15 @@ export async function importFiles(patterns: string | string[], exclude: string[]
   for (const file of files) {
     if (!file.endsWith(".d.ts")) {
       // prevent .d.ts import if the global pattern isn't correctly configured
-      const exports = await import(file);
-      Object.keys(exports).forEach((key) => symbols.push(exports[key]));
+      try {
+        const exports = await import(file);
+        Object.keys(exports).forEach((key) => symbols.push(exports[key]));
+      } catch (er) {
+        // istanbul ignore next
+        console.error(er);
+        // istanbul ignore next
+        process.exit(1);
+      }
     }
   }
 

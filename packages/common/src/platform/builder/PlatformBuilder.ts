@@ -4,6 +4,7 @@ import {PlatformMiddlewareLoadingOptions} from "../../config/interfaces";
 import {IRoute} from "../interfaces/IRoute";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
 import {PlatformLogMiddleware} from "../middlewares/PlatformLogMiddleware";
+import {PlatformModule} from "../PlatformModule";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
@@ -174,12 +175,13 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   async loadInjector() {
-    const {injector, logger} = this;
+    const {injector} = this;
     await this.callHook("$beforeInit");
 
     this.log("Build providers");
+    const container = createContainer(constructorOf(this.rootModule));
 
-    await loadInjector(injector, createContainer(constructorOf(this.rootModule)));
+    await injector.load(container, PlatformModule);
 
     this.log("Settings and injector loaded");
 
