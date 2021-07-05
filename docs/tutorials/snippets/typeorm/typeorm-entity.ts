@@ -1,9 +1,8 @@
-import {Maximum, MaxLength, Minimum, Property, Required} from "@tsed/common";
+import {Maximum, MaxLength, Minimum, Property, Required} from "@tsed/schema";
 import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
 export class User {
-
   @PrimaryGeneratedColumn()
   @Property()
   id: number;
