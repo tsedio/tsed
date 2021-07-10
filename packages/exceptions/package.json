@@ -1,6 +1,6 @@
 {
   "name": "@tsed/exceptions",
-  "version": "6.59.2",
+  "version": "6.59.3",
   "description": "HTTP exceptions module for Ts.ED Framework and other pure Express application",
   "source": "./src/index.ts",
   "main": "./lib/index.js",
@@ -10,7 +10,7 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/schema": "6.59.2",
+    "@tsed/schema": "6.59.3",
     "tslib": "2.2.0"
   },
   "devDependencies": {},
