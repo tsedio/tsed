@@ -37,7 +37,7 @@
     "@tsed/core": "6.55.2",
     "@tsed/di": "6.55.2",
     "@tsed/exceptions": "6.55.2",
-    "@tsed/logger": "^5.13.3",
+    "@tsed/logger": "^5.16.0",
     "@tsed/openspec": "6.55.2",
     "@tsed/schema": "6.55.2",
     "mongoose": "^5.12.2"

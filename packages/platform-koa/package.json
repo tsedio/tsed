@@ -77,7 +77,7 @@
     "@tsed/core": "^6.48.6",
     "@tsed/di": "^6.48.6",
     "@tsed/json-mapper": "^6.48.6",
-    "@tsed/logger": "^5.13.3",
+    "@tsed/logger": "^5.16.0",
     "@tsed/openspec": "^6.48.6",
     "@tsed/schema": "^6.48.6",
     "koa": "2.13.0",

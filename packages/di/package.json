@@ -16,10 +16,10 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "devDependencies": {
-    "@tsed/logger": "^5.14.0"
+    "@tsed/logger": "^5.16.0"
   },
   "peerDependencies": {
     "@tsed/core": "^6.55.2",
-    "@tsed/logger": "^5.14.0"
+    "@tsed/logger": "^5.16.0"
   }
 }
