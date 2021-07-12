@@ -20,7 +20,6 @@ import {
   importRoutes,
   listenHttpServer,
   listenHttpsServer,
-  loadInjector,
   printRoutes
 } from "../utils";
 

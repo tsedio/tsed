@@ -83,6 +83,17 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
       delete response.content;
     }
 
+    if (options.specType === SpecTypes.OPENAPI && response.headers) {
+      Object.entries(response.headers).forEach(([key, {type, ...props}]: [string, any]) => {
+        response.headers[key] = {
+          ...props,
+          schema: {
+            type
+          }
+        };
+      });
+    }
+
     if (options.specType !== SpecTypes.OPENAPI && response.content) {
       const key = Object.keys(response.content)[0];
 
