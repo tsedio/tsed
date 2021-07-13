@@ -1,6 +1,6 @@
 {
   "name": "@tsed/socketio",
-  "version": "6.59.3",
+  "version": "6.59.4",
   "description": "Socket.io package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/index.js",
@@ -21,12 +21,12 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.59.3",
-    "@tsed/core": "6.59.3",
-    "@tsed/di": "6.59.3",
-    "@tsed/json-mapper": "6.59.3",
-    "@tsed/openspec": "6.59.3",
-    "@tsed/schema": "6.59.3",
+    "@tsed/common": "6.59.4",
+    "@tsed/core": "6.59.4",
+    "@tsed/di": "6.59.4",
+    "@tsed/json-mapper": "6.59.4",
+    "@tsed/openspec": "6.59.4",
+    "@tsed/schema": "6.59.4",
     "express": "^4.17.1",
     "socket.io": "4.1.2",
     "socket.io-client": "^4.1.2"
