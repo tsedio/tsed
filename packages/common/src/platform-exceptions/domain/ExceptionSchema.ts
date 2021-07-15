@@ -17,7 +17,7 @@ from(Exception).properties({
   message: string().required().description("An error message"),
   status: number().required().description("The status code of the exception"),
   errors: array().items(ErrorSchema).description("A list of related errors"),
-  stack: array().items(string()).description("The stack trace (only in development mode)")
+  stack: string().description("The stack trace (only in development mode)")
 });
 
 // Auto load models for all Exceptions

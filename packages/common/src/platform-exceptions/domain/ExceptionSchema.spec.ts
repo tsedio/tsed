@@ -96,10 +96,7 @@ describe("ExceptionSchema", () => {
         },
         stack: {
           description: "The stack trace (only in development mode)",
-          items: {
-            type: "string"
-          },
-          type: "array"
+          type: "string"
         },
         status: {
           description: "The status code of the exception",
@@ -176,10 +173,7 @@ describe("ExceptionSchema", () => {
             },
             stack: {
               description: "The stack trace (only in development mode)",
-              items: {
-                type: "string"
-              },
-              type: "array"
+              type: "string"
             },
             status: {
               default: 400,
@@ -271,10 +265,7 @@ describe("ExceptionSchema", () => {
               },
               stack: {
                 description: "The stack trace (only in development mode)",
-                items: {
-                  type: "string"
-                },
-                type: "array"
+                type: "string"
               },
               status: {
                 default: 400,
