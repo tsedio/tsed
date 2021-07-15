@@ -346,7 +346,7 @@ describe("@Returns", () => {
                 },
                 description: "A list of related errors"
               },
-              stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+              stack: {type: "string", description: "The stack trace (only in development mode)"}
             },
             required: ["name", "message", "status"]
           },
@@ -369,7 +369,7 @@ describe("@Returns", () => {
                 },
                 description: "A list of related errors"
               },
-              stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+              stack: {type: "string", description: "The stack trace (only in development mode)"}
             },
             required: ["name", "message", "status"]
           }
@@ -448,7 +448,7 @@ describe("@Returns", () => {
                 },
                 description: "A list of related errors"
               },
-              stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+              stack: {type: "string", description: "The stack trace (only in development mode)"}
             },
             required: ["name", "message", "status"]
           },
@@ -471,7 +471,7 @@ describe("@Returns", () => {
                 },
                 description: "A list of related errors"
               },
-              stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+              stack: {type: "string", description: "The stack trace (only in development mode)"}
             },
             required: ["name", "message", "status"]
           }

@@ -110,8 +110,7 @@ describe("@MultipartFile()", () => {
                 description: "A list of related errors"
               },
               stack: {
-                type: "array",
-                items: {type: "string"},
+                type: "string",
                 description: "The stack trace (only in development mode)"
               }
             },
@@ -190,8 +189,7 @@ describe("@MultipartFile()", () => {
                   description: "A list of related errors"
                 },
                 stack: {
-                  type: "array",
-                  items: {type: "string"},
+                  type: "string",
                   description: "The stack trace (only in development mode)"
                 }
               },
@@ -296,7 +294,7 @@ describe("@MultipartFile()", () => {
                 },
                 description: "A list of related errors"
               },
-              stack: {type: "array", items: {type: "string"}, description: "The stack trace (only in development mode)"}
+              stack: {type: "string", description: "The stack trace (only in development mode)"}
             },
             required: ["name", "message", "status"]
           }
@@ -377,8 +375,7 @@ describe("@MultipartFile()", () => {
                   description: "A list of related errors"
                 },
                 stack: {
-                  type: "array",
-                  items: {type: "string"},
+                  type: "string",
                   description: "The stack trace (only in development mode)"
                 }
               },
