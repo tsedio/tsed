@@ -21,6 +21,7 @@ describe("SwaggerService", () => {
   describe("getDefaultSpec()", () => {
     describe("when specPath is given", () => {
       it("should return default spec", () => {
+        // @ts-ignore
         const result = swaggerService.getDefaultSpec({
           specPath: __dirname + "/data/spec.json"
         });
@@ -31,6 +32,7 @@ describe("SwaggerService", () => {
 
     describe("when spec is given with produces fields", () => {
       it("should return default spec", () => {
+        // @ts-ignore
         const result = swaggerService.getDefaultSpec({
           spec: {
             produces: ["application/json", "application/octet-stream", "application/xml"]
@@ -88,15 +90,4 @@ describe("SwaggerService", () => {
       expect(swaggerService.readSpecPath("/swa.json")).to.deep.eq({});
     });
   });
-  //
-  // describe("getOperationId()", () => {
-  //   it("should return the right id", () => {
-  //     // @ts-ignore
-  //     const getOperationId = swaggerService.createOperationIdFormatter({operationIdFormat: "%c.%m"});
-  //     expect(getOperationId("class", "operation")).to.deep.eq("class.operation");
-  //
-  //     // @ts-ignore
-  //     expect(getOperationId("class", "operation")).to.deep.eq("class.operation_1");
-  //   });
-  // });
 });

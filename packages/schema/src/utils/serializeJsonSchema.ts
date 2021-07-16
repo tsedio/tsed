@@ -1,4 +1,4 @@
-import {classOf, deepExtends, isArray, isClass, isObject, isPrimitiveClass, isPrimitiveOrPrimitiveClass} from "@tsed/core";
+import {classOf, deepMerge, isArray, isClass, isObject, isPrimitiveClass} from "@tsed/core";
 import {getJsonType} from "./getJsonType";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonLazyRef} from "../domain/JsonLazyRef";
@@ -107,10 +107,10 @@ export function serializeInherited(obj: any, target: any, options: JsonSchemaOpt
 
   if (stores.length) {
     const schema = stores.reduce((obj, [, store]) => {
-      return deepExtends(obj, serializeJsonSchema(store.schema, options));
+      return deepMerge(obj, serializeJsonSchema(store.schema, options));
     }, {});
 
-    obj = deepExtends(schema, obj);
+    obj = deepMerge(schema, obj);
   }
 
   return obj;

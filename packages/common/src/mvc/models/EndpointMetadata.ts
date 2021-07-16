@@ -1,4 +1,4 @@
-import {classOf, DecoratorTypes, deepExtends, descriptorOf, Enumerable, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
+import {classOf, DecoratorTypes, deepMerge, descriptorOf, Enumerable, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
 import {getOperationsStores, JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonOperation} from "@tsed/schema";
 import {ParamMetadata} from "./ParamMetadata";
 
@@ -145,13 +145,6 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
     return JsonEntityStore.from<EndpointMetadata>(prototypeOf(target), propertyKey, descriptor);
   }
 
-  // static has(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor) {
-  //   descriptor = descriptor || descriptorOf(prototypeOf(target), propertyKey);
-  //   const store = Store.from(prototypeOf(target), propertyKey, descriptor);
-  //
-  //   return store.has(JsonEntityStore);
-  // }
-
   addOperationPath(method: string, path: string | RegExp, options: any = {}) {
     return this.operation.addOperationPath(method, path, options);
   }
@@ -164,13 +157,8 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
    */
   get<T = any>(key: any): T {
     const ctrlValue = Store.from(this.target).get(key);
-    let meta = deepExtends(undefined, ctrlValue);
-    const endpointValue = this.store.get(key);
-    if (endpointValue !== undefined) {
-      meta = deepExtends(meta, endpointValue);
-    }
 
-    return meta;
+    return deepMerge<T>(ctrlValue, this.store.get(key));
   }
 
   /**

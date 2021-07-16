@@ -40,5 +40,5 @@ export interface OpenSpec3<Schema = OS3Schema> {
   /**
    * Additional external documentation.
    */
-  externalDocs: OpenSpecExternalDocs;
+  externalDocs?: OpenSpecExternalDocs;
 }

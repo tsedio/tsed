@@ -25,7 +25,7 @@ export function deepClone(source: any): any {
   dest = isArrayOrArrayClass(source) ? [] : {};
 
   for (const key in source) {
-    // Use getOwnPropertyDescriptor instead of source[key] to prevent from trigering setter/getter.
+    // Use getOwnPropertyDescriptor instead of source[key] to prevent from triggering setter/getter.
     const descriptor = Object.getOwnPropertyDescriptor(source, key)!;
 
     if (descriptor) {

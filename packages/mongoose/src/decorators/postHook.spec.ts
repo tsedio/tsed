@@ -21,7 +21,8 @@ describe("@PostHook()", () => {
         post: [
           {
             method: "method",
-            fn
+            fn,
+            options: undefined
           }
         ]
       });
