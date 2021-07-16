@@ -1,4 +1,4 @@
-import {getValue} from "@tsed/core";
+import {getValue, setValue} from "@tsed/core";
 import {OpenSpec2, OpenSpec3, OpenSpecVersions} from "@tsed/openspec";
 import {mergeSpec, SpecTypes} from "@tsed/schema";
 import {getSpecType} from "./getSpecType";
@@ -13,11 +13,10 @@ import {mapOpenSpec3} from "./mapOpenSpec3";
  * @param acceptMimes
  * @param specVersion
  */
-export function mapOpenSpec(spec: any, {fileSpec, version, acceptMimes, specVersion}: any): Partial<OpenSpec2 | OpenSpec3> {
+export function mapOpenSpec(spec: any, {fileSpec, acceptMimes, specVersion, version}: any): Partial<OpenSpec2 | OpenSpec3> {
   specVersion = specVersion || getValue<OpenSpecVersions>(spec, "openapi", getValue(spec, "swagger", "2.0"));
 
   const options = {
-    version,
     specVersion,
     acceptMimes
   };
@@ -34,5 +33,10 @@ export function mapOpenSpec(spec: any, {fileSpec, version, acceptMimes, specVers
       break;
   }
 
-  return mergeSpec(spec, fileSpec);
+  spec = mergeSpec(spec, fileSpec);
+
+  setValue(spec, "info.title", getValue(spec, "info.title", "Api documentation"));
+  setValue(spec, "info.version", getValue(spec, "info.version", version));
+
+  return spec;
 }
