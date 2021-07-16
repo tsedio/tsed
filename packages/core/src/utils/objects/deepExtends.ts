@@ -1,4 +1,4 @@
-import {classOf} from "./classOf";
+import {createInstance} from "./createInstance";
 import {isArrayOrArrayClass} from "./isArray";
 import {isPrimitive} from "./isPrimitive";
 import {objectKeys} from "./objectKeys";
@@ -19,6 +19,7 @@ function reducer() {
  * @param obj
  * @param reducers
  * @returns {any}
+ * @deprecated Since 2021-07-16. Use deepMerge instead of
  */
 export function deepExtends(out: any, obj: any, reducers: DeepExtendsReducers = {}): any {
   if (obj === undefined || obj === null) {
@@ -32,7 +33,7 @@ export function deepExtends(out: any, obj: any, reducers: DeepExtendsReducers = 
   if (isArrayOrArrayClass(obj)) {
     out = out || [];
   } else {
-    out = out || (obj ? (classOf(obj) !== Object ? Object.create(obj) : {}) : {});
+    out = out || createInstance(obj);
   }
 
   const defaultReducer = reducers["default"] ? reducers["default"] : reducer();
@@ -48,10 +49,12 @@ export function deepExtends(out: any, obj: any, reducers: DeepExtendsReducers = 
   objectKeys(obj).forEach((key) => {
     let value = obj[key];
 
+    // istanbul ignore next
     if (value === undefined || value === null) {
       return;
     }
 
+    // istanbul ignore next
     if (value === "" && out[key] !== "") {
       return;
     }

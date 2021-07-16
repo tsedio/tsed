@@ -1,4 +1,4 @@
-import {deepExtends, uniq, uniqBy} from "@tsed/core";
+import {deepMerge, uniq, uniqBy} from "@tsed/core";
 import {OpenSpecSecurity, OpenSpecTag, OS3Operation} from "@tsed/openspec";
 import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
 import {JsonHeader, JsonSchemaOptions} from "../interfaces";
@@ -95,7 +95,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     } else {
       response.forEach((value, key) => {
         if (!["content"].includes(key)) {
-          currentResponse.set(key, deepExtends(currentResponse.get(key), value));
+          currentResponse.set(key, deepMerge(currentResponse.get(key), value));
         }
       });
       currentResponse.status = Number(currentCode);

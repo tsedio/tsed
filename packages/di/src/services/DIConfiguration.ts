@@ -1,6 +1,6 @@
-import {classOf, deepExtends, getValue, proxyDelegation, setValue} from "@tsed/core";
-import type {DIResolver, TokenProvider} from "../interfaces";
+import {classOf, deepMerge, getValue, proxyDelegation, setValue} from "@tsed/core";
 import {ProviderScope} from "../domain";
+import type {DIResolver, TokenProvider} from "../interfaces";
 
 export class DIConfiguration {
   readonly default: Map<string, any> = new Map();
@@ -107,7 +107,7 @@ export class DIConfiguration {
     Object.entries(obj).forEach(([key, value]) => {
       const descriptor = Object.getOwnPropertyDescriptor(DIConfiguration.prototype, key);
       const originalValue = this.get(key);
-      value = deepExtends(value, originalValue);
+      value = deepMerge(value, originalValue);
 
       if (descriptor && !["default", "set", "map", "get"].includes(key)) {
         this[key] = value;

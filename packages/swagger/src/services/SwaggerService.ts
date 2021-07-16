@@ -26,7 +26,7 @@ export class SwaggerService {
     const defaultSpec: any = this.getDefaultSpec(conf);
     const specType = getSpecTypeFromSpec(defaultSpec);
     const {doc} = conf;
-    const finalSpec: any = {};
+    let finalSpec: any = {};
 
     const options: SpecSerializerOptions = {
       paths: {},
@@ -36,7 +36,7 @@ export class SwaggerService {
       operationIdFormatter: conf.operationIdFormatter,
       operationIdPattern: conf.operationIdPattern,
       append(spec: any) {
-        mergeSpec(finalSpec, spec);
+        finalSpec = mergeSpec(finalSpec, spec);
       }
     };
 

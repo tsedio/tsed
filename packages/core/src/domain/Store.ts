@@ -1,5 +1,5 @@
 import {DecoratorTypes} from "../domain/DecoratorTypes";
-import {decoratorTypeOf, deepClone, deepExtends, descriptorOf, isSymbol, nameOf} from "../utils";
+import {decoratorTypeOf, deepClone, deepMerge, descriptorOf, isSymbol, nameOf} from "../utils";
 import {Metadata} from "./Metadata";
 
 /**
@@ -137,7 +137,7 @@ export class Store {
     if (_value_) {
       value = deepClone(value);
       _value_ = deepClone(_value_);
-      value = inverse ? deepExtends(value, _value_) : deepExtends(_value_, value);
+      value = inverse ? deepMerge(value, _value_) : deepMerge(_value_, value);
     }
 
     this.set(key, value);

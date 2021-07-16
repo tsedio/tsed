@@ -17,7 +17,7 @@ import {
 } from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
 
-class Pageable {
+export class Pageable {
   @Integer()
   @Min(0)
   @Default(0)

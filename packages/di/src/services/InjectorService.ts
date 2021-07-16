@@ -2,7 +2,7 @@ import {
   ancestorsOf,
   classOf,
   deepClone,
-  deepExtends,
+  deepMerge,
   getClassOrSymbol,
   isFunction,
   isInheritedFrom,
@@ -335,7 +335,8 @@ export class InjectorService extends Container {
     super.forEach((provider) => {
       if (provider.configuration) {
         Object.entries(provider.configuration).forEach(([key, value]) => {
-          mergedConfiguration.set(key, mergedConfiguration.has(key) ? deepExtends(mergedConfiguration.get(key), value) : deepClone(value));
+          value = mergedConfiguration.has(key) ? deepMerge(mergedConfiguration.get(key), value) : deepClone(value);
+          mergedConfiguration.set(key, value);
         });
       }
       if (provider.resolvers) {
@@ -344,7 +345,7 @@ export class InjectorService extends Container {
     });
 
     mergedConfiguration.forEach((value, key) => {
-      this.settings[key] = deepExtends(value, this.settings[key]);
+      this.settings[key] = deepMerge(value, this.settings[key]);
     });
 
     this.settings.build();

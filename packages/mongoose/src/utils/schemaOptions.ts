@@ -1,4 +1,4 @@
-import {deepExtends, Store} from "@tsed/core";
+import {cleanObject, deepMerge, Store} from "@tsed/core";
 import {Schema} from "mongoose";
 import {MONGOOSE_SCHEMA_OPTIONS} from "../constants";
 import {MongooseNextCB, MongoosePostHook, MongoosePreHook, MongooseSchemaOptions} from "../interfaces";
@@ -14,7 +14,7 @@ export function schemaOptions(target: any, options?: MongooseSchemaOptions) {
   }
 
   if (options) {
-    store.set(MONGOOSE_SCHEMA_OPTIONS, deepExtends(store.get(MONGOOSE_SCHEMA_OPTIONS), options));
+    store.set(MONGOOSE_SCHEMA_OPTIONS, deepMerge(store.get(MONGOOSE_SCHEMA_OPTIONS), options));
   }
 
   return store.get(MONGOOSE_SCHEMA_OPTIONS);
