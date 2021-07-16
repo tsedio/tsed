@@ -1,26 +1,16 @@
-import {Enumerable, NotEnumerable, Type} from "@tsed/core";
-import {Provider, ProviderType} from "@tsed/di";
+import {Enumerable, NotEnumerable} from "@tsed/core";
+import {Provider, ProviderType, TokenProvider} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
 import {ControllerMiddlewares, EndpointMetadata} from "../../mvc";
 import {ROUTER_OPTIONS} from "../constants/routerOptions";
 import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 
-export interface IChildrenController extends Type<any> {
-  $parentCtrl?: ControllerProvider;
-}
-
 export class ControllerProvider<T = any> extends Provider<T> {
   @NotEnumerable()
   readonly entity: JsonEntityStore;
+
   @NotEnumerable()
   private router: PlatformRouterMethods;
-  /**
-   * Controllers that depend to this controller.
-   * @type {Array}
-   * @private
-   */
-  @NotEnumerable()
-  private _children: IChildrenController[] = [];
 
   constructor(provide: any) {
     super(provide);
@@ -39,28 +29,22 @@ export class ControllerProvider<T = any> extends Provider<T> {
 
   /**
    *
-   * @returns {Endpoint[]}
+   * @returns {EndpointMetadata[]}
    */
   get endpoints(): EndpointMetadata[] {
     return EndpointMetadata.getEndpoints(this.provide);
   }
 
-  /**
-   *
-   * @returns {Type<any>[]}
-   */
-  get children(): IChildrenController[] {
-    return this._children;
+  get children(): TokenProvider[] {
+    return this.store.get("childrenControllers", []);
   }
 
   /**
    *
-   * @param children
+   * @returns {ControllerProvider}
    */
-  @Enumerable()
-  set children(children: IChildrenController[]) {
-    this._children = children;
-    this._children.forEach((d) => (d.$parentCtrl = this));
+  get parent(): TokenProvider | undefined {
+    return this.store.get("parentController");
   }
 
   /**
@@ -80,14 +64,6 @@ export class ControllerProvider<T = any> extends Provider<T> {
 
   /**
    *
-   * @returns {ControllerProvider}
-   */
-  get parent() {
-    return this.provide.$parentCtrl;
-  }
-
-  /**
-   *
    * @returns {any[]}
    */
   get middlewares(): ControllerMiddlewares {
@@ -97,7 +73,7 @@ export class ControllerProvider<T = any> extends Provider<T> {
         useAfter: [],
         useBefore: []
       },
-      this.store.get("middlewares") || {}
+      this.store.get("middlewares", {})
     );
   }
 
@@ -142,7 +118,7 @@ export class ControllerProvider<T = any> extends Provider<T> {
    * @returns {boolean}
    */
   public hasParent(): boolean {
-    return !!this.provide.$parentCtrl;
+    return !!this.store.get("parentController");
   }
 
   public getRouter<T extends PlatformRouterMethods = any>(): T {

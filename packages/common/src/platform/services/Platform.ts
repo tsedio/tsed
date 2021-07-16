@@ -36,7 +36,9 @@ export class Platform {
 
     return injector
       .getProviders(ProviderType.CONTROLLER)
-      .map((provider) => {
+      .map((provider: ControllerProvider) => {
+        provider.setRouter(PlatformRouter.create(injector, provider.routerOptions));
+
         if (!provider.hasParent()) {
           return new PlatformControllerBuilder(provider as ControllerProvider).build(injector);
         }
