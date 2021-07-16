@@ -58,7 +58,10 @@ sponsors:
     items:
       - title: Medayo
         href: https://www.medayo.com
-        src: https://images.opencollective.com/medayo/1ef2d6b/logo/256.png
+        src: https://avatars.githubusercontent.com/u/40989284?v=4
+      - title: Weseek
+        href: https://weseek.co.jp/
+        src: https://avatars.githubusercontent.com/u/6468105?v=4
   - title: They use it
     class: w-1/3 sm:w-1/6 px-5 py-3
     style:
