@@ -93,8 +93,8 @@ export class ApolloService {
     return this.#servers.has(id);
   }
 
-  protected bindServer(server: ApolloServer, options: ApolloSettings) {
-    server.applyMiddleware({path: options.path, ...options.serverRegistration, app: this.app.raw});
+  protected async bindServer(server: ApolloServer, options: ApolloSettings) {
+    await server.applyMiddleware({path: options.path, ...options.serverRegistration, app: this.app.raw});
 
     if (options.installSubscriptionHandlers && (this.httpPort || this.httpsPort)) {
       this.httpPort && server.installSubscriptionHandlers(this.httpServer);
