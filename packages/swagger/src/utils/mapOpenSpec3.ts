@@ -8,12 +8,12 @@ import {mapOpenSpecInfo} from "./mapOpenSpecInfo";
  * @param version
  * @param specVersion
  */
-export function mapOpenSpec3(spec: any, {version, specVersion}: any): Partial<OpenSpec3> {
+export function mapOpenSpec3(spec: any, {specVersion}: any): Partial<OpenSpec3> {
   const {servers, paths, components, security, tags, externalDocs} = spec;
 
   return {
     openapi: specVersion,
-    info: mapOpenSpecInfo(getValue(spec, "info", {}), version),
+    info: mapOpenSpecInfo(getValue(spec, "info", {})),
     servers,
     paths,
     components,

@@ -69,7 +69,10 @@ describe("Swagger integration", () => {
             showExplorer: true,
             operationIdPattern: "%c_%m",
             spec: {
-              info: {title: "Swagger title", version: "1.2.0"}
+              info: {
+                title: "Swagger title",
+                version: "1.2.0"
+              }
             }
           },
           {

@@ -33,7 +33,7 @@ export function mapOpenSpec2(
     swagger: specVersion,
     consumes: uniq([...acceptMimes, ...consumes]),
     produces: uniq<string>([...produces]),
-    info: mapOpenSpecInfo(getValue(spec, "info", {}), version),
+    info: mapOpenSpecInfo(getValue(spec, "info", {})),
     paths,
     host,
     basePath,
