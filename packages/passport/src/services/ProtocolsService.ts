@@ -134,6 +134,7 @@ export class ProtocolsService {
 
     return async (req: any, ...args: any[]) => {
       const done = args[args.length - 1];
+      console.log("===", req);
       req.$ctx.set("PROTOCOL_ARGS", args.slice(0, -1));
 
       try {

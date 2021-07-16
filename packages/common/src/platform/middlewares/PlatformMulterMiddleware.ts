@@ -5,6 +5,7 @@ import {Middleware} from "../../mvc/decorators/class/middleware";
 import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
 import {Context} from "../decorators/context";
 import {PlatformApplication} from "../services/PlatformApplication";
+import {getMulter} from "../utils/getMulter";
 
 export interface MulterInputOptions {
   fields: PlatformMulterField[];
@@ -33,8 +34,8 @@ export class PlatformMulterMiddleware implements IMiddleware {
       if (settings.storage) {
         delete settings.dest;
       }
-
-      const middleware = this.app.multer(settings).fields(this.getFields({fields}));
+      console.log(this.app);
+      const middleware = this.app.getMulter(settings).fields(this.getFields({fields}));
 
       return await middleware(ctx.getRequest(), ctx.getResponse());
     } catch (er) {

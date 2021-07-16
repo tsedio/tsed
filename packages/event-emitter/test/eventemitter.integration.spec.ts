@@ -1,3 +1,4 @@
+import {PlatformExpress} from "@tsed/platform-express/src";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {Injectable, PlatformTest} from "@tsed/common";
@@ -34,9 +35,7 @@ class TestTwo {
 }
 
 describe("EventEmitter integration", () => {
-
   describe("enabled", () => {
-
     let testTestSpy: Sinon.SinonSpy;
     let testTest2Spy: Sinon.SinonSpy;
     let testTwoTest3Spy: Sinon.SinonSpy;
@@ -53,6 +52,7 @@ describe("EventEmitter integration", () => {
       printEventsSpy = Sinon.spy(EventEmitterModule.prototype, 'printEvents')
 
       const bstrp = PlatformTest.bootstrap(Server, {
+        platform: PlatformExpress,
         eventEmitter: {
           enabled: true
         }

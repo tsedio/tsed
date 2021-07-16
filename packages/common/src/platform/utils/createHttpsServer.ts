@@ -1,7 +1,7 @@
 import {Configuration, InjectorService, ProviderScope, registerProvider} from "@tsed/di";
 import Https from "https";
-import {PlatformApplication} from "../services/PlatformApplication";
 import {HttpsServer} from "../decorators/httpsServer";
+import {PlatformApplication} from "../services/PlatformApplication";
 import {listenServer} from "./listenServer";
 
 export function createHttpsServer(injector: InjectorService): void {

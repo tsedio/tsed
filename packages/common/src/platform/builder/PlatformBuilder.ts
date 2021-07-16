@@ -1,6 +1,7 @@
 import {classOf, constructorOf, isFunction, nameOf, toMap, Type} from "@tsed/core";
 import {Container, createContainer, getConfiguration, importProviders, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
 import {PlatformMiddlewareLoadingOptions} from "../../config/interfaces";
+import {PlatformRouteStack} from "../../mvc/interfaces/PlatformRouteOptions";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
 import {PlatformLogMiddleware} from "../middlewares/PlatformLogMiddleware";
 import {PlatformModule} from "../PlatformModule";
@@ -34,14 +35,14 @@ export interface PlatformType<T = any> extends Type<T> {
  * @ignore
  */
 export interface PlatformBootstrap {
-  bootstrap(module: Type<any>, settings?: Partial<TsED.Configuration>): Promise<PlatformBuilder>;
+  bootstrap(module: Type<any>, settings?: Partial<TsED.Configuration>): Promise<PlatformBuilder<any>>;
 }
 
 /**
  * @platform
  */
-export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
-  static currentPlatform: Type<PlatformBuilder> & PlatformBootstrap;
+export abstract class PlatformBuilder<App = TsED.Application, Router = App> {
+  static currentPlatform: Type<PlatformBuilder<any>> & PlatformBootstrap;
   readonly name: string = "";
   protected startedAt = new Date();
   protected locals: Container;
@@ -112,7 +113,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     return this.settings.logger.disableBootstrapLog;
   }
 
-  static build<T extends PlatformBuilder<any, any>>(platformBuildClass: PlatformType<T>): T {
+  static build<T extends PlatformBuilder<any>>(platformBuildClass: PlatformType<T>): T {
     return new platformBuildClass({
       name: nameOf(platformBuildClass).replace("Platform", "").toLowerCase(),
       providers: platformBuildClass.providers
@@ -162,26 +163,10 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
     await this.importProviders();
     await this.loadInjector();
-
-    this.useContext();
-    this.useRouter();
-
+    await this.configure();
     await this.loadRoutes();
+    await this.digestStacks();
     await this.logRoutes();
-  }
-
-  async loadInjector() {
-    const {injector} = this;
-    await this.callHook("$beforeInit");
-
-    this.log("Build providers");
-    const container = createContainer(constructorOf(this.rootModule));
-
-    await injector.load(container, PlatformModule);
-
-    this.log("Settings and injector loaded");
-
-    await this.callHook("$afterInit");
   }
 
   async listen() {
@@ -228,7 +213,13 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     }
   }
 
-  async loadStatics(): Promise<void> {
+  useProvider(token: Type<any>, settings?: Partial<IProvider>) {
+    this.locals.addProvider(token, settings);
+
+    return this;
+  }
+
+  protected async loadStatics(): Promise<void> {
     const {settings} = this;
 
     if (settings.statics) {
@@ -247,8 +238,51 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     }
   }
 
-  useProvider(token: Type<any>, settings?: Partial<IProvider>) {
-    this.locals.addProvider(token, settings);
+  protected async loadInjector() {
+    const {injector} = this;
+    await this.callHook("$beforeInit");
+
+    this.log("Build providers");
+    const container = createContainer(constructorOf(this.rootModule));
+
+    await injector.load(container, PlatformModule);
+
+    this.log("Settings and injector loaded");
+
+    await this.callHook("$afterInit");
+  }
+
+  protected digestStacks() {
+    const stacks = this.app.getStacks();
+    const platformHandler = this.injector.get<PlatformHandler>(PlatformHandler)!;
+
+    stacks
+      .map((stack, index) => {
+        const handlers = stack.handlers.map((current, index, handlers) => {
+          return platformHandler.createHandler(current, {
+            isFinal: stack.isFinal ? index === handlers.length - 1 : false
+          });
+        });
+
+        return {
+          ...stack,
+          index,
+          handlers
+        };
+      })
+      .forEach((stack) => {
+        this.processStack(stack);
+      });
+  }
+
+  protected processStack(stack: PlatformRouteStack) {
+    const router: any = this.app.getRouter();
+
+    router[stack.method](
+      ...[stack.path, ...stack.handlers].filter((item) => {
+        return item !== undefined;
+      })
+    );
 
     return this;
   }
@@ -308,11 +342,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
       });
   }
 
-  protected useRouter(): this {
-    return this;
-  }
-
-  protected useContext(): this {
+  protected configure(): this {
     return this;
   }
 
@@ -354,7 +384,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     this.log("Load routes");
     await this.callHook("$beforeRoutesInit");
 
-    await this.callHook("$$loadRoutes");
+    await this.platform.addRoutes(this.injector.settings.get("routes"));
 
     await this.callHook("$onRoutesInit");
 

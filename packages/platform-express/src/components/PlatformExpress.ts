@@ -1,6 +1,5 @@
 import {
   createContext,
-  Route,
   PlatformApplication,
   PlatformBuilder,
   PlatformExceptions,
@@ -8,32 +7,24 @@ import {
   PlatformRequest,
   PlatformResponse,
   PlatformRouter,
+  PlatformRouteStack,
   PlatformViews
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import Express from "express";
 import {rawBodyMiddleware} from "../middlewares/rawBodyMiddleware";
-import {
-  PlatformExpressApplication,
-  PlatformExpressHandler,
-  PlatformExpressRequest,
-  PlatformExpressResponse,
-  PlatformExpressRouter
-} from "../services";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware";
+import {PlatformExpressApplication, PlatformExpressHandler, PlatformExpressRequest, PlatformExpressResponse} from "../services";
 
 /**
  * @platform
  * @express
  */
-export class PlatformExpress extends PlatformBuilder<Express.Application, Express.Router> {
+export class PlatformExpress extends PlatformBuilder<Express.Application> {
   static providers = [
     {
       provide: PlatformApplication,
       useClass: PlatformExpressApplication
-    },
-    {
-      provide: PlatformRouter,
-      useClass: PlatformExpressRouter
     },
     {
       provide: PlatformHandler,
@@ -53,15 +44,7 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
     return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
   }
 
-  protected useRouter(): this {
-    this.logger.info("Mount app router");
-    this.app.getApp().use(rawBodyMiddleware);
-    this.app.getApp().use(this.app.getRouter());
-
-    return this;
-  }
-
-  protected useContext(): this {
+  protected configure(): this {
     this.logger.info("Mount app context");
 
     this.app.getApp().use(async (req: any, res: any, next: any) => {
@@ -70,26 +53,44 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
       return next();
     });
 
-    return this;
-  }
+    this.app.use(rawBodyMiddleware);
 
-  protected async loadRoutes(): Promise<void> {
     // disable x-powered-by header
     this.injector.settings.get("env") === Env.PROD && this.app.getApp().disable("x-powered-by");
 
     this.configureViewsEngine();
 
+    return this;
+  }
+
+  protected async loadRoutes(): Promise<void> {
     await super.loadRoutes();
 
     // NOT FOUND
-    this.app.use((req: any, res: any, next: any) => {
+    this.app.getApp().use((req: any, res: any, next: any) => {
       !res.headersSent && this.injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound(req.$ctx);
     });
 
     // EXCEPTION FILTERS
-    this.app.use((err: any, req: any, res: any, next: any) => {
+    this.app.getApp().use((err: any, req: any, res: any, next: any) => {
       !res.headersSent && this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(err, req.$ctx);
     });
+  }
+
+  protected processStack(stack: PlatformRouteStack) {
+    switch (stack.method) {
+      case "statics":
+        const {root, ...props} = stack.options;
+
+        this.app.getRouter().use(stack.path, staticsMiddleware(root, props));
+        break;
+
+      default:
+        super.processStack(stack);
+        break;
+    }
+
+    return this;
   }
 
   private configureViewsEngine() {

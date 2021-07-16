@@ -37,7 +37,7 @@ export class TypeGraphQLModule implements OnRoutesInit, AfterListen {
     if (settings) {
       const httpHost = this.configuration.getHttpPort();
       const httpsHost = this.configuration.getHttpsPort();
-      const host = httpsHost || httpHost;
+      const host = httpsHost.port ? httpsHost : httpHost;
 
       Object.entries(settings).map(async ([key, options]) => {
         const {path} = options;

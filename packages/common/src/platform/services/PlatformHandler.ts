@@ -1,5 +1,5 @@
 import {isBoolean, isFunction, isNumber, isStream, isString} from "@tsed/core";
-import {Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
+import {Inject, Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {
   ConverterService,
@@ -43,7 +43,8 @@ function shouldBeSerialized(data: any) {
   scope: ProviderScope.SINGLETON
 })
 export class PlatformHandler {
-  constructor(protected injector: InjectorService) {}
+  @Inject()
+  protected injector: InjectorService;
 
   /**
    * Create a native middleware based on the given metadata and return an instance of HandlerContext

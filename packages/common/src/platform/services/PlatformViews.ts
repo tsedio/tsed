@@ -1,13 +1,12 @@
 import {Env, getValue} from "@tsed/core";
-import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
-import {Engine} from "@tsed/engines";
+import {Constant, Injectable} from "@tsed/di";
 import Fs from "fs";
 import {extname, join, resolve} from "path";
 import {
+  PLATFORM_VIEWS_EXTENSIONS,
   PlatformViewEngine,
   PlatformViewsEngineOptions,
-  PlatformViewsExtensionsTypes,
-  PLATFORM_VIEWS_EXTENSIONS
+  PlatformViewsExtensionsTypes
 } from "../../config/interfaces/PlatformViewsSettings";
 
 function patchEJS(ejs: any) {

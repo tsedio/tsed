@@ -1,4 +1,4 @@
-import KoaRouter from "@koa/router";
+import Router from "@koa/router";
 import {
   createContext,
   PlatformApplication,
@@ -7,19 +7,19 @@ import {
   PlatformHandler,
   PlatformRequest,
   PlatformResponse,
-  PlatformRouter,
-  PlatformViews
+  PlatformRouteStack
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import Koa, {Context, Next} from "koa";
 import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
-import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse, PlatformKoaRouter} from "../services";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware";
+import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse} from "../services";
 
 /**
  * @platform
  * @koa
  */
-export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
+export class PlatformKoa extends PlatformBuilder<Koa, Router> {
   static providers = [
     {
       provide: PlatformResponse,
@@ -34,10 +34,6 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
       useClass: PlatformKoaHandler
     },
     {
-      provide: PlatformRouter,
-      useClass: PlatformKoaRouter
-    },
-    {
       provide: PlatformApplication,
       useClass: PlatformKoaApplication
     }
@@ -47,19 +43,8 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
     return this.build<PlatformKoa>(PlatformKoa).bootstrap(module, settings);
   }
 
-  createRequest(req: any) {
-    return new PlatformKoaRequest(req);
-  }
-
-  createResponse(res: any) {
-    const response = new PlatformKoaResponse(res);
-    response.platformViews = this.injector.get<PlatformViews>(PlatformViews)!;
-
-    return response;
-  }
-
-  protected createInjector(module: Type<any>, settings: any) {
-    super.createInjector(module, settings);
+  protected configure(): this {
+    this.logger.info("Mount app context");
 
     const listener: any = (error: any, ctx: Koa.Context) => {
       this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, ctx.request.$ctx);
@@ -67,23 +52,34 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
 
     this.app.getApp().silent = true;
     this.app.getApp().on("error", listener);
-  }
-
-  protected useRouter(): this {
-    this.app.getApp().use(resourceNotFoundMiddleware).use(this.app.getRouter().routes()).use(this.app.getRouter().allowedMethods());
-
-    return this;
-  }
-
-  protected useContext(): this {
-    this.logger.info("Mount app context");
-
     this.app.getApp().use(async (ctx: Context, next: Next) => {
       await createContext(this.injector, this.createRequest(ctx.request), this.createResponse(ctx.response));
 
       return next();
     });
+    this.app.getApp().use(resourceNotFoundMiddleware);
 
+    return this;
+  }
+
+  protected async loadRoutes(): Promise<void> {
+    await super.loadRoutes();
+    this.app.getApp().use(this.app.getRouter().routes()).use(this.app.getRouter().allowedMethods());
+  }
+
+  protected processStack(stack: PlatformRouteStack) {
+    console.log(stack.path);
+    switch (stack.method) {
+      case "statics":
+        this.app.getRouter().use(stack.path as string, staticsMiddleware(stack.options));
+        break;
+
+      default:
+        super.processStack(stack);
+        break;
+    }
+
+    console.log(this.app.getRouter());
     return this;
   }
 }

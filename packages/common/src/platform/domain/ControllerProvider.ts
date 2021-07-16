@@ -2,15 +2,13 @@ import {Enumerable, NotEnumerable} from "@tsed/core";
 import {Provider, ProviderType, TokenProvider} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
 import {ControllerMiddlewares, EndpointMetadata} from "../../mvc";
-import {ROUTER_OPTIONS} from "../constants/routerOptions";
-import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
+import {PlatformRouter} from "../services/PlatformRouter";
+
+const routers: WeakMap<ControllerProvider, PlatformRouter> = new WeakMap();
 
 export class ControllerProvider<T = any> extends Provider<T> {
   @NotEnumerable()
   readonly entity: JsonEntityStore;
-
-  @NotEnumerable()
-  private router: PlatformRouterMethods;
 
   constructor(provide: any) {
     super(provide);
@@ -45,21 +43,6 @@ export class ControllerProvider<T = any> extends Provider<T> {
    */
   get parent(): TokenProvider | undefined {
     return this.store.get("parentController");
-  }
-
-  /**
-   *
-   */
-  get routerOptions(): any {
-    return this.store.get(ROUTER_OPTIONS) || ({} as any);
-  }
-
-  /**
-   *
-   * @param value
-   */
-  set routerOptions(value: any) {
-    this.store.set(ROUTER_OPTIONS, value);
   }
 
   /**
@@ -107,12 +90,12 @@ export class ControllerProvider<T = any> extends Provider<T> {
     return !!this.store.get("parentController");
   }
 
-  public getRouter<T extends PlatformRouterMethods = any>(): T {
-    return this.router as any;
+  public getRouter(): PlatformRouter {
+    return routers.get(this)!;
   }
 
-  public setRouter(router: PlatformRouterMethods) {
-    this.router = router;
+  public setRouter(router: PlatformRouter) {
+    routers.set(this, router);
 
     return this;
   }

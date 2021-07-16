@@ -12,7 +12,6 @@ describe("ControllerProvider", () => {
     controllerProvider = new ControllerProvider(Test);
     controllerProvider.path = "/";
     controllerProvider.scope = ProviderScope.REQUEST;
-    controllerProvider.routerOptions = {};
     controllerProvider.middlewares = {
       useBefore: [new Function()],
       use: [new Function()],
@@ -55,10 +54,6 @@ describe("ControllerProvider", () => {
 
   it("should get a scope", () => {
     expect(controllerProvider.scope).to.eq("request");
-  });
-
-  it("should get routerOptions", () => {
-    expect(controllerProvider.routerOptions).to.be.an("object");
   });
 
   it("should have children", () => {

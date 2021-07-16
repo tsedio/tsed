@@ -1,21 +1,7 @@
-import {Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
-import {promisify} from "util";
-import {PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "../../config";
-import {PathParamsType, PlatformRouteWithoutHandlers, PlatformRouteOptions} from "../../mvc/interfaces";
-import {createFakeRawDriver} from "./FakeRawDriver";
-import {PlatformHandler} from "./PlatformHandler";
-
-/**
- * @ignore
- */
-export const PLATFORM_ROUTER_OPTIONS = Symbol.for("PlatformRouterOptions");
-
-declare global {
-  namespace TsED {
-    // @ts-ignore
-    export interface Router {}
-  }
-}
+import {isString} from "@tsed/core";
+import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {PlatformStaticsOptions} from "../../config";
+import {PathParamsType, PlatformRouteStack} from "../../mvc/interfaces";
 
 /**
  * Platform Router abstraction layer.
@@ -24,52 +10,25 @@ declare global {
 @Injectable({
   scope: ProviderScope.INSTANCE
 })
-export class PlatformRouter<Router = TsED.Router> {
-  rawRouter: Router;
-  raw: any;
-
-  @Inject()
-  injector: InjectorService;
-
-  constructor(protected platformHandler: PlatformHandler) {
-    this.rawRouter = this.raw = PlatformRouter.createRawRouter();
-  }
+export class PlatformRouter {
+  readonly stacks: PlatformRouteStack[] = [];
 
   /**
-   * Create a new instance of PlatformRouter
+   * @deprecated
    * @param injector
-   * @param routerOptions
    */
-  static create(injector: InjectorService, routerOptions: any = {}) {
-    const locals = new Map();
-    locals.set(PLATFORM_ROUTER_OPTIONS, routerOptions);
-
-    return injector.invoke<PlatformRouter>(PlatformRouter, locals);
-  }
-
-  protected static createRawRouter(): any {
-    return createFakeRawDriver();
-  }
-
-  callback(): any {
-    return this.raw;
-  }
-
-  getRouter(): Router {
-    return this.rawRouter;
+  static create(injector: InjectorService) {
+    return injector.invoke<PlatformRouter>(PlatformRouter);
   }
 
   use(...handlers: any[]) {
-    // @ts-ignore
-    this.getRouter().use(...this.mapHandlers(handlers));
+    this.addRoute(this.mapUseOptions(handlers));
 
     return this;
   }
 
-  addRoute(options: PlatformRouteOptions) {
-    const {method, path, handlers, isFinal} = options;
-    // @ts-ignore
-    this.getRouter()[method](path, ...this.mapHandlers(handlers, {method, path, isFinal}));
+  addRoute(options: PlatformRouteStack) {
+    this.stacks.push(options);
 
     return this;
   }
@@ -107,50 +66,59 @@ export class PlatformRouter<Router = TsED.Router> {
   }
 
   statics(path: string, options: PlatformStaticsOptions): this {
+    this.stacks.push({
+      method: "statics",
+      path,
+      options,
+      handlers: []
+    });
     return this;
   }
 
-  multer(options: PlatformMulterSettings): PlatformMulter {
-    const m = require("multer")(options);
+  public getStacks(): PlatformRouteStack[] {
+    return this.stacks.reduce((stacks: PlatformRouteStack[], item: PlatformRouteStack) => {
+      if (item.method === "router" && item.router) {
+        const subStacks = item.router.getStacks().map((child) => {
+          return {
+            ...child,
+            path: String(item.path || "") + String(child.path || "/")
+          };
+        });
 
-    const makePromise = (multer: any, name: string) => {
-      // istanbul ignore next
-      if (!multer[name]) return;
+        return [...stacks, ...subStacks];
+      }
 
-      const fn = multer[name];
-
-      multer[name] = function apply(...args: any[]) {
-        const middleware = Reflect.apply(fn, this, args);
-
-        return (req: any, res: any) => promisify(middleware)(req, res);
-      };
-    };
-
-    makePromise(m, "any");
-    makePromise(m, "array");
-    makePromise(m, "fields");
-    makePromise(m, "none");
-    makePromise(m, "single");
-
-    return m;
+      return [...stacks, item];
+    }, []);
   }
 
-  protected mapHandlers(handlers: any[], options: PlatformRouteWithoutHandlers = {}): any[] {
-    return handlers.reduce((list, handler, index) => {
-      if (typeof handler === "string") {
-        return list.concat(handler);
-      }
+  private mapUseOptions(handlers: any[]): PlatformRouteStack {
+    return handlers.reduce(
+      (options: Record<string, any>, current: any, index) => {
+        if (isString(current)) {
+          return {
+            ...options,
+            path: current
+          };
+        }
 
-      if (handler instanceof PlatformRouter) {
-        return list.concat(handler.callback());
-      }
+        if (current instanceof PlatformRouter) {
+          return {
+            ...options,
+            method: "router",
+            router: current
+          };
+        }
 
-      return list.concat(
-        this.platformHandler.createHandler(handler, {
+        return {
           ...options,
-          isFinal: options.isFinal ? index === handlers.length - 1 : false
-        })
-      );
-    }, []);
+          handlers: [...options.handlers, current]
+        };
+      },
+      {
+        method: "use",
+        handlers: []
+      }
+    );
   }
 }

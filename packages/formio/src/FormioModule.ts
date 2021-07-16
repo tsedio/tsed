@@ -70,9 +70,7 @@ export class FormioModule implements OnRoutesInit, OnReady {
 
   async $onRoutesInit() {
     if (this.formio.isInit()) {
-      const router: any = this.app.getRouter();
-
-      router.use(this.baseUrl, this.formio.middleware.restrictRequestTypes, this.formio.router);
+      this.app.use(this.baseUrl, this.formio.middleware.restrictRequestTypes, this.formio.router);
 
       if (await this.shouldInstall()) {
         await this.installer.install(this.template!, this.root);

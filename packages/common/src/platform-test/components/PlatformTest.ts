@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {createContainer, DITest, InjectorService} from "@tsed/di";
-import {createInjector, loadInjector, PlatformBuilder, PlatformModule, PlatformType} from "../../platform";
+import {createInjector, PlatformBuilder, PlatformModule, PlatformType} from "../../platform";
 import {PlatformContext, RequestContextOptions} from "../../platform/domain/PlatformContext";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 import {PlatformRequest} from "../../platform/services/PlatformRequest";
@@ -10,7 +10,7 @@ import {PlatformResponse} from "../../platform/services/PlatformResponse";
  * @platform
  */
 export class PlatformTest extends DITest {
-  public static platformBuilder: Type<PlatformBuilder>;
+  public static platformBuilder: Type<PlatformBuilder<any>>;
 
   static async create(options: Partial<TsED.Configuration> = {}) {
     DITest.injector = PlatformTest.createInjector(options);

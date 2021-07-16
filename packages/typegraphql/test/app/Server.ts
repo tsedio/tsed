@@ -27,7 +27,7 @@ const rootDir = resolve(__dirname);
       path: "/api/graphql",
       buildSchemaOptions: {
         emitSchemaFile: resolve(__dirname, "../resources/schema.gql")
-      },
+      } as any,
       serverConfig: {
         context({req, res}) {
           return buildContext({req, res, User});

@@ -1,11 +1,12 @@
 import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
-import {EndpointMetadata} from "../../mvc";
+import {PlatformControllerBuilder} from "../builder/PlatformControllerBuilder";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouteDetails} from "../domain/PlatformRouteDetails";
 import {Route, RouteController} from "../interfaces/Route";
 import {getControllerPath} from "../utils/getControllerPath";
 import {PlatformApplication} from "./PlatformApplication";
 
+const SUPPORTED_METHODS = ["all", "get", "post", "put", "patch", "delete", "head", "options"];
 /**
  * `Platform` is used to provide all routes collected by annotation `@Controller`.
  *
@@ -15,7 +16,6 @@ import {PlatformApplication} from "./PlatformApplication";
   scope: ProviderScope.SINGLETON
 })
 export class Platform {
-  #routes: PlatformRouteDetails[] = [];
   #controllers: RouteController[] = [];
 
   constructor(readonly injector: InjectorService, readonly platformApplication: PlatformApplication) {}
@@ -25,7 +25,7 @@ export class Platform {
   }
 
   get routes(): PlatformRouteDetails[] {
-    return this.#routes;
+    return this.getRoutes();
   }
 
   public addRoutes(routes: Route[]) {
@@ -41,17 +41,16 @@ export class Platform {
       const provider: ControllerProvider = injector.getProvider(token)! as any;
 
       if (provider.type === ProviderType.CONTROLLER) {
-        const route = getControllerPath(endpoint, provider);
         if (!provider.hasParent()) {
-          const routes = this.buildRoutes(route, provider);
+          const router = new PlatformControllerBuilder(provider).build(injector);
+          const route = getControllerPath(route, provider);
 
-          this.#routes.push(...routes);
+          this.app.use(route, router);
+
           this.#controllers.push({
             route,
             provider
           });
-
-          this.app.use(route, ...[].concat(provider.getRouter().callback()));
         }
       }
     }
@@ -64,44 +63,22 @@ export class Platform {
    * @returns {PlatformRouteDetails[]}
    */
   public getRoutes(): PlatformRouteDetails[] {
-    return this.#routes;
+    return this.app
+      .getStacks()
+      .filter((stack) => {
+        return SUPPORTED_METHODS.includes(stack.method) && stack.provider && stack.endpoint;
+      })
+      .map(({method, path, provider, endpoint}: any) => {
+        return new PlatformRouteDetails({
+          method,
+          url: path,
+          provider,
+          endpoint
+        });
+      });
   }
 
   public getMountedControllers(): RouteController[] {
     return this.#controllers;
-  }
-
-  /**
-   *
-   * @param ctrl
-   * @param endpointUrl
-   */
-  private buildRoutes(endpointUrl: string, ctrl: ControllerProvider): PlatformRouteDetails[] {
-    const {injector} = this;
-
-    let routes: PlatformRouteDetails[] = [];
-
-    routes = ctrl.children
-      .map((ctrl) => injector.getProvider(ctrl))
-      .reduce((routes: PlatformRouteDetails[], provider: ControllerProvider) => {
-        return routes.concat(this.buildRoutes(`${endpointUrl}${provider.path}`, provider));
-      }, routes);
-
-    ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
-      endpoint.operationPaths.forEach(({path, method}) => {
-        if (method) {
-          routes.push(
-            new PlatformRouteDetails({
-              provider: ctrl,
-              endpoint,
-              method,
-              url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/")
-            })
-          );
-        }
-      });
-    });
-
-    return routes;
   }
 }

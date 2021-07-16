@@ -1,7 +1,8 @@
-import {expect} from "chai";
+import {Agenda, AgendaService, Define, Every} from "@tsed/agenda";
 import {PlatformTest} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express/src";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {Agenda, AgendaService, Every, Define} from "@tsed/agenda";
+import {expect} from "chai";
 import {Server} from "./helpers/Server";
 
 @Agenda({namespace: "test-nsp"})
@@ -31,6 +32,7 @@ describe("Agenda integration", () => {
       await TestMongooseContext.install();
       const {url} = await TestMongooseContext.getMongooseOptions();
       const bstrp = PlatformTest.bootstrap(Server, {
+        platform: PlatformExpress,
         agenda: {
           enabled: true,
           db: {
@@ -46,8 +48,8 @@ describe("Agenda integration", () => {
     });
     afterEach(async () => {
       const agenda = PlatformTest.injector.get<AgendaService>(AgendaService)!;
-      await TestMongooseContext.reset()
-      await agenda._db.close()
+      await TestMongooseContext.reset();
+      await agenda._db.close();
     });
 
     it("should have job definitions", async () => {
@@ -65,12 +67,13 @@ describe("Agenda integration", () => {
       expect(jobs[1].attrs.name).to.be.deep.eq("test3");
       expect(jobs[1].attrs.repeatInterval).to.be.eq("* * * * *");
     });
-  })
+  });
 
   describe("disabled", () => {
     beforeEach(async () => {
       await TestMongooseContext.install();
       const bstrp = PlatformTest.bootstrap(Server, {
+        platform: PlatformExpress,
         agenda: {
           enabled: false
         }
@@ -82,7 +85,7 @@ describe("Agenda integration", () => {
 
     it("should not have job definitions", async () => {
       const agenda = PlatformTest.injector.get(AgendaService)!;
-      expect(agenda._definitions).to.eq(undefined)
+      expect(agenda._definitions).to.eq(undefined);
     });
   });
 });

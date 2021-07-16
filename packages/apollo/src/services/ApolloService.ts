@@ -7,25 +7,18 @@ import type {ApolloServer, ApolloSettings} from "../interfaces/ApolloSettings";
 export class ApolloService {
   @Constant("PLATFORM_NAME")
   platformName: string;
-
-  @Constant("httpPort")
-  private httpPort: string | number;
-
-  @Constant("httpsPort")
-  private httpsPort: string | number;
-
-  @Inject()
-  private app: PlatformApplication;
-
-  @Inject(HttpServer)
-  private httpServer: HttpServer;
-
-  @Inject(HttpsServer)
-  private httpsServer: HttpsServer;
-
   @Inject()
   protected logger: Logger;
-
+  @Constant("httpPort")
+  private httpPort: string | number;
+  @Constant("httpsPort")
+  private httpsPort: string | number;
+  @Inject()
+  private app: PlatformApplication;
+  @Inject(HttpServer)
+  private httpServer: HttpServer;
+  @Inject(HttpsServer)
+  private httpsServer: HttpsServer;
   /**
    *
    * @type {Map<any, any>}
@@ -94,7 +87,11 @@ export class ApolloService {
   }
 
   protected async bindServer(server: ApolloServer, options: ApolloSettings) {
-    await server.applyMiddleware({path: options.path, ...options.serverRegistration, app: this.app.raw});
+    await server.applyMiddleware({
+      path: options.path,
+      ...options.serverRegistration,
+      app: this.app
+    });
 
     if (options.installSubscriptionHandlers && (this.httpPort || this.httpsPort)) {
       this.httpPort && server.installSubscriptionHandlers(this.httpServer);

@@ -27,6 +27,6 @@ describe("PlatformContext", () => {
     expect(context.getReq()).to.be.instanceof(FakeRequest);
     expect(context.getRes()).to.be.instanceof(FakeResponse);
     expect(context.app).to.be.instanceof(PlatformApplication);
-    expect(nameOf(context.getApp())).to.eq("FakeRawDriver");
+    expect(nameOf(context.getApp())).to.eq("router");
   });
 });

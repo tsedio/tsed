@@ -5,18 +5,16 @@ import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {ParamMetadata} from "../../mvc/models/ParamMetadata";
 import {ParamTypes} from "../../mvc/models/ParamTypes";
 import {ControllerProvider} from "../domain/ControllerProvider";
-import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";
 import {PlatformMulterMiddleware} from "../middlewares/PlatformMulterMiddleware";
-import {PlatformRouter} from "../services/PlatformRouter";
 import {useCtxHandler} from "../utils/useCtxHandler";
 
 /**
  * @ignore
  */
-function formatMethod(method: string | undefined) {
-  return (method === OperationMethods.CUSTOM ? "use" : method || "use").toLowerCase();
+function formatMethod(method: string | undefined): "get" | "post" | "put" | "patch" | "delete" | "head" | "options" | "all" | "use" {
+  return (method === OperationMethods.CUSTOM ? "use" : method || "use").toLowerCase() as any;
 }
 
 /**
@@ -29,7 +27,7 @@ export class PlatformControllerBuilder {
    *
    * @returns {any}
    */
-  public build(injector: InjectorService): PlatformRouterMethods {
+  public build(injector: InjectorService) {
     const {
       middlewares: {useBefore}
     } = this.provider;
@@ -83,7 +81,7 @@ export class PlatformControllerBuilder {
       middlewares: {use, useAfter}
     } = this.provider;
 
-    const router = this.provider.getRouter<PlatformRouter>();
+    const router = this.provider.getRouter();
     // Endpoint lifecycle
     let handlers: any[] = [];
 
@@ -95,7 +93,6 @@ export class PlatformControllerBuilder {
       .concat(hasFiles && PlatformMulterMiddleware)
       .concat(use) // Controller use-middlewares
       .concat(beforeMiddlewares) // Endpoint before-middlewares
-      // .concat(endpoint.cache && PlatformCacheMiddleware)
       .concat(mldwrs) // Endpoint middlewares
       .concat(endpoint) // Endpoint metadata
       .concat(afterMiddlewares) // Endpoint after-middlewares
@@ -108,7 +105,9 @@ export class PlatformControllerBuilder {
         method: formatMethod(method),
         path,
         handlers,
-        isFinal
+        isFinal,
+        endpoint,
+        provider: this.provider
       });
     });
 
@@ -119,7 +118,7 @@ export class PlatformControllerBuilder {
 
   private buildChildrenCtrls(injector: InjectorService) {
     const {children} = this.provider;
-    const router = this.provider.getRouter<PlatformRouter>();
+    const router = this.provider.getRouter();
 
     children.forEach((child: Type<any>) => {
       const provider = injector.getProvider(child) as ControllerProvider;
@@ -131,12 +130,12 @@ export class PlatformControllerBuilder {
 
       new PlatformControllerBuilder(provider).build(injector);
 
-      router.use(provider.path, provider.getRouter<PlatformRouter>());
+      router.use(provider.path, provider.getRouter());
     });
   }
 
   private buildMiddlewares(middlewares: any[]) {
-    const router = this.provider.getRouter<PlatformRouter>();
+    const router = this.provider.getRouter();
 
     middlewares
       .filter((o) => typeof o === "function")

@@ -1,24 +1,30 @@
+import {IncomingMessage, ServerResponse} from "http";
+
 /**
  * @ignore
  */
 export const createFakeRawDriver = () => {
   // istanbul ignore next
-  function FakeRawDriver() {}
+  function router(req: IncomingMessage, res: ServerResponse) {
+    console.log("Fake HTTP application");
+  }
 
   // istanbul ignore next
-  function use() {
+  function use(...args: any) {
+    router._layers.push(args);
     return this;
   }
 
-  FakeRawDriver.use = use;
-  FakeRawDriver.all = use;
-  FakeRawDriver.get = use;
-  FakeRawDriver.patch = use;
-  FakeRawDriver.post = use;
-  FakeRawDriver.put = use;
-  FakeRawDriver.head = use;
-  FakeRawDriver.delete = use;
-  FakeRawDriver.options = use;
+  router._layers = [] as any[];
+  router.use = use;
+  router.all = use;
+  router.get = use;
+  router.patch = use;
+  router.post = use;
+  router.put = use;
+  router.head = use;
+  router.delete = use;
+  router.options = use;
 
-  return FakeRawDriver;
+  return router as any;
 };

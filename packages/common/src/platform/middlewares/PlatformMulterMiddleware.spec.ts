@@ -17,7 +17,7 @@ async function build(options = {}) {
     fields: sandbox.stub().returns(multerMiddleware)
   };
   const app = {
-    multer: sandbox.stub().returns(multer)
+    getMulter: sandbox.stub().returns(multer)
   };
 
   const middleware = await PlatformTest.invoke<PlatformMulterMiddleware>(PlatformMulterMiddleware, [
@@ -46,7 +46,7 @@ describe("PlatformMulterMiddleware", () => {
 
     await middleware.use(ctx);
 
-    expect(app.multer).to.have.been.calledWithExactly({
+    expect(app.getMulter).to.have.been.calledWithExactly({
       dest: "/dest"
     });
     expect(multer.fields).to.have.been.calledWithExactly([{maxCount: undefined, name: "file1"}]);
@@ -60,7 +60,7 @@ describe("PlatformMulterMiddleware", () => {
 
     await middleware.use(ctx);
 
-    expect(app.multer).to.have.been.calledWithExactly({
+    expect(app.getMulter).to.have.been.calledWithExactly({
       storage: "storage"
     });
     expect(multer.fields).to.have.been.calledWithExactly([{maxCount: undefined, name: "file1"}]);

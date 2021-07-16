@@ -3,7 +3,6 @@ import {InjectorService} from "@tsed/di";
 import {OperationMethods} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";
 import {Platform} from "../services/Platform";
@@ -27,17 +26,6 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
     use2() {}
   }
 
-  const use = Sinon.stub();
-  const router = {
-    get: use,
-    use,
-    post: use,
-    all: use
-  };
-
-  // @ts-ignore
-  stub(PlatformRouter.createRawRouter).returns(router);
-
   const injector = new InjectorService();
 
   injector.addProvider(PlatformRouter, {
@@ -55,7 +43,7 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
 
   const provider = new ControllerProvider(TestCtrl);
 
-  provider.setRouter(PlatformRouter.create(injector, {}));
+  provider.setRouter(injector.invoke<PlatformRouter>(PlatformRouter));
 
   if (withMiddleware) {
     provider.middlewares = {
@@ -78,16 +66,13 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
 
   const controllerBuilder = new PlatformControllerBuilder(provider);
 
-  return {endpoint, router, provider, injector, controllerBuilder, TestCtrl};
+  return {endpoint, provider, injector, controllerBuilder, TestCtrl};
 }
 
 const sandbox = Sinon.createSandbox();
 describe("PlatformControllerBuilder", () => {
   beforeEach(() => {
     // @ts-ignore
-    sandbox.stub(PlatformRouter, "createRawRouter");
-    // @ts-ignore
-    sandbox.stub(PlatformRouter.prototype, "mapHandlers").callsFake((o) => o);
     sandbox.stub(EndpointMetadata, "getEndpoints");
   });
   afterEach(() => {
@@ -96,7 +81,7 @@ describe("PlatformControllerBuilder", () => {
 
   it("should build controller with single endpoint", () => {
     // GIVEN
-    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder({propertyKey: "getMethod"});
+    const {endpoint, controllerBuilder, provider, injector} = getControllerBuilder({propertyKey: "getMethod"});
 
     endpoint.addOperationPath(OperationMethods.GET, "/", {isFinal: true});
 
@@ -105,20 +90,33 @@ describe("PlatformControllerBuilder", () => {
 
     // THEN
     expect(result).to.be.instanceof(PlatformRouter);
-    expect(router.use).to.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
 
     // ENDPOINT
-    expect(router.get).to.have.been.calledWithExactly(
-      "/",
-      Sinon.match.func,
-      PlatformAcceptMimesMiddleware,
-      provider.middlewares.use[0],
-      endpoint.beforeMiddlewares[0],
-      endpoint.middlewares[0],
-      endpoint,
-      endpoint.afterMiddlewares[0],
-      provider.middlewares.useAfter[0]
-    );
+    const routes = provider.getRouter().getStacks();
+
+    expect(routes).to.deep.eq([
+      {
+        method: "use",
+        handlers: [provider.middlewares.useBefore[0]]
+      },
+      {
+        method: "get",
+        path: "/",
+        endpoint,
+        provider,
+        isFinal: true,
+        handlers: [
+          routes[1].handlers[0],
+          PlatformAcceptMimesMiddleware,
+          provider.middlewares.use[0],
+          endpoint.beforeMiddlewares[0],
+          endpoint.middlewares[0],
+          endpoint,
+          endpoint.afterMiddlewares[0],
+          provider.middlewares.useAfter[0]
+        ]
+      }
+    ]);
   });
 
   it("should build controller with only route configured", () => {
@@ -132,49 +130,70 @@ describe("PlatformControllerBuilder", () => {
 
     // THEN
     expect(result).to.be.instanceof(PlatformRouter);
-    expect(router.use.getCall(0)).to.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
 
-    // ENDPOINT
-    expect(router.use.getCall(1)).to.have.been.calledWithExactly(
-      "/",
-      Sinon.match.func,
-      PlatformAcceptMimesMiddleware,
-      provider.middlewares.use[0],
-      endpoint.beforeMiddlewares[0],
-      endpoint.middlewares[0],
-      endpoint,
-      endpoint.afterMiddlewares[0],
-      provider.middlewares.useAfter[0]
-    );
+    const routes = provider.getRouter().getStacks();
+
+    expect(routes).to.deep.eq([
+      {
+        method: "use",
+        handlers: [provider.middlewares.useBefore[0]]
+      },
+      {
+        method: "use",
+        path: "/",
+        endpoint,
+        provider,
+        isFinal: undefined,
+        handlers: [
+          routes[1].handlers[0],
+          PlatformAcceptMimesMiddleware,
+          provider.middlewares.use[0],
+          endpoint.beforeMiddlewares[0],
+          endpoint.middlewares[0],
+          endpoint,
+          endpoint.afterMiddlewares[0],
+          provider.middlewares.useAfter[0]
+        ]
+      }
+    ]);
   });
 
   it("should build controller without route and method", () => {
     // GIVEN
-    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder({propertyKey: "use2"});
+    const {endpoint, controllerBuilder, provider, injector} = getControllerBuilder({propertyKey: "use2"});
 
     // WHEN
     const result = controllerBuilder.build(injector);
 
     // THEN
     expect(result).to.be.instanceof(PlatformRouter);
-    expect(router.use.getCall(0)).to.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
 
-    // ENDPOINT
-    expect(router.use.getCall(1)).to.have.been.calledWithExactly(
-      Sinon.match.func,
-      PlatformAcceptMimesMiddleware,
-      provider.middlewares.use[0],
-      endpoint.beforeMiddlewares[0],
-      endpoint.middlewares[0],
-      endpoint,
-      endpoint.afterMiddlewares[0],
-      provider.middlewares.useAfter[0]
-    );
+    const routes = provider.getRouter().getStacks();
+
+    expect(routes).to.deep.eq([
+      {
+        method: "use",
+        handlers: [provider.middlewares.useBefore[0]]
+      },
+      {
+        method: "use",
+        handlers: [
+          routes[1].handlers[0],
+          PlatformAcceptMimesMiddleware,
+          provider.middlewares.use[0],
+          endpoint.beforeMiddlewares[0],
+          endpoint.middlewares[0],
+          endpoint,
+          endpoint.afterMiddlewares[0],
+          provider.middlewares.useAfter[0]
+        ]
+      }
+    ]);
   });
 
   it("should build controller with a all endpoint and get endpoint", () => {
     // GIVEN
-    const {endpoint, controllerBuilder, router, injector, TestCtrl} = getControllerBuilder({
+    const {endpoint, controllerBuilder, provider, injector, TestCtrl} = getControllerBuilder({
       propertyKey: "getMethod",
       withMiddleware: false
     });
@@ -192,8 +211,35 @@ describe("PlatformControllerBuilder", () => {
 
     // THEN
     expect(result).to.be.instanceof(PlatformRouter);
+
     // ENDPOINT
-    expect(router.use.getCall(0)).to.have.been.calledWithExactly("/", Sinon.match.func, PlatformAcceptMimesMiddleware, endpointAll);
-    expect(router.use.getCall(1)).to.have.been.calledWithExactly("/", Sinon.match.func, PlatformAcceptMimesMiddleware, endpoint);
+    const routes = provider.getRouter().getStacks();
+
+    expect(routes).to.deep.eq([
+      {
+        endpoint: endpointAll,
+        handlers: [routes[0].handlers[0], PlatformAcceptMimesMiddleware, endpointAll],
+        isFinal: false,
+        method: "all",
+        path: "/",
+        provider
+      },
+      {
+        method: "get",
+        path: "/",
+        isFinal: true,
+        provider,
+        endpoint: endpoint,
+        handlers: [routes[1].handlers[0], PlatformAcceptMimesMiddleware, endpoint]
+      },
+      {
+        endpoint: endpoint,
+        handlers: [routes[2].handlers[0], PlatformAcceptMimesMiddleware, endpoint],
+        isFinal: true,
+        method: "all",
+        path: "/",
+        provider
+      }
+    ]);
   });
 });

@@ -15,7 +15,7 @@ export const rootDir = __dirname;
 @Configuration({
   port: 8081,
   logger: {
-    // level: ""
+    level: "off"
   },
   statics: {
     "/": `${rootDir}/public`
@@ -27,29 +27,32 @@ export const rootDir = __dirname;
     }
   },
   middlewares: [
-    cookieParser(),
-    compress({}),
-    methodOverride(),
-    bodyParser.json(),
-    bodyParser.urlencoded({
-      extended: true
-    }),
-    session({
-      secret: "keyboard cat", // change secret key
-      resave: false,
-      saveUninitialized: true,
-      cookie: {
-        secure: false // set true if HTTPS is enabled
-      }
-    }),
-    {
-      hook: "$afterInit", use: (req: any, res: any, next: any) => {
-        next();
-      }
-    },
-    (req: any, res: any, next: any) => {
-      setTimeout(next, 100);
-    }
+    // cookieParser(),
+    // compress({}),
+    // methodOverride(),
+    // bodyParser.json(),
+    // bodyParser.urlencoded({
+    //   extended: true
+    // }),
+    // session({
+    //   secret: "keyboard cat", // change secret key
+    //   resave: false,
+    //   saveUninitialized: true,
+    //   cookie: {
+    //     secure: false // set true if HTTPS is enabled
+    //   }
+    // }),
+    // {
+    //   hook: "$afterInit",
+    //   use: (req: any, res: any, next: any) => {
+    //     console.log('========= afterInit')
+    //     next();
+    //   }
+    // },
+    // (req: any, res: any, next: any) => {
+    //   console.log('==== ANONYMOUS')
+    //   setTimeout(next, 100);
+    // }
   ]
 })
 export class Server {
