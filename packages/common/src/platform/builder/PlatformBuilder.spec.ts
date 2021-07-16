@@ -130,12 +130,6 @@ describe("PlatformBuilder", () => {
       // THEN
       expect(server.rootModule).to.be.instanceof(ServerModule);
       expect(server.name).to.eq("custom");
-      expect(server.platform.addRoutes).to.have.been.calledWithExactly([
-        {
-          route: "/rest",
-          token: RestCtrl
-        }
-      ]);
 
       await server.stop();
       expect(server.injector.emit).to.have.been.calledWithExactly("$onDestroy");

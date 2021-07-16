@@ -1,6 +1,6 @@
 import {
   createContext,
-  IRoute,
+  Route,
   PlatformApplication,
   PlatformBuilder,
   PlatformExceptions,
@@ -73,13 +73,13 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
     return this;
   }
 
-  protected async loadRoutes(routes: IRoute[]): Promise<void> {
+  protected async loadRoutes(): Promise<void> {
     // disable x-powered-by header
     this.injector.settings.get("env") === Env.PROD && this.app.getApp().disable("x-powered-by");
 
     this.configureViewsEngine();
 
-    await super.loadRoutes(routes);
+    await super.loadRoutes();
 
     // NOT FOUND
     this.app.use((req: any, res: any, next: any) => {

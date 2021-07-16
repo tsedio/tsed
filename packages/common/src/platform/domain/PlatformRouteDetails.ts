@@ -1,13 +1,23 @@
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
 import {ParamTypes} from "../../mvc/models/ParamTypes";
+import {ControllerProvider} from "./ControllerProvider";
+
+export interface PlatformRouterDetailsOptions {
+  provider: ControllerProvider;
+  endpoint: EndpointMetadata;
+  method: string;
+  url: string;
+}
 
 export class PlatformRouteDetails {
   readonly method: string;
   readonly url: string;
   readonly rawBody: boolean;
   readonly endpoint: EndpointMetadata;
+  readonly provider: ControllerProvider;
 
-  constructor({endpoint, method, url}: {endpoint: EndpointMetadata; method: string; url: string}) {
+  constructor({provider, endpoint, method, url}: PlatformRouterDetailsOptions) {
+    this.provider = provider;
     this.endpoint = endpoint;
     this.method = method;
     this.url = url;
