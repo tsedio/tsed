@@ -1,6 +1,6 @@
 {
   "name": "@tsed/adapters-redis",
-  "version": "6.59.6",
+  "version": "6.59.7",
   "description": "Redis adapter for Ts.ED",
   "private": false,
   "source": "./src/index.ts",
@@ -10,11 +10,11 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/adapters": "6.59.6",
+    "@tsed/adapters": "6.59.7",
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.59.6",
+    "@tsed/core": "6.59.7",
     "@types/ioredis": "4.17.11",
     "ioredis": "4.19.4",
     "ioredis-mock": "5.2.0"
