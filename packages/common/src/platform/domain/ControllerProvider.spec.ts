@@ -5,15 +5,12 @@ import {ControllerProvider} from "./ControllerProvider";
 
 class Test {}
 
-class Test2 {}
-
 describe("ControllerProvider", () => {
   let controllerProvider: ControllerProvider;
 
   before(() => {
     controllerProvider = new ControllerProvider(Test);
     controllerProvider.path = "/";
-    controllerProvider.children = [Test2];
     controllerProvider.scope = ProviderScope.REQUEST;
     controllerProvider.routerOptions = {};
     controllerProvider.middlewares = {
@@ -28,7 +25,6 @@ describe("ControllerProvider", () => {
       "type",
       "injectable",
       "path",
-      "children",
       "useClass",
       "scope",
       "configuration",
@@ -54,11 +50,7 @@ describe("ControllerProvider", () => {
   });
 
   it("should get children", () => {
-    expect(controllerProvider.children).to.be.an("array").and.have.length(1);
-  });
-
-  it("should have a dependency witch have $parentCtrl attributs", () => {
-    expect(controllerProvider.children[0]).to.equals(Test2).and.have.property("$parentCtrl");
+    expect(controllerProvider.children).to.be.an("array").and.have.length(0);
   });
 
   it("should get a scope", () => {
@@ -85,7 +77,7 @@ describe("ControllerProvider", () => {
     expect(controllerProvider.hasEndpointUrl()).to.eq(true);
   });
   it("should have children", () => {
-    expect(controllerProvider.hasChildren()).to.eq(true);
+    expect(controllerProvider.hasChildren()).to.eq(false);
   });
   it("should get parent", () => {
     expect(!!controllerProvider.parent).to.be.false;

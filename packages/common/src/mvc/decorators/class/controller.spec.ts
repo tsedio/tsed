@@ -12,7 +12,7 @@ describe("@Controller", () => {
   });
   it("should register a controller with his path and Dependency", () => {
     // WHEN
-    Controller("/test", Dep)(Test);
+    Controller("/test")(Test);
 
     // THEN
     const provider = GlobalProviders.get(Test)!;
@@ -20,7 +20,6 @@ describe("@Controller", () => {
     // THEN
     expect(provider.type).to.equal(ProviderType.CONTROLLER);
     expect(provider.path).to.equal("/test");
-    expect(provider.children).to.deep.equal([Dep]);
   });
 
   it("should register a controller with customer provider options", () => {

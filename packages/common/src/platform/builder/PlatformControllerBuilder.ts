@@ -31,11 +31,8 @@ export class PlatformControllerBuilder {
    */
   public build(injector: InjectorService): PlatformRouterMethods {
     const {
-      routerOptions,
       middlewares: {useBefore}
     } = this.provider;
-
-    this.provider.setRouter(PlatformRouter.create(injector, routerOptions));
 
     // Controller lifecycle
     this.buildMiddlewares(useBefore) // Controller before-middleware

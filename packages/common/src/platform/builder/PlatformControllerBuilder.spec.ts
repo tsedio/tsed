@@ -55,6 +55,8 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
 
   const provider = new ControllerProvider(TestCtrl);
 
+  provider.setRouter(PlatformRouter.create(injector, {}));
+
   if (withMiddleware) {
     provider.middlewares = {
       use: [function controllerUse() {}],

@@ -1,4 +1,4 @@
-import {isArrayOrArrayClass, Type} from "@tsed/core";
+import {isArrayOrArrayClass, Store, Type} from "@tsed/core";
 import {IProvider, registerController} from "@tsed/di";
 import {PathParamsType} from "../../interfaces";
 
@@ -49,19 +49,23 @@ function mapOptions(options: any): ControllerOptions {
  * ```
  *
  * @param options
- * @param children
  * @controller
  * @decorator
  * @classDecorator
  */
-export function Controller(options: PathParamsType | ControllerOptions, ...children: Type<any>[]): ClassDecorator {
-  const opts = mapOptions(options);
+export function Controller(options: PathParamsType | ControllerOptions): ClassDecorator {
+  const {children = [], ...opts} = mapOptions(options);
 
   return (target) => {
     registerController({
       provide: target,
-      ...opts,
-      children: (opts.children || []).concat(children)
+      ...opts
+    });
+
+    Store.from(target).set("childrenControllers", children);
+
+    children.forEach((childToken) => {
+      Store.from(childToken).set("parentController", target);
     });
   };
 }
