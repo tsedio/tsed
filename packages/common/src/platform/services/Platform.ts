@@ -1,11 +1,10 @@
 import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
 import {EndpointMetadata} from "../../mvc";
-import {PlatformControllerBuilder} from "../builder/PlatformControllerBuilder";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouteDetails} from "../domain/PlatformRouteDetails";
-import {IRoute, IRouteController} from "../interfaces/IRoute";
+import {Route, RouteController} from "../interfaces/Route";
+import {getControllerPath} from "../utils/getControllerPath";
 import {PlatformApplication} from "./PlatformApplication";
-import {PlatformRouter} from "./PlatformRouter";
 
 /**
  * `Platform` is used to provide all routes collected by annotation `@Controller`.
@@ -16,7 +15,8 @@ import {PlatformRouter} from "./PlatformRouter";
   scope: ProviderScope.SINGLETON
 })
 export class Platform {
-  private _routes: IRouteController[] = [];
+  #routes: PlatformRouteDetails[] = [];
+  #controllers: RouteController[] = [];
 
   constructor(readonly injector: InjectorService, readonly platformApplication: PlatformApplication) {}
 
@@ -24,37 +24,11 @@ export class Platform {
     return this.platformApplication;
   }
 
-  get routes(): IRouteController[] {
-    return this._routes || [];
+  get routes(): PlatformRouteDetails[] {
+    return this.#routes;
   }
 
-  /**
-   * Create routers from the collected controllers
-   */
-  public createRoutersFromControllers() {
-    const {injector} = this;
-
-    return injector
-      .getProviders(ProviderType.CONTROLLER)
-      .map((provider: ControllerProvider) => {
-        provider.setRouter(PlatformRouter.create(injector, provider.routerOptions));
-
-        if (!provider.hasParent()) {
-          return new PlatformControllerBuilder(provider as ControllerProvider).build(injector);
-        }
-      })
-      .filter(Boolean);
-  }
-
-  /**
-   * Create a new instance of PlatformRouter
-   * @param routerOptions
-   */
-  public createRouter(routerOptions: any = {}): PlatformRouter {
-    return PlatformRouter.create(this.injector, routerOptions);
-  }
-
-  public addRoutes(routes: IRoute[]) {
+  public addRoutes(routes: Route[]) {
     routes.forEach((routeSettings) => {
       this.addRoute(routeSettings.route, routeSettings.token);
     });
@@ -67,13 +41,16 @@ export class Platform {
       const provider: ControllerProvider = injector.getProvider(token)! as any;
 
       if (provider.type === ProviderType.CONTROLLER) {
-        const route = provider.getEndpointUrl(endpoint);
-
+        const route = getControllerPath(endpoint, provider);
         if (!provider.hasParent()) {
-          this._routes.push({
+          const routes = this.buildRoutes(endpoint, provider);
+
+          this.#routes.push(...routes);
+          this.#controllers.push({
             route,
             provider
           });
+
           this.app.use(route, ...[].concat(provider.getRouter().callback()));
         }
       }
@@ -87,13 +64,11 @@ export class Platform {
    * @returns {PlatformRouteDetails[]}
    */
   public getRoutes(): PlatformRouteDetails[] {
-    let routes: PlatformRouteDetails[] = [];
+    return this.#routes;
+  }
 
-    this.routes.forEach((config: {route: string; provider: ControllerProvider}) => {
-      routes = routes.concat(this.buildRoutes(config.route, config.provider));
-    });
-
-    return routes;
+  public getMountedControllers(): RouteController[] {
+    return this.#controllers;
   }
 
   /**
@@ -108,15 +83,16 @@ export class Platform {
 
     ctrl.children
       .map((ctrl) => injector.getProvider(ctrl))
-      .forEach((provider: ControllerProvider) => {
-        routes = routes.concat(this.buildRoutes(`${endpointUrl}${provider.path}`, provider));
-      });
+      .reduce((routes: PlatformRouteDetails[], provider: ControllerProvider) => {
+        return routes.concat(this.buildRoutes(`${endpointUrl}${provider.path}`, provider));
+      }, routes);
 
     ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
       endpoint.operationPaths.forEach(({path, method}) => {
         if (method) {
           routes.push(
             new PlatformRouteDetails({
+              provider: ctrl,
               endpoint,
               method,
               url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/")

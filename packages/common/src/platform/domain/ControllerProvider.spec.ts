@@ -61,21 +61,6 @@ describe("ControllerProvider", () => {
     expect(controllerProvider.routerOptions).to.be.an("object");
   });
 
-  it("should get endpoint Url without parameters", () => {
-    expect(controllerProvider.getEndpointUrl()).to.eq("/");
-  });
-
-  it("should get endpoint Url with parameters", () => {
-    expect(controllerProvider.getEndpointUrl("/")).to.eq("/");
-  });
-
-  it("should get endpoint Url with parameters", () => {
-    expect(controllerProvider.getEndpointUrl("/rest/")).to.eq("/rest/");
-  });
-
-  it("should have endpoint url", () => {
-    expect(controllerProvider.hasEndpointUrl()).to.eq(true);
-  });
   it("should have children", () => {
     expect(controllerProvider.hasChildren()).to.eq(false);
   });

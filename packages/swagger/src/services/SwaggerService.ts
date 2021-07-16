@@ -40,7 +40,7 @@ export class SwaggerService {
       }
     };
 
-    this.platform.routes.forEach(({provider, route}) => {
+    this.platform.getMountedControllers().forEach(({route, provider}) => {
       const hidden = provider.store.get("hidden");
       const docs = provider.store.get("docs") || [];
 

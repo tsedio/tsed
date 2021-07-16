@@ -13,30 +13,7 @@ describe("Platform", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
   afterEach(() => sandbox.restore());
-  describe("createRouter", () => {
-    it(
-      "should create a router",
-      PlatformTest.inject([InjectorService, Platform], async (injector: InjectorService, platform: Platform) => {
-        const givenRouter = {
-          use: sandbox.stub()
-        };
 
-        injector.addProvider(PlatformRouter, {
-          useFactory() {
-            return givenRouter;
-          }
-        });
-
-        sandbox.spy(injector, "invoke");
-        // WHEN
-        const router = platform.createRouter({options: "options"});
-
-        // THEN
-        expect(injector.invoke).to.have.been.calledWithExactly(PlatformRouter, Sinon.match.any);
-        expect(router).to.deep.eq(givenRouter);
-      })
-    );
-  });
   describe("addRoute", () => {
     @Controller("/my-route")
     class MyCtrl {}
@@ -68,7 +45,7 @@ describe("Platform", () => {
 
         // THEN
         const provider = injector.getProvider(MyCtrl)!;
-        expect(platform.routes).to.deep.eq([{provider, route: "/test/my-route"}]);
+        expect(platform.getMountedControllers()).to.deep.eq([{provider, route: "/test/my-route"}]);
         expect(driver.use).to.have.been.calledWithExactly("/test/my-route", provider.router.raw);
       })
     );
@@ -106,6 +83,9 @@ describe("Platform", () => {
 
       // THEN
       expect(result).to.deep.eq([]);
+
+      // THEN
+      expect(platform.routes).to.deep.eq([]);
     });
   });
 });

@@ -92,20 +92,6 @@ export class ControllerProvider<T = any> extends Provider<T> {
   }
 
   /**
-   * Resolve final endpoint url.
-   */
-  public getEndpointUrl(routerPath?: string): string {
-    return (routerPath === this.path ? this.path : (routerPath || "") + this.path).replace(/\/\//gi, "/");
-  }
-
-  /**
-   *
-   */
-  public hasEndpointUrl() {
-    return !!this.path;
-  }
-
-  /**
    *
    * @returns {boolean}
    */

@@ -1,7 +1,6 @@
 import {classOf, constructorOf, isFunction, nameOf, toMap, Type} from "@tsed/core";
-import {Container, createContainer, getConfiguration, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
+import {Container, createContainer, getConfiguration, importProviders, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
 import {PlatformMiddlewareLoadingOptions} from "../../config/interfaces";
-import {IRoute} from "../interfaces/IRoute";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
 import {PlatformLogMiddleware} from "../middlewares/PlatformLogMiddleware";
 import {PlatformModule} from "../PlatformModule";
@@ -17,7 +16,6 @@ import {
   createHttpsServer,
   createInjector,
   createPlatformApplication,
-  importRoutes,
   listenHttpServer,
   listenHttpsServer,
   printRoutes
@@ -162,14 +160,13 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   public async runLifecycle() {
     setLoggerLevel(this.injector);
 
-    const routes = await importRoutes(this.injector);
-
+    await this.importProviders();
     await this.loadInjector();
 
     this.useContext();
     this.useRouter();
 
-    await this.loadRoutes(routes);
+    await this.loadRoutes();
     await this.logRoutes();
   }
 
@@ -256,6 +253,15 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     return this;
   }
 
+  protected async importProviders() {
+    this.injector.logger.debug("Scan components");
+
+    const providers = await importProviders(this.injector.settings, ["imports", "mount", "componentsScan"]);
+    const routes = providers.filter((provider) => !!provider.route).map(({route, token}) => ({route, token}));
+
+    this.settings.set("routes", routes);
+  }
+
   protected createRequest(req: any): PlatformRequest {
     const Klass = this.#providers.get(PlatformRequest)!.useClass!;
 
@@ -335,9 +341,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     }
   }
 
-  protected async loadRoutes(routes: IRoute[]) {
-    const {platform} = this;
-
+  protected async loadRoutes() {
     // istanbul ignore next
     if (this.settings.logger.level !== "off") {
       this.app.use(PlatformLogMiddleware);
@@ -350,7 +354,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     this.log("Load routes");
     await this.callHook("$beforeRoutesInit");
 
-    platform.addRoutes(routes);
+    await this.callHook("$$loadRoutes");
 
     await this.callHook("$onRoutesInit");
 
