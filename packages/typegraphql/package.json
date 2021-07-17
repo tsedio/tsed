@@ -22,9 +22,9 @@
     "apollo-server-express": "^2.16.1",
     "apollo-server-testing": "2.18.2",
     "class-validator": "~0.13.1",
-    "graphql": "15.5.0",
+    "graphql": "15.5.1",
     "graphql-passport": "0.6.3",
-    "type-graphql": "1.1.1"
+    "type-graphql": "^1.1.1"
   },
   "peerDependencies": {
     "apollo-datasource": "^0.7.3",
