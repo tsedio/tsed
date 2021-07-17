@@ -81,7 +81,7 @@ export class Platform {
 
     let routes: PlatformRouteDetails[] = [];
 
-    ctrl.children
+    routes = ctrl.children
       .map((ctrl) => injector.getProvider(ctrl))
       .reduce((routes: PlatformRouteDetails[], provider: ControllerProvider) => {
         return routes.concat(this.buildRoutes(`${endpointUrl}${provider.path}`, provider));
