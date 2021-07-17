@@ -1,6 +1,6 @@
 {
   "name": "@tsed/agenda",
-  "version": "6.59.8",
+  "version": "6.59.9",
   "description": "Agenda package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -17,9 +17,9 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.59.8",
-    "@tsed/core": "6.59.8",
-    "@tsed/di": "6.59.8",
+    "@tsed/common": "6.59.9",
+    "@tsed/core": "6.59.9",
+    "@tsed/di": "6.59.9",
     "agenda": "^4.1.3"
   },
   "peerDependencies": {

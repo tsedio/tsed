@@ -1,6 +1,6 @@
 {
   "name": "@tsed/adapters",
-  "version": "6.59.8",
+  "version": "6.59.9",
   "description": "Database adapters for Ts.ED",
   "private": false,
   "source": "./src/index.ts",
@@ -18,12 +18,12 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@tsed/ajv": "6.59.8",
-    "@tsed/common": "6.59.8",
-    "@tsed/core": "6.59.8",
-    "@tsed/di": "6.59.8",
-    "@tsed/json-mapper": "6.59.8",
-    "@tsed/schema": "6.59.8",
+    "@tsed/ajv": "6.59.9",
+    "@tsed/common": "6.59.9",
+    "@tsed/core": "6.59.9",
+    "@tsed/di": "6.59.9",
+    "@tsed/json-mapper": "6.59.9",
+    "@tsed/schema": "6.59.9",
     "@types/fs-extra": "9.0.6"
   },
   "peerDependencies": {
