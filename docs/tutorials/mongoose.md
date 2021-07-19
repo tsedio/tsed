@@ -234,6 +234,16 @@ Extend the child model classes from the parent class. By default the value for t
 For further information, please refer to the [mongoose documentation about discriminators](https://mongoosejs.com/docs/discriminators.html).
 :::
 
+## Document Versioning
+
+Set the `@VersionKey` decorator on a `number` property to define the name of the field used for versioning and optimistic concurrency.
+
+<<< @/tutorials/snippets/mongoose/version-key.ts
+
+::: tip
+For further information, please refer to the [mongoose documentation about the versionKey option](https://mongoosejs.com/docs/guide.html#versionKey).
+:::
+
 ## Inject model
 
 It's possible to inject a model into a Service (or Controller, Middleware, etc...):
