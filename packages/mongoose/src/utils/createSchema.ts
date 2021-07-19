@@ -36,6 +36,14 @@ function isVirtualRef(target: Partial<MongooseVirtualRefOptions>): target is Mon
   return !!(target.ref && target.localField && target.foreignField);
 }
 
+function hasVersionField(schema: mongoose.Schema, versionKey?: string | boolean) {
+  // Check if versioning was disabled explicitly
+  if (!versionKey) return false;
+
+  // Check for alternative version field in schema
+  return (versionKey as string) in schema.paths;
+}
+
 export function createSchema(target: Type<any>, options: MongooseSchemaOptions = {}): mongoose.Schema {
   const schemaOptionsFromStore = Store.from(target).get(MONGOOSE_SCHEMA_OPTIONS) || {};
   options.schemaOptions = {...options.schemaOptions, ...schemaOptionsFromStore};
@@ -44,10 +52,12 @@ export function createSchema(target: Type<any>, options: MongooseSchemaOptions =
 
   schemaOptions(target, options);
 
+  const outputVersionKey = hasVersionField(schema, options.schemaOptions?.versionKey);
+
   schema.methods.toClass = function toClass() {
     return deserialize(
       this.toObject({
-        versionKey: false,
+        versionKey: outputVersionKey,
         flattenMaps: true
       }),
       {

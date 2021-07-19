@@ -22,4 +22,5 @@ export * from "./text";
 export * from "./trim";
 export * from "./unique";
 export * from "./uppercase";
+export * from "./versionKey";
 export * from "./virtualRef";

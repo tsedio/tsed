@@ -14,7 +14,7 @@ import {
 } from "@tsed/schema";
 import {expect} from "chai";
 import {Schema as SchemaMongoose} from "mongoose";
-import {Model, ObjectID, Ref, Schema, VirtualRef, VirtualRefs} from "../../src/decorators";
+import {Model, ObjectID, Ref, Schema, VersionKey, VirtualRef, VirtualRefs} from "../../src/decorators";
 import {SchemaIgnore} from "../../src/decorators/schemaIgnore";
 import {getSchema} from "../../src/utils/createSchema";
 import {DiscriminatorKey} from "../decorators/discriminatorKey";
@@ -682,5 +682,17 @@ describe("createSchema", () => {
     const options = testSchema.options;
 
     expect(options.discriminatorKey).to.eq("kind");
+  });
+  it("should create schema with version key", () => {
+    @Model()
+    class Test12 {
+      @VersionKey()
+      version: number;
+    }
+    const testSchema = getSchema(Test12);
+    // @ts-ignore
+    const options = testSchema.options;
+
+    expect(options.versionKey).to.eq("version");
   });
 });
