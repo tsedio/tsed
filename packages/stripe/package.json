@@ -1,6 +1,6 @@
 {
   "name": "@tsed/stripe",
-  "version": "6.59.9",
+  "version": "6.60.0",
   "description": "Stripe package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/index.js",
@@ -22,12 +22,12 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.59.9",
-    "@tsed/core": "6.59.9",
-    "@tsed/di": "6.59.9",
-    "@tsed/json-mapper": "6.59.9",
-    "@tsed/openspec": "6.59.9",
-    "@tsed/schema": "6.59.9",
+    "@tsed/common": "6.60.0",
+    "@tsed/core": "6.60.0",
+    "@tsed/di": "6.60.0",
+    "@tsed/json-mapper": "6.60.0",
+    "@tsed/openspec": "6.60.0",
+    "@tsed/schema": "6.60.0",
     "stripe": "^8.129.0"
   },
   "peerDependencies": {
