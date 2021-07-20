@@ -43,7 +43,7 @@ export class Platform {
       if (provider.type === ProviderType.CONTROLLER) {
         const route = getControllerPath(endpoint, provider);
         if (!provider.hasParent()) {
-          const routes = this.buildRoutes(endpoint, provider);
+          const routes = this.buildRoutes(route, provider);
 
           this.#routes.push(...routes);
           this.#controllers.push({
