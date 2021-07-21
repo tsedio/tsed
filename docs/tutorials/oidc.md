@@ -42,7 +42,7 @@ Before using the `@tsed/oidc-provider` package, we need to install the [oidc-pro
 
 ```bash
 npm install --save oidc-provider ajv
-npm install --save @tsed/oidc-provider @tsed/ajv @tsed/adapters
+npm install --save @tsed/oidc-provider @tsed/jwks @tsed/ajv @tsed/adapters
 ```
 
 Then we need to follow these steps:
@@ -294,7 +294,7 @@ export class LoginInteraction {
 
     return oidcCtx.interactionFinished({
       login: {
-        account: account.accountId
+        accountId: account.accountId
       }
     });
   }
@@ -835,6 +835,8 @@ export enum SubjectTypes {
 </Tabs>
 -->
 
+## Debug
+Use `DEBUG=oidc-provider:*` for debugging oidc-provider.
 ## Support Oidc-provider
 
 If you or your business uses [oidc-provider](https://github.com/panva/node-oidc-provider), please consider becoming a sponsor, so we can continue maintaining it and adding new features carefree.
