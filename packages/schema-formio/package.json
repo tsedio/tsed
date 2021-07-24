@@ -1,17 +1,23 @@
 {
-  "name": "@tsed/schema",
+  "name": "@tsed/schema-formio",
   "version": "6.60.2",
-  "description": "JsonSchema module for Ts.ED Framework",
+  "description": "Transform Ts.ED Schema & JsonSchema to a valid Formio schema",
+  "private": false,
   "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
-  "private": false,
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
   "keywords": [
     "TypeScript",
     "decorators",
     "models",
-    "json schema",
+    "json",
+    "schema",
     "JsonSchema",
+    "formio",
     "class",
     "classes",
     "tsed"
@@ -20,21 +26,17 @@
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/core": "6.60.2",
-    "@tsed/openspec": "6.60.2",
     "change-case": "4.1.2",
-    "micromatch": "4.0.2",
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@apidevtools/swagger-parser": "10.0.2",
-    "@types/fs-extra": "9.0.6",
-    "@types/json-schema": "7.0.7",
-    "@types/micromatch": "4.0.1",
-    "fs-extra": "9.0.1"
+    "@tsed/core": "6.60.2",
+    "@tsed/openspec": "6.60.2",
+    "@tsed/schema": "6.60.2"
   },
   "peerDependencies": {
-    "@tsed/core": "6.60.1",
-    "@tsed/openspec": "6.60.1"
+    "@tsed/core": "^6.60.2",
+    "@tsed/openspec": "^6.60.2",
+    "@tsed/schema": "^6.60.2"
   }
 }

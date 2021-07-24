@@ -1,0 +1,362 @@
+{
+  "machineName": "oidcclient",
+  "name": "oidcclient",
+  "title": "OIDCClient",
+  "type": "form",
+  "display": "form",
+  "components": [
+    {
+      "key": "created",
+      "label": "Created",
+      "disabled": true,
+      "enableMinDateInput": false,
+      "datePicker": {
+        "disableWeekends": false,
+        "disableWeekdays": false
+      },
+      "enableMaxDateInput": false,
+      "enableTime": false,
+      "type": "datetime",
+      "input": true,
+      "widget": {
+        "enableTime": true,
+        "time_24hr": true
+      },
+      "timePicker": {
+        "showMeridian": false
+      },
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "modified",
+      "label": "Modified",
+      "disabled": true,
+      "enableMinDateInput": false,
+      "datePicker": {
+        "disableWeekends": false,
+        "disableWeekdays": false
+      },
+      "enableMaxDateInput": false,
+      "enableTime": false,
+      "type": "datetime",
+      "input": true,
+      "widget": {
+        "enableTime": true,
+        "time_24hr": true
+      },
+      "timePicker": {
+        "showMeridian": false
+      },
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "clientName",
+      "label": "Client name",
+      "input": true,
+      "type": "textfield",
+      "tableView": true,
+      "disabled": false,
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "clientId",
+      "label": "Client id",
+      "input": true,
+      "type": "textfield",
+      "tableView": true,
+      "disabled": true,
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "clientSecret",
+      "label": "Client secret",
+      "input": true,
+      "type": "textfield",
+      "disabled": true,
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "trusted",
+      "label": "Trusted",
+      "disabled": false,
+      "defaultValue": false,
+      "input": true,
+      "type": "checkbox",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "clientUri",
+      "label": "Client uri",
+      "input": true,
+      "disabled": false,
+      "type": "url",
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "logoUri",
+      "label": "Logo uri",
+      "input": true,
+      "tableView": true,
+      "disabled": false,
+      "type": "url",
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "applicationType",
+      "label": "Application type",
+      "disabled": false,
+      "defaultValue": "web",
+      "values": [
+        {
+          "label": "Web",
+          "shortcut": "",
+          "value": "web"
+        },
+        {
+          "label": "Native",
+          "shortcut": "",
+          "value": "native"
+        },
+        {
+          "label": "Service",
+          "shortcut": "",
+          "value": "service"
+        }
+      ],
+      "type": "radio",
+      "validate": {
+        "required": true
+      }
+    },
+    {
+      "key": "redirectUris",
+      "label": "Redirect uris",
+      "input": true,
+      "disabled": false,
+      "type": "url",
+      "multiple": true,
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "responseTypes",
+      "label": "Response types",
+      "disabled": false,
+      "values": [
+        {
+          "label": "Code",
+          "shortcut": "",
+          "value": "code"
+        },
+        {
+          "label": "Id token token",
+          "shortcut": "",
+          "value": "id_token token"
+        },
+        {
+          "label": "Code id token token",
+          "shortcut": "",
+          "value": "code id_token token"
+        },
+        {
+          "label": "Token",
+          "shortcut": "",
+          "value": "token"
+        },
+        {
+          "label": "None",
+          "shortcut": "",
+          "value": "none"
+        }
+      ],
+      "inline": false,
+      "type": "selectboxes",
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "grantTypes",
+      "label": "Grant types",
+      "disabled": false,
+      "values": [
+        {
+          "label": "Authorization code",
+          "shortcut": "",
+          "value": "authorization_code"
+        },
+        {
+          "label": "Implicit",
+          "shortcut": "",
+          "value": "implicit"
+        },
+        {
+          "label": "Refresh token",
+          "shortcut": "",
+          "value": "refresh_token"
+        },
+        {
+          "label": "Client credentials",
+          "shortcut": "",
+          "value": "client_credentials"
+        }
+      ],
+      "inline": false,
+      "type": "selectboxes",
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "tokenEndpointAuthMethod",
+      "label": "Token endpoint auth method",
+      "disabled": false,
+      "defaultValue": "client_secret_basic",
+      "values": [
+        {
+          "label": "Client secret post",
+          "shortcut": "",
+          "value": "client_secret_post"
+        },
+        {
+          "label": "Client secret basic",
+          "shortcut": "",
+          "value": "client_secret_basic"
+        },
+        {
+          "label": "Client secret jwt",
+          "shortcut": "",
+          "value": "client_secret_jwt"
+        },
+        {
+          "label": "Private key jwt",
+          "shortcut": "",
+          "value": "private_key_jwt"
+        },
+        {
+          "label": "None",
+          "shortcut": "",
+          "value": "none"
+        }
+      ],
+      "type": "radio",
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "defaultMaxAge",
+      "label": "Default max age",
+      "disabled": false,
+      "defaultValue": 3600,
+      "delimiter": false,
+      "input": true,
+      "inputFormat": "plain",
+      "mask": false,
+      "requireDecimal": false,
+      "type": "number",
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "postLogoutRedirectUris",
+      "label": "Post logout redirect uris",
+      "input": true,
+      "disabled": false,
+      "type": "url",
+      "multiple": true,
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "scopes",
+      "label": "Scopes",
+      "input": true,
+      "type": "tags",
+      "tableView": true,
+      "storeas": "array",
+      "disabled": false,
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "theme",
+      "label": "Theme",
+      "disabled": false,
+      "description": "Change the template display on OIDC group1",
+      "defaultValue": "clubmed",
+      "values": [
+        {
+          "label": "Clubmed",
+          "shortcut": "",
+          "value": "clubmed"
+        },
+        {
+          "label": "Myclubmed",
+          "shortcut": "",
+          "value": "myclubmed"
+        }
+      ],
+      "type": "radio",
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "enableGoogleAd",
+      "label": "Enable Google Tags",
+      "disabled": false,
+      "description": "Import Google tags scripts for this client on OIDC group1 Login page",
+      "defaultValue": true,
+      "input": true,
+      "type": "checkbox",
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "enableConnectionProvider",
+      "label": "Enable Social Login",
+      "disabled": false,
+      "description": "Display socials login buttons for this client on OIDC group1 Login page",
+      "defaultValue": true,
+      "input": true,
+      "type": "checkbox",
+      "validate": {
+        "required": false
+      }
+    },
+    {
+      "key": "hideAccountCreation",
+      "label": "Hide account creation link",
+      "disabled": false,
+      "description": "Disable the account creation link on OIDC group1",
+      "defaultValue": false,
+      "input": true,
+      "type": "checkbox",
+      "validate": {
+        "required": false
+      }
+    }
+  ]
+}
