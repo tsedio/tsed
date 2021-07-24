@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Knex from "knex";
+import {serialize} from "@tsed/json-mapper";
 import {OBJECTION_CONNECTION} from "../src";
 import {User} from "./helpers/models/User";
 import {Server} from "./helpers/Server";
@@ -49,5 +50,21 @@ describe("Objection integrations", () => {
   it("should be able to work with Objection.js Model", async () => {
     const user = await User.query().findById(1);
     expect(user.name).to.be.equal("John");
+  });
+
+  it("should serialize correctly the model", async () => {
+    const user = await User.query().findById(1);
+
+    const result = serialize(user, {type: User, groups: ['creation'], endpoint: true})
+
+    expect(result).to.deep.eq({ name: 'John' })
+
+    const result2 = serialize(user, {type: User, groups: [], endpoint: true})
+
+    expect(result2).to.deep.eq({ id: 1, name: 'John' })
+
+    const result3 = serialize(user, {type: User, groups: []})
+
+    expect(result3).to.deep.eq({ id: 1, name: 'John' })
   });
 });

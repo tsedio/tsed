@@ -1,11 +1,12 @@
 import {Entity} from "@tsed/objection";
-import {MaxLength, MinLength, Required} from "@tsed/schema";
+import {Groups, MaxLength, MinLength, Required} from "@tsed/schema";
 import {Model} from "objection";
 import {IdColumn} from "../../../src/decorators/idColumn";
 
 @Entity("users")
 export class User extends Model {
   @IdColumn()
+  @Groups('!creation')
   id: number;
 
   @Required()
