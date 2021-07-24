@@ -2,12 +2,16 @@
   "name": "@tsed/objection",
   "version": "6.60.1",
   "description": "Objection.js package for Ts.ED framework",
+  "private": false,
   "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
-  "private": false,
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
+    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "dependencies": {
     "tslib": "2.2.0"
