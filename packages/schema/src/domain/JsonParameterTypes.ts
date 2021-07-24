@@ -3,14 +3,14 @@ export enum JsonParameterTypes {
   PATH = "path",
   QUERY = "query",
   HEADER = "header",
-  COOKIES = "cookies",
+  COOKIES = "cookie",
   FILES = "files"
 }
 /**
  * @ignore
  */
 export function formatParameterType(type: any): any {
-  return String(type).toLowerCase().replace("raw_", "");
+  return String(type).toLowerCase().replace("raw_", "").replace("cookies", "cookie");
 }
 /**
  * @ignore
