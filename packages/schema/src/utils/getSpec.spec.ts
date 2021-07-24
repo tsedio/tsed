@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {validateSpec} from "../../test/helpers/validateSpec";
 import {Consumes, In, Min, Name, OperationPath, Required} from "../decorators";
-import {CollectionOf, Description, Property, Returns, SpecTypes} from "../index";
+import {CollectionOf, Description, JsonParameterTypes, Property, Returns, SpecTypes} from "../index";
 import {getSpec} from "./getSpec";
 
 describe("getSpec()", () => {
@@ -1016,6 +1016,49 @@ describe("getSpec()", () => {
                   }
                 },
                 tags: ["Controller"]
+              }
+            }
+          }
+        });
+      });
+    });
+    describe("Cookies", () => {
+      it("should declare all schema correctly (OS3)", async () => {
+        class Controller {
+          @Consumes("application/json")
+          @OperationPath("POST", "/")
+          method(@In(JsonParameterTypes.COOKIES) @Name("hello") @Required() hello: string) {}
+        }
+
+        // THEN
+        const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+
+        expect(spec).to.deep.equal({
+          tags: [
+            {
+              name: "Controller"
+            }
+          ],
+          paths: {
+            "/": {
+              post: {
+                operationId: "controllerMethod",
+                parameters: [
+                  {
+                    in: "cookie",
+                    name: "hello",
+                    required: true,
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                ],
+                tags: ["Controller"],
+                responses: {
+                  "200": {
+                    description: "Success"
+                  }
+                }
               }
             }
           }
