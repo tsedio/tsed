@@ -81,79 +81,79 @@ module.exports = {
             items: [
               {
                 text: "Configuration",
-                link: "/docs/configuration.md"
+                link: "/docs/configuration.html"
               },
               {
                 text: "Controllers",
-                link: "/docs/controllers.md"
+                link: "/docs/controllers.html"
               },
               {
                 text: "Providers",
-                link: "/docs/providers.md"
+                link: "/docs/providers.html"
               },
               {
                 text: "Models",
-                link: "/docs/model.md"
+                link: "/docs/model.html"
               },
               {
                 text: "Json Mapper",
-                link: "/docs/converters.md"
+                link: "/docs/converters.html"
               },
               {
                 text: "Middlewares",
-                link: "/docs/middlewares.md"
+                link: "/docs/middlewares.html"
               },
               {
                 text: "Pipes",
-                link: "/docs/pipes.md"
+                link: "/docs/pipes.html"
               },
               {
                 text: "Interceptors",
-                link: "/docs/interceptors.md"
+                link: "/docs/interceptors.html"
               },
               {
                 text: "Authentication",
-                link: "/docs/authentication.md"
+                link: "/docs/authentication.html"
               },
               {
                 text: "Hooks",
-                link: "/docs/hooks.md"
+                link: "/docs/hooks.html"
               },
               {
                 text: "Response filter",
-                link: "/docs/response-filter.md"
+                link: "/docs/response-filter.html"
               },
               {
                 text: "Exceptions",
-                link: "/docs/exceptions.md"
+                link: "/docs/exceptions.html"
               },
               {
                 text: "Logger",
-                link: "/docs/logger.md"
+                link: "/docs/logger.html"
               },
               {
                 text: "Context",
-                path: "/docs/request-context"
+                link: "/docs/request-context.html"
               },
               {
                 text: "Cache",
-                link: "/docs/cache.md"
+                link: "/docs/cache.html"
               },
               {
                 text: "Platform API",
-                link: "/docs/platform-api.md"
+                link: "/docs/platform-api.html"
               },
               {
                 text: "Command",
-                link: "/docs/command.md"
+                link: "/docs/command.html"
               },
               {
                 text: "Templating",
-                link: "/docs/templating.md"
+                link: "/docs/templating.html"
               },
               {
                 text: "Validation",
-                link: "/docs/validation.md"
+                link: "/docs/validation.html"
               }
             ]
           },
@@ -173,63 +173,63 @@ module.exports = {
             items: [
               {
                 text: "AJV",
-                link: "/tutorials/ajv.md"
+                link: "/tutorials/ajv.html"
               },
               {
                 text: "AWS",
-                link: "/tutorials/aws.md"
+                link: "/tutorials/aws.html"
               },
               {
                 text: "Passport.js",
-                link: "/tutorials/passport.md"
+                link: "/tutorials/passport.html"
               },
               {
                 text: "Keycloak",
-                link: "/tutorials/keycloak.md"
+                link: "/tutorials/keycloak.html"
               },
               {
                 text: "Prisma",
-                link: "/tutorials/prisma.md"
+                link: "/tutorials/prisma.html"
               },
               {
                 text: "TypeORM",
-                link: "/tutorials/typeorm.md"
+                link: "/tutorials/typeorm.html"
               },
               {
                 text: "Mongoose",
-                link: "/tutorials/mongoose.md"
+                link: "/tutorials/mongoose.html"
               },
               {
                 text: "Objection.js",
-                link: "/tutorials/objection.md"
+                link: "/tutorials/objection.html"
               },
               {
                 text: "GraphQL",
-                link: "/tutorials/graphql.md"
+                link: "/tutorials/graphql.html"
               },
               {
                 text: "Socket.io",
-                link: "/tutorials/socket-io.md"
+                link: "/tutorials/socket-io.html"
               },
               {
                 text: "Swagger",
-                link: "/tutorials/swagger.md"
+                link: "/tutorials/swagger.html"
               },
               {
                 text: "OIDC",
-                link: "/tutorials/oidc.md"
+                link: "/tutorials/oidc.html"
               },
               {
                 text: "Stripe",
-                link: "/tutorials/stripe.md"
+                link: "/tutorials/stripe.html"
               },
               {
                 text: "Agenda",
-                link: "/tutorials/agenda.md"
+                link: "/tutorials/agenda.html"
               },
               {
                 text: "Terminus",
-                link: "/tutorials/terminus.md"
+                link: "/tutorials/terminus.html"
               }
             ].sort((a, b) => a.text < b.text ? -1 : 1)
           },
@@ -247,7 +247,7 @@ module.exports = {
               },
               {
                 text: "Team",
-                link: "/team.md"
+                link: "/team.html"
               },
               {
                 text: "Resources",
@@ -255,15 +255,15 @@ module.exports = {
               },
               {
                 text: "Contributes",
-                link: "/contributing.md"
+                link: "/contributing.html"
               },
               {
                 text: "Support",
-                link: "/support.md"
+                link: "/support.html"
               },
               {
                 text: "License",
-                link: "/license.md"
+                link: "/license.html"
               },
               {
                 text: "Api reference",

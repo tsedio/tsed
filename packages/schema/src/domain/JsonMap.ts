@@ -1,6 +1,6 @@
 import {isFunction} from "@tsed/core";
 import {JsonSchemaOptions} from "../interfaces";
-import {serializeMap} from "../utils/serializeJsonSchema";
+import {execMapper} from "../registries/JsonSchemaMapperContainer";
 
 export class JsonMap<T> extends Map<string, any> {
   [key: string]: any;
@@ -24,6 +24,6 @@ export class JsonMap<T> extends Map<string, any> {
   }
 
   toJSON(options: JsonSchemaOptions = {}) {
-    return serializeMap(this, options);
+    return execMapper("map", this, options);
   }
 }

@@ -15,6 +15,18 @@
 
 </div>
 
+<div align="center">
+  <a href="https://tsed.io/">Website</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://tsed.io/getting-started/">Getting started</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://twitter.com/TsED_io">Twitter</a>
+</div>
+
+<hr />
+
 > A Node.js and TypeScript Framework on top of Express. It provides a lot of decorators and guidelines to write your code.
 
 ## What it is
@@ -46,7 +58,7 @@ Documentation is available on [https://tsed.io](https://tsed.io)
 
 ## Getting started 
 
-See our [getting started here](https://tsed.io/getting-started.html) to create new Ts.ED project or use
+See our [getting started here](https://tsed.io/getting-started/) to create new Ts.ED project or use
 our [CLI](https://cli.tsed.io)
 
 ## Examples

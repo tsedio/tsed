@@ -1,5 +1,6 @@
 import {DecoratorParameters} from "@tsed/core";
 import {JsonEntityStore} from "../../domain";
+import {getJsonEntityStore} from "../../utils/getJsonEntityStore";
 
 /**
  * Decorator util to compose another decorator. See @@Description@@ decorator implementation for more details.
@@ -21,7 +22,7 @@ import {JsonEntityStore} from "../../domain";
  */
 export function JsonEntityFn<T extends JsonEntityStore>(fn: (entity: T, parameters: DecoratorParameters) => void): (...args: any[]) => any {
   return (...parameters: DecoratorParameters) => {
-    const result: any = fn(JsonEntityStore.from<T>(...parameters), parameters);
+    const result: any = fn(getJsonEntityStore<T>(...parameters), parameters);
     if (typeof result === "function") {
       result(...parameters);
     }

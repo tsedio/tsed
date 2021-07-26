@@ -1,4 +1,4 @@
-import {DateFormat, DateTime, Email} from "@tsed/schema/src";
+import {DateFormat, DateTime} from "@tsed/schema";
 import {expect} from "chai";
 import {getFormioSchema} from "../src";
 

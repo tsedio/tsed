@@ -1,12 +1,12 @@
-import {classOf, Hooks, isArray, isClass, isFunction, nameOf, Type, uniq, ValueOf} from "@tsed/core";
+import {classOf, Hooks, isArray, isClass, isFunction, isObject, nameOf, Type, uniq, ValueOf} from "@tsed/core";
 import {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
 import {JsonSchemaOptions} from "../interfaces";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback";
+import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics} from "../utils/generics";
 import {getComputedType} from "../utils/getComputedType";
+import {getJsonEntityStore, isJsonEntityStore} from "../utils/getJsonEntityStore";
 import {getJsonType} from "../utils/getJsonType";
-import {mapToJsonSchema} from "../utils/mapToJsonSchema";
-import {serializeJsonSchema} from "../utils/serializeJsonSchema";
 import {toJsonRegex} from "../utils/toJsonRegex";
 import {AliasMap, AliasType} from "./JsonAliasMap";
 import {JsonFormatTypes} from "./JsonFormatTypes";
@@ -34,7 +34,28 @@ function mapProperties(properties: Record<string, any>) {
   }, {});
 }
 
+function mapToJsonSchema(item: any): any {
+  if (isArray(item)) {
+    return (item as any[]).map(mapToJsonSchema);
+  }
+
+  if (item.isStore || item.isJsonSchema || item.isLazyRef) {
+    return item;
+  }
+
+  if (classOf(item) !== Object && isClass(item)) {
+    return getJsonEntityStore(item).schema;
+  }
+
+  if (isObject(item)) {
+    return JsonSchema.from(item as any);
+  }
+
+  return item;
+}
+
 export class JsonSchema extends Map<string, any> implements NestedGenerics {
+  readonly isJsonSchema = true;
   readonly $hooks = new Hooks();
   readonly $required: Set<string> = new Set();
   readonly $allow: any[] = [];
@@ -769,7 +790,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
       options = {schemas: {}};
     }
 
-    const schema = serializeJsonSchema(this, options);
+    const schema = execMapper("schema", this, options);
 
     if (addDef && options.schemas && Object.keys(options.schemas).length) {
       schema.definitions = options.schemas;

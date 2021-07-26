@@ -2,6 +2,7 @@ import {isClass, Type} from "@tsed/core";
 import {JsonEntityStore, JsonFormatTypes} from "../domain";
 import {JsonLazyRef} from "../domain/JsonLazyRef";
 import {JsonSchema} from "../domain/JsonSchema";
+import {getJsonEntityStore} from "./getJsonEntityStore";
 
 /**
  * Create a new model from the given type.
@@ -16,11 +17,11 @@ import {JsonSchema} from "../domain/JsonSchema";
  */
 export function from(type: Type<any> = Object) {
   if (isClass(type)) {
-    const {schema} = JsonEntityStore.from(type);
+    const {schema} = getJsonEntityStore(type);
 
     schema.properties = function properties(obj: {[key: string]: JsonSchema}) {
       Object.entries(obj).forEach(([propertyKey, propSchema]) => {
-        JsonEntityStore.from(type.prototype, propertyKey).schema.assign(propSchema);
+        getJsonEntityStore(type.prototype, propertyKey).schema.assign(propSchema);
       });
 
       return this;

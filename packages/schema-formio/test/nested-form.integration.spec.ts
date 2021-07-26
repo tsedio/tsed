@@ -1,4 +1,4 @@
-import {Property} from "@tsed/schema/src";
+import {Property} from "@tsed/schema";
 import {expect} from "chai";
 import {Currency, getFormioSchema, Hidden, Textarea} from "../src";
 

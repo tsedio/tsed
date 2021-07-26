@@ -1,9 +1,11 @@
 import {nameOf, Type} from "@tsed/core";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {serializeJsonSchema} from "../utils/serializeJsonSchema";
-import {JsonEntityStore} from "./JsonEntityStore";
+import {execMapper} from "../registries/JsonSchemaMapperContainer";
+import {getJsonEntityStore} from "../utils/getJsonEntityStore";
 
 export class JsonLazyRef {
+  readonly isLazyRef = true;
+
   constructor(readonly getType: () => Type<any>) {}
 
   get target() {
@@ -11,7 +13,7 @@ export class JsonLazyRef {
   }
 
   get schema() {
-    return JsonEntityStore.from(this.getType()).schema;
+    return getJsonEntityStore(this.getType()).schema;
   }
 
   get name() {
@@ -19,6 +21,6 @@ export class JsonLazyRef {
   }
 
   toJSON(options?: JsonSchemaOptions) {
-    return this.getType() && serializeJsonSchema(this.schema, options);
+    return this.getType() && execMapper("schema", this.schema, options);
   }
 }

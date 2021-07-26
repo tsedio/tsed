@@ -10,5 +10,6 @@ module.exports = {
   reporter: "dot",
   spec: [
     "packages/**/*.spec.ts"
-  ]
+  ],
+  timeout: 3000
 };

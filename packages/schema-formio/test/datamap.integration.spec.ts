@@ -1,4 +1,4 @@
-import {CollectionOf} from "@tsed/schema/src";
+import {CollectionOf} from "@tsed/schema";
 import {expect} from "chai";
 import {getFormioSchema} from "../src";
 
