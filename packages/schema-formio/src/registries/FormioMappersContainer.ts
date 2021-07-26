@@ -9,10 +9,11 @@ export function registerFormioMapper(type: string, mapper: FormioMapper) {
 }
 
 export function getFormioMapper(type: string): FormioMapper {
+  // istanbul ignore next
   if (!FormioMappersContainer.has(type)) {
-    throw new Error("Formio " + type + " mapper doesn't exists");
+    throw new Error(`Formio ${type} mapper doesn't exists`);
   }
-  return FormioMappersContainer.get(type)!; // || ((schema: string) => schema);
+  return FormioMappersContainer.get(type)!;
 }
 
 export function execMapper(type: string, schema: any, options: any): any {

@@ -11,6 +11,8 @@ import {
   Store,
   Type
 } from "@tsed/core";
+import {JsonEntitiesContainer} from "../registries/JsonEntitiesContainer";
+import {getJsonEntityStore} from "../utils/getJsonEntityStore";
 import {JsonOperation} from "./JsonOperation";
 import {JsonParameter} from "./JsonParameter";
 import {JsonSchema} from "./JsonSchema";
@@ -26,11 +28,10 @@ const getSchema = (type: any) => {
     });
   }
 
-  return JsonEntityStore.from(type).schema;
+  return getJsonEntityStore(type).schema;
 };
 
 export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
-  static entities = new Map<DecoratorTypes, Type<JsonEntityStore>>();
   readonly store: Store;
   readonly isStore = true;
   /**
@@ -199,23 +200,7 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
    * @param args
    */
   static from<T extends JsonEntityStore = JsonEntityStore>(...args: any[]) {
-    const store = Store.from(...args);
-
-    if (!store.has(JsonEntityStore)) {
-      const entityStore = JsonEntityStore.entities.get(decoratorTypeOf(args)) || JsonEntityStore;
-
-      const jsonSchemaStore = new (entityStore as any)({
-        store,
-        target: args[0],
-        propertyKey: args[1],
-        index: typeof args[2] === "number" ? args[2] : undefined,
-        descriptor: typeof args[2] === "object" ? args[2] : undefined
-      });
-
-      store.set(JsonEntityStore, jsonSchemaStore);
-    }
-
-    return store.get<T>(JsonEntityStore)!;
+    return getJsonEntityStore<T>(...args);
   }
 
   static fromMethod(target: any, propertyKey: string | symbol) {
@@ -369,3 +354,5 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
     return parameter;
   }
 }
+
+JsonEntitiesContainer.set("default", JsonEntityStore);

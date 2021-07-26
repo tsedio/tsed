@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {JsonEntityStore} from "../domain/JsonEntityStore";
+import type {JsonEntityStore} from "../domain/JsonEntityStore";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 

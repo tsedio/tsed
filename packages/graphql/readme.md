@@ -4,7 +4,7 @@
 
 <div align="center">
 
-   <h1>TypeGraphQL</h1>
+   <h1>TypeGraphQL (deprecated)</h1>
 
 [![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/tsedio/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsedio/tsed/blob/master/CONTRIBUTING.md)

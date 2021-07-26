@@ -3,7 +3,7 @@ import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {expect} from "chai";
 import {Server} from "./helpers/Server";
 import {MongooseModel} from "../src/interfaces/MongooseModel";
-import {Required} from "@tsed/schema/src";
+import {Required} from "@tsed/schema";
 import {ObjectID, DiscriminatorKey, Model} from "../src";
 
 describe("Mongoose", () => {

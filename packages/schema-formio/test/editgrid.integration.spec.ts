@@ -1,4 +1,4 @@
-import {CollectionOf, Property} from "@tsed/schema/src";
+import {CollectionOf, Property} from "@tsed/schema";
 import {expect} from "chai";
 import {Currency, getFormioSchema} from "../src";
 

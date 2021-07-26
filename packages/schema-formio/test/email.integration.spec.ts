@@ -1,4 +1,4 @@
-import {Email} from "@tsed/schema/src";
+import {Email} from "@tsed/schema";
 import {expect} from "chai";
 import {getFormioSchema} from "../src";
 

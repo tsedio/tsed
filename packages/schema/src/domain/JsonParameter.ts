@@ -1,8 +1,8 @@
 import {cleanObject, toMap, Type} from "@tsed/core";
 import {OS2Schema, OS3Parameter, OS3Schema} from "@tsed/openspec";
 import {JsonSchemaOptions} from "../interfaces";
+import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics, popGenerics} from "../utils/generics";
-import {serializeItem} from "../utils/serializeJsonSchema";
 import {JsonMap} from "./JsonMap";
 import {formatParameterType, isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
@@ -69,7 +69,7 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
   private build(options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema | OS2Schema>) {
     const {type, schema, ...parameter} = super.toJSON(options);
 
-    const jsonSchema = serializeItem(this.$schema, {
+    const jsonSchema = execMapper("item", this.$schema, {
       ...options,
       ...popGenerics(this)
     });

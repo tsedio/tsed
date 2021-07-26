@@ -491,7 +491,7 @@ describe("mergeSpec", () => {
       };
 
       const spec = mergeSpec(spec1, spec2);
-      console.log(JSON.stringify(spec));
+
       expect(spec).to.deep.eq({
         paths: {
           "/rest/api/1.0/test": {

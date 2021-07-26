@@ -1,9 +1,9 @@
 import {cleanObject, Type, uniqBy} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
-import {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces";
 import {buildPath} from "./buildPath";
+import {getJsonEntityStore} from "./getJsonEntityStore";
 import {getOperationsStores} from "./getOperationsStores";
 import {mergeOperation} from "./mergeOperation";
 import {operationIdFormatter} from "./operationIdFormatter";
@@ -97,7 +97,7 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {spec
   };
 
   return get(model, options, () => {
-    const store = JsonEntityStore.from(model);
+    const store = getJsonEntityStore(model);
     const {specType = SpecTypes.SWAGGER, schemas = {}, paths = {}, rootPath = "/", tags = []} = options;
     const ctrlPath = store.path;
     const defaultTags = cleanObject({

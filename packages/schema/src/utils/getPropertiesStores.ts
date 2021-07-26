@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {JsonEntityStore} from "../domain/JsonEntityStore";
+import type {JsonEntityStore} from "../domain/JsonEntityStore";
 import {alterIgnore} from "../hooks/alterIgnore";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
@@ -29,6 +29,7 @@ export function getPropertiesStores<T extends JsonEntityStore = JsonEntityStore>
 
   return store.$properties;
 }
+
 /**
  * @ignore
  */
@@ -38,6 +39,7 @@ export interface GetPropertiesOptions {
 
   [type: string]: any;
 }
+
 /**
  * @ignore
  */

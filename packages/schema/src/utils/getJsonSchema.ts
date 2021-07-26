@@ -1,9 +1,10 @@
 import {Type} from "@tsed/core";
-import {JsonEntityStore} from "../domain/JsonEntityStore";
+import type {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces";
-import {serializeJsonSchema} from "./serializeJsonSchema";
-
+import {execMapper} from "../registries/JsonSchemaMapperContainer";
+import "../components";
+import {getJsonEntityStore, isJsonEntityStore} from "./getJsonEntityStore";
 /**
  * @ignore
  */
@@ -24,7 +25,7 @@ function get(entity: JsonEntityStore, options: any) {
   const key = getKey(options);
 
   if (!cache.has(key)) {
-    const schema = serializeJsonSchema(entity.schema, options);
+    const schema = execMapper("schema", entity.schema, options);
 
     if (Object.keys(options.schemas).length) {
       schema.definitions = options.schemas;
@@ -47,7 +48,7 @@ export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonS
     schemas: {}
   };
 
-  const entity = model instanceof JsonEntityStore ? model : JsonEntityStore.from(model);
+  const entity = isJsonEntityStore(model) ? model : getJsonEntityStore(model);
 
   return get(entity, options);
 }
