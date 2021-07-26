@@ -1,5 +1,4 @@
 import {createInstance} from "./createInstance";
-import {getValue} from "./getValue";
 import {isArray} from "./isArray";
 import {isFunction} from "./isFunction";
 import {isPrimitive} from "./isPrimitive";
@@ -65,8 +64,8 @@ export function deepMerge<T extends any = any, C extends any = any>(
   }
 
   return [...objectKeys(source), ...objectKeys(obj)].reduce((out: any, key: string) => {
-    const src = getValue(source, key);
-    const value = getValue(obj, key);
+    const src = source && source[key];
+    const value = obj && obj[key];
 
     return {
       ...out,
