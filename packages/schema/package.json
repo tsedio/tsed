@@ -17,7 +17,7 @@
     "tsed"
   ],
   "scripts": {
-    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
+    "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
     "@tsed/core": "6.61.0",
