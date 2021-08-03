@@ -2,6 +2,8 @@ export * from "./components";
 export * from "./decorators/jsonMapper";
 export * from "./decorators/onDeserialize";
 export * from "./decorators/onSerialize";
+export * from "./decorators/afterDeserialize";
+export * from "./decorators/beforeDeserialize";
 export * from "./domain/JsonMapperContext";
 export * from "./domain/JsonMapperTypesContainer";
 export * from "./interfaces/JsonMapperMethods";
