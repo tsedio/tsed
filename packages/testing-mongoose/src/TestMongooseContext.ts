@@ -83,6 +83,7 @@ export class TestMongooseContext extends PlatformTest {
     return {
       url,
       connectionOptions: {
+        useCreateIndex: true,
         useUnifiedTopology: true,
         useNewUrlParser: true
       }
