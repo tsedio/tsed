@@ -10,7 +10,7 @@ import {SpecTypes} from "./SpecTypes";
 export type JsonResponseOptions = OS3Response<JsonSchema, string | JsonHeader>;
 
 export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
-  groups: string[];
+  groups: string[] = [];
 
   schema(schema: JsonSchema) {
     this.set("schema", schema);

@@ -51,6 +51,7 @@ registerProvider({
         current.id,
         current.url,
         current.connectionOptions || {
+          useCreateIndex: true,
           useNewUrlParser: true,
           useUnifiedTopology: true
         },
