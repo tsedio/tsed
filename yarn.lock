@@ -1343,6 +1343,13 @@
   resolved "https://registry.yarnpkg.com/@formio/semantic/-/semantic-2.5.0.tgz#dbe9c96f94aa3afd32c787c0964a9cc0667537d9"
   integrity sha512-nv6f0269bf1eua3gVauSuBq3wxLUUQc86UcFvLzdsXwx34jgViSFN5CkgqZ1uqV4wEVY88JgP3nm05Nrg2zG1A==
 
+"@godaddy/terminus@^4.7.1":
+  version "4.9.0"
+  resolved "https://registry.yarnpkg.com/@godaddy/terminus/-/terminus-4.9.0.tgz#c7de0b45ede05116854d1461832dd05df169f689"
+  integrity sha512-j1E22ZK5jW+DVb2vIEOx9I6epWT/geJyWzuxsUThyPcds5UxjCBeKcDTtNVkoWLRASM49o9OKRrCKKybX7z9bw==
+  dependencies:
+    stoppable "^1.1.0"
+
 "@iarna/cli@^1.2.0":
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@iarna/cli/-/cli-1.2.0.tgz#0f7af5e851afe895104583c4ca07377a8094d641"
@@ -17010,6 +17017,11 @@ steno@^0.4.1:
   integrity sha1-BxEFvfwobmYVwEA8J+nXtdy4Vcs=
   dependencies:
     graceful-fs "^4.1.3"
+
+stoppable@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/stoppable/-/stoppable-1.1.0.tgz#32da568e83ea488b08e4d7ea2c3bcc9d75015d5b"
+  integrity sha512-KXDYZ9dszj6bzvnEMRYvxgeTHU74QBFL54XKtP3nyMuJ81CFYtABZ3bAzL2EdFUaEwJOBOgENyFj3R7oTzDyyw==
 
 stream-combiner2@~1.1.1:
   version "1.1.1"
