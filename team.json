@@ -27,5 +27,23 @@
     "country": "Germany",
     "city": "Aachen",
     "role": "Framework"
+  },
+  {
+    "title": "Emilien Leroy",
+    "job": "Developer Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/31723722?v=4",
+    "github": "EmilienLeroy",
+    "country": "France",
+    "city": "NoWhere",
+    "role": "Contributor"
+  },
+  {
+    "title": "Ochrstn",
+    "job": "Developer",
+    "src": "https://avatars.githubusercontent.com/u/25102041?v=4",
+    "github": "EmilienLeroy",
+    "country": "Germany",
+    "city": "NoWhere",
+    "role": "Contributor"
   }
 ]

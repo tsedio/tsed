@@ -75,86 +75,163 @@ module.exports = {
             title: `Getting started | ${title}`
           },
           {
-            text: "Configuration",
-            link: "/docs/configuration.html",
-            title: `Configuration | ${title}`
-          },
-          {
-            text: "Docs",
+            text: "Documentation",
             link: "/docs/controllers.html",
-            title: `Documentation | ${title}`
+            title: `Documentation | ${title}`,
+            items: [
+              {
+                text: "Configuration",
+                link: "/docs/configuration.md"
+              },
+              {
+                text: "Controllers",
+                link: "/docs/controllers.md"
+              },
+              {
+                text: "Providers",
+                link: "/docs/providers.md"
+              },
+              {
+                text: "Models",
+                link: "/docs/model.md"
+              },
+              {
+                text: "Json Mapper",
+                link: "/docs/converters.md"
+              },
+              {
+                text: "Middlewares",
+                link: "/docs/middlewares.md"
+              },
+              {
+                text: "Pipes",
+                link: "/docs/pipes.md"
+              },
+              {
+                text: "Interceptors",
+                link: "/docs/interceptors.md"
+              },
+              {
+                text: "Authentication",
+                link: "/docs/authentication.md"
+              },
+              {
+                text: "Hooks",
+                link: "/docs/hooks.md"
+              },
+              {
+                text: "Response filter",
+                link: "/docs/response-filter.md"
+              },
+              {
+                text: "Exceptions",
+                link: "/docs/exceptions.md"
+              },
+              {
+                text: "Logger",
+                link: "/docs/logger.md"
+              },
+              {
+                text: "Context",
+                path: "/docs/request-context"
+              },
+              {
+                text: "Cache",
+                link: "/docs/cache.md"
+              },
+              {
+                text: "Platform API",
+                link: "/docs/platform-api.md"
+              },
+              {
+                text: "Command",
+                link: "/docs/command.md"
+              },
+              {
+                text: "Templating",
+                link: "/docs/templating.md"
+              },
+              {
+                text: "Validation",
+                link: "/docs/validation.md"
+              }
+            ]
           },
           {
             title: `Warehouse | ${title}`,
             text: "Warehouse",
             link: "/warehouse/",
             items: [
+              {text: "Explore plugins", link: "/warehouse/"},
+              {text: "Project examples", link: "/tutorials/"}
+            ]
+          },
+          {
+            title: `Tutorials | ${title}`,
+            text: "Tutorials",
+            link: "/tutorials/",
+            items: [
               {
-                text: "Explore plugins",
-                link: "/warehouse/"
+                text: "AJV",
+                link: "/tutorials/ajv.md"
               },
               {
-                text: "Official Tutorials",
-                items: [
-                  {
-                    text: "AJV",
-                    link: "/tutorials/ajv.md"
-                  },
-                  {
-                    text: "AWS",
-                    link: "/tutorials/aws.md"
-                  },
-                  {
-                    text: "Passport.js",
-                    link: "/tutorials/passport.md"
-                  },
-                  {
-                    text: "Keycloak",
-                    link: "/tutorials/keycloak.md"
-                  },
-                  {
-                    text: "Prisma",
-                    link: "/tutorials/prisma.md"
-                  },
-                  {
-                    text: "TypeORM",
-                    link: "/tutorials/typeorm.md"
-                  },
-                  {
-                    text: "Mongoose",
-                    link: "/tutorials/mongoose.md"
-                  },
-                  {
-                    text: "Objection.js",
-                    link: "/tutorials/objection.md"
-                  },
-                  {
-                    text: "GraphQL",
-                    link: "/tutorials/graphql.md"
-                  },
-                  {
-                    text: "Socket.io",
-                    link: "/tutorials/socket-io.md"
-                  },
-                  {
-                    text: "Swagger",
-                    link: "/tutorials/swagger.md"
-                  },
-                  {
-                    text: "OIDC",
-                    link: "/tutorials/oidc.md"
-                  },
-                  {
-                    text: "Stripe",
-                    link: "/tutorials/stripe.md"
-                  },
-                  {
-                    text: "Agenda",
-                    link: "/tutorials/agenda.md"
-                  }
-                ]
+                text: "AWS",
+                link: "/tutorials/aws.md"
+              },
+              {
+                text: "Passport.js",
+                link: "/tutorials/passport.md"
+              },
+              {
+                text: "Keycloak",
+                link: "/tutorials/keycloak.md"
+              },
+              {
+                text: "Prisma",
+                link: "/tutorials/prisma.md"
+              },
+              {
+                text: "TypeORM",
+                link: "/tutorials/typeorm.md"
+              },
+              {
+                text: "Mongoose",
+                link: "/tutorials/mongoose.md"
+              },
+              {
+                text: "Objection.js",
+                link: "/tutorials/objection.md"
+              },
+              {
+                text: "GraphQL",
+                link: "/tutorials/graphql.md"
+              },
+              {
+                text: "Socket.io",
+                link: "/tutorials/socket-io.md"
+              },
+              {
+                text: "Swagger",
+                link: "/tutorials/swagger.md"
+              },
+              {
+                text: "OIDC",
+                link: "/tutorials/oidc.md"
+              },
+              {
+                text: "Stripe",
+                link: "/tutorials/stripe.md"
+              },
+              {
+                text: "Agenda",
+                link: "/tutorials/agenda.md"
+              },
+              {
+                text: "Terminus",
+                link: "/tutorials/terminus.md"
               }
-            ]
+            ].sort((a, b) => a.text < b.text ? -1 : 1)
           },
           {
             icon: "bx bx-dots-horizontal-rounded text-lg",
@@ -174,7 +251,7 @@ module.exports = {
               },
               {
                 text: "Resources",
-                link: "/tutorials/readme.md"
+                link: "/tutorials/"
               },
               {
                 text: "Contributes",
@@ -251,7 +328,8 @@ module.exports = {
               { title: "Context", path: "/docs/request-context" },
               "/docs/cache",
               "/docs/platform-api",
-              "/docs/command"
+              "/docs/command",
+              { title: "Templating", path: "/docs/templating" }
             ]
           },
           {
@@ -261,7 +339,6 @@ module.exports = {
               "/docs/validation",
               { title: "Upload files", path: "/docs/upload-files" },
               { title: "Serve files", path: "/docs/serve-files" },
-              { title: "Templating", path: "/docs/templating" },
               "/docs/injection-scopes",
               "/docs/custom-providers",
               "/docs/custom-endpoint-decorators",
@@ -288,6 +365,7 @@ module.exports = {
               "/tutorials/oidc",
               "/tutorials/stripe",
               "/tutorials/agenda",
+              "/tutorials/terminus"
             ]
           },
           {
@@ -321,6 +399,7 @@ module.exports = {
           "/tutorials/oidc",
           "/tutorials/stripe",
           "/tutorials/agenda",
+          "/tutorials/terminus",
           "/docs/controllers",
           "/docs/providers",
           "/docs/model",

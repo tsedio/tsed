@@ -30,9 +30,12 @@ projects:
  - title: Kit OIDC
    href: https://github.com/tsedio/tsed-example-oidc
    src: https://oauth.net/images/oauth-logo-square.png
+ - title: Kit Webpack
+   href: https://github.com/tsedio/tsed-example-webpack
+   src: /webpack.svg
  - title: Kit Prisma
    href: https://github.com/tsedio/tsed-example-prisma
-   src: prisma-2.svg   
+   src: /prisma-2.svg   
 sandboxes:
  - title: Mongoose
    href: https://codesandbox.io/embed/tsed-mongoose-example-omkbm?fontsize=14&hidenavigation=1&theme=dark
@@ -53,15 +56,15 @@ sandboxes:
    href: https://codesandbox.io/s/tsed-graphql-pgvfz
    src: /typegraphql.png
 meetups:
-- title: Artips
-  href: https://github.com/tsedio/meetup-tsed-artips
-  src: /they-use-it/artips.png
-- title: Zenika
-  href: https://github.com/tsedio/meetup-tsed-zenika
-  src: /zenika.png
-- title: Publicis
-  href: https://github.com/tsedio/meetup-tsed-publicis
-  src: /meetup.png
+ - title: Artips
+   href: https://github.com/tsedio/meetup-tsed-artips
+   src: /they-use-it/artips.png
+ - title: Zenika
+   href: https://github.com/tsedio/meetup-tsed-zenika
+   src: /zenika.png
+ - title: Publicis
+   href: https://github.com/tsedio/meetup-tsed-publicis
+   src: /meetup.png
 meta:
  - name: description
    content: Start a new REST application with Ts.ED framework. Ts.ED is built on top of Express/Koa and use TypeScript language.
@@ -73,6 +76,8 @@ meta:
 ## Starters
 
 <Projects type="projects"/>
+
+See more project examples on Github organization [here](https://github.com/tsedio/?q=example&type=&language=&sort=).
 
 ## Sandboxes
 
