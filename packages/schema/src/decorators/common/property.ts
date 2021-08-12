@@ -1,3 +1,4 @@
+import {isClass} from "@tsed/core";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -12,6 +13,9 @@ import {JsonEntityFn} from "./jsonEntityFn";
 export function Property(type?: any) {
   return JsonEntityFn((store) => {
     if (type) {
+      if (isClass(type)) {
+        store.type = type;
+      }
       store.itemSchema.type(type);
     }
   });
