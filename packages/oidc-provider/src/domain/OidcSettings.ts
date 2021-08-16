@@ -5,6 +5,10 @@ import {OidcAccountsMethods} from "./OidcAccountsMethods";
 
 export interface OidcSettings extends Configuration {
   /**
+   * Path on which the oidc-provider instance is mounted.
+   */
+  path?: string;
+  /**
    * Issuer URI. By default Ts.ED create issuer with http://localhost:${httpPort}
    */
   issuer?: string;

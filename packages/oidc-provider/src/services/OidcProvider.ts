@@ -6,6 +6,7 @@ import {OidcAccountsMethods, OidcSettings} from "../domain";
 import {OidcAdapters} from "./OidcAdapters";
 import {OidcInteractions} from "./OidcInteractions";
 import {OidcJwks} from "./OidcJwks";
+import {PlatformApplication} from "@tsed/common";
 
 @Injectable()
 export class OidcProvider {
@@ -26,6 +27,9 @@ export class OidcProvider {
   @Constant("oidc")
   protected oidc: OidcSettings;
 
+  @Constant("PLATFORM_NAME")
+  protected platformName: string;
+
   @Inject()
   protected oidcJwks: OidcJwks;
 
@@ -38,6 +42,9 @@ export class OidcProvider {
   @Inject()
   protected injector: InjectorService;
 
+  @Inject()
+  protected app: PlatformApplication;
+
   hasConfiguration() {
     return !!this.oidc;
   }
@@ -47,6 +54,10 @@ export class OidcProvider {
     const {issuer, jwksPath, secureKey, proxy, Accounts, ...options} = this.oidc;
 
     const configuration: Configuration = {
+      interactions: {
+        /* istanbul ignore next */
+        url: (ctx, interaction) => `interaction/${interaction.uid}`
+      },
       ...options,
       adapter,
       jwks
@@ -80,6 +91,7 @@ export class OidcProvider {
       return this.issuer;
     }
 
+    // istanbul ignore next
     if (this.httpsPort) {
       return `https://localhost:${this.httpsPort}`;
     }
@@ -100,7 +112,16 @@ export class OidcProvider {
     const oidcProvider = new OIDCProvider(this.getIssuer(), configuration);
 
     if (proxy || this.env === Env.PROD) {
-      oidcProvider.proxy = true;
+      // istanbul ignore next
+      switch (this.platformName) {
+        default:
+        case "express":
+          oidcProvider.proxy = true;
+          break;
+        case "koa":
+          (this.app.rawApp as any).proxy = true;
+          break;
+      }
     }
 
     if (secureKey) {
