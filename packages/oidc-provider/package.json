@@ -6,16 +6,24 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "private": false,
+  "contributors": [
+    {
+      "name" : "romakita"
+    },
+    {
+      "name" : "stefanvanherwijnen"
+    }
+  ],
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
     "@tsed/adapters": "6.63.1",
-    "@types/lowdb": "1.0.9",
-    "@types/oidc-provider": "^7.1.1",
-    "@types/uuid": "8.3.0",
+    "express-urlrewrite": "^1.4.0",
     "jose2": "npm:jose@^2.0.4",
+    "koa-mount": "^4.0.0",
+    "koa-rewrite": "^3.0.1",
     "lowdb": "1.0.0",
     "tslib": "2.2.0",
     "uuid": "8.3.2"
@@ -25,6 +33,9 @@
     "@tsed/core": "6.63.1",
     "@tsed/di": "6.63.1",
     "@tsed/exceptions": "6.63.1",
+    "@types/lowdb": "1.0.9",
+    "@types/oidc-provider": "^7.1.1",
+    "@types/uuid": "8.3.0",
     "oidc-provider": "^7.3.0"
   },
   "peerDependencies": {
