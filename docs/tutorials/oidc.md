@@ -1,7 +1,7 @@
 ---
 meta:
  - name: description
-   content: Use Oidc-provider with Express.js/Koa.js, TypeScript and Ts.ED. oidc-provider is an OAuth 2.0 Authorization Server with OpenID Connect and many additional features and standards implemented.
+   content: Use oidc-provider with Express.js/Koa.js, TypeScript and Ts.ED. oidc-provider is an OAuth 2.0 Authorization Server with OpenID Connect and many additional features and standards implemented.
  - name: keywords
    content: ts.ed express koa oidc typescript node.js javascript decorators
 projects:   
@@ -11,11 +11,11 @@ projects:
 ---
 # OIDC 
 
-<Badge text="alpha" /> <Badge text="Contributors are welcome" />
+<Badge text="beta" /> <Badge text="Contributors are welcome" />
 
 <Banner src="https://oauth.net/images/oauth-logo-square.png" height="100" href="https://github.com/panva/node-oidc-provider"></Banner>
 
-[Oidc-provider](https://github.com/panva/node-oidc-provider) is an OAuth 2.0 Authorization Server with OpenID Connect and many additional features and standards implemented.
+[oidc-provider](https://github.com/panva/node-oidc-provider) is an OAuth 2.0 Authorization Server with OpenID Connect and many additional features and standards implemented.
 
 ::: tip Certification
 Filip Skokan has [certified](https://openid.net/certification/) that [oidc-provider](https://github.com/panva/node-oidc-provider) conforms to the following profiles of the OpenID Connect™ protocol
@@ -29,52 +29,47 @@ Filip Skokan has [certified](https://openid.net/certification/) that [oidc-provi
 
 ## Features
 
-Ts.ED provides decorators and services to create an Oidc-provider with your Ts.ED application.
+Ts.ED provides decorators and services to create an OIDC provider with your Ts.ED application.
 
 - Create interactions policies,
 - Create views,
-- Use adapters to connect Oidc-provider with redis/mongo/etc...
-- Create automatically jwks keys on startup
+- Use adapters to connect oidc-provider with redis/mongo/etc...
+- Automatically create jwks keys on startup
 
 ## Installation
 
 Before using the `@tsed/oidc-provider` package, we need to install the [oidc-provider](https://www.npmjs.com/package/oidc-provider) module.
 
 ```bash
-npm install --save oidc-provider ajv
-npm install --save @tsed/oidc-provider @tsed/jwks @tsed/ajv @tsed/adapters
+npm install --save oidc-provider
+npm install --save @tsed/oidc-provider @tsed/jwks @tsed/adapters
 ```
 
 Then we need to follow these steps:
 
 - Configure the oidc server,
+- Create the Accounts provider
 - Create the Interactions controller,
 - Create our first Login interaction and views,
-- Create the Accounts provider
 
 ## Configuration
 
-Create Oidc server with Ts.ED requires some other Ts.ED features to work properly. 
+To use oidc-provider with Ts.ED it requires some other Ts.ED features to work properly. 
 
 - Adapters to manage database connection,
-- Ajv to validate 
 - [Views](/docs/templating.md#configuration) to display pages.
 
+Use `tsed init yourApp` to create a TSed application and adjust `Server.ts`:
 ```typescript
-import {Env} from "@tsed/core";
-import {Configuration, Inject, Constant} from "@tsed/di";
-import {FileSyncAdapter} from "@tsed/adapter";
-import "@tsed/ajv";
-import "@tsed/swagger";
-import {OidcSecureMiddleware} from "@tsed/oidc-provider";
-import {PlatformApplication} from "@tsed/common";
+...
+import {Configuration} from "@tsed/di";
 import {Accounts} from "./services/Accounts"; 
 import {InteractionsCtrl} from "./controllers/oidc/InteractionsCtrl"; 
 
 export const rootDir = __dirname;
 
 @Configuration({
-  httpPort: 8081,
+  httpPort: 8083,
   mount: {
    "/": [InteractionsCtrl]
   },
@@ -83,27 +78,28 @@ export const rootDir = __dirname;
     Adapter: FileSyncAdapter
   },
   oidc: {
-    issuer: "http://localhost:8081",
+    path: "/oidc",
+    issuer: "https://localhost:8443/oidc/",
+    proxy: true,
     jwksPath: join(__dirname, "..", "keys", "jwks.json"),
     Accounts: Accounts, // Injectable service to manage your accounts
     clients: [ // statics clients
       {
-        client_id: "client_id",
-        client_secret: "client_secret",
-        redirect_uris: [
-          "http://localhost:8081"
+        client_id: 'foo',
+        client_secret: "secret",
+        grant_types: [
+          "authorization_code",
+          "implicit"
         ],
-        response_types: ["id_token"],
-        grant_types: ["implicit"],
-        token_endpoint_auth_method: "none"
+        redirect_uris: [
+            'https://localhost:8080/cb' // Assuming your frontend application runs at port 8080
+        ],
+        token_endpoint_auth_method: 'none'
       }
     ],
     claims: {
       openid: ["sub"],
       email: ["email", "email_verified"]
-    },
-    formats: {
-      AccessToken: "jwt"
     },
     features: {
       // disable the packaged interactions
@@ -118,66 +114,54 @@ export const rootDir = __dirname;
     extensions: {
       ejs: "ejs"
     }
-  },
-  swagger: [
-    {
-      path: "/v3/doc",
-      specVersion: "3.0.1",
-      showExplorer: true
-    }
-  ]
-})
-export class Server {
-  @Inject()
-  app: PlatformApplication;
- 
-  @Constant("env")
-  env: Env;
-
-  $beforeRoutesInit() {
-    if (this.env === "production") {
-      this.app.use(OidcSecureMiddleware) // ensure the https protocol
-    } 
   }
-}
+})
+...
 ```
 
 ### Options
 
-```typescript
-import {Type} from "@tsed/core";
-import {Configuration} from "oidc-provider";
-import {OidcAccountsMethods, OidcClientsMethods} from "@tsed/oidc-provider";
-
-export interface OidcSettings extends Configuration {
-  /**
-   * Issuer URI. By default Ts.ED creates issuer with http://localhost:${httpPort}
-   */
-  issuer?: string;
-  /**
-   * Path to store jwks keys.
-   */
-  jwksPath?: string;
-  /**
-   * Secure keys.
-   */
-  secureKey?: string[];
-  /**
-   * Enable proxy.
-   */
-  proxy?: boolean;
-  /**
-   * Injectable service to manage accounts.
-   */
-  Accounts?: Type<OidcAccountsMethods>;
-}
-```
+<<< @/../packages/oidc-provider/src/domain/OidcSettings.ts
 
 Documentation on other options properties can be found on the [oidc-provider](https://github.com/panva/node-oidc-provider/blob/master/docs/README.md) documentation page.
 
+::: warning
+It is advised to set `path` to `/oidc` to prevent oidc-provider becoming the default exception handler on all routes. In future versions of Ts.ED this will be the default value.
+:::
+
+## TLS proxy
+The OpenID Connect specification does not allow unsecured HTTP requests and oidc-provider blocks them by default. While there is a [workaround](https://github.com/panva/node-oidc-provider/blob/main/recipes/implicit_http_localhost.md), the proper way is to use a TLS offloading proxy in front of your app.
+When developing, the easiest way is to use [Caddy](https://caddyserver.com/). To use it, set `proxy: true` in your [options](#Options) and then run:
+```
+caddy reverse-proxy --from localhost:8443 --to localhost:8083
+```
+
+## Accounts
+oidc-provider requires an Account model to find an account during an interaction. The model can be used in conjunction with the adapter to fetch an account.
+
+<Tabs class="-code">
+  <Tab label="models/Account.ts">
+
+<<< @/../packages/oidc-provider/test/app/models/Account.ts
+
+  </Tab>
+  <Tab label="services/Accounts.ts">
+
+<<< @/../packages/oidc-provider/test/app/services/Accounts.ts
+    
+  </Tab>
+</Tabs>
+
+::: tip
+Claims method is used by oidc-provider to expose this information in the userInfo endpoint.
+:::
+
+::: tip
+We use the `$onInit` hook to create the first account automatically. You can adapt the script to your needs. 
+:::
 ## Interactions
 
-Interactions is the User flows in Oidc provider. For example the login page is considered by Oidc-provider as an interaction.
+Interactions are the user flows in oidc-provider. For example, the login page is considered by oidc-provider as an interaction.
 We can define many interactions during the authentication flow, for example:
 
 - Login,
@@ -186,152 +170,47 @@ We can define many interactions during the authentication flow, for example:
 - Sharing account data consent,
 - etc.
 
-To have a working Oidc server with Ts.ED, we need to create at least one interaction.
-To begin, we have to create the `Interactions` controller which will be responsible to run all of our future
+To have a working OIDC server with Ts.ED, we need to create at least a login and a consent interaction.
+To start, we have to create the `Interactions` controller which will be responsible to run all of our future
 custom interactions.
 
-In your controllers directory, create the `oidc/InteractionCtrl.ts` file and copy the following code:
+In your controllers directory, create the `oidc/InteractionsCtrl.ts` file and copy the following code:
 
-```typescript
-import {Get} from "@tsed/common";
-import {Interactions, OidcCtx, DefaultPolicy} from "@tsed/oidc-provider";
-import {LoginInteraction} from "../../interactions/LoginInteraction";
+<<< @/../packages/oidc-provider/test/app/controllers/oidc/InteractionsCtrl.ts
 
-@Interactions({
-  path: "/interaction/:uid",
-  children: [
-    LoginInteraction // register its children interations 
-  ]
-})
-export class InteractionsCtrl {
-  @Get("/")
-  async promptInteraction(@OidcCtx() oidcCtx: OidcCtx) {
-    return oidcCtx.runInteraction();
-  }
-}
-```
 ::: tip Note
 The controller Interactions exposes the routes to display any interaction. Here we expose the route GET `/interation/:uid`
 
-The `uid` is the unique session id used by Oidc-provider to identify the current user flow.
+The `uid` is the unique session id used by oidc-provider to identify the current user flow.
 :::
 
 Now that we have our interactions controller, we can create our first interaction.
 
 Create a new directory `interactions`. We will store all custom interactions in this directory.
 
-```typescript
-import {BodyParams, Inject, Post, View} from "@tsed/common";
-import {Env} from "@tsed/core";
-import {Constant} from "@tsed/di";
-import {BadRequest, Unauthorized} from "@tsed/exceptions";
-import {Interaction, OidcCtx, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
-import {Accounts} from "../services/Accounts";
+<Tabs class="-code">
+  <Tab label="LoginInteraction.ts">
 
-@Interaction({
-  name: "login"
-})
-export class LoginInteraction {
-  @Constant("env")
-  env: Env;
+<<< @/../packages/oidc-provider/test/app/interactions/LoginInteraction.ts
 
-  @Inject()
-  accounts: Accounts;
+  </Tab>
+  <Tab label="ConsentInteraction.ts">
 
-  @View("login")
-  async $prompt(@OidcCtx() oidcCtx: OidcCtx,
-                @Prompt() prompt: Prompt,
-                @OidcSession() session: OidcSession,
-                @Params() params: Params,
-                @Uid() uid: Uid): Promise<any> {
-    const client = await oidcCtx.findClient();
-
-    if (!client) {
-      throw new Unauthorized(`Unknown client_id ${params.client_id}`);
-    }
-
-    return {
-      client,
-      uid,
-      details: prompt.details,
-      params,
-      title: "Sign-in",
-      flash: false,
-      ...oidcCtx.debug()
-    };
-  }
-
-  @Post("/login")
-  @View("login")
-  async submit(@BodyParams() payload: any,
-               @Params() params: Params,
-               @Uid() uid: Uid,
-               @OidcSession() session: OidcSession,
-               @Prompt() prompt: Prompt,
-               @OidcCtx() oidcCtx: OidcCtx) {
-    if (prompt.name !== "login") {
-      throw new BadRequest("Bad interaction name");
-    }
-
-    const client = await oidcCtx.findClient();
-
-    const account = await this.accounts.authenticate(payload.email, payload.password);
-
-    if (!account) {
-      return {
-        client,
-        uid,
-        details: prompt.details,
-        params: {
-          ...params,
-          login_hint: payload.email
-        },
-        title: "Sign-in",
-        flash: "Invalid email or password.",
-        ...oidcCtx.debug()
-      };
-    }
-
-    return oidcCtx.interactionFinished({
-      login: {
-        accountId: account.accountId
-      }
-    });
-  }
-}
-```
+<<< @/../packages/oidc-provider/test/app/interactions/ConsentInteraction.ts
+    
+  </Tab>
+</Tabs>
 
 ::: tip 
 `$prompt` is a special hook called by your Interactions controller.
 :::
 
-::: tip 
-To start the server properly, create the Accounts class in `services` directory with the authenticate and findAccount methods:
 
-```typescript
-import {Injectable} from "@tsed/di";
-import {AccessToken, AuthorizationCode, DeviceCode} from "@tsed/oidc-provider";
-
-@Injectable()
-export class Accounts {
-  async findAccount(id: string, token: AuthorizationCode | AccessToken | DeviceCode | undefined, ctx: PlatformContext) {
-    return undefined;
-  }
-  
-  async authenticate(email: string, password: string) {
-    return undefined;
-  }
-}
-```
-
-We will implement these methods later!
-:::
-
-At this step, you can start the Oidc server and check the logs server to see if the well-known configuration 
+At this step, you can start the OIDC server and check the logs server to see if the well-known configuration 
 has been correctly exposed:
 
 ```sh
-[2021-01-04T07:35:31.523] [INFO ] [TSED] - WellKnown is available on http://0.0.0.0:8081/.well-known/openid-configuration
+[2021-01-04T07:35:31.523] [INFO ] [TSED] - WellKnown is available on http://0.0.0.0:8083/.well-known/openid-configuration
 ```
 Try also to open the link in your browser!
 
@@ -368,96 +247,22 @@ Now, we need to add the Views to display our login page. Create a views director
 The login page is ready to be displayed. To test it, open the following link:
 
 ```
-http://0.0.0.0:8081/auth?client_id=client_id&response_type=id_token&scope=openid&nonce=foobar&redirect_uri=http://localhost:8081
+https://localhost:8443/oidc/auth?response_type=code%20id_token
+&client_id=foo
+&scope=openid
+&redirect_uri=https%3A%2F%2Flocalhost%3A8080%2Fcb
+&code_challenge=NiC_lkZ0dlkh64vlvbXVIc0t4cTOrNrQGsdD1E-TJ5Y
+&code_challenge_method=S256
+&nonce=8973498723498723423
+
 ```
 
 <figure><img alt="Oidc login page" src="./../assets/oidc/signin-page.png" style="max-height: 400px"></figure>
 
-## Accounts
 
-An Accounts provider can be given to the Oidc configuration. It'll be responsible to manage accounts and resolve the user authentication.
+## Alter OIDC policy
 
-Copy the following code in the `Accounts.ts` file:
-
-```typescript
-import {Adapter, InjectAdapter} from "@tsed/adapters";
-import {PlatformContext} from "@tsed/common";
-import {Injectable} from "@tsed/di";
-import {deserialize} from "@tsed/json-mapper";
-import {AccessToken, AuthorizationCode, DeviceCode} from "@tsed/oidc-provider";
-import {Account} from "../models/Account";
-
-@Injectable()
-export class Accounts {
-  @InjectAdapter("Accounts", Account)
-  adapter: Adapter<Account>;
-
-  async $onInit() {
-    const accounts = await this.adapter.findAll();
-
-    // We create a default account if the database is empty
-    if (!accounts.length) {
-      await this.adapter.create(deserialize({
-        email: "test@test.com",
-        emailVerified: true
-      }, {useAlias: false}));
-    }
-  }
-
-  async findAccount(id: string, token: AuthorizationCode | AccessToken | DeviceCode | undefined, ctx: PlatformContext) {
-    return this.adapter.findById(id);
-  }
-
-  async authenticate(email: string, password: string) {
-    return this.adapter.findOne({email});
-  }
-}
-```
-
-::: tip
-We use the `$onInit` hook to create the first account automatically. You can adapt the script to your needs. 
-:::
-
-Then, create the Account model:
-
-```typescript
-import {Email, Name, Property} from "@tsed/schema";
-
-export class Account {
-  @Name("id")
-  _id: string;
-
-  @Email()
-  email: string;
-
-  @Property()
-  @Name("email_verified")
-  emailVerified: boolean;
-  
-  // Added in v7
-  [key: string]: unknown;
-
-  get accountId() {
-    return this._id;
-  }
-
-  async claims() {
-    return {
-      sub: this._id,
-      email: this.email,
-      email_verified: this.emailVerified
-    };
-  }
-}
-```
-
-::: tip
-Claims method is used by Oidc to expose this information in the userInfo endpoint.
-:::
-
-## Alter Oidc policy
-
-Ts.ED emits a special `$alterOidcPolicy` event when @tsed/oidc-provider links interactions with Oidc policy. You can change the policy configuration
+Ts.ED emits a special `$alterOidcPolicy` event when @tsed/oidc-provider links interactions with OIDC policy. You can change the policy configuration
 by adding `$alterOidcPolicy` on InteractionsCtrl:
 
 ```typescript
@@ -485,359 +290,9 @@ export class InteractionsCtrl {
 }
 ```
 
-## Override Consent interaction
-
-OIDC provider allow you to change the Consent page interaction. With `@tsed/oidc-provider` you can do that by creating a new ContentInteraction
-as following:
-
-```typescript
-import {Inject, Post, View} from "@tsed/common";
-import {BadRequest} from "@tsed/exceptions";
-import {Interaction, OidcCtx, OidcProvider, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
-import {Name} from "@tsed/schema";
-
-@Interaction({
-   name: "consent"
-})
-@Name("Oidc")
-export class ConsentInteraction {
-   @Inject()
-   oidc: OidcProvider;
-
-   @View("interaction")
-   async $prompt(@OidcCtx() oidcCtx: OidcCtx,
-                 @Prompt() prompt: Prompt,
-                 @OidcSession() session: OidcSession,
-                 @Params() params: Params,
-                 @Uid() uid: Uid): Promise<any> {
-      const client = await oidcCtx.findClient();
-
-      return {
-         client,
-         uid,
-         details: prompt.details,
-         params,
-         title: "Authorize",
-         ...oidcCtx.debug()
-      };
-   }
-
-   @Post("/confirm")
-   async confirm(@OidcCtx() oidcCtx: OidcCtx, @Prompt() prompt: Prompt) {
-      if (prompt.name !== "consent") {
-         throw new BadRequest("Bad interaction name");
-      }
-
-      const grant = await oidcCtx.getGrant();
-      const details = prompt.details as {
-         missingOIDCScope: string[],
-         missingResourceScopes: Record<string, string[]>,
-         missingOIDClaims: string[]
-      };
-
-      const {missingOIDCScope, missingOIDClaims, missingResourceScopes} = details;
-
-      if (missingOIDCScope) {
-         grant.addOIDCScope(missingOIDCScope.join(" "));
-         // use grant.rejectOIDCScope to reject a subset or the whole thing
-      }
-      if (missingOIDClaims) {
-         grant.addOIDCClaims(missingOIDCScope);
-         // use grant.rejectOIDCClaims to reject a subset or the whole thing
-      }
-
-      if (missingResourceScopes) {
-         // eslint-disable-next-line no-restricted-syntax
-         for (const [indicator, scopes] of Object.entries(missingResourceScopes)) {
-            grant.addResourceScope(indicator, scopes.join(" "));
-            // use grant.rejectResourceScope to reject a subset or the whole thing
-         }
-      }
-
-      const grantId = await grant.save();
-
-      const consent: any = {};
-
-      if (!oidcCtx.grantId) {
-         // we don't have to pass grantId to consent, we're just modifying existing one
-         consent.grantId = grantId;
-      }
-
-      return oidcCtx.interactionFinished({consent}, {mergeWithLastSubmission: true});
-   }
-}
-```
-Then add the ConsentInteraction in the InteractionsCtrl:
-
-```typescript
-import {Get} from "@tsed/common";
-import {Interactions, OidcCtx, DefaultPolicy} from "@tsed/oidc-provider";
-import {ConsentInteraction} from "../../interactions/ConsentInteraction";
-
-@Interactions({
-  path: "/interaction/:uid",
-  children: [
-     ConsentInteraction // register its children interactions 
-  ]
-})
-export class InteractionsCtrl {
-  @Get("/")
-  async promptInteraction(@OidcCtx() oidcCtx: OidcCtx) {
-    return oidcCtx.runInteraction();
-  }
-}
-```
-
-## Remove consent interaction
-
-
-  
-Sometimes your use-case doesn't need a consent screen. This use-case might occur if your provider has only `first-party` clients configured. 
-To achieve that you want to add the requested claims/scopes/resource scopes to the grant:
-
-```typescript
-import {Configuration} from "@tsed/common";
-import {KoaContextWithOIDC} from "oidc-provider";
-
-async function loadExistingGrant(ctx: KoaContextWithOIDC) {
-  const grantId = (ctx.oidc.result
-    && ctx.oidc.result.consent
-    && ctx.oidc.result.consent.grantId) || ctx.oidc.session.grantIdFor(ctx.oidc.client.clientId);
-
-  if (grantId) {
-     return ctx.oidc.provider.Grant.find(grantId);
-  } 
-  
-  if (isFirstParty(ctx.oidc.client)) { // implement isFirstParty function to determine if client is a firstParty
-     const grant = new ctx.oidc.provider.Grant({
-        clientId: ctx.oidc.client.clientId,
-        accountId: ctx.oidc.session.accountId,
-     });
-
-     grant.addOIDCScope('openid email profile');
-     grant.addOIDCClaims(['first_name']);
-     grant.addResourceScope('urn:example:resource-indicator', 'api:read api:write');
-     await grant.save();
-     return grant;
-  }
-}
-
-@Configuration({
-  oidc: {
-    loadExistingGrant
-  }
-})
-export class Server {}
-```
-
-::: warning
-- No guarantees this is bug-free, no support will be provided for this, you've been warned, you're on your own
-- It's not recommended to have consent-free flows for the obvious issues this poses for native applications
-:::
-  
-::: tip
-This example is based on the original Recipe provided by oidc-provider. See more details on [skip_consent page](https://github.com/panva/node-oidc-provider/blob/main/recipes/skip_consent.md).
-:::
-
-<!--
-## Clients
-
-A Clients provider can be given to the Oidc configuration. It'll be responsible to manage clients.
-
-```typescript
-import {Adapter, InjectAdapter} from "@tsed/adapters";
-import {PlatformContext} from "@tsed/common";
-import {Injectable} from "@tsed/di";
-import {serialize} from "@tsed/json-mapper";
-import {AccessToken, AuthorizationCode, DeviceCode} from "@tsed/oidc-provider";
-import {ClientMetadata} from "oidc-provider";
-import {OidcClient} from "../models/OidcClient";
-
-@Injectable()
-export class Clients {
-  @InjectAdapter("Clients", OidcClient)
-  adapter: Adapter<OidcClient>;
-
-  async find(clientId: string): Promise<ClientMetadata> {
-    return serialize(this.adapter.findById(clientId));
-  }
-}
-```
-
-Then, create the Client model:
-
-<Tabs class="-code">
-  <Tab label="Client">
-  
-```typescript
-import {
-  AdditionalProperties,
-  CollectionOf,
-  Default,
-  Email,
-  Enum,
-  Groups,
-  Integer,
-  Name,
-  Property,
-  Required,
-  Uri
-} from "@tsed/schema";
-import {snakeCase} from "change-case";
-import {ApplicationTypes} from "./ApplicationTypes";
-import {GrantTypes} from "./GrantTypes";
-import {ResponseTypes} from "./ResponseTypes";
-import {SubjectTypes} from "./SubjectTypes";
-
-function Snake(target: Object, propertyKey: string) {
-  return Name(snakeCase(propertyKey))(target, propertyKey);
-}
-
-export class Client {
-  @Required()
-  @Snake
-  @Groups("!creation")
-  clientId: string;
-
-  @Required()
-  @Snake
-  @Groups("!creation")
-  clientSecret: string;
-
-  @Uri()
-  @Snake
-  redirectUris: string[] = [];
-
-  @Enum(ResponseTypes)
-  @Snake
-  responseTypes: ResponseTypes[] = [];   // types: code / id_token token / code id_token token / token / none
-
-  @Enum(GrantTypes)   // types: authorization_code, implicit, refresh_token, client_credentials
-  @Snake
-  grantTypes: GrantTypes[] = [];
-
-  @Enum(ApplicationTypes)   // types: web, native, service
-  @Snake
-  @Default(ApplicationTypes.WEB)
-  applicationType: ApplicationTypes;
-
-  @Snake
-  clientName: string;
-
-  @Uri()
-  @Snake
-  clientUri: string;
-
-  @Uri()
-  @Snake
-  logoUri: string;
-
-  @Snake
-  tokenEndpointAuthMethod: string;
-
-  @Snake
-  defaultMaxAge: number;
-
-  @Snake
-  @CollectionOf(String)
-  defaultAcrValues: string[];
-
-  @Uri()
-  @CollectionOf(String)
-  @Snake
-  postLogoutRedirectUris: string[];
-
-  @Property(String)
-  scope: string;
-
-  @Uri()
-  @Snake
-  policyUri: string;
-
-  @Uri()
-  @Snake
-  initiateLoginUri: string;
-
-  @Uri()
-  @Snake
-  jwksUri: string;
-
-  @Uri()
-  @Snake
-  tosUri: string;
-
-  @Email()
-  @CollectionOf(String)
-  contacts: string[];
-
-  @Integer()
-  @Snake
-  clientIdIssuedAt: number;
-
-  @Enum(SubjectTypes)
-  @Snake
-  subjectType: SubjectTypes;
-
-  get _id() {
-    return this.clientId;
-  }
-
-  set _id(id: string) {
-    this.clientId = id;
-  }
-}
-```
-
-  </Tab>
-  <Tab label="GrantTypes.ts">
-
-```typescript
-export enum GrantTypes {
-  AUTHORIZATION_CODE = 'authorization_code',
-  IMPLICIT = 'implicit',
-  REFRESH_TOKEN = 'refresh_token',
-  CLIENT_CREDENTIALS = 'client_credentials'
-}
-```  
-  
-  </Tab>
-  <Tab label="ApplicationTypes.ts">
-
-```typescript
-export enum ApplicationTypes {
-  WEB = 'web',
-  NATIVE = 'native'
-}
-```  
-  
-  </Tab>  
-  <Tab label="ResponseTypes.ts">
-
-```typescript
-export enum ResponseTypes {
-  CODE = 'code',
-  ID_TOKEN = 'id_token',
-  TOKEN = 'token'
-}
-```  
-  
-  </Tab>
-  <Tab label="SubjectTypes.ts">
-
-```typescript
-export enum SubjectTypes {
-  PUBLIC = "public",
-  PAIRWISE = "pairwise"
-}
-```  
-  
-  </Tab>
-</Tabs>
--->
-
 ## Debug
 Use `DEBUG=oidc-provider:*` for debugging oidc-provider.
-## Support Oidc-provider
+## Support oidc-provider
 
 If you or your business uses [oidc-provider](https://github.com/panva/node-oidc-provider), please consider becoming a sponsor, so we can continue maintaining it and adding new features carefree.
 
