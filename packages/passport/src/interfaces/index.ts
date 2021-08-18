@@ -7,7 +7,7 @@ declare global {
       passport: {
         userProperty?: string;
         pauseStream?: string;
-        userInfoModel?: Type<any>;
+        userInfoModel?: Type<any> | false;
         protocols?: {
           [protocolName: string]: Partial<ProtocolOptions>;
         };

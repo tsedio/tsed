@@ -27,6 +27,14 @@ describe("serialize()", () => {
       expect(serialize(1)).to.equal(1);
     });
   });
+  describe("Object", () => {
+    it("should serialize values", () => {
+      expect(serialize({test: "test"}, {type: Object})).to.deep.eq({test: "test"});
+      expect(serialize({test: "test"}, {type: false})).to.deep.eq({test: "test"});
+      expect(serialize({test: "test"}, {type: null})).to.deep.eq({test: "test"});
+      expect(serialize({test: "test"}, {type: undefined})).to.deep.eq({test: "test"});
+    });
+  });
   describe("Array<primitive>", () => {
     it("should serialize values", () => {
       expect(serialize([null])).to.deep.eq([null]);

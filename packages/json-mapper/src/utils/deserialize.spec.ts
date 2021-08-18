@@ -115,6 +115,14 @@ describe("deserialize()", () => {
       ).to.deep.equal("hello");
     });
   });
+  describe("Object", () => {
+    it("should transform value", () => {
+      expect(deserialize({test: "test"}, {type: Object})).to.deep.equal({test: "test"});
+      expect(deserialize({test: "test"}, {type: undefined})).to.deep.equal({test: "test"});
+      expect(deserialize({test: "test"}, {type: null})).to.deep.equal({test: "test"});
+      expect(deserialize({test: "test"}, {type: false})).to.deep.equal({test: "test"});
+    });
+  });
   describe("Map<string, primitive>", () => {
     it("should transform value", () => {
       const options = {type: String, collectionType: Map};

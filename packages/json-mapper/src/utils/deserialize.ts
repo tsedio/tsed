@@ -155,6 +155,7 @@ function buildOptions(options: JsonDeserializerOptions<any, any>): any {
     groups: false,
     useAlias: true,
     ...options,
+    type: options.type ? options.type : undefined,
     types: options.types ? options.types : getJsonMapperTypes()
   };
 }
