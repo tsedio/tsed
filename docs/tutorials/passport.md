@@ -40,6 +40,49 @@ Add this configuration to your server:
 
 <<< @/tutorials/snippets/passport/server.ts
 
+### UserInfo
+
+By default Ts.ED use a UserInfo model to serialize and deserialize user in session:
+
+```typescript
+import {Format, Property} from "@tsed/schema";
+
+export class UserInfo {
+   @Property()
+   id: string;
+
+   @Property()
+   @Format("email")
+   email: string;
+
+   @Property()
+   password: string;
+}
+```
+
+You can set your own UserInfo model by changing the passport server configuration:
+
+```typescript
+class CustomUserInfoModel {
+  @Property()
+  id: string;
+  
+  @Property()
+  token: string;
+}
+
+@Configuration({
+  componentsScan: [
+    `${rootDir}/protocols/*.ts` // scan protocols directory
+  ],
+  passport: {
+    userInfoModel: CustomUserInfoModel
+  }
+})
+```
+
+It's also possible to disable model serialize/deserialize by setting a false value to `userInfoModel` options.
+
 ## Create a new Protocol
 
 A Protocol is a special Ts.ED service which is used to declare a Passport Strategy and handle Passport lifecycle.

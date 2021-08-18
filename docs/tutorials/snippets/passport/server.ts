@@ -12,7 +12,12 @@ const rootDir = __dirname;
   componentsScan: [
     `${rootDir}/protocols/*.ts` // scan protocols directory
   ],
-  passport: {}
+  passport: {
+    /**
+     * Set a custom user info model. By default Ts.ED use UserInfo. Set false to disable Ts.ED json-mapper.
+     */
+    // userInfoModel: CustomUserInfoModel
+  }
 })
 export class Server {
   @Inject()

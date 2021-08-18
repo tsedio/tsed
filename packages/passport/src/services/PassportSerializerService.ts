@@ -1,6 +1,6 @@
-import {ConverterService} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {Constant, Service} from "@tsed/di";
+import {deserialize, serialize} from "@tsed/json-mapper";
 import {UserInfo} from "../domain/UserInfo";
 
 /**
@@ -9,26 +9,25 @@ import {UserInfo} from "../domain/UserInfo";
 @Service()
 export class PassportSerializerService {
   @Constant("passport.userInfoModel", UserInfo)
-  private model: Type<UserInfo>;
-
-  constructor(protected converterService: ConverterService) {}
+  private model: Type<UserInfo> | boolean;
 
   serialize(user: UserInfo, done: any) {
     try {
-      const obj = this.converterService.serialize(user);
+      const obj = serialize(user, {type: this.model});
 
       // remove password from serialized object
       delete obj.password;
 
       done(null, JSON.stringify(obj));
     } catch (er) {
+      // istanbul ignore next
       done(er);
     }
   }
 
   deserialize(obj: any, done: any) {
     try {
-      const user = this.converterService.deserialize(JSON.parse(obj), this.model);
+      const user = deserialize(JSON.parse(obj), {type: this.model});
 
       done(null, user);
     } catch (er) {
