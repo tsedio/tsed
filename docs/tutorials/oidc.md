@@ -52,6 +52,10 @@ Then we need to follow these steps:
 - Create the Interactions controller,
 - Create our first Login interaction and views,
 
+::: tip
+Select "OpenID Connect provider" upon initialization with the Ts.ED CLI and the following will be automatically generated.
+:::
+
 ## Configuration
 
 To use oidc-provider with Ts.ED it requires some other Ts.ED features to work properly. 
@@ -78,23 +82,19 @@ export const rootDir = __dirname;
     Adapter: FileSyncAdapter
   },
   oidc: {
-    path: "/oidc",
-    issuer: "https://localhost:8443/oidc/",
-    proxy: true,
-    jwksPath: join(__dirname, "..", "keys", "jwks.json"),
-    Accounts: Accounts, // Injectable service to manage your accounts
-    clients: [ // statics clients
+    // path: "/oidc",
+    Accounts: Accounts,
+    jwksPath: join(__dirname, "..", "..", "keys", "jwks.json"),
+    clients: [
       {
-        client_id: 'foo',
-        client_secret: "secret",
-        grant_types: [
-          "authorization_code",
-          "implicit"
-        ],
+        client_id: "client_id",
+        client_secret: "client_secret",
         redirect_uris: [
-            'https://localhost:8080/cb' // Assuming your frontend application runs at port 8080
+          "http://localhost:3000"
         ],
-        token_endpoint_auth_method: 'none'
+        response_types: ["id_token"],
+        grant_types: ["implicit"],
+        token_endpoint_auth_method: "none"
       }
     ],
     claims: {
@@ -247,13 +247,7 @@ Now, we need to add the Views to display our login page. Create a views director
 The login page is ready to be displayed. To test it, open the following link:
 
 ```
-https://localhost:8443/oidc/auth?response_type=code%20id_token
-&client_id=foo
-&scope=openid
-&redirect_uri=https%3A%2F%2Flocalhost%3A8080%2Fcb
-&code_challenge=NiC_lkZ0dlkh64vlvbXVIc0t4cTOrNrQGsdD1E-TJ5Y
-&code_challenge_method=S256
-&nonce=8973498723498723423
+http://localhost:8083/auth?client_id=client_id&response_type=id_token&scope=openid&nonce=foobar&redirect_uri=http://localhost:3000
 
 ```
 
