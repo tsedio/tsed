@@ -11,6 +11,7 @@
     "packages/**/ExpressRouter.ts",
     "packages/**/RouteService.ts",
     "packages/platform-test-utils",
+    "packages/perf",
     "packages/swagger/src/decorators/{title,description,example}.ts",
     "**/interfaces/**",
     "**/legacy/**",

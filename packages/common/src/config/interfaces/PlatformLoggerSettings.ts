@@ -8,6 +8,10 @@ export interface PlatformLoggerSettings {
    */
   level?: "debug" | "info" | "warn" | "error" | "off";
   /**
+   * Enable log performance tracker and disable log server.
+   */
+  perf?: boolean;
+  /**
    * Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
    */
   requestFields?: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration" | string)[];
