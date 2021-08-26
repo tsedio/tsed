@@ -1,5 +1,6 @@
 import {classOf, constructorOf, isFunction, nameOf, toMap, Type} from "@tsed/core";
 import {Container, createContainer, getConfiguration, importProviders, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
+import {PerfLogger} from "@tsed/perf";
 import {PlatformMiddlewareLoadingOptions} from "../../config/interfaces";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
 import {PlatformLogMiddleware} from "../middlewares/PlatformLogMiddleware";
@@ -30,6 +31,7 @@ export interface PlatformType<T = any> extends Type<T> {
   providers: IProvider[];
 }
 
+const {bind, start, end} = PerfLogger.get("bootstrap");
 /**
  * @ignore
  */
@@ -192,6 +194,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     await this.callHook("$afterListen");
 
     await this.ready();
+    end();
   }
 
   async stop() {
@@ -210,6 +213,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
   async callHook(hook: string, ...args: any[]) {
     const {injector, rootModule} = this;
+
     if (!injector.settings.logger.disableBootstrapLog) {
       injector.logger.info(`\x1B[1mCall hook ${hook}\x1B[22m`);
     }
@@ -317,6 +321,16 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   protected async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+    // istanbul ignore next
+    if (settings.logger?.perf) {
+      start();
+      bind(this);
+      settings.logger = {
+        ...settings.logger,
+        level: "off"
+      };
+    }
+
     this.createInjector(module, {
       ...settings,
       PLATFORM_NAME: this.name
@@ -364,7 +378,9 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   protected createInjector(module: Type<any>, settings: any) {
-    this.#injector = createInjector(getConfiguration(module, settings));
+    const configuration = getConfiguration(module, settings);
+
+    this.#injector = createInjector(configuration);
 
     // configure locals providers
     this.locals.forEach((provider) => {
