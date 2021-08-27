@@ -1,8 +1,6 @@
 import {TokenProvider} from "../interfaces/TokenProvider";
 
 export class LocalsContainer<V = any> extends Map<TokenProvider, V> {
-  #events: Map<string, any> = new Map();
-
   /**
    * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
    * @param eventName The event name to emit at all services.
@@ -15,6 +13,11 @@ export class LocalsContainer<V = any> extends Map<TokenProvider, V> {
     }
   }
 
+  /**
+   * @param eventName
+   * @param value
+   * @param args
+   */
   public alter<T = any>(eventName: string, value: any, ...args: any[]): T {
     for (const handler of this.getListeners(eventName)) {
       value = handler(value, ...args);
@@ -23,6 +26,11 @@ export class LocalsContainer<V = any> extends Map<TokenProvider, V> {
     return value;
   }
 
+  /**
+   * @param eventName
+   * @param value
+   * @param args
+   */
   public async alterAsync<T = any>(eventName: string, value: any, ...args: any[]): Promise<T> {
     for (const handler of this.getListeners(eventName)) {
       value = handler(value, ...args);
@@ -32,7 +40,7 @@ export class LocalsContainer<V = any> extends Map<TokenProvider, V> {
   }
 
   toArray() {
-    return Array.from(this.values());
+    return [...this.values()];
   }
 
   async destroy() {
@@ -41,18 +49,12 @@ export class LocalsContainer<V = any> extends Map<TokenProvider, V> {
   }
 
   protected getListeners(event: string): any[] {
-    if (!this.#events.has(event)) {
-      const listeners: any = [];
+    return this.toArray().reduce((listeners, instance) => {
+      if (typeof instance === "object" && instance && event in instance) {
+        return listeners.concat((instance as any)[event].bind(instance));
+      }
 
-      this.toArray().forEach((instance: any) => {
-        if (typeof instance === "object" && instance && event in instance) {
-          listeners.push(instance[event].bind(instance));
-        }
-      });
-
-      this.#events.set(event, listeners);
-    }
-
-    return this.#events.get(event);
+      return listeners;
+    }, []);
   }
 }

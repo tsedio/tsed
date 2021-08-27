@@ -1,1 +1,2 @@
-export * from "./PerfLogger";
+export * from "./domain/PerfLogger";
+export * from "./domain/Perf";

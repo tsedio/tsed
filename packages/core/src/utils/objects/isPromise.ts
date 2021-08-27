@@ -4,7 +4,7 @@
  * @param target
  * @returns {boolean}
  */
-export function isPromise(target: any): boolean {
+export function isPromise<T = any>(target: any): target is Promise<T> {
   return (
     target === Promise ||
     target instanceof Promise ||
