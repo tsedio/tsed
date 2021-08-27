@@ -26,6 +26,7 @@ export * from "./operations/header";
 export * from "./operations/security";
 export * from "./operations/tags";
 export * from "./operations/summary";
+export * from "./operations/partial";
 
 // common
 export * from "./common/additionalProperties";
