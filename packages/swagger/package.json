@@ -16,7 +16,8 @@
   },
   "dependencies": {
     "swagger-ui-dist": "^3.46.0",
-    "tslib": "2.2.0"
+    "tslib": "2.2.0",
+    "fs-extra": "9.0.1"
   },
   "devDependencies": {
     "@tsed/common": "6.64.0",

@@ -65,17 +65,6 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     this.loaded = true;
   }
 
-  $onRoutesInit() {
-    this.settings.forEach((conf) => {
-      const {outFile} = conf;
-      const spec = this.swaggerService.getOpenAPISpec(conf);
-
-      if (outFile) {
-        Fs.writeFileSync(outFile, JSON.stringify(spec, null, 2));
-      }
-    });
-  }
-
   $onReady() {
     const {configuration, injector} = this;
     const {httpsPort, httpPort} = configuration;
@@ -97,6 +86,15 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
       const host = configuration.getHttpPort();
       displayLog({protocol: "http", ...host});
     }
+
+    this.settings.forEach(async (conf) => {
+      const {outFile} = conf;
+
+      if (outFile) {
+        const spec = this.swaggerService.getOpenAPISpec(conf);
+        Fs.writeFile(outFile, JSON.stringify(spec, null, 2), {encoding: "utf8"}, () => {});
+      }
+    });
   }
 
   private getUrls() {
