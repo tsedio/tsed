@@ -251,9 +251,7 @@ export class InjectorService extends Container {
    * Build only providers which are asynchronous.
    */
   async loadAsync(locals: LocalsContainer<any> = new LocalsContainer()) {
-    const providers = super.toArray();
-
-    for (const provider of providers) {
+    for (const [, provider] of this) {
       if (!locals.has(provider.token)) {
         if (provider.isAsync()) {
           await this.invoke(provider.token, locals);
@@ -269,9 +267,7 @@ export class InjectorService extends Container {
   }
 
   loadSync(locals: LocalsContainer<any> = new LocalsContainer()) {
-    const providers = super.toArray();
-
-    for (const provider of providers) {
+    for (const [, provider] of this) {
       if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
         this.invoke(provider.token, locals);
       }

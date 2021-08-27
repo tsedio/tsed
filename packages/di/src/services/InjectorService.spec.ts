@@ -93,7 +93,7 @@ describe("InjectorService", () => {
         Sinon.spy(injector, "get");
         Sinon.spy(injector, "getProvider");
 
-        const locals = new Map();
+        const locals = new LocalsContainer();
 
         // WHEN
 
@@ -110,7 +110,7 @@ describe("InjectorService", () => {
         });
       });
     });
-    describe("when provider is a SINGLETON", () => {
+    describe("when provider is a SINGLETON (1)", () => {
       it("should invoke the provider from container", async () => {
         // GIVEN
         const token = class Test {};
@@ -128,7 +128,7 @@ describe("InjectorService", () => {
         Sinon.spy(injector, "get");
         Sinon.spy(injector, "getProvider");
 
-        const locals = new Map();
+        const locals = new LocalsContainer();
 
         // WHEN
 
@@ -161,8 +161,8 @@ describe("InjectorService", () => {
         Sinon.spy(injector, "get");
         Sinon.spy(injector, "getProvider");
 
-        const locals = new Map(); // LocalContainer for the first request
-        const locals2 = new Map(); // LocalContainer for the second request
+        const locals = new LocalsContainer(); // LocalContainer for the first request
+        const locals2 = new LocalsContainer(); // LocalContainer for the second request
 
         // WHEN REQ1
         const result1: any = injector.invoke(token, locals);
@@ -201,7 +201,7 @@ describe("InjectorService", () => {
         Sinon.spy(injector, "get");
         Sinon.spy(injector, "getProvider");
 
-        const locals = new Map(); // LocalContainer for the first request
+        const locals = new LocalsContainer(); // LocalContainer for the first request
 
         // WHEN REQ1
         const result1: any = injector.invoke(token, locals);
@@ -217,7 +217,7 @@ describe("InjectorService", () => {
         return expect(injector.get).to.not.have.been.called;
       });
     });
-    describe("when provider is a SINGLETON", () => {
+    describe("when provider is a SINGLETON (2)", () => {
       before(() => {
         Sinon.stub(GlobalProviders, "getRegistrySettings");
       });
@@ -611,11 +611,11 @@ describe("InjectorService", () => {
       Store.from(TestBind).set(INJECTABLE_PROP, injectableProperties);
 
       // WHEN
-      injector.bindInjectableProperties(instance, new Map(), {});
+      injector.bindInjectableProperties(instance, new LocalsContainer<any>(), {});
 
       // THEN
       expect(injector.bindMethod).to.have.been.calledWithExactly(instance, injectableProperties.testMethod);
-      expect(injector.bindProperty).to.have.been.calledWithExactly(instance, injectableProperties.testProp, new Map(), {});
+      expect(injector.bindProperty).to.have.been.calledWithExactly(instance, injectableProperties.testProp, new LocalsContainer<any>(), {});
       expect(injector.bindConstant).to.have.been.calledWithExactly(instance, injectableProperties.testConst);
       expect(injector.bindValue).to.have.been.calledWithExactly(instance, injectableProperties.testValue);
       expect(injector.bindInterceptor).to.have.been.calledWithExactly(instance, injectableProperties.testInterceptor);
@@ -839,6 +839,7 @@ describe("InjectorService", () => {
       injector.settings.resolvers.push(externalDi);
 
       const container = new Container();
+
       container.add(MyService, {
         deps: [ExternalService]
       });

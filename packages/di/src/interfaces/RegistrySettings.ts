@@ -1,5 +1,6 @@
 import {Type} from "@tsed/core";
 import type {Provider} from "../domain";
+import {TokenProvider} from "./TokenProvider";
 
 /**
  * @ignore
@@ -14,5 +15,5 @@ export interface RegistrySettings {
    * @param {Map<string | Function, any>} locals
    * @param deps
    */
-  onInvoke?(provider: Provider, locals: Map<string | Function, any>, deps: any[]): void;
+  onInvoke?(provider: Provider, locals: Map<TokenProvider, any>, deps: any[]): void;
 }

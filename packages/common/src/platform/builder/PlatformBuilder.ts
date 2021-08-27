@@ -31,7 +31,7 @@ export interface PlatformType<T = any> extends Type<T> {
   providers: IProvider[];
 }
 
-const {bind, start, end} = PerfLogger.get("bootstrap");
+const {bind, start, end, log} = PerfLogger.get("bootstrap");
 /**
  * @ignore
  */
@@ -213,6 +213,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
   async callHook(hook: string, ...args: any[]) {
     const {injector, rootModule} = this;
+    log(hook);
 
     if (!injector.settings.logger.disableBootstrapLog) {
       injector.logger.info(`\x1B[1mCall hook ${hook}\x1B[22m`);
