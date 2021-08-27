@@ -47,24 +47,16 @@ describe("SwaggerModule", () => {
     });
   });
 
-  describe("$onRoutesInit", () => {
-    it("should write file", async () => {
-      const mod = await PlatformTest.invoke<SwaggerModule>(SwaggerModule);
-      sandbox.stub(Fs, "writeFileSync");
-
-      mod.$onRoutesInit();
-
-      expect(Fs.writeFileSync).calledOnceWithExactly("/spec.json", Sinon.match.any);
-    });
-  });
-
   describe("$onReady", () => {
     it("should display the right log", async () => {
       const mod = await PlatformTest.invoke<SwaggerModule>(SwaggerModule);
+
+      sandbox.stub(Fs, "writeFile");
       sandbox.stub(mod.injector.logger, "info");
 
       mod.$onReady();
 
+      expect(Fs.writeFile).calledOnceWithExactly("/spec.json", Sinon.match.any, Sinon.match.any, Sinon.match.any);
       expect(mod.injector.logger.info).calledWithExactly("[default] Swagger JSON is available on https://0.0.0.0:8081/doc/swagger.json");
       expect(mod.injector.logger.info).calledWithExactly("[default] Swagger UI is available on https://0.0.0.0:8081/doc/");
     });
