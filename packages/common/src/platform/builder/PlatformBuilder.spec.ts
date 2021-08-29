@@ -7,6 +7,7 @@ import {
   BeforeRoutesInit,
   Controller,
   InjectorService,
+  Module,
   OnReady
 } from "@tsed/common";
 import {normalizePath, Type} from "@tsed/core";
@@ -39,15 +40,28 @@ describe("PlatformBuilder", () => {
     }
   }
 
-  @Configuration({
+  @Controller("/")
+  class HealthCtrl {}
+
+  @Module({
+    mount: {
+      "/heath": [HealthCtrl]
+    }
+  })
+  class HealthModule {}
+
+  const settings = {
     logger: {
       level: "off"
     },
     mount: {
       "/rest": [RestCtrl]
     },
-    acceptMimes: ["application/json"]
-  })
+    acceptMimes: ["application/json"],
+    imports: [HealthModule]
+  };
+
+  @Configuration(settings as any)
   class ServerModule implements BeforeInit, AfterInit, BeforeRoutesInit, AfterRoutesInit, BeforeListen, AfterListen, OnReady {
     $beforeRoutesInit(): void | Promise<any> {
       return undefined;
@@ -168,6 +182,23 @@ describe("PlatformBuilder", () => {
 
       // THEN
       expect(server.injector.settings.mount["/test"]).to.deep.eq([MyClass]);
+    });
+  });
+
+  describe("importProviders()", () => {
+    it("should import controllers from modules", async () => {
+      const server = await PlatformCustom.bootstrap(ServerModule, {});
+
+      expect(server.injector.settings.get("routes")).to.deep.eq([
+        {
+          route: "/heath",
+          token: HealthCtrl
+        },
+        {
+          route: "/rest",
+          token: RestCtrl
+        }
+      ]);
     });
   });
 });
