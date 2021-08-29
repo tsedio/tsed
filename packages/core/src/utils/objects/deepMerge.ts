@@ -1,5 +1,4 @@
 import {createInstance} from "./createInstance";
-import {isArray} from "./isArray";
 import {isFunction} from "./isFunction";
 import {isPrimitive} from "./isPrimitive";
 import {isSymbol} from "./isSymbol";
@@ -11,6 +10,7 @@ export type DeepMergeComparatorCB = (item: any, ref: any) => boolean;
 export interface DeepMergeOptions {
   reducers?: Record<string, DeepMergeReducerCB>;
   parentKey?: string;
+  cleanUndefinedProps?: boolean;
 }
 
 export function mergeReducerBuilder(cb: DeepMergeComparatorCB) {
@@ -29,16 +29,24 @@ export function mergeReducerBuilder(cb: DeepMergeComparatorCB) {
 
 const defaultReducer = mergeReducerBuilder((a, b) => a === b);
 
-function getReducer(options: DeepMergeOptions) {
-  if (!options.reducers) {
+function getReducer({reducers, parentKey}: DeepMergeOptions) {
+  if (!reducers) {
     return defaultReducer;
   }
 
-  if (options.parentKey && options.reducers[options.parentKey]) {
-    return options.reducers[options.parentKey];
+  if (parentKey && reducers[parentKey]) {
+    return reducers[parentKey];
   }
 
-  return options.reducers["default"] || defaultReducer;
+  return reducers["default"] || defaultReducer;
+}
+
+function shouldReturnObj(obj: any, source: any) {
+  return isPrimitive(obj) || isSymbol(obj) || isFunction(obj) || source === undefined;
+}
+
+function shouldReturnSource(obj: any, source: any) {
+  return obj === undefined || obj === null || (obj === "" && source !== "");
 }
 
 export function deepMerge<T extends any = any, C extends any = any>(
@@ -46,33 +54,34 @@ export function deepMerge<T extends any = any, C extends any = any>(
   obj: C & any,
   options: DeepMergeOptions = {}
 ): (T & C) | undefined | null {
-  if (obj === undefined || obj === null || (obj === "" && source !== "")) {
+  if (shouldReturnSource(obj, source)) {
     return source as any;
   }
 
-  if (isPrimitive(obj) || isSymbol(obj) || isFunction(obj) || source === undefined) {
+  if (shouldReturnObj(obj, source)) {
     return obj;
   }
 
-  if (isArray(source)) {
+  if (Array.isArray(source)) {
     const reducer = getReducer(options);
-    const collection = [...source];
 
-    return [].concat(obj).reduce((out: any[], value: any) => {
-      return reducer([...out], value, {...options});
-    }, collection);
+    return [].concat(obj).reduce((out: any[], value: any) => reducer(out, value, options), [...source]);
   }
 
   return [...objectKeys(source), ...objectKeys(obj)].reduce((out: any, key: string) => {
     const src = source && source[key];
-    const value = obj && obj[key];
+    const value = deepMerge(src, obj && obj[key], {
+      ...options,
+      parentKey: key
+    });
+
+    if (options.cleanUndefinedProps && value === undefined) {
+      return out;
+    }
 
     return {
       ...out,
-      [key]: deepMerge(src, value, {
-        ...options,
-        parentKey: key
-      })
+      [key]: value
     };
   }, createInstance(source));
 }

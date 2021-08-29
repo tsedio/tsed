@@ -1,6 +1,6 @@
-import {isBoolean} from "./isBoolean";
-import {isNumber} from "./isNumber";
-import {isString} from "./isString";
+import {isBoolean, isBooleanOrBooleanClass} from "./isBoolean";
+import {isNumber, isNumberOrNumberClass} from "./isNumber";
+import {isString, isStringOrStringClass} from "./isString";
 
 /**
  * Return true if the given obj is a primitive.
@@ -9,7 +9,7 @@ import {isString} from "./isString";
  * @ignore
  */
 export function isPrimitiveOrPrimitiveClass(target: any): boolean {
-  return isString(target) || isNumber(target) || isBoolean(target);
+  return isStringOrStringClass(target) || isNumberOrNumberClass(target) || isBooleanOrBooleanClass(target);
 }
 
 /**
@@ -18,7 +18,7 @@ export function isPrimitiveOrPrimitiveClass(target: any): boolean {
  * @returns {boolean}
  */
 export function isPrimitive(target: any): boolean {
-  return isPrimitiveOrPrimitiveClass(target);
+  return isString(target) || isNumber(target) || isBoolean(target);
 }
 
 export function isPrimitiveClass(target: any) {

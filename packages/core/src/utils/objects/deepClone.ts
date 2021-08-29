@@ -1,4 +1,4 @@
-import {isArrayOrArrayClass} from "./isArray";
+import {isArray} from "./isArray";
 import {isDate} from "./isDate";
 import {isFunction} from "./isFunction";
 import {isNil} from "./isNil";
@@ -22,7 +22,7 @@ export function deepClone(source: any): any {
     return new Date(source);
   }
 
-  dest = isArrayOrArrayClass(source) ? [] : {};
+  dest = isArray(source) ? [] : {};
 
   for (const key in source) {
     // Use getOwnPropertyDescriptor instead of source[key] to prevent from triggering setter/getter.
@@ -37,7 +37,7 @@ export function deepClone(source: any): any {
     }
   }
 
-  if (!isArrayOrArrayClass(source)) {
+  if (!isArray(source)) {
     const prototype = Reflect.getPrototypeOf(source);
     Reflect.setPrototypeOf(dest, prototype);
   }

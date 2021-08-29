@@ -1,15 +1,17 @@
-import {isBoolean} from "./isBoolean";
-import {isNumber} from "./isNumber";
-import {isString} from "./isString";
+import {isBoolean, isBooleanOrBooleanClass} from "./isBoolean";
+import {isNumber, isNumberOrNumberClass} from "./isNumber";
+import {isString, isStringOrStringClass} from "./isString";
 
 export function primitiveOf(target: any): "string" | "number" | "boolean" | "any" {
-  if (isString(target)) {
+  if (isStringOrStringClass(target)) {
     return "string";
   }
-  if (isNumber(target)) {
+
+  if (isNumberOrNumberClass(target)) {
     return "number";
   }
-  if (isBoolean(target)) {
+
+  if (isBooleanOrBooleanClass(target)) {
     return "boolean";
   }
 
