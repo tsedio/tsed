@@ -89,9 +89,9 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
 
     this.settings.forEach(async (conf) => {
       const {outFile} = conf;
+      const spec = this.swaggerService.getOpenAPISpec(conf);
 
       if (outFile) {
-        const spec = this.swaggerService.getOpenAPISpec(conf);
         Fs.writeFile(outFile, JSON.stringify(spec, null, 2), {encoding: "utf8"}, () => {});
       }
     });

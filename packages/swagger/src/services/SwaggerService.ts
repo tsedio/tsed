@@ -9,6 +9,8 @@ import {mapOpenSpec} from "../utils/mapOpenSpec";
 
 @Injectable()
 export class SwaggerService {
+  #specs: Map<string, OpenSpec3 | OpenSpec2> = new Map();
+
   constructor(
     private injectorService: InjectorService,
     private platform: Platform,
@@ -23,38 +25,42 @@ export class SwaggerService {
   public getOpenAPISpec(conf: SwaggerOS2Settings): OpenSpec2;
   public getOpenAPISpec(conf: SwaggerSettings): OpenSpec2;
   public getOpenAPISpec(conf: SwaggerSettings) {
-    const defaultSpec: any = this.getDefaultSpec(conf);
-    const specType = getSpecTypeFromSpec(defaultSpec);
-    const {doc} = conf;
-    let finalSpec: any = {};
+    if (!this.#specs.has(conf.path)) {
+      const defaultSpec: any = this.getDefaultSpec(conf);
+      const specType = getSpecTypeFromSpec(defaultSpec);
+      const {doc} = conf;
+      let finalSpec: any = {};
 
-    const options: SpecSerializerOptions = {
-      paths: {},
-      tags: [],
-      schemas: {},
-      specType,
-      operationIdFormatter: conf.operationIdFormatter,
-      operationIdPattern: conf.operationIdPattern,
-      append(spec: any) {
-        finalSpec = mergeSpec(finalSpec, spec);
-      }
-    };
+      const options: SpecSerializerOptions = {
+        paths: {},
+        tags: [],
+        schemas: {},
+        specType,
+        operationIdFormatter: conf.operationIdFormatter,
+        operationIdPattern: conf.operationIdPattern,
+        append(spec: any) {
+          finalSpec = mergeSpec(finalSpec, spec);
+        }
+      };
 
-    this.platform.getMountedControllers().forEach(({route, provider}) => {
-      const hidden = provider.store.get("hidden");
-      const docs = provider.store.get("docs") || [];
+      this.platform.getMountedControllers().forEach(({route, provider}) => {
+        const hidden = provider.store.get("hidden");
+        const docs = provider.store.get("docs") || [];
 
-      if ((!doc && !hidden) || (doc && docs.indexOf(doc) > -1)) {
-        const spec = this.buildRoutes(provider, {
-          ...options,
-          rootPath: route.replace(provider.path, "")
-        });
+        if ((!doc && !hidden) || (doc && docs.indexOf(doc) > -1)) {
+          const spec = this.buildRoutes(provider, {
+            ...options,
+            rootPath: route.replace(provider.path, "")
+          });
 
-        options.append(spec);
-      }
-    });
+          options.append(spec);
+        }
+      });
 
-    return mergeSpec(defaultSpec, finalSpec) as any;
+      this.#specs.set(conf.path, mergeSpec(defaultSpec, finalSpec) as any);
+    }
+
+    return this.#specs.get(conf.path);
   }
 
   /**
