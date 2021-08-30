@@ -230,6 +230,7 @@ describe("Spec: ContactQueryParams", () => {
                 "in": "query",
                 "name": "search",
                 "required": false,
+                "style": "deepObject",
                 "schema": {
                   "$ref": "#/components/schemas/ContainsSearchableString"
                 }

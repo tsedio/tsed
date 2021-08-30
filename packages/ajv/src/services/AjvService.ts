@@ -66,7 +66,7 @@ export class AjvService {
 
         if (!error.data) {
           if (dataPath) {
-            error.data = getValue(value, dataPath);
+            error.data = getValue(value, dataPath.replace(/^\./, ""));
           } else if (error.schemaPath !== "#/required") {
             error.data = value;
           }

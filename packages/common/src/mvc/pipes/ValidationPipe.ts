@@ -68,8 +68,12 @@ export class ValidationPipe implements PipeMethods {
       return value;
     }
 
+    const schema = getJsonSchema(metadata, {
+      customKeys: true
+    });
+
     await this.validator.validate(value, {
-      schema: getJsonSchema(metadata, {groups: metadata.parameter.groups, customKeys: true}),
+      schema,
       type: metadata.isClass ? metadata.type : undefined,
       collectionType: metadata.collectionType
     });

@@ -51,6 +51,10 @@ Ts.ED will print the swagger-ui url in the console.
 :::
 
 ::: warning
+OpenSpec 2 support will be removed in v7.
+:::
+
+::: warning
 When using helmet, there may be a problem with CSP, to solve this collision, configure the CSP as shown below:
 
 ```typescript

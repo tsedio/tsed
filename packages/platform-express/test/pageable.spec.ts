@@ -366,6 +366,7 @@ describe("Pageable", () => {
     expect(body).to.deep.eq({
       "errors": [
         {
+          "data": -1,
           "dataPath": ".page",
           "instancePath": "/page",
           "keyword": "minimum",
@@ -378,7 +379,7 @@ describe("Pageable", () => {
           "schemaPath": "#/properties/page/minimum"
         }
       ],
-      "message": "Bad request on parameter \"request.query\".\nPageable.page must be >= 0. Given value: \"undefined\"",
+      "message": "Bad request on parameter \"request.query\".\nPageable.page must be >= 0. Given value: -1",
       "name": "AJV_VALIDATION_ERROR",
       "status": 400
     });

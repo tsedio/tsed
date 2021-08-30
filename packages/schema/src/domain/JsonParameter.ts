@@ -1,5 +1,5 @@
 import {cleanObject, toMap, Type} from "@tsed/core";
-import {OS2Schema, OS3Parameter, OS3Schema} from "@tsed/openspec";
+import {OS2Schema, OS3Parameter, OS3Schema, OS3StyleParameter} from "@tsed/openspec";
 import {JsonSchemaOptions} from "../interfaces";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics, popGenerics} from "../utils/generics";
@@ -104,7 +104,11 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
     if (options.specType === SpecTypes.OPENAPI) {
       if (["query"].includes(this.get("in")) && jsonSchema.$ref) {
-        return this.refToParameters(parameter, options, schemasContainer);
+        if (!parameter.name) {
+          return this.refToParameters(parameter, options, schemasContainer);
+        }
+
+        parameter.style = "deepObject";
       }
     }
 
@@ -168,7 +172,8 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
             name: key,
             required: (schema.required || []).includes(key),
             description,
-            schema: prop
+            schema: prop,
+            style: prop.$ref ? "deepObject" : undefined
           })
         ];
       }

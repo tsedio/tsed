@@ -34,7 +34,9 @@ describe("DeserializerPipe", () => {
       expect(pipe.converterService.deserialize).to.have.been.calledWithExactly(["test"], {
         groups: undefined,
         collectionType: Array,
-        type: String
+        type: String,
+        genericTypes: undefined,
+        nestedGenerics: []
       });
     })
   );
@@ -59,7 +61,9 @@ describe("DeserializerPipe", () => {
       expect(pipe.converterService.deserialize).to.have.been.calledWithExactly(["test"], {
         collectionType: Array,
         type: String,
-        groups: undefined
+        groups: undefined,
+        genericTypes: undefined,
+        nestedGenerics: []
       });
     })
   );
