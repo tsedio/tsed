@@ -57,15 +57,15 @@ jobs:
           flag-name: run-${{ matrix.test_number }}
           parallel: true
 
-  coveralls:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Coveralls Finished
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
+#  coveralls:
+#    needs: test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Coveralls Finished
+#        uses: coverallsapp/github-action@master
+#        with:
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          parallel-finished: true
 
   build:
     runs-on: ubuntu-latest
