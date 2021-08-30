@@ -3,6 +3,8 @@ import {OS3Example} from "./OS3Example";
 import {OS3MediaType} from "./OS3MediaType";
 import {OS3Schema} from "./OS3Schema";
 
+export type OS3StyleParameter = "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+
 export interface OS3Parameter<Schema = OS3Schema> {
   /**
    *The name of the parameter. Parameter names are case sensitive.
@@ -47,7 +49,7 @@ export interface OS3Parameter<Schema = OS3Schema> {
    * Default values (based on value of in): for `query` - `form`; for `path` - `simple`; for `header` - `simple`; for `cookie` - `form`.
    * See [style values](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.1.md#style-values).
    */
-  style?: "matrix" | "label" | "form" | "simple" | "spaceDelimited" | "pipeDelimited" | "deepObject";
+  style?: OS3StyleParameter;
   /**
    * When this is true, parameter values of type array or object generate separate parameters for each value of the array or key-value pair of the map.
    * For other types of parameters this property has no effect. When style is form, the default value is true. For all other styles, the default value is false.

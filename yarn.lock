@@ -11120,6 +11120,14 @@ koa-override@3.0.0:
   dependencies:
     methods "^1.1.2"
 
+koa-qs@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/koa-qs/-/koa-qs-3.0.0.tgz#390b0b5e9be0658b0f863ceb121da9a414b78d78"
+  integrity sha512-05IB5KirwMs3heWW26iTz46HuMAtrlrRMus/aNH1BRDocLyF/099EtCB0MIfQpRuT0TISvaTsWwSy2gctIWiGA==
+  dependencies:
+    merge-descriptors "^1.0.1"
+    qs "^6.9.4"
+
 koa-rewrite@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/koa-rewrite/-/koa-rewrite-3.0.1.tgz#37c2ae31f31a7af98cc1b028020b321d75a7d294"
@@ -12344,7 +12352,7 @@ meow@^8.0.0:
     type-fest "^0.18.0"
     yargs-parser "^20.2.3"
 
-merge-descriptors@1.0.1, merge-descriptors@~1.0.0:
+merge-descriptors@1.0.1, merge-descriptors@^1.0.1, merge-descriptors@~1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/merge-descriptors/-/merge-descriptors-1.0.1.tgz#b00aaa556dd8b44568150ec9d1b953f3f90cbb61"
   integrity sha1-sAqqVW3YtEVoFQ7J0blT8/kMu2E=

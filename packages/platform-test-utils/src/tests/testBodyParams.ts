@@ -1,6 +1,6 @@
 import "@tsed/ajv";
 import {BodyParams, Controller, HeaderParams, PlatformTest, Post, RawBodyParams} from "@tsed/common";
-import {Nullable, Property, Required, Status} from "@tsed/schema";
+import {Default, GenericOf, Generics, In, Maximum, Minimum, Nullable, Property, Required, Status} from "@tsed/schema";
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -27,6 +27,30 @@ class NullModel {
 
   @Nullable(NestedModel)
   prop4: NestedModel;
+}
+
+class FindQuery {
+  @Property()
+  a?: string;
+
+  @Property()
+  b?: string;
+}
+
+@Generics("T")
+class PaginationQuery<T> {
+  // things about pagination
+  @Minimum(0)
+  @Default(0)
+  offset?: number;
+
+  @Minimum(1)
+  @Maximum(1000)
+  @Default(50)
+  limit?: number;
+
+  @Property("T")
+  where?: T;
 }
 
 @Controller("/body-params")
@@ -80,6 +104,11 @@ class TestBodyParamsCtrl {
   @Post("/scenario-8")
   testScenario8(@BodyParams() model: NullModel) {
     return {model};
+  }
+
+  @Post("/scenario-9")
+  testScenario9(@BodyParams() @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
+    return {q};
   }
 }
 
@@ -309,6 +338,67 @@ export function testBodyParams(options: PlatformTestOptions) {
           prop3: null,
           prop4: null
         }
+      });
+    });
+  });
+
+  describe("Scenario9: payload with Generics", () => {
+    it("should return value", async () => {
+      const response = await request
+        .post("/rest/body-params/scenario-9")
+        .send({
+          offset: 0,
+          limit: 10,
+          where: {
+            a: "ca",
+            b: "cb"
+          }
+        })
+        .expect(200);
+
+      expect(response.body).to.deep.eq({
+        q: {
+          limit: 10,
+          offset: 0,
+          where: {
+            a: "ca",
+            b: "cb"
+          }
+        }
+      });
+    });
+    it("should throw a bad request", async () => {
+      const response = await request
+        .post("/rest/body-params/scenario-9")
+        .send({
+          offset: 0,
+          limit: 0,
+          where: {
+            a: "ca",
+            b: "cb"
+          }
+        })
+        .expect(400);
+
+      expect(response.body).to.deep.eq({
+        errors: [
+          {
+            data: 0,
+            dataPath: ".limit",
+            instancePath: "/limit",
+            keyword: "minimum",
+            message: "must be >= 1",
+            modelName: "PaginationQuery",
+            params: {
+              comparison: ">=",
+              limit: 1
+            },
+            schemaPath: "#/properties/limit/minimum"
+          }
+        ],
+        message: 'Bad request on parameter "request.body".\nPaginationQuery.limit must be >= 1. Given value: 0',
+        name: "AJV_VALIDATION_ERROR",
+        status: 400
       });
     });
   });

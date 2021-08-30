@@ -11,6 +11,8 @@ export class DeserializerPipe implements PipeMethods {
       type: param.type,
       collectionType: param.collectionType,
       groups: param.parameter.groups,
+      genericTypes: param.nestedGenerics[0],
+      nestedGenerics: param.nestedGenerics,
       ...(param.store.get(DeserializerPipe) || {})
     });
   }

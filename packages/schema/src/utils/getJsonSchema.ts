@@ -1,10 +1,11 @@
 import {Type} from "@tsed/core";
+import "../components";
 import type {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
-import "../components";
 import {getJsonEntityStore, isJsonEntityStore} from "./getJsonEntityStore";
+
 /**
  * @ignore
  */
@@ -40,6 +41,8 @@ function get(entity: JsonEntityStore, options: any) {
 }
 
 export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonSchemaOptions = {}) {
+  const entity = isJsonEntityStore(model) ? model : getJsonEntityStore(model);
+
   options = {
     endpoint: true,
     groups: [],
@@ -48,7 +51,14 @@ export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonS
     schemas: {}
   };
 
-  const entity = isJsonEntityStore(model) ? model : getJsonEntityStore(model);
+  if (entity.decoratorType === "parameter") {
+    options = {
+      ...options,
+      genericTypes: entity.nestedGenerics[0],
+      nestedGenerics: entity.nestedGenerics,
+      groups: entity.parameter?.groups
+    };
+  }
 
   return get(entity, options);
 }

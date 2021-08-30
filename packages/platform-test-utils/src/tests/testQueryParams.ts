@@ -1,6 +1,6 @@
-import {Controller, Get, PlatformTest, QueryParams} from "@tsed/common";
-import {Maximum, Minimum, Required} from "@tsed/schema";
 import "@tsed/ajv";
+import {Controller, Get, PlatformTest, QueryParams} from "@tsed/common";
+import {Default, GenericOf, Generics, Maximum, Minimum, Property, Required} from "@tsed/schema";
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -10,6 +10,30 @@ export class RandomStringModel {
   @Minimum(1)
   @Required()
   length: number;
+}
+
+class FindQuery {
+  @Property()
+  a?: number;
+
+  @Property()
+  b?: number;
+}
+
+@Generics("T")
+class PaginationQuery<T> {
+  // things about pagination
+  @Minimum(0)
+  @Default(0)
+  offset?: number;
+
+  @Minimum(1)
+  @Maximum(1000)
+  @Default(50)
+  limit?: number;
+
+  @Property("T")
+  where?: T;
 }
 
 @Controller("/query-params")
@@ -37,6 +61,16 @@ class TestQueryParamsCtrl {
   @Get("/scenario-5")
   testScenario5(@QueryParams() value: RandomStringModel): any {
     return {value};
+  }
+
+  @Get("/scenario-6")
+  testScenario6(@QueryParams() @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
+    return {q};
+  }
+
+  @Get("/scenario-7")
+  testScenario7(@QueryParams("q") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
+    return {q};
   }
 }
 
@@ -210,6 +244,63 @@ export function testQueryParams(options: PlatformTestOptions) {
       const response = await request.get(`${endpoint}`).expect(200);
 
       expect(response.body).to.deep.equal({});
+    });
+  });
+  describe("Scenario6: DeepObject", () => {
+    const endpoint = "/rest/query-params/scenario-6";
+    it("should return 0 when query is 0", async () => {
+      const response = await request.get(`${endpoint}?offset=0&limit=10&where[a]=0&where[b]=1`).expect(200);
+
+      expect(response.body).to.deep.equal({
+        q: {
+          limit: 10,
+          offset: 0,
+          where: {
+            a: 0,
+            b: 1
+          }
+        }
+      });
+    });
+  });
+  describe("Scenario7: DeepObject", () => {
+    const endpoint = "/rest/query-params/scenario-7";
+    it("should return the query value", async () => {
+      const response = await request.get(`${endpoint}?q[offset]=0&q[limit]=10&q[where][a]=0&q[where][b]=1`).expect(200);
+
+      expect(response.body).to.deep.equal({
+        q: {
+          limit: 10,
+          offset: 0,
+          where: {
+            a: 0,
+            b: 1
+          }
+        }
+      });
+    });
+    it("should throw a bad request", async () => {
+      const response = await request.get(`${endpoint}?q[offset]=0&q[limit]=10&q[where][a]=ca&q[where][b]=1`).expect(400);
+
+      expect(response.body).to.deep.equal({
+        errors: [
+          {
+            data: "ca",
+            dataPath: ".where.a",
+            instancePath: "/where/a",
+            keyword: "type",
+            message: "must be number",
+            modelName: "PaginationQuery",
+            params: {
+              type: "number"
+            },
+            schemaPath: "#/properties/where/properties/a/type"
+          }
+        ],
+        message: 'Bad request on parameter "request.query.q".\nPaginationQuery.where.a must be number. Given value: "ca"',
+        name: "AJV_VALIDATION_ERROR",
+        status: 400
+      });
     });
   });
 }

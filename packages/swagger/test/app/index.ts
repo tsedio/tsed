@@ -1,9 +1,19 @@
-import {$log, Controller, Get} from "@tsed/common";
+import {$log, Controller, Get, QueryParams} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
+import {Property} from "@tsed/schema";
 import {Hidden} from "@tsed/swagger";
 import {Server} from "./Server";
 
 if (process.env.NODE_ENV !== "test") {
+
+  class QueryModel {
+    @Property()
+    condition: string;
+
+    @Property()
+    value: string;
+  }
+
   @Controller("/hello")
   class HelloWorld {
     @Get("/")
@@ -15,6 +25,11 @@ if (process.env.NODE_ENV !== "test") {
     @Hidden()
     getHidden() {
       return {test: "Hello world"};
+    }
+
+    @Get("/params")
+    getQuery(@QueryParams("q") q: QueryModel) {
+      return {test: "Hello world", q};
     }
   }
 

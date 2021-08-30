@@ -798,7 +798,6 @@ function RequiredIf(cb: any): PropertyDecorator {
 ```
 
 ## Generics
-
 ### Declaring a generic model
 
 Sometimes, it might be useful to use generic models. TypeScript doesn't store the generic type in the metadata. This is
@@ -961,7 +960,130 @@ The used features are the following:
 <<< @/docs/snippets/model/pageable-product-model.ts
 
   </Tab>
-</Tabs>  
+</Tabs>
+
+## Deep object on query <Badge text="6.64.2+"/>
+
+With OpenAPI 3, it's possible to describe and use a [deepObject](https://swagger.io/docs/specification/serialization/#query) `style` as Query params.
+It means, a consumer can call your endpoint with the following url:
+
+```
+/users?id[role]=admin&id[firstName]=Alex
+```
+
+Ts.ED will determine automatically the appropriate `style` parameter based on the given `User` model. 
+Here is an example with a DeepQueryObject model:
+
+```typescript
+class DeepQueryObject {
+  @Property()
+  path: string;
+
+  @Property()
+  condition: string;
+
+  @Property()
+  value: string;
+}
+
+@Path("/test")
+class TestDeepObjectCtrl {
+  @OperationPath("GET", "/")
+  async get(@QueryParams("s") q: DeepQueryObject) {
+
+  }
+}
+```
+
+The url to be called will be:
+
+```
+/test?s[path]=title&s[condition]=eq&s[value]=tsed
+```
+
+And the generated swagger will be:
+
+```json
+{
+  "components": {
+    "schemas": {
+      "DeepQueryObject": {
+        "properties": {
+          "condition": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "type": "object"
+      }
+    }
+  },
+  "paths": {
+    "/test": {
+      "get": {
+        "operationId": "testDeepObjectCtrlGet",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "s",
+            "required": false,
+            "style": "deepObject",
+            "schema": {
+              "$ref": "#/components/schemas/DeepQueryObject"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+::: tip
+
+Ts.ED support also Generics Deep object style!
+
+```typescript
+class FindQuery {
+  @Property()
+  tableColumnNameA?: number;
+
+  @Property()
+  tableColumnNameB?: number;
+}
+
+@Generics("T")
+class PaginationQuery<T> {
+  @Minimum(0)
+  @Default(0)
+  offset?: number;
+
+  @Minimum(1)
+  @Maximum(1000)
+  @Default(50)
+  limit?: number;
+
+  @Property("T")
+  where?: T;
+}
+
+@Path("/test")
+class TestDeepObjectCtrl {
+  @OperationPath("GET", "/")
+  async get(@QueryParams() @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {}
+}
+```
+
+:::
+
+::: warning
+This feature is only available for OpenAPI 3.
+:::
 
 ## Annotations
 
