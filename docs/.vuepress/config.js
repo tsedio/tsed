@@ -154,6 +154,10 @@ module.exports = {
               {
                 text: "Validation",
                 link: "/docs/validation.html"
+              },
+              {
+                text: "Session & Cookies",
+                link: "/tutorials/session.html"
               }
             ]
           },
@@ -162,8 +166,8 @@ module.exports = {
             text: "Warehouse",
             link: "/warehouse/",
             items: [
-              {text: "Explore plugins", link: "/warehouse/"},
-              {text: "Project examples", link: "/tutorials/"}
+              { text: "Explore plugins", link: "/warehouse/" },
+              { text: "Project examples", link: "/tutorials/" }
             ]
           },
           {
@@ -329,14 +333,16 @@ module.exports = {
               "/docs/cache",
               "/docs/platform-api",
               "/docs/command",
-              { title: "Templating", path: "/docs/templating" }
+              { title: "Templating", path: "/docs/templating" },
+              "/docs/validation",
+              { title: "Session & Cookies", path: "/tutorials/session" }
             ]
           },
           {
             title: "Advanced",
             collapsable: true,
             children: [
-              "/docs/validation",
+
               { title: "Upload files", path: "/docs/upload-files" },
               { title: "Serve files", path: "/docs/serve-files" },
               "/docs/injection-scopes",
