@@ -1,6 +1,6 @@
 {
   "name": "@tsed/common",
-  "version": "6.64.1",
+  "version": "6.64.2",
   "description": "A TypeScript Framework on top of Express",
   "source": "./src/index.ts",
   "main": "./lib/index.js",
@@ -46,13 +46,13 @@
     "build": "tsc --build tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/core": "6.64.1",
-    "@tsed/di": "6.64.1",
-    "@tsed/exceptions": "6.64.1",
-    "@tsed/json-mapper": "6.64.1",
+    "@tsed/core": "6.64.2",
+    "@tsed/di": "6.64.2",
+    "@tsed/exceptions": "6.64.2",
+    "@tsed/json-mapper": "6.64.2",
     "@tsed/logger": "^5.16.0",
-    "@tsed/perf": "6.64.1",
-    "@tsed/schema": "6.64.1",
+    "@tsed/perf": "6.64.2",
+    "@tsed/schema": "6.64.2",
     "@types/cache-manager": "^3.4.0",
     "@types/json-schema": "7.0.7",
     "cache-manager": "^3.4.1",

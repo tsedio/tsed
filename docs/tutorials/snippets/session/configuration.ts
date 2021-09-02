@@ -12,6 +12,7 @@ export class Server {
   app: PlatformApplication;
 
   public $beforeRoutesInit(): void | Promise<any> {
+    this.app.getApp().set("trust proxy", 1); // trust first proxy
 
     this.app
       .use(cookieParser())
@@ -20,14 +21,12 @@ export class Server {
       .use(bodyParser.json())
       .use(bodyParser.urlencoded({
         extended: true
+      }))
+      .use(session({
+        secret: "keyboard cat",
+        resave: false,
+        saveUninitialized: true,
+        cookie: {secure: true}
       }));
-
-    this.app.getApp().set("trust proxy", 1); // trust first proxy
-    this.app.getApp().use(session({
-      secret: "keyboard cat",
-      resave: false,
-      saveUninitialized: true,
-      cookie: {secure: true}
-    }));
   }
 }
