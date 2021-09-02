@@ -45,6 +45,16 @@
   "scripts": {
     "build": "tsc --build tsconfig.compile.json"
   },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/Romakita"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/tsed"
+    }
+  ],
   "dependencies": {
     "@tsed/core": "6.64.3",
     "@tsed/di": "6.64.3",
