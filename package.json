@@ -9,16 +9,22 @@
   "bugs": {
     "url": "https://github.com/tsedio/tsed/issues"
   },
-  "funding": {
-    "type": "opencollective",
-    "url": "https://opencollective.com/tsed"
-  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/Romakita"
+    },
+    {
+      "type": "opencollective",
+      "url": "https://opencollective.com/tsed"
+    }
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/tsedio/tsed.git"
   },
   "scripts": {
-    "postinstall": "node tools/yarn/postinstall.js && cd docs && yarn install && cd .. && opencollective",
+    "postinstall": "node tools/yarn/postinstall.js && cd docs && yarn install && cd .. && github-sponsors",
     "configure": "monorepo ci configure",
     "clean": "monorepo clean workspace",
     "test": "yarn clean && yarn test:lint && yarn test:coverage",
@@ -85,11 +91,11 @@
     "multer"
   ],
   "dependencies": {
-    "@nuxtjs/opencollective": "0.3.2",
     "@tsed/logger": "^5.16.0",
     "axios": "0.21.1",
     "ajv": "8.6.0",
     "change-case": "4.1.2",
+    "github-sponsors": "^1.0.1",
     "globby": "11.0.3",
     "lerna": "4.0.0",
     "uuid": "8.3.2",

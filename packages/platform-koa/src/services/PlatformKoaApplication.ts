@@ -3,6 +3,8 @@ import {Configuration, Inject, PlatformApplication, PlatformHandler} from "@tsed
 import Koa from "koa";
 import {PlatformKoaRouter} from "./PlatformKoaRouter";
 
+const koaQs = require("koa-qs");
+
 declare global {
   namespace TsED {
     export interface Application extends Koa {}
@@ -21,6 +23,7 @@ export class PlatformKoaApplication extends PlatformKoaRouter implements Platfor
     super(platformHandler, configuration, {});
 
     this.rawApp = configuration.get("koa.app") || new Koa();
+    koaQs(this.rawApp, "extended");
   }
 
   getApp(): Koa {

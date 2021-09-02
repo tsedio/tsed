@@ -9029,6 +9029,14 @@ gitconfiglocal@^1.0.0:
   dependencies:
     ini "^1.3.2"
 
+github-sponsors@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/github-sponsors/-/github-sponsors-1.0.1.tgz#e5d3199c1ca03ac02cf5ad96524c413643d1ebe9"
+  integrity sha512-e88pra5/QNBhLhl/GgI+NanCiPbfUkO67nkmrpuE/gNudX12XpZPOtpP3ljOvxw+L5kWLIXpBaDMQl+flqIbkA==
+  dependencies:
+    chalk "^2.4.2"
+    yaml "^1.6.0"
+
 glob-parent@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-3.1.0.tgz#9e6af6299d8d3bd2bd40430832bd113df906c5ae"
@@ -18858,7 +18866,7 @@ yaml@^1.10.0, yaml@^1.7.2:
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.0.tgz#3b593add944876077d4d683fee01081bd9fff31e"
   integrity sha512-yr2icI4glYaNG+KWONODapy2/jDdMSDnrONSjblABjD9B4Z5LgiircSt8m8sRZFNi08kG9Sm0uSHtEmP3zaEGg==
 
-yaml@^1.10.2:
+yaml@^1.10.2, yaml@^1.6.0:
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
