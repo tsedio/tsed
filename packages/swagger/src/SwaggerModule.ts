@@ -93,6 +93,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   generateSpecFiles() {
     const promises = this.settings.map(async (conf) => {
       const {outFile} = conf;
+      const spec = this.swaggerService.getOpenAPISpec(conf);
 
       if (outFile) {
         const spec = this.swaggerService.getOpenAPISpec(conf);

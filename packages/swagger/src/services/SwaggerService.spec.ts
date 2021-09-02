@@ -1,4 +1,4 @@
-import {PlatformTest, PlatformConfiguration} from "@tsed/common";
+import {PlatformConfiguration, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import {SwaggerService} from "../index";
 
@@ -17,7 +17,14 @@ describe("SwaggerService", () => {
       }
     )
   );
+  describe("getOpenAPISpec()", () => {
+    it("should compile spec only once time", () => {
+      const result1 = swaggerService.getOpenAPISpec({specVersion: "3.0.1"} as any);
+      const result2 = swaggerService.getOpenAPISpec({specVersion: "3.0.1"} as any);
 
+      expect(result1).to.eq(result2);
+    });
+  });
   describe("getDefaultSpec()", () => {
     describe("when specPath is given", () => {
       it("should return default spec", () => {

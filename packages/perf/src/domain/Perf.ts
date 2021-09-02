@@ -22,6 +22,16 @@ export class Perf {
     return this;
   }
 
+  async runFor<T = any>(it: number, fn: CallbackWrapper<T>) {
+    const {time} = await this.run(async () => {
+      for (let i = 0; i < it; i++) {
+        await fn();
+      }
+    });
+
+    return time;
+  }
+
   run<T = any>(fn: CallbackWrapper<T>): {result: T; time: number} | Promise<{result: T; time: number}>;
   run<T = any>(fn: CallbackWrapper<T>, onTime: (time: number) => void): T;
   run<T = any>(fn: CallbackWrapper<T>, onTime?: (time: number) => void) {

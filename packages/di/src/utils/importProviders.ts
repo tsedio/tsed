@@ -4,11 +4,7 @@ import {ProviderType} from "../domain/ProviderType";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {importComponents} from "./importComponents";
 
-const concatProviders = (results: any): IProvider<any>[] => {
-  return [].concat(...results);
-};
-
-async function recursiveImports(providers: IProvider<any>[], settings: Partial<TsED.Configuration>, properties: string[]) {
+async function recursiveImports(providers: {token: string; route?: string}[], settings: Partial<TsED.Configuration>, properties: string[]) {
   const {exclude = []} = settings;
 
   const promises = providers
@@ -16,7 +12,7 @@ async function recursiveImports(providers: IProvider<any>[], settings: Partial<T
     .filter((provider) => provider?.type === ProviderType.MODULE && provider.configuration)
     .map((provider: Provider) => importProviders({exclude, ...provider.configuration}, properties));
 
-  return concatProviders(await Promise.all(promises));
+  return (await Promise.all(promises)).flat();
 }
 
 /**
@@ -28,11 +24,11 @@ async function recursiveImports(providers: IProvider<any>[], settings: Partial<T
 export async function importProviders(
   settings: Partial<TsED.Configuration>,
   properties: string[] = ["imports"]
-): Promise<IProvider<any>[]> {
+): Promise<{token: string; route?: string}[]> {
   const {exclude = []} = settings;
 
   const promises = properties.map((key) => importComponents(settings[key], exclude));
-  const providers = concatProviders(await Promise.all(promises));
+  const providers = (await Promise.all(promises)).flat();
   const children = await recursiveImports(providers, settings, properties);
 
   return [...children, ...providers];

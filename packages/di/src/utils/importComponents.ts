@@ -1,5 +1,4 @@
 import {isArray, isClass} from "@tsed/core";
-import {IProvider} from "../interfaces/IProvider";
 import {importFiles} from "./importFiles";
 
 async function resolveSymbols(item: any, excludes: string[]) {
@@ -34,7 +33,7 @@ export function mapConfiguration(config: any): {endpoint?: string; values: any[]
   }, []);
 }
 
-export async function importComponents(config: any, excludes: string[]): Promise<Partial<IProvider<any>>[]> {
+export async function importComponents(config: any, excludes: string[]): Promise<{token: string; route?: string}[]> {
   if (!config) {
     return [];
   }
@@ -42,23 +41,18 @@ export async function importComponents(config: any, excludes: string[]): Promise
   config = mapConfiguration(config);
 
   const promises: any = [];
+
   for (const option of config) {
     promises.push(
       ...option.values.map(async (value: any) => {
         const symbols = await resolveSymbols(value, excludes);
 
-        return symbols
-          .filter((symbol) => isClass(symbol))
-          .map((symbol) => {
-            const provider: Partial<IProvider<any>> = {token: symbol, route: option.endpoint};
-
-            return provider;
-          });
+        return symbols.filter(isClass).map((symbol) => ({token: symbol, route: option.endpoint}));
       })
     );
   }
 
-  const result = await Promise.all(promises);
+  const result: {token: string; route?: string}[][] = await Promise.all(promises);
 
-  return ([] as any).concat(...result);
+  return result.flat();
 }
