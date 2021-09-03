@@ -109,7 +109,7 @@ The goal of validation use case is to ensure that the input parameter is valid b
 
 Officially, Ts.ED has two way to declare a @@JsonShema@@ validation:
 
-- With [model](/docs/models.html) decorators,
+- With [model](/docs/model.html) decorators,
 - With @@UseSchema@@ decorator, it's a decorator Pipe provided by @tsed/ajv package.
 
 We'll take the model declaration to explain the Validation pipe use case. Let's focus on the `PersonModel`:
