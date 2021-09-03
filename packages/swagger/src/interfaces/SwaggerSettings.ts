@@ -73,6 +73,10 @@ export interface SwaggerSettingsBase {
    *
    */
   disableSpec?: boolean;
+  /**
+   * Include only controllers whose paths match the pattern list provided.
+   */
+  pathPatterns?: string[];
 }
 
 export interface SwaggerOS2Settings extends SwaggerSettingsBase {

@@ -109,16 +109,47 @@ hidden | `true` | Hide the documentation in the dropdown explorer list.
 options | Swagger-UI options | SwaggerUI options. See (https://github.com/swagger-api/swagger-ui/blob/HEAD/docs/usage/docs/configuration.md)
 operationIdFormatter | `(name: string, propertyKey: string, path: string) => string` | A function to generate the operationId.
 operationIdPattern | `%c_%m` | A pattern to generate the operationId. Format of operationId field (%c: class name, %m: method name).
+pathPatterns | `[]` | Include only controllers whose paths match the pattern list provided.
 
 ### Multi documentations
-
-It is also possible to create several swagger documentations with the `doc` option:
+#### By decorators
+It's also possible to create several swagger documentations with the `doc` option:
 
 <<< @/tutorials/snippets/swagger/multi-spec.ts
 
 Then use `@Docs` decorators on your controllers to specify where the controllers should be displayed.
 
 <<< @/tutorials/snippets/swagger/multi-spec-controllers.ts
+
+#### By Path patterns <Badge text="v6.66.0+" />
+
+You can use the `pathPatterns` options to include only controllers whose paths match the pattern list provided.
+
+```typescript
+import {Configuration} from "@tsed/common";
+import "@tsed/platform-express";
+import "@tsed/swagger"; // import swagger Ts.ED module
+
+@Configuration({
+  rootDir: __dirname,
+  swagger: [
+    {
+      path: "/api-admin",
+      pathPatterns: [
+        "/rest/admin/**"
+      ]
+    },
+    {
+      path: "/api-all",
+      pathPatterns: [
+        "!/rest/admin/**"
+      ]
+    }
+  ]
+})
+export class Server {
+}
+```
 
 ## Model documentation
 
