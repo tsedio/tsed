@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "fs-extra": "9.0.1",
+    "micromatch": "^4.0.2",
     "swagger-ui-dist": "^3.46.0",
     "tslib": "2.2.0"
   },
