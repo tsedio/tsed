@@ -16,8 +16,9 @@ export class ResourceNotFoundFilter implements ExceptionFilterMethods {
       .body(obj);
 
     // Or with ejs/handlers/etc...
-    await response
+    await html = response.render("404.ejs", obj);
+    response
       .status(exception.status)
-      .render("404.ejs", obj);
+      .body(html)
   }
 }
