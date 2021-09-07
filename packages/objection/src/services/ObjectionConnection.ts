@@ -1,5 +1,5 @@
 import {Configuration, registerProvider} from "@tsed/di";
-import Knex, {Config} from "knex";
+import type {Knex} from "knex";
 import {createConnection} from "../utils/connect";
 
 export const OBJECTION_CONNECTION = Symbol.for("DEFAULT_CONNECTION");
@@ -9,11 +9,11 @@ registerProvider({
   provide: OBJECTION_CONNECTION,
   deps: [Configuration],
   async useAsyncFactory(configuration: Configuration) {
-    const connectionOptions = configuration.get<Config>("knex")!;
+    const connectionOptions = configuration.get<Knex.Config>("knex")!;
 
     if (connectionOptions) {
       try {
-        return createConnection(connectionOptions!);
+        return createConnection(connectionOptions);
       } catch (er) {
         // istanbul ignore next
         console.error(er);

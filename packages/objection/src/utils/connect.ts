@@ -1,9 +1,9 @@
-import Knex, {Config} from "knex";
+import knex, {Knex} from "knex";
 import {Model} from "objection";
 
-export function createConnection(connectionOptions: Config): Knex {
-  const connection = require("knex")(connectionOptions);
-  Model.knex(connection as any);
+export function createConnection(connectionOptions: Knex.Config): Knex {
+  const connection = knex(connectionOptions);
+  Model.knex(connection);
 
   return connection;
 }
