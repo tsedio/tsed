@@ -1,10 +1,10 @@
-import {Config} from "knex";
+import {Knex} from "knex";
 import "./utils/patchModelJson";
 
 declare global {
   namespace TsED {
     interface Configuration {
-      knex: Config;
+      knex: Knex.Config;
     }
   }
 }
