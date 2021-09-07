@@ -1,9 +1,14 @@
-import {Inject, Service} from "@tsed/di";
+import {Inject, Injectable} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import Mongoose from "mongoose";
 import {ConnectOptions} from "mongoose";
 
-@Service()
+// istanbul ignore next
+function asPromise(c: any) {
+  return c && c.asPromise ? c.asPromise() : c;
+}
+
+@Injectable()
 export class MongooseService {
   readonly connections: Map<string, Mongoose.Connection> = new Map();
   private defaultConnection: string = "default";
@@ -25,7 +30,7 @@ export class MongooseService {
     this.logger.debug(`options: ${JSON.stringify(connectionOptions)}`);
 
     try {
-      const connection = await Mongoose.createConnection(url, connectionOptions);
+      const connection = await asPromise(Mongoose.createConnection(url, connectionOptions));
       this.connections.set(id, connection);
 
       if (id === "default" || isDefault) {

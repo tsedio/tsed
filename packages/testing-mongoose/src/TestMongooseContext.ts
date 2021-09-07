@@ -2,6 +2,8 @@ import {PlatformTest} from "@tsed/common";
 import {MongooseService} from "@tsed/mongoose";
 import {MongoMemoryServer} from "mongodb-memory-server";
 import {resolve} from "path";
+import {version} from "mongoose";
+import semver from "semver";
 
 const downloadDir = resolve(`${require.resolve("mongodb-memory-server")}/../../.cache/mongodb-memory-server/mongodb-binaries`);
 
@@ -80,13 +82,18 @@ export class TestMongooseContext extends PlatformTest {
   static async getMongooseOptions() {
     const url = await TestMongooseContext.getMongo().getUri();
 
+    if (semver.gt(version, "6.0.0")) {
+    }
+
     return {
       url,
-      connectionOptions: {
-        useCreateIndex: true,
-        useUnifiedTopology: true,
-        useNewUrlParser: true
-      }
+      connectionOptions: semver.lt(version, "6.0.0")
+        ? {
+            useCreateIndex: true,
+            useUnifiedTopology: true,
+            useNewUrlParser: true
+          }
+        : {}
     };
   }
 }
