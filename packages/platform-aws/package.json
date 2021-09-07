@@ -49,8 +49,7 @@
   "devDependencies": {
     "@tsed/common": "6.66.0",
     "@tsed/core": "6.66.0",
-    "@tsed/di": "6.66.0",
-    "@types/aws-serverless-express": "3.3.3"
+    "@tsed/di": "6.66.0"
   },
   "dependencies": {
     "@types/aws-serverless-express": "^3.3.3",
