@@ -1088,7 +1088,7 @@ This feature is only available for OpenAPI 3.
 ## Annotations
 
 JSON Schema includes a few keywords and Ts.ED provide also theses corresponding decorators like @@Title@@,
-@@Description@@, @@Default@@, @@Examples@@ that aren’t strictly used for validation, but are used to describe parts of a
+@@Description@@, @@Default@@, @@Example@@ that aren’t strictly used for validation, but are used to describe parts of a
 schema.
 
 None of these `annotation` keywords are required, but they are encouraged for good practice, and can make your
