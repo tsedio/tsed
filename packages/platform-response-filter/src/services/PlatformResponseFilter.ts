@@ -1,34 +1,8 @@
-import {isObject, Type} from "@tsed/core";
-import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
-import {PlatformContext} from "../../platform/domain/PlatformContext";
+import {Type} from "@tsed/core";
+import {BaseContext, Constant, Inject, Injectable, InjectorService} from "@tsed/di";
 import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods";
-
-const ANY_CONTENT_TYPE = "*/*";
-
-/**
- * @ignore
- */
-export function getContentType(data: any, ctx: PlatformContext) {
-  const {endpoint, response} = ctx;
-  const {operation} = endpoint;
-
-  const contentType = response.getContentType() || operation.getContentTypeOf(response.statusCode) || "";
-
-  if (contentType && contentType !== ANY_CONTENT_TYPE) {
-    if (contentType === "application/json") {
-      if (isObject(data)) {
-        return contentType;
-      }
-    } else {
-      return contentType;
-    }
-  }
-
-  if (typeof data === "string" && endpoint.view) {
-    return "text/html";
-  }
-}
+import {ANY_CONTENT_TYPE, getContentType} from "../utils/getContentType";
 
 /**
  * @platform
@@ -55,7 +29,7 @@ export class PlatformResponseFilter {
     });
   }
 
-  getBestContentType(data: any, ctx: PlatformContext) {
+  getBestContentType(data: any, ctx: BaseContext) {
     const contentType = getContentType(data, ctx);
 
     if (ctx.request.get("Accept")) {
@@ -69,7 +43,7 @@ export class PlatformResponseFilter {
     return contentType;
   }
 
-  transform(data: unknown, ctx: PlatformContext) {
+  transform(data: unknown, ctx: BaseContext) {
     const {response} = ctx;
     const bestContentType = this.getBestContentType(data, ctx);
 
