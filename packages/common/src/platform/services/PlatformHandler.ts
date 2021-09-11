@@ -96,16 +96,6 @@ export class PlatformHandler {
     }
   }
 
-  /**
-   * Allow handler hack for AsyncHookContext plugin.
-   * @param $ctx
-   * @param cb
-   * @protected
-   */
-  run($ctx: PlatformContext, cb: any) {
-    return cb();
-  }
-
   protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {
     const {metadata, $ctx} = requestOptions;
 
@@ -134,7 +124,7 @@ export class PlatformHandler {
 
     const {$ctx} = h;
 
-    return this.run($ctx, async () => {
+    return this.injector.runInContext($ctx, async () => {
       try {
         h.args = await this.getArgs(h);
 

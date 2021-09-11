@@ -2,13 +2,16 @@
   "name": "@tsed/async-hook-context",
   "version": "6.67.0",
   "description": "Add Async Hook context support in Ts.ED",
+  "private": false,
   "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
-  "private": false,
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
-    "tsc": "tsc --build tsconfig.check.json"
+    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "keywords": [
     "AsyncHooks",

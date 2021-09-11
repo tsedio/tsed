@@ -1,8 +1,8 @@
-import {Inject, Injectable, PlatformContext, PlatformHandler, PlatformTest} from "@tsed/common";
+import {Inject, Injectable, InjectorService} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {AsyncLocalStorage} from "async_hooks";
 
-let store: AsyncLocalStorage<PlatformContext>;
+let store: AsyncLocalStorage<any>;
 
 @Injectable()
 export class PlatformAsyncHookContext {
@@ -10,18 +10,22 @@ export class PlatformAsyncHookContext {
   protected logger: Logger;
 
   @Inject()
-  protected platformHandler: PlatformHandler;
-
-  getContext() {
-    return store?.getStore();
-  }
+  protected injector: InjectorService;
 
   static getStore() {
     store = store || new AsyncLocalStorage();
     return store;
   }
 
-  run = (ctx: PlatformContext, cb: any) => {
+  static run(ctx: any, cb: any) {
+    return PlatformAsyncHookContext.getStore().run(ctx, cb);
+  }
+
+  getContext() {
+    return store?.getStore();
+  }
+
+  run = (ctx: any, cb: any) => {
     return PlatformAsyncHookContext.run(ctx, cb);
   };
 
@@ -30,15 +34,11 @@ export class PlatformAsyncHookContext {
     if (AsyncLocalStorage) {
       PlatformAsyncHookContext.getStore();
       // override
-      this.platformHandler.run = this.run;
+      this.injector.runInContext = this.run;
     } else {
       this.logger.warn(
         `AsyncLocalStorage is not available for your Node.js version (${process.versions.node}). Please upgrade your version at least to v13.10.0.`
       );
     }
-  }
-
-  static run(ctx: PlatformContext, cb: any) {
-    return PlatformAsyncHookContext.getStore().run(ctx, cb);
   }
 }

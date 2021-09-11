@@ -662,4 +662,13 @@ export class InjectorService extends Container {
       provider
     };
   }
+  /**
+   * Allow handler hack for AsyncHookContext plugin.
+   * @param ctx
+   * @param cb
+   * @protected
+   */
+  runInContext(ctx: any, cb: any) {
+    return cb();
+  }
 }
