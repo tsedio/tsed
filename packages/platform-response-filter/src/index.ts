@@ -9,3 +9,5 @@ export * from "./interfaces/ResponseFilterMethods";
 
 // services
 export * from "./services/PlatformResponseFilter";
+
+export * from "./utils/getContentType";
