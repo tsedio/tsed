@@ -1,12 +1,11 @@
-import {ParamMetadata, PlatformHandler, PlatformTest} from "@tsed/common";
+import {ParamMetadata, ParamOptions, PlatformHandler, PlatformTest} from "@tsed/common";
 import {Type} from "@tsed/core";
 import {createFakeHandlerContext} from "./createFakeHandlerContext";
 
-export interface TestPlatformHandlerOptions {
+export interface TestPlatformHandlerOptions extends Partial<ParamOptions> {
   type: string;
   token: Type<PlatformHandler>;
   sandbox: any;
-  expression?: string;
   required?: boolean;
 }
 
@@ -23,8 +22,13 @@ export async function buildPlatformHandler({type, token, sandbox, expression, re
     test() {}
   }
 
-  const param = new ParamMetadata({target: Test, propertyKey: "test", index: 0});
-  param.paramType = type;
+  const param = new ParamMetadata({
+    target: Test,
+    propertyKey: "test",
+    index: 0,
+    paramType: type,
+    dataPath: '$ctx'
+  });
 
   const h = createFakeHandlerContext(param, sandbox);
 

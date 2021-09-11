@@ -1,5 +1,5 @@
+import {ParamTypes} from "@tsed/platform-params";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
-import {ParamTypes} from "../../mvc/models/ParamTypes";
 import {ControllerProvider} from "./ControllerProvider";
 
 export interface PlatformRouterDetailsOptions {

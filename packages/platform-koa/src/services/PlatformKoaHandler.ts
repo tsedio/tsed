@@ -1,20 +1,14 @@
-import {HandlerContext, HandlerMetadata, HandlerType, OnRequestOptions, ParamTypes, PlatformContext, PlatformHandler} from "@tsed/common";
+import {HandlerMetadata, HandlerType, OnRequestOptions, PlatformContext, PlatformHandler} from "@tsed/common";
 import Koa from "koa";
 import "./PlatformKoaRequest";
 
 export class PlatformKoaHandler extends PlatformHandler {
-  protected getArg(type: ParamTypes | string, h: HandlerContext): any {
-    const koaCtx = h.request.ctx;
-
-    switch (String(type)) {
-      case "KOA_CTX":
-        return koaCtx;
-      case ParamTypes.LOCALS:
-        return koaCtx.state;
-
-      default:
-        return super.getArg(type, h);
+  public async flush(data: any, ctx: PlatformContext): Promise<void> {
+    if (data === undefined && ctx.getResponse().body) {
+      data = ctx.getResponse().body;
     }
+
+    return super.flush(data, ctx);
   }
 
   protected createRawHandler(metadata: HandlerMetadata) {
@@ -44,14 +38,6 @@ export class PlatformKoaHandler extends PlatformHandler {
             next
           });
     }
-  }
-
-  public async flush(data: any, ctx: PlatformContext): Promise<void> {
-    if (data === undefined && ctx.getResponse().body) {
-      data = ctx.getResponse().body;
-    }
-
-    return super.flush(data, ctx);
   }
 
   protected async onRequest(requestOptions: OnRequestOptions): Promise<any> {

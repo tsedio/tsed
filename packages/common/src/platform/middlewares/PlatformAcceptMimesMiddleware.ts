@@ -1,8 +1,8 @@
 import {uniq} from "@tsed/core";
 import {Constant} from "@tsed/di";
 import {NotAcceptable} from "@tsed/exceptions";
+import {Context} from "@tsed/platform-params";
 import {IMiddleware, Middleware} from "../../mvc";
-import {Context} from "../decorators/context";
 
 /**
  * @middleware

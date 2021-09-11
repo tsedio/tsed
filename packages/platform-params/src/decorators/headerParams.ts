@@ -1,0 +1,49 @@
+import {Type} from "@tsed/core";
+import {ParamTypes} from "../domain/ParamTypes";
+import {UseParam} from "./useParam";
+import {mapParamsOptions} from "../utils/mapParamsOptions";
+import {ParamOptions} from "../domain/ParamOptions";
+
+/**
+ * HeaderParams return the value from [`request.get()`](http://expressjs.com/en/4x/api.html#req.get) method.
+ *
+ * #### Example
+ *
+ * ```typescript
+ * @Controller('/')
+ * class MyCtrl {
+ *    @Get('/')
+ *    get(@HeaderParams() body: any) {
+ *       console.log('Entire body', body);
+ *    }
+ *
+ *    @Get('/')
+ *    get(@HeaderParams('x-token') token: string) {
+ *       console.log('token', id);
+ *    }
+ * }
+ * ```
+ *
+ * @param expression The path of the property to get.
+ * @param useType
+ * @decorator
+ * @operation
+ * @input
+ */
+export function HeaderParams(expression: string, useType: Type<any>): ParameterDecorator;
+export function HeaderParams(expression: string): ParameterDecorator;
+export function HeaderParams(useType: Type<any>): ParameterDecorator;
+export function HeaderParams(options: Partial<ParamOptions>): ParameterDecorator;
+export function HeaderParams(): ParameterDecorator;
+export function HeaderParams(...args: any[]): ParameterDecorator {
+  const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
+
+  return UseParam({
+    paramType: ParamTypes.HEADER,
+    dataPath: "$ctx.request.headers",
+    expression,
+    useType,
+    useConverter,
+    useValidation
+  });
+}

@@ -6,6 +6,12 @@ import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
 import {RequestLogger, RequestLoggerOptions} from "./RequestLogger";
 
+declare global {
+  namespace TsED {
+    export interface Context extends PlatformContext {}
+  }
+}
+
 export interface RequestContextOptions extends Omit<RequestLoggerOptions, "dateStart"> {
   id: string;
   logger: any;

@@ -1,22 +1,21 @@
 import {isClass, Metadata, nameOf} from "@tsed/core";
+import {ParamTypes, UseParam} from "@tsed/platform-params";
 import {ServerResponse} from "http";
-import {ParamTypes} from "../../models/ParamTypes";
-import {UseParam} from "./useParam";
 
 function getParamType(target: Object, propertyKey: string | symbol, parameterIndex: number) {
   const type = Metadata.getOwnParamTypes(target, propertyKey)[parameterIndex];
 
   if (isClass(type)) {
     if (nameOf(type) === "PlatformResponse") {
-      return ParamTypes.PLATFORM_RESPONSE;
+      return {paramType: ParamTypes.PLATFORM_RESPONSE, dataPath: "$ctx.response"};
     }
 
     if (type === ServerResponse) {
-      return ParamTypes.NODE_RESPONSE;
+      return {paramType: ParamTypes.NODE_RESPONSE, dataPath: "$ctx.response.res"};
     }
   }
 
-  return ParamTypes.RESPONSE;
+  return {paramType: ParamTypes.RESPONSE, dataPath: "$ctx.response.response"};
 }
 
 /**
@@ -44,7 +43,11 @@ export function Response(): ParameterDecorator {
 export function Res(): ParameterDecorator;
 export function Res(): ParameterDecorator {
   return (target, propertyKey, parameterIndex) => {
-    UseParam(getParamType(target, propertyKey, parameterIndex))(target, propertyKey, parameterIndex);
+    const {paramType, dataPath} = getParamType(target, propertyKey, parameterIndex);
+    UseParam({
+      paramType,
+      dataPath
+    })(target, propertyKey, parameterIndex);
   };
 }
 

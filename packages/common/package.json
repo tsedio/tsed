@@ -63,6 +63,7 @@
     "@tsed/logger": "^5.16.0",
     "@tsed/perf": "6.67.0",
     "@tsed/schema": "6.67.0",
+    "@tsed/platform-params": "6.67.0",
     "@types/cache-manager": "^3.4.0",
     "@types/json-schema": "7.0.7",
     "cache-manager": "^3.4.1",

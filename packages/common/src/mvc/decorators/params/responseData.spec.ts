@@ -1,5 +1,6 @@
+import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
 import {expect} from "chai";
-import {ParamMetadata, ParamTypes, ResponseData} from "../../../../src/mvc";
+import {ResponseData} from "./responseData";
 
 describe("@ResponseData", () => {
   it("should register a new ParamMetadata instance with the correct property", () => {
@@ -8,6 +9,7 @@ describe("@ResponseData", () => {
     }
 
     const param = ParamMetadata.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.RESPONSE_DATA);
+    expect(param.paramType).to.eq(ParamTypes.$CTX);
+    expect(param.dataPath).to.eq("$ctx.data");
   });
 });

@@ -16,7 +16,6 @@ export * from "./middlewares";
 export * from "./domain";
 
 // errors
-export * from "./errors/ParamValidationError";
 export * from "./errors/TemplateRenderError";
 
 // providers

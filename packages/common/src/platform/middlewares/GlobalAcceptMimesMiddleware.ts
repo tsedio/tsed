@@ -1,5 +1,5 @@
+import {Context} from "@tsed/platform-params";
 import {IMiddleware, Middleware} from "../../mvc";
-import {Context} from "../decorators/context";
 
 /**
  * @deprecated Since 2020-11-30. Use PlatformAcceptMimesMiddleware.

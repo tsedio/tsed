@@ -1,6 +1,6 @@
 import {classOf, DecoratorTypes, deepMerge, descriptorOf, Enumerable, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
+import {ParamMetadata} from "@tsed/platform-params";
 import {getOperationsStores, JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonOperation} from "@tsed/schema";
-import {ParamMetadata} from "./ParamMetadata";
 
 export interface EndpointConstructorOptions extends JsonEntityStoreOptions {
   beforeMiddlewares?: Function[];

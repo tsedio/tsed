@@ -1,6 +1,6 @@
+import {Context} from "@tsed/platform-params";
 import {Middleware} from "../../mvc/decorators";
 import {IMiddleware} from "../../mvc/interfaces";
-import {Context} from "../../platform/decorators/context";
 
 /**
  * @middleware

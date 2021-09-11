@@ -1,9 +1,9 @@
 import {InjectorService} from "@tsed/di";
+import {Context} from "@tsed/platform-params";
 import {PlatformLoggerSettings} from "../../config/interfaces/PlatformLoggerSettings";
 import {Middleware} from "../../mvc/decorators/class/middleware";
 import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
 import {OnResponse} from "../interfaces/OnResponse";
-import {Context} from "../decorators/context";
 
 /**
  * @middleware

@@ -8,6 +8,6 @@ describe("@EndpointInfo", () => {
     }
 
     const param = ParamMetadata.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.ENDPOINT_INFO);
+    expect(param.paramType).to.eq(ParamTypes.$CTX);
   });
 });

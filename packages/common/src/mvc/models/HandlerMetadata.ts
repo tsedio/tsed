@@ -1,9 +1,8 @@
 import {nameOf, Type} from "@tsed/core";
 import {ProviderScope} from "@tsed/di";
+import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
 import {HandlerType} from "../interfaces/HandlerType";
 import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouteOptions";
-import {ParamMetadata} from "../models/ParamMetadata";
-import {ParamTypes} from "./ParamTypes";
 
 export interface HandlerMetadataOptions {
   target: (Type<any> | Function) & {type?: HandlerType};
@@ -62,52 +61,7 @@ export class HandlerMetadata {
   }
 
   get parameters(): ParamMetadata[] {
-    if (this.injectable) {
-      return this.getParams();
-    }
-    // Emulate ParamMetadata
-    const parameters: any[] = [];
-
-    if (this.hasErrorParam) {
-      parameters.push(
-        new ParamMetadata({
-          target: this.target,
-          propertyKey: this.propertyKey,
-          index: 0,
-          paramType: ParamTypes.ERR
-        })
-      );
-    }
-
-    parameters.push(
-      new ParamMetadata({
-        target: this.target,
-        propertyKey: this.propertyKey,
-        index: parameters.length,
-        paramType: ParamTypes.REQUEST
-      })
-    );
-    parameters.push(
-      new ParamMetadata({
-        target: this.target,
-        propertyKey: this.propertyKey,
-        index: parameters.length,
-        paramType: ParamTypes.RESPONSE
-      })
-    );
-
-    if (this.hasNextFunction) {
-      parameters.push(
-        new ParamMetadata({
-          target: this.target,
-          propertyKey: this.propertyKey,
-          index: parameters.length,
-          paramType: ParamTypes.NEXT_FN
-        })
-      );
-    }
-
-    return parameters;
+    return this.injectable ? this.getParams() : [];
   }
 
   public getParams() {
