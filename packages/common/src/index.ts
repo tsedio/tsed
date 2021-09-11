@@ -3,7 +3,7 @@ export * from "./config";
 export * from "./mvc";
 export * from "./platform";
 export * from "./platform-cache";
-export * from "./platform-exceptions";
+export * from "@tsed/platform-exceptions";
 export * from "./platform-test";
 export * from "./platform-response-filter";
 
