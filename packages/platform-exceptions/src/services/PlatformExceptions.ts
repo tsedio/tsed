@@ -1,6 +1,5 @@
 import {ancestorsOf, classOf, nameOf} from "@tsed/core";
-import {Inject, Injectable, InjectorService} from "@tsed/di";
-import {PlatformContext} from "../../platform/domain/PlatformContext";
+import {BaseContext, Inject, Injectable, InjectorService} from "@tsed/di";
 import "../components/ErrorFilter";
 import "../components/ExceptionFilter";
 import "../components/MongooseErrorFilter";
@@ -27,7 +26,7 @@ export class PlatformExceptions {
     });
   }
 
-  catch(error: unknown, ctx: PlatformContext) {
+  catch(error: unknown, ctx: TsED.Context) {
     const name = nameOf(classOf(error));
 
     if (name && this.types.has(name)) {
@@ -46,7 +45,7 @@ export class PlatformExceptions {
     return this.types.get(Error)!.catch(error, ctx);
   }
 
-  resourceNotFound(ctx: PlatformContext) {
+  resourceNotFound(ctx: BaseContext) {
     return this.catch(new ResourceNotFound(ctx.request.url), ctx);
   }
 }

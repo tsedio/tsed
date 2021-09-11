@@ -1,12 +1,11 @@
 import {Env} from "@tsed/core";
-import type {ResponseErrorObject} from "../../mvc/interfaces/ResponseErrorObject";
-import type {PlatformContext} from "../../platform/domain/PlatformContext";
+import type {BaseContext} from "@tsed/di";
 import {Catch} from "../decorators/catch";
 import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
 
 @Catch(Error)
 export class ErrorFilter implements ExceptionFilterMethods {
-  catch(error: any, ctx: PlatformContext): void {
+  catch(error: any, ctx: BaseContext): void {
     const {response, logger, env} = ctx;
     const err = this.mapError(error, env);
 
@@ -35,13 +34,13 @@ export class ErrorFilter implements ExceptionFilterMethods {
   }
 
   protected getErrors(error: any) {
-    return [error, error.origin].filter(Boolean).reduce((errs, {errors}: ResponseErrorObject) => {
+    return [error, error.origin].filter(Boolean).reduce((errs, {errors}: any) => {
       return errs.concat(errors).filter(Boolean);
     }, []);
   }
 
   protected getHeaders(error: any) {
-    return [error, error.origin].filter(Boolean).reduce((obj, {headers}: ResponseErrorObject) => {
+    return [error, error.origin].filter(Boolean).reduce((obj, {headers}: any) => {
       return {
         ...obj,
         ...(headers || {})
