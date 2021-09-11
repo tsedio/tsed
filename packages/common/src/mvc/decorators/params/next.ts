@@ -1,5 +1,4 @@
-import {ParamTypes} from "../../models/ParamTypes";
-import {UseParam} from "./useParam";
+import {ParamTypes, UseParam} from "@tsed/platform-params";
 
 /**
  * Get the Next function (for express application and middleware).
@@ -9,7 +8,9 @@ import {UseParam} from "./useParam";
  * @input
  */
 export function Next(): ParameterDecorator {
-  return UseParam(ParamTypes.NEXT_FN, {
+  return UseParam({
+    paramType: ParamTypes.NEXT_FN,
+    dataPath: "next",
     useConverter: false,
     useValidation: false
   });

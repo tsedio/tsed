@@ -1,7 +1,7 @@
 import {Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
 import {promisify} from "util";
 import {PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "../../config";
-import {PathParamsType, PlatformRouteWithoutHandlers, PlatformRouteOptions} from "../../mvc/interfaces";
+import {PathType, PlatformRouteWithoutHandlers, PlatformRouteOptions} from "../../mvc/interfaces";
 import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformHandler} from "./PlatformHandler";
 
@@ -74,35 +74,35 @@ export class PlatformRouter<Router = TsED.Router> {
     return this;
   }
 
-  all(path: PathParamsType, ...handlers: any[]) {
+  all(path: PathType, ...handlers: any[]) {
     return this.addRoute({method: "all", path, handlers, isFinal: true});
   }
 
-  get(path: PathParamsType, ...handlers: any[]) {
+  get(path: PathType, ...handlers: any[]) {
     return this.addRoute({method: "get", path, handlers, isFinal: true});
   }
 
-  post(path: PathParamsType, ...handlers: any[]) {
+  post(path: PathType, ...handlers: any[]) {
     return this.addRoute({method: "post", path, handlers, isFinal: true});
   }
 
-  put(path: PathParamsType, ...handlers: any[]) {
+  put(path: PathType, ...handlers: any[]) {
     return this.addRoute({method: "put", path, handlers, isFinal: true});
   }
 
-  delete(path: PathParamsType, ...handlers: any[]) {
+  delete(path: PathType, ...handlers: any[]) {
     return this.addRoute({method: "delete", path, handlers, isFinal: true});
   }
 
-  patch(path: PathParamsType, ...handlers: any[]) {
+  patch(path: PathType, ...handlers: any[]) {
     return this.addRoute({method: "patch", path, handlers, isFinal: true});
   }
 
-  head(path: PathParamsType, ...handlers: any[]) {
+  head(path: PathType, ...handlers: any[]) {
     return this.addRoute({method: "head", path, handlers, isFinal: true});
   }
 
-  options(path: PathParamsType, ...handlers: any[]) {
+  options(path: PathType, ...handlers: any[]) {
     return this.addRoute({method: "options", path, handlers, isFinal: true});
   }
 

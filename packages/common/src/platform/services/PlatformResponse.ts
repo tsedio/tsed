@@ -44,6 +44,20 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     return this.raw.locals;
   }
 
+  /**
+   * Return the original response framework instance
+   */
+  get response() {
+    return this.getResponse();
+  }
+
+  /**
+   * Return the original response node.js instance
+   */
+  get res() {
+    return this.getRes();
+  }
+
   static onFinished(res: any, cb: Function) {
     onFinished(res, cb);
   }

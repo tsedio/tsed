@@ -1,8 +1,7 @@
-import {DecoratorParameters, Metadata, Store, StoreMerge, StoreSet, useDecorators, useMethodDecorators} from "@tsed/core";
+import {DecoratorParameters, Metadata, StoreMerge, useDecorators, useMethodDecorators} from "@tsed/core";
+import {ParamTypes, UseParam} from "@tsed/platform-params";
 import {Consumes, Returns} from "@tsed/schema";
 import {PlatformMulterFile} from "../../../config/interfaces/PlatformMulterSettings";
-import {Req, Use, UseParamType} from "../../../mvc/decorators";
-import {ParamTypes} from "../../../mvc/models/ParamTypes";
 import {MulterInputOptions, PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware";
 
 function mapOptions(name: string, maxCount: number | undefined): MulterInputOptions {
@@ -77,8 +76,12 @@ export function MultipartFile(name: string, maxCount?: number): ParameterDecorat
         Consumes("multipart/form-data"),
         StoreMerge(PlatformMulterMiddleware, mapOptions(name, maxCount))
       ),
-      Req({expression, useValidation: true}),
-      UseParamType(ParamTypes.FILES)
+      UseParam({
+        paramType: ParamTypes.FILES,
+        dataPath: "$ctx.request.files",
+        expression,
+        useValidation: true
+      })
     );
 
     decorators(...args);

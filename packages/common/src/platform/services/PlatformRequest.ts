@@ -95,6 +95,24 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
     return this.raw.session as any;
   }
 
+  get files() {
+    return this.raw.files;
+  }
+
+  /**
+   * Return the original request framework instance
+   */
+  get request() {
+    return this.getRequest();
+  }
+
+  /**
+   * Return the original request node.js instance
+   */
+  get req() {
+    return this.getReq();
+  }
+
   /**
    * Returns the HTTP request header specified by field. The match is case-insensitive.
    *
@@ -116,7 +134,9 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
    * @param mime
    */
   accepts(mime: string): string | false;
+
   accepts(mime: string[]): string[] | false;
+
   accepts(mime?: string | string[]): string | string[] | false {
     // @ts-ignore
     return this.raw.accepts(mime);

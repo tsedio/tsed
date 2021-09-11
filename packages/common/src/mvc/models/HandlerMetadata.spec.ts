@@ -56,25 +56,6 @@ describe("HandlerMetadata", () => {
       expect(handlerMetadata.hasErrorParam).to.eq(true);
       expect(handlerMetadata.propertyKey).to.eq(undefined);
       expect(handlerMetadata.toString()).to.eq("");
-
-      expect(handlerMetadata.parameters).to.deep.eq([
-        new ParamMetadata({
-          index: 0,
-          paramType: ParamTypes.ERR
-        } as any),
-        new ParamMetadata({
-          index: 1,
-          paramType: ParamTypes.REQUEST
-        } as any),
-        new ParamMetadata({
-          index: 2,
-          paramType: ParamTypes.RESPONSE
-        } as any),
-        new ParamMetadata({
-          index: 3,
-          paramType: ParamTypes.NEXT_FN
-        } as any)
-      ]);
     });
   });
   describe("from function without nextFn", () => {

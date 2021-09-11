@@ -7,6 +7,8 @@ export function createFakeHandlerContext(param: ParamMetadata, sandbox: any) {
   return new HandlerContext({
     $ctx,
     args: [],
-    metadata: {} as any
+    metadata: {
+      parameters: [param]
+    } as any
   });
 }

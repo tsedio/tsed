@@ -1,19 +1,11 @@
 import {isBoolean, isFunction, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
-import {
-  ConverterService,
-  EndpointMetadata,
-  HandlerMetadata,
-  HandlerType,
-  ParamMetadata,
-  ParamTypes,
-  PlatformRouteWithoutHandlers
-} from "../../mvc";
-import {PlatformResponseFilter} from "../../platform-response-filter/services/PlatformResponseFilter";
+import {ParamMetadata, PlatformParams} from "@tsed/platform-params";
+import {PlatformResponseFilter} from "@tsed/platform-response-filter";
+import {ConverterService, EndpointMetadata, HandlerMetadata, HandlerType, PlatformRouteWithoutHandlers} from "../../mvc";
 import {HandlerContext, HandlerContextStatus} from "../domain/HandlerContext";
 import {PlatformContext} from "../domain/PlatformContext";
-import {ParamValidationError} from "../errors/ParamValidationError";
 import {createHandlerMetadata} from "../utils/createHandlerMetadata";
 import {renderView} from "../utils/renderView";
 import {setResponseHeaders} from "../utils/setResponseHeaders";
@@ -43,7 +35,7 @@ function shouldBeSerialized(data: any) {
   scope: ProviderScope.SINGLETON
 })
 export class PlatformHandler {
-  constructor(protected injector: InjectorService) {}
+  constructor(protected injector: InjectorService, protected params: PlatformParams) {}
 
   /**
    * Create a native middleware based on the given metadata and return an instance of HandlerContext
@@ -114,80 +106,6 @@ export class PlatformHandler {
     return cb();
   }
 
-  /**
-   * Get argument from parameter medata or handler context.
-   * @param type
-   * @param h
-   */
-  protected getArg(type: ParamTypes | string, h: HandlerContext) {
-    const {$ctx} = h;
-
-    switch (type) {
-      case ParamTypes.NODE_RESPONSE:
-        return $ctx.getRes();
-
-      case ParamTypes.NODE_REQUEST:
-        return $ctx.getReq();
-
-      case ParamTypes.FILES:
-        return $ctx.getRequest().files;
-
-      case ParamTypes.RESPONSE:
-        return $ctx.getResponse();
-
-      case ParamTypes.REQUEST:
-        return $ctx.getRequest();
-
-      case ParamTypes.PLATFORM_RESPONSE:
-        return $ctx.response;
-
-      case ParamTypes.PLATFORM_REQUEST:
-        return $ctx.request;
-
-      case ParamTypes.NEXT_FN:
-        return h.next;
-
-      case ParamTypes.ERR:
-        return h.err;
-
-      case ParamTypes.$CTX: // tsed ctx
-        return $ctx;
-
-      case ParamTypes.ENDPOINT_INFO:
-        return $ctx.endpoint;
-
-      case ParamTypes.RESPONSE_DATA:
-        return $ctx.data;
-
-      case ParamTypes.BODY:
-        return $ctx.request.body;
-
-      case ParamTypes.RAW_BODY:
-        return $ctx.request.rawBody;
-
-      case ParamTypes.QUERY:
-        return $ctx.request.query;
-
-      case ParamTypes.PATH:
-        return $ctx.request.params;
-
-      case ParamTypes.HEADER:
-        return $ctx.request.headers;
-
-      case ParamTypes.COOKIES:
-        return $ctx.request.cookies;
-
-      case ParamTypes.SESSION:
-        return $ctx.request.session;
-
-      case ParamTypes.LOCALS:
-        return $ctx.response.locals;
-
-      default:
-        return $ctx.getRequest();
-    }
-  }
-
   protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {
     const {metadata, $ctx} = requestOptions;
 
@@ -213,6 +131,7 @@ export class PlatformHandler {
       ...requestOptions,
       args: []
     });
+
     const {$ctx} = h;
 
     return this.run($ctx, async () => {
@@ -312,14 +231,6 @@ export class PlatformHandler {
     }
   }
 
-  private buildPipe(metadata: HandlerMetadata) {
-    if (metadata.injectable) {
-      metadata.parameters.forEach((param: ParamMetadata) => {
-        param.cachePipes(this.injector);
-      });
-    }
-  }
-
   /**
    * Set response headers
    * @param ctx
@@ -335,34 +246,23 @@ export class PlatformHandler {
     return !$ctx.response.isDone() && next && next();
   }
 
-  /**
-   * Return arguments to call handler
-   * @param h
-   */
-  private async getArgs(h: HandlerContext) {
-    const {
-      metadata: {parameters}
-    } = h;
-
-    return Promise.all(parameters.map((param) => this.mapArg(param, h)));
+  private buildPipe(metadata: HandlerMetadata) {
+    if (metadata.injectable) {
+      return metadata.parameters.forEach((param: ParamMetadata) => {
+        this.params.build(param);
+      });
+    }
   }
 
-  /**
-   * Map argument by calling pipe.
-   * @param metadata
-   * @param h
-   */
-  private async mapArg(metadata: ParamMetadata, h: HandlerContext) {
-    const value = this.getArg(metadata.paramType, h);
+  private getArgs(h: HandlerContext) {
+    const {metadata} = h;
 
-    return metadata.getPipes().reduce(async (value, pipe) => {
-      value = await value;
+    if (metadata.injectable) {
+      return this.params.getArgs(h, metadata.parameters);
+    }
 
-      try {
-        return await pipe.transform(value, metadata);
-      } catch (er) {
-        throw ParamValidationError.from(metadata, er);
-      }
-    }, value);
+    return [metadata.hasErrorParam && h.err, h.$ctx.request.request, h.$ctx.response.response, metadata.hasNextFunction && h.next].filter(
+      Boolean
+    );
   }
 }

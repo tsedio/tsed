@@ -5,8 +5,9 @@ export function BodyParams(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = true, useValidation = true} = mapParamsOptions(args);
 
   return UseParam(
-    ParamTypes.BODY, // The first parameters is the starting object (eg: `request.body`)
     {
+      paramType: ParamTypes.BODY,
+      dataPath: "$ctx.request.body",
       expression,
       useType,
       useConverter,

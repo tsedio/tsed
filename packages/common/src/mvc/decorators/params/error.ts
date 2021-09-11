@@ -1,15 +1,15 @@
-import {ParamTypes} from "../../models/ParamTypes";
-import {UseParam} from "./useParam";
+import {ParamTypes, UseParam} from "@tsed/platform-params";
 
 /**
- *
  * @returns {Function}
  * @decorator
  * @operation
  * @input
  */
 export function Err(): Function {
-  return UseParam(ParamTypes.ERR, {
+  return UseParam({
+    paramType: ParamTypes.ERR,
+    dataPath: "err",
     useValidation: false,
     useConverter: false
   });

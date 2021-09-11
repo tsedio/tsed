@@ -1,9 +1,8 @@
 import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
+import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
 import {JsonMethodPath, OperationMethods} from "@tsed/schema";
 import {EndpointMetadata} from "../../mvc/models/EndpointMetadata";
-import {ParamMetadata} from "../../mvc/models/ParamMetadata";
-import {ParamTypes} from "../../mvc/models/ParamTypes";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";

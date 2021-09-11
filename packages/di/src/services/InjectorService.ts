@@ -89,14 +89,14 @@ export class InjectorService extends Container {
   }
 
   get scopes() {
-    return this.settings.scopes!;
+    return this.settings.scopes || {};
   }
 
   /**
    * Retrieve default scope for a given provider.
    * @param provider
    */
-  public scopeOf(provider: Provider<any>) {
+  public scopeOf(provider: Provider) {
     return provider.scope || this.scopes[provider.type] || ProviderScope.SINGLETON;
   }
 

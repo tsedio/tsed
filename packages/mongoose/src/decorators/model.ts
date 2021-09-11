@@ -58,6 +58,7 @@ export function Model(options: MongooseModelOptions = {}) {
 
     registerProvider({
       provide: target,
+      type: "mongoose:model",
       deps: [MONGOOSE_CONNECTIONS, token],
       useFactory(connections: MONGOOSE_CONNECTIONS, schema: Schema) {
         applySchemaOptions(schema, schemaOptions(target));

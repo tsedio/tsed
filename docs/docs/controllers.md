@@ -140,7 +140,7 @@ Getting parameters from Express Request can be done by using the following decor
   </Tab>  
 </Tabs>
 
-Finally, @@BodyParams@@ accepts to give a @@IParamOptions@@ object as parameter to change the decorator behavior:
+Finally, @@BodyParams@@ accepts to give a @@ParamOptions@@ object as parameter to change the decorator behavior:
 
 <<< @/docs/snippets/controllers/params-advanced-usage.ts
 

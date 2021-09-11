@@ -1,6 +1,5 @@
-import {UseParam} from "./useParam";
+import {ParamTypes, UseParam} from "@tsed/platform-params";
 import {EndpointMetadata} from "../../models/EndpointMetadata";
-import {ParamTypes} from "../../models/ParamTypes";
 
 export type EndpointInfo = EndpointMetadata;
 
@@ -9,9 +8,12 @@ export type EndpointInfo = EndpointMetadata;
  * @decorator
  * @operation
  * @input
+ * @deprecated Use `@Context() $ctx: Context` then `$ctx.endpoint` instead.
  */
 export function EndpointInfo(): Function {
-  return UseParam(ParamTypes.ENDPOINT_INFO, {
+  return UseParam({
+    paramType: ParamTypes.$CTX,
+    dataPath: "$ctx.endpoint",
     useConverter: false,
     useValidation: false
   });
