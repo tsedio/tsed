@@ -1,12 +1,13 @@
 import {ancestorsOf, DecoratorTypes, prototypeOf, Type} from "@tsed/core";
-import {ParamTypes, ParamOptions, ParseExpressionPipe} from "@tsed/params";
 import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonParameter} from "@tsed/schema";
+import {ParamOptions} from "./ParamOptions";
+import {ParamTypes} from "./ParamTypes";
 
 export interface PipeMethods<T = any, R = any> {
   transform(value: T, metadata: ParamMetadata): R;
 }
 
-export interface ParamConstructorOptions extends JsonEntityStoreOptions, ParamOptions {}
+export type ParamConstructorOptions = JsonEntityStoreOptions & ParamOptions;
 
 @JsonEntityComponent(DecoratorTypes.PARAM)
 export class ParamMetadata extends JsonEntityStore implements ParamConstructorOptions {
