@@ -121,7 +121,7 @@ export const rootDir = __dirname;
 
 ### Options
 
-<<< @/../packages/oidc-provider/src/domain/OidcSettings.ts
+<<< @/../packages/security/oidc-provider/src/domain/OidcSettings.ts
 
 Documentation on other options properties can be found on the [oidc-provider](https://github.com/panva/node-oidc-provider/blob/master/docs/README.md) documentation page.
 
@@ -142,12 +142,12 @@ oidc-provider requires an Account model to find an account during an interaction
 <Tabs class="-code">
   <Tab label="models/Account.ts">
 
-<<< @/../packages/oidc-provider/test/app/models/Account.ts
+<<< @/../packages/security/oidc-provider/test/app/models/Account.ts
 
   </Tab>
   <Tab label="services/Accounts.ts">
 
-<<< @/../packages/oidc-provider/test/app/services/Accounts.ts
+<<< @/../packages/security/oidc-provider/test/app/services/Accounts.ts
     
   </Tab>
 </Tabs>
@@ -174,9 +174,9 @@ To have a working OIDC server with Ts.ED, we need to create at least a login and
 To start, we have to create the `Interactions` controller which will be responsible to run all of our future
 custom interactions.
 
-In your controllers directory, create the `oidc/InteractionsCtrl.ts` file and copy the following code:
+In your controller's directory, create the `oidc/InteractionsCtrl.ts` file and copy the following code:
 
-<<< @/../packages/oidc-provider/test/app/controllers/oidc/InteractionsCtrl.ts
+<<< @/../packages/security/oidc-provider/test/app/controllers/oidc/InteractionsCtrl.ts
 
 ::: tip Note
 The controller Interactions exposes the routes to display any interaction. Here we expose the route GET `/interation/:uid`
@@ -191,12 +191,12 @@ Create a new directory `interactions`. We will store all custom interactions in 
 <Tabs class="-code">
   <Tab label="LoginInteraction.ts">
 
-<<< @/../packages/oidc-provider/test/app/interactions/LoginInteraction.ts
+<<< @/../packages/security/oidc-provider/test/app/interactions/LoginInteraction.ts
 
   </Tab>
   <Tab label="ConsentInteraction.ts">
 
-<<< @/../packages/oidc-provider/test/app/interactions/ConsentInteraction.ts
+<<< @/../packages/security/oidc-provider/test/app/interactions/ConsentInteraction.ts
     
   </Tab>
 </Tabs>
@@ -219,27 +219,27 @@ Now, we need to add the Views to display our login page. Create a views director
 <Tabs class="-code">
   <Tab label="login.ejs">
 
-<<< @/../packages/oidc-provider/test/app/views/login.ejs
+<<< @/../packages/security/oidc-provider/test/app/views/login.ejs
 
   </Tab>
   <Tab label="forms/login-form.ejs">
 
-<<< @/../packages/oidc-provider/test/app/views/forms/login-form.ejs
+<<< @/../packages/security/oidc-provider/test/app/views/forms/login-form.ejs
     
   </Tab>
   <Tab label="partials/header.ejs">
    
-<<< @/../packages/oidc-provider/test/app/views/partials/header.ejs      
+<<< @/../packages/security/oidc-provider/test/app/views/partials/header.ejs      
       
   </Tab>
   <Tab label="partials/footer.ejs">
 
-<<< @/../packages/oidc-provider/test/app/views/partials/footer.ejs   
+<<< @/../packages/security/oidc-provider/test/app/views/partials/footer.ejs   
     
   </Tab>
   <Tab label="partials/login-help.ejs">
   
-<<< @/../packages/oidc-provider/test/app/views/partials/login-help.ejs   
+<<< @/../packages/security/oidc-provider/test/app/views/partials/login-help.ejs   
   
   </Tab>
 </Tabs>

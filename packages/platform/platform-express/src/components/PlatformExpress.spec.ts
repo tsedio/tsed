@@ -8,7 +8,7 @@ import {
 } from "@tsed/platform-express";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {stub} from "../../../../test/helper/tools";
+import {stub} from "../../../../../test/helper/tools";
 import {PlatformExpress} from "./PlatformExpress";
 
 const sandbox = Sinon.createSandbox();

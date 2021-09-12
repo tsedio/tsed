@@ -2,7 +2,7 @@ import {PlatformResponse, PlatformTest} from "@tsed/common";
 import {PlatformExpressResponse} from "@tsed/platform-express";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeResponse} from "../../../../test/helper";
+import {FakeResponse} from "../../../../../test/helper";
 import "./PlatformExpressResponse";
 
 const sandbox = Sinon.createSandbox();

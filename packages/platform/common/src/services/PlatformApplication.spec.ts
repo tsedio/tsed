@@ -1,8 +1,8 @@
 import {PlatformContext, PlatformRouter, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../test/helper";
-import {stub} from "../../../../test/helper/tools";
+import {FakeRequest, FakeResponse} from "../../../../../test/helper";
+import {stub} from "../../../../../test/helper/tools";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformHandler} from "./PlatformHandler";
 

@@ -3,7 +3,7 @@ import {InjectorService} from "@tsed/di";
 import {OperationMethods} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {stub} from "../../../../test/helper/tools";
+import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata} from "../domain/EndpointMetadata";
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";
 import {Platform} from "../services/Platform";

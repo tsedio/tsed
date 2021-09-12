@@ -2,7 +2,7 @@ import {PlatformApplication, PlatformRequest, PlatformResponse, PlatformTest} fr
 import {nameOf} from "@tsed/core";
 import {expect} from "chai";
 import sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../test/helper";
+import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {PlatformContext} from "./PlatformContext";
 
 describe("PlatformContext", () => {

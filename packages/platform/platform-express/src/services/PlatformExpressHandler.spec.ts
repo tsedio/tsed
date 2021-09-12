@@ -2,8 +2,8 @@ import {Err, HandlerMetadata, HandlerType, ParamTypes, PlatformTest} from "@tsed
 import {PlatformExpressHandler} from "@tsed/platform-express";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {buildPlatformHandler, invokePlatformHandler} from "../../../../test/helper/buildPlatformHandler";
-import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
+import {buildPlatformHandler, invokePlatformHandler} from "../../../../../test/helper/buildPlatformHandler";
+import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 
 const sandbox = Sinon.createSandbox();
 

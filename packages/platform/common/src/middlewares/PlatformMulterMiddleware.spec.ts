@@ -2,7 +2,7 @@ import {EndpointMetadata, MulterOptions, MultipartFile, PlatformApplication, Pla
 import {Exception} from "@tsed/exceptions";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
+import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 
 const sandbox = Sinon.createSandbox();
 

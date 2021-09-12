@@ -1,19 +1,7 @@
-import {
-  Context,
-  EndpointMetadata,
-  Err,
-  Get,
-  HandlerMetadata,
-  HandlerType,
-  Middleware,
-  ParamTypes,
-  PlatformTest,
-  QueryParams
-} from "@tsed/common";
+import {Context, EndpointMetadata, Err, Get, HandlerMetadata, HandlerType, Middleware, PlatformTest, QueryParams} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {buildPlatformHandler} from "../../../../test/helper/buildPlatformHandler";
-import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
+import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 import {PlatformHandler} from "./PlatformHandler";
 
 const sandbox = Sinon.createSandbox();

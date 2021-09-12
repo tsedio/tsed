@@ -1,6 +1,9 @@
 import {Type} from "@tsed/core";
 import {createContainer, DITest, InjectorService} from "@tsed/di";
-import {createInjector, PlatformBuilder, PlatformContext, PlatformContextOptions, PlatformModule, PlatformType} from "../index";
+import {PlatformBuilder, PlatformType} from "../builder/PlatformBuilder";
+import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext";
+import {PlatformModule} from "../PlatformModule";
+import {createInjector} from "../utils/createInjector";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformRequest} from "./PlatformRequest";
 import {PlatformResponse} from "./PlatformResponse";

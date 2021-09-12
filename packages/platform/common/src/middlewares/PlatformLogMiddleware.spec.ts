@@ -3,7 +3,7 @@ import {InjectorService} from "@tsed/di";
 import {levels} from "@tsed/logger";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../test/helper";
+import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {PlatformLogMiddleware} from "./PlatformLogMiddleware";
 
 function createContext(settings: any) {

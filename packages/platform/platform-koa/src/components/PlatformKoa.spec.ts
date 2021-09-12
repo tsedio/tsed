@@ -2,7 +2,7 @@ import {PlatformApplication, PlatformHandler, PlatformRequest, PlatformResponse,
 import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse, PlatformKoaRouter} from "@tsed/platform-koa";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {stub} from "../../../../test/helper/tools";
+import {stub} from "../../../../../test/helper/tools";
 import {PlatformKoa} from "./PlatformKoa";
 
 const sandbox = Sinon.createSandbox();

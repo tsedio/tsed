@@ -3,7 +3,7 @@ import {catchError} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
 import {CollectionOf, Default, Name, Property} from "@tsed/schema";
 import {expect} from "chai";
-import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3} from "../../../../test/helper/classes";
+import {JsonFoo, JsonFoo1, JsonFoo2, JsonFoo3} from "../../../../../test/helper/classes";
 import {ConverterService} from "./ConverterService";
 
 describe("ConverterService", () => {

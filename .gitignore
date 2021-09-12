@@ -59,7 +59,7 @@ tools/**/dist
 /docs/.vuepress/dist
 /mongodb-binaries
 /packages/multipartfiles/test/.tmp/
-/packages/graphql/test/resources/schema.gql
+/packages/graphql/graphql-legacy/test/resources/schema.gql
 .db
 **/keys/jwks.json
 /packages/prisma/test/prisma/generated

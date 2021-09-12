@@ -5,7 +5,13 @@ import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {PlatformViews} from "@tsed/platform-views";
 import {GlobalAcceptMimesMiddleware, PlatformLogMiddleware} from "../middlewares";
 import {PlatformModule} from "../PlatformModule";
-import {Platform, PlatformApplication, PlatformHandler, PlatformRequest, PlatformResponse, PlatformRouter} from "../services";
+import {Platform} from "../services/Platform";
+import {PlatformApplication} from "../services/PlatformApplication";
+import {PlatformHandler} from "../services/PlatformHandler";
+import {PlatformRequest} from "../services/PlatformRequest";
+import {PlatformResponse} from "../services/PlatformResponse";
+import {PlatformRouter} from "../services/PlatformRouter";
+
 import {
   createHttpServer,
   createHttpsServer,

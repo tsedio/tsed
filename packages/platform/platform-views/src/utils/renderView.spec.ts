@@ -2,7 +2,7 @@ import {EndpointMetadata, Get, PlatformResponse, PlatformTest, View} from "@tsed
 import {Ignore, Property, Returns} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeResponse} from "../../../../test/helper";
+import {FakeResponse} from "../../../../../test/helper";
 import {renderView} from "./renderView";
 
 const sandbox = Sinon.createSandbox();

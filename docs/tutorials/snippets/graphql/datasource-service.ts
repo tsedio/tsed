@@ -1,4 +1,4 @@
-import {DataSourceService} from "@tsed/graphql";
+import {DataSourceService} from "@tsed/typegraphql";
 import {RESTDataSource} from "apollo-datasource-rest";
 import {User} from "../models/User";
 
