@@ -1,6 +1,7 @@
+import {EndpointMetadata} from "@tsed/common";
 import {decoratorArgs, prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
 import {expect} from "chai";
-import {EndpointMetadata, UseAuth} from "../../../../src/mvc";
+import {UseAuth} from "./useAuth";
 
 class Guard {
   use() {}

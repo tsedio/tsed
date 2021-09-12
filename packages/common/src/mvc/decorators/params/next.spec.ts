@@ -1,5 +1,6 @@
+import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
 import {expect} from "chai";
-import {EndpointInfo, Next, ParamMetadata, ParamTypes} from "../../../../src/mvc";
+import {EndpointInfo, Next} from "../../../../src/mvc";
 
 describe("@Next", () => {
   it("should register a new ParamMetadata instance with the correct property", () => {

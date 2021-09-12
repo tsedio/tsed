@@ -1,7 +1,7 @@
-import {PlatformRequest} from "@tsed/common";
+import {ParamMetadata, ParamTypes, PlatformRequest} from "@tsed/common";
 import {expect} from "chai";
 import {IncomingMessage} from "http";
-import {ParamMetadata, ParamTypes, Req} from "../../../../src/mvc";
+import {Req} from "../../../../src/mvc";
 
 describe("@Req", () => {
   it("should register a new ParamMetadata instance with the correct property (RawRequest)", () => {

@@ -1,8 +1,8 @@
-import {EndpointInfo, IMiddleware, Middleware, Req, Context} from "@tsed/common";
+import {Context, Middleware, MiddlewareMethods, Req} from "@tsed/common";
 import {Forbidden, Unauthorized} from "@tsed/exceptions";
 
 @Middleware()
-export class CustomAuthMiddleware implements IMiddleware {
+export class CustomAuthMiddleware implements MiddlewareMethods {
   public use(@Req() request: Req, @Context() ctx: Context) {
     // retrieve options given to the @UseAuth decorator
     const options = ctx.endpoint.get(CustomAuthMiddleware) || {};

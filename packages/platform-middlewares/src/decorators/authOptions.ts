@@ -7,7 +7,7 @@ import {
   Type,
   UnsupportedDecoratorType
 } from "@tsed/core";
-import {EndpointFn} from "./endpointFn";
+import {JsonEntityFn} from "@tsed/schema";
 
 export interface IAuthOptions {
   /**
@@ -57,8 +57,8 @@ export function AuthOptions(guardAuth: Type<any>, options: IAuthOptions = {}): F
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
     switch (decoratorTypeOf(args)) {
       case DecoratorTypes.METHOD:
-        return EndpointFn((endpoint) => {
-          const store = endpoint.store;
+        return JsonEntityFn((entity) => {
+          const store = entity.store;
 
           if (options.responses) {
             const {responses} = options;
@@ -70,7 +70,7 @@ export function AuthOptions(guardAuth: Type<any>, options: IAuthOptions = {}): F
             const {security} = options;
             [].concat(security as any).forEach((security) => {
               Object.entries(security).forEach(([name, scopes]: [string, string[]]) => {
-                endpoint.operation.addSecurityScopes(name, scopes);
+                entity.operation!.addSecurityScopes(name, scopes);
               });
             });
 

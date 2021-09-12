@@ -7,9 +7,6 @@ import {PlatformMulterSettings} from "./PlatformMulterSettings";
 import {PlatformStaticsSettings} from "./PlatformStaticsSettings";
 import {PlatformViewsSettings} from "./PlatformViewsSettings";
 
-export type PlatformMiddlewareLoadingOptions = {env?: Env; use: Function | Type<any>; hook?: string};
-export type PlatformMiddlewareSettings = Function | Type<any> | PlatformMiddlewareLoadingOptions | any;
-
 declare global {
   namespace TsED {
     interface Configuration {
@@ -77,10 +74,6 @@ declare global {
        * Object configure Multer. See more on [Upload file](/tutorials/serve-static-files.md).
        */
       multer: PlatformMulterSettings;
-      /**
-       * Load middlewares on the $beforeRoutesInit hook (or on the specified hook event name).
-       */
-      middlewares: PlatformMiddlewareSettings[];
       /**
        * Object to configure Views engines with Consolidate. See more on [View engine](/docs/template-engine.md).
        */

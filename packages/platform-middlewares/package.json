@@ -1,7 +1,7 @@
 {
-  "name": "@tsed/async-hook-context",
+  "name": "@tsed/platform-middlewares",
   "version": "6.67.0",
-  "description": "Add Async Hook context support in Ts.ED",
+  "description": "Middlewares module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/index.js",
@@ -13,33 +13,15 @@
   "scripts": {
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
-  "keywords": [
-    "AsyncHooks",
-    "Express",
-    "Koa",
-    "TypeScript",
-    "typescript",
-    "Decorator",
-    "decorators",
-    "decorator",
-    "express",
-    "koa",
-    "Controller",
-    "Inject",
-    "ioc",
-    "di"
-  ],
   "dependencies": {
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.67.0",
     "@tsed/core": "6.67.0",
     "@tsed/di": "6.67.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.55.2",
-    "@tsed/core": "^6.55.2",
-    "@tsed/di": "^6.55.2"
+    "@tsed/core": "^6.67.0",
+    "@tsed/di": "^6.67.0"
   }
 }

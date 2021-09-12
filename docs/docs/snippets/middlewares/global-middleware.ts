@@ -1,8 +1,8 @@
-import {Constant, IMiddleware, Middleware, Req} from "@tsed/common";
+import {Constant, MiddlewareMethods, Middleware, Req} from "@tsed/common";
 import {NotAcceptable} from "@tsed/exceptions";
 
 @Middleware()
-export default class GlobalAcceptMimesMiddleware implements IMiddleware {
+export default class GlobalAcceptMimesMiddleware implements MiddlewareMethods {
   @Constant("acceptMimes")
   acceptMimes: string[];
 

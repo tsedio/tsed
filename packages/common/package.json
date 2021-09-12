@@ -67,6 +67,7 @@
     "@tsed/platform-exceptions": "6.67.0",
     "@tsed/platform-response-filter": "6.67.0",
     "@tsed/platform-cache": "6.67.0",
+    "@tsed/platform-middlewares": "6.67.0",
     "@types/json-schema": "7.0.7",
     "consolidate": "^0.16.0",
     "ejs": "^3.1.5",
