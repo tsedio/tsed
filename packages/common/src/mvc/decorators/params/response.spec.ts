@@ -1,7 +1,8 @@
 import {PlatformResponse} from "@tsed/common";
+import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
 import {expect} from "chai";
 import {ServerResponse} from "http";
-import {ParamMetadata, ParamTypes, Response} from "../../../../src/mvc";
+import {Response} from "../../../../src/mvc";
 
 describe("@Res", () => {
   it("should register a new ParamMetadata instance with the correct property (RawRes)", () => {

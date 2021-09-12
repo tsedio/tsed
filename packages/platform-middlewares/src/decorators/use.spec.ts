@@ -1,6 +1,6 @@
+import {EndpointMetadata} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {expect} from "chai";
-import {EndpointMetadata} from "../../models/EndpointMetadata";
 import {Use} from "./use";
 
 describe("Use()", () => {

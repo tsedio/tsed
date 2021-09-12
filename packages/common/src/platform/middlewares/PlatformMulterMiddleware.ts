@@ -1,9 +1,8 @@
 import {Constant, Inject} from "@tsed/di";
 import {Exception} from "@tsed/exceptions";
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
 import {PlatformMulterField, PlatformMulterSettings} from "../../config";
-import {Middleware} from "../../mvc/decorators/class/middleware";
-import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
 import {PlatformApplication} from "../services/PlatformApplication";
 
 export interface MulterInputOptions {
@@ -14,7 +13,7 @@ export interface MulterInputOptions {
  * @middleware
  */
 @Middleware()
-export class PlatformMulterMiddleware implements IMiddleware {
+export class PlatformMulterMiddleware implements MiddlewareMethods {
   @Constant("multer", {})
   settings: PlatformMulterSettings;
 

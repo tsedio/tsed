@@ -1,8 +1,7 @@
 import {InjectorService} from "@tsed/di";
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
 import {PlatformLoggerSettings} from "../../config/interfaces/PlatformLoggerSettings";
-import {Middleware} from "../../mvc/decorators/class/middleware";
-import {IMiddleware} from "../../mvc/interfaces/IMiddleware";
 import {OnResponse} from "../interfaces/OnResponse";
 
 /**
@@ -10,7 +9,7 @@ import {OnResponse} from "../interfaces/OnResponse";
  * @platform
  */
 @Middleware()
-export class PlatformLogMiddleware implements IMiddleware, OnResponse {
+export class PlatformLogMiddleware implements MiddlewareMethods, OnResponse {
   protected static DEFAULT_FIELDS = ["reqId", "method", "url", "duration"];
 
   $onResponse: any;

@@ -1,6 +1,5 @@
 import {Context} from "@tsed/platform-params";
-import {Middleware} from "../../mvc/decorators";
-import {IMiddleware} from "../../mvc/interfaces";
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 
 /**
  * @middleware
@@ -8,7 +7,7 @@ import {IMiddleware} from "../../mvc/interfaces";
  * @ignore
  */
 @Middleware()
-export class AcceptMimesMiddleware implements IMiddleware {
+export class AcceptMimesMiddleware implements MiddlewareMethods {
   public use(@Context() ctx: Context): void {
     return;
   }

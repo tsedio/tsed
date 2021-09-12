@@ -132,12 +132,12 @@ With each request the token is set to the request property `kauth`.
 In order to be able to use the token we set this in the KeycloakService.
 
 ```typescript
-import {Context, IMiddleware, Inject, Middleware} from '@tsed/common';
+import {Context, MiddlewareMethods, Inject, Middleware} from '@tsed/common';
 import {KeycloakAuthOptions} from '../decorators/KeycloakAuthDecorator';
 import {KeycloakService} from '../services/KeycloakService';
 
 @Middleware()
-export class KeycloakMiddleware implements IMiddleware {
+export class KeycloakMiddleware implements MiddlewareMethods {
 
     @Inject()
     keycloakService: KeycloakService;

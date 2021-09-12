@@ -1,6 +1,5 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "@tsed/schema";
-import {EndpointMetadata} from "../../models/EndpointMetadata";
 
 /**
  * Mounts the specified middleware function or functions at the specified path: the middleware function is executed when
@@ -8,11 +7,11 @@ import {EndpointMetadata} from "../../models/EndpointMetadata";
  *
  * ```typescript
  * @Controller('/')
- * @UseBefore(Middleware1) // called only one time before all endpoint
+ * @UseAfter(Middleware1)
  * export class Ctrl {
  *
  *    @Get('/')
- *    @UseBefore(Middleware2)
+ *    @UseAfter(Middleware2)
  *    get() { }
  * }
  * ```
@@ -22,12 +21,12 @@ import {EndpointMetadata} from "../../models/EndpointMetadata";
  * @decorator
  * @operation
  */
-export function UseBefore(...args: any[]): Function {
+export function UseAfter(...args: any[]): Function {
   return JsonEntityFn((entity, parameters) => {
     switch (entity.decoratorType) {
       case DecoratorTypes.METHOD:
-        const endpoint = entity as EndpointMetadata;
-        endpoint.beforeMiddlewares = args.concat(endpoint.beforeMiddlewares);
+        const endpoint = entity;
+        endpoint.afterMiddlewares = args.concat(endpoint.afterMiddlewares);
 
         break;
 
@@ -36,12 +35,12 @@ export function UseBefore(...args: any[]): Function {
 
         entity.store.set("middlewares", {
           ...middlewares,
-          useBefore: [...args, ...(middlewares.useBefore || [])]
+          useAfter: [...args, ...(middlewares.useAfter || [])]
         });
         break;
 
       default:
-        throw new UnsupportedDecoratorType(UseBefore, parameters);
+        throw new UnsupportedDecoratorType(UseAfter, parameters);
     }
   });
 }

@@ -1,15 +1,15 @@
 import {uniq} from "@tsed/core";
 import {Constant} from "@tsed/di";
 import {NotAcceptable} from "@tsed/exceptions";
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
-import {IMiddleware, Middleware} from "../../mvc";
 
 /**
  * @middleware
  * @platform
  */
 @Middleware()
-export class PlatformAcceptMimesMiddleware implements IMiddleware {
+export class PlatformAcceptMimesMiddleware implements MiddlewareMethods {
   @Constant("acceptMimes", [])
   acceptMimes: string[];
 

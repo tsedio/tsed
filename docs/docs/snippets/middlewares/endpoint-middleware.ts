@@ -1,13 +1,13 @@
-import {EndpointInfo, IMiddleware, Middleware, Req} from "@tsed/common";
+import {Context, MiddlewareMethods, Middleware} from "@tsed/common";
 import {NotAcceptable} from "@tsed/exceptions";
 
 @Middleware()
-export class AcceptMimesMiddleware implements IMiddleware {
-  use(@Req() request: Req, @EndpointInfo() endpoint: EndpointInfo) {
+export class AcceptMimesMiddleware implements MiddlewareMethods {
+  use(@Context() ctx: Context) {
     // get the parameters stored for the current endpoint or on the controller.
-    const mimes = endpoint.get(AcceptMimesMiddleware) || [];
+    const mimes = ctx.endpoint.get(AcceptMimesMiddleware) || [];
 
-    if (!request.accepts(mimes)) {
+    if (!ctx.request.accepts(mimes)) {
       throw new NotAcceptable("Accepted mimes are: " + mimes);
     }
   }

@@ -1,5 +1,6 @@
+import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
 import {expect} from "chai";
-import {EndpointInfo, Err, ParamMetadata, ParamTypes} from "../../../../src/mvc";
+import {EndpointInfo, Err} from "../../../../src/mvc";
 
 describe("@Err", () => {
   it("should register a new ParamMetadata instance with the correct property", () => {

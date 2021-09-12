@@ -1,17 +1,18 @@
-import {classOf, constructorOf, isFunction, nameOf, toMap, Type} from "@tsed/core";
+import {classOf, constructorOf, nameOf, toMap, Type} from "@tsed/core";
 import {Container, createContainer, getConfiguration, importProviders, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
 import {PerfLogger} from "@tsed/perf";
-import {PlatformMiddlewareLoadingOptions} from "../../config/interfaces";
-import {GlobalAcceptMimesMiddleware} from "../middlewares";
-import {PlatformLogMiddleware} from "../middlewares/PlatformLogMiddleware";
+import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
+import {GlobalAcceptMimesMiddleware, PlatformLogMiddleware} from "../middlewares";
 import {PlatformModule} from "../PlatformModule";
-import {Platform} from "../services/Platform";
-import {PlatformApplication} from "../services/PlatformApplication";
-import {PlatformHandler} from "../services/PlatformHandler";
-import {PlatformRequest} from "../services/PlatformRequest";
-import {PlatformResponse} from "../services/PlatformResponse";
-import {PlatformRouter} from "../services/PlatformRouter";
-import {PlatformViews} from "../services/PlatformViews";
+import {
+  Platform,
+  PlatformApplication,
+  PlatformHandler,
+  PlatformRequest,
+  PlatformResponse,
+  PlatformRouter,
+  PlatformViews
+} from "../services";
 import {
   createHttpServer,
   createHttpsServer,
@@ -32,6 +33,7 @@ export interface PlatformType<T = any> extends Type<T> {
 }
 
 const {bind, start, end, log} = PerfLogger.get("bootstrap");
+
 /**
  * @ignore
  */
@@ -287,30 +289,9 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
    * @protected
    */
   protected loadMiddlewaresFor(hook: string): void {
-    const {settings} = this;
-    const {env, middlewares = []} = settings;
-    const defaultHook = "$beforeRoutesInit";
-
-    middlewares
-      .map<PlatformMiddlewareLoadingOptions>((middleware) => {
-        return isFunction(middleware)
-          ? {
-              env,
-              hook: defaultHook,
-              use: middleware
-            }
-          : {
-              env,
-              hook: defaultHook,
-              ...middleware
-            };
-      })
-      .filter((options) => {
-        return options.use && options.env === env && options.hook === hook;
-      })
-      .forEach(({use}) => {
-        this.app.use(use);
-      });
+    return getMiddlewaresForHook(hook, this.settings, "$beforeRoutesInit").forEach(({use}) => {
+      this.app.use(use);
+    });
   }
 
   protected useRouter(): this {

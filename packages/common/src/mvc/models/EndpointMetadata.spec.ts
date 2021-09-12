@@ -1,8 +1,8 @@
 import {Get, Post, UseAfter, UseBefore} from "@tsed/common";
 import {StoreSet} from "@tsed/core";
+import {Use} from "@tsed/platform-middlewares";
 import {In, JsonEntityStore, JsonOperation, JsonParameter, OperationMethods, Property} from "@tsed/schema";
 import {expect} from "chai";
-import {Use} from "../decorators/method/use";
 import {EndpointMetadata} from "./EndpointMetadata";
 
 describe("EndpointMetadata", () => {

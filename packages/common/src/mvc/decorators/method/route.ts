@@ -1,4 +1,4 @@
-import {Use} from "./use";
+import {Use} from "@tsed/platform-middlewares";
 
 /**
  * This method is just like the `router.METHOD()` methods, except that it matches all HTTP methods (verbs).

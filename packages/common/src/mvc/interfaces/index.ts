@@ -1,4 +1,3 @@
-export * from "./IMiddleware";
 export * from "./PathType";
 export * from "./ResponseErrorObject";
 export * from "./HandlerType";

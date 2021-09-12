@@ -1,8 +1,3 @@
-export * from "@tsed/platform-params";
-
-// constants
-export * from "./constants";
-
 export * from "./decorators";
 
 // interfaces
