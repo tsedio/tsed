@@ -1,6 +1,6 @@
 import {isArrayOrArrayClass, Store, Type} from "@tsed/core";
 import {IProvider, registerController} from "@tsed/di";
-import {PathParamsType} from "../../interfaces";
+import {PathType} from "../../interfaces";
 
 export interface ControllerMiddlewares {
   useBefore: any[];
@@ -9,7 +9,7 @@ export interface ControllerMiddlewares {
 }
 
 export interface ControllerOptions extends Partial<IProvider<any>> {
-  path?: PathParamsType;
+  path?: PathType;
   children?: Type<any>[];
   routerOptions?: any;
   middlewares?: Partial<ControllerMiddlewares>;
@@ -53,7 +53,7 @@ function mapOptions(options: any): ControllerOptions {
  * @decorator
  * @classDecorator
  */
-export function Controller(options: PathParamsType | ControllerOptions): ClassDecorator {
+export function Controller(options: PathType | ControllerOptions): ClassDecorator {
   const {children = [], ...opts} = mapOptions(options);
 
   return (target) => {

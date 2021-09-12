@@ -1,11 +1,11 @@
-import {PathParamsType} from "./PathParamsType";
+import {PathType} from "./PathType";
 
 /**
  * @ignore
  */
 export interface PlatformRouteOptions {
   method: string;
-  path: PathParamsType;
+  path: PathType;
   handlers: any[];
   isFinal?: boolean;
 }
