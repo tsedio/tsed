@@ -1,10 +1,10 @@
+import {BaseContext} from "@tsed/di";
 import {TemplateRenderError} from "../errors/TemplateRenderError";
-import {PlatformContext} from "../domain/PlatformContext";
 
 /**
  * @ignore
  */
-export async function renderView(data: any, $ctx: PlatformContext) {
+export async function renderView(data: any, $ctx: BaseContext) {
   const {response, endpoint} = $ctx;
   try {
     const {data} = $ctx;
