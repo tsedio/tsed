@@ -1,8 +1,8 @@
-import {Inject, Injectable, InjectorService} from "@tsed/di";
+import {Inject, Injectable, InjectorService, BaseContext} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {AsyncLocalStorage} from "async_hooks";
 
-let store: AsyncLocalStorage<any>;
+let store: AsyncLocalStorage<BaseContext>;
 
 @Injectable()
 export class PlatformAsyncHookContext {
@@ -17,7 +17,7 @@ export class PlatformAsyncHookContext {
     return store;
   }
 
-  static run(ctx: any, cb: any) {
+  static run(ctx: BaseContext, cb: any) {
     return PlatformAsyncHookContext.getStore().run(ctx, cb);
   }
 
@@ -25,7 +25,7 @@ export class PlatformAsyncHookContext {
     return store?.getStore();
   }
 
-  run = (ctx: any, cb: any) => {
+  run = (ctx: BaseContext, cb: any) => {
     return PlatformAsyncHookContext.run(ctx, cb);
   };
 

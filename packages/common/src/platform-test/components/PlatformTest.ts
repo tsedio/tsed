@@ -1,7 +1,6 @@
 import {Type} from "@tsed/core";
 import {createContainer, DITest, InjectorService} from "@tsed/di";
-import {createInjector, loadInjector, PlatformBuilder, PlatformModule, PlatformType} from "../../platform";
-import {PlatformContext, RequestContextOptions} from "../../platform/domain/PlatformContext";
+import {createInjector, PlatformBuilder, PlatformContext, PlatformContextOptions, PlatformModule, PlatformType} from "../../platform";
 import {PlatformApplication} from "../../platform/services/PlatformApplication";
 import {PlatformRequest} from "../../platform/services/PlatformRequest";
 import {PlatformResponse} from "../../platform/services/PlatformResponse";
@@ -109,7 +108,7 @@ export class PlatformTest extends DITest {
     return DITest.injector.get<PlatformApplication>(PlatformApplication)?.callback();
   }
 
-  static createRequestContext(options: Partial<RequestContextOptions> = {}) {
+  static createRequestContext(options: Partial<PlatformContextOptions> = {}) {
     options.request = options.request || new PlatformRequest({} as any);
     options.response = options.response || new PlatformResponse({} as any);
 

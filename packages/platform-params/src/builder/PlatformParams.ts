@@ -1,9 +1,9 @@
-import {Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
+import {BaseContext, Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
 import {ParamMetadata, PipeMethods} from "../domain/ParamMetadata";
 import {ParamValidationError} from "../errors/ParamValidationError";
 import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe";
 
-export type ArgScope = {$ctx: any} & Record<string, any>;
+export type ArgScope = {$ctx: BaseContext} & Record<string, any>;
 
 /**
  * Platform Params abstraction layer.

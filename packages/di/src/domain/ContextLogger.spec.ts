@@ -1,8 +1,15 @@
 import {expect} from "chai";
 import Sinon from "sinon";
-import {RequestLogger} from "./RequestLogger";
+import {ContextLogger} from "./ContextLogger";
 
-describe("RequestLogger", () => {
+function getIgnoreLogFixture(ignore: string[], url: string) {
+  const ignoreReg = ignore.map((pattern: string | RegExp) => (typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern));
+  return () => {
+    return !!ignoreReg.find((reg) => !!url.match(reg));
+  };
+}
+
+describe("ContextLogger", () => {
   it("should create a new Context and log all", () => {
     const logger = {
       info: Sinon.stub(),
@@ -12,11 +19,10 @@ describe("RequestLogger", () => {
       trace: Sinon.stub()
     };
 
-    const requestLogger = new RequestLogger(logger, {
+    const requestLogger = new ContextLogger(logger, {
       id: "id",
-      startDate: new Date("2019-01-01"),
-      url: "/url",
-      ignoreUrlPatterns: ["/admin"],
+      dateStart: new Date("2019-01-01"),
+      ignoreLog: getIgnoreLogFixture(["/admin"], "/"),
       minimalRequestPicker: (o: any) => ({...o, minimal: "minimal"}),
       completeRequestPicker: (o: any) => ({...o, complete: "complete"})
     });
@@ -86,11 +92,10 @@ describe("RequestLogger", () => {
       trace: Sinon.stub()
     };
 
-    const requestLogger = new RequestLogger(logger, {
+    const requestLogger = new ContextLogger(logger, {
       id: "id",
       startDate: new Date("2019-01-01"),
-      url: "/url",
-      ignoreUrlPatterns: ["/admin"]
+      ignoreLog: getIgnoreLogFixture(["/admin"], "/url")
     });
 
     Sinon.stub(requestLogger as any, "getDuration").returns(1);
@@ -152,13 +157,15 @@ describe("RequestLogger", () => {
       trace: Sinon.stub()
     };
 
-    const requestLogger = new RequestLogger(logger, {
+    const requestLogger = new ContextLogger(logger, {
       id: "id",
       startDate: new Date("2019-01-01"),
-      url: "/admin",
-      ignoreUrlPatterns: ["/admin"],
+      ignoreLog: getIgnoreLogFixture(["/admin"], "/admin"),
       minimalRequestPicker: (o: any) => ({...o, minimal: "minimal"}),
-      completeRequestPicker: (o: any) => ({...o, complete: "complete"})
+      completeRequestPicker: (o: any) => ({...o, complete: "complete"}),
+      additionalProps: {
+        url: "/"
+      }
     });
 
     Sinon.stub(requestLogger as any, "getDuration").returns(1);
@@ -179,7 +186,7 @@ describe("RequestLogger", () => {
       trace: Sinon.stub()
     };
 
-    const requestLogger = new RequestLogger(logger, {
+    const requestLogger = new ContextLogger(logger, {
       id: "id",
       startDate: new Date("2019-01-01"),
       url: "/admin",

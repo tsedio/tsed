@@ -15,7 +15,7 @@ import {
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
 import {Configuration} from "../decorators/configuration";
 import {Injectable} from "../decorators/injectable";
-import {InjectablePropertyType, ProviderScope} from "../domain";
+import {BaseContext, InjectablePropertyType, ProviderScope} from "../domain";
 import {Container} from "../domain/Container";
 import {LocalsContainer} from "../domain/LocalsContainer";
 import {Provider} from "../domain/Provider";
@@ -668,7 +668,7 @@ export class InjectorService extends Container {
    * @param cb
    * @protected
    */
-  runInContext(ctx: any, cb: any) {
+  runInContext(ctx: BaseContext, cb: any) {
     return cb();
   }
 }

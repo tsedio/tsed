@@ -31,7 +31,7 @@ Ts.ED logger supports many features, and is optimized to be used in production.
   - [Seq](https://tsed.io/tutorials/seq.md).
   - [Slack](https://tsed.io/tutorials/slack.md).
   - [Smtp](https://logger.tsed.io/appenders/smtp.html).
-- @@RequestLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer. See [request logger](/docs/logger.html#request-logger) section bellow.
+- @@ContextLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer. See [request logger](/docs/logger.html#request-logger) section bellow.
 
 You can create your own layout/appender:
  - [Customize appender (chanel)](https://logger.tsed.io/appenders/custom.html),
@@ -124,7 +124,7 @@ export class MyService {
 ```
 
 ::: tip
-Prefer the @@RequestLogger@@ usage if you want to attach your log the current request. See the next section.
+Prefer the @@ContextLogger@@ usage if you want to attach your log the current request. See the next section.
 :::
 
 ## Request logger
@@ -173,7 +173,7 @@ All log use through ctx.logger will be associated with the uniq request id gener
 :::
 
 ::: tip
-@@RequestLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer.
+@@ContextLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer.
 :::
 
 A call with one of these methods will generate a log according to the `logger.requestFields` configuration:
