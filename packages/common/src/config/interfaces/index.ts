@@ -1,6 +1,5 @@
 import {Env, Type} from "@tsed/core";
 import Https from "https";
-import {ResponseFilterMethods} from "../../platform-response-filter/interfaces/ResponseFilterMethods";
 import {ConverterSettings} from "./ConverterSettings";
 import {EndpointDirectoriesSettings} from "./EndpointDirectoriesSettings";
 import {PlatformLoggerSettings} from "./PlatformLoggerSettings";
@@ -86,10 +85,6 @@ declare global {
        * Object to configure Views engines with Consolidate. See more on [View engine](/docs/template-engine.md).
        */
       views: PlatformViewsSettings;
-      /**
-       * A list of response filters must be called before returning a response to the consumer. See more on [Response filters](/docs/response-filter.md).
-       */
-      responseFilters: Type<ResponseFilterMethods>[];
     }
   }
 }

@@ -1,3 +1,4 @@
+import {BaseContext} from "@tsed/di";
 import {ParamTypes} from "../domain/ParamTypes";
 import {mapParamsOptions} from "../utils/mapParamsOptions";
 import {UseParam} from "./useParam";
@@ -7,6 +8,7 @@ declare global {
     export interface Context {}
   }
 }
+
 /**
  * Context decorator return the @@PlatformContext@@ created by Ts.ED when request is handled by the server.
  *
@@ -27,12 +29,12 @@ declare global {
  * @Middleware()
  * class AuthTokenMiddleware {
  *   use(@Req() request: Req, @Context() context: PlatformContext) {
- *      if (!context.has('auth')){
+ *      if (!context.has("auth")){
  *        context.set('auth', new AuthToken(request))
  *      }
  *
  *      try {
- *        context.get('auth').claims() // check token
+ *        context.get("auth").claims() // check token
  *      } catch(er){
  *        throw new Forbidden("Access forbidden - Bad token")
  *      }
@@ -71,4 +73,4 @@ export function Context(...args: any[]): ParameterDecorator {
   });
 }
 
-export type Context = TsED.Context;
+export type Context = BaseContext;

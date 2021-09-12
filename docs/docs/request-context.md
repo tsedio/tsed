@@ -15,13 +15,13 @@ It contains some information as following:
 - The request container used by the Ts.ED DI. It contains all services annotated with `@Scope(ProviderScope.REQUEST)`,
 - The current @@EndpointMetadata@@ context resolved by Ts.ED during the request,
 - The data returned by the previous endpoint if you use multiple handlers on the same route. By default data is empty.
-- The @@RequestLogger@@ to log some information related to the request and his id.
+- The @@ContextLogger@@ to log some information related to the request and his id.
 
 Here is an example:
 
 <<< @/docs/snippets/request-context/context-example.ts
 
-::: tip @@RequestLogger@@ is attached to the context `ctx.logger`. The RequestLogger stores all logs and Ts.ED prints (
+::: tip @@ContextLogger@@ is attached to the context `ctx.logger`. The ContextLogger stores all logs and Ts.ED prints (
 flushes) all logs after the response is sent by the server. The approach optimizes performance by first sending in the
 response and then printing all logs.
 :::
