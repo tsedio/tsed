@@ -4,6 +4,7 @@
   "packages": [
     "packages/*",
     "packages/platform/*",
+    "packages/orm/*",
     "docs"
   ],
   "version": "6.67.0",
