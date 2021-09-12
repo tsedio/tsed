@@ -1,10 +1,9 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformTest, PlatformViews} from "@tsed/common";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import Sinon from "sinon";
 import {FakeResponse} from "../../../../../test/helper";
 import {PlatformResponse} from "./PlatformResponse";
-import {PlatformViews} from "./PlatformViews";
 
 const sandbox = Sinon.createSandbox();
 

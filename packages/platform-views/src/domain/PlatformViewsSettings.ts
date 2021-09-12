@@ -1,4 +1,4 @@
-import {PlatformContext} from "../../platform/domain/PlatformContext";
+import {BaseContext} from "@tsed/di";
 
 export const PLATFORM_VIEWS_EXTENSIONS = {
   atpl: "atpl",
@@ -51,7 +51,7 @@ export interface PlatformViewsEngineOptions extends Record<string, unknown> {
 }
 
 export interface PlatformRenderOptions extends Record<string, unknown> {
-  $ctx: PlatformContext;
+  $ctx: BaseContext;
 }
 
 export interface PlatformViewEngine {
@@ -82,4 +82,15 @@ export interface PlatformViewsSettings {
    * Options mapping for each engine.
    */
   options?: Record<string, PlatformViewsEngineOptions>;
+}
+
+declare global {
+  namespace TsED {
+    interface Configuration {
+      /**
+       * Object to configure Views engines with Consolidate. See more on [View engine](/docs/template-engine.md).
+       */
+      views: PlatformViewsSettings;
+    }
+  }
 }

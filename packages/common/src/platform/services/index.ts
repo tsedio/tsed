@@ -4,4 +4,3 @@ export * from "./PlatformHandler";
 export * from "./PlatformRequest";
 export * from "./PlatformResponse";
 export * from "./PlatformRouter";
-export * from "./PlatformViews";

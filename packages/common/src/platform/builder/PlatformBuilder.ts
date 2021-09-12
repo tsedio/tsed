@@ -2,17 +2,10 @@ import {classOf, constructorOf, nameOf, toMap, Type} from "@tsed/core";
 import {Container, createContainer, getConfiguration, importProviders, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
 import {PerfLogger} from "@tsed/perf";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
+import {PlatformViews} from "@tsed/platform-views";
 import {GlobalAcceptMimesMiddleware, PlatformLogMiddleware} from "../middlewares";
 import {PlatformModule} from "../PlatformModule";
-import {
-  Platform,
-  PlatformApplication,
-  PlatformHandler,
-  PlatformRequest,
-  PlatformResponse,
-  PlatformRouter,
-  PlatformViews
-} from "../services";
+import {Platform, PlatformApplication, PlatformHandler, PlatformRequest, PlatformResponse, PlatformRouter} from "../services";
 import {
   createHttpServer,
   createHttpsServer,

@@ -1,7 +1,7 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Inject, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
+import {PlatformViews} from "@tsed/platform-views";
 import {ServerResponse} from "http";
-import {PlatformViews} from "./PlatformViews";
 
 const onFinished = require("on-finished");
 
