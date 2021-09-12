@@ -226,13 +226,13 @@ and import the mapper in your application.
 <Tabs class="-code">
   <Tab label="PrimitiveMapper">
   
-<<< @/../packages/json-mapper/src/components/PrimitiveMapper.ts
+<<< @/../packages/specs/json-mapper/src/components/PrimitiveMapper.ts
   
   </Tab>
 
   <Tab label="Spec">
  
-<<< @/../packages/json-mapper/src/components/PrimitiveMapper.spec.ts
+<<< @/../packages/specs/json-mapper/src/components/PrimitiveMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -267,12 +267,12 @@ Input | Type | Output
 <Tabs class="-code">
   <Tab label="SymbolMapper">
   
-<<< @/../packages/json-mapper/src/components/SymbolMapper.ts
+<<< @/../packages/specs/json-mapper/src/components/SymbolMapper.ts
 
   </Tab>
   <Tab label="Spec">
  
-<<< @/../packages/json-mapper/src/components/SymbolMapper.spec.ts
+<<< @/../packages/specs/json-mapper/src/components/SymbolMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -284,12 +284,12 @@ Input | Type | Output
 <Tabs class="-code">
   <Tab label="DateMapper">
   
-<<< @/../packages/json-mapper/src/components/DateMapper.ts
+<<< @/../packages/specs/json-mapper/src/components/DateMapper.ts
 
   </Tab>
   <Tab label="Spec">
  
-<<< @/../packages/json-mapper/src/components/DateMapper.spec.ts
+<<< @/../packages/specs/json-mapper/src/components/DateMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -301,12 +301,12 @@ Input | Type | Output
 <Tabs class="-code">
   <Tab label="ArrayMapper">
   
-<<< @/../packages/json-mapper/src/components/ArrayMapper.ts
+<<< @/../packages/specs/json-mapper/src/components/ArrayMapper.ts
 
   </Tab>
   <Tab label="Spec">
  
-<<< @/../packages/json-mapper/src/components/ArrayMapper.spec.ts
+<<< @/../packages/specs/json-mapper/src/components/ArrayMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -318,7 +318,7 @@ Input | Type | Output
 <Tabs class="-code">
   <Tab label="SetMapper">
   
-<<< @/../packages/json-mapper/src/components/MapMapper.ts
+<<< @/../packages/specs/json-mapper/src/components/MapMapper.ts
 
   </Tab>
   <Tab label="Example">
@@ -336,7 +336,7 @@ export class Person {
   </Tab>
   <Tab label="Spec">
  
-<<< @/../packages/json-mapper/src/components/MapMapper.spec.ts
+<<< @/../packages/specs/json-mapper/src/components/MapMapper.spec.ts
   
   </Tab>
 </Tabs>
@@ -348,7 +348,7 @@ export class Person {
 <Tabs class="-code">
   <Tab label="SetMapper">
   
-<<< @/../packages/json-mapper/src/components/SetMapper.ts
+<<< @/../packages/specs/json-mapper/src/components/SetMapper.ts
 
   </Tab>
   <Tab label="Example">
@@ -365,7 +365,7 @@ export class Person {
   </Tab>
   <Tab label="Spec">
  
-<<< @/../packages/json-mapper/src/components/SetMapper.spec.ts
+<<< @/../packages/specs/json-mapper/src/components/SetMapper.spec.ts
   
   </Tab>
 </Tabs>

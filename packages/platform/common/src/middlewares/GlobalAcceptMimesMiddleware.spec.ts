@@ -1,6 +1,6 @@
 import {PlatformRequest, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import {FakeRequest} from "../../../../test/helper";
+import {FakeRequest} from "../../../../../test/helper";
 import {GlobalAcceptMimesMiddleware} from "./GlobalAcceptMimesMiddleware";
 
 describe("GlobalAcceptMimesMiddleware", () => {

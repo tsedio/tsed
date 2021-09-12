@@ -1,6 +1,6 @@
 import {bindEndpointMiddleware, EndpointMetadata} from "@tsed/common";
 import {expect} from "chai";
-import {FakeRequest} from "../../../../test/helper";
+import {FakeRequest} from "../../../../../test/helper";
 
 class Test {
   test() {}

@@ -1,5 +1,5 @@
 import {Inject} from "@tsed/di";
-import {ResolverService} from "@tsed/graphql";
+import {ResolverService} from "@tsed/typegraphql";
 import {Arg, Args, Query} from "type-graphql";
 import {RecipeNotFoundError} from "../errors/RecipeNotFoundError";
 import {RecipesService} from "../services/RecipesService";

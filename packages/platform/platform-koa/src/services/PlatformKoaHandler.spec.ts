@@ -2,8 +2,8 @@ import {HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
 import {PlatformKoaHandler} from "@tsed/platform-koa";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {buildPlatformHandler, invokePlatformHandler} from "../../../../test/helper/buildPlatformHandler";
-import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
+import {invokePlatformHandler} from "../../../../../test/helper/buildPlatformHandler";
+import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 
 const sandbox = Sinon.createSandbox();
 

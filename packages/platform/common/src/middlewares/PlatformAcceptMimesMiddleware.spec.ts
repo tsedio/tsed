@@ -2,7 +2,7 @@ import {AcceptMime, EndpointMetadata, Get, PlatformRequest, PlatformTest} from "
 import {catchError} from "@tsed/core";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest} from "../../../../test/helper";
+import {FakeRequest} from "../../../../../test/helper";
 import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware";
 
 const sandbox = Sinon.createSandbox();

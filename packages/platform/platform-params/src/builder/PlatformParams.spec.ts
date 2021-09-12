@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import {ParamTypes} from "@tsed/platform-params";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {buildPlatformParams} from "../../../../test/helper/buildPlatformParams";
+import {buildPlatformParams} from "../../../../../test/helper/buildPlatformParams";
 
 const sandbox = Sinon.createSandbox();
 

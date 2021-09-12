@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import {PlatformKoaRequest} from "@tsed/platform-koa";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest} from "../../../../test/helper";
+import {FakeRequest} from "../../../../../test/helper";
 
 const sandbox = Sinon.createSandbox();
 

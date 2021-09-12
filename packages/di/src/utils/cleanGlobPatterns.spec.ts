@@ -14,9 +14,11 @@ describe("cleanGlobPatterns()", () => {
     before(() => {
       compiler = require.extensions[".ts"];
       delete require.extensions[".ts"];
+      process.env.NODE_ENV = "";
     });
     after(() => {
       require.extensions[".ts"] = compiler;
+      process.env.NODE_ENV = "test";
     });
     it("should return file.js", () => {
       expect(cleanGlobPatterns("file.ts", ["!**.spec.ts"])[0]).to.contains("file.js");

@@ -4,8 +4,8 @@ import {expect} from "chai";
 import {createReadStream} from "fs";
 import {of} from "rxjs";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../test/helper";
-import {createFakePlatformContext} from "../../../../test/helper/createFakePlatformContext";
+import {FakeRequest, FakeResponse} from "../../../../../test/helper";
+import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 import {HandlerContext} from "./HandlerContext";
 
 const sandbox = Sinon.createSandbox();

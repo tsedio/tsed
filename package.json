@@ -154,8 +154,12 @@
   "workspaces": {
     "packages": [
       "packages/*",
-      "packages/platform/*",
+      "packages/graphql/*",
       "packages/orm/*",
+      "packages/platform/*",
+      "packages/security/*",
+      "packages/specs/*",
+      "packages/third-parties/*",
       "tools/*"
     ]
   },

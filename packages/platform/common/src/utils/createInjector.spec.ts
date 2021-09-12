@@ -3,7 +3,7 @@ import {createInjector, PlatformConfiguration} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {$log} from "@tsed/logger";
 import Sinon from "sinon";
-import {stub} from "../../../../test/helper/tools";
+import {stub} from "../../../../../test/helper/tools";
 
 describe("createInjector", () => {
   beforeEach(() => {

@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import Express from "express";
 import Sinon from "sinon";
-import {stub} from "../../../../test/helper/tools";
+import {stub} from "../../../../../test/helper/tools";
 import {staticsMiddleware} from "./staticsMiddleware";
 
 const sandbox = Sinon.createSandbox();

@@ -5,6 +5,10 @@
     "packages/*",
     "packages/platform/*",
     "packages/orm/*",
+    "packages/graphql/*",
+    "packages/security/*",
+    "packages/specs/*",
+    "packages/third-parties/*",
     "docs"
   ],
   "version": "6.67.0",

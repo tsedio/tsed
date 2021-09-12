@@ -2,10 +2,14 @@
   "name": "@tsed/common",
   "version": "6.67.0",
   "description": "A TypeScript Framework on top of Express",
+  "private": false,
   "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
-  "private": false,
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
   "keywords": [
     "Express",
     "Koa",
@@ -42,9 +46,6 @@
     "type": "git",
     "url": "git+https://github.com/tsedio//tsed.git"
   },
-  "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
-  },
   "funding": [
     {
       "type": "github",
@@ -55,6 +56,9 @@
       "url": "https://opencollective.com/tsed"
     }
   ],
+  "scripts": {
+    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
+  },
   "dependencies": {
     "@tsed/core": "6.67.0",
     "@tsed/di": "6.67.0",

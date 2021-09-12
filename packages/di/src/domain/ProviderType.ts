@@ -6,8 +6,5 @@ export enum ProviderType {
   MODULE = "module",
   CONTROLLER = "controller",
   INTERCEPTOR = "interceptor",
-
-  // NOT STANDARD
-  CONVERTER = "converter",
   MIDDLEWARE = "middleware"
 }

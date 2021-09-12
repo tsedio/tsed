@@ -1,8 +1,8 @@
 import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../test/helper";
-import {stub} from "../../../../test/helper/tools";
+import {FakeRequest, FakeResponse} from "../../../../../test/helper";
+import {stub} from "../../../../../test/helper/tools";
 import {createContext} from "./createContext";
 
 const sandbox = Sinon.createSandbox();

@@ -4,7 +4,13 @@
     "baseUrl": ".",
     "paths": {
       "@tsed/*": [
-        "packages/*/src"
+        "packages/*/src",
+        "packages/platform/*/src",
+        "packages/security/*/src",
+        "packages/specs/*/src",
+        "packages/orm/*/src",
+        "packages/graphql/*/src",
+        "packages/third-parties/*/src"
       ]
     }
   },

@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest} from "../../../../test/helper";
+import {FakeRequest} from "../../../../../test/helper";
 import {PlatformRequest} from "./PlatformRequest";
 
 const sandbox = Sinon.createSandbox();

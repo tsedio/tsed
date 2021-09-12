@@ -3,7 +3,7 @@ import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import Express from "express";
 import Sinon from "sinon";
-import {stub} from "../../../../test/helper/tools";
+import {stub} from "../../../../../test/helper/tools";
 import {PlatformExpressRouter} from "./PlatformExpressRouter";
 
 const sandbox = Sinon.createSandbox();
