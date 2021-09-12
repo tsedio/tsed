@@ -18,10 +18,12 @@
   },
   "devDependencies": {
     "@tsed/core": "6.67.0",
+    "@tsed/schema": "6.67.0",
     "@tsed/di": "6.67.0"
   },
   "peerDependencies": {
     "@tsed/core": "^6.67.0",
-    "@tsed/di": "^6.67.0"
+    "@tsed/di": "^6.67.0",
+    "@tsed/schema": "^6.67.0"
   }
 }

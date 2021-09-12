@@ -5,9 +5,35 @@ export * from "@tsed/platform-response-filter";
 export * from "@tsed/platform-cache";
 export * from "@tsed/platform-middlewares";
 export * from "@tsed/platform-views";
-export * from "./config";
-export * from "./mvc";
-export * from "./platform";
-export * from "./platform-test";
-
 export {$log, Logger} from "@tsed/logger";
+
+export * from "./config";
+
+// builder
+export * from "./builder/PlatformBuilder";
+export * from "./builder/PlatformControllerBuilder";
+
+// decorators
+export * from "./decorators";
+
+// interfaces
+export * from "./constants/routerOptions";
+export * from "./interfaces";
+
+// middlewares
+export * from "./middlewares";
+
+// domain
+export * from "./domain";
+
+// providers
+export * from "./services";
+
+// registries
+export * from "./registries/ControllerRegistry";
+
+// utils
+export * from "./utils";
+
+// Module
+export * from "./PlatformModule";
