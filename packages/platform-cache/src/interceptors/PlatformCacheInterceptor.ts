@@ -1,9 +1,8 @@
 import {isClass, isString, nameOf, Store} from "@tsed/core";
-import {Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
+import {BaseContext, DIContext, Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {JsonEntityStore} from "@tsed/schema";
 import {IncomingMessage, ServerResponse} from "http";
-import {PlatformContext} from "../../platform/domain/PlatformContext";
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
 import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions";
 import {PlatformCache} from "../services/PlatformCache";
@@ -41,7 +40,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
   protected getArgs(context: InterceptorContext<unknown, PlatformCacheOptions>) {
     return context.args.reduce((args, arg) => {
-      if (arg instanceof PlatformContext || arg instanceof IncomingMessage || arg instanceof ServerResponse) {
+      if (arg instanceof DIContext || arg instanceof IncomingMessage || arg instanceof ServerResponse) {
         return args;
       }
 
@@ -97,7 +96,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
   }
 
   protected async cacheResponse(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
-    const $ctx: PlatformContext = context.args[context.args.length - 1];
+    const $ctx: BaseContext = context.args[context.args.length - 1];
     const {request, response} = $ctx;
 
     if (request.method !== "GET") {
@@ -145,7 +144,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     return result;
   }
 
-  protected sendResponse(cachedObject: PlatformCachedObject, $ctx: PlatformContext) {
+  protected sendResponse(cachedObject: PlatformCachedObject, $ctx: BaseContext) {
     const {headers, ttl} = cachedObject;
     const {request, response} = $ctx;
 
