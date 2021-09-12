@@ -2,9 +2,8 @@ import {isClass, isFunction} from "@tsed/core";
 import {Configuration, Injectable} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
 import cacheManager, {Cache, CachingConfig, MultiCache, TtlFunction} from "cache-manager";
-import {PlatformContext} from "../../platform/domain/PlatformContext";
-import {PlatformCacheSettings} from "../interfaces";
 import micromatch from "micromatch";
+import {PlatformCacheSettings} from "../interfaces";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
@@ -45,7 +44,7 @@ export class PlatformCache {
   }
 
   defaultKeyResolver() {
-    return this.settings.get<(args: any[], ctx?: PlatformContext) => string>("cache.keyResolver", defaultKeyResolver);
+    return this.settings.get<(args: any[], ctx?: any) => string>("cache.keyResolver", defaultKeyResolver);
   }
 
   defaultTtl() {

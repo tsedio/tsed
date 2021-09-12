@@ -1,8 +1,8 @@
 import {MetadataTypes} from "@tsed/core";
+import {BaseContext} from "@tsed/di";
 import {TtlFunction} from "cache-manager";
-import {PlatformContext} from "../../platform/domain/PlatformContext";
 
 export interface PlatformCacheOptions extends MetadataTypes {
   ttl?: number | TtlFunction;
-  key?: string | ((args: any[], ctx?: PlatformContext) => string);
+  key?: string | ((args: any[], ctx?: BaseContext) => string);
 }

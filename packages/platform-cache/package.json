@@ -1,0 +1,37 @@
+{
+  "name": "@tsed/platform-cache",
+  "version": "6.66.0",
+  "description": "Platform cache module for Ts.ED Framework",
+  "private": false,
+  "source": "./src/index.ts",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
+  "scripts": {
+    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
+  },
+  "dependencies": {
+    "tslib": "2.2.0",
+    "cache-manager": "^3.4.1",
+    "micromatch": "^4.0.2"
+  },
+  "devDependencies": {
+    "@types/micromatch": "^4.0.1",
+    "@types/cache-manager": "^3.4.2",
+    "@tsed/core": "6.66.0",
+    "@tsed/di": "6.66.0",
+    "@tsed/schema": "6.66.0",
+    "@tsed/json-mapper": "6.66.0",
+    "@tsed/exceptions": "6.66.0"
+  },
+  "peerDependencies": {
+    "@tsed/core": "^6.66.0",
+    "@tsed/di": "^6.66.0",
+    "@tsed/schema": "6.66.0",
+    "@tsed/json-mapper": "6.66.0",
+    "@tsed/exceptions": "6.66.0"
+  }
+}
