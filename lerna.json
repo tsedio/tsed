@@ -3,6 +3,7 @@
   "useWorkspaces": true,
   "packages": [
     "packages/*",
+    "packages/platform/*",
     "docs"
   ],
   "version": "6.67.0",
