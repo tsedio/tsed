@@ -36,8 +36,6 @@ describe("PlatformHandler", () => {
       // GIVEN
       sandbox.stub(Test.prototype, "get").callsFake((o) => o);
 
-      PlatformTest.invoke(Test);
-
       const handlerMetadata = new HandlerMetadata({
         token: Test,
         target: Test,
@@ -46,6 +44,7 @@ describe("PlatformHandler", () => {
       });
 
       const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
+      await PlatformTest.invoke(Test);
 
       // WHEN
       const handler = platformHandler.createHandler(handlerMetadata);
@@ -91,7 +90,6 @@ describe("PlatformHandler", () => {
       // THEN
       return expect(next).to.not.have.been.called;
     });
-
     it("should call returned function", async () => {
       // GIVEN
       const internalMiddleware = sandbox.stub().returns("hello");

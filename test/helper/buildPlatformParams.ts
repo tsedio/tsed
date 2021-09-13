@@ -31,14 +31,12 @@ export async function buildPlatformParams({sandbox, expression, required, ...opt
     param.required = required;
   }
 
-  await platformParams.build(param)
-
   return {
     platformParams,
     h,
     param,
-    response: h.response,
-    request: h.request,
+    response: h.$ctx.response,
+    request: h.$ctx.request,
     ctx: h.$ctx,
     $ctx: h.$ctx
   };

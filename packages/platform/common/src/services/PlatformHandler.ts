@@ -1,11 +1,11 @@
 import {AnyToPromiseStatus, isBoolean, isFunction, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
-import {ParamMetadata, PlatformParams} from "@tsed/platform-params";
+import {ArgScope, HandlerWithScope, PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import {renderView} from "@tsed/platform-views";
+import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx";
 import {EndpointMetadata} from "../domain/EndpointMetadata";
-import {HandlerContext} from "../domain/HandlerContext";
 import {HandlerMetadata} from "../domain/HandlerMetadata";
 import {PlatformContext} from "../domain/PlatformContext";
 import {HandlerType} from "../interfaces/HandlerType";
@@ -17,6 +17,7 @@ import {ConverterService} from "./ConverterService";
 export interface OnRequestOptions {
   $ctx: PlatformContext;
   metadata: HandlerMetadata;
+  handler: HandlerWithScope;
   next?: any;
   err?: any;
 
@@ -42,35 +43,35 @@ export class PlatformHandler {
   constructor(protected injector: InjectorService, protected params: PlatformParams) {}
 
   /**
-   * Create a native middleware based on the given metadata and return an instance of HandlerContext
+   * Create a native middleware based on the given metadata and return an instance of AnyToPromiseWithCtx
    * @param input
    * @param options
    */
   createHandler(input: EndpointMetadata | HandlerMetadata | any, options: PlatformRouteWithoutHandlers = {}) {
-    const metadata: HandlerMetadata = this.createHandlerMetadata(input, options);
-    this.buildPipe(metadata);
-    return this.createRawHandler(metadata);
-  }
-
-  createCustomHandler(provider: Provider, propertyKey: string) {
-    const metadata = new HandlerMetadata({
-      token: provider.provide,
-      target: provider.useClass,
-      type: HandlerType.CUSTOM,
-      scope: provider.scope,
-      propertyKey
-    });
-    this.buildPipe(metadata);
-    return this.createRawHandler(metadata);
+    return this.createRawHandler(createHandlerMetadata(this.injector, input, options));
   }
 
   /**
-   * Create handler metadata
-   * @param obj
-   * @param routeOptions
+   * Create injectable handler from the given provider
+   * @param provider
+   * @param propertyKey
    */
-  public createHandlerMetadata(obj: any | EndpointMetadata, routeOptions: PlatformRouteWithoutHandlers = {}): HandlerMetadata {
-    return createHandlerMetadata(this.injector, obj, routeOptions);
+  createCustomHandler(provider: Provider, propertyKey: string) {
+    const handler = this.compileHandler(
+      new HandlerMetadata({
+        token: provider.provide,
+        target: provider.useClass,
+        type: HandlerType.CUSTOM,
+        scope: provider.scope,
+        propertyKey
+      })
+    );
+
+    return async ($ctx: PlatformContext, next?: any) =>
+      handler({
+        $ctx,
+        next
+      });
   }
 
   /**
@@ -100,10 +101,37 @@ export class PlatformHandler {
     }
   }
 
-  protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {
-    const {metadata, $ctx} = requestOptions;
+  compileHandler(metadata: HandlerMetadata) {
+    if (metadata.type === HandlerType.CTX_FN) {
+      return async (scope: Record<string, any>) => {
+        // @ts-ignore
+        return this.onCtxRequest({
+          ...scope,
+          handler: () => metadata.handler(scope.$ctx),
+          metadata
+        });
+      };
+    }
 
-    await metadata.handler($ctx);
+    const promise = this.params.compileHandler<PlatformContext>({
+      token: metadata.token,
+      propertyKey: metadata.propertyKey,
+      getCustomArgs: metadata.injectable ? undefined : this.getDefaultArgs(metadata)
+    });
+
+    return async (scope: Record<string, any>) => {
+      const handler = await promise;
+      // @ts-ignore
+      return this.onRequest({
+        ...scope,
+        handler,
+        metadata
+      });
+    };
+  }
+
+  protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {
+    await requestOptions.handler(requestOptions);
 
     return this.next(requestOptions);
   }
@@ -113,28 +141,34 @@ export class PlatformHandler {
    * @param requestOptions
    */
   protected async onRequest(requestOptions: OnRequestOptions): Promise<any> {
+    const {$ctx, metadata, err, handler} = requestOptions;
     // istanbul ignore next
-    if (!requestOptions.$ctx) {
+    if (!$ctx) {
       $log.error(
-        `Endpoint ${requestOptions.metadata.toString()} is called but the response is already send to your consumer. Check your code and his middlewares please!`
+        `Endpoint ${metadata.toString()} is called but the response is already send to your consumer. Check your code and his middlewares please!`
       );
       return;
     }
 
-    const h = new HandlerContext({
-      ...requestOptions,
-      args: []
-    });
-
-    const {$ctx} = h;
+    const resolver = new AnyToPromiseWithCtx({$ctx, err});
 
     return this.injector.runInContext($ctx, async () => {
       try {
-        h.args = await this.getArgs(h);
-
-        const {state} = await h.callHandler();
+        const {state, data, status, headers} = await resolver.call(handler);
 
         if (state === AnyToPromiseStatus.RESOLVED) {
+          if (status) {
+            $ctx.response.status(status);
+          }
+
+          if (headers) {
+            $ctx.response.setHeaders(headers);
+          }
+
+          if (data !== undefined) {
+            $ctx.data = data;
+          }
+
           // Can be canceled by the handler itself
           return await this.onSuccess($ctx.data, requestOptions);
         }
@@ -164,6 +198,8 @@ export class PlatformHandler {
   protected async onSuccess(data: any, requestOptions: OnRequestOptions) {
     const {metadata, $ctx, next} = requestOptions;
 
+    // TODO see this control is necessary
+    // istanbul ignore next
     if ($ctx.request.isAborted() || $ctx.response.isDone()) {
       return;
     }
@@ -210,19 +246,19 @@ export class PlatformHandler {
    * create Raw handler
    * @param metadata
    */
-  protected createRawHandler(metadata: HandlerMetadata): Function {
-    switch (metadata.type) {
-      case HandlerType.CUSTOM:
-        return (ctx: PlatformContext, next: any) => this.onRequest({metadata, next, $ctx: ctx});
-      case HandlerType.RAW_ERR_FN:
-      case HandlerType.RAW_FN:
-        return metadata.handler;
-
-      default:
-      case HandlerType.ENDPOINT:
-      case HandlerType.MIDDLEWARE:
-        return (request: any, response: any, next: any) => this.onRequest({metadata, next, $ctx: request.$ctx});
+  protected createRawHandler(metadata: HandlerMetadata) {
+    if ([HandlerType.RAW_ERR_FN, HandlerType.RAW_FN].includes(metadata.type)) {
+      return metadata.handler;
     }
+
+    const handler = this.compileHandler(metadata);
+
+    return async (request: any, response: any, next: any) => {
+      return handler({
+        next,
+        $ctx: request.$ctx
+      });
+    };
   }
 
   /**
@@ -240,23 +276,13 @@ export class PlatformHandler {
     return !$ctx.response.isDone() && next && next();
   }
 
-  private buildPipe(metadata: HandlerMetadata) {
-    if (metadata.injectable) {
-      return metadata.parameters.forEach((param: ParamMetadata) => {
-        this.params.build(param);
-      });
-    }
-  }
-
-  private getArgs(h: HandlerContext) {
-    const {metadata} = h;
-
-    if (metadata.injectable) {
-      return this.params.getArgs(h, metadata.parameters);
-    }
-
-    return [metadata.hasErrorParam && h.err, h.$ctx.request.request, h.$ctx.response.response, metadata.hasNextFunction && h.next].filter(
-      Boolean
-    );
+  protected getDefaultArgs(metadata: HandlerMetadata) {
+    return async (scope: ArgScope<PlatformContext>) =>
+      [
+        metadata.hasErrorParam && scope.err,
+        scope.$ctx.request.request,
+        scope.$ctx.response.response,
+        metadata.hasNextFunction && scope.next
+      ].filter(Boolean);
   }
 }
