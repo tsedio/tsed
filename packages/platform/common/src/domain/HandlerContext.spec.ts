@@ -1,5 +1,5 @@
-import {HandlerContextStatus, HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
-import {isStream} from "@tsed/core";
+import {HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
+import {AnyToPromiseStatus, isStream} from "@tsed/core";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import {of} from "rxjs";
@@ -114,13 +114,16 @@ describe("HandlerContext", () => {
     h.next();
     h.resolve();
     h.reject(new Error("error"));
-    await h.callHandler();
 
     // THEN
-    expect(result).to.eq("value");
+    expect(result).to.deep.eq({
+      data: "value",
+      state: "RESOLVED",
+      type: "DATA"
+    });
     expect($ctx.data).to.eq("value");
     expect(h.isDone).to.eq(true);
-    expect(h.status).to.eq(HandlerContextStatus.RESOLVED);
+    expect(h.status).to.eq(AnyToPromiseStatus.RESOLVED);
     expect(h.metadata).to.eq(undefined);
     expect(h.request).to.eq(undefined);
     expect(h.response).to.eq(undefined);
@@ -175,7 +178,7 @@ describe("HandlerContext", () => {
     // @ts-ignore
     expect(actualError.message).to.deep.eq("value");
     expect(handlerContext.isDone).to.eq(true);
-    expect(handlerContext.status).to.eq(HandlerContextStatus.REJECTED);
+    expect(handlerContext.status).to.eq(AnyToPromiseStatus.REJECTED);
     expect(handlerContext.handle).to.have.been.callCount(0);
   });
   it("should return the value from PROMISE", async () => {
@@ -189,7 +192,11 @@ describe("HandlerContext", () => {
     const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.eq("value");
+    expect(result).to.deep.eq({
+      data: "value",
+      state: "RESOLVED",
+      type: "DATA"
+    });
     expect($ctx.data).to.eq("value");
   });
   it("should return the value from BUFFER", async () => {
@@ -203,7 +210,7 @@ describe("HandlerContext", () => {
     const result = await handlerContext.callHandler();
 
     // THEN
-    expect(Buffer.isBuffer(result)).to.eq(true);
+    expect(Buffer.isBuffer(result.data)).to.eq(true);
     expect(Buffer.isBuffer($ctx.data)).to.eq(true);
     expect($ctx.data.toString("utf8")).to.eq("value");
   });
@@ -218,7 +225,7 @@ describe("HandlerContext", () => {
     const result = await handlerContext.callHandler();
 
     // THEN
-    expect(isStream(result)).to.eq(true);
+    expect(isStream(result.data)).to.eq(true);
     expect(isStream($ctx.data)).to.eq(true);
   });
   it("should proxy axios/custom response", async () => {
@@ -232,7 +239,15 @@ describe("HandlerContext", () => {
     const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.eq("data");
+    expect(result).to.deep.eq({
+      data: "data",
+      headers: {
+        "Content-Type": "type"
+      },
+      state: "RESOLVED",
+      status: 200,
+      type: "DATA"
+    });
     expect($ctx.data).to.eq("data");
   });
   it("should return the value from OBSERVABLE", async () => {
@@ -246,7 +261,11 @@ describe("HandlerContext", () => {
     const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.deep.eq(["value"]);
+    expect(result).to.deep.eq({
+      data: ["value"],
+      state: "RESOLVED",
+      type: "DATA"
+    });
     expect($ctx.data).to.deep.eq(["value"]);
   });
   it("should return the value from FUNCTION", async () => {
@@ -260,7 +279,7 @@ describe("HandlerContext", () => {
     const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.be.a("function");
+    expect(result.data).to.be.a("function");
   });
   it("should call next immediately", async () => {
     const {handlerContext, $ctx} = await getHandlerContext({
@@ -273,7 +292,11 @@ describe("HandlerContext", () => {
     const result = await handlerContext.callHandler();
 
     // THEN
-    expect(result).to.eq(undefined);
+    expect(result).to.deep.eq({
+      data: undefined,
+      state: "RESOLVED",
+      type: "DATA"
+    });
     expect($ctx.data).to.eq(undefined);
   });
   it("should do nothing when response is returned", async () => {

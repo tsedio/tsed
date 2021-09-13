@@ -1,11 +1,11 @@
-import {isBoolean, isFunction, isNumber, isStream, isString} from "@tsed/core";
+import {AnyToPromiseStatus, isBoolean, isFunction, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {ParamMetadata, PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
 import {renderView} from "@tsed/platform-views";
 import {EndpointMetadata} from "../domain/EndpointMetadata";
-import {HandlerContext, HandlerContextStatus} from "../domain/HandlerContext";
+import {HandlerContext} from "../domain/HandlerContext";
 import {HandlerMetadata} from "../domain/HandlerMetadata";
 import {PlatformContext} from "../domain/PlatformContext";
 import {HandlerType} from "../interfaces/HandlerType";
@@ -132,9 +132,9 @@ export class PlatformHandler {
       try {
         h.args = await this.getArgs(h);
 
-        await h.callHandler();
+        const {state} = await h.callHandler();
 
-        if (h.status === HandlerContextStatus.RESOLVED) {
+        if (state === AnyToPromiseStatus.RESOLVED) {
           // Can be canceled by the handler itself
           return await this.onSuccess($ctx.data, requestOptions);
         }
