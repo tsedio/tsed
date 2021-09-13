@@ -104,6 +104,7 @@ describe("PlatformHandler", () => {
       }
 
       const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
+      await PlatformTest.invoke<Test>(Test);
 
       const ctx = createFakePlatformContext(sandbox);
       const next = sandbox.stub();

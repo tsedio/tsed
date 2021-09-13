@@ -43,4 +43,21 @@ describe("getValue()", () => {
     expect(getValue("user", undefined)).to.deep.eq(undefined);
     expect(getValue(undefined, "user")).to.deep.eq(undefined);
   });
+
+  it("should return undefined from getter", () => {
+    expect(
+      getValue(
+        {
+          get test() {
+            return undefined;
+          },
+
+          get() {
+            return "test";
+          }
+        },
+        "test"
+      )
+    ).to.deep.eq(undefined);
+  });
 });
