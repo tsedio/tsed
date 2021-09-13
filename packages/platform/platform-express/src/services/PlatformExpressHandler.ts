@@ -6,28 +6,17 @@ import {HandlerMetadata, HandlerType, OnRequestOptions, PlatformHandler} from "@
  */
 export class PlatformExpressHandler extends PlatformHandler {
   protected createRawHandler(metadata: HandlerMetadata): Function {
-    switch (metadata.type) {
-      default:
-        return super.createRawHandler(metadata);
-
-      case HandlerType.CTX_FN:
-        return async (req: any, res: any, next: any) => {
-          await this.onCtxRequest({
-            metadata,
-            next,
-            $ctx: req.$ctx
-          });
-        };
-
-      case HandlerType.ERR_MIDDLEWARE:
-        return (err: any, request: any, response: any, next: any) =>
-          this.onRequest({
-            metadata,
-            next,
-            $ctx: request.$ctx,
-            err
-          });
+    if (metadata.type === HandlerType.ERR_MIDDLEWARE) {
+      const handler = this.compileHandler(metadata);
+      return async (err: any, req: any, res: any, next: any) =>
+        handler({
+          err,
+          next,
+          $ctx: req.$ctx
+        });
     }
+
+    return super.createRawHandler(metadata);
   }
 
   protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {

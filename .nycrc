@@ -1,6 +1,12 @@
 {
   "include": [
-    "packages/*/src/**/*.ts"
+    "packages/*/src/**/*.ts",
+    "packages/specs/*/src/**/*.ts",
+    "packages/graphql/*/src/**/*.ts",
+    "packages/orm/*/src/**/*.ts",
+    "packages/platform/*/src/**/*.ts",
+    "packages/security/*/src/**/*.ts",
+    "packages/third-parties/*/src/**/*.ts"
   ],
   "exclude": [
     "**/*.d.ts",
@@ -10,9 +16,9 @@
     "packages/testing/**",
     "packages/**/ExpressRouter.ts",
     "packages/**/RouteService.ts",
-    "packages/platform-test-utils",
+    "packages/platform/platform-test-utils",
     "packages/perf",
-    "packages/swagger/src/decorators/{title,description,example}.ts",
+    "packages/specs/swagger/src/decorators/{title,description,example}.ts",
     "**/interfaces/**",
     "**/legacy/**",
     "**/index.ts"

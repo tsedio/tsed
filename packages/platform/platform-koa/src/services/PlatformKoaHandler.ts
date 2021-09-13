@@ -2,6 +2,8 @@ import {HandlerMetadata, HandlerType, OnRequestOptions, PlatformContext, Platfor
 import Koa from "koa";
 import "./PlatformKoaRequest";
 
+const OVERRIDE_TYPES = [HandlerType.ENDPOINT, HandlerType.MIDDLEWARE, HandlerType.ERR_MIDDLEWARE, HandlerType.CTX_FN];
+
 export class PlatformKoaHandler extends PlatformHandler {
   public async flush(data: any, ctx: PlatformContext): Promise<void> {
     if (data === undefined && ctx.getResponse().body) {
@@ -12,32 +14,12 @@ export class PlatformKoaHandler extends PlatformHandler {
   }
 
   protected createRawHandler(metadata: HandlerMetadata) {
-    switch (metadata.type) {
-      default:
-        return super.createRawHandler(metadata);
-
-      case HandlerType.CTX_FN:
-        return async (ctx: Koa.Context, next: any) =>
-          this.onCtxRequest({
-            metadata,
-            next,
-            $ctx: ctx.request.$ctx
-          });
-
-      case HandlerType.RAW_ERR_FN:
-      case HandlerType.RAW_FN:
-        return metadata.handler;
-
-      case HandlerType.ENDPOINT:
-      case HandlerType.MIDDLEWARE:
-      case HandlerType.ERR_MIDDLEWARE:
-        return (ctx: Koa.Context, next: Koa.Next) =>
-          this.onRequest({
-            $ctx: ctx.request.$ctx,
-            metadata,
-            next
-          });
+    if (OVERRIDE_TYPES.includes(metadata.type)) {
+      const handler = this.compileHandler(metadata);
+      return async (ctx: Koa.Context, next: Koa.Next) => handler({next, $ctx: ctx.request.$ctx});
     }
+
+    return super.createRawHandler(metadata);
   }
 
   protected async onRequest(requestOptions: OnRequestOptions): Promise<any> {

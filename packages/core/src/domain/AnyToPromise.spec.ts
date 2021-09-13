@@ -12,8 +12,18 @@ describe("AnyToPromise", () => {
       return "test";
     });
 
+    resolver.cancel();
+    resolver.resolve();
+    resolver.next();
+    resolver.reject(new Error(""));
+
+    await resolver.call(() => {
+      return "test";
+    });
+
     expect(result).to.deep.equal({state: "RESOLVED", data: "test", type: "DATA"});
   });
+
   it("should handle async value", async () => {
     const resolver = new AnyToPromise();
 

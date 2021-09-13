@@ -1,6 +1,7 @@
 import {nameOf, Type} from "@tsed/core";
 import {ProviderScope} from "@tsed/di";
 import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
+import {JsonEntityStore} from "@tsed/schema";
 import {HandlerType} from "../interfaces/HandlerType";
 import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouteOptions";
 
@@ -58,10 +59,6 @@ export class HandlerMetadata {
 
   get hasErrorParam() {
     return this.type === HandlerType.ERR_MIDDLEWARE || this.type === HandlerType.RAW_ERR_FN;
-  }
-
-  get parameters(): ParamMetadata[] {
-    return this.injectable ? this.getParams() : [];
   }
 
   public getParams() {
