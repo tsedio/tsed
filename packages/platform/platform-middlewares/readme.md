@@ -32,7 +32,7 @@ A package of Ts.ED framework. See website: https://tsed.io/
 # Installation
 
 ```bash
-npm install --save @tsed/core
+npm install --save @tsed/platform-middlewares
 ```
 
 ## Contributors
