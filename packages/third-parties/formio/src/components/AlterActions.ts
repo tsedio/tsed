@@ -62,7 +62,7 @@ export class AlterActions implements AlterHook {
       method: string,
       req: {$ctx: PlatformContext},
       res: Response,
-      next: Function,
+      next: any,
       setActionItemMessage: SetActionItemMessage
     ) => {
       req.$ctx.set("ACTION_CTX", {handler, method, setActionItemMessage, action});
