@@ -26,15 +26,15 @@
   "extension": [
     ".ts"
   ],
-  "require": [],
+  "require": [],PlatformExceptions
   "reporter": [
     "text-summary",
     "html",
     "lcov"
   ],
   "check-coverage": true,
-  "lines": 99.89,
-  "statements": 99.87,
-  "functions": 99.74,
-  "branches": 88.8
+  "lines": 99.53,
+  "statements": 99.51,
+  "functions": 98.95,
+  "branches": 88.38
 }
