@@ -1,4 +1,4 @@
-import {Configuration, InjectorService, OnDestroy, registerProvider} from "@tsed/common";
+import {Configuration, InjectorService, OnDestroy, registerProvider} from "@tsed/di";
 import {ConnectionOptions, ContainedType, getCustomRepository, useContainer} from "typeorm";
 import {TypeORMService} from "./services/TypeORMService";
 

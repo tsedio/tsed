@@ -1,0 +1,61 @@
+import {DITest, Inject, Injectable} from "@tsed/di";
+import {QueryParams} from "@tsed/platform-params";
+import {JsonEntityStore} from "@tsed/schema";
+import {expect} from "chai";
+import {ServerlessContext} from "../domain/ServerlessContext";
+import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
+
+async function getPlatformServerlessHandlerFixture() {
+  const service = await DITest.invoke<PlatformServerlessHandler>(PlatformServerlessHandler);
+  return {
+    service
+  };
+}
+
+@Injectable()
+class TimeslotsService {
+  get() {
+    return "test";
+  }
+}
+
+@Injectable()
+export class TimeslotsLambdaController {
+  @Inject()
+  protected timeslotsService: TimeslotsService;
+
+  get(@QueryParams("start_date") startDate: Date, @QueryParams("end_date") endDate: Date) {
+    return {
+      value: this.timeslotsService.get(),
+      startDate,
+      endDate
+    };
+  }
+}
+
+describe("PlatformServerlessHandler", () => {
+  beforeEach(() => DITest.create());
+  afterEach(() => DITest.reset());
+
+  it("should call lambda provider", async () => {
+    const {service} = await getPlatformServerlessHandlerFixture();
+
+    const endpoint = JsonEntityStore.fromMethod(TimeslotsLambdaController, "get");
+    const $ctx = new ServerlessContext({
+      event: {} as any,
+      context: {} as any,
+      endpoint
+    } as any);
+
+    const handler = await service.createHandler(TimeslotsLambdaController, "get");
+    const result = await handler($ctx);
+
+    expect(result).to.deep.eq({
+      body: '{"value":"test"}',
+      headers: {},
+      isBase64Encoded: false,
+      multiValueHeaders: {},
+      statusCode: 200
+    });
+  });
+});

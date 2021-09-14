@@ -2924,6 +2924,18 @@
     streamroller "^1.0.3"
     tslib "2.3.0"
 
+"@tsed/logger@^5.17.0":
+  version "5.17.0"
+  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-5.17.0.tgz#ec99e161112eca39c11f825a95fd892d76071822"
+  integrity sha512-co8DdRgtQaisudEQFP2/7y/ji9bnB9QrJYfEr0SEqdHIBJdwuq8joo2vyfOY8ht/w5LOcqo2NVebtwULSsD9Pg==
+  dependencies:
+    colors "^1.3.3"
+    date-format "^3.0.0"
+    lodash "^4.17.21"
+    semver "^7.3.2"
+    streamroller "^1.0.3"
+    tslib "2.3.0"
+
 "@tsed/monorepo-utils@1.18.4":
   version "1.18.4"
   resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.18.4.tgz#4bdc8c41fe5b6ece9fd41ea4d77657cf657640a3"
@@ -2972,6 +2984,11 @@
   version "8.10.63"
   resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.63.tgz#3316174e7a23b8505d1b7bdc979a5c3030d5e203"
   integrity sha512-XEE+3iJxyeCmZTUoHZRbnxSy8aMxXXwrALgsoDBGcgkbll+8bDfuk4XbIJ9Oaec/Pxee6rno6SGMiV6EbqhF+A==
+
+"@types/aws-lambda@^8.10.83":
+  version "8.10.83"
+  resolved "https://registry.yarnpkg.com/@types/aws-lambda/-/aws-lambda-8.10.83.tgz#66db06cedb7476e860e8655e4387fd2e4385433a"
+  integrity sha512-7YsLv/B8rF7K7jYAGmYBxLq3QU+hQV7qNJBMcSCmJCTcXuzoTKGBX8d4v9CsVs0SOKBSAErXG7rtk8jVxiP30g==
 
 "@types/aws-serverless-express@^3.3.3":
   version "3.3.3"
@@ -3121,6 +3138,11 @@
   version "2.8.10"
   resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.10.tgz#61cc8469849e5bcdd0c7044122265c39cec10cf4"
   integrity sha512-C7srjHiVG3Ey1nR6d511dtDkCEjxuN9W1HWAEjGq8kpcwmNM6JJkpC0xvabM7BXTG2wDq8Eu33iH9aQKa7IvLQ==
+
+"@types/encodeurl@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/encodeurl/-/encodeurl-1.0.0.tgz#b811667d62e53d01adc4bbbfc3b5a1ad99b4738a"
+  integrity sha512-iO2Q6xQOJ5DtOB6wJ2KIetFq9JRTbpzcKTe2aS6CCsa+W9KNWX2yXx9KeB5sY/nBfAWN43LkPg6SFB+ldsW9ZA==
 
 "@types/estree@*":
   version "0.0.48"
@@ -3439,7 +3461,7 @@
   dependencies:
     "@types/braces" "*"
 
-"@types/mime@*":
+"@types/mime@*", "@types/mime@^2.0.3":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.3.tgz#c893b73721db73699943bfc3653b1deb7faa4a3a"
   integrity sha512-Jus9s4CDbqwocc5pOAnh8ShfrnMcPHuJYzVcSUU7lrh8Ni5HuIqX3oilL86p3dlTrk0LzHRCgA/GQ7uNCw6l2Q==
@@ -3665,6 +3687,11 @@
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/@types/sinonjs__fake-timers/-/sinonjs__fake-timers-6.0.1.tgz#681df970358c82836b42f989188d133e218c458e"
   integrity sha512-yYezQwGWty8ziyYLdZjwxyMb0CZR49h8JALHGrxjQHWlqGgc8kLdHEgWrgL0uZ29DMvEVBDnHU2Wg36zKSIUtA==
+
+"@types/statuses@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/statuses/-/statuses-2.0.0.tgz#2ce7ad875bdbeacf973ae4bbbac58c12cb518042"
+  integrity sha512-V4dX/J9hyQ8hq2hztP+8xB1girGot5ltjtmxaJusf6AGyxi2RvWJrpWj4/DxF0/GFNOkswUVnbkGXKaaY9juQQ==
 
 "@types/stoppable@^1.1.0":
   version "1.1.1"
@@ -12737,6 +12764,11 @@ mime@^2.4.3, mime@^2.4.6:
   resolved "https://registry.yarnpkg.com/mime/-/mime-2.4.6.tgz#e5b407c90db442f2beb5b162373d07b69affa4d1"
   integrity sha512-RZKhC3EmpBchfTGBVb8fb+RL2cWyw/32lshnsETttkBAyAUXSGHxbEJWWRXc751DrIxG1q04b8QwMbAwkRPpUA==
 
+mime@^2.5.2:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/mime/-/mime-2.5.2.tgz#6e3dc6cc2b9510643830e5f19d5cb753da5eeabe"
+  integrity sha512-tqkh47FzKeCPD2PUiPB6pkbMzsCasjxAfC62/Wap5qrUWcb+sFasXUC5I3gYM5iBM8v/Qpn4UK0x+j0iHyFPDg==
+
 mimic-fn@^1.0.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.2.0.tgz#820c86a39334640e99516928bd03fca88057d022"
@@ -17342,6 +17374,11 @@ statuses@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.0.tgz#aa7b107e018eb33e08e8aee2e7337e762dda1028"
   integrity sha512-w9jNUUQdpuVoYqXxnyOakhckBbOxRaoYqJscyIBYCS5ixyCnO7nQn7zBZvP9zf5QOPZcz2DLUpE3KsNPbJBOFA==
+
+statuses@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/statuses/-/statuses-2.0.1.tgz#55cb000ccf1d48728bd23c685a063998cf1a1b63"
+  integrity sha512-RwNA9Z/7PrK06rYLIzFMlaF+l73iwpzsqRIFgbMLbTcLD6cOao82TaWefPXQvB2fOC4AjuYSEndS7N/mTCbkdQ==
 
 stealthy-require@^1.1.1:
   version "1.1.1"
