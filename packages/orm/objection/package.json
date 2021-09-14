@@ -18,9 +18,10 @@
   },
   "devDependencies": {
     "@tsed/ajv": "6.68.1",
-    "@tsed/common": "6.68.1",
     "@tsed/core": "6.68.1",
     "@tsed/di": "6.68.1",
+    "@tsed/json-mapper": "6.68.1",
+    "@tsed/schema": "6.68.1",
     "knex": "^0.95.11",
     "mssql": "^7.2.1",
     "mysql": "^2.18.1",
@@ -32,13 +33,10 @@
     "sqlite3": "^5.0.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.48.6",
+    "@tsed/ajv": "6.68.0",
     "@tsed/core": "^6.48.6",
     "@tsed/di": "^6.48.6",
-    "@tsed/exceptions": "^6.48.6",
     "@tsed/json-mapper": "^6.48.6",
-    "@tsed/logger": "^5.16.0",
-    "@tsed/openspec": "^6.48.6",
     "@tsed/schema": "^6.48.6",
     "knex": "^0.95.11",
     "mssql": "^7.2.1",
