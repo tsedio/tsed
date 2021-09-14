@@ -2,6 +2,7 @@ import {levels, LogLevel} from "@tsed/logger";
 
 export interface ContextLoggerOptions extends Record<string, any> {
   id: string;
+  url?: string;
   dateStart?: Date;
   level?: "debug" | "info" | "warn" | "error" | "off" | "all";
   maxStackSize?: number;
@@ -12,13 +13,13 @@ export interface ContextLoggerOptions extends Record<string, any> {
 }
 
 export class ContextLogger {
-  maxStackSize: number;
-
-  readonly #id: string;
-  readonly #additionalProps: Record<string, unknown>;
-  readonly #dateStart: Date;
+  id: string;
+  url: string;
   minimalRequestPicker: Function;
   completeRequestPicker: Function;
+  maxStackSize: number;
+  readonly #additionalProps: Record<string, unknown>;
+  readonly #dateStart: Date;
   readonly #ignoreLog: (data: any) => boolean;
   #stack: any = [];
   #level: LogLevel;
@@ -27,6 +28,7 @@ export class ContextLogger {
     private logger: any,
     {
       id,
+      url = "",
       dateStart = new Date(),
       ignoreUrlPatterns = [],
       minimalRequestPicker,
@@ -37,7 +39,8 @@ export class ContextLogger {
       additionalProps
     }: ContextLoggerOptions
   ) {
-    this.#id = id;
+    this.id = id;
+    this.url = url;
     this.#additionalProps = additionalProps || {};
     this.#dateStart = dateStart;
     this.#ignoreLog = ignoreLog || (() => false);
@@ -110,7 +113,7 @@ export class ContextLogger {
       obj = {message: obj};
     }
 
-    return {...this.#additionalProps, reqId: this.#id, time: new Date(), duration: this.getDuration(), ...obj};
+    return {...this.#additionalProps, reqId: this.id, time: new Date(), duration: this.getDuration(), ...obj};
   }
 
   protected run(level: LogLevel, obj: any, mapper: (data: any) => any) {
