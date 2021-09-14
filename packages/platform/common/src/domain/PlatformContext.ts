@@ -46,6 +46,7 @@ export class PlatformContext extends DIContext implements ContextMethods {
   constructor({response, request, endpoint, url, ignoreUrlPatterns = [], ...options}: PlatformContextOptions) {
     super({
       ...options,
+      url,
       ignoreLog: () => {
         return this.#ignoreUrlPatterns.find((reg) => !!this.url.match(reg));
       }
