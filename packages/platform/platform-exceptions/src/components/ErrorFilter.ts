@@ -1,5 +1,5 @@
 import {Env} from "@tsed/core";
-import type {BaseContext} from "@tsed/di";
+import {BaseContext} from "@tsed/di";
 import {Catch} from "../decorators/catch";
 import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
 
@@ -14,9 +14,6 @@ export class ErrorFilter implements ExceptionFilterMethods {
     });
 
     response
-      .onEnd(() => {
-        env === "development" && ctx.injector.logger.error(error);
-      })
       .setHeaders(this.getHeaders(error))
       .status(err.status)
       .contentType("application/json")

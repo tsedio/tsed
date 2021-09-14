@@ -15,7 +15,7 @@ import {
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
 import {Configuration} from "../decorators/configuration";
 import {Injectable} from "../decorators/injectable";
-import {BaseContext, InjectablePropertyType, ProviderScope} from "../domain";
+import {DIContext, InjectablePropertyType, ProviderScope} from "../domain";
 import {Container} from "../domain/Container";
 import {LocalsContainer} from "../domain/LocalsContainer";
 import {Provider} from "../domain/Provider";
@@ -520,6 +520,16 @@ export class InjectorService extends Container {
     };
   }
 
+  /**
+   * Allow handler hack for AsyncHookContext plugin.
+   * @param ctx
+   * @param cb
+   * @protected
+   */
+  runInContext(ctx: DIContext, cb: any) {
+    return cb();
+  }
+
   protected ensureProvider(token: TokenProvider): Provider | undefined {
     if (!this.hasProvider(token) && GlobalProviders.has(token)) {
       this.addProvider(token);
@@ -661,14 +671,5 @@ export class InjectorService extends Container {
       construct,
       provider
     };
-  }
-  /**
-   * Allow handler hack for AsyncHookContext plugin.
-   * @param ctx
-   * @param cb
-   * @protected
-   */
-  runInContext(ctx: BaseContext, cb: any) {
-    return cb();
   }
 }

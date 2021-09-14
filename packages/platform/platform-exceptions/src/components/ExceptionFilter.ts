@@ -1,4 +1,4 @@
-import type {BaseContext} from "@tsed/di";
+import {BaseContext} from "@tsed/di";
 import {Exception} from "@tsed/exceptions";
 import {Catch} from "../decorators/catch";
 import {ErrorFilter} from "./ErrorFilter";

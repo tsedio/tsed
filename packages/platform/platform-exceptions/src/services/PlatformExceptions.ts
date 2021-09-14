@@ -26,7 +26,7 @@ export class PlatformExceptions {
     });
   }
 
-  catch(error: unknown, ctx: TsED.Context) {
+  catch(error: unknown, ctx: BaseContext) {
     const name = nameOf(classOf(error));
 
     if (name && this.types.has(name)) {

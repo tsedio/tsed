@@ -1,6 +1,6 @@
-import type {BaseContext} from "@tsed/di";
-import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
+import {BaseContext} from "@tsed/di";
 import {Catch} from "../decorators/catch";
+import type {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
 
 const toHTML = (message = "") => message.replace(/\n/gi, "<br />");
 

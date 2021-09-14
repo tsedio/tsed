@@ -14,6 +14,7 @@
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "dependencies": {
+    "@types/cache-manager": "^3.4.2",
     "cache-manager": "^3.4.1",
     "micromatch": "^4.0.2",
     "tslib": "2.2.0"
