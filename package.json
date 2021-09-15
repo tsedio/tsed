@@ -174,8 +174,8 @@
     }
   },
   "monorepo": {
-    "productionBranch": "production",
-    "developBranch": "production",
+    "productionBranch": "rc",
+    "developBranch": "rc",
     "npmAccess": "public",
     "ignoreSyncDependencies": [
       "express",
