@@ -14,12 +14,6 @@
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "dependencies": {
-    "encodeurl": "^1.0.2",
-    "mime": "^2.5.2",
-    "statuses": "^2.0.1",
-    "tslib": "2.2.0"
-  },
-  "devDependencies": {
     "@tsed/core": "6.69.0-rc.2",
     "@tsed/di": "6.69.0-rc.2",
     "@tsed/exceptions": "6.69.0-rc.2",
@@ -28,19 +22,16 @@
     "@tsed/platform-exceptions": "6.69.0-rc.2",
     "@tsed/platform-params": "6.69.0-rc.2",
     "@tsed/schema": "6.69.0-rc.2",
+    "encodeurl": "^1.0.2",
+    "mime": "^2.5.2",
+    "statuses": "^2.0.1",
+    "tslib": "2.2.0"
+  },
+  "devDependencies": {
     "@types/aws-lambda": "^8.10.83",
     "@types/encodeurl": "^1.0.0",
     "@types/mime": "^2.0.3",
     "@types/statuses": "^2.0.0"
   },
-  "peerDependencies": {
-    "@tsed/core": "^6.69.0-rc.1",
-    "@tsed/di": "^6.69.0-rc.1",
-    "@tsed/exceptions": "^6.69.0-rc.1",
-    "@tsed/json-mapper": "^6.69.0-rc.1",
-    "@tsed/logger": "^5.17.0",
-    "@tsed/platform-exceptions": "^6.69.0-rc.1",
-    "@tsed/platform-params": "^6.69.0-rc.1",
-    "@tsed/schema": "^6.69.0-rc.1"
-  }
+  "peerDependencies": {}
 }
