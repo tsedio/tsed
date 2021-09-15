@@ -1,6 +1,6 @@
 {
   "name": "@tsed/seq",
-  "version": "6.68.1",
+  "version": "6.68.2",
   "description": "Seq package for Ts.ED framework",
   "sources": "./src/index.ts",
   "main": "./lib/index.js",
@@ -25,8 +25,8 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.68.1",
-    "@tsed/core": "6.68.1"
+    "@tsed/common": "6.68.2",
+    "@tsed/core": "6.68.2"
   },
   "peerDependencies": {
     "@tsed/common": "^6.48.6",
