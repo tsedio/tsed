@@ -10,13 +10,13 @@
     "require": "./lib/index.js",
     "default": "./lib/index.modern.js"
   },
+  "scripts": {
+    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
+  },
   "dependencies": {
     "normalize-path": "3.0.0",
     "reflect-metadata": "^0.1.13",
     "tslib": "2.2.0"
-  },
-  "scripts": {
-    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "devDependencies": {},
   "peerDependencies": {}

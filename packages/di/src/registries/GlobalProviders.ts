@@ -1,6 +1,7 @@
 import {getClassOrSymbol, Type} from "@tsed/core";
 import type {IProvider, RegistrySettings, TokenProvider} from "../interfaces";
-import {Provider, ProviderType} from "../domain";
+import {Provider} from "../domain/Provider";
+import {ProviderType} from "../domain/ProviderType";
 
 export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
   #settings: Map<string, RegistrySettings> = new Map();
