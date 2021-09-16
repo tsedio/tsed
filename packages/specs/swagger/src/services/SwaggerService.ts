@@ -5,8 +5,8 @@ import {getSpec, mergeSpec, SpecSerializerOptions} from "@tsed/schema";
 import Fs from "fs";
 import {SwaggerOS2Settings, SwaggerOS3Settings, SwaggerSettings} from "../interfaces/SwaggerSettings";
 import {getSpecTypeFromSpec} from "../utils/getSpecType";
+import {includeRoute} from "../utils/includeRoute";
 import {mapOpenSpec} from "../utils/mapOpenSpec";
-import {matchPath} from "../utils/matchPath";
 
 @Injectable()
 export class SwaggerService {
@@ -44,7 +44,7 @@ export class SwaggerService {
       };
 
       this.platform.getMountedControllers().forEach(({route, provider}) => {
-        if (this.includeRoute(route, provider, conf)) {
+        if (includeRoute(route, provider, conf)) {
           const spec = this.buildRoutes(provider, {
             ...options,
             rootPath: route.replace(provider.path, "")
@@ -58,15 +58,6 @@ export class SwaggerService {
     }
 
     return this.#specs.get(conf.path);
-  }
-
-  includeRoute(route: string, provider: ControllerProvider, conf: SwaggerSettings) {
-    const hidden = provider.store.get("hidden");
-    const docs = provider.store.get("docs") || [];
-    const {doc} = conf;
-    const inDoc = (!doc && !hidden) || (doc && docs.indexOf(doc) > -1);
-
-    return inDoc || matchPath(route, conf.pathPatterns);
   }
 
   /**
