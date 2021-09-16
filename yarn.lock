@@ -2936,10 +2936,10 @@
     streamroller "^1.0.3"
     tslib "2.3.0"
 
-"@tsed/monorepo-utils@1.18.6":
-  version "1.18.6"
-  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.18.6.tgz#50d0d3d2773e70e9982d6336577b2f7041071fb3"
-  integrity sha512-zwlEyKpOln0VaQhrTj4cQLUdgNMS0DWVRTvGg+2rU2teFEw0bapOO6lpdo0fcSpalyKQF/CeYfK9FBsfoVuu1g==
+"@tsed/monorepo-utils@1.19.0":
+  version "1.19.0"
+  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.19.0.tgz#acb875c3a1a19e595750f64666a5c29d24e34b7a"
+  integrity sha512-TJ5YEn/t+f+CX86c8Mt2smaqT0TiPamdb9qI60LE34XDXFz8N6rJ9dhgAhE85xyhe06LGJysOSLxZ2ngCdooTw==
   dependencies:
     axios "0.21.1"
     chalk "3.0.0"
