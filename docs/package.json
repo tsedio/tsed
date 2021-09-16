@@ -5,7 +5,8 @@
   "private": true,
   "scripts": {
     "vuepress:build": "sh .vuepress/scripts/build.sh",
-    "vuepress:serve": "vuepress dev ."
+    "vuepress:serve": "vuepress dev .",
+    "browserslist": "npx browserslist@latest --update-db"
   },
   "husky": {
     "hooks": {
