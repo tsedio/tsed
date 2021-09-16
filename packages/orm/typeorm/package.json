@@ -20,10 +20,10 @@
     "typeorm": "^0.2.26"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.48.6",
-    "@tsed/di": "^6.48.6",
-    "@tsed/json-mapper": "^6.48.6",
-    "@tsed/schema": "^6.48.6",
+    "@tsed/core": "^6.69.0-rc.3",
+    "@tsed/di": "^6.69.0-rc.3",
+    "@tsed/json-mapper": "^6.69.0-rc.3",
+    "@tsed/schema": "^6.69.0-rc.3",
     "typeorm": "^0.2.26"
   }
 }

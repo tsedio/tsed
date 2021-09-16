@@ -34,12 +34,12 @@
     "mongoose": "^5.12.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "^6.55.2",
-    "@tsed/core": "^6.55.2",
-    "@tsed/di": "^6.55.2",
-    "@tsed/json-mapper": "^6.55.0",
+    "@tsed/ajv": "^6.69.0-rc.3",
+    "@tsed/core": "^6.69.0-rc.3",
+    "@tsed/di": "^6.69.0-rc.3",
+    "@tsed/json-mapper": "^6.69.0-rc.3",
     "@tsed/logger": "^5.16.0",
-    "@tsed/schema": "^6.55.2",
+    "@tsed/schema": "^6.69.0-rc.3",
     "mongoose": "^5.12.2"
   }
 }

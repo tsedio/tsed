@@ -33,11 +33,11 @@
     "sqlite3": "^5.0.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "6.68.0",
-    "@tsed/core": "^6.48.6",
-    "@tsed/di": "^6.48.6",
-    "@tsed/json-mapper": "^6.48.6",
-    "@tsed/schema": "^6.48.6",
+    "@tsed/ajv": "^6.69.0-rc.3",
+    "@tsed/core": "^6.69.0-rc.3",
+    "@tsed/di": "^6.69.0-rc.3",
+    "@tsed/json-mapper": "^6.69.0-rc.3",
+    "@tsed/schema": "^6.69.0-rc.3",
     "knex": "^0.95.11",
     "mssql": "^7.2.1",
     "mysql": "^2.18.1",

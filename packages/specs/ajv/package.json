@@ -21,10 +21,10 @@
     "ajv": "8.6.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.18.0",
-    "@tsed/di": "^6.18.0",
-    "@tsed/exceptions": "^6.18.0",
-    "@tsed/schema": "^6.18.0",
+    "@tsed/core": "^6.69.0-rc.3",
+    "@tsed/di": "^6.69.0-rc.3",
+    "@tsed/exceptions": "^6.69.0-rc.3",
+    "@tsed/schema": "^6.69.0-rc.3",
     "ajv": "7||8"
   }
 }

@@ -18,10 +18,10 @@
     "socket.io-client": "^4.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.54.0",
-    "@tsed/core": "^6.54.0",
-    "@tsed/di": "^6.54.0",
-    "@tsed/socketio": "^6.54.0",
+    "@tsed/common": "^6.69.0-rc.3",
+    "@tsed/core": "^6.69.0-rc.3",
+    "@tsed/di": "^6.69.0-rc.3",
+    "@tsed/socketio": "^6.69.0-rc.3",
     "socket.io-client": "^4.0.1"
   }
 }

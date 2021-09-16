@@ -35,8 +35,8 @@
     "@tsed/schema": "6.69.0-rc.3"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.60.2",
-    "@tsed/openspec": "^6.60.2",
-    "@tsed/schema": "^6.60.2"
+    "@tsed/core": "^6.69.0-rc.3",
+    "@tsed/openspec": "^6.69.0-rc.3",
+    "@tsed/schema": "^6.69.0-rc.3"
   }
 }
