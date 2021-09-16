@@ -32,14 +32,14 @@
     "mongoose": "^5.12.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "6.55.2",
-    "@tsed/common": "6.55.2",
-    "@tsed/core": "6.55.2",
-    "@tsed/di": "6.55.2",
-    "@tsed/exceptions": "6.55.2",
+    "@tsed/ajv": "^6.68.2",
+    "@tsed/common": "^6.68.2",
+    "@tsed/core": "^6.68.2",
+    "@tsed/di": "^6.68.2",
+    "@tsed/exceptions": "^6.68.2",
     "@tsed/logger": "^5.16.0",
-    "@tsed/openspec": "6.55.2",
-    "@tsed/schema": "6.55.2",
+    "@tsed/openspec": "^6.68.2",
+    "@tsed/schema": "^6.68.2",
     "mongoose": "^5.12.2"
   }
 }

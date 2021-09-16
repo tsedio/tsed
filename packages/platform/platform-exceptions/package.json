@@ -23,9 +23,9 @@
     "@tsed/schema": "6.68.2"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.67.0",
-    "@tsed/di": "^6.67.0",
-    "@tsed/exceptions": "6.67.0",
-    "@tsed/schema": "6.67.0"
+    "@tsed/core": "^6.68.2",
+    "@tsed/di": "^6.68.2",
+    "@tsed/exceptions": "^6.68.2",
+    "@tsed/schema": "^6.68.2"
   }
 }

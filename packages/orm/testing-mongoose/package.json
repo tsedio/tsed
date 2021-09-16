@@ -24,9 +24,9 @@
     "@tsed/mongoose": "6.68.2"
   },
   "peerDependencies": {
-    "@tsed/common": "6.48.6",
-    "@tsed/core": "6.48.6",
-    "@tsed/mongoose": "6.48.6",
+    "@tsed/common": "^6.68.2",
+    "@tsed/core": "^6.68.2",
+    "@tsed/mongoose": "^6.68.2",
     "mongoose": "^5.12.2"
   }
 }
