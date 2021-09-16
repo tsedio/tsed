@@ -1,8 +1,9 @@
-import {PlatformTest} from "@tsed/common";
-import {ParamTypes} from "@tsed/platform-params";
+import {PlatformRequest, PlatformTest, ProviderScope} from "@tsed/common";
+import {Injectable} from "@tsed/di";
+import {ParamTypes, PathParams, QueryParams} from "@tsed/platform-params";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {buildPlatformParams} from "../../../../../test/helper/buildPlatformParams";
+import {buildPlatformParams, invokePlatformParams} from "../../../../../test/helper/buildPlatformParams";
 
 const sandbox = Sinon.createSandbox();
 
@@ -19,7 +20,8 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.getReq());
@@ -33,7 +35,8 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.getRequest());
@@ -47,7 +50,8 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.request);
@@ -61,7 +65,8 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.getRes());
@@ -75,7 +80,8 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.getResponse());
@@ -89,7 +95,8 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.response);
@@ -103,10 +110,11 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq(h.next);
+      expect(value).to.be.a("function");
     });
     it("should return ERR", async () => {
       // GIVEN
@@ -118,14 +126,15 @@ describe("PlatformParams", () => {
       h.err = new Error();
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq(h.err);
     });
     it("should return $CTX", async () => {
       // GIVEN
-      const {param, h, platformParams} = await buildPlatformParams({
+      const {param, h, $ctx, platformParams} = await buildPlatformParams({
         sandbox,
         paramType: ParamTypes.$CTX,
         dataPath: "$ctx"
@@ -133,41 +142,44 @@ describe("PlatformParams", () => {
 
       // WHEN
       // @ts-ignore
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq(h.request.$ctx);
+      expect(value).to.deep.eq($ctx);
     });
     it("should return RESPONSE_DATA", async () => {
       // GIVEN
-      const {param, h, platformParams} = await buildPlatformParams({
+      const {param, h, $ctx, platformParams} = await buildPlatformParams({
         sandbox,
         paramType: ParamTypes.RESPONSE_DATA,
         dataPath: "$ctx.data"
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq(h.request.$ctx.data);
+      expect(value).to.deep.eq($ctx.data);
     });
     it("should return ENDPOINT_INFO", async () => {
       // GIVEN
-      const {param, request, h, platformParams} = await buildPlatformParams({
+      const {param, h, $ctx, platformParams} = await buildPlatformParams({
         sandbox,
         paramType: ParamTypes.ENDPOINT_INFO,
         dataPath: "$ctx.endpoint"
       });
 
       // @ts-ignore
-      request.$ctx.endpoint = "endpoint";
+      $ctx.endpoint = "endpoint";
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq(request.$ctx.endpoint);
+      expect(value).to.deep.eq($ctx.endpoint);
     });
     it("should return BODY", async () => {
       // GIVEN
@@ -178,7 +190,8 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.getRequest().body);
@@ -192,7 +205,8 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.getRequest().params);
@@ -206,7 +220,8 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.getRequest().query);
@@ -220,7 +235,8 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq({
@@ -237,24 +253,26 @@ describe("PlatformParams", () => {
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.getRequest().cookies);
     });
     it("should return SESSION", async () => {
       // GIVEN
-      const {param, h, platformParams} = await buildPlatformParams({
+      const {param, h, $ctx, platformParams} = await buildPlatformParams({
         sandbox,
         paramType: ParamTypes.SESSION,
         dataPath: "$ctx.request.session"
       });
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq(h.request.session);
+      expect(value).to.deep.eq($ctx.request.session);
     });
     it("should return LOCALS", async () => {
       // GIVEN
@@ -266,10 +284,167 @@ describe("PlatformParams", () => {
       h.err = new Error();
 
       // WHEN
-      const [value] = await platformParams.getArgs(h, [param]);
+      const pipes = await platformParams.getPipes(param);
+      const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
       expect(value).to.deep.eq($ctx.getResponse().locals);
+    });
+  });
+  describe("compileHandler()", () => {
+    it("should build all params and return value (SINGLETON)", async () => {
+      const platformParams = await invokePlatformParams();
+
+      @Injectable()
+      class MyCtrTest {
+        get(@PathParams() params: any, @QueryParams() query: any) {
+          return {params, query};
+        }
+      }
+
+      const handler = await platformParams.compileHandler({
+        token: MyCtrTest,
+        propertyKey: "get"
+      });
+
+      const $ctx = PlatformTest.createRequestContext({
+        request: new PlatformRequest({
+          query: {
+            test: "test"
+          },
+          params: {
+            s: "s"
+          }
+        } as any)
+      });
+
+      const result = await handler({
+        $ctx
+      });
+
+      expect(result).to.deep.eq({
+        query: {
+          test: "test"
+        },
+        params: {
+          s: "s"
+        }
+      });
+    });
+    it("should build all params and return value (REQUEST)", async () => {
+      const platformParams = await invokePlatformParams();
+
+      @Injectable({
+        scope: ProviderScope.REQUEST
+      })
+      class MyCtrTest {
+        get(@PathParams() params: any, @QueryParams() query: any) {
+          return {params, query};
+        }
+      }
+
+      const $ctx = PlatformTest.createRequestContext({
+        request: new PlatformRequest({
+          query: {
+            test: "test"
+          },
+          params: {
+            s: "s"
+          }
+        } as any)
+      });
+
+      const handler = await platformParams.compileHandler({
+        token: MyCtrTest,
+        propertyKey: "get"
+      });
+
+      const result = await handler({
+        $ctx
+      });
+
+      expect(result).to.deep.eq({
+        query: {
+          test: "test"
+        },
+        params: {
+          s: "s"
+        }
+      });
+    });
+    it("should call without args", async () => {
+      const platformParams = await invokePlatformParams();
+
+      @Injectable()
+      class MyCtrTest {
+        get() {
+          return "test";
+        }
+      }
+
+      const $ctx = PlatformTest.createRequestContext({
+        request: new PlatformRequest({
+          query: {
+            test: "test"
+          },
+          params: {
+            s: "s"
+          }
+        } as any)
+      });
+
+      const handler = await platformParams.compileHandler({
+        token: MyCtrTest,
+        propertyKey: "get"
+      });
+
+      const result = await handler({
+        $ctx
+      });
+
+      expect(result).to.deep.eq("test");
+    });
+    it("should with default args", async () => {
+      const platformParams = await invokePlatformParams();
+
+      @Injectable()
+      class MyCtrTest {
+        get(query: any, params: any) {
+          return {query, params};
+        }
+      }
+
+      const $ctx = PlatformTest.createRequestContext({
+        request: new PlatformRequest({
+          query: {
+            test: "test"
+          },
+          params: {
+            s: "s"
+          }
+        } as any)
+      });
+
+      const handler = await platformParams.compileHandler({
+        token: MyCtrTest,
+        propertyKey: "get",
+        async getCustomArgs(scope: any) {
+          return [scope.$ctx.request.query, scope.$ctx.request.params];
+        }
+      });
+
+      const result = await handler({
+        $ctx
+      });
+
+      expect(result).to.deep.eq({
+        params: {
+          s: "s"
+        },
+        query: {
+          test: "test"
+        }
+      });
     });
   });
 });

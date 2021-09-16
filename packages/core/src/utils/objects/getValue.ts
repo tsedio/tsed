@@ -70,10 +70,13 @@ export function getValue(...args: any[]) {
   const keys: string[] = expression.split(separator);
 
   const getValue = (key: string) => {
-    if (scope instanceof Map || isFunction(scope.get)) {
-      return scope[key] || scope.get(key);
+    if (scope[key] !== undefined || key in scope) {
+      return scope[key];
     }
-    return scope[key];
+
+    if (isFunction(scope.get)) {
+      return scope.get(key);
+    }
   };
 
   while ((scope = getValue(keys.shift()!)) && keys.length) {}

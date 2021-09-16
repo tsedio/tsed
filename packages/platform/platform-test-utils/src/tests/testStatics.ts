@@ -1,4 +1,5 @@
 import {Controller, PlatformRouter, PlatformTest} from "@tsed/common";
+import {getValue} from "@tsed/core";
 import {Configuration} from "@tsed/di";
 import {expect} from "chai";
 import {readFileSync} from "fs";
@@ -9,7 +10,7 @@ import {PlatformTestOptions} from "../interfaces";
 class CustomStaticsCtrl {
   constructor(router: PlatformRouter, @Configuration() config: Configuration) {
     router.statics("/", {
-      root: String(config.statics["/"])
+      root: String(getValue(config, "statics./"))
     });
   }
 }

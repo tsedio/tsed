@@ -1,4 +1,4 @@
-import {PlatformCacheSettings, Configuration, OnInit} from "@tsed/common";
+import {Configuration, OnInit} from "@tsed/di";
 import {Module, OnDestroy} from "@tsed/di";
 import {MONGOOSE_CONNECTIONS} from "./services/MongooseConnections";
 import {MongooseService} from "./services/MongooseService";
@@ -12,7 +12,7 @@ import {MongooseService} from "./services/MongooseService";
 export class MongooseModule implements OnDestroy, OnInit {
   constructor(private mongooseService: MongooseService, @Configuration() private settings: Configuration) {
     // auto configure the cache manager when mongoose is used with @tsed/mongoose
-    const cache = this.settings.get<PlatformCacheSettings>("cache");
+    const cache = this.settings.get<any>("cache");
 
     // istanbul ignore next
     if (cache?.mongoose) {

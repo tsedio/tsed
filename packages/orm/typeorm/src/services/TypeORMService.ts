@@ -1,4 +1,4 @@
-import {Inject, InjectorService, Service} from "@tsed/common";
+import {Inject, InjectorService, Service} from "@tsed/di";
 import {getValue} from "@tsed/core";
 import {Connection, ConnectionManager, ConnectionOptions, getConnectionManager} from "typeorm";
 import {createConnection} from "../utils/createConnection";

@@ -1,6 +1,6 @@
 {
   "name": "@tsed/root",
-  "version": "6.68.3",
+  "version": "6.69.0-rc.3",
   "description": "A TypeScript Framework on top of Express",
   "private": true,
   "author": "Romain Lenzotti",
@@ -103,7 +103,7 @@
     "source-map-support": "0.5.19"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "1.18.6",
+    "@tsed/monorepo-utils": "1.19.0",
     "@typedproject/ts-doc": "4.0.13",
     "@types/axios": "0.14.0",
     "@types/chai": "4.2.12",
