@@ -70,12 +70,14 @@ export function getValue(...args: any[]) {
   const keys: string[] = expression.split(separator);
 
   const getValue = (key: string) => {
-    if (scope[key] !== undefined || key in scope) {
-      return scope[key];
-    }
+    if (scope) {
+      if (scope[key] !== undefined || key in scope) {
+        return scope[key];
+      }
 
-    if (isFunction(scope.get)) {
-      return scope.get(key);
+      if (isFunction(scope.get)) {
+        return scope.get(key);
+      }
     }
   };
 
