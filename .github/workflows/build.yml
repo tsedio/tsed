@@ -179,7 +179,7 @@ jobs:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn docs:publish
+        run: yarn clean && yarn docs:publish
 
   publish-examples:
     runs-on: ubuntu-latest
