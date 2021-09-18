@@ -52,7 +52,7 @@ export class AnyToPromise<T = any> {
     });
   }
 
-  get isDone(): boolean {
+  isDone(): boolean {
     return this.status !== AnyToPromiseStatus.PENDING;
   }
 
@@ -60,7 +60,7 @@ export class AnyToPromise<T = any> {
     this.#hasNextFunction = true;
 
     return (error?: any) => {
-      if (this.isDone) {
+      if (this.isDone()) {
         return;
       }
 
@@ -72,7 +72,7 @@ export class AnyToPromise<T = any> {
    *
    */
   async call(cb: Function): Promise<AnyPromiseResult<T>> {
-    if (this.isDone) {
+    if (this.isDone()) {
       return this as any;
     }
 
@@ -86,7 +86,7 @@ export class AnyToPromise<T = any> {
   }
 
   reject(er: any) {
-    if (this.isDone) {
+    if (this.isDone()) {
       return;
     }
 
@@ -96,7 +96,7 @@ export class AnyToPromise<T = any> {
   }
 
   resolve(response: any = {}) {
-    if (this.isDone) {
+    if (this.isDone()) {
       return;
     }
 
@@ -108,7 +108,7 @@ export class AnyToPromise<T = any> {
   destroy() {}
 
   cancel() {
-    if (this.isDone) {
+    if (this.isDone()) {
       return;
     }
 
@@ -123,7 +123,7 @@ export class AnyToPromise<T = any> {
   }
 
   handle(process: any, additionalProps = {}): any {
-    if (this.isDone) {
+    if (this.isDone()) {
       return;
     }
 

@@ -11,7 +11,7 @@ export interface HandlerContextOptions {
 
 export class AnyToPromiseWithCtx extends AnyToPromise {
   public $ctx: PlatformContext;
-  public err: any;
+  public err: unknown;
 
   constructor({$ctx, err}: HandlerContextOptions) {
     super();
@@ -19,10 +19,10 @@ export class AnyToPromiseWithCtx extends AnyToPromise {
     this.err = err;
   }
 
-  get isDone(): boolean {
+  isDone(): boolean {
     const {$ctx} = this;
 
-    if (!$ctx.isDone()) {
+    if (!$ctx?.isDone()) {
       if ($ctx?.request.isAborted() || $ctx?.response.isDone()) {
         this.destroy();
 
@@ -32,7 +32,7 @@ export class AnyToPromiseWithCtx extends AnyToPromise {
       }
     }
 
-    return this.status !== AnyToPromiseStatus.PENDING;
+    return super.isDone();
   }
 
   async call(cb: Function): Promise<AnyPromiseResult<any>> {
