@@ -20,6 +20,7 @@
     "newLine": "LF",
     "noEmit": true,
     "allowJs": true,
+    "skipLibCheck": true,
     "lib": [
       "ES2019",
       "esnext.asynciterable"
@@ -38,6 +39,8 @@
   "exclude": [
     "docs",
     "integration",
-    "examples/**"
+    "examples/**",
+    "coverage",
+    ".nyc_output"
   ]
 }

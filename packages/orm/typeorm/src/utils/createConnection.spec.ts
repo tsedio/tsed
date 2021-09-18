@@ -1,65 +1,60 @@
-import {expect} from "chai";
-import Sinon, {spy, stub, SinonSpy, SinonStub} from "sinon";
 import * as TypeORM from "typeorm";
 import {ConnectionManager} from "typeorm";
 import * as Connection from "typeorm/connection/Connection";
-
 import {createConnection} from "./createConnection";
 
-describe("createConnection", () => {
-  let connectionManager: ConnectionManager;
-  let connectionManagerCreateSpy: SinonSpy;
-
-  let getConnectionManagerStub: SinonStub;
-  let connectionStub: SinonStub;
-
+function getConnectionFixture() {
   const defaultConnection: any = {
     name: "default",
     isConnected: true,
-    connect: stub().resolves(),
-    close: stub()
+    connect: jest.fn().mockResolvedValue(undefined),
+    close: jest.fn()
   };
   const customConnection: any = {
     isConnected: true,
-    connect: stub().resolves(),
-    close: stub()
+    connect: jest.fn().mockResolvedValue(undefined),
+    close: jest.fn()
   };
 
-  beforeEach(() => {
-    // create ConnectionManager
-    connectionManager = new ConnectionManager();
-    connectionManagerCreateSpy = spy(connectionManager, "create");
-    // replace
-    getConnectionManagerStub = stub(TypeORM, "getConnectionManager").returns(connectionManager);
+  // create ConnectionManager
+  const connectionManager = new ConnectionManager();
+  const connectionManagerCreateSpy = jest.spyOn(connectionManager, "create");
+  // replace
+  const getConnectionManagerStub = jest.spyOn(TypeORM, "getConnectionManager").mockReturnValue(connectionManager);
 
-    // replace Connection constructor
-    connectionStub = stub(Connection, "Connection").callsFake((opts) => {
-      if (opts.name == null || opts.name === "default") {
-        return defaultConnection;
-      } else {
-        customConnection.name = opts.name;
-        return customConnection;
-      }
-    });
+  // replace Connection constructor
+  const connectionStub = jest.spyOn(Connection, "Connection").mockImplementation((opts) => {
+    if (opts.name == null || opts.name === "default") {
+      return defaultConnection;
+    } else {
+      customConnection.name = opts.name;
+      return customConnection;
+    }
   });
 
-  afterEach(() => {
-    getConnectionManagerStub.restore();
-    connectionStub.restore();
-  });
+  return {
+    connectionManager,
+    connectionManagerCreateSpy,
+    getConnectionManagerStub,
+    connectionStub,
+    defaultConnection,
+    customConnection
+  };
+}
 
+describe("createConnection", () => {
   it("should create connection and return cache", async () => {
     // GIVEN
+    const {customConnection, connectionManagerCreateSpy, defaultConnection} = getConnectionFixture();
 
     // WHEN
     const result1 = await createConnection({name: "mydb", type: "mysql"});
     const result2 = await createConnection({name: "mydb", type: "mysql"});
 
     // THEN
-    expect(result1).to.deep.eq(customConnection);
-    expect(result2).to.deep.eq(customConnection);
-    expect(connectionManagerCreateSpy).calledOnce.and.calledWithExactly({name: "mydb", type: "mysql"});
-    expect(defaultConnection.connect).to.have.not.been.called;
-    expect(customConnection.connect).to.have.been.calledOnce;
+    expect(result1).toEqual(customConnection);
+    expect(result2).toEqual(customConnection);
+    expect(connectionManagerCreateSpy).toHaveBeenCalledWith({name: "mydb", type: "mysql"});
+    expect(defaultConnection.connect).not.toHaveBeenCalled();
   });
 });

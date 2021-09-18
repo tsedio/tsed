@@ -1,6 +1,5 @@
 import {Inject, Injectable} from "@tsed/di";
-import {Lambda, PathParams, PlatformServerless, QueryParams, PlatformServerlessTest} from "@tsed/platform-serverless";
-import {expect} from "chai";
+import {Lambda, PathParams, PlatformServerless, PlatformServerlessTest, QueryParams} from "@tsed/platform-serverless";
 
 @Injectable()
 class TimeslotsService {
@@ -44,8 +43,8 @@ describe("PlatformServerless", () => {
   it("should load lambda", () => {
     const handlers = PlatformServerlessTest.callbacks;
 
-    expect(handlers).to.have.property("get");
-    expect(handlers).to.have.property("byID");
+    expect(handlers).toHaveProperty("get");
+    expect(handlers).toHaveProperty("byID");
   });
 
   it("should call lambda", async () => {
@@ -54,8 +53,8 @@ describe("PlatformServerless", () => {
       end_date: new Date("2020-01-10")
     });
 
-    expect(response.statusCode).to.equal(200);
-    expect(JSON.parse(response.body)).to.deep.equal({
+    expect(response.statusCode).toBe(200);
+    expect(JSON.parse(response.body)).toEqual({
       endDate: "2020-01-10T00:00:00.000Z",
       startDate: "2020-01-01T00:00:00.000Z",
       value: "test"

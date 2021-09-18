@@ -50,12 +50,12 @@ jobs:
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
         run: yarn test:coverage
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: run-${{ matrix.test_number }}
-          parallel: true
+#      - name: Coveralls
+#        uses: coverallsapp/github-action@master
+#        with:
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          flag-name: run-${{ matrix.test_number }}
+#          parallel: true
 
 #  coveralls:
 #    needs: test
@@ -147,12 +147,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: yarn release
-      - uses: actions/upload-artifact@v2
-        with:
-          name: packages
-          path: |
-            package.json
-            packages/*/package.json
 
   publish-pages:
     runs-on: ubuntu-latest
@@ -165,6 +159,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: 'production'
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -179,7 +175,7 @@ jobs:
           CI: true
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn clean && yarn docs:publish
+        run: yarn docs:publish
 
   publish-examples:
     runs-on: ubuntu-latest
@@ -192,13 +188,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: 'production'
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: actions/download-artifact@v2
-        with:
-          name: packages
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Publish examples

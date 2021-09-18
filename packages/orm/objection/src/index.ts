@@ -21,6 +21,8 @@ export * from "./decorators/decimal";
 export * from "./decorators/idColumn";
 export * from "./decorators/columnOptions";
 
+export * from "./domain/ColumnOpts";
+
 // services
 export * from "./services/ObjectionConnection";
 

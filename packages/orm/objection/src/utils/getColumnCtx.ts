@@ -1,10 +1,10 @@
 import {JsonEntityStore} from "@tsed/schema";
-import {ColumnOptions} from "../domain/ColumnOptions";
+import {ColumnOpts} from "../domain/ColumnOpts";
 
 /**
  * @ignore
  */
-export interface ColumnCtx extends ColumnOptions {
+export interface ColumnCtx extends ColumnOpts {
   entity: JsonEntityStore;
   schema: any;
 }
@@ -14,7 +14,7 @@ export interface ColumnCtx extends ColumnOptions {
  */
 export function getColumnCtx(entity: JsonEntityStore): ColumnCtx {
   const schema = entity.schema.toJSON();
-  const {columnType = schema.type, options = {}} = entity.store.get<Partial<ColumnOptions>>("objection", {});
+  const {columnType = schema.type, options = {}} = entity.store.get<Partial<ColumnOpts>>("objection", {});
 
   return {entity, columnType, options, schema};
 }

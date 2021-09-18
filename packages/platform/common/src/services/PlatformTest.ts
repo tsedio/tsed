@@ -12,7 +12,7 @@ import {PlatformResponse} from "./PlatformResponse";
  * @platform
  */
 export class PlatformTest extends DITest {
-  public static platformBuilder: Type<PlatformBuilder>;
+  public static platformBuilder: Type<PlatformBuilder<any, any>>;
 
   static async create(options: Partial<TsED.Configuration> = {}) {
     DITest.injector = PlatformTest.createInjector(options);

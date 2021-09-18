@@ -1,7 +1,6 @@
 import {Store} from "@tsed/core";
 import {Decimal} from "@tsed/objection";
 import {getJsonSchema} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("@Decimal", () => {
   it("should set metadata", () => {
@@ -10,7 +9,7 @@ describe("@Decimal", () => {
       prop: number;
     }
 
-    expect(getJsonSchema(MyModel)).to.deep.eq({
+    expect(getJsonSchema(MyModel)).toEqual({
       properties: {
         prop: {
           type: "number"
@@ -18,7 +17,7 @@ describe("@Decimal", () => {
       },
       type: "object"
     });
-    expect(Store.from(MyModel, "prop").get("objection")).to.deep.eq({
+    expect(Store.from(MyModel, "prop").get("objection")).toEqual({
       columnType: "number",
       options: {
         precision: 12,
@@ -34,7 +33,7 @@ describe("@Decimal", () => {
       prop: number;
     }
 
-    expect(getJsonSchema(MyModel)).to.deep.eq({
+    expect(getJsonSchema(MyModel)).toEqual({
       properties: {
         prop: {
           type: "number"
@@ -42,7 +41,7 @@ describe("@Decimal", () => {
       },
       type: "object"
     });
-    expect(Store.from(MyModel, "prop").get("objection")).to.deep.eq({
+    expect(Store.from(MyModel, "prop").get("objection")).toEqual({
       columnType: "number",
       options: {
         type: "decimal"

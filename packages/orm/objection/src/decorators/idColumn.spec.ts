@@ -1,7 +1,6 @@
 import {Store} from "@tsed/core";
 import {IdColumn} from "@tsed/objection";
 import {getJsonSchema} from "@tsed/schema";
-import {expect} from "chai";
 import {Model} from "objection";
 
 describe("@IdColumn", () => {
@@ -11,7 +10,7 @@ describe("@IdColumn", () => {
       id: number;
     }
 
-    expect(getJsonSchema(MyModel)).to.deep.eq({
+    expect(getJsonSchema(MyModel)).toEqual({
       properties: {
         id: {
           type: "number"
@@ -19,13 +18,13 @@ describe("@IdColumn", () => {
       },
       type: "object"
     });
-    expect(Store.from(MyModel, "id").get("objection")).to.deep.eq({
+    expect(Store.from(MyModel, "id").get("objection")).toEqual({
       columnType: "idColumn",
       options: {
         type: "increments"
       }
     });
 
-    expect(MyModel.idColumn).to.deep.eq("id");
+    expect(MyModel.idColumn).toEqual("id");
   });
 });

@@ -1,8 +1,11 @@
 import {Type} from "@tsed/core";
 import {DITest} from "@tsed/di";
+import {Logger} from "@tsed/logger";
+import {JsonEntityStore} from "@tsed/schema";
 import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, APIGatewayProxyHandler, Context} from "aws-lambda";
 import {APIGatewayProxyResult} from "aws-lambda/trigger/api-gateway-proxy";
 import {PlatformServerless} from "../builder/PlatformServerless";
+import {ServerlessContext} from "../domain/ServerlessContext";
 
 export interface LambdaPromiseResult extends Promise<APIGatewayProxyResult> {}
 
@@ -189,5 +192,19 @@ export class PlatformServerlessTest extends DITest {
       await DITest.injector.destroy();
       DITest._injector = null;
     }
+  }
+
+  static createServerlessContext({endpoint}: {endpoint: JsonEntityStore}) {
+    const context: any = LambdaClientRequest.createFakeContext();
+    const event: any = LambdaClientRequest.createFakeContext();
+
+    return new ServerlessContext({
+      event,
+      context,
+      id: context.awsRequestId,
+      logger: PlatformServerlessTest.injector.logger as Logger,
+      injector: PlatformServerlessTest.injector,
+      endpoint
+    });
   }
 }

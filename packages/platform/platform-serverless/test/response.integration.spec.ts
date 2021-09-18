@@ -1,7 +1,6 @@
 import {Injectable} from "@tsed/di";
 import {BodyParams, Patch, Post, Put, PlatformServerlessTest} from "@tsed/platform-serverless";
 import {MinLength, Property, Returns} from "@tsed/schema";
-import {expect} from "chai";
 
 class Model {
   @Property()
@@ -29,11 +28,9 @@ class BodyLambda {
 }
 
 describe("Response", () => {
-  beforeEach(
-    PlatformServerlessTest.bootstrap({
-      lambda: [BodyLambda]
-    })
-  );
+  beforeEach(PlatformServerlessTest.bootstrap({
+    lambda: [BodyLambda]
+  }));
   afterEach(() => PlatformServerlessTest.reset());
 
   describe("scenario1: Post lambda with body and handle response", () => {
@@ -43,9 +40,9 @@ describe("Response", () => {
         name: "Test"
       });
 
-      expect(response.statusCode).to.equal(216);
-      expect(JSON.parse(response.body)).to.deep.equal({ test: 'hello' });
-      expect(response.headers).to.deep.equal({ 'test-x': 'id' });
+      expect(response.statusCode).toBe(216);
+      expect(JSON.parse(response.body)).toEqual({ test: 'hello' });
+      expect(response.headers).toEqual({ 'test-x': 'id' });
     });
   });
 });

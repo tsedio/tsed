@@ -1,5 +1,5 @@
 import {Knex} from "knex";
-import {createColumns} from "../../../src/utils/createColumns";
+import {createColumns} from "../../../src";
 import {User} from "../models/User";
 
 export async function up(knex: Knex): Promise<any> {

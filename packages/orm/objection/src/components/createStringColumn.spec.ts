@@ -1,12 +1,7 @@
-import {Decimal, Entity} from "@tsed/objection";
+import {Entity} from "@tsed/objection";
 import {MaxLength, Property} from "@tsed/schema";
-import {expect} from "chai";
-import Knex from "knex";
-import Sinon from "sinon";
 import {createTableStub} from "../../test/helpers/knex/table";
 import {createColumns} from "../utils/createColumns";
-
-const sandbox = Sinon.createSandbox();
 
 describe("createNumberColumn", () => {
   it("should create table from a given class (with maxLength)", async () => {
@@ -17,10 +12,10 @@ describe("createNumberColumn", () => {
       prop: string;
     }
 
-    const table = createTableStub(sandbox);
+    const table = createTableStub();
     await createColumns(table, User);
 
-    expect(table.string).to.have.been.calledWithExactly("prop", 200);
+    expect(table.string).toHaveBeenCalledWith("prop", 200);
   });
 
   it("should create table from a given class (without maxLength)", async () => {
@@ -30,9 +25,9 @@ describe("createNumberColumn", () => {
       prop: string;
     }
 
-    const table = createTableStub(sandbox);
+    const table = createTableStub();
     await createColumns(table, User);
 
-    expect(table.string).to.have.been.calledWithExactly("prop", undefined);
+    expect(table.string).toHaveBeenCalledWith("prop", undefined);
   });
 });

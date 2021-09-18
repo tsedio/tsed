@@ -1,13 +1,12 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
-import Knex from "knex";
+import {Knex} from "knex";
 import {serialize} from "@tsed/json-mapper";
-import {OBJECTION_CONNECTION} from "../src";
+import {OBJECTION_CONNECTION} from "@tsed/objection";
 import {User} from "./helpers/models/User";
 import {Server} from "./helpers/Server";
 
 describe("Objection integrations", () => {
-  before(() => {
+  beforeAll(() => {
     PlatformTest.create({
       knex: {
         client: "sqlite3",
@@ -35,7 +34,7 @@ describe("Objection integrations", () => {
       }
     });
   });
-  after(async () => {
+  afterAll(async () => {
     const conn = PlatformTest.injector.get<Knex>(OBJECTION_CONNECTION)!;
     await conn.destroy();
   });
@@ -44,12 +43,12 @@ describe("Objection integrations", () => {
     const conn = PlatformTest.injector.get<ReturnType<Knex>>(OBJECTION_CONNECTION)!;
 
     const user = await conn.table("users").where({id: 1}).first();
-    expect(user.name).to.be.equal("John");
+    expect(user.name).toBe("John");
   });
 
   it("should be able to work with Objection.js Model", async () => {
     const user = await User.query().findById(1);
-    expect(user.name).to.be.equal("John");
+    expect(user.name).toBe("John");
   });
 
   it("should serialize correctly the model", async () => {
@@ -57,14 +56,14 @@ describe("Objection integrations", () => {
 
     const result = serialize(user, {type: User, groups: ['creation'], endpoint: true})
 
-    expect(result).to.deep.eq({ name: 'John' })
+    expect(result).toEqual({ name: 'John' })
 
     const result2 = serialize(user, {type: User, groups: [], endpoint: true})
 
-    expect(result2).to.deep.eq({ id: 1, name: 'John' })
+    expect(result2).toEqual({ id: 1, name: 'John' })
 
     const result3 = serialize(user, {type: User, groups: []})
 
-    expect(result3).to.deep.eq({ id: 1, name: 'John' })
+    expect(result3).toEqual({ id: 1, name: 'John' })
   });
 });

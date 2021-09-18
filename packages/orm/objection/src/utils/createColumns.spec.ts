@@ -1,12 +1,8 @@
 import {catchError} from "@tsed/core";
 import {Decimal, Entity, IdColumn} from "@tsed/objection";
 import {MaxLength, Property} from "@tsed/schema";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {createTableStub} from "../../test/helpers/knex/table";
 import {createColumns} from "./createColumns";
-
-const sandbox = Sinon.createSandbox();
 
 describe("createTable", () => {
   it("should create table from a given class (columns doesn't exists)", async () => {
@@ -29,16 +25,16 @@ describe("createTable", () => {
       active: boolean;
     }
 
-    const table = createTableStub(sandbox);
+    const table = createTableStub();
 
     createColumns(table, User);
 
-    expect(table.increments).to.have.been.calledWithExactly("id");
-    expect(table.primary).to.have.been.calledWithExactly();
-    expect(table.string).to.have.been.calledWithExactly("name", 200);
-    expect(table.decimal).to.have.been.calledWithExactly("age", undefined, undefined);
-    expect(table.decimal).to.have.been.calledWithExactly("score", 12, 1);
-    expect(table.boolean).to.have.been.calledWithExactly("active");
+    expect(table.increments).toHaveBeenCalledWith("id");
+    expect(table.primary).toHaveBeenCalledWith();
+    expect(table.string).toHaveBeenCalledWith("name", 200);
+    expect(table.decimal).toHaveBeenCalledWith("age", undefined, undefined);
+    expect(table.decimal).toHaveBeenCalledWith("score", 12, 1);
+    expect(table.boolean).toHaveBeenCalledWith("active");
   });
   it("should create table from a given class (columns exists)", () => {
     @Entity("users")
@@ -60,7 +56,7 @@ describe("createTable", () => {
       active: boolean;
     }
 
-    const table = createTableStub(sandbox);
+    const table = createTableStub();
 
     createColumns(table, User);
   });
@@ -72,9 +68,9 @@ describe("createTable", () => {
       date: any;
     }
 
-    const table = createTableStub(sandbox);
+    const table = createTableStub();
     const error = catchError(() => createColumns(table, User));
 
-    expect(error).to.eq("Column type object isn't supported. Add function to ColumnTypesContainer to map the column with Knex");
+    expect(error).toBe("Column type object isn't supported. Add function to ColumnTypesContainer to map the column with Knex");
   });
 });

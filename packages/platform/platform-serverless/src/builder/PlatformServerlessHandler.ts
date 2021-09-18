@@ -1,5 +1,5 @@
 import {AnyPromiseResult, AnyToPromise, isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import {Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
+import {BaseContext, Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
@@ -47,7 +47,7 @@ export class PlatformServerlessHandler {
           this.processResult(result, $ctx);
         } catch (er) {
           $ctx.response.status(500).body(er);
-          await this.exceptions.catch(er, $ctx);
+          await this.exceptions.catch(er, ($ctx as unknown) as BaseContext);
         }
       });
 
