@@ -1,8 +1,7 @@
-import {expect} from "chai";
 import {join} from "path";
-import {importComponents} from "./importComponents";
 import {Test1} from "./data/Test1";
 import {Test2} from "./data/Test2";
+import {importComponents} from "./importComponents";
 
 describe("importComponents", () => {
   it("should import symbols", async () => {
@@ -13,7 +12,7 @@ describe("importComponents", () => {
     const symbols = await importComponents(config, []);
 
     // THEN
-    expect(symbols).to.deep.eq([
+    expect(symbols).toEqual([
       {
         route: undefined,
         token: Test1
@@ -35,7 +34,7 @@ describe("importComponents", () => {
     const symbols = await importComponents(config, []);
 
     // THEN
-    expect(symbols).to.deep.eq([
+    expect(symbols).toEqual([
       {
         route: "/path/to/endpoint",
         token: Test1

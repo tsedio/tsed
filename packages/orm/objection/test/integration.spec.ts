@@ -25,15 +25,6 @@ describe("Objection integrations", () => {
     await conn.migrate.latest();
     await conn.seed.run();
   });
-  afterEach(() => {
-    PlatformTest.bootstrap(Server, {
-      knex: {
-        client: "sqlite3",
-        connection: ":memory:",
-        useNullAsDefault: true
-      }
-    });
-  });
   afterAll(async () => {
     const conn = PlatformTest.injector.get<Knex>(OBJECTION_CONNECTION)!;
     await conn.destroy();

@@ -1,7 +1,4 @@
-import {Provider} from "../domain/Provider";
-import {IProvider} from "../interfaces/IProvider";
-import {ProviderType} from "../domain/ProviderType";
-import {GlobalProviders} from "../registries/GlobalProviders";
+import {GlobalProviders, Provider, ProviderType} from "@tsed/di";
 import {importComponents} from "./importComponents";
 
 async function recursiveImports(providers: {token: string; route?: string}[], settings: Partial<TsED.Configuration>, properties: string[]) {

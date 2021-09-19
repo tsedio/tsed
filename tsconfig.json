@@ -10,7 +10,8 @@
         "packages/specs/*/src",
         "packages/orm/*/src",
         "packages/graphql/*/src",
-        "packages/third-parties/*/src"
+        "packages/third-parties/*/src",
+        "packages/utils/*/src"
       ]
     }
   },

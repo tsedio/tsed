@@ -1,5 +1,6 @@
 import {classOf, constructorOf, nameOf, toMap, Type} from "@tsed/core";
-import {Container, createContainer, getConfiguration, importProviders, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
+import {Container, createContainer, getConfiguration, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
+import {importProviders} from "@tsed/components-scan";
 import {PerfLogger} from "@tsed/perf";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {PlatformViews} from "@tsed/platform-views";

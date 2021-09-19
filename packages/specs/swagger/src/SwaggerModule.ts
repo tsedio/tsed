@@ -8,9 +8,9 @@ import {
   PlatformApplication,
   PlatformContext,
   PlatformRouter,
-  useCtxHandler
+  useCtxHandler,
+  normalizePath
 } from "@tsed/common";
-import {normalizePath} from "@tsed/core";
 import Fs from "fs";
 import {join} from "path";
 import {SwaggerSettings} from "./interfaces";

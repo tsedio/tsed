@@ -1,7 +1,7 @@
-import globby from "globby";
 import {cleanGlobPatterns} from "./cleanGlobPatterns";
 
 export async function importFiles(patterns: string | string[], exclude: string[]): Promise<any[]> {
+  const {default: globby} = await import("globby");
   const files = await globby(cleanGlobPatterns(patterns, exclude));
   const symbols: any[] = [];
 

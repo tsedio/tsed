@@ -1,14 +1,6 @@
-import {normalizePath} from "@tsed/core";
 import {resolve} from "path";
-
-function isTsEnv() {
-  return (
-    (require && require.extensions && require.extensions[".ts"]) ||
-    process.env["TS_TEST"] ||
-    process.env.JEST_WORKER_ID !== undefined ||
-    process.env.NODE_ENV === "test"
-  );
-}
+import {isTsEnv} from "./isTsEnv";
+import {normalizePath} from "./normalizePath";
 
 function mapExcludes(excludes: string[]) {
   return excludes.map((s: string) => `!${s.replace(/!/gi, "")}`);

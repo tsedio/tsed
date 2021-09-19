@@ -13,4 +13,3 @@ export * from "./decorators/useMethodDecorators";
 
 // objects
 export * from "./objects";
-export * from "./path/normalizePath";
