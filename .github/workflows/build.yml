@@ -50,12 +50,12 @@ jobs:
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
         run: yarn test:coverage
-#      - name: Coveralls
-#        uses: coverallsapp/github-action@master
-#        with:
-#          github-token: ${{ secrets.GITHUB_TOKEN }}
-#          flag-name: run-${{ matrix.test_number }}
-#          parallel: true
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-${{ matrix.test_number }}
+          parallel: true
 
 #  coveralls:
 #    needs: test
@@ -105,16 +105,16 @@ jobs:
         run: yarn build
       - name: Run benchmarks
         run: yarn benchmarks
-#      - uses: actions/github-script@v4
-#        with:
-#          github-token: ${{secrets.GITHUB_TOKEN}}
-#          script: |
-#            context.issue.number && github.issues.createComment({
-#              issue_number: context.issue.number,
-#              owner: context.repo.owner,
-#              repo: context.repo.repo,
-#              body: require('fs').readFileSync('./tools/benchmarks/dist/benchmarks.md', {encoding: 'utf8'})
-#            })
+      - uses: actions/github-script@v4
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            context.issue.number && github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: require('fs').readFileSync('./tools/benchmarks/dist/benchmarks.md', {encoding: 'utf8'})
+            })
       - uses: actions/upload-artifact@v2
         with:
           name: benchmarks
@@ -165,9 +165,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - uses: actions/download-artifact@v2
-        with:
-          name: packages
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000
       - name: Publish pages
