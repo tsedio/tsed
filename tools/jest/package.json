@@ -1,10 +1,10 @@
 {
   "name": "@tsed/jest-config",
-  "version": "6.69.1",
+  "version": "6.69.2",
   "private": true,
   "main": "jest.config.js",
+  "scripts": {},
   "dependencies": {},
   "devDependencies": {},
-  "scripts": {},
   "peerDependencies": {}
 }
