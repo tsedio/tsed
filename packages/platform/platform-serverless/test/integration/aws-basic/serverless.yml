@@ -1,0 +1,19 @@
+service: aws-basic
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  lambdaHashingVersion: '20201221'
+
+plugins:
+  - serverless-offline
+
+functions:
+  timeslots:
+    handler: handler.get
+    events:
+      - http:
+          path: /
+          method: get
