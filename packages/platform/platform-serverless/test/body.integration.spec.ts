@@ -2,7 +2,6 @@ import "@tsed/ajv";
 import {Injectable} from "@tsed/di";
 import {BodyParams, Patch, PlatformServerlessTest, Post, Put} from "@tsed/platform-serverless";
 import {MinLength, Property, Returns} from "@tsed/schema";
-import {expect} from "chai";
 
 class Model {
   @Property()
@@ -34,11 +33,9 @@ class BodyLambda {
 }
 
 describe("Body params", () => {
-  beforeEach(
-    PlatformServerlessTest.bootstrap({
-      lambda: [BodyLambda]
-    })
-  );
+  beforeEach(PlatformServerlessTest.bootstrap({
+    lambda: [BodyLambda]
+  }));
   afterEach(() => PlatformServerlessTest.reset());
 
   describe("scenario1: Post lambda with body", () => {
@@ -48,8 +45,8 @@ describe("Body params", () => {
         name: "Test"
       });
 
-      expect(response.statusCode).to.equal(200);
-      expect(JSON.parse(response.body)).to.deep.equal({
+      expect(response.statusCode).toBe(200);
+      expect(JSON.parse(response.body)).toEqual({
         id: "1"
       });
     });
@@ -62,13 +59,13 @@ describe("Body params", () => {
         name: "Test"
       });
 
-      expect(response.statusCode).to.equal(201);
-      expect(JSON.parse(response.body)).to.deep.equal({
+      expect(response.statusCode).toBe(201);
+      expect(JSON.parse(response.body)).toEqual({
         "id": "1",
         "name": "Test"
       });
-      expect(response.headers).to.deep.equal({"x-test": "test"});
-      expect(response.multiValueHeaders).to.deep.equal({});
+      expect(response.headers).toEqual({"x-test": "test"});
+      expect(response.multiValueHeaders).toEqual({});
     });
     it("should throw an error", async () => {
       const response = await PlatformServerlessTest.request.call("scenario2").put("/").body({
@@ -76,8 +73,8 @@ describe("Body params", () => {
         name: "T"
       });
 
-      expect(response.statusCode).to.equal(400);
-      expect(JSON.parse(response.body)).to.deep.equal({
+      expect(response.statusCode).toBe(400);
+      expect(JSON.parse(response.body)).toEqual({
         "errors": [
           {
             "data": "T",
@@ -106,8 +103,8 @@ describe("Body params", () => {
         name: "Test"
       });
 
-      expect(response.statusCode).to.equal(200);
-      expect(JSON.parse(response.body)).to.deep.equal({
+      expect(response.statusCode).toBe(200);
+      expect(JSON.parse(response.body)).toEqual({
         "id": "1",
         "name": "Test"
       });

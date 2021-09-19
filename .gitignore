@@ -54,7 +54,8 @@ tools/**/dist
 .vscode
 /reports
 
-/.nyc_output/
+/.nyc_output
+**/.nyc_output
 /test/integration/app/spec/swagger.json
 /docs/.vuepress/dist
 /mongodb-binaries

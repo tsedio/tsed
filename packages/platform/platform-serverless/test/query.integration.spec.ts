@@ -1,6 +1,5 @@
 import {Injectable} from "@tsed/di";
 import {Get, PlatformServerlessTest, QueryParams} from "@tsed/platform-serverless";
-import {expect} from "chai";
 
 @Injectable()
 class QueryLambda {
@@ -14,11 +13,9 @@ class QueryLambda {
 }
 
 describe("Query params", () => {
-  beforeEach(
-    PlatformServerlessTest.bootstrap({
-      lambda: [QueryLambda]
-    })
-  );
+  beforeEach(PlatformServerlessTest.bootstrap({
+    lambda: [QueryLambda]
+  }));
   afterEach(() => PlatformServerlessTest.reset());
 
   describe("scenario1: Get lambda with query", () => {
@@ -28,8 +25,8 @@ describe("Query params", () => {
         end_date: new Date("2020-01-10")
       });
 
-      expect(response.statusCode).to.equal(200);
-      expect(JSON.parse(response.body)).to.deep.equal({
+      expect(response.statusCode).toBe(200);
+      expect(JSON.parse(response.body)).toEqual({
         endDate: "2020-01-10T00:00:00.000Z",
         startDate: "2020-01-01T00:00:00.000Z"
       });

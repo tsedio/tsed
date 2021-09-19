@@ -1,5 +1,5 @@
 import {StoreSet} from "@tsed/core";
-import type {ColumnOptions} from "../domain/ColumnOptions";
+import type {ColumnOpts} from "../domain/ColumnOpts";
 
 /**
  *
@@ -7,6 +7,6 @@ import type {ColumnOptions} from "../domain/ColumnOptions";
  * @decorator
  * @objection
  */
-export function ColumnOptions(options: Partial<ColumnOptions>): PropertyDecorator {
+export function ColumnOptions(options: Partial<ColumnOpts>): PropertyDecorator {
   return StoreSet("objection", options) as any;
 }

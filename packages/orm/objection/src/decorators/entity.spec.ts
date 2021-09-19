@@ -1,15 +1,14 @@
 import {Entity} from "@tsed/objection";
-import {expect} from "chai";
 
 describe("@Entity", () => {
   it("should set metadata", () => {
     @Entity("models")
     class MyModel {}
 
-    expect((MyModel as any).jsonSchema).to.deep.eq({
+    expect((MyModel as any).jsonSchema).toEqual({
       type: "object"
     });
-    expect((MyModel as any).tableName).to.deep.eq("models");
+    expect((MyModel as any).tableName).toEqual("models");
   });
 
   it("should throw metadata when the tableName is empty", () => {
@@ -20,6 +19,6 @@ describe("@Entity", () => {
     } catch (er) {
       actualError = er;
     }
-    expect(actualError.message).to.deep.eq("Please provide a table name");
+    expect(actualError.message).toEqual("Please provide a table name");
   });
 });

@@ -1,12 +1,12 @@
-import Knex from "knex";
+import {Knex} from "knex";
 
-export function createTableStub(sandbox: any) {
+export function createTableStub() {
   return ({
-    increments: sandbox.stub().returnsThis(),
-    bigIncrements: sandbox.stub().returnsThis(),
-    primary: sandbox.stub().returnsThis(),
-    string: sandbox.stub().returnsThis(),
-    decimal: sandbox.stub().returnsThis(),
-    boolean: sandbox.stub().returnsThis()
+    increments: jest.fn().mockReturnThis(),
+    bigIncrements: jest.fn().mockReturnThis(),
+    primary:jest.fn().mockReturnThis(),
+    string: jest.fn().mockReturnThis(),
+    decimal: jest.fn().mockReturnThis(),
+    boolean: jest.fn().mockReturnThis()
   } as unknown) as Knex.TableBuilder;
 }

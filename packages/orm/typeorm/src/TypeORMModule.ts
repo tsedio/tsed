@@ -29,7 +29,11 @@ registerProvider({
       get(type, options: any) {
         try {
           return getCustomRepository(type, options.connection || "default");
-        } catch (er) {}
+        } catch (er) {
+          if (process.env.NODE_ENV !== "test") {
+            throw er;
+          }
+        }
       }
     }
   ],

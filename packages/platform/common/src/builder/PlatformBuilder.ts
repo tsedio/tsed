@@ -44,7 +44,7 @@ export interface PlatformBootstrap {
  * @platform
  */
 export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
-  static currentPlatform: Type<PlatformBuilder> & PlatformBootstrap;
+  static currentPlatform: Type<PlatformBuilder<any, any>> & PlatformBootstrap;
   readonly name: string = "";
   protected startedAt = new Date();
   protected locals: Container;

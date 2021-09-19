@@ -1,7 +1,6 @@
 import {DITest, Inject, Injectable} from "@tsed/di";
 import {QueryParams} from "@tsed/platform-params";
 import {JsonEntityStore} from "@tsed/schema";
-import {expect} from "chai";
 import {ServerlessContext} from "../domain/ServerlessContext";
 import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
 
@@ -50,7 +49,7 @@ describe("PlatformServerlessHandler", () => {
     const handler = await service.createHandler(TimeslotsLambdaController, "get");
     const result = await handler($ctx);
 
-    expect(result).to.deep.eq({
+    expect(result).toEqual({
       body: '{"value":"test"}',
       headers: {},
       isBase64Encoded: false,

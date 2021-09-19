@@ -2,7 +2,7 @@ import {PlatformBuilder, PlatformTest} from "@tsed/common";
 import {PlatformKoa} from "./components/PlatformKoa";
 
 PlatformTest.platformBuilder = PlatformKoa;
-PlatformBuilder.currentPlatform = PlatformKoa;
+PlatformBuilder.currentPlatform = PlatformKoa as any;
 
 // interfaces
 export * from "./interfaces";

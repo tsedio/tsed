@@ -12,6 +12,8 @@
     "node_modules",
     "test",
     "lib",
+    "coverage",
+    ".nyc_output",
     "**/*.spec.ts"
   ]
 }

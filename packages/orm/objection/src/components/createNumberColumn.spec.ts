@@ -1,12 +1,7 @@
 import {Decimal, Entity} from "@tsed/objection";
 import {Property} from "@tsed/schema";
-import {expect} from "chai";
-import Knex from "knex";
-import Sinon from "sinon";
 import {createTableStub} from "../../test/helpers/knex/table";
 import {createColumns} from "../utils/createColumns";
-
-const sandbox = Sinon.createSandbox();
 
 describe("createNumberColumn", () => {
   it("should create table from a given class (default)", async () => {
@@ -16,10 +11,10 @@ describe("createNumberColumn", () => {
       prop: number;
     }
 
-    const table = createTableStub(sandbox);
+    const table = createTableStub();
     await createColumns(table, User);
 
-    expect(table.decimal).to.have.been.calledWithExactly("prop", undefined, undefined);
+    expect(table.decimal).toHaveBeenCalledWith("prop", undefined, undefined);
   });
 
   it("should create table from a given class (decimal)", async () => {
@@ -29,9 +24,9 @@ describe("createNumberColumn", () => {
       prop: number;
     }
 
-    const table = createTableStub(sandbox);
+    const table = createTableStub();
     await createColumns(table, User);
 
-    expect(table.decimal).to.have.been.calledWithExactly("prop", 12, 1);
+    expect(table.decimal).toHaveBeenCalledWith("prop", 12, 1);
   });
 });

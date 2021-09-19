@@ -1,12 +1,7 @@
-import {EndpointMetadata, Get, Location, PlatformResponse, PlatformTest, Redirect} from "@tsed/common";
-import {Returns} from "@tsed/schema";
-import {expect} from "chai";
-import Sinon from "sinon";
-import {FakeResponse} from "../../../../../test/helper";
+import {Location, PlatformTest, Redirect} from "@tsed/common";
+import {PlatformServerlessTest, Get} from "@tsed/platform-serverless";
+import {JsonEntityStore, Returns} from "@tsed/schema";
 import {setResponseHeaders} from "./setResponseHeaders";
-
-const sandbox = Sinon.createSandbox();
-const next = sandbox.stub();
 
 describe("setResponseHeaders", () => {
   beforeEach(() => PlatformTest.create());
@@ -19,40 +14,55 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const response: any = new FakeResponse(sandbox);
-    const ctx = PlatformTest.createRequestContext();
+    const ctx = PlatformServerlessTest.createServerlessContext({
+      endpoint: JsonEntityStore.fromMethod(Test, "test")
+    });
 
-    ctx.endpoint = EndpointMetadata.get(Test, "test");
-    ctx.response = new PlatformResponse(response);
-
+    jest.spyOn(ctx.response, "setHeaders");
+    jest.spyOn(ctx.response, "status");
     // WHEN
     await setResponseHeaders(ctx);
 
     // THEN
-    expect(response.set).to.have.been.calledWithExactly("x-header", "test");
-    expect(response.status).to.have.been.calledWithExactly(200);
+    expect(ctx.response.setHeaders).toHaveBeenCalledWith({"x-header": "test"});
+    expect(ctx.response.status).toHaveBeenCalledWith(200);
   });
-
-  it("should redirect", async () => {
+  it("should redirect with 301", async () => {
     class Test {
       @Get("/")
       @Redirect(301, "/path")
       test() {}
     }
 
-    const response: any = new FakeResponse(sandbox);
-    const ctx = PlatformTest.createRequestContext();
-
-    ctx.endpoint = EndpointMetadata.get(Test, "test");
-    ctx.response = new PlatformResponse(response);
+    const ctx = PlatformServerlessTest.createServerlessContext({
+      endpoint: JsonEntityStore.fromMethod(Test, "test")
+    });
+    jest.spyOn(ctx.response, "redirect");
 
     // WHEN
-    await setResponseHeaders(ctx);
+    await setResponseHeaders(ctx as any);
 
     // THEN
-    expect(response.redirect).to.have.been.calledWithExactly(301, "/path");
+    expect(ctx.response.redirect).toHaveBeenCalledWith(301, "/path");
   });
+  it("should redirect with default", async () => {
+    class Test {
+      @Get("/")
+      @Redirect(302, "/path")
+      test() {}
+    }
 
+    const ctx = PlatformServerlessTest.createServerlessContext({
+      endpoint: JsonEntityStore.fromMethod(Test, "test")
+    });
+    jest.spyOn(ctx.response, "redirect");
+
+    // WHEN
+    await setResponseHeaders(ctx as any);
+
+    // THEN
+    expect(ctx.response.redirect).toHaveBeenCalledWith(302, "/path");
+  });
   it("should call location", async () => {
     class Test {
       @Get("/")
@@ -60,19 +70,17 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const response: any = new FakeResponse(sandbox);
-    const ctx = PlatformTest.createRequestContext();
-
-    ctx.endpoint = EndpointMetadata.get(Test, "test");
-    ctx.response = new PlatformResponse(response);
+    const ctx = PlatformServerlessTest.createServerlessContext({
+      endpoint: JsonEntityStore.fromMethod(Test, "test")
+    });
+    jest.spyOn(ctx.response, "location");
 
     // WHEN
-    await setResponseHeaders(ctx);
+    await setResponseHeaders(ctx as any);
 
     // THEN
-    expect(response.location).to.have.been.calledWithExactly("/path");
+    expect(ctx.response.location).toHaveBeenCalledWith("/path");
   });
-
   it("should do nothing when headers is already sent", async () => {
     class Test {
       @Get("/")
@@ -80,18 +88,20 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const response: any = new FakeResponse(sandbox);
-    response.headersSent = true;
+    const ctx = PlatformServerlessTest.createServerlessContext({
+      endpoint: JsonEntityStore.fromMethod(Test, "test")
+    });
 
-    const ctx = PlatformTest.createRequestContext();
+    await ctx.destroy();
 
-    ctx.endpoint = EndpointMetadata.get(Test, "test");
-    ctx.response = new PlatformResponse(response);
+    jest.spyOn(ctx.response, "setHeaders");
+    jest.spyOn(ctx.response, "isDone");
 
     // WHEN
     await setResponseHeaders(ctx);
 
     // THEN
-    return expect(response.set).to.not.have.been.called;
+    return expect(ctx.response.isDone).toHaveBeenCalled();
+    return expect(ctx.response.setHeaders).not.toHaveBeenCalled();
   });
 });

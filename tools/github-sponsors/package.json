@@ -1,0 +1,15 @@
+{
+  "name": "@tsed/github-sponsors",
+  "version": "1.0.1",
+  "private": true,
+  "scripts": {
+    "sponsors": "node ./bin/github-sponsors.js"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "devDependencies": {
+    "yaml": "^1.10.2"
+  }
+}

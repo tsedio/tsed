@@ -2,11 +2,8 @@
   "include": [
     "packages/*/src/**/*.ts",
     "packages/specs/*/src/**/*.ts",
-    "packages/graphql/*/src/**/*.ts",
-    "packages/orm/*/src/**/*.ts",
     "packages/platform/*/src/**/*.ts",
-    "packages/security/*/src/**/*.ts",
-    "packages/third-parties/*/src/**/*.ts"
+    "packages/security/*/src/**/*.ts"
   ],
   "exclude": [
     "**/*.d.ts",
@@ -17,6 +14,11 @@
     "packages/**/ExpressRouter.ts",
     "packages/**/RouteService.ts",
     "packages/platform/platform-test-utils",
+    "packages/platform/platform-serverless",
+    "packages/security/oidc-provider",
+    "packages/orm",
+    "packages/graphql",
+    "packages/third-parties",
     "packages/perf",
     "packages/specs/swagger/src/decorators/{title,description,example}.ts",
     "**/interfaces/**",
@@ -34,7 +36,7 @@
   ],
   "check-coverage": true,
   "lines": 99.53,
-  "statements": 99.51,
+  "statements": 99.5,
   "functions": 98.95,
   "branches": 88.38
 }

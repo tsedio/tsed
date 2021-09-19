@@ -1,7 +1,6 @@
 import {Injectable} from "@tsed/di";
 import {Delete, Get, PathParams, PlatformServerlessTest} from "@tsed/platform-serverless";
 import {Returns} from "@tsed/schema";
-import {expect} from "chai";
 
 @Injectable()
 class PathParamLambda {
@@ -20,11 +19,9 @@ class PathParamLambda {
 }
 
 describe("Path params", () => {
-  beforeEach(
-    PlatformServerlessTest.bootstrap({
-      lambda: [PathParamLambda]
-    })
-  );
+  beforeEach(PlatformServerlessTest.bootstrap({
+    lambda: [PathParamLambda]
+  }));
   afterEach(() => PlatformServerlessTest.reset());
 
   describe("scenario1: Get lambda with params", () => {
@@ -33,8 +30,8 @@ describe("Path params", () => {
         id: "1"
       });
 
-      expect(response.statusCode).to.equal(200);
-      expect(JSON.parse(response.body)).to.deep.equal({
+      expect(response.statusCode).toBe(200);
+      expect(JSON.parse(response.body)).toEqual({
         id: "1"
       });
     });
@@ -46,8 +43,8 @@ describe("Path params", () => {
         id: "1"
       });
 
-      expect(response.statusCode).to.equal(204);
-      expect(response.body).to.deep.equal("");
+      expect(response.statusCode).toBe(204);
+      expect(response.body).toEqual("");
     });
   });
 });

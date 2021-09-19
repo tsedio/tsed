@@ -6,11 +6,7 @@ import {ColumnCtx} from "../utils/getColumnCtx";
  * @ignore
  */
 export function createNumberColumn(table: Knex.TableBuilder, {entity, options}: ColumnCtx) {
-  switch (options.type) {
-    default:
-    case "decimal":
-      table.decimal(entity.propertyName, options.precision, options.scale);
-  }
+  table.decimal(entity.propertyName, options.precision, options.scale);
 }
 
 ColumnTypesContainer.set("number", createNumberColumn);

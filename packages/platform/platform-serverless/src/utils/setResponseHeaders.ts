@@ -29,7 +29,7 @@ export function setResponseHeaders(ctx: ServerlessContext) {
   response.setHeaders(toHeaders(headers));
 
   if (endpoint.redirect) {
-    response.redirect(endpoint.redirect.status || 302, endpoint.redirect.url);
+    response.redirect(endpoint.redirect.status, endpoint.redirect.url);
   }
 
   if (endpoint.location) {
