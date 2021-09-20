@@ -559,14 +559,7 @@ export class InjectorService extends Container {
     const {token, deps, construct, isBindable, imports, provider} = this.mapInvokeOptions(target, locals, options);
 
     if (provider) {
-      if (!provider.injectable && options.parent) {
-        throw new InjectionError(token, `${nameOf(token)} ${provider.type} is not injectable to another provider`);
-      }
-
-      const {onInvoke} = GlobalProviders.getRegistrySettings(target);
-      if (onInvoke) {
-        onInvoke(provider, locals, deps);
-      }
+      GlobalProviders.onInvoke(provider, locals, deps);
     }
 
     let instance: any;

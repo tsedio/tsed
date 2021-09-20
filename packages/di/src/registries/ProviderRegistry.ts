@@ -6,15 +6,13 @@ import {GlobalProviders} from "./GlobalProviders";
 /**
  *
  */
-GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider, {
-  injectable: false
-});
+GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider);
 
 /**
  * Register a provider configuration.
  * @param {IProvider<any>} provider
  */
-export function registerProvider(provider: Partial<IProvider<any>>): void {
+export function registerProvider(provider: Partial<IProvider>): void {
   if (!provider.provide) {
     throw new Error("Provider.provide is required");
   }
@@ -126,36 +124,6 @@ export const registerValue = (provider: any | IProvider<any>, value?: any): void
   GlobalProviders.merge(provider.provide, provider);
 };
 
-/**
- * Add a new service in the `ProviderRegistry`. This service will be built when `InjectorService` will be loaded.
- *
- * #### Example
- *
- * ```typescript
- * import {registerService, InjectorService} from "@tsed/di";
- *
- * export default class MyFooService {
- *     constructor(){}
- *     getFoo() {
- *         return "test";
- *     }
- * }
- *
- * registerService({provide: MyFooService});
- * // or
- * registerService(MyFooService);
- *
- * const injector = new InjectorService();
- * injector.load();
- *
- * const myFooService = injector.get<MyFooService>(MyFooService);
- * myFooService.getFoo(); // test
- * ```
- *
- * @param provider Provider configuration.
- * @deprecated Since 2021-05-15. Use registerProvider instead.
- */
-export const registerService = GlobalProviders.createRegisterFn(ProviderType.SERVICE);
 /**
  * Add a new controller in the `ProviderRegistry`. This controller will be built when `InjectorService` will be loaded.
  *

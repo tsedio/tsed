@@ -4,9 +4,6 @@ import {expect} from "chai";
 
 describe("ControllerRegistry", () => {
   class Test {}
-
-  before(() => {});
-
   it("should create registry with the right parameters", () => {
     const settings = GlobalProviders.getRegistrySettings(ProviderType.CONTROLLER);
 

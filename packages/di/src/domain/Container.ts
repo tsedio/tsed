@@ -1,6 +1,6 @@
-import {IProvider} from "../interfaces/IProvider";
-import {ProviderType} from "./ProviderType";
-import {TokenProvider} from "../interfaces/TokenProvider";
+import type {IProvider} from "../interfaces/IProvider";
+import type {ProviderType} from "./ProviderType";
+import type {TokenProvider} from "../interfaces/TokenProvider";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {LocalsContainer} from "./LocalsContainer";
 import {Provider} from "./Provider";

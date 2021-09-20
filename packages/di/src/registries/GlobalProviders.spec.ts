@@ -8,13 +8,10 @@ describe("GlobalProviderRegistry", () => {
       const providers = new GlobalProviderRegistry();
 
       // WHEN
-      providers.createRegistry("test", Provider, {
-        injectable: false
-      });
+      providers.createRegistry("test", Provider, {});
 
       // THEN
       expect(providers.getRegistrySettings("test")).to.deep.eq({
-        injectable: false,
         model: Provider
       });
     });
@@ -23,9 +20,7 @@ describe("GlobalProviderRegistry", () => {
     it("should get registry from provider type (CONTROLLER)", () => {
       // GIVEN
       const providers = new GlobalProviderRegistry();
-      providers.createRegistry(ProviderType.CONTROLLER, Provider, {
-        injectable: false
-      });
+      providers.createRegistry(ProviderType.CONTROLLER, Provider, {});
 
       const provider = new Provider(Symbol.for("token"));
       provider.type = ProviderType.CONTROLLER;
@@ -37,7 +32,6 @@ describe("GlobalProviderRegistry", () => {
 
       // THEN
       expect(settings).to.deep.eq({
-        injectable: false,
         model: Provider
       });
     });
@@ -51,7 +45,6 @@ describe("GlobalProviderRegistry", () => {
 
       // THEN
       expect(settings).to.deep.eq({
-        injectable: true,
         model: Provider
       });
     });

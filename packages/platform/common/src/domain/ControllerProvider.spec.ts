@@ -20,23 +20,6 @@ describe("ControllerProvider", () => {
     };
   });
 
-  it("should return all keys available for serialisation", () => {
-    expect(getEnumerableKeys(controllerProvider)).to.deep.equal([
-      "type",
-      "injectable",
-      "path",
-      "useClass",
-      "scope",
-      "configuration",
-      "instance",
-      "deps",
-      "imports",
-      "useFactory",
-      "useAsyncFactory",
-      "useValue"
-    ]);
-  });
-
   it("should have type field to equals to controller", () => {
     expect(controllerProvider.type).to.equal("controller");
   });

@@ -15,10 +15,6 @@ export class ServerlessContext extends DIContext {
   readonly request: ServerlessRequest;
   readonly context: Context;
   readonly event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>;
-  /**
-   * The request container used by the Ts.ED DI. It contain all services annotated with `@Scope(ProviderScope.REQUEST)`
-   */
-  readonly container = new LocalsContainer<any>();
   readonly endpoint: JsonEntityStore;
 
   constructor({event, context, endpoint, ...options}: ServerlessContextOptions) {

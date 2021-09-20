@@ -20,7 +20,7 @@ import {registerProvider} from "../registries/ProviderRegistry";
  * @returns {Function}
  * @decorator
  */
-export function Injectable(options: Partial<IProvider<any>> = {}): ClassDecorator {
+export function Injectable(options: Partial<IProvider> = {}): ClassDecorator {
   return (provide: any) => {
     registerProvider({
       ...options,
