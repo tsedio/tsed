@@ -1,20 +1,16 @@
-import {Enumerable, NotEnumerable} from "@tsed/core";
 import {Provider, ProviderType, TokenProvider} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
-import {EndpointMetadata} from "./EndpointMetadata";
 import {ROUTER_OPTIONS} from "../constants/routerOptions";
-import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 import {ControllerMiddlewares} from "../decorators/class/controller";
+import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
+import {EndpointMetadata} from "./EndpointMetadata";
 
 export class ControllerProvider<T = any> extends Provider<T> {
-  @NotEnumerable()
   readonly entity: JsonEntityStore;
-
-  @NotEnumerable()
   private router: PlatformRouterMethods;
 
-  constructor(provide: any) {
-    super(provide);
+  constructor(provide: TokenProvider, options: Partial<Provider> = {}) {
+    super(provide, options);
     this.type = ProviderType.CONTROLLER;
     this.entity = JsonEntityStore.from(provide);
   }
@@ -23,7 +19,6 @@ export class ControllerProvider<T = any> extends Provider<T> {
     return this.entity.path;
   }
 
-  @Enumerable()
   set path(path: string) {
     this.entity.path = path;
   }

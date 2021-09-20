@@ -1,0 +1,102 @@
+{
+  "body": null,
+  "headers": {
+    "Host": "localhost:3000",
+    "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:92.0) Gecko/20100101 Firefox/92.0",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept-Language": "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3",
+    "Accept-Encoding": "gzip, deflate",
+    "Connection": "keep-alive",
+    "Cookie": "_ga=GA1.1.1835906944.1615547695; didomi_token=eyJ1c2VyX2lkIjoiMTc5ZTU2ZjktMmEwYy02Yzk0LWFmYzYtMjQ5NmJjYmJjZjhmIiwiY3JlYXRlZCI6IjIwMjEtMDYtMDdUMDc6NDY6MDUuMTQ0WiIsInVwZGF0ZWQiOiIyMDIxLTA2LTA3VDA3OjQ2OjA1LjE0NFoiLCJ2ZXJzaW9uIjpudWxsfQ==; io=BilU3o50fG9AZAnIAAAB",
+    "Upgrade-Insecure-Requests": "1",
+    "Sec-Fetch-Dest": "document",
+    "Sec-Fetch-Mode": "navigate",
+    "Sec-Fetch-Site": "none",
+    "Sec-Fetch-User": "?1",
+    "Cache-Control": "max-age=0"
+  },
+  "httpMethod": "GET",
+  "isBase64Encoded": false,
+  "multiValueHeaders": {
+    "Host": [
+      "localhost:3000"
+    ],
+    "User-Agent": [
+      "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:92.0) Gecko/20100101 Firefox/92.0"
+    ],
+    "Accept": [
+      "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"
+    ],
+    "Accept-Language": [
+      "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3"
+    ],
+    "Accept-Encoding": [
+      "gzip, deflate"
+    ],
+    "Connection": [
+      "keep-alive"
+    ],
+    "Cookie": [
+      "_ga=GA1.1.1835906944.1615547695; didomi_token=eyJ1c2VyX2lkIjoiMTc5ZTU2ZjktMmEwYy02Yzk0LWFmYzYtMjQ5NmJjYmJjZjhmIiwiY3JlYXRlZCI6IjIwMjEtMDYtMDdUMDc6NDY6MDUuMTQ0WiIsInVwZGF0ZWQiOiIyMDIxLTA2LTA3VDA3OjQ2OjA1LjE0NFoiLCJ2ZXJzaW9uIjpudWxsfQ==; io=BilU3o50fG9AZAnIAAAB"
+    ],
+    "Upgrade-Insecure-Requests": [
+      "1"
+    ],
+    "Sec-Fetch-Dest": [
+      "document"
+    ],
+    "Sec-Fetch-Mode": [
+      "navigate"
+    ],
+    "Sec-Fetch-Site": [
+      "none"
+    ],
+    "Sec-Fetch-User": [
+      "?1"
+    ],
+    "Cache-Control": [
+      "max-age=0"
+    ]
+  },
+  "multiValueQueryStringParameters": null,
+  "path": "",
+  "pathParameters": null,
+  "queryStringParameters": null,
+  "requestContext": {
+    "accountId": "offlineContext_accountId",
+    "apiId": "offlineContext_apiId",
+    "authorizer": {
+      "principalId": "offlineContext_authorizer_principalId"
+    },
+    "domainName": "offlineContext_domainName",
+    "domainPrefix": "offlineContext_domainPrefix",
+    "extendedRequestId": "cktrkt4no0000sezsb5mf891f",
+    "httpMethod": "GET",
+    "identity": {
+      "accessKey": null,
+      "accountId": "offlineContext_accountId",
+      "apiKey": "offlineContext_apiKey",
+      "apiKeyId": "offlineContext_apiKeyId",
+      "caller": "offlineContext_caller",
+      "cognitoAuthenticationProvider": "offlineContext_cognitoAuthenticationProvider",
+      "cognitoAuthenticationType": "offlineContext_cognitoAuthenticationType",
+      "cognitoIdentityId": "offlineContext_cognitoIdentityId",
+      "cognitoIdentityPoolId": "offlineContext_cognitoIdentityPoolId",
+      "principalOrgId": null,
+      "sourceIp": "127.0.0.1",
+      "user": "offlineContext_user",
+      "userAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:92.0) Gecko/20100101 Firefox/92.0",
+      "userArn": "offlineContext_userArn"
+    },
+    "path": "",
+    "protocol": "HTTP/1.1",
+    "requestId": "cktrkt4no0001sezs9zg4hp81",
+    "requestTime": "19/Sep/2021:20:51:47 +0200",
+    "requestTimeEpoch": 1632077507786,
+    "resourceId": "offlineContext_resourceId",
+    "resourcePath": "/dev",
+    "stage": "dev"
+  },
+  "resource": "",
+  "stageVariables": null
+}

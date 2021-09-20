@@ -160,6 +160,7 @@
       "packages/*",
       "packages/graphql/*",
       "packages/orm/*",
+      "packages/utils/*",
       "packages/platform/*",
       "packages/security/*",
       "packages/specs/*",

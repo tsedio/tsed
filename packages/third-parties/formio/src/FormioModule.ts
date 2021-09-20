@@ -1,5 +1,14 @@
-import {Constant, Inject, InjectorService, OnReady, OnRoutesInit, PlatformApplication, PlatformRouteDetails} from "@tsed/common";
-import {deepClone, normalizePath} from "@tsed/core";
+import {
+  Constant,
+  Inject,
+  InjectorService,
+  OnReady,
+  OnRoutesInit,
+  PlatformApplication,
+  PlatformRouteDetails,
+  normalizePath
+} from "@tsed/common";
+import {deepClone} from "@tsed/core";
 import {Module} from "@tsed/di";
 import {AlterActions} from "./components/AlterActions";
 import {AlterAudit} from "./components/AlterAudit";

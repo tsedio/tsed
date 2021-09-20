@@ -16,7 +16,6 @@
   "dependencies": {
     "@tsed/core": "6.69.3",
     "chalk": "4.1.0",
-    "globby": "11.0.3",
     "tslib": "2.2.0"
   },
   "devDependencies": {

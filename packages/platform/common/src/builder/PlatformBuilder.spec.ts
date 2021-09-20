@@ -8,9 +8,10 @@ import {
   Controller,
   InjectorService,
   Module,
-  OnReady
+  OnReady,
+  normalizePath
 } from "@tsed/common";
-import {normalizePath, Type} from "@tsed/core";
+import {Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
 import {expect} from "chai";
 import {join, resolve} from "path";

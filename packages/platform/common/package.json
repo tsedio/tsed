@@ -61,6 +61,7 @@
   },
   "dependencies": {
     "@tsed/core": "6.69.3",
+    "@tsed/components-scan": "6.69.3",
     "@tsed/di": "6.69.3",
     "@tsed/exceptions": "6.69.3",
     "@tsed/json-mapper": "6.69.3",

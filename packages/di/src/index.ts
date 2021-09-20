@@ -14,9 +14,6 @@ export * from "./errors/InjectionError";
 export * from "./errors/UndefinedTokenError";
 
 export * from "./utils/createContainer";
-export * from "./utils/importFiles";
-export * from "./utils/importComponents";
 export * from "./utils/getConfiguration";
 export * from "./utils/getConfiguration";
-export * from "./utils/importProviders";
 export * from "./utils/setLoggerLevel";

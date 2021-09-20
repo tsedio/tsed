@@ -1,9 +1,10 @@
 import {ProviderScope} from "@tsed/di";
 import {expect} from "chai";
-import {getEnumerableKeys} from "@tsed/core";
 import {Provider} from "./Provider";
 
 class T1 {}
+
+class T2 {}
 
 const S1 = Symbol.for("S1");
 
@@ -17,21 +18,22 @@ describe("Provider", () => {
       expect(provider.provide).to.eq(T1);
       expect(provider.useClass).to.eq(T1);
       expect(!!provider.store).to.eq(true);
-      expect(getEnumerableKeys(provider)).to.deep.eq([
-        "type",
-        "injectable",
-        "customProp",
-        "useClass",
-        "scope",
-        "configuration",
-        "instance",
-        "deps",
-        "imports",
-        "useFactory",
-        "useAsyncFactory",
-        "useValue"
-      ]);
       expect(provider.clone()).to.deep.eq(provider);
+    });
+
+    it("should override the token provider", () => {
+      const provider = new Provider(T1);
+      provider.scope = ProviderScope.REQUEST;
+      provider.customProp = "test";
+      provider.useClass = T2;
+
+      const cloned = provider.clone();
+
+      expect(provider.provide).to.eq(T1);
+      expect(provider.useClass).to.eq(T2);
+      expect(!!provider.store).to.eq(true);
+      expect(cloned.useClass).to.deep.eq(T2);
+      expect(cloned.scope).to.deep.eq(ProviderScope.REQUEST);
     });
   });
 

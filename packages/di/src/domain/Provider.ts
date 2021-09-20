@@ -1,67 +1,43 @@
-import {classOf, Enumerable, getEnumerableKeys, isClass, nameOf, NotEnumerable, Store, Type} from "@tsed/core";
+import {classOf, getClassOrSymbol, isClass, nameOf, Store, Type} from "@tsed/core";
 import {IProvider, TokenProvider} from "../interfaces";
 import {ProviderScope} from "./ProviderScope";
 import {ProviderType} from "./ProviderType";
 
 export class Provider<T = any> implements IProvider<T> {
-  @Enumerable()
   public type: ProviderType | any = ProviderType.PROVIDER;
-
-  @Enumerable()
-  public injectable: boolean = true;
-
-  @Enumerable()
   public instance: T;
-
-  @Enumerable()
   public deps: TokenProvider[];
-
-  @Enumerable()
   public imports: any[];
-
-  @Enumerable()
   public useFactory: Function;
-
-  @Enumerable()
   public useAsyncFactory: Function;
-
-  @Enumerable()
   public useValue: any;
-
-  @NotEnumerable()
-  protected _provide: TokenProvider;
-
-  @NotEnumerable()
-  protected _useClass: Type<T>;
-
-  @NotEnumerable()
-  protected _instance: T;
-
-  @NotEnumerable()
-  private _store: Store;
-
-  @NotEnumerable()
-  private _tokenStore: Store;
+  // FIXME issue with #useClass
+  _useClass: Type<T>;
+  #provide: TokenProvider;
+  #store: Store;
+  #tokenStore: Store;
 
   [key: string]: any;
 
-  constructor(token: TokenProvider) {
+  constructor(token: TokenProvider, options: Partial<Provider> = {}) {
     this.provide = token;
     this.useClass = token;
+
+    Object.assign(this, options);
   }
 
   get token() {
-    return this._provide;
+    return this.#provide;
   }
 
   get provide(): TokenProvider {
-    return this._provide;
+    return this.#provide;
   }
 
   set provide(value: TokenProvider) {
     if (value) {
-      this._provide = isClass(value) ? classOf(value) : value;
-      this._tokenStore = this._store = Store.from(value);
+      this.#provide = getClassOrSymbol(value);
+      this.#tokenStore = this.#store = Store.from(value);
     }
   }
 
@@ -73,11 +49,10 @@ export class Provider<T = any> implements IProvider<T> {
    * Create a new store if the given value is a class. Otherwise the value is ignored.
    * @param value
    */
-  @Enumerable()
   set useClass(value: Type<T>) {
     if (isClass(value)) {
       this._useClass = classOf(value);
-      this._store = Store.from(value);
+      this.#store = Store.from(value);
     }
   }
 
@@ -90,7 +65,7 @@ export class Provider<T = any> implements IProvider<T> {
   }
 
   public get store(): Store {
-    return this._store;
+    return this.#store;
   }
 
   /**
@@ -114,7 +89,6 @@ export class Provider<T = any> implements IProvider<T> {
    * Change the scope value of the provider.
    * @param scope
    */
-  @Enumerable()
   set scope(scope: ProviderScope) {
     this.store.set("scope", scope);
   }
@@ -123,29 +97,20 @@ export class Provider<T = any> implements IProvider<T> {
     return this.get("configuration");
   }
 
-  @Enumerable()
   set configuration(configuration: Partial<TsED.Configuration>) {
     this.store.set("configuration", configuration);
   }
 
   get(key: string) {
-    return this.store.get(key) || this._tokenStore.get(key);
+    return this.store.get(key) || this.#tokenStore.get(key);
   }
 
   isAsync(): boolean {
     return !!this.useAsyncFactory;
   }
 
-  clone(): Provider<any> {
-    const provider = new (classOf(this))(this.token);
-
-    getEnumerableKeys(this).forEach((key) => {
-      if (this[key] !== undefined) {
-        provider[key] = this[key];
-      }
-    });
-
-    return provider;
+  clone(): Provider {
+    return new (classOf(this))(this.#provide, this);
   }
 
   toString() {

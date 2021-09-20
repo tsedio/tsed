@@ -78,7 +78,7 @@ export class PlatformServerless {
       const $ctx = new ServerlessContext({
         event,
         context,
-        id: context.awsRequestId,
+        id: event.requestContext.requestId,
         logger: this.injector.logger as Logger,
         injector: this.injector,
         endpoint: entity

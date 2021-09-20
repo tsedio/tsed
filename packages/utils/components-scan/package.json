@@ -1,0 +1,30 @@
+{
+  "name": "@tsed/components-scan",
+  "version": "6.69.3",
+  "description": "Components scan utilities for Ts.ED Framework",
+  "private": false,
+  "source": "./src/index.ts",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
+  "scripts": {
+    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json",
+    "test": "cross-env NODE_ENV=test jest"
+  },
+  "dependencies": {
+    "@tsed/core": "6.69.3",
+    "@tsed/di": "6.69.3",
+    "normalize-path": "3.0.0",
+    "globby": "11.0.3",
+    "tslib": "2.2.0"
+  },
+  "devDependencies": {
+    "@tsed/logger": "^5.16.0"
+  },
+  "peerDependencies": {
+    "@tsed/logger": "^5.16.0"
+  }
+}

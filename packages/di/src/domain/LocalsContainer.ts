@@ -1,4 +1,4 @@
-import {TokenProvider} from "../interfaces/TokenProvider";
+import type {TokenProvider} from "../interfaces/TokenProvider";
 
 export class LocalsContainer<V = any> extends Map<TokenProvider, V> {
   /**

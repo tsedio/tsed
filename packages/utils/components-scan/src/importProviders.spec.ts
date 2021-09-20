@@ -1,10 +1,10 @@
-import {Controller, importProviders, Module} from "@tsed/common";
-import {expect} from "chai";
+import {Injectable, Module} from "@tsed/di";
+import {importProviders} from "./importProviders";
 
-@Controller("/test")
+@Injectable({path: "/test"})
 class TestCtrl {}
 
-@Controller("/test2")
+@Injectable({path: "/test2"})
 class Test2Ctrl {}
 
 @Module({
@@ -26,7 +26,7 @@ describe("importProviders", () => {
       ["imports", "mount"]
     );
 
-    expect(result).to.deep.eq([
+    expect(result).toEqual([
       {
         route: "/heath",
         token: Test2Ctrl

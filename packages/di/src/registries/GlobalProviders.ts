@@ -1,7 +1,8 @@
 import {getClassOrSymbol, Type} from "@tsed/core";
-import type {IProvider, RegistrySettings, TokenProvider} from "../interfaces";
 import {Provider} from "../domain/Provider";
 import {ProviderType} from "../domain/ProviderType";
+import {InvokeOptions} from "../interfaces";
+import type {IProvider, RegistrySettings, TokenProvider} from "../interfaces";
 
 export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
   #settings: Map<string, RegistrySettings> = new Map();
@@ -59,7 +60,7 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     return super.delete(getClassOrSymbol(key));
   }
 
-  createRegistry(type: string, model: Type<Provider>, options: Partial<RegistrySettings> = {injectable: true}) {
+  createRegistry(type: string, model: Type<Provider>, options: Partial<RegistrySettings> = {}) {
     const defaultOptions = this.getRegistrySettings(type);
 
     options = Object.assign(defaultOptions, {
@@ -70,6 +71,14 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     this.#settings.set(type, options);
 
     return this;
+  }
+
+  onInvoke(provider: Provider, locals: Map<TokenProvider, any>, deps: any[]) {
+    const settings = this.#settings.get(provider.type);
+
+    if (settings?.onInvoke) {
+      settings.onInvoke(provider, locals, deps);
+    }
   }
 
   getRegistrySettings(target: string | TokenProvider): RegistrySettings {
@@ -86,31 +95,16 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
 
     return (
       this.#settings.get(type) || {
-        model: Provider,
-        injectable: true
+        model: Provider
       }
     );
   }
 
   createRegisterFn(type: string) {
     return (provider: any | IProvider, instance?: any): void => {
-      if (!provider.provide) {
-        provider = {
-          provide: provider
-        };
-      }
-
       provider = Object.assign({instance}, provider, {type});
       this.merge(provider.provide, provider);
     };
-  }
-
-  /**
-   * @deprecated
-   */
-  // istanbul ignore next
-  getRegistry(target: string | TokenProvider) {
-    return this;
   }
 
   /**

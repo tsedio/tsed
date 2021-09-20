@@ -219,22 +219,17 @@ describe("InjectorService", () => {
     });
     describe("when provider is a SINGLETON", () => {
       before(() => {
-        Sinon.stub(GlobalProviders, "getRegistrySettings");
+        Sinon.stub(GlobalProviders, "onInvoke");
       });
       after(() => {
         // @ts-ignore
-        GlobalProviders.getRegistrySettings.restore();
+        GlobalProviders.onInvoke.restore();
       });
       it("should invoke the provider from container", async () => {
         // GIVEN
         const token = class Test {};
 
-        const registry = {
-          onInvoke: Sinon.stub()
-        };
-
-        // @ts-ignore
-        GlobalProviders.getRegistrySettings.returns(registry);
+        (GlobalProviders.onInvoke as any).returns(undefined);
 
         const provider = new Provider<any>(token);
         provider.scope = ProviderScope.SINGLETON;
@@ -247,7 +242,7 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result).to.instanceof(token);
-        expect(registry.onInvoke).to.have.been.calledWithExactly(provider, Sinon.match.instanceOf(LocalsContainer), []);
+        expect(GlobalProviders.onInvoke).to.have.been.calledWithExactly(provider, Sinon.match.instanceOf(LocalsContainer), []);
       });
     });
     describe("when provider is a Value (useValue)", () => {
@@ -382,38 +377,6 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result).to.instanceof(token);
-      });
-    });
-    describe("when one of dependencies isn't injectable", () => {
-      it("should throw InjectionError", async () => {
-        // GIVEN
-        const token2 = class Ctrl {};
-        const token3 = class Test {};
-
-        const provider2 = new Provider<any>(token2);
-        provider2.scope = ProviderScope.SINGLETON;
-        provider2.type = ProviderType.CONTROLLER;
-        provider2.useClass = token2;
-        provider2.injectable = false;
-
-        const provider3 = new Provider<any>(token3);
-        provider3.scope = ProviderScope.SINGLETON;
-        provider3.deps = [token2];
-
-        const injector = new InjectorService();
-        injector.set(token2, provider2);
-        injector.set(token3, provider3);
-
-        // WHEN
-        let actualError;
-        try {
-          injector.invoke(token3);
-        } catch (er) {
-          actualError = er;
-        }
-
-        // THEN
-        expect(actualError.message).to.eq("Injection failed on Test > Ctrl\nOrigin: Ctrl controller is not injectable to another provider");
       });
     });
     describe("when one of dependencies is undefined", () => {

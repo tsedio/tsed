@@ -12,6 +12,7 @@ module.exports = () => ({
   exclude: [
     "packages/orm/**/*.spec.ts",
     "packages/graphql/**/*.spec.ts",
+    "packages/utils/**/*.spec.ts",
     "packages/security/oidc-provider/**/*.spec.ts",
     "packages/platform/platform-serverless/**/*.spec.ts",
     "packages/third-parties/formio/**/*.spec.ts"

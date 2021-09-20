@@ -1,6 +1,5 @@
+import {isArray, isString} from "@tsed/core";
 import {join} from "path";
-import {isArray} from "../objects/isArray";
-import {isString} from "../objects/isString";
 
 const fixPath = require("normalize-path");
 
