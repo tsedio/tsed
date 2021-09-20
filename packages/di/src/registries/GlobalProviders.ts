@@ -102,6 +102,13 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
 
   createRegisterFn(type: string) {
     return (provider: any | IProvider, instance?: any): void => {
+      // istanbul ignore next
+      if (!provider.provide) {
+        provider = {
+          provide: provider
+        };
+      }
+
       provider = Object.assign({instance}, provider, {type});
       this.merge(provider.provide, provider);
     };
