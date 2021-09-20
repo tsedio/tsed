@@ -69,7 +69,10 @@ export class PlatformServerlessHandler {
     const response = {
       statusCode: $ctx.response.getStatus(),
       body: body === undefined ? "" : body,
-      headers: mapResponseHeaders($ctx.response.getHeaders()),
+      headers: {
+        ...mapResponseHeaders($ctx.response.getHeaders()),
+        "x-request-id": $ctx.id
+      },
       multiValueHeaders: mapResponseMultiValueHeaders($ctx.response.getHeaders()),
       isBase64Encoded: false
     };

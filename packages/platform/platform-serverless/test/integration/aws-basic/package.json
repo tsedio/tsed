@@ -2,7 +2,7 @@
   "name": "@tsed/aws-basic",
   "scripts": {
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json",
-    "start":  "yarn run build && serverless offline"
+    "start":  "serverless offline start"
   },
   "dependencies": {
     "@tsed/di": "^6.69.2",

@@ -11,7 +11,7 @@ export class TimeslotsLambda {
   @Summary("Get a timeslot by his id")
   get(@PathParams("id") id: string) {
     return {
-      id
+      id: "id " + id
     };
   }
 

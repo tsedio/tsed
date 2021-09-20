@@ -64,7 +64,7 @@ describe("Body params", () => {
         "id": "1",
         "name": "Test"
       });
-      expect(response.headers).toEqual({"x-test": "test"});
+      expect(response.headers).toEqual({"x-test": "test", "x-request-id": "requestId"});
       expect(response.multiValueHeaders).toEqual({});
     });
     it("should throw an error", async () => {

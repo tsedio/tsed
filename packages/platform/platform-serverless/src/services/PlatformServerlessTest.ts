@@ -48,7 +48,7 @@ export class LambdaClientRequest extends Promise<APIGatewayProxyResult> {
         identity: {} as any,
         path: event.path || "/",
         stage: "",
-        requestId: "",
+        requestId: "requestId",
         requestTimeEpoch: 0,
         resourceId: 1,
         resourcePath: event.path || "/"
@@ -58,7 +58,7 @@ export class LambdaClientRequest extends Promise<APIGatewayProxyResult> {
 
   static createFakeContext(context?: Context): Context {
     return {
-      awsRequestId: "",
+      awsRequestId: "awsRequestId",
       callbackWaitsForEmptyEventLoop: false,
       functionName: "",
       functionVersion: "",
