@@ -9,6 +9,7 @@ import type {
   APIGatewayProxyResult,
   Context
 } from "aws-lambda";
+import {v4} from "uuid";
 import {ServerlessContext} from "../domain/ServerlessContext";
 import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
 
@@ -75,10 +76,12 @@ export class PlatformServerless {
         handler = await platformHandler.createHandler(token, propertyKey);
       }
 
+      const reqId = event?.requestContext?.requestId || v4().replace(/-/gi, "");
+
       const $ctx = new ServerlessContext({
         event,
         context,
-        id: event.requestContext.requestId,
+        id: reqId,
         logger: this.injector.logger as Logger,
         injector: this.injector,
         endpoint: entity

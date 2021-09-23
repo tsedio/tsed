@@ -2,7 +2,8 @@
   "name": "@tsed/aws-basic",
   "scripts": {
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json",
-    "start":  "serverless offline start"
+    "start":  "serverless offline start",
+    "invoke": "serverless invoke local -f timeslots"
   },
   "dependencies": {
     "@tsed/di": "^6.69.2",

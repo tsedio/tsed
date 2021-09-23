@@ -24,6 +24,7 @@
     "@tsed/platform-params": "6.70.1",
     "@tsed/schema": "6.70.1",
     "encodeurl": "^1.0.2",
+    "uuid": "^8.3.2",
     "mime": "^2.5.2",
     "statuses": "^2.0.1",
     "tslib": "2.2.0"
