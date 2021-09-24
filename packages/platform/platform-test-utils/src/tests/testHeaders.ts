@@ -1,4 +1,4 @@
-import {BodyParams, Controller, Get, PlatformTest} from "@tsed/common";
+import {BodyParams, Controller, Get, PlatformResponse, PlatformTest, Res} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import {expect} from "chai";
 import SuperTest from "supertest";
@@ -16,6 +16,19 @@ export class HeadersCtrl {
   @(Returns(200, String).Header("x-token-test", "test").Header("x-token-test-2", "test2").ContentType("application/xml"))
   testScenario2() {
     return "<xml></xml>";
+  }
+
+  @Get("/scenario-3")
+  @(Returns(200, String).Headers({
+    Location: {
+      description: "URL to the new xxx",
+      type: "string",
+      value: "/v1/location/header"
+    }
+  }))
+  testScenario3(@Res() response: PlatformResponse) {
+    response.setHeader("Location", `/v1/location`);
+    return "Hello";
   }
 }
 
@@ -57,6 +70,21 @@ export function testHeaders(options: PlatformTestOptions) {
         expect(response.headers["x-token-test"]).to.equal("test");
         expect(response.headers["x-token-test-2"]).to.equal("test2");
         expect(response.headers["content-type"]).to.contains("application/xml");
+
+        done();
+      });
+  });
+
+  it("Scenario3: GET /rest/headers/scenario-3", (done: Function) => {
+    request
+      .get("/rest/headers/scenario-3")
+      .expect(200)
+      .end((err: any, response: any) => {
+        if (err) {
+          throw err;
+        }
+
+        expect(response.headers["location"]).to.equal("/v1/location");
 
         done();
       });

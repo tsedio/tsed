@@ -117,7 +117,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return this.getResponseOf(status);
   }
 
-  getHeadersOf(status: number): {[key: string]: JsonHeader} {
+  getHeadersOf(status: number): Record<string, JsonHeader & {example: string}> {
     return this.getResponseOf(status).get("headers") || {};
   }
 

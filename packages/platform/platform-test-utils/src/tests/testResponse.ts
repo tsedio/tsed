@@ -1,5 +1,5 @@
 import {Context, Controller, Get, Next, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
-import {ContentType, Ignore, Property, Status} from "@tsed/schema";
+import {ContentType, Enum, Ignore, Property, Required, Status} from "@tsed/schema";
 import axios from "axios";
 import {expect} from "chai";
 import {createReadStream} from "fs";
@@ -31,6 +31,22 @@ class MyModel extends Base {
 class EmptyModel {
   raw: any;
   affected?: number | null;
+}
+
+export enum EnumValue {
+  One = "one",
+  Two = "two"
+}
+
+export class NestedEnum {
+  @Required()
+  @Enum(EnumValue)
+  value: EnumValue;
+}
+
+export class TestNestedEnum {
+  @Property()
+  nested: NestedEnum;
 }
 
 @Controller("/response")
@@ -176,6 +192,15 @@ class TestResponseParamsCtrl {
     return axios.get(`https://api.tsed.io/rest/github/typed/test`, {
       responseType: "json"
     });
+  }
+
+  @Get("/scenario16")
+  async testScenario16(): Promise<TestNestedEnum> {
+    const test = new TestNestedEnum();
+    const nested = new NestedEnum();
+    nested.value = EnumValue.One;
+    test.nested = nested;
+    return test;
   }
 }
 
@@ -388,6 +413,14 @@ export function testResponse(options: PlatformTestOptions) {
       const response = await request.get("/rest/response/scenario15b").expect(401);
 
       expect(response.headers["content-type"]).to.equal("application/json; charset=utf-8");
+    });
+  });
+
+  describe("Scenario16: Return response with nested enum", () => {
+    it("should return the response (200)", async () => {
+      const response = await request.get("/rest/response/scenario16").expect(200);
+
+      expect(response.body).to.deep.equal({nested: {value: "one"}});
     });
   });
 }

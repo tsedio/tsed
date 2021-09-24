@@ -1,12 +1,15 @@
+import {JsonHeader} from "@tsed/schema";
 import {PlatformContext} from "../domain/PlatformContext";
+import {HeaderValue} from "../services/PlatformResponse";
 
-function toHeaders(headers: {[key: string]: any}) {
-  return Object.entries(headers).reduce((headers, [key, item]) => {
+function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}>, headers: Record<string, HeaderValue>) {
+  return Object.entries(specHeaders).reduce((headers, [key, item]) => {
+    key = key.toLowerCase();
     return {
       ...headers,
-      [key]: String(item.example)
+      [key]: headers[key] === undefined ? String(item.example) : headers[key]
     };
-  }, {});
+  }, headers);
 }
 
 /**
@@ -26,7 +29,7 @@ export function setResponseHeaders(ctx: PlatformContext) {
   }
 
   const headers = operation.getHeadersOf(response.statusCode);
-  response.setHeaders(toHeaders(headers));
+  response.setHeaders(mergeHeaders(headers, response.getHeaders()));
 
   if (endpoint.redirect) {
     response.redirect(endpoint.redirect.status || 302, endpoint.redirect.url);

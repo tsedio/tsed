@@ -14,6 +14,8 @@ declare global {
   }
 }
 
+export type HeaderValue = Array<boolean | number | string> | boolean | number | string;
+
 /**
  * Platform Response abstraction layer.
  * @platform
@@ -75,7 +77,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     return this.raw.get(name);
   }
 
-  getHeaders(): Record<string, number | string | string[]> {
+  getHeaders(): Record<string, HeaderValue> {
     return this.raw.getHeaders();
   }
 
@@ -119,7 +121,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    *
    * Aliased as `res.header()`.
    */
-  setHeaders(headers: {[key: string]: any}) {
+  setHeaders(headers: Record<string, HeaderValue>) {
     // apply headers
     Object.entries(headers).forEach(([key, item]) => {
       this.setHeader(key, item);

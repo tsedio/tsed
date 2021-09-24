@@ -1,12 +1,15 @@
+import {JsonHeader} from "@tsed/schema";
 import {ServerlessContext} from "../domain/ServerlessContext";
+import {HeaderValue} from "../domain/ServerlessResponse";
 
-function toHeaders(headers: {[key: string]: any}) {
-  return Object.entries(headers).reduce((headers, [key, item]) => {
+function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}>, headers: Record<string, HeaderValue>) {
+  return Object.entries(specHeaders).reduce((headers, [key, item]) => {
+    key = key.toLowerCase();
     return {
       ...headers,
-      [key]: item.example as any
+      [key]: headers[key] === undefined ? String(item.example) : headers[key]
     };
-  }, {});
+  }, headers);
 }
 
 /**
@@ -26,7 +29,7 @@ export function setResponseHeaders(ctx: ServerlessContext) {
   }
 
   const headers = operation.getHeadersOf(response.statusCode);
-  response.setHeaders(toHeaders(headers));
+  response.setHeaders(mergeHeaders(headers, response.getHeaders()));
 
   if (endpoint.redirect) {
     response.redirect(endpoint.redirect.status, endpoint.redirect.url);

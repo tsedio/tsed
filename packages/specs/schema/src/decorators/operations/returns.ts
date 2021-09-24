@@ -81,7 +81,7 @@ export interface ReturnsChainedDecorators {
    * @param key
    * @param value
    */
-  Header(key: string, value: number | string | (JsonHeader & {value?: string | number})): this;
+  Header(key: string, value: number | string | (JsonHeader & {value?: string | number | boolean})): this;
 
   /**
    * Add headers
