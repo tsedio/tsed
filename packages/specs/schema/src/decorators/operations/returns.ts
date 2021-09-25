@@ -89,6 +89,11 @@ export interface ReturnsChainedDecorators {
   Headers(headers: JsonHeaders): this;
 
   /**
+   * Add location hea
+   */
+  Location(location: string, meta?: JsonHeader): this;
+
+  /**
    * Assign partial schema
    * @param schema
    */
@@ -142,22 +147,15 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     "headers",
     "schema",
     "title",
-    "groups"
+    "groups",
+    "location"
   ];
 
   constructor({status, model}: any) {
     super();
 
-    this.set("status", status);
-    this.set("model", model);
-
-    if (status && HTTP_STATUS_MESSAGES[status]) {
-      this.set("description", HTTP_STATUS_MESSAGES[status]);
-
-      if (!model) {
-        this.model(getStatusModel(+status));
-      }
-    }
+    this.model(model);
+    this.status(status);
   }
 
   type(model: any) {
@@ -165,12 +163,21 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
   }
 
   model(model: any) {
-    this.set("model", model);
+    model && this.set("model", model);
     return this;
   }
 
   status(status: number | string) {
     this.set("status", status);
+
+    if (status && HTTP_STATUS_MESSAGES[status] && !this.get("description")) {
+      this.set("description", HTTP_STATUS_MESSAGES[status]);
+
+      if (!this.get("model")) {
+        this.model(getStatusModel(+status));
+      }
+    }
+
     return this;
   }
 
@@ -185,6 +192,17 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
   header(key: string, value: string | JsonHeader) {
     return this.headers({[key]: value});
+  }
+
+  location(path: string, meta: JsonHeaders = {}) {
+    this.headers({
+      Location: {
+        ...meta,
+        value: path
+      }
+    });
+
+    return this;
   }
 
   groups(...groups: string[]) {
@@ -283,6 +301,8 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
       default:
         throw new UnsupportedDecoratorType(Returns, args);
     }
+
+    this.clear();
   }
 
   protected map() {
