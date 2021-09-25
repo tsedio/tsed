@@ -2,6 +2,7 @@ import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Inject, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
 import {PlatformViews} from "@tsed/platform-views";
 import {ServerResponse} from "http";
+import encodeUrl from "encodeurl";
 
 const onFinished = require("on-finished");
 
@@ -131,6 +132,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   }
 
   setHeader(key: string, item: any) {
+    if (key.toLowerCase() === "location") {
+      return this.location(String(item));
+    }
+
     this.raw.set(key, String(item));
 
     return this;

@@ -1,6 +1,6 @@
 import * as Exceptions from "@tsed/exceptions";
 import {Exception} from "@tsed/exceptions";
-import {array, defineStatusModel, from, number, object, string} from "@tsed/schema";
+import {array, defineStatusModel, from, getStatusConstant, number, object, string} from "@tsed/schema";
 
 /**
  * @ignore
@@ -23,12 +23,14 @@ from(Exception).properties({
 // Auto load models for all Exceptions
 Object.values(Exceptions).forEach((target) => {
   if (target !== Exception && target.STATUS) {
-    const instance = new target("message");
-    from(target).properties({
-      name: string().required().example(instance.name).default(instance.name).description("The error name"),
-      status: number().required().example(instance.status).default(instance.status).description("The status code of the exception")
-    });
+    if (target.STATUS > 302) {
+      const name = getStatusConstant(target.STATUS);
+      from(target).properties({
+        name: string().required().example(name).default(name).description("The error name"),
+        status: number().required().example(target.STATUS).default(target.STATUS).description("The status code of the exception")
+      });
 
-    defineStatusModel(target.STATUS, target);
+      defineStatusModel(target.STATUS, target);
+    }
   }
 });

@@ -53,7 +53,6 @@ describe("PlatformServerlessHandler", () => {
       body: '{"value":"test"}',
       headers: {},
       isBase64Encoded: false,
-      multiValueHeaders: {},
       statusCode: 200
     });
   });

@@ -1,4 +1,4 @@
-import {EndpointMetadata, Get, Location, PlatformResponse, PlatformTest, Redirect} from "@tsed/common";
+import {EndpointMetadata, Get, PlatformResponse, PlatformTest, Redirect} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
@@ -6,7 +6,6 @@ import {FakeResponse} from "../../../../../test/helper";
 import {setResponseHeaders} from "./setResponseHeaders";
 
 const sandbox = Sinon.createSandbox();
-const next = sandbox.stub();
 
 describe("setResponseHeaders", () => {
   beforeEach(() => PlatformTest.create());
@@ -40,37 +39,19 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const response: any = new FakeResponse(sandbox);
+    const response: any = new FakeResponse();
     const ctx = PlatformTest.createRequestContext();
 
     ctx.endpoint = EndpointMetadata.get(Test, "test");
     ctx.response = new PlatformResponse(response);
 
-    // WHEN
-    await setResponseHeaders(ctx);
-
-    // THEN
-    expect(response.redirect).to.have.been.calledWithExactly(301, "/path");
-  });
-
-  it("should call location", async () => {
-    class Test {
-      @Get("/")
-      @Location("/path")
-      test() {}
-    }
-
-    const response: any = new FakeResponse(sandbox);
-    const ctx = PlatformTest.createRequestContext();
-
-    ctx.endpoint = EndpointMetadata.get(Test, "test");
-    ctx.response = new PlatformResponse(response);
+    Sinon.stub(ctx.response, "redirect");
 
     // WHEN
     await setResponseHeaders(ctx);
 
     // THEN
-    expect(response.location).to.have.been.calledWithExactly("/path");
+    expect(ctx.response.redirect).to.have.been.calledWithExactly(301, "/path");
   });
 
   it("should do nothing when headers is already sent", async () => {

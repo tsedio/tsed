@@ -12,6 +12,10 @@ function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}
   }, headers);
 }
 
+function getLocation(headers: Record<string, JsonHeader & {example: string}>) {
+  return (headers["location"] || headers["Location"])?.example;
+}
+
 /**
  * @ignore
  */
@@ -28,14 +32,13 @@ export function setResponseHeaders(ctx: PlatformContext) {
     response.status(operation.getStatus());
   }
 
+  const statusCode = response.statusCode;
   const headers = operation.getHeadersOf(response.statusCode);
-  response.setHeaders(mergeHeaders(headers, response.getHeaders()));
+  const mergedHeaders = mergeHeaders(headers, response.getHeaders());
 
-  if (endpoint.redirect) {
-    response.redirect(endpoint.redirect.status || 302, endpoint.redirect.url);
-  }
+  response.setHeaders(mergedHeaders);
 
-  if (endpoint.location) {
-    response.location(endpoint.location);
+  if (operation.isRedirection(statusCode)) {
+    response.redirect(statusCode, String(mergedHeaders["location"]));
   }
 }

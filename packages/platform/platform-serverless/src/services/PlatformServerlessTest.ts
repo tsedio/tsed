@@ -196,7 +196,7 @@ export class PlatformServerlessTest extends DITest {
 
   static createServerlessContext({endpoint}: {endpoint: JsonEntityStore}) {
     const context: any = LambdaClientRequest.createFakeContext();
-    const event: any = LambdaClientRequest.createFakeContext();
+    const event: any = LambdaClientRequest.createFakeEvent();
 
     return new ServerlessContext({
       event,

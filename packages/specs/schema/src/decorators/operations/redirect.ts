@@ -1,6 +1,7 @@
-import {Returns} from "./returns";
-import {JsonEntityFn, JsonHeader} from "@tsed/schema";
 import {isNumber, isString, useDecorators} from "@tsed/core";
+import {JsonHeader} from "../../interfaces/JsonOpenSpec";
+import {JsonEntityFn} from "../common/jsonEntityFn";
+import {Returns} from "./returns";
 
 /**
  * Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to “302 “Found”.

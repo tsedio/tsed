@@ -1,5 +1,5 @@
-import {JsonEntityFn, JsonHeader, Returns} from "@tsed/schema";
-import {useDecorators} from "@tsed/core";
+import {JsonHeader} from "../../interfaces/JsonOpenSpec";
+import {Returns} from "./returns";
 
 /**
  * Sets the response Location HTTP header to the specified path parameter.
