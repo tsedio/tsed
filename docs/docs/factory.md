@@ -9,17 +9,16 @@ This example shows you how you can add an already constructed service like a npm
 
 ```typescript
 // MyFooFactory.ts
-import {registerFactory} from "@tsed/common";
+import {registerProvider} from "@tsed/common";
 
-export interface IMyFooFactory {
-   getFoo(): string;
+export interface MyFooFactory {
+  getFoo(): string;
 }
 
-export type MyFooFactory = IMyFooFactory;
 export const MyFooFactory = Symbol("MyFooFactory");
 
-registerFactory(MyFooFactory, {
-     getFoo:  () => "test"
+registerProvider(MyFooFactory, { 
+  getFoo:  () => "test"
 });
 ```
 Then inject your factory in another service (or controller):
@@ -29,9 +28,9 @@ import {MyFooFactory} from "./FooFactory.ts";
 
 @Injectable()
 export default class OtherService {
-     constructor(@Inject(MyFooFactory) myFooFactory: MyFooFactory){
-           console.log(myFooFactory.getFoo()); /// "test"
-     }
+  constructor(@Inject(MyFooFactory) myFooFactory: MyFooFactory){
+    console.log(myFooFactory.getFoo()); /// "test"
+  }
 }
 ```
 ::: tip Note

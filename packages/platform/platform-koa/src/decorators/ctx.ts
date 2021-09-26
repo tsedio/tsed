@@ -9,7 +9,7 @@ import type {Context} from "koa";
  * @koa
  */
 export function KoaCtx(): ParameterDecorator {
-  return UseParam("KOA_CTX", {
+  return UseParam({
     paramType: "KOA_CTX",
     dataPath: "$ctx.request.ctx",
     useConverter: false,

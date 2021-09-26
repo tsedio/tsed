@@ -1,6 +1,7 @@
 import {Store} from "@tsed/core";
 import {expect} from "chai";
 import {Authenticate, PassportMiddleware} from "../index";
+import {Security} from "@tsed/schema";
 
 describe("@Authenticate", () => {
   it("should store data", () => {

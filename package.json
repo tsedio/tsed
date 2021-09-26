@@ -179,8 +179,8 @@
     }
   },
   "monorepo": {
-    "productionBranch": "production",
-    "developBranch": "production",
+    "productionBranch": "alpha",
+    "developBranch": "alpha",
     "npmAccess": "public",
     "ignoreSyncDependencies": [
       "express",
@@ -188,9 +188,9 @@
     ],
     "ghpages": {
       "dir": "./docs/.vuepress/dist",
-      "url": "https://github.com/tsedio/tsed.git",
-      "branch": "gh-pages",
-      "cname": "tsed.io"
+      "url": "https://github.com/tsedio/v7.tsed.io.git",
+      "branch": "master",
+      "cname": "v7.tsed.io"
     },
     "examples": {
       "dir": "./examples",

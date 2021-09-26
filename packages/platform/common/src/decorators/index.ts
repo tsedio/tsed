@@ -14,12 +14,10 @@ export * from "./method/endpointFn";
 export * from "./class/controller";
 
 // Params
-export * from "./params/responseData";
 export * from "./params/response";
 export * from "./params/request";
 export * from "./params/next";
 export * from "./params/error";
-export * from "./params/endpointInfo";
 
 // utils
 export * from "../utils/mapReturnedResponse";
