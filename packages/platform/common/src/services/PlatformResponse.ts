@@ -2,6 +2,7 @@ import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Inject, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
 import {PlatformViews} from "@tsed/platform-views";
 import {ServerResponse} from "http";
+import encodeUrl from "encodeurl";
 
 const onFinished = require("on-finished");
 
@@ -13,6 +14,8 @@ declare global {
     }
   }
 }
+
+export type HeaderValue = Array<boolean | number | string> | boolean | number | string;
 
 /**
  * Platform Response abstraction layer.
@@ -75,7 +78,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     return this.raw.get(name);
   }
 
-  getHeaders(): Record<string, number | string | string[]> {
+  getHeaders(): Record<string, HeaderValue> {
     return this.raw.getHeaders();
   }
 
@@ -119,7 +122,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
    *
    * Aliased as `res.header()`.
    */
-  setHeaders(headers: {[key: string]: any}) {
+  setHeaders(headers: Record<string, HeaderValue>) {
     // apply headers
     Object.entries(headers).forEach(([key, item]) => {
       this.setHeader(key, item);
@@ -129,6 +132,10 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
   }
 
   setHeader(key: string, item: any) {
+    if (key.toLowerCase() === "location") {
+      return this.location(String(item));
+    }
+
     this.raw.set(key, String(item));
 
     return this;

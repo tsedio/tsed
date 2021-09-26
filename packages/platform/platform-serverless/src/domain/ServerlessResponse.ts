@@ -1,8 +1,8 @@
 import {getValue} from "@tsed/core";
+import {getStatusMessage} from "@tsed/schema";
 import type {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, Context} from "aws-lambda";
 import encodeUrl from "encodeurl";
 import * as mime from "mime";
-import statuses from "statuses";
 import type {ServerlessRequest} from "./ServerlessRequest";
 
 export interface ServerlessResponseOptions {
@@ -11,7 +11,7 @@ export interface ServerlessResponseOptions {
   request: ServerlessRequest;
 }
 
-export type HeaderValue = Array<boolean | number | string> | boolean | number | string;
+export type HeaderValue = boolean | number | string;
 
 /**
  * @platform
@@ -115,9 +115,20 @@ export class ServerlessResponse {
 
   setHeader(key: string, item: HeaderValue | null | undefined) {
     if (item !== null && item !== undefined) {
+      key = key.toLowerCase();
+
+      if (key === "location") {
+        // "back" is an alias for the referrer
+        if (item === "back") {
+          item = this.request.get("Referrer") || "/";
+        }
+
+        item = encodeUrl(String(item));
+      }
+
       this.#headers = {
         ...this.#headers,
-        [key.toLowerCase()]: item
+        [key.toLowerCase()]: item as any
       };
     }
 
@@ -167,7 +178,7 @@ export class ServerlessResponse {
   redirect(status: number, url: string) {
     // Set location header
     const address = this.location(url).get("Location");
-    const body = `${(statuses as any)[status]}. Redirecting to ${address}`;
+    const body = `${getStatusMessage(status)}. Redirecting to ${address}`;
 
     this.status(status).set("Content-Length", Buffer.byteLength(body)).body(body);
 
@@ -180,15 +191,7 @@ export class ServerlessResponse {
    * @param url
    */
   location(url: string) {
-    let loc = url;
-
-    // "back" is an alias for the referrer
-    if (url === "back") {
-      loc = this.request.get("Referrer") || "/";
-    }
-
-    // set location
-    return this.set("Location", encodeUrl(loc));
+    return this.set("Location", url);
   }
 
   /**

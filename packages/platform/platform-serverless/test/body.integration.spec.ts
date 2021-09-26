@@ -21,7 +21,7 @@ class BodyLambda {
   }
 
   @Put("/scenario-2/:id").Name("scenario2")
-  @Returns(201, Model).Header("x-test", "test").Header("multi", ["test", "1"] as any)
+  @Returns(201, Model).Header("x-test", "test")
   scenario2(@BodyParams() model: Model) {
     return model;
   }
@@ -65,7 +65,6 @@ describe("Body params", () => {
         "name": "Test"
       });
       expect(response.headers).toEqual({"x-test": "test", "x-request-id": "requestId"});
-      expect(response.multiValueHeaders).toEqual({});
     });
     it("should throw an error", async () => {
       const response = await PlatformServerlessTest.request.call("scenario2").put("/").body({

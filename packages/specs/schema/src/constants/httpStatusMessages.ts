@@ -73,3 +73,7 @@ export const HTTP_STATUS_MESSAGES: {[key: string]: string} = {
 export function getStatusConstant(status: number) {
   return constantCase(HTTP_STATUS_MESSAGES[status]);
 }
+
+export function getStatusMessage(status: number) {
+  return HTTP_STATUS_MESSAGES[status];
+}

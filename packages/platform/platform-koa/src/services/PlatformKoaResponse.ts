@@ -1,7 +1,7 @@
 import {PlatformResponse} from "@tsed/common";
-import {HTTP_STATUSES} from "@tsed/exceptions";
 import {ServerResponse} from "http";
 import Koa from "koa";
+import {getStatusMessage} from "@tsed/schema";
 
 const encodeUrl = require("encodeurl");
 
@@ -91,7 +91,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
     // Set location header
     url = this.location(url).raw.get("Location");
 
-    this.body(`${HTTP_STATUSES[status]}. Redirecting to ${url}`);
+    this.body(`${getStatusMessage(status)}. Redirecting to ${url}`);
     this.status(status);
     this.setHeader("Content-Length", Buffer.byteLength(this.raw.body));
 
@@ -111,7 +111,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
     }
 
     // set location
-    this.setHeader("Location", encodeUrl(location));
+    this.raw.set("Location", encodeUrl(location));
 
     return this;
   }

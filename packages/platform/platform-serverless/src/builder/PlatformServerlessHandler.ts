@@ -4,7 +4,6 @@ import {serialize} from "@tsed/json-mapper";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
 import {ServerlessContext} from "../domain/ServerlessContext";
-import {mapResponseHeaders, mapResponseMultiValueHeaders} from "../utils/mapResponseHeaders";
 import {setResponseHeaders} from "../utils/setResponseHeaders";
 
 function shouldBeSent(data: any) {
@@ -70,10 +69,9 @@ export class PlatformServerlessHandler {
       statusCode: $ctx.response.getStatus(),
       body: body === undefined ? "" : body,
       headers: {
-        ...mapResponseHeaders($ctx.response.getHeaders()),
+        ...$ctx.response.getHeaders(),
         "x-request-id": $ctx.id
       },
-      multiValueHeaders: mapResponseMultiValueHeaders($ctx.response.getHeaders()),
       isBase64Encoded: false
     };
 

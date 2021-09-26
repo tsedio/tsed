@@ -90,31 +90,12 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
     this.store.set("view", view);
   }
 
-  get location(): string {
-    return this.store.get("location") as string;
-  }
-
-  set location(url: string) {
-    this.store.set("location", url);
-  }
-
   get acceptMimes(): string[] {
     return this.store.get<string[]>("acceptMimes", []);
   }
 
   set acceptMimes(mimes: string[]) {
     this.store.set("acceptMimes", mimes);
-  }
-
-  get redirect(): EndpointRedirectOptions {
-    return this.store.get("redirect") as any;
-  }
-
-  set redirect(options: EndpointRedirectOptions) {
-    this.store.set("redirect", {
-      status: 302,
-      ...options
-    });
   }
 
   /**

@@ -37,6 +37,7 @@ describe("setResponseHeaders", () => {
     const ctx = PlatformServerlessTest.createServerlessContext({
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
+
     jest.spyOn(ctx.response, "redirect");
 
     // WHEN
@@ -63,23 +64,25 @@ describe("setResponseHeaders", () => {
     // THEN
     expect(ctx.response.redirect).toHaveBeenCalledWith(302, "/path");
   });
-  it("should call location", async () => {
+  it("should redirect with assigned value", async () => {
     class Test {
       @Get("/")
-      @Location("/path")
+      @Redirect(302, "/path")
       test() {}
     }
 
     const ctx = PlatformServerlessTest.createServerlessContext({
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
-    jest.spyOn(ctx.response, "location");
+    jest.spyOn(ctx.response, "redirect");
+
+    ctx.response.setHeaders({Location: "/path/other"});
 
     // WHEN
     await setResponseHeaders(ctx as any);
 
     // THEN
-    expect(ctx.response.location).toHaveBeenCalledWith("/path");
+    expect(ctx.response.redirect).toHaveBeenCalledWith(302, "/path/other");
   });
   it("should do nothing when headers is already sent", async () => {
     class Test {

@@ -2,7 +2,7 @@ import {deepMerge, uniq, uniqBy} from "@tsed/core";
 import {OpenSpecSecurity, OpenSpecTag, OS3Operation} from "@tsed/openspec";
 import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
 import {JsonHeader, JsonSchemaOptions} from "../interfaces";
-import {isSuccessStatus} from "../utils/isSuccessStatus";
+import {isRedirectionStatus, isSuccessStatus} from "../utils/isSuccessStatus";
 import {JsonMap} from "./JsonMap";
 import {JsonParameter} from "./JsonParameter";
 import {isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
@@ -25,7 +25,8 @@ export interface JsonOperationOptions extends OS3Operation<JsonSchema, JsonParam
 
 export class JsonOperation extends JsonMap<JsonOperationOptions> {
   readonly operationPaths: Map<string, JsonMethodPath> = new Map();
-  private _status: number;
+  #status: number;
+  #redirection: boolean = false;
 
   constructor(obj: Partial<JsonOperationOptions> = {}) {
     super({parameters: [], responses: new JsonMap(), ...obj});
@@ -36,7 +37,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   }
 
   get status() {
-    return this._status;
+    return this.#status;
   }
 
   tags(tags: OpenSpecTag[]): this {
@@ -70,15 +71,33 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   }
 
   defaultStatus(status: number) {
-    this._status = status;
+    this.#status = status;
+
+    return this;
   }
 
   getStatus() {
-    return this._status || 200;
+    return this.#status || 200;
+  }
+
+  setRedirection(status = 302) {
+    this.#redirection = true;
+    this.#status = status;
+    return this;
+  }
+
+  isRedirection(status?: number) {
+    if (this.#redirection) {
+      if (status) {
+        return isRedirectionStatus(status);
+      }
+    }
+
+    return this.#redirection;
   }
 
   addResponse(statusCode: string | number, response: JsonResponse) {
-    if (isSuccessStatus(statusCode) && !this._status) {
+    if ((isSuccessStatus(statusCode) || isRedirectionStatus(statusCode)) && !this.#status) {
       const res = this.getResponseOf(200);
 
       this.getResponses().set(statusCode.toString(), res).delete("200");
@@ -117,7 +136,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     return this.getResponseOf(status);
   }
 
-  getHeadersOf(status: number): {[key: string]: JsonHeader} {
+  getHeadersOf(status: number): Record<string, JsonHeader & {example: string}> {
     return this.getResponseOf(status).get("headers") || {};
   }
 
