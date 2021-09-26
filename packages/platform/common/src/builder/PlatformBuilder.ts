@@ -3,8 +3,7 @@ import {Container, createContainer, getConfiguration, InjectorService, IProvider
 import {importProviders} from "@tsed/components-scan";
 import {PerfLogger} from "@tsed/perf";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
-import {PlatformViews} from "@tsed/platform-views";
-import {GlobalAcceptMimesMiddleware, PlatformLogMiddleware} from "../middlewares";
+import {PlatformLogMiddleware} from "../middlewares";
 import {PlatformModule} from "../PlatformModule";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
@@ -327,10 +326,6 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     // istanbul ignore next
     if (this.settings.logger.level !== "off") {
       this.app.use(PlatformLogMiddleware);
-    }
-
-    if (this.settings.acceptMimes?.length) {
-      this.app.use(GlobalAcceptMimesMiddleware);
     }
 
     this.log("Load routes");

@@ -2,7 +2,7 @@ import {Constant, MiddlewareMethods, Middleware, Req} from "@tsed/common";
 import {NotAcceptable} from "@tsed/exceptions";
 
 @Middleware()
-export default class GlobalAcceptMimesMiddleware implements MiddlewareMethods {
+export default class AcceptMimesMiddleware implements MiddlewareMethods {
   @Constant("acceptMimes")
   acceptMimes: string[];
 
