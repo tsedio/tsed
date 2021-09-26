@@ -4,7 +4,6 @@ export * from "./classOf";
 export * from "./cleanObject";
 export * from "./constructorOf";
 export * from "./deepClone";
-export * from "./deepExtends";
 export * from "./deepMerge";
 export * from "./getClassOrSymbol";
 export * from "./getConstructorArgNames";
