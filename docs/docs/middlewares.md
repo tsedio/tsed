@@ -138,8 +138,7 @@ In addition, you have these specifics parameters decorators for the middlewares:
 Signature | Description
 --- | ---
 @@Err@@ | Inject the `Express.Err` service.
-@@ResponseData@@ | Provide the data returned by the previous middlewares.
-@@EndpointInfo@@ | Provide the endpoint information.
+@@Context@@ | Provide all information about the called endpoint
 
 ## Call sequences
 
