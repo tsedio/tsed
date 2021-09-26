@@ -17,7 +17,7 @@ const rootDir = Path.resolve(__dirname);
   swagger: [
     {
       path: "/v2/doc",
-      specVersion: "2.0",
+      specVersion: "3.0.1",
       showExplorer: true,
       spec: {
         info: {title: "Swagger title", version: "1.2.0"}

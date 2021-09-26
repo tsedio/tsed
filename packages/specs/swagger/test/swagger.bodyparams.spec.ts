@@ -32,66 +32,6 @@ describe("Swagger BodyParams()", () => {
     request = SuperTest(PlatformTest.callback());
   });
   afterEach(PlatformTest.reset);
-
-  describe("OpenSpec2", () => {
-    it("should swagger spec", async () => {
-      const response = await request.get("/v2/doc/swagger.json").expect(200);
-
-      expect(response.body).to.deep.eq({
-        "consumes": [
-          "application/json"
-        ],
-        "info": {
-          "title": "Swagger title",
-          "version": "1.2.0"
-        },
-        "paths": {
-          "/rest/customers": {
-            "post": {
-              "operationId": "customerControllerGet",
-              "parameters": [
-                {
-                  "in": "body",
-                  "name": "body",
-                  "required": false,
-                  "schema": {
-                    "properties": {
-                      "customer_name": {
-                        "type": "string"
-                      },
-                      "customer_last_name": {
-                        "maxLength": 100,
-                        "minLength": 0,
-                        "type": "string"
-                      }
-                    },
-                    "type": "object"
-                  }
-                }
-              ],
-              "responses": {
-                "200": {
-                  "description": "Success"
-                }
-              },
-              "tags": [
-                "CustomerController"
-              ]
-            }
-          }
-        },
-        "produces": [
-          "application/json"
-        ],
-        "swagger": "2.0",
-        "tags": [
-          {
-            "name": "CustomerController"
-          }
-        ]
-      });
-    });
-  });
   describe("OpenSpec3", () => {
     it("should swagger spec", async () => {
       const response = await request.get("/v3/doc/swagger.json").expect(200);

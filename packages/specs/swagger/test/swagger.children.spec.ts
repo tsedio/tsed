@@ -20,7 +20,7 @@ export class CampaignCtrl {}
 export class OrgCtrl {}
 
 describe("Swagger integration", () => {
-  describe("OpenSpec2", () => {
+  describe("OpenSpec3", () => {
     let request: SuperTest.SuperTest<SuperTest.Test>;
     beforeEach(
       PlatformTest.bootstrap(Server, {
@@ -39,49 +39,55 @@ describe("Swagger integration", () => {
       const response = await request.get("/v2/doc/swagger.json").expect(200);
 
       expect(response.body).to.deep.eq({
-        consumes: ["application/json"],
-        info: {
-          title: "Swagger title",
-          version: "1.2.0"
+        "info": {
+          "title": "Swagger title",
+          "version": "1.2.0"
         },
-        paths: {
+        "openapi": "3.0.1",
+        "paths": {
           "/api/v1/orgs/{orgName}/campaigns/{campaignID}/polls/{pollId}": {
-            get: {
-              operationId: "pollCtrlGet",
-              parameters: [
+            "get": {
+              "operationId": "pollCtrlGet",
+              "parameters": [
                 {
-                  in: "path",
-                  name: "orgName",
-                  required: true,
-                  type: "string"
+                  "in": "path",
+                  "name": "orgName",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
                 },
                 {
-                  in: "path",
-                  name: "campaignID",
-                  required: true,
-                  type: "string"
+                  "in": "path",
+                  "name": "campaignID",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
                 },
                 {
-                  in: "path",
-                  name: "pollId",
-                  required: true,
-                  type: "string"
+                  "in": "path",
+                  "name": "pollId",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
                 }
               ],
-              responses: {
+              "responses": {
                 "200": {
-                  description: "Success"
+                  "description": "Success"
                 }
               },
-              tags: ["PollCtrl"]
+              "tags": [
+                "PollCtrl"
+              ]
             }
           }
         },
-        produces: ["application/json"],
-        swagger: "2.0",
-        tags: [
+        "tags": [
           {
-            name: "PollCtrl"
+            "name": "PollCtrl"
           }
         ]
       });

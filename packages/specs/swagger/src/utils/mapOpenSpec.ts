@@ -1,8 +1,6 @@
 import {getValue, setValue} from "@tsed/core";
-import {OpenSpec2, OpenSpec3, OpenSpecVersions} from "@tsed/openspec";
-import {mergeSpec, SpecTypes} from "@tsed/schema";
-import {getSpecType} from "./getSpecType";
-import {mapOpenSpec2} from "./mapOpenSpec2";
+import {OpenSpec3, OpenSpecVersions} from "@tsed/openspec";
+import {mergeSpec} from "@tsed/schema";
 import {mapOpenSpec3} from "./mapOpenSpec3";
 
 /**
@@ -13,25 +11,16 @@ import {mapOpenSpec3} from "./mapOpenSpec3";
  * @param acceptMimes
  * @param specVersion
  */
-export function mapOpenSpec(spec: any, {fileSpec, acceptMimes, specVersion, version}: any): Partial<OpenSpec2 | OpenSpec3> {
-  specVersion = specVersion || getValue<OpenSpecVersions>(spec, "openapi", getValue(spec, "swagger", "2.0"));
+export function mapOpenSpec(spec: any, {fileSpec, acceptMimes, specVersion, version}: any): Partial<OpenSpec3> {
+  specVersion = specVersion || getValue<OpenSpecVersions>(spec, "openapi", "3.0.1");
 
   const options = {
     specVersion,
     acceptMimes
   };
 
-  switch (getSpecType(specVersion)) {
-    case SpecTypes.OPENAPI:
-      spec = mapOpenSpec3(spec, options);
-      fileSpec = fileSpec ? mapOpenSpec3(fileSpec, options) : fileSpec;
-      break;
-    default:
-    case SpecTypes.SWAGGER:
-      spec = mapOpenSpec2(spec, options);
-      fileSpec = fileSpec ? mapOpenSpec2(fileSpec, options) : fileSpec;
-      break;
-  }
+  spec = mapOpenSpec3(spec, options);
+  fileSpec = fileSpec ? mapOpenSpec3(fileSpec, options) : fileSpec;
 
   spec = mergeSpec(spec, fileSpec);
 

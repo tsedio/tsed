@@ -1,5 +1,5 @@
 import {cleanObject, toMap, Type} from "@tsed/core";
-import {OpenSpecHash, OpenSpecRef, OS2Schema, OS3Example, OS3Parameter, OS3Schema} from "@tsed/openspec";
+import {OpenSpecHash, OpenSpecRef, OS3Example, OS3Parameter, OS3Schema} from "@tsed/openspec";
 import {JsonSchemaOptions} from "../interfaces";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics, popGenerics} from "../utils/generics";
@@ -7,8 +7,6 @@ import {JsonMap} from "./JsonMap";
 import {formatParameterType, isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
 import {SpecTypes} from "./SpecTypes";
-
-const IGNORE_OS2_PROPS = ["example", "examples", "title"];
 
 export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
   nestedGenerics: Type<any>[][] = [];
@@ -68,12 +66,12 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
       return null;
     }
 
-    const schemasContainer = toMap<string, OS2Schema | OS3Schema>(options.schemas || {});
+    const schemasContainer = toMap<string, OS3Schema>(options.schemas || {});
 
     return this.build({...options, groups: this.groups}, schemasContainer);
   }
 
-  private build(options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema | OS2Schema>) {
+  private build(options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema>) {
     const {type, schema, ...parameter} = super.toJSON(options);
 
     const jsonSchema = execMapper("item", this.$schema, {
@@ -109,53 +107,12 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
       return parameter;
     }
 
-    if (options.specType === SpecTypes.OPENAPI) {
-      if (["query"].includes(this.get("in")) && jsonSchema.$ref) {
-        if (!parameter.name) {
-          return this.refToParameters(parameter, options, schemasContainer);
-        }
-
-        parameter.style = "deepObject";
-      }
-    }
-
-    if (options.specType === SpecTypes.SWAGGER) {
-      if (!jsonSchema.$ref && Object.keys(jsonSchema).length === 1) {
-        parameter.type = jsonSchema.type;
-        return parameter;
+    if (["query"].includes(this.get("in")) && jsonSchema.$ref) {
+      if (!parameter.name) {
+        return this.refToParameters(parameter, options, schemasContainer);
       }
 
-      if (["formData", "query"].includes(this.get("in"))) {
-        if (jsonSchema.$ref) {
-          return this.refToParameters(parameter, options, schemasContainer);
-        }
-
-        if (jsonSchema.type === "array") {
-          const {minLength, ...props} = jsonSchema;
-          return cleanObject(
-            {
-              ...parameter,
-              ...props,
-              type: "array",
-              collectionFormat: "multi",
-              items: {
-                type: "string"
-              }
-            },
-            IGNORE_OS2_PROPS
-          );
-        }
-      }
-
-      if (this.get("in") !== "body") {
-        return cleanObject(
-          {
-            ...parameter,
-            ...jsonSchema
-          },
-          IGNORE_OS2_PROPS
-        );
-      }
+      parameter.style = "deepObject";
     }
 
     parameter.schema = jsonSchema;
@@ -163,7 +120,7 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     return parameter;
   }
 
-  private refToParameters(parameter: any, options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema | OS2Schema>) {
+  private refToParameters(parameter: any, options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema>) {
     const schema = options.schemas![this.$schema.getName()];
 
     if (options.schemas![this.$schema.getName()] && !schemasContainer.has(this.$schema.getName())) {

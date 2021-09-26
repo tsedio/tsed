@@ -23,59 +23,6 @@ describe("@CustomKey", () => {
     });
   });
 
-  it("should return the spec (OS2)", () => {
-    // WHEN
-    class Model {
-      @CustomKey("range", [1, 2])
-      num: number;
-    }
-
-    @Path("/")
-    class MyController {
-      @OperationPath("GET", "/")
-      @Returns(200, Model)
-      get() {}
-    }
-
-    // THEN
-    const spec = getSpec(MyController, {specType: SpecTypes.SWAGGER});
-
-    expect(spec).toEqual({
-      definitions: {
-        Model: {
-          properties: {
-            num: {
-              type: "number"
-            }
-          },
-          type: "object"
-        }
-      },
-      paths: {
-        "/": {
-          get: {
-            operationId: "myControllerGet",
-            parameters: [],
-            produces: ["application/json"],
-            responses: {
-              "200": {
-                description: "Success",
-                schema: {
-                  $ref: "#/definitions/Model"
-                }
-              }
-            },
-            tags: ["MyController"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "MyController"
-        }
-      ]
-    });
-  });
   it("should return the spec (OS3)", () => {
     // WHEN
     class Model {

@@ -1,4 +1,4 @@
-import {OpenSpecHash, OS2Schema, OS3Schema} from "@tsed/openspec";
+import {OpenSpecHash, OS3Schema} from "@tsed/openspec";
 import {SpecTypes} from "../domain/SpecTypes";
 
 export interface JsonSchemaOptions {
@@ -9,7 +9,7 @@ export interface JsonSchemaOptions {
   /**
    * Reference to Schema Object.
    */
-  schemas?: OpenSpecHash<OS3Schema | OS2Schema>;
+  schemas?: OpenSpecHash<OS3Schema>;
   /**
    * Define Spec types level
    */

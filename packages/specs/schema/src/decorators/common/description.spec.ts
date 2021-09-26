@@ -103,61 +103,6 @@ describe("@Description", () => {
       ]
     });
   });
-  it("should declare description on params (BODY - SWAGGER)", () => {
-    // WHEN
-    class MyModel {
-      @Property()
-      id: string;
-    }
-
-    class MyController {
-      @OperationPath("POST", "/")
-      method(@In("body") @Description("Description") payload: MyModel) {}
-    }
-
-    // THEN
-    expect(getSpec(MyController, {specType: SpecTypes.SWAGGER})).toEqual({
-      definitions: {
-        MyModel: {
-          properties: {
-            id: {
-              type: "string"
-            }
-          },
-          type: "object"
-        }
-      },
-      tags: [
-        {
-          name: "MyController"
-        }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "myControllerMethod",
-            parameters: [
-              {
-                in: "body",
-                name: "body",
-                required: false,
-                description: "Description",
-                schema: {
-                  $ref: "#/definitions/MyModel"
-                }
-              }
-            ],
-            responses: {
-              "200": {
-                description: "Success"
-              }
-            },
-            tags: ["MyController"]
-          }
-        }
-      }
-    });
-  });
   it("should declare description on params (BODY - openapi3)", () => {
     // WHEN
     class MyModel {

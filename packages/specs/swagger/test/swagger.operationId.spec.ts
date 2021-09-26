@@ -68,7 +68,7 @@ describe("Swagger integration", () => {
         swagger: [
           {
             path: "/v2/doc",
-            specVersion: "2.0",
+            specVersion: "3.0.1",
             showExplorer: true,
             operationIdPattern: "%c_%m",
             spec: {
@@ -97,125 +97,6 @@ describe("Swagger integration", () => {
     });
     afterEach(PlatformTest.reset);
 
-    it("should swagger spec 2", async () => {
-      const response = await request.get("/v2/doc/swagger.json").expect(200);
-
-      expect(response.body).to.deep.eq({
-        consumes: ["application/json"],
-        definitions: {
-          Calendar: {
-            properties: {
-              id: {
-                type: "string"
-              },
-              name: {
-                minLength: 1,
-                type: "string"
-              }
-            },
-            required: ["name"],
-            type: "object"
-          }
-        },
-        info: {
-          title: "Swagger title",
-          version: "1.2.0"
-        },
-        paths: {
-          "/rest/calendars": {
-            get: {
-              operationId: "CalendarsController_getAll",
-              parameters: [],
-              produces: ["application/json"],
-              responses: {
-                "200": {
-                  description: "Success",
-                  schema: {
-                    items: {
-                      $ref: "#/definitions/Calendar"
-                    },
-                    type: "array"
-                  }
-                }
-              },
-              tags: ["CalendarsController"]
-            }
-          },
-          "/rest/calendars/{id}": {
-            get: {
-              operationId: "CalendarsController_get",
-              parameters: [
-                {
-                  description: "Mongoose ObjectId",
-                  in: "path",
-                  name: "id",
-                  pattern: "^[0-9a-fA-F]{24}$",
-                  required: true,
-                  type: "string"
-                }
-              ],
-              produces: ["application/json"],
-              responses: {
-                "200": {
-                  description: "Success",
-                  schema: {
-                    $ref: "#/definitions/Calendar"
-                  }
-                }
-              },
-              tags: ["CalendarsController"]
-            }
-          },
-          "/rest/calendars/csv": {
-            post: {
-              operationId: "CalendarsController_csv",
-              parameters: [
-                {
-                  in: "body",
-                  name: "body",
-                  required: false,
-                  type: "string"
-                }
-              ],
-              produces: ["text/plain"],
-              consumes: ["text/plain"],
-              responses: {
-                "200": {
-                  description: "Success",
-                  schema: {
-                    type: "string"
-                  }
-                }
-              },
-              tags: ["CalendarsController"]
-            }
-          },
-          "/rest/calendars/events": {
-            get: {
-              description: "Events",
-              operationId: "EventCtrl_get",
-              parameters: [],
-              responses: {
-                "200": {
-                  description: "Success"
-                }
-              },
-              tags: ["EventCtrl"]
-            }
-          }
-        },
-        produces: ["application/json"],
-        swagger: "2.0",
-        tags: [
-          {
-            name: "EventCtrl"
-          },
-          {
-            name: "CalendarsController"
-          }
-        ]
-      });
-    });
     it("should swagger spec 3", async () => {
       const response = await request.get("/v3/doc/swagger.json").expect(200);
 
