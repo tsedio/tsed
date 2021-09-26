@@ -4,6 +4,7 @@
   ],
   "exclude": [
     "**/*.d.ts",
+    "**/*.spec.ts",
     "node_modules",
     "**/interfaces/**",
     "**/index.ts"
@@ -21,6 +22,6 @@
   "check-coverage": true,
   "statements": 99.14,
   "branches": 70.45,
-  "functions": 97.22,
+  "functions": 100,
   "lines": 100
 }

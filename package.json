@@ -178,8 +178,8 @@
     }
   },
   "monorepo": {
-    "productionBranch": "feat-v7",
-    "developBranch": "feat-v7",
+    "productionBranch": "alpha",
+    "developBranch": "alpha",
     "npmAccess": "public",
     "ignoreSyncDependencies": [
       "express",
