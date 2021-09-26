@@ -1,9 +1,8 @@
-import {DecoratorTypes, prototypeOf, Type} from "@tsed/core";
+import {DecoratorTypes} from "@tsed/core";
 import {JsonEntityComponent, JsonEntityStore} from "@tsed/schema";
 
+/**
+ * @deprecated Since 2021-09-26. Use JsonEntityStore
+ */
 @JsonEntityComponent(DecoratorTypes.PROP)
-export class PropertyMetadata extends JsonEntityStore {
-  static get(target: Type<any>, propertyKey: string | symbol) {
-    return JsonEntityStore.from<PropertyMetadata>(prototypeOf(target), propertyKey);
-  }
-}
+export class PropertyMetadata extends JsonEntityStore {}

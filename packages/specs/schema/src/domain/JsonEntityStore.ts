@@ -8,6 +8,7 @@ import {
   isCollection,
   isPromise,
   Metadata,
+  prototypeOf,
   Store,
   Type
 } from "@tsed/core";
@@ -352,6 +353,10 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
     }
 
     return parameter;
+  }
+
+  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: any) {
+    return JsonEntityStore.from(prototypeOf(target), propertyKey, descriptor);
   }
 }
 
