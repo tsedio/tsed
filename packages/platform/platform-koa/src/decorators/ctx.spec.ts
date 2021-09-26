@@ -1,7 +1,6 @@
-import {ParamMetadata, ParamTypes} from "@tsed/common";
+import {ParamMetadata} from "@tsed/common";
 import {Ctx} from "@tsed/platform-koa";
 import {expect} from "chai";
-import {State} from "./state";
 
 describe("@Ctx", () => {
   it("should call store the right configuration", () => {
