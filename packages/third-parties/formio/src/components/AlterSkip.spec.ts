@@ -1,8 +1,7 @@
-import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {AlterSkip} from "./AlterSkip";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 
 const sandbox = Sinon.createSandbox();
 
@@ -11,10 +10,7 @@ describe("AlterSkip", () => {
   afterEach(PlatformTest.reset);
 
   it("should transform skip", async () => {
-    const ctx = PlatformTest.createRequestContext({
-      request: new PlatformRequest<any>(new FakeRequest()),
-      response: new PlatformResponse<any>(new FakeResponse(sandbox))
-    });
+    const ctx = PlatformTest.createRequestContext();
 
     const alterSkip = await PlatformTest.invoke<AlterSkip>(AlterSkip);
 
@@ -26,10 +22,7 @@ describe("AlterSkip", () => {
   });
 
   it("should transform skip and return false", async () => {
-    const ctx = PlatformTest.createRequestContext({
-      request: new PlatformRequest<any>(new FakeRequest()),
-      response: new PlatformResponse<any>(new FakeResponse(sandbox))
-    });
+    const ctx = PlatformTest.createRequestContext();
 
     const alterSkip = await PlatformTest.invoke<AlterSkip>(AlterSkip);
 
@@ -41,10 +34,7 @@ describe("AlterSkip", () => {
   });
 
   it("should not transform skip", async () => {
-    const ctx = PlatformTest.createRequestContext({
-      request: new PlatformRequest<any>(new FakeRequest()),
-      response: new PlatformResponse<any>(new FakeResponse(sandbox))
-    });
+    const ctx = PlatformTest.createRequestContext();
 
     const alterSkip = await PlatformTest.invoke<AlterSkip>(AlterSkip);
 

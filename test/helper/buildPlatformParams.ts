@@ -1,4 +1,4 @@
-import {ParamMetadata, ParamOptions, ParseExpressionPipe, PlatformParams, PlatformTest} from "@tsed/common";
+import {ParamMetadata, ParamOptions, PlatformParams, PlatformTest} from "@tsed/common";
 import {createFakeHandlerContext} from "./createFakeHandlerContext";
 
 export interface TestPlatformParamsOptions extends ParamOptions {
@@ -25,7 +25,7 @@ export async function buildPlatformParams({sandbox, expression, required, ...opt
     ...options
   });
 
-  const h = createFakeHandlerContext(param, sandbox);
+  const h = createFakeHandlerContext();
 
   if (required) {
     param.required = required;

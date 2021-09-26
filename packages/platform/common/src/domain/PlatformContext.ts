@@ -12,10 +12,11 @@ declare global {
 }
 
 export interface PlatformContextOptions extends DIContextOptions {
-  url: string;
+  event: {
+    response?: ServerResponse;
+    request?: IncomingMessage;
+  };
   ignoreUrlPatterns?: any[];
-  response?: PlatformResponse;
-  request?: PlatformRequest;
   endpoint?: EndpointMetadata;
 }
 
@@ -36,23 +37,23 @@ export class PlatformContext extends DIContext implements ContextMethods {
    * The current @@PlatformRequest@@.
    */
   public request: PlatformRequest;
-  /**
-   *
-   */
-  public readonly url: string;
 
   #ignoreUrlPatterns: RegExp[] = [];
 
-  constructor({response, request, endpoint, url, ignoreUrlPatterns = [], ...options}: PlatformContextOptions) {
+  constructor({
+    event,
+    endpoint,
+    ignoreUrlPatterns = [],
+    ResponseKlass = PlatformResponse,
+    RequestKlass = PlatformRequest,
+    ...options
+  }: PlatformContextOptions) {
     super({
       ...options,
-      url,
       ignoreLog: () => {
         return this.#ignoreUrlPatterns.find((reg) => !!this.url.match(reg));
       }
     });
-
-    this.url = url;
 
     endpoint && (this.endpoint = endpoint);
 
@@ -60,17 +61,25 @@ export class PlatformContext extends DIContext implements ContextMethods {
       typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern
     );
 
-    if (response) {
-      this.response = response;
-      this.container.set(PlatformResponse, response);
-    }
+    this.response = new ResponseKlass(event);
+    this.request = new RequestKlass(event);
 
-    if (request) {
-      this.request = request;
-      this.container.set(PlatformRequest, request);
-    }
+    this.response.request = this.request;
+    this.request.response = this.response;
 
+    this.request.request.$ctx = this;
+    this.request.request.id = this.id;
+    this.logger.url = this.url;
+
+    this.container.set(PlatformResponse, this.response);
+    this.container.set(PlatformRequest, this.request);
     this.container.set(PlatformContext, this);
+
+    this.response.setHeader("x-request-id", this.id);
+  }
+
+  get url() {
+    return this.request.url;
   }
 
   get app() {
@@ -79,6 +88,9 @@ export class PlatformContext extends DIContext implements ContextMethods {
 
   async destroy() {
     await super.destroy();
+
+    delete this.request?.request?.$ctx;
+
     this.response.destroy();
     this.request.destroy();
 

@@ -269,20 +269,6 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     this.settings.set("routes", routes);
   }
 
-  protected createRequest(req: any): PlatformRequest {
-    const Klass = this.#providers.get(PlatformRequest)!.useClass!;
-
-    return new Klass(req);
-  }
-
-  protected createResponse(res: any): PlatformResponse {
-    const Klass = this.#providers.get(PlatformResponse)!.useClass!;
-    const response = new Klass(res);
-    response.platformViews = this.injector.get<PlatformViews>(PlatformViews)!;
-
-    return response;
-  }
-
   /**
    * Load middlewares from configuration for the given hook
    * @param hook

@@ -1,6 +1,5 @@
-import {PlatformRequest, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import {FakeRequest} from "../../../../../test/helper";
 import {GlobalAcceptMimesMiddleware} from "./GlobalAcceptMimesMiddleware";
 
 describe("GlobalAcceptMimesMiddleware", () => {
@@ -8,14 +7,14 @@ describe("GlobalAcceptMimesMiddleware", () => {
   afterEach(() => PlatformTest.reset());
   describe("accept", () => {
     it("should return nothing", () => {
-      const request: any = new FakeRequest({
+      const request: any = PlatformTest.createRequest({
         headers: {
           accept: "application/json"
         }
       });
 
       const context = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request)
+        event: {request}
       });
 
       const middleware = new GlobalAcceptMimesMiddleware();

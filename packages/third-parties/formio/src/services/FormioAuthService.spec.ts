@@ -300,7 +300,12 @@ describe("FormioAuthService", () => {
       const error = await catchAsyncError(() => service.generatePayloadToken(user as any, ctx));
 
       expect(error?.name).to.deep.eq("Error");
-      expect(formioService.audit).to.have.been.calledWithExactly("EAUTH_USERFORM", {userId: "id"}, "605f0d40fe971372e448bcad", error);
+      expect(formioService.audit).to.have.been.calledWithExactly(
+        "EAUTH_USERFORM",
+        {...ctx.request.raw, userId: user._id},
+        "605f0d40fe971372e448bcad",
+        error
+      );
     });
     it("should throw error when the form isn't found", async () => {
       const {service, formioService} = await createServiceFixture();
@@ -316,9 +321,14 @@ describe("FormioAuthService", () => {
       const error = await catchAsyncError(() => service.generatePayloadToken(user as any, ctx));
 
       expect(error?.name).to.deep.eq("NOT_FOUND");
-      expect(formioService.audit).to.have.been.calledWithExactly("EAUTH_USERFORM", {userId: "id"}, "605f0d40fe971372e448bcad", {
-        message: "User form not found"
-      });
+      expect(formioService.audit).to.have.been.calledWithExactly(
+        "EAUTH_USERFORM",
+        {...ctx.request.raw, userId: user._id},
+        "605f0d40fe971372e448bcad",
+        {
+          message: "User form not found"
+        }
+      );
     });
   });
   describe("generateSession()", () => {

@@ -3,7 +3,6 @@ import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import Passport from "passport";
 import Sinon from "sinon";
-import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 import {stub} from "../../../../../test/helper/tools";
 import {Protocol, ProtocolsService} from "../index";
 
@@ -87,7 +86,7 @@ describe("ProtocolsService", () => {
       // GIVEN
       stub(LocalProtocol.prototype.$onVerify).returns({id: 0});
       const provider = injector.getProvider(LocalProtocol)!;
-      const ctx = createFakePlatformContext(sandbox);
+      const ctx = PlatformTest.createRequestContext();
 
       // WHEN
       const result = protocolService.invoke(provider);
@@ -109,7 +108,7 @@ describe("ProtocolsService", () => {
       stub(LocalProtocol.prototype.$onVerify).rejects(error);
 
       const provider = injector.getProvider(LocalProtocol)!;
-      const ctx = createFakePlatformContext(sandbox);
+      const ctx = PlatformTest.createRequestContext();
 
       // WHEN
       const result = protocolService.invoke(provider);

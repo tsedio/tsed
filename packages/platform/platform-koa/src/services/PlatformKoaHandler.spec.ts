@@ -3,7 +3,6 @@ import {PlatformKoaHandler} from "@tsed/platform-koa";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {invokePlatformHandler} from "../../../../../test/helper/invokePlatformHandler";
-import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 
 const sandbox = Sinon.createSandbox();
 
@@ -51,7 +50,7 @@ describe("PlatformKoaHandler", () => {
 
         PlatformTest.invoke(Test);
 
-        const $ctx = createFakePlatformContext(sandbox);
+        const $ctx = PlatformTest.createRequestContext();
         const next = sandbox.stub();
         const ctx = {
           request: $ctx.getRequest(),

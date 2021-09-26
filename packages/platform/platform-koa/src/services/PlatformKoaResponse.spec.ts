@@ -2,15 +2,28 @@ import {PlatformTest} from "@tsed/common";
 import {PlatformKoaResponse} from "@tsed/platform-koa";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeResponse} from "../../../../../test/helper";
 
 const sandbox = Sinon.createSandbox();
 
 function createResponse() {
-  const res: any = new FakeResponse(sandbox);
-  const response = new PlatformKoaResponse(res);
+  const response = PlatformTest.createResponse();
+  const koaCtx = {
+    response: {
+      res: response
+    }
+  };
 
-  return {res, response};
+  response.ctx = koaCtx;
+
+  const ctx = PlatformTest.createRequestContext({
+    event: {
+      response,
+      ctx: koaCtx
+    },
+    ResponseKlass: PlatformKoaResponse
+  });
+
+  return {res: response, response: ctx.response};
 }
 
 describe("PlatformKoaResponse", () => {
@@ -72,75 +85,76 @@ describe("PlatformKoaResponse", () => {
     });
   });
   describe("location", () => {
-    it("should set header location", async () => {
+    it("should set header location", () => {
       const {res, response} = createResponse();
 
-      await response.location("https://location");
+      response.location("https://location");
 
-      expect(res.set).to.have.been.calledWithExactly("Location", "https://location");
+      expect(res.headers).to.deep.eq({
+        location: "https://location",
+        "x-request-id": "id"
+      });
     });
 
     it("should go back based on Referrer", async () => {
       const {res, response} = createResponse();
 
-      res.ctx = {
-        get: sandbox.stub().returns("https://location/back")
-      };
+      response.request.raw.headers["referrer"] = "https://location/back";
 
       await response.location("back");
 
-      expect(res.set).to.have.been.calledWithExactly("Location", "https://location/back");
-      expect(res.ctx.get).to.have.been.calledWithExactly("Referrer");
+      expect(res.headers).to.deep.eq({
+        location: "https://location/back",
+        "x-request-id": "id"
+      });
     });
 
     it("should go back based on default path", async () => {
       const {res, response} = createResponse();
 
-      res.ctx = {
-        get: sandbox.stub()
-      };
-
       await response.location("back");
 
-      expect(res.set).to.have.been.calledWithExactly("Location", "/");
-      expect(res.ctx.get).to.have.been.calledWithExactly("Referrer");
+      expect(res.headers).to.deep.eq({
+        location: "/",
+        "x-request-id": "id"
+      });
     });
   });
   describe("redirect", () => {
     it("should set header location (HEAD)", async () => {
       const {res, response} = createResponse();
 
-      res.get = sandbox.stub().withArgs("Location").returns("https://location");
-
-      res.ctx = {req: {method: "HEAD"}};
-      res.res = {
-        end: sandbox.stub()
-      };
+      res.headers["location"] = "https://location";
+      response.request.raw.method = "HEAD";
+      res.res = {end: sandbox.stub()};
 
       await response.redirect(301, "https://location");
 
       expect(res.body).to.equal("Moved Permanently. Redirecting to https://location");
       expect(response.statusCode).to.equal(301);
-      expect(res.set.getCall(0)).to.have.been.calledWithExactly("Location", "https://location");
-      expect(res.set.getCall(1)).to.have.been.calledWithExactly("Content-Length", "50");
+      expect(res.headers).to.deep.eq({
+        "content-length": 50,
+        location: "https://location",
+        "x-request-id": "id"
+      });
       expect(res.res.end).to.have.been.calledWithExactly();
     });
     it("should set header location (POST)", async () => {
       const {res, response} = createResponse();
 
-      res.get = sandbox.stub().withArgs("Location").returns("https://location");
-
-      res.ctx = {req: {method: "POST"}};
-      res.res = {
-        end: sandbox.stub()
-      };
+      res.headers["location"] = "https://location";
+      response.request.raw.method = "POST";
+      res.res = {end: sandbox.stub()};
 
       await response.redirect(301, "https://location");
 
       expect(res.body).to.equal("Moved Permanently. Redirecting to https://location");
       expect(response.statusCode).to.equal(301);
-      expect(res.set.getCall(0)).to.have.been.calledWithExactly("Location", "https://location");
-      expect(res.set.getCall(1)).to.have.been.calledWithExactly("Content-Length", "50");
+      expect(res.headers).to.deep.eq({
+        "content-length": 50,
+        location: "https://location",
+        "x-request-id": "id"
+      });
       expect(res.res.end).to.have.been.calledWithExactly("Moved Permanently. Redirecting to https://location");
     });
   });

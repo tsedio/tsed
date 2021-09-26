@@ -1,9 +1,8 @@
-import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {levels} from "@tsed/logger";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {PlatformLogMiddleware} from "./PlatformLogMiddleware";
 
 function createContext(settings: any) {
@@ -20,29 +19,24 @@ function createContext(settings: any) {
 
   const middleware = new PlatformLogMiddleware(injector as any);
 
-  const request = new FakeRequest();
-
-  request.method = "GET";
-  request.url = "url";
-  // @ts-ignore
-  request.originalUrl = undefined;
-
-  const response = new FakeResponse();
-  response.statusCode = 200;
-
   const ctx = PlatformTest.createRequestContext({
-    request: new PlatformRequest(request as any),
-    response: new PlatformResponse(response as any)
+    event: {
+      request: PlatformTest.createRequest({
+        method: "GET",
+        url: "url",
+        originalUrl: undefined
+      }),
+      response: PlatformTest.createResponse({
+        statusCode: 200
+      })
+    },
+    logger: injector.logger
   });
 
-  // @ts-ignore
-  ctx.logger.logger = injector.logger;
   ctx.logger.maxStackSize = 0;
   ctx.data = "test";
 
-  request.$ctx = ctx;
-
-  return {request, ctx, injector, middleware};
+  return {request: ctx.request.raw, ctx, injector, middleware};
 }
 
 describe("PlatformLogMiddleware", () => {

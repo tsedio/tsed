@@ -1,18 +1,15 @@
-import {PlatformTest, PlatformViews} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import Sinon from "sinon";
-import {FakeResponse} from "../../../../../test/helper";
 import {PlatformResponse} from "./PlatformResponse";
 
 const sandbox = Sinon.createSandbox();
 
 function createResponse() {
-  const res: any = new FakeResponse(sandbox);
-  const response = new PlatformResponse(res);
-  response.platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
+  const ctx = PlatformTest.createRequestContext();
 
-  return {res, response};
+  return {res: ctx.response.raw, response: ctx.response};
 }
 
 describe("PlatformResponse", () => {
@@ -36,7 +33,7 @@ describe("PlatformResponse", () => {
   describe("status()", () => {
     it("should set status code", () => {
       const {res, response} = createResponse();
-
+      sandbox.stub(res, "status");
       response.status(204);
 
       expect(res.status).to.have.been.calledWithExactly(204);
@@ -48,7 +45,10 @@ describe("PlatformResponse", () => {
 
       response.setHeaders({"x-token": "token"});
 
-      expect(res.set).to.have.been.calledWithExactly("x-token", "token");
+      expect(res.headers).to.deep.eq({
+        "x-request-id": "id",
+        "x-token": "token"
+      });
     });
   });
   describe("contentType()", () => {
@@ -57,17 +57,19 @@ describe("PlatformResponse", () => {
 
       response.contentType("application/json");
 
-      expect(res.contentType).to.have.been.calledWithExactly("application/json");
+      expect(res.headers).to.deep.eq({
+        "content-type": "application/json",
+        "x-request-id": "id"
+      });
     });
   });
   describe("getContentType()", () => {
     it("should get content Type", () => {
       const {res, response} = createResponse();
 
-      res.get.returns("application/json");
+      res.headers["content-type"] = "application/json";
 
       expect(response.getContentType()).to.equal("application/json");
-      expect(res.get).to.have.been.calledWithExactly("Content-Type");
     });
   });
   describe("contentLength()", () => {
@@ -76,17 +78,16 @@ describe("PlatformResponse", () => {
 
       response.contentLength(5);
 
-      expect(res.set).to.have.been.calledWithExactly("Content-Length", "5");
+      expect(res.headers).to.deep.eq({"content-length": 5, "x-request-id": "id"});
     });
   });
   describe("getContentLength()", () => {
     it("should set content Type", () => {
       const {res, response} = createResponse();
 
-      res.get.returns("5");
+      response.contentLength(5);
 
       expect(response.getContentLength()).to.equal(5);
-      expect(res.get).to.have.been.calledWithExactly("Content-Length");
     });
   });
   describe("redirect()", () => {
@@ -95,7 +96,8 @@ describe("PlatformResponse", () => {
 
       response.redirect(302, "/path");
 
-      expect(res.redirect).to.have.been.calledWithExactly(302, "/path");
+      expect(res.headers).to.deep.equal({location: "/path", "x-request-id": "id"});
+      expect(res.statusCode).to.equal(302);
     });
   });
   describe("render()", () => {
@@ -122,7 +124,10 @@ describe("PlatformResponse", () => {
 
       response.location("/path");
 
-      expect(res.location).to.have.been.calledWithExactly("/path");
+      expect(res.headers).to.deep.eq({
+        location: "/path",
+        "x-request-id": "id"
+      });
     });
   });
   describe("body()", () => {
@@ -131,14 +136,14 @@ describe("PlatformResponse", () => {
 
       response.body(undefined);
 
-      expect(res.send).to.have.been.calledWithExactly();
+      expect(res.data).to.equal(undefined);
     });
     it("should call body with string", () => {
       const {res, response} = createResponse();
 
       response.body("string");
 
-      expect(res.send).to.have.been.calledWithExactly("string");
+      expect(res.data).to.eq("string");
       expect(response.getBody()).to.eq("string");
     });
     it("should call body with stream", () => {
@@ -156,16 +161,19 @@ describe("PlatformResponse", () => {
 
       response.body(buffer);
 
-      expect(res.send).to.have.been.calledWithExactly(buffer);
-      expect(res.contentType).to.have.been.calledWithExactly("application/octet-stream");
-      expect(res.set).to.have.been.calledWithExactly("Content-Length", "6");
+      expect(res.data).to.eq(buffer);
+      expect(res.headers).to.deep.eq({
+        "content-length": 6,
+        "content-type": "application/octet-stream",
+        "x-request-id": "id"
+      });
     });
     it("should call body with {}", () => {
       const {res, response} = createResponse();
 
       response.body({});
 
-      expect(res.json).to.have.been.calledWithExactly({});
+      expect(res.data).to.deep.eq({});
     });
   });
   describe("destroy()", () => {
@@ -183,9 +191,12 @@ describe("PlatformResponse", () => {
     it("should get headers", () => {
       const {res, response} = createResponse();
 
-      res.getHeaders.returns({contentType: "application/json"});
+      res.headers["content-type"] = "application/json";
 
-      expect(response.getHeaders()).to.deep.equal({contentType: "application/json"});
+      expect(response.getHeaders()).to.deep.equal({
+        "content-type": "application/json",
+        "x-request-id": "id"
+      });
     });
   });
 });

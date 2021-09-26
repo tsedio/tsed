@@ -1,4 +1,4 @@
-import {PlatformResponse} from "@tsed/common";
+import {IncomingEvent, PlatformResponse} from "@tsed/common";
 import {ServerResponse} from "http";
 import Koa from "koa";
 import {getStatusMessage} from "@tsed/schema";
@@ -16,12 +16,19 @@ declare global {
  * @koa
  */
 export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
+  #ctx: Koa.Context;
+
+  constructor(event: IncomingEvent) {
+    super(event);
+    this.#ctx = this.raw.ctx;
+  }
+
   get statusCode() {
     return this.raw.status;
   }
 
   get locals() {
-    return this.raw.ctx.state;
+    return this.#ctx.state;
   }
 
   /**
@@ -68,6 +75,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
   getHeaders() {
     return this.raw.headers;
   }
+
   /**
    * Send any data to your consumer.
    *
@@ -95,7 +103,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
     this.status(status);
     this.setHeader("Content-Length", Buffer.byteLength(this.raw.body));
 
-    if (this.raw.ctx.req.method === "HEAD") {
+    if (this.request.method === "HEAD") {
       this.getRes().end();
     } else {
       this.getRes().end(this.getBody());
@@ -107,7 +115,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
   location(location: string): this {
     // "back" is an alias for the referrer
     if (location === "back") {
-      location = this.raw.ctx.get("Referrer") || "/";
+      location = this.request.get("Referrer") || "/";
     }
 
     // set location

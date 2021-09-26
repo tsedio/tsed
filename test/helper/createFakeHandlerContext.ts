@@ -1,8 +1,7 @@
-import {AnyToPromiseWithCtx, ParamMetadata} from "@tsed/common";
-import {createFakePlatformContext} from "./createFakePlatformContext";
+import { AnyToPromiseWithCtx, PlatformTest } from "@tsed/common";
 
-export function createFakeHandlerContext(param: ParamMetadata, sandbox: any) {
-  const $ctx = createFakePlatformContext(sandbox);
+export function createFakeHandlerContext() {
+  const $ctx = PlatformTest.createRequestContext();
 
   return new AnyToPromiseWithCtx({
     $ctx

@@ -1,6 +1,5 @@
 import {
   createContext,
-  Route,
   PlatformApplication,
   PlatformBuilder,
   PlatformExceptions,
@@ -64,8 +63,10 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
   protected useContext(): this {
     this.logger.info("Mount app context");
 
-    this.app.getApp().use(async (req: any, res: any, next: any) => {
-      await createContext(this.injector, this.createRequest(req), this.createResponse(res));
+    const invoke = createContext(this.injector);
+
+    this.app.getApp().use(async (request: any, response: any, next: any) => {
+      await invoke({request, response});
 
       return next();
     });

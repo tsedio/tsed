@@ -1,8 +1,7 @@
-import {EndpointMetadata, Get, PlatformResponse, PlatformTest, View} from "@tsed/common";
+import {EndpointMetadata, Get, PlatformTest, View} from "@tsed/common";
 import {Ignore, Property, Returns} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeResponse} from "../../../../../test/helper";
 import {renderView} from "./renderView";
 
 const sandbox = Sinon.createSandbox();
@@ -27,11 +26,8 @@ describe("renderView", () => {
       test() {}
     }
 
-    const response: any = new FakeResponse(sandbox);
     const ctx = PlatformTest.createRequestContext();
-
     ctx.endpoint = EndpointMetadata.get(Test, "test");
-    ctx.response = new PlatformResponse(response);
 
     sandbox.stub(ctx.response, "render").resolves("HTML");
 
@@ -52,11 +48,9 @@ describe("renderView", () => {
       test() {}
     }
 
-    const response: any = new FakeResponse(sandbox);
     const ctx = PlatformTest.createRequestContext();
-
     ctx.endpoint = EndpointMetadata.get(Test, "test");
-    ctx.response = new PlatformResponse(response);
+
     sandbox.stub(ctx.response, "render").callsFake(() => {
       throw new Error("parser error");
     });

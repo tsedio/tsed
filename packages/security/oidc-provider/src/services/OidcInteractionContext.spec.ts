@@ -1,15 +1,12 @@
-import {PlatformContext, PlatformResponse, PlatformTest} from "@tsed/common";
+import {PlatformContext, PlatformTest} from "@tsed/common";
 import {OidcInteractionContext, OidcProvider} from "@tsed/oidc-provider";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeResponse} from "../../../../../test/helper";
 
 const sandbox = Sinon.createSandbox();
 
 async function createOidcInteractionContextFixture(grantId: any = "grantId") {
-  const context = PlatformTest.createRequestContext({
-    response: new PlatformResponse(new FakeResponse(sandbox))
-  });
+  const context = PlatformTest.createRequestContext();
 
   const session = {
     accountId: "accountId"

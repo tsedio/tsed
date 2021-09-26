@@ -1,4 +1,4 @@
-import {Context, PlatformContext, PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
+import {Context, PlatformContext, PlatformTest} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 import {
   Action,
@@ -11,16 +11,9 @@ import {
   FormioService
 } from "@tsed/formio";
 import {expect} from "chai";
-import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../../test/helper";
-
-const sandbox = Sinon.createSandbox();
 
 async function getActionsFixture(formio: any) {
-  const ctx = PlatformTest.createRequestContext({
-    request: new PlatformRequest<any>(new FakeRequest()),
-    response: new PlatformResponse<any>(new FakeResponse(sandbox))
-  });
+  const ctx = PlatformTest.createRequestContext();
 
   ctx.getRequest().$ctx = ctx;
 
@@ -106,14 +99,12 @@ describe("AlterActions", () => {
       title: "My custom Action"
     });
     expect(settings).to.deep.eq([{}]);
-    expect(ctx.getResponse().send).to.have.been.calledOnceWithExactly(
-      JSON.stringify({
-        handler: "handler",
-        method: "method",
-        setActionItemMessage: "setActionItemMessage",
-        action: {}
-      })
-    );
+    expect(ctx.response.raw.data).to.deep.eq({
+      handler: "handler",
+      method: "method",
+      setActionItemMessage: "setActionItemMessage",
+      action: {}
+    });
   });
   it("should create the new actions and return response with customInfo", async () => {
     @Action({
@@ -188,14 +179,12 @@ describe("AlterActions", () => {
       title: "My custom Action"
     });
     expect(settings).to.deep.eq([{}]);
-    expect(ctx.getResponse().send).to.have.been.calledOnceWithExactly(
-      JSON.stringify({
-        handler: "handler",
-        method: "method",
-        setActionItemMessage: "setActionItemMessage",
-        action: {}
-      })
-    );
+    expect(ctx.response.raw.data).to.deep.eq({
+      handler: "handler",
+      method: "method",
+      setActionItemMessage: "setActionItemMessage",
+      action: {}
+    });
   });
   it("should create the new actions and call next", async () => {
     @Action({

@@ -1,8 +1,9 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
-import {Inject, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
+import {Injectable, ProviderScope, Scope} from "@tsed/di";
 import {PlatformViews} from "@tsed/platform-views";
 import {ServerResponse} from "http";
-import encodeUrl from "encodeurl";
+import {IncomingEvent} from "../interfaces/IncomingEvent";
+import type {PlatformRequest} from "./PlatformRequest";
 
 const onFinished = require("on-finished");
 
@@ -23,13 +24,21 @@ export type HeaderValue = Array<boolean | number | string> | boolean | number | 
  */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
-export class PlatformResponse<T extends {[key: string]: any} = any> {
-  @Inject()
+export class PlatformResponse<T extends Record<string, any> = any> {
   platformViews: PlatformViews;
+
+  /**
+   * The current @@PlatformRequest@@.
+   */
+  public request: PlatformRequest;
 
   data: any;
 
-  constructor(@Opts public raw: T) {}
+  raw: T;
+
+  constructor({response}: IncomingEvent) {
+    this.raw = response as any;
+  }
 
   /**
    * Get the current statusCode
@@ -136,7 +145,7 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
       return this.location(String(item));
     }
 
-    this.raw.set(key, String(item));
+    this.raw.set(key, item);
 
     return this;
   }
@@ -314,6 +323,8 @@ export class PlatformResponse<T extends {[key: string]: any} = any> {
     // @ts-ignore
     delete this.raw;
     delete this.data;
+    // @ts-ignore
+    delete this.request;
   }
 
   isHeadersSent() {

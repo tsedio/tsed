@@ -63,6 +63,7 @@ export class DIContext extends Map<any, any> implements ContextMethods {
   public logger: ContextLogger;
 
   #container = new LocalsContainer<any>();
+
   readonly #injector: InjectorService;
 
   constructor({id, injector, logger, ignoreLog, ...options}: DIContextOptions) {

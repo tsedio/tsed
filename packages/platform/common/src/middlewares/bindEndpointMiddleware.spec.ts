@@ -1,22 +1,23 @@
-import {bindEndpointMiddleware, EndpointMetadata} from "@tsed/common";
+import {bindEndpointMiddleware, EndpointMetadata, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import {FakeRequest} from "../../../../../test/helper";
 
 class Test {
   test() {}
 }
 
 describe("bindEndpointMiddleware", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
   it("should bind endpoint to the request", async () => {
     const endpoint = new EndpointMetadata({
       target: Test,
       propertyKey: "test"
     });
 
-    const request: any = new FakeRequest();
+    const ctx = PlatformTest.createRequestContext({endpoint});
 
-    bindEndpointMiddleware(endpoint)(request.$ctx);
+    bindEndpointMiddleware(endpoint)(ctx);
 
-    expect(request.$ctx.endpoint).to.equal(endpoint);
+    expect(ctx.endpoint).to.equal(endpoint);
   });
 });
