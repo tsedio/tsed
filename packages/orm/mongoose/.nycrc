@@ -3,6 +3,7 @@
     "src/**/*.ts"
   ],
   "exclude": [
+    "**/*.spec.ts",
     "**/*.d.ts",
     "node_modules",
     "**/interfaces/**",
@@ -19,8 +20,8 @@
     "json"
   ],
   "check-coverage": true,
-  "statements": 98.83,
-  "branches": 87.64,
-  "functions": 93.97,
-  "lines": 99.65
+  "statements": 99.73,
+  "branches": 94.29,
+  "functions": 98.9,
+  "lines": 99.72
 }

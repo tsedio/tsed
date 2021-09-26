@@ -4,19 +4,19 @@ import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 
 function getRef(opts: any) {
-  const ref = opts.ref || opts.type;
+  const ref = opts.ref;
 
   return isString(ref) ? ref : Store.from(ref).get(MONGOOSE_MODEL_NAME);
 }
 
 function getType(opts: any) {
-  const ref = opts.ref || opts.type;
+  const ref = opts.ref;
 
   return !isString(ref) ? ref : Object;
 }
 
 function getInitialOpts(options: string | MongooseVirtualRefOptions, foreignField?: string): any {
-  return isPlainObject(options) ? options : {type: options as any, foreignField};
+  return isPlainObject(options) ? options : {ref: options as any, foreignField};
 }
 
 function mapToSchema(opts: any) {
@@ -47,14 +47,14 @@ function mapToSchema(opts: any) {
  *
  * <<< @/tutorials/snippets/mongoose/virtual-references.ts
  *
- * @param type
+ * @param ref
  * @param foreignField
  * @returns {Function}
  * @decorator
  * @mongoose
  * @property
  */
-export function VirtualRef(type: string, foreignField: string): Function;
+export function VirtualRef(ref: string, foreignField: string): Function;
 export function VirtualRef(options: MongooseVirtualRefOptions): Function;
 export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function;
 export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignField?: string): Function {

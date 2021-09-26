@@ -31,7 +31,7 @@ describe("@VirtualRef()", () => {
     it("should set metadata", () => {
       // WHEN
       class Test {
-        @VirtualRef({type: "RefTest", foreignField: "foreign"})
+        @VirtualRef({ref: "RefTest", foreignField: "foreign"})
         test: any;
       }
 
@@ -53,7 +53,7 @@ describe("@VirtualRef()", () => {
       // WHEN
       class Test {
         @VirtualRef({
-          type: "RefTest",
+          ref: "RefTest",
           foreignField: "foreign",
           localField: "test_2",
           justOne: true,
