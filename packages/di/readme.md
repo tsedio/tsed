@@ -145,7 +145,7 @@ To organize your code Ts.ED DI provide different kind of providers:
 - Provider can be declared with `@Injectable`,
 - Service can be declared with `@Service`,
 - Interceptor can be declared with `@Interceptor`,
-- Factory and Value can be declared with `registerFactory` and `registerValue`.
+- Factory and Value can be declared with `registerProvider` and `registerValue`.
 
 
 See more details on our documentation https://tsed.io/providers.html

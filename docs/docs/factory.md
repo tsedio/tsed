@@ -9,16 +9,15 @@ This example shows you how you can add an already constructed service like a npm
 
 ```typescript
 // MyFooFactory.ts
-import {registerFactory} from "@tsed/common";
+import {registerProvider} from "@tsed/common";
 
-export interface IMyFooFactory {
+export interface MyFooFactory {
   getFoo(): string;
 }
 
-export type MyFooFactory = IMyFooFactory;
 export const MyFooFactory = Symbol("MyFooFactory");
 
-registerFactory(MyFooFactory, {
+registerProvider(MyFooFactory, { 
   getFoo: () => "test"
 });
 ```
