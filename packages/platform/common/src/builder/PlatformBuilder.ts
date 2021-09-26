@@ -2,7 +2,6 @@ import {nameOf, Type} from "@tsed/core";
 import {colors, createContainer, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
 import {importProviders} from "@tsed/components-scan";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
-import {GlobalAcceptMimesMiddleware} from "../middlewares";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {createHttpServer, createHttpsServer, createInjector, printRoutes} from "../utils";
@@ -279,10 +278,6 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     if (this.settings.logger?.level !== "off") {
       const {PlatformLogMiddleware} = await import("@tsed/platform-log-middleware");
       this.app.use(PlatformLogMiddleware);
-    }
-
-    if (this.settings.acceptMimes?.length) {
-      this.app.use(GlobalAcceptMimesMiddleware);
     }
 
     this.log("Load routes");
