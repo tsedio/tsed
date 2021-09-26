@@ -9,7 +9,7 @@ import {
   UnsupportedDecoratorType,
   useDecorators
 } from "@tsed/core";
-import {AuthOptions, IAuthOptions} from "./authOptions";
+import {AuthOptions} from "./authOptions";
 import {UseBefore} from "./useBefore";
 
 /**
@@ -32,7 +32,7 @@ import {UseBefore} from "./useBefore";
  * @decorator
  * @operation
  */
-export function UseAuth(guardAuth: Type<any>, options: IAuthOptions = {}): Function {
+export function UseAuth(guardAuth: Type<any>, options: Record<string, unknown> = {}): Function {
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
     switch (decoratorTypeOf(args)) {
       case DecoratorTypes.METHOD:

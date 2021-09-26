@@ -29,12 +29,18 @@ describe("AuthOptions()", () => {
 
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
-      expect(store.get("responses")).to.deep.eq({
-        "200": {
-          description: "Success"
+      expect(store.get(Guard)).to.deep.eq({
+        security: [
+          {
+            auth: ["email"]
+          }
+        ],
+        responses: {
+          "200": {
+            description: "Success"
+          }
         }
       });
-      store.set("responses", {});
     });
   });
   describe("when the decorator is use on a class", () => {
@@ -59,9 +65,16 @@ describe("AuthOptions()", () => {
 
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
-      expect(store.get("responses")).to.deep.eq({
-        "200": {
-          description: "Success"
+      expect(store.get(Guard)).to.deep.eq({
+        security: [
+          {
+            auth: ["email"]
+          }
+        ],
+        responses: {
+          "200": {
+            description: "Success"
+          }
         }
       });
 

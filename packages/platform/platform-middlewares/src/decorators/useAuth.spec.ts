@@ -34,13 +34,18 @@ describe("UseAuth()", () => {
       const endpoint = EndpointMetadata.get(...args);
 
       expect(endpoint.beforeMiddlewares).to.deep.equal([Guard]);
-      expect(store.get("responses")).to.deep.eq({
-        "200": {
-          description: "Success"
-        }
+      expect(store.get(Guard)).to.deep.eq({
+        responses: {
+          "200": {
+            description: "Success"
+          }
+        },
+        security: [
+          {
+            auth: ["email"]
+          }
+        ]
       });
-      store.set("operation", {});
-      store.set("responses", {});
     });
   });
   describe("when the decorator is use on a class", () => {
@@ -70,14 +75,18 @@ describe("UseAuth()", () => {
 
       expect(endpoint.beforeMiddlewares).to.deep.equal([Guard]);
 
-      expect(store.get("responses")).to.deep.eq({
-        "200": {
-          description: "Success"
-        }
+      expect(store.get(Guard)).to.deep.eq({
+        responses: {
+          "200": {
+            description: "Success"
+          }
+        },
+        security: [
+          {
+            auth: ["email"]
+          }
+        ]
       });
-
-      store.set("operation", {});
-      store.set("responses", {});
     });
   });
   describe("when the decorator is use on a class and method", () => {
