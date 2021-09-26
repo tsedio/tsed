@@ -167,10 +167,6 @@ The middlewares shown in the Endpoints box will be replayed as many times as it 
 the request url.
 :::
 
-::: warning
-Only middlewares shown in the Endpoints box can use @@EndpointInfo@@ decorator to retrieve endpoint context execution.
-:::
-
 For example:
 
 <<< @/docs/snippets/middlewares/call-sequences.ts

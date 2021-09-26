@@ -42,8 +42,8 @@ import {Resource} from "./Resource"
 
 @Middleware()
 export class MyMiddleware {
-  use(@EndpointInfo() endpoint: EndpointInfo, @Context() ctx: Context) {
-    console.log(endpoint === ctx.endpoint) // true
+  use(@Context() ctx: Context) {
+    console.log(ctx.endpoint) // Endpoint Metadata
     console.log(ctx.endpoint.targetName) // MyCtrl
     console.log(ctx.endpoint.propertyKey) // getMethod
     console.log(ctx.endpoint.type) // Resource
