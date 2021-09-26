@@ -12,7 +12,6 @@ export * from "./method/endpointFn";
 export * from "./method/view";
 
 // Params
-export * from "./params/responseData";
 export * from "./params/response";
 export * from "./params/request";
 export * from "./params/next";
