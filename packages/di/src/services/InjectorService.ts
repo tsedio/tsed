@@ -647,7 +647,10 @@ export class InjectorService extends Container {
     } else if (provider.useFactory) {
       construct = (deps: TokenProvider[]) => provider.useFactory(...deps);
     } else if (provider.useAsyncFactory) {
-      construct = (deps: TokenProvider[]) => provider.useAsyncFactory(...deps);
+      construct = async (deps: TokenProvider[]) => {
+        deps = await Promise.all(deps);
+        return provider.useAsyncFactory(...deps);
+      };
     } else {
       // useClass
       isBindable = true;
