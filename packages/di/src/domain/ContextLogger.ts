@@ -18,11 +18,11 @@ export class ContextLogger {
   minimalRequestPicker: Function;
   completeRequestPicker: Function;
   maxStackSize: number;
-  readonly #additionalProps: Record<string, unknown>;
-  readonly #dateStart: Date;
-  readonly #ignoreLog: (data: any) => boolean;
-  #stack: any = [];
-  #level: LogLevel;
+  private readonly additionalProps: Record<string, unknown>;
+  private readonly dateStart: Date;
+  private readonly ignoreLog: (data: any) => boolean;
+  private stack: any = [];
+  private level: LogLevel;
 
   constructor(
     private logger: any,
@@ -41,13 +41,13 @@ export class ContextLogger {
   ) {
     this.id = id;
     this.url = url;
-    this.#additionalProps = additionalProps || {};
-    this.#dateStart = dateStart;
-    this.#ignoreLog = ignoreLog || (() => false);
+    this.additionalProps = additionalProps || {};
+    this.dateStart = dateStart;
+    this.ignoreLog = ignoreLog || (() => false);
     this.minimalRequestPicker = minimalRequestPicker || ((l: any) => l);
     this.completeRequestPicker = completeRequestPicker || ((l: any) => l);
     // @ts-ignore
-    this.#level = levels()[level.toUpperCase()] || levels().ALL;
+    this.level = levels()[level.toUpperCase()] || levels().ALL;
     this.maxStackSize = maxStackSize;
   }
 
@@ -80,24 +80,24 @@ export class ContextLogger {
   }
 
   public flush() {
-    if (this.#stack.length) {
-      this.#stack.forEach(({level, data}: any) => {
+    if (this.stack.length) {
+      this.stack.forEach(({level, data}: any) => {
         this.logger[level](data);
       });
 
-      this.#stack = [];
+      this.stack = [];
     }
   }
 
   public isLevelEnabled(otherLevel: string | LogLevel) {
-    return this.#level.isLessThanOrEqualTo(otherLevel);
+    return this.level.isLessThanOrEqualTo(otherLevel);
   }
 
   destroy() {
     this.flush();
 
     this.logger = undefined;
-    this.#stack = undefined;
+    this.stack = undefined;
   }
 
   /**
@@ -105,7 +105,7 @@ export class ContextLogger {
    * @returns {number}
    */
   protected getDuration(): number {
-    return new Date().getTime() - this.#dateStart.getTime();
+    return new Date().getTime() - this.dateStart.getTime();
   }
 
   protected getData(obj: any) {
@@ -113,7 +113,7 @@ export class ContextLogger {
       obj = {message: obj};
     }
 
-    return {...this.#additionalProps, reqId: this.id, time: new Date(), duration: this.getDuration(), ...obj};
+    return {...this.additionalProps, reqId: this.id, time: new Date(), duration: this.getDuration(), ...obj};
   }
 
   protected run(level: LogLevel, obj: any, mapper: (data: any) => any) {
@@ -121,11 +121,11 @@ export class ContextLogger {
       return;
     }
 
-    if (!this.#ignoreLog(obj)) {
-      this.#stack.push({level: level.levelStr.toLowerCase(), data: mapper(obj)});
+    if (!this.ignoreLog(obj)) {
+      this.stack.push({level: level.levelStr.toLowerCase(), data: mapper(obj)});
     }
 
-    if (this.maxStackSize < this.#stack.length) {
+    if (this.maxStackSize < this.stack.length) {
       this.flush();
     }
   }
