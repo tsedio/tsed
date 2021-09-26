@@ -25,7 +25,7 @@ describe("@UseParam", () => {
 
       class Ctrl {
         test(
-          @UseParam(ParamTypes.BODY, {
+          @UseParam({
             expression: "expression",
             useConverter: true,
             useValidation: true,

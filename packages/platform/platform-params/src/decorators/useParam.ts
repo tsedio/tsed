@@ -44,17 +44,11 @@ function mapPipes(options: Partial<ParamOptions>) {
  * @input
  * @pipe
  */
-export function UseParam(options: Partial<ParamOptions>): ParameterDecorator;
-/**
- * @deprecated Since v6
- */
-export function UseParam(paramType: string, options?: Partial<ParamOptions>): ParameterDecorator;
-export function UseParam(...args: any[]): ParameterDecorator {
-  const options = {
+export function UseParam(options: Partial<ParamOptions>): ParameterDecorator {
+  options = {
     dataPath: "$ctx",
-    ...((isString(args[0]) ? args[1] : args[0]) || {}),
-    paramType: isString(args[0]) ? args[0] : args[0].paramType
+    ...options
   };
 
-  return useDecorators(UseParamType(options), ...mapPipes(options)) as ParameterDecorator;
+  return useDecorators(UseParamType(options as any), ...mapPipes(options)) as ParameterDecorator;
 }
