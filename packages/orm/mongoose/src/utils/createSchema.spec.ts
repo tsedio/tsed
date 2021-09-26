@@ -524,7 +524,7 @@ describe("createSchema", () => {
 
     @Model()
     class Test8 {
-      @VirtualRef({type: Children4, foreignField: "foo"})
+      @VirtualRef({ref: Children4, foreignField: "foo"})
       tests: VirtualRef<Children4>[];
     }
 
