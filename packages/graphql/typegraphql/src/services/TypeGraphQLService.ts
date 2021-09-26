@@ -139,16 +139,3 @@ export class TypeGraphQLService {
     }
   }
 }
-
-/**
- * @deprecated Use TypeGraphQLService
- */
-export class GraphQLService extends TypeGraphQLService {}
-
-registerProvider({
-  provide: GraphQLService,
-  deps: [TypeGraphQLService],
-  useFactory(service: TypeGraphQLService) {
-    return service;
-  }
-});
