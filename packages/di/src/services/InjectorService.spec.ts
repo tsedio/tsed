@@ -1,9 +1,8 @@
 import {Store} from "@tsed/core";
-import {Container, GlobalProviders, Inject, InjectorService, LocalsContainer, Provider, ProviderScope} from "@tsed/di";
+import {Container, GlobalProviders, Inject, InjectorService, LocalsContainer, Provider, ProviderScope, ProviderType} from "@tsed/di";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {Configuration} from "@tsed/common";
-import {ProviderType} from "@tsed/di";
 import {INJECTABLE_PROP} from "../constants";
 
 class Test {
@@ -364,8 +363,40 @@ describe("InjectorService", () => {
         expect(result).to.deep.eq({factory: "test async factory"});
         expect(result2).to.deep.eq("test async factory");
       });
+      it("should invoke the provider from container with nested async factory", async () => {
+        // GIVEN
+        const tokenChild = Symbol.for("TokenChildFactory");
+        const providerChild = new Provider<any>(tokenChild);
+        providerChild.useAsyncFactory = async (dep: any) => "test async";
+
+        const token = Symbol.for("TokenFactory");
+        const provider = new Provider<any>(token);
+        provider.deps = [tokenChild];
+        provider.useAsyncFactory = async (dep: any) => ({factory: dep + " factory"});
+
+        const token2 = Symbol.for("TokenFactory2");
+        const provider2 = new Provider<any>(token2);
+        provider2.deps = [token];
+        provider2.useAsyncFactory = async (dep: any) => {
+          return {factory: dep.factory + " factory2"};
+        };
+
+        const injector = new InjectorService();
+        const container = new Container();
+        container.set(tokenChild, providerChild);
+        container.set(token, provider);
+        container.set(token2, provider2);
+
+        await injector.load(container);
+
+        // WHEN
+        const result: any = injector.invoke(token2);
+
+        // THEN
+        expect(result).to.deep.eq({factory: "test async factory factory2"});
+      });
     });
-    describe("when provider is an unknow provider", () => {
+    describe("when provider is an unknown provider", () => {
       it("should invoke the class from given parameter", async () => {
         // GIVEN
         const token = class {};
