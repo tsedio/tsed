@@ -1,18 +1,24 @@
 import {UseAuth} from "@tsed/common";
 import {AuthenticateOptions as PassportAuthenticateOptions} from "passport";
 import {PassportMiddleware} from "../middlewares/PassportMiddleware";
+import {useDecorators} from "@tsed/core";
+import {Security} from "@tsed/schema";
 
 export interface AuthenticateOptions extends PassportAuthenticateOptions {
-  security?: {[key: string]: string[]};
+  security?: Record<string, string[]>;
   originalUrl?: boolean;
 }
 
 export function Authenticate(protocol: string | string[] = "*", options: AuthenticateOptions = {}): Function {
-  return UseAuth(PassportMiddleware, {
-    protocol,
-    method: "authenticate",
-    security: options.security,
-    originalUrl: options.originalUrl === undefined ? true : options.originalUrl,
-    options
-  });
+  return useDecorators(
+    UseAuth(PassportMiddleware, {
+      protocol,
+      method: "authenticate",
+      originalUrl: options.originalUrl === undefined ? true : options.originalUrl,
+      options
+    }),
+    ...Object.entries(options.security || {}).map(([key, value]) => {
+      return Security(key, ...value);
+    })
+  );
 }
