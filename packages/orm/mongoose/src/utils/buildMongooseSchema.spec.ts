@@ -1,5 +1,4 @@
-import {PropertyMetadata} from "@tsed/common";
-import {Property} from "@tsed/schema";
+import {JsonEntityStore, Property} from "@tsed/schema";
 import {MONGOOSE_SCHEMA} from "../../src/constants";
 import {buildMongooseSchema} from "../../src/utils/createSchema";
 
@@ -35,7 +34,7 @@ describe("buildMongooseSchema", () => {
         test: String;
       }
 
-      const propertyMetadata = PropertyMetadata.get(Test, "test");
+      const propertyMetadata = JsonEntityStore.get(Test, "test");
       propertyMetadata.type = String;
       propertyMetadata.store.set(MONGOOSE_SCHEMA, {
         ref: "ref",
@@ -44,7 +43,7 @@ describe("buildMongooseSchema", () => {
         foreignField: "foreignField"
       });
 
-      PropertyMetadata.get(Test, "_id");
+      JsonEntityStore.get(Test, "_id");
       // WHEN
       const result = buildMongooseSchema(Test);
 

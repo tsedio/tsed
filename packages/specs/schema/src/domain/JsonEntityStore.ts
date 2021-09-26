@@ -276,4 +276,8 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
       }
     }
   }
+
+  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: any) {
+    return JsonEntityStore.from(prototypeOf(target), propertyKey, descriptor);
+  }
 }
