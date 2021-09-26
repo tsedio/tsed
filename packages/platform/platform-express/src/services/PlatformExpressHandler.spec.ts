@@ -2,7 +2,6 @@ import {Err, HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
 import {PlatformExpressHandler} from "@tsed/platform-express";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 import {invokePlatformHandler} from "../../../../../test/helper/invokePlatformHandler";
 
 const sandbox = Sinon.createSandbox();
@@ -127,7 +126,7 @@ describe("PlatformExpressHandler", () => {
         const error = new Error("test");
         PlatformTest.invoke(Test);
 
-        const $ctx = createFakePlatformContext(sandbox);
+        const $ctx = PlatformTest.createRequestContext();
 
         const handlerMetadata = new HandlerMetadata({
           token: Test,

@@ -1,5 +1,5 @@
 import "@koa/router";
-import {PlatformContext, PlatformRequest} from "@tsed/common";
+import {IncomingEvent, PlatformContext, PlatformRequest} from "@tsed/common";
 import {IncomingMessage} from "http";
 import Koa from "koa";
 
@@ -21,27 +21,40 @@ declare global {
  * @koa
  */
 export class PlatformKoaRequest extends PlatformRequest<Koa.Request> {
+  #ctx: Koa.Context;
+
+  constructor(event: IncomingEvent) {
+    super(event);
+    this.#ctx = this.raw.ctx;
+  }
+
   get protocol(): string {
-    return this.raw.ctx.request.protocol;
+    return this.#ctx.request.protocol;
   }
 
   get host(): string {
-    return this.raw.ctx.request.host;
+    return this.#ctx.request.host;
   }
 
   get secure(): boolean {
-    return this.raw.ctx.request.secure;
+    return this.#ctx.request.secure;
   }
 
   get cookies(): {[p: string]: any} {
-    return this.raw.ctx.cookie || this.raw.ctx.cookies;
+    return this.#ctx.cookie || this.#ctx.cookies;
   }
 
   get session(): any {
-    return this.raw.ctx.session;
+    return this.#ctx.session;
   }
 
   getReq(): IncomingMessage {
     return this.raw.req;
+  }
+
+  destroy() {
+    // @ts-ignore
+    this.#ctx = null;
+    return super.destroy();
   }
 }

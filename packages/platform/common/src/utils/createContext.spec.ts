@@ -1,7 +1,6 @@
-import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
+import {PlatformResponse, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {stub} from "../../../../../test/helper/tools";
 import {createContext} from "./createContext";
 
@@ -13,16 +12,16 @@ describe("createContext", () => {
   it("should create context and attach it to the request", async () => {
     // GIVEN
     const injector = PlatformTest.injector;
-    const request: any = new FakeRequest(sandbox);
-    const response: any = new FakeResponse();
+    const request = PlatformTest.createRequest();
+    const response = PlatformTest.createResponse();
     response.req = request;
 
     sandbox.stub(injector, "emit");
     sandbox.stub(PlatformResponse.prototype, "onEnd");
 
     // WHEN
-
-    const ctx = await createContext(injector, new PlatformRequest(request), new PlatformResponse(response));
+    const invoke = createContext(injector);
+    const ctx = await invoke({request, response});
 
     // THEN
     expect(request.$ctx).to.eq(ctx);
@@ -38,14 +37,15 @@ describe("createContext", () => {
   it("should add a x-request-id header to the response", async () => {
     // GIVEN
     const injector = PlatformTest.injector;
-    const request: any = new FakeRequest(sandbox);
-    const response: any = new FakeResponse();
+    const request = PlatformTest.createRequest();
+    const response = PlatformTest.createResponse();
     response.req = request;
 
     sandbox.stub(PlatformResponse.prototype, "setHeader");
 
     // WHEN
-    const ctx = await createContext(injector, new PlatformRequest(request), new PlatformResponse(response));
+    const invoke = createContext(injector);
+    const ctx = await invoke({request, response});
 
     // THEN
     expect(ctx.response.setHeader).to.have.been.calledWithMatch("x-request-id", /\w+/);
@@ -54,19 +54,20 @@ describe("createContext", () => {
   it("should use an existing x-request-id request header for the response x-request-id header", async () => {
     // GIVEN
     const injector = PlatformTest.injector;
-    const request: any = new FakeRequest({
-      ...sandbox,
+    const request = PlatformTest.createRequest({
       headers: {
         "x-request-id": "test-id"
       }
     });
-    const response: any = new FakeResponse();
+
+    const response = PlatformTest.createResponse();
     response.req = request;
 
     sandbox.stub(PlatformResponse.prototype, "setHeader");
 
     // WHEN
-    const ctx = await createContext(injector, new PlatformRequest(request), new PlatformResponse(response));
+    const invoke = createContext(injector);
+    const ctx = await invoke({request, response});
 
     // THEN
     expect(ctx.response.setHeader).to.have.been.calledWithMatch("x-request-id", "test-id");

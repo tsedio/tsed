@@ -1,11 +1,8 @@
-import {AcceptMime, EndpointMetadata, Get, PlatformRequest, PlatformTest} from "@tsed/common";
+import {AcceptMime, EndpointMetadata, Get, PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest} from "../../../../../test/helper";
 import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware";
-
-const sandbox = Sinon.createSandbox();
 
 describe("PlatformMimesMiddleware", () => {
   describe("when server has configuration", () => {
@@ -23,18 +20,20 @@ describe("PlatformMimesMiddleware", () => {
       }
 
       const endpoint = EndpointMetadata.get(Test, "get");
-      const request: any = new FakeRequest({
-        sandbox,
+      const request = PlatformTest.createRequest({
         headers: {
           accept: "application/json"
         }
       });
       const ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request),
+        event: {request},
         endpoint
       });
 
+      Sinon.spy(request, "accepts");
+
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
+
       middleware.use(ctx);
 
       expect(request.accepts).to.have.been.calledWithExactly(["application/json", "text"]);
@@ -47,16 +46,16 @@ describe("PlatformMimesMiddleware", () => {
       }
 
       const endpoint = EndpointMetadata.get(Test, "get");
-      const request: any = new FakeRequest({
-        sandbox,
+      const request: any = PlatformTest.createRequest({
         headers: {
           accept: "text/*, application/json"
         }
       });
       const ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request),
+        event: {request},
         endpoint
       });
+      Sinon.spy(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
@@ -70,15 +69,15 @@ describe("PlatformMimesMiddleware", () => {
         get() {}
       }
 
-      const request: any = new FakeRequest({
-        sandbox,
+      const request: any = PlatformTest.createRequest({
         headers: {
           accept: "text/*, application/json"
         }
       });
       const ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request)
+        event: {request}
       });
+      Sinon.spy(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
@@ -93,14 +92,13 @@ describe("PlatformMimesMiddleware", () => {
       }
 
       const endpoint = EndpointMetadata.get(Test, "get");
-      const request: any = new FakeRequest({
-        sandbox,
+      const request: any = PlatformTest.createRequest({
         headers: {
           accept: "application/xml"
         }
       });
       const ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request),
+        event: {request},
         endpoint
       });
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
@@ -120,16 +118,16 @@ describe("PlatformMimesMiddleware", () => {
       }
 
       const endpoint = EndpointMetadata.get(Test, "get");
-      const request: any = new FakeRequest({
-        sandbox,
+      const request: any = PlatformTest.createRequest({
         headers: {
           accept: "application/json"
         }
       });
       const ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request),
+        event: {request},
         endpoint
       });
+      Sinon.spy(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
@@ -144,16 +142,16 @@ describe("PlatformMimesMiddleware", () => {
       }
 
       const endpoint = EndpointMetadata.get(Test, "get");
-      const request: any = new FakeRequest({
-        sandbox,
+      const request: any = PlatformTest.createRequest({
         headers: {
           accept: "application/json"
         }
       });
       const ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request),
+        event: {request},
         endpoint
       });
+      Sinon.spy(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
@@ -168,16 +166,18 @@ describe("PlatformMimesMiddleware", () => {
       }
 
       const endpoint = EndpointMetadata.get(Test, "get");
-      const request: any = new FakeRequest({
-        sandbox,
+      const request: any = PlatformTest.createRequest({
         headers: {
           accept: "text/*, application/json"
         }
       });
       const ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request),
+        event: {
+          request
+        },
         endpoint
       });
+      Sinon.spy(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
@@ -192,16 +192,18 @@ describe("PlatformMimesMiddleware", () => {
       }
 
       const endpoint = EndpointMetadata.get(Test, "get");
-      const request: any = new FakeRequest({
-        sandbox,
+      const request: any = PlatformTest.createRequest({
         headers: {
           accept: "application/xml"
         }
       });
       const ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest(request),
+        event: {request},
         endpoint
       });
+
+      Sinon.spy(request, "accepts");
+
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
 
       const error: any = catchError(() => middleware.use(ctx));

@@ -2,7 +2,6 @@ import {EndpointMetadata, MulterOptions, MultipartFile, PlatformApplication, Pla
 import {Exception} from "@tsed/exceptions";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 
 const sandbox = Sinon.createSandbox();
 
@@ -26,7 +25,7 @@ async function build(options = {}) {
       use: app
     }
   ]);
-  const ctx = createFakePlatformContext(sandbox);
+  const ctx = PlatformTest.createRequestContext();
   ctx.endpoint = EndpointMetadata.get(Test, "upload");
 
   return {middleware, ctx, multer, app, multerMiddleware};

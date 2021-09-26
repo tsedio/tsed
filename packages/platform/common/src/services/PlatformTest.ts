@@ -5,8 +5,7 @@ import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext
 import {PlatformModule} from "../PlatformModule";
 import {createInjector} from "../utils/createInjector";
 import {PlatformApplication} from "./PlatformApplication";
-import {PlatformRequest} from "./PlatformRequest";
-import {PlatformResponse} from "./PlatformResponse";
+import {PlatformViews} from "@tsed/platform-views";
 
 /**
  * @platform
@@ -111,16 +110,78 @@ export class PlatformTest extends DITest {
     return DITest.injector.get<PlatformApplication>(PlatformApplication)?.callback();
   }
 
-  static createRequestContext(options: Partial<PlatformContextOptions> = {}) {
-    options.request = options.request || new PlatformRequest({} as any);
-    options.response = options.response || new PlatformResponse({} as any);
+  static createRequest(options: any = {}): any {
+    return {
+      headers: {},
+      get(key: string) {
+        return this.headers[key.toLowerCase()];
+      },
+      accepts(mime?: string | string[]) {
+        return require("accepts")(this).types([].concat(mime as never));
+      },
+      ...options
+    };
+  }
 
-    return new PlatformContext({
+  static createResponse(options: any = {}): any {
+    return {
+      headers: {},
+      locals: {},
+      statusCode: 200,
+      status(code: number) {
+        this.statusCode = code;
+        return this;
+      },
+      contentType(content: string) {
+        this.set("content-type", content);
+      },
+      contentLength(content: number) {
+        this.set("content-length", content);
+      },
+      redirect(status: number, path: string) {
+        this.statusCode = status;
+        this.set("location", path);
+      },
+      location(path: string) {
+        this.set("location", path);
+      },
+      get(key: string) {
+        return this.headers[key.toLowerCase()];
+      },
+      getHeaders() {
+        return this.headers;
+      },
+      set(key: string, value: any) {
+        this.headers[key.toLowerCase()] = value;
+        return this;
+      },
+      send(data: any) {
+        this.data = data;
+      },
+      json(data: any) {
+        this.data = data;
+      },
+      ...options
+    };
+  }
+
+  static createRequestContext(options: Partial<PlatformContextOptions & any> = {}) {
+    const event = {
+      request: options?.request?.request || options?.event?.request || PlatformTest.createRequest(),
+      response: options?.response?.response || options?.event?.response || PlatformTest.createResponse()
+    };
+
+    const ctx = new PlatformContext({
       id: "id",
       injector: DITest.injector,
       logger: DITest.injector.logger,
       url: "/",
-      ...options
+      ...options,
+      event
     });
+
+    ctx.response.platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
+
+    return ctx;
   }
 }

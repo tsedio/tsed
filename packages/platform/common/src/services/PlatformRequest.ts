@@ -1,6 +1,8 @@
-import {Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
+import {Injectable, ProviderScope, Scope} from "@tsed/di";
 import {IncomingHttpHeaders, IncomingMessage} from "http";
 import type {PlatformContext} from "../domain/PlatformContext";
+import {IncomingEvent} from "../interfaces/IncomingEvent";
+import type {PlatformResponse} from "./PlatformResponse";
 
 declare global {
   namespace TsED {
@@ -19,7 +21,16 @@ declare global {
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
 export class PlatformRequest<T extends {[key: string]: any} = any> {
-  constructor(@Opts public raw: T) {}
+  public raw: T;
+
+  /**
+   * The current @@PlatformResponse@@.
+   */
+  public response: PlatformResponse;
+
+  constructor({request}: IncomingEvent) {
+    this.raw = request as any;
+  }
 
   get secure(): boolean {
     return this.raw.secure;
@@ -149,6 +160,8 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
   destroy() {
     // @ts-ignore
     delete this.raw;
+    // @ts-ignore
+    delete this.response;
   }
 
   /**

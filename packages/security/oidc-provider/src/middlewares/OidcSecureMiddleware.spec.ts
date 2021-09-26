@@ -1,7 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {OidcSecureMiddleware} from "./OidcSecureMiddleware";
 
 const sandbox = Sinon.createSandbox();
@@ -11,7 +10,7 @@ describe("OidcSecureMiddleware", () => {
 
   it("should check if the request is not secure on GET verb", async () => {
     const middleware = await PlatformTest.invoke<OidcSecureMiddleware>(OidcSecureMiddleware);
-    const request = new FakeRequest({
+    const request = PlatformTest.createRequest({
       secure: false,
       method: "GET",
       url: "/path",
@@ -19,55 +18,54 @@ describe("OidcSecureMiddleware", () => {
         host: "host"
       }
     });
-    const response = new FakeResponse(sandbox);
 
     const ctx = PlatformTest.createRequestContext({
-      request: request as any,
-      response: response as any
+      event: {
+        request
+      }
     });
+    sandbox.stub(ctx.response, "redirect");
 
     middleware.use(ctx);
 
-    expect(response.redirect).to.have.been.calledWithExactly(302, "https://host/path");
+    expect(ctx.response.redirect).to.have.been.calledWithExactly(302, "https://host/path");
   });
 
   it("should check if the request is not secure on HEAD verb", async () => {
     const middleware = await PlatformTest.invoke<OidcSecureMiddleware>(OidcSecureMiddleware);
-    const request = new FakeRequest({
-      secure: false,
-      method: "GET",
-      url: "/path",
-      headers: {
-        host: "host"
+    const ctx = PlatformTest.createRequestContext({
+      event: {
+        request: PlatformTest.createRequest({
+          secure: false,
+          method: "GET",
+          url: "/path",
+          headers: {
+            host: "host"
+          }
+        })
       }
     });
-    const response = new FakeResponse(sandbox);
 
-    const ctx = PlatformTest.createRequestContext({
-      request: request as any,
-      response: response as any
-    });
+    sandbox.stub(ctx.response, "redirect");
 
     middleware.use(ctx);
 
-    expect(response.redirect).to.have.been.calledWithExactly(302, "https://host/path");
+    expect(ctx.response.redirect).to.have.been.calledWithExactly(302, "https://host/path");
   });
 
   it("should check if the request is not secure on POST verb", async () => {
     const middleware = await PlatformTest.invoke<OidcSecureMiddleware>(OidcSecureMiddleware);
-    const request = new FakeRequest({
-      secure: false,
-      method: "POST",
-      url: "/path",
-      headers: {
-        host: "host"
-      }
-    });
-    const response = new FakeResponse(sandbox);
-
     const ctx = PlatformTest.createRequestContext({
-      request: request as any,
-      response: response as any
+      event: {
+        request: PlatformTest.createRequest({
+          secure: false,
+          method: "POST",
+          url: "/path",
+          headers: {
+            host: "host"
+          }
+        })
+      }
     });
 
     let actualError: any;
@@ -87,23 +85,24 @@ describe("OidcSecureMiddleware", () => {
 
   it("should check if the request is secure on GET verb", async () => {
     const middleware = await PlatformTest.invoke<OidcSecureMiddleware>(OidcSecureMiddleware);
-    const request = new FakeRequest({
-      secure: true,
-      method: "GET",
-      url: "/path",
-      headers: {
-        host: "host"
-      }
-    });
-    const response = new FakeResponse(sandbox);
 
     const ctx = PlatformTest.createRequestContext({
-      request: request as any,
-      response: response as any
+      event: {
+        request: PlatformTest.createRequest({
+          secure: true,
+          method: "GET",
+          url: "/path",
+          headers: {
+            host: "host"
+          }
+        })
+      }
     });
+
+    sandbox.stub(ctx.response, "redirect");
 
     middleware.use(ctx);
 
-    expect(response.redirect).to.not.have.been.called;
+    expect(ctx.response.redirect).to.not.have.been.called;
   });
 });

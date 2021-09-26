@@ -2,6 +2,8 @@ import {InjectorService} from "@tsed/di";
 import {PlatformContext} from "../domain/PlatformContext";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
+import {IncomingEvent} from "../interfaces/IncomingEvent";
+import {PlatformViews} from "@tsed/platform-views";
 
 const uuidv4 = require("uuid").v4;
 const defaultReqIdBuilder = (req: any) => req.get("x-request-id") || uuidv4().replace(/-/gi, "");
@@ -9,43 +11,34 @@ const defaultReqIdBuilder = (req: any) => req.get("x-request-id") || uuidv4().re
 /**
  * Create the TsED context to wrap request, response, injector, etc...
  * @param injector
- * @param request
- * @param response
  * @ignore
  */
-export async function createContext(
-  injector: InjectorService,
-  request: PlatformRequest,
-  response: PlatformResponse
-): Promise<PlatformContext> {
-  const {level, ignoreUrlPatterns, maxStackSize, reqIdBuilder = defaultReqIdBuilder} = injector.settings.logger;
+export function createContext(injector: InjectorService) {
+  const ResponseKlass = injector.getProvider(PlatformResponse)?.useClass;
+  const RequestKlass = injector.getProvider(PlatformRequest)?.useClass;
+  const platformViews = injector.get<PlatformViews>(PlatformViews)!;
+  const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = injector.settings.logger;
 
-  const req = request.getRequest();
-  const id = reqIdBuilder(req);
+  return async (event: IncomingEvent): Promise<PlatformContext> => {
+    const ctx = new PlatformContext({
+      event,
+      id: reqIdBuilder(event.request),
+      logger: injector.logger,
+      ...loggerOptions,
+      injector,
+      ResponseKlass,
+      RequestKlass
+    });
 
-  const ctx = new PlatformContext({
-    id,
-    logger: injector.logger,
-    url: request.url,
-    ignoreUrlPatterns,
-    level,
-    maxStackSize,
-    injector,
-    response,
-    request
-  });
+    ctx.response.platformViews = platformViews;
 
-  req.$ctx = ctx;
+    ctx.response.onEnd(async () => {
+      await ctx.emit("$onResponse", ctx);
+      await ctx.destroy();
+    });
 
-  response.setHeader("x-request-id", id);
+    await ctx.emit("$onRequest", ctx);
 
-  response.onEnd(async () => {
-    await ctx.emit("$onResponse", ctx);
-    await ctx.destroy();
-    delete req.$ctx;
-  });
-
-  await ctx.emit("$onRequest", ctx);
-
-  return ctx;
+    return ctx;
+  };
 }

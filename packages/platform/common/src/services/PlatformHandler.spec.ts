@@ -1,7 +1,6 @@
 import {Context, EndpointMetadata, Err, Get, HandlerMetadata, HandlerType, Middleware, PlatformTest, QueryParams} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {createFakePlatformContext} from "../../../../../test/helper/createFakePlatformContext";
 import {PlatformHandler} from "./PlatformHandler";
 
 const sandbox = Sinon.createSandbox();
@@ -69,7 +68,7 @@ describe("PlatformHandler", () => {
       // GIVEN
       const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
 
-      const $ctx = createFakePlatformContext(sandbox);
+      const $ctx = PlatformTest.createRequestContext();
 
       $ctx.request.raw.aborted = true;
       $ctx.endpoint = EndpointMetadata.get(Test, "get");
@@ -104,7 +103,7 @@ describe("PlatformHandler", () => {
       const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
       await PlatformTest.invoke<Test>(Test);
 
-      const ctx = createFakePlatformContext(sandbox);
+      const ctx = PlatformTest.createRequestContext();
       const next = sandbox.stub();
 
       const handlerMetadata = new HandlerMetadata({

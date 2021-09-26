@@ -1,21 +1,19 @@
-import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {Unauthorized} from "@tsed/exceptions";
 import {PassportException} from "@tsed/passport";
 import {expect} from "chai";
 import Passport from "passport";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 import {stub} from "../../../../../test/helper/tools";
 import {PassportMiddleware} from "./PassportMiddleware";
 
 const sandbox = Sinon.createSandbox();
 
 function createContextFixture(options = {}) {
-  const request: any = new FakeRequest(options);
-  const response: any = new FakeResponse();
   return PlatformTest.createRequestContext({
-    request: new PlatformRequest(request),
-    response: new PlatformResponse(response)
+    event: {
+      request: PlatformTest.createRequest(options)
+    }
   });
 }
 

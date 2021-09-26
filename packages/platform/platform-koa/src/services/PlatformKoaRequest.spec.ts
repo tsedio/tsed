@@ -1,16 +1,34 @@
 import {PlatformTest} from "@tsed/common";
 import {PlatformKoaRequest} from "@tsed/platform-koa";
 import {expect} from "chai";
-import Sinon from "sinon";
-import {FakeRequest} from "../../../../../test/helper";
-
-const sandbox = Sinon.createSandbox();
 
 function createRequest() {
-  const req: any = new FakeRequest({sandbox});
-  const request = new PlatformKoaRequest(req);
+  const request = PlatformTest.createRequest();
+  const koaCtx = {
+    request: {
+      protocol: "http",
+      req: request
+    },
+    cookie: {
+      test: "test"
+    },
+    cookies: {
+      test: "test"
+    },
+    session: {
+      test: "test"
+    }
+  };
+  request.ctx = koaCtx;
+  const ctx = PlatformTest.createRequestContext({
+    event: {
+      request,
+      ctx: koaCtx
+    },
+    RequestKlass: PlatformKoaRequest
+  });
 
-  return {req, request};
+  return {req: request, request: ctx.request};
 }
 
 describe("PlatformKoaRequest", () => {
@@ -25,11 +43,7 @@ describe("PlatformKoaRequest", () => {
   describe("secure", () => {
     it("should get cookies from cookie", () => {
       const {req, request} = createRequest();
-      req.ctx = {
-        request: {
-          secure: true
-        }
-      };
+      req.ctx.request.secure = true;
 
       expect(request.secure).to.deep.eq(true);
     });
@@ -39,23 +53,15 @@ describe("PlatformKoaRequest", () => {
     it("should return the protocol request state (http)", () => {
       const {req, request} = createRequest();
 
-      req.ctx = {
-        request: {
-          protocol: "http"
-        }
-      };
+      req.ctx.request.protocol = "http";
 
-      req.protocol = "";
       expect(request.protocol).to.equal("http");
     });
     it("should return the protocol request state (https)", () => {
       const {req, request} = createRequest();
 
-      req.ctx = {
-        request: {
-          protocol: "https"
-        }
-      };
+      req.ctx.request.protocol = "https";
+
       expect(request.protocol).to.equal("https");
     });
   });
@@ -64,33 +70,22 @@ describe("PlatformKoaRequest", () => {
     it("should return the host", () => {
       const {req, request} = createRequest();
 
-      req.ctx = {
-        request: {
-          host: "host"
-        }
-      };
+      req.ctx.request.host = "host";
+
       expect(request.host).to.equal("host");
     });
   });
 
   describe("cookies", () => {
-    it("should get cookies from cookie", () => {
+    it("should get cookies from cookies", () => {
       const {req, request} = createRequest();
-      req.ctx = {
-        cookie: {
-          test: "test"
-        }
-      };
+
+      req.ctx.cookie = null;
 
       expect(request.cookies).to.deep.eq({test: "test"});
     });
-    it("should get cookies from cookies", () => {
-      const {req, request} = createRequest();
-      req.ctx = {
-        cookies: {
-          test: "test"
-        }
-      };
+    it("should get cookies from cookie", () => {
+      const {request} = createRequest();
 
       expect(request.cookies).to.deep.eq({test: "test"});
     });
@@ -98,11 +93,6 @@ describe("PlatformKoaRequest", () => {
   describe("session", () => {
     it("should get session", () => {
       const {req, request} = createRequest();
-      req.ctx = {
-        session: {
-          test: "test"
-        }
-      };
 
       expect(request.session).to.deep.eq({test: "test"});
     });

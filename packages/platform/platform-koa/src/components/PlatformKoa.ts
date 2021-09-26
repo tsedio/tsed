@@ -47,17 +47,6 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
     return this.build<PlatformKoa>(PlatformKoa).bootstrap(module, settings);
   }
 
-  createRequest(req: any) {
-    return new PlatformKoaRequest(req);
-  }
-
-  createResponse(res: any) {
-    const response = new PlatformKoaResponse(res);
-    response.platformViews = this.injector.get<PlatformViews>(PlatformViews)!;
-
-    return response;
-  }
-
   protected createInjector(module: Type<any>, settings: any) {
     super.createInjector(module, settings);
 
@@ -78,8 +67,14 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
   protected useContext(): this {
     this.logger.info("Mount app context");
 
+    const invoke = createContext(this.injector);
+
     this.app.getApp().use(async (ctx: Context, next: Next) => {
-      await createContext(this.injector, this.createRequest(ctx.request), this.createResponse(ctx.response));
+      await invoke({
+        request: ctx.request as any,
+        response: ctx.response as any,
+        ctx
+      });
 
       return next();
     });

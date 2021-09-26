@@ -1,8 +1,6 @@
-import {PlatformContext, PlatformRouter, PlatformTest} from "@tsed/common";
+import {PlatformRouter, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../../test/helper";
-import {stub} from "../../../../../test/helper/tools";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformHandler} from "./PlatformHandler";
 
@@ -144,7 +142,11 @@ describe("PlatformApplication", () => {
       platformApp.post("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "post", path: "/"});
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+        isFinal: true,
+        method: "post",
+        path: "/"
+      });
       expect(platformApp.rawRouter.post).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -158,7 +160,11 @@ describe("PlatformApplication", () => {
       platformApp.put("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "put", path: "/"});
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+        isFinal: true,
+        method: "put",
+        path: "/"
+      });
       expect(platformApp.rawRouter.put).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -172,7 +178,11 @@ describe("PlatformApplication", () => {
       platformApp.patch("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "patch", path: "/"});
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+        isFinal: true,
+        method: "patch",
+        path: "/"
+      });
       expect(platformApp.rawRouter.patch).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -186,7 +196,11 @@ describe("PlatformApplication", () => {
       platformApp.head("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "head", path: "/"});
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+        isFinal: true,
+        method: "head",
+        path: "/"
+      });
       expect(platformApp.rawRouter.head).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -200,7 +214,11 @@ describe("PlatformApplication", () => {
       platformApp.delete("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "delete", path: "/"});
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+        isFinal: true,
+        method: "delete",
+        path: "/"
+      });
       expect(platformApp.rawRouter.delete).to.have.been.calledWithExactly("/", handler);
     });
   });
@@ -214,7 +232,11 @@ describe("PlatformApplication", () => {
       platformApp.options("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: true, method: "options", path: "/"});
+      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+        isFinal: true,
+        method: "options",
+        path: "/"
+      });
       expect(platformApp.rawRouter.options).to.have.been.calledWithExactly("/", handler);
     });
   });

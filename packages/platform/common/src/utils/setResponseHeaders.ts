@@ -12,10 +12,6 @@ function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}
   }, headers);
 }
 
-function getLocation(headers: Record<string, JsonHeader & {example: string}>) {
-  return (headers["location"] || headers["Location"])?.example;
-}
-
 /**
  * @ignore
  */

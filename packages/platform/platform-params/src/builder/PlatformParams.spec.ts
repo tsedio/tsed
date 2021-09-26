@@ -1,4 +1,4 @@
-import {PlatformRequest, PlatformTest, ProviderScope} from "@tsed/common";
+import {PlatformTest, ProviderScope} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {ParamTypes, PathParams, QueryParams} from "@tsed/platform-params";
 import {expect} from "chai";
@@ -228,11 +228,14 @@ describe("PlatformParams", () => {
     });
     it("should return HEADER", async () => {
       // GIVEN
-      const {param, h, platformParams} = await buildPlatformParams({
+      const {param, h, platformParams, ctx} = await buildPlatformParams({
         sandbox,
         paramType: ParamTypes.HEADER,
         dataPath: "$ctx.request.headers"
       });
+
+      ctx.request.raw.headers["accept"] = "application/json";
+      ctx.request.raw.headers["content-type"] = "application/json";
 
       // WHEN
       const pipes = await platformParams.getPipes(param);
@@ -308,14 +311,16 @@ describe("PlatformParams", () => {
       });
 
       const $ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest({
-          query: {
-            test: "test"
-          },
-          params: {
-            s: "s"
+        event: {
+          request: {
+            query: {
+              test: "test"
+            },
+            params: {
+              s: "s"
+            }
           }
-        } as any)
+        }
       });
 
       const result = await handler({
@@ -344,14 +349,16 @@ describe("PlatformParams", () => {
       }
 
       const $ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest({
-          query: {
-            test: "test"
-          },
-          params: {
-            s: "s"
+        event: {
+          request: {
+            query: {
+              test: "test"
+            },
+            params: {
+              s: "s"
+            }
           }
-        } as any)
+        }
       });
 
       const handler = await platformParams.compileHandler({
@@ -383,14 +390,16 @@ describe("PlatformParams", () => {
       }
 
       const $ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest({
-          query: {
-            test: "test"
-          },
-          params: {
-            s: "s"
+        event: {
+          request: {
+            query: {
+              test: "test"
+            },
+            params: {
+              s: "s"
+            }
           }
-        } as any)
+        }
       });
 
       const handler = await platformParams.compileHandler({
@@ -415,14 +424,16 @@ describe("PlatformParams", () => {
       }
 
       const $ctx = PlatformTest.createRequestContext({
-        request: new PlatformRequest({
-          query: {
-            test: "test"
-          },
-          params: {
-            s: "s"
+        event: {
+          request: {
+            query: {
+              test: "test"
+            },
+            params: {
+              s: "s"
+            }
           }
-        } as any)
+        }
       });
 
       const handler = await platformParams.compileHandler({

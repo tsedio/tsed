@@ -1,8 +1,7 @@
-import {PlatformRequest, PlatformResponse, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {AlterAudit} from "./AlterAudit";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeRequest, FakeResponse} from "../../../../../test/helper";
 
 const sandbox = Sinon.createSandbox();
 
@@ -12,10 +11,7 @@ describe("AlterAudit", () => {
   afterEach(() => sandbox.restore());
 
   it("should log data", async () => {
-    const ctx = PlatformTest.createRequestContext({
-      request: new PlatformRequest<any>(new FakeRequest()),
-      response: new PlatformResponse<any>(new FakeResponse(sandbox))
-    });
+    const ctx = PlatformTest.createRequestContext();
 
     sandbox.stub(ctx.logger, "info");
 

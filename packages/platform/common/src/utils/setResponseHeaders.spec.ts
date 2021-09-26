@@ -1,8 +1,7 @@
-import {EndpointMetadata, Get, PlatformResponse, PlatformTest, Redirect} from "@tsed/common";
+import {EndpointMetadata, Get, PlatformTest, Redirect} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {FakeResponse} from "../../../../../test/helper";
 import {setResponseHeaders} from "./setResponseHeaders";
 
 const sandbox = Sinon.createSandbox();
@@ -18,18 +17,15 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const response: any = new FakeResponse(sandbox);
     const ctx = PlatformTest.createRequestContext();
-
     ctx.endpoint = EndpointMetadata.get(Test, "test");
-    ctx.response = new PlatformResponse(response);
 
     // WHEN
     await setResponseHeaders(ctx);
 
     // THEN
-    expect(response.set).to.have.been.calledWithExactly("x-header", "test");
-    expect(response.status).to.have.been.calledWithExactly(200);
+    expect(ctx.response.getHeaders()).to.deep.equal({"x-request-id": "id", "x-header": "test"});
+    expect(ctx.response.statusCode).to.deep.eq(200);
   });
 
   it("should redirect", async () => {
@@ -39,11 +35,8 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const response: any = new FakeResponse();
     const ctx = PlatformTest.createRequestContext();
-
     ctx.endpoint = EndpointMetadata.get(Test, "test");
-    ctx.response = new PlatformResponse(response);
 
     Sinon.stub(ctx.response, "redirect");
 
@@ -61,18 +54,17 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const response: any = new FakeResponse(sandbox);
-    response.headersSent = true;
-
     const ctx = PlatformTest.createRequestContext();
+    ctx.response.raw.headersSent = true;
 
     ctx.endpoint = EndpointMetadata.get(Test, "test");
-    ctx.response = new PlatformResponse(response);
+
+    sandbox.stub(ctx.response.raw, "set");
 
     // WHEN
     await setResponseHeaders(ctx);
 
     // THEN
-    return expect(response.set).to.not.have.been.called;
+    return expect(ctx.response.raw.set).to.not.have.been.called;
   });
 });
