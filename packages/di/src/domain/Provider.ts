@@ -11,11 +11,11 @@ export class Provider<T = any> implements IProvider<T> {
   public useFactory: Function;
   public useAsyncFactory: Function;
   public useValue: any;
-  // FIXME issue with #useClass
-  _useClass: Type<T>;
-  #provide: TokenProvider;
-  #store: Store;
-  #tokenStore: Store;
+
+  private _useClass: Type<T>;
+  private _provide: TokenProvider;
+  private _store: Store;
+  private _tokenStore: Store;
 
   [key: string]: any;
 
@@ -27,17 +27,17 @@ export class Provider<T = any> implements IProvider<T> {
   }
 
   get token() {
-    return this.#provide;
+    return this._provide;
   }
 
   get provide(): TokenProvider {
-    return this.#provide;
+    return this._provide;
   }
 
   set provide(value: TokenProvider) {
     if (value) {
-      this.#provide = getClassOrSymbol(value);
-      this.#tokenStore = this.#store = Store.from(value);
+      this._provide = getClassOrSymbol(value);
+      this._tokenStore = this._store = Store.from(value);
     }
   }
 
@@ -52,7 +52,7 @@ export class Provider<T = any> implements IProvider<T> {
   set useClass(value: Type<T>) {
     if (isClass(value)) {
       this._useClass = classOf(value);
-      this.#store = Store.from(value);
+      this._store = Store.from(value);
     }
   }
 
@@ -65,7 +65,7 @@ export class Provider<T = any> implements IProvider<T> {
   }
 
   public get store(): Store {
-    return this.#store;
+    return this._store;
   }
 
   /**
@@ -102,7 +102,7 @@ export class Provider<T = any> implements IProvider<T> {
   }
 
   get(key: string) {
-    return this.store.get(key) || this.#tokenStore.get(key);
+    return this.store.get(key) || this._tokenStore.get(key);
   }
 
   isAsync(): boolean {
@@ -110,7 +110,7 @@ export class Provider<T = any> implements IProvider<T> {
   }
 
   clone(): Provider {
-    return new (classOf(this))(this.#provide, this);
+    return new (classOf(this))(this._provide, this);
   }
 
   toString() {
