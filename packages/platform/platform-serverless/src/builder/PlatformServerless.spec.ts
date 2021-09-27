@@ -55,7 +55,8 @@ describe("PlatformServerless", () => {
 
     expect(response.statusCode).toEqual(200);
     expect(response.headers).toEqual({
-      "x-request-id": "requestId"
+      "x-request-id": "requestId",
+      "content-type": "application/json"
     });
     expect(JSON.parse(response.body)).toEqual({
       endDate: "2020-01-10T00:00:00.000Z",
@@ -77,7 +78,8 @@ describe("PlatformServerless", () => {
 
     expect(response.statusCode).toEqual(200);
     expect(response.headers).toEqual({
-      "x-request-id": "request-id"
+      "x-request-id": "request-id",
+      "content-type": "application/json"
     });
     expect(JSON.parse(response.body)).toEqual({
       endDate: "2020-01-10T00:00:00.000Z",

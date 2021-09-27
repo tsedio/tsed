@@ -51,7 +51,9 @@ describe("PlatformServerlessHandler", () => {
 
     expect(result).toEqual({
       body: '{"value":"test"}',
-      headers: {},
+      headers: {
+        "content-type": "application/json"
+      },
       isBase64Encoded: false,
       statusCode: 200
     });
