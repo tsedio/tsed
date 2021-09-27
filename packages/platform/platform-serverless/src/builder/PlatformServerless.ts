@@ -13,6 +13,14 @@ import {v4} from "uuid";
 import {ServerlessContext} from "../domain/ServerlessContext";
 import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
 
+function getReqId(event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>, context: Context) {
+  if (event?.headers && event.headers["x-request-id"]) {
+    return event.headers["x-request-id"];
+  }
+
+  return event?.requestContext?.requestId || context?.awsRequestId || v4().replace(/-/gi, "");
+}
+
 /**
  * @platform
  */
@@ -76,12 +84,10 @@ export class PlatformServerless {
         handler = await platformHandler.createHandler(token, propertyKey);
       }
 
-      const reqId = event?.requestContext?.requestId || v4().replace(/-/gi, "");
-
       const $ctx = new ServerlessContext({
         event,
         context,
-        id: reqId,
+        id: getReqId(event, context),
         logger: this.injector.logger as Logger,
         injector: this.injector,
         endpoint: entity
