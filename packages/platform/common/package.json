@@ -72,6 +72,7 @@
     "@tsed/platform-middlewares": "6.71.1",
     "@tsed/platform-params": "6.71.1",
     "@tsed/platform-response-filter": "6.71.1",
+    "@tsed/platform-log-middleware": "6.71.1",
     "@tsed/platform-views": "6.71.1",
     "@tsed/schema": "6.71.1",
     "@types/json-schema": "7.0.7",

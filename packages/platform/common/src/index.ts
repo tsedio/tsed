@@ -6,6 +6,7 @@ export * from "@tsed/platform-cache";
 export * from "@tsed/platform-middlewares";
 export * from "@tsed/platform-views";
 export * from "@tsed/components-scan";
+export * from "@tsed/platform-log-middleware";
 export {$log, Logger} from "@tsed/logger";
 
 export * from "./config";

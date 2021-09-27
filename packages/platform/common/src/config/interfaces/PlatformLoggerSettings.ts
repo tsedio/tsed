@@ -12,25 +12,9 @@ export interface PlatformLoggerSettings {
    */
   perf?: boolean;
   /**
-   * Fields displayed when a request is logged. Possible values: `reqId`, `method`, `url`, `headers`, `body`, `query`,`params`, `duration`.
-   */
-  requestFields?: ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration" | string)[];
-  /**
    * List of regexp to ignore log.
    */
   ignoreUrlPatterns?: string[];
-  /**
-   * Log all incoming request. By default is true and print the configured `logger.requestFields`.
-   */
-  logRequest?: boolean;
-  /**
-   * Log start of all incoming request. By default is true
-   */
-  logStart?: boolean;
-  /**
-   * Log end of all incoming request. By default is true
-   */
-  logEnd?: boolean;
   /**
    * The number of space characters to use as white space in JSON output. Default is 2 (0 in production).
    */

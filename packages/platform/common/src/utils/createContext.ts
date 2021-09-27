@@ -17,7 +17,7 @@ export function createContext(injector: InjectorService) {
   const ResponseKlass = injector.getProvider(PlatformResponse)?.useClass;
   const RequestKlass = injector.getProvider(PlatformRequest)?.useClass;
   const platformViews = injector.get<PlatformViews>(PlatformViews)!;
-  const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = injector.settings.logger;
+  const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = injector.settings.logger || {};
 
   return async (event: IncomingEvent): Promise<PlatformContext> => {
     const ctx = new PlatformContext({
