@@ -1,4 +1,5 @@
 export * from "./ancestorOf";
+export * from "./ancestorsOf";
 export * from "./classOf";
 export * from "./cleanObject";
 export * from "./constructorOf";
@@ -8,7 +9,7 @@ export * from "./deepMerge";
 export * from "./getClassOrSymbol";
 export * from "./getConstructorArgNames";
 export * from "./getEnumerableKeys";
-export * from "./getInheritedClass";
+export * from "./ancestorOf";
 export * from "./getValue";
 export * from "./isArray";
 export * from "./isArrowFn";

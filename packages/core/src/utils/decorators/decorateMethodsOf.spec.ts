@@ -1,4 +1,4 @@
-import {descriptorOf, Store} from "@tsed/core";
+import {descriptorOf, Store, StoreMerge, StoreSet} from "@tsed/core";
 import {expect} from "chai";
 import {decorateMethodsOf} from "./decorateMethodsOf";
 
@@ -32,5 +32,48 @@ describe("decorateMethodsOf", () => {
     expect(result2).to.eq("test2");
 
     expect(new Test().test2("1")).to.eq("test1");
+  });
+  it("should decorate all methods and copy store metadata to the new property", () => {
+    function decorate() {
+      return (target: any) => {
+        decorateMethodsOf(target, (klass: any, property: any, descriptor: any) => {
+          Store.from(klass, property, descriptor).set("test", property);
+        });
+      };
+    }
+
+    class TestParent {
+      @StoreSet("options", {parent: "test", override: "parent"})
+      test(a: any) {}
+
+      @StoreSet("options", {parent: "test2"})
+      test2(a: any) {}
+    }
+
+    // WHEN
+    @decorate()
+    class Test extends TestParent {
+      @StoreMerge("options", {children: "test", override: "child"})
+      test() {}
+    }
+
+    // THEN
+    const storeObj2 = Store.fromMethod(Test, "test2").toJson();
+    expect(storeObj2).to.deep.eq({
+      options: {
+        parent: "test2"
+      },
+      test: "test2"
+    });
+
+    const storeObj = Store.fromMethod(Test, "test").toJson();
+    // store aren't merged
+    expect(storeObj).to.deep.eq({
+      options: {
+        children: "test",
+        override: "child"
+      },
+      test: "test"
+    });
   });
 });
