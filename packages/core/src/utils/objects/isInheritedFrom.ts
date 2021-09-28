@@ -1,5 +1,5 @@
 import {classOf} from "./classOf";
-import {getInheritedClass} from "./getInheritedClass";
+import {ancestorOf} from "./ancestorOf";
 import {nameOf} from "./nameOf";
 
 export function isInheritedFrom(target: any, from: any, deep = 5): boolean {
@@ -18,7 +18,7 @@ export function isInheritedFrom(target: any, from: any, deep = 5): boolean {
       return true;
     }
 
-    target = getInheritedClass(target);
+    target = ancestorOf(target);
     deep--;
   }
 
