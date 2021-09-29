@@ -289,8 +289,8 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     const type = decoratorTypeOf(args);
     switch (type) {
       case DecoratorTypes.METHOD:
-        this.store = JsonEntityStore.from(...args);
-        if (this.store.operation) {
+        this.entity = JsonEntityStore.from(...args);
+        if (this.entity.operation) {
           this.map();
         }
         break;
@@ -307,8 +307,8 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
   protected map() {
     const model = this.get("model");
-    const {store, decoratorType} = this;
-    const operation = this.store.operation!;
+    const {entity, decoratorType} = this;
+    const operation = this.entity.operation!;
     const currentStatus = this.getStatus();
     const response = operation.ensureResponseOf(currentStatus);
     const contentType = this.getContentType();
@@ -330,7 +330,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
     if (isSuccessStatus(this.get("status")) || currentStatus === "default") {
       if (model) {
-        store.type = model;
+        entity.type = model;
       }
     }
 

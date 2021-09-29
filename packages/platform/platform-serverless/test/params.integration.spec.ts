@@ -1,6 +1,6 @@
-import {Injectable} from "@tsed/di";
-import {Delete, Get, PathParams, PlatformServerlessTest} from "@tsed/platform-serverless";
-import {Returns} from "@tsed/schema";
+import { Injectable } from "@tsed/di";
+import { PathParams, PlatformServerlessTest } from "@tsed/platform-serverless";
+import { Delete, Get, Returns } from "@tsed/schema";
 
 @Injectable()
 class PathParamLambda {

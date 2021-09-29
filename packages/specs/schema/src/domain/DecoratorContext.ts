@@ -15,8 +15,16 @@ export interface DecoratorActionHandler {
 export abstract class DecoratorContext<T = any> extends Map<string, any> {
   readonly methods: string[];
   protected decoratorType: DecoratorTypes;
-  protected store: JsonEntityStore;
+  protected entity: JsonEntityStore;
   protected actions: DecoratorActionHandler[] = [];
+
+  constructor(opts: any = {}) {
+    super();
+
+    Object.entries(opts).forEach(([key, value]) => {
+      this.set(key, value);
+    });
+  }
 
   addAction(cb: DecoratorActionHandler) {
     this.actions.push(cb);
@@ -24,7 +32,7 @@ export abstract class DecoratorContext<T = any> extends Map<string, any> {
   }
 
   build(): T {
-    const decorator: any = (...args: DecoratorParameters) => this.onInit(args, decorator);
+    const decorator: any = (...args: DecoratorParameters) => this.bind(args, decorator);
 
     const wrap = (cb: any) => {
       return (...args: any[]) => {
@@ -75,7 +83,25 @@ export abstract class DecoratorContext<T = any> extends Map<string, any> {
     };
   }
 
-  protected abstract onInit(args: DecoratorParameters, decorator: any): void;
+  protected bind(args: DecoratorParameters, decorator: any) {
+    this.entity = JsonEntityStore.from(...args);
+
+    this.beforeInit();
+    this.onInit(args, decorator);
+    this.afterInit();
+
+    this.clear();
+  }
+
+  protected onInit(args: DecoratorParameters, decorator: any): void {
+    this.forEach((value, key) => {
+      this.onMapKey(key, value);
+    });
+  }
+
+  protected onMapKey(key: string, value: any): void {
+    this.entity.store.set(key, value);
+  }
 
   protected runActions() {
     this.actions.forEach((action: any) => {
@@ -84,4 +110,8 @@ export abstract class DecoratorContext<T = any> extends Map<string, any> {
 
     return this;
   }
+
+  protected beforeInit() {}
+
+  protected afterInit() {}
 }

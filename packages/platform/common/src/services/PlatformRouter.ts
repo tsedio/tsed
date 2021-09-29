@@ -68,6 +68,7 @@ export class PlatformRouter<Router = TsED.Router> {
 
   addRoute(options: PlatformRouteOptions) {
     const {method, path, handlers, isFinal} = options;
+
     // @ts-ignore
     this.getRouter()[method](path, ...this.mapHandlers(handlers, {method, path, isFinal}));
 

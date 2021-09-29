@@ -54,8 +54,8 @@ In the `src/lambda` create a new Lambda class:
 
 ```typescript
 import {Injectable} from "@tsed/di";
-import {Returns, Summary} from "@tsed/schema";
-import {QueryParams} from "@tsed/platform-serverless"; // /!\ don't import decorators from @tsed/common
+import {Returns, Summary, Get} from "@tsed/schema";
+import {QueryParams} from "@tsed/platform-params"; // /!\ don't import decorators from @tsed/common
 import {TimeslotsService} from "../services/TimeslotsService";
 import {TimeslotModel} from "../models/TimeslotModel";
 
@@ -64,7 +64,7 @@ export class TimeslotsLambda {
   @Inject()
   protected timeslotsService: TimeslotsService;
 
-  @Lambda()
+  @Get("/")
   @Summary("Return a list of timeslots")
   @Returns(200, Array).Of(TimeslotModel)
   get(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {
@@ -139,8 +139,8 @@ In you lambda controller use Lambda decorators:
 
 ```typescript
 import {Injectable} from "@tsed/di";
-import {Returns, Summary} from "@tsed/schema";
-import {QueryParams} from "@tsed/platform-serverless"; // /!\ don't import decorators from @tsed/common
+import {Get, Returns, Summary} from "@tsed/schema";
+import {QueryParams} from "@tsed/platform-params"; // /!\ don't import decorators from @tsed/common
 import {TimeslotsService} from "../services/TimeslotsService";
 import {TimeslotModel} from "../models/TimeslotModel";
 
@@ -149,7 +149,7 @@ export class TimeslotsLambda {
   @Inject()
   protected timeslotsService: TimeslotsService;
 
-  @Lambda()
+  @Get("/")
   @Summary("Return a list of timeslots")
   @Returns(200, Array).Of(TimeslotModel)
   get(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {

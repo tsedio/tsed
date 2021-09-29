@@ -42,6 +42,9 @@ export function Name(name: any) {
       case DecoratorTypes.PARAM:
         store.parameter!.name(name);
         break;
+      case DecoratorTypes.METHOD:
+        store.operation!.name(name);
+        break;
       default:
         store.parent.schema.addAlias(args[1], name);
     }
