@@ -1,5 +1,6 @@
-import {Injectable} from "@tsed/di";
-import {Get, PlatformServerlessTest, QueryParams} from "@tsed/platform-serverless";
+import { Injectable } from "@tsed/di";
+import { PlatformServerlessTest, QueryParams } from "@tsed/platform-serverless";
+import { Get } from "@tsed/schema";
 
 @Injectable()
 class QueryLambda {

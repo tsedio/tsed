@@ -1,7 +1,7 @@
 import "@tsed/ajv";
 import { Injectable } from "@tsed/di";
-import { BodyParams, Patch, PlatformServerlessTest, Post, Put } from "@tsed/platform-serverless";
-import { MinLength, Property, Returns } from "@tsed/schema";
+import { BodyParams, PlatformServerlessTest,  } from "@tsed/platform-serverless";
+import { MinLength, Property, Returns, Post, Put, Patch } from "@tsed/schema";
 
 class Model {
   @Property()

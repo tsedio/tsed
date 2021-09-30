@@ -1,6 +1,8 @@
 import {isArrayOrArrayClass, Store, Type} from "@tsed/core";
-import {IProvider, registerController} from "@tsed/di";
-import {PathType} from "../../interfaces";
+import {IProvider} from "../interfaces/IProvider";
+import {registerController} from "../registries/ProviderRegistry";
+
+export type PathType = string | RegExp | (string | RegExp)[];
 
 export interface ControllerMiddlewares {
   useBefore: any[];

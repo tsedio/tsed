@@ -1,5 +1,10 @@
 import {DecoratorTypes} from "../domain/DecoratorTypes";
-import {decoratorTypeOf, deepClone, deepMerge, descriptorOf, isSymbol, nameOf} from "../utils";
+import {decoratorTypeOf} from "../utils/decorators/decoratorTypeOf";
+import {deepClone} from "../utils/objects/deepClone";
+import {deepMerge} from "../utils/objects/deepMerge";
+import {descriptorOf} from "../utils/objects/descriptorOf";
+import {isSymbol} from "../utils/objects/isSymbol";
+import {nameOf} from "../utils/objects/nameOf";
 import {Metadata} from "./Metadata";
 import type {Type} from "./Type";
 

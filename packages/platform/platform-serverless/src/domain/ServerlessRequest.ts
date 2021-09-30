@@ -52,7 +52,7 @@ export class ServerlessRequest {
     try {
       return this.raw.body ? JSON.parse(this.raw.body) : {};
     } catch (er) {
-      return {};
+      return this.raw.body;
     }
   }
 

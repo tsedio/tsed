@@ -1,11 +1,9 @@
-import {Injectable} from "@tsed/di";
-import {BodyParams, Delete, Get, Lambda, PathParams, Post, Put, QueryParams} from "@tsed/platform-serverless";
-import {Description, Groups, Path, Returns, Summary} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+import {BodyParams, Delete, Get, Post, Put, PathParams, QueryParams} from "@tsed/platform-serverless";
+import {Description, Groups, Returns, Summary} from "@tsed/schema";
 
-@Injectable()
-@Path("/timeslots")
+@Controller("/timeslots")
 export class TimeslotsLambda {
-  @Lambda()
   @Get("/:id")
   @Returns(200)
   @Summary("Get a timeslot by his id")
@@ -15,7 +13,6 @@ export class TimeslotsLambda {
     };
   }
 
-  @Lambda()
   @Post("/")
   @Returns(201)
   @Summary("Create timeslots from scheduled periods or from given date")
@@ -26,7 +23,6 @@ export class TimeslotsLambda {
     };
   }
 
-  @Lambda()
   @Put("/:id")
   @Returns(200)
   @Summary("Update a timeslot timeslot")
@@ -37,7 +33,6 @@ export class TimeslotsLambda {
     };
   }
 
-  @Lambda()
   @Delete("/:id")
   @Returns(204)
   @Summary("Delete a timeslot timeslot by his id")
@@ -45,7 +40,6 @@ export class TimeslotsLambda {
     return {};
   }
 
-  @Lambda()
   @Get("/")
   @(Returns(200, Array))
   @Summary("Find all timeslot included in the given criteria")

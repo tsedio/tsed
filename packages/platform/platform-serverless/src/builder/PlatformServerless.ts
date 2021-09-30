@@ -9,17 +9,9 @@ import type {
   APIGatewayProxyResult,
   Context
 } from "aws-lambda";
-import {v4} from "uuid";
 import {ServerlessContext} from "../domain/ServerlessContext";
 import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
-
-function getReqId(event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>, context: Context) {
-  if (event?.headers && event.headers["x-request-id"]) {
-    return event.headers["x-request-id"];
-  }
-
-  return event?.requestContext?.requestId || context?.awsRequestId || v4().replace(/-/gi, "");
-}
+import {getRequestId} from "../utils/getRequestId";
 
 /**
  * @platform
@@ -58,9 +50,12 @@ export class PlatformServerless {
         const store = JsonEntityStore.from(token);
 
         return [...store.children.values()].reduce((list, store) => {
-          const operationId = store.operation?.get("operationId");
+          if (store.operation) {
+            const operationId = store.operation.get("operationId") || store.propertyKey;
 
-          return operationId ? [...list, {store, operationId}] : list;
+            return [...list, {store, operationId}];
+          }
+          return list;
         }, []);
       })
       .flat()
@@ -87,7 +82,7 @@ export class PlatformServerless {
       const $ctx = new ServerlessContext({
         event,
         context,
-        id: getReqId(event, context),
+        id: getRequestId(event, context),
         logger: this.injector.logger as Logger,
         injector: this.injector,
         endpoint: entity

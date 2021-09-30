@@ -1,4 +1,4 @@
-import {Inject, Injectable} from "@tsed/di";
+import {Inject, Injectable, Controller} from "@tsed/di";
 import {Lambda, PathParams, PlatformServerless, PlatformServerlessTest, QueryParams} from "@tsed/platform-serverless";
 
 @Injectable()
@@ -8,7 +8,7 @@ class TimeslotsService {
   }
 }
 
-@Injectable()
+@Controller("/")
 class TimeslotsLambdaController {
   @Inject()
   protected timeslotsService: TimeslotsService;

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import {classOf} from "../utils";
+import {classOf} from "../utils/objects/classOf";
 
 /**
  * Metadata key
