@@ -1,7 +1,6 @@
-import {GlobalProviders, InjectorService} from "@tsed/di";
+import {GlobalProviders, InjectorService, Controller} from "@tsed/di";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {Controller} from "../decorators/class/controller";
 import {Platform} from "./Platform";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformTest} from "./PlatformTest";

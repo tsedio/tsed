@@ -45,7 +45,7 @@ export interface RouteChainedDecorators {
 }
 
 class RouteDecoratorContext extends DecoratorContext<RouteChainedDecorators> {
-  readonly methods: string[] = ["description", "summary", "method", "id", "handlers"];
+  readonly methods: string[] = ["name", "description", "summary", "method", "id", "handlers"];
 
   protected beforeInit() {
     const path: string = this.get("path");

@@ -1,7 +1,6 @@
-import {Provider, ProviderType, TokenProvider} from "@tsed/di";
+import {ControllerMiddlewares, Provider, ProviderType, TokenProvider} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
 import {ROUTER_OPTIONS} from "../constants/routerOptions";
-import {ControllerMiddlewares} from "../decorators/class/controller";
 import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 import {EndpointMetadata} from "./EndpointMetadata";
 

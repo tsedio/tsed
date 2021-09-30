@@ -77,7 +77,7 @@ describe("EndpointMetadata", () => {
       }
 
       const endpoint = EndpointMetadata.get(Test, "method");
-      console.log("endpoint.middlewares", endpoint.middlewares);
+
       // THEN
       expect(endpoint.middlewares).to.be.an("array").and.have.length(1);
 

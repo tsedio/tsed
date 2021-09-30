@@ -1,7 +1,7 @@
-import {Inject, Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {Inject, Injectable, InjectorService, PathType, ProviderScope} from "@tsed/di";
 import {promisify} from "util";
 import {PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "../config";
-import {PathType, PlatformRouteWithoutHandlers, PlatformRouteOptions} from "../interfaces";
+import {PlatformRouteWithoutHandlers, PlatformRouteOptions} from "../interfaces";
 import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformHandler} from "./PlatformHandler";
 
