@@ -65,7 +65,7 @@
     "compression": "1.7.4",
     "cookie-parser": "1.4.5",
     "cors": "2.8.5",
-    "express-session": "1.17.1",
+    "express-session": "1.17.2",
     "method-override": "3.0.0"
   },
   "peerDependencies": {
