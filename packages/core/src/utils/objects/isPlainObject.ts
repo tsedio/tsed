@@ -10,5 +10,5 @@ export function isClassObject(target: any): target is Object {
 }
 
 export function isPlainObject(target: any): boolean {
-  return isClassObject(classOf(target));
+  return isClassObject(classOf(target)) && target !== Object;
 }

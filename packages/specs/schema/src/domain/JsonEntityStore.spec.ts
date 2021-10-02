@@ -1,5 +1,6 @@
-import {In, JsonOperation, JsonParameter, JsonEntityStore, Property} from "@tsed/schema";
+import {In, JsonEntityStore, JsonOperation, JsonParameter, Property} from "@tsed/schema";
 import {expect} from "chai";
+import {classOf, Metadata} from "@tsed/core";
 
 describe("JsonEntityStore", () => {
   it("should create JsonEntityStore", () => {
@@ -55,5 +56,25 @@ describe("JsonEntityStore", () => {
     expect(storeParam?.nestedGenerics).to.deep.eq([]);
     expect(storeParam?.nestedGenerics).to.deep.eq([]);
     expect(storeParam?.parent).to.deep.eq(storeMethod);
+  });
+  it("should manage enum from babel", () => {
+    enum MyEnum {
+      test = "test"
+    }
+
+    const decorator = () => (...args: any[]) => console.log(args);
+
+    class Model {
+      @decorator()
+      test: MyEnum;
+    }
+
+    Reflect.defineMetadata("design:type", MyEnum, Model.prototype, "test");
+
+    // CLASS
+    Property()(Model.prototype, "test");
+    const store = JsonEntityStore.from(Model, "test");
+
+    expect(store.type).to.deep.eq(String);
   });
 });
