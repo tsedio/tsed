@@ -1,5 +1,5 @@
 import {BodyParams, Controller, Get, Inject, PlatformTest, Post, QueryParams} from "@tsed/common";
-import {deserialize} from "@tsed/json-mapper";
+import {deserialize, serialize} from "@tsed/json-mapper";
 import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
@@ -88,9 +88,7 @@ describe("Mongoose", () => {
     });
 
     it("should transform mongoose instance to object", () => {
-      const result = currentUser.toJSON({
-        endpoint: true
-      });
+      const result = serialize(currentUser, {type: TestUser, endpoint: true});
 
       expect(result).to.be.instanceof(Object);
       expect(result.id).to.be.a("string");

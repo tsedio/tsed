@@ -3,7 +3,6 @@ import {Knex} from "knex";
 import {serialize} from "@tsed/json-mapper";
 import {OBJECTION_CONNECTION} from "@tsed/objection";
 import {User} from "./helpers/models/User";
-import {Server} from "./helpers/Server";
 
 describe("Objection integrations", () => {
   beforeAll(() => {
@@ -33,7 +32,7 @@ describe("Objection integrations", () => {
   it("should connect to the database", async () => {
     const conn = PlatformTest.injector.get<ReturnType<Knex>>(OBJECTION_CONNECTION)!;
 
-    const user = await conn.table("users").where({id: 1}).first();
+    const user = await conn.table("users").where({ id: 1 }).first();
     expect(user.name).toBe("John");
   });
 
@@ -44,17 +43,17 @@ describe("Objection integrations", () => {
 
   it("should serialize correctly the model", async () => {
     const user = await User.query().findById(1);
+    console.log(user, User);
+    const result = serialize(user, { type: User, groups: ["creation"], endpoint: true });
 
-    const result = serialize(user, {type: User, groups: ['creation'], endpoint: true})
+    expect(result).toEqual({ name: "John" });
 
-    expect(result).toEqual({ name: 'John' })
+    const result2 = serialize(user, { type: User, groups: [], endpoint: true });
 
-    const result2 = serialize(user, {type: User, groups: [], endpoint: true})
+    expect(result2).toEqual({ id: 1, name: "John" });
 
-    expect(result2).toEqual({ id: 1, name: 'John' })
+    const result3 = serialize(user, { type: User, groups: [] });
 
-    const result3 = serialize(user, {type: User, groups: []})
-
-    expect(result3).toEqual({ id: 1, name: 'John' })
+    expect(result3).toEqual({ id: 1, name: "John" });
   });
 });
