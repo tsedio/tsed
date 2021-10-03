@@ -10,9 +10,6 @@ export * from "./method/location";
 export * from "./method/redirect";
 export * from "./method/endpointFn";
 
-// class
-export * from "./class/controller";
-
 // Params
 export * from "./params/response";
 export * from "./params/request";

@@ -1,4 +1,4 @@
-import {BodyParams, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
+import {BodyParams, Controller, Get, Middleware, PathParams, PlatformTest, Post, UseAuth} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Description, MaxLength, MinLength, Property, Returns, Summary} from "@tsed/schema";
 import {expect} from "chai";
@@ -69,6 +69,29 @@ export class ResourcesCtrl extends BaseController<Resource> {
   }
 }
 
+@Middleware()
+class AuthMiddleware {
+  use() {
+    return true;
+  }
+}
+
+abstract class AttachmentController {
+  @Get("/:parentID/attachments")
+  getAll(@PathParams("parentID") parentID: string) {
+    return `All attachments of ${parentID}`;
+  }
+}
+
+@Controller("/findings")
+@UseAuth(AuthMiddleware)
+export class FindingsController extends AttachmentController {
+  @Get("/")
+  get() {
+    return "hello Finding";
+  }
+}
+
 export function testInheritanceController(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
@@ -76,7 +99,7 @@ export function testInheritanceController(options: PlatformTestOptions) {
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
-        "/rest": [ResourcesCtrl]
+        "/rest": [ResourcesCtrl, FindingsController]
       }
     })
   );
@@ -85,34 +108,50 @@ export function testInheritanceController(options: PlatformTestOptions) {
   });
   after(PlatformTest.reset);
 
-  it("should return list", async () => {
-    const {body} = await request.get("/rest/resources").expect(200);
+  describe("Scenario 1:", () => {
+    it("should return list", async () => {
+      const {body} = await request.get("/rest/resources").expect(200);
 
-    expect(body).to.deep.eq([{id: "1", name: "John"}]);
-  });
+      expect(body).to.deep.eq([{id: "1", name: "John"}]);
+    });
 
-  it("should return a resource", async () => {
-    const {body} = await request.get("/rest/resources/1").expect(200);
+    it("should return a resource", async () => {
+      const {body} = await request.get("/rest/resources/1").expect(200);
 
-    expect(body).to.deep.eq({
-      id: "1",
-      name: "John hello You!"
+      expect(body).to.deep.eq({
+        id: "1",
+        name: "John hello You!"
+      });
+    });
+
+    it("should add a resource", async () => {
+      const {body} = await request
+        .post("/rest/resources")
+        .send({
+          name: "july"
+        })
+        .expect(201);
+
+      expect(body.name).to.deep.eq("july");
+      expect(body.id).to.be.a("string");
+
+      const {body: resource} = await request.get(`/rest/resources/${body.id}`).expect(200);
+
+      expect(resource.id).to.deep.eq(body.id);
     });
   });
 
-  it("should add a resource", async () => {
-    const {body} = await request
-      .post("/rest/resources")
-      .send({
-        name: "july"
-      })
-      .expect(201);
+  describe("scenario2: FindingsController", () => {
+    it("should call /rest/findings/:parentID/attachments", async () => {
+      const {text} = await request.get("/rest/findings/1/attachments").expect(200);
 
-    expect(body.name).to.deep.eq("july");
-    expect(body.id).to.be.a("string");
+      expect(text).to.deep.eq("All attachments of 1");
+    });
 
-    const {body: resource} = await request.get(`/rest/resources/${body.id}`).expect(200);
+    it("should call /rest/findings/", async () => {
+      const {text} = await request.get("/rest/findings").expect(200);
 
-    expect(resource.id).to.deep.eq(body.id);
+      expect(text).to.deep.eq("hello Finding");
+    });
   });
 }

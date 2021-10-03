@@ -1,5 +1,5 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn, OperationMethods, OperationPath} from "@tsed/schema";
+import {JsonEntityFn, OperationMethods, OperationPath, Route} from "@tsed/schema";
 import {mapUseOptions} from "../utils/mapUseOptions";
 
 /**
@@ -27,12 +27,7 @@ export function Use(...args: any[]): Function {
   return JsonEntityFn((entity, parameters) => {
     switch (entity.decoratorType) {
       case DecoratorTypes.METHOD:
-        const options = mapUseOptions(args);
-
-        options.path && OperationPath(options.method || OperationMethods.CUSTOM, options.path)(...parameters);
-
-        entity.use(args);
-        break;
+        return Route(...args);
 
       case DecoratorTypes.CLASS:
         entity.store.merge("middlewares", {

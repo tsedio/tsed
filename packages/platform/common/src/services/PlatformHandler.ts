@@ -144,9 +144,10 @@ export class PlatformHandler {
     const {$ctx, metadata, err, handler} = requestOptions;
     // istanbul ignore next
     if (!$ctx) {
-      $log.error(
-        `Endpoint ${metadata.toString()} is called but the response is already send to your consumer. Check your code and his middlewares please!`
-      );
+      $log.error({
+        name: "HEADERS_SENT",
+        message: `An endpoint is called but the response is already send to the client. The call comes from the handler: ${metadata.toString()}`
+      });
       return;
     }
 
@@ -178,15 +179,28 @@ export class PlatformHandler {
     });
   }
 
-  protected async onError(er: unknown, requestOptions: OnRequestOptions) {
-    const {next, $ctx} = requestOptions;
+  protected async onError(er: Error, requestOptions: OnRequestOptions) {
+    const {next, $ctx, metadata} = requestOptions;
     $ctx.data = er;
 
     if (!next) {
       throw er;
     }
 
-    return !$ctx.response.isHeadersSent() && next && next(er);
+    // istanbul ignore next
+    if (!$ctx?.response?.isHeadersSent || $ctx.response.isHeadersSent()) {
+      $log.warn({
+        name: "HEADERS_SENT",
+        message: `An error was caught after the headers were sent to the client. The error comes from the handler: ${metadata.toString()}`,
+        stack: er.stack,
+        origin: er,
+        request_id: $ctx.id
+      });
+
+      return;
+    }
+
+    return next && next(er);
   }
 
   /**

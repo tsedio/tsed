@@ -3,7 +3,6 @@ import {Container, createContainer, getConfiguration, InjectorService, IProvider
 import {importProviders} from "@tsed/components-scan";
 import {PerfLogger} from "@tsed/perf";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
-import {PlatformLogMiddleware} from "../middlewares";
 import {PlatformModule} from "../PlatformModule";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
@@ -112,7 +111,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   get disableBootstrapLog() {
-    return this.settings.logger.disableBootstrapLog;
+    return this.settings.logger?.disableBootstrapLog;
   }
 
   static build<T extends PlatformBuilder<any, any>>(platformBuildClass: PlatformType<T>): T {
@@ -216,7 +215,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     const {injector, rootModule} = this;
     log(hook);
 
-    if (!injector.settings.logger.disableBootstrapLog) {
+    if (!this.disableBootstrapLog) {
       injector.logger.info(`\x1B[1mCall hook ${hook}\x1B[22m`);
     }
 
@@ -316,7 +315,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   protected async logRoutes() {
     const {logger, platform} = this;
 
-    if (!this.settings.logger.disableRoutesSummary && !this.disableBootstrapLog) {
+    if (!this.settings.logger?.disableRoutesSummary && !this.disableBootstrapLog) {
       logger.info("Routes mounted :");
       logger.info(printRoutes(await this.injector.alterAsync("$logRoutes", platform.getRoutes())));
     }
@@ -324,7 +323,8 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
   protected async loadRoutes() {
     // istanbul ignore next
-    if (this.settings.logger.level !== "off") {
+    if (this.settings.logger?.level !== "off") {
+      const {PlatformLogMiddleware} = await import("@tsed/platform-log-middleware");
       this.app.use(PlatformLogMiddleware);
     }
 

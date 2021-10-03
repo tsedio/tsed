@@ -38,7 +38,7 @@ export class PlatformContext extends DIContext implements ContextMethods {
    */
   public request: PlatformRequest;
 
-  #ignoreUrlPatterns: RegExp[] = [];
+  private ignoreUrlPatterns: RegExp[] = [];
 
   constructor({
     event,
@@ -51,13 +51,13 @@ export class PlatformContext extends DIContext implements ContextMethods {
     super({
       ...options,
       ignoreLog: () => {
-        return this.#ignoreUrlPatterns.find((reg) => !!this.url.match(reg));
+        return this.ignoreUrlPatterns.find((reg) => !!this.url.match(reg));
       }
     });
 
     endpoint && (this.endpoint = endpoint);
 
-    this.#ignoreUrlPatterns = ignoreUrlPatterns.map((pattern: string | RegExp) =>
+    this.ignoreUrlPatterns = ignoreUrlPatterns.map((pattern: string | RegExp) =>
       typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern
     );
 

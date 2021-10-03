@@ -1,6 +1,6 @@
-import {Injectable} from "@tsed/di";
-import {BodyParams, PlatformServerlessTest, Post} from "@tsed/platform-serverless";
-import {MinLength, Property} from "@tsed/schema";
+import { Injectable } from "@tsed/di";
+import { BodyParams, PlatformServerlessTest } from "@tsed/platform-serverless";
+import { MinLength, Property, Post } from "@tsed/schema";
 
 class Model {
   @Property()
@@ -41,8 +41,12 @@ describe("Response", () => {
       });
 
       expect(response.statusCode).toBe(216);
-      expect(JSON.parse(response.body)).toEqual({test: "hello"});
-      expect(response.headers).toEqual({"test-x": "id", "x-request-id": "requestId"});
+      expect(JSON.parse(response.body)).toEqual({ test: "hello" });
+      expect(response.headers).toEqual({
+        "test-x": "id",
+        "x-request-id": "requestId",
+        "content-type": "application/json"
+      });
     });
   });
 });

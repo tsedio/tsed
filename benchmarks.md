@@ -10,14 +10,14 @@ Details:
 
 |                | Req/sec | Trans/sec | Req/sec DIFF | Trans/sec DIFF |
 | -------------- | ------- | --------- | ------------ | -------------- |
-| Ts.ED Express  | 1562    | 437.71KB  | -            | -              |
-| Ts.ED Koa      | 1828    | 364.10KB  | -            | -              |
-| Nest-Express   | 2422    | 565.22KB  | -            | -              |
-| Nest-Fastify   | 5522    | 0.93MB    | -            | -              |
-| Express        | 2650    | 618.58KB  | -            | -              |
-| Express Router | 2612    | 609.74KB  | -            | -              |
-| Koa            | 5533    | 0.93MB    | -            | -              |
-| Fastify        | 5932    | 1.00MB    | -            | -              |
+| Ts.ED Express  | 1553    | 435.15KB  | -            | -              |
+| Ts.ED Koa      | 1849    | 368.43KB  | -            | -              |
+| Nest-Express   | 2436    | 568.48KB  | -            | -              |
+| Nest-Fastify   | 5484    | 0.92MB    | -            | -              |
+| Express        | 2670    | 623.29KB  | -            | -              |
+| Express Router | 2617    | 610.77KB  | -            | -              |
+| Koa            | 5525    | 0.93MB    | -            | -              |
+| Fastify        | 5903    | 0.99MB    | -            | -              |
 
 > Note:
 > `req/sec DIFF` and `Trans/sec DIFF` is in comparison to the baseline on target branch (master).

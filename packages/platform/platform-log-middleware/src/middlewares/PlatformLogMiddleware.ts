@@ -1,29 +1,42 @@
-import {InjectorService} from "@tsed/di";
+import {Constant} from "@tsed/di";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
-import {PlatformLoggerSettings} from "../config/interfaces/PlatformLoggerSettings";
-import {OnResponse} from "../interfaces/OnResponse";
+import type {LoggerRequestFields} from "../domain/PlatformLogMiddlewareSettings";
 
 /**
  * @middleware
  * @platform
  */
 @Middleware()
-export class PlatformLogMiddleware implements MiddlewareMethods, OnResponse {
-  protected static DEFAULT_FIELDS = ["reqId", "method", "url", "duration"];
-
+export class PlatformLogMiddleware implements MiddlewareMethods {
   $onResponse: any;
 
-  protected settings: PlatformLoggerSettings;
+  @Constant("logger.requestFields", ["reqId", "method", "url", "duration"])
+  protected requestFields: LoggerRequestFields;
 
-  // tslint:disable-next-line: no-unused-variable
-  constructor(injector: InjectorService) {
-    this.settings = injector.settings.logger || {};
-    this.settings.requestFields = this.settings.requestFields || PlatformLogMiddleware.DEFAULT_FIELDS;
+  @Constant("logger.logRequest", true)
+  protected logRequest: boolean;
 
-    if (this.settings.level !== "off") {
+  @Constant("logger.logStart", true)
+  protected logStart: boolean;
+
+  @Constant("logger.logEnd", true)
+  protected logEnd: boolean;
+
+  @Constant("logger.level")
+  protected logLevel: string;
+
+  @Constant("debug")
+  protected debug: boolean;
+
+  constructor() {
+    if (this.logLevel !== "off") {
       this.$onResponse = this.onLogEnd.bind(this);
     }
+  }
+
+  get settings() {
+    return this;
   }
 
   /**
@@ -41,7 +54,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods, OnResponse {
   protected onLogStart(ctx: Context) {
     const {debug, logRequest, logStart} = this.settings;
 
-    if (logStart !== false) {
+    if (logStart) {
       if (debug) {
         ctx.logger.debug({
           event: "request.start"
@@ -60,7 +73,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods, OnResponse {
   protected onLogEnd(ctx: Context) {
     const {debug, logRequest, logEnd} = this.settings;
 
-    if (logEnd !== false) {
+    if (logEnd) {
       if (debug) {
         ctx.logger.debug({
           event: "request.end",
@@ -110,7 +123,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods, OnResponse {
    * @param ctx
    */
   protected minimalRequestPicker(ctx: Context): any {
-    const {requestFields} = this.settings;
+    const {requestFields} = this;
     const info = this.requestToObject(ctx);
 
     return requestFields!.reduce((acc: any, key: string) => {

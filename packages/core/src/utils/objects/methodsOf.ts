@@ -1,5 +1,5 @@
-import {ancestorsOf} from "./ancestorOf";
 import {classOf} from "./classOf";
+import {ancestorsOf} from "./ancestorsOf";
 import {prototypeOf} from "./prototypeOf";
 
 /**

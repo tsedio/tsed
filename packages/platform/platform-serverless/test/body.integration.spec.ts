@@ -1,7 +1,7 @@
 import "@tsed/ajv";
-import {Injectable} from "@tsed/di";
-import {BodyParams, Patch, PlatformServerlessTest, Post, Put} from "@tsed/platform-serverless";
-import {MinLength, Property, Returns} from "@tsed/schema";
+import { Injectable } from "@tsed/di";
+import { BodyParams, PlatformServerlessTest,  } from "@tsed/platform-serverless";
+import { MinLength, Property, Returns, Post, Put, Patch } from "@tsed/schema";
 
 class Model {
   @Property()
@@ -64,7 +64,11 @@ describe("Body params", () => {
         "id": "1",
         "name": "Test"
       });
-      expect(response.headers).toEqual({"x-test": "test", "x-request-id": "requestId"});
+      expect(response.headers).toEqual({
+        "x-test": "test",
+        "x-request-id": "requestId",
+        "content-type": "application/json"
+      });
     });
     it("should throw an error", async () => {
       const response = await PlatformServerlessTest.request.call("scenario2").put("/").body({

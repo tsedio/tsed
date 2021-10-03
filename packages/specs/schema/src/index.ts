@@ -1,4 +1,5 @@
 export * from "./constants/httpStatusMessages";
+export * from "./constants/httpMethods";
 export * from "./utils/getJsonSchema";
 export * from "./utils/getJsonType";
 export * from "./utils/getPropertiesStores";

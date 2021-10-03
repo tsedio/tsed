@@ -9,9 +9,9 @@ import type {
   APIGatewayProxyResult,
   Context
 } from "aws-lambda";
-import {v4} from "uuid";
 import {ServerlessContext} from "../domain/ServerlessContext";
 import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
+import {getRequestId} from "../utils/getRequestId";
 
 /**
  * @platform
@@ -50,9 +50,12 @@ export class PlatformServerless {
         const store = JsonEntityStore.from(token);
 
         return [...store.children.values()].reduce((list, store) => {
-          const operationId = store.operation?.get("operationId");
+          if (store.operation) {
+            const operationId = store.operation.get("operationId") || store.propertyKey;
 
-          return operationId ? [...list, {store, operationId}] : list;
+            return [...list, {store, operationId}];
+          }
+          return list;
         }, []);
       })
       .flat()
@@ -76,12 +79,10 @@ export class PlatformServerless {
         handler = await platformHandler.createHandler(token, propertyKey);
       }
 
-      const reqId = event?.requestContext?.requestId || v4().replace(/-/gi, "");
-
       const $ctx = new ServerlessContext({
         event,
         context,
-        id: reqId,
+        id: getRequestId(event, context),
         logger: this.injector.logger as Logger,
         injector: this.injector,
         endpoint: entity

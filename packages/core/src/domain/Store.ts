@@ -1,6 +1,12 @@
 import {DecoratorTypes} from "../domain/DecoratorTypes";
-import {decoratorTypeOf, deepClone, deepMerge, descriptorOf, isSymbol, nameOf} from "../utils";
+import {decoratorTypeOf} from "../utils/decorators/decoratorTypeOf";
+import {deepClone} from "../utils/objects/deepClone";
+import {deepMerge} from "../utils/objects/deepMerge";
+import {descriptorOf} from "../utils/objects/descriptorOf";
+import {isSymbol} from "../utils/objects/isSymbol";
+import {nameOf} from "../utils/objects/nameOf";
 import {Metadata} from "./Metadata";
+import type {Type} from "./Type";
 
 /**
  * @ignore
@@ -64,7 +70,7 @@ function defineStore(args: any[]): Store {
 }
 
 export class Store {
-  #entries = new Map<string, any>();
+  private _entries = new Map<string, any>();
 
   /**
    * Create or get a Store from args {target + methodName + descriptor}
@@ -85,6 +91,20 @@ export class Store {
     return Store.from(target, propertyKey, descriptorOf(target, propertyKey));
   }
 
+  static mergeStoreFrom(target: Type<any>, source: Type<any>, ...args: any[]) {
+    const store = Store.from(target, ...args);
+
+    Store.from(source, ...args)._entries.forEach((value, key) => {
+      store.merge(key, value);
+    });
+
+    return store;
+  }
+
+  static mergeStoreMethodFrom(target: Type<any>, source: Type<any>, propertyKey: string | symbol) {
+    return this.mergeStoreFrom(target, source, propertyKey, descriptorOf(target, propertyKey));
+  }
+
   /**
    * The get() method returns a specified element from a Map object.
    * @param key Required. The key of the element to return from the Map object.
@@ -92,7 +112,7 @@ export class Store {
    * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
    */
   get<T = any>(key: any, defaultValue?: any): T {
-    return this.#entries.get(nameOf(key)) || defaultValue;
+    return this._entries.get(nameOf(key)) || defaultValue;
   }
 
   /**
@@ -101,7 +121,7 @@ export class Store {
    * @returns {boolean}
    */
   has(key: any): boolean {
-    return this.#entries.has(nameOf(key));
+    return this._entries.has(nameOf(key));
   }
 
   /**
@@ -110,7 +130,7 @@ export class Store {
    * @param metadata Required. The value of the element to add to the Map object.
    */
   set(key: any, metadata: any): Store {
-    this.#entries.set(nameOf(key), metadata);
+    this._entries.set(nameOf(key), metadata);
 
     return this;
   }
@@ -121,7 +141,7 @@ export class Store {
    * @returns {boolean} Returns true if an element in the Map object existed and has been removed, or false if the element does not exist.
    */
   delete(key: string): boolean {
-    return this.#entries.delete(nameOf(key));
+    return this._entries.delete(nameOf(key));
   }
 
   /**
@@ -143,5 +163,14 @@ export class Store {
     this.set(key, value);
 
     return this;
+  }
+
+  toJson() {
+    return [...this._entries.entries()].reduce((obj, [key, value]) => {
+      return {
+        ...obj,
+        [key]: value
+      };
+    }, {});
   }
 }

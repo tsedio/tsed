@@ -1,17 +1,6 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "../common/jsonEntityFn";
-
-export enum OperationMethods {
-  ALL = "ALL", // special key
-  GET = "GET",
-  POST = "POST",
-  PUT = "PUT",
-  PATCH = "PATCH",
-  HEAD = "HEAD",
-  DELETE = "DELETE",
-  OPTIONS = "OPTIONS",
-  CUSTOM = "CUSTOM"
-}
+import {OperationMethods} from "../../constants/httpMethods";
 
 /**
  * Declare new Operation with his path and http method.

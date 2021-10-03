@@ -1,5 +1,4 @@
 import {Knex} from "knex";
-import "./utils/patchModelJson";
 
 declare global {
   namespace TsED {

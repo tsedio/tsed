@@ -4,7 +4,7 @@ function register(name: string) {
   return <Function>(target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<Function>) => {
     if (descriptor.value) {
       const store = Store.from(target);
-      const values = store.get(name, []);
+      const values = store.get(name) || [];
 
       store.merge(name, [...values, descriptor.value]);
     }

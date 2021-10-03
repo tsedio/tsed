@@ -29,6 +29,7 @@ export * from "./operations/summary";
 export * from "./operations/partial";
 export * from "./operations/redirect";
 export * from "./operations/location";
+export * from "./operations/route";
 
 // common
 export * from "./common/additionalProperties";

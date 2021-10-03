@@ -70,6 +70,7 @@
     "@tsed/platform-cache": "7.0.0-alpha.1",
     "@tsed/platform-exceptions": "7.0.0-alpha.1",
     "@tsed/platform-middlewares": "7.0.0-alpha.1",
+    "@tsed/platform-log-middleware": "7.0.0-alpha.1",
     "@tsed/platform-params": "7.0.0-alpha.1",
     "@tsed/platform-response-filter": "7.0.0-alpha.1",
     "@tsed/platform-views": "7.0.0-alpha.1",

@@ -2,11 +2,11 @@ import {
   classOf,
   isArray,
   isClass,
+  isClassObject,
   isCollection,
   isEmpty,
   isFunction,
   isNil,
-  isPlainObject,
   MetadataTypes,
   objectKeys,
   Type
@@ -114,8 +114,12 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     return obj;
   }
 
+  if (typeof obj.toClass === "function") {
+    return serialize(obj.toClass(), options);
+  }
+
   if (typeof obj.toJSON === "function") {
-    return obj.toJSON(options);
+    return serialize(obj.toJSON(), {...options, type: classOf(obj)});
   }
 
   if (type && isClass(type)) {
@@ -151,5 +155,5 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     return types.get(Array)?.serialize(obj, context);
   }
 
-  return !isPlainObject(type) ? classToPlainObject(obj, options) : toObject(obj, options);
+  return !isClassObject(classOf(type)) ? classToPlainObject(obj, options) : toObject(obj, options);
 }

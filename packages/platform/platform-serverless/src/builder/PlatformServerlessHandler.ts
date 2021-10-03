@@ -62,6 +62,7 @@ export class PlatformServerlessHandler {
     let body: any = $ctx.response.getBody();
 
     if (shouldBeSerialized(body)) {
+      $ctx.response.set("content-type", "application/json");
       body = JSON.stringify(body);
     }
 

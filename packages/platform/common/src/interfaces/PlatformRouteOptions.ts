@@ -1,4 +1,4 @@
-import {PathType} from "./PathType";
+import {PathType} from "@tsed/di";
 
 /**
  * @ignore

@@ -141,6 +141,15 @@ export class LambdaClientRequest extends Promise<APIGatewayProxyResult> {
     return this;
   }
 
+  headers(headers: Record<string, any>) {
+    this.event.headers = {
+      ...this.event.headers,
+      ...JSON.parse(JSON.stringify(headers))
+    };
+
+    return this;
+  }
+
   body(body: any) {
     if (body !== undefined) {
       this.event.headers["content-type"] = "application/json";

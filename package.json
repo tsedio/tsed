@@ -33,7 +33,6 @@
     "test:coverage": "yarn test:global && yarn test:packages",
     "test:lint": "eslint packages --ext .ts",
     "test:lint:fix": "eslint packages --ext .ts --fix",
-    "merge:coverage": "",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "build": "monorepo build --verbose",
     "sync:packages": "monorepo sync packages",
@@ -181,6 +180,7 @@
   "monorepo": {
     "productionBranch": "alpha",
     "developBranch": "alpha",
+    "npmDistTag": "alpha",
     "npmAccess": "public",
     "ignoreSyncDependencies": [
       "express",

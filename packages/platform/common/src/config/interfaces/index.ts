@@ -8,6 +8,7 @@ import {PlatformStaticsSettings} from "./PlatformStaticsSettings";
 
 declare global {
   namespace TsED {
+    interface LoggerConfiguration extends Partial<PlatformLoggerSettings> {}
     interface Configuration {
       /**
        * The root directory where you build run project. By default, it's equal to `process.cwd().
@@ -64,7 +65,7 @@ declare global {
       /**
        * Logger configuration.
        */
-      logger: Partial<PlatformLoggerSettings>;
+      logger?: LoggerConfiguration;
       /**
        * Object to mount all directories under to his endpoints. See more on [Serve Static](/tutorials/serve-static-files.md).
        */

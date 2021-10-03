@@ -11,3 +11,4 @@ export * from "./configuration";
 export * from "./module";
 export * from "./opts";
 export * from "./useOpts";
+export * from "./controller";

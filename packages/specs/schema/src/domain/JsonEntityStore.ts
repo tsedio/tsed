@@ -1,11 +1,11 @@
 import {
-  decoratorTypeOf,
   DecoratorTypes,
   descriptorOf,
   Entity,
   EntityOptions,
   isClass,
   isCollection,
+  isPlainObject,
   isPromise,
   Metadata,
   prototypeOf,
@@ -43,20 +43,6 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
    * Path used to generate open spec.
    */
   public path: string = "/";
-  /**
-   * Ref to JsonSchema
-   */
-  protected _schema: JsonSchema;
-  /**
-   * Ref to JsonOperation when the decorated object is a method.
-   */
-  protected _operation: JsonOperation;
-  /**
-   * Ref to JsonParameter when the decorated object is a parameter.
-   */
-  protected _parameter: JsonParameter;
-
-  [key: string]: any;
 
   constructor(options: JsonEntityStoreOptions) {
     super(options);
@@ -71,11 +57,23 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
   }
 
   /**
+   * Ref to JsonSchema
+   */
+  protected _schema: JsonSchema;
+
+  /**
    * Return the JsonSchema
    */
   get schema(): JsonSchema {
     return this._schema;
   }
+
+  [key: string]: any;
+
+  /**
+   * Ref to JsonOperation when the decorated object is a method.
+   */
+  protected _operation: JsonOperation;
 
   /**
    * Return the JsonOperation
@@ -83,6 +81,11 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
   get operation(): JsonOperation | undefined {
     return this._operation;
   }
+
+  /**
+   * Ref to JsonParameter when the decorated object is a parameter.
+   */
+  protected _parameter: JsonParameter;
 
   /**
    * Return the JsonParameter
@@ -253,6 +256,11 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
         this.collectionType = type;
       } else {
         this._type = type;
+
+        // issue #1534: Enum metadata stored as plain object instead of String (see: https://github.com/tsedio/tsed/issues/1534)
+        if (this._type && isPlainObject(this._type)) {
+          this._type = String;
+        }
       }
     }
 

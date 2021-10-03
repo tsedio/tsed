@@ -45,6 +45,7 @@ describe("serialize()", () => {
       expect(serialize([1])).to.deep.equal([1]);
 
       class ArrayLike extends Array {}
+
       const arrayLike = new ArrayLike();
       arrayLike.push(1);
 
@@ -331,7 +332,7 @@ describe("serialize()", () => {
       });
     });
   });
-  describe("class with toJSON", () => {
+  describe("class with toJSON/toClass", () => {
     it("should serialize model", () => {
       class Role {
         @Property()
@@ -359,17 +360,14 @@ describe("serialize()", () => {
 
       const model = new Model();
       // @ts-ignore
-      model["toJSON"] = (options: any) => {
-        return serialize(
-          deserialize(
-            {
-              id: "id",
-              password: "hellopassword",
-              mappedProp: "hello"
-            },
-            {useAlias: false, type: Model}
-          ),
-          options
+      model["toClass"] = (options: any) => {
+        return deserialize(
+          {
+            id: "id",
+            password: "hellopassword",
+            mappedProp: "hello"
+          },
+          {useAlias: false, type: Model}
         );
       };
 
@@ -503,6 +501,30 @@ describe("serialize()", () => {
               id: "id"
             }
           ]
+        }
+      });
+    });
+    it("should serialize model with object props", () => {
+      class Model {
+        @Property()
+        test: any;
+
+        @Property()
+        id: string;
+      }
+
+      const test = new Model();
+      test.id = "id";
+      test.test = {
+        value: "test"
+      };
+
+      const result = serialize(test, {type: Model});
+
+      expect(result).to.deep.eq({
+        id: "id",
+        test: {
+          value: "test"
         }
       });
     });
