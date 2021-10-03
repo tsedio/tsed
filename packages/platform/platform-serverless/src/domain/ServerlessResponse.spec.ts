@@ -3,6 +3,33 @@ import {PlatformServerlessTest} from "@tsed/platform-serverless";
 describe("ServerlessResponse", () => {
   beforeEach(() => PlatformServerlessTest.create());
   afterEach(() => PlatformServerlessTest.reset());
+  describe("statusCode", () => {
+    it("should return the statusCode", () => {
+      const context = PlatformServerlessTest.createServerlessContext({
+        endpoint: {} as any
+      });
+      context.response.statusCode = 201;
+      expect(context.response.statusCode).toEqual(201);
+    });
+  });
+  describe("locals()", () => {
+    it("should return the locals", () => {
+      const context = PlatformServerlessTest.createServerlessContext({
+        endpoint: {} as any
+      });
+
+      expect(context.response.locals).toEqual({});
+    });
+  });
+  describe("contentLength()", () => {
+    it("should return the locals", () => {
+      const context = PlatformServerlessTest.createServerlessContext({
+        endpoint: {} as any
+      });
+      context.response.contentLength(300);
+      expect(context.response.getContentLength()).toEqual(300);
+    });
+  });
   describe("location()", () => {
     it("should set location", () => {
       const context = PlatformServerlessTest.createServerlessContext({

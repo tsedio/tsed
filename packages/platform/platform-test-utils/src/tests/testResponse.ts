@@ -1,5 +1,5 @@
 import {Context, Controller, Get, Next, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
-import {ContentType, Enum, Ignore, Property, Required, Status} from "@tsed/schema";
+import {ContentType, Enum, Groups, Ignore, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";
 import {expect} from "chai";
 import {createReadStream} from "fs";
@@ -47,6 +47,14 @@ export class NestedEnum {
 export class TestNestedEnum {
   @Property()
   nested: NestedEnum;
+}
+
+export class ModelGroup {
+  @Property()
+  id: string;
+
+  @Groups("!creation")
+  groups: string;
 }
 
 @Controller("/response")
@@ -201,6 +209,16 @@ class TestResponseParamsCtrl {
     nested.value = EnumValue.One;
     test.nested = nested;
     return test;
+  }
+
+  @Get("/scenario17")
+  @(Returns(201, ModelGroup).Groups("creation"))
+  async testScenario17(): Promise<ModelGroup> {
+    const model = new ModelGroup();
+    model.id = "id";
+    model.groups = "groups";
+
+    return model;
   }
 }
 
@@ -421,6 +439,14 @@ export function testResponse(options: PlatformTestOptions) {
       const response = await request.get("/rest/response/scenario16").expect(200);
 
       expect(response.body).to.deep.equal({nested: {value: "one"}});
+    });
+  });
+
+  describe("Scenario15: Return response with groups on 201", () => {
+    it("should return the response (200)", async () => {
+      const response = await request.get("/rest/response/scenario17").expect(201);
+
+      expect(response.body).to.deep.equal({id: "id"});
     });
   });
 }

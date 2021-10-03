@@ -1,4 +1,4 @@
-import {classOf, DecoratorTypes, deepMerge, descriptorOf, Enumerable, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
+import {classOf, DecoratorTypes, deepMerge, descriptorOf, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
 import {ParamMetadata} from "@tsed/platform-params";
 import {getOperationsStores, JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonOperation} from "@tsed/schema";
 
@@ -36,18 +36,9 @@ export interface EndpointRedirectOptions {
  */
 @JsonEntityComponent(DecoratorTypes.METHOD)
 export class EndpointMetadata extends JsonEntityStore implements EndpointConstructorOptions {
-  // LIFECYCLE
-  @Enumerable()
   public beforeMiddlewares: any[] = [];
-
-  @Enumerable()
   public middlewares: any[] = [];
-
-  @Enumerable()
   public afterMiddlewares: any[] = [];
-
-  @Enumerable()
-  public statusCode: number = 200;
 
   constructor(options: EndpointConstructorOptions) {
     super({
