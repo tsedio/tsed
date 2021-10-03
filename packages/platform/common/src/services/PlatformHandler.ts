@@ -3,6 +3,7 @@ import {Inject, Injectable, InjectorService, Provider, ProviderScope} from "@tse
 import {$log} from "@tsed/logger";
 import {ArgScope, HandlerWithScope, PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
+import {serialize} from "@tsed/json-mapper";
 import {renderView} from "@tsed/platform-views";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx";
 import {EndpointMetadata} from "../domain/EndpointMetadata";
@@ -12,7 +13,6 @@ import {HandlerType} from "../interfaces/HandlerType";
 import {PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouteOptions";
 import {createHandlerMetadata} from "../utils/createHandlerMetadata";
 import {setResponseHeaders} from "../utils/setResponseHeaders";
-import {ConverterService} from "./ConverterService";
 
 export interface OnRequestOptions {
   $ctx: PlatformContext;
@@ -34,6 +34,9 @@ export interface OnRequestOptions {
 export class PlatformHandler {
   @Inject()
   protected responseFilter: PlatformResponseFilter;
+
+  @Constant("additionalProperties")
+  private additionalProperties: boolean;
 
   constructor(protected injector: InjectorService, protected params: PlatformParams) {}
 
@@ -84,8 +87,10 @@ export class PlatformHandler {
         if (endpoint.view) {
           data = await this.render(data, ctx);
         } else if (isSerializable(data)) {
-          data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {
+          data = serialize(data, {
             ...endpoint.getResponseOptions(response.statusCode),
+          additionalProperties: this.additionalProperties,
+          useAlias: true,
             endpoint: true
           });
         }

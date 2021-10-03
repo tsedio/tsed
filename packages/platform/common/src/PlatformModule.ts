@@ -2,7 +2,6 @@ import {InjectorService, Module, ProviderType} from "@tsed/di";
 import {PlatformControllerBuilder} from "./builder/PlatformControllerBuilder";
 import {ControllerProvider} from "./domain/ControllerProvider";
 import {Route} from "./interfaces/Route";
-import {ConverterService} from "./services/ConverterService";
 import {Platform} from "./services/Platform";
 import {PlatformRouter} from "./services/PlatformRouter";
 
@@ -10,7 +9,7 @@ import {PlatformRouter} from "./services/PlatformRouter";
  * @ignore
  */
 @Module({
-  imports: [InjectorService, ConverterService, Platform]
+  imports: [InjectorService, Platform]
 })
 export class PlatformModule {
   constructor(protected injector: InjectorService, protected platform: Platform) {

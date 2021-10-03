@@ -38,7 +38,7 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, {} as any);
       builder.socketProviderMetadata = new SocketProviderMetadata({
         namespace: "/",
         injectNamespaces: [{propertyKey: "key1"}, {propertyKey: "key2", nsp: "/test"}],
@@ -130,7 +130,7 @@ describe("SocketHandlersBuilder", () => {
         on: Sinon.stub()
       };
 
-      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, {} as any);
 
       const invokeStub = Sinon.stub(builder, "invoke");
       const buildHandlersStub = Sinon.stub(builder, "buildHandlers");
@@ -173,7 +173,7 @@ describe("SocketHandlersBuilder", () => {
         on: Sinon.stub()
       };
 
-      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, {} as any);
       const invokeStub = Sinon.stub(builder, "invoke");
       const destroySessionStub = Sinon.stub(builder, "destroySession");
 
@@ -201,7 +201,7 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, {} as any);
       builder.createSession({id: "id"});
 
       expect(provider.instance._nspSession.get("id")).to.be.instanceof(Map);
@@ -220,7 +220,7 @@ describe("SocketHandlersBuilder", () => {
 
       provider.instance._nspSession.set("id", new Map());
 
-      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, {} as any);
       builder.destroySession({id: "id"});
 
       expect(provider.instance._nspSession.get("id")).to.be.undefined;
@@ -245,7 +245,7 @@ describe("SocketHandlersBuilder", () => {
       const socketStub = {
         on: Sinon.stub()
       };
-      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, {} as any);
       const runQueueStub = Sinon.stub(builder, "runQueue");
 
       builder.buildHandlers(socketStub, "ws");
@@ -266,7 +266,7 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, {} as any);
       const buildParametersStub = Sinon.stub(builder, "buildParameters").returns(["argMapped"]);
 
       builder.invoke(provider.instance, metadata.handlers.testHandler, {scope: "scope"});
@@ -289,7 +289,7 @@ describe("SocketHandlersBuilder", () => {
         }
       };
 
-      const builder: any = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, {} as any);
 
       return {
         builder,
@@ -510,7 +510,7 @@ describe("SocketHandlersBuilder", () => {
 
       bindResponseMiddlewareStub = Sinon.stub(SocketHandlersBuilder as any, "bindResponseMiddleware");
 
-      builder = new SocketHandlersBuilder(provider, {} as any, {} as any);
+      builder = new SocketHandlersBuilder(provider, {} as any);
 
       invokeStub = Sinon.stub(builder, "invoke");
       bindMiddlewareStub = Sinon.stub(builder, "bindMiddleware");
@@ -630,7 +630,7 @@ describe("SocketHandlersBuilder", () => {
 
         const scope = {scope: "scope"};
 
-        const builder: any = new SocketHandlersBuilder(provider, {} as any, injector);
+        const builder: any = new SocketHandlersBuilder(provider, injector);
         const invokeStub = Sinon.stub(builder, "invoke");
 
         builder.bindMiddleware({target: "target"}, scope, Promise.resolve());
@@ -671,7 +671,7 @@ describe("SocketHandlersBuilder", () => {
         });
 
         const scope = {scope: "scope", args: undefined};
-        const builder: any = new SocketHandlersBuilder(provider as any, {} as any, injector);
+        const builder: any = new SocketHandlersBuilder(provider as any, injector);
         Sinon.stub(builder, "invoke").returns({result: "result"});
 
         // WHEN
@@ -716,7 +716,7 @@ describe("SocketHandlersBuilder", () => {
 
         const scope = {scope: "scope", args: undefined};
         const error = new Error("test");
-        const builder: any = new SocketHandlersBuilder(provider as any, {} as any, injector);
+        const builder: any = new SocketHandlersBuilder(provider as any, injector);
         Sinon.stub(builder, "invoke").returns({result: "result"});
 
         // WHEN
@@ -731,6 +731,7 @@ describe("SocketHandlersBuilder", () => {
   });
   describe("deserialize()", () => {
     it("should call ConverterService.deserialize", () => {
+      const injector = PlatformTest.get(InjectorService);
       const provider: any = {
         store: {
           get: Sinon.stub()
@@ -749,15 +750,9 @@ describe("SocketHandlersBuilder", () => {
         args: ["any"]
       };
 
-      const converterService = {
-        deserialize: Sinon.stub().returns("value")
-      };
-
-      const builder: any = new SocketHandlersBuilder(provider, converterService as any, {} as any);
+      const builder: any = new SocketHandlersBuilder(provider, injector);
 
       builder.deserialize({parameters} as any, scope as any);
-
-      expect(converterService.deserialize).to.have.been.calledWithExactly("any", {type: String, collectionType: Array});
     });
   });
 });

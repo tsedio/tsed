@@ -185,6 +185,10 @@ export class PlatformConfiguration extends DIConfiguration {
     this.setRaw("exclude", exclude);
   }
 
+  get additionalProperties() {
+    return this.get("converter.additionalProperties") === "accept";
+  }
+
   /**
    *
    * @param addressPort
