@@ -3,7 +3,7 @@ import {BaseContext, Constant, Inject, Injectable, InjectorService} from "@tsed/
 import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods";
 import {ANY_CONTENT_TYPE, getContentType} from "../utils/getContentType";
-import {ConverterService} from "./ConverterService";
+import {serialize} from "@tsed/json-mapper";
 import {renderView} from "../utils/renderView";
 
 /**
@@ -18,6 +18,9 @@ export class PlatformResponseFilter {
 
   @Constant("responseFilters", [])
   protected responseFilters: Type<ResponseFilterMethods>[];
+
+  @Constant("additionalProperties")
+  private additionalProperties: boolean;
 
   get contentTypes(): ResponseFilterKey[] {
     return [...this.types.keys()];
@@ -44,6 +47,7 @@ export class PlatformResponseFilter {
 
     return contentType;
   }
+
   /**
    * Call filters to transform data
    * @param data
@@ -77,8 +81,10 @@ export class PlatformResponseFilter {
       if (endpoint.view) {
         data = await renderView(data, ctx);
       } else if (isSerializable(data)) {
-        data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {
+        data = serialize(data, {
           ...endpoint.getResponseOptions(response.statusCode),
+          additionalProperties: this.additionalProperties,
+          useAlias: true,
           endpoint: true
         });
       }

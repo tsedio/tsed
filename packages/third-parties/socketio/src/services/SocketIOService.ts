@@ -1,4 +1,4 @@
-import {ConverterService, InjectorService, Provider, Service} from "@tsed/common";
+import {InjectorService, Provider, Service} from "@tsed/common";
 import SocketIO from "socket.io"; // tslint:disable-line: no-unused-variable
 import {SocketHandlersBuilder} from "../class/SocketHandlersBuilder";
 import {SocketProviderMetadata} from "../class/SocketProviderMetadata";
@@ -15,7 +15,7 @@ export class SocketIOService {
    */
   private namespaces: Map<string, {nsp: SocketIO.Namespace; instances: any}> = new Map();
 
-  constructor(private injector: InjectorService, @IO private io: SocketIO.Server, private converterService: ConverterService) {}
+  constructor(private injector: InjectorService, @IO private io: SocketIO.Server) {}
 
   /**
    *
@@ -58,7 +58,7 @@ export class SocketIOService {
       nsps.set(nsp, value.nsp);
     });
 
-    const builder = new SocketHandlersBuilder(provider, this.converterService, this.injector).build(nsps);
+    const builder = new SocketHandlersBuilder(provider, this.injector).build(nsps);
 
     nspConfig.instances.push(builder);
   }

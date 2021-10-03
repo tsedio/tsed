@@ -262,6 +262,7 @@ export class PlatformResponse<T extends Record<string, any> = any> {
    */
   body(data: any) {
     this.data = data;
+
     if (data === undefined) {
       this.raw.send();
 

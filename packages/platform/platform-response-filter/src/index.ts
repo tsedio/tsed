@@ -10,7 +10,6 @@ export * from "./interfaces/ResponseFilterMethods";
 
 // services
 export * from "./services/PlatformResponseFilter";
-export * from "./services/ConverterService";
 
 export * from "./utils/getContentType";
 export * from "./utils/renderView";

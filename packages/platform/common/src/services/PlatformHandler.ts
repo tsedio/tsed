@@ -3,6 +3,8 @@ import {Inject, Injectable, InjectorService, Provider, ProviderScope} from "@tse
 import {$log} from "@tsed/logger";
 import {ArgScope, HandlerWithScope, PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
+import {serialize} from "@tsed/json-mapper";
+import {renderView} from "@tsed/platform-views";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx";
 import {EndpointMetadata} from "../domain/EndpointMetadata";
 import {HandlerMetadata} from "../domain/HandlerMetadata";
@@ -32,6 +34,9 @@ export interface OnRequestOptions {
 export class PlatformHandler {
   @Inject()
   protected responseFilter: PlatformResponseFilter;
+
+  @Constant("additionalProperties")
+  private additionalProperties: boolean;
 
   constructor(protected injector: InjectorService, protected params: PlatformParams) {}
 
