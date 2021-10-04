@@ -1,18 +1,10 @@
-import {AnyPromiseResult, AnyToPromise, isBoolean, isNumber, isStream, isString} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromise, isSerializable} from "@tsed/core";
 import {BaseContext, Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
 import {ServerlessContext} from "../domain/ServerlessContext";
 import {setResponseHeaders} from "../utils/setResponseHeaders";
-
-function shouldBeSent(data: any) {
-  return Buffer.isBuffer(data) || isBoolean(data) || isNumber(data) || isString(data) || data === null;
-}
-
-function shouldBeSerialized(data: any) {
-  return !(isStream(data) || shouldBeSent(data) || data === undefined);
-}
 
 @Injectable({
   scope: ProviderScope.SINGLETON,
@@ -61,7 +53,7 @@ export class PlatformServerlessHandler {
 
     let body: any = $ctx.response.getBody();
 
-    if (shouldBeSerialized(body)) {
+    if (isSerializable(body)) {
       $ctx.response.set("content-type", "application/json");
       body = JSON.stringify(body);
     }
@@ -93,9 +85,11 @@ export class PlatformServerlessHandler {
     if (data !== undefined) {
       data = $ctx.response.getStatus() !== 204 ? data : "";
 
-      if (shouldBeSerialized(data)) {
+      if (isSerializable(data)) {
         data = serialize(data, {
-          ...$ctx.endpoint.getResponseOptions()
+          ...$ctx.endpoint.getResponseOptions($ctx.response.getStatus()),
+          useAlias: true,
+          endpoint: true
         });
       }
 

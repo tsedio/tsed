@@ -62,10 +62,7 @@ describe("JsonEntityStore", () => {
       test = "test"
     }
 
-    const decorator = () => (...args: any[]) => console.log(args);
-
     class Model {
-      @decorator()
       test: MyEnum;
     }
 

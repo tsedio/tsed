@@ -242,7 +242,6 @@ describe("Mongoose", () => {
         },
         "email": user.email,
         "id": body.id,
-        "password": user.password,
         "post": "hello post",
         "pre": "hello pre",
         created: String(body.created),

@@ -1,5 +1,5 @@
-import {AnyToPromiseStatus, isBoolean, isFunction, isNumber, isStream, isString} from "@tsed/core";
-import {Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
+import {AnyToPromiseStatus, isFunction, isSerializable, isStream} from "@tsed/core";
+import {Inject, Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {ArgScope, HandlerWithScope, PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
@@ -24,14 +24,6 @@ export interface OnRequestOptions {
   [key: string]: any;
 }
 
-function shouldBeSent(data: any) {
-  return Buffer.isBuffer(data) || isBoolean(data) || isNumber(data) || isString(data) || data === null;
-}
-
-function shouldBeSerialized(data: any) {
-  return !(isStream(data) || shouldBeSent(data) || data === undefined);
-}
-
 /**
  * Platform Handler abstraction layer. Wrap original class method to a pure platform handler (Express, Koa, etc...).
  * @platform
@@ -40,6 +32,9 @@ function shouldBeSerialized(data: any) {
   scope: ProviderScope.SINGLETON
 })
 export class PlatformHandler {
+  @Inject()
+  protected responseFilter: PlatformResponseFilter;
+
   constructor(protected injector: InjectorService, protected params: PlatformParams) {}
 
   /**
@@ -83,21 +78,20 @@ export class PlatformHandler {
   async flush(data: any, ctx: PlatformContext) {
     const {response, endpoint} = ctx;
 
-    if (endpoint) {
-      if (endpoint.view) {
-        data = await this.render(data, ctx);
-      } else if (shouldBeSerialized(data)) {
-        data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {
-          ...endpoint.getResponseOptions(),
-          endpoint: true
-        });
-      }
-    }
-
     if (!response.isDone()) {
-      const responseFilter = this.injector.get<PlatformResponseFilter>(PlatformResponseFilter)!;
+      // FIXME should be move to responseFilter module
+      if (endpoint) {
+        if (endpoint.view) {
+          data = await this.render(data, ctx);
+        } else if (isSerializable(data)) {
+          data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {
+            ...endpoint.getResponseOptions(response.statusCode),
+            endpoint: true
+          });
+        }
+      }
 
-      response.body(responseFilter.transform(data, ctx));
+      response.body(this.responseFilter.transform(data, ctx));
     }
   }
 

@@ -43,7 +43,7 @@ describe("Objection integrations", () => {
 
   it("should serialize correctly the model", async () => {
     const user = await User.query().findById(1);
-    console.log(user, User);
+
     const result = serialize(user, { type: User, groups: ["creation"], endpoint: true });
 
     expect(result).toEqual({ name: "John" });
