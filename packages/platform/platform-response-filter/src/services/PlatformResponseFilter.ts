@@ -48,13 +48,15 @@ export class PlatformResponseFilter {
     return contentType;
   }
 
+  /**
+   * Call filters to transform data
+   * @param data
+   * @param ctx
+   */
   async transform(data: unknown, ctx: BaseContext) {
     const {response} = ctx;
 
-    data = await this.serialize(data, ctx);
-
     const bestContentType = this.getBestContentType(data, ctx);
-
     bestContentType && response.contentType(bestContentType);
 
     if (this.types.has(bestContentType)) {
@@ -68,7 +70,12 @@ export class PlatformResponseFilter {
     return data;
   }
 
-  protected async serialize(data: unknown, ctx: BaseContext) {
+  /**
+   * Serialize data from endpoint metadata
+   * @param data
+   * @param ctx
+   */
+  async serialize(data: unknown, ctx: BaseContext) {
     const {response, endpoint} = ctx;
 
     if (endpoint) {
