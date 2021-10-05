@@ -461,17 +461,21 @@ export class InjectorService extends Container {
    * @param {any} useType
    */
   public bindConstant(instance: any, {propertyKey, expression, defaultValue}: InjectablePropertyValue): PropertyDescriptor {
-    const clone = (o: any) => {
-      if (o) {
-        return Object.freeze(deepClone(o));
+    let bean: any;
+
+    const get = () => {
+      if (bean !== undefined) {
+        return bean;
       }
 
-      return defaultValue;
+      const value = this.settings.get(expression, defaultValue);
+      bean = Object.freeze(deepClone(value));
+
+      return bean;
     };
 
     const descriptor = {
-      get: () => clone(this.settings.get(expression)),
-
+      get,
       enumerable: true,
       configurable: true
     };
