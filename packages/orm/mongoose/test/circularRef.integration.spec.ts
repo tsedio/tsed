@@ -2,7 +2,6 @@ import {Injectable, PlatformTest} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {getJsonSchema} from "@tsed/schema";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {expect} from "chai";
 import {MongooseModel} from "../src";
 import {TestContract} from "./helpers/models/Contract";
 import {TestCustomer} from "./helpers/models/Customer";
@@ -26,11 +25,11 @@ describe("Circular Ref", () => {
   it("should load models with his schema", async () => {
     const service = await PlatformTest.invoke<MyService>(MyService);
 
-    expect(!!service.contract).to.be.true;
-    expect(!!service.customer).to.be.true;
+    expect(!!service.contract).toBe(true);
+    expect(!!service.customer).toBe(true);
 
 
-    expect(getJsonSchema(TestContract)).to.deep.equal({
+    expect(getJsonSchema(TestContract)).toEqual({
       "definitions": {
         "SelfUser": {
           "properties": {
@@ -188,9 +187,9 @@ describe("Circular Ref", () => {
   it('should resolve correctly a self reference', async() => {
     const service = await PlatformTest.invoke<MyService>(MyService);
 
-    expect(!!service.user).to.be.true;
+    expect(!!service.user).toBe(true);
 
-    expect(getJsonSchema(SelfUser)).to.deep.equal({
+    expect(getJsonSchema(SelfUser)).toEqual({
       "definitions": {
         "SelfUser": {
           "properties": {

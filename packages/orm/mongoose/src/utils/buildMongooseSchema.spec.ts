@@ -1,6 +1,5 @@
 import {PropertyMetadata} from "@tsed/common";
 import {Property} from "@tsed/schema";
-import {expect} from "chai";
 import {MONGOOSE_SCHEMA} from "../../src/constants";
 import {buildMongooseSchema} from "../../src/utils/createSchema";
 
@@ -19,14 +18,14 @@ describe("buildMongooseSchema", () => {
       const result = buildMongooseSchema(Test);
 
       // THEN
-      expect(result.schema).to.deep.eq({
+      expect(result.schema).toEqual({
         test: {
           required: false,
           type: String
         }
       });
 
-      expect(result.virtuals.size).to.eq(0);
+      expect(result.virtuals.size).toBe(0);
     });
   });
 
@@ -50,10 +49,10 @@ describe("buildMongooseSchema", () => {
       const result = buildMongooseSchema(Test);
 
       // THEN
-      expect(result.schema).to.deep.eq({});
+      expect(result.schema).toEqual({});
 
-      expect(result.virtuals.size).to.eq(1);
-      expect(result.virtuals.get("test")).to.deep.eq({
+      expect(result.virtuals.size).toBe(1);
+      expect(result.virtuals.get("test")).toEqual({
         foreignField: "foreignField",
         justOne: true,
         localField: "localField",

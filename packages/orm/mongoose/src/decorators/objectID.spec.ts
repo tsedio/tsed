@@ -1,5 +1,4 @@
 import {getJsonSchema} from "@tsed/schema";
-import {expect} from "chai";
 import {ObjectID} from "./objectID";
 
 describe("ObjectID", () => {
@@ -9,7 +8,7 @@ describe("ObjectID", () => {
       _id: string;
     }
 
-    expect(getJsonSchema(MyModelTest)).to.deep.eq({
+    expect(getJsonSchema(MyModelTest)).toEqual({
       properties: {
         id: {
           description: "Mongoose ObjectId",

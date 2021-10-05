@@ -1,6 +1,5 @@
 import {descriptorOf, Store} from "@tsed/core";
 import {getJsonSchema} from "@tsed/schema";
-import {expect} from "chai";
 import {Schema} from "mongoose";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../../src/constants";
 import {DynamicRef} from "../../src/decorators";
@@ -19,7 +18,7 @@ describe("@DynamicRef()", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Test)).to.deep.eq({
+    expect(getJsonSchema(Test)).toEqual({
       properties: {
         test: {
           description: "Mongoose Ref ObjectId",
@@ -32,7 +31,7 @@ describe("@DynamicRef()", () => {
 
     const store = Store.from(Test, "test", descriptorOf(Test, "test"));
 
-    expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+    expect(store.get(MONGOOSE_SCHEMA)).toEqual({
       type: Schema.Types.ObjectId,
       refPath: "RefTest"
     });

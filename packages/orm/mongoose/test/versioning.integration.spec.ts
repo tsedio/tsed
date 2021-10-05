@@ -1,6 +1,5 @@
 import {serialize} from "@tsed/json-mapper";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {expect} from "chai";
 import {Server} from "./helpers/Server";
 import {MongooseModel} from "../src/interfaces/MongooseModel";
 import {Integer, Required} from "@tsed/schema";
@@ -38,23 +37,23 @@ describe("Mongoose", () => {
       const versionModel = TestMongooseContext.get<MongooseModel<ModelWithCustomVersion>>(ModelWithCustomVersion);
 
       const testObject = await versionModel.create({tags: []});
-      expect(testObject.tags).to.eql([]);
-      expect(testObject).to.not.include.keys(["version"]);
-      expect(testObject.version).to.eq(0);
+      expect(testObject.tags.length).toBe(0);
+      expect(testObject).not.toEqual(expect.arrayContaining(["version"]));
+      expect(testObject.version).toBe(0);
 
       testObject.tags.push("awesome");
       await testObject.save();
-      expect(testObject.version).to.eq(1);
+      expect(testObject.version).toBe(1);
 
       const retrievedDataModel = await versionModel.findById(testObject.id);
-      const deserializedObject = retrievedDataModel.toClass();
+      const deserializedObject = retrievedDataModel?.toClass();
 
-      expect(deserializedObject instanceof ModelWithCustomVersion).to.be.true;
-      expect(testObject.tags).to.eql(["awesome"]);
-      expect(deserializedObject.version).to.eq(1);
+      expect(deserializedObject).toBeInstanceOf(ModelWithCustomVersion);
+      expect(testObject.tags).toContainEqual("awesome");
+      expect(deserializedObject?.version).toBe(1);
 
       const serializedObject = serialize(deserializedObject);
-      expect(serializedObject).to.deep.equal({_id: testObject.id, version: 1, tags: ["awesome"]});
+      expect(serializedObject).toEqual({_id: testObject.id, version: 1, tags: ["awesome"]});
     });
 
     it("should not serialize __v field by default", async () => {
@@ -63,11 +62,11 @@ describe("Mongoose", () => {
       const testObject = await dataModel.create({prop: "Test"});
       const deserializedObject = testObject.toClass();
 
-      expect(deserializedObject instanceof ModelWithoutVersion).to.be.true;
-      expect(deserializedObject).to.not.have.any.keys("__v");
+      expect(deserializedObject).toBeInstanceOf(ModelWithoutVersion);
+      expect(deserializedObject).not.toHaveProperty("__v");
 
       const serializedObject = serialize(deserializedObject);
-      expect(serializedObject).to.deep.equal({_id: testObject.id, prop: "Test"});
+      expect(serializedObject).toEqual({_id: testObject.id, prop: "Test"});
     });
   });
 });

@@ -1,6 +1,5 @@
 import {Store} from "@tsed/core";
 import {getJsonSchema, Property} from "@tsed/schema";
-import {expect} from "chai";
 import {Schema} from "mongoose";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../../src/constants";
 import {Ref} from "../../src/decorators";
@@ -24,7 +23,7 @@ describe("@Ref()", () => {
       const store = Store.from(Test, "test");
       const schema = getJsonSchema(Test);
 
-      expect(schema).to.deep.eq({
+      expect(schema).toEqual({
         definitions: {
           RefTest: {
             type: "object",
@@ -52,7 +51,7 @@ describe("@Ref()", () => {
         type: "object"
       });
 
-      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).toEqual({
         type: Schema.Types.ObjectId,
         ref: RefTest
       });
@@ -76,7 +75,7 @@ describe("@Ref()", () => {
       const store = Store.from(Test, "test");
       const schema = getJsonSchema(Test);
 
-      expect(schema).to.deep.eq({
+      expect(schema).toEqual({
         definitions: {
           RefTest: {
             properties: {
@@ -107,7 +106,7 @@ describe("@Ref()", () => {
         type: "object"
       });
 
-      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).toEqual({
         type: Schema.Types.ObjectId,
         ref: RefTest
       });
@@ -132,7 +131,7 @@ describe("@Ref()", () => {
       const store = Store.from(Test, "test");
       const schema = getJsonSchema(Test);
 
-      expect(schema).to.deep.eq({
+      expect(schema).toEqual({
         definitions: {
           RefTest: {
             type: "object",
@@ -160,7 +159,7 @@ describe("@Ref()", () => {
         type: "object"
       });
 
-      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).toEqual({
         type: Schema.Types.ObjectId,
         ref: arrow
       });
@@ -179,7 +178,7 @@ describe("@Ref()", () => {
       MongooseModels.set("RefTest", RefTest);
       const store = Store.from(Test, "test");
 
-      expect(getJsonSchema(Test)).to.deep.eq({
+      expect(getJsonSchema(Test)).toEqual({
         definitions: {
           RefTest: {
             properties: {
@@ -206,7 +205,7 @@ describe("@Ref()", () => {
         },
         type: "object"
       });
-      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).toEqual({
         type: Schema.Types.ObjectId,
         ref: "RefTest"
       });

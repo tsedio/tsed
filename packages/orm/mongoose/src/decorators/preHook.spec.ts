@@ -1,14 +1,11 @@
-import {expect} from "chai";
-import Sinon from "sinon";
 import {PreHook} from "../../src/decorators";
 import {schemaOptions} from "../../src/utils/schemaOptions";
 
-const sandbox = Sinon.createSandbox();
 describe("@PreHook()", () => {
   describe("when decorator is used as class decorator", () => {
     it("should call applySchemaOptions", () => {
       // GIVEN
-      const fn = sandbox.stub();
+      const fn = jest.fn();
 
       // WHEN
       @PreHook("method", fn, {query: true})
@@ -17,7 +14,7 @@ describe("@PreHook()", () => {
       // THEN
       const options = schemaOptions(Test);
 
-      expect(options).to.deep.eq({
+      expect(options).toEqual({
         pre: [
           {
             method: "method",
@@ -44,9 +41,9 @@ describe("@PreHook()", () => {
         pre: [options]
       } = schemaOptions(Test);
 
-      expect(options.method).to.eq("save");
-      expect(options.fn).to.be.a("function");
-      expect(options.options).to.deep.eq({
+      expect(options.method).toBe("save");
+      expect(options.fn).toBeInstanceOf(Function);
+      expect(options.options).toEqual({
         query: true
       });
     });

@@ -1,7 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {Property} from "@tsed/schema";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {expect} from "chai";
 import {MongooseService} from "../src";
 import {Model, ObjectID} from "../src/decorators";
 import {MongooseModel} from "../src/interfaces";
@@ -64,31 +63,31 @@ describe("Mongoose", () => {
     it("should create connection and set models with the right connection", () => {
       const mongooseService = PlatformTest.get<MongooseService>(MongooseService);
 
-      expect(mongooseService.connections.size).to.equal(2);
-      expect(mongooseService.get()!.name).to.equal("customerDB");
-      expect(mongooseService.get("product")!.name).to.equal("productDB");
-      expect(mongooseService.get("customer")!.name).to.equal("customerDB");
+      expect(mongooseService.connections.size).toBe(2);
+      expect(mongooseService.get()!.name).toBe("customerDB");
+      expect(mongooseService.get("product")!.name).toBe("productDB");
+      expect(mongooseService.get("customer")!.name).toBe("customerDB");
 
       const customerAccountModel = PlatformTest.get<MongooseModel<CustomerAccount>>(CustomerAccount);
       const productDataModel = PlatformTest.get<MongooseModel<ProductData>>(ProductData);
 
-      expect(customerAccountModel.db.name).to.equal("customerDB");
-      expect(productDataModel.db.name).to.equal("productDB");
+      expect(customerAccountModel.db.name).toBe("customerDB");
+      expect(productDataModel.db.name).toBe("productDB");
     });
 
     it("should create connection and set models with the right connection (2)", () => {
       const mongooseService = PlatformTest.get<MongooseService>(MongooseService);
 
-      expect(mongooseService.connections.size).to.equal(2);
-      expect(mongooseService.get()!.name).to.equal("customerDB");
-      expect(mongooseService.get("product")!.name).to.equal("productDB");
-      expect(mongooseService.get("customer")!.name).to.equal("customerDB");
+      expect(mongooseService.connections.size).toBe(2);
+      expect(mongooseService.get()!.name).toBe("customerDB");
+      expect(mongooseService.get("product")!.name).toBe("productDB");
+      expect(mongooseService.get("customer")!.name).toBe("customerDB");
 
       const customerAccountModel = PlatformTest.get<MongooseModel<CustomerAccount>>(CustomerAccount);
       const productDataModel = PlatformTest.get<MongooseModel<ProductData>>(ProductData);
 
-      expect(customerAccountModel.db.name).to.equal("customerDB");
-      expect(productDataModel.db.name).to.equal("productDB");
+      expect(customerAccountModel.db.name).toBe("customerDB");
+      expect(productDataModel.db.name).toBe("productDB");
     });
   });
 });

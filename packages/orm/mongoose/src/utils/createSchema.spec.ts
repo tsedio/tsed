@@ -12,7 +12,6 @@ import {
   Property,
   Required
 } from "@tsed/schema";
-import {expect} from "chai";
 import {Schema as SchemaMongoose} from "mongoose";
 import {Model, ObjectID, Ref, Schema, VersionKey, VirtualRef, VirtualRefs} from "../../src/decorators";
 import {SchemaIgnore} from "../../src/decorators/schemaIgnore";
@@ -50,7 +49,7 @@ describe("createSchema", () => {
     const result = getSchema(Test);
 
     // THEN
-    expect(result.obj).to.deep.eq({
+    expect(result.obj).toEqual({
       enum: {
         enum: ["v1", "v2"],
         required: false,
@@ -84,7 +83,7 @@ describe("createSchema", () => {
     const result = getSchema(Test2);
 
     // THEN
-    expect(result.obj.test.required).to.be.a("function");
+    expect(result.obj.test.required).toBeInstanceOf(Function);
   });
   it("should create schema with subdocument", () => {
     // GIVEN
@@ -123,14 +122,14 @@ describe("createSchema", () => {
     const childrenSchema = getSchema(Children);
 
     // THEN
-    expect(testSchema.obj).to.deep.eq({
+    expect(testSchema.obj).toEqual({
       test: {
         type: childrenSchema,
         required: false
       }
     });
 
-    expect(childrenSchema.obj).to.deep.eq({
+    expect(childrenSchema.obj).toEqual({
       enum: {
         enum: ["v1", "v2"],
         required: false,
@@ -189,7 +188,7 @@ describe("createSchema", () => {
     const childrenSchema = getSchema(Children);
 
     // THEN
-    expect(testSchema.obj).to.deep.eq({
+    expect(testSchema.obj).toEqual({
       test: {
         type: SchemaMongoose.Types.ObjectId,
         ref: "Children",
@@ -197,7 +196,7 @@ describe("createSchema", () => {
       }
     });
 
-    expect(childrenSchema.obj).to.deep.eq({
+    expect(childrenSchema.obj).toEqual({
       enum: {
         enum: ["v1", "v2"],
         required: false,
@@ -219,7 +218,7 @@ describe("createSchema", () => {
       }
     });
 
-    expect(getJsonSchema(Test4)).to.deep.eq({
+    expect(getJsonSchema(Test4)).toEqual({
       definitions: {
         Children: {
           properties: {
@@ -265,7 +264,7 @@ describe("createSchema", () => {
       },
       type: "object"
     });
-    expect(getJsonSchema(Children)).to.deep.eq({
+    expect(getJsonSchema(Children)).toEqual({
       properties: {
         enum: {
           enum: ["v1", "v2"],
@@ -329,8 +328,8 @@ describe("createSchema", () => {
     const testSchema: any = getSchema(Test5);
 
     // THEN
-    expect(testSchema.obj).to.deep.eq({});
-    expect(testSchema.virtuals.test.options).to.deep.includes({
+    expect(testSchema.obj).toEqual({});
+    expect(testSchema.virtuals.test.options).toMatchObject({
       foreignField: "foo",
       justOne: true,
       localField: "_id",
@@ -374,8 +373,8 @@ describe("createSchema", () => {
     const testSchema: any = getSchema(Test5);
 
     // THEN
-    expect(testSchema.obj).to.deep.eq({});
-    expect(testSchema.virtuals.test.options).to.deep.includes({
+    expect(testSchema.obj).toEqual({});
+    expect(testSchema.virtuals.test.options).toMatchObject({
       foreignField: "foo",
       justOne: false,
       localField: "_id",
@@ -420,7 +419,7 @@ describe("createSchema", () => {
     const childrenSchema = getSchema(Children);
 
     // THEN
-    expect(testSchema.obj).to.deep.eq({
+    expect(testSchema.obj).toEqual({
       tests: [
         {
           type: childrenSchema,
@@ -429,7 +428,7 @@ describe("createSchema", () => {
       ]
     });
 
-    expect(childrenSchema.obj).to.deep.eq({
+    expect(childrenSchema.obj).toEqual({
       enum: {
         enum: ["v1", "v2"],
         required: false,
@@ -487,7 +486,7 @@ describe("createSchema", () => {
     const testSchema = getSchema(Test7);
 
     // THEN
-    expect(testSchema.obj).to.deep.eq({
+    expect(testSchema.obj).toEqual({
       tests: [
         {
           type: SchemaMongoose.Types.ObjectId,
@@ -533,9 +532,9 @@ describe("createSchema", () => {
     const testSchema = getSchema(Test8);
 
     // THEN
-    expect(testSchema.obj).to.deep.eq({});
+    expect(testSchema.obj).toEqual({});
     // @ts-ignore
-    expect(testSchema.virtuals.tests.options).to.deep.includes({
+    expect(testSchema.virtuals.tests.options).toMatchObject({
       foreignField: "foo",
       justOne: false,
       localField: "_id",
@@ -580,7 +579,7 @@ describe("createSchema", () => {
     const childrenSchema = getSchema(Children);
 
     // THEN
-    expect(testSchema.obj).to.deep.eq({
+    expect(testSchema.obj).toEqual({
       tests: {
         type: Map,
         of: {
@@ -590,7 +589,7 @@ describe("createSchema", () => {
       }
     });
 
-    expect(childrenSchema.obj).to.deep.eq({
+    expect(childrenSchema.obj).toEqual({
       enum: {
         enum: ["v1", "v2"],
         required: false,
@@ -650,8 +649,8 @@ describe("createSchema", () => {
       actualError = er;
     }
 
-    expect(actualError).to.instanceof(Error);
-    expect(actualError.message).to.eq("Invalid collection type. Set is not supported.");
+    expect(actualError).toBeInstanceOf(Error);
+    expect(actualError.message).toBe("Invalid collection type. Set is not supported.");
   });
   it("should not create schema property for ignored field", () => {
     @Model()
@@ -664,7 +663,7 @@ describe("createSchema", () => {
     }
 
     const testSchema = getSchema(Test10);
-    expect(testSchema.obj).to.deep.eq({
+    expect(testSchema.obj).toEqual({
       field: {
         required: false,
         type: String
@@ -681,7 +680,7 @@ describe("createSchema", () => {
     // @ts-ignore
     const options = testSchema.options;
 
-    expect(options.discriminatorKey).to.eq("kind");
+    expect(options.discriminatorKey).toBe("kind");
   });
   it("should create schema with version key", () => {
     @Model()
@@ -693,6 +692,6 @@ describe("createSchema", () => {
     // @ts-ignore
     const options = testSchema.options;
 
-    expect(options.versionKey).to.eq("version");
+    expect(options.versionKey).toBe("version");
   });
 });

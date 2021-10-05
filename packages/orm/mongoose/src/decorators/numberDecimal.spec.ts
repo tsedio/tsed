@@ -1,9 +1,7 @@
 import {Store} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {getJsonSchema} from "@tsed/schema";
-import {expect} from "chai";
 import {Types, Schema} from "mongoose";
-import sinon from "sinon";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {NumberDecimal, Decimal128, DecimalFormat} from "./numberDecimal";
 
@@ -19,7 +17,7 @@ describe("@NumberDecimal()", () => {
     const store = Store.from(Test, "price");
     const schema = getJsonSchema(Test);
 
-    expect(schema).to.deep.eq({
+    expect(schema).toEqual({
       properties: {
         price: {
           examples: [12.34],
@@ -30,7 +28,7 @@ describe("@NumberDecimal()", () => {
       type: "object"
     });
 
-    expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+    expect(store.get(MONGOOSE_SCHEMA)).toEqual({
       type: Schema.Types.Decimal128
     });
   });
@@ -42,20 +40,20 @@ describe("@NumberDecimal()", () => {
     // THEN
     const store = Store.from(DecimalFormat);
 
-    expect(store.get("ajv:formats")).to.deep.eq({
+    expect(store.get("ajv:formats")).toEqual({
       name: "decimal",
       options: {
         type: "number"
       }
     });
 
-    expect(validate(undefined)).to.be.false;
-    expect(validate(null)).to.be.false;
-    expect(validate([])).to.be.false;
-    expect(validate({})).to.be.false;
-    expect(validate("0.0")).to.be.true;
-    expect(validate(NaN)).to.be.true;
-    expect(validate(0)).to.be.true;
+    expect(validate(undefined)).toBe(false);
+    expect(validate(null)).toBe(false);
+    expect(validate([])).toBe(false);
+    expect(validate({})).toBe(false);
+    expect(validate("0.0")).toBe(true);
+    expect(validate(NaN)).toBe(true);
+    expect(validate(0)).toBe(true);
   });
   it("should deserialize a number value", () => {
     // WHEN
@@ -72,8 +70,8 @@ describe("@NumberDecimal()", () => {
       {type: Model, additionalProperties: false}
     );
 
-    expect(result).to.be.instanceOf(Model);
-    expect(result).to.deep.eq({
+    expect(result).toBeInstanceOf(Model);
+    expect(result).toEqual({
       price: Types.Decimal128.fromString("1234.56")
     });
   });
@@ -92,8 +90,8 @@ describe("@NumberDecimal()", () => {
       {type: Model, additionalProperties: false}
     );
 
-    expect(result).to.be.instanceOf(Model);
-    expect(result).to.deep.eq({
+    expect(result).toBeInstanceOf(Model);
+    expect(result).toEqual({
       price: Types.Decimal128.fromString("1234.56")
     });
   });
@@ -110,7 +108,7 @@ describe("@NumberDecimal()", () => {
     // THEN
     const result = serialize(mdl);
 
-    expect(result).to.deep.eq({
+    expect(result).toEqual({
       price: 1234.56
     });
   });
@@ -126,7 +124,7 @@ describe("@NumberDecimal()", () => {
     // THEN
     const result = serialize(mdl);
 
-    expect(result).to.not.have.property("price");
+    expect(result).not.toHaveProperty("price");
   });
   it("should deserialize a number value using custom decimal", () => {
     // GIVEN
@@ -140,7 +138,7 @@ describe("@NumberDecimal()", () => {
     const fakePrice = new Decimal("1234.56");
 
     const obj = {Decimal};
-    sinon.stub(obj, "Decimal").returns(fakePrice);
+    jest.spyOn(obj, "Decimal").mockReturnValue(fakePrice);
 
     // WHEN
     class Model {
@@ -156,10 +154,10 @@ describe("@NumberDecimal()", () => {
       {type: Model, additionalProperties: false}
     );
 
-    expect(obj.Decimal).to.have.been.calledWithExactly("1234.56");
+    expect(obj.Decimal).toHaveBeenCalledWith("1234.56");
 
-    expect(result).to.be.instanceOf(Model);
-    expect(result).to.deep.eq({
+    expect(result).toBeInstanceOf(Model);
+    expect(result).toEqual({
       price: fakePrice
     });
   });
@@ -184,7 +182,7 @@ describe("@NumberDecimal()", () => {
     // THEN
     const result = serialize(mdl);
 
-    expect(result).to.deep.eq({
+    expect(result).toEqual({
       price: 1234.56
     });
   });
@@ -201,7 +199,7 @@ describe("@NumberDecimal()", () => {
     const fakePrice = new Decimal("1234.56");
 
     const obj = {Decimal};
-    sinon.stub(obj, "Decimal").returns(fakePrice);
+    jest.spyOn(obj, "Decimal").mockReturnValue(fakePrice);
 
     // WHEN
     class Model {
@@ -216,9 +214,9 @@ describe("@NumberDecimal()", () => {
     const store = Store.from(Model, "price");
     const schema = store.get(MONGOOSE_SCHEMA);
 
-    expect(schema.get).to.be.a("function");
-    expect(schema.get(testDecimal)).to.be.eq(fakePrice);
-    expect(obj.Decimal).to.have.been.calledWithExactly(testDecimal);
+    expect(schema.get).toBeInstanceOf(Function);
+    expect(schema.get(testDecimal)).toBe(fakePrice);
+    expect(obj.Decimal).toHaveBeenCalledWith(testDecimal);
   });
   it("should not convert custom decimal again", () => {
     // GIVEN
@@ -232,7 +230,7 @@ describe("@NumberDecimal()", () => {
     const fakePrice = new Decimal("1234.56");
 
     const obj = {Decimal};
-    sinon.stub(obj, "Decimal").returns(fakePrice);
+    jest.spyOn(obj, "Decimal").mockReturnValue(fakePrice);
 
     // WHEN
     class Model {
@@ -247,8 +245,8 @@ describe("@NumberDecimal()", () => {
     const store = Store.from(Model, "price");
     const schema = store.get(MONGOOSE_SCHEMA);
 
-    expect(schema.get).to.be.a("function");
-    expect(schema.get(fakePrice)).to.be.eq(fakePrice);
-    expect(obj.Decimal).to.have.not.been.called;
+    expect(schema.get).toBeInstanceOf(Function);
+    expect(schema.get(fakePrice)).toBe(fakePrice);
+    expect(obj.Decimal).not.toHaveBeenCalled();
   });
 });

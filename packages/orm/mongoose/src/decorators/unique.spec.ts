@@ -1,5 +1,4 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {MONGOOSE_SCHEMA} from "../../src/constants";
 import {Unique} from "../../src/decorators";
 
@@ -11,7 +10,7 @@ describe("@Unique()", () => {
     }
 
     const store = Store.from(Test, "id");
-    expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+    expect(store.get(MONGOOSE_SCHEMA)).toEqual({
       unique: true
     });
   });

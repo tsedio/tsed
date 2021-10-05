@@ -4,7 +4,6 @@ import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Groups, Returns} from "@tsed/schema";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {expect} from "chai";
 import faker from "faker";
 import SuperTest from "supertest";
 import {isArray} from "@tsed/core";
@@ -103,7 +102,7 @@ describe("Mongoose", () => {
     let request: SuperTest.SuperTest<SuperTest.Test>;
     let currentUser: TestUser;
     let currentUser2: TestUser;
-    before(
+    beforeEach(
       TestMongooseContext.bootstrap(Server, {
         platform: PlatformExpress,
         mount: {
@@ -111,7 +110,7 @@ describe("Mongoose", () => {
         }
       })
     );
-    before(async () => {
+    beforeEach(async () => {
       const repository = PlatformTest.get<ResourcesRepository>(ResourcesRepository)!;
 
       currentUser2 = await repository.create(baseUser2);
@@ -124,16 +123,16 @@ describe("Mongoose", () => {
         dataScope
       });
     });
-    before(() => {
+    beforeEach(() => {
       request = SuperTest(PlatformTest.callback());
     });
 
-    after(TestMongooseContext.reset);
+    afterEach(TestMongooseContext.reset);
 
     it("should get a user", async () => {
       const {body} = await request.get(`/rest/resources/${currentUser._id}`);
 
-      expect(body).to.deep.eq({
+      expect(body).toEqual({
         email: baseUser.email,
         id: currentUser._id.toString(),
         pre: "hello pre",
@@ -145,7 +144,7 @@ describe("Mongoose", () => {
     it("should get a user without typing", async () => {
       const {body} = await request.get(`/rest/resources/without/${currentUser._id}`);
 
-      expect(body).to.deep.eq({
+      expect(body).toEqual({
         email: baseUser.email,
         id: currentUser._id.toString(),
         pre: "hello pre",
@@ -157,7 +156,7 @@ describe("Mongoose", () => {
     it("should get users", async () => {
       const {body} = await request.get(`/rest/resources`);
 
-      expect(body).to.deep.eq([
+      expect(body).toEqual([
         {
           email: baseUser2.email,
           id: currentUser2._id.toString(),
@@ -199,7 +198,7 @@ describe("Mongoose", () => {
 
       expect(deserialize(user, {
         type: TestUser
-      })).to.deep.eq({
+      })).toEqual({
         email: user.email,
         password: user.password,
         current: {
@@ -223,7 +222,7 @@ describe("Mongoose", () => {
 
       const {body} = await request.post(`/rest/resources`).send(user).expect(201);
 
-      expect(body).to.deep.eq({
+      expect(body).toEqual({
         "current": {
           "roles": [
             1,
@@ -251,7 +250,7 @@ describe("Mongoose", () => {
 
     it('should return an array of roles', async () => {
       const {body} = await request.post('/rest/resources/scenario-1')
-      expect(isArray(body.roles)).to.equal(true)
+      expect(isArray(body.roles)).toBe(true)
     })
   });
 });
