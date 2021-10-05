@@ -2,8 +2,6 @@ import {Adapter, Indexed} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {Property} from "@tsed/schema";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {MemoryAdapter} from "../adapters/MemoryAdapter";
 import {InjectAdapter} from "./injectAdapter";
 
@@ -16,8 +14,7 @@ describe("Indexed", () => {
       prop: string;
     }
 
-    const stub = Sinon.stub();
-
+    const stub = jest.fn();
     @Injectable()
     class Clients {
       @InjectAdapter("client", Client)
@@ -30,11 +27,11 @@ describe("Indexed", () => {
 
     const clients = await PlatformTest.invoke<Clients>(Clients);
 
-    expect(clients.adapter).to.be.instanceOf(MemoryAdapter);
-    expect(stub).to.have.been.calledWithExactly();
-    expect(clients.adapter.collectionName).to.eq("client");
-    expect(clients.adapter.model).to.eq(Client);
-    expect(clients.adapter.indexes).to.deep.eq([
+    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+    expect(stub).toHaveBeenCalledWith();
+    expect(clients.adapter.collectionName).toBe("client");
+    expect(clients.adapter.model).toBe(Client);
+    expect(clients.adapter.indexes).toEqual([
       {
         options: {},
         propertyKey: "prop"
@@ -47,7 +44,7 @@ describe("Indexed", () => {
       prop: string;
     }
 
-    const stub = Sinon.stub();
+    const stub = jest.fn();
 
     @Injectable()
     class Clients {
@@ -61,11 +58,11 @@ describe("Indexed", () => {
 
     const clients = await PlatformTest.invoke<Clients>(Clients);
 
-    expect(clients.adapter).to.be.instanceOf(MemoryAdapter);
-    expect(stub).to.have.been.calledWithExactly();
-    expect(clients.adapter.collectionName).to.eq("Clients");
-    expect(clients.adapter.model).to.eq(Client);
-    expect(clients.adapter.indexes).to.deep.eq([
+    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+    expect(stub).toHaveBeenCalledWith();
+    expect(clients.adapter.collectionName).toBe("Clients");
+    expect(clients.adapter.model).toBe(Client);
+    expect(clients.adapter.indexes).toEqual([
       {
         options: {},
         propertyKey: "prop"
