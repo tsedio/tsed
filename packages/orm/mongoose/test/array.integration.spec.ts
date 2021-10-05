@@ -1,6 +1,5 @@
 import {serialize} from "@tsed/json-mapper";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {expect} from "chai";
 import {MyWorkspace, UserModel, UserWorkspace, Workspace, WorkspaceModel} from "./helpers/models/UserWorkspace";
 import {Server} from "./helpers/Server";
 
@@ -33,7 +32,7 @@ describe("Mongoose", () => {
 
       // THEN
 
-      expect(serialize(result[0], {type: UserWorkspace})).to.deep.eq({
+      expect(serialize(result[0], {type: UserWorkspace})).toEqual({
         workspaces: [
           {
             title: "MyTest",
@@ -41,7 +40,7 @@ describe("Mongoose", () => {
           }
         ]
       });
-      expect(serialize(result, {type: UserWorkspace, collectionType: Array})).to.deep.eq([
+      expect(serialize(result, {type: UserWorkspace, collectionType: Array})).toEqual([
         {
           workspaces: [
             {
@@ -51,9 +50,9 @@ describe("Mongoose", () => {
           ]
         }
       ]);
-      expect(result.length).to.equal(1);
-      expect(result[0].workspaces[0].title).to.deep.equal("MyTest");
-      expect(result[0].workspaces[0].workspaceId).to.deep.equal(workspace._id);
+      expect(result.length).toBe(1);
+      expect(result[0].workspaces[0].title).toEqual("MyTest");
+      expect(result[0].workspaces[0].workspaceId).toEqual(workspace._id);
 
       // WHEN
       user.workspaces.pull(result[0].workspaces[0]);
@@ -62,8 +61,8 @@ describe("Mongoose", () => {
 
       // THEN
       const result2 = await userModel.find();
-      expect(result2.length).to.equal(1);
-      expect(result2[0].workspaces.length).to.deep.equal(0);
+      expect(result2.length).toBe(1);
+      expect(result2[0].workspaces.length).toEqual(0);
     });
   });
 });

@@ -1,23 +1,21 @@
-import {expect} from "chai";
-import Sinon from "sinon";
 import {applySchemaOptions, schemaOptions} from "../../src/utils/schemaOptions";
 
 describe("schemaOptions", () => {
   describe("schemaOptions()", () => {
     class Test {}
 
-    before(() => {});
+    beforeEach(() => {});
 
     it("should return schema options (1)", () => {
-      expect(schemaOptions(Test)).to.deep.eq({});
+      expect(schemaOptions(Test)).toEqual({});
     });
 
     it("should return schema options (2)", () => {
-      expect(schemaOptions(Test, {options: "options"} as any)).to.deep.eq({options: "options"});
+      expect(schemaOptions(Test, {options: "options"} as any)).toEqual({options: "options"});
     });
 
     it("should return schema options (3)", () => {
-      expect(schemaOptions(Test, {options2: "options2"} as any)).to.deep.eq({
+      expect(schemaOptions(Test, {options2: "options2"} as any)).toEqual({
         options: "options",
         options2: "options2"
       });
@@ -25,13 +23,13 @@ describe("schemaOptions", () => {
   });
   describe("applySchemaOptions()", () => {
     const schema: any = {
-      pre: Sinon.stub(),
-      post: Sinon.stub(),
-      plugin: Sinon.stub(),
-      index: Sinon.stub()
+      pre: jest.fn(),
+      post: jest.fn(),
+      plugin: jest.fn(),
+      index: jest.fn()
     };
 
-    before(() => {
+    beforeEach(() => {
       applySchemaOptions(schema, {
         pre: [
           {
@@ -52,19 +50,19 @@ describe("schemaOptions", () => {
     });
 
     it("should call schema.pre", () => {
-      expect(schema.pre).to.have.been.calledWithExactly("method", {query: true}, Sinon.match.func);
+      expect(schema.pre).toHaveBeenCalledWith("method", {query: true}, expect.any(Function));
     });
 
     it("should call schema.post", () => {
-      expect(schema.post).to.have.been.calledWithExactly("method", "fn");
+      expect(schema.post).toHaveBeenCalledWith("method", "fn");
     });
 
     it("should call schema.plugin", () => {
-      expect(schema.plugin).to.have.been.calledWithExactly("plugin", "options");
+      expect(schema.plugin).toHaveBeenCalledWith("plugin", "options");
     });
 
     it("should call schema.index", () => {
-      expect(schema.index).to.have.been.calledWithExactly("fields", "options");
+      expect(schema.index).toHaveBeenCalledWith("fields", "options");
     });
   });
 });

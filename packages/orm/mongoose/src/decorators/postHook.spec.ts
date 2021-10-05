@@ -1,14 +1,11 @@
-import {expect} from "chai";
-import Sinon from "sinon";
 import {PostHook} from "../../src/decorators";
 import {schemaOptions} from "../../src/utils/schemaOptions";
 
-const sandbox = Sinon.createSandbox();
 describe("@PostHook()", () => {
   describe("when decorator is used as class decorator", () => {
     it("should call applySchemaOptions", () => {
       // GIVEN
-      const fn = sandbox.stub();
+      const fn = jest.fn();
 
       // WHEN
       @PostHook("method", fn)
@@ -17,7 +14,7 @@ describe("@PostHook()", () => {
       // THEN
       const options = schemaOptions(Test);
 
-      expect(options).to.deep.eq({
+      expect(options).toEqual({
         post: [
           {
             method: "method",
@@ -32,7 +29,7 @@ describe("@PostHook()", () => {
   describe("when decorator is used as method decorator", () => {
     it("should call applySchemaOptions", () => {
       class Test {
-        @PostHook("save")
+        @PostHook("save", {})
         static method() {}
       }
 
@@ -40,8 +37,8 @@ describe("@PostHook()", () => {
         post: [options]
       } = schemaOptions(Test);
 
-      expect(options.method).to.eq("save");
-      expect(options.fn).to.be.a("function");
+      expect(options.method).toEqual("save");
+      expect(options.fn).toBeInstanceOf(Function);
     });
   });
 });

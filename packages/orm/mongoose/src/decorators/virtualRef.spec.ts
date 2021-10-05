@@ -1,7 +1,6 @@
 import {getJsonSchema, Property} from "@tsed/schema";
 import {Store} from "@tsed/core";
 import {Model} from "@tsed/mongoose";
-import {expect} from "chai";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {VirtualRef} from "./virtualRef";
 
@@ -17,7 +16,7 @@ describe("@VirtualRef()", () => {
       // THEN
       const store = Store.from(Test, "test");
 
-      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).toEqual({
         ref: "RefTest",
         justOne: false,
         foreignField: "foreign",
@@ -38,7 +37,7 @@ describe("@VirtualRef()", () => {
       // THEN
       const store = Store.from(Test, "test");
 
-      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).toEqual({
         ref: "RefTest",
         localField: "_id",
         foreignField: "foreign",
@@ -65,7 +64,7 @@ describe("@VirtualRef()", () => {
       // THEN
       const store = Store.from(Test, "test");
 
-      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).toEqual({
         ref: "RefTest",
         localField: "test_2",
         foreignField: "foreign",
@@ -102,7 +101,7 @@ describe("@VirtualRef()", () => {
       // THEN
       const store = Store.from(TestBand, "members");
 
-      expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+      expect(store.get(MONGOOSE_SCHEMA)).toEqual({
         ref: "VirtualTestPerson",
         localField: "test_2",
         foreignField: "foreign",
@@ -110,7 +109,7 @@ describe("@VirtualRef()", () => {
         options: {}
       });
 
-      expect(getJsonSchema(TestBand)).to.deep.equal({
+      expect(getJsonSchema(TestBand)).toEqual({
         definitions: {
           TestPerson: {
             properties: {

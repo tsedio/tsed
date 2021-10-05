@@ -1,5 +1,4 @@
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {expect} from "chai";
 import faker from "faker";
 import {MongooseModel} from "../src/interfaces";
 import {TestUser} from "./helpers/models/User";
@@ -23,11 +22,11 @@ describe("Mongoose", () => {
         await user.save();
 
         // THEN
-        expect(user.email).to.equal("test@test.fr");
-        expect(user.password).to.equal(user.password);
+        expect(user.email).toBe("test@test.fr");
+        expect(user.password).toBe(user.password);
 
-        expect(user.pre).to.equal("hello pre");
-        expect(user.post).to.equal("hello post");
+        expect(user.pre).toBe("hello pre");
+        expect(user.post).toBe("hello post");
       })
     );
   });
@@ -50,8 +49,8 @@ describe("Mongoose", () => {
         await user.save();
 
         // THEN
-        expect(user.pre).to.equal("hello pre");
-        expect(user.post).to.equal("hello post");
+        expect(user.pre).toBe("hello pre");
+        expect(user.post).toBe("hello post");
       })
     );
   });

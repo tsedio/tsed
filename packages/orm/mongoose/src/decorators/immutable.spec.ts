@@ -1,5 +1,4 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {expect} from "chai";
 import {MONGOOSE_SCHEMA} from "../../src/constants";
 import {Immutable} from "./immutable";
 
@@ -11,7 +10,7 @@ describe("@Immutable()", () => {
     }
 
     const store = Store.from(Test, "test", descriptorOf(Test, "test"));
-    expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+    expect(store.get(MONGOOSE_SCHEMA)).toEqual({
       immutable: true
     });
   });
@@ -23,7 +22,7 @@ describe("@Immutable()", () => {
     }
 
     const store = Store.from(Test, "test", descriptorOf(Test, "test"));
-    expect(store.get(MONGOOSE_SCHEMA)).to.deep.eq({
+    expect(store.get(MONGOOSE_SCHEMA)).toEqual({
       immutable: true
     });
   });
