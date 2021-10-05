@@ -98,7 +98,7 @@ import { CalendarsService } from './CalendarsService';
 import { Calendar } from './models/Calendar';
 
 @Controller('/calendars')
-export class CalendarService {
+export class CalendarCtrl {
   constructor(private readonly calendarsService: CalendarsService) {}
 
   @Post()

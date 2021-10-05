@@ -31,6 +31,7 @@ export * from "./isProtectedKey";
 export * from "./isStream";
 export * from "./isString";
 export * from "./isSymbol";
+export * from "./isSerializable";
 export * from "./methodsOf";
 export * from "./nameOf";
 export * from "./objectKeys";

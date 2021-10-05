@@ -2,6 +2,9 @@ import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, JsonSerializerOptions, serialize} from "@tsed/json-mapper";
 import {ConverterSettings} from "../config/interfaces/ConverterSettings";
 
+/**
+ * @deprecated Since 2021-10-03. Use serialize/deserialize functions from @tsed/json-mapper instead
+ */
 @Injectable()
 export class ConverterService {
   #converterSettings: ConverterSettings;

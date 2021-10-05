@@ -360,14 +360,19 @@ describe("serialize()", () => {
 
       const model = new Model();
       // @ts-ignore
-      model["toClass"] = (options: any) => {
-        return deserialize(
-          {
-            id: "id",
-            password: "hellopassword",
-            mappedProp: "hello"
-          },
-          {useAlias: false, type: Model}
+      model.$isMongooseModelPrototype = true;
+      // @ts-ignore
+      model["toJSON"] = (options: any) => {
+        return serialize(
+          deserialize(
+            {
+              id: "id",
+              password: "hellopassword",
+              mappedProp: "hello"
+            },
+            {useAlias: false, type: Model}
+          ),
+          options
         );
       };
 

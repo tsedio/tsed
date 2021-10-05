@@ -114,8 +114,9 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     return obj;
   }
 
-  if (typeof obj.toClass === "function") {
-    return serialize(obj.toClass(), options);
+  // FIX custom serialization function from @tsed/mongoose
+  if (typeof obj.toJSON === "function" && obj.$isMongooseModelPrototype) {
+    return obj.toJSON(options);
   }
 
   if (typeof obj.toJSON === "function") {
