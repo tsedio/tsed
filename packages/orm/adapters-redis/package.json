@@ -8,7 +8,7 @@
   "typings": "./lib/index.d.ts",
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "test": "cross-env NODE_ENV=test yarn jest"
   },
   "dependencies": {
     "@tsed/adapters": "6.73.5",
@@ -17,6 +17,7 @@
   "devDependencies": {
     "@tsed/core": "6.73.5",
     "@types/ioredis": "4.17.11",
+    "@types/ioredis-mock": "^5.6.0",
     "ioredis": "4.19.4",
     "ioredis-mock": "5.2.0"
   },

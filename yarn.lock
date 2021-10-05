@@ -3737,6 +3737,20 @@
   resolved "https://registry.yarnpkg.com/@types/http-errors/-/http-errors-1.8.0.tgz#682477dbbbd07cd032731cb3b0e7eaee3d026b69"
   integrity sha512-2aoSC4UUbHDj2uCsCxcG/vRMXey/m17bC7UwitVm5hn22nI8O8Y9iDpA76Orc+DWkQ4zZrOKEshCqR/jSuXAHA==
 
+"@types/ioredis-mock@^5.6.0":
+  version "5.6.0"
+  resolved "https://registry.yarnpkg.com/@types/ioredis-mock/-/ioredis-mock-5.6.0.tgz#78078fedf8323c94234abba0a6b2f10ecbdcb0fe"
+  integrity sha512-2L20NMYTzNlCeLbi7aXQ/VlFTBu7qYoGefwB0NIDYN5TWzOslzvfl7ttoIN9IVO2LEeY+MBpSWO8oJQklL/o4Q==
+  dependencies:
+    "@types/ioredis" "*"
+
+"@types/ioredis@*":
+  version "4.27.6"
+  resolved "https://registry.yarnpkg.com/@types/ioredis/-/ioredis-4.27.6.tgz#06f2826ca9bcf4e9c179cd11417a4d0413903cba"
+  integrity sha512-3FeeDlVQ2sdbvU436XnZzOiDMMgFbKfIsiUF2BnJnH7xxqCbJ1teJwfcu9fLwnfmV0qH2W1Vg3jFrtOehNIkMA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/ioredis@4.17.11":
   version "4.17.11"
   resolved "https://registry.yarnpkg.com/@types/ioredis/-/ioredis-4.17.11.tgz#08ee0324ec0c0770b025a66a9fb6534ca1d87c8e"
