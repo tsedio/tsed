@@ -1,8 +1,10 @@
-import {Type} from "@tsed/core";
+import {isSerializable, Type} from "@tsed/core";
 import {BaseContext, Constant, Inject, Injectable, InjectorService} from "@tsed/di";
 import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods";
 import {ANY_CONTENT_TYPE, getContentType} from "../utils/getContentType";
+import {serialize} from "@tsed/json-mapper";
+import {renderView} from "@tsed/platform-views";
 
 /**
  * @platform
@@ -16,6 +18,9 @@ export class PlatformResponseFilter {
 
   @Constant("responseFilters", [])
   protected responseFilters: Type<ResponseFilterMethods>[];
+
+  @Constant("additionalProperties")
+  private additionalProperties: boolean;
 
   get contentTypes(): ResponseFilterKey[] {
     return [...this.types.keys()];
@@ -43,8 +48,11 @@ export class PlatformResponseFilter {
     return contentType;
   }
 
-  transform(data: unknown, ctx: BaseContext) {
+  async transform(data: unknown, ctx: BaseContext) {
     const {response} = ctx;
+
+    data = await this.serialize(data, ctx);
+
     const bestContentType = this.getBestContentType(data, ctx);
 
     bestContentType && response.contentType(bestContentType);
@@ -55,6 +63,25 @@ export class PlatformResponseFilter {
 
     if (this.types.has(ANY_CONTENT_TYPE)) {
       return this.types.get(ANY_CONTENT_TYPE)!.transform(data, ctx);
+    }
+
+    return data;
+  }
+
+  protected async serialize(data: unknown, ctx: BaseContext) {
+    const {response, endpoint} = ctx;
+
+    if (endpoint) {
+      if (endpoint.view) {
+        data = await renderView(data, ctx);
+      } else if (isSerializable(data)) {
+        data = serialize(data, {
+          ...endpoint.getResponseOptions(response.statusCode),
+          additionalProperties: this.additionalProperties,
+          useAlias: true,
+          endpoint: true
+        });
+      }
     }
 
     return data;

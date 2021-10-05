@@ -20,12 +20,14 @@
     "@tsed/core": "7.0.0-alpha.1",
     "@tsed/di": "7.0.0-alpha.1",
     "@tsed/exceptions": "7.0.0-alpha.1",
-    "@tsed/schema": "7.0.0-alpha.1"
+    "@tsed/schema": "7.0.0-alpha.1",
+    "@tsed/platform-views": "7.0.0-alpha.1"
   },
   "peerDependencies": {
     "@tsed/core": "^7.0.0-alpha.1",
     "@tsed/di": "^7.0.0-alpha.1",
     "@tsed/exceptions": "^7.0.0-alpha.1",
-    "@tsed/schema": "^7.0.0-alpha.1"
+    "@tsed/schema": "^7.0.0-alpha.1",
+    "@tsed/platform-views": "^7.0.0-alpha.1"
   }
 }

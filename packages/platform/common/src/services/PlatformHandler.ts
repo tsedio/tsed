@@ -1,10 +1,8 @@
-import {AnyToPromiseStatus, isFunction, isSerializable, isStream} from "@tsed/core";
+import {AnyToPromiseStatus, isFunction, isStream} from "@tsed/core";
 import {Inject, Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {ArgScope, HandlerWithScope, PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
-import {serialize} from "@tsed/json-mapper";
-import {renderView} from "@tsed/platform-views";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx";
 import {EndpointMetadata} from "../domain/EndpointMetadata";
 import {HandlerMetadata} from "../domain/HandlerMetadata";
@@ -34,9 +32,6 @@ export interface OnRequestOptions {
 export class PlatformHandler {
   @Inject()
   protected responseFilter: PlatformResponseFilter;
-
-  @Constant("additionalProperties")
-  private additionalProperties: boolean;
 
   constructor(protected injector: InjectorService, protected params: PlatformParams) {}
 
@@ -79,24 +74,11 @@ export class PlatformHandler {
    * @protected
    */
   async flush(data: any, ctx: PlatformContext) {
-    const {response, endpoint} = ctx;
+    const {response} = ctx;
 
     if (!response.isDone()) {
-      // FIXME should be move to responseFilter module
-      if (endpoint) {
-        if (endpoint.view) {
-          data = await this.render(data, ctx);
-        } else if (isSerializable(data)) {
-          data = serialize(data, {
-            ...endpoint.getResponseOptions(response.statusCode),
-          additionalProperties: this.additionalProperties,
-          useAlias: true,
-            endpoint: true
-          });
-        }
-      }
-
-      response.body(this.responseFilter.transform(data, ctx));
+      data = await this.responseFilter.transform(data, ctx);
+      response.body(data);
     }
   }
 
@@ -243,16 +225,6 @@ export class PlatformHandler {
    */
   protected callReturnedMiddleware(middleware: any, ctx: PlatformContext, next: any) {
     return middleware(ctx.getRequest(), ctx.getResponse(), next);
-  }
-
-  /**
-   * Render the view if the endpoint has a configured view.
-   * @param data
-   * @param ctx
-   * @protected
-   */
-  protected async render(data: any, ctx: PlatformContext) {
-    return renderView(data, ctx);
   }
 
   /**
