@@ -1,8 +1,6 @@
 import {Adapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {Injectable} from "@tsed/di";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {MemoryAdapter} from "../adapters/MemoryAdapter";
 import {InjectAdapter} from "./injectAdapter";
 
@@ -12,7 +10,7 @@ describe("InjectAdapter", () => {
   it("should inject adapter (model and collectionName)", async () => {
     class Client {}
 
-    const stub = Sinon.stub();
+    const stub = jest.fn();
 
     @Injectable()
     class Clients {
@@ -26,10 +24,10 @@ describe("InjectAdapter", () => {
 
     const clients = await PlatformTest.invoke<Clients>(Clients);
 
-    expect(clients.adapter).to.be.instanceOf(MemoryAdapter);
-    expect(stub).to.have.been.calledWithExactly();
-    expect(clients.adapter.collectionName).to.eq("client");
-    expect(clients.adapter.model).to.eq(Client);
+    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+    expect(stub).toHaveBeenCalledWith();
+    expect(clients.adapter.collectionName).toBe("client");
+    expect(clients.adapter.model).toBe(Client);
   });
   it("should inject adapter (model only)", async () => {
     class Client {}
@@ -42,9 +40,9 @@ describe("InjectAdapter", () => {
 
     const clients = await PlatformTest.invoke<Clients>(Clients);
 
-    expect(clients.adapter).to.be.instanceOf(MemoryAdapter);
-    expect(clients.adapter.collectionName).to.eq("Clients");
-    expect(clients.adapter.model).to.eq(Client);
+    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+    expect(clients.adapter.collectionName).toBe("Clients");
+    expect(clients.adapter.model).toBe(Client);
   });
   it("should inject adapter (model only 2)", async () => {
     class Entity {}
@@ -57,9 +55,9 @@ describe("InjectAdapter", () => {
 
     const clients = await PlatformTest.invoke<Clients>(Clients);
 
-    expect(clients.adapter).to.be.instanceOf(MemoryAdapter);
-    expect(clients.adapter.collectionName).to.eq("Entities");
-    expect(clients.adapter.model).to.eq(Entity);
+    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+    expect(clients.adapter.collectionName).toBe("Entities");
+    expect(clients.adapter.model).toBe(Entity);
   });
   it("should inject adapter (object)", async () => {
     class Client {}
@@ -72,9 +70,9 @@ describe("InjectAdapter", () => {
 
     const clients = await PlatformTest.invoke<Clients>(Clients);
 
-    expect(clients.adapter).to.be.instanceOf(MemoryAdapter);
-    expect(clients.adapter.collectionName).to.eq("Clients");
-    expect(clients.adapter.model).to.eq(Client);
+    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+    expect(clients.adapter.collectionName).toBe("Clients");
+    expect(clients.adapter.model).toBe(Client);
   });
   it("should inject adapter (without $onInit)", async () => {
     class Client {}
@@ -87,6 +85,6 @@ describe("InjectAdapter", () => {
 
     const clients = await PlatformTest.invoke<Clients>(Clients);
 
-    expect(clients.adapter).to.be.instanceOf(MemoryAdapter);
+    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
   });
 });

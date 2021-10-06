@@ -1,7 +1,6 @@
 import {Adapter, Adapters, FileSyncAdapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {Property} from "@tsed/schema";
-import {expect} from "chai";
 import * as faker from "faker";
 
 class Client {
@@ -25,11 +24,11 @@ describe("FileSyncAdapter", () => {
       });
     });
 
-    after(async () => {
+    afterAll(async () => {
       await adapter.deleteMany({});
     });
 
-    describe("create()", async () => {
+    describe("create()", () => {
       it("should create a new instance", async () => {
         const base = {
           name: faker.name.title()
@@ -37,9 +36,9 @@ describe("FileSyncAdapter", () => {
 
         const client = await adapter.create(base);
 
-        expect(client).to.be.instanceOf(Client);
-        expect(client._id).to.be.a("string");
-        expect(client.name).to.equal(base.name);
+        expect(client).toBeInstanceOf(Client);
+        expect(typeof client._id).toBe("string");
+        expect(client.name).toBe(base.name);
       });
     });
 
@@ -52,9 +51,9 @@ describe("FileSyncAdapter", () => {
         const client = await adapter.create(base);
         const result = await adapter.findById(client._id);
 
-        expect(result).to.be.instanceOf(Client);
-        expect(result?._id).to.equal(client._id);
-        expect(result?.name).to.equal(base.name);
+        expect(result).toBeInstanceOf(Client);
+        expect(result?._id).toBe(client._id);
+        expect(result?.name).toBe(base.name);
       });
     });
 
@@ -70,9 +69,9 @@ describe("FileSyncAdapter", () => {
           name: base.name
         });
 
-        expect(result).to.be.instanceOf(Client);
-        expect(result?._id).to.equal(client._id);
-        expect(result?.name).to.equal(base.name);
+        expect(result).toBeInstanceOf(Client);
+        expect(result?._id).toBe(client._id);
+        expect(result?.name).toBe(base.name);
       });
     });
   });
@@ -89,11 +88,11 @@ describe("FileSyncAdapter", () => {
       });
     });
 
-    after(async () => {
+    afterAll(async () => {
       await adapter.deleteMany({});
     });
 
-    describe("create()", async () => {
+    describe("create()", () => {
       it("should create a new instance", async () => {
         const base = {
           name: faker.name.title()
@@ -101,9 +100,9 @@ describe("FileSyncAdapter", () => {
 
         const client = await adapter.create(base);
 
-        expect(client).to.be.instanceOf(Client);
-        expect(client._id).to.be.a("string");
-        expect(client.name).to.equal(base.name);
+        expect(client).toBeInstanceOf(Client);
+        expect(typeof client._id).toBe("string");
+        expect(client.name).toBe(base.name);
       });
     });
 
@@ -116,9 +115,9 @@ describe("FileSyncAdapter", () => {
         const client = await adapter.create(base);
         const result = await adapter.findById(client._id);
 
-        expect(result).to.be.instanceOf(Client);
-        expect(result?._id).to.equal(client._id);
-        expect(result?.name).to.equal(base.name);
+        expect(result).toBeInstanceOf(Client);
+        expect(result?._id).toBe(client._id);
+        expect(result?.name).toBe(base.name);
       });
     });
 
@@ -134,9 +133,9 @@ describe("FileSyncAdapter", () => {
           name: base.name
         });
 
-        expect(result).to.be.instanceOf(Client);
-        expect(result?._id).to.equal(client._id);
-        expect(result?.name).to.equal(base.name);
+        expect(result).toBeInstanceOf(Client);
+        expect(result?._id).toBe(client._id);
+        expect(result?.name).toBe(base.name);
       });
     });
   });

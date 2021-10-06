@@ -2,7 +2,6 @@ import {Adapter, Adapters, MemoryAdapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
 import {Format, Name, Property} from "@tsed/schema";
-import {expect} from "chai";
 import * as faker from "faker";
 
 class BaseClient {
@@ -42,10 +41,10 @@ describe("MemoryAdapter", () => {
 
       const client = await adapter.create(base);
 
-      expect(client).to.be.instanceOf(Client);
-      expect(client._id).to.be.a("string");
-      expect(client.name).to.equal(base.name);
-      expect(client.createdAt).to.deep.equal(base.createdAt);
+      expect(client).toBeInstanceOf(Client);
+      expect(typeof client._id).toBe("string");
+      expect(client.name).toBe(base.name);
+      expect(client.createdAt).toEqual(base.createdAt);
     });
 
     it("should create a new instance with expireAt", async () => {
@@ -55,9 +54,9 @@ describe("MemoryAdapter", () => {
 
       const client = await adapter.create(base, new Date());
 
-      expect(client).to.be.instanceOf(Client);
-      expect(client._id).to.be.a("string");
-      expect(client.name).to.equal(base.name);
+      expect(client).toBeInstanceOf(Client);
+      expect(typeof client._id).toBe("string");
+      expect(client.name).toBe(base.name);
     });
   });
 
@@ -69,9 +68,9 @@ describe("MemoryAdapter", () => {
 
       const client = await adapter.upsert(base._id, base);
 
-      expect(client).to.be.instanceOf(Client);
-      expect(client._id).to.be.a("string");
-      expect(client.name).to.equal(base.name);
+      expect(client).toBeInstanceOf(Client);
+      expect(typeof client._id).toBe("string");
+      expect(client.name).toBe(base.name);
     });
 
     it("should update instance if exists", async () => {
@@ -82,9 +81,9 @@ describe("MemoryAdapter", () => {
       const client = await adapter.upsert(base._id, base);
       const client2 = await adapter.upsert(client._id, client);
 
-      expect(client2).to.be.instanceOf(Client);
-      expect(client2._id).to.be.a("string");
-      expect(client2.name).to.equal(base.name);
+      expect(client2).toBeInstanceOf(Client);
+      expect(typeof client2._id).toBe("string");
+      expect(client2.name).toBe(base.name);
     });
   });
 
@@ -103,10 +102,10 @@ describe("MemoryAdapter", () => {
 
       const client2 = await adapter.updateOne({_id: client._id}, update);
 
-      expect(client2).to.be.instanceOf(Client);
-      expect(client2?._id).to.be.a("string");
-      expect(client2?.name).to.not.equal(base.name);
-      expect(client2?.name).to.equal(update.name);
+      expect(client2).toBeInstanceOf(Client);
+      expect(typeof client2?._id).toBe("string");
+      expect(client2?.name).not.toBe(base.name);
+      expect(client2?.name).toBe(update.name);
     });
     it("should return undefined", async () => {
       const base = {
@@ -115,7 +114,7 @@ describe("MemoryAdapter", () => {
 
       const client = await adapter.updateOne({_id: faker.random.uuid()}, base);
 
-      expect(client).to.equal(undefined);
+      expect(client).toBeUndefined();
     });
   });
 
@@ -128,9 +127,9 @@ describe("MemoryAdapter", () => {
       const client = await adapter.create(base);
       const result = await adapter.findById(client._id);
 
-      expect(result).to.be.instanceOf(Client);
-      expect(result?._id).to.equal(client._id);
-      expect(result?.name).to.equal(base.name);
+      expect(result).toBeInstanceOf(Client);
+      expect(result?._id).toBe(client._id);
+      expect(result?.name).toBe(base.name);
     });
   });
 
@@ -146,9 +145,9 @@ describe("MemoryAdapter", () => {
         name: base.name
       });
 
-      expect(result).to.be.instanceOf(Client);
-      expect(result?._id).to.equal(client._id);
-      expect(result?.name).to.equal(base.name);
+      expect(result).toBeInstanceOf(Client);
+      expect(result?._id).toBe(client._id);
+      expect(result?.name).toBe(base.name);
     });
   });
   describe("findAll()", () => {
@@ -163,8 +162,8 @@ describe("MemoryAdapter", () => {
         name: base.name
       });
 
-      expect(result[0]).to.be.instanceOf(Client);
-      expect(result[0].name).to.equal(base.name);
+      expect(result[0]).toBeInstanceOf(Client);
+      expect(result[0].name).toBe(base.name);
     });
   });
   describe("deleteById()", () => {
@@ -177,8 +176,8 @@ describe("MemoryAdapter", () => {
 
       const result = await adapter.deleteById(client._id);
 
-      expect(result).to.be.instanceOf(Client);
-      expect(result?.name).to.equal(base.name);
+      expect(result).toBeInstanceOf(Client);
+      expect(result?.name).toBe(base.name);
     });
   });
   describe("deleteMany()", () => {
@@ -198,8 +197,8 @@ describe("MemoryAdapter", () => {
 
       const result = await adapter.deleteMany(client);
 
-      expect(result[0]).to.be.instanceOf(Client);
-      expect(result[0]?.name).to.equal(base.name);
+      expect(result[0]).toBeInstanceOf(Client);
+      expect(result[0]?.name).toBe(base.name);
     });
   });
 });
