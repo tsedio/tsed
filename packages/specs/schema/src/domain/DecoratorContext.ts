@@ -89,8 +89,6 @@ export abstract class DecoratorContext<T = any> extends Map<string, any> {
     this.beforeInit();
     this.onInit(args, decorator);
     this.afterInit();
-
-    this.clear();
   }
 
   protected onInit(args: DecoratorParameters, decorator: any): void {
