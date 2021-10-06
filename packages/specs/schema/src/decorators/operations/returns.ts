@@ -301,8 +301,6 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
       default:
         throw new UnsupportedDecoratorType(Returns, args);
     }
-
-    this.clear();
   }
 
   protected map() {
