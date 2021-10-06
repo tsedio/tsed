@@ -3,11 +3,10 @@ import {RedisAdapter} from "@tsed/adapters-redis";
 import {PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
 import {Property} from "@tsed/schema";
-import {expect} from "chai";
 import * as faker from "faker";
 import IORedis from "ioredis";
 
-const IORedisMock = require("ioredis-mock");
+import IORedisMock from "ioredis-mock";
 
 class Client {
   @Property()
@@ -33,11 +32,11 @@ describe("RedisAdapter", () => {
     }) as RedisAdapter<Client>;
   });
 
-  after(async () => {
+  afterAll(async () => {
     await adapter.deleteMany({});
   });
 
-  describe("create()", async () => {
+  describe("create()", () => {
     it("should create a new instance", async () => {
       const base = {
         name: faker.name.title()
@@ -45,18 +44,18 @@ describe("RedisAdapter", () => {
 
       const client = await adapter.create(base, new Date(Date.now() + 3000));
 
-      expect(client).to.be.instanceOf(Client);
-      expect(client._id).to.be.a("string");
-      expect(client.name).to.equal(base.name);
+      expect(client).toBeInstanceOf(Client);
+      expect(typeof client._id).toBe("string");
+      expect(client.name).toBe(base.name);
 
       const keys = await adapter.db.keys("*");
 
-      expect(keys).include("clients:" + client._id);
-      expect(keys).include(`$idx:clients:${client._id}:name(${base.name})`);
+      expect(keys).toEqual(expect.arrayContaining(["clients:" + client._id]));
+      expect(keys).toEqual(expect.arrayContaining([`$idx:clients:${client._id}:name(${base.name})`]));
     });
   });
 
-  describe("upsert()", async () => {
+  describe("upsert()", () => {
     it("should upsert a new instance", async () => {
       const base = deserialize<Client>(
         {
@@ -69,15 +68,15 @@ describe("RedisAdapter", () => {
       const client = await adapter.upsert(id, base);
       const client2 = await adapter.upsert(id, base);
 
-      expect(client).to.be.instanceOf(Client);
-      expect(client._id).to.be.a("string");
-      expect(client._id).to.be.equal(client2._id);
-      expect(client.name).to.equal(base.name);
+      expect(client).toBeInstanceOf(Client);
+      expect(typeof client._id).toBe("string");
+      expect(client._id).toBe(client2._id);
+      expect(client.name).toBe(base.name);
 
       const keys = await adapter.db.keys("*");
 
-      expect(keys).include("clients:" + client._id);
-      expect(keys).include(`$idx:clients:${client._id}:name(${base.name})`);
+      expect(keys).toEqual(expect.arrayContaining(["clients:" + client._id]));
+      expect(keys).toEqual(expect.arrayContaining([`$idx:clients:${client._id}:name(${base.name})`]));
     });
   });
 
@@ -90,9 +89,9 @@ describe("RedisAdapter", () => {
       const client = await adapter.create(base);
       const result = await adapter.findById(client._id);
 
-      expect(result).to.be.instanceOf(Client);
-      expect(result?._id).to.equal(client._id);
-      expect(result?.name).to.equal(base.name);
+      expect(result).toBeInstanceOf(Client);
+      expect(result?._id).toBe(client._id);
+      expect(result?.name).toBe(base.name);
     });
   });
 
@@ -108,9 +107,9 @@ describe("RedisAdapter", () => {
         name: base.name
       });
 
-      expect(result).to.be.instanceOf(Client);
-      expect(result?._id).to.equal(client._id);
-      expect(result?.name).to.equal(base.name);
+      expect(result).toBeInstanceOf(Client);
+      expect(result?._id).toBe(client._id);
+      expect(result?.name).toBe(base.name);
     });
     it("should find instance by id", async () => {
       const base = {
@@ -124,9 +123,9 @@ describe("RedisAdapter", () => {
         name: base.name
       });
 
-      expect(result).to.be.instanceOf(Client);
-      expect(result?._id).to.equal(client._id);
-      expect(result?.name).to.equal(base.name);
+      expect(result).toBeInstanceOf(Client);
+      expect(result?._id).toBe(client._id);
+      expect(result?.name).toBe(base.name);
     });
     it("should not find data", async () => {
       const base = {
@@ -141,7 +140,7 @@ describe("RedisAdapter", () => {
         otherProp: base.otherProp
       });
 
-      expect(result).to.eq(undefined);
+      expect(result).toBeUndefined();
     });
   });
   describe("findAll()", () => {
@@ -156,9 +155,9 @@ describe("RedisAdapter", () => {
         name: base.name
       });
 
-      expect(result[0]).to.be.instanceOf(Client);
-      expect(result[0]?._id).to.equal(client._id);
-      expect(result[0]?.name).to.equal(base.name);
+      expect(result[0]).toBeInstanceOf(Client);
+      expect(result[0]?._id).toBe(client._id);
+      expect(result[0]?.name).toBe(base.name);
     });
     it("should find all by id (one prop)", async () => {
       const base = {
@@ -171,9 +170,9 @@ describe("RedisAdapter", () => {
         _id: client._id
       });
 
-      expect(result[0]).to.be.instanceOf(Client);
-      expect(result[0]?._id).to.equal(client._id);
-      expect(result[0]?.name).to.equal(base.name);
+      expect(result[0]).toBeInstanceOf(Client);
+      expect(result[0]?._id).toBe(client._id);
+      expect(result[0]?.name).toBe(base.name);
     });
     it("should find all items", async () => {
       const base = {
@@ -184,9 +183,9 @@ describe("RedisAdapter", () => {
 
       const result = await adapter.findAll({});
 
-      expect(result[0]).to.be.instanceOf(Client);
-      expect(result[0]?._id).to.equal(client._id);
-      expect(result[0]?.name).to.equal(base.name);
+      expect(result[0]).toBeInstanceOf(Client);
+      expect(result[0]?._id).toBe(client._id);
+      expect(result[0]?.name).toBe(base.name);
     });
     it("should not find data when predicate has an unknown prop", async () => {
       const base = {
@@ -201,7 +200,7 @@ describe("RedisAdapter", () => {
         otherProp: base.otherProp
       });
 
-      expect(result).to.deep.eq([]);
+      expect(result).toEqual([]);
     });
   });
   describe("updateOne()", () => {
@@ -221,10 +220,10 @@ describe("RedisAdapter", () => {
         base
       );
 
-      expect(client).to.be.instanceOf(Client);
-      expect(client._id).to.be.a("string");
-      expect(client._id).to.be.equal(result?._id);
-      expect(client.name).to.equal(base.name);
+      expect(client).toBeInstanceOf(Client);
+      expect(typeof client._id).toBe("string");
+      expect(client._id).toBe(result?._id);
+      expect(client.name).toBe(base.name);
     });
     it("should not update item", async () => {
       const base = deserialize<Client>(
@@ -242,8 +241,8 @@ describe("RedisAdapter", () => {
         base
       );
 
-      expect(result).to.eq(undefined);
-      expect(client.name).to.equal(base.name);
+      expect(result).toBeUndefined();
+      expect(client.name).toBe(base.name);
     });
   });
   describe("deleteOne()", () => {
@@ -260,10 +259,10 @@ describe("RedisAdapter", () => {
         name: base.name
       });
 
-      expect(client).to.be.instanceOf(Client);
-      expect(client._id).to.be.a("string");
-      expect(client._id).to.be.equal(result?._id);
-      expect(client.name).to.equal(base.name);
+      expect(client).toBeInstanceOf(Client);
+      expect(typeof client._id).toBe("string");
+      expect(client._id).toBe(result?._id);
+      expect(client.name).toBe(base.name);
     });
     it("should not remove item", async () => {
       const base = deserialize<Client>(
@@ -278,8 +277,8 @@ describe("RedisAdapter", () => {
         name: `${base.name}2`
       });
 
-      expect(result).to.eq(undefined);
-      expect(client.name).to.equal(base.name);
+      expect(result).toBeUndefined();
+      expect(client.name).toBe(base.name);
     });
   });
   describe("deleteById()", () => {
@@ -294,10 +293,10 @@ describe("RedisAdapter", () => {
       const client = await adapter.create(base);
       const result = await adapter.deleteById(client._id);
 
-      expect(client).to.be.instanceOf(Client);
-      expect(client._id).to.be.a("string");
-      expect(client._id).to.be.equal(result?._id);
-      expect(client.name).to.equal(base.name);
+      expect(client).toBeInstanceOf(Client);
+      expect(typeof client._id).toBe("string");
+      expect(client._id).toBe(result?._id);
+      expect(client.name).toBe(base.name);
     });
   });
   describe("deleteMany()", () => {
@@ -314,10 +313,10 @@ describe("RedisAdapter", () => {
         name: base.name
       });
 
-      expect(result[0]).to.be.instanceOf(Client);
-      expect(result[0]._id).to.be.a("string");
-      expect(result[0]._id).to.be.equal(client?._id);
-      expect(result[0].name).to.equal(base.name);
+      expect(result[0]).toBeInstanceOf(Client);
+      expect(typeof result[0]._id).toBe("string");
+      expect(result[0]._id).toBe(client?._id);
+      expect(result[0].name).toBe(base.name);
     });
   });
 });
