@@ -1,5 +1,6 @@
+import {ancestorsOf, isClass} from "@tsed/core";
 import {Configuration, InjectorService, OnDestroy, registerProvider} from "@tsed/di";
-import {ConnectionOptions, ContainedType, getCustomRepository, useContainer} from "typeorm";
+import {ConnectionOptions, ContainedType, getCustomRepository, Repository, useContainer} from "typeorm";
 import {TypeORMService} from "./services/TypeORMService";
 
 export class TypeORMModule implements OnDestroy {
@@ -27,11 +28,13 @@ registerProvider({
     {
       deps: [TypeORMModule],
       get(type, options: any) {
-        try {
-          return getCustomRepository(type, options.connection || "default");
-        } catch (er) {
-          if (process.env.NODE_ENV !== "test") {
-            throw er;
+        if (isClass(type) && ancestorsOf(type).includes(Repository)) {
+          try {
+            return getCustomRepository(type, options.connection || "default");
+          } catch (er) {
+            if (process.env.NODE_ENV !== "test") {
+              throw er;
+            }
           }
         }
       }
