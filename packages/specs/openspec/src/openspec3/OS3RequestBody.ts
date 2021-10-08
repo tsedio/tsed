@@ -1,6 +1,8 @@
 import {OS3Schema} from "./OS3Schema";
 import {OpenSpecHash} from "../common/OpenSpecHash";
 import {OS3MediaType} from "./OS3MediaType";
+import {OS3Example} from "./OS3Example";
+import {OpenSpecRef} from "../common/OpenSpecRef";
 
 export interface OS3RequestBody<Schema = OS3Schema> {
   /**
@@ -15,4 +17,6 @@ export interface OS3RequestBody<Schema = OS3Schema> {
    * Determines if the request body is required in the request. Defaults to false.
    */
   required?: boolean;
+
+  examples?: OpenSpecHash<OS3Example | OpenSpecRef>;
 }
