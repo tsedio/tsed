@@ -1,8 +1,10 @@
 import {getClassOrSymbol, Type} from "@tsed/core";
 import {Provider} from "../domain/Provider";
 import {ProviderType} from "../domain/ProviderType";
-import {InvokeOptions} from "../interfaces";
 import type {IProvider, RegistrySettings, TokenProvider} from "../interfaces";
+import {FactoryProvider} from "../domain/FactoryProvider";
+import {AsyncFactoryProvider} from "../domain/AsyncFactoryProvider";
+import {ValueProvider} from "../domain/ValueProvider";
 
 export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
   #settings: Map<string, RegistrySettings> = new Map();
@@ -114,20 +116,43 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     };
   }
 
+  createProvider(options: IProvider): Provider {
+    const model = this.getProviderModel(options);
+    const {provide, ...opts} = options;
+    return new model(provide, opts);
+  }
+
+  protected getProviderModel(options: Partial<IProvider>) {
+    const type = options.type || ProviderType.PROVIDER;
+    const {model} = this.#settings.get(type) || {};
+
+    if (model) {
+      return model;
+    }
+
+    if (options.useAsyncFactory) {
+      return AsyncFactoryProvider;
+    }
+
+    if (options.useFactory) {
+      return FactoryProvider;
+    }
+
+    if ("useValue" in options) {
+      return ValueProvider;
+    }
+
+    return Provider;
+  }
+
   /**
    *
    * @param key
    * @param options
    */
   protected createIfNotExists(key: TokenProvider, options: Partial<IProvider>): Provider {
-    const type = options.type || ProviderType.PROVIDER;
-
     if (!this.has(key)) {
-      const {model = Provider} = this.#settings.get(type) || {};
-
-      const item = new model(key);
-
-      this.set(key, item);
+      this.set(key, this.createProvider({...options, provide: key}));
     }
 
     return this.get(key)!;
@@ -140,3 +165,7 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
  */
 // tslint:disable-next-line: variable-name
 export const GlobalProviders = new GlobalProviderRegistry();
+
+export function createProvider(options: IProvider) {
+  return GlobalProviders.createProvider(options);
+}

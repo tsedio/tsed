@@ -16,6 +16,7 @@ describe("DI Resolvers", () => {
 
       const externalDi = new Map();
       externalDi.set(ExternalService, "MyClass");
+
       // GIVEN
       const injector = new InjectorService();
       injector.settings.resolvers.push(externalDi);

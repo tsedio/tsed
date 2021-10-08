@@ -8,8 +8,8 @@ export class ControllerProvider<T = any> extends Provider<T> {
   readonly entity: JsonEntityStore;
   private router: PlatformRouterMethods;
 
-  constructor(provide: TokenProvider, options: Partial<Provider> = {}) {
-    super(provide, options);
+  constructor(provide: TokenProvider, {path, ...opts}: Partial<Provider> = {}) {
+    super(provide, opts);
     this.type = ProviderType.CONTROLLER;
     this.entity = JsonEntityStore.from(provide);
   }

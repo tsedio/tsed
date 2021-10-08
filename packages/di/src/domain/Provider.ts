@@ -1,4 +1,4 @@
-import {classOf, getClassOrSymbol, isClass, nameOf, Store, Type} from "@tsed/core";
+import {classOf, getClassOrSymbol, isClass, Metadata, nameOf, Store, Type} from "@tsed/core";
 import {IProvider, TokenProvider} from "../interfaces";
 import {ProviderScope} from "./ProviderScope";
 import {ProviderType} from "./ProviderType";
@@ -8,9 +8,6 @@ export class Provider<T = any> implements IProvider<T> {
   public instance: T;
   public deps: TokenProvider[];
   public imports: any[];
-  public useFactory: Function;
-  public useAsyncFactory: Function;
-  public useValue: any;
 
   private _useClass: Type<T>;
   private _provide: TokenProvider;
@@ -78,10 +75,6 @@ export class Provider<T = any> implements IProvider<T> {
    * @returns {boolean}
    */
   get scope(): ProviderScope {
-    if (this.isAsync()) {
-      return ProviderScope.SINGLETON;
-    }
-
     return this.get("scope");
   }
 
@@ -101,28 +94,35 @@ export class Provider<T = any> implements IProvider<T> {
     this.store.set("configuration", configuration);
   }
 
-  get(key: string) {
-    return this.store.get(key) || this._tokenStore.get(key);
+  getDeps() {
+    if (this.deps) {
+      return this.deps;
+    }
+
+    if (this.useValue !== undefined || this.useFactory || this.useAsyncFactory) {
+      return [];
+    }
+
+    return Metadata.getParamTypes(this.useClass);
   }
 
   isAsync(): boolean {
-    return !!this.useAsyncFactory;
+    return false;
+  }
+
+  get(key: string) {
+    return this.store.get(key) || this._tokenStore.get(key);
   }
 
   clone(): Provider {
     return new (classOf(this))(this._provide, this);
   }
 
+  construct(deps: TokenProvider[]) {
+    return new this.useClass(...deps);
+  }
+
   toString() {
-    return [
-      "Token",
-      this.name,
-      this.useClass && nameOf(this.useClass),
-      this.useFactory && "Factory",
-      this.useValue && "Value",
-      this.useAsyncFactory && "AsyncFactory"
-    ]
-      .filter(Boolean)
-      .join(":");
+    return ["Token", this.name, this.useClass && nameOf(this.useClass)].filter(Boolean).join(":");
   }
 }

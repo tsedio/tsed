@@ -12,7 +12,9 @@ export class Container extends LocalsContainer<Provider> {
    * @param settings
    */
   public add(token: TokenProvider, settings: Partial<IProvider> = {}): this {
-    const provider = GlobalProviders.has(token) ? GlobalProviders.get(token)!.clone() : new Provider(token);
+    const provider = GlobalProviders.has(token)
+      ? GlobalProviders.get(token)!.clone()
+      : GlobalProviders.createProvider({...settings, provide: token});
 
     Object.assign(provider, settings);
 

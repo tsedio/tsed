@@ -1,5 +1,15 @@
 import {Store} from "@tsed/core";
-import {Container, GlobalProviders, Inject, InjectorService, LocalsContainer, Provider, ProviderScope, ProviderType} from "@tsed/di";
+import {
+  Container,
+  createProvider,
+  GlobalProviders,
+  Inject,
+  InjectorService,
+  LocalsContainer,
+  Provider,
+  ProviderScope,
+  ProviderType
+} from "@tsed/di";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {Configuration} from "@tsed/common";
@@ -249,9 +259,10 @@ describe("InjectorService", () => {
         // GIVEN
         const token = Symbol.for("TokenValue");
 
-        const provider = new Provider<any>(token);
-        provider.scope = ProviderScope.SINGLETON;
-        provider.useValue = "TEST";
+        const provider = createProvider({
+          provide: token,
+          useValue: "TEST"
+        });
 
         const injector = new InjectorService();
         const container = new Container();
@@ -264,15 +275,17 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result).to.eq("TEST");
+        expect(provider.toString()).to.eq("Token:TokenValue:Value");
       });
 
       it("should invoke the provider from container (2)", async () => {
         // GIVEN
         const token = Symbol.for("TokenValue");
 
-        const provider = new Provider<any>(token);
-        provider.scope = ProviderScope.SINGLETON;
-        provider.useValue = () => "TEST";
+        const provider = createProvider({
+          provide: token,
+          useValue: () => "TEST"
+        });
 
         const injector = new InjectorService();
         const container = new Container();
@@ -291,9 +304,11 @@ describe("InjectorService", () => {
         // GIVEN
         const token = Symbol.for("TokenValue");
 
-        const provider = new Provider<any>(token);
-        provider.scope = ProviderScope.SINGLETON;
-        provider.useValue = null;
+        const provider = createProvider({
+          provide: token,
+          scope: ProviderScope.SINGLETON,
+          useValue: null
+        });
 
         const injector = new InjectorService();
         const container = new Container();
@@ -313,9 +328,11 @@ describe("InjectorService", () => {
         // GIVEN
         const token = Symbol.for("TokenFactory");
 
-        const provider = new Provider<any>(token);
-        provider.scope = ProviderScope.SINGLETON;
-        provider.useFactory = () => ({factory: "factory"});
+        const provider = createProvider({
+          provide: token,
+          scope: ProviderScope.SINGLETON,
+          useFactory: () => ({factory: "factory"})
+        });
 
         const injector = new InjectorService();
         const container = new Container();
@@ -334,18 +351,24 @@ describe("InjectorService", () => {
       it("should invoke the provider from container", async () => {
         // GIVEN
         const tokenChild = Symbol.for("TokenChildFactory");
-        const providerChild = new Provider<any>(tokenChild);
-        providerChild.useAsyncFactory = async (dep: any) => "test async";
+        const providerChild = createProvider({
+          provide: tokenChild,
+          useAsyncFactory: async (dep: any) => "test async"
+        });
 
         const token = Symbol.for("TokenFactory");
-        const provider = new Provider<any>(token);
-        provider.deps = [tokenChild];
-        provider.useAsyncFactory = async (dep: any) => ({factory: dep + " factory"});
+        const provider = createProvider({
+          provide: token,
+          deps: [tokenChild],
+          useAsyncFactory: async (dep: any) => ({factory: dep + " factory"})
+        });
 
         const tokenSync = Symbol.for("TokenSyncFactory");
-        const providerSync = new Provider<any>(tokenSync);
-        providerSync.deps = [token];
-        providerSync.useFactory = (asyncInstance: any) => asyncInstance.factory;
+        const providerSync = createProvider({
+          provide: tokenSync,
+          deps: [token],
+          useFactory: (asyncInstance: any) => asyncInstance.factory
+        });
 
         const injector = new InjectorService();
         const container = new Container();
@@ -360,26 +383,33 @@ describe("InjectorService", () => {
         const result2: any = injector.invoke(tokenSync);
 
         // THEN
+        expect(providerChild.toString()).to.eq("Token:TokenChildFactory:AsyncFactory");
         expect(result).to.deep.eq({factory: "test async factory"});
         expect(result2).to.deep.eq("test async factory");
       });
       it("should invoke the provider from container with nested async factory", async () => {
         // GIVEN
         const tokenChild = Symbol.for("TokenChildFactory");
-        const providerChild = new Provider<any>(tokenChild);
-        providerChild.useAsyncFactory = async (dep: any) => "test async";
+        const providerChild = createProvider({
+          provide: tokenChild,
+          useAsyncFactory: async (dep: any) => "test async"
+        });
 
         const token = Symbol.for("TokenFactory");
-        const provider = new Provider<any>(token);
-        provider.deps = [tokenChild];
-        provider.useAsyncFactory = async (dep: any) => ({factory: dep + " factory"});
+        const provider = createProvider({
+          provide: token,
+          deps: [tokenChild],
+          useAsyncFactory: async (dep: any) => ({factory: dep + " factory"})
+        });
 
         const token2 = Symbol.for("TokenFactory2");
-        const provider2 = new Provider<any>(token2);
-        provider2.deps = [token];
-        provider2.useAsyncFactory = async (dep: any) => {
-          return {factory: dep.factory + " factory2"};
-        };
+        const provider2 = createProvider({
+          provide: token2,
+          deps: [token],
+          useAsyncFactory: async (dep: any) => {
+            return {factory: dep.factory + " factory2"};
+          }
+        });
 
         const injector = new InjectorService();
         const container = new Container();
@@ -420,14 +450,18 @@ describe("InjectorService", () => {
           constructor(test: any) {}
         };
 
-        const provider2 = new Provider<any>(token2);
-        provider2.scope = ProviderScope.SINGLETON;
-        provider2.type = ProviderType.CONTROLLER;
-        provider2.useClass = token2;
+        const provider2 = createProvider({
+          provide: token2,
+          scope: ProviderScope.SINGLETON,
+          type: ProviderType.CONTROLLER,
+          useClass: token2
+        });
 
-        const provider3 = new Provider<any>(token3);
-        provider3.scope = ProviderScope.SINGLETON;
-        provider3.deps = [undefined];
+        const provider3 = createProvider({
+          provide: token3,
+          scope: ProviderScope.SINGLETON,
+          deps: [undefined]
+        });
 
         const injector = new InjectorService();
         injector.set(token2, provider2);
@@ -441,6 +475,7 @@ describe("InjectorService", () => {
           actualError = er;
         }
 
+        expect(provider2.toString()).to.eq("Token:Ctrl:Ctrl");
         // THEN
         expect(actualError.message).to.contains(
           "Injection failed on Test\nOrigin: Unable to inject dependency. Given token is undefined. Have you enabled emitDecoratorMetadata in your tsconfig.json or decorated your class with @Injectable, @Service, ... decorator ?"
@@ -455,14 +490,18 @@ describe("InjectorService", () => {
           constructor(test: Object) {}
         };
 
-        const provider2 = new Provider<any>(token2);
-        provider2.scope = ProviderScope.SINGLETON;
-        provider2.type = ProviderType.CONTROLLER;
-        provider2.useClass = token2;
+        const provider2 = createProvider({
+          provide: token2,
+          scope: ProviderScope.SINGLETON,
+          type: ProviderType.CONTROLLER,
+          useClass: token2
+        });
 
-        const provider3 = new Provider<any>(token3);
-        provider3.scope = ProviderScope.SINGLETON;
-        provider3.deps = [Object];
+        const provider3 = createProvider({
+          provide: token3,
+          scope: ProviderScope.SINGLETON,
+          deps: [Object]
+        });
 
         const injector = new InjectorService();
         injector.set(token2, provider2);
@@ -489,18 +528,24 @@ describe("InjectorService", () => {
           constructor(dep: any) {}
         };
 
-        const provider1 = new Provider<any>(token1);
-        provider1.scope = ProviderScope.SINGLETON;
-        provider1.useValue = () => undefined; // should throw error because instance is undefined
+        const provider1 = createProvider({
+          provide: token1,
+          scope: ProviderScope.SINGLETON,
+          useValue: () => undefined
+        });
 
-        const provider2 = new Provider<any>(token2);
-        provider2.scope = ProviderScope.SINGLETON;
-        provider2.deps = [token1];
-        provider2.useFactory = () => ({});
+        const provider2 = createProvider({
+          provide: token2,
+          scope: ProviderScope.SINGLETON,
+          deps: [token1],
+          useFactory: () => ({})
+        });
 
-        const provider3 = new Provider<any>(token3);
-        provider3.scope = ProviderScope.SINGLETON;
-        provider3.deps = [token2];
+        const provider3 = createProvider({
+          provide: token3,
+          scope: ProviderScope.SINGLETON,
+          deps: [token2]
+        });
 
         const injector = new InjectorService();
         injector.set(token1, provider1);
@@ -516,6 +561,7 @@ describe("InjectorService", () => {
         }
 
         // THEN
+        expect(provider2.toString()).to.eq("Token:TokenFactory:Factory");
         expect(actualError.message).to.eq(
           "Injection failed on Test > TokenFactory > TokenValue\nOrigin: Unable to create new instance from undefined value. Check your provider declaration for TokenValue"
         );
@@ -548,6 +594,7 @@ describe("InjectorService", () => {
         // GIVEN
         const injector = new InjectorService();
         const token = Symbol.for("TokenProvider1");
+
         injector.add(token, {
           deps: [Configuration],
           useFactory(settings: any) {

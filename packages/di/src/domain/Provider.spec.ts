@@ -1,6 +1,7 @@
 import {ProviderScope} from "@tsed/di";
 import {expect} from "chai";
 import {Provider} from "./Provider";
+import {AsyncFactoryProvider} from "./AsyncFactoryProvider";
 
 class T1 {}
 
@@ -89,7 +90,7 @@ describe("Provider", () => {
 
   describe("isAsync()", () => {
     it("should return true", () => {
-      const provider = new Provider(T1);
+      const provider = new AsyncFactoryProvider(T1);
       provider.useAsyncFactory = async () => "test";
 
       expect(provider.isAsync()).to.eq(true);

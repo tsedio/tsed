@@ -6,7 +6,6 @@ import {
   deepMerge,
   getClassOrSymbol,
   isClass,
-  isFunction,
   isInheritedFrom,
   isPromise,
   Metadata,
@@ -45,8 +44,6 @@ interface InvokeSettings {
   deps: TokenProvider[];
   imports: TokenProvider[];
   provider: Provider<any>;
-
-  construct(deps: TokenProvider[]): any;
 }
 
 /**
@@ -568,7 +565,7 @@ export class InjectorService extends Container {
    * @private
    */
   private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions<T>> = {}): Promise<T> {
-    const {token, deps, construct, imports, provider} = this.mapInvokeOptions(target, locals, options);
+    const {token, deps, imports, provider} = this.mapInvokeOptions(target, locals, options);
 
     if (provider) {
       GlobalProviders.onInvoke(provider, locals, deps);
@@ -595,10 +592,9 @@ export class InjectorService extends Container {
 
       // Inject dependencies
       const services = deps.map(invokeDependency(token));
-
       currentDependency = false;
 
-      instance = construct(services);
+      instance = provider.construct(services);
     } catch (error) {
       InjectionError.throwInjectorError(token, currentDependency, error);
     }
@@ -624,11 +620,6 @@ export class InjectorService extends Container {
    * @param options
    */
   private mapInvokeOptions(token: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions<any>>): InvokeSettings {
-    let imports: TokenProvider[] | undefined = options.imports;
-    let deps: TokenProvider[] | undefined = options.deps;
-    let scope = options.scope;
-    let construct;
-
     if (!token) {
       throw new UndefinedTokenError();
     }
@@ -636,44 +627,31 @@ export class InjectorService extends Container {
     let provider: Provider;
 
     if (!this.hasProvider(token)) {
-      provider = new Provider(token);
+      let useFactory: any;
 
       this.resolvers.forEach((resolver) => {
         const result = resolver.get(token, locals.get(DI_PARAM_OPTIONS));
 
         if (result !== undefined) {
-          provider.useFactory = () => result;
+          useFactory = () => result;
         }
       });
+
+      // TODO see in v7 if the create providers dynamically is correct
+      // if (!useFactory) {
+      //   console.warn("Unregistered provider for given token:", token);
+      // }
+
+      provider = GlobalProviders.createProvider({provide: token, useFactory});
     } else {
       provider = this.getProvider(token)!;
     }
 
-    scope = scope || this.scopeOf(provider);
-    deps = deps || provider.deps;
-    imports = imports || provider.imports;
-
-    if (provider.useValue !== undefined) {
-      construct = () => (isFunction(provider.useValue) ? provider.useValue() : provider.useValue);
-    } else if (provider.useFactory) {
-      construct = (deps: TokenProvider[]) => provider.useFactory(...deps);
-    } else if (provider.useAsyncFactory) {
-      construct = async (deps: TokenProvider[]) => {
-        deps = await Promise.all(deps);
-        return provider.useAsyncFactory(...deps);
-      };
-    } else {
-      // useClass
-      deps = deps || Metadata.getParamTypes(provider.useClass);
-      construct = (deps: TokenProvider[]) => new provider.useClass(...deps);
-    }
-
     return {
       token,
-      scope: scope || Store.from(token).get("scope") || ProviderScope.SINGLETON,
-      deps: deps! || [],
-      imports: imports || [],
-      construct,
+      scope: options.scope || this.scopeOf(provider) || Store.from(token).get("scope") || ProviderScope.SINGLETON,
+      deps: options.deps || provider.getDeps() || [],
+      imports: options.imports || provider.imports || [],
       provider
     };
   }
