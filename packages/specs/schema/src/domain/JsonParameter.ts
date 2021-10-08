@@ -1,5 +1,5 @@
 import {cleanObject, toMap, Type} from "@tsed/core";
-import {OS2Schema, OS3Parameter, OS3Schema, OS3StyleParameter} from "@tsed/openspec";
+import {OpenSpecHash, OpenSpecRef, OS2Schema, OS3Example, OS3Parameter, OS3Schema} from "@tsed/openspec";
 import {JsonSchemaOptions} from "../interfaces";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics, popGenerics} from "../utils/generics";
@@ -27,6 +27,12 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
   name(name: string): this {
     this.set("name", name);
+
+    return this;
+  }
+
+  examples(examples: OpenSpecHash<OS3Example | OpenSpecRef>) {
+    super.set("examples", examples);
 
     return this;
   }

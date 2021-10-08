@@ -40,6 +40,7 @@ export * from "./common/const";
 export * from "./common/default";
 export * from "./common/description";
 export * from "./common/example";
+export * from "./common/examples";
 export * from "./common/enum";
 export * from "./common/exclusiveMaximum";
 export * from "./common/exclusiveMinimum";
