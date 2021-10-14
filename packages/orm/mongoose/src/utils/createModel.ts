@@ -22,6 +22,7 @@ export function getModelToken(target: Type<any>, options: any) {
  * @param collection (optional, induced from model name)
  * @param skipInit whether to skip initialization (defaults to false)
  * @param connection
+ * @param discriminatorValue
  * @returns {Model<T extends Document>}
  */
 export function createModel<T>(
