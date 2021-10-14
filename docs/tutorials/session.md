@@ -33,12 +33,46 @@ Edit your Server and add these lines:
 
 ## Usage
 ### Session
+#### Get value
 
 <<< @/tutorials/snippets/session/example-session.ts
 
+#### Set value
+
+```typescript
+import {BodyParams, Controller, Post, Session} from "@tsed/common";
+import {Returns} from "@tsed/schema";
+
+@Controller("/")
+export class MyCtrl {
+   @Post("/")
+   updateSession(@Session() session: any) {
+     session.count = (session.count || 0) + 1
+     return "OK - " + session.count;
+   }
+}
+```
+
 ### Cookies 
+#### Get value
 
 <<< @/tutorials/snippets/session/example-cookies.ts
+
+#### Set value
+
+```typescript
+import {BodyParams, Controller, Post, Cookies} from "@tsed/common";
+import {Returns} from "@tsed/schema";
+
+@Controller("/")
+export class MyCtrl {
+   @Post("/")
+   updateSession(@Cookies() cookies: any) {
+     cookies.count = (cookies.count || 0) + 1
+     return "OK - " + cookies.count;
+   }
+}
+```
 
 ## Initialize session
 
