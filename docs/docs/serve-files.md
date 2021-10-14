@@ -24,6 +24,8 @@ const rootDir = __dirname;
     "/": [
       {
         root: `${rootDir}/public`,
+        // Optional
+        hook: "$beforeRoutesInit" // Load statics on the expected hook. Default: $afterRoutesInit 
         // ... statics options
       }
     ]
@@ -53,7 +55,9 @@ const rootDir = __dirname;
   statics: {
     "/statics": [
       {
-        root: `${rootDir}/public`,
+        root: `${rootDir}/public`, 
+        // Optional
+        hook: "$beforeRoutesInit" // Load statics on the expected hook. Default: $afterRoutesInit 
         // ... statics options
       }
     ]
@@ -71,6 +75,33 @@ http://localhost:3000/static/css/style.css
 http://localhost:3000/static/js/app.js
 http://localhost:3000/static/images/bg.png
 http://localhost:3000/static/hello.html
+```
+
+## Load statics before controllers <Badge text="v6.74.0+" />
+
+Since v6.74.0, it's possible to load statics before controllers instead of loading statics after controllers.
+
+Just use the options `hook` to change the default behavior:
+
+```typescript
+@Configuration({
+  statics: {
+    "/before": [
+      {
+        root: `${rootDir}/public`, 
+        hook: "$beforeRoutesInit"
+        // ... statics options
+      }
+    ],
+    "/after": [
+      {
+        root: `${rootDir}/public`, 
+        hook: "$afterRoutesInit"
+        // ... statics options
+      }
+    ]
+  }
+})
 ```
 
 ## Statics options

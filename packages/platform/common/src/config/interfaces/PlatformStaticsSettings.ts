@@ -3,6 +3,7 @@ declare global {
     // @ts-ignore
     export interface StaticsOptions {
       root: string;
+      hook?: "$beforeRoutesInit" | "$afterRoutesInit";
 
       [key: string]: any;
     }

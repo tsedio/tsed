@@ -11,7 +11,6 @@ import {PlatformHandler} from "../services/PlatformHandler";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
 import {PlatformRouter} from "../services/PlatformRouter";
-
 import {
   createHttpServer,
   createHttpsServer,
@@ -21,6 +20,8 @@ import {
   listenHttpsServer,
   printRoutes
 } from "../utils";
+import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
+import {getStaticsOptions} from "../utils/getStaticsOptions";
 
 const SKIP_HOOKS = ["$beforeInit", "$afterInit", "$onInit", "$onMountingMiddlewares"];
 
@@ -234,23 +235,14 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     }
   }
 
-  async loadStatics(): Promise<void> {
-    const {settings} = this;
+  async loadStatics(hook: string): Promise<void> {
+    const statics = this.settings.get<PlatformStaticsSettings>("statics");
 
-    if (settings.statics) {
-      Object.entries(settings.statics).forEach(([path, items]) => {
-        [].concat(items as any).forEach((options) => {
-          const opts =
-            typeof options === "string"
-              ? {
-                  root: options
-                }
-              : options;
-
-          this.platform.app.statics(path, opts);
-        });
-      });
-    }
+    getStaticsOptions(statics).forEach(({path, options}) => {
+      if (options.hook === hook) {
+        this.platform.app.statics(path, options);
+      }
+    });
   }
 
   useProvider(token: Type<any>, settings?: Partial<IProvider>) {
@@ -334,13 +326,14 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     }
 
     this.log("Load routes");
+    await this.loadStatics("$beforeRoutesInit");
     await this.callHook("$beforeRoutesInit");
 
     await this.callHook("$$loadRoutes");
 
     await this.callHook("$onRoutesInit");
 
-    await this.loadStatics();
+    await this.loadStatics("$afterRoutesInit");
 
     await this.callHook("$afterRoutesInit");
   }

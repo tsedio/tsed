@@ -133,7 +133,8 @@ describe("PlatformBuilder", () => {
       // THEN
       // @ts-ignore
       expect(server.listenServers).to.have.been.calledWithExactly();
-      expect(server.loadStatics).to.have.been.calledWithExactly();
+      expect(server.loadStatics).to.have.been.calledWithExactly("$beforeRoutesInit");
+      expect(server.loadStatics).to.have.been.calledWithExactly("$afterRoutesInit");
       expect(server.rootModule.$afterListen).to.have.been.calledWithExactly();
       expect(server.rootModule.$beforeListen).to.have.been.calledWithExactly();
       expect(server.rootModule.$onReady).to.have.been.calledWithExactly();
