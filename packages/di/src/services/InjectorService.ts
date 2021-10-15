@@ -1,9 +1,11 @@
 import {
   ancestorsOf,
+  catchError,
   classOf,
   deepClone,
   deepMerge,
   getClassOrSymbol,
+  isClass,
   isFunction,
   isInheritedFrom,
   isPromise,
@@ -40,7 +42,6 @@ interface InvokeSettings {
   token: TokenProvider;
   parent?: TokenProvider;
   scope: ProviderScope;
-  isBindable: boolean;
   deps: TokenProvider[];
   imports: TokenProvider[];
   provider: Provider<any>;
@@ -433,9 +434,11 @@ export class InjectorService extends Container {
       });
     }
 
-    Object.defineProperty(instance, propertyKey, {
-      get: () => onGet(bean)
-    });
+    catchError(() =>
+      Object.defineProperty(instance, propertyKey, {
+        get: () => onGet(bean)
+      })
+    );
   }
 
   /**
@@ -451,7 +454,8 @@ export class InjectorService extends Container {
       enumerable: true,
       configurable: true
     };
-    Object.defineProperty(instance, propertyKey, descriptor);
+
+    catchError(() => Object.defineProperty(instance, propertyKey, descriptor));
   }
 
   /**
@@ -460,7 +464,12 @@ export class InjectorService extends Container {
    * @param {string} propertyKey
    * @param {any} useType
    */
-  public bindConstant(instance: any, {propertyKey, expression, defaultValue}: InjectablePropertyValue): PropertyDescriptor {
+  public bindConstant(instance: any, {propertyKey, expression, defaultValue}: InjectablePropertyValue) {
+    // istanbul ignore next
+    if (propertyKey in instance) {
+      return;
+    }
+
     let bean: any;
 
     const get = () => {
@@ -479,9 +488,8 @@ export class InjectorService extends Container {
       enumerable: true,
       configurable: true
     };
-    Object.defineProperty(instance, propertyKey, descriptor);
 
-    return descriptor;
+    catchError(() => Object.defineProperty(instance, propertyKey, descriptor));
   }
 
   /**
@@ -560,7 +568,7 @@ export class InjectorService extends Container {
    * @private
    */
   private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions<T>> = {}): Promise<T> {
-    const {token, deps, construct, isBindable, imports, provider} = this.mapInvokeOptions(target, locals, options);
+    const {token, deps, construct, imports, provider} = this.mapInvokeOptions(target, locals, options);
 
     if (provider) {
       GlobalProviders.onInvoke(provider, locals, deps);
@@ -602,7 +610,7 @@ export class InjectorService extends Container {
       );
     }
 
-    if (instance && isBindable) {
+    if (instance && isClass(classOf(instance))) {
       this.bindInjectableProperties(instance, locals, options);
     }
 
@@ -620,7 +628,6 @@ export class InjectorService extends Container {
     let deps: TokenProvider[] | undefined = options.deps;
     let scope = options.scope;
     let construct;
-    let isBindable = false;
 
     if (!token) {
       throw new UndefinedTokenError();
@@ -657,7 +664,6 @@ export class InjectorService extends Container {
       };
     } else {
       // useClass
-      isBindable = true;
       deps = deps || Metadata.getParamTypes(provider.useClass);
       construct = (deps: TokenProvider[]) => new provider.useClass(...deps);
     }
@@ -667,7 +673,6 @@ export class InjectorService extends Container {
       scope: scope || Store.from(token).get("scope") || ProviderScope.SINGLETON,
       deps: deps! || [],
       imports: imports || [],
-      isBindable,
       construct,
       provider
     };
