@@ -34,13 +34,12 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.74.0",
     "@tsed/core": "6.74.0",
     "@tsed/di": "6.74.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.74.0",
     "@tsed/core": "^6.74.0",
-    "@tsed/di": "^6.74.0"
+    "@tsed/di": "^6.74.0",
+    "@tsed/logger": "^5.17.0"
   }
 }
