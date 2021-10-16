@@ -137,6 +137,8 @@ model User {
   posts       Post[]
   keywords    String[]
   biography   Json
+  /// @TsED.Ignore(ctx.endpoint === true)
+  ignored    String
 }
 
 model Post {
@@ -213,6 +215,9 @@ export class UserModel implements User {
   @Property(Object)
   @Required()
   biography: any;
+  
+  @TsED.Ignore((value: any, ctx: any) => ctx.endpoint === true)
+  ignored: string;
 }
 ```
 
