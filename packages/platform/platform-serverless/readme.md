@@ -53,13 +53,13 @@ npm install --save @tsed/platform-serverless
 In the `src/lambda` create a new Lambda class:
 
 ```typescript
-import {Injectable} from "@tsed/di";
+import {Injectable, Controller} from "@tsed/di";
 import {Returns, Summary, Get} from "@tsed/schema";
 import {QueryParams} from "@tsed/platform-params"; // /!\ don't import decorators from @tsed/common
 import {TimeslotsService} from "../services/TimeslotsService";
 import {TimeslotModel} from "../models/TimeslotModel";
 
-@Injectable()
+@Controller("/timeslots")
 export class TimeslotsLambda {
   @Inject()
   protected timeslotsService: TimeslotsService;
@@ -90,7 +90,7 @@ const platform = PlatformServerless.bootstrap({
 })
 
 // then export the lambda
-export = platform.callbacks();
+export default platform.callbacks();
 ```
 
 Finally, create the serverless.yml:
@@ -144,7 +144,7 @@ import {QueryParams} from "@tsed/platform-params"; // /!\ don't import decorator
 import {TimeslotsService} from "../services/TimeslotsService";
 import {TimeslotModel} from "../models/TimeslotModel";
 
-@Injectable()
+@Controller("/timeslots")
 export class TimeslotsLambda {
   @Inject()
   protected timeslotsService: TimeslotsService;
