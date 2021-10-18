@@ -81,10 +81,11 @@
     "@tsed/logger": "^5.16.0",
     "@tsed/openspec": "^6.75.1",
     "@tsed/schema": "^6.75.1",
-    "koa": "2.13.0",
-    "koa-bodyparser": "4.3.0",
-    "koa-compress": "5.0.1",
-    "koa-override": "3.0.0",
-    "koa-session": "6.2.0"
+    "koa": "^2.13.0",
+    "koa-qs": "^3.0.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-compress": "^5.0.1",
+    "koa-override": "^3.0.0",
+    "koa-session": "^6.2.0"
   }
 }
