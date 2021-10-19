@@ -1,43 +1,12 @@
-import {InjectorService, Module, ProviderType} from "@tsed/di";
-import {PlatformControllerBuilder} from "./builder/PlatformControllerBuilder";
-import {ControllerProvider} from "./domain/ControllerProvider";
-import {Route} from "./interfaces/Route";
+import {InjectorService, Module} from "@tsed/di";
 import {ConverterService} from "./services/ConverterService";
 import {Platform} from "./services/Platform";
-import {PlatformRouter} from "./services/PlatformRouter";
 
 /**
  * @ignore
+ * @deprecated Will be removed in v7
  */
 @Module({
   imports: [InjectorService, ConverterService, Platform]
 })
-export class PlatformModule {
-  constructor(protected injector: InjectorService, protected platform: Platform) {
-    this.createRoutersFromControllers();
-  }
-
-  /**
-   * Create routers from the collected controllers
-   */
-  public createRoutersFromControllers() {
-    const {injector} = this;
-
-    return injector
-      .getProviders(ProviderType.CONTROLLER)
-      .map((provider: ControllerProvider) => {
-        provider.setRouter(PlatformRouter.create(injector, provider.routerOptions));
-
-        if (!provider.hasParent()) {
-          return new PlatformControllerBuilder(provider as ControllerProvider).build(injector);
-        }
-      })
-      .filter(Boolean);
-  }
-
-  public $$loadRoutes() {
-    const routes = this.injector.settings.get<Route[]>("routes");
-
-    this.platform.addRoutes(routes);
-  }
-}
+export class PlatformModule {}

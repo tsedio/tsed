@@ -22,6 +22,7 @@ import {
 } from "../utils";
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
 import {getStaticsOptions} from "../utils/getStaticsOptions";
+import {Route} from "../interfaces/Route";
 
 const SKIP_HOOKS = ["$beforeInit", "$afterInit", "$onInit", "$onMountingMiddlewares"];
 
@@ -329,7 +330,9 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     await this.loadStatics("$beforeRoutesInit");
     await this.callHook("$beforeRoutesInit");
 
-    await this.callHook("$$loadRoutes");
+    const routes = this.injector.settings.get<Route[]>("routes");
+
+    this.platform.addRoutes(routes);
 
     await this.callHook("$onRoutesInit");
 

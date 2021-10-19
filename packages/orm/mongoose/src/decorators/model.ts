@@ -1,7 +1,5 @@
-import {Store} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
 import {Schema} from "mongoose";
-import {MONGOOSE_MODEL} from "../constants";
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions";
 import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections";
 import {createModel, getModelToken, getSchema} from "../utils";
