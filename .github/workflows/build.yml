@@ -126,7 +126,7 @@ jobs:
     needs: [lint, test, build]
     if: ${{ github.event_name != 'pull_request' && (contains(github.ref, 'production') || contains(github.ref, 'alpha')  || contains(github.ref, 'beta') || contains(github.ref, 'rc')) }}
 
-    strategy:package
+    strategy:
       matrix:
         node-version: [ 14.x ]
 

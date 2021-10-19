@@ -1,8 +1,10 @@
 import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
+import {PlatformControllerBuilder} from "../builder/PlatformControllerBuilder";
 import {ControllerProvider, EndpointMetadata, PlatformRouteDetails} from "../domain";
 import {Route, RouteController} from "../interfaces/Route";
 import {getControllerPath} from "../utils/getControllerPath";
 import {PlatformApplication} from "./PlatformApplication";
+import {PlatformRouter} from "./PlatformRouter";
 
 /**
  * `Platform` is used to provide all routes collected by annotation `@Controller`.
@@ -13,17 +15,23 @@ import {PlatformApplication} from "./PlatformApplication";
   scope: ProviderScope.SINGLETON
 })
 export class Platform {
-  #routes: PlatformRouteDetails[] = [];
-  #controllers: RouteController[] = [];
+  private _routes: PlatformRouteDetails[] = [];
+  private _controllers: RouteController[] = [];
 
-  constructor(readonly injector: InjectorService, readonly platformApplication: PlatformApplication) {}
+  constructor(readonly injector: InjectorService, readonly platformApplication: PlatformApplication) {
+    this.createRouters();
+  }
 
   get app() {
     return this.platformApplication;
   }
 
   get routes(): PlatformRouteDetails[] {
-    return this.#routes;
+    return this._routes;
+  }
+
+  protected $onInit() {
+    this.buildControllers();
   }
 
   public addRoutes(routes: Route[]) {
@@ -43,8 +51,8 @@ export class Platform {
         if (!provider.hasParent()) {
           const routes = this.buildRoutes(route, provider);
 
-          this.#routes.push(...routes);
-          this.#controllers.push({
+          this._routes.push(...routes);
+          this._controllers.push({
             route,
             provider
           });
@@ -62,11 +70,37 @@ export class Platform {
    * @returns {PlatformRouteDetails[]}
    */
   public getRoutes(): PlatformRouteDetails[] {
-    return this.#routes;
+    return this._routes;
   }
 
   public getMountedControllers(): RouteController[] {
-    return this.#controllers;
+    return this._controllers;
+  }
+
+  /**
+   * Create routers from the collected controllers.
+   * @private
+   */
+  private createRouters() {
+    const {injector} = this;
+
+    injector.getProviders(ProviderType.CONTROLLER).map((provider: ControllerProvider) => {
+      provider.setRouter(PlatformRouter.create(injector, provider.routerOptions));
+    });
+  }
+
+  /**
+   * Create controllers from DI
+   * @private
+   */
+  private buildControllers() {
+    const {injector} = this;
+
+    injector.getProviders(ProviderType.CONTROLLER).map((provider: ControllerProvider) => {
+      if (!provider.hasParent()) {
+        return new PlatformControllerBuilder(provider as ControllerProvider).build(injector);
+      }
+    });
   }
 
   /**
