@@ -160,6 +160,53 @@ describe("serialize()", () => {
         }
       });
     });
+    it("should serialize model and take the right type", () => {
+      class Role {
+        @Property()
+        label: string;
+
+        constructor({label}: any = {}) {
+          this.label = label;
+        }
+      }
+
+      class Model {
+        @Property()
+        id: string;
+
+        @Ignore((ignored, ctx: JsonHookContext) => ctx.api)
+        password: string;
+
+        @OnSerialize((value) => String(value) + "test")
+        @Name("mapped_prop")
+        mappedProp: string;
+
+        @CollectionOf(Role)
+        roles: Map<string, Role> = new Map();
+      }
+
+      class ServerResponse {
+        @Property()
+        data: Model;
+      }
+
+      const model = new Model();
+      model.id = "id";
+      model.password = "hellopassword";
+      model.mappedProp = "hello";
+      model.roles.set("olo", new Role({label: "label"}));
+
+      expect(serialize(model, {type: ServerResponse})).to.deep.equal({
+        id: "id",
+        password: "hellopassword",
+        mapped_prop: "hellotest",
+        roles: {
+          olo: {
+            label: "label"
+          }
+        }
+      });
+    });
     it("should serialize model Array", () => {
       class Role {
         @Property()
