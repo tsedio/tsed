@@ -12,7 +12,7 @@ export function ancestorsOf(target: any) {
 
   let currentTarget = classOf(target);
 
-  while (nameOf(currentTarget) !== "") {
+  while (currentTarget && nameOf(currentTarget) !== "") {
     classes.unshift(currentTarget);
     currentTarget = getInheritedClass(currentTarget);
   }
