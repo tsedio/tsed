@@ -2,7 +2,6 @@ import {Container, Injectable, InjectorService, LocalsContainer} from "@tsed/di"
 import {expect} from "chai";
 import Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
-import {PlatformModule} from "../PlatformModule";
 import {loadInjector} from "./loadInjector";
 
 const sandbox = Sinon.createSandbox();
@@ -27,7 +26,6 @@ describe("loadInjector", () => {
 
     const container = new Container();
 
-    container.add(PlatformModule);
     container.add(TestService);
     container.add(TestService2);
 
@@ -36,7 +34,7 @@ describe("loadInjector", () => {
 
     // THEN
     expect(stub(injector.addProviders)).to.have.been.calledWithExactly(container);
-    expect(stub(injector.load)).to.have.been.calledWithExactly(container, PlatformModule);
+    expect(stub(injector.load)).to.have.been.calledWithExactly(container);
 
     stub(injector.logger.debug).restore();
   });

@@ -1,8 +1,10 @@
-import {Type} from "@tsed/core";
+import {isSerializable, Type} from "@tsed/core";
 import {BaseContext, Constant, Inject, Injectable, InjectorService} from "@tsed/di";
+import {renderView} from "@tsed/platform-views";
 import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods";
 import {ANY_CONTENT_TYPE, getContentType} from "../utils/getContentType";
+import {ConverterService} from "./ConverterService";
 
 /**
  * @platform
@@ -42,8 +44,12 @@ export class PlatformResponseFilter {
 
     return contentType;
   }
-
-  transform(data: unknown, ctx: BaseContext) {
+  /**
+   * Call filters to transform data
+   * @param data
+   * @param ctx
+   */
+  async transform(data: unknown, ctx: BaseContext) {
     const {response} = ctx;
     const bestContentType = this.getBestContentType(data, ctx);
 
@@ -55,6 +61,27 @@ export class PlatformResponseFilter {
 
     if (this.types.has(ANY_CONTENT_TYPE)) {
       return this.types.get(ANY_CONTENT_TYPE)!.transform(data, ctx);
+    }
+
+    return data;
+  }
+  /**
+   * Serialize data before calling filters
+   * @param data
+   * @param ctx
+   */
+  async serialize(data: unknown, ctx: BaseContext) {
+    const {response, endpoint} = ctx;
+
+    if (endpoint) {
+      if (endpoint.view) {
+        data = await renderView(data, ctx);
+      } else if (isSerializable(data)) {
+        data = this.injector.get<ConverterService>(ConverterService)!.serialize(data, {
+          ...endpoint.getResponseOptions(response.statusCode),
+          endpoint: true
+        });
+      }
     }
 
     return data;

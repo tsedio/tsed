@@ -22,7 +22,7 @@ describe("PlatformResponseFilter", () => {
   );
   afterEach(() => PlatformTest.reset());
 
-  it("should transform data for custom/json", () => {
+  it("should transform data for custom/json", async () => {
     class Test {
       @Get("/")
       test() {}
@@ -39,7 +39,7 @@ describe("PlatformResponseFilter", () => {
     sandbox.stub(ctx.request, "get").returns("custom/json");
     sandbox.stub(ctx.request, "accepts").returns(["custom/json"]);
 
-    const result = platformResponseFilter.transform(data, ctx);
+    const result = await platformResponseFilter.transform(data, ctx);
 
     expect(result).to.deep.equal({
       data: {
@@ -48,7 +48,7 @@ describe("PlatformResponseFilter", () => {
     });
   });
 
-  it("should transform data for application/json", () => {
+  it("should transform data for application/json", async () => {
     class Test {
       @Get("/")
       test() {}
@@ -65,13 +65,13 @@ describe("PlatformResponseFilter", () => {
     sandbox.stub(ctx.request, "get").returns("application/json");
     sandbox.stub(ctx.request, "accepts").returns(["application/json"]);
 
-    const result = platformResponseFilter.transform(data, ctx);
+    const result = await platformResponseFilter.transform(data, ctx);
 
     expect(result).to.deep.equal({
       text: "test"
     });
   });
-  it("should get content-type set from response", () => {
+  it("should get content-type set from response", async () => {
     class Test {
       @Get("/")
       test() {}
@@ -88,13 +88,13 @@ describe("PlatformResponseFilter", () => {
     sandbox.stub(ctx.request, "get").returns("application/json");
     sandbox.stub(ctx.request, "accepts").returns(["application/json"]);
 
-    const result = platformResponseFilter.transform(data, ctx);
+    const result = await platformResponseFilter.transform(data, ctx);
 
     expect(result).to.deep.equal({
       text: "test"
     });
   });
-  it("should transform data for any content type", () => {
+  it("should transform data for any content type", async () => {
     class Test {
       @Get("/")
       test() {}
@@ -117,7 +117,7 @@ describe("PlatformResponseFilter", () => {
       }
     });
 
-    const result = platformResponseFilter.transform(data, ctx);
+    const result = await platformResponseFilter.transform(data, ctx);
 
     expect(result).to.deep.equal({
       data: {
@@ -125,7 +125,7 @@ describe("PlatformResponseFilter", () => {
       }
     });
   });
-  it("should transform data for default content-type from metadata", () => {
+  it("should transform data for default content-type from metadata", async () => {
     class Test {
       @Get("/")
       @(Returns(200).ContentType("application/json"))
@@ -143,13 +143,13 @@ describe("PlatformResponseFilter", () => {
     sandbox.stub(ctx.request, "get").returns(undefined);
     sandbox.stub(ctx.request, "accepts").returns(false);
 
-    const result = platformResponseFilter.transform(data, ctx);
+    const result = await platformResponseFilter.transform(data, ctx);
 
     expect(result).to.deep.equal({
       text: "test"
     });
   });
-  it("should transform data for default content-type from metadata with any response filter", () => {
+  it("should transform data for default content-type from metadata with any response filter", async () => {
     class Test {
       @Get("/")
       @(Returns(200).ContentType("application/json"))
@@ -173,7 +173,7 @@ describe("PlatformResponseFilter", () => {
     sandbox.stub(ctx.request, "get").returns(undefined);
     sandbox.stub(ctx.request, "accepts").returns(false);
 
-    const result = platformResponseFilter.transform(data, ctx);
+    const result = await platformResponseFilter.transform(data, ctx);
 
     expect(result).to.deep.equal({
       data: {

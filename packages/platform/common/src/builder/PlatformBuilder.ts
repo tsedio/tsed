@@ -4,7 +4,6 @@ import {importProviders} from "@tsed/components-scan";
 import {PerfLogger} from "@tsed/perf";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
-import {PlatformModule} from "../PlatformModule";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
@@ -182,7 +181,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     this.log("Build providers");
     const container = createContainer(constructorOf(this.rootModule));
 
-    await injector.load(container, PlatformModule);
+    await injector.load(container);
 
     this.log("Settings and injector loaded");
 
