@@ -1,5 +1,4 @@
 import {Container, createContainer, InjectorService, LocalsContainer} from "@tsed/di";
-import {PlatformModule} from "../PlatformModule";
 
 /**
  * @ignore
@@ -7,5 +6,5 @@ import {PlatformModule} from "../PlatformModule";
  */
 export async function loadInjector(injector: InjectorService, container: Container = createContainer()): Promise<LocalsContainer<any>> {
   injector.bootstrap(container);
-  return injector.load(container, PlatformModule);
+  return injector.load(container);
 }

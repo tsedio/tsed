@@ -1,16 +1,15 @@
 import {Configuration, Injectable, InjectorService} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, JsonSerializerOptions, serialize} from "@tsed/json-mapper";
-import {ConverterSettings} from "../config/interfaces/ConverterSettings";
 
 /**
  * @deprecated Since 2021-10-03. Use serialize/deserialize functions from @tsed/json-mapper instead
  */
 @Injectable()
 export class ConverterService {
-  #converterSettings: ConverterSettings;
+  private readonly _additionalProperties: string;
 
   constructor(private injectorService: InjectorService, @Configuration() configuration: Configuration) {
-    this.#converterSettings = configuration.get<ConverterSettings>("converter") || {};
+    this._additionalProperties = configuration.get<string>("converter.additionalProperties");
   }
 
   /**
@@ -22,7 +21,7 @@ export class ConverterService {
   serialize(obj: any, options: JsonSerializerOptions = {}): any {
     return serialize(obj, {
       useAlias: true,
-      additionalProperties: this.#converterSettings.additionalProperties === "accept",
+      additionalProperties: this._additionalProperties === "accept",
       ...options
     });
   }
@@ -42,7 +41,7 @@ export class ConverterService {
   deserialize(obj: any, options: JsonDeserializerOptions = {}): any {
     return deserialize(obj, {
       useAlias: true,
-      additionalProperties: this.#converterSettings.additionalProperties === "accept",
+      additionalProperties: this._additionalProperties === "accept",
       ...options
     });
   }
