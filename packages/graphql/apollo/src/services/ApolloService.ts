@@ -31,7 +31,7 @@ export class ApolloService {
    * @type {Map<any, any>}
    * @private
    */
-  #servers: Map<
+  protected servers: Map<
     string,
     {
       instance: ApolloServer;
@@ -53,7 +53,7 @@ export class ApolloService {
       const server = this.createInstance(serverSettings, customServer);
 
       if (server) {
-        this.#servers.set(id || "default", {
+        this.servers.set(id || "default", {
           instance: server,
           schema: settings.schema
         });
@@ -73,7 +73,7 @@ export class ApolloService {
    * @returns ApolloServer
    */
   get(id: string = "default"): ApolloServer | undefined {
-    return this.#servers.get(id)?.instance;
+    return this.servers.get(id)?.instance;
   }
 
   /**
@@ -81,7 +81,7 @@ export class ApolloService {
    * @returns GraphQLSchema
    */
   getSchema(id: string = "default"): GraphQLSchema | undefined {
-    return this.#servers.get(id)?.schema;
+    return this.servers.get(id)?.schema;
   }
 
   /**
@@ -90,7 +90,7 @@ export class ApolloService {
    * @returns {boolean}
    */
   has(id: string = "default"): boolean {
-    return this.#servers.has(id);
+    return this.servers.has(id);
   }
 
   protected async bindServer(server: ApolloServer, options: ApolloSettings) {

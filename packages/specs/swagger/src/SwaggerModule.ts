@@ -66,26 +66,19 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   }
 
   $onReady() {
-    const {configuration, injector} = this;
-    const {httpsPort, httpPort} = configuration;
+    const host = this.configuration.getBestHost();
 
-    const displayLog = (host: any) => {
-      this.settings.forEach((conf) => {
-        const {path = "/", fileName = "swagger.json", doc} = conf;
-        const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
+    const displayLog = (conf: SwaggerSettings) => {
+      const {path = "/", fileName = "swagger.json", doc} = conf;
+      const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 
-        injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${normalizePath(path, fileName)}`);
-        injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
-      });
+      this.injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${normalizePath(path, fileName)}`);
+      this.injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
     };
 
-    if (httpsPort) {
-      const host = configuration.getHttpsPort();
-      displayLog({protocol: "https", ...host});
-    } else if (httpPort) {
-      const host = configuration.getHttpPort();
-      displayLog({protocol: "http", ...host});
-    }
+    this.settings.forEach((conf) => {
+      displayLog(conf);
+    });
 
     this.generateSpecFiles();
   }
