@@ -26,6 +26,13 @@ class AfterCustomMiddleware {
 }
 
 @Middleware()
+class UseCustomMiddleware {
+  use(@Context() ctx: Context) {
+    ctx.get("stacks").push("Use - Ctrl");
+  }
+}
+
+@Middleware()
 class AfterEndpointCustomMiddleware {
   use(@Context() ctx: Context) {
     ctx.get("stacks").push("UseAfter - endpoint");
@@ -49,7 +56,7 @@ class UseEndpointMiddleware {
 @Controller("/middlewares")
 @UseBefore(BeforeCustomMiddleware)
 @UseAfter(AfterCustomMiddleware)
-@Use(AfterCustomMiddleware)
+@Use(UseCustomMiddleware)
 class TestMiddlewaresCtrl {
   @Get("/scenario-1")
   @UseBefore(BeforeEndpointCustomMiddleware)
@@ -85,8 +92,8 @@ export function testMiddlewares(options: PlatformTestOptions) {
       expect(response.body).to.deep.equal({
         stacks: [
           "UseBefore - Ctrl",
-          "UseAfter - Ctrl",
           "UseBefore - endpoint",
+          "Use - Ctrl",
           "Use - endpoint",
           "endpoint",
           "UseAfter - endpoint",

@@ -92,8 +92,8 @@ export class PlatformControllerBuilder {
       .concat(useCtxHandler(bindEndpointMiddleware(endpoint)))
       .concat(PlatformAcceptMimesMiddleware)
       .concat(hasFiles && PlatformMulterMiddleware)
-      .concat(use) // Controller use-middlewares
       .concat(beforeMiddlewares) // Endpoint before-middlewares
+      .concat(use) // Controller use-middlewares
       // .concat(endpoint.cache && PlatformCacheMiddleware)
       .concat(mldwrs) // Endpoint middlewares
       .concat(endpoint) // Endpoint metadata
