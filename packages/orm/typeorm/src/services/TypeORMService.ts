@@ -23,6 +23,7 @@ export class TypeORMService {
     const name = getValue<string>(connectionOptions, "name", "default");
 
     if (this.has(name)) {
+      await this.reopenConnections();
       return this.get(name);
     }
 
@@ -64,6 +65,16 @@ export class TypeORMService {
     const promises = this.connectionManager.connections.map((instance) => {
       if (instance.isConnected) {
         return instance.close();
+      }
+    });
+
+    return Promise.all(promises);
+  }
+
+  reopenConnections(): Promise<any> {
+    const promises = this.connectionManager.connections.map((instance) => {
+      if (!instance.isConnected) {
+        return instance.connect();
       }
     });
 
