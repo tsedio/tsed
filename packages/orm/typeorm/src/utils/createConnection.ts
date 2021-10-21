@@ -6,11 +6,14 @@ export async function createConnection(connectionOptions: ConnectionOptions): Pr
   const name = getValue<string>(connectionOptions, "name", "default");
 
   if (!connectionManager.has(name)) {
-    const connection = connectionManager.create(connectionOptions!);
-    await connection.connect();
+    connectionManager.create(connectionOptions!);
   }
 
   const connection = connectionManager.get(name);
+
+  if (!connection.isConnected) {
+    await connection.connect();
+  }
 
   return connection;
 }

@@ -19,21 +19,10 @@ export class TypeORMService {
    *
    * @returns {Promise<"typeorm".Connection>}
    */
-  async createConnection(connectionOptions: ConnectionOptions): Promise<any> {
-    const name = getValue<string>(connectionOptions, "name", "default");
-
-    if (this.has(name)) {
-      await this.reopenConnections();
-      return this.get(name);
-    }
-
-    this.injector.logger.info(`Create connection with typeorm to database: ${name}`);
-    this.injector.logger.debug(`options: ${JSON.stringify(connectionOptions)}`);
-
+   async createConnection(connectionOptions: ConnectionOptions): Promise<any> {
     try {
-      const connection = await createConnection({...connectionOptions, name});
-
-      this.injector.logger.info(`Connected with typeorm to database: ${name}`);
+      const connection = await createConnection(connectionOptions);
+      this.injector.logger.info(`Connected with typeorm to database: ${connection.name}`);
 
       return connection;
     } catch (err) {
@@ -65,16 +54,6 @@ export class TypeORMService {
     const promises = this.connectionManager.connections.map((instance) => {
       if (instance.isConnected) {
         return instance.close();
-      }
-    });
-
-    return Promise.all(promises);
-  }
-
-  reopenConnections(): Promise<any> {
-    const promises = this.connectionManager.connections.map((instance) => {
-      if (!instance.isConnected) {
-        return instance.connect();
       }
     });
 
