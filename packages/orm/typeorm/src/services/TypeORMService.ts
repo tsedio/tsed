@@ -19,9 +19,11 @@ export class TypeORMService {
    *
    * @returns {Promise<"typeorm".Connection>}
    */
-   async createConnection(connectionOptions: ConnectionOptions): Promise<any> {
+  async createConnection(connectionOptions: ConnectionOptions): Promise<any> {
+    const name = getValue<string>(connectionOptions, "name", "default");
+
     try {
-      const connection = await createConnection(connectionOptions);
+      const connection = await createConnection({...connectionOptions, name});
       this.injector.logger.info(`Connected with typeorm to database: ${connection.name}`);
 
       return connection;
