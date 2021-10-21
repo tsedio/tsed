@@ -233,4 +233,24 @@ export class PlatformConfiguration extends DIConfiguration {
   setHttpsPort(settings: {address: string; port: number}) {
     this.setRaw("httpsPort", `${settings.address}:${settings.port}`);
   }
+
+  getBestHost() {
+    const {httpsPort, httpPort} = this;
+    if (httpsPort) {
+      const host = this.getHttpsPort();
+      return {
+        protocol: "https",
+        ...host
+      };
+    }
+
+    if (httpPort) {
+      const host = this.getHttpPort();
+
+      return {
+        protocol: "http",
+        ...host
+      };
+    }
+  }
 }

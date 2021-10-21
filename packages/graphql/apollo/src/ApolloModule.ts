@@ -1,6 +1,6 @@
-import {AfterListen, HttpServer, HttpsServer, Logger, OnRoutesInit, PlatformApplication} from "@tsed/common";
-import {Configuration, Constant, Inject, Module} from "@tsed/di";
-import {ApolloServer, ApolloSettings} from "./interfaces/ApolloSettings";
+import {AfterListen, Logger, OnRoutesInit} from "@tsed/common";
+import {Configuration, Inject, Module} from "@tsed/di";
+import {ApolloSettings} from "./interfaces/ApolloSettings";
 import {ApolloService} from "./services/ApolloService";
 
 @Module()
@@ -31,14 +31,21 @@ export class ApolloModule implements OnRoutesInit, AfterListen {
   }
 
   $afterListen(): Promise<any> | void {
+    const host = this.configuration.getBestHost();
+
+    const displayLog = (key: string, path: string) => {
+      const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
+
+      this.logger.info(`[${key}] Apollo server is available on ${url}${path.replace(/^\//, "")}`);
+    };
+
     const {settings} = this;
 
     if (settings) {
-      const host = this.configuration.getHttpPort();
-
       Object.entries(settings).map(async ([key, options]) => {
         const {path} = options;
-        this.logger.info(`[${key}] Apollo server is available on http://${host.address}:${host.port}/${path.replace(/^\//, "")}`);
+
+        displayLog(key, path);
       });
     }
   }

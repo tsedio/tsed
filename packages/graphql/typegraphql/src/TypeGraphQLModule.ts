@@ -32,16 +32,21 @@ export class TypeGraphQLModule implements OnRoutesInit, AfterListen {
   }
 
   $afterListen(): Promise<any> | void {
+    const host = this.configuration.getBestHost();
+
+    const displayLog = (key: string, path: string) => {
+      const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
+
+      this.injector.logger.info(`[${key}] GraphQL server is available on ${url}${path.replace(/^\//, "")}`);
+    };
+
     const {settings} = this;
 
     if (settings) {
-      const httpHost = this.configuration.getHttpPort();
-      const httpsHost = this.configuration.getHttpsPort();
-      const host = httpsHost || httpHost;
-
       Object.entries(settings).map(async ([key, options]) => {
         const {path} = options;
-        this.injector.logger.info(`[${key}] GraphQL server is available on http://${host.address}:${host.port}/${path.replace(/^\//, "")}`);
+
+        displayLog(key, path);
       });
     }
   }
