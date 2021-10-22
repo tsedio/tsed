@@ -61,6 +61,9 @@ export function NumberDecimal(type?: any) {
 
     // Deserialize number value from JSON to Decimal128
     OnDeserialize((value) => {
+      if (value === undefined) {
+        return undefined;
+      }
       if (type) {
         return new type(value);
       }
