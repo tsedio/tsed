@@ -103,16 +103,19 @@ function toObject(obj: any, options: JsonSerializerOptions): any {
   );
 }
 
+function getBestType(type: Type<any>, obj: any) {
+  const dataType = classOf(obj);
+
+  return isClass(dataType) ? dataType : type;
+}
+
 export function serialize(obj: any, {type, collectionType, groups = false, ...options}: JsonSerializerOptions = {}): any {
-  const types = options.types ? options.types : getJsonMapperTypes();
-  // prevent Object metadata assignation. TypeScript set Object by default on endpoint.type
-  type = type === Object ? undefined : type;
-
-  options.groups = groups;
-
   if (isEmpty(obj)) {
     return obj;
   }
+
+  const types = options.types ? options.types : getJsonMapperTypes();
+  options.groups = groups;
 
   // FIX custom serialization function from @tsed/mongoose and bson
   if ((typeof obj.toJSON === "function" && obj.$isMongooseModelPrototype) || obj._bsontype) {
@@ -123,8 +126,11 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     return serialize(obj.toJSON(), {...options, type: classOf(obj)});
   }
 
+  // prevent Object metadata assignation. TypeScript set Object by default on endpoint.type
+  type = type === Object ? undefined : type;
+
   if (type && isClass(type)) {
-    options.type = type;
+    options.type = type = getBestType(type, obj);
   }
 
   if (isCollection(obj) && !options.collectionType) {
@@ -156,5 +162,5 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     return types.get(Array)?.serialize(obj, context);
   }
 
-  return !isClassObject(classOf(type)) ? classToPlainObject(obj, options) : toObject(obj, options);
+  return !isClassObject(type) ? classToPlainObject(obj, options) : toObject(obj, options);
 }

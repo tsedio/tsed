@@ -1,11 +1,15 @@
 {
   "name": "@tsed/ajv",
-  "version": "6.75.0",
+  "version": "6.75.4",
   "description": "AJV package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "private": false,
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
   "scripts": {
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
@@ -14,17 +18,17 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.75.0",
-    "@tsed/di": "6.75.0",
-    "@tsed/exceptions": "6.75.0",
-    "@tsed/schema": "6.75.0",
+    "@tsed/core": "6.75.4",
+    "@tsed/di": "6.75.4",
+    "@tsed/exceptions": "6.75.4",
+    "@tsed/schema": "6.75.4",
     "ajv": "8.6.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.75.0",
-    "@tsed/di": "^6.75.0",
-    "@tsed/exceptions": "^6.75.0",
-    "@tsed/schema": "^6.75.0",
+    "@tsed/core": "^6.75.4",
+    "@tsed/di": "^6.75.4",
+    "@tsed/exceptions": "^6.75.4",
+    "@tsed/schema": "^6.75.4",
     "ajv": "7||8"
   }
 }

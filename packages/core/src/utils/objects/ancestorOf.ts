@@ -1,5 +1,5 @@
 export function ancestorOf(target: any): any {
-  return Object.getPrototypeOf(target);
+  return target && Object.getPrototypeOf(target);
 }
 
 export function getInheritedClass(target: any): any {

@@ -9,6 +9,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @validation
  * @swagger
  * @schema
+ * @input
  */
 export function Property(type?: any) {
   return JsonEntityFn((store) => {

@@ -465,11 +465,6 @@ export class InjectorService extends Container {
    * @param {any} useType
    */
   public bindConstant(instance: any, {propertyKey, expression, defaultValue}: InjectablePropertyValue) {
-    // istanbul ignore next
-    if (propertyKey in instance) {
-      return;
-    }
-
     let bean: any;
 
     const get = () => {

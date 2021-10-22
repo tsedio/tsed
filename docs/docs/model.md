@@ -47,7 +47,7 @@ field.
 example, the `_id` won't be displayed in the JsonSchema. It's very important to understand that **TypeScript** only
 generates metadata on properties with at least one of these decorators:
 
-<ApiList query="module === '@tsed/schema' && status.includes('decorator') && status.includes('schema')" />
+<ApiList query="status.includes('decorator') && status.includes('schema') && status.includes('input')" />
 
 :::
 

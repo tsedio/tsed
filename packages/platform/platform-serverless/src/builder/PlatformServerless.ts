@@ -19,11 +19,11 @@ import {getRequestId} from "../utils/getRequestId";
 export class PlatformServerless {
   readonly name: string = "PlatformServerless";
 
-  #injector: InjectorService;
-  #promise: Promise<void>;
+  private _injector: InjectorService;
+  private _promise: Promise<void>;
 
   get injector(): InjectorService {
-    return this.#injector;
+    return this._injector;
   }
 
   get settings() {
@@ -31,7 +31,7 @@ export class PlatformServerless {
   }
 
   get promise() {
-    return this.#promise;
+    return this._promise;
   }
 
   static bootstrap(settings: Partial<TsED.Configuration> & {lambda?: Type[]} = {}): PlatformServerless {
@@ -72,10 +72,10 @@ export class PlatformServerless {
     let handler: ($ctx: ServerlessContext) => Promise<APIGatewayProxyResult>;
 
     return async (event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>, context: Context) => {
-      await this.#promise;
+      await this.promise;
 
       if (!handler) {
-        const platformHandler = this.#injector.get<PlatformServerlessHandler>(PlatformServerlessHandler)!;
+        const platformHandler = this.injector.get<PlatformServerlessHandler>(PlatformServerlessHandler)!;
         handler = await platformHandler.createHandler(token, propertyKey);
       }
 
@@ -93,16 +93,16 @@ export class PlatformServerless {
   }
 
   public async ready() {
-    await this.#injector.emit("$onReady");
+    await this.injector.emit("$onReady");
   }
 
   public async stop() {
-    await this.#injector.emit("$onDestroy");
+    await this.injector.emit("$onDestroy");
     return this.injector.destroy();
   }
 
   protected bootstrap(settings: Partial<TsED.Configuration> = {}) {
-    this.#promise = this.createInjector({
+    this._promise = this.createInjector({
       ...settings,
       PLATFORM_NAME: this.name
     })
@@ -113,11 +113,11 @@ export class PlatformServerless {
   }
 
   protected createInjector(settings: any) {
-    this.#injector = new InjectorService();
-    this.#injector.logger = $log;
-    this.#injector.settings.set(settings);
+    this._injector = new InjectorService();
+    this.injector.logger = $log;
+    this.injector.settings.set(settings);
 
-    if (this.#injector.settings.get("env") === Env.TEST && !settings?.logger?.level) {
+    if (this.injector.settings.get("env") === Env.TEST && !settings?.logger?.level) {
       $log.stop();
     }
 
@@ -127,12 +127,12 @@ export class PlatformServerless {
   protected async loadInjector() {
     const container = createContainer();
 
-    setLoggerLevel(this.#injector);
+    setLoggerLevel(this.injector);
 
-    await this.#injector.emit("$beforeInit");
+    await this.injector.emit("$beforeInit");
 
-    await this.#injector.load(container);
+    await this.injector.load(container);
 
-    await this.#injector.emit("$afterInit");
+    await this.injector.emit("$afterInit");
   }
 }
