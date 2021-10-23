@@ -126,6 +126,19 @@ describe("@NumberDecimal()", () => {
 
     expect(result).not.toHaveProperty("price");
   });
+  it("should deserialize an undefined value", () => {
+    // WHEN
+    class Model {
+      @NumberDecimal()
+      price?: Decimal128;
+    }
+
+    // THEN
+    const result = deserialize({}, {type: Model, additionalProperties: false});
+
+    expect(result).toBeInstanceOf(Model);
+    expect(result).not.toHaveProperty("price");
+  });
   it("should deserialize a number value using custom decimal", () => {
     // GIVEN
     class Decimal {
