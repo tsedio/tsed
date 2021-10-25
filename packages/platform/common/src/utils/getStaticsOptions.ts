@@ -1,14 +1,12 @@
+import {getValue} from "@tsed/core";
 import {PlatformStaticsOptions, PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
 
-function mapOptions(options: any) {
-  const opts: PlatformStaticsOptions =
-    typeof options === "string"
-      ? {
-          root: options,
-          hook: "$afterRoutesInit"
-        }
-      : options;
-  return opts;
+function mapOptions(options: any): any {
+  const opts: PlatformStaticsOptions = typeof options === "string" ? {root: options} : options;
+  return {
+    ...opts,
+    hook: getValue(opts, "hook", "$afterRoutesInit")
+  };
 }
 
 export function getStaticsOptions(statics?: PlatformStaticsSettings): {path: string; options: PlatformStaticsOptions}[] {
