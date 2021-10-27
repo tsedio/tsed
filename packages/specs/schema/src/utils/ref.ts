@@ -2,6 +2,7 @@ import {pascalCase} from "change-case";
 import type {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
+import {cleanObject} from "@tsed/core";
 
 /**
  * ignore
@@ -33,18 +34,29 @@ export function createRef(name: string, schema: JsonSchema, options: JsonSchemaO
     $ref: `${host}/${name}`
   };
 
-  if (schema.nullable) {
+  const nullable = schema.nullable;
+  const readOnly = schema.get ? schema.get("readOnly") : undefined;
+
+  if (nullable || readOnly) {
     switch (options.specType) {
       case SpecTypes.OPENAPI:
-        return {
-          nullable: true,
+        return cleanObject({
+          nullable: nullable ? true : undefined,
+          readOnly: readOnly ? true : undefined,
           allOf: [ref]
-        };
+        });
       case SpecTypes.JSON:
-        return {
-          oneOf: [{type: "null"}, ref]
-        };
+        return cleanObject({
+          readOnly,
+          oneOf: [nullable && {type: "null"}, ref].filter(Boolean)
+        });
       case SpecTypes.SWAGGER: // unsupported
+        if (readOnly) {
+          return {
+            readOnly,
+            allOf: [ref]
+          };
+        }
         break;
     }
   }
