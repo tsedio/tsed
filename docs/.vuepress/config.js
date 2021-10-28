@@ -232,6 +232,10 @@ module.exports = {
                 link: "/tutorials/agenda.html"
               },
               {
+                text: "Serverless",
+                link: "/tutorials/serverless.html"
+              },
+              {
                 text: "Terminus",
                 link: "/tutorials/terminus.html"
               }
@@ -371,7 +375,8 @@ module.exports = {
               "/tutorials/oidc",
               "/tutorials/stripe",
               "/tutorials/agenda",
-              "/tutorials/terminus"
+              "/tutorials/terminus",
+              "/tutorials/serverless"
             ]
           },
           {
@@ -406,6 +411,7 @@ module.exports = {
           "/tutorials/stripe",
           "/tutorials/agenda",
           "/tutorials/terminus",
+          "/tutorials/serverless",
           "/docs/controllers",
           "/docs/providers",
           "/docs/model",
