@@ -1,4 +1,5 @@
-import {Catch, PlatformContext, ExceptionFilterMethods, ResponseErrorObject} from "@tsed/common";
+import {PlatformContext, ResponseErrorObject} from "@tsed/common";
+import {Catch, ExceptionFilterMethods} from "@tsed/platform-exceptions";
 import {Exception} from "@tsed/exceptions";
 
 @Catch(Exception)

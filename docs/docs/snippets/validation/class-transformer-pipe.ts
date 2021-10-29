@@ -1,4 +1,4 @@
-import {DeserializerPipe, PipeMethods, ParamMetadata} from "@tsed/common";
+import {DeserializerPipe, PipeMethods, ParamMetadata} from "@tsed/platform-params";
 import {OverrideProvider} from "@tsed/di";
 import {plainToClass} from "class-transformer";
 

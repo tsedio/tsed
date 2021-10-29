@@ -1,4 +1,6 @@
-import {Controller, MulterOptions, MultipartFile, PlatformMulterFile, Post} from "@tsed/common";
+import {MulterOptions, MultipartFile, PlatformMulterFile} from "@tsed/common";
+import {Post} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 
 @Controller("/")
 class MyCtrl {
@@ -9,7 +11,7 @@ class MyCtrl {
   }
 
   @Post("/file")
-  @MulterOptions({dest: "/other-dir"})
+  @MulterOptions({ dest: "/other-dir" })
   private uploadFile2(@MultipartFile("file") file: PlatformMulterFile) {
 
   }

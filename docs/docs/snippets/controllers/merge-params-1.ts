@@ -1,4 +1,6 @@
-import {Controller, Get, PathParams} from "@tsed/common";
+import {PathParams} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 
 @Controller("/:calendarId/events")
 class EventCtrl {
@@ -10,4 +12,4 @@ class EventCtrl {
     console.log("calendarId =>", calendarId);
     console.log("eventId =>", eventId);
   }
-} 
+}

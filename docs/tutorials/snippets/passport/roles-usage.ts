@@ -1,4 +1,5 @@
-import {Controller, Post} from "@tsed/common";
+import {Post} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {Authorize} from "@tsed/passport";
 import {AcceptRoles} from "../decorators/acceptRoles";
 

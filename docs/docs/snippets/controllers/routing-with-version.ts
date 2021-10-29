@@ -1,4 +1,4 @@
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 
 @Configuration({
   mount: {

@@ -1,5 +1,6 @@
-import {BodyParams, Controller, Put} from "@tsed/common";
-import {Status} from "@tsed/schema";
+import {BodyParams} from "@tsed/platform-params";
+import {Returns, Put} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 
 interface Calendar {
   id: string;
@@ -9,8 +10,8 @@ interface Calendar {
 @Controller("/calendars")
 export class CalendarCtrl {
   @Put("/")
-  @Status(201)
+  @Returns(201)
   create(@BodyParams("name") id: string): Calendar {
-    return {id: "2", name: "test"};
+    return { id: "2", name: "test" };
   }
 }

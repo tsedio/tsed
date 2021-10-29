@@ -1,4 +1,4 @@
-import {InterceptorMethods, InterceptorContext, InterceptorNext, Interceptor} from "@tsed/common";
+import {InterceptorMethods, InterceptorContext, InterceptorNext, Interceptor} from "@tsed/di";
 
 @Interceptor()
 export class MyInterceptor implements InterceptorMethods {

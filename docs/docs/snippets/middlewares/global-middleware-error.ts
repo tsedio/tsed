@@ -1,4 +1,5 @@
-import {Err, Middleware, Req, Res} from "@tsed/common";
+import {Err, Req, Res} from "@tsed/common";
+import {Middleware} from "@tsed/platform-middlewares";
 import {Exception} from "@tsed/exceptions";
 import {$log} from "@tsed/logger";
 

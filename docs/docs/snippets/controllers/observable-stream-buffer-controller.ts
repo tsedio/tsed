@@ -1,4 +1,6 @@
-import {Controller, Get, PlatformResponse, Res} from "@tsed/common";
+import {PlatformResponse, Res} from "@tsed/common";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {createReadStream, ReadStream} from "fs";
 import {Observable, of} from "rxjs";
 

@@ -1,4 +1,5 @@
-import {PipeMethods, OverrideProvider, ParamMetadata, ValidationError, ValidationPipe} from "@tsed/common";
+import {PipeMethods, ParamMetadata, ValidationError, ValidationPipe} from "@tsed/platform-params";
+import {OverrideProvider} from "@tsed/di";
 import {plainToClass} from "class-transformer";
 import {validate} from "class-validator";
 

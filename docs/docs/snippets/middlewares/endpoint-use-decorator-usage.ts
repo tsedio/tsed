@@ -1,4 +1,6 @@
-import {Controller, Get, UseBefore} from "@tsed/common";
+import {UseBefore} from "@tsed/platform-middlewares";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {CustomMiddleware} from "./middlewares/CustomMiddleware";
 
 @Controller("/test")

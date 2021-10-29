@@ -1,4 +1,6 @@
-import {BodyParams, Controller, Post} from "@tsed/common";
+import {BodyParams} from "@tsed/platform-params";
+import {Post} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {array, number, object, Returns, Schema, string} from "@tsed/schema";
 
 const ProductSchema = object({

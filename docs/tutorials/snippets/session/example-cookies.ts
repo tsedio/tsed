@@ -1,4 +1,6 @@
-import {Controller, Cookies, Post} from "@tsed/common";
+import {Cookies} from "@tsed/platform-params";
+import {Post} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {IUser} from "./interfaces/IUser";
 
 @Controller("/")

@@ -1,10 +1,12 @@
-import {Controller, Get, Req} from "@tsed/common";
+import {Req} from "@tsed/common";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {Authenticate} from "@tsed/passport";
 
 @Controller("/auth")
 export class AuthCtrl {
   @Get("/:provider")
-  @Authenticate("facebook", {scope: ["email"]})
+  @Authenticate("facebook", { scope: ["email"] })
   authenticated(@Req("user") user: Req) {
     // Facade
     return user;

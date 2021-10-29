@@ -1,6 +1,7 @@
-import {Controller, Get, PathParams} from "@tsed/common";
+import {PathParams} from "@tsed/platform-params";
+import {Get, Name, Returns, Summary} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
-import {Name, Returns, Summary} from "@tsed/schema";
 import {Document} from "../../domain/document/Documents";
 import {Product} from "../../domain/product/Product";
 import {ProductTypes} from "../../domain/product/ProductTypes";

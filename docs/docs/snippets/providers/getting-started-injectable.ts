@@ -1,4 +1,4 @@
-import {Injectable, ProviderScope, ProviderType} from "@tsed/common";
+import {Injectable, ProviderScope, ProviderType} from "@tsed/di";
 import {Calendar} from "../models/Calendar";
 
 @Injectable({

@@ -1,4 +1,5 @@
-import {PlatformContext, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
+import {PlatformContext} from "@tsed/common";
+import {ResponseFilter, ResponseFilterMethods} from "@tsed/platform-response-filter";
 import {Pagination} from "../models/Pagination";
 
 @ResponseFilter("application/json")

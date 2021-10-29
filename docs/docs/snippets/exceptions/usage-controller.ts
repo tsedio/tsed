@@ -1,4 +1,6 @@
-import {Controller, Get, Inject, PathParams} from "@tsed/common";
+import {PathParams} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
+import {Controller, Inject} from "@tsed/di";
 import {BadRequest, NotFound} from "@tsed/exceptions";
 import {CalendarsService} from "../services/CalendarsService";
 
@@ -17,7 +19,7 @@ export class CalendarCtrl {
         "x-header": "value"
       });
 
-      error.errors = [{"message": "ID is not a number"}];
+      error.errors = [{ "message": "ID is not a number" }];
 
       throw(error);
     }

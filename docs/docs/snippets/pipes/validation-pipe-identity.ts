@@ -1,4 +1,5 @@
-import {Injectable, PipeMethods, ParamMetadata} from "@tsed/common";
+import {ParamMetadata, PipeMethods} from "@tsed/platform-params";
+import {Injectable} from "@tsed/di";
 
 @Injectable()
 export class ValidationPipe implements PipeMethods {

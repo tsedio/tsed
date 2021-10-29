@@ -1,5 +1,6 @@
-import {BodyParams, Controller, Post} from "@tsed/common";
-import {In, Security} from "@tsed/schema";
+import {BodyParams} from "@tsed/platform-params";
+import {In, Post, Security} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {CalendarModel} from "./models/Calendar";
 
 @Controller("/calendars")

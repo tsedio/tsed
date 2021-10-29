@@ -1,4 +1,6 @@
-import {Controller, Get, HeaderParams} from "@tsed/common";
+import {HeaderParams} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 
 @Controller("/calendars")
 export class CalendarCtrl {

@@ -1,7 +1,7 @@
-import {Service} from "@tsed/common";
+import {Injectable} from "@tsed/di";
 import {Calendar} from "../models/Calendar";
 
-@Service()
+@Injectable()
 export class CalendarsService {
   private readonly calendars: Calendar[] = [];
 

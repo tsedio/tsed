@@ -1,4 +1,8 @@
-import {Controller, Get, Locals, Middleware, UseBefore, View} from "@tsed/common";
+import {Locals} from "@tsed/platform-params";
+import {Middleware, UseBefore} from "@tsed/platform-middlewares";
+import {View} from "@tsed/platform-views";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 
 @Middleware()
 class LocalsMiddleware {

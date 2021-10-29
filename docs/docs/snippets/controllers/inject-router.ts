@@ -1,4 +1,5 @@
-import {Controller, PlatformRouter} from "@tsed/common";
+import {PlatformRouter} from "@tsed/common";
+import {Controller} from "@tsed/di";
 
 @Controller("/calendars")
 export class CalendarCtrl {

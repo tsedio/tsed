@@ -1,4 +1,6 @@
-import {Controller, Get, PathParams} from "@tsed/common";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+import {PathParams} from "@tsed/platform-params";
 
 interface Calendar {
   id: string;

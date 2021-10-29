@@ -1,4 +1,5 @@
-import {Configuration, Inject, PlatformApplication} from "@tsed/common";
+import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/common";
 import * as bodyParser from "body-parser";
 import * as compress from "compression";
 import * as cookieParser from "cookie-parser";

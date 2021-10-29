@@ -1,4 +1,4 @@
-import {UseBefore} from "@tsed/common";
+import {UseBefore} from "@tsed/platform-middlewares";
 import {useDecorators, StoreSet} from "@tsed/core";
 import {AcceptRolesMiddleware} from "./AcceptRolesMiddleware";
 

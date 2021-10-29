@@ -1,6 +1,8 @@
-import {BodyParams, Controller, Get, Inject, UsePipe} from "@tsed/common";
+import {BodyParams} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {UseJoiSchema} from "../decorators/UseJoiSchema";
-import {PersonModel, joiPersonModel} from "../models/PersonModel";
+import {joiPersonModel, PersonModel} from "../models/PersonModel";
 
 @Controller("/persons")
 export class PersonsController {

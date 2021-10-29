@@ -1,4 +1,4 @@
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 import "@tsed/platform-express";
 

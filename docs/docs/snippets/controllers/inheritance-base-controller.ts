@@ -1,4 +1,5 @@
-import {Get, QueryParams} from "@tsed/common";
+import {Get} from "@tsed/schema";
+import {QueryParams} from "@tsed/platform-params";
 import {SomeService} from "./SomeService";
 
 export abstract class BaseCtrl {

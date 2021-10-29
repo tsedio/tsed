@@ -1,4 +1,6 @@
-import {Controller, Get, QueryParams, Inject} from "@tsed/common";
+import {QueryParams} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
+import {Controller, Inject} from "@tsed/di";
 import {Authorize} from "@tsed/passport";
 import {Calendar} from "../models/Calendar";
 import {CalendarsService} from "../service/CalendarsService";

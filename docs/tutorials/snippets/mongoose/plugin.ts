@@ -1,4 +1,4 @@
-import {Inject, Service} from "@tsed/common";
+import {Inject, Injectable} from "@tsed/di";
 import {Model, MongooseModel, MongoosePlugin} from "@tsed/mongoose";
 import * as findOrCreate from "mongoose-findorcreate";
 import {User} from "./User";
@@ -11,7 +11,7 @@ class UserModel {
     Promise<{doc: InstanceType<User>, created: boolean}>;
 }
 
-@Service()
+@Injectable()
 class UserService {
   constructor(@Inject(UserModel) userModel: MongooseModel<UserModel>) {
     userModel

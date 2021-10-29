@@ -1,4 +1,6 @@
-import {Controller, Get, Req, Res} from "@tsed/common";
+import {Req, Res} from "@tsed/common";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {IncomingMessage, ServerResponse} from "http";
 
 @Controller("/calendars")
