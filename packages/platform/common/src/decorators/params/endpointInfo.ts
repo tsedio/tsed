@@ -1,8 +1,6 @@
 import {ParamTypes, UseParam} from "@tsed/platform-params";
 import {EndpointMetadata} from "../../domain/EndpointMetadata";
 
-export type EndpointInfo = EndpointMetadata;
-
 /**
  * Get the current endpoint metadata.
  * @decorator
@@ -18,3 +16,7 @@ export function EndpointInfo(): Function {
     useValidation: false
   });
 }
+/**
+ * @deprecated
+ */
+export type EndpointInfo = EndpointMetadata;

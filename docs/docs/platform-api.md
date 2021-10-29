@@ -10,13 +10,16 @@ This page will describe how you can get these instances with the new API.
 
 <Tabs>
   <Tab label="Abstraction">
-  <ApiList query="status.includes('platform') && !tags.match(/express|koa/)" />
+  <ApiList query="status.includes('platform') && ['@tsed/common', '@tsed/platform-views', '@tsed/platform-params', '@tsed/platform-response-filter', '@tsed/platform-exceptions'].includes(module)" />
   </Tab>
   <Tab label="Express.js">
-  <ApiList query="status.includes('platform') && status.includes('express')" />
+  <ApiList query="status.includes('platform') && module.includes('@tsed/platform-express')" />
   </Tab>
   <Tab label="Koa.js">
-  <ApiList query="status.includes('platform') && status.includes('koa')" />
+  <ApiList query="status.includes('platform') && module.includes('@tsed/platform-koa')" />
+  </Tab>
+  <Tab label="Serverless">
+  <ApiList query="status.includes('platform') && module.includes('@tsed/platform-serverless')" />
   </Tab>  
 </Tabs>
 

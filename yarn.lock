@@ -3374,10 +3374,10 @@
     read-package-json "2.1.2"
     semver "7.3.2"
 
-"@typedproject/ts-doc@4.0.13":
-  version "4.0.13"
-  resolved "https://registry.yarnpkg.com/@typedproject/ts-doc/-/ts-doc-4.0.13.tgz#6b1ae07112a64fbe603c167bc202e55c161b9089"
-  integrity sha512-4TCdSCadk4IomdSqMDCiXjj2xuUpYW4FUsmoE8JEanL5HvXdaz4ZSQWvIZ2JRPN0LU5rKfXnV5R9E6n13ONwiw==
+"@tsed/ts-doc@4.0.14":
+  version "4.0.14"
+  resolved "https://registry.yarnpkg.com/@tsed/ts-doc/-/ts-doc-4.0.14.tgz#6f09a1b09962354c0a1e7847f475a3e35a191eed"
+  integrity sha512-OLctPJuCygEoU/uy9yTuVaIUuPgSL9z/mRvlxWILZEI3PhuuqBAeWNif/1kqFNOysR4qvpHIlunT0Zqc62yjVg==
   dependencies:
     chalk "3.0.0"
     ejs "2.7.1"
