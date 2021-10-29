@@ -59,7 +59,7 @@ export class TimeslotsLambda {
 }
 ```
 
-Create new handler.ts to expose your lambda:
+Create new `handler.ts` to expose your lambda:
 
 ```typescript
 import {PlatformServerless} from "@tsed/serverless";
@@ -76,7 +76,7 @@ const platform = PlatformServerless.bootstrap({
 export default platform.callbacks();
 ```
 
-Finally, create the serverless.yml:
+Finally, create the `serverless.yml`:
 
 ```yml
 # Welcome to Serverless!
@@ -114,34 +114,6 @@ functions:
         path: /timeslots
         method: get
         cors: true
-```
-
-## Multiple lambda
-
-In you lambda controller use Lambda decorators:
-
-```typescript
-import {Injectable} from "@tsed/di";
-import {Get, Returns, Summary} from "@tsed/schema";
-import {QueryParams} from "@tsed/platform-params"; // /!\ don't import decorators from @tsed/common
-import {TimeslotsService} from "../services/TimeslotsService";
-import {TimeslotModel} from "../models/TimeslotModel";
-
-@Controller("/timeslots")
-export class TimeslotsLambda {
-  @Inject()
-  protected timeslotsService: TimeslotsService;
-
-  @Get("/")
-  @Summary("Return a list of timeslots")
-  @Returns(200, Array).Of(TimeslotModel)
-  get(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {
-    return this.timeslotsService.find({
-      dateStart,
-      dateEnd
-    })
-  }
-}
 ```
 
 ## Get AwsContext and AwsEvent
