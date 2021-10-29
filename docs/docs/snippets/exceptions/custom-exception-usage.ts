@@ -1,4 +1,6 @@
-import {Controller, Get, Inject, PathParams} from "@tsed/common";
+import {PathParams} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
+import {Controller, Inject} from "@tsed/di";
 import {CalendarsService} from "../services/CalendarsService";
 import {IDFormatException} from "../errors/IDFormatException";
 

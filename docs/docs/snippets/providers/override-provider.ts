@@ -1,4 +1,5 @@
-import {OriginalService, OverrideProvider} from "@tsed/common";
+import {OriginalService} from "@tsed/common";
+import {OverrideProvider} from "@tsed/di";
 
 @OverrideProvider(OriginalService)
 export class CustomMiddleware extends OriginalService {

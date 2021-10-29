@@ -1,5 +1,5 @@
-import {Controller, Post} from "@tsed/common";
-import {Returns} from "@tsed/schema";
+import {Post, Returns} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {Pagination} from "../models/Pagination";
 import {Product} from "../models/Product";
 

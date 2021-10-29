@@ -1,5 +1,6 @@
-import {Controller, Get, QueryParams} from "@tsed/common";
-import {Returns} from "@tsed/schema";
+import {QueryParams} from "@tsed/platform-params";
+import {Get, Returns} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {Pageable} from "../models/Pageable";
 import {Pagination} from "../models/Pagination";
 import {Product} from "../models/Product";

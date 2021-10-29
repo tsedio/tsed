@@ -1,4 +1,4 @@
-import {Injectable} from "@tsed/common";
+import {Injectable} from "@tsed/di";
 import {ConfigService} from "./ConfigService";
 
 @Injectable()

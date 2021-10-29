@@ -1,5 +1,6 @@
-import {BodyParams, Controller, Get, PathParams, Post} from "@tsed/common";
-import {Groups, Returns} from "@tsed/schema";
+import {BodyParams, PathParams} from "@tsed/platform-params";
+import {Get, Groups, Post, Returns} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {User} from "../models/User";
 
 @Controller("/")
@@ -21,6 +22,6 @@ export class UsersCtrl {
   @Post("/change-password")
   @Returns(204)
   async changePassword(@BodyParams() @Groups("changePassword") user: User) {
-    console.log(user)
+    console.log(user);
   }
 }

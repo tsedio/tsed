@@ -1,4 +1,6 @@
-import {Context, OriginalMiddleware, OverrideProvider} from "@tsed/common";
+import {OriginalMiddleware} from "@tsed/common";
+import {Context} from "@tsed/platform-params";
+import {OverrideProvider} from "@tsed/di";
 
 @OverrideProvider(OriginalMiddleware)
 export class CustomMiddleware extends OriginalMiddleware {

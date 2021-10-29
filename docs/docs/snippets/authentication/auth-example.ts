@@ -1,4 +1,6 @@
-import {Controller, Get, UseAuth} from "@tsed/common";
+import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
+import {UseAuth} from "@tsed/platform-middlewares";
 import {CustomAuthMiddleware} from "../guards/CustomAuthMiddleware";
 
 @Controller("/dashboard")

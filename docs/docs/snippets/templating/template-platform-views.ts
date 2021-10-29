@@ -1,4 +1,5 @@
-import {Inject, Injectable, PlatformViews} from "@tsed/common";
+import {Inject, Injectable} from "@tsed/di";
+import {PlatformViews} from "@tsed/platform-views";
 
 @Injectable()
 export class MyService {

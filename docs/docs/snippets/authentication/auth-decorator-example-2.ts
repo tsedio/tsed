@@ -1,5 +1,5 @@
 import {In} from "@tsed/schema";
-import {IAuthOptions, UseAuth} from "@tsed/common";
+import {IAuthOptions, UseAuth} from "@tsed/platform-middlewares";
 import {useDecorators} from "@tsed/core";
 import {Security, Returns} from "@tsed/schema";
 import {CustomAuthMiddleware} from "../guards/CustomAuthMiddleware";

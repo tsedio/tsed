@@ -1,4 +1,6 @@
-import {BodyParams, Controller, Get, Post} from "@tsed/common";
+import {BodyParams} from "@tsed/platform-params";
+import {Get, Post} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {User} from "../entities/User";
 import {UsersService} from "../services/UsersService";
 

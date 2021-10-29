@@ -1,6 +1,7 @@
-import {Controller, Get, ProviderScope, Scope, Service} from "@tsed/common";
+import {Get} from "@tsed/schema";
+import {Controller, Injectable, ProviderScope, Scope} from "@tsed/di";
 
-@Service()
+@Injectable()
 @Scope(ProviderScope.INSTANCE)
 export class MyInstanceService {
   private rand = Math.random() * 100;

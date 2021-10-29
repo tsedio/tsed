@@ -1,4 +1,7 @@
-import {Controller, Get, Next, Use, UseAfter, UseBefore, UseBeforeEach} from "@tsed/common";
+import {Next} from "@tsed/common";
+import {Use, UseAfter, UseBefore, UseBeforeEach} from "@tsed/platform-middlewares";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 
 @Controller("/")
 @UseAfter(MdlwCtrlAfter)

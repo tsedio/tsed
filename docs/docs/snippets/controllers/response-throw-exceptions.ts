@@ -1,4 +1,6 @@
-import {Controller, Get, PathParams} from "@tsed/common";
+import {PathParams} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import {BadRequest} from "@tsed/exceptions";
 
 @Controller("/calendars")

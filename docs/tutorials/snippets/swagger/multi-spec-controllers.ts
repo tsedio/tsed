@@ -1,4 +1,4 @@
-import {Controller} from "@tsed/common";
+import {Controller} from "@tsed/di";
 import {Docs} from "@tsed/swagger";
 
 @Controller("/calendars")

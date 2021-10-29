@@ -1,4 +1,4 @@
-import {Inject, Injectable} from "@tsed/common";
+import {Inject, Injectable} from "@tsed/di";
 import {CONNECTION} from "./connection";
 
 @Injectable()

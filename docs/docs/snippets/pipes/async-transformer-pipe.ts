@@ -1,4 +1,5 @@
-import {Inject, Injectable, PipeMethods, ParamMetadata} from "@tsed/common";
+import {ParamMetadata, PipeMethods} from "@tsed/platform-params";
+import {Inject, Injectable} from "@tsed/di";
 import {NotFound} from "@tsed/exceptions";
 import {PersonModel} from "../models/PersonModel";
 import {PersonsService} from "../models/PersonsService";

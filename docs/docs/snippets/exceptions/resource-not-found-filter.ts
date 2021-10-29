@@ -1,4 +1,5 @@
-import {Catch, ExceptionFilterMethods, PlatformContext, ResourceNotFound} from "@tsed/common";
+import {PlatformContext, ResourceNotFound} from "@tsed/common";
+import {Catch, ExceptionFilterMethods} from "@tsed/platform-exceptions";
 
 @Catch(ResourceNotFound)
 export class ResourceNotFoundFilter implements ExceptionFilterMethods {

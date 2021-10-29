@@ -1,5 +1,4 @@
-import {ParamTypes, UseParam} from "@tsed/common";
-import {mapParamsOptions} from "@tsed/common";
+import {mapParamsOptions, ParamTypes, UseParam} from "@tsed/platform-params";
 
 export function BodyParams(...args: any[]): ParameterDecorator {
   const {expression, useType, useConverter = true, useValidation = true} = mapParamsOptions(args);

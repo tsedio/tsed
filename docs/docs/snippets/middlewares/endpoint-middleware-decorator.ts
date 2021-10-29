@@ -1,4 +1,4 @@
-import {UseBefore} from "@tsed/common";
+import {UseBefore} from "@tsed/platform-middlewares";
 import {StoreSet, useDecorators} from "@tsed/core";
 import {AcceptMimesMiddleware} from "../middlewares/AcceptMimesMiddleware";
 

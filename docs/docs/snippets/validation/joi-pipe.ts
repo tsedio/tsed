@@ -1,5 +1,6 @@
 import {ObjectSchema} from "@hapi/joi";
-import {Injectable, PipeMethods, ParamMetadata, ValidationError} from "@tsed/common";
+import {Injectable} from "@tsed/di";
+import {PipeMethods, ParamMetadata, ValidationError} from "@tsed/platform-params";
 
 @Injectable()
 export class JoiValidationPipe implements PipeMethods {

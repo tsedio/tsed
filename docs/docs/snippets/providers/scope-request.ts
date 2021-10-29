@@ -1,4 +1,5 @@
-import {Controller, Get, ProviderScope, Scope} from "@tsed/common";
+import {Get} from "@tsed/schema";
+import {Controller, ProviderScope, Scope} from "@tsed/di";
 
 @Controller("/")
 @Scope(ProviderScope.REQUEST)

@@ -1,4 +1,5 @@
-import {BodyParams, Req} from "@tsed/common";
+import {Req} from "@tsed/common";
+import {BodyParams} from "@tsed/platform-params";
 import {OnInstall, OnVerify, Protocol} from "@tsed/passport";
 import {IStrategyOptions, Strategy} from "passport-local";
 import {Credentials} from "../models/Credentials";

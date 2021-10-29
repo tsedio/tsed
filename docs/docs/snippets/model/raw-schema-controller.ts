@@ -1,10 +1,10 @@
-import {BodyParams, Controller, Post} from "@tsed/common";
-import {JsonSchemaObject, Returns, Schema} from "@tsed/schema";
+import {BodyParams} from "@tsed/platform-params";
+import {JsonSchemaObject, Post, Returns, Schema} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 
 const ProductSchema: JsonSchemaObject = {
   type: "object",
-  properties: {
-  }
+  properties: {}
 };
 
 export class MyModel {

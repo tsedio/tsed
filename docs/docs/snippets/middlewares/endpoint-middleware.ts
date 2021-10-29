@@ -1,4 +1,5 @@
-import {Context, MiddlewareMethods, Middleware} from "@tsed/common";
+import {Context} from "@tsed/platform-params";
+import {MiddlewareMethods, Middleware} from "@tsed/platform-middlewares";
 import {NotAcceptable} from "@tsed/exceptions";
 
 @Middleware()

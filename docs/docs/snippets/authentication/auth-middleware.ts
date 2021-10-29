@@ -1,4 +1,6 @@
-import {Context, Middleware, MiddlewareMethods, Req} from "@tsed/common";
+import {Req} from "@tsed/common";
+import {Context} from "@tsed/platform-params";
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Forbidden, Unauthorized} from "@tsed/exceptions";
 
 @Middleware()

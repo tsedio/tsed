@@ -1,4 +1,6 @@
-import {Constant, MiddlewareMethods, Middleware, Req} from "@tsed/common";
+import {Req} from "@tsed/common";
+import {Constant} from "@tsed/di";
+import {MiddlewareMethods, Middleware} from "@tsed/platform-middlewares";
 import {NotAcceptable} from "@tsed/exceptions";
 
 @Middleware()

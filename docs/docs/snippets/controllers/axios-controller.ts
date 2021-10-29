@@ -1,4 +1,7 @@
-import {Controller, Get, QueryParams, Res} from "@tsed/common";
+import {Res} from "@tsed/common";
+import {QueryParams} from "@tsed/platform-params";
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
 import Axios from "axios";
 import {IncomingMessage} from "http";
 

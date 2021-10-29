@@ -1,4 +1,5 @@
-import {getJsonSchema, PipeMethods, ParamMetadata, ValidationError} from "@tsed/common";
+import {PipeMethods, ParamMetadata, ValidationError} from "@tsed/platform-params";
+import {getJsonSchema} from "@tsed/schema";
 import {Injectable} from "@tsed/di";
 import * as Ajv from "ajv";
 

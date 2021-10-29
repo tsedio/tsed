@@ -1,4 +1,6 @@
-import {getJsonSchema, PipeMethods, OverrideProvider, ParamMetadata, ValidationError, ValidationPipe} from "@tsed/common";
+import {PipeMethods, ParamMetadata, ValidationError, ValidationPipe} from "@tsed/platform-params";
+import {OverrideProvider} from "@tsed/di";
+import {getJsonSchema} from "@tsed/schema";
 import {validate} from "./validate";
 
 @OverrideProvider(ValidationPipe)
