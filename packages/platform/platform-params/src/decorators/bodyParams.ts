@@ -3,6 +3,7 @@ import {ParamOptions} from "../domain/ParamOptions";
 import {ParamTypes} from "../domain/ParamTypes";
 import {UseParam} from "./useParam";
 import {mapParamsOptions} from "../utils/mapParamsOptions";
+import {JsonEntityFn} from "@tsed/schema";
 
 /**
  * BodyParams return the value from [request.body](http://expressjs.com/en/4x/api.html#req.body) object.
@@ -69,7 +70,7 @@ export function BodyParams(...args: any[]): ParameterDecorator {
  * class MyCtrl {
  *    @Post('/')
  *    create(@RawBodyParams() body: Buffer) {
- *       console.log('Entire body', body.toString('utf8'));
+ *       console.log('Entire body', body.toString("utf8"));
  *    }
  * }
  * ```
@@ -83,9 +84,12 @@ export function RawBodyParams(): ParameterDecorator {
     UseParam({
       paramType: ParamTypes.RAW_BODY,
       dataPath: "$ctx.request.rawBody",
-      useType: Object,
+      useType: String,
       useConverter: false,
       useValidation: false
+    }),
+    JsonEntityFn((entity) => {
+      entity.parent.operation?.consumes(["*/*"]);
     })
   );
 }
