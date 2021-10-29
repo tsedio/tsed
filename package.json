@@ -104,7 +104,7 @@
   },
   "devDependencies": {
     "@tsed/monorepo-utils": "1.19.1",
-    "@typedproject/ts-doc": "4.0.13",
+    "@tsed/ts-doc": "4.0.14",
     "@types/axios": "0.14.0",
     "@types/chai": "4.2.12",
     "@types/chai-as-promised": "7.1.3",
