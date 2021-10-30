@@ -61,18 +61,21 @@ The goal of lambda isn't to expose static files. We do not plan to support this 
 ## Rule
 
 ::: warning
-Serverless Platform doesn't depend on `@tsed/common` package. It's important to not use decorators/services/middlewares from `@tsed/common`.
+By convention, try to not import something from `@tsed/common`. `@tsed/common` embed a lot of codes designed for the Full server platform which are not necessary in the Serverless context and aren't optimized for it. 
 
-For example, the followings example will throw an error at runtime:
+The recent version of Ts.ED expose all necessary decorators from `@tsed/schema`, `@tsed/platform-params` or `@tsed/di`. For example,
+@@Get@@ or @@Post@@ are commonly imported like this:
+
 ```typescript
 import {Get} from "@tsed/common";
 ```
 
-To fix that, import the decorator from `@tsed/schema`.
+Now, you have to import the decorator from `@tsed/schema`.
 
 ```typescript
 import {Get} from "@tsed/schema";
 ```
+
 :::
 
 
