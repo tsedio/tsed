@@ -111,16 +111,16 @@ export class StripWebhookCtrl {
     return {received: true}
   }
 
-   // with custom webhook options
-   @Post("/callback2")
-   successPaymentHook(
-           @WebhookEvent({secret: "....."}) event: Stripe.Event,
-           @Context() ctx: Context
-   ) {
-      ctx.logger.info({name: 'Webhook success', event});
+  // with custom webhook options
+  @Post("/callback2")
+  successPaymentHook(
+    @WebhookEvent({secret: "....."}) event: Stripe.Event,
+    @Context() ctx: Context
+  ) {
+    ctx.logger.info({name: 'Webhook success', event});
 
-      return {received: true}
-   }
+    return {received: true}
+  }
 }
 ```
 

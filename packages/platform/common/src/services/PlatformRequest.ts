@@ -70,7 +70,7 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
   }
 
   get rawBody(): any {
-    return this.raw.rawBody;
+    return this.raw.rawBody || this.raw.body;
   }
 
   /**
