@@ -20,41 +20,9 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "@tsed/apollo": "6.81.0",
     "@tsed/typegraphql": "6.81.0",
     "tslib": "2.2.0"
   },
-  "devDependencies": {
-    "@tsed/common": "6.81.0",
-    "@tsed/core": "6.81.0",
-    "@tsed/di": "6.81.0",
-    "@types/graphql": "14.5.0",
-    "apollo-datasource": "^0.7.2",
-    "apollo-datasource-rest": "^0.9.3",
-    "apollo-server-express": "^2.16.1",
-    "apollo-server-koa": "^2.16.1",
-    "apollo-server-testing": "2.18.2",
-    "class-validator": "0.13.1",
-    "graphql": "15.5.0",
-    "graphql-passport": "0.6.3",
-    "type-graphql": "1.1.1"
-  },
-  "peerDependencies": {
-    "@tsed/common": "^6.81.0",
-    "@tsed/core": "^6.81.0",
-    "@tsed/di": "^6.81.0",
-    "@tsed/exceptions": "^6.81.0",
-    "@tsed/json-mapper": "^6.81.0",
-    "@tsed/logger": "^6.0.0",
-    "@tsed/openspec": "^6.81.0",
-    "@tsed/schema": "^6.81.0",
-    "apollo-datasource": "^0.7.3",
-    "apollo-datasource-rest": "^0.10.0",
-    "apollo-server-core": "^2.24.0",
-    "apollo-server-express": "^2.21.0",
-    "apollo-server-koa": "^2.21.0",
-    "graphql": "^15.5.0 | 14.7.0",
-    "react-dom": "*",
-    "type-graphql": "^1.1.1 | ^0.17.6"
-  }
+  "devDependencies": {},
+  "peerDependencies": {}
 }

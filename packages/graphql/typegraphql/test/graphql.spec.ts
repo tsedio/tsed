@@ -26,7 +26,7 @@ describe("GraphQL", () => {
   );
   before(() => {
     const server = PlatformTest.get<TypeGraphQLService>(TypeGraphQLService).get("default")!;
-    request = createTestClient(server);
+    request = createTestClient(server as any);
   });
   after(PlatformTest.reset);
 

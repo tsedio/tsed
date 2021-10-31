@@ -51,8 +51,8 @@ import {join} from "path"
     "server1": {
       // GraphQL server configuration
       path: "/",
-      // apollo-server-express
-      // installSubscriptionHandlers?: boolean;
+      playground: true, // enable playground GraphQL IDE. Set false to use Apollo Studio
+      plugins: [], // Apollo plugins
       // Give custom server instance
       // server?: (config: Config) => ApolloServer; 
 
@@ -104,9 +104,10 @@ import {join} from "path"
     "server1": {
       // GraphQL server configuration
       path: "/",
-      schema
-      // apollo-server-express
-      // installSubscriptionHandlers?: boolean;
+      playground: true, // enable playground GraphQL IDE. Set false to use Apollo Studio
+      schema,
+      plugins: [], // Apollo plugins
+      
       // Give custom server instance
       // server?: (config: Config) => ApolloServer; 
 
@@ -146,7 +147,7 @@ To begin, install the `@tsed/typegraphql` package:
 ```bash
 npm install --save @tsed/typegraphql graphql apollo-server-express
 npm install --save type-graphql apollo-datasource apollo-datasource-rest 
-npm install --save-dev  apollo-server-testing
+npm install --save-dev apollo-server-testing
 ```
 
 </Tab>
@@ -155,7 +156,7 @@ npm install --save-dev  apollo-server-testing
 ```bash
 npm install --save @tsed/typegraphql graphql apollo-server-koa
 npm install --save type-graphql apollo-datasource apollo-datasource-rest 
-npm install --save-dev  apollo-server-testing
+npm install --save-dev apollo-server-testing
 ```
 
 </Tab>

@@ -1,11 +1,12 @@
 import {ApolloServer, ApolloService} from "@tsed/apollo";
 import {Type} from "@tsed/core";
-import {Inject, Injectable, InjectorService, Provider, registerProvider} from "@tsed/di";
+import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {DataSource} from "apollo-datasource";
 import {GraphQLSchema} from "graphql";
 import * as TypeGraphql from "type-graphql";
 import {buildSchema, BuildSchemaOptions} from "type-graphql";
+import {ApolloServerBase} from "apollo-server-core";
 import {PROVIDER_TYPE_DATASOURCE_SERVICE, PROVIDER_TYPE_RESOLVER_SERVICE} from "../constants";
 import {TypeGraphQLSettings} from "../interfaces";
 
@@ -26,7 +27,7 @@ export class TypeGraphQLService {
    * Get an instance of ApolloServer from his id
    * @returns ApolloServer
    */
-  get(id: string = "default"): ApolloServer | undefined {
+  get(id: string = "default"): ApolloServerBase | undefined {
     return this.apolloService.get(getKey(id));
   }
 
@@ -99,10 +100,10 @@ export class TypeGraphQLService {
     return this.injector.getProviders(PROVIDER_TYPE_RESOLVER_SERVICE).map((provider) => provider.useClass);
   }
 
-  protected getDataSources(): {[serviceName: string]: DataSource} {
-    const providers = Array.from(this.injector.getProviders(PROVIDER_TYPE_DATASOURCE_SERVICE));
+  protected getDataSources(): Record<string, DataSource> {
+    const providers = this.injector.getProviders(PROVIDER_TYPE_DATASOURCE_SERVICE);
 
-    return providers.reduce<{[serviceName: string]: DataSource}>((map, provider) => {
+    return providers.reduce<Record<string, DataSource>>((map, provider) => {
       // set the first letter of the class lowercase to follow proper conventions during access
       // i.e. this.context.dataSources.userService
       const sourceName = `${provider.name[0].toLowerCase()}${provider.name.substr(1)}`;
@@ -139,16 +140,3 @@ export class TypeGraphQLService {
     }
   }
 }
-
-/**
- * @deprecated Use TypeGraphQLService
- */
-export class GraphQLService extends TypeGraphQLService {}
-
-registerProvider({
-  provide: GraphQLService,
-  deps: [TypeGraphQLService],
-  useFactory(service: TypeGraphQLService) {
-    return service;
-  }
-});

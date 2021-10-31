@@ -37,7 +37,7 @@ export class TypeGraphQLModule implements OnRoutesInit, AfterListen {
     const displayLog = (key: string, path: string) => {
       const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 
-      this.injector.logger.info(`[${key}] GraphQL server is available on ${url}${path.replace(/^\//, "")}`);
+      this.injector.logger.info(`[${key}] GraphQL server is available on ${url}/${path.replace(/^\//, "")}`);
     };
 
     const {settings} = this;

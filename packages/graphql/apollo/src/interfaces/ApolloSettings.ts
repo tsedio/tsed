@@ -1,16 +1,17 @@
-import type {Config} from "apollo-server-core";
-import type {ApolloServerBase} from "apollo-server-core";
+import type {ApolloServerBase, Config, ApolloServerPluginLandingPageGraphQLPlaygroundOptions} from "apollo-server-core";
 
-export type ApolloServer = ApolloServerBase & {applyMiddleware(settings: any): any};
+export type ApolloMiddlewareOptions = Record<string, any>;
+export type ApolloServer = ApolloServerBase & {applyMiddleware(settings: ApolloMiddlewareOptions): any};
+export type ApolloCustomServerCB = (config: ApolloConfig) => ApolloServer;
+export type ApolloConfig = Config;
 
-export interface ApolloSettings extends Config {
+export interface ApolloSettings extends ApolloConfig {
   // Basic options
   path: string;
-  server?: (config: Config) => ApolloServer;
-
-  // apollo-server-express
-  // apollo-server-express options
+  server?: ApolloCustomServerCB;
+  playground?: boolean | ApolloServerPluginLandingPageGraphQLPlaygroundOptions;
+  // ApplyMiddleware Options
   // See options descriptions on https://www.apollographql.com/docs/apollo-server/api/apollo-server.html
-  serverRegistration?: Record<string, any>;
-  installSubscriptionHandlers?: boolean;
+  serverRegistration?: ApolloMiddlewareOptions;
+  middlewareOptions?: ApolloMiddlewareOptions;
 }
