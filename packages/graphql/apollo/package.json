@@ -2,27 +2,43 @@
   "name": "@tsed/apollo",
   "version": "6.85.0",
   "description": "Apollo package for Ts.ED framework",
+  "source": "./src/index.ts",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json",
+    "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
     "tslib": "2.2.0"
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.85.0",
-    "@tsed/core": "6.85.0",
     "@types/graphql": "14.5.0",
-    "apollo-server-core": "^2.17.0",
-    "apollo-server-testing": "2.18.2",
-    "graphql": "15.5.0"
+    "@tsed/core": "6.85.0",
+    "@tsed/logger": "^6.0.0",
+    "@tsed/di": "6.85.0",
+    "@tsed/common": "6.85.0",
+    "apollo-server-core": "^3.4.0",
+    "apollo-datasource": "^3.2.0",
+    "apollo-datasource-rest": "^3.3.0",
+    "apollo-server-express": "^3.4.0",
+    "apollo-server-koa": "^3.4.0",
+    "apollo-server-testing": "^2.25.2",
+    "graphql": "15.7.2"
   },
   "peerDependencies": {
-    "apollo-server-core": "^2.17.0",
-    "graphql": "15.5.0"
+    "@tsed/core": "6.81.0",
+    "@tsed/di": "6.81.0",
+    "@tsed/common": "6.81.0",
+    "@tsed/logger": ">6.0.0",
+    "apollo-server-core": ">=3.0.0",
+    "apollo-datasource": ">=3.0.0",
+    "apollo-datasource-rest": ">=3.0.0",
+    "graphql": ">15.0.0"
   }
 }

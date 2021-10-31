@@ -1,12 +1,37 @@
-import {Constant, HttpServer, HttpsServer, Inject, Logger, PlatformApplication, Service} from "@tsed/common";
+import {Constant, Inject, Service} from "@tsed/di";
+import {Logger} from "@tsed/logger";
+import {HttpServer, HttpsServer, PlatformApplication} from "@tsed/common";
 import type {Config} from "apollo-server-core";
+import {
+  ApolloServerBase,
+  ApolloServerPluginDrainHttpServer,
+  ApolloServerPluginLandingPageDisabled,
+  ApolloServerPluginLandingPageGraphQLPlayground
+} from "apollo-server-core";
 import type {GraphQLSchema} from "graphql";
 import type {ApolloServer, ApolloSettings} from "../interfaces/ApolloSettings";
+import {ApolloCustomServerCB} from "../interfaces/ApolloSettings";
 
 @Service()
 export class ApolloService {
   @Constant("PLATFORM_NAME")
   platformName: string;
+
+  @Inject()
+  protected logger: Logger;
+
+  /**
+   *
+   * @type {Map<any, any>}
+   * @private
+   */
+  protected servers: Map<
+    string,
+    {
+      instance: ApolloServerBase;
+      schema: GraphQLSchema | undefined;
+    }
+  > = new Map();
 
   @Constant("httpPort")
   private httpPort: string | number;
@@ -23,34 +48,24 @@ export class ApolloService {
   @Inject(HttpsServer)
   private httpsServer: HttpsServer;
 
-  @Inject()
-  protected logger: Logger;
-
-  /**
-   *
-   * @type {Map<any, any>}
-   * @private
-   */
-  protected servers: Map<
-    string,
-    {
-      instance: ApolloServer;
-      schema: GraphQLSchema | undefined;
-    }
-  > = new Map();
-
   async createServer(id: string, settings: ApolloSettings): Promise<any> {
     if (this.has(id)) {
       return this.get(id)!;
     }
 
     try {
-      const {path, installSubscriptionHandlers, serverRegistration = {}, server: customServer, ...serverSettings} = settings;
+      const {path, middlewareOptions = {}, server: customServer, ...config} = settings;
 
       this.logger.info(`Create server with Apollo for: ${id}`);
       this.logger.debug(`options: ${JSON.stringify({path})}`);
 
-      const server = this.createInstance(serverSettings, customServer);
+      const server = this.createInstance(
+        {
+          ...config,
+          plugins: this.getPlugins(settings)
+        },
+        customServer
+      );
 
       if (server) {
         this.servers.set(id || "default", {
@@ -58,7 +73,15 @@ export class ApolloService {
           schema: settings.schema
         });
 
-        return this.bindServer(server, settings);
+        await server.start();
+
+        await server.applyMiddleware({
+          path: settings.path,
+          ...middlewareOptions,
+          app: this.app.raw
+        });
+
+        return server;
       }
     } catch (err) {
       /* istanbul ignore next */
@@ -72,7 +95,7 @@ export class ApolloService {
    * Get an instance of ApolloServer from his id
    * @returns ApolloServer
    */
-  get(id: string = "default"): ApolloServer | undefined {
+  get(id: string = "default"): ApolloServerBase | undefined {
     return this.servers.get(id)?.instance;
   }
 
@@ -93,18 +116,7 @@ export class ApolloService {
     return this.servers.has(id);
   }
 
-  protected async bindServer(server: ApolloServer, options: ApolloSettings) {
-    await server.applyMiddleware({path: options.path, ...options.serverRegistration, app: this.app.raw});
-
-    if (options.installSubscriptionHandlers && (this.httpPort || this.httpsPort)) {
-      this.httpPort && server.installSubscriptionHandlers(this.httpServer);
-      this.httpPort && server.installSubscriptionHandlers(this.httpsServer);
-    }
-
-    return server;
-  }
-
-  protected createInstance(options: Config, server?: (config: Config) => ApolloServer): ApolloServer | undefined {
+  protected createInstance(options: Config, server?: ApolloCustomServerCB): ApolloServer | undefined {
     // istanbul ignore next
     if (server) {
       return server(options);
@@ -118,5 +130,24 @@ export class ApolloService {
     } catch (er) {
       this.logger.error(`Platform "${this.platformName}" not supported by @tsed/apollo`);
     }
+  }
+
+  private getPlugins(serverSettings: ApolloSettings): any[] {
+    const playground = serverSettings.playground || serverSettings.playground === undefined;
+
+    return [
+      playground && process.env.NODE_ENV === "production"
+        ? ApolloServerPluginLandingPageDisabled()
+        : ApolloServerPluginLandingPageGraphQLPlayground(),
+      this.httpPort &&
+        ApolloServerPluginDrainHttpServer({
+          httpServer: this.httpServer
+        }),
+      this.httpsPort &&
+        ApolloServerPluginDrainHttpServer({
+          httpServer: this.httpsServer
+        }),
+      ...(serverSettings.plugins || [])
+    ].filter(Boolean);
   }
 }
