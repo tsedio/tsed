@@ -15400,9 +15400,9 @@ object.values@^1.1.0:
     es-abstract "^1.18.2"
 
 objection@^2.2.15:
-  version "2.2.15"
-  resolved "https://registry.yarnpkg.com/objection/-/objection-2.2.15.tgz#104ecb180b0d2e8dff756a83886be035e3d323e5"
-  integrity sha512-ZOLJDigE9Z2ppk3C//S2fcWL6ph2jUe6Cwl0CEpslTZegnnOeG6RPIV80nhPAaghWjl/8F2kox/w89VVBN4ccg==
+  version "2.2.17"
+  resolved "https://registry.yarnpkg.com/objection/-/objection-2.2.17.tgz#4076c0a60ec218ded2acf7c107f645ee24db4859"
+  integrity sha512-k49ty4jbygp3YiFP3orSjaife85C6TVzFkyJv3j62DLC7qjBy/tsOfucSKpOy73CSqZNbKUOhIxGdB3pisxp3Q==
   dependencies:
     ajv "^6.12.6"
     db-errors "^0.2.3"
