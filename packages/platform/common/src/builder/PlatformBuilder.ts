@@ -1,5 +1,5 @@
-import {classOf, constructorOf, nameOf, toMap, Type} from "@tsed/core";
-import {Container, createContainer, getConfiguration, InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
+import {nameOf, toMap, Type} from "@tsed/core";
+import {Container, createContainer, getConfiguration, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
 import {importProviders} from "@tsed/components-scan";
 import {PerfLogger} from "@tsed/perf";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
@@ -22,8 +22,6 @@ import {
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {Route} from "../interfaces/Route";
-
-const SKIP_HOOKS = ["$beforeInit", "$afterInit", "$onInit", "$onMountingMiddlewares"];
 
 /**
  * @ignore
@@ -49,9 +47,10 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   readonly name: string = "";
   protected startedAt = new Date();
   protected locals: Container;
-  #rootModule: any;
+
   #injector: InjectorService;
   #providers: Map<Type, IProvider>;
+  #rootModule: Type<any>;
 
   constructor({name, providers}: {name: string; providers: IProvider[]}) {
     this.name = name;
@@ -72,7 +71,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   get rootModule(): any {
-    return this.#rootModule;
+    return this.#injector.get(this.#rootModule);
   }
 
   get app(): PlatformApplication<App, Router> {
@@ -176,10 +175,14 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
   async loadInjector() {
     const {injector} = this;
-    await this.callHook("$beforeInit");
-
     this.log("Build providers");
-    const container = createContainer(constructorOf(this.rootModule));
+
+    const container = createContainer();
+
+    container.addProvider(this.#rootModule, {
+      type: "server:module",
+      scope: ProviderScope.SINGLETON
+    });
 
     await injector.load(container);
 
@@ -214,25 +217,18 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   async callHook(hook: string, ...args: any[]) {
-    const {injector, rootModule} = this;
+    const {injector} = this;
     log(hook);
 
     if (!this.disableBootstrapLog) {
       injector.logger.info(`\x1B[1mCall hook ${hook}\x1B[22m`);
     }
 
-    // call hook for the Server
-    if (hook in rootModule) {
-      await rootModule[hook](...args);
-    }
-
     // Load middlewares for the given hook
     this.loadMiddlewaresFor(hook);
 
     // call hooks added by providers
-    if (!SKIP_HOOKS.includes(hook)) {
-      await injector.emit(hook);
-    }
+    await injector.emit(hook);
   }
 
   async loadStatics(hook: string): Promise<void> {
@@ -294,7 +290,6 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
       ...settings,
       PLATFORM_NAME: this.name
     });
-    this.createRootModule(module);
 
     await this.runLifecycle();
 
@@ -341,6 +336,8 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   protected createInjector(module: Type<any>, settings: any) {
+    this.#rootModule = module;
+
     const configuration = getConfiguration(module, settings);
 
     this.#injector = createInjector(configuration);
@@ -353,12 +350,5 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     createPlatformApplication(this.injector);
     createHttpsServer(this.injector);
     createHttpServer(this.injector);
-  }
-
-  protected createRootModule(module: Type<any>) {
-    this.#rootModule = this.injector.invoke(module);
-
-    this.injector.delete(constructorOf(this.#rootModule));
-    this.injector.delete(classOf(this.#rootModule));
   }
 }

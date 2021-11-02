@@ -64,7 +64,7 @@ class TestQueryParamsCtrl {
   }
 
   @Get("/scenario-6")
-  testScenario6(@QueryParams() @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
+  testScenario6(@QueryParams() @GenericOf(FindQuery) q: PaginationQuery<FindQuery>, @QueryParams() qs: any) {
     return {q};
   }
 
