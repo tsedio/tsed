@@ -59,11 +59,11 @@ describe("Agenda integration", () => {
       const agenda = PlatformTest.injector.get(AgendaService)!;
       const jobs = await agenda.jobs();
 
-      expect(jobs[0].attrs.name).to.be.deep.eq("test-nsp.test");
-      expect(jobs[0].attrs.repeatInterval).to.be.eq("60 seconds");
+      const job1 = jobs.find((job: any) => job.attrs.name === "test-nsp.test")
+      const job2 = jobs.find((job: any) => job.attrs.name === "test3")
 
-      expect(jobs[1].attrs.name).to.be.deep.eq("test3");
-      expect(jobs[1].attrs.repeatInterval).to.be.eq("* * * * *");
+      expect(job1.attrs.repeatInterval).to.be.eq("60 seconds");
+      expect(job2.attrs.repeatInterval).to.be.eq("* * * * *");
     });
   })
 
