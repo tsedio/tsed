@@ -10,8 +10,9 @@ const isBasicType = (source: any) => isNil(source) || isPrimitive(source) || isS
 /**
  * Return a cloned value
  * @param source
+ * @param stack
  */
-export function deepClone(source: any): any {
+export function deepClone(source: any, stack = new WeakMap()): any {
   let dest: any;
 
   if (isBasicType(source)) {
@@ -22,7 +23,21 @@ export function deepClone(source: any): any {
     return new Date(source);
   }
 
-  dest = isArray(source) ? [] : {};
+  const stacked = stack.get(source);
+
+  if (stacked) {
+    // See issue #1619
+    // istanbul ignore next
+    process.env.TSED_TRACK_CIRCULAR_REF && console.trace("Circular ref detected on deepClone", stacked);
+    return stacked;
+  }
+
+  if (isArray(source)) {
+    dest = [];
+  } else {
+    dest = {};
+    stack.set(source, dest);
+  }
 
   for (const key in source) {
     // Use getOwnPropertyDescriptor instead of source[key] to prevent from triggering setter/getter.
@@ -30,7 +45,7 @@ export function deepClone(source: any): any {
 
     if (descriptor) {
       if (!isFunction(descriptor.value)) {
-        dest[key] = deepClone(descriptor.value);
+        dest[key] = deepClone(descriptor.value, stack);
       } else {
         Object.defineProperty(dest, key, descriptor);
       }
