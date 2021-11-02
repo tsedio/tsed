@@ -315,6 +315,7 @@ export class InjectorService extends Container {
     // load sync provider
     locals = this.loadSync(locals);
 
+    await locals.emit("$beforeInit");
     await locals.emit("$onInit");
 
     return locals;
@@ -330,7 +331,7 @@ export class InjectorService extends Container {
     const mergedConfiguration = new Map();
 
     super.forEach((provider) => {
-      if (provider.configuration) {
+      if (provider.configuration && provider.type !== "server:module") {
         Object.entries(provider.configuration).forEach(([key, value]) => {
           value = mergedConfiguration.has(key) ? deepMerge(mergedConfiguration.get(key), value) : deepClone(value);
           mergedConfiguration.set(key, value);

@@ -8,8 +8,8 @@ import {
   Controller,
   InjectorService,
   Module,
-  OnReady,
-  normalizePath
+  normalizePath,
+  OnReady
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
@@ -64,11 +64,14 @@ describe("PlatformBuilder", () => {
 
   @Configuration(settings as any)
   class ServerModule implements BeforeInit, AfterInit, BeforeRoutesInit, AfterRoutesInit, BeforeListen, AfterListen, OnReady {
+    constructor() {}
+
     $beforeRoutesInit(): void | Promise<any> {
       return undefined;
     }
 
     $afterRoutesInit(): void | Promise<any> {
+      console.log("$afterRoutesInit");
       return undefined;
     }
 
@@ -120,14 +123,6 @@ describe("PlatformBuilder", () => {
       });
 
       // THEN
-      expect(server.rootModule.$beforeRoutesInit).to.have.been.calledWithExactly();
-      expect(server.rootModule.$afterRoutesInit).to.have.been.calledWithExactly();
-      expect(server.rootModule.$afterInit).to.have.been.calledWithExactly();
-      expect(server.rootModule.$beforeInit).to.have.been.calledWithExactly();
-      expect(server.injector.emit).to.have.been.calledWithExactly("$beforeRoutesInit");
-      expect(server.injector.emit).to.have.been.calledWithExactly("$afterRoutesInit");
-      expect(server.injector.emit).to.not.have.been.calledWithExactly("$afterInit");
-      expect(server.injector.emit).to.not.have.been.calledWithExactly("$beforeInit");
 
       await server.listen();
       // THEN
@@ -135,9 +130,9 @@ describe("PlatformBuilder", () => {
       expect(server.listenServers).to.have.been.calledWithExactly();
       expect(server.loadStatics).to.have.been.calledWithExactly("$beforeRoutesInit");
       expect(server.loadStatics).to.have.been.calledWithExactly("$afterRoutesInit");
-      expect(server.rootModule.$afterListen).to.have.been.calledWithExactly();
-      expect(server.rootModule.$beforeListen).to.have.been.calledWithExactly();
-      expect(server.rootModule.$onReady).to.have.been.calledWithExactly();
+      expect(server.injector.emit).to.have.been.calledWithExactly("$afterInit");
+      expect(server.injector.emit).to.have.been.calledWithExactly("$beforeRoutesInit");
+      expect(server.injector.emit).to.have.been.calledWithExactly("$afterRoutesInit");
       expect(server.injector.emit).to.have.been.calledWithExactly("$afterListen");
       expect(server.injector.emit).to.have.been.calledWithExactly("$beforeListen");
       expect(server.injector.emit).to.have.been.calledWithExactly("$onServerReady");

@@ -60,8 +60,8 @@ export class Server {
   viewsDir: string;
 
   $onInit() {
-    this.app.getApp().set("query parser", (queryString: string) => {
-      return parse(queryString);
-    });
+    // this.app.getApp().set("query parser", (queryString: string) => {
+    //   return parse(queryString, undefined, undefined, {});
+    // });
   }
 }
