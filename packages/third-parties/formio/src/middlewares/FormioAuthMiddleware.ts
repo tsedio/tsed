@@ -13,7 +13,7 @@ export class FormioAuthMiddleware {
   @Inject()
   protected formio: FormioService;
 
-  get tokenHandler() {
+  get tokenHandler(): any {
     return promisify(this.formio.middleware.tokenHandler);
   }
 

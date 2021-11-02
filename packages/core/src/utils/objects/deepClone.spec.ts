@@ -59,4 +59,23 @@ describe("deepClone", () => {
 
     expect(deepClone(new Test("test"))).instanceOf(Test);
   });
+  it("should clone object with circular obj", () => {
+    const original = {
+      posts: [
+        {
+          id: 0,
+          user: {}
+        }
+      ],
+      user: {
+        id: 1,
+        posts: [] as any[]
+      }
+    };
+
+    original.posts[0].user = original.user;
+    original.user.posts.push(original.posts[0]);
+
+    expect(deepClone(original)).to.deep.eq(original);
+  });
 });

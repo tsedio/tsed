@@ -2,6 +2,7 @@ import {Inject, Injectable, InjectorService} from "@tsed/common";
 import {promisify} from "util";
 import {FormioHooks} from "../domain/FormioHooks";
 import {FormioService} from "./FormioService";
+import {Request} from "express";
 
 @Injectable()
 export class FormioHooksService {
@@ -11,7 +12,7 @@ export class FormioHooksService {
   @Inject(FormioService)
   protected formio: FormioService;
 
-  get settings() {
+  get settings(): (req: Request, cb: Function) => void {
     return this.formio.hook.settings;
   }
 
