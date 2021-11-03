@@ -82,7 +82,6 @@ describe("Swagger integration", () => {
             path: "/v3/doc",
             specVersion: "3.0.1",
             operationIdFormatter(name: string, propertyKey, path: string) {
-              console.log('=====')
               return name + "__" + propertyKey;
             },
             showExplorer: true
