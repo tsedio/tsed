@@ -1,6 +1,7 @@
 import {deserialize} from "@tsed/json-mapper";
 import {CollectionOf, Ignore, JsonHookContext, Name, Property} from "@tsed/schema";
 import {expect} from "chai";
+import {parse} from "querystring";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
 import "../components/ArrayMapper";
@@ -33,6 +34,16 @@ describe("serialize()", () => {
       expect(serialize({test: "test"}, {type: false})).to.deep.eq({test: "test"});
       expect(serialize({test: "test"}, {type: null})).to.deep.eq({test: "test"});
       expect(serialize({test: "test"}, {type: undefined})).to.deep.eq({test: "test"});
+    });
+    it("should serialize parsed querystring", () => {
+      expect(serialize({qs: parse("q[offset]=0&q[limit]=10&q[where][a]=0&q[where][b]=1")})).to.deep.eq({
+        qs: {
+          "q[limit]": "10",
+          "q[offset]": "0",
+          "q[where][a]": "0",
+          "q[where][b]": "1"
+        }
+      });
     });
   });
   describe("Array<primitive>", () => {

@@ -1,16 +1,4 @@
-import {
-  classOf,
-  isArray,
-  isClass,
-  isClassObject,
-  isCollection,
-  isEmpty,
-  isFunction,
-  isNil,
-  MetadataTypes,
-  objectKeys,
-  Type
-} from "@tsed/core";
+import {classOf, isArray, isClassObject, isCollection, isEmpty, isFunction, isNil, MetadataTypes, objectKeys, Type} from "@tsed/core";
 import {alterIgnore, getPropertiesStores, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
 import "../components";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
@@ -106,7 +94,11 @@ function toObject(obj: any, options: JsonSerializerOptions): any {
 function getBestType(type: Type<any>, obj: any) {
   const dataType = classOf(obj);
 
-  return isClass(dataType) ? dataType : type;
+  if (dataType && !isClassObject(dataType)) {
+    return dataType;
+  }
+
+  return type || Object;
 }
 
 export function serialize(obj: any, {type, collectionType, groups = false, ...options}: JsonSerializerOptions = {}): any {
@@ -126,19 +118,12 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     return serialize(obj.toJSON(), {...options, type: classOf(obj)});
   }
 
-  // prevent Object metadata assignation. TypeScript set Object by default on endpoint.type
-  type = type === Object ? undefined : type;
-
-  if (type && isClass(type)) {
+  if (!isCollection(obj)) {
     options.type = type = getBestType(type, obj);
-  }
-
-  if (isCollection(obj) && !options.collectionType) {
+  } else if (!options.collectionType) {
     type = classOf(obj);
     options.collectionType = type;
   }
-
-  type = classOf(type || obj);
 
   const context = new JsonMapperContext({
     type,
