@@ -45,7 +45,7 @@
     "@tsed/di": "^6.75.11",
     "@tsed/exceptions": "^6.75.11",
     "@tsed/json-mapper": "^6.75.11",
-    "@tsed/logger": "^5.16.0",
+    "@tsed/logger": "^6.0.0",
     "@tsed/openspec": "^6.75.11",
     "@tsed/schema": "^6.75.11",
     "apollo-datasource": "^0.7.3",

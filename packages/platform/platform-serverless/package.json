@@ -19,11 +19,12 @@
     "@tsed/di": "6.75.11",
     "@tsed/exceptions": "6.75.11",
     "@tsed/json-mapper": "6.75.11",
-    "@tsed/logger": "^5.17.0",
+    "@tsed/logger": "^6.0.0",
     "@tsed/platform-exceptions": "6.75.11",
     "@tsed/platform-params": "6.75.11",
     "@tsed/schema": "6.75.11",
     "encodeurl": "^1.0.2",
+    "find-my-way": "^4.3.3",
     "mime": "^2.5.2",
     "tslib": "2.2.0",
     "uuid": "^8.3.2"

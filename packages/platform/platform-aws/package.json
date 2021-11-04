@@ -57,13 +57,13 @@
     "tslib": "2.2.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.75.11",
-    "@tsed/core": "^6.75.11",
-    "@tsed/di": "^6.75.11",
-    "@tsed/json-mapper": "^6.75.11",
-    "@tsed/logger": "^5.16.0",
-    "@tsed/openspec": "^6.75.11",
-    "@tsed/schema": "^6.75.11",
+    "@tsed/common": "6.75.11",
+    "@tsed/core": "6.75.11",
+    "@tsed/di": "6.75.11",
+    "@tsed/json-mapper": "6.75.11",
+    "@tsed/logger": ">=6.0.0",
+    "@tsed/openspec": "6.75.11",
+    "@tsed/schema": "6.75.11",
     "aws-serverless-express": "^3.4.0"
   }
 }
