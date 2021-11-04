@@ -24,7 +24,6 @@ class CustomServer {
 class TestQueryParamsCtrl {
   @Get("/scenario-1")
   testScenario1(@QueryParams() qs: any) {
-    console.log(qs);
     return { qs };
   }
 }

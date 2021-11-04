@@ -3320,36 +3320,30 @@
     fs-extra "^10.0.0"
     tslib "2.2.0"
 
-"@tsed/logger-seq@^5.16.0":
-  version "5.16.0"
-  resolved "https://registry.yarnpkg.com/@tsed/logger-seq/-/logger-seq-5.16.0.tgz#6acb97544dde323dca525ffc279388d0cde69715"
-  integrity sha512-XdJxhueUM/AkJNiHTQy8LCYse7tlrFlIuCyw2ujeWctAWJJO2b2KeJND8+WEZh4hcWuGVqCQBZJbzmnkeXqKlw==
+"@tsed/logger-file@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@tsed/logger-file/-/logger-file-6.0.0.tgz#f26dc477a5d05aa2dc9d77386eb6cb547ecc8e7c"
+  integrity sha512-/vTa0GAd5kuBuz4CkfSsSmHeeoiu7i/HVAIzzFow2HqGNa3VKvQ7Q2aHP2I4WivCv9TEDV7QnBQa5uZay07oNQ==
+  dependencies:
+    streamroller "^1.0.3"
+    tslib "2.3.0"
+
+"@tsed/logger-seq@>=6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@tsed/logger-seq/-/logger-seq-6.0.0.tgz#fd3546da35b67e9be20ec1e22cd0ef32a356e72c"
+  integrity sha512-7I5SQyO+3U/pcTsKyMKfgVMUmqSqE/3l4gwo9BVKgP+ulhe3rHY+bSYI8tHFuunoAhPI4oxibJnY9+NyOa2UeA==
   dependencies:
     seq-logging "0.5.0"
     tslib "2.3.0"
 
-"@tsed/logger@^5.16.0":
-  version "5.16.0"
-  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-5.16.0.tgz#0ae28a771a1682bc2931cbe7839d62a70ff299bd"
-  integrity sha512-ikoyUYe9LXEICCk0j+u+87I+sX+QyFNsnRTQpC48DRJXYP0xR0nDU0zABov+M0uYY5KWcr9nRpJBA9HVJzobow==
+"@tsed/logger@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-6.0.0.tgz#544af2ef79c5243d294575d72933cf1cf79ec611"
+  integrity sha512-h1dia9hIhtLIahJuD6mXfW/qgAbACoK+m2Bc43b0EvKMYjfEuZbb0SZ+W3fO1xAIS9oUIG3rm96s8gVMbckXfg==
   dependencies:
     colors "^1.3.3"
     date-format "^3.0.0"
-    lodash "^4.17.21"
     semver "^7.3.2"
-    streamroller "^1.0.3"
-    tslib "2.3.0"
-
-"@tsed/logger@^5.17.0":
-  version "5.17.0"
-  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-5.17.0.tgz#ec99e161112eca39c11f825a95fd892d76071822"
-  integrity sha512-co8DdRgtQaisudEQFP2/7y/ji9bnB9QrJYfEr0SEqdHIBJdwuq8joo2vyfOY8ht/w5LOcqo2NVebtwULSsD9Pg==
-  dependencies:
-    colors "^1.3.3"
-    date-format "^3.0.0"
-    lodash "^4.17.21"
-    semver "^7.3.2"
-    streamroller "^1.0.3"
     tslib "2.3.0"
 
 "@tsed/monorepo-utils@1.19.1":
@@ -9314,6 +9308,16 @@ find-my-way@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/find-my-way/-/find-my-way-4.1.0.tgz#e70aa10b3670cc8be96eb251357705644ea5087b"
   integrity sha512-UBD94MdO6cBi6E97XA0fBA9nwqw+xG5x1TYIPHats33gEi/kNqy7BWHAWx8QHCQQRSU5Txc0JiD8nzba39gvMQ==
+  dependencies:
+    fast-decode-uri-component "^1.0.1"
+    fast-deep-equal "^3.1.3"
+    safe-regex2 "^2.0.0"
+    semver-store "^0.3.0"
+
+find-my-way@^4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/find-my-way/-/find-my-way-4.3.3.tgz#2ab3880a03bcaa8594548d66b0cd1c5a6e98dd44"
+  integrity sha512-5E4bRdaATB1MewjOCBjx4xvD205a4t2ripCnXB+YFhYEJ0NABtrcC7XLXLq0TPoFe/WYGUFqys3Qk3HCOGeNcw==
   dependencies:
     fast-decode-uri-component "^1.0.1"
     fast-deep-equal "^3.1.3"
