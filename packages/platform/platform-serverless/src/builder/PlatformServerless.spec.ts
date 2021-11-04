@@ -1,5 +1,5 @@
-import {Inject, Injectable, Controller} from "@tsed/di";
-import {Lambda, PathParams, PlatformServerless, PlatformServerlessTest, QueryParams} from "@tsed/platform-serverless";
+import {Controller, Inject, Injectable} from "@tsed/di";
+import {Get, PathParams, PlatformServerless, PlatformServerlessTest, QueryParams} from "@tsed/platform-serverless";
 
 @Injectable()
 class TimeslotsService {
@@ -13,7 +13,7 @@ class TimeslotsLambdaController {
   @Inject()
   protected timeslotsService: TimeslotsService;
 
-  @Lambda()
+  @Get("/")
   get(@QueryParams("start_date") startDate: Date, @QueryParams("end_date") endDate: Date) {
     return {
       value: this.timeslotsService.get(),
@@ -22,7 +22,7 @@ class TimeslotsLambdaController {
     };
   }
 
-  @(Lambda().Name("byID"))
+  @(Get("/").Name("byID"))
   getByID(@PathParams("id") id: string) {
     return {
       id
@@ -42,7 +42,7 @@ describe("PlatformServerless", () => {
 
   it("should load lambda", () => {
     const handlers = PlatformServerlessTest.callbacks;
-
+    console.log(handlers);
     expect(handlers).toHaveProperty("get");
     expect(handlers).toHaveProperty("byID");
   });
