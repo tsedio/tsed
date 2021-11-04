@@ -1,7 +1,7 @@
 import {Env, Type} from "@tsed/core";
 import {createContainer, InjectorService, setLoggerLevel} from "@tsed/di";
 import {$log, Logger} from "@tsed/logger";
-import {JsonEntityStore} from "@tsed/schema";
+import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import type {
   APIGatewayEventDefaultAuthorizerContext,
   APIGatewayProxyEventBase,
@@ -42,29 +42,24 @@ export class PlatformServerless {
     return platform;
   }
 
-  public callbacks(tokens: Type | Type[] = [], exports = {}): Record<string, APIGatewayProxyHandler> {
-    return this.settings
+  public callbacks(tokens: Type | Type[] = [], callbacks: any = {}): Record<string, APIGatewayProxyHandler> {
+    callbacks = this.settings
       .get<Type[]>("lambda", [])
       .concat(tokens)
-      .map((token) => {
-        const store = JsonEntityStore.from(token);
+      .reduce((callbacks, token) => {
+        const routes = getOperationsRoutes(token);
 
-        return [...store.children.values()].reduce((list, store) => {
-          if (store.operation) {
-            const operationId = store.operation.get("operationId") || store.propertyKey;
+        return routes.reduce((callbacks, operationRoute) => {
+          const {operationId, token, propertyName} = operationRoute;
 
-            return [...list, {store, operationId}];
-          }
-          return list;
-        }, []);
-      })
-      .flat()
-      .reduce((exports, {store, operationId}) => {
-        return {
-          ...exports,
-          [operationId]: this.callback(store.token, store.propertyName)
-        };
-      }, exports);
+          return {
+            ...callbacks,
+            [operationId]: this.callback(token, propertyName)
+          };
+        }, callbacks);
+      }, callbacks);
+
+    return callbacks;
   }
 
   public callback(token: Type<any>, propertyKey: string): APIGatewayProxyHandler {

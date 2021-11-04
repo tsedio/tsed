@@ -57,6 +57,10 @@ export class JsonOperationRoute<Entity extends JsonEntityStore = JsonEntityStore
     return this.endpoint.propertyName;
   }
 
+  get propertyName() {
+    return this.endpoint.propertyName;
+  }
+
   get store() {
     return this.endpoint.store;
   }

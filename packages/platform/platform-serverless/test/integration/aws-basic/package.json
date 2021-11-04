@@ -6,13 +6,13 @@
     "invoke": "serverless invoke local -f timeslots"
   },
   "dependencies": {
-    "@tsed/di": "^6.69.2",
-    "@tsed/schema": "^6.69.2",
-    "@tsed/platform-serverless": "^6.69.2",
     "microbundle": "0.13.0",
     "serverless-offline": "^8.2.0"
   },
   "devDependencies": {
-
+    "@tsed/di": "^6.75.11",
+    "@tsed/schema": "^6.75.11",
+    "@tsed/logger": "^6.0.0",
+    "@tsed/platform-serverless": "^6.75.11"
   }
 }

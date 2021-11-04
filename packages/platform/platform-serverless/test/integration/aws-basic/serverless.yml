@@ -17,3 +17,12 @@ functions:
       - http:
           path: /
           method: get
+  any:
+    handler: handler.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
