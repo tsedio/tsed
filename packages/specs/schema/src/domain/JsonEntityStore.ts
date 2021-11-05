@@ -39,9 +39,19 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
    */
   readonly children: Map<string | number, JsonEntityStore> = new Map();
   /**
-   * Path used to generate open spec.
+   * Ref to JsonSchema
    */
-  public path: string = "/";
+  protected _schema: JsonSchema;
+  /**
+   * Ref to JsonOperation when the decorated object is a method.
+   */
+  protected _operation: JsonOperation;
+  /**
+   * Ref to JsonParameter when the decorated object is a parameter.
+   */
+  protected _parameter: JsonParameter;
+
+  [key: string]: any;
 
   constructor(options: JsonEntityStoreOptions) {
     super(options);
@@ -55,11 +65,13 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
     this.build();
   }
 
-  /**
-   * Ref to JsonSchema
-   */
-  protected _schema: JsonSchema;
+  get path() {
+    return this.store.get("path", "/");
+  }
 
+  set path(path: string) {
+    this.store.set("path", path);
+  }
   /**
    * Return the JsonSchema
    */
@@ -67,24 +79,12 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
     return this._schema;
   }
 
-  [key: string]: any;
-
-  /**
-   * Ref to JsonOperation when the decorated object is a method.
-   */
-  protected _operation: JsonOperation;
-
   /**
    * Return the JsonOperation
    */
   get operation(): JsonOperation | undefined {
     return this._operation;
   }
-
-  /**
-   * Ref to JsonParameter when the decorated object is a parameter.
-   */
-  protected _parameter: JsonParameter;
 
   /**
    * Return the JsonParameter
@@ -208,6 +208,10 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
 
   static fromMethod(target: any, propertyKey: string | symbol) {
     return this.from(target, propertyKey, descriptorOf(target, propertyKey));
+  }
+
+  get<T = any>(key: string, defaultValue?: any) {
+    return this.store.get<T>(key, defaultValue);
   }
 
   getResponseOptions(status: number, contentType: string = "application/json"): undefined | any {
