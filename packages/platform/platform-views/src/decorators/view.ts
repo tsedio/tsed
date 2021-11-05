@@ -1,4 +1,4 @@
-import {JsonEntityFn} from "@tsed/schema";
+import {StoreSet} from "@tsed/core";
 
 /**
  * Use a view and sends the rendered HTML string to the client. Optional parameter:
@@ -23,7 +23,5 @@ import {JsonEntityFn} from "@tsed/schema";
  * @response
  */
 export function View(path: string, options?: Object): MethodDecorator {
-  return JsonEntityFn((entity) => {
-    entity.view = {path, options};
-  });
+  return StoreSet("view", {path, options}) as any;
 }

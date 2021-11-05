@@ -2,6 +2,7 @@ import {StoreSet} from "@tsed/core";
 import {expect} from "chai";
 import {All, Children, Get, getOperationsRoutes, Path} from "@tsed/schema";
 import {JsonOperationRoute} from "../domain/JsonOperationRoute";
+import {Context} from "@tsed/platform-params";
 
 function getData(operationRoute: JsonOperationRoute) {
   return {
@@ -49,6 +50,9 @@ describe("getOperationsRoutes()", () => {
 
       @All("/all")
       all() {}
+
+      @StoreSet("test", "test-ignore")
+      shouldBeIgnored(@Context() ctx: Context) {}
     }
 
     const operationsRoutes = getOperationsRoutes(Test);
@@ -105,6 +109,18 @@ describe("getOperationsRoutes()", () => {
         isFinal: true
       }
     ]);
+  });
+  it("should ignore method not decorated with the right decorator", () => {
+    // GIVEN
+    @Path("/test")
+    class Test {
+      @StoreSet("test", "test-ignore")
+      shouldBeIgnored(@Context() ctx: Context) {}
+    }
+
+    const operationsRoutes = getOperationsRoutes(Test);
+
+    expect(operationsRoutes.map(getData)).to.deep.eq([]);
   });
   it("should return operations routes with children", () => {
     @Path("/deep")

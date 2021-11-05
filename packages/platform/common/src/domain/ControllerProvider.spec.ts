@@ -28,10 +28,6 @@ describe("ControllerProvider", () => {
     expect(controllerProvider.path).to.equal("/");
   });
 
-  it("should get endpoints", () => {
-    expect(controllerProvider.endpoints).to.be.an("array").and.have.length(0);
-  });
-
   it("should get children", () => {
     expect(controllerProvider.children).to.be.an("array").and.have.length(0);
   });

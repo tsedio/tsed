@@ -1,7 +1,7 @@
 import {Inject, Injectable, InjectorService, PathType, ProviderScope} from "@tsed/di";
 import {promisify} from "util";
 import {PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "../config";
-import {PlatformRouteWithoutHandlers, PlatformRouteOptions} from "../interfaces";
+import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces";
 import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformHandler} from "./PlatformHandler";
 
@@ -66,11 +66,11 @@ export class PlatformRouter<Router = TsED.Router> {
     return this;
   }
 
-  addRoute(options: PlatformRouteOptions) {
-    const {method, path, handlers, isFinal} = options;
+  addRoute(options: Partial<PlatformRouteOptions>) {
+    const {method, path, handlers, ...opts} = options;
 
     // @ts-ignore
-    this.getRouter()[method](path, ...this.mapHandlers(handlers, {method, path, isFinal}));
+    this.getRouter()[method](path, ...this.mapHandlers(handlers, {method, path, ...opts}));
 
     return this;
   }

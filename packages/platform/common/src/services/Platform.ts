@@ -1,10 +1,11 @@
 import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
+import {concatPath, getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import {PlatformControllerBuilder} from "../builder/PlatformControllerBuilder";
 import {ControllerProvider, EndpointMetadata, PlatformRouteDetails} from "../domain";
 import {Route, RouteController} from "../interfaces/Route";
-import {getControllerPath} from "../utils/getControllerPath";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformRouter} from "./PlatformRouter";
+import "../registries/ControllerRegistry";
 
 /**
  * `Platform` is used to provide all routes collected by annotation `@Controller`.
@@ -30,37 +31,45 @@ export class Platform {
     return this._routes;
   }
 
-  protected $onInit() {
-    this.buildControllers();
-  }
-
   public addRoutes(routes: Route[]) {
     routes.forEach((routeSettings) => {
       this.addRoute(routeSettings.route, routeSettings.token);
     });
   }
 
-  public addRoute(endpoint: string, token: TokenProvider) {
+  public addRoute(basePath: string, token: TokenProvider) {
     const {injector} = this;
+    const provider = injector.getProvider(token) as ControllerProvider;
 
-    if (injector.hasProvider(token)) {
-      const provider: ControllerProvider = injector.getProvider(token)! as any;
-
-      if (provider.type === ProviderType.CONTROLLER) {
-        const route = getControllerPath(endpoint, provider);
-        if (!provider.hasParent()) {
-          const routes = this.buildRoutes(route, provider);
-
-          this._routes.push(...routes);
-          this._controllers.push({
-            route,
-            provider
-          });
-
-          this.app.use(route, ...[].concat(provider.getRouter().callback()));
-        }
-      }
+    if (!provider || provider.hasParent()) {
+      return;
     }
+
+    const ctrlPath = concatPath(basePath, JsonEntityStore.from(provider.token).path);
+
+    this._controllers.push({
+      route: ctrlPath,
+      provider
+    });
+
+    this.app.use(ctrlPath, ...[].concat(provider.getRouter().callback()));
+
+    this._routes = getOperationsRoutes<EndpointMetadata>(provider.token, {
+      withChildren: true,
+      basePath
+    }).reduce((routes, operationRoute) => {
+      if (injector.hasProvider(token)) {
+        const provider = injector.getProvider(operationRoute.token) as ControllerProvider;
+        const route = new PlatformRouteDetails({
+          ...operationRoute,
+          provider
+        });
+
+        return routes.concat(route);
+      }
+
+      return routes;
+    }, this._routes);
 
     return this;
   }
@@ -75,6 +84,10 @@ export class Platform {
 
   public getMountedControllers(): RouteController[] {
     return this._controllers;
+  }
+
+  protected $onInit() {
+    this.buildControllers();
   }
 
   /**
@@ -101,39 +114,5 @@ export class Platform {
         return new PlatformControllerBuilder(provider as ControllerProvider).build(injector);
       }
     });
-  }
-
-  /**
-   *
-   * @param ctrl
-   * @param endpointUrl
-   */
-  private buildRoutes(endpointUrl: string, ctrl: ControllerProvider): PlatformRouteDetails[] {
-    const {injector} = this;
-
-    let routes: PlatformRouteDetails[] = [];
-
-    routes = ctrl.children
-      .map((ctrl) => injector.getProvider(ctrl))
-      .reduce((routes: PlatformRouteDetails[], provider: ControllerProvider) => {
-        return routes.concat(this.buildRoutes(`${endpointUrl}${provider.path}`, provider));
-      }, routes);
-
-    ctrl.endpoints.forEach((endpoint: EndpointMetadata) => {
-      endpoint.operationPaths.forEach(({path, method}) => {
-        if (method) {
-          routes.push(
-            new PlatformRouteDetails({
-              provider: ctrl,
-              endpoint,
-              method,
-              url: `${endpointUrl}${path || ""}`.replace(/\/\//gi, "/")
-            })
-          );
-        }
-      });
-    });
-
-    return routes;
   }
 }

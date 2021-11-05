@@ -38,7 +38,7 @@ if (process.env.NODE_ENV !== "test") {
     try {
       const platform = await PlatformExpress.bootstrap(Server, {
         logger: {
-          perf: true
+          perf: false
         },
         mount: {"/rest": [HelloWorld]}
       });
