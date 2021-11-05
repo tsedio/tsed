@@ -1,3 +1,6 @@
+// class
+export * from "./class/children";
+
 // collections
 export * from "./collections/collectionContains";
 export * from "./collections/collectionOf";

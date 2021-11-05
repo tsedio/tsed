@@ -1,17 +1,19 @@
 import {Type} from "@tsed/core";
 import type {JsonEntityStore} from "../domain/JsonEntityStore";
+import {JsonOperationPathsMap} from "../domain/JsonOperationPathsMap";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 
 /**
  * @ignore
  */
-export function getOperationsStores<T = JsonEntityStore>(target: Type<any> | any): Map<string, T> {
+export function getOperationsStores<T extends JsonEntityStore = JsonEntityStore>(target: Type<any> | any): Map<string, T> {
   const store: any = target.isStore ? target : getJsonEntityStore(target);
 
   if (!store.$operations) {
     const stores = getInheritedStores(store);
-    store.$operations = new Map();
+    const operationPaths = new JsonOperationPathsMap();
+    store.$operations = new Map<string, T>();
 
     stores.forEach((currentStore) => {
       currentStore.children.forEach((propStore) => {
@@ -20,6 +22,14 @@ export function getOperationsStores<T = JsonEntityStore>(target: Type<any> | any
         }
       });
     });
+
+    store.$operations.forEach((store: JsonEntityStore) => {
+      store.operation?.operationPaths.forEach((operationPath) => {
+        operationPaths.setOperationPath(operationPath);
+      });
+    });
+
+    operationPaths.clear();
   }
 
   return store.$operations;

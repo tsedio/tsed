@@ -1,6 +1,7 @@
-import {isArrayOrArrayClass, Store, Type} from "@tsed/core";
+import {isArrayOrArrayClass, Type, useDecorators} from "@tsed/core";
 import {IProvider} from "../interfaces/IProvider";
 import {registerController} from "../registries/ProviderRegistry";
+import {Children} from "@tsed/schema";
 
 export type PathType = string | RegExp | (string | RegExp)[];
 
@@ -58,16 +59,10 @@ function mapOptions(options: any): ControllerOptions {
 export function Controller(options: PathType | ControllerOptions): ClassDecorator {
   const {children = [], ...opts} = mapOptions(options);
 
-  return (target) => {
+  return useDecorators((target: Type) => {
     registerController({
       provide: target,
       ...opts
     });
-
-    Store.from(target).set("childrenControllers", children);
-
-    children.forEach((childToken) => {
-      Store.from(childToken).set("parentController", target);
-    });
-  };
+  }, Children(...children));
 }
