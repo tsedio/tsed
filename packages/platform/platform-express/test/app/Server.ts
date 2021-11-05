@@ -14,7 +14,7 @@ export const rootDir = __dirname;
 @Configuration({
   port: 8081,
   logger: {
-    level: "off"
+    level: "info"
   },
   statics: {
     "/": `${rootDir}/public`

@@ -11,7 +11,6 @@ export class Provider<T = any> implements IProvider<T> {
   public useFactory: Function;
   public useAsyncFactory: Function;
   public useValue: any;
-
   private _useClass: Type<T>;
   private _provide: TokenProvider;
   private _store: Store;
@@ -64,8 +63,16 @@ export class Provider<T = any> implements IProvider<T> {
     return nameOf(this.provide);
   }
 
-  public get store(): Store {
+  get store(): Store {
     return this._store;
+  }
+
+  get path() {
+    return this.store.get("path", "/");
+  }
+
+  set path(path: string) {
+    this.store.set("path", path);
   }
 
   /**
@@ -101,6 +108,10 @@ export class Provider<T = any> implements IProvider<T> {
     this.store.set("configuration", configuration);
   }
 
+  get children(): TokenProvider[] {
+    return this.store.get("childrenControllers", []);
+  }
+
   get(key: string) {
     return this.store.get(key) || this._tokenStore.get(key);
   }
@@ -111,6 +122,22 @@ export class Provider<T = any> implements IProvider<T> {
 
   clone(): Provider {
     return new (classOf(this))(this._provide, this);
+  }
+
+  /**
+   *
+   * @returns {boolean}
+   */
+  public hasChildren(): boolean {
+    return !!this.children.length;
+  }
+
+  /**
+   *
+   * @returns {boolean}
+   */
+  public hasParent(): boolean {
+    return !!this.store.get("parentController");
   }
 
   toString() {

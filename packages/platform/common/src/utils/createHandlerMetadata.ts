@@ -23,7 +23,7 @@ export function createHandlerMetadata(
   let options: HandlerMetadataOptions;
 
   if (obj instanceof EndpointMetadata) {
-    const provider = injector.getProvider(obj.token)!;
+    const provider = injector.getProvider(routeOptions.token)!;
 
     options = {
       token: provider.token,

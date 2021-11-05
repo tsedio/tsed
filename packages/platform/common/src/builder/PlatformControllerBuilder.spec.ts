@@ -73,9 +73,6 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
     endpoint.middlewares = [function endpointUse() {}];
   }
 
-  // @ts-ignore
-  EndpointMetadata.getEndpoints.returns([endpoint]);
-
   const controllerBuilder = new PlatformControllerBuilder(provider);
 
   return {endpoint, router, provider, injector, controllerBuilder, TestCtrl};
@@ -88,7 +85,6 @@ describe("PlatformControllerBuilder", () => {
     sandbox.stub(PlatformRouter, "createRawRouter");
     // @ts-ignore
     sandbox.stub(PlatformRouter.prototype, "mapHandlers").callsFake((o) => o);
-    sandbox.stub(EndpointMetadata, "getEndpoints");
   });
   afterEach(() => {
     sandbox.restore();
@@ -119,81 +115,5 @@ describe("PlatformControllerBuilder", () => {
       endpoint.afterMiddlewares[0],
       provider.middlewares.useAfter[0]
     );
-  });
-
-  it("should build controller with only route configured", () => {
-    // GIVEN
-    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder({propertyKey: "use"});
-
-    endpoint.addOperationPath(OperationMethods.CUSTOM, "/");
-
-    // WHEN
-    const result = controllerBuilder.build(injector);
-
-    // THEN
-    expect(result).to.be.instanceof(PlatformRouter);
-    expect(router.use.getCall(0)).to.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
-
-    // ENDPOINT
-    expect(router.use.getCall(1)).to.have.been.calledWithExactly(
-      "/",
-      Sinon.match.func,
-      PlatformAcceptMimesMiddleware,
-      endpoint.beforeMiddlewares[0],
-      provider.middlewares.use[0],
-      endpoint.middlewares[0],
-      endpoint,
-      endpoint.afterMiddlewares[0],
-      provider.middlewares.useAfter[0]
-    );
-  });
-
-  it("should build controller without route and method", () => {
-    // GIVEN
-    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder({propertyKey: "use2"});
-
-    // WHEN
-    const result = controllerBuilder.build(injector);
-
-    // THEN
-    expect(result).to.be.instanceof(PlatformRouter);
-    expect(router.use.getCall(0)).to.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
-
-    // ENDPOINT
-    expect(router.use.getCall(1)).to.have.been.calledWithExactly(
-      Sinon.match.func,
-      PlatformAcceptMimesMiddleware,
-      endpoint.beforeMiddlewares[0],
-      provider.middlewares.use[0],
-      endpoint.middlewares[0],
-      endpoint,
-      endpoint.afterMiddlewares[0],
-      provider.middlewares.useAfter[0]
-    );
-  });
-
-  it("should build controller with a all endpoint and get endpoint", () => {
-    // GIVEN
-    const {endpoint, controllerBuilder, router, injector, TestCtrl} = getControllerBuilder({
-      propertyKey: "getMethod",
-      withMiddleware: false
-    });
-
-    endpoint.addOperationPath(OperationMethods.GET, "/", {isFinal: true});
-
-    const endpointAll = EndpointMetadata.get(TestCtrl, "allMethod");
-    endpoint.addOperationPath(OperationMethods.ALL, "/", {isFinal: true});
-
-    // @ts-ignore
-    EndpointMetadata.getEndpoints.returns([endpointAll, endpoint]);
-
-    // WHEN
-    const result = controllerBuilder.build(injector);
-
-    // THEN
-    expect(result).to.be.instanceof(PlatformRouter);
-    // ENDPOINT
-    expect(router.use.getCall(0)).to.have.been.calledWithExactly("/", Sinon.match.func, PlatformAcceptMimesMiddleware, endpointAll);
-    expect(router.use.getCall(1)).to.have.been.calledWithExactly("/", Sinon.match.func, PlatformAcceptMimesMiddleware, endpoint);
   });
 });

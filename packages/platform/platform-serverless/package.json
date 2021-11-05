@@ -24,7 +24,6 @@
     "@tsed/platform-params": "6.75.12",
     "@tsed/schema": "6.75.12",
     "encodeurl": "^1.0.2",
-    "find-my-way": "^4.3.3",
     "mime": "^2.5.2",
     "tslib": "2.2.0",
     "uuid": "^8.3.2"

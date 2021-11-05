@@ -1,6 +1,7 @@
 import {ParamTypes} from "@tsed/platform-params";
 import {EndpointMetadata} from "./EndpointMetadata";
 import {ControllerProvider} from "./ControllerProvider";
+import {JsonOperationRoute} from "@tsed/schema";
 
 export interface PlatformRouterDetailsOptions {
   provider: ControllerProvider;
@@ -9,19 +10,17 @@ export interface PlatformRouterDetailsOptions {
   url: string;
 }
 
-export class PlatformRouteDetails {
-  readonly method: string;
-  readonly url: string;
+export class PlatformRouteDetails extends JsonOperationRoute<EndpointMetadata> {
   readonly rawBody: boolean;
-  readonly endpoint: EndpointMetadata;
   readonly provider: ControllerProvider;
 
-  constructor({provider, endpoint, method, url}: PlatformRouterDetailsOptions) {
-    this.provider = provider;
-    this.endpoint = endpoint;
-    this.method = method;
-    this.url = url;
-    this.rawBody = !!endpoint.params.find((param) => param.paramType === ParamTypes.RAW_BODY);
+  constructor(options: Partial<PlatformRouteDetails> = {}) {
+    super(options);
+    this.rawBody = !!this.endpoint.params.find((param) => param.paramType === ParamTypes.RAW_BODY);
+  }
+
+  get url() {
+    return this.fullPath;
   }
 
   get name() {

@@ -1,8 +1,6 @@
 import {Type} from "@tsed/core";
 import {InjectorService} from "@tsed/di";
-import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
-import {JsonMethodPath, OperationMethods} from "@tsed/schema";
-import {EndpointMetadata} from "../domain/EndpointMetadata";
+import {getOperationsRoutes, JsonOperationRoute, OperationMethods} from "@tsed/schema";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
 import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
@@ -10,6 +8,8 @@ import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesM
 import {PlatformMulterMiddleware} from "../middlewares/PlatformMulterMiddleware";
 import {PlatformRouter} from "../services/PlatformRouter";
 import {useCtxHandler} from "../utils/useCtxHandler";
+import {EndpointMetadata} from "../domain/EndpointMetadata";
+import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
 
 /**
  * @ignore
@@ -25,7 +25,6 @@ export class PlatformControllerBuilder {
   constructor(private provider: ControllerProvider) {}
 
   /**
-   *
    * @returns {any}
    */
   public build(injector: InjectorService): PlatformRouterMethods {
@@ -42,78 +41,50 @@ export class PlatformControllerBuilder {
   }
 
   private buildEndpoints() {
-    const {endpoints} = this.provider;
-    const operationPaths: Map<string, JsonMethodPath> = new Map();
-    const getKey = (method: string, path: any) => `${method}-${path}`;
-
-    const updateFinalRouteState = (key: string) => {
-      if (operationPaths.has(key)) {
-        operationPaths.get(key)!.isFinal = false;
-      }
-    };
-
-    const setFinalRoute = (key: string, operationPath: JsonMethodPath) => {
-      operationPaths.set(key, operationPath);
-      operationPath.isFinal = true;
-    };
-
-    endpoints.forEach(({operation}) => {
-      operation?.operationPaths.forEach((operationPath) => {
-        if (operationPath.method !== OperationMethods.CUSTOM) {
-          const key = getKey(operationPath.method, operationPath.path);
-          updateFinalRouteState(key);
-          updateFinalRouteState(getKey(OperationMethods.ALL, operationPath.path));
-
-          setFinalRoute(key, operationPath);
-        }
-      });
-    });
-
-    endpoints.forEach((endpoint) => {
-      this.buildEndpoint(endpoint);
+    getOperationsRoutes<EndpointMetadata>(this.provider.token).forEach((operationRoute) => {
+      this.buildEndpoint(operationRoute);
     });
 
     return this;
   }
 
-  private buildEndpoint(endpoint: EndpointMetadata) {
-    const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares, operation} = endpoint;
+  private buildEndpoint(operationRoute: JsonOperationRoute<EndpointMetadata>) {
+    let handlers = this.getMiddlewares(operationRoute);
+
+    const router = this.provider.getRouter<PlatformRouter>();
+    router.addRoute({
+      handlers,
+      token: operationRoute.token,
+      method: formatMethod(operationRoute.method),
+      path: operationRoute.path,
+      isFinal: operationRoute.isFinal
+    });
+  }
+
+  private getMiddlewares(operationRoute: JsonOperationRoute<EndpointMetadata>) {
+    const {endpoint} = operationRoute;
+    const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares} = endpoint;
+
     const {
       middlewares: {use, useAfter}
     } = this.provider;
 
-    const router = this.provider.getRouter<PlatformRouter>();
-    // Endpoint lifecycle
-    let handlers: any[] = [];
+    const hasFiles = [...operationRoute.endpoint.children.values()].find((item: ParamMetadata) => item.paramType === ParamTypes.FILES);
 
-    const hasFiles = [...endpoint.children.values()].find((item: ParamMetadata) => item.paramType === ParamTypes.FILES);
-
-    handlers = handlers
-      .concat(useCtxHandler(bindEndpointMiddleware(endpoint)))
-      .concat(PlatformAcceptMimesMiddleware)
-      .concat(hasFiles && PlatformMulterMiddleware)
-      .concat(beforeMiddlewares) // Endpoint before-middlewares
-      .concat(use) // Controller use-middlewares
-      // .concat(endpoint.cache && PlatformCacheMiddleware)
-      .concat(mldwrs) // Endpoint middlewares
-      .concat(endpoint) // Endpoint metadata
-      .concat(afterMiddlewares) // Endpoint after-middlewares
-      .concat(useAfter) // Controller after middlewares (equivalent to afterEach)
-      .filter((item: any) => !!item);
-
-    // Add handlers to the router
-    operation?.operationPaths.forEach(({path, method, isFinal}) => {
-      router.addRoute({
-        method: formatMethod(method),
-        path,
-        handlers,
-        isFinal
-      });
-    });
-
-    if (!operation?.operationPaths.size) {
-      router.use(...handlers);
-    }
+    return (
+      ([] as any[])
+        .concat(useCtxHandler(bindEndpointMiddleware(endpoint)))
+        .concat(PlatformAcceptMimesMiddleware)
+        .concat(hasFiles && PlatformMulterMiddleware)
+        .concat(beforeMiddlewares) // Endpoint before-middlewares
+        .concat(use) // Controller use-middlewares
+        // .concat(endpoint.cache && PlatformCacheMiddleware)
+        .concat(mldwrs) // Endpoint middlewares
+        .concat(endpoint) // Endpoint metadata
+        .concat(afterMiddlewares) // Endpoint after-middlewares
+        .concat(useAfter) // Controller after middlewares (equivalent to afterEach)
+        .filter((item: any) => !!item)
+    );
   }
 
   private buildChildrenCtrls(injector: InjectorService) {

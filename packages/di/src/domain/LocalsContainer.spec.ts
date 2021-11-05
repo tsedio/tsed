@@ -44,7 +44,7 @@ describe("LocalsContainer", () => {
       const container = new LocalsContainer<any>();
       container.set("TOKEN", instance);
 
-      const value = await container.alter("$alterValue", "value");
+      const value = await container.alterAsync("$alterValue", "value");
 
       expect(instance.$alterValue).to.have.been.calledWithExactly("value");
       expect(value).to.eq("alteredValue");

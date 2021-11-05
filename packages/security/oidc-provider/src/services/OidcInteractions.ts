@@ -39,7 +39,7 @@ export class OidcInteractions {
     }
 
     return interactionsProvider.children
-      .map((token: TokenProvider) => this.injector.getProvider(token))
+      .map((token: TokenProvider) => this.injector.getProvider(token)!)
       .filter((provider: Provider) => provider?.subType === INTERACTION);
   }
 

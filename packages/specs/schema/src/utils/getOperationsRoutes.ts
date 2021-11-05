@@ -44,16 +44,6 @@ export function getOperationsRoutes<Entity extends JsonEntityStore = JsonEntityS
           })
         );
       });
-
-      if (!operation.operationPaths.size) {
-        routes.push(
-          new JsonOperationRoute<Entity>({
-            basePath,
-            token,
-            endpoint
-          })
-        );
-      }
     }
 
     return routes;

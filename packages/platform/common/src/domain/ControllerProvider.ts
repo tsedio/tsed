@@ -1,45 +1,13 @@
 import {ControllerMiddlewares, Provider, ProviderType, TokenProvider} from "@tsed/di";
-import {JsonEntityStore} from "@tsed/schema";
 import {ROUTER_OPTIONS} from "../constants/routerOptions";
 import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
-import {EndpointMetadata} from "./EndpointMetadata";
 
 export class ControllerProvider<T = any> extends Provider<T> {
-  readonly entity: JsonEntityStore;
   private router: PlatformRouterMethods;
 
   constructor(provide: TokenProvider, options: Partial<Provider> = {}) {
     super(provide, options);
     this.type = ProviderType.CONTROLLER;
-    this.entity = JsonEntityStore.from(provide);
-  }
-
-  get path() {
-    return this.entity.path;
-  }
-
-  set path(path: string) {
-    this.entity.path = path;
-  }
-
-  /**
-   *
-   * @returns {EndpointMetadata[]}
-   */
-  get endpoints(): EndpointMetadata[] {
-    return EndpointMetadata.getEndpoints(this.provide);
-  }
-
-  get children(): TokenProvider[] {
-    return this.store.get("childrenControllers", []);
-  }
-
-  /**
-   *
-   * @returns {ControllerProvider}
-   */
-  get parent(): TokenProvider | undefined {
-    return this.store.get("parentController");
   }
 
   /**
@@ -84,22 +52,6 @@ export class ControllerProvider<T = any> extends Provider<T> {
       concat(key, mdlwrs, middlewares);
     });
     this.store.set("middlewares", mdlwrs);
-  }
-
-  /**
-   *
-   * @returns {boolean}
-   */
-  public hasChildren(): boolean {
-    return !!this.children.length;
-  }
-
-  /**
-   *
-   * @returns {boolean}
-   */
-  public hasParent(): boolean {
-    return !!this.store.get("parentController");
   }
 
   public getRouter<T extends PlatformRouterMethods = any>(): T {

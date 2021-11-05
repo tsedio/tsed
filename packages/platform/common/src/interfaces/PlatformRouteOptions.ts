@@ -1,13 +1,15 @@
-import {PathType} from "@tsed/di";
+import {Type} from "@tsed/core";
+import {PathType} from "./PathType";
 
 /**
  * @ignore
  */
 export interface PlatformRouteOptions {
-  method: string;
-  path: PathType;
-  handlers: any[];
+  token?: Type<any>;
+  path?: PathType | undefined;
+  method?: string;
   isFinal?: boolean;
+  handlers: any[];
 }
 
 /**

@@ -1,6 +1,6 @@
-import {classOf, DecoratorTypes, deepMerge, descriptorOf, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
+import {DecoratorTypes, deepMerge, descriptorOf, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
 import {ParamMetadata} from "@tsed/platform-params";
-import {getOperationsStores, JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonOperation} from "@tsed/schema";
+import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonOperation} from "@tsed/schema";
 
 export interface EndpointConstructorOptions extends JsonEntityStoreOptions {
   beforeMiddlewares?: Function[];
@@ -90,22 +90,6 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
   }
 
   /**
-   * Get all endpoints from a given class and his parents.
-   * @param {Type<any>} target
-   * @returns {EndpointMetadata[]}
-   */
-  static getEndpoints(target: Type<any>): EndpointMetadata[] {
-    const operations = getOperationsStores<EndpointMetadata>(target);
-
-    return Array.from(operations.values()).map((endpoint) => {
-      endpoint = endpoint.clone();
-      endpoint.token = classOf(target);
-
-      return endpoint;
-    });
-  }
-
-  /**
    * Get an endpoint.
    * @param target
    * @param propertyKey
@@ -163,26 +147,5 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
     this.middlewares = this.middlewares.concat(args).filter(isFunction);
 
     return this;
-  }
-
-  public clone() {
-    const endpoint = new EndpointMetadata({
-      ...this,
-      target: this.target,
-      propertyKey: this.propertyKey,
-      descriptor: this.descriptor,
-      store: this.store,
-      children: this.children
-    });
-
-    endpoint.collectionType = this.collectionType;
-    endpoint._type = this._type;
-    endpoint._operation = this.operation;
-    endpoint._schema = this._schema;
-    endpoint.middlewares = [...this.middlewares];
-    endpoint.afterMiddlewares = [...this.afterMiddlewares];
-    endpoint.beforeMiddlewares = [...this.beforeMiddlewares];
-
-    return endpoint;
   }
 }
