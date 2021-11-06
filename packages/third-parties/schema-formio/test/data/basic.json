@@ -1,9 +1,12 @@
 {
-  "machineName": "oidcclient",
-  "name": "oidcclient",
+  "machineName": "oidc-client",
+  "name": "oidc-client",
   "title": "OIDCClient",
   "type": "form",
   "display": "form",
+  "submissionAccess": [],
+  "access": [],
+  "tags": [],
   "components": [
     {
       "key": "created",

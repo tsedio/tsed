@@ -26,7 +26,10 @@ describe("Array", () => {
       machineName: "model",
       name: "model",
       title: "Model",
-      type: "form"
+      type: "form",
+      submissionAccess: [],
+      access: [],
+      tags: [],
     });
   });
   it("should declare array number", () => {
@@ -57,7 +60,10 @@ describe("Array", () => {
       "machineName": "model",
       "name": "model",
       "title": "Model",
-      "type": "form"
+      "type": "form",
+      submissionAccess: [],
+      access: [],
+      tags: [],
     });
   });
   it("should declare array boolean", () => {
@@ -84,7 +90,10 @@ describe("Array", () => {
       "machineName": "model",
       "name": "model",
       "title": "Model",
-      "type": "form"
+      "type": "form",
+      submissionAccess: [],
+      access: [],
+      tags: [],
     });
   });
 });

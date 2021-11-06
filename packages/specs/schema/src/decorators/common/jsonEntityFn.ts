@@ -20,9 +20,9 @@ import {getJsonEntityStore} from "../../utils/getJsonEntityStore";
  * @utils
  * @model
  */
-export function JsonEntityFn<T extends JsonEntityStore>(fn: (entity: T, parameters: DecoratorParameters) => void): (...args: any[]) => any {
+export function JsonEntityFn<T extends JsonEntityStore>(fn: (entity: T, parameters: DecoratorParameters) => any): (...args: any[]) => any {
   return (...parameters: DecoratorParameters) => {
-    const result: any = fn(getJsonEntityStore<T>(...parameters), parameters);
+    const result: any = fn(getJsonEntityStore<T>(...parameters) as T, parameters);
     if (typeof result === "function") {
       result(...parameters);
     }

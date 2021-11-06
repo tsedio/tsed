@@ -5,7 +5,18 @@ import {JsonEntitiesContainer} from "../registries/JsonEntitiesContainer";
 /**
  * @ignore
  */
+export function isJsonEntityStore(model: any): model is JsonEntityStore {
+  return model.isStore;
+}
+
+/**
+ * @ignore
+ */
 export function getJsonEntityStore<T extends JsonEntityStore = JsonEntityStore>(...args: any[]) {
+  if (isJsonEntityStore(args[0])) {
+    return args[0];
+  }
+
   const store = Store.from(...args);
 
   if (!store.has("JsonEntityStore")) {
@@ -23,8 +34,4 @@ export function getJsonEntityStore<T extends JsonEntityStore = JsonEntityStore>(
   }
 
   return store.get<T>("JsonEntityStore")!;
-}
-
-export function isJsonEntityStore(model: any): model is JsonEntityStore {
-  return model.isStore;
 }

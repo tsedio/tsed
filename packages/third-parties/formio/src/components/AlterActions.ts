@@ -1,8 +1,9 @@
 import {EndpointMetadata, PlatformContext, PlatformHandler} from "@tsed/common";
 import {Inject, InjectorService, Provider} from "@tsed/di";
+import {FormioActionInfo} from "@tsed/formio-types";
 import {Alter} from "../decorators/alter";
 import {AlterHook} from "../domain/AlterHook";
-import {FormioActionInfo, SetActionItemMessage} from "../domain/FormioAction";
+import {SetActionItemMessage} from "../domain/FormioAction";
 import {FormioActions} from "../domain/FormioActionsIndex";
 import {FormioService} from "../services/FormioService";
 

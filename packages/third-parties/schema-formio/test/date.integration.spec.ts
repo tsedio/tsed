@@ -39,7 +39,10 @@ describe('Date integration', () => {
       "machineName": "model",
       "name": "model",
       "title": "Model",
-      "type": "form"
+      "type": "form",
+      submissionAccess: [],
+      access: [],
+      tags: [],
     });
   });
   it("should generate date field", () => {
@@ -90,7 +93,10 @@ describe('Date integration', () => {
       "machineName": "model",
       "name": "model",
       "title": "Model",
-      "type": "form"
+      "type": "form",
+      submissionAccess: [],
+      access: [],
+      tags: [],
     });
   });
 })

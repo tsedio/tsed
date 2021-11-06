@@ -1,34 +1,7 @@
 import {Request, Response} from "express";
 import {FormioMongooseSchema} from "./FormioBaseModel";
 import {FormioComponent} from "./FormioModels";
-
-export interface FormioActionInfo {
-  name: string;
-  title: string;
-  description: string;
-  priority: number;
-  defaults: {
-    handler: string[];
-    method: string[];
-  };
-  access?: {
-    handler: boolean;
-    method: boolean;
-  };
-}
-
-export interface FormioAction<Settings = any> {
-  name: string;
-  title: string;
-  action: string;
-  handler: string[];
-  method: string[];
-  priority: number;
-  form: any;
-  settings: Settings;
-  condition?: any;
-  deleted?: number | null;
-}
+import {FormioAction, FormioActionInfo} from "@tsed/formio-types";
 
 export interface FormioActionModel extends FormioAction {
   resolve(handler: string, method: string, req: Request, res: Response, next: Function, setActionItemMessage: SetActionItemMessage): void;

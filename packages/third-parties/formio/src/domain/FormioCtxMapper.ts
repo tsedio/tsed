@@ -1,6 +1,5 @@
 import {MongooseDocument} from "@tsed/mongoose";
-import {FormioAction} from "./FormioAction";
-import {FormioForm, FormioRole} from "./FormioModels";
+import {FormioAction, FormioForm, FormioRole} from "@tsed/formio-types";
 
 export interface FormioCtxMapper {
   forms: Map<string, MongooseDocument<FormioForm>>;

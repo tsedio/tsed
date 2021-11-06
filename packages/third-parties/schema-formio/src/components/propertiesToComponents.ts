@@ -17,14 +17,21 @@ export function propertiesToComponents(schema: any, options: any): any[] {
 
   Object.entries(schema.properties).forEach(([key, propSchema]: [string, any]) => {
     const tabsOptions = propSchema["x-formiotabs"];
+    const base = execMapper("any", propSchema, {parentKey: key, ...options});
 
     const component = cleanObject({
       key,
       label: sentenceCase(key),
-      ...execMapper("any", propSchema, {parentKey: key, ...options}),
-      validate: {
-        required: (schema.required || []).includes(key)
-      }
+      ...base,
+      validate: cleanObject({
+        ...(base.validate || {}),
+        required: (schema.required || []).includes(key),
+        pattern: propSchema.pattern,
+        minLength: !schema.required || (schema.required && propSchema.minLength !== 1) ? propSchema.minLength : undefined,
+        maxLength: propSchema.maxLength,
+        min: propSchema.minimum,
+        max: propSchema.maximum
+      })
     });
 
     if (tabsOptions) {
