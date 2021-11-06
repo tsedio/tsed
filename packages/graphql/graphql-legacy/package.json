@@ -1,6 +1,6 @@
 {
   "name": "@tsed/graphql",
-  "version": "6.75.12",
+  "version": "6.76.0",
   "description": "GraphQL package for Ts.ED framework, based on Apollo-server-express and Type-graphql",
   "source": "./src/index.ts",
   "main": "./lib/index.js",
@@ -20,14 +20,14 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "@tsed/apollo": "6.75.12",
-    "@tsed/typegraphql": "6.75.12",
+    "@tsed/apollo": "6.76.0",
+    "@tsed/typegraphql": "6.76.0",
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.75.12",
-    "@tsed/core": "6.75.12",
-    "@tsed/di": "6.75.12",
+    "@tsed/common": "6.76.0",
+    "@tsed/core": "6.76.0",
+    "@tsed/di": "6.76.0",
     "@types/graphql": "14.5.0",
     "apollo-datasource": "^0.7.2",
     "apollo-datasource-rest": "^0.9.3",
@@ -40,14 +40,14 @@
     "type-graphql": "1.1.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.75.12",
-    "@tsed/core": "^6.75.12",
-    "@tsed/di": "^6.75.12",
-    "@tsed/exceptions": "^6.75.12",
-    "@tsed/json-mapper": "^6.75.12",
+    "@tsed/common": "^6.76.0",
+    "@tsed/core": "^6.76.0",
+    "@tsed/di": "^6.76.0",
+    "@tsed/exceptions": "^6.76.0",
+    "@tsed/json-mapper": "^6.76.0",
     "@tsed/logger": "^6.0.0",
-    "@tsed/openspec": "^6.75.12",
-    "@tsed/schema": "^6.75.12",
+    "@tsed/openspec": "^6.76.0",
+    "@tsed/schema": "^6.76.0",
     "apollo-datasource": "^0.7.3",
     "apollo-datasource-rest": "^0.10.0",
     "apollo-server-core": "^2.24.0",

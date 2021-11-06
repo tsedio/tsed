@@ -1,6 +1,6 @@
 {
   "name": "@tsed/di",
-  "version": "6.75.12",
+  "version": "6.76.0",
   "description": "DI module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -14,8 +14,8 @@
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/core": "6.75.12",
-    "@tsed/schema": "6.75.12",
+    "@tsed/core": "6.76.0",
+    "@tsed/schema": "6.76.0",
     "chalk": "4.1.0",
     "tslib": "2.2.0"
   },

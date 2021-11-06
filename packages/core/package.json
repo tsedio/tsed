@@ -1,6 +1,6 @@
 {
   "name": "@tsed/core",
-  "version": "6.75.12",
+  "version": "6.76.0",
   "description": "Core module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
