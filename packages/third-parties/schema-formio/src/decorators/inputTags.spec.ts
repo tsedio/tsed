@@ -1,5 +1,4 @@
 import {getFormioSchema, InputTags} from "@tsed/schema-formio";
-import {expect} from "chai";
 
 describe("InputTags", () => {
   it("should declare a model with Tags field", () => {
@@ -8,7 +7,7 @@ describe("InputTags", () => {
       test: string[];
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           key: "test",

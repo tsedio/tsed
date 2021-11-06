@@ -1,5 +1,4 @@
 import {getFormioSchema, Select} from "@tsed/schema-formio";
-import {expect} from "chai";
 
 describe("Select", () => {
   it("should declare a model with select field", () => {
@@ -8,7 +7,7 @@ describe("Select", () => {
       test: string;
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

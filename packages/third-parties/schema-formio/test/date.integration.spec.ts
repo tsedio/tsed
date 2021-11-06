@@ -1,5 +1,4 @@
 import {DateFormat, DateTime} from "@tsed/schema";
-import {expect} from "chai";
 import {getFormioSchema} from "../src";
 
 describe('Date integration', () => {
@@ -9,7 +8,7 @@ describe('Date integration', () => {
       test: Date;
     }
     const form = getFormioSchema(Model);
-    expect(form).to.deep.eq({
+    expect(form).toEqual({
       "components": [
         {
           "datePicker": {
@@ -49,7 +48,7 @@ describe('Date integration', () => {
       test: Date;
     }
     const form = getFormioSchema(Model);
-    expect(form).to.deep.eq({
+    expect(form).toEqual({
       "components": [
         {
           "datePicker": {

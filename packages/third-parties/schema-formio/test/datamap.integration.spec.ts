@@ -1,5 +1,4 @@
 import {CollectionOf} from "@tsed/schema";
-import {expect} from "chai";
 import {getFormioSchema} from "../src";
 
 
@@ -10,7 +9,7 @@ describe("DataMap integration", () => {
       test: Map<string, string>;
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       "components": [
         {
           "disabled": false,
@@ -44,7 +43,7 @@ describe("DataMap integration", () => {
       test: Map<string, number>;
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       "components": [
         {
           "disabled": false,

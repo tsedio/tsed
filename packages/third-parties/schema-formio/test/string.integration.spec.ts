@@ -1,5 +1,4 @@
 import {Property} from "@tsed/schema";
-import {expect} from "chai";
 import {getFormioSchema} from "../src";
 
 describe("String", () => {
@@ -11,7 +10,7 @@ describe("String", () => {
 
     const form = getFormioSchema(Model, {groups: ["group1"]});
 
-    expect(form).to.deep.eq({
+    expect(form).toEqual({
       "components": [
         {
           "disabled": false,

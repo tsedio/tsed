@@ -24,7 +24,7 @@
   ],
   "scripts": {
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json",
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
     "change-case": "4.1.2",

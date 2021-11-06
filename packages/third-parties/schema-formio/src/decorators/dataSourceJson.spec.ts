@@ -1,5 +1,4 @@
 import {DataSourceJson, getFormioSchema, Select} from "@tsed/schema-formio";
-import {expect} from "chai";
 
 describe("DataSourceJson", () => {
   it("should declare datasource", () => {
@@ -14,7 +13,7 @@ describe("DataSourceJson", () => {
       test: string;
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           data: {
