@@ -1,5 +1,4 @@
 import {CollectionOf, Property} from "@tsed/schema";
-import {expect} from "chai";
 import {Currency, getFormioSchema} from "../src";
 
 
@@ -15,7 +14,7 @@ describe('EditGrid integration', () => {
       test: Nested[];
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           components: [

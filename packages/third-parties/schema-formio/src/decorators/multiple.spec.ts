@@ -1,5 +1,4 @@
 import {getFormioSchema, Multiple} from "@tsed/schema-formio";
-import {expect} from "chai";
 
 describe("Multiple", () => {
   it("should declare a model with multiple field", () => {
@@ -8,7 +7,7 @@ describe("Multiple", () => {
       test: string;
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

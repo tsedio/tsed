@@ -1,5 +1,4 @@
 import {getFormioSchema, Hidden} from "@tsed/schema-formio";
-import {expect} from "chai";
 
 describe("Hidden", () => {
   it("should declare a model with Hidden field", () => {
@@ -8,7 +7,7 @@ describe("Hidden", () => {
       test: string;
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

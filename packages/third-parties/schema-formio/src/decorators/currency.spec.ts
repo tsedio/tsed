@@ -1,5 +1,4 @@
 import {Currency, getFormioSchema} from "@tsed/schema-formio";
-import {expect} from "chai";
 
 describe("Currency", () => {
   it("should declare currency", () => {
@@ -8,7 +7,7 @@ describe("Currency", () => {
       test: number;
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           currency: "USD",

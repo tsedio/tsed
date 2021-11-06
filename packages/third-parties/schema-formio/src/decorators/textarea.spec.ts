@@ -1,5 +1,4 @@
 import {getFormioSchema, Textarea} from "@tsed/schema-formio";
-import {expect} from "chai";
 
 describe("Textarea", () => {
   it("should declare a model with Textarea field", () => {
@@ -8,7 +7,7 @@ describe("Textarea", () => {
       test: string;
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           autoExpand: false,

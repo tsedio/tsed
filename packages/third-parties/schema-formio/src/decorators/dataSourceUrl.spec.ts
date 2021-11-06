@@ -1,5 +1,4 @@
 import {DataSourceUrl, getFormioSchema, Select} from "@tsed/schema-formio";
-import {expect} from "chai";
 
 describe("DataSourceUrl", () => {
   it("should declare datasource url", () => {
@@ -9,7 +8,7 @@ describe("DataSourceUrl", () => {
       test: string;
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           data: {

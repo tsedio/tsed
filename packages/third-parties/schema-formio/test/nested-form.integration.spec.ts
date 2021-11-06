@@ -1,5 +1,4 @@
 import {Property} from "@tsed/schema";
-import {expect} from "chai";
 import {Currency, getFormioSchema, Hidden, Textarea} from "../src";
 
 
@@ -23,7 +22,7 @@ describe("Nested form integration", () => {
 
     const form = getFormioSchema(Product);
 
-    expect(form).to.deep.eq({
+    expect(form).toEqual({
       "machineName": "product",
       "name": "product",
       "title": "Product",

@@ -1,6 +1,5 @@
 import {CollectionOf} from "@tsed/schema";
 import {getFormioSchema} from "@tsed/schema-formio";
-import {expect} from "chai";
 
 describe("Array", () => {
   it("should declare array string", () => {
@@ -9,7 +8,7 @@ describe("Array", () => {
       test: string[];
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,
@@ -36,7 +35,7 @@ describe("Array", () => {
       test: number[];
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       "components": [
         {
           "delimiter": false,
@@ -67,7 +66,7 @@ describe("Array", () => {
       test: boolean[];
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       "components": [
         {
           "disabled": false,

@@ -13,7 +13,6 @@ import {
   Title,
   Uri
 } from "@tsed/schema";
-import {expect} from "chai";
 import {getFormioSchema, InputTags, TableView} from "../src";
 
 import data from "./data/basic.json";
@@ -155,6 +154,6 @@ describe("Basic", () => {
   it("should generate the correct schema", () => {
     const form = getFormioSchema(OIDCClient, {groups: ["group1"]});
 
-    expect(form).to.deep.eq(data);
+    expect(form).toEqual(data);
   });
 });

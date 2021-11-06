@@ -38,8 +38,8 @@ module.exports = (rootDir) => ({
     "^@tsed/typeorm$": fixPath(join(packageDir, "orm/typeorm/src")),
     "^@tsed/adapters$": fixPath(join(packageDir, "orm/adapters/src")),
     "^@tsed/mongoose$": fixPath(join(packageDir, "orm/mongoose/src")),
-    "^@tsed/adapters$": fixPath(join(packageDir, "orm/adapters/src")),
     "^@tsed/adapters-redis$": fixPath(join(packageDir, "orm/adapters-redis/src")),
+    "^@tsed/schema-formio$": fixPath(join(packageDir, "third-parties/schema-formio/src")),
     "^@tsed/components-scan$": fixPath(join(packageDir, "utils/components-scan/src"))
   },
   modulePathIgnorePatterns: ["<rootDir>/lib", "<rootDir>/dist"],

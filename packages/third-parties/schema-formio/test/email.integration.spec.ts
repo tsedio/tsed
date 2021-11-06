@@ -1,5 +1,4 @@
 import {Email} from "@tsed/schema";
-import {expect} from "chai";
 import {getFormioSchema} from "../src";
 
 describe('Email integration', () => {
@@ -9,7 +8,7 @@ describe('Email integration', () => {
       email: string;
     }
     const form = getFormioSchema(User);
-    expect(form).to.deep.eq({
+    expect(form).toEqual({
       components: [
         {
           disabled: false,

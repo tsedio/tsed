@@ -1,5 +1,4 @@
 import {getFormioSchema} from "@tsed/schema-formio";
-import {expect} from "chai";
 import {Password} from "./password";
 
 describe("Password", () => {
@@ -9,7 +8,7 @@ describe("Password", () => {
       test: string;
     }
 
-    expect(getFormioSchema(Model)).to.deep.eq({
+    expect(getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,
