@@ -1,6 +1,6 @@
 import {DataSourceUrl, getFormioSchema, Select} from "@tsed/schema-formio";
 
-describe("DataSourceUrl", () => {
+describe("@DataSourceUrl", () => {
   it("should declare datasource url", () => {
     class Model {
       @Select()
@@ -31,7 +31,10 @@ describe("DataSourceUrl", () => {
       machineName: "model",
       name: "model",
       title: "Model",
-      type: "form"
+      type: "form",
+      submissionAccess: [],
+      access: [],
+      tags: []
     });
   });
 });

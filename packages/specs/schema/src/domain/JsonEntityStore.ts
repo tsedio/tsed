@@ -202,8 +202,8 @@ export class JsonEntityStore extends Entity implements JsonEntityStoreOptions {
    *
    * @param args
    */
-  static from<T extends JsonEntityStore = JsonEntityStore>(...args: any[]) {
-    return getJsonEntityStore<T>(...args);
+  static from<T extends JsonEntityStore = JsonEntityStore>(...args: any[]): T {
+    return getJsonEntityStore<T>(...args) as T;
   }
 
   static fromMethod(target: any, propertyKey: string | symbol) {

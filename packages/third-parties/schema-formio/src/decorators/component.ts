@@ -8,7 +8,14 @@ import {CustomKeys} from "@tsed/schema";
  * @schema
  */
 export function Component(component: Record<string, any>): PropertyDecorator {
-  component = Object.entries(component).reduce((component, [key, value]) => {
+  component = Object.entries(component).reduce((component: Record<string, any>, [key, value]) => {
+    if (key === "validate") {
+      component["x-formio-validate"] = {
+        ...(component["x-formio-validate"] || {}),
+        ...value
+      };
+    }
+
     return {
       ...component,
       [`x-formio-${key}`]: value

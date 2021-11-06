@@ -1,9 +1,8 @@
 import {isArray, isObject, isString, toMap as tMap} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {MongooseDocument, MongooseModel} from "@tsed/mongoose";
+import {FormioAction, FormioActionItem, FormioForm, FormioRole, FormioSubmission, FormioToken} from "@tsed/formio-types";
 import {FormioMapper} from "../builder/FormioMapper";
-import {FormioAction} from "../domain/FormioAction";
-import {FormioActionItem, FormioForm, FormioRole, FormioSubmission, FormioToken} from "../domain/FormioModels";
 import {isMongoId} from "../utils/isMongoId";
 import {FormioService} from "./FormioService";
 

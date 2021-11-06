@@ -25,7 +25,10 @@ describe('Email integration', () => {
       machineName: "user",
       name: "user",
       title: "User",
-      type: "form"
+      type: "form",
+      submissionAccess: [],
+      access: [],
+      tags: [],
     });
   });
 })

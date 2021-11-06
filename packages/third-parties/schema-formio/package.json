@@ -27,6 +27,7 @@
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
+    "@tsed/formio-types": "6.75.12",
     "change-case": "4.1.2",
     "tslib": "2.2.0"
   },
@@ -38,6 +39,7 @@
   "peerDependencies": {
     "@tsed/core": "^6.76.0",
     "@tsed/openspec": "^6.76.0",
-    "@tsed/schema": "^6.76.0"
+    "@tsed/schema": "^6.76.0",
+    "formiojs": ">=4.0.0"
   }
 }

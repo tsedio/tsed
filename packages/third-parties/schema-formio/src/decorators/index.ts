@@ -9,3 +9,8 @@ export * from "./password";
 export * from "./select";
 export * from "./tableView";
 export * from "./textarea";
+export * from "./errorMessage";
+export * from "./errorLabel";
+export * from "./minWords";
+export * from "./maxWords";
+export * from "./validate";

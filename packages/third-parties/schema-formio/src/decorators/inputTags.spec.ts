@@ -26,7 +26,10 @@ describe("InputTags", () => {
       machineName: "model",
       name: "model",
       title: "Model",
-      type: "form"
+      type: "form",
+      submissionAccess: [],
+      access: [],
+      tags: []
     });
   });
 });

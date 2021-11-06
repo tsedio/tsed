@@ -23,6 +23,9 @@ describe("Multiple", () => {
       ],
       display: "form",
       machineName: "model",
+      submissionAccess: [],
+      access: [],
+      tags: [],
       name: "model",
       title: "Model",
       type: "form"

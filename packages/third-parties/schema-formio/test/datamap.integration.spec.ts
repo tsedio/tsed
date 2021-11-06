@@ -34,7 +34,10 @@ describe("DataMap integration", () => {
       "machineName": "model",
       "name": "model",
       "title": "Model",
-      "type": "form"
+      "type": "form",
+      submissionAccess: [],
+      access: [],
+      tags: [],
     });
   });
   it("should generate form (number)", () => {
@@ -72,7 +75,10 @@ describe("DataMap integration", () => {
       "machineName": "model",
       "name": "model",
       "title": "Model",
-      "type": "form"
+      "type": "form",
+      submissionAccess: [],
+      access: [],
+      tags: [],
     });
   });
 });

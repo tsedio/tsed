@@ -28,6 +28,9 @@ describe("Nested form integration", () => {
       "title": "Product",
       "type": "form",
       "display": "form",
+      submissionAccess: [],
+      access: [],
+      tags: [],
       "components": [
         {
           "key": "id",

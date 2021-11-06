@@ -7,7 +7,6 @@ import {
   Format,
   Groups,
   Integer,
-  JsonEntityFn,
   ReadOnly,
   Required,
   Title,
@@ -152,7 +151,7 @@ export class OIDCClient extends OIDCBase {
 
 describe("Basic", () => {
   it("should generate the correct schema", () => {
-    const form = getFormioSchema(OIDCClient, {groups: ["group1"]});
+    const form = getFormioSchema(OIDCClient, { groups: ["group1"] });
 
     expect(form).toEqual(data);
   });

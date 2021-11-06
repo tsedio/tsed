@@ -4,7 +4,7 @@ import type {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
-import {getJsonEntityStore, isJsonEntityStore} from "./getJsonEntityStore";
+import {getJsonEntityStore} from "./getJsonEntityStore";
 
 /**
  * @ignore
@@ -41,7 +41,7 @@ function get(entity: JsonEntityStore, options: any) {
 }
 
 export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonSchemaOptions = {}) {
-  const entity = isJsonEntityStore(model) ? model : getJsonEntityStore(model);
+  const entity = getJsonEntityStore(model);
 
   options = {
     endpoint: true,

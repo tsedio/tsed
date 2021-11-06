@@ -20,6 +20,7 @@
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
+    "@tsed/formio-types": "6.75.12",
     "tslib": "2.2.0"
   },
   "devDependencies": {

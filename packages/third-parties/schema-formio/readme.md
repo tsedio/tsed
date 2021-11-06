@@ -48,8 +48,9 @@ npm install --save @tsed/schema-formio
 Given the following model
 
 ```typescript
-import {getFormioSchema} from "@tsed/schema-formio";
+import {getFormioSchema, Form} from "@tsed/schema-formio";
 
+@Form()
 export class Model {
   @Property()
   id: string;
@@ -109,8 +110,9 @@ Here the list:
 Component decorator let you to define any extra formio metadata on a decorated property:
 
 ```typescript
-import {getFormioSchema} from "@tsed/schema-formio";
+import {Form, Component} from "@tsed/schema-formio";
 
+@Form()
 export class Model {
   @Component({
     tooltip: "MyTooltip"

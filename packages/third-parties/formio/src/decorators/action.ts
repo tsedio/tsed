@@ -1,6 +1,6 @@
 import {StoreSet, useDecorators} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
-import {FormioActionInfo} from "../domain/FormioAction";
+import {FormioActionInfo} from "@tsed/formio-types";
 
 /**
  * Create a new FormIO Action.
