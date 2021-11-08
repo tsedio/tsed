@@ -52,6 +52,10 @@ export class ServerlessResponse {
     return this.#locals;
   }
 
+  get isHeadersSent() {
+    return this.#isHeadersSent;
+  }
+
   getStatus() {
     return this.#status;
   }
@@ -225,9 +229,5 @@ export class ServerlessResponse {
   destroy() {
     this.#endListeners.forEach((cb: Function) => cb());
     this.#isHeadersSent = true;
-  }
-
-  isHeadersSent() {
-    return this.#isHeadersSent;
   }
 }

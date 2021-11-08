@@ -3,6 +3,26 @@ import {PlatformServerlessTest} from "@tsed/platform-serverless";
 describe("ServerlessResponse", () => {
   beforeEach(() => PlatformServerlessTest.create());
   afterEach(() => PlatformServerlessTest.reset());
+  describe("onEnd", () => {
+    it("should push callback", () => {
+      const context = PlatformServerlessTest.createServerlessContext({
+        endpoint: {} as any
+      });
+      context.response.onEnd(() => {});
+    });
+  });
+  describe("isHeadersSent", () => {
+    it("should push callback", () => {
+      const context = PlatformServerlessTest.createServerlessContext({
+        endpoint: {} as any
+      });
+      expect(context.response.isHeadersSent).toEqual(false);
+
+      context.response.destroy();
+
+      expect(context.response.isHeadersSent).toEqual(true);
+    });
+  });
   describe("statusCode", () => {
     it("should return the statusCode", () => {
       const context = PlatformServerlessTest.createServerlessContext({

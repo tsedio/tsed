@@ -2,16 +2,15 @@ import {Env, Type} from "@tsed/core";
 import {createContainer, InjectorService, setLoggerLevel} from "@tsed/di";
 import {$log, Logger} from "@tsed/logger";
 import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
-import type {
-  APIGatewayEventDefaultAuthorizerContext,
-  APIGatewayProxyEventBase,
-  APIGatewayProxyHandler,
-  APIGatewayProxyResult,
-  Context
-} from "aws-lambda";
+import type {HTTPMethod, Instance} from "find-my-way";
+import type {APIGatewayProxyResult, Handler} from "aws-lambda";
 import {ServerlessContext} from "../domain/ServerlessContext";
 import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
 import {getRequestId} from "../utils/getRequestId";
+
+export interface PlatformServerlessSettings extends Partial<TsED.Configuration> {
+  lambda?: Type[];
+}
 
 /**
  * @platform
@@ -20,7 +19,8 @@ export class PlatformServerless {
   readonly name: string = "PlatformServerless";
 
   private _injector: InjectorService;
-  private _promise: Promise<void>;
+  private _router: Instance<any>;
+  private _promise: Promise<any>;
 
   get injector(): InjectorService {
     return this._injector;
@@ -36,38 +36,88 @@ export class PlatformServerless {
 
   static bootstrap(settings: Partial<TsED.Configuration> & {lambda?: Type[]} = {}): PlatformServerless {
     const platform = new PlatformServerless();
-
-    platform.bootstrap(settings);
+    platform.createInjector(settings);
 
     return platform;
   }
 
-  public callbacks(tokens: Type | Type[] = [], callbacks: any = {}): Record<string, APIGatewayProxyHandler> {
-    callbacks = this.settings
+  public handler(): Handler {
+    return async (event, context) => {
+      const [router] = await Promise.all([this.initRouter(), this.init()]);
+      const result = router.find(event.httpMethod as any, event.path);
+
+      if (result) {
+        const {handler, params} = result;
+
+        event.pathParameters = {
+          ...(event.pathParameters || {}),
+          ...params
+        };
+
+        return (handler as any)(event, context);
+      }
+
+      return {
+        statusCode: 404,
+        body: "Not found",
+        headers: {
+          "x-request-id": getRequestId(event, context)
+        },
+        isBase64Encoded: false
+      };
+    };
+  }
+
+  public callbacks(tokens: Type | Type[] = [], callbacks: any = {}): Record<string, Handler> {
+    return this.settings
       .get<Type[]>("lambda", [])
       .concat(tokens)
       .reduce((callbacks, token) => {
         const routes = getOperationsRoutes(token);
 
         return routes.reduce((callbacks, operationRoute) => {
-          const {operationId, token, propertyName} = operationRoute;
+          const {operationId, token, propertyName, method, path} = operationRoute;
+
+          // istanbul ignore next
+          if (method === "USE") {
+            return callbacks;
+          }
+
+          const callback = this.callback(token, propertyName);
+
+          this._router?.on(method as HTTPMethod, path as string, callback as any);
 
           return {
             ...callbacks,
-            [operationId]: this.callback(token, propertyName)
+            [operationId]: callback
           };
         }, callbacks);
       }, callbacks);
-
-    return callbacks;
   }
 
-  public callback(token: Type<any>, propertyKey: string): APIGatewayProxyHandler {
+  public async ready() {
+    await this.injector.emit("$onReady");
+  }
+
+  public async stop() {
+    await this.injector.emit("$onDestroy");
+    return this.injector.destroy();
+  }
+
+  public async init() {
+    if (!this._promise) {
+      this._promise = this.loadInjector().then(() => this.ready());
+    }
+
+    return this._promise;
+  }
+
+  protected callback(token: Type<any>, propertyKey: string): Handler {
     const entity = JsonEntityStore.fromMethod(token, propertyKey);
     let handler: ($ctx: ServerlessContext) => Promise<APIGatewayProxyResult>;
 
-    return async (event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>, context: Context) => {
-      await this.promise;
+    return async (event, context) => {
+      await this.init();
 
       if (!handler) {
         const platformHandler = this.injector.get<PlatformServerlessHandler>(PlatformServerlessHandler)!;
@@ -87,24 +137,16 @@ export class PlatformServerless {
     };
   }
 
-  public async ready() {
-    await this.injector.emit("$onReady");
-  }
+  protected async initRouter() {
+    if (!this._router) {
+      const {default: FindMyMay} = await import("find-my-way");
 
-  public async stop() {
-    await this.injector.emit("$onDestroy");
-    return this.injector.destroy();
-  }
+      this._router = FindMyMay({caseSensitive: false});
 
-  protected bootstrap(settings: Partial<TsED.Configuration> = {}) {
-    this._promise = this.createInjector({
-      ...settings,
-      PLATFORM_NAME: this.name
-    })
-      .loadInjector()
-      .then(() => this.ready());
+      this.callbacks();
+    }
 
-    return this;
+    return this._router;
   }
 
   protected createInjector(settings: any) {
@@ -112,6 +154,7 @@ export class PlatformServerless {
     this.injector.logger = $log;
     this.injector.settings.set(settings);
 
+    // istanbul ignore next
     if (this.injector.settings.get("env") === Env.TEST && !settings?.logger?.level) {
       $log.stop();
     }

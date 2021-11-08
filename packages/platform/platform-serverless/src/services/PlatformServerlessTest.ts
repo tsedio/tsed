@@ -25,6 +25,26 @@ export class LambdaClientRequest extends Promise<APIGatewayProxyResult> {
     return promise;
   }
 
+  static get(path: string, options: Partial<APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>> = {}) {
+    return this.call("handler").get(path, options);
+  }
+
+  static post(path: string, body?: any, options: Partial<APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>> = {}) {
+    return this.call("handler").post(path, body, options);
+  }
+
+  static put(path: string, body?: any, options: Partial<APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>> = {}) {
+    return this.call("handler").put(path, body, options);
+  }
+
+  static patch(path: string, body?: any, options: Partial<APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>> = {}) {
+    return this.call("handler").patch(path, body, options);
+  }
+
+  static delete(path: string, body?: any, options: Partial<APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>> = {}) {
+    return this.call("handler").delete(path, body, options);
+  }
+
   static createFakeEvent(event: Partial<APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>> = {}) {
     return {
       body: "",
@@ -116,7 +136,7 @@ export class LambdaClientRequest extends Promise<APIGatewayProxyResult> {
     Object.assign(this.event, options);
 
     this.event.path = path;
-    this.event.httpMethod = "POST";
+    this.event.httpMethod = "DELETE";
 
     this.body(body);
 
@@ -180,9 +200,10 @@ export class PlatformServerlessTest extends DITest {
   static bootstrap(settings: Partial<TsED.Configuration & {lambda: Type[]}> = {}) {
     return async function before(): Promise<void> {
       // @ts-ignore
-      const instance = await PlatformServerless.bootstrap(DITest.configure(settings));
+      const instance = PlatformServerless.bootstrap(DITest.configure(settings));
       PlatformServerlessTest.instance = instance;
       PlatformServerlessTest.callbacks = instance.callbacks();
+      PlatformServerlessTest.callbacks.handler = instance.handler();
       // used by inject method
       DITest.injector = instance.injector;
 
