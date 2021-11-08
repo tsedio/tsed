@@ -14,3 +14,4 @@ export * from "./errorLabel";
 export * from "./minWords";
 export * from "./maxWords";
 export * from "./validate";
+export * from "./form";
