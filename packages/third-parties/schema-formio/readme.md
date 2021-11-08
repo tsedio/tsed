@@ -56,7 +56,7 @@ export class Model {
   id: string;
 }
 
-console.log(getFormioSchema(Model))
+console.log(await getFormioSchema(Model))
 ```
 
 Generates the following formio schema:
@@ -135,7 +135,7 @@ export class Model {
   tags: string[];
 }
 
-console.log(getFormioSchema(Model))
+console.log(await getFormioSchema(Model))
 ```
 
 Generates the following formio schema:

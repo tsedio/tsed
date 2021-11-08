@@ -1,13 +1,13 @@
 import {getFormioSchema, InputTags} from "@tsed/schema-formio";
 
 describe("InputTags", () => {
-  it("should declare a model with Tags field", () => {
+  it("should declare a model with Tags field", async () => {
     class Model {
       @InputTags()
       test: string[];
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           key: "test",

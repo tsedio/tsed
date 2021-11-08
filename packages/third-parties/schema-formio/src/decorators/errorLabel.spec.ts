@@ -1,13 +1,13 @@
 import {ErrorLabel, getFormioSchema} from "@tsed/schema-formio";
 
 describe("@ErrorLabel", () => {
-  it("should set the error label", () => {
+  it("should set the error label", async () => {
     class Model {
       @ErrorLabel("Error label")
       test: string;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

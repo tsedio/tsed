@@ -3,13 +3,13 @@ import {getFormioSchema} from "../src";
 
 describe("Number", () => {
   describe("number declaration", () => {
-    it("should generate the correct schema", () => {
+    it("should generate the correct schema", async () => {
       class Model {
         @Property()
         test: number;
       }
 
-      const form = getFormioSchema(Model);
+      const form = await getFormioSchema(Model);
 
       expect(form).toEqual({
         "components": [
@@ -40,13 +40,13 @@ describe("Number", () => {
     });
   });
   describe("Minimum", () => {
-    it("should generate the correct schema", () => {
+    it("should generate the correct schema", async () => {
       class Model {
         @Minimum(10)
         test: number;
       }
 
-      const form = getFormioSchema(Model);
+      const form = await getFormioSchema(Model);
 
       expect(form).toEqual({
         "components": [
@@ -78,13 +78,13 @@ describe("Number", () => {
     });
   });
   describe("Maximum", () => {
-    it("should generate the correct schema", () => {
+    it("should generate the correct schema", async () => {
       class Model {
         @Maximum(100)
         test: number;
       }
 
-      const form = getFormioSchema(Model);
+      const form = await getFormioSchema(Model);
 
       expect(form).toEqual({
         "components": [

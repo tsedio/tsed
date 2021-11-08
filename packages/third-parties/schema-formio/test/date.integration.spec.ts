@@ -2,12 +2,12 @@ import {DateFormat, DateTime} from "@tsed/schema";
 import {getFormioSchema} from "../src";
 
 describe('Date integration', () => {
-  it("should generate date-time field", () => {
+  it("should generate date-time field", async () => {
     class Model {
       @DateTime()
       test: Date;
     }
-    const form = getFormioSchema(Model);
+    const form = await getFormioSchema(Model);
     expect(form).toEqual({
       "components": [
         {
@@ -45,12 +45,12 @@ describe('Date integration', () => {
       tags: [],
     });
   });
-  it("should generate date field", () => {
+  it("should generate date field", async () => {
     class Model {
       @DateFormat()
       test: Date;
     }
-    const form = getFormioSchema(Model);
+    const form = await getFormioSchema(Model);
     expect(form).toEqual({
       "components": [
         {

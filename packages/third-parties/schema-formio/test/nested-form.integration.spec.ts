@@ -3,7 +3,7 @@ import {Currency, getFormioSchema, Hidden, Textarea} from "../src";
 
 
 describe("Nested form integration", () => {
-  it("should generate form and nested form", () => {
+  it("should generate form and nested form", async () => {
     class Price {
       @Currency()
       amount: number;
@@ -20,7 +20,7 @@ describe("Nested form integration", () => {
       price: Price;
     }
 
-    const form = getFormioSchema(Product);
+    const form = await getFormioSchema(Product);
 
     expect(form).toEqual({
       "machineName": "product",

@@ -2,13 +2,13 @@ import {getFormioSchema} from "@tsed/schema-formio";
 import {ErrorMessage} from "./errorMessage";
 
 describe("@ErrorMessage", () => {
-  it("should set a custom error message", () => {
+  it("should set a custom error message", async () => {
     class Model {
       @ErrorMessage("My message")
       test: string;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

@@ -2,13 +2,13 @@ import {getFormioSchema} from "@tsed/schema-formio";
 import {MaxWords} from "./maxWords";
 
 describe("@MaxWords", () => {
-  it("should set the max words", () => {
+  it("should set the max words", async () => {
     class Model {
       @MaxWords(10)
       test: string;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

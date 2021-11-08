@@ -1,13 +1,13 @@
 import {getFormioSchema, Select} from "@tsed/schema-formio";
 
 describe("Select", () => {
-  it("should declare a model with select field", () => {
+  it("should declare a model with select field", async () => {
     class Model {
       @Select()
       test: string;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

@@ -15,3 +15,4 @@ export * from "./minWords";
 export * from "./maxWords";
 export * from "./validate";
 export * from "./form";
+export * from "./tabs";

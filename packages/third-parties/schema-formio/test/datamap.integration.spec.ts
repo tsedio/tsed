@@ -3,13 +3,13 @@ import {getFormioSchema} from "../src";
 
 
 describe("DataMap integration", () => {
-  it("should generate form (string)", () => {
+  it("should generate form (string)", async () => {
     class Model {
       @CollectionOf(String)
       test: Map<string, string>;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       "components": [
         {
           "disabled": false,
@@ -37,16 +37,16 @@ describe("DataMap integration", () => {
       "type": "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
-  it("should generate form (number)", () => {
+  it("should generate form (number)", async () => {
     class Model {
       @CollectionOf(Number)
       test: Map<string, number>;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       "components": [
         {
           "disabled": false,
@@ -78,7 +78,7 @@ describe("DataMap integration", () => {
       "type": "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
 });

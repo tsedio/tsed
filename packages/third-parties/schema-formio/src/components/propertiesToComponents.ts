@@ -1,6 +1,21 @@
-import {cleanObject} from "@tsed/core";
+import {cleanObject, isFunction} from "@tsed/core";
 import {sentenceCase} from "change-case";
+import {FormioComponent, FormioForm} from "@tsed/formio-types";
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer";
+
+function bindResolvers(component: FormioComponent, options: any) {
+  if (component.data) {
+    const data = component.data;
+
+    Object.entries(data).forEach(([key, resolver]) => {
+      if (isFunction(resolver)) {
+        options.resolvers.push(async (form: FormioForm) => {
+          data[key] = await resolver({...options, component, form});
+        });
+      }
+    });
+  }
+}
 
 export function propertiesToComponents(schema: any, options: any): any[] {
   const tabs = {
@@ -33,6 +48,8 @@ export function propertiesToComponents(schema: any, options: any): any[] {
         max: propSchema.maximum
       })
     });
+
+    bindResolvers(component, options);
 
     if (tabsOptions) {
       if (!tabs.pushed) {

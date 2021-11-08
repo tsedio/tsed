@@ -2,13 +2,13 @@ import {getFormioSchema} from "@tsed/schema-formio";
 import {Password} from "./password";
 
 describe("Password", () => {
-  it("should declare a model with password field", () => {
+  it("should declare a model with password field", async () => {
     class Model {
       @Password()
       test: string;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

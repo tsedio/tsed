@@ -1,13 +1,13 @@
 import {getFormioSchema, Textarea} from "@tsed/schema-formio";
 
 describe("Textarea", () => {
-  it("should declare a model with Textarea field", () => {
+  it("should declare a model with Textarea field", async () => {
     class Model {
       @Textarea()
       test: string;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           autoExpand: false,

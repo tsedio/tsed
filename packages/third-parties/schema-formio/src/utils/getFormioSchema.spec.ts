@@ -1,7 +1,6 @@
 import {getFormioSchema} from "@tsed/schema-formio";
-import {Property} from "@tsed/schema";
+import {JsonEntityStore, Property} from "@tsed/schema";
 import {Form} from "../decorators/form";
-import {getJsonEntityStore, isJsonEntityStore} from "@tsed/schema/src/utils/getJsonEntityStore";
 
 const schema = {
   access: [],
@@ -27,35 +26,35 @@ const schema = {
 };
 
 describe("getFormioSchema", () => {
-  it("should return undefined when the schema is unknown", () => {
-    expect(getFormioSchema("unknown")).toEqual(undefined);
+  it("should return undefined when the schema is unknown", async () => {
+    expect(await getFormioSchema("unknown")).toEqual(undefined);
   });
 
-  it("should return schema by his machineName", () => {
+  it("should return schema by his machineName", async () => {
     @Form()
     class Model {
       @Property()
       test: string;
     }
 
-    expect(getFormioSchema("model")).toEqual(schema);
-    expect(getFormioSchema("Model")).toEqual(schema);
+    expect(await getFormioSchema("model")).toEqual(schema);
+    expect(await getFormioSchema("Model")).toEqual(schema);
   });
 
-  it("should return schema by his custom machine name", () => {
+  it("should return schema by his custom machine name", async () => {
     @Form({name: "CustomModel"})
     class Model {
       @Property()
       test: string;
     }
 
-    expect(getFormioSchema("custom-model")).toEqual({
+    expect(await getFormioSchema("custom-model")).toEqual({
       ...schema,
       machineName: "custom-model",
       name: "custom-model",
       title: "CustomModel"
     });
-    expect(getFormioSchema("CustomModel")).toEqual({
+    expect(await getFormioSchema("CustomModel")).toEqual({
       ...schema,
       machineName: "custom-model",
       name: "custom-model",
@@ -63,22 +62,22 @@ describe("getFormioSchema", () => {
     });
   });
 
-  it("should return schema by his type", () => {
+  it("should return schema by his type", async () => {
     @Form()
     class Model {
       @Property()
       test: string;
     }
 
-    expect(getFormioSchema(Model)).toEqual(schema);
+    expect(await getFormioSchema(Model)).toEqual(schema);
   });
-  it("should return schema by his store", () => {
+  it("should return schema by his store", async () => {
     @Form()
     class Model {
       @Property()
       test: string;
     }
 
-    expect(getFormioSchema(getJsonEntityStore(Model))).toEqual(schema);
+    expect(await getFormioSchema(JsonEntityStore.from(Model))).toEqual(schema);
   });
 });

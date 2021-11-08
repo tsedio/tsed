@@ -1,13 +1,13 @@
 import {getFormioSchema, Hidden} from "@tsed/schema-formio";
 
 describe("Hidden", () => {
-  it("should declare a model with Hidden field", () => {
+  it("should declare a model with Hidden field", async () => {
     class Model {
       @Hidden()
       test: string;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

@@ -3,13 +3,13 @@ import {getFormioSchema} from "../src";
 
 describe("String", () => {
   describe("string declaration", () => {
-    it("should generate the correct schema", () => {
+    it("should generate the correct schema",async () => {
       class Model {
         @Property()
         test: string;
       }
 
-      const form = getFormioSchema(Model, { groups: ["group1"] });
+      const form = await getFormioSchema(Model, { groups: ["group1"] });
 
       expect(form).toEqual({
         "components": [
@@ -36,14 +36,14 @@ describe("String", () => {
     });
   });
   describe("Pattern", () => {
-    it("should generate the correct schema", () => {
+    it("should generate the correct schema",async () => {
       class Model {
         @Property()
         @Pattern(/(\d{12})\.(\w+)\.api\.com/)
         test: string;
       }
 
-      const form = getFormioSchema(Model, { groups: ["group1"] });
+      const form = await getFormioSchema(Model, { groups: ["group1"] });
 
       expect(form).toEqual({
         "components": [
@@ -71,14 +71,14 @@ describe("String", () => {
     });
   });
   describe("MinLength", () => {
-    it("should generate the correct schema", () => {
+    it("should generate the correct schema", async () => {
       class Model {
         @Property()
         @MinLength(10)
         test: string;
       }
 
-      const form = getFormioSchema(Model, { groups: ["group1"] });
+      const form = await getFormioSchema(Model, { groups: ["group1"] });
 
       expect(form).toEqual({
         "components": [
@@ -106,14 +106,14 @@ describe("String", () => {
     });
   });
   describe("MaxLength", () => {
-    it("should generate the correct schema", () => {
+    it("should generate the correct schema", async () => {
       class Model {
         @Property()
         @MaxLength(100)
         test: string;
       }
 
-      const form = getFormioSchema(Model, { groups: ["group1"] });
+      const form = await getFormioSchema(Model, { groups: ["group1"] });
 
       expect(form).toEqual({
         "components": [

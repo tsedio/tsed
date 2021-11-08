@@ -1,13 +1,13 @@
 import {Currency, getFormioSchema} from "@tsed/schema-formio";
 
 describe("Currency", () => {
-  it("should declare currency", () => {
+  it("should declare currency", async () => {
     class Model {
       @Currency()
       test: number;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           currency: "USD",

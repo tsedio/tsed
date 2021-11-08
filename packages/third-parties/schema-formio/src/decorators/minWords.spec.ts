@@ -2,13 +2,13 @@ import {getFormioSchema} from "@tsed/schema-formio";
 import {MinWords} from "./minWords";
 
 describe("@MinWords", () => {
-  it("should set the min words", () => {
+  it("should set the min words", async () => {
     class Model {
       @MinWords(10)
       test: string;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

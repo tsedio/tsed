@@ -2,12 +2,12 @@ import {Email} from "@tsed/schema";
 import {getFormioSchema} from "../src";
 
 describe('Email integration', () => {
-  it("should generate email field", () => {
+  it("should generate email field", async () => {
     class User {
       @Email()
       email: string;
     }
-    const form = getFormioSchema(User);
+    const form = await getFormioSchema(User);
     expect(form).toEqual({
       components: [
         {

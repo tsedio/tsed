@@ -2,13 +2,13 @@ import {CollectionOf} from "@tsed/schema";
 import {getFormioSchema} from "@tsed/schema-formio";
 
 describe("Array", () => {
-  it("should declare array string", () => {
+  it("should declare array string", async () => {
     class Model {
       @CollectionOf(String)
       test: string[];
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,
@@ -32,13 +32,13 @@ describe("Array", () => {
       tags: [],
     });
   });
-  it("should declare array number", () => {
+  it("should declare array number", async () => {
     class Model {
       @CollectionOf(Number)
       test: number[];
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       "components": [
         {
           "delimiter": false,
@@ -66,13 +66,13 @@ describe("Array", () => {
       tags: [],
     });
   });
-  it("should declare array boolean", () => {
+  it("should declare array boolean", async () => {
     class Model {
       @CollectionOf(Boolean)
       test: boolean[];
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       "components": [
         {
           "disabled": false,

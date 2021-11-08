@@ -1,4 +1,11 @@
 import {Component} from "./component";
+import {FormioDataResolver, FormioDataResolverCtx} from "../domain/FormioDataResolver";
+import {isFunction} from "@tsed/core";
+
+const wrap = (resolver: FormioDataResolver) => async (opts: FormioDataResolverCtx) => {
+  const result = await resolver(opts);
+  return JSON.stringify(result);
+};
 
 /**
  * Set custom json data source
@@ -6,13 +13,13 @@ import {Component} from "./component";
  * @param props
  * @constructor
  */
-export function DataSourceJson(data: any, props: Record<string, any> = {}) {
+export function DataSourceJson(data: any | FormioDataResolver, props: Record<string, any> = {}) {
   return Component({
     ...props,
     dataSrc: "json",
     data: {
       ...props.data,
-      json: JSON.stringify(data)
+      json: isFunction(data) ? wrap(data) : JSON.stringify(data)
     }
   });
 }

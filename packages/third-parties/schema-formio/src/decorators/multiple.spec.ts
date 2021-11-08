@@ -1,13 +1,13 @@
 import {getFormioSchema, Multiple} from "@tsed/schema-formio";
 
 describe("Multiple", () => {
-  it("should declare a model with multiple field", () => {
+  it("should declare a model with multiple field", async () => {
     class Model {
       @Multiple()
       test: string;
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           disabled: false,

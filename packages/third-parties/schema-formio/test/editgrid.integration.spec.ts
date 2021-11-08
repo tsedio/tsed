@@ -3,7 +3,7 @@ import {Currency, getFormioSchema} from "../src";
 
 
 describe('EditGrid integration', () => {
-  it("should generate form", () => {
+  it("should generate form", async () => {
     class Nested {
       @Property()
       id: string;
@@ -14,7 +14,7 @@ describe('EditGrid integration', () => {
       test: Nested[];
     }
 
-    expect(getFormioSchema(Model)).toEqual({
+    expect(await getFormioSchema(Model)).toEqual({
       components: [
         {
           components: [

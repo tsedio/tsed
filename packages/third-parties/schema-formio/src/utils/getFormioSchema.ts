@@ -6,10 +6,10 @@ import "../components";
 import {FormsContainer} from "../registries/FormsContainer";
 import {paramCase} from "change-case";
 
-export function getFormioSchema(
+export async function getFormioSchema(
   model: string | any | undefined,
   options: JsonSchemaOptions = {}
-): Omit<FormioForm, "components" | "_id" | "deleted" | "owner"> | undefined {
+): Promise<Omit<FormioForm, "components" | "_id" | "deleted" | "owner"> | undefined> {
   if (!model) {
     return undefined;
   }
@@ -26,8 +26,9 @@ export function getFormioSchema(
 
   const name = entity.schema.getName();
   const machineName = paramCase(name);
-
-  return ({
+  const resolvers: Promise<any>[] = [];
+  const components = execMapper("properties", schema, {...options, definitions: schema.definitions, resolvers});
+  const form = {
     title: name,
     type: "form",
     display: "form",
@@ -37,6 +38,10 @@ export function getFormioSchema(
     ...entity.store.get<any>("formio:form", {}),
     name: machineName,
     machineName,
-    components: execMapper("properties", schema, {...options, definitions: schema.definitions})
-  } as unknown) as FormioForm;
+    components
+  };
+
+  await Promise.all(resolvers.map((resolver: any) => resolver(form, options)));
+
+  return (form as unknown) as FormioForm;
 }
