@@ -1,18 +1,20 @@
 ---
 meta:
- - name: description
-   content: Guide to deploy your Ts.ED application on Serveless.
- - name: keywords
-   content: ts.ed express typescript aws node.js javascript decorators
+
+- name: description content: Guide to deploy your Ts.ED application on Serveless.
+- name: keywords content: ts.ed express typescript aws node.js javascript decorators
 
 ---
+
 # Serverless
 
 <Badge text="beta" /> <Badge text="Contributors are welcome" />
 
 <Banner src="https://user-images.githubusercontent.com/2752551/30405068-a7733b34-989e-11e7-8f66-7badaf1373ed.png" href="https://www.serverless.com/fr/" :height="180" />
 
-[Serverless](https://www.serverless.com/) is a free and open-source web framework written using Node.js. Serverless is the first framework developed for building applications on AWS Lambda, a serverless computing platform provided by Amazon as a part of Amazon Web Services. This tutorial will show you how to install and use Serverless with Ts.ED.
+[Serverless](https://www.serverless.com/) is a free and open-source web framework written using Node.js. Serverless is
+the first framework developed for building applications on AWS Lambda, a serverless computing platform provided by
+Amazon as a part of Amazon Web Services. This tutorial will show you how to install and use Serverless with Ts.ED.
 
 ## Features
 
@@ -21,6 +23,7 @@ This package allows the creation of pure Lambda AWS without mounting an Express.
 It supports:
 
 - Creating multiple lambda in one file,
+- Support routing,
 - DI injection with `@tsed/di`,
 - Models mapping using `@tsed/schema` and `@tsed/json-mapper`,
 - Params decorators can be used from `@tsed/platform-params` to get Query, Body, etc...
@@ -29,11 +32,11 @@ It supports:
 - Operation descriptions like `@Returns`,
 - `@tsed/async-hook-context` to inject Context anywhere in your class!
 - All ORM already available for other Ts.ED platform.
- 
+
 ## Unsupported features
 
-::: warning
-Some features that you can use with the Express.js or Koa.js platforms are not available with the Serverless platform.
+::: warning Some features that you can use with the Express.js or Koa.js platforms are not available with the Serverless
+platform.
 (See also our [table feature capabilities](/getting-started/#platform-features-support)).
 :::
 
@@ -41,10 +44,12 @@ Some features that you can use with the Express.js or Koa.js platforms are not a
 
 This mechanism is specific to Koa.js / Express.js and doesn't exist with the Serverless approach.
 
-Serverless provides a number of features such as Cors management via the configuration of `serverless.yml` and doesn't need to use middleware.
-In addition, serverless [plugins](https://www.serverless.com/plugins/) are also available and allow you to manage advanced scenarios without having to develop anything!
+Serverless provides a number of features such as Cors management via the configuration of `serverless.yml` and doesn't
+need to use middleware. In addition, serverless [plugins](https://www.serverless.com/plugins/) are also available and
+allow you to manage advanced scenarios without having to develop anything!
 
-If you can't find what you are looking for on the Serverless side, you can use `@tsed/di`'s [Interceptors](/docs/interceptors.md) to decorate the methods and add shareable features.
+If you can't find what you are looking for on the Serverless side, you can use `@tsed/di`'
+s [Interceptors](/docs/interceptors.md) to decorate the methods and add shareable features.
 
 ### Passport/OIDC/GraphQL etc...
 
@@ -60,11 +65,11 @@ The goal of lambda isn't to expose static files. We do not plan to support this 
 
 ## Rule
 
-::: warning
-By convention, try to not import something from `@tsed/common`. `@tsed/common` embed a lot of codes designed for the Full server platform which are not necessary in the Serverless context and aren't optimized for it. 
+::: warning By convention, try to not import something from `@tsed/common`. `@tsed/common` embed a lot of codes designed
+for the Full server platform which are not necessary in the Serverless context and aren't optimized for it.
 
-The recent version of Ts.ED expose all necessary decorators from `@tsed/schema`, `@tsed/platform-params` or `@tsed/di`. For example,
-@@Get@@ or @@Post@@ are commonly imported like this:
+The recent version of Ts.ED expose all necessary decorators from `@tsed/schema`, `@tsed/platform-params` or `@tsed/di`.
+For example, @@Get@@ or @@Post@@ are commonly imported like this:
 
 ```typescript
 import {Get} from "@tsed/common";
@@ -77,7 +82,6 @@ import {Get} from "@tsed/schema";
 ```
 
 :::
-
 
 ## Installation
 
@@ -95,8 +99,7 @@ tsed init .
 ? Choose the package manager: Yarn
 ```
 
-::: tip
-This tutorial works also with NPM package manager!
+::: tip This tutorial works also with NPM package manager!
 :::
 
 
@@ -107,7 +110,7 @@ This tutorial works also with NPM package manager!
 yarn add @tsed/platform-serverless serverless serverless-offline
 yarn add -D @types/aws-lambda
 ```
-  
+
   </Tab>
   <Tab label="NPM">
 
@@ -132,18 +135,18 @@ import {TimeslotModel} from "../models/TimeslotModel";
 
 @Controller("/timeslots")
 export class TimeslotsLambda {
-   @Inject()
-   protected timeslotsService: TimeslotsService;
+  @Inject()
+  protected timeslotsService: TimeslotsService;
 
-   @Get("/")
-   @Summary("Return a list of timeslots")
-   @Returns(200, Array).Of(TimeslotModel)
-   get(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {
-      return this.timeslotsService.find({
-         dateStart,
-         dateEnd
-      });
-   }
+  @Get("/")
+  @Summary("Return a list of timeslots")
+  @Returns(200, Array).Of(TimeslotModel)
+  get(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {
+    return this.timeslotsService.find({
+      dateStart,
+      dateEnd
+    });
+  }
 }
 ```
 
@@ -172,28 +175,64 @@ service: timeslots
 frameworkVersion: '2'
 
 provider:
-   name: aws
-   runtime: nodejs14.x
-   lambdaHashingVersion: '20201221'
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: '20201221'
 
 plugins:
-   - serverless-offline
+  - serverless-offline
 
 functions:
-   timeslots:
-      handler: dist/handler.getTimeslots
-      events:
-         - http:
-              path: /timeslots
-              method: get
+  timeslots:
+    handler: dist/handler.getTimeslots
+    events:
+      - http:
+          path: /timeslots
+          method: get
 ```
+
+## Manage routes from code
+
+Declaring all routes in the `serverless.yml` file can be a source of error. `@tsed/platform-serverless` can handle all
+routes and call the right lambda based on the decorators like @@Get@@, @@Post@@, etc...
+
+To use the embed router, change the `serverless.yml` declaration by this example:
+
+```yml
+service: timeslots
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: '20201221'
+
+plugins:
+  - serverless-offline
+
+functions:
+  any:
+    handler: dist/handler.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+```
+
+Now, Ts.ED will handle request and call the expected lambda.
 
 ## Invoke a lambda with serverless
 
-Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your local machine to speed up your development cycles. 
-To do so, it starts an HTTP server that handles the request's lifecycle like APIG does and invokes your handlers.
+Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your
+local machine to speed up your development cycles. To do so, it starts an HTTP server that handles the request's
+lifecycle like APIG does and invokes your handlers.
 
-So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our code before invoke the lambda.
+So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our
+code before invoke the lambda.
 
 To simplify our workflow, we can add the following npm script command in our `package.json`:
 
@@ -217,13 +256,13 @@ You should see in the terminal the following result:
 
 ```json
 {
-    "statusCode": 200,
-    "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
-    "headers": {
-        "content-type": "application/json",
-        "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
-    },
-    "isBase64Encoded": false
+  "statusCode": 200,
+  "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
+  "headers": {
+    "content-type": "application/json",
+    "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
+  },
+  "isBase64Encoded": false
 }
 ```
 
@@ -244,13 +283,95 @@ export class TimeslotsLambda {
     console.log($ctx.request) // Request Platform abstraction layer
 
     $ctx.response.setHeader('x-test', 'test');
-    
+
     return {}
   }
 }
 ```
 
-## Author 
+## Testing
+
+Ts.ED provide a way to test you lambda with mocked Aws event and context by using the @@PlatformServerlessTest@@ util.
+
+Here an example to test a Lambda controller:
+
+```typescript
+@Controller("/")
+class TimeslotsLambdaController {
+  @Get("/")
+  getAll() {
+    return [];
+  }
+
+  @Get("/:id")
+  getById(@PathParams("id") id: string, @QueryParams("start_date") startDate: Date, @QueryParams("end_date") endDate: Date) {
+    return {
+      id,
+      startDate,
+      endDate
+    };
+  }
+}
+
+describe("TimeslotsLambdaController", () => {
+  beforeEach(
+    PlatformServerlessTest.bootstrap({
+      lambda: [TimeslotsLambdaController]
+    })
+  );
+  afterEach(() => PlatformServerlessTest.reset());
+
+  describe("Invoke by lambda name", () => {
+    it("should call getAll Lambda", async () => {
+      const response = await PlatformServerlessTest.request.call("getAll");
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.headers).toEqual({
+        "x-request-id": "requestId",
+        "content-type": "application/json"
+      });
+      expect(JSON.parse(response.body)).toEqual([]);
+    });
+
+    it("should call getAll Lambda", async () => {
+      const response = await PlatformServerlessTest.request.call("getById")
+        .params({
+          id: "1"
+        })
+        .query({
+          start_date: new Date("2020-01-01"),
+          end_date: new Date("2020-01-10")
+        });
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.headers).toEqual({
+        "x-request-id": "requestId",
+        "content-type": "application/json"
+      });
+      expect(JSON.parse(response.body)).toEqual({
+        id: "1",
+        endDate: "2020-01-10T00:00:00.000Z",
+        startDate: "2020-01-01T00:00:00.000Z"
+      });
+    });    
+  });
+  
+  describe("invoke using the router", () => {
+    it("should call getAll Lambda", async () => {
+      const response = await PlatformServerlessTest.request.get("/");
+
+      expect(response.statusCode).toEqual(200);
+      expect(response.headers).toEqual({
+        "x-request-id": "requestId",
+        "content-type": "application/json"
+      });
+      expect(JSON.parse(response.body)).toEqual([]);
+    });
+  });
+});
+```
+
+## Author
 
 <GithubContributors :users="['Romakita']"/>
 

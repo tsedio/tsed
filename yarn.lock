@@ -9314,6 +9314,16 @@ find-my-way@^4.0.0:
     safe-regex2 "^2.0.0"
     semver-store "^0.3.0"
 
+find-my-way@^4.3.3:
+  version "4.3.3"
+  resolved "https://registry.yarnpkg.com/find-my-way/-/find-my-way-4.3.3.tgz#2ab3880a03bcaa8594548d66b0cd1c5a6e98dd44"
+  integrity sha512-5E4bRdaATB1MewjOCBjx4xvD205a4t2ripCnXB+YFhYEJ0NABtrcC7XLXLq0TPoFe/WYGUFqys3Qk3HCOGeNcw==
+  dependencies:
+    fast-decode-uri-component "^1.0.1"
+    fast-deep-equal "^3.1.3"
+    safe-regex2 "^2.0.0"
+    semver-store "^0.3.0"
+
 find-npm-prefix@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/find-npm-prefix/-/find-npm-prefix-1.0.2.tgz#8d8ce2c78b3b4b9e66c8acc6a37c231eb841cfdf"

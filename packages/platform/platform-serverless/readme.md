@@ -53,92 +53,7 @@ npm install --save @tsed/platform-serverless
 In the `src/lambda` create a new Lambda class:
 
 ```typescript
-import {Injectable, Controller} from "@tsed/di";
-import {Returns, Summary, Get} from "@tsed/schema";
-import {QueryParams} from "@tsed/platform-params"; // /!\ don't import decorators from @tsed/common
-import {TimeslotsService} from "../services/TimeslotsService";
-import {TimeslotModel} from "../models/TimeslotModel";
-
-@Controller("/timeslots")
-export class TimeslotsLambda {
-  @Inject()
-  protected timeslotsService: TimeslotsService;
-
-  @Get("/")
-  @Summary("Return a list of timeslots")
-  @Returns(200, Array).Of(TimeslotModel)
-  get(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {
-    return this.timeslotsService.find({
-      dateStart,
-      dateEnd
-    })
-  }
-}
-```
-
-Create new handler.ts to expose your lambda:
-
-```typescript
-import {PlatformServerless} from "@tsed/serverless";
-import {TimeslotsLambda} from "./lambda/TimeslotsLambda";
-
-const platform = PlatformServerless.bootstrap({
-  lambda: [
-    TimeslotsLambda
-  ]
-  // put your Application configuration here
-})
-
-// then export the lambda
-export default platform.callbacks();
-```
-
-Finally, create the serverless.yml:
-
-```yml
-# Welcome to Serverless!
-#
-# This file is the main config file for your service.
-# It's very minimal at this point and uses default values.
-# You can always add more config options for more control.
-# We've included some commented out config examples here.
-# Just uncomment any of them to get that config option.
-#
-# For full config options, check the docs:
-#    docs.serverless.com
-#
-# Happy Coding!
-
-service: timeslots
-# app and org for use with dashboard.serverless.com
-#app: your-app-name
-#org: your-org-name
-
-# You can pin your service to only deploy with a specific Serverless version
-# Check out our docs for more details
-frameworkVersion: '2'
-
-provider:
-  name: aws
-  runtime: nodejs12.x
-  lambdaHashingVersion: 20201221
-
-functions:
-  timeslots:
-    handler: handler.getTimeslots
-    events:
-      - http:
-        path: /timeslots
-        method: get
-        cors: true
-```
-
-## Multiple lambda
-
-In you lambda controller use Lambda decorators: 
-
-```typescript
-import {Injectable} from "@tsed/di";
+import {Controller, Inject} from "@tsed/di";
 import {Get, Returns, Summary} from "@tsed/schema";
 import {QueryParams} from "@tsed/platform-params"; // /!\ don't import decorators from @tsed/common
 import {TimeslotsService} from "../services/TimeslotsService";
@@ -156,8 +71,122 @@ export class TimeslotsLambda {
     return this.timeslotsService.find({
       dateStart,
       dateEnd
-    })
+    });
   }
+}
+```
+
+Create new `handler.ts` to expose your lambda:
+
+```typescript
+import {PlatformServerless} from "@tsed/serverless";
+import {TimeslotsLambda} from "./lambda/TimeslotsLambda";
+
+const platform = PlatformServerless.bootstrap({
+  lambda: [
+    TimeslotsLambda
+  ]
+  // put your Application configuration here
+})
+
+// then export the lambda
+export = platform.callbacks();
+```
+
+Finally, create the `serverless.yml`:
+
+```yml
+service: timeslots
+
+frameworkVersion: '2'
+
+provider:
+   name: aws
+   runtime: nodejs14.x
+   lambdaHashingVersion: '20201221'
+
+plugins:
+   - serverless-offline
+
+functions:
+   timeslots:
+      handler: dist/handler.getTimeslots
+      events:
+         - http:
+              path: /timeslots
+              method: get
+```
+
+## Manage routes from code
+
+Declaring all routes in the `serverless.yml` file can be a source of error. `@tsed/platform-serverless` can
+handle all routes and call the right lambda based on the decorators like `@Get`, `@Post`, etc...
+
+To use the embed router, change the `serverless.yml` declaration by this example:
+
+```yml
+service: timeslots
+
+frameworkVersion: '2'
+
+provider:
+   name: aws
+   runtime: nodejs14.x
+   lambdaHashingVersion: '20201221'
+
+plugins:
+   - serverless-offline
+
+functions:
+  any:
+    handler: dist/handler.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+```
+
+Now, Ts.ED will handle request and call the expected lambda.
+
+## Invoke a lambda with serverless
+
+Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your local machine to speed up your development cycles.
+To do so, it starts an HTTP server that handles the request's lifecycle like APIG does and invokes your handlers.
+
+So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our code before invoke the lambda.
+
+To simplify our workflow, we can add the following npm script command in our `package.json`:
+
+```json
+{
+  "scripts": {
+    "invoke:timeslots": "yarn build && serverless invoke local -f timeslots"
+  }
+}
+```
+
+Now, we can run the following command to invoke our lambda:
+
+```
+yarn invoke:timeslots
+// OR
+npm run invoke:timeslots
+```
+
+You should see in the terminal the following result:
+
+```json
+{
+    "statusCode": 200,
+    "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
+    "headers": {
+        "content-type": "application/json",
+        "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
+    },
+    "isBase64Encoded": false
 }
 ```
 
