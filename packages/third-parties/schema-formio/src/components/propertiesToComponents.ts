@@ -36,7 +36,7 @@ export function propertiesToComponents(schema: any, options: any): any[] {
 
     const component = cleanObject({
       key,
-      label: sentenceCase(key),
+      label: propSchema.title || sentenceCase(key),
       ...base,
       validate: cleanObject({
         ...(base.validate || {}),

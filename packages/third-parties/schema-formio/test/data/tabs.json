@@ -160,7 +160,7 @@
             },
             {
               "key": "responseTypes",
-              "label": "Response types",
+              "label": "Response types:",
               "disabled": false,
               "values": [
                 {
@@ -197,7 +197,7 @@
             },
             {
               "key": "grantTypes",
-              "label": "Grant types",
+              "label": "Grant Types:",
               "disabled": false,
               "values": [
                 {

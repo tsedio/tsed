@@ -112,11 +112,13 @@ export class OIDCClient extends OIDCBase {
   @Enum(OIDCResponseTypes)
   @CollectionOf(String)
   @Tabs("Parameters")
+  @Title("Response types:")
   responseTypes: OIDCResponseTypes[]; // types: code / id_token token / code id_token token / token / none
 
   @Enum(OIDCGrantTypes)
   @CollectionOf(String) // types: authorization_code, implicit, refresh_token, client_credentials
   @Tabs("Parameters")
+  @Title("Grant Types:")
   grantTypes: OIDCGrantTypes[];
 
   @Enum(OIDCTokenEndpointAuthMethod)
