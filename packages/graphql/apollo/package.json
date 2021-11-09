@@ -1,6 +1,6 @@
 {
   "name": "@tsed/apollo",
-  "version": "6.78.1",
+  "version": "6.79.0",
   "description": "Apollo package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -14,8 +14,8 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.78.1",
-    "@tsed/core": "6.78.1",
+    "@tsed/common": "6.79.0",
+    "@tsed/core": "6.79.0",
     "@types/graphql": "14.5.0",
     "apollo-server-core": "^2.17.0",
     "apollo-server-testing": "2.18.2",
