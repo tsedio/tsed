@@ -1,4 +1,5 @@
 import {getFormioSchema, Select} from "@tsed/schema-formio";
+import {Enum} from "@tsed/schema";
 
 describe("Select", () => {
   it("should declare a model with select field", async () => {
@@ -30,6 +31,50 @@ describe("Select", () => {
       submissionAccess: [],
       access: [],
       tags: []
+    });
+  });
+  it("should with enum", async () => {
+    enum MyEnum {
+      TEST1 = "TEST1",
+      TEST2 = "TEST2"
+    }
+
+    class Model {
+      @Select()
+      @Enum(MyEnum)
+      test: MyEnum;
+    }
+
+    expect(await getFormioSchema(Model)).toEqual({
+      access: [],
+      components: [
+        {
+          data: {
+            json: '[{"label":"Test1","value":"TEST1"},{"label":"Test2","value":"TEST2"}]'
+          },
+          dataSrc: "json",
+          disabled: false,
+          idPath: "value",
+          input: true,
+          key: "test",
+          label: "Test",
+          selectThreshold: 0.3,
+          template: "<span>{{ item.label }}</span>",
+          type: "select",
+          validate: {
+            required: false
+          },
+          valueProperty: "value",
+          widget: "choicesjs"
+        }
+      ],
+      display: "form",
+      machineName: "model",
+      name: "model",
+      submissionAccess: [],
+      tags: [],
+      title: "Model",
+      type: "form"
     });
   });
 });
