@@ -4,12 +4,12 @@ import {
   Inject,
   InjectorService,
   Module,
+  normalizePath,
   OnReady,
   PlatformApplication,
   PlatformContext,
   PlatformRouter,
-  useCtxHandler,
-  normalizePath
+  useCtxHandler
 } from "@tsed/common";
 import Fs from "fs";
 import {join} from "path";
@@ -66,19 +66,22 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   }
 
   $onReady() {
-    const host = this.configuration.getBestHost();
+    // istanbul ignore next
+    if (this.configuration.getBestHost) {
+      const host = this.configuration.getBestHost();
 
-    const displayLog = (conf: SwaggerSettings) => {
-      const {path = "/", fileName = "swagger.json", doc} = conf;
-      const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
+      const displayLog = (conf: SwaggerSettings) => {
+        const {path = "/", fileName = "swagger.json", doc} = conf;
+        const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
 
-      this.injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${normalizePath(path, fileName)}`);
-      this.injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
-    };
+        this.injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${normalizePath(path, fileName)}`);
+        this.injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
+      };
 
-    this.settings.forEach((conf) => {
-      displayLog(conf);
-    });
+      this.settings.forEach((conf) => {
+        displayLog(conf);
+      });
+    }
 
     this.generateSpecFiles();
   }
