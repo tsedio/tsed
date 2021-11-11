@@ -19,3 +19,4 @@ export * from "./tabs";
 export * from "./placeholder";
 export * from "./tooltip";
 export * from "./label";
+export * from "./modalEdit";
