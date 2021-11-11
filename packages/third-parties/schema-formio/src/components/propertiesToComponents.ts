@@ -17,6 +17,33 @@ function bindResolvers(component: FormioComponent, options: any) {
   }
 }
 
+function mapValidation(key: string, base: FormioComponent, schema: any, propSchema: any) {
+  const required = (schema.required || []).includes(key);
+  const validate = {
+    ...(base.validate || {}),
+    required,
+    pattern: propSchema.pattern,
+    minLength: !required || (required && propSchema.minLength > 1) ? propSchema.minLength : undefined,
+    maxLength: propSchema.maxLength,
+    min: propSchema.minimum,
+    max: propSchema.maximum
+  };
+
+  switch (propSchema.type) {
+    case "string":
+      if (propSchema.minLength === 0 && validate.required) {
+        validate.minLength = undefined;
+        validate.required = false;
+      }
+      break;
+    case "boolean":
+      validate.required = false;
+      break;
+  }
+
+  return cleanObject(validate);
+}
+
 export function propertiesToComponents(schema: any, options: any): any[] {
   const tabs = {
     label: "Tabs",
@@ -38,15 +65,7 @@ export function propertiesToComponents(schema: any, options: any): any[] {
       key,
       label: propSchema.title || sentenceCase(key),
       ...base,
-      validate: cleanObject({
-        ...(base.validate || {}),
-        required: (schema.required || []).includes(key),
-        pattern: propSchema.pattern,
-        minLength: !schema.required || (schema.required && propSchema.minLength !== 1) ? propSchema.minLength : undefined,
-        maxLength: propSchema.maxLength,
-        min: propSchema.minimum,
-        max: propSchema.maximum
-      })
+      validate: mapValidation(key, base, schema, propSchema)
     });
 
     bindResolvers(component, options);
