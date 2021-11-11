@@ -107,7 +107,7 @@
               "input": true,
               "type": "checkbox",
               "validate": {
-                "required": true
+                "required": false
               }
             },
             {
