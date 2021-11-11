@@ -8,7 +8,6 @@ export function defaultToComponent(schema: any, options: any): any {
   return cleanObject({
     ...formioProps,
     disabled: !!schema.readOnly,
-    label: schema.title,
     description: schema.description,
     defaultValue: schema.default
   });

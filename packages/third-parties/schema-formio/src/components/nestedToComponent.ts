@@ -4,7 +4,7 @@ import {execMapper, registerFormioMapper} from "../registries/FormioMappersConta
 export function nestedToComponent(schema: any, options: any) {
   return {
     ...execMapper("default", schema, options),
-    label: undefined,
+    label: false,
     tableView: false,
     type: "form",
     display: "form",

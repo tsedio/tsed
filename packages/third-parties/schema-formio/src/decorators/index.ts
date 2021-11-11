@@ -16,3 +16,6 @@ export * from "./maxWords";
 export * from "./validate";
 export * from "./form";
 export * from "./tabs";
+export * from "./placeholder";
+export * from "./tooltip";
+export * from "./label";

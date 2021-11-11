@@ -63,8 +63,8 @@ export function propertiesToComponents(schema: any, options: any): any[] {
 
     const component = cleanObject({
       key,
-      label: propSchema.title || sentenceCase(key),
       ...base,
+      label: base.label == false ? undefined : base.label || propSchema.title || sentenceCase(key),
       validate: mapValidation(key, base, schema, propSchema)
     });
 
