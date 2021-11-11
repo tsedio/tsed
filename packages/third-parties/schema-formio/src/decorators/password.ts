@@ -1,4 +1,9 @@
 import {Component} from "./component";
+
+export interface PasswordOpts extends Record<string, any> {
+  showCharCount?: boolean;
+  showWordCount?: boolean;
+}
 /**
  * Configure the property as Password component.
  * @decorator
@@ -6,7 +11,7 @@ import {Component} from "./component";
  * @property
  * @schema
  */
-export function Password(props: Record<string, any> = {}): PropertyDecorator {
+export function Password(props: PasswordOpts = {}): PropertyDecorator {
   return Component({
     ...props,
     type: "password",

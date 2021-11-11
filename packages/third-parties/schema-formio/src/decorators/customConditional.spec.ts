@@ -1,10 +1,10 @@
 import {getFormioSchema} from "@tsed/schema-formio";
-import {Mask, Masks} from "./mask";
+import {CustomConditional} from "./customConditional";
 
-describe("@Mask", () => {
-  it("should add a mask on field (1)", async () => {
+describe("@CustomConditional", () => {
+  it("should add a custom conditional rule on field (1)", async () => {
     class Model {
-      @Mask("(99999)", "____")
+      @CustomConditional(({value}) => value === 1)
       test: string;
     }
 
@@ -17,8 +17,7 @@ describe("@Mask", () => {
           key: "test",
           label: "Test",
           type: "textfield",
-          inputMask: "(99999)",
-          inputMaskPlaceholderChar: "____",
+          customConditional: "show = value === 1",
           validate: {
             required: false
           }
@@ -33,9 +32,9 @@ describe("@Mask", () => {
       type: "form"
     });
   });
-  it("should add a mask on field (2)", async () => {
+  it("should add a custom conditional rule on field (2)", async () => {
     class Model {
-      @Mask("(99999)")
+      @CustomConditional((ctx) => ctx.value === 1)
       test: string;
     }
 
@@ -48,8 +47,7 @@ describe("@Mask", () => {
           key: "test",
           label: "Test",
           type: "textfield",
-          inputMask: "(99999)",
-          inputMaskPlaceholderChar: "",
+          customConditional: "show = value === 1",
           validate: {
             required: false
           }
@@ -64,12 +62,9 @@ describe("@Mask", () => {
       type: "form"
     });
   });
-});
-
-describe("@Masks", () => {
-  it("should add masks on field", async () => {
+  it("should add a custom conditional rule on field (3)", async () => {
     class Model {
-      @Masks({label: "label", mask: "mask"})
+      @CustomConditional("show = value === 1")
       test: string;
     }
 
@@ -81,13 +76,8 @@ describe("@Masks", () => {
           input: true,
           key: "test",
           label: "Test",
-          inputMasks: [
-            {
-              label: "label",
-              mask: "mask"
-            }
-          ],
           type: "textfield",
+          customConditional: "show = value === 1",
           validate: {
             required: false
           }

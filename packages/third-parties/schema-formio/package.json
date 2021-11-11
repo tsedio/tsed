@@ -40,6 +40,8 @@
     "@tsed/core": "^6.79.1",
     "@tsed/openspec": "^6.79.1",
     "@tsed/schema": "^6.79.1",
-    "formiojs": ">=4.0.0"
+    "formiojs": ">=4.0.0",
+    "moment": ">=2.0.0",
+    "lodash": ">=4.0.0"
   }
 }

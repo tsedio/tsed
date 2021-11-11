@@ -1,5 +1,10 @@
 import {Component} from "./component";
 
+export interface TextareaOpts extends Record<string, any> {
+  showCharCount?: boolean;
+  showWordCount?: boolean;
+}
+
 /**
  * Configure the property as Textarea component.
  * @decorator
@@ -7,7 +12,7 @@ import {Component} from "./component";
  * @property
  * @schema
  */
-export function Textarea(props: Record<string, any> = {}): PropertyDecorator {
+export function Textarea(props: TextareaOpts = {}): PropertyDecorator {
   return Component({
     autoExpand: false,
     ...props,

@@ -2,6 +2,9 @@ import {Component} from "./component";
 
 /**
  * Set hidden field.
+ *
+ * A hidden field is still a part of the form, but is hidden from view.
+ *
  * @param bool
  * @decorator
  * @formio
