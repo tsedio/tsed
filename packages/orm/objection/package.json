@@ -39,7 +39,7 @@
     "@tsed/di": "^6.80.0",
     "@tsed/json-mapper": "^6.80.0",
     "@tsed/schema": "^6.80.0",
-    "knex": ">=0.95.11",
+    "knex": ">=0.94.0",
     "objection": ">=2.0.0"
   }
 }
