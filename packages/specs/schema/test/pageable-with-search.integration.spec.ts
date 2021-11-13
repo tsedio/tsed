@@ -1,6 +1,5 @@
-import {QueryParams} from "@tsed/common";
 import {expect} from "chai";
-import {array, getJsonSchema, getSpec, OneOf, Required, SpecTypes, string} from "../src";
+import {array, getJsonSchema, getSpec, In, OneOf, Required, SpecTypes, string} from "../src";
 import {OperationPath, Path, Property, Returns} from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
 import {Pageable} from "./pageable.integration.spec";
@@ -29,7 +28,7 @@ export class ContactQueryParams extends Pageable {
 class TestPageableCtrl {
   @OperationPath("GET", "/")
   @(Returns(206, ContactQueryParams))
-  async get(@QueryParams() pageableOptions: ContactQueryParams) {
+  async get(@In("query") pageableOptions: ContactQueryParams) {
 
   }
 }
@@ -113,7 +112,7 @@ describe("Spec: ContactQueryParams", () => {
     });
   });
   it("should generate the OS3", async () => {
-    const spec = getSpec(TestPageableCtrl, {specType: SpecTypes.OPENAPI});
+    const spec = getSpec(TestPageableCtrl, { specType: SpecTypes.OPENAPI });
 
     expect(spec).to.deep.eq({
       "components": {

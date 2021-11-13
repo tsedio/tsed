@@ -98,7 +98,7 @@ export abstract class DecoratorContext<T = any> extends Map<string, any> {
   }
 
   protected onMapKey(key: string, value: any): void {
-    this.entity.store.set(key, value);
+    this.entity.set(key, value);
   }
 
   protected runActions() {

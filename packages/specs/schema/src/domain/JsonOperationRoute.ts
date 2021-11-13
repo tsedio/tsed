@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {JsonMethodPath} from "./JsonOperation";
+import {JsonMethodPath, JsonOperation} from "./JsonOperation";
 import {JsonEntityStore} from "./JsonEntityStore";
 import {concatPath} from "../utils/concatPath";
 
@@ -11,6 +11,10 @@ export class JsonOperationRoute<Entity extends JsonEntityStore = JsonEntityStore
 
   constructor(options: Partial<JsonOperationRoute>) {
     Object.assign(this, options);
+  }
+
+  get url() {
+    return this.fullPath;
   }
 
   get path() {
@@ -29,11 +33,39 @@ export class JsonOperationRoute<Entity extends JsonEntityStore = JsonEntityStore
     return !!this.operationPath?.isFinal;
   }
 
+  get name() {
+    return `${this.endpoint.targetName}.${this.methodClassName}()`;
+  }
+
+  get className() {
+    return this.endpoint.targetName;
+  }
+
+  get methodClassName() {
+    return this.propertyKey;
+  }
+
+  get parameters() {
+    return this.endpoint.parameters;
+  }
+
   get propertyKey() {
-    return this.endpoint.propertyKey;
+    return String(this.endpoint.propertyKey);
+  }
+
+  get propertyName() {
+    return this.endpoint.propertyName;
   }
 
   get store() {
     return this.endpoint.store;
+  }
+
+  get operation(): JsonOperation {
+    return this.endpoint.operation as JsonOperation;
+  }
+
+  get operationId() {
+    return this.operation.get("operationId") || this.endpoint.propertyKey;
   }
 }

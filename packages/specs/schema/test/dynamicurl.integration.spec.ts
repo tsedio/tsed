@@ -1,19 +1,19 @@
 import {expect} from "chai";
-import {getSpec, In, Name, SpecTypes, string} from "../src";
+import {getSpec, In, SpecTypes, string} from "../src";
 import {OperationPath, Path} from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
 
 @Path("/dynamic")
 class TestDynamicUrlCtrl {
   @OperationPath("GET", "/JQ=:id")
-  async get(@In("path") @Name("id") id: string) {
+  async get(@In("path").Name("id") id: string) {
 
   }
 }
 
 describe("Spec: DynamicUrl", () => {
   it("should generate the OS3", async () => {
-    const spec = getSpec(TestDynamicUrlCtrl, {specType: SpecTypes.OPENAPI});
+    const spec = getSpec(TestDynamicUrlCtrl, { specType: SpecTypes.OPENAPI });
 
     expect(spec).to.deep.eq({
       "paths": {

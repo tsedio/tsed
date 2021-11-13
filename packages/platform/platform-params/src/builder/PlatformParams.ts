@@ -1,5 +1,5 @@
 import {DIContext, Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
-import {JsonEntityStore} from "@tsed/schema";
+import {JsonEntityStore, JsonParameterStore} from "@tsed/schema";
 import {ParamMetadata, PipeMethods} from "../domain/ParamMetadata";
 import {ParamValidationError} from "../errors/ParamValidationError";
 import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe";
@@ -38,7 +38,7 @@ export class PlatformParams {
   }
 
   async compile<Context extends DIContext = DIContext>(entity: JsonEntityStore) {
-    const params = ParamMetadata.getParams(entity.target, entity.propertyKey);
+    const params = JsonParameterStore.getParams(entity.target, entity.propertyKey);
 
     const argsPipes = await Promise.all(
       params.map(async (param: ParamMetadata) => {

@@ -1,6 +1,6 @@
 import {DecoratorTypes, deepMerge, descriptorOf, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
 import {ParamMetadata} from "@tsed/platform-params";
-import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonOperation} from "@tsed/schema";
+import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonMethodStore, JsonOperation} from "@tsed/schema";
 
 export interface EndpointConstructorOptions extends JsonEntityStoreOptions {
   beforeMiddlewares?: Function[];
@@ -35,7 +35,7 @@ export interface EndpointRedirectOptions {
  *
  */
 @JsonEntityComponent(DecoratorTypes.METHOD)
-export class EndpointMetadata extends JsonEntityStore implements EndpointConstructorOptions {
+export class EndpointMetadata extends JsonMethodStore implements EndpointConstructorOptions {
   public beforeMiddlewares: any[] = [];
   public middlewares: any[] = [];
   public afterMiddlewares: any[] = [];
@@ -59,18 +59,7 @@ export class EndpointMetadata extends JsonEntityStore implements EndpointConstru
   }
 
   get params(): ParamMetadata[] {
-    return (Array.from(this.children.values()) as unknown) as ParamMetadata[];
-  }
-
-  /**
-   * Return the JsonOperation
-   */
-  get operation(): JsonOperation {
-    return this._operation;
-  }
-
-  get operationPaths() {
-    return this.operation.operationPaths;
+    return this.parameters as ParamMetadata[];
   }
 
   get view(): EndpointViewOptions {

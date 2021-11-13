@@ -1,17 +1,21 @@
-import {BodyParams, Controller, Post} from "@tsed/common";
 import {expect} from "chai";
 import {
   boolean,
   CollectionOf,
-  date, Email,
+  date,
+  Email,
   GenericOf,
   Generics,
   getJsonSchema,
   getSpec,
-  In, MinLength,
+  In,
+  MinLength,
   number,
   OperationPath,
-  Property, Required,
+  Path,
+  Post,
+  Property,
+  Required,
   Returns,
   SpecTypes,
   string
@@ -19,8 +23,8 @@ import {
 import {validateSpec} from "./helpers/validateSpec";
 
 describe("Generics", () => {
-  describe('JsonSchema',() => {
-    describe('Basic', () => {
+  describe("JsonSchema", () => {
+    describe("Basic", () => {
       it("should return the json schema for an inherited model and generics", () => {
         @Generics("T")
         class Base<T> {
@@ -121,7 +125,7 @@ describe("Generics", () => {
           payload: Model<Role>;
         }
 
-        expect(getJsonSchema(Content, {host: "http://example.com/schema"})).to.deep.eq({
+        expect(getJsonSchema(Content, { host: "http://example.com/schema" })).to.deep.eq({
           definitions: {
             Role: {
               properties: {
@@ -157,7 +161,7 @@ describe("Generics", () => {
           type: "object"
         });
       });
-    })
+    });
     describe("using Functional api", () => {
       it("should generate JsonSchema with 'string' from generic object", () => {
         @Generics("T")
@@ -453,9 +457,9 @@ describe("Generics", () => {
         });
       });
     });
-  })
+  });
   describe("Generics OpenSpec", () => {
-    describe('Adjustment<number>', () => {
+    describe("Adjustment<number>", () => {
       it("should generate openspec 3", async () => {
         @Generics("T")
         class UserProperty<T> {
@@ -468,14 +472,15 @@ describe("Generics", () => {
           adjustment: UserProperty<number>;
         }
 
-        @Controller("/hello-world")
+        @Path("/hello-world")
         class HelloWorldController {
           @Post("/")
-          get(@BodyParams() m: Adjustment) {
+          get(@In("body") m: Adjustment) {
             return m;
           }
         }
-        const spec = getSpec(HelloWorldController, {specType: SpecTypes.OPENAPI});
+
+        const spec = getSpec(HelloWorldController, { specType: SpecTypes.OPENAPI });
 
         expect(spec).to.deep.eq({
           "components": {
@@ -541,14 +546,15 @@ describe("Generics", () => {
           adjustment: UserProperty<number>;
         }
 
-        @Controller("/hello-world")
+        @Path("/hello-world")
         class HelloWorldController {
           @Post("/")
-          get(@BodyParams() m: Adjustment) {
+          get(@In("body") m: Adjustment) {
             return m;
           }
         }
-        const spec = getSpec(HelloWorldController, {specType: SpecTypes.SWAGGER});
+
+        const spec = getSpec(HelloWorldController, { specType: SpecTypes.SWAGGER });
 
         expect(await validateSpec(spec)).to.eq(true);
         expect(spec).to.deep.eq({
@@ -599,8 +605,8 @@ describe("Generics", () => {
           ]
         });
       });
-    })
-    describe('Submission<T> with twice models', () => {
+    });
+    describe("Submission<T> with twice models", () => {
       it("should generate openspec 2", () => {
         // WHEN
         @Generics("T")
@@ -637,8 +643,8 @@ describe("Generics", () => {
         }
 
         // THEN
-        const spec1 = getSpec(Controller1, {specType: SpecTypes.SWAGGER});
-        const spec2 = getSpec(Controller2, {specType: SpecTypes.SWAGGER});
+        const spec1 = getSpec(Controller1, { specType: SpecTypes.SWAGGER });
+        const spec2 = getSpec(Controller2, { specType: SpecTypes.SWAGGER });
 
         expect(spec1).to.deep.equal({
           definitions: {
@@ -767,7 +773,7 @@ describe("Generics", () => {
         }
 
         // THEN
-        const spec1 = getSpec(Controller1, {specType: SpecTypes.OPENAPI});
+        const spec1 = getSpec(Controller1, { specType: SpecTypes.OPENAPI });
 
         expect(spec1).to.deep.equal({
           components: {
@@ -871,8 +877,8 @@ describe("Generics", () => {
         }
 
         // THEN
-        const spec2 = getSpec(Controller2, {specType: SpecTypes.SWAGGER});
-        const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+        const spec2 = getSpec(Controller2, { specType: SpecTypes.SWAGGER });
+        const spec = getSpec(Controller, { specType: SpecTypes.SWAGGER });
 
         expect(spec).to.deep.equal({
           definitions: {
@@ -1011,7 +1017,7 @@ describe("Generics", () => {
         }
 
         // THEN
-        const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+        const spec = getSpec(Controller, { specType: SpecTypes.OPENAPI });
 
         expect(spec).to.deep.equal({
           components: {
@@ -1073,8 +1079,8 @@ describe("Generics", () => {
           }
         });
       });
-    })
-    describe('Pagination<Submission<Product>>', () => {
+    });
+    describe("Pagination<Submission<Product>>", () => {
       // WHEN
       @Generics("T")
       class Pagination<T> {
@@ -1109,7 +1115,7 @@ describe("Generics", () => {
 
       it("should generate openspec 3", () => {
         // THEN
-        const spec1 = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+        const spec1 = getSpec(MyController, { specType: SpecTypes.OPENAPI });
 
         expect(spec1).to.deep.equal({
           components: {
@@ -1171,9 +1177,9 @@ describe("Generics", () => {
           ]
         });
       });
-      it('should generate openspec 2', () =>{
+      it("should generate openspec 2", () => {
 
-        const spec2 = getSpec(MyController, {specType: SpecTypes.SWAGGER});
+        const spec2 = getSpec(MyController, { specType: SpecTypes.SWAGGER });
 
         expect(spec2).to.deep.equal({
           definitions: {
@@ -1229,9 +1235,9 @@ describe("Generics", () => {
             }
           ]
         });
-      })
-    })
-    describe('Pagination<Product>', () => {
+      });
+    });
+    describe("Pagination<Product>", () => {
       it("should generate openspec 2", async () => {
         // WHEN
         @Generics("T")
@@ -1257,7 +1263,7 @@ describe("Generics", () => {
         }
 
         // THEN
-        const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+        const spec = getSpec(Controller, { specType: SpecTypes.SWAGGER });
 
         expect(spec).to.deep.equal({
           definitions: {
@@ -1355,7 +1361,7 @@ describe("Generics", () => {
         });
 
         // THEN
-        const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+        const spec = getSpec(Controller, { specType: SpecTypes.OPENAPI });
 
         expect(spec).to.deep.equal({
           components: {
@@ -1417,6 +1423,6 @@ describe("Generics", () => {
           }
         });
       });
-    })
+    });
   });
 });

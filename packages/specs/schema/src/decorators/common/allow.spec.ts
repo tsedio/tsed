@@ -127,18 +127,4 @@ describe("@Allow", () => {
     expect(validate({allow: null})).to.equal(true);
     expect(validate({})).to.equal(false);
   });
-  it("should throw error when the decorator isn't used with a supported decorator type", () => {
-    // WHEN
-    let actualError: any;
-    try {
-      class Model {
-        constructor(@Allow("") param: string) {}
-      }
-    } catch (er) {
-      actualError = er;
-    }
-
-    // THEN
-    expect(actualError.message).to.deep.equal("Allow cannot be used as parameter.constructor decorator on Model");
-  });
 });

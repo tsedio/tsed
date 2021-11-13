@@ -1,6 +1,7 @@
-import {DecoratorParameters, decoratorTypeOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
+import {DecoratorParameters, decoratorTypeOf, DecoratorTypes} from "@tsed/core";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonEntityFn} from "./jsonEntityFn";
+import type {JsonMethodStore, JsonParameterStore} from "../../domain";
 
 /**
  * Add a description to the class, method or property
@@ -63,15 +64,12 @@ export function Description(description: any) {
         break;
 
       case DecoratorTypes.PARAM:
-        store.parameter?.description(description);
+        (store as JsonParameterStore).parameter.description(description);
         break;
 
       case DecoratorTypes.METHOD:
-        store.operation?.description(description);
+        (store as JsonMethodStore).operation?.description(description);
         break;
-
-      default:
-        throw new UnsupportedDecoratorType(Description, args);
     }
   });
 }

@@ -38,7 +38,7 @@ export interface ArrayOfChainedDecorators {
   /**
    * If this keyword has boolean value false, the instance validates successfully. If it has boolean value true, the instance validates successfully if all of its elements are unique.
    */
-  UniqueItems(uniqueItems: boolean): this;
+  UniqueItems(uniqueItems?: boolean): this;
 }
 
 export interface MapOfChainedDecorators {

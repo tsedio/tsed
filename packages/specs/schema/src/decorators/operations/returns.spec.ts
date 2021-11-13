@@ -1,8 +1,6 @@
-import "@tsed/common";
-import "@tsed/exceptions";
-import {CollectionOf, Generics, OperationPath, Property, Returns, SpecTypes} from "@tsed/schema";
+import "@tsed/platform-exceptions";
+import {CollectionOf, Generics, getSpec, OperationPath, Property, Returns, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
-import {getSpec} from "../../utils/getSpec";
 
 describe("@Returns", () => {
   describe("Single contentType", () => {
@@ -507,20 +505,6 @@ describe("@Returns", () => {
       }
 
       actualError.message.should.eq("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
-    });
-    it("should throw an error when the decorator isn't correctly used", async () => {
-      class Test {}
-
-      // WHEN
-      let actualError: any;
-      try {
-        // @ts-ignore
-        Returns(200)(Test, "property");
-      } catch (er) {
-        actualError = er;
-      }
-
-      actualError.message.should.eq("Returns cannot be used as property.static decorator on Test.property");
     });
     it("should declare an Array of string", async () => {
       // WHEN

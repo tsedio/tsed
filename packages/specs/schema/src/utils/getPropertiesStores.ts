@@ -1,5 +1,6 @@
 import {Type} from "@tsed/core";
-import type {JsonEntityStore} from "../domain/JsonEntityStore";
+import type {JsonClassStore} from "../domain/JsonClassStore";
+import type {JsonPropertyStore} from "../domain/JsonPropertyStore";
 import {alterIgnore} from "../hooks/alterIgnore";
 import {getInheritedStores} from "./getInheritedStores";
 import {getJsonEntityStore} from "./getJsonEntityStore";
@@ -9,10 +10,10 @@ import {getJsonEntityStore} from "./getJsonEntityStore";
  * @param target
  * @ignore
  */
-export function getPropertiesStores<T extends JsonEntityStore = JsonEntityStore>(
+export function getPropertiesStores<T extends JsonPropertyStore = JsonPropertyStore>(
   target: Type<any> | any
 ): Map<string | symbol | number, T> {
-  const store: any = target.isStore ? target : getJsonEntityStore(target);
+  const store: JsonClassStore = target.isStore ? target : getJsonEntityStore(target);
 
   if (!store.$properties) {
     const stores = getInheritedStores(store);
@@ -43,7 +44,10 @@ export interface GetPropertiesOptions {
 /**
  * @ignore
  */
-export function getProperties<T extends JsonEntityStore = JsonEntityStore>(target: Type<any> | any, options: GetPropertiesOptions = {}) {
+export function getProperties<T extends JsonPropertyStore = JsonPropertyStore>(
+  target: Type<any> | any,
+  options: GetPropertiesOptions = {}
+) {
   const stores = getPropertiesStores<T>(target);
   const map: Map<string | symbol | number, T> = new Map();
 

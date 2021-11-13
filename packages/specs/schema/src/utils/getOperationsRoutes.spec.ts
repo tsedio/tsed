@@ -1,8 +1,7 @@
 import {StoreSet} from "@tsed/core";
 import {expect} from "chai";
-import {All, Children, Get, getOperationsRoutes, Path} from "@tsed/schema";
+import {All, Children, Get, getOperationsRoutes, In, Path} from "@tsed/schema";
 import {JsonOperationRoute} from "../domain/JsonOperationRoute";
-import {Context} from "@tsed/platform-params";
 
 function getData(operationRoute: JsonOperationRoute) {
   return {
@@ -52,7 +51,7 @@ describe("getOperationsRoutes()", () => {
       all() {}
 
       @StoreSet("test", "test-ignore")
-      shouldBeIgnored(@Context() ctx: Context) {}
+      shouldBeIgnored(@In("any") ctx: any) {}
     }
 
     const operationsRoutes = getOperationsRoutes(Test);
@@ -115,7 +114,7 @@ describe("getOperationsRoutes()", () => {
     @Path("/test")
     class Test {
       @StoreSet("test", "test-ignore")
-      shouldBeIgnored(@Context() ctx: Context) {}
+      shouldBeIgnored(@In("any") ctx: any) {}
     }
 
     const operationsRoutes = getOperationsRoutes(Test);

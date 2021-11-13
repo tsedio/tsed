@@ -1,10 +1,10 @@
-import {QueryParams} from "@tsed/common";
 import {expect} from "chai";
 import {
   Default,
   GenericOf,
   Generics,
   getSpec,
+  In,
   Maximum,
   Minimum,
   OperationPath,
@@ -12,6 +12,7 @@ import {
   Property,
   SpecTypes
 } from "../src";
+import {QueryParams} from "@tsed/platform-params";
 
 describe("Deep Object QueryParams", () => {
   it("should generate the spec for deep object", () => {
@@ -34,7 +35,7 @@ describe("Deep Object QueryParams", () => {
       }
     }
 
-    const spec = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
+    const spec = getSpec(TestDeepObjectCtrl, { specType: SpecTypes.OPENAPI });
 
     expect(spec).to.deep.eq({
       "components": {
@@ -121,7 +122,7 @@ describe("Deep Object QueryParams", () => {
       }
     }
 
-    const spec = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
+    const spec = getSpec(TestDeepObjectCtrl, { specType: SpecTypes.OPENAPI });
 
     expect(spec).to.deep.eq({
       "components": {
@@ -219,12 +220,12 @@ describe("Deep Object QueryParams", () => {
     @Path("/pageable")
     class TestDeepObjectCtrl {
       @OperationPath("GET", "/")
-      async get(@QueryParams() @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
+      async get(@In("query") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
 
       }
     }
 
-    const spec = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
+    const spec = getSpec(TestDeepObjectCtrl, { specType: SpecTypes.OPENAPI });
 
     expect(spec).to.deep.eq({
       "components": {

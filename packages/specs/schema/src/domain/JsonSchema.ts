@@ -5,12 +5,12 @@ import {IgnoreCallback} from "../interfaces/IgnoreCallback";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics} from "../utils/generics";
 import {getComputedType} from "../utils/getComputedType";
-import {getJsonEntityStore, isJsonEntityStore} from "../utils/getJsonEntityStore";
 import {getJsonType} from "../utils/getJsonType";
 import {toJsonRegex} from "../utils/toJsonRegex";
 import {AliasMap, AliasType} from "./JsonAliasMap";
 import {JsonFormatTypes} from "./JsonFormatTypes";
 import {JsonLazyRef} from "./JsonLazyRef";
+import {JsonEntityStore} from "./JsonEntityStore";
 
 export interface JsonSchemaObject extends JSONSchema6, Record<string, any> {
   type: (any | JSONSchema6TypeName) | (any | JSONSchema6TypeName)[];
@@ -44,7 +44,7 @@ function mapToJsonSchema(item: any): any {
   }
 
   if (classOf(item) !== Object && isClass(item)) {
-    return getJsonEntityStore(item).schema;
+    return JsonEntityStore.from(item).schema;
   }
 
   if (isObject(item)) {

@@ -1,8 +1,8 @@
-import {QueryParams} from "@tsed/common";
 import {expect} from "chai";
 import {getSpec, SpecTypes} from "../src";
 import {OperationPath, Path, Property, Returns} from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
+import {QueryParams} from "@tsed/platform-params";
 
 class Product {
   @Property()
@@ -11,7 +11,7 @@ class Product {
   @Property()
   title: string;
 
-  constructor({id, title}: Partial<Product> = {}) {
+  constructor({ id, title }: Partial<Product> = {}) {
     id && (this.id = id);
     title && (this.title = title);
   }
@@ -32,7 +32,7 @@ class TestResponseCtrl {
 
 describe("Spec: Response", () => {
   it("should generate the OS3", async () => {
-    const spec = getSpec(TestResponseCtrl, {specType: SpecTypes.OPENAPI});
+    const spec = getSpec(TestResponseCtrl, { specType: SpecTypes.OPENAPI });
 
     expect(spec).to.deep.eq({
       "components": {
@@ -113,7 +113,7 @@ describe("Spec: Response", () => {
     expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
   });
   it("should generate the OS2", async () => {
-    const spec = getSpec(TestResponseCtrl, {specType: SpecTypes.SWAGGER});
+    const spec = getSpec(TestResponseCtrl, { specType: SpecTypes.SWAGGER });
 
     expect(spec).to.deep.eq({
       "definitions": {

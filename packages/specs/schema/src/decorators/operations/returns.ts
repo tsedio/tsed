@@ -298,8 +298,6 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
         this.decoratorType = DecoratorTypes.CLASS;
         decorateMethodsOf(args[0], decorator);
         break;
-      default:
-        throw new UnsupportedDecoratorType(Returns, args);
     }
   }
 

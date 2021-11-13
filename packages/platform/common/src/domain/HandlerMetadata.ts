@@ -1,7 +1,7 @@
 import {nameOf, Type} from "@tsed/core";
 import {ProviderScope} from "@tsed/di";
-import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
-import {JsonEntityStore} from "@tsed/schema";
+import {ParamTypes} from "@tsed/platform-params";
+import {JsonParameterStore} from "@tsed/schema";
 import {HandlerType} from "../interfaces/HandlerType";
 import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouteOptions";
 
@@ -44,7 +44,7 @@ export class HandlerMetadata {
         this.type = HandlerType.ERR_MIDDLEWARE;
       }
 
-      this.injectable = ParamMetadata.getParams(target as any, propertyKey).length > 0;
+      this.injectable = JsonParameterStore.getParams(target as any, propertyKey).length > 0;
     } else {
       this.handler = handler;
     }
@@ -62,7 +62,7 @@ export class HandlerMetadata {
   }
 
   public getParams() {
-    return ParamMetadata.getParams(this.target, this.propertyKey) || [];
+    return JsonParameterStore.getParams(this.target, this.propertyKey) || [];
   }
 
   public hasParamType(paramType: any): boolean {

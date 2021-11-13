@@ -1,5 +1,5 @@
 import {decorateMethodsOf, DecoratorTypes, Type, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityStore, JsonParameter, JsonSchema, JsonSchemaObject} from "../../domain";
+import {JsonEntityStore, JsonMethodStore, JsonParameter, JsonParameterStore, JsonSchema, JsonSchemaObject} from "../../domain";
 import {JsonParameterTypes} from "../../domain/JsonParameterTypes";
 
 export interface InChainedDecorators {
@@ -80,11 +80,11 @@ export function In(inType: JsonParameterTypes | string): InChainedDecorators {
 
     switch (store.decoratorType) {
       case DecoratorTypes.PARAM:
-        store.parameter!.in(inType);
+        (store as JsonParameterStore).parameter.in(inType);
         break;
       case DecoratorTypes.METHOD:
         jsonParameter.in(inType);
-        store.operation!.addParameter(-1, jsonParameter);
+        (store as JsonMethodStore).operation.addParameter(-1, jsonParameter);
 
         jsonParameter.schema(JsonSchema.from(schema));
         break;
