@@ -5,4 +5,4 @@ const platform = PlatformServerless.bootstrap({
   lambda: [TimeslotsLambda]
 });
 
-export default platform.callbacks();
+export = platform.callbacks();
