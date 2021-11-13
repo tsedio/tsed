@@ -45,42 +45,6 @@ function storeGet(key: string, ...args: any[]): Store {
   }
 }
 
-function storeHas(key: string, ...args: any[]): boolean {
-  if (isSymbol(args[0])) {
-    return stores.has(args[0]);
-  }
-
-  const registry = Metadata as any;
-
-  return registry.hasOwn(key, ...args);
-}
-
-function hasDefinedStore(args: any[]): boolean {
-  const [target, propertyKey, descriptor] = args;
-
-  switch (decoratorTypeOf(args)) {
-    case DecoratorTypes.PARAM_CTOR:
-    case DecoratorTypes.PARAM_STC:
-    case DecoratorTypes.PARAM:
-      if (storeHas(PARAM_STORE, target, propertyKey)) {
-        const store = storeGet(PARAM_STORE, target, propertyKey);
-
-        return store.has("" + descriptor);
-      }
-
-      return false;
-
-    case DecoratorTypes.PROP:
-    case DecoratorTypes.PROP_STC:
-      return storeHas(PROPERTY_STORE, target, propertyKey);
-    case DecoratorTypes.METHOD:
-    case DecoratorTypes.METHOD_STC:
-      return storeHas(METHOD_STORE, target, propertyKey);
-    case DecoratorTypes.CLASS:
-      return storeHas(CLASS_STORE, target);
-  }
-}
-
 function defineStore(args: any[]): Store {
   const [target, propertyKey, descriptor] = args;
 
@@ -107,11 +71,6 @@ function defineStore(args: any[]): Store {
 
 export class Store {
   private _entries = new Map<string, any>();
-
-  static has(...args: any[]) {
-    return hasDefinedStore(args);
-  }
-
   /**
    * Create or get a Store from args {target + methodName + descriptor}
    * @param args

@@ -57,15 +57,15 @@ export class JsonParameterStore extends JsonEntityStore {
         return isMethodDescriptor(target, propertyKey) && JsonEntityStore.fromMethod(target, propertyKey).children.size;
       });
 
-    if (!klass) {
-      return [];
+    if (klass) {
+      JsonEntityStore.fromMethod(klass, propertyKey).children.forEach((param: T, index) => {
+        params[+index] = param;
+      });
+
+      return params;
     }
 
-    JsonEntityStore.fromMethod(klass, propertyKey).children.forEach((param: T, index) => {
-      params[+index] = param;
-    });
-
-    return params;
+    return [];
   }
 
   /**
