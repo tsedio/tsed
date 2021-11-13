@@ -125,20 +125,4 @@ describe("@Example", () => {
       type: "object"
     });
   });
-  it("should throw error when the decorator isn't used with a supported decorator type", () => {
-    // WHEN
-    let actualError: any;
-    try {
-      class Test {
-        method() {}
-      }
-
-      Example("example")(Test, "method", descriptorOf(Test, "method"));
-    } catch (er) {
-      actualError = er;
-    }
-
-    // THEN
-    expect(actualError.message).to.deep.equal("Example cannot be used as method.static decorator on Test.method");
-  });
 });

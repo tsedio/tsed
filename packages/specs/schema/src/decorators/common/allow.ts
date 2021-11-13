@@ -1,6 +1,7 @@
-import {DecoratorTypes, isClass, UnsupportedDecoratorType, useDecorators} from "@tsed/core";
+import {DecoratorTypes, isClass, useDecorators} from "@tsed/core";
 import {JsonEntityFn} from "./jsonEntityFn";
 import {Property} from "./property";
+import type {JsonParameterStore} from "../../domain/JsonParameterStore";
 
 /**
  * Add allowed values when the property or parameters is required.
@@ -36,15 +37,12 @@ export function Allow(...values: any[]) {
     JsonEntityFn((store, args) => {
       store.schema.allow(...values);
 
-      switch (store.decoratorType) {
-        case DecoratorTypes.PARAM:
-          store.parameter!.required(true);
-          break;
-        case DecoratorTypes.PROP:
-          store.parentSchema.addRequired(store.propertyName);
-          break;
-        default:
-          throw new UnsupportedDecoratorType(Allow, args);
+      if (store.decoratorType === DecoratorTypes.PARAM) {
+        (store as JsonParameterStore).required = true;
+      }
+
+      if (store.decoratorType === DecoratorTypes.PROP) {
+        store.parentSchema.addRequired(store.propertyName);
       }
     })
   );

@@ -1,5 +1,6 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "./jsonEntityFn";
+import type {JsonParameterStore} from "../../domain/JsonParameterStore";
 
 /**
  * Add optional annotation on Property or Parameter.
@@ -11,16 +12,14 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @input
  */
 export function Optional() {
-  return JsonEntityFn((store, args) => {
+  return JsonEntityFn((store) => {
     switch (store.decoratorType) {
       case DecoratorTypes.PARAM:
-        store.parameter!.required(false);
+        (store as JsonParameterStore).required = false;
         break;
       case DecoratorTypes.PROP:
         store.parentSchema.removeRequired(store.propertyName);
         break;
-      default:
-        throw new UnsupportedDecoratorType(Optional, args);
     }
   });
 }

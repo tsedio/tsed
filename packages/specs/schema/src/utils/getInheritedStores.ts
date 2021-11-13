@@ -1,5 +1,5 @@
-import {ancestorsOf, Type} from "@tsed/core";
-import {JsonEntityStore} from "../domain/JsonEntityStore";
+import {ancestorsOf, Store, Type} from "@tsed/core";
+import type {JsonClassStore} from "../domain/JsonClassStore";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 
 /**
@@ -7,14 +7,17 @@ import {getJsonEntityStore} from "./getJsonEntityStore";
  * @param target
  * @ignore
  */
-export function getInheritedStores(target: Type<any> | any): Map<Type<any>, JsonEntityStore> {
-  const store: any = target.isStore ? target : getJsonEntityStore(target);
+export function getInheritedStores(target: Type<any> | any): Map<Type<any>, JsonClassStore> {
+  const store: JsonClassStore = target.isStore ? target : getJsonEntityStore<JsonClassStore>(target);
 
   if (!store.$inherited) {
     store.$inherited = ancestorsOf(store.target)
       .reverse()
       .reduce((context, model) => {
-        return context.set(model, getJsonEntityStore(model));
+        if (Store.has(model)) {
+          return context.set(model, getJsonEntityStore(model));
+        }
+        return context;
       }, new Map());
   }
 

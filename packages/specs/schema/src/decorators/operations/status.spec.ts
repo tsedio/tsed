@@ -288,20 +288,6 @@ describe("@Status", () => {
 
     actualError.message.should.eq("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
   });
-  it("should throw an error when the decorator isn't correctly used", async () => {
-    class Test {}
-
-    // WHEN
-    let actualError: any;
-    try {
-      // @ts-ignore
-      Status(200)(Test, "property");
-    } catch (er) {
-      actualError = er;
-    }
-
-    actualError.message.should.eq("Returns cannot be used as property.static decorator on Test.property");
-  });
   it("should declare an Array of string", async () => {
     // WHEN
     class Controller {

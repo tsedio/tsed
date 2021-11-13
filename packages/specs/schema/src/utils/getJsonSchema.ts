@@ -40,7 +40,7 @@ function get(entity: JsonEntityStore, options: any) {
   return cache.get(key);
 }
 
-export function getJsonSchema(model: Type<any> | JsonEntityStore, options: JsonSchemaOptions = {}) {
+export function getJsonSchema(model: Type<any> | any, options: JsonSchemaOptions = {}) {
   const entity = getJsonEntityStore(model);
 
   options = {

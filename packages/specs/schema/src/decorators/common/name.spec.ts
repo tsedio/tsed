@@ -1,5 +1,4 @@
-import {Controller} from "@tsed/common";
-import {Consumes, getSpec, OperationPath} from "@tsed/schema";
+import {Consumes, getSpec, OperationPath, Path} from "@tsed/schema";
 import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Name} from "./name";
@@ -24,7 +23,7 @@ describe("@Name", () => {
   });
   it("should declare name on class", () => {
     // WHEN
-    @Controller("/")
+    @Path("/")
     @Name("AwesomeController")
     class MyController {
       @OperationPath("POST", "/")

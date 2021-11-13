@@ -217,18 +217,4 @@ describe("@Description", () => {
       }
     });
   });
-  it("should throw error when the decorator isn't used with a supported decorator type", () => {
-    // WHEN
-    let actualError: any;
-    try {
-      class Model {
-        constructor(@Description("Description") param: string) {}
-      }
-    } catch (er) {
-      actualError = er;
-    }
-
-    // THEN
-    expect(actualError.message).to.deep.equal("Description cannot be used as parameter.constructor decorator on Model");
-  });
 });

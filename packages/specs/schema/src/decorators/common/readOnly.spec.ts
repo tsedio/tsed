@@ -1,8 +1,6 @@
-import {Format, getJsonSchema, getSpec, Post, Property, Returns, SpecTypes} from "@tsed/schema";
+import {Format, getJsonSchema, getSpec, In, Path, Post, Property, Returns, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import {ReadOnly} from "./readOnly";
-import {Controller} from "@tsed/di";
-import {BodyParams} from "@tsed/platform-params";
 
 describe("@ReadOnly", () => {
   it("should declare readOnly field", () => {
@@ -50,11 +48,11 @@ describe("@ReadOnly", () => {
       members: TestPerson;
     }
 
-    @Controller("/")
+    @Path("/")
     class MyCtrl {
       @Post("/")
       @Returns(200, TestBand)
-      post(@BodyParams() model: TestBand) {}
+      post(@In("body") model: TestBand) {}
     }
 
     // THEN
@@ -159,11 +157,11 @@ describe("@ReadOnly", () => {
       members: TestPerson;
     }
 
-    @Controller("/")
+    @Path("/")
     class MyCtrl {
       @Post("/")
       @Returns(200, TestBand)
-      post(@BodyParams() model: TestBand) {}
+      post(@In("body") model: TestBand) {}
     }
 
     // THEN

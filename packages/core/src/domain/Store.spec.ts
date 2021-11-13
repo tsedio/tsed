@@ -1,6 +1,6 @@
 import {expect} from "chai";
 import Sinon from "sinon";
-import {CLASS_STORE, Metadata, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "../../src";
+import {CLASS_STORE, descriptorOf, Metadata, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, prototypeOf, Store} from "../../src";
 
 class FakeMetadata {
   attr1: any;
@@ -191,21 +191,53 @@ describe("Store", () => {
   });
 
   describe("from()", () => {
-    describe("from Symbol", () => {
-      it("should create a store from Symbol", () => {
-        // GIVEN
-        const TOKEN = Symbol.for("token");
-        const TOKEN2 = Symbol.for("token2");
-        const store1 = Store.from(TOKEN);
-        const store2 = Store.from(TOKEN);
-        const store3 = Store.from(TOKEN2);
+    it("should create a store from Symbol", () => {
+      // GIVEN
+      const TOKEN = Symbol.for("token");
+      const TOKEN2 = Symbol.for("token2");
 
-        // WHEN
-        store1.set("test", "value");
+      expect(Store.has(TOKEN)).to.eq(false);
 
-        expect(store2.get("test")).to.eq("value");
-        expect(store3.get("test")).to.eq(undefined);
-      });
+      const store1 = Store.from(TOKEN);
+      const store2 = Store.from(TOKEN);
+      const store3 = Store.from(TOKEN2);
+
+      // WHEN
+      store1.set("test", "value");
+
+      expect(store2.get("test")).to.eq("value");
+      expect(store3.get("test")).to.eq(undefined);
+    });
+  });
+
+  describe("static has()", () => {
+    it("should test if the store exits", () => {
+      // GIVEN
+      class Test {
+        property: string;
+
+        method(param: string) {}
+      }
+
+      // WHEN
+      expect(Store.has(Test)).to.eq(false);
+      expect(Store.has(Test, "property")).to.eq(false);
+      expect(Store.has(prototypeOf(Test), "property")).to.eq(false);
+      expect(Store.has(Test, "method", descriptorOf(Test, "method"))).to.eq(false);
+      expect(Store.has(prototypeOf(Test), "method", descriptorOf(Test, "method"))).to.eq(false);
+      expect(Store.has(Test, "method", 0)).to.eq(false);
+      expect(Store.has(prototypeOf(Test), "method", 0)).to.eq(false);
+
+      Store.from(Test);
+      Store.from(prototypeOf(Test), "property");
+      Store.from(prototypeOf(Test), "method", descriptorOf(Test, "method"));
+      Store.from(prototypeOf(Test), "method", 0);
+
+      expect(Store.has(Test)).to.eq(true);
+      expect(Store.has(Test, "property")).to.eq(true);
+      expect(Store.has(prototypeOf(Test), "property")).to.eq(true);
+      expect(Store.has(prototypeOf(Test), "method", descriptorOf(Test, "method"))).to.eq(true);
+      expect(Store.has(prototypeOf(Test), "method", 0)).to.eq(true);
     });
   });
 });

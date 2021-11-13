@@ -46,7 +46,7 @@ describe("mapHeaders", () => {
           description: "test",
           example: 1
         }
-      })
+      } as any)
     ).to.deep.equal({
       key: {
         description: "test",

@@ -14,6 +14,7 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
   nestedGenerics: Type<any>[][] = [];
   groups: string[];
   $schema: JsonSchema;
+  expression: string;
 
   getName() {
     const name = this.get("name");
