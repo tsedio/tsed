@@ -70,7 +70,8 @@ function defineStore(args: any[]): Store {
 }
 
 export class Store {
-  private _entries = new Map<string, any>();
+  private _entries: Record<string, any> = {};
+
   /**
    * Create or get a Store from args {target + methodName + descriptor}
    * @param args
@@ -93,7 +94,7 @@ export class Store {
   static mergeStoreFrom(target: Type<any>, source: Type<any>, ...args: any[]) {
     const store = Store.from(target, ...args);
 
-    Store.from(source, ...args)._entries.forEach((value, key) => {
+    Object.entries(Store.from(source, ...args)._entries).forEach(([key, value]) => {
       store.merge(key, value);
     });
 
@@ -111,7 +112,7 @@ export class Store {
    * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
    */
   get<T = any>(key: any, defaultValue?: any): T {
-    return this._entries.get(nameOf(key)) || defaultValue;
+    return this._entries[nameOf(key)] || defaultValue;
   }
 
   /**
@@ -120,7 +121,7 @@ export class Store {
    * @returns {boolean}
    */
   has(key: any): boolean {
-    return this._entries.has(nameOf(key));
+    return nameOf(key) in this._entries;
   }
 
   /**
@@ -129,7 +130,7 @@ export class Store {
    * @param metadata Required. The value of the element to add to the Map object.
    */
   set(key: any, metadata: any): Store {
-    this._entries.set(nameOf(key), metadata);
+    this._entries[nameOf(key)] = metadata;
 
     return this;
   }
@@ -140,7 +141,8 @@ export class Store {
    * @returns {boolean} Returns true if an element in the Map object existed and has been removed, or false if the element does not exist.
    */
   delete(key: string): boolean {
-    return this._entries.delete(nameOf(key));
+    delete this._entries[nameOf(key)];
+    return true;
   }
 
   /**
@@ -165,7 +167,7 @@ export class Store {
   }
 
   toJson() {
-    return [...this._entries.entries()].reduce((obj, [key, value]) => {
+    return [...Object.entries(this._entries)].reduce((obj, [key, value]) => {
       return {
         ...obj,
         [key]: value
