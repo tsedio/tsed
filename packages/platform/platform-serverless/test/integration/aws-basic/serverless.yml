@@ -12,7 +12,7 @@ plugins:
 
 functions:
   timeslots:
-    handler: handler.get
+    handler: dist/index.get
     events:
       - http:
           path: /
