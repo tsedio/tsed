@@ -7,11 +7,10 @@ import {
   isPlainObject,
   isPrimitiveOrPrimitiveClass,
   isString,
-  Type,
-  UnsupportedDecoratorType
+  Type
 } from "@tsed/core";
 import {OS3Example} from "@tsed/openspec";
-import {HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
+import {getStatusMessage, HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
 import {DecoratorContext} from "../../domain/DecoratorContext";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonResponse} from "../../domain/JsonResponse";
@@ -170,8 +169,8 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
   status(status: number | string) {
     this.set("status", status);
 
-    if (status && HTTP_STATUS_MESSAGES[status] && !this.get("description")) {
-      this.set("description", HTTP_STATUS_MESSAGES[status]);
+    if (status && getStatusMessage(status) && !this.get("description")) {
+      this.set("description", getStatusMessage(status));
 
       if (!this.get("model")) {
         this.model(getStatusModel(+status));

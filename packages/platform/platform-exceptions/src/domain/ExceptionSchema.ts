@@ -21,7 +21,7 @@ from(Exception).properties({
 });
 
 // Auto load models for all Exceptions
-Object.values(Exceptions).forEach((target) => {
+Object.values(Exceptions).forEach((target: any) => {
   if (target !== Exception && target.STATUS) {
     if (target.STATUS > 302) {
       const name = getStatusConstant(target.STATUS);

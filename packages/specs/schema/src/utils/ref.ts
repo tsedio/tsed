@@ -1,4 +1,4 @@
-import {pascalCase} from "change-case";
+import {pascalCase} from "pascal-case";
 import type {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";

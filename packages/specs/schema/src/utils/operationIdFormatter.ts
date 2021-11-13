@@ -1,4 +1,4 @@
-import {camelCase} from "change-case";
+import {camelCase} from "camel-case";
 
 const DEFAULT_PATTERN = "%c.%m";
 
