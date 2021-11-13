@@ -1,6 +1,6 @@
 import {deepMerge, uniq, uniqBy} from "@tsed/core";
 import {OpenSpecSecurity, OpenSpecTag, OS3Operation} from "@tsed/openspec";
-import {HTTP_STATUS_MESSAGES} from "../constants/httpStatusMessages";
+import {getStatusMessage} from "../constants/httpStatusMessages";
 import {JsonHeader, JsonSchemaOptions} from "../interfaces";
 import {isRedirectionStatus, isSuccessStatus} from "../utils/isSuccessStatus";
 import {JsonMap} from "./JsonMap";
@@ -237,7 +237,7 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
     if (this.get("responses").size === 0) {
       operation.responses = {
         "200": {
-          description: HTTP_STATUS_MESSAGES[200]
+          description: getStatusMessage(200)
         }
       };
     }
