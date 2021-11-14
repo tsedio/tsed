@@ -1,8 +1,7 @@
 import {isClass, isFunction} from "@tsed/core";
 import {Configuration, Injectable} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
-import cacheManager, {Cache, CachingConfig, MultiCache, TtlFunction} from "cache-manager";
-import micromatch from "micromatch";
+import type {Cache, CachingConfig, MultiCache, TtlFunction} from "cache-manager";
 import {PlatformCacheSettings} from "../interfaces";
 
 const defaultKeyResolver = (args: any[]) => {
@@ -27,19 +26,11 @@ export class PlatformCache {
     return !this.settings.get<PlatformCacheSettings>("cache");
   }
 
-  $onInit() {
+  async $onInit() {
     const settings = this.settings.get<PlatformCacheSettings>("cache");
 
     if (settings) {
-      const {caches, store = "memory", ttl, ...props} = settings;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      this.cache = caches?.length
-        ? cacheManager.multiCaching(caches, {...props})
-        : cacheManager.caching({
-            ...props,
-            ttl,
-            store
-          });
+      this.cache = await this.createCacheManager(settings);
     }
   }
 
@@ -91,7 +82,7 @@ export class PlatformCache {
   }
 
   async getMatchingKeys(patterns: string): Promise<string[]> {
-    const keys = await this.keys();
+    const [keys, {default: micromatch}] = await Promise.all([this.keys(), import("micromatch")]);
 
     return micromatch(keys, patterns);
   }
@@ -102,5 +93,19 @@ export class PlatformCache {
     await Promise.all(keys.map((key: string) => this.del(key)));
 
     return keys;
+  }
+
+  protected async createCacheManager(settings: PlatformCacheSettings) {
+    const {caches, store = "memory", ttl, ...props} = settings;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {default: cacheManager} = await import("cache-manager");
+
+    return caches?.length
+      ? cacheManager.multiCaching(caches, {...props})
+      : cacheManager.caching({
+          ...props,
+          ttl,
+          store: isFunction(store) ? await store() : store
+        });
   }
 }

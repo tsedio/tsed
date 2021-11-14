@@ -12,6 +12,7 @@ export function InjectContext(): PropertyDecorator {
           bean = injector.invoke(PlatformAsyncHookContext, locals, invokeOptions);
         }
 
+        // istanbul ignore next
         if (isPromise(bean)) {
           bean.then((result: any) => {
             bean = result;
