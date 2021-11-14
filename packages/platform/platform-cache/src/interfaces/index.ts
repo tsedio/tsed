@@ -1,5 +1,5 @@
 import type {BaseContext} from "@tsed/di";
-import {Cache, CacheOptions, CachingConfig, Store} from "cache-manager";
+import type {Cache, CacheOptions, CachingConfig, Store} from "cache-manager";
 
 export * from "./PlatformCachedObject";
 
@@ -11,7 +11,8 @@ export interface PlatformCacheSettings extends CacheOptions, CachingConfig {
     | Store
     | {
         create(...args: any[]): Store;
-      };
+      }
+    | (() => any);
   max?: number;
   keyResolver?: (args: any[], ctx: BaseContext) => string;
 
