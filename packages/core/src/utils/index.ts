@@ -1,6 +1,7 @@
 export * from "./catchError";
 export * from "./proxyDelegation";
 export * from "./uniq";
+export * from "./imports/importPackage";
 
 // methods
 export * from "./decorators/decorateMethodsOf";
