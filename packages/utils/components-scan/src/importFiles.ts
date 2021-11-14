@@ -1,3 +1,4 @@
+import {importPackage} from "@tsed/core";
 import {cleanGlobPatterns} from "./cleanGlobPatterns";
 
 export async function importFiles(patterns: string | string[], exclude: string[]): Promise<any[]> {
@@ -9,7 +10,7 @@ export async function importFiles(patterns: string | string[], exclude: string[]
     if (!file.endsWith(".d.ts")) {
       // prevent .d.ts import if the global pattern isn't correctly configured
       try {
-        const exports = await import(file);
+        const exports = await importPackage(file);
         Object.keys(exports).forEach((key) => symbols.push(exports[key]));
       } catch (er) {
         // istanbul ignore next

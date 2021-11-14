@@ -29,15 +29,13 @@ describe("ApolloService", () => {
       PLATFORM_NAME: "express"
     })
   );
-  afterEach(() => PlatformTest.reset());
+  afterEach(() => {
+    sandbox.restore();
+    return PlatformTest.reset();
+  });
 
   describe("createServer()", () => {
     describe("when server options isn't given", () => {
-      after(() => {
-        PlatformTest.reset();
-        sandbox.restore();
-      });
-
       it("should create a server", async () => {
         // GIVEN
         const service = PlatformTest.get(ApolloService);

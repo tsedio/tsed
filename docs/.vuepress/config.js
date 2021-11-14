@@ -351,6 +351,7 @@ module.exports = {
               { title: "Serve files", path: "/docs/serve-files" },
               "/docs/injection-scopes",
               "/docs/custom-providers",
+              "/docs/providers-lazy-loading",
               "/docs/custom-endpoint-decorators",
               "/docs/throw-http-exceptions",
               "/docs/not-found-page",
@@ -428,6 +429,7 @@ module.exports = {
           "/docs/response-filter",
           "/docs/injection-scopes",
           "/docs/custom-providers",
+          "/docs/providers-lazy-loading",
           "/docs/custom-endpoint-decorators",
           "/docs/testing",
           "/docs/not-found-page"

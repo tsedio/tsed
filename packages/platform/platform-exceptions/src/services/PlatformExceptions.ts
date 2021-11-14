@@ -1,9 +1,9 @@
 import {ancestorsOf, classOf, nameOf} from "@tsed/core";
 import {BaseContext, Inject, Injectable, InjectorService} from "@tsed/di";
-import "../components/ErrorFilter";
-import "../components/ExceptionFilter";
-import "../components/MongooseErrorFilter";
-import "../components/StringErrorFilter";
+import {ErrorFilter} from "../components/ErrorFilter";
+import {ExceptionFilter} from "../components/ExceptionFilter";
+import {MongooseErrorFilter} from "../components/MongooseErrorFilter";
+import {StringErrorFilter} from "../components/StringErrorFilter";
 import {ExceptionFilterKey, ExceptionFiltersContainer} from "../domain/ExceptionFiltersContainer";
 import {ResourceNotFound} from "../errors/ResourceNotFound";
 import {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
@@ -13,7 +13,9 @@ import {ExceptionFilterMethods} from "../interfaces/ExceptionFilterMethods";
  *
  * @platform
  */
-@Injectable()
+@Injectable({
+  imports: [ErrorFilter, ExceptionFilter, MongooseErrorFilter, StringErrorFilter]
+})
 export class PlatformExceptions {
   types: Map<ExceptionFilterKey, ExceptionFilterMethods> = new Map();
 

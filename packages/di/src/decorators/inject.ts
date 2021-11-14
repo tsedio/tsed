@@ -1,5 +1,16 @@
-import {decoratorTypeOf, DecoratorTypes, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants";
+import {decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
+import type {InjectablePropertyOptions} from "../interfaces/InjectableProperties";
+
+export function injectProperty(target: any, propertyKey: string, options: Partial<InjectablePropertyOptions>) {
+  Store.from(target).merge(INJECTABLE_PROP, {
+    [propertyKey]: {
+      bindingType: DecoratorTypes.PROP,
+      propertyKey,
+      ...options
+    }
+  });
+}
 
 /**
  * Inject a provider to another provider.
@@ -19,7 +30,7 @@ import {INJECTABLE_PROP} from "../constants";
  * @returns {Function}
  * @decorator
  */
-export function Inject(symbol?: any, onGet?: (bean: any) => any): Function {
+export function Inject(symbol?: any, onGet = (bean: any) => bean): Function {
   return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any | void => {
     const bindingType = decoratorTypeOf([target, propertyKey, descriptor]);
 
@@ -35,12 +46,25 @@ export function Inject(symbol?: any, onGet?: (bean: any) => any): Function {
         break;
 
       case DecoratorTypes.PROP:
-        Store.from(target).merge(INJECTABLE_PROP, {
-          [propertyKey]: {
-            bindingType,
-            propertyKey,
-            onGet,
-            useType: symbol || Metadata.getType(target, propertyKey)
+        injectProperty(target, propertyKey, {
+          resolver(injector, locals, {options, ...invokeOptions}) {
+            locals.set(DI_PARAM_OPTIONS, {...options});
+
+            let bean: any;
+
+            if (!bean) {
+              const useType = symbol || Metadata.getType(target, propertyKey);
+              bean = injector.invoke(useType, locals, invokeOptions);
+              locals.delete(DI_PARAM_OPTIONS);
+            }
+
+            if (isPromise(bean)) {
+              bean.then((result: any) => {
+                bean = result;
+              });
+            }
+
+            return () => onGet(bean);
           }
         });
         break;

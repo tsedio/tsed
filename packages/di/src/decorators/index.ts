@@ -2,6 +2,7 @@ export * from "./scope";
 export * from "./service";
 export * from "./overrideProvider";
 export * from "./inject";
+export * from "./lazyInject";
 export * from "./injectable";
 export * from "./constant";
 export * from "./value";

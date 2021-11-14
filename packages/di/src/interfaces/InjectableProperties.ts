@@ -1,15 +1,17 @@
 import type {InjectablePropertyType} from "../domain/InjectablePropertyType";
 import type {TokenProvider} from "./TokenProvider";
+import type {InjectorService} from "../services/InjectorService";
+import type {InvokeOptions} from "./InvokeOptions";
 
 export interface InjectableProperty {
   propertyKey: string;
 }
 
-export interface InjectablePropertyService extends InjectableProperty {
+export interface InjectablePropertyOptions extends InjectableProperty {
   bindingType: InjectablePropertyType.METHOD | InjectablePropertyType.PROPERTY | InjectablePropertyType.INTERCEPTOR;
   propertyType: string;
-  useType: TokenProvider;
-  onGet?: (bean: any) => any;
+  useType?: TokenProvider;
+  resolver: (injector: InjectorService, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions> & {options: any}) => () => any;
   options?: any;
 }
 
@@ -20,5 +22,5 @@ export interface InjectablePropertyValue extends InjectableProperty {
 }
 
 export interface InjectableProperties {
-  [key: string]: InjectablePropertyService | InjectablePropertyValue;
+  [key: string]: InjectablePropertyOptions | InjectablePropertyValue;
 }

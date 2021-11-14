@@ -8,7 +8,6 @@ import {
   isClass,
   isFunction,
   isInheritedFrom,
-  isPromise,
   Metadata,
   nameOf,
   prototypeOf,
@@ -26,7 +25,7 @@ import {UndefinedTokenError} from "../errors/UndefinedTokenError";
 import {
   DILogger,
   InjectableProperties,
-  InjectablePropertyService,
+  InjectablePropertyOptions,
   InjectablePropertyValue,
   InterceptorContext,
   InterceptorMethods,
@@ -148,7 +147,7 @@ export class InjectorService extends Container {
    * @returns {boolean}
    */
   get<T = any>(token: TokenProvider, options: any = {}): T | undefined {
-    const instance = super.get(getClassOrSymbol(token))?.instance;
+    const instance = this.getInstance(token);
 
     if (instance !== undefined) {
       return instance;
@@ -393,7 +392,7 @@ export class InjectorService extends Container {
    * @param instance
    * @param {string} propertyKey
    */
-  public bindMethod(instance: any, {propertyKey}: InjectablePropertyService) {
+  public bindMethod(instance: any, {propertyKey}: InjectablePropertyOptions) {
     const target = classOf(instance);
     const originalMethod = instance[propertyKey];
     const deps = Metadata.getParamTypes(prototypeOf(target), propertyKey);
@@ -411,33 +410,24 @@ export class InjectorService extends Container {
    * @param instance
    * @param {string} propertyKey
    * @param {any} useType
-   * @param onGet
+   * @param resolver
    * @param options
    * @param locals
    * @param invokeOptions
    */
   public bindProperty(
     instance: any,
-    {propertyKey, useType, onGet = (f: any) => f, options}: InjectablePropertyService,
+    {propertyKey, resolver, options = {}}: InjectablePropertyOptions,
     locals: Map<TokenProvider, any>,
     invokeOptions: Partial<InvokeOptions>
   ) {
-    invokeOptions = {...invokeOptions};
-    locals.set(DI_PARAM_OPTIONS, {...options});
+    let get: () => any;
 
-    let bean: any = this.invoke(useType, locals, invokeOptions);
-
-    locals.delete(DI_PARAM_OPTIONS);
-
-    if (isPromise(bean)) {
-      bean.then((result: any) => {
-        bean = result;
-      });
-    }
+    get = resolver(this, locals, {...invokeOptions, options});
 
     catchError(() =>
       Object.defineProperty(instance, propertyKey, {
-        get: () => onGet(bean)
+        get
       })
     );
   }
@@ -495,7 +485,7 @@ export class InjectorService extends Container {
    * @param useType
    * @param options
    */
-  public bindInterceptor(instance: any, {propertyKey, useType, options}: InjectablePropertyService) {
+  public bindInterceptor(instance: any, {propertyKey, useType, options}: InjectablePropertyOptions) {
     const target = classOf(instance);
     const originalMethod = instance[propertyKey];
 
@@ -538,12 +528,30 @@ export class InjectorService extends Container {
     return cb();
   }
 
+  async lazyInvoke(token: TokenProvider) {
+    let instance = this.getInstance(token);
+
+    if (!instance) {
+      instance = await this.invoke(token);
+
+      if (isFunction(instance?.$onInit)) {
+        await instance.$onInit();
+      }
+    }
+
+    return instance;
+  }
+
   protected ensureProvider(token: TokenProvider): Provider | undefined {
     if (!this.hasProvider(token) && GlobalProviders.has(token)) {
       this.addProvider(token);
     }
 
     return this.getProvider(token)!;
+  }
+
+  protected getInstance(token: any) {
+    return super.get(getClassOrSymbol(token))?.instance;
   }
 
   /**

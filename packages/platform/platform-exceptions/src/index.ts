@@ -17,3 +17,5 @@ export * from "./services/PlatformExceptions";
 
 // errors
 export * from "./errors/ResourceNotFound";
+
+export {PlatformExceptions as default} from "./services/PlatformExceptions";
