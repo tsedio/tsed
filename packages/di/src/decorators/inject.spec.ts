@@ -1,7 +1,7 @@
 import {descriptorOf, Metadata, Store} from "@tsed/core";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {Inject} from "../../src";
+import {Inject, Injectable, InjectorService} from "../../src";
 import {INJECTABLE_PROP} from "../constants";
 
 describe("@Inject()", () => {
@@ -56,49 +56,34 @@ describe("@Inject()", () => {
   });
 
   describe("used on property", () => {
-    before(() => {});
-
-    it("should store metadata", () => {
+    it("should store metadata", async () => {
       // GIVEN
+      @Injectable()
       class Test {
-        test() {}
+        @Inject()
+        test: InjectorService;
       }
 
-      // WHEN
-      Inject(String)(Test.prototype, "test");
+      const injector = new InjectorService();
+      const instance = await injector.invoke<Test>(Test);
 
-      // THEN
-      const store = Store.from(Test).get(INJECTABLE_PROP);
-      expect(store).to.deep.eq({
-        test: {
-          bindingType: "property",
-          propertyKey: "test",
-          useType: String,
-          onGet: undefined
-        }
-      });
+      expect(instance).to.be.instanceof(Test);
+      expect(instance.test).to.be.instanceof(InjectorService);
     });
 
-    it("should store metadata with a onGet function", () => {
+    it("should store metadata", async () => {
       // GIVEN
+      @Injectable()
       class Test {
-        test() {}
+        @Inject(InjectorService, (bean: any) => bean.get(InjectorService))
+        test: InjectorService;
       }
 
-      const onGet = () => {};
-      // WHEN
-      Inject(String, onGet)(Test.prototype, "test");
+      const injector = new InjectorService();
+      const instance = await injector.invoke<Test>(Test);
 
-      // THEN
-      const store = Store.from(Test).get(INJECTABLE_PROP);
-      expect(store).to.deep.eq({
-        test: {
-          bindingType: "property",
-          propertyKey: "test",
-          useType: String,
-          onGet
-        }
-      });
+      expect(instance).to.be.instanceof(Test);
+      expect(instance.test).to.be.instanceof(InjectorService);
     });
   });
 
