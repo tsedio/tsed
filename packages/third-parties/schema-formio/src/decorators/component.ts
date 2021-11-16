@@ -1,4 +1,4 @@
-import {CustomKeys} from "@tsed/schema";
+import {JsonEntityFn, JsonEntityStore} from "@tsed/schema";
 
 /**
  * Declare a formio Component schema on the decorated propertyKey.
@@ -22,5 +22,13 @@ export function Component(component: Record<string, any>): PropertyDecorator {
     };
   }, {});
 
-  return CustomKeys(component);
+  return JsonEntityFn((store: JsonEntityStore) => {
+    Object.entries(component).forEach(([key, value]) => {
+      store.itemSchema.customKey(key, value);
+
+      if (store.isCollection) {
+        store.schema.customKey(key, value);
+      }
+    });
+  });
 }

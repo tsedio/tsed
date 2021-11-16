@@ -3,16 +3,19 @@ import {execMapper, registerFormioMapper} from "../registries/FormioMappersConta
 import {getRef} from "../utils/getRef";
 
 export function arrayToComponent(schema: any, options: any) {
-  schema = schema.items.$ref ? getRef(schema.items, options) : schema.items;
+  const itemSchema = schema.items.$ref ? getRef(schema.items, options) : schema.items;
 
-  const {type} = schema;
+  const {type} = itemSchema;
 
   switch (type) {
     case "object": // editgrid
-      return execMapper("editgrid", schema, options);
+      return {
+        ...execMapper("default", schema, options),
+        ...execMapper("editgrid", itemSchema, options)
+      };
     case "string": // tag or enum?
-      if (schema.enum) {
-        const component = execMapper("enum", schema, options);
+      if (itemSchema.enum) {
+        const component = execMapper("enum", itemSchema, options);
 
         return {
           ...component,
@@ -21,7 +24,7 @@ export function arrayToComponent(schema: any, options: any) {
         };
       }
 
-      const component = execMapper(type, schema, options);
+      const component = execMapper(type, itemSchema, options);
 
       return cleanObject({
         ...component,
@@ -30,7 +33,7 @@ export function arrayToComponent(schema: any, options: any) {
     default:
     case "number":
       return {
-        ...execMapper(type, schema, options),
+        ...execMapper(type, itemSchema, options),
         multiple: true
       };
   }
