@@ -327,7 +327,7 @@ export class UserRepository {
     return this.prisma.user.create(args);
   }
 
-  async update(args: Prisma.UserUpdateArg): Promise<User> {
+  async update(args: Prisma.UserUpdateArgs): Promise<User> {
     return this.prisma.user.update(args);
   }
 
@@ -366,7 +366,7 @@ export class PostsRepository {
     return this.prisma.post.create(args);
   }
 
-  async update(args: Prisma.PostUpdateArg): Promise<Post> {
+  async update(args: Prisma.PostUpdateArgs): Promise<Post> {
     return this.prisma.post.update(args);
   }
 
