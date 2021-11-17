@@ -76,7 +76,7 @@ export class PlatformServerless {
         const routes = getOperationsRoutes(token);
 
         return routes.reduce((callbacks, operationRoute) => {
-          const {operationId, token, propertyName, method, path} = operationRoute;
+          const {operationId, token, propertyName, method, url} = operationRoute;
 
           // istanbul ignore next
           if (method === "USE") {
@@ -85,7 +85,7 @@ export class PlatformServerless {
 
           const callback = this.callback(token, propertyName);
 
-          this._router?.on(method as HTTPMethod, path as string, callback as any);
+          this._router?.on(method as HTTPMethod, url as string, callback as any);
 
           return {
             ...callbacks,
@@ -141,7 +141,7 @@ export class PlatformServerless {
     if (!this._router) {
       const {default: FindMyMay} = await import("find-my-way");
 
-      this._router = FindMyMay({caseSensitive: false});
+      this._router = FindMyMay({caseSensitive: false, ignoreTrailingSlash: true});
 
       this.callbacks();
     }
