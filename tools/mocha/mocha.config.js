@@ -19,5 +19,5 @@ module.exports = () => ({
     "packages/third-parties/formio/**/*.spec.ts",
     "packages/third-parties/schema-formio/**/*.spec.ts"
   ],
-  timeout: 5000
+  timeout: 10000
 });

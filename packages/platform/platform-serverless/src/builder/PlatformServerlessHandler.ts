@@ -1,5 +1,5 @@
 import {AnyPromiseResult, AnyToPromise, isSerializable} from "@tsed/core";
-import {BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderScope, TokenProvider} from "@tsed/di";
+import {BaseContext, Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
