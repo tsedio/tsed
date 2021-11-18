@@ -18,7 +18,7 @@ functions:
           path: /
           method: get
   any:
-    handler: handler.handler
+    handler: dist/index.handler
     events:
       - http:
           method: ANY

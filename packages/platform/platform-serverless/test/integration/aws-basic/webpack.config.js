@@ -2,6 +2,7 @@ const { join, extname } = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
 const webpack = require("webpack");
+const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
 
 function appendTsExtension(path) {
@@ -58,13 +59,25 @@ const webpackDefaultsFactory = (
   },
   mode: "none",
   optimization: {
-    nodeEnv: false
+    nodeEnv: false,
+    minimize: false,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          format: {
+            comments: false,
+          },
+        },
+        extractComments: false,
+      })
+    ]
   },
   node: {
     __filename: false,
     __dirname: false
   },
   plugins: [
+    new webpack.ProgressPlugin(),
     new webpack.IgnorePlugin({
       checkResource(resource) {
         const lazyImports = [
@@ -107,13 +120,14 @@ const config = webpackDefaultsFactory(
   "index.ts"
 )
 const lazyImports = [
-  "@tsed/platform-exceptions",
-  "@tsed/json-mapper",
-  "@tsed/platform-params"
+
 ]
 module.exports = {
   ...config,
-  externals: [],
+  externals: [
+    "find-my-way",
+    "@tsed/http-exceptions"
+  ],
   plugins: [
     ...config.plugins,
     new webpack.IgnorePlugin({
