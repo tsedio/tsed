@@ -1,8 +1,8 @@
 import {AnyPromiseResult, AnyToPromise, isSerializable} from "@tsed/core";
-import {BaseContext, Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
+import {BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderScope, TokenProvider} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
-import {PlatformExceptions} from "@tsed/platform-exceptions";
+import type {PlatformExceptions} from "@tsed/platform-exceptions";
 import {ServerlessContext} from "../domain/ServerlessContext";
 import {setResponseHeaders} from "../utils/setResponseHeaders";
 
@@ -17,8 +17,8 @@ export class PlatformServerlessHandler {
   @Inject()
   protected params: PlatformParams;
 
-  @Inject()
-  protected exceptionsManager: PlatformExceptions;
+  @LazyInject("PlatformExceptions", () => import("@tsed/platform-exceptions"))
+  protected exceptionsManager: Promise<PlatformExceptions>;
 
   createHandler(token: TokenProvider, propertyKey: string | symbol) {
     const promisedHandler = this.params.compileHandler({
@@ -38,8 +38,9 @@ export class PlatformServerlessHandler {
           this.processResult(result, $ctx);
         } catch (er) {
           $ctx.response.status(500).body(er);
+          const exceptions = await this.exceptionsManager;
 
-          await this.exceptionsManager.catch(er, ($ctx as unknown) as BaseContext);
+          await exceptions.catch(er, ($ctx as unknown) as BaseContext);
         }
       });
 

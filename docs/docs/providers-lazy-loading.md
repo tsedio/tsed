@@ -29,7 +29,7 @@ import type {PlatformExceptions} from "@tsed/platform-exceptions";
 
 @Injectable()
 class MyInjectable {
-  @LazyInject(() => import("@tsed/platform-exceptions")) // short syntax
+  @LazyInject("PlatformException", () => import("@tsed/platform-exceptions"))
   private platformExceptions: Promise<PlatformExceptions>;
 
   async use() {
@@ -43,7 +43,7 @@ class MyInjectable {
 }
 ```
 
-The LazyInject decorator will load the `node_module` and invoke automatically the `default` exported class, 
+The LazyInject decorator will load the `node_module` and invoke automatically the `PlatformException` exported class, 
 only when the decorated property will be used by your code.
 
 ::: tip
@@ -66,9 +66,6 @@ export class MyModule {
     // The hook will be called once the module is loaded
   }
 }
-
-// export by default the module to use the shorten LazyInject syntax
-export default MyModule;
 ```
 
 Then use it:
@@ -79,7 +76,7 @@ import type {MyModule} from "../MyModule.ts";
 
 @Injectable()
 class MyInjectable {
-  @LazyInject(() => import("../MyModule.ts"))
+  @LazyInject("MyModule", () => import("../MyModule.ts"))
   private myModule: Promise<MyModule>;
 
   async use() {
