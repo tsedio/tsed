@@ -67,7 +67,7 @@
     "@tsed/markdown-it-symbols": "3.12.1",
     "vue-analytics": "5.22.1",
     "vuepress": "1.8.2",
-    "vuepress-theme-tsed": "^3.15.0"
+    "vuepress-theme-tsed": "3.15.0"
   },
   "directories": {
     "packages": "packages",

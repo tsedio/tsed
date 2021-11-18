@@ -7,7 +7,7 @@ export function mapToComponent(schema: any, options: any) {
     tableView: false,
     input: true,
     valueComponent: {
-      ...execMapper("any", schema.additionalProperties, options),
+      ...(schema.additionalProperties ? execMapper("any", schema.additionalProperties, options) : {}),
       hideLabel: true,
       tableView: true
     }

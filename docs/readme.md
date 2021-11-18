@@ -70,9 +70,6 @@ sponsors:
        - title: Artips
          href: https://artips.fr
          src: /they-use-it/artips.png
-       - title: Yumi.us
-         src: https://yumi.us/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F6bc09fed-4612-4aa0-9192-225a0b3c7a30%2FYumi-logo-circle.png?table=block&id=1a875820-287a-4a97-aa40-ba3c8f3de9ae&width=250&userId=&cache=v2
-         href: https://yumi.us/
    - title: Sponsors
      position: after-backers
      class: px-3 py-2

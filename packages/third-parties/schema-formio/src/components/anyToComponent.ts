@@ -6,7 +6,7 @@ export function anyToComponent(schema: any, options: any) {
 
   switch (schema.type) {
     case "object":
-      if (schema.additionalProperties) {
+      if (!schema.properties && !schema.$ref) {
         return execMapper("map", schema, options);
       }
 

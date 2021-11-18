@@ -54,7 +54,6 @@ export function propertiesToComponents(schema: any, options: any): any[] {
     components: new Map<string, any>(),
     pushed: false
   };
-
   const components: any[] = [];
 
   Object.entries(schema.properties).forEach(([key, propSchema]: [string, any]) => {
