@@ -8412,7 +8412,7 @@ vuepress-plugin-smooth-scroll@^0.0.3:
   dependencies:
     smoothscroll-polyfill "^0.4.3"
 
-vuepress-theme-tsed@^3.15.0:
+vuepress-theme-tsed@3.15.0:
   version "3.15.0"
   resolved "https://registry.yarnpkg.com/vuepress-theme-tsed/-/vuepress-theme-tsed-3.15.0.tgz#7fa1639c8d79228ac4f4eaf311d7bb03a42548d5"
   integrity sha512-YzbqfUyt3zFViGysxUgeW+jSrsd4G1CIphf7uQi+ka+V1WrAAJURWYog3micaJAp8E7LiW37vqQp4duP5ys84A==
