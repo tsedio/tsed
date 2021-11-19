@@ -15,6 +15,7 @@ const rootDir = Path.resolve(__dirname);
   rootDir,
   port: 8001,
   httpsPort: false,
+  disableComponentScan: true,
   logger: {
     level: "info",
     logRequest: true

@@ -13,6 +13,7 @@ export const rootDir = __dirname;
 
 @Configuration({
   port: 8081,
+  disableComponentScan: true,
   logger: {
     // level: ""
   }

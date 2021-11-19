@@ -10,6 +10,7 @@ describe("TypeORM integration", () => {
     await TestMongooseContext.install();
     const {url} = await TestMongooseContext.getMongooseOptions();
     const bstrp = PlatformTest.bootstrap(Server, {
+      disableComponentScan: true,
       typeorm: [
         {
           type: "mongodb",

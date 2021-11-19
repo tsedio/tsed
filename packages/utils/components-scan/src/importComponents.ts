@@ -1,12 +1,12 @@
 import {isArray, isClass} from "@tsed/core";
 import {importFiles} from "./importFiles";
 
-async function resolveSymbols(item: any, excludes: string[]) {
+async function resolveSymbols(item: any, excludes: string[], disableComponentsScan = false) {
   if (isClass(item)) {
     return [item];
   }
   /* istanbul ignore else */
-  if (!process.env.WEBPACK) {
+  if (!disableComponentsScan) {
     return importFiles(item, excludes);
   }
 
@@ -33,7 +33,11 @@ export function mapConfiguration(config: any): {endpoint?: string; values: any[]
   }, []);
 }
 
-export async function importComponents(config: any, excludes: string[]): Promise<{token: string; route?: string}[]> {
+export async function importComponents(
+  config: any,
+  excludes: string[],
+  disableComponentsScan = false
+): Promise<{token: string; route?: string}[]> {
   if (!config) {
     return [];
   }
@@ -45,7 +49,7 @@ export async function importComponents(config: any, excludes: string[]): Promise
   for (const option of config) {
     promises.push(
       ...option.values.map(async (value: any) => {
-        const symbols = await resolveSymbols(value, excludes);
+        const symbols = await resolveSymbols(value, excludes, disableComponentsScan);
 
         return symbols.filter(isClass).map((symbol) => ({token: symbol, route: option.endpoint}));
       })

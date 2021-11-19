@@ -47,6 +47,10 @@ declare global {
        */
       componentsScan: (string | RegExp)[];
       /**
+       * Disable the glob pattern. In v7 the componentsScan options will be removed in favor of external module loader.
+       */
+      disableComponentsScan: boolean;
+      /**
        * List of glob patterns. Exclude all files which matching with this list when Server scan all components with the `mount` or `scanComponents` options.
        */
       exclude: string[];

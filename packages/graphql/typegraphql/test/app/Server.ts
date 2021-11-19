@@ -21,6 +21,7 @@ const rootDir = resolve(__dirname);
     logRequest: true
   },
   mount: {},
+  disableComponentScan: false,
   componentsScan: ["${rootDir}/services/**/*.ts", "${rootDir}/graphql/**/*.ts", "${rootDir}/protocols/**/*.ts"],
   graphql: {
     default: {

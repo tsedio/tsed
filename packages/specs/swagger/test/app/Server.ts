@@ -13,6 +13,7 @@ const rootDir = Path.resolve(__dirname);
 @Configuration({
   rootDir,
   port: 8001,
+  disableComponentScan: true,
   swagger: [
     {
       path: "/v2/doc",

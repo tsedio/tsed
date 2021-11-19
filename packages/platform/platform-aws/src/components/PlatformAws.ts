@@ -45,7 +45,7 @@ export class PlatformAws {
     // istanbul ignore next
     PlatformBuilder.currentPlatform = settings.platform || PlatformBuilder.currentPlatform;
 
-    this.promise = PlatformBuilder.currentPlatform.bootstrap(module, settings).then(PlatformAws.onInit);
+    this.promise = PlatformBuilder.currentPlatform.bootstrap(module, {...settings, disableComponentScan: true}).then(PlatformAws.onInit);
 
     return PlatformAws;
   }
