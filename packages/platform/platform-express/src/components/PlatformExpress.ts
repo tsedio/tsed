@@ -53,7 +53,7 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
   }
 
   protected useRouter(): this {
-    this.logger.info("Mount app router");
+    this.logger.debug("Mount app router");
     this.app.getApp().use(rawBodyMiddleware);
     this.app.getApp().use(this.app.getRouter());
 
@@ -61,7 +61,7 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
   }
 
   protected useContext(): this {
-    this.logger.info("Mount app context");
+    this.logger.debug("Mount app context");
 
     const invoke = createContext(this.injector);
 

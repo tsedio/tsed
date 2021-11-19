@@ -1,7 +1,6 @@
-import {nameOf, toMap, Type} from "@tsed/core";
-import {Container, createContainer, getConfiguration, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
+import {deepMerge, Env, nameOf, Store, toMap, Type} from "@tsed/core";
+import {colors, Container, createContainer, InjectorService, IProvider, ProviderScope, ProviderType, setLoggerLevel} from "@tsed/di";
 import {importProviders} from "@tsed/components-scan";
-import {PerfLogger} from "@tsed/perf";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
 import {Platform} from "../services/Platform";
@@ -22,6 +21,7 @@ import {
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {Route} from "../interfaces/Route";
+import {getConfiguration} from "../utils/getConfiguration";
 
 /**
  * @ignore
@@ -29,8 +29,6 @@ import {Route} from "../interfaces/Route";
 export interface PlatformType<T = any> extends Type<T> {
   providers: IProvider[];
 }
-
-const {bind, start, end, log} = PerfLogger.get("bootstrap");
 
 /**
  * @ignore
@@ -46,6 +44,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   static currentPlatform: Type<PlatformBuilder<any, any>> & PlatformBootstrap;
   readonly name: string = "";
   protected startedAt = new Date();
+  protected current = new Date();
   protected locals: Container;
 
   #injector: InjectorService;
@@ -123,7 +122,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   log(...data: any[]) {
-    return this.disableBootstrapLog && this.logger.info(...data);
+    return !this.disableBootstrapLog && this.logger.info(...data, this.diff());
   }
 
   /**
@@ -171,6 +170,8 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
     await this.loadRoutes();
     await this.logRoutes();
+
+    return this;
   }
 
   async loadInjector() {
@@ -186,7 +187,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
     await injector.load(container);
 
-    this.log("Settings and injector loaded");
+    this.log("Settings and injector loaded...");
 
     await this.callHook("$afterInit");
   }
@@ -199,7 +200,6 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     await this.callHook("$afterListen");
 
     await this.ready();
-    end();
   }
 
   async stop() {
@@ -218,17 +218,16 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
   async callHook(hook: string, ...args: any[]) {
     const {injector} = this;
-    log(hook);
 
     if (!this.disableBootstrapLog) {
-      injector.logger.info(`\x1B[1mCall hook ${hook}\x1B[22m`);
+      injector.logger.debug(`\x1B[1mCall hook ${hook}\x1B[22m`);
     }
 
     // Load middlewares for the given hook
     this.loadMiddlewaresFor(hook);
 
     // call hooks added by providers
-    await injector.emit(hook);
+    await injector.emit(hook, ...args);
   }
 
   async loadStatics(hook: string): Promise<void> {
@@ -247,6 +246,12 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     return this;
   }
 
+  protected diff() {
+    const ms = colors.yellow(`+${new Date().getTime() - this.current.getTime()}ms`);
+    this.current = new Date();
+    return ms;
+  }
+
   protected async importProviders() {
     this.injector.logger.debug("Scan components");
 
@@ -254,6 +259,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     const routes = providers.filter((provider) => !!provider.route).map(({route, token}) => ({route, token}));
 
     this.settings.set("routes", routes);
+    this.log("Providers loaded...");
   }
 
   /**
@@ -276,16 +282,6 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   protected async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    // istanbul ignore next
-    if (settings.logger?.perf) {
-      start();
-      bind(this);
-      settings.logger = {
-        ...settings.logger,
-        level: "off"
-      };
-    }
-
     this.createInjector(module, {
       ...settings,
       PLATFORM_NAME: this.name
@@ -303,8 +299,9 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   protected async logRoutes() {
     const {logger, platform} = this;
 
+    this.log("Routes mounted...");
+
     if (!this.settings.logger?.disableRoutesSummary && !this.disableBootstrapLog) {
-      logger.info("Routes mounted :");
       logger.info(printRoutes(await this.injector.alterAsync("$logRoutes", platform.getRoutes())));
     }
   }
@@ -321,6 +318,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     }
 
     this.log("Load routes");
+
     await this.loadStatics("$beforeRoutesInit");
     await this.callHook("$beforeRoutesInit");
 
@@ -338,7 +336,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   protected createInjector(module: Type<any>, settings: any) {
     this.#rootModule = module;
 
-    const configuration = getConfiguration(module, settings);
+    const configuration = getConfiguration(settings, module);
 
     this.#injector = createInjector(configuration);
 
@@ -350,5 +348,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     createPlatformApplication(this.injector);
     createHttpsServer(this.injector);
     createHttpServer(this.injector);
+
+    this.log("Injector created...");
   }
 }

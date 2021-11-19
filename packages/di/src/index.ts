@@ -17,3 +17,4 @@ export * from "./utils/createContainer";
 export * from "./utils/getConfiguration";
 export * from "./utils/getConfiguration";
 export * from "./utils/setLoggerLevel";
+export * from "./utils/colors";

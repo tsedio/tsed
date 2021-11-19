@@ -5,6 +5,7 @@ import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext
 import {createInjector} from "../utils/createInjector";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformViews} from "@tsed/platform-views";
+import {getConfiguration} from "../utils/getConfiguration";
 
 /**
  * @platform
@@ -13,7 +14,7 @@ export class PlatformTest extends DITest {
   public static platformBuilder: Type<PlatformBuilder<any, any>>;
 
   static async create(options: Partial<TsED.Configuration> = {}) {
-    DITest.injector = PlatformTest.createInjector(options);
+    DITest.injector = PlatformTest.createInjector(getConfiguration(options, null));
     const container = createContainer();
 
     await DITest.injector.load(container);
