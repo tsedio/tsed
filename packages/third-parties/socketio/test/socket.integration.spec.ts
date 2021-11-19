@@ -34,6 +34,7 @@ describe("Socket integration", () => {
     httpPort: 8999,
     componentsScan: [],
     mount: {},
+    disableComponentScan: true,
     imports: [TestWS]
   }));
   after(PlatformTest.reset);
@@ -46,7 +47,7 @@ describe("Socket integration", () => {
 
       expect(client).to.eq(client2)
 
-      return new Promise((resolve) => {
+      return new Promise((resolve: any) => {
         client.on("output:scenario1", (result) => {
           expect(result).to.eq("my Message test2");
           resolve();

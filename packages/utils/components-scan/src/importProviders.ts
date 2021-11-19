@@ -23,8 +23,9 @@ export async function importProviders(
   properties: string[] = ["imports"]
 ): Promise<{token: string; route?: string}[]> {
   const {exclude = []} = settings;
+  const disableComponentsScan = settings.disableComponentsScan || !!process.env.WEBPACK;
 
-  const promises = properties.map((key) => importComponents(settings[key], exclude));
+  const promises = properties.map((key) => importComponents(settings[key], exclude, disableComponentsScan));
   const providers = (await Promise.all(promises)).flat();
   const children = await recursiveImports(providers, settings, properties);
 

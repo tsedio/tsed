@@ -37,6 +37,7 @@ if (process.env.NODE_ENV !== "test") {
   async function bootstrap() {
     try {
       const platform = await PlatformExpress.bootstrap(Server, {
+        disableComponentScan: true,
         logger: {
           perf: false
         },
