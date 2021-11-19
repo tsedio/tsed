@@ -49,7 +49,7 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
   ];
 
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
-    return this.build<PlatformExpress>(PlatformExpress).bootstrap(module, settings);
+    return this.build<PlatformExpress>(PlatformExpress, module, settings).bootstrap(module, settings);
   }
 
   protected useRouter(): this {

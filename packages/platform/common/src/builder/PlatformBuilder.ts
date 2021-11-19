@@ -1,5 +1,5 @@
-import {deepMerge, Env, nameOf, Store, toMap, Type} from "@tsed/core";
-import {colors, Container, createContainer, InjectorService, IProvider, ProviderScope, ProviderType, setLoggerLevel} from "@tsed/di";
+import {nameOf, toMap, Type} from "@tsed/core";
+import {colors, Container, createContainer, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
 import {importProviders} from "@tsed/components-scan";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
@@ -51,11 +51,14 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   #providers: Map<Type, IProvider>;
   #rootModule: Type<any>;
 
-  constructor({name, providers}: {name: string; providers: IProvider[]}) {
+  constructor({name, providers, settings, module}: {name: string; providers: IProvider[]; settings: any; module: Type<any>}) {
     this.name = name;
     this.#providers = toMap<any, IProvider>(providers, "provide");
 
     this.locals = new Container();
+
+    this.#rootModule = module;
+    const configuration = getConfiguration(settings, module);
 
     this.useProvider(PlatformHandler, this.#providers.get(PlatformHandler))
       .useProvider(PlatformResponse, this.#providers.get(PlatformResponse))
@@ -114,9 +117,15 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     return this.settings.logger?.disableBootstrapLog;
   }
 
-  static build<T extends PlatformBuilder<any, any>>(platformBuildClass: PlatformType<T>): T {
+  static build<T extends PlatformBuilder<any, any>>(
+    platformBuildClass: PlatformType<T>,
+    module: Type<any>,
+    settings: Partial<TsED.Configuration> = {}
+  ): T {
     return new platformBuildClass({
       name: nameOf(platformBuildClass).replace("Platform", "").toLowerCase(),
+      module,
+      settings,
       providers: platformBuildClass.providers
     });
   }
@@ -334,13 +343,12 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   protected createInjector(module: Type<any>, settings: any) {
+    // configure locals providers
     this.#rootModule = module;
-
     const configuration = getConfiguration(settings, module);
 
     this.#injector = createInjector(configuration);
 
-    // configure locals providers
     this.locals.forEach((provider) => {
       this.injector.addProvider(provider.token, provider);
     });

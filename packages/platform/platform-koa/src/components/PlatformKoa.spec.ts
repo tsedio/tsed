@@ -24,7 +24,7 @@ describe("PlatformKoa", () => {
     await PlatformKoa.bootstrap(Test, {});
     await PlatformKoa.bootstrap(Test);
 
-    expect(PlatformKoa.build).to.have.been.calledWithExactly(PlatformKoa);
+    expect(PlatformKoa.build).to.have.been.calledWithExactly(PlatformKoa, Test, {});
     expect(platform.bootstrap).to.have.been.calledWithExactly(Test, {});
     expect(PlatformKoa.providers).to.deep.equal([
       {

@@ -33,7 +33,7 @@ describe("PlatformBuilder", () => {
     ];
 
     static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-      return PlatformBuilder.build<PlatformCustom>(this).bootstrap(module, settings);
+      return PlatformBuilder.build<PlatformCustom>(this, module, settings).bootstrap(module, settings);
     }
 
     async loadStatics(): Promise<void> {
