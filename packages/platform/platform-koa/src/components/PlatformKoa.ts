@@ -44,7 +44,7 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
   ];
 
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformKoa> {
-    return this.build<PlatformKoa>(PlatformKoa).bootstrap(module, settings);
+    return this.build<PlatformKoa>(PlatformKoa, module, settings).bootstrap(module, settings);
   }
 
   protected createInjector(module: Type<any>, settings: any) {
