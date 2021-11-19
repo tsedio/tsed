@@ -45,7 +45,9 @@ export class PlatformAws {
     // istanbul ignore next
     PlatformBuilder.currentPlatform = settings.platform || PlatformBuilder.currentPlatform;
 
-    this.promise = PlatformBuilder.currentPlatform.bootstrap(module, {...settings, disableComponentScan: true}).then(PlatformAws.onInit);
+    const platform = PlatformBuilder.currentPlatform.create(module, settings);
+
+    this.promise = platform.bootstrap().then(PlatformAws.onInit);
 
     return PlatformAws;
   }
@@ -66,7 +68,7 @@ export class PlatformAws {
     await platform.callHook("$beforeListen");
 
     // create Aws server
-    PlatformAws.awsServer = createServer(platform.app.callback(), PlatformAws.onListen, binaryMimeTypes);
+    PlatformAws.awsServer = createServer(platform.callback(), PlatformAws.onListen, binaryMimeTypes);
   }
 
   protected static async onListen() {

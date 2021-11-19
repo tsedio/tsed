@@ -42,7 +42,8 @@
   },
   "scripts": {
     "build": "tsc --build tsconfig.compile.json",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
+    "start:emulate": "ts-node -r tsconfig-paths/register test/app/emulate.ts"
   },
   "dependencies": {
     "express": "^4.17.1",

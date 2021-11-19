@@ -1,5 +1,5 @@
 import {nameOf, toMap, Type} from "@tsed/core";
-import {colors, Container, createContainer, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
+import {colors, createContainer, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
 import {importProviders} from "@tsed/components-scan";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
@@ -22,6 +22,16 @@ import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSetti
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {Route} from "../interfaces/Route";
 import {getConfiguration} from "../utils/getConfiguration";
+import {IncomingMessage, ServerResponse} from "http";
+
+const DEFAULT_PROVIDERS = [
+  {provide: PlatformHandler},
+  {provide: PlatformResponse},
+  {provide: PlatformRequest},
+  {provide: PlatformRouter},
+  {provide: PlatformApplication},
+  {provide: Platform}
+];
 
 /**
  * @ignore
@@ -34,7 +44,16 @@ export interface PlatformType<T = any> extends Type<T> {
  * @ignore
  */
 export interface PlatformBootstrap {
+  create(module: Type<any>, settings?: Partial<TsED.Configuration>): PlatformBuilder;
+
   bootstrap(module: Type<any>, settings?: Partial<TsED.Configuration>): Promise<PlatformBuilder>;
+}
+
+export interface PlatformBuilderOptions {
+  name: string;
+  providers: IProvider[];
+  settings: any;
+  module: Type<any>;
 }
 
 /**
@@ -42,30 +61,19 @@ export interface PlatformBootstrap {
  */
 export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   static currentPlatform: Type<PlatformBuilder<any, any>> & PlatformBootstrap;
+
   readonly name: string = "";
   protected startedAt = new Date();
   protected current = new Date();
-  protected locals: Container;
 
   #injector: InjectorService;
-  #providers: Map<Type, IProvider>;
   #rootModule: Type<any>;
 
-  constructor({name, providers, settings, module}: {name: string; providers: IProvider[]; settings: any; module: Type<any>}) {
+  constructor({name, providers, settings, module}: PlatformBuilderOptions) {
     this.name = name;
-    this.#providers = toMap<any, IProvider>(providers, "provide");
-
-    this.locals = new Container();
-
     this.#rootModule = module;
-    const configuration = getConfiguration(settings, module);
 
-    this.useProvider(PlatformHandler, this.#providers.get(PlatformHandler))
-      .useProvider(PlatformResponse, this.#providers.get(PlatformResponse))
-      .useProvider(PlatformRequest, this.#providers.get(PlatformRequest))
-      .useProvider(PlatformRouter, this.#providers.get(PlatformRouter))
-      .useProvider(PlatformApplication, this.#providers.get(PlatformApplication))
-      .useProvider(Platform, this.#providers.get(Platform));
+    this.createInjector(module, providers, settings);
   }
 
   get injector(): InjectorService {
@@ -128,6 +136,16 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
       settings,
       providers: platformBuildClass.providers
     });
+  }
+
+  callback(): (req: IncomingMessage, res: ServerResponse) => void;
+  callback(req: IncomingMessage, res: ServerResponse): void;
+  callback(req?: IncomingMessage, res?: ServerResponse) {
+    if (req && res) {
+      return this.app.callback()(req, res);
+    }
+
+    return this.app.callback();
   }
 
   log(...data: any[]) {
@@ -250,9 +268,13 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   useProvider(token: Type<any>, settings?: Partial<IProvider>) {
-    this.locals.addProvider(token, settings);
+    this.injector.addProvider(token, settings);
 
     return this;
+  }
+
+  async bootstrap() {
+    return this.runLifecycle();
   }
 
   protected diff() {
@@ -287,17 +309,6 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   protected useContext(): this {
-    return this;
-  }
-
-  protected async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    this.createInjector(module, {
-      ...settings,
-      PLATFORM_NAME: this.name
-    });
-
-    await this.runLifecycle();
-
     return this;
   }
 
@@ -342,15 +353,16 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     await this.callHook("$afterRoutesInit");
   }
 
-  protected createInjector(module: Type<any>, settings: any) {
-    // configure locals providers
-    this.#rootModule = module;
+  protected createInjector(module: Type<any>, providers: IProvider[], settings: any) {
     const configuration = getConfiguration(settings, module);
+    configuration.PLATFORM_NAME = this.name;
 
     this.#injector = createInjector(configuration);
 
-    this.locals.forEach((provider) => {
-      this.injector.addProvider(provider.token, provider);
+    providers = [...DEFAULT_PROVIDERS, ...providers];
+
+    toMap<any, IProvider>(providers, "provide").forEach((provider, token) => {
+      this.injector.addProvider(token, provider);
     });
 
     createPlatformApplication(this.injector);

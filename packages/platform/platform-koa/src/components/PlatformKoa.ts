@@ -1,8 +1,10 @@
 import KoaRouter from "@koa/router";
 import {
   createContext,
+  IProvider,
   PlatformApplication,
   PlatformBuilder,
+  PlatformBuilderOptions,
   PlatformExceptions,
   PlatformHandler,
   PlatformRequest,
@@ -14,6 +16,7 @@ import {Type} from "@tsed/core";
 import Koa, {Context, Next} from "koa";
 import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
 import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse, PlatformKoaRouter} from "../services";
+import {getConfiguration} from "@tsed/common/src/utils/getConfiguration";
 
 /**
  * @platform
@@ -43,12 +46,8 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
     }
   ];
 
-  static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformKoa> {
-    return this.build<PlatformKoa>(PlatformKoa, module, settings).bootstrap(module, settings);
-  }
-
-  protected createInjector(module: Type<any>, settings: any) {
-    super.createInjector(module, settings);
+  constructor(options: PlatformBuilderOptions) {
+    super(options);
 
     const listener: any = (error: any, ctx: Koa.Context) => {
       this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, ctx.request.$ctx);
@@ -56,6 +55,24 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
 
     this.app.getApp().silent = true;
     this.app.getApp().on("error", listener);
+  }
+
+  /**
+   * Create new serverless application. In this mode, the component scan are disabled.
+   * @param module
+   * @param settings
+   */
+  static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+    return this.build<PlatformKoa>(PlatformKoa, module, {
+      httpsPort: false,
+      httpPort: false,
+      ...settings,
+      disableComponentsScan: true
+    });
+  }
+
+  static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformKoa> {
+    return this.build<PlatformKoa>(PlatformKoa, module, settings).bootstrap();
   }
 
   protected useRouter(): this {

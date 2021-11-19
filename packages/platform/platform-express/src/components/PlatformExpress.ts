@@ -48,8 +48,27 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
     }
   ];
 
+  /**
+   * Create new serverless application. In this mode, the component scan are disabled.
+   * @param module
+   * @param settings
+   */
+  static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+    return this.build<PlatformExpress>(PlatformExpress, module, {
+      httpsPort: false,
+      httpPort: false,
+      ...settings,
+      disableComponentsScan: true
+    });
+  }
+
+  /**
+   * Bootstrap a server application
+   * @param module
+   * @param settings
+   */
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
-    return this.build<PlatformExpress>(PlatformExpress, module, settings).bootstrap(module, settings);
+    return this.build<PlatformExpress>(PlatformExpress, module, settings).bootstrap();
   }
 
   protected useRouter(): this {
