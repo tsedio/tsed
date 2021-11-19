@@ -79,6 +79,8 @@
     "@tsed/platform-params": "6.91.0",
     "@tsed/platform-response-filter": "6.91.0",
     "@tsed/platform-views": "6.91.0",
+    "@tsed/platform-http": "6.87.2",
+    "@tsed/platform-https": "6.87.2",
     "@tsed/schema": "6.91.0",
     "@types/json-schema": "7.0.7",
     "on-finished": "2.3.0",

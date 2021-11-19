@@ -1,6 +1,8 @@
-import {Constant, Inject, Service} from "@tsed/di";
+import Http from "http";
+import Https from "http";
+import {Constant, Inject, InjectorService, Injectable} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {HttpServer, HttpsServer, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
 import type {Config} from "apollo-server-core";
 import {
   ApolloServerBase,
@@ -12,7 +14,7 @@ import type {GraphQLSchema} from "graphql";
 import type {ApolloServer, ApolloSettings} from "../interfaces/ApolloSettings";
 import {ApolloCustomServerCB} from "../interfaces/ApolloSettings";
 
-@Service()
+@Injectable()
 export class ApolloService {
   @Constant("PLATFORM_NAME")
   platformName: string;
@@ -42,11 +44,8 @@ export class ApolloService {
   @Inject()
   private app: PlatformApplication;
 
-  @Inject(HttpServer)
-  private httpServer: HttpServer;
-
-  @Inject(HttpsServer)
-  private httpsServer: HttpsServer;
+  @Inject()
+  private injector: InjectorService;
 
   async createServer(id: string, settings: ApolloSettings): Promise<any> {
     if (this.has(id)) {
@@ -134,18 +133,20 @@ export class ApolloService {
 
   private getPlugins(serverSettings: ApolloSettings): any[] {
     const playground = serverSettings.playground || serverSettings.playground === undefined;
+    const httpServer = this.injector.get<Http.Server>(Http.Server);
+    const httpsServer = this.injector.get<Https.Server>(Https.Server);
 
     return [
       playground && process.env.NODE_ENV === "production"
         ? ApolloServerPluginLandingPageDisabled()
         : ApolloServerPluginLandingPageGraphQLPlayground(),
-      this.httpPort &&
+      httpServer &&
         ApolloServerPluginDrainHttpServer({
-          httpServer: this.httpServer
+          httpServer: httpServer
         }),
-      this.httpsPort &&
+      httpsServer &&
         ApolloServerPluginDrainHttpServer({
-          httpServer: this.httpsServer
+          httpServer: httpsServer
         }),
       ...(serverSettings.plugins || [])
     ].filter(Boolean);

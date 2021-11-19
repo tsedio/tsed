@@ -3,6 +3,7 @@ import {PlatformBuilder} from "../builder/PlatformBuilder";
 import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext";
 import {createInjector} from "../utils/createInjector";
 import {PlatformApplication} from "./PlatformApplication";
+import {createHttpServers} from "../utils/createServers";
 import {getConfiguration} from "../utils/getConfiguration";
 import {PlatformAdapter, PlatformBuilderSettings} from "../interfaces/PlatformAdapter";
 import {Type} from "@tsed/core";
@@ -18,6 +19,10 @@ export class PlatformTest extends DITest {
     const container = createContainer();
 
     await DITest.injector.load(container);
+
+    if (settings.httpPort !== false || settings.httpsPort !== false) {
+      await createHttpServers(DITest.injector);
+    }
   }
 
   /**
@@ -26,7 +31,7 @@ export class PlatformTest extends DITest {
   static createInjector(settings: any = {}): InjectorService {
     return createInjector({
       providers: [],
-      settings: DITest.configure(settings)
+      settings: DITest.configure({httpPort: false, httpsPort: false, ...settings})
     });
   }
 
@@ -55,14 +60,7 @@ export class PlatformTest extends DITest {
       settings.adapter = adapter as any;
 
       instance = await PlatformBuilder.build(mod, settings).bootstrap();
-
-      if (!listen) {
-        await instance.callHook("$beforeListen");
-        await instance.callHook("$afterListen");
-        await instance.ready();
-      } else {
-        await instance.listen();
-      }
+      await instance.listen(!!settings.listen);
 
       // used by inject method
       DITest.injector = instance.injector;

@@ -20,7 +20,7 @@ export class SocketClientService implements OnDestroy {
     const {address, port} = this.settings.getHttpPort();
     const uri = `http://${address}:${port}${namespace}`;
 
-    this.logger.info("Bind Socket.io client on:", uri);
+    this.logger.debug("Bind Socket.io client on:", uri);
     const client = io(uri);
 
     this.clients.set(namespace, client);

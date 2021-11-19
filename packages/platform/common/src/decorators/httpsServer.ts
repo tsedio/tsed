@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {Inject} from "@tsed/di";
-import Https from "https";
+import {Server} from "https";
 
 /**
  * Inject the Https.Server instance.
@@ -25,7 +25,7 @@ import Https from "https";
  * @decorator
  */
 export function HttpsServer(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
-  return Inject(HttpsServer)(target, targetKey, descriptor);
+  return Inject(Server)(target, targetKey, descriptor);
 }
 
-export type HttpsServer = Https.Server;
+export type HttpsServer = Server;

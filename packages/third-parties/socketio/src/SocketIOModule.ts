@@ -1,10 +1,11 @@
-import {$log, AfterListen, Constant, HttpServer, HttpsServer, Inject, InjectorService, Module, OnDestroy, Provider} from "@tsed/common";
+import {$log, AfterListen, Constant, Inject, InjectorService, Module, OnDestroy, Provider} from "@tsed/common";
 import {catchError, nameOf} from "@tsed/core";
 import {Server, ServerOptions} from "socket.io";
 import {SocketProviderMetadata} from "./class/SocketProviderMetadata"; // tslint:disable-line: no-unused-variable
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants";
-import {IO} from "./decorators/io";
 import {SocketIOService} from "./services/SocketIOService";
+import {Server as Http} from "http";
+import {Server as Https} from "https";
 
 /**
  * @ignore
@@ -23,20 +24,26 @@ export class SocketIOModule implements AfterListen, OnDestroy {
   @Constant("httpsPort")
   httpsPort: string | number;
 
-  constructor(
-    private injector: InjectorService,
-    @Inject(HttpServer) private httpServer: HttpServer,
-    @Inject(HttpsServer) private httpsServer: HttpsServer,
-    @IO private io: Server,
-    private socketIOService: SocketIOService
-  ) {}
+  @Inject()
+  protected injector: InjectorService;
+
+  @Inject()
+  private socketIOService: SocketIOService;
+
+  @Inject(Server)
+  private io: Server;
+
+  constructor() {}
 
   $afterListen() {
     if (this.httpPort) {
-      this.io.attach(this.httpServer, {...this.settings});
+      const server = this.injector.get<Http>(Http)!;
+      this.io.attach(server, {...this.settings});
     }
+
     if (this.httpsPort) {
-      this.io.attach(this.httpsServer, {...this.settings});
+      const server = this.injector.get<Https>(Https)!;
+      this.io.attach(server, {...this.settings});
     }
 
     if (this.settings.adapter) {

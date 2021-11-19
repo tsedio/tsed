@@ -52,6 +52,13 @@
     "type": "git",
     "url": "git+https://github.com/tsedio/tsed.git"
   },
+  "dependencies": {
+    "@koa/router": "^10.1.1",
+    "encodeurl": "^1.0.2",
+    "koa-send": "5.0.1",
+    "multer": "^1.4.2",
+    "tslib": "2.2.0"
+  },
   "devDependencies": {
     "@koa/cors": "3.1.0",
     "@tsed/common": "6.91.0",
@@ -73,13 +80,6 @@
     "koa-override": "3.0.0",
     "koa-qs": "^3.0.0",
     "koa-session": "6.2.0"
-  },
-  "dependencies": {
-    "@koa/router": "^10.1.1",
-    "encodeurl": "^1.0.2",
-    "koa-send": "5.0.1",
-    "multer": "^1.4.2",
-    "tslib": "2.2.0"
   },
   "peerDependencies": {
     "@tsed/common": "^6.91.0",

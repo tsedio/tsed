@@ -17,6 +17,8 @@
     "packages/platform/platform-serverless",
     "packages/platform/platform-serverless-http",
     "packages/platform/platform-serverless-testing",
+    "packages/platform/platform-http",
+    "packages/platform/platform-https",
     "packages/platform/platform-log-middleware",
     "packages/security/oidc-provider",
     "packages/orm",

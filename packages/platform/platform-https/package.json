@@ -1,0 +1,26 @@
+{
+  "name": "@tsed/platform-https",
+  "version": "6.87.2",
+  "description": "Platform https module for Ts.ED Framework",
+  "private": false,
+  "source": "./src/index.ts",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "exports": {
+    "require": "./lib/index.js",
+    "default": "./lib/index.modern.js"
+  },
+  "scripts": {
+    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json",
+    "test": "cross-env NODE_ENV=test jest"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@tsed/core": "6.87.2",
+    "@tsed/di": "6.87.2"
+  },
+  "peerDependencies": {
+    "@tsed/core": ">=6.87.2",
+    "@tsed/di": ">=6.87.2"
+  }
+}

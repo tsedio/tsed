@@ -17,6 +17,8 @@ module.exports = () => ({
     "packages/platform/platform-serverless/**/*.spec.ts",
     "packages/platform/platform-serverless-http/**/*.spec.ts",
     "packages/platform/platform-serverless-testing/**/*.spec.ts",
+    "packages/platform/platform-http/**/*.spec.ts",
+    "packages/platform/platform-https/**/*.spec.ts",
     "packages/platform/platform-log-middleware/**/*.spec.ts",
     "packages/third-parties/formio/**/*.spec.ts",
     "packages/third-parties/schema-formio/**/*.spec.ts"

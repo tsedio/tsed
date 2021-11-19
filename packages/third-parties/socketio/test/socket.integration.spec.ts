@@ -30,6 +30,9 @@ export class TestWS {
 describe("Socket integration", () => {
   before(PlatformTest.bootstrap(Server, {
     platform: PlatformExpress,
+    logger: {
+      level: 'off'
+    },
     listen: true,
     httpPort: 8999,
     componentsScan: [],
