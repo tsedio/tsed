@@ -31,7 +31,7 @@ describe("PlatformExpress", () => {
     await PlatformExpress.bootstrap(Test);
 
     expect(PlatformExpress.build).to.have.been.calledWithExactly(PlatformExpress, Test, {});
-    expect(platform.bootstrap).to.have.been.calledWithExactly(Test, {});
+    expect(platform.bootstrap).to.have.been.calledWithExactly();
     expect(PlatformExpress.providers).to.deep.equal([
       {
         provide: PlatformApplication,

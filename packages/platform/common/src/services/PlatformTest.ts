@@ -47,7 +47,8 @@ export class PlatformTest extends DITest {
       }
 
       // @ts-ignore
-      instance = await PlatformBuilder.build(platform).bootstrap(mod, DITest.configure(settings));
+      settings = DITest.configure(settings);
+      instance = await PlatformBuilder.build(platform, mod, settings).bootstrap();
 
       if (!settings.listen) {
         await instance.callHook("$beforeListen");

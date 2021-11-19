@@ -6,6 +6,7 @@ import {
   BeforeListen,
   BeforeRoutesInit,
   Controller,
+  Injectable,
   InjectorService,
   Module,
   normalizePath,
@@ -32,8 +33,12 @@ describe("PlatformBuilder", () => {
       }
     ];
 
+    static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+      return PlatformBuilder.build<PlatformCustom>(this, module, settings);
+    }
+
     static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-      return PlatformBuilder.build<PlatformCustom>(this, module, settings).bootstrap(module, settings);
+      return PlatformBuilder.build<PlatformCustom>(this, module, settings).bootstrap();
     }
 
     async loadStatics(): Promise<void> {
@@ -144,6 +149,39 @@ describe("PlatformBuilder", () => {
 
       await server.stop();
       expect(server.injector.emit).to.have.been.calledWithExactly("$onDestroy");
+    });
+  });
+
+  describe("callback()", () => {
+    it("should return the callback", async () => {
+      // WHEN
+      const server = await PlatformCustom.bootstrap(ServerModule, {
+        httpPort: false,
+        httpsPort: false
+      });
+
+      expect(server.callback()).to.deep.eq(server.app.raw);
+
+      server.callback({} as any, {} as any);
+    });
+  });
+
+  describe("useProvider()", () => {
+    it("should add provider", async () => {
+      // WHEN
+      const server = PlatformCustom.create(ServerModule, {
+        httpPort: false,
+        httpsPort: false
+      });
+
+      @Injectable()
+      class Token {}
+
+      server.useProvider(Token, {});
+
+      await server.bootstrap();
+
+      expect(server.injector.get(Token)).to.be.instanceof(Token);
     });
   });
   describe("addComponents", () => {
