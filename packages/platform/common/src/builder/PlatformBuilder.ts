@@ -1,5 +1,5 @@
-import {nameOf, toMap, Type} from "@tsed/core";
-import {Container, createContainer, getConfiguration, InjectorService, IProvider, ProviderScope, setLoggerLevel, colors} from "@tsed/di";
+import {deepMerge, Env, nameOf, Store, toMap, Type} from "@tsed/core";
+import {colors, Container, createContainer, InjectorService, IProvider, ProviderScope, ProviderType, setLoggerLevel} from "@tsed/di";
 import {importProviders} from "@tsed/components-scan";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
@@ -21,6 +21,7 @@ import {
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {Route} from "../interfaces/Route";
+import {getConfiguration} from "../utils/getConfiguration";
 
 /**
  * @ignore
@@ -335,7 +336,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   protected createInjector(module: Type<any>, settings: any) {
     this.#rootModule = module;
 
-    const configuration = getConfiguration(module, settings);
+    const configuration = getConfiguration(settings, module);
 
     this.#injector = createInjector(configuration);
 

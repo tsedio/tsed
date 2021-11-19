@@ -16,29 +16,7 @@ const rootDir = process.cwd();
 })
 export class PlatformConfiguration extends DIConfiguration {
   constructor() {
-    super({
-      rootDir,
-      env: (process.env.NODE_ENV as Env) || Env.DEV,
-      httpPort: 8080,
-      httpsPort: false,
-      scopes: {
-        [ProviderType.CONTROLLER]: ProviderScope.SINGLETON
-      },
-      logger: {
-        debug: false,
-        level: "info",
-        logRequest: true,
-        jsonIndentation: process.env.NODE_ENV === Env.PROD ? 0 : 2
-      },
-      errors: {
-        headerName: "errors"
-      },
-      mount: {
-        "/rest": "${rootDir}/controllers/**/*.ts"
-      },
-      exclude: ["**/*.spec.ts", "**/*.spec.js"],
-      componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"]
-    });
+    super({rootDir});
   }
 
   get version() {

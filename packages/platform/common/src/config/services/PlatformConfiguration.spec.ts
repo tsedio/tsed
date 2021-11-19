@@ -231,21 +231,6 @@ describe("PlatformConfiguration", () => {
     });
   });
 
-  describe("Test PRODUCTION", () => {
-    before(() => {
-      process.env.NODE_ENV = "production";
-      settings = new PlatformConfiguration();
-    });
-
-    it("should return env PROD", () => {
-      expect(settings.env).to.equal(Env.PROD);
-    });
-
-    it("should have logging jsonIndentaion set to 0", () => {
-      expect(settings.logger.jsonIndentation).to.equal(0);
-    });
-  });
-
   describe("set logger format", () => {
     before(() => {
       settings = new PlatformConfiguration();
