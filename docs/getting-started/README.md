@@ -195,7 +195,7 @@ Creating a new project with the CLI is recommended for first-time users.
 
 ```bash
 npm install -g @tsed/cli
-tsed init .
+tsed init myApp
 ```
 
 ::: tip
