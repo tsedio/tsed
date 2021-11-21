@@ -27,6 +27,7 @@ declare global {
 export class PlatformRouter<Router = TsED.Router> {
   rawRouter: Router;
   raw: any;
+  isBuilt: boolean = false;
 
   @Inject()
   injector: InjectorService;

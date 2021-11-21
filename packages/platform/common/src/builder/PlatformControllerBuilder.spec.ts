@@ -1,11 +1,9 @@
-import {All, ControllerProvider, Get, Use} from "@tsed/common";
+import {All, buildRouter, ControllerProvider, Get, Use} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {OperationMethods} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {stub} from "../../../../../test/helper/tools";
 import {EndpointMetadata} from "../domain/EndpointMetadata";
-import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
@@ -34,9 +32,6 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
     post: use,
     all: use
   };
-
-  // @ts-ignore
-  stub(PlatformRouter.createRawRouter).returns(router);
 
   const injector = new InjectorService();
 
@@ -73,18 +68,19 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
     endpoint.middlewares = [function endpointUse() {}];
   }
 
-  const controllerBuilder = new PlatformControllerBuilder(provider);
-
-  return {endpoint, router, provider, injector, controllerBuilder, TestCtrl};
+  return {endpoint, router, provider, injector, TestCtrl};
 }
 
 const sandbox = Sinon.createSandbox();
 describe("PlatformControllerBuilder", () => {
   beforeEach(() => {
     // @ts-ignore
-    sandbox.stub(PlatformRouter, "createRawRouter");
-    // @ts-ignore
-    sandbox.stub(PlatformRouter.prototype, "mapHandlers").callsFake((o) => o);
+    sandbox.stub(PlatformRouter, "create").callsFake(() => ({
+      $class: "PlatformRouter",
+      addRoute: Sinon.stub(),
+      get: Sinon.stub(),
+      use: Sinon.stub()
+    }));
   });
   afterEach(() => {
     sandbox.restore();
@@ -92,28 +88,17 @@ describe("PlatformControllerBuilder", () => {
 
   it("should build controller with single endpoint", () => {
     // GIVEN
-    const {endpoint, controllerBuilder, provider, router, injector} = getControllerBuilder({propertyKey: "getMethod"});
+    const {endpoint, provider, injector} = getControllerBuilder({propertyKey: "getMethod"});
 
     endpoint.addOperationPath(OperationMethods.GET, "/", {isFinal: true});
 
     // WHEN
-    const result = controllerBuilder.build(injector);
+    const result: any = buildRouter(injector, provider);
 
     // THEN
-    expect(result).to.be.instanceof(PlatformRouter);
-    expect(router.use).to.have.been.calledWithExactly(provider.middlewares.useBefore[0]); // controller
+    expect(result.$class).to.eq("PlatformRouter");
 
     // ENDPOINT
-    expect(router.get).to.have.been.calledWithExactly(
-      "/",
-      Sinon.match.func,
-      PlatformAcceptMimesMiddleware,
-      endpoint.beforeMiddlewares[0],
-      provider.middlewares.use[0],
-      endpoint.middlewares[0],
-      endpoint,
-      endpoint.afterMiddlewares[0],
-      provider.middlewares.useAfter[0]
-    );
+    expect(result.addRoute).to.have.been.callCount(3);
   });
 });
