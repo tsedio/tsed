@@ -1,11 +1,9 @@
 import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
 import {concatPath, getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
-import {buildRouter} from "../builder/PlatformControllerBuilder";
+import {buildRouter, createRouter, getRouter} from "../builder/PlatformControllerBuilder";
 import {ControllerProvider, EndpointMetadata, PlatformRouteDetails} from "../domain";
 import {Route, RouteController} from "../interfaces/Route";
 import {PlatformApplication} from "./PlatformApplication";
-import {PlatformRouter} from "./PlatformRouter";
-import "../registries/ControllerRegistry";
 import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain";
 
 /**
@@ -54,7 +52,7 @@ export class Platform {
       provider
     });
 
-    this.app.use(ctrlPath, ...[].concat(provider.getRouter().callback()));
+    this.app.use(ctrlPath, ...[].concat(getRouter(injector, provider).callback()));
 
     this._routes = getOperationsRoutes<EndpointMetadata>(provider.token, {
       withChildren: true,
@@ -100,7 +98,7 @@ export class Platform {
     const {injector} = this;
 
     injector.getProviders(ProviderType.CONTROLLER).map((provider: ControllerProvider) => {
-      provider.setRouter(PlatformRouter.create(injector, provider.routerOptions));
+      createRouter(injector, provider);
     });
   }
 

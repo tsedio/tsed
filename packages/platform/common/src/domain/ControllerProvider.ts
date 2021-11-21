@@ -1,13 +1,15 @@
 import {ControllerMiddlewares, Provider, ProviderType, TokenProvider} from "@tsed/di";
 import {ROUTER_OPTIONS} from "../constants/routerOptions";
-import {PlatformRouterMethods} from "../interfaces/PlatformRouterMethods";
+
+let AUTO_INC = 0;
 
 export class ControllerProvider<T = any> extends Provider<T> {
-  private router: PlatformRouterMethods;
+  readonly tokenRouter: string;
 
   constructor(provide: TokenProvider, options: Partial<Provider> = {}) {
     super(provide, options);
     this.type = ProviderType.CONTROLLER;
+    this.tokenRouter = `${this.name}_ROUTER_${AUTO_INC++}`;
   }
 
   /**
@@ -52,15 +54,5 @@ export class ControllerProvider<T = any> extends Provider<T> {
       concat(key, mdlwrs, middlewares);
     });
     this.store.set("middlewares", mdlwrs);
-  }
-
-  public getRouter<T extends PlatformRouterMethods = any>(): T {
-    return this.router as any;
-  }
-
-  public setRouter(router: PlatformRouterMethods) {
-    this.router = router;
-
-    return this;
   }
 }

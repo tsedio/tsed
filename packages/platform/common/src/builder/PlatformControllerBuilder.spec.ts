@@ -8,7 +8,6 @@ import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
 import {PlatformRouter} from "../services/PlatformRouter";
-import {PlatformControllerBuilder} from "./PlatformControllerBuilder";
 
 function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any = {}) {
   class TestCtrl {
@@ -50,29 +49,23 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
 
   const provider = new ControllerProvider(TestCtrl);
 
-  provider.setRouter(PlatformRouter.create(injector, {}));
-
-  if (withMiddleware) {
-    provider.middlewares = {
-      use: [function controllerUse() {}],
-      useAfter: [function controllerAfter() {}],
-      useBefore: [function controllerBefore() {}]
-    };
-  }
+  provider.middlewares = {
+    use: [function controllerUse() {}],
+    useAfter: [function controllerAfter() {}],
+    useBefore: [function controllerBefore() {}]
+  };
 
   const endpoint = EndpointMetadata.get(TestCtrl, propertyKey);
 
-  if (withMiddleware) {
-    endpoint.before([function endpointBefore() {}]);
-    endpoint.after([function endpointAfter() {}]);
-    endpoint.middlewares = [function endpointUse() {}];
-  }
+  endpoint.before([function endpointBefore() {}]);
+  endpoint.after([function endpointAfter() {}]);
+  endpoint.middlewares = [function endpointUse() {}];
 
   return {endpoint, router, provider, injector, TestCtrl};
 }
 
 const sandbox = Sinon.createSandbox();
-describe("PlatformControllerBuilder", () => {
+describe("buildRouter()", () => {
   beforeEach(() => {
     // @ts-ignore
     sandbox.stub(PlatformRouter, "create").callsFake(() => ({
