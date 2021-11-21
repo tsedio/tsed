@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-http",
-  "version": "6.86.0",
+  "version": "6.87.2",
   "description": "Platform http module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
