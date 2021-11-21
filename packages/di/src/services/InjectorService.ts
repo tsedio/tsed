@@ -36,17 +36,7 @@ import {
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {createContainer} from "../utils/createContainer";
 import {DIConfiguration} from "./DIConfiguration";
-
-interface InvokeSettings {
-  token: TokenProvider;
-  parent?: TokenProvider;
-  scope: ProviderScope;
-  deps: TokenProvider[];
-  imports: TokenProvider[];
-  provider: Provider<any>;
-
-  construct(deps: TokenProvider[]): any;
-}
+import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -572,10 +562,11 @@ export class InjectorService extends Container {
    * @private
    */
   private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions<T>> = {}): Promise<T> {
-    const {token, deps, construct, imports, provider} = this.mapInvokeOptions(target, locals, options);
+    const resolvedOpts = this.mapInvokeOptions(target, locals, options);
+    const {token, deps, construct, imports, provider} = resolvedOpts;
 
     if (provider) {
-      GlobalProviders.onInvoke(provider, locals, deps);
+      GlobalProviders.onInvoke(provider, locals, {...resolvedOpts, injector: this});
     }
 
     let instance: any;
@@ -627,7 +618,7 @@ export class InjectorService extends Container {
    * @param locals
    * @param options
    */
-  private mapInvokeOptions(token: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions<any>>): InvokeSettings {
+  private mapInvokeOptions(token: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions>): ResolvedInvokeOptions {
     let imports: TokenProvider[] | undefined = options.imports;
     let deps: TokenProvider[] | undefined = options.deps;
     let scope = options.scope;

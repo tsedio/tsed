@@ -50,8 +50,8 @@ export class Container extends LocalsContainer<Provider> {
    * @returns {T} Returns the element associated with the specified key or undefined if the key can't be found in the Map object.
    * @param token
    */
-  public getProvider(token: TokenProvider): Provider | undefined {
-    return super.get(token);
+  public getProvider<T extends Provider = Provider>(token: TokenProvider): T | undefined {
+    return super.get(token) as T;
   }
 
   /**

@@ -1,8 +1,9 @@
 import {getClassOrSymbol, Type} from "@tsed/core";
 import {Provider} from "../domain/Provider";
 import {ProviderType} from "../domain/ProviderType";
-import {InvokeOptions} from "../interfaces";
 import type {IProvider, RegistrySettings, TokenProvider} from "../interfaces";
+import type {InjectorService} from "../services/InjectorService";
+import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
 
 export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
   #settings: Map<string, RegistrySettings> = new Map();
@@ -73,11 +74,11 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     return this;
   }
 
-  onInvoke(provider: Provider, locals: Map<TokenProvider, any>, deps: any[]) {
+  onInvoke(provider: Provider, locals: Map<TokenProvider, any>, options: ResolvedInvokeOptions & {injector: InjectorService}) {
     const settings = this.#settings.get(provider.type);
 
     if (settings?.onInvoke) {
-      settings.onInvoke(provider, locals, deps);
+      settings.onInvoke(provider, locals, options);
     }
   }
 

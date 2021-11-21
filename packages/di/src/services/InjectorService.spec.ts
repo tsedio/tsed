@@ -247,7 +247,7 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result).to.instanceof(token);
-        expect(GlobalProviders.onInvoke).to.have.been.calledWithExactly(provider, Sinon.match.instanceOf(LocalsContainer), []);
+        expect(GlobalProviders.onInvoke).to.have.been.calledWithExactly(provider, Sinon.match.instanceOf(LocalsContainer), Sinon.match.any);
       });
     });
     describe("when provider is a Value (useValue)", () => {
