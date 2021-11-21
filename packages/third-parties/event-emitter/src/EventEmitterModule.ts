@@ -1,4 +1,4 @@
-import {$log, AfterListen, Logger, OnDestroy} from "@tsed/common";
+import {$log, AfterListen, Logger} from "@tsed/common";
 import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
 import {ListenerFn} from "eventemitter2";
 import {EventEmitterStore} from "./interfaces/EventEmitterStore";
@@ -6,6 +6,9 @@ import {EventEmitterService} from "./services/EventEmitterFactory";
 
 @Module()
 export class EventEmitterModule implements AfterListen {
+  @Constant("eventEmitter.disableSummary", false)
+  disableSummary: boolean;
+
   @Inject()
   protected logger: Logger;
 
@@ -18,9 +21,6 @@ export class EventEmitterModule implements AfterListen {
   @Constant("eventEmitter.enabled", false)
   private loadEventEmitter: boolean;
 
-  @Constant("eventEmitter.disableSummary", false)
-  disableSummary: boolean;
-
   async $afterListen(): Promise<any> {
     if (this.loadEventEmitter) {
       const providers = this.getProviders();
@@ -32,26 +32,6 @@ export class EventEmitterModule implements AfterListen {
     } else {
       this.logger.info("EventEmitter disabled...");
     }
-  }
-
-  private addEventListenerForProvider(provider: Provider<any>) {
-    const store = provider.store.get<EventEmitterStore | undefined>("eventEmitter");
-
-    const eventListenerDefinitions = Object.entries(store?.onEvent || {});
-    for (const [propertyKey, {event, options}] of eventListenerDefinitions) {
-      const listenerFn: ListenerFn = provider.instance[propertyKey].bind(provider.instance) as ListenerFn;
-      this.eventEmitter.on(event, listenerFn, options);
-    }
-
-    const anyEventListenerDefinitions = Object.keys(store?.onAny || {});
-    for (const propertyKey of anyEventListenerDefinitions) {
-      const listenerFn: ListenerFn = provider.instance[propertyKey].bind(provider.instance) as ListenerFn;
-      this.eventEmitter.onAny(listenerFn);
-    }
-  }
-
-  protected getProviders(): Provider<any>[] {
-    return Array.from(this.injector.getProviders());
   }
 
   public printEvents() {
@@ -74,5 +54,30 @@ export class EventEmitterModule implements AfterListen {
     });
 
     this.injector.logger.info("\n" + str.trim());
+  }
+
+  protected getProviders(): Provider<any>[] {
+    return Array.from(this.injector.getProviders());
+  }
+
+  private addEventListenerForProvider(provider: Provider<any>) {
+    const store = provider.store.get<EventEmitterStore | undefined>("eventEmitter");
+
+    const eventListenerDefinitions = Object.entries(store?.onEvent || {});
+
+    for (const [propertyKey, {event, options}] of eventListenerDefinitions) {
+      const instance = this.injector.get(provider.token);
+
+      const listenerFn: ListenerFn = instance[propertyKey].bind(instance) as ListenerFn;
+      this.eventEmitter.on(event, listenerFn, options);
+    }
+
+    const anyEventListenerDefinitions = Object.keys(store?.onAny || {});
+    for (const propertyKey of anyEventListenerDefinitions) {
+      const instance = this.injector.get(provider.token);
+
+      const listenerFn: ListenerFn = instance[propertyKey].bind(instance) as ListenerFn;
+      this.eventEmitter.onAny(listenerFn);
+    }
   }
 }
