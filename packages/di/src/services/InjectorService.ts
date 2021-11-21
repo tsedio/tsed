@@ -67,11 +67,11 @@ export class InjectorService extends Container {
   public settings: TsED.Configuration & DIConfiguration = new DIConfiguration() as any;
   public logger: DILogger = console;
   private resolvedConfiguration: boolean = false;
+  #cache = new LocalsContainer();
 
   constructor() {
     super();
-    const provider = this.addProvider(InjectorService).getProvider(InjectorService)!;
-    provider.instance = this;
+    this.#cache.set(InjectorService, this);
   }
 
   get resolvers() {
@@ -94,6 +94,7 @@ export class InjectorService extends Container {
    * Clone a provider from GlobalProviders and the given token. forkProvider method build automatically the provider if the instance parameter ins't given.
    * @param token
    * @param settings
+   * @deprecated
    */
   public forkProvider(token: TokenProvider, settings: Partial<IProvider<any>> = {}): Provider {
     if (!this.hasProvider(token)) {
@@ -104,7 +105,7 @@ export class InjectorService extends Container {
 
     Object.assign(provider, settings);
 
-    provider.instance = this.invoke(token);
+    this.#cache.set(token, this.invoke(token));
 
     return provider;
   }
@@ -113,7 +114,7 @@ export class InjectorService extends Container {
    * Return a list of instance build by the injector.
    */
   public toArray(): any[] {
-    return super.toArray().map((provider) => provider.instance);
+    return this.#cache.toArray();
   }
 
   /**
@@ -160,7 +161,7 @@ export class InjectorService extends Container {
    * @param token
    */
   has(token: TokenProvider): boolean {
-    return super.has(getClassOrSymbol(token)) && this.get(token) !== undefined;
+    return this.#cache.get(token) !== undefined;
   }
 
   /**
@@ -204,7 +205,10 @@ export class InjectorService extends Container {
 
     if (!provider || options.rebuild) {
       instance = this.resolve(token, locals, options);
-      this.hasProvider(token) && (this.getProvider(token)!.instance = instance);
+
+      if (this.hasProvider(token)) {
+        this.#cache.set(token, instance);
+      }
 
       return instance;
     }
@@ -212,11 +216,11 @@ export class InjectorService extends Container {
     switch (this.scopeOf(provider)) {
       case ProviderScope.SINGLETON:
         if (!this.has(token)) {
-          provider.instance = this.resolve(token, locals, options);
+          this.#cache.set(token, this.resolve(token, locals, options));
 
           if (provider.isAsync()) {
-            provider.instance.then((instance: any) => {
-              provider.instance = instance;
+            this.#cache.get(token).then((instance: any) => {
+              this.#cache.set(token, instance);
             });
           }
         }
@@ -240,15 +244,16 @@ export class InjectorService extends Container {
   /**
    * Build only providers which are asynchronous.
    */
-  async loadAsync(locals: LocalsContainer<any> = new LocalsContainer()) {
+  async loadAsync(locals: LocalsContainer = new LocalsContainer()) {
     for (const [, provider] of this) {
       if (!locals.has(provider.token)) {
         if (provider.isAsync()) {
           await this.invoke(provider.token, locals);
         }
 
-        if (provider.instance) {
-          locals.set(provider.token, provider.instance);
+        const instance = this.#cache.get(provider.token);
+        if (instance !== undefined) {
+          locals.set(provider.token, instance);
         }
       }
     }
@@ -262,8 +267,9 @@ export class InjectorService extends Container {
         this.invoke(provider.token, locals);
       }
 
-      if (provider.instance !== undefined) {
-        locals.set(provider.token, provider.instance);
+      const instance = this.#cache.get(provider.token);
+      if (instance !== undefined) {
+        locals.set(provider.token, instance);
       }
     }
 
@@ -532,6 +538,38 @@ export class InjectorService extends Container {
     return instance;
   }
 
+  /**
+   * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
+   * @param eventName The event name to emit at all services.
+   * @param args List of the parameters to give to each services.
+   * @returns {Promise<any[]>} A list of promises.
+   */
+  public async emit(eventName: string, ...args: any[]) {
+    return this.#cache.emit(eventName, ...args);
+  }
+
+  /**
+   * @param eventName
+   * @param value
+   * @param args
+   */
+  public alter<T = any>(eventName: string, value: any, ...args: any[]): T {
+    return this.#cache.alter(eventName, value, ...args);
+  }
+
+  /**
+   * @param eventName
+   * @param value
+   * @param args
+   */
+  public async alterAsync<T = any>(eventName: string, value: any, ...args: any[]): Promise<T> {
+    return this.#cache.alterAsync(eventName, value, ...args);
+  }
+
+  async destroy() {
+    await this.#cache.destroy();
+  }
+
   protected ensureProvider(token: TokenProvider): Provider | undefined {
     if (!this.hasProvider(token) && GlobalProviders.has(token)) {
       this.addProvider(token);
@@ -541,7 +579,7 @@ export class InjectorService extends Container {
   }
 
   protected getInstance(token: any) {
-    return super.get(getClassOrSymbol(token))?.instance;
+    return this.#cache.get(getClassOrSymbol(token));
   }
 
   /**

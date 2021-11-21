@@ -18,7 +18,7 @@ describe("createInjector", () => {
       env: Env.TEST
     };
 
-    const injector = createInjector(settings);
+    const injector = createInjector({settings});
 
     expect(injector.settings).to.be.instanceof(PlatformConfiguration);
     expect(injector.settings.test).to.eq("test");
@@ -31,7 +31,7 @@ describe("createInjector", () => {
       env: Env.PROD
     };
 
-    const injector = createInjector(settings);
+    const injector = createInjector({settings});
 
     return expect(injector.logger.stop).to.not.have.been.called;
   });

@@ -55,7 +55,7 @@ describe("AlterActions", () => {
       Action: class Action {}
     };
 
-    PlatformTest.injector.forkProvider(CustomAction);
+    // PlatformTest.injector.forkProvider(CustomAction);
     PlatformTest.injector.invoke(CustomAction);
 
     const {ctx, alterActions} = await getActionsFixture(formio);
@@ -135,7 +135,7 @@ describe("AlterActions", () => {
       Action: class Action {}
     };
 
-    PlatformTest.injector.forkProvider(CustomAction);
+    // PlatformTest.injector.forkProvider(CustomAction);
     PlatformTest.injector.invoke(CustomAction);
 
     const {ctx, alterActions} = await getActionsFixture(formio);
@@ -209,7 +209,7 @@ describe("AlterActions", () => {
       Action: class Action {}
     };
 
-    PlatformTest.injector.forkProvider(CustomAction);
+    // PlatformTest.injector.forkProvider(CustomAction);
     PlatformTest.injector.invoke(CustomAction);
 
     const {ctx, alterActions} = await getActionsFixture(formio);
@@ -261,7 +261,7 @@ describe("AlterActions", () => {
       Action: class Action {}
     };
 
-    PlatformTest.injector.forkProvider(CustomAction);
+    // PlatformTest.injector.forkProvider(CustomAction);
     PlatformTest.injector.invoke(CustomAction);
 
     const {ctx, alterActions} = await getActionsFixture(formio);

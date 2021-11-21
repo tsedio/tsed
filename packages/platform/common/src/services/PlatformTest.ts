@@ -13,8 +13,8 @@ import {getConfiguration} from "../utils/getConfiguration";
 export class PlatformTest extends DITest {
   public static platformBuilder: Type<PlatformBuilder<any, any>>;
 
-  static async create(options: Partial<TsED.Configuration> = {}) {
-    DITest.injector = PlatformTest.createInjector(getConfiguration(options, null));
+  static async create(settings: Partial<TsED.Configuration> = {}) {
+    DITest.injector = PlatformTest.createInjector(getConfiguration(settings));
     const container = createContainer();
 
     await DITest.injector.load(container);
@@ -24,7 +24,10 @@ export class PlatformTest extends DITest {
    * Create a new injector with the right default services
    */
   static createInjector(settings: any = {}): InjectorService {
-    return createInjector(DITest.configure(settings));
+    return createInjector({
+      providers: [],
+      settings: DITest.configure(settings)
+    });
   }
 
   /**
