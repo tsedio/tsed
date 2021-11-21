@@ -5,6 +5,8 @@ import {Platform} from "./Platform";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformTest} from "./PlatformTest";
 import {Get} from "@tsed/schema";
+import {PlatformRouter} from "./PlatformRouter";
+import {ControllerProvider} from "../domain/ControllerProvider";
 
 const sandbox = Sinon.createSandbox();
 
@@ -22,28 +24,18 @@ describe("Platform", () => {
   describe("addRoute", () => {
     it("should add a route", async () => {
       // GIVEN
-      const driver = {
-        use: sandbox.stub(),
-        raw: {
-          use: sandbox.stub()
-        }
-      };
+      const provider: ControllerProvider = PlatformTest.injector.getProvider(MyCtrl)! as ControllerProvider;
+      const platform = await PlatformTest.get<Platform>(Platform);
 
-      const provider = PlatformTest.injector.getProvider(MyCtrl)!;
-
-      const platform = await PlatformTest.invoke<Platform>(Platform, [
-        {
-          token: PlatformApplication,
-          use: driver
-        }
-      ]);
+      sandbox.spy(platform.app, "use");
 
       // WHEN
       platform.addRoute("/test", MyCtrl);
+      const router = PlatformTest.get<PlatformRouter>(provider.tokenRouter);
 
       // THEN
       expect(platform.getMountedControllers()).to.deep.eq([{provider, route: "/test/my-route"}]);
-      expect(driver.use).to.have.been.calledWithExactly("/test/my-route", provider.router.raw);
+      expect(platform.app.use).to.have.been.calledWithExactly("/test/my-route", router.raw);
     });
   });
   describe("getRoutes", () => {

@@ -35,9 +35,6 @@ export * from "./domain";
 // providers
 export * from "./services";
 
-// registries
-export * from "./registries/ControllerRegistry";
-
 // utils
 export * from "./utils";
 

@@ -1,10 +1,17 @@
 import {Type} from "@tsed/core";
-import {InjectorService} from "@tsed/di";
+import {GlobalProviders, InjectorService, ProviderType} from "@tsed/di";
 import {getOperationsRoutes, OperationMethods} from "@tsed/schema";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouter} from "../services/PlatformRouter";
 import {EndpointMetadata} from "../domain/EndpointMetadata";
 import {PlatformMiddlewaresChain} from "../services/PlatformMiddlewaresChain";
+
+GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
+  onInvoke(provider: ControllerProvider, locals: any, {injector}) {
+    const router = createRouter(injector, provider);
+    locals.set(PlatformRouter, router);
+  }
+});
 
 /**
  * @ignore
@@ -13,6 +20,37 @@ function formatMethod(method: string | undefined) {
   return (method === OperationMethods.CUSTOM ? "use" : method || "use").toLowerCase();
 }
 
+/**
+ * @ignore
+ */
+export function getRouter(injector: InjectorService, provider: ControllerProvider) {
+  return injector.get(provider.tokenRouter)!;
+}
+
+/**
+ * @ignore
+ */
+export function createRouter(injector: InjectorService, provider: ControllerProvider): PlatformRouter {
+  const token = provider.tokenRouter;
+
+  if (injector.has(token)) {
+    return getRouter(injector, provider);
+  }
+
+  const router = PlatformRouter.create(injector, provider.routerOptions);
+
+  return injector
+    .add(token, {
+      useValue: router
+    })
+    .invoke<PlatformRouter>(token);
+}
+
+/**
+ * @ignore
+ * @param injector
+ * @param provider
+ */
 export function buildRouter(injector: InjectorService, provider: ControllerProvider) {
   const {
     middlewares: {useBefore},
@@ -20,7 +58,7 @@ export function buildRouter(injector: InjectorService, provider: ControllerProvi
   } = provider;
 
   // Controller lifecycle
-  const router = provider.getRouter<PlatformRouter>();
+  const router = createRouter(injector, provider);
 
   if (!router.isBuilt) {
     router.isBuilt = true;
