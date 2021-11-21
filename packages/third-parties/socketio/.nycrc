@@ -3,6 +3,7 @@
     "src/**/*.ts"
   ],
   "exclude": [
+    "**/*.spec.ts",
     "**/*.d.ts",
     "node_modules",
     "**/interfaces/**",

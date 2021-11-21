@@ -49,13 +49,17 @@ export class AgendaModule implements OnDestroy, AfterListen {
 
   protected addAgendaDefinitionsForProvider(provider: Provider): void {
     const store = provider.store.get<AgendaStore>("agenda");
+
     if (!store.define) {
       return;
     }
 
     const jobsToDefine = Object.entries(store.define);
+
     for (const [propertyKey, {name, ...options}] of jobsToDefine) {
-      const jobProcessor: Processor = provider.instance[propertyKey].bind(provider.instance) as Processor;
+      const instance = this.injector.get(provider.token);
+
+      const jobProcessor: Processor = instance[propertyKey].bind(instance) as Processor;
       const jobName = this.getNameForJob(propertyKey, store.namespace, name);
       this.agenda.define(jobName, options, jobProcessor);
     }

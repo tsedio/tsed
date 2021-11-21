@@ -52,7 +52,7 @@ export class SocketHandlersBuilder {
    * @returns {any}
    */
   public build(nsps: Map<string, Namespace>) {
-    const {instance} = this.provider;
+    const instance = this.injector.get(this.provider.token);
     const {injectNamespaces, namespace} = this.socketProviderMetadata;
     const nsp = nsps.get(namespace);
 
@@ -81,7 +81,7 @@ export class SocketHandlersBuilder {
    */
   public onConnection(socket: Socket, nsp: Namespace) {
     const {socketProviderMetadata} = this;
-    const {instance} = this.provider;
+    const instance = this.injector.get(this.provider.token);
 
     this.buildHandlers(socket, nsp);
     this.createSession(socket);
@@ -92,7 +92,7 @@ export class SocketHandlersBuilder {
   }
 
   public onDisconnect(socket: Socket, nsp: Namespace) {
-    const {instance} = this.provider;
+    const instance = this.injector.get(this.provider.token);
     const {socketProviderMetadata} = this;
 
     if (instance.$onDisconnect) {
@@ -107,7 +107,8 @@ export class SocketHandlersBuilder {
    * @param {Socket} socket
    */
   private createSession(socket: Socket) {
-    this.provider.instance._nspSession.set(socket.id, new Map());
+    const instance = this.injector.get(this.provider.token);
+    instance._nspSession.set(socket.id, new Map());
   }
 
   /**
@@ -115,7 +116,8 @@ export class SocketHandlersBuilder {
    * @param {Socket} socket
    */
   private destroySession(socket: Socket) {
-    this.provider.instance._nspSession.delete(socket.id);
+    const instance = this.injector.get(this.provider.token);
+    instance._nspSession.delete(socket.id);
   }
 
   private buildHandlers(socket: Socket, nsp: Namespace) {
@@ -134,6 +136,7 @@ export class SocketHandlersBuilder {
 
   private async runQueue(handlerMetadata: SocketHandlerMetadata, args: any[], socket: Socket, nsp: Namespace) {
     let promise: any = Promise.resolve(args);
+    const instance = this.injector.get(this.provider.token);
     const {useBefore, useAfter} = this.socketProviderMetadata;
     const scope = {
       args,
@@ -153,7 +156,7 @@ export class SocketHandlersBuilder {
     }
 
     promise = promise
-      .then(() => this.invoke(this.provider.instance, handlerMetadata, scope))
+      .then(() => this.invoke(instance, handlerMetadata, scope))
       .then(SocketHandlersBuilder.bindResponseMiddleware(handlerMetadata, scope));
 
     if (handlerMetadata.useAfter) {
@@ -186,10 +189,9 @@ export class SocketHandlersBuilder {
   }
 
   private bindMiddleware(target: any, scope: any, promise: Promise<any>): Promise<any> {
-    const provider = this.injector.getProvider(target);
+    const instance = this.injector.get(target);
 
-    if (provider) {
-      const instance = provider.instance;
+    if (instance) {
       const handlerMetadata: SocketProviderMetadata = new SocketProviderMetadata(Store.from(instance).get("socketIO"));
 
       if (handlerMetadata.type === SocketProviderTypes.MIDDLEWARE) {
@@ -241,7 +243,8 @@ export class SocketHandlersBuilder {
           return scope.error;
 
         case SocketFilters.SESSION:
-          return this.provider.instance._nspSession.get(scope.socket.id);
+          const instance = this.injector.get(this.provider.token);
+          return instance._nspSession.get(scope.socket.id);
       }
     });
   }

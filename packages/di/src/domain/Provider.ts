@@ -5,6 +5,9 @@ import {ProviderType} from "./ProviderType";
 
 export class Provider<T = any> implements IProvider<T> {
   public type: ProviderType | any = ProviderType.PROVIDER;
+  /**
+   * @deprecated Use injector.get(provider.token) instead.
+   */
   public instance: T;
   public deps: TokenProvider[];
   public imports: any[];
