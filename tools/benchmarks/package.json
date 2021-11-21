@@ -1,6 +1,6 @@
 {
   "name": "@tsed/benchmarks",
-  "version": "6.86.0",
+  "version": "6.86.1",
   "private": true,
   "dependencies": {
     "@codechecks/client": "0.1.10",

@@ -1,6 +1,6 @@
 {
   "name": "@tsed/perf",
-  "version": "6.86.0",
+  "version": "6.86.1",
   "description": "Perf module tool",
   "private": false,
   "source": "./src/index.ts",
@@ -11,7 +11,7 @@
     "default": "./lib/index.modern.js"
   },
   "dependencies": {
-    "@tsed/core": "6.86.0",
+    "@tsed/core": "6.86.1",
     "chalk": "^4.1.0",
     "tslib": "2.2.0"
   },
