@@ -62,6 +62,6 @@ describe("LazyInject", () => {
     const service = await injector.invoke<MyInjectable>(MyInjectable);
     const lazyService = await service.lazy;
 
-    expect(lazyService).to.deep.eq({});
+    expect(lazyService).to.deep.eq(undefined);
   });
 });

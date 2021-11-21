@@ -124,10 +124,40 @@ class MyService {
 
 ```
 
+## Lazy Inject Http.Server or Https.Server
+
+```typescript
+import {OptionalLazyInject, Service, Inject, Injectable} from "@tsed/di";
+import type {Server as HttpServer} from "http";
+import type {Server as HttpServers} from "https";
+
+@Injectable()
+export default class OtherService {
+  @OptionalLazyInject("Server", () => import("@tsed/platform-http"))
+  protected http: Promise<HttpServer | undefined>;
+
+  @OptionalLazyInject("Server", () => import("@tsed/platform-https"))
+  protected https: Promise<HttpsServer | undefined>;
+  
+  async $onInit() {
+    const httpServer = await this.http;
+    
+    if (httpServer) {
+      // do something
+    }
+
+    const httpServers = await this.https;
+
+    if (httpServer) {
+      // do something
+    }
+  }
+}
+```
+
 ## Limitation
 
 Some providers cannot be lazy loaded:
  - Controllers,
  - Middlewares,
  - All providers that need to run a specific hook (excepted `$onInit` hook).
-

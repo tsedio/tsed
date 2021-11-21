@@ -54,14 +54,6 @@ In order to inject a custom provider, we use the @@Inject@@ decorator. This deco
 Async factory will always be considered as `SINGLETON`. It is not possible to use other scopes like `REQUEST` and `INSTANCE` because asynchronous providers are resolved on server loading. 
 :::
 
-###  Built-in factory
-
-Some factories are built-in Ts.ED. These factories are :
-
-- @@HttpServer@@: An instance of [Http.Server](https://nodejs.org/dist/latest/docs/api/http.html#http_class_http_server) from `http` module.
-- @@HttpsServer@@: An instance of [Https.Server](https://nodejs.org/dist/latest/docs/api/https.html#https_class_https_server) from `https` module.
-
-
 ## Use Class
 
 The `useClass` syntax is similar to register provider via decorator. But it allows you to use different classes per chosen factors.
@@ -76,4 +68,3 @@ registerProvider can be used to add a provider or override an existing provider 
 In this case, even if any class depends on ConfigService, Ts.ED will inject an instance of the provided class (`ConfigService` or `DevConfigService`) instead.
 
 <<< @/docs/snippets/providers/custom-provider-use-class-usage.ts
-

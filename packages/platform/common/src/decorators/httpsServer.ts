@@ -23,6 +23,7 @@ import {Server} from "https";
  * @param {TypedPropertyDescriptor<Function> | number} descriptor
  * @returns {any}
  * @decorator
+ * @deprecated Since 2021-11-11.
  */
 export function HttpsServer(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
   return Inject(Server)(target, targetKey, descriptor);

@@ -41,7 +41,7 @@ export function LazyInject(
               }
             }
 
-            bean = token ? await injector.lazyInvoke(token) : {};
+            bean = token ? await injector.lazyInvoke(token) : undefined;
           }
 
           return bean;
