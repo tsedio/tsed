@@ -53,7 +53,7 @@ describe("DI Request", () => {
 
       Sinon.stub(result1, "$onDestroy");
 
-      locals.destroy();
+      await locals.destroy();
       // THEN
       expect(result1).to.eq(result2);
       expect(result1.serviceSingleton).to.eq(serviceSingleton1);

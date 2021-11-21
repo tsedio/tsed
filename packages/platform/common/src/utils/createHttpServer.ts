@@ -5,7 +5,7 @@ import {HttpServer} from "../decorators/httpServer";
 import {listenServer} from "./listenServer";
 
 export function createHttpServer(injector: InjectorService): void {
-  injector.forkProvider(HttpServer);
+  injector.invoke(HttpServer);
 }
 
 registerProvider({

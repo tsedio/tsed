@@ -2,17 +2,16 @@ import type {IProvider} from "../interfaces/IProvider";
 import type {ProviderType} from "./ProviderType";
 import type {TokenProvider} from "../interfaces/TokenProvider";
 import {GlobalProviders} from "../registries/GlobalProviders";
-import {LocalsContainer} from "./LocalsContainer";
 import {Provider} from "./Provider";
 
-export class Container extends LocalsContainer<Provider> {
+export class Container extends Map<TokenProvider, Provider> {
   /**
    *
    * @param token
    * @param settings
    */
   public add(token: TokenProvider, settings: Partial<IProvider> = {}): this {
-    const provider = GlobalProviders.has(token) ? GlobalProviders.get(token)!.clone() : new Provider(token);
+    const provider = GlobalProviders.get(token)?.clone() || new Provider(token);
 
     Object.assign(provider, settings);
 
@@ -61,9 +60,12 @@ export class Container extends LocalsContainer<Provider> {
    * @returns {[TokenProvider , Provider<any>][]}
    */
   public getProviders(type?: ProviderType | string): Provider[] {
-    return Array.from(this)
-      .filter(([_, provider]) => (type ? provider.type === type : true))
-      .map(([_, provider]) => provider);
+    return [...this].reduce((providers, [_, provider]) => {
+      if (provider.type === type || !type) {
+        return [...providers, provider];
+      }
+      return providers;
+    }, []);
   }
 
   public addProviders(container: Map<TokenProvider, Provider>) {

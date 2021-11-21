@@ -1,5 +1,15 @@
 import {Store} from "@tsed/core";
-import {Container, GlobalProviders, Inject, InjectorService, LocalsContainer, Provider, ProviderScope, ProviderType} from "@tsed/di";
+import {
+  Container,
+  GlobalProviders,
+  Inject,
+  Injectable,
+  InjectorService,
+  LocalsContainer,
+  Provider,
+  ProviderScope,
+  ProviderType
+} from "@tsed/di";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {Configuration} from "@tsed/common";
@@ -849,6 +859,54 @@ describe("InjectorService", () => {
       // THEN
       expect(injector.get(MyService)).to.instanceOf(MyService);
       expect(injector.get<MyService>(MyService)!.externalService).to.eq("MyClass");
+    });
+  });
+
+  describe("alter()", () => {
+    it("should alter value", () => {
+      @Injectable()
+      class Test {
+        $alterValue(value: any) {
+          return "alteredValue";
+        }
+      }
+
+      Sinon.spy(Test.prototype, "$alterValue");
+
+      // GIVEN
+      const injector = new InjectorService();
+      injector.invoke<Test>(Test);
+
+      const service = injector.get<Test>(Test)!;
+
+      const value = injector.alter("$alterValue", "value");
+
+      expect(service.$alterValue).to.have.been.calledWithExactly("value");
+      expect(value).to.eq("alteredValue");
+    });
+  });
+
+  describe("alterAsync()", () => {
+    it("should alter value", async () => {
+      @Injectable()
+      class Test {
+        async $alterValue(value: any) {
+          return "alteredValue";
+        }
+      }
+
+      Sinon.spy(Test.prototype, "$alterValue");
+
+      // GIVEN
+      const injector = new InjectorService();
+      injector.invoke<Test>(Test);
+
+      const service = injector.get<Test>(Test)!;
+
+      const value = await injector.alterAsync("$alterValue", "value");
+
+      expect(service.$alterValue).to.have.been.calledWithExactly("value");
+      expect(value).to.eq("alteredValue");
     });
   });
 });

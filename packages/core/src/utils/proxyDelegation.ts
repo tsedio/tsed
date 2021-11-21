@@ -1,3 +1,4 @@
+import {uniq} from "./uniq";
 /**
  * @ignore
  */
@@ -81,7 +82,7 @@ export function proxyDelegation<T extends object = any>(self: any, options: Prox
     },
 
     ownKeys(target: any) {
-      return Reflect.ownKeys(target).concat((ownKeys && ownKeys(target)) || []);
+      return uniq(Reflect.ownKeys(target).concat((ownKeys && ownKeys(target)) || []));
     },
     ...handlers
   });

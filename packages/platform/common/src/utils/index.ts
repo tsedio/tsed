@@ -1,5 +1,4 @@
 export * from "./createInjector";
-export * from "./createPlatformApplication";
 export * from "./createHttpServer";
 export * from "./createHttpsServer";
 export * from "./loadInjector";

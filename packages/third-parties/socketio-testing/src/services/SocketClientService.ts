@@ -29,13 +29,13 @@ export class SocketClientService implements OnDestroy {
       client.on("connect", resolve as any);
     });
 
-    this.logger.info("Socket.io client connected...");
+    this.logger.debug("Socket.io client connected...");
 
     return client;
   }
 
   $onDestroy() {
     this.clients.forEach((client) => client.close());
-    this.logger.info("Socket.io clients closed...");
+    this.logger.debug("Socket.io clients closed...");
   }
 }
