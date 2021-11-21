@@ -1,5 +1,7 @@
 import {Type} from "@tsed/core";
 import type {Provider} from "../domain";
+import type {InjectorService} from "../services/InjectorService";
+import type {ResolvedInvokeOptions} from "./ResolvedInvokeOptions";
 
 /**
  * @ignore
@@ -12,7 +14,7 @@ export interface RegistrySettings {
    *
    * @param provider
    * @param {Map<string | Function, any>} locals
-   * @param deps
+   * @param options
    */
-  onInvoke?(provider: Provider, locals: Map<string | Function, any>, deps: any[]): void;
+  onInvoke?(provider: Provider, locals: Map<string | Function, any>, options: ResolvedInvokeOptions & {injector: InjectorService}): void;
 }
