@@ -5,3 +5,4 @@ export * from "./PlatformRequest";
 export * from "./PlatformResponse";
 export * from "./PlatformRouter";
 export * from "./PlatformTest";
+export * from "./PlatformMiddlewaresChain";

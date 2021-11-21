@@ -1,11 +1,12 @@
 import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
 import {concatPath, getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
-import {PlatformControllerBuilder} from "../builder/PlatformControllerBuilder";
+import {buildRouter} from "../builder/PlatformControllerBuilder";
 import {ControllerProvider, EndpointMetadata, PlatformRouteDetails} from "../domain";
 import {Route, RouteController} from "../interfaces/Route";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformRouter} from "./PlatformRouter";
 import "../registries/ControllerRegistry";
+import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain";
 
 /**
  * `Platform` is used to provide all routes collected by annotation `@Controller`.
@@ -13,7 +14,8 @@ import "../registries/ControllerRegistry";
  * @platform
  */
 @Injectable({
-  scope: ProviderScope.SINGLETON
+  scope: ProviderScope.SINGLETON,
+  imports: [PlatformMiddlewaresChain]
 })
 export class Platform {
   private _routes: PlatformRouteDetails[] = [];
@@ -111,7 +113,7 @@ export class Platform {
 
     injector.getProviders(ProviderType.CONTROLLER).map((provider: ControllerProvider) => {
       if (!provider.hasParent()) {
-        return new PlatformControllerBuilder(provider as ControllerProvider).build(injector);
+        return buildRouter(injector, provider);
       }
     });
   }
