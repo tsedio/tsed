@@ -19,7 +19,7 @@
     "json"
   ],
   "check-coverage": true,
-  "statements": 99.15,
+  "statements": 99.14,
   "branches": 70.45,
   "functions": 97.22,
   "lines": 100

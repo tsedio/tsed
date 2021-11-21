@@ -30,12 +30,12 @@ const rootDir = resolve(__dirname);
         emitSchemaFile: resolve(__dirname, "../resources/schema.gql")
       },
       serverConfig: {
-        context({req, res}) {
-          return buildContext({req, res, User});
+        context({ req, res }: any) {
+          return buildContext({ req, res, User });
         }
       },
-      serverRegistration: {
-        cors: false
+      middlewareOptions: {
+        cors: true
       }
     }
   },

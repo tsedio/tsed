@@ -9,23 +9,24 @@ import "@tsed/typegraphql";
   typegraphql: {
     "server1": {
       // GraphQL server configuration
-      // path: string;
+      path: '/',
+      playground: true, // enable playground GraphQL IDE. Set false to use Apollo Studio
+
       // resolvers?: (Function | string)[];
       // dataSources?: Function;
+      // server?: (config: Config) => ApolloServer;
 
-      // apollo-server-express options
+      // Apollo Server options
       // See options descriptions on https://www.apollographql.com/docs/apollo-server/api/apollo-server.html
-      // serverConfig?: Config;
-      // serverRegistration?: ServerRegistration;
+      serverConfig: {
+        plugins: []
+      },
+
+      // middlewareOptions?: ServerRegistration;
 
       // type-graphql
       // See options descriptions on https://19majkel94.github.io/type-graphql/
       // buildSchemaOptions?: Partial<BuildSchemaOptions>;
-
-      // apollo-server-express
-      // installSubscriptionHandlers?: boolean;
-
-      // server?: (config: Config) => ApolloServer;
     }
   }
 })
