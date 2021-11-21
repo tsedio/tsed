@@ -83,20 +83,20 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
       });
     }
 
-    setTimeout(() => this.generateSpecFiles());
+    this.generateSpecFiles();
   }
 
   generateSpecFiles() {
-    const promises = this.settings.map(async (conf) => {
-      const {outFile} = conf;
-      const spec = this.swaggerService.getOpenAPISpec(conf);
+    return Promise.all(
+      this.settings.map((conf) => {
+        const {outFile} = conf;
 
-      if (outFile) {
-        return Fs.writeFile(outFile, JSON.stringify(spec, null, 2), {encoding: "utf8"}, () => {});
-      }
-    });
-
-    return Promise.all(promises);
+        if (outFile) {
+          const spec = this.swaggerService.getOpenAPISpec(conf);
+          return Fs.writeFile(outFile, JSON.stringify(spec, null, 2), {encoding: "utf8"}, () => {});
+        }
+      })
+    );
   }
 
   private getUrls() {
