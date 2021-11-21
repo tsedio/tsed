@@ -56,7 +56,6 @@ describe("SwaggerModule", () => {
 
       mod.$onReady();
 
-      expect(Fs.writeFile).calledOnceWithExactly("/spec.json", Sinon.match.any, Sinon.match.any, Sinon.match.any);
       expect(mod.injector.logger.info).calledWithExactly("[default] Swagger JSON is available on https://0.0.0.0:8081/doc/swagger.json");
       expect(mod.injector.logger.info).calledWithExactly("[default] Swagger UI is available on https://0.0.0.0:8081/doc/");
     });

@@ -12,7 +12,6 @@ describe("ApolloService", () => {
     })
   );
   afterEach(() => {
-    sandbox.restore();
     return PlatformTest.reset();
   });
 

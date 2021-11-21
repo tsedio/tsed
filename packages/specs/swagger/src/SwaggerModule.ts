@@ -83,7 +83,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
       });
     }
 
-    this.generateSpecFiles();
+    setTimeout(() => this.generateSpecFiles());
   }
 
   generateSpecFiles() {
