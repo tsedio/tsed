@@ -24,7 +24,7 @@ export class OidcInteractions {
       const {name} = provider.store.get<OidcInteractionOptions>(INTERACTION_OPTIONS);
       this.interactions.set(name, provider);
 
-      if (provider.instance.$prompt) {
+      if (this.injector.get(provider.token)?.$prompt) {
         provider.store.set("$prompt", platformHandler.createCustomHandler(provider, "$prompt"));
       }
     });

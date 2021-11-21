@@ -180,8 +180,10 @@ export class OidcProvider {
           );
         }
 
-        if (provider.instance.$onCreate) {
-          provider.instance.$onCreate(policy.get(name));
+        const instance = this.injector.get(provider.token);
+
+        if (instance.$onCreate) {
+          instance.$onCreate(policy.get(name));
         }
       });
     }

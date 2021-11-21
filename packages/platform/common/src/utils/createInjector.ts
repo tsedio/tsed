@@ -6,20 +6,13 @@ $log.name = "TSED";
 
 export function createInjector(settings: Partial<TsED.Configuration> = {}) {
   const injector = new InjectorService();
-  injector.settings = createSettingsService(injector);
+  injector.addProvider(PlatformConfiguration);
+
+  injector.settings = injector.invoke(PlatformConfiguration);
   injector.logger = $log;
   injector.settings.set(settings);
 
   setLoggerLevel(injector);
 
   return injector;
-}
-
-function createSettingsService(injector: InjectorService): PlatformConfiguration & TsED.Configuration {
-  const provider = GlobalProviders.get(PlatformConfiguration)!.clone();
-
-  provider.instance = injector.invoke<PlatformConfiguration>(provider.useClass);
-  injector.addProvider(PlatformConfiguration, provider);
-
-  return provider.instance as any;
 }
