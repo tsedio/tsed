@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-response-filter",
-  "version": "6.87.1",
+  "version": "6.87.2",
   "description": "Platform response filter module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -17,19 +17,19 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.87.1",
-    "@tsed/di": "6.87.1",
-    "@tsed/exceptions": "6.87.1",
-    "@tsed/json-mapper": "6.87.1",
-    "@tsed/platform-views": "6.87.1",
-    "@tsed/schema": "6.87.1"
+    "@tsed/core": "6.87.2",
+    "@tsed/di": "6.87.2",
+    "@tsed/exceptions": "6.87.2",
+    "@tsed/json-mapper": "6.87.2",
+    "@tsed/platform-views": "6.87.2",
+    "@tsed/schema": "6.87.2"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.87.1",
-    "@tsed/di": "^6.87.1",
-    "@tsed/exceptions": "^6.87.1",
-    "@tsed/json-mapper": "^6.87.1",
-    "@tsed/platform-views": "^6.87.1",
-    "@tsed/schema": "^6.87.1"
+    "@tsed/core": "^6.87.2",
+    "@tsed/di": "^6.87.2",
+    "@tsed/exceptions": "^6.87.2",
+    "@tsed/json-mapper": "^6.87.2",
+    "@tsed/platform-views": "^6.87.2",
+    "@tsed/schema": "^6.87.2"
   }
 }
