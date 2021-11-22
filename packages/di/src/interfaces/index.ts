@@ -11,3 +11,4 @@ export * from "./OnDestroy";
 export * from "./OnInit";
 export * from "./RegistrySettings";
 export * from "./TokenProvider";
+export * from "./ResolvedInvokeOptions";
