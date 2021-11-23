@@ -1,6 +1,6 @@
 {
   "name": "@tsed/formio-types",
-  "version": "6.87.2",
+  "version": "6.88.0",
   "description": "Formio types definition package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/index.js",
