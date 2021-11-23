@@ -117,6 +117,46 @@ functions:
               method: get
 ```
 
+## Invoke a lambda with serverless
+
+Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your local machine to speed up your development cycles.
+To do so, it starts an HTTP server that handles the request's lifecycle like APIG does and invokes your handlers.
+
+So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our code before invoke the lambda.
+
+To simplify our workflow, we can add the following npm script command in our `package.json`:
+
+```json
+{
+  "scripts": {
+    "invoke:timeslots": "yarn build && serverless invoke local -f timeslots",
+    "invoke:any": "yarn serverless invoke local -f any --data '{\"path\":\"/timeslots\", \"httpMethod\": \"GET\"}'"
+  }
+}
+```
+
+Now, we can run the following command to invoke our lambda:
+
+```
+yarn invoke:timeslots
+// OR
+npm run invoke:timeslots
+```
+
+You should see in the terminal the following result:
+
+```json
+{
+    "statusCode": 200,
+    "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
+    "headers": {
+        "content-type": "application/json",
+        "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
+    },
+    "isBase64Encoded": false
+}
+```
+
 ## Manage routes from code
 
 Declaring all routes in the `serverless.yml` file can be a source of error. `@tsed/platform-serverless` can
@@ -149,44 +189,28 @@ functions:
           path: '{proxy+}'
 ```
 
-Now, Ts.ED will handle request and call the expected lambda.
+Then, edit the `handler.ts` and change the exported functions:
 
-## Invoke a lambda with serverless
+```typescript
+import {PlatformServerless} from "@tsed/platform-serverless";
+import {TimeslotsLambda} from "./TimeslotsLambda";
 
-Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your local machine to speed up your development cycles.
-To do so, it starts an HTTP server that handles the request's lifecycle like APIG does and invokes your handlers.
+const platform = PlatformServerless.bootstrap({
+  lambda: [TimeslotsLambda]
+});
 
-So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our code before invoke the lambda.
+export const handler = platform.handler();
+```
+
+Now, Ts.ED will handle request and call the expected lambda in your controllers.
 
 To simplify our workflow, we can add the following npm script command in our `package.json`:
 
 ```json
 {
   "scripts": {
-    "invoke:timeslots": "yarn build && serverless invoke local -f timeslots"
+    "invoke:any": "yarn serverless invoke local -f any --data '{\"path\":\"/timeslots\", \"httpMethod\": \"GET\"}'"
   }
-}
-```
-
-Now, we can run the following command to invoke our lambda:
-
-```
-yarn invoke:timeslots
-// OR
-npm run invoke:timeslots
-```
-
-You should see in the terminal the following result:
-
-```json
-{
-    "statusCode": 200,
-    "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
-    "headers": {
-        "content-type": "application/json",
-        "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
-    },
-    "isBase64Encoded": false
 }
 ```
 

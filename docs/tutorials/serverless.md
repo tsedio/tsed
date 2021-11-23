@@ -191,40 +191,6 @@ functions:
           method: get
 ```
 
-## Manage routes from code
-
-Declaring all routes in the `serverless.yml` file can be a source of error. `@tsed/platform-serverless` can handle all
-routes and call the right lambda based on the decorators like @@Get@@, @@Post@@, etc...
-
-To use the embed router, change the `serverless.yml` declaration by this example:
-
-```yml
-service: timeslots
-
-frameworkVersion: '2'
-
-provider:
-  name: aws
-  runtime: nodejs14.x
-  lambdaHashingVersion: '20201221'
-
-plugins:
-  - serverless-offline
-
-functions:
-  any:
-    handler: dist/handler.handler
-    events:
-      - http:
-          method: ANY
-          path: /
-      - http:
-          method: ANY
-          path: '{proxy+}'
-```
-
-Now, Ts.ED will handle request and call the expected lambda.
-
 ## Invoke a lambda with serverless
 
 Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your
@@ -263,6 +229,63 @@ You should see in the terminal the following result:
     "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
   },
   "isBase64Encoded": false
+}
+```
+
+## Manage routes from code
+
+Declaring all routes in the `serverless.yml` file can be a source of error. `@tsed/platform-serverless` can handle all
+routes and call the right lambda based on the decorators like @@Get@@, @@Post@@, etc...
+
+To use the embed router, change the `serverless.yml` declaration by this example:
+
+```yml
+service: timeslots
+
+frameworkVersion: '2'
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: '20201221'
+
+plugins:
+  - serverless-offline
+
+functions:
+  any:
+    handler: dist/handler.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+```
+
+Then, edit the `handler.ts` and change the exported functions:
+
+```typescript
+import {PlatformServerless} from "@tsed/platform-serverless";
+import {TimeslotsLambda} from "./TimeslotsLambda";
+
+const platform = PlatformServerless.bootstrap({
+  lambda: [TimeslotsLambda]
+});
+
+export const handler = platform.handler();
+```
+
+Now, Ts.ED will handle request and call the expected lambda in your controllers.
+
+To simplify our workflow, we can add the following npm script command in our `package.json`:
+
+```json
+{
+  "scripts": {
+    "invoke:any": "yarn serverless invoke local -f any --data '{\"path\":\"/timeslots\", \"httpMethod\": \"GET\"}'"
+  }
 }
 ```
 
