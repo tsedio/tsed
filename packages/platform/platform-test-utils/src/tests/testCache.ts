@@ -1,5 +1,6 @@
-import {Controller, Get, Head, Inject, PathParams, PlatformCache, PlatformTest, Post, QueryParams, UseCache} from "@tsed/common";
+import {Controller, Get, Head, Inject, PathParams, PlatformTest, Post, QueryParams} from "@tsed/common";
 import {Property} from "@tsed/schema";
+import {PlatformCache, UseCache} from "@tsed/platform-cache";
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";

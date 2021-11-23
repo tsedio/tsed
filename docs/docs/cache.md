@@ -76,6 +76,8 @@ export class Server {}
 To interact with the cache manager instance, inject it to your class using the @@PlatformCache@@ token, as follows:
 
 ```typescript
+import {PlatformCache} from "@tsed/platform-cache";
+
 @Injectable()
 export class MyService {
   @Inject()
@@ -126,7 +128,8 @@ await this.cache.reset();
 To enable cache on endpoint, use @@UseCache@@ decorator on a method as follows:
 
 ```typescript
-import {Controller, UseCache, Get, PathParams} from "@tsed/common";
+import {Controller, Get, PathParams} from "@tsed/common";
+import {UseCache} from "@tsed/platform-cache";
 
 @Controller("/my-path")
 export class MyController {
@@ -159,7 +162,7 @@ Because @@UseCache@@ uses @@PlatformCacheInterceptor@@ and not a middleware, you
 
 ```typescript
 import {Injectable} from "@tsed/di";
-import {UseCache} from "@tsed/common";
+import {UseCache} from "@tsed/platform-cache";
 
 @Injectable()
 export class MyService {
@@ -177,7 +180,7 @@ to the UseCache decorator. Ts.ED will use @@deserialize@@ function based on the 
 
 ```typescript
 import {Injectable} from "@tsed/di";
-import {UseCache} from "@tsed/common";
+import {UseCache} from "@tsed/platform-cache";
 
 @Injectable()
 export class MyService {
@@ -218,7 +221,8 @@ import {PlatformContext} from "@tsed/common";
 The second way is to use the `key` option with @@UseCache@@ decorator:
 
 ```typescript
-import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
+import {Controller, Get, PathParams, PlatformContext} from "@tsed/common";
+import {UseCache} from "@tsed/platform-cache";
 
 @Controller("/my-path")
 export class MyController {
@@ -241,7 +245,8 @@ export class MyController {
 TTL can be defined per endpoint with @@UseCache@@:
 
 ```typescript
-import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
+import {Controller, Get, PathParams, PlatformContext} from "@tsed/common";
+import {UseCache} from "@tsed/platform-cache";
 
 @Controller("/my-path")
 export class MyController {
