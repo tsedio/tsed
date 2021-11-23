@@ -28,7 +28,7 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
    */
   public response: PlatformResponse;
 
-  constructor({request}: IncomingEvent) {
+  constructor({request}: IncomingEvent, protected $ctx: PlatformContext) {
     this.raw = request as any;
   }
 
@@ -162,6 +162,8 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
     delete this.raw;
     // @ts-ignore
     delete this.response;
+    // @ts-ignore
+    delete this.$ctx;
   }
 
   /**

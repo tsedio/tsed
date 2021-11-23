@@ -6,8 +6,7 @@ import {
   PlatformHandler,
   PlatformRequest,
   PlatformResponse,
-  PlatformRouter,
-  PlatformViews
+  PlatformRouter
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import Express from "express";
@@ -19,6 +18,7 @@ import {
   PlatformExpressResponse,
   PlatformExpressRouter
 } from "../services";
+import type {PlatformViews} from "@tsed/platform-views";
 
 /**
  * @platform
@@ -97,7 +97,7 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
     // disable x-powered-by header
     this.injector.settings.get("env") === Env.PROD && this.app.getApp().disable("x-powered-by");
 
-    this.configureViewsEngine();
+    await this.configureViewsEngine();
 
     await super.loadRoutes();
 
@@ -112,14 +112,29 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
     });
   }
 
-  private configureViewsEngine() {
-    const platformViews = this.injector.get<PlatformViews>(PlatformViews)!;
+  private async configureViewsEngine() {
+    try {
+      const {exists, disabled} = this.settings.get("views") || {};
 
-    platformViews.getEngines().forEach(({extension, engine}) => {
-      this.app.getApp().engine(extension, engine.render);
-    });
+      if (exists && !disabled) {
+        const {PlatformViews} = await import("@tsed/platform-views");
+        const platformViews = this.injector.get<PlatformViews>(PlatformViews)!;
+        const app = this.app.getApp();
 
-    platformViews.viewEngine && this.app.getApp().set("view engine", platformViews.viewEngine);
-    platformViews.root && this.app.getApp().set("views", platformViews.root);
+        platformViews.getEngines().forEach(({extension, engine}) => {
+          app.engine(extension, engine.render);
+        });
+
+        platformViews.viewEngine && this.app.getApp().set("view engine", platformViews.viewEngine);
+        platformViews.root && this.app.getApp().set("views", platformViews.root);
+      }
+    } catch (error) {
+      // istanbul ignore next
+      this.injector.logger.warn({
+        event: "PLATFORM_VIEWS_ERROR",
+        message: "Unable to configure the PlatformViews service on your environment.",
+        error
+      });
+    }
   }
 }

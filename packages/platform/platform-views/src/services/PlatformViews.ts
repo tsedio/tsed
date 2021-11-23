@@ -1,5 +1,5 @@
 import {Env, getValue} from "@tsed/core";
-import {Constant, Injectable} from "@tsed/di";
+import {Constant, Module} from "@tsed/di";
 import Fs from "fs";
 import {extname, join, resolve} from "path";
 import {
@@ -28,7 +28,11 @@ async function tryImport(name: string) {
 /**
  * @platform
  */
-@Injectable()
+@Module({
+  views: {
+    exists: true
+  }
+})
 export class PlatformViews {
   @Constant("env")
   env: Env;
@@ -38,6 +42,9 @@ export class PlatformViews {
 
   @Constant("views.cache")
   readonly cache: boolean;
+
+  @Constant("views.disabled", false)
+  readonly disabled: string;
 
   @Constant("views.viewEngine", "ejs")
   readonly viewEngine: string;
@@ -53,15 +60,17 @@ export class PlatformViews {
   #cachePaths = new Map<string, {path: string; extension: string}>();
 
   async $onInit() {
-    this.#extensions = new Map(
-      Object.entries({
-        ...PLATFORM_VIEWS_EXTENSIONS,
-        ...this.extensionsOptions
-      })
-    );
+    if (!this.disabled) {
+      this.#extensions = new Map(
+        Object.entries({
+          ...PLATFORM_VIEWS_EXTENSIONS,
+          ...this.extensionsOptions
+        })
+      );
 
-    await this.loadFromConsolidate();
-    await this.loadFromTsedEngines();
+      await this.loadFromConsolidate();
+      await this.loadFromTsedEngines();
+    }
   }
 
   /**

@@ -4,7 +4,6 @@ import {PlatformBuilder, PlatformType} from "../builder/PlatformBuilder";
 import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext";
 import {createInjector} from "../utils/createInjector";
 import {PlatformApplication} from "./PlatformApplication";
-import {PlatformViews} from "@tsed/platform-views";
 import {getConfiguration} from "../utils/getConfiguration";
 
 /**
@@ -175,7 +174,7 @@ export class PlatformTest extends DITest {
       response: options?.response?.response || options?.event?.response || PlatformTest.createResponse()
     };
 
-    const ctx = new PlatformContext({
+    return new PlatformContext({
       id: "id",
       injector: DITest.injector,
       logger: DITest.injector.logger,
@@ -183,9 +182,5 @@ export class PlatformTest extends DITest {
       ...options,
       event
     });
-
-    ctx.response.platformViews = PlatformTest.get<PlatformViews>(PlatformViews);
-
-    return ctx;
   }
 }

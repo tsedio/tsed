@@ -1,4 +1,4 @@
-import {IncomingEvent, PlatformResponse} from "@tsed/common";
+import {IncomingEvent, PlatformContext, PlatformResponse} from "@tsed/common";
 import {ServerResponse} from "http";
 import Koa from "koa";
 import {getStatusMessage} from "@tsed/schema";
@@ -18,8 +18,8 @@ declare global {
 export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
   #ctx: Koa.Context;
 
-  constructor(event: IncomingEvent) {
-    super(event);
+  constructor(event: IncomingEvent, $ctx: PlatformContext) {
+    super(event, $ctx);
     this.#ctx = this.raw.ctx;
   }
 
