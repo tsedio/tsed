@@ -2,14 +2,16 @@ import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import {createReadStream} from "fs";
 import Sinon from "sinon";
+import {PlatformViews} from "@tsed/platform-views";
 import {PlatformResponse} from "./PlatformResponse";
 
 const sandbox = Sinon.createSandbox();
 
 function createResponse() {
   const ctx = PlatformTest.createRequestContext();
+  const platformViews = PlatformTest.get(PlatformViews);
 
-  return {res: ctx.response.raw, response: ctx.response};
+  return {res: ctx.response.raw, response: ctx.response, platformViews};
 }
 
 describe("PlatformResponse", () => {
@@ -102,16 +104,16 @@ describe("PlatformResponse", () => {
   });
   describe("render()", () => {
     it("should return a string", async () => {
-      const {response} = createResponse();
+      const {response, platformViews} = createResponse();
 
       response.locals.locale = "fr-FR";
-      sandbox.stub(response.platformViews, "render").resolves("HTML");
+      sandbox.stub(platformViews, "render").resolves("HTML");
 
       const result = await response.render("view", {
         test: "test"
       });
 
-      expect(response.platformViews.render).to.have.been.calledWithExactly("view", {
+      expect(platformViews.render).to.have.been.calledWithExactly("view", {
         locale: "fr-FR",
         test: "test"
       });

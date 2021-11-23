@@ -1,9 +1,6 @@
 import {BaseContext} from "@tsed/di";
 import {TemplateRenderError} from "../errors/TemplateRenderError";
 
-/**
- * @ignore
- */
 export async function renderView(data: any, $ctx: BaseContext) {
   const {response, endpoint} = $ctx;
   try {

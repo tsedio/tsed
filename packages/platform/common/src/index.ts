@@ -7,7 +7,6 @@ export * from "@tsed/platform-exceptions";
 export * from "@tsed/platform-response-filter";
 export * from "@tsed/platform-cache";
 export * from "@tsed/platform-middlewares";
-export * from "@tsed/platform-views";
 export * from "@tsed/components-scan";
 export * from "@tsed/platform-log-middleware";
 

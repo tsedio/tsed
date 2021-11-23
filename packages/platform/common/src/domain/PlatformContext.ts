@@ -61,8 +61,8 @@ export class PlatformContext extends DIContext implements ContextMethods {
       typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern
     );
 
-    this.response = new ResponseKlass(event);
-    this.request = new RequestKlass(event);
+    this.response = new ResponseKlass(event, this);
+    this.request = new RequestKlass(event, this);
 
     this.response.request = this.request;
     this.request.response = this.response;

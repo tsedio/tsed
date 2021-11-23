@@ -23,8 +23,8 @@ declare global {
 export class PlatformKoaRequest extends PlatformRequest<Koa.Request> {
   #ctx: Koa.Context;
 
-  constructor(event: IncomingEvent) {
-    super(event);
+  constructor(event: IncomingEvent, $ctx: PlatformContext) {
+    super(event, $ctx);
     this.#ctx = this.raw.ctx;
   }
 

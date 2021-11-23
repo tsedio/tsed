@@ -1,9 +1,9 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
-import {PlatformViews} from "@tsed/platform-views";
 import {ServerResponse} from "http";
 import {IncomingEvent} from "../interfaces/IncomingEvent";
 import type {PlatformRequest} from "./PlatformRequest";
+import type {PlatformContext} from "../domain/PlatformContext";
 
 const onFinished = require("on-finished");
 
@@ -25,8 +25,6 @@ export type HeaderValue = Array<boolean | number | string> | boolean | number | 
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
 export class PlatformResponse<T extends Record<string, any> = any> {
-  platformViews: PlatformViews;
-
   /**
    * The current @@PlatformRequest@@.
    */
@@ -36,7 +34,7 @@ export class PlatformResponse<T extends Record<string, any> = any> {
 
   raw: T;
 
-  constructor({response}: IncomingEvent) {
+  constructor({response}: IncomingEvent, protected $ctx: PlatformContext) {
     this.raw = response as any;
   }
 
@@ -245,7 +243,10 @@ export class PlatformResponse<T extends Record<string, any> = any> {
    * @param options
    */
   async render(path: string, options: any = {}) {
-    return this.platformViews.render(path, {
+    const {PlatformViews} = await import("@tsed/platform-views");
+    const platformViews = await this.$ctx.injector.lazyInvoke(PlatformViews);
+
+    return platformViews.render(path, {
       ...this.locals,
       ...options
     });
@@ -325,6 +326,8 @@ export class PlatformResponse<T extends Record<string, any> = any> {
     delete this.data;
     // @ts-ignore
     delete this.request;
+    // @ts-ignore
+    delete this.$ctx;
   }
 
   isHeadersSent() {

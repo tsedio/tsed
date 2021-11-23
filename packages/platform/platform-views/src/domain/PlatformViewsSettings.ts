@@ -61,6 +61,7 @@ export interface PlatformViewEngine {
 }
 
 export interface PlatformViewsSettings {
+  disabled?: boolean;
   /**
    * Views directory.
    */

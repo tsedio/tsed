@@ -1,7 +1,6 @@
 import KoaRouter from "@koa/router";
 import {
   createContext,
-  IProvider,
   PlatformApplication,
   PlatformBuilder,
   PlatformBuilderOptions,
@@ -9,14 +8,12 @@ import {
   PlatformHandler,
   PlatformRequest,
   PlatformResponse,
-  PlatformRouter,
-  PlatformViews
+  PlatformRouter
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import Koa, {Context, Next} from "koa";
 import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
 import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse, PlatformKoaRouter} from "../services";
-import {getConfiguration} from "@tsed/common/src/utils/getConfiguration";
 
 /**
  * @platform

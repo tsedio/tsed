@@ -1,10 +1,10 @@
 import {isSerializable, Type} from "@tsed/core";
 import {BaseContext, Constant, Inject, Injectable, InjectorService} from "@tsed/di";
-import {renderView} from "@tsed/platform-views";
 import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods";
 import {ANY_CONTENT_TYPE, getContentType} from "../utils/getContentType";
 import {ConverterService} from "./ConverterService";
+import {renderView} from "../utils/renderView";
 
 /**
  * @platform
