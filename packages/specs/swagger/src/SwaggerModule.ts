@@ -70,9 +70,18 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
     if (this.configuration.getBestHost) {
       const host = this.configuration.getBestHost();
 
+      if (!host) {
+        return;
+      }
+
       const displayLog = (conf: SwaggerSettings) => {
         const {path = "/", fileName = "swagger.json", doc} = conf;
-        const url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
+
+        let url = "/";
+
+        if (host) {
+          url = typeof host.port === "number" ? `${host.protocol}://${host.address}:${host.port}` : "";
+        }
 
         this.injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${normalizePath(path, fileName)}`);
         this.injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
