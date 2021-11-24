@@ -2,10 +2,21 @@
   "name": "@tsed/openspec",
   "version": "6.88.1",
   "description": "OpenSpec2 and OpenSpec3 interfaces declarations for TypeScript application",
-  "source": "./src/index.ts",
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
   "private": false,
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "scripts": {
+    "build": "yarn run build:esm && yarn run build:cjs",
+    "build:cjs": "tsc --build tsconfig.compile.json",
+    "build:esm": "tsc --build tsconfig.compile.esm.json"
+  },
   "keywords": [
     "TypeScript",
     "interfaces",
@@ -16,9 +27,6 @@
     "OAS2",
     "JsonSchema"
   ],
-  "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
-  },
   "dependencies": {},
   "devDependencies": {},
   "peerDependencies": {}

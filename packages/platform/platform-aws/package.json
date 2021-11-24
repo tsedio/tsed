@@ -3,8 +3,19 @@
   "version": "6.88.1",
   "description": "Module to support AWS function with Ts.ED",
   "source": "./src/index.ts",
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
+  "main": "./lib/cjs/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "scripts": {
+    "build": "yarn run build:esm && yarn run build:cjs",
+    "build:cjs": "tsc --build tsconfig.compile.json",
+    "build:esm": "tsc --build tsconfig.compile.esm.json"
+  },
   "private": false,
   "keywords": [
     "aws",
@@ -42,9 +53,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tsedio/tsed.git"
-  },
-  "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
   },
   "devDependencies": {
     "@tsed/common": "6.88.1",

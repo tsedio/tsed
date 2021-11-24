@@ -2,9 +2,6 @@
   "name": "@tsed/seq",
   "version": "6.88.1",
   "description": "Seq package for Ts.ED framework",
-  "sources": "./src/index.ts",
-  "main": "./lib/index.js",
-  "typings": "./src/index.ts",
   "private": false,
   "author": {
     "name": "OskarLebuda"
@@ -17,8 +14,19 @@
       "name": "Romain Lenzotti"
     }
   ],
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json"
+    "build": "yarn run build:esm && yarn run build:cjs",
+    "build:cjs": "tsc --build tsconfig.compile.json",
+    "build:esm": "tsc --build tsconfig.compile.esm.json"
   },
   "dependencies": {
     "@tsed/logger-seq": ">=6.0.0",

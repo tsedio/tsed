@@ -2,10 +2,22 @@
   "name": "@tsed/platform-koa",
   "version": "6.88.1",
   "description": "Koa package for Ts.ED framework",
-  "source": "./src/index.ts",
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
   "private": false,
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "scripts": {
+    "build": "yarn run build:esm && yarn run build:cjs",
+    "build:cjs": "tsc --build tsconfig.compile.json",
+    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
+  },
   "keywords": [
     "Koa",
     "TypeScript",
@@ -39,10 +51,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tsedio/tsed.git"
-  },
-  "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "devDependencies": {
     "@koa/cors": "3.1.0",

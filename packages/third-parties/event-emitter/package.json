@@ -2,15 +2,24 @@
   "name": "@tsed/event-emitter",
   "version": "6.88.1",
   "description": "EventEmitter package for Ts.ED framework",
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
   "contributors": [
     {
       "name": "Oliver Christen"
     }
   ],
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
   "scripts": {
-    "build": "tsc --build tsconfig.compile.json",
+    "build": "yarn run build:esm && yarn run build:cjs",
+    "build:cjs": "tsc --build tsconfig.compile.json",
+    "build:esm": "tsc --build tsconfig.compile.esm.json",
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
