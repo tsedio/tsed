@@ -21,7 +21,7 @@ declare global {
 export class PlatformApplication<App = TsED.Application, Router = TsED.Router> extends PlatformRouter<Router> {
   raw: App;
   rawApp: App;
-  rawRouter: Router;
+  declare rawRouter: Router;
 
   constructor(platformHandler: PlatformHandler) {
     super(platformHandler);

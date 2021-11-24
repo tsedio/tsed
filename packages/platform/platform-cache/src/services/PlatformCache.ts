@@ -1,5 +1,5 @@
 import {isClass, isFunction} from "@tsed/core";
-import {Configuration, Injectable} from "@tsed/di";
+import {Configuration, Module} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
 import type {Cache, CachingConfig, MultiCache, TtlFunction} from "cache-manager";
 import {PlatformCacheSettings} from "../interfaces";
@@ -15,7 +15,7 @@ export type CacheManager = (Cache | MultiCache) & {
 /**
  * @platform
  */
-@Injectable()
+@Module()
 export class PlatformCache {
   @Configuration()
   settings: Configuration;

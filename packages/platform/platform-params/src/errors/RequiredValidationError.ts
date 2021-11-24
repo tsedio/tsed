@@ -4,7 +4,6 @@ import {ValidationError} from "./ValidationError";
 
 export class RequiredValidationError extends ValidationError {
   public name: string = "REQUIRED_VALIDATION_ERROR";
-  public errors: any[];
 
   static from(metadata: ParamMetadata) {
     const name = nameOf(metadata.paramType);

@@ -4,11 +4,18 @@
   "description": "A TypeScript Framework on top of Express",
   "private": false,
   "source": "./src/index.ts",
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
+  "main": "./lib/cjs/index.js",
+  "typings": "./lib/types/index.d.ts",
   "exports": {
-    "require": "./lib/index.js",
-    "default": "./lib/index.modern.js"
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "scripts": {
+    "build": "yarn run build:esm && yarn run build:cjs",
+    "build:cjs": "tsc --build tsconfig.compile.json",
+    "build:esm": "tsc --build tsconfig.compile.esm.json"
   },
   "keywords": [
     "Express",
@@ -56,9 +63,6 @@
       "url": "https://opencollective.com/tsed"
     }
   ],
-  "scripts": {
-    "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
-  },
   "dependencies": {
     "@tsed/components-scan": "6.88.1",
     "@tsed/core": "6.88.1",
