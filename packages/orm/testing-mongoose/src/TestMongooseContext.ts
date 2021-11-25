@@ -4,6 +4,7 @@ import {MongoMemoryServer} from "mongodb-memory-server";
 import {resolve} from "path";
 import {version} from "mongoose";
 import semver from "semver";
+import {MongoMemoryServerStates} from "mongodb-memory-server-core/lib/MongoMemoryServer";
 
 const downloadDir = resolve(`${require.resolve("mongodb-memory-server")}/../../.cache/mongodb-memory-server/mongodb-binaries`);
 
@@ -34,13 +35,6 @@ export class TestMongooseContext extends PlatformTest {
   static bootstrap(mod: any, options: Partial<TsED.Configuration> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       const config = await TestMongooseContext.install(options.mongod);
-      const mongod = TestMongooseContext.getMongo();
-
-      // istanbul ignore next
-      if (!mongod.runningInstance) {
-        await mongod.start();
-      }
-
       const before = PlatformTest.bootstrap(mod, {
         ...options,
         mongoose: config
@@ -80,10 +74,12 @@ export class TestMongooseContext extends PlatformTest {
   }
 
   static async getMongooseOptions() {
-    const url = await TestMongooseContext.getMongo().getUri();
+    const mongo = TestMongooseContext.getMongo();
+    try {
+      !["running", "starting"].includes(mongo.state) && (await mongo.start());
+    } catch (er) {}
 
-    if (semver.gt(version, "6.0.0")) {
-    }
+    const url = mongo.getUri();
 
     return {
       url,

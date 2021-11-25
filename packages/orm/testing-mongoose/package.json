@@ -14,7 +14,7 @@
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "dependencies": {
-    "mongodb-memory-server": "^6.3.3",
+    "mongodb-memory-server": "^8.0.2",
     "semver": "^7.3.5",
     "tslib": "2.2.0"
   },
