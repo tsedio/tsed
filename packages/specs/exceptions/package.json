@@ -1,6 +1,6 @@
 {
   "name": "@tsed/exceptions",
-  "version": "6.88.0",
+  "version": "6.88.1",
   "description": "HTTP exceptions module for Ts.ED Framework and other pure Express application",
   "private": false,
   "source": "./src/index.ts",
@@ -14,7 +14,7 @@
     "build": "microbundle --target node --no-compress --format modern,cjs --tsconfig ./tsconfig.compile.json"
   },
   "dependencies": {
-    "@tsed/schema": "6.88.0",
+    "@tsed/schema": "6.88.1",
     "tslib": "2.2.0"
   },
   "devDependencies": {},
