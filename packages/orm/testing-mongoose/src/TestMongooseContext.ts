@@ -80,6 +80,7 @@ export class TestMongooseContext extends PlatformTest {
   }
 
   static async getMongooseOptions() {
+    await TestMongooseContext.getMongo().start();
     const url = await TestMongooseContext.getMongo().getUri();
 
     if (semver.gt(version, "6.0.0")) {
