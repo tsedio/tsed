@@ -11,7 +11,7 @@
     "packages/third-parties/*",
     "docs"
   ],
-  "version": "6.88.1",
+  "version": "6.89.0",
   "command": {
     "bootstrap": {
       "npmClientArgs": [
