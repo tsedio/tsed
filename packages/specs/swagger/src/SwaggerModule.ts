@@ -1,6 +1,7 @@
 import {
   BeforeRoutesInit,
   Configuration,
+  Constant,
   Inject,
   InjectorService,
   Module,
@@ -19,6 +20,7 @@ import {indexMiddleware} from "./middlewares/indexMiddleware";
 import {jsMiddleware} from "./middlewares/jsMiddleware";
 import {redirectMiddleware} from "./middlewares/redirectMiddleware";
 import {SwaggerService} from "./services/SwaggerService";
+import {Env} from "@tsed/core";
 
 const swaggerUiPath = require("swagger-ui-dist").absolutePath();
 
@@ -38,6 +40,9 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
 
   @Inject()
   swaggerService: SwaggerService;
+
+  @Constant("env")
+  env: Env;
 
   private loaded = false;
 
@@ -100,9 +105,12 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
       this.settings.map((conf) => {
         const {outFile} = conf;
 
-        if (outFile) {
+        if (this.env === Env.PROD || outFile) {
           const spec = this.swaggerService.getOpenAPISpec(conf);
-          return Fs.writeFile(outFile, JSON.stringify(spec, null, 2), {encoding: "utf8"}, () => {});
+
+          if (outFile) {
+            return Fs.writeFile(outFile, JSON.stringify(spec, null, 2), {encoding: "utf8"}, () => {});
+          }
         }
       })
     );
