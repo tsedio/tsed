@@ -694,4 +694,25 @@ describe("createSchema", () => {
 
     expect(options.versionKey).toBe("version");
   });
+
+  it("should create json schema with virtual ref and count", () => {
+    // GIVEN
+    @Model()
+    class Children5 {
+      @Name("id")
+      _id: string;
+    }
+
+    @Model()
+    class Test13 {
+      @VirtualRef({ref: Children5, foreignField: "test13", count: true})
+      childrenCount: number;
+    }
+
+    // WHEN
+    const testSchema: any = getJsonSchema(Test13);
+
+    // THEN
+    expect(testSchema.properties.childrenCount.type).toEqual("number");
+  });
 });
