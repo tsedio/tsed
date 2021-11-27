@@ -47,6 +47,7 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
 
   #injector: InjectorService;
   #rootModule: Type<any>;
+  #promise: any;
 
   constructor({name, providers, settings, module}: PlatformBuilderOptions) {
     this.name = name;
@@ -109,16 +110,25 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
     return this.settings.logger?.disableBootstrapLog;
   }
 
+  static create<T extends PlatformBuilder>(adapter: any, module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+    return this.build<T>(adapter, module, {
+      httpsPort: false,
+      httpPort: false,
+      ...settings,
+      disableComponentsScan: true
+    });
+  }
+
   static build<T extends PlatformBuilder<any, any>>(
-    platformBuildClass: PlatformType<T>,
+    adapter: PlatformType<T>,
     module: Type<any>,
     settings: Partial<TsED.Configuration> = {}
   ): T {
-    return new platformBuildClass({
-      name: nameOf(platformBuildClass).replace("Platform", "").toLowerCase(),
+    return new adapter({
+      name: nameOf(adapter).replace("Platform", "").toLowerCase(),
       module,
       settings,
-      providers: platformBuildClass.providers
+      providers: adapter.providers
     });
   }
 
@@ -258,7 +268,9 @@ export abstract class PlatformBuilder<App = TsED.Application, Router = TsED.Rout
   }
 
   async bootstrap() {
-    return this.runLifecycle();
+    this.#promise = this.#promise || this.runLifecycle();
+
+    return this.#promise;
   }
 
   protected diff() {

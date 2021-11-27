@@ -45,7 +45,7 @@ export class PlatformAws {
     // istanbul ignore next
     PlatformBuilder.currentPlatform = settings.platform || PlatformBuilder.currentPlatform;
 
-    const platform = PlatformBuilder.currentPlatform.create(module, settings);
+    const platform = PlatformBuilder.create(PlatformBuilder.currentPlatform, module, settings);
 
     this.promise = platform.bootstrap().then(PlatformAws.onInit);
 
