@@ -1,58 +1,37 @@
-import {PlatformApplication, PlatformHandler, PlatformRequest, PlatformResponse, PlatformRouter} from "@tsed/common";
-import {
-  PlatformExpressApplication,
-  PlatformExpressHandler,
-  PlatformExpressRequest,
-  PlatformExpressResponse,
-  PlatformExpressRouter
-} from "@tsed/platform-express";
-import {expect} from "chai";
+import {PlatformBuilder} from "@tsed/common";
 import Sinon from "sinon";
-import {stub} from "../../../../../test/helper/tools";
-import {PlatformExpress} from "./PlatformExpress";
+import {expect} from "chai";
+import {PlatformExpress} from "@tsed/platform-express";
 
 const sandbox = Sinon.createSandbox();
 
+class Server {}
+
 describe("PlatformExpress", () => {
-  beforeEach(() => {
-    sandbox.stub(PlatformExpress, "build");
+  describe("create()", () => {
+    beforeEach(() => {
+      sandbox.stub(PlatformBuilder, "create");
+    });
+    afterEach(() => sandbox.restore());
+    it("should create platform", () => {
+      PlatformExpress.create(Server, {});
+
+      expect(PlatformBuilder.create).to.have.been.calledWithExactly(Server, {
+        adapter: PlatformExpress
+      });
+    });
   });
-  afterEach(() => {
-    sandbox.restore();
-  });
-  it("should create the platform", async () => {
-    class Test {}
+  describe("bootstrap()", () => {
+    beforeEach(() => {
+      sandbox.stub(PlatformBuilder, "bootstrap");
+    });
+    afterEach(() => sandbox.restore());
+    it("should create platform", async () => {
+      await PlatformExpress.bootstrap(Server, {});
 
-    const platform = {bootstrap: sandbox.stub().returnsThis(), useProviders: sandbox.stub().returnsThis()};
-
-    stub(PlatformExpress.build).returns(platform);
-
-    await PlatformExpress.bootstrap(Test, {});
-    await PlatformExpress.bootstrap(Test);
-
-    expect(PlatformExpress.build).to.have.been.calledWithExactly(PlatformExpress, Test, {});
-    expect(platform.bootstrap).to.have.been.calledWithExactly();
-    expect(PlatformExpress.providers).to.deep.equal([
-      {
-        provide: PlatformApplication,
-        useClass: PlatformExpressApplication
-      },
-      {
-        provide: PlatformRouter,
-        useClass: PlatformExpressRouter
-      },
-      {
-        provide: PlatformHandler,
-        useClass: PlatformExpressHandler
-      },
-      {
-        provide: PlatformResponse,
-        useClass: PlatformExpressResponse
-      },
-      {
-        provide: PlatformRequest,
-        useClass: PlatformExpressRequest
-      }
-    ]);
+      expect(PlatformBuilder.bootstrap).to.have.been.calledWithExactly(Server, {
+        adapter: PlatformExpress
+      });
+    });
   });
 });
