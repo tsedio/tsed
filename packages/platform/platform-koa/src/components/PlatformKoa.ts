@@ -54,20 +54,6 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
     this.app.getApp().on("error", listener);
   }
 
-  /**
-   * Create new serverless application. In this mode, the component scan are disabled.
-   * @param module
-   * @param settings
-   */
-  static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return this.build<PlatformKoa>(PlatformKoa, module, {
-      httpsPort: false,
-      httpPort: false,
-      ...settings,
-      disableComponentsScan: true
-    });
-  }
-
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformKoa> {
     return this.build<PlatformKoa>(PlatformKoa, module, settings).bootstrap();
   }
