@@ -21,6 +21,7 @@ describe("@VirtualRef()", () => {
       expect(store.get(MONGOOSE_SCHEMA)).toEqual({
         ref: "RefTest",
         justOne: false,
+        count: false,
         foreignField: "foreign",
         localField: "_id",
         options: undefined
@@ -44,6 +45,7 @@ describe("@VirtualRef()", () => {
         localField: "_id",
         foreignField: "foreign",
         justOne: false,
+        count: false,
         options: undefined
       });
     });
@@ -58,6 +60,7 @@ describe("@VirtualRef()", () => {
           foreignField: "foreign",
           localField: "test_2",
           justOne: true,
+          count: true,
           options: {}
         })
         test: any;
@@ -71,6 +74,7 @@ describe("@VirtualRef()", () => {
         localField: "test_2",
         foreignField: "foreign",
         justOne: true,
+        count: true,
         options: {}
       });
     });
@@ -95,6 +99,7 @@ describe("@VirtualRef()", () => {
           foreignField: "foreign",
           localField: "test_2",
           justOne: true,
+          count: false,
           options: {}
         })
         members: VirtualRef<TestPerson>;
@@ -108,6 +113,7 @@ describe("@VirtualRef()", () => {
         localField: "test_2",
         foreignField: "foreign",
         justOne: true,
+        count: false,
         options: {}
       });
 
@@ -180,6 +186,7 @@ describe("@VirtualRef()", () => {
         localField: "test_2",
         foreignField: "foreign",
         justOne: true,
+        count: false,
         options: {}
       });
 

@@ -27,6 +27,7 @@ function mapToSchema(opts: any) {
     localField: opts.localField || "_id",
     foreignField: opts.foreignField,
     justOne: opts.justOne || false,
+    count: opts.count || false,
     options: opts.options
   };
 
