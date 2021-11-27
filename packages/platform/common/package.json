@@ -81,7 +81,6 @@
     "@tsed/platform-views": "6.89.0",
     "@tsed/schema": "6.89.0",
     "@types/json-schema": "7.0.7",
-    "json-schema": "^0.2.3",
     "on-finished": "2.3.0",
     "tslib": "2.2.0",
     "uuid": "8.3.2"
