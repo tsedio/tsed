@@ -3,7 +3,7 @@
 </p>
 
 <div align="center">
-   <h1>@tsed/platform-serverless</h1>
+   <h1>Platform AWS</h1>
 
 [![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/tsedio/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsedio/tsed/blob/master/CONTRIBUTING.md)
@@ -27,15 +27,15 @@
 
 <hr />
 
-A package of Ts.ED framework. See website: https://tsed.io/
+A package of Ts.ED framework. See website: https://tsed.io/tutorials/aws.html
 
 ## Features
 
-This package allows the creation of pure Lambda AWS without mounting an Express.js/Koa.js server.
+This package allows the creation of a Lambda AWS with an Express.js/Koa.js server.
 
 It supports:
 
-- Creating multiple lambda in one file,
+- Mounting Express.js/Koa.js app with `serverless-http` module,
 - DI injection with `@tsed/di`,
 - Models mapping using `@tsed/schema` and `@tsed/json-mapper`,
 - Params decorators can be used from `@tsed/platform-params` to get Query, Body, etc...
@@ -45,7 +45,7 @@ It supports:
 ## Installation
 
 ```bash
-npm install --save @tsed/platform-serverless serverless serverless-offline
+npm install --save @tsed/platform-serverless-http serverless-http serverless-offline
 npm install --save-dev @types/aws-lambda
 ```
 
@@ -56,12 +56,12 @@ In the `src/lambda` create a new Lambda class:
 ```typescript
 import {Controller, Inject} from "@tsed/di";
 import {Get, Returns, Summary} from "@tsed/schema";
-import {QueryParams} from "@tsed/platform-params"; // /!\ don't import decorators from @tsed/common
+import {QueryParams} from "@tsed/platform-params";
 import {TimeslotsService} from "../services/TimeslotsService";
 import {TimeslotModel} from "../models/TimeslotModel";
 
 @Controller("/timeslots")
-export class TimeslotsLambda {
+export class TimeslotsController {
   @Inject()
   protected timeslotsService: TimeslotsService;
 
@@ -77,93 +77,91 @@ export class TimeslotsLambda {
 }
 ```
 
-Create new `handler.ts` to expose your lambda:
+Create new `Server.ts` to configure your Ts.ED application:
 
 ```typescript
-import {PlatformServerless} from "@tsed/serverless";
-import {TimeslotsLambda} from "./lambda/TimeslotsLambda";
+import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/common";
+import "@tsed/platform-express";
+import bodyParser from "body-parser";
+import compress from "compression";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
+import cors from "cors";
+import "@tsed/ajv";
+import "@tsed/swagger";
+import {TimeslotsController} from "./controllers/TimeslotsController";
 
-const platform = PlatformServerless.bootstrap({
-  lambda: [
-    TimeslotsLambda
+@Configuration({
+  acceptMimes: ["application/json"],
+  mount: {
+    "/": [
+      TimeslotsController
+    ]
+  },
+  swagger: [
+    {
+      path: "/v3/docs",
+      specVersion: "3.0.1"
+    }
+  ],
+  views: {
+    root: `${rootDir}/views`,
+    extensions: {
+      ejs: "ejs"
+    }
+  },
+  exclude: [
+    "**/*.spec.ts"
   ]
-  // put your Application configuration here
 })
-
-// then export the lambda
-export = platform.callbacks();
-```
-
-Finally, create the `serverless.yml`:
-
-```yml
-service: timeslots
-
-frameworkVersion: '2'
-
-provider:
-   name: aws
-   runtime: nodejs14.x
-   lambdaHashingVersion: '20201221'
-
-plugins:
-   - serverless-offline
-
-functions:
-   timeslots:
-      handler: dist/handler.getTimeslots
-      events:
-         - http:
-              path: /timeslots
-              method: get
-```
-
-## Invoke a lambda with serverless
-
-Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your local machine to speed up your development cycles.
-To do so, it starts an HTTP server that handles the request's lifecycle like API does and invokes your handlers.
-
-So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our code before invoke the lambda.
-
-To simplify our workflow, we can add the following npm script command in our `package.json`:
-
-```json
-{
-  "scripts": {
-    "invoke:timeslots": "yarn build && serverless invoke local -f timeslots",
-    "invoke:any": "yarn serverless invoke local -f any --data '{\"path\":\"/timeslots\", \"httpMethod\": \"GET\"}'"
+export class Server {
+  $beforeRoutesInit(): void {
+    this.app
+      .use(cors())
+      .use(cookieParser())
+      .use(compress({}))
+      .use(methodOverride())
+      .use(bodyParser.json())
+      .use(bodyParser.urlencoded({
+        extended: true
+      }));
   }
 }
 ```
 
-Now, we can run the following command to invoke our lambda:
+Create new `handler.ts` to expose your lambda:
 
+```typescript
+import {PlatformServerless} from "@tsed/serverless";
+import {Server} from "./Server";
+
+const platform = PlatformServerless.bootstrap(Server, {})
+
+export const handler = platform.handler();
 ```
-yarn invoke:timeslots
-// OR
-npm run invoke:timeslots
-```
 
-You should see in the terminal the following result:
+Create also `index.ts` to expose run Ts.ED on you local machine:
 
-```json
-{
-    "statusCode": 200,
-    "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
-    "headers": {
-        "content-type": "application/json",
-        "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
-    },
-    "isBase64Encoded": false
+```typescript
+import {PlatformExpress} from "@tsed/platform-express";
+import {Server} from "./Server";
+
+async function bootstrap() {
+  const platform = await PlatformExpress.bootstrap(Server, {
+    httpsPort: false,
+    httpPort: process.env.PORT || 3000,
+    disableComponentsScan: true
+  });
+
+  await platform.listen();
+
+  return platform;
 }
+bootstrap();
 ```
 
-## Manage routes from code
-
-Declaring all routes in the `serverless.yml` file can be a source of error. `@tsed/platform-serverless` can
-handle all routes and call the right lambda based on the decorators like `@Get`, `@Post`, etc...
-
-To use the embed router, change the `serverless.yml` declaration by this example:
+Finally, create the `serverless.yml`:
 
 ```yml
 service: timeslots
@@ -190,65 +188,76 @@ functions:
           path: '{proxy+}'
 ```
 
-Then, edit the `handler.ts` and change the exported functions:
+## Invoke a lambda with serverless
 
-```typescript
-import {PlatformServerless} from "@tsed/platform-serverless";
-import {TimeslotsLambda} from "./TimeslotsLambda";
+Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your local machine to speed up your development cycles.
+To do so, it starts an HTTP server that handles the request's lifecycle like API does and invokes your handlers.
 
-const platform = PlatformServerless.bootstrap({
-  lambda: [TimeslotsLambda]
-});
-
-export const handler = platform.handler();
-```
-
-Now, Ts.ED will handle request and call the expected lambda in your controllers.
+So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our code before invoke the lambda.
 
 To simplify our workflow, we can add the following npm script command in our `package.json`:
 
 ```json
 {
   "scripts": {
-    "invoke:any": "yarn serverless invoke local -f any --data '{\"path\":\"/timeslots\", \"httpMethod\": \"GET\"}'"
+    "invoke": "yarn serverless invoke local -f any --data '{\"path\":\"/timeslots\", \"httpMethod\": \"GET\"}'"
   }
+}
+```
+
+Now, we can run the following command to invoke our lambda:
+
+```
+yarn invoke
+// OR
+npm run invoke
+```
+
+You should see in the terminal the following result:
+
+```json
+{
+    "statusCode": 200,
+    "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
+    "headers": {
+        "content-type": "application/json",
+        "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
+    },
+    "isBase64Encoded": false
 }
 ```
 
 ## Get Aws Context and Aws Event
 
+This package includes decorators to easily get the event object Lambda received from API Gateway:
+
 ```typescript
-import {Injectable} from "@tsed/di";
-import {QueryParams, ServerlessContext} from "@tsed/platform-serverless"; // /!\ don't import decorators from @tsed/common
-import {TimeslotsService} from "../services/TimeslotsService";
-import {ServerlessContext} from "./ServerlessContext";
+import {Controller, Get} from "@tsed/common"; 
+import {ServerlessEvent, ServerlessContext} from "@tsed/platform-serverless-http"; 
 
-@Injectable()
-export class TimeslotsLambda {
-  get(@Context() $ctx: ServerlessContext) {
-    console.log($ctx.context) // AWS Context
-    console.log($ctx.event) // AWS Event
-    console.log($ctx.response) // Response Platform abstraction layer
-    console.log($ctx.request) // Request Platform abstraction layer
-
-    $ctx.response.setHeader('x-test', 'test');
-    
-    return {}
-  }
+@Controller("/")
+class MyCtrl {
+ @Get("/")
+ get(@ServerlessEvent() event: any, @ServerlessContext() context: any) {
+   console.log("Event", event);
+   console.log("Context", context);
+   
+   return apiGateway;
+ }
 }
 ```
 
 ## Contributors
-Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html).
+
+Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
-<a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
+<a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
 
 
 ## Sponsors

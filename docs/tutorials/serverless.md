@@ -99,7 +99,8 @@ tsed init .
 ? Choose the package manager: Yarn
 ```
 
-::: tip This tutorial works also with NPM package manager!
+::: tip 
+This tutorial works also with NPM package manager!
 :::
 
 
