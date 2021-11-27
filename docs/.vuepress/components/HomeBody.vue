@@ -7,10 +7,11 @@
             <h2 class="preview-title">Preview</h2>
 
             <p class="text-center font-normal text-md m-auto max-w-sm pb-0">
-              See in our live demo what Ts.ED looks like, without leaving your personal browser.
+              <!--See in our live demo what Ts.ED looks like, without leaving your personal browser.-->
+              See our live demo on CodeSandbox by on the following link:
             </p>
 
-            <div class="w-full pt-5 pb-10 sm:py-10">
+            <!--<div class="w-full pt-5 pb-10 sm:py-10">
               <iframe
                   class="rounded-medium border-2 border-gray-darker bg-white"
                   src="https://codesandbox.io/embed/tsed-mongoose-example-omkbm?fontsize=12&hidenavigation=1&theme=light"
@@ -18,7 +19,7 @@
                   title="tsed-mongoose-example"
                   allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
                   sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
-            </div>
+            </div>-->
 
             <div>
               <Button
