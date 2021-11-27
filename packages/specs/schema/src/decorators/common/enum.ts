@@ -1,5 +1,5 @@
 import {isObject} from "@tsed/core";
-import {JSONSchema6Type} from "json-schema";
+import type {JSONSchema6Type} from "json-schema";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 const transformTsEnum = (enumValue: any) => {

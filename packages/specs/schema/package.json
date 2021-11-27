@@ -30,6 +30,7 @@
   "dependencies": {
     "@tsed/core": "6.89.0",
     "@tsed/openspec": "6.89.0",
+    "json-schema": "0.4.0",
     "camel-case": "4.1.2",
     "micromatch": "4.0.2",
     "pascal-case": "3.1.2",
