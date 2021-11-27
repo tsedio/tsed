@@ -4,77 +4,232 @@ meta:
    content: Guide to deploy your Ts.ED application on AWS.
  - name: keywords
    content: ts.ed express typescript aws node.js javascript decorators
-projects:   
- - title: Kit AWS
-   href: https://github.com/tsedio/tsed-example-aws
-   src: /aws.png   
 ---
-# AWS
+# Serverless HTTP
 
 <Banner src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/langfr-220px-Amazon_Web_Services_Logo.svg.png" href="https://aws.amazon.com/fr/" :height="180" />
 
 Amazon Web Services is one possible way to host your Node.js application.
 
-This tutorial shows you how to configure the Express application written with Ts.ED, to be executed as an AWS Lambda Function.
+This tutorial shows you how to configure Ts.ED application, to be executed as an AWS Lambda Function.
+Under the hood, @tsed/platform-aws uses [serverless-http](https://www.npmjs.com/package/serverless-http) to handle AWS event and call Express.js/Koa.js application.
+
+::: tip
+[Serverless](https://www.serverless.com/) is a free and open-source web framework written using Node.js. Serverless is
+the first framework developed for building applications on AWS Lambda, a serverless computing platform provided by
+Amazon as a part of Amazon Web Services. This tutorial will show you how to install and use Serverless with Ts.ED.
+:::
 
 More information here: [Official AWS Docs](http://docs.aws.amazon.com/lambda/latest/dg/welcome.html)
 
-<Projects type="projects"/>
+## Features
+
+This package allows the creation of a Lambda AWS with an Express.js/Koa.js server.
+
+It supports:
+
+- Mounting Express.js/Koa.js app with `serverless-http` module,
+- DI injection with `@tsed/di`,
+- Models mapping using `@tsed/schema` and `@tsed/json-mapper`,
+- Params decorators can be used from `@tsed/platform-params` to get Query, Body, etc...
+- Operation descriptions like `@Returns`,
+- `@tsed/async-hook-context` to inject Context anywhere in your class!
 
 ## Installation
 
-First, install the `tsed/platform-aws` module:
+
+## Installation
+
+Generate a new project with the CLI (you can also start from an existing project):
 
 ```bash
-npm install --save @tsed/platform-aws
+tsed init .
+? Choose the target platform: Express.js
+? Choose the architecture for your project: Ts.ED
+? Choose the convention file styling: Ts.ED
+? Check the features needed for your project Swagger, Testing, Linter
+? Choose unit framework Jest
+? Choose linter tools framework EsLint
+? Choose extra linter tools Prettier, Lint on commit
+? Choose the package manager: Yarn
 ```
 
-## Configuration
+::: tip
+This tutorial works also with NPM package manager!
+:::
 
-Create a new `LambdaServer.ts` in `src` directory:
 
-<<< @/tutorials/snippets/aws/lambda.ts
+<Tabs class="-code">
+  <Tab label="Yarn">
 
-Then create `lambda.js` on your root project:
-
-```javascript
-module.exports = require("./dist/LambdaServer.js");
+```bash
+yarn add @tsed/platform-serverless-http serverless-http serverless-offline
+yarn add -D @types/aws-lambda
 ```
 
-This file will be used by AWS to forward request to your application.
+  </Tab>
+  <Tab label="NPM">
 
-Finally, [package and create your Lambda function](http://docs.aws.amazon.com/lambda/latest/dg/nodejs-create-deployment-pkg.html), 
-then configure a simple proxy API using Amazon API Gateway and integrate it with your Lambda function.
+```bash
+npm install @tsed/platform-serverless-http serverless-http serverless-offline
+npm install --save-dev @types/aws-lambda
+```
 
-See more details on [`aws-serveless-express`](https://github.com/awslabs/aws-serverless-express) project.
+  </Tab>
+</Tabs>
 
-## Getting the API Gateway event object
+In the `src/lambda` create a new Lambda class:
+
+```typescript
+import {Controller, Inject} from "@tsed/di";
+import {Get, Returns, Summary} from "@tsed/schema";
+import {QueryParams} from "@tsed/platform-params";
+import {TimeslotsService} from "../services/TimeslotsService";
+import {TimeslotModel} from "../models/TimeslotModel";
+
+@Controller("/timeslots")
+export class TimeslotsController {
+  @Inject()
+  protected timeslotsService: TimeslotsService;
+
+  @Get("/")
+  @Summary("Return a list of timeslots")
+  @Returns(200, Array).Of(TimeslotModel)
+  get(@QueryParams("date_start") dateStart: Date, @QueryParams("date_end") dateEnd: Date) {
+    return this.timeslotsService.find({
+      dateStart,
+      dateEnd
+    });
+  }
+}
+```
+
+Remove the http and https port configuration from `Server.ts`:
+
+```typescript
+@Configuration({
+  // httpPort: 8080,
+  // httpsPort: false 
+})
+export class Server {}
+```
+
+And add the http port for our local server directly on `index.ts` file:
+
+```typescript
+import {PlatformExpress} from "@tsed/platform-express";
+import {Server} from "./Server";
+
+async function bootstrap() {
+  const platform = await PlatformExpress.bootstrap(Server, {
+    httpsPort: false,
+    httpPort: process.env.PORT || 8080,
+    disableComponentsScan: true
+  });
+
+  await platform.listen();
+
+  return platform;
+}
+bootstrap();
+```
+
+Create new `handler.ts` to expose your lambda:
+
+```typescript
+import {PlatformServerless} from "@tsed/serverless";
+import {Server} from "./Server";
+
+const platform = PlatformServerless.bootstrap(Server, {})
+
+export const handler = platform.handler();
+```
+
+Finally, create the `serverless.yml`:
+
+```yml
+service: timeslots
+
+frameworkVersion: '2'
+
+provider:
+   name: aws
+   runtime: nodejs14.x
+   lambdaHashingVersion: '20201221'
+
+plugins:
+   - serverless-offline
+
+functions:
+  any:
+    handler: dist/handler.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
+```
+
+## Invoke a lambda with serverless
+
+Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your local machine to speed up your development cycles.
+To do so, it starts an HTTP server that handles the request's lifecycle like API does and invokes your handlers.
+
+So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our code before invoke the lambda.
+
+To simplify our workflow, we can add the following npm script command in our `package.json`:
+
+```json
+{
+  "scripts": {
+    "invoke": "yarn serverless invoke local -f any --data '{\"path\":\"/timeslots\", \"httpMethod\": \"GET\"}'"
+  }
+}
+```
+
+Now, we can run the following command to invoke our lambda:
+
+```
+yarn invoke
+// OR
+npm run invoke
+```
+
+You should see in the terminal the following result:
+
+```json
+{
+    "statusCode": 200,
+    "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
+    "headers": {
+        "content-type": "application/json",
+        "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
+    },
+    "isBase64Encoded": false
+}
+```
+
+## Get Aws Context and Aws Event
 
 This package includes decorators to easily get the event object Lambda received from API Gateway:
 
 ```typescript
 import {Controller, Get} from "@tsed/common"; 
-import {AwsEvent, AwsContext} from "@tsed/platform-aws"; 
+import {ServerlessEvent, ServerlessContext} from "@tsed/platform-serverless-http"; 
 
-@Controller('/')
+@Controller("/")
 class MyCtrl {
- @Get('/')
- get(@AwsEvent() event: any, @AwsContext() context: any) {
-   console.log("Event", apiGateway.event);
-   console.log("Context", apiGateway.context);
+ @Get("/")
+ get(@ServerlessEvent() event: any, @ServerlessContext() context: any) {
+   console.log("Event", event);
+   console.log("Context", context);
    
    return apiGateway;
  }
 }
 ```
-
-::: tip
-You can find a project example with [AWS configuration here](https://github.com/tsedio/tsed-example-aws).
-:::
-
-::: tip Example
-You can see an example provided by the AWS Team on this [github repository](https://github.com/awslabs/aws-serverless-express/tree/master/examples/basic-starter).
-:::
 
 ## Author 
 
@@ -82,7 +237,7 @@ You can see an example provided by the AWS Team on this [github repository](http
 
 ## Maintainers <Badge text="Help wanted" />
 
-<GithubContributors :users="['Romakita', 'vetras']"/>
+<GithubContributors :users="['Romakita']"/>
 
 <div class="flex items-center justify-center p-5">
 <Button href="/contributing.html" class="rounded-medium">
