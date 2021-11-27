@@ -10,7 +10,8 @@ import {
   InjectorService,
   Module,
   normalizePath,
-  OnReady
+  OnReady,
+  PlatformAdapter
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
@@ -26,24 +27,40 @@ describe("PlatformBuilder", () => {
   @Controller("/")
   class RestCtrl {}
 
-  class PlatformCustom extends PlatformBuilder {
-    static providers = [
+  class PlatformCustom implements PlatformAdapter {
+    readonly providers = [
       {
         provide: class Test {}
       }
     ];
 
+    constructor(private platform: PlatformBuilder) {}
+
     static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-      return PlatformBuilder.build<PlatformCustom>(this, module, settings);
+      return PlatformBuilder.create<any, any>(module, {
+        ...settings,
+        adapter: PlatformCustom
+      });
     }
 
     static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-      return PlatformBuilder.build<PlatformCustom>(this, module, settings).bootstrap();
+      return PlatformBuilder.build(module, {
+        ...settings,
+        adapter: PlatformCustom
+      }).bootstrap();
     }
 
-    async loadStatics(): Promise<void> {
-      return undefined;
+    afterLoadRoutes(): Promise<any> {
+      return Promise.resolve(undefined);
     }
+
+    beforeLoadRoutes(): Promise<any> {
+      return Promise.resolve(undefined);
+    }
+
+    useContext(): any {}
+
+    useRouter(): any {}
   }
 
   @Controller("/")
@@ -109,14 +126,55 @@ describe("PlatformBuilder", () => {
     sandbox.stub(ServerModule.prototype, "$beforeInit");
     sandbox.stub(ServerModule.prototype, "$beforeListen");
     sandbox.stub(ServerModule.prototype, "$onReady");
-    sandbox.stub(PlatformCustom.prototype, "loadStatics");
+    sandbox.stub(PlatformBuilder.prototype, "loadStatics");
     // @ts-ignore
-    sandbox.spy(PlatformCustom.prototype, "listenServers");
+    sandbox.spy(PlatformBuilder.prototype, "listenServers");
     sandbox.stub(InjectorService.prototype, "emit");
     sandbox.stub(Platform.prototype, "addRoutes");
   });
   afterEach(() => {
     sandbox.restore();
+  });
+
+  describe("static boostrap()", () => {
+    beforeEach(() => {
+      sandbox.stub(PlatformBuilder, "build").returns({
+        bootstrap: sandbox.stub()
+      } as any);
+    });
+    afterEach(() => {
+      sandbox.restore();
+    });
+    it("should boostrap a custom platform", async () => {
+      await PlatformBuilder.bootstrap(ServerModule, {
+        adapter: {} as any
+      });
+
+      expect(PlatformBuilder.build).to.have.been.calledWithExactly(ServerModule, {
+        adapter: {}
+      });
+    });
+  });
+
+  describe("static create()", () => {
+    beforeEach(() => {
+      sandbox.stub(PlatformBuilder, "build");
+    });
+    afterEach(() => {
+      sandbox.restore();
+    });
+    it("should boostrap a custom platform", () => {
+      PlatformBuilder.create(ServerModule, {
+        adapter: {} as any
+      });
+
+      expect(PlatformBuilder.build).to.have.been.calledWithExactly(ServerModule, {
+        adapter: {},
+        disableComponentsScan: true,
+        httpPort: false,
+        httpsPort: false
+      });
+    });
   });
 
   describe("bootstrap()", () => {
@@ -151,7 +209,6 @@ describe("PlatformBuilder", () => {
       expect(server.injector.emit).to.have.been.calledWithExactly("$onDestroy");
     });
   });
-
   describe("callback()", () => {
     it("should return the callback", async () => {
       // WHEN
@@ -165,7 +222,6 @@ describe("PlatformBuilder", () => {
       server.callback({} as any, {} as any);
     });
   });
-
   describe("useProvider()", () => {
     it("should add provider", async () => {
       // WHEN
@@ -219,7 +275,6 @@ describe("PlatformBuilder", () => {
       expect(server.injector.settings.mount["/test"]).to.deep.eq([MyClass]);
     });
   });
-
   describe("importProviders()", () => {
     it("should import controllers from modules", async () => {
       const server = await PlatformCustom.bootstrap(ServerModule, {});

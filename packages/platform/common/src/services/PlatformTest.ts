@@ -1,16 +1,17 @@
-import {Type} from "@tsed/core";
 import {createContainer, DITest, InjectorService} from "@tsed/di";
-import {PlatformBuilder, PlatformType} from "../builder/PlatformBuilder";
+import {PlatformBuilder} from "../builder/PlatformBuilder";
 import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext";
 import {createInjector} from "../utils/createInjector";
 import {PlatformApplication} from "./PlatformApplication";
 import {getConfiguration} from "../utils/getConfiguration";
+import {PlatformAdapter, PlatformBuilderSettings} from "../interfaces/PlatformAdapter";
+import {Type} from "@tsed/core";
 
 /**
  * @platform
  */
 export class PlatformTest extends DITest {
-  public static platformBuilder: Type<PlatformBuilder<any, any>>;
+  public static adapter: Type<PlatformAdapter>;
 
   static async create(settings: Partial<TsED.Configuration> = {}) {
     DITest.injector = PlatformTest.createInjector(getConfiguration(settings));
@@ -33,26 +34,29 @@ export class PlatformTest extends DITest {
    * Load the server silently without listening port and configure it on test profile.
    * @decorator
    * @param mod
+   * @param listen
    * @param settings
    * @returns {Promise<void>}
    */
-  static bootstrap(mod: any, settings: Partial<TsED.Configuration & {listen: boolean}> = {}): () => Promise<void> {
+  static bootstrap(mod: any, {listen, ...settings}: Partial<PlatformBuilderSettings & {listen: boolean}> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
       let instance: any;
-      const platform: PlatformType = settings.platform || PlatformTest.platformBuilder;
+      const adapter: Type<PlatformAdapter> = settings.platform || settings.adapter || PlatformTest.adapter;
 
       /* istanbul ignore next */
-      if (!platform) {
+      if (!adapter) {
         throw new Error(
-          "Platform type is not specified. Have you added at least `import @tsed/platform-express` (or equivalent) on your Server.ts ?"
+          "Platform adapter is not specified. Have you added at least `import @tsed/platform-express` (or equivalent) on your Server.ts ?"
         );
       }
 
       // @ts-ignore
       settings = DITest.configure(settings);
-      instance = await PlatformBuilder.build(platform, mod, settings).bootstrap();
+      settings.adapter = adapter as any;
 
-      if (!settings.listen) {
+      instance = await PlatformBuilder.build(mod, settings).bootstrap();
+
+      if (!listen) {
         await instance.callHook("$beforeListen");
         await instance.callHook("$afterListen");
         await instance.ready();

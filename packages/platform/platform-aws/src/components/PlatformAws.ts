@@ -42,10 +42,10 @@ export class PlatformAws {
   public static awsServer: any;
 
   static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    // istanbul ignore next
-    PlatformBuilder.currentPlatform = settings.platform || PlatformBuilder.currentPlatform;
-
-    const platform = PlatformBuilder.create(PlatformBuilder.currentPlatform, module, settings);
+    const platform = PlatformBuilder.create(module, {
+      ...settings,
+      adapter: settings.platform || settings.adapter || PlatformBuilder.adapter
+    });
 
     this.promise = platform.bootstrap().then(PlatformAws.onInit);
 

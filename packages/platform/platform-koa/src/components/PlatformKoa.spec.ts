@@ -1,52 +1,37 @@
-import {PlatformApplication, PlatformHandler, PlatformRequest, PlatformResponse, PlatformRouter} from "@tsed/common";
-import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse, PlatformKoaRouter} from "@tsed/platform-koa";
-import {expect} from "chai";
+import {PlatformBuilder} from "@tsed/common";
 import Sinon from "sinon";
-import {stub} from "../../../../../test/helper/tools";
+import {expect} from "chai";
 import {PlatformKoa} from "./PlatformKoa";
 
 const sandbox = Sinon.createSandbox();
 
+class Server {}
+
 describe("PlatformKoa", () => {
-  beforeEach(() => {
-    sandbox.stub(PlatformKoa, "build");
+  describe("create()", () => {
+    beforeEach(() => {
+      sandbox.stub(PlatformBuilder, "create");
+    });
+    afterEach(() => sandbox.restore());
+    it("should create platform", () => {
+      PlatformKoa.create(Server, {});
+
+      expect(PlatformBuilder.create).to.have.been.calledWithExactly(Server, {
+        adapter: PlatformKoa
+      });
+    });
   });
-  afterEach(() => {
-    sandbox.restore();
-  });
-  it("should create the platform", async () => {
-    class Test {}
+  describe("bootstrap()", () => {
+    beforeEach(() => {
+      sandbox.stub(PlatformBuilder, "bootstrap");
+    });
+    afterEach(() => sandbox.restore());
+    it("should create platform", async () => {
+      await PlatformKoa.bootstrap(Server, {});
 
-    const platform = {bootstrap: sandbox.stub().returnsThis(), useProviders: sandbox.stub().returnsThis()};
-
-    stub(PlatformKoa.build).returns(platform);
-
-    await PlatformKoa.bootstrap(Test, {});
-    await PlatformKoa.bootstrap(Test);
-
-    expect(PlatformKoa.build).to.have.been.calledWithExactly(PlatformKoa, Test, {});
-    expect(platform.bootstrap).to.have.been.calledWithExactly();
-    expect(PlatformKoa.providers).to.deep.equal([
-      {
-        provide: PlatformResponse,
-        useClass: PlatformKoaResponse
-      },
-      {
-        provide: PlatformRequest,
-        useClass: PlatformKoaRequest
-      },
-      {
-        provide: PlatformHandler,
-        useClass: PlatformKoaHandler
-      },
-      {
-        provide: PlatformRouter,
-        useClass: PlatformKoaRouter
-      },
-      {
-        provide: PlatformApplication,
-        useClass: PlatformKoaApplication
-      }
-    ]);
+      expect(PlatformBuilder.bootstrap).to.have.been.calledWithExactly(Server, {
+        adapter: PlatformKoa
+      });
+    });
   });
 });

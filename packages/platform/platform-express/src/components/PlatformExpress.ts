@@ -1,5 +1,8 @@
+import Express from "express";
+import type {PlatformViews} from "@tsed/platform-views";
 import {
   createContext,
+  PlatformAdapter,
   PlatformApplication,
   PlatformBuilder,
   PlatformExceptions,
@@ -9,7 +12,6 @@ import {
   PlatformRouter
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
-import Express from "express";
 import {rawBodyMiddleware} from "../middlewares/rawBodyMiddleware";
 import {
   PlatformExpressApplication,
@@ -18,14 +20,13 @@ import {
   PlatformExpressResponse,
   PlatformExpressRouter
 } from "../services";
-import type {PlatformViews} from "@tsed/platform-views";
 
 /**
  * @platform
  * @express
  */
-export class PlatformExpress extends PlatformBuilder<Express.Application, Express.Router> {
-  static providers = [
+export class PlatformExpress implements PlatformAdapter<Express.Application, Express.Router> {
+  readonly providers = [
     {
       provide: PlatformApplication,
       useClass: PlatformExpressApplication
@@ -48,29 +49,71 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
     }
   ];
 
+  constructor(private platform: PlatformBuilder<Express.Application, Express.Router>) {}
+
+  /**
+   * Create new serverless application. In this mode, the component scan are disabled.
+   * @param module
+   * @param settings
+   */
+  static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+    return PlatformBuilder.create<Express.Application, Express.Router>(module, {
+      ...settings,
+      adapter: PlatformExpress
+    });
+  }
+
   /**
    * Bootstrap a server application
    * @param module
    * @param settings
    */
-  static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformExpress> {
-    return this.build<PlatformExpress>(PlatformExpress, module, settings).bootstrap();
+  static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+    return PlatformBuilder.bootstrap<Express.Application, Express.Router>(module, {
+      ...settings,
+      adapter: PlatformExpress
+    });
   }
 
-  protected useRouter(): this {
-    this.logger.debug("Mount app router");
-    this.app.getApp().use(rawBodyMiddleware);
-    this.app.getApp().use(this.app.getRouter());
+  useRouter(): this {
+    const {logger, app} = this.platform;
+
+    logger.debug("Mount app router");
+    app.getApp().use(rawBodyMiddleware);
+    app.getApp().use(app.getRouter());
 
     return this;
   }
 
-  protected useContext(): this {
-    this.logger.debug("Mount app context");
+  async beforeLoadRoutes() {
+    const {injector, app} = this.platform;
+    // disable x-powered-by header
+    injector.settings.get("env") === Env.PROD && app.getApp().disable("x-powered-by");
 
-    const invoke = createContext(this.injector);
+    await this.configureViewsEngine();
+  }
 
-    this.app.getApp().use(async (request: any, response: any, next: any) => {
+  async afterLoadRoutes() {
+    const {injector, app} = this.platform;
+    // NOT FOUND
+    app.use((req: any, res: any, next: any) => {
+      !res.headersSent && injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound(req.$ctx);
+    });
+
+    // EXCEPTION FILTERS
+    app.use((err: any, req: any, res: any, next: any) => {
+      !res.headersSent && injector.get<PlatformExceptions>(PlatformExceptions)?.catch(err, req.$ctx);
+    });
+  }
+
+  useContext(): this {
+    const {logger, app, injector} = this.platform;
+
+    logger.debug("Mount app context");
+
+    const invoke = createContext(injector);
+
+    app.getApp().use(async (request: any, response: any, next: any) => {
       await invoke({request, response});
 
       return next();
@@ -79,44 +122,26 @@ export class PlatformExpress extends PlatformBuilder<Express.Application, Expres
     return this;
   }
 
-  protected async loadRoutes(): Promise<void> {
-    // disable x-powered-by header
-    this.injector.settings.get("env") === Env.PROD && this.app.getApp().disable("x-powered-by");
-
-    await this.configureViewsEngine();
-
-    await super.loadRoutes();
-
-    // NOT FOUND
-    this.app.use((req: any, res: any, next: any) => {
-      !res.headersSent && this.injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound(req.$ctx);
-    });
-
-    // EXCEPTION FILTERS
-    this.app.use((err: any, req: any, res: any, next: any) => {
-      !res.headersSent && this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(err, req.$ctx);
-    });
-  }
-
   private async configureViewsEngine() {
+    const {settings, injector, app} = this.platform;
     try {
-      const {exists, disabled} = this.settings.get("views") || {};
+      const {exists, disabled} = settings.get("views") || {};
 
       if (exists && !disabled) {
         const {PlatformViews} = await import("@tsed/platform-views");
-        const platformViews = this.injector.get<PlatformViews>(PlatformViews)!;
-        const app = this.app.getApp();
+        const platformViews = injector.get<PlatformViews>(PlatformViews)!;
+        const express = app.getApp();
 
         platformViews.getEngines().forEach(({extension, engine}) => {
-          app.engine(extension, engine.render);
+          express.engine(extension, engine.render);
         });
 
-        platformViews.viewEngine && this.app.getApp().set("view engine", platformViews.viewEngine);
-        platformViews.root && this.app.getApp().set("views", platformViews.root);
+        platformViews.viewEngine && express.set("view engine", platformViews.viewEngine);
+        platformViews.root && express.set("views", platformViews.root);
       }
     } catch (error) {
       // istanbul ignore next
-      this.injector.logger.warn({
+      injector.logger.warn({
         event: "PLATFORM_VIEWS_ERROR",
         message: "Unable to configure the PlatformViews service on your environment.",
         error

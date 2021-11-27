@@ -1,9 +1,9 @@
 import KoaRouter from "@koa/router";
 import {
   createContext,
+  PlatformAdapter,
   PlatformApplication,
   PlatformBuilder,
-  PlatformBuilderOptions,
   PlatformExceptions,
   PlatformHandler,
   PlatformRequest,
@@ -19,8 +19,8 @@ import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, Platform
  * @platform
  * @koa
  */
-export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
-  static providers = [
+export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
+  readonly providers = [
     {
       provide: PlatformResponse,
       useClass: PlatformKoaResponse
@@ -43,33 +43,57 @@ export class PlatformKoa extends PlatformBuilder<Koa, KoaRouter> {
     }
   ];
 
-  constructor(options: PlatformBuilderOptions) {
-    super(options);
+  constructor(private platform: PlatformBuilder<Koa, KoaRouter>) {}
+
+  /**
+   * Create new serverless application. In this mode, the component scan are disabled.
+   * @param module
+   * @param settings
+   */
+  static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+    return PlatformBuilder.create<Koa, KoaRouter>(module, {
+      ...settings,
+      adapter: PlatformKoa
+    });
+  }
+
+  /**
+   * Bootstrap a server application
+   * @param module
+   * @param settings
+   */
+  static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+    return PlatformBuilder.bootstrap<Koa, KoaRouter>(module, {
+      ...settings,
+      adapter: PlatformKoa
+    });
+  }
+
+  onInit() {
+    const {injector, app} = this.platform;
 
     const listener: any = (error: any, ctx: Koa.Context) => {
-      this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, ctx.request.$ctx);
+      injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, ctx.request.$ctx);
     };
 
-    this.app.getApp().silent = true;
-    this.app.getApp().on("error", listener);
+    app.getApp().silent = true;
+    app.getApp().on("error", listener);
   }
 
-  static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}): Promise<PlatformKoa> {
-    return this.build<PlatformKoa>(PlatformKoa, module, settings).bootstrap();
-  }
-
-  protected useRouter(): this {
-    this.app.getApp().use(resourceNotFoundMiddleware).use(this.app.getRouter().routes()).use(this.app.getRouter().allowedMethods());
+  useRouter(): this {
+    const {app} = this.platform;
+    app.getApp().use(resourceNotFoundMiddleware).use(app.getRouter().routes()).use(app.getRouter().allowedMethods());
 
     return this;
   }
 
-  protected useContext(): this {
-    this.logger.info("Mount app context");
+  useContext(): this {
+    const {injector, app, logger} = this.platform;
+    logger.info("Mount app context");
 
-    const invoke = createContext(this.injector);
+    const invoke = createContext(injector);
 
-    this.app.getApp().use(async (ctx: Context, next: Next) => {
+    app.getApp().use(async (ctx: Context, next: Next) => {
       await invoke({
         request: ctx.request as any,
         response: ctx.response as any,
