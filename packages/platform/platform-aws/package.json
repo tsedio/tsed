@@ -73,5 +73,8 @@
     "@tsed/openspec": "^6.90.0",
     "@tsed/schema": "^6.90.0",
     "aws-serverless-express": "^3.4.0"
+  },
+  "publishConfig": {
+    "dist-tag": "deprecated"
   }
 }

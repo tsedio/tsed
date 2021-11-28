@@ -27,6 +27,8 @@
 
 <hr />
 
+**IMPORTANT:** This package is deprecated in favor of `@tsed/platform-serverless-http` or `@tsed/platform-serverless`. Please don't use this package for new project!
+
 A package of Ts.ED framework. See website: https://tsed.io/tutorials/aws.html
 
 ## Installation
