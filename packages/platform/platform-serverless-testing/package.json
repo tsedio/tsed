@@ -1,0 +1,76 @@
+{
+  "name": "@tsed/platform-serverless-testing",
+  "version": "6.89.0",
+  "description": "Module to test Serverless function with Ts.ED",
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "scripts": {
+    "build": "yarn run build:esm && yarn run build:cjs",
+    "build:cjs": "tsc --build tsconfig.compile.json",
+    "build:esm": "tsc --build tsconfig.compile.esm.json"
+  },
+  "private": false,
+  "keywords": [
+    "aws",
+    "lambda",
+    "functions",
+    "TypeScript",
+    "typescript",
+    "Decorator",
+    "decorators",
+    "decorator",
+    "express",
+    "koa",
+    "Controller",
+    "Inject",
+    "ioc",
+    "di",
+    "mvc",
+    "swagger",
+    "swagger ui",
+    "ES2015",
+    "ES6",
+    "server",
+    "rest",
+    "api",
+    "validation"
+  ],
+  "author": {
+    "name": "Romain Lenzotti"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tsedio/tsed/issues"
+  },
+  "homepage": "http://tsed.io/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tsedio/tsed.git"
+  },
+  "devDependencies": {
+    "@tsed/common": "6.89.0",
+    "@tsed/core": "6.89.0",
+    "@tsed/di": "6.89.0",
+    "@tsed/schema": "6.89.0"
+  },
+  "dependencies": {
+    "aws-lambda": "^1.0.7",
+    "tslib": "2.2.0"
+  },
+  "peerDependencies": {
+    "@tsed/common": "^6.89.0",
+    "@tsed/core": "^6.89.0",
+    "@tsed/di": "^6.89.0",
+    "@tsed/json-mapper": "^6.89.0",
+    "@tsed/logger": ">=6.0.0",
+    "@tsed/openspec": "^6.89.0",
+    "@tsed/schema": "^6.89.0"
+  }
+}
