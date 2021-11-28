@@ -1,6 +1,7 @@
-import { Injectable } from "@tsed/di";
-import { PlatformServerlessTest, QueryParams } from "@tsed/platform-serverless";
-import { Get } from "@tsed/schema";
+import {Injectable} from "@tsed/di";
+import {PlatformServerless, QueryParams} from "@tsed/platform-serverless";
+import {Get} from "@tsed/schema";
+import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 
 @Injectable()
 class QueryLambda {
@@ -14,7 +15,7 @@ class QueryLambda {
 }
 
 describe("Query params", () => {
-  beforeEach(PlatformServerlessTest.bootstrap({
+  beforeEach(PlatformServerlessTest.bootstrap(PlatformServerless, {
     lambda: [QueryLambda]
   }));
   afterEach(() => PlatformServerlessTest.reset());

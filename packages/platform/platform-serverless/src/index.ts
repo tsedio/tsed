@@ -4,7 +4,6 @@ export * from "@tsed/platform-params";
 
 export * from "./builder/PlatformServerlessHandler";
 export * from "./builder/PlatformServerless";
-export * from "./services/PlatformServerlessTest";
 
 // decorators
 export * from "./domain/ServerlessContext";

@@ -1,11 +1,12 @@
-import {PlatformServerlessTest} from "@tsed/platform-serverless";
+import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
+import {createServerlessContext} from "../../test/utils/createServerlessContext";
 
 describe("ServerlessResponse", () => {
   beforeEach(() => PlatformServerlessTest.create());
   afterEach(() => PlatformServerlessTest.reset());
   describe("onEnd", () => {
     it("should push callback", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
       context.response.onEnd(() => {});
@@ -13,7 +14,7 @@ describe("ServerlessResponse", () => {
   });
   describe("isHeadersSent", () => {
     it("should push callback", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
       expect(context.response.isHeadersSent).toEqual(false);
@@ -25,7 +26,7 @@ describe("ServerlessResponse", () => {
   });
   describe("statusCode", () => {
     it("should return the statusCode", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
       context.response.statusCode = 201;
@@ -34,7 +35,7 @@ describe("ServerlessResponse", () => {
   });
   describe("locals()", () => {
     it("should return the locals", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
@@ -43,7 +44,7 @@ describe("ServerlessResponse", () => {
   });
   describe("contentLength()", () => {
     it("should return the locals", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
       context.response.contentLength(300);
@@ -52,7 +53,7 @@ describe("ServerlessResponse", () => {
   });
   describe("location()", () => {
     it("should set location", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
@@ -63,7 +64,7 @@ describe("ServerlessResponse", () => {
       });
     });
     it("should set location (back)", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
@@ -77,7 +78,7 @@ describe("ServerlessResponse", () => {
   });
   describe("redirect()", () => {
     it("should set location", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
@@ -91,7 +92,7 @@ describe("ServerlessResponse", () => {
       expect(context.response.getBody()).toEqual("Moved Permanently. Redirecting to /path/to");
     });
     it("should set location (back)", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 

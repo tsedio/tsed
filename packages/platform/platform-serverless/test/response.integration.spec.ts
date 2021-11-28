@@ -1,6 +1,7 @@
-import { Injectable } from "@tsed/di";
-import { BodyParams, PlatformServerlessTest } from "@tsed/platform-serverless";
-import { MinLength, Property, Post } from "@tsed/schema";
+import {Injectable} from "@tsed/di";
+import {BodyParams, PlatformServerless} from "@tsed/platform-serverless";
+import {MinLength, Post, Property} from "@tsed/schema";
+import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 
 class Model {
   @Property()
@@ -28,7 +29,7 @@ class BodyLambda {
 }
 
 describe("Response", () => {
-  beforeEach(PlatformServerlessTest.bootstrap({
+  beforeEach(PlatformServerlessTest.bootstrap(PlatformServerless, {
     lambda: [BodyLambda]
   }));
   afterEach(() => PlatformServerlessTest.reset());
