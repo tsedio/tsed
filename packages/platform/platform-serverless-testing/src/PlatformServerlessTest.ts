@@ -1,17 +1,15 @@
 import {Type} from "@tsed/core";
 import {DITest} from "@tsed/di";
-import {Logger} from "@tsed/logger";
-import {JsonEntityStore} from "@tsed/schema";
-import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, APIGatewayProxyHandler, Context} from "aws-lambda";
+import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, APIGatewayProxyHandler} from "aws-lambda";
 import {APIGatewayProxyResult} from "aws-lambda/trigger/api-gateway-proxy";
-import {PlatformServerless} from "../builder/PlatformServerless";
-import {ServerlessContext} from "../domain/ServerlessContext";
+import {createFakeEvent} from "./createFakeEvent";
+import {createFakeContext} from "./createFakeContext";
 
 export interface LambdaPromiseResult extends Promise<APIGatewayProxyResult> {}
 
 export class LambdaClientRequest extends Promise<APIGatewayProxyResult> {
-  event = LambdaClientRequest.createFakeEvent();
-  context = LambdaClientRequest.createFakeContext();
+  event = createFakeEvent();
+  context = createFakeContext();
 
   static call(lambdaName: string) {
     const resolvers: any = {};
@@ -43,51 +41,6 @@ export class LambdaClientRequest extends Promise<APIGatewayProxyResult> {
 
   static delete(path: string, body?: any, options: Partial<APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>> = {}) {
     return this.call("handler").delete(path, body, options);
-  }
-
-  static createFakeEvent(event: Partial<APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>> = {}) {
-    return {
-      body: "",
-      headers: {},
-      httpMethod: "",
-      isBase64Encoded: false,
-      multiValueHeaders: {},
-      multiValueQueryStringParameters: {},
-      path: event.path || "/",
-      pathParameters: {},
-      queryStringParameters: {},
-      resource: "",
-      stageVariables: {},
-      ...event,
-      requestContext: {
-        ...event?.requestContext,
-        accountId: "",
-        apiId: "",
-        protocol: "https",
-        httpMethod: "",
-        identity: {} as any,
-        path: event.path || "/",
-        stage: "",
-        requestId: "requestId",
-        requestTimeEpoch: 0,
-        resourceId: 1,
-        resourcePath: event.path || "/"
-      } as any
-    } as APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>;
-  }
-
-  static createFakeContext(context?: Context): Context {
-    return {
-      awsRequestId: "awsRequestId",
-      callbackWaitsForEmptyEventLoop: false,
-      functionName: "",
-      functionVersion: "",
-      invokedFunctionArn: "",
-      logGroupName: "",
-      logStreamName: "",
-      memoryLimitInMB: "",
-      ...(context || {})
-    } as Context;
   }
 
   get(path: string, options: Partial<APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>> = {}) {
@@ -194,15 +147,16 @@ export class LambdaClientRequest extends Promise<APIGatewayProxyResult> {
 
 export class PlatformServerlessTest extends DITest {
   static callbacks: Record<string, APIGatewayProxyHandler> = {};
-  static instance: PlatformServerless;
+  static instance: any;
   static request = LambdaClientRequest;
 
-  static bootstrap(settings: Partial<TsED.Configuration & {lambda: Type[]}> = {}) {
+  static bootstrap(serverless: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     return async function before(): Promise<void> {
       // @ts-ignore
-      const instance = PlatformServerless.bootstrap(DITest.configure(settings));
+      const instance = serverless.bootstrap(DITest.configure(settings));
       PlatformServerlessTest.instance = instance;
-      PlatformServerlessTest.callbacks = instance.callbacks();
+
+      PlatformServerlessTest.callbacks = instance.callbacks ? instance.callbacks() : {};
       PlatformServerlessTest.callbacks.handler = instance.handler();
       // used by inject method
       DITest.injector = instance.injector;
@@ -222,19 +176,5 @@ export class PlatformServerlessTest extends DITest {
       await DITest.injector.destroy();
       DITest._injector = null;
     }
-  }
-
-  static createServerlessContext({endpoint}: {endpoint: JsonEntityStore}) {
-    const context: any = LambdaClientRequest.createFakeContext();
-    const event: any = LambdaClientRequest.createFakeEvent();
-
-    return new ServerlessContext({
-      event,
-      context,
-      id: context.awsRequestId,
-      logger: PlatformServerlessTest.injector.logger as Logger,
-      injector: PlatformServerlessTest.injector,
-      endpoint
-    });
   }
 }
