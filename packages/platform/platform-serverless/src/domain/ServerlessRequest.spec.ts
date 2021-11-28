@@ -1,11 +1,12 @@
-import {PlatformServerlessTest} from "@tsed/platform-serverless";
+import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
+import {createServerlessContext} from "../../test/utils/createServerlessContext";
 
 describe("ServerlessRequest", () => {
   beforeEach(() => PlatformServerlessTest.create());
   afterEach(() => PlatformServerlessTest.reset());
   describe("secure()", () => {
     it("should return expected value", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
@@ -15,7 +16,7 @@ describe("ServerlessRequest", () => {
 
   describe("host()", () => {
     it("should return expected value", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
       context.event.headers["host"] = "host";
@@ -25,7 +26,7 @@ describe("ServerlessRequest", () => {
   });
   describe("protocol()", () => {
     it("should return expected value", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
@@ -34,7 +35,7 @@ describe("ServerlessRequest", () => {
   });
   describe("url()", () => {
     it("should return expected value", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
@@ -43,7 +44,7 @@ describe("ServerlessRequest", () => {
   });
   describe("headers()", () => {
     it("should return expected value", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
@@ -52,7 +53,7 @@ describe("ServerlessRequest", () => {
   });
   describe("method()", () => {
     it("should return expected value", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
       context.request.raw.httpMethod = "GET";
@@ -62,14 +63,14 @@ describe("ServerlessRequest", () => {
 
   describe("body()", () => {
     it("should return expected value", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
       expect(context.request.body).toEqual({});
     });
     it("should return catch error on body", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
       context.request.raw.body = "{";
@@ -77,7 +78,7 @@ describe("ServerlessRequest", () => {
       expect(context.request.body).toEqual("{");
     });
     it("should return parse body", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
       context.request.raw.body = "{}";
@@ -88,7 +89,7 @@ describe("ServerlessRequest", () => {
 
   describe("rawBody()", () => {
     it("should return expected value", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
@@ -98,7 +99,7 @@ describe("ServerlessRequest", () => {
 
   describe("params()", () => {
     it("should return expected value", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 
@@ -108,7 +109,7 @@ describe("ServerlessRequest", () => {
 
   describe("query()", () => {
     it("should return expected value", () => {
-      const context = PlatformServerlessTest.createServerlessContext({
+      const context = createServerlessContext({
         endpoint: {} as any
       });
 

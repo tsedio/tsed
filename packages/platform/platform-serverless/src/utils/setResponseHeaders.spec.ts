@@ -1,7 +1,8 @@
 import {Location, PlatformTest, Redirect} from "@tsed/common";
-import {PlatformServerlessTest, Get} from "@tsed/platform-serverless";
+import {Get} from "@tsed/platform-serverless";
 import {JsonEntityStore, Returns} from "@tsed/schema";
 import {setResponseHeaders} from "./setResponseHeaders";
+import {createServerlessContext} from "../../test/utils/createServerlessContext";
 
 describe("setResponseHeaders", () => {
   beforeEach(() => PlatformTest.create());
@@ -14,7 +15,7 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const ctx = PlatformServerlessTest.createServerlessContext({
+    const ctx = createServerlessContext({
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
 
@@ -34,7 +35,7 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const ctx = PlatformServerlessTest.createServerlessContext({
+    const ctx = createServerlessContext({
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
 
@@ -53,7 +54,7 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const ctx = PlatformServerlessTest.createServerlessContext({
+    const ctx = createServerlessContext({
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
     jest.spyOn(ctx.response, "redirect");
@@ -71,7 +72,7 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const ctx = PlatformServerlessTest.createServerlessContext({
+    const ctx = createServerlessContext({
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
     jest.spyOn(ctx.response, "redirect");
@@ -91,7 +92,7 @@ describe("setResponseHeaders", () => {
       test() {}
     }
 
-    const ctx = PlatformServerlessTest.createServerlessContext({
+    const ctx = createServerlessContext({
       endpoint: JsonEntityStore.fromMethod(Test, "test")
     });
 
@@ -105,6 +106,5 @@ describe("setResponseHeaders", () => {
 
     // THEN
     return expect(ctx.response.isDone).toHaveBeenCalled();
-    return expect(ctx.response.setHeaders).not.toHaveBeenCalled();
   });
 });

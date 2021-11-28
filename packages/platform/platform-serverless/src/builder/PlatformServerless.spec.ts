@@ -1,16 +1,6 @@
 import {Controller, Inject, Injectable} from "@tsed/di";
-import {
-  BodyParams,
-  Delete,
-  Get,
-  Patch,
-  PathParams,
-  PlatformServerless,
-  PlatformServerlessTest,
-  Post,
-  Put,
-  QueryParams
-} from "@tsed/platform-serverless";
+import {BodyParams, Delete, Get, Patch, PathParams, PlatformServerless, Post, Put, QueryParams} from "@tsed/platform-serverless";
+import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 
 @Injectable()
 class TimeslotsService {
@@ -65,7 +55,7 @@ class TimeslotsLambdaController {
 
 describe("PlatformServerless", () => {
   beforeEach(
-    PlatformServerlessTest.bootstrap({
+    PlatformServerlessTest.bootstrap(PlatformServerless, {
       lambda: [TimeslotsLambdaController]
     })
   );
