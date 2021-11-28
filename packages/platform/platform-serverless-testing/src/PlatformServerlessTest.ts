@@ -1,9 +1,10 @@
-import {Type} from "@tsed/core";
 import {DITest} from "@tsed/di";
 import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, APIGatewayProxyHandler} from "aws-lambda";
 import {APIGatewayProxyResult} from "aws-lambda/trigger/api-gateway-proxy";
 import {createFakeEvent} from "./createFakeEvent";
 import {createFakeContext} from "./createFakeContext";
+import {nameOf, Type} from "@tsed/core";
+import {PlatformBuilder, PlatformBuilderSettings} from "@tsed/common";
 
 export interface LambdaPromiseResult extends Promise<APIGatewayProxyResult> {}
 
@@ -150,13 +151,30 @@ export class PlatformServerlessTest extends DITest {
   static instance: any;
   static request = LambdaClientRequest;
 
-  static bootstrap(serverless: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+  static bootstrap(
+    serverless: {bootstrap: (server: Type<any>, settings: PlatformBuilderSettings) => PlatformBuilder},
+    {server, ...settings}: PlatformBuilderSettings & {server: Type<any>}
+  ): () => Promise<any>;
+  static bootstrap(
+    serverless: {bootstrap: (settings: Partial<TsED.Configuration> & {lambda?: Type[]}) => any},
+    {server, ...settings}: PlatformBuilderSettings
+  ): () => Promise<any>;
+  static bootstrap(serverless: any, {server, ...settings}: PlatformBuilderSettings) {
     return async function before(): Promise<void> {
-      // @ts-ignore
-      const instance = serverless.bootstrap(DITest.configure(settings));
-      PlatformServerlessTest.instance = instance;
+      settings = DITest.configure(settings);
 
-      PlatformServerlessTest.callbacks = instance.callbacks ? instance.callbacks() : {};
+      const isServerlessHttp = nameOf(serverless).includes("Http");
+
+      // @ts-ignore
+      const instance = isServerlessHttp ? serverless.bootstrap(server, settings) : serverless.bootstrap(settings);
+
+      PlatformServerlessTest.instance = instance;
+      PlatformServerlessTest.callbacks = {};
+
+      if (!isServerlessHttp) {
+        PlatformServerlessTest.callbacks = instance.callbacks();
+      }
+
       PlatformServerlessTest.callbacks.handler = instance.handler();
       // used by inject method
       DITest.injector = instance.injector;
