@@ -9,5 +9,6 @@ export interface MongooseVirtualRefOptions {
   foreignField?: string;
   localField?: string;
   justOne?: boolean;
+  count?: boolean;
   options?: object;
 }

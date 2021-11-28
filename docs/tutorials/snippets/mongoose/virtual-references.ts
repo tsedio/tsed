@@ -22,6 +22,16 @@ class Band {
     options: {} // Query options, see http://bit.ly/mongoose-query-options
   })
   members: VirtualRefs<Person>;
+
+  @VirtualRef({
+    ref: Person, // The model to use
+    localField: "name",  // Find people where `localField`
+    foreignField: "band", // is equal to `foreignField`
+    // If `count` is true, 'memberCount' will be the number of documents
+    // instead of an array.
+    count: true
+  })
+  memberCount: number;
 }
 
 @Model()

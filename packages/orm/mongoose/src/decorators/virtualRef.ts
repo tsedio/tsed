@@ -27,6 +27,7 @@ function mapToSchema(opts: any) {
     localField: opts.localField || "_id",
     foreignField: opts.foreignField,
     justOne: opts.justOne || false,
+    count: opts.count || false,
     options: opts.options
   };
 
@@ -62,7 +63,10 @@ export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignF
   const schema = mapToSchema(opts);
   const type = getType(opts);
 
-  return useDecorators(StoreMerge(MONGOOSE_SCHEMA, schema), type && (schema.justOne ? Property(type) : CollectionOf(type)));
+  return useDecorators(
+    StoreMerge(MONGOOSE_SCHEMA, schema),
+    schema.count ? Property(Number) : type && (schema.justOne ? Property(type) : CollectionOf(type))
+  );
 }
 
 export type VirtualRef<T> = T | null;
