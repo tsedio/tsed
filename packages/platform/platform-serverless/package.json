@@ -36,7 +36,7 @@
     "@types/aws-lambda": "^8.10.83",
     "@types/encodeurl": "^1.0.0",
     "@types/mime": "^2.0.3",
-    "@tsed/platform-serverless-testing": "6.89.0"
+    "@tsed/platform-serverless-testing": "6.90.0"
   },
   "peerDependencies": {}
 }

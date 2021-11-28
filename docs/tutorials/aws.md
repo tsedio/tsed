@@ -1,18 +1,20 @@
 ---
 meta:
- - name: description
+ - name: description 
    content: Guide to deploy your Ts.ED application on AWS.
  - name: keywords
    content: ts.ed express typescript aws node.js javascript decorators
 ---
+
 # Serverless HTTP
 
 <Banner src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Amazon_Web_Services_Logo.svg/langfr-220px-Amazon_Web_Services_Logo.svg.png" href="https://aws.amazon.com/fr/" :height="180" />
 
 Amazon Web Services is one possible way to host your Node.js application.
 
-This tutorial shows you how to configure Ts.ED application, to be executed as an AWS Lambda Function.
-Under the hood, @tsed/platform-aws uses [serverless-http](https://www.npmjs.com/package/serverless-http) to handle AWS event and call Express.js/Koa.js application.
+This tutorial shows you how to configure Ts.ED application, to be executed as an AWS Lambda Function. Under the hood,
+@tsed/platform-aws uses [serverless-http](https://www.npmjs.com/package/serverless-http) to handle AWS event and call
+Express.js/Koa.js application.
 
 ::: tip
 [Serverless](https://www.serverless.com/) is a free and open-source web framework written using Node.js. Serverless is
@@ -37,9 +39,6 @@ It supports:
 
 ## Installation
 
-
-## Installation
-
 Generate a new project with the CLI (you can also start from an existing project):
 
 ```bash
@@ -54,8 +53,7 @@ tsed init .
 ? Choose the package manager: Yarn
 ```
 
-::: tip
-This tutorial works also with NPM package manager!
+::: tip This tutorial works also with NPM package manager!
 :::
 
 
@@ -111,7 +109,8 @@ Remove the http and https port configuration from `Server.ts`:
   // httpPort: 8080,
   // httpsPort: false 
 })
-export class Server {}
+export class Server {
+}
 ```
 
 And add the http port for our local server directly on `index.ts` file:
@@ -131,16 +130,20 @@ async function bootstrap() {
 
   return platform;
 }
+
 bootstrap();
 ```
 
 Create new `handler.ts` to expose your lambda:
 
 ```typescript
-import {PlatformServerless} from "@tsed/serverless";
+import {PlatformServerlessHttp} from "@tsed/platform-serverless-http";
+import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./Server";
 
-const platform = PlatformServerless.bootstrap(Server, {})
+const platform = PlatformServerlessHttp.bootstrap(Server, {
+  adapter: PlatformExpress
+})
 
 export const handler = platform.handler();
 ```
@@ -153,12 +156,12 @@ service: timeslots
 frameworkVersion: '2'
 
 provider:
-   name: aws
-   runtime: nodejs14.x
-   lambdaHashingVersion: '20201221'
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: '20201221'
 
 plugins:
-   - serverless-offline
+  - serverless-offline
 
 functions:
   any:
@@ -174,10 +177,12 @@ functions:
 
 ## Invoke a lambda with serverless
 
-Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your local machine to speed up your development cycles.
-To do so, it starts an HTTP server that handles the request's lifecycle like API does and invokes your handlers.
+Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your
+local machine to speed up your development cycles. To do so, it starts an HTTP server that handles the request's
+lifecycle like API does and invokes your handlers.
 
-So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our code before invoke the lambda.
+So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our
+code before invoke the lambda.
 
 To simplify our workflow, we can add the following npm script command in our `package.json`:
 
@@ -201,13 +206,13 @@ You should see in the terminal the following result:
 
 ```json
 {
-    "statusCode": 200,
-    "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
-    "headers": {
-        "content-type": "application/json",
-        "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
-    },
-    "isBase64Encoded": false
+  "statusCode": 200,
+  "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
+  "headers": {
+    "content-type": "application/json",
+    "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
+  },
+  "isBase64Encoded": false
 }
 ```
 
@@ -216,22 +221,62 @@ You should see in the terminal the following result:
 This package includes decorators to easily get the event object Lambda received from API Gateway:
 
 ```typescript
-import {Controller, Get} from "@tsed/common"; 
-import {ServerlessEvent, ServerlessContext} from "@tsed/platform-serverless-http"; 
+import {Controller, Get} from "@tsed/common";
+import {ServerlessEvent, ServerlessContext} from "@tsed/platform-serverless-http";
 
 @Controller("/")
 class MyCtrl {
- @Get("/")
- get(@ServerlessEvent() event: any, @ServerlessContext() context: any) {
-   console.log("Event", event);
-   console.log("Context", context);
-   
-   return apiGateway;
- }
+  @Get("/")
+  get(@ServerlessEvent() event: any, @ServerlessContext() context: ServerlessContext) {
+    console.log("Event", event);
+    console.log("Context", context);
+
+    return { event, context };
+  }
 }
 ```
 
-## Author 
+## Testing
+
+Ts.ED provide a way to test you lambda with mocked Aws event and context by using the @@PlatformServerlessTest@@ util.
+
+Here an example to test a Lambda controller:
+
+```typescript
+import {PlatformServerless} from "@tsed/platform-serverless-http";
+import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
+import {PlatformExpress} from "@tsed/platform-express";
+import {Server} from "./Server";
+
+@Controller("/timeslots")
+class TimeslotsController {
+  @Get("/")
+  getAll() {
+    return [];
+  }
+}
+
+describe("TimeslotsController", () => {
+  beforeEach(
+    PlatformServerlessTest.bootstrap(PlatformServerlessHttp, {
+      server: Server,
+      mount: {
+        "/": [TimeslotsLambdaController]
+      }
+    })
+  );
+  afterEach(() => PlatformServerlessTest.reset());
+
+  it("should call getAll Lambda", async () => {
+    const response = await PlatformServerlessTest.request.get("/timeslots");
+
+    expect(response.statusCode).toEqual(200);
+    expect(JSON.parse(response.body)).toEqual([]);
+  });
+});
+```
+
+## Author
 
 <GithubContributors :users="['Romakita']"/>
 

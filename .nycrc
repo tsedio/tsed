@@ -15,6 +15,8 @@
     "packages/**/RouteService.ts",
     "packages/platform/platform-test-utils",
     "packages/platform/platform-serverless",
+    "packages/platform/platform-serverless-http",
+    "packages/platform/platform-serverless-testing",
     "packages/platform/platform-log-middleware",
     "packages/security/oidc-provider",
     "packages/orm",

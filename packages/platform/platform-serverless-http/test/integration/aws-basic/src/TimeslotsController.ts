@@ -1,9 +1,10 @@
 import {Controller} from "@tsed/di";
-import {BodyParams, Delete, Get, Post, Put, PathParams, QueryParams} from "@tsed/platform-serverless";
+import {Delete, Get, Post, Put} from "@tsed/schema";
+import {PathParams, QueryParams, BodyParams} from "@tsed/platform-params";
 import {Description, Groups, Returns, Summary} from "@tsed/schema";
 
 @Controller("/timeslots")
-export class TimeslotsLambda {
+export class TimeslotsController {
   @Get("/:id")
   @Returns(200)
   @Summary("Get a timeslot by his id")

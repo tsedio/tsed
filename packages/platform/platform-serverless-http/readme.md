@@ -3,7 +3,7 @@
 </p>
 
 <div align="center">
-   <h1>Platform AWS</h1>
+   <h1>Platform Serverless Http</h1>
 
 [![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/tsedio/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsedio/tsed/blob/master/CONTRIBUTING.md)
@@ -82,7 +82,6 @@ Create new `Server.ts` to configure your Ts.ED application:
 ```typescript
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
-import "@tsed/platform-express";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
@@ -133,10 +132,13 @@ export class Server {
 Create new `handler.ts` to expose your lambda:
 
 ```typescript
-import {PlatformServerless} from "@tsed/serverless";
+import {PlatformServerless} from "@tsed/platform-serverless-http";
+import {PlatformExpress} from "@tsed/platform-express";
 import {Server} from "./Server";
 
-const platform = PlatformServerless.bootstrap(Server, {})
+const platform = PlatformServerless.bootstrap(Server, {
+  adapter: PlatformExpress
+})
 
 export const handler = platform.handler();
 ```
@@ -158,6 +160,7 @@ async function bootstrap() {
 
   return platform;
 }
+
 bootstrap();
 ```
 
@@ -169,12 +172,12 @@ service: timeslots
 frameworkVersion: '2'
 
 provider:
-   name: aws
-   runtime: nodejs14.x
-   lambdaHashingVersion: '20201221'
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: '20201221'
 
 plugins:
-   - serverless-offline
+  - serverless-offline
 
 functions:
   any:
@@ -190,10 +193,12 @@ functions:
 
 ## Invoke a lambda with serverless
 
-Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your local machine to speed up your development cycles.
-To do so, it starts an HTTP server that handles the request's lifecycle like API does and invokes your handlers.
+Serverless provide a plugin named `serverless-offline`. This Serverless plugin emulates AWS λ and API Gateway on your
+local machine to speed up your development cycles. To do so, it starts an HTTP server that handles the request's
+lifecycle like API does and invokes your handlers.
 
-So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our code before invoke the lambda.
+So, by using the `serverless offline` command, we'll be able to invoke our function. For that, we need also to build our
+code before invoke the lambda.
 
 To simplify our workflow, we can add the following npm script command in our `package.json`:
 
@@ -217,13 +222,13 @@ You should see in the terminal the following result:
 
 ```json
 {
-    "statusCode": 200,
-    "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
-    "headers": {
-        "content-type": "application/json",
-        "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
-    },
-    "isBase64Encoded": false
+  "statusCode": 200,
+  "body": "[{\"id\":\"b6de4fc7-faaa-4cd7-a144-42f6af0dec6b\",\"title\":\"title\",\"description\":\"description\",\"start_date\":\"2021-10-29T10:40:57.019Z\",\"end_date\":\"2021-10-29T10:40:57.019Z\",\"created_at\":\"2021-10-29T10:40:57.019Z\",\"update_at\":\"2021-10-29T10:40:57.019Z\"}]",
+  "headers": {
+    "content-type": "application/json",
+    "x-request-id": "ebb52d5e-113b-40da-b34e-c14811df596b"
+  },
+  "isBase64Encoded": false
 }
 ```
 
@@ -238,14 +243,56 @@ import {ServerlessEvent, ServerlessContext} from "@tsed/platform-serverless-http
 @Controller("/")
 class MyCtrl {
  @Get("/")
- get(@ServerlessEvent() event: any, @ServerlessContext() context: any) {
+ get(@ServerlessEvent() event: any, @ServerlessContext() context: ServerlessContext) {
    console.log("Event", event);
    console.log("Context", context);
    
-   return apiGateway;
+   return { event, context };
  }
 }
 ```
+
+
+## Testing
+
+Ts.ED provide a way to test you lambda with mocked Aws event and context by using the @@PlatformServerlessTest@@ util.
+
+Here an example to test a Lambda controller:
+
+```typescript
+import {PlatformServerless} from "@tsed/platform-serverless-http";
+import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
+import {PlatformExpress} from "@tsed/platform-express";
+import {Server} from "./Server";
+
+@Controller("/timeslots")
+class TimeslotsController {
+  @Get("/")
+  getAll() {
+    return [];
+  }
+}
+
+describe("TimeslotsController", () => {
+  beforeEach(
+    PlatformServerlessTest.bootstrap(PlatformServerlessHttp, {
+      server: Server,
+      mount: {
+        "/": [TimeslotsLambdaController]
+      }
+    })
+  );
+  afterEach(() => PlatformServerlessTest.reset());
+
+  it("should call getAll Lambda", async () => {
+    const response = await PlatformServerlessTest.request.get("/timeslots");
+
+    expect(response.statusCode).toEqual(200);
+    expect(JSON.parse(response.body)).toEqual([]);
+  });
+});
+```
+
 
 ## Contributors
 
@@ -259,10 +306,10 @@ Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
 
-
 ## Sponsors
 
-Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/tsed#sponsor)]
+Support this project by becoming a sponsor. Your logo will show up here with a link to your
+website. [[Become a sponsor](https://opencollective.com/tsed#sponsor)]
 
 ## License
 
@@ -270,8 +317,15 @@ The MIT License (MIT)
 
 Copyright (c) 2016 - 2018 Romain Lenzotti
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+persons to whom the Software is furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

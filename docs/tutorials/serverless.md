@@ -8,7 +8,7 @@ meta:
 
 # Serverless
 
-<Badge text="beta" /> <Badge text="Contributors are welcome" />
+<Badge text="Contributors are welcome" />
 
 <Banner src="https://user-images.githubusercontent.com/2752551/30405068-a7733b34-989e-11e7-8f66-7badaf1373ed.png" href="https://www.serverless.com/fr/" :height="180" />
 
@@ -320,6 +320,9 @@ Ts.ED provide a way to test you lambda with mocked Aws event and context by usin
 Here an example to test a Lambda controller:
 
 ```typescript
+import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
+import {PlatformServerless} from "@tsed/platform-serverless";
+
 @Controller("/")
 class TimeslotsLambdaController {
   @Get("/")
@@ -339,7 +342,7 @@ class TimeslotsLambdaController {
 
 describe("TimeslotsLambdaController", () => {
   beforeEach(
-    PlatformServerlessTest.bootstrap({
+    PlatformServerlessTest.bootstrap(PlatformServerless, {
       lambda: [TimeslotsLambdaController]
     })
   );
