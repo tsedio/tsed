@@ -72,6 +72,7 @@ describe("InjectorService", () => {
   });
 
   describe("forkProvider()", () => {
+    @Injectable()
     class Test {}
 
     it("should return a provider", async () => {
@@ -84,6 +85,17 @@ describe("InjectorService", () => {
       // THEN
       expect(provider).to.be.instanceof(Provider);
       expect(provider.provide).to.eq(InjectorService);
+    });
+    it("should fork provider", async () => {
+      // GIVEN
+      const injector = new InjectorService();
+
+      // WHEN
+      const provider = await injector.forkProvider(Test);
+
+      // THEN
+      expect(provider).to.be.instanceof(Provider);
+      expect(provider.provide).to.eq(Test);
     });
   });
 
