@@ -1,111 +1,81 @@
-import {createHttpsServer, HttpsServer, listenHttpsServer} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
-import {$log} from "@tsed/logger";
+import {HttpsServer} from "../decorators/httpsServer";
+import {createHttpsServer} from "./createHttpsServer";
 import {expect} from "chai";
 import Sinon from "sinon";
+import Https from "https";
 
+const sandbox = Sinon.createSandbox();
 describe("createHttpsServer", () => {
-  it("should fork the create http server", () => {
+  afterEach(() => sandbox.restore());
+  it("should create an instance of Https (Https port true)", async () => {
     const injector = new InjectorService();
+    injector.settings.set("httpsPort", true);
 
-    createHttpsServer(injector);
+    const fn: any = Sinon.stub();
 
+    const listener = createHttpsServer(injector, fn)!;
+
+    expect(!!injector.get(Https.Server)).to.be.eq(true);
     expect(!!injector.get(HttpsServer)).to.be.eq(true);
-  });
-  it("should listen the server", async () => {
-    const injector = new InjectorService();
-    injector.logger = $log;
-    injector.logger.stop();
-    // @ts-ignore
-    injector.settings = {
-      httpsPort: true,
-      getHttpsPort: Sinon.stub().returns({address: "address", port: "port"}),
-      setHttpsPort: Sinon.stub()
-    };
+    expect(listener).to.be.a("function");
 
-    createHttpsServer(injector);
+    const server = injector.get(Https.Server);
 
-    const http = injector.get<HttpsServer>(HttpsServer)!;
-
-    // @ts-ignore
-    Sinon.stub(http, "on").callsFake((event, fn: any) => {
-      // @ts-ignore
+    sandbox.stub(injector.logger, "info");
+    sandbox.stub(injector.logger, "debug");
+    sandbox.stub(server, "listen");
+    sandbox.stub(server, "address").returns({port: 8089});
+    sandbox.stub(server, "on").callsFake((event: string, cb: any) => {
       if (event === "listening") {
-        fn();
+        cb();
       }
     });
-    Sinon.stub(http, "listen");
-    // @ts-ignore
-    Sinon.stub(http, "address").returns({port: 8080});
 
-    const promise = listenHttpsServer(injector);
+    await listener();
 
-    expect(http.listen).to.have.been.calledWithExactly("port", "address");
-
-    await promise;
-
-    expect(injector.settings.setHttpsPort).to.have.been.calledWithExactly({address: "address", port: 8080});
+    expect(server.listen).to.have.been.calledWithExactly(true, "0.0.0.0");
+    expect(injector.logger.info).to.have.been.calledWithExactly("Listen server on https://0.0.0.0:8089");
   });
-  it("should listen the server with port 0", async () => {
+
+  it("should create a raw object (Https port false)", () => {
     const injector = new InjectorService();
-    injector.logger = $log;
-    injector.logger.stop();
-    // @ts-ignore
-    injector.settings = {
-      httpsPort: 0,
-      getHttpsPort: Sinon.stub().returns({address: "address", port: "port"}),
-      setHttpsPort: Sinon.stub()
-    };
+    injector.settings.set("httpsPort", false);
 
-    createHttpsServer(injector);
+    const fn: any = Sinon.stub();
 
-    const http = injector.get<HttpsServer>(HttpsServer)!;
+    const listener = createHttpsServer(injector, fn);
 
-    // @ts-ignore
-    Sinon.stub(http, "on").callsFake((event, fn: any) => {
-      // @ts-ignore
-      if (event === "listening") {
-        fn();
-      }
-    });
-    Sinon.stub(http, "listen");
-    // @ts-ignore
-    Sinon.stub(http, "address").returns({port: 0});
+    expect(injector.get(Https.Server)).to.be.eq(null);
+    expect(injector.get(HttpsServer)).to.be.eq(null);
 
-    const promise = listenHttpsServer(injector);
-
-    expect(http.listen).to.have.been.calledWithExactly("port", "address");
-
-    await promise;
-
-    expect(injector.settings.setHttpsPort).to.have.been.calledWithExactly({address: "address", port: 0});
+    expect(listener).to.eq(undefined);
   });
-  it("should not listen the server when it's false", async () => {
+
+  it("should create an instance of Https (https port 0)", () => {
     const injector = new InjectorService();
-    injector.logger = $log;
-    injector.logger.stop();
-    // @ts-ignore
-    injector.settings = {
-      httpsPort: false
-    };
+    injector.settings.set("httpsPort", 0);
 
-    createHttpsServer(injector);
+    const fn: any = Sinon.stub();
 
-    const http = injector.get<HttpsServer>(HttpsServer)!;
+    const listener = createHttpsServer(injector, fn);
 
-    // @ts-ignore
-    Sinon.stub(http, "on").callsFake((event, fn: any) => {
-      // @ts-ignore
-      if (event === "listening") {
-        fn();
-      }
-    });
-    Sinon.stub(http, "listen");
-    // @ts-ignore
-    Sinon.stub(http, "address").returns({port: 8080});
+    expect(!!injector.get(Https.Server)).to.be.eq(true);
+    expect(!!injector.get(HttpsServer)).to.be.eq(true);
 
-    await listenHttpsServer(injector);
+    expect(listener).to.be.a("function");
+  });
+  it("should create an instance of Https (https port + address)", () => {
+    const injector = new InjectorService();
+    injector.settings.set("httpsPort", "0.0.0.0:8080");
 
-    return expect(http.listen).to.not.have.been.called;
+    const fn: any = Sinon.stub();
+
+    const listener = createHttpsServer(injector, fn);
+
+    expect(!!injector.get(Https.Server)).to.be.eq(true);
+    expect(!!injector.get(HttpsServer)).to.be.eq(true);
+
+    expect(listener).to.be.a("function");
   });
 });

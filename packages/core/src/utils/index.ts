@@ -14,3 +14,4 @@ export * from "./decorators/useMethodDecorators";
 
 // objects
 export * from "./objects";
+export * from "./http/getHostInfoFromPort";

@@ -1,22 +1,31 @@
-import Http from "http";
-import Https from "https";
+import type Http from "http";
+import type Https from "https";
+import type Http2 from "http2";
+import {InjectorService} from "@tsed/di";
+import {getHostInfoFromPort} from "@tsed/core";
 
 export function listenServer(
-  http: Http.Server | Https.Server,
-  settings: {address: string | number; port: number}
-): Promise<{address: string; port: number}> {
-  const {address, port} = settings;
+  injector: InjectorService,
+  server: Http.Server | Https.Server | Http2.Http2Server,
+  hostInfo: ReturnType<typeof getHostInfoFromPort>
+): Promise<ReturnType<typeof getHostInfoFromPort>> {
+  const {protocol, address, port} = hostInfo;
+  const url = `${protocol}://${address}:${port}`;
+  injector.logger.debug(`Start server on ${url}`);
 
   const promise = new Promise((resolve, reject) => {
-    http.on("listening", resolve);
-    http.on("error", reject);
+    server.on("listening", resolve);
+    server.on("error", reject);
   }).then(() => {
-    const port = (http.address() as any).port;
+    const port = (server.address() as any).port;
+    const info = {...hostInfo, port};
 
-    return {address: settings.address as string, port};
+    injector.logger.info(`Listen server on ${info.toString()}`);
+
+    return info;
   });
 
-  http.listen(port, address as any);
+  server.listen(port, address as any);
 
   return promise;
 }

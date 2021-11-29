@@ -26,7 +26,7 @@ export class PlatformTest extends DITest {
   static createInjector(settings: any = {}): InjectorService {
     return createInjector({
       providers: [],
-      settings: DITest.configure(settings)
+      settings: DITest.configure({httpPort: false, httpsPort: false, ...settings})
     });
   }
 
@@ -40,7 +40,7 @@ export class PlatformTest extends DITest {
    */
   static bootstrap(mod: any, {listen, ...settings}: Partial<PlatformBuilderSettings & {listen: boolean}> = {}): () => Promise<void> {
     return async function before(): Promise<void> {
-      let instance: any;
+      let instance: PlatformBuilder;
       const adapter: Type<PlatformAdapter> = settings.platform || settings.adapter || PlatformTest.adapter;
 
       /* istanbul ignore next */
@@ -55,14 +55,7 @@ export class PlatformTest extends DITest {
       settings.adapter = adapter as any;
 
       instance = await PlatformBuilder.build(mod, settings).bootstrap();
-
-      if (!listen) {
-        await instance.callHook("$beforeListen");
-        await instance.callHook("$afterListen");
-        await instance.ready();
-      } else {
-        await instance.listen();
-      }
+      await instance.listen(!!listen);
 
       // used by inject method
       DITest.injector = instance.injector;

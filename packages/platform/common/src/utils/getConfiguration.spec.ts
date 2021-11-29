@@ -4,6 +4,48 @@ import {getConfiguration} from "./getConfiguration";
 import {Env} from "@tsed/core";
 
 describe("getConfiguration()", () => {
+  it("should return configuration (2)", () => {
+    @Configuration({
+      mount: {
+        "/v1": ["/root1/*.ts"]
+      },
+      componentsScan: ["/root1-services/*.ts"]
+    })
+    class MyModule {}
+
+    expect(
+      getConfiguration(
+        {
+          mount: {
+            "/v2": ["/root2/*.ts"]
+          },
+          componentsScan: ["/root2-services/*.ts"]
+        },
+        MyModule
+      )
+    ).to.deep.eq({
+      componentsScan: ["/root1-services/*.ts", "/root2-services/*.ts"],
+      env: {
+        "/v1": ["/root1/*.ts"]
+      },
+      exclude: ["**/*.spec.ts", "**/*.spec.js"],
+      httpPort: 8080,
+      httpsPort: false,
+      logger: {
+        debug: false,
+        jsonIndentation: 2,
+        level: "info",
+        logRequest: true
+      },
+      mount: {
+        "/v1": ["/root1/*.ts"],
+        "/v2": ["/root2/*.ts"]
+      },
+      scopes: {
+        controller: "singleton"
+      }
+    });
+  });
   it("should load configuration for test", () => {
     @Configuration({})
     class App {}

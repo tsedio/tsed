@@ -1,34 +1,35 @@
-import {InjectorService, ProviderScope, registerProvider} from "@tsed/di";
+import {InjectorService, ProviderScope} from "@tsed/di";
+import {getHostInfoFromPort} from "@tsed/core";
 import Http from "http";
-import {PlatformApplication} from "../services/PlatformApplication";
 import {HttpServer} from "../decorators/httpServer";
 import {listenServer} from "./listenServer";
 
-export function createHttpServer(injector: InjectorService): void {
-  injector.invoke(HttpServer);
-}
-
-registerProvider({
-  provide: HttpServer,
-  deps: [PlatformApplication],
-  scope: ProviderScope.SINGLETON,
-  global: true,
-  useFactory(platformApplication: PlatformApplication) {
-    return Http.createServer(platformApplication.callback());
-  }
-});
-
-export async function listenHttpServer(injector: InjectorService) {
+export function createHttpServer(injector: InjectorService, requestListener: Http.RequestListener) {
   const {settings} = injector;
-  const server = injector.get<HttpServer>(HttpServer);
+  const httpPort = settings.getRaw("httpPort");
+  const httpOptions = settings.getRaw("httpOptions");
 
-  if (settings.httpPort !== false && server) {
-    const {address, port} = settings.getHttpPort();
-    injector.logger.debug(`Start server on http://${address}:${port}`);
+  const server = httpPort !== false ? Http.createServer(httpOptions, requestListener) : null;
 
-    const options = await listenServer(server, {address, port});
-    settings.setHttpPort(options);
+  injector.addProvider(HttpServer, {
+    scope: ProviderScope.SINGLETON,
+    useValue: server
+  });
 
-    injector.logger.info(`Listen server on http://${options.address}:${options.port}`);
+  injector.addProvider(Http.Server, {
+    scope: ProviderScope.SINGLETON,
+    useValue: server
+  });
+
+  injector.invoke(HttpServer);
+  injector.invoke(Http.Server);
+
+  if (httpPort !== false) {
+    const hostInfo = getHostInfoFromPort("http", httpPort);
+
+    return async () => {
+      const resolvedHostInfo = await listenServer(injector, server as Http.Server, hostInfo);
+      settings.setRaw("httpPort", `${resolvedHostInfo.address}:${resolvedHostInfo.port}`);
+    };
   }
 }

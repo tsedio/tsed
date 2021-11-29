@@ -24,14 +24,12 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.91.0",
     "@tsed/core": "6.91.0",
     "@tsed/di": "6.91.0",
     "@tsed/openspec": "6.91.0",
     "@tsed/schema": "6.91.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.91.0",
     "@tsed/core": "^6.91.0",
     "@tsed/di": "^6.91.0",
     "@tsed/openspec": "^6.91.0",

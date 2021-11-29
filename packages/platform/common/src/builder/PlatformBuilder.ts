@@ -5,7 +5,7 @@ import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
-import {createInjector, listenHttpServer, listenHttpsServer, printRoutes} from "../utils";
+import {createHttpServer, createHttpsServer, createInjector, printRoutes} from "../utils";
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {Route} from "../interfaces/Route";
@@ -27,6 +27,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   #rootModule: Type<any>;
   #promise: Promise<this>;
   #adapter: PlatformAdapter<App, Router>;
+  #servers: (() => Promise<void>)[];
 
   protected constructor(adapter: Type<PlatformAdapter<App, Router>> | undefined, module: Type, settings: Partial<TsED.Configuration>) {
     this.#rootModule = module;
@@ -42,6 +43,8 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
       settings: configuration,
       providers: this.#adapter.providers
     });
+
+    this.createHttpServers();
 
     this.#adapter.onInit && this.#adapter.onInit();
 
@@ -203,14 +206,16 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     await this.callHook("$afterInit");
   }
 
-  async listen() {
+  async listen(network = true) {
     if (!this.#promise) {
       await this.bootstrap();
     }
 
     await this.callHook("$beforeListen");
 
-    await this.listenServers();
+    if (network) {
+      await this.listenServers();
+    }
 
     await this.callHook("$afterListen");
 
@@ -325,8 +330,14 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     });
   }
 
+  protected createHttpServers() {
+    this.#servers = [createHttpServer(this.#injector, this.callback()), createHttpsServer(this.#injector, this.callback())].filter(
+      Boolean
+    ) as any[];
+  }
+
   protected async listenServers(): Promise<void> {
-    await Promise.all([listenHttpServer(this.injector), listenHttpsServer(this.injector)]);
+    await Promise.all(this.#servers.map((cb) => cb && cb()));
   }
 
   protected async logRoutes() {

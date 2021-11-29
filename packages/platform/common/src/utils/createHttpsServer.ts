@@ -1,36 +1,36 @@
-import {Configuration, InjectorService, ProviderScope, registerProvider} from "@tsed/di";
+import {InjectorService, ProviderScope} from "@tsed/di";
+import {getHostInfoFromPort} from "@tsed/core";
 import Https from "https";
-import {PlatformApplication} from "../services/PlatformApplication";
+import Http from "http";
 import {HttpsServer} from "../decorators/httpsServer";
 import {listenServer} from "./listenServer";
 
-export function createHttpsServer(injector: InjectorService): void {
-  injector.invoke(HttpsServer);
-}
-
-registerProvider({
-  provide: HttpsServer,
-  deps: [PlatformApplication, Configuration],
-  scope: ProviderScope.SINGLETON,
-  global: true,
-  useFactory(platformApplication: PlatformApplication, settings: Configuration) {
-    const options = settings.httpsOptions!;
-
-    return Https.createServer(options, platformApplication.callback());
-  }
-});
-
-export async function listenHttpsServer(injector: InjectorService) {
+export function createHttpsServer(injector: InjectorService, requestListener?: Http.RequestListener) {
   const {settings} = injector;
-  const server = injector.get<HttpsServer>(HttpsServer);
+  const httpsPort = settings.getRaw("httpsPort");
+  const httpsOptions = settings.getRaw("httpsOptions");
 
-  if (settings.httpsPort !== false && server) {
-    const {address, port} = settings.getHttpsPort();
-    injector.logger.debug(`Start server on https://${address}:${port}`);
+  const server = httpsPort !== false ? Https.createServer(httpsOptions, requestListener) : null;
 
-    const options = await listenServer(server, {address, port});
-    settings.setHttpsPort(options);
+  injector.addProvider(HttpsServer, {
+    scope: ProviderScope.SINGLETON,
+    useValue: server
+  });
 
-    injector.logger.info(`Listen server on https://${options.address}:${options.port}`);
+  injector.addProvider(Https.Server, {
+    scope: ProviderScope.SINGLETON,
+    useValue: server
+  });
+
+  injector.invoke(HttpsServer);
+  injector.invoke(Https.Server);
+
+  if (httpsPort !== false) {
+    const hostInfo = getHostInfoFromPort("https", httpsPort);
+
+    return async () => {
+      const resolvedHostInfo = await listenServer(injector, server as Https.Server, hostInfo);
+      settings.setRaw("httpsPort", `${resolvedHostInfo.address}:${resolvedHostInfo.port}`);
+    };
   }
 }

@@ -1,6 +1,6 @@
 import {Constant, Inject, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {HttpServer, HttpsServer, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
 import type {Config} from "apollo-server-core";
 import {
   ApolloServerBase,
@@ -11,6 +11,8 @@ import {
 import type {GraphQLSchema} from "graphql";
 import type {ApolloServer, ApolloSettings} from "../interfaces/ApolloSettings";
 import {ApolloCustomServerCB} from "../interfaces/ApolloSettings";
+import Http from "http";
+import Https from "https";
 
 @Service()
 export class ApolloService {
@@ -33,20 +35,14 @@ export class ApolloService {
     }
   > = new Map();
 
-  @Constant("httpPort")
-  private httpPort: string | number;
-
-  @Constant("httpsPort")
-  private httpsPort: string | number;
-
   @Inject()
   private app: PlatformApplication;
 
-  @Inject(HttpServer)
-  private httpServer: HttpServer;
+  @Inject(Http.Server)
+  private httpServer: Http.Server | null;
 
-  @Inject(HttpsServer)
-  private httpsServer: HttpsServer;
+  @Inject(Https.Server)
+  private httpsServer: Https.Server | null;
 
   async createServer(id: string, settings: ApolloSettings): Promise<any> {
     if (this.has(id)) {
@@ -139,11 +135,11 @@ export class ApolloService {
       playground && process.env.NODE_ENV === "production"
         ? ApolloServerPluginLandingPageDisabled()
         : ApolloServerPluginLandingPageGraphQLPlayground(),
-      this.httpPort &&
+      this.httpServer &&
         ApolloServerPluginDrainHttpServer({
           httpServer: this.httpServer
         }),
-      this.httpsPort &&
+      this.httpsServer &&
         ApolloServerPluginDrainHttpServer({
           httpServer: this.httpsServer
         }),

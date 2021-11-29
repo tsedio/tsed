@@ -1,4 +1,4 @@
-import {Injectable, ProviderScope} from "@tsed/common";
+import {Injectable, ProviderScope} from "@tsed/di";
 import {PROVIDER_TYPE_DATASOURCE_SERVICE} from "../constants";
 
 /**

@@ -2,11 +2,11 @@ import {
   Constant,
   Inject,
   InjectorService,
+  normalizePath,
   OnReady,
   OnRoutesInit,
   PlatformApplication,
-  PlatformRouteDetails,
-  normalizePath
+  PlatformRouteDetails
 } from "@tsed/common";
 import {deepClone} from "@tsed/core";
 import {Module} from "@tsed/di";
@@ -128,26 +128,12 @@ export class FormioModule implements OnRoutesInit, OnReady {
 
   // istanbul ignore next
   async $onReady(): Promise<void> {
-    if (this.formio.isInit()) {
+    if (this.formio.isInit() && this.injector.settings.getBestHost) {
       const {injector} = this;
-      const {httpsPort, httpPort} = injector.settings;
+      const host = injector.settings.getBestHost();
+      const url = host.toString();
 
-      const displayLog = (host: any) => {
-        const url = [`${host.protocol}://${host.address}`, typeof host.port === "number" && host.port].filter(Boolean).join(":");
-
-        injector.logger.info(`Form.io API is available on ${url}${this.baseUrl || "/"}`);
-      };
-
-      /* istanbul ignore next */
-      if (httpsPort) {
-        (this.formio.config as any).protocol = "https";
-        const host = injector.settings.getHttpsPort();
-        displayLog({protocol: "https", ...host});
-      } else if (httpPort) {
-        (this.formio.config as any).protocol = "http";
-        const host = injector.settings.getHttpPort();
-        displayLog({protocol: "http", ...host});
-      }
+      injector.logger.info(`Form.io API is available on ${url}${this.baseUrl || "/"}`);
     }
   }
 

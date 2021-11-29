@@ -1,4 +1,4 @@
-import {AfterListen, Configuration, Inject, InjectorService, Module, OnRoutesInit} from "@tsed/common";
+import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
 import {TypeGraphQLSettings} from "./interfaces";
 import {TypeGraphQLService} from "./services/TypeGraphQLService";
 
@@ -6,7 +6,7 @@ import {TypeGraphQLService} from "./services/TypeGraphQLService";
  * @ignore
  */
 @Module()
-export class TypeGraphQLModule implements OnRoutesInit, AfterListen {
+export class TypeGraphQLModule {
   @Inject()
   protected service: TypeGraphQLService;
 
