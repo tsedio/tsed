@@ -524,11 +524,11 @@ export class InjectorService extends Container {
     return cb();
   }
 
-  async lazyInvoke(token: TokenProvider) {
+  async lazyInvoke<T = any>(token: TokenProvider) {
     let instance = this.getInstance(token);
 
     if (!instance) {
-      instance = await this.invoke(token);
+      instance = await this.invoke<T>(token);
 
       if (isFunction(instance?.$onInit)) {
         await instance.$onInit();
