@@ -1,10 +1,13 @@
-import {$log, AfterListen, Constant, HttpServer, HttpsServer, Inject, InjectorService, Module, OnDestroy, Provider} from "@tsed/common";
+import {$log, AfterListen, Constant, InjectorService, Module, OnDestroy, Provider} from "@tsed/common";
 import {catchError, nameOf} from "@tsed/core";
 import {Server, ServerOptions} from "socket.io";
 import {SocketProviderMetadata} from "./class/SocketProviderMetadata"; // tslint:disable-line: no-unused-variable
 import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants";
 import {IO} from "./decorators/io";
 import {SocketIOService} from "./services/SocketIOService";
+import Http from "http";
+import Https from "https";
+import {Inject} from "@tsed/di";
 
 /**
  * @ignore
@@ -12,30 +15,32 @@ import {SocketIOService} from "./services/SocketIOService";
 @Module()
 export class SocketIOModule implements AfterListen, OnDestroy {
   @Constant("logger.disableRoutesSummary", false)
-  disableRoutesSummary: boolean;
+  protected disableRoutesSummary: boolean;
 
   @Constant("socketIO", {})
-  settings: Partial<ServerOptions>;
+  protected settings: Partial<ServerOptions>;
 
-  @Constant("httpPort")
-  httpPort: string | number;
+  @Inject()
+  protected injector: InjectorService;
 
-  @Constant("httpsPort")
-  httpsPort: string | number;
+  @Inject(Http.Server)
+  protected httpServer: Http.Server | null;
 
-  constructor(
-    private injector: InjectorService,
-    @Inject(HttpServer) private httpServer: HttpServer,
-    @Inject(HttpsServer) private httpsServer: HttpsServer,
-    @IO private io: Server,
-    private socketIOService: SocketIOService
-  ) {}
+  @Inject(Https.Server)
+  protected httpsServer: Https.Server | null;
+
+  @IO()
+  private io: Server;
+
+  @Inject()
+  private socketIOService: SocketIOService;
 
   $afterListen() {
-    if (this.httpPort) {
+    if (this.httpServer) {
       this.io.attach(this.httpServer, {...this.settings});
     }
-    if (this.httpsPort) {
+
+    if (this.httpsServer) {
       this.io.attach(this.httpsServer, {...this.settings});
     }
 

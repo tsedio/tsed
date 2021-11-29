@@ -2,6 +2,8 @@ import {HttpServer, HttpsServer, PlatformConfiguration, PlatformTest} from "@tse
 import {expect} from "chai";
 import Sinon from "sinon";
 import {SocketIOModule, SocketIOServer, SocketIOService} from "./index";
+import Http from "http";
+import Https from "https";
 
 describe("SocketIOModule", () => {
   let getWebsocketServicesStub: any, printSocketEventsStub: any;
@@ -33,8 +35,8 @@ describe("SocketIOModule", () => {
         serverSettingsService.set("socketIO", {config: "config", adapter: "adapter"});
 
         const socketIOModule = await PlatformTest.invoke(SocketIOModule, [
-          {token: HttpServer, use: httpServer},
-          {token: HttpsServer, use: httpsServer},
+          {token: Http.Server, use: httpServer},
+          {token: Https.Server, use: httpsServer},
           {token: SocketIOServer, use: socketIOServer},
           {token: SocketIOService, use: socketIOService}
         ]);
@@ -86,8 +88,8 @@ describe("SocketIOModule", () => {
         serverSettingsService.set("http", false);
 
         const socketIOModule = await PlatformTest.invoke(SocketIOModule, [
-          {token: HttpServer, use: httpServer},
-          {token: HttpsServer, use: httpsServer},
+          {token: Http.Server, use: httpServer},
+          {token: Https.Server, use: httpsServer},
           {token: SocketIOServer, use: socketIOServer},
           {token: SocketIOService, use: socketIOService}
         ]);

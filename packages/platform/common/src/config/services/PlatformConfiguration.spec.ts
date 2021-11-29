@@ -86,16 +86,22 @@ describe("PlatformConfiguration", () => {
     });
 
     it("should return httpsPort", () => {
-      expect(settings.getHttpsPort()).to.deep.equal({
+      const info = settings.getHttpsPort();
+      expect(info).to.deep.equal({
+        protocol: "https",
         address: "address",
-        port: 8080
+        port: 8080,
+        toString: info.toString
       });
     });
 
     it("should return httpPort", () => {
-      expect(settings.getHttpPort()).to.deep.equal({
+      const info = settings.getHttpPort();
+      expect(info).to.deep.equal({
+        protocol: "http",
         address: "address",
-        port: 8081
+        port: 8081,
+        toString: info.toString
       });
     });
 
@@ -163,22 +169,6 @@ describe("PlatformConfiguration", () => {
         const result = [];
         settings.forEach((o: any) => result.push(o));
         expect(!!result.length).to.eq(true);
-      });
-    });
-
-    describe("buildAddressAndPort()", () => {
-      it("should return address and port from a concatened address and port", () => {
-        expect((PlatformConfiguration as any).buildAddressAndPort("0.0.0.0:9000")).to.deep.eq({
-          address: "0.0.0.0",
-          port: 9000
-        });
-      });
-
-      it("should return address and port from a port number", () => {
-        expect((PlatformConfiguration as any).buildAddressAndPort(9000)).to.deep.eq({
-          address: "0.0.0.0",
-          port: 9000
-        });
       });
     });
 

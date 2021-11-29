@@ -1,5 +1,7 @@
 import {createTerminus} from "@godaddy/terminus";
-import {Configuration, HttpServer, HttpsServer, Inject, InjectorService, Module, OnInit} from "@tsed/common";
+import {Configuration, Inject, InjectorService, Module, OnInit} from "@tsed/di";
+import Https from "https";
+import Http from "http";
 
 @Module()
 export class TerminusModule implements OnInit {
@@ -9,17 +11,17 @@ export class TerminusModule implements OnInit {
   @Inject()
   private injector: InjectorService;
 
-  @Inject(HttpServer)
-  private httpServer: HttpServer;
+  @Inject(Http.Server)
+  private httpServer: Http.Server | null;
 
-  @Inject(HttpsServer)
-  private httpsServer: HttpsServer;
+  @Inject(Https.Server)
+  private httpsServer: Https.Server | null;
 
   public $onInit() {
-    this.mount(this.httpServer, this.httpsServer);
+    this.mount();
   }
 
-  private mount(httpServer?: HttpServer, httpsServer?: HttpsServer) {
+  private mount() {
     const {terminus} = this.configuration;
     const terminusConfig = {
       logger: this.injector.logger as any,
@@ -31,12 +33,12 @@ export class TerminusModule implements OnInit {
       ...terminus
     };
 
-    if (httpServer) {
-      createTerminus(httpServer, terminusConfig);
+    if (this.httpServer) {
+      createTerminus(this.httpServer, terminusConfig);
     }
 
-    if (httpsServer) {
-      createTerminus(httpsServer, terminusConfig);
+    if (this.httpsServer) {
+      createTerminus(this.httpsServer, terminusConfig);
     }
   }
 

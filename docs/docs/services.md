@@ -152,11 +152,11 @@ export class MyService implements OnDestroy {
 
 Hook | Purpose and Timing
 ---|---
-$onInit | Respond after Injector has initialized all Services in the registry.
-$beforeRoutesInit | Respond before loading the controllers. The middlewares and filters are already built.
+$onInit | Respond after Injector has initialized all Services in the registry.
+$beforeRoutesInit | Respond before loading the controllers. The middlewares and filters are already built.
 $afterRoutesInit | Respond after the controllers build.
-$onReady | Respond when the server is ready. At this step, HttpServer or/and HttpsServer object is available. The server listen the port.
-$onDestroy | Respond when a Service or Controller is destroyed (uniquely when class is annoted with `@Scope('request')`.
+$onReady | Respond when the server is ready. At this step, Http.Server or/and Https.Server object is available. The server listen the port.
+$onDestroy | Respond when a Service or Controller is destroyed (uniquely when class is annotated with `@Scope('request')`.
 
 ::: tip Interfaces are optionals
 

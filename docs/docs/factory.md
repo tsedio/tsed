@@ -12,48 +12,66 @@ This example shows you how you can add an already constructed service like a npm
 import {registerFactory} from "@tsed/common";
 
 export interface IMyFooFactory {
-   getFoo(): string;
+  getFoo(): string;
 }
 
 export type MyFooFactory = IMyFooFactory;
 export const MyFooFactory = Symbol("MyFooFactory");
 
 registerFactory(MyFooFactory, {
-     getFoo:  () => "test"
+  getFoo: () => "test"
 });
 ```
+
 Then inject your factory in another service (or controller):
+
 ```typescript
 import {Inject, Injectable} from "@tsed/di";
 import {MyFooFactory} from "./FooFactory.ts";
 
 @Injectable()
 export default class OtherService {
-     constructor(@Inject(MyFooFactory) myFooFactory: MyFooFactory){
-           console.log(myFooFactory.getFoo()); /// "test"
-     }
+  constructor(@Inject(MyFooFactory) myFooFactory: MyFooFactory) {
+    console.log(myFooFactory.getFoo()); /// "test"
+  }
 }
 ```
-::: tip Note
-TypeScript transforms and stores `MyFooFactory` as `Function` type in the metadata. So to inject a factory, you must use the @@Inject@@ decorator.
+
+::: tip Note TypeScript transforms and stores `MyFooFactory` as `Function` type in the metadata. So to inject a factory,
+you must use the @@Inject@@ decorator.
 :::
 
 ## Built-in Factory
 
 Some factories are built-in Ts.ED. These factories are :
 
-- HttpServer. This is an instance of [Http.Server](https://nodejs.org/dist/latest/docs/api/http.html#http_class_http_server) from `http` module.
-- HttpsServer. This is an instance of [Https.Server](https://nodejs.org/dist/latest/docs/api/https.html#https_class_https_server) from `https` module.
+- HttpServer. This is an instance
+  of [Http.Server](https://nodejs.org/dist/latest/docs/api/http.html#http_class_http_server) from `http` module.
+- HttpsServer. This is an instance
+  of [Https.Server](https://nodejs.org/dist/latest/docs/api/https.html#https_class_https_server) from `https` module.
 
-## Inject HttpServer or HttpsServer
+## Inject Http.Server or Https.Server
 
 ```typescript
-import {HttpServer, Service, Inject} from "@tsed/common";
+import {Injectable} from "@tsed/di";
+import Http from "http";
+import Https from "https";
 
-@Service()
+@Injectable()
 export default class OtherService {
-  constructor(@Inject(HttpServer) httpServer: HttpServer){
-    
+  @Inject(Http.Server)
+  httpServer: Http.Server | null;
+
+  @Inject(Https.Server)
+  httpsServer: Https.Server | null;
+
+  $onInit() {
+    if (this.httpServer) {
+      console.log('HTTP')
+    }
+    if (this.httpsServer) {
+      console.log('HTTPS')
+    }
   }
 }
 ```

@@ -23,6 +23,7 @@ import Https from "https";
  * @param {TypedPropertyDescriptor<Function> | number} descriptor
  * @returns {any}
  * @decorator
+ * @deprecated Use Https.Server from "https"
  */
 export function HttpsServer(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number) {
   return Inject(HttpsServer)(target, targetKey, descriptor);

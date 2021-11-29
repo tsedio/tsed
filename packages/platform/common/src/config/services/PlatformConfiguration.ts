@@ -1,5 +1,5 @@
-import {Env} from "@tsed/core";
-import {DIConfiguration, Injectable, ProviderScope, ProviderType} from "@tsed/di";
+import {Env, getHostInfoFromPort} from "@tsed/core";
+import {DIConfiguration, Injectable, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import Https from "https";
 import {EndpointDirectoriesSettings, PlatformLoggerSettings} from "../interfaces";
@@ -165,27 +165,10 @@ export class PlatformConfiguration extends DIConfiguration {
 
   /**
    *
-   * @param addressPort
-   * @returns {{address: string, port: number}}
-   */
-  private static buildAddressAndPort(addressPort: string | number): {address: string; port: number} {
-    let address = "0.0.0.0";
-    let port = addressPort;
-
-    if (typeof addressPort === "string" && addressPort.indexOf(":") > -1) {
-      [address, port] = addressPort.split(":");
-      port = +port;
-    }
-
-    return {address, port: port as number};
-  }
-
-  /**
-   *
    * @returns {string|number}
    */
-  getHttpPort(): {address: string; port: number} {
-    return PlatformConfiguration.buildAddressAndPort(this.getRaw("httpPort"));
+  getHttpPort(): ReturnType<typeof getHostInfoFromPort> {
+    return getHostInfoFromPort("http", this.getRaw("httpPort"));
   }
 
   /**
@@ -200,8 +183,8 @@ export class PlatformConfiguration extends DIConfiguration {
    *
    * @returns {string|number}
    */
-  getHttpsPort(): {address: string; port: number} {
-    return PlatformConfiguration.buildAddressAndPort(this.getRaw("httpsPort"));
+  getHttpsPort() {
+    return getHostInfoFromPort("https", this.getRaw("httpsPort"));
   }
 
   /**
@@ -214,21 +197,19 @@ export class PlatformConfiguration extends DIConfiguration {
 
   getBestHost() {
     const {httpsPort, httpPort} = this;
+
     if (httpsPort) {
-      const host = this.getHttpsPort();
-      return {
-        protocol: "https",
-        ...host
-      };
+      return this.getHttpsPort();
     }
 
     if (httpPort) {
-      const host = this.getHttpPort();
-
-      return {
-        protocol: "http",
-        ...host
-      };
+      return this.getHttpPort();
     }
+
+    return {
+      toString() {
+        return "/";
+      }
+    };
   }
 }

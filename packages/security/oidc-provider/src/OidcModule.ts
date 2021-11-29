@@ -52,24 +52,12 @@ export class OidcModule {
   }
 
   $onReady() {
-    if (this.oidcProvider.hasConfiguration()) {
+    if (this.oidcProvider.hasConfiguration() && this.injector.settings.getBestHost) {
       const {injector} = this;
-      const {httpsPort, httpPort} = injector.settings;
+      const host = injector.settings.getBestHost();
+      const url = host.toString();
 
-      const displayLog = (host: any) => {
-        const url = [`${host.protocol}://${host.address}`, typeof host.port === "number" && host.port].filter(Boolean).join(":");
-
-        injector.logger.info(`WellKnown is available on ${url}/.well-known/openid-configuration`);
-      };
-
-      /* istanbul ignore next */
-      if (httpsPort) {
-        const host = injector.settings.getHttpsPort();
-        displayLog({protocol: "https", ...host});
-      } else if (httpPort) {
-        const host = injector.settings.getHttpPort();
-        displayLog({protocol: "http", ...host});
-      }
+      injector.logger.info(`WellKnown is available on ${url}/.well-known/openid-configuration`);
     }
   }
 
