@@ -1,12 +1,11 @@
 import {cleanObject} from "@tsed/core";
-import {sentenceCase} from "change-case";
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer";
 
 export function enumToComponent(schema: any, options: any) {
   const component = execMapper("default", schema, options);
   const values = schema.enum.map((value: any) => {
     return {
-      label: sentenceCase(value),
+      label: value,
       value
     };
   });

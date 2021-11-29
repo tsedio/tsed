@@ -138,17 +138,17 @@
               "defaultValue": "web",
               "values": [
                 {
-                  "label": "Web",
+                  "label": "web",
                   "shortcut": "",
                   "value": "web"
                 },
                 {
-                  "label": "Native",
+                  "label": "native",
                   "shortcut": "",
                   "value": "native"
                 },
                 {
-                  "label": "Service",
+                  "label": "service",
                   "shortcut": "",
                   "value": "service"
                 }
@@ -164,27 +164,27 @@
               "disabled": false,
               "values": [
                 {
-                  "label": "Code",
+                  "label": "code",
                   "shortcut": "",
                   "value": "code"
                 },
                 {
-                  "label": "Id token token",
+                  "label": "id_token token",
                   "shortcut": "",
                   "value": "id_token token"
                 },
                 {
-                  "label": "Code id token token",
+                  "label": "code id_token token",
                   "shortcut": "",
                   "value": "code id_token token"
                 },
                 {
-                  "label": "Token",
+                  "label": "token",
                   "shortcut": "",
                   "value": "token"
                 },
                 {
-                  "label": "None",
+                  "label": "none",
                   "shortcut": "",
                   "value": "none"
                 }
@@ -201,22 +201,22 @@
               "disabled": false,
               "values": [
                 {
-                  "label": "Authorization code",
+                  "label": "authorization_code",
                   "shortcut": "",
                   "value": "authorization_code"
                 },
                 {
-                  "label": "Implicit",
+                  "label": "implicit",
                   "shortcut": "",
                   "value": "implicit"
                 },
                 {
-                  "label": "Refresh token",
+                  "label": "refresh_token",
                   "shortcut": "",
                   "value": "refresh_token"
                 },
                 {
-                  "label": "Client credentials",
+                  "label": "client_credentials",
                   "shortcut": "",
                   "value": "client_credentials"
                 }
@@ -234,27 +234,27 @@
               "defaultValue": "client_secret_basic",
               "values": [
                 {
-                  "label": "Client secret post",
+                  "label": "client_secret_post",
                   "shortcut": "",
                   "value": "client_secret_post"
                 },
                 {
-                  "label": "Client secret basic",
+                  "label": "client_secret_basic",
                   "shortcut": "",
                   "value": "client_secret_basic"
                 },
                 {
-                  "label": "Client secret jwt",
+                  "label": "client_secret_jwt",
                   "shortcut": "",
                   "value": "client_secret_jwt"
                 },
                 {
-                  "label": "Private key jwt",
+                  "label": "private_key_jwt",
                   "shortcut": "",
                   "value": "private_key_jwt"
                 },
                 {
-                  "label": "None",
+                  "label": "none",
                   "shortcut": "",
                   "value": "none"
                 }
@@ -339,12 +339,12 @@
               "defaultValue": "clubmed",
               "values": [
                 {
-                  "label": "Clubmed",
+                  "label": "clubmed",
                   "shortcut": "",
                   "value": "clubmed"
                 },
                 {
-                  "label": "Myclubmed",
+                  "label": "myclubmed",
                   "shortcut": "",
                   "value": "myclubmed"
                 }

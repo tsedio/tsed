@@ -50,7 +50,7 @@ describe("Select", () => {
       components: [
         {
           data: {
-            json: '[{"label":"Test1","value":"TEST1"},{"label":"Test2","value":"TEST2"}]'
+            json: '[{"label":"TEST1","value":"TEST1"},{"label":"TEST2","value":"TEST2"}]'
           },
           dataSrc: "json",
           disabled: false,
