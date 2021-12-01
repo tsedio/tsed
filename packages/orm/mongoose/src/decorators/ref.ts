@@ -1,10 +1,15 @@
 import {isArrowFn, isString, StoreMerge, Type, useDecorators} from "@tsed/core";
 import {OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
-import {JsonEntityFn, lazyRef, Property, string} from "@tsed/schema";
+import {ForwardGroups, JsonEntityFn, lazyRef, matchGroups, Property, string} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
 import {MongooseModels} from "../registries/MongooseModels";
+
+interface RefOptions {
+  type?: MongooseSchemaTypes;
+  populatedGroups?: string[];
+}
 
 function isRef(value: undefined | string | any) {
   return (value && value._bsontype) || isString(value);
@@ -39,13 +44,17 @@ function isRef(value: undefined | string | any) {
  * @mongoose
  * @property
  */
-export function Ref(model: string | (() => Type) | any, type: MongooseSchemaTypes = MongooseSchemaTypes.OBJECT_ID): PropertyDecorator {
+export function Ref(
+  model: string | (() => Type) | any,
+  options: RefOptions | MongooseSchemaTypes = MongooseSchemaTypes.OBJECT_ID
+): PropertyDecorator {
   const getType = () => (isString(model) ? MongooseModels.get(model) : isArrowFn(model) ? model() : model);
+  const hasPopulatedGroups = typeof options === "object" && options.populatedGroups !== undefined;
 
   return useDecorators(
     Property(Object),
     StoreMerge(MONGOOSE_SCHEMA, {
-      type: MongooseSchema.Types[type],
+      type: MongooseSchema.Types[typeof options === "object" ? options.type || MongooseSchemaTypes.OBJECT_ID : options],
       ref: model
     }),
     OnDeserialize((value) => {
@@ -67,7 +76,20 @@ export function Ref(model: string | (() => Type) | any, type: MongooseSchemaType
       store.itemSchema.oneOf([string().example("5ce7ad3028890bd71749d477").description("Mongoose Ref ObjectId"), lazyRef(getType)]);
 
       store.type = Object;
-    })
+
+      store.itemSchema.$isRef = true;
+      if (hasPopulatedGroups) {
+        const groups = options.populatedGroups;
+        store.schema.$hooks.on("populatedGroups", (obj: any[], givenGroups: string[]) => {
+          if (matchGroups(groups || [], givenGroups)) {
+            return obj.filter((x) => x.type === "string"); // keep the object id;
+          } else {
+            return obj.filter((x) => x.type !== "string"); // keep the ref definition
+          }
+        });
+      }
+    }),
+    ForwardGroups(hasPopulatedGroups) // or givenGroups is undefined
   ) as PropertyDecorator;
 }
 

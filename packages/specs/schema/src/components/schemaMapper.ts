@@ -6,6 +6,7 @@ import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper, hasMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
 import {getRequiredProperties} from "../utils/getRequiredProperties";
 import {mapNullableType} from "../utils/mapNullableType";
+import {mapRefType} from "../utils/mapRefType";
 
 /**
  * @ignore
@@ -107,6 +108,7 @@ export function schemaMapper(schema: JsonSchema, options: JsonSchemaOptions): an
 
   obj = getRequiredProperties(obj, schema, {...options, useAlias});
   obj = mapNullableType(obj, schema, options);
+  obj = mapRefType(obj, schema, options);
 
   if ((obj.oneOf || obj.allOf || obj.anyOf) && !(obj.items || obj.properties)) {
     delete obj.type;

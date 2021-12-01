@@ -9,6 +9,7 @@ export * from "./utils/getSpec";
 export * from "./utils/mergeSpec";
 export * from "./utils/generics";
 export * from "./utils/mapHeaders";
+export * from "./utils/matchGroups";
 export * from "./utils/isSuccessStatus";
 export * from "./utils/from";
 export * from "./utils/concatPath";

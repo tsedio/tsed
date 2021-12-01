@@ -211,4 +211,41 @@ describe("@Ref()", () => {
       });
     });
   });
+
+  describe("JsonSchema gets generated based on populated groups", () => {
+    class MyChildModel {
+      @Property()
+      test: string;
+    }
+
+    class MyParentModel {
+      @Property()
+      id: string;
+
+      @Ref(MyChildModel, {populatedGroups: ["group1", "group2"]})
+      child1: Ref<MyChildModel>;
+
+      @Ref(MyChildModel, {populatedGroups: ["group2"]})
+      child2: Ref<MyChildModel>;
+
+      @Ref(MyChildModel)
+      child3: Ref<MyChildModel>;
+    }
+
+    it("should reflect the populated groups options in the schema", () => {
+      const spec = getJsonSchema(MyParentModel, {
+        groups: ["group1", "group3"]
+      });
+
+      expect(spec.properties.child1.oneOf.length).toEqual(1);
+      expect(spec.properties.child1.oneOf[0].$ref).toEqual("#/definitions/MyChildModel");
+
+      expect(spec.properties.child2.oneOf.length).toEqual(1);
+      expect(spec.properties.child2.oneOf[0].type).toEqual("string");
+
+      expect(spec.properties.child3.oneOf.length).toEqual(2);
+      expect(spec.properties.child3.oneOf[0].type).toEqual("string");
+      expect(spec.properties.child3.oneOf[1].$ref).toEqual("#/definitions/MyChildModel");
+    });
+  });
 });
