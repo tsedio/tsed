@@ -268,4 +268,65 @@ describe("@VirtualRef()", () => {
       });
     });
   });
+
+  describe("with a given model as string ref", () => {
+    it("should set metadata and json schema", () => {
+      @Model()
+      class VirtualRefStringTestPerson {
+        @Property()
+        name: string;
+
+        @Property()
+        band: string;
+      }
+
+      // WHEN
+      @Model()
+      class VirtualRefStringTestBand {
+        @VirtualRef({
+          ref: "VirtualRefStringTestPerson",
+          foreignField: "foreign",
+          localField: "test_2",
+          justOne: true,
+          count: false,
+          options: {}
+        })
+        members: VirtualRef<VirtualRefStringTestPerson>;
+      }
+
+      // THEN
+      const store = Store.from(VirtualRefStringTestBand, "members");
+
+      expect(store.get(MONGOOSE_SCHEMA)).toEqual({
+        ref: "VirtualRefStringTestPerson",
+        localField: "test_2",
+        foreignField: "foreign",
+        justOne: true,
+        count: false,
+        options: {}
+      });
+
+      expect(getJsonSchema(VirtualRefStringTestBand)).toEqual({
+        definitions: {
+          VirtualRefStringTestPerson: {
+            properties: {
+              band: {
+                type: "string"
+              },
+              name: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        },
+        properties: {
+          members: {
+            $ref: "#/definitions/VirtualRefStringTestPerson"
+          }
+        },
+        type: "object"
+      });
+    });
+  });
 });

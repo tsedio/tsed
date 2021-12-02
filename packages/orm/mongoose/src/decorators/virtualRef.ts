@@ -2,6 +2,7 @@ import {isPlainObject, isString, Store, StoreMerge, useDecorators} from "@tsed/c
 import {CollectionOf, Property} from "@tsed/schema";
 import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
+import {MongooseModels} from "../registries/MongooseModels";
 
 function getRef(opts: any) {
   const ref = opts.ref || opts.type;
@@ -12,7 +13,7 @@ function getRef(opts: any) {
 function getType(opts: any) {
   const ref = opts.ref || opts.type;
 
-  return !isString(ref) ? ref : Object;
+  return !isString(ref) ? ref : MongooseModels.get(ref);
 }
 
 function getInitialOpts(options: string | MongooseVirtualRefOptions, foreignField?: string): any {
