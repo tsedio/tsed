@@ -1,6 +1,7 @@
 import "@tsed/platform-exceptions";
 import {CollectionOf, Generics, getSpec, OperationPath, Property, Returns, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
+import {OpenSpec3} from "../../../../openspec/src/openspec3/OpenSpec3";
 
 describe("@Returns", () => {
   describe("Single contentType", () => {
@@ -1206,6 +1207,69 @@ describe("@Returns", () => {
             name: "Controller"
           }
         ]
+      });
+    });
+  });
+
+  describe("Multiple return types", () => {
+    class ClassA {
+      @Property()
+      prop1: string;
+
+      @Property()
+      prop2: string;
+    }
+
+    class ClassB {
+      @Property()
+      prop3: string;
+
+      @Property()
+      prop4: string;
+    }
+
+    it("should return oneOf schema", () => {
+      class Controller {
+        @Returns(200, [ClassA, ClassB])
+        @OperationPath("GET", "/")
+        method() {}
+      }
+
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI}) as Partial<OpenSpec3>;
+
+      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).to.deep.equal({
+        oneOf: [
+          {
+            $ref: "#/components/schemas/ClassA"
+          },
+          {
+            $ref: "#/components/schemas/ClassB"
+          }
+        ]
+      });
+    });
+
+    it("should return oneOf array schema", () => {
+      class Controller {
+        @(Returns(200, Array).OneOf(ClassA, ClassB))
+        @OperationPath("GET", "/")
+        method() {}
+      }
+
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI}) as Partial<OpenSpec3>;
+
+      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).to.deep.equal({
+        type: "array",
+        items: {
+          oneOf: [
+            {
+              $ref: "#/components/schemas/ClassA"
+            },
+            {
+              $ref: "#/components/schemas/ClassB"
+            }
+          ]
+        }
       });
     });
   });

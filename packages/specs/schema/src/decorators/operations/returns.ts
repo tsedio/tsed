@@ -2,6 +2,7 @@ import {
   decorateMethodsOf,
   decoratorTypeOf,
   DecoratorTypes,
+  isArray,
   isCollection,
   isObject,
   isPlainObject,
@@ -68,6 +69,8 @@ export interface ReturnsChainedDecorators {
    * @param types
    */
   Of(...types: GenericValue[]): this;
+
+  OneOf(...types: GenericValue[]): this;
 
   /**
    * Declare a nested generic models
@@ -141,6 +144,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     "type",
     "status",
     "of",
+    "oneOf",
     "nested",
     "header",
     "headers",
@@ -233,6 +237,18 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
       } else {
         schema?.nestedGenerics.push(mapGenerics(types));
       }
+    });
+
+    return this;
+  }
+
+  oneOf(...types: (Type<any> | any)[]) {
+    const model = this.get("model");
+
+    this.addAction(() => {
+      const schema = this.get("schema") as JsonSchema;
+      schema.type(model);
+      schema.itemSchema({oneOf: types.map((type) => ({type}))});
     });
 
     return this;
@@ -342,7 +358,13 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     const media = response.getMedia(contentType || "*/*");
     const schema = media.get("schema") || new JsonSchema({type: model});
 
-    model && schema.type(model);
+    if (model) {
+      if (isArray(model)) {
+        schema.oneOf(model.map((type) => ({type})));
+      } else {
+        schema.type(model);
+      }
+    }
 
     this.set("schema", schema);
 
@@ -516,8 +538,8 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
  * @response
  * @operation
  */
-export function Returns(status?: string | number, model?: Type<any>): ReturnsChainedDecorators;
-export function Returns(status?: string | number, model?: Type<any> | any): ReturnsChainedDecorators {
+export function Returns(status?: string | number, model?: Type<any> | Type<any>[]): ReturnsChainedDecorators;
+export function Returns(status?: string | number, model?: Type<any> | Type<any>[] | any): ReturnsChainedDecorators {
   const context = new ReturnDecoratorContext({
     status,
     model
