@@ -1272,5 +1272,53 @@ describe("@Returns", () => {
         }
       });
     });
+
+    it("should return allOf array schema", () => {
+      class Controller {
+        @(Returns(200, Array).AllOf(ClassA, ClassB))
+        @OperationPath("GET", "/")
+        method() {}
+      }
+
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI}) as Partial<OpenSpec3>;
+
+      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).to.deep.equal({
+        type: "array",
+        items: {
+          allOf: [
+            {
+              $ref: "#/components/schemas/ClassA"
+            },
+            {
+              $ref: "#/components/schemas/ClassB"
+            }
+          ]
+        }
+      });
+    });
+
+    it("should return allOf array schema", () => {
+      class Controller {
+        @(Returns(200, Array).AnyOf(ClassA, ClassB))
+        @OperationPath("GET", "/")
+        method() {}
+      }
+
+      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI}) as Partial<OpenSpec3>;
+
+      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).to.deep.equal({
+        type: "array",
+        items: {
+          anyOf: [
+            {
+              $ref: "#/components/schemas/ClassA"
+            },
+            {
+              $ref: "#/components/schemas/ClassB"
+            }
+          ]
+        }
+      });
+    });
   });
 });

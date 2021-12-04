@@ -70,7 +70,23 @@ export interface ReturnsChainedDecorators {
    */
   Of(...types: GenericValue[]): this;
 
+  /**
+   * Add the nested types
+   * @param types
+   */
   OneOf(...types: GenericValue[]): this;
+
+  /**
+   * Add the nested types
+   * @param types
+   */
+  AllOf(...types: GenericValue[]): this;
+
+  /**
+   * Add the nested types
+   * @param types
+   */
+  AnyOf(...types: GenericValue[]): this;
 
   /**
    * Declare a nested generic models
@@ -145,6 +161,8 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     "status",
     "of",
     "oneOf",
+    "allOf",
+    "anyOf",
     "nested",
     "header",
     "headers",
@@ -249,6 +267,30 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
       const schema = this.get("schema") as JsonSchema;
       schema.type(model);
       schema.itemSchema({oneOf: types.map((type) => ({type}))});
+    });
+
+    return this;
+  }
+
+  allOf(...types: (Type<any> | any)[]) {
+    const model = this.get("model");
+
+    this.addAction(() => {
+      const schema = this.get("schema") as JsonSchema;
+      schema.type(model);
+      schema.itemSchema({allOf: types.map((type) => ({type}))});
+    });
+
+    return this;
+  }
+
+  anyOf(...types: (Type<any> | any)[]) {
+    const model = this.get("model");
+
+    this.addAction(() => {
+      const schema = this.get("schema") as JsonSchema;
+      schema.type(model);
+      schema.itemSchema({anyOf: types.map((type) => ({type}))});
     });
 
     return this;
