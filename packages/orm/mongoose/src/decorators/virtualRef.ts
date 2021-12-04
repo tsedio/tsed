@@ -12,8 +12,7 @@ function getRef(opts: any) {
 
 function getType(opts: any) {
   const ref = opts.ref || opts.type;
-
-  return !isString(ref) ? ref : MongooseModels.get(ref);
+  return !isString(ref) ? ref : MongooseModels.get(ref) || Object;
 }
 
 function getInitialOpts(options: string | MongooseVirtualRefOptions, foreignField?: string): any {
