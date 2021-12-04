@@ -1,5 +1,5 @@
 import {descriptorOf} from "@tsed/core";
-import {getSpec, In, JsonEntityStore, OperationPath, Returns} from "@tsed/schema";
+import {Get, getSpec, In, JsonEntityStore, OperationPath, Path, Redirect, Returns} from "@tsed/schema";
 import {expect} from "chai";
 
 describe("JsonOperation", () => {
@@ -34,6 +34,37 @@ describe("JsonOperation", () => {
           type: "string"
         }
       });
+    });
+  });
+  describe("isRedirection()", () => {
+    it("should return redirection status", () => {
+      @Path("/")
+      class MyController {
+        @Redirect("/path/to")
+        @Get("/")
+        test() {}
+      }
+
+      const entity = JsonEntityStore.fromMethod(MyController, "test");
+
+      expect(entity.operation.isRedirection()).to.eq(true);
+      expect(entity.operation.isRedirection(302)).to.eq(true);
+      expect(entity.operation.isRedirection(200)).to.eq(false);
+    });
+  });
+  describe("getContentTypeOf()", () => {
+    it("should return the content type of", () => {
+      @Path("/")
+      class MyController {
+        @Get("/")
+        @(Returns(200, String).ContentType("text/html"))
+        test() {}
+      }
+
+      const entity = JsonEntityStore.fromMethod(MyController, "test");
+
+      expect(entity.operation.getContentTypeOf(200)).to.deep.eq("text/html");
+      expect(entity.operation.getContentTypeOf(201)).to.deep.eq(undefined);
     });
   });
   describe("when custom parameter is used", () => {

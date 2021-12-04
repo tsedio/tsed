@@ -32,6 +32,7 @@ describe("JsonOperationRoute", () => {
     expect(operationRoute.propertyName).to.deep.eq("get");
     expect(operationRoute.operation).to.be.instanceof(JsonOperation);
     expect(operationRoute.operationId).to.eq("get");
+    expect(operationRoute.parameters).to.deep.eq([]);
   });
   it("should create JsonOperationRoute instance (with alias naming)", () => {
     @Name("Testify")

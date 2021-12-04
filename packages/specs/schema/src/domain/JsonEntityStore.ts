@@ -34,6 +34,9 @@ export interface JsonEntityStoreOptions {
   descriptor?: any;
   type?: Type<any>;
   collectionType?: Type<any>;
+  beforeMiddlewares?: Function[];
+  middlewares?: Function[];
+  afterMiddlewares?: Function[];
 
   [key: string]: any;
 }

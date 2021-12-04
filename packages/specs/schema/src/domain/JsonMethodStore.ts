@@ -1,5 +1,5 @@
-import {DecoratorTypes, isCollection, isPromise, Metadata} from "@tsed/core";
-import {JsonEntityStore} from "./JsonEntityStore";
+import {DecoratorTypes, descriptorOf, isCollection, isFunction, isPromise, Metadata, Store} from "@tsed/core";
+import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore";
 import {JsonOperation} from "./JsonOperation";
 import {JsonSchema} from "./JsonSchema";
 import type {JsonParameterStore} from "./JsonParameterStore";
@@ -9,7 +9,23 @@ import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent";
 @JsonEntityComponent(DecoratorTypes.METHOD)
 export class JsonMethodStore extends JsonEntityStore {
   readonly parent: JsonClassStore = JsonEntityStore.from(this.target);
+  public middlewares: any[] = [];
+  public beforeMiddlewares: any[] = [];
+  public afterMiddlewares: any[] = [];
 
+  constructor(options: JsonEntityStoreOptions) {
+    super({
+      store: Store.fromMethod(options.target, options.propertyKey!),
+      descriptor: descriptorOf(options.target, options.propertyKey!),
+      ...options
+    });
+
+    const {beforeMiddlewares = [], middlewares = [], afterMiddlewares = []} = options;
+
+    this.after(afterMiddlewares);
+    this.before(beforeMiddlewares);
+    this.use(middlewares);
+  }
   /**
    * Ref to JsonOperation when the decorated object is a method.
    */
@@ -28,7 +44,7 @@ export class JsonMethodStore extends JsonEntityStore {
   }
 
   getResponseOptions(status: number, contentType: string = "application/json"): undefined | any {
-    const media = this.operation?.getResponseOf(status)?.getMedia(contentType, false);
+    const media = this.operation.getResponseOf(status).getMedia(contentType, false);
 
     if (media && media.has("schema")) {
       const schema = media.get("schema") as JsonSchema;
@@ -66,5 +82,37 @@ export class JsonMethodStore extends JsonEntityStore {
     }
 
     this.parent.schema.addProperty(this.propertyName, this.schema);
+  }
+
+  /**
+   * Append middlewares to the beforeMiddlewares list.
+   * @param args
+   * @returns {EndpointMetadata}
+   */
+  public before(args: Function[]): this {
+    this.beforeMiddlewares = this.beforeMiddlewares.concat(args).filter(isFunction);
+
+    return this;
+  }
+
+  /**
+   * Append middlewares to the afterMiddlewares list.
+   * @param args
+   * @returns {EndpointMetadata}
+   */
+  public after(args: Function[]): this {
+    this.afterMiddlewares = this.afterMiddlewares.concat(args).filter(isFunction);
+
+    return this;
+  }
+
+  /**
+   * Store all arguments collected via Annotation.
+   * @param args
+   */
+  public use(args: Function[]) {
+    this.middlewares = this.middlewares.concat(args).filter(isFunction);
+
+    return this;
   }
 }

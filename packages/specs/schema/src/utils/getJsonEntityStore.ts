@@ -11,13 +11,6 @@ JsonEntitiesContainer.set(DecoratorTypes.PARAM, JsonParameterStore);
 JsonEntitiesContainer.set(DecoratorTypes.METHOD, JsonMethodStore);
 
 /**
- * @ignore
- */
-export function isJsonEntityStore(model: any): model is JsonEntityStore {
-  return model.isStore;
-}
-
-/**
  * Get entity store from decorator args
  * @param target
  */
