@@ -1,6 +1,6 @@
-import {isArrowFn, isString, StoreMerge, Type, useDecorators} from "@tsed/core";
+import {isArrowFn, isObject, isString, StoreMerge, Type, useDecorators} from "@tsed/core";
 import {OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
-import {ForwardGroups, JsonEntityFn, lazyRef, matchGroups, Property, string} from "@tsed/schema";
+import {ForwardGroups, JsonEntityFn, lazyRef, matchGroups, OneOf, Property, string} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
 import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
@@ -13,6 +13,21 @@ interface RefOptions {
 
 function isRef(value: undefined | string | any) {
   return (value && value._bsontype) || isString(value);
+}
+
+function PopulateGroups(populatedGroups: string[]) {
+  return useDecorators(
+    ForwardGroups(true),
+    JsonEntityFn((store) => {
+      store.schema.$hooks.on("oneOf", (obj: any[], givenGroups: string[]) => {
+        if (matchGroups(populatedGroups, givenGroups)) {
+          return obj.filter((x) => x.type === "string"); // keep the object id;
+        } else {
+          return obj.filter((x) => x.type !== "string"); // keep the ref definition
+        }
+      });
+    })
+  );
 }
 
 /**
@@ -38,7 +53,7 @@ function isRef(value: undefined | string | any) {
  * ```
  *
  * @param model
- * @param type
+ * @param options
  * @returns {Function}
  * @decorator
  * @mongoose
@@ -49,12 +64,12 @@ export function Ref(
   options: RefOptions | MongooseSchemaTypes = MongooseSchemaTypes.OBJECT_ID
 ): PropertyDecorator {
   const getType = () => (isString(model) ? MongooseModels.get(model) : isArrowFn(model) ? model() : model);
-  const hasPopulatedGroups = typeof options === "object" && options.populatedGroups !== undefined;
+  const populatedGroups = (isObject(options) && options.populatedGroups) || [];
 
   return useDecorators(
     Property(Object),
     StoreMerge(MONGOOSE_SCHEMA, {
-      type: MongooseSchema.Types[typeof options === "object" ? options.type || MongooseSchemaTypes.OBJECT_ID : options],
+      type: MongooseSchema.Types[isObject(options) ? options.type || MongooseSchemaTypes.OBJECT_ID : options],
       ref: model
     }),
     OnDeserialize((value) => {
@@ -72,24 +87,8 @@ export function Ref(
 
       return serialize(value, {...ctx, type});
     }),
-    JsonEntityFn(async (store) => {
-      store.itemSchema.oneOf([string().example("5ce7ad3028890bd71749d477").description("Mongoose Ref ObjectId"), lazyRef(getType)]);
-
-      store.type = Object;
-
-      store.itemSchema.$isRef = true;
-      if (hasPopulatedGroups) {
-        const groups = options.populatedGroups;
-        store.schema.$hooks.on("populatedGroups", (obj: any[], givenGroups: string[]) => {
-          if (matchGroups(groups || [], givenGroups)) {
-            return obj.filter((x) => x.type === "string"); // keep the object id;
-          } else {
-            return obj.filter((x) => x.type !== "string"); // keep the ref definition
-          }
-        });
-      }
-    }),
-    ForwardGroups(hasPopulatedGroups) // or givenGroups is undefined
+    OneOf(string().example("5ce7ad3028890bd71749d477").description("Mongoose Ref ObjectId"), lazyRef(getType)),
+    populatedGroups.length && PopulateGroups(populatedGroups)
   ) as PropertyDecorator;
 }
 
