@@ -7,3 +7,5 @@ export * from "./lazyRefMapper";
 export * from "./mapMapper";
 export * from "./objectMapper";
 export * from "./schemaMapper";
+export * from "./ofMapper";
+export * from "./propertiesMapper";

@@ -5,7 +5,7 @@ import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapp
 import {mapGenericsOptions, popGenerics} from "../utils/generics";
 import {createRef, createRefName} from "../utils/ref";
 
-export function classMapper(value: JsonSchema, options: JsonSchemaOptions = {}) {
+export function classMapper(value: JsonSchema, options: JsonSchemaOptions) {
   const store = JsonEntityStore.from(value.class);
   const name = createRefName(store.schema.getName() || value.getName(), options);
 

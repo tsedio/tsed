@@ -31,8 +31,7 @@ function mapRequiredProps(obj: any, schema: JsonSchema, options: JsonSchemaOptio
       const propSchema = schema.get("properties")[key];
       const serializeSchema = obj.properties[aliasedKey];
 
-      obj.properties[aliasedKey] = applyStringRule(serializeSchema, propSchema); // applyNullRule(applyStringRule(serializeSchema, propSchema), propSchema);
-      // obj.properties[aliasedKey] = mapNullableType(obj.properties[aliasedKey]);
+      obj.properties[aliasedKey] = applyStringRule(serializeSchema, propSchema);
 
       return keys.concat(aliasedKey);
     }

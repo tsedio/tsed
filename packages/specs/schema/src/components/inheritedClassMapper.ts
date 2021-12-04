@@ -6,7 +6,7 @@ import {getInheritedStores} from "../utils/getInheritedStores";
 /**
  * @ignore
  */
-export function inheritedClassMapper(obj: any, {target, ...options}: JsonSchemaOptions = {}) {
+export function inheritedClassMapper(obj: any, {target, ...options}: JsonSchemaOptions) {
   const stores = Array.from(getInheritedStores(target).entries()).filter(([model]) => classOf(model) !== classOf(target));
 
   if (stores.length) {
