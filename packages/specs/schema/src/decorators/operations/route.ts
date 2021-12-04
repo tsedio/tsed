@@ -1,7 +1,7 @@
-import {isFunction} from "@tsed/core";
 import {DecoratorContext} from "../../domain/DecoratorContext";
 import {mapRouteOptions} from "../../utils/mapRouteOptions";
 import {OperationMethods} from "../../constants/httpMethods";
+import {JsonMethodStore} from "../../domain/JsonMethodStore";
 
 export interface RouteChainedDecorators {
   <T>(target: Object, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>): TypedPropertyDescriptor<T> | void;
@@ -42,36 +42,46 @@ export interface RouteChainedDecorators {
    * @param Summary
    */
   Summary(Summary: string): this;
+
+  Use(...args: any[]): this;
+
+  UseAfter(...args: any[]): this;
+
+  UseBefore(...args: any[]): this;
 }
 
 class RouteDecoratorContext extends DecoratorContext<RouteChainedDecorators> {
-  readonly methods: string[] = ["name", "description", "summary", "method", "id", "handlers"];
+  readonly methods: string[] = ["name", "description", "summary", "method", "id", "use", "useAfter", "useBefore"];
+  protected entity: JsonMethodStore;
 
   protected beforeInit() {
     const path: string = this.get("path");
     const method: string = OperationMethods[this.get("method") as OperationMethods] || OperationMethods.CUSTOM;
 
-    path && this.entity.operation!.addOperationPath(method, path);
+    path && this.entity.operation.addOperationPath(method, path);
   }
 
   protected onMapKey(key: string, value: any) {
     switch (key) {
       case "name":
       case "id":
-        this.entity.operation!.operationId(value);
+        this.entity.operation.operationId(value);
         return;
       case "summary":
-        this.entity.operation!.summary(value);
+        this.entity.operation.summary(value);
         return;
       case "description":
-        this.entity.operation!.description(value);
+        this.entity.operation.description(value);
         return;
-      case "handlers":
-        if (isFunction(this.entity.use)) {
-          this.entity.use(value);
-          return;
-        }
-        break;
+      case "use":
+        this.entity.use(value);
+        return;
+      case "useAfter":
+        this.entity.after(value);
+        return;
+      case "useBefore":
+        this.entity.before(value);
+        return;
     }
 
     return super.onMapKey(key, value);

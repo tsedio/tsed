@@ -4,14 +4,17 @@ import {
   anyOf,
   array,
   boolean,
+  CollectionOf,
   date,
   datetime,
   email,
   from,
   integer,
+  lazyRef,
   map,
   number,
   object,
+  Property,
   set,
   string,
   time,
@@ -150,6 +153,66 @@ describe("from", () => {
         }
       },
       required: ["name", "message", "status"],
+      type: "object"
+    });
+  });
+  it("should declare a lazyRef", () => {
+    const schema1 = object({
+      owners: array().items(lazyRef(() => Owner))
+    });
+
+    class Post {
+      @Property()
+      id: string;
+
+      @Property(() => Owner)
+      owner: typeof Owner;
+    }
+
+    class Owner {
+      @Property()
+      id: string;
+
+      @CollectionOf(() => Post)
+      posts: Post[];
+    }
+
+    expect(schema1.toJSON()).to.deep.eq({
+      definitions: {
+        Owner: {
+          properties: {
+            id: {
+              type: "string"
+            },
+            posts: {
+              items: {
+                $ref: "#/definitions/Post"
+              },
+              type: "array"
+            }
+          },
+          type: "object"
+        },
+        Post: {
+          properties: {
+            id: {
+              type: "string"
+            },
+            owner: {
+              $ref: "#/definitions/Owner"
+            }
+          },
+          type: "object"
+        }
+      },
+      properties: {
+        owners: {
+          items: {
+            $ref: "#/definitions/Owner"
+          },
+          type: "array"
+        }
+      },
       type: "object"
     });
   });

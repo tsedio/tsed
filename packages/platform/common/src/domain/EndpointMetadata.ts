@@ -1,12 +1,6 @@
-import {DecoratorTypes, deepMerge, descriptorOf, isFunction, nameOf, prototypeOf, Store, Type} from "@tsed/core";
+import {DecoratorTypes, deepMerge, descriptorOf, nameOf, prototypeOf, Store, Type} from "@tsed/core";
 import {ParamMetadata} from "@tsed/platform-params";
-import {JsonEntityComponent, JsonEntityStore, JsonEntityStoreOptions, JsonMethodStore, JsonOperation} from "@tsed/schema";
-
-export interface EndpointConstructorOptions extends JsonEntityStoreOptions {
-  beforeMiddlewares?: Function[];
-  middlewares?: Function[];
-  afterMiddlewares?: Function[];
-}
+import {JsonEntityComponent, JsonEntityStore, JsonMethodStore} from "@tsed/schema";
 
 export interface EndpointViewOptions {
   path: string;
@@ -35,25 +29,7 @@ export interface EndpointRedirectOptions {
  *
  */
 @JsonEntityComponent(DecoratorTypes.METHOD)
-export class EndpointMetadata extends JsonMethodStore implements EndpointConstructorOptions {
-  public beforeMiddlewares: any[] = [];
-  public middlewares: any[] = [];
-  public afterMiddlewares: any[] = [];
-
-  constructor(options: EndpointConstructorOptions) {
-    super({
-      store: Store.fromMethod(options.target, options.propertyKey!),
-      descriptor: descriptorOf(options.target, options.propertyKey!),
-      ...options
-    });
-
-    const {beforeMiddlewares = [], middlewares = [], afterMiddlewares = []} = options;
-
-    this.after(afterMiddlewares);
-    this.before(beforeMiddlewares);
-    this.use(middlewares);
-  }
-
+export class EndpointMetadata extends JsonMethodStore {
   get targetName(): string {
     return nameOf(this.token);
   }
@@ -104,37 +80,5 @@ export class EndpointMetadata extends JsonMethodStore implements EndpointConstru
     const ctrlValue = Store.from(this.target).get(key);
 
     return deepMerge<T>(ctrlValue, this.store.get(key));
-  }
-
-  /**
-   * Append middlewares to the beforeMiddlewares list.
-   * @param args
-   * @returns {EndpointMetadata}
-   */
-  public before(args: Function[]): this {
-    this.beforeMiddlewares = this.beforeMiddlewares.concat(args).filter(isFunction);
-
-    return this;
-  }
-
-  /**
-   * Append middlewares to the afterMiddlewares list.
-   * @param args
-   * @returns {EndpointMetadata}
-   */
-  public after(args: Function[]): this {
-    this.afterMiddlewares = this.afterMiddlewares.concat(args).filter(isFunction);
-
-    return this;
-  }
-
-  /**
-   * Store all arguments collected via Annotation.
-   * @param args
-   */
-  public use(args: Function[]) {
-    this.middlewares = this.middlewares.concat(args).filter(isFunction);
-
-    return this;
   }
 }

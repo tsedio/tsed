@@ -23,6 +23,6 @@ export function mapRouteOptions(args: any[]) {
   return {
     path,
     method,
-    handlers
+    use: handlers
   };
 }

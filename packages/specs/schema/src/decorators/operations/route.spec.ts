@@ -70,6 +70,22 @@ describe("Route decorators", () => {
       ]);
       expect(endpoint.propertyKey).to.equal("test");
     });
+    it("should register route and middleware (with handler)", () => {
+      const middleware = () => {};
+      const beforeMiddleware = () => {};
+      const afterMiddleware = () => {};
+
+      // WHEN
+      class Test {
+        @(Get("/").UseBefore(beforeMiddleware).Use(middleware).UseAfter(afterMiddleware))
+        test() {}
+      }
+
+      const endpoint = JsonEntityStore.fromMethod(Test, "test");
+      expect(endpoint.middlewares).to.deep.equal([middleware]);
+      expect(endpoint.afterMiddlewares).to.deep.equal([afterMiddleware]);
+      expect(endpoint.beforeMiddlewares).to.deep.equal([beforeMiddleware]);
+    });
   });
 
   describe("Post", () => {

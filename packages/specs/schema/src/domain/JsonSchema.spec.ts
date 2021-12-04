@@ -9,6 +9,8 @@ describe("JsonSchema", () => {
       const schema = JsonSchema.from({});
       schema.set("extra", "test");
 
+      expect(schema.isGeneric).to.equal(false);
+      expect(schema.genericType).to.equal(undefined);
       expect(schema.toJSON()).to.deep.equal({
         extra: "test"
       });
@@ -1361,11 +1363,13 @@ describe("JsonSchema", () => {
           }
         },
         required: ["prop"]
-      })
-        .addAlias("prop", "aliasProp")
-        .toObject();
+      }).addAlias("prop", "aliasProp");
 
-      expect(schema).to.deep.equal({
+      const jsonSchema = schema.toObject();
+
+      expect(schema.getAliasOf("prop")).to.equal("aliasProp");
+      expect(schema.getTarget()).to.equal(undefined);
+      expect(jsonSchema).to.deep.equal({
         type: "object",
         properties: {
           aliasProp: {
