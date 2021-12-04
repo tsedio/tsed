@@ -1,6 +1,6 @@
 import {DecoratorParameters, Metadata, StoreMerge, useDecorators, useMethodDecorators} from "@tsed/core";
 import {ParamTypes, UseParam} from "@tsed/platform-params";
-import {Consumes, Returns} from "@tsed/schema";
+import {Consumes, InFile, Returns} from "@tsed/schema";
 import {PlatformMulterFile} from "../../config/interfaces/PlatformMulterSettings";
 import {MulterInputOptions, PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware";
 
@@ -69,13 +69,8 @@ export function MultipartFile(name: string, maxCount?: number): ParameterDecorat
     const expression = [name, !multiple && "0"].filter(Boolean).join(".");
 
     const decorators = useDecorators(
-      useMethodDecorators(
-        Returns(400).Description(
-          `<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1`
-        ),
-        Consumes("multipart/form-data"),
-        StoreMerge(PlatformMulterMiddleware, mapOptions(name, maxCount))
-      ),
+      InFile(name),
+      useMethodDecorators(StoreMerge(PlatformMulterMiddleware, mapOptions(name, maxCount))),
       UseParam({
         paramType: ParamTypes.FILES,
         dataPath: "$ctx.request.files",

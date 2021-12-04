@@ -3,10 +3,30 @@ import {expect} from "chai";
 import {WriteOnly} from "./writeOnly";
 
 describe("@WriteOnly", () => {
-  it("should declare writeOnly field", () => {
+  it("should declare writeOnly field (with boolean)", () => {
     // WHEN
     class Model {
       @WriteOnly(true)
+      num: string;
+    }
+
+    // THEN
+    const schema = getJsonSchema(Model);
+
+    expect(schema).to.deep.equal({
+      properties: {
+        num: {
+          writeOnly: true,
+          type: "string"
+        }
+      },
+      type: "object"
+    });
+  });
+  it("should declare writeOnly field (default value)", () => {
+    // WHEN
+    class Model {
+      @WriteOnly()
       num: string;
     }
 

@@ -19,6 +19,7 @@ export * from "./operations/deprecated";
 export * from "./operations/consumes";
 export * from "./operations/contentType";
 export * from "./operations/in";
+export * from "./operations/inFile";
 export * from "./operations/operationId";
 export * from "./operations/operationPath";
 export * from "./operations/path";

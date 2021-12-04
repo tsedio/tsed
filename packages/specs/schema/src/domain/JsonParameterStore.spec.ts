@@ -1,8 +1,9 @@
-import {prototypeOf} from "@tsed/core";
-import {Get, In, JsonClassStore, JsonMethodStore, JsonParameterTypes, Path} from "@tsed/schema";
+import {DecoratorParameters, Metadata, prototypeOf, StoreMerge, useDecorators, useMethodDecorators} from "@tsed/core";
+import {Consumes, Get, In, JsonClassStore, JsonMethodStore, JsonParameterTypes, Path, Returns} from "@tsed/schema";
 import {getJsonEntityStore} from "../utils/getJsonEntityStore";
 import {JsonParameterStore} from "./JsonParameterStore";
 import {expect} from "chai";
+import {ParamTypes, UseParam} from "@tsed/common";
 
 describe("JsonParameterStore", () => {
   describe("new JsonParameterStore", () => {
