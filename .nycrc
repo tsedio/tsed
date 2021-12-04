@@ -24,6 +24,7 @@
     "packages/third-parties",
     "packages/perf",
     "packages/specs/swagger/src/decorators/{title,description,example}.ts",
+    "packages/specs/schema",
     "**/interfaces/**",
     "**/legacy/**",
     "**/index.ts"
@@ -41,5 +42,5 @@
   "lines": 99.57,
   "statements": 99.54,
   "functions": 99.24,
-  "branches": 89.22
+  "branches": 88.13
 }
