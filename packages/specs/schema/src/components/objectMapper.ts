@@ -17,7 +17,10 @@ export function objectMapper(input: any, options: JsonSchemaOptions) {
     (obj, [key, value]: [string, any | JsonSchema]) => {
       if (options.withIgnoredProps !== false && !alterIgnore(value, ctx)) {
         // remove groups to avoid bad schema generation over children models
-        obj[key] = execMapper("item", value, {...options, groups: value?.$forwardGroups ? options.groups : undefined});
+        obj[key] = execMapper("item", value, {
+          ...options,
+          groups: input?.$forwardGroups || value?.$forwardGroups ? options.groups : undefined
+        });
       }
 
       return obj;

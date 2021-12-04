@@ -3,7 +3,7 @@ import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
+import {execMapper, hasMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
 import {getRequiredProperties} from "../utils/getRequiredProperties";
 import {mapNullableType} from "../utils/mapNullableType";
 
@@ -43,55 +43,54 @@ function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = fal
   );
 }
 
-export function schemaMapper(schema: JsonSchema, options: JsonSchemaOptions = {}): any {
-  const {useAlias = true, schemas = {}, genericTypes} = options;
+function isExample(key: string, value: any, options: JsonSchemaOptions) {
+  return key === "examples" && isObject(value) && [SpecTypes.OPENAPI, SpecTypes.SWAGGER].includes(options.specType!);
+}
 
-  let obj: any = [...schema.entries()].reduce((item: any, [key, value]) => {
-    if (shouldSkipKey(key, options)) {
-      return item;
-    }
+export function schemaMapper(schema: JsonSchema, options: JsonSchemaOptions): any {
+  const {useAlias = true, schemas = {}} = options;
+  options = {
+    ...options,
+    useAlias,
+    schemas
+  };
 
-    key = key.replace(/^#/, "");
+  let obj: any = [...schema.keys()]
+    .filter((key) => !shouldSkipKey(key, options))
+    .reduce((item: any, key) => {
+      let value = schema.get(key);
 
-    if (key === "type") {
-      value = schema.getJsonType();
-    }
+      key = key.replace(/^#/, "");
 
-    if (key === "examples" && isObject(value) && [SpecTypes.OPENAPI, SpecTypes.SWAGGER].includes(options.specType!)) {
-      key = "example";
-      value = Object.values(value)[0];
-    }
-
-    if (value) {
-      if (value.isClass) {
-        value = execMapper("class", value, {
-          ...options,
-          useAlias,
-          schemas
-        });
-      } else {
-        value = execMapper("any", value, {
-          ...options,
-          useAlias,
-          schemas,
-          genericTypes,
-          genericLabels: schema.genericLabels
-        });
+      if (key === "type") {
+        return {
+          ...item,
+          [key]: schema.getJsonType()
+        };
       }
-    }
 
-    if (isEmptyProperties(key, value)) {
-      return item;
-    }
+      if (isExample(key, value, options)) {
+        key = "example";
+        value = Object.values(value)[0];
+      }
 
-    if (shouldMapAlias(key, value, useAlias)) {
-      value = mapAliasedProperties(value, schema.alias);
-    }
+      if (value && typeof value === "object" && hasMapper(key)) {
+        value = execMapper(key, value, options, schema);
 
-    item[key] = value;
+        if (isEmptyProperties(key, value)) {
+          return item;
+        }
 
-    return item;
-  }, {});
+        if (shouldMapAlias(key, value, useAlias)) {
+          value = mapAliasedProperties(value, schema.alias);
+        }
+      }
+
+      return {
+        ...item,
+        [key]: value
+      };
+    }, {});
 
   if (schema.isClass) {
     obj = execMapper("inheritedClass", obj, {...options, root: false, schemas, target: schema.getComputedType()});

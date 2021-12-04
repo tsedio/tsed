@@ -5,8 +5,6 @@ import {mapGenericsOptions} from "../utils/generics";
 import {toRef} from "../utils/ref";
 
 export function anyMapper(input: any, options: JsonSchemaOptions = {}): any {
-  options.schemas = options.schemas || {};
-
   if (typeof input !== "object" || input === null) {
     return input;
   }
