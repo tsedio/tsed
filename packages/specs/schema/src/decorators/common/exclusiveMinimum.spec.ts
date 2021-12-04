@@ -23,4 +23,24 @@ describe("@ExclusiveMinimum", () => {
       type: "object"
     });
   });
+  it("should declare exclusiveMinimum value (default value)", () => {
+    // WHEN
+    class Model {
+      @ExclusiveMinimum(0)
+      num: number;
+    }
+
+    // THEN
+    const classSchema = JsonEntityStore.from(Model);
+
+    expect(classSchema.schema.toJSON()).to.deep.equal({
+      properties: {
+        num: {
+          exclusiveMinimum: 0,
+          type: "number"
+        }
+      },
+      type: "object"
+    });
+  });
 });
