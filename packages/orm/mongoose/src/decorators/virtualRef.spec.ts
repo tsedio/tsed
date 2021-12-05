@@ -2,7 +2,7 @@ import {Default, Format, getJsonSchema, getSpec, Post, Property, ReadOnly, Retur
 import {Store} from "@tsed/core";
 import {Model} from "@tsed/mongoose";
 import {MONGOOSE_SCHEMA} from "../constants";
-import {VirtualRef} from "./virtualRef";
+import {VirtualRef, VirtualRefs} from "./virtualRef";
 import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
 
@@ -271,15 +271,6 @@ describe("@VirtualRef()", () => {
 
   describe("with a given model as string ref", () => {
     it("should set metadata and json schema", () => {
-      @Model()
-      class VirtualRefStringTestPerson {
-        @Property()
-        name: string;
-
-        @Property()
-        band: string;
-      }
-
       // WHEN
       @Model()
       class VirtualRefStringTestBand {
@@ -291,13 +282,43 @@ describe("@VirtualRef()", () => {
           count: false,
           options: {}
         })
-        members: VirtualRef<VirtualRefStringTestPerson>;
+        member: VirtualRef<VirtualRefStringTestPerson>;
+
+        @VirtualRef({
+          ref: "VirtualRefStringTestPerson",
+          foreignField: "foreign",
+          localField: "test_2",
+          justOne: false,
+          count: false,
+          options: {}
+        })
+        members: VirtualRefs<VirtualRefStringTestPerson>;
+
+        @VirtualRef({
+          ref: "VirtualRefStringTestPerson",
+          foreignField: "foreign",
+          localField: "test_2",
+          count: true,
+          options: {}
+        })
+        memberCount: number;
+      }
+
+      @Model()
+      class VirtualRefStringTestPerson {
+        @Property()
+        name: string;
+
+        @Property()
+        band: string;
       }
 
       // THEN
-      const store = Store.from(VirtualRefStringTestBand, "members");
+      const membersStore = Store.from(VirtualRefStringTestBand, "members");
+      const memberStore = Store.from(VirtualRefStringTestBand, "member");
+      const memberCount = Store.from(VirtualRefStringTestBand, "memberCount");
 
-      expect(store.get(MONGOOSE_SCHEMA)).toEqual({
+      expect(memberStore.get(MONGOOSE_SCHEMA)).toEqual({
         ref: "VirtualRefStringTestPerson",
         localField: "test_2",
         foreignField: "foreign",
@@ -306,7 +327,27 @@ describe("@VirtualRef()", () => {
         options: {}
       });
 
-      expect(getJsonSchema(VirtualRefStringTestBand)).toEqual({
+      expect(membersStore.get(MONGOOSE_SCHEMA)).toEqual({
+        ref: "VirtualRefStringTestPerson",
+        localField: "test_2",
+        foreignField: "foreign",
+        justOne: false,
+        count: false,
+        options: {}
+      });
+
+      expect(memberCount.get(MONGOOSE_SCHEMA)).toEqual({
+        ref: "VirtualRefStringTestPerson",
+        localField: "test_2",
+        foreignField: "foreign",
+        justOne: false,
+        count: true,
+        options: {}
+      });
+
+      const schema = getJsonSchema(VirtualRefStringTestBand);
+
+      expect(schema).toEqual({
         definitions: {
           VirtualRefStringTestPerson: {
             properties: {
@@ -322,7 +363,16 @@ describe("@VirtualRef()", () => {
         },
         properties: {
           members: {
+            type: "array",
+            items: {
+              $ref: "#/definitions/VirtualRefStringTestPerson"
+            }
+          },
+          member: {
             $ref: "#/definitions/VirtualRefStringTestPerson"
+          },
+          memberCount: {
+            type: "number"
           }
         },
         type: "object"
