@@ -243,13 +243,21 @@ describe("@Ref()", () => {
               }
             },
             type: "object"
+          },
+          MyChildModelGroup1Group3: {
+            properties: {
+              test: {
+                type: "string"
+              }
+            },
+            type: "object"
           }
         },
         properties: {
           child1: {
             oneOf: [
               {
-                $ref: "#/definitions/MyChildModel"
+                $ref: "#/definitions/MyChildModelGroup1Group3"
               }
             ]
           },
