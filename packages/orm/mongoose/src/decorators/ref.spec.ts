@@ -112,7 +112,6 @@ describe("@Ref()", () => {
       });
     });
   });
-
   describe("type is a Function", () => {
     it("should set metadata", () => {
       class RefTest {
@@ -165,7 +164,6 @@ describe("@Ref()", () => {
       });
     });
   });
-
   describe("type is a string (deprecated)", () => {
     it("should set metadata", () => {
       class RefTest {}
@@ -208,6 +206,141 @@ describe("@Ref()", () => {
       expect(store.get(MONGOOSE_SCHEMA)).toEqual({
         type: Schema.Types.ObjectId,
         ref: "RefTest"
+      });
+    });
+  });
+  describe("JsonSchema gets generated based on populated groups", () => {
+    class MyChildModel {
+      @Property()
+      test: string;
+    }
+
+    class MyParentModel {
+      @Property()
+      id: string;
+
+      @Ref(MyChildModel, {populatedGroups: ["group1", "group2"]})
+      child1: Ref<MyChildModel>;
+
+      @Ref(MyChildModel, {populatedGroups: ["group2"]})
+      child2: Ref<MyChildModel>;
+
+      @Ref(MyChildModel)
+      child3: Ref<MyChildModel>;
+    }
+
+    it("should reflect the populated groups options in the schema (with given groups)", () => {
+      const spec = getJsonSchema(MyParentModel, {
+        groups: ["group1", "group3"]
+      });
+
+      expect(spec).toEqual({
+        definitions: {
+          MyChildModel: {
+            properties: {
+              test: {
+                type: "string"
+              }
+            },
+            type: "object"
+          },
+          MyChildModelGroup1Group3: {
+            properties: {
+              test: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        },
+        properties: {
+          child1: {
+            oneOf: [
+              {
+                $ref: "#/definitions/MyChildModelGroup1Group3"
+              }
+            ]
+          },
+          child2: {
+            oneOf: [
+              {
+                description: "Mongoose Ref ObjectId",
+                examples: ["5ce7ad3028890bd71749d477"],
+                type: "string"
+              }
+            ]
+          },
+          child3: {
+            oneOf: [
+              {
+                description: "Mongoose Ref ObjectId",
+                examples: ["5ce7ad3028890bd71749d477"],
+                type: "string"
+              },
+              {
+                $ref: "#/definitions/MyChildModel"
+              }
+            ]
+          },
+          id: {
+            type: "string"
+          }
+        },
+        type: "object"
+      });
+    });
+
+    it("should reflect the populated groups options in the schema (without given groups)", () => {
+      const spec = getJsonSchema(MyParentModel, {
+        groups: []
+      });
+      expect(spec).toEqual({
+        definitions: {
+          MyChildModel: {
+            properties: {
+              test: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        },
+        properties: {
+          child1: {
+            oneOf: [
+              {
+                description: "Mongoose Ref ObjectId",
+                examples: ["5ce7ad3028890bd71749d477"],
+                type: "string"
+              }
+            ]
+          },
+          child2: {
+            oneOf: [
+              {
+                description: "Mongoose Ref ObjectId",
+                examples: ["5ce7ad3028890bd71749d477"],
+                type: "string"
+              }
+            ]
+          },
+          child3: {
+            oneOf: [
+              {
+                description: "Mongoose Ref ObjectId",
+                examples: ["5ce7ad3028890bd71749d477"],
+                type: "string"
+              },
+              {
+                $ref: "#/definitions/MyChildModel"
+              }
+            ]
+          },
+          id: {
+            type: "string"
+          }
+        },
+        type: "object"
       });
     });
   });

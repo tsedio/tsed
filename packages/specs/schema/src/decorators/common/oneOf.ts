@@ -19,5 +19,6 @@ import {JsonEntityFn} from "./jsonEntityFn";
 export function OneOf(...oneOf: AnyJsonSchema[]) {
   return JsonEntityFn((entity) => {
     entity.itemSchema.oneOf(oneOf);
+    entity.type = Object;
   });
 }
