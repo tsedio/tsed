@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-serverless-http",
-  "version": "6.94.0",
+  "version": "6.95.0",
   "description": "Module to support Serverless HTTP function with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -59,21 +59,21 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.94.0",
-    "@tsed/core": "6.94.0",
-    "@tsed/di": "6.94.0",
-    "@tsed/platform-serverless-testing": "6.94.0",
+    "@tsed/common": "6.95.0",
+    "@tsed/core": "6.95.0",
+    "@tsed/di": "6.95.0",
+    "@tsed/platform-serverless-testing": "6.95.0",
     "aws-lambda": "^1.0.7",
     "serverless-http": "^2.7.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.94.0",
-    "@tsed/core": "^6.94.0",
-    "@tsed/di": "^6.94.0",
-    "@tsed/json-mapper": "^6.94.0",
+    "@tsed/common": "^6.95.0",
+    "@tsed/core": "^6.95.0",
+    "@tsed/di": "^6.95.0",
+    "@tsed/json-mapper": "^6.95.0",
     "@tsed/logger": ">=6.0.0",
-    "@tsed/openspec": "^6.94.0",
-    "@tsed/schema": "^6.94.0",
+    "@tsed/openspec": "^6.95.0",
+    "@tsed/schema": "^6.95.0",
     "aws-lambda": ">=1.0.7",
     "serverless-http": ">=2.0.0"
   }
