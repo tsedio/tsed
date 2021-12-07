@@ -12,7 +12,7 @@ export class SocketClientService implements OnDestroy {
 
   private clients: Map<string, Socket> = new Map();
 
-  async get(namespace: string = "/"): Promise<Socket> {
+  async get(namespace: string = "/", path?: string): Promise<Socket> {
     if (this.clients.has(namespace)) {
       return this.clients.get(namespace)!;
     }
@@ -21,7 +21,7 @@ export class SocketClientService implements OnDestroy {
     const uri = `http://${address}:${port}${namespace}`;
 
     this.logger.info("Bind Socket.io client on:", uri);
-    const client = io(uri);
+    const client = io(uri, path ? { path } : undefined);
 
     this.clients.set(namespace, client);
 

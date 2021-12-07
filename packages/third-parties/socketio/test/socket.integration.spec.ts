@@ -27,7 +27,7 @@ export class TestWS {
 }
 
 
-describe("Socket integration", () => {
+describe("Socket integration: default path", () => {
   before(PlatformTest.bootstrap(Server, {
     platform: PlatformExpress,
     listen: true,
@@ -46,6 +46,39 @@ describe("Socket integration", () => {
       const client2 = await service.get("/test");
 
       expect(client).to.eq(client2)
+
+      return new Promise((resolve: any) => {
+        client.on("output:scenario1", (result) => {
+          expect(result).to.eq("my Message test2");
+          resolve();
+        });
+
+        client.emit("input:scenario1");
+      });
+    });
+  });
+});
+
+describe("Socket integration: custom path", () => {
+
+  const CUSTOM_WS_PATH = "/ws";
+
+  before(PlatformTest.bootstrap(Server, {
+    platform: PlatformExpress,
+    listen: true,
+    httpPort: 8999,
+    componentsScan: [],
+    mount: {},
+    disableComponentScan: true,
+    imports: [TestWS],
+    socketIO: { path: CUSTOM_WS_PATH }
+  }));
+  after(PlatformTest.reset);
+
+  describe("RoomWS: eventName", () => {
+    it("should return the data", async () => {
+      const service = PlatformTest.get<SocketClientService>(SocketClientService);
+      const client = await service.get("/test", CUSTOM_WS_PATH);
 
       return new Promise((resolve: any) => {
         client.on("output:scenario1", (result) => {
