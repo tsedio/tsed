@@ -3,7 +3,7 @@ export async function importPackage(packageName: string, loaderFn: Function = ()
     return await loaderFn();
   } catch (e) {
     if (!optional) {
-      throw new Error(`The "${packageName}\" package is missing.`);
+      throw e;
     }
 
     return {};
