@@ -47,7 +47,7 @@ describe("LazyInject", () => {
     const service = await injector.invoke<MyInjectable>(MyInjectable);
     const error = await catchAsyncError(() => service.lazy);
 
-    expect(error?.message).to.eq('The "lazy-module" package is missing.');
+    expect(error?.message).to.contains("Cannot find module");
   });
 
   it("should lazy load optionally a module", async () => {
