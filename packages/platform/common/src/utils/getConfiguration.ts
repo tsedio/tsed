@@ -3,7 +3,7 @@ import {ProviderScope, ProviderType} from "@tsed/di";
 
 export function getConfiguration(configuration: any = {}, module: Type<any> | null = null) {
   const store = module ? Store.from(module).get("configuration") || {} : {};
-  const env = configuration.env || store.mount || (process.env.NODE_ENV as Env) || Env.DEV;
+  const env = configuration.env || store.env || (process.env.NODE_ENV as Env) || Env.DEV;
 
   const config = {
     exclude: ["**/*.spec.ts", "**/*.spec.js"],
