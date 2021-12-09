@@ -25,16 +25,14 @@ describe("getConfiguration()", () => {
       )
     ).to.deep.eq({
       componentsScan: ["/root1-services/*.ts", "/root2-services/*.ts"],
-      env: {
-        "/v1": ["/root1/*.ts"]
-      },
+      env: "test",
       exclude: ["**/*.spec.ts", "**/*.spec.js"],
       httpPort: 8080,
       httpsPort: false,
       logger: {
         debug: false,
         jsonIndentation: 2,
-        level: "info",
+        level: "off",
         logRequest: true
       },
       mount: {
@@ -89,7 +87,7 @@ describe("getConfiguration()", () => {
       logger: {
         debug: false,
         jsonIndentation: 2,
-        level: "off",
+        level: "info",
         logRequest: true
       },
       mount: {
@@ -126,7 +124,7 @@ describe("getConfiguration()", () => {
       logger: {
         debug: false,
         jsonIndentation: 2,
-        level: "off",
+        level: "info",
         logRequest: true
       },
       mount: {

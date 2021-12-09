@@ -96,4 +96,29 @@ describe("DI", () => {
       expect(injector.get<MyService>(MyService)!.nested).to.be.instanceOf(NestedService);
     });
   });
+  describe("invoke class with a provider", () => {
+    it("should invoke class with a another useClass", async () => {
+      @Injectable()
+      class MyClass {
+      }
+
+      class FakeMyClass {
+      }
+
+      const injector = new InjectorService();
+
+      injector.addProvider(MyClass, {
+        useClass: FakeMyClass
+      });
+
+      const instance = injector.invoke(MyClass)
+
+      expect(instance).to.be.instanceOf(FakeMyClass);
+      expect(injector.get(MyClass)).to.be.instanceOf(FakeMyClass);
+
+      await injector.load()
+
+      expect(injector.get(MyClass)).to.be.instanceOf(FakeMyClass);
+    });
+  });
 });
