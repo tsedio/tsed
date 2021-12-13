@@ -3,8 +3,18 @@ import {Injectable, InjectorService} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {getJsonSchema} from "@tsed/schema";
 import {RequiredValidationError} from "../errors/RequiredValidationError";
-import {PipeMethods, ParamMetadata} from "../domain/ParamMetadata";
+import {ParamMetadata, PipeMethods} from "../domain/ParamMetadata";
 import {ParamTypes} from "../domain/ParamTypes";
+
+function cast(value: any, metadata: ParamMetadata) {
+  try {
+    return deserialize(value, {
+      type: metadata.type
+    });
+  } catch (er) {
+    return value;
+  }
+}
 
 @Injectable({
   type: "validator"
@@ -29,18 +39,12 @@ export class ValidationPipe implements PipeMethods {
       return null;
     }
 
-    if (metadata.isPrimitive) {
-      try {
-        return deserialize(value, {
-          type: metadata.type
-        });
-      } catch (er) {
-        return value;
-      }
-    }
-
     if (metadata.isArray) {
       return [].concat(value);
+    }
+
+    if (metadata.isPrimitive) {
+      return cast(value, metadata);
     }
 
     return value;
