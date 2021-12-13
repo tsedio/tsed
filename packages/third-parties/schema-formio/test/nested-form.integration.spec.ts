@@ -1,6 +1,5 @@
-import {Property} from "@tsed/schema";
-import {Currency, getFormioSchema, Hidden, Textarea} from "../src";
-
+import {Property, ReadOnly, Required} from "@tsed/schema";
+import {Currency, getFormioSchema, Hidden, TableView, Textarea} from "../src";
 
 describe("Nested form integration", () => {
   it("should generate form and nested form", async () => {
@@ -94,6 +93,56 @@ describe("Nested form integration", () => {
           }
         }
       ]
+    });
+  });
+
+  it("should generate form and nested form with some extra decorators", async () => {
+    class Price {
+      @Currency()
+      amount: number;
+    }
+
+    class Product {
+      @Textarea()
+      description: string;
+
+      @Required()
+      @TableView(true)
+      @ReadOnly()
+      price: Price;
+    }
+
+    const form = await getFormioSchema(Product);
+
+    expect(form).toEqual({
+      "access": [],
+      "components": [
+        {
+          "autoExpand": false,
+          "disabled": false,
+          "input": true,
+          "key": "description",
+          "label": "Description",
+          "type": "textarea",
+          "validate": {
+            "required": false
+          }
+        },
+        {
+          "key": "price",
+          "label": "Price",
+          "validate": {
+            "required": true
+          }
+        }
+      ],
+      "display": "form",
+      "machineName": "product",
+      "name": "product",
+      "submissionAccess": [],
+      "tags": [],
+      "title": "Product",
+      "type": "form"
     });
   });
 });

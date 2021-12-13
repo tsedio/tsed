@@ -20,9 +20,9 @@ export function anyToComponent(schema: any, options: any) {
     case "integer":
     case "number":
       return execMapper("number", schema, options);
-    // default:
-    //   return execMapper("default", schema, options);
   }
+
+  return {};
 }
 
 registerFormioMapper("any", anyToComponent);
