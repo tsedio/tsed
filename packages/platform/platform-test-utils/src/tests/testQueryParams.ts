@@ -72,6 +72,11 @@ class TestQueryParamsCtrl {
   testScenario7(@QueryParams("q") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
     return {q};
   }
+
+  @Get("/scenario-8")
+  testScenario8(@QueryParams("test", String) value: string[]): any {
+    return {value};
+  }
 }
 
 export function testQueryParams(options: PlatformTestOptions) {
@@ -301,6 +306,19 @@ export function testQueryParams(options: PlatformTestOptions) {
         name: "AJV_VALIDATION_ERROR",
         status: 400
       });
+    });
+  });
+  describe("Scenario8: String[] value", () => {
+    const endpoint = "/rest/query-params/scenario-8";
+    it("should return 0 when query is 0", async () => {
+      const response = await request.get(`${endpoint}?test=0`).expect(200);
+
+      expect(response.body).to.deep.equal({value: ["0"]});
+    });
+    it("should return 1 when query is 1", async () => {
+      const response = await request.get(`${endpoint}?test=1&test=2`).expect(200);
+
+      expect(response.body).to.deep.equal({value: ["1", "2"]});
     });
   });
 }
