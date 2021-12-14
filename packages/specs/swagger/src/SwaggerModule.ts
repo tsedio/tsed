@@ -1,5 +1,5 @@
 import {
-  BeforeRoutesInit,
+  OnRoutesInit,
   Configuration,
   Constant,
   Inject,
@@ -28,7 +28,7 @@ const swaggerUiPath = require("swagger-ui-dist").absolutePath();
  * @ignore
  */
 @Module()
-export class SwaggerModule implements BeforeRoutesInit, OnReady {
+export class SwaggerModule implements OnRoutesInit, OnReady {
   @Inject()
   injector: InjectorService;
 
@@ -53,7 +53,7 @@ export class SwaggerModule implements BeforeRoutesInit, OnReady {
   /**
    *
    */
-  $beforeRoutesInit() {
+  $onRoutesInit() {
     if (this.loaded) {
       return;
     }
