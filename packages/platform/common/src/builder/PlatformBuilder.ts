@@ -287,6 +287,11 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
 
     this.log("Load routes");
 
+    if (this.rootModule.$beforeRoutesInit) {
+      await this.rootModule.$beforeRoutesInit();
+      delete this.rootModule.$beforeRoutesInit;
+    }
+
     await this.loadStatics("$beforeRoutesInit");
     await this.callHook("$beforeRoutesInit");
 
