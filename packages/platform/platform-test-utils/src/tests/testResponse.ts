@@ -1,5 +1,5 @@
 import {Context, Controller, Get, Next, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
-import {ContentType, Enum, Groups, Ignore, Property, Required, Returns, Status} from "@tsed/schema";
+import {CollectionOf, ContentType, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";
 import {expect} from "chai";
 import {createReadStream} from "fs";
@@ -55,6 +55,19 @@ export class ModelGroup {
 
   @Groups("!creation")
   groups: string;
+}
+
+class TeamModel {
+  @Required()
+  @Name("teamName")
+  name: string;
+}
+
+class TeamsModel {
+  @Required()
+  @CollectionOf(TeamModel)
+  @ForwardGroups()
+  teams: TeamModel[];
 }
 
 @Controller("/response")
@@ -219,6 +232,17 @@ class TestResponseParamsCtrl {
     model.groups = "groups";
 
     return model;
+  }
+
+  @Get("/scenario18")
+  @Returns(200, TeamsModel)
+  testScenario18() {
+    const data = new TeamsModel();
+    const team = new TeamModel();
+    team.name = "name";
+    data.teams = [team];
+
+    return data;
   }
 }
 
@@ -442,11 +466,25 @@ export function testResponse(options: PlatformTestOptions) {
     });
   });
 
-  describe("Scenario15: Return response with groups on 201", () => {
+  describe("Scenario17: Return response with groups on 201", () => {
     it("should return the response (200)", async () => {
       const response = await request.get("/rest/response/scenario17").expect(201);
 
       expect(response.body).to.deep.equal({id: "id"});
+    });
+  });
+
+  describe("Scenario18: Return data with alias", () => {
+    it("should return the response (200)", async () => {
+      const response = await request.get("/rest/response/scenario18").expect(200);
+
+      expect(response.body).to.deep.equal({
+        teams: [
+          {
+            teamName: "name"
+          }
+        ]
+      });
     });
   });
 }
