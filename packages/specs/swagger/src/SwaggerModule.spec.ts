@@ -24,7 +24,7 @@ describe("SwaggerModule", () => {
   afterEach(PlatformTest.reset);
   afterEach(() => sandbox.restore());
 
-  describe("$beforeRoutesInit", () => {
+  describe("$onRoutesInit", () => {
     it("should add middlewares", async () => {
       const mod = await PlatformTest.invoke<SwaggerModule>(SwaggerModule);
 
@@ -33,8 +33,8 @@ describe("SwaggerModule", () => {
       sandbox.stub(PlatformRouter.prototype, "get");
       sandbox.stub(PlatformRouter.prototype, "statics");
 
-      mod.$beforeRoutesInit();
-      mod.$beforeRoutesInit();
+      mod.$onRoutesInit();
+      mod.$onRoutesInit();
 
       expect(mod.app.get).to.have.been.calledWithExactly("/doc", Sinon.match.func);
       expect(mod.app.use).to.have.been.calledWithExactly("/doc", Sinon.match.instanceOf(PlatformRouter));
