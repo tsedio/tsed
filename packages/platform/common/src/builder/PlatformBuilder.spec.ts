@@ -180,13 +180,13 @@ describe("PlatformBuilder", () => {
   describe("bootstrap()", () => {
     it("should bootstrap platform", async () => {
       // WHEN
+      const stub = ServerModule.prototype.$beforeRoutesInit;
       const server = await PlatformCustom.bootstrap(ServerModule, {
         httpPort: false,
         httpsPort: false
       });
 
       // THEN
-
       await server.listen();
       // THEN
       // @ts-ignore
@@ -203,6 +203,7 @@ describe("PlatformBuilder", () => {
 
       // THEN
       expect(server.rootModule).to.be.instanceof(ServerModule);
+      expect(stub).to.have.been.calledOnceWithExactly();
       expect(server.name).to.eq("custom");
 
       await server.stop();
