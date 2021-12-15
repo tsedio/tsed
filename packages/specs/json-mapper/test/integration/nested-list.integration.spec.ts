@@ -33,4 +33,20 @@ describe("Nested list serialization", () => {
       ]
     });
   });
+  it("should generated schema with alias and plain object js", () => {
+    const data = new TeamsModel();
+    const team: any = {};
+    team.name = "name";
+    data.teams = [
+      team
+    ];
+
+    expect(serialize(data, { useAlias: true })).to.deep.eq({
+      "teams": [
+        {
+          "teamName": "name"
+        }
+      ]
+    });
+  });
 });
