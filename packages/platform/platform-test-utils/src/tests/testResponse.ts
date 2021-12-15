@@ -238,7 +238,7 @@ class TestResponseParamsCtrl {
   @Returns(200, TeamsModel)
   testScenario18() {
     const data = new TeamsModel();
-    const team = new TeamModel();
+    const team: any = {};
     team.name = "name";
     data.teams = [team];
 

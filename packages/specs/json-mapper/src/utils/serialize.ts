@@ -106,6 +106,8 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     return obj;
   }
 
+  let currentType = type;
+
   const types = options.types ? options.types : getJsonMapperTypes();
   options.groups = groups;
 
@@ -119,14 +121,15 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
   }
 
   if (!isCollection(obj)) {
-    options.type = type = getBestType(type, obj);
+    options.type = currentType = getBestType(currentType, obj);
   } else if (!options.collectionType) {
-    type = classOf(obj);
-    options.collectionType = type;
+    currentType = classOf(obj);
+    options.type = type;
+    options.collectionType = currentType;
   }
 
   const context = new JsonMapperContext({
-    type,
+    type: currentType,
     options,
     next: (data) =>
       serialize(data, {
@@ -136,8 +139,8 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
       })
   });
 
-  if (types.has(type)) {
-    const jsonMapper = types.get(type)!;
+  if (types.has(currentType)) {
+    const jsonMapper = types.get(currentType)!;
 
     return jsonMapper.serialize(obj, context);
   }
@@ -147,5 +150,5 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     return types.get(Array)?.serialize(obj, context);
   }
 
-  return !isClassObject(type) ? classToPlainObject(obj, options) : toObject(obj, options);
+  return !isClassObject(currentType) ? classToPlainObject(obj, options) : toObject(obj, options);
 }
