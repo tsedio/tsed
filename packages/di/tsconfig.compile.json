@@ -2,7 +2,8 @@
   "extends": "../../tsconfig.compile.json",
   "compilerOptions": {
     "rootDir": "src",
-    "outDir": "lib/cjs"
+    "outDir": "lib/cjs",
+    "declaration": false
   },
   "exclude": [
     "node_modules",

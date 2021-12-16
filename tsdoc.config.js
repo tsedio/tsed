@@ -6,7 +6,7 @@ module.exports = {
   rootDir: process.cwd(),
   packagesDir: "packages/",
   scanPatterns: [
-    "<rootDir>/packages/**/lib/**/*.d.ts",
+    "<rootDir>/packages/**/lib/types/**/*.d.ts",
     "!<rootDir>/packages/**/lib/**/data/*.ts",
     "!**/*.spec.ts",
     "!**/common/src/utils/**",
@@ -20,6 +20,8 @@ module.exports = {
     "!<rootDir>/packages/orm/adapters-redis",
     "!<rootDir>/packages/third-parties/seq",
     "!<rootDir>/packages/third-parties/formio",
+    "!<rootDir>/packages/third-parties/formio-types",
+    "!<rootDir>/packages/third-parties/schema-formio",
     "!<rootDir>/packages/utils",
     ...ignores("<rootDir>/packages/specs/ajv/**", ["interfaces", "services"]),
     ...ignores("<rootDir>/packages/security/oidc-provider/**", ["constants", "middlewares", "services", "utils"]),
