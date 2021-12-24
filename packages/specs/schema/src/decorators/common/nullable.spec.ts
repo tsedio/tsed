@@ -1,4 +1,4 @@
-import {Nullable, Property, Required} from "@tsed/schema";
+import {Nullable, Property, Required, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 
@@ -146,6 +146,71 @@ describe("@Nullable", () => {
               $ref: "#/definitions/Nested"
             }
           ]
+        }
+      },
+      type: "object"
+    });
+  });
+  it("should declare any prop (many Models + Nullable)", () => {
+    // WHEN
+    class Nested1 {
+      @Property()
+      id: string;
+
+      @Property()
+      top: string;
+    }
+
+    class Nested2 {
+      @Property()
+      id: string;
+
+      @Property()
+      other: string;
+    }
+
+    class Model {
+      @Nullable(Nested1, Nested2)
+      prop2: Nested1 | Nested2 | null;
+    }
+
+    // THEN
+    expect(getJsonSchema(Model, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+      definitions: {
+        Nested1: {
+          properties: {
+            id: {
+              type: "string"
+            },
+            top: {
+              type: "string"
+            }
+          },
+          type: "object"
+        },
+        Nested2: {
+          properties: {
+            id: {
+              type: "string"
+            },
+            other: {
+              type: "string"
+            }
+          },
+          type: "object"
+        }
+      },
+      properties: {
+        prop2: {
+          anyOf: [
+            {
+              $ref: "#/components/schemas/Nested1"
+            },
+            {
+              $ref: "#/components/schemas/Nested2"
+            }
+          ],
+          nullable: true
         }
       },
       type: "object"
