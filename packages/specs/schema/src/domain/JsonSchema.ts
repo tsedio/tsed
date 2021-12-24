@@ -731,13 +731,28 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   any(...types: any[]) {
-    types = uniq(types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"]).map(getJsonType);
+    const hasClasses = types.filter((type) => isClass(type));
 
-    if (types.includes("null")) {
-      this.nullable = true;
+    if (hasClasses.length >= 2) {
+      this.anyOf(
+        types.filter((value) => {
+          if (value !== null) {
+            this.nullable = true;
+            return true;
+          }
+          return false;
+        })
+      );
+    } else {
+      // TODO when OS3 will the only minimal supported version, we'll can remove this code
+      types = uniq(types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"]).map(getJsonType);
+
+      if (types.includes("null")) {
+        this.nullable = true;
+      }
+
+      this.type(types.length === 1 ? types[0] : types);
     }
-
-    this.type(types.length === 1 ? types[0] : types);
 
     return this;
   }
