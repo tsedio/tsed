@@ -4,7 +4,7 @@ import {getRef} from "../utils/getRef";
 export function anyToComponent(schema: any, options: any) {
   schema = getRef(schema, options);
 
-  switch (schema.type) {
+  switch (schema?.type) {
     case "object":
       if (!schema.properties && !schema.$ref) {
         return execMapper("map", schema, options);
