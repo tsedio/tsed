@@ -1,14 +1,14 @@
 import {CollectionOf, Property} from "@tsed/schema";
-import {Currency, getFormioSchema, Component} from "../src";
+import {getFormioSchema} from "../src";
 import {OpenWhenEmpty} from "../src/decorators/openWhenEmpty";
 
-
-describe('EditGrid integration', () => {
+describe("EditGrid integration", () => {
   it("should generate form", async () => {
     class Nested {
       @Property()
       id: string;
     }
+
     class Model {
       @CollectionOf(Nested)
       test: Nested[];
@@ -47,7 +47,7 @@ describe('EditGrid integration', () => {
       type: "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
   it("should generate form with openWhenEmpty", async () => {
@@ -55,6 +55,7 @@ describe('EditGrid integration', () => {
       @Property()
       id: string;
     }
+
     class Model {
       @CollectionOf(Nested)
       @OpenWhenEmpty()
@@ -95,7 +96,7 @@ describe('EditGrid integration', () => {
       type: "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
   it("should generate form with openWhenEmpty = false", async () => {
@@ -103,6 +104,7 @@ describe('EditGrid integration', () => {
       @Property()
       id: string;
     }
+
     class Model {
       @CollectionOf(Nested)
       @OpenWhenEmpty(false)
@@ -143,7 +145,7 @@ describe('EditGrid integration', () => {
       type: "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
-})
+});

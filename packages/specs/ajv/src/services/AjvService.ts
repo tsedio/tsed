@@ -30,7 +30,7 @@ export class AjvService {
     if (schema) {
       const localValue = deepClone(value);
       const valid = await this.ajv.validate(schema as any, localValue);
-      if (!valid) {
+      if (!valid && this.ajv.errors) {
         throw this.mapErrors(this.ajv.errors || [], {
           type,
           collectionType,
