@@ -204,6 +204,7 @@ describe("PlatformBuilder", () => {
       // THEN
       expect(server.rootModule).to.be.instanceof(ServerModule);
       expect(stub).to.have.been.calledOnceWithExactly();
+      expect(server.rootModule.$beforeRoutesInit).to.eq(undefined);
       expect(server.name).to.eq("custom");
 
       await server.stop();
