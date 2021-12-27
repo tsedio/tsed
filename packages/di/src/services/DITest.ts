@@ -1,6 +1,6 @@
 import {Env, getValue} from "@tsed/core";
 import {$log} from "@tsed/logger";
-import {Container} from "../domain/Container";
+import {createContainer} from "../utils/createContainer";
 import {LocalsContainer} from "../domain/LocalsContainer";
 import {OnInit} from "../interfaces/OnInit";
 import {TokenProvider} from "../interfaces/TokenProvider";
@@ -10,6 +10,10 @@ import {InjectorService} from "./InjectorService";
 export interface DITestInvokeOptions {
   token?: TokenProvider;
   use: any;
+}
+
+export interface DITestOptions extends Partial<TsED.Configuration> {
+  imports?: DITestInvokeOptions[];
 }
 
 /**
@@ -42,11 +46,20 @@ export class DITest {
     return !!DITest._injector;
   }
 
-  static async create(settings: Partial<TsED.Configuration> = {}) {
+  static async create(settings: DITestOptions = {}) {
     DITest.injector = DITest.createInjector(settings);
 
-    const container = new Container();
-    DITest.injector.bootstrap(container);
+    await this.createContainer(settings);
+  }
+
+  static async createContainer(settings: DITestOptions = {}) {
+    const container = createContainer();
+
+    settings.imports?.forEach(({token, use}) => {
+      container.addProvider(token, {
+        useValue: use
+      });
+    });
 
     await DITest.injector.load(container);
   }

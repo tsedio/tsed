@@ -1,4 +1,4 @@
-import {createContainer, DITest, InjectorService} from "@tsed/di";
+import {DITest, DITestOptions, InjectorService} from "@tsed/di";
 import {PlatformBuilder} from "../builder/PlatformBuilder";
 import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext";
 import {createInjector} from "../utils/createInjector";
@@ -13,11 +13,9 @@ import {Type} from "@tsed/core";
 export class PlatformTest extends DITest {
   public static adapter: Type<PlatformAdapter>;
 
-  static async create(settings: Partial<TsED.Configuration> = {}) {
+  static async create(settings: DITestOptions = {}) {
     DITest.injector = PlatformTest.createInjector(getConfiguration(settings));
-    const container = createContainer();
-
-    await DITest.injector.load(container);
+    await DITest.createContainer(settings);
   }
 
   /**
