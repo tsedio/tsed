@@ -103,7 +103,15 @@ export class PlatformContext extends DIContext implements ContextMethods {
   }
 
   isDone() {
-    return !this.request || !this.response;
+    if (!this.request || !this.response) {
+      return true;
+    }
+
+    if (this.request?.isAborted()) {
+      return true;
+    }
+
+    return this.response?.isDone();
   }
 
   /**

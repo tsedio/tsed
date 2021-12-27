@@ -125,7 +125,7 @@ export class PlatformHandler {
   protected async onRequest(requestOptions: OnRequestOptions): Promise<any> {
     const {$ctx, metadata, err, handler} = requestOptions;
     // istanbul ignore next
-    if (!$ctx) {
+    if (!$ctx || $ctx.isDone()) {
       $log.error({
         name: "HEADERS_SENT",
         message: `An endpoint is called but the response is already send to the client. The call comes from the handler: ${metadata.toString()}`
@@ -170,7 +170,7 @@ export class PlatformHandler {
     }
 
     // istanbul ignore next
-    if (!$ctx?.response?.isHeadersSent || $ctx.response.isHeadersSent()) {
+    if (!$ctx || $ctx?.isDone()) {
       $log.warn({
         name: "HEADERS_SENT",
         message: `An error was caught after the headers were sent to the client. The error comes from the handler: ${metadata.toString()}`,
@@ -194,9 +194,8 @@ export class PlatformHandler {
   protected async onSuccess(data: any, requestOptions: OnRequestOptions) {
     const {metadata, $ctx, next} = requestOptions;
 
-    // TODO see this control is necessary
     // istanbul ignore next
-    if ($ctx.request.isAborted() || $ctx.response.isDone()) {
+    if ($ctx?.isDone()) {
       return;
     }
 

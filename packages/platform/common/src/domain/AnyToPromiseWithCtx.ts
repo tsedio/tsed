@@ -1,4 +1,4 @@
-import {AnyPromiseResult, AnyToPromise, AnyToPromiseStatus} from "@tsed/core";
+import {AnyPromiseResult, AnyToPromise} from "@tsed/core";
 import {PlatformContext} from "./PlatformContext";
 
 /**
@@ -22,17 +22,7 @@ export class AnyToPromiseWithCtx extends AnyToPromise {
   isDone(): boolean {
     const {$ctx} = this;
 
-    if (!$ctx?.isDone()) {
-      if ($ctx?.request.isAborted() || $ctx?.response.isDone()) {
-        this.destroy();
-
-        if (this.status === AnyToPromiseStatus.PENDING) {
-          this.status = AnyToPromiseStatus.RESOLVED;
-        }
-      }
-    }
-
-    return super.isDone();
+    return $ctx?.isDone() || super.isDone();
   }
 
   async call(cb: Function): Promise<AnyPromiseResult<any>> {
