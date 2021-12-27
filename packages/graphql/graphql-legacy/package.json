@@ -1,6 +1,6 @@
 {
   "name": "@tsed/graphql",
-  "version": "6.95.9",
+  "version": "6.95.10",
   "description": "GraphQL package for Ts.ED framework, based on Apollo-server-express and Type-graphql",
   "private": false,
   "source": "./src/index.ts",
@@ -28,7 +28,7 @@
     "apollo-server"
   ],
   "dependencies": {
-    "@tsed/typegraphql": "6.95.9",
+    "@tsed/typegraphql": "6.95.10",
     "tslib": "2.2.0"
   },
   "devDependencies": {},

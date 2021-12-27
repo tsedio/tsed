@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-serverless",
-  "version": "6.95.9",
+  "version": "6.95.10",
   "description": "Platform serverless module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -19,21 +19,21 @@
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
-    "@tsed/core": "6.95.9",
-    "@tsed/di": "6.95.9",
-    "@tsed/exceptions": "6.95.9",
-    "@tsed/json-mapper": "6.95.9",
+    "@tsed/core": "6.95.10",
+    "@tsed/di": "6.95.10",
+    "@tsed/exceptions": "6.95.10",
+    "@tsed/json-mapper": "6.95.10",
     "@tsed/logger": "^6.0.0",
-    "@tsed/platform-exceptions": "6.95.9",
-    "@tsed/platform-params": "6.95.9",
-    "@tsed/schema": "6.95.9",
+    "@tsed/platform-exceptions": "6.95.10",
+    "@tsed/platform-params": "6.95.10",
+    "@tsed/schema": "6.95.10",
     "encodeurl": "^1.0.2",
     "mime": "^2.5.2",
     "tslib": "2.2.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@tsed/platform-serverless-testing": "6.95.9",
+    "@tsed/platform-serverless-testing": "6.95.10",
     "@types/aws-lambda": "^8.10.83",
     "@types/encodeurl": "^1.0.0",
     "@types/mime": "^2.0.3"
