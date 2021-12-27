@@ -289,7 +289,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
 
     if (this.rootModule.$beforeRoutesInit) {
       await this.rootModule.$beforeRoutesInit();
-      delete this.rootModule.$beforeRoutesInit;
+      this.rootModule.$beforeRoutesInit = () => {};
     }
 
     await this.loadStatics("$beforeRoutesInit");
