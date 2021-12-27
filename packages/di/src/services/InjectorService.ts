@@ -261,7 +261,7 @@ export class InjectorService extends Container {
     return locals;
   }
 
-  loadSync(locals: LocalsContainer<any> = new LocalsContainer()) {
+  loadSync(locals: LocalsContainer = new LocalsContainer()) {
     for (const [, provider] of this) {
       if (!locals.has(provider.token) && this.scopeOf(provider) === ProviderScope.SINGLETON) {
         this.invoke(provider.token, locals);
@@ -579,7 +579,7 @@ export class InjectorService extends Container {
   }
 
   protected getInstance(token: any) {
-    return this.#cache.get(getClassOrSymbol(token));
+    return this.#cache.get(token);
   }
 
   /**
