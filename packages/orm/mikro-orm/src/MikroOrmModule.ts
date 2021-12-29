@@ -1,5 +1,5 @@
-import {DBContext, MikroOrmRegistry} from "./services";
-import {Configuration, Constant, Inject, Module, OnDestroy, OnInit} from "@tsed/di";
+import {DBContext, MikroOrmRegistry, RetryStrategy} from "./services";
+import {Configuration, Constant, Inject, Module, OnDestroy, OnInit, registerProvider} from "@tsed/di";
 import {Options} from "@mikro-orm/core";
 
 declare global {
@@ -36,3 +36,6 @@ export class MikroOrmModule implements OnDestroy, OnInit {
     return this.mikroOrmRegistry.closeConnections();
   }
 }
+
+// TODO: the IoC container should provide null or undefined by default until tsedio/tsed#1694 is closed
+registerProvider({provide: RetryStrategy, useValue: null});
