@@ -64,10 +64,10 @@
     "millify": "^3.5.0"
   },
   "devDependencies": {
-    "@tsed/markdown-it-symbols": "3.12.1",
+    "@tsed/markdown-it-symbols": "3.16.1",
     "vue-analytics": "5.22.1",
     "vuepress": "1.8.2",
-    "vuepress-theme-tsed": "3.15.0"
+    "vuepress-theme-tsed": "3.16.1"
   },
   "directories": {
     "packages": "packages",

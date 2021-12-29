@@ -65,7 +65,8 @@ parentPort.once('message', async payload => {
             `Worker #${payload.workerNumber} error rendering ${pagePath}:`
           ),
           false
-        )
+        ),
+        e
       )
       throw e
     } finally {

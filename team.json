@@ -38,11 +38,20 @@
     "role": "Contributor"
   },
   {
-    "title": "Ochrstn",
+    "title": "Oliver Christen",
     "job": "Developer",
     "src": "https://avatars.githubusercontent.com/u/25102041?v=4",
-    "github": "EmilienLeroy",
+    "github": "ochrstn",
     "country": "Germany",
+    "city": "NoWhere",
+    "role": "Contributor"
+  },
+  {
+    "title": "Artem Derevnjuk",
+    "job": "Developer",
+    "src": "https://avatars.githubusercontent.com/u/38690835?v=4",
+    "github": "derevnjuk",
+    "country": "USA",
     "city": "NoWhere",
     "role": "Contributor"
   }

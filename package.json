@@ -218,9 +218,6 @@
         "socketio": {
           "url": "https://github.com/tsedio/tsed-example-socketio.git"
         },
-        "passport-azure-ad": {
-          "url": "https://github.com/tsedio/tsed-example-passport-azure-ad.git"
-        },
         "vuejs": {
           "url": "https://github.com/tsedio/tsed-example-vuejs.git"
         },

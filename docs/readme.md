@@ -11,6 +11,8 @@ gettingStartedUrl: /getting-started/
 messengerText: Discussions
 messengerIcon: bxl-slack 
 messengerUrl: https://api.tsed.io/rest/slack/tsedio/tsed
+sponsorText: Sponsor @romakita
+sponsorUrl: https://github.com/sponsors/Romakita
 features:
  - title: Rest API
    icon: bx-server
@@ -70,32 +72,6 @@ sponsors:
        - title: Artips
          href: https://artips.fr
          src: /they-use-it/artips.png
-   - title: Sponsors
-     position: after-backers
-     class: px-3 py-2
-     style:
-       maxHeight: 30px
-     items:
-       - title: PnxBet
-         href: https://pnxbet.com.ph/
-         expireAt: 2021-12-14
-         src: /sponsors/pnxbet-ph-logo.png
-       - title: BestOnlineCasino.com.ph
-         href: https://bestonlinecasino.com.ph/
-         expireAt: 2021-12-14
-         src: /sponsors/BestOnlineCasino.png 
-       - title: SportBetting
-         href: https://sportbetting.ph
-         expireAt: 2021-12-14
-         src: /sponsors/sportsbeting-1.png   
-       - title: OnlineGambling
-         href: https://onlinegambling.com.ph/
-         expireAt: 2021-12-14
-         src: /sponsors/OnlineGambling.png             
-       - title: https://best-casinos.in/
-         href: https://best-casinos.in/
-         expireAt: 2021-12-14
-         src: /sponsors/best-casinos-in-for-white-300x100.png      
 showContent: false
 frameworks:
  - title: TypeScript
@@ -134,6 +110,9 @@ frameworks:
  - title: Prisma
    href: /tutorials/prisma.html
    src: /prisma-3.svg
+ - title: MikroORM
+   href: /tutorials/mikroorm.html
+   src: https://mikro-orm.io/img/logo.svg
  - title: TypeORM
    href: /tutorials/typeorm.html
    src: /typeorm.png

@@ -33,7 +33,7 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/typeorm
 
 Currently, `@tsed/typeorm` allows you:
  
-- Configure one or more TypeORM connections via the `@ServerSettings` configuration. All databases will be initialized when the server starts during the server's `OnInit` phase.
+- Configure one or more TypeORM connections via the `@Configuration` decorator. All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Use the Entity TypeORM as Model for Controllers, AJV Validation and Swagger.
 
 ## Installation

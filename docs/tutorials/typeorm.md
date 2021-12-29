@@ -1,7 +1,7 @@
 ---
 meta:
  - name: description
-   content: Use TypeORM with Express, TypeScript and Ts.ED. ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.
+   content: Use TypeORM with Ts.ED. ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.
  - name: keywords
    content: ts.ed express typescript typeorm node.js javascript decorators
 projects:   
@@ -12,15 +12,6 @@ projects:
 # TypeORM <Badge text="Contributors are welcome" />
 
 <Banner src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" href="https://typeorm.io/" height="200" />
-
-This tutorial provides two ways to create connection:
-
-- The first one uses @tsed/typeorm module to create multiple connections with @@Configuration@@,
-- The second uses the new async provider feature introduced in v5.27 to create connection.
-
-Additionally, this topic shows you how you can use Entity from Typeorm with Ts.ED controller (on the bottom of this page).
-
-<Projects type="projects"/>
 
 ## Features
 

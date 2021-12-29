@@ -1,7 +1,6 @@
 import VueAnalytics from "vue-analytics";
 import VueTsED from "vuepress-theme-tsed/src/install";
 import "./styles/style.css";
-// import {ReleaseNote} from "@tsed/vuepress-common";
 import 'prismjs/components/prism-groovy';
 
 export default ({

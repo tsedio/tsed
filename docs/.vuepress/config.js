@@ -196,6 +196,10 @@ module.exports = {
                 link: "/tutorials/prisma.html"
               },
               {
+                text: "MikroORM",
+                link: "/tutorials/mikroorm.html"
+              },
+              {
                 text: "TypeORM",
                 link: "/tutorials/typeorm.html"
               },
@@ -365,6 +369,7 @@ module.exports = {
               "/tutorials/passport",
               "/tutorials/keycloak",
               "/tutorials/prisma",
+              // "/tutorials/mikroorm",
               "/tutorials/typeorm",
               "/tutorials/mongoose",
               "/tutorials/graphql",
@@ -398,6 +403,7 @@ module.exports = {
           "/tutorials/keycloak",
           "/tutorials/prisma",
           "/tutorials/typeorm",
+          // "/tutorials/mikroorm",
           "/tutorials/mongoose",
           "/tutorials/graphql",
           "/tutorials/socket-io",
