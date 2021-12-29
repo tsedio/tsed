@@ -5,11 +5,11 @@ import {MikroORM} from "@mikro-orm/core";
 @Injectable()
 export class UserService {
   @Connection()
-  connection: MikroORM;
+  connection!: MikroORM;
 
   @Connection("db1")
-  connection1: MikroORM;
+  connection1!: MikroORM;
 
   @Connection("db2")
-  connection2: MikroORM;
+  connection2!: MikroORM;
 }

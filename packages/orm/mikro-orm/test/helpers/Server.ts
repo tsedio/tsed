@@ -1,5 +1,6 @@
-import {Configuration, Inject, PlatformApplication} from "@tsed/common";
-import Path from "path";
+import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/common";
+import {resolve} from "path";
 import "@tsed/platform-express";
 
 const cookieParser = require("cookie-parser"),
@@ -7,7 +8,7 @@ const cookieParser = require("cookie-parser"),
   compress = require("compression"),
   methodOverride = require("method-override");
 
-const rootDir = Path.resolve(__dirname);
+const rootDir = resolve(__dirname);
 
 @Configuration({
   rootDir,
@@ -21,7 +22,7 @@ const rootDir = Path.resolve(__dirname);
 })
 export class Server {
   @Inject()
-  app: PlatformApplication;
+  app!: PlatformApplication;
 
   public $beforeRoutesInit(): void {
     this.app

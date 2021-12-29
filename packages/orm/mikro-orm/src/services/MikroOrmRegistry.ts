@@ -1,13 +1,14 @@
 import {MikroOrmFactory} from "./MikroOrmFactory";
-import {Inject, Injectable, InjectorService} from "@tsed/di";
+import {Inject, Injectable} from "@tsed/di";
 import {IDatabaseDriver as DatabaseDriver, MikroORM, Options} from "@mikro-orm/core";
 import {catchAsyncError, getValue} from "@tsed/core";
+import {Logger} from "@tsed/logger";
 
 @Injectable()
 export class MikroOrmRegistry {
   private readonly connections = new Map<string, MikroORM>();
 
-  constructor(@Inject() private readonly injector: InjectorService, @Inject() private readonly mikroOrmFactory: MikroOrmFactory) {}
+  constructor(@Inject() private readonly logger: Logger, @Inject() private readonly mikroOrmFactory: MikroOrmFactory) {}
 
   public async createConnection<T extends DatabaseDriver>(connectionOptions: Options<T>): Promise<MikroORM> {
     const connectionName = getValue<string>(connectionOptions, "contextName", "default");
@@ -16,14 +17,14 @@ export class MikroOrmRegistry {
       return this.get(connectionName);
     }
 
-    this.injector.logger.info(`Create connection with MikroOrm to database: %s`, connectionName);
-    this.injector.logger.debug(`options: %j`, connectionOptions);
+    this.logger.info(`Create connection with MikroOrm to database: %s`, connectionName);
+    this.logger.debug(`options: %j`, connectionOptions);
 
     const connection = await this.mikroOrmFactory.create(connectionOptions);
 
     this.connections.set(connectionName, connection);
 
-    this.injector.logger.info(`Connected with MikroOrm to database: %s`, connectionName);
+    this.logger.info(`Connected with MikroOrm to database: %s`, connectionName);
 
     return connection;
   }

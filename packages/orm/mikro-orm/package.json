@@ -28,7 +28,9 @@
     "@tsed/core": "6.96.2",
     "@tsed/di": "6.96.2",
     "@tsed/json-mapper": "6.96.2",
+    "@tsed/logger": "^6.0.0",
     "@tsed/schema": "6.96.2",
+    "@tsed/testing-mongoose": "6.96.2",
     "ts-mockito": "^2.6.1"
   },
   "peerDependencies": {
@@ -36,7 +38,6 @@
     "@tsed/common": "^6.96.2",
     "@tsed/core": "^6.96.2",
     "@tsed/di": "^6.96.2",
-    "@tsed/json-mapper": "^6.96.2",
-    "@tsed/schema": "^6.96.2"
+    "@tsed/logger": "^6.0.0"
   }
 }

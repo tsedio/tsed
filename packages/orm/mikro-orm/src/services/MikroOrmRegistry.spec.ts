@@ -1,7 +1,7 @@
 import {MikroOrmRegistry} from "./MikroOrmRegistry";
 import {MikroOrmFactory} from "./MikroOrmFactory";
 import {anything, instance, mock, reset, verify, when} from "ts-mockito";
-import {InjectorService, Logger} from "@tsed/common";
+import {Logger} from "@tsed/logger";
 import {MikroORM, Options} from "@mikro-orm/core";
 
 const fixtures: {mydb2: Options; none: Options; mydb: Options} = {
@@ -22,16 +22,13 @@ const fixtures: {mydb2: Options; none: Options; mydb: Options} = {
 };
 
 describe("MikroOrmRegistry", () => {
-  const injectorServiceMock = mock<InjectorService>();
   const loggerMock = mock<Logger>();
   const mikroOrmFactoryMock = mock<MikroOrmFactory>();
   const mikroOrm = mock(MikroORM);
 
-  when(injectorServiceMock.logger).thenReturn(instance(loggerMock));
-
   Object.values(fixtures).forEach((options: Options) => when(mikroOrmFactoryMock.create(options)).thenResolve(instance(mikroOrm)));
 
-  const mikroOrmRegistry = new MikroOrmRegistry(instance(injectorServiceMock), instance(mikroOrmFactoryMock));
+  const mikroOrmRegistry = new MikroOrmRegistry(instance(loggerMock), instance(mikroOrmFactoryMock));
 
   beforeEach(() => reset<MikroORM | MikroOrmFactory>(mikroOrmFactoryMock, mikroOrm));
 

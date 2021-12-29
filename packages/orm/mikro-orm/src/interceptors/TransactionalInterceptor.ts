@@ -1,18 +1,29 @@
 import {DBContext, MikroOrmRegistry, RetryStrategy} from "../services";
 import {Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
 import {EntityManager} from "@mikro-orm/core";
+import {Logger} from "@tsed/logger";
 
 export interface TransactionOptions {
   connectionName?: string;
-  retryStrategy?: RetryStrategy;
+  retry?: boolean;
 }
 
 @Interceptor()
 export class TransactionalInterceptor implements InterceptorMethods {
-  constructor(@Inject() private readonly registry: MikroOrmRegistry, @Inject() private readonly context: DBContext) {}
+  constructor(
+    @Inject() private readonly registry: MikroOrmRegistry,
+    @Inject() private readonly context: DBContext,
+    @Inject() private readonly logger: Logger,
+    @Inject(RetryStrategy)
+    private readonly retryStrategy?: RetryStrategy
+  ) {}
 
   public async intercept(context: InterceptorContext<unknown>, next: InterceptorNext): Promise<unknown> {
     const options = this.extractContextName(context);
+
+    if (options.retry && !this.retryStrategy) {
+      this.logger.warn(`To retry a transaction you have to implement a "${RetryStrategy.description}" interface`);
+    }
 
     const ctx = this.context.getContext();
 
@@ -41,27 +52,31 @@ export class TransactionalInterceptor implements InterceptorMethods {
 
     const runInTransaction = () => this.executeInTransaction(options.connectionName!, next);
 
-    return this.context.run(ctx, () => (options.retryStrategy ? options.retryStrategy.acquire(runInTransaction) : runInTransaction()));
+    return this.context.run(ctx, () => (options.retry ? this.retryStrategy?.acquire(runInTransaction) : runInTransaction()));
   }
 
   private extractContextName(context: InterceptorContext<unknown>): TransactionOptions {
     const options = context.options || ({} as Partial<TransactionOptions> | string);
 
     let connectionName: string | undefined;
-    let retryStrategy: RetryStrategy | undefined;
+    let retry: boolean | undefined;
 
     if (typeof options === "string") {
       connectionName = options;
     } else if (options) {
       connectionName = options.connectionName;
-      retryStrategy = options.retryStrategy;
+      retry = options.retry;
     }
 
     if (!connectionName) {
       connectionName = "default";
     }
 
-    return {connectionName, retryStrategy};
+    if (!retry) {
+      retry = false;
+    }
+
+    return {connectionName, retry};
   }
 
   private async executeInTransaction(connectionName: string, next: InterceptorNext): Promise<unknown> {
