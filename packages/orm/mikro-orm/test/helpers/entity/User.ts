@@ -6,5 +6,5 @@ import {ObjectId} from "@mikro-orm/mongodb";
 export class User {
   @PrimaryKey()
   @Property()
-  _id: ObjectId;
+  _id!: ObjectId;
 }

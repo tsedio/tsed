@@ -200,6 +200,93 @@ export class UsersCtrl {
 }
 ```
 
+By default, the automatic retry policy is disabled. You can implement your own to match the business requirements and the nature of the failure. For some noncritical operations, it is better to fail as soon as possible rather than retry a coupe of times. For example, in an interactive web application, it is better to fail right after a smaller number of retries with only a short delay between retry attempts, and display a message to the user (for example, "please try again later").
+
+The `@Transactional()` decorator allows you to enable a retry policy for the particular resources. You just need to implement the `RetryStrategy` interface and use `registerProvider()` or `@OverrideProvider()` to register it in the IoC container. Below you can find an example to handle occurred optimistic locks based on [an exponential backoff retry strategy](https://en.wikipedia.org/wiki/Exponential_backoff).
+
+```ts
+import { OptimisticLockError } from '@mikro-orm/core';
+import { RetryStrategy } from '@tsed/mikro-orm';
+
+export interface ExponentialBackoffOptions {
+  maxDepth: number;
+}
+
+export class ExponentialBackoff implements RetryStrategy {
+  private depth = 0;
+
+  constructor(private readonly options: ExponentialBackoffOptions) {}
+
+  public async acquire<T extends (...args: unknown[]) => unknown>(
+    task: T
+  ): Promise<ReturnType<T>> {
+    try {
+      return (await task()) as ReturnType<T>;
+    } catch (e) {
+      if (
+        this.shouldRetry(e as Error) &&
+        this.depth < this.options.maxDepth
+      ) {
+        return this.retry(task);
+      }
+
+      throw e;
+    }
+  }
+
+  private shouldRetry(error: Error): boolean {
+    return error instanceof OptimisticLockError;
+  }
+
+  private async retry<T extends (...args: unknown[]) => unknown>(
+    task: T
+  ): Promise<ReturnType<T>> {
+    await this.sleep(2 ** this.depth * 50);
+
+    this.depth += 1;
+
+    return this.acquire(task);
+  }
+
+  private sleep(milliseconds: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, milliseconds));
+  }
+}
+
+registerProvider({
+  provide: RetryStrategy,
+  useFactory(): ExponentialBackoff {
+    return new ExponentialBackoff({maxDepth: 3})
+  }
+});
+```
+
+`ExponentialBackoff` invokes passed function recursively is contained in a try/catch block. The method returns control to the interceptor if the call to the `task` function succeeds without throwing an exception. If the `task` method fails, the catch block examines the reason for the failure. If it's optimistic locking the code waits for a short delay before retrying the operation.
+
+Once a retry strategy is implemented, you can enable an automatic retry mechanism using the `@Transactional` decorator like that:
+
+```typescript
+import {Controller, Post, BodyParams, Inject, Get} from "@tsed/common";
+import {Transactional} from "@tsed/mikro-orm";
+
+@Controller("/users")
+export class UsersCtrl {
+  @Inject()
+  private usersService: UsersService;
+
+  @Post("/")
+  @Transactional({retry: true})
+  create(@BodyParams() user: User): Promise<User> {
+    return this.usersService.create(user);
+  }
+
+  @Get("/")
+  getList(): Promise<User[]> {
+    return this.usersService.find();
+  }
+}
+```
+
 ## Contributors
 
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
