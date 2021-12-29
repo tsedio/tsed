@@ -1,20 +1,23 @@
 import {DBContext, MikroOrmRegistry} from "../services";
 import {TransactionalInterceptor} from "./TransactionalInterceptor";
 import {anything, instance, mock, reset, spy, verify, when} from "ts-mockito";
-import {InterceptorContext, InterceptorNext} from "@tsed/common";
+import {InterceptorContext, InterceptorNext, Logger} from "@tsed/common";
 import {EntityManager, MikroORM, OptimisticLockError} from "@mikro-orm/core";
 
 describe("TransactionalInterceptor", () => {
   const mikroOrmRegistryMock = mock<MikroOrmRegistry>();
   const mikroOrm = mock(MikroORM);
   const entityManagerMock = mock(EntityManager);
+  const loggerMock = mock<Logger>();
   const dbContext = new DBContext();
 
   let transactionalInterceptor!: TransactionalInterceptor;
 
-  afterEach(() => reset<MikroOrmRegistry | MikroORM | EntityManager>(mikroOrmRegistryMock, mikroOrm, entityManagerMock));
+  afterEach(() =>
+    reset<MikroOrmRegistry | MikroORM | EntityManager | Logger>(mikroOrmRegistryMock, mikroOrm, entityManagerMock, loggerMock)
+  );
   beforeEach(() => {
-    transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext);
+    transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext, instance(loggerMock));
     when(mikroOrm.em).thenReturn(instance(entityManagerMock));
     when(entityManagerMock.fork(anything(), anything())).thenReturn(instance(entityManagerMock));
   });
