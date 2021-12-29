@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
-import {Options} from "@mikro-orm/core";
+import {MikroORM, Options} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "./services";
+import {deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
 import {MikroOrmModule} from "./MikroOrmModule";
 
 describe("MikroOrmModule", () => {
@@ -9,6 +10,7 @@ describe("MikroOrmModule", () => {
     entities: [],
     clientUrl: "mongo://localhost"
   };
+  const mockMikroOrmRegistry = mock<MikroOrmRegistry>();
 
   beforeEach(() =>
     PlatformTest.create({
@@ -16,38 +18,42 @@ describe("MikroOrmModule", () => {
       imports: [
         {
           token: MikroOrmRegistry,
-          use: {
-            createConnection: jest.fn(),
-            closeConnections: jest.fn()
-          }
+          use: instance(mockMikroOrmRegistry)
         }
       ]
     })
   );
 
   afterEach(() => {
+    reset(mockMikroOrmRegistry);
+
     return PlatformTest.reset();
   });
 
   describe("$onInit", () => {
     it("should create the corresponding connections", async () => {
-      const mikroOrmRegistry = PlatformTest.get<MikroOrmRegistry>(MikroOrmRegistry);
+      // arrange
+      const mikroOrmModule = PlatformTest.get<MikroOrmModule>(MikroOrmModule);
+      when(mockMikroOrmRegistry.createConnection(config)).thenResolve(({} as unknown) as MikroORM);
 
-      expect(mikroOrmRegistry.createConnection).toHaveBeenCalledWith(config);
+      // act
+      await mikroOrmModule.$onInit();
+
+      verify(mockMikroOrmRegistry.createConnection(deepEqual(config))).called();
     });
   });
 
   describe("$onDestroy", () => {
     it("should destroy the corresponding connections", async () => {
       // arrange
-      const mikroOrmRegistry = PlatformTest.get<MikroOrmRegistry>(MikroOrmRegistry);
       const mikroOrmModule = PlatformTest.get<MikroOrmModule>(MikroOrmModule);
+      when(mockMikroOrmRegistry.closeConnections()).thenResolve();
 
       // act
       await mikroOrmModule.$onDestroy();
 
       // assert
-      expect(mikroOrmRegistry.closeConnections).toHaveBeenCalledWith();
+      verify(mockMikroOrmRegistry.closeConnections()).called();
     });
   });
 });
