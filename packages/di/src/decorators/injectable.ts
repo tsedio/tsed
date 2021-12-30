@@ -21,10 +21,10 @@ import {registerProvider} from "../registries/ProviderRegistry";
  * @decorator
  */
 export function Injectable(options: Partial<IProvider> = {}): ClassDecorator {
-  return (provide: any) => {
+  return (target: any) => {
     registerProvider({
       ...options,
-      provide
+      ...(options.provide ? {useClass: target} : {provide: target})
     });
   };
 }
