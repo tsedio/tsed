@@ -1,7 +1,8 @@
 import {DBContext, MikroOrmRegistry, RetryStrategy} from "../services";
 import {TransactionalInterceptor} from "./TransactionalInterceptor";
 import {anything, instance, mock, reset, spy, verify, when} from "ts-mockito";
-import {InterceptorContext, InterceptorNext, Logger} from "@tsed/common";
+import {InterceptorContext, InterceptorNext} from "@tsed/di";
+import {Logger} from "@tsed/logger";
 import {EntityManager, MikroORM, OptimisticLockError} from "@mikro-orm/core";
 
 describe("TransactionalInterceptor", () => {
