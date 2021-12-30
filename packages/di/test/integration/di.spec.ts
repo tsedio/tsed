@@ -96,6 +96,38 @@ describe("DI", () => {
       expect(injector.get<MyService>(MyService)!.nested).to.be.instanceOf(NestedService);
     });
   });
+
+  describe("it should invoke service with a symbol", () => {
+    interface BaseService {}
+
+    const BaseService: unique symbol = Symbol('BaseService')
+
+    @Injectable({provide: BaseService})
+    class NestedService implements BaseService {}
+
+    @Injectable()
+    class MyService {
+      @Inject(BaseService)
+      nested: BaseService;
+    }
+
+    after(() => {
+      GlobalProviders.delete(MyService);
+      GlobalProviders.delete(NestedService);
+    });
+
+    it("should inject the expected class", async () => {
+      const injector = new InjectorService();
+      const providers = new Container();
+      providers.add(MyService);
+      providers.add(NestedService);
+
+      await injector.load(providers);
+
+      expect(injector.get<MyService>(MyService)!.nested).to.be.instanceOf(NestedService);
+    });
+  });
+
   describe("invoke class with a provider", () => {
     it("should invoke class with a another useClass", async () => {
       @Injectable()
