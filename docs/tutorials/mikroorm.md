@@ -22,15 +22,35 @@ Currently, `@tsed/mikro-orm` allows you:
 
 To begin, install the MikroORM module for TS.ED:
 
+<Tabs class="-code">
+  <Tab label="NPM">
+
 ```bash
-npm install --save @tsed/mikro-orm
-npm install --save @mikro-orm/core
+npm install @mikro-orm/core @tsed/mikro-orm @mikro-orm/mongodb     # for mongo
+npm install @mikro-orm/core @tsed/mikro-orm @mikro-orm/mysql       # for mysql/mariadb
+npm install @mikro-orm/core @tsed/mikro-orm @mikro-orm/mariadb     # for mysql/mariadb
+npm install @mikro-orm/core @tsed/mikro-orm @mikro-orm/postgresql  # for postgresql
+npm install @mikro-orm/core @tsed/mikro-orm @mikro-orm/sqlite      # for sqlite
 ```
 
-Then import `@tsed/mikro-orm` in your Server:
+  </Tab>
+  <Tab label="Yarn">
+
+```bash
+yarn add @mikro-orm/core @tsed/mikro-orm @mikro-orm/mongodb     # for mongo
+yarn add @mikro-orm/core @tsed/mikro-orm @mikro-orm/mysql       # for mysql/mariadb
+yarn add @mikro-orm/core @tsed/mikro-orm @mikro-orm/mariadb     # for mysql/mariadb
+yarn add @mikro-orm/core @tsed/mikro-orm @mikro-orm/postgresql  # for postgresql
+yarn add @mikro-orm/core @tsed/mikro-orm @mikro-orm/sqlite      # for sqlite
+```
+
+  </Tab>
+</Tabs>
+
+Once the installation process is completed, we can import the `MikroOrmModule` into the `Server` configuration:
 
 ```typescript
-import {Configuration} from "@tsed/common";
+import {Configuration} from "@tsed/di";
 import {MikroOrmModule} from "@tsed/mikro-orm";
 
 @Configuration({
@@ -52,16 +72,14 @@ import {MikroOrmModule} from "@tsed/mikro-orm";
     }
   ]
 })
-export class Server {
-
-}
+export class Server {}
 ```
 
-For more information about MikroORM look his documentation [here](https://mikro-orm.io/docs);
+The `mikroOrm` options accepts the same configuration object as `init()` from the MikroORM package. Check [this page](https://mikro-orm.io/docs/configuration) for the complete configuration documentation.
 
 ## Obtain a connection
 
-`Connection` decorator lets you retrieve an instance of MikroORM Connection.
+`@Connection` decorator lets you retrieve an instance of MikroORM Connection.
 
 ```typescript
 import {Injectable, AfterRoutesInit} from "@tsed/common";
@@ -89,6 +107,50 @@ export class UsersService {
     console.log("Loaded users: ", users);
 
     return users;
+  }
+}
+```
+
+## Obtain EntityManager
+
+`@EntityManager` and `@Em` decorators lets you retrieve an instance of EntityManager.
+
+```typescript
+import {Injectable, AfterRoutesInit} from "@tsed/common";
+import {Em} from "@tsed/mikro-orm";
+import {EntityManager} from '@mikro-orm/mysql'; // Import EntityManager from your driver package or `@mikro-orm/knex`
+
+@Injectable()
+export class UsersService {
+  @Em()
+  private readonly em!: EntityManager;
+
+  async create(user: User): Promise<User> {
+    await this.em.persistAndFlush(user);
+    console.log("Saved a new user with id: " + user.id);
+
+    return user;
+  }
+}
+```
+
+It's also possible to inject Entity manager by his connection name:
+
+```typescript
+import {Injectable, AfterRoutesInit} from "@tsed/common";
+import {Em} from "@tsed/mikro-orm";
+import {EntityManager} from '@mikro-orm/mysql'; // Import EntityManager from your driver package or `@mikro-orm/knex`
+
+@Injectable()
+export class UsersService {
+  @Em("connectionName")
+  private readonly em!: EntityManager;
+
+  async create(user: User): Promise<User> {
+    await this.em.persistAndFlush(user);
+    console.log("Saved a new user with id: " + user.id);
+
+    return user;
   }
 }
 ```
