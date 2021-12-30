@@ -45,10 +45,9 @@ describe("@CollectionOf", () => {
     const entity = JsonEntityStore.from(Model, "prop");
     const schema = getJsonSchema(Model);
 
-    expect(entity.schema["_target"]).to.deep.equal(Array);
+    expect(entity.schema.getTarget()).to.deep.equal(Array);
     expect(entity.schema.get("type")).to.deep.equal("array");
     expect(entity.itemSchema.getComputedType()).to.deep.equal(Nested);
-    expect(entity.schema["_itemSchema"]).to.deep.equal(entity.itemSchema);
 
     expect(schema).to.deep.equal({
       definitions: {
