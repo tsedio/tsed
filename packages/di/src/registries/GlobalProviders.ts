@@ -126,7 +126,7 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
     if (!this.has(key)) {
       const {model = Provider} = this.#settings.get(type) || {};
 
-      const item = new model(key);
+      const item = new model(key, options);
 
       this.set(key, item);
     }

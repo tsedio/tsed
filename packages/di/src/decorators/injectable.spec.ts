@@ -1,55 +1,52 @@
 import {Injectable} from "@tsed/di";
 import {expect} from "chai";
-import Sinon from "sinon";
+import {stub, restore} from "sinon";
 import * as ProviderRegistry from "../../src/registries/ProviderRegistry";
 
 describe("@Injectable()", () => {
-  const sandbox = Sinon.createSandbox();
+  before(() => stub(ProviderRegistry, "registerProvider"));
 
-  describe("with options", () => {
-    before(() => {
-      sandbox.stub(ProviderRegistry, "registerProvider");
-    });
+  after(() => restore());
 
-    after(() => {
-      sandbox.restore();
-    });
+  it("should call `registerProvider` setting `provide` according to the target class", () => {
+    // GIVEN
+    class Test {}
 
-    it("should called registerProvider", () => {
-      // GIVEN
-      class Test {}
+    // WHEN
+    Injectable()(Test);
 
-      // WHEN
-      Injectable({options: "options"})(Test);
-
-      // THEN
-      expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
-        options: "options",
-        provide: Test
-      });
+    // THEN
+    expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
+      provide: Test
     });
   });
 
-  describe("without options", () => {
-    before(() => {
-      sandbox.stub(ProviderRegistry, "registerProvider");
+  it("should call `registerProvider` passing an additional options", () => {
+    // GIVEN
+    class Test {}
+
+    // WHEN
+    Injectable({options: "options"})(Test);
+
+    // THEN
+    expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
+      options: "options",
+      provide: Test
     });
+  });
 
-    after(() => {
-      sandbox.restore();
-    });
+  it("should override `provide`", () => {
+    // GIVEN
+    class Test {}
+    const provide = "custom";
 
-    it("should called registerProvider", () => {
-      // GIVEN
-      class Test {}
+    // WHEN
+    Injectable({provide})(Test);
 
-      // WHEN
-      Injectable()(Test);
-
-      // THEN
-      expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
-        provide: Test
-      });
+    // THEN
+    expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
+      provide,
+      useClass: Test
     });
   });
 });
