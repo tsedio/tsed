@@ -61,17 +61,16 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   readonly $allow: any[] = [];
   public $selfRequired: boolean;
   public $forwardGroups: boolean = false;
-  protected _nullable: boolean = false;
-  protected _genericLabels: string[];
-  protected _nestedGenerics: Type<any>[][] = [];
-  protected _alias: AliasMap = new Map();
-  protected _itemSchema: JsonSchema;
-  protected _target: Type<any>;
-  protected _isGeneric: boolean = false;
-  protected _isCollection: boolean = false;
-  protected _ref: boolean = false;
 
-  // protected _specs: Map<SpecTypes, any> = new Map();
+  #nullable: boolean = false;
+  #genericLabels: string[];
+  #nestedGenerics: Type<any>[][] = [];
+  #alias: AliasMap = new Map();
+  #itemSchema: JsonSchema;
+  #target: Type<any>;
+  #isGeneric: boolean = false;
+  #isCollection: boolean = false;
+  #ref: boolean = false;
 
   constructor(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
     super();
@@ -82,49 +81,49 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   get alias() {
-    return this._alias;
+    return this.#alias;
   }
 
   get nestedGenerics(): any[] {
-    return this._nestedGenerics;
+    return this.#nestedGenerics;
   }
 
   set nestedGenerics(value: any[]) {
-    this._nestedGenerics = value;
+    this.#nestedGenerics = value;
   }
 
   get genericLabels(): string[] {
-    return this._genericLabels;
+    return this.#genericLabels;
   }
 
   set genericLabels(value: string[]) {
-    this._genericLabels = value;
+    this.#genericLabels = value;
   }
 
   get nullable(): boolean {
-    return this._nullable || this.$allow.includes(null);
+    return this.#nullable || this.$allow.includes(null);
   }
 
   set nullable(value: boolean) {
-    this._nullable = value;
+    this.#nullable = value;
   }
 
   get isClass() {
-    return isClass(this.class) && ![Map, Array, Set, Object, Date, Boolean, Number, String].includes(this._target as any);
+    return isClass(this.class) && ![Map, Array, Set, Object, Date, Boolean, Number, String].includes(this.#target as any);
   }
 
   /**
    * Current schema is a collection
    */
   get isCollection() {
-    return this._isCollection;
+    return this.#isCollection;
   }
 
   /**
    * Current schema is a generic
    */
   get isGeneric() {
-    return this._isGeneric;
+    return this.#isGeneric;
   }
 
   /**
@@ -143,7 +142,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   get canRef(): boolean {
-    return this._ref;
+    return this.#ref;
   }
 
   static from(obj: Partial<JsonSchemaObject> = {}) {
@@ -151,27 +150,27 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   itemSchema(obj: AnyJsonSchema = {}) {
-    this._itemSchema = this._itemSchema || mapToJsonSchema(obj);
-    this._itemSchema.assign(obj);
+    this.#itemSchema = this.#itemSchema || mapToJsonSchema(obj);
+    this.#itemSchema.assign(obj);
 
-    return this._itemSchema;
+    return this.#itemSchema;
   }
 
   getAliasOf(property: AliasType) {
-    return this._alias.get(property as any);
+    return this.#alias.get(property as any);
   }
 
   addAlias(property: AliasType, alias: AliasType) {
-    this._alias.set(property, alias);
-    this._alias.set(alias, property);
+    this.#alias.set(property, alias);
+    this.#alias.set(alias, property);
 
     return this;
   }
 
   removeAlias(property: AliasType) {
-    const alias = this._alias.get(property);
-    alias && this._alias.delete(alias);
-    this._alias.delete(property);
+    const alias = this.#alias.get(property);
+    alias && this.#alias.delete(alias);
+    this.#alias.delete(property);
 
     return this;
   }
@@ -199,7 +198,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * @param name
    */
   label(name: string) {
-    this._ref = true;
+    this.#ref = true;
 
     super.set("name", name);
 
@@ -304,7 +303,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.9
    */
   items(items: AnyJsonSchema | AnyJsonSchema[]) {
-    super.set("items", (this._itemSchema = mapToJsonSchema(items)));
+    super.set("items", (this.#itemSchema = mapToJsonSchema(items)));
 
     return this;
   }
@@ -663,8 +662,8 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     switch (type) {
       case Map:
         super.set("type", getJsonType(type));
-        this._target = type;
-        this._isCollection = true;
+        this.#target = type;
+        this.#isCollection = true;
         if (!this.has("additionalProperties")) {
           super.set("additionalProperties", this.itemSchema({}));
         }
@@ -672,8 +671,8 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
       case Array:
         super.set("type", getJsonType(type));
-        this._target = type;
-        this._isCollection = true;
+        this.#target = type;
+        this.#isCollection = true;
 
         if (!this.has("items")) {
           super.set("items", this.itemSchema({}));
@@ -682,8 +681,8 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
       case Set:
         super.set("type", getJsonType(type));
-        this._target = type;
-        this._isCollection = true;
+        this.#target = type;
+        this.#isCollection = true;
         this.uniqueItems(true);
 
         if (!this.has("items")) {
@@ -702,7 +701,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
       case Number:
       case String:
         super.set("type", getJsonType(type));
-        this._target = type;
+        this.#target = type;
         if (!this.has("properties")) {
           super.set("properties", {});
         }
@@ -711,7 +710,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
       default:
         if (isClass(type) || isFunction(type)) {
           super.set("type", undefined);
-          this._target = type;
+          this.#target = type;
 
           if (!this.has("properties")) {
             super.set("properties", {});
@@ -719,7 +718,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
         } else {
           const jsonType = getJsonType(type);
           if (jsonType === "generic") {
-            this._isGeneric = true;
+            this.#isGeneric = true;
             super.set("$ref", type);
           } else {
             super.set("type", jsonType);
@@ -828,14 +827,14 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
         this.$required.add(key);
       });
 
-      this._ref = obj._ref;
-      this._alias = new Map(this._alias.entries());
-      obj._genericLabels && (this._genericLabels = [...obj._genericLabels]);
-      this._nestedGenerics = obj._nestedGenerics.map((item) => [...item]);
-      this._target = obj._target;
-      this._isGeneric = obj._isGeneric;
-      this._isCollection = obj._isCollection;
-      this._ref = obj._ref;
+      this.#ref = obj.#ref;
+      this.#alias = new Map(this.#alias.entries());
+      obj.#genericLabels && (this.#genericLabels = [...obj.#genericLabels]);
+      this.#nestedGenerics = obj.#nestedGenerics.map((item) => [...item]);
+      this.#target = obj.#target;
+      this.#isGeneric = obj.#isGeneric;
+      this.#isCollection = obj.#isCollection;
+      this.#ref = obj.#ref;
 
       super.set("type", obj.get("type"));
     }
@@ -859,11 +858,11 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * the function will be called to get the right type.
    */
   getComputedType(): any {
-    return getComputedType(this._target);
+    return getComputedType(this.#target);
   }
 
   getComputedItemType(): any {
-    return this._itemSchema ? this._itemSchema.getComputedType() : this.getComputedType();
+    return this.#itemSchema ? this.#itemSchema.getComputedType() : this.getComputedType();
   }
 
   /**
@@ -874,14 +873,14 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   getTarget() {
-    return this._target;
+    return this.#target;
   }
 
   /**
    * Get the symbolic name of the entity
    */
   getName() {
-    return this.get("name") || (this._target ? nameOf(classOf(this.getComputedType())) : "");
+    return this.get("name") || (this.#target ? nameOf(classOf(this.getComputedType())) : "");
   }
 
   clone() {
