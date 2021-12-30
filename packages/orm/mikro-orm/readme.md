@@ -287,7 +287,6 @@ export class UsersCtrl {
 }
 ```
 
-
 ## Contributors
 
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
