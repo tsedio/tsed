@@ -44,10 +44,16 @@ describe("TypeORM integration", () => {
     expect(service).toBeInstanceOf(UserService);
     expect(service.connection).toBeInstanceOf(MikroORM);
     expect(service.connection.em.name).toBe("default");
+    expect(service.em.name).toBe("default");
 
     expect(service.connection1).toBeInstanceOf(MikroORM);
     expect(service.connection1.em.name).toBe("db1");
+    expect(service.em1.name).toBe("db1");
+
     expect(service.connection2).toBeInstanceOf(MikroORM);
     expect(service.connection2.em.name).toBe("db2");
+    expect(service.em2.name).toBe("db2");
+
+    expect(service.em3).toEqual(undefined);
   });
 });

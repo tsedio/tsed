@@ -1,6 +1,6 @@
 import {Injectable} from "@tsed/di";
-import {Connection} from "../../../src";
-import {MikroORM} from "@mikro-orm/core";
+import {EntityManager, MikroORM} from "@mikro-orm/core";
+import {Connection, Em} from "../../../src";
 
 @Injectable()
 export class UserService {
@@ -12,4 +12,16 @@ export class UserService {
 
   @Connection("db2")
   connection2!: MikroORM;
+
+  @Em()
+  em!: EntityManager;
+
+  @Em("db1")
+  em1!: EntityManager;
+
+  @Em("db2")
+  em2!: EntityManager;
+
+  @Em("db3")
+  em3!: EntityManager;
 }
