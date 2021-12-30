@@ -124,6 +124,7 @@ jobs:
       - name: Run benchmarks
         run: yarn benchmarks
       - uses: actions/github-script@v4
+        if: ${{ github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork }}
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
