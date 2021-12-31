@@ -1,5 +1,6 @@
-import {EndpointMetadata, Get, PlatformTest, View} from "@tsed/common";
+import {EndpointMetadata, Get, PlatformTest} from "@tsed/common";
 import {Ignore, Property, Returns} from "@tsed/schema";
+import {View} from "@tsed/platform-views";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {renderView} from "./renderView";

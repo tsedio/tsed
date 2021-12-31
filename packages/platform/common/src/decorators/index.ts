@@ -4,7 +4,7 @@ export * from "./httpsServer";
 export * from "./multer";
 
 // Method
-export * from "./method/route";
+export {Get, Post, Put, Patch, Delete, Head, Options, All} from "@tsed/schema";
 export * from "./method/acceptMime";
 
 // Params

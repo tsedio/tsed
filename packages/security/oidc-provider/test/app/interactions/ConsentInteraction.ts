@@ -1,7 +1,8 @@
-import {Inject, Post, View} from "@tsed/common";
+import {Inject, Post} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 import {Interaction, OidcCtx, OidcProvider, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
 import {Name} from "@tsed/schema";
+import {View} from "@tsed/platform-views";
 
 @Interaction({
   name: "consent"

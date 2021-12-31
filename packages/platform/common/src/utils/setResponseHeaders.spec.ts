@@ -1,5 +1,5 @@
-import {EndpointMetadata, Get, PlatformTest, Redirect} from "@tsed/common";
-import {Returns} from "@tsed/schema";
+import {EndpointMetadata, Get, PlatformTest} from "@tsed/common";
+import {Redirect, Returns} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {setResponseHeaders} from "./setResponseHeaders";

@@ -178,8 +178,8 @@
     }
   },
   "monorepo": {
-    "productionBranch": "alpha",
-    "developBranch": "alpha",
+    "productionBranch": "beta",
+    "developBranch": "beta",
     "npmAccess": "public",
     "ignoreSyncDependencies": [
       "express",
