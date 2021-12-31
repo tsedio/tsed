@@ -142,7 +142,7 @@ describe("JsonEntityStore", () => {
 
       let propertyMetadata: JsonEntityStore;
 
-      before(() => {
+      beforeAll(() => {
         propertyMetadata = JsonEntityStore.get(Test, "test");
         propertyMetadata.required = true;
       });

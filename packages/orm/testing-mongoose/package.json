@@ -1,6 +1,6 @@
 {
   "name": "@tsed/testing-mongoose",
-  "version": "6.97.1",
+  "version": "7.0.0-alpha.2",
   "description": "A TypeScript Framework on top of Express",
   "private": false,
   "source": "./src/index.ts",
@@ -18,19 +18,19 @@
     "build:esm": "tsc --build tsconfig.compile.esm.json"
   },
   "dependencies": {
-    "mongodb-memory-server": "^8.0.2",
+    "mongodb-memory-server": "^8.1.0",
     "semver": "^7.3.5",
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.97.1",
-    "@tsed/core": "6.97.1",
-    "@tsed/mongoose": "6.97.1"
+    "@tsed/common": "7.0.0-alpha.2",
+    "@tsed/core": "7.0.0-alpha.2",
+    "@tsed/mongoose": "7.0.0-alpha.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.97.1",
-    "@tsed/core": "^6.97.1",
-    "@tsed/mongoose": "^6.97.1",
+    "@tsed/common": "^7.0.0-alpha.2",
+    "@tsed/core": "^7.0.0-alpha.2",
+    "@tsed/mongoose": "^7.0.0-alpha.2",
     "mongoose": "^5.12.2"
   }
 }

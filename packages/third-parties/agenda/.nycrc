@@ -20,8 +20,8 @@
     "json"
   ],
   "check-coverage": true,
-  "statements": 99.73,
-  "branches": 94.29,
-  "functions": 98.9,
-  "lines": 99.72
+  "statements": 100,
+  "branches": 90.63,
+  "functions": 100,
+  "lines": 100
 }
