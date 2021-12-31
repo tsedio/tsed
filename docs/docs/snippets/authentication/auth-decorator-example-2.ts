@@ -1,10 +1,9 @@
-import {In} from "@tsed/schema";
-import {IAuthOptions, UseAuth} from "@tsed/platform-middlewares";
-import {useDecorators} from "@tsed/core";
-import {Security, Returns} from "@tsed/schema";
-import {CustomAuthMiddleware} from "../guards/CustomAuthMiddleware";
+import { In, Returns, Security } from "@tsed/schema";
+import { UseAuth } from "@tsed/platform-middlewares";
+import { useDecorators } from "@tsed/core";
+import { CustomAuthMiddleware } from "../guards/CustomAuthMiddleware";
 
-export interface CustomAuthOptions extends IAuthOptions {
+export interface CustomAuthOptions extends Record<string, unknown> {
   role?: string;
   scopes?: string[];
 }
@@ -14,7 +13,7 @@ export function CustomAuth(options: CustomAuthOptions = {}): Function {
     UseAuth(CustomAuthMiddleware, options),
     Security("oauth", ...(options.scopes || [])),
     In("header").Name("Authorization").Type(String).Required(true),
-    Returns(401, {description: "Unauthorized"}),
-    Returns(403, {description: "Forbidden"})
+    Returns(401),
+    Returns(403)
   );
 }
