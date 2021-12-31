@@ -1,5 +1,5 @@
-import {cleanObject, deepMerge, mergeReducerBuilder} from "@tsed/core";
-import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
+import {deepMerge, mergeReducerBuilder} from "@tsed/core";
+import {OpenSpec3} from "@tsed/openspec";
 
 /**
  * @ignore
@@ -42,7 +42,7 @@ const SPEC_REDUCERS = {
  * @param spec
  * @param input
  */
-export function mergeSpec<Spec = OpenSpec2 | OpenSpec3>(spec: Partial<Spec>, input: Partial<Spec>): Partial<Spec> {
+export function mergeSpec<Spec = OpenSpec3>(spec: Partial<Spec>, input: Partial<Spec>): Partial<Spec> {
   return deepMerge(spec, input, {
     reducers: SPEC_REDUCERS,
     cleanUndefinedProps: true

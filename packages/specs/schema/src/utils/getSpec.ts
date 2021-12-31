@@ -1,5 +1,5 @@
 import {cleanObject, Type, uniqBy} from "@tsed/core";
-import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
+import {OpenSpec3} from "@tsed/openspec";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces";
 import {buildPath} from "./buildPath";
@@ -9,7 +9,7 @@ import {mergeOperation} from "./mergeOperation";
 import {operationIdFormatter} from "./operationIdFormatter";
 
 export interface SpecSerializerOptions extends JsonSchemaOptions {
-  specType?: SpecTypes.SWAGGER | SpecTypes.OPENAPI;
+  specType?: SpecTypes.OPENAPI;
   /**
    * Paths
    */
@@ -26,20 +26,6 @@ export interface SpecSerializerOptions extends JsonSchemaOptions {
    * A pattern to generate the operationId.
    */
   operationIdPattern?: string;
-}
-
-export interface OS3SpecSerializerOptions extends SpecSerializerOptions {
-  /**
-   * Define Spec types level
-   */
-  specType: SpecTypes.OPENAPI;
-}
-
-export interface OS2SpecSerializerOptions extends SpecSerializerOptions {
-  /**
-   * Define Spec types level
-   */
-  specType: SpecTypes.SWAGGER;
 }
 
 /**
@@ -70,21 +56,7 @@ function get(model: Type<any>, options: any, cb: any) {
  * @param model
  * @param options
  */
-export function getSpec(model: Type<any>, options: OS2SpecSerializerOptions): Partial<OpenSpec2>;
-export function getSpec(model: Type<any>): Partial<OpenSpec2>;
-export function getSpec(model: Type<any>, options: SpecSerializerOptions): Partial<OpenSpec2>;
-/**
- * Return the swagger or open spec for the given class.
- * @param model
- * @param options
- */
-export function getSpec(model: Type<any>, options: OS3SpecSerializerOptions): Partial<OpenSpec3>;
-/**
- * Return the swagger or open spec for the given class.
- * @param model
- * @param options
- */
-export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}): Partial<OpenSpec2 | OpenSpec3> {
+export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}): Partial<OpenSpec3> {
   if (!options.specType) {
     options.specType = SpecTypes.OPENAPI;
   }

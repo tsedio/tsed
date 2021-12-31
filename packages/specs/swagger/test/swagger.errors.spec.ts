@@ -52,75 +52,94 @@ describe("Swagger errors params", () => {
   it("should generate swagger", async () => {
     const response = await request.get("/v2/doc/swagger.json").expect(200);
     expect(response.body).to.deep.eq({
-      consumes: ["application/json"],
-      definitions: {
-        TestModel200: {
-          properties: {
-            exampleItem: {
-              type: "number"
-            }
-          },
-          required: ["exampleItem"],
-          type: "object"
-        },
-        TestModel400: {
-          properties: {
-            error: {
-              type: "boolean"
-            }
-          },
-          required: ["error"],
-          type: "object"
-        },
-        TestModel500: {
-          properties: {
-            error: {
-              type: "boolean"
-            }
-          },
-          required: ["error"],
-          type: "object"
-        }
-      },
-      info: {
-        title: "Swagger title",
-        version: "1.2.0"
-      },
-      paths: {
-        "/rest/scenarios": {
-          get: {
-            operationId: "errorsControllerExampleControllerMethod",
-            parameters: [],
-            produces: ["application/json"],
-            responses: {
-              "200": {
-                description: "Success",
-                schema: {
-                  $ref: "#/definitions/TestModel200"
-                }
-              },
-              "400": {
-                description: "Bad Request",
-                schema: {
-                  $ref: "#/definitions/TestModel400"
-                }
-              },
-              "500": {
-                description: "Internal Server Error",
-                schema: {
-                  $ref: "#/definitions/TestModel500"
-                }
+      "components": {
+        "schemas": {
+          "TestModel200": {
+            "properties": {
+              "exampleItem": {
+                "type": "number"
               }
             },
-            tags: ["ErrorsController"]
+            "required": [
+              "exampleItem"
+            ],
+            "type": "object"
+          },
+          "TestModel400": {
+            "properties": {
+              "error": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "error"
+            ],
+            "type": "object"
+          },
+          "TestModel500": {
+            "properties": {
+              "error": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "error"
+            ],
+            "type": "object"
           }
         }
       },
-      produces: ["application/json"],
-      swagger: "2.0",
-      tags: [
+      "info": {
+        "title": "Swagger title",
+        "version": "1.2.0",
+      },
+      "openapi": "3.0.1",
+      "paths": {
+        "/rest/scenarios": {
+          "get": {
+            "operationId": "errorsControllerExampleControllerMethod",
+            "parameters": [],
+            "responses": {
+              "200": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/TestModel200"
+                    }
+                  }
+                },
+                "description": "Success"
+              },
+              "400": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/TestModel400"
+                    }
+                  }
+                },
+                "description": "Bad Request"
+              },
+              "500": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/TestModel500"
+                    }
+                  }
+                },
+                "description": "Internal Server Error"
+              }
+            },
+            "tags": [
+              "ErrorsController"
+            ]
+          }
+        }
+      },
+      "tags": [
         {
-          name: "ErrorsController"
+          "name": "ErrorsController"
         }
       ]
     });

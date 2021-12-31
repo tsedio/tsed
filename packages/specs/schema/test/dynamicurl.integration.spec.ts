@@ -46,6 +46,6 @@ describe("Spec: DynamicUrl", () => {
         }
       ]
     });
-    expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
+    expect(await validateSpec(spec)).toBe(true);
   });
 });

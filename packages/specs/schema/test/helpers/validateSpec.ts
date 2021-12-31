@@ -3,19 +3,14 @@ import {unlinkSync, writeJsonSync} from "fs-extra";
 import {SpecTypes} from "../../src/domain";
 import {v4} from "uuid";
 
-export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {
+export const validateSpec = async (spec: any) => {
   const file = `${__dirname}/spec-${v4()}.json`;
   spec = {
     ...spec
   };
 
   try {
-    if (version === SpecTypes.OPENAPI) {
-      spec.openapi = "3.0.1";
-    } else {
-      spec.swagger = "2.0";
-    }
-
+    spec.openapi = "3.0.1";
     spec.info = {
       title: "Title",
       description: "Description",

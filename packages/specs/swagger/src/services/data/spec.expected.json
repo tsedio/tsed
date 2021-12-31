@@ -1,7 +1,26 @@
 {
-  "consumes": [
-    "application/json"
-  ],
+  "components": {
+    "securitySchemes": {
+      "calendar_auth": {
+        "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+        "flow": "implicit",
+        "scopes": {
+          "read:calendar": "read your pets",
+          "write:calendar": "modify pets in your account"
+        },
+        "type": "oauth2"
+      },
+      "global_auth": {
+        "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+        "flow": "implicit",
+        "scopes": {
+          "read:global": "read your pets",
+          "write:global": "modify pets in your account"
+        },
+        "type": "oauth2"
+      }
+    }
+  },
   "info": {
     "contact": {
       "email": "apiteam@swagger.io"
@@ -15,28 +34,5 @@
     "title": "Swagger Petstore",
     "version": "1.0.0"
   },
-  "produces": [
-    "application/json"
-  ],
-  "securityDefinitions": {
-    "calendar_auth": {
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "read:calendar": "read your pets",
-        "write:calendar": "modify pets in your account"
-      },
-      "type": "oauth2"
-    },
-    "global_auth": {
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "read:global": "read your pets",
-        "write:global": "modify pets in your account"
-      },
-      "type": "oauth2"
-    }
-  },
-  "swagger": "2.0"
+  "openapi": "3.0.1"
 }

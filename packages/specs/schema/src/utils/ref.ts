@@ -53,14 +53,6 @@ export function createRef(name: string, schema: JsonSchema, options: JsonSchemaO
           writeOnly,
           oneOf: [ref]
         });
-      case SpecTypes.SWAGGER: // TODO unsupported feature
-        if (readOnly || writeOnly) {
-          return cleanObject({
-            readOnly,
-            writeOnly,
-            allOf: [ref]
-          });
-        }
     }
   }
 

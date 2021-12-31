@@ -1,36 +1,6 @@
 import {getSpec, OperationPath, Produces, SpecTypes} from "@tsed/schema";
 
 describe("Produces", () => {
-  it("should store metadata (swagger)", () => {
-    class MyController {
-      @OperationPath("POST", "/")
-      @Produces("text/json")
-      get() {}
-    }
-
-    expect(getSpec(MyController, {specType: SpecTypes.SWAGGER})).toEqual({
-      tags: [
-        {
-          name: "MyController"
-        }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "myControllerGet",
-            parameters: [],
-            produces: ["text/json"],
-            responses: {
-              "200": {
-                description: "Success"
-              }
-            },
-            tags: ["MyController"]
-          }
-        }
-      }
-    });
-  });
   it("should store metadata (openspec)", () => {
     class MyController {
       @OperationPath("POST", "/")

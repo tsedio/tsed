@@ -47,114 +47,131 @@ describe("Swagger query params", () => {
   it("should generate swagger", async () => {
     const response = await request.get("/v2/doc/swagger.json").expect(200);
     expect(response.body).to.deep.eq({
-      consumes: ["application/json"],
-      info: {
-        title: "Swagger title",
-        version: "1.2.0"
+      "info": {
+        "title": "Swagger title",
+        "version": "1.2.0"
       },
-      paths: {
+      "openapi": "3.0.1",
+      "paths": {
         "/rest/scenarios/1": {
-          get: {
-            operationId: "queryParamsSwaggerControllerScenario1",
-            parameters: [
+          "get": {
+            "operationId": "queryParamsSwaggerControllerScenario1",
+            "parameters": [
               {
-                in: "query",
-                name: "id",
-                required: false,
-                type: "string"
+                "in": "query",
+                "name": "id",
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
               }
             ],
-            responses: {
+            "responses": {
               "200": {
-                description: "Success"
+                "description": "Success"
               }
             },
-            tags: ["QueryParamsSwaggerController"]
+            "tags": [
+              "QueryParamsSwaggerController"
+            ]
           }
         },
         "/rest/scenarios/2": {
-          get: {
-            operationId: "queryParamsSwaggerControllerScenario2",
-            parameters: [
+          "get": {
+            "operationId": "queryParamsSwaggerControllerScenario2",
+            "parameters": [
               {
-                collectionFormat: "multi",
-                in: "query",
-                items: {
-                  type: "string"
-                },
-                name: "ids",
-                required: false,
-                type: "array"
+                "in": "query",
+                "name": "ids",
+                "required": false,
+                "schema": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
               }
             ],
-            responses: {
+            "responses": {
               "200": {
-                description: "Success"
+                "description": "Success"
               }
             },
-            tags: ["QueryParamsSwaggerController"]
+            "tags": [
+              "QueryParamsSwaggerController"
+            ]
           }
         },
         "/rest/scenarios/3": {
-          get: {
-            operationId: "queryParamsSwaggerControllerScenario3",
-            parameters: [
+          "get": {
+            "operationId": "queryParamsSwaggerControllerScenario3",
+            "parameters": [
               {
-                additionalProperties: {
-                  type: "string"
-                },
-                in: "query",
-                name: "ids",
-                required: false,
-                type: "object"
+                "in": "query",
+                "name": "ids",
+                "required": false,
+                "schema": {
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "type": "object"
+                }
               }
             ],
-            responses: {
+            "responses": {
               "200": {
-                description: "Success"
+                "description": "Success"
               }
             },
-            tags: ["QueryParamsSwaggerController"]
+            "tags": [
+              "QueryParamsSwaggerController"
+            ]
           }
         },
         "/rest/scenarios/4": {
-          get: {
-            operationId: "queryParamsSwaggerControllerScenario4",
-            parameters: [
+          "get": {
+            "operationId": "queryParamsSwaggerControllerScenario4",
+            "parameters": [
               {
-                in: "query",
-                minLength: 1,
-                name: "name",
-                required: true,
-                type: "string"
+                "in": "query",
+                "name": "name",
+                "required": true,
+                "schema": {
+                  "minLength": 1,
+                  "type": "string"
+                }
               },
               {
-                in: "query",
-                name: "duration",
-                required: false,
-                type: "number"
+                "in": "query",
+                "name": "duration",
+                "required": false,
+                "schema": {
+                  "type": "number"
+                }
               },
               {
-                in: "query",
-                name: "locale",
-                required: false,
-                type: "string"
+                "in": "query",
+                "name": "locale",
+                "required": false,
+                "schema": {
+                  "type": "string"
+                }
               }
             ],
-            responses: {
+            "responses": {
               "200": {
-                description: "Success"
+                "description": "Success"
               }
             },
-            tags: ["QueryParamsSwaggerController"]
+            "tags": [
+              "QueryParamsSwaggerController"
+            ]
           }
         }
       },
-      produces: ["application/json"],
-      swagger: "2.0",
-      tags: [
+      "tags": [
         {
-          name: "QueryParamsSwaggerController"
+          "name": "QueryParamsSwaggerController"
         }
       ]
     });

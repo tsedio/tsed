@@ -37,39 +37,16 @@ describe("SwaggerService", () => {
       });
     });
 
-    describe("when spec is given with produces fields", () => {
-      it("should return default spec", () => {
-        // @ts-ignore
-        const result = swaggerService.getDefaultSpec({
-          spec: {
-            produces: ["application/json", "application/octet-stream", "application/xml"]
-          }
-        });
-
-        expect(result).to.deep.equals({
-          swagger: "2.0",
-          info: {
-            title: "Api documentation",
-            version: "1.0.0"
-          },
-          produces: ["application/json", "application/octet-stream", "application/xml"],
-          consumes: ["application/json"]
-        });
-      });
-    });
-
     describe("when nothing is given", () => {
       it("should return default spec", () => {
         // @ts-ignore
         const result = swaggerService.getDefaultSpec({});
         expect(result).to.deep.equals({
-          consumes: ["application/json"],
           info: {
             title: "Api documentation",
             version: "1.0.0"
           },
-          produces: ["application/json"],
-          swagger: "2.0"
+          openapi: "3.0.1"
         });
       });
     });
@@ -80,13 +57,11 @@ describe("SwaggerService", () => {
         const result = swaggerService.getDefaultSpec({spec: {info: {}}});
 
         expect(result).to.deep.equals({
-          consumes: ["application/json"],
           info: {
             title: "Api documentation",
             version: "1.0.0"
           },
-          produces: ["application/json"],
-          swagger: "2.0"
+          openapi: "3.0.1"
         });
       });
     });
