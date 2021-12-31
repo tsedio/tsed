@@ -1,6 +1,6 @@
 import {ParamMetadata, PlatformTest, Post} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
-import {CollectionOf, getSpec, Required} from "@tsed/schema";
+import {CollectionOf, getSpec, Required, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import {BodyParams} from "../decorators/bodyParams";
 import {QueryParams} from "../decorators/queryParams";
@@ -23,24 +23,25 @@ describe("ValidationPipe", () => {
     const param = ParamMetadata.get(Test, "test", 0);
     const result = await validator.transform("value", param);
     // THEN
-    expect(getSpec(Test)).to.deep.eq({
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).to.deep.eq({
       paths: {
         "/": {
           post: {
             operationId: "testTest",
-            parameters: [
-              {
-                in: "body",
-                name: "body",
-                required: false,
-                schema: {
-                  items: {
-                    type: "string"
-                  },
-                  type: "array"
+            parameters: [],
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    items: {
+                      type: "string"
+                    },
+                    type: "array"
+                  }
                 }
-              }
-            ],
+              },
+              required: false
+            },
             responses: {
               "200": {
                 description: "Success"
@@ -74,21 +75,22 @@ describe("ValidationPipe", () => {
     const result: any = await validator.transform(["test"], param);
 
     // THEN
-    expect(getSpec(Test)).to.deep.eq({
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).to.deep.eq({
       paths: {
         "/": {
           post: {
             operationId: "testTest",
             parameters: [
               {
-                collectionFormat: "multi",
                 in: "query",
-                items: {
-                  type: "string"
-                },
                 name: "test",
                 required: true,
-                type: "array"
+                schema: {
+                  items: {
+                    type: "string"
+                  },
+                  type: "array"
+                }
               }
             ],
             responses: {
@@ -125,21 +127,22 @@ describe("ValidationPipe", () => {
     const result: any = await catchAsyncError(() => validator.transform(undefined, param));
 
     // THEN
-    expect(getSpec(Test)).to.deep.eq({
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).to.deep.eq({
       paths: {
         "/": {
           post: {
             operationId: "testTest",
             parameters: [
               {
-                collectionFormat: "multi",
                 in: "query",
-                items: {
-                  type: "string"
-                },
                 name: "test",
                 required: true,
-                type: "array"
+                schema: {
+                  items: {
+                    type: "string"
+                  },
+                  type: "array"
+                }
               }
             ],
             responses: {

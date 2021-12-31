@@ -36,7 +36,7 @@ describe("@MultipartFile()", () => {
     });
 
     it("should set endpoint metadata - OS2", () => {
-      expect(getSpec(TestController)).to.deep.eq({
+      expect(getSpec(TestController, {specType: SpecTypes.SWAGGER})).to.deep.eq({
         paths: {
           "/": {
             post: {
@@ -226,7 +226,7 @@ describe("@MultipartFile()", () => {
     });
 
     it("should set endpoint metadata - OS2", () => {
-      expect(getSpec(TestController)).to.deep.eq({
+      expect(getSpec(TestController, {specType: SpecTypes.SWAGGER})).to.deep.eq({
         paths: {
           "/": {
             post: {

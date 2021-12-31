@@ -1,5 +1,5 @@
 import {Get} from "@tsed/common";
-import {Description, Example, getSpec, Property, Required, Title} from "@tsed/schema";
+import {Description, Example, getSpec, Property, Required, SpecTypes, Title} from "@tsed/schema";
 import {expect} from "chai";
 import {ParamMetadata} from "../domain/ParamMetadata";
 import {ParamTypes} from "../domain/ParamTypes";
@@ -49,7 +49,7 @@ describe("@UseParam", () => {
         get(@QueryParams("test") value: boolean) {}
       }
 
-      const spec = getSpec(Ctrl);
+      const spec = getSpec(Ctrl, {specType: SpecTypes.OPENAPI});
 
       expect(spec).to.deep.equal({
         paths: {
@@ -61,7 +61,7 @@ describe("@UseParam", () => {
                   in: "query",
                   name: "test",
                   required: false,
-                  type: "boolean"
+                  schema: {type: "boolean"}
                 }
               ],
               responses: {

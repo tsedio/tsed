@@ -1,5 +1,5 @@
 import {Controller, Get, ParamMetadata, ParamTypes} from "@tsed/common";
-import {getSpec} from "@tsed/schema";
+import {getSpec, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import {AwsContext} from "./awsContext";
 
@@ -23,7 +23,7 @@ describe("AwsContext", () => {
       get(@AwsContext() event: any) {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
       paths: {
         "/": {
           get: {
@@ -34,7 +34,7 @@ describe("AwsContext", () => {
                 in: "header",
                 name: "x-apigateway-context",
                 required: false,
-                type: "string"
+                schema: {type: "string"}
               }
             ],
             responses: {

@@ -1,4 +1,4 @@
-import {getJsonSchema, In, OperationPath} from "@tsed/schema";
+import {getJsonSchema, In, OperationPath, SpecTypes} from "@tsed/schema";
 import {getSpec} from "../../utils/getSpec";
 import {MinProperties} from "./minProperties";
 
@@ -58,27 +58,23 @@ describe("@MinProperties", () => {
     }
 
     // THEN
-    expect(getSpec(MyController)).toEqual({
-      tags: [
-        {
-          name: "MyController"
-        }
-      ],
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/": {
           post: {
             operationId: "myControllerMethod",
-            parameters: [
-              {
-                in: "body",
-                name: "body",
-                required: false,
-                schema: {
-                  minProperties: 10,
-                  type: "object"
+            parameters: [],
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    minProperties: 10,
+                    type: "object"
+                  }
                 }
-              }
-            ],
+              },
+              required: false
+            },
             responses: {
               "200": {
                 description: "Success"
@@ -87,7 +83,12 @@ describe("@MinProperties", () => {
             tags: ["MyController"]
           }
         }
-      }
+      },
+      tags: [
+        {
+          name: "MyController"
+        }
+      ]
     });
   });
   it("should throw an error when the given parameters is as negative integer", () => {

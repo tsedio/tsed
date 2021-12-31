@@ -1,4 +1,4 @@
-import {ContentType, getSpec, OperationPath} from "@tsed/schema";
+import {ContentType, getSpec, OperationPath, SpecTypes} from "@tsed/schema";
 
 describe("ContentType", () => {
   it("should create middleware", () => {
@@ -8,18 +8,21 @@ describe("ContentType", () => {
       test() {}
     }
 
-    const spec = getSpec(Test);
+    const spec = getSpec(Test, {specType: SpecTypes.OPENAPI});
     expect(spec).toEqual({
       paths: {
         "/": {
           get: {
             operationId: "testTest",
             parameters: [],
-            produces: ["application/json"],
             responses: {
               "200": {
-                schema: {
-                  type: "object"
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object"
+                    }
+                  }
                 }
               }
             },

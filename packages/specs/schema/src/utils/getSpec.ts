@@ -84,9 +84,9 @@ export function getSpec(model: Type<any>, options: OS3SpecSerializerOptions): Pa
  * @param model
  * @param options
  */
-export function getSpec(model: Type<any>, options: SpecSerializerOptions = {specType: SpecTypes.SWAGGER}): Partial<OpenSpec2 | OpenSpec3> {
+export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}): Partial<OpenSpec2 | OpenSpec3> {
   if (!options.specType) {
-    options.specType = SpecTypes.SWAGGER;
+    options.specType = SpecTypes.OPENAPI;
   }
 
   options = {
@@ -98,7 +98,7 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {spec
 
   return get(model, options, () => {
     const store = getJsonEntityStore(model);
-    const {specType = SpecTypes.SWAGGER, schemas = {}, paths = {}, rootPath = "/", tags = []} = options;
+    const {specType = SpecTypes.OPENAPI, schemas = {}, paths = {}, rootPath = "/", tags = []} = options;
     const ctrlPath = store.path;
     const defaultTags = cleanObject({
       name: store.schema.getName(),

@@ -8,7 +8,7 @@ describe("Location", () => {
       test() {}
     }
 
-    const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
+    const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
     expect(spec).toEqual({
       paths: {
@@ -18,16 +18,22 @@ describe("Location", () => {
             parameters: [],
             responses: {
               "301": {
+                content: {
+                  "*/*": {
+                    schema: {
+                      type: "object"
+                    }
+                  }
+                },
                 description: "Moved Permanently",
                 headers: {
                   Location: {
                     description: "Path to next step",
                     example: "/path/to/test",
-                    type: "string"
+                    schema: {
+                      type: "string"
+                    }
                   }
-                },
-                schema: {
-                  type: "object"
                 }
               }
             },

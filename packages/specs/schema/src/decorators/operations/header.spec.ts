@@ -11,7 +11,7 @@ describe("Header", () => {
           test() {}
         }
 
-        const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
+        const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
         expect(spec).toEqual({
           paths: {
@@ -21,14 +21,20 @@ describe("Header", () => {
                 parameters: [],
                 responses: {
                   "200": {
-                    headers: {
-                      "Content-Type": {
-                        type: "string",
-                        example: "application/json"
+                    content: {
+                      "*/*": {
+                        schema: {
+                          type: "object"
+                        }
                       }
                     },
-                    schema: {
-                      type: "object"
+                    headers: {
+                      "Content-Type": {
+                        example: "application/json",
+                        schema: {
+                          type: "string"
+                        }
+                      }
                     }
                   }
                 },
@@ -52,7 +58,7 @@ describe("Header", () => {
           test() {}
         }
 
-        const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
+        const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
         expect(spec).toEqual({
           paths: {
@@ -62,14 +68,20 @@ describe("Header", () => {
                 parameters: [],
                 responses: {
                   "200": {
-                    headers: {
-                      "Content-Type": {
-                        type: "string",
-                        example: "application/json"
+                    content: {
+                      "*/*": {
+                        schema: {
+                          type: "object"
+                        }
                       }
                     },
-                    schema: {
-                      type: "object"
+                    headers: {
+                      "Content-Type": {
+                        example: "application/json",
+                        schema: {
+                          type: "string"
+                        }
+                      }
                     }
                   }
                 },
@@ -100,7 +112,7 @@ describe("Header", () => {
           test() {}
         }
 
-        const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
+        const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
         expect(spec).toEqual({
           paths: {
@@ -110,23 +122,33 @@ describe("Header", () => {
                 parameters: [],
                 responses: {
                   "200": {
+                    content: {
+                      "*/*": {
+                        schema: {
+                          type: "object"
+                        }
+                      }
+                    },
                     headers: {
                       "Content-Length": {
-                        type: "number",
-                        example: 123
+                        example: 123,
+                        schema: {
+                          type: "number"
+                        }
                       },
                       "Content-Type": {
-                        type: "string",
-                        example: "text/plain"
+                        example: "text/plain",
+                        schema: {
+                          type: "string"
+                        }
                       },
                       ETag: {
                         description: "header description",
-                        type: "string",
-                        example: "12345"
+                        example: "12345",
+                        schema: {
+                          type: "string"
+                        }
                       }
-                    },
-                    schema: {
-                      type: "object"
                     }
                   }
                 },

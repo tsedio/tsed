@@ -72,12 +72,7 @@ describe("@Description", () => {
     }
 
     // THEN
-    expect(getSpec(Model)).toEqual({
-      tags: [
-        {
-          name: "Model"
-        }
-      ],
+    expect(getSpec(Model, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/": {
           get: {
@@ -87,7 +82,9 @@ describe("@Description", () => {
                 description: "Description",
                 in: "query",
                 required: false,
-                type: "string"
+                schema: {
+                  type: "string"
+                }
               }
             ],
             responses: {
@@ -98,10 +95,15 @@ describe("@Description", () => {
             tags: ["Model"]
           }
         }
-      }
+      },
+      tags: [
+        {
+          name: "Model"
+        }
+      ]
     });
   });
-  it("should declare description on params (BODY)", () => {
+  it("should declare description on params (BODY - SWAGGER)", () => {
     // WHEN
     class MyModel {
       @Property()
@@ -114,7 +116,7 @@ describe("@Description", () => {
     }
 
     // THEN
-    expect(getSpec(MyController)).toEqual({
+    expect(getSpec(MyController, {specType: SpecTypes.SWAGGER})).toEqual({
       definitions: {
         MyModel: {
           properties: {
