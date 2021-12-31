@@ -1,6 +1,6 @@
 {
   "name": "@tsed/swagger",
-  "version": "7.0.0-alpha.2",
+  "version": "7.0.0-beta.1",
   "description": "Swagger package for Ts.ED framework",
   "private": false,
   "source": "./src/index.ts",
@@ -25,19 +25,19 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.0.0-alpha.2",
-    "@tsed/core": "7.0.0-alpha.2",
-    "@tsed/di": "7.0.0-alpha.2",
-    "@tsed/json-mapper": "7.0.0-alpha.2",
-    "@tsed/openspec": "7.0.0-alpha.2",
-    "@tsed/schema": "7.0.0-alpha.2"
+    "@tsed/common": "7.0.0-beta.1",
+    "@tsed/core": "7.0.0-beta.1",
+    "@tsed/di": "7.0.0-beta.1",
+    "@tsed/json-mapper": "7.0.0-beta.1",
+    "@tsed/openspec": "7.0.0-beta.1",
+    "@tsed/schema": "7.0.0-beta.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.0.0-alpha.2",
-    "@tsed/core": "^7.0.0-alpha.2",
-    "@tsed/di": "^7.0.0-alpha.2",
-    "@tsed/json-mapper": "^7.0.0-alpha.2",
-    "@tsed/openspec": "^7.0.0-alpha.2",
-    "@tsed/schema": "^7.0.0-alpha.2"
+    "@tsed/common": "^7.0.0-beta.1",
+    "@tsed/core": "^7.0.0-beta.1",
+    "@tsed/di": "^7.0.0-beta.1",
+    "@tsed/json-mapper": "^7.0.0-beta.1",
+    "@tsed/openspec": "^7.0.0-beta.1",
+    "@tsed/schema": "^7.0.0-beta.1"
   }
 }
