@@ -6,8 +6,6 @@ export * from "./multer";
 // Method
 export * from "./method/route";
 export * from "./method/acceptMime";
-export * from "./method/location";
-export * from "./method/redirect";
 
 // Params
 export * from "./params/response";

@@ -1,6 +1,7 @@
-import {Controller, Get, Location, PlatformTest} from "@tsed/common";
+import {Controller, Get, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import SuperTest from "supertest";
+import {Location} from "@tsed/schema";
 import {PlatformTestOptions} from "../interfaces";
 
 @Controller("/location")
