@@ -138,8 +138,7 @@ In addition, you have these specifics parameters decorators for the middlewares:
 Signature | Description
 --- | ---
 @@Err@@ | Inject the `Express.Err` service.
-@@ResponseData@@ | Provide the data returned by the previous middlewares.
-@@EndpointInfo@@ | Provide the endpoint information.
+@@Context@@ | Provide all information about the called endpoint
 
 ## Call sequences
 
@@ -165,10 +164,6 @@ For each executed endpoints and middlewares, Platform API store the return value
 ::: tip
 The middlewares shown in the Endpoints box will be replayed as many times as it has endpoint that matches 
 the request url.
-:::
-
-::: warning
-Only middlewares shown in the Endpoints box can use @@EndpointInfo@@ decorator to retrieve endpoint context execution.
 :::
 
 For example:

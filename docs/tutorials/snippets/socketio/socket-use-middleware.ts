@@ -8,7 +8,7 @@ export class UserConverterSocketMiddleware {
 
     let [user] = args;
     // update Arguments
-    user = deserialize(user, {type: User});
+    user = deserialize(user, {type: User, useAlias: true});
 
     return [user];
   }
