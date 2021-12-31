@@ -91,26 +91,6 @@ export class InjectorService extends Container {
   }
 
   /**
-   * Clone a provider from GlobalProviders and the given token. forkProvider method build automatically the provider if the instance parameter ins't given.
-   * @param token
-   * @param settings
-   * @deprecated
-   */
-  public forkProvider(token: TokenProvider, settings: Partial<IProvider<any>> = {}): Provider {
-    if (!this.hasProvider(token)) {
-      this.addProvider(token);
-    }
-
-    const provider = this.getProvider(token)!;
-
-    Object.assign(provider, settings);
-
-    this.#cache.set(token, this.invoke(token));
-
-    return provider;
-  }
-
-  /**
    * Return a list of instance build by the injector.
    */
   public toArray(): any[] {

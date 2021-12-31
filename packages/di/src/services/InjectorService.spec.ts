@@ -71,34 +71,6 @@ describe("InjectorService", () => {
     });
   });
 
-  describe("forkProvider()", () => {
-    @Injectable()
-    class Test {}
-
-    it("should return a provider", async () => {
-      // GIVEN
-      const injector = new InjectorService();
-
-      // WHEN
-      const provider = await injector.forkProvider(InjectorService);
-
-      // THEN
-      expect(provider).to.be.instanceof(Provider);
-      expect(provider.provide).to.eq(InjectorService);
-    });
-    it("should fork provider", async () => {
-      // GIVEN
-      const injector = new InjectorService();
-
-      // WHEN
-      const provider = await injector.forkProvider(Test);
-
-      // THEN
-      expect(provider).to.be.instanceof(Provider);
-      expect(provider.provide).to.eq(Test);
-    });
-  });
-
   describe("invoke()", () => {
     describe("when we call invoke with rebuild options (SINGLETON)", () => {
       it("should invoke the provider from container", async () => {
