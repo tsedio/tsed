@@ -1,5 +1,4 @@
 import {getSpec, In, OperationPath, Path, Property, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {Examples} from "./examples";
 
 class MyModel {
@@ -32,7 +31,7 @@ describe("@Examples", () => {
     }
 
     // THEN
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       components: {
         schemas: {
           MyModel: {

@@ -1,5 +1,4 @@
 import {getSpec, OperationId, OperationPath} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("OperationId", () => {
   it("should store metadata", () => {
@@ -9,7 +8,7 @@ describe("OperationId", () => {
       get() {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "MyController"
@@ -39,6 +38,6 @@ describe("OperationId", () => {
       actualError = er;
     }
 
-    expect(actualError.message).to.deep.eq("OperationId cannot be used as class decorator on Test");
+    expect(actualError.message).toEqual("OperationId cannot be used as class decorator on Test");
   });
 });

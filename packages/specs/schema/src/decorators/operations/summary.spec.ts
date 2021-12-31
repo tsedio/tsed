@@ -1,5 +1,4 @@
 import {getSpec, OperationPath} from "@tsed/schema";
-import {expect} from "chai";
 import {Summary} from "./summary";
 
 describe("Summary", () => {
@@ -10,7 +9,7 @@ describe("Summary", () => {
       get() {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "MyController"
@@ -41,6 +40,6 @@ describe("Summary", () => {
       actualError = er;
     }
 
-    expect(actualError.message).to.deep.eq("Summary cannot be used as class decorator on Test");
+    expect(actualError.message).toEqual("Summary cannot be used as class decorator on Test");
   });
 });

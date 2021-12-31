@@ -1,5 +1,4 @@
 import {Consumes, getSpec, OperationPath, Path} from "@tsed/schema";
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Name} from "./name";
 
@@ -12,7 +11,7 @@ describe("@Name", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         num2: {
           type: "number"
@@ -32,7 +31,7 @@ describe("@Name", () => {
     }
 
     // THEN
-    expect(getSpec(MyController)).to.deep.equal({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "AwesomeController"

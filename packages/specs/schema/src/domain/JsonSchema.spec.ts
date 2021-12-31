@@ -1,6 +1,5 @@
 import Ajv from "ajv";
-import {expect} from "chai";
-import {JsonSchema} from "./JsonSchema";
+import {JsonSchema} from "@tsed/schema";
 
 describe("JsonSchema", () => {
   describe("extra Props", () => {
@@ -9,9 +8,9 @@ describe("JsonSchema", () => {
       const schema = JsonSchema.from({});
       schema.set("extra", "test");
 
-      expect(schema.isGeneric).to.equal(false);
-      expect(schema.genericType).to.equal(undefined);
-      expect(schema.toJSON()).to.deep.equal({
+      expect(schema.isGeneric).toBe(false);
+      expect(schema.genericType).toBeUndefined();
+      expect(schema.toJSON()).toEqual({
         extra: "test"
       });
     });
@@ -22,10 +21,10 @@ describe("JsonSchema", () => {
       const schema = JsonSchema.from({}).toObject();
       const validate = new Ajv().compile(schema);
 
-      expect(schema).to.deep.equal({});
-      expect(validate(42)).to.equal(true);
-      expect(validate("I'm a string")).to.equal(true);
-      expect(validate({an: ["arbitrarily", "nested"], data: "structure"})).to.equal(true);
+      expect(schema).toEqual({});
+      expect(validate(42)).toBe(true);
+      expect(validate("I'm a string")).toBe(true);
+      expect(validate({an: ["arbitrarily", "nested"], data: "structure"})).toBe(true);
     });
   });
   describe("String", () => {
@@ -35,15 +34,15 @@ describe("JsonSchema", () => {
         const schema = JsonSchema.from({type: String}).toObject();
         const validate = new Ajv().compile(schema);
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "string"
         });
 
-        expect(validate("This is a string")).to.equal(true);
-        expect(validate("Déjà vu")).to.equal(true);
-        expect(validate("")).to.equal(true);
-        expect(validate("42")).to.equal(true);
-        expect(validate(42)).to.equal(false);
+        expect(validate("This is a string")).toBe(true);
+        expect(validate("Déjà vu")).toBe(true);
+        expect(validate("")).toBe(true);
+        expect(validate("42")).toBe(true);
+        expect(validate(42)).toBe(false);
       });
     });
 
@@ -54,16 +53,16 @@ describe("JsonSchema", () => {
 
         const validate = new Ajv().compile(schema);
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "string",
           minLength: 2,
           maxLength: 3
         });
 
-        expect(validate("A")).to.equal(false);
-        expect(validate("AB")).to.equal(true);
-        expect(validate("ABC")).to.equal(true);
-        expect(validate("ABCD")).to.equal(false);
+        expect(validate("A")).toBe(false);
+        expect(validate("AB")).toBe(true);
+        expect(validate("ABC")).toBe(true);
+        expect(validate("ABCD")).toBe(false);
       });
     });
 
@@ -74,15 +73,15 @@ describe("JsonSchema", () => {
 
         const validate = new Ajv().compile(schema);
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "string",
           pattern: "^(\\([0-9]{3}\\))?[0-9]{3}-[0-9]{4}$"
         });
 
-        expect(validate("555-1212")).to.equal(true);
-        expect(validate("(888)555-1212")).to.equal(true);
-        expect(validate("(888)555-1212 ext. 532")).to.equal(false);
-        expect(validate("(800)FLOWERS")).to.equal(false);
+        expect(validate("555-1212")).toBe(true);
+        expect(validate("(888)555-1212")).toBe(true);
+        expect(validate("(888)555-1212 ext. 532")).toBe(false);
+        expect(validate("(800)FLOWERS")).toBe(false);
       });
     });
 
@@ -91,7 +90,7 @@ describe("JsonSchema", () => {
       it("should create a new jsonSchema", () => {
         const result = JsonSchema.from({type: Date}).toObject();
 
-        expect(result).to.deep.equal({
+        expect(result).toEqual({
           type: "string"
         });
       });
@@ -99,7 +98,7 @@ describe("JsonSchema", () => {
       it("should create a new jsonSchema with format", () => {
         const result = JsonSchema.from({type: Date}).format("date-time").toObject();
 
-        expect(result).to.deep.equal({
+        expect(result).toEqual({
           type: "string",
           format: "date-time"
         });
@@ -113,14 +112,14 @@ describe("JsonSchema", () => {
         const schema = JsonSchema.from({type: Number}).toObject();
         const validate = new Ajv().compile(schema);
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "number"
         });
-        expect(validate(42)).to.equal(true);
-        expect(validate(-1)).to.equal(true);
-        expect(validate(5.0)).to.equal(true);
-        expect(validate(2.99792458e8)).to.equal(true);
-        expect(validate("42")).to.equal(false);
+        expect(validate(42)).toBe(true);
+        expect(validate(-1)).toBe(true);
+        expect(validate(5.0)).toBe(true);
+        expect(validate(2.99792458e8)).toBe(true);
+        expect(validate("42")).toBe(false);
       });
     });
 
@@ -130,13 +129,13 @@ describe("JsonSchema", () => {
         const schema = JsonSchema.from({type: "integer"}).toObject();
         const validate = new Ajv().compile(schema);
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "integer",
           multipleOf: 1.0
         });
-        expect(validate(42)).to.equal(true);
-        expect(validate(42.0)).to.equal(true);
-        expect(validate(3.14156926)).to.equal(false);
+        expect(validate(42)).toBe(true);
+        expect(validate(42.0)).toBe(true);
+        expect(validate(3.14156926)).toBe(false);
       });
     });
 
@@ -146,14 +145,14 @@ describe("JsonSchema", () => {
         const schema = JsonSchema.from({type: Number, multipleOf: 10}).toObject();
         const validate = new Ajv().compile(schema);
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "number",
           multipleOf: 10
         });
-        expect(validate(0)).to.equal(true);
-        expect(validate(10)).to.equal(true);
-        expect(validate(20)).to.equal(true);
-        expect(validate(23)).to.equal(false);
+        expect(validate(0)).toBe(true);
+        expect(validate(10)).toBe(true);
+        expect(validate(20)).toBe(true);
+        expect(validate(23)).toBe(false);
       });
     });
 
@@ -163,33 +162,33 @@ describe("JsonSchema", () => {
         const schema = JsonSchema.from({type: Number, minimum: 0, exclusiveMaximum: 100}).toObject();
         const validate = new Ajv().compile(schema);
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "number",
           minimum: 0,
           exclusiveMaximum: 100
         });
-        expect(validate(0)).to.equal(true);
-        expect(validate(10)).to.equal(true);
-        expect(validate(99)).to.equal(true);
-        expect(validate(100)).to.equal(false);
-        expect(validate(101)).to.equal(false);
+        expect(validate(0)).toBe(true);
+        expect(validate(10)).toBe(true);
+        expect(validate(99)).toBe(true);
+        expect(validate(100)).toBe(false);
+        expect(validate(101)).toBe(false);
       });
       it("should create a jsonschema exclusiveMinimum & maximum", () => {
         const schema = JsonSchema.from({type: Number, exclusiveMinimum: 0, maximum: 100}).toObject();
         const validate = new Ajv().compile(schema);
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "number",
           exclusiveMinimum: 0,
           maximum: 100
         });
-        expect(validate(-1)).to.equal(false);
-        expect(validate(0)).to.equal(false);
-        expect(validate(1)).to.equal(true);
-        expect(validate(10)).to.equal(true);
-        expect(validate(99)).to.equal(true);
-        expect(validate(100)).to.equal(true);
-        expect(validate(101)).to.equal(false);
+        expect(validate(-1)).toBe(false);
+        expect(validate(0)).toBe(false);
+        expect(validate(1)).toBe(true);
+        expect(validate(10)).toBe(true);
+        expect(validate(99)).toBe(true);
+        expect(validate(100)).toBe(true);
+        expect(validate(101)).toBe(false);
       });
     });
   });
@@ -200,7 +199,7 @@ describe("JsonSchema", () => {
         const schema = JsonSchema.from({type: Object}).toObject();
         const validate = new Ajv().compile(schema);
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "object"
         });
 
@@ -209,7 +208,7 @@ describe("JsonSchema", () => {
             key: "value",
             another_key: "another_value"
           })
-        ).to.equal(true);
+        ).toBe(true);
         expect(
           validate({
             Sun: 1.9891e30,
@@ -224,16 +223,16 @@ describe("JsonSchema", () => {
             Moon: 7.349e22,
             Pluto: 1.25e22
           })
-        ).to.equal(true);
+        ).toBe(true);
         expect(
           validate({
             0.01: "cm",
             1: "m",
             1000: "km"
           })
-        ).to.equal(true);
-        expect(validate("Not an object")).to.equal(false);
-        expect(validate(["An", "array", "not", "an", "object"])).to.equal(false);
+        ).toBe(true);
+        expect(validate("Not an object")).toBe(false);
+        expect(validate(["An", "array", "not", "an", "object"])).toBe(false);
       });
     });
     describe("Properties", () => {
@@ -252,10 +251,10 @@ describe("JsonSchema", () => {
         }).toObject();
 
         const validate = new Ajv().compile(schema);
-        expect(validate({number: 1600, street_name: "Pennsylvania", street_type: "Avenue"})).to.equal(true);
-        expect(validate({number: "1600", street_name: "Pennsylvania", street_type: "Avenue"})).to.equal(false);
-        expect(validate({number: 1600, street_name: "Pennsylvania"})).to.equal(true);
-        expect(validate({})).to.equal(true);
+        expect(validate({number: 1600, street_name: "Pennsylvania", street_type: "Avenue"})).toBe(true);
+        expect(validate({number: "1600", street_name: "Pennsylvania", street_type: "Avenue"})).toBe(false);
+        expect(validate({number: 1600, street_name: "Pennsylvania"})).toBe(true);
+        expect(validate({})).toBe(true);
         expect(
           validate({
             number: 1600,
@@ -263,7 +262,7 @@ describe("JsonSchema", () => {
             street_type: "Avenue",
             direction: "NW"
           })
-        ).to.equal(true);
+        ).toBe(true);
       });
       it("should create a valid jsonschema (additionalProperties boolean)", () => {
         const schema = JsonSchema.from({
@@ -279,7 +278,7 @@ describe("JsonSchema", () => {
           additionalProperties: false // Unauthorized unknown properties
         }).toObject();
 
-        expect(schema).to.deep.eq({
+        expect(schema).toEqual({
           type: "object",
           properties: {
             number: {type: "number"},
@@ -294,7 +293,7 @@ describe("JsonSchema", () => {
 
         const validate = new Ajv().compile(schema);
 
-        expect(validate({number: 1600, street_name: "Pennsylvania", street_type: "Avenue"})).to.equal(true);
+        expect(validate({number: 1600, street_name: "Pennsylvania", street_type: "Avenue"})).toBe(true);
         expect(
           validate({
             number: 1600,
@@ -302,7 +301,7 @@ describe("JsonSchema", () => {
             street_type: "Avenue",
             direction: "NW"
           })
-        ).to.equal(false);
+        ).toBe(false);
       });
       it("should create a valid jsonchema (additionalProperties schema)", () => {
         const schema = JsonSchema.from({
@@ -320,7 +319,7 @@ describe("JsonSchema", () => {
 
         const validate = new Ajv().compile(schema);
 
-        expect(validate({number: 1600, street_name: "Pennsylvania", street_type: "Avenue"})).to.equal(true);
+        expect(validate({number: 1600, street_name: "Pennsylvania", street_type: "Avenue"})).toBe(true);
         expect(
           validate({
             number: 1600,
@@ -328,7 +327,7 @@ describe("JsonSchema", () => {
             street_type: "Avenue",
             direction: "NW"
           })
-        ).to.equal(true);
+        ).toBe(true);
         expect(
           validate({
             number: 1600,
@@ -336,7 +335,7 @@ describe("JsonSchema", () => {
             street_type: "Avenue",
             office_number: 201
           })
-        ).to.equal(false);
+        ).toBe(false);
       });
     });
     describe("Required", () => {
@@ -355,8 +354,8 @@ describe("JsonSchema", () => {
 
         const schema = jsonSchema.clone().toObject();
 
-        expect(jsonSchema.isRequired("name")).to.equal(true);
-        expect(schema).to.deep.equal({
+        expect(jsonSchema.isRequired("name")).toBe(true);
+        expect(schema).toEqual({
           type: "object",
           properties: {
             name: {type: "string", minLength: 1},
@@ -373,7 +372,7 @@ describe("JsonSchema", () => {
             name: "William Shakespeare",
             email: "bill@stratford-upon-avon.co.uk"
           })
-        ).to.equal(true);
+        ).toBe(true);
         expect(
           validate({
             name: "William Shakespeare",
@@ -381,13 +380,13 @@ describe("JsonSchema", () => {
             address: "Henley Street, Stratford-upon-Avon, Warwickshire, England",
             authorship: "in question"
           })
-        ).to.equal(true);
+        ).toBe(true);
         expect(
           validate({
             name: "William Shakespeare",
             address: "Henley Street, Stratford-upon-Avon, Warwickshire, England"
           })
-        ).to.equal(false);
+        ).toBe(false);
       });
       it("should create a valid jsonchema (default - string)", () => {
         const schema = JsonSchema.from({
@@ -398,7 +397,7 @@ describe("JsonSchema", () => {
           required: ["name"]
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "object",
           properties: {
             name: {type: "string", minLength: 1}
@@ -407,11 +406,11 @@ describe("JsonSchema", () => {
         });
 
         const validate = new Ajv().compile(schema);
-        expect(validate({name: "William Shakespeare"})).to.equal(true);
-        expect(validate({name: ""})).to.equal(false);
-        expect(validate({name: null})).to.equal(false);
-        expect(validate({name: 0})).to.equal(false);
-        expect(validate({})).to.equal(false);
+        expect(validate({name: "William Shakespeare"})).toBe(true);
+        expect(validate({name: ""})).toBe(false);
+        expect(validate({name: null})).toBe(false);
+        expect(validate({name: 0})).toBe(false);
+        expect(validate({})).toBe(false);
       });
 
       it("should create a valid jsonchema (default - number)", () => {
@@ -423,7 +422,7 @@ describe("JsonSchema", () => {
           required: ["name"]
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "object",
           properties: {
             name: {type: "number"}
@@ -432,11 +431,11 @@ describe("JsonSchema", () => {
         });
 
         const validate = new Ajv().compile(schema);
-        expect(validate({name: "William Shakespeare"})).to.equal(false);
-        expect(validate({name: ""})).to.equal(false);
-        expect(validate({name: null})).to.equal(false);
-        expect(validate({name: 0})).to.equal(true);
-        expect(validate({})).to.equal(false);
+        expect(validate({name: "William Shakespeare"})).toBe(false);
+        expect(validate({name: ""})).toBe(false);
+        expect(validate({name: null})).toBe(false);
+        expect(validate({name: 0})).toBe(true);
+        expect(validate({})).toBe(false);
       });
 
       it("should create a valid jsonchema (empty string is falsy)", () => {
@@ -451,7 +450,7 @@ describe("JsonSchema", () => {
           required: ["name"]
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "object",
           properties: {
             name: {
@@ -463,11 +462,11 @@ describe("JsonSchema", () => {
         });
 
         const validate = new Ajv().compile(schema);
-        expect(validate({name: "William Shakespeare"})).to.equal(true);
-        expect(validate({name: ""})).to.equal(false);
-        expect(validate({name: null})).to.equal(false);
-        expect(validate({name: 0})).to.equal(false);
-        expect(validate({})).to.equal(false);
+        expect(validate({name: "William Shakespeare"})).toBe(true);
+        expect(validate({name: ""})).toBe(false);
+        expect(validate({name: null})).toBe(false);
+        expect(validate({name: 0})).toBe(false);
+        expect(validate({})).toBe(false);
       });
 
       it("should create a valid jsonchema (0 is falsy - number)", () => {
@@ -479,7 +478,7 @@ describe("JsonSchema", () => {
           required: ["name"]
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "object",
           properties: {
             name: {type: "number", exclusiveMinimum: 0}
@@ -488,11 +487,11 @@ describe("JsonSchema", () => {
         });
 
         const validate = new Ajv().compile(schema);
-        expect(validate({name: "William Shakespeare"})).to.equal(false);
-        expect(validate({name: ""})).to.equal(false);
-        expect(validate({name: null})).to.equal(false);
-        expect(validate({name: 0})).to.equal(false);
-        expect(validate({})).to.equal(false);
+        expect(validate({name: "William Shakespeare"})).toBe(false);
+        expect(validate({name: ""})).toBe(false);
+        expect(validate({name: null})).toBe(false);
+        expect(validate({name: 0})).toBe(false);
+        expect(validate({})).toBe(false);
       });
     });
     describe("Property names", () => {
@@ -510,12 +509,12 @@ describe("JsonSchema", () => {
           validate({
             _a_proper_token_001: "value"
           })
-        ).to.equal(true);
+        ).toBe(true);
         expect(
           validate({
             "001 invalid": "value"
           })
-        ).to.equal(false);
+        ).toBe(false);
       });
     });
     describe("Size", () => {
@@ -528,11 +527,11 @@ describe("JsonSchema", () => {
         }).toObject();
 
         const validate = new Ajv().compile(schema);
-        expect(validate({})).to.equal(false);
-        expect(validate({a: 0})).to.equal(false);
-        expect(validate({a: 0, b: 1})).to.equal(true);
-        expect(validate({a: 0, b: 1, c: 2})).to.equal(true);
-        expect(validate({a: 0, b: 1, c: 2, d: 3})).to.equal(false);
+        expect(validate({})).toBe(false);
+        expect(validate({a: 0})).toBe(false);
+        expect(validate({a: 0, b: 1})).toBe(true);
+        expect(validate({a: 0, b: 1, c: 2})).toBe(true);
+        expect(validate({a: 0, b: 1, c: 2, d: 3})).toBe(false);
       });
     });
     describe("Dependencies", () => {
@@ -555,7 +554,7 @@ describe("JsonSchema", () => {
             }
           }).toObject();
 
-          expect(schema).to.deep.eq({
+          expect(schema).toEqual({
             type: "object",
 
             properties: {
@@ -578,24 +577,24 @@ describe("JsonSchema", () => {
               credit_card: 5555555555555555,
               billing_address: "555 Debtor's Lane"
             })
-          ).to.equal(true);
+          ).toBe(true);
           expect(
             validate({
               name: "John Doe",
               credit_card: 5555555555555555
             })
-          ).to.equal(false);
+          ).toBe(false);
           expect(
             validate({
               name: "John Doe"
             })
-          ).to.equal(true);
+          ).toBe(true);
           expect(
             validate({
               name: "John Doe",
               billing_address: "555 Debtor's Lane"
             })
-          ).to.equal(true);
+          ).toBe(true);
         });
         it("should create a valid jsonchema (bidirectional dependencies)", () => {
           const schema = JsonSchema.from({
@@ -621,13 +620,13 @@ describe("JsonSchema", () => {
               name: "John Doe",
               credit_card: 5555555555555555
             })
-          ).to.equal(false);
+          ).toBe(false);
           expect(
             validate({
               name: "John Doe",
               billing_address: "555 Debtor's Lane"
             })
-          ).to.equal(false);
+          ).toBe(false);
         });
       });
       describe("Schema Dependencies", () => {
@@ -659,24 +658,24 @@ describe("JsonSchema", () => {
               credit_card: 5555555555555555,
               billing_address: "555 Debtor's Lane"
             })
-          ).to.equal(true);
+          ).toBe(true);
           expect(
             validate({
               name: "John Doe",
               credit_card: 5555555555555555
             })
-          ).to.equal(false);
+          ).toBe(false);
           expect(
             validate({
               name: "John Doe"
             })
-          ).to.equal(true);
+          ).toBe(true);
           expect(
             validate({
               name: "John Doe",
               billing_address: "555 Debtor's Lane"
             })
-          ).to.equal(true);
+          ).toBe(true);
         });
       });
     });
@@ -692,7 +691,7 @@ describe("JsonSchema", () => {
           additionalProperties: false
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "object",
           patternProperties: {
             "^S_": {type: "string"},
@@ -705,11 +704,11 @@ describe("JsonSchema", () => {
         });
 
         const validate = new Ajv().compile(schema);
-        expect(validate({S_25: "This is a string"})).to.equal(true);
-        expect(validate({I_0: 42})).to.equal(true);
-        expect(validate({S_0: 42})).to.equal(false);
-        expect(validate({I_42: "This is a string"})).to.equal(false);
-        expect(validate({keyword: "value"})).to.equal(false);
+        expect(validate({S_25: "This is a string"})).toBe(true);
+        expect(validate({I_0: 42})).toBe(true);
+        expect(validate({S_0: 42})).toBe(false);
+        expect(validate({I_42: "This is a string"})).toBe(false);
+        expect(validate({keyword: "value"})).toBe(false);
       });
       it("should create a valid jsonchema with schema value", () => {
         const schema = JsonSchema.from({
@@ -724,7 +723,7 @@ describe("JsonSchema", () => {
           additionalProperties: JsonSchema.from({type: "string"})
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "object",
           properties: {
             builtin: {type: "number"}
@@ -737,9 +736,9 @@ describe("JsonSchema", () => {
         });
 
         const validate = new Ajv().compile(schema);
-        expect(validate({S_25: "This is a string"})).to.equal(true);
-        expect(validate({keyword: "value"})).to.equal(true);
-        expect(validate({keyword: 42})).to.equal(false);
+        expect(validate({S_25: "This is a string"})).toBe(true);
+        expect(validate({keyword: "value"})).toBe(true);
+        expect(validate({keyword: 42})).toBe(false);
       });
     });
   });
@@ -750,13 +749,13 @@ describe("JsonSchema", () => {
         const schema = JsonSchema.from({type: Array}).toObject();
         const validate = new Ajv().compile(schema);
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "array"
         });
 
-        expect(validate([1, 2, 3, 4, 5])).to.equal(true);
-        expect(validate([3, "different", {types: "of values"}])).to.equal(true);
-        expect(validate({Not: "an array"})).to.equal(false);
+        expect(validate([1, 2, 3, 4, 5])).toBe(true);
+        expect(validate([3, "different", {types: "of values"}])).toBe(true);
+        expect(validate({Not: "an array"})).toBe(false);
       });
     });
     describe("Items", () => {
@@ -773,16 +772,16 @@ describe("JsonSchema", () => {
 
           const validate = new Ajv().compile(schema);
 
-          expect(schema).to.deep.equal({
+          expect(schema).toEqual({
             type: "array",
             items: {
               type: "number"
             }
           });
 
-          expect(validate([1, 2, 3, 4, 5])).to.equal(true);
-          expect(validate([3, "different", {types: "of values"}])).to.equal(false);
-          expect(validate([])).to.equal(true);
+          expect(validate([1, 2, 3, 4, 5])).toBe(true);
+          expect(validate([3, "different", {types: "of values"}])).toBe(false);
+          expect(validate([])).toBe(true);
         });
 
         it("should create a new jsonSchema (contains)", () => {
@@ -795,16 +794,16 @@ describe("JsonSchema", () => {
 
           const validate = new Ajv().compile(schema);
 
-          expect(schema).to.deep.equal({
+          expect(schema).toEqual({
             type: "array",
             contains: {
               type: "number"
             }
           });
 
-          expect(validate(["life", "universe", "everything", 42])).to.equal(true);
-          expect(validate(["life", "universe", "everything", "forty-two"])).to.equal(false);
-          expect(validate([1, 2, 3, 4, 5])).to.equal(true);
+          expect(validate(["life", "universe", "everything", 42])).toBe(true);
+          expect(validate(["life", "universe", "everything", "forty-two"])).toBe(false);
+          expect(validate([1, 2, 3, 4, 5])).toBe(true);
         });
       });
       describe("Tuple validation", () => {
@@ -832,7 +831,7 @@ describe("JsonSchema", () => {
 
           const validate = new Ajv().compile(schema);
 
-          expect(schema).to.deep.equal({
+          expect(schema).toEqual({
             type: "array",
             items: [
               {
@@ -852,11 +851,11 @@ describe("JsonSchema", () => {
             ]
           });
 
-          expect(validate([1600, "Pennsylvania", "Avenue", "NW"])).to.equal(true);
-          expect(validate([24, "Sussex", "Drive"])).to.equal(false);
-          expect(validate(["Palais de l'Élysée"])).to.equal(false);
-          expect(validate([10, "Downing", "Street"])).to.equal(true);
-          expect(validate([1600, "Pennsylvania", "Avenue", "NW", "Washington"])).to.equal(true);
+          expect(validate([1600, "Pennsylvania", "Avenue", "NW"])).toBe(true);
+          expect(validate([24, "Sussex", "Drive"])).toBe(false);
+          expect(validate(["Palais de l'Élysée"])).toBe(false);
+          expect(validate([10, "Downing", "Street"])).toBe(true);
+          expect(validate([1600, "Pennsylvania", "Avenue", "NW", "Washington"])).toBe(true);
         });
         it("should create a new jsonSchema (additionalItems=false)", () => {
           const schema = JsonSchema.from({
@@ -882,7 +881,7 @@ describe("JsonSchema", () => {
 
           const validate = new Ajv().compile(schema);
 
-          expect(schema).to.deep.equal({
+          expect(schema).toEqual({
             type: "array",
             items: [
               {
@@ -903,9 +902,9 @@ describe("JsonSchema", () => {
             additionalItems: false
           });
 
-          expect(validate([1600, "Pennsylvania", "Avenue", "NW"])).to.equal(true);
-          expect(validate([1600, "Pennsylvania", "Avenue"])).to.equal(true);
-          expect(validate([1600, "Pennsylvania", "Avenue", "NW", "Washington"])).to.equal(false);
+          expect(validate([1600, "Pennsylvania", "Avenue", "NW"])).toBe(true);
+          expect(validate([1600, "Pennsylvania", "Avenue"])).toBe(true);
+          expect(validate([1600, "Pennsylvania", "Avenue", "NW", "Washington"])).toBe(false);
         });
         it("should create a new jsonSchema (additionalItems=Schema)", () => {
           const schema = JsonSchema.from({
@@ -931,7 +930,7 @@ describe("JsonSchema", () => {
 
           const validate = new Ajv().compile(schema);
 
-          expect(schema).to.deep.equal({
+          expect(schema).toEqual({
             type: "array",
             items: [
               {
@@ -952,8 +951,8 @@ describe("JsonSchema", () => {
             additionalItems: {type: "string"}
           });
 
-          expect(validate([1600, "Pennsylvania", "Avenue", "NW"])).to.equal(true);
-          expect(validate([1600, "Pennsylvania", "Avenue", "NW", 20500])).to.equal(false);
+          expect(validate([1600, "Pennsylvania", "Avenue", "NW"])).toBe(true);
+          expect(validate([1600, "Pennsylvania", "Avenue", "NW", 20500])).toBe(false);
         });
       });
       describe("Length", () => {
@@ -967,11 +966,11 @@ describe("JsonSchema", () => {
 
           const validate = new Ajv().compile(schema);
 
-          expect(validate([])).to.equal(false);
-          expect(validate([1])).to.equal(false);
-          expect(validate([1, 2])).to.equal(true);
-          expect(validate([1, 2, 3])).to.equal(true);
-          expect(validate([1, 2, 3, 4])).to.equal(false);
+          expect(validate([])).toBe(false);
+          expect(validate([1])).toBe(false);
+          expect(validate([1, 2])).toBe(true);
+          expect(validate([1, 2, 3])).toBe(true);
+          expect(validate([1, 2, 3, 4])).toBe(false);
         });
       });
       describe("Uniqueness", () => {
@@ -984,9 +983,9 @@ describe("JsonSchema", () => {
 
           const validate = new Ajv().compile(schema);
 
-          expect(validate([1, 2, 3, 4, 5])).to.equal(true);
-          expect(validate([1, 2, 3, 3, 4])).to.equal(false);
-          expect(validate([])).to.equal(true);
+          expect(validate([1, 2, 3, 4, 5])).toBe(true);
+          expect(validate([1, 2, 3, 3, 4])).toBe(false);
+          expect(validate([])).toBe(true);
         });
       });
     });
@@ -997,30 +996,30 @@ describe("JsonSchema", () => {
       const schema = JsonSchema.from({type: Boolean}).toObject();
       const validate = new Ajv().compile(schema);
 
-      expect(schema).to.deep.equal({
+      expect(schema).toEqual({
         type: "boolean"
       });
 
-      expect(validate(true)).to.equal(true);
-      expect(validate(false)).to.equal(true);
-      expect(validate("true")).to.equal(false);
-      expect(validate(0)).to.equal(false);
+      expect(validate(true)).toBe(true);
+      expect(validate(false)).toBe(true);
+      expect(validate("true")).toBe(false);
+      expect(validate(0)).toBe(false);
     });
   });
   describe("Null", () => {
     it("should create a new jsonSchema", () => {
       const schema = JsonSchema.from({type: null}).toObject();
 
-      expect(schema).to.deep.equal({
+      expect(schema).toEqual({
         type: "null"
       });
 
       const validate = new Ajv().compile(schema);
 
-      expect(validate(null)).to.equal(true);
-      expect(validate(false)).to.equal(false);
-      expect(validate(0)).to.equal(false);
-      expect(validate("")).to.equal(false);
+      expect(validate(null)).toBe(true);
+      expect(validate(false)).toBe(false);
+      expect(validate(0)).toBe(false);
+      expect(validate("")).toBe(false);
     });
   });
   describe("Generic keywords", () => {
@@ -1036,7 +1035,7 @@ describe("JsonSchema", () => {
           examples: ["Anything", 4035]
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           title: "Match anything",
           description: "This is a schema that matches anything.",
           default: "Default value",
@@ -1053,31 +1052,31 @@ describe("JsonSchema", () => {
           enum: ["red", "amber", "green", "green"]
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           type: "string",
           enum: ["red", "amber", "green"]
         });
 
         const validate = new Ajv().compile(schema);
 
-        expect(validate("red")).to.equal(true);
-        expect(validate("blue")).to.equal(false);
+        expect(validate("red")).toBe(true);
+        expect(validate("blue")).toBe(false);
       });
       it("should create a new jsonSchema (without type)", () => {
         const schema = JsonSchema.from({
           enum: ["red", "amber", "green", null, 42]
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           enum: ["red", "amber", "green", null, 42]
         });
 
         const validate = new Ajv().compile(schema);
 
-        expect(validate("red")).to.equal(true);
-        expect(validate(null)).to.equal(true);
-        expect(validate(42)).to.equal(true);
-        expect(validate(0)).to.equal(false);
+        expect(validate("red")).toBe(true);
+        expect(validate(null)).toBe(true);
+        expect(validate(42)).toBe(true);
+        expect(validate(0)).toBe(false);
       });
     });
 
@@ -1092,7 +1091,7 @@ describe("JsonSchema", () => {
           }
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           properties: {
             country: {
               const: "United States of America"
@@ -1102,8 +1101,8 @@ describe("JsonSchema", () => {
 
         const validate = new Ajv().compile(schema);
 
-        expect(validate({country: "United States of America"})).to.equal(true);
-        expect(validate({country: "Canada"})).to.equal(false);
+        expect(validate({country: "United States of America"})).toBe(true);
+        expect(validate({country: "Canada"})).toBe(false);
       });
     });
 
@@ -1131,7 +1130,7 @@ describe("JsonSchema", () => {
           title: "title"
         }).toObject();
 
-        expect(result).to.deep.equal({
+        expect(result).toEqual({
           type: "string",
           $id: "$id",
           $schema: "$schema",
@@ -1166,7 +1165,7 @@ describe("JsonSchema", () => {
           ]
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           anyOf: [
             {type: "string", maxLength: 5},
             {type: "number", minimum: 0}
@@ -1175,10 +1174,10 @@ describe("JsonSchema", () => {
 
         const validate = new Ajv().compile(schema);
 
-        expect(validate("short")).to.equal(true);
-        expect(validate("too long")).to.equal(false);
-        expect(validate(12)).to.equal(true);
-        expect(validate(-5)).to.equal(false);
+        expect(validate("short")).toBe(true);
+        expect(validate("too long")).toBe(false);
+        expect(validate(12)).toBe(true);
+        expect(validate(-5)).toBe(false);
       });
     });
     describe("allOf", () => {
@@ -1191,7 +1190,7 @@ describe("JsonSchema", () => {
           ]
         }).toObject();
 
-        expect(schema).to.deep.equal({
+        expect(schema).toEqual({
           allOf: [
             {type: "string", maxLength: 5},
             {type: "number", minimum: 0}
@@ -1200,8 +1199,8 @@ describe("JsonSchema", () => {
 
         const validate = new Ajv().compile(schema);
 
-        expect(validate("short")).to.equal(false);
-        expect(validate("too long")).to.equal(false);
+        expect(validate("short")).toBe(false);
+        expect(validate("too long")).toBe(false);
       });
     });
     describe("oneOf", () => {
@@ -1216,10 +1215,10 @@ describe("JsonSchema", () => {
 
         const validate = new Ajv().compile(schema);
 
-        expect(validate(10)).to.equal(true);
-        expect(validate(9)).to.equal(true);
-        expect(validate(2)).to.equal(false);
-        expect(validate(15)).to.equal(false);
+        expect(validate(10)).toBe(true);
+        expect(validate(9)).toBe(true);
+        expect(validate(2)).toBe(false);
+        expect(validate(15)).toBe(false);
       });
     });
     describe("not", () => {
@@ -1229,17 +1228,17 @@ describe("JsonSchema", () => {
 
         const validate = new Ajv().compile(schema);
 
-        expect(validate(42)).to.equal(true);
-        expect(validate({key: "value"})).to.equal(true);
-        expect(validate("I am a string")).to.equal(false);
+        expect(validate(42)).toBe(true);
+        expect(validate({key: "value"})).toBe(true);
+        expect(validate("I am a string")).toBe(false);
       });
     });
   });
   describe("Collection", () => {
     it("should create a new jsonSchema (Array)", () => {
       const result = JsonSchema.from({type: Array}).toObject();
-      expect(JsonSchema.from({type: Array}).isCollection).to.equal(true);
-      expect(result).to.deep.equal({
+      expect(JsonSchema.from({type: Array}).isCollection).toBe(true);
+      expect(result).toEqual({
         type: "array"
       });
     });
@@ -1247,7 +1246,7 @@ describe("JsonSchema", () => {
     it("should create a new jsonSchema (Map)", () => {
       const result = JsonSchema.from({type: Map}).toObject();
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         type: "object"
       });
     });
@@ -1255,7 +1254,7 @@ describe("JsonSchema", () => {
     it("should create a new jsonSchema (Set)", () => {
       const result = JsonSchema.from({type: Set}).toObject();
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         type: "array",
         uniqueItems: true
       });
@@ -1267,7 +1266,7 @@ describe("JsonSchema", () => {
         type: class Test {}
       }).toObject();
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         type: "object"
       });
     });
@@ -1307,7 +1306,7 @@ describe("JsonSchema", () => {
 
       const validate = new Ajv().compile(schema);
 
-      expect(schema).to.deep.eq({
+      expect(schema).toEqual({
         $ref: "#/definitions/Post",
         definitions: {
           Post: {
@@ -1367,9 +1366,9 @@ describe("JsonSchema", () => {
 
       const jsonSchema = schema.toObject();
 
-      expect(schema.getAliasOf("prop")).to.equal("aliasProp");
-      expect(schema.getTarget()).to.equal(undefined);
-      expect(jsonSchema).to.deep.equal({
+      expect(schema.getAliasOf("prop")).toBe("aliasProp");
+      expect(schema.getTarget()).toBeUndefined();
+      expect(jsonSchema).toEqual({
         type: "object",
         properties: {
           aliasProp: {
@@ -1395,7 +1394,7 @@ describe("JsonSchema", () => {
         .removeAlias("prop2")
         .toObject({useAlias: false});
 
-      expect(schema).to.deep.equal({
+      expect(schema).toEqual({
         type: "object",
         properties: {
           prop: {
@@ -1411,14 +1410,14 @@ describe("JsonSchema", () => {
     it("should create a new jsonSchema", () => {
       const result = JsonSchema.from({type: [String, Number]}).toObject();
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         type: ["string", "number"]
       });
     });
     it("should create a new jsonSchema (2)", () => {
       const result = JsonSchema.from({type: ["string", "null"]}).toObject();
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         type: ["string", "null"]
       });
     });
@@ -1428,7 +1427,7 @@ describe("JsonSchema", () => {
     it("should create a new jsonSchema", () => {
       const result = JsonSchema.from({type: Object}).any().toObject();
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         type: ["null", "integer", "number", "string", "boolean", "array", "object"]
       });
     });

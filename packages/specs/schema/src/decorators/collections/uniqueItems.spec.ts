@@ -1,5 +1,4 @@
 import {CollectionOf, getJsonSchema} from "@tsed/schema";
-import {expect} from "chai";
 import {MinItems} from "./minItems";
 import {UniqueItems} from "./uniqueItems";
 
@@ -13,7 +12,7 @@ describe("@UniqueItems", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         num: {
           items: {

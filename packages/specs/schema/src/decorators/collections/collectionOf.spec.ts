@@ -1,5 +1,4 @@
 import {getJsonSchema, In, MaxItems, MinItems, OperationPath, Property} from "@tsed/schema";
-import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {CollectionContains} from "./collectionContains";
 import {ArrayOf, CollectionOf, MapOf} from "./collectionOf";
@@ -15,7 +14,7 @@ describe("@CollectionOf", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           items: {
@@ -45,11 +44,11 @@ describe("@CollectionOf", () => {
     const entity = JsonEntityStore.from(Model, "prop");
     const schema = getJsonSchema(Model);
 
-    expect(entity.schema.getTarget()).to.deep.equal(Array);
-    expect(entity.schema.get("type")).to.deep.equal("array");
-    expect(entity.itemSchema.getComputedType()).to.deep.equal(Nested);
+    expect(entity.schema.getTarget()).toEqual(Array);
+    expect(entity.schema.get("type")).toEqual("array");
+    expect(entity.itemSchema.getComputedType()).toEqual(Nested);
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       definitions: {
         Nested: {
           properties: {
@@ -95,7 +94,7 @@ describe("@CollectionOf", () => {
     // THEN
     const entity = JsonEntityStore.from(Ctrl.prototype, "test", 0);
 
-    expect(getJsonSchema(entity)).to.deep.equal({
+    expect(getJsonSchema(entity)).toEqual({
       definitions: {
         Model: {
           properties: {
@@ -133,7 +132,7 @@ describe("@CollectionOf", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           additionalProperties: {
@@ -157,7 +156,7 @@ describe("@CollectionOf", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           items: {
@@ -180,7 +179,7 @@ describe("@CollectionOf", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         words: {
           type: "array",
@@ -205,7 +204,7 @@ describe("@CollectionOf", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         words: {
           type: "array",
@@ -236,7 +235,7 @@ describe("@ArrayOf", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           items: {
@@ -265,7 +264,7 @@ describe("@MapOf", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           additionalProperties: {

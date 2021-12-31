@@ -1,5 +1,4 @@
 import {CollectionOf, getJsonSchema} from "@tsed/schema";
-import {expect} from "chai";
 import {MaxItems} from "./maxItems";
 
 describe("@MaxItems", () => {
@@ -12,7 +11,7 @@ describe("@MaxItems", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         num: {
           items: {
@@ -35,6 +34,6 @@ describe("@MaxItems", () => {
     }
 
     // THEN
-    expect(actualError.message).to.equal("The value of maxItems MUST be a non-negative integer.");
+    expect(actualError.message).toBe("The value of maxItems MUST be a non-negative integer.");
   });
 });

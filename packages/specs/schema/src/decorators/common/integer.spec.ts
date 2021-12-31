@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Integer} from "./integer";
 
@@ -10,7 +9,7 @@ describe("@Integer", () => {
       prop: number;
     }
 
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           multipleOf: 1,

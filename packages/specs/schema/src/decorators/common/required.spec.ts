@@ -1,6 +1,5 @@
 import {getJsonSchema} from "@tsed/schema";
 import Ajv from "ajv";
-import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {Required} from "./required";
 import {Property} from "../common/property";
@@ -16,7 +15,7 @@ describe("@Required", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           type: "number"
@@ -36,7 +35,7 @@ describe("@Required", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           type: "number"
@@ -61,7 +60,7 @@ describe("@Required", () => {
     // THEN
     const spec = getJsonSchema(Model);
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       definitions: {
         NestedModel: {
           properties: {
@@ -89,7 +88,7 @@ describe("@Required", () => {
     });
 
     const validate = new Ajv().compile(spec);
-    expect(validate({allow: null})).to.equal(true);
-    expect(validate({})).to.equal(false);
+    expect(validate({allow: null})).toBe(true);
+    expect(validate({})).toBe(false);
   });
 });

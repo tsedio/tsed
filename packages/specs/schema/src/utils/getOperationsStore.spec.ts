@@ -1,6 +1,5 @@
 import {StoreSet} from "@tsed/core";
 import {getOperationsStores, OperationPath} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("getOperationsStore", () => {
   it("should return operation with right order", () => {
@@ -32,16 +31,16 @@ describe("getOperationsStore", () => {
 
     const stores = [...getOperationsStores(Test).entries()];
 
-    expect(stores[0][0]).to.equal("method");
-    expect(stores[0][1].store.get("test")).to.equal("Test");
+    expect(stores[0][0]).toBe("method");
+    expect(stores[0][1].store.get("test")).toBe("Test");
 
-    expect(stores[1][0]).to.equal("method3");
-    expect(stores[1][1].store.get("test")).to.equal("Test");
+    expect(stores[1][0]).toBe("method3");
+    expect(stores[1][1].store.get("test")).toBe("Test");
 
-    expect(stores[2][0]).to.equal("method2");
-    expect(stores[2][1].store.get("test")).to.equal("Test1");
+    expect(stores[2][0]).toBe("method2");
+    expect(stores[2][1].store.get("test")).toBe("Test1");
 
-    expect(stores[3][0]).to.equal("method1");
-    expect(stores[3][1].store.get("test")).to.equal("Test2");
+    expect(stores[3][0]).toBe("method1");
+    expect(stores[3][1].store.get("test")).toBe("Test2");
   });
 });

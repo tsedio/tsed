@@ -1,5 +1,4 @@
 import {getJsonSchema, Title} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("Title()", () => {
   it("should store data", () => {
@@ -8,7 +7,7 @@ describe("Title()", () => {
       test: string;
     }
 
-    expect(getJsonSchema(Test)).to.deep.equal({
+    expect(getJsonSchema(Test)).toEqual({
       properties: {
         test: {
           title: "Title",

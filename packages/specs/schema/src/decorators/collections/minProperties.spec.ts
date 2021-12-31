@@ -1,5 +1,4 @@
 import {getJsonSchema, In, OperationPath} from "@tsed/schema";
-import {expect} from "chai";
 import {getSpec} from "../../utils/getSpec";
 import {MinProperties} from "./minProperties";
 
@@ -12,7 +11,7 @@ describe("@MinProperties", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           minProperties: 10,
@@ -30,7 +29,7 @@ describe("@MinProperties", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           minProperties: 10,
@@ -46,7 +45,7 @@ describe("@MinProperties", () => {
     class Model {}
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       minProperties: 10,
       type: "object"
     });
@@ -59,7 +58,7 @@ describe("@MinProperties", () => {
     }
 
     // THEN
-    expect(getSpec(MyController)).to.deep.equal({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "MyController"
@@ -101,6 +100,6 @@ describe("@MinProperties", () => {
     }
 
     // THEN
-    expect(actualError.message).to.equal("The value of minProperties MUST be a non-negative integer.");
+    expect(actualError.message).toBe("The value of minProperties MUST be a non-negative integer.");
   });
 });

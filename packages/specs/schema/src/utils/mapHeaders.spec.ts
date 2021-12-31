@@ -1,5 +1,4 @@
 import {mapHeaders} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("mapHeaders", () => {
   it("should map headers", () => {
@@ -7,7 +6,7 @@ describe("mapHeaders", () => {
       mapHeaders({
         key: "value"
       })
-    ).to.deep.equal({
+    ).toEqual({
       key: {
         example: "value",
         type: "string"
@@ -18,7 +17,7 @@ describe("mapHeaders", () => {
       mapHeaders({
         key: 1
       })
-    ).to.deep.equal({
+    ).toEqual({
       key: {
         example: 1,
         type: "number"
@@ -32,7 +31,7 @@ describe("mapHeaders", () => {
           value: 1
         }
       })
-    ).to.deep.equal({
+    ).toEqual({
       key: {
         description: "test",
         example: 1,
@@ -47,7 +46,7 @@ describe("mapHeaders", () => {
           example: 1
         }
       } as any)
-    ).to.deep.equal({
+    ).toEqual({
       key: {
         description: "test",
         example: 1,

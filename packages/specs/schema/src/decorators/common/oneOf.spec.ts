@@ -1,5 +1,4 @@
 import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {number, string} from "../../utils/from";
 
 describe("@OneOf", () => {
@@ -13,7 +12,7 @@ describe("@OneOf", () => {
     // THEN
     const schema = getJsonSchema(Model);
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       properties: {
         num: {
           oneOf: [
@@ -47,7 +46,7 @@ describe("@OneOf", () => {
 
     const schema = getJsonSchema(Model);
 
-    expect(schema).to.deep.eq({
+    expect(schema).toEqual({
       definitions: {
         One1: {
           type: "object",
@@ -105,7 +104,7 @@ describe("@OneOf", () => {
 
     const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       components: {
         schemas: {
           Model: {
@@ -196,7 +195,7 @@ describe("@OneOf", () => {
 
     const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       components: {
         schemas: {
           Model: {

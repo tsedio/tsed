@@ -1,5 +1,4 @@
 import {getSpec, OperationPath} from "@tsed/schema";
-import {expect} from "chai";
 import {Tags} from "./tags";
 
 describe("Tags", () => {
@@ -10,7 +9,7 @@ describe("Tags", () => {
       get() {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       tags: [{name: "api"}],
       paths: {
         "/": {
@@ -35,7 +34,7 @@ describe("Tags", () => {
       get() {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "api",
@@ -69,7 +68,7 @@ describe("Tags", () => {
       post() {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       tags: [{name: "api"}, {name: "allow"}],
       paths: {
         "/": {
@@ -109,6 +108,6 @@ describe("Tags", () => {
       actualError = er;
     }
 
-    expect(actualError.message).to.deep.eq("Tags cannot be used as parameter decorator on Test.test.[0]");
+    expect(actualError.message).toEqual("Tags cannot be used as parameter decorator on Test.test.[0]");
   });
 });

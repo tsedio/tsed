@@ -12,7 +12,6 @@ import {
   Returns,
   SpecTypes
 } from "@tsed/schema";
-import {expect} from "chai";
 import {Groups} from "./groups";
 
 class ChildModel {
@@ -50,7 +49,7 @@ describe("@Groups", () => {
         groups: false
       });
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         definitions: {
           ChildModel: {
             properties: {
@@ -98,7 +97,7 @@ describe("@Groups", () => {
         groups: []
       });
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         definitions: {
           ChildModel: {
             properties: {
@@ -136,7 +135,7 @@ describe("@Groups", () => {
     it("should show fields with group annotation if the an empty any groups is given", () => {
       const spec = getJsonSchema(MyModel);
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         definitions: {
           ChildModel: {
             properties: {
@@ -176,7 +175,7 @@ describe("@Groups", () => {
         groups: ["group.summary"]
       });
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         definitions: {
           ChildModel: {
             properties: {
@@ -220,7 +219,7 @@ describe("@Groups", () => {
         groups: ["creation"]
       });
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         definitions: {
           ChildModel: {
             properties: {
@@ -257,7 +256,7 @@ describe("@Groups", () => {
         groups: ["group.*"]
       });
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         definitions: {
           ChildModel: {
             properties: {
@@ -338,7 +337,7 @@ describe("@Groups", () => {
         groups: ["creation"]
       });
 
-      expect(spec1).to.deep.equal({
+      expect(spec1).toEqual({
         properties: {
           email: {
             minLength: 1,
@@ -364,7 +363,7 @@ describe("@Groups", () => {
         groups: ["update"]
       });
 
-      expect(spec2).to.deep.equal({
+      expect(spec2).toEqual({
         properties: {
           email: {
             type: "string"
@@ -388,7 +387,7 @@ describe("@Groups", () => {
         groups: ["changePassword"]
       });
 
-      expect(spec3).to.deep.equal({
+      expect(spec3).toEqual({
         properties: {
           id: {
             minLength: 1,
@@ -427,7 +426,7 @@ describe("@Groups", () => {
 
       const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         components: {
           schemas: {
             ChildModel: {
@@ -595,7 +594,7 @@ describe("@Groups", () => {
 
       const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         components: {
           schemas: {
             ChildModel: {

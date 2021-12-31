@@ -1,5 +1,4 @@
 import {getSpec, OperationPath, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {Header} from "./header";
 
 describe("Header", () => {
@@ -14,7 +13,7 @@ describe("Header", () => {
 
         const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.eq({
+        expect(spec).toEqual({
           paths: {
             "/": {
               get: {
@@ -55,7 +54,7 @@ describe("Header", () => {
 
         const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.eq({
+        expect(spec).toEqual({
           paths: {
             "/": {
               get: {
@@ -103,7 +102,7 @@ describe("Header", () => {
 
         const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.eq({
+        expect(spec).toEqual({
           paths: {
             "/": {
               get: {

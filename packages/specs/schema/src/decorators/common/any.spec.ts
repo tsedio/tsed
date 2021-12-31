@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Any} from "./any";
 
@@ -11,7 +10,7 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           type: ["null", "integer", "number", "string", "boolean", "array", "object"]
@@ -28,7 +27,7 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           type: "string"
@@ -45,7 +44,7 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           type: ["null", "string", "number", "boolean"]
@@ -62,7 +61,7 @@ describe("@Any", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           type: ["null", "string"]

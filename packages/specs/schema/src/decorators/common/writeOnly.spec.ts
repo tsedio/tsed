@@ -1,5 +1,4 @@
 import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {WriteOnly} from "./writeOnly";
 
 describe("@WriteOnly", () => {
@@ -13,7 +12,7 @@ describe("@WriteOnly", () => {
     // THEN
     const schema = getJsonSchema(Model);
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       properties: {
         num: {
           writeOnly: true,
@@ -33,7 +32,7 @@ describe("@WriteOnly", () => {
     // THEN
     const schema = getJsonSchema(Model);
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       properties: {
         num: {
           writeOnly: true,
@@ -61,7 +60,7 @@ describe("@WriteOnly", () => {
     // THEN
     const spec = getSpec(MyController);
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       definitions: {
         Model: {
           properties: {
@@ -114,7 +113,7 @@ describe("@WriteOnly", () => {
     // THEN
     const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       components: {
         schemas: {
           Model: {

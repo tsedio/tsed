@@ -1,13 +1,12 @@
 import {isParameterType} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("JsonParameterType", () => {
   describe("isParameterType", () => {
     it("should return true", () => {
-      expect(isParameterType("query")).to.eq(true);
+      expect(isParameterType("query")).toBe(true);
     });
     it("should return false", () => {
-      expect(isParameterType("req")).to.eq(false);
+      expect(isParameterType("req")).toBe(false);
     });
   });
 });

@@ -1,5 +1,4 @@
 import {getJsonSchema, In, OperationPath} from "@tsed/schema";
-import {expect} from "chai";
 import {getSpec} from "../../utils/getSpec";
 import {MaxProperties} from "./maxProperties";
 
@@ -12,7 +11,7 @@ describe("@MaxProperties", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           maxProperties: 10,
@@ -30,7 +29,7 @@ describe("@MaxProperties", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           maxProperties: 10,
@@ -46,7 +45,7 @@ describe("@MaxProperties", () => {
     class Model {}
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       maxProperties: 10,
       type: "object"
     });
@@ -59,7 +58,7 @@ describe("@MaxProperties", () => {
     }
 
     // THEN
-    expect(getSpec(MyController)).to.deep.equal({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "MyController"
@@ -101,6 +100,6 @@ describe("@MaxProperties", () => {
     }
 
     // THEN
-    expect(actualError.message).to.equal("The value of maxProperties MUST be a non-negative integer.");
+    expect(actualError.message).toBe("The value of maxProperties MUST be a non-negative integer.");
   });
 });

@@ -1,9 +1,8 @@
-import {expect} from "chai";
 import {getJsonPathParameters} from "./getJsonPathParameters";
 
 describe("getJsonPathParameters", () => {
   it("should return params and path(1)", () => {
-    expect(getJsonPathParameters("/rest/", "/get/:path1/:path2?")).to.deep.eq([
+    expect(getJsonPathParameters("/rest/", "/get/:path1/:path2?")).toEqual([
       {
         path: "/rest/get/{path1}",
         parameters: [
@@ -35,7 +34,7 @@ describe("getJsonPathParameters", () => {
     ]);
   });
   it("should return params and path(2)", () => {
-    expect(getJsonPathParameters("/rest/", "/get/:path1/:path2")).to.deep.eq([
+    expect(getJsonPathParameters("/rest/", "/get/:path1/:path2")).toEqual([
       {
         path: "/rest/get/{path1}/{path2}",
         parameters: [
@@ -56,7 +55,7 @@ describe("getJsonPathParameters", () => {
     ]);
   });
   it("should return params and path(3)", () => {
-    expect(getJsonPathParameters("/rest/", "/get/path1/path2")).to.deep.eq([
+    expect(getJsonPathParameters("/rest/", "/get/path1/path2")).toEqual([
       {
         path: "/rest/get/path1/path2",
         parameters: []
@@ -64,7 +63,7 @@ describe("getJsonPathParameters", () => {
     ]);
   });
   it("should return params and path(4)", () => {
-    expect(getJsonPathParameters("/rest/calendar/", "/")).to.deep.eq([
+    expect(getJsonPathParameters("/rest/calendar/", "/")).toEqual([
       {
         path: "/rest/calendar",
         parameters: []
@@ -72,7 +71,7 @@ describe("getJsonPathParameters", () => {
     ]);
   });
   it("should return params and path /file/:filename.json", () => {
-    expect(getJsonPathParameters("/rest/", "/file/:filename.json")).to.deep.eq([
+    expect(getJsonPathParameters("/rest/", "/file/:filename.json")).toEqual([
       {
         path: "/rest/file/{filename}.json",
         parameters: [
@@ -87,7 +86,7 @@ describe("getJsonPathParameters", () => {
     ]);
   });
   it("should return params and path /category/:category([a-zA-Z/_-]+).json", () => {
-    expect(getJsonPathParameters("/rest/", "/category/:category([a-zA-Z/_-]+).json")).to.deep.eq([
+    expect(getJsonPathParameters("/rest/", "/category/:category([a-zA-Z/_-]+).json")).toEqual([
       {
         path: "/rest/category/{category}.json",
         parameters: [
@@ -102,7 +101,7 @@ describe("getJsonPathParameters", () => {
     ]);
   });
   it("should return params and path /path/JQ=:id", () => {
-    expect(getJsonPathParameters("/rest/", "/path/JQ=:id")).to.deep.eq([
+    expect(getJsonPathParameters("/rest/", "/path/JQ=:id")).toEqual([
       {
         path: "/rest/path/JQ={id}",
         parameters: [
@@ -117,7 +116,7 @@ describe("getJsonPathParameters", () => {
     ]);
   });
   it("should return params and path regexp", () => {
-    expect(getJsonPathParameters("/rest/", /\*json$/)).to.deep.eq([
+    expect(getJsonPathParameters("/rest/", /\*json$/)).toEqual([
       {
         parameters: [],
         path: "/rest/*json$"

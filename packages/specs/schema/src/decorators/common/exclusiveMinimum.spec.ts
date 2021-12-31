@@ -1,6 +1,6 @@
-import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {ExclusiveMinimum} from "./exclusiveMinimum";
+import "../../components";
 
 describe("@ExclusiveMinimum", () => {
   it("should declare exclusiveMinimum value", () => {
@@ -13,7 +13,7 @@ describe("@ExclusiveMinimum", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           exclusiveMinimum: 0,
@@ -33,7 +33,7 @@ describe("@ExclusiveMinimum", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           exclusiveMinimum: 0,

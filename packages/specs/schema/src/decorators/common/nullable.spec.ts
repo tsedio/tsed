@@ -1,5 +1,4 @@
 import {getSpec, Nullable, Path, Post, Property, Required, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {BodyParams} from "@tsed/platform-params";
 import Ajv from "ajv";
@@ -14,7 +13,7 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop2: {
           type: ["null", "string"],
@@ -39,7 +38,7 @@ describe("@Nullable", () => {
 
     ajv.compile(schema);
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       properties: {
         prop2: {
           type: ["null", "string"]
@@ -57,7 +56,7 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop2: {
           type: ["null", "string"]
@@ -74,7 +73,7 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop2: {
           type: ["null", "string", "number"]
@@ -92,7 +91,7 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop2: {
           type: ["null", "string", "number"]
@@ -110,7 +109,7 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop2: {
           type: ["null", "string"]
@@ -132,7 +131,7 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       definitions: {
         Nested: {
           properties: {
@@ -185,9 +184,9 @@ describe("@Nullable", () => {
 
     ajv.validate(schema, {prop2: null});
 
-    expect(ajv.errors).to.eq(null);
+    expect(ajv.errors).toBe(null);
     // THEN
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       definitions: {
         Nested1: {
           properties: {
@@ -260,7 +259,7 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       components: {
         schemas: {
           Model: {
@@ -364,7 +363,7 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       components: {
         schemas: {
           Model: {

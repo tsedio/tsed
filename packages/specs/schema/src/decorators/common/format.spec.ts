@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {DateFormat, DateTime, Email, Format, TimeFormat, Uri, Url} from "./format";
 
@@ -11,7 +10,7 @@ describe("@Format", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         email: {
           format: "email",
@@ -32,7 +31,7 @@ describe("@Email", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         email: {
           format: "email",
@@ -53,7 +52,7 @@ describe("@DateFormat", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           format: "date",
@@ -74,7 +73,7 @@ describe("@TimeFormat", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           format: "time",
@@ -95,7 +94,7 @@ describe("@DateTime", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           format: "date-time",
@@ -116,7 +115,7 @@ describe("@Uri", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           format: "uri",
@@ -137,7 +136,7 @@ describe("@Url", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop: {
           format: "url",

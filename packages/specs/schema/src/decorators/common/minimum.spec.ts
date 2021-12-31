@@ -1,7 +1,7 @@
-import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {CollectionOf} from "../collections/collectionOf";
 import {Min} from "./minimum";
+import "../../components";
 
 describe("@Minimum", () => {
   it("should declare minimum value", () => {
@@ -14,7 +14,7 @@ describe("@Minimum", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           minimum: 0,
@@ -35,7 +35,7 @@ describe("@Minimum", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           exclusiveMinimum: 0,
@@ -57,7 +57,7 @@ describe("@Minimum", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           type: "array",

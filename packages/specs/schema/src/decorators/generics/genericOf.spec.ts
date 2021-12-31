@@ -1,5 +1,4 @@
 import {CollectionOf, getJsonSchema, Property, string} from "@tsed/schema";
-import {expect} from "chai";
 import {GenericOf} from "./genericOf";
 import {Generics} from "./generics";
 
@@ -24,7 +23,7 @@ describe("@GenericOf", () => {
       submissions: Paginated<Product>;
     }
 
-    expect(getJsonSchema(Content)).to.deep.eq({
+    expect(getJsonSchema(Content)).toEqual({
       definitions: {
         Product: {
           properties: {
@@ -74,7 +73,7 @@ describe("@GenericOf", () => {
       submission: Submission<Product>;
     }
 
-    expect(getJsonSchema(Content)).to.deep.eq({
+    expect(getJsonSchema(Content)).toEqual({
       definitions: {
         Product: {
           properties: {
@@ -130,7 +129,7 @@ describe("@GenericOf", () => {
       submissions: Paginated<Submission<Product>>;
     }
 
-    expect(getJsonSchema(Content)).to.deep.eq({
+    expect(getJsonSchema(Content)).toEqual({
       definitions: {
         Product: {
           properties: {
@@ -188,7 +187,7 @@ describe("@GenericOf", () => {
       submission: Submission<MyEnum>;
     }
 
-    expect(getJsonSchema(Content)).to.deep.eq({
+    expect(getJsonSchema(Content)).toEqual({
       properties: {
         submission: {
           properties: {
@@ -226,7 +225,7 @@ describe("@GenericOf", () => {
       submission: Submission<MyEnum>;
     }
 
-    expect(getJsonSchema(Content)).to.deep.eq({
+    expect(getJsonSchema(Content)).toEqual({
       properties: {
         submission: {
           properties: {

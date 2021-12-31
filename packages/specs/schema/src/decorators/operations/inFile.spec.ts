@@ -1,5 +1,4 @@
 import {getSpec, OperationPath, Path, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {InFile} from "./inFile";
 
 describe("@File()", () => {
@@ -11,7 +10,7 @@ describe("@File()", () => {
     }
 
     it("should set endpoint metadata - OS2", () => {
-      expect(getSpec(TestController)).to.deep.eq({
+      expect(getSpec(TestController)).toEqual({
         paths: {
           "/": {
             post: {
@@ -54,7 +53,7 @@ describe("@File()", () => {
     });
 
     it("should set endpoint metadata - OS3", () => {
-      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).toEqual({
         paths: {
           "/": {
             post: {
@@ -109,7 +108,7 @@ describe("@File()", () => {
     }
 
     it("should set endpoint metadata - OS2", () => {
-      expect(getSpec(TestController)).to.deep.eq({
+      expect(getSpec(TestController)).toEqual({
         paths: {
           "/": {
             post: {
@@ -155,7 +154,7 @@ describe("@File()", () => {
     });
 
     it("should set endpoint metadata - OS3", () => {
-      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).toEqual({
         paths: {
           "/": {
             post: {

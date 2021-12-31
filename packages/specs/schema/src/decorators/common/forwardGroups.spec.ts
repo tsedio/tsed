@@ -1,5 +1,4 @@
 import {CollectionOf, getJsonSchema, getSpec, In, Name, OperationPath, Path, Property, Required, Returns, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {ForwardGroups} from "./forwardGroups";
 import {Groups} from "./groups";
 
@@ -39,7 +38,7 @@ describe("@ForwardGroups", () => {
         groups: ["creation"]
       });
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         definitions: {
           ChildModelCreation: {
             properties: {
@@ -88,7 +87,7 @@ describe("@ForwardGroups", () => {
 
       const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         components: {
           schemas: {
             ChildModel: {

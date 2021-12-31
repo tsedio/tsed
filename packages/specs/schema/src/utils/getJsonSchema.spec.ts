@@ -1,5 +1,4 @@
 import {ancestorsOf, nameOf, Type} from "@tsed/core";
-import {expect} from "chai";
 import {Post} from "../../test/helpers/Post";
 import {CollectionOf, Email, Format, getJsonSchema, JsonEntityStore, MinLength, Name, Property, Required} from "../index";
 
@@ -22,7 +21,7 @@ describe("getJsonSchema", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       type: "object",
       required: ["prop1"],
       properties: {
@@ -63,7 +62,7 @@ describe("getJsonSchema", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       type: "object",
       required: ["prop_1"],
       properties: {
@@ -94,7 +93,7 @@ describe("getJsonSchema", () => {
 
     // THEN
 
-    expect(getJsonSchema(NestedModel)).to.deep.equal({
+    expect(getJsonSchema(NestedModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -106,7 +105,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -152,7 +151,7 @@ describe("getJsonSchema", () => {
 
     // THEN
 
-    expect(getJsonSchema(NestedModel)).to.deep.equal({
+    expect(getJsonSchema(NestedModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -165,7 +164,7 @@ describe("getJsonSchema", () => {
     });
 
     const options = {schemas: {}};
-    expect(JsonEntityStore.from(Model).schema.clone().toJSON(options)).to.deep.eq({
+    expect(JsonEntityStore.from(Model).schema.clone().toJSON(options)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -176,7 +175,7 @@ describe("getJsonSchema", () => {
         }
       }
     });
-    expect(options).to.deep.eq({
+    expect(options).toEqual({
       schemas: {
         Nested: {
           properties: {
@@ -191,7 +190,7 @@ describe("getJsonSchema", () => {
         }
       }
     });
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -243,7 +242,7 @@ describe("getJsonSchema", () => {
     }
 
     // THEN
-    expect(getJsonSchema(ChildModel)).to.deep.equal({
+    expect(getJsonSchema(ChildModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -255,7 +254,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(NestedModel)).to.deep.equal({
+    expect(getJsonSchema(NestedModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -283,7 +282,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -349,7 +348,7 @@ describe("getJsonSchema", () => {
     }
 
     // THEN
-    expect(getJsonSchema(ChildModel)).to.deep.equal({
+    expect(getJsonSchema(ChildModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -361,7 +360,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(NestedModel)).to.deep.equal({
+    expect(getJsonSchema(NestedModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -390,7 +389,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -457,7 +456,7 @@ describe("getJsonSchema", () => {
     }
 
     // THEN
-    expect(getJsonSchema(ChildModel)).to.deep.equal({
+    expect(getJsonSchema(ChildModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -469,7 +468,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(NestedModel)).to.deep.equal({
+    expect(getJsonSchema(NestedModel)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -497,7 +496,7 @@ describe("getJsonSchema", () => {
       }
     });
 
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -542,7 +541,7 @@ describe("getJsonSchema", () => {
     // THEN
     const classSchema = getJsonSchema(Post);
 
-    expect(classSchema).to.deep.equal({
+    expect(classSchema).toEqual({
       definitions: {
         Post: {
           properties: {
@@ -599,7 +598,7 @@ describe("getJsonSchema", () => {
       name: string;
     }
 
-    expect(getJsonSchema(Model)).to.deep.eq({
+    expect(getJsonSchema(Model)).toEqual({
       type: "object",
       properties: {
         id: {
@@ -659,8 +658,8 @@ describe("getJsonSchema", () => {
     }
 
     // THEN
-    expect(ancestorsOf(EmailTemplate).map(nameOf)).to.deep.equal(["Model", "WithDates", "AutoUUIDMixin", "EmailTemplate"]);
-    expect(getJsonSchema(EmailTemplate)).to.deep.equal({
+    expect(ancestorsOf(EmailTemplate).map(nameOf)).toEqual(["Model", "WithDates", "AutoUUIDMixin", "EmailTemplate"]);
+    expect(getJsonSchema(EmailTemplate)).toEqual({
       properties: {
         created_at: {
           format: "datetime",

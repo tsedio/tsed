@@ -1,5 +1,4 @@
 import {CollectionOf, getJsonSchema} from "@tsed/schema";
-import {expect} from "chai";
 import {MinItems} from "./minItems";
 
 describe("@MinItems", () => {
@@ -12,7 +11,7 @@ describe("@MinItems", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         num: {
           items: {
@@ -35,6 +34,6 @@ describe("@MinItems", () => {
     }
 
     // THEN
-    expect(actualError.message).to.equal("The value of minItems MUST be a non-negative integer.");
+    expect(actualError.message).toBe("The value of minItems MUST be a non-negative integer.");
   });
 });

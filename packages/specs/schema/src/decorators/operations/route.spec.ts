@@ -1,6 +1,5 @@
 import {JsonEntityStore, OperationMethods} from "@tsed/schema";
 import {All, Delete, Get, Head, Options, Patch, Post, Put} from "./route";
-import {expect} from "chai";
 import Sinon from "sinon";
 
 const middleware: any = Sinon.stub();
@@ -21,13 +20,13 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.ALL,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toBe("test");
     });
   });
 
@@ -42,13 +41,13 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.GET,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toBe("test");
     });
     it("should register route and middleware (2)", () => {
       const middleware = () => {};
@@ -62,13 +61,13 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.GET,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toBe("test");
     });
     it("should register route and middleware (with handler)", () => {
       const middleware = () => {};
@@ -82,9 +81,9 @@ describe("Route decorators", () => {
       }
 
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
-      expect(endpoint.middlewares).to.deep.equal([middleware]);
-      expect(endpoint.afterMiddlewares).to.deep.equal([afterMiddleware]);
-      expect(endpoint.beforeMiddlewares).to.deep.equal([beforeMiddleware]);
+      expect(endpoint.middlewares).toEqual([middleware]);
+      expect(endpoint.afterMiddlewares).toEqual([afterMiddleware]);
+      expect(endpoint.beforeMiddlewares).toEqual([beforeMiddleware]);
     });
   });
 
@@ -99,13 +98,13 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.POST,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toBe("test");
     });
   });
 
@@ -120,16 +119,16 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.PUT,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
-      expect(endpoint.operation!.get("description")).to.equal("Description");
-      expect(endpoint.operation!.get("summary")).to.equal("Summary");
-      expect(endpoint.operation!.get("operationId")).to.equal("operationId");
+      expect(endpoint.propertyKey).toBe("test");
+      expect(endpoint.operation!.get("description")).toBe("Description");
+      expect(endpoint.operation!.get("summary")).toBe("Summary");
+      expect(endpoint.operation!.get("operationId")).toBe("operationId");
     });
   });
 
@@ -144,13 +143,13 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.DELETE,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toBe("test");
     });
   });
 
@@ -165,13 +164,13 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.HEAD,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toBe("test");
     });
   });
 
@@ -186,13 +185,13 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.PATCH,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toBe("test");
     });
   });
 
@@ -207,13 +206,13 @@ describe("Route decorators", () => {
       const endpoint = JsonEntityStore.fromMethod(Test, "test");
 
       // THEN
-      expect([...endpoint.operation!.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operation!.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.OPTIONS,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toBe("test");
     });
   });
 });

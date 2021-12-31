@@ -16,7 +16,7 @@
     "build": "yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "keywords": [
     "TypeScript",

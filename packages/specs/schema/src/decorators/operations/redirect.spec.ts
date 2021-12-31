@@ -1,5 +1,4 @@
 import {getSpec, OperationPath, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {Redirect} from "./redirect";
 
 describe("Redirect", () => {
@@ -12,7 +11,7 @@ describe("Redirect", () => {
 
     const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       paths: {
         "/": {
           get: {
@@ -52,7 +51,7 @@ describe("Redirect", () => {
 
     const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       paths: {
         "/": {
           get: {
@@ -94,7 +93,7 @@ describe("Redirect", () => {
 
     const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       paths: {
         "/": {
           get: {

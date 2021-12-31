@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {ForwardGroups, getJsonSchema, Groups, OneOf, Property, string} from "../src";
 
 // WHEN
@@ -34,7 +33,7 @@ describe("OneOf and Groups", () => {
     // THEN
     const schema = getJsonSchema(Model, { groups: [] });
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       "definitions": {
         "One1": {
           "properties": {
@@ -85,7 +84,7 @@ describe("OneOf and Groups", () => {
       ]
     });
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       "definitions": {
         "One1Creation": {
           "properties": {

@@ -1,12 +1,14 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
 import {unlinkSync, writeJsonSync} from "fs-extra";
 import {SpecTypes} from "../../src/domain";
+import {v4} from "uuid";
 
 export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {
-  const file = __dirname + "/spec.json";
+  const file = `${__dirname}/spec-${v4()}.json`;
   spec = {
     ...spec
   };
+
   try {
     if (version === SpecTypes.OPENAPI) {
       spec.openapi = "3.0.1";
@@ -28,15 +30,16 @@ export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {
       version: "1.0.0"
     };
 
-    writeJsonSync(file, spec, {encoding: "utf8"});
+    writeJsonSync(file, spec, { encoding: "utf8" });
     await SwaggerParser.validate(file);
-    unlinkSync(file);
 
     return true;
   } catch (er) {
-    console.error(er);
-    // unlinkSync(file);
-
     return er;
+  } finally {
+    try {
+      unlinkSync(file);
+    } catch (er) {
+    }
   }
 };

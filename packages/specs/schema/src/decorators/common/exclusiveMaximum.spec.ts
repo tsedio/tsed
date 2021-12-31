@@ -1,6 +1,6 @@
-import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {ExclusiveMaximum} from "./exclusiveMaximum";
+import "../../components";
 
 describe("@ExclusiveMaximum", () => {
   it("should declare exclusiveMaximum value", () => {
@@ -13,7 +13,7 @@ describe("@ExclusiveMaximum", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           exclusiveMaximum: 0,
@@ -33,7 +33,7 @@ describe("@ExclusiveMaximum", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           exclusiveMaximum: 0,
