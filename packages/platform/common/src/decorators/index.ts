@@ -8,7 +8,6 @@ export * from "./method/route";
 export * from "./method/acceptMime";
 export * from "./method/location";
 export * from "./method/redirect";
-export * from "./method/endpointFn";
 export * from "./method/view";
 
 // Params
