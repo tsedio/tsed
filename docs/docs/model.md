@@ -126,6 +126,74 @@ The @@Nullable@@ decorator is used allow a null value on a field while preservin
   </Tab>
 </Tabs>
 
+## Any
+
+The @@Any@@ decorator is used to allow any types:
+
+<Tabs class="-code">
+  <Tab label="Model">
+
+```typescript
+import {Any} from "@tsed/schema";
+
+export class Model {
+  @Any()
+  prop: any;
+}
+```
+
+  </Tab>
+  <Tab label="Json schema">
+
+```json
+{
+  "properties": {
+    "prop": {
+      "type": ["integer", "number", "string", "boolean", "array", "object", "null"]
+    }
+  },
+  "type": "object"
+}
+```
+
+  </Tab>
+  <Tab label="OS3">
+
+```json
+{
+  "properties": {
+    "prop": {
+      "nullable": true,
+      "oneOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "array"
+        },
+        {
+          "type": "object"
+        }
+      ]
+    }
+  },   
+  "type": "object"
+}
+```
+
+  </Tab>
+</Tabs>
+
+
 ## Regular expressions
 
 The @@Pattern@@ decorator is used to restrict a string to a particular regular expression. The regular expression syntax

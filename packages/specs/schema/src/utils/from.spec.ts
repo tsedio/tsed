@@ -71,7 +71,7 @@ describe("from", () => {
     });
     expect(array().toJSON()).to.deep.eq({type: "array"});
     expect(any().toJSON()).to.deep.eq({
-      type: ["integer", "number", "string", "boolean", "array", "object", "null"]
+      type: ["null", "integer", "number", "string", "boolean", "array", "object"]
     });
 
     expect(anyOf(string(), number()).toJSON()).to.deep.eq({

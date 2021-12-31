@@ -28,7 +28,7 @@ function mapProperties(properties: Record<string, any>) {
   }
 
   return Object.entries(properties).reduce<any>((properties, [key, schema]) => {
-    properties[toJsonRegex(key)] = isArray(schema) ? schema.map(mapToJsonSchema) : mapToJsonSchema(schema);
+    properties[toJsonRegex(key)] = mapToJsonSchema(schema);
 
     return properties;
   }, {});
@@ -100,14 +100,6 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     this.#genericLabels = value;
   }
 
-  get nullable(): boolean {
-    return this.#nullable || this.$allow.includes(null);
-  }
-
-  set nullable(value: boolean) {
-    this.#nullable = value;
-  }
-
   get isClass() {
     return isClass(this.class) && ![Map, Array, Set, Object, Date, Boolean, Number, String].includes(this.#target as any);
   }
@@ -145,8 +137,24 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this.#ref;
   }
 
+  get isNullable(): boolean {
+    return this.#nullable || this.$allow.includes(null);
+  }
+
+  get isReadOnly() {
+    return this.get("readOnly");
+  }
+
+  get isWriteOnly() {
+    return this.get("writeOnly");
+  }
+
   static from(obj: Partial<JsonSchemaObject> = {}) {
     return new JsonSchema(obj);
+  }
+
+  nullable(value: boolean) {
+    this.#nullable = value;
   }
 
   itemSchema(obj: AnyJsonSchema = {}) {
@@ -733,10 +741,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     const hasClasses = types.filter((type) => isClass(type));
 
     if (hasClasses.length >= 2) {
-      this.anyOf(
+      this.oneOf(
         types.filter((value) => {
           if (value !== null) {
-            this.nullable = true;
+            this.nullable(true);
             return true;
           }
           return false;
@@ -744,10 +752,16 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
       );
     } else {
       // TODO when OS3 will the only minimal supported version, we'll can remove this code
-      types = uniq(types.length ? types : ["integer", "number", "string", "boolean", "array", "object", "null"]).map(getJsonType);
+      if (types.length) {
+        types = uniq(types).map(getJsonType);
 
-      if (types.includes("null")) {
-        this.nullable = true;
+        if (types.includes("null")) {
+          this.nullable(true);
+          types = types.filter((o) => o !== "null");
+        }
+      } else {
+        types = ["integer", "number", "string", "boolean", "array", "object"];
+        this.nullable(true);
       }
 
       this.type(types.length === 1 ? types[0] : types);
@@ -815,7 +829,6 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
   assign(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
     const entries = obj instanceof JsonSchema ? [...obj.entries()] : Object.entries(obj);
-
     entries.forEach(([key, value]) => {
       this.set(key, value);
     });

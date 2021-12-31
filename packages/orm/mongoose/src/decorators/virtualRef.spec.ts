@@ -201,7 +201,7 @@ describe("@VirtualRef()", () => {
                   type: "number"
                 },
                 members: {
-                  allOf: [
+                  oneOf: [
                     {
                       $ref: "#/components/schemas/TestPerson"
                     }

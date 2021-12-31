@@ -1429,7 +1429,7 @@ describe("JsonSchema", () => {
       const result = JsonSchema.from({type: Object}).any().toObject();
 
       expect(result).to.deep.equal({
-        type: ["integer", "number", "string", "boolean", "array", "object", "null"]
+        type: ["null", "integer", "number", "string", "boolean", "array", "object"]
       });
     });
   });

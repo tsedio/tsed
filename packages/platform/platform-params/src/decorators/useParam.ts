@@ -1,9 +1,9 @@
 import {isString, useDecorators} from "@tsed/core";
-import {Any, Name} from "@tsed/schema";
+import {Any} from "@tsed/schema";
 import {ParamOptions} from "../domain/ParamOptions";
+import {ParamTypes} from "../domain/ParamTypes";
 import {ParamFn} from "./paramFn";
 import {UseDeserialization} from "./useDeserialization";
-import {UseParamExpression} from "./useParamExpression";
 import {UseParamType} from "./useParamType";
 import {UseType} from "./useType";
 import {UseValidation} from "./useValidation";
@@ -19,7 +19,7 @@ function mapPipes(options: Partial<ParamOptions>) {
     useType
       ? UseType(useType)
       : ParamFn((entity, parameters) => {
-          if (entity.isCollection && entity.type === Object) {
+          if (entity.isCollection && entity.type === Object && paramType !== ParamTypes.FILES) {
             Any()(...parameters);
           }
         }),

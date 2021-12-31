@@ -1,6 +1,8 @@
-import {Nullable, Property, Required, SpecTypes} from "@tsed/schema";
+import {getSpec, Nullable, Path, Post, Property, Required, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
+import {BodyParams} from "@tsed/platform-params";
+import Ajv from "ajv";
 
 describe("@Nullable", () => {
   it("should declare any prop (Required + Nullable)", () => {
@@ -32,7 +34,12 @@ describe("@Nullable", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    const schema = getJsonSchema(Model);
+    const ajv = new Ajv();
+
+    ajv.compile(schema);
+
+    expect(schema).to.deep.equal({
       properties: {
         prop2: {
           type: ["null", "string"]
@@ -151,7 +158,7 @@ describe("@Nullable", () => {
       type: "object"
     });
   });
-  it("should declare any prop (many Models + Nullable)", () => {
+  it("should declare any prop (many Models + Nullable + JsonSchema)", () => {
     // WHEN
     class Nested1 {
       @Property()
@@ -173,9 +180,14 @@ describe("@Nullable", () => {
       @Nullable(Nested1, Nested2)
       prop2: Nested1 | Nested2 | null;
     }
+    const schema = getJsonSchema(Model);
+    const ajv = new Ajv({strict: true});
 
+    ajv.validate(schema, {prop2: null});
+
+    expect(ajv.errors).to.eq(null);
     // THEN
-    expect(getJsonSchema(Model, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+    expect(schema).to.deep.equal({
       definitions: {
         Nested1: {
           properties: {
@@ -202,18 +214,228 @@ describe("@Nullable", () => {
       },
       properties: {
         prop2: {
-          anyOf: [
+          oneOf: [
             {
-              $ref: "#/components/schemas/Nested1"
+              type: "null"
             },
             {
-              $ref: "#/components/schemas/Nested2"
+              $ref: "#/definitions/Nested1"
+            },
+            {
+              $ref: "#/definitions/Nested2"
             }
-          ],
-          nullable: true
+          ]
         }
       },
       type: "object"
+    });
+  });
+  it("should declare any prop (many Models + Nullable + OS3)", () => {
+    // WHEN
+    class Nested1 {
+      @Property()
+      id: string;
+
+      @Property()
+      top: string;
+    }
+
+    class Nested2 {
+      @Property()
+      id: string;
+
+      @Property()
+      other: string;
+    }
+
+    class Model {
+      @Nullable(Nested1, Nested2)
+      prop2: Nested1 | Nested2 | null;
+    }
+
+    @Path("/")
+    class MyController {
+      @Post("/")
+      body(@BodyParams() model: Model) {}
+    }
+
+    // THEN
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+      components: {
+        schemas: {
+          Model: {
+            properties: {
+              prop2: {
+                oneOf: [
+                  {
+                    $ref: "#/components/schemas/Nested1"
+                  },
+                  {
+                    $ref: "#/components/schemas/Nested2"
+                  }
+                ],
+                nullable: true
+              }
+            },
+            type: "object"
+          },
+          Nested1: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              top: {
+                type: "string"
+              }
+            },
+            type: "object"
+          },
+          Nested2: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              other: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        }
+      },
+      paths: {
+        "/": {
+          post: {
+            operationId: "myControllerBody",
+            parameters: [],
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/Model"
+                  }
+                }
+              },
+              required: false
+            },
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            tags: ["MyController"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "MyController"
+        }
+      ]
+    });
+  });
+  it("should declare any prop (many Models + Nullable + OS2)", () => {
+    // WHEN
+    class Nested1 {
+      @Property()
+      id: string;
+
+      @Property()
+      top: string;
+    }
+
+    class Nested2 {
+      @Property()
+      id: string;
+
+      @Property()
+      other: string;
+    }
+
+    class Model {
+      @Nullable(Nested1, Nested2)
+      prop2: Nested1 | Nested2 | null;
+    }
+
+    @Path("/")
+    class MyController {
+      @Post("/")
+      body(@BodyParams() model: Model) {}
+    }
+
+    // THEN
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+      components: {
+        schemas: {
+          Model: {
+            properties: {
+              prop2: {
+                oneOf: [
+                  {
+                    $ref: "#/components/schemas/Nested1"
+                  },
+                  {
+                    $ref: "#/components/schemas/Nested2"
+                  }
+                ],
+                nullable: true
+              }
+            },
+            type: "object"
+          },
+          Nested1: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              top: {
+                type: "string"
+              }
+            },
+            type: "object"
+          },
+          Nested2: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              other: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        }
+      },
+      paths: {
+        "/": {
+          post: {
+            operationId: "myControllerBody",
+            parameters: [],
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/Model"
+                  }
+                }
+              },
+              required: false
+            },
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            tags: ["MyController"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "MyController"
+        }
+      ]
     });
   });
 });
