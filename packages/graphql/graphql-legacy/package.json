@@ -1,6 +1,6 @@
 {
   "name": "@tsed/graphql",
-  "version": "7.0.0-beta.2",
+  "version": "7.0.0-beta.3",
   "description": "GraphQL package for Ts.ED framework, based on Apollo-server-express and Type-graphql",
   "private": false,
   "source": "./src/index.ts",
@@ -28,7 +28,7 @@
     "apollo-server"
   ],
   "dependencies": {
-    "@tsed/typegraphql": "7.0.0-beta.2",
+    "@tsed/typegraphql": "7.0.0-beta.3",
     "tslib": "2.2.0"
   },
   "devDependencies": {},
