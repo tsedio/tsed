@@ -1,8 +1,9 @@
-import {BodyParams, Inject, Post, View} from "@tsed/common";
+import {BodyParams, Inject, Post} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Constant} from "@tsed/di";
 import {BadRequest, Unauthorized} from "@tsed/exceptions";
 import {Interaction, OidcCtx, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
+import {View} from "@tsed/platform-views";
 import {Name} from "@tsed/schema";
 import {Accounts} from "../services/Accounts";
 

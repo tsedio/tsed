@@ -1,6 +1,6 @@
-import {Location, PlatformTest, Redirect} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {Get} from "@tsed/platform-serverless";
-import {JsonEntityStore, Returns} from "@tsed/schema";
+import {JsonEntityStore, Redirect, Returns} from "@tsed/schema";
 import {setResponseHeaders} from "./setResponseHeaders";
 import {createServerlessContext} from "../../test/utils/createServerlessContext";
 

@@ -1,6 +1,7 @@
-import {Controller, Get, View} from "@tsed/common";
+import {Controller, Get} from "@tsed/common";
 import {Returns} from "@tsed/schema";
 import {Hidden} from "@tsed/swagger";
+import {View} from "@tsed/platform-views";
 import fs from "fs";
 
 @Controller("/")
