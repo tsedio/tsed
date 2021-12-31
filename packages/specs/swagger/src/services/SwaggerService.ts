@@ -23,7 +23,13 @@ export class SwaggerService {
    * @returns {Spec}
    */
   public getOpenAPISpec(conf: SwaggerOS3Settings): OpenSpec3;
+  /**
+   * @deprecated
+   */
   public getOpenAPISpec(conf: SwaggerOS2Settings): OpenSpec2;
+  /**
+   * @deprecated
+   */
   public getOpenAPISpec(conf: SwaggerSettings): OpenSpec2;
   public getOpenAPISpec(conf: SwaggerSettings) {
     if (!this.#specs.has(conf.path)) {

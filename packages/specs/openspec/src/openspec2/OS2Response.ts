@@ -2,6 +2,9 @@ import {OpenSpecHash} from "../common/OpenSpecHash";
 import {OS2Header} from "./OS2Header";
 import {OS2Schema} from "./OS2Schema";
 
+/**
+ * @deprecated
+ */
 export interface OS2Response {
   /**
    * A short description of the response. GFM syntax can be used for rich text representation.

@@ -2,7 +2,9 @@ import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs";
 import {OpenSpecBaseJsonSchema, OpenSpecJsonSchema} from "../common/OpenSpecJsonSchema";
 import {OpenSpecRef} from "../common/OpenSpecRef";
 import {OpenSpecXML} from "../common/OpenSpecXML";
-
+/**
+ * @deprecated
+ */
 export interface OS2XML {
   name?: string;
   namespace?: string;
@@ -10,14 +12,18 @@ export interface OS2XML {
   attribute?: boolean;
   wrapped?: boolean;
 }
-
+/**
+ * @deprecated
+ */
 export interface OS2BaseSchema extends OpenSpecBaseJsonSchema {
   /**
    * Required if type is "array". Describes the type of items in the array.
    */
   items?: OS2Schema | OpenSpecRef;
 }
-
+/**
+ * @deprecated
+ */
 export interface OS2Schema extends OpenSpecJsonSchema<OS2Schema> {
   /**
    * Adds support for polymorphism.

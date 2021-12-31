@@ -5,6 +5,9 @@ import {OpenSpecSecurity} from "../common/OpenSpecSecurity";
 import {OS2Parameter} from "./OS2Parameter";
 import {OS2Response} from "./OS2Response";
 
+/**
+ * @deprecated
+ */
 export interface OS2Operation {
   /**
    * A list of tags for API documentation control. Tags can be used for logical grouping of operations by resources or any other qualifier.

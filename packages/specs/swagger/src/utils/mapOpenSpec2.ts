@@ -8,6 +8,7 @@ import {mapOpenSpecInfo} from "./mapOpenSpecInfo";
  * @param version
  * @param specVersion
  * @param acceptMimes
+ * @deprecated
  */
 export function mapOpenSpec2(
   spec: Partial<OpenSpec2>,

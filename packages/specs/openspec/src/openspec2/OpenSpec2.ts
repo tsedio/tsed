@@ -9,6 +9,9 @@ import {OS2Paths} from "./OS2Paths";
 import {OS2Schema} from "./OS2Schema";
 import {OS2Security} from "./OS2Security";
 
+/**
+ * @deprecated
+ */
 export interface OpenSpec2 {
   /**
    * Specifies the Swagger Specification version being used. It can be used by the Swagger UI and other clients to interpret the API listing. The value MUST be "2.0".

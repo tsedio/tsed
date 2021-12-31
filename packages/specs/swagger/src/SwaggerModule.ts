@@ -77,10 +77,14 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
       const url = host.toString();
 
       const displayLog = (conf: SwaggerSettings) => {
-        const {path = "/", fileName = "swagger.json", doc} = conf;
+        const {path = "/", fileName = "swagger.json", doc, specVersion} = conf;
 
         this.injector.logger.info(`[${doc || "default"}] Swagger JSON is available on ${url}${normalizePath(path, fileName)}`);
         this.injector.logger.info(`[${doc || "default"}] Swagger UI is available on ${url}${path}/`);
+        // istanbul ignore next
+        if (specVersion === "2.0") {
+          this.injector.logger.warn(`[${doc || "default"}] Swagger 2.0 is now deprecated. Please migrate to OpenSpec 3`);
+        }
       };
 
       this.settings.forEach((conf) => {
