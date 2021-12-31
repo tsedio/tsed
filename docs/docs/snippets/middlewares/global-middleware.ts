@@ -4,7 +4,7 @@ import {MiddlewareMethods, Middleware} from "@tsed/platform-middlewares";
 import {NotAcceptable} from "@tsed/exceptions";
 
 @Middleware()
-export default class GlobalAcceptMimesMiddleware implements MiddlewareMethods {
+export default class AcceptMimesMiddleware implements MiddlewareMethods {
   @Constant("acceptMimes")
   acceptMimes: string[];
 
