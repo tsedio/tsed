@@ -159,12 +159,12 @@ To protect certain routes create a KeycloakAuthDecorator at `src/decorators`.
 
 ```typescript
 import {Returns} from '@tsed/schema';
-import {IAuthOptions, UseAuth} from '@tsed/common';
+import {UseAuth} from '@tsed/common';
 import {useDecorators} from '@tsed/core';
 import {Security} from '@tsed/schema';
 import {KeycloakMiddleware} from '../middlewares/KeycloakMiddleware';
 
-export interface KeycloakAuthOptions extends IAuthOptions {
+export interface KeycloakAuthOptions extends Record<string, any> {
     role?: string;
     scopes?: string[];
 }
