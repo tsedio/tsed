@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {getSpec, SpecTypes} from "../src";
 import {OperationPath, Path, Property, Returns} from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
@@ -34,7 +33,7 @@ describe("Spec: Response", () => {
   it("should generate the OS3", async () => {
     const spec = getSpec(TestResponseCtrl, { specType: SpecTypes.OPENAPI });
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       "components": {
         "schemas": {
           "Product": {
@@ -110,12 +109,12 @@ describe("Spec: Response", () => {
         }
       ]
     });
-    expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
+    expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
   });
   it("should generate the OS2", async () => {
     const spec = getSpec(TestResponseCtrl, { specType: SpecTypes.SWAGGER });
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       "definitions": {
         "Product": {
           "properties": {
@@ -184,6 +183,6 @@ describe("Spec: Response", () => {
         }
       ]
     });
-    expect(await validateSpec(spec, SpecTypes.SWAGGER)).to.eq(true);
+    expect(await validateSpec(spec, SpecTypes.SWAGGER)).toBe(true);
   });
 });

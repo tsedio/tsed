@@ -1,5 +1,4 @@
 import {JsonMap} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("JsonMap", () => {
   it("should serialize a JsonMap", () => {
@@ -7,7 +6,7 @@ describe("JsonMap", () => {
       id: "id"
     });
 
-    expect(map.toJSON()).to.deep.eq({
+    expect(map.toJSON()).toEqual({
       id: "id"
     });
   });

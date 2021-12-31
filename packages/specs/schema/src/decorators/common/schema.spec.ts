@@ -1,5 +1,4 @@
 import {getJsonSchema} from "@tsed/schema";
-import {expect} from "chai";
 import {Schema} from "./schema";
 
 describe("Schema()", () => {
@@ -11,7 +10,7 @@ describe("Schema()", () => {
       test: string;
     }
 
-    expect(getJsonSchema(Test)).to.deep.equal({
+    expect(getJsonSchema(Test)).toEqual({
       properties: {
         test: {
           pattern: "a|b",

@@ -1,5 +1,4 @@
 import {getJsonSchema, Required} from "@tsed/schema";
-import {expect} from "chai";
 import {Groups} from "./groups";
 import {RequiredGroups} from "./requiredGroups";
 
@@ -25,7 +24,7 @@ describe("@RequiredGroups", () => {
       groups: false
     });
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       properties: {
         id: {
           type: "string"
@@ -52,7 +51,7 @@ describe("@RequiredGroups", () => {
       groups: []
     });
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       properties: {
         id: {
           type: "string"
@@ -78,7 +77,7 @@ describe("@RequiredGroups", () => {
       groups: ["patch"]
     });
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       properties: {
         id: {
           type: "string"
@@ -104,7 +103,7 @@ describe("@RequiredGroups", () => {
       groups: ["!patch"]
     });
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       properties: {
         prop1: {
           minLength: 1,

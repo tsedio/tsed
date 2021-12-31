@@ -1,5 +1,5 @@
 import {CollectionOf, Generics, OperationPath, Property, Status, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
+import "@tsed/platform-exceptions";
 import {getSpec} from "../../utils/getSpec";
 
 describe("@Status", () => {
@@ -14,7 +14,7 @@ describe("@Status", () => {
     // THEN
     const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       tags: [
         {
           name: "Controller"
@@ -50,7 +50,7 @@ describe("@Status", () => {
     // THEN
     const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       tags: [
         {
           name: "Controller"
@@ -95,7 +95,7 @@ describe("@Status", () => {
     // THEN
     const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       tags: [
         {
           name: "Controller"
@@ -143,7 +143,7 @@ describe("@Status", () => {
     // THEN
     const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       tags: [
         {
           name: "Controller"
@@ -186,7 +186,7 @@ describe("@Status", () => {
     // THEN
     const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       paths: {
         "/": {
           post: {
@@ -271,7 +271,7 @@ describe("@Status", () => {
       actualError = er;
     }
 
-    actualError.message.should.eq("Returns.Of cannot be used with the following primitive classes: String, Number, Boolean");
+    expect(actualError.message).toBe("Returns.Of cannot be used with the following primitive classes: String, Number, Boolean");
   });
   it("should throw an error when using of with Collection", async () => {
     // WHEN
@@ -286,7 +286,7 @@ describe("@Status", () => {
       actualError = er;
     }
 
-    actualError.message.should.eq("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
+    expect(actualError.message).toBe("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
   });
   it("should declare an Array of string", async () => {
     // WHEN
@@ -299,7 +299,7 @@ describe("@Status", () => {
     // THEN
     const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       tags: [
         {
           name: "Controller"
@@ -344,7 +344,7 @@ describe("@Status", () => {
     // THEN
     const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       definitions: {
         Model: {
           properties: {
@@ -419,7 +419,7 @@ describe("@Status", () => {
     // THEN
     const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       definitions: {
         Product: {
           properties: {

@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {
   Default,
   GenericOf,
@@ -37,7 +36,7 @@ describe("Deep Object QueryParams", () => {
 
     const spec = getSpec(TestDeepObjectCtrl, { specType: SpecTypes.OPENAPI });
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       "components": {
         "schemas": {
           "DeepQueryObject": {
@@ -124,7 +123,7 @@ describe("Deep Object QueryParams", () => {
 
     const spec = getSpec(TestDeepObjectCtrl, { specType: SpecTypes.OPENAPI });
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       "components": {
         "schemas": {
           "FindQuery": {
@@ -227,7 +226,7 @@ describe("Deep Object QueryParams", () => {
 
     const spec = getSpec(TestDeepObjectCtrl, { specType: SpecTypes.OPENAPI });
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       "components": {
         "schemas": {
           "FindQuery": {

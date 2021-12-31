@@ -1,5 +1,4 @@
 import {getSpec, Location, OperationPath, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("Location", () => {
   it("should set Header", () => {
@@ -11,7 +10,7 @@ describe("Location", () => {
 
     const spec = getSpec(MyController, {spec: SpecTypes.SWAGGER});
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       paths: {
         "/": {
           get: {

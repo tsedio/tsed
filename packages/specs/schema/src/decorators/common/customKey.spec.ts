@@ -1,5 +1,4 @@
 import {CustomKeys, getJsonSchema, getSpec, OperationPath, Path, Returns} from "@tsed/schema";
-import {expect} from "chai";
 import {CustomKey} from "./customKey";
 
 describe("@CustomKey", () => {
@@ -13,7 +12,7 @@ describe("@CustomKey", () => {
     // THEN
     const schema = getJsonSchema(Model, {customKeys: true});
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       properties: {
         num: {
           type: "number",
@@ -41,7 +40,7 @@ describe("@CustomKey", () => {
     // THEN
     const spec = getSpec(MyController);
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       definitions: {
         Model: {
           properties: {
@@ -88,7 +87,7 @@ describe("@CustomKey", () => {
     // THEN
     const schema = getJsonSchema(Model, {customKeys: true});
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       properties: {
         num: {
           type: "number",

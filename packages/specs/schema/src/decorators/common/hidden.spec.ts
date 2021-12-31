@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Hidden} from "./hidden";
 import {Get, getSpec, Path, SpecTypes} from "@tsed/schema";
@@ -11,7 +10,7 @@ describe("@Hidden", () => {
       prop: number;
     }
 
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       type: "object"
     });
   });
@@ -28,7 +27,7 @@ describe("@Hidden", () => {
       method() {}
     }
 
-    expect(getSpec(Model, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+    expect(getSpec(Model, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/hidden": {
           get: {

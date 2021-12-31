@@ -1,5 +1,4 @@
 import {AdditionalProperties, getJsonSchema, Property} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("AdditionalProperties", () => {
   it("should declare additional properties", () => {
@@ -11,7 +10,7 @@ describe("AdditionalProperties", () => {
       [key: string]: any;
     }
 
-    expect(getJsonSchema(Model)).to.deep.eq({
+    expect(getJsonSchema(Model)).toEqual({
       additionalProperties: true,
       properties: {
         id: {

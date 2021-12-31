@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {CollectionOf, ForwardGroups, getJsonSchema, Name, Required} from "../src";
 
 class TeamModel {
@@ -16,7 +15,7 @@ class TeamsModel {
 
 describe("Nested list schema", () => {
   it("should generated schema with alias", () => {
-    expect(getJsonSchema(TeamsModel, { useAlias: true })).to.deep.eq({
+    expect(getJsonSchema(TeamsModel, { useAlias: true })).toEqual({
       "definitions": {
         "TeamModel": {
           "properties": {

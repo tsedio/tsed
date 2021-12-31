@@ -21,64 +21,63 @@ import {
   uri,
   url
 } from "@tsed/schema";
-import {expect} from "chai";
 
 describe("from", () => {
   it("should declare a model", () => {
-    expect(from().toJSON()).to.deep.eq({type: "object"});
-    expect(string().toJSON()).to.deep.eq({type: "string"});
-    expect(number().toJSON()).to.deep.eq({type: "number"});
-    expect(integer().toJSON()).to.deep.eq({
+    expect(from().toJSON()).toEqual({type: "object"});
+    expect(string().toJSON()).toEqual({type: "string"});
+    expect(number().toJSON()).toEqual({type: "number"});
+    expect(integer().toJSON()).toEqual({
       multipleOf: 1,
       type: "integer"
     });
-    expect(boolean().toJSON()).to.deep.eq({type: "boolean"});
-    expect(date().toJSON()).to.deep.eq({
+    expect(boolean().toJSON()).toEqual({type: "boolean"});
+    expect(date().toJSON()).toEqual({
       format: "date",
       type: "string"
     });
-    expect(datetime().toJSON()).to.deep.eq({
+    expect(datetime().toJSON()).toEqual({
       format: "date-time",
       type: "string"
     });
-    expect(time().toJSON()).to.deep.eq({
+    expect(time().toJSON()).toEqual({
       format: "time",
       type: "string"
     });
-    expect(email().toJSON()).to.deep.eq({
+    expect(email().toJSON()).toEqual({
       format: "email",
       type: "string"
     });
-    expect(email().toJSON()).to.deep.eq({
+    expect(email().toJSON()).toEqual({
       format: "email",
       type: "string"
     });
-    expect(uri().toJSON()).to.deep.eq({
+    expect(uri().toJSON()).toEqual({
       format: "uri",
       type: "string"
     });
-    expect(url().toJSON()).to.deep.eq({
+    expect(url().toJSON()).toEqual({
       format: "url",
       type: "string"
     });
-    expect(set().toJSON()).to.deep.eq({
+    expect(set().toJSON()).toEqual({
       type: "array",
       uniqueItems: true
     });
-    expect(map().toJSON()).to.deep.eq({
+    expect(map().toJSON()).toEqual({
       additionalProperties: true,
       type: "object"
     });
-    expect(array().toJSON()).to.deep.eq({type: "array"});
-    expect(any().toJSON()).to.deep.eq({
+    expect(array().toJSON()).toEqual({type: "array"});
+    expect(any().toJSON()).toEqual({
       type: ["null", "integer", "number", "string", "boolean", "array", "object"]
     });
 
-    expect(anyOf(string(), number()).toJSON()).to.deep.eq({
+    expect(anyOf(string(), number()).toJSON()).toEqual({
       anyOf: [{type: "string"}, {type: "number"}]
     });
 
-    expect(allOf(string(), number()).toJSON()).to.deep.eq({
+    expect(allOf(string(), number()).toJSON()).toEqual({
       allOf: [{type: "string"}, {type: "number"}]
     });
   });
@@ -100,7 +99,7 @@ describe("from", () => {
         stack: string().description("The stack trace (only in development mode)")
       });
 
-    expect(ExceptionSchema.toJSON()).to.deep.eq({
+    expect(ExceptionSchema.toJSON()).toEqual({
       allOf: [
         {
           $ref: "#/definitions/GenericError"
@@ -177,7 +176,7 @@ describe("from", () => {
       posts: Post[];
     }
 
-    expect(schema1.toJSON()).to.deep.eq({
+    expect(schema1.toJSON()).toEqual({
       definitions: {
         Owner: {
           properties: {

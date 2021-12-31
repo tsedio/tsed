@@ -1,7 +1,6 @@
 import {prototypeOf} from "@tsed/core";
 import {JsonClassStore, JsonPropertyStore, Required} from "@tsed/schema";
 import {getJsonEntityStore} from "../utils/getJsonEntityStore";
-import {expect} from "chai";
 
 describe("JsonParameterStore", () => {
   it("should create entity with required value", () => {
@@ -12,19 +11,19 @@ describe("JsonParameterStore", () => {
 
     const entity = getJsonEntityStore(prototypeOf(TestDynamicUrlCtrl), "prop");
 
-    expect(entity).to.be.instanceof(JsonPropertyStore);
-    expect(entity.parent).to.be.instanceof(JsonClassStore);
-    expect(entity.parent.parent.parent).to.be.instanceof(JsonClassStore);
-    expect(entity.nestedGenerics).to.deep.eq([]);
-    expect(entity.required).to.eq(true);
-    expect(entity.isRequired("")).to.eq(true);
-    expect(entity.allowedRequiredValues).to.deep.eq([]);
+    expect(entity).toBeInstanceOf(JsonPropertyStore);
+    expect(entity.parent).toBeInstanceOf(JsonClassStore);
+    expect(entity.parent.parent.parent).toBeInstanceOf(JsonClassStore);
+    expect(entity.nestedGenerics).toEqual([]);
+    expect(entity.required).toBe(true);
+    expect(entity.isRequired("")).toBe(true);
+    expect(entity.allowedRequiredValues).toEqual([]);
 
     entity.required = false;
-    expect(entity.required).to.eq(false);
+    expect(entity.required).toBe(false);
 
     entity.required = true;
-    expect(entity.required).to.eq(true);
+    expect(entity.required).toBe(true);
   });
   it("should create entity with allowed value", () => {
     class TestDynamicUrlCtrl {
@@ -34,18 +33,18 @@ describe("JsonParameterStore", () => {
 
     const entity = getJsonEntityStore(prototypeOf(TestDynamicUrlCtrl), "prop");
 
-    expect(entity).to.be.instanceof(JsonPropertyStore);
-    expect(entity.parent).to.be.instanceof(JsonClassStore);
-    expect(entity.parent.parent.parent).to.be.instanceof(JsonClassStore);
-    expect(entity.nestedGenerics).to.deep.eq([]);
-    expect(entity.required).to.eq(true);
-    expect(entity.isRequired("")).to.eq(false);
-    expect(entity.allowedRequiredValues).to.deep.eq([""]);
+    expect(entity).toBeInstanceOf(JsonPropertyStore);
+    expect(entity.parent).toBeInstanceOf(JsonClassStore);
+    expect(entity.parent.parent.parent).toBeInstanceOf(JsonClassStore);
+    expect(entity.nestedGenerics).toEqual([]);
+    expect(entity.required).toBe(true);
+    expect(entity.isRequired("")).toBe(false);
+    expect(entity.allowedRequiredValues).toEqual([""]);
 
     entity.required = false;
-    expect(entity.required).to.eq(false);
+    expect(entity.required).toBe(false);
 
     entity.required = true;
-    expect(entity.required).to.eq(true);
+    expect(entity.required).toBe(true);
   });
 });

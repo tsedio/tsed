@@ -3,7 +3,7 @@ import Sinon from "sinon";
 
 describe("JsonSchemaStoreFn", () => {
   it("should decorate property", () => {
-    const stub = Sinon.stub();
+    const stub = jest.fn();
 
     class Model {
       @JsonEntityFn(() => {
@@ -12,6 +12,6 @@ describe("JsonSchemaStoreFn", () => {
       prop: string;
     }
 
-    stub.should.have.been.calledWithExactly(Model.prototype, "prop", undefined);
+    expect(stub).toHaveBeenCalledWith(Model.prototype, "prop", undefined);
   });
 });

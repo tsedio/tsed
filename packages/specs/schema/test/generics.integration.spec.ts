@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {
   boolean,
   CollectionOf,
@@ -57,7 +56,7 @@ describe("Generics", () => {
           payload: Model<Role>;
         }
 
-        expect(getJsonSchema(Content)).to.deep.eq({
+        expect(getJsonSchema(Content)).toEqual({
           definitions: {
             Role: {
               properties: {
@@ -125,7 +124,7 @@ describe("Generics", () => {
           payload: Model<Role>;
         }
 
-        expect(getJsonSchema(Content, { host: "http://example.com/schema" })).to.deep.eq({
+        expect(getJsonSchema(Content, { host: "http://example.com/schema" })).toEqual({
           definitions: {
             Role: {
               properties: {
@@ -177,7 +176,7 @@ describe("Generics", () => {
 
         let result = getJsonSchema(Adjustment);
 
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           "properties": {
             "adjustment": {
               "properties": {
@@ -205,7 +204,7 @@ describe("Generics", () => {
 
         let result = getJsonSchema(Adjustment);
 
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           "properties": {
             "adjustment": {
               "properties": {
@@ -233,7 +232,7 @@ describe("Generics", () => {
 
         let result = getJsonSchema(Adjustment);
 
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           "properties": {
             "adjustment": {
               "properties": {
@@ -261,7 +260,7 @@ describe("Generics", () => {
 
         let result = getJsonSchema(Adjustment);
 
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           "properties": {
             "adjustment": {
               "properties": {
@@ -292,7 +291,7 @@ describe("Generics", () => {
 
         let result = getJsonSchema(Adjustment);
 
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           "properties": {
             "adjustment": {
               "properties": {
@@ -320,7 +319,7 @@ describe("Generics", () => {
 
         let result = getJsonSchema(Adjustment);
 
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           "properties": {
             "adjustment": {
               "properties": {
@@ -348,7 +347,7 @@ describe("Generics", () => {
 
         let result = getJsonSchema(Adjustment);
 
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           "properties": {
             "adjustment": {
               "properties": {
@@ -376,7 +375,7 @@ describe("Generics", () => {
 
         let result = getJsonSchema(Adjustment);
 
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           "properties": {
             "adjustment": {
               "properties": {
@@ -410,7 +409,7 @@ describe("Generics", () => {
 
         let result = getJsonSchema(Adjustment);
 
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           "properties": {
             "adjustment": {
               "properties": {
@@ -442,7 +441,7 @@ describe("Generics", () => {
 
         let result = getJsonSchema(Adjustment);
 
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           "properties": {
             "adjustment": {
               "properties": {
@@ -482,7 +481,7 @@ describe("Generics", () => {
 
         const spec = getSpec(HelloWorldController, { specType: SpecTypes.OPENAPI });
 
-        expect(spec).to.deep.eq({
+        expect(spec).toEqual({
           "components": {
             "schemas": {
               "Adjustment": {
@@ -532,7 +531,7 @@ describe("Generics", () => {
             }
           ]
         });
-        expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
+        expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
       });
       it("should generate openspec 2", async () => {
         @Generics("T")
@@ -556,8 +555,8 @@ describe("Generics", () => {
 
         const spec = getSpec(HelloWorldController, { specType: SpecTypes.SWAGGER });
 
-        expect(await validateSpec(spec)).to.eq(true);
-        expect(spec).to.deep.eq({
+        expect(await validateSpec(spec)).toBe(true);
+        expect(spec).toEqual({
           "definitions": {
             "Adjustment": {
               "properties": {
@@ -646,7 +645,7 @@ describe("Generics", () => {
         const spec1 = getSpec(Controller1, { specType: SpecTypes.SWAGGER });
         const spec2 = getSpec(Controller2, { specType: SpecTypes.SWAGGER });
 
-        expect(spec1).to.deep.equal({
+        expect(spec1).toEqual({
           definitions: {
             Product: {
               properties: {
@@ -697,7 +696,7 @@ describe("Generics", () => {
             }
           }
         });
-        expect(spec2).to.deep.equal({
+        expect(spec2).toEqual({
           definitions: {
             Article: {
               properties: {
@@ -775,7 +774,7 @@ describe("Generics", () => {
         // THEN
         const spec1 = getSpec(Controller1, { specType: SpecTypes.OPENAPI });
 
-        expect(spec1).to.deep.equal({
+        expect(spec1).toEqual({
           components: {
             schemas: {
               Product: {
@@ -880,7 +879,7 @@ describe("Generics", () => {
         const spec2 = getSpec(Controller2, { specType: SpecTypes.SWAGGER });
         const spec = getSpec(Controller, { specType: SpecTypes.SWAGGER });
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           definitions: {
             Product: {
               properties: {
@@ -931,7 +930,7 @@ describe("Generics", () => {
             }
           }
         });
-        expect(spec2).to.deep.equal({
+        expect(spec2).toEqual({
           definitions: {
             Article: {
               properties: {
@@ -1019,7 +1018,7 @@ describe("Generics", () => {
         // THEN
         const spec = getSpec(Controller, { specType: SpecTypes.OPENAPI });
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           components: {
             schemas: {
               Product: {
@@ -1117,7 +1116,7 @@ describe("Generics", () => {
         // THEN
         const spec1 = getSpec(MyController, { specType: SpecTypes.OPENAPI });
 
-        expect(spec1).to.deep.equal({
+        expect(spec1).toEqual({
           components: {
             schemas: {
               Product: {
@@ -1181,7 +1180,7 @@ describe("Generics", () => {
 
         const spec2 = getSpec(MyController, { specType: SpecTypes.SWAGGER });
 
-        expect(spec2).to.deep.equal({
+        expect(spec2).toEqual({
           definitions: {
             Product: {
               properties: {
@@ -1265,7 +1264,7 @@ describe("Generics", () => {
         // THEN
         const spec = getSpec(Controller, { specType: SpecTypes.SWAGGER });
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           definitions: {
             Product: {
               properties: {
@@ -1345,7 +1344,7 @@ describe("Generics", () => {
           }
         }
 
-        expect(getJsonSchema(Pagination)).to.deep.eq({
+        expect(getJsonSchema(Pagination)).toEqual({
           properties: {
             data: {
               items: {
@@ -1363,7 +1362,7 @@ describe("Generics", () => {
         // THEN
         const spec = getSpec(Controller, { specType: SpecTypes.OPENAPI });
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           components: {
             schemas: {
               Product: {

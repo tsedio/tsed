@@ -8,7 +8,6 @@ import {
   JsonPropertyStore,
   Property
 } from "@tsed/schema";
-import {expect} from "chai";
 
 describe("JsonEntityStore", () => {
   it("should create JsonEntityStore", () => {
@@ -22,77 +21,77 @@ describe("JsonEntityStore", () => {
     // CLASS
     const storeClass = JsonEntityStore.from(Model);
 
-    expect(storeClass).to.be.instanceOf(JsonEntityStore);
-    expect(storeClass.decoratorType).to.eq("class");
-    expect(storeClass.propertyName).to.eq("undefined");
-    expect(storeClass.propertyKey).to.eq(undefined);
-    expect(storeClass.index).to.eq(undefined);
-    expect(storeClass.parent).to.eq(storeClass);
-    expect(storeClass.type).to.deep.eq(Model);
-    expect(storeClass.target).to.deep.eq(Model);
-    expect(storeClass.token).to.deep.eq(Model);
-    expect(storeClass.isCollection).to.eq(false);
-    expect(storeClass.isDate).to.be.false;
-    expect(storeClass.isPrimitive).to.be.false;
-    expect(storeClass.isObject).to.be.false;
-    expect(storeClass.isClass).to.be.true;
+    expect(storeClass).toBeInstanceOf(JsonEntityStore);
+    expect(storeClass.decoratorType).toBe("class");
+    expect(storeClass.propertyName).toBe("undefined");
+    expect(storeClass.propertyKey).toBeUndefined();
+    expect(storeClass.index).toBeUndefined();
+    expect(storeClass.parent).toBe(storeClass);
+    expect(storeClass.type).toEqual(Model);
+    expect(storeClass.target).toEqual(Model);
+    expect(storeClass.token).toEqual(Model);
+    expect(storeClass.isCollection).toBe(false);
+    expect(storeClass.isDate).toBe(false);
+    expect(storeClass.isPrimitive).toBe(false);
+    expect(storeClass.isObject).toBe(false);
+    expect(storeClass.isClass).toBe(true);
 
     // PROPERTY
     const storeProp = JsonEntityStore.from(Model).children.get("id") as JsonPropertyStore;
-    expect(storeProp).to.be.instanceOf(JsonEntityStore);
-    expect(storeProp.decoratorType).to.eq("property");
-    expect(storeProp.propertyKey).to.eq("id");
-    expect(storeProp.propertyName).to.eq("id");
-    expect(storeProp.index).to.eq(undefined);
-    expect(storeProp.nestedGenerics).to.deep.eq([]);
-    expect(storeProp.parent).to.deep.eq(storeClass);
-    expect(storeProp.type).to.deep.eq(String);
-    expect(storeProp.target).to.deep.eq(Model);
-    expect(storeProp.token).to.deep.eq(Model);
-    expect(storeProp.isCollection).to.eq(false);
-    expect(storeProp.isDate).to.be.false;
-    expect(storeProp.isPrimitive).to.be.true;
-    expect(storeProp.isObject).to.be.false;
-    expect(storeProp.isClass).to.be.false;
+    expect(storeProp).toBeInstanceOf(JsonEntityStore);
+    expect(storeProp.decoratorType).toBe("property");
+    expect(storeProp.propertyKey).toBe("id");
+    expect(storeProp.propertyName).toBe("id");
+    expect(storeProp.index).toBeUndefined();
+    expect(storeProp.nestedGenerics).toEqual([]);
+    expect(storeProp.parent).toEqual(storeClass);
+    expect(storeProp.type).toEqual(String);
+    expect(storeProp.target).toEqual(Model);
+    expect(storeProp.token).toEqual(Model);
+    expect(storeProp.isCollection).toBe(false);
+    expect(storeProp.isDate).toBe(false);
+    expect(storeProp.isPrimitive).toBe(true);
+    expect(storeProp.isObject).toBe(false);
+    expect(storeProp.isClass).toBe(false);
 
     // METHOD
     const storeMethod = JsonEntityStore.from(Model).children.get("method") as JsonMethodStore;
-    expect(storeMethod).to.be.instanceOf(JsonEntityStore);
-    expect(storeMethod.propertyKey).to.eq("method");
-    expect(storeMethod.propertyName).to.eq("method");
-    expect(storeMethod.decoratorType).to.eq("method");
-    expect(storeMethod.index).to.eq(undefined);
-    expect(storeMethod.operation).to.be.instanceOf(JsonOperation);
-    expect(storeMethod.nestedGenerics).to.deep.eq([]);
-    expect(storeMethod.parent).to.deep.eq(storeClass);
-    expect(storeMethod.target).to.deep.eq(Model);
-    expect(storeMethod.type).to.deep.eq(Object);
-    expect(storeMethod.target).to.deep.eq(Model);
-    expect(storeMethod.token).to.deep.eq(Model);
-    expect(storeMethod.isCollection).to.eq(false);
-    expect(storeMethod.isDate).to.be.false;
-    expect(storeMethod.isPrimitive).to.be.false;
-    expect(storeMethod.isObject).to.be.false;
-    expect(storeMethod.isClass).to.be.false;
+    expect(storeMethod).toBeInstanceOf(JsonEntityStore);
+    expect(storeMethod.propertyKey).toBe("method");
+    expect(storeMethod.propertyName).toBe("method");
+    expect(storeMethod.decoratorType).toBe("method");
+    expect(storeMethod.index).toBeUndefined();
+    expect(storeMethod.operation).toBeInstanceOf(JsonOperation);
+    expect(storeMethod.nestedGenerics).toEqual([]);
+    expect(storeMethod.parent).toEqual(storeClass);
+    expect(storeMethod.target).toEqual(Model);
+    expect(storeMethod.type).toEqual(Object);
+    expect(storeMethod.target).toEqual(Model);
+    expect(storeMethod.token).toEqual(Model);
+    expect(storeMethod.isCollection).toBe(false);
+    expect(storeMethod.isDate).toBe(false);
+    expect(storeMethod.isPrimitive).toBe(false);
+    expect(storeMethod.isObject).toBe(false);
+    expect(storeMethod.isClass).toBe(false);
 
     // PARAMETERS
     const storeParam = JsonEntityStore.from(Model).children.get("method")?.children.get(0) as JsonParameterStore;
-    expect(storeParam).to.be.instanceOf(JsonEntityStore);
-    expect(storeParam.propertyKey).to.eq("method");
-    expect(storeParam.propertyName).to.eq("method");
-    expect(storeParam.index).to.eq(0);
-    expect(storeParam.decoratorType).to.eq("parameter");
-    expect(storeParam.parameter).to.be.instanceOf(JsonParameter);
-    expect(storeParam.nestedGenerics).to.deep.eq([]);
-    expect(storeParam.parent).to.deep.eq(storeMethod);
-    expect(storeParam.type).to.deep.eq(String);
-    expect(storeParam.target).to.deep.eq(Model);
-    expect(storeParam.token).to.deep.eq(Model);
-    expect(storeParam.isCollection).to.eq(false);
-    expect(storeParam.isDate).to.be.false;
-    expect(storeParam.isPrimitive).to.be.true;
-    expect(storeParam.isObject).to.be.false;
-    expect(storeParam.isClass).to.be.false;
+    expect(storeParam).toBeInstanceOf(JsonEntityStore);
+    expect(storeParam.propertyKey).toBe("method");
+    expect(storeParam.propertyName).toBe("method");
+    expect(storeParam.index).toBe(0);
+    expect(storeParam.decoratorType).toBe("parameter");
+    expect(storeParam.parameter).toBeInstanceOf(JsonParameter);
+    expect(storeParam.nestedGenerics).toEqual([]);
+    expect(storeParam.parent).toEqual(storeMethod);
+    expect(storeParam.type).toEqual(String);
+    expect(storeParam.target).toEqual(Model);
+    expect(storeParam.token).toEqual(Model);
+    expect(storeParam.isCollection).toBe(false);
+    expect(storeParam.isDate).toBe(false);
+    expect(storeParam.isPrimitive).toBe(true);
+    expect(storeParam.isObject).toBe(false);
+    expect(storeParam.isClass).toBe(false);
   });
   it("should manage enum from babel", () => {
     enum MyEnum {
@@ -109,6 +108,6 @@ describe("JsonEntityStore", () => {
     Property()(Model.prototype, "test");
     const store = JsonEntityStore.from(Model, "test");
 
-    expect(store.type).to.deep.eq(String);
+    expect(store.type).toEqual(String);
   });
 });

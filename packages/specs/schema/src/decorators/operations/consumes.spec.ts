@@ -1,5 +1,4 @@
 import {Consumes, getSpec, OperationPath, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("Consumes", () => {
   it("should store metadata (swagger)", () => {
@@ -9,7 +8,7 @@ describe("Consumes", () => {
       get() {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "MyController"
@@ -39,7 +38,7 @@ describe("Consumes", () => {
       get() {}
     }
 
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       tags: [
         {
           name: "MyController"
@@ -71,7 +70,7 @@ describe("Consumes", () => {
       post() {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "MyController"
@@ -117,6 +116,6 @@ describe("Consumes", () => {
       actualError = er;
     }
 
-    expect(actualError.message).to.deep.eq("Consumes cannot be used as parameter decorator on Test.test.[0]");
+    expect(actualError.message).toEqual("Consumes cannot be used as parameter decorator on Test.test.[0]");
   });
 });

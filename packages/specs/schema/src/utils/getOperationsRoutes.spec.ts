@@ -1,5 +1,4 @@
 import {StoreSet} from "@tsed/core";
-import {expect} from "chai";
 import {All, Children, Get, getOperationsRoutes, In, Path} from "@tsed/schema";
 import {JsonOperationRoute} from "../domain/JsonOperationRoute";
 
@@ -56,7 +55,7 @@ describe("getOperationsRoutes()", () => {
 
     const operationsRoutes = getOperationsRoutes(Test);
 
-    expect(operationsRoutes.map(getData)).to.deep.eq([
+    expect(operationsRoutes.map(getData)).toEqual([
       {
         fullPath: "/test/",
         method: "GET",
@@ -119,7 +118,7 @@ describe("getOperationsRoutes()", () => {
 
     const operationsRoutes = getOperationsRoutes(Test);
 
-    expect(operationsRoutes.map(getData)).to.deep.eq([]);
+    expect(operationsRoutes.map(getData)).toEqual([]);
   });
   it("should return operations routes with children", () => {
     @Path("/deep")
@@ -154,7 +153,7 @@ describe("getOperationsRoutes()", () => {
 
     const operationsRoutes = getOperationsRoutes(Test, {withChildren: true});
 
-    expect(operationsRoutes.map(getData)).to.deep.eq([
+    expect(operationsRoutes.map(getData)).toEqual([
       {
         fullPath: "/test/children/deep/",
         isFinal: true,
@@ -240,7 +239,7 @@ describe("getOperationsRoutes()", () => {
 
     const operationsRoutes = getOperationsRoutes(Test, {withChildren: true, basePath: "/rest"});
 
-    expect(operationsRoutes.map(getData)).to.deep.eq([
+    expect(operationsRoutes.map(getData)).toEqual([
       {
         fullPath: "/rest/test/children/deep/",
         isFinal: true,

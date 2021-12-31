@@ -1,5 +1,4 @@
 import {getSpec, OperationPath, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {Security} from "./security";
 
 describe("Security", () => {
@@ -10,7 +9,7 @@ describe("Security", () => {
       get() {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "MyController"
@@ -32,7 +31,7 @@ describe("Security", () => {
         }
       }
     });
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       tags: [
         {
           name: "MyController"
@@ -66,7 +65,7 @@ describe("Security", () => {
       post() {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "MyController"
@@ -120,6 +119,6 @@ describe("Security", () => {
       actualError = er;
     }
 
-    expect(actualError.message).to.deep.eq("Security cannot be used as parameter decorator on Test.test.[0]");
+    expect(actualError.message).toEqual("Security cannot be used as parameter decorator on Test.test.[0]");
   });
 });

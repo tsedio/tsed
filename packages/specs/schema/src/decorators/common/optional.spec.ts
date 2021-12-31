@@ -1,5 +1,4 @@
 import {getSpec, In, Name, OperationPath, Optional} from "@tsed/schema";
-import {expect} from "chai";
 import {Path} from "../operations/path";
 
 describe("Optional", () => {
@@ -10,7 +9,7 @@ describe("Optional", () => {
       method(@In("query") @Name("q") @Optional() q: string) {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       paths: {
         "/": {
           get: {

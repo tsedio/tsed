@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {validateSpec} from "../../test/helpers/validateSpec";
 import {Consumes, In, Min, Name, OperationPath, Required} from "../decorators";
 import {CollectionOf, Description, JsonParameterTypes, Property, Returns, SpecTypes} from "../index";
@@ -18,7 +17,7 @@ describe("getSpec()", () => {
         const spec = getSpec(Controller, {
           specType: SpecTypes.SWAGGER
         });
-        expect(await validateSpec(spec)).to.eq(true);
+        expect(await validateSpec(spec)).toBe(true);
       });
       it("should declare all schema correctly (path optional - swagger2)", async () => {
         // WHEN
@@ -30,8 +29,8 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(await validateSpec(spec)).to.eq(true);
-        expect(spec).to.deep.equal({
+        expect(await validateSpec(spec)).toBe(true);
+        expect(spec).toEqual({
           tags: [
             {
               name: "Controller"
@@ -82,8 +81,8 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(await validateSpec(spec)).to.eq(true);
-        expect(spec).to.deep.equal({
+        expect(await validateSpec(spec)).toBe(true);
+        expect(spec).toEqual({
           tags: [
             {
               name: "Controller"
@@ -135,7 +134,7 @@ describe("getSpec()", () => {
         const spec = getSpec(Controller, {
           specType: SpecTypes.OPENAPI
         });
-        expect(spec).to.deep.eq({
+        expect(spec).toEqual({
           paths: {
             "/{basic}": {
               get: {
@@ -163,7 +162,7 @@ describe("getSpec()", () => {
             }
           ]
         });
-        expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
+        expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
       });
     });
     describe("Query", () => {
@@ -177,7 +176,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           tags: [
             {
               name: "Controller"
@@ -230,7 +229,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           tags: [
             {
               name: "Controller"
@@ -288,7 +287,7 @@ describe("getSpec()", () => {
 
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           paths: {
             "/{id}": {
               get: {
@@ -316,7 +315,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           tags: [
             {
               name: "Controller"
@@ -365,7 +364,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           paths: {
             "/{id}": {
               get: {
@@ -415,7 +414,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           tags: [
             {
               name: "Controller"
@@ -463,7 +462,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           paths: {
             "/{id}": {
               get: {
@@ -520,7 +519,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           definitions: {
             MyModel: {
               type: "object",
@@ -577,7 +576,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           components: {
             schemas: {
               MyModel: {
@@ -638,7 +637,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           definitions: {
             Product: {
               properties: {
@@ -699,7 +698,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           definitions: {
             Product: {
               properties: {
@@ -753,7 +752,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           tags: [
             {
               name: "Controller"
@@ -811,7 +810,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           components: {
             schemas: {
               Product: {
@@ -868,7 +867,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           paths: {
             "/": {
               post: {
@@ -915,8 +914,8 @@ describe("getSpec()", () => {
 
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
-        expect(await validateSpec(spec)).to.eq(true);
-        expect(spec).to.deep.equal({
+        expect(await validateSpec(spec)).toBe(true);
+        expect(spec).toEqual({
           tags: [
             {
               name: "Controller"
@@ -974,8 +973,8 @@ describe("getSpec()", () => {
 
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-        expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
-        expect(spec).to.deep.equal({
+        expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
+        expect(spec).toEqual({
           tags: [
             {
               name: "Controller"
@@ -1033,7 +1032,7 @@ describe("getSpec()", () => {
         // THEN
         const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-        expect(spec).to.deep.equal({
+        expect(spec).toEqual({
           tags: [
             {
               name: "Controller"
@@ -1081,7 +1080,7 @@ describe("getSpec()", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         tags: [
           {
             name: "AliasController",
@@ -1118,7 +1117,7 @@ describe("getSpec()", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         tags: [
           {
             name: "Controller"
@@ -1158,7 +1157,7 @@ describe("getSpec()", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         tags: [
           {
             name: "Controller"
@@ -1198,7 +1197,7 @@ describe("getSpec()", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         tags: [
           {
             name: "Controller"

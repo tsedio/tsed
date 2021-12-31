@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {array, getJsonSchema, getSpec, In, OneOf, Required, SpecTypes, string} from "../src";
 import {OperationPath, Path, Property, Returns} from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
@@ -37,7 +36,7 @@ describe("Spec: ContactQueryParams", () => {
   it("should generate the JSON", () => {
     const schema = getJsonSchema(ContactQueryParams);
 
-    expect(schema).to.deep.eq({
+    expect(schema).toEqual({
       "definitions": {
         "ContainsSearchableString": {
           "properties": {
@@ -114,7 +113,7 @@ describe("Spec: ContactQueryParams", () => {
   it("should generate the OS3", async () => {
     const spec = getSpec(TestPageableCtrl, { specType: SpecTypes.OPENAPI });
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       "components": {
         "schemas": {
           "ContactQueryParams": {
@@ -274,6 +273,6 @@ describe("Spec: ContactQueryParams", () => {
         }
       ]
     });
-    expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
+    expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
   });
 });

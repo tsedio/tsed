@@ -1,7 +1,7 @@
-import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {CollectionOf} from "../collections/collectionOf";
 import {Max} from "./maximum";
+import "../../components";
 
 describe("@Maximum", () => {
   it("should declare maximum value", () => {
@@ -14,7 +14,7 @@ describe("@Maximum", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           maximum: 0,
@@ -35,7 +35,7 @@ describe("@Maximum", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           exclusiveMaximum: 0,
@@ -56,7 +56,7 @@ describe("@Maximum", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         num: {
           type: "array",

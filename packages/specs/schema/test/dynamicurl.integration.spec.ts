@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {getSpec, In, SpecTypes, string} from "../src";
 import {OperationPath, Path} from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
@@ -15,7 +14,7 @@ describe("Spec: DynamicUrl", () => {
   it("should generate the OS3", async () => {
     const spec = getSpec(TestDynamicUrlCtrl, { specType: SpecTypes.OPENAPI });
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       "paths": {
         "/dynamic/JQ={id}": {
           "get": {
@@ -47,6 +46,6 @@ describe("Spec: DynamicUrl", () => {
         }
       ]
     });
-    expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
+    expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
   });
 });

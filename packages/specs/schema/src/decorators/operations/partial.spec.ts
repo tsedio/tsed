@@ -13,7 +13,6 @@ import {
   Returns,
   SpecTypes
 } from "@tsed/schema";
-import {expect} from "chai";
 import {Partial} from "./partial";
 
 class ChildModel {
@@ -58,7 +57,7 @@ describe("@Partial", () => {
 
       const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         components: {
           schemas: {
             ChildModel: {

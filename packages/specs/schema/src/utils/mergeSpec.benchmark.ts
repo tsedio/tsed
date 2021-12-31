@@ -1,6 +1,5 @@
 import {Perf} from "@tsed/perf";
 import {mergeSpec} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("MergeSpec", () => {
   it("should merge spec", async () => {
@@ -86,6 +85,6 @@ describe("MergeSpec", () => {
     });
 
     console.log(time);
-    expect(time).to.be.below(700);
+    expect(time).toBeLessThan(700);
   });
 });

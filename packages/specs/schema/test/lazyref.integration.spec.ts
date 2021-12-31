@@ -1,6 +1,5 @@
 import {isArrowFn, Type, useDecorators} from "@tsed/core";
 import {getJsonSchema, JsonEntityFn, lazyRef, Property, string} from "@tsed/schema";
-import {expect} from "chai";
 
 function Ref(model: string | (() => Type) | any): PropertyDecorator {
   const getType = () => isArrowFn(model) ? model() : model;
@@ -28,7 +27,7 @@ class Parent {
 
 describe("LazyRef", () => {
   it("should generate the spec with lazy loaded ref", () => {
-    expect(getJsonSchema(Parent)).to.deep.eq({
+    expect(getJsonSchema(Parent)).toEqual({
       "definitions": {
         "Model": {
           "properties": {

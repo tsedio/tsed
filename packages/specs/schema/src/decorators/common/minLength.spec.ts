@@ -1,7 +1,7 @@
-import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {CollectionOf} from "../collections/collectionOf";
 import {MinLength} from "./minLength";
+import "../../components";
 
 describe("@MinLength", () => {
   it("should declare minimum value", () => {
@@ -14,7 +14,7 @@ describe("@MinLength", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         word: {
           minLength: 0,
@@ -34,7 +34,7 @@ describe("@MinLength", () => {
     }
 
     // THEN
-    expect(actualError.message).to.equal("The value of minLength MUST be a non-negative integer.");
+    expect(actualError.message).toBe("The value of minLength MUST be a non-negative integer.");
   });
   it("should declare minimum value on type (collection)", () => {
     // WHEN
@@ -47,7 +47,7 @@ describe("@MinLength", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         words: {
           type: "array",
@@ -71,7 +71,7 @@ describe("@MinLength", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         words: {
           type: "array",

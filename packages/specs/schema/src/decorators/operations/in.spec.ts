@@ -1,5 +1,4 @@
 import {getSpec, In, JsonEntityStore, Name, OperationPath, Path, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("In", () => {
   it("should declare all schema correctly (param)", async () => {
@@ -19,7 +18,7 @@ describe("In", () => {
       specType: SpecTypes.SWAGGER
     });
 
-    expect(operation).to.deep.equal({
+    expect(operation).toEqual({
       parameters: [
         {
           in: "path",
@@ -53,7 +52,7 @@ describe("In", () => {
       specType: SpecTypes.SWAGGER
     });
 
-    expect(operation).to.deep.equal({
+    expect(operation).toEqual({
       parameters: [
         {
           in: "path",
@@ -94,7 +93,7 @@ describe("In", () => {
       specType: SpecTypes.SWAGGER
     });
 
-    expect(operation).to.deep.equal({
+    expect(operation).toEqual({
       parameters: [
         {
           in: "path",
@@ -142,7 +141,7 @@ describe("In", () => {
       specType: SpecTypes.OPENAPI
     });
 
-    expect(operation).to.deep.equal({
+    expect(operation).toEqual({
       parameters: [
         {
           in: "path",
@@ -169,7 +168,7 @@ describe("In", () => {
         }
       }
     });
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       paths: {
         "/{parentId}/{path}": {
           get: {
@@ -223,6 +222,6 @@ describe("In", () => {
       actualError = er;
     }
 
-    expect(actualError.message).to.deep.eq("In cannot be used as property decorator on Test.test");
+    expect(actualError.message).toEqual("In cannot be used as property decorator on Test.test");
   });
 });

@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {array, getJsonSchema, getSpec, In, oneOf, SpecTypes, string} from "../src";
 import {
   CollectionOf,
@@ -106,7 +105,7 @@ class TestPageableCtrl {
 describe("Spec: Pageable", () => {
   it("should generate the JSON", () => {
     const schema = getJsonSchema(Pageable);
-    expect(schema).to.deep.eq({
+    expect(schema).toEqual({
       properties: {
         page: {
           default: 0,
@@ -144,7 +143,7 @@ describe("Spec: Pageable", () => {
   it("should generate the OS3", async () => {
     const spec = getSpec(TestPageableCtrl, { specType: SpecTypes.OPENAPI });
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       paths: {
         "/pageable": {
           get: {
@@ -239,13 +238,13 @@ describe("Spec: Pageable", () => {
         }
       }
     });
-    expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
+    expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
   });
   it("should generate the OS2", async () => {
     const spec = getSpec(TestPageableCtrl, { specType: SpecTypes.SWAGGER });
 
-    expect(await validateSpec(spec)).to.eq(true);
-    expect(spec).to.deep.eq({
+    expect(await validateSpec(spec)).toBe(true);
+    expect(spec).toEqual({
       paths: {
         "/pageable": {
           get: {

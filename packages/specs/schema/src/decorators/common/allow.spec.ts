@@ -1,6 +1,5 @@
 import {getJsonSchema} from "@tsed/schema";
 import Ajv from "ajv";
-import {expect} from "chai";
 import {Allow} from "./allow";
 import {Property} from "./property";
 import {Required} from "./required";
@@ -16,7 +15,7 @@ describe("@Allow", () => {
     // THEN
     const classSchema = getJsonSchema(Model);
 
-    expect(classSchema).to.deep.equal({
+    expect(classSchema).toEqual({
       properties: {
         allow: {
           type: "string",
@@ -28,9 +27,9 @@ describe("@Allow", () => {
     });
 
     const validate = new Ajv().compile(classSchema);
-    expect(validate({allow: ""})).to.equal(false);
-    expect(validate({allow: 0})).to.equal(false);
-    expect(validate({})).to.equal(false);
+    expect(validate({allow: ""})).toBe(false);
+    expect(validate({allow: 0})).toBe(false);
+    expect(validate({})).toBe(false);
   });
   it("should declare required and allow field (with Allowed empty string)", () => {
     // WHEN
@@ -42,7 +41,7 @@ describe("@Allow", () => {
     // THEN
     const classSchema = getJsonSchema(Model);
 
-    expect(classSchema).to.deep.equal({
+    expect(classSchema).toEqual({
       properties: {
         allow: {
           type: "string"
@@ -53,8 +52,8 @@ describe("@Allow", () => {
     });
 
     const validate = new Ajv().compile(classSchema);
-    expect(validate({allow: ""})).to.equal(true);
-    expect(validate({})).to.equal(false);
+    expect(validate({allow: ""})).toBe(true);
+    expect(validate({})).toBe(false);
   });
   it("should declare required and allow field (with Allowed null basic type)", () => {
     // WHEN
@@ -66,7 +65,7 @@ describe("@Allow", () => {
     // THEN
     const classSchema = getJsonSchema(Model);
 
-    expect(classSchema).to.deep.equal({
+    expect(classSchema).toEqual({
       properties: {
         allow: {
           minLength: 1,
@@ -78,8 +77,8 @@ describe("@Allow", () => {
     });
 
     const validate = new Ajv().compile(classSchema);
-    expect(validate({allow: null})).to.equal(true);
-    expect(validate({})).to.equal(false);
+    expect(validate({allow: null})).toBe(true);
+    expect(validate({})).toBe(false);
   });
   it("should declare required and allow field (with Allowed null NestedModel)", () => {
     // WHEN
@@ -96,7 +95,7 @@ describe("@Allow", () => {
     // THEN
     const spec = getJsonSchema(Model);
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       definitions: {
         NestedModel: {
           properties: {
@@ -124,7 +123,7 @@ describe("@Allow", () => {
     });
 
     const validate = new Ajv().compile(spec);
-    expect(validate({allow: null})).to.equal(true);
-    expect(validate({})).to.equal(false);
+    expect(validate({allow: null})).toBe(true);
+    expect(validate({})).toBe(false);
   });
 });

@@ -1,5 +1,4 @@
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
-import {expect} from "chai";
 import {mergeSpec} from "./mergeSpec";
 
 describe("mergeSpec", () => {
@@ -46,7 +45,7 @@ describe("mergeSpec", () => {
         }
       };
 
-      expect(mergeSpec(spec1, spec2)).to.deep.eq({
+      expect(mergeSpec(spec1, spec2)).toEqual({
         paths: {
           "/get": {
             get: {
@@ -136,7 +135,7 @@ describe("mergeSpec", () => {
         }
       };
 
-      expect(mergeSpec(spec1, spec2)).to.deep.eq({
+      expect(mergeSpec(spec1, spec2)).toEqual({
         paths: {
           "/get": {
             get: {
@@ -237,7 +236,7 @@ describe("mergeSpec", () => {
         }
       };
 
-      expect(mergeSpec(spec1, spec2)).to.deep.eq({
+      expect(mergeSpec(spec1, spec2)).toEqual({
         paths: {
           "/get": {
             get: {
@@ -368,7 +367,7 @@ describe("mergeSpec", () => {
         }
       };
 
-      expect(mergeSpec(spec1, spec2)).to.deep.eq({
+      expect(mergeSpec(spec1, spec2)).toEqual({
         openapi: "3.0.1",
         info: {
           title: "title",
@@ -492,7 +491,7 @@ describe("mergeSpec", () => {
 
       const spec = mergeSpec(spec1, spec2);
 
-      expect(spec).to.deep.eq({
+      expect(spec).toEqual({
         paths: {
           "/rest/api/1.0/test": {
             get: {

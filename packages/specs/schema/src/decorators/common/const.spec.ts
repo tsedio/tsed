@@ -1,5 +1,4 @@
 import {SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Const} from "./const";
 
@@ -12,7 +11,7 @@ describe("@Const", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         num: {
           const: "10",
@@ -22,7 +21,7 @@ describe("@Const", () => {
       type: "object"
     });
 
-    expect(getJsonSchema(Model, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+    expect(getJsonSchema(Model, {specType: SpecTypes.OPENAPI})).toEqual({
       properties: {
         num: {
           type: "string"

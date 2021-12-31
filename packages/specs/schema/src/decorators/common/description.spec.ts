@@ -1,5 +1,4 @@
 import {In, OperationPath, Property, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {getSpec} from "../../utils/getSpec";
 import {Description} from "./description";
@@ -11,7 +10,7 @@ describe("@Description", () => {
     class Model {}
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       description: "Description",
       type: "object"
     });
@@ -26,7 +25,7 @@ describe("@Description", () => {
     }
 
     // THEN
-    expect(getSpec(Model)).to.deep.equal({
+    expect(getSpec(Model)).toEqual({
       paths: {
         "/": {
           get: {
@@ -54,7 +53,7 @@ describe("@Description", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         method: {
           description: "Description",
@@ -73,7 +72,7 @@ describe("@Description", () => {
     }
 
     // THEN
-    expect(getSpec(Model)).to.deep.equal({
+    expect(getSpec(Model)).toEqual({
       tags: [
         {
           name: "Model"
@@ -115,7 +114,7 @@ describe("@Description", () => {
     }
 
     // THEN
-    expect(getSpec(MyController)).to.deep.equal({
+    expect(getSpec(MyController)).toEqual({
       definitions: {
         MyModel: {
           properties: {
@@ -172,7 +171,7 @@ describe("@Description", () => {
     const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
     // THEN
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       components: {
         schemas: {
           MyModel: {

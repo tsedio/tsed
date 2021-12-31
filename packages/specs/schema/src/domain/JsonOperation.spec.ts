@@ -1,6 +1,5 @@
 import {descriptorOf} from "@tsed/core";
 import {Get, getSpec, In, JsonEntityStore, OperationPath, Path, Redirect, Returns} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("JsonOperation", () => {
   describe("getStatus()", () => {
@@ -14,9 +13,9 @@ describe("JsonOperation", () => {
 
       const entity = JsonEntityStore.from(MyController.prototype, "method", descriptorOf(MyController, "method"));
 
-      expect(entity.operation?.getStatus()).to.equal(200);
-      expect(entity.operation?.status).to.equal(200);
-      expect(entity.operation?.response?.toJSON()).to.deep.equal({
+      expect(entity.operation?.getStatus()).toBe(200);
+      expect(entity.operation?.status).toBe(200);
+      expect(entity.operation?.response?.toJSON()).toEqual({
         description: "Success",
         headers: {
           "x-token2": {example: "token2", type: "string"},
@@ -24,7 +23,7 @@ describe("JsonOperation", () => {
         },
         schema: {type: "object"}
       });
-      expect(entity.operation?.getHeadersOf(200)).to.deep.equal({
+      expect(entity.operation?.getHeadersOf(200)).toEqual({
         "x-token": {
           example: "token",
           type: "string"
@@ -47,9 +46,9 @@ describe("JsonOperation", () => {
 
       const entity = JsonEntityStore.fromMethod(MyController, "test");
 
-      expect(entity.operation.isRedirection()).to.eq(true);
-      expect(entity.operation.isRedirection(302)).to.eq(true);
-      expect(entity.operation.isRedirection(200)).to.eq(false);
+      expect(entity.operation.isRedirection()).toBe(true);
+      expect(entity.operation.isRedirection(302)).toBe(true);
+      expect(entity.operation.isRedirection(200)).toBe(false);
     });
   });
   describe("getContentTypeOf()", () => {
@@ -63,8 +62,8 @@ describe("JsonOperation", () => {
 
       const entity = JsonEntityStore.fromMethod(MyController, "test");
 
-      expect(entity.operation.getContentTypeOf(200)).to.deep.eq("text/html");
-      expect(entity.operation.getContentTypeOf(201)).to.deep.eq(undefined);
+      expect(entity.operation.getContentTypeOf(200)).toEqual("text/html");
+      expect(entity.operation.getContentTypeOf(201)).toEqual(undefined);
     });
   });
   describe("when custom parameter is used", () => {
@@ -74,7 +73,7 @@ describe("JsonOperation", () => {
         method(@In("custom") req: any, @In("body") type: string) {}
       }
 
-      expect(getSpec(MyController)).to.deep.eq({
+      expect(getSpec(MyController)).toEqual({
         paths: {
           "/": {
             get: {

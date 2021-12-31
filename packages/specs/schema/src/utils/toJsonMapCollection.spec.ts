@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {JsonMap} from "../domain/JsonMap";
 import {toJsonMapCollection} from "./toJsonMapCollection";
 
@@ -10,10 +9,8 @@ describe("toJsonMapCollection", () => {
       }
     });
 
-    expect(result).to.deep.eq(
-      new JsonMap({
-        test: new JsonMap({schema: "schema"})
-      })
-    );
+    expect(result).toEqual(new JsonMap({
+      test: new JsonMap({schema: "schema"})
+    }));
   });
 });

@@ -1,5 +1,4 @@
 import {Format, getJsonSchema, getSpec, In, Path, Post, Property, Returns, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {ReadOnly} from "./readOnly";
 
 describe("@ReadOnly", () => {
@@ -13,7 +12,7 @@ describe("@ReadOnly", () => {
     // THEN
     const schema = getJsonSchema(Model);
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       properties: {
         num: {
           readOnly: true,
@@ -56,7 +55,7 @@ describe("@ReadOnly", () => {
     }
 
     // THEN
-    expect(getSpec(MyCtrl, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+    expect(getSpec(MyCtrl, {specType: SpecTypes.OPENAPI})).toEqual({
       components: {
         schemas: {
           TestBand: {
@@ -165,7 +164,7 @@ describe("@ReadOnly", () => {
     }
 
     // THEN
-    expect(getSpec(MyCtrl, {specType: SpecTypes.SWAGGER})).to.deep.equal({
+    expect(getSpec(MyCtrl, {specType: SpecTypes.SWAGGER})).toEqual({
       definitions: {
         TestBand: {
           properties: {

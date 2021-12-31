@@ -1,5 +1,4 @@
 import { getSpec, In, Name, OperationPath, Path, SpecTypes } from "@tsed/schema";
-import { expect } from "chai";
 import {
   decorateMethodsOf,
   DecoratorParameters,
@@ -46,7 +45,7 @@ describe("Inheritance", () => {
   it("should return the spec (OS3)", () => {
     const spec = getSpec(FindingsController, { specType: SpecTypes.OPENAPI });
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       "paths": {
         "/findings": {
           "get": {

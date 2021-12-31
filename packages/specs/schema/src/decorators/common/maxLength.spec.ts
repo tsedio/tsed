@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {CollectionOf} from "../collections/collectionOf";
@@ -13,7 +12,7 @@ describe("@MaxLength", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         word: {
           maxLength: 0,
@@ -33,7 +32,7 @@ describe("@MaxLength", () => {
     }
 
     // THEN
-    expect(actualError.message).to.equal("The value of maxLength MUST be a non-negative integer.");
+    expect(actualError.message).toBe("The value of maxLength MUST be a non-negative integer.");
   });
   it("should declare minimum value (collection)", () => {
     // WHEN
@@ -46,7 +45,7 @@ describe("@MaxLength", () => {
     // THEN
     const classSchema = JsonEntityStore.from(Model);
 
-    expect(classSchema.schema.toJSON()).to.deep.equal({
+    expect(classSchema.schema.toJSON()).toEqual({
       properties: {
         words: {
           type: "array",

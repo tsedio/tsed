@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {MultipleOf} from "./multipleOf";
 
@@ -11,7 +10,7 @@ describe("MultipleOf", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         num: {
           multipleOf: 2,
@@ -29,6 +28,6 @@ describe("MultipleOf", () => {
     } catch (er) {
       actualError = er;
     }
-    expect(actualError.message).to.eq("The value of multipleOf MUST be a number, strictly greater than 0.");
+    expect(actualError.message).toBe("The value of multipleOf MUST be a number, strictly greater than 0.");
   });
 });

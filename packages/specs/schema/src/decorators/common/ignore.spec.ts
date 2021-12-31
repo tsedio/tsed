@@ -1,5 +1,4 @@
 import {getJsonSchema, Property} from "@tsed/schema";
-import {expect} from "chai";
 import {Ignore} from "./ignore";
 
 describe("@Ignore", () => {
@@ -13,7 +12,7 @@ describe("@Ignore", () => {
       prop2: string;
     }
 
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop2: {
           type: "string"
@@ -33,7 +32,7 @@ describe("@Ignore", () => {
       prop2: string;
     }
 
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop2: {
           type: "string"
@@ -53,7 +52,7 @@ describe("@Ignore", () => {
       prop2: string;
     }
 
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop1: {
           type: "string"
@@ -76,7 +75,7 @@ describe("@Ignore", () => {
       prop2: string;
     }
 
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         prop2: {
           type: "string"

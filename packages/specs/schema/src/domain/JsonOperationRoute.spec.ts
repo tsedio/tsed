@@ -1,5 +1,4 @@
 import {Get, JsonEntityStore, JsonOperation, JsonOperationRoute, Name} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("JsonOperationRoute", () => {
   it("should create JsonOperationRoute instance", () => {
@@ -16,23 +15,23 @@ describe("JsonOperationRoute", () => {
       basePath: "/base"
     });
 
-    expect(operationRoute.operationPath).to.deep.eq({
+    expect(operationRoute.operationPath).toEqual({
       method: "GET",
       path: "/"
     });
-    expect(operationRoute.method).to.deep.eq("GET");
-    expect(operationRoute.path).to.deep.eq("/");
-    expect(operationRoute.fullPath).to.deep.eq("/base/");
-    expect(operationRoute.url).to.deep.eq("/base/");
-    expect(operationRoute.isFinal).to.deep.eq(false);
-    expect(operationRoute.name).to.deep.eq("Test.get()");
-    expect(operationRoute.className).to.deep.eq("Test");
-    expect(operationRoute.methodClassName).to.deep.eq("get");
-    expect(operationRoute.propertyKey).to.deep.eq("get");
-    expect(operationRoute.propertyName).to.deep.eq("get");
-    expect(operationRoute.operation).to.be.instanceof(JsonOperation);
-    expect(operationRoute.operationId).to.eq("get");
-    expect(operationRoute.parameters).to.deep.eq([]);
+    expect(operationRoute.method).toEqual("GET");
+    expect(operationRoute.path).toEqual("/");
+    expect(operationRoute.fullPath).toEqual("/base/");
+    expect(operationRoute.url).toEqual("/base/");
+    expect(operationRoute.isFinal).toEqual(false);
+    expect(operationRoute.name).toEqual("Test.get()");
+    expect(operationRoute.className).toEqual("Test");
+    expect(operationRoute.methodClassName).toEqual("get");
+    expect(operationRoute.propertyKey).toEqual("get");
+    expect(operationRoute.propertyName).toEqual("get");
+    expect(operationRoute.operation).toBeInstanceOf(JsonOperation);
+    expect(operationRoute.operationId).toBe("get");
+    expect(operationRoute.parameters).toEqual([]);
   });
   it("should create JsonOperationRoute instance (with alias naming)", () => {
     @Name("Testify")
@@ -50,21 +49,21 @@ describe("JsonOperationRoute", () => {
       basePath: "/base"
     });
 
-    expect(operationRoute.operationPath).to.deep.eq({
+    expect(operationRoute.operationPath).toEqual({
       method: "GET",
       path: "/"
     });
-    expect(operationRoute.method).to.deep.eq("GET");
-    expect(operationRoute.path).to.deep.eq("/");
-    expect(operationRoute.fullPath).to.deep.eq("/base/");
-    expect(operationRoute.url).to.deep.eq("/base/");
-    expect(operationRoute.isFinal).to.deep.eq(false);
-    expect(operationRoute.name).to.deep.eq("Test.get()");
-    expect(operationRoute.className).to.deep.eq("Test");
-    expect(operationRoute.methodClassName).to.deep.eq("get");
-    expect(operationRoute.propertyKey).to.deep.eq("get");
-    expect(operationRoute.propertyName).to.deep.eq("get");
-    expect(operationRoute.operation).to.be.instanceof(JsonOperation);
-    expect(operationRoute.operationId).to.eq("get");
+    expect(operationRoute.method).toEqual("GET");
+    expect(operationRoute.path).toEqual("/");
+    expect(operationRoute.fullPath).toEqual("/base/");
+    expect(operationRoute.url).toEqual("/base/");
+    expect(operationRoute.isFinal).toEqual(false);
+    expect(operationRoute.name).toEqual("Test.get()");
+    expect(operationRoute.className).toEqual("Test");
+    expect(operationRoute.methodClassName).toEqual("get");
+    expect(operationRoute.propertyKey).toEqual("get");
+    expect(operationRoute.propertyName).toEqual("get");
+    expect(operationRoute.operation).toBeInstanceOf(JsonOperation);
+    expect(operationRoute.operationId).toBe("get");
   });
 });

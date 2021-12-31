@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {Any, getJsonSchema, getSpec, Required, SpecTypes, string} from "../src";
 import {Nullable, OperationPath, Path, Property, Returns} from "../src/decorators";
 import {validateSpec} from "./helpers/validateSpec";
@@ -38,7 +37,7 @@ class TestNullableCtrl {
 describe("Spec: Nullable", () => {
   it("should generate the JSON", () => {
     const schema = getJsonSchema(Product);
-    expect(schema).to.deep.eq({
+    expect(schema).toEqual({
       definitions: {
         Nested: {
           properties: {
@@ -81,7 +80,7 @@ describe("Spec: Nullable", () => {
   it("should generate the OS3", async () => {
     const spec = getSpec(TestNullableCtrl, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       components: {
         schemas: {
           "Nested": {
@@ -158,13 +157,13 @@ describe("Spec: Nullable", () => {
         }
       ]
     });
-    expect(await validateSpec(spec, SpecTypes.OPENAPI)).to.eq(true);
+    expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
   });
   it("should generate the OS2", async () => {
     const spec = getSpec(TestNullableCtrl, {specType: SpecTypes.SWAGGER});
 
 //    expect(await validateSpec(spec)).to.eq(true);
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       definitions: {
         Nested: {
           "properties": {

@@ -2,7 +2,6 @@ import {DecoratorParameters, Metadata, prototypeOf, StoreMerge, useDecorators, u
 import {Consumes, Get, In, JsonClassStore, JsonMethodStore, JsonParameterTypes, Path, Returns} from "@tsed/schema";
 import {getJsonEntityStore} from "../utils/getJsonEntityStore";
 import {JsonParameterStore} from "./JsonParameterStore";
-import {expect} from "chai";
 import {ParamTypes, UseParam} from "@tsed/common";
 
 describe("JsonParameterStore", () => {
@@ -14,14 +13,14 @@ describe("JsonParameterStore", () => {
 
       const entity = getJsonEntityStore(prototypeOf(TestDynamicUrlCtrl), "get", 0);
 
-      expect(entity).to.be.instanceof(JsonParameterStore);
-      expect(entity.parent).to.be.instanceof(JsonMethodStore);
-      expect(entity.parent.parent).to.be.instanceof(JsonClassStore);
-      expect(entity.parent.parent.parent).to.be.instanceof(JsonClassStore);
-      expect(entity.nestedGenerics).to.deep.eq([]);
-      expect(entity.required).to.eq(false);
-      expect(entity.isRequired("")).to.eq(false);
-      expect(entity.allowedRequiredValues).to.deep.eq([]);
+      expect(entity).toBeInstanceOf(JsonParameterStore);
+      expect(entity.parent).toBeInstanceOf(JsonMethodStore);
+      expect(entity.parent.parent).toBeInstanceOf(JsonClassStore);
+      expect(entity.parent.parent.parent).toBeInstanceOf(JsonClassStore);
+      expect(entity.nestedGenerics).toEqual([]);
+      expect(entity.required).toBe(false);
+      expect(entity.isRequired("")).toBe(false);
+      expect(entity.allowedRequiredValues).toEqual([]);
     });
   });
   describe("getParams()", () => {
@@ -37,7 +36,7 @@ describe("JsonParameterStore", () => {
       const result = JsonParameterStore.getParams(prototypeOf(Test), "test");
 
       // THEN
-      expect(result[0].parameter.get("in")).to.deep.eq("body");
+      expect(result[0].parameter.get("in")).toEqual("body");
     });
     it("should returns params (body)", () => {
       // GIVEN
@@ -50,7 +49,7 @@ describe("JsonParameterStore", () => {
       const result = JsonParameterStore.getParams(prototypeOf(Test), "test");
       // THEN
 
-      expect(result[0].parameter.get("in")).to.deep.eq("body");
+      expect(result[0].parameter.get("in")).toEqual("body");
     });
     it("should returns params from inherited", () => {
       // GIVEN
@@ -77,11 +76,11 @@ describe("JsonParameterStore", () => {
       const result4 = JsonParameterStore.getParams(prototypeOf(Test), "base");
 
       // THEN
-      expect(result1.length).to.deep.eq(1);
-      expect(result2.length).to.deep.eq(1);
-      expect(result3).to.deep.eq([]);
-      expect(result4.length).to.deep.eq(1);
-      expect(result4[0].token).to.eq(Test);
+      expect(result1.length).toEqual(1);
+      expect(result2.length).toEqual(1);
+      expect(result3).toEqual([]);
+      expect(result4.length).toEqual(1);
+      expect(result4[0].token).toBe(Test);
     });
   });
 });

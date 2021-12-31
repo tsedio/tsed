@@ -1,5 +1,4 @@
 import {ContentType, getSpec, OperationPath} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("ContentType", () => {
   it("should create middleware", () => {
@@ -10,7 +9,7 @@ describe("ContentType", () => {
     }
 
     const spec = getSpec(Test);
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       paths: {
         "/": {
           get: {

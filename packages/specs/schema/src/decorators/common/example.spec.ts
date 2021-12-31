@@ -1,6 +1,5 @@
 import {descriptorOf, useDecorators} from "@tsed/core";
 import {Description, getSpec, In, Name, OperationPath, Path, Pattern, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Example} from "./example";
 
@@ -20,7 +19,7 @@ describe("@Example", () => {
     class Model {}
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       examples: [{id: "id"}],
       type: "object"
     });
@@ -42,7 +41,7 @@ describe("@Example", () => {
     }
 
     // THEN
-    expect(getSpec(MyController, {specType: SpecTypes.SWAGGER})).to.deep.equal({
+    expect(getSpec(MyController, {specType: SpecTypes.SWAGGER})).toEqual({
       paths: {
         "/{id}": {
           get: {
@@ -72,7 +71,7 @@ describe("@Example", () => {
         }
       ]
     });
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.equal({
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/{id}": {
           get: {
@@ -115,7 +114,7 @@ describe("@Example", () => {
     }
 
     // THEN
-    expect(getJsonSchema(Model)).to.deep.equal({
+    expect(getJsonSchema(Model)).toEqual({
       properties: {
         method: {
           examples: ["Examples"],

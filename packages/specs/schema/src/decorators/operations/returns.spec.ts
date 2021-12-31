@@ -1,6 +1,5 @@
 import "@tsed/platform-exceptions";
 import {CollectionOf, Generics, getSpec, OperationPath, Property, Returns, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {OpenSpec3} from "../../../../openspec/src/openspec3/OpenSpec3";
 
 describe("@Returns", () => {
@@ -16,7 +15,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         tags: [
           {
             name: "Controller"
@@ -52,7 +51,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         tags: [
           {
             name: "Controller"
@@ -88,7 +87,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         tags: [
           {
             name: "Controller"
@@ -133,7 +132,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         tags: [
           {
             name: "Controller"
@@ -190,7 +189,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         paths: {
           "/": {
             post: {
@@ -248,7 +247,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         tags: [
           {
             name: "Controller"
@@ -291,7 +290,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         paths: {
           "/": {
             post: {
@@ -389,7 +388,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         paths: {
           "/": {
             post: {
@@ -490,7 +489,9 @@ describe("@Returns", () => {
         actualError = er;
       }
 
-      actualError.message.should.eq("Returns.Of cannot be used with the following primitive classes: String, Number, Boolean");
+      expect(actualError.message).toBe(
+        "Returns.Of cannot be used with the following primitive classes: String, Number, Boolean"
+      );
     });
     it("should throw an error when using of with Collection", async () => {
       // WHEN
@@ -505,7 +506,9 @@ describe("@Returns", () => {
         actualError = er;
       }
 
-      actualError.message.should.eq("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
+      expect(actualError.message).toBe(
+        "Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean"
+      );
     });
     it("should declare an Array of string", async () => {
       // WHEN
@@ -518,7 +521,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         tags: [
           {
             name: "Controller"
@@ -563,7 +566,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         definitions: {
           Model: {
             properties: {
@@ -656,7 +659,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         definitions: {
           Product: {
             properties: {
@@ -780,7 +783,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         components: {
           schemas: {
             Product: {
@@ -882,7 +885,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         paths: {
           "/": {
             post: {
@@ -974,7 +977,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         paths: {
           "/": {
             post: {
@@ -1057,7 +1060,7 @@ describe("@Returns", () => {
 
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.eq({
+      expect(spec).toEqual({
         components: {
           schemas: {
             Model: {
@@ -1146,7 +1149,7 @@ describe("@Returns", () => {
       // THEN
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         components: {
           schemas: {
             Product: {
@@ -1237,7 +1240,7 @@ describe("@Returns", () => {
 
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI}) as Partial<OpenSpec3>;
 
-      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).to.deep.equal({
+      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).toEqual({
         oneOf: [
           {
             $ref: "#/components/schemas/ClassA"
@@ -1258,7 +1261,7 @@ describe("@Returns", () => {
 
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI}) as Partial<OpenSpec3>;
 
-      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).to.deep.equal({
+      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).toEqual({
         type: "array",
         items: {
           oneOf: [
@@ -1282,7 +1285,7 @@ describe("@Returns", () => {
 
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI}) as Partial<OpenSpec3>;
 
-      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).to.deep.equal({
+      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).toEqual({
         type: "array",
         items: {
           allOf: [
@@ -1306,7 +1309,7 @@ describe("@Returns", () => {
 
       const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI}) as Partial<OpenSpec3>;
 
-      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).to.deep.equal({
+      expect(spec.paths!["/"].get!.responses["200"].content!["application/json"].schema).toEqual({
         type: "array",
         items: {
           anyOf: [

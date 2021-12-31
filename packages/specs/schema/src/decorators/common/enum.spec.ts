@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Enum} from "./enum";
 
@@ -11,7 +10,7 @@ describe("@Enum", () => {
         num: string;
       }
 
-      expect(getJsonSchema(Model)).to.deep.equal({
+      expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
             enum: ["0", "1"],
@@ -28,7 +27,7 @@ describe("@Enum", () => {
         num: string | number;
       }
 
-      expect(getJsonSchema(Model)).to.deep.equal({
+      expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
             enum: ["0", "1", 10],
@@ -45,7 +44,7 @@ describe("@Enum", () => {
         num: string | number;
       }
 
-      expect(getJsonSchema(Model)).to.deep.equal({
+      expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
             enum: ["0", "1", 10, null],
@@ -70,7 +69,7 @@ describe("@Enum", () => {
         num: SomeEnum;
       }
 
-      expect(getJsonSchema(Model)).to.deep.equal({
+      expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
             enum: ["enum1", "enum2"],
@@ -95,7 +94,7 @@ describe("@Enum", () => {
         num: SomeEnum;
       }
 
-      expect(getJsonSchema(Model)).to.deep.equal({
+      expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
             enum: [0, 1],
@@ -121,7 +120,7 @@ describe("@Enum", () => {
         num: SomeEnum;
       }
 
-      expect(getJsonSchema(Model)).to.deep.equal({
+      expect(getJsonSchema(Model)).toEqual({
         properties: {
           num: {
             enum: [0, "test", "test2"],

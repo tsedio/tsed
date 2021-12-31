@@ -1,5 +1,4 @@
 import {getSpec, OperationPath, Path} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("Path", () => {
   it("should declare a path", () => {
@@ -9,7 +8,7 @@ describe("Path", () => {
       get() {}
     }
 
-    expect(getSpec(MyController)).to.deep.eq({
+    expect(getSpec(MyController)).toEqual({
       tags: [
         {
           name: "MyController"
@@ -43,6 +42,6 @@ describe("Path", () => {
       actualError = er;
     }
 
-    expect(actualError.message).to.deep.eq("Path cannot be used as parameter decorator on Test.test.[0]");
+    expect(actualError.message).toEqual("Path cannot be used as parameter decorator on Test.test.[0]");
   });
 });
