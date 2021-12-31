@@ -489,9 +489,7 @@ describe("@Returns", () => {
         actualError = er;
       }
 
-      expect(actualError.message).toBe(
-        "Returns.Of cannot be used with the following primitive classes: String, Number, Boolean"
-      );
+      expect(actualError.message).toBe("Returns.Of cannot be used with the following primitive classes: String, Number, Boolean");
     });
     it("should throw an error when using of with Collection", async () => {
       // WHEN

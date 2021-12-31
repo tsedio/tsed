@@ -10,7 +10,7 @@ describe("@File()", () => {
     }
 
     it("should set endpoint metadata - OS2", () => {
-      expect(getSpec(TestController)).toEqual({
+      expect(getSpec(TestController, {specType: SpecTypes.SWAGGER})).toEqual({
         paths: {
           "/": {
             post: {
@@ -108,7 +108,7 @@ describe("@File()", () => {
     }
 
     it("should set endpoint metadata - OS2", () => {
-      expect(getSpec(TestController)).toEqual({
+      expect(getSpec(TestController, {specType: SpecTypes.SWAGGER})).toEqual({
         paths: {
           "/": {
             post: {

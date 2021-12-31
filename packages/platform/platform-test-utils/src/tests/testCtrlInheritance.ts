@@ -1,5 +1,5 @@
 import {Controller, Get, PathParams, PlatformTest, QueryParams} from "@tsed/common";
-import {getSpec} from "@tsed/schema";
+import {getSpec, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -65,7 +65,7 @@ export function testCtrlInheritance(options: PlatformTestOptions) {
   });
 
   it("should generate swagger json", () => {
-    expect(getSpec(TestChildController)).to.deep.eq({
+    expect(getSpec(TestChildController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
       paths: {
         "/test": {
           get: {
@@ -75,7 +75,9 @@ export function testCtrlInheritance(options: PlatformTestOptions) {
                 in: "query",
                 name: "search",
                 required: false,
-                type: "string"
+                schema: {
+                  type: "string"
+                }
               }
             ],
             responses: {
@@ -94,7 +96,9 @@ export function testCtrlInheritance(options: PlatformTestOptions) {
                 in: "query",
                 name: "s",
                 required: false,
-                type: "string"
+                schema: {
+                  type: "string"
+                }
               }
             ],
             responses: {
@@ -113,7 +117,9 @@ export function testCtrlInheritance(options: PlatformTestOptions) {
                 in: "path",
                 name: "id",
                 required: true,
-                type: "string"
+                schema: {
+                  type: "string"
+                }
               }
             ],
             responses: {

@@ -1,5 +1,5 @@
 import {descriptorOf} from "@tsed/core";
-import {Get, getSpec, In, JsonEntityStore, OperationPath, Path, Redirect, Returns} from "@tsed/schema";
+import {Get, getSpec, In, JsonEntityStore, OperationPath, Path, Redirect, Returns, SpecTypes} from "@tsed/schema";
 
 describe("JsonOperation", () => {
   describe("getStatus()", () => {
@@ -73,19 +73,22 @@ describe("JsonOperation", () => {
         method(@In("custom") req: any, @In("body") type: string) {}
       }
 
-      expect(getSpec(MyController)).toEqual({
+      expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
         paths: {
           "/": {
             get: {
               operationId: "myControllerMethod",
-              parameters: [
-                {
-                  in: "body",
-                  name: "body",
-                  required: false,
-                  type: "string"
-                }
-              ],
+              parameters: [],
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                },
+                required: false
+              },
               responses: {
                 "200": {
                   description: "Success"

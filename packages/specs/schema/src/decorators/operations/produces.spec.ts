@@ -8,7 +8,7 @@ describe("Produces", () => {
       get() {}
     }
 
-    expect(getSpec(MyController)).toEqual({
+    expect(getSpec(MyController, {specType: SpecTypes.SWAGGER})).toEqual({
       tags: [
         {
           name: "MyController"
@@ -70,18 +70,12 @@ describe("Produces", () => {
       post() {}
     }
 
-    expect(getSpec(MyController)).toEqual({
-      tags: [
-        {
-          name: "MyController"
-        }
-      ],
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/": {
           get: {
             operationId: "myControllerGet",
             parameters: [],
-            produces: ["text/json"],
             responses: {
               "200": {
                 description: "Success"
@@ -92,7 +86,6 @@ describe("Produces", () => {
           post: {
             operationId: "myControllerPost",
             parameters: [],
-            produces: ["text/json"],
             responses: {
               "200": {
                 description: "Success"
@@ -101,7 +94,12 @@ describe("Produces", () => {
             tags: ["MyController"]
           }
         }
-      }
+      },
+      tags: [
+        {
+          name: "MyController"
+        }
+      ]
     });
   });
   it("should throw error for unsupported usage", () => {

@@ -9,8 +9,10 @@ describe("toJsonMapCollection", () => {
       }
     });
 
-    expect(result).toEqual(new JsonMap({
-      test: new JsonMap({schema: "schema"})
-    }));
+    expect(result).toEqual(
+      new JsonMap({
+        test: new JsonMap({schema: "schema"})
+      })
+    );
   });
 });

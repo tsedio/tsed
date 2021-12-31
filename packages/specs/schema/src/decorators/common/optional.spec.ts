@@ -1,4 +1,4 @@
-import {getSpec, In, Name, OperationPath, Optional} from "@tsed/schema";
+import {getSpec, In, Name, OperationPath, Optional, SpecTypes} from "@tsed/schema";
 import {Path} from "../operations/path";
 
 describe("Optional", () => {
@@ -9,7 +9,7 @@ describe("Optional", () => {
       method(@In("query") @Name("q") @Optional() q: string) {}
     }
 
-    expect(getSpec(MyController)).toEqual({
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/": {
           get: {
@@ -19,7 +19,9 @@ describe("Optional", () => {
                 in: "query",
                 name: "q",
                 required: false,
-                type: "string"
+                schema: {
+                  type: "string"
+                }
               }
             ],
             responses: {

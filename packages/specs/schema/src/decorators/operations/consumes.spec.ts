@@ -8,7 +8,7 @@ describe("Consumes", () => {
       get() {}
     }
 
-    expect(getSpec(MyController)).toEqual({
+    expect(getSpec(MyController, {specType: SpecTypes.SWAGGER})).toEqual({
       tags: [
         {
           name: "MyController"
@@ -31,7 +31,7 @@ describe("Consumes", () => {
       }
     });
   });
-  it("should store metadata (openspec)", () => {
+  it("should store metadata (OS3)", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Consumes("text/json")
@@ -70,18 +70,12 @@ describe("Consumes", () => {
       post() {}
     }
 
-    expect(getSpec(MyController)).toEqual({
-      tags: [
-        {
-          name: "MyController"
-        }
-      ],
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/": {
           get: {
             operationId: "myControllerGet",
             parameters: [],
-            consumes: ["text/json"],
             responses: {
               "200": {
                 description: "Success"
@@ -92,7 +86,6 @@ describe("Consumes", () => {
           post: {
             operationId: "myControllerPost",
             parameters: [],
-            consumes: ["text/json"],
             responses: {
               "200": {
                 description: "Success"
@@ -101,7 +94,12 @@ describe("Consumes", () => {
             tags: ["MyController"]
           }
         }
-      }
+      },
+      tags: [
+        {
+          name: "MyController"
+        }
+      ]
     });
   });
   it("should throw error for unsupported usage", () => {

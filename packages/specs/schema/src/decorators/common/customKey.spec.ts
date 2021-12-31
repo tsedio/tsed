@@ -1,4 +1,4 @@
-import {CustomKeys, getJsonSchema, getSpec, OperationPath, Path, Returns} from "@tsed/schema";
+import {CustomKeys, getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
 import {CustomKey} from "./customKey";
 
 describe("@CustomKey", () => {
@@ -38,7 +38,7 @@ describe("@CustomKey", () => {
     }
 
     // THEN
-    const spec = getSpec(MyController);
+    const spec = getSpec(MyController, {specType: SpecTypes.SWAGGER});
 
     expect(spec).toEqual({
       definitions: {
@@ -63,6 +63,64 @@ describe("@CustomKey", () => {
                 schema: {
                   $ref: "#/definitions/Model"
                 }
+              }
+            },
+            tags: ["MyController"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "MyController"
+        }
+      ]
+    });
+  });
+  it("should return the spec (OS3)", () => {
+    // WHEN
+    class Model {
+      @CustomKey("range", [1, 2])
+      num: number;
+    }
+
+    @Path("/")
+    class MyController {
+      @OperationPath("GET", "/")
+      @Returns(200, Model)
+      get() {}
+    }
+
+    // THEN
+    const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+
+    expect(spec).toEqual({
+      components: {
+        schemas: {
+          Model: {
+            properties: {
+              num: {
+                type: "number"
+              }
+            },
+            type: "object"
+          }
+        }
+      },
+      paths: {
+        "/": {
+          get: {
+            operationId: "myControllerGet",
+            parameters: [],
+            responses: {
+              "200": {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/schemas/Model"
+                    }
+                  }
+                },
+                description: "Success"
               }
             },
             tags: ["MyController"]

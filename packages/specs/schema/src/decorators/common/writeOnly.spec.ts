@@ -58,7 +58,7 @@ describe("@WriteOnly", () => {
     }
 
     // THEN
-    const spec = getSpec(MyController);
+    const spec = getSpec(MyController, {specType: SpecTypes.SWAGGER});
 
     expect(spec).toEqual({
       definitions: {

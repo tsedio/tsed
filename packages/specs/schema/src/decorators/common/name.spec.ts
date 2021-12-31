@@ -32,15 +32,9 @@ describe("@Name", () => {
 
     // THEN
     expect(getSpec(MyController)).toEqual({
-      tags: [
-        {
-          name: "AwesomeController"
-        }
-      ],
       paths: {
         "/": {
           post: {
-            consumes: ["text/json"],
             operationId: "awesomeControllerGet",
             parameters: [],
             responses: {
@@ -51,7 +45,12 @@ describe("@Name", () => {
             tags: ["AwesomeController"]
           }
         }
-      }
+      },
+      tags: [
+        {
+          name: "AwesomeController"
+        }
+      ]
     });
   });
 });
