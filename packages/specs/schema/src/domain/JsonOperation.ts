@@ -317,18 +317,13 @@ function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: Jso
     }
   });
 
-  if (propsLength) {
-    schema.type("object");
-    return {schema: schema.toJSON(options), required: false, ...props};
+  if (!propsLength) {
+    if (refs.length === 1) {
+      return refs[0];
+    }
   }
 
-  if (refs.length === 1) {
-    return refs[0];
-  }
-
-  if (refs.length > 0) {
-    schema.allOf(refs);
-  }
+  schema.type("object");
 
   return {schema: schema.toJSON(options), required: false, ...props};
 }

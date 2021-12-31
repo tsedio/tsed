@@ -5,8 +5,8 @@ import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper, hasMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
 import {getRequiredProperties} from "../utils/getRequiredProperties";
-import {mapNullableType} from "../utils/mapNullableType";
 import {alterOneOf} from "../hooks/alterOneOf";
+import {mapNullableType} from "../utils/mapNullableType";
 
 /**
  * @ignore

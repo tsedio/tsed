@@ -1,30 +1,49 @@
-import {cleanObject} from "@tsed/core";
+import {uniq} from "@tsed/core";
 import type {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
 import type {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 
+function hasNullable(obj: any) {
+  return obj.oneOf.find((o: any) => o.type === "null");
+}
+
 export function mapNullableType(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
-  if (!schema.nullable) {
+  if (!schema.isNullable) {
     return obj;
   }
-
-  let types: string[] = [].concat(obj.type).filter((type: string) => type !== "null");
+  let types: string[] = [].concat(obj.type).filter(Boolean);
 
   switch (options.specType) {
     case SpecTypes.SWAGGER:
+      if (!obj.allOf && !obj.$ref) {
+        obj.type = uniq(["null", ...types]);
+      }
+      break;
+    default:
     case SpecTypes.JSON:
-      obj.type = ["null", ...types];
+      if (obj.oneOf) {
+        if (!hasNullable(obj)) {
+          obj.oneOf.unshift({
+            type: "null"
+          });
+        }
+      } else {
+        obj.type = uniq(["null", ...types]);
+      }
       break;
 
     case SpecTypes.OPENAPI:
-      if (types.length > 1) {
-        obj.oneOf = types.map((type: string) => {
-          return cleanObject({type, nullable: true});
-        }, []);
-      } else {
-        obj.type = types[0];
-        obj.nullable = true;
+      obj.nullable = true;
+
+      if (!obj.oneOf) {
+        if (types.length > 1) {
+          obj.oneOf = types.map((type) => ({type}));
+          delete obj.type;
+        } else {
+          obj.type = types[0];
+        }
       }
+      break;
   }
 
   return obj;

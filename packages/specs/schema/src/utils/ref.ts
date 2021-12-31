@@ -34,30 +34,33 @@ export function createRef(name: string, schema: JsonSchema, options: JsonSchemaO
     $ref: `${host}/${name}`
   };
 
-  const nullable = schema.nullable;
-  const readOnly = schema.get ? schema.get("readOnly") : undefined;
+  const nullable = schema.isNullable;
+  const readOnly = schema.isReadOnly;
+  const writeOnly = schema.isWriteOnly;
 
-  if (nullable || readOnly) {
+  if (nullable || readOnly || writeOnly) {
     switch (options.specType) {
       case SpecTypes.OPENAPI:
         return cleanObject({
           nullable: nullable ? true : undefined,
           readOnly: readOnly ? true : undefined,
-          allOf: [ref]
+          writeOnly: writeOnly ? true : undefined,
+          oneOf: [ref]
         });
       case SpecTypes.JSON:
         return cleanObject({
           readOnly,
-          oneOf: [nullable && {type: "null"}, ref].filter(Boolean)
+          writeOnly,
+          oneOf: [ref]
         });
-      case SpecTypes.SWAGGER: // unsupported
-        if (readOnly) {
-          return {
+      case SpecTypes.SWAGGER: // TODO unsupported feature
+        if (readOnly || writeOnly) {
+          return cleanObject({
             readOnly,
+            writeOnly,
             allOf: [ref]
-          };
+          });
         }
-        break;
     }
   }
 

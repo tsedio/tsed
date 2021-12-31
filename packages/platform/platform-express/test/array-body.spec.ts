@@ -74,7 +74,7 @@ describe("Array Body", () => {
   });
 
   describe("swagger", () => {
-    it("should return the swagger", async () => {
+    it("should return the swagger (OS3)", async () => {
       const {body} = await request.get("/v3/docs/swagger.json").expect(200);
 
       expect(body).to.deep.eq({
@@ -105,29 +105,24 @@ describe("Array Body", () => {
                   "application/json": {
                     "schema": {
                       "items": {
+                        "nullable": true,
                         "oneOf": [
                           {
-                            "nullable": true,
                             "type": "integer"
                           },
                           {
-                            "nullable": true,
                             "type": "number"
                           },
                           {
-                            "nullable": true,
                             "type": "string"
                           },
                           {
-                            "nullable": true,
                             "type": "boolean"
                           },
                           {
-                            "nullable": true,
                             "type": "array"
                           },
                           {
-                            "nullable": true,
                             "type": "object"
                           }
                         ]
@@ -157,29 +152,24 @@ describe("Array Body", () => {
                   "application/json": {
                     "schema": {
                       "items": {
+                        "nullable": true,
                         "oneOf": [
                           {
-                            "nullable": true,
                             "type": "integer"
                           },
                           {
-                            "nullable": true,
                             "type": "number"
                           },
                           {
-                            "nullable": true,
                             "type": "string"
                           },
                           {
-                            "nullable": true,
                             "type": "boolean"
                           },
                           {
-                            "nullable": true,
                             "type": "array"
                           },
                           {
-                            "nullable": true,
                             "type": "object"
                           }
                         ]
@@ -286,29 +276,24 @@ describe("Array Body", () => {
                 "content": {
                   "application/json": {
                     "schema": {
+                      "nullable": true,
                       "oneOf": [
                         {
-                          "nullable": true,
                           "type": "integer"
                         },
                         {
-                          "nullable": true,
                           "type": "number"
                         },
                         {
-                          "nullable": true,
                           "type": "string"
                         },
                         {
-                          "nullable": true,
                           "type": "boolean"
                         },
                         {
-                          "nullable": true,
                           "type": "array"
                         },
                         {
-                          "nullable": true,
                           "type": "object"
                         }
                       ]

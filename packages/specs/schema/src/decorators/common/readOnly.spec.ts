@@ -67,7 +67,7 @@ describe("@ReadOnly", () => {
                 type: "number"
               },
               members: {
-                allOf: [
+                oneOf: [
                   {
                     $ref: "#/components/schemas/TestPerson"
                   }
