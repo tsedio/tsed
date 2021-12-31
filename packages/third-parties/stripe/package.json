@@ -1,6 +1,6 @@
 {
   "name": "@tsed/stripe",
-  "version": "7.0.0-beta.1",
+  "version": "7.0.0-beta.2",
   "description": "Stripe package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -31,21 +31,21 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.0.0-beta.1",
-    "@tsed/core": "7.0.0-beta.1",
-    "@tsed/di": "7.0.0-beta.1",
-    "@tsed/json-mapper": "7.0.0-beta.1",
-    "@tsed/openspec": "7.0.0-beta.1",
-    "@tsed/schema": "7.0.0-beta.1",
+    "@tsed/common": "7.0.0-beta.2",
+    "@tsed/core": "7.0.0-beta.2",
+    "@tsed/di": "7.0.0-beta.2",
+    "@tsed/json-mapper": "7.0.0-beta.2",
+    "@tsed/openspec": "7.0.0-beta.2",
+    "@tsed/schema": "7.0.0-beta.2",
     "stripe": "^8.129.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.0.0-beta.1",
-    "@tsed/core": "^7.0.0-beta.1",
-    "@tsed/di": "^7.0.0-beta.1",
-    "@tsed/json-mapper": "^7.0.0-beta.1",
-    "@tsed/openspec": "^7.0.0-beta.1",
-    "@tsed/schema": "^7.0.0-beta.1",
+    "@tsed/common": "^7.0.0-beta.2",
+    "@tsed/core": "^7.0.0-beta.2",
+    "@tsed/di": "^7.0.0-beta.2",
+    "@tsed/json-mapper": "^7.0.0-beta.2",
+    "@tsed/openspec": "^7.0.0-beta.2",
+    "@tsed/schema": "^7.0.0-beta.2",
     "@types/body-parser": "^1.19.0",
     "body-parser": "^1.19.0",
     "stripe": "^8.129.0"

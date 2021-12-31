@@ -1,6 +1,6 @@
 {
   "name": "@tsed/socketio",
-  "version": "7.0.0-beta.1",
+  "version": "7.0.0-beta.2",
   "description": "Socket.io package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -30,24 +30,24 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.0.0-beta.1",
-    "@tsed/core": "7.0.0-beta.1",
-    "@tsed/di": "7.0.0-beta.1",
-    "@tsed/json-mapper": "7.0.0-beta.1",
-    "@tsed/openspec": "7.0.0-beta.1",
-    "@tsed/schema": "7.0.0-beta.1",
+    "@tsed/common": "7.0.0-beta.2",
+    "@tsed/core": "7.0.0-beta.2",
+    "@tsed/di": "7.0.0-beta.2",
+    "@tsed/json-mapper": "7.0.0-beta.2",
+    "@tsed/openspec": "7.0.0-beta.2",
+    "@tsed/schema": "7.0.0-beta.2",
     "express": "^4.17.1",
     "socket.io": "4.1.2",
     "socket.io-client": "^4.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.0.0-beta.1",
-    "@tsed/core": "^7.0.0-beta.1",
-    "@tsed/di": "^7.0.0-beta.1",
-    "@tsed/json-mapper": "^7.0.0-beta.1",
+    "@tsed/common": "^7.0.0-beta.2",
+    "@tsed/core": "^7.0.0-beta.2",
+    "@tsed/di": "^7.0.0-beta.2",
+    "@tsed/json-mapper": "^7.0.0-beta.2",
     "@tsed/logger": ">=6.0.0",
-    "@tsed/openspec": "^7.0.0-beta.1",
-    "@tsed/schema": "^7.0.0-beta.1",
+    "@tsed/openspec": "^7.0.0-beta.2",
+    "@tsed/schema": "^7.0.0-beta.2",
     "socket.io": ">=4.0.0"
   }
 }
