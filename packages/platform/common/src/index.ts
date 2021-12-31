@@ -1,5 +1,4 @@
 import "@tsed/logger";
-import "@tsed/logger-file";
 
 export * from "@tsed/di";
 export * from "@tsed/platform-params";
@@ -36,6 +35,3 @@ export * from "./services";
 
 // utils
 export * from "./utils";
-
-// Module
-export * from "./PlatformModule";
