@@ -1,6 +1,6 @@
-import {Injectable} from "@tsed/di";
+import {Constant, Injectable} from "@tsed/di";
 import {ParamTypes} from "@tsed/platform-params";
-import {EndpointMetadata, JsonOperationRoute} from "@tsed/schema";
+import {JsonMethodStore, JsonOperationRoute} from "@tsed/schema";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";
@@ -9,7 +9,10 @@ import {useCtxHandler} from "../utils/useCtxHandler";
 
 @Injectable()
 export class PlatformMiddlewaresChain {
-  get(provider: ControllerProvider, operationRoute: JsonOperationRoute<EndpointMetadata>) {
+  @Constant("acceptMimes", [])
+  protected acceptMimes: string[];
+
+  get(provider: ControllerProvider, operationRoute: JsonOperationRoute) {
     const {endpoint} = operationRoute;
     const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares} = endpoint;
 
@@ -19,8 +22,8 @@ export class PlatformMiddlewaresChain {
 
     return [
       useCtxHandler(bindEndpointMiddleware(endpoint)),
-      PlatformAcceptMimesMiddleware,
-      this.uploadFile(operationRoute) && PlatformMulterMiddleware,
+      this.hasAcceptMimes(operationRoute) && PlatformAcceptMimesMiddleware,
+      operationRoute.has(ParamTypes.FILES) && PlatformMulterMiddleware,
       ...beforeMiddlewares,
       ...use,
       ...mldwrs,
@@ -30,7 +33,7 @@ export class PlatformMiddlewaresChain {
     ].filter((item: any) => !!item);
   }
 
-  private uploadFile(operationRoute: JsonOperationRoute<EndpointMetadata>) {
-    return [...operationRoute.endpoint.children.values()].find((item) => item.paramType === ParamTypes.FILES);
+  protected hasAcceptMimes(operationRoute: JsonOperationRoute) {
+    return operationRoute.endpoint.acceptMimes.length || this.acceptMimes.length;
   }
 }
