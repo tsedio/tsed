@@ -1,6 +1,6 @@
 import {Type} from "@tsed/core";
 import {GlobalProviders, InjectorService, ProviderType} from "@tsed/di";
-import {getOperationsRoutes, OperationMethods, EndpointMetadata} from "@tsed/schema";
+import {getOperationsRoutes, OperationMethods} from "@tsed/schema";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouter} from "../services/PlatformRouter";
 import {PlatformMiddlewaresChain} from "../services/PlatformMiddlewaresChain";
@@ -71,7 +71,7 @@ export function buildRouter(injector: InjectorService, provider: ControllerProvi
       });
 
     // build all endpoints and his middlewares
-    getOperationsRoutes<EndpointMetadata>(provider.token).forEach((operationRoute) => {
+    getOperationsRoutes(provider.token).forEach((operationRoute) => {
       const handlers = platformMiddlewaresChain?.get(provider, operationRoute);
 
       router.addRoute({

@@ -1,4 +1,5 @@
 import {Type} from "@tsed/core";
+import {JsonMethodStore} from "../domain/JsonMethodStore";
 import {getOperationsStores} from "./getOperationsStores";
 import {JsonOperationRoute} from "../domain/JsonOperationRoute";
 import {JsonEntityStore} from "../domain/JsonEntityStore";
@@ -9,7 +10,7 @@ export interface GetOperationsRoutesOptions {
   basePath?: string;
 }
 
-export function getOperationsRoutes<Entity extends JsonEntityStore = JsonEntityStore>(
+export function getOperationsRoutes<Entity extends JsonMethodStore = JsonMethodStore>(
   token: Type<any> | any,
   options: GetOperationsRoutesOptions = {}
 ): JsonOperationRoute<Entity>[] {

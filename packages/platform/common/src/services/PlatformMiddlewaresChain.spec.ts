@@ -45,12 +45,11 @@ describe("PlatformMiddlewaresChain", () => {
     const chain = platformMiddlewaresChain.get(provider, operationRoutes[1]);
 
     expect(chain[0].type).to.eq("context");
-    expect(chain[1]).to.eq(PlatformAcceptMimesMiddleware);
-    expect(chain[2]).to.eq(endpoint.beforeMiddlewares[0]);
-    expect(chain[3]).to.eq(provider.middlewares.use[0]);
-    expect(chain[4]).to.eq(endpoint.middlewares[0]);
-    expect(chain[5]).to.eq(endpoint);
-    expect(chain[6]).to.eq(endpoint.afterMiddlewares[0]);
-    expect(chain[7]).to.eq(provider.middlewares.useAfter[0]);
+    expect(chain[1]).to.eq(endpoint.beforeMiddlewares[0]);
+    expect(chain[2]).to.eq(provider.middlewares.use[0]);
+    expect(chain[3]).to.eq(endpoint.middlewares[0]);
+    expect(chain[4]).to.eq(endpoint);
+    expect(chain[5]).to.eq(endpoint.afterMiddlewares[0]);
+    expect(chain[6]).to.eq(provider.middlewares.useAfter[0]);
   });
 });
