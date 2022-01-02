@@ -1,11 +1,11 @@
 import {nameOf} from "@tsed/core";
-import {ParamMetadata} from "../domain/ParamMetadata";
 import {ValidationError} from "./ValidationError";
+import {JsonParameterStore} from "@tsed/schema";
 
 export class RequiredValidationError extends ValidationError {
   public name: string = "REQUIRED_VALIDATION_ERROR";
 
-  static from(metadata: ParamMetadata) {
+  static from(metadata: JsonParameterStore) {
     const name = nameOf(metadata.paramType);
     const expression = metadata.expression;
     const type = name.toLowerCase().replace(/parse|params|filter/gi, "");

@@ -1,3 +1,5 @@
+export {PipeMethods} from "@tsed/schema";
+
 export * from "./utils/mapParamsOptions";
 
 // domain

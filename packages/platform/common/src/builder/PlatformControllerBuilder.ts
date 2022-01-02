@@ -1,9 +1,8 @@
 import {Type} from "@tsed/core";
 import {GlobalProviders, InjectorService, ProviderType} from "@tsed/di";
-import {getOperationsRoutes, OperationMethods} from "@tsed/schema";
+import {getOperationsRoutes, OperationMethods, EndpointMetadata} from "@tsed/schema";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouter} from "../services/PlatformRouter";
-import {EndpointMetadata} from "../domain/EndpointMetadata";
 import {PlatformMiddlewaresChain} from "../services/PlatformMiddlewaresChain";
 
 GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {

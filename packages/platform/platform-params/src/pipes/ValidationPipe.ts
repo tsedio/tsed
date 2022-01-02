@@ -1,12 +1,11 @@
 import {nameOf} from "@tsed/core";
 import {Injectable, InjectorService} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
-import {getJsonSchema} from "@tsed/schema";
+import {getJsonSchema, JsonParameterStore, PipeMethods} from "@tsed/schema";
 import {RequiredValidationError} from "../errors/RequiredValidationError";
-import {ParamMetadata, PipeMethods} from "../domain/ParamMetadata";
 import {ParamTypes} from "../domain/ParamTypes";
 
-function cast(value: any, metadata: ParamMetadata) {
+function cast(value: any, metadata: JsonParameterStore) {
   try {
     return deserialize(value, {
       type: metadata.type
@@ -30,7 +29,7 @@ export class ValidationPipe implements PipeMethods {
     }
   }
 
-  coerceTypes(value: any, metadata: ParamMetadata) {
+  coerceTypes(value: any, metadata: JsonParameterStore) {
     if (value === undefined) {
       return value;
     }
@@ -50,11 +49,11 @@ export class ValidationPipe implements PipeMethods {
     return value;
   }
 
-  skip(value: any, metadata: ParamMetadata) {
+  skip(value: any, metadata: JsonParameterStore) {
     return metadata.paramType === ParamTypes.PATH && !metadata.isPrimitive;
   }
 
-  async transform(value: any, metadata: ParamMetadata): Promise<any> {
+  async transform(value: any, metadata: JsonParameterStore): Promise<any> {
     if (!this.validator) {
       this.checkIsRequired(value, metadata);
       return value;
@@ -85,7 +84,7 @@ export class ValidationPipe implements PipeMethods {
     return value;
   }
 
-  protected checkIsRequired(value: any, metadata: ParamMetadata) {
+  protected checkIsRequired(value: any, metadata: JsonParameterStore) {
     if (metadata.isRequired(value)) {
       throw RequiredValidationError.from(metadata);
     }

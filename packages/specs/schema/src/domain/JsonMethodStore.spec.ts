@@ -1,5 +1,17 @@
 import {StoreSet} from "@tsed/core";
-import {Get, In, JsonEntityStore, JsonOperation, JsonParameter, Property, Returns} from "@tsed/schema";
+import {
+  EndpointMetadata,
+  Get,
+  In,
+  JsonEntityStore,
+  JsonMethodStore,
+  JsonOperation,
+  JsonParameter,
+  OperationMethods,
+  Property,
+  Returns
+} from "@tsed/schema";
+import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 
 describe("JsonMethodStore", () => {
   describe("endpoint declaration", () => {
@@ -25,7 +37,146 @@ describe("JsonMethodStore", () => {
       expect(endpoint.store.get("test")).toEqual("value");
     });
   });
+  describe("view()", () => {
+    it("should return view value", () => {
+      // GIVEN
+      const middleware3 = () => {};
 
+      class Test {
+        @Use(middleware3)
+        method(): any {}
+      }
+
+      const endpoint = EndpointMetadata.get(Test, "method");
+
+      // @ts-ignore
+      endpoint.view = {path: "/", test: 1};
+
+      expect(endpoint.view).toEqual({path: "/", test: 1});
+    });
+  });
+  describe("acceptMimes()", () => {
+    it("should return acceptMimes value", () => {
+      // GIVEN
+      const middleware3 = () => {};
+
+      class Test {
+        @Use(middleware3)
+        method(): any {}
+      }
+
+      const endpoint = EndpointMetadata.get(Test, "method");
+
+      // @ts-ignore
+      endpoint.acceptMimes = [];
+
+      expect(endpoint.acceptMimes).toEqual([]);
+    });
+  });
+  describe("endpoint declaration", () => {
+    it("should return an endpoint metadata", () => {
+      // GIVEN
+      const middleware1 = () => {};
+      const middleware2 = () => {};
+      const middleware3 = () => {};
+
+      class Test {
+        @UseAfter(middleware1)
+        @UseBefore(middleware2)
+        @Use(middleware3)
+        @StoreSet("test", "value")
+        method(): any {}
+      }
+
+      const endpoint = EndpointMetadata.get(Test, "method");
+
+      // THEN
+      expect(endpoint.beforeMiddlewares).toHaveLength(1);
+      expect(endpoint.middlewares).toHaveLength(1);
+      expect(endpoint.beforeMiddlewares).toHaveLength(1);
+      expect(endpoint.token).toEqual(Test);
+      expect(endpoint.store.get("test")).toEqual("value");
+    });
+    it("should add endpoint with path", () => {
+      // GIVEN
+      const middleware = () => {};
+
+      class Test {
+        @Use("/", middleware)
+        method(): any {}
+      }
+
+      const endpoint = EndpointMetadata.get(Test, "method");
+
+      // THEN
+      expect(endpoint.middlewares).toHaveLength(1);
+    });
+    it("should add endpoint with path and method", () => {
+      // GIVEN
+      const middleware = () => {};
+
+      class Test {
+        @Use("get", "/", middleware)
+        method(): any {}
+      }
+
+      const endpoint = EndpointMetadata.get(Test, "method");
+
+      // THEN
+      expect(endpoint.middlewares).toHaveLength(1);
+
+      expect([...endpoint.operationPaths.values()]).toEqual([
+        {
+          method: OperationMethods.GET,
+          path: "/"
+        }
+      ]);
+    });
+  });
+  describe("static get()", () => {
+    it("should return the endpoint metadata", () => {
+      const middleware1 = () => {};
+      const middleware2 = () => {};
+      const middleware3 = () => {};
+
+      class Test {
+        @UseAfter(middleware1)
+        @UseBefore(middleware2)
+        @Use(middleware3)
+        @StoreSet("test", "Test")
+        method(): any {}
+
+        @Use(middleware3)
+        @StoreSet("test", "Test")
+        method3() {}
+      }
+
+      const endpoint = JsonMethodStore.get(Test, "method");
+      expect(endpoint).toBeInstanceOf(JsonMethodStore);
+    });
+  });
+  describe("get()", () => {
+    it("should return the endpoint metadata", () => {
+      const middleware1 = () => {};
+      const middleware2 = () => {};
+      const middleware3 = () => {};
+
+      class Test {
+        @UseAfter(middleware1)
+        @UseBefore(middleware2)
+        @Use(middleware3)
+        @StoreSet("test", "Test")
+        method(): any {}
+
+        @Use(middleware3)
+        @StoreSet("test", "Test")
+        method3() {}
+      }
+
+      const endpoint = JsonMethodStore.get(Test, "method");
+      expect(endpoint.get("test")).toEqual("Test");
+    });
+  });
   it("should create JsonEntityStore", () => {
     class Model {
       @Property()
@@ -65,6 +216,7 @@ describe("JsonMethodStore", () => {
     expect(storeMethod?.decoratorType).toBe("method");
     expect(storeMethod?.index).toBeUndefined();
     expect(storeMethod?.parameters.length).toEqual(1);
+    expect(storeMethod?.params.length).toEqual(1);
 
     expect([...storeMethod?.operationPaths.entries()]).toEqual([
       [

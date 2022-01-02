@@ -1,6 +1,6 @@
 import {Constant, Injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
-import {ParamMetadata, PipeMethods} from "../domain/ParamMetadata";
+import {JsonParameterStore, PipeMethods} from "@tsed/schema";
 
 @Injectable()
 export class DeserializerPipe implements PipeMethods {
@@ -9,7 +9,7 @@ export class DeserializerPipe implements PipeMethods {
     additionalProperties?: "error" | "accept" | "ignore";
   };
 
-  transform(value: any, param: ParamMetadata) {
+  transform(value: any, param: JsonParameterStore) {
     return deserialize(value, {
       useAlias: true,
       additionalProperties: this.settings.additionalProperties === "accept",

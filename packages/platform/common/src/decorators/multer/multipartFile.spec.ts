@@ -1,6 +1,6 @@
-import {MultipartFile, ParamMetadata, ParamTypes, PlatformMulterMiddleware, Post} from "@tsed/common";
+import {MultipartFile, ParamTypes, PlatformMulterMiddleware, Post} from "@tsed/common";
 import {descriptorOf, Metadata, Store} from "@tsed/core";
-import {getSpec, SpecTypes} from "@tsed/schema";
+import {getSpec, JsonParameterStore, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
 
@@ -20,7 +20,7 @@ describe("@MultipartFile()", () => {
 
     // THEN
     const store = Store.fromMethod(TestController, "test");
-    const param = ParamMetadata.get(TestController, "test", 0);
+    const param = JsonParameterStore.get(TestController, "test", 0);
 
     it("should set params properly", () => {
       expect(store.get(PlatformMulterMiddleware)).to.deep.eq({
@@ -210,7 +210,7 @@ describe("@MultipartFile()", () => {
 
     // THEN
     const store = Store.fromMethod(TestController, "test");
-    const param = ParamMetadata.get(TestController, "test", 0);
+    const param = JsonParameterStore.get(TestController, "test", 0);
 
     it("should set params properly", () => {
       expect(store.get(PlatformMulterMiddleware)).to.deep.eq({
@@ -428,7 +428,7 @@ describe("@MultipartFile()", () => {
     });
 
     it("should set params metadata", () => {
-      const param = ParamMetadata.get(Test, "test", 0);
+      const param = JsonParameterStore.get(Test, "test", 0);
       expect(param.expression).to.eq("file1");
       expect(param.paramType).to.eq(ParamTypes.FILES);
     });

@@ -21,10 +21,7 @@ import {StoreSet} from "@tsed/core";
  * @decorator
  * @operation
  * @response
- * @ignores
- * @deprecated Use View decorator from @tsed/platform-views instead.
  */
-// istanbul ignore next
 export function View(path: string, options?: Object): MethodDecorator {
   return StoreSet("view", {path, options}) as any;
 }

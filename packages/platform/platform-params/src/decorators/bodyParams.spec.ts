@@ -1,7 +1,6 @@
 import {expect} from "chai";
 import {Controller} from "@tsed/di";
-import {getSpec, Post, SpecTypes} from "@tsed/schema";
-import {ParamMetadata} from "../domain/ParamMetadata";
+import {getSpec, JsonParameterStore, Post, SpecTypes} from "@tsed/schema";
 import {ParamTypes} from "../domain/ParamTypes";
 import {BodyParams, RawBodyParams} from "./bodyParams";
 
@@ -13,7 +12,7 @@ describe("@BodyParams", () => {
       test(@BodyParams("expression", Test) body: Test) {}
     }
 
-    const param = ParamMetadata.get(Ctrl, "test", 0);
+    const param = JsonParameterStore.get(Ctrl, "test", 0);
     expect(param.expression).to.eq("expression");
     expect(param.paramType).to.eq(ParamTypes.BODY);
     expect(param.type).to.eq(Test);

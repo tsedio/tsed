@@ -1,28 +1,42 @@
-import {
-  ancestorsOf,
-  DecoratorTypes,
-  descriptorOf,
-  isClass,
-  isCollection,
-  isMethodDescriptor,
-  Metadata,
-  prototypeOf,
-  Store,
-  Type
-} from "@tsed/core";
-import {JsonEntityStore} from "./JsonEntityStore";
+import {ancestorsOf, DecoratorTypes, isClass, isCollection, isMethodDescriptor, Metadata, prototypeOf, Type} from "@tsed/core";
+import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore";
 import type {JsonMethodStore} from "./JsonMethodStore";
 import {JsonParameter} from "./JsonParameter";
 import {JsonSchema} from "./JsonSchema";
 import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent";
 
+export interface JsonParameterStoreOptions extends JsonEntityStoreOptions {
+  dataPath?: string;
+  paramType?: string;
+  expression?: string;
+}
+
+export interface PipeMethods<T = any, R = any> {
+  transform(value: T, metadata: JsonParameterStore): R;
+}
+
 @JsonEntityComponent(DecoratorTypes.PARAM)
 export class JsonParameterStore extends JsonEntityStore {
+  public paramType: string;
+  public expression: string;
+  public dataPath: string;
+  /**
+   * Define pipes can be called by the framework to transform input parameter
+   */
+  public pipes: Type<PipeMethods>[];
   /**
    * Ref to JsonParameter when the decorated object is a parameter.
    */
   readonly parameter: JsonParameter = new JsonParameter();
   readonly parent: JsonMethodStore = JsonEntityStore.fromMethod(this.target, this.propertyKey);
+
+  constructor(options: JsonParameterStoreOptions) {
+    super(options);
+    this.pipes = options.pipes || [];
+    this.paramType = options.paramType || this.paramType;
+    this.expression = options.expression || this.expression;
+    this.dataPath = options.dataPath || this.dataPath;
+  }
 
   get nestedGenerics(): Type<any>[][] {
     return this.parameter.nestedGenerics;
@@ -68,6 +82,10 @@ export class JsonParameterStore extends JsonEntityStore {
     return [];
   }
 
+  static get(target: Type<any>, propertyKey: string | symbol, index: number) {
+    return JsonEntityStore.from<JsonParameterStore>(prototypeOf(target), propertyKey, index);
+  }
+
   /**
    * Check precondition between value, required and allowedRequiredValues to know if the entity is required.
    * @param value
@@ -111,3 +129,9 @@ export class JsonParameterStore extends JsonEntityStore {
     }
   }
 }
+
+/**
+ * @alias JsonParameterStore
+ */
+export type ParamMetadata = JsonParameterStore;
+export const ParamMetadata = JsonParameterStore;

@@ -1,6 +1,5 @@
-import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
-import {JsonOperationRoute} from "@tsed/schema";
-import {EndpointMetadata} from "./EndpointMetadata";
+import {ParamTypes} from "@tsed/platform-params";
+import {EndpointMetadata, JsonOperationRoute} from "@tsed/schema";
 import {ControllerProvider} from "./ControllerProvider";
 
 export interface PlatformRouterDetailsOptions {
@@ -16,7 +15,7 @@ export class PlatformRouteDetails extends JsonOperationRoute<EndpointMetadata> {
 
   constructor(options: Partial<PlatformRouteDetails> = {}) {
     super(options);
-    this.rawBody = !!this.endpoint.parameters.find((param: ParamMetadata) => param.paramType === ParamTypes.RAW_BODY);
+    this.rawBody = !!this.endpoint.parameters.find((param) => param.paramType === ParamTypes.RAW_BODY);
   }
 
   toJSON() {

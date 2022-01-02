@@ -1,6 +1,5 @@
-import {AcceptMime, EndpointMetadata, Get} from "@tsed/common";
-import {getSpec, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
+import {Get, getSpec, JsonMethodStore, SpecTypes} from "@tsed/schema";
+import {AcceptMime} from "./acceptMime";
 
 describe("AcceptMime", () => {
   it("should set metadata", () => {
@@ -10,12 +9,12 @@ describe("AcceptMime", () => {
       test() {}
     }
 
-    const endpoint = EndpointMetadata.get(Test, "test");
-    expect(endpoint.acceptMimes).to.deep.eq(["application/json"]);
+    const endpoint = JsonMethodStore.get(Test, "test");
+    expect(endpoint.acceptMimes).toEqual(["application/json"]);
 
     const spec = getSpec(Test, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       paths: {
         "/": {
           get: {

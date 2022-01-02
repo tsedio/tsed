@@ -17,6 +17,7 @@ export * from "./generics/genericOf";
 // operations
 export * from "./operations/deprecated";
 export * from "./operations/consumes";
+export * from "./operations/view";
 export * from "./operations/contentType";
 export * from "./operations/in";
 export * from "./operations/inFile";
@@ -34,6 +35,7 @@ export * from "./operations/partial";
 export * from "./operations/redirect";
 export * from "./operations/location";
 export * from "./operations/route";
+export * from "./operations/acceptMime";
 
 // common
 export * from "./common/additionalProperties";

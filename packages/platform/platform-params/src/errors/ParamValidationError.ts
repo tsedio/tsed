@@ -1,6 +1,6 @@
 import {nameOf} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
-import {ParamMetadata} from "../domain/ParamMetadata";
+import {JsonParameterStore} from "@tsed/schema";
 import {ValidationError} from "./ValidationError";
 
 export class ParamValidationError extends BadRequest {
@@ -8,7 +8,7 @@ export class ParamValidationError extends BadRequest {
   public dataPath: string;
   public requestType: string;
 
-  static from(metadata: ParamMetadata, origin: any = {}) {
+  static from(metadata: JsonParameterStore, origin: any = {}) {
     if (origin instanceof ValidationError || origin instanceof BadRequest) {
       const name = nameOf(metadata.paramType)
         .toLowerCase()

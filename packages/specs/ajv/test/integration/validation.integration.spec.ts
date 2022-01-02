@@ -1,7 +1,6 @@
 import "@tsed/ajv";
 import {
   BodyParams,
-  ParamMetadata,
   ParamTypes,
   ParamValidationError,
   PlatformTest,
@@ -11,7 +10,7 @@ import {
   ValidationPipe
 } from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
-import {getJsonSchema, MinLength, Property, Required, Schema} from "@tsed/schema";
+import {getJsonSchema, JsonParameterStore, MinLength, Property, Required, Schema} from "@tsed/schema";
 import {expect} from "chai";
 
 async function validate(value: any, metadata: any) {
@@ -41,23 +40,23 @@ describe("AjvValidationPipe", () => {
   describe("With raw json schema", () => {
     it("should validate object", async () => {
       class Ctrl {
-        get(@BodyParams() @Schema({type: "object"}) value: any) {
+        get(@BodyParams() @Schema({ type: "object" }) value: any) {
         }
       }
 
       const value = {};
-      const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
       expect(result).to.deep.equal(value);
     });
 
     it("should throw an error", async () => {
       class Ctrl {
-        get(@BodyParams() @Schema({type: "object"}) value: any) {
+        get(@BodyParams() @Schema({ type: "object" }) value: any) {
         }
       }
 
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
       const value: any[] = [];
       const error = await validate(value, metadata);
 
@@ -92,18 +91,18 @@ describe("AjvValidationPipe", () => {
         }
       }
 
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
       expect(await validate("test", metadata)).to.deep.equal("test");
     });
     it("should validate value (array)", async () => {
       class Ctrl {
-        get(@BodyParams({useType: String}) value: string[]) {
+        get(@BodyParams({ useType: String }) value: string[]) {
         }
       }
 
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
 
-      expect(getJsonSchema(metadata, {useAlias: true})).to.deep.eq({
+      expect(getJsonSchema(metadata, { useAlias: true })).to.deep.eq({
         type: "array",
         items: {
           type: "string"
@@ -120,7 +119,7 @@ describe("AjvValidationPipe", () => {
         }
       }
 
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
 
       expect(await validate("true", metadata)).to.deep.equal(true);
       expect(await validate("false", metadata)).to.deep.equal(false);
@@ -144,7 +143,7 @@ describe("AjvValidationPipe", () => {
       const value = {
         id: "hello"
       };
-      const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
       expect(result).to.deep.equal(value);
     });
@@ -161,7 +160,7 @@ describe("AjvValidationPipe", () => {
       }
 
       const value: any = {};
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
 
       const error = await validate(value, metadata);
 
@@ -229,7 +228,7 @@ describe("AjvValidationPipe", () => {
         user: {}
       };
 
-      const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      const error = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
       expect(error?.message).to.deep.equal(
         "Bad request on parameter \"request.body\".\nModel.user must have required property 'id'. Given value: {}"
@@ -255,7 +254,7 @@ describe("AjvValidationPipe", () => {
         id: "id",
         password: "secret"
       };
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
 
       const error = await validate(value, metadata);
 
@@ -304,7 +303,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {
+        get(@UseParam(ParamTypes.BODY, { useType: Model }) value: Model[]) {
         }
       }
 
@@ -313,7 +312,7 @@ describe("AjvValidationPipe", () => {
           id: "hello"
         }
       ];
-      const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
       expect(result).to.deep.equal(value);
     });
@@ -325,11 +324,11 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Model[]) {
+        get(@UseParam(ParamTypes.BODY, { useType: Model }) value: Model[]) {
         }
       }
 
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
       const value: any = [{}];
       const error = await validate(value, metadata);
 
@@ -375,7 +374,7 @@ describe("AjvValidationPipe", () => {
         }
       }
 
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
       const value: any = [
         {
           id: "id",
@@ -431,7 +430,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
+        get(@UseParam(ParamTypes.BODY, { useType: Model }) value: Map<string, Model>) {
         }
       }
 
@@ -440,7 +439,7 @@ describe("AjvValidationPipe", () => {
           id: "hello"
         }
       };
-      const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
       expect(result).to.deep.equal(value);
     });
@@ -452,13 +451,13 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
+        get(@UseParam(ParamTypes.BODY, { useType: Model }) value: Map<string, Model>) {
         }
       }
 
-      const value: any = {key1: {}};
+      const value: any = { key1: {} };
 
-      const error = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      const error = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
       expect(error?.message).to.deep.equal(
         "Bad request on parameter \"request.body\".\nMap<key1, Model> must have required property 'id'. Given value: {}"
@@ -479,7 +478,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Map<string, Model>) {
+        get(@UseParam(ParamTypes.BODY, { useType: Model }) value: Map<string, Model>) {
         }
       }
 
@@ -490,7 +489,7 @@ describe("AjvValidationPipe", () => {
         }
       };
 
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
       const error = await validate(value, metadata);
 
       expect(getJsonSchema(metadata)).to.deep.eq({
@@ -539,7 +538,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {
+        get(@UseParam(ParamTypes.BODY, { useType: Model }) value: Set<Model>) {
         }
       }
 
@@ -549,7 +548,7 @@ describe("AjvValidationPipe", () => {
         }
       ];
 
-      const result = await validate(value, ParamMetadata.get(Ctrl, "get", 0));
+      const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
       expect(result).to.deep.equal(value);
     });
@@ -561,11 +560,11 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {
+        get(@UseParam(ParamTypes.BODY, { useType: Model }) value: Set<Model>) {
         }
       }
 
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
       const value: any = [{}];
       const error = await validate(value, metadata);
 
@@ -608,7 +607,7 @@ describe("AjvValidationPipe", () => {
       }
 
       class Ctrl {
-        get(@UseParam(ParamTypes.BODY, {useType: Model}) value: Set<Model>) {
+        get(@UseParam(ParamTypes.BODY, { useType: Model }) value: Set<Model>) {
         }
       }
 
@@ -619,7 +618,7 @@ describe("AjvValidationPipe", () => {
         }
       ];
 
-      const metadata = ParamMetadata.get(Ctrl, "get", 0);
+      const metadata = JsonParameterStore.get(Ctrl, "get", 0);
       const error = await validate(value, metadata);
 
       expect(error?.message).to.deep.equal(

@@ -1,8 +1,7 @@
 import {Injectable} from "@tsed/di";
-import {ParamMetadata, ParamTypes} from "@tsed/platform-params";
-import {JsonOperationRoute} from "@tsed/schema";
+import {ParamTypes} from "@tsed/platform-params";
+import {EndpointMetadata, JsonOperationRoute} from "@tsed/schema";
 import {ControllerProvider} from "../domain/ControllerProvider";
-import {EndpointMetadata} from "../domain/EndpointMetadata";
 import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";
 import {PlatformMulterMiddleware} from "../middlewares/PlatformMulterMiddleware";
@@ -18,18 +17,20 @@ export class PlatformMiddlewaresChain {
       middlewares: {use, useAfter}
     } = provider;
 
-    const hasFiles = [...operationRoute.endpoint.children.values()].find((item: ParamMetadata) => item.paramType === ParamTypes.FILES);
+    return [
+      useCtxHandler(bindEndpointMiddleware(endpoint)),
+      PlatformAcceptMimesMiddleware,
+      this.uploadFile(operationRoute) && PlatformMulterMiddleware,
+      ...beforeMiddlewares,
+      ...use,
+      ...mldwrs,
+      endpoint,
+      ...afterMiddlewares,
+      ...useAfter
+    ].filter((item: any) => !!item);
+  }
 
-    return ([] as any[])
-      .concat(useCtxHandler(bindEndpointMiddleware(endpoint)))
-      .concat(PlatformAcceptMimesMiddleware)
-      .concat(hasFiles && PlatformMulterMiddleware)
-      .concat(beforeMiddlewares) // Endpoint before-middlewares
-      .concat(use) // Controller use-middlewares
-      .concat(mldwrs) // Endpoint middlewares
-      .concat(endpoint) // Endpoint metadata
-      .concat(afterMiddlewares) // Endpoint after-middlewares
-      .concat(useAfter) // Controller after middlewares (equivalent to afterEach)
-      .filter((item: any) => !!item);
+  private uploadFile(operationRoute: JsonOperationRoute<EndpointMetadata>) {
+    return [...operationRoute.endpoint.children.values()].find((item) => item.paramType === ParamTypes.FILES);
   }
 }

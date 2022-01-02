@@ -1,9 +1,8 @@
 import {All, buildRouter, ControllerProvider, Get, Use} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
-import {OperationMethods} from "@tsed/schema";
+import {EndpointMetadata, OperationMethods} from "@tsed/schema";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {EndpointMetadata} from "../domain/EndpointMetadata";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
@@ -83,7 +82,7 @@ describe("buildRouter()", () => {
     // GIVEN
     const {endpoint, provider, injector} = getControllerBuilder({propertyKey: "getMethod"});
 
-    endpoint.addOperationPath(OperationMethods.GET, "/", {isFinal: true});
+    endpoint.operation.addOperationPath(OperationMethods.GET, "/", {isFinal: true});
 
     // WHEN
     const result: any = buildRouter(injector, provider);
