@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import {PipeMethods} from "../domain/ParamMetadata";
+import {PipeMethods} from "@tsed/schema";
 import {ParamFn} from "./paramFn";
 
 /**

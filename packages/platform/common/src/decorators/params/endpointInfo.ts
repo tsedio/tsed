@@ -1,5 +1,5 @@
 import {ParamTypes, UseParam} from "@tsed/platform-params";
-import {EndpointMetadata} from "../../domain/EndpointMetadata";
+import {EndpointMetadata} from "@tsed/schema";
 
 /**
  * Get the current endpoint metadata.

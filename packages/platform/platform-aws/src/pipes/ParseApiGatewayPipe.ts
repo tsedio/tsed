@@ -1,4 +1,5 @@
-import {Injectable, PipeMethods} from "@tsed/common";
+import {Injectable} from "@tsed/common";
+import {PipeMethods} from "@tsed/schema";
 
 /**
  * @ignore

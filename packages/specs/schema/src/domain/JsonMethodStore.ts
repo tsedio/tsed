@@ -1,10 +1,20 @@
-import {DecoratorTypes, descriptorOf, isCollection, isFunction, isPromise, Metadata, Store} from "@tsed/core";
+import {DecoratorTypes, deepMerge, descriptorOf, isCollection, isFunction, isPromise, Metadata, prototypeOf, Store, Type} from "@tsed/core";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore";
 import {JsonOperation} from "./JsonOperation";
 import {JsonSchema} from "./JsonSchema";
 import type {JsonParameterStore} from "./JsonParameterStore";
 import type {JsonClassStore} from "./JsonClassStore";
 import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent";
+
+export interface JsonViewOptions {
+  path: string;
+  options: any;
+}
+
+export interface JsonRedirectOptions {
+  status: number | undefined;
+  url: string;
+}
 
 @JsonEntityComponent(DecoratorTypes.METHOD)
 export class JsonMethodStore extends JsonEntityStore {
@@ -34,6 +44,26 @@ export class JsonMethodStore extends JsonEntityStore {
    * List of children JsonEntityStore (properties or methods or params)
    */
   readonly children: Map<string | number, JsonParameterStore> = new Map();
+
+  get params(): JsonParameterStore[] {
+    return this.parameters;
+  }
+
+  get view(): JsonViewOptions {
+    return this.store.get("view") as JsonViewOptions;
+  }
+
+  set view(view: JsonViewOptions) {
+    this.store.set("view", view);
+  }
+
+  get acceptMimes(): string[] {
+    return this.store.get<string[]>("acceptMimes", []);
+  }
+
+  set acceptMimes(mimes: string[]) {
+    this.store.set("acceptMimes", mimes);
+  }
 
   get parameters(): JsonParameterStore[] {
     return [...this.children.values()] as JsonParameterStore[];
@@ -115,4 +145,49 @@ export class JsonMethodStore extends JsonEntityStore {
 
     return this;
   }
+
+  /**
+   * Find the value at the controller level. Let this value be extended or overridden by the endpoint itself.
+   *
+   * @param key
+   * @returns {any}
+   */
+  get<T = any>(key: any): T {
+    const ctrlValue = Store.from(this.target).get(key);
+
+    return deepMerge<T>(ctrlValue, this.store.get(key));
+  }
+
+  /**
+   * Get an endpoint.
+   * @param target
+   * @param propertyKey
+   * @param descriptor
+   */
+  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor): JsonMethodStore {
+    descriptor = descriptor || descriptorOf(prototypeOf(target), propertyKey);
+
+    return JsonEntityStore.from<JsonMethodStore>(prototypeOf(target), propertyKey, descriptor);
+  }
 }
+
+/**
+ * EndpointMetadata contains metadata about a controller and his method.
+ * Each annotation (@Get, @Body...) attached to a method are stored into endpoint.
+ * EndpointMetadata convert this metadata to an array which contain arguments to call an Express method.
+ *
+ * Example :
+ *```typescript
+ * @Controller("/my-path")
+ * provide MyClass {
+ *
+ *     @Get("/")
+ *     @Authenticated()
+ *     public myMethod(){}
+ * }
+ *```
+ *
+ * @alias JsonMethodStore
+ */
+export type EndpointMetadata = JsonMethodStore;
+export const EndpointMetadata = JsonMethodStore;

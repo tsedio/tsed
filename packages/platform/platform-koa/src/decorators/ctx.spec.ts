@@ -1,7 +1,6 @@
-import {ParamMetadata, ParamTypes} from "@tsed/common";
 import {Ctx} from "@tsed/platform-koa";
 import {expect} from "chai";
-import {State} from "./state";
+import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Ctx", () => {
   it("should call store the right configuration", () => {
@@ -9,7 +8,7 @@ describe("@Ctx", () => {
       test(@Ctx() ctx: Ctx) {}
     }
 
-    const param = ParamMetadata.get(Ctrl, "test", 0);
+    const param = JsonParameterStore.get(Ctrl, "test", 0);
     expect(param.paramType).to.eq("KOA_CTX");
   });
 });

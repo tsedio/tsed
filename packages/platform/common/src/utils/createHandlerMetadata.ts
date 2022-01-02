@@ -1,5 +1,5 @@
 import {InjectorService} from "@tsed/di";
-import {EndpointMetadata} from "../domain/EndpointMetadata";
+import {EndpointMetadata} from "@tsed/schema";
 import {HandlerMetadata, HandlerMetadataOptions} from "../domain/HandlerMetadata";
 import {HandlerType} from "../interfaces/HandlerType";
 import {PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouteOptions";

@@ -1,7 +1,7 @@
-import {ParamMetadata} from "@tsed/common";
 import {expect} from "chai";
-import {INTERACTION_PROMPT, INTERACTION_UID} from "../constants";
+import {INTERACTION_PROMPT} from "../constants";
 import {Prompt} from "./prompt";
+import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Prompt", () => {
   it("should inject uid", () => {
@@ -9,7 +9,7 @@ describe("@Prompt", () => {
       $prompt(@Prompt() uid: Prompt) {}
     }
 
-    const entity = ParamMetadata.get(MyInteraction, "$prompt", 0);
+    const entity = JsonParameterStore.get(MyInteraction, "$prompt", 0);
 
     expect(entity.paramType).to.equal("$CTX");
     expect(entity.expression).to.equal(INTERACTION_PROMPT);

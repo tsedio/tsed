@@ -1,5 +1,5 @@
 import {StoreSet, useDecorators} from "@tsed/core";
-import {Produces} from "@tsed/schema";
+import {Produces} from "./produces";
 
 /**
  * Set a mime list which are acceptable and checks if the specified content types are acceptable, based on the request’s Accept HTTP header field.

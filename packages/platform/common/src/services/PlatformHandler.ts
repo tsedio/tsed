@@ -3,8 +3,8 @@ import {Inject, Injectable, InjectorService, Provider, ProviderScope} from "@tse
 import {$log} from "@tsed/logger";
 import {ArgScope, HandlerWithScope, PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
+import {EndpointMetadata} from "@tsed/schema";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx";
-import {EndpointMetadata} from "../domain/EndpointMetadata";
 import {HandlerMetadata} from "../domain/HandlerMetadata";
 import {PlatformContext} from "../domain/PlatformContext";
 import {HandlerType} from "../interfaces/HandlerType";

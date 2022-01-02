@@ -1,5 +1,5 @@
-import {Controller, Get, ParamMetadata, ParamTypes} from "@tsed/common";
-import {getSpec} from "@tsed/schema";
+import {Controller, Get, ParamTypes} from "@tsed/common";
+import {getSpec, JsonParameterStore} from "@tsed/schema";
 import {expect} from "chai";
 import {AwsEvent} from "./awsEvent";
 
@@ -11,7 +11,7 @@ describe("AwsEvent", () => {
       get(@AwsEvent() event: any) {}
     }
 
-    const param = ParamMetadata.get(MyController, "get", 0);
+    const param = JsonParameterStore.get(MyController, "get", 0);
     expect(param.expression).to.eq("x-apigateway-event");
     expect(param.paramType).to.eq(ParamTypes.HEADER);
   });

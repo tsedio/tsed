@@ -1,5 +1,7 @@
-import {ParamMetadata, ParamOptions, PlatformParams, PlatformTest} from "@tsed/common";
+import {ParamOptions, PlatformParams, PlatformTest} from "@tsed/common";
+import {JsonParameterStore} from "@tsed/schema";
 import {createFakeHandlerContext} from "./createFakeHandlerContext";
+import {DecoratorTypes} from "@tsed/core";
 
 export interface TestPlatformParamsOptions extends ParamOptions {
   sandbox: any;
@@ -10,7 +12,7 @@ export function invokePlatformParams<T extends PlatformParams>(): T {
   return PlatformTest.invoke<T>(PlatformParams) as T;
 }
 
-export async function buildPlatformParams({sandbox, expression, required, ...options}: TestPlatformParamsOptions) {
+export async function buildPlatformParams({ sandbox, expression, required, ...options }: TestPlatformParamsOptions) {
   const platformParams = await invokePlatformParams();
 
   class Test {
@@ -18,10 +20,11 @@ export async function buildPlatformParams({sandbox, expression, required, ...opt
     }
   }
 
-  const param = new ParamMetadata({
+  const param = new JsonParameterStore({
     target: Test,
     propertyKey: "test",
     index: 0,
+    decoratorType: DecoratorTypes.PARAM,
     ...options
   });
 
