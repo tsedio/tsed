@@ -26,7 +26,9 @@ Let's start by creating a simple CalendarService provider.
 
 <<< @/docs/snippets/providers/getting-started-service.ts
 
-::: tip Note @@Service@@ and @@Injectable@@ have the same effect. @@Injectable@@ accepts options, @@Service@@ does not.
+::: tip Note 
+
+@@Service@@ and @@Injectable@@ have the same effect. @@Injectable@@ accepts options, @@Service@@ does not.
 A Service is always configured as `singleton`.
 
 Example with @@Injectable@:
