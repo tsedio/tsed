@@ -35,7 +35,7 @@ describe("Platform", () => {
 
       // THEN
       expect(platform.getMountedControllers()).to.deep.eq([{provider, route: "/test/my-route"}]);
-      expect(platform.app.use).to.have.been.calledWithExactly("/test/my-route", router.raw);
+      expect(platform.app.use).to.have.been.calledWithExactly("/test/my-route", router);
     });
   });
   describe("getRoutes", () => {

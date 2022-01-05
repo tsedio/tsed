@@ -11,6 +11,7 @@ import {HandlerType} from "../interfaces/HandlerType";
 import {PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouteOptions";
 import {createHandlerMetadata} from "../utils/createHandlerMetadata";
 import {setResponseHeaders} from "../utils/setResponseHeaders";
+import {PlatformAdapter} from "./PlatformAdapter";
 
 export interface OnRequestOptions {
   $ctx: PlatformContext;
@@ -33,7 +34,11 @@ export class PlatformHandler {
   @Inject()
   protected responseFilter: PlatformResponseFilter;
 
-  constructor(protected injector: InjectorService, protected params: PlatformParams) {}
+  constructor(
+    protected injector: InjectorService,
+    @Inject(PlatformAdapter) protected adapter: PlatformAdapter,
+    @Inject(PlatformParams) protected params: PlatformParams
+  ) {}
 
   /**
    * Create a native middleware based on the given metadata and return an instance of AnyToPromiseWithCtx
@@ -41,7 +46,9 @@ export class PlatformHandler {
    * @param options
    */
   createHandler(input: EndpointMetadata | HandlerMetadata | any, options: PlatformRouteWithoutHandlers = {}) {
-    return this.createRawHandler(createHandlerMetadata(this.injector, input, options));
+    const metadata = createHandlerMetadata(this.injector, input, options);
+
+    return this.adapter.createHandler(metadata, () => this.compileHandler(metadata));
   }
 
   /**
@@ -113,9 +120,12 @@ export class PlatformHandler {
   }
 
   protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {
-    await requestOptions.handler(requestOptions);
-
-    return this.next(requestOptions);
+    try {
+      await requestOptions.handler(requestOptions);
+      return this.next(requestOptions);
+    } catch (er) {
+      return this.onError(er, requestOptions);
+    }
   }
 
   /**
@@ -225,25 +235,6 @@ export class PlatformHandler {
    */
   protected callReturnedMiddleware(middleware: any, ctx: PlatformContext, next: any) {
     return middleware(ctx.getRequest(), ctx.getResponse(), next);
-  }
-
-  /**
-   * create Raw handler
-   * @param metadata
-   */
-  protected createRawHandler(metadata: HandlerMetadata) {
-    if ([HandlerType.RAW_ERR_FN, HandlerType.RAW_FN].includes(metadata.type)) {
-      return metadata.handler;
-    }
-
-    const handler = this.compileHandler(metadata);
-
-    return async (request: any, response: any, next: any) => {
-      return handler({
-        next,
-        $ctx: request.$ctx
-      });
-    };
   }
 
   /**

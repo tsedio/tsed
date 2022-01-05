@@ -14,4 +14,3 @@ export * from "./OnRequest";
 export * from "./OnResponse";
 export * from "./Route";
 export * from "./IncomingEvent";
-export * from "./PlatformAdapter";

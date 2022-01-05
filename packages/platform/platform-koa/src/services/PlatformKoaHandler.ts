@@ -1,8 +1,5 @@
-import {HandlerMetadata, HandlerType, OnRequestOptions, PlatformContext, PlatformHandler} from "@tsed/common";
-import Koa from "koa";
+import {OnRequestOptions, PlatformContext, PlatformHandler} from "@tsed/common";
 import "./PlatformKoaRequest";
-
-const OVERRIDE_TYPES = [HandlerType.ENDPOINT, HandlerType.MIDDLEWARE, HandlerType.ERR_MIDDLEWARE, HandlerType.CTX_FN];
 
 export class PlatformKoaHandler extends PlatformHandler {
   public async flush(data: any, ctx: PlatformContext): Promise<void> {
@@ -11,15 +8,6 @@ export class PlatformKoaHandler extends PlatformHandler {
     }
 
     return super.flush(data, ctx);
-  }
-
-  protected createRawHandler(metadata: HandlerMetadata) {
-    if (OVERRIDE_TYPES.includes(metadata.type)) {
-      const handler = this.compileHandler(metadata);
-      return async (ctx: Koa.Context, next: Koa.Next) => handler({next, $ctx: ctx.request.$ctx});
-    }
-
-    return super.createRawHandler(metadata);
   }
 
   protected async onRequest(requestOptions: OnRequestOptions): Promise<any> {
@@ -59,7 +47,8 @@ export class PlatformKoaHandler extends PlatformHandler {
     const {$ctx} = requestOptions;
 
     try {
-      return await super.onCtxRequest(requestOptions);
+      await requestOptions.handler(requestOptions);
+      return this.next(requestOptions);
     } catch (error) {
       this.throwError(error, $ctx);
     }

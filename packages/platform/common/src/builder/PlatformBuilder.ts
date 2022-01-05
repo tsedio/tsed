@@ -2,6 +2,7 @@ import {nameOf, Type} from "@tsed/core";
 import {colors, createContainer, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
 import {importProviders} from "@tsed/components-scan";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
+import {IncomingMessage, ServerResponse} from "http";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
@@ -10,8 +11,7 @@ import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSetti
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {Route} from "../interfaces/Route";
 import {getConfiguration} from "../utils/getConfiguration";
-import {IncomingMessage, ServerResponse} from "http";
-import {PlatformAdapter, PlatformBuilderSettings} from "../interfaces/PlatformAdapter";
+import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter";
 
 /**
  * @platform
@@ -26,7 +26,6 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   #injector: InjectorService;
   #rootModule: Type<any>;
   #promise: Promise<this>;
-  #adapter: PlatformAdapter<App, Router>;
   #servers: (() => Promise<void>)[];
 
   protected constructor(adapter: Type<PlatformAdapter<App, Router>> | undefined, module: Type, settings: Partial<TsED.Configuration>) {
@@ -37,16 +36,15 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     const configuration = getConfiguration(settings, module);
     configuration.PLATFORM_NAME = name;
     this.name = name;
-    this.#adapter = new adapterKlass(this);
 
     this.#injector = createInjector({
-      settings: configuration,
-      providers: this.#adapter.providers
+      adapter: adapterKlass,
+      settings: configuration
     });
 
     this.createHttpServers();
 
-    this.#adapter.onInit && this.#adapter.onInit();
+    this.adapter.onInit();
 
     this.log("Injector created...");
   }
@@ -94,6 +92,10 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
 
   get logger() {
     return this.injector.logger;
+  }
+
+  get adapter() {
+    return this.injector.get<PlatformAdapter<App, Router>>(PlatformAdapter)!;
   }
 
   get disableBootstrapLog() {
@@ -179,8 +181,8 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     await this.importProviders();
     await this.loadInjector();
 
-    this.#adapter.useContext && this.#adapter.useContext();
-    this.#adapter.useRouter && this.#adapter.useRouter();
+    this.adapter.useContext();
+    this.adapter.useRouter();
 
     await this.loadRoutes();
     await this.logRoutes();
@@ -273,7 +275,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   }
 
   protected async loadRoutes() {
-    this.#adapter.beforeLoadRoutes && (await this.#adapter.beforeLoadRoutes());
+    await this.adapter.beforeLoadRoutes();
 
     // istanbul ignore next
     if (this.settings.logger?.level !== "off") {
@@ -305,7 +307,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
 
     await this.callHook("$afterRoutesInit");
 
-    this.#adapter.afterLoadRoutes && (await this.#adapter.afterLoadRoutes());
+    await this.adapter.afterLoadRoutes();
   }
 
   protected diff() {

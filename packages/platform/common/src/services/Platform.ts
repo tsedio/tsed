@@ -52,7 +52,7 @@ export class Platform {
       provider
     });
 
-    this.app.use(ctrlPath, ...[].concat(getRouter(injector, provider).callback()));
+    this.app.use(ctrlPath, ...[].concat(getRouter(injector, provider)));
 
     this._routes = getOperationsRoutes<EndpointMetadata>(provider.token, {
       withChildren: true,

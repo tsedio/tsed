@@ -1,13 +1,16 @@
-import {Err, HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
-import {PlatformExpressHandler} from "@tsed/platform-express";
+import {Err, HandlerMetadata, HandlerType, PlatformHandler, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {invokePlatformHandler} from "../../../../../test/helper/invokePlatformHandler";
+import {PlatformExpress} from "@tsed/platform-express";
 
 const sandbox = Sinon.createSandbox();
 
 describe("PlatformExpressHandler", () => {
-  beforeEach(PlatformTest.create);
+  beforeEach(() =>
+    PlatformTest.create({
+      adapter: PlatformExpress
+    })
+  );
   afterEach(PlatformTest.reset);
   afterEach(() => {
     sandbox.restore();
@@ -17,7 +20,7 @@ describe("PlatformExpressHandler", () => {
     describe("ENDPOINT", () => {
       it("should return a native handler with 3 params", async () => {
         // GIVEN
-        const platformHandler = await invokePlatformHandler<PlatformExpressHandler>(PlatformExpressHandler);
+        const platformHandler = await PlatformTest.get<PlatformHandler>(PlatformHandler);
 
         class Test {
           get() {}
@@ -43,7 +46,7 @@ describe("PlatformExpressHandler", () => {
     describe("MIDDLEWARE", () => {
       it("should return a native handler with 3 params", async () => {
         // GIVEN
-        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+        const platformHandler = PlatformTest.get<PlatformHandler>(PlatformHandler);
 
         class Test {
           use() {}
@@ -67,7 +70,7 @@ describe("PlatformExpressHandler", () => {
       });
       it("should return a native handler with 4 params", async () => {
         // GIVEN
-        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+        const platformHandler = PlatformTest.get<PlatformHandler>(PlatformHandler);
 
         class Test {
           use(@Err() err: unknown) {}
@@ -94,7 +97,7 @@ describe("PlatformExpressHandler", () => {
     describe("$CTX", () => {
       it("should return a native handler with 3 params", async () => {
         // GIVEN
-        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+        const platformHandler = PlatformTest.get<PlatformHandler>(PlatformHandler);
 
         class Test {
           use() {}
@@ -117,7 +120,7 @@ describe("PlatformExpressHandler", () => {
       });
       it("should catch error from handler", async () => {
         // GIVEN
-        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+        const platformHandler = PlatformTest.get<PlatformHandler>(PlatformHandler);
 
         class Test {
           use() {}
@@ -153,7 +156,7 @@ describe("PlatformExpressHandler", () => {
     describe("FUNCTION", () => {
       it("should return a native handler with 3 params", async () => {
         // GIVEN
-        const platformHandler = await invokePlatformHandler(PlatformExpressHandler);
+        const platformHandler = PlatformTest.get<PlatformHandler>(PlatformHandler);
 
         class Test {
           use() {}

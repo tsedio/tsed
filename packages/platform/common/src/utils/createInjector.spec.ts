@@ -1,16 +1,15 @@
 import {expect} from "chai";
-import {createInjector, PlatformConfiguration} from "@tsed/common";
+import {createInjector, PlatformAdapter, PlatformConfiguration} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {$log} from "@tsed/logger";
 import Sinon from "sinon";
-import {stub} from "../../../../../test/helper/tools";
 
 describe("createInjector", () => {
   beforeEach(() => {
     Sinon.stub($log, "stop");
   });
   afterEach(() => {
-    stub($log.stop).restore();
+    Sinon.restore();
   });
   it("should create injector and stop logger in env Test", () => {
     const settings = {
@@ -18,7 +17,10 @@ describe("createInjector", () => {
       env: Env.TEST
     };
 
-    const injector = createInjector({settings});
+    const injector = createInjector({
+      adapter: PlatformAdapter,
+      settings
+    });
 
     expect(injector.settings).to.be.instanceof(PlatformConfiguration);
     expect(injector.settings.test).to.eq("test");
@@ -31,7 +33,10 @@ describe("createInjector", () => {
       env: Env.PROD
     };
 
-    const injector = createInjector({settings});
+    const injector = createInjector({
+      adapter: PlatformAdapter,
+      settings
+    });
 
     return expect(injector.logger.stop).to.not.have.been.called;
   });

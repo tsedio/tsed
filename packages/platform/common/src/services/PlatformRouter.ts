@@ -1,9 +1,8 @@
 import {Inject, Injectable, InjectorService, PathType, ProviderScope} from "@tsed/di";
-import {promisify} from "util";
 import {PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "../config";
 import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces";
-import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformHandler} from "./PlatformHandler";
+import {PlatformAdapter} from "./PlatformAdapter";
 
 /**
  * @ignore
@@ -13,7 +12,7 @@ export const PLATFORM_ROUTER_OPTIONS = Symbol.for("PlatformRouterOptions");
 declare global {
   namespace TsED {
     // @ts-ignore
-    export interface Router {}
+    export interface Router extends Record<string, any> {}
   }
 }
 
@@ -24,7 +23,7 @@ declare global {
 @Injectable({
   scope: ProviderScope.INSTANCE
 })
-export class PlatformRouter<Router = TsED.Router> {
+export class PlatformRouter<App = TsED.Application, Router = TsED.Router> {
   rawRouter: Router;
   raw: any;
   isBuilt: boolean = false;
@@ -32,8 +31,12 @@ export class PlatformRouter<Router = TsED.Router> {
   @Inject()
   injector: InjectorService;
 
-  constructor(protected platformHandler: PlatformHandler) {
-    this.rawRouter = this.raw = PlatformRouter.createRawRouter();
+  constructor(
+    @Inject(PlatformAdapter) protected adapter: PlatformAdapter<App, Router>,
+    @Inject(PlatformHandler) protected platformHandler: PlatformHandler,
+    @Inject(PLATFORM_ROUTER_OPTIONS) routerOptions: Record<string, any>
+  ) {
+    this.rawRouter = this.raw = adapter.createRouter(routerOptions);
   }
 
   /**
@@ -46,14 +49,6 @@ export class PlatformRouter<Router = TsED.Router> {
     locals.set(PLATFORM_ROUTER_OPTIONS, routerOptions);
 
     return injector.invoke<PlatformRouter>(PlatformRouter, locals);
-  }
-
-  protected static createRawRouter(): any {
-    return createFakeRawDriver();
-  }
-
-  callback(): any {
-    return this.raw;
   }
 
   getRouter(): Router {
@@ -109,32 +104,14 @@ export class PlatformRouter<Router = TsED.Router> {
   }
 
   statics(path: string, options: PlatformStaticsOptions): this {
+    const mdlw = this.adapter.statics(path, options);
+
+    mdlw && this.use(path, mdlw);
     return this;
   }
 
   multer(options: PlatformMulterSettings): PlatformMulter {
-    const m = require("multer")(options);
-
-    const makePromise = (multer: any, name: string) => {
-      // istanbul ignore next
-      if (!multer[name]) return;
-
-      const fn = multer[name];
-
-      multer[name] = function apply(...args: any[]) {
-        const middleware = Reflect.apply(fn, this, args);
-
-        return (req: any, res: any) => promisify(middleware)(req, res);
-      };
-    };
-
-    makePromise(m, "any");
-    makePromise(m, "array");
-    makePromise(m, "fields");
-    makePromise(m, "none");
-    makePromise(m, "single");
-
-    return m;
+    return this.adapter.multer(options);
   }
 
   protected mapHandlers(handlers: any[], options: PlatformRouteWithoutHandlers = {}): any[] {
@@ -144,7 +121,7 @@ export class PlatformRouter<Router = TsED.Router> {
       }
 
       if (handler instanceof PlatformRouter) {
-        return list.concat(handler.callback());
+        return list.concat(this.adapter.bindRouter(handler.rawRouter));
       }
 
       return list.concat(

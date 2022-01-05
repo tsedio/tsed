@@ -1,11 +1,11 @@
 import {DITest, DITestOptions, InjectorService} from "@tsed/di";
+import {Type} from "@tsed/core";
 import {PlatformBuilder} from "../builder/PlatformBuilder";
 import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext";
 import {createInjector} from "../utils/createInjector";
 import {PlatformApplication} from "./PlatformApplication";
 import {getConfiguration} from "../utils/getConfiguration";
-import {PlatformAdapter, PlatformBuilderSettings} from "../interfaces/PlatformAdapter";
-import {Type} from "@tsed/core";
+import {PlatformAdapter, PlatformBuilderSettings} from "./PlatformAdapter";
 
 /**
  * @platform
@@ -23,7 +23,7 @@ export class PlatformTest extends DITest {
    */
   static createInjector(settings: any = {}): InjectorService {
     return createInjector({
-      providers: [],
+      adapter: settings.adapter || PlatformAdapter,
       settings: DITest.configure({httpPort: false, httpsPort: false, ...settings})
     });
   }

@@ -1,4 +1,4 @@
-import {Controller, createInjector, Get} from "@tsed/common";
+import {Controller, createInjector, Get, PlatformAdapter} from "@tsed/common";
 import {Module} from "@tsed/di";
 import {expect} from "chai";
 
@@ -27,6 +27,7 @@ describe("DI", () => {
     }
 
     const injector = createInjector({
+      adapter: PlatformAdapter,
       settings: {
         mount: {
           "/rest": [ControllerGlobal]

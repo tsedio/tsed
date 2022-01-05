@@ -1,4 +1,4 @@
-import {PlatformRouter, PlatformTest} from "@tsed/common";
+import {PlatformAdapter, PlatformRouter, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {PlatformApplication} from "./PlatformApplication";
@@ -24,6 +24,7 @@ async function getPlatformApp() {
   const platformHandler = {
     createHandler: sandbox.stub().callsFake((o) => o)
   };
+
   const platformApp = await PlatformTest.invoke<PlatformApplication>(PlatformApplication, [
     {
       token: PlatformHandler,
@@ -31,14 +32,24 @@ async function getPlatformApp() {
     }
   ]);
   platformApp.injector.settings.logger = {};
-  platformApp.rawRouter = createDriver() as any;
-  platformApp.rawApp = platformApp.raw = createDriver() as any;
 
   return {platformApp, platformHandler};
 }
 
 describe("PlatformApplication", () => {
-  beforeEach(PlatformTest.create);
+  beforeEach(() =>
+    PlatformTest.create({
+      adapter: class Adapter extends PlatformAdapter {
+        createApp() {
+          return createDriver() as any;
+        }
+
+        createRouter(options: Record<string, any>) {
+          return createDriver() as any;
+        }
+      }
+    })
+  );
   afterEach(PlatformTest.reset);
 
   describe("getApp()", () => {
@@ -61,13 +72,6 @@ describe("PlatformApplication", () => {
   });
 
   describe("use()", () => {
-    beforeEach(() => {
-      // @ts-ignore
-      sandbox.stub(PlatformRouter, "createRawRouter").returns(createDriver() as any);
-    });
-    afterEach(() => {
-      sandbox.restore();
-    });
     it("should create a PlatformApplication and add handler", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
@@ -78,22 +82,18 @@ describe("PlatformApplication", () => {
 
       // THEN
       expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: false});
-      expect(platformApp.rawRouter.use).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.getRouter().use).to.have.been.calledWithExactly("/", handler);
     });
     it("should add router to app", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
-
-      // @ts-ignore
-      const handler = new PlatformRouter(platformHandler as any);
+      const platformRouter = PlatformRouter.create(PlatformTest.injector);
 
       // WHEN
-      platformApp.use("/", handler);
+      platformApp.use("/", platformRouter);
 
       // THEN
-      // @ts-ignore
-      expect(PlatformRouter.createRawRouter).to.have.been.calledWithExactly();
-      expect(platformApp.rawRouter.use).to.have.been.calledWithExactly("/", handler.raw);
+      expect(platformApp.getRouter().use).to.have.been.calledWithExactly("/", platformRouter.getRouter());
     });
   });
   describe("get()", () => {

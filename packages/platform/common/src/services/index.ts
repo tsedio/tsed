@@ -1,4 +1,5 @@
 export * from "./Platform";
+export * from "./PlatformAdapter";
 export * from "./PlatformApplication";
 export * from "./PlatformHandler";
 export * from "./PlatformRequest";

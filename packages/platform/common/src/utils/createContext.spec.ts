@@ -41,14 +41,12 @@ describe("createContext", () => {
     const response = PlatformTest.createResponse();
     response.req = request;
 
-    sandbox.stub(PlatformResponse.prototype, "setHeader");
-
     // WHEN
     const invoke = createContext(injector);
-    const ctx = await invoke({request, response});
+    await invoke({request, response});
 
     // THEN
-    expect(ctx.response.setHeader).to.have.been.calledWithMatch("x-request-id", /\w+/);
+    expect(response.headers["x-request-id"]).to.match(/\w+/);
   });
 
   it("should use an existing x-request-id request header for the response x-request-id header", async () => {
@@ -63,13 +61,11 @@ describe("createContext", () => {
     const response = PlatformTest.createResponse();
     response.req = request;
 
-    sandbox.stub(PlatformResponse.prototype, "setHeader");
-
     // WHEN
     const invoke = createContext(injector);
-    const ctx = await invoke({request, response});
+    await invoke({request, response});
 
     // THEN
-    expect(ctx.response.setHeader).to.have.been.calledWithMatch("x-request-id", "test-id");
+    expect(response.headers["x-request-id"]).to.eq("test-id");
   });
 });

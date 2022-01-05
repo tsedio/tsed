@@ -27,14 +27,12 @@ describe("PlatformBuilder", () => {
   @Controller("/")
   class RestCtrl {}
 
-  class PlatformCustom implements PlatformAdapter {
+  class PlatformCustom extends PlatformAdapter {
     readonly providers = [
       {
         provide: class Test {}
       }
     ];
-
-    constructor(private platform: PlatformBuilder) {}
 
     static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
       return PlatformBuilder.create<any, any>(module, {
@@ -57,10 +55,6 @@ describe("PlatformBuilder", () => {
     beforeLoadRoutes(): Promise<any> {
       return Promise.resolve(undefined);
     }
-
-    useContext(): any {}
-
-    useRouter(): any {}
   }
 
   @Controller("/")
@@ -218,7 +212,7 @@ describe("PlatformBuilder", () => {
         httpsPort: false
       });
 
-      expect(server.callback()).to.deep.eq(server.app.raw);
+      expect(server.callback()).to.be.a("function");
 
       server.callback({} as any, {} as any);
     });

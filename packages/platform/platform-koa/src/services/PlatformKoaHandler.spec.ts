@@ -1,13 +1,16 @@
-import {HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
-import {PlatformKoaHandler} from "@tsed/platform-koa";
+import {HandlerMetadata, HandlerType, PlatformHandler, PlatformTest} from "@tsed/common";
+import {PlatformKoa, PlatformKoaHandler} from "@tsed/platform-koa";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {invokePlatformHandler} from "../../../../../test/helper/invokePlatformHandler";
 
 const sandbox = Sinon.createSandbox();
 
 describe("PlatformKoaHandler", () => {
-  beforeEach(PlatformTest.create);
+  beforeEach(() =>
+    PlatformTest.create({
+      adapter: PlatformKoa
+    })
+  );
   afterEach(PlatformTest.reset);
   afterEach(() => {
     sandbox.restore();
@@ -15,9 +18,9 @@ describe("PlatformKoaHandler", () => {
 
   describe("createHandler", () => {
     describe("$CTX", () => {
-      it("should return a native handler with 3 params", async () => {
+      it("should return a native handler with 2 params", async () => {
         // GIVEN
-        const platformHandler = await invokePlatformHandler(PlatformKoaHandler);
+        const platformHandler = PlatformTest.get<PlatformHandler>(PlatformHandler);
 
         class Test {
           use() {}
@@ -40,7 +43,7 @@ describe("PlatformKoaHandler", () => {
       });
       it("should catch error from handler", async () => {
         // GIVEN
-        const platformHandler = await invokePlatformHandler(PlatformKoaHandler);
+        const platformHandler = PlatformTest.get<PlatformHandler>(PlatformHandler);
 
         class Test {
           use() {}
