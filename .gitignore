@@ -72,6 +72,7 @@ tools/**/dist
 /docs-references/.vuepress/styles
 /docs-references/.vuepress/scripts
 /docs-references/.vuepress/enhanceApp.js
+/docs-references/.vuepress/config.base.js
 /docs-references/assets
 /docs-references/api
 /docs-references/package.json

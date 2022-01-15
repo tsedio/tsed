@@ -36,14 +36,17 @@
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "build": "monorepo build --verbose",
     "sync:packages": "monorepo sync packages",
-    "docs:serve": "yarn api:build && yarn vuepress:serve ",
+    "api:build": "lerna run build && tsdoc",
+    "docs:install": "sh ./scripts/docs/install.sh",
+    "docs:serve": "yarn api:build && yarn vuepress:serve",
+    "docs:ref:serve": "yarn api:build && yarn vuepress:ref:serve",
     "docs:build": "yarn api:build && yarn vuepress:build",
     "docs:publish": "yarn docs:build && monorepo publish ghpages",
     "examples:sync": "monorepo sync examples",
     "examples:publish": "monorepo publish examples",
-    "api:build": "lerna run build && tsdoc",
-    "vuepress:build": "cd docs && yarn vuepress:build",
-    "vuepress:serve": "cd docs && yarn vuepress:serve",
+    "vuepress:build": "sh ./scripts/docs/build.sh",
+    "vuepress:serve": "yarn docs:install && cd docs && yarn vuepress:serve -p 8080",
+    "vuepress:ref:serve": "yarn docs:install && cd docs-references && yarn vuepress:serve -p 8081",
     "prettier": "prettier '{packages,test}/**/*.ts' --write",
     "release": "semantic-release",
     "release:dryRun": "semantic-release --dry-run",
@@ -103,7 +106,7 @@
     "source-map-support": "0.5.19"
   },
   "devDependencies": {
-    "@tsed/monorepo-utils": "^1.19.3",
+    "@tsed/monorepo-utils": "1.19.3",
     "@tsed/ts-doc": "4.0.14",
     "@types/axios": "0.14.0",
     "@types/chai": "4.2.12",
@@ -185,12 +188,20 @@
       "express",
       "@types/express"
     ],
-    "ghpages": {
-      "dir": "./docs/.vuepress/dist",
-      "url": "https://github.com/tsedio/tsed.git",
-      "branch": "gh-pages",
-      "cname": "tsed.io"
-    },
+    "ghpages": [
+      {
+        "dir": "./docs/.vuepress/dist",
+        "url": "https://github.com/tsedio/tsed.git",
+        "branch": "gh-pages",
+        "cname": "tsed.io"
+      },
+      {
+        "dir": "./docs-references/.vuepress/dist",
+        "url": "https://github.com/tsedio/api-docs.tsed.io.git",
+        "branch": "gh-pages",
+        "cname": "api-docs.tsed.io"
+      }
+    ],
     "examples": {
       "dir": "./examples",
       "repositories": {

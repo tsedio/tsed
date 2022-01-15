@@ -2,13 +2,6 @@ const markdown = require("@tsed/markdown-it-symbols");
 const team = require("../../team.json");
 const { version } = require("../../package");
 
-let api = {};
-
-try {
-  api = require("./public/api.json");
-} catch (er) {
-}
-
 module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", themeConfig }) => ({
   title,
   description,
@@ -56,7 +49,7 @@ module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", the
     docsDir: "docs",
     sidebar: "auto",
     docsBranch: "production",
-    api,
+    apiUrl: 'https://tsed.io/api.json',
     apiRedirectUrl,
     smoothScroll: true,
     lastUpdated: "Last updated",
@@ -315,9 +308,9 @@ module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", the
           {
             title: "Getting started",
             children: [
-              base + "/getting-started/start-with-cli",
-              base + "/getting-started/start-from-scratch",
-              base + "/getting-started/create-your-first-controller"
+              { title: "Start with CLI", path: base + "/getting-started/start-with-cli"},
+              { title: "Start from scratch", path: base + "/getting-started/start-from-scratch"},
+              { title: "Create your first controller", path: base + "/getting-started/create-your-first-controller"}
             ]
           },
           {
