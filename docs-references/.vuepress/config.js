@@ -10,7 +10,8 @@ const conf = settings({
   themeConfig: {
     shortTitle: "Ts.ED API",
     htmlTitle: "<strong class=\"font-medium\"><span class='text-blue'>Ts</span>.ED API</strong>",
-    algolia: false
+    algolia: false,
+
   }
 })
 

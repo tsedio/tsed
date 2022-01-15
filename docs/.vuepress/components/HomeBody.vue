@@ -19,17 +19,6 @@
                 allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
                 sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts">
               </CodeSandbox>
-
-            </div>
-
-            <div>
-              <Button
-                href="https://codesandbox.io/embed/tsed-mongoose-example-omkbm?fontsize=14&hidenavigation=1&theme=dark"
-                rounded="medium"
-                bg-color="white-button"
-                color="blue">
-                Live demo
-              </Button>
             </div>
           </div>
         </div>

@@ -319,11 +319,11 @@ module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", the
             children: [
               {
                 title: "Migrate from v5",
-                path: base + "/getting-started/migration-from-v5"
+                path: `${base}/getting-started/migration-from-v5`
               },
               {
                 title: "Migrate from Express.js",
-                path: base + "/getting-started/migrate-from-express"
+                path: `${base}/getting-started/migrate-from-express`
               }
             ]
           },
@@ -469,7 +469,7 @@ module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", the
                 },
                 {
                   label: "Chat with us",
-                  url: "https://gitter.im/Tsed-io/community"
+                  url: "https://api.tsed.io/rest/slack/tsedio/tsed"
                 },
                 {
                   label: "Contribution guide",
