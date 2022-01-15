@@ -50,8 +50,6 @@ tools/**/dist
 **/types
 /dts/
 /dist
-/docs/api
-/docs/api/**/*.md
 .tmp
 .vscode
 /reports
@@ -66,3 +64,14 @@ tools/**/dist
 .db
 **/keys/jwks.json
 /packages/prisma/test/prisma/generated
+
+# Website
+/docs/api
+/docs-references/.vuepress/public
+/docs-references/.vuepress/components
+/docs-references/.vuepress/styles
+/docs-references/.vuepress/scripts
+/docs-references/.vuepress/enhanceApp.js
+/docs-references/assets
+/docs-references/api
+/docs-references/package.json
