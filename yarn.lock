@@ -3370,7 +3370,7 @@
     semver "^7.3.2"
     tslib "2.3.0"
 
-"@tsed/monorepo-utils@^1.19.3":
+"@tsed/monorepo-utils@1.19.3":
   version "1.19.3"
   resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.19.3.tgz#8b66ed373f6d6bc24c17ff329d1706a3aea97165"
   integrity sha512-dDWK4gtyK/lECDz/pzPYMGHP7D6xxHe+HQNwUwIPBrZrCQsVHfeMYgWhS4vpPoUmcbwGB+jbRbrtL42Zv9DuFw==
