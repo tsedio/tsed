@@ -3370,10 +3370,10 @@
     semver "^7.3.2"
     tslib "2.3.0"
 
-"@tsed/monorepo-utils@1.19.3":
-  version "1.19.3"
-  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.19.3.tgz#8b66ed373f6d6bc24c17ff329d1706a3aea97165"
-  integrity sha512-dDWK4gtyK/lECDz/pzPYMGHP7D6xxHe+HQNwUwIPBrZrCQsVHfeMYgWhS4vpPoUmcbwGB+jbRbrtL42Zv9DuFw==
+"@tsed/monorepo-utils@1.19.4":
+  version "1.19.4"
+  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.19.4.tgz#6c2b819f647846febfe0934fc9adf72ad81896fc"
+  integrity sha512-tbyXWpuAyn4SoQkQ/zv28fO4OKX7z4heEf9I63O6Uf/fU2sZH5mAOQZx1ewJ8YRS1dmimfi4WLl3Tem4jhNPxA==
   dependencies:
     axios "0.21.1"
     chalk "3.0.0"

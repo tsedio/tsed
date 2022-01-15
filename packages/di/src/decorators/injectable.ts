@@ -5,8 +5,6 @@ import {registerProvider} from "../registries/ProviderRegistry";
  * The decorators `@Injectable()` declare a new service can be injected in other service, controller, interceptor, etc.. on there `constructor`.
  * All classes annotated with `@Injectable()` are built one time, excepted if you change the default provider configuration.
  *
- * <<< @/docs/snippets/providers/getting-started-injectable.ts
- *
  * ::: tip
  * `@Injectable()` use the `reflect-metadata` to collect and inject the built provided to other services.
  * :::

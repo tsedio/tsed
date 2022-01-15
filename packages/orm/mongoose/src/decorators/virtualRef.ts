@@ -44,10 +44,6 @@ function mapToSchema(opts: any) {
  * import in node.
  * :::
  *
- * ### Example
- *
- * <<< @/tutorials/snippets/mongoose/virtual-references.ts
- *
  * @param type
  * @param foreignField
  * @returns {Function}

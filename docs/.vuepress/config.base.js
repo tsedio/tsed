@@ -49,7 +49,7 @@ module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", the
     docsDir: "docs",
     sidebar: "auto",
     docsBranch: "production",
-    apiUrl: 'https://tsed.io/api.json',
+    apiUrl: "https://tsed.io/api.json",
     apiRedirectUrl,
     smoothScroll: true,
     lastUpdated: "Last updated",
@@ -308,15 +308,24 @@ module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", the
           {
             title: "Getting started",
             children: [
-              { title: "Start with CLI", path: base + "/getting-started/start-with-cli"},
-              { title: "Start from scratch", path: base + "/getting-started/start-from-scratch"},
-              { title: "Create your first controller", path: base + "/getting-started/create-your-first-controller"}
+              { title: "Start with CLI", path: base + "/getting-started/start-with-cli" },
+              { title: "Start from scratch", path: base + "/getting-started/start-from-scratch" },
+              { title: "Create your first controller", path: base + "/getting-started/create-your-first-controller" }
             ]
           },
           {
             title: "Migration",
             collapsable: true,
-            children: ["/getting-started/migration-from-v5", "/getting-started/migrate-from-express"]
+            children: [
+              {
+                title: "Migrate from v5",
+                path: base + "/getting-started/migration-from-v5"
+              },
+              {
+                title: "Migrate from Express.js",
+                path: base + "/getting-started/migrate-from-express"
+              }
+            ]
           },
           {
             title: "Documentation",
