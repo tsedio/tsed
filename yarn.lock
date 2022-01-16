@@ -2684,9 +2684,9 @@
     strip-json-comments "3.1.1"
 
 "@mikro-orm/mongodb@^4.5.9":
-  version "4.5.9"
-  resolved "https://registry.yarnpkg.com/@mikro-orm/mongodb/-/mongodb-4.5.9.tgz#3e0d967f16d511b0a4435419389cf1666f83fda6"
-  integrity sha512-kn33Z9ufpSDPEZ2v+ax04D2qMEV82So4Dtnb1Ln6StLRv5qJ7UIFihiYSuJvgIl2I4M72B9bo51EasltTO8lPg==
+  version "4.5.10"
+  resolved "https://registry.yarnpkg.com/@mikro-orm/mongodb/-/mongodb-4.5.10.tgz#9d2bd92b49bf77d5ab0bd2db542fbf6d518ae83f"
+  integrity sha512-U/wPXIf5Rah1WywmOtU/O6OOcHXLAur18yi5V6TAd47f2p/LKvspd1gWcyhlpMfWTcduABsG5qj7GDGmqDQ7tg==
   dependencies:
     "@types/mongodb" "3.6.12"
     mongodb "3.6.6"
@@ -3968,18 +3968,10 @@
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-8.2.2.tgz#91daa226eb8c2ff261e6a8cbf8c7304641e095e0"
   integrity sha512-Lwh0lzzqT5Pqh6z61P3c3P5nm6fzQK/MMHl9UKeneAeInVflBSz1O2EkX6gM6xfJd7FBXBY5purtLx7fUiZ7Hw==
 
-"@types/mongodb@3.6.12":
+"@types/mongodb@3.6.12", "@types/mongodb@^3.5.27":
   version "3.6.12"
   resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.12.tgz#727960d34f35054d2f2ce68909e16094f742d935"
   integrity sha512-49aEzQD5VdHPxyd5dRyQdqEveAg9LanwrH8RQipnMuulwzKmODXIZRp0umtxi1eBUfEusRkoy8AVOMr+kVuFog==
-  dependencies:
-    "@types/bson" "*"
-    "@types/node" "*"
-
-"@types/mongodb@^3.5.27":
-  version "3.6.1"
-  resolved "https://registry.yarnpkg.com/@types/mongodb/-/mongodb-3.6.1.tgz#4d30e4a1506446df0f9157eaf969ac694fa0771e"
-  integrity sha512-+osAbNePe5UIQQCuSVkvDQoec76eRD5ZIvu9CBSf+efms1g7cV5Ni+GIPUIdDm9p1pHW4OxyepwBuUXSkFJDtw==
   dependencies:
     "@types/bson" "*"
     "@types/node" "*"
@@ -14323,18 +14315,16 @@ mongodb-memory-server@^8.0.2:
     mongodb-memory-server-core "8.0.3"
     tslib "^2.3.1"
 
-mongodb@*:
-  version "3.6.9"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.9.tgz#4889cf529724267d393a18275d6cf19d71905b1d"
-  integrity sha512-1nSCKgSunzn/CXwgOWgbPHUWOO5OfERcuOWISmqd610jn0s8BU9K4879iJVabqgpPPbA6hO7rG48eq+fGED3Mg==
+mongodb@*, mongodb@^4.1.3:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.2.0.tgz#7ef94ab0613a2fd890763260fdac20cd099d0d7f"
+  integrity sha512-lg3MJ9dAKxhogRnIB6/j63gfD7JryZwRC0nNzZ82RhENw4nCmscZVqRfOmNzTvSNndJx9ZhxZpm9JvnKuH/GTA==
   dependencies:
-    bl "^2.2.1"
-    bson "^1.1.4"
-    denque "^1.4.1"
-    optional-require "^1.0.3"
-    safe-buffer "^5.1.2"
+    bson "^4.5.4"
+    denque "^2.0.1"
+    mongodb-connection-string-url "^2.2.0"
   optionalDependencies:
-    saslprep "^1.0.0"
+    saslprep "^1.0.3"
 
 mongodb@3.6.5:
   version "3.6.5"
@@ -14362,34 +14352,10 @@ mongodb@3.6.6:
   optionalDependencies:
     saslprep "^1.0.0"
 
-mongodb@^3.6.3:
-  version "3.6.3"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.3.tgz#eddaed0cc3598474d7a15f0f2a5b04848489fd05"
-  integrity sha512-rOZuR0QkodZiM+UbQE5kDsJykBqWi0CL4Ec2i1nrGrUI3KO11r6Fbxskqmq3JK2NH7aW4dcccBuUujAP0ERl5w==
-  dependencies:
-    bl "^2.2.1"
-    bson "^1.1.4"
-    denque "^1.4.1"
-    require_optional "^1.0.1"
-    safe-buffer "^5.1.2"
-  optionalDependencies:
-    saslprep "^1.0.0"
-
-mongodb@^4.1.3:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-4.2.0.tgz#7ef94ab0613a2fd890763260fdac20cd099d0d7f"
-  integrity sha512-lg3MJ9dAKxhogRnIB6/j63gfD7JryZwRC0nNzZ82RhENw4nCmscZVqRfOmNzTvSNndJx9ZhxZpm9JvnKuH/GTA==
-  dependencies:
-    bson "^4.5.4"
-    denque "^2.0.1"
-    mongodb-connection-string-url "^2.2.0"
-  optionalDependencies:
-    saslprep "^1.0.3"
-
-mongodb@~3.6.2:
-  version "3.6.8"
-  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.8.tgz#3e2632af81915b3ff99b7681121ca0895e8ed407"
-  integrity sha512-sDjJvI73WjON1vapcbyBD3Ao9/VN3TKYY8/QX9EPbs22KaCSrQ5rXo5ZZd44tWJ3wl3FlnrFZ+KyUtNH6+1ZPQ==
+mongodb@^3.6.3, mongodb@~3.6.2:
+  version "3.6.9"
+  resolved "https://registry.yarnpkg.com/mongodb/-/mongodb-3.6.9.tgz#4889cf529724267d393a18275d6cf19d71905b1d"
+  integrity sha512-1nSCKgSunzn/CXwgOWgbPHUWOO5OfERcuOWISmqd610jn0s8BU9K4879iJVabqgpPPbA6hO7rG48eq+fGED3Mg==
   dependencies:
     bl "^2.2.1"
     bson "^1.1.4"
