@@ -7,6 +7,7 @@ import {JsonMap} from "./JsonMap";
 import {formatParameterType, isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
 import {SpecTypes} from "./SpecTypes";
+import {createRefName} from "../utils/ref";
 
 const IGNORE_OS2_PROPS = ["example", "examples", "title"];
 
@@ -164,9 +165,10 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
   }
 
   private refToParameters(parameter: any, options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema | OS2Schema>) {
-    const schema = options.schemas![this.$schema.getName()];
+    const name = createRefName(this.$schema.getName(), options);
+    const schema = options.schemas![name];
 
-    if (options.schemas![this.$schema.getName()] && !schemasContainer.has(this.$schema.getName())) {
+    if (options.schemas![name] && !schemasContainer.has(name)) {
       delete options.schemas![this.$schema.getName()];
     }
 

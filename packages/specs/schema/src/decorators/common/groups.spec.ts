@@ -13,6 +13,7 @@ import {
   SpecTypes
 } from "@tsed/schema";
 import {Groups} from "./groups";
+import {QueryParams} from "@tsed/platform-params";
 
 class ChildModel {
   @Groups("!creation")
@@ -408,7 +409,7 @@ describe("@Groups", () => {
     });
   });
   describe("OpenSpec", () => {
-    it("should display fields when a group match with (OS3)", () => {
+    it("should display fields when a group match with - body (OS3)", () => {
       @Path("/")
       class MyController {
         @OperationPath("POST", "/")
@@ -569,6 +570,180 @@ describe("@Groups", () => {
                     }
                   },
                   description: "Success"
+                }
+              },
+              tags: ["MyController"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "MyController"
+          }
+        ]
+      });
+    });
+    it("should display fields when a group match with - query (OS3)", () => {
+      @Path("/")
+      class MyController {
+        @OperationPath("GET", "/")
+        @(Returns(201, MyModel).Groups("group.*"))
+        async get(@QueryParams() @Groups("creation") payload: MyModel) {
+          return new MyModel();
+        }
+
+        @OperationPath("GET", "/all")
+        @(Returns(201, MyModel).Groups("group.*"))
+        async getWithout(@QueryParams() payload: MyModel) {
+          return new MyModel();
+        }
+      }
+
+      const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).toEqual({
+        components: {
+          schemas: {
+            ChildModel: {
+              properties: {
+                id: {
+                  type: "string"
+                },
+                prop1: {
+                  minLength: 1,
+                  type: "string"
+                }
+              },
+              required: ["prop1"],
+              type: "object"
+            },
+            MyModelCreation: {
+              properties: {
+                prop3: {
+                  minLength: 1,
+                  type: "string"
+                },
+                prop4: {
+                  items: {
+                    $ref: "#/components/schemas/ChildModel"
+                  },
+                  type: "array"
+                }
+              },
+              required: ["prop3"],
+              type: "object"
+            },
+            MyModelGroup: {
+              properties: {
+                id: {
+                  type: "string"
+                },
+                prop1: {
+                  minLength: 1,
+                  type: "string"
+                },
+                prop2: {
+                  minLength: 1,
+                  type: "string"
+                },
+                prop3: {
+                  minLength: 1,
+                  type: "string"
+                },
+                prop4: {
+                  items: {
+                    $ref: "#/components/schemas/ChildModel"
+                  },
+                  type: "array"
+                }
+              },
+              required: ["prop1", "prop2", "prop3"],
+              type: "object"
+            }
+          }
+        },
+        paths: {
+          "/": {
+            get: {
+              operationId: "myControllerGet",
+              parameters: [
+                {
+                  in: "query",
+                  name: "prop3",
+                  required: true,
+                  schema: {
+                    minLength: 1,
+                    type: "string"
+                  }
+                },
+                {
+                  in: "query",
+                  name: "prop4",
+                  required: false,
+                  schema: {
+                    items: "[Circular reference found] Truncated by IDE",
+                    type: "array"
+                  }
+                }
+              ],
+              responses: {
+                "201": {
+                  content: {
+                    "application/json": {
+                      schema: {
+                        $ref: "#/components/schemas/MyModelGroup"
+                      }
+                    }
+                  },
+                  description: "Created"
+                }
+              },
+              tags: ["MyController"]
+            }
+          },
+          "/all": {
+            get: {
+              operationId: "myControllerGetWithout",
+              parameters: [
+                {
+                  in: "query",
+                  name: "id",
+                  required: false,
+                  schema: {
+                    type: "string"
+                  }
+                },
+                {
+                  in: "query",
+                  name: "prop3",
+                  required: true,
+                  schema: {
+                    minLength: 1,
+                    type: "string"
+                  }
+                },
+                {
+                  in: "query",
+                  name: "prop4",
+                  required: false,
+                  schema: {
+                    items: {
+                      $ref: "#/components/schemas/ChildModel"
+                    },
+                    type: "array"
+                  }
+                }
+              ],
+              responses: {
+                "201": {
+                  content: {
+                    "application/json": {
+                      schema: {
+                        $ref: "#/components/schemas/MyModelGroup"
+                      }
+                    }
+                  },
+                  description: "Created"
                 }
               },
               tags: ["MyController"]
