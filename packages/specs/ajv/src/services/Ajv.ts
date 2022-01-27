@@ -21,6 +21,7 @@ function bindKeywords(injector: InjectorService): Vocabulary {
     const service = injector.invoke(provider.token);
 
     return <KeywordDefinition>cleanObject({
+      coerceTypes: "array",
       ...options,
       validate: getHandler("validate", service),
       compile: getHandler("compile", service),
