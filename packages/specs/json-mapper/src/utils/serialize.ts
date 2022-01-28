@@ -156,6 +156,8 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     const jsonMapper = mapper!;
 
     return jsonMapper.serialize(obj, context);
+  } else if (obj?._isAMomentObject) {
+    return obj.toJSON();
   }
 
   if (isArray(obj)) {

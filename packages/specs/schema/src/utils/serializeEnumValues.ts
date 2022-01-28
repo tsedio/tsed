@@ -14,18 +14,6 @@ export const serializeEnum = (enumValue: any) => {
   return enumValue;
 };
 
-const transformTsEnum = (enumValue: any) => {
-  return Object.keys(enumValue).reduce((acc: any, key: any) => {
-    if (isNaN(+key)) {
-      const value = enumValue[key];
-
-      return acc.concat(value);
-    }
-
-    return acc;
-  }, []);
-};
-
 export function serializeEnumValues(enumValues: any[]) {
   const values = enumValues.reduce((acc, value) => acc.concat(serializeEnum(value)), []);
 

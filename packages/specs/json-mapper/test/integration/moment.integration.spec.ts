@@ -1,7 +1,7 @@
 import {DateFormat} from "@tsed/schema";
 import moment, {Moment} from "moment";
 import {expect} from "chai";
-import {JsonMapper, JsonMapperMethods, serialize} from "../../src";
+import {getJsonMapperTypes, JsonMapper, JsonMapperMethods, serialize} from "../../src";
 
 class MyModel {
   @DateFormat()
@@ -27,7 +27,6 @@ export class ApiDateMapper implements JsonMapperMethods {
   }
 }
 
-
 describe("Moment", async () => {
   it("should serialize moment as expected", () => {
     const data = new MyModel();
@@ -36,6 +35,12 @@ describe("Moment", async () => {
     expect(serialize(data.date)).to.deep.eq("20220101");
     expect(serialize(data)).to.deep.eq({
       "date": "20220101"
+    });
+
+    getJsonMapperTypes().delete("Moment")
+
+    expect(serialize(data)).to.deep.eq({
+      "date": moment("2022-01-01").toJSON()
     });
   });
 });
