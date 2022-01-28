@@ -142,7 +142,7 @@ jobs:
 
   deploy-packages:
     runs-on: ubuntu-latest
-    needs: [lint, test, build]
+    needs: [lint, test, test-packages, build]
     if: ${{ github.event_name != 'pull_request' && (contains(github.ref, 'production') || contains(github.ref, 'alpha')  || contains(github.ref, 'beta') || contains(github.ref, 'rc')) }}
 
     strategy:

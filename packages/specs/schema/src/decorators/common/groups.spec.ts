@@ -681,7 +681,9 @@ describe("@Groups", () => {
                   name: "prop4",
                   required: false,
                   schema: {
-                    items: "[Circular reference found] Truncated by IDE",
+                    items: {
+                      $ref: "#/components/schemas/ChildModel"
+                    },
                     type: "array"
                   }
                 }

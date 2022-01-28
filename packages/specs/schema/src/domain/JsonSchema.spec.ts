@@ -1068,7 +1068,8 @@ describe("JsonSchema", () => {
         }).toObject();
 
         expect(schema).toEqual({
-          enum: ["red", "amber", "green", null, 42]
+          enum: ["red", "amber", "green", null, 42],
+          type: ["null", "string", "number"]
         });
 
         const validate = new Ajv().compile(schema);
