@@ -419,7 +419,7 @@ import {Moment} from "moment";
 import {Property} from "@tsed/schema";
 
 export class Person {
- @Property(Date)
+ @Property(Date) // or @Property(String) + @DateTime()
  birthdate: Moment;
 }
 ```

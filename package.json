@@ -141,6 +141,7 @@
     "lint-staged": "10.5.4",
     "micromatch": "4.0.4",
     "mocha": "8.2.1",
+    "moment": "2.29.1",
     "nyc": "15.1.0",
     "prettier": "2.1.2",
     "proxyquire": "2.1.3",
