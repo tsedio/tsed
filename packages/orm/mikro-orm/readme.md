@@ -96,32 +96,32 @@ export class Server {}
 
 The `mikroOrm` options accepts the same configuration object as `init()` from the MikroORM package. Check [this page](https://mikro-orm.io/docs/configuration) for the complete configuration documentation.
 
-## Obtain a connection
+## Obtain ORM instance
 
-`@Connection` decorator lets you retrieve an instance of MikroOrm Connection.
+`@Orm` decorator lets you retrieve an instance of MikroOrm.
 
 ```typescript
 import {Injectable, AfterRoutesInit} from "@tsed/common";
-import {Connection} from "@tsed/mikro-orm";
+import {Orm} from "@tsed/mikro-orm";
 import {MikroORM} from "@mikro-orm/core";
 
 @Injectable()
 export class UsersService {
-  @Connection()
-  private readonly connection!: MikroORM;
+  @Orm()
+  private readonly orm!: MikroORM;
 
   async create(user: User): Promise<User> {
     // do something
     // ...
     // Then save
-    await this.connection.em.persistAndFlush(user);
+    await this.orm.em.persistAndFlush(user);
     console.log("Saved a new user with id: " + user.id);
 
     return user;
   }
 
   async find(): Promise<User[]> {
-    const users = await this.connection.em.find(User, {});
+    const users = await this.orm.em.find(User, {});
     console.log("Loaded users: ", users);
 
     return users;
@@ -129,15 +129,15 @@ export class UsersService {
 }
 ```
 
-It's also possible to inject a connection by his name:
+It's also possible to inject an ORM by a connection name:
 
 ```ts
 import {Injectable} from "@tsed/di";
 
 @Injectable()
 export class MyService {
-  @Connection("mongo")
-  private readonly connection!: MikroORM;
+  @Orm("mongo")
+  private readonly orm!: MikroORM;
 }
 ```
 
@@ -195,25 +195,24 @@ import {Entity, Property, PrimaryKey, Property as Column} from "@mikro-orm/core"
 
 @Entity()
 export class User {
-
   @PrimaryKey()
   @Property()
-  id: number;
+  id!: number;
 
   @Column()
   @MaxLength(100)
   @Required()
-  firstName: string;
+  firstName!: string;
 
   @Column()
   @MaxLength(100)
   @Required()
-  lastName: string;
+  lastName!: string;
 
   @Column()
   @Mininum(0)
   @Maximum(100)
-  age: number;
+  age!: number;
 }
 ```
 
@@ -229,7 +228,7 @@ import {Controller, Post, BodyParams, Inject, Post, Get} from "@tsed/common";
 @Controller("/users")
 export class UsersCtrl {
   @Inject()
-  private usersService: UsersService;
+  private readonly usersService!: UsersService;
 
   @Post("/")
   create(@BodyParams() user: User): Promise<User> {
@@ -258,7 +257,7 @@ import {Transactional} from "@tsed/mikro-orm";
 @Controller("/users")
 export class UsersCtrl {
   @Inject()
-  private usersService: UsersService;
+  private readonly usersService!: UsersService;
 
   @Post("/")
   @Transactional()
@@ -345,7 +344,7 @@ import {Transactional} from "@tsed/mikro-orm";
 @Controller("/users")
 export class UsersCtrl {
   @Inject()
-  private usersService: UsersService;
+  private readonly usersService!: UsersService;
 
   @Post("/")
   @Transactional({retry: true})
