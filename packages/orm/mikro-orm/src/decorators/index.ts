@@ -1,3 +1,3 @@
 export * from "./transactional";
-export * from "./connection";
+export * from "./orm";
 export * from "./entityManager";
