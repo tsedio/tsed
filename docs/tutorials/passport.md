@@ -99,7 +99,7 @@ Here is an example with the PassportLocal:
   
 <<< @/tutorials/snippets/passport/LoginLocalProtocol.spec.ts
 
-  </Tab>  
+  </Tab>
 </Tabs>  
 
 ::: tip
