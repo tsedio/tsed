@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {removeSync} from "fs-extra";
 import {join} from "path";
 import {generateJwks, getJwks} from "./getJwks";
@@ -13,7 +12,7 @@ describe("GetJwks", () => {
     it("should generate Jwks keys without certificates", async () => {
       const output = await generateJwks();
 
-      expect(output.keys.length).to.deep.eq(3);
+      expect(output.keys.length).toEqual(3);
     });
     it("should generateJwks keys from certificates", async () => {
       const output = await generateJwks({
@@ -25,7 +24,7 @@ describe("GetJwks", () => {
         ]
       });
 
-      expect(output).to.deep.eq({
+      expect(output).toEqual({
         keys: [
           {
             alg: "RS256",
@@ -55,7 +54,7 @@ describe("GetJwks", () => {
         path: join(rootDir, "generated", "keys.json")
       });
 
-      expect(output.keys.length).to.deep.eq(3);
+      expect(output.keys.length).toEqual(3);
     });
   });
 });

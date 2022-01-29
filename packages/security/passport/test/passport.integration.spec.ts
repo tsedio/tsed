@@ -1,7 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {rootDir, Server} from "./app/Server";
 
@@ -27,13 +26,13 @@ describe("Passport", () => {
       password: "admin@tsed.io"
     }).expect(200);
 
-    expect(response.body.email).to.equal("admin@tsed.io");
+    expect(response.body.email).toBe("admin@tsed.io");
   });
 
   it("should throw bad request", async () => {
     const response = await request.post("/auth/login").send({}).expect(400);
 
-    expect(response.body).to.deep.equal({
+    expect(response.body).toEqual({
       "name": "AuthenticationError",
       "message": "Bad Request",
       "status": 400,

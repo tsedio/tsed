@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {ParamTypes} from "@tsed/common";
 import {Arg, Args} from "./args";
 import {JsonParameterStore} from "@tsed/schema";
@@ -10,8 +9,8 @@ describe("@Args", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("PROTOCOL_ARGS");
-    expect(param.paramType).to.eq(ParamTypes.$CTX);
+    expect(param.expression).toBe("PROTOCOL_ARGS");
+    expect(param.paramType).toBe(ParamTypes.$CTX);
   });
 });
 
@@ -22,7 +21,7 @@ describe("@Arg", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("PROTOCOL_ARGS.0");
-    expect(param.paramType).to.eq(ParamTypes.$CTX);
+    expect(param.expression).toBe("PROTOCOL_ARGS.0");
+    expect(param.paramType).toBe(ParamTypes.$CTX);
   });
 });

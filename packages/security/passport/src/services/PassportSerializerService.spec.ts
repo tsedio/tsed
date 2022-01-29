@@ -1,5 +1,4 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import {PassportSerializerService, UserInfo} from "../index";
 
 describe("PassportSerializerService", () => {
@@ -17,7 +16,7 @@ describe("PassportSerializerService", () => {
 
       const result = await new Promise((resolve) => service.serialize(userInfo, (...args: any[]) => resolve(args)));
 
-      expect(result).to.deep.eq([null, '{"id":"id","email":"email@email.fr"}']);
+      expect(result).toEqual([null, '{"id":"id","email":"email@email.fr"}']);
     })
   );
 
@@ -28,7 +27,7 @@ describe("PassportSerializerService", () => {
         service.deserialize('{"id":"id","email":"email@email.fr"}', (...args: any[]) => resolve(args))
       );
 
-      expect(result).to.deep.eq([
+      expect(result).toEqual([
         null,
         {
           email: "email@email.fr",
@@ -45,7 +44,7 @@ describe("PassportSerializerService", () => {
         service.deserialize('{"id":"id","email":"email@email.fr}', (...args: any[]) => resolve(args))
       );
 
-      expect(result[0].message).to.deep.eq("Unexpected end of JSON input");
+      expect(result[0].message).toEqual("Unexpected end of JSON input");
     })
   );
 });
