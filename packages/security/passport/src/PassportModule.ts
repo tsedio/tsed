@@ -28,12 +28,13 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
     private passportSerializer: PassportSerializerService
   ) {}
 
-  $onInit(): Promise<any> | void {
+  async $onInit(): Promise<any> {
     Passport.serializeUser(this.passportSerializer.serialize.bind(this.passportSerializer));
     Passport.deserializeUser(this.passportSerializer.deserialize.bind(this.passportSerializer));
 
-    this.protocolsService.getProtocols().forEach((provider: Provider<any>) => this.protocolsService.invoke(provider));
+    const promises = this.protocolsService.getProtocols().map((provider: Provider) => this.protocolsService.invoke(provider));
 
+    await Promise.all(promises);
     return undefined;
   }
 
