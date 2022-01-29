@@ -17,7 +17,7 @@ module.exports = () => ({
     "packages/orm/**/*.spec.ts",
     "packages/graphql/**/*.spec.ts",
     "packages/utils/**/*.spec.ts",
-    "packages/security/oidc-provider/**/*.spec.ts",
+    "packages/security/**/*.spec.ts",
     "packages/specs/schema/**/*.spec.ts",
     "packages/platform/platform-serverless/**/*.spec.ts",
     "packages/platform/platform-serverless-http/**/*.spec.ts",

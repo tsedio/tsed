@@ -41,7 +41,9 @@ module.exports = (rootDir) => ({
     "^@tsed/mongoose$": fixPath(join(packageDir, "orm/mongoose/src")),
     "^@tsed/adapters-redis$": fixPath(join(packageDir, "orm/adapters-redis/src")),
     "^@tsed/schema-formio$": fixPath(join(packageDir, "third-parties/schema-formio/src")),
-    "^@tsed/components-scan$": fixPath(join(packageDir, "utils/components-scan/src"))
+    "^@tsed/components-scan$": fixPath(join(packageDir, "utils/components-scan/src")),
+    "^@tsed/passport$": fixPath(join(packageDir, "security/passport/src")),
+    "^@tsed/jwk$": fixPath(join(packageDir, "security/jwk/src"))
   },
   modulePathIgnorePatterns: ["<rootDir>/lib", "<rootDir>/dist"],
   // An object that configures minimum threshold enforcement for coverage results
