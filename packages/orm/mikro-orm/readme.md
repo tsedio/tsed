@@ -33,13 +33,13 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/mikro-orm
 
 Currently, `@tsed/mikro-orm` allows you:
 
-- Configure one or more MikroOrm instances via the `@Configuration` decorator. All databases will be initialized
+- Configure one or more MikroORM instances via the `@Configuration` decorator. All databases will be initialized
   when the server starts during the server's `OnInit` phase.
-- Use the Entity MikroOrm as Model for Controllers, AJV Validation and Swagger.
+- Use the Entity MikroORM as Model for Controllers, AJV Validation and Swagger.
 
 ## Installation
 
-To begin, install the MikroOrm module for TS.ED:
+To begin, install the MikroORM module for TS.ED:
 
 <Tabs class="-code">
   <Tab label="NPM">
@@ -98,7 +98,7 @@ The `mikroOrm` options accepts the same configuration object as `init()` from th
 
 ## Obtain ORM instance
 
-`@Orm` decorator lets you retrieve an instance of MikroOrm.
+`@Orm` decorator lets you retrieve an instance of MikroORM.
 
 ```typescript
 import {Injectable, AfterRoutesInit} from "@tsed/common";
@@ -148,7 +148,7 @@ export class MyService {
 ```typescript
 import {Injectable, AfterRoutesInit} from "@tsed/common";
 import {Em} from "@tsed/mikro-orm";
-import {EntityManager} from '@mikro-orm/mysql'; // Import EntityManager from your driver package or `@mikro-orm/knex`
+import {EntityManager} from "@mikro-orm/mysql"; // Import EntityManager from your driver package or `@mikro-orm/knex`
 
 @Injectable()
 export class UsersService {
@@ -169,7 +169,7 @@ It's also possible to inject Entity manager by his context name:
 ```typescript
 import {Injectable, AfterRoutesInit} from "@tsed/common";
 import {Em} from "@tsed/mikro-orm";
-import {EntityManager} from '@mikro-orm/mysql'; // Import EntityManager from your driver package or `@mikro-orm/knex`
+import {EntityManager} from "@mikro-orm/mysql"; // Import EntityManager from your driver package or `@mikro-orm/knex`
 
 @Injectable()
 export class UsersService {
@@ -187,7 +187,7 @@ export class UsersService {
 
 ## Use Entity with Controller
 
-To begin, we need to define an Entity MikroOrm like this and use Ts.ED Decorator to define the JSON Schema.
+To begin, we need to define an Entity MikroORM like this and use Ts.ED Decorator to define the JSON Schema.
 
 ```typescript
 import {Property, MaxLength, Required} from "@tsed/common";
@@ -218,7 +218,7 @@ export class User {
 
 Now, the model is correctly defined and can be used with a [Controller](https://tsed.io/docs/controllers.html)
 , [AJV validation](tutorials/ajv.md),
-[Swagger](tutorials/swagger.md) and [MikroOrm](https://mikro-orm.io/docs/defining-entities).
+[Swagger](tutorials/swagger.md) and [MikroORM](https://mikro-orm.io/docs/defining-entities).
 
 We can use this model with a Controller like that:
 
@@ -277,8 +277,8 @@ By default, the automatic retry policy is disabled. You can implement your own t
 The `@Transactional()` decorator allows you to enable a retry policy for the particular resources. You just need to implement the `RetryStrategy` interface and use `registerProvider()` or `@OverrideProvider()` to register it in the IoC container. Below you can find an example to handle occurred optimistic locks based on [an exponential backoff retry strategy](https://en.wikipedia.org/wiki/Exponential_backoff).
 
 ```ts
-import { OptimisticLockError } from '@mikro-orm/core';
-import { RetryStrategy } from '@tsed/mikro-orm';
+import {OptimisticLockError} from "@mikro-orm/core";
+import {RetryStrategy} from "@tsed/mikro-orm";
 
 export interface ExponentialBackoffOptions {
   maxDepth: number;
@@ -289,16 +289,11 @@ export class ExponentialBackoff implements RetryStrategy {
 
   constructor(private readonly options: ExponentialBackoffOptions) {}
 
-  public async acquire<T extends (...args: unknown[]) => unknown>(
-    task: T
-  ): Promise<ReturnType<T>> {
+  public async acquire<T extends (...args: unknown[]) => unknown>(task: T): Promise<ReturnType<T>> {
     try {
       return (await task()) as ReturnType<T>;
     } catch (e) {
-      if (
-        this.shouldRetry(e as Error) &&
-        this.depth < this.options.maxDepth
-      ) {
+      if (this.shouldRetry(e as Error) && this.depth < this.options.maxDepth) {
         return this.retry(task);
       }
 
@@ -310,9 +305,7 @@ export class ExponentialBackoff implements RetryStrategy {
     return error instanceof OptimisticLockError;
   }
 
-  private async retry<T extends (...args: unknown[]) => unknown>(
-    task: T
-  ): Promise<ReturnType<T>> {
+  private async retry<T extends (...args: unknown[]) => unknown>(task: T): Promise<ReturnType<T>> {
     await this.sleep(2 ** this.depth * 50);
 
     this.depth += 1;
@@ -321,14 +314,14 @@ export class ExponentialBackoff implements RetryStrategy {
   }
 
   private sleep(milliseconds: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
   }
 }
 
 registerProvider({
   provide: RetryStrategy,
   useFactory(): ExponentialBackoff {
-    return new ExponentialBackoff({maxDepth: 3})
+    return new ExponentialBackoff({maxDepth: 3});
   }
 });
 ```
