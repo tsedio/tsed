@@ -27,13 +27,13 @@ export class MikroOrmModule implements OnDestroy, OnInit {
   private readonly mikroOrmRegistry!: MikroOrmRegistry;
 
   public async $onInit(): Promise<void> {
-    const promises = this.settings.map((opts) => this.mikroOrmRegistry.createConnection(opts));
+    const promises = this.settings.map((opts) => this.mikroOrmRegistry.register(opts));
 
     await Promise.all(promises);
   }
 
   public $onDestroy(): Promise<void> {
-    return this.mikroOrmRegistry.closeConnections();
+    return this.mikroOrmRegistry.clear();
   }
 }
 

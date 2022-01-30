@@ -4,8 +4,12 @@ import {EntityManager} from "@mikro-orm/core";
 import {Logger} from "@tsed/logger";
 
 export interface TransactionOptions {
-  connectionName?: string;
   retry?: boolean;
+  contextName?: string;
+  /**
+   * @deprecated Since 2022-02-01. Use {@link contextName} instead
+   */
+  connectionName?: string;
 }
 
 @Interceptor()
@@ -25,13 +29,13 @@ export class TransactionalInterceptor implements InterceptorMethods {
       this.logger.warn(`To retry a transaction you have to implement a "${RetryStrategy.description}" interface`);
     }
 
-    const ctx = this.context.getContext();
+    const ctx = this.context.entries();
 
     if (!ctx) {
       return this.runWithinNewCtx(next, options);
     }
 
-    if (ctx.has(options.connectionName!)) {
+    if (ctx.has(options.contextName!)) {
       return next();
     }
 
@@ -45,12 +49,19 @@ export class TransactionalInterceptor implements InterceptorMethods {
   }
 
   private runUnderCtx(next: InterceptorNext, ctx: Map<string, EntityManager>, options: TransactionOptions): Promise<unknown> | unknown {
-    const orm = this.registry.get(options.connectionName);
+    const orm = this.registry.get(options.contextName);
+
+    if (!orm) {
+      throw new Error(
+        `No such context: ${options.contextName}. Please register a corresponding MikroOrm instance using '@Configuration()' decorator.`
+      );
+    }
+
     const em = orm.em.fork(true, true);
 
     ctx.set(em.name, em);
 
-    const runInTransaction = () => this.executeInTransaction(options.connectionName!, next);
+    const runInTransaction = () => this.executeInTransaction(options.contextName!, next);
 
     return this.context.run(ctx, () => (options.retry ? this.retryStrategy?.acquire(runInTransaction) : runInTransaction()));
   }
@@ -58,29 +69,29 @@ export class TransactionalInterceptor implements InterceptorMethods {
   private extractContextName(context: InterceptorContext<unknown>): TransactionOptions {
     const options = context.options || ({} as Partial<TransactionOptions> | string);
 
-    let connectionName: string | undefined;
+    let contextName: string | undefined;
     let retry: boolean | undefined;
 
     if (typeof options === "string") {
-      connectionName = options;
+      contextName = options;
     } else if (options) {
-      connectionName = options.connectionName;
+      contextName = options.contextName ?? options.connectionName;
       retry = options.retry;
     }
 
-    if (!connectionName) {
-      connectionName = "default";
+    if (!contextName) {
+      contextName = "default";
     }
 
     if (!retry) {
       retry = false;
     }
 
-    return {connectionName, retry};
+    return {contextName, retry};
   }
 
-  private async executeInTransaction(connectionName: string, next: InterceptorNext): Promise<unknown> {
-    const em = this.context.get(connectionName);
+  private async executeInTransaction(contextName: string, next: InterceptorNext): Promise<unknown> {
+    const em = this.context.get(contextName);
 
     const result = await next();
 

@@ -48,6 +48,20 @@ describe("TransactionalInterceptor", () => {
       verify(entityManagerMock.flush()).once();
     });
 
+    it("should throw an error if no such context", async () => {
+      // arrange
+      const transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext, instance(loggerMock));
+      const context = {} as InterceptorContext;
+
+      when(mikroOrmRegistryMock.get(anything())).thenReturn();
+
+      // act
+      const result = transactionalInterceptor.intercept(context, next);
+
+      // assert
+      await expect(result).rejects.toThrow("No such context");
+    });
+
     it("should throw an optimistic lock exception immediately if no retry strategy", async () => {
       // arrange
       const transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext, instance(loggerMock));
@@ -113,7 +127,7 @@ describe("TransactionalInterceptor", () => {
 
       const spiedDbContext = spy(dbContext);
 
-      when(spiedDbContext.getContext()).thenReturn(existingCtx);
+      when(spiedDbContext.entries()).thenReturn(existingCtx);
 
       // act
       await transactionalInterceptor.intercept(context, next);
@@ -124,7 +138,7 @@ describe("TransactionalInterceptor", () => {
       verify(entityManagerMock.flush()).never();
     });
 
-    it("should run under existing context using different connection", async () => {
+    it("should run under existing context using different context", async () => {
       // arrange
       const transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext, instance(loggerMock));
       const existingCtx = new Map([["default", instance(entityManagerMock)]]);
@@ -134,7 +148,7 @@ describe("TransactionalInterceptor", () => {
 
       const spiedDbContext = spy(dbContext);
 
-      when(spiedDbContext.getContext()).thenReturn(existingCtx);
+      when(spiedDbContext.entries()).thenReturn(existingCtx);
       when(mikroOrmRegistryMock.get("mydb")).thenReturn(instance(mikroOrm));
       when(entityManagerMock.name).thenReturn("mydb");
 

@@ -28,20 +28,24 @@ describe("MikroOrmRegistry", () => {
 
   Object.values(fixtures).forEach((options: Options) => when(mikroOrmFactoryMock.create(options)).thenResolve(instance(mikroOrm)));
 
-  const mikroOrmRegistry = new MikroOrmRegistry(instance(loggerMock), instance(mikroOrmFactoryMock));
+  let mikroOrmRegistry!: MikroOrmRegistry;
 
-  beforeEach(() => reset<MikroORM | MikroOrmFactory>(mikroOrmFactoryMock, mikroOrm));
+  beforeEach(() => {
+    mikroOrmRegistry = new MikroOrmRegistry(instance(loggerMock), instance(mikroOrmFactoryMock));
+  });
 
-  describe("createConnection", () => {
-    it("should create connections", async () => {
+  afterEach(() => reset<MikroORM | MikroOrmFactory>(mikroOrmFactoryMock, mikroOrm));
+
+  describe("register", () => {
+    it("should register instances", async () => {
       // arrange
       Object.values(fixtures).forEach((options: Options) => when(mikroOrmFactoryMock.create(options)).thenResolve(instance(mikroOrm)));
 
       // act
-      const result1 = await mikroOrmRegistry.createConnection(fixtures.mydb);
-      const result2 = await mikroOrmRegistry.createConnection(fixtures.mydb);
-      const result3 = await mikroOrmRegistry.createConnection(fixtures.none);
-      const result4 = await mikroOrmRegistry.createConnection(fixtures.mydb2);
+      const result1 = await mikroOrmRegistry.register(fixtures.mydb);
+      const result2 = await mikroOrmRegistry.register(fixtures.mydb);
+      const result3 = await mikroOrmRegistry.register(fixtures.none);
+      const result4 = await mikroOrmRegistry.register(fixtures.mydb2);
 
       // assert
       expect(result1).toEqual(mikroOrmRegistry.get("mydb"));
@@ -50,25 +54,30 @@ describe("MikroOrmRegistry", () => {
       expect(result4).toEqual(mikroOrmRegistry.get("mydb2"));
       verify(mikroOrmFactoryMock.create(anything())).thrice();
     });
+  });
 
-    it("should close all connections", async () => {
+  describe("clear", () => {
+    it("should dispose all instances", async () => {
       // arrange
       when(mikroOrm.isConnected()).thenResolve(true);
+      Object.values(fixtures).forEach((options: Options) => when(mikroOrmFactoryMock.create(options)).thenResolve(instance(mikroOrm)));
+      await mikroOrmRegistry.register(fixtures.none);
+      await mikroOrmRegistry.register(fixtures.mydb2);
 
       // act
-      await mikroOrmRegistry.closeConnections();
+      await mikroOrmRegistry.clear();
 
       // assert
-      verify(mikroOrm.close(anything())).thrice();
+      verify(mikroOrm.close(anything())).twice();
     });
   });
 
   describe("get", () => {
-    it("should return corresponded connections", async () => {
+    it("should return corresponded instances", async () => {
       // arrange
       Object.values(fixtures).forEach((options: Options) => when(mikroOrmFactoryMock.create(options)).thenResolve(instance(mikroOrm)));
-      const defaultConnection = await mikroOrmRegistry.createConnection(fixtures.none);
-      const customConnection = await mikroOrmRegistry.createConnection(fixtures.mydb);
+      const none = await mikroOrmRegistry.register(fixtures.none);
+      const mydb = await mikroOrmRegistry.register(fixtures.mydb);
 
       // act
       const result1 = mikroOrmRegistry.get();
@@ -76,18 +85,18 @@ describe("MikroOrmRegistry", () => {
       const result3 = mikroOrmRegistry.get("mydb");
 
       // assert
-      expect(result1).toEqual(defaultConnection);
-      expect(result2).toEqual(defaultConnection);
-      expect(result3).toEqual(customConnection);
+      expect(result1).toEqual(none);
+      expect(result2).toEqual(none);
+      expect(result3).toEqual(mydb);
     });
   });
 
   describe("has", () => {
-    it("should return corresponded connections existence", async () => {
+    it("should return corresponded instances existence", async () => {
       // arrange
       Object.values(fixtures).forEach((options: Options) => when(mikroOrmFactoryMock.create(options)).thenResolve(instance(mikroOrm)));
-      await mikroOrmRegistry.createConnection(fixtures.none);
-      await mikroOrmRegistry.createConnection(fixtures.mydb);
+      await mikroOrmRegistry.register(fixtures.none);
+      await mikroOrmRegistry.register(fixtures.mydb);
 
       // act & assert
       expect(mikroOrmRegistry.has()).toBeTruthy();

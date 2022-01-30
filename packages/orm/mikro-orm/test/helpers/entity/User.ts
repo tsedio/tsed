@@ -7,4 +7,7 @@ export class User {
   @PrimaryKey()
   @Property()
   _id!: ObjectId;
+
+  @Property()
+  email!: string;
 }

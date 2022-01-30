@@ -6,49 +6,62 @@ import {Logger} from "@tsed/logger";
 
 @Injectable()
 export class MikroOrmRegistry {
-  private readonly connections = new Map<string, MikroORM>();
+  private readonly instances = new Map<string, MikroORM>();
 
   constructor(@Inject() private readonly logger: Logger, @Inject() private readonly mikroOrmFactory: MikroOrmFactory) {}
 
-  public async createConnection<T extends DatabaseDriver>(connectionOptions: Options<T>): Promise<MikroORM> {
-    const connectionName = getValue<string>(connectionOptions, "contextName", "default");
+  public async register<T extends DatabaseDriver>(options: Options<T>): Promise<MikroORM> {
+    const contextName = getValue<string>(options, "contextName", "default");
 
-    if (this.has(connectionName)) {
-      return this.get(connectionName);
+    if (this.has(contextName)) {
+      return this.get(contextName)!;
     }
 
-    this.logger.info(`Create connection with MikroOrm to database: %s`, connectionName);
-    this.logger.debug(`options: %j`, connectionOptions);
+    this.logger.info(`Create connection with MikroOrm to database: %s`, contextName);
+    this.logger.debug(`options: %j`, options);
 
-    const connection = await this.mikroOrmFactory.create(connectionOptions);
+    const instance = await this.mikroOrmFactory.create(options);
 
-    this.connections.set(connectionName, connection);
+    this.instances.set(contextName, instance);
 
-    this.logger.info(`Connected with MikroOrm to database: %s`, connectionName);
+    this.logger.info(`Connected with MikroOrm to database: %s`, contextName);
 
-    return connection;
+    return instance;
   }
 
-  public get(id: string = "default"): MikroORM {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    return this.connections.get(id)!;
+  /**
+   * @deprecated Since 2022-02-01. Use {@link register} instead
+   */
+  public createConnection<T extends DatabaseDriver>(options: Options<T>): Promise<MikroORM> {
+    return this.register(options);
   }
 
-  public has(id: string = "default"): boolean {
-    return this.connections.has(id);
+  public get(contextName: string = "default"): MikroORM | undefined {
+    return this.instances.get(contextName);
   }
 
-  public async closeConnections(): Promise<void> {
-    const connections = [...this.connections.values()];
-
-    await Promise.all(connections.map((connection: MikroORM) => catchAsyncError(() => this.dispose(connection))));
-
-    this.connections.clear();
+  public has(contextName: string = "default"): boolean {
+    return this.instances.has(contextName);
   }
 
-  private async dispose(connection: MikroORM): Promise<void> {
-    if (await connection.isConnected()) {
-      await connection.close(false);
+  public async clear(): Promise<void> {
+    const instances = [...this.instances.values()];
+
+    await Promise.all(instances.map((instance: MikroORM) => catchAsyncError(() => this.dispose(instance))));
+
+    this.instances.clear();
+  }
+
+  /**
+   * @deprecated Since 2022-02-01. Use {@link clear} instead
+   */
+  public closeConnections(): Promise<void> {
+    return this.clear();
+  }
+
+  private async dispose(instance: MikroORM): Promise<void> {
+    if (await instance.isConnected()) {
+      await instance.close(false);
     }
   }
 }
