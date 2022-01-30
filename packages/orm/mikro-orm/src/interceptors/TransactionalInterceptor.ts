@@ -57,7 +57,21 @@ export class TransactionalInterceptor implements InterceptorMethods {
       );
     }
 
-    const em = orm.em.fork(true, true);
+    /**
+     * The fork method signature has been changed since v5.x,
+     * which might lead to unexpected behavior while using the @Transactional() decorator.
+     *
+     * ```diff
+     * - fork(clear = true, useContext = false): D[typeof EntityManagerType]
+     * + fork(options: ForkOptions = {}): D[typeof EntityManagerType] {
+     * ```
+     *
+     * To ensure backward compatibility with v4.x and add support for v5.x, provided the following workaround:
+     */
+    const em = (orm.em.fork as (
+      clearOrForkOptions?: boolean | {clear?: boolean; useContext?: boolean},
+      useContext?: boolean
+    ) => EntityManager)({clear: true, useContext: true}, true);
 
     ctx.set(em.name, em);
 
