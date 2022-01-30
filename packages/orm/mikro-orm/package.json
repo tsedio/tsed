@@ -1,6 +1,6 @@
 {
   "name": "@tsed/mikro-orm",
-  "version": "6.99.0",
+  "version": "6.100.0",
   "description": "MikroORM package for Ts.ED framework",
   "private": false,
   "source": "./src/index.ts",
@@ -24,20 +24,20 @@
   "devDependencies": {
     "@mikro-orm/core": "^4.5.9",
     "@mikro-orm/mongodb": "^4.5.9",
-    "@tsed/common": "6.99.0",
-    "@tsed/core": "6.99.0",
-    "@tsed/di": "6.99.0",
-    "@tsed/json-mapper": "6.99.0",
+    "@tsed/common": "6.100.0",
+    "@tsed/core": "6.100.0",
+    "@tsed/di": "6.100.0",
+    "@tsed/json-mapper": "6.100.0",
     "@tsed/logger": "^6.0.0",
-    "@tsed/schema": "6.99.0",
-    "@tsed/testing-mongoose": "6.99.0",
+    "@tsed/schema": "6.100.0",
+    "@tsed/testing-mongoose": "6.100.0",
     "ts-mockito": "^2.6.1"
   },
   "peerDependencies": {
     "@mikro-orm/core": ">=4.5.9",
-    "@tsed/common": "^6.99.0",
-    "@tsed/core": "^6.99.0",
-    "@tsed/di": "^6.99.0",
+    "@tsed/common": "^6.100.0",
+    "@tsed/core": "^6.100.0",
+    "@tsed/di": "^6.100.0",
     "@tsed/logger": "^6.0.0"
   }
 }
