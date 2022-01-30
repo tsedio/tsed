@@ -1,5 +1,8 @@
-dist
 docs
 node_modules
+**/lib
+**/dist
+**/coverage
+**/node_modules
 *-lock.json
 *.lock

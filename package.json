@@ -52,13 +52,8 @@
     "release": "semantic-release",
     "release:dryRun": "semantic-release --dry-run",
     "benchmarks": "lerna run benchmarks --stream --no-prefix",
-    "benchmarks:tsed": "cross-env LIBS=tsed,express lerna run benchmarks --stream --no-prefix"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "post-commit": "git update-index --again"
-    }
+    "benchmarks:tsed": "cross-env LIBS=tsed,express lerna run benchmarks --stream --no-prefix",
+    "prepare": "is-ci || husky install"
   },
   "keywords": [
     "Express",
@@ -97,16 +92,18 @@
   ],
   "dependencies": {
     "@tsed/logger": "^6.0.0",
-    "axios": "0.21.1",
     "ajv": "8.9.0",
+    "axios": "0.21.1",
     "change-case": "4.1.2",
     "globby": "11.0.3",
     "lerna": "4.0.0",
-    "uuid": "8.3.2",
     "microbundle": "0.13.0",
-    "source-map-support": "0.5.19"
+    "source-map-support": "0.5.19",
+    "uuid": "8.3.2"
   },
   "devDependencies": {
+    "@commitlint/cli": "^16.1.0",
+    "@commitlint/config-conventional": "^16.0.0",
     "@tsed/monorepo-utils": "1.19.5",
     "@tsed/ts-doc": "4.0.14",
     "@types/axios": "0.14.0",
@@ -134,11 +131,12 @@
     "eslint-config-prettier": "6.12.0",
     "eslint-plugin-mocha": "8.0.0",
     "eslint-plugin-prettier": "3.1.4",
-    "jest": "^27.2.0",
     "faker": "^5.1.0",
     "fs-extra": "9.0.1",
-    "husky": "4.3.0",
-    "lint-staged": "10.5.4",
+    "husky": "^7.0.4",
+    "is-ci": "^3.0.1",
+    "jest": "^27.2.0",
+    "lint-staged": "^12.3.2",
     "micromatch": "4.0.4",
     "mocha": "8.2.1",
     "moment": "2.29.1",
