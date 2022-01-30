@@ -1,7 +1,7 @@
 import {Injectable} from "@tsed/di";
 import {EntityManager, MikroORM} from "@mikro-orm/core";
 import {Orm, Em, Transactional} from "../../../src";
-import {User} from '../entity/User';
+import {User} from "../entity/User";
 
 @Injectable()
 export class UserService {
@@ -27,7 +27,7 @@ export class UserService {
   em3!: EntityManager;
 
   @Transactional()
-  async create(data: { email: string }): Promise<User> {
+  async create(data: {email: string}): Promise<User> {
     return this.orm.em.create(User, data);
   }
 }
