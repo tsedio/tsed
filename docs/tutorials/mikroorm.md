@@ -14,7 +14,7 @@ meta:
 
 Currently, `@tsed/mikro-orm` allows you:
 
-- Configure one or more MikroORM connections via the `@Configuration` decorator. All databases will be initialized when
+- Configure one or more MikroORM instances via the `@Configuration` decorator. All databases will be initialized when
   the server starts during the server's `OnInit` phase.
 - Use the Entity MikroORM as Model for Controllers, AJV Validation and Swagger.
 
@@ -110,7 +110,7 @@ export class UsersService {
 }
 ```
 
-It's also possible to inject an ORM by a connection name:
+It's also possible to inject an ORM by its context name:
 
 ```ts
 import {Injectable} from "@tsed/di";
@@ -145,7 +145,7 @@ export class UsersService {
 }
 ```
 
-It's also possible to inject Entity manager by his connection name:
+It's also possible to inject Entity manager by his context name:
 
 ```typescript
 import {Injectable, AfterRoutesInit} from "@tsed/common";
@@ -154,7 +154,7 @@ import {EntityManager} from '@mikro-orm/mysql'; // Import EntityManager from you
 
 @Injectable()
 export class UsersService {
-  @Em("connectionName")
+  @Em("contextName")
   private readonly em!: EntityManager;
 
   async create(user: User): Promise<User> {

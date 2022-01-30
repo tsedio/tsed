@@ -2,17 +2,17 @@ import {Inject} from "@tsed/di";
 import {MikroOrmRegistry} from "../services";
 
 /**
- * Get the entity manager for the given connection name.
- * @param connectionName
+ * Get the entity manager for the given context name.
+ * @param {String} contextName
  * @decorator
  * @mikroOrm
  */
-export const EntityManager = (connectionName?: string): PropertyDecorator =>
-  Inject(MikroOrmRegistry, (registry: MikroOrmRegistry) => registry.get(connectionName)?.em) as PropertyDecorator;
+export const EntityManager = (contextName?: string): PropertyDecorator =>
+  Inject(MikroOrmRegistry, (registry: MikroOrmRegistry) => registry.get(contextName)?.em) as PropertyDecorator;
 
 /**
- * Get the entity manager for the given connection name.
- * @param connectionName
+ * Get the entity manager for the given context name.
+ * @param {String} connectionName
  * @decorator
  * @mikroOrm
  */

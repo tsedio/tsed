@@ -7,9 +7,9 @@ export class MikroOrmFactory {
   @Inject()
   private readonly dbContext!: DBContext;
 
-  public create(connectionOptions: Options): Promise<MikroORM> {
+  public create(options: Options): Promise<MikroORM> {
     return MikroORM.init({
-      ...connectionOptions,
+      ...options,
       context: (name: string) => this.dbContext.get(name)
     });
   }
