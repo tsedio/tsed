@@ -8,7 +8,9 @@ import {EntityManager, MikroORM, OptimisticLockError} from "@mikro-orm/core";
 describe("TransactionalInterceptor", () => {
   const mikroOrmRegistryMock = mock<MikroOrmRegistry>();
   const mikroOrm = mock(MikroORM);
-  const entityManagerMock = mock(EntityManager);
+  const entityManagerMock: EntityManager & {
+    fork(clearOrForkOptions?: boolean | {clear?: boolean; useContext?: boolean}, useContext?: boolean): EntityManager;
+  } = mock(EntityManager);
   const loggerMock = mock<Logger>();
   const retryStrategyMock = mock<RetryStrategy>();
   const dbContext = new DBContext();
