@@ -1,4 +1,4 @@
-import {Groups, Property} from "@tsed/schema";
+import {CollectionOf, Groups, Property} from "@tsed/schema";
 import {expect} from "chai";
 import {deserialize, serialize} from "../../src";
 
@@ -14,6 +14,10 @@ class Product {
 
   @Groups("group.extended")
   description: string;
+
+  @CollectionOf(String)
+  @Groups("creation")
+  tags: string[];
 }
 
 describe("Groups", () => {
@@ -58,7 +62,7 @@ describe("Groups", () => {
         "label": "label"
       });
     });
-    it("should deserialize object  with groups restriction (groups.summary)", () => {
+    it("should deserialize object with groups restriction (groups.summary)", () => {
       const product = deserialize({
         id: "id",
         label: "label",
@@ -72,7 +76,7 @@ describe("Groups", () => {
         price: 100
       });
     });
-    it("should deserialize object  with groups restriction (group.*)", () => {
+    it("should deserialize object with groups restriction (group.*)", () => {
       const product = deserialize({
         id: "id",
         label: "label",
@@ -86,6 +90,21 @@ describe("Groups", () => {
         price: 100,
         description: "description"
       });
+    });
+    it("should deserialize object without array data (update)", () => {
+      class CustomRequest {
+        @CollectionOf(String)
+        @Groups("creation")
+        a?: string[];
+
+        @Groups("creation")
+        b?: string;
+      }
+
+      const req = {a: 'a', b: 'b'}
+
+      const res = deserialize(req, { type: CustomRequest, groups: ["update"] });
+      expect(res).to.deep.eq({})
     });
   });
   describe("serialize", () => {
