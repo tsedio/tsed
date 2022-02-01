@@ -129,12 +129,10 @@ export class ApolloService {
   }
 
   private getPlugins(serverSettings: ApolloSettings): any[] {
-    const playground = serverSettings.playground || serverSettings.playground === undefined;
+    const playground = serverSettings.playground || (serverSettings.playground === undefined && process.env.NODE_ENV !== "production");
 
     return [
-      playground && process.env.NODE_ENV === "production"
-        ? ApolloServerPluginLandingPageDisabled()
-        : ApolloServerPluginLandingPageGraphQLPlayground(),
+      playground ? ApolloServerPluginLandingPageDisabled() : ApolloServerPluginLandingPageGraphQLPlayground(),
       this.httpServer &&
         ApolloServerPluginDrainHttpServer({
           httpServer: this.httpServer
