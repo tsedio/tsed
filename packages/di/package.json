@@ -1,6 +1,6 @@
 {
   "name": "@tsed/di",
-  "version": "6.100.3",
+  "version": "6.101.0",
   "description": "DI module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -18,8 +18,8 @@
     "build:esm": "tsc --build tsconfig.compile.esm.json"
   },
   "dependencies": {
-    "@tsed/core": "6.100.3",
-    "@tsed/schema": "6.100.3",
+    "@tsed/core": "6.101.0",
+    "@tsed/schema": "6.101.0",
     "tslib": "2.2.0"
   },
   "devDependencies": {
