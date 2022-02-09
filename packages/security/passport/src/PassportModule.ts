@@ -16,6 +16,9 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
   @Constant("passport.pauseStream")
   pauseStream: boolean;
 
+  @Constant("passport.disableSession", false)
+  disableSession: boolean;
+
   @Constant("PLATFORM_NAME")
   platformName: string;
 
@@ -43,7 +46,7 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
     switch (this.platformName) {
       case "express":
         this.app.use(Passport.initialize({userProperty}));
-        this.app.use(Passport.session({pauseStream}));
+        !this.disableSession && this.app.use(Passport.session({pauseStream}));
 
         return;
 

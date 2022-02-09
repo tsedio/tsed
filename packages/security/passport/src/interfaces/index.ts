@@ -1,4 +1,5 @@
 import {Type} from "@tsed/core";
+import {PassportStatic} from "passport";
 import {ProtocolOptions} from "./ProtocolOptions";
 
 declare global {
@@ -7,7 +8,9 @@ declare global {
       passport: {
         userProperty?: string;
         pauseStream?: string;
+        disableSession?: boolean;
         userInfoModel?: Type<any> | false;
+        module?: PassportStatic;
         protocols?: {
           [protocolName: string]: Partial<ProtocolOptions>;
         };
