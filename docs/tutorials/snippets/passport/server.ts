@@ -18,6 +18,9 @@ const rootDir = __dirname;
      * Set a custom user info model. By default Ts.ED use UserInfo. Set false to disable Ts.ED json-mapper.
      */
     // userInfoModel: CustomUserInfoModel
+    // userProperty: string,
+    // pauseStream: string,
+    // disableSession: boolean
   }
 })
 export class Server {
