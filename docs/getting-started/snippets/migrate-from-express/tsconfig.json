@@ -3,14 +3,8 @@
     "baseUrl": ".",
     "outDir": "./dist",
     "target": "es2018",
-    "lib": [
-      "es7",
-      "dom",
-      "esnext.asynciterable"
-    ],
-    "typeRoots": [
-      "./node_modules/@types"
-    ],
+    "lib": ["es7", "dom", "esnext.asynciterable"],
+    "typeRoots": ["./node_modules/@types"],
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -20,13 +14,6 @@
     "allowSyntheticDefaultImports": true,
     "allowJs": true
   },
-  "include": [
-    "./src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "./public",
-    "dist",
-    "test"
-  ]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules", "./public", "dist", "test"]
 }

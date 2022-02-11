@@ -1,10 +1,9 @@
 import {Required, CollectionOf} from "@tsed/schema";
 import {Model, ObjectID} from "@tsed/mongoose";
 
-
 @Model()
 export class Customer {
-  @ObjectID('id')
+  @ObjectID("id")
   _id: string;
 
   @Property()
@@ -17,15 +16,12 @@ export class Customer {
 
 @Model()
 export class Contract {
-  
-  @ObjectID('id')
+  @ObjectID("id")
   _id: string;
 
   @Ref(() => Customer)
-  customer: Ref<Customer>
+  customer: Ref<Customer>;
 
   @Required()
   contractName: string;
-
 }
-

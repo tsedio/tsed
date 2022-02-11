@@ -78,244 +78,232 @@ describe("Array Body", () => {
       const {body} = await request.get("/v3/docs/swagger.json").expect(200);
 
       expect(body).to.deep.eq({
-        "components": {
-          "schemas": {
-            "MyModel": {
-              "properties": {
-                "test": {
-                  "type": "string"
+        components: {
+          schemas: {
+            MyModel: {
+              properties: {
+                test: {
+                  type: "string"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           }
         },
-        "info": {
-          "title": "Api documentation",
-          "version": "1.0.0"
+        info: {
+          title: "Api documentation",
+          version: "1.0.0"
         },
-        "openapi": "3.0.1",
-        "paths": {
+        openapi: "3.0.1",
+        paths: {
           "/rest/array/1": {
-            "post": {
-              "operationId": "testArrayBodyCtrlScenario1",
-              "parameters": [],
-              "requestBody": {
-                "content": {
+            post: {
+              operationId: "testArrayBodyCtrlScenario1",
+              parameters: [],
+              requestBody: {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "items": {
-                        "nullable": true,
-                        "oneOf": [
+                    schema: {
+                      items: {
+                        nullable: true,
+                        oneOf: [
                           {
-                            "type": "integer"
+                            type: "integer"
                           },
                           {
-                            "type": "number"
+                            type: "number"
                           },
                           {
-                            "type": "string"
+                            type: "string"
                           },
                           {
-                            "type": "boolean"
+                            type: "boolean"
                           },
                           {
-                            "type": "array"
+                            type: "array"
                           },
                           {
-                            "type": "object"
+                            type: "object"
                           }
                         ]
                       },
-                      "type": "array"
+                      type: "array"
                     }
                   }
                 },
-                "required": false
+                required: false
               },
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "TestArrayBodyCtrl"
-              ]
+              tags: ["TestArrayBodyCtrl"]
             }
           },
           "/rest/array/2": {
-            "post": {
-              "operationId": "testArrayBodyCtrlScenario2",
-              "parameters": [],
-              "requestBody": {
-                "content": {
+            post: {
+              operationId: "testArrayBodyCtrlScenario2",
+              parameters: [],
+              requestBody: {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "items": {
-                        "nullable": true,
-                        "oneOf": [
+                    schema: {
+                      items: {
+                        nullable: true,
+                        oneOf: [
                           {
-                            "type": "integer"
+                            type: "integer"
                           },
                           {
-                            "type": "number"
+                            type: "number"
                           },
                           {
-                            "type": "string"
+                            type: "string"
                           },
                           {
-                            "type": "boolean"
+                            type: "boolean"
                           },
                           {
-                            "type": "array"
+                            type: "array"
                           },
                           {
-                            "type": "object"
+                            type: "object"
                           }
                         ]
                       },
-                      "type": "array"
+                      type: "array"
                     }
                   }
                 },
-                "required": false
+                required: false
               },
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "TestArrayBodyCtrl"
-              ]
+              tags: ["TestArrayBodyCtrl"]
             }
           },
           "/rest/array/3": {
-            "post": {
-              "operationId": "testArrayBodyCtrlScenario3",
-              "parameters": [],
-              "requestBody": {
-                "content": {
+            post: {
+              operationId: "testArrayBodyCtrlScenario3",
+              parameters: [],
+              requestBody: {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "items": {
-                        "type": "number"
+                    schema: {
+                      items: {
+                        type: "number"
                       },
-                      "type": "array"
+                      type: "array"
                     }
                   }
                 },
-                "required": false
+                required: false
               },
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "TestArrayBodyCtrl"
-              ]
+              tags: ["TestArrayBodyCtrl"]
             }
           },
           "/rest/array/4": {
-            "post": {
-              "operationId": "testArrayBodyCtrlScenario4",
-              "parameters": [],
-              "requestBody": {
-                "content": {
+            post: {
+              operationId: "testArrayBodyCtrlScenario4",
+              parameters: [],
+              requestBody: {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "items": {
-                        "$ref": "#/components/schemas/MyModel"
+                    schema: {
+                      items: {
+                        $ref: "#/components/schemas/MyModel"
                       },
-                      "type": "array"
+                      type: "array"
                     }
                   }
                 },
-                "required": false
+                required: false
               },
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "TestArrayBodyCtrl"
-              ]
+              tags: ["TestArrayBodyCtrl"]
             }
           },
           "/rest/array/5": {
-            "post": {
-              "operationId": "testArrayBodyCtrlScenario5",
-              "parameters": [],
-              "requestBody": {
-                "content": {
+            post: {
+              operationId: "testArrayBodyCtrlScenario5",
+              parameters: [],
+              requestBody: {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "type": "object"
+                    schema: {
+                      type: "object"
                     }
                   }
                 },
-                "required": false
+                required: false
               },
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "TestArrayBodyCtrl"
-              ]
+              tags: ["TestArrayBodyCtrl"]
             }
           },
           "/rest/array/6": {
-            "post": {
-              "operationId": "testArrayBodyCtrlScenario6",
-              "parameters": [],
-              "requestBody": {
-                "content": {
+            post: {
+              operationId: "testArrayBodyCtrlScenario6",
+              parameters: [],
+              requestBody: {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "nullable": true,
-                      "oneOf": [
+                    schema: {
+                      nullable: true,
+                      oneOf: [
                         {
-                          "type": "integer"
+                          type: "integer"
                         },
                         {
-                          "type": "number"
+                          type: "number"
                         },
                         {
-                          "type": "string"
+                          type: "string"
                         },
                         {
-                          "type": "boolean"
+                          type: "boolean"
                         },
                         {
-                          "type": "array"
+                          type: "array"
                         },
                         {
-                          "type": "object"
+                          type: "object"
                         }
                       ]
                     }
                   }
                 },
-                "required": false
+                required: false
               },
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "TestArrayBodyCtrl"
-              ]
+              tags: ["TestArrayBodyCtrl"]
             }
           }
         },
-        "tags": [
+        tags: [
           {
-            "name": "TestArrayBodyCtrl"
+            name: "TestArrayBodyCtrl"
           }
         ]
       });
@@ -324,26 +312,28 @@ describe("Array Body", () => {
 
   describe("POST /rest/array/1", () => {
     it("should return list", async () => {
-      const {body} = await request.post("/rest/array/1")
+      const {body} = await request
+        .post("/rest/array/1")
         .send([{test: "test"}])
         .expect(200);
 
       expect(body).to.deep.eq([
         {
-          "test": "test"
+          test: "test"
         }
       ]);
     });
   });
   describe("POST /rest/array/2", () => {
     it("should return list", async () => {
-      const {body} = await request.post("/rest/array/2")
+      const {body} = await request
+        .post("/rest/array/2")
         .send([{test: 1}])
         .expect(200);
 
       expect(body).to.deep.eq([
         {
-          "test": 1
+          test: 1
         }
       ]);
     });
@@ -351,56 +341,54 @@ describe("Array Body", () => {
 
   describe("POST /rest/array/3", () => {
     it("should return list", async () => {
-      const {body} = await request.post("/rest/array/3")
-        .send([1])
-        .expect(200);
+      const {body} = await request.post("/rest/array/3").send([1]).expect(200);
 
-      expect(body).to.deep.eq([
-        1
-      ]);
+      expect(body).to.deep.eq([1]);
     });
   });
 
   describe("POST /rest/array/4", () => {
     it("should return list", async () => {
-      const {body} = await request.post("/rest/array/4")
+      const {body} = await request
+        .post("/rest/array/4")
         .send([{test: "1"}])
         .expect(200);
 
       expect(body).to.deep.eq([
         {
-          "test": "1"
+          test: "1"
         }
       ]);
     });
   });
   describe("POST /rest/array/5", () => {
     it("should throw a bad request", async () => {
-      const {body} = await request.post("/rest/array/5")
+      const {body} = await request
+        .post("/rest/array/5")
         .send([{test: "1"}])
         .expect(400);
 
       expect(body).to.deep.eq({
-        "errors": [
+        errors: [
           {
-            "data": [
+            data: [
               {
-                "test": "1"
+                test: "1"
               }
             ],
-            "dataPath": "",
-            "keyword": "type",
-            "instancePath": "",
-            "message": "must be object",
-            "params": {
-              "type": "object"
+            dataPath: "",
+            keyword: "type",
+            instancePath: "",
+            message: "must be object",
+            params: {
+              type: "object"
             },
-            "schemaPath": "#/type"
+            schemaPath: "#/type"
           }
         ],
-        "message": "Bad request on parameter \"request.body\".\nValue must be object. Given value: [{\"test\":\"1\"}]",
-        "name": "AJV_VALIDATION_ERROR",
-        "status": 400
+        message: 'Bad request on parameter "request.body".\nValue must be object. Given value: [{"test":"1"}]',
+        name: "AJV_VALIDATION_ERROR",
+        status: 400
       });
     });
   });

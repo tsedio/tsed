@@ -14,7 +14,7 @@ class Person {
 class Band {
   @VirtualRef({
     ref: Person, // The model to use
-    localField: "name",  // Find people where `localField`
+    localField: "name", // Find people where `localField`
     foreignField: "band", // is equal to `foreignField`
     // If `justOne` is true, 'members' will be a single doc as opposed to
     // an array. `justOne` is false by default.
@@ -25,7 +25,7 @@ class Band {
 
   @VirtualRef({
     ref: Person, // The model to use
-    localField: "name",  // Find people where `localField`
+    localField: "name", // Find people where `localField`
     foreignField: "band", // is equal to `foreignField`
     // If `count` is true, 'memberCount' will be the number of documents
     // instead of an array.

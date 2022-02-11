@@ -1,11 +1,12 @@
 ---
 meta:
- - name: description
-   content: Use Objection.js with Express, TypeScript and Ts.ED.
- - name: keywords
-   content: ts.ed express typescript objection.js node.js javascript decorators
+  - name: description
+    content: Use Objection.js with Express, TypeScript and Ts.ED.
+  - name: keywords
+    content: ts.ed express typescript objection.js node.js javascript decorators
 ---
-# Objection.js 
+
+# Objection.js
 
 <Badge text="alpha" /> <Badge text="Contributors are welcome" />
 
@@ -41,8 +42,8 @@ import "@tsed/objection"; // don't forget to add this line!
 @Configuration({
   // ...
   knex: {
-    client: 'sqlite3',
-    connection: ':memory:'
+    client: "sqlite3",
+    connection: ":memory:"
   }
 })
 class Server {}
@@ -55,7 +56,7 @@ You can use the @@Entity@@ decorator to create your models and make them work wi
 ```typescript
 import {Required, MinLength, MaxLength, Inject} from "@tsed/common";
 import {Entity, IdColumn} from "@tsed/objection";
-import {Model} from "objection"; 
+import {Model} from "objection";
 
 @Entity("users")
 export class User extends Model {
@@ -71,7 +72,7 @@ export class User extends Model {
 
   @Decimal({scale: 1, precision: 12})
   score: number;
-  
+
   @Property()
   active: boolean;
 }
@@ -80,22 +81,22 @@ export class User extends Model {
 ## Get connection
 
 ```typescript
-import {OBJECTION_CONNECTION} from "@tsed/objection"; 
+import {OBJECTION_CONNECTION} from "@tsed/objection";
 
 @Injectable()
 class MyService {
   @Inject(OBJECTION_CONNECTION)
   connection: OBJECTION_CONNECTION;
-  
+
   $onInit() {
-    console.log(this.connection)
+    console.log(this.connection);
   }
 }
 ```
 
 ## Migration
 
-Ts.ED can create columns based on the declared Model. Using @@createColumns@@, you can implement 
+Ts.ED can create columns based on the declared Model. Using @@createColumns@@, you can implement
 a migration file as following:
 
 ```typescript
@@ -105,7 +106,7 @@ import Knex from "objection";
 
 export async function up(knex: Knex): Promise<any> {
   return knex.schema.createTable(User.tableName, async (table: Knex.TableBuilder) => {
-    // createColumns for the given model 
+    // createColumns for the given model
     createColumns(table, User);
   });
 }
@@ -125,7 +126,7 @@ You can also use the common decorators to describe model (See [models](/docs/mod
 
 <ApiList query="status.includes('decorator') && status.includes('schema')" />
 
-## Author 
+## Author
 
 <GithubContributors :users="['stefanvanherwijnen']"/>
 

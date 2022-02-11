@@ -12,7 +12,9 @@ export class CalendarCtrl {
   @Returns(404).Description("Not found")
   async getCalendar(
     @Description("A calendar Id")
-    @QueryParams() id: string): Promise<CalendarModel> {
+    @QueryParams()
+    id: string
+  ): Promise<CalendarModel> {
     return {};
   }
 
@@ -27,11 +29,10 @@ export class CalendarCtrl {
   @Deprecated()
   @Description("Deprecated route, use /rest/calendars/:id instead of.")
   @Returns(CalendarModel)
-  @Returns(404, { description: "Not found" })
+  @Returns(404, {description: "Not found"})
   async getCalendarDeprecated(@QueryParams("id") id: string): Promise<CalendarModel> {
     return {};
   }
-
 
   @Post("/")
   @Security("calendar_auth", "write:calendar", "read:calendar")

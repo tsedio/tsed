@@ -4,11 +4,8 @@ import Stripe from "stripe";
 
 @Controller("/webhooks")
 export class StripeWebhooksCtrl {
-
   @Post("/callback")
-  protected successPaymentHook(
-    @WebhookEvent() event: Stripe.Event
-  ) {
+  protected successPaymentHook(@WebhookEvent() event: Stripe.Event) {
     return {
       received: true,
       event
@@ -16,9 +13,7 @@ export class StripeWebhooksCtrl {
   }
 
   @Post("/callback2")
-  protected successPaymentHook2(
-    @WebhookEvent({secret: "whsec_test_secret1"}) event: Stripe.Event
-  ) {
+  protected successPaymentHook2(@WebhookEvent({secret: "whsec_test_secret1"}) event: Stripe.Event) {
     return {
       received: true,
       event

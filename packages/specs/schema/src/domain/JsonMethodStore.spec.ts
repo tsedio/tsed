@@ -23,7 +23,7 @@ describe("JsonMethodStore", () => {
 
       class Test {
         @StoreSet("test", "value")
-        @(Get("/").Use(middleware3).UseAfter(middleware1).UseBefore(middleware2))
+        @Get("/").Use(middleware3).UseAfter(middleware1).UseBefore(middleware2)
         method(): any {}
       }
 

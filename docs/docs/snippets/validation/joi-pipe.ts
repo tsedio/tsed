@@ -19,4 +19,3 @@ export class JoiValidationPipe implements PipeMethods {
     return value;
   }
 }
-

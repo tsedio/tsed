@@ -10,7 +10,7 @@ class Product {
   @Property()
   title: string;
 
-  constructor({ id, title }: Partial<Product> = {}) {
+  constructor({id, title}: Partial<Product> = {}) {
     id && (this.id = id);
     title && (this.title = title);
   }
@@ -20,166 +20,154 @@ class Product {
 class TestResponseCtrl {
   @OperationPath("GET", "/:id")
   @Returns(200, Product).Description("Product")
-  async scenario1(@QueryParams("id") id: string) {
-  }
+  async scenario1(@QueryParams("id") id: string) {}
 
   @OperationPath("POST", "/")
   @Returns(204)
-  async scenario2() {
-  }
+  async scenario2() {}
 }
 
 describe("Spec: Response", () => {
   it("should generate the OS3", async () => {
-    const spec = getSpec(TestResponseCtrl, { specType: SpecTypes.OPENAPI });
+    const spec = getSpec(TestResponseCtrl, {specType: SpecTypes.OPENAPI});
 
     expect(spec).toEqual({
-      "components": {
-        "schemas": {
-          "Product": {
-            "properties": {
-              "id": {
-                "type": "string"
+      components: {
+        schemas: {
+          Product: {
+            properties: {
+              id: {
+                type: "string"
               },
-              "title": {
-                "type": "string"
+              title: {
+                type: "string"
               }
             },
-            "type": "object"
+            type: "object"
           }
         }
       },
-      "paths": {
+      paths: {
         "/responses": {
-          "post": {
-            "operationId": "testResponseCtrlScenario2",
-            "parameters": [],
-            "responses": {
+          post: {
+            operationId: "testResponseCtrlScenario2",
+            parameters: [],
+            responses: {
               "204": {
-                "description": "No Content"
+                description: "No Content"
               }
             },
-            "tags": [
-              "TestResponseCtrl"
-            ]
+            tags: ["TestResponseCtrl"]
           }
         },
         "/responses/{id}": {
-          "get": {
-            "operationId": "testResponseCtrlScenario1",
-            "parameters": [
+          get: {
+            operationId: "testResponseCtrlScenario1",
+            parameters: [
               {
-                "in": "path",
-                "name": "id",
-                "required": true,
-                "schema": {
-                  "type": "string"
+                in: "path",
+                name: "id",
+                required: true,
+                schema: {
+                  type: "string"
                 }
               },
               {
-                "in": "query",
-                "name": "id",
-                "required": false,
-                "schema": {
-                  "type": "string"
+                in: "query",
+                name: "id",
+                required: false,
+                schema: {
+                  type: "string"
                 }
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "content": {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/Product"
+                    schema: {
+                      $ref: "#/components/schemas/Product"
                     }
                   }
                 },
-                "description": "Product"
+                description: "Product"
               }
             },
-            "tags": [
-              "TestResponseCtrl"
-            ]
+            tags: ["TestResponseCtrl"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "TestResponseCtrl"
+          name: "TestResponseCtrl"
         }
       ]
     });
     expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
   });
   it("should generate the OS2", async () => {
-    const spec = getSpec(TestResponseCtrl, { specType: SpecTypes.SWAGGER });
+    const spec = getSpec(TestResponseCtrl, {specType: SpecTypes.SWAGGER});
 
     expect(spec).toEqual({
-      "definitions": {
-        "Product": {
-          "properties": {
-            "id": {
-              "type": "string"
+      definitions: {
+        Product: {
+          properties: {
+            id: {
+              type: "string"
             },
-            "title": {
-              "type": "string"
+            title: {
+              type: "string"
             }
           },
-          "type": "object"
+          type: "object"
         }
       },
-      "paths": {
+      paths: {
         "/responses": {
-          "post": {
-            "operationId": "testResponseCtrlScenario2",
-            "parameters": [],
-            "responses": {
+          post: {
+            operationId: "testResponseCtrlScenario2",
+            parameters: [],
+            responses: {
               "204": {
-                "description": "No Content"
+                description: "No Content"
               }
             },
-            "tags": [
-              "TestResponseCtrl"
-            ]
+            tags: ["TestResponseCtrl"]
           }
         },
         "/responses/{id}": {
-          "get": {
-            "operationId": "testResponseCtrlScenario1",
-            "parameters": [
+          get: {
+            operationId: "testResponseCtrlScenario1",
+            parameters: [
               {
-                "in": "path",
-                "name": "id",
-                "required": true,
-                "type": "string"
+                in: "path",
+                name: "id",
+                required: true,
+                type: "string"
               },
               {
-                "in": "query",
-                "name": "id",
-                "required": false,
-                "type": "string"
+                in: "query",
+                name: "id",
+                required: false,
+                type: "string"
               }
             ],
-            "produces": [
-              "application/json"
-            ],
-            "responses": {
+            produces: ["application/json"],
+            responses: {
               "200": {
-                "description": "Product",
-                "schema": {
-                  "$ref": "#/definitions/Product"
+                description: "Product",
+                schema: {
+                  $ref: "#/definitions/Product"
                 }
               }
             },
-            "tags": [
-              "TestResponseCtrl"
-            ]
+            tags: ["TestResponseCtrl"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "TestResponseCtrl"
+          name: "TestResponseCtrl"
         }
       ]
     });

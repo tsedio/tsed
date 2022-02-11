@@ -14,8 +14,7 @@ import {AuthService} from "../services/auth/AuthService";
   }
 })
 export class JwtProtocol implements OnVerify {
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   async $onVerify(@Req() req: Req, @Arg(0) jwtPayload: any) {
     const user = await this.authService.findOne({id: jwtPayload.sub});
@@ -23,4 +22,3 @@ export class JwtProtocol implements OnVerify {
     return user ? user : false;
   }
 }
-

@@ -21,9 +21,11 @@ class MongoCtrl {
 class RedisCtrl {
   @Health("/health")
   health() {
-    return Promise.reject(new HealthCheckError("failed", {
-      redis: "down"
-    }));
+    return Promise.reject(
+      new HealthCheckError("failed", {
+        redis: "down"
+      })
+    );
   }
 
   @BeforeShutdown()
@@ -46,7 +48,6 @@ class RedisCtrl {
     console.log("on send failure during shutdown");
   }
 }
-
 
 @Configuration({
   port: 8081,

@@ -611,17 +611,19 @@ export class InjectorService extends Container {
     let currentDependency: any = false;
 
     try {
-      const invokeDependency = (parent?: any) => (token: any, index: number): any => {
-        currentDependency = {token, index, deps};
+      const invokeDependency =
+        (parent?: any) =>
+        (token: any, index: number): any => {
+          currentDependency = {token, index, deps};
 
-        if (token !== DI_PARAM_OPTIONS) {
-          const options = provider?.store?.get(`${DI_PARAM_OPTIONS}:${index}`);
+          if (token !== DI_PARAM_OPTIONS) {
+            const options = provider?.store?.get(`${DI_PARAM_OPTIONS}:${index}`);
 
-          locals.set(DI_PARAM_OPTIONS, options || {});
-        }
+            locals.set(DI_PARAM_OPTIONS, options || {});
+          }
 
-        return isInheritedFrom(token, Provider, 1) ? provider : this.invoke(token, locals, {parent});
-      };
+          return isInheritedFrom(token, Provider, 1) ? provider : this.invoke(token, locals, {parent});
+        };
 
       // Invoke manually imported providers
       imports.forEach(invokeDependency());

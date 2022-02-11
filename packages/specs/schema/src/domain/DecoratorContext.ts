@@ -51,7 +51,7 @@ export abstract class DecoratorContext<T = any> extends Map<string, any> {
       decorator[pascalCase(name)] = wrapKey(name);
     });
 
-    return (decorator as unknown) as T;
+    return decorator as unknown as T;
   }
 
   toObject(): any {

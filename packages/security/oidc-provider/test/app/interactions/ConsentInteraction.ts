@@ -12,11 +12,13 @@ export class ConsentInteraction {
   oidc: OidcProvider;
 
   @View("interaction")
-  async $prompt(@OidcCtx() oidcCtx: OidcCtx,
-                @Prompt() prompt: Prompt,
-                @OidcSession() session: OidcSession,
-                @Params() params: Params,
-                @Uid() uid: Uid): Promise<any> {
+  async $prompt(
+    @OidcCtx() oidcCtx: OidcCtx,
+    @Prompt() prompt: Prompt,
+    @OidcSession() session: OidcSession,
+    @Params() params: Params,
+    @Uid() uid: Uid
+  ): Promise<any> {
     const client = await oidcCtx.findClient();
 
     return {
@@ -37,9 +39,9 @@ export class ConsentInteraction {
 
     const grant = await oidcCtx.getGrant();
     const details = prompt.details as {
-      missingOIDCScope: string[],
-      missingResourceScopes: Record<string, string[]>,
-      missingOIDClaims: string[]
+      missingOIDCScope: string[];
+      missingResourceScopes: Record<string, string[]>;
+      missingOIDClaims: string[];
     };
 
     const {missingOIDCScope, missingOIDClaims, missingResourceScopes} = details;

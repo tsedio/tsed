@@ -12,6 +12,6 @@ class MyController {
   }
 }
 
-const spec = getSpec(MyController, { specType: SpecTypes.OPENAPI });
+const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
 console.log(spec);

@@ -22,12 +22,12 @@ export const rootDir = __dirname;
   formio: {
     baseUrl: "/projects",
     jwt: {
-      "secret": "--- change me now ---",
-      "expireTime": 240
+      secret: "--- change me now ---",
+      expireTime: 240
     },
     root: {
-      "email": "admin@tsed.io",
-      "password": "admin@tsed.io"
+      email: "admin@tsed.io",
+      password: "admin@tsed.io"
     },
     template
   },

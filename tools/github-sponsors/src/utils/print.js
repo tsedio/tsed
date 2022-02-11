@@ -27,17 +27,19 @@ exports.retrieveCols = (() => {
   };
 })();
 
-exports.print = (color = null) => (str = "") => {
-  const terminalCols = exports.retrieveCols();
-  const strLength = str.replace(/\u001b\[[0-9]{2}m/g, "").length;
-  const leftPaddingLength = Math.floor((terminalCols - strLength) / 2);
-  const leftPadding = " ".repeat(Math.max(leftPaddingLength, 0));
-  if (color) {
-    str = chalk[color](str);
-  }
+exports.print =
+  (color = null) =>
+  (str = "") => {
+    const terminalCols = exports.retrieveCols();
+    const strLength = str.replace(/\u001b\[[0-9]{2}m/g, "").length;
+    const leftPaddingLength = Math.floor((terminalCols - strLength) / 2);
+    const leftPadding = " ".repeat(Math.max(leftPaddingLength, 0));
+    if (color) {
+      str = chalk[color](str);
+    }
 
-  console.log(leftPadding, str);
-};
+    console.log(leftPadding, str);
+  };
 
 exports.printDonationMessage = (fundingConfig, pkgPath) => {
   const packageJson = require(path.resolve(pkgPath) + "/package.json");

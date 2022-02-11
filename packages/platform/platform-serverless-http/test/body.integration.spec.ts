@@ -37,13 +37,15 @@ class BodyLambda {
 }
 
 describe("Body params", () => {
-  beforeEach(PlatformServerlessTest.bootstrap(PlatformServerlessHttp, {
-    server: Server,
-    adapter: PlatformExpress,
-    mount: {
-      "/": [BodyLambda]
-    }
-  }));
+  beforeEach(
+    PlatformServerlessTest.bootstrap(PlatformServerlessHttp, {
+      server: Server,
+      adapter: PlatformExpress,
+      mount: {
+        "/": [BodyLambda]
+      }
+    })
+  );
   afterEach(() => PlatformServerlessTest.reset());
 
   describe("scenario1: Post lambda with body", () => {
@@ -69,14 +71,14 @@ describe("Body params", () => {
 
       expect(response.statusCode).toBe(201);
       expect(JSON.parse(response.body)).toEqual({
-        "id": "1",
-        "name": "Test"
+        id: "1",
+        name: "Test"
       });
       expect(response.headers).toEqual({
         "content-length": "24",
         "content-type": "application/json; charset=utf-8",
-        "etag": "W/\"18-jfUwSIdR5OF14k0Z7ilBjfRuwwE\"",
-        "vary": "Accept-Encoding",
+        etag: 'W/"18-jfUwSIdR5OF14k0Z7ilBjfRuwwE"',
+        vary: "Accept-Encoding",
         "x-powered-by": "Express",
         "x-request-id": "requestId",
         "x-test": "test"
@@ -90,23 +92,23 @@ describe("Body params", () => {
 
       expect(response.statusCode).toBe(400);
       expect(JSON.parse(response.body)).toEqual({
-        "errors": [
+        errors: [
           {
-            "data": "T",
-            "dataPath": ".name",
-            "instancePath": "/name",
-            "keyword": "minLength",
-            "message": "must NOT have fewer than 3 characters",
-            "modelName": "Model",
-            "params": {
-              "limit": 3
+            data: "T",
+            dataPath: ".name",
+            instancePath: "/name",
+            keyword: "minLength",
+            message: "must NOT have fewer than 3 characters",
+            modelName: "Model",
+            params: {
+              limit: 3
             },
-            "schemaPath": "#/properties/name/minLength"
+            schemaPath: "#/properties/name/minLength"
           }
         ],
-        "message": "Bad request on parameter \"request.body\".\nModel.name must NOT have fewer than 3 characters. Given value: \"T\"",
-        "name": "AJV_VALIDATION_ERROR",
-        "status": 400
+        message: 'Bad request on parameter "request.body".\nModel.name must NOT have fewer than 3 characters. Given value: "T"',
+        name: "AJV_VALIDATION_ERROR",
+        status: 400
       });
     });
   });
@@ -120,8 +122,8 @@ describe("Body params", () => {
 
       expect(response.statusCode).toBe(200);
       expect(JSON.parse(response.body)).toEqual({
-        "id": "1",
-        "name": "Test"
+        id: "1",
+        name: "Test"
       });
     });
   });

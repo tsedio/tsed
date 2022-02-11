@@ -1,18 +1,19 @@
 ---
 meta:
- - name: description
-   content: Upload files with Ts.ED by using decorators. Ts.ED is built on top of Express/Koa and use TypeScript language.
- - name: keywords
-   content: upload files ts.ed express typescript multer node.js javascript decorators
-projects:   
- - title: Kit Multer
-   href: https://github.com/tsedio/tsed-example-multer
-   src: /express.png
+  - name: description
+    content: Upload files with Ts.ED by using decorators. Ts.ED is built on top of Express/Koa and use TypeScript language.
+  - name: keywords
+    content: upload files ts.ed express typescript multer node.js javascript decorators
+projects:
+  - title: Kit Multer
+    href: https://github.com/tsedio/tsed-example-multer
+    src: /express.png
 ---
+
 # Upload files
 
 Ts.ED supports now the uploading files by default. We use [Multer](https://github.com/expressjs/multer) module
-to handle `multipart/form-data` from request. 
+to handle `multipart/form-data` from request.
 
 <Projects type="projects"/>
 
@@ -23,7 +24,6 @@ Originally, multer is provided by Express.js, but Ts.ED implements a multer wrap
 ## Configuration
 
 By default, the directory used is `${projetRoot}/uploads`. You can configure another directory on your Server settings.
-
 
 <Tabs class="-code">
   <Tab label="Configuration" icon="bx-code-alt">
@@ -36,7 +36,7 @@ By default, the directory used is `${projetRoot}/uploads`. You can configure ano
 <CodeSandbox sandboxId="rough-frost-6bi81" title="Multer example" />
 
   </Tab>
-</Tabs>  
+</Tabs>
 
 ## Options
 
@@ -53,8 +53,10 @@ By default, the directory used is `${projetRoot}/uploads`. You can configure ano
 - `preservePath` (`boolean`): Keep the full path of files instead of just the base name (Default: false).
 - `fileFilter` (`Function`): Optional function to control which files are uploaded. This is called for every file that is processed.
 
-## Usage 
+## Usage
+
 ### Single file
+
 A single file can be injected to your endpoint by using the @@MultipartFile@@ decorator like this:
 
 <<< @/tutorials/snippets/multer/controller.ts

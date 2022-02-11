@@ -11,5 +11,4 @@ import "@tsed/swagger"; // import swagger Ts.ED module
     }
   ]
 })
-export class Server {
-}
+export class Server {}

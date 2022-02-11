@@ -2,9 +2,6 @@ import {Configuration} from "@tsed/di";
 import {MyModule} from "./module/MyModule";
 
 @Configuration({
-  imports: [
-    MyModule
-  ]
+  imports: [MyModule]
 })
-export class Server {
-}
+export class Server {}

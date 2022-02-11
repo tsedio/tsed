@@ -67,10 +67,10 @@ export default class OtherService {
 
   $onInit() {
     if (this.httpServer) {
-      console.log('HTTP')
+      console.log("HTTP");
     }
     if (this.httpsServer) {
-      console.log('HTTPS')
+      console.log("HTTPS");
     }
   }
 }

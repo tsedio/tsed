@@ -6,10 +6,7 @@ import {IncomingMessage, ServerResponse} from "http";
 @Controller("/calendars")
 export class CalendarCtrl {
   @Get("/:id")
-  get(
-    @Req() request: IncomingMessage,
-    @Res() response: ServerResponse
-  ): void {
+  get(@Req() request: IncomingMessage, @Res() response: ServerResponse): void {
     console.log(request); // IncomingMessage
     console.log(response); // ServerResponse
   }

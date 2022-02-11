@@ -34,7 +34,7 @@ describe("MikroOrmModule", () => {
     it("should register the corresponding instances", async () => {
       // arrange
       const mikroOrmModule = PlatformTest.get<MikroOrmModule>(MikroOrmModule);
-      when(mockMikroOrmRegistry.register(config)).thenResolve(({} as unknown) as MikroORM);
+      when(mockMikroOrmRegistry.register(config)).thenResolve({} as unknown as MikroORM);
 
       // act
       await mikroOrmModule.$onInit();

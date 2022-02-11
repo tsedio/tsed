@@ -8,8 +8,7 @@ import {AuthService} from "../services/auth/AuthService";
   useStrategy: BearerStrategy
 })
 export class AzureBearerProtocol implements OnVerify {
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   $onVerify(@Arg(0) token: ITokenPayload, @Context() ctx: Context) {
     // Verify is the right place to check given token and return UserInfo

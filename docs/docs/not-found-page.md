@@ -1,9 +1,9 @@
 # Customize 404
 
-The guide shows you how you can customize the 404 response error when a resource or route isn't resolved by 
+The guide shows you how you can customize the 404 response error when a resource or route isn't resolved by
 the router.
 
-Customizing error is possible by using the [Exception filter feature](/docs/exceptions.html#exception-filter) and by catching 
+Customizing error is possible by using the [Exception filter feature](/docs/exceptions.html#exception-filter) and by catching
 the @@ResourceNotFound@@ error class. This error is thrown by Ts.ED when nothing routes are resolved.
 
 Create a new ResourceNotFoundFilter in the filters directories and copy/paste this example:
@@ -24,6 +24,5 @@ import "./filters/ResourceNotFoundFilter"; // Importing filter with ES6 import i
 @Configuration({
   // ...
 })
-export class Server {
-}
+export class Server {}
 ```

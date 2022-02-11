@@ -60,7 +60,7 @@ export class ResourcesCtrl extends BaseController<Resource> {
   }
 
   @Post("/")
-  @(Returns(201).Type(Resource))
+  @Returns(201).Type(Resource)
   async post(@BodyParams() resource: Resource) {
     resource.id = require("uuid").v4();
     this.resources.push(resource);

@@ -225,7 +225,7 @@ class TestResponseParamsCtrl {
   }
 
   @Get("/scenario17")
-  @(Returns(201, ModelGroup).Groups("creation"))
+  @Returns(201, ModelGroup).Groups("creation")
   async testScenario17(): Promise<ModelGroup> {
     const model = new ModelGroup();
     model.id = "id";

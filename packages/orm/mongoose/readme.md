@@ -59,17 +59,15 @@ import {Configuration} from "@tsed/common";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
 @Configuration({
- mongoose: [
-   {
-     id: "default",
-     url: "mongodb://127.0.0.1:27017/db1",
-     connectionOptions: {}
-   }
- ]
+  mongoose: [
+    {
+      id: "default",
+      url: "mongodb://127.0.0.1:27017/db1",
+      connectionOptions: {}
+    }
+  ]
 })
-export class Server {
-
-}
+export class Server {}
 ```
 
 ## Multi databases
@@ -82,27 +80,25 @@ import {Configuration} from "@tsed/common";
 import "@tsed/mongoose"; // import mongoose ts.ed module
 
 @Configuration({
- mongoose: [
-   {
-     id: "default",
-     url: "mongodb://127.0.0.1:27017/db1",
-     connectionOptions: {}
-   },
-   {
-     id: "default",
-     url: "mongodb://127.0.0.1:27017/db2",
-     connectionOptions: {}
-   }
- ]
+  mongoose: [
+    {
+      id: "default",
+      url: "mongodb://127.0.0.1:27017/db1",
+      connectionOptions: {}
+    },
+    {
+      id: "default",
+      url: "mongodb://127.0.0.1:27017/db2",
+      connectionOptions: {}
+    }
+  ]
 })
-export class Server {
-
-}
+export class Server {}
 ```
 
 ## MongooseService
 
-MongooseService let you to retrieve an instance of Mongoose.Connection. 
+MongooseService let you to retrieve an instance of Mongoose.Connection.
 
 ```typescript
 import {Service} from "@tsed/common";
@@ -110,12 +106,12 @@ import {MongooseService} from "@tsed/mongoose";
 
 @Service()
 export class MyService {
-    constructor(mongooseService: MongooseService) {
-        mongooseService.get(); // return the default instance of Mongoose.
-        // If you have one or more database configured with Ts.ED
-        mongooseService.get("default");
-        mongooseService.get("db2");
-    }
+  constructor(mongooseService: MongooseService) {
+    mongooseService.get(); // return the default instance of Mongoose.
+    // If you have one or more database configured with Ts.ED
+    mongooseService.get("default");
+    mongooseService.get("db2");
+  }
 }
 ```
 
@@ -124,55 +120,50 @@ export class MyService {
 By default, Ts.ED mongoose will reuse the metadata stored by the decorators dedicated
 to describe a JsonSchema. This decorators come from the `@tsed/common` package.
 
-
 Here a model example:
 
 ```typescript
-import {
-    Minimum, Maximum, MaxLength, MinLength, 
-    Enum, Pattern, Required, 
-    CollectionOf
-} from "@tsed/common";
-import {Model, Unique, Indexed, Ref, ObjectID} from "@tsed/mongoose"
+import {Minimum, Maximum, MaxLength, MinLength, Enum, Pattern, Required, CollectionOf} from "@tsed/common";
+import {Model, Unique, Indexed, Ref, ObjectID} from "@tsed/mongoose";
 
 enum Categories {
   CAT1 = "cat1",
   CAT2 = "cat2"
 }
 
-@Model({dbName: 'default'}) // dbName is optional. By default dbName is equal to default
+@Model({dbName: "default"}) // dbName is optional. By default dbName is equal to default
 export class MyModel {
-    @ObjectID()
-    _id: string;
-    
-    @Unique()
-    @Required()
-    unique: string;
-    
-    @Indexed()
-    @MinLength(3)
-    @MaxLength(50)
-    indexed: string;
-    
-    @Minimum(0)
-    @Maximum(100)
-    rate: Number;
-    
-    @Enum(Categories)
-    // or @Enum("type1", "type2")
-    category: Categories;
-    
-    @Pattern(/[a-z]/) // equivalent of match field in mongoose 
-    pattern: String;
-    
-    @CollectionOf(String)
-    arrayOf: string[];
-    
-    @Ref(OtherModel)
-    ref: Ref<OtherModel>;
-    
-    @Ref(OtherModel)
-    refs: Ref<OtherModel>[];
+  @ObjectID()
+  _id: string;
+
+  @Unique()
+  @Required()
+  unique: string;
+
+  @Indexed()
+  @MinLength(3)
+  @MaxLength(50)
+  indexed: string;
+
+  @Minimum(0)
+  @Maximum(100)
+  rate: Number;
+
+  @Enum(Categories)
+  // or @Enum("type1", "type2")
+  category: Categories;
+
+  @Pattern(/[a-z]/) // equivalent of match field in mongoose
+  pattern: String;
+
+  @CollectionOf(String)
+  arrayOf: string[];
+
+  @Ref(OtherModel)
+  ref: Ref<OtherModel>;
+
+  @Ref(OtherModel)
+  refs: Ref<OtherModel>[];
 }
 ```
 
@@ -185,31 +176,30 @@ import {MyModel} from "./models/MyModel";
 
 @Service()
 export class MyService {
-    constructor(@Inject(MyModel) private model: MongooseModel<MyModel>): MyModel {
-        console.log(model) // Mongoose.model class
-    }
-    
-    async save(obj: MyModel): MongooseModel<MyModel> {
-        
-        const doc = new this.model(obj);
-        await doc.save();
-        
-        return doc;
-    }
-    
-    async find(query: any) {
-        const list = await this.model.find(query).exec();
-        
-        console.log(list);
-        
-        return list;
-    }
+  constructor(@Inject(MyModel) private model: MongooseModel<MyModel>): MyModel {
+    console.log(model); // Mongoose.model class
+  }
+
+  async save(obj: MyModel): MongooseModel<MyModel> {
+    const doc = new this.model(obj);
+    await doc.save();
+
+    return doc;
+  }
+
+  async find(query: any) {
+    const list = await this.model.find(query).exec();
+
+    console.log(list);
+
+    return list;
+  }
 }
 ```
 
 ## Register hook
 
-Mongoose allows the developer to add pre and post [hooks / middlewares](http://mongoosejs.com/docs/middleware.html) to the schema. 
+Mongoose allows the developer to add pre and post [hooks / middlewares](http://mongoosejs.com/docs/middleware.html) to the schema.
 With this it is possible to add document transformations and observations before or after validation, save and more.
 
 Ts.ED provide class decorator to register middlewares on the pre and post hook.
@@ -217,83 +207,83 @@ Ts.ED provide class decorator to register middlewares on the pre and post hook.
 ### Pre hook
 
 We can simply attach a `@PreHook` decorator to your model class and
- define the hook function like you normally would in Mongoose.
- 
+define the hook function like you normally would in Mongoose.
+
 ```typescript
 import {Required} from "@tsed/common";
 import {PreHook, Model, ObjectID} from "@tsed/mongoose";
 
 @Model()
 @PreHook("save", (car: CarModel, next) => {
-  if (car.model === 'Tesla') {
+  if (car.model === "Tesla") {
     car.isFast = true;
   }
   next();
 })
 export class CarModel {
-    @ObjectID()
-    _id: string;
-    
-    @Required()
-    model: string;
-    
-    @Required()
-    isFast: boolean;
-    
-    // or Prehook on static method
-    @PreHook("save")
-    static preSave(car: CarModel, next) {
-       if (car.model === 'Tesla') {
-           car.isFast = true;
-       }
-       next();
+  @ObjectID()
+  _id: string;
+
+  @Required()
+  model: string;
+
+  @Required()
+  isFast: boolean;
+
+  // or Prehook on static method
+  @PreHook("save")
+  static preSave(car: CarModel, next) {
+    if (car.model === "Tesla") {
+      car.isFast = true;
     }
+    next();
+  }
 }
 ```
 
-This will execute the pre-save hook each time a `CarModel` document is saved. 
+This will execute the pre-save hook each time a `CarModel` document is saved.
 
 ### Post hook
 
 We can simply attach a `@PostHook` decorator to your model class and
- define the hook function like you normally would in Mongoose.
- 
+define the hook function like you normally would in Mongoose.
+
 ```typescript
 import {ObjectID, Required} from "@tsed/common";
 import {PostHook, Model} from "@tsed/mongoose";
 
 @Model()
 @PostHook("save", (car: CarModel) => {
-    if (car.topSpeedInKmH > 300) {
-        console.log(car.model, 'is fast!');
-    }
+  if (car.topSpeedInKmH > 300) {
+    console.log(car.model, "is fast!");
+  }
 })
 export class CarModel {
-    @ObjectID()
-    _id: string;
-    
-    @Required()
-    model: string;
-    
-    @Required()
-    isFast: boolean;
-    
-    // or Prehook on static method
-    @PostHook("save")
-    static postSave(car: CarModel) {
-       if (car.topSpeedInKmH > 300) {
-           console.log(car.model, 'is fast!');
-       }
+  @ObjectID()
+  _id: string;
+
+  @Required()
+  model: string;
+
+  @Required()
+  isFast: boolean;
+
+  // or Prehook on static method
+  @PostHook("save")
+  static postSave(car: CarModel) {
+    if (car.topSpeedInKmH > 300) {
+      console.log(car.model, "is fast!");
     }
+  }
 }
 ```
 
-This will execute the post-save hook each time a `CarModel` document is saved. 
+This will execute the post-save hook each time a `CarModel` document is saved.
 
 ## Plugin
 
-Using the `plugin` decorator enables the developer to attach various Mongoose plugins to the schema. 
-Just like the regular `schema.plugin()` call, the decorator accepts 1 or 2 parameters: the plugin itself, and an optional configuration object. 
+Using the `plugin` decorator enables the developer to attach various Mongoose plugins to the schema.
+Just like the regular `schema.plugin()` call, the decorator accepts 1 or 2 parameters: the plugin itself, and an optional configuration object.
 Multiple `plugin` decorator can be used for a single model class.
 
 ```typescript

@@ -1,16 +1,4 @@
-import {
-  Default,
-  GenericOf,
-  Generics,
-  getSpec,
-  In,
-  Maximum,
-  Minimum,
-  OperationPath,
-  Path,
-  Property,
-  SpecTypes
-} from "../src";
+import {Default, GenericOf, Generics, getSpec, In, Maximum, Minimum, OperationPath, Path, Property, SpecTypes} from "../src";
 import {QueryParams} from "@tsed/platform-params";
 
 describe("Deep Object QueryParams", () => {
@@ -29,61 +17,57 @@ describe("Deep Object QueryParams", () => {
     @Path("/pageable")
     class TestDeepObjectCtrl {
       @OperationPath("GET", "/")
-      async get(@QueryParams("s") q: DeepQueryObject) {
-
-      }
+      async get(@QueryParams("s") q: DeepQueryObject) {}
     }
 
-    const spec = getSpec(TestDeepObjectCtrl, { specType: SpecTypes.OPENAPI });
+    const spec = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
 
     expect(spec).toEqual({
-      "components": {
-        "schemas": {
-          "DeepQueryObject": {
-            "properties": {
-              "condition": {
-                "type": "string"
+      components: {
+        schemas: {
+          DeepQueryObject: {
+            properties: {
+              condition: {
+                type: "string"
               },
-              "path": {
-                "type": "string"
+              path: {
+                type: "string"
               },
-              "value": {
-                "type": "string"
+              value: {
+                type: "string"
               }
             },
-            "type": "object"
+            type: "object"
           }
         }
       },
-      "paths": {
+      paths: {
         "/pageable": {
-          "get": {
-            "operationId": "testDeepObjectCtrlGet",
-            "parameters": [
+          get: {
+            operationId: "testDeepObjectCtrlGet",
+            parameters: [
               {
-                "in": "query",
-                "name": "s",
-                "required": false,
-                "style": "deepObject",
-                "schema": {
-                  "$ref": "#/components/schemas/DeepQueryObject"
+                in: "query",
+                name: "s",
+                required: false,
+                style: "deepObject",
+                schema: {
+                  $ref: "#/components/schemas/DeepQueryObject"
                 }
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "TestDeepObjectCtrl"
-            ]
+            tags: ["TestDeepObjectCtrl"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "TestDeepObjectCtrl"
+          name: "TestDeepObjectCtrl"
         }
       ]
     });
@@ -116,77 +100,73 @@ describe("Deep Object QueryParams", () => {
     @Path("/pageable")
     class TestDeepObjectCtrl {
       @OperationPath("GET", "/")
-      async get(@QueryParams("s") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
-
-      }
+      async get(@QueryParams("s") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {}
     }
 
-    const spec = getSpec(TestDeepObjectCtrl, { specType: SpecTypes.OPENAPI });
+    const spec = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
 
     expect(spec).toEqual({
-      "components": {
-        "schemas": {
-          "FindQuery": {
-            "properties": {
-              "tableColumnNameA": {
-                "type": "number"
+      components: {
+        schemas: {
+          FindQuery: {
+            properties: {
+              tableColumnNameA: {
+                type: "number"
               },
-              "tableColumnNameB": {
-                "type": "number"
+              tableColumnNameB: {
+                type: "number"
               }
             },
-            "type": "object"
+            type: "object"
           },
-          "PaginationQuery": {
-            "properties": {
-              "limit": {
-                "default": 50,
-                "maximum": 1000,
-                "minimum": 1,
-                "type": "number"
+          PaginationQuery: {
+            properties: {
+              limit: {
+                default: 50,
+                maximum: 1000,
+                minimum: 1,
+                type: "number"
               },
-              "offset": {
-                "default": 0,
-                "minimum": 0,
-                "type": "number"
+              offset: {
+                default: 0,
+                minimum: 0,
+                type: "number"
               },
-              "where": {
-                "$ref": "#/components/schemas/FindQuery"
+              where: {
+                $ref: "#/components/schemas/FindQuery"
               }
             },
-            "type": "object"
+            type: "object"
           }
         }
       },
-      "paths": {
+      paths: {
         "/pageable": {
-          "get": {
-            "operationId": "testDeepObjectCtrlGet",
-            "parameters": [
+          get: {
+            operationId: "testDeepObjectCtrlGet",
+            parameters: [
               {
-                "in": "query",
-                "name": "s",
-                "required": false,
-                "schema": {
-                  "$ref": "#/components/schemas/PaginationQuery"
+                in: "query",
+                name: "s",
+                required: false,
+                schema: {
+                  $ref: "#/components/schemas/PaginationQuery"
                 },
-                "style": "deepObject"
+                style: "deepObject"
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "TestDeepObjectCtrl"
-            ]
+            tags: ["TestDeepObjectCtrl"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "TestDeepObjectCtrl"
+          name: "TestDeepObjectCtrl"
         }
       ]
     });
@@ -219,79 +199,75 @@ describe("Deep Object QueryParams", () => {
     @Path("/pageable")
     class TestDeepObjectCtrl {
       @OperationPath("GET", "/")
-      async get(@In("query") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
-
-      }
+      async get(@In("query") @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {}
     }
 
-    const spec = getSpec(TestDeepObjectCtrl, { specType: SpecTypes.OPENAPI });
+    const spec = getSpec(TestDeepObjectCtrl, {specType: SpecTypes.OPENAPI});
 
     expect(spec).toEqual({
-      "components": {
-        "schemas": {
-          "FindQuery": {
-            "properties": {
-              "tableColumnNameA": {
-                "type": "number"
+      components: {
+        schemas: {
+          FindQuery: {
+            properties: {
+              tableColumnNameA: {
+                type: "number"
               },
-              "tableColumnNameB": {
-                "type": "number"
+              tableColumnNameB: {
+                type: "number"
               }
             },
-            "type": "object"
+            type: "object"
           }
         }
       },
-      "paths": {
+      paths: {
         "/pageable": {
-          "get": {
-            "operationId": "testDeepObjectCtrlGet",
-            "parameters": [
+          get: {
+            operationId: "testDeepObjectCtrlGet",
+            parameters: [
               {
-                "in": "query",
-                "name": "offset",
-                "required": false,
-                "schema": {
-                  "default": 0,
-                  "minimum": 0,
-                  "type": "number"
+                in: "query",
+                name: "offset",
+                required: false,
+                schema: {
+                  default: 0,
+                  minimum: 0,
+                  type: "number"
                 }
               },
               {
-                "in": "query",
-                "name": "limit",
-                "required": false,
-                "schema": {
-                  "default": 50,
-                  "maximum": 1000,
-                  "minimum": 1,
-                  "type": "number"
+                in: "query",
+                name: "limit",
+                required: false,
+                schema: {
+                  default: 50,
+                  maximum: 1000,
+                  minimum: 1,
+                  type: "number"
                 }
               },
               {
-                "in": "query",
-                "name": "where",
-                "required": false,
-                "style": "deepObject",
-                "schema": {
-                  "$ref": "#/components/schemas/FindQuery"
+                in: "query",
+                name: "where",
+                required: false,
+                style: "deepObject",
+                schema: {
+                  $ref: "#/components/schemas/FindQuery"
                 }
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "TestDeepObjectCtrl"
-            ]
+            tags: ["TestDeepObjectCtrl"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "TestDeepObjectCtrl"
+          name: "TestDeepObjectCtrl"
         }
       ]
     });

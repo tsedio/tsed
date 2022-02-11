@@ -56,7 +56,7 @@ export class Model {
   id: string;
 }
 
-console.log(await getFormioSchema(Model))
+console.log(await getFormioSchema(Model));
 ```
 
 Generates the following formio schema:
@@ -86,7 +86,7 @@ Generates the following formio schema:
 ## Decorators
 
 This package support a large part of the JsonSchema decorators provided by `@tsed/schema`.
-So you can use `Property`, `Required`, `CollectionOf`, etc... decorator to generate a valid Formio 
+So you can use `Property`, `Required`, `CollectionOf`, etc... decorator to generate a valid Formio
 schema.
 
 Some extra decorators have been added to customize the component generated for a class property.
@@ -120,7 +120,8 @@ export class Model {
   tags: string;
 }
 ```
-So with this decorator, you can define any metadata and define your own decorator to 
+
+So with this decorator, you can define any metadata and define your own decorator to
 wrap a complete component schema.
 
 ### InputTags
@@ -135,7 +136,7 @@ export class Model {
   tags: string[];
 }
 
-console.log(await getFormioSchema(Model))
+console.log(await getFormioSchema(Model));
 ```
 
 Generates the following formio schema:
@@ -165,6 +166,7 @@ Generates the following formio schema:
 ```
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>

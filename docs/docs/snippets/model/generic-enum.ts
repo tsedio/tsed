@@ -2,7 +2,7 @@ import {GenericOf, Generics, getJsonSchema, Property} from "@tsed/schema";
 
 enum AdjustmentType {
   PRICE = "price",
-  DELAY = "delay",
+  DELAY = "delay"
 }
 
 @Generics("T")

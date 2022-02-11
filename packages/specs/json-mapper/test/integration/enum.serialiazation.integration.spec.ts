@@ -1,10 +1,10 @@
-import {expect} from "chai"
-import { serialize } from "../../src";
-import { Enum, Property, Required } from "@tsed/schema";
+import {expect} from "chai";
+import {serialize} from "../../src";
+import {Enum, Property, Required} from "@tsed/schema";
 
 export enum EnumValue {
   One = "one",
-  Two = "two",
+  Two = "two"
 }
 
 export class NestedEnum {
@@ -25,6 +25,6 @@ describe("enum serialization", () => {
     nested.value = EnumValue.One;
     test.nested = nested;
 
-    expect(serialize(test)).to.deep.eq({ nested: { value: 'one' } })
+    expect(serialize(test)).to.deep.eq({nested: {value: "one"}});
   });
 });

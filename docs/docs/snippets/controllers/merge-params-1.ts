@@ -5,10 +5,7 @@ import {Controller} from "@tsed/di";
 @Controller("/:calendarId/events")
 class EventCtrl {
   @Get("/:eventId")
-  async get(
-    @PathParams("calendarId") calendarId: string,
-    @PathParams("eventId") eventId: string
-  ) {
+  async get(@PathParams("calendarId") calendarId: string, @PathParams("eventId") eventId: string) {
     console.log("calendarId =>", calendarId);
     console.log("eventId =>", eventId);
   }

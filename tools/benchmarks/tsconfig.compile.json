@@ -4,13 +4,6 @@
     "rootDir": "src",
     "outDir": "lib"
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules",
-    "test",
-    "lib",
-    "**/*.spec.ts"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "test", "lib", "**/*.spec.ts"]
 }

@@ -29,9 +29,11 @@ class BodyLambda {
 }
 
 describe("Response", () => {
-  beforeEach(PlatformServerlessTest.bootstrap(PlatformServerless, {
-    lambda: [BodyLambda]
-  }));
+  beforeEach(
+    PlatformServerlessTest.bootstrap(PlatformServerless, {
+      lambda: [BodyLambda]
+    })
+  );
   afterEach(() => PlatformServerlessTest.reset());
 
   describe("scenario1: Post lambda with body and handle response", () => {
@@ -42,7 +44,7 @@ describe("Response", () => {
       });
 
       expect(response.statusCode).toBe(216);
-      expect(JSON.parse(response.body)).toEqual({ test: "hello" });
+      expect(JSON.parse(response.body)).toEqual({test: "hello"});
       expect(response.headers).toEqual({
         "test-x": "id",
         "x-request-id": "requestId",

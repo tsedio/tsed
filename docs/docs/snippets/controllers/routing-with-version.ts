@@ -6,5 +6,4 @@ import {Configuration} from "@tsed/di";
     "/rest/v1": "./controllers/v1/**/*.ts"
   }
 })
-export class Server {
-}
+export class Server {}

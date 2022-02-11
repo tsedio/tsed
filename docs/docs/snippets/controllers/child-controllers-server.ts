@@ -3,10 +3,7 @@ import {RestCtrl} from "./controllers/RestCtrl";
 
 @Configuration({
   mount: {
-    "/": [
-      RestCtrl
-    ]
+    "/": [RestCtrl]
   }
 })
-export class Server {
-}
+export class Server {}

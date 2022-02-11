@@ -54,7 +54,7 @@ class ResourcesCtrl {
   }
 
   @Get("/")
-  @(Returns(200, Array).Of(TestUser)).Groups("!creation")
+  @Returns(200, Array).Of(TestUser).Groups("!creation")
   getAll() {
     return this.repository.findAll();
   }
@@ -179,43 +179,32 @@ describe("Mongoose", () => {
         email: faker.internet.email(),
         password: faker.internet.password(),
         current: {
-          roles: [
-            1,
-            2,
-            3
-          ]
+          roles: [1, 2, 3]
         },
         data: {
-          "ISM": {
-            roles: [
-              1,
-              2,
-              3
-            ]
+          ISM: {
+            roles: [1, 2, 3]
           }
         }
       };
 
-      expect(deserialize(user, {
-        type: TestUser
-      })).toEqual({
+      expect(
+        deserialize(user, {
+          type: TestUser
+        })
+      ).toEqual({
         email: user.email,
         password: user.password,
         current: {
-          roles: [
-            1,
-            2,
-            3
-          ]
+          roles: [1, 2, 3]
         },
         data: new Map([
-          ["ISM", {
-            roles: [
-              1,
-              2,
-              3
-            ]
-          }]
+          [
+            "ISM",
+            {
+              roles: [1, 2, 3]
+            }
+          ]
         ]),
         alwaysIgnored: "hello ignore"
       });
@@ -223,34 +212,26 @@ describe("Mongoose", () => {
       const {body} = await request.post(`/rest/resources`).send(user).expect(201);
 
       expect(body).toEqual({
-        "current": {
-          "roles": [
-            1,
-            2,
-            3
-          ]
+        current: {
+          roles: [1, 2, 3]
         },
-        "data": {
-          "ISM": {
-            "roles": [
-              1,
-              2,
-              3
-            ]
+        data: {
+          ISM: {
+            roles: [1, 2, 3]
           }
         },
-        "email": user.email,
-        "id": body.id,
-        "post": "hello post",
-        "pre": "hello pre",
+        email: user.email,
+        id: body.id,
+        post: "hello post",
+        pre: "hello pre",
         created: String(body.created),
         updated: String(body.updated)
       });
     });
 
-    it('should return an array of roles', async () => {
-      const {body} = await request.post('/rest/resources/scenario-1')
-      expect(isArray(body.roles)).toBe(true)
-    })
+    it("should return an array of roles", async () => {
+      const {body} = await request.post("/rest/resources/scenario-1");
+      expect(isArray(body.roles)).toBe(true);
+    });
   });
 });

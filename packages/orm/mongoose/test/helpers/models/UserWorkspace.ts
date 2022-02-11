@@ -26,5 +26,5 @@ export class UserWorkspace {
   workspaces: MyWorkspace[];
 }
 
-export type UserModel = MongooseModel<UserWorkspace & { workspaces: Types.Array<MyWorkspace> }>;
+export type UserModel = MongooseModel<UserWorkspace & {workspaces: Types.Array<MyWorkspace>}>;
 export type WorkspaceModel = MongooseModel<Workspace>;

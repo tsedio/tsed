@@ -7,9 +7,11 @@ describe("ParseService", () => {
   after(TestContext.reset);
   describe("eval()", () => {
     it("should evaluate expression with a scope and return value", inject([ParseService], (parseService: ParseService) => {
-      expect(parseService.eval("test", {
-        test: "yes"
-      })).to.equal("yes");
+      expect(
+        parseService.eval("test", {
+          test: "yes"
+        })
+      ).to.equal("yes");
     }));
   });
 });

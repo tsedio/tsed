@@ -2,8 +2,8 @@
 
 {{description}}.
 
-> Note: 
-> Average of all diffs for Ts.ED-* so: `(0.15 + 0.14 + 0.12 + 0.12) / 4`
+> Note:
+> Average of all diffs for Ts.ED-\* so: `(0.15 + 0.14 + 0.12 + 0.12) / 4`
 
 Details:
 

@@ -4,9 +4,7 @@
     "prop": {
       "default": "default",
       "description": "Description",
-      "examples": [
-        "example"
-      ],
+      "examples": ["example"],
       "title": "title",
       "type": "string"
     }

@@ -7,8 +7,7 @@ import {User} from "../models/User";
 export class UsersCtrl {
   @Get("/:id")
   @Returns(200, User).Groups("group.*")
-  async get(@PathParams("id") id: string) {
-  }
+  async get(@PathParams("id") id: string) {}
 
   @Post("/")
   @Returns(201, User).Groups("group.*")
@@ -16,6 +15,6 @@ export class UsersCtrl {
     console.log(user); // User {firstName, lastName, email, password}
     user.id = uuid();
 
-    return user;  // will return Object {id, firstName, lastName, email}
+    return user; // will return Object {id, firstName, lastName, email}
   }
 }

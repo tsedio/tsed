@@ -2,11 +2,12 @@
 prev: /getting-started/
 next: /docs/controllers.html
 meta:
- - name: description
-   content: Documentation over the server configuration. Ts.ED is built on top of Express/Koa and use TypeScript language.
- - name: keywords
-   content: configuration ts.ed express typescript node.js javascript decorators mvc class models
+  - name: description
+    content: Documentation over the server configuration. Ts.ED is built on top of Express/Koa and use TypeScript language.
+  - name: keywords
+    content: configuration ts.ed express typescript node.js javascript decorators mvc class models
 ---
+
 # Configuration
 
 @@Configuration@@ lets you quickly configure your server via decorator. This decorator takes your configuration and merges it with the default server configuration.
@@ -24,11 +25,7 @@ The default configuration is as follows:
   "mount": {
     "/rest": "${rootDir}/controllers/**/*.ts"
   },
-  "componentsScan": [
-    "${rootDir}/middlewares/**/*.ts",
-    "${rootDir}/services/**/*.ts",
-    "${rootDir}/converters/**/*.ts"
-  ]
+  "componentsScan": ["${rootDir}/middlewares/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/converters/**/*.ts"]
 }
 ```
 
@@ -41,13 +38,13 @@ or when you bootstrap your Server (e.g. `index.ts`):
 <<< @/docs/snippets/configuration/bootstrap.ts
 
 ::: tip Note
-Ts.ED supports [ts-node](https://github.com/TypeStrong/ts-node). Ts extension will be replaced by a Js extension if 
+Ts.ED supports [ts-node](https://github.com/TypeStrong/ts-node). Ts extension will be replaced by a Js extension if
 ts-node isn't the runtime.
 :::
 
 ## Load configuration from file
 
-Ts.ED doesn't provide solution to load configuration from files. Because, there is many solution to achieve this, 
+Ts.ED doesn't provide solution to load configuration from files. Because, there is many solution to achieve this,
 we consider this part as the developer responsibility.
 
 By using [node-config](https://www.npmjs.com/package/config) or [dotenv](https://www.npmjs.com/package/dotenv), it's possible to load your configuration from file
@@ -66,8 +63,8 @@ as following:
   </Tab>  
 </Tabs>
 
-
 ## Options
+
 ### rootDir
 
 - type: `string`
@@ -100,9 +97,9 @@ import {Configuration, Constant} from "@tsed/di";
   env: Env.PROD
 })
 export class Server {
-  @Constant('env')
+  @Constant("env")
   env: Env;
-  
+
   $beforeRoutesInit() {
     if (this.env === Env.PROD) {
       // do something
@@ -127,10 +124,10 @@ Port number for the [HTTPs.Server](https://nodejs.org/api/https.html#https_class
 ### httpsOptions
 
 - type: [Https.ServerOptions](https://nodejs.org/api/tls.html#tls_tls_createserver_options_secureconnectionlistener)
-  * `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms, an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers making use of private keys.
-  * `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
-  * `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
-  * `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted, several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
+  - `key` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | &lt;Object[]&gt;: The private key of the server in PEM format. To support multiple keys using different algorithms, an array can be provided either as a plain array of key strings or an array of objects in the format `{pem: key, passphrase: passphrase}`. This option is required for ciphers making use of private keys.
+  - `passphrase` &lt;string&gt; A string containing the passphrase for the private key or pfx.
+  - `cert` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers containing the certificate key of the server in PEM format. (Required)
+  - `ca` &lt;string&gt; | &lt;string[]&gt; | [&lt;Buffer&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer) | [&lt;Buffer[]&gt;](https://nodejs.org/api/buffer.html#buffer_class_buffer): A string, Buffer, array of strings, or array of Buffers of trusted certificates in PEM format. If this is omitted, several well known "root" CAs (like VeriSign) will be used. These are used to authorize connections.
 
 See the [HTTPs project example](https://github.com/tsedio/example-ts-express-decorator/tree/2.0.0/example-https)
 
@@ -175,7 +172,7 @@ List of glob pattern to scan directories which contains [Services](/docs/service
 
 - type: `PlatformMiddlewareSettings[]`
 
-A middleware list (Express.js, Ts.ED, Koa, etc...) must be loaded on the `$beforeRoutesInit` hook or on the specified hook. 
+A middleware list (Express.js, Ts.ED, Koa, etc...) must be loaded on the `$beforeRoutesInit` hook or on the specified hook.
 In addition, it's also possible to configure the environment for which the middleware should be loaded.
 
 Here is an example to load middlewares with the previous version (this example will be always available!):
@@ -186,8 +183,8 @@ import {Env} from "@tsed/core";
 
 @Configuration({})
 export class Server {
-  $afterInit(){
-    this.app.use(helmet({contentSecurityPolicy: false}))
+  $afterInit() {
+    this.app.use(helmet({contentSecurityPolicy: false}));
   }
   $beforeRoutesInit() {
     if (this.env === Env.PROD) {
@@ -200,9 +197,11 @@ export class Server {
       .use(compress({}))
       .use(methodOverride())
       .use(bodyParser.json())
-      .use(bodyParser.urlencoded({
-        extended: true
-      }))
+      .use(
+        bodyParser.urlencoded({
+          extended: true
+        })
+      )
       .use(AuthTokenMiddleware);
 
     return null;
@@ -217,7 +216,7 @@ import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
 
 @Configuration({
   middlewares: [
-    {hook: '$afterInit', use: helmet({contentSecurityPolicy: false})},
+    {hook: "$afterInit", use: helmet({contentSecurityPolicy: false})},
     {env: Env.PROD, use: EnsureHttpsMiddleware},
     cors(),
     cookieParser(),
@@ -230,9 +229,9 @@ import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
     AuthTokenMiddleware
   ]
 })
-export class Server {
-}
+export class Server {}
 ```
+
 ::: warning Order priority
 The middlewares added through `middlewares` options will always be registered after the middlewares registered through the hook methods!
 :::
@@ -276,8 +275,7 @@ import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
     [ProviderType.CONTROLLER]: ProviderScope.REQUEST
   }
 })
-export class Server {
-}
+export class Server {}
 ```
 
 ### logger
@@ -291,7 +289,7 @@ Logger configuration. See [logger section for more detail](/docs/logger.md).
 - type: @@DIResolver@@
 
 Ts.ED has its own DI container, but sometimes you have to work with other DI like Inversify or TypeDI. The version 5.39.0+
-now allows you to configure multiple external DI by using the `resolvers` options. 
+now allows you to configure multiple external DI by using the `resolvers` options.
 
 The resolvers options can be configured as following:
 
@@ -306,7 +304,7 @@ It's also possible to register resolvers with the @@Module@@ decorator:
 Object to configure Views engines with Consolidate. See more on [View engine](/docs/templating.md).
 
 ### acceptMimes
- 
+
 Configure the mimes accepted by default for each request by the server.
 
 ### responseFilters
@@ -341,30 +339,30 @@ Object to mount all directories under an endpoint.
  
 ### koa.router
 
-The global configuration for the Koa.Router. 
+The global configuration for the Koa.Router.
 
 ```typescript
 interface KoaRouterOptions {
-    /**
-     * Prefix for all routes.
-     */
-    prefix?: string;
-    /**
-     * Methods which should be supported by the router.
-     */
-    methods?: string[];
-    routerPath?: string;
-    /**
-     * Whether or not routing should be case-sensitive.
-     */
-    sensitive?: boolean;
-    /**
-     * Whether or not routes should matched strictly.
-     *
-     * If strict matching is enabled, the trailing slash is taken into
-     * account when matching routes.
-     */
-    strict?: boolean;
+  /**
+   * Prefix for all routes.
+   */
+  prefix?: string;
+  /**
+   * Methods which should be supported by the router.
+   */
+  methods?: string[];
+  routerPath?: string;
+  /**
+   * Whether or not routing should be case-sensitive.
+   */
+  sensitive?: boolean;
+  /**
+   * Whether or not routes should matched strictly.
+   *
+   * If strict matching is enabled, the trailing slash is taken into
+   * account when matching routes.
+   */
+  strict?: boolean;
 }
 ```
 
@@ -376,34 +374,35 @@ Object to mount all directories under an endpoint.
 
 ```typescript
 interface KoaStaticsOptions {
-    /** Browser cache max-age in milliseconds. (defaults to 0) */
-    maxage?: number;
-    maxAge?: SendOptions["maxage"];
-    /** Tell the browser the resource is immutable and can be cached indefinitely. (defaults to false) */
-    immutable?: boolean;
-    /** Allow transfer of hidden files. (defaults to false) */
-    hidden?: boolean;
-    /** Root directory to restrict file access. (defaults to '') */
-    root?: string;
-    /** Name of the index file to serve automatically when visiting the root location. (defaults to none) */
-    index?: string | false;
-    /** Try to serve the gzipped version of a file automatically when gzip is supported by a client and if the requested file with .gz extension exists. (defaults to true). */
-    gzip?: boolean;
-    /** Try to serve the brotli version of a file automatically when brotli is supported by a client and if the requested file with .br extension exists. (defaults to true). */
-    brotli?: boolean;
-    /** If not false (defaults to true), format the path to serve static file servers and not require a trailing slash for directories, so that you can do both /directory and /directory/. */
-    format?: boolean;
-    /** Function to set custom headers on response. */
-    setHeaders?: SetHeaders;
-    /** Try to match extensions from passed array to search for file when no extension is sufficed in URL. First found is served. (defaults to false) */
-    extensions?: string[] | false;
+  /** Browser cache max-age in milliseconds. (defaults to 0) */
+  maxage?: number;
+  maxAge?: SendOptions["maxage"];
+  /** Tell the browser the resource is immutable and can be cached indefinitely. (defaults to false) */
+  immutable?: boolean;
+  /** Allow transfer of hidden files. (defaults to false) */
+  hidden?: boolean;
+  /** Root directory to restrict file access. (defaults to '') */
+  root?: string;
+  /** Name of the index file to serve automatically when visiting the root location. (defaults to none) */
+  index?: string | false;
+  /** Try to serve the gzipped version of a file automatically when gzip is supported by a client and if the requested file with .gz extension exists. (defaults to true). */
+  gzip?: boolean;
+  /** Try to serve the brotli version of a file automatically when brotli is supported by a client and if the requested file with .br extension exists. (defaults to true). */
+  brotli?: boolean;
+  /** If not false (defaults to true), format the path to serve static file servers and not require a trailing slash for directories, so that you can do both /directory and /directory/. */
+  format?: boolean;
+  /** Function to set custom headers on response. */
+  setHeaders?: SetHeaders;
+  /** Try to match extensions from passed array to search for file when no extension is sufficed in URL. First found is served. (defaults to false) */
+  extensions?: string[] | false;
 }
 ```
-  
+
   </Tab>
 </Tabs>
 
 ## HTTP & HTTPs server
+
 ### Change address
 
 It's possible to change the HTTP and HTTPS server address as follows:
@@ -412,8 +411,8 @@ It's possible to change the HTTP and HTTPS server address as follows:
 import {Configuration} from "@tsed/common";
 
 @Configuration({
-   httpPort: "127.0.0.1:8081",
-   httpsPort: "127.0.0.2:8082",
+  httpPort: "127.0.0.1:8081",
+  httpsPort: "127.0.0.2:8082"
 })
 export class Server {}
 ```
@@ -426,20 +425,20 @@ Random port assignment can be enable with the value `0`. The port assignment wil
 import {Configuration} from "@tsed/common";
 
 @Configuration({
-   httpPort: "127.0.0.1:0",
-   httpsPort: "127.0.0.2:0",
+  httpPort: "127.0.0.1:0",
+  httpsPort: "127.0.0.2:0"
 })
 export class Server {}
 ```
 
-Or: 
+Or:
 
 ```typescript
 import {Configuration} from "@tsed/common";
 
 @Configuration({
-   httpPort: 0,
-   httpsPort: 0,
+  httpPort: 0,
+  httpsPort: 0
 })
 export class Server {}
 ```
@@ -450,7 +449,7 @@ export class Server {}
 import {Configuration} from "@tsed/common";
 
 @Configuration({
-   httpPort: false
+  httpPort: false
 })
 export class Server {}
 ```
@@ -461,14 +460,14 @@ export class Server {}
 import {Configuration} from "@tsed/common";
 
 @Configuration({
-   httpsPort: false,
+  httpsPort: false
 })
 export class Server {}
 ```
 
 ## Get configuration
 
-The configuration can be reused throughout your application in different ways. 
+The configuration can be reused throughout your application in different ways.
 
 - With dependency injection in [Service](/docs/services.md), [Controller](/docs/controllers.md), [Middleware](/docs/middlewares.md), [Filter](/docs/filters.md) or [Converter](/docs/converters.md).
 - With the decorators @@Constant@@ and @@Value@@.
@@ -486,14 +485,14 @@ export class MyService {
 
 ### From decorators
 
-Decorators @@Constant@@ and @@Value@@ can be used in all classes including: 
- 
- - [Provider](/docs/providers.md),
- - [Interceptor](/docs/interceptors.md),
- - [Service](/docs/services.md),
- - [Controller](/docs/controllers.md),
- - [Middleware](/docs/middlewares.md).
- 
+Decorators @@Constant@@ and @@Value@@ can be used in all classes including:
+
+- [Provider](/docs/providers.md),
+- [Interceptor](/docs/interceptors.md),
+- [Service](/docs/services.md),
+- [Controller](/docs/controllers.md),
+- [Middleware](/docs/middlewares.md).
+
 @@Constant@@ and @@Value@@ accepts an expression as parameters to inspect the configuration object and return the value.
 
 <<< @/docs/snippets/providers/binding-configuration.ts
@@ -503,6 +502,5 @@ Decorators @@Constant@@ and @@Value@@ can be used in all classes including:
 :::
 
 ::: tip NOTE
-The values for the decorated properties aren't available on constructor. Use $onInit() hook to use the value.
+The values for the decorated properties aren't available on constructor. Use \$onInit() hook to use the value.
 :::
-

@@ -1,10 +1,11 @@
 ---
 meta:
- - name: description
-   content: Documentation over Http Exceptions provided by Ts.ED framework. Use class to throw a standard Http error.
- - name: keywords
-   content: http exceptions ts.ed express typescript node.js javascript decorators jsonschema class models
+  - name: description
+    content: Documentation over Http Exceptions provided by Ts.ED framework. Use class to throw a standard Http error.
+  - name: keywords
+    content: http exceptions ts.ed express typescript node.js javascript decorators jsonschema class models
 ---
+
 # Exceptions
 
 Ts.ED http exceptions provide classes to throw standard HTTP exceptions. These exceptions can be used on Controller, Middleware or injectable Service.
@@ -37,7 +38,7 @@ Here is two examples to throw exceptions based on this package in Ts.ED context 
 <<< @/docs/snippets/exceptions/usage-express-route.ts
 
   </Tab>
-</Tabs> 
+</Tabs>
 
 ## Custom exception
 
@@ -53,7 +54,7 @@ Since IDFormatException extends the @@BadRequest@@, it will work seamlessly with
 
 ## Built-in exceptions
 
-Ts.ED provides a set of standard exceptions that inherit from the base @@Exception@@. 
+Ts.ED provides a set of standard exceptions that inherit from the base @@Exception@@.
 These are exposed from the @tsed/exceptions package, and represent many of the most common HTTP exceptions:
 
 ### Redirections (3xx)
@@ -75,13 +76,13 @@ All errors are intercepted by the @@PlatformExceptionMiddleware@@.
 By default, all HTTP Exceptions are automatically sent to the client, and technical errors are
 sent as Internal Server Error.
 
-The [Platform API](/docs/platform-api.md) provides @@Catch@@ decorator to catch error. 
+The [Platform API](/docs/platform-api.md) provides @@Catch@@ decorator to catch error.
 It lets you control the exact flow of control and the content of the response sent back to the client.
 
-Let's create an exception filter that is responsible for catching exceptions which are an instance of the @@Exception@@ class, 
-and implementing custom response logic for them. 
+Let's create an exception filter that is responsible for catching exceptions which are an instance of the @@Exception@@ class,
+and implementing custom response logic for them.
 
-To do this, we'll need to access the underlying platform Request and Response objects by using the @@Context@@ decorator. 
+To do this, we'll need to access the underlying platform Request and Response objects by using the @@Context@@ decorator.
 We'll access the Request object, so we can pull out the original url and include that in the logging information.
 We'll use the Response object to take direct control of the response that is sent, using the `response.body()` method.
 
@@ -91,7 +92,7 @@ We'll use the Response object to take direct control of the response that is sen
 All exception filters should implement the generic `ExceptionFilterMethods<T>` interface. This requires you to provide the catch(exception: T, ctx: Context) method with its indicated signature. `T` indicates the type of the exception.
 :::
 
-The `@Catch(Exception)` decorator binds the required metadata to the exception filter, telling Ts.ED that this particular filter is looking for exceptions of type @@Exception@@ and nothing else. 
+The `@Catch(Exception)` decorator binds the required metadata to the exception filter, telling Ts.ED that this particular filter is looking for exceptions of type @@Exception@@ and nothing else.
 The @@Catch@@ decorator may take a single parameter, or a comma-separated list. This lets you set up the filter for several types of exceptions at once.
 
 If you want to catch all errors, just use the @@Catch@@ decorator with the `Error` class:
@@ -122,6 +123,5 @@ import "./filters/ResourceNotFoundFilter"; // Importing filter with ES6 import i
 @Configuration({
   // ...
 })
-export class Server {
-}
+export class Server {}
 ```

@@ -43,5 +43,5 @@ export async function getFormioSchema(
 
   await Promise.all(resolvers.map((resolver: any) => resolver(form, options)));
 
-  return (form as unknown) as FormioForm;
+  return form as unknown as FormioForm;
 }

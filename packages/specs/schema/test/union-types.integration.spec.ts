@@ -2,9 +2,8 @@ import {AdditionalProperties, AnyOf, array, Enum, string} from "../src";
 import {getJsonSchema} from "@tsed/schema";
 import Ajv from "ajv";
 
-
-describe('Union on model', () => {
-  it('should return the expected schema', () => {
+describe("Union on model", () => {
+  it("should return the expected schema", () => {
     enum Color {
       RED = "red",
       GREEN = "green",
@@ -20,45 +19,41 @@ describe('Union on model', () => {
     const schema = getJsonSchema(GetColorsQueryParameters);
 
     expect(schema).toEqual({
-      "additionalProperties": false,
-      "properties": {
-        "color": {
-          "anyOf": [
+      additionalProperties: false,
+      properties: {
+        color: {
+          anyOf: [
             {
-              "enum": [
-                "red",
-                "green",
-                "blue"
-              ],
-              "type": "string"
+              enum: ["red", "green", "blue"],
+              type: "string"
             },
             {
-              "items": {
-                "enum": [
-                  "red",
-                  "green",
-                  "blue"
-                ],
-                "type": "string"
+              items: {
+                enum: ["red", "green", "blue"],
+                type: "string"
               },
-              "type": "array"
+              type: "array"
             }
           ]
         }
       },
-      "type": "object"
-    })
+      type: "object"
+    });
 
-    const ajv = new Ajv({})
+    const ajv = new Ajv({});
 
-    expect(ajv.validate(schema, {
-      color: "blue"
-    })).toEqual(true)
-    expect(ajv.validate(schema, {
-      color: ["blue"]
-    })).toEqual(true)
-  })
-  it('should return the expected schema (no union)', () => {
+    expect(
+      ajv.validate(schema, {
+        color: "blue"
+      })
+    ).toEqual(true);
+    expect(
+      ajv.validate(schema, {
+        color: ["blue"]
+      })
+    ).toEqual(true);
+  });
+  it("should return the expected schema (no union)", () => {
     enum Color {
       RED = "red",
       GREEN = "green",
@@ -74,32 +69,32 @@ describe('Union on model', () => {
     const schema = getJsonSchema(GetColorsQueryParameters);
 
     expect(schema).toEqual({
-      "additionalProperties": false,
-      "properties": {
-        "color": {
-          "items": {
-            "enum": [
-              "red",
-              "green",
-              "blue"
-            ],
-            "type": "string"
+      additionalProperties: false,
+      properties: {
+        color: {
+          items: {
+            enum: ["red", "green", "blue"],
+            type: "string"
           },
-          "type": "array"
+          type: "array"
         }
       },
-      "type": "object"
-    })
+      type: "object"
+    });
 
     const ajv = new Ajv({
       coerceTypes: "array"
-    })
+    });
 
-    expect(ajv.validate(schema, {
-      color: "blue"
-    })).toEqual(true)
-    expect(ajv.validate(schema, {
-      color: ["blue"]
-    })).toEqual(true)
-  })
-})
+    expect(
+      ajv.validate(schema, {
+        color: "blue"
+      })
+    ).toEqual(true);
+    expect(
+      ajv.validate(schema, {
+        color: ["blue"]
+      })
+    ).toEqual(true);
+  });
+});

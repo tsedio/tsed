@@ -8,14 +8,14 @@ const rootDir = __dirname;
   views: {
     root: `${rootDir}/views`,
     viewEngine: "ejs",
-    extensions: { // optional
-      "ejs": "ejs",
-      "hbs": "handlebars"
+    extensions: {
+      // optional
+      ejs: "ejs",
+      hbs: "handlebars"
     },
     options: {
       ejs: {} // global options for ejs engine. See official engine documentation for more details.
     }
   }
 })
-class Server {
-}
+class Server {}

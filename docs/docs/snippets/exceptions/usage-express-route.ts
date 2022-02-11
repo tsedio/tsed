@@ -5,7 +5,9 @@ import {getCalendar} from "../services/CalendarService";
 const app = Express();
 
 app.get("/calendars/:id", async (req: any, res: any, next: any) => {
-  const {params: {id}} = req;
+  const {
+    params: {id}
+  } = req;
 
   if (isNaN(+id)) {
     const error = new BadRequest("ID is not a number");
@@ -15,7 +17,7 @@ app.get("/calendars/:id", async (req: any, res: any, next: any) => {
       "x-header": "value"
     });
 
-    error.errors = [{"message": "ID is not a number"}];
+    error.errors = [{message: "ID is not a number"}];
     error.body = "Not a number";
 
     return next(error);
@@ -25,7 +27,7 @@ app.get("/calendars/:id", async (req: any, res: any, next: any) => {
     const calendar = await getCalendar(res.params.id);
 
     if (!calendar) {
-      return next(new NotFound("Calendar not found");
+      return next(new NotFound("Calendar not found"));
     }
 
     res.json(calendar);
@@ -34,11 +36,11 @@ app.get("/calendars/:id", async (req: any, res: any, next: any) => {
   }
 });
 
-
 // GlobalHandler middleware catch exception and send response to the client
 app.use((err: any, request: any, response: any, next: any) => {
   if (err instanceof Exception) {
-    if (err.errors) { // If errors is provided
+    if (err.errors) {
+      // If errors is provided
       response.set({"x-errors": JSON.stringify(err.errors)});
     }
 
@@ -46,7 +48,8 @@ app.use((err: any, request: any, response: any, next: any) => {
       response.set(err.headers);
     }
 
-    if (err.body) { // If a body is provided
+    if (err.body) {
+      // If a body is provided
       return response.status(err.status).json(err.body);
     }
 

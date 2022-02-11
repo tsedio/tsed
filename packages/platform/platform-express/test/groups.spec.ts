@@ -31,31 +31,37 @@ const utils = PlatformTestUtils.create({
 @Controller("/groups")
 class TestGroupsCtrl {
   @Post("/")
-  @(Returns(201, Product).Groups("group.*"))
+  @Returns(201, Product).Groups("group.*")
   async create(@BodyParams() @Groups("creation") payload: Product) {
-    return deserialize({
-      ...payload,
-      id: payload.id || "newId"
-    }, {type: Product});
+    return deserialize(
+      {
+        ...payload,
+        id: payload.id || "newId"
+      },
+      {type: Product}
+    );
   }
 
   @Put("/:id")
   @Returns(200, Product)
-  async update(@BodyParams() @Groups("group.*") payload: Product, @PathParams("id")  id: string) {
+  async update(@BodyParams() @Groups("group.*") payload: Product, @PathParams("id") id: string) {
     expect(payload.id).to.be.a("string");
 
     return payload;
   }
 
   @Get("/:id")
-  @(Returns(200, Product).Groups("group.summary"))
-  async get(@PathParams("id")  id: string) {
-    return deserialize({
-      id,
-      label: "label",
-      price: 100,
-      description: "description"
-    }, {type: Product});
+  @Returns(200, Product).Groups("group.summary")
+  async get(@PathParams("id") id: string) {
+    return deserialize(
+      {
+        id,
+        label: "label",
+        price: 100,
+        description: "description"
+      },
+      {type: Product}
+    );
   }
 }
 
@@ -89,164 +95,158 @@ describe("Groups", () => {
     const spec = getSpec(TestGroupsCtrl, {specType: SpecTypes.OPENAPI});
 
     expect(spec).to.deep.eq({
-      "components": {
-        "schemas": {
-          "Product": {
-            "properties": {
-              "id": {
-                "type": "string"
+      components: {
+        schemas: {
+          Product: {
+            properties: {
+              id: {
+                type: "string"
               },
-              "label": {
-                "type": "string"
+              label: {
+                type: "string"
               }
             },
-            "type": "object"
+            type: "object"
           },
-          "ProductCreation": {
-            "properties": {
-              "label": {
-                "type": "string"
+          ProductCreation: {
+            properties: {
+              label: {
+                type: "string"
               }
             },
-            "type": "object"
+            type: "object"
           },
-          "ProductGroup": {
-            "properties": {
-              "description": {
-                "type": "string"
+          ProductGroup: {
+            properties: {
+              description: {
+                type: "string"
               },
-              "id": {
-                "type": "string"
+              id: {
+                type: "string"
               },
-              "label": {
-                "type": "string"
+              label: {
+                type: "string"
               },
-              "price": {
-                "type": "number"
+              price: {
+                type: "number"
               }
             },
-            "type": "object"
+            type: "object"
           },
-          "ProductGroupSummary": {
-            "properties": {
-              "id": {
-                "type": "string"
+          ProductGroupSummary: {
+            properties: {
+              id: {
+                type: "string"
               },
-              "label": {
-                "type": "string"
+              label: {
+                type: "string"
               },
-              "price": {
-                "type": "number"
+              price: {
+                type: "number"
               }
             },
-            "type": "object"
+            type: "object"
           }
         }
       },
-      "paths": {
+      paths: {
         "/groups": {
-          "post": {
-            "operationId": "testGroupsCtrlCreate",
-            "parameters": [],
-            "requestBody": {
-              "content": {
+          post: {
+            operationId: "testGroupsCtrlCreate",
+            parameters: [],
+            requestBody: {
+              content: {
                 "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ProductCreation"
+                  schema: {
+                    $ref: "#/components/schemas/ProductCreation"
                   }
                 }
               },
-              "required": false
+              required: false
             },
-            "responses": {
+            responses: {
               "201": {
-                "content": {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/ProductGroup"
+                    schema: {
+                      $ref: "#/components/schemas/ProductGroup"
                     }
                   }
                 },
-                "description": "Created"
+                description: "Created"
               }
             },
-            "tags": [
-              "TestGroupsCtrl"
-            ]
+            tags: ["TestGroupsCtrl"]
           }
         },
         "/groups/{id}": {
-          "get": {
-            "operationId": "testGroupsCtrlGet",
-            "parameters": [
+          get: {
+            operationId: "testGroupsCtrlGet",
+            parameters: [
               {
-                "in": "path",
-                "name": "id",
-                "required": true,
-                "schema": {
-                  "type": "string"
+                in: "path",
+                name: "id",
+                required: true,
+                schema: {
+                  type: "string"
                 }
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "content": {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/ProductGroupSummary"
+                    schema: {
+                      $ref: "#/components/schemas/ProductGroupSummary"
                     }
                   }
                 },
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "TestGroupsCtrl"
-            ]
+            tags: ["TestGroupsCtrl"]
           },
-          "put": {
-            "operationId": "testGroupsCtrlUpdate",
-            "parameters": [
+          put: {
+            operationId: "testGroupsCtrlUpdate",
+            parameters: [
               {
-                "in": "path",
-                "name": "id",
-                "required": true,
-                "schema": {
-                  "type": "string"
+                in: "path",
+                name: "id",
+                required: true,
+                schema: {
+                  type: "string"
                 }
               }
             ],
-            "requestBody": {
-              "content": {
+            requestBody: {
+              content: {
                 "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/ProductGroup"
+                  schema: {
+                    $ref: "#/components/schemas/ProductGroup"
                   }
                 }
               },
-              "required": false
+              required: false
             },
-            "responses": {
+            responses: {
               "200": {
-                "content": {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/Product"
+                    schema: {
+                      $ref: "#/components/schemas/Product"
                     }
                   }
                 },
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "TestGroupsCtrl"
-            ]
+            tags: ["TestGroupsCtrl"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "TestGroupsCtrl"
+          name: "TestGroupsCtrl"
         }
       ]
     });
@@ -254,7 +254,8 @@ describe("Groups", () => {
 
   describe("POST /rest/groups", () => {
     it("should create product according to the model groups configuration", async () => {
-      const {body} = await request.post("/rest/groups")
+      const {body} = await request
+        .post("/rest/groups")
         .send({
           label: "label",
           price: 100,
@@ -263,12 +264,13 @@ describe("Groups", () => {
         .expect(201);
 
       expect(body).to.deep.eq({
-        "id": "newId",
-        "label": "label"
+        id: "newId",
+        label: "label"
       });
     });
-    it("should doesn\'t deserialize extra fields", async () => {
-      const {body} = await request.post("/rest/groups")
+    it("should doesn't deserialize extra fields", async () => {
+      const {body} = await request
+        .post("/rest/groups")
         .send({
           id: "newId",
           label: "label",
@@ -278,8 +280,8 @@ describe("Groups", () => {
         .expect(201);
 
       expect(body).to.deep.eq({
-        "id": "newId",
-        "label": "label"
+        id: "newId",
+        label: "label"
       });
     });
   });
@@ -289,9 +291,9 @@ describe("Groups", () => {
       const {body} = await request.get("/rest/groups/1").expect(200);
 
       expect(body).to.deep.eq({
-        "id": "1",
-        "label": "label",
-        "price": 100
+        id: "1",
+        label: "label",
+        price: 100
       });
     });
   });

@@ -25,6 +25,6 @@ class AuthTokenMiddleware {
 class MyCtrl {
   @Get("/")
   get(@Context() context: Context, @Context("auth") auth: AuthToken) {
-    context.logger.info({ event: "auth", auth }); // Attach log to the request
+    context.logger.info({event: "auth", auth}); // Attach log to the request
   }
 }

@@ -7,16 +7,17 @@ import {User} from "./User";
 @MongoosePlugin(findOrCreate)
 class UserModel {
   // this isn't the complete method signature, just an example
-  static findOrCreate(condition: InstanceType<User>):
-    Promise<{doc: InstanceType<User>, created: boolean}>;
+  static findOrCreate(condition: InstanceType<User>): Promise<{doc: InstanceType<User>; created: boolean}>;
 }
 
 @Injectable()
 class UserService {
   constructor(@Inject(UserModel) userModel: MongooseModel<UserModel>) {
     userModel
-      .findOrCreate({...})
-      .then(findOrCreateResult => {
+      .findOrCreate({
+        // ...
+      })
+      .then((findOrCreateResult) => {
         // ...
       });
   }

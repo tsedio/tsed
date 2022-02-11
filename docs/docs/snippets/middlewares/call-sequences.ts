@@ -9,7 +9,6 @@ import {Controller} from "@tsed/di";
 @UseBeforeEach(MdlwCtrlBeforeEach)
 @Use(MdlwCtrl)
 export class MyCtrl {
-
   @Get("/")
   @UseBefore(MdlwBefore)
   @Use(Mdlw)

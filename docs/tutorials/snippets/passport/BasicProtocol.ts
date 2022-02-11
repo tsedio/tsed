@@ -11,8 +11,7 @@ import {checkEmail} from "../utils/checkEmail";
   settings: {}
 })
 export class BasicProtocol implements OnVerify, OnInstall {
-  constructor(private usersService: UsersService) {
-  }
+  constructor(private usersService: UsersService) {}
 
   async $onVerify(@Req() request: Req, @Arg(0) username: string, @Arg(1) password: string) {
     checkEmail(username);

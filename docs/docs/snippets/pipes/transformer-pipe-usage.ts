@@ -10,9 +10,11 @@ export class PersonsController {
   private personsService: PersonsService;
 
   @Get(":id")
-  async findOne(@RawPathParams("id")
-                @UsePipe(ParseIntPipe) id: number) {
-
+  async findOne(
+    @RawPathParams("id")
+    @UsePipe(ParseIntPipe)
+    id: number
+  ) {
     return this.personsService.findOne(id);
   }
 }

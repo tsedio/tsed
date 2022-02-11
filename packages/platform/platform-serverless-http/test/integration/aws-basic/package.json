@@ -3,7 +3,7 @@
   "scripts": {
     "//build": "NODE_ENV=production webpack",
     "build": "tsc --project tsconfig.compile.json",
-    "start":  "serverless offline start",
+    "start": "serverless offline start",
     "invoke": "serverless invoke local -f any --data '{\"path\":\"/timeslots\", \"httpMethod\": \"GET\"}'"
   },
   "devDependencies": {

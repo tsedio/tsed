@@ -1,7 +1,6 @@
 import {CollectionOf} from "@tsed/schema";
 import {getFormioSchema} from "../src";
 
-
 describe("DataMap integration", () => {
   it("should generate form (string)", async () => {
     class Model {
@@ -10,31 +9,31 @@ describe("DataMap integration", () => {
     }
 
     expect(await getFormioSchema(Model)).toEqual({
-      "components": [
+      components: [
         {
-          "disabled": false,
-          "input": true,
-          "key": "test",
-          "label": "Test",
-          "tableView": false,
-          "type": "datamap",
-          "validate": {
-            "required": false
+          disabled: false,
+          input: true,
+          key: "test",
+          label: "Test",
+          tableView: false,
+          type: "datamap",
+          validate: {
+            required: false
           },
-          "valueComponent": {
-            "disabled": false,
-            "hideLabel": true,
-            "input": true,
-            "tableView": true,
-            "type": "textfield"
+          valueComponent: {
+            disabled: false,
+            hideLabel: true,
+            input: true,
+            tableView: true,
+            type: "textfield"
           }
         }
       ],
-      "display": "form",
-      "machineName": "model",
-      "name": "model",
-      "title": "Model",
-      "type": "form",
+      display: "form",
+      machineName: "model",
+      name: "model",
+      title: "Model",
+      type: "form",
       submissionAccess: [],
       access: [],
       tags: []
@@ -47,35 +46,35 @@ describe("DataMap integration", () => {
     }
 
     expect(await getFormioSchema(Model)).toEqual({
-      "components": [
+      components: [
         {
-          "disabled": false,
-          "input": true,
-          "key": "test",
-          "label": "Test",
-          "tableView": false,
-          "type": "datamap",
-          "validate": {
-            "required": false
+          disabled: false,
+          input: true,
+          key: "test",
+          label: "Test",
+          tableView: false,
+          type: "datamap",
+          validate: {
+            required: false
           },
-          "valueComponent": {
-            "delimiter": false,
-            "disabled": false,
-            "hideLabel": true,
-            "input": true,
-            "inputFormat": "plain",
-            "mask": false,
-            "requireDecimal": false,
-            "tableView": true,
-            "type": "number"
+          valueComponent: {
+            delimiter: false,
+            disabled: false,
+            hideLabel: true,
+            input: true,
+            inputFormat: "plain",
+            mask: false,
+            requireDecimal: false,
+            tableView: true,
+            type: "number"
           }
         }
       ],
-      "display": "form",
-      "machineName": "model",
-      "name": "model",
-      "title": "Model",
-      "type": "form",
+      display: "form",
+      machineName: "model",
+      name: "model",
+      title: "Model",
+      type: "form",
       submissionAccess: [],
       access: [],
       tags: []

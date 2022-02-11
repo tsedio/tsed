@@ -49,7 +49,7 @@ describe("@Partial", () => {
       @Path("/")
       class MyController {
         @OperationPath("PATCH", "/")
-        @(Returns(200, MyModel).Groups("group.*"))
+        @Returns(200, MyModel).Groups("group.*")
         async patch(@In("body") @Partial() payload: MyModel) {
           return new MyModel();
         }

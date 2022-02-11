@@ -11,11 +11,11 @@ const rootDir = Path.resolve(__dirname);
       `${rootDir}/controllers/current/**/*.ts`,
       MyController // support manual import
     ],
-    "/rest/v0": [ // versioning
+    "/rest/v0": [
+      // versioning
       `${rootDir}/controllers/v0/users/*.js`,
       `!${rootDir}/controllers/v0/groups/old/*.ts` // Exclusion
     ]
   }
 })
-export class Server {
-}
+export class Server {}

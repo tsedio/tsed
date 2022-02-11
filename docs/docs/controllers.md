@@ -1,10 +1,11 @@
 ---
 meta:
- - name: description
-   content: Documentation over Controllers provided by Ts.ED framework. Use controllers to build your REST API.
- - name: keywords
-   content: controllers ts.ed express typescript node.js javascript decorators jsonschema class models
+  - name: description
+    content: Documentation over Controllers provided by Ts.ED framework. Use controllers to build your REST API.
+  - name: keywords
+    content: controllers ts.ed express typescript node.js javascript decorators jsonschema class models
 ---
+
 # Controllers
 
 Controllers are responsible for handling incoming **requests** and returning **responses** to the client.
@@ -21,11 +22,11 @@ In order to create a basic controller, we use classes and **decorators**. Decora
 ### Usage
 
 In the following example we'll use the @@Controller@@ decorator which is required to define a basic controller.
- We'll specify a path for the controller which will be used by the routing mechanism to create your routes.
+We'll specify a path for the controller which will be used by the routing mechanism to create your routes.
 
 <<< @/docs/snippets/controllers/basic-controller.ts
 
-The @@Get@@ decorator before the `findAll()` method tells Ts.ED to create an endpoint for this particular route path and 
+The @@Get@@ decorator before the `findAll()` method tells Ts.ED to create an endpoint for this particular route path and
 map every corresponding request to this handler. Since we've declared a prefix for every route (`/calendars`), Ts.ED will map every `GET /calendars` request to this method.
 
 ### Decorators
@@ -45,7 +46,7 @@ Here an example:
 
 <<< @/docs/snippets/controllers/routing.ts
 
-### Create multiple versions of your API 
+### Create multiple versions of your API
 
 As you have seen in the previous example, the `mount` attribute is an object that let you provide the global endpoint for all your controllers under the `controllers` folder.
 
@@ -55,9 +56,9 @@ You can add more configurations to mount different endpoints associated to a fol
 
 ### Async and Promise
 
-Ts.ED works well with Promise and `async` function. 
+Ts.ED works well with Promise and `async` function.
 Every async function has to return a `Promise`.
-This means that you can return a deferred value that Ts.ED will be able to resolve by itself. 
+This means that you can return a deferred value that Ts.ED will be able to resolve by itself.
 
 Let's see an example of this:
 
@@ -71,7 +72,7 @@ Also, Ts.ED support function that return `Observable`, `Stream` or `Buffer`.
 
 ### Axios response
 
-Sometime, you just want call another API to proxy a webservice. 
+Sometime, you just want call another API to proxy a webservice.
 Axios is an excellent library to call API in Node.js and Ts.ED is able to handle Axios response to wrap it into an Express.js response.
 
 <<< @/docs/snippets/controllers/axios-controller.ts
@@ -85,11 +86,11 @@ verb like this:
 
 ### Routes order
 
-Be aware that routes registration order (methods order in classes) matters. 
-Assume that you have a route that allows getting a calendar by its path (`/calendars/:id`). 
-If you register another endpoint below the mentioned one, which basically returns all calendars at once (calendars), 
+Be aware that routes registration order (methods order in classes) matters.
+Assume that you have a route that allows getting a calendar by its path (`/calendars/:id`).
+If you register another endpoint below the mentioned one, which basically returns all calendars at once (calendars),
 the request will never hit the actual handler because all path parameters are optional.
- 
+
 See the following example:
 
 <<< @/docs/snippets/controllers/routes-order.ts
@@ -97,6 +98,7 @@ See the following example:
 In order to avoid such side-effects, simply move `findAll()` method above `findOne()`.
 
 ## Request
+
 ### Decorators
 
 <ApiList query="status.includes('decorator') && status.includes('operation') && status.includes('input')" />
@@ -166,6 +168,7 @@ class QueryController {
   get(@QueryParams() params: QueryParamsModel, @QueryParams("locale") locale: string) {}
 }
 ```
+
 :::
 
 ::: warning
@@ -226,11 +229,12 @@ Example:
 <<< @/docs/snippets/controllers/request-input-validation.ts
 
 ::: warning
-Validation require the `@tsed/ajv` plugins to work. 
+Validation require the `@tsed/ajv` plugins to work.
 
 ```sh
 npm install --save @tsed/ajv
-``` 
+```
+
 :::
 
 **Supported decorators:**
@@ -266,19 +270,20 @@ You can set the response header with the @@Header@@ decorator:
 Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to “302 “Found”.
 
 ```typescript
-@Controller('/')
+@Controller("/")
 class MyCtrl {
-  @Redirect('/foo/bar')
-  @Redirect(301, 'http://example.com')
+  @Redirect("/foo/bar")
+  @Redirect(301, "http://example.com")
   myMethod() {}
 }
 ```
+
 Redirects can be a fully-qualified URL for redirecting to a different site:
 
 ```typescript
-@Controller('/')
+@Controller("/")
 class MyCtrl {
-  @Redirect('http://google.com')
+  @Redirect("http://google.com")
   myMethod() {}
 }
 ```
@@ -286,18 +291,19 @@ class MyCtrl {
 Redirects can be relative to the root of the host name. For example, if the application is on http://example.com/admin/post/new, the following would redirect to the URL http://example.com/admin:
 
 ```typescript
-@Controller('/')
+@Controller("/")
 class MyCtrl {
-  @Redirect('/admin')
+  @Redirect("/admin")
   myMethod() {}
 }
 ```
+
 Redirects can be relative to the current URL. For example, from http://example.com/blog/admin/ (notice the trailing slash), the following would redirect to the URL http://example.com/blog/admin/post/new.
 
 ```typescript
-@Controller('/')
+@Controller("/")
 class MyCtrl {
-  @Redirect('post/new')
+  @Redirect("post/new")
   myMethod() {}
 }
 ```
@@ -309,9 +315,9 @@ If you found the above behavior confusing, think of path segments as directories
 Path-relative redirects are also possible. If you were on http://example.com/admin/post/new, the following would redirect to http//example.com/admin/post:
 
 ```typescript
-@Controller('/')
+@Controller("/")
 class MyCtrl {
-  @Redirect('..')
+  @Redirect("..")
   myMethod() {}
 }
 ```
@@ -320,10 +326,9 @@ A back redirection redirects the request back to the referer, defaulting to / wh
 
 ```typescript
 class MyCtrl {
-  @Redirect('back')
+  @Redirect("back")
   myMethod() {}
 }
-
 ```
 
 Finally, it also possible to perform redirection programmatically:
@@ -335,7 +340,7 @@ import {Controller, Get, ctx} from "@tsed/common";
 class MyCtrl {
   @Get("/")
   myMethod(@Context() ctx: Context) {
-    return ctx.response.redirect("/path/to")
+    return ctx.response.redirect("/path/to");
   }
 }
 ```
@@ -358,8 +363,8 @@ With @@Returns@@ you can document correctly your endpoint to reflect the correct
   </Tab>
   <Tab label="Document.ts" icon="bx-code-alt">
 
-<<< @/docs/snippets/controllers/response-generics-document.ts  
-  
+<<< @/docs/snippets/controllers/response-generics-document.ts
+
   </Tab>  
   <Tab label="Product.ts" icon="bx-code-alt">
 
@@ -376,11 +381,10 @@ With @@Returns@@ you can document correctly your endpoint to reflect the correct
      
   </Tab>
 </Tabs>
-                                                            
 
 ### Throw exceptions
 
-You can use [@tsed/exceptions](/docs/exceptions.md)  or similar module to throw an http exception.
+You can use [@tsed/exceptions](/docs/exceptions.md) or similar module to throw an http exception.
 All exception will be intercepted by the [Global error handler](/docs/middlewares/override/global-error-handler.md)
 and are sent to the client.
 
@@ -389,7 +393,7 @@ Here is an example:
 <<< @/docs/snippets/controllers/response-throw-exceptions.ts
 
 ::: tip
-This example will produce a response with status code 400 and "Not a number" message. 
+This example will produce a response with status code 400 and "Not a number" message.
 @@GlobalErrorHandlerMiddleware@@ will catch and format the error before sending it to the client.
 :::
 
@@ -400,7 +404,7 @@ See our guide on [HttpExceptions to throw customer HttpExceptions](/docs/throw-h
 ## Inject Request and Response
 
 You can use a decorator to inject the Request in order to retrieve information from the request that you cannot get through decorators.
-In the same way you can inject the Response instance in order to modify some of its information. 
+In the same way you can inject the Response instance in order to modify some of its information.
 
 This is not recommended, however, because your will potentially be specific to the platform you are using (Express.js, Koa.js, etc ...)
 
@@ -413,7 +417,7 @@ It's also possible to inject the high level PlatformRequest and PlatformResponse
 <<< @/docs/snippets/controllers/inject-req-res-platform.ts
 
 Finally, it is also possible to retrieve the request and response in Node.js version:
- 
+
 <<< @/docs/snippets/controllers/inject-req-res-node.ts
 
 ## Inject next
@@ -448,9 +452,7 @@ And its view:
 
 ```html
 <h1><%- name %></h1>
-<div>
-    Start: <%- startDate %>
-</div>
+<div>Start: <%- startDate %></div>
 ```
 
 ::: tip
@@ -459,8 +461,8 @@ To configure a template engine with Ts.ED, see our guide to [install the engine 
 
 ## Middlewares
 
-The middleware is a function which is called before the route handler. 
-Middleware functions have access to the request and response objects, and the next middleware function in the application’s request-response cycle. 
+The middleware is a function which is called before the route handler.
+Middleware functions have access to the request and response objects, and the next middleware function in the application’s request-response cycle.
 The next middleware function is commonly denoted by a variable named next.
 
 ::: tip
@@ -478,7 +480,7 @@ The following decorators lets you add custom middleware on a method or on contro
 ### Middleware call sequence
 
 When a request is sent to the server all middlewares added on the Server, Controller or Endpoint
- will be called while a response isn't sent by one of the middleware in the lifecycle.
+will be called while a response isn't sent by one of the middleware in the lifecycle.
 
 <figure><img src="./../assets/middleware-in-sequence.svg" style="max-width:400px; padding:30px"></figure>
 
@@ -488,7 +490,7 @@ See [middlewares section](/docs/middlewares.md) for more information.
 
 ## Nested controllers
 
-A controller can have one or more nested controllers. This feature allows you to combine your controllers with each other to define your routes. 
+A controller can have one or more nested controllers. This feature allows you to combine your controllers with each other to define your routes.
 One controller can be added to multiple controllers, so you can easily reuse the same controller.
 
 <Tabs class="-code">
@@ -512,22 +514,21 @@ One controller can be added to multiple controllers, so you can easily reuse the
 <<< @/docs/snippets/controllers/child-controllers-server.ts
 
   </Tab>      
-</Tabs>  
+</Tabs>
 
 This example will produce these following routes:
 
-Verb | Route | Method
----|---|---
-GET | `/rest` | `RestCtrl.get()`
-GET | `/rest/calendars` | `CalendarCtrl.get()`
-GET | `/rest/calendars/events` | `EventCtrl.get()`
-GET | `/rest/events` | `EventCtrl.get()`
+| Verb | Route                    | Method                |
+| ---- | ------------------------ | --------------------- |
+| GET  | `/rest`                  |  `RestCtrl.get()`     |
+| GET  | `/rest/calendars`        |  `CalendarCtrl.get()` |
+| GET  | `/rest/calendars/events` |  `EventCtrl.get()`    |
+| GET  | `/rest/events`           |  `EventCtrl.get()`    |
 
 ## Inheritance
 
 Ts.ED supports the ES6 inheritance class. So you can declare a controller that implement some generic method
 and use it on a children class.
-
 
 To do that just declare a parent controller without the @@Controller@@ decorator.
 

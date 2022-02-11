@@ -1,14 +1,15 @@
 ---
 meta:
- - name: description
-   content: Use TypeORM with Ts.ED. ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.
- - name: keywords
-   content: ts.ed express typescript typeorm node.js javascript decorators
-projects:   
- - title: Kit TypeORM
-   href: https://github.com/tsedio/tsed-example-typeorm
-   src: /typeorm.png
+  - name: description
+    content: Use TypeORM with Ts.ED. ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.
+  - name: keywords
+    content: ts.ed express typescript typeorm node.js javascript decorators
+projects:
+  - title: Kit TypeORM
+    href: https://github.com/tsedio/tsed-example-typeorm
+    src: /typeorm.png
 ---
+
 # TypeORM <Badge text="Contributors are welcome" />
 
 <Banner src="https://github.com/typeorm/typeorm/raw/master/resources/logo_big.png" href="https://typeorm.io/" height="200" />
@@ -24,6 +25,7 @@ Currently, `@tsed/typeorm` allows you to:
 ## Installation
 
 To begin, install the TypeORM module for TS.ED:
+
 ```bash
 npm install --save @tsed/typeorm
 npm install --save typeorm
@@ -73,10 +75,10 @@ We can use this model with a Controller like that:
 
 ## EntityRepository
 
-You can create a custom repository which should contain methods to work with your database. 
+You can create a custom repository which should contain methods to work with your database.
 Usually custom repositories are created for a single entity and contain their specific queries.
-For example, let's say we want to have a method called `findByName(firstName: string, lastName: string)` which will search for users by a given first and last names. 
-The best place for this method is in Repository, so we could call it like `userRepository.findByName(...)`. 
+For example, let's say we want to have a method called `findByName(firstName: string, lastName: string)` which will search for users by a given first and last names.
+The best place for this method is in Repository, so we could call it like `userRepository.findByName(...)`.
 You can achieve this using custom repositories.
 
 `@tsed/typeorm` plugin configures the DI so that repositories declared for TypeORM can be injected into a Ts.ED controller or service.
@@ -93,7 +95,7 @@ Then inject your repository to another service:
 Use @@UseConnection@@ decorator to select which database connection the injected repository should be used (require Ts.ED v5.58.0+).
 :::
 
-## Author 
+## Author
 
 <GithubContributors :users="['Romakita']"/>
 

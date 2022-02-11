@@ -2,6 +2,7 @@
 prev: true
 next: true
 ---
+
 # Hooks
 
 Ts.ED emits different events during its initialization
@@ -21,11 +22,9 @@ import {BeforeInit, Configuration} from "@tsed/common";
 
 @Configuration({})
 class Server implements BeforeInit {
-  async $beforeInit(): Promise<any>  {
-    
-  }
+  async $beforeInit(): Promise<any> {}
 }
-``` 
+```
 
 or on your @@Module@@ or @@Service@@:
 
@@ -33,10 +32,8 @@ or on your @@Module@@ or @@Service@@:
 import {Module, BeforeInit} from "@tsed/common";
 
 @Module()
-export class MyModule implements BeforeInit  {
-  async $beforeInit(): Promise<any>  {
-    
-  }
+export class MyModule implements BeforeInit {
+  async $beforeInit(): Promise<any> {}
 }
 ```
 

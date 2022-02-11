@@ -15,8 +15,7 @@ import {UsersService} from "../services/users/UsersService";
   }
 })
 export class SignupLocalProtocol implements OnVerify, OnInstall {
-  constructor(private usersService: UsersService) {
-  }
+  constructor(private usersService: UsersService) {}
 
   async $onVerify(@Req() request: Req, @BodyParams() user: UserCreation) {
     const {email} = user;

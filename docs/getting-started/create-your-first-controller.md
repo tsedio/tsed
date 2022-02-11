@@ -3,20 +3,21 @@ prev: /docs/configuration.md
 next: /docs/controllers.html
 otherTopics: true
 meta:
- - name: description
-   content: Create your first controller. Ts.ED is built on top of Express and uses TypeScript language.
- - name: keywords
-   content: controller getting started ts.ed express typescript node.js javascript decorators mvc class models
+  - name: description
+    content: Create your first controller. Ts.ED is built on top of Express and uses TypeScript language.
+  - name: keywords
+    content: controller getting started ts.ed express typescript node.js javascript decorators mvc class models
 ---
+
 # Create your first controller
 
 Create a new `CalendarCtrl.ts` in your controllers directory (by default `root/controllers`).
-All controllers declared with @@Controller@@ decorators are considered as Platform routers (Express.Router, Koa.Router, ...). 
-A Platform router requires a path (here, the path is `/calendars`) to expose an url on your server. 
-More precisely, it's a part of a path, and the entire exposed url depends on the Server configuration (see [Configuration](/docs/configuration.md)) 
+All controllers declared with @@Controller@@ decorators are considered as Platform routers (Express.Router, Koa.Router, ...).
+A Platform router requires a path (here, the path is `/calendars`) to expose an url on your server.
+More precisely, it's a part of a path, and the entire exposed url depends on the Server configuration (see [Configuration](/docs/configuration.md))
 and the [children controllers](/docs/controllers.md).
 
-In this case, we have no dependencies and the root endpoint is set to `/rest`. 
+In this case, we have no dependencies and the root endpoint is set to `/rest`.
 So the controller's url will be `http://host/rest/calendars`.
 
 <<< @/docs/snippets/controllers/basic-controller.ts

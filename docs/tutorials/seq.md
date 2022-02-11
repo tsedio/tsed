@@ -1,10 +1,11 @@
 ---
 meta:
- - name: description
-   content: Use Seq logger, TypeScript and Ts.ED. Seq is the centralized structured logs for NodeJS, .NET, Java etc.
- - name: keywords
-   content: ts.ed express typescript seq node.js javascript decorators
+  - name: description
+    content: Use Seq logger, TypeScript and Ts.ED. Seq is the centralized structured logs for NodeJS, .NET, Java etc.
+  - name: keywords
+    content: ts.ed express typescript seq node.js javascript decorators
 ---
+
 # Seq
 
 <Banner src="https://blog.datalust.co/content/images/2018/09/Seq-380px-1.png" href="https://datalust.co/seq" :height="128" />
@@ -31,10 +32,9 @@ import "@tsed/seq"; // import seq Ts.ED module
     serverUrl: "http://localhost:5341" // url props works also
   }
 })
-export class Server {
-
-}
+export class Server {}
 ```
+
 ::: tip Note
 Seq module uses the [@tsed/logger](https://logger.tsed.io/) as a default system logger
 :::
@@ -51,18 +51,16 @@ import {$log} from "@tsed/logger";
 
 @Controller("/calendars")
 export class Calendar {
-    
-    @Get('/:id')
-    async getCalendar(@QueryParams('id') id: string): Promise<CalendarModel> {
-      $log.info(id);
-    }
-   
+  @Get("/:id")
+  async getCalendar(@QueryParams("id") id: string): Promise<CalendarModel> {
+    $log.info(id);
+  }
 }
 ```
 
 Then we should see the log in the Seq panel (by default `localhost:5341`)
 
-## Author 
+## Author
 
 <GithubContributors users="['OskarLebuda']"/>
 

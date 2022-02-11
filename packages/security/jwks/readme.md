@@ -43,12 +43,12 @@ npm install --save @tsed/jwks
 import {generateJwks} from "./getJwks";
 
 // Generate only jwks
-const jwks = generateJwks()
+const jwks = generateJwks();
 
 // Create keys.json file if not exists
 const jwks = getJwks({
   path: "path/to/keys.json"
-})
+});
 ```
 
 Outputs:
@@ -81,16 +81,16 @@ const jwks = generateJwks({
     {path: "path/keys/sig.rsa.pub.pem", alg: "RS256", use: "sig", kid: "key-0"},
     {path: "path/keys/enc.rsa.pub.pem", alg: "RS256", use: "enc", kid: "key-1"}
   ]
-})
+});
 
 // Create keys.json file if not exists
 const jwks = getJwks({
   path: "path/to/keys.json",
   certificates: [
     {path: "path/keys/sig.rsa.pub.pem", alg: "RS256", use: "sig", kid: "key-0"},
-    {path: "path/keys/enc.rsa.pub.pem", alg: "RS256", use: "enc", kid: "key-1"},
+    {path: "path/keys/enc.rsa.pub.pem", alg: "RS256", use: "enc", kid: "key-1"}
   ]
-})
+});
 ```
 
 ## Contributors

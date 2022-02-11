@@ -1,7 +1,5 @@
 {
-  "consumes": [
-    "application/json"
-  ],
+  "consumes": ["application/json"],
   "info": {
     "contact": {
       "email": "apiteam@swagger.io"
@@ -15,9 +13,7 @@
     "title": "Swagger Petstore",
     "version": "1.0.0"
   },
-  "produces": [
-    "application/json"
-  ],
+  "produces": ["application/json"],
   "securityDefinitions": {
     "calendar_auth": {
       "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",

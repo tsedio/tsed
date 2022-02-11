@@ -12,8 +12,7 @@ import {Server} from "./app/Server";
 @Hidden()
 class AdminCtrl {
   @Get("/")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/events")
@@ -21,8 +20,7 @@ class AdminCtrl {
 class EventCtrl {
   @Get("/")
   @Description("Events")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/admin")
@@ -30,8 +28,7 @@ class EventCtrl {
 class BackAdminCtrl {
   @Get("/")
   @Description("Admins")
-  get() {
-  }
+  get() {}
 }
 
 @Controller({
@@ -42,18 +39,18 @@ class CalendarsController {
   @Get("/:id")
   @Returns(200, Calendar)
   async get(@PathParams("id") @ObjectID() id: string): Promise<Calendar> {
-    return new Calendar({ id, name: "test" });
+    return new Calendar({id, name: "test"});
   }
 
   @Get("/")
-  @(Returns(200, Array).Of(Calendar))
+  @Returns(200, Array).Of(Calendar)
   async getAll(): Promise<Calendar[]> {
-    return [new Calendar({ id: 1, name: "name" }), new Calendar({ id: 2, name: "name" })];
+    return [new Calendar({id: 1, name: "name"}), new Calendar({id: 2, name: "name"})];
   }
 
   @Post("/csv")
   @Consumes("text/plain")
-  @(Returns(200, String).ContentType("text/plain"))
+  @Returns(200, String).ContentType("text/plain")
   async csv(@BodyParams() csvLines: string): Promise<string> {
     return "";
   }

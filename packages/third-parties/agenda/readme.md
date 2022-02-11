@@ -59,16 +59,14 @@ const mongoConnectionString = "mongodb://127.0.0.1/agenda";
 
 @Configuration({
   agenda: {
-   enabled: true, // Enable Agenda jobs for this instance.
-   // pass any options that you would normally pass to new Agenda(), e.g.
-   db: {
-     address: mongoConnectionString
-   }
+    enabled: true, // Enable Agenda jobs for this instance.
+    // pass any options that you would normally pass to new Agenda(), e.g.
+    db: {
+      address: mongoConnectionString
+    }
   }
 })
-export class Server {
-
-}
+export class Server {}
 ```
 
 ## Create a new Service
@@ -130,8 +128,8 @@ export class UsersService implements AfterRoutesInit {
     // do something
     // ...
     // then schedule some jobs
-    await this.agenda.now("email.sendWelcomeEmail", {user})
-    await this.agenda.schedule("in 2 hours", "email.sendFollowUpEmail", {user})
+    await this.agenda.now("email.sendWelcomeEmail", {user});
+    await this.agenda.schedule("in 2 hours", "email.sendFollowUpEmail", {user});
 
     return user;
   }
@@ -139,17 +137,16 @@ export class UsersService implements AfterRoutesInit {
 ```
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

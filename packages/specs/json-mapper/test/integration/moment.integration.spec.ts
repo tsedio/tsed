@@ -34,13 +34,13 @@ describe("Moment", async () => {
 
     expect(serialize(data.date)).to.deep.eq("20220101");
     expect(serialize(data)).to.deep.eq({
-      "date": "20220101"
+      date: "20220101"
     });
 
-    getJsonMapperTypes().delete("Moment")
+    getJsonMapperTypes().delete("Moment");
 
     expect(serialize(data)).to.deep.eq({
-      "date": moment("2022-01-01").toJSON()
+      date: moment("2022-01-01").toJSON()
     });
   });
 });

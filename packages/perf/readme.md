@@ -40,7 +40,7 @@ npm install --save @tsed/perf
 ```typescript
 import {PerfLogger} from "@tsed/perf";
 
-const {wrap, start, end, bind, log} = PerfLogger.get('mylogger')
+const {wrap, start, end, bind, log} = PerfLogger.get("mylogger");
 
 // bind all class methods
 
@@ -49,17 +49,18 @@ class MyClass {
   doSomething2() {}
 }
 
-const instance = bind(new MyClass())
+const instance = bind(new MyClass());
 
-star() // log nothing this line is commented
+star(); // log nothing this line is commented
 
-instance.doSomething1()
-instance.doSomething2()
+instance.doSomething1();
+instance.doSomething2();
 
-end()
+end();
 ```
 
 Will output:
+
 ```
 [bootstrap]  0.786ms - START - MyClass.doSomething1             (from latest: +0.443ms)
 [bootstrap] 23.875ms - END   - MyClass.doSomething1             (method: +23.397ms)
@@ -74,13 +75,11 @@ Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html).
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
-
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
-
 
 ## Sponsors
 

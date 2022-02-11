@@ -29,9 +29,7 @@
     "/": {
       "post": {
         "operationId": "myControllerMethod",
-        "tags": [
-          "MyController"
-        ],
+        "tags": ["MyController"],
         "parameters": [
           {
             "in": "body",

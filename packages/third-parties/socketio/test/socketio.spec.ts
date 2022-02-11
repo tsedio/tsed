@@ -16,8 +16,7 @@ export class HelloSocketService {
 
 @Controller("/nsp")
 export class HelloCtrl {
-  constructor(private service: HelloSocketService) {
-  }
+  constructor(private service: HelloSocketService) {}
 
   @Get("/hello")
   hello() {

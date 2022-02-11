@@ -2,7 +2,7 @@ import {Field, ID, ObjectType} from "type-graphql";
 
 @ObjectType()
 export class Recipe {
-  @Field(type => ID)
+  @Field((type) => ID)
   id: string;
 
   @Field()
@@ -14,6 +14,6 @@ export class Recipe {
   @Field()
   creationDate: Date;
 
-  @Field(type => [String])
+  @Field((type) => [String])
   ingredients: string[];
 }

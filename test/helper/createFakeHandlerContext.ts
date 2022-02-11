@@ -1,4 +1,4 @@
-import { AnyToPromiseWithCtx, PlatformTest } from "@tsed/common";
+import {AnyToPromiseWithCtx, PlatformTest} from "@tsed/common";
 
 export function createFakeHandlerContext() {
   const $ctx = PlatformTest.createRequestContext();

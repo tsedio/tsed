@@ -33,11 +33,9 @@ import {Configuration} from "@tsed/common";
 import "@tsed/ajv"; // import ajv ts.ed module
 
 @Configuration({
-    rootDir: __dirname
+  rootDir: __dirname
 })
-export class Server {
-
-}
+export class Server {}
 ```
 
 ### Decorators
@@ -53,39 +51,37 @@ be validated by Ajv.
 import {Required, MaxLength, MinLength, Minimum, Maximum, Format, Enum, Pattern, Email} from "@tsed/common";
 
 export class CalendarModel {
-    
-    @MaxLength(20)
-    @MinLength(3)
-    @Required()
-    title: string;
+  @MaxLength(20)
+  @MinLength(3)
+  @Required()
+  title: string;
 
-    @Minimum(0)
-    @Maximum(10)
-    rating: number;
+  @Minimum(0)
+  @Maximum(10)
+  rating: number;
 
-    @Email()
-    email: string;
+  @Email()
+  email: string;
 
-    @Format("date")  // or date-time, etc...
-    createDate: Date;
-    
-    @Pattern(/hello/)
-    customInput: string;
-    
-    @Enum("value1", "value2")
-    customInput: "value1" | "value2";
+  @Format("date") // or date-time, etc...
+  createDate: Date;
+
+  @Pattern(/hello/)
+  customInput: string;
+
+  @Enum("value1", "value2")
+  customInput: "value1" | "value2";
 }
 ```
 
 > All validation decorators are compatible with the Swagger documentation.
 
-
 ## Error configuration
 
 The AJV module allows a few settings to be added through the ServerSettings (all are optional):
 
-* *options*, are AJV specific options passed directly to the AJV constructor,
-* *errorFormatter*, can be used to alter the output produced by the @tsed/ajv package.
+- _options_, are AJV specific options passed directly to the AJV constructor,
+- _errorFormatter_, can be used to alter the output produced by the @tsed/ajv package.
 
 The error message could be changed like:
 
@@ -94,23 +90,20 @@ import {Configuration} from "@tsed/common";
 import "@tsed/ajv"; // import ajv ts.ed module
 
 @Configuration({
-    rootDir: __dirname,
-     ajv: {
-       errorFormatter: (error) => `At ${error.modelName}${error.dataPath}, value '${error.data}' ${error.message}`,
-       options: {verbose: true}
-    },
+  rootDir: __dirname,
+  ajv: {
+    errorFormatter: (error) => `At ${error.modelName}${error.dataPath}, value '${error.data}' ${error.message}`,
+    options: {verbose: true}
+  }
 })
-export class Server {
-
-}
+export class Server {}
 ```
 
-
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 

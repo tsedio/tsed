@@ -1073,7 +1073,7 @@ describe("getSpec()", () => {
       @Description("Class description")
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String).Description("description"))
+        @Returns(200, String).Description("description")
         method() {}
       }
 
@@ -1110,7 +1110,7 @@ describe("getSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String).Description("description"))
+        @Returns(200, String).Description("description")
         method() {}
       }
 
@@ -1150,7 +1150,7 @@ describe("getSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array).Of(String).Description("description"))
+        @Returns(200, Array).Of(String).Description("description")
         method() {}
       }
 
@@ -1190,7 +1190,7 @@ describe("getSpec()", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array).Of(String).Description("description"))
+        @Returns(200, Array).Of(String).Description("description")
         method() {}
       }
 

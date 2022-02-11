@@ -7,9 +7,9 @@ import "@tsed/typegraphql";
     `${rootDir}/graphql/**/*.ts` // add this pattern to scan resolvers or datasources
   ],
   typegraphql: {
-    "server1": {
+    server1: {
       // GraphQL server configuration
-      path: '/',
+      path: "/",
       playground: true, // enable playground GraphQL IDE. Set false to use Apollo Studio
 
       // resolvers?: (Function | string)[];
@@ -20,7 +20,7 @@ import "@tsed/typegraphql";
       // See options descriptions on https://www.apollographql.com/docs/apollo-server/api/apollo-server.html
       serverConfig: {
         plugins: []
-      },
+      }
 
       // middlewareOptions?: ServerRegistration;
 
@@ -30,5 +30,4 @@ import "@tsed/typegraphql";
     }
   }
 })
-export class Server {
-}
+export class Server {}

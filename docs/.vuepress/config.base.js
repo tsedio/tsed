@@ -1,31 +1,31 @@
 const markdown = require("@tsed/markdown-it-symbols");
 const team = require("../../team.json");
-const { version } = require("../../package");
+const {version} = require("../../package");
 
-module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", themeConfig }) => ({
+module.exports = ({title, description, base = "", url, apiRedirectUrl = "", themeConfig}) => ({
   title,
   description,
   url,
   theme: "tsed",
   head: [
-    ["link", { canonical: url }],
-    ["link", { rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon" }],
-    ["link", { rel: "icon", href: "/favicon.ico", type: "apple-touch-icon" }],
-    ["link", { rel: "icon", href: "/apple-touch-icon.png", type: "image/x-icon", sizes: "180x180" }],
-    ["link", { rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32" }],
-    ["link", { rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16" }],
-    ["link", { rel: "manifest", href: "/site.webmanifest" }],
-    ["meta", { property: "og:url", content: url }],
-    ["meta", { property: "og:type", content: "website" }],
-    ["meta", { property: "og:site_name", content: title }],
-    ["meta", { property: "og:title", content: title }],
-    ["meta", { property: "og:description", content: description }],
-    ["meta", { property: "og:image", content: `${url}/tsed-og.png` }],
-    ["meta", { property: "og:image:width", content: "1024" }],
-    ["meta", { property: "og:image:height", content: "1024" }],
-    ["meta", { name: "twitter:title", content: title }],
-    ["meta", { name: "twitter:description", content: description }],
-    ["meta", { name: "twitter:card", content: "summary" }]
+    ["link", {canonical: url}],
+    ["link", {rel: "shortcut icon", href: "/favicon.ico", type: "image/x-icon"}],
+    ["link", {rel: "icon", href: "/favicon.ico", type: "apple-touch-icon"}],
+    ["link", {rel: "icon", href: "/apple-touch-icon.png", type: "image/x-icon", sizes: "180x180"}],
+    ["link", {rel: "icon", href: "/favicon-32x32.png", type: "image/png", sizes: "32x32"}],
+    ["link", {rel: "icon", href: "/favicon-16x16.png", type: "image/png", sizes: "16x16"}],
+    ["link", {rel: "manifest", href: "/site.webmanifest"}],
+    ["meta", {property: "og:url", content: url}],
+    ["meta", {property: "og:type", content: "website"}],
+    ["meta", {property: "og:site_name", content: title}],
+    ["meta", {property: "og:title", content: title}],
+    ["meta", {property: "og:description", content: description}],
+    ["meta", {property: "og:image", content: `${url}/tsed-og.png`}],
+    ["meta", {property: "og:image:width", content: "1024"}],
+    ["meta", {property: "og:image:height", content: "1024"}],
+    ["meta", {name: "twitter:title", content: title}],
+    ["meta", {name: "twitter:description", content: description}],
+    ["meta", {name: "twitter:card", content: "summary"}]
   ],
   themeConfig: {
     shortTitle: "Ts.ED",
@@ -167,8 +167,8 @@ module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", the
             text: "Warehouse",
             link: `${base}/warehouse/`,
             items: [
-              { text: "Explore plugins", link: `${base}/warehouse/` },
-              { text: "Project examples", link: `${base}/tutorials/` }
+              {text: "Explore plugins", link: `${base}/warehouse/`},
+              {text: "Project examples", link: `${base}/tutorials/`}
             ]
           },
           {
@@ -308,9 +308,9 @@ module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", the
           {
             title: "Getting started",
             children: [
-              { title: "Start with CLI", path: base + "/getting-started/start-with-cli" },
-              { title: "Start from scratch", path: base + "/getting-started/start-from-scratch" },
-              { title: "Create your first controller", path: base + "/getting-started/create-your-first-controller" }
+              {title: "Start with CLI", path: base + "/getting-started/start-with-cli"},
+              {title: "Start from scratch", path: base + "/getting-started/start-from-scratch"},
+              {title: "Create your first controller", path: base + "/getting-started/create-your-first-controller"}
             ]
           },
           {
@@ -331,74 +331,74 @@ module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", the
             title: "Documentation",
             collapsable: true,
             children: [
-              { title: "Configuration", path: base + "/docs/configuration" },
-              { title: "Controllers", path: base + "/docs/controllers" },
-              { title: "Providers", path: base + "/docs/providers" },
-              { title: "Models", path: base + "/docs/model" },
-              { title: "Json Mapper", path: base + "/docs/converters" },
-              { title: "Middlewares", path: base + "/docs/middlewares" },
-              { title: "Pipes", path: base + "/docs/pipes" },
-              { title: "Interceptors", path: base + "/docs/interceptors" },
-              { title: "Authentication", path: base + "/docs/authentication" },
-              { title: "Hooks", path: base + "/docs/hooks" },
-              { title: "Response filter", path: base + "/docs/response-filter" },
-              { title: "Exceptions", path: base + "/docs/exceptions" },
-              { title: "Logger", path: base + "/docs/logger" },
-              { title: "Context", path: base + "/docs/request-context" },
-              { title: "Cache", path: base + "/docs/cache" },
-              { title: "Platform API", path: base + "/docs/platform-api" },
-              { title: "Command", path: base + "/docs/command" },
-              { title: "Templating", path: base + "/docs/templating" },
-              { title: "Validation", path: base + "/docs/validation" },
-              { title: "Session & Cookies", path: base + "/tutorials/session" },
-              { title: "Testing", path: base + "/docs/testing" }
+              {title: "Configuration", path: base + "/docs/configuration"},
+              {title: "Controllers", path: base + "/docs/controllers"},
+              {title: "Providers", path: base + "/docs/providers"},
+              {title: "Models", path: base + "/docs/model"},
+              {title: "Json Mapper", path: base + "/docs/converters"},
+              {title: "Middlewares", path: base + "/docs/middlewares"},
+              {title: "Pipes", path: base + "/docs/pipes"},
+              {title: "Interceptors", path: base + "/docs/interceptors"},
+              {title: "Authentication", path: base + "/docs/authentication"},
+              {title: "Hooks", path: base + "/docs/hooks"},
+              {title: "Response filter", path: base + "/docs/response-filter"},
+              {title: "Exceptions", path: base + "/docs/exceptions"},
+              {title: "Logger", path: base + "/docs/logger"},
+              {title: "Context", path: base + "/docs/request-context"},
+              {title: "Cache", path: base + "/docs/cache"},
+              {title: "Platform API", path: base + "/docs/platform-api"},
+              {title: "Command", path: base + "/docs/command"},
+              {title: "Templating", path: base + "/docs/templating"},
+              {title: "Validation", path: base + "/docs/validation"},
+              {title: "Session & Cookies", path: base + "/tutorials/session"},
+              {title: "Testing", path: base + "/docs/testing"}
             ]
           },
           {
             title: "Advanced",
             collapsable: true,
             children: [
-              { title: "Upload files", path: base + "/docs/upload-files" },
-              { title: "Serve files", path: base + "/docs/serve-files" },
-              { title: "Scopes injection", path: base + "/docs/injection-scopes" },
-              { title: "Custom providers", path: base + "/docs/custom-providers" },
-              { title: "Lazy-loading provider", path: base + "/docs/providers-lazy-loading" },
-              { title: "Custom decorators", path: base + "/docs/custom-endpoint-decorators" },
-              { title: "Throw HTTP exceptions", path: base + "/docs/throw-http-exceptions" },
-              { title: "Customize 404", path: base + "/docs/not-found-page" }
+              {title: "Upload files", path: base + "/docs/upload-files"},
+              {title: "Serve files", path: base + "/docs/serve-files"},
+              {title: "Scopes injection", path: base + "/docs/injection-scopes"},
+              {title: "Custom providers", path: base + "/docs/custom-providers"},
+              {title: "Lazy-loading provider", path: base + "/docs/providers-lazy-loading"},
+              {title: "Custom decorators", path: base + "/docs/custom-endpoint-decorators"},
+              {title: "Throw HTTP exceptions", path: base + "/docs/throw-http-exceptions"},
+              {title: "Customize 404", path: base + "/docs/not-found-page"}
             ]
           },
           {
             title: "Plugins",
             collapsable: true,
             children: [
-              { title: "Passport", path: base + "/tutorials/passport" },
-              { title: "Keycloak", path: base + "/tutorials/keycloak" },
-              { title: "Prisma", path: base + "/tutorials/prisma" },
-              { title: "Mikro ORM", path: base + "/tutorials/mikroorm" },
-              { title: "TypeORM", path: base + "/tutorials/typeorm" },
-              { title: "Mongoose", path: base + "/tutorials/mongoose" },
-              { title: "GraphQL", path: base + "/tutorials/graphql" },
-              { title: "Socket.io", path: base + "/tutorials/socket-io" },
-              { title: "Open API", path: base + "/tutorials/swagger" },
-              { title: "AJV", path: base + "/tutorials/ajv" },
-              { title: "AWS", path: base + "/tutorials/aws" },
-              { title: "OIDC", path: base + "/tutorials/oidc" },
-              { title: "Stripe", path: base + "/tutorials/stripe" },
-              { title: "Agenda", path: base + "/tutorials/agenda" },
-              { title: "Terminus", path: base + "/tutorials/terminus" },
-              { title: "Serverless", path: base + "/tutorials/serverless" }
+              {title: "Passport", path: base + "/tutorials/passport"},
+              {title: "Keycloak", path: base + "/tutorials/keycloak"},
+              {title: "Prisma", path: base + "/tutorials/prisma"},
+              {title: "Mikro ORM", path: base + "/tutorials/mikroorm"},
+              {title: "TypeORM", path: base + "/tutorials/typeorm"},
+              {title: "Mongoose", path: base + "/tutorials/mongoose"},
+              {title: "GraphQL", path: base + "/tutorials/graphql"},
+              {title: "Socket.io", path: base + "/tutorials/socket-io"},
+              {title: "Open API", path: base + "/tutorials/swagger"},
+              {title: "AJV", path: base + "/tutorials/ajv"},
+              {title: "AWS", path: base + "/tutorials/aws"},
+              {title: "OIDC", path: base + "/tutorials/oidc"},
+              {title: "Stripe", path: base + "/tutorials/stripe"},
+              {title: "Agenda", path: base + "/tutorials/agenda"},
+              {title: "Terminus", path: base + "/tutorials/terminus"},
+              {title: "Serverless", path: base + "/tutorials/serverless"}
             ]
           },
           {
             title: "Extras",
             children: [
-              { title: "Our Team", path: base + "/team" },
-              { title: "Tutorials", path: base + "/tutorials/" },
-              { title: "Contributing", path: base + "/contributing" },
-              { title: "Support us", path: base + "/support" },
-              { title: "License", path: base + "/license" },
-              { title: "API References", path: `${apiRedirectUrl}/api` }
+              {title: "Our Team", path: base + "/team"},
+              {title: "Tutorials", path: base + "/tutorials/"},
+              {title: "Contributing", path: base + "/contributing"},
+              {title: "Support us", path: base + "/support"},
+              {title: "License", path: base + "/license"},
+              {title: "API References", path: `${apiRedirectUrl}/api`}
             ]
           }
         ],
@@ -511,7 +511,7 @@ module.exports = ({ title, description, base = "", url, apiRedirectUrl = "", the
   },
   markdown: {
     lineNumbers: true,
-    extendMarkdown: md => {
+    extendMarkdown: (md) => {
       md.use(markdown);
     }
   }

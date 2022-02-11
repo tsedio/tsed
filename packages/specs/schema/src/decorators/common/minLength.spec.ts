@@ -64,7 +64,7 @@ describe("@MinLength", () => {
     // WHEN
     class Model {
       @MinLength(0)
-      @(CollectionOf(String).MinItems(0).MaxItems(10))
+      @CollectionOf(String).MinItems(0).MaxItems(10)
       words: string[];
     }
 

@@ -1,10 +1,9 @@
 ---
 name: "❤️ Say thank you"
 about: Tell us how you use Ts.ED & support our efforts in maintaining it
-title: ''
-labels: ''
+title: ""
+labels: ""
 assignees: Romakita
-
 ---
 
 # ❤️ I'm using Ts.ED

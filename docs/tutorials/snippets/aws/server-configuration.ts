@@ -25,9 +25,11 @@ export class Server {
       .use(compress({}))
       .use(methodOverride())
       .use(bodyParser.json())
-      .use(bodyParser.urlencoded({
-        extended: true
-      }))
+      .use(
+        bodyParser.urlencoded({
+          extended: true
+        })
+      )
       .use(awsServerlessExpressMiddleware.eventContext());
   }
 }

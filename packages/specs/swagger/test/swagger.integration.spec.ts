@@ -43,14 +43,14 @@ class CalendarsController {
   }
 
   @Get("/")
-  @(Returns(200, Array).Of(Calendar))
+  @Returns(200, Array).Of(Calendar)
   async getAll(): Promise<Calendar[]> {
     return [new Calendar({id: 1, name: "name"}), new Calendar({id: 2, name: "name"})];
   }
 
   @Post("/csv")
   @Consumes("text/plain")
-  @(Returns(200, String).ContentType("text/plain"))
+  @Returns(200, String).ContentType("text/plain")
   async csv(@BodyParams() csvLines: string): Promise<string> {
     return "";
   }

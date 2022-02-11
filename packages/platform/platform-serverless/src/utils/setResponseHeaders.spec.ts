@@ -11,7 +11,7 @@ describe("setResponseHeaders", () => {
   it("should set headers, status and contentType", async () => {
     class Test {
       @Get("/")
-      @(Returns(200).Header("x-header", "test"))
+      @Returns(200).Header("x-header", "test")
       test() {}
     }
 
@@ -88,7 +88,7 @@ describe("setResponseHeaders", () => {
   it("should do nothing when headers is already sent", async () => {
     class Test {
       @Get("/")
-      @(Returns(200).Header("x-header", "test"))
+      @Returns(200).Header("x-header", "test")
       test() {}
     }
 

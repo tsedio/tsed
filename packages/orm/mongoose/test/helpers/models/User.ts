@@ -13,15 +13,13 @@ export class BaseModel {
   updated: Date;
 }
 
-
 @Schema({
   schemaOptions: {_id: false}
 })
 export class UserModuleData {
-  @(CollectionOf(Number).MinItems(1))
+  @CollectionOf(Number).MinItems(1)
   roles: number[];
 }
-
 
 @Model({schemaOptions: {timestamps: {createdAt: "created", updatedAt: "updated"}}})
 @PreHook("save", (user: TestUser, next: MongooseNextCB) => {
@@ -79,9 +77,8 @@ export class TestProfile extends BaseModel {
   user: Ref<TestUser>;
 }
 
-@Model({ schemaOptions: { timestamps: true } })
+@Model({schemaOptions: {timestamps: true}})
 export class SelfUser {
-
   @ObjectID()
   _id: string;
 

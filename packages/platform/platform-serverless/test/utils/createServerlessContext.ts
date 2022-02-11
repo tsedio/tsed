@@ -3,7 +3,7 @@ import {ServerlessContext} from "@tsed/platform-serverless";
 import {createFakeContext, createFakeEvent, PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 import {Logger} from "@tsed/logger";
 
-export function createServerlessContext({ endpoint }: { endpoint: JsonEntityStore }) {
+export function createServerlessContext({endpoint}: {endpoint: JsonEntityStore}) {
   const context: any = createFakeContext();
   const event: any = createFakeEvent();
 

@@ -28,222 +28,191 @@ describe("Circular Ref", () => {
     expect(!!service.contract).toBe(true);
     expect(!!service.customer).toBe(true);
 
-
     expect(getJsonSchema(TestContract)).toEqual({
-      "definitions": {
-        "SelfUser": {
-          "properties": {
-            "_id": {
-              "description": "Mongoose ObjectId",
-              "examples": [
-                "5ce7ad3028890bd71749d477"
-              ],
-              "pattern": "^[0-9a-fA-F]{24}$",
-              "type": "string"
+      definitions: {
+        SelfUser: {
+          properties: {
+            _id: {
+              description: "Mongoose ObjectId",
+              examples: ["5ce7ad3028890bd71749d477"],
+              pattern: "^[0-9a-fA-F]{24}$",
+              type: "string"
             },
-            "createdBy": {
-              "oneOf": [
+            createdBy: {
+              oneOf: [
                 {
-                  "description": "Mongoose Ref ObjectId",
-                  "examples": [
-                    "5ce7ad3028890bd71749d477"
-                  ],
-                  "type": "string"
+                  description: "Mongoose Ref ObjectId",
+                  examples: ["5ce7ad3028890bd71749d477"],
+                  type: "string"
                 },
                 {
-                  "$ref": "#/definitions/SelfUser"
+                  $ref: "#/definitions/SelfUser"
                 }
               ]
             }
           },
-          "type": "object"
+          type: "object"
         },
-        "TestClient": {
-          "properties": {
-            "_id": {
-              "description": "Mongoose ObjectId",
-              "examples": [
-                "5ce7ad3028890bd71749d477"
-              ],
-              "pattern": "^[0-9a-fA-F]{24}$",
-              "type": "string"
+        TestClient: {
+          properties: {
+            _id: {
+              description: "Mongoose ObjectId",
+              examples: ["5ce7ad3028890bd71749d477"],
+              pattern: "^[0-9a-fA-F]{24}$",
+              type: "string"
             },
-            "users": {
-              "oneOf": [
+            users: {
+              oneOf: [
                 {
-                  "description": "Mongoose Ref ObjectId",
-                  "examples": [
-                    "5ce7ad3028890bd71749d477"
-                  ],
-                  "type": "string"
+                  description: "Mongoose Ref ObjectId",
+                  examples: ["5ce7ad3028890bd71749d477"],
+                  type: "string"
                 },
                 {
-                  "$ref": "#/definitions/SelfUser"
+                  $ref: "#/definitions/SelfUser"
                 }
               ]
             }
           },
-          "type": "object"
+          type: "object"
         },
-        "TestContract": {
-          "properties": {
-            "_id": {
-              "description": "Mongoose ObjectId",
-              "examples": [
-                "5ce7ad3028890bd71749d477"
-              ],
-              "pattern": "^[0-9a-fA-F]{24}$",
-              "type": "string"
+        TestContract: {
+          properties: {
+            _id: {
+              description: "Mongoose ObjectId",
+              examples: ["5ce7ad3028890bd71749d477"],
+              pattern: "^[0-9a-fA-F]{24}$",
+              type: "string"
             },
-            "customer": {
-              "oneOf": [
+            customer: {
+              oneOf: [
                 {
-                  "description": "Mongoose Ref ObjectId",
-                  "examples": [
-                    "5ce7ad3028890bd71749d477"
-                  ],
-                  "type": "string"
+                  description: "Mongoose Ref ObjectId",
+                  examples: ["5ce7ad3028890bd71749d477"],
+                  type: "string"
                 },
                 {
-                  "$ref": "#/definitions/TestCustomer"
+                  $ref: "#/definitions/TestCustomer"
                 }
               ]
             }
           },
-          "type": "object"
+          type: "object"
         },
-        "TestCustomer": {
-          "properties": {
-            "_id": {
-              "description": "Mongoose ObjectId",
-              "examples": [
-                "5ce7ad3028890bd71749d477"
-              ],
-              "pattern": "^[0-9a-fA-F]{24}$",
-              "type": "string"
+        TestCustomer: {
+          properties: {
+            _id: {
+              description: "Mongoose ObjectId",
+              examples: ["5ce7ad3028890bd71749d477"],
+              pattern: "^[0-9a-fA-F]{24}$",
+              type: "string"
             },
-            "client": {
-              "oneOf": [
+            client: {
+              oneOf: [
                 {
-                  "description": "Mongoose Ref ObjectId",
-                  "examples": [
-                    "5ce7ad3028890bd71749d477"
-                  ],
-                  "type": "string"
+                  description: "Mongoose Ref ObjectId",
+                  examples: ["5ce7ad3028890bd71749d477"],
+                  type: "string"
                 },
                 {
-                  "$ref": "#/definitions/TestClient"
+                  $ref: "#/definitions/TestClient"
                 }
               ]
             },
-            "contracts": {
-              "items": {
-                "oneOf": [
+            contracts: {
+              items: {
+                oneOf: [
                   {
-                    "description": "Mongoose Ref ObjectId",
-                    "examples": [
-                      "5ce7ad3028890bd71749d477"
-                    ],
-                    "type": "string"
+                    description: "Mongoose Ref ObjectId",
+                    examples: ["5ce7ad3028890bd71749d477"],
+                    type: "string"
                   },
                   {
-                    "$ref": "#/definitions/TestContract"
+                    $ref: "#/definitions/TestContract"
                   }
                 ]
               },
-              "type": "array"
+              type: "array"
             }
           },
-          "type": "object"
+          type: "object"
         }
       },
-      "properties": {
-        "_id": {
-          "description": "Mongoose ObjectId",
-          "examples": [
-            "5ce7ad3028890bd71749d477"
-          ],
-          "pattern": "^[0-9a-fA-F]{24}$",
-          "type": "string"
+      properties: {
+        _id: {
+          description: "Mongoose ObjectId",
+          examples: ["5ce7ad3028890bd71749d477"],
+          pattern: "^[0-9a-fA-F]{24}$",
+          type: "string"
         },
-        "customer": {
-          "oneOf": [
+        customer: {
+          oneOf: [
             {
-              "description": "Mongoose Ref ObjectId",
-              "examples": [
-                "5ce7ad3028890bd71749d477"
-              ],
-              "type": "string"
+              description: "Mongoose Ref ObjectId",
+              examples: ["5ce7ad3028890bd71749d477"],
+              type: "string"
             },
             {
-              "$ref": "#/definitions/TestCustomer"
+              $ref: "#/definitions/TestCustomer"
             }
           ]
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
-  it('should resolve correctly a self reference', async() => {
+  it("should resolve correctly a self reference", async () => {
     const service = await PlatformTest.invoke<MyService>(MyService);
 
     expect(!!service.user).toBe(true);
 
     expect(getJsonSchema(SelfUser)).toEqual({
-      "definitions": {
-        "SelfUser": {
-          "properties": {
-            "_id": {
-              "description": "Mongoose ObjectId",
-              "examples": [
-                "5ce7ad3028890bd71749d477"
-              ],
-              "pattern": "^[0-9a-fA-F]{24}$",
-              "type": "string"
+      definitions: {
+        SelfUser: {
+          properties: {
+            _id: {
+              description: "Mongoose ObjectId",
+              examples: ["5ce7ad3028890bd71749d477"],
+              pattern: "^[0-9a-fA-F]{24}$",
+              type: "string"
             },
-            "createdBy": {
-              "oneOf": [
+            createdBy: {
+              oneOf: [
                 {
-                  "description": "Mongoose Ref ObjectId",
-                  "examples": [
-                    "5ce7ad3028890bd71749d477"
-                  ],
-                  "type": "string"
+                  description: "Mongoose Ref ObjectId",
+                  examples: ["5ce7ad3028890bd71749d477"],
+                  type: "string"
                 },
                 {
-                  "$ref": "#/definitions/SelfUser"
+                  $ref: "#/definitions/SelfUser"
                 }
               ]
             }
           },
-          "type": "object"
+          type: "object"
         }
       },
-      "properties": {
-        "_id": {
-          "description": "Mongoose ObjectId",
-          "examples": [
-            "5ce7ad3028890bd71749d477"
-          ],
-          "pattern": "^[0-9a-fA-F]{24}$",
-          "type": "string"
+      properties: {
+        _id: {
+          description: "Mongoose ObjectId",
+          examples: ["5ce7ad3028890bd71749d477"],
+          pattern: "^[0-9a-fA-F]{24}$",
+          type: "string"
         },
-        "createdBy": {
-          "oneOf": [
+        createdBy: {
+          oneOf: [
             {
-              "description": "Mongoose Ref ObjectId",
-              "examples": [
-                "5ce7ad3028890bd71749d477"
-              ],
-              "type": "string"
+              description: "Mongoose Ref ObjectId",
+              examples: ["5ce7ad3028890bd71749d477"],
+              type: "string"
             },
             {
-              "$ref": "#/definitions/SelfUser"
+              $ref: "#/definitions/SelfUser"
             }
           ]
         }
       },
-      "type": "object"
+      type: "object"
     });
-  })
+  });
 });

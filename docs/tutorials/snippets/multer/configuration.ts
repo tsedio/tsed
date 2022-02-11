@@ -9,6 +9,4 @@ const rootDir = __dirname;
     // see multer options
   }
 })
-export class Server {
-
-}
+export class Server {}

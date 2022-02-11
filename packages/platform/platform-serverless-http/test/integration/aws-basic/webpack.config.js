@@ -1,6 +1,6 @@
-const { join, extname } = require("path");
+const {join, extname} = require("path");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
-const { TsconfigPathsPlugin } = require("tsconfig-paths-webpack-plugin");
+const {TsconfigPathsPlugin} = require("tsconfig-paths-webpack-plugin");
 const webpack = require("webpack");
 const TerserPlugin = require("terser-webpack-plugin");
 const nodeExternals = require("webpack-node-externals");
@@ -21,8 +21,8 @@ const webpackDefaultsFactory = (
   devtool: isDebugEnabled ? "inline-source-map" : false,
   target: "node",
   output: {
-    filename: join(relativeSourceRoot, `${entryFilename.replace('.ts', '')}.js`),
-    libraryTarget: 'commonjs2'
+    filename: join(relativeSourceRoot, `${entryFilename.replace(".ts", "")}.js`),
+    libraryTarget: "commonjs2"
   },
   externals: [nodeExternals()],
   module: {
@@ -65,10 +65,10 @@ const webpackDefaultsFactory = (
       new TerserPlugin({
         terserOptions: {
           format: {
-            comments: false,
-          },
+            comments: false
+          }
         },
-        extractComments: false,
+        extractComments: false
       })
     ]
   },
@@ -80,8 +80,7 @@ const webpackDefaultsFactory = (
     new webpack.ProgressPlugin(),
     new webpack.IgnorePlugin({
       checkResource(resource) {
-        const lazyImports = [
-        ];
+        const lazyImports = [];
 
         if (!lazyImports.includes(resource)) {
           return false;
@@ -114,20 +113,11 @@ const webpackDefaultsFactory = (
 //   );
 // }
 
-const config = webpackDefaultsFactory(
-  `${__dirname}/src`,
-  "./",
-  "index.ts"
-)
-const lazyImports = [
-
-]
+const config = webpackDefaultsFactory(`${__dirname}/src`, "./", "index.ts");
+const lazyImports = [];
 module.exports = {
   ...config,
-  externals: [
-    "find-my-way",
-    "@tsed/http-exceptions"
-  ],
+  externals: ["find-my-way", "@tsed/http-exceptions"],
   plugins: [
     ...config.plugins,
     new webpack.IgnorePlugin({
@@ -140,8 +130,7 @@ module.exports = {
           }
         }
         return false;
-      },
-    }),
-  ],
+      }
+    })
+  ]
 };
-

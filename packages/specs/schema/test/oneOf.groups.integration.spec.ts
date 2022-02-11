@@ -31,94 +31,92 @@ class Model {
 describe("OneOf and Groups", () => {
   it("should declare return schema (without groups)", () => {
     // THEN
-    const schema = getJsonSchema(Model, { groups: [] });
+    const schema = getJsonSchema(Model, {groups: []});
 
     expect(schema).toEqual({
-      "definitions": {
-        "One1": {
-          "properties": {
-            "id": {
-              "type": "string"
+      definitions: {
+        One1: {
+          properties: {
+            id: {
+              type: "string"
             },
-            "label": {
-              "type": "string"
+            label: {
+              type: "string"
             }
           },
-          "type": "object"
+          type: "object"
         },
-        "One2": {
-          "properties": {
-            "description": {
-              "type": "string"
+        One2: {
+          properties: {
+            description: {
+              type: "string"
             },
-            "id": {
-              "type": "string"
+            id: {
+              type: "string"
             },
-            "label": {
-              "type": "string"
+            label: {
+              type: "string"
             }
           },
-          "type": "object"
+          type: "object"
         }
       },
-      "properties": {
-        "test": {
-          "oneOf": [
+      properties: {
+        test: {
+          oneOf: [
             {
-              "$ref": "#/definitions/One1"
+              $ref: "#/definitions/One1"
             },
             {
-              "$ref": "#/definitions/One2"
+              $ref: "#/definitions/One2"
             }
           ]
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
   it("should declare return schema (with groups 'creation')", () => {
     // THEN
     const schema = getJsonSchema(Model, {
-      groups: [
-        "creation"
-      ]
+      groups: ["creation"]
     });
 
     expect(schema).toEqual({
-      "definitions": {
-        "One1Creation": {
-          "properties": {
-            "label": {
-              "type": "string"
+      definitions: {
+        One1Creation: {
+          properties: {
+            label: {
+              type: "string"
             }
           },
-          "type": "object"
+          type: "object"
         },
-        "One2Creation": {
-          "properties": {
-            "description": {
-              "type": "string"
+        One2Creation: {
+          properties: {
+            description: {
+              type: "string"
             },
-            "label": {
-              "type": "string"
+            label: {
+              type: "string"
             }
           },
-          "type": "object"
+          type: "object"
         }
       },
-      "properties": {
-        "test": {
-          "oneOf": [
+      properties: {
+        test: {
+          oneOf: [
             {
-              "$ref": "#/definitions/One1Creation"
+              $ref: "#/definitions/One1Creation"
             },
             {
-              "$ref": "#/definitions/One2Creation"
+              $ref: "#/definitions/One2Creation"
             }
           ]
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
 });

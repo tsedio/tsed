@@ -1,15 +1,17 @@
 # Testing
+
 ## Unit test
+
 ### Installation
 
-Ts.ED support officially two unit test frameworks: Jest and Mocha. It's also possible to use your 
+Ts.ED support officially two unit test frameworks: Jest and Mocha. It's also possible to use your
 preferred frameworks. Your feedback are welcome
 
 <Tabs>
   <Tab label="Jest">
 
 Run these commands to install jest and ts-jest:
-  
+
 ```bash
 $ yarn add -D @types/jest jest ts-jest
 ```
@@ -40,49 +42,36 @@ module.exports = {
   // collectCoverageFrom: undefined,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: 'coverage',
+  coverageDirectory: "coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: [
-    'index.ts',
-    '/node_modules/'
-  ],
+  coveragePathIgnorePatterns: ["index.ts", "/node_modules/"],
 
   // An array of file extensions your modules use
-  moduleFileExtensions: [
-    'js',
-    'json',
-    'jsx',
-    'ts',
-    'tsx',
-    'node'
-  ],
+  moduleFileExtensions: ["js", "json", "jsx", "ts", "tsx", "node"],
 
   // The test environment that will be used for testing
-  testEnvironment: 'node',
+  testEnvironment: "node",
 
   // The glob patterns Jest uses to detect test files
-  testMatch: [
-    '**/src/**/__tests__/**/*.[jt]s?(x)',
-    '**/src/**/?(*.)+(spec|test).[tj]s?(x)'
-  ],
+  testMatch: ["**/src/**/__tests__/**/*.[jt]s?(x)", "**/src/**/?(*.)+(spec|test).[tj]s?(x)"],
   // A map from regular expressions to paths to transformers
   transform: {
-    '\\.(ts)$': 'ts-jest'
+    "\\.(ts)$": "ts-jest"
   }
-}
+};
 ```
-     
+
   </Tab>
   <Tab label="Mocha + chai">
   
 Run these commands to install mocha chai and sinon:
 
 ```bash
-$ yarn add -D nyc mocha chai chai-as-promised @types/mocha @types/chai @types/chai-as-promised 
+$ yarn add -D nyc mocha chai chai-as-promised @types/mocha @types/chai @types/chai-as-promised
 $ yarn add -D sinon sinon-chai @types/sinon @types/sinon-chai
 // OR
-$ npm install --save-dev nyc mocha chai chai-as-promised @types/mocha @types/chai @types/chai-as-promised 
+$ npm install --save-dev nyc mocha chai chai-as-promised @types/mocha @types/chai @types/chai-as-promised
 $ npm install --save-dev sinon sinon-chai @types/sinon @types/sinon-chai
 ```
 
@@ -96,46 +85,29 @@ Add in your package.json the following task:
 ```
 
 Then create a new `.mocharc.js` on your root project and the following content:
+
 ```javascript
 module.exports = {
-  require: [
-    "ts-node/register/transpile-only",
-    "tsconfig-paths/register",
-    "scripts/mocha/register"
-  ],
+  require: ["ts-node/register/transpile-only", "tsconfig-paths/register", "scripts/mocha/register"],
   recursive: true,
   reporter: "dot",
-  spec: [
-    "src/**/*.spec.ts",
-    "test/**/*.spec.ts"
-  ]
+  spec: ["src/**/*.spec.ts", "test/**/*.spec.ts"]
 };
 ```
+
 Then create a new `.nycrc` on your root project and the following content:
+
 ```json
 {
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "**/*.d.ts",
-    "node_modules",
-    "**/index.ts",
-    "**/interfaces/**",
-    "**/*.spec.ts"
-  ],
-  "reporter": [
-    "text-summary",
-    "html",
-    "lcov"
-  ],
-  "extension": [
-    ".ts"
-  ],
+  "include": ["src/**/*.ts"],
+  "exclude": ["**/*.d.ts", "node_modules", "**/index.ts", "**/interfaces/**", "**/*.spec.ts"],
+  "reporter": ["text-summary", "html", "lcov"],
+  "extension": [".ts"],
   "check-coverage": true,
   "all": true
 }
 ```
+
 And finally, create a mocha setup file `scripts/mocha/register.js`, to configure mocha with chai and sinon:
 
 ```javascript
@@ -154,7 +126,7 @@ process.on("unhandledRejection", (reason, p) => {
 ```
 
   </Tab>
-</Tabs>  
+</Tabs>
 
 ### Usage
 
@@ -185,7 +157,6 @@ Here is an example to test the ParseService:
 
   </Tab>  
 </Tabs>
-
 
 ### Async / Await
 
@@ -226,6 +197,7 @@ PlatformTest API provides an `invoke` method to create a new instance of your co
 :::
 
 ## Test your Rest API
+
 ### Installation
 
 To test your API, I recommend you to use the [`supertest`](https://github.com/visionmedia/supertest) module.
@@ -238,14 +210,14 @@ To install supertest just run these commands:
 ```bash
 $ yarn add -D supertest @types/supertest
 ```
-  
+
   </Tab>
   <Tab label="Npm">
 
 ```bash
 $ npm install --save-dev supertest @types/supertest
 ```
-  
+
   </Tab>
 </Tabs>
 
@@ -272,7 +244,7 @@ Platform type is not specified. Have you added at least `import @tsed/platform-e
 ```
 
 To solve it, just add the `import @tsed/platform-express` on your `Server.ts`. PlatformTest need this import to know on which Platform
-your server must be executed for integration test. 
+your server must be executed for integration test.
 :::
 
 ### Testing session

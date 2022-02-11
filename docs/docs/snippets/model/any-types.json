@@ -2,28 +2,13 @@
   "definitions": {},
   "properties": {
     "prop1": {
-      "type": [
-        "integer",
-        "number",
-        "string",
-        "boolean",
-        "array",
-        "object",
-        "null"
-      ]
+      "type": ["integer", "number", "string", "boolean", "array", "object", "null"]
     },
     "prop2": {
-      "type": [
-        "string",
-        "number",
-        "boolean"
-      ]
+      "type": ["string", "number", "boolean"]
     },
     "prop3": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     }
   },
   "type": "object"
