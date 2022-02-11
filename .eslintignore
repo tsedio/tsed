@@ -1,5 +1,10 @@
-node_modules
-**/node_modules
 docs
 examples
-packages/**/{test,dist}/**/*.ts
+node_modules
+packages/**/test/**/*.ts
+**/lib
+**/dist
+**/coverage
+**/node_modules
+*-lock.json
+*.lock
