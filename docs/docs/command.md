@@ -1,10 +1,11 @@
 ---
 meta:
-- name: description
-  content: Documentation over Command provided by Ts.ED framework. Use commands to build your CLI API.
-- name: keywords
-  content: command ts.ed commander inquirer typescript node.js javascript decorators jsonschema class models
+  - name: description
+    content: Documentation over Command provided by Ts.ED framework. Use commands to build your CLI API.
+  - name: keywords
+    content: command ts.ed commander inquirer typescript node.js javascript decorators jsonschema class models
 ---
+
 # Command
 
 `@tsed/cli-core` is the npm module that provide API to create CLI. It can be to create your own CLI or to run your Ts.ED
@@ -15,9 +16,9 @@ to display prompt and [Listr](https://www.npmjs.com/package/listr) to run tasks.
 The cli-core works as a standalone process, like the classic entry point, and will initialize a container to run your
 code (Service/Provider/etc...).
 
-1) Bootstrap (entry point e.g: `bin/index.ts`) is invoked by cli.
-2) Create a headless Ts.ED Application.
-3) Create command with decorator and inject service from your existing code.
+1. Bootstrap (entry point e.g: `bin/index.ts`) is invoked by cli.
+2. Create a headless Ts.ED Application.
+3. Create command with decorator and inject service from your existing code.
 
 ## Installation
 
@@ -36,7 +37,7 @@ feature.
 Optional. You can install the @tsed/cli in global to run your custom commands directly from the Ts.ED CLI:
 
 ```
-npm install -g @tsed/cli 
+npm install -g @tsed/cli
 ```
 
 ## Create the CLI entrypoint
@@ -52,9 +53,7 @@ import {HelloCommand} from "./HelloCommand";
 CliCore.bootstrap({
   ...config,
   // add your custom commands here
-  commands: [
-    HelloCommand
-  ]
+  commands: [HelloCommand]
 }).catch(console.error);
 ```
 
@@ -65,8 +64,7 @@ Use `tsed g command` to create a new Command file. Here is a basic Command examp
 ```typescript
 import {Command, CommandProvider, QuestionOptions} from "@tsed/cli-core";
 
-export interface HelloCommandContext {
-}
+export interface HelloCommandContext {}
 
 @Command({
   name: "hello-command",
@@ -101,7 +99,7 @@ export class HelloCommand implements CommandProvider {
       {
         title: "Do something",
         task: () => {
-          console.log('HELLO')
+          console.log("HELLO");
         }
       }
     ];
@@ -132,8 +130,8 @@ To bind these arguments with your custom command, you have to declare the argume
 import {Command, CommandProvider, QuestionOptions} from "@tsed/cli-core";
 
 export interface HelloCommandContext {
-  action: 'create';
-  subAction: 'user';
+  action: "create";
+  subAction: "user";
 }
 
 @Command({
@@ -183,7 +181,7 @@ export interface HelloCommandContext {
   description: "Command description",
   args: {},
   options: {
-    '-o, --opt-1 <option1>': {
+    "-o, --opt-1 <option1>": {
       type: String,
       defaultValue: "dev",
       description: "My option"
@@ -262,7 +260,7 @@ export class HelloCommand implements CommandProvider {
 
 ## Prompt
 
-You can implement the `$prompt` method to provide a CLI prompt to your consumer. Prompt is based 
+You can implement the `$prompt` method to provide a CLI prompt to your consumer. Prompt is based
 on [Inquirer](https://www.npmjs.com/package/inquirer).
 
 ```typescript
@@ -282,7 +280,7 @@ export interface HelloCommandContext {
 export class HelloCommand implements CommandProvider {
   @Inject()
   myService: MyService;
-  
+
   async $prompt(initialOptions: Partial<HelloCommandContext>): Promise<QuestionOptions> {
     return [
       {

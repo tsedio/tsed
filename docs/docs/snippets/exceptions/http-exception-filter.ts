@@ -13,10 +13,7 @@ export class HttpExceptionFilter implements ExceptionFilterMethods {
       error
     });
 
-    response
-      .setHeaders(headers)
-      .status(error.status)
-      .body(error);
+    response.setHeaders(headers).status(error.status).body(error);
   }
 
   mapError(error: any) {

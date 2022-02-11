@@ -9,15 +9,9 @@ import "@tsed/typeorm"; // !!! IMPORTANT TO ADD THIS !!!
       type: "postgres",
       // ...,
 
-      entities: [
-        `${__dirname}/entity/*{.ts,.js}`
-      ],
-      migrations: [
-        `${__dirname}/migrations/*{.ts,.js}`
-      ],
-      subscribers: [
-        `${__dirname}/subscriber/*{.ts,.js}`
-      ]
+      entities: [`${__dirname}/entity/*{.ts,.js}`],
+      migrations: [`${__dirname}/migrations/*{.ts,.js}`],
+      subscribers: [`${__dirname}/subscriber/*{.ts,.js}`]
     },
     {
       name: "mongo",
@@ -26,6 +20,4 @@ import "@tsed/typeorm"; // !!! IMPORTANT TO ADD THIS !!!
     }
   ]
 })
-export class Server {
-
-}
+export class Server {}

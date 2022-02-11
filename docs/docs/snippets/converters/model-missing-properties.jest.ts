@@ -12,8 +12,8 @@ describe("User", () => {
     const result = serialize(user);
 
     expect(result).toEqual({
-      "firstName": "John",
-      "lastName": "Doe"
+      firstName: "John",
+      lastName: "Doe"
     });
   });
 });

@@ -8,17 +8,9 @@ import "./connections/CONNECTION";
     type: "postgres",
     // ...,
 
-    entities: [
-      `${__dirname}/entity/*{.ts,.js}`
-    ],
-    migrations: [
-      `${__dirname}/migrations/*{.ts,.js}`
-    ],
-    subscribers: [
-      `${__dirname}/subscriber/*{.ts,.js}`
-    ]
+    entities: [`${__dirname}/entity/*{.ts,.js}`],
+    migrations: [`${__dirname}/migrations/*{.ts,.js}`],
+    subscribers: [`${__dirname}/subscriber/*{.ts,.js}`]
   }
 })
-export class Server {
-
-}
+export class Server {}

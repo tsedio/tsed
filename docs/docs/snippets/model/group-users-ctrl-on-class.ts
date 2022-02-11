@@ -7,8 +7,7 @@ import {User} from "../models/User";
 export class UsersCtrl {
   @Get("/:id")
   @Returns(200, User).Groups("update")
-  async get(@PathParams("id") id: string) {
-  }
+  async get(@PathParams("id") id: string) {}
 
   @Post("/")
   @Returns(201, User).Groups("update")

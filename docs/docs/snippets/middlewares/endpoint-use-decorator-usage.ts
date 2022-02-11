@@ -8,6 +8,5 @@ import {CustomMiddleware} from "./middlewares/CustomMiddleware";
 class MyCtrl {
   @Get("/")
   @UseBefore(CustomMiddleware) // only to this endpoint
-  getContent() {
-  }
+  getContent() {}
 }

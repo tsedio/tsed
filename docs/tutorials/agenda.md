@@ -1,10 +1,11 @@
 ---
 meta:
-- name: description
-  content: Use Agenda with Express/Koa, TypeScript and Ts.ED. Agenda, a light-weight job scheduling library for Node.js
-- name: keywords
-  content: ts.ed express typescript agenda node.js javascript decorators
+  - name: description
+    content: Use Agenda with Express/Koa, TypeScript and Ts.ED. Agenda, a light-weight job scheduling library for Node.js
+  - name: keywords
+    content: ts.ed express typescript agenda node.js javascript decorators
 ---
+
 # Agenda
 
 <Banner src="/agenda.svg" href="https://github.com/agenda/agenda" height="200" />
@@ -38,15 +39,14 @@ const mongoConnectionString = "mongodb://127.0.0.1/agenda";
 
 @Configuration({
   agenda: {
-   enabled: true, // Enable Agenda jobs for this instance.
-   // pass any options that you would normally pass to new Agenda(), e.g.
-   db: {
-     address: mongoConnectionString
-   }
+    enabled: true, // Enable Agenda jobs for this instance.
+    // pass any options that you would normally pass to new Agenda(), e.g.
+    db: {
+      address: mongoConnectionString
+    }
   }
 })
-export class Server {
-}
+export class Server {}
 ```
 
 ## Create a new Service
@@ -108,8 +108,8 @@ export class UsersService implements AfterRoutesInit {
     // do something
     // ...
     // then schedule some jobs
-    await this.agenda.now("email.sendWelcomeEmail", {user})
-    await this.agenda.schedule("in 2 hours", "email.sendFollowUpEmail", {user})
+    await this.agenda.now("email.sendWelcomeEmail", {user});
+    await this.agenda.schedule("in 2 hours", "email.sendFollowUpEmail", {user});
 
     return user;
   }

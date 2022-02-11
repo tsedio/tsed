@@ -6,7 +6,6 @@ import {IStrategyOptions, Strategy} from "passport-local";
 import {Credentials} from "../models/Credentials";
 import {UsersService} from "../services/users/UsersService";
 
-
 @Protocol<IStrategyOptions>({
   name: "login",
   useStrategy: Strategy,
@@ -24,7 +23,7 @@ export class LoginLocalProtocol implements OnVerify, OnInstall, BeforeInstall {
     // load something from backend
     // settings.usernameField = await this.usersService.loadFieldConfiguration()
 
-    return settings
+    return settings;
   }
 
   $onInstall(strategy: Strategy): void {
@@ -32,9 +31,9 @@ export class LoginLocalProtocol implements OnVerify, OnInstall, BeforeInstall {
   }
 
   async $onVerify(@Req() request: Req, @BodyParams() credentials: Credentials) {
-    const { email, password } = credentials;
+    const {email, password} = credentials;
 
-    const user = await this.usersService.findOne({ email });
+    const user = await this.usersService.findOne({email});
 
     if (!user) {
       return false;

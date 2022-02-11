@@ -30,7 +30,7 @@ export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {
       version: "1.0.0"
     };
 
-    writeJsonSync(file, spec, { encoding: "utf8" });
+    writeJsonSync(file, spec, {encoding: "utf8"});
     await SwaggerParser.validate(file);
 
     return true;
@@ -39,7 +39,6 @@ export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {
   } finally {
     try {
       unlinkSync(file);
-    } catch (er) {
-    }
+    } catch (er) {}
   }
 };

@@ -10,5 +10,4 @@ import {myContainer} from "./inversify.config";
     }
   ]
 })
-export class MyModule {
-}
+export class MyModule {}

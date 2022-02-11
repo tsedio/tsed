@@ -5,7 +5,6 @@ import {Returns} from "@tsed/schema";
 
 @Controller("/")
 export class MyCtrl {
-
   @Get("/whoami")
   whoAmI(@Session() session: any) {
     console.log("User in session =>", session.user);

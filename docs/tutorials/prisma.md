@@ -1,20 +1,21 @@
 ---
 meta:
- - name: description
-   content: Use Prisma with Express, TypeScript and Ts.ED. Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
- - name: keywords
-   content: ts.ed express typescript prisma orm node.js javascript decorators 
+  - name: description
+    content: Use Prisma with Express, TypeScript and Ts.ED. Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
+  - name: keywords
+    content: ts.ed express typescript prisma orm node.js javascript decorators
 projects:
- - title: Kit Prisma
-   href: https://github.com/tsedio/tsed-example-prisma
-   src: /prisma-2.svg
+  - title: Kit Prisma
+    href: https://github.com/tsedio/tsed-example-prisma
+    src: /prisma-2.svg
 ---
+
 # Prisma
 
 <Banner src="/prisma-2.svg" height="200" href="https://www.prisma.io/"></Banner>
 
-[Prisma](https://www.prisma.io/) is an [open-source](https://github.com/prisma/prisma) ORM for Node.js and TypeScript. 
-It is used as an alternative to writing plain SQL, or using another database access tool such as SQL query builders (like [knex.js](/tutorials/objection.md)) or ORMs (like [TypeORM](/tutorials/typeorm.md) and [Sequelize](https://sequelize.org/)). 
+[Prisma](https://www.prisma.io/) is an [open-source](https://github.com/prisma/prisma) ORM for Node.js and TypeScript.
+It is used as an alternative to writing plain SQL, or using another database access tool such as SQL query builders (like [knex.js](/tutorials/objection.md)) or ORMs (like [TypeORM](/tutorials/typeorm.md) and [Sequelize](https://sequelize.org/)).
 Prisma currently supports PostgreSQL, MySQL, SQL Server and SQLite.
 
 While Prisma can be used with plain JavaScript, it embraces TypeScript and provides a level to type-safety that goes beyond the guarantees other ORMs in the TypeScript ecosystem.
@@ -30,7 +31,7 @@ If you want to get a quick overview of how Prisma works, you can follow the [Qui
 
 ## Prisma generator for Ts.ED <Badge text="Premium sponsors" />
 
-If you are a premium sponsor, or you want to become one, you can ask [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) to get your access to the private packages [`@tsedio/prisma`](/tutorials/prisma-client.md). 
+If you are a premium sponsor, or you want to become one, you can ask [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) to get your access to the private packages [`@tsedio/prisma`](/tutorials/prisma-client.md).
 
 This package generates enums, and classes compatible with the Ts.ED decorators like @@Returns@@ and extends possibilities about the `prisma.schema`.
 It also generates PrismaService and Repositories!
@@ -47,7 +48,7 @@ For the purpose of this guide, you'll use a [SQLite](https://sqlite.org/) databa
 Note that you can still follow this guide, even if you're using PostgreSQL or MySQL – you'll get extra instructions for using these databases at the right places.
 
 ::: tip Note
-If you already have an existing project and consider migrating to Prisma, you can follow the guide for [adding Prisma to an existing project](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project-typescript-postgres). If you are migrating from TypeORM, you can read the guide [Migrating from TypeORM to Prisma](https://www.prisma.io/docs/guides/migrate-to-prisma/migrate-from-typeorm). 
+If you already have an existing project and consider migrating to Prisma, you can follow the guide for [adding Prisma to an existing project](https://www.prisma.io/docs/getting-started/setup-prisma/add-to-existing-project-typescript-postgres). If you are migrating from TypeORM, you can read the guide [Migrating from TypeORM to Prisma](https://www.prisma.io/docs/guides/migrate-to-prisma/migrate-from-typeorm).
 :::
 
 ## Create a Ts.ED project
@@ -58,17 +59,19 @@ To get started, install the Ts.ED CLI and create your app skeleton with the foll
 npm install -g @tsed/cli
 tsed init tsed-prisma
 ```
+
 From the CLI, select the following features: Swagger, Eslint, Jest.
 
 ## Set up Prisma
 
 Start by installing the Prisma CLI as a development dependency in your project:
+
 ```sh
 cd tsed-prisma
 npm install --save-dev prisma
 ```
 
-In the following steps, we'll be using the [Prisma CLI](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-cli). 
+In the following steps, we'll be using the [Prisma CLI](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-cli).
 As a best practice, it's recommended to invoke the CLI locally by prefixing it with `npx`:
 
 ```sh
@@ -88,7 +91,7 @@ yarn prisma init
 
 ## Set the database connection
 
-Your database connection is configured in the `datasource` block in your `schema.prisma` file. By default it's set to `postgresql`, 
+Your database connection is configured in the `datasource` block in your `schema.prisma` file. By default it's set to `postgresql`,
 but since you're using a SQLite database in this guide you need to adjust the `provider` field of the `datasource` block to `sqlite`:
 
 ```groovy
@@ -144,7 +147,7 @@ DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=public"
 ```
 
 If you want to learn how to set up a PostgreSQL database, you can follow this guide on [setting up a free PostgreSQL database on Heroku](https://dev.to/prisma/how-to-setup-a-free-postgresql-database-on-heroku-1dc1).
-  
+
   </Tab>
   <Tab label="MySQL" class="px-5 pb-5">
 
@@ -176,8 +179,8 @@ Replace the placeholders spelled in all uppercase letters with your database cre
 
 #### Create two database tables with Prisma Migrate
 
-In this section, you'll create two new tables in your database using [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate). 
-Prisma Migrate generates SQL migration files for your declarative data model definition in the Prisma schema. 
+In this section, you'll create two new tables in your database using [Prisma Migrate](https://www.prisma.io/docs/concepts/components/prisma-migrate).
+Prisma Migrate generates SQL migration files for your declarative data model definition in the Prisma schema.
 These migration files are fully customizable so that you can configure any additional features of the underlying database or include additional commands, e.g. for seeding.
 
 Add the following two models to your `schema.prisma` file:
@@ -200,7 +203,7 @@ model Post {
 }
 ```
 
-With your Prisma models in place, you can generate your SQL migration files and run them against the database. 
+With your Prisma models in place, you can generate your SQL migration files and run them against the database.
 Run the following commands in your terminal:
 
 ```sh
@@ -220,7 +223,7 @@ Add the previous command to your `scripts` in the `package.json`:
 
 :::
 
-This `prisma migrate dev` command generates SQL files and directly runs them against the database. 
+This `prisma migrate dev` command generates SQL files and directly runs them against the database.
 In this case, the following migration file was created in the existing `prisma` directory:
 
 ```bash
@@ -263,6 +266,7 @@ Add the previous command to your `scripts` in the `package.json`:
   }
 }
 ```
+
 :::
 
 ## Configure Ts.ED prisma client <Badge text="Premium sponsors" />
@@ -275,17 +279,17 @@ The client will generate all enums, classes, repositories and PrismaService for 
 
 ## Create the PrismaService and PostService
 
-You're now able to send database queries with Prisma Client. If you want to learn more about building queries with Prisma Client, 
+You're now able to send database queries with Prisma Client. If you want to learn more about building queries with Prisma Client,
 check out the [API documentation](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/crud).
 
-When setting up your Ts.ED application, you'll want to abstract away the Prisma Client API for database queries within a service. 
+When setting up your Ts.ED application, you'll want to abstract away the Prisma Client API for database queries within a service.
 To get started, you can create a new `PrismaService` that takes care of instantiating `PrismaClient` and connecting to your database.
 
 Inside the `src/services` directory, create a new file called `PrismaService.ts` and add the following code to it:
 
 ```typescript
-import { Injectable, OnInit, OnDestroy } from '@tsed/common';
-import { PrismaClient } from '@prisma/client';
+import {Injectable, OnInit, OnDestroy} from "@tsed/common";
+import {PrismaClient} from "@prisma/client";
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnInit, OnDestroy {
@@ -337,7 +341,7 @@ export class UserRepository {
 }
 ```
 
-Notice how you're using Prisma Client's generated types to ensure that the methods that are exposed by your service are properly typed. 
+Notice how you're using Prisma Client's generated types to ensure that the methods that are exposed by your service are properly typed.
 You therefore save the boilerplate of typing your models and creating additional interface or DTO files.
 
 Now do the same for the `Post` model.
@@ -376,13 +380,13 @@ export class PostsRepository {
 }
 ```
 
-Your `UsersRepository` and `PostsRepository` currently wrap the CRUD queries that are available in Prisma Client. 
-In a real world application, the service would also be the place to add business logic to your application. 
+Your `UsersRepository` and `PostsRepository` currently wrap the CRUD queries that are available in Prisma Client.
+In a real world application, the service would also be the place to add business logic to your application.
 For example, you could have a method called `updatePassword` inside the `UsersRepository` that would be responsible for updating the password of a user.
 
 ## Create controllers
 
-Finally, you'll use the services you created in the previous sections to implement the different routes of your app. 
+Finally, you'll use the services you created in the previous sections to implement the different routes of your app.
 
 Now we have to create controllers to expose your business to our consumers. So create the following controllers in `src/controllers` directory:
 
@@ -411,12 +415,12 @@ export class UsersController {
 
   @Get("/")
   @Summary("Filter posts by title or content")
-  @(Returns(200, Array).Of(UserModel).Description("Return a list of User"))
+  @Returns(200, Array).Of(UserModel).Description("Return a list of User")
   getAll() {
     return this.service.findMany();
   }
 }
-````
+```
 
   </Tab>
   <Tab label="PostsController.ts">
@@ -484,7 +488,7 @@ export class PostsController {
 
   @Get("/search/:searchString")
   @Description("Filter posts by title or content")
-  @(Returns(200, Array).Of(PostModel))
+  @Returns(200, Array).Of(PostModel)
   async getFilteredPosts(@PathParams("searchString") searchString: string): Promise<PostModel[]> {
     return this.service.findMany({
       where: {
@@ -501,6 +505,7 @@ export class PostsController {
   }
 }
 ```
+
   </Tab>
   <Tab label="FeedsController.ts">
 
@@ -518,7 +523,7 @@ export class FeedsController {
 
   @Get("/")
   @Summary("Fetch all published posts")
-  @(Returns(200, Array).Of(PostModel))
+  @Returns(200, Array).Of(PostModel)
   getFeeds(): Promise<PostModel[]> {
     return this.service.findMany({
       where: {published: true}
@@ -534,5 +539,5 @@ Now start the server and open the Swagger documentation to test your REST API!
 
 ### Summary
 
-In this tutorial, you learned how to use Prisma along with Ts.ED to implement a REST API. 
+In this tutorial, you learned how to use Prisma along with Ts.ED to implement a REST API.
 The controller implementing the routes of the API is calling a `PrismaService` which in turn uses Prisma Client to send queries to a database to fulfill the data needed by incoming requests.

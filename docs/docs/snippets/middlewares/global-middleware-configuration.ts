@@ -6,10 +6,8 @@ const rootDir = __dirname;
 
 @Configuration({
   rootDir,
-  componentsScan: [
-    `${rootDir}/middlewares/**/**.js`
-  ],
-  acceptMimes: ["application/json"]  // add your custom configuration here
+  componentsScan: [`${rootDir}/middlewares/**/**.js`],
+  acceptMimes: ["application/json"] // add your custom configuration here
 })
 export class Server {
   @Inject()

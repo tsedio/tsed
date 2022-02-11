@@ -5,20 +5,13 @@
       "type": "string"
     },
     "prop2": {
-      "type": [
-        "string",
-        "null"
-      ]
+      "type": ["string", "null"]
     },
     "prop3": {
       "minimum": 1,
       "type": "number"
     }
   },
-  "required": [
-    "prop1",
-    "prop2",
-    "prop3"
-  ],
+  "required": ["prop1", "prop2", "prop3"],
   "type": "object"
 }

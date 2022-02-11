@@ -18,7 +18,7 @@ const utils = PlatformTestUtils.create({
 @Controller("/plain-text")
 class TestResponseParamsCtrl {
   @Get("/scenario-1")
-  @(Returns(200, String).ContentType("text/plain"))
+  @Returns(200, String).ContentType("text/plain")
   test() {
     return {
       id: "id"
@@ -36,11 +36,13 @@ class TestResponseParamsCtrl {
 describe("PlainText", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  beforeEach(utils.bootstrap({
-    mount: {
-      "/rest": [TestResponseParamsCtrl]
-    }
-  }));
+  beforeEach(
+    utils.bootstrap({
+      mount: {
+        "/rest": [TestResponseParamsCtrl]
+      }
+    })
+  );
   beforeEach(() => {
     request = SuperTest(PlatformTest.callback());
   });
@@ -51,12 +53,16 @@ describe("PlainText", () => {
       const response = await request.get("/rest/plain-text/scenario-1");
 
       expect(response.headers["content-type"]).to.equal("text/plain; charset=utf-8");
-      expect(response.text).to.equal("{\"id\":\"id\"}");
+      expect(response.text).to.equal('{"id":"id"}');
     });
   });
   describe("scenario 2", () => {
     it("should return a */* content-type", async () => {
-      const response = await request.get("/rest/plain-text/scenario-2").set("Accept", "*/*").set("Content-Type", "application/json").expect(200);
+      const response = await request
+        .get("/rest/plain-text/scenario-2")
+        .set("Accept", "*/*")
+        .set("Content-Type", "application/json")
+        .expect(200);
 
       expect(response.headers["content-type"]).to.equal("application/json; charset=utf-8");
       expect(response.body).to.deep.equal({

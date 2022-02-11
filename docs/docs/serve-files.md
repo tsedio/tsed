@@ -1,10 +1,11 @@
 ---
 meta:
- - name: description
-   content: Serve statics files with Ts.ED by using decorators. Ts.ED is built on top of Express/Koa and use TypeScript language.
- - name: keywords
-   content: ts.ed express typescript statics files node.js javascript decorators
+  - name: description
+    content: Serve statics files with Ts.ED by using decorators. Ts.ED is built on top of Express/Koa and use TypeScript language.
+  - name: keywords
+    content: ts.ed express typescript statics files node.js javascript decorators
 ---
+
 # Serve files
 
 To serve static files such as images, CSS files, and JavaScript files, Ts.ED uses `express.static` and `koa-send` for Express and Koa respectively.
@@ -25,14 +26,13 @@ const rootDir = __dirname;
       {
         root: `${rootDir}/public`,
         // Optional
-        hook: "$beforeRoutesInit" // Load statics on the expected hook. Default: $afterRoutesInit 
+        hook: "$beforeRoutesInit" // Load statics on the expected hook. Default: $afterRoutesInit
         // ... statics options
       }
     ]
   }
 })
-export class Server {
-}
+export class Server {}
 ```
 
 Now, you can load the files that are in the `public` directory:
@@ -55,16 +55,15 @@ const rootDir = __dirname;
   statics: {
     "/statics": [
       {
-        root: `${rootDir}/public`, 
+        root: `${rootDir}/public`,
         // Optional
-        hook: "$beforeRoutesInit" // Load statics on the expected hook. Default: $afterRoutesInit 
+        hook: "$beforeRoutesInit" // Load statics on the expected hook. Default: $afterRoutesInit
         // ... statics options
       }
     ]
   }
 })
-export class Server {
-}
+export class Server {}
 ```
 
 Now, you can load the files that are in the public directory from the `/statics` path prefix.
@@ -88,14 +87,14 @@ Just use the options `hook` to change the default behavior:
   statics: {
     "/before": [
       {
-        root: `${rootDir}/public`, 
+        root: `${rootDir}/public`,
         hook: "$beforeRoutesInit"
         // ... statics options
       }
     ],
     "/after": [
       {
-        root: `${rootDir}/public`, 
+        root: `${rootDir}/public`,
         hook: "$afterRoutesInit"
         // ... statics options
       }
@@ -106,7 +105,7 @@ Just use the options `hook` to change the default behavior:
 
 ## Statics options
 
-Statics options depend on which platform you work (Express, Koa, etc...). 
+Statics options depend on which platform you work (Express, Koa, etc...).
 
 <Tabs class="-code">
   <Tab label="Express.js">
@@ -147,59 +146,18 @@ interface KoaStaticsOptions {
 
 ## Expose a webapp
 
-Exposing a webapp (React, Vue.js, Angular) with Ts.ED is quite possible. 
+Exposing a webapp (React, Vue.js, Angular) with Ts.ED is quite possible.
 The configuration can be a bit complicated because you have to add the right headers and redirection rule so that all queries are redirected to your webapp when the urls are managed by your front-end application.
 
 Here is a small example to configure statics directory with the right headers and redirection rules.
 
 <Tabs class="-code">
   <Tab label="Express.js">
-  
+
 ```typescript
 import {Configuration, PlatformApplication} from "@tsed/common";
 
-const send = require('send')
-
-const rootDir = __dirname;
-
-function setCustomCacheControl(res: ServerResponse, path: string) {
-  if (send.mime.lookup(path) === "text/html") {
-    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
-    res.setHeader("Pragma", "no-cache");
-    res.setHeader("expires", "0");
-  }
-}
-
-@Configuration({
-statics: {
-  "/app": [
-    {
-      root: `${rootDir}/public`,
-      maxAge: '1d',
-      setHeaders: setCustomCacheControl
-    }
-  ]
-}
-})
-export class Server {
-  @Inject()
-  app: PlatformApplication;
-
-  $afterRoutesInit() {
-    this.app.get(`/app/*`, (req: any, res: Res) => {
-      res.sendFile(join(directory, "index.html"));
-    });
-  }
-}
-```
-  
-  </Tab>
-  <Tab label="Koa.js">
-  
-```typescript
-import {Configuration, PlatformApplication} from "@tsed/common";
-
-const send = require('send');
+const send = require("send");
 
 const rootDir = __dirname;
 
@@ -216,7 +174,7 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
     "/app": [
       {
         root: `${rootDir}/public`,
-        maxAge: '1d',
+        maxAge: "1d",
         setHeaders: setCustomCacheControl
       }
     ]
@@ -233,7 +191,48 @@ export class Server {
   }
 }
 ```
-  
-  </Tab>  
-</Tabs>
 
+  </Tab>
+  <Tab label="Koa.js">
+
+```typescript
+import {Configuration, PlatformApplication} from "@tsed/common";
+
+const send = require("send");
+
+const rootDir = __dirname;
+
+function setCustomCacheControl(res: ServerResponse, path: string) {
+  if (send.mime.lookup(path) === "text/html") {
+    res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("expires", "0");
+  }
+}
+
+@Configuration({
+  statics: {
+    "/app": [
+      {
+        root: `${rootDir}/public`,
+        maxAge: "1d",
+        setHeaders: setCustomCacheControl
+      }
+    ]
+  }
+})
+export class Server {
+  @Inject()
+  app: PlatformApplication;
+
+  $afterRoutesInit() {
+    this.app.get(`/app/*`, (req: any, res: Res) => {
+      res.sendFile(join(directory, "index.html"));
+    });
+  }
+}
+```
+
+  </Tab>
+</Tabs>
+````

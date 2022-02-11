@@ -12,6 +12,6 @@ export class CalendarCtrl {
   @Put("/")
   @Returns(201)
   create(@BodyParams("name") id: string): Calendar {
-    return { id: "2", name: "test" };
+    return {id: "2", name: "test"};
   }
 }

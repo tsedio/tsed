@@ -8,12 +8,10 @@ import methodOverride from "method-override";
 
 @Configuration({
   logger: {
-    disableRoutesSummary: true,
+    disableRoutesSummary: true
   },
   mount: {
-    "/": [
-      TimeslotsController
-    ]
+    "/": [TimeslotsController]
   }
 })
 export class Server {

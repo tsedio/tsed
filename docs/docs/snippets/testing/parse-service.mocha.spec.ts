@@ -8,9 +8,11 @@ describe("ParseService", () => {
   describe("eval()", () => {
     it("should evaluate expression with a scope and return value", () => {
       const service = PlatformTest.get<ParseService>(ParseService);
-      expect(service.eval("test", {
-        test: "yes"
-      })).to.equal("yes");
+      expect(
+        service.eval("test", {
+          test: "yes"
+        })
+      ).to.equal("yes");
     });
   });
 });

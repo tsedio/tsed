@@ -1,5 +1,5 @@
 import {getClass, nameOf} from "@tsed/core";
-import {Socket as IOSocket, Server, Namespace} from"socket.io";
+import {Socket as IOSocket, Server, Namespace} from "socket.io";
 import {Args, Emit, Input, IO, Nsp, Socket, SocketService, SocketSession, SocketUseAfter, SocketUseBefore} from "@tsed/socketio";
 import {ConverterUserSocketMiddleware} from "../middlewares/ConverterUserSocketMiddleware";
 import {ErrorHandlerSocketMiddleware} from "../middlewares/ErrorHandlerSocketMiddleware";

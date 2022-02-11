@@ -16,6 +16,5 @@ export class CustomInteraction {
   @Inject()
   accounts: Accounts;
 
-  $onCreate() {
-  }
+  $onCreate() {}
 }

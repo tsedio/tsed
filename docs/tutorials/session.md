@@ -1,18 +1,19 @@
 ---
 meta:
- - name: description
-   content: Session configuration 
- - name: keywords
-   content: ts.ed express typescript auth node.js javascript decorators
+  - name: description
+    content: Session configuration
+  - name: keywords
+    content: ts.ed express typescript auth node.js javascript decorators
 ---
+
 # Session & cookies
 
 Ts.ED provides two decorators to get @@Session@@ and @@Cookies@@ values in your controller.
 
 ## Installation
 
-Before using the Session and Cookies, we need to install a module like [express-session](https://www.npmjs.com/package/express-session) but 
-you can use another module which follows the same convention. 
+Before using the Session and Cookies, we need to install a module like [express-session](https://www.npmjs.com/package/express-session) but
+you can use another module which follows the same convention.
 
 ```bash
 npm install --save express-session
@@ -30,9 +31,10 @@ Edit your Server and add these lines:
 
 <<< @/tutorials/snippets/session/configuration.ts
 
-
 ## Usage
+
 ### Session
+
 #### Get value
 
 <<< @/tutorials/snippets/session/example-session.ts
@@ -45,15 +47,16 @@ import {Returns} from "@tsed/schema";
 
 @Controller("/")
 export class MyCtrl {
-   @Post("/")
-   updateSession(@Session() session: any) {
-     session.count = (session.count || 0) + 1
-     return "OK - " + session.count;
-   }
+  @Post("/")
+  updateSession(@Session() session: any) {
+    session.count = (session.count || 0) + 1;
+    return "OK - " + session.count;
+  }
 }
 ```
 
-### Cookies 
+### Cookies
+
 #### Get value
 
 <<< @/tutorials/snippets/session/example-cookies.ts
@@ -66,11 +69,11 @@ import {Returns} from "@tsed/schema";
 
 @Controller("/")
 export class MyCtrl {
-   @Post("/")
-   updateSession(@Cookies() cookies: any) {
-     cookies.count = (cookies.count || 0) + 1
-     return "OK - " + cookies.count;
-   }
+  @Post("/")
+  updateSession(@Cookies() cookies: any) {
+    cookies.count = (cookies.count || 0) + 1;
+    return "OK - " + cookies.count;
+  }
 }
 ```
 
@@ -109,4 +112,3 @@ Here is an example of Rest API test:
 ::: tip
 You can find a working example on [Express Session here](https://github.com/tsedio/tsed-example-session).
 :::
-

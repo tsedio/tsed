@@ -14,7 +14,7 @@ describe("Array", () => {
           disabled: false,
           input: true,
           key: "test",
-          label:'Test',
+          label: "Test",
           multiple: true,
           type: "textfield",
           validate: {
@@ -29,7 +29,7 @@ describe("Array", () => {
       type: "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
   it("should declare array number", async () => {
@@ -39,31 +39,31 @@ describe("Array", () => {
     }
 
     expect(await getFormioSchema(Model)).toEqual({
-      "components": [
+      components: [
         {
-          "delimiter": false,
-          "disabled": false,
-          "input": true,
-          "inputFormat": "plain",
-          label:'Test',
-          "key": "test",
-          "mask": false,
-          "multiple": true,
-          "requireDecimal": false,
-          "type": "number",
-          "validate": {
-            "required": false
+          delimiter: false,
+          disabled: false,
+          input: true,
+          inputFormat: "plain",
+          label: "Test",
+          key: "test",
+          mask: false,
+          multiple: true,
+          requireDecimal: false,
+          type: "number",
+          validate: {
+            required: false
           }
         }
       ],
-      "display": "form",
-      "machineName": "model",
-      "name": "model",
-      "title": "Model",
-      "type": "form",
+      display: "form",
+      machineName: "model",
+      name: "model",
+      title: "Model",
+      type: "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
   it("should declare array boolean", async () => {
@@ -73,27 +73,27 @@ describe("Array", () => {
     }
 
     expect(await getFormioSchema(Model)).toEqual({
-      "components": [
+      components: [
         {
-          "disabled": false,
-          "input": true,
-          "key": "test",
-          "multiple": true,
-          "type": "checkbox",
-          label:'Test',
-          "validate": {
-            "required": false
+          disabled: false,
+          input: true,
+          key: "test",
+          multiple: true,
+          type: "checkbox",
+          label: "Test",
+          validate: {
+            required: false
           }
         }
       ],
-      "display": "form",
-      "machineName": "model",
-      "name": "model",
-      "title": "Model",
-      "type": "form",
+      display: "form",
+      machineName: "model",
+      name: "model",
+      title: "Model",
+      type: "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
 });

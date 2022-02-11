@@ -4,10 +4,6 @@ import {EventCtrl} from "./EventCtrl";
 
 @Controller({
   path: "/rest",
-  children: [
-    CalendarCtrl,
-    EventCtrl
-  ]
+  children: [CalendarCtrl, EventCtrl]
 })
-export class RestCtrl {
-}
+export class RestCtrl {}

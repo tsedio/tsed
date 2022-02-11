@@ -1,10 +1,10 @@
 ## Information
 
-Type | Breaking change
----|---
-Feature/Fix/Doc/Chore | Yes/No
+| Type                  | Breaking change |
+| --------------------- | --------------- |
+| Feature/Fix/Doc/Chore | Yes/No          |
 
-****
+---
 
 <!--
 ## Usage example

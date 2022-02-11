@@ -32,7 +32,7 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/formio.html
 ## Feature
 
 Currently, `@tsed/formio` allows you:
- 
+
 - Configure formio project
 - Register Hook
 - Register Actions
@@ -50,29 +50,25 @@ Then import `@tsed/formio` in your Server:
 
 ```typescript
 import {Configuration, PlatformApplication} from "@tsed/common";
-import "@tsed/formio"; 
+import "@tsed/formio";
 
 @Configuration({
-  formio: {
-  }
+  formio: {}
 })
-export class Server {
-  
-}
+export class Server {}
 ```
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

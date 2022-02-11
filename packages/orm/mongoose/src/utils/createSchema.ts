@@ -189,7 +189,7 @@ export function createSchemaTypeOptions<T = any>(propEntity: JsonEntityStore): S
       throw new Error(`Invalid collection type. ${nameOf(propEntity.collectionType)} is not supported.`);
     }
 
-    return ({type: Map, of: schemaTypeOptions} as unknown) as SchemaTypeOptions<T>;
+    return {type: Map, of: schemaTypeOptions} as unknown as SchemaTypeOptions<T>;
   }
 
   return schemaTypeOptions;

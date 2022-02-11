@@ -24,7 +24,7 @@ export class Food {
 }
 
 describe("AfterDeserialize", async () => {
-  it("should deserialize object correctly and alter the name after deserialization", ()  => {
+  it("should deserialize object correctly and alter the name after deserialization", () => {
     // GIVEN
     const food: Food = {
       name: "Apple",

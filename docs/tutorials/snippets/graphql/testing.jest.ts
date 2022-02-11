@@ -33,11 +33,11 @@ describe("Recipes", () => {
     });
 
     expect(response.data).toEqual({
-      "recipes": [
+      recipes: [
         {
-          "creationDate": "2020-08-20T00:00:00.000Z",
-          "description": "Description",
-          "title": "title"
+          creationDate: "2020-08-20T00:00:00.000Z",
+          description: "Description",
+          title: "title"
         }
       ]
     });

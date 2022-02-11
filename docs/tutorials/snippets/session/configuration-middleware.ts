@@ -19,19 +19,23 @@ class Server {
       .use(compress({}))
       .use(methodOverride())
       .use(bodyParser.json())
-      .use(bodyParser.urlencoded({
-        extended: true
-      }));
+      .use(
+        bodyParser.urlencoded({
+          extended: true
+        })
+      );
 
     this.app.getApp().set("trust proxy", 1); // trust first proxy
-    this.app.getApp().use(session({
-      secret: "keyboard cat", // change secret key
-      resave: false,
-      saveUninitialized: true,
-      cookie: {
-        secure: false // set true if HTTPS is enabled
-      }
-    }));
+    this.app.getApp().use(
+      session({
+        secret: "keyboard cat", // change secret key
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+          secure: false // set true if HTTPS is enabled
+        }
+      })
+    );
 
     this.app.use(CreateRequestSessionMiddleware);
   }

@@ -37,7 +37,7 @@ describe("In", () => {
   it("should declare all schema correctly (method)", async () => {
     // WHEN
     class Controller {
-      @(In("header").Type(String).Name("Authorization").Required().Description("description"))
+      @In("header").Type(String).Name("Authorization").Required().Description("description")
       method(@In("path") @Name("basic") basic: string) {}
     }
 
@@ -78,7 +78,7 @@ describe("In", () => {
   it("should declare all schema correctly (class)", async () => {
     // WHEN
     class Controller {
-      @(In("header").Type(String).Name("Authorization").Required().Description("description"))
+      @In("header").Type(String).Name("Authorization").Required().Description("description")
       method(@In("path") @Name("basic") basic: string) {}
     }
 
@@ -119,12 +119,12 @@ describe("In", () => {
   it("should extra schema", async () => {
     // WHEN
     @Path("/:parentId")
-    @(In("path")
+    @In("path")
       .Type(String)
       .Name("parentId")
       .Required()
       .Description("description")
-      .Pattern(/^[0-9a-fA-F]{24}$/))
+      .Pattern(/^[0-9a-fA-F]{24}$/)
     class Controller {
       @OperationPath("GET", "/:path")
       method(@In("path") @Name("basic") basic: string) {}

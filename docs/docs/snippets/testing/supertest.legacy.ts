@@ -9,9 +9,11 @@ describe("Rest", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
   before(TestContext.bootstrap(Server));
-  before(TestContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
-    request = SuperTest(expressApplication);
-  }));
+  before(
+    TestContext.inject([ExpressApplication], (expressApplication: ExpressApplication) => {
+      request = SuperTest(expressApplication);
+    })
+  );
 
   after(TestContext.reset);
 

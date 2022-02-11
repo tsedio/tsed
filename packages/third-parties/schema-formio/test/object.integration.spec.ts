@@ -9,31 +9,31 @@ describe("Object", () => {
     }
 
     expect(await getFormioSchema(Model)).toEqual({
-      "access": [],
-      "components": [
+      access: [],
+      components: [
         {
-          "disabled": false,
-          "input": true,
-          "key": "test",
-          "label": "Test",
-          "tableView": false,
-          "type": "datamap",
-          "validate": {
-            "required": false
+          disabled: false,
+          input: true,
+          key: "test",
+          label: "Test",
+          tableView: false,
+          type: "datamap",
+          validate: {
+            required: false
           },
-          "valueComponent": {
-            "hideLabel": true,
-            "tableView": true
+          valueComponent: {
+            hideLabel: true,
+            tableView: true
           }
         }
       ],
-      "display": "form",
-      "machineName": "model",
-      "name": "model",
-      "submissionAccess": [],
-      "tags": [],
-      "title": "Model",
-      "type": "form"
+      display: "form",
+      machineName: "model",
+      name: "model",
+      submissionAccess: [],
+      tags: [],
+      title: "Model",
+      type: "form"
     });
   });
 });

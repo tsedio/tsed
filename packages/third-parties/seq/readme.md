@@ -32,6 +32,7 @@ A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/seq
 ## Installation
 
 Run npm command (or yarn):
+
 ```bash
 npm install --save @tsed/seq bunyan bunyan-seq @types/bunyan @types/bunyan-seq
 ```
@@ -48,10 +49,9 @@ import "@tsed/seq"; // import seq Ts.ED module
     url: "http://localhost:5341"
   }
 })
-export class Server {
-
-}
+export class Server {}
 ```
+
 > Note: Seq module use the [@tsed/logger](https://logger.tsed.io) as a default system logger
 
 > Note: Seq module use the log level from the [LoggerSettings](https://tsed.io/api/common/config/interfaces/ILoggerSettings.md) (default level is debug)
@@ -62,14 +62,12 @@ export class Server {
 import {Controller, Get, QueryParams} from "@tsed/common";
 import {$log} from "@tsed/logger";
 
-@Controller('/calendars')
+@Controller("/calendars")
 export class Calendar {
-    
-    @Get('/:id')
-    async getCalendar(@QueryParams('id') id: string): Promise<CalendarModel> {
-      $log.info(id);
-    }
-   
+  @Get("/:id")
+  async getCalendar(@QueryParams("id") id: string): Promise<CalendarModel> {
+    $log.info(id);
+  }
 }
 ```
 
@@ -80,6 +78,7 @@ Then we should see the log in the Seq panel (by default `localhost:80`)
 Thanks to [OskarLebuda](https://github.com/OskarLebuda) to his contribution.
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
@@ -89,7 +88,6 @@ Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

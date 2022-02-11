@@ -14,9 +14,7 @@ describe("ProductsCtrl", () => {
       mount: {
         "/rest": [ProductsCtrl]
       },
-      responseFilters: [
-        PaginationFilter
-      ]
+      responseFilters: [PaginationFilter]
     })
   );
   afterEach(PlatformTest.reset);
@@ -29,90 +27,96 @@ describe("ProductsCtrl", () => {
     const spec = getSpec(PlatformTest, {specType: SpecTypes.OPENAPI});
 
     expect(spec).toEqual({
-      "paths": {
+      paths: {
         "/pageable": {
-          "get": {
-            "operationId": "productsCtrlGet",
-            "parameters": [{
-              "in": "query",
-              "required": false,
-              "name": "page",
-              "schema": {"type": "integer", "description": "Page number.", "default": 0, "minimum": 0, "multipleOf": 1}
-            }, {
-              "in": "query",
-              "required": false,
-              "name": "size",
-              "schema": {
-                "type": "integer",
-                "description": "Number of objects per page.",
-                "default": 20,
-                "minimum": 1,
-                "multipleOf": 1
-              }
-            }, {
-              "in": "query",
-              "required": false,
-              "name": "sort",
-              "schema": {
-                "type": "array",
-                "description": "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
-                "maxItems": 2,
-                "items": {"type": "string"}
-              }
-            }, {"in": "query", "name": "all", "required": false, "schema": {"type": "boolean"}}],
-            "responses": {
+          get: {
+            operationId: "productsCtrlGet",
+            parameters: [
+              {
+                in: "query",
+                required: false,
+                name: "page",
+                schema: {type: "integer", description: "Page number.", default: 0, minimum: 0, multipleOf: 1}
+              },
+              {
+                in: "query",
+                required: false,
+                name: "size",
+                schema: {
+                  type: "integer",
+                  description: "Number of objects per page.",
+                  default: 20,
+                  minimum: 1,
+                  multipleOf: 1
+                }
+              },
+              {
+                in: "query",
+                required: false,
+                name: "sort",
+                schema: {
+                  type: "array",
+                  description:
+                    "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                  maxItems: 2,
+                  items: {type: "string"}
+                }
+              },
+              {in: "query", name: "all", required: false, schema: {type: "boolean"}}
+            ],
+            responses: {
               "200": {
-                "content": {"application/json": {"schema": {"$ref": "#/components/schemas/PaginatedProduct"}}},
-                "description": "Success"
+                content: {"application/json": {schema: {$ref: "#/components/schemas/PaginatedProduct"}}},
+                description: "Success"
               },
               "206": {
-                "content": {"application/json": {"schema": {"$ref": "#/components/schemas/PaginatedProduct"}}},
-                "description": "Partial Content"
+                content: {"application/json": {schema: {$ref: "#/components/schemas/PaginatedProduct"}}},
+                description: "Partial Content"
               }
             },
-            "tags": ["ProductsCtrlCtrl"]
+            tags: ["ProductsCtrlCtrl"]
           }
         }
       },
-      "tags": [{"name": "ProductsCtrlCtrl"}],
-      "components": {
-        "schemas": {
-          "Product": {
-            "type": "object",
-            "properties": {"id": {"type": "string"}, "title": {"type": "string"}}
+      tags: [{name: "ProductsCtrlCtrl"}],
+      components: {
+        schemas: {
+          Product: {
+            type: "object",
+            properties: {id: {type: "string"}, title: {type: "string"}}
           },
-          "PaginatedProduct": {
-            "type": "object",
-            "properties": {
-              "page": {
-                "type": "integer",
-                "description": "Page number.",
-                "default": 0,
-                "minimum": 0,
-                "multipleOf": 1
+          PaginatedProduct: {
+            type: "object",
+            properties: {
+              page: {
+                type: "integer",
+                description: "Page number.",
+                default: 0,
+                minimum: 0,
+                multipleOf: 1
               },
-              "size": {
-                "type": "integer",
-                "description": "Number of objects per page.",
-                "default": 20,
-                "minimum": 1,
-                "multipleOf": 1
+              size: {
+                type: "integer",
+                description: "Number of objects per page.",
+                default: 20,
+                minimum: 1,
+                multipleOf: 1
               },
-              "sort": {
-                "type": "array",
-                "description": "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
-                "maxItems": 2,
-                "items": {"type": "string"}
+              sort: {
+                type: "array",
+                description:
+                  "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
+                maxItems: 2,
+                items: {type: "string"}
               },
-              "data": {"type": "array", "items": {"$ref": "#/components/schemas/Product"}},
-              "totalCount": {"type": "integer", "minLength": 0, "multipleOf": 1}
+              data: {type: "array", items: {$ref: "#/components/schemas/Product"}},
+              totalCount: {type: "integer", minLength: 0, multipleOf: 1}
             }
           }
         }
       }
     });
   });
-
 
   it("should get paginated products with a status 206 Partial Content", async () => {
     const options = {
@@ -124,19 +128,16 @@ describe("ProductsCtrl", () => {
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(206);
 
     expect(body).toEqual({
-      "data": [
+      data: [
         {
-          "id": "100",
-          "title": "CANON D3000"
+          id: "100",
+          title: "CANON D3000"
         }
       ],
-      "page": 1,
-      "size": 10,
-      "sort": [
-        "asc",
-        "field"
-      ],
-      "totalCount": 100
+      page: 1,
+      size: 10,
+      sort: ["asc", "field"],
+      totalCount: 100
     });
   });
 
@@ -164,15 +165,15 @@ describe("ProductsCtrl", () => {
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(216);
 
     expect(body).toEqual({
-      "data": [
+      data: [
         {
-          "id": "100",
-          "title": "CANON D3000"
+          id: "100",
+          title: "CANON D3000"
         }
       ],
-      "page": 1,
-      "size": 10,
-      "totalCount": 100
+      page: 1,
+      size: 10,
+      totalCount: 100
     });
   });
 
@@ -189,7 +190,7 @@ describe("ProductsCtrl", () => {
     });
   });
 
-  it("should throw bad request when options isn\'t correct", async () => {
+  it("should throw bad request when options isn't correct", async () => {
     const options = {
       page: -1
     };
@@ -197,24 +198,24 @@ describe("ProductsCtrl", () => {
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(400);
 
     expect(body).toEqual({
-      "errors": [
+      errors: [
         {
-          "data": -1,
-          "dataPath": ".page",
-          "keyword": "minimum",
-          "message": "should be >= 0",
-          "modelName": "Pageable",
-          "params": {
-            "comparison": ">=",
-            "exclusive": false,
-            "limit": 0
+          data: -1,
+          dataPath: ".page",
+          keyword: "minimum",
+          message: "should be >= 0",
+          modelName: "Pageable",
+          params: {
+            comparison: ">=",
+            exclusive: false,
+            limit: 0
           },
-          "schemaPath": "#/properties/page/minimum"
+          schemaPath: "#/properties/page/minimum"
         }
       ],
-      "message": "Bad request on parameter \"request.query\".\nPageable.page should be >= 0. Given value: -1",
-      "name": "AJV_VALIDATION_ERROR",
-      "status": 400
+      message: 'Bad request on parameter "request.query".\nPageable.page should be >= 0. Given value: -1',
+      name: "AJV_VALIDATION_ERROR",
+      status: 400
     });
   });
 });

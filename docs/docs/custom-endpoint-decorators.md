@@ -1,6 +1,6 @@
 # Custom endpoint decorator
 
-Custom endpoint decorator could be interesting when you want to handle a request and perform actions before or after the endpoint method. 
+Custom endpoint decorator could be interesting when you want to handle a request and perform actions before or after the endpoint method.
 
 Unlike [Pipes](/docs/pipes.html) that operate on the parameters of a method, the endpoint decorator will operate on the method itself.
 
@@ -28,8 +28,8 @@ which can be passed to the decorator associated to PlatformAcceptMimesMiddleware
 <<< @/docs/snippets/middlewares/accept-mime-usage.ts
 
 ::: tip
-This example uses @@AcceptMime@@ decorator with one option, the `application/json`. 
-This option will be set to `endpoint.get` seen before with PlatformAcceptMimesMiddleware example and can be retrieved by using 
+This example uses @@AcceptMime@@ decorator with one option, the `application/json`.
+This option will be set to `endpoint.get` seen before with PlatformAcceptMimesMiddleware example and can be retrieved by using
 `endpoint.get(PlatformAcceptMimesMiddleware)`.
 :::
 

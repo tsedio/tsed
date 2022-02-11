@@ -100,7 +100,7 @@ describe("DI", () => {
   describe("it should invoke service with a symbol", () => {
     interface BaseService {}
 
-    const BaseService: unique symbol = Symbol('BaseService')
+    const BaseService: unique symbol = Symbol("BaseService");
 
     @Injectable({provide: BaseService})
     class NestedService implements BaseService {}
@@ -131,11 +131,9 @@ describe("DI", () => {
   describe("invoke class with a provider", () => {
     it("should invoke class with a another useClass", async () => {
       @Injectable()
-      class MyClass {
-      }
+      class MyClass {}
 
-      class FakeMyClass {
-      }
+      class FakeMyClass {}
 
       const injector = new InjectorService();
 
@@ -143,12 +141,12 @@ describe("DI", () => {
         useClass: FakeMyClass
       });
 
-      const instance = injector.invoke(MyClass)
+      const instance = injector.invoke(MyClass);
 
       expect(instance).to.be.instanceOf(FakeMyClass);
       expect(injector.get(MyClass)).to.be.instanceOf(FakeMyClass);
 
-      await injector.load()
+      await injector.load();
 
       expect(injector.get(MyClass)).to.be.instanceOf(FakeMyClass);
     });

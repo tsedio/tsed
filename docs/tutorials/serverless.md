@@ -1,9 +1,9 @@
 ---
 meta:
- - name: description
-   content: Guide to deploy your Ts.ED application on Serveless.
- - name: keywords 
-   content: ts.ed express typescript aws node.js javascript decorators
+  - name: description
+    content: Guide to deploy your Ts.ED application on Serveless.
+  - name: keywords
+    content: ts.ed express typescript aws node.js javascript decorators
 ---
 
 # Serverless
@@ -99,10 +99,9 @@ tsed init .
 ? Choose the package manager: Yarn
 ```
 
-::: tip 
+::: tip
 This tutorial works also with NPM package manager!
 :::
-
 
 <Tabs class="-code">
   <Tab label="Yarn">
@@ -158,11 +157,9 @@ import {PlatformServerless} from "@tsed/serverless";
 import {TimeslotsLambda} from "./lambda/TimeslotsLambda";
 
 const platform = PlatformServerless.bootstrap({
-  lambda: [
-    TimeslotsLambda
-  ]
+  lambda: [TimeslotsLambda]
   // put your Application configuration here
-})
+});
 
 // then export the lambda
 export = platform.callbacks();
@@ -173,12 +170,12 @@ Finally, create the `serverless.yml`:
 ```yml
 service: timeslots
 
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
   name: aws
   runtime: nodejs14.x
-  lambdaHashingVersion: '20201221'
+  lambdaHashingVersion: "20201221"
 
 plugins:
   - serverless-offline
@@ -243,12 +240,12 @@ To use the embed router, change the `serverless.yml` declaration by this example
 ```yml
 service: timeslots
 
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
   name: aws
   runtime: nodejs14.x
-  lambdaHashingVersion: '20201221'
+  lambdaHashingVersion: "20201221"
 
 plugins:
   - serverless-offline
@@ -262,7 +259,7 @@ functions:
           path: /
       - http:
           method: ANY
-          path: '{proxy+}'
+          path: "{proxy+}"
 ```
 
 Then, edit the `handler.ts` and change the exported functions:
@@ -301,14 +298,14 @@ import {ServerlessContext} from "./ServerlessContext";
 @Injectable()
 export class TimeslotsLambda {
   get(@Context() $ctx: ServerlessContext) {
-    console.log($ctx.context) // AWS Context
-    console.log($ctx.event) // AWS Event
-    console.log($ctx.response) // Response Platform abstraction layer
-    console.log($ctx.request) // Request Platform abstraction layer
+    console.log($ctx.context); // AWS Context
+    console.log($ctx.event); // AWS Event
+    console.log($ctx.response); // Response Platform abstraction layer
+    console.log($ctx.request); // Request Platform abstraction layer
 
-    $ctx.response.setHeader('x-test', 'test');
+    $ctx.response.setHeader("x-test", "test");
 
-    return {}
+    return {};
   }
 }
 ```
@@ -361,7 +358,8 @@ describe("TimeslotsLambdaController", () => {
     });
 
     it("should call getAll Lambda", async () => {
-      const response = await PlatformServerlessTest.request.call("getById")
+      const response = await PlatformServerlessTest.request
+        .call("getById")
         .params({
           id: "1"
         })
@@ -380,9 +378,9 @@ describe("TimeslotsLambdaController", () => {
         endDate: "2020-01-10T00:00:00.000Z",
         startDate: "2020-01-01T00:00:00.000Z"
       });
-    });    
+    });
   });
-  
+
   describe("invoke using the router", () => {
     it("should call getAll Lambda", async () => {
       const response = await PlatformServerlessTest.request.get("/");

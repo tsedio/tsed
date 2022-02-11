@@ -5,7 +5,6 @@ export class MySocketService {
   @Input("eventName")
   @Emit("responseEventName") // or Broadcast or BroadcastOthers
   async myMethod(@Args(0) userName: string, @SocketSession session: SocketSession) {
-
     const user = session.get("user") || {};
     user.name = userName;
 

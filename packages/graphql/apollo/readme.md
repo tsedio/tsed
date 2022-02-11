@@ -58,7 +58,7 @@ import "@tsed/apollo";
 
 @Configuration({
   apollo: {
-    'server1': {
+    server1: {
       path: "/",
       schema: {},
       resolvers: []
@@ -81,9 +81,9 @@ import {ApolloServer} from "apollo-server-express";
 export class UsersService implements AfterRoutesInit {
   @Injec()
   apolloService: ApolloService;
-  
+
   private server: ApolloServer;
-  
+
   $afterRoutesInit() {
     this.server = this.apolloService.get("server1");
   }
@@ -98,13 +98,11 @@ Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
-
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

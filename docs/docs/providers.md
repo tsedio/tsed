@@ -1,10 +1,11 @@
 ---
 meta:
- - name: description
-   content: Documentation over Providers / DI provided by Ts.ED framework. Use providers to build your backend services.
- - name: keywords
-   content: providers di ioc ts.ed express typescript node.js javascript decorators jsonschema class models
+  - name: description
+    content: Documentation over Providers / DI provided by Ts.ED framework. Use providers to build your backend services.
+  - name: keywords
+    content: providers di ioc ts.ed express typescript node.js javascript decorators jsonschema class models
 ---
+
 # Providers
 
 Basically, almost everything may be considered as a provider – service, factory, interceptors, and so on. All of them
@@ -26,7 +27,7 @@ Let's start by creating a simple CalendarService provider.
 
 <<< @/docs/snippets/providers/getting-started-service.ts
 
-::: tip Note 
+::: tip Note
 
 @@Service@@ and @@Injectable@@ have the same effect. @@Injectable@@ accepts options, @@Service@@ does not.
 A Service is always configured as `singleton`.
@@ -63,8 +64,7 @@ import {Injectable} from "@tsed/di";
 
 @Injectable()
 class MyInjectable {
-  constructor(private calendarsService: CalendarsService) {
-  }
+  constructor(private calendarsService: CalendarsService) {}
 }
 ```
 
@@ -84,7 +84,7 @@ class MyInjectable {
 }
 ```
 
-In this case, the service won't be usable in the constructor. If you have to do something with the injected service, 
+In this case, the service won't be usable in the constructor. If you have to do something with the injected service,
 you can use the `$onInit` hook.
 
 ## Scopes
@@ -112,7 +112,7 @@ These decorators can be used with:
 ::: warning @@Constant@@ returns an Object.freeze() value.
 :::
 
-::: tip NOTE The values for the decorated properties aren't available on constructor. Use $onInit() hook to use the
+::: tip NOTE The values for the decorated properties aren't available on constructor. Use \$onInit() hook to use the
 value.
 :::
 
@@ -150,7 +150,7 @@ An injection token may be either a string, a symbol, a class constructor.
 ## Lazy load provider <Badge text="6.81.0+"/>
 
 By default, modules are eagerly loaded, which means that as soon as the application loads, so do all the modules,
-whether or not they are immediately necessary. While this is fine for most applications, 
+whether or not they are immediately necessary. While this is fine for most applications,
 it may become a bottleneck for apps running in the **serverless environment**, where the startup latency `("cold start")` is crucial.
 
 Lazy loading can help decrease bootstrap time by loading only modules required by the specific serverless function invocation.

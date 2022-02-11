@@ -24,7 +24,7 @@ class CustomServer {
 class TestQueryParamsCtrl {
   @Get("/scenario-1")
   testScenario1(@QueryParams() qs: any) {
-    return { qs };
+    return {qs};
   }
 }
 
@@ -40,11 +40,13 @@ const utils = PlatformTestUtils.create({
 describe("QueryParser", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  beforeEach(utils.bootstrap({
-    mount: {
-      "/rest": [TestQueryParamsCtrl]
-    }
-  }));
+  beforeEach(
+    utils.bootstrap({
+      mount: {
+        "/rest": [TestQueryParamsCtrl]
+      }
+    })
+  );
   beforeEach(() => {
     request = SuperTest(PlatformTest.callback());
   });
@@ -56,7 +58,7 @@ describe("QueryParser", () => {
       const response = await request.get(`${endpoint}?q[offset]=0&q[limit]=10&q[where][a]=0&q[where][b]=1`).expect(200);
 
       expect(response.body).to.deep.equal({
-        "qs": {
+        qs: {
           "q[limit]": "10",
           "q[offset]": "0",
           "q[where][a]": "0",

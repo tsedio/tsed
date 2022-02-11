@@ -8,5 +8,4 @@ import "@tsed/socketio"; // import socket.io Ts.ED module
     // ... see configuration
   }
 })
-export class Server {
-}
+export class Server {}

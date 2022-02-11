@@ -5,7 +5,6 @@ import {PersonModel} from "../models/PersonModel";
 
 @Controller("/")
 export class PersonsCtrl {
-
   @Post("/")
   save(@BodyParams() model: PersonModel): PersonModel {
     console.log(model instanceof PersonModel); // true

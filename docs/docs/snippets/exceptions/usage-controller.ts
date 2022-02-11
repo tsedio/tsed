@@ -19,9 +19,9 @@ export class CalendarCtrl {
         "x-header": "value"
       });
 
-      error.errors = [{ "message": "ID is not a number" }];
+      error.errors = [{message: "ID is not a number"}];
 
-      throw(error);
+      throw error;
     }
 
     const calendar = await this.calendarsService.get(id);

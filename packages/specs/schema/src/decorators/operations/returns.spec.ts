@@ -8,7 +8,7 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String).Description("description"))
+        @Returns(200, String).Description("description")
         method() {}
       }
 
@@ -44,7 +44,7 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String).Description("description"))
+        @Returns(200, String).Description("description")
         method() {}
       }
 
@@ -80,7 +80,7 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns().Status(200).Type(String).Description("description"))
+        @Returns().Status(200).Type(String).Description("description")
         method() {}
       }
 
@@ -116,7 +116,7 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String)
+        @Returns(200, String)
           .Description("description")
           .Header("x-token", "token")
           .Header("x-header", {
@@ -125,7 +125,7 @@ describe("@Returns", () => {
           .Examples({test: "Examples"})
           .Schema({
             minLength: 3
-          }))
+          })
         method() {}
       }
 
@@ -173,7 +173,7 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String)
+        @Returns(200, String)
           .Description("description")
           .Header("x-token", "token")
           .Header("x-header", {
@@ -182,7 +182,7 @@ describe("@Returns", () => {
           .Examples({test: "Examples"})
           .Schema({
             minLength: 3
-          }))
+          })
         method() {}
       }
 
@@ -240,7 +240,7 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String).Description("description").ContentType("text/html").Examples("Examples"))
+        @Returns(200, String).Description("description").ContentType("text/html").Examples("Examples")
         method() {}
       }
 
@@ -281,9 +281,9 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(400).Description("Bad request"))
+        @Returns(400).Description("Bad request")
         @Returns(401)
-        @(Returns(200).Description("Success"))
+        @Returns(200).Description("Success")
         method() {}
       }
 
@@ -376,12 +376,12 @@ describe("@Returns", () => {
     });
     it("should declare error response on class", async () => {
       // WHEN
-      @(Returns(400).Description("Bad request").Header("x-token", "token"))
+      @Returns(400).Description("Bad request").Header("x-token", "token")
       @Returns(401)
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200).Description("Success"))
-        @(Returns(400).Description("Bad request2").Header("x-token", "token2"))
+        @Returns(200).Description("Success")
+        @Returns(400).Description("Bad request2").Header("x-token", "token2")
         method() {}
       }
 
@@ -482,7 +482,7 @@ describe("@Returns", () => {
       try {
         class Controller {
           @OperationPath("POST", "/")
-          @(Returns(200, String).Of(Array).Description("description"))
+          @Returns(200, String).Of(Array).Description("description")
           method() {}
         }
       } catch (er) {
@@ -497,7 +497,7 @@ describe("@Returns", () => {
       try {
         class Controller {
           @OperationPath("POST", "/")
-          @(Returns(200, Array).Nested(Set).Description("description"))
+          @Returns(200, Array).Nested(Set).Description("description")
           method() {}
         }
       } catch (er) {
@@ -512,7 +512,7 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array).Of(String).Description("description"))
+        @Returns(200, Array).Of(String).Description("description")
         method() {}
       }
 
@@ -557,7 +557,7 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array).Of(Model).Description("description"))
+        @Returns(200, Array).Of(Model).Description("description")
         method() {}
       }
 
@@ -630,7 +630,7 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
+        @Returns(200, Pagination)
           .Of(Submission)
           .Nested(Product)
           .Description("description")
@@ -648,7 +648,7 @@ describe("@Returns", () => {
                 }
               ]
             }
-          }))
+          })
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
@@ -754,7 +754,7 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
+        @Returns(200, Pagination)
           .Of(Submission)
           .Nested(Product)
           .Description("description")
@@ -772,7 +772,7 @@ describe("@Returns", () => {
                 }
               ]
             }
-          }))
+          })
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
@@ -874,7 +874,7 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Submission).Of(MyEnum).Description("description"))
+        @Returns(200, Submission).Of(MyEnum).Description("description")
         async method(): Promise<Submission<MyEnum> | null> {
           return null;
         }
@@ -948,7 +948,7 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
+        @Returns(200, Pagination)
           .Of(Submission)
           .Nested(MyEnum)
           .Description("description")
@@ -966,7 +966,7 @@ describe("@Returns", () => {
                 }
               ]
             }
-          }))
+          })
         async method(): Promise<Pagination<Submission<MyEnum>> | null> {
           return null;
         }
@@ -1050,9 +1050,9 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Model).Description("description"))
-        @(Returns(200, String).ContentType("text/html"))
-        @(Returns(200, String).ContentType("text/xml"))
+        @Returns(200, Model).Description("description")
+        @Returns(200, String).ContentType("text/html")
+        @Returns(200, String).ContentType("text/xml")
         method() {}
       }
 
@@ -1138,7 +1138,7 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination).Of(Submission).Nested(Product).Title("PaginatedSubmissionProduct").Description("description"))
+        @Returns(200, Pagination).Of(Submission).Nested(Product).Title("PaginatedSubmissionProduct").Description("description")
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
@@ -1252,7 +1252,7 @@ describe("@Returns", () => {
 
     it("should return oneOf array schema", () => {
       class Controller {
-        @(Returns(200, Array).OneOf(ClassA, ClassB))
+        @Returns(200, Array).OneOf(ClassA, ClassB)
         @OperationPath("GET", "/")
         method() {}
       }
@@ -1276,7 +1276,7 @@ describe("@Returns", () => {
 
     it("should return allOf array schema", () => {
       class Controller {
-        @(Returns(200, Array).AllOf(ClassA, ClassB))
+        @Returns(200, Array).AllOf(ClassA, ClassB)
         @OperationPath("GET", "/")
         method() {}
       }
@@ -1300,7 +1300,7 @@ describe("@Returns", () => {
 
     it("should return allOf array schema", () => {
       class Controller {
-        @(Returns(200, Array).AnyOf(ClassA, ClassB))
+        @Returns(200, Array).AnyOf(ClassA, ClassB)
         @OperationPath("GET", "/")
         method() {}
       }

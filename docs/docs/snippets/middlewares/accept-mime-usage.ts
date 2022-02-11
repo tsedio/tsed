@@ -6,6 +6,5 @@ import {AcceptMime} from "@tsed/common";
 export class MyCtrl {
   @Get("/")
   @AcceptMime("application/json")
-  public getResource() {
-  }
+  public getResource() {}
 }

@@ -12,10 +12,13 @@ export class UsersRepository {
     const accounts = await this.adapter.findAll();
 
     if (!accounts.length) {
-      const user = deserialize({
-        email: "admin@tsed.io",
-        password: "admin@tsed.io"
-      }, {type: Account});
+      const user = deserialize(
+        {
+          email: "admin@tsed.io",
+          password: "admin@tsed.io"
+        },
+        {type: Account}
+      );
       await this.adapter.create(user);
     }
   }

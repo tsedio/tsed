@@ -6,8 +6,7 @@ import {UsersService} from "../services/UsersService";
 
 @Controller("/users")
 export class UsersCtrl {
-  constructor(private usersService: UsersService) {
-  }
+  constructor(private usersService: UsersService) {}
 
   @Post("/")
   create(@BodyParams() user: User): Promise<User> {

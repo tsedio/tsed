@@ -1,1 +1,1 @@
-module.exports = require('@tsed/mocha-config')();
+module.exports = require("@tsed/mocha-config")();

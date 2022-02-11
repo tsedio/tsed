@@ -38,55 +38,49 @@ describe("Swagger BodyParams()", () => {
       const response = await request.get("/v2/doc/swagger.json").expect(200);
 
       expect(response.body).to.deep.eq({
-        "consumes": [
-          "application/json"
-        ],
-        "info": {
-          "title": "Swagger title",
-          "version": "1.2.0"
+        consumes: ["application/json"],
+        info: {
+          title: "Swagger title",
+          version: "1.2.0"
         },
-        "paths": {
+        paths: {
           "/rest/customers": {
-            "post": {
-              "operationId": "customerControllerGet",
-              "parameters": [
+            post: {
+              operationId: "customerControllerGet",
+              parameters: [
                 {
-                  "in": "body",
-                  "name": "body",
-                  "required": false,
-                  "schema": {
-                    "properties": {
-                      "customer_name": {
-                        "type": "string"
+                  in: "body",
+                  name: "body",
+                  required: false,
+                  schema: {
+                    properties: {
+                      customer_name: {
+                        type: "string"
                       },
-                      "customer_last_name": {
-                        "maxLength": 100,
-                        "minLength": 0,
-                        "type": "string"
+                      customer_last_name: {
+                        maxLength: 100,
+                        minLength: 0,
+                        type: "string"
                       }
                     },
-                    "type": "object"
+                    type: "object"
                   }
                 }
               ],
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "CustomerController"
-              ]
+              tags: ["CustomerController"]
             }
           }
         },
-        "produces": [
-          "application/json"
-        ],
-        "swagger": "2.0",
-        "tags": [
+        produces: ["application/json"],
+        swagger: "2.0",
+        tags: [
           {
-            "name": "CustomerController"
+            name: "CustomerController"
           }
         ]
       });
@@ -97,50 +91,48 @@ describe("Swagger BodyParams()", () => {
       const response = await request.get("/v3/doc/swagger.json").expect(200);
 
       expect(response.body).to.deep.eq({
-        "info": {
-          "title": "Api documentation",
-          "version": "1.0.0"
+        info: {
+          title: "Api documentation",
+          version: "1.0.0"
         },
-        "openapi": "3.0.1",
-        "paths": {
+        openapi: "3.0.1",
+        paths: {
           "/rest/customers": {
-            "post": {
-              "operationId": "customerControllerGet",
-              "parameters": [],
-              "requestBody": {
-                "content": {
+            post: {
+              operationId: "customerControllerGet",
+              parameters: [],
+              requestBody: {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "properties": {
-                        "customer_last_name": {
-                          "maxLength": 100,
-                          "minLength": 0,
-                          "type": "string"
+                    schema: {
+                      properties: {
+                        customer_last_name: {
+                          maxLength: 100,
+                          minLength: 0,
+                          type: "string"
                         },
-                        "customer_name": {
-                          "type": "string"
+                        customer_name: {
+                          type: "string"
                         }
                       },
-                      "type": "object"
+                      type: "object"
                     }
                   }
                 },
-                "required": false
+                required: false
               },
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "CustomerController"
-              ]
+              tags: ["CustomerController"]
             }
           }
         },
-        "tags": [
+        tags: [
           {
-            "name": "CustomerController"
+            name: "CustomerController"
           }
         ]
       });

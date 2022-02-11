@@ -12,30 +12,30 @@ describe("Number", () => {
       const form = await getFormioSchema(Model);
 
       expect(form).toEqual({
-        "components": [
+        components: [
           {
-            "delimiter": false,
-            "disabled": false,
-            "input": true,
-            "inputFormat": "plain",
-            "key": "test",
-            "label": "Test",
-            "mask": false,
-            "requireDecimal": false,
-            "type": "number",
-            "validate": {
-              "required": false
+            delimiter: false,
+            disabled: false,
+            input: true,
+            inputFormat: "plain",
+            key: "test",
+            label: "Test",
+            mask: false,
+            requireDecimal: false,
+            type: "number",
+            validate: {
+              required: false
             }
           }
         ],
-        "display": "form",
-        "machineName": "model",
-        "name": "model",
-        "title": "Model",
-        "type": "form",
+        display: "form",
+        machineName: "model",
+        name: "model",
+        title: "Model",
+        type: "form",
         submissionAccess: [],
         access: [],
-        tags: [],
+        tags: []
       });
     });
   });
@@ -49,31 +49,31 @@ describe("Number", () => {
       const form = await getFormioSchema(Model);
 
       expect(form).toEqual({
-        "components": [
+        components: [
           {
-            "delimiter": false,
-            "disabled": false,
-            "input": true,
-            "inputFormat": "plain",
-            "key": "test",
-            "label": "Test",
-            "mask": false,
-            "requireDecimal": false,
-            "type": "number",
-            "validate": {
+            delimiter: false,
+            disabled: false,
+            input: true,
+            inputFormat: "plain",
+            key: "test",
+            label: "Test",
+            mask: false,
+            requireDecimal: false,
+            type: "number",
+            validate: {
               required: false,
               min: 10
             }
           }
         ],
-        "display": "form",
-        "machineName": "model",
-        "name": "model",
-        "title": "Model",
-        "type": "form",
+        display: "form",
+        machineName: "model",
+        name: "model",
+        title: "Model",
+        type: "form",
         submissionAccess: [],
         access: [],
-        tags: [],
+        tags: []
       });
     });
   });
@@ -87,31 +87,31 @@ describe("Number", () => {
       const form = await getFormioSchema(Model);
 
       expect(form).toEqual({
-        "components": [
+        components: [
           {
-            "delimiter": false,
-            "disabled": false,
-            "input": true,
-            "inputFormat": "plain",
-            "key": "test",
-            "label": "Test",
-            "mask": false,
-            "requireDecimal": false,
-            "type": "number",
-            "validate": {
-              "required": false,
-              "max": 100
+            delimiter: false,
+            disabled: false,
+            input: true,
+            inputFormat: "plain",
+            key: "test",
+            label: "Test",
+            mask: false,
+            requireDecimal: false,
+            type: "number",
+            validate: {
+              required: false,
+              max: 100
             }
           }
         ],
-        "display": "form",
-        "machineName": "model",
-        "name": "model",
-        "title": "Model",
-        "type": "form",
+        display: "form",
+        machineName: "model",
+        name: "model",
+        title: "Model",
+        type: "form",
         submissionAccess: [],
         access: [],
-        tags: [],
+        tags: []
       });
     });
   });

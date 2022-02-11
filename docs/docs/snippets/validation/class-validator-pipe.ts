@@ -7,7 +7,8 @@ import {validate} from "class-validator";
 @OverrideProvider(ValidationPipe)
 export class ClassValidationPipe extends ValidationPipe implements PipeMethods<any> {
   async transform(value: any, metadata: JsonParameterStore) {
-    if (!this.shouldValidate(metadata)) { // there is no type and collectionType
+    if (!this.shouldValidate(metadata)) {
+      // there is no type and collectionType
       return value;
     }
 

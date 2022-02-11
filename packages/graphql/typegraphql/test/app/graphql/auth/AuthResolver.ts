@@ -3,10 +3,9 @@ import {PassportContext} from "graphql-passport";
 import {Arg, Ctx, Mutation, Query} from "type-graphql";
 import {User} from "./User";
 
-export interface GQLContext extends PassportContext<User, {email: string, password: string}> {
-}
+export interface GQLContext extends PassportContext<User, {email: string; password: string}> {}
 
-@ResolverService(of => User)
+@ResolverService((of) => User)
 export class AuthResolver {
   @Query((returns) => User, {nullable: true})
   currentUser(@Ctx() context: GQLContext) {

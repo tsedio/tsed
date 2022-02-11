@@ -12,11 +12,9 @@ export class TestWS {
   @Inject()
   private io: SocketIOServer;
 
-  $onConnection(socket: IOSocket, nsp: Namespace) {
-  }
+  $onConnection(socket: IOSocket, nsp: Namespace) {}
 
-  $onDisconnect(socket: IOSocket, nsp: Namespace) {
-  }
+  $onDisconnect(socket: IOSocket, nsp: Namespace) {}
 
   @Input("input:scenario1")
   @Emit("output:scenario1")
@@ -26,17 +24,18 @@ export class TestWS {
   }
 }
 
-
 describe("Socket integration: default path", () => {
-  before(PlatformTest.bootstrap(Server, {
-    platform: PlatformExpress,
-    listen: true,
-    httpPort: 8999,
-    componentsScan: [],
-    mount: {},
-    disableComponentScan: true,
-    imports: [TestWS]
-  }));
+  before(
+    PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress,
+      listen: true,
+      httpPort: 8999,
+      componentsScan: [],
+      mount: {},
+      disableComponentScan: true,
+      imports: [TestWS]
+    })
+  );
   after(PlatformTest.reset);
 
   describe("RoomWS: eventName", () => {
@@ -45,7 +44,7 @@ describe("Socket integration: default path", () => {
       const client = await service.get("/test");
       const client2 = await service.get("/test");
 
-      expect(client).to.eq(client2)
+      expect(client).to.eq(client2);
 
       return new Promise((resolve: any) => {
         client.on("output:scenario1", (result) => {
@@ -60,19 +59,20 @@ describe("Socket integration: default path", () => {
 });
 
 describe("Socket integration: custom path", () => {
-
   const CUSTOM_WS_PATH = "/ws";
 
-  before(PlatformTest.bootstrap(Server, {
-    platform: PlatformExpress,
-    listen: true,
-    httpPort: 8999,
-    componentsScan: [],
-    mount: {},
-    disableComponentScan: true,
-    imports: [TestWS],
-    socketIO: { path: CUSTOM_WS_PATH }
-  }));
+  before(
+    PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress,
+      listen: true,
+      httpPort: 8999,
+      componentsScan: [],
+      mount: {},
+      disableComponentScan: true,
+      imports: [TestWS],
+      socketIO: {path: CUSTOM_WS_PATH}
+    })
+  );
   after(PlatformTest.reset);
 
   describe("RoomWS: eventName", () => {

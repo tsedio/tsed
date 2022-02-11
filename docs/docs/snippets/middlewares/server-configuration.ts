@@ -7,11 +7,6 @@ const rootDir = __dirname;
   mount: {
     "/rest": `${rootDir}/controllers/**/**.ts`
   },
-  componentsScan: [
-    `${rootDir}/services/**/**.ts`,
-    `${rootDir}/middlewares/**/**.ts`
-  ]
+  componentsScan: [`${rootDir}/services/**/**.ts`, `${rootDir}/middlewares/**/**.ts`]
 })
-export class Server {
-
-}
+export class Server {}

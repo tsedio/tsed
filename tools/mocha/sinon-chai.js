@@ -1,7 +1,7 @@
 "use strict";
 /* eslint-disable no-invalid-this */
 
-(function(sinonChai) {
+(function (sinonChai) {
   // Module systems magic dance.
 
   /* istanbul ignore else */
@@ -10,7 +10,7 @@
     module.exports = sinonChai;
   } else if (typeof define === "function" && define.amd) {
     // AMD
-    define(function() {
+    define(function () {
       return sinonChai;
     });
   } else {
@@ -18,13 +18,13 @@
     /* global chai: false */
     chai.use(sinonChai);
   }
-}(function(chai, utils) {
+})(function (chai, utils) {
   var slice = Array.prototype.slice;
 
   function isSpy(putativeSpy) {
-    return typeof putativeSpy === "function" &&
-      typeof putativeSpy.getCall === "function" &&
-      typeof putativeSpy.calledWithExactly === "function";
+    return (
+      typeof putativeSpy === "function" && typeof putativeSpy.getCall === "function" && typeof putativeSpy.calledWithExactly === "function"
+    );
   }
 
   function timesInWords(count) {
@@ -66,17 +66,17 @@
     }
 
     return {
-      affirmative: function() {
+      affirmative: function () {
         return printfArray(["expected %n to " + verbPhrase + action + nonNegatedSuffix].concat(args));
       },
-      negative: function() {
+      negative: function () {
         return printfArray(["expected %n to not " + verbPhrase + action].concat(args));
       }
     };
   }
 
   function sinonProperty(name, action, nonNegatedSuffix) {
-    utils.addProperty(chai.Assertion.prototype, name, function() {
+    utils.addProperty(chai.Assertion.prototype, name, function () {
       assertCanWorkWith(this);
 
       var messages = getMessages(this._obj, action, nonNegatedSuffix, false);
@@ -85,7 +85,7 @@
   }
 
   function sinonPropertyAsBooleanMethod(name, action, nonNegatedSuffix) {
-    utils.addMethod(chai.Assertion.prototype, name, function(arg) {
+    utils.addMethod(chai.Assertion.prototype, name, function (arg) {
       assertCanWorkWith(this);
 
       var messages = getMessages(this._obj, action, nonNegatedSuffix, false, [timesInWords(arg)]);
@@ -94,7 +94,7 @@
   }
 
   function createSinonMethodHandler(sinonName, action, nonNegatedSuffix) {
-    return function() {
+    return function () {
       assertCanWorkWith(this);
 
       var alwaysSinonMethod = "always" + sinonName[0].toUpperCase() + sinonName.substring(1);
@@ -119,14 +119,7 @@
 
       var enableDiff = !passed;
 
-      this.assert(
-        passed,
-        messages.affirmative,
-        messages.negative,
-        expected,
-        actual,
-        enableDiff
-      );
+      this.assert(passed, messages.affirmative, messages.negative, expected, actual, enableDiff);
     };
   }
 
@@ -144,7 +137,7 @@
     exceptionalSinonMethod(name, name, action, nonNegatedSuffix);
   }
 
-  utils.addProperty(chai.Assertion.prototype, "always", function() {
+  utils.addProperty(chai.Assertion.prototype, "always", function () {
     utils.flag(this, "always", true);
   });
 
@@ -166,4 +159,4 @@
   sinonMethod("calledWithMatch", "been called with arguments matching %*", "%D");
   sinonMethod("returned", "returned %1");
   exceptionalSinonMethod("thrown", "threw", "thrown %1");
-}));
+});

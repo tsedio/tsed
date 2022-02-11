@@ -11,16 +11,11 @@ import {KeywordMethods} from "../../src/interfaces/KeywordMethods";
   type: "number",
   schemaType: "array",
   implements: ["exclusiveRange"],
-  metaSchema: array()
-    .items([number(), number()])
-    .minItems(2)
-    .additionalItems(false)
+  metaSchema: array().items([number(), number()]).minItems(2).additionalItems(false)
 })
 class RangeKeyword implements KeywordMethods {
   compile([min, max]: number[], parentSchema: any) {
-    return parentSchema.exclusiveRange === true
-      ? (data: any) => data > min && data < max
-      : (data: any) => data >= min && data <= max;
+    return parentSchema.exclusiveRange === true ? (data: any) => data > min && data < max : (data: any) => data >= min && data <= max;
   }
 }
 
@@ -75,17 +70,14 @@ describe("Keywords", () => {
     const validate = ajv.compile(schema);
 
     expect(schema).to.deep.equal({
-      "properties": {
-        "price": {
-          "exclusiveRange": true,
-          "range": [
-            10,
-            100
-          ],
-          "type": "number"
+      properties: {
+        price: {
+          exclusiveRange: true,
+          range: [10, 100],
+          type: "number"
         }
       },
-      "type": "object"
+      type: "object"
     });
     expect(validate({price: 10.01})).to.eq(true);
     expect(validate({price: 99.99})).to.eq(true);

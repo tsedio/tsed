@@ -8,6 +8,5 @@ import {EventCtrl} from "./EventCtrl";
 })
 export class CalendarCtrl {
   @Get()
-  get() {
-  }
+  get() {}
 }

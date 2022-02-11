@@ -64,14 +64,12 @@ import "@tsed/event-emitter"; // import event emitter ts.ed module
 
 @Configuration({
   eventEmitter: {
-   enabled: true, // Enable events for this instance.
-   // pass any options that you would normally pass to new EventEmitter2(), e.g.
-   wildcard: true
+    enabled: true, // Enable events for this instance.
+    // pass any options that you would normally pass to new EventEmitter2(), e.g.
+    wildcard: true
   }
 })
-export class Server {
-
-}
+export class Server {}
 ```
 
 ## Setup event listener
@@ -109,7 +107,6 @@ import {EventEmitterService} from "@tsed/event-emitter";
 
 @Service()
 export class OrderService {
-
   @Inject()
   private eventEmitter: EventEmitterService;
 
@@ -118,22 +115,20 @@ export class OrderService {
     // then send an event
     this.eventEmitter.emit("order.shipped", {orderId});
   }
-
 }
 ```
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

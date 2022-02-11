@@ -6,13 +6,11 @@ import {User} from "../models/User";
 @SocketUseBefore(UserConverterSocketMiddleware) // global version
 @SocketUseAfter(ErrorHandlerSocketMiddleware)
 export class MySocketService {
-
   @Input("eventName")
   @Emit("responseEventName") // or Broadcast or BroadcastOthers
   @SocketUseBefore(UserConverterSocketMiddleware)
   @SocketUseAfter(ErrorHandlerSocketMiddleware)
   async myMethod(@Args(0) user: User) {
-
     console.log(user);
 
     return user;

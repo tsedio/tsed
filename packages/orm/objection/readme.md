@@ -32,8 +32,8 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/objection.h
 ## Feature
 
 Currently, `@tsed/objection` allows you:
- 
-- Configure one database connection via the `@Configuration` decorator. 
+
+- Configure one database connection via the `@Configuration` decorator.
 - Databases will be initialized when the server starts during the server's `OnInit` phase.
 - Declare a Model from a class with annotation,
 
@@ -69,26 +69,24 @@ import "@tsed/objection"; // don't forget to add this line!
 @Configuration({
   // ...
   knex: {
-    client: 'sqlite3',
-    connection: ':memory:'
+    client: "sqlite3",
+    connection: ":memory:"
   }
 })
 class Server {}
 ```
 
-
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

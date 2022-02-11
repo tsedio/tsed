@@ -58,9 +58,7 @@ describe("Mongoose", () => {
     beforeEach(async () => {
       const repository = PlatformTest.get<ProfilesCtrl>(ProfilesCtrl)!;
 
-      currentUser = await repository.createUser(
-        deserialize<TestUser>(baseUser, {type: TestUser})
-      );
+      currentUser = await repository.createUser(deserialize<TestUser>(baseUser, {type: TestUser}));
       currentProfile = await repository.createProfile(
         deserialize<TestProfile>(
           {
@@ -91,7 +89,6 @@ describe("Mongoose", () => {
       expect(result.post).toBe("hello post");
       expect(result.pre).toBe("hello pre");
       expect(Date.parse(result.updated)).not.toBeNaN();
-
     });
 
     it("should transform mongoose instance to object", () => {

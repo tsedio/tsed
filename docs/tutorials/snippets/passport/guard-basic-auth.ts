@@ -12,11 +12,7 @@ export class CalendarController {
 
   @Get("/")
   @Authorize("basic")
-  async getAll(
-    @QueryParams("id") id: string,
-    @QueryParams("name") name: string,
-    @QueryParams("owner") owner: string
-  ): Promise<Calendar[]> {
-    return this.calendarsService.findAll({ _id: id, name, owner });
+  async getAll(@QueryParams("id") id: string, @QueryParams("name") name: string, @QueryParams("owner") owner: string): Promise<Calendar[]> {
+    return this.calendarsService.findAll({_id: id, name, owner});
   }
 }

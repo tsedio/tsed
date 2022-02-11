@@ -11,7 +11,7 @@ class Adjustment {
   adjustment: UserProperty<Date>;
 }
 
-console.log(getJsonSchema(Adjustment))
+console.log(getJsonSchema(Adjustment));
 /* OUTPUT:
 {
   "properties": {

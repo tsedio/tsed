@@ -6,8 +6,7 @@ import {CalendarsService} from "../services/CalendarsService";
 
 @Controller("/calendars")
 export class CalendarsController {
-  constructor(private readonly calendarsService: CalendarsService) {
-  }
+  constructor(private readonly calendarsService: CalendarsService) {}
 
   @Post()
   async create(@BodyParams() calendar: Calendar) {

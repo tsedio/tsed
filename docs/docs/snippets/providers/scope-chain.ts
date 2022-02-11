@@ -10,8 +10,7 @@ export class MyService {
 @Controller("/")
 @Scope(ProviderScope.REQUEST)
 export class MyController {
-  constructor(private myService: MyService) {
-  }
+  constructor(private myService: MyService) {}
 
   @Get("/random")
   async getValue() {

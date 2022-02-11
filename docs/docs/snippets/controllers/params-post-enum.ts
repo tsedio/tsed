@@ -5,7 +5,7 @@ import {Enum} from "@tsed/schema";
 
 export enum SearchType {
   PARTIAL = "partial",
-  EXTENDED = "extended",
+  EXTENDED = "extended"
 }
 
 @Controller("/enums")
@@ -18,11 +18,9 @@ export class AnyCtrl {
 
   // WORKS
   @Post()
-  updatePayload2(@QueryParams("type") type: SearchType = SearchType.PARTIAL): any {
-  }
+  updatePayload2(@QueryParams("type") type: SearchType = SearchType.PARTIAL): any {}
 
   // Add validation
   @Post()
-  updatePayload3(@QueryParams("type") @Enum(SearchType) type: SearchType = SearchType.PARTIAL): any {
-  }
+  updatePayload3(@QueryParams("type") @Enum(SearchType) type: SearchType = SearchType.PARTIAL): any {}
 }

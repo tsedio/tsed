@@ -42,7 +42,8 @@ export const rootDir = __dirname;
       }
     }),
     {
-      hook: "$afterInit", use: (req: any, res: any, next: any) => {
+      hook: "$afterInit",
+      use: (req: any, res: any, next: any) => {
         next();
       }
     },

@@ -7,15 +7,13 @@ describe("DI", () => {
     @Controller("/global")
     class ControllerGlobal {
       @Get("/")
-      get() {
-      }
+      get() {}
     }
 
     @Controller("/module")
     class ControllerModule {
       @Get("/")
-      get() {
-      }
+      get() {}
     }
 
     @Module({
@@ -23,8 +21,7 @@ describe("DI", () => {
         "/rest": [ControllerModule]
       }
     })
-    class MyModule {
-    }
+    class MyModule {}
 
     const injector = createInjector({
       settings: {

@@ -54,18 +54,18 @@ describe("JsonParameterStore", () => {
       // GIVEN
       class BaseTest {
         @Get("/")
-        list(@(In("query").Name("search")) search: string) {}
+        list(@In("query").Name("search") search: string) {}
 
         @Get("/")
-        base(@(In("query").Name("base")) test: string) {}
+        base(@In("query").Name("base") test: string) {}
       }
 
       class Test extends BaseTest {
         @Get("/")
-        test(@(In("query").Name("search")) search: string) {}
+        test(@In("query").Name("search") search: string) {}
 
         @Get("/")
-        base(@(In("query").Name("test")) search: string) {}
+        base(@In("query").Name("test") search: string) {}
       }
 
       // WHEN

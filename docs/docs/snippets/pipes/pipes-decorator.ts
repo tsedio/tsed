@@ -3,8 +3,5 @@ import {useDecorators} from "@tsed/core";
 import {PersonPipe} from "../services/PersonPipe";
 
 export function UsePersonParam(expression: string): ParameterDecorator {
-  return useDecorators(
-    RawPathParams(expression),
-    UsePipe(PersonPipe)
-  );
+  return useDecorators(RawPathParams(expression), UsePipe(PersonPipe));
 }

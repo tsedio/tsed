@@ -14,5 +14,4 @@ const rootDir = resolve(__dirname);
     }
   ]
 })
-export class Server {
-}
+export class Server {}

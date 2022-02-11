@@ -30,33 +30,35 @@ describe("Nullable integration", () => {
     // @ts-ignore
     user.extension.name = "ext";
 
-
     const obj = serialize(user, {type: UserModel});
     expect(obj).to.deep.eq({
-      "extension": {
-        "extNumber": "122",
-        "id": "2"
+      extension: {
+        extNumber: "122",
+        id: "2"
       },
-      "id": "1"
+      id: "1"
     });
   });
 
   it("should serialize the model with plain object", () => {
-    const obj = serialize({
-      id: "1",
-      extension: {
-        id: "2",
-        name: "ext",
-        extensionNumber: "123"
-      }
-    }, {type: UserModel});
+    const obj = serialize(
+      {
+        id: "1",
+        extension: {
+          id: "2",
+          name: "ext",
+          extensionNumber: "123"
+        }
+      },
+      {type: UserModel}
+    );
 
     expect(obj).to.deep.eq({
-      "extension": {
-        "extNumber": "123",
-        "id": "2"
+      extension: {
+        extNumber: "123",
+        id: "2"
       },
-      "id": "1"
+      id: "1"
     });
   });
 });

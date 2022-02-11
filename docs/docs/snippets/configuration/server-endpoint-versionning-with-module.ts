@@ -7,10 +7,6 @@ const rootDir = resolve(__dirname);
 
 @Configuration({
   rootDir,
-  imports: [
-    ModuleV1,
-    ModuleV0
-  ]
+  imports: [ModuleV1, ModuleV0]
 })
-export class Server {
-}
+export class Server {}

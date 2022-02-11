@@ -2,7 +2,7 @@ import {isArrowFn, Type, useDecorators} from "@tsed/core";
 import {getJsonSchema, JsonEntityFn, lazyRef, Property, string} from "@tsed/schema";
 
 function Ref(model: string | (() => Type) | any): PropertyDecorator {
-  const getType = () => isArrowFn(model) ? model() : model;
+  const getType = () => (isArrowFn(model) ? model() : model);
 
   return useDecorators(
     Property(Object),
@@ -24,37 +24,34 @@ class Parent {
   model: Model;
 }
 
-
 describe("LazyRef", () => {
   it("should generate the spec with lazy loaded ref", () => {
     expect(getJsonSchema(Parent)).toEqual({
-      "definitions": {
-        "Model": {
-          "properties": {
-            "id": {
-              "type": "string"
+      definitions: {
+        Model: {
+          properties: {
+            id: {
+              type: "string"
             }
           },
-          "type": "object"
+          type: "object"
         }
       },
-      "properties": {
-        "model": {
-          "oneOf": [
+      properties: {
+        model: {
+          oneOf: [
             {
-              "description": "Mongoose Ref ObjectId",
-              "examples": [
-                "5ce7ad3028890bd71749d477"
-              ],
-              "type": "string"
+              description: "Mongoose Ref ObjectId",
+              examples: ["5ce7ad3028890bd71749d477"],
+              type: "string"
             },
             {
-              "$ref": "#/definitions/Model"
+              $ref: "#/definitions/Model"
             }
           ]
         }
       },
-      "type": "object"
+      type: "object"
     });
   });
 });

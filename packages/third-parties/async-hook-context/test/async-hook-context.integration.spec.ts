@@ -57,9 +57,7 @@ describe("AsyncHookContext", () => {
     it("should the agentId from context request headers", async () => {
       const agentId = faker.random.uuid();
       const id = faker.random.uuid();
-      const {body} = await request.get(`/rest/async-hooks/${id}`)
-        .set("x-agent-id", agentId)
-        .expect(200);
+      const {body} = await request.get(`/rest/async-hooks/${id}`).set("x-agent-id", agentId).expect(200);
 
       if (require("async_hooks").AsyncLocalStorage) {
         expect(body).to.deep.eq({

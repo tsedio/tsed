@@ -111,16 +111,18 @@ tsed init .
 ? Choose extra linter tools Prettier, Lint on commit
 ? Choose the package manager: Yarn
 ```
- 
+
 This tutorial works also with NPM package manager!
 
 Yarn:
+
 ```bash
 yarn add @tsed/platform-serverless serverless serverless-offline
 yarn add -D @types/aws-lambda
 ```
 
 Npm:
+
 ```bash
 npm install --save @tsed/platform-serverless serverless serverless-offline
 npm install --save-dev @types/aws-lambda
@@ -161,11 +163,9 @@ import {PlatformServerless} from "@tsed/platform-serverless";
 import {TimeslotsLambda} from "./lambda/TimeslotsLambda";
 
 const platform = PlatformServerless.bootstrap({
-  lambda: [
-    TimeslotsLambda
-  ]
+  lambda: [TimeslotsLambda]
   // put your Application configuration here
-})
+});
 
 // then export the lambda
 export = platform.callbacks();
@@ -176,23 +176,23 @@ Finally, create the `serverless.yml`:
 ```yml
 service: timeslots
 
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
-   name: aws
-   runtime: nodejs14.x
-   lambdaHashingVersion: '20201221'
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: "20201221"
 
 plugins:
-   - serverless-offline
+  - serverless-offline
 
 functions:
-   timeslots:
-      handler: dist/handler.getTimeslots
-      events:
-         - http:
-              path: /timeslots
-              method: get
+  timeslots:
+    handler: dist/handler.getTimeslots
+    events:
+      - http:
+          path: /timeslots
+          method: get
 ```
 
 ## Invoke a lambda with serverless
@@ -246,12 +246,12 @@ To use the embed router, change the `serverless.yml` declaration by this example
 ```yml
 service: timeslots
 
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
   name: aws
   runtime: nodejs14.x
-  lambdaHashingVersion: '20201221'
+  lambdaHashingVersion: "20201221"
 
 plugins:
   - serverless-offline
@@ -265,7 +265,7 @@ functions:
           path: /
       - http:
           method: ANY
-          path: '{proxy+}'
+          path: "{proxy+}"
 ```
 
 Then, edit the `handler.ts` and change the exported functions:
@@ -304,14 +304,14 @@ import {ServerlessContext} from "./ServerlessContext";
 @Injectable()
 export class TimeslotsLambda {
   get(@Context() $ctx: ServerlessContext) {
-    console.log($ctx.context) // AWS Context
-    console.log($ctx.event) // AWS Event
-    console.log($ctx.response) // Response Platform abstraction layer
-    console.log($ctx.request) // Request Platform abstraction layer
+    console.log($ctx.context); // AWS Context
+    console.log($ctx.event); // AWS Event
+    console.log($ctx.response); // Response Platform abstraction layer
+    console.log($ctx.request); // Request Platform abstraction layer
 
-    $ctx.response.setHeader('x-test', 'test');
-    
-    return {}
+    $ctx.response.setHeader("x-test", "test");
+
+    return {};
   }
 }
 ```
@@ -364,7 +364,8 @@ describe("TimeslotsLambdaController", () => {
     });
 
     it("should call getAll Lambda", async () => {
-      const response = await PlatformServerlessTest.request.call("getById")
+      const response = await PlatformServerlessTest.request
+        .call("getById")
         .params({
           id: "1"
         })
@@ -383,9 +384,9 @@ describe("TimeslotsLambdaController", () => {
         endDate: "2020-01-10T00:00:00.000Z",
         startDate: "2020-01-01T00:00:00.000Z"
       });
-    });    
+    });
   });
-  
+
   describe("invoke using the router", () => {
     it("should call getAll Lambda", async () => {
       const response = await PlatformServerlessTest.request.get("/");
@@ -402,17 +403,16 @@ describe("TimeslotsLambdaController", () => {
 ```
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html).
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
-
 
 ## Sponsors
 

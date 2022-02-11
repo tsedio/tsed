@@ -7,9 +7,9 @@ export class CalendarCtrl {
   @Header({
     "Content-Type": "text/plain",
     "Content-Length": 123,
-    "ETag": {
-      "value": "12345",
-      "description": "header description"
+    ETag: {
+      value: "12345",
+      description: "header description"
     }
   })
   create(@BodyParams("name") name: string): string {
@@ -19,9 +19,9 @@ export class CalendarCtrl {
   @Returns().Headers({
     "Content-Type": "text/plain",
     "Content-Length": 123,
-    "ETag": {
-      "value": "12345",
-      "description": "header description"
+    ETag: {
+      value: "12345",
+      description: "header description"
     }
   })
   create2(@BodyParams("name") name: string): string {

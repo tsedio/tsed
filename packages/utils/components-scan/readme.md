@@ -35,13 +35,11 @@ A package of Ts.ED framework. See website: https://tsed.io/
 npm install --save @tsed/components-scan
 ```
 
-
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
-
 
 ## Sponsors
 

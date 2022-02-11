@@ -5,10 +5,7 @@ const rootDir = resolve(__dirname);
 
 @Module({
   mount: {
-    "/rest/v1": [
-      `${rootDir}/controllers/v1/**/*.ts`
-    ]
+    "/rest/v1": [`${rootDir}/controllers/v1/**/*.ts`]
   }
 })
-export class ModuleV1 {
-}
+export class ModuleV1 {}

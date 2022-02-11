@@ -124,7 +124,7 @@ describe("Generics", () => {
           payload: Model<Role>;
         }
 
-        expect(getJsonSchema(Content, { host: "http://example.com/schema" })).toEqual({
+        expect(getJsonSchema(Content, {host: "http://example.com/schema"})).toEqual({
           definitions: {
             Role: {
               properties: {
@@ -177,17 +177,17 @@ describe("Generics", () => {
         let result = getJsonSchema(Adjustment);
 
         expect(result).toEqual({
-          "properties": {
-            "adjustment": {
-              "properties": {
-                "value": {
-                  "type": "string"
+          properties: {
+            adjustment: {
+              properties: {
+                value: {
+                  type: "string"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "type": "object"
+          type: "object"
         });
       });
       it("should generate JsonSchema with 'number' from generic object", () => {
@@ -205,17 +205,17 @@ describe("Generics", () => {
         let result = getJsonSchema(Adjustment);
 
         expect(result).toEqual({
-          "properties": {
-            "adjustment": {
-              "properties": {
-                "value": {
-                  "type": "number"
+          properties: {
+            adjustment: {
+              properties: {
+                value: {
+                  type: "number"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "type": "object"
+          type: "object"
         });
       });
       it("should generate JsonSchema with 'boolean' from generic object", () => {
@@ -233,17 +233,17 @@ describe("Generics", () => {
         let result = getJsonSchema(Adjustment);
 
         expect(result).toEqual({
-          "properties": {
-            "adjustment": {
-              "properties": {
-                "value": {
-                  "type": "boolean"
+          properties: {
+            adjustment: {
+              properties: {
+                value: {
+                  type: "boolean"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "type": "object"
+          type: "object"
         });
       });
       it("should generate JsonSchema with 'date' from generic object", () => {
@@ -261,18 +261,18 @@ describe("Generics", () => {
         let result = getJsonSchema(Adjustment);
 
         expect(result).toEqual({
-          "properties": {
-            "adjustment": {
-              "properties": {
-                "value": {
-                  "format": "date-time",
-                  "type": "string"
+          properties: {
+            adjustment: {
+              properties: {
+                value: {
+                  format: "date-time",
+                  type: "string"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "type": "object"
+          type: "object"
         });
       });
     });
@@ -292,17 +292,17 @@ describe("Generics", () => {
         let result = getJsonSchema(Adjustment);
 
         expect(result).toEqual({
-          "properties": {
-            "adjustment": {
-              "properties": {
-                "value": {
-                  "type": "string"
+          properties: {
+            adjustment: {
+              properties: {
+                value: {
+                  type: "string"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "type": "object"
+          type: "object"
         });
       });
       it("should generate JsonSchema with 'number' from generic object", () => {
@@ -320,17 +320,17 @@ describe("Generics", () => {
         let result = getJsonSchema(Adjustment);
 
         expect(result).toEqual({
-          "properties": {
-            "adjustment": {
-              "properties": {
-                "value": {
-                  "type": "number"
+          properties: {
+            adjustment: {
+              properties: {
+                value: {
+                  type: "number"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "type": "object"
+          type: "object"
         });
       });
       it("should generate JsonSchema with 'boolean' from generic object", () => {
@@ -348,17 +348,17 @@ describe("Generics", () => {
         let result = getJsonSchema(Adjustment);
 
         expect(result).toEqual({
-          "properties": {
-            "adjustment": {
-              "properties": {
-                "value": {
-                  "type": "boolean"
+          properties: {
+            adjustment: {
+              properties: {
+                value: {
+                  type: "boolean"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "type": "object"
+          type: "object"
         });
       });
       it("should generate JsonSchema with 'date' from generic object", () => {
@@ -376,24 +376,24 @@ describe("Generics", () => {
         let result = getJsonSchema(Adjustment);
 
         expect(result).toEqual({
-          "properties": {
-            "adjustment": {
-              "properties": {
-                "value": {
-                  "format": "date-time",
-                  "type": "string"
+          properties: {
+            adjustment: {
+              properties: {
+                value: {
+                  format: "date-time",
+                  type: "string"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "type": "object"
+          type: "object"
         });
       });
       it("should generate JsonSchema with 'enum' from generic object", () => {
         enum AdjustmentType {
           PRICE = "price",
-          DELAY = "delay",
+          DELAY = "delay"
         }
 
         @Generics("T")
@@ -410,21 +410,18 @@ describe("Generics", () => {
         let result = getJsonSchema(Adjustment);
 
         expect(result).toEqual({
-          "properties": {
-            "adjustment": {
-              "properties": {
-                "value": {
-                  "enum": [
-                    "price",
-                    "delay"
-                  ],
-                  "type": "string"
+          properties: {
+            adjustment: {
+              properties: {
+                value: {
+                  enum: ["price", "delay"],
+                  type: "string"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "type": "object"
+          type: "object"
         });
       });
       it("should generate JsonSchema with 'object' from generic object", () => {
@@ -442,17 +439,17 @@ describe("Generics", () => {
         let result = getJsonSchema(Adjustment);
 
         expect(result).toEqual({
-          "properties": {
-            "adjustment": {
-              "properties": {
-                "value": {
-                  "type": "object"
+          properties: {
+            adjustment: {
+              properties: {
+                value: {
+                  type: "object"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "type": "object"
+          type: "object"
         });
       });
     });
@@ -479,55 +476,53 @@ describe("Generics", () => {
           }
         }
 
-        const spec = getSpec(HelloWorldController, { specType: SpecTypes.OPENAPI });
+        const spec = getSpec(HelloWorldController, {specType: SpecTypes.OPENAPI});
 
         expect(spec).toEqual({
-          "components": {
-            "schemas": {
-              "Adjustment": {
-                "properties": {
-                  "adjustment": {
-                    "properties": {
-                      "value": {
-                        "type": "number"
+          components: {
+            schemas: {
+              Adjustment: {
+                properties: {
+                  adjustment: {
+                    properties: {
+                      value: {
+                        type: "number"
                       }
                     },
-                    "type": "object"
+                    type: "object"
                   }
                 },
-                "type": "object"
+                type: "object"
               }
             }
           },
-          "paths": {
+          paths: {
             "/hello-world": {
-              "post": {
-                "operationId": "helloWorldControllerGet",
-                "parameters": [],
-                "requestBody": {
-                  "content": {
+              post: {
+                operationId: "helloWorldControllerGet",
+                parameters: [],
+                requestBody: {
+                  content: {
                     "application/json": {
-                      "schema": {
-                        "$ref": "#/components/schemas/Adjustment"
+                      schema: {
+                        $ref: "#/components/schemas/Adjustment"
                       }
                     }
                   },
-                  "required": false
+                  required: false
                 },
-                "responses": {
+                responses: {
                   "200": {
-                    "description": "Success"
+                    description: "Success"
                   }
                 },
-                "tags": [
-                  "HelloWorldController"
-                ]
+                tags: ["HelloWorldController"]
               }
             }
           },
-          "tags": [
+          tags: [
             {
-              "name": "HelloWorldController"
+              name: "HelloWorldController"
             }
           ]
         });
@@ -553,53 +548,51 @@ describe("Generics", () => {
           }
         }
 
-        const spec = getSpec(HelloWorldController, { specType: SpecTypes.SWAGGER });
+        const spec = getSpec(HelloWorldController, {specType: SpecTypes.SWAGGER});
 
         expect(await validateSpec(spec)).toBe(true);
         expect(spec).toEqual({
-          "definitions": {
-            "Adjustment": {
-              "properties": {
-                "adjustment": {
-                  "properties": {
-                    "value": {
-                      "type": "number"
+          definitions: {
+            Adjustment: {
+              properties: {
+                adjustment: {
+                  properties: {
+                    value: {
+                      type: "number"
                     }
                   },
-                  "type": "object"
+                  type: "object"
                 }
               },
-              "type": "object"
+              type: "object"
             }
           },
-          "paths": {
+          paths: {
             "/hello-world": {
-              "post": {
-                "operationId": "helloWorldControllerGet",
-                "parameters": [
+              post: {
+                operationId: "helloWorldControllerGet",
+                parameters: [
                   {
-                    "in": "body",
-                    "name": "body",
-                    "required": false,
-                    "schema": {
-                      "$ref": "#/definitions/Adjustment"
+                    in: "body",
+                    name: "body",
+                    required: false,
+                    schema: {
+                      $ref: "#/definitions/Adjustment"
                     }
                   }
                 ],
-                "responses": {
+                responses: {
                   "200": {
-                    "description": "Success"
+                    description: "Success"
                   }
                 },
-                "tags": [
-                  "HelloWorldController"
-                ]
+                tags: ["HelloWorldController"]
               }
             }
           },
-          "tags": [
+          tags: [
             {
-              "name": "HelloWorldController"
+              name: "HelloWorldController"
             }
           ]
         });
@@ -642,8 +635,8 @@ describe("Generics", () => {
         }
 
         // THEN
-        const spec1 = getSpec(Controller1, { specType: SpecTypes.SWAGGER });
-        const spec2 = getSpec(Controller2, { specType: SpecTypes.SWAGGER });
+        const spec1 = getSpec(Controller1, {specType: SpecTypes.SWAGGER});
+        const spec2 = getSpec(Controller2, {specType: SpecTypes.SWAGGER});
 
         expect(spec1).toEqual({
           definitions: {
@@ -772,7 +765,7 @@ describe("Generics", () => {
         }
 
         // THEN
-        const spec1 = getSpec(Controller1, { specType: SpecTypes.OPENAPI });
+        const spec1 = getSpec(Controller1, {specType: SpecTypes.OPENAPI});
 
         expect(spec1).toEqual({
           components: {
@@ -861,7 +854,7 @@ describe("Generics", () => {
 
         class Controller {
           @OperationPath("POST", "/")
-          @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
+          @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
           method(): Pagination<Submission<Product>> | null {
             return null;
           }
@@ -869,15 +862,15 @@ describe("Generics", () => {
 
         class Controller2 {
           @OperationPath("POST", "/")
-          @(Returns(200, Pagination).Of(Submission).Nested(Article).Description("description"))
+          @Returns(200, Pagination).Of(Submission).Nested(Article).Description("description")
           method(): Pagination<Submission<Article>> | null {
             return null;
           }
         }
 
         // THEN
-        const spec2 = getSpec(Controller2, { specType: SpecTypes.SWAGGER });
-        const spec = getSpec(Controller, { specType: SpecTypes.SWAGGER });
+        const spec2 = getSpec(Controller2, {specType: SpecTypes.SWAGGER});
+        const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
         expect(spec).toEqual({
           definitions: {
@@ -1009,14 +1002,14 @@ describe("Generics", () => {
 
         class Controller {
           @OperationPath("POST", "/")
-          @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
+          @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
           async method(): Promise<Pagination<Submission<Product>> | null> {
             return null;
           }
         }
 
         // THEN
-        const spec = getSpec(Controller, { specType: SpecTypes.OPENAPI });
+        const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
         expect(spec).toEqual({
           components: {
@@ -1106,7 +1099,7 @@ describe("Generics", () => {
 
       class MyController {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
+        @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
@@ -1114,7 +1107,7 @@ describe("Generics", () => {
 
       it("should generate openspec 3", () => {
         // THEN
-        const spec1 = getSpec(MyController, { specType: SpecTypes.OPENAPI });
+        const spec1 = getSpec(MyController, {specType: SpecTypes.OPENAPI});
 
         expect(spec1).toEqual({
           components: {
@@ -1177,8 +1170,7 @@ describe("Generics", () => {
         });
       });
       it("should generate openspec 2", () => {
-
-        const spec2 = getSpec(MyController, { specType: SpecTypes.SWAGGER });
+        const spec2 = getSpec(MyController, {specType: SpecTypes.SWAGGER});
 
         expect(spec2).toEqual({
           definitions: {
@@ -1255,14 +1247,14 @@ describe("Generics", () => {
 
         class Controller {
           @OperationPath("POST", "/")
-          @(Returns(200, Pagination).Of(Product).Description("description"))
+          @Returns(200, Pagination).Of(Product).Description("description")
           async method(): Promise<Pagination<Product> | null> {
             return null;
           }
         }
 
         // THEN
-        const spec = getSpec(Controller, { specType: SpecTypes.SWAGGER });
+        const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
 
         expect(spec).toEqual({
           definitions: {
@@ -1338,7 +1330,7 @@ describe("Generics", () => {
 
         class Controller {
           @OperationPath("POST", "/")
-          @(Returns(200, Pagination).Of(Submission).Nested(Product).Description("description"))
+          @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
           async method(): Promise<Pagination<Submission<Product>> | null> {
             return null;
           }
@@ -1360,7 +1352,7 @@ describe("Generics", () => {
         });
 
         // THEN
-        const spec = getSpec(Controller, { specType: SpecTypes.OPENAPI });
+        const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
         expect(spec).toEqual({
           components: {

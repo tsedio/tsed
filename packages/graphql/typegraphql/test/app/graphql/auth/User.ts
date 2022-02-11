@@ -20,8 +20,8 @@ export class User {
   emailVerified: boolean;
 
   @Field((type) => ID)
-  get id(){
-    return this._id
+  get id() {
+    return this._id;
   }
 
   set id(id: string) {

@@ -1,11 +1,13 @@
 ---
 meta:
- - name: description
-   content: Authentication configuration 
- - name: keywords
-   content: ts.ed express typescript auth node.js javascript decorators
+  - name: description
+    content: Authentication configuration
+  - name: keywords
+    content: ts.ed express typescript auth node.js javascript decorators
 ---
+
 # Authentication
+
 ## Usage
 
 Ts.ED uses middlewares to protect your route with your own strategy. To handle correctly a request and protect your endpoints,
@@ -27,7 +29,7 @@ Here is an example of the CustomAuth middleware using the Passport.js method to 
 ## Create your Auth decorator
 
 It could be practical to create you own Authentication decorator to reduce the amount of code.
-For example, if we use swagger, we have to configure some extra **security** and **responses** information and it can quickly become heavy. 
+For example, if we use swagger, we have to configure some extra **security** and **responses** information and it can quickly become heavy.
 
 Example:
 
@@ -50,7 +52,7 @@ And use it on our controller and endpoints:
 
 ## With Passport.js
 
-Another solution is to use [Passport.js](/tutorials/passport.md) to protect your API. Ts.ED provide 
+Another solution is to use [Passport.js](/tutorials/passport.md) to protect your API. Ts.ED provide
 a [@tsed/passport](/tutorials/passport.md) plugin in order to facilitate the use of this library within the framework.
 
 The following codesandbox example show you how you can use this plugin combined with Swagger to describe your API:

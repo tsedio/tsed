@@ -49,11 +49,7 @@ function shouldReturnSource(obj: any, source: any) {
   return obj === undefined || obj === null || (obj === "" && source !== "");
 }
 
-export function deepMerge<T extends any = any, C extends any = any>(
-  source: T & any,
-  obj: C & any,
-  options: DeepMergeOptions = {}
-): (T & C) | undefined | null {
+export function deepMerge<T = any, C = any>(source: T & any, obj: C & any, options: DeepMergeOptions = {}): (T & C) | undefined | null {
   if (shouldReturnSource(obj, source)) {
     return source as any;
   }

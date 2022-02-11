@@ -10,9 +10,6 @@
       "type": "string"
     }
   },
-  "required": [
-    "firstName",
-    "lastName"
-  ],
+  "required": ["firstName", "lastName"],
   "type": "object"
 }

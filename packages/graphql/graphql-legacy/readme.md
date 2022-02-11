@@ -41,6 +41,7 @@ for the decorators.
 ## Installation
 
 To begin, install the TypeGraphQL module for TS.ED:
+
 ```bash
 npm install --save @tsed/typegraphql type-graphql graphql@15
 npm install --save apollo-datasource apollo-datasource-rest apollo-server-express
@@ -51,12 +52,12 @@ Now, we can configure the Ts.ED server by importing `@tsed/typegraphql` in your 
 
 ```typescript
 import {Configuration} from "@tsed/common";
-import "@tsed/typegraphql"; 
+import "@tsed/typegraphql";
 
 @Configuration({
-   graphql: {
-    'server1': {
-      resolvers:[]
+  graphql: {
+    server1: {
+      resolvers: []
     }
   }
 })
@@ -77,7 +78,7 @@ export class UsersService implements AfterRoutesInit {
   private server: ApolloServer;
 
   @Inject()
-  typeGraphQLService: TypeGraphQLService
+  typeGraphQLService: TypeGraphQLService;
 
   $afterRoutesInit() {
     this.server = this.typeGraphQLService.get("server1");
@@ -88,6 +89,7 @@ export class UsersService implements AfterRoutesInit {
 For more information about ApolloServer look his documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo-server.html);
 
 ## Type-graphql
+
 ### Types
 
 We want to get equivalent of this type described in SDL:
@@ -117,35 +119,36 @@ class Recipe {
 Then we decorate the class and it properties with decorators:
 
 ```typescript
-import {ObjectType, ID, Field} from "type-graphql"
+import {ObjectType, ID, Field} from "type-graphql";
 
 @ObjectType()
 export class Recipe {
-  @Field(type => ID)
+  @Field((type) => ID)
   id: string;
 
   @Field()
   title: string;
 
-  @Field({ nullable: true })
+  @Field({nullable: true})
   description?: string;
 
   @Field()
   creationDate: Date;
 
-  @Field(type => [String])
+  @Field((type) => [String])
   ingredients: string[];
 }
 ```
+
 The detailed rules when to use nullable, array and others are described in [fields and types docs](https://19majkel94.github.io/type-graphql/docs/types-and-fields.html).
 
-###  Resolvers
+### Resolvers
 
 After that we want to create typical crud queries and mutation. To do that we create the resolver (controller) class that will have injected RecipeService in constructor:
 
 ```typescript
 import {Resolver, Query, Arg, Args, Mutation, Authorized, Ctx} from "type-graphql";
-import {ResolverService} from "@tsed/typegraphql"
+import {ResolverService} from "@tsed/typegraphql";
 import {Recipe} from "../types/Recipe";
 import {RecipeService} from "../services/RecipeService";
 import {RecipeNotFoundError} from "../errors/RecipeNotFoundError";
@@ -154,7 +157,7 @@ import {RecipeNotFoundError} from "../errors/RecipeNotFoundError";
 export class RecipeResolver {
   constructor(private recipeService: RecipeService) {}
 
-  @Query(returns => Recipe)
+  @Query((returns) => Recipe)
   async recipe(@Arg("id") id: string) {
     const recipe = await this.recipeService.findById(id);
     if (recipe === undefined) {
@@ -163,25 +166,24 @@ export class RecipeResolver {
     return recipe;
   }
 
-  @Query(returns => [Recipe])
-  recipes(@Args() { skip, take }: RecipesArgs) {
-    return this.recipeService.findAll({ skip, take });
+  @Query((returns) => [Recipe])
+  recipes(@Args() {skip, take}: RecipesArgs) {
+    return this.recipeService.findAll({skip, take});
   }
 }
 ```
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

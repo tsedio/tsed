@@ -1,7 +1,7 @@
 import {DateFormat, DateTime} from "@tsed/schema";
 import {getFormioSchema} from "../src";
 
-describe('Date integration', () => {
+describe("Date integration", () => {
   it("should generate date-time field", async () => {
     class Model {
       @DateTime()
@@ -9,40 +9,40 @@ describe('Date integration', () => {
     }
     const form = await getFormioSchema(Model);
     expect(form).toEqual({
-      "components": [
+      components: [
         {
-          "datePicker": {
-            "disableWeekdays": false,
-            "disableWeekends": false
+          datePicker: {
+            disableWeekdays: false,
+            disableWeekends: false
           },
-          "disabled": false,
-          "enableMaxDateInput": false,
-          "enableMinDateInput": false,
-          "enableTime": false,
-          "input": true,
-          "key": "test",
-          "label": "Test",
-          "timePicker": {
-            "showMeridian": false
+          disabled: false,
+          enableMaxDateInput: false,
+          enableMinDateInput: false,
+          enableTime: false,
+          input: true,
+          key: "test",
+          label: "Test",
+          timePicker: {
+            showMeridian: false
           },
-          "type": "datetime",
-          "validate": {
-            "required": false
+          type: "datetime",
+          validate: {
+            required: false
           },
-          "widget": {
-            "enableTime": true,
-            "time_24hr": true
+          widget: {
+            enableTime: true,
+            time_24hr: true
           }
         }
       ],
-      "display": "form",
-      "machineName": "model",
-      "name": "model",
-      "title": "Model",
-      "type": "form",
+      display: "form",
+      machineName: "model",
+      name: "model",
+      title: "Model",
+      type: "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
   it("should generate date field", async () => {
@@ -52,51 +52,51 @@ describe('Date integration', () => {
     }
     const form = await getFormioSchema(Model);
     expect(form).toEqual({
-      "components": [
+      components: [
         {
-          "datePicker": {
-            "disableWeekdays": false,
-            "disableWeekends": false
+          datePicker: {
+            disableWeekdays: false,
+            disableWeekends: false
           },
-          "disabled": false,
-          "enableMaxDateInput": false,
-          "enableMinDateInput": false,
-          "enableTime": false,
-          "format": "yyyy-MM-dd",
-          "input": true,
-          "key": "test",
-          "label": "Test",
-          "type": "datetime",
-          "validate": {
-            "required": false
+          disabled: false,
+          enableMaxDateInput: false,
+          enableMinDateInput: false,
+          enableTime: false,
+          format: "yyyy-MM-dd",
+          input: true,
+          key: "test",
+          label: "Test",
+          type: "datetime",
+          validate: {
+            required: false
           },
-          "widget": {
-            "allowInput": true,
-            "disableWeekdays": false,
-            "disableWeekends": false,
-            "displayInTimezone": "viewer",
-            "enableTime": false,
-            "format": "yyyy-MM-dd",
-            "hourIncrement": 1,
-            "locale": "en",
-            "maxDate": null,
-            "minDate": null,
-            "minuteIncrement": 1,
-            "mode": "single",
-            "noCalendar": false,
-            "type": "calendar",
-            "useLocaleSettings": false
+          widget: {
+            allowInput: true,
+            disableWeekdays: false,
+            disableWeekends: false,
+            displayInTimezone: "viewer",
+            enableTime: false,
+            format: "yyyy-MM-dd",
+            hourIncrement: 1,
+            locale: "en",
+            maxDate: null,
+            minDate: null,
+            minuteIncrement: 1,
+            mode: "single",
+            noCalendar: false,
+            type: "calendar",
+            useLocaleSettings: false
           }
         }
       ],
-      "display": "form",
-      "machineName": "model",
-      "name": "model",
-      "title": "Model",
-      "type": "form",
+      display: "form",
+      machineName: "model",
+      name: "model",
+      title: "Model",
+      type: "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
-})
+});

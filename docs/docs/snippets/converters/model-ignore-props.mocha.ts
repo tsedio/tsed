@@ -13,8 +13,8 @@ describe("User", () => {
     const result = serialize(user);
 
     expect(result).to.deep.equal({
-      "firstName": "John",
-      "lastName": "Doe"
+      firstName: "John",
+      lastName: "Doe"
     });
   });
 });

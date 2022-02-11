@@ -32,6 +32,7 @@ A package of Ts.ED framework. See website: https://tsed.io/#/tutorials/passport
 ## Installation
 
 Run npm command (or yarn):
+
 ```bash
 npm install --save @tsed/passport passport
 npm install --save-dev @types/passport
@@ -40,18 +41,17 @@ npm install --save-dev @types/passport
 ## Configure your server
 
 Add this configuration to your server:
+
 ```typescript
-import {Configuration} from "@tsed/common"
+import {Configuration} from "@tsed/common";
 
 const rootDir = __dirname;
 
 @Configuration({
   componentsScan: [
-     `${rootDir}/protocols/*.ts` // scan protocols directory
+    `${rootDir}/protocols/*.ts` // scan protocols directory
   ],
-  passport: {
-    
-  }
+  passport: {}
 })
 export class Server {}
 ```
@@ -61,19 +61,20 @@ export class Server {}
 A Protocol is a special Ts.ED service which is used to declare a Passport Strategy and handle Passport lifecycle.
 
 Here an example with the PassportLocal:
+
 ```typescript
 import {BodyParams, Req, Format, Required} from "@tsed/common";
 import {Strategy} from "passport-local";
 import {Unauthorized} from "@tsed/exceptions";
-import {Protocol, OnInstall, OnVerify} from "@tsed/passport"; 
+import {Protocol, OnInstall, OnVerify} from "@tsed/passport";
 import {Inject} from "@tsed/di";
-import {UserService} from "../services/UserService"
+import {UserService} from "../services/UserService";
 
 export class Credentials {
   @Required()
-  @Format('email')
+  @Format("email")
   email: string;
-  
+
   @Required()
   password: string;
 }
@@ -94,11 +95,11 @@ export class LocalProtocol implements OnVerify, OnInstall {
     const user = await this.userService.find(credentials);
 
     if (!user) {
-       throw new Unauthorized("Unauthorized user")
+      throw new Unauthorized("Unauthorized user");
     }
- 
-    if(!user.verifyPassword()) {
-        throw new Unauthorized("Unauthorized user")
+
+    if (!user.verifyPassword()) {
+      throw new Unauthorized("Unauthorized user");
     }
 
     return user;
@@ -135,17 +136,16 @@ This controller will provide required all endpoints which will be used by the di
 See our complete example on [Ts.ED passport repository](https://github.com/tsedio/tsed-example-passportjs).
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

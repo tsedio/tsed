@@ -128,7 +128,7 @@ describe("PlatformResponseFilter", () => {
   it("should transform data for default content-type from metadata", async () => {
     class Test {
       @Get("/")
-      @(Returns(200).ContentType("application/json"))
+      @Returns(200).ContentType("application/json")
       test() {}
     }
 
@@ -152,7 +152,7 @@ describe("PlatformResponseFilter", () => {
   it("should transform data for default content-type from metadata with any response filter", async () => {
     class Test {
       @Get("/")
-      @(Returns(200).ContentType("application/json"))
+      @Returns(200).ContentType("application/json")
       test() {}
     }
 

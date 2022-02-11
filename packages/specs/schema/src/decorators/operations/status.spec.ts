@@ -7,7 +7,7 @@ describe("@Status", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @(Status(200, String).Description("description"))
+      @Status(200, String).Description("description")
       method() {}
     }
 
@@ -43,7 +43,7 @@ describe("@Status", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @(Status(200).Type(String).Description("description"))
+      @Status(200).Type(String).Description("description")
       method() {}
     }
 
@@ -79,7 +79,7 @@ describe("@Status", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @(Status(200, String)
+      @Status(200, String)
         .Description("description")
         .Header("x-token", "token")
         .Header("x-header", {
@@ -88,7 +88,7 @@ describe("@Status", () => {
         .Examples({test: "Examples"})
         .Schema({
           minLength: 3
-        }))
+        })
       method() {}
     }
 
@@ -136,7 +136,7 @@ describe("@Status", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @(Status(200, String).Description("description").ContentType("text/html").Examples("Examples"))
+      @Status(200, String).Description("description").ContentType("text/html").Examples("Examples")
       method() {}
     }
 
@@ -177,9 +177,9 @@ describe("@Status", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @(Status(400).Description("Bad request"))
+      @Status(400).Description("Bad request")
       @Status(401)
-      @(Status(200).Description("Success"))
+      @Status(200).Description("Success")
       method() {}
     }
 
@@ -264,7 +264,7 @@ describe("@Status", () => {
     try {
       class Controller {
         @OperationPath("POST", "/")
-        @(Status(200, String).Of(Array).Description("description"))
+        @Status(200, String).Of(Array).Description("description")
         method() {}
       }
     } catch (er) {
@@ -279,7 +279,7 @@ describe("@Status", () => {
     try {
       class Controller {
         @OperationPath("POST", "/")
-        @(Status(200, Array).Nested(Set).Description("description"))
+        @Status(200, Array).Nested(Set).Description("description")
         method() {}
       }
     } catch (er) {
@@ -292,7 +292,7 @@ describe("@Status", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
-      @(Status(200, Array).Of(String).Description("description"))
+      @Status(200, Array).Of(String).Description("description")
       method() {}
     }
 
@@ -337,7 +337,7 @@ describe("@Status", () => {
 
     class Controller {
       @OperationPath("POST", "/")
-      @(Status(200, Array).Of(Model).Description("description"))
+      @Status(200, Array).Of(Model).Description("description")
       method() {}
     }
 
@@ -410,7 +410,7 @@ describe("@Status", () => {
 
     class Controller {
       @OperationPath("POST", "/")
-      @(Status(200, Pagination).Of(Submission).Nested(Product).Description("description"))
+      @Status(200, Pagination).Of(Submission).Nested(Product).Description("description")
       async method(): Promise<Pagination<Submission<Product>> | null> {
         return null;
       }

@@ -1,12 +1,5 @@
-import { getSpec, In, Name, OperationPath, Path, SpecTypes } from "@tsed/schema";
-import {
-  decorateMethodsOf,
-  DecoratorParameters,
-  decoratorTypeOf,
-  DecoratorTypes,
-  StoreMerge,
-  UnsupportedDecoratorType
-} from "@tsed/core";
+import {getSpec, In, Name, OperationPath, Path, SpecTypes} from "@tsed/schema";
+import {decorateMethodsOf, DecoratorParameters, decoratorTypeOf, DecoratorTypes, StoreMerge, UnsupportedDecoratorType} from "@tsed/core";
 
 function UseAuth(): Function {
   return <T>(...args: DecoratorParameters): TypedPropertyDescriptor<T> | void => {
@@ -31,7 +24,6 @@ abstract class AttachmentController {
   }
 }
 
-
 @Path("/findings")
 @UseAuth()
 export class FindingsController extends AttachmentController {
@@ -43,51 +35,47 @@ export class FindingsController extends AttachmentController {
 
 describe("Inheritance", () => {
   it("should return the spec (OS3)", () => {
-    const spec = getSpec(FindingsController, { specType: SpecTypes.OPENAPI });
+    const spec = getSpec(FindingsController, {specType: SpecTypes.OPENAPI});
 
     expect(spec).toEqual({
-      "paths": {
+      paths: {
         "/findings": {
-          "get": {
-            "operationId": "findingsControllerGet",
-            "parameters": [],
-            "responses": {
+          get: {
+            operationId: "findingsControllerGet",
+            parameters: [],
+            responses: {
               "200": {
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "FindingsController"
-            ]
+            tags: ["FindingsController"]
           }
         },
         "/findings/{parentID}/attachments": {
-          "get": {
-            "operationId": "attachmentControllerGetAll",
-            "parameters": [
+          get: {
+            operationId: "attachmentControllerGetAll",
+            parameters: [
               {
-                "in": "path",
-                "name": "parentID",
-                "required": true,
-                "schema": {
-                  "type": "string"
+                in: "path",
+                name: "parentID",
+                required: true,
+                schema: {
+                  type: "string"
                 }
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "FindingsController"
-            ]
+            tags: ["FindingsController"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "FindingsController"
+          name: "FindingsController"
         }
       ]
     });

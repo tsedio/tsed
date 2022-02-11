@@ -14,9 +14,7 @@
       "post": {
         "operationId": "myControllerMethod",
         "parameters": [],
-        "produces": [
-          "application/json"
-        ],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "description",
@@ -44,9 +42,7 @@
             }
           }
         },
-        "tags": [
-          "MyController"
-        ]
+        "tags": ["MyController"]
       }
     }
   },

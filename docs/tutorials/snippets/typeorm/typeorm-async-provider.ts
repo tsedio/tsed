@@ -12,7 +12,7 @@ registerProvider({
   deps: [Configuration],
   async useAsyncFactory(configuration: Configuration) {
     const settings = configuration.get<ConnectionOptions[]>("typeorm")!;
-    const connectionOptions = settings.find(o => o.name === CONNECTION_NAME);
+    const connectionOptions = settings.find((o) => o.name === CONNECTION_NAME);
 
     return createConnection(connectionOptions!);
   }

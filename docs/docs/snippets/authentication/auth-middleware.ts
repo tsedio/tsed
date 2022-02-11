@@ -9,7 +9,8 @@ export class CustomAuthMiddleware implements MiddlewareMethods {
     // retrieve options given to the @UseAuth decorator
     const options = ctx.endpoint.get(CustomAuthMiddleware) || {};
 
-    if (!request.isAuthenticated()) { // passport.js method to check auth
+    if (!request.isAuthenticated()) {
+      // passport.js method to check auth
       throw new Unauthorized("Unauthorized");
     }
 

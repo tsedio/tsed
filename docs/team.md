@@ -2,6 +2,7 @@
 sidebar: false
 pageSidebar: false
 ---
+
 # Our Team
 
 <div class="flex items-center pb-15 pt-10">

@@ -5,8 +5,7 @@ import {PlatformTest} from "@tsed/common/src";
 
 @Injectable()
 class MyService {
-  createConnection() {
-  }
+  createConnection() {}
 }
 
 @Module()
@@ -20,16 +19,18 @@ class MyModule {
 }
 
 describe("DITest", () => {
-  beforeEach(() => DITest.create({
-    imports: [
-      {
-        token: MyService,
-        use: {
-          createConnection: Sinon.stub()
+  beforeEach(() =>
+    DITest.create({
+      imports: [
+        {
+          token: MyService,
+          use: {
+            createConnection: Sinon.stub()
+          }
         }
-      }
-    ]
-  }));
+      ]
+    })
+  );
 
   it("should create container with stubbed service", () => {
     const service = DITest.get(MyService);

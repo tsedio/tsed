@@ -30,8 +30,7 @@ class Product {
 class TestNullableCtrl {
   @OperationPath("GET", "/")
   @Returns(200, Product)
-  async get() {
-  }
+  async get() {}
 }
 
 describe("Spec: Nullable", () => {
@@ -59,16 +58,16 @@ describe("Spec: Nullable", () => {
           type: ["null", "string", "number"]
         },
         description: {
-          "minLength": 1,
+          minLength: 1,
           type: ["null", "string"]
         },
-        "nested": {
-          "oneOf": [
+        nested: {
+          oneOf: [
             {
-              "type": "null"
+              type: "null"
             },
             {
-              "$ref": "#/definitions/Nested"
+              $ref: "#/definitions/Nested"
             }
           ]
         }
@@ -83,13 +82,13 @@ describe("Spec: Nullable", () => {
     expect(spec).toEqual({
       components: {
         schemas: {
-          "Nested": {
-            "properties": {
-              "id": {
-                "type": "string"
+          Nested: {
+            properties: {
+              id: {
+                type: "string"
               }
             },
-            "type": "object"
+            type: "object"
           },
           Product: {
             properties: {
@@ -162,13 +161,13 @@ describe("Spec: Nullable", () => {
   it("should generate the OS2", async () => {
     const spec = getSpec(TestNullableCtrl, {specType: SpecTypes.SWAGGER});
 
-//    expect(await validateSpec(spec)).to.eq(true);
+    //    expect(await validateSpec(spec)).to.eq(true);
     expect(spec).toEqual({
       definitions: {
         Nested: {
-          "properties": {
-            "id": {
-              "type": "string"
+          properties: {
+            id: {
+              type: "string"
             }
           },
           type: "object"
@@ -185,13 +184,10 @@ describe("Spec: Nullable", () => {
               type: ["null", "string", "number"]
             },
             nested: {
-              "$ref": "#/definitions/Nested"
+              $ref: "#/definitions/Nested"
             },
             description: {
-              type: [
-                "null",
-                "string"
-              ],
+              type: ["null", "string"],
               minLength: 1
             }
           },

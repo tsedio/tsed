@@ -34,7 +34,7 @@ describe("DBContext", () => {
     it("should return context if it is initialized", async () => {
       // arrange
       const dbCtx = new DBContext();
-      const expected = ({} as unknown) as EntityManager;
+      const expected = {} as unknown as EntityManager;
       const store = new Map<string, EntityManager>([["context1", expected]]);
       const callback = jest.fn().mockImplementation(() => {
         const result = dbCtx.get("context1");
@@ -66,7 +66,7 @@ describe("DBContext", () => {
     it("should return context if it is initialized", async () => {
       // arrange
       const dbCtx = new DBContext();
-      const expected = ({} as unknown) as EntityManager;
+      const expected = {} as unknown as EntityManager;
       const store = new Map<string, EntityManager>([["context1", expected]]);
       const callback = jest.fn().mockImplementation(() => {
         const result = dbCtx.has("context1");

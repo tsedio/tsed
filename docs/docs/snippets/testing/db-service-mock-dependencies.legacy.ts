@@ -4,7 +4,6 @@ import {MyCtrl} from "../controllers/MyCtrl";
 import {DbService} from "../services/DbService";
 
 describe("MyCtrl", () => {
-
   // bootstrap your Server to load all endpoints before run your test
   beforeEach(TestContext.create);
   afterEach(TestContext.reset);

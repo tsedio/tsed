@@ -23,12 +23,15 @@ class Product {
 describe("Groups", () => {
   describe("deserialize", () => {
     it("should deserialize object without groups restriction", () => {
-      const product = deserialize({
-        id: "id",
-        label: "label",
-        price: 100,
-        description: "description"
-      }, {type: Product});
+      const product = deserialize(
+        {
+          id: "id",
+          label: "label",
+          price: 100,
+          description: "description"
+        },
+        {type: Product}
+      );
 
       expect(product).to.deep.eq({
         id: "id",
@@ -38,37 +41,46 @@ describe("Groups", () => {
       });
     });
     it("should deserialize object with groups restriction (empty array)", () => {
-      const product = deserialize({
-        id: "id",
-        label: "label",
-        price: 100,
-        description: "description"
-      }, {type: Product, groups: []});
+      const product = deserialize(
+        {
+          id: "id",
+          label: "label",
+          price: 100,
+          description: "description"
+        },
+        {type: Product, groups: []}
+      );
 
       expect(product).to.deep.eq({
-        "id": "id",
-        "label": "label"
+        id: "id",
+        label: "label"
       });
     });
     it("should deserialize object with groups restriction (creation)", () => {
-      const product = deserialize({
-        id: "id",
-        label: "label",
-        price: 100,
-        description: "description"
-      }, {type: Product, groups: ["creation"]});
+      const product = deserialize(
+        {
+          id: "id",
+          label: "label",
+          price: 100,
+          description: "description"
+        },
+        {type: Product, groups: ["creation"]}
+      );
 
       expect(product).to.deep.eq({
-        "label": "label"
+        label: "label"
       });
     });
     it("should deserialize object with groups restriction (groups.summary)", () => {
-      const product = deserialize({
-        id: "id",
-        label: "label",
-        price: 100,
-        description: "description"
-      }, {type: Product, groups: ["group.summary"]});
+      const product = deserialize(
+        {
+          id: "id",
+          label: "label",
+          price: 100,
+          description: "description"
+        },
+        {type: Product, groups: ["group.summary"]}
+      );
 
       expect(product).to.deep.eq({
         id: "id",
@@ -77,12 +89,15 @@ describe("Groups", () => {
       });
     });
     it("should deserialize object with groups restriction (group.*)", () => {
-      const product = deserialize({
-        id: "id",
-        label: "label",
-        price: 100,
-        description: "description"
-      }, {type: Product, groups: ["group.*"]});
+      const product = deserialize(
+        {
+          id: "id",
+          label: "label",
+          price: 100,
+          description: "description"
+        },
+        {type: Product, groups: ["group.*"]}
+      );
 
       expect(product).to.deep.eq({
         id: "id",
@@ -101,19 +116,22 @@ describe("Groups", () => {
         b?: string;
       }
 
-      const req = {a: 'a', b: 'b'}
+      const req = {a: "a", b: "b"};
 
-      const res = deserialize(req, { type: CustomRequest, groups: ["update"] });
-      expect(res).to.deep.eq({})
+      const res = deserialize(req, {type: CustomRequest, groups: ["update"]});
+      expect(res).to.deep.eq({});
     });
   });
   describe("serialize", () => {
-    const product = deserialize({
-      id: "id",
-      label: "label",
-      price: 100,
-      description: "description"
-    }, {type: Product});
+    const product = deserialize(
+      {
+        id: "id",
+        label: "label",
+        price: 100,
+        description: "description"
+      },
+      {type: Product}
+    );
 
     it("should serialize object without groups restriction", () => {
       expect(serialize(product)).to.deep.eq({
