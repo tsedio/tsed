@@ -1,10 +1,10 @@
-docs
-examples
 node_modules
-packages/**/test/**/*.ts
+docs
 **/lib
 **/dist
 **/coverage
+**/.nyc_output
 **/node_modules
 *-lock.json
 *.lock
+benchmarks.*

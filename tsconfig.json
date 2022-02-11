@@ -15,20 +15,5 @@
       ]
     }
   },
-  "linterOptions": {
-    "exclude": [
-      "docs",
-      "integration",
-      "examples"
-    ]
-  },
-  "exclude": [
-    "test",
-    "**/test",
-    "docs",
-    "integration",
-    "examples",
-    "lib",
-    "**/lib"
-  ]
+  "exclude": ["node_modules", "**/node_modules", "**/dist", "**/.*/"]
 }
