@@ -65,7 +65,10 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
 
   const entity = JsonEntityStore.from(type || obj);
 
-  return getSchemaProperties(entity, obj).reduce((newObj, [key, propStore]) => {
+  const additionalProperties = !!entity.schema.get("additionalProperties");
+  const schemaProperties = getSchemaProperties(entity, obj);
+
+  const out: any = schemaProperties.reduce((newObj, [key, propStore]) => {
     const schema = propStore.schema;
 
     if (alterIgnore(schema, {useAlias, ...props, self: obj})) {
@@ -91,6 +94,15 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
       [key]: value
     };
   }, {});
+
+  if (additionalProperties) {
+    const additionalKeys = new Set<any>(objectKeys(obj));
+    schemaProperties.forEach(([key, propStore]) => additionalKeys.delete(key));
+    additionalKeys.forEach((key: any) => {
+      out[key] = obj[key];
+    });
+  }
+  return out;
 }
 
 function toObject(obj: any, options: JsonSerializerOptions): any {
