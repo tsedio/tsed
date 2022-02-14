@@ -591,7 +591,7 @@ describe("serialize()", () => {
         }
       });
     });
-    it("should serialize model with additonal object props", () => {
+    it("should serialize model with additional object props", () => {
       @AdditionalProperties(true)
       class Model {
         @Property()
@@ -622,7 +622,7 @@ describe("serialize()", () => {
         }
       });
     });
-    it("should not serialize model with additonal object props", () => {
+    it("should not serialize model with additional object props", () => {
       class Model {
         @Property()
         id: string;
