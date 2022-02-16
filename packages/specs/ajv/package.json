@@ -1,6 +1,6 @@
 {
   "name": "@tsed/ajv",
-  "version": "6.102.1",
+  "version": "6.102.2",
   "description": "AJV package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -21,17 +21,17 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.102.1",
-    "@tsed/di": "6.102.1",
-    "@tsed/exceptions": "6.102.1",
-    "@tsed/schema": "6.102.1",
+    "@tsed/core": "6.102.2",
+    "@tsed/di": "6.102.2",
+    "@tsed/exceptions": "6.102.2",
+    "@tsed/schema": "6.102.2",
     "ajv": "8.9.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.102.1",
-    "@tsed/di": "^6.102.1",
-    "@tsed/exceptions": "^6.102.1",
-    "@tsed/schema": "^6.102.1",
+    "@tsed/core": "^6.102.2",
+    "@tsed/di": "^6.102.2",
+    "@tsed/exceptions": "^6.102.2",
+    "@tsed/schema": "^6.102.2",
     "ajv": "7||8"
   }
 }
