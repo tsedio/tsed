@@ -71,7 +71,6 @@
     "@tsed/json-mapper": "6.102.1",
     "@tsed/logger": "^6.0.0",
     "@tsed/logger-file": "^6.0.0",
-    "@tsed/perf": "6.102.1",
     "@tsed/platform-cache": "6.102.1",
     "@tsed/platform-exceptions": "6.102.1",
     "@tsed/platform-log-middleware": "6.102.1",
@@ -88,5 +87,14 @@
   "devDependencies": {
     "rxjs": "^6.5.2"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/components-scan": ">=6.102.1",
+    "@tsed/core": ">=6.102.1",
+    "@tsed/di": ">=6.102.1",
+    "@tsed/exceptions": ">=6.102.1",
+    "@tsed/json-mapper": ">=6.102.1",
+    "@tsed/schema": ">=6.102.1",
+    "@tsed/logger": ">=6.0.0",
+    "@tsed/logger-file": ">=6.0.0"
+  }
 }
