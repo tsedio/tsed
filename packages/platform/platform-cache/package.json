@@ -33,10 +33,10 @@
     "@types/micromatch": "^4.0.1"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.102.1",
-    "@tsed/di": "^6.102.1",
-    "@tsed/exceptions": "^6.102.1",
-    "@tsed/json-mapper": "^6.102.1",
-    "@tsed/schema": "^6.102.1"
+    "@tsed/core": ">=6.102.1",
+    "@tsed/di": ">=6.102.1",
+    "@tsed/exceptions": ">=6.102.1",
+    "@tsed/json-mapper": ">=6.102.1",
+    "@tsed/schema": ">=6.102.1"
   }
 }

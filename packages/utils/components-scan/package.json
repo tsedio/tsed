@@ -19,16 +19,16 @@
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
-    "@tsed/core": "6.102.1",
-    "@tsed/di": "6.102.1",
     "globby": "11.0.3",
     "normalize-path": "3.0.0",
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/logger": "^6.0.0"
+    "@tsed/core": ">=6.102.1",
+    "@tsed/di": ">=6.102.1"
   },
   "peerDependencies": {
-    "@tsed/logger": ">=6.0.0"
+    "@tsed/core": ">=6.102.1",
+    "@tsed/di": ">=6.102.1"
   }
 }
