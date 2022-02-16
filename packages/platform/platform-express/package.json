@@ -82,7 +82,7 @@
     "@tsed/core": ">=6.102.1",
     "@tsed/di": ">=6.102.1",
     "@tsed/json-mapper": ">=6.102.1",
-    "@tsed/logger": ">=6.0.0",
+    "@tsed/logger": ">=6.0.2",
     "@tsed/openspec": ">=6.102.1",
     "@tsed/schema": ">=6.102.1",
     "@types/multer": ">=1.4.5",

@@ -44,6 +44,6 @@
   "peerDependencies": {
     "@tsed/core": "^6.102.2",
     "@tsed/di": "^6.102.2",
-    "@tsed/logger": ">=6.0.0"
+    "@tsed/logger": ">=6.0.2"
   }
 }

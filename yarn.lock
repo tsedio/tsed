@@ -3518,12 +3518,12 @@
     seq-logging "0.5.0"
     tslib "2.3.0"
 
-"@tsed/logger@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-6.0.0.tgz#544af2ef79c5243d294575d72933cf1cf79ec611"
-  integrity sha512-h1dia9hIhtLIahJuD6mXfW/qgAbACoK+m2Bc43b0EvKMYjfEuZbb0SZ+W3fO1xAIS9oUIG3rm96s8gVMbckXfg==
+"@tsed/logger@>=6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-6.0.2.tgz#495e4cd95950efeda57b2a5bf7d07fdbc3acc0b6"
+  integrity sha512-uVZeojqRt+oKoA2AN5/qdatMP/vQFsKQffgrbaqgJ6RHSW+YUtqA8v61GRhRdu69cOkNJLPurwELgktN+P4KSg==
   dependencies:
-    colors "^1.3.3"
+    colors "1.4.0"
     date-format "^3.0.0"
     semver "^7.3.2"
     tslib "2.3.0"
@@ -6827,7 +6827,7 @@ colors@1.0.3, colors@1.0.x:
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.0.3.tgz#0433f44d809680fdeb60ed260f1b0c262e82a40b"
   integrity sha1-BDP0TYCWgP3rYO0mDxsMJi6CpAs=
 
-colors@^1.1.2, colors@^1.3.3, colors@^1.4.0:
+colors@1.4.0, colors@^1.1.2, colors@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/colors/-/colors-1.4.0.tgz#c50491479d4c1bdaed2c9ced32cf7c7dc2360f78"
   integrity sha512-a+UqTh4kgZg/SlGvfbzDHpgRu7AAQOmmqRHJnxhRZICKFUT91brVhNNt58CMWU9PsBbv3PDCZUHbVxuDiH2mtA==

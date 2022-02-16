@@ -23,9 +23,9 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/logger": "^6.0.0"
+    "@tsed/logger": ">=6.0.2"
   },
   "peerDependencies": {
-    "@tsed/logger": ">=6.0.0"
+    "@tsed/logger": ">=6.0.2"
   }
 }

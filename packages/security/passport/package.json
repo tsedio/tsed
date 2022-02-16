@@ -39,7 +39,7 @@
     "@tsed/core": "^6.102.2",
     "@tsed/di": "^6.102.2",
     "@tsed/json-mapper": "^6.102.2",
-    "@tsed/logger": ">=6.0.0",
+    "@tsed/logger": ">=6.0.2",
     "@tsed/openspec": "^6.102.2",
     "@tsed/schema": "^6.102.2",
     "passport": ">=0.4.1",
