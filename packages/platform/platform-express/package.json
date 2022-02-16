@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-express",
-  "version": "6.102.2",
+  "version": "6.102.3",
   "description": "A TypeScript Framework on top of Express",
   "private": false,
   "source": "./src/index.ts",
@@ -59,10 +59,10 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.2",
-    "@tsed/core": "6.102.2",
-    "@tsed/di": "6.102.2",
-    "@tsed/platform-test-utils": "6.102.2",
+    "@tsed/common": "6.102.3",
+    "@tsed/core": "6.102.3",
+    "@tsed/di": "6.102.3",
+    "@tsed/platform-test-utils": "6.102.3",
     "@types/body-parser": "1.19.0",
     "@types/compression": "1.7.0",
     "@types/cookie-parser": "1.4.2",

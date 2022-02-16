@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-exceptions",
-  "version": "6.102.2",
+  "version": "6.102.3",
   "description": "Platform exceptions module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -21,15 +21,15 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.102.2",
-    "@tsed/di": "6.102.2",
-    "@tsed/exceptions": "6.102.2",
-    "@tsed/schema": "6.102.2"
+    "@tsed/core": "6.102.3",
+    "@tsed/di": "6.102.3",
+    "@tsed/exceptions": "6.102.3",
+    "@tsed/schema": "6.102.3"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.102.2",
-    "@tsed/di": "^6.102.2",
-    "@tsed/exceptions": "^6.102.2",
-    "@tsed/schema": "^6.102.2"
+    "@tsed/core": "^6.102.3",
+    "@tsed/di": "^6.102.3",
+    "@tsed/exceptions": "^6.102.3",
+    "@tsed/schema": "^6.102.3"
   }
 }
