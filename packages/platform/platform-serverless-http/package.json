@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-serverless-http",
-  "version": "6.102.3",
+  "version": "6.102.4",
   "description": "Module to support Serverless HTTP function with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -59,10 +59,10 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.3",
-    "@tsed/core": "6.102.3",
-    "@tsed/di": "6.102.3",
-    "@tsed/platform-serverless-testing": "6.102.3",
+    "@tsed/common": "6.102.4",
+    "@tsed/core": "6.102.4",
+    "@tsed/di": "6.102.4",
+    "@tsed/platform-serverless-testing": "6.102.4",
     "aws-lambda": "^1.0.7",
     "serverless-http": "^2.7.0"
   },

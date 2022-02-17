@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-aws",
-  "version": "6.102.3",
+  "version": "6.102.4",
   "description": "Module to support AWS function with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -55,9 +55,9 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.3",
-    "@tsed/core": "6.102.3",
-    "@tsed/di": "6.102.3"
+    "@tsed/common": "6.102.4",
+    "@tsed/core": "6.102.4",
+    "@tsed/di": "6.102.4"
   },
   "dependencies": {
     "@types/aws-serverless-express": "^3.3.3",

@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-middlewares",
-  "version": "6.102.3",
+  "version": "6.102.4",
   "description": "Middlewares module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -21,9 +21,9 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.102.3",
-    "@tsed/di": "6.102.3",
-    "@tsed/schema": "6.102.3"
+    "@tsed/core": "6.102.4",
+    "@tsed/di": "6.102.4",
+    "@tsed/schema": "6.102.4"
   },
   "peerDependencies": {}
 }

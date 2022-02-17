@@ -1,6 +1,6 @@
 {
   "name": "@tsed/schema",
-  "version": "6.102.3",
+  "version": "6.102.4",
   "description": "JsonSchema module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -36,9 +36,9 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.102.3",
-    "@tsed/openspec": "6.102.3",
     "@apidevtools/swagger-parser": "10.0.2",
+    "@tsed/core": "6.102.4",
+    "@tsed/openspec": "6.102.4",
     "@types/fs-extra": "9.0.6",
     "@types/json-schema": "7.0.7",
     "@types/micromatch": "4.0.1",
