@@ -1,3 +1,4 @@
+// eslint
 import {Inject, Injectable} from "@tsed/di";
 import {Model, MongooseModel, MongoosePlugin} from "@tsed/mongoose";
 import * as findOrCreate from "mongoose-findorcreate";
@@ -13,12 +14,10 @@ class UserModel {
 @Injectable()
 class UserService {
   constructor(@Inject(UserModel) userModel: MongooseModel<UserModel>) {
-    userModel
-      .findOrCreate({
-        // ...
-      })
-      .then((findOrCreateResult) => {
-        // ...
-      });
+    UserModel.findOrCreate({
+      // ...
+    }).then((findOrCreateResult) => {
+      // ...
+    });
   }
 }

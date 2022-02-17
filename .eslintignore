@@ -1,5 +1,6 @@
 node_modules
 docs
+docs-references
 **/lib
 **/dist
 **/coverage

@@ -55,7 +55,7 @@ export class ApolloService {
       this.logger.info(`Create server with Apollo for: ${id}`);
       this.logger.debug(`options: ${JSON.stringify({path})}`);
 
-      const server = this.createInstance(
+      const server = await this.createInstance(
         {
           ...config,
           plugins: this.getPlugins(settings)
@@ -112,7 +112,7 @@ export class ApolloService {
     return this.servers.has(id);
   }
 
-  protected createInstance(options: Config, server?: ApolloCustomServerCB): ApolloServer | undefined {
+  protected async createInstance(options: Config, server?: ApolloCustomServerCB): Promise<ApolloServer | undefined> {
     // istanbul ignore next
     if (server) {
       return server(options);
@@ -120,7 +120,7 @@ export class ApolloService {
 
     // istanbul ignore next
     try {
-      const Server = require(`apollo-server-${this.platformName || "express"}`).ApolloServer;
+      const {ApolloServer: Server} = await import(`apollo-server-${this.platformName || "express"}`);
 
       return new Server(options);
     } catch (er) {

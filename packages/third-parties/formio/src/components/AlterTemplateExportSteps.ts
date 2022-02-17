@@ -7,8 +7,7 @@ import {AlterHook} from "../domain/AlterHook";
 import {FormioSubmission} from "../domain/FormioModels";
 import {FormioTemplate} from "../domain/FormioTemplate";
 import {FormioDatabase} from "../services/FormioDatabase";
-
-const async = require("async");
+import async from "async";
 
 @Alter("templateExportSteps")
 export class AlterTemplateExportSteps implements AlterHook {

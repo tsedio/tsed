@@ -1,5 +1,5 @@
 import {Type} from "../domain/Type";
-
+import {deprecate} from "util";
 /**
  * The `@Deprecated()` decorators wraps the given method in such a way that it is marked as deprecated.
  *
@@ -35,7 +35,7 @@ export function Deprecated(message: string): Function {
   return (target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<any>) => {
     const originalMethod = descriptor.value;
 
-    descriptor.value = require("util").deprecate(originalMethod, message);
+    descriptor.value = deprecate(originalMethod, message);
 
     return descriptor;
   };

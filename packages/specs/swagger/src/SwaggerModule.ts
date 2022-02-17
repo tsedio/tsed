@@ -21,8 +21,9 @@ import {jsMiddleware} from "./middlewares/jsMiddleware";
 import {redirectMiddleware} from "./middlewares/redirectMiddleware";
 import {SwaggerService} from "./services/SwaggerService";
 import {Env} from "@tsed/core";
+import {absolutePath} from "swagger-ui-dist";
 
-const swaggerUiPath = require("swagger-ui-dist").absolutePath();
+const swaggerUiPath = absolutePath();
 
 /**
  * @ignore

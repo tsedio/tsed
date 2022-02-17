@@ -33,7 +33,7 @@ export class PlatformMulterMiddleware implements MiddlewareMethods {
         delete settings.dest;
       }
 
-      const middleware = this.app.multer(settings).fields(this.getFields({fields}));
+      const middleware: any = this.app.multer(settings).fields(this.getFields({fields}));
 
       return await middleware(ctx.getRequest(), ctx.getResponse());
     } catch (er) {

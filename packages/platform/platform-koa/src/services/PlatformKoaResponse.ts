@@ -2,8 +2,7 @@ import {IncomingEvent, PlatformContext, PlatformResponse} from "@tsed/common";
 import {ServerResponse} from "http";
 import Koa from "koa";
 import {getStatusMessage} from "@tsed/schema";
-
-const encodeUrl = require("encodeurl");
+import encodeUrl from "encodeurl";
 
 declare global {
   namespace TsED {

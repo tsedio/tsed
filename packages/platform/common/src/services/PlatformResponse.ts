@@ -4,8 +4,7 @@ import {ServerResponse} from "http";
 import {IncomingEvent} from "../interfaces/IncomingEvent";
 import type {PlatformRequest} from "./PlatformRequest";
 import type {PlatformContext} from "../domain/PlatformContext";
-
-const onFinished = require("on-finished");
+import onFinished from "on-finished";
 
 declare global {
   namespace TsED {
@@ -68,7 +67,7 @@ export class PlatformResponse<T extends Record<string, any> = any> {
     return this.getRes();
   }
 
-  static onFinished(res: any, cb: Function) {
+  static onFinished(res: any, cb: (er: Error | null, message: string) => void) {
     onFinished(res, cb);
   }
 
@@ -304,7 +303,7 @@ export class PlatformResponse<T extends Record<string, any> = any> {
    * Add a listener to handler the end of the request/response.
    * @param cb
    */
-  onEnd(cb: Function): this {
+  onEnd(cb: (er: Error | null, message: string) => void): this {
     PlatformResponse.onFinished(this.getRes(), cb);
 
     return this;

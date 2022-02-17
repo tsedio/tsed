@@ -25,9 +25,5 @@
     "@tsed/di": "6.102.3",
     "@tsed/schema": "6.102.3"
   },
-  "peerDependencies": {
-    "@tsed/core": ">=6.102.1",
-    "@tsed/di": ">=6.102.1",
-    "@tsed/schema": ">=6.102.1"
-  }
+  "peerDependencies": {}
 }

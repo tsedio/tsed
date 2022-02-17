@@ -65,13 +65,6 @@
     "tslib": "2.2.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.3",
-    "@tsed/core": "^6.102.3",
-    "@tsed/di": "^6.102.3",
-    "@tsed/json-mapper": "^6.102.3",
-    "@tsed/logger": ">=6.0.2",
-    "@tsed/openspec": "^6.102.3",
-    "@tsed/schema": "^6.102.3",
     "aws-serverless-express": "^3.4.0"
   },
   "publishConfig": {

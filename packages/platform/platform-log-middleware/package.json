@@ -27,10 +27,5 @@
     "@tsed/platform-middlewares": "6.102.3",
     "@tsed/platform-params": "6.102.3"
   },
-  "peerDependencies": {
-    "@tsed/core": ">=6.102.1",
-    "@tsed/di": ">=6.102.1",
-    "@tsed/platform-middlewares": ">=6.102.1",
-    "@tsed/platform-params": ">=6.102.1"
-  }
+  "peerDependencies": {}
 }

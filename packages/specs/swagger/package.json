@@ -25,6 +25,7 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
+    "@types/swagger-ui-dist": "3.30.1",
     "@tsed/common": "6.102.3",
     "@tsed/core": "6.102.3",
     "@tsed/di": "6.102.3",
@@ -32,12 +33,5 @@
     "@tsed/openspec": "6.102.3",
     "@tsed/schema": "6.102.3"
   },
-  "peerDependencies": {
-    "@tsed/common": "^6.102.3",
-    "@tsed/core": "^6.102.3",
-    "@tsed/di": "^6.102.3",
-    "@tsed/json-mapper": "^6.102.3",
-    "@tsed/openspec": "^6.102.3",
-    "@tsed/schema": "^6.102.3"
-  }
+  "peerDependencies": {}
 }

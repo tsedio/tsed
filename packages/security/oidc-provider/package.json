@@ -48,14 +48,6 @@
     "oidc-provider": "7.10.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.3",
-    "@tsed/core": "^6.102.3",
-    "@tsed/di": "^6.102.3",
-    "@tsed/exceptions": "^6.102.3",
-    "@tsed/json-mapper": "^6.102.3",
-    "@tsed/logger": ">=6.0.2",
-    "@tsed/openspec": "^6.102.3",
-    "@tsed/schema": "^6.102.3",
     "oidc-provider": ">=7.3.0"
   }
 }

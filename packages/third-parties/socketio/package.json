@@ -41,13 +41,6 @@
     "socket.io-client": "^4.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.3",
-    "@tsed/core": "^6.102.3",
-    "@tsed/di": "^6.102.3",
-    "@tsed/json-mapper": "^6.102.3",
-    "@tsed/logger": ">=6.0.2",
-    "@tsed/openspec": "^6.102.3",
-    "@tsed/schema": "^6.102.3",
     "socket.io": ">=4.0.0"
   }
 }

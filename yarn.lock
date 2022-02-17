@@ -3494,7 +3494,7 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
 
-"@tsed/engines@^1.1.5":
+"@tsed/engines@>=1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@tsed/engines/-/engines-1.1.5.tgz#1d8fcf5859e665b6ccf8f0db6357612e5aafaf19"
   integrity sha512-7nx0AdoNOSwpLWkhIq771JZPHLHsERXR+y9ivbYiNjN9qDMWxXFhFKUjwP3TT6mpVHJBulHV0esKqubr88u2nQ==
@@ -3571,6 +3571,11 @@
   integrity sha512-jOdnI/3qTpHABjM5cx1Hc0sKsPoYCp+DP/GJRGtDlPd7fiV9oXGGIcjW/ZOxLIvjGz8MA+uMZI9metHlgqbgwQ==
   dependencies:
     "@types/node" "*"
+
+"@types/async@3.2.12":
+  version "3.2.12"
+  resolved "https://registry.yarnpkg.com/@types/async/-/async-3.2.12.tgz#0ebbfaf3f249ffa0fdc50179b07705f69c90d70c"
+  integrity sha512-4i4w4tfNDo73BOjk0qHcB2YJ8A2SjITCrU4BTsgdJFTsVr6atPDXa0T9r0QZTrX3axtWwkqpZqF4B3gR0TqBGw==
 
 "@types/aws-lambda@*", "@types/aws-lambda@^8.10.56":
   version "8.10.85"
@@ -3769,6 +3774,11 @@
   version "2.8.10"
   resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.10.tgz#61cc8469849e5bcdd0c7044122265c39cec10cf4"
   integrity sha512-C7srjHiVG3Ey1nR6d511dtDkCEjxuN9W1HWAEjGq8kpcwmNM6JJkpC0xvabM7BXTG2wDq8Eu33iH9aQKa7IvLQ==
+
+"@types/ejs@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@types/ejs/-/ejs-3.1.0.tgz#ab8109208106b5e764e5a6c92b2ba1c625b73020"
+  integrity sha512-DCg+Ka+uDQ31lJ/UtEXVlaeV3d6t81gifaVWKJy4MYVVgvJttyX/viREy+If7fz+tK/gVxTGMtyrFPnm4gjrVA==
 
 "@types/encodeurl@^1.0.0":
   version "1.0.0"
@@ -4170,12 +4180,24 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.0.tgz#e486d0d97396d79beedd0a6e33f4534ff6b4973e"
   integrity sha512-f5j5b/Gf71L+dbqxIpQ4Z2WlmI/mPJ0fOkGGmFgtb6sAu97EPczzbS3/tJKxmcYDj55OX6ssqwDAWOHIYDRDGA==
 
+"@types/normalize-path@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@types/normalize-path/-/normalize-path-3.0.0.tgz#bb5c46cab77b93350b4cf8d7ff1153f47189ae31"
+  integrity sha512-Nd8y/5t/7CRakPYiyPzr/IAfYusy1FkcZYFEAcoMZkwpJv2n4Wm+olW+e7xBdHEXhOnWdG9ddbar0gqZWS4x5Q==
+
 "@types/oidc-provider@^7.1.1":
   version "7.1.1"
   resolved "https://registry.yarnpkg.com/@types/oidc-provider/-/oidc-provider-7.1.1.tgz#13a0ee38ab43c7c7bca93bc5afbb33bbdbe317fd"
   integrity sha512-fwqbvp0kIT5MMv2ecKn4ThfhSEnHbSGGBAT+w8vQX1eoDaE23RPjKkFObkVLg8IonwIFTj9gZ1azgcNenEPYxg==
   dependencies:
     "@types/koa" "*"
+
+"@types/on-finished@2.3.1":
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/@types/on-finished/-/on-finished-2.3.1.tgz#4537f9f2b47b3ba0b92c14a4bcc0f755aeda3484"
+  integrity sha512-mzVYaYcFs5Jd2n/O6uYIRUsFRR1cHyZLRvkLCU0E7+G5WhY0qBDAR5fUCeZbvecYOSh9ikhlesyi2UfI8B9ckQ==
+  dependencies:
+    "@types/node" "*"
 
 "@types/parse-json@^4.0.0":
   version "4.0.0"
@@ -4332,6 +4354,11 @@
   integrity sha512-Xt8TbEyZTnD5Xulw95GLMOkmjGICrOQyJ2jqgkSjAUR3mm7pAIzSR0NFBaMcwlzVvlpCjNwbATcWWwjNiZiFrQ==
   dependencies:
     "@types/superagent" "*"
+
+"@types/swagger-ui-dist@3.30.1":
+  version "3.30.1"
+  resolved "https://registry.yarnpkg.com/@types/swagger-ui-dist/-/swagger-ui-dist-3.30.1.tgz#8ad3370dfce23bf73144bd9c5560afe2b5ccbd18"
+  integrity sha512-wWojDensMF33dSrhak4iWSPOsWBbvf+rSJ6VWQ7ohQbGdKAiT2IwUexrDZkMvf3+vVAPVnNFDRDtxADFszbh+Q==
 
 "@types/tmp@^0.2.2":
   version "0.2.2"

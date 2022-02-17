@@ -24,11 +24,9 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
+    "@types/normalize-path": "^3.0.0",
     "@tsed/core": "6.102.3",
     "@tsed/di": "6.102.3"
   },
-  "peerDependencies": {
-    "@tsed/core": ">=6.102.1",
-    "@tsed/di": ">=6.102.1"
-  }
+  "peerDependencies": {}
 }

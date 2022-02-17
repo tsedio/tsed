@@ -39,11 +39,8 @@
   },
   "devDependencies": {
     "@tsed/core": "6.102.3",
-    "@tsed/di": "6.102.3"
-  },
-  "peerDependencies": {
-    "@tsed/core": "^6.102.3",
-    "@tsed/di": "^6.102.3",
+    "@tsed/di": "6.102.3",
     "@tsed/logger": ">=6.0.2"
-  }
+  },
+  "peerDependencies": {}
 }

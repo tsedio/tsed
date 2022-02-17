@@ -40,13 +40,6 @@
     "stripe": "^8.129.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.3",
-    "@tsed/core": "^6.102.3",
-    "@tsed/di": "^6.102.3",
-    "@tsed/json-mapper": "^6.102.3",
-    "@tsed/openspec": "^6.102.3",
-    "@tsed/schema": "^6.102.3",
-    "@types/body-parser": "^1.19.0",
     "body-parser": "^1.19.0",
     "stripe": "^8.129.0"
   }

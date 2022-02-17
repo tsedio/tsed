@@ -4,7 +4,7 @@ import {PlatformMulter, PlatformMulterSettings, PlatformStaticsOptions} from "..
 import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces";
 import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformHandler} from "./PlatformHandler";
-
+import type multer from "multer";
 /**
  * @ignore
  */
@@ -32,8 +32,11 @@ export class PlatformRouter<Router = TsED.Router> {
   @Inject()
   injector: InjectorService;
 
+  #multer: typeof multer;
+
   constructor(protected platformHandler: PlatformHandler) {
     this.rawRouter = this.raw = PlatformRouter.createRawRouter();
+    import("multer").then(({default: multer}) => (this.#multer = multer));
   }
 
   /**
@@ -113,7 +116,7 @@ export class PlatformRouter<Router = TsED.Router> {
   }
 
   multer(options: PlatformMulterSettings): PlatformMulter {
-    const m = require("multer")(options);
+    const m = this.#multer(options);
 
     const makePromise = (multer: any, name: string) => {
       // istanbul ignore next

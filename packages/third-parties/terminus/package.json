@@ -29,10 +29,5 @@
     "@tsed/openspec": "6.102.3",
     "@tsed/schema": "6.102.3"
   },
-  "peerDependencies": {
-    "@tsed/core": "^6.102.3",
-    "@tsed/di": "^6.102.3",
-    "@tsed/openspec": "^6.102.3",
-    "@tsed/schema": "^6.102.3"
-  }
+  "peerDependencies": {}
 }

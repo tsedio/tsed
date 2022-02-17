@@ -1,7 +1,6 @@
 import {isArray, isString} from "@tsed/core";
 import {join} from "path";
-
-const fixPath = require("normalize-path");
+import fixPath from "normalize-path";
 
 export function normalizePath(item: string, ...paths: string[]): string;
 export function normalizePath(item: (string | any)[]): (string | any)[];

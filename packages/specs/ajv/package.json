@@ -28,10 +28,6 @@
     "ajv": "8.9.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.102.3",
-    "@tsed/di": "^6.102.3",
-    "@tsed/exceptions": "^6.102.3",
-    "@tsed/schema": "^6.102.3",
-    "ajv": "7||8"
+    "ajv": ">=8.9.0"
   }
 }
