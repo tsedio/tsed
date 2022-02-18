@@ -25,7 +25,6 @@
     "@tsed/di": "6.102.4",
     "@tsed/exceptions": "6.102.4",
     "@tsed/json-mapper": "6.102.4",
-    "@tsed/platform-views": "6.102.4",
     "@tsed/schema": "6.102.4"
   },
   "peerDependencies": {
@@ -33,8 +32,6 @@
     "@tsed/di": "^6.102.4",
     "@tsed/exceptions": "^6.102.4",
     "@tsed/json-mapper": "^6.102.4",
-    "@tsed/platform-views": "^6.102.4",
     "@tsed/schema": "^6.102.4"
   }
 }
-

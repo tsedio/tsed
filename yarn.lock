@@ -3494,7 +3494,7 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
 
-"@tsed/engines@>=1.1.5":
+"@tsed/engines@^1.1.5":
   version "1.1.5"
   resolved "https://registry.yarnpkg.com/@tsed/engines/-/engines-1.1.5.tgz#1d8fcf5859e665b6ccf8f0db6357612e5aafaf19"
   integrity sha512-7nx0AdoNOSwpLWkhIq771JZPHLHsERXR+y9ivbYiNjN9qDMWxXFhFKUjwP3TT6mpVHJBulHV0esKqubr88u2nQ==
@@ -3502,10 +3502,10 @@
     fs-extra "^10.0.0"
     tslib "2.2.0"
 
-"@tsed/logger-file@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@tsed/logger-file/-/logger-file-6.0.0.tgz#f26dc477a5d05aa2dc9d77386eb6cb547ecc8e7c"
-  integrity sha512-/vTa0GAd5kuBuz4CkfSsSmHeeoiu7i/HVAIzzFow2HqGNa3VKvQ7Q2aHP2I4WivCv9TEDV7QnBQa5uZay07oNQ==
+"@tsed/logger-file@>=6.0.2":
+  version "6.0.2"
+  resolved "https://registry.yarnpkg.com/@tsed/logger-file/-/logger-file-6.0.2.tgz#122c1856ee5986f73788d9cd0558fcfe40cf89a8"
+  integrity sha512-XkAmGd6Y5XPUkcQKJpgQQxVlffEDGLBoNxqToxx4/BORiLm4VPGYRW9+p2hlMlH4ompU45/aS0/6AkD5GwIwBg==
   dependencies:
     streamroller "^1.0.3"
     tslib "2.3.0"
@@ -4355,7 +4355,7 @@
   dependencies:
     "@types/superagent" "*"
 
-"@types/swagger-ui-dist@3.30.1":
+"@types/swagger-ui-dist@>=3.30.1":
   version "3.30.1"
   resolved "https://registry.yarnpkg.com/@types/swagger-ui-dist/-/swagger-ui-dist-3.30.1.tgz#8ad3370dfce23bf73144bd9c5560afe2b5ccbd18"
   integrity sha512-wWojDensMF33dSrhak4iWSPOsWBbvf+rSJ6VWQ7ohQbGdKAiT2IwUexrDZkMvf3+vVAPVnNFDRDtxADFszbh+Q==

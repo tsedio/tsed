@@ -67,10 +67,6 @@
   "peerDependencies": {
     "@tsed/common": "^6.102.4",
     "@tsed/core": "^6.102.4",
-    "@tsed/di": "^6.102.4",
-    "@tsed/json-mapper": "^6.102.4",
-    "@tsed/logger": ">=6.0.0",
-    "@tsed/openspec": "^6.102.4",
     "@tsed/schema": "^6.102.4",
     "aws-serverless-express": "^3.4.0"
   },
@@ -78,4 +74,3 @@
     "dist-tag": "deprecated"
   }
 }
-

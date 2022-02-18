@@ -18,9 +18,12 @@
     "build:esm": "tsc --build tsconfig.compile.esm.json"
   },
   "dependencies": {
-    "@tsed/schema": "6.102.4",
     "tslib": "2.2.0"
   },
-  "devDependencies": {},
-  "peerDependencies": {}
+  "devDependencies": {
+    "@tsed/schema": "6.102.4"
+  },
+  "peerDependencies": {
+    "@tsed/schema": "^6.102.4"
+  }
 }

@@ -1,5 +1,5 @@
 import {GlobalProviders, Provider, ProviderType} from "@tsed/di";
-import {importComponents} from "./importComponents";
+import {importComponents} from "@tsed/components-scan";
 
 async function recursiveImports(providers: {token: string; route?: string}[], settings: Partial<TsED.Configuration>, properties: string[]) {
   const {exclude = []} = settings;

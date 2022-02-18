@@ -66,11 +66,10 @@
   "dependencies": {
     "@tsed/components-scan": "6.102.4",
     "@tsed/core": "6.102.4",
-    "@tsed/di": "6.102.4",
     "@tsed/exceptions": "6.102.4",
     "@tsed/json-mapper": "6.102.4",
     "@tsed/logger": ">=6.0.2",
-    "@tsed/logger-file": "^6.0.0",
+    "@tsed/logger-file": ">=6.0.2",
     "@tsed/perf": "6.102.4",
     "@tsed/platform-cache": "6.102.4",
     "@tsed/platform-exceptions": "6.102.4",
@@ -86,6 +85,12 @@
     "tslib": "2.2.0",
     "uuid": "8.3.2"
   },
-  "devDependencies": {},
-  "peerDependencies": {}
+  "devDependencies": {
+    "@tsed/core": "6.102.4"
+  },
+  "peerDependencies": {
+    "@tsed/logger": ">=6.0.2",
+    "@tsed/logger-file": ">=6.0.2",
+    "@tsed/di": "^6.102.4"
+  }
 }
