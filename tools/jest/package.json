@@ -1,6 +1,6 @@
 {
   "name": "@tsed/jest-config",
-  "version": "6.102.4",
+  "version": "6.102.5",
   "private": true,
   "main": "jest.config.js",
   "scripts": {},
