@@ -19,19 +19,25 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
+    "@tsed/openspec": "6.102.4",
     "fs-extra": "9.0.1",
     "micromatch": "4.0.4",
     "swagger-ui-dist": "^3.46.0",
     "tslib": "2.2.0"
   },
   "devDependencies": {
+    "@types/swagger-ui-dist": ">=3.30.1",
     "@tsed/common": "6.102.4",
     "@tsed/core": "6.102.4",
     "@tsed/di": "6.102.4",
     "@tsed/json-mapper": "6.102.4",
     "@tsed/openspec": "6.102.4",
-    "@tsed/schema": "6.102.4",
-    "@types/swagger-ui-dist": "3.30.1"
+    "@tsed/schema": "6.102.4"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/common": "^6.102.4",
+    "@tsed/core": "^6.102.4",
+    "@tsed/json-mapper": "^6.102.4",
+    "@tsed/schema": "^6.102.4"
+  }
 }

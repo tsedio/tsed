@@ -22,10 +22,13 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.102.4",
     "@tsed/di": "6.102.4",
     "@tsed/platform-middlewares": "6.102.4",
     "@tsed/platform-params": "6.102.4"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/di": "^6.102.4",
+    "@tsed/platform-middlewares": "^6.102.4",
+    "@tsed/platform-params": "^6.102.4"
+  }
 }

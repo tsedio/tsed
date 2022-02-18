@@ -26,11 +26,15 @@
   "devDependencies": {
     "@tsed/core": "6.102.4",
     "@tsed/di": "6.102.4",
-    "@tsed/exceptions": "6.102.4",
     "@tsed/json-mapper": "6.102.4",
     "@tsed/schema": "6.102.4",
     "@types/cache-manager": "^3.4.2",
     "@types/micromatch": "^4.0.1"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/core": "^6.102.4",
+    "@tsed/di": "^6.102.4",
+    "@tsed/json-mapper": "^6.102.4",
+    "@tsed/schema": "^6.102.4"
+  }
 }

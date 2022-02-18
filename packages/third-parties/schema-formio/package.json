@@ -41,6 +41,9 @@
     "@tsed/schema": "6.102.4"
   },
   "peerDependencies": {
+    "@tsed/core": "^6.102.4",
+    "@tsed/openspec": "^6.102.4",
+    "@tsed/schema": "^6.102.4",
     "formiojs": ">=4.0.0",
     "lodash": ">=4.0.0",
     "moment": ">=2.0.0"

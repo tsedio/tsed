@@ -43,6 +43,10 @@
     "mongoose": "^5.12.2"
   },
   "peerDependencies": {
+    "@tsed/common": "^6.102.4",
+    "@tsed/core": "^6.102.4",
+    "@tsed/di": "^6.102.4",
+    "@tsed/mongoose": "^6.102.4",
     "express": "^4.17.1",
     "formio": "^2.0.0",
     "mongodb": "*",

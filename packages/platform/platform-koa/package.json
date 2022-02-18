@@ -82,6 +82,13 @@
     "tslib": "2.2.0"
   },
   "peerDependencies": {
+    "@tsed/common": "^6.102.4",
+    "@tsed/core": "^6.102.4",
+    "@tsed/di": "^6.102.4",
+    "@tsed/json-mapper": "^6.102.4",
+    "@tsed/logger": ">=6.0.2",
+    "@tsed/openspec": "^6.102.4",
+    "@tsed/schema": "^6.102.4",
     "koa": ">=2.13.0",
     "koa-bodyparser": ">=4.3.0",
     "koa-compress": ">=5.0.1",

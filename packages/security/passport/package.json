@@ -35,6 +35,12 @@
     "passport-strategy": "1.0.0"
   },
   "peerDependencies": {
+    "@tsed/common": "^6.102.4",
+    "@tsed/core": "^6.102.4",
+    "@tsed/di": "^6.102.4",
+    "@tsed/json-mapper": "^6.102.4",
+    "@tsed/logger": ">=6.0.2",
+    "@tsed/schema": "^6.102.4",
     "passport": ">=0.4.1"
   }
 }

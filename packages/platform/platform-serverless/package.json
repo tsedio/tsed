@@ -20,10 +20,8 @@
   },
   "dependencies": {
     "@tsed/core": "6.102.4",
-    "@tsed/di": "6.102.4",
     "@tsed/exceptions": "6.102.4",
     "@tsed/json-mapper": "6.102.4",
-    "@tsed/logger": ">=6.0.2",
     "@tsed/platform-exceptions": "6.102.4",
     "@tsed/platform-params": "6.102.4",
     "@tsed/schema": "6.102.4",
@@ -38,5 +36,8 @@
     "@types/encodeurl": "^1.0.0",
     "@types/mime": "^2.0.3"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/di": "^6.102.4",
+    "@tsed/logger": ">=6.0.2"
+  }
 }

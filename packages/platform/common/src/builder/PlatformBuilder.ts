@@ -1,6 +1,5 @@
 import {nameOf, Type} from "@tsed/core";
 import {colors, createContainer, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
-import {importProviders} from "@tsed/components-scan";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {GlobalAcceptMimesMiddleware} from "../middlewares";
 import {Platform} from "../services/Platform";
@@ -12,6 +11,7 @@ import {Route} from "../interfaces/Route";
 import {getConfiguration} from "../utils/getConfiguration";
 import {IncomingMessage, ServerResponse} from "http";
 import {PlatformAdapter, PlatformBuilderSettings} from "../interfaces/PlatformAdapter";
+import {importProviders} from "../utils/importProviders";
 
 /**
  * @platform

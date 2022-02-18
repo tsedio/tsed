@@ -29,6 +29,7 @@
     "tsed"
   ],
   "dependencies": {
+    "@tsed/openspec": "6.102.4",
     "camel-case": "4.1.2",
     "json-schema": "0.4.0",
     "micromatch": "4.0.4",
@@ -44,5 +45,7 @@
     "@types/micromatch": "4.0.1",
     "fs-extra": "9.0.1"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/core": "^6.102.4"
+  }
 }

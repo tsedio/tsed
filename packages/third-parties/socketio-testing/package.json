@@ -27,6 +27,10 @@
     "socket.io-client": "^4.1.2"
   },
   "peerDependencies": {
+    "@tsed/common": "^6.102.4",
+    "@tsed/core": "^6.102.4",
+    "@tsed/di": "^6.102.4",
+    "@tsed/socketio": "^6.102.4",
     "socket.io-client": "^4.0.1"
   }
 }
