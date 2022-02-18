@@ -67,14 +67,17 @@ sponsors:
         - title: Weseek
           href: https://weseek.co.jp/
           src: https://avatars.githubusercontent.com/u/6468105?v=4
-    - title: They use it
+    - title: Partners
       class: w-1/3 sm:w-1/6 px-5 py-3
       style:
         maxHeight: 80px
       items:
+        - title: schnell.digital
+          href: https://schnell.digital/
+          src: /partners/schnell.svg
         - title: Artips
           href: https://artips.fr
-          src: /they-use-it/artips.png
+          src: /partners/artips.png
 showContent: false
 frameworks:
   - title: TypeScript
