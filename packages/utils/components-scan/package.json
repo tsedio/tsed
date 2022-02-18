@@ -19,6 +19,8 @@
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
+    "@tsed/core": "6.102.4",
+    "@tsed/di": "6.102.4",
     "globby": "11.0.3",
     "normalize-path": "3.0.0",
     "tslib": "2.2.0"
@@ -30,3 +32,4 @@
   },
   "peerDependencies": {}
 }
+

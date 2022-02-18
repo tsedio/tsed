@@ -71,6 +71,7 @@
     "@tsed/json-mapper": "6.102.4",
     "@tsed/logger": ">=6.0.2",
     "@tsed/logger-file": "^6.0.0",
+    "@tsed/perf": "6.102.4",
     "@tsed/platform-cache": "6.102.4",
     "@tsed/platform-exceptions": "6.102.4",
     "@tsed/platform-log-middleware": "6.102.4",

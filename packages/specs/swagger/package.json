@@ -30,8 +30,15 @@
     "@tsed/di": "6.102.4",
     "@tsed/json-mapper": "6.102.4",
     "@tsed/openspec": "6.102.4",
-    "@tsed/schema": "6.102.4",
-    "@types/swagger-ui-dist": "3.30.1"
+    "@tsed/schema": "6.102.4"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/common": "^6.102.4",
+    "@tsed/core": "^6.102.4",
+    "@tsed/di": "^6.102.4",
+    "@tsed/json-mapper": "^6.102.4",
+    "@tsed/openspec": "^6.102.4",
+    "@tsed/schema": "^6.102.4"
+  }
 }
+
