@@ -1,6 +1,6 @@
 {
   "name": "@tsed/benchmarks",
-  "version": "6.102.5",
+  "version": "6.102.6",
   "private": true,
   "dependencies": {
     "@codechecks/client": "0.1.12",

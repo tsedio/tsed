@@ -1,6 +1,6 @@
 {
   "name": "@tsed/stripe",
-  "version": "6.102.5",
+  "version": "6.102.6",
   "description": "Stripe package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -31,21 +31,21 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.5",
-    "@tsed/core": "6.102.5",
-    "@tsed/di": "6.102.5",
-    "@tsed/json-mapper": "6.102.5",
-    "@tsed/openspec": "6.102.5",
-    "@tsed/schema": "6.102.5",
+    "@tsed/common": "6.102.6",
+    "@tsed/core": "6.102.6",
+    "@tsed/di": "6.102.6",
+    "@tsed/json-mapper": "6.102.6",
+    "@tsed/openspec": "6.102.6",
+    "@tsed/schema": "6.102.6",
     "stripe": "^8.129.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.5",
-    "@tsed/core": "^6.102.5",
-    "@tsed/di": "^6.102.5",
-    "@tsed/json-mapper": "^6.102.5",
-    "@tsed/openspec": "^6.102.5",
-    "@tsed/schema": "^6.102.5",
+    "@tsed/common": "^6.102.6",
+    "@tsed/core": "^6.102.6",
+    "@tsed/di": "^6.102.6",
+    "@tsed/json-mapper": "^6.102.6",
+    "@tsed/openspec": "^6.102.6",
+    "@tsed/schema": "^6.102.6",
     "@types/body-parser": "^1.19.0",
     "body-parser": "^1.19.0",
     "stripe": "^8.129.0"
