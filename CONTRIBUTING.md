@@ -135,7 +135,7 @@ Ts.ED use vuepress to convert markdown to web application. In addition, all docu
 the API documentation. To run the website on your local, run this command:
 
 ```sh
-yarn vuepress:serve
+yarn vuepress:docs:serve
 ```
 
 ### Guidelines
