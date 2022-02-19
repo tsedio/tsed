@@ -139,13 +139,18 @@ export class ProtocolsService {
 
     return async (req: any, ...args: any[]) => {
       const done = args[args.length - 1];
-      req.$ctx.set("PROTOCOL_ARGS", args.slice(0, -1));
 
-      try {
-        await middleware(req.$ctx);
-        done(null, ...[].concat(req.$ctx.data));
-      } catch (err) {
-        done(err, false, {message: err.message});
+      if (req.$ctx) {
+        req.$ctx.set("PROTOCOL_ARGS", args.slice(0, -1));
+
+        try {
+          await middleware(req.$ctx);
+          done(null, ...[].concat(req.$ctx.data));
+        } catch (err) {
+          done(err, false, {message: err.message});
+        }
+      } else {
+        done(new Error("Headers already sent"), false, {message: "Headers already sent"});
       }
     };
   }
