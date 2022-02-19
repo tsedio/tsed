@@ -117,4 +117,18 @@ describe("ProtocolsService", () => {
     expect(result.$onVerify).toHaveBeenCalledWith(ctx.getRequest(), ctx);
     expect(resultDone).toEqual([error, false, {message: "message"}]);
   });
+  it("should call metadata and catch missing $ctx", async () => {
+    const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+    // GIVEN
+    const provider = PlatformTest.injector.getProvider(LocalProtocol)!;
+
+    // WHEN
+    await protocolService.invoke(provider);
+    const resultDone: any = await new Promise((resolve) => {
+      Strategy.mock.calls[0][1]({}, "test", (...args: any[]) => resolve(args));
+    });
+
+    // THEN
+    expect(resultDone).toEqual([new Error("Headers already sent"), false, {message: "Headers already sent"}]);
+  });
 });
