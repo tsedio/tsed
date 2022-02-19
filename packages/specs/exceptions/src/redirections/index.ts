@@ -5,5 +5,4 @@ export * from "./NotModified";
 export * from "./PermanentRedirect";
 export * from "./SeeOther";
 export * from "./TemporaryRedirect";
-export * from "./TooManyRedirects";
 export * from "./UseProxy";
