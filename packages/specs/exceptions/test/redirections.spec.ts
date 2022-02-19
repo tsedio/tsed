@@ -7,7 +7,6 @@ import {
   PermanentRedirect,
   SeeOther,
   TemporaryRedirect,
-  TooManyRedirects,
   UseProxy,
   NotModified
 } from "@tsed/exceptions";
@@ -101,19 +100,6 @@ describe("Redirections", () => {
 
       expect(err.status).to.equal(307);
       expect(err.toString()).to.equal("TEMPORARY_REDIRECT(307): message");
-    });
-  });
-
-  describe("TooManyRedirect", () => {
-    it("should emit an exception", () => {
-      const err = new TooManyRedirects("message");
-
-      catchError(() => {
-        throw err;
-      });
-
-      expect(err.status).to.equal(310);
-      expect(err.toString()).to.equal("TOO_MANY_REDIRECTS(310): message");
     });
   });
 

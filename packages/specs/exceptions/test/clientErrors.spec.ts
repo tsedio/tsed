@@ -248,7 +248,7 @@ describe("ClientErrors", () => {
       });
 
       expect(err.status).to.equal(416);
-      expect(err.toString()).to.equal("REQUEST_RANGE_UNSATISFIABLE(416): message");
+      expect(err.toString()).to.equal("RANGE_NOT_SATISFIABLE(416): message");
     });
   });
 
@@ -261,7 +261,7 @@ describe("ClientErrors", () => {
       });
 
       expect(err.status).to.equal(413);
-      expect(err.toString()).to.equal("REQUEST_ENTITY_TOO_LARGE(413): message");
+      expect(err.toString()).to.equal("PAYLOAD_TOO_LARGE(413): message");
     });
   });
 
@@ -300,7 +300,7 @@ describe("ClientErrors", () => {
       });
 
       expect(err.status).to.equal(414);
-      expect(err.toString()).to.equal("REQUEST_URI_TOO_LONG(414): message");
+      expect(err.toString()).to.equal("URI_TOO_LONG(414): message");
     });
   });
 
