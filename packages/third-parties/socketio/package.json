@@ -1,6 +1,6 @@
 {
   "name": "@tsed/socketio",
-  "version": "6.102.6",
+  "version": "6.102.7",
   "description": "Socket.io package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -30,24 +30,24 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.6",
-    "@tsed/core": "6.102.6",
-    "@tsed/di": "6.102.6",
-    "@tsed/json-mapper": "6.102.6",
-    "@tsed/openspec": "6.102.6",
-    "@tsed/schema": "6.102.6",
+    "@tsed/common": "6.102.7",
+    "@tsed/core": "6.102.7",
+    "@tsed/di": "6.102.7",
+    "@tsed/json-mapper": "6.102.7",
+    "@tsed/openspec": "6.102.7",
+    "@tsed/schema": "6.102.7",
     "express": "^4.17.1",
     "socket.io": "4.1.2",
     "socket.io-client": "^4.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.6",
-    "@tsed/core": "^6.102.6",
-    "@tsed/di": "^6.102.6",
-    "@tsed/json-mapper": "^6.102.6",
+    "@tsed/common": "^6.102.7",
+    "@tsed/core": "^6.102.7",
+    "@tsed/di": "^6.102.7",
+    "@tsed/json-mapper": "^6.102.7",
     "@tsed/logger": ">=6.0.2",
-    "@tsed/openspec": "^6.102.6",
-    "@tsed/schema": "^6.102.6",
+    "@tsed/openspec": "^6.102.7",
+    "@tsed/schema": "^6.102.7",
     "socket.io": ">=4.0.0"
   }
 }

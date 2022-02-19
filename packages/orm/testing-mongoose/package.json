@@ -1,6 +1,6 @@
 {
   "name": "@tsed/testing-mongoose",
-  "version": "6.102.6",
+  "version": "6.102.7",
   "description": "A TypeScript Framework on top of Express",
   "private": false,
   "source": "./src/index.ts",
@@ -23,14 +23,14 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.6",
-    "@tsed/core": "6.102.6",
-    "@tsed/mongoose": "6.102.6"
+    "@tsed/common": "6.102.7",
+    "@tsed/core": "6.102.7",
+    "@tsed/mongoose": "6.102.7"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.6",
-    "@tsed/core": "^6.102.6",
-    "@tsed/mongoose": "^6.102.6",
+    "@tsed/common": "^6.102.7",
+    "@tsed/core": "^6.102.7",
+    "@tsed/mongoose": "^6.102.7",
     "mongoose": "^5.12.2"
   }
 }
