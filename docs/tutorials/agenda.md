@@ -116,9 +116,52 @@ export class UsersService implements AfterRoutesInit {
 }
 ```
 
-## Author
+## Using Agendash
 
-<GithubContributors :users="['ochrstn']"/>
+[Agendash](https://github.com/agenda/agendash) provides a job overview dashboard that makes it easy to manage, create and
+schedule your jobs.
+
+::: tip Note
+This is an optional feature and is not required to use agenda.
+:::
+
+Install the additional dependency.
+
+```shell
+npm install --save agendash
+```
+
+Afterwards create the module `agendash.module.ts` in src/modules so that the dashboard can be exposed using middleware.
+
+```typescript
+import {AfterRoutesInit, Inject, PlatformApplication} from "@tsed/common";
+import {Configuration, Module} from "@tsed/di";
+import {Agenda} from "agenda";
+
+const Agendash = require("agendash");
+
+@Module()
+export class AgendashModule implements AfterRoutesInit {
+  @Configuration()
+  config: Configuration;
+
+  @Inject()
+  agenda: Agenda;
+
+  @Inject()
+  app: PlatformApplication;
+
+  $afterRoutesInit() {
+    if (this.config.agenda?.enabled) {
+      this.app.use("/agendash", Agendash(this.agenda));
+    }
+  }
+}
+```
+
+## Authors
+
+<GithubContributors :users="['ochrstn', 'xCryzed']"/>
 
 ## Maintainers
 
