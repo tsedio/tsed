@@ -94,13 +94,14 @@
     "@tsed/logger": ">=6.0.2",
     "ajv": "8.9.0",
     "axios": "0.21.1",
+    "barrelsby": "^2.3.2",
     "change-case": "4.1.2",
     "globby": "11.0.3",
     "lerna": "4.0.0",
     "microbundle": "0.13.0",
+    "rxjs": "^6.5.2",
     "source-map-support": "0.5.19",
-    "uuid": "8.3.2",
-    "rxjs": "^6.5.2"
+    "uuid": "8.3.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.1.0",

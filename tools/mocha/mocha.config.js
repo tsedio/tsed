@@ -14,6 +14,7 @@ module.exports = () => ({
   reporter: "dot",
   spec: ["packages/**/*.spec.ts"],
   exclude: [
+    "packages/core/**/*.spec.ts",
     "packages/orm/**/*.spec.ts",
     "packages/graphql/**/*.spec.ts",
     "packages/utils/**/*.spec.ts",

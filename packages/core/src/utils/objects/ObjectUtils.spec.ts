@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {
   ancestorsOf,
   classOf,
@@ -36,235 +35,235 @@ const sym = Symbol("test2");
 describe("ObjectUtils", () => {
   describe("getConstructor()", () => {
     it("should return the constructor when class is given", () => {
-      expect(getConstructor(Test)).to.eq(Test);
+      expect(getConstructor(Test)).toBe(Test);
     });
     it("should return the constructor when instance is given", () => {
-      expect(getConstructor(new Test())).to.eq(Test);
+      expect(getConstructor(new Test())).toBe(Test);
     });
   });
 
   describe("getClass()", () => {
     it("should return the class when class is given", () => {
-      expect(getClass(Test)).to.eq(Test);
+      expect(getClass(Test)).toBe(Test);
     });
 
     it("should return the class when instance is given", () => {
-      expect(getClass(new Test())).to.eq(Test);
+      expect(getClass(new Test())).toBe(Test);
     });
 
     it("should return the class when prototype is given", () => {
-      expect(getClass(Test.prototype)).to.eq(Test);
+      expect(getClass(Test.prototype)).toBe(Test);
     });
   });
 
   describe("getClassOrSymbol()", () => {
     it("should return the class when class is given", () => {
-      expect(getClassOrSymbol(Test)).to.eq(Test);
+      expect(getClassOrSymbol(Test)).toBe(Test);
     });
     it("should return the class when class is symbol", () => {
-      expect(getClassOrSymbol(sym)).to.eq(sym);
+      expect(getClassOrSymbol(sym)).toBe(sym);
     });
   });
 
   describe("isPrimitiveOrPrimitiveClass()", () => {
     it("should return true when a primitive is given", () => {
-      expect(isPrimitiveOrPrimitiveClass("test")).to.eq(true);
+      expect(isPrimitiveOrPrimitiveClass("test")).toBe(true);
     });
     it("should return true when a PrimitiveClass is given", () => {
-      expect(isPrimitiveOrPrimitiveClass(String())).to.eq(true);
+      expect(isPrimitiveOrPrimitiveClass(String())).toBe(true);
     });
 
     it("should return false when a class is given", () => {
-      expect(isPrimitiveOrPrimitiveClass(Test)).to.eq(false);
+      expect(isPrimitiveOrPrimitiveClass(Test)).toBe(false);
     });
   });
 
   describe("isArrayOrArrayClass()", () => {
     it("should return true when Array is given", () => {
-      expect(isArrayOrArrayClass(Array)).to.eq(true);
+      expect(isArrayOrArrayClass(Array)).toBe(true);
     });
 
     it("should return true when Array is given", () => {
-      expect(isArrayOrArrayClass([])).to.eq(true);
+      expect(isArrayOrArrayClass([])).toBe(true);
     });
 
     it("should return true when [] is given", () => {
-      expect(isArrayOrArrayClass([])).to.eq(true);
+      expect(isArrayOrArrayClass([])).toBe(true);
     });
 
     it("should return false when {} is given", () => {
-      expect(isArrayOrArrayClass({})).to.eq(false);
+      expect(isArrayOrArrayClass({})).toBe(false);
     });
   });
 
   describe("isCollection()", () => {
     it("should return true when Array is given", () => {
-      expect(isCollection(Array)).to.eq(true);
+      expect(isCollection(Array)).toBe(true);
     });
 
     it("should return true when Array is given", () => {
-      expect(isCollection([])).to.eq(true);
+      expect(isCollection([])).toBe(true);
     });
 
     it("should return true when [] is given", () => {
-      expect(isCollection([])).to.eq(true);
+      expect(isCollection([])).toBe(true);
     });
 
     it("should return true when Map is given", () => {
-      expect(isCollection(Map)).to.eq(true);
+      expect(isCollection(Map)).toBe(true);
     });
 
     it("should return true when Set is given", () => {
-      expect(isCollection(Set)).to.eq(true);
+      expect(isCollection(Set)).toBe(true);
     });
 
     it("should return true when WeakMap is given", () => {
-      expect(isCollection(WeakMap)).to.eq(true);
+      expect(isCollection(WeakMap)).toBe(true);
     });
 
     it("should return true when WeakSet is given", () => {
-      expect(isCollection(WeakSet)).to.eq(true);
+      expect(isCollection(WeakSet)).toBe(true);
     });
 
     it("should return false when {} is given", () => {
-      expect(isCollection({})).to.eq(false);
+      expect(isCollection({})).toBe(false);
     });
   });
 
   describe("isEmpty()", () => {
     it("should return true when empty string is given", () => {
-      expect(isEmpty("")).to.eq(true);
+      expect(isEmpty("")).toBe(true);
     });
     it("should return true when null is given", () => {
-      expect(isEmpty(null)).to.eq(true);
+      expect(isEmpty(null)).toBe(true);
     });
 
     it("should return true when empty string is given", () => {
-      expect(isEmpty(undefined)).to.eq(true);
+      expect(isEmpty(undefined)).toBe(true);
     });
     it("should return false when {} is given", () => {
-      expect(isEmpty({})).to.eq(false);
+      expect(isEmpty({})).toBe(false);
     });
     it("should return false when [] is given", () => {
-      expect(isEmpty([])).to.eq(false);
+      expect(isEmpty([])).toBe(false);
     });
 
     it("should return false when false is given", () => {
-      expect(isEmpty(false)).to.eq(false);
+      expect(isEmpty(false)).toBe(false);
     });
   });
 
   describe("isClass()", () => {
     it("should return true", () => {
-      expect(isClass(class {})).to.eq(true);
+      expect(isClass(class {})).toBe(true);
     });
 
     it("should return true", () => {
-      expect(isClass(function t() {})).to.eq(true);
+      expect(isClass(function t() {})).toBe(true);
     });
 
     it("should return false (arrow function)", () => {
-      expect(isClass(() => {})).to.eq(false);
+      expect(isClass(() => {})).toBe(false);
     });
 
     it("should return false (date)", () => {
-      expect(isClass(new Date())).to.eq(false);
+      expect(isClass(new Date())).toBe(false);
     });
 
     it("should return false (number)", () => {
-      expect(isClass(1)).to.eq(false);
+      expect(isClass(1)).toBe(false);
     });
 
     it("should return false (obj)", () => {
-      expect(isClass(Object)).to.eq(false);
+      expect(isClass(Object)).toBe(false);
     });
 
     it("should return false (promise)", () => {
-      expect(isClass(Promise.resolve())).to.eq(false);
+      expect(isClass(Promise.resolve())).toBe(false);
     });
   });
 
   describe("isPromise()", () => {
     it("should return true", () => {
-      expect(isPromise(Promise)).to.eq(true);
+      expect(isPromise(Promise)).toBe(true);
     });
 
     it("should return true", () => {
-      expect(isPromise(Promise.resolve())).to.eq(true);
+      expect(isPromise(Promise.resolve())).toBe(true);
     });
   });
 
   describe("nameOf", () => {
     it("should return name when class is given", () => {
-      expect(nameOf(Test)).to.eq("Test");
+      expect(nameOf(Test)).toBe("Test");
     });
     it("should return name when symbol is given", () => {
-      expect(nameOf(sym)).to.eq("test2");
+      expect(nameOf(sym)).toBe("test2");
     });
     it("should return name when string is given", () => {
-      expect(nameOf("test")).to.eq("test");
+      expect(nameOf("test")).toBe("test");
     });
     it("should return name when string is given", () => {
-      expect(nameOf(1)).to.eq("1");
+      expect(nameOf(1)).toBe("1");
     });
     it("should return name when string is given", () => {
-      expect(nameOf(true)).to.eq("true");
+      expect(nameOf(true)).toBe("true");
     });
     it("should return name when null is given", () => {
-      expect(nameOf(null)).to.eq("null");
+      expect(nameOf(null)).toBe("null");
     });
     it("should return name when undefined is given", () => {
-      expect(nameOf(undefined)).to.eq("undefined");
+      expect(nameOf(undefined)).toBe("undefined");
     });
   });
 
   describe("nameOfClass", () => {
     it("should return name when class is given", () => {
-      expect(nameOfClass(Test)).to.eq("Test");
+      expect(nameOfClass(Test)).toBe("Test");
     });
     it("should return name when instance is given", () => {
-      expect(nameOfClass(new Test())).to.eq("Test");
+      expect(nameOfClass(new Test())).toBe("Test");
     });
   });
 
   describe("primitiveOf", () => {
     it("should return string", () => {
-      expect(primitiveOf(String)).to.eq("string");
+      expect(primitiveOf(String)).toBe("string");
     });
 
     it("should return number", () => {
-      expect(primitiveOf(Number)).to.eq("number");
+      expect(primitiveOf(Number)).toBe("number");
     });
 
     it("should return boolean", () => {
-      expect(primitiveOf(Boolean)).to.eq("boolean");
+      expect(primitiveOf(Boolean)).toBe("boolean");
     });
 
     it("should return any", () => {
-      expect(primitiveOf(Object)).to.eq("any");
+      expect(primitiveOf(Object)).toBe("any");
     });
   });
 
   describe("constructorOf()", () => {
     it("should return the constructor when class is given", () => {
-      expect(constructorOf(Test)).to.eq(Test);
+      expect(constructorOf(Test)).toBe(Test);
     });
     it("should return the constructor when instance is given", () => {
-      expect(constructorOf(new Test())).to.eq(Test);
+      expect(constructorOf(new Test())).toBe(Test);
     });
   });
 
   describe("classOf()", () => {
     it("should return the class when class is given", () => {
-      expect(classOf(Test)).to.eq(Test);
+      expect(classOf(Test)).toBe(Test);
     });
 
     it("should return the class when instance is given", () => {
-      expect(classOf(new Test())).to.eq(Test);
+      expect(classOf(new Test())).toBe(Test);
     });
 
     it("should return the class when prototype is given", () => {
-      expect(classOf(Test.prototype)).to.eq(Test);
+      expect(classOf(Test.prototype)).toBe(Test);
     });
   });
   describe("ancestorsOf()", () => {
@@ -273,15 +272,15 @@ describe("ObjectUtils", () => {
 
       class Test extends Base {}
 
-      expect(ancestorsOf(Test)).to.deep.eq([Base, Test]);
-      expect(ancestorsOf(Test).reverse()).to.deep.eq([Test, Base]);
+      expect(ancestorsOf(Test)).toEqual([Base, Test]);
+      expect(ancestorsOf(Test).reverse()).toEqual([Test, Base]);
     });
   });
 
   describe("methodsOf", () => {
     it("should return all methods", () => {
       const methods = methodsOf(Test);
-      expect(methods).to.deep.eq([
+      expect(methods).toEqual([
         {propertyKey: "test1", target: Test},
         {propertyKey: "test3", target: Base},
         {propertyKey: "test2", target: Test}
@@ -294,7 +293,7 @@ describe("ObjectUtils", () => {
 
       class Test2 extends Test1 {}
 
-      expect(isInheritedFrom(Test2, Test1)).to.eq(true);
+      expect(isInheritedFrom(Test2, Test1)).toBe(true);
     });
     it("should return false when deep is down", () => {
       class Test1 {}
@@ -303,7 +302,7 @@ describe("ObjectUtils", () => {
 
       class Test3 extends Test2 {}
 
-      expect(isInheritedFrom(Test3, Test1, 1)).to.eq(false);
+      expect(isInheritedFrom(Test3, Test1, 1)).toBe(false);
     });
 
     it("should return true when deep is not down", () => {
@@ -313,7 +312,7 @@ describe("ObjectUtils", () => {
 
       class Test3 extends Test2 {}
 
-      expect(isInheritedFrom(Test3, Test1, 3)).to.eq(true);
+      expect(isInheritedFrom(Test3, Test1, 3)).toBe(true);
     });
 
     it("should return false when class isn't inherit from another", () => {
@@ -321,11 +320,11 @@ describe("ObjectUtils", () => {
 
       class Test3 {}
 
-      expect(isInheritedFrom(Test3, Test1)).to.eq(false);
+      expect(isInheritedFrom(Test3, Test1)).toBe(false);
     });
 
     it("should return false when undefined is given", () => {
-      expect(isInheritedFrom(undefined, undefined)).to.eq(false);
+      expect(isInheritedFrom(undefined, undefined)).toBe(false);
     });
   });
 });

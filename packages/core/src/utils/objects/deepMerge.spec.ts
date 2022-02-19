@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {deepMerge} from "./deepMerge";
 
 describe("deepMerge", () => {
@@ -12,7 +11,7 @@ describe("deepMerge", () => {
             },
             undefined
           )
-        ).to.deep.eq({
+        ).toEqual({
           security: ["o"]
         });
       });
@@ -29,14 +28,14 @@ describe("deepMerge", () => {
             withClass: new klass()
           }
         );
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           security: ["o", "o1"],
           withClass: {
             test: "test"
           }
         });
 
-        expect(result.withClass).to.be.instanceof(klass);
+        expect(result.withClass).toBeInstanceOf(klass);
       });
       it("should merge data (3)", () => {
         expect(
@@ -48,7 +47,7 @@ describe("deepMerge", () => {
               security: [{"1": "o"}, {"2": "o1"}]
             }
           )
-        ).to.deep.eq({
+        ).toEqual({
           security: [{"1": "o"}, {"1": "o"}, {"2": "o1"}]
         });
       });
@@ -62,7 +61,7 @@ describe("deepMerge", () => {
               prop: ""
             }
           )
-        ).to.deep.eq({
+        ).toEqual({
           prop: {}
         });
       });
@@ -76,21 +75,21 @@ describe("deepMerge", () => {
             },
             obj
           )
-        ).to.deep.eq({
+        ).toEqual({
           security: [{"1": "o"}, {"1": "o"}, {"2": "o1"}]
         });
 
-        expect(({} as any).a).to.eq(undefined);
+        expect(({} as any).a).toBeUndefined();
       });
     });
 
     describe("when is an array", () => {
       it("should merge data (1)", () => {
-        expect(deepMerge(["1", "2", "4"], ["1", "2", "3"])).to.deep.eq(["1", "2", "4", "3"]);
+        expect(deepMerge(["1", "2", "4"], ["1", "2", "3"])).toEqual(["1", "2", "4", "3"]);
       });
 
       it("should merge data (2)", () => {
-        expect(deepMerge([{"1": "1"}, {"2": "2"}, {"4": "4"}], [{"1": "1"}, {"2": "2"}, {"3": "3"}])).to.deep.eq([
+        expect(deepMerge([{"1": "1"}, {"2": "2"}, {"4": "4"}], [{"1": "1"}, {"2": "2"}, {"3": "3"}])).toEqual([
           {"1": "1"},
           {"2": "2"},
           {"4": "4"},
@@ -125,7 +124,7 @@ describe("deepMerge", () => {
               }
             }
           )
-        ).to.deep.eq({
+        ).toEqual({
           security: ["o", "o1"]
         });
       });
@@ -169,7 +168,7 @@ describe("deepMerge", () => {
               }
             }
           )
-        ).to.deep.eq({
+        ).toEqual({
           parameters: [
             {in: "test", name: "get", description: "test2"},
             {in: "test", name: "post", description: "test"},
@@ -181,11 +180,11 @@ describe("deepMerge", () => {
 
     describe("when is an array", () => {
       it("should merge data", () => {
-        expect(deepMerge(["1", "2", "4"], ["1", "2", "3"])).to.deep.eq(["1", "2", "4", "3"]);
+        expect(deepMerge(["1", "2", "4"], ["1", "2", "3"])).toEqual(["1", "2", "4", "3"]);
       });
 
       it("should merge data", () => {
-        expect(deepMerge([{"1": "1"}, {"2": "2"}, {"4": "4"}], [{"1": "1"}, {"2": "2"}, {"3": "3"}])).to.deep.eq([
+        expect(deepMerge([{"1": "1"}, {"2": "2"}, {"4": "4"}], [{"1": "1"}, {"2": "2"}, {"3": "3"}])).toEqual([
           {"1": "1"},
           {"2": "2"},
           {"4": "4"},

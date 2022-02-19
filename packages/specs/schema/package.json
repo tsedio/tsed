@@ -49,5 +49,10 @@
   },
   "peerDependencies": {
     "@tsed/core": "^6.102.7"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/code": {
+      "optional": false
+    }
   }
 }

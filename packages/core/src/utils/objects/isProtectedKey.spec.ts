@@ -1,15 +1,14 @@
-import {expect} from "chai";
 import {isProtectedKey} from "./isProtectedKey";
 
 describe("isProtectedKey", () => {
   it("should return true", () => {
-    expect(isProtectedKey("__proto__")).to.eq(true);
-    expect(isProtectedKey("prototype")).to.eq(true);
-    expect(isProtectedKey("constructor")).to.eq(true);
+    expect(isProtectedKey("__proto__")).toBe(true);
+    expect(isProtectedKey("prototype")).toBe(true);
+    expect(isProtectedKey("constructor")).toBe(true);
   });
   it("should return false", () => {
-    expect(isProtectedKey("test")).to.eq(false);
-    expect(isProtectedKey("pro")).to.eq(false);
-    expect(isProtectedKey("const")).to.eq(false);
+    expect(isProtectedKey("test")).toBe(false);
+    expect(isProtectedKey("pro")).toBe(false);
+    expect(isProtectedKey("const")).toBe(false);
   });
 });

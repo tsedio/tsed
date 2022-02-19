@@ -13,6 +13,7 @@
     "packages/testing/**",
     "packages/**/ExpressRouter.ts",
     "packages/**/RouteService.ts",
+    "packages/core",
     "packages/platform/platform-test-utils",
     "packages/platform/platform-serverless",
     "packages/platform/platform-serverless-http",
