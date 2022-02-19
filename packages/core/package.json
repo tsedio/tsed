@@ -14,10 +14,10 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs && sh ../../scripts/npm/generate-package.sh",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\"",
     "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json && yarn ts-add-js-extension add --dir=./lib/esm",
+    "build:esm": "tsc --build tsconfig.compile.esm.json",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {

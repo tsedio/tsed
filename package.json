@@ -106,7 +106,7 @@
   "devDependencies": {
     "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
-    "@tsed/monorepo-utils": "1.19.5",
+    "@tsed/monorepo-utils": "1.20.1",
     "@tsed/ts-doc": "4.0.14",
     "@types/axios": "0.14.0",
     "@types/chai": "4.2.12",
@@ -149,7 +149,6 @@
     "sinon": "9.0.3",
     "sinon-chai": "3.6.0",
     "supertest": "6.0.0",
-    "ts-add-js-extension": "Romakita/ts-add-js-extension#bc536ac271f80b821e01b8a875da7f86b55bf1a1",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
     "tsconfig-paths": "3.9.0",
