@@ -1,6 +1,6 @@
 {
   "name": "@tsed/terminus",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.1",
   "description": "Adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications.",
   "author": "Emilien Leroy <emilien1005@hotmail.fr>",
   "private": false,
@@ -25,15 +25,15 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.102.7",
-    "@tsed/di": "6.102.7",
-    "@tsed/openspec": "6.102.7",
-    "@tsed/schema": "6.102.7"
+    "@tsed/core": "6.102.8-rc.1",
+    "@tsed/di": "6.102.8-rc.1",
+    "@tsed/openspec": "6.102.8-rc.1",
+    "@tsed/schema": "6.102.8-rc.1"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.102.7",
-    "@tsed/di": "^6.102.7",
-    "@tsed/openspec": "^6.102.7",
-    "@tsed/schema": "^6.102.7"
+    "@tsed/core": "^6.102.8-rc.1",
+    "@tsed/di": "^6.102.8-rc.1",
+    "@tsed/openspec": "^6.102.8-rc.1",
+    "@tsed/schema": "^6.102.8-rc.1"
   }
 }

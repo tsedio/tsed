@@ -1,6 +1,6 @@
 {
   "name": "@tsed/mongoose",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.1",
   "description": "Mongoose package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -31,21 +31,21 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/ajv": "6.102.7",
-    "@tsed/core": "6.102.7",
-    "@tsed/di": "6.102.7",
-    "@tsed/json-mapper": "6.102.7",
+    "@tsed/ajv": "6.102.8-rc.1",
+    "@tsed/core": "6.102.8-rc.1",
+    "@tsed/di": "6.102.8-rc.1",
+    "@tsed/json-mapper": "6.102.8-rc.1",
     "@tsed/logger": ">=6.0.2",
-    "@tsed/schema": "6.102.7",
+    "@tsed/schema": "6.102.8-rc.1",
     "mongoose": "^5.12.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "^6.102.7",
-    "@tsed/core": "^6.102.7",
-    "@tsed/di": "^6.102.7",
-    "@tsed/json-mapper": "^6.102.7",
+    "@tsed/ajv": "^6.102.8-rc.1",
+    "@tsed/core": "^6.102.8-rc.1",
+    "@tsed/di": "^6.102.8-rc.1",
+    "@tsed/json-mapper": "^6.102.8-rc.1",
     "@tsed/logger": ">=6.0.2",
-    "@tsed/schema": "^6.102.7",
+    "@tsed/schema": "^6.102.8-rc.1",
     "mongoose": ">=5.12.2"
   }
 }

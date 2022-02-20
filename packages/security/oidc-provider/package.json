@@ -1,6 +1,6 @@
 {
   "name": "@tsed/oidc-provider",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.1",
   "description": "OIDC provider package for Ts.ED framework",
   "private": false,
   "contributors": [
@@ -29,7 +29,7 @@
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
-    "@tsed/adapters": "6.102.7",
+    "@tsed/adapters": "6.102.8-rc.1",
     "express-urlrewrite": "^1.4.0",
     "jose2": "npm:jose@^2.0.4",
     "koa-mount": "^4.0.0",
@@ -39,24 +39,24 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.7",
-    "@tsed/core": "6.102.7",
-    "@tsed/di": "6.102.7",
-    "@tsed/exceptions": "6.102.7",
+    "@tsed/common": "6.102.8-rc.1",
+    "@tsed/core": "6.102.8-rc.1",
+    "@tsed/di": "6.102.8-rc.1",
+    "@tsed/exceptions": "6.102.8-rc.1",
     "@types/lowdb": "1.0.9",
     "@types/oidc-provider": "^7.1.1",
     "@types/uuid": "8.3.0",
     "oidc-provider": "7.10.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.7",
-    "@tsed/core": "^6.102.7",
-    "@tsed/di": "^6.102.7",
-    "@tsed/exceptions": "^6.102.7",
-    "@tsed/json-mapper": "^6.102.7",
+    "@tsed/common": "^6.102.8-rc.1",
+    "@tsed/core": "^6.102.8-rc.1",
+    "@tsed/di": "^6.102.8-rc.1",
+    "@tsed/exceptions": "^6.102.8-rc.1",
+    "@tsed/json-mapper": "^6.102.8-rc.1",
     "@tsed/logger": ">=6.0.2",
-    "@tsed/openspec": "^6.102.7",
-    "@tsed/schema": "^6.102.7",
+    "@tsed/openspec": "^6.102.8-rc.1",
+    "@tsed/schema": "^6.102.8-rc.1",
     "oidc-provider": ">=7.3.0"
   }
 }

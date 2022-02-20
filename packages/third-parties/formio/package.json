@@ -1,6 +1,6 @@
 {
   "name": "@tsed/formio",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.1",
   "description": "Formio package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -29,14 +29,14 @@
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
-    "@tsed/formio-types": "6.102.7",
+    "@tsed/formio-types": "6.102.8-rc.1",
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.7",
-    "@tsed/core": "6.102.7",
-    "@tsed/di": "6.102.7",
-    "@tsed/mongoose": "6.102.7",
+    "@tsed/common": "6.102.8-rc.1",
+    "@tsed/core": "6.102.8-rc.1",
+    "@tsed/di": "6.102.8-rc.1",
+    "@tsed/mongoose": "6.102.8-rc.1",
     "@types/async": "3.2.12",
     "express": "^4.17.1",
     "formio": "^2.0.0",
@@ -44,10 +44,10 @@
     "mongoose": "^5.12.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.7",
-    "@tsed/core": "^6.102.7",
-    "@tsed/di": "^6.102.7",
-    "@tsed/mongoose": "^6.102.7",
+    "@tsed/common": "^6.102.8-rc.1",
+    "@tsed/core": "^6.102.8-rc.1",
+    "@tsed/di": "^6.102.8-rc.1",
+    "@tsed/mongoose": "^6.102.8-rc.1",
     "express": "^4.17.1",
     "formio": "^2.0.0",
     "mongodb": "*",

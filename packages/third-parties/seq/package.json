@@ -1,6 +1,6 @@
 {
   "name": "@tsed/seq",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.1",
   "description": "Seq package for Ts.ED framework",
   "private": false,
   "author": {
@@ -34,17 +34,17 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.7",
-    "@tsed/core": "6.102.7"
+    "@tsed/common": "6.102.8-rc.1",
+    "@tsed/core": "6.102.8-rc.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.7",
-    "@tsed/core": "^6.102.7",
-    "@tsed/di": "^6.102.7",
-    "@tsed/json-mapper": "^6.102.7",
+    "@tsed/common": "^6.102.8-rc.1",
+    "@tsed/core": "^6.102.8-rc.1",
+    "@tsed/di": "^6.102.8-rc.1",
+    "@tsed/json-mapper": "^6.102.8-rc.1",
     "@tsed/logger": ">=6.0.2",
-    "@tsed/openspec": "^6.102.7",
-    "@tsed/schema": "^6.102.7"
+    "@tsed/openspec": "^6.102.8-rc.1",
+    "@tsed/schema": "^6.102.8-rc.1"
   },
   "publishConfig": {
     "dist-tag": "deprecated"
