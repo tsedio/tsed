@@ -1,6 +1,11 @@
 import {isArray, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
 import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonPropertyStore, JsonSchema} from "@tsed/schema";
-import "../components";
+import "../components/ArrayMapper";
+import "../components/DateMapper";
+import "../components/MapMapper";
+import "../components/PrimitiveMapper";
+import "../components/SetMapper";
+import "../components/SymbolMapper";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {getJsonMapperTypes} from "../domain/JsonMapperTypesContainer";
 import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize";

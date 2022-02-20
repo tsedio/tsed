@@ -1,7 +1,7 @@
 import {Context} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
 import {Provider} from "oidc-provider";
-import {INTERACTION_SESSION} from "../constants";
+import {INTERACTION_SESSION} from "../constants/constants";
 
 /**
  * @decorator

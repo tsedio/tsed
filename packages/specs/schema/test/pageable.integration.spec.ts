@@ -12,7 +12,7 @@ import {
   Path,
   Property,
   Returns
-} from "../src/decorators";
+} from "@tsed/schema";
 import {validateSpec} from "./helpers/validateSpec";
 import {QueryParams} from "@tsed/platform-params";
 

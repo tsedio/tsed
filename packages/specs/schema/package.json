@@ -14,9 +14,11 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "clean": "rm -rf lib",
+    "build": "yarn clean && yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "keywords": [

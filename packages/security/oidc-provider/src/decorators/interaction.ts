@@ -1,7 +1,7 @@
 import {Controller} from "@tsed/common";
 import {StoreMerge, useDecorators} from "@tsed/core";
-import {INTERACTION, INTERACTION_OPTIONS} from "../constants";
-import {OidcInteractionOptions} from "../domain";
+import {INTERACTION, INTERACTION_OPTIONS} from "../constants/constants";
+import {OidcInteractionOptions} from "../domain/OidcInteractionOptions";
 
 /**
  * @Oidc

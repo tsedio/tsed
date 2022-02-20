@@ -4,7 +4,6 @@ import {
   classOf,
   deepClone,
   deepMerge,
-  getClassOrSymbol,
   isClass,
   isFunction,
   isInheritedFrom,
@@ -13,30 +12,28 @@ import {
   prototypeOf,
   Store
 } from "@tsed/core";
-import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
+import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
 import {Configuration} from "../decorators/configuration";
 import {Injectable} from "../decorators/injectable";
-import {DIContext, InjectablePropertyType, ProviderScope} from "../domain";
 import {Container} from "../domain/Container";
 import {LocalsContainer} from "../domain/LocalsContainer";
 import {Provider} from "../domain/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
-import {
-  DILogger,
-  InjectableProperties,
-  InjectablePropertyOptions,
-  InjectablePropertyValue,
-  InterceptorContext,
-  InterceptorMethods,
-  InvokeOptions,
-  IProvider,
-  TokenProvider
-} from "../interfaces";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {createContainer} from "../utils/createContainer";
 import {DIConfiguration} from "./DIConfiguration";
 import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
+import {ProviderScope} from "../domain/ProviderScope";
+import {DILogger} from "../interfaces/DILogger";
+import {TokenProvider} from "../interfaces/TokenProvider";
+import {IProvider} from "../interfaces/IProvider";
+import {InvokeOptions} from "../interfaces/InvokeOptions";
+import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties";
+import {InjectablePropertyType} from "../domain/InjectablePropertyType";
+import {InterceptorContext} from "../interfaces/InterceptorContext";
+import {InterceptorMethods} from "../interfaces/InterceptorMethods";
+import {DIContext} from "../domain/DIContext";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.

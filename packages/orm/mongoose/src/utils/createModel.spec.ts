@@ -1,8 +1,7 @@
 import {Store} from "@tsed/core";
 import mongoose from "mongoose";
-import {createModel} from "../../src/utils";
-import {MONGOOSE_MODEL, MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA_OPTIONS} from "../constants";
-import {Model} from "../decorators";
+import {createModel} from "../../src";
+import {MONGOOSE_MODEL} from "../constants/constants";
 import {DiscriminatorKey} from "../decorators/discriminatorKey";
 
 describe("createModel()", () => {
@@ -37,6 +36,7 @@ describe("createModel()", () => {
 
   describe("when the model is derived and parent has no discriminator key", () => {
     class TestParent {}
+
     class TestChild extends TestParent {}
 
     beforeEach(() => {
@@ -54,6 +54,7 @@ describe("createModel()", () => {
       @DiscriminatorKey()
       kind: string;
     }
+
     class TestChild extends TestParent {}
 
     let parentModel: any;
@@ -76,6 +77,7 @@ describe("createModel()", () => {
       @DiscriminatorKey()
       kind: string;
     }
+
     class TestChild extends TestParent {}
 
     let parentModel: any;

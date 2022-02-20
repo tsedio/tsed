@@ -1,5 +1,5 @@
 import {decoratorTypeOf, DecoratorTypes} from "@tsed/core";
-import {MongooseHookOptions, MongoosePreHookCB} from "../interfaces";
+import {MongooseHookOptions, MongoosePreHookCB} from "../interfaces/MongooseSchemaOptions";
 import {schemaOptions} from "../utils/schemaOptions";
 
 /**

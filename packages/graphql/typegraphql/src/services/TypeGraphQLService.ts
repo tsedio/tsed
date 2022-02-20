@@ -7,8 +7,8 @@ import {GraphQLSchema} from "graphql";
 import * as TypeGraphql from "type-graphql";
 import {buildSchema, BuildSchemaOptions} from "type-graphql";
 import {ApolloServerBase} from "apollo-server-core";
-import {PROVIDER_TYPE_DATASOURCE_SERVICE, PROVIDER_TYPE_RESOLVER_SERVICE} from "../constants";
-import {TypeGraphQLSettings} from "../interfaces";
+import {PROVIDER_TYPE_DATASOURCE_SERVICE, PROVIDER_TYPE_RESOLVER_SERVICE} from "../constants/constants";
+import {TypeGraphQLSettings} from "../interfaces/interfaces";
 
 const getKey = (id: string) => `typegraphql-${id}`;
 

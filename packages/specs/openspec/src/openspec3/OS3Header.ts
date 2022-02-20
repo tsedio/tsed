@@ -1,4 +1,5 @@
-import {OpenSpecExternalDocs, OpenSpecRef} from "../common";
+import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs";
+import {OpenSpecRef} from "../common/OpenSpecRef";
 import {OS3Schema} from "./OS3Schema";
 
 export interface OS3Header<Schema = OS3Schema> {

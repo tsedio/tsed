@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import type {Provider} from "../domain";
+import type {Provider} from "../domain/Provider";
 import type {InjectorService} from "../services/InjectorService";
 import type {ResolvedInvokeOptions} from "./ResolvedInvokeOptions";
 

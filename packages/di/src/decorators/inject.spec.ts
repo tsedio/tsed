@@ -2,7 +2,7 @@ import {descriptorOf, Metadata, Store} from "@tsed/core";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {Inject, Injectable, InjectorService} from "../../src";
-import {INJECTABLE_PROP} from "../constants";
+import {INJECTABLE_PROP} from "../constants/constants";
 
 describe("@Inject()", () => {
   describe("used on unsupported decorator type", () => {

@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA_OPTIONS} from "../constants";
-import {Model} from ".";
+import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
+import {Model} from "./model";
 import {VersionKey} from "./versionKey";
 
 describe("@VersionKey()", () => {

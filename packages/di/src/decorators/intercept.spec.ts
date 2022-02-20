@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {Store} from "@tsed/core";
 import {InterceptorMethods, InterceptorContext, InjectablePropertyType, Intercept} from "../../src";
-import {INJECTABLE_PROP} from "../constants";
+import {INJECTABLE_PROP} from "../constants/constants";
 
 describe("@Intercept", () => {
   it("should store metadata", () => {

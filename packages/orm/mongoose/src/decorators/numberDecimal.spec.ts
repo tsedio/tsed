@@ -2,7 +2,7 @@ import {Store} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {getJsonSchema} from "@tsed/schema";
 import {Types, Schema} from "mongoose";
-import {MONGOOSE_SCHEMA} from "../constants";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
 import {NumberDecimal, Decimal128, DecimalFormat} from "./numberDecimal";
 
 describe("@NumberDecimal()", () => {

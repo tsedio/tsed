@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {Store} from "@tsed/core";
 import {Constant} from "../../src";
-import {INJECTABLE_PROP} from "../constants";
+import {INJECTABLE_PROP} from "../constants/constants";
 
 class Test {}
 

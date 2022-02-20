@@ -13,7 +13,7 @@ import {
   Required
 } from "@tsed/schema";
 import {Schema as SchemaMongoose} from "mongoose";
-import {Model, ObjectID, Ref, Schema, VersionKey, VirtualRef, VirtualRefs} from "../../src/decorators";
+import {Model, ObjectID, Ref, Schema, VersionKey, VirtualRef, VirtualRefs} from "@tsed/mongoose";
 import {SchemaIgnore} from "../../src/decorators/schemaIgnore";
 import {getSchema} from "../../src/utils/createSchema";
 import {DiscriminatorKey} from "../decorators/discriminatorKey";

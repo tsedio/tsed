@@ -1,6 +1,6 @@
 import {cleanObject, toMap, Type} from "@tsed/core";
 import {OpenSpecHash, OpenSpecRef, OS2Schema, OS3Example, OS3Parameter, OS3Schema} from "@tsed/openspec";
-import {JsonSchemaOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics, popGenerics} from "../utils/generics";
 import {JsonMap} from "./JsonMap";

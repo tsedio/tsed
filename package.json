@@ -183,6 +183,7 @@
     }
   },
   "monorepo": {
+    "npmDistTag": "rc",
     "productionBranch": "rc",
     "developBranch": "rc",
     "npmAccess": "public",

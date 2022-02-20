@@ -1,4 +1,4 @@
-import type {IProvider} from "../interfaces";
+import type {IProvider} from "../interfaces/IProvider";
 import {registerProvider} from "../registries/ProviderRegistry";
 
 /**

@@ -8,6 +8,7 @@
     "declaration": true,
     "declarationDir": "./lib/types"
   },
+  "include": ["src"],
   "exclude": [
     "node_modules",
     "test",

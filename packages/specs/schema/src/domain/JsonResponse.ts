@@ -1,6 +1,7 @@
 import {cleanObject} from "@tsed/core";
 import {OS3MediaType, OS3Response} from "@tsed/openspec";
-import {JsonHeader, JsonSchemaOptions} from "../interfaces";
+import {JsonHeader} from "../interfaces/JsonOpenSpec";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {mapHeaders} from "../utils/mapHeaders";
 import {toJsonMapCollection} from "../utils/toJsonMapCollection";
 import {JsonMap} from "./JsonMap";

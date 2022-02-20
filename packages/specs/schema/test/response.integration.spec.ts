@@ -1,5 +1,5 @@
 import {getSpec, SpecTypes} from "../src";
-import {OperationPath, Path, Property, Returns} from "../src/decorators";
+import {OperationPath, Path, Property, Returns} from "@tsed/schema";
 import {validateSpec} from "./helpers/validateSpec";
 import {QueryParams} from "@tsed/platform-params";
 

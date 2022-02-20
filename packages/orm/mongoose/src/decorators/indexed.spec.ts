@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../constants";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
 import {Indexed} from "./indexed";
 
 describe("@Indexed()", () => {

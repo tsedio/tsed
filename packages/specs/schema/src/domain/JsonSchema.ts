@@ -1,6 +1,6 @@
 import {classOf, Hooks, isArray, isClass, isFunction, isObject, nameOf, Type, uniq, ValueOf} from "@tsed/core";
 import type {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
-import {JsonSchemaOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics} from "../utils/generics";

@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../../src/constants";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
 import {SchemaIgnore} from "./schemaIgnore";
 
 describe("@SchemaIgnore()", () => {

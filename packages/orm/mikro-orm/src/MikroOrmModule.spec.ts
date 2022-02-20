@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {MikroORM, Options} from "@mikro-orm/core";
-import {MikroOrmRegistry} from "./services";
+import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
 import {deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
 import {MikroOrmModule} from "./MikroOrmModule";
 

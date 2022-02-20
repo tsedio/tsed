@@ -72,6 +72,6 @@
     "aws-serverless-express": "^3.4.0"
   },
   "publishConfig": {
-    "dist-tag": "deprecated"
+    "tag": "deprecated"
   }
 }

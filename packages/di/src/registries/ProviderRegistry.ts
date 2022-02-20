@@ -1,6 +1,7 @@
 import {Provider} from "../domain/Provider";
-import type {IProvider} from "../interfaces";
-import {ProviderScope, ProviderType} from "../domain";
+import {ProviderScope} from "../domain/ProviderScope";
+import {ProviderType} from "../domain/ProviderType";
+import type {IProvider} from "../interfaces/IProvider";
 import {GlobalProviders} from "./GlobalProviders";
 
 /**

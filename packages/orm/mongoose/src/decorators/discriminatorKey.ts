@@ -1,5 +1,5 @@
 import {Store, useDecorators} from "@tsed/core";
-import {MONGOOSE_SCHEMA_OPTIONS} from "../constants";
+import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
 import {SchemaIgnore} from "./schemaIgnore";
 import {Property} from "@tsed/schema";
 

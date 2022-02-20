@@ -1,9 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {Property} from "@tsed/schema";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {MongooseService} from "../src";
-import {Model, ObjectID} from "../src/decorators";
-import {MongooseModel} from "../src/interfaces";
+import {Model, MongooseModel, MongooseService, ObjectID} from "@tsed/mongoose";
 import {Server} from "./helpers/Server";
 
 @Model({

@@ -1,6 +1,5 @@
 import {DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
-import {JsonEntityFn, OperationMethods, OperationPath, Route} from "@tsed/schema";
-import {mapUseOptions} from "../utils/mapUseOptions";
+import {JsonEntityFn, Route} from "@tsed/schema";
 
 /**
  * Mounts the specified middleware function or functions at the specified path: the middleware function is executed when

@@ -1,8 +1,6 @@
 import type {BaseContext} from "@tsed/di";
 import type {Cache, CacheOptions, CachingConfig, Store} from "cache-manager";
 
-export * from "./PlatformCachedObject";
-
 export interface PlatformCacheSettings extends CacheOptions, CachingConfig {
   caches?: Cache[];
   store?:

@@ -47,6 +47,6 @@
     "@tsed/schema": "^6.102.8-rc.1"
   },
   "publishConfig": {
-    "dist-tag": "deprecated"
+    "tag": "deprecated"
   }
 }

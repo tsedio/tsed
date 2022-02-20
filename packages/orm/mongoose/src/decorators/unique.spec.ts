@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../../src/constants";
-import {Unique} from "../../src/decorators";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
+import {Unique} from "../../src";
 
 describe("@Unique()", () => {
   it("should set metadata", () => {

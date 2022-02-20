@@ -7,5 +7,3 @@ declare global {
     }
   }
 }
-
-export * from "./TerminusSettings";

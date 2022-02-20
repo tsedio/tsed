@@ -1,5 +1,7 @@
-import {OpenSpecExternalDocs, OpenSpecRef, OpenSpecXML} from "../common";
+import {OpenSpecExternalDocs} from "../common/OpenSpecExternalDocs";
 import {OpenSpecBaseJsonSchema, OpenSpecJsonSchema} from "../common/OpenSpecJsonSchema";
+import {OpenSpecRef} from "../common/OpenSpecRef";
+import {OpenSpecXML} from "../common/OpenSpecXML";
 
 export interface OS3BaseSchema extends OpenSpecBaseJsonSchema {
   /**

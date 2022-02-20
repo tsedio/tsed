@@ -1,4 +1,5 @@
-import type {EndpointMetadata, PlatformContext} from "../domain";
+import type {EndpointMetadata} from "../domain/EndpointMetadata";
+import type {PlatformContext} from "../domain/PlatformContext";
 
 /**
  * @ignore

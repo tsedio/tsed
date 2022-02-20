@@ -1,7 +1,7 @@
 import {cleanObject, Type, uniqBy} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {SpecTypes} from "../domain/SpecTypes";
-import {JsonSchemaOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {buildPath} from "./buildPath";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 import {getOperationsStores} from "./getOperationsStores";

@@ -1,4 +1,4 @@
-import {IgnoreCallback} from "../../interfaces";
+import {IgnoreCallback} from "../../interfaces/IgnoreCallback";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**

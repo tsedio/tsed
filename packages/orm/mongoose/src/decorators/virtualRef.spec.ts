@@ -1,7 +1,7 @@
 import {Default, Format, getJsonSchema, getSpec, Post, Property, ReadOnly, Returns, SpecTypes} from "@tsed/schema";
 import {Store} from "@tsed/core";
 import {Model} from "@tsed/mongoose";
-import {MONGOOSE_SCHEMA} from "../constants";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
 import {VirtualRef, VirtualRefs} from "./virtualRef";
 import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";

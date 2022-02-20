@@ -13,12 +13,6 @@ export interface ContextMethods extends Map<any, any> {
   destroy(): any;
 }
 
-declare global {
-  namespace TsED {
-    interface Context {}
-  }
-}
-
 export interface DIContextOptions extends Omit<ContextLoggerOptions, "dateStart"> {
   id: string;
   logger: any;

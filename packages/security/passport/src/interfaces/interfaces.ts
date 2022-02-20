@@ -18,9 +18,3 @@ declare global {
     }
   }
 }
-
-export * from "./ProtocolOptions";
-export * from "./ProtocolMethods";
-export * from "./OnInstall";
-export * from "./OnVerify";
-export * from "./BeforeInstall";

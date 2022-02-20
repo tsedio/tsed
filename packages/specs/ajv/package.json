@@ -13,9 +13,10 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json"
+    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\""
   },
   "dependencies": {
     "ajv-formats": "1.5.1",

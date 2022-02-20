@@ -2,9 +2,21 @@ import {isString, Type} from "@tsed/core";
 import {getJsonSchema, JsonEntityStore, JsonSchemaOptions} from "@tsed/schema";
 import {FormioForm} from "@tsed/formio-types";
 import {execMapper} from "../registries/FormioMappersContainer";
-import "../components";
 import {FormsContainer} from "../registries/FormsContainer";
 import {paramCase} from "change-case";
+import "../components/anyToComponent";
+import "../components/arrayToComponent";
+import "../components/booleanToComponent";
+import "../components/dateToComponent";
+import "../components/defaultToComponent";
+import "../components/enumToComponent";
+import "../components/mapToComponent";
+import "../components/nestedToComponent";
+import "../components/numberToComponent";
+import "../components/objectToEditGrid";
+import "../components/panelToComponent";
+import "../components/propertiesToComponents";
+import "../components/stringToComponent";
 
 export async function getFormioSchema(
   model: string | any | undefined,

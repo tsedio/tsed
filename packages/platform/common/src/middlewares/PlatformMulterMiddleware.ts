@@ -2,7 +2,7 @@ import {Constant, Inject} from "@tsed/di";
 import {Exception} from "@tsed/exceptions";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
-import {PlatformMulterField, PlatformMulterSettings} from "../config";
+import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformApplication} from "../services/PlatformApplication";
 
 export interface MulterInputOptions {

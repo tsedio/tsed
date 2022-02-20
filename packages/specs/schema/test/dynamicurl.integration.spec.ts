@@ -1,5 +1,4 @@
-import {getSpec, In, SpecTypes, string} from "../src";
-import {OperationPath, Path} from "../src/decorators";
+import {getSpec, In, OperationPath, Path, SpecTypes} from "../src";
 import {validateSpec} from "./helpers/validateSpec";
 
 @Path("/dynamic")

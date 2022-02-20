@@ -2,7 +2,7 @@ import {isClass, isFunction} from "@tsed/core";
 import {Configuration, Module} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
 import type {Cache, CachingConfig, MultiCache, TtlFunction} from "cache-manager";
-import {PlatformCacheSettings} from "../interfaces";
+import {PlatformCacheSettings} from "../interfaces/interfaces";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");

@@ -1,6 +1,6 @@
 import {isPlainObject, isString, Store, StoreMerge, useDecorators} from "@tsed/core";
 import {CollectionOf, Property} from "@tsed/schema";
-import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
+import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 import {MongooseModels} from "../registries/MongooseModels";
 

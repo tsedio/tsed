@@ -1,7 +1,8 @@
 import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
-import {concatPath, getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
+import {concatPath, EndpointMetadata, getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import {buildRouter, createRouter, getRouter} from "../builder/PlatformControllerBuilder";
-import {ControllerProvider, EndpointMetadata, PlatformRouteDetails} from "../domain";
+import {ControllerProvider} from "../domain/ControllerProvider";
+import {PlatformRouteDetails} from "../domain/PlatformRouteDetails";
 import {Route, RouteController} from "../interfaces/Route";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain";

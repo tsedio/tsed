@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {INTERACTION_SESSION} from "../constants";
+import {INTERACTION_SESSION} from "../constants/constants";
 import {OidcSession} from "./oidcSession";
 import {JsonParameterStore} from "@tsed/schema";
 
