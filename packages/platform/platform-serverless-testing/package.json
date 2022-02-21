@@ -70,7 +70,7 @@
     "@tsed/core": "^6.102.8-rc.2",
     "@tsed/di": "^6.102.8-rc.2",
     "@tsed/json-mapper": "^6.102.8-rc.2",
-    "@tsed/logger": ">=6.0.2",
+    "@tsed/logger": ">=6.1.0",
     "@tsed/openspec": "^6.102.8-rc.2",
     "@tsed/schema": "^6.102.8-rc.2"
   }
