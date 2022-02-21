@@ -5,10 +5,6 @@ declare global {
     interface Configuration {
       keycloak?: {
         /**
-         * Enable Keycloak. Default false.
-         */
-        enabled?: boolean;
-        /**
          * Keycloak options for web session store, scopes and cookies. Default empty object.
          */
         options?: KeycloakOptions;
@@ -20,3 +16,5 @@ declare global {
     }
   }
 }
+
+export * from "./services/KeycloakFactory";
