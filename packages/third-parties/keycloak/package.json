@@ -31,9 +31,9 @@
     "@tsed/common": "6.102.7",
     "@tsed/core": "6.102.7",
     "@tsed/di": "6.102.7",
-    "keycloak-connect": ">=17.0.0"
+    "keycloak-connect": "17.0.0"
   },
   "peerDependencies": {
-    "keycloak-connect": "17.0.0"
+    "keycloak-connect": ">=17.0.0"
   }
 }
