@@ -11,7 +11,7 @@
     "packages/third-parties/*",
     "docs"
   ],
-  "version": "6.102.8-rc.1",
+  "version": "6.102.8-rc.2",
   "command": {
     "bootstrap": {
       "npmClientArgs": [
