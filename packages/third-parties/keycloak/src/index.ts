@@ -11,11 +11,11 @@ declare global {
         /**
          * Keycloak options for web session store, scopes and cookies. Default empty object.
          */
-        kcOptions?: KeycloakOptions;
+        options?: KeycloakOptions;
         /**
          * Keycloak configuration or the path to the configuration file.
          */
-        kcConfig: KeycloakConfig | string;
+        config: KeycloakConfig | string;
       };
     }
   }

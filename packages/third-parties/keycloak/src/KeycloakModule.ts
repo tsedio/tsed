@@ -11,16 +11,16 @@ export class KeycloakModule implements OnDestroy, AfterListen {
   @Constant("keycloak.enabled", false)
   private loadKeycloak: boolean;
 
-  @Constant("keycloak.kcOptions", {})
-  private kcOptions: KeycloakOptions;
+  @Constant("keycloak.options", {})
+  private options: KeycloakOptions;
 
-  @Constant("keycloak.kcConfig")
-  private kcConfig: KeycloakConfig | string;
+  @Constant("keycloak.config")
+  private config: KeycloakConfig | string;
 
   async $afterListen(): Promise<any> {
     if (this.loadKeycloak) {
       this.logger.info("Initialize Keycloak adapter...");
-      this.keycloak = new KeycloakConnect(this.kcOptions, this.kcConfig);
+      this.keycloak = new KeycloakConnect(this.options, this.config);
     }
   }
 
