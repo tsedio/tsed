@@ -215,7 +215,7 @@ Then we decorate the class and its properties with decorators:
 <<< @/tutorials/snippets/graphql/recipe-type.ts
 
 The detailed rules for when to use nullable, array and others are described
-in [fields and types docs](https://19majkel94.github.io/type-graphql/docs/types-and-fields.html).
+in [fields and types docs](https://typegraphql.com/docs/types-and-fields.html).
 
 ### Resolvers
 
