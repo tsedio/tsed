@@ -9,9 +9,6 @@ export class KeycloakMiddleware implements MiddlewareMethods {
 
   public use(@Context() ctx: Context) {
     const options: KeycloakAuthOptions = ctx.endpoint.store.get(KeycloakMiddleware);
-    if (options.role) {
-      return this.keycloakService.protect(options.role);
-    }
-    return this.keycloakService.protect();
+    return this.keycloakService.protect(options.role);
   }
 }
