@@ -1,5 +1,6 @@
 import {Context, Inject, Middleware, MiddlewareMethods} from "@tsed/common";
-import {KeycloakAuthOptions, KeycloakService} from "@tsed/keycloak";
+import {KeycloakAuthOptions} from "../interfaces/KeycloakAuthOptions";
+import {KeycloakService} from "../services/KeycloakFactory";
 
 @Middleware()
 export class KeycloakMiddleware implements MiddlewareMethods {
