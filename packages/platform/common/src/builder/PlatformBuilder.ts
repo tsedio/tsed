@@ -1,10 +1,8 @@
 import {nameOf, Type} from "@tsed/core";
 import {colors, createContainer, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
-import {GlobalAcceptMimesMiddleware} from "../middlewares";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
-import {createHttpServer, createHttpsServer, createInjector, printRoutes} from "../utils";
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {Route} from "../interfaces/Route";
@@ -12,6 +10,11 @@ import {getConfiguration} from "../utils/getConfiguration";
 import {IncomingMessage, ServerResponse} from "http";
 import {PlatformAdapter, PlatformBuilderSettings} from "../interfaces/PlatformAdapter";
 import {importProviders} from "../utils/importProviders";
+import {createInjector} from "../utils/createInjector";
+import {GlobalAcceptMimesMiddleware} from "../middlewares/GlobalAcceptMimesMiddleware";
+import {printRoutes} from "../utils/printRoutes";
+import {createHttpServer} from "../utils/createHttpServer";
+import {createHttpsServer} from "../utils/createHttpsServer";
 
 /**
  * @platform

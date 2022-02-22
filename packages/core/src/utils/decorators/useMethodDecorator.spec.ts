@@ -1,5 +1,4 @@
 import {Store, StoreFn, useDecorators, useMethodDecorator, useMethodDecorators} from "@tsed/core";
-import {expect} from "chai";
 
 describe("useMethodDecorators", () => {
   it("should apply all decorators", () => {
@@ -26,8 +25,8 @@ describe("useMethodDecorators", () => {
     const method1 = Store.fromMethod(Test, "method").get("decorator1");
     const method2 = Store.fromMethod(Test, "method").get("decorator2");
     const param = Store.from(Test, "method", 0).get("decorator2");
-    expect(method1).to.eq("test1");
-    expect(method2).to.eq("test3");
-    expect(param).to.eq("test2");
+    expect(method1).toBe("test1");
+    expect(method2).toBe("test3");
+    expect(param).toBe("test2");
   });
 });

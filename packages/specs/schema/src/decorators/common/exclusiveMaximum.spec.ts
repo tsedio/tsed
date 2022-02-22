@@ -1,6 +1,6 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {ExclusiveMaximum} from "./exclusiveMaximum";
-import "../../components";
+import "@tsed/schema";
 
 describe("@ExclusiveMaximum", () => {
   it("should declare exclusiveMaximum value", () => {

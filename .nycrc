@@ -13,6 +13,7 @@
     "packages/testing/**",
     "packages/**/ExpressRouter.ts",
     "packages/**/RouteService.ts",
+    "packages/core",
     "packages/platform/platform-test-utils",
     "packages/platform/platform-serverless",
     "packages/platform/platform-serverless-http",
@@ -41,6 +42,6 @@
   "check-coverage": true,
   "lines": 99.57,
   "statements": 99.54,
-  "functions": 99.24,
-  "branches": 88.11
+  "functions": 99.11,
+  "branches": 86.69
 }

@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {INTERACTION_UID} from "../constants";
+import {INTERACTION_UID} from "../constants/constants";
 import {Uid} from "./uid";
 import {JsonParameterStore} from "@tsed/schema";
 

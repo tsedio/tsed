@@ -1,6 +1,6 @@
 import {ancestorsOf, nameOf, Store, Type} from "@tsed/core";
 import mongoose, {Connection, Model as MongooseModel} from "mongoose";
-import {MONGOOSE_MODEL, MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA_OPTIONS} from "../constants";
+import {MONGOOSE_MODEL, MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
 import {MongooseModels} from "../registries/MongooseModels";
 import {getSchemaToken} from "./createSchema";
 

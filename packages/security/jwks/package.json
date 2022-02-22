@@ -1,9 +1,10 @@
 {
   "name": "@tsed/jwks",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.3",
   "description": "Utils to generate jwks pair keys",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",

@@ -5,10 +5,7 @@ import {PlatformApplication} from "@tsed/common";
 // import * as cookieParser from "cookie-parser";
 // import * as methodOverride from "method-override";
 
-const rootDir = __dirname;
-
 @Configuration({
-  rootDir,
   acceptMimes: ["application/json"]
 })
 export class Server {

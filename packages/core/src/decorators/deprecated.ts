@@ -1,5 +1,5 @@
-import {Type} from "../domain/Type";
 import {deprecate} from "util";
+import {Type} from "../domain/Type";
 /**
  * The `@Deprecated()` decorators wraps the given method in such a way that it is marked as deprecated.
  *

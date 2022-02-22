@@ -2,8 +2,8 @@ import {decoratorTypeOf, StoreMerge, useDecorators} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
 import {Property} from "@tsed/schema";
 import {SchemaTypeOptions} from "mongoose";
-import {MONGOOSE_SCHEMA} from "../constants";
-import {MongooseSchemaOptions} from "../interfaces";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
+import {MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions";
 import {getSchema, getSchemaToken} from "../utils/createSchema";
 
 /**

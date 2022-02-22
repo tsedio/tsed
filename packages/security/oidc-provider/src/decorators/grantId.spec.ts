@@ -1,6 +1,6 @@
 import {GrantId} from "@tsed/oidc-provider";
 import {expect} from "chai";
-import {INTERACTION_GRANT_ID} from "../constants";
+import {INTERACTION_GRANT_ID} from "../constants/constants";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@GrandId", () => {

@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {Store} from "@tsed/core";
 import {Value} from "../../src";
-import {INJECTABLE_PROP} from "../constants";
+import {INJECTABLE_PROP} from "../constants/constants";
 
 describe("@Value()", () => {
   it("should store metadata", () => {

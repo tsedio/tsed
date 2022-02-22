@@ -13,13 +13,11 @@ import {
 } from "@tsed/common";
 import {Env, Type} from "@tsed/core";
 import {rawBodyMiddleware} from "../middlewares/rawBodyMiddleware";
-import {
-  PlatformExpressApplication,
-  PlatformExpressHandler,
-  PlatformExpressRequest,
-  PlatformExpressResponse,
-  PlatformExpressRouter
-} from "../services";
+import {PlatformExpressApplication} from "../services/PlatformExpressApplication";
+import {PlatformExpressRouter} from "../services/PlatformExpressRouter";
+import {PlatformExpressHandler} from "../services/PlatformExpressHandler";
+import {PlatformExpressResponse} from "../services/PlatformExpressResponse";
+import {PlatformExpressRequest} from "../services/PlatformExpressRequest";
 
 /**
  * @platform

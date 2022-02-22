@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA_OPTIONS} from "../constants";
+import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
 
 export function VersionKey(): PropertyDecorator {
   return (target: any, propertyKey: string) => {

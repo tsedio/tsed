@@ -1,7 +1,8 @@
 import {deepMerge, uniq, uniqBy} from "@tsed/core";
 import {OpenSpecSecurity, OpenSpecTag, OS3Operation} from "@tsed/openspec";
 import {getStatusMessage} from "../constants/httpStatusMessages";
-import {JsonHeader, JsonSchemaOptions} from "../interfaces";
+import {JsonHeader} from "../interfaces/JsonOpenSpec";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {isRedirectionStatus, isSuccessStatus} from "../utils/isSuccessStatus";
 import {JsonMap} from "./JsonMap";
 import {JsonParameter} from "./JsonParameter";

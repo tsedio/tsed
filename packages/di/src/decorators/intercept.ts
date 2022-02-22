@@ -1,7 +1,8 @@
 import {Store, Type} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants";
-import type {InjectableProperties, InterceptorMethods} from "../interfaces";
-import {InjectablePropertyType} from "../domain";
+import {INJECTABLE_PROP} from "../constants/constants";
+import {InjectablePropertyType} from "../domain/InjectablePropertyType";
+import type {InterceptorMethods} from "../interfaces/InterceptorMethods";
+import type {InjectableProperties} from "../interfaces/InjectableProperties";
 
 /**
  * Attaches interceptor to method call and executes the before and after methods

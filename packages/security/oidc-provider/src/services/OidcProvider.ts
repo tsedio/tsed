@@ -1,12 +1,13 @@
 import {Env, setValue} from "@tsed/core";
 import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
 import {Provider as OIDCProvider, Configuration, interactionPolicy} from "oidc-provider";
-import {INTERACTIONS} from "../constants";
-import {OidcAccountsMethods, OidcSettings} from "../domain";
+import {INTERACTIONS} from "../constants/constants";
 import {OidcAdapters} from "./OidcAdapters";
 import {OidcInteractions} from "./OidcInteractions";
 import {OidcJwks} from "./OidcJwks";
 import {PlatformApplication} from "@tsed/common";
+import {OidcSettings} from "../domain/OidcSettings";
+import {OidcAccountsMethods} from "../domain/OidcAccountsMethods";
 
 @Injectable()
 export class OidcProvider {

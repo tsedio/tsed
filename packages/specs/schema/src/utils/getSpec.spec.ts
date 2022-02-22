@@ -1,6 +1,18 @@
 import {validateSpec} from "../../test/helpers/validateSpec";
-import {Consumes, In, Min, Name, OperationPath, Required} from "../decorators";
-import {CollectionOf, Description, JsonParameterTypes, Property, Returns, SpecTypes} from "../index";
+import {
+  CollectionOf,
+  Consumes,
+  Description,
+  In,
+  JsonParameterTypes,
+  Min,
+  Name,
+  OperationPath,
+  Property,
+  Required,
+  Returns,
+  SpecTypes
+} from "@tsed/schema";
 import {getSpec} from "./getSpec";
 
 describe("getSpec()", () => {

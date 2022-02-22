@@ -1,5 +1,4 @@
 import {Enumerable, getEnumerableKeys} from "@tsed/core";
-import {expect} from "chai";
 
 describe("getEnumerableKeys", () => {
   it("should return enumerable keys", () => {
@@ -16,12 +15,12 @@ describe("getEnumerableKeys", () => {
       }
     }
 
-    expect(getEnumerableKeys(new Test())).to.deep.eq(["test"]);
+    expect(getEnumerableKeys(new Test())).toEqual(["test"]);
   });
   it("should return enumerable keys (security test)", () => {
     const obj = JSON.parse('{"__proto__": {"a": "vulnerable"}, "test": "test"}');
 
-    expect(getEnumerableKeys(obj)).to.deep.eq(["test"]);
-    expect(({} as any).a).to.eq(undefined);
+    expect(getEnumerableKeys(obj)).toEqual(["test"]);
+    expect(({} as any).a).toBeUndefined();
   });
 });

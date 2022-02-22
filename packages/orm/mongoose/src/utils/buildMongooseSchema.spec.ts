@@ -1,6 +1,6 @@
 import {PropertyMetadata} from "@tsed/common";
 import {Property} from "@tsed/schema";
-import {MONGOOSE_SCHEMA} from "../../src/constants";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
 import {buildMongooseSchema} from "../../src/utils/createSchema";
 
 describe("buildMongooseSchema", () => {

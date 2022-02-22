@@ -7,11 +7,9 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import methodOverride from "method-override";
 
-const rootDir = __dirname;
-
 @Configuration({
   componentsScan: [
-    `${rootDir}/protocols/*.ts` // scan protocols directory
+    `./protocols/*.ts` // scan protocols directory
   ],
   passport: {
     /**

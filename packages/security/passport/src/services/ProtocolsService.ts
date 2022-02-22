@@ -4,9 +4,10 @@ import {Injectable, InjectorService, Provider} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import Passport, {Strategy} from "passport";
 import {PassportException} from "../errors/PassportException";
-import {ProtocolMethods, ProtocolOptions} from "../interfaces";
-import {PROVIDER_TYPE_PROTOCOL} from "../contants";
+import {PROVIDER_TYPE_PROTOCOL} from "../contants/constants";
 import {promisify} from "util";
+import type {ProtocolMethods} from "../interfaces/ProtocolMethods";
+import type {ProtocolOptions} from "../interfaces/ProtocolOptions";
 
 /**
  * @ignore

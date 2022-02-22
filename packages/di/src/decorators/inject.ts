@@ -1,5 +1,5 @@
 import {decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
+import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
 import type {InjectablePropertyOptions} from "../interfaces/InjectableProperties";
 
 export function injectProperty(target: any, propertyKey: string, options: Partial<InjectablePropertyOptions>) {

@@ -13,7 +13,11 @@ import {
 import {Type} from "@tsed/core";
 import Koa, {Context, Next} from "koa";
 import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
-import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse, PlatformKoaRouter} from "../services";
+import {PlatformKoaResponse} from "../services/PlatformKoaResponse";
+import {PlatformKoaRequest} from "../services/PlatformKoaRequest";
+import {PlatformKoaHandler} from "../services/PlatformKoaHandler";
+import {PlatformKoaRouter} from "../services/PlatformKoaRouter";
+import {PlatformKoaApplication} from "../services/PlatformKoaApplication";
 
 /**
  * @platform

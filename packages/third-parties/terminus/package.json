@@ -1,11 +1,12 @@
 {
   "name": "@tsed/terminus",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.3",
   "description": "Adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications.",
   "author": "Emilien Leroy <emilien1005@hotmail.fr>",
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -14,9 +15,10 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
@@ -24,15 +26,15 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.102.7",
-    "@tsed/di": "6.102.7",
-    "@tsed/openspec": "6.102.7",
-    "@tsed/schema": "6.102.7"
+    "@tsed/core": "6.102.8-rc.3",
+    "@tsed/di": "6.102.8-rc.3",
+    "@tsed/openspec": "6.102.8-rc.3",
+    "@tsed/schema": "6.102.8-rc.3"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.102.7",
-    "@tsed/di": "^6.102.7",
-    "@tsed/openspec": "^6.102.7",
-    "@tsed/schema": "^6.102.7"
+    "@tsed/core": "^6.102.8-rc.3",
+    "@tsed/di": "^6.102.8-rc.3",
+    "@tsed/openspec": "^6.102.8-rc.3",
+    "@tsed/schema": "^6.102.8-rc.3"
   }
 }

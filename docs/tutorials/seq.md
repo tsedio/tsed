@@ -27,7 +27,6 @@ import {Configuration} from "@tsed/common";
 import "@tsed/seq"; // import seq Ts.ED module
 
 @Configuration({
-  rootDir: __dirname,
   seq: {
     serverUrl: "http://localhost:5341" // url props works also
   }

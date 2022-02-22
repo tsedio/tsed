@@ -76,12 +76,8 @@ Here an example to create a Server with Ts.ED:
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
-import * as Path from "path";
-
-export const rootDir = Path.resolve(__dirname);
 
 @Configuration({
-  rootDir,
   port: 3000
 })
 export class Server {

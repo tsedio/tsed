@@ -131,8 +131,8 @@ import {join} from "path";
 export const schema = makeSchema({
   types: [], // 1
   outputs: {
-    typegen: join(__dirname, "..", "..", "nexus-typegen.ts"), // 2
-    schema: join(__dirname, "..", "..", "schema.graphql") // 3
+    typegen: join(process.cwd(), "..", "..", "nexus-typegen.ts"), // 2
+    schema: join(process.cwd(), "..", "..", "schema.graphql") // 3
   }
 });
 ```

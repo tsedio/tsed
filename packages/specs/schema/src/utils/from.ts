@@ -1,5 +1,6 @@
 import {isClass, Type} from "@tsed/core";
-import {JsonEntityStore, JsonFormatTypes} from "../domain";
+import {JsonEntityStore} from "../domain/JsonEntityStore";
+import {JsonFormatTypes} from "../domain/JsonFormatTypes";
 import {JsonLazyRef} from "../domain/JsonLazyRef";
 import {JsonSchema} from "../domain/JsonSchema";
 import {getJsonEntityStore} from "./getJsonEntityStore";

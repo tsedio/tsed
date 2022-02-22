@@ -1,6 +1,6 @@
 import {Context} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
-import {INTERACTION_CONTEXT} from "../constants";
+import {INTERACTION_CONTEXT} from "../constants/constants";
 import {OidcInteractionContext} from "../services/OidcInteractionContext";
 
 export function OidcCtx(): ParameterDecorator {

@@ -1,10 +1,11 @@
 {
   "name": "@tsed/schema-formio",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.3",
   "description": "Transform Ts.ED Schema & JsonSchema to a valid Formio schema",
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,9 +14,10 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test jest"
   },
   "keywords": [
@@ -31,19 +33,19 @@
     "tsed"
   ],
   "dependencies": {
-    "@tsed/formio-types": "6.102.7",
+    "@tsed/formio-types": "6.102.8-rc.3",
     "change-case": "4.1.2",
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.102.7",
-    "@tsed/openspec": "6.102.7",
-    "@tsed/schema": "6.102.7"
+    "@tsed/core": "6.102.8-rc.3",
+    "@tsed/openspec": "6.102.8-rc.3",
+    "@tsed/schema": "6.102.8-rc.3"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.102.7",
-    "@tsed/openspec": "^6.102.7",
-    "@tsed/schema": "^6.102.7",
+    "@tsed/core": "^6.102.8-rc.3",
+    "@tsed/openspec": "^6.102.8-rc.3",
+    "@tsed/schema": "^6.102.8-rc.3",
     "formiojs": ">=4.0.0",
     "lodash": ">=4.0.0",
     "moment": ">=2.0.0"

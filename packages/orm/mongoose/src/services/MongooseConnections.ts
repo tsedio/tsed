@@ -1,6 +1,6 @@
 import {Configuration, registerProvider} from "@tsed/di";
 import {isArray} from "@tsed/core";
-import {MongooseConnectionOptions} from "../interfaces";
+import {MongooseConnectionOptions} from "../interfaces/MongooseConnectionOptions";
 import {MongooseService} from "../services/MongooseService";
 
 /**

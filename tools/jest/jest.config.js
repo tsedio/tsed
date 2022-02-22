@@ -20,7 +20,7 @@ module.exports = (rootDir) => ({
 
   // moduleDirectories: ["node_modules", "packages"],
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: ["index.ts", "/node_modules/", "/test/"],
+  coveragePathIgnorePatterns: ["index.ts", "/node_modules/", "/test/", "exports.ts"],
   moduleNameMapper: {
     "^@tsed/core$": fixPath(join(packageDir, "core/src")),
     "^@tsed/di$": fixPath(join(packageDir, "di/src")),

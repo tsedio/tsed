@@ -1,7 +1,7 @@
 import {StoreMerge, useDecorators} from "@tsed/core";
 import {Description, Example, Property} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
-import {MONGOOSE_SCHEMA} from "../constants";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
 
 /**
  * Define a property as mongoose reference to other Model (decorated with @Model).

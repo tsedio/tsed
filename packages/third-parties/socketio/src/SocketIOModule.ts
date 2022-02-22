@@ -2,7 +2,7 @@ import {$log, AfterListen, Constant, InjectorService, Module, OnDestroy, Provide
 import {catchError, nameOf} from "@tsed/core";
 import {Server, ServerOptions} from "socket.io";
 import {SocketProviderMetadata} from "./class/SocketProviderMetadata"; // tslint:disable-line: no-unused-variable
-import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants";
+import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants/constants";
 import {IO} from "./decorators/io";
 import {SocketIOService} from "./services/SocketIOService";
 import Http from "http";

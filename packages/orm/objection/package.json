@@ -1,10 +1,11 @@
 {
   "name": "@tsed/objection",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.3",
   "description": "Objection.js package for Ts.ED framework",
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,20 +14,21 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test yarn jest"
   },
   "dependencies": {
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/ajv": "6.102.7",
-    "@tsed/core": "6.102.7",
-    "@tsed/di": "6.102.7",
-    "@tsed/json-mapper": "6.102.7",
-    "@tsed/schema": "6.102.7",
+    "@tsed/ajv": "6.102.8-rc.3",
+    "@tsed/core": "6.102.8-rc.3",
+    "@tsed/di": "6.102.8-rc.3",
+    "@tsed/json-mapper": "6.102.8-rc.3",
+    "@tsed/schema": "6.102.8-rc.3",
     "knex": "^0.95.11",
     "mssql": "^7.2.1",
     "mysql": "^2.18.1",
@@ -38,11 +40,11 @@
     "sqlite3": "^5.0.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "^6.102.7",
-    "@tsed/core": "^6.102.7",
-    "@tsed/di": "^6.102.7",
-    "@tsed/json-mapper": "^6.102.7",
-    "@tsed/schema": "^6.102.7",
+    "@tsed/ajv": "^6.102.8-rc.3",
+    "@tsed/core": "^6.102.8-rc.3",
+    "@tsed/di": "^6.102.8-rc.3",
+    "@tsed/json-mapper": "^6.102.8-rc.3",
+    "@tsed/schema": "^6.102.8-rc.3",
     "knex": ">=0.94.0",
     "objection": ">=2.0.0"
   }

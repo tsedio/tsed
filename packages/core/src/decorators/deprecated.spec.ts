@@ -1,12 +1,17 @@
-import {expect} from "chai";
-import {Deprecated} from "../../src";
+import {Deprecated} from "./deprecated";
+import {deprecate} from "util";
 
-class Test {
-  test() {}
-}
+jest.mock("util");
 
 describe("Deprecated", () => {
   it("should wrap method as deprecated", () => {
-    expect(Deprecated("test")(Test, "test", {value: Test.prototype.test}).value).to.be.a("function");
+    class Test {
+      @Deprecated("test")
+      test() {}
+    }
+
+    new Test();
+
+    expect(deprecate).toHaveBeenCalledWith(expect.any(Function), "test");
   });
 });

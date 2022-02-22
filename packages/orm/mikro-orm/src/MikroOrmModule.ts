@@ -1,6 +1,8 @@
-import {DBContext, MikroOrmRegistry, RetryStrategy} from "./services";
 import {Configuration, Constant, Inject, Module, OnDestroy, OnInit, registerProvider} from "@tsed/di";
 import {Options} from "@mikro-orm/core";
+import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
+import {DBContext} from "./services/DBContext";
+import {RetryStrategy} from "./services/RetryStrategy";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

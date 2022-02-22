@@ -75,12 +75,13 @@ Here an example to create a Server with Ts.ED:
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
-import * as Path from "path";
-
-export const rootDir = Path.resolve(__dirname);
+import Path from "path";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import compress from "compression";
+import methodOverride from "method-override";
 
 @Configuration({
-  rootDir,
   port: 3000
 })
 export class Server {
@@ -88,11 +89,6 @@ export class Server {
   app: PlatformApplication;
 
   public $beforeRoutesInit() {
-    const cookieParser = require("cookie-parser"),
-      bodyParser = require("body-parser"),
-      compress = require("compression"),
-      methodOverride = require("method-override");
-
     this.app
       .use(cookieParser())
       .use(compress({}))

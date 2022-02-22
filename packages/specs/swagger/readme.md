@@ -43,10 +43,8 @@ Then add the following configuration in your Server:
 import {Configuration} from "@tsed/common";
 import "@tsed/swagger"; // import swagger Ts.ED module
 import {resolve} from "path";
-const rootDir = resolve(__dirname);
 
 @Configuration({
-  rootDir,
   swagger: [
     {
       path: "/v2/docs",
@@ -96,7 +94,6 @@ import {Configuration} from "@tsed/common";
 import "@tsed/swagger"; // import swagger Ts.ED module
 
 @Configuration({
-  rootDir: __dirname,
   swagger: [
     {
       path: "/api-docs-v1",
@@ -206,7 +203,6 @@ import {Configuration} from "@tsed/common";
 import "@tsed/swagger"; // import swagger Ts.ED module
 
 @Configuration({
-  rootDir: __dirname,
   swagger: [
     {
       path: "/api-docs",

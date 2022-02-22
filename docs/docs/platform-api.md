@@ -32,15 +32,12 @@ If you use `ServerLoader`, you'll probably know this example to create a Ts.ED a
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
 import {MyMiddleware} from "./MyMiddleware";
-import * as bodyParser from "body-parser";
-import * as compress from "compression";
-import * as cookieParser from "cookie-parser";
-import * as methodOverride from "method-override";
-
-export const rootDir = __dirname;
+import bodyParser from "body-parser";
+import compress from "compression";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
 
 @ServerSettings({
-  rootDir,
   viewsDir: `${rootDir}/views`
 })
 export class Server extends ServerLoader {
@@ -69,15 +66,12 @@ With Platform API you have to inject @@PlatformApplication@@ to register a middl
 import {Configuration, PlatformApplication} from "@tsed/common";
 import {Inject, Constant} from "@tsed/di";
 import {MyMiddleware} from "./MyMiddleware";
-import * as bodyParser from "body-parser";
-import * as compress from "compression";
-import * as cookieParser from "cookie-parser";
-import * as methodOverride from "method-override";
-
-export const rootDir = __dirname;
+import bodyParser from "body-parser";
+import compress from "compression";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
 
 @Configuration({
-  rootDir,
   views: {
     root: `${rootDir}/views`,
     viewEngine: "ejs"
@@ -253,13 +247,14 @@ Before:
 ```typescript
 import {Injectable} from "@tsed/di";
 import {ServeStaticService} from "@tsed/common";
+import {join} from "path";
 
 @Injectable()
 class MyService {
   constructor(private service: ServeStaticService) {}
 
   $onReady() {
-    this.service.statics({"/endpoint": __dirname + "/publics"});
+    this.service.statics({"/endpoint": join(process.cwd(), "../publics")});
   }
 }
 ```
@@ -269,13 +264,14 @@ After:
 ```typescript
 import {Injectable} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
+import {join} from "path";
 
 @Injectable()
 class MyService {
   constructor(private app: PlatformApplication) {}
 
   $onReady() {
-    this.app.statics("/endpoint", {root: __dirname + "/publics"});
+    this.app.statics("/endpoint", {root: join(process.cwd(), "../publics")});
   }
 }
 ```

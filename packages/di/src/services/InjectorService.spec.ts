@@ -13,7 +13,7 @@ import {
 import {expect} from "chai";
 import Sinon from "sinon";
 import {Configuration} from "@tsed/common";
-import {INJECTABLE_PROP} from "../constants";
+import {INJECTABLE_PROP} from "../constants/constants";
 
 class Test {
   @Inject()

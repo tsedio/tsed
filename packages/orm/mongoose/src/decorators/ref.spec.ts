@@ -1,8 +1,8 @@
 import {Store} from "@tsed/core";
 import {getJsonSchema, Property} from "@tsed/schema";
 import {Schema} from "mongoose";
-import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../../src/constants";
-import {Ref} from "../../src/decorators";
+import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants";
+import {Ref} from "./ref";
 import {MongooseModels} from "../registries/MongooseModels";
 
 describe("@Ref()", () => {

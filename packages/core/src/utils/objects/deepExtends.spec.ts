@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {deepExtends} from "../../index";
 
 describe("deepExtends", () => {
@@ -12,7 +11,7 @@ describe("deepExtends", () => {
             },
             undefined
           )
-        ).to.deep.eq({
+        ).toEqual({
           security: ["o"]
         });
       });
@@ -29,14 +28,14 @@ describe("deepExtends", () => {
             withClass: new klass()
           }
         );
-        expect(result).to.deep.eq({
+        expect(result).toEqual({
           security: ["o", "o1"],
           withClass: {
             test: "test"
           }
         });
 
-        expect(result.withClass).to.be.instanceof(klass);
+        expect(result.withClass).toBeInstanceOf(klass);
       });
       it("should merge data (3)", () => {
         expect(
@@ -48,7 +47,7 @@ describe("deepExtends", () => {
               security: [{"1": "o"}, {"2": "o1"}]
             }
           )
-        ).to.deep.eq({
+        ).toEqual({
           security: [{"1": "o"}, {"1": "o"}, {"2": "o1"}]
         });
       });
@@ -62,21 +61,21 @@ describe("deepExtends", () => {
             },
             obj
           )
-        ).to.deep.eq({
+        ).toEqual({
           security: [{"1": "o"}, {"1": "o"}, {"2": "o1"}]
         });
 
-        expect(({} as any).a).to.eq(undefined);
+        expect(({} as any).a).toBeUndefined();
       });
     });
 
     describe("when is an array", () => {
       it("should merge data (1)", () => {
-        expect(deepExtends(["1", "2", "4"], ["1", "2", "3"])).to.deep.eq(["1", "2", "4", "3"]);
+        expect(deepExtends(["1", "2", "4"], ["1", "2", "3"])).toEqual(["1", "2", "4", "3"]);
       });
 
       it("should merge data (2)", () => {
-        expect(deepExtends([{"1": "1"}, {"2": "2"}, {"4": "4"}], [{"1": "1"}, {"2": "2"}, {"3": "3"}])).to.deep.eq([
+        expect(deepExtends([{"1": "1"}, {"2": "2"}, {"4": "4"}], [{"1": "1"}, {"2": "2"}, {"3": "3"}])).toEqual([
           {"1": "1"},
           {"2": "2"},
           {"4": "4"},
@@ -109,7 +108,7 @@ describe("deepExtends", () => {
               }
             }
           )
-        ).to.deep.eq({
+        ).toEqual({
           security: ["o", "o1"]
         });
       });
@@ -151,7 +150,7 @@ describe("deepExtends", () => {
               }
             }
           )
-        ).to.deep.eq({
+        ).toEqual({
           parameters: [
             {in: "test", name: "get", description: "test2"},
             {in: "test", name: "post", description: "test"},
@@ -163,11 +162,11 @@ describe("deepExtends", () => {
 
     describe("when is an array", () => {
       it("should merge data", () => {
-        expect(deepExtends(["1", "2", "4"], ["1", "2", "3"])).to.deep.eq(["1", "2", "4", "3"]);
+        expect(deepExtends(["1", "2", "4"], ["1", "2", "3"])).toEqual(["1", "2", "4", "3"]);
       });
 
       it("should merge data", () => {
-        expect(deepExtends([{"1": "1"}, {"2": "2"}, {"4": "4"}], [{"1": "1"}, {"2": "2"}, {"3": "3"}])).to.deep.eq([
+        expect(deepExtends([{"1": "1"}, {"2": "2"}, {"4": "4"}], [{"1": "1"}, {"2": "2"}, {"3": "3"}])).toEqual([
           {"1": "1"},
           {"2": "2"},
           {"4": "4"},

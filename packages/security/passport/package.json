@@ -1,9 +1,10 @@
 {
   "name": "@tsed/passport",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.3",
   "description": "Passport package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -12,9 +13,11 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "clean": "rm -rf lib",
+    "build": "yarn clean && yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
     "start": "ts-node src/index.ts"
   },
@@ -22,9 +25,9 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.7",
-    "@tsed/core": "6.102.7",
-    "@tsed/di": "6.102.7",
+    "@tsed/common": "6.102.8-rc.3",
+    "@tsed/core": "6.102.8-rc.3",
+    "@tsed/di": "6.102.8-rc.3",
     "@types/passport": "1.0.4",
     "@types/passport-http": "0.3.8",
     "@types/passport-local": "1.0.34",
@@ -35,12 +38,12 @@
     "passport-strategy": "1.0.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.7",
-    "@tsed/core": "^6.102.7",
-    "@tsed/di": "^6.102.7",
-    "@tsed/json-mapper": "^6.102.7",
-    "@tsed/logger": ">=6.0.2",
-    "@tsed/schema": "^6.102.7",
+    "@tsed/common": "^6.102.8-rc.3",
+    "@tsed/core": "^6.102.8-rc.3",
+    "@tsed/di": "^6.102.8-rc.3",
+    "@tsed/json-mapper": "^6.102.8-rc.3",
+    "@tsed/logger": ">=6.1.0",
+    "@tsed/schema": "^6.102.8-rc.3",
     "passport": ">=0.4.1"
   }
 }

@@ -3,7 +3,7 @@ import {isNumber, isString, StoreMerge, useDecorators} from "@tsed/core";
 import {OnDeserialize, OnSerialize} from "@tsed/json-mapper";
 import {Example, Format, Property} from "@tsed/schema";
 import {Types, Schema as MongooseSchema, SchemaTypeOptions} from "mongoose";
-import {MONGOOSE_SCHEMA} from "../constants";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
 
 @Formats("decimal", {type: "number"})
 export class DecimalFormat implements FormatsMethods<string | number> {

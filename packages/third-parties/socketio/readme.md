@@ -45,10 +45,8 @@ Then add the following configuration in your Server:
 import {Configuration} from "@tsed/common";
 import "@tsed/socketio"; // import socketio Ts.ED module
 import {resolve} from "path";
-const rootDir = resolve(__dirname);
 
 @Configuration({
-  rootDir,
   socketIO: {
     // ... see configuration
   }

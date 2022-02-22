@@ -1,5 +1,4 @@
 import {proxyDelegation} from "@tsed/core";
-import {expect} from "chai";
 
 describe("proxyDelegation", () => {
   it("should create proxy delegation with internal map", () => {
@@ -29,21 +28,21 @@ describe("proxyDelegation", () => {
 
     const test = new Test();
 
-    expect(test).instanceof(Test);
-    expect(test.ownP).to.equal("test");
-    expect(Object.getOwnPropertyNames(test)).to.deep.equal(["map", "ownP"]);
+    expect(test).toBeInstanceOf(Test);
+    expect(test.ownP).toBe("test");
+    expect(Object.getOwnPropertyNames(test)).toEqual(["map", "ownP"]);
 
     test.newProp = "prop";
 
-    expect(test.newProp).to.equal("prop");
-    expect(test.newProp).to.equal("prop");
+    expect(test.newProp).toBe("prop");
+    expect(test.newProp).toBe("prop");
 
-    expect(Object.getOwnPropertyNames(test)).to.deep.equal(["map", "ownP", "newProp"]);
-    expect("newProp" in test).to.equal(true);
-    expect("ownP" in test).to.equal(true);
+    expect(Object.getOwnPropertyNames(test)).toEqual(["map", "ownP", "newProp"]);
+    expect("newProp" in test).toBe(true);
+    expect("ownP" in test).toBe(true);
 
     delete test.newProp;
 
-    expect(test.newProp).to.equal(undefined);
+    expect(test.newProp).toBeUndefined();
   });
 });

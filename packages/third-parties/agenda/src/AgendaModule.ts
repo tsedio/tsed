@@ -1,7 +1,7 @@
 import {AfterListen, Logger, OnDestroy} from "@tsed/common";
 import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
 import {Processor} from "agenda";
-import {PROVIDER_TYPE_AGENDA} from "./constants/index";
+import {PROVIDER_TYPE_AGENDA} from "./constants/constants";
 import {AgendaStore} from "./interfaces/AgendaStore";
 import {AgendaService} from "./services/AgendaFactory";
 

@@ -5,10 +5,7 @@ import * as compress from "compression";
 import * as cookieParser from "cookie-parser";
 import * as methodOverride from "method-override";
 
-const rootDir = __dirname;
-
 @Configuration({
-  rootDir,
   acceptMimes: ["application/json"]
 })
 export class Server {

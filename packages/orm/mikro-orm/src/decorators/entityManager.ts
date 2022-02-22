@@ -1,5 +1,5 @@
 import {Inject} from "@tsed/di";
-import {MikroOrmRegistry} from "../services";
+import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
 
 /**
  * Get the entity manager for the given context name.

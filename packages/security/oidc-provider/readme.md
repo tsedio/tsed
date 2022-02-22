@@ -56,11 +56,9 @@ import "@tsed/oidc-provider"; // import typeorm ts.ed module
 import {Accounts} from "../services/Accounts";
 import {MemoryAdapter} from "../adapters/MemoryAdapter";
 
-export const rootDir = __dirname;
-
 @Configuration({
   oidc: {
-    jwksPath: `${rootDir}/../keys/jwks.json`, // don't forget add this path to .gitignore
+    jwksPath: `./../keys/jwks.json`, // don't forget add this path to .gitignore
     Adapter: MemoryAdapter,
     Accounts: Accounts,
     // Clients: Clients,

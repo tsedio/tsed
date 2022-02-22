@@ -1,7 +1,7 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {CollectionOf} from "../collections/collectionOf";
+import "@tsed/schema";
 import {Max} from "./maximum";
-import "../../components";
 
 describe("@Maximum", () => {
   it("should declare maximum value", () => {

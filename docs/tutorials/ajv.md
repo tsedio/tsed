@@ -37,7 +37,7 @@ import {Configuration} from "@tsed/common";
 import "@tsed/ajv"; // import ajv ts.ed module
 
 @Configuration({
-  rootDir: __dirname
+  ajv: {}
 })
 export class Server {}
 ```
@@ -54,7 +54,6 @@ import {Configuration} from "@tsed/common";
 import "@tsed/ajv"; // import ajv ts.ed module
 
 @Configuration({
-  rootDir: __dirname,
   ajv: {
     errorFormatter: (error) => `At ${error.modelName}${error.dataPath}, value '${error.data}' ${error.message}`,
     verbose: true
@@ -311,7 +310,6 @@ import "@tsed/ajv"; // import ajv ts.ed module
 import "./formats/UriFormat"; // just import the class, then Ts.ED will mount automatically the new format
 
 @Configuration({
-  rootDir: __dirname,
   ajv: {
     // ajv options
   }

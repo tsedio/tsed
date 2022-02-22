@@ -1,5 +1,5 @@
 import {getConstructorArgNames, isClass, isString, nameOf} from "@tsed/core";
-import {TokenProvider} from "../interfaces";
+import {TokenProvider} from "../interfaces/TokenProvider";
 import {colors} from "../utils/colors";
 
 export class InjectionError extends Error {

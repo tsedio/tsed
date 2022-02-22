@@ -28,10 +28,8 @@ Then import `@tsed/terminus` and add the following configuration in your `Server
 import {Configuration} from "@tsed/common";
 import "@tsed/terminus"; // import terminus Ts.ED module
 import {resolve} from "path";
-const rootDir = resolve(__dirname);
 
 @Configuration({
-  rootDir,
   terminus: {
     // ... see configuration
   }

@@ -1,5 +1,4 @@
 import {descriptorOf, Store, StoreMerge, StoreSet} from "@tsed/core";
-import {expect} from "chai";
 import {decorateMethodsOf} from "./decorateMethodsOf";
 
 describe("decorateMethodsOf", () => {
@@ -26,12 +25,12 @@ describe("decorateMethodsOf", () => {
 
     // THEN
     const result = Store.from(Test, "test", descriptorOf(Test, "test")).get("test");
-    expect(result).to.eq("test");
+    expect(result).toBe("test");
 
     const result2 = Store.from(Test, "test2", descriptorOf(Test, "test2")).get("test");
-    expect(result2).to.eq("test2");
+    expect(result2).toBe("test2");
 
-    expect(new Test().test2("1")).to.eq("test1");
+    expect(new Test().test2("1")).toBe("test1");
   });
   it("should decorate all methods and copy store metadata to the new property", () => {
     function decorate() {
@@ -59,7 +58,7 @@ describe("decorateMethodsOf", () => {
 
     // THEN
     const storeObj2 = Store.fromMethod(Test, "test2").toJson();
-    expect(storeObj2).to.deep.eq({
+    expect(storeObj2).toEqual({
       options: {
         parent: "test2"
       },
@@ -68,7 +67,7 @@ describe("decorateMethodsOf", () => {
 
     const storeObj = Store.fromMethod(Test, "test").toJson();
     // store aren't merged
-    expect(storeObj).to.deep.eq({
+    expect(storeObj).toEqual({
       options: {
         children: "test",
         override: "child"

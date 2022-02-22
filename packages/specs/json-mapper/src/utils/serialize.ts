@@ -12,7 +12,12 @@ import {
   Type
 } from "@tsed/core";
 import {alterIgnore, getPropertiesStores, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
-import "../components";
+import "../components/ArrayMapper";
+import "../components/DateMapper";
+import "../components/MapMapper";
+import "../components/PrimitiveMapper";
+import "../components/SetMapper";
+import "../components/SymbolMapper";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {getJsonMapperTypes} from "../domain/JsonMapperTypesContainer";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods";

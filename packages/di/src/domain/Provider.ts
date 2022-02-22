@@ -1,5 +1,6 @@
 import {classOf, getClassOrSymbol, isClass, nameOf, Store, Type} from "@tsed/core";
-import {IProvider, TokenProvider} from "../interfaces";
+import {IProvider} from "../interfaces/IProvider";
+import {TokenProvider} from "../interfaces/TokenProvider";
 import {ProviderScope} from "./ProviderScope";
 import {ProviderType} from "./ProviderType";
 

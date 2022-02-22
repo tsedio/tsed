@@ -1,19 +1,18 @@
-import {expect} from "chai";
 import {decoratorTypeOf} from "./decoratorTypeOf";
 
 class Test {}
 
 describe("decoratorTypeOf()", () => {
   it("should return class", () => {
-    expect(decoratorTypeOf([Test])).to.equal("class");
+    expect(decoratorTypeOf([Test])).toBe("class");
   });
 
   it("should return property (static)", () => {
-    expect(decoratorTypeOf([Test, "props"])).to.equal("property.static");
+    expect(decoratorTypeOf([Test, "props"])).toBe("property.static");
   });
 
   it("should return property (instance)", () => {
-    expect(decoratorTypeOf([Test.prototype, "props"])).to.equal("property");
+    expect(decoratorTypeOf([Test.prototype, "props"])).toBe("property");
   });
 
   it("should return property (instance with descriptor from babel)", () => {
@@ -28,7 +27,7 @@ describe("decoratorTypeOf()", () => {
           initializer: null
         }
       ])
-    ).to.equal("property");
+    ).toBe("property");
   });
 
   it("should return method (instance, getter)", () => {
@@ -40,7 +39,7 @@ describe("decoratorTypeOf()", () => {
           get: () => {}
         }
       ])
-    ).to.equal("property");
+    ).toBe("property");
   });
 
   it("should return method (instance, setter)", () => {
@@ -52,7 +51,7 @@ describe("decoratorTypeOf()", () => {
           set: () => {}
         }
       ])
-    ).to.equal("property");
+    ).toBe("property");
   });
 
   it("should return method (static)", () => {
@@ -64,7 +63,7 @@ describe("decoratorTypeOf()", () => {
           value: () => {}
         }
       ])
-    ).to.equal("method.static");
+    ).toBe("method.static");
   });
 
   it("should return method (instance)", () => {
@@ -76,18 +75,18 @@ describe("decoratorTypeOf()", () => {
           value: () => {}
         }
       ])
-    ).to.equal("method");
+    ).toBe("method");
   });
 
   it("should return params (static)", () => {
-    expect(decoratorTypeOf([Test, "props", 0])).to.equal("parameter.static");
+    expect(decoratorTypeOf([Test, "props", 0])).toBe("parameter.static");
   });
 
   it("should return params (instance)", () => {
-    expect(decoratorTypeOf([Test.prototype, "props", 0])).to.equal("parameter");
+    expect(decoratorTypeOf([Test.prototype, "props", 0])).toBe("parameter");
   });
 
   it("should return params (constructor)", () => {
-    expect(decoratorTypeOf([Test.prototype, undefined, 0])).to.equal("parameter.constructor");
+    expect(decoratorTypeOf([Test.prototype, undefined, 0])).toBe("parameter.constructor");
   });
 });

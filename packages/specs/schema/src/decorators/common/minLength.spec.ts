@@ -1,7 +1,7 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {CollectionOf} from "../collections/collectionOf";
 import {MinLength} from "./minLength";
-import "../../components";
+import "@tsed/schema";
 
 describe("@MinLength", () => {
   it("should declare minimum value", () => {

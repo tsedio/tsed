@@ -1,6 +1,6 @@
 import {Controller, UseBefore} from "@tsed/common";
 import {Type, useDecorators} from "@tsed/core";
-import {INTERACTIONS} from "../constants";
+import {INTERACTIONS} from "../constants/constants";
 import {OidcInteractionMiddleware} from "../middlewares/OidcInteractionMiddleware";
 import {NoCache} from "./noCache";
 

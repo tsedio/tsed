@@ -1,10 +1,11 @@
 {
   "name": "@tsed/graphql",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.3",
   "description": "GraphQL package for Ts.ED framework, based on Apollo-server-express and Type-graphql",
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -28,8 +29,11 @@
     "apollo-server"
   ],
   "dependencies": {
-    "@tsed/typegraphql": "6.102.7",
+    "@tsed/typegraphql": "6.102.8-rc.3",
     "tslib": "2.2.0"
+  },
+  "publishConfig": {
+    "tag": "deprecated"
   },
   "devDependencies": {},
   "peerDependencies": {}

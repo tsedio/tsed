@@ -1,9 +1,10 @@
 {
   "name": "@tsed/apollo",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.3",
   "description": "Apollo package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -12,9 +13,10 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
@@ -22,10 +24,10 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "6.102.7",
-    "@tsed/core": "6.102.7",
-    "@tsed/di": "6.102.7",
-    "@tsed/logger": ">=6.0.2",
+    "@tsed/common": "6.102.8-rc.3",
+    "@tsed/core": "6.102.8-rc.3",
+    "@tsed/di": "6.102.8-rc.3",
+    "@tsed/logger": ">=6.1.0",
     "@types/graphql": "14.5.0",
     "apollo-datasource": "^3.2.0",
     "apollo-datasource-rest": "^3.3.0",
@@ -36,10 +38,10 @@
     "graphql": "15.7.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.7",
-    "@tsed/core": "^6.102.7",
-    "@tsed/di": "^6.102.7",
-    "@tsed/logger": ">=6.0.2",
+    "@tsed/common": "^6.102.8-rc.3",
+    "@tsed/core": "^6.102.8-rc.3",
+    "@tsed/di": "^6.102.8-rc.3",
+    "@tsed/logger": ">=6.1.0",
     "apollo-datasource": ">=3.0.0",
     "apollo-datasource-rest": ">=3.0.0",
     "apollo-server-core": ">=3.0.0",

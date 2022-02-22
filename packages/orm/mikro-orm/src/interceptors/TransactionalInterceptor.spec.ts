@@ -1,9 +1,11 @@
-import {DBContext, MikroOrmRegistry, RetryStrategy} from "../services";
 import {TransactionalInterceptor} from "./TransactionalInterceptor";
 import {anything, instance, mock, reset, spy, verify, when} from "ts-mockito";
 import {InterceptorContext, InterceptorNext} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {EntityManager, MikroORM, OptimisticLockError} from "@mikro-orm/core";
+import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
+import {RetryStrategy} from "../services/RetryStrategy";
+import {DBContext} from "../services/DBContext";
 
 describe("TransactionalInterceptor", () => {
   const mikroOrmRegistryMock = mock<MikroOrmRegistry>();

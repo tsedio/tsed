@@ -59,13 +59,13 @@ import "@tsed/typeorm"; // import typeorm ts.ed module
       ...,
 
        entities: [
-         `${__dirname}/entity/*{.ts,.js}`
+         `./entity/*{.ts,.js}`
        ],
        migrations: [
-        `${__dirname}/migrations/*{.ts,.js}`
+        `./migrations/*{.ts,.js}`
        ],
        subscribers: [
-        `${__dirname}/subscriber/*{.ts,.js}`
+        `./subscriber/*{.ts,.js}`
        ]
     },
     {

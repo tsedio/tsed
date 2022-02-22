@@ -1,9 +1,10 @@
 {
   "name": "@tsed/platform-aws",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.3",
   "description": "Module to support AWS function with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -55,9 +56,9 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.7",
-    "@tsed/core": "6.102.7",
-    "@tsed/di": "6.102.7"
+    "@tsed/common": "6.102.8-rc.3",
+    "@tsed/core": "6.102.8-rc.3",
+    "@tsed/di": "6.102.8-rc.3"
   },
   "dependencies": {
     "@types/aws-serverless-express": "^3.3.3",
@@ -65,12 +66,12 @@
     "tslib": "2.2.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.102.7",
-    "@tsed/core": "^6.102.7",
-    "@tsed/schema": "^6.102.7",
+    "@tsed/common": "^6.102.8-rc.3",
+    "@tsed/core": "^6.102.8-rc.3",
+    "@tsed/schema": "^6.102.8-rc.3",
     "aws-serverless-express": "^3.4.0"
   },
   "publishConfig": {
-    "dist-tag": "deprecated"
+    "tag": "deprecated"
   }
 }

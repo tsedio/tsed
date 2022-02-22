@@ -1,8 +1,8 @@
 import {Type} from "@tsed/core";
-import "../components";
+import "@tsed/schema";
 import type {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
-import {JsonSchemaOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 

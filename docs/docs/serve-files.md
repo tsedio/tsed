@@ -18,13 +18,12 @@ So for each endpoint, specify a `root` path to expose files under this root dire
 
 ```typescript
 import {Configuration} from "@tsed/common";
-const rootDir = __dirname;
 
 @Configuration({
   statics: {
     "/": [
       {
-        root: `${rootDir}/public`,
+        root: `./public`,
         // Optional
         hook: "$beforeRoutesInit" // Load statics on the expected hook. Default: $afterRoutesInit
         // ... statics options
@@ -49,13 +48,12 @@ To create a virtual path prefix (where the path does not actually exist in the f
 
 ```typescript
 import {Configuration} from "@tsed/common";
-const rootDir = __dirname;
 
 @Configuration({
   statics: {
     "/statics": [
       {
-        root: `${rootDir}/public`,
+        root: `./public`,
         // Optional
         hook: "$beforeRoutesInit" // Load statics on the expected hook. Default: $afterRoutesInit
         // ... statics options
@@ -156,10 +154,7 @@ Here is a small example to configure statics directory with the right headers an
 
 ```typescript
 import {Configuration, PlatformApplication} from "@tsed/common";
-
-const send = require("send");
-
-const rootDir = __dirname;
+import send from "send";
 
 function setCustomCacheControl(res: ServerResponse, path: string) {
   if (send.mime.lookup(path) === "text/html") {
@@ -173,7 +168,7 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
   statics: {
     "/app": [
       {
-        root: `${rootDir}/public`,
+        root: `./public`,
         maxAge: "1d",
         setHeaders: setCustomCacheControl
       }
@@ -197,10 +192,7 @@ export class Server {
 
 ```typescript
 import {Configuration, PlatformApplication} from "@tsed/common";
-
-const send = require("send");
-
-const rootDir = __dirname;
+import send from "send";
 
 function setCustomCacheControl(res: ServerResponse, path: string) {
   if (send.mime.lookup(path) === "text/html") {
@@ -214,7 +206,7 @@ function setCustomCacheControl(res: ServerResponse, path: string) {
   statics: {
     "/app": [
       {
-        root: `${rootDir}/public`,
+        root: `./public`,
         maxAge: "1d",
         setHeaders: setCustomCacheControl
       }

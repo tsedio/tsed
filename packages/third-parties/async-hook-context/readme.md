@@ -104,9 +104,7 @@ Then import `@tsed/async-hook-context` in your Server:
 import {Configuration} from "@tsed/common";
 import "@tsed/async-hook-context";
 
-@Configuration({
-  rootDir: __dirname
-})
+@Configuration({})
 export class Server {}
 ```
 

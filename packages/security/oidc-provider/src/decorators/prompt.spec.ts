@@ -1,5 +1,5 @@
 import {expect} from "chai";
-import {INTERACTION_PROMPT} from "../constants";
+import {INTERACTION_PROMPT} from "../constants/constants";
 import {Prompt} from "./prompt";
 import {JsonParameterStore} from "@tsed/schema";
 

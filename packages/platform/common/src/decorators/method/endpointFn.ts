@@ -1,6 +1,5 @@
 import {DecoratorParameters} from "@tsed/core";
-import {JsonEntityFn} from "@tsed/schema";
-import {EndpointMetadata} from "../../domain";
+import {EndpointMetadata, JsonEntityFn} from "@tsed/schema";
 
 /**
  *

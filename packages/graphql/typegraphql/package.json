@@ -1,10 +1,11 @@
 {
   "name": "@tsed/typegraphql",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.3",
   "description": "TypeGraphQL package for Ts.ED framework, based on Apollo-server-core and Type-graphql",
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,19 +14,20 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
-    "@tsed/apollo": "6.102.7",
+    "@tsed/apollo": "6.102.8-rc.3",
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.102.7",
-    "@tsed/core": "6.102.7",
+    "@tsed/common": "6.102.8-rc.3",
+    "@tsed/core": "6.102.8-rc.3",
     "@types/graphql": "^14.5.0",
     "class-validator": "~0.13.1",
     "graphql-passport": "0.6.3",

@@ -67,33 +67,28 @@ To use oidc-provider with Ts.ED it requires some other Ts.ED features to work pr
 Use `tsed init yourApp` to create a TSed application and adjust `Server.ts`:
 
 ```typescript
-...
 import {Configuration} from "@tsed/di";
 import {Accounts} from "./services/Accounts";
 import {InteractionsCtrl} from "./controllers/oidc/InteractionsCtrl";
 
-export const rootDir = __dirname;
-
 @Configuration({
   httpPort: 8083,
   mount: {
-   "/": [InteractionsCtrl]
+    "/": [InteractionsCtrl]
   },
   adapters: {
-    lowdbDir: join(rootDir, "..", '.db'),
+    lowdbDir: join(process.cwd(), "..", ".db"),
     Adapter: FileSyncAdapter
   },
   oidc: {
     // path: "/oidc",
     Accounts: Accounts,
-    jwksPath: join(__dirname, "..", "..", "keys", "jwks.json"),
+    jwksPath: join(process.cwd(), "..", "..", "keys", "jwks.json"),
     clients: [
       {
         client_id: "client_id",
         client_secret: "client_secret",
-        redirect_uris: [
-          "http://localhost:3000"
-        ],
+        redirect_uris: ["http://localhost:3000"],
         response_types: ["id_token"],
         grant_types: ["implicit"],
         token_endpoint_auth_method: "none"
@@ -112,13 +107,13 @@ export const rootDir = __dirname;
     }
   },
   views: {
-    root: `${rootDir}/views`,
+    root: `./views`,
     extensions: {
       ejs: "ejs"
     }
   }
 })
-...
+class Server {}
 ```
 
 ### Options

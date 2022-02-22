@@ -1,7 +1,8 @@
 import {DecoratorParameters, decoratorTypeOf, DecoratorTypes} from "@tsed/core";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonEntityFn} from "./jsonEntityFn";
-import type {JsonMethodStore, JsonParameterStore} from "../../domain";
+import type {JsonMethodStore} from "../../domain/JsonMethodStore";
+import type {JsonParameterStore} from "../../domain/JsonParameterStore";
 
 /**
  * Add a description to the class, method or property

@@ -1,5 +1,4 @@
-import {Any, getJsonSchema, getSpec, Required, SpecTypes, string} from "../src";
-import {Nullable, OperationPath, Path, Property, Returns} from "../src/decorators";
+import {Any, getJsonSchema, getSpec, Nullable, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../src";
 import {validateSpec} from "./helpers/validateSpec";
 
 class Nested {

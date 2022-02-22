@@ -1,12 +1,8 @@
 import {Configuration} from "@tsed/di";
 
-const rootDir = __dirname;
-
 @Configuration({
-  rootDir,
-  viewsDir: `${rootDir}/views`,
   views: {
-    root: `${rootDir}/views`,
+    root: `../views`,
     viewEngine: "ejs",
     extensions: {
       // optional

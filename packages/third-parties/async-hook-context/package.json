@@ -1,10 +1,11 @@
 {
   "name": "@tsed/async-hook-context",
-  "version": "6.102.7",
+  "version": "6.102.8-rc.3",
   "description": "Add Async Hook context support in Ts.ED",
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -38,12 +39,12 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.102.7",
-    "@tsed/di": "6.102.7"
+    "@tsed/core": "6.102.8-rc.3",
+    "@tsed/di": "6.102.8-rc.3"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.102.7",
-    "@tsed/di": "^6.102.7",
-    "@tsed/logger": ">=6.0.2"
+    "@tsed/core": "^6.102.8-rc.3",
+    "@tsed/di": "^6.102.8-rc.3",
+    "@tsed/logger": ">=6.1.0"
   }
 }
