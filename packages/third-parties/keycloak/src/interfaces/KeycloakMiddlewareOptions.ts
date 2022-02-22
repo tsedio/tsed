@@ -1,4 +1,4 @@
-export class KeycloakMiddlewareOptions {
+export interface KeycloakMiddlewareOptions {
   admin?: string;
   logout?: string;
 }
