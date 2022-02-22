@@ -9,9 +9,9 @@ import "@tsed/typeorm"; // !!! IMPORTANT TO ADD THIS !!!
       type: "postgres",
       // ...,
 
-      entities: [`${__dirname}/entity/*{.ts,.js}`],
-      migrations: [`${__dirname}/migrations/*{.ts,.js}`],
-      subscribers: [`${__dirname}/subscriber/*{.ts,.js}`]
+      entities: [`./entity/*{.ts,.js}`],
+      migrations: [`./migrations/*{.ts,.js}`],
+      subscribers: [`./subscriber/*{.ts,.js}`]
     },
     {
       name: "mongo",

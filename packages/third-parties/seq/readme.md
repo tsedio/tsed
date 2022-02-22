@@ -44,7 +44,6 @@ import {Configuration} from "@tsed/common";
 import "@tsed/seq"; // import seq Ts.ED module
 
 @Configuration({
-  rootDir: __dirname,
   seq: {
     url: "http://localhost:5341"
   }

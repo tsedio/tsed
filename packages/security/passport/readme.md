@@ -45,11 +45,9 @@ Add this configuration to your server:
 ```typescript
 import {Configuration} from "@tsed/common";
 
-const rootDir = __dirname;
-
 @Configuration({
   componentsScan: [
-    `${rootDir}/protocols/*.ts` // scan protocols directory
+    `./protocols/*.ts` // scan protocols directory
   ],
   passport: {}
 })

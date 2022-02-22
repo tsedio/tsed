@@ -183,15 +183,67 @@
     }
   },
   "monorepo": {
-    "npmDistTag": "rc",
-    "productionBranch": "rc",
-    "developBranch": "rc",
+    "productionBranch": "production",
+    "developBranch": "production",
     "npmAccess": "public",
     "ignoreSyncDependencies": [
       "express",
       "@types/express"
     ],
-    "ghpages": [],
-    "examples": {}
+    "ghpages": [
+      {
+        "dir": "./docs/.vuepress/dist",
+        "url": "https://github.com/tsedio/tsed.git",
+        "branch": "gh-pages",
+        "cname": "tsed.io"
+      },
+      {
+        "dir": "./docs-references/.vuepress/dist",
+        "url": "https://github.com/tsedio/api-docs.tsed.io.git",
+        "branch": "main",
+        "cname": "api-docs.tsed.io"
+      }
+    ],
+    "examples": {
+      "dir": "./examples",
+      "repositories": {
+        "getting-started": {
+          "url": "https://github.com/tsedio/tsed-getting-started.git"
+        },
+        "aws": {
+          "url": "https://github.com/tsedio/tsed-example-aws.git"
+        },
+        "mongoose": {
+          "url": "https://github.com/tsedio/tsed-example-mongoose.git"
+        },
+        "multer": {
+          "url": "https://github.com/tsedio/tsed-example-multer.git"
+        },
+        "passportjs": {
+          "url": "https://github.com/tsedio/tsed-example-passportjs.git"
+        },
+        "typeorm": {
+          "url": "https://github.com/tsedio/tsed-example-typeorm.git"
+        },
+        "session": {
+          "url": "https://github.com/tsedio/tsed-example-session.git"
+        },
+        "socketio": {
+          "url": "https://github.com/tsedio/tsed-example-socketio.git"
+        },
+        "vuejs": {
+          "url": "https://github.com/tsedio/tsed-example-vuejs.git"
+        },
+        "react": {
+          "url": "https://github.com/tsedio/tsed-example-react.git"
+        },
+        "graphql": {
+          "url": "https://github.com/tsedio/tsed-example-graphql.git"
+        },
+        "webpack": {
+          "url": "https://github.com/tsedio/tsed-example-webpack.git"
+        }
+      }
+    }
   }
 }

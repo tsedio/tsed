@@ -73,12 +73,9 @@ The root directory where you build run project. By default, it is equal to `proc
 
 ```typescript
 import {Configuration} from "@tsed/di";
-import {resolve} from "path";
-
-const rootDir = resolve(__dirname);
 
 @Configuration({
-  rootDir
+  rootDir: process.cwd()
 })
 export class Server {}
 ```

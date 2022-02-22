@@ -148,7 +148,6 @@ With this in your server configuration
 
 ```typescript
 @Configuration({
-  rootDir: __dirname,
   socketIO: {} // uses all default values
 })
 ```

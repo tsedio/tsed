@@ -11,7 +11,6 @@ You must add the `services` folder on `componentsScan` attribute in your server 
 import {Configuration} from "@tsed/common";
 
 @Configuration({
-  rootDir: __dirname,
   mount: {
     "/rest": `./controllers/**/**.js`
   },

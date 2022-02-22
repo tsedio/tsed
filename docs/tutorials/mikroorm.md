@@ -62,7 +62,7 @@ import {MikroOrmModule} from "@tsed/mikro-orm";
       ...,
 
       entities: [
-        `${__dirname}/entity/*{.ts,.js}`
+        `./entity/*{.ts,.js}`
       ]
     },
     {

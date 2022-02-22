@@ -32,9 +32,7 @@ Then import `@tsed/ajv` in your Server:
 import {Configuration} from "@tsed/common";
 import "@tsed/ajv"; // import ajv ts.ed module
 
-@Configuration({
-  rootDir: __dirname
-})
+@Configuration({})
 export class Server {}
 ```
 
@@ -90,7 +88,6 @@ import {Configuration} from "@tsed/common";
 import "@tsed/ajv"; // import ajv ts.ed module
 
 @Configuration({
-  rootDir: __dirname,
   ajv: {
     errorFormatter: (error) => `At ${error.modelName}${error.dataPath}, value '${error.data}' ${error.message}`,
     options: {verbose: true}

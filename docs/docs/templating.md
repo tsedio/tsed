@@ -94,9 +94,7 @@ You can instantiate them manually beforehand if you want to add filters, globals
 import {Configuration} from "@tsed/common";
 import nunjucks from "nunjucks";
 
-const rootDir = Path.resolve(__dirname);
-
-const nunjucksInstances = nunjucks.configure(`${rootDir}/views`);
+const nunjucksInstances = nunjucks.configure("./views");
 nunjucksInstances.addFilter("foo", function () {
   return "bar";
 });
