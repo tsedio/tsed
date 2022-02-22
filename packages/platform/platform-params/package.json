@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-params",
-  "version": "6.102.8-rc.3",
+  "version": "6.102.8",
   "description": "Params module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -23,17 +23,17 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.102.8-rc.3",
-    "@tsed/di": "6.102.8-rc.3",
-    "@tsed/exceptions": "6.102.8-rc.3",
-    "@tsed/json-mapper": "6.102.8-rc.3",
-    "@tsed/schema": "6.102.8-rc.3"
+    "@tsed/core": "6.102.8",
+    "@tsed/di": "6.102.8",
+    "@tsed/exceptions": "6.102.8",
+    "@tsed/json-mapper": "6.102.8",
+    "@tsed/schema": "6.102.8"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.102.8-rc.3",
-    "@tsed/di": "^6.102.8-rc.3",
-    "@tsed/exceptions": "^6.102.8-rc.3",
-    "@tsed/json-mapper": "^6.102.8-rc.3",
-    "@tsed/schema": "^6.102.8-rc.3"
+    "@tsed/core": "^6.102.8",
+    "@tsed/di": "^6.102.8",
+    "@tsed/exceptions": "^6.102.8",
+    "@tsed/json-mapper": "^6.102.8",
+    "@tsed/schema": "^6.102.8"
   }
 }

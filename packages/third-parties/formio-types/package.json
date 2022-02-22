@@ -1,6 +1,6 @@
 {
   "name": "@tsed/formio-types",
-  "version": "6.102.8-rc.3",
+  "version": "6.102.8",
   "description": "Formio types definition package for Ts.ED framework",
   "private": false,
   "keywords": [
