@@ -1,6 +1,5 @@
-import {IAuthOptions} from "@tsed/platform-middlewares";
 import {GuardFn} from "keycloak-connect";
 
-export interface KeycloakAuthOptions extends IAuthOptions {
+export interface KeycloakAuthOptions {
   role?: GuardFn | string;
 }
