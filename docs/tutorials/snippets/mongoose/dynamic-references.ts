@@ -1,13 +1,32 @@
-import {DynamicRef, Model, Ref} from "@tsed/mongoose";
-import {Enum} from "@tsed/schema";
-import {ModelA} from "./modelA";
-import {ModelB} from "./ModelB";
+import {DynamicRef, Model, ObjectID} from "@tsed/mongoose";
+import {Enum, Required} from "@tsed/schema";
 
 @Model()
-export class MyModel {
-  @DynamicRef("type")
-  dynamicRef: Ref<ModelA | ModelB>;
+class ClickedLinkEventModel {
+  @ObjectID("id")
+  _id: string;
 
-  @Enum("Mode lA", "ModelB")
-  type: string; // This field has to match the referenced model's name
+  @Required()
+  url: string;
+}
+
+@Model()
+class SignedUpEventModel {
+  @ObjectID("id")
+  _id: string;
+
+  @Required()
+  user: string;
+}
+
+@Model()
+class EventModel {
+  @ObjectID("id")
+  _id: string;
+
+  @DynamicRef("eventType", ClickedLinkEventModel, SignedUpEventModel)
+  event: DynamicRef<ClickedLinkEventModel | SignedUpEventModel>;
+
+  @Enum("ClickedLinkEventModel", "SignedUpEventModel")
+  eventType: "ClickedLinkEventModel" | "SignedUpEventModel";
 }

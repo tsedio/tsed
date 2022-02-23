@@ -137,6 +137,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
 
     value = deserialize(value, {
       ...itemOptions,
+      self: src,
       type: value === src[key] ? itemOptions.type : undefined,
       collectionType: propStore.collectionType
     });

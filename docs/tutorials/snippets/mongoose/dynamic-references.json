@@ -1,0 +1,66 @@
+{
+  "definitions": {
+    "ClickedLinkEventModel": {
+      "properties": {
+        "id": {
+          "description": "Mongoose ObjectId",
+          "examples": ["5ce7ad3028890bd71749d477"],
+          "pattern": "^[0-9a-fA-F]{24}$",
+          "type": "string"
+        },
+        "url": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": ["url"],
+      "type": "object"
+    },
+    "SignedUpEventModel": {
+      "properties": {
+        "id": {
+          "description": "Mongoose ObjectId",
+          "examples": ["5ce7ad3028890bd71749d477"],
+          "pattern": "^[0-9a-fA-F]{24}$",
+          "type": "string"
+        },
+        "user": {
+          "minLength": 1,
+          "type": "string"
+        }
+      },
+      "required": ["user"],
+      "type": "object"
+    }
+  },
+  "properties": {
+    "event": {
+      "description": "Mongoose Ref ObjectId",
+      "examples": ["5ce7ad3028890bd71749d477"],
+      "oneOf": [
+        {
+          "description": "Mongoose Ref ObjectId",
+          "examples": ["5ce7ad3028890bd71749d477"],
+          "type": "string"
+        },
+        {
+          "$ref": "#/definitions/ClickedLinkEventModel"
+        },
+        {
+          "$ref": "#/definitions/SignedUpEventModel"
+        }
+      ]
+    },
+    "eventType": {
+      "enum": ["ClickedLinkEventModel", "SignedUpEventModel"],
+      "type": "string"
+    },
+    "id": {
+      "description": "Mongoose ObjectId",
+      "examples": ["5ce7ad3028890bd71749d477"],
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "type": "string"
+    }
+  },
+  "type": "object"
+}
