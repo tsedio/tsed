@@ -85,6 +85,7 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
     let value = alterValue(schema, obj[key], {useAlias, ...props, self: obj});
     value = serialize(value, {
       useAlias,
+      self: obj,
       type: value === obj[key] ? getType(propStore, value) : undefined,
       collectionType: propStore.collectionType,
       ...props
