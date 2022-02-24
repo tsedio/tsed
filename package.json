@@ -133,6 +133,7 @@
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-mocha": "10.0.3",
     "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-workspaces": "0.7.0",
     "faker": "^5.1.0",
     "fs-extra": "9.0.1",
     "husky": "^7.0.4",

@@ -1,16 +1,16 @@
 import {isClass, isFunction} from "@tsed/core";
-import {Configuration, Module} from "@tsed/di";
+import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
 import type {Cache, CachingConfig, MultiCache, TtlFunction} from "cache-manager";
+import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
 import {PlatformCacheSettings} from "../interfaces/interfaces";
+import {Logger} from "@tsed/logger";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
 };
 
-export type CacheManager = (Cache | MultiCache) & {
-  keys?(): Promise<string[]>;
-};
+export type CacheManager = Cache | MultiCache;
 
 /**
  * @platform
@@ -18,20 +18,32 @@ export type CacheManager = (Cache | MultiCache) & {
 @Module()
 export class PlatformCache {
   @Configuration()
-  settings: Configuration;
+  protected settings: Configuration;
 
-  cache: CacheManager | undefined;
+  @Inject()
+  protected injector: InjectorService;
 
-  disabled(): boolean {
-    return !this.settings.get<PlatformCacheSettings>("cache");
+  @Inject()
+  protected logger: Logger;
+
+  #cache: CacheManager | undefined;
+
+  get cache() {
+    return this.#cache;
   }
 
   async $onInit() {
     const settings = this.settings.get<PlatformCacheSettings>("cache");
 
     if (settings) {
-      this.cache = await this.createCacheManager(settings);
+      this.#cache = await this.createCacheManager(settings);
+
+      await this.injector.emit("$onCreateCacheManager", this.#cache);
     }
+  }
+
+  disabled(): boolean {
+    return !this.settings.get<PlatformCacheSettings>("cache");
   }
 
   defaultKeyResolver() {
@@ -42,10 +54,16 @@ export class PlatformCache {
     return this.settings.get<number | TtlFunction>("cache.ttl");
   }
 
-  ttl(result?: any, currentTtl?: number | TtlFunction) {
+  calculateTTL(result?: any, currentTtl?: number | TtlFunction) {
     const ttl = currentTtl === undefined ? this.defaultTtl() : currentTtl;
 
     return isFunction(ttl) ? ttl(result) : ttl;
+  }
+
+  async ttl(key: string) {
+    if (this.cache && "store" in this.cache && this.cache.store.ttl) {
+      return this.cache.store.ttl(key);
+    }
   }
 
   wrap<T>(key: string, fetch: () => Promise<T>, options?: CachingConfig): Promise<T> {
@@ -64,6 +82,39 @@ export class PlatformCache {
     return this.cache?.set<T>(key, value, options);
   }
 
+  async getCachedObject(key: string) {
+    try {
+      return await this.get<PlatformCachedObject>(key);
+    } catch (er) {
+      this.logger.error({
+        event: "CACHE_ERROR",
+        method: "getCachedObject",
+        error: er
+      });
+    }
+  }
+
+  async setCachedObject(key: string, data: any, opts: {ttl: number} & Record<string, any>) {
+    try {
+      await this.set<PlatformCachedObject>(
+        key,
+        {
+          ...opts,
+          data: JSON.stringify(data)
+        },
+        {
+          ttl: opts.ttl
+        }
+      );
+    } catch (er) {
+      this.logger.error({
+        event: "CACHE_ERROR",
+        method: "setCachedObject",
+        error: er
+      });
+    }
+  }
+
   async del(key: string): Promise<void> {
     await this.cache?.del(key);
   }
@@ -74,9 +125,10 @@ export class PlatformCache {
   }
 
   async keys(): Promise<string[]> {
-    if (this.cache?.keys) {
-      return this.cache.keys();
+    if (this.cache && "store" in this.cache && this.cache.store.keys) {
+      return this.cache.store.keys();
     }
+
     // istanbul ignore next
     return [];
   }

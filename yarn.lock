@@ -2128,6 +2128,14 @@
   resolved "https://registry.yarnpkg.com/@josephg/resolvable/-/resolvable-1.0.1.tgz#69bc4db754d79e1a2f17a650d3466e038d94a5eb"
   integrity sha512-CtzORUwWTTOTqfVtHaKRJ0I1kNQd1bpn3sUh8I3nJDVY+5/M/Oe1DnEWzPQvqq/xPIIkzzzIP7mfCoAjFRvDhg==
 
+"@joshuajaco/get-monorepo-packages@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/@joshuajaco/get-monorepo-packages/-/get-monorepo-packages-1.2.1.tgz#070bdc4268f5e14d2dd593b02f32bc4c5601d06d"
+  integrity sha512-3I32bp/UB4UmLqEj/yrBEWTYuCzojn8nR34PZ9Jwb2OeHV95l4Kw0ax1xnnA4yYWU1E1krM2RIWghP3U725dGQ==
+  dependencies:
+    globby "^7.1.1"
+    load-json-file "^4.0.0"
+
 "@js-joda/core@^3.2.0":
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/@js-joda/core/-/core-3.2.0.tgz#3e61e21b7b2b8a6be746df1335cf91d70db2a273"
@@ -8210,6 +8218,13 @@ dir-glob@2.0.0:
     arrify "^1.0.1"
     path-type "^3.0.0"
 
+dir-glob@^2.0.0:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/dir-glob/-/dir-glob-2.2.2.tgz#fa09f0694153c8918b18ba0deafae94769fc50c4"
+  integrity sha512-f9LBi5QWzIW3I6e//uxZoLBlUt9kcp66qo0sSCxL6YZKc75R1c4MFCoe/LaZiBGmgujvQdxc5Bn3QhfyvK5Hsw==
+  dependencies:
+    path-type "^3.0.0"
+
 dir-glob@^3.0.0, dir-glob@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/dir-glob/-/dir-glob-3.0.1.tgz#56dbf73d992a4a93ba1584f4534063fd2e41717f"
@@ -8862,6 +8877,13 @@ eslint-plugin-prettier@4.0.0:
   integrity sha512-98MqmCJ7vJodoQK359bqQWaxOE0CS8paAz/GgjaZLyex4TTk3g9HugoO89EqWCrFiOqn9EVvcoo7gZzONCWVwQ==
   dependencies:
     prettier-linter-helpers "^1.0.0"
+
+eslint-plugin-workspaces@0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-workspaces/-/eslint-plugin-workspaces-0.7.0.tgz#be97fad9d25ab7430074c526f046b0e5c037633f"
+  integrity sha512-1+qzAM/iFFJ4MR3IOSY7n6Kw9XW/Fc+eVzWfN9nCcneDHr21rccZWUtGyMesk35bFnOWyp9dmJbYL0v5KYZ14w==
+  dependencies:
+    "@joshuajaco/get-monorepo-packages" "^1.2.1"
 
 eslint-scope@^5.1.1:
   version "5.1.1"
@@ -10544,6 +10566,18 @@ globby@^11.0.4:
     ignore "^5.2.0"
     merge2 "^1.4.1"
     slash "^3.0.0"
+
+globby@^7.1.1:
+  version "7.1.1"
+  resolved "https://registry.yarnpkg.com/globby/-/globby-7.1.1.tgz#fb2ccff9401f8600945dfada97440cca972b8680"
+  integrity sha1-+yzP+UAfhgCUXfral0QMypcrhoA=
+  dependencies:
+    array-union "^1.0.1"
+    dir-glob "^2.0.0"
+    glob "^7.1.2"
+    ignore "^3.3.5"
+    pify "^3.0.0"
+    slash "^1.0.0"
 
 globrex@^0.1.2:
   version "0.1.2"

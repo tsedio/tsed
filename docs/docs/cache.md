@@ -256,6 +256,39 @@ export class MyController {
 }
 ```
 
+## Refresh cache keys in background <Badge text="6.103.0+" />
+
+The `caching` module support a mechanism to refresh expiring cache `keys` in background is you use `UseCache` on a Service method (not on controller method).
+This is done by adding a `refreshThreshold` option to the @@UseCache@@ decorator.
+
+If `refreshThreshold` is set and if the `ttl` method is available for the used store,
+after retrieving a value from cache TTL will be checked. If the remaining current `ttl` key is under the configured `ttl` - `refreshThreshold`, the system will spawn a background worker to update the value, following same rules as standard fetching.
+
+```typescript
+const currentTTL = cache.ttl(key);
+
+if (currentTTL < ttl - refreshThreshold) {
+  refresh();
+}
+```
+
+In the meantime, the system will return the old value until expiration.
+
+```typescript
+import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
+
+@Injectable()
+export class MyService {
+  @Get("/:id")
+  @UseCache({ttl: 3600, refreshThreshold: 900})
+  get(@PathParams("id") id: string) {
+    return "something with  " + id;
+  }
+}
+```
+
+In this example, the configured `ttl` is 1 hour and the threshold is 15 minutes. So, the key will be refreshed in background if current `ttl` is under 45 minutes.
+
 ## Multi caching
 
 Cache-manager provides a way to use multiple caches. To use it, remove `store` option and use `caches` instead:

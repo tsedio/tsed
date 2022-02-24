@@ -1,5 +1,6 @@
 import type {BaseContext} from "@tsed/di";
 import type {Cache, CacheOptions, CachingConfig, Store} from "cache-manager";
+import type {CacheManager} from "../services/PlatformCache";
 
 export interface PlatformCacheSettings extends CacheOptions, CachingConfig {
   caches?: Cache[];
@@ -28,4 +29,8 @@ declare global {
       cache?: PlatformCacheSettings | false;
     }
   }
+}
+
+export interface OnCreateCacheManager {
+  $onCreateCacheManager(cache: CacheManager): void | Promise<void>;
 }

@@ -27,7 +27,7 @@
 
 <hr />
 
-A package of Ts.ED framework. See website: https://tsed.io/
+A package of Ts.ED framework. See website: https://tsed.io/docs/cache.html
 
 # Installation
 
