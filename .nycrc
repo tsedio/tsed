@@ -16,6 +16,7 @@
     "packages/core",
     "packages/platform/platform-test-utils",
     "packages/platform/platform-serverless",
+    "packages/platform/platform-cache",
     "packages/platform/platform-serverless-http",
     "packages/platform/platform-serverless-testing",
     "packages/platform/platform-log-middleware",
@@ -42,6 +43,6 @@
   "check-coverage": true,
   "lines": 99.57,
   "statements": 99.54,
-  "functions": 99.11,
-  "branches": 86.69
+  "functions": 99.08,
+  "branches": 86.45
 }
