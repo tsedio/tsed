@@ -166,10 +166,18 @@ describe("FormioDatabase", () => {
       };
 
       formioService.mongoose.models.form.countDocuments.resolves(false);
+      formioService.mongoose.models.form.exec.resolves({
+        _id: "id",
+        name: "name"
+      });
 
-      await service.createFormIfNotExists(form, onCreate);
+      const result = await service.createFormIfNotExists(form, onCreate);
 
-      expect(onCreate).to.have.been.calledWithExactly({ctrOpts: {name: "name"}});
+      expect(result).to.deep.eq({
+        _id: "id",
+        name: "name"
+      });
+      expect(onCreate).to.have.been.calledOnce;
     });
     it("should not create form is exists", async () => {
       const {service, formioService} = await createServiceFixture();

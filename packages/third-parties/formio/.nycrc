@@ -6,7 +6,8 @@
     "**/*.d.ts",
     "node_modules",
     "**/interfaces/**",
-    "**/index.ts"
+    "**/index.ts",
+    "**/*.spec.ts"
   ],
   "extension": [
     ".ts"
@@ -19,8 +20,8 @@
     "json"
   ],
   "check-coverage": true,
-  "statements": 99.61,
-  "branches": 81.2,
-  "functions": 96.99,
-  "lines": 99.59
+  "statements": 100,
+  "branches": 82.14,
+  "functions": 100,
+  "lines": 100
 }

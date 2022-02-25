@@ -124,9 +124,9 @@ export class PlatformCache {
     await this.cache?.reset();
   }
 
-  async keys(): Promise<string[]> {
+  async keys(...args: any[]): Promise<string[]> {
     if (this.cache && "store" in this.cache && this.cache.store.keys) {
-      return this.cache.store.keys();
+      return this.cache.store.keys(...args);
     }
 
     // istanbul ignore next
