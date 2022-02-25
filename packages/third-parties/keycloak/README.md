@@ -53,13 +53,13 @@ npm install --save keycloak-connect
 
 > ℹ️ The keycloak-connect version should match the version of your Keycloak.
 
-Put the `keycloak.json` file of your client to `src/config/keycloak`.
+Store the `keycloak.json` file at `src/config/keycloak`.
 
 ## Configuration
 
-Import `@tsed/keycloak` in `server.ts` file and configure it.
+Import `@tsed/keycloak` in `server.ts` file.
 
-Provide the path to the `keycloak.json` file.
+Provide the path of `keycloak.json` in keycloak config property as described below.
 
 ```typescript
 import {Configuration} from "@tsed/di";
@@ -73,6 +73,8 @@ import "@tsed/keycloak";
 export class Server {}
 ```
 
+> ℹ️ If you don't provide a keycloak config path the package will look for it by default on the root directory of your project.
+
 You can also pass the Keycloak configuration to your client directly.
 
 ```typescript
@@ -82,11 +84,11 @@ import "@tsed/keycloak";
 @Configuration({
   keycloak: {
     config: {
-      realm: "my-realm",
+      "realm": "my-realm",
       "bearer-only": true,
       "auth-server-url": "http://localhost:8080",
       "ssl-required": "external",
-      resource: "my-client",
+      "resource": "my-client",
       "verify-token-audience": true,
       "use-resource-role-mappings": true,
       "confidential-port": 0
@@ -96,7 +98,11 @@ import "@tsed/keycloak";
 export class Server {}
 ```
 
-### Middleware configuration
+### Options
+
+Todo
+
+### Middleware
 
 Todo
 
