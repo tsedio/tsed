@@ -97,8 +97,11 @@ export class FormioDatabase {
 
   async saveFormDefinition(form: FormioForm) {
     const mapper = await this.getFormioMapper();
+    const instance = new this.formModel(mapper.mapToImport(form));
 
-    return new this.formModel(mapper.mapToImport(form)).save();
+    await this.formModel.updateOne({_id: instance._id}, {$set: instance}, {upsert: true});
+
+    return instance;
   }
 
   idToBson(form?: any) {

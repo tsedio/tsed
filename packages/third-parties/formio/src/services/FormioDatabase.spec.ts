@@ -17,12 +17,17 @@ async function createServiceFixture() {
           static countDocuments = sandbox.stub();
           static find = sandbox.stub().resolves([{_id: "form_id", machineName: "form_machine"}]);
           static findOne = sandbox.stub().returnsThis();
+          static updateOne = sandbox.stub().returnsThis();
           static lean = sandbox.stub().returnsThis();
           static exec = sandbox.stub();
 
           constructor(public ctrOpts: any) {}
 
           save(): any {}
+
+          toObject() {
+            return this.ctrOpts;
+          }
         },
         action: {
           find: sandbox.stub().resolves([{_id: "action_id", machineName: "action_machine"}])
@@ -161,21 +166,10 @@ describe("FormioDatabase", () => {
       };
 
       formioService.mongoose.models.form.countDocuments.resolves(false);
-      formioService.mongoose.models.form.exec.resolves({
-        _id: "id",
-        name: "name"
-      });
-
-      sandbox.stub(formioService.mongoose.models.form.prototype, "save").resolves({
-        _id: "id",
-        name: "name"
-      });
 
       await service.createFormIfNotExists(form, onCreate);
-      expect(onCreate).to.have.been.calledWithExactly({
-        _id: "id",
-        name: "name"
-      });
+
+      expect(onCreate).to.have.been.calledWithExactly({ctrOpts: {name: "name"}});
     });
     it("should not create form is exists", async () => {
       const {service, formioService} = await createServiceFixture();
