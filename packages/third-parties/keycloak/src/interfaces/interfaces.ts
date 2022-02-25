@@ -12,13 +12,13 @@ declare global {
         /**
          * Keycloak configuration or the path to the configuration file.
          */
-        config: KeycloakConfig | string;
+        config?: KeycloakConfig|string;
         /**
          * Provide additional options that are passed to middleware:
          * `logout` URL for logging a user out. Defaults to `/logout`.
          * `admin` Root URL for Keycloak admin callbacks.  Defaults to `/`.
          */
-        middlewareOptions: KeycloakMiddlewareOptions;
+        middlewareOptions?: KeycloakMiddlewareOptions;
       };
     }
   }
