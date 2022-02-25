@@ -221,7 +221,7 @@ describe("FormioDatabase", () => {
       await service.getForm("name");
 
       expect(formioService.mongoose.models.form.findOne).to.have.been.calledWithExactly({
-        machineName: {$eq: "name"},
+        name: {$eq: "name"},
         deleted: {$eq: null}
       });
       expect(formioService.mongoose.models.form.lean).to.have.been.calledWithExactly();

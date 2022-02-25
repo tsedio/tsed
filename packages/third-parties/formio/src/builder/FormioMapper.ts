@@ -20,7 +20,7 @@ export class FormioMapper {
     const key = String(data);
     const item: any = this.find(key);
 
-    return item ? `$machineName:${item.machineName}` : undefined;
+    return item ? `$machineName:${item.name || item.machineName}` : undefined;
   }
 
   mapToExport(data: any) {
@@ -48,13 +48,22 @@ export class FormioMapper {
       return key;
     }
 
-    if (typeof data === "object" && !(data instanceof Date)) {
-      return Object.entries(data).reduce((obj, [key, value]) => {
+    if (typeof data === "object" && !("_bsontype" in data) && !(data instanceof Date)) {
+      const isForm = data.path && data.type;
+      const mapped = Object.entries(data).reduce((obj, [key, value]) => {
         return {
           ...obj,
           [key]: this.mapData(value, resolver)
         };
       }, {});
+
+      return isForm
+        ? {
+            ...mapped,
+            name: data.name,
+            machineName: data.machineName || data.name
+          }
+        : mapped;
     }
 
     return data;
