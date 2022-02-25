@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-test-utils",
-  "version": "6.102.8",
+  "version": "6.103.0",
   "description": "Integration packages",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -8,9 +8,9 @@
     "start": "ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
-    "@tsed/common": "6.102.8",
-    "@tsed/core": "6.102.8",
-    "@tsed/di": "6.102.8"
+    "@tsed/common": "6.103.0",
+    "@tsed/core": "6.103.0",
+    "@tsed/di": "6.103.0"
   },
   "private": true,
   "devDependencies": {},
