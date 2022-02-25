@@ -7,7 +7,7 @@ import {isMongoId} from "../utils/isMongoId";
 import {FormioService} from "./FormioService";
 
 function toMap<T>(list: any[]) {
-  return tMap<string, MongooseDocument<T>>(list, (o: any) => [o._id.toString(), `$machineName:${o.machineName}`]);
+  return tMap<string, MongooseDocument<T>>(list, (o: any) => [o._id.toString(), `$machineName:${o.name || o.machineName}`]);
 }
 
 @Injectable()
@@ -68,7 +68,7 @@ export class FormioDatabase {
   }
 
   async hasForm(name: string): Promise<boolean> {
-    return !!(await this.formModel.countDocuments({machineName: {$eq: name}}));
+    return !!(await this.formModel.countDocuments({name: {$eq: name}}));
   }
 
   async getForm(nameOrId: string) {
@@ -79,7 +79,7 @@ export class FormioDatabase {
           ? {
               _id: nameOrId
             }
-          : {machineName: {$eq: nameOrId}})
+          : {name: {$eq: nameOrId}})
       })
       .lean()
       .exec();
