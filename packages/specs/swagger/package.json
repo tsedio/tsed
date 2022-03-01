@@ -23,7 +23,7 @@
     "@tsed/openspec": "6.103.2",
     "fs-extra": "9.0.1",
     "micromatch": "4.0.4",
-    "swagger-ui-dist": "^3.46.0",
+    "swagger-ui-dist": "^4.5.2",
     "tslib": "2.2.0"
   },
   "devDependencies": {
