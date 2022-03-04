@@ -42,5 +42,6 @@ export * from "./services/FormioAuthService";
 export * from "./services/FormioDatabase";
 export * from "./services/FormioHooksService";
 export * from "./services/FormioInstaller";
+export * from "./services/FormioRepository";
 export * from "./services/FormioService";
 export * from "./utils/isMongoId";

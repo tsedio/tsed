@@ -49,6 +49,7 @@
     "@tsed/core": "^6.103.2",
     "@tsed/di": "^6.103.2",
     "@tsed/mongoose": "^6.103.2",
+    "lodash": "^4.17.21",
     "express": "^4.17.1",
     "formio": "^2.0.0",
     "mongodb": "*",
