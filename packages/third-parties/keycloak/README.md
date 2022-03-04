@@ -169,6 +169,8 @@ export class Server {}
 
 #### Additional URLs
 
+[//]: # "TODO: summarize in own words"
+
 By default, the middleware catches calls to /logout to send the user through a Keycloak-centric logout workflow.
 This can be changed by specifying a logout configuration parameter.
 
@@ -193,4 +195,59 @@ export class Server {}
 
 ## Protecting resources
 
-Todo
+This packages provides the `@UseKeycloakAuth()` decorator which can be used to protect resources.
+
+The decorator will use the `protect()` method of the `keycloak-connect` package by default.
+
+You can also use your own middleware functions which is explained below.
+
+### Client roles
+
+In the following example the adapter will verify if the requesting user has the client role `my-client-role`.
+
+```typescript
+import {Get} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+import {UseKeycloakAuth} from "@tsed/keycloak";
+
+@Controller("/calendars")
+export class CalendarCtrl {
+  @Get()
+  @UseKeycloakAuth({role: "my-client-role"})
+  findAll(): string {
+    return "This action returns all calendars";
+  }
+}
+```
+
+### Different client roles
+
+To secure your resources with different client roles prefix the role name with the desired client name.
+
+```typescript
+@Controller("/calendars")
+export class CalendarCtrl {
+  @Get()
+  @UseKeycloakAuth({role: "diffrent-client:different-client-role"})
+  findAll(): string {
+    return "This action returns all calendars";
+  }
+}
+```
+
+### Realm roles
+
+If you want to protect a resource based on a realm role provide the `realm:` prefix to the role.
+
+```typescript
+@Controller("/calendars")
+export class CalendarCtrl {
+  @Get()
+  @UseKeycloakAuth({role: "realm:admin"})
+  findAll(): string {
+    return "This action returns all calendars";
+  }
+}
+```
+
+[//]: # "TODO: show protection with custom middleware"
