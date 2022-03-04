@@ -66,9 +66,9 @@ import {Configuration} from "@tsed/di";
 import "@tsed/keycloak";
 
 @Configuration({
-    keycloak: {
-        config: "src/config/keycloak/keycloak.json"
-    }
+  keycloak: {
+    config: "src/config/keycloak/keycloak.json"
+  }
 })
 export class Server {}
 ```
@@ -82,18 +82,18 @@ import {Configuration} from "@tsed/di";
 import "@tsed/keycloak";
 
 @Configuration({
-    keycloak: {
-        config: {
-            "realm": "my-realm",
-            "bearer-only": true,
-            "auth-server-url": "http://localhost:8080",
-            "ssl-required": "external",
-            "resource": "my-client",
-            "verify-token-audience": true,
-            "use-resource-role-mappings": true,
-            "confidential-port": 0
-        }
+  keycloak: {
+    config: {
+      realm: "my-realm",
+      "bearer-only": true,
+      "auth-server-url": "http://localhost:8080",
+      "ssl-required": "external",
+      resource: "my-client",
+      "verify-token-audience": true,
+      "use-resource-role-mappings": true,
+      "confidential-port": 0
     }
+  }
 })
 export class Server {}
 ```
@@ -104,7 +104,7 @@ Keycloak options will be passed to the KeycloakConnect constructor of `keycloak-
 
 #### Web session store
 
-Manage server side authentication state.
+Manage the authentication state on server side.
 
 Install `express-session` as store.
 
@@ -124,7 +124,7 @@ import "@tsed/keycloak";
 @Configuration({
   keycloak: {
     options: {
-        store: new MemoryStore()
+      store: new MemoryStore()
     }
   }
 })
@@ -140,11 +140,11 @@ import {Configuration} from "@tsed/di";
 import "@tsed/keycloak";
 
 @Configuration({
-    keycloak: {
-        options: {
-            scope: "offline_access"
-        }
+  keycloak: {
+    options: {
+      scope: "offline_access"
     }
+  }
 })
 export class Server {}
 ```
@@ -158,18 +158,38 @@ import {Configuration} from "@tsed/di";
 import "@tsed/keycloak";
 
 @Configuration({
-    keycloak: {
-        options: {
-            cookies: true
-        }
+  keycloak: {
+    options: {
+      cookies: true
     }
+  }
 })
 export class Server {}
 ```
 
-### Middleware
+#### Additional URLs
 
-Todo
+By default, the middleware catches calls to /logout to send the user through a Keycloak-centric logout workflow.
+This can be changed by specifying a logout configuration parameter.
+
+Also, the middleware supports callbacks from the Keycloak console to log out a single session or all sessions.
+By default, these type of admin callbacks occur relative to the root URL of / but can be changed by providing an admin
+parameter.
+
+```typescript
+import {Configuration} from "@tsed/di";
+import "@tsed/keycloak";
+
+@Configuration({
+  keycloak: {
+    middlewareOptions: {
+      logout: "/logoff",
+      admin: "/callbacks"
+    }
+  }
+})
+export class Server {}
+```
 
 ## Protecting resources
 
