@@ -66,9 +66,9 @@ import {Configuration} from "@tsed/di";
 import "@tsed/keycloak";
 
 @Configuration({
-  keycloak: {
-    config: "src/config/keycloak/keycloak.json"
-  }
+    keycloak: {
+        config: "src/config/keycloak/keycloak.json"
+    }
 })
 export class Server {}
 ```
@@ -82,25 +82,90 @@ import {Configuration} from "@tsed/di";
 import "@tsed/keycloak";
 
 @Configuration({
-  keycloak: {
-    config: {
-      "realm": "my-realm",
-      "bearer-only": true,
-      "auth-server-url": "http://localhost:8080",
-      "ssl-required": "external",
-      "resource": "my-client",
-      "verify-token-audience": true,
-      "use-resource-role-mappings": true,
-      "confidential-port": 0
+    keycloak: {
+        config: {
+            "realm": "my-realm",
+            "bearer-only": true,
+            "auth-server-url": "http://localhost:8080",
+            "ssl-required": "external",
+            "resource": "my-client",
+            "verify-token-audience": true,
+            "use-resource-role-mappings": true,
+            "confidential-port": 0
+        }
     }
-  }
 })
 export class Server {}
 ```
 
 ### Options
 
-Todo
+Keycloak options will be passed to the KeycloakConnect constructor of `keycloak-connect` package.
+
+#### Web session store
+
+Manage server side authentication state.
+
+Install `express-session` as store.
+
+```shell
+npm -i express-session -D
+```
+
+> ℹ️ express-session should not be used for production.
+
+Pass the store to the option property in keycloak configuration.
+
+```typescript
+import {Configuration} from "@tsed/di";
+import {MemoryStore} from "express-session";
+import "@tsed/keycloak";
+
+@Configuration({
+  keycloak: {
+    options: {
+        store: new MemoryStore()
+    }
+  }
+})
+export class Server {}
+```
+
+#### Scope
+
+A custom scope value can also be passed to options.
+
+```typescript
+import {Configuration} from "@tsed/di";
+import "@tsed/keycloak";
+
+@Configuration({
+    keycloak: {
+        options: {
+            scope: "offline_access"
+        }
+    }
+})
+export class Server {}
+```
+
+#### Cookies
+
+Authentication with cookies can be enabled as follows.
+
+```typescript
+import {Configuration} from "@tsed/di";
+import "@tsed/keycloak";
+
+@Configuration({
+    keycloak: {
+        options: {
+            cookies: true
+        }
+    }
+})
+export class Server {}
+```
 
 ### Middleware
 
