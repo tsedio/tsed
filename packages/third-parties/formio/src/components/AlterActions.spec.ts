@@ -290,4 +290,86 @@ describe("AlterActions", () => {
     });
     expect(result.message).to.eq("bad request");
   });
+  it("should create the new actions and call next (with status and headers)", async () => {
+    @Action({
+      name: "custom",
+      title: "My custom Action",
+      description: "Custom action description",
+      priority: 0,
+      defaults: {
+        handler: [],
+        method: []
+      }
+    })
+    class CustomAction implements ActionMethods {
+      async resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {
+        return {
+          statusText: "Created",
+          status: 201,
+          headers: {
+            "x-header": "test"
+          },
+          data: {
+            hello: "world"
+          }
+        };
+      }
+
+      async settingsForm() {
+        return [{} as any];
+      }
+    }
+
+    const formio = {
+      Action: class Action {}
+    };
+
+    // PlatformTest.injector.forkProvider(CustomAction);
+    PlatformTest.injector.invoke(CustomAction);
+
+    const {ctx, alterActions} = await getActionsFixture(formio);
+
+    let actions: FormioActions = {} as any;
+
+    actions = alterActions.transform(actions);
+
+    const info: FormioActionInfo = await new Promise((resolve) => {
+      actions.custom.info(ctx.getRequest(), ctx.getResponse(), (err, info) => resolve(info));
+    });
+
+    const settings: FormioComponent[] = await new Promise((resolve) => {
+      actions.custom.settingsForm(ctx.getRequest(), ctx.getResponse(), (err, components) => resolve(components));
+    });
+
+    const instance = new actions.custom(info as any, ctx.getRequest(), ctx.getResponse());
+
+    new Promise((resolve) => {
+      instance.resolve(
+        "handler",
+        "method",
+        ctx.getRequest(),
+        ctx.getResponse(),
+        (err: any, result: any) => resolve(result),
+        "setActionItemMessage" as any
+      );
+    });
+
+    await new Promise((r) => setTimeout(r, 200));
+
+    expect(instance).to.be.instanceOf(formio.Action);
+    expect(info).to.deep.eq({
+      defaults: {
+        handler: [],
+        method: []
+      },
+      description: "Custom action description",
+      name: "custom",
+      priority: 0,
+      title: "My custom Action"
+    });
+    expect(settings).to.deep.eq([{}]);
+    expect(ctx.response.raw.data).to.deep.eq({
+      hello: "world"
+    });
+  });
 });
