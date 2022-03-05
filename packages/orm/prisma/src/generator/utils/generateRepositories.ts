@@ -1,0 +1,201 @@
+import {DMMF} from "@prisma/generator-helper";
+import {ClassDeclaration, Project, Scope} from "ts-morph";
+import {toMap} from "@tsed/core";
+import path from "path";
+import {DmmfModel} from "../domain/DmmfModel";
+import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile";
+import pluralize from "pluralize";
+import {pascalCase, camelCase} from "change-case";
+
+interface MethodOptions {
+  repository: ClassDeclaration;
+  name: string;
+  model: string;
+  returnType?: string | undefined;
+  hasQuestionToken?: boolean;
+}
+
+function addDelegatedMethod({name, hasQuestionToken, repository, model, returnType}: MethodOptions) {
+  const method = repository.addMethod({
+    name: name,
+    isAsync: true,
+    returnType: returnType ? `Promise<${returnType}>` : undefined,
+    parameters: [
+      {
+        name: "args",
+        type: `Prisma.${model}${pascalCase(name)}Args`,
+        hasQuestionToken
+      }
+    ]
+  });
+
+  if (returnType) {
+    method.setBodyText(`const obj = await this.collection.${name}(args);
+        return this.deserialize<${returnType}>(obj);`);
+  } else {
+    method.setBodyText(`return this.collection.${name}(args)`);
+  }
+}
+
+export function generateRepositories(dmmf: DMMF.Document, project: Project, baseDirPath: string) {
+  const modelsMap = toMap<string, DMMF.Model>(dmmf.datamodel.models, "name");
+  const models = DmmfModel.getModels(dmmf, modelsMap);
+  const repoDirPath = path.resolve(baseDirPath, "repositories");
+  const repoDirectory = project.createDirectory(repoDirPath);
+  const repositoriesIndex = repoDirectory.createSourceFile(`index.ts`, undefined, {overwrite: true});
+
+  const exportedModels = models.map((model) => {
+    const name = `${pluralize(model.name)}Repository`;
+    const modelName = model.toString();
+    const sourceFile = repoDirectory.createSourceFile(`${name}.ts`, undefined, {overwrite: true});
+
+    sourceFile.addImportDeclarations([
+      {
+        moduleSpecifier: "@tsed/core",
+        namedImports: ["isArray"]
+      },
+      {
+        moduleSpecifier: "@tsed/json-mapper",
+        namedImports: ["deserialize"]
+      },
+      {
+        moduleSpecifier: "@tsed/di",
+        namedImports: ["Injectable", "Inject"]
+      },
+      {
+        moduleSpecifier: "../services/PrismaService",
+        namedImports: ["PrismaService"]
+      },
+      {
+        moduleSpecifier: "../client",
+        namedImports: ["Prisma", model.name]
+      },
+      {
+        moduleSpecifier: "../models",
+        namedImports: [model.toString()]
+      }
+    ]);
+
+    const repository = sourceFile.addClass({
+      name,
+      isExported: true,
+      decorators: [
+        {
+          name: "Injectable",
+          arguments: []
+        }
+      ]
+    });
+
+    repository.addProperty({
+      name: "prisma",
+      type: "PrismaService",
+      scope: Scope.Protected,
+      decorators: [
+        {
+          name: "Inject",
+          arguments: []
+        }
+      ]
+    });
+
+    repository
+      .addGetAccessor({
+        name: "collection"
+      })
+      .setBodyText(`return this.prisma.${camelCase(model.name)}`);
+
+    repository
+      .addGetAccessor({
+        name: "groupBy"
+      })
+      .setBodyText(`return this.collection.groupBy.bind(this.collection)`);
+
+    repository
+      .addMethod({
+        name: "deserialize",
+        scope: Scope.Protected,
+        returnType: "T",
+        parameters: [
+          {
+            name: "obj",
+            type: `null | ${model.name} | ${model.name}[]`
+          }
+        ],
+        typeParameters: ["T"]
+      })
+      .setBodyText(`return deserialize<T>(obj, {type: ${modelName}, collectionType: isArray(obj) ? Array : undefined})`);
+
+    addDelegatedMethod({
+      repository,
+      name: "findUnique",
+      model: model.name,
+      returnType: `${modelName} | null`
+    });
+
+    addDelegatedMethod({
+      repository,
+      name: "findFirst",
+      model: model.name,
+      returnType: `${modelName} | null`
+    });
+
+    addDelegatedMethod({
+      repository,
+      name: "findMany",
+      model: model.name,
+      returnType: `${modelName}[]`,
+      hasQuestionToken: true
+    });
+
+    addDelegatedMethod({
+      repository,
+      name: "create",
+      model: model.name,
+      returnType: `${modelName}`
+    });
+
+    addDelegatedMethod({
+      repository,
+      name: "update",
+      model: model.name,
+      returnType: `${modelName}`
+    });
+
+    addDelegatedMethod({
+      repository,
+      name: "upsert",
+      model: model.name,
+      returnType: `${modelName}`
+    });
+
+    addDelegatedMethod({
+      repository,
+      name: "delete",
+      model: model.name,
+      returnType: `${modelName}`
+    });
+
+    addDelegatedMethod({
+      repository,
+      name: "deleteMany",
+      model: model.name
+    });
+
+    addDelegatedMethod({
+      repository,
+      name: "updateMany",
+      model: model.name
+    });
+
+    addDelegatedMethod({
+      repository,
+      name: "aggregate",
+      model: model.name
+    });
+
+    return name;
+  });
+
+  generateOutputsBarrelFile(repositoriesIndex, exportedModels);
+}
