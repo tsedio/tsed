@@ -1,22 +1,29 @@
----
-meta:
-  - name: description
-    content: Use Prisma with Express, TypeScript and Ts.ED. Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
-  - name: keywords
-    content: ts.ed express typescript prisma orm node.js javascript decorators
-projects:
-  - title: Kit Prisma
-    href: https://github.com/tsedio/tsed-example-prisma
-    src: /prisma-2.svg
----
+<p style="text-align: center" align="center">
+ <a href="https://tsed.io" target="_blank"><img src="https://tsed.io/tsed-og.png" width="200" alt="Ts.ED logo"/></a>
+</p>
 
-# Ts.ED Prisma client
+<div align="center">
 
-## Features
+   <h1>Ts.ED Prisma</h1>
 
-Prisma Client generate only TypeScript interfaces based on the Prisma schema. Because, interfaces have no consistency in JavaScript, isn't possible to infer a Json Schema and therefore generate the Swagger documentation or perform validation on the models (without manually writing code).
+[![Build & Release](https://github.com/tsedio/tsed/actions/workflows/build.yml/badge.svg)](https://github.com/tsedio/tsed/actions/workflows/build.yml)
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![backers](https://opencollective.com/tsed/tiers/badge.svg)](https://opencollective.com/tsed)
 
-The `@tsed/prisma` will generates classes and enums compatible with Ts.ED decorators like @@Returns@@ but also, but it will also generate the `PrismaService` (connection to the database) but also the **repositories** for each **model** of your Prisma schema.
+</div>
+
+<div align="center">
+  <a href="https://tsed.io/">Website</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://tsed.io/tutorials/prisma.html">Tutorial</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://api.tsed.io/rest/slack/tsedio/tsed">Slack</a>
+  <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
+  <a href="https://twitter.com/TsED_io">Twitter</a>
+</div>
+
+<hr />
 
 ## Installation
 
@@ -29,35 +36,35 @@ npm i @tsed/prisma @prisma/client
 
 After installation, you need to update your `schema.prisma` file and then add a new generator section below the `client` one:
 
-```groovy
+```prisma
 generator client {
   // ...
 }
 
 generator tsed {
-  provider = "tsed-prisma"
+  provider = "@tsed/prisma"
 }
 ```
 
-Then after running `npx prisma generate`, this will emit the generated Ts.ED classes and Enums to `@tsedio/prisma/.schema` in `node_modules` folder.
+Then after running `npx prisma generate`, this will emit the generated Ts.ED classes and Enums to `@tsed/prisma/.schema` in `node_modules` folder.
 
 You can also configure the default output folder, e.g.:
 
-```groovy
+```prisma
 generator tsed {
-  provider = "tsed-prisma"
+  provider = "@tsed/prisma"
   output   = "../prisma/generated/tsed"
 }
 ```
 
 By default, when the output path contains `node_modules`, the generated code is transpiled - containing `*.js` and `*.d.ts` files that are ready to use (import) in your code.
-However, if you explicitly choose another folder in `output` config, the generated code will be emitted as raw TS files which you can use and import as your other source code files.
+However, if you explicitly choose an other folder in `output` config, the generated code will be emitted as raw TS files which you can use and import as your other source code files.
 
 You can overwrite that by explicitly setting `emitTranspiledCode` config option:
 
-```groovy
+```prisma
 generator tsed {
-  provider           = "tsed-prisma"
+  provider           = "@tsed/prisma"
   output             = "../prisma/generated/tsed"
   emitTranspiledCode = true
 }
@@ -86,6 +93,7 @@ model User {
   posts       Post[]
   keywords    String[]
   biography   Json
+
   /// @TsED.Ignore(ctx.endpoint === true)
   ignored    String
 }
@@ -105,8 +113,8 @@ enum Role {
 it will generate the following UserModel:
 
 ```typescript
-import {User} from "../client";
 import {Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf} from "@tsed/schema";
+import {User} from "../client";
 import {Role} from "../enums";
 import {PostModel} from "./PostModel";
 
@@ -165,7 +173,7 @@ export class UserModel implements User {
   @Required()
   biography: any;
 
-  @TsED.Ignore((value: any, ctx: any) => ctx.endpoint === true)
+  @Ignore((value: any, ctx: any) => ctx.endpoint === true)
   ignored: string;
 }
 ```
@@ -251,7 +259,7 @@ export class UsersRepository {
 The generator parse prisma command to find extra Ts.ED decorators. You can use any `@tsed/schema` decorators from Ts.ED by
 adding a comment with the following format `/// @TsED.Decorator`. See example above:
 
-```groovy
+```prisma
 model User {
   /// @TsED.Groups("!creation")
   /// Comment
@@ -260,6 +268,8 @@ model User {
   /// @TsED.Email()
   /// @TsED.Description("User email. This email must be unique!")
   email       String   @unique
+  /// @TsED.Ignore(ctx.endpoint === true)
+  ignored    String
 }
 ```
 
@@ -278,7 +288,36 @@ export class UserModel implements User {
   @Email()
   @Description("User email. This email must be unique!")
   email: string;
+
+  @TsED.Ignore((value: any, ctx: any) => ctx.endpoint === true)
+  ignored: string;
 }
 ```
 
-Now that the Ts.ED generator is correctly configured, you can go back (or follow) the tutorial to create your [first controller](/tutorials/prisma.html#create-controllers)
+## Contributors
+
+Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
+
+<a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
+
+## Backers
+
+Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
+
+<a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
+
+## Sponsors
+
+Support this project by becoming a sponsor. Your logo will show up here with a link to your website. [[Become a sponsor](https://opencollective.com/tsed#sponsor)]
+
+## License
+
+The MIT License (MIT)
+
+Copyright (c) 2016 - 2021 Romain Lenzotti
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.

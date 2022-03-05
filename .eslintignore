@@ -9,3 +9,4 @@ docs-references
 *-lock.json
 *.lock
 benchmarks.*
+**/generated

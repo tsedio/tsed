@@ -37,6 +37,7 @@ module.exports = (rootDir) => ({
     "^@tsed/objection$": fixPath(join(packageDir, "orm/objection/src")),
     "^@tsed/typeorm$": fixPath(join(packageDir, "orm/typeorm/src")),
     "^@tsed/mikro-orm": fixPath(join(packageDir, "orm/mikro-orm/src")),
+    "^@tsed/prisma": fixPath(join(packageDir, "orm/prisma/src")),
     "^@tsed/adapters$": fixPath(join(packageDir, "orm/adapters/src")),
     "^@tsed/mongoose$": fixPath(join(packageDir, "orm/mongoose/src")),
     "^@tsed/adapters-redis$": fixPath(join(packageDir, "orm/adapters-redis/src")),

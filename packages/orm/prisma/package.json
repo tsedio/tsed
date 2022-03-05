@@ -1,0 +1,64 @@
+{
+  "name": "@tsed/prisma",
+  "version": "6.103.3",
+  "description": "Generate Ts.ED JsonSchema based on Prisma models",
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "bin": {
+    "tsed-prisma": "lib/cjs/generator.js"
+  },
+  "scripts": {
+    "build": "rm -rf lib && yarn run build:esm && yarn run build:cjs && yarn run copy",
+    "build:cjs": "tsc --build tsconfig.compile.json",
+    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "test": "cross-env NODE_ENV=test yarn jest",
+    "copy": "cp scripts/backup-index.cjs.js lib/cjs/index.js && cp scripts/backup-index.esm.js lib/esm/index.js  && cp scripts/backup-index.d.ts lib/types/index.d.ts",
+    "prepare": "cp scripts/backup-index.cjs.js lib/cjs/index.js && cp scripts/backup-index.esm.js lib/esm/index.js  && cp scripts/backup-index.d.ts lib/types/index.d.ts",
+    "generate": "cd test && prisma -v && prisma generate"
+  },
+  "private": false,
+  "dependencies": {
+    "@prisma/generator-helper": "^3.10.0",
+    "@prisma/sdk": "^3.10.0",
+    "change-case": "^4.1.2",
+    "pluralize": "^8.0.0",
+    "ts-morph": "^12.0.0",
+    "tslib": "^2.3.1"
+  },
+  "devDependencies": {
+    "@prisma/client": "^3.10.0",
+    "@tsed/core": "6.103.3",
+    "@tsed/di": "6.103.3",
+    "@tsed/json-mapper": "6.103.3",
+    "@tsed/schema": "6.103.3",
+    "@types/change-case": "^2.3.1",
+    "@types/pluralize": "0.0.29",
+    "prisma": "^3.10.0"
+  },
+  "peerDependencies": {
+    "@prisma/client": "^2 || ^3",
+    "@tsed/core": "^6.103.3",
+    "@tsed/di": "^6.103.3",
+    "@tsed/json-mapper": "^6.103.3",
+    "@tsed/schema": "^6.103.3"
+  },
+  "keywords": [
+    "TypeScript",
+    "decorators",
+    "models",
+    "json schema",
+    "JsonSchema",
+    "class",
+    "classes",
+    "tsed",
+    "prisma"
+  ]
+}

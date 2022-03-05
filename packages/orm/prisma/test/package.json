@@ -1,0 +1,9 @@
+{
+  "name": "@tsed/prisma-test",
+  "devDependencies": {
+    "prisma": "^3.10.0"
+  },
+  "dependencies": {
+    "@prisma/client": "^3.10.0"
+  }
+}

@@ -29,15 +29,6 @@ If you want to get a quick overview of how Prisma works, you can follow the [Qui
 
 <Projects type="projects"/>
 
-## Prisma generator for Ts.ED <Badge text="Premium sponsors" />
-
-If you are a premium sponsor, or you want to become one, you can ask [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) to get your access to the private packages [`@tsedio/prisma`](/tutorials/prisma-client.md).
-
-This package generates enums, and classes compatible with the Ts.ED decorators like @@Returns@@ and extends possibilities about the `prisma.schema`.
-It also generates PrismaService and Repositories!
-
-You should follow this tutorial to create your project properly. You will have more details regarding the installation of the [`@tsedio/prisma`](/tutorials/prisma-client.md) package.
-
 ## Getting started
 
 In this tutorial, you'll learn how to get started with Ts.ED and Prisma from scratch.
@@ -60,7 +51,15 @@ npm install -g @tsed/cli
 tsed init tsed-prisma
 ```
 
-From the CLI, select the following features: Swagger, Eslint, Jest.
+From the CLI, select the following features: Swagger, Eslint, Jest, ORM > Prisma.
+
+The `@tsed/prisma` will be automatically installed. This package generates `enums` and `classes` compatible with the Ts.ED decorators like @@Returns@@ and extends possibilities about the `prisma.schema`.
+It also generates `PrismaService` and `Repositories`!
+
+::: tip
+You can become a sponsor and help us to improve this module. A dedicated tiers is available on Github sponsors [here](https://github.com/sponsors/Romakita/sponsorships?sponsor=Romakita&tier_id=69644&preview=false).
+By choosing this options, your feature/fix request treated in top priority.
+:::
 
 ## Set up Prisma
 
@@ -102,6 +101,10 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+}
+
+generator tsed {
+  provider = "tsed-prisma"
 }
 ```
 
@@ -176,6 +179,44 @@ Replace the placeholders spelled in all uppercase letters with your database cre
 
   </Tab>
 </Tabs>
+
+## Prisma client configuration
+
+After installation, you need to update your `schema.prisma` file and then add a new generator section below the `client` one:
+
+```groovy
+generator client {
+  // ...
+}
+
+generator tsed {
+  provider = "tsed-prisma"
+}
+```
+
+Then after running `npx prisma generate`, this will emit the generated Ts.ED classes and Enums to `@tsedio/prisma/.schema` in `node_modules` folder.
+
+You can also configure the default output folder, e.g.:
+
+```groovy
+generator tsed {
+  provider = "tsed-prisma"
+  output   = "../prisma/generated/tsed"
+}
+```
+
+By default, when the output path contains `node_modules`, the generated code is transpiled - containing `*.js` and `*.d.ts` files that are ready to use (import) in your code.
+However, if you explicitly choose another folder in `output` config, the generated code will be emitted as raw TS files which you can use and import as your other source code files.
+
+You can overwrite that by explicitly setting `emitTranspiledCode` config option:
+
+```groovy
+generator tsed {
+  provider           = "tsed-prisma"
+  output             = "../prisma/generated/tsed"
+  emitTranspiledCode = true
+}
+```
 
 #### Create two database tables with Prisma Migrate
 
@@ -269,124 +310,236 @@ Add the previous command to your `scripts` in the `package.json`:
 
 :::
 
-## Configure Ts.ED prisma client <Badge text="Premium sponsors" />
+## Generate Models and Repositories
 
-Now our `prisma.schema` is ready for the basic usage. It's time to configure [`@tsedio/prisma`](/tutorials/prisma-client.md).
+By using the Prisma client and the `@tsed/prisma` module, you'll be able to generate models, enums and repositories each time you use the following command:
 
-See our dedicated guide [here](/tutorials/prisma-client.md).
+```sh
+npm run prisma:generate
+```
 
-The client will generate all enums, classes, repositories and PrismaService for the Ts.ED framework!
+`@tsed/prisma` let you adding extra decorators on your datamodel property to generate the Ts.ED model.
+Here is an example of Prisma datamodel with some decorators:
 
-## Create the PrismaService and PostService
+```groovy
+model User {
+  /// @TsED.Groups("!creation")
+  /// Comment
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  /// @TsED.Email()
+  /// @TsED.Description("User email. This email must be unique!")
+  email       String   @unique
+  weight      Float?
+  is18        Boolean?
+  name        String?
+  successorId Int?
+  successor   User?    @relation("BlogOwnerHistory", fields: [successorId], references: [id])
+  predecessor User?    @relation("BlogOwnerHistory")
+  role        Role     @default(USER)
+  posts       Post[]
+  keywords    String[]
+  biography   Json
+  /// @TsED.Ignore(ctx.endpoint === true)
+  ignored    String
+}
 
-You're now able to send database queries with Prisma Client. If you want to learn more about building queries with Prisma Client,
-check out the [API documentation](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/crud).
+model Post {
+  id     Int   @id @default(autoincrement())
+  user   User? @relation(fields: [userId], references: [id])
+  userId Int?
+}
 
-When setting up your Ts.ED application, you'll want to abstract away the Prisma Client API for database queries within a service.
-To get started, you can create a new `PrismaService` that takes care of instantiating `PrismaClient` and connecting to your database.
-
-Inside the `src/services` directory, create a new file called `PrismaService.ts` and add the following code to it:
-
-```typescript
-import {Injectable, OnInit, OnDestroy} from "@tsed/common";
-import {PrismaClient} from "@prisma/client";
-
-@Injectable()
-export class PrismaService extends PrismaClient implements OnInit, OnDestroy {
-  async $onInit() {
-    await this.$connect();
-  }
-
-  async $onDestroy() {
-    await this.$disconnect();
-  }
+enum Role {
+  USER
+  ADMIN
 }
 ```
 
-## Create UserService
-
-Next, you can write services that you can use to make database calls for the `User` and `Post` models from your Prisma schema.
-
-Still inside the `src/services` directory, create a new file called `UsersRepository.ts` and add the following code to it:
+Based on our previous example, Prisma Client will generate the following UserModel:
 
 ```typescript
-import {Inject, Injectable} from "@tsed/di";
-import {Prisma, User} from "@prisma/client";
-import {PrismaService} from "./PrismaService";
+import {User} from "../client";
+import {Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf} from "@tsed/schema";
+import {Role} from "../enums";
+import {PostModel} from "./PostModel";
+
+export class UserModel implements User {
+  @Property(Number)
+  @Integer()
+  @Required()
+  @Groups("!creation")
+  id: number;
+
+  @Property(Date)
+  @Format("date-time")
+  @Required()
+  createdAt: Date;
+
+  @Property(String)
+  @Required()
+  @Email()
+  @Description("User email. This email must be unique!")
+  email: string;
+
+  @Property(Number)
+  @Allow(null)
+  weight: number | null;
+
+  @Property(Boolean)
+  @Allow(null)
+  is18: boolean | null;
+
+  @Property(String)
+  @Allow(null)
+  name: string | null;
+
+  @Property(Number)
+  @Integer()
+  @Allow(null)
+  successorId: number | null;
+
+  @Property(() => UserModel)
+  @Allow(null)
+  predecessor: UserModel | null;
+
+  @Required()
+  @Enum(Role)
+  role: Role;
+
+  @CollectionOf(() => PostModel)
+  @Required()
+  posts: PostModel[];
+
+  @CollectionOf(String)
+  @Required()
+  keywords: string[];
+
+  @Property(Object)
+  @Required()
+  biography: any;
+
+  @TsED.Ignore((value: any, ctx: any) => ctx.endpoint === true)
+  ignored: string;
+}
+```
+
+And, the following repository:
+
+```typescript
+import {isArray} from "@tsed/core";
+import {deserialize} from "@tsed/json-mapper";
+import {Injectable, Inject} from "@tsed/di";
+import {PrismaService} from "../services/PrismaService";
+import {Prisma, User} from "../client";
+import {UserModel} from "../models";
 
 @Injectable()
-export class UserRepository {
+export class UsersRepository {
   @Inject()
-  prisma: PrismaService;
+  protected prisma: PrismaService;
 
-  async findUnique(args: Prisma.UserFindUniqueArgs): Promise<User | null> {
-    return this.prisma.user.findUnique(args);
+  get collection() {
+    return this.prisma.user;
   }
 
-  async findMany(args?: Prisma.UserFindManyArgs): Promise<User[]> {
-    return this.prisma.user.findMany(args);
+  get groupBy() {
+    return this.collection.groupBy.bind(this.collection);
   }
 
-  async create(args: Prisma.UserCreateArgs): Promise<User> {
-    return this.prisma.user.create(args);
+  protected deserialize<T>(obj: null | User | User[]): T {
+    return deserialize<T>(obj, {type: UserModel, collectionType: isArray(obj) ? Array : undefined});
   }
 
-  async update(args: Prisma.UserUpdateArgs): Promise<User> {
-    return this.prisma.user.update(args);
+  async findUnique(args: Prisma.UserFindUniqueArgs): Promise<UserModel | null> {
+    const obj = await this.collection.findUnique(args);
+    return this.deserialize<UserModel | null>(obj);
   }
 
-  async delete(args: Prisma.UserDeleteArgs): Promise<User> {
-    return this.prisma.user.delete(args);
+  async findFirst(args: Prisma.UserFindFirstArgs): Promise<UserModel | null> {
+    const obj = await this.collection.findFirst(args);
+    return this.deserialize<UserModel | null>(obj);
+  }
+
+  async findMany(args?: Prisma.UserFindManyArgs): Promise<UserModel[]> {
+    const obj = await this.collection.findMany(args);
+    return this.deserialize<UserModel[]>(obj);
+  }
+
+  async create(args: Prisma.UserCreateArgs): Promise<UserModel> {
+    const obj = await this.collection.create(args);
+    return this.deserialize<UserModel>(obj);
+  }
+
+  async update(args: Prisma.UserUpdateArgs): Promise<UserModel> {
+    const obj = await this.collection.update(args);
+    return this.deserialize<UserModel>(obj);
+  }
+
+  async upsert(args: Prisma.UserUpsertArgs): Promise<UserModel> {
+    const obj = await this.collection.upsert(args);
+    return this.deserialize<UserModel>(obj);
+  }
+
+  async delete(args: Prisma.UserDeleteArgs): Promise<UserModel> {
+    const obj = await this.collection.delete(args);
+    return this.deserialize<UserModel>(obj);
+  }
+
+  async deleteMany(args: Prisma.UserDeleteManyArgs) {
+    return this.collection.deleteMany(args);
+  }
+
+  async updateMany(args: Prisma.UserUpdateManyArgs) {
+    return this.collection.updateMany(args);
+  }
+
+  async aggregate(args: Prisma.UserAggregateArgs) {
+    return this.collection.aggregate(args);
   }
 }
 ```
 
-Notice how you're using Prisma Client's generated types to ensure that the methods that are exposed by your service are properly typed.
-You therefore save the boilerplate of typing your models and creating additional interface or DTO files.
+It will be the same for all the models that you declare in the `schema.prisma`!
 
-Now do the same for the `Post` model.
+### Ts.ED decorators usage in Prisma
 
-Still inside the `src` directory, create a new file called `PostsRepository.ts` and add the following code to it:
+The generator parse prisma command to find extra Ts.ED decorators. You can use any `@tsed/schema` decorators from Ts.ED by
+adding a comment with the following format `/// @TsED.Decorator`. See example above:
+
+```groovy
+model User {
+  /// @TsED.Groups("!creation")
+  /// Comment
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  /// @TsED.Email()
+  /// @TsED.Description("User email. This email must be unique!")
+  email       String   @unique
+}
+```
+
+Output:
 
 ```typescript
-import {Post, Prisma} from "@prisma/client";
-import {Inject, Injectable} from "@tsed/di";
-import {PrismaService} from "./PrismaService";
+export class UserModel implements User {
+  @Property(Number)
+  @Integer()
+  @Required()
+  @Groups("!creation")
+  id: number;
 
-@Injectable()
-export class PostsRepository {
-  @Inject()
-  prisma: PrismaService;
-
-  async findUnique(args: Prisma.PostFindUniqueArgs): Promise<Post | null> {
-    return this.prisma.post.findUnique(args);
-  }
-
-  async findMany(args?: Prisma.PostFindManyArgs): Promise<Post[]> {
-    return this.prisma.post.findMany(args);
-  }
-
-  async create(args: Prisma.PostCreateArgs): Promise<Post> {
-    return this.prisma.post.create(args);
-  }
-
-  async update(args: Prisma.PostUpdateArgs): Promise<Post> {
-    return this.prisma.post.update(args);
-  }
-
-  async delete(args: Prisma.PostDeleteArgs): Promise<Post> {
-    return this.prisma.post.delete(args);
-  }
+  @Property(String)
+  @Required()
+  @Email()
+  @Description("User email. This email must be unique!")
+  email: string;
 }
 ```
-
-Your `UsersRepository` and `PostsRepository` currently wrap the CRUD queries that are available in Prisma Client.
-In a real world application, the service would also be the place to add business logic to your application.
-For example, you could have a method called `updatePassword` inside the `UsersRepository` that would be responsible for updating the password of a user.
 
 ## Create controllers
 
-Finally, you'll use the services you created in the previous sections to implement the different routes of your app.
+Finally, you'll use the repository you generated in the previous sections to implement the different routes of your app.
 
 Now we have to create controllers to expose your business to our consumers. So create the following controllers in `src/controllers` directory:
 
@@ -397,9 +550,7 @@ Now we have to create controllers to expose your business to our consumers. So c
 import {BodyParams, Controller, Get, Post} from "@tsed/common";
 import {Inject} from "@tsed/di";
 import {Groups, Returns, Summary} from "@tsed/schema";
-import {UserModel, UsersRepository} from "@tsedio/prisma";
-
-// import {UsersRepository} from "../services/UsersRepository";
+import {UserModel, UsersRepository} from "@tsed/prisma";
 
 @Controller("/users")
 export class UsersController {
@@ -430,9 +581,7 @@ import {BodyParams, Controller, Delete, Get, PathParams, Post, Put} from "@tsed/
 import {Inject} from "@tsed/di";
 import {Description, Groups, Name, Returns, Summary} from "@tsed/schema";
 import {NotFound} from "@tsed/exceptions";
-import {PostModel, PostsRepository} from "@tsedio/prisma";
-
-// OR import {PostsRepository} from "../../services/PostsRepository";
+import {PostModel, PostsRepository} from "@tsed/prisma";
 
 @Controller("/posts")
 @Name("Posts")
@@ -512,9 +661,8 @@ export class PostsController {
 ```typescript
 import {Controller, Get} from "@tsed/common";
 import {Inject} from "@tsed/di";
-import {PostModel, PostsRepository} from "@tsedio/prisma";
+import {PostModel, PostsRepository} from "@tsed/prisma";
 import {Returns, Summary} from "@tsed/schema";
-// import {PostsRepository} from "../services/PostsRepository";
 
 @Controller("/feeds")
 export class FeedsController {
@@ -537,7 +685,22 @@ export class FeedsController {
 
 Now start the server and open the Swagger documentation to test your REST API!
 
+## Inject PrismaService
+
+`@tsed/prisma` package generate also the `PrismaService`. You can inject this service as following:
+
+```typescript
+import {Injectable, Inject} from "@tsed/di";
+import {PrismaService} from "@tsed/prisma";
+
+@Injectable()
+export class MyService {
+  @Inject()
+  protected prisma: PrismaService;
+}
+```
+
 ### Summary
 
 In this tutorial, you learned how to use Prisma along with Ts.ED to implement a REST API.
-The controller implementing the routes of the API is calling a `PrismaService` which in turn uses Prisma Client to send queries to a database to fulfill the data needed by incoming requests.
+The controller implementing the routes of the API is calling our Repositories generated with the Prisma Client and uses the generated PrismaService to interact with the database.
