@@ -10,3 +10,16 @@ export class MyService {
     console.log("the simple method is executed");
   }
 }
+
+// on class
+@Injectable()
+@Intercept(MyInterceptor, "simple data")
+export class MyService2 {
+  mySimpleMethod1() {
+    console.log("the simple method is executed");
+  }
+
+  mySimpleMethod2() {
+    console.log("the simple method is executed");
+  }
+}
