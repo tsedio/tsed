@@ -13,24 +13,23 @@ import type {InjectableProperties} from "../interfaces/InjectableProperties";
  */
 export function Intercept<T extends InterceptorMethods>(interceptor: Type<T>, options?: any): any {
   return (...args: DecoratorParameters) => {
+    const [target, propertyKey, descriptor] = args;
     const type = decoratorTypeOf(args);
-    console.log("===", args);
     switch (type) {
       case DecoratorTypes.CLASS:
-        console.log("===");
-        decorateMethodsOf(args[0], Intercept(interceptor, options));
+        decorateMethodsOf(target, Intercept(interceptor, options));
         break;
       case DecoratorTypes.METHOD:
-        Store.from(args[0]).merge(INJECTABLE_PROP, {
-          [args[1]]: {
-            bindingType: InjectablePropertyType.INTERCEPTOR,
-            propertyKey: args[1],
+        Store.from(target).merge(INJECTABLE_PROP, {
+          [propertyKey]: {
+            options,
+            propertyKey,
             useType: interceptor,
-            options
+            bindingType: InjectablePropertyType.INTERCEPTOR
           }
         } as InjectableProperties);
 
-        return args[2] as any;
+        return descriptor;
     }
   };
 }
