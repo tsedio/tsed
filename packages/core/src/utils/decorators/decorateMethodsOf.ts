@@ -8,6 +8,7 @@ export function decorateMethodsOf(klass: any, decorator: any) {
   methodsOf(klass).forEach(({target, propertyKey}) => {
     if (target !== classOf(klass)) {
       Object.defineProperty(prototypeOf(klass), propertyKey, {
+        writable: true,
         value(...args: any[]) {
           return prototypeOf(target)[propertyKey].apply(this, args);
         }

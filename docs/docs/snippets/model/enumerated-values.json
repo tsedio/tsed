@@ -10,6 +10,10 @@
       "type": "string"
     },
     "prop3": {
+      "enum": [0, 1, 2, 3, 4, 5, 6],
+      "type": "number"
+    },
+    "prop4": {
       "enum": ["red", "amber", "green", 42, null],
       "type": "object"
     }
