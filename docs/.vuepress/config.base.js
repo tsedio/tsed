@@ -305,14 +305,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             path: `${base}/getting-started/`,
             collapsable: true // optional, defaults to true
           },
-          {
-            title: "Getting started",
-            children: [
-              {title: "Start with CLI", path: base + "/getting-started/start-with-cli"},
-              {title: "Start from scratch", path: base + "/getting-started/start-from-scratch"},
-              {title: "Create your first controller", path: base + "/getting-started/create-your-first-controller"}
-            ]
-          },
+          {title: "Create new project", path: base + "/getting-started/start-with-cli"},
+          {title: "Create your first controller", path: base + "/getting-started/create-your-first-controller"},
           {
             title: "Migration",
             collapsable: true,
