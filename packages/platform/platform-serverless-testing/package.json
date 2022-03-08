@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-serverless-testing",
-  "version": "6.105.1",
+  "version": "6.105.2",
   "description": "Module to test Serverless function with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -56,22 +56,22 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "devDependencies": {
-    "@tsed/common": "6.105.1",
-    "@tsed/core": "6.105.1",
-    "@tsed/di": "6.105.1",
-    "@tsed/schema": "6.105.1"
+    "@tsed/common": "6.105.2",
+    "@tsed/core": "6.105.2",
+    "@tsed/di": "6.105.2",
+    "@tsed/schema": "6.105.2"
   },
   "dependencies": {
     "aws-lambda": "^1.0.7",
     "tslib": "2.2.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.105.1",
-    "@tsed/core": "^6.105.1",
-    "@tsed/di": "^6.105.1",
-    "@tsed/json-mapper": "^6.105.1",
+    "@tsed/common": "^6.105.2",
+    "@tsed/core": "^6.105.2",
+    "@tsed/di": "^6.105.2",
+    "@tsed/json-mapper": "^6.105.2",
     "@tsed/logger": ">=6.1.0",
-    "@tsed/openspec": "^6.105.1",
-    "@tsed/schema": "^6.105.1"
+    "@tsed/openspec": "^6.105.2",
+    "@tsed/schema": "^6.105.2"
   }
 }
