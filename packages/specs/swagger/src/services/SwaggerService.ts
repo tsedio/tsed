@@ -51,7 +51,10 @@ export class SwaggerService {
 
       this.platform.getMountedControllers().forEach(({route, provider}) => {
         if (includeRoute(route, provider, conf)) {
-          const spec = getSpec(provider.token, options);
+          const spec = getSpec(provider.token, {
+            ...options,
+            rootPath: route.replace(provider.path, "")
+          });
 
           options.append(spec);
         }

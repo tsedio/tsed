@@ -205,10 +205,10 @@ describe("Swagger integration", () => {
         swagger: "2.0",
         tags: [
           {
-            name: "EventCtrl"
+            name: "CalendarsController"
           },
           {
-            name: "CalendarsController"
+            name: "EventCtrl"
           }
         ]
       });
@@ -338,10 +338,10 @@ describe("Swagger integration", () => {
         },
         tags: [
           {
-            name: "EventCtrl"
+            name: "CalendarsController"
           },
           {
-            name: "CalendarsController"
+            name: "EventCtrl"
           }
         ]
       });
