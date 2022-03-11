@@ -79,9 +79,6 @@ export interface SwaggerSettingsBase {
   pathPatterns?: string[];
 }
 
-/**
- * @deprecated Since 2021-09-03. Will be removed in v7.
- */
 export interface SwaggerOS2Settings extends SwaggerSettingsBase {
   specVersion?: OS2Versions;
   /**

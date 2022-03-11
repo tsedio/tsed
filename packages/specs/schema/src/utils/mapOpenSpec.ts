@@ -1,9 +1,10 @@
 import {getValue, setValue} from "@tsed/core";
 import {OpenSpec2, OpenSpec3, OpenSpecVersions} from "@tsed/openspec";
-import {mergeSpec, SpecTypes} from "@tsed/schema";
 import {getSpecType} from "./getSpecType";
 import {mapOpenSpec2} from "./mapOpenSpec2";
+import {SpecTypes} from "../domain/SpecTypes";
 import {mapOpenSpec3} from "./mapOpenSpec3";
+import {mergeSpec} from "./mergeSpec";
 
 /**
  * @ignore
