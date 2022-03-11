@@ -16,6 +16,21 @@ class MyCtrl {
   get() {}
 }
 
+@Controller("/my-sub-route")
+class MySubCtrl {
+  @Get("/")
+  get() {}
+}
+
+@Controller({
+  path: "/my-route",
+  children: [MySubCtrl]
+})
+class MyNestedCtrl {
+  @Get("/")
+  get() {}
+}
+
 describe("Platform", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
@@ -35,6 +50,25 @@ describe("Platform", () => {
 
       // THEN
       expect(platform.getMountedControllers()).to.deep.eq([{provider, route: "/test/my-route"}]);
+      expect(platform.app.use).to.have.been.calledWithExactly("/test/my-route", router.raw);
+    });
+    it("should add nested controllers", async () => {
+      // GIVEN
+      const nestedProvider: ControllerProvider = PlatformTest.injector.getProvider(MyNestedCtrl)! as ControllerProvider;
+      const subProvider: ControllerProvider = PlatformTest.injector.getProvider(MySubCtrl)! as ControllerProvider;
+      const platform = await PlatformTest.get<Platform>(Platform);
+
+      sandbox.spy(platform.app, "use");
+
+      // WHEN
+      platform.addRoute("/test", MyNestedCtrl);
+      const router = PlatformTest.get<PlatformRouter>(nestedProvider.tokenRouter);
+
+      // THEN
+      expect(platform.getMountedControllers()).to.deep.eq([
+        {provider: subProvider, route: "/test/my-route/my-sub-route"},
+        {provider: nestedProvider, route: "/test/my-route"}
+      ]);
       expect(platform.app.use).to.have.been.calledWithExactly("/test/my-route", router.raw);
     });
   });

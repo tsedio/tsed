@@ -1,5 +1,6 @@
+import {Type} from "@tsed/core";
 import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
-import {concatPath, EndpointMetadata, getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
+import {concatPath, EndpointMetadata, getJsonEntityStore, getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
 import {buildRouter, createRouter, getRouter} from "../builder/PlatformControllerBuilder";
 import {ControllerProvider} from "../domain/ControllerProvider";
 import {PlatformRouteDetails} from "../domain/PlatformRouteDetails";
@@ -46,12 +47,9 @@ export class Platform {
       return;
     }
 
-    const ctrlPath = concatPath(basePath, JsonEntityStore.from(provider.token).path);
+    this._controllers.push(...this.getAllControllers(basePath, token));
 
-    this._controllers.push({
-      route: ctrlPath,
-      provider
-    });
+    const ctrlPath = concatPath(basePath, JsonEntityStore.from(provider.token).path);
 
     this.app.use(ctrlPath, ...[].concat(getRouter(injector, provider).callback()));
 
@@ -83,6 +81,10 @@ export class Platform {
     return this._routes;
   }
 
+  /**
+   * Get all controllers mounted on the application.
+   * @returns  {RouteController[]}
+   */
   public getMountedControllers(): RouteController[] {
     return this._controllers;
   }
@@ -101,6 +103,28 @@ export class Platform {
     injector.getProviders(ProviderType.CONTROLLER).map((provider: ControllerProvider) => {
       createRouter(injector, provider);
     });
+  }
+
+  /**
+   * Get all router controllers from the controller token.
+   * @private
+   */
+  private getAllControllers(basePath: string, token: Type<any> | any): RouteController[] {
+    const store: JsonEntityStore = token.isStore ? token : getJsonEntityStore(token);
+    const ctrlPath = concatPath(basePath, JsonEntityStore.from(token).path);
+    const children = store.get<Type[]>("childrenControllers", []);
+
+    return children
+      .reduce<RouteController[]>((controllers, token) => {
+        const childBasePath = concatPath(basePath, store.path);
+        return controllers.concat(this.getAllControllers(childBasePath, token));
+      }, [])
+      .concat([
+        {
+          route: ctrlPath,
+          provider: this.injector.getProvider(token) as ControllerProvider
+        }
+      ]);
   }
 
   /**

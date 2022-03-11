@@ -4,6 +4,7 @@ import {getOperationsStores} from "./getOperationsStores";
 import {JsonOperationRoute} from "../domain/JsonOperationRoute";
 import {JsonEntityStore} from "../domain/JsonEntityStore";
 import {getJsonEntityStore} from "./getJsonEntityStore";
+import {concatPath} from "./concatPath";
 
 export interface GetOperationsRoutesOptions {
   withChildren?: boolean;
@@ -15,7 +16,7 @@ export function getOperationsRoutes<Entity extends JsonMethodStore = JsonMethodS
   options: GetOperationsRoutesOptions = {}
 ): JsonOperationRoute<Entity>[] {
   const store: JsonEntityStore = token.isStore ? token : getJsonEntityStore(token);
-  const basePath = ((options.basePath || "") + (store.path || "")).replace(/\/\//gi, "/");
+  const basePath = concatPath(options.basePath, store.path);
   let operationsRoutes: JsonOperationRoute<Entity>[] = [];
 
   if (options.withChildren) {

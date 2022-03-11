@@ -51,7 +51,7 @@ export class SwaggerService {
 
       this.platform.getMountedControllers().forEach(({route, provider}) => {
         if (includeRoute(route, provider, conf)) {
-          const spec = this.buildRoutes(provider, {
+          const spec = getSpec(provider.token, {
             ...options,
             rootPath: route.replace(provider.path, "")
           });
@@ -93,29 +93,5 @@ export class SwaggerService {
     }
 
     return {};
-  }
-
-  /**
-   *
-   * @param ctrl
-   * @param options
-   */
-  protected buildRoutes(ctrl: ControllerProvider, options: SpecSerializerOptions) {
-    const rootPath = options.rootPath + ctrl.path;
-
-    ctrl.children
-      .map((ctrl) => this.injectorService.getProvider(ctrl))
-      .forEach((provider: ControllerProvider) => {
-        if (!provider.store.get("hidden")) {
-          const spec = this.buildRoutes(provider, {
-            ...options,
-            rootPath
-          });
-
-          options.append(spec);
-        }
-      });
-
-    return getSpec(ctrl.token, options);
   }
 }
