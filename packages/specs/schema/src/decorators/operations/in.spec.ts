@@ -14,9 +14,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({
-      specType: SpecTypes.SWAGGER
-    });
+    const operation = methodSchema.operation!.toJSON({});
 
     expect(operation).toEqual({
       parameters: [
@@ -24,7 +22,9 @@ describe("In", () => {
           in: "path",
           name: "basic",
           required: true,
-          type: "string"
+          schema: {
+            type: "string"
+          }
         }
       ],
       responses: {
@@ -48,9 +48,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({
-      specType: SpecTypes.SWAGGER
-    });
+    const operation = methodSchema.operation!.toJSON({});
 
     expect(operation).toEqual({
       parameters: [
@@ -58,14 +56,18 @@ describe("In", () => {
           in: "path",
           name: "basic",
           required: true,
-          type: "string"
+          schema: {
+            type: "string"
+          }
         },
         {
+          description: "description",
           in: "header",
           name: "Authorization",
           required: true,
-          type: "string",
-          description: "description"
+          schema: {
+            type: "string"
+          }
         }
       ],
       responses: {
@@ -89,9 +91,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({
-      specType: SpecTypes.SWAGGER
-    });
+    const operation = methodSchema.operation!.toJSON({});
 
     expect(operation).toEqual({
       parameters: [
@@ -99,14 +99,18 @@ describe("In", () => {
           in: "path",
           name: "basic",
           required: true,
-          type: "string"
+          schema: {
+            type: "string"
+          }
         },
         {
+          description: "description",
           in: "header",
           name: "Authorization",
           required: true,
-          type: "string",
-          description: "description"
+          schema: {
+            type: "string"
+          }
         }
       ],
       responses: {

@@ -1,37 +1,7 @@
 import {Consumes, getSpec, OperationPath, SpecTypes} from "@tsed/schema";
 
 describe("Consumes", () => {
-  it("should store metadata (swagger)", () => {
-    class MyController {
-      @OperationPath("POST", "/")
-      @Consumes("text/json")
-      get() {}
-    }
-
-    expect(getSpec(MyController, {specType: SpecTypes.SWAGGER})).toEqual({
-      tags: [
-        {
-          name: "MyController"
-        }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "myControllerGet",
-            parameters: [],
-            consumes: ["text/json"],
-            responses: {
-              "200": {
-                description: "Success"
-              }
-            },
-            tags: ["MyController"]
-          }
-        }
-      }
-    });
-  });
-  it("should store metadata (OS3)", () => {
+  it("should store metadata", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Consumes("text/json")

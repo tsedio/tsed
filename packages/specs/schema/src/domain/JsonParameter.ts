@@ -6,10 +6,7 @@ import {NestedGenerics, popGenerics} from "../utils/generics";
 import {JsonMap} from "./JsonMap";
 import {formatParameterType, isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
-import {SpecTypes} from "./SpecTypes";
 import {createRefName} from "../utils/ref";
-
-const IGNORE_OS2_PROPS = ["example", "examples", "title"];
 
 export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
   nestedGenerics: Type<any>[][] = [];
@@ -85,11 +82,9 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     parameter.required = parameter.required || this.get("in") === JsonParameterTypes.PATH;
 
     if (this.get("in") === JsonParameterTypes.FILES) {
-      const isOpenApi = options.specType === SpecTypes.OPENAPI;
-
       const schema = {
-        type: isOpenApi ? "string" : "file",
-        format: isOpenApi ? "binary" : undefined,
+        type: "string",
+        format: "binary",
         oneOf: undefined
       };
 
@@ -110,53 +105,12 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
       return parameter;
     }
 
-    if (options.specType === SpecTypes.OPENAPI) {
-      if (["query"].includes(this.get("in")) && jsonSchema.$ref) {
-        if (!parameter.name) {
-          return this.refToParameters(parameter, options, schemasContainer);
-        }
-
-        parameter.style = "deepObject";
-      }
-    }
-
-    if (options.specType === SpecTypes.SWAGGER) {
-      if (!jsonSchema.$ref && Object.keys(jsonSchema).length === 1) {
-        parameter.type = jsonSchema.type;
-        return parameter;
+    if (["query"].includes(this.get("in")) && jsonSchema.$ref) {
+      if (!parameter.name) {
+        return this.refToParameters(parameter, options, schemasContainer);
       }
 
-      if (["formData", "query"].includes(this.get("in"))) {
-        if (jsonSchema.$ref) {
-          return this.refToParameters(parameter, options, schemasContainer);
-        }
-
-        if (jsonSchema.type === "array") {
-          const {minLength, ...props} = jsonSchema;
-          return cleanObject(
-            {
-              ...parameter,
-              ...props,
-              type: "array",
-              collectionFormat: "multi",
-              items: {
-                type: "string"
-              }
-            },
-            IGNORE_OS2_PROPS
-          );
-        }
-      }
-
-      if (this.get("in") !== "body") {
-        return cleanObject(
-          {
-            ...parameter,
-            ...jsonSchema
-          },
-          IGNORE_OS2_PROPS
-        );
-      }
+      parameter.style = "deepObject";
     }
 
     parameter.schema = jsonSchema;
@@ -173,20 +127,6 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     }
 
     return Object.entries(schema.properties || {}).reduce((params, [key, {description, ...prop}]: [string, any]) => {
-      if (options.specType === SpecTypes.OPENAPI) {
-        return [
-          ...params,
-          cleanObject({
-            ...parameter,
-            name: key,
-            required: (schema.required || []).includes(key),
-            description,
-            schema: prop,
-            style: prop.$ref ? "deepObject" : undefined
-          })
-        ];
-      }
-
       return [
         ...params,
         cleanObject({
@@ -194,7 +134,8 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
           name: key,
           required: (schema.required || []).includes(key),
           description,
-          ...prop
+          schema: prop,
+          style: prop.$ref ? "deepObject" : undefined
         })
       ];
     }, []);

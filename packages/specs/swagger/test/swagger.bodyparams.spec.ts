@@ -45,6 +45,7 @@ describe("Swagger BodyParams()", () => {
         paths: {
           "/rest/customers": {
             post: {
+              consumes: ["application/json"],
               operationId: "customerControllerGet",
               parameters: [
                 {
@@ -53,12 +54,12 @@ describe("Swagger BodyParams()", () => {
                   required: false,
                   schema: {
                     properties: {
-                      customer_name: {
-                        type: "string"
-                      },
                       customer_last_name: {
                         maxLength: 100,
                         minLength: 0,
+                        type: "string"
+                      },
+                      customer_name: {
                         type: "string"
                       }
                     },

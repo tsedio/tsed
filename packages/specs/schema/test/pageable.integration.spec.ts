@@ -1,4 +1,4 @@
-import {array, getJsonSchema, getSpec, In, oneOf, SpecTypes, string} from "../src";
+import {array, getJsonSchema, getSpec, oneOf, SpecTypes, string} from "../src";
 import {
   CollectionOf,
   Default,
@@ -105,6 +105,7 @@ class TestPageableCtrl {
 describe("Spec: Pageable", () => {
   it("should generate the JSON", () => {
     const schema = getJsonSchema(Pageable);
+
     expect(schema).toEqual({
       properties: {
         page: {
@@ -239,92 +240,5 @@ describe("Spec: Pageable", () => {
       }
     });
     expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
-  });
-  it("should generate the OS2", async () => {
-    const spec = getSpec(TestPageableCtrl, {specType: SpecTypes.SWAGGER});
-
-    expect(await validateSpec(spec)).toBe(true);
-    expect(spec).toEqual({
-      paths: {
-        "/pageable": {
-          get: {
-            operationId: "testPageableCtrlGet",
-            parameters: [
-              {
-                in: "query",
-                required: false,
-                name: "page",
-                type: "integer",
-                description: "Page number.",
-                default: 0,
-                minimum: 0,
-                multipleOf: 1
-              },
-              {
-                in: "query",
-                required: false,
-                name: "size",
-                type: "integer",
-                description: "Number of objects per page.",
-                default: 20,
-                minimum: 1,
-                multipleOf: 1
-              },
-              {
-                in: "query",
-                required: false,
-                name: "sort",
-                type: "array",
-                description:
-                  "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
-                maxItems: 2,
-                items: {type: "string"}
-              },
-              {in: "query", name: "all", required: false, type: "boolean"}
-            ],
-            responses: {
-              "200": {description: "Success", schema: {$ref: "#/definitions/PaginatedProduct"}},
-              "206": {description: "Partial Content", schema: {$ref: "#/definitions/PaginatedProduct"}}
-            },
-            produces: ["application/json"],
-            tags: ["TestPageableCtrl"]
-          }
-        }
-      },
-      tags: [{name: "TestPageableCtrl"}],
-      definitions: {
-        Product: {
-          type: "object",
-          properties: {id: {type: "string"}, title: {type: "string"}}
-        },
-        PaginatedProduct: {
-          type: "object",
-          properties: {
-            page: {
-              type: "integer",
-              description: "Page number.",
-              default: 0,
-              minimum: 0,
-              multipleOf: 1
-            },
-            size: {
-              type: "integer",
-              description: "Number of objects per page.",
-              default: 20,
-              minimum: 1,
-              multipleOf: 1
-            },
-            sort: {
-              type: "array",
-              description: "Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.",
-              maxItems: 2,
-              items: {type: "string"}
-            },
-            data: {type: "array", items: {$ref: "#/definitions/Product"}},
-            totalCount: {type: "integer", minLength: 0, multipleOf: 1}
-          }
-        }
-      }
-    });
   });
 });

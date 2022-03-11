@@ -33,12 +33,14 @@
   ],
   "dependencies": {
     "@tsed/openspec": "6.105.4",
+    "api-spec-converter": "2.12.0",
     "camel-case": "4.1.2",
     "json-schema": "0.4.0",
     "micromatch": "4.0.4",
     "pascal-case": "3.1.2",
     "statuses": ">=2.0.1",
-    "tslib": "2.2.0"
+    "tslib": "2.2.0",
+    "fs-extra": "^10.0.1"
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.0.2",
@@ -47,8 +49,7 @@
     "@types/fs-extra": "9.0.6",
     "@types/json-schema": "7.0.7",
     "@types/micromatch": "4.0.1",
-    "@types/statuses": "2.0.0",
-    "fs-extra": "9.0.1"
+    "@types/statuses": "2.0.0"
   },
   "peerDependencies": {
     "@tsed/core": "^6.105.4"

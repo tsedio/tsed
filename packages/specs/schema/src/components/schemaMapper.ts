@@ -16,7 +16,6 @@ const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics", SpecTypes.OPE
  * @ignore
  */
 const IGNORES_OPENSPEC = ["const"];
-const IGNORES_OS2 = ["writeOnly", "readOnly"];
 
 /**
  * @ignore
@@ -39,13 +38,12 @@ function shouldSkipKey(key: string, {specType = SpecTypes.JSON, customKeys = fal
   return (
     IGNORES.includes(key) ||
     (key.startsWith("#") && (customKeys === false || specType !== SpecTypes.JSON)) ||
-    (specType === SpecTypes.SWAGGER && IGNORES_OS2.includes(key)) ||
     (specType !== SpecTypes.JSON && IGNORES_OPENSPEC.includes(key))
   );
 }
 
 function isExample(key: string, value: any, options: JsonSchemaOptions) {
-  return key === "examples" && isObject(value) && [SpecTypes.OPENAPI, SpecTypes.SWAGGER].includes(options.specType!);
+  return key === "examples" && isObject(value) && SpecTypes.OPENAPI === options.specType!;
 }
 
 export function schemaMapper(schema: JsonSchema, options: JsonSchemaOptions): any {
