@@ -25,7 +25,7 @@
     "packages/graphql",
     "packages/third-parties",
     "packages/perf",
-    "packages/specs/swagger/src/decorators/{title,description,example}.ts",
+    "packages/specs/swagger",
     "packages/specs/schema",
     "**/interfaces/**",
     "**/legacy/**",
@@ -41,7 +41,7 @@
     "lcov"
   ],
   "check-coverage": true,
-  "lines": 99.57,
+  "lines": 99.56,
   "statements": 99.54,
   "functions": 99.08,
   "branches": 86.45

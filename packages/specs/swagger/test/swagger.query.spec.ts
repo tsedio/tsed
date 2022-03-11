@@ -1,7 +1,6 @@
 import {Controller, Get, PlatformTest, QueryParams} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {MinLength, Property, Required} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
@@ -46,7 +45,7 @@ describe("Swagger query params", () => {
 
   it("should generate swagger", async () => {
     const response = await request.get("/v2/doc/swagger.json").expect(200);
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       consumes: ["application/json"],
       info: {
         title: "Swagger title",

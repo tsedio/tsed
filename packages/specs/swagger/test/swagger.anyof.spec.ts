@@ -2,7 +2,6 @@ import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
 import {ObjectID} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {AnyOf, Required, Returns} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
@@ -52,7 +51,7 @@ describe("Swagger AnyOf()", () => {
     it("should swagger spec", async () => {
       const response = await request.get("/v3/doc/swagger.json").expect(200);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         components: {
           schemas: {
             ListAbandonTask: {

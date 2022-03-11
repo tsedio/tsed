@@ -26,6 +26,7 @@ function readSpec(path: string) {
     } catch (e) {}
   }
 
+  /* istanbul ignore else */
   return {};
 }
 

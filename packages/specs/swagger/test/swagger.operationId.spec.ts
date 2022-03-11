@@ -3,7 +3,6 @@ import {ObjectID} from "@tsed/mongoose";
 import {MergeParams, PlatformExpress} from "@tsed/platform-express";
 import {Consumes, Description, Returns} from "@tsed/schema";
 import {Docs, Hidden} from "@tsed/swagger";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Calendar} from "./app/models/Calendar";
 import {Server} from "./app/Server";
@@ -97,7 +96,7 @@ describe("Swagger integration", () => {
     it("should swagger spec 2", async () => {
       const response = await request.get("/v2/doc/swagger.json").expect(200);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         consumes: ["application/json"],
         definitions: {
           Calendar: {
@@ -216,7 +215,7 @@ describe("Swagger integration", () => {
     it("should swagger spec 3", async () => {
       const response = await request.get("/v3/doc/swagger.json").expect(200);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         components: {
           schemas: {
             Calendar: {

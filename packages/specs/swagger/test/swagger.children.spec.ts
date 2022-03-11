@@ -1,6 +1,5 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
@@ -38,7 +37,7 @@ describe("Swagger integration", () => {
     it("should generate the right spec", async () => {
       const response = await request.get("/v2/doc/swagger.json").expect(200);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         consumes: ["application/json"],
         info: {
           title: "Swagger title",

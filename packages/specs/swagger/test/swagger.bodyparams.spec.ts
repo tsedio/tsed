@@ -1,7 +1,6 @@
 import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {MaxLength, MinLength} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
@@ -37,7 +36,7 @@ describe("Swagger BodyParams()", () => {
     it("should swagger spec", async () => {
       const response = await request.get("/v2/doc/swagger.json").expect(200);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         consumes: ["application/json"],
         info: {
           title: "Swagger title",
@@ -90,7 +89,7 @@ describe("Swagger BodyParams()", () => {
     it("should swagger spec", async () => {
       const response = await request.get("/v3/doc/swagger.json").expect(200);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         info: {
           title: "Api documentation",
           version: "1.0.0"

@@ -3,7 +3,6 @@ import {ObjectID} from "@tsed/mongoose";
 import {MergeParams, PlatformExpress} from "@tsed/platform-express";
 import {Consumes, Description, Returns} from "@tsed/schema";
 import {Docs, Hidden} from "@tsed/swagger";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Calendar} from "./app/models/Calendar";
 import {Server} from "./app/Server";
@@ -81,7 +80,7 @@ describe("Swagger integration", () => {
       const response = await request.get("/v2/doc/swagger.json").expect(200);
       const result = await request.get("/rest/calendars").expect(200);
 
-      expect(result.body).to.deep.eq([
+      expect(result.body).toEqual([
         {
           id: 1,
           name: "name"
@@ -91,7 +90,7 @@ describe("Swagger integration", () => {
           name: "name"
         }
       ]);
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         consumes: ["application/json"],
         definitions: {
           Calendar: {
@@ -227,7 +226,7 @@ describe("Swagger integration", () => {
       const response = await request.get("/v3/doc/swagger.json").expect(200);
       const result = await request.get("/rest/calendars").expect(200);
 
-      expect(result.body).to.deep.eq([
+      expect(result.body).toEqual([
         {
           id: 1,
           name: "name"
@@ -238,7 +237,7 @@ describe("Swagger integration", () => {
         }
       ]);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         info: {version: "1.0.0", title: "Api documentation"},
         openapi: "3.0.1",
         paths: {

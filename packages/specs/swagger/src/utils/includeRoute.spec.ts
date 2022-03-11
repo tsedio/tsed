@@ -1,7 +1,6 @@
-import {ControllerProvider} from "@tsed/platform/common";
-import {Hidden} from "@tsed/specs/schema";
-import {expect} from "chai";
-import {Docs} from "..";
+import {ControllerProvider} from "@tsed/common";
+import {Hidden} from "@tsed/schema";
+import {Docs} from "@tsed/swagger";
 import {includeRoute} from "./includeRoute";
 
 @Hidden()
@@ -19,7 +18,7 @@ describe("includeRoute", () => {
       includeRoute("/test", provider, {
         path: "/swagger"
       })
-    ).to.be.false;
+    ).toBe(false);
   });
 
   it("should return false if controller docs does not include doc", () => {
@@ -29,7 +28,7 @@ describe("includeRoute", () => {
         path: "/swagger",
         doc: "notmatch"
       })
-    ).to.be.false;
+    ).toBe(false);
   });
 
   it("should return true if controller docs include doc", () => {
@@ -39,7 +38,7 @@ describe("includeRoute", () => {
         path: "/swagger",
         doc: "test"
       })
-    ).to.be.true;
+    ).toBe(true);
   });
 
   it("should return true if patternMatch matches to route", () => {
@@ -49,7 +48,7 @@ describe("includeRoute", () => {
         path: "/swagger",
         pathPatterns: ["/should/**"]
       })
-    ).to.be.true;
+    ).toBe(true);
   });
 
   it("should return false if patternMatch does not match to route", () => {
@@ -59,7 +58,7 @@ describe("includeRoute", () => {
         path: "/swagger",
         pathPatterns: ["/notmatch/**"]
       })
-    ).to.be.false;
+    ).toBe(false);
   });
 
   it("should return false if patternMatch is negation and matches to route", () => {
@@ -69,7 +68,7 @@ describe("includeRoute", () => {
         path: "/swagger",
         pathPatterns: ["!/should/**"]
       })
-    ).to.be.false;
+    ).toBe(false);
   });
 
   it("should return true if neither doc nor pathPattern is not defined", () => {
@@ -78,7 +77,7 @@ describe("includeRoute", () => {
       includeRoute("/test", provider, {
         path: "/swagger"
       })
-    ).to.be.true;
+    ).toBe(true);
   });
 
   it("should return true if doc and pathPattern defined and only doc matches", () => {
@@ -89,7 +88,7 @@ describe("includeRoute", () => {
         doc: "test",
         pathPatterns: ["/notmatch/**"]
       })
-    ).to.be.true;
+    ).toBe(true);
   });
 
   it("should return true if doc and pathPattern defined and only pathPattern matches", () => {
@@ -100,6 +99,6 @@ describe("includeRoute", () => {
         doc: "nomatch",
         pathPatterns: ["/should/**"]
       })
-    ).to.be.true;
+    ).toBe(true);
   });
 });

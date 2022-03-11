@@ -20,6 +20,7 @@ module.exports = () => ({
     "packages/utils/**/*.spec.ts",
     "packages/security/**/*.spec.ts",
     "packages/specs/schema/**/*.spec.ts",
+    "packages/specs/swagger/**/*.spec.ts",
     "packages/platform/platform-cache/**/*.spec.ts",
     "packages/platform/platform-serverless/**/*.spec.ts",
     "packages/platform/platform-serverless-http/**/*.spec.ts",
