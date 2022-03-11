@@ -1,5 +1,5 @@
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
-import {SpecTypes} from "@tsed/schema";
+import {SpecTypes} from "../domain/SpecTypes";
 
 /**
  * @ignore

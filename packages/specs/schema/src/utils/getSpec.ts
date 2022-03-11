@@ -1,4 +1,4 @@
-import {cleanObject, Type, uniqBy} from "@tsed/core";
+import {cleanObject, isArray, Type, uniqBy} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
@@ -7,6 +7,7 @@ import {getJsonEntityStore} from "./getJsonEntityStore";
 import {getOperationsStores} from "./getOperationsStores";
 import {mergeOperation} from "./mergeOperation";
 import {operationIdFormatter} from "./operationIdFormatter";
+import {mergeSpec} from "./mergeSpec";
 
 export interface SpecSerializerOptions extends JsonSchemaOptions {
   specType?: SpecTypes.SWAGGER | SpecTypes.OPENAPI;
@@ -65,26 +66,31 @@ function get(model: Type<any>, options: any, cb: any) {
   return cache.get(key);
 }
 
+export type JsonTokenOptions = ({token: Type<any>} & Partial<SpecSerializerOptions>)[];
+
 /**
  * Return the swagger or open spec for the given class.
  * @param model
  * @param options
  */
-export function getSpec(model: Type<any>, options: OS2SpecSerializerOptions): Partial<OpenSpec2>;
-export function getSpec(model: Type<any>): Partial<OpenSpec2>;
-export function getSpec(model: Type<any>, options: SpecSerializerOptions): Partial<OpenSpec2>;
+export function getSpec(model: Type<any> | JsonTokenOptions, options: OS2SpecSerializerOptions): Partial<OpenSpec2>;
+export function getSpec(model: Type<any> | JsonTokenOptions): Partial<OpenSpec2>;
+export function getSpec(model: Type<any> | JsonTokenOptions, options: SpecSerializerOptions): Partial<OpenSpec2>;
 /**
  * Return the swagger or open spec for the given class.
  * @param model
  * @param options
  */
-export function getSpec(model: Type<any>, options: OS3SpecSerializerOptions): Partial<OpenSpec3>;
+export function getSpec(model: Type<any> | JsonTokenOptions, options: OS3SpecSerializerOptions): Partial<OpenSpec3>;
 /**
  * Return the swagger or open spec for the given class.
  * @param model
  * @param options
  */
-export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}): Partial<OpenSpec2 | OpenSpec3> {
+export function getSpec(
+  model: Type<any> | ({token: Type<any>} & Partial<SpecSerializerOptions>)[],
+  options: SpecSerializerOptions = {}
+): Partial<OpenSpec2 | OpenSpec3> {
   if (!options.specType) {
     options.specType = SpecTypes.OPENAPI;
   }
@@ -95,6 +101,31 @@ export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}): 
     root: false,
     specType: options.specType
   };
+
+  if (isArray(model)) {
+    let finalSpec: any = {};
+
+    options = {
+      ...options,
+      paths: {},
+      tags: [],
+      schemas: {},
+      append(spec: any) {
+        finalSpec = mergeSpec(finalSpec, spec);
+      }
+    };
+
+    model.forEach(({token, ...opts}) => {
+      const spec = getSpec(token, {
+        ...options,
+        ...opts
+      });
+
+      options.append(spec);
+    });
+
+    return finalSpec;
+  }
 
   return get(model, options, () => {
     const store = getJsonEntityStore(model);

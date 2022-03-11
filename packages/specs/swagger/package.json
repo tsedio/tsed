@@ -17,7 +17,8 @@
     "build": "yarn run build:esm && yarn run build:cjs && cp -r ./views ./lib/views",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
     "@tsed/openspec": "6.105.4",
