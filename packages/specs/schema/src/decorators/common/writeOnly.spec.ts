@@ -43,59 +43,6 @@ describe("@WriteOnly", () => {
     });
   });
 
-  it("should return the spec (OS2)", () => {
-    // WHEN
-    class Model {
-      @WriteOnly(true)
-      num: string;
-    }
-
-    @Path("/")
-    class MyController {
-      @OperationPath("GET", "/")
-      @Returns(200, Model)
-      get() {}
-    }
-
-    // THEN
-    const spec = getSpec(MyController, {specType: SpecTypes.SWAGGER});
-
-    expect(spec).toEqual({
-      definitions: {
-        Model: {
-          properties: {
-            num: {
-              type: "string"
-            }
-          },
-          type: "object"
-        }
-      },
-      paths: {
-        "/": {
-          get: {
-            operationId: "myControllerGet",
-            parameters: [],
-            produces: ["application/json"],
-            responses: {
-              "200": {
-                description: "Success",
-                schema: {
-                  $ref: "#/definitions/Model"
-                }
-              }
-            },
-            tags: ["MyController"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "MyController"
-        }
-      ]
-    });
-  });
   it("should return the spec (OS3)", () => {
     // WHEN
     class Model {

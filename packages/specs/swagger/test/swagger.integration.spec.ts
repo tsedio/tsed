@@ -131,6 +131,45 @@ describe("Swagger integration", () => {
               tags: ["CalendarsController"]
             }
           },
+          "/rest/calendars/csv": {
+            post: {
+              consumes: ["text/plain"],
+              operationId: "calendarsControllerCsv",
+              parameters: [
+                {
+                  in: "body",
+                  name: "body",
+                  required: false,
+                  schema: {
+                    type: "string"
+                  }
+                }
+              ],
+              produces: ["text/plain"],
+              responses: {
+                "200": {
+                  description: "Success",
+                  schema: {
+                    type: "string"
+                  }
+                }
+              },
+              tags: ["CalendarsController"]
+            }
+          },
+          "/rest/calendars/events": {
+            get: {
+              description: "Events",
+              operationId: "eventCtrlGet",
+              parameters: [],
+              responses: {
+                "200": {
+                  description: "Success"
+                }
+              },
+              tags: ["EventCtrl"]
+            }
+          },
           "/rest/calendars/{id}": {
             get: {
               operationId: "calendarsControllerGet",
@@ -154,43 +193,6 @@ describe("Swagger integration", () => {
                 }
               },
               tags: ["CalendarsController"]
-            }
-          },
-          "/rest/calendars/csv": {
-            post: {
-              operationId: "calendarsControllerCsv",
-              parameters: [
-                {
-                  in: "body",
-                  name: "body",
-                  required: false,
-                  type: "string"
-                }
-              ],
-              produces: ["text/plain"],
-              consumes: ["text/plain"],
-              responses: {
-                "200": {
-                  description: "Success",
-                  schema: {
-                    type: "string"
-                  }
-                }
-              },
-              tags: ["CalendarsController"]
-            }
-          },
-          "/rest/calendars/events": {
-            get: {
-              description: "Events",
-              operationId: "eventCtrlGet",
-              parameters: [],
-              responses: {
-                "200": {
-                  description: "Success"
-                }
-              },
-              tags: ["EventCtrl"]
             }
           }
         },

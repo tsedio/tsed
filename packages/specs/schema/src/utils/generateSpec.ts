@@ -1,10 +1,13 @@
-import fs from "fs";
+import fs from "fs-extra";
 import {getValue} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
 import {mapOpenSpec} from "./mapOpenSpec";
 import {getSpec, JsonTokenOptions, SpecSerializerOptions} from "./getSpec";
 import {getSpecTypeFromSpec} from "./getSpecType";
 import {mergeSpec} from "./mergeSpec";
+// @ts-ignore
+import Converter from "api-spec-converter";
+import {SpecTypes} from "../domain/SpecTypes";
 
 export interface GenerateSpecOptions extends Omit<SpecSerializerOptions, "specType"> {
   tokens: JsonTokenOptions;
@@ -15,18 +18,14 @@ export interface GenerateSpecOptions extends Omit<SpecSerializerOptions, "specTy
   spec?: any;
 }
 
-function readSpec(path: string) {
+async function readSpec(path: string) {
   if (fs.existsSync(path)) {
     try {
-      const json = fs.readFileSync(path, {encoding: "utf8"});
-      /* istanbul ignore else */
-      if (json !== "") {
-        return JSON.parse(json);
-      }
+      return await fs.readJSON(path, {encoding: "utf8"});
     } catch (e) {}
   }
 
-  /* istanbul ignore else */
+  /* istanbul ignore next */
   return {};
 }
 
@@ -35,9 +34,9 @@ function readSpec(path: string) {
  * @param tokens
  * @param options
  */
-export function generateSpec({tokens, ...options}: GenerateSpecOptions): OpenSpec2 | OpenSpec3 {
+export async function generateSpec({tokens, ...options}: GenerateSpecOptions): Promise<OpenSpec2 | OpenSpec3> {
   const {version = "1.0.0", acceptMimes, specPath, specVersion} = options;
-  const fileSpec: Partial<OpenSpec2 | OpenSpec3> = specPath ? readSpec(specPath) : {};
+  const fileSpec: Partial<OpenSpec2 | OpenSpec3> = specPath ? await readSpec(specPath) : {};
 
   const defaultSpec = mapOpenSpec(getValue(options, "spec", {}), {
     fileSpec,
@@ -46,11 +45,22 @@ export function generateSpec({tokens, ...options}: GenerateSpecOptions): OpenSpe
     acceptMimes
   });
 
-  return mergeSpec(
-    defaultSpec,
-    getSpec(tokens, {
-      ...options,
-      specType: getSpecTypeFromSpec(defaultSpec)
-    })
-  ) as any;
+  const specType = getSpecTypeFromSpec(defaultSpec);
+
+  let controllersSpec = getSpec(tokens, options);
+
+  if (specType === SpecTypes.SWAGGER) {
+    const {spec} = await Converter.convert({
+      from: "openapi_3",
+      to: "swagger_2",
+      source: {
+        ...controllersSpec,
+        openapi: "3.0.1"
+      }
+    });
+    controllersSpec = spec;
+    delete (controllersSpec as any)["x-components"];
+  }
+
+  return mergeSpec(defaultSpec, controllersSpec) as any;
 }

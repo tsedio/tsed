@@ -18,10 +18,10 @@ export class SwaggerService {
    * Generate Spec for the given configuration
    * @returns {Spec}
    */
-  public getOpenAPISpec(conf: SwaggerOS3Settings): OpenSpec3;
-  public getOpenAPISpec(conf: SwaggerOS2Settings): OpenSpec2;
-  public getOpenAPISpec(conf: SwaggerSettings): OpenSpec2;
-  public getOpenAPISpec(conf: SwaggerSettings) {
+  public async getOpenAPISpec(conf: SwaggerOS3Settings): Promise<OpenSpec3>;
+  public async getOpenAPISpec(conf: SwaggerOS2Settings): Promise<OpenSpec2>;
+  public async getOpenAPISpec(conf: SwaggerSettings): Promise<OpenSpec2>;
+  public async getOpenAPISpec(conf: SwaggerSettings) {
     if (!this.#specs.has(conf.path)) {
       const {version = "1.0.0", acceptMimes} = this.configuration;
       const specPath = conf.specPath ? this.configuration.resolve(conf.specPath) : conf.specPath;
@@ -31,7 +31,7 @@ export class SwaggerService {
         .filter(({route, provider}) => includeRoute(route, provider, conf))
         .map(({route, provider}) => ({token: provider.token, rootPath: route.replace(provider.path, "")}));
 
-      const spec = generateSpec({
+      const spec = await generateSpec({
         tokens,
         ...conf,
         specPath,

@@ -23,7 +23,7 @@
   "dependencies": {
     "@types/lowdb": "1.0.9",
     "@types/uuid": "8.3.0",
-    "fs-extra": "9.0.1",
+    "fs-extra": "10.0.1",
     "lowdb": "1.0.0",
     "tslib": "2.2.0",
     "uuid": "8.3.2"

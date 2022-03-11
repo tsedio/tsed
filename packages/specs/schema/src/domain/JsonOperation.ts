@@ -10,7 +10,6 @@ import {isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
 import {JsonRequestBody} from "./JsonRequestBody";
 import {JsonResponse} from "./JsonResponse";
 import {JsonSchema} from "./JsonSchema";
-import {SpecTypes} from "./SpecTypes";
 
 export interface JsonMethodPath {
   path: string | RegExp;
@@ -245,17 +244,11 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
 
     if (bodyParameters.length) {
       const parameter = buildSchemaFromBodyParameters(bodyParameters, options);
-      if (options.specType === SpecTypes.OPENAPI) {
-        operation.requestBody = toRequestBody(this, parameter).toJSON(options);
-      } else {
-        operation.parameters.push(toJsonParameter(parameter));
-      }
+      operation.requestBody = toRequestBody(this, parameter).toJSON(options);
     }
 
-    if (options.specType === SpecTypes.OPENAPI) {
-      delete operation.consumes;
-      delete operation.produces;
-    }
+    delete operation.consumes;
+    delete operation.produces;
 
     return operation;
   }
@@ -271,14 +264,6 @@ function toRequestBody(operation: JsonOperation, {schema, in: _, ...props}: any)
   });
 
   return requestBody;
-}
-
-function toJsonParameter(parameter: any) {
-  return {
-    in: JsonParameterTypes.BODY,
-    name: JsonParameterTypes.BODY,
-    ...parameter
-  };
 }
 
 function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: JsonSchemaOptions) {

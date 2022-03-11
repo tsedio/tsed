@@ -12,14 +12,9 @@ describe("@Status", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller);
 
     expect(spec).toEqual({
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
       paths: {
         "/": {
           post: {
@@ -27,16 +22,25 @@ describe("@Status", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "description",
-                schema: {
-                  type: "string"
-                }
+                content: {
+                  "*/*": {
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                },
+                description: "description"
               }
             },
             tags: ["Controller"]
           }
         }
-      }
+      },
+      tags: [
+        {
+          name: "Controller"
+        }
+      ]
     });
   });
   it("should declare a return type (Status().Type())", async () => {
@@ -48,14 +52,9 @@ describe("@Status", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller);
 
     expect(spec).toEqual({
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
       paths: {
         "/": {
           post: {
@@ -63,16 +62,25 @@ describe("@Status", () => {
             parameters: [],
             responses: {
               "200": {
-                description: "description",
-                schema: {
-                  type: "string"
-                }
+                content: {
+                  "*/*": {
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                },
+                description: "description"
               }
             },
             tags: ["Controller"]
           }
         }
-      }
+      },
+      tags: [
+        {
+          name: "Controller"
+        }
+      ]
     });
   });
   it("should declare a return type with headers", async () => {
@@ -93,14 +101,9 @@ describe("@Status", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller);
 
     expect(spec).toEqual({
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
       paths: {
         "/": {
           post: {
@@ -108,28 +111,43 @@ describe("@Status", () => {
             parameters: [],
             responses: {
               "200": {
+                content: {
+                  "*/*": {
+                    examples: {
+                      test: "Examples"
+                    },
+                    schema: {
+                      minLength: 3,
+                      type: "string"
+                    }
+                  }
+                },
                 description: "description",
                 headers: {
                   "x-header": {
                     example: "",
-                    type: "string"
+                    schema: {
+                      type: "string"
+                    }
                   },
                   "x-token": {
                     example: "token",
-                    type: "string"
+                    schema: {
+                      type: "string"
+                    }
                   }
-                },
-                examples: {test: "Examples"},
-                schema: {
-                  type: "string",
-                  minLength: 3
                 }
               }
             },
             tags: ["Controller"]
           }
         }
-      }
+      },
+      tags: [
+        {
+          name: "Controller"
+        }
+      ]
     });
   });
   it("should declare a return type with content-type", async () => {
@@ -184,78 +202,146 @@ describe("@Status", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller);
 
     expect(spec).toEqual({
+      components: {
+        schemas: {
+          BadRequest: {
+            properties: {
+              errors: {
+                description: "A list of related errors",
+                items: {
+                  $ref: "#/components/schemas/GenericError"
+                },
+                type: "array"
+              },
+              message: {
+                description: "An error message",
+                minLength: 1,
+                type: "string"
+              },
+              name: {
+                default: "BAD_REQUEST",
+                description: "The error name",
+                example: "BAD_REQUEST",
+                minLength: 1,
+                type: "string"
+              },
+              stack: {
+                description: "The stack trace (only in development mode)",
+                type: "string"
+              },
+              status: {
+                default: 400,
+                description: "The status code of the exception",
+                example: 400,
+                type: "number"
+              }
+            },
+            required: ["name", "message", "status"],
+            type: "object"
+          },
+          GenericError: {
+            additionalProperties: true,
+            properties: {
+              message: {
+                description: "An error message",
+                minLength: 1,
+                type: "string"
+              },
+              name: {
+                description: "The error name",
+                minLength: 1,
+                type: "string"
+              }
+            },
+            required: ["name", "message"],
+            type: "object"
+          },
+          Unauthorized: {
+            properties: {
+              errors: {
+                description: "A list of related errors",
+                items: {
+                  $ref: "#/components/schemas/GenericError"
+                },
+                type: "array"
+              },
+              message: {
+                description: "An error message",
+                minLength: 1,
+                type: "string"
+              },
+              name: {
+                default: "UNAUTHORIZED",
+                description: "The error name",
+                example: "UNAUTHORIZED",
+                minLength: 1,
+                type: "string"
+              },
+              stack: {
+                description: "The stack trace (only in development mode)",
+                type: "string"
+              },
+              status: {
+                default: 401,
+                description: "The status code of the exception",
+                example: 401,
+                type: "number"
+              }
+            },
+            required: ["name", "message", "status"],
+            type: "object"
+          }
+        }
+      },
       paths: {
         "/": {
           post: {
             operationId: "controllerMethod",
             parameters: [],
             responses: {
-              "200": {description: "Success", schema: {type: "object"}},
-              "400": {description: "Bad request", schema: {$ref: "#/definitions/BadRequest"}},
-              "401": {description: "Unauthorized", schema: {$ref: "#/definitions/Unauthorized"}}
+              "200": {
+                content: {
+                  "*/*": {
+                    schema: {
+                      type: "object"
+                    }
+                  }
+                },
+                description: "Success"
+              },
+              "400": {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/schemas/BadRequest"
+                    }
+                  }
+                },
+                description: "Bad request"
+              },
+              "401": {
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/schemas/Unauthorized"
+                    }
+                  }
+                },
+                description: "Unauthorized"
+              }
             },
-            produces: ["application/json"],
             tags: ["Controller"]
           }
         }
       },
-      tags: [{name: "Controller"}],
-      definitions: {
-        GenericError: {
-          additionalProperties: true,
-          properties: {
-            message: {
-              description: "An error message",
-              minLength: 1,
-              type: "string"
-            },
-            name: {
-              description: "The error name",
-              minLength: 1,
-              type: "string"
-            }
-          },
-          required: ["name", "message"],
-          type: "object"
-        },
-        Unauthorized: {
-          type: "object",
-          properties: {
-            name: {type: "string", minLength: 1, description: "The error name", example: "UNAUTHORIZED", default: "UNAUTHORIZED"},
-            message: {type: "string", minLength: 1, description: "An error message"},
-            status: {type: "number", description: "The status code of the exception", example: 401, default: 401},
-            errors: {
-              type: "array",
-              items: {
-                $ref: "#/definitions/GenericError"
-              },
-              description: "A list of related errors"
-            },
-            stack: {type: "string", description: "The stack trace (only in development mode)"}
-          },
-          required: ["name", "message", "status"]
-        },
-        BadRequest: {
-          type: "object",
-          properties: {
-            name: {type: "string", minLength: 1, description: "The error name", example: "BAD_REQUEST", default: "BAD_REQUEST"},
-            message: {type: "string", minLength: 1, description: "An error message"},
-            status: {type: "number", description: "The status code of the exception", example: 400, default: 400},
-            errors: {
-              type: "array",
-              items: {
-                $ref: "#/definitions/GenericError"
-              },
-              description: "A list of related errors"
-            },
-            stack: {type: "string", description: "The stack trace (only in development mode)"}
-          },
-          required: ["name", "message", "status"]
+      tags: [
+        {
+          name: "Controller"
         }
-      }
+      ]
     });
   });
   it("should throw an error when using of with String", async () => {
@@ -297,35 +383,38 @@ describe("@Status", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller);
 
     expect(spec).toEqual({
-      tags: [
-        {
-          name: "Controller"
-        }
-      ],
       paths: {
         "/": {
           post: {
             operationId: "controllerMethod",
             parameters: [],
-            produces: ["application/json"],
             responses: {
               "200": {
-                description: "description",
-                schema: {
-                  items: {
-                    type: "string"
-                  },
-                  type: "array"
-                }
+                content: {
+                  "application/json": {
+                    schema: {
+                      items: {
+                        type: "string"
+                      },
+                      type: "array"
+                    }
+                  }
+                },
+                description: "description"
               }
             },
             tags: ["Controller"]
           }
         }
-      }
+      },
+      tags: [
+        {
+          name: "Controller"
+        }
+      ]
     });
   });
   it("should declare an Array of Model", async () => {
@@ -342,45 +431,50 @@ describe("@Status", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller);
 
     expect(spec).toEqual({
-      definitions: {
-        Model: {
-          properties: {
-            id: {
-              type: "string"
-            }
-          },
-          type: "object"
+      components: {
+        schemas: {
+          Model: {
+            properties: {
+              id: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        }
+      },
+      paths: {
+        "/": {
+          post: {
+            operationId: "controllerMethod",
+            parameters: [],
+            responses: {
+              "200": {
+                content: {
+                  "application/json": {
+                    schema: {
+                      items: {
+                        $ref: "#/components/schemas/Model"
+                      },
+                      type: "array"
+                    }
+                  }
+                },
+                description: "description"
+              }
+            },
+            tags: ["Controller"]
+          }
         }
       },
       tags: [
         {
           name: "Controller"
         }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            produces: ["application/json"],
-            responses: {
-              "200": {
-                description: "description",
-                schema: {
-                  items: {
-                    $ref: "#/definitions/Model"
-                  },
-                  type: "array"
-                }
-              }
-            },
-            tags: ["Controller"]
-          }
-        }
-      }
+      ]
     });
   });
   it("should declare an Generic of Model", async () => {
@@ -417,61 +511,66 @@ describe("@Status", () => {
     }
 
     // THEN
-    const spec = getSpec(Controller, {specType: SpecTypes.SWAGGER});
+    const spec = getSpec(Controller);
 
     expect(spec).toEqual({
-      definitions: {
-        Product: {
-          properties: {
-            title: {
-              type: "string"
-            }
-          },
-          type: "object"
+      components: {
+        schemas: {
+          Product: {
+            properties: {
+              title: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        }
+      },
+      paths: {
+        "/": {
+          post: {
+            operationId: "controllerMethod",
+            parameters: [],
+            responses: {
+              "200": {
+                content: {
+                  "application/json": {
+                    schema: {
+                      properties: {
+                        data: {
+                          items: {
+                            properties: {
+                              _id: {
+                                type: "string"
+                              },
+                              data: {
+                                $ref: "#/components/schemas/Product"
+                              }
+                            },
+                            type: "object"
+                          },
+                          type: "array"
+                        },
+                        totalCount: {
+                          type: "number"
+                        }
+                      },
+                      type: "object"
+                    }
+                  }
+                },
+                description: "description"
+              }
+            },
+            tags: ["Controller"]
+          }
         }
       },
       tags: [
         {
           name: "Controller"
         }
-      ],
-      paths: {
-        "/": {
-          post: {
-            operationId: "controllerMethod",
-            parameters: [],
-            produces: ["application/json"],
-            responses: {
-              "200": {
-                description: "description",
-                schema: {
-                  properties: {
-                    data: {
-                      items: {
-                        type: "object",
-                        properties: {
-                          _id: {
-                            type: "string"
-                          },
-                          data: {
-                            $ref: "#/definitions/Product"
-                          }
-                        }
-                      },
-                      type: "array"
-                    },
-                    totalCount: {
-                      type: "number"
-                    }
-                  },
-                  type: "object"
-                }
-              }
-            },
-            tags: ["Controller"]
-          }
-        }
-      }
+      ]
     });
   });
 });

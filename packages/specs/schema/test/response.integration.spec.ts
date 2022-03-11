@@ -1,4 +1,4 @@
-import {getSpec, SpecTypes} from "../src";
+import {generateSpec, getSpec, SpecTypes} from "../src";
 import {OperationPath, Path, Property, Returns} from "@tsed/schema";
 import {validateSpec} from "./helpers/validateSpec";
 import {QueryParams} from "@tsed/platform-params";
@@ -28,8 +28,8 @@ class TestResponseCtrl {
 }
 
 describe("Spec: Response", () => {
-  it("should generate the OS3", async () => {
-    const spec = getSpec(TestResponseCtrl, {specType: SpecTypes.OPENAPI});
+  it("should generate the", async () => {
+    const spec = getSpec(TestResponseCtrl);
 
     expect(spec).toEqual({
       components: {
@@ -104,73 +104,5 @@ describe("Spec: Response", () => {
       ]
     });
     expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
-  });
-  it("should generate the OS2", async () => {
-    const spec = getSpec(TestResponseCtrl, {specType: SpecTypes.SWAGGER});
-
-    expect(spec).toEqual({
-      definitions: {
-        Product: {
-          properties: {
-            id: {
-              type: "string"
-            },
-            title: {
-              type: "string"
-            }
-          },
-          type: "object"
-        }
-      },
-      paths: {
-        "/responses": {
-          post: {
-            operationId: "testResponseCtrlScenario2",
-            parameters: [],
-            responses: {
-              "204": {
-                description: "No Content"
-              }
-            },
-            tags: ["TestResponseCtrl"]
-          }
-        },
-        "/responses/{id}": {
-          get: {
-            operationId: "testResponseCtrlScenario1",
-            parameters: [
-              {
-                in: "path",
-                name: "id",
-                required: true,
-                type: "string"
-              },
-              {
-                in: "query",
-                name: "id",
-                required: false,
-                type: "string"
-              }
-            ],
-            produces: ["application/json"],
-            responses: {
-              "200": {
-                description: "Product",
-                schema: {
-                  $ref: "#/definitions/Product"
-                }
-              }
-            },
-            tags: ["TestResponseCtrl"]
-          }
-        }
-      },
-      tags: [
-        {
-          name: "TestResponseCtrl"
-        }
-      ]
-    });
-    expect(await validateSpec(spec, SpecTypes.SWAGGER)).toBe(true);
   });
 });

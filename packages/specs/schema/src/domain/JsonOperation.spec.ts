@@ -16,12 +16,28 @@ describe("JsonOperation", () => {
       expect(entity.operation?.getStatus()).toBe(200);
       expect(entity.operation?.status).toBe(200);
       expect(entity.operation?.response?.toJSON()).toEqual({
+        content: {
+          "*/*": {
+            schema: {
+              type: "object"
+            }
+          }
+        },
         description: "Success",
         headers: {
-          "x-token2": {example: "token2", type: "string"},
-          "x-token": {example: "token", type: "string"}
-        },
-        schema: {type: "object"}
+          "x-token": {
+            example: "token",
+            schema: {
+              type: "string"
+            }
+          },
+          "x-token2": {
+            example: "token2",
+            schema: {
+              type: "string"
+            }
+          }
+        }
       });
       expect(entity.operation?.getHeadersOf(200)).toEqual({
         "x-token": {

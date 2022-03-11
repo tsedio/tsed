@@ -14,11 +14,6 @@ export function mapNullableType(obj: any, schema: JsonSchema | null, options: Js
   let types: string[] = [].concat(obj.type).filter(Boolean);
 
   switch (options.specType) {
-    case SpecTypes.SWAGGER:
-      if (!obj.allOf && !obj.$ref) {
-        obj.type = uniq(["null", ...types]);
-      }
-      break;
     default:
     case SpecTypes.JSON:
       if (obj.oneOf) {

@@ -98,11 +98,11 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
 
   generateSpecFiles() {
     return Promise.all(
-      this.settings.map((conf) => {
+      this.settings.map(async (conf) => {
         const {outFile} = conf;
 
         if (this.env === Env.PROD || outFile) {
-          const spec = this.swaggerService.getOpenAPISpec(conf);
+          const spec = await this.swaggerService.getOpenAPISpec(conf);
 
           if (outFile) {
             return Fs.writeFile(outFile, JSON.stringify(spec, null, 2), {encoding: "utf8"}, () => {});
@@ -154,8 +154,8 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
   }
 
   private middlewareSwaggerJson(conf: SwaggerSettings) {
-    return (ctx: PlatformContext) => {
-      ctx.response.status(200).body(this.swaggerService.getOpenAPISpec(conf));
+    return async (ctx: PlatformContext) => {
+      ctx.response.status(200).body(await this.swaggerService.getOpenAPISpec(conf));
     };
   }
 }

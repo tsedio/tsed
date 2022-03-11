@@ -26,6 +26,7 @@ export function mergeOperation(
   const pathParameters = getJsonPathParameters(rootPath, path).map(({path, parameters}) => {
     path = path ? path : "/";
 
+    // FIXME not on the right place
     if (specType === SpecTypes.OPENAPI) {
       parameters = parameters.map(({type, ...param}) => {
         return {

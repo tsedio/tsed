@@ -1,4 +1,4 @@
-import {getSpec, OperationPath, Path, SpecTypes} from "@tsed/schema";
+import {generateSpec, getSpec, OperationPath, Path, SpecTypes} from "@tsed/schema";
 import {InFile} from "./inFile";
 
 describe("@File()", () => {
@@ -9,8 +9,13 @@ describe("@File()", () => {
       test(@InFile("file1") file: any) {}
     }
 
-    it("should set endpoint metadata - OS2", () => {
-      expect(getSpec(TestController, {specType: SpecTypes.SWAGGER})).toEqual({
+    it("should set endpoint metadata - OS2", async () => {
+      expect(await generateSpec({tokens: [{token: TestController}], specType: SpecTypes.SWAGGER})).toEqual({
+        consumes: ["application/json"],
+        info: {
+          title: "Api documentation",
+          version: "1.0.0"
+        },
         paths: {
           "/": {
             post: {
@@ -18,19 +23,13 @@ describe("@File()", () => {
               operationId: "testControllerTest",
               parameters: [
                 {
-                  in: "body",
-                  name: "body",
-                  required: false,
-                  schema: {
-                    properties: {
-                      file1: {
-                        type: "file"
-                      }
-                    },
-                    type: "object"
-                  }
+                  format: "binary",
+                  in: "formData",
+                  name: "file1",
+                  type: "string"
                 }
               ],
+              produces: ["application/octet-stream"],
               responses: {
                 "400": {
                   description:
@@ -44,6 +43,8 @@ describe("@File()", () => {
             }
           }
         },
+        produces: ["application/json"],
+        swagger: "2.0",
         tags: [
           {
             name: "TestController"
@@ -107,8 +108,13 @@ describe("@File()", () => {
       test(@InFile("file1") file: any[]) {}
     }
 
-    it("should set endpoint metadata - OS2", () => {
-      expect(getSpec(TestController, {specType: SpecTypes.SWAGGER})).toEqual({
+    it("should set endpoint metadata - OS2", async () => {
+      expect(await generateSpec({tokens: [{token: TestController}], specType: SpecTypes.SWAGGER})).toEqual({
+        consumes: ["application/json"],
+        info: {
+          title: "Api documentation",
+          version: "1.0.0"
+        },
         paths: {
           "/": {
             post: {
@@ -116,22 +122,17 @@ describe("@File()", () => {
               operationId: "testControllerTest",
               parameters: [
                 {
-                  in: "body",
-                  name: "body",
-                  required: false,
-                  schema: {
-                    properties: {
-                      file1: {
-                        items: {
-                          type: "file"
-                        },
-                        type: "array"
-                      }
-                    },
-                    type: "object"
-                  }
+                  collectionFormat: "csv",
+                  in: "formData",
+                  items: {
+                    format: "binary",
+                    type: "string"
+                  },
+                  name: "file1",
+                  type: "array"
                 }
               ],
+              produces: ["application/octet-stream"],
               responses: {
                 "400": {
                   description:
@@ -145,6 +146,8 @@ describe("@File()", () => {
             }
           }
         },
+        produces: ["application/json"],
+        swagger: "2.0",
         tags: [
           {
             name: "TestController"
@@ -152,7 +155,6 @@ describe("@File()", () => {
         ]
       });
     });
-
     it("should set endpoint metadata - OS3", () => {
       expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).toEqual({
         paths: {
