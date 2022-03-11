@@ -48,7 +48,6 @@ export class Platform {
     }
 
     this._controllers.push(...this.getAllControllers(basePath, token));
-    console.dir(this.getAllControllers(basePath, token));
 
     const ctrlPath = concatPath(basePath, JsonEntityStore.from(provider.token).path);
 
