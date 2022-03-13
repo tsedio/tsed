@@ -55,7 +55,7 @@
     "@tsed/core": "^6.105.4"
   },
   "peerDependenciesMeta": {
-    "@tsed/code": {
+    "@tsed/core": {
       "optional": false
     }
   }

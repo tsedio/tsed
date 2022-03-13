@@ -14,7 +14,7 @@ import {
 } from "@tsed/common";
 import Fs from "fs";
 import {join} from "path";
-import {SwaggerSettings} from "./interfaces";
+import {SwaggerSettings} from "./interfaces/SwaggerSettings";
 import {cssMiddleware} from "./middlewares/cssMiddleware";
 import {indexMiddleware} from "./middlewares/indexMiddleware";
 import {jsMiddleware} from "./middlewares/jsMiddleware";
