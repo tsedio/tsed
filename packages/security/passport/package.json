@@ -1,6 +1,6 @@
 {
   "name": "@tsed/passport",
-  "version": "6.105.4",
+  "version": "6.106.0",
   "description": "Passport package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -25,9 +25,9 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.105.4",
-    "@tsed/core": "6.105.4",
-    "@tsed/di": "6.105.4",
+    "@tsed/common": "6.106.0",
+    "@tsed/core": "6.106.0",
+    "@tsed/di": "6.106.0",
     "@types/passport": "1.0.4",
     "@types/passport-http": "0.3.8",
     "@types/passport-local": "1.0.34",
@@ -38,12 +38,12 @@
     "passport-strategy": "1.0.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.105.4",
-    "@tsed/core": "^6.105.4",
-    "@tsed/di": "^6.105.4",
-    "@tsed/json-mapper": "^6.105.4",
+    "@tsed/common": "^6.106.0",
+    "@tsed/core": "^6.106.0",
+    "@tsed/di": "^6.106.0",
+    "@tsed/json-mapper": "^6.106.0",
     "@tsed/logger": ">=6.1.0",
-    "@tsed/schema": "^6.105.4",
+    "@tsed/schema": "^6.106.0",
     "passport": ">=0.4.1"
   }
 }
