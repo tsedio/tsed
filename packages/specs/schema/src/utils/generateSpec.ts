@@ -5,8 +5,6 @@ import {mapOpenSpec} from "./mapOpenSpec";
 import {getSpec, JsonTokenOptions, SpecSerializerOptions} from "./getSpec";
 import {getSpecTypeFromSpec} from "./getSpecType";
 import {mergeSpec} from "./mergeSpec";
-// @ts-ignore
-import Converter from "api-spec-converter";
 import {SpecTypes} from "../domain/SpecTypes";
 
 export interface GenerateSpecOptions extends Omit<SpecSerializerOptions, "specType"> {
@@ -50,7 +48,9 @@ export async function generateSpec({tokens, ...options}: GenerateSpecOptions): P
   let controllersSpec = getSpec(tokens, options);
 
   if (specType === SpecTypes.SWAGGER) {
-    const {spec} = await Converter.convert({
+    // @ts-ignore
+    const {convert} = await import("api-spec-converter");
+    const {spec} = await convert({
       from: "openapi_3",
       to: "swagger_2",
       source: {
