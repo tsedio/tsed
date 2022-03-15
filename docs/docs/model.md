@@ -1204,6 +1204,24 @@ Here is the list of available functions:
 
 <ApiList query="status.includes('schemaFunctional')" />
 
+## RecordOf
+
+The @@RecordOf@@ decorator constructs a json schema object type which property keys are set by a given set of keys
+and which property values are of a given type.
+
+<Tabs class="-code">
+  <Tab label="Model">
+
+<<< @/docs/snippets/model/record-of.ts
+
+  </Tab>
+  <Tab label="Json schema">
+
+<<< @/docs/snippets/model/record-of.json
+
+  </Tab>
+</Tabs>
+
 ## Get Json schema
 
 In some cases, it may be useful to retrieve the JSON Schema from a Model to use with another library. This is possible
