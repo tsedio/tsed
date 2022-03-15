@@ -1,0 +1,21 @@
+{
+  "definitions": {
+    "Department": {
+      "type": "object"
+    }
+  },
+  "type": "object",
+  "properties": {
+    "Departments": {
+      "properties": {
+        "tech": {
+          "$ref": "#/definitions/Department"
+        },
+        "hr": {
+          "$ref": "#/definitions/Department"
+        }
+      },
+      "type": "object"
+    }
+  }
+}
