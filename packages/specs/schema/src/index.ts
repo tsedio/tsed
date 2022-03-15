@@ -56,6 +56,7 @@ export * from "./decorators/common/optional";
 export * from "./decorators/common/pattern";
 export * from "./decorators/common/property";
 export * from "./decorators/common/readOnly";
+export * from "./decorators/common/recordOf";
 export * from "./decorators/common/required";
 export * from "./decorators/common/requiredGroups";
 export * from "./decorators/common/schema";
