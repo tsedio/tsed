@@ -182,8 +182,8 @@ This works by having a field with the referenced object model's name and a field
 
 <<< @/tutorials/snippets/mongoose/dynamic-references.ts
 
-</Tab
-<Tab label="JsonSchema">
+  </Tab>
+  <Tab label="JsonSchema">
 
 <<< @/tutorials/snippets/mongoose/dynamic-references.json
 
