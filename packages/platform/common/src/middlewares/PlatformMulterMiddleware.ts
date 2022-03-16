@@ -1,12 +1,21 @@
 import {Constant, Inject} from "@tsed/di";
-import {Exception} from "@tsed/exceptions";
+import {BadRequest} from "@tsed/exceptions";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
 import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformApplication} from "../services/PlatformApplication";
+import type {MulterError} from "multer";
 
 export interface MulterInputOptions {
   fields: PlatformMulterField[];
+}
+
+export class MulterException extends BadRequest {
+  constructor(er: MulterError) {
+    super(er.message);
+    this.origin = er;
+    this.name = er.code;
+  }
 }
 
 /**
@@ -37,7 +46,11 @@ export class PlatformMulterMiddleware implements MiddlewareMethods {
 
       return await middleware(ctx.getRequest(), ctx.getResponse());
     } catch (er) {
-      throw er.code ? new Exception(er.code, `${er.message} ${er.field || ""}`.trim()) : er;
+      if (er.code) {
+        throw new MulterException(er);
+      }
+
+      throw er;
     }
   }
 
