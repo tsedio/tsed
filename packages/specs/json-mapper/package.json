@@ -1,6 +1,6 @@
 {
   "name": "@tsed/json-mapper",
-  "version": "6.107.1",
+  "version": "6.107.2",
   "description": "Json mapper module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -35,13 +35,13 @@
     "tslib": "2.2.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.107.1",
-    "@tsed/exceptions": "6.107.1",
-    "@tsed/schema": "6.107.1"
+    "@tsed/core": "6.107.2",
+    "@tsed/exceptions": "6.107.2",
+    "@tsed/schema": "6.107.2"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.107.1",
-    "@tsed/exceptions": "^6.107.1",
-    "@tsed/schema": "^6.107.1"
+    "@tsed/core": "^6.107.2",
+    "@tsed/exceptions": "^6.107.2",
+    "@tsed/schema": "^6.107.2"
   }
 }
