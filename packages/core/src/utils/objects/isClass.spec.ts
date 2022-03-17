@@ -9,6 +9,7 @@ describe("isClass", () => {
     expect(isClass(Number)).toEqual(false);
     expect(isClass(Promise)).toEqual(false);
     expect(isClass(Array)).toEqual(false);
+    expect(isClass(Buffer)).toEqual(false);
     expect(isClass(() => {})).toEqual(false);
   });
 });
