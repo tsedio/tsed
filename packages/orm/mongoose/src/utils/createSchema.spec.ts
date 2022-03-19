@@ -71,6 +71,28 @@ describe("createSchema", () => {
       }
     });
   });
+  it("should create schema with buffer", () => {
+    // GIVEN
+    @Model()
+    class Test {
+      @Name("id")
+      _id: string;
+
+      @Property(Buffer)
+      image: Buffer;
+    }
+
+    // WHEN
+    const result = getSchema(Test);
+
+    // THEN
+    expect(result.obj).toEqual({
+      image: {
+        required: false,
+        type: Buffer
+      }
+    });
+  });
   it("should create schema with required property", () => {
     // GIVEN
     @Model()
