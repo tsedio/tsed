@@ -53,6 +53,7 @@ export * from "./utils/objects/getValue";
 export * from "./utils/objects/isArray";
 export * from "./utils/objects/isArrowFn";
 export * from "./utils/objects/isBoolean";
+export * from "./utils/objects/isBuffer";
 export * from "./utils/objects/isClass";
 export * from "./utils/objects/isCollection";
 export * from "./utils/objects/isDate";
