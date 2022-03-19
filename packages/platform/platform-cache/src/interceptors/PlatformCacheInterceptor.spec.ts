@@ -83,7 +83,7 @@ describe("PlatformCacheInterceptor", () => {
         set: jest.fn().mockResolvedValue(false),
         del: jest.fn().mockResolvedValue(true),
         ttl: jest.fn().mockResolvedValue(6999),
-        calculateTTL: jest.fn().mockReturnValue(10000)
+        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl)
       };
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
         {
@@ -108,7 +108,7 @@ describe("PlatformCacheInterceptor", () => {
         set: jest.fn().mockResolvedValue(false),
         del: jest.fn().mockResolvedValue(true),
         ttl: jest.fn().mockResolvedValue(9700),
-        calculateTTL: jest.fn().mockReturnValue(10000)
+        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl)
       };
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
         {
@@ -134,7 +134,7 @@ describe("PlatformCacheInterceptor", () => {
         get: jest.fn().mockResolvedValue(false),
         set: jest.fn().mockResolvedValue(false),
         del: jest.fn().mockResolvedValue(true),
-        calculateTTL: jest.fn().mockReturnValue(10000),
+        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
         getCachedObject: jest.fn().mockResolvedValue({
           data: JSON.stringify({data: "data"})
         }),
@@ -185,7 +185,7 @@ describe("PlatformCacheInterceptor", () => {
         get: jest.fn().mockResolvedValue(false),
         set: jest.fn().mockResolvedValue(false),
         del: jest.fn().mockResolvedValue(true),
-        calculateTTL: jest.fn().mockReturnValue(10000),
+        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
         getCachedObject: jest.fn().mockResolvedValue(undefined),
         setCachedObject: jest.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
