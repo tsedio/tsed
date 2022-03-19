@@ -163,26 +163,29 @@ export class PlatformHandler {
 
   protected async onError(er: Error, requestOptions: OnRequestOptions) {
     const {next, $ctx, metadata} = requestOptions;
-    $ctx.data = er;
+
+    if ($ctx) {
+      $ctx.data = er;
+    }
 
     if (!next) {
       throw er;
     }
 
     // istanbul ignore next
-    if (!$ctx || $ctx?.isDone()) {
+    if (!$ctx || $ctx.isDone()) {
       $log.warn({
         name: "HEADERS_SENT",
         message: `An error was caught after the headers were sent to the client. The error comes from the handler: ${metadata.toString()}`,
         stack: er.stack,
         origin: er,
-        request_id: $ctx.id
+        request_id: $ctx?.id
       });
 
       return;
     }
 
-    return next && next(er);
+    return next(er);
   }
 
   /**
