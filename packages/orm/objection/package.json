@@ -30,13 +30,7 @@
     "@tsed/json-mapper": "6.107.4",
     "@tsed/schema": "6.107.4",
     "knex": "^0.95.11",
-    "mssql": "^7.2.1",
-    "mysql": "^2.18.1",
-    "mysql2": "^2.3.0",
     "objection": "^2.2.15",
-    "oracledb": "^5.2.0",
-    "pg": "^8.7.1",
-    "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2"
   },
   "peerDependencies": {
