@@ -71,7 +71,7 @@ export function getValue(...args: any[]) {
 
   const getValue = (key: string) => {
     if (scope) {
-      if (scope[key] !== undefined || key in scope) {
+      if (scope[key] !== undefined || (isObject(scope) && key in scope)) {
         return scope[key];
       }
 
