@@ -25,12 +25,13 @@ export function createHttpsServer(injector: InjectorService, requestListener?: H
   injector.invoke(HttpsServer);
   injector.invoke(Https.Server);
 
-  if (httpsPort !== false) {
+  if (server) {
     const hostInfo = getHostInfoFromPort("https", httpsPort);
 
     return async () => {
       const resolvedHostInfo = await listenServer(injector, server as Https.Server, hostInfo);
       settings.setRaw("httpsPort", `${resolvedHostInfo.address}:${resolvedHostInfo.port}`);
+      return server;
     };
   }
 }

@@ -7,7 +7,7 @@ import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSetti
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {Route} from "../interfaces/Route";
 import {getConfiguration} from "../utils/getConfiguration";
-import {IncomingMessage, ServerResponse} from "http";
+import type {IncomingMessage, ServerResponse, Server} from "http";
 import {PlatformAdapter, PlatformBuilderSettings} from "../interfaces/PlatformAdapter";
 import {importProviders} from "../utils/importProviders";
 import {createInjector} from "../utils/createInjector";
@@ -15,6 +15,7 @@ import {GlobalAcceptMimesMiddleware} from "../middlewares/GlobalAcceptMimesMiddl
 import {printRoutes} from "../utils/printRoutes";
 import {createHttpServer} from "../utils/createHttpServer";
 import {createHttpsServer} from "../utils/createHttpsServer";
+import type Https from "https";
 
 /**
  * @platform
@@ -30,7 +31,8 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   #rootModule: Type<any>;
   #promise: Promise<this>;
   #adapter: PlatformAdapter<App, Router>;
-  #servers: (() => Promise<void>)[];
+  #servers: (() => Promise<Server | Https.Server>)[];
+  #listeners: (Server | Https.Server)[] = [];
 
   protected constructor(adapter: Type<PlatformAdapter<App, Router>> | undefined, module: Type, settings: Partial<TsED.Configuration>) {
     this.#rootModule = module;
@@ -227,7 +229,11 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
 
   async stop() {
     await this.callHook("$onDestroy");
-    return this.injector.destroy();
+    await this.injector.destroy();
+
+    this.#listeners.map((server) => {
+      return new Promise((resolve) => server.close(() => resolve(undefined)));
+    });
   }
 
   public async ready() {
@@ -345,7 +351,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   }
 
   protected async listenServers(): Promise<void> {
-    await Promise.all(this.#servers.map((cb) => cb && cb()));
+    this.#listeners = await Promise.all(this.#servers.map((cb) => cb && cb()));
   }
 
   protected async logRoutes() {

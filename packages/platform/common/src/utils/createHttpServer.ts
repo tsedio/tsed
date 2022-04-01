@@ -24,12 +24,13 @@ export function createHttpServer(injector: InjectorService, requestListener: Htt
   injector.invoke(HttpServer);
   injector.invoke(Http.Server);
 
-  if (httpPort !== false) {
+  if (server) {
     const hostInfo = getHostInfoFromPort("http", httpPort);
 
     return async () => {
       const resolvedHostInfo = await listenServer(injector, server as Http.Server, hostInfo);
       settings.setRaw("httpPort", `${resolvedHostInfo.address}:${resolvedHostInfo.port}`);
+      return server;
     };
   }
 }

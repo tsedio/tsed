@@ -1,4 +1,4 @@
-import {Configuration, createContext, Inject, PlatformApplication, PlatformHandler} from "@tsed/common";
+import {Configuration, Inject, PlatformApplication, PlatformHandler} from "@tsed/common";
 import Express from "express";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
 import {PlatformExpressRouter} from "./PlatformExpressRouter";
