@@ -63,15 +63,26 @@
   "dependencies": {
     "@types/aws-serverless-express": "^3.3.3",
     "aws-serverless-express": "^3.4.0",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.107.5",
-    "@tsed/core": "^6.107.5",
-    "@tsed/schema": "^6.107.5",
+    "@tsed/common": "6.107.5",
+    "@tsed/core": "6.107.5",
+    "@tsed/schema": "6.107.5",
     "aws-serverless-express": "^3.4.0"
   },
   "publishConfig": {
     "tag": "deprecated"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/common": {
+      "optional": false
+    },
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    }
   }
 }

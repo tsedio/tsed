@@ -23,18 +23,27 @@
   },
   "dependencies": {
     "@godaddy/terminus": "^4.7.1",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/core": "6.107.5",
     "@tsed/di": "6.107.5",
-    "@tsed/openspec": "6.107.5",
     "@tsed/schema": "6.107.5"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.107.5",
-    "@tsed/di": "^6.107.5",
-    "@tsed/openspec": "^6.107.5",
+    "@tsed/core": "6.107.5",
+    "@tsed/di": "6.107.5",
     "@tsed/schema": "^6.107.5"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    }
   }
 }

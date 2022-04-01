@@ -40,7 +40,7 @@
     "micromatch": "4.0.4",
     "pascal-case": "3.1.2",
     "statuses": ">=2.0.1",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.0.2",
@@ -52,9 +52,13 @@
     "@types/statuses": "2.0.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.107.5"
+    "@tsed/core": "6.107.5",
+    "@tsed/openspec": "6.107.5"
   },
   "peerDependenciesMeta": {
+    "@tsed/openspec": {
+      "optional": false
+    },
     "@tsed/core": {
       "optional": false
     }

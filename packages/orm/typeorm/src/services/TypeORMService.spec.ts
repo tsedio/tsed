@@ -1,7 +1,13 @@
-import * as TypeORM from "typeorm";
-import {ConnectionManager} from "typeorm";
+import {ConnectionManager, getConnectionManager} from "typeorm";
 import * as Connection from "typeorm/connection/Connection";
 import {TypeORMService} from "../index";
+
+jest.mock("typeorm", () => {
+  return {
+    ...jest.requireActual("typeorm"),
+    getConnectionManager: jest.fn()
+  };
+});
 
 function getConnectionFixture() {
   const defaultConnection: any = {
@@ -19,8 +25,9 @@ function getConnectionFixture() {
   // create ConnectionManager
   const connectionManager = new ConnectionManager();
   const connectionManagerCreateSpy = jest.spyOn(connectionManager, "create");
+
   // replace
-  const getConnectionManagerStub = jest.spyOn(TypeORM, "getConnectionManager").mockReturnValue(connectionManager);
+  (getConnectionManager as any).mockReturnValue(connectionManager);
 
   // replace Connection constructor
   const connectionStub = jest.spyOn(Connection, "Connection").mockImplementation((opts) => {
@@ -32,7 +39,7 @@ function getConnectionFixture() {
     }
   });
 
-  return {connectionManager, connectionManagerCreateSpy, getConnectionManagerStub, connectionStub, defaultConnection, customConnection};
+  return {connectionManager, connectionManagerCreateSpy, connectionStub, defaultConnection, customConnection};
 }
 
 describe("TypeORMService", () => {

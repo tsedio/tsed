@@ -27,7 +27,7 @@
     "fs-extra": "10.0.1",
     "micromatch": "4.0.4",
     "swagger-ui-dist": "^4.5.2",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/common": "6.107.5",
@@ -39,9 +39,11 @@
     "@types/swagger-ui-dist": ">=3.30.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.107.5",
-    "@tsed/core": "^6.107.5",
-    "@tsed/json-mapper": "^6.107.5",
-    "@tsed/schema": "^6.107.5"
+    "@tsed/common": "6.107.5"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/common": {
+      "optional": false
+    }
   }
 }

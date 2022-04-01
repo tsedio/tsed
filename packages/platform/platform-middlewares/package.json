@@ -20,7 +20,7 @@
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\""
   },
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/core": "6.107.5",
@@ -28,8 +28,19 @@
     "@tsed/schema": "6.107.5"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.107.5",
-    "@tsed/di": "^6.107.5",
-    "@tsed/schema": "^6.107.5"
+    "@tsed/core": "6.107.5",
+    "@tsed/di": "6.107.5",
+    "@tsed/schema": "6.107.5"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/core": {
+      "optional": true
+    },
+    "@tsed/di": {
+      "optional": true
+    },
+    "@tsed/schema": {
+      "optional": true
+    }
   }
 }

@@ -36,15 +36,10 @@
     "di"
   ],
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/core": "6.107.5",
     "@tsed/di": "6.107.5"
-  },
-  "peerDependencies": {
-    "@tsed/core": "^6.107.5",
-    "@tsed/di": "^6.107.5",
-    "@tsed/logger": ">=6.1.0"
   }
 }

@@ -21,7 +21,7 @@
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/di": "6.107.5",
@@ -29,8 +29,19 @@
     "@tsed/platform-params": "6.107.5"
   },
   "peerDependencies": {
-    "@tsed/di": "^6.107.5",
-    "@tsed/platform-middlewares": "^6.107.5",
-    "@tsed/platform-params": "^6.107.5"
+    "@tsed/di": "6.107.5",
+    "@tsed/platform-middlewares": "6.107.5",
+    "@tsed/platform-params": "6.107.5"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/platform-middlewares": {
+      "optional": false
+    },
+    "@tsed/platform-params": {
+      "optional": false
+    }
   }
 }
