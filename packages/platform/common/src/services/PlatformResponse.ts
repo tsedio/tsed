@@ -1,10 +1,10 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
 import {ServerResponse} from "http";
+import onFinished from "on-finished";
 import {IncomingEvent} from "../interfaces/IncomingEvent";
 import type {PlatformRequest} from "./PlatformRequest";
 import type {PlatformContext} from "../domain/PlatformContext";
-import onFinished from "on-finished";
 
 declare global {
   namespace TsED {
@@ -229,7 +229,7 @@ export class PlatformResponse<T extends Record<string, any> = any> {
    *
    * @param data
    */
-  stream(data: ReadableStream | any) {
+  stream(data: any) {
     data.pipe(this.raw);
 
     return this;
