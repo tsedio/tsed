@@ -1,4 +1,4 @@
-import {registerProvider} from "@tsed/common";
+import {registerProvider} from "@tsed/di";
 import {Server} from "socket.io";
 
 export type SocketIOServer = Server;

@@ -68,9 +68,10 @@
   "dependencies": {
     "@tsed/components-scan": "6.107.5",
     "@tsed/core": "6.107.5",
+    "@tsed/di": "6.107.5",
     "@tsed/exceptions": "6.107.5",
     "@tsed/json-mapper": "6.107.5",
-    "@tsed/logger": ">=6.1.0",
+    "@tsed/logger": ">=6.1.1",
     "@tsed/logger-file": ">=6.1.0",
     "@tsed/perf": "6.107.5",
     "@tsed/platform-cache": "6.107.5",
@@ -84,15 +85,19 @@
     "@types/json-schema": "7.0.7",
     "@types/on-finished": "2.3.1",
     "on-finished": "2.3.0",
-    "tslib": "2.2.0",
+    "tslib": "2.3.1",
     "uuid": "8.3.2"
   },
-  "devDependencies": {
-    "@tsed/core": "6.107.5"
-  },
   "peerDependencies": {
-    "@tsed/di": "^6.107.5",
-    "@tsed/logger": ">=6.1.0",
+    "@tsed/logger": ">=6.1.1",
     "@tsed/logger-file": ">=6.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/logger": {
+      "optional": false
+    },
+    "@tsed/logger-file": {
+      "optional": false
+    }
   }
 }

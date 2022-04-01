@@ -29,7 +29,7 @@
     "@tsed/schema": "6.107.5",
     "encodeurl": "^1.0.2",
     "mime": "^2.5.2",
-    "tslib": "2.2.0",
+    "tslib": "2.3.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -39,7 +39,15 @@
     "@types/mime": "^2.0.3"
   },
   "peerDependencies": {
-    "@tsed/di": "^6.107.5",
-    "@tsed/logger": ">=6.1.0"
+    "@tsed/di": "6.107.5",
+    "@tsed/logger": ">=6.1.1"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/logger": {
+      "optional": false
+    }
   }
 }

@@ -21,7 +21,7 @@
     "test": "cross-env NODE_ENV=test yarn jest"
   },
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/ajv": "6.107.5",
@@ -34,12 +34,35 @@
     "sqlite3": "^5.0.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "^6.107.5",
-    "@tsed/core": "^6.107.5",
-    "@tsed/di": "^6.107.5",
-    "@tsed/json-mapper": "^6.107.5",
-    "@tsed/schema": "^6.107.5",
+    "@tsed/ajv": "6.107.5",
+    "@tsed/core": "6.107.5",
+    "@tsed/di": "6.107.5",
+    "@tsed/json-mapper": "6.107.5",
+    "@tsed/schema": "6.107.5",
     "knex": ">=0.94.0",
     "objection": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/ajv": {
+      "optional": false
+    },
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/json-mapper": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    },
+    "knex": {
+      "optional": false
+    },
+    "objection": {
+      "optional": false
+    }
   }
 }

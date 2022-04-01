@@ -32,7 +32,7 @@
     "tsed"
   ],
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/core": "6.107.5",
@@ -40,8 +40,19 @@
     "@tsed/schema": "6.107.5"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.107.5",
-    "@tsed/exceptions": "^6.107.5",
-    "@tsed/schema": "^6.107.5"
+    "@tsed/core": "6.107.5",
+    "@tsed/exceptions": "6.107.5",
+    "@tsed/schema": "6.107.5"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/exceptions": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    }
   }
 }

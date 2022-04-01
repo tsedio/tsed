@@ -1,4 +1,5 @@
-import {ConverterService, InjectorService, Provider} from "@tsed/common";
+import {InjectorService, Provider} from "@tsed/di";
+import {ConverterService} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {$log} from "@tsed/logger";
 import {Namespace, Socket} from "socket.io";

@@ -20,7 +20,7 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/common": "6.107.5",
@@ -28,10 +28,10 @@
     "socket.io-client": "^4.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.107.5",
-    "@tsed/core": "^6.107.5",
-    "@tsed/di": "^6.107.5",
-    "@tsed/socketio": "^6.107.5",
+    "@tsed/common": "6.107.5",
+    "@tsed/core": "6.107.5",
+    "@tsed/di": "6.107.5",
+    "@tsed/socketio": "6.107.5",
     "socket.io-client": "^4.0.1"
   }
 }

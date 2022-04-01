@@ -81,21 +81,44 @@
     "encodeurl": "^1.0.2",
     "koa-send": "5.0.1",
     "multer": "^1.4.2",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.107.5",
-    "@tsed/core": "^6.107.5",
-    "@tsed/di": "^6.107.5",
-    "@tsed/json-mapper": "^6.107.5",
-    "@tsed/logger": ">=6.1.0",
-    "@tsed/openspec": "^6.107.5",
-    "@tsed/schema": "^6.107.5",
+    "@tsed/common": "6.107.5",
+    "@tsed/core": "6.107.5",
+    "@tsed/di": "6.107.5",
+    "@tsed/json-mapper": "6.107.5",
+    "@tsed/openspec": "6.107.5",
+    "@tsed/schema": "6.107.5",
+    "@tsed/logger": ">=6.1.1",
     "koa": ">=2.13.0",
     "koa-bodyparser": ">=4.3.0",
     "koa-compress": ">=5.0.1",
     "koa-override": ">=3.0.0",
     "koa-qs": ">=3.0.0",
     "koa-session": ">=6.2.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/common": {
+      "optional": false
+    },
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/json-mapper": {
+      "optional": false
+    },
+    "@tsed/openspec": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    },
+    "@tsed/logger": {
+      "optional": false
+    }
   }
 }

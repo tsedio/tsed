@@ -35,7 +35,7 @@
   "dependencies": {
     "@tsed/formio-types": "6.107.5",
     "change-case": "4.1.2",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/core": "6.107.5",
@@ -43,11 +43,31 @@
     "@tsed/schema": "6.107.5"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.107.5",
-    "@tsed/openspec": "^6.107.5",
+    "@tsed/core": "6.107.5",
+    "@tsed/openspec": "6.107.5",
     "@tsed/schema": "^6.107.5",
     "formiojs": ">=4.0.0",
     "lodash": ">=4.0.0",
     "moment": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/openspec": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    },
+    "formiojs": {
+      "optional": false
+    },
+    "lodash": {
+      "optional": false
+    },
+    "moment": {
+      "optional": false
+    }
   }
 }

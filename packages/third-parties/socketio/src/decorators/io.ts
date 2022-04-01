@@ -1,4 +1,4 @@
-import {Inject} from "@tsed/common";
+import {Inject} from "@tsed/di";
 import {Type} from "@tsed/core";
 import {Server} from "../services/SocketIOServer";
 

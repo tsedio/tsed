@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@tsed/formio-types": "6.107.5",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/common": "6.107.5",
@@ -45,14 +45,16 @@
     "mongoose": "^5.12.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.107.5",
-    "@tsed/core": "^6.107.5",
-    "@tsed/di": "^6.107.5",
-    "@tsed/mongoose": "^6.107.5",
+    "@tsed/common": "6.107.5",
     "express": "^4.17.1",
     "formio": "^2.0.0",
     "lodash": "^4.17.21",
     "mongodb": "*",
     "mongoose": "^5.12.2"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/common": {
+      "optional": false
+    }
   }
 }

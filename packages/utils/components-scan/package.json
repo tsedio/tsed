@@ -23,13 +23,11 @@
   "dependencies": {
     "globby": "11.0.3",
     "normalize-path": "3.0.0",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/core": "6.107.5",
     "@types/normalize-path": "^3.0.0"
   },
-  "peerDependencies": {
-    "@tsed/core": "^6.107.5"
-  }
+  "peerDependencies": {}
 }

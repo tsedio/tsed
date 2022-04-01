@@ -30,7 +30,7 @@
   ],
   "dependencies": {
     "@tsed/typegraphql": "6.107.5",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "publishConfig": {
     "tag": "deprecated"

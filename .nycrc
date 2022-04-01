@@ -41,7 +41,7 @@
     "lcov"
   ],
   "check-coverage": true,
-  "lines": 99.56,
+  "lines": 99.55,
   "statements": 99.54,
   "functions": 99.08,
   "branches": 86.45

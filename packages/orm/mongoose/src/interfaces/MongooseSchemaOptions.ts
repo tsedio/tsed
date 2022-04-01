@@ -37,7 +37,7 @@ export interface MongoosePluginOptions {
 }
 
 export interface MongooseIndexOptions {
-  fields: object;
+  fields: Record<any, any>;
   options?: Record<string, unknown>;
 }
 

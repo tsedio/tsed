@@ -20,7 +20,7 @@
   ],
   "check-coverage": true,
   "statements": 100,
-  "branches": 86.67,
+  "branches": 86.66,
   "functions": 83.33,
   "lines": 100
 }
