@@ -102,7 +102,7 @@ describe("createSchema", () => {
     }
 
     // WHEN
-    const result = getSchema(Test2);
+    const result: any = getSchema(Test2);
 
     // THEN
     expect(result.obj.test.required).toBeInstanceOf(Function);

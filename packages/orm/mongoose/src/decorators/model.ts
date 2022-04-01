@@ -66,7 +66,7 @@ export function Model(options: MongooseModelOptions = {}) {
           schema,
           collectionName,
           options.collection,
-          options.skipInit,
+          options.overwriteModels,
           connections.get(options.connection),
           options.discriminatorValue
         );
