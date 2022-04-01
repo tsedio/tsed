@@ -174,7 +174,7 @@
     ]
   },
   "resolutions": {
-    "mongoose": "5.12.2"
+    "mongoose": "6.1.7"
   },
   "collective": {
     "type": "opencollective",

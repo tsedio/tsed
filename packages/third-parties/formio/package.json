@@ -42,7 +42,7 @@
     "express": "^4.17.1",
     "formio": "^2.0.0",
     "mongodb": "*",
-    "mongoose": "^5.12.2"
+    "mongoose": "^6.1.7"
   },
   "peerDependencies": {
     "@tsed/common": "6.107.5",
@@ -50,7 +50,7 @@
     "formio": "^2.0.0",
     "lodash": "^4.17.21",
     "mongodb": "*",
-    "mongoose": "^5.12.2"
+    "mongoose": "^6.1.7"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {
