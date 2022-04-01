@@ -35,17 +35,17 @@
   "devDependencies": {
     "@tsed/core": "6.107.5",
     "@tsed/di": "6.107.5",
-    "@tsed/schema": "6.107.5",
     "@tsed/exceptions": "6.107.5",
     "@tsed/platform-middlewares": "6.107.5",
     "@tsed/platform-params": "6.107.5",
+    "@tsed/schema": "6.107.5",
     "stripe": "^8.129.0"
   },
   "peerDependencies": {
+    "@tsed/exceptions": "6.107.5",
     "@tsed/platform-middlewares": "6.107.5",
     "@tsed/platform-params": "6.107.5",
     "@tsed/schema": "6.107.5",
-    "@tsed/exceptions": "6.107.5",
     "@types/body-parser": "^1.19.0",
     "body-parser": "^1.19.0",
     "stripe": "^8.129.0"

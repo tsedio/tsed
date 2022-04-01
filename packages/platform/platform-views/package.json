@@ -30,7 +30,7 @@
     "@tsed/engines": "^1.1.5",
     "@tsed/exceptions": "6.107.5",
     "@tsed/schema": "6.107.5",
-    "@types/consolidate": "0.14.0",
+    "@types/consolidate": "0.14.1",
     "@types/ejs": "3.1.0"
   },
   "peerDependencies": {

@@ -99,5 +99,6 @@
     "@tsed/logger-file": {
       "optional": false
     }
-  }
+  },
+  "devDependencies": {}
 }

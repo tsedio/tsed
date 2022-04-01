@@ -16,7 +16,7 @@ describe("createModel()", () => {
     });
 
     it("should call mongoose.model", () => {
-      expect(mongoose.model).toHaveBeenCalledWith("name", schema, "collection", true);
+      expect(mongoose.model).toHaveBeenCalledWith("name", schema, "collection", {overwriteModels: true});
     });
   });
 

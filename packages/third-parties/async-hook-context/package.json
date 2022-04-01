@@ -41,5 +41,6 @@
   "devDependencies": {
     "@tsed/core": "6.107.5",
     "@tsed/di": "6.107.5"
-  }
+  },
+  "peerDependencies": {}
 }

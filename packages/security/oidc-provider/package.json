@@ -44,9 +44,9 @@
     "@tsed/core": "6.107.5",
     "@tsed/di": "6.107.5",
     "@tsed/exceptions": "6.107.5",
-    "@types/lowdb": "1.0.9",
+    "@types/lowdb": "1.0.11",
     "@types/oidc-provider": "^7.1.1",
-    "@types/uuid": "8.3.0",
+    "@types/uuid": "8.3.4",
     "oidc-provider": "7.10.1"
   },
   "peerDependencies": {

@@ -39,7 +39,7 @@ const baseUser = {
 
 const baseProfile = {
   image: faker.image.avatar(),
-  age: faker.random.number(2)
+  age: faker.datatype.number(2)
 };
 
 describe("Mongoose", () => {

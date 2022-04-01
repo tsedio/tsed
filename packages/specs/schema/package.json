@@ -43,12 +43,12 @@
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@apidevtools/swagger-parser": "10.0.2",
+    "@apidevtools/swagger-parser": "10.0.3",
     "@tsed/core": "6.107.5",
     "@tsed/openspec": "6.107.5",
-    "@types/fs-extra": "9.0.6",
-    "@types/json-schema": "7.0.7",
-    "@types/micromatch": "4.0.1",
+    "@types/fs-extra": "9.0.13",
+    "@types/json-schema": "7.0.11",
+    "@types/micromatch": "4.0.2",
     "@types/statuses": "2.0.0"
   },
   "peerDependencies": {

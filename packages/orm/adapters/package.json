@@ -35,7 +35,7 @@
     "@tsed/di": "6.107.5",
     "@tsed/json-mapper": "6.107.5",
     "@tsed/schema": "6.107.5",
-    "@types/fs-extra": "9.0.6"
+    "@types/fs-extra": "9.0.13"
   },
   "peerDependencies": {
     "@tsed/ajv": "6.107.5",
