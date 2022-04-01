@@ -1,9 +1,10 @@
 import {MongooseSchemaOptions} from "./MongooseSchemaOptions";
+import {CompileModelOptions} from "mongoose";
 
 export interface MongooseModelOptions extends MongooseSchemaOptions {
   name?: string;
   connection?: string;
   collection?: string;
-  skipInit?: boolean;
+  overwriteModels?: boolean;
   discriminatorValue?: string;
 }

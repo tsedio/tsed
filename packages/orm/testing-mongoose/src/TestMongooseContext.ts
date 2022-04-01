@@ -73,7 +73,7 @@ export class TestMongooseContext extends PlatformTest {
     await Promise.all(promises);
   }
 
-  static async getMongooseOptions() {
+  static async getMongooseOptions(): Promise<any> {
     const mongo = TestMongooseContext.getMongo();
     try {
       !["running", "starting"].includes(mongo.state) && (await mongo.start());

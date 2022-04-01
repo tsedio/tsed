@@ -47,16 +47,7 @@ registerProvider({
     let isDefault = true;
 
     for (const current of settings) {
-      await mongooseService.connect(
-        current.id,
-        current.url,
-        current.connectionOptions || {
-          useCreateIndex: true,
-          useNewUrlParser: true,
-          useUnifiedTopology: true
-        },
-        isDefault
-      );
+      await mongooseService.connect(current.id, current.url, current.connectionOptions || {}, isDefault);
 
       isDefault = false;
     }
