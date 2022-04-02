@@ -1,6 +1,6 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
-import {ServerResponse} from "http";
+import {OutgoingHttpHeaders, ServerResponse} from "http";
 import onFinished from "on-finished";
 import {IncomingEvent} from "../interfaces/IncomingEvent";
 import type {PlatformRequest} from "./PlatformRequest";
@@ -84,7 +84,7 @@ export class PlatformResponse<T extends Record<string, any> = any> {
     return this.raw.get(name);
   }
 
-  getHeaders(): Record<string, HeaderValue> {
+  getHeaders(): OutgoingHttpHeaders {
     return this.raw.getHeaders();
   }
 
@@ -128,7 +128,7 @@ export class PlatformResponse<T extends Record<string, any> = any> {
    *
    * Aliased as `res.header()`.
    */
-  setHeaders(headers: Record<string, HeaderValue>) {
+  setHeaders(headers: OutgoingHttpHeaders) {
     // apply headers
     Object.entries(headers).forEach(([key, item]) => {
       this.setHeader(key, item);

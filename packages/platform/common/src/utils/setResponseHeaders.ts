@@ -1,8 +1,8 @@
 import {JsonHeader} from "@tsed/schema";
+import {OutgoingHttpHeaders} from "http";
 import {PlatformContext} from "../domain/PlatformContext";
-import {HeaderValue} from "../services/PlatformResponse";
 
-function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}>, headers: Record<string, HeaderValue>) {
+function mergeHeaders(specHeaders: Record<string, JsonHeader & {example: string}>, headers: OutgoingHttpHeaders) {
   return Object.entries(specHeaders).reduce((headers, [key, item]) => {
     key = key.toLowerCase();
     return {

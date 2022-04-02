@@ -32,7 +32,7 @@
     "@types/passport-http": "0.3.9",
     "@types/passport-local": "1.0.34",
     "@types/passport-strategy": "0.2.35",
-    "passport": "0.4.1",
+    "passport": "0.5.2",
     "passport-http": "0.3.0",
     "passport-local": "1.0.0",
     "passport-strategy": "1.0.0"

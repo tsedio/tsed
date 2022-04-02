@@ -25,7 +25,7 @@
   "dependencies": {
     "@tsed/openspec": "6.107.5",
     "fs-extra": "10.0.1",
-    "micromatch": "4.0.4",
+    "micromatch": "4.0.5",
     "swagger-ui-dist": "^4.5.2",
     "tslib": "2.3.1"
   },

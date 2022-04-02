@@ -47,7 +47,7 @@
     "@types/lowdb": "1.0.11",
     "@types/oidc-provider": "^7.1.1",
     "@types/uuid": "8.3.4",
-    "oidc-provider": "7.10.1"
+    "oidc-provider": "7.10.6"
   },
   "peerDependencies": {
     "@tsed/common": "6.107.5",
