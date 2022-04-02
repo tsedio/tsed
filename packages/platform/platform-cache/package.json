@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-cache",
-  "version": "6.107.5",
+  "version": "6.108.0",
   "description": "Platform cache module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -27,17 +27,17 @@
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@tsed/core": "6.107.5",
-    "@tsed/di": "6.107.5",
-    "@tsed/json-mapper": "6.107.5",
-    "@tsed/schema": "6.107.5",
+    "@tsed/core": "6.108.0",
+    "@tsed/di": "6.108.0",
+    "@tsed/json-mapper": "6.108.0",
+    "@tsed/schema": "6.108.0",
     "@types/micromatch": "^4.0.1"
   },
   "peerDependencies": {
-    "@tsed/core": "6.107.5",
-    "@tsed/di": "6.107.5",
-    "@tsed/json-mapper": "6.107.5",
-    "@tsed/schema": "6.107.5"
+    "@tsed/core": "^6.108.0",
+    "@tsed/di": "^6.108.0",
+    "@tsed/json-mapper": "^6.108.0",
+    "@tsed/schema": "^6.108.0"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
