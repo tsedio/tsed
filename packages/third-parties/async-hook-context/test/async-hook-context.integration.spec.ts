@@ -2,7 +2,7 @@ import {Controller, Get, Inject, Injectable, PathParams, PlatformContext, Platfo
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {expect} from "chai";
-import * as faker from "faker";
+import faker from "@faker-js/faker";
 import SuperTest from "supertest";
 import {InjectContext} from "../src";
 import {rootDir, Server} from "./app/Server";
@@ -55,8 +55,8 @@ describe("AsyncHookContext", () => {
 
   describe("GET /rest/async-hooks/1", () => {
     it("should the agentId from context request headers", async () => {
-      const agentId = faker.random.uuid();
-      const id = faker.random.uuid();
+      const agentId = faker.datatype.uuid();
+      const id = faker.datatype.uuid();
       const {body} = await request.get(`/rest/async-hooks/${id}`).set("x-agent-id", agentId).expect(200);
 
       if (require("async_hooks").AsyncLocalStorage) {

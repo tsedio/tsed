@@ -5,7 +5,7 @@
   "dependencies": {
     "@codechecks/client": "0.1.12",
     "chalk": "4.1.1",
-    "cli-table3": "0.6.0",
+    "cli-table3": "0.6.1",
     "fancy-log": "2.0.0",
     "fs-extra": "10.0.1",
     "markdown-table": "2.0.0",

@@ -4,7 +4,7 @@ import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Groups, Returns} from "@tsed/schema";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import faker from "faker";
+import faker from "@faker-js/faker";
 import SuperTest from "supertest";
 import {isArray} from "@tsed/core";
 import {TestRole, TestUser, TestUserNew} from "./helpers/models/User";

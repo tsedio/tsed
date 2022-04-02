@@ -1,7 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {FormioService} from "@tsed/formio";
 import {expect} from "chai";
-import * as faker from "faker";
+import faker from "@faker-js/faker";
 import Sinon from "sinon";
 import {FormioInstaller} from "./FormioInstaller";
 
@@ -56,12 +56,12 @@ describe("FormioImporter", () => {
       const template = {
         resources: {
           admin: {
-            _id: faker.random.uuid()
+            _id: faker.datatype.uuid()
           }
         },
         roles: {
           administrator: {
-            _id: faker.random.uuid()
+            _id: faker.datatype.uuid()
           }
         }
       };
@@ -89,12 +89,12 @@ describe("FormioImporter", () => {
       const template = {
         resources: {
           admin: {
-            _id: faker.random.uuid()
+            _id: faker.datatype.uuid()
           }
         },
         roles: {
           administrator: {
-            _id: faker.random.uuid()
+            _id: faker.datatype.uuid()
           }
         }
       };
@@ -119,12 +119,12 @@ describe("FormioImporter", () => {
       const template = {
         resources: {
           admin: {
-            _id: faker.random.uuid()
+            _id: faker.datatype.uuid()
           }
         },
         roles: {
           administrator: {
-            _id: faker.random.uuid()
+            _id: faker.datatype.uuid()
           }
         }
       };

@@ -1,7 +1,7 @@
 import {Adapter, Adapters, FileSyncAdapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {Property} from "@tsed/schema";
-import * as faker from "faker";
+import faker from "@faker-js/faker";
 
 class Client {
   @Property()

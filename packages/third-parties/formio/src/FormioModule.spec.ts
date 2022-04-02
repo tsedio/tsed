@@ -1,6 +1,6 @@
 import {PlatformApplication, PlatformRouteDetails, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as faker from "faker";
+import faker from "@faker-js/faker";
 import Sinon from "sinon";
 import {FormioModule} from "./FormioModule";
 import {FormioInstaller} from "./services/FormioInstaller";
