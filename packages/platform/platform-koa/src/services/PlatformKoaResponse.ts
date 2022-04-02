@@ -89,7 +89,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
     return this;
   }
 
-  getBody() {
+  getBody(): any {
     return this.raw.body;
   }
 
@@ -100,7 +100,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
 
     this.body(`${getStatusMessage(status)}. Redirecting to ${url}`);
     this.status(status);
-    this.setHeader("Content-Length", Buffer.byteLength(this.raw.body));
+    this.setHeader("Content-Length", Buffer.byteLength(this.raw.body as any));
 
     if (this.request.method === "HEAD") {
       this.getRes().end();

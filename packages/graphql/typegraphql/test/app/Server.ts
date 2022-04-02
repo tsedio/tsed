@@ -9,6 +9,7 @@ import {buildContext} from "graphql-passport";
 import methodOverride from "method-override";
 import {resolve} from "path";
 import {User} from "./graphql/auth/User";
+import session from "express-session";
 
 const rootDir = resolve(__dirname);
 
@@ -61,6 +62,19 @@ export class Server {
       )
       .use(cookieParser())
       .use(compress({}))
-      .use(methodOverride());
+      .use(methodOverride())
+      .use(
+        session({
+          secret: "mysecretkey",
+          resave: true,
+          saveUninitialized: true,
+          // maxAge: 36000,
+          cookie: {
+            path: "/",
+            httpOnly: true,
+            secure: false
+          }
+        })
+      );
   }
 }

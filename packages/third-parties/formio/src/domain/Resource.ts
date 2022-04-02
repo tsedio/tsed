@@ -1,6 +1,6 @@
-import Express from "express";
+import {Request, Response, NextFunction} from "express";
 
-export type ResourceHttpHandler = (req: Request, res: Response, next: Express.NextFunction) => void;
+export type ResourceHttpHandler = (req: Request, res: Response, next: NextFunction) => void;
 
 export interface ResourceHttpMethodOptions {
   before?: ResourceHttpHandler;

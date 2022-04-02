@@ -4,7 +4,7 @@ import "@tsed/typegraphql";
 
 @Configuration({
   componentsScan: [
-    `${rootDir}/graphql/**/*.ts` // add this pattern to scan resolvers or datasources
+    `./graphql/**/*.ts` // add this pattern to scan resolvers or datasources
   ],
   typegraphql: {
     server1: {

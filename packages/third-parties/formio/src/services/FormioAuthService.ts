@@ -150,7 +150,6 @@ export class FormioAuthService {
   async getRoles(req?: Req) {
     try {
       const query = this.hooks.alter("roleQuery", {deleted: {$eq: null}}, req);
-
       return await this.db.roleModel.find(query).sort({title: 1}).lean().exec();
     } catch (err) {
       throw new BadRequest(this.formio.util.errorCodes.role.EROLESLOAD);
