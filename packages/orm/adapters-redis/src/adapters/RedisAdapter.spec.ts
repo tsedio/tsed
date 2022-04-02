@@ -22,6 +22,7 @@ describe("RedisAdapter", () => {
   afterEach(() => PlatformTest.reset());
   beforeEach(() => {
     const locals = new Map();
+    // @ts-ignore
     locals.set(IORedis, new IORedisMock());
 
     adapter = PlatformTest.get<Adapters>(Adapters).invokeAdapter<Client>({
@@ -175,6 +176,8 @@ describe("RedisAdapter", () => {
       expect(result[0]?.name).toBe(base.name);
     });
     it("should find all items", async () => {
+      await adapter.deleteMany({});
+
       const base = {
         name: faker.name.title()
       };
