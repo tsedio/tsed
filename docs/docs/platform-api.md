@@ -37,8 +37,8 @@ import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 
-@ServerSettings({
-  viewsDir: `${rootDir}/views`
+@Configuration({
+  viewsDir: `${process.cwd()}/views`
 })
 export class Server extends ServerLoader {
   $beforeRoutesInit() {
@@ -73,7 +73,7 @@ import methodOverride from "method-override";
 
 @Configuration({
   views: {
-    root: `${rootDir}/views`,
+    root: `${process.cwd()}/views`,
     viewEngine: "ejs"
   }
 })

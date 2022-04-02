@@ -1,9 +1,9 @@
 import {Module} from "@tsed/di";
-import {resolve} from "path";
+import {UserController} from "./users/UserController";
 
 @Module({
   mount: {
-    "/rest/v0": [`./controllers/v0/users/*.ts`, `./controllers/v0/groups/*.ts`]
+    "/rest/v0": [UserController]
   }
 })
 export class ModuleV0 {}

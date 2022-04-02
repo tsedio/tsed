@@ -16,16 +16,11 @@ The default configuration is as follows:
 
 ```json
 {
-  "rootDir": "path/to/root/project",
   "env": "development",
   "port": 8080,
   "debug": false,
   "httpsPort": 8000,
-  "uploadDir": "${rootDir}/uploads",
-  "mount": {
-    "/rest": "${rootDir}/controllers/**/*.ts"
-  },
-  "componentsScan": ["${rootDir}/middlewares/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/converters/**/*.ts"]
+  "uploadDir": "./uploads"
 }
 ```
 
@@ -159,11 +154,11 @@ It is also possible to split the configuration by using the @@Module@@:
   </Tab>    
 </Tabs>
 
-### componentsScan
+### ~~componentsScan~~ (deprecated)
 
 - type: `string[]`
 
-List of glob pattern to scan directories which contains [Services](/docs/services.md), [Middlewares](/docs/middlewares.md) or [Converters](/docs/converters.md).
+List of glob pattern to scan directories which contains [Services](/docs/services.md) or [Middlewares](/docs/middlewares.md).
 
 ### middlewares <Badge text="v6.28.0+" />
 
@@ -252,7 +247,7 @@ Add providers or modules here. These modules or provider will be built before th
   </Tab>
 </Tabs>
 
-### exclude
+### ~~exclude~~ (deprecated)
 
 - type: `string[]`
 
@@ -298,7 +293,7 @@ It's also possible to register resolvers with the @@Module@@ decorator:
 
 ### views
 
-Object to configure Views engines with Consolidate. See more on [View engine](/docs/templating.md).
+Object to configure Views engines with Ts.ED engines or Consolidate (deprecated). See more on [View engine](/docs/templating.md).
 
 ### acceptMimes
 

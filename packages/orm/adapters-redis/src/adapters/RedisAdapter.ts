@@ -1,6 +1,7 @@
 import {Adapter, AdapterModel} from "@tsed/adapters";
 import {Inject} from "@tsed/di";
-import IoRedis, {Redis} from "ioredis";
+import IoRedis from "ioredis";
+import type {Redis} from "ioredis";
 import {v4 as uuid} from "uuid";
 import "../services/RedisFactory";
 
