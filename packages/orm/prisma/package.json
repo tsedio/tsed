@@ -1,6 +1,6 @@
 {
   "name": "@tsed/prisma",
-  "version": "6.108.0",
+  "version": "6.109.0",
   "description": "Generate Ts.ED JsonSchema based on Prisma models",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -35,20 +35,20 @@
   },
   "devDependencies": {
     "@prisma/client": "^3.10.0",
-    "@tsed/core": "6.108.0",
-    "@tsed/di": "6.108.0",
-    "@tsed/json-mapper": "6.108.0",
-    "@tsed/schema": "6.108.0",
+    "@tsed/core": "6.109.0",
+    "@tsed/di": "6.109.0",
+    "@tsed/json-mapper": "6.109.0",
+    "@tsed/schema": "6.109.0",
     "@types/change-case": "^2.3.1",
     "@types/pluralize": "0.0.29",
     "prisma": "^3.10.0"
   },
   "peerDependencies": {
     "@prisma/client": "^2 || ^3",
-    "@tsed/core": "^6.108.0",
-    "@tsed/di": "^6.108.0",
-    "@tsed/json-mapper": "^6.108.0",
-    "@tsed/schema": "^6.108.0"
+    "@tsed/core": "^6.109.0",
+    "@tsed/di": "^6.109.0",
+    "@tsed/json-mapper": "^6.109.0",
+    "@tsed/schema": "^6.109.0"
   },
   "keywords": [
     "TypeScript",
