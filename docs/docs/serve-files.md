@@ -81,18 +81,20 @@ Since v6.74.0, it's possible to load statics before controllers instead of loadi
 Just use the options `hook` to change the default behavior:
 
 ```typescript
+import * as process from "process";
+
 @Configuration({
   statics: {
     "/before": [
       {
-        root: `${rootDir}/public`,
+        root: `${process.cwd()}/public`,
         hook: "$beforeRoutesInit"
         // ... statics options
       }
     ],
     "/after": [
       {
-        root: `${rootDir}/public`,
+        root: `${process.cwd()}/public`,
         hook: "$afterRoutesInit"
         // ... statics options
       }

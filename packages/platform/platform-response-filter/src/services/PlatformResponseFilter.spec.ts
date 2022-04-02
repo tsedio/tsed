@@ -111,6 +111,7 @@ describe("PlatformResponseFilter", () => {
     sandbox.stub(ctx.request, "get").returns("application/json");
     sandbox.stub(ctx.request, "accepts").returns(["application/json"]);
 
+    // @ts-ignore
     platformResponseFilter.types.set("*/*", {
       transform(data: unknown, ctx: PlatformContext) {
         return {data};
@@ -162,6 +163,7 @@ describe("PlatformResponseFilter", () => {
     const data = {text: "test"};
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
+    // @ts-ignore
     platformResponseFilter.types.set("*/*", {
       transform(data: unknown, ctx: PlatformContext) {
         return {data};

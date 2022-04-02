@@ -178,10 +178,9 @@ import {expect} from "chai";
 import {Stripe} from "stripe";
 import SuperTest from "supertest";
 import {StripeWebhooksCtrl} from "./StripWebhookCtrl";
-import {rootDir, Server} from "../Server";
+import {Server} from "../Server";
 
 const utils = PlatformTestUtils.create({
-  rootDir,
   platform: PlatformExpress,
   server: Server,
   logger: {

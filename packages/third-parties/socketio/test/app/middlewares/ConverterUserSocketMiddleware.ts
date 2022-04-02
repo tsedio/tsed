@@ -1,14 +1,12 @@
-import {ConverterService} from "@tsed/common";
-import {Args, SocketSession, SocketMiddleware} from "@tsed/socketio";
+import {Args, SocketMiddleware, SocketSession} from "@tsed/socketio";
 import {User} from "../models/User";
+import {deserialize} from "@tsed/json-mapper";
 
 @SocketMiddleware()
 export class ConverterUserSocketMiddleware {
-  constructor(private converterService: ConverterService) {}
-
   use(@Args(0) user: any[], @SocketSession session: Map<string, any>) {
     session.set("test", "test2");
-    user = this.converterService.deserialize(user, User);
+    user = deserialize(user, {type: User, useAlias: true});
 
     return [user];
   }

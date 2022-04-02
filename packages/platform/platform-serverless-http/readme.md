@@ -103,7 +103,7 @@ import {TimeslotsController} from "./controllers/TimeslotsController";
     }
   ],
   views: {
-    root: `${rootDir}/views`,
+    root: "${rootDir}/views",
     extensions: {
       ejs: "ejs"
     }
