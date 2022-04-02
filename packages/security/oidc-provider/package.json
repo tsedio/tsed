@@ -35,7 +35,7 @@
     "jose2": "npm:jose@^2.0.4",
     "koa-mount": "^4.0.0",
     "koa-rewrite": "^3.0.1",
-    "lowdb": "1.0.0",
+    "lowdb": "3.0.0",
     "tslib": "2.3.1",
     "uuid": "8.3.2"
   },
