@@ -3,7 +3,7 @@ import {deserialize, serialize} from "@tsed/json-mapper";
 import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import faker from "faker";
+import faker from "@faker-js/faker";
 import SuperTest from "supertest";
 import {TestProfile, TestUser} from "./helpers/models/User";
 import {Server} from "./helpers/Server";

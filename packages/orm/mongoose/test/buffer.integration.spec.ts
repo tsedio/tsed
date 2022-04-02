@@ -1,6 +1,6 @@
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import axios from "axios";
-import faker from "faker";
+import faker from "@faker-js/faker";
 import {MongooseModel} from "../src/interfaces/MongooseModel";
 import {TestAvatar} from "./helpers/models/Avatar";
 

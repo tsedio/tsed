@@ -2,7 +2,7 @@ import {Adapter, Adapters, MemoryAdapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
 import {Format, Name, Property} from "@tsed/schema";
-import * as faker from "faker";
+import faker from "@faker-js/faker";
 
 class BaseClient {
   @Format("date-time")
@@ -112,7 +112,7 @@ describe("MemoryAdapter", () => {
         name: faker.name.title()
       };
 
-      const client = await adapter.updateOne({_id: faker.random.uuid()}, base);
+      const client = await adapter.updateOne({_id: faker.datatype.uuid()}, base);
 
       expect(client).toBeUndefined();
     });

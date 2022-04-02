@@ -20,7 +20,7 @@ import {
   Required
 } from "@tsed/schema";
 import {expect} from "chai";
-import faker from "faker";
+import faker from "@faker-js/faker";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
 import {OnDeserialize} from "../decorators/onDeserialize";

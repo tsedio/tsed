@@ -1,5 +1,5 @@
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import faker from "faker";
+import faker from "@faker-js/faker";
 import {MongooseModel} from "../src/interfaces/MongooseModel";
 import {TestUser} from "./helpers/models/User";
 import {Server} from "./helpers/Server";

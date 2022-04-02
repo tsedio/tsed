@@ -3,7 +3,7 @@ import {RedisAdapter} from "@tsed/adapters-redis";
 import {PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
 import {Property} from "@tsed/schema";
-import * as faker from "faker";
+import faker from "@faker-js/faker";
 import IORedis from "ioredis";
 
 import IORedisMock from "ioredis-mock";
@@ -63,7 +63,7 @@ describe("RedisAdapter", () => {
         },
         {type: Client}
       );
-      const id = faker.random.uuid();
+      const id = faker.datatype.uuid();
 
       const client = await adapter.upsert(id, base);
       const client2 = await adapter.upsert(id, base);

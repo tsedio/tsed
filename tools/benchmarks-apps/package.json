@@ -4,10 +4,10 @@
   "main": "index.js",
   "private": true,
   "dependencies": {
-    "@nestjs/common": "7.6.15",
-    "@nestjs/core": "7.6.15",
-    "@nestjs/platform-express": "7.6.15",
-    "@nestjs/platform-fastify": "7.6.15",
+    "@nestjs/common": "8.4.3",
+    "@nestjs/core": "8.4.3",
+    "@nestjs/platform-express": "8.4.3",
+    "@nestjs/platform-fastify": "8.4.3",
     "fastify": "3.15.1"
   },
   "devDependencies": {},

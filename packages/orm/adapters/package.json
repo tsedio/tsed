@@ -21,8 +21,8 @@
     "test": "cross-env NODE_ENV=test yarn jest"
   },
   "dependencies": {
-    "@types/lowdb": "1.0.9",
-    "@types/uuid": "8.3.0",
+    "@types/lowdb": "1.0.11",
+    "@types/uuid": "8.3.4",
     "fs-extra": "10.0.1",
     "lowdb": "1.0.0",
     "tslib": "2.3.1",
