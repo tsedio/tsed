@@ -44,7 +44,7 @@ export class AgendaModule implements OnDestroy, AfterListen {
   }
 
   protected getProviders(): Provider<any>[] {
-    return Array.from(this.injector.getProviders(PROVIDER_TYPE_AGENDA));
+    return this.injector.getProviders(PROVIDER_TYPE_AGENDA);
   }
 
   protected addAgendaDefinitionsForProvider(provider: Provider): void {

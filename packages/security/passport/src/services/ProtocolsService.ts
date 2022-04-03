@@ -19,7 +19,7 @@ export class ProtocolsService {
   constructor(private injector: InjectorService) {}
 
   public getProtocols(): Provider[] {
-    return Array.from(this.injector.getProviders(PROVIDER_TYPE_PROTOCOL));
+    return this.injector.getProviders(PROVIDER_TYPE_PROTOCOL);
   }
 
   public getProtocolsNames(): string[] {

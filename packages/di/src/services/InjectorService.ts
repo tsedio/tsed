@@ -153,6 +153,16 @@ export class InjectorService extends Container {
   }
 
   /**
+   * Return all instance of the same provider type
+   * @param type
+   */
+  getAll(type: string) {
+    return this.getProviders(type).map((provider) => {
+      return this.get(provider.token);
+    });
+  }
+
+  /**
    * The has() method returns a boolean indicating whether an element with the specified key exists or not.
    * @returns {boolean}
    * @param token
