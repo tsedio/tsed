@@ -8,7 +8,9 @@ import {
   LocalsContainer,
   Provider,
   ProviderScope,
-  ProviderType
+  ProviderType,
+  registerFactory,
+  registerProvider
 } from "@tsed/di";
 import {expect} from "chai";
 import Sinon from "sinon";
@@ -41,11 +43,11 @@ class Test {
 describe("InjectorService", () => {
   describe("has()", () => {
     it("should return true", () => {
-      return expect(new InjectorService().has(InjectorService)).to.be.true;
+      expect(new InjectorService().has(InjectorService)).to.be.true;
     });
 
     it("should return false", () => {
-      return expect(new InjectorService().has(Test)).to.be.false;
+      expect(new InjectorService().has(Test)).to.be.false;
     });
   });
   describe("runInContext()", () => {
@@ -61,7 +63,19 @@ describe("InjectorService", () => {
     });
 
     it("should return undefined", () => {
-      return expect(new InjectorService().get(Test)).to.be.undefined;
+      expect(new InjectorService().get(Test)).to.be.undefined;
+    });
+  });
+  describe("getAll()", () => {
+    it("should return all instance", () => {
+      const injector = new InjectorService();
+      injector.addProvider("token", {
+        type: ProviderType.VALUE,
+        useValue: 1
+      });
+
+      expect(!!injector.getAll(ProviderType.VALUE).length).to.eq(true);
+      expect(!!injector.getAll(ProviderType.FACTORY).length).to.eq(false);
     });
   });
 
@@ -894,6 +908,27 @@ describe("InjectorService", () => {
       const value = injector.alter("$alterValue", "value");
 
       expect(service.$alterValue).to.have.been.calledWithExactly("value");
+      expect(value).to.eq("alteredValue");
+    });
+    it("should alter value (factory)", () => {
+      registerProvider({
+        provide: "TOKEN",
+        useFactory: () => {
+          return {};
+        },
+        hooks: {
+          $alterValue(instance: any, value: any) {
+            return "alteredValue";
+          }
+        }
+      });
+
+      // GIVEN
+      const injector = new InjectorService();
+      injector.invoke<any>("TOKEN");
+
+      const value = injector.alter("$alterValue", "value");
+
       expect(value).to.eq("alteredValue");
     });
   });

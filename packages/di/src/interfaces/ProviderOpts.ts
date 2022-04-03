@@ -49,7 +49,7 @@ export interface ProviderOpts<T = any> {
   /**
    * hooks to intercept custom events
    */
-  hooks?: Record<string, (instance: T, ...args: any[]) => Promise<void> | void>;
+  hooks?: Record<string, (instance: T, ...args: any[]) => Promise<any> | any>;
   /**
    *
    */
