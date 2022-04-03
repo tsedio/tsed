@@ -5,7 +5,7 @@ import path from "path";
 import {DmmfModel} from "../domain/DmmfModel";
 import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile";
 import pluralize from "pluralize";
-import {pascalCase, camelCase, lowerCase } from "change-case";
+import {pascalCase, camelCase} from "change-case";
 
 interface MethodOptions {
   repository: ClassDeclaration;
@@ -13,6 +13,10 @@ interface MethodOptions {
   model: string;
   returnType?: string | undefined;
   hasQuestionToken?: boolean;
+}
+
+function lowerCase(name: string) {
+  return name.substring(0, 1).toLowerCase() + name.substring(1);
 }
 
 function addDelegatedMethod({name, hasQuestionToken, repository, model, returnType}: MethodOptions) {
