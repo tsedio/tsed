@@ -5,7 +5,7 @@ import path from "path";
 import {DmmfModel} from "../domain/DmmfModel";
 import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile";
 import pluralize from "pluralize";
-import {pascalCase, camelCase} from "change-case";
+import {pascalCase, camelCase, lowerCase } from "change-case";
 
 interface MethodOptions {
   repository: ClassDeclaration;
@@ -103,7 +103,7 @@ export function generateRepositories(dmmf: DMMF.Document, project: Project, base
       .addGetAccessor({
         name: "collection"
       })
-      .setBodyText(`return this.prisma.${camelCase(model.name)}`);
+      .setBodyText(`return this.prisma.${lowerCase(model.name)}`);
 
     repository
       .addGetAccessor({
