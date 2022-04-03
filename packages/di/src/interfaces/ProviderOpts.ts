@@ -3,10 +3,8 @@ import type {DIResolver} from "./DIResolver";
 import type {ProviderScope} from "../domain/ProviderScope";
 import type {ProviderType} from "../domain/ProviderType";
 import type {TokenProvider} from "./TokenProvider";
-/**
- *
- */
-export interface IProvider<T = any> {
+
+export interface ProviderOpts<T = any> {
   /**
    * An injection token. (Typically an instance of `Type` or `InjectionToken`, but can be `any`).
    */
@@ -53,3 +51,8 @@ export interface IProvider<T = any> {
    */
   [key: string]: any;
 }
+
+/**
+ * @deprecated
+ */
+export interface IProvider<T = any> extends ProviderOpts<T> {}

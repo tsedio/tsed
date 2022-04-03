@@ -27,7 +27,7 @@ import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
 import {ProviderScope} from "../domain/ProviderScope";
 import {DILogger} from "../interfaces/DILogger";
 import {TokenProvider} from "../interfaces/TokenProvider";
-import {IProvider} from "../interfaces/IProvider";
+import {ProviderOpts} from "../interfaces/ProviderOpts";
 import {InvokeOptions} from "../interfaces/InvokeOptions";
 import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties";
 import {InjectablePropertyType} from "../domain/InjectablePropertyType";
@@ -93,7 +93,7 @@ export class InjectorService extends Container {
    * @param settings
    * @deprecated
    */
-  public forkProvider(token: TokenProvider, settings: Partial<IProvider<any>> = {}): Provider {
+  public forkProvider(token: TokenProvider, settings: Partial<ProviderOpts<any>> = {}): Provider {
     if (!this.hasProvider(token)) {
       this.addProvider(token);
     }

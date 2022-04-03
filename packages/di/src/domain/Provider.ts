@@ -1,10 +1,10 @@
 import {classOf, getClassOrSymbol, isClass, nameOf, Store, Type} from "@tsed/core";
-import {IProvider} from "../interfaces/IProvider";
+import {ProviderOpts} from "../interfaces/ProviderOpts";
 import {TokenProvider} from "../interfaces/TokenProvider";
 import {ProviderScope} from "./ProviderScope";
 import {ProviderType} from "./ProviderType";
 
-export class Provider<T = any> implements IProvider<T> {
+export class Provider<T = any> implements ProviderOpts<T> {
   public type: ProviderType | any = ProviderType.PROVIDER;
   /**
    * @deprecated Use injector.get(provider.token) instead.

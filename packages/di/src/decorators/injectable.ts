@@ -1,4 +1,4 @@
-import type {IProvider} from "../interfaces/IProvider";
+import type {ProviderOpts} from "../interfaces/ProviderOpts";
 import {registerProvider} from "../registries/ProviderRegistry";
 
 /**
@@ -19,7 +19,7 @@ import {registerProvider} from "../registries/ProviderRegistry";
  * @returns {Function}
  * @decorator
  */
-export function Injectable(options: Partial<IProvider> = {}): ClassDecorator {
+export function Injectable(options: Partial<ProviderOpts> = {}): ClassDecorator {
   return (target: any) => {
     registerProvider({
       ...options,
