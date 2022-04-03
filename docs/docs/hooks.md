@@ -40,3 +40,28 @@ export class MyModule implements BeforeInit {
 ::: tip Note
 Database connection can be performed with Asynchronous Provider since v5.26. See [custom providers](/docs/custom-providers.md)
 :::
+
+Since v6.110.0, it's also possible to register hooks on custom provider:
+
+```typescript
+import {Configuration, registerProvider} from "@tsed/di";
+import {DatabaseConnection} from "connection-lib";
+
+export const CONNECTION = Symbol.for("CONNECTION");
+
+registerProvider<DatabaseConnection>({
+  provide: CONNECTION,
+  deps: [Configuration],
+  useFactory(configuration: Configuration) {
+    const options = configuration.get<any>("myOptions");
+
+    return new DatabaseConnection(options);
+  },
+  hooks: {
+    $onDestroy(connection) {
+      // called when provider instance is destroyed
+      return connection.close();
+    }
+  }
+});
+```

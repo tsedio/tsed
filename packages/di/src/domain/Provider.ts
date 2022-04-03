@@ -15,6 +15,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   public useFactory: Function;
   public useAsyncFactory: Function;
   public useValue: any;
+  public hooks?: Record<string, (instance: T, ...args: any[]) => Promise<void> | void>;
   private _useClass: Type<T>;
   private _provide: TokenProvider;
   private _store: Store;

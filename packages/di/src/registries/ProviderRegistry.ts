@@ -13,7 +13,7 @@ GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider);
  * Register a provider configuration.
  * @param {ProviderOpts<any>} provider
  */
-export function registerProvider(provider: Partial<ProviderOpts>): void {
+export function registerProvider<Type = any>(provider: Partial<ProviderOpts<Type>>): void {
   if (!provider.provide) {
     throw new Error("Provider.provide is required");
   }

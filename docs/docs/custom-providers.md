@@ -37,6 +37,10 @@ In order to inject a custom provider, we use the @@Inject@@ decorator. This deco
 
 <<< @/docs/snippets/providers/custom-provider-use-value-usage.ts
 
+::: tip
+Since v6.110.0, factory and custom provider can register his own [hooks](/docs/hooks.md)!
+:::
+
 ## Use Async Factory
 
 The `useAsyncFactory` is a way of creating asynchronous providers dynamically.
