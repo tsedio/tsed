@@ -47,6 +47,10 @@ export interface ProviderOpts<T = any> {
   resolvers?: DIResolver[];
 
   /**
+   * hooks to intercept custom events
+   */
+  hooks?: Record<string, (instance: T, ...args: any[]) => Promise<void> | void>;
+  /**
    *
    */
   [key: string]: any;

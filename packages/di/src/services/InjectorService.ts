@@ -646,6 +646,12 @@ export class InjectorService extends Container {
       this.bindInjectableProperties(instance, locals, options);
     }
 
+    if (instance && provider.hooks) {
+      Object.entries(provider.hooks).forEach(([key, cb]) => {
+        instance[key] = (...args: any[]) => cb(instance, ...args);
+      });
+    }
+
     return instance;
   }
 

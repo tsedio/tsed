@@ -9,7 +9,15 @@ describe("DI", () => {
     registerProvider({
       provide: ASYNC_FACTORY,
       useAsyncFactory() {
-        return Promise.resolve({connection: true});
+        return Promise.resolve({
+          connection: true,
+          close() {}
+        });
+      },
+      hooks: {
+        $onDestroy(instance: any) {
+          return instance.close();
+        }
       }
     });
 
@@ -38,7 +46,7 @@ describe("DI", () => {
       await injector.load(container);
 
       expect(isPromise(server.asyncFactory)).to.eq(false);
-      expect(server.asyncFactory).to.deep.eq({connection: true});
+      expect(server.asyncFactory.connection).to.deep.eq(true);
     });
   });
 });

@@ -5,5 +5,10 @@ export const CONNECTION = Symbol.for("CONNECTION");
 
 registerProvider({
   provide: CONNECTION,
-  useValue: connection
+  useValue: connection,
+  hooks: {
+    $onDestroy(connection: any) {
+      return connection.close();
+    }
+  }
 });
