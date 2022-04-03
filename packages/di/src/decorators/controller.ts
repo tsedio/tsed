@@ -1,6 +1,6 @@
 import {isArrayOrArrayClass, Type, useDecorators} from "@tsed/core";
 import {Children, Path} from "@tsed/schema";
-import {IProvider} from "../interfaces/IProvider";
+import {ProviderOpts} from "../interfaces/ProviderOpts";
 import {registerController} from "../registries/ProviderRegistry";
 
 export type PathType = string | RegExp | (string | RegExp)[];
@@ -11,7 +11,7 @@ export interface ControllerMiddlewares {
   useAfter: any[];
 }
 
-export interface ControllerOptions extends Partial<IProvider<any>> {
+export interface ControllerOptions extends Partial<ProviderOpts<any>> {
   path?: PathType;
   children?: Type<any>[];
   routerOptions?: any;

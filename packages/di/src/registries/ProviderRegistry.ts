@@ -1,7 +1,7 @@
 import {Provider} from "../domain/Provider";
 import {ProviderScope} from "../domain/ProviderScope";
 import {ProviderType} from "../domain/ProviderType";
-import type {IProvider} from "../interfaces/IProvider";
+import type {ProviderOpts} from "../interfaces/ProviderOpts";
 import {GlobalProviders} from "./GlobalProviders";
 
 /**
@@ -11,9 +11,9 @@ GlobalProviders.createRegistry(ProviderType.CONTROLLER, Provider);
 
 /**
  * Register a provider configuration.
- * @param {IProvider<any>} provider
+ * @param {ProviderOpts<any>} provider
  */
-export function registerProvider(provider: Partial<IProvider>): void {
+export function registerProvider(provider: Partial<ProviderOpts>): void {
   if (!provider.provide) {
     throw new Error("Provider.provide is required");
   }
@@ -107,7 +107,7 @@ export const registerFactory = registerProvider;
  * }
  * ```
  */
-export const registerValue = (provider: any | IProvider<any>, value?: any): void => {
+export const registerValue = (provider: any | ProviderOpts<any>, value?: any): void => {
   if (!provider.provide) {
     provider = {
       provide: provider

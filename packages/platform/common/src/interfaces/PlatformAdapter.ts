@@ -1,11 +1,11 @@
 import {Type} from "@tsed/core";
-import {IProvider} from "@tsed/di";
+import {ProviderOpts} from "@tsed/di";
 
 export interface PlatformAdapter<App = TsED.Application, Router = TsED.Router> {
   /**
    * Load providers in top priority
    */
-  readonly providers: IProvider[];
+  readonly providers: ProviderOpts[];
   /**
    * Called after the injector instantiation
    */

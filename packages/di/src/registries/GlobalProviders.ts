@@ -5,7 +5,7 @@ import type {InjectorService} from "../services/InjectorService";
 import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
 import {TokenProvider} from "../interfaces/TokenProvider";
 import {RegistrySettings} from "../interfaces/RegistrySettings";
-import {IProvider} from "../interfaces/IProvider";
+import {ProviderOpts} from "../interfaces/ProviderOpts";
 
 export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
   #settings: Map<string, RegistrySettings> = new Map();
@@ -44,7 +44,7 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
    * @param target
    * @param options
    */
-  merge(target: TokenProvider, options: Partial<IProvider>): void {
+  merge(target: TokenProvider, options: Partial<ProviderOpts>): void {
     const meta = this.createIfNotExists(target, options);
 
     Object.keys(options).forEach((key) => {
@@ -104,7 +104,7 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
   }
 
   createRegisterFn(type: string) {
-    return (provider: any | IProvider, instance?: any): void => {
+    return (provider: any | ProviderOpts, instance?: any): void => {
       // istanbul ignore next
       if (!provider.provide) {
         provider = {
@@ -122,7 +122,7 @@ export class GlobalProviderRegistry extends Map<TokenProvider, Provider> {
    * @param key
    * @param options
    */
-  protected createIfNotExists(key: TokenProvider, options: Partial<IProvider>): Provider {
+  protected createIfNotExists(key: TokenProvider, options: Partial<ProviderOpts>): Provider {
     const type = options.type || ProviderType.PROVIDER;
 
     if (!this.has(key)) {

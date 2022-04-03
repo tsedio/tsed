@@ -1,5 +1,5 @@
 import {nameOf, Type} from "@tsed/core";
-import {colors, createContainer, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
+import {colors, createContainer, InjectorService, ProviderOpts, ProviderScope, setLoggerLevel} from "@tsed/di";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
@@ -269,7 +269,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     });
   }
 
-  useProvider(token: Type<any>, settings?: Partial<IProvider>) {
+  useProvider(token: Type<any>, settings?: Partial<ProviderOpts>) {
     this.injector.addProvider(token, settings);
 
     return this;

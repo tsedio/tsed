@@ -1,4 +1,4 @@
-import {InjectorService, IProvider, setLoggerLevel} from "@tsed/di";
+import {InjectorService, ProviderOpts, setLoggerLevel} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {toMap} from "@tsed/core";
 import {PlatformConfiguration} from "../config/services/PlatformConfiguration";
@@ -21,7 +21,7 @@ const DEFAULT_PROVIDERS = [
 ];
 
 interface CreateInjectorOptions {
-  providers?: IProvider[];
+  providers?: ProviderOpts[];
   settings?: Partial<TsED.Configuration>;
 }
 
@@ -37,7 +37,7 @@ export function createInjector({providers = [], settings = {}}: CreateInjectorOp
 
   providers = [...DEFAULT_PROVIDERS, ...providers];
 
-  toMap<any, IProvider>(providers, "provide").forEach((provider, token) => {
+  toMap<any, ProviderOpts>(providers, "provide").forEach((provider, token) => {
     injector.addProvider(token, provider);
   });
 

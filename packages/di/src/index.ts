@@ -31,7 +31,7 @@ export * from "./errors/UndefinedTokenError";
 export * from "./interfaces/DIConfigurationOptions";
 export * from "./interfaces/DILogger";
 export * from "./interfaces/DIResolver";
-export * from "./interfaces/IProvider";
+export * from "./interfaces/ProviderOpts";
 export * from "./interfaces/InjectableProperties";
 export * from "./interfaces/InterceptorContext";
 export * from "./interfaces/InterceptorMethods";
