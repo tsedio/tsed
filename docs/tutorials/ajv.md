@@ -12,7 +12,7 @@ projects:
 
 # AJV
 
-<Banner src="https://ajv.js.org/images/ajv_logo.png" href="https://ajv.js.org/" height="100" />
+<Banner src="../.vuepress/public/ajv_logo.png" href="https://ajv.js.org/" height="100" />
 
 This tutorial shows you how you can validate your data with decorators.
 
@@ -227,7 +227,7 @@ describe("Product", () => {
 
 ### With "code" function
 
-Starting from v7 Ajv uses [CodeGen module](https://ajv.js.org/lib/compile/codegen/index.ts) for all pre-defined keywords - see [codegen.md](https://ajv.js.org/docs/codegen.html) for details.
+Starting from v7 Ajv uses [CodeGen module](https://ajv.js.org/lib/compile/codegen/index.ts) for all pre-defined keywords - see [codegen.md](https://ajv.js.org/codegen.html) for details.
 
 Example `even` keyword:
 
