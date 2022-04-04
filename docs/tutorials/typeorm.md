@@ -1,13 +1,9 @@
 ---
 meta:
- - name: description 
-   content: Use TypeORM with Ts.ED. ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL,
-   PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and
-   Electron platforms.
- - name: keywords 
-   content: ts.ed express typescript typeorm node.js javascript decorators projects:
- - title: Kit TypeORM href: https://github.com/tsedio/tsed-example-typeorm
-   src: /typeorm.png
+  - name: description
+    content: Use TypeORM with Ts.ED. ORM for TypeScript and JavaScript (ES7, ES6, ES5). Supports MySQL, PostgreSQL, MariaDB, SQLite, MS SQL Server, Oracle, WebSQL databases. Works in NodeJS, Browser, Ionic, Cordova and Electron platforms.
+  - name: keywords
+    content: ts.ed express typescript typeorm node.js javascript decorators
 ---
 
 # TypeORM <Badge text="Contributors are welcome" />
@@ -41,6 +37,7 @@ import {createConnection} from "@tsed/typeorm";
 import {DataSource} from "typeorm";
 import {Logger} from "@tsed/logger";
 
+export const MYSQL_DATA_SOURCE = Symbol.for("MySqlDataSource");
 export const MySqlDataSource = new DataSource({
   // name: "default",  if you come from v0.2.x
   type: "mysql",
@@ -75,11 +72,11 @@ Finally, inject the DataSource in your controller or service:
 ```typescript
 import {Injectable} from "@tsed/di";
 import {DataSource} from "typeorm";
-import {MySqlDataSource} from "../datasources/MySqlDataSource";
+import {MYSQL_DATA_SOURCE} from "../datasources/MySqlDataSource";
 
 @Injectable()
 export class MyService {
-  @Inject(MySqlDataSource)
+  @Inject(MYSQL_DATA_SOURCE)
   protected mysqlDataSource: DataSource;
 
   $onInit() {
@@ -124,12 +121,12 @@ We can use this model with a Controller like that:
 import {BodyParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
 import {Controller} from "@tsed/di";
-import {MySqlDataSource} from "../datasources/MySqlDataSource";
+import {MYSQL_DATA_SOURCE} from "../datasources/MySqlDataSource";
 import {User} from "../entities/User";
 
 @Controller("/users")
 export class UsersCtrl {
-  @Inject(MySqlDataSource)
+  @Inject(MYSQL_DATA_SOURCE)
   protected mysqlDataSource: DataSource;
 
   @Post("/")
@@ -156,9 +153,11 @@ import {MySqlDataSource} from "../datasources/MySqlDataSource";
 import {User} from "../entities/User";
 
 export const UserRepository = MySqlDataSource.getRepository(User);
+export const USER_REPOSITORY = Symbol.for("UserRepository");
+export type USER_REPOSITORY = typeof UserRepository;
 
 registerProvider({
-  token: UserRepository,
+  token: USER_REPOSITORY,
   useValue: UserRepository
 });
 ```
@@ -169,13 +168,13 @@ Then inject the `UserRepository` in your controller:
 import {BodyParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
 import {Controller} from "@tsed/di";
-import {UserRepository} from "../repositories/UserRepository";
+import {USER_REPOSITORY} from "../repositories/UserRepository";
 import {User} from "../entities/User";
 
 @Controller("/users")
 export class UsersCtrl {
-  @Inject(UserRepository)
-  protected repository: typeof UserRepository;
+  @Inject(USER_REPOSITORY)
+  protected repository: USER_REPOSITORY;
 
   @Post("/")
   create(@BodyParams() user: User): Promise<User> {
@@ -205,9 +204,11 @@ export const UserRepository = MySqlDataSource.getRepository(User).extends({
       .getMany();
   }
 });
+export const USER_REPOSITORY = Symbol.for("UserRepository");
+export type USER_REPOSITORY = typeof UserRepository;
 
 registerProvider({
-  token: UserRepository,
+  token: USER_REPOSITORY,
   useValue: UserRepository
 });
 ```
@@ -218,13 +219,13 @@ Then inject the `UserRepository` in your controller:
 import {BodyParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
 import {Controller} from "@tsed/di";
-import {UserRepository} from "../repositories/UserRepository";
+import {USER_REPOSITORY} from "../repositories/UserRepository";
 import {User} from "../entities/User";
 
 @Controller("/users")
 export class UsersCtrl {
-  @Inject(UserRepository)
-  protected repository: typeof UserRepository;
+  @Inject(USER_REPOSITORY)
+  protected repository: USER_REPOSITORY;
 
   @Get("/")
   getUsers(): Promise<User[]> {
