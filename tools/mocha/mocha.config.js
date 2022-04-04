@@ -27,7 +27,9 @@ module.exports = () => ({
     "packages/platform/platform-serverless-testing/**/*.spec.ts",
     "packages/platform/platform-log-middleware/**/*.spec.ts",
     "packages/third-parties/formio/**/*.spec.ts",
-    "packages/third-parties/schema-formio/**/*.spec.ts"
+    "packages/third-parties/schema-formio/**/*.spec.ts",
+    "packages/third-parties/agenda/**/*.spec.ts",
+    "packages/engines/**/*.spec.ts"
   ],
   timeout: 10000
 });
