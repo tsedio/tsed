@@ -12,7 +12,7 @@ projects:
 
 # Socket.io
 
-<Banner src="https://socket.io/css/images/logo.svg" href="https://socket.io" height="180" style="margin-left:-40px" />
+<Banner src="../.vuepress/public/socketio_logo.png" href="https://socket.io" height="180" style="margin-left:-40px" />
 
 Socket.io enables real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
 
@@ -39,13 +39,13 @@ Then add the following configuration in your server [Configuration](/docs/config
 - `cors`: Cors configuration.
 - `parser`: the parser to use. Defaults to an instance of the Parser that ships with Socket.io. See [socket.io-parser](https://github.com/socketio/socket.io-parser).
 
-For more information see [Socket.io documentation](https://socket.io/docs/server-api/#)
+For more information see [Socket.io documentation](https://socket.io/docs/v4/server-api)
 
 ## Socket Service
 
 > Socket.io allows you to “namespace” your sockets, which essentially means assigning different endpoints or paths.
 > This is a useful feature to minimize the number of resources (TCP connections) and at the same time separate concerns within your application
-> by introducing separation between communication channels. See [namespace documentation](https://socket.io/docs/rooms-and-namespaces/#).
+> by introducing separation between communication channels. See [namespace documentation](https://socket.io/docs/v4/namespaces/).
 
 All Socket service work under a namespace and you can create one Socket service per namespace.
 

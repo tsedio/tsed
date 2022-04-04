@@ -1,6 +1,6 @@
 # Validation
 
-Ts.ED provide by default a [AJV](/tutorials/ajv.md) package `@tsed/ajv` to perform a validation on a [Model](/docs/models.html).
+Ts.ED provide by default a [AJV](/tutorials/ajv.md) package `@tsed/ajv` to perform a validation on a [Model](/docs/models.md).
 
 This package must be installed to run automatic validation on input data. Any model used on parameter and annotated with one of JsonSchema decorator will be
 validated with AJV.

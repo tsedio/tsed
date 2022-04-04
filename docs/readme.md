@@ -16,7 +16,7 @@ sponsorUrl: https://github.com/sponsors/Romakita
 features:
   - title: Rest API
     icon: bx-server
-    details: Create your Rest API easily and create different version paths of your API compliant with <a class="home-link" href="/docs/swagger.html">OpenSpec</a> and <a class="home-link" href="/docs/model.html">JsonSchema</a>.
+    details: Create your Rest API easily and create different version paths of your API compliant with <a class="home-link" href="/tutorials/swagger.html">OpenSpec</a> and <a class="home-link" href="/docs/model.html">JsonSchema</a>.
   - title: Configuration
     icon: bx-shape-square
     details: Don't waste your time with configuration, the server is preconfigured to start quickly! Try our <a class="home-link" href="/getting-started/#installation">CLI</a>.
@@ -132,7 +132,7 @@ frameworks:
     href: /tutorials/graphql.html#nexus
     src: /nexus.png
   - title: Socket.io
-    href: /tutorials/socketio.html
+    href: /tutorials/socket-io.html
     src: /socketio.svg
   - title: AWS
     href: /tutorials/aws.html

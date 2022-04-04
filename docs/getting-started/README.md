@@ -124,8 +124,8 @@ This work was mainly oriented on the creation of an abstraction layer between th
 The v5 introduced the [Platform API](/docs/platform-api.md)
 and the v6 is the confirmation of this API which allows supporting [Express.js](https://expressjs.com/) and [Koa.js](https://koajs.com/) and many more in the future.
 
-We are glad this work resulted in the creation of the [@tsed/platform-express](/https://www.npmjs.com/package/@tsed/platform-express) and
-[@tsed/platform-koa](/https://www.npmjs.com/package/@tsed/platform-koa).
+We are glad this work resulted in the creation of the [@tsed/platform-express](https://www.npmjs.com/package/@tsed/platform-express) and
+[@tsed/platform-koa](https://www.npmjs.com/package/@tsed/platform-koa).
 
 ::: tip See also
 
@@ -155,8 +155,8 @@ New features are available:
 
 Since <Badge text="v6.14.0" />:
 
-- [Manage Groups properties](/docs/models.md#groups).
-- [Use functional programming to declare custom schema](/docs/models.md#using-functions).
+- [Manage Groups properties](/docs/model.md#groups).  
+- [Use functional programming to declare custom schema](/docs/models.md#using-functions).  <!--- dead link --->
 
 :::
 
@@ -173,11 +173,11 @@ You can therefore use it for your projects without installing the whole framewor
 
 - @@Ignore@@ decorator accepts a callback to define when the property should be ignored.
 - @@serialize@@ and @@deserialize@@ function can be used in place of @@ConverterService@@.
-- `@Converter` has been replaced in favor of @@JsonMapper@@. See our [migration guide](/gettings-started/migration-from-v5.md#converter-to-jsonmapper).
+- `@Converter` has been replaced in favor of @@JsonMapper@@. See our [migration guide](/gettings-started/migration-from-v5.md#jsonMapper). 
 
 :::
 
-See our [migration guide](/getting-started/migration-from-v5.md) for more details.
+See our [migration guide](migration-from-v5.md) for more details.
 
 ### Cache
 
@@ -267,5 +267,6 @@ Now you can follow one of these links to develop your new application:
 
 - [Create your first controller](/getting-started/create-your-first-controller.md)
 - [Change server configuration](/docs/configuration.md)
-- [Load configuration from files](/getting-started/configuration.md#load-configuration-from-file)
+- [Load configuration from files](/docs/configuration.md) 
+<!-- - [Load configuration from files](/getting-started/configuration.md#load-configuration-from-file)  -->
 - [What is the Platform API](/docs/platform-api.md)
