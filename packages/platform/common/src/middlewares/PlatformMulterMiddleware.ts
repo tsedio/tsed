@@ -1,10 +1,11 @@
-import {Constant, Inject} from "@tsed/di";
+import type {MulterError} from "multer";
+import {Constant, Inject, Value} from "@tsed/di";
 import {BadRequest} from "@tsed/exceptions";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
 import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformApplication} from "../services/PlatformApplication";
-import type {MulterError} from "multer";
+import {PlatformConfiguration} from "../config/services/PlatformConfiguration";
 
 export interface MulterInputOptions {
   fields: PlatformMulterField[];
@@ -23,11 +24,11 @@ export class MulterException extends BadRequest {
  */
 @Middleware()
 export class PlatformMulterMiddleware implements MiddlewareMethods {
-  @Constant("multer", {})
-  settings: PlatformMulterSettings;
+  @Value("multer", {}) // NOTE: don't use constant to getting multer configuration. See issue #1840
+  protected settings: PlatformMulterSettings;
 
   @Inject()
-  app: PlatformApplication;
+  protected app: PlatformApplication;
 
   async use(@Context() ctx: Context) {
     try {
