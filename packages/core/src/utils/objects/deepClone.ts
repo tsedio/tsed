@@ -4,6 +4,7 @@ import {isFunction} from "./isFunction";
 import {isNil} from "./isNil";
 import {isPrimitive} from "./isPrimitive";
 import {isSymbol} from "./isSymbol";
+import {isBuffer} from "./isBuffer";
 
 const isBasicType = (source: any) => isNil(source) || isPrimitive(source) || isSymbol(source) || isFunction(source);
 
@@ -17,6 +18,12 @@ export function deepClone(source: any, stack = new WeakMap()): any {
 
   if (isBasicType(source)) {
     return source;
+  }
+
+  if (isBuffer(source)) {
+    const copy = new Buffer(source.length);
+    source.copy(copy);
+    return copy;
   }
 
   if (isDate(source)) {

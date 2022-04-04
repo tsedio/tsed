@@ -77,4 +77,20 @@ describe("deepClone", () => {
 
     expect(deepClone(original)).toEqual(original);
   });
+  it("should not change a buffer", () => {
+    class FakeStorage {
+      testBuffer: Buffer;
+
+      constructor() {
+        this.testBuffer = Buffer.from("Hello");
+      }
+
+      get() {
+        return this.testBuffer.toString("utf-8");
+      }
+    }
+
+    const result = deepClone({storage: new FakeStorage()});
+    expect(result.storage.get()).toEqual("Hello");
+  });
 });
