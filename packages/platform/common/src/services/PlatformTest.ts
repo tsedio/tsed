@@ -5,8 +5,9 @@ import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext
 import {createInjector} from "../utils/createInjector";
 import {PlatformApplication} from "./PlatformApplication";
 import {getConfiguration} from "../utils/getConfiguration";
-import {PlatformAdapter, PlatformBuilderSettings} from "../interfaces/PlatformAdapter";
+import {PlatformAdapter, PlatformBuilderSettings} from "./PlatformAdapter";
 import accepts from "accepts";
+import {FakeAdapter} from "./FakeAdapter";
 
 /**
  * @platform
@@ -24,7 +25,6 @@ export class PlatformTest extends DITest {
    */
   static createInjector(settings: any = {}): InjectorService {
     return createInjector({
-      providers: [],
       settings: DITest.configure({httpPort: false, httpsPort: false, ...settings})
     });
   }

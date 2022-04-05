@@ -1,22 +1,6 @@
 import {PlatformContext, PlatformRequest} from "@tsed/common";
 import type Express from "express";
 
-declare module "express" {
-  export interface Request {
-    id: string;
-    $ctx: PlatformContext;
-  }
-}
-
-declare global {
-  namespace TsED {
-    export interface Request extends Express.Request {
-      id: string;
-      $ctx: PlatformContext;
-    }
-  }
-}
-
 /**
  * @platform
  * @express

@@ -18,7 +18,8 @@
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
+    "start:express": "ts-node -r tsconfig-paths/register test/app/index.express.ts",
+    "start:koa": "ts-node -r tsconfig-paths/register test/app/index.koa.ts",
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {

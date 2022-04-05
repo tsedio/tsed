@@ -1,7 +1,7 @@
 import {Injectable, ProviderScope} from "@tsed/di";
-import {createFakeRawDriver} from "./FakeRawDriver";
 import {PlatformHandler} from "./PlatformHandler";
 import {PlatformRouter} from "./PlatformRouter";
+import {PlatformAdapter} from "./PlatformAdapter";
 
 declare global {
   namespace TsED {
@@ -18,18 +18,17 @@ declare global {
 @Injectable({
   scope: ProviderScope.SINGLETON
 })
-export class PlatformApplication<App = TsED.Application, Router = TsED.Router> extends PlatformRouter<Router> {
+export class PlatformApplication<App = TsED.Application, Router = TsED.Router> extends PlatformRouter<App, Router> {
   raw: App;
   rawApp: App;
   declare rawRouter: Router;
 
-  constructor(platformHandler: PlatformHandler) {
-    super(platformHandler);
-    this.rawApp = this.raw = PlatformApplication.createRawApp() as any;
-  }
+  constructor(platformHandler: PlatformHandler, adapter: PlatformAdapter<App, Router>) {
+    super(platformHandler, adapter);
+    const {app, callback} = adapter.app();
 
-  protected static createRawApp(): any {
-    return createFakeRawDriver();
+    this.rawApp = this.raw = app;
+    this.callback = callback;
   }
 
   getApp(): App {

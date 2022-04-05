@@ -35,9 +35,7 @@ describe("Agenda integration", () => {
           enabled: true,
           db: {
             address: url,
-            options: {
-              useUnifiedTopology: true
-            }
+            options: {}
           }
         }
       });

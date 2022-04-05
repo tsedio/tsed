@@ -1,9 +1,10 @@
 import {expect} from "chai";
-import {createInjector, PlatformConfiguration} from "@tsed/common";
+import {createInjector, PlatformAdapter, PlatformConfiguration} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {$log} from "@tsed/logger";
 import Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
+import {FakeAdapter} from "../services/FakeAdapter";
 
 describe("createInjector", () => {
   beforeEach(() => {
@@ -18,11 +19,12 @@ describe("createInjector", () => {
       env: Env.TEST
     };
 
-    const injector = createInjector({settings});
+    const injector = createInjector({settings, adapter: FakeAdapter});
 
     expect(injector.settings).to.be.instanceof(PlatformConfiguration);
     expect(injector.settings.test).to.eq("test");
     expect(injector.logger).to.eq($log);
+    expect(injector.get(PlatformAdapter)).to.be.instanceOf(FakeAdapter);
   });
 
   it("should create injector", () => {
@@ -31,8 +33,8 @@ describe("createInjector", () => {
       env: Env.PROD
     };
 
-    const injector = createInjector({settings});
+    const injector = createInjector({settings, adapter: FakeAdapter});
 
-    return expect(injector.logger.stop).to.not.have.been.called;
+    expect(injector.logger.stop).to.not.have.been.called;
   });
 });

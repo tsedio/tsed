@@ -4,7 +4,7 @@ import type {Handler} from "aws-lambda";
 import serverless from "serverless-http";
 
 export class PlatformServerlessHttp {
-  static bootstrap(module: Type<any>, settings: PlatformBuilderSettings): PlatformBuilder & {handler(): Handler} {
+  static bootstrap(module: Type<any>, settings: PlatformBuilderSettings<any, any>): PlatformBuilder & {handler(): Handler} {
     const platform = PlatformBuilder.create(module, settings);
     const promise = platform.listen();
 

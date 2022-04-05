@@ -1,6 +1,7 @@
 import {Controller, createInjector, Get} from "@tsed/common";
 import {Module} from "@tsed/di";
 import {expect} from "chai";
+import {FakeAdapter} from "../../src/services/FakeAdapter";
 
 describe("DI", () => {
   it("should merge DI configuration", async () => {
@@ -24,6 +25,7 @@ describe("DI", () => {
     class MyModule {}
 
     const injector = createInjector({
+      adapter: new FakeAdapter(),
       settings: {
         mount: {
           "/rest": [ControllerGlobal]

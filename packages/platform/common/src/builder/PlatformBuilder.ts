@@ -7,8 +7,8 @@ import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSetti
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {Route} from "../interfaces/Route";
 import {getConfiguration} from "../utils/getConfiguration";
-import type {IncomingMessage, ServerResponse, Server} from "http";
-import {PlatformAdapter, PlatformBuilderSettings} from "../interfaces/PlatformAdapter";
+import type {IncomingMessage, Server, ServerResponse} from "http";
+import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter";
 import {importProviders} from "../utils/importProviders";
 import {createInjector} from "../utils/createInjector";
 import {GlobalAcceptMimesMiddleware} from "../middlewares/GlobalAcceptMimesMiddleware";
@@ -21,33 +21,33 @@ import type Https from "https";
  * @platform
  */
 export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
-  public static adapter: Type<PlatformAdapter>;
+  public static adapter: Type<PlatformAdapter<any, any>>;
 
   readonly name: string = "";
   protected startedAt = new Date();
   protected current = new Date();
-
-  #injector: InjectorService;
-  #rootModule: Type<any>;
+  readonly #injector: InjectorService;
+  readonly #rootModule: Type<any>;
+  readonly #adapter: PlatformAdapter<App, Router>;
   #promise: Promise<this>;
-  #adapter: PlatformAdapter<App, Router>;
   #servers: (() => Promise<Server | Https.Server>)[];
   #listeners: (Server | Https.Server)[] = [];
 
   protected constructor(adapter: Type<PlatformAdapter<App, Router>> | undefined, module: Type, settings: Partial<TsED.Configuration>) {
     this.#rootModule = module;
-    const adapterKlass = adapter || PlatformBuilder.adapter;
+    const adapterKlass: Type<PlatformAdapter<App, Router>> = adapter || (PlatformBuilder.adapter as any);
     const name = nameOf(adapterKlass).replace("Platform", "").toLowerCase();
 
     const configuration = getConfiguration(settings, module);
     configuration.PLATFORM_NAME = name;
     this.name = name;
-    this.#adapter = new adapterKlass(this);
 
     this.#injector = createInjector({
-      settings: configuration,
-      providers: this.#adapter.providers
+      adapter: adapterKlass,
+      settings: configuration
     });
+
+    this.#adapter = this.#injector.get<PlatformAdapter<App, Router>>(PlatformAdapter)!;
 
     this.createHttpServers();
 
