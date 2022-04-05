@@ -1,6 +1,6 @@
 import {Constant, Inject, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {PlatformAdapter, PlatformApplication} from "@tsed/common";
+import {PlatformApplication} from "@tsed/common";
 import type {Config} from "apollo-server-core";
 import {
   ApolloServerBase,
@@ -36,7 +36,7 @@ export class ApolloService {
   > = new Map();
 
   @Inject()
-  private adapter: PlatformAdapter;
+  private app: PlatformApplication<any, any>;
 
   @Inject(Http.Server)
   private httpServer: Http.Server | null;
@@ -71,12 +71,12 @@ export class ApolloService {
 
         await server.start();
 
-        this.adapter.useMiddleware(
-          server.getMiddleware({
-            path: settings.path,
-            ...middlewareOptions
-          })
-        );
+        const middleware = server.getMiddleware({
+          path: settings.path,
+          ...middlewareOptions
+        });
+
+        this.app.getRouter().use(middleware);
 
         return server;
       }
