@@ -32,8 +32,7 @@ describe("ApolloService", () => {
         expect(service.getSchema()).toEqual(undefined);
         expect(result2).toEqual(result1);
         expect(result1).toBeInstanceOf(ApolloServer);
-        expect(result1.applyMiddleware).toHaveBeenCalledWith({
-          app: PlatformTest.callback(),
+        expect(result1.getMiddleware).toHaveBeenCalledWith({
           path: "/path"
         });
       });
