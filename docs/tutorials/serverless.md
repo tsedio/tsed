@@ -10,7 +10,7 @@ meta:
 
 <Badge text="Contributors are welcome" />
 
-<Banner src="/severless.png" href="https://www.serverless.com" :height="180" />
+<Banner src="/serverless.png" href="https://www.serverless.com" :height="180" />
 
 [Serverless](https://www.serverless.com/) is a free and open-source web framework written using Node.js. Serverless is
 the first framework developed for building applications on AWS Lambda, a serverless computing platform provided by
