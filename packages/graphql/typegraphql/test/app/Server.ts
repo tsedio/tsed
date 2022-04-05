@@ -9,7 +9,6 @@ import {buildContext} from "graphql-passport";
 import methodOverride from "method-override";
 import {resolve} from "path";
 import {User} from "./graphql/auth/User";
-import session from "express-session";
 
 const rootDir = resolve(__dirname);
 
@@ -44,37 +43,4 @@ const rootDir = resolve(__dirname);
     userInfoModel: User
   }
 })
-export class Server {
-  @Inject()
-  app: PlatformApplication;
-
-  /**
-   * This method let you configure the middleware required by your application to works.
-   * @returns {Server}
-   */
-  public $beforeRoutesInit(): void {
-    this.app
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      )
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(
-        session({
-          secret: "mysecretkey",
-          resave: true,
-          saveUninitialized: true,
-          // maxAge: 36000,
-          cookie: {
-            path: "/",
-            httpOnly: true,
-            secure: false
-          }
-        })
-      );
-  }
-}
+export class Server {}

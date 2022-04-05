@@ -13,8 +13,6 @@ export * from "./interfaces/PlatformExpressStaticsOptions";
 export * from "./interfaces/interfaces";
 export * from "./middlewares/rawBodyMiddleware";
 export * from "./middlewares/staticsMiddleware";
-export * from "./services/PlatformExpressApplication";
 export * from "./services/PlatformExpressHandler";
 export * from "./services/PlatformExpressRequest";
 export * from "./services/PlatformExpressResponse";
-export * from "./services/PlatformExpressRouter";

@@ -1,6 +1,6 @@
 import {InjectorService, ProviderOpts, setLoggerLevel} from "@tsed/di";
 import {$log} from "@tsed/logger";
-import {toMap} from "@tsed/core";
+import {toMap, Type} from "@tsed/core";
 import {PlatformConfiguration} from "../config/services/PlatformConfiguration";
 import {PlatformHandler} from "../services/PlatformHandler";
 import {PlatformResponse} from "../services/PlatformResponse";
@@ -8,6 +8,7 @@ import {PlatformRouter} from "../services/PlatformRouter";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {Platform} from "../services/Platform";
 import {PlatformRequest} from "../services/PlatformRequest";
+import {PlatformAdapter} from "../services/PlatformAdapter";
 
 $log.name = "TSED";
 
@@ -21,11 +22,11 @@ const DEFAULT_PROVIDERS = [
 ];
 
 interface CreateInjectorOptions {
-  providers?: ProviderOpts[];
+  adapter?: Type<PlatformAdapter<any, any>>;
   settings?: Partial<TsED.Configuration>;
 }
 
-export function createInjector({providers = [], settings = {}}: CreateInjectorOptions) {
+export function createInjector({adapter, settings = {}}: CreateInjectorOptions) {
   const injector = new InjectorService();
   injector.addProvider(PlatformConfiguration);
 
@@ -33,11 +34,21 @@ export function createInjector({providers = [], settings = {}}: CreateInjectorOp
   injector.logger = $log;
   injector.settings.set(settings);
 
+  if (adapter) {
+    injector.addProvider(PlatformAdapter, {
+      useClass: adapter
+    });
+  }
+
+  injector.invoke(PlatformAdapter);
+
   setLoggerLevel(injector);
 
-  providers = [...DEFAULT_PROVIDERS, ...providers];
+  const instance = injector.get<PlatformAdapter>(PlatformAdapter)!;
 
-  toMap<any, ProviderOpts>(providers, "provide").forEach((provider, token) => {
+  instance.providers = [...DEFAULT_PROVIDERS, ...instance.providers];
+
+  toMap<any, ProviderOpts>(instance.providers, "provide").forEach((provider, token) => {
     injector.addProvider(token, provider);
   });
 

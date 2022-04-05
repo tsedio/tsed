@@ -1,10 +1,10 @@
-import {PlatformHandler, PlatformRouter} from "@tsed/common";
+import {PlatformAdapter, PlatformHandler, PlatformRouter} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {expect} from "chai";
 import Express from "express";
 import Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
-import {PlatformExpressRouter} from "./PlatformExpressRouter";
+import {PlatformExpress} from "@tsed/platform-express";
 
 const sandbox = Sinon.createSandbox();
 describe("PlatformExpressRouter", () => {
@@ -39,9 +39,14 @@ describe("PlatformExpressRouter", () => {
       injector.addProvider(PlatformHandler, {
         useValue: platformHandler
       });
-      injector.addProvider(PlatformRouter, {
-        useClass: PlatformExpressRouter
+
+      injector.addProvider(PlatformAdapter, {
+        useValue: new PlatformExpress({
+          settings: injector.settings,
+          injector
+        } as any)
       });
+
       injector.settings.express = {
         router: {
           mergeParams: true
