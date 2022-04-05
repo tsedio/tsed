@@ -155,7 +155,7 @@ New features are available:
 
 Since <Badge text="v6.14.0" />:
 
-- [Manage Groups properties](/docs/model.md#groups).  
+- [Manage Groups properties](../docs/model.md#groups).  
 - [Use functional programming to declare custom schema](/docs/models.md#using-functions).  <!--- dead link --->
 
 :::

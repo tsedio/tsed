@@ -12,7 +12,7 @@ projects:
 
 # Socket.io
 
-<Banner src="../.vuepress/public/socketio_logo.png" href="https://socket.io" height="180" style="margin-left:-40px" />
+<Banner src="/socket-io.png" href="https://socket.io" height="180" style="margin-left:-40px" />
 
 Socket.io enables real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
 

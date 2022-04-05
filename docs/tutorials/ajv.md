@@ -12,7 +12,7 @@ projects:
 
 # AJV
 
-<Banner src="../.vuepress/public/ajv_logo.png" href="https://ajv.js.org/" height="100" />
+<Banner src="/ajv_logo.png" href="https://ajv.js.org/" height="100" />
 
 This tutorial shows you how you can validate your data with decorators.
 
