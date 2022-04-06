@@ -72,7 +72,9 @@ Ts.ED gives some decorators to write your validation model:
 
 #### Model validation
 
-A model can be used on a method controller along with [@BodyParams](/api/common/filters/decorators/BodyParams.md) or other decorators, and will
+A model can be used on a method controller along with [BodyParams]() =>
+@@BodyParams@@
+ or other decorators, and will
 be validated by Ajv.
 
 ```typescript
@@ -227,7 +229,7 @@ describe("Product", () => {
 
 ### With "code" function
 
-Starting from v7 Ajv uses [CodeGen module](https://ajv.js.org/lib/compile/codegen/index.ts) for all pre-defined keywords - see [codegen.md](https://ajv.js.org/codegen.html) for details.
+Starting from v7 Ajv uses [CodeGen module](https://github.com/ajv-validator/ajv/blob/master/lib/compile/codegen/index.ts) for all pre-defined keywords - see [codegen.md](https://ajv.js.org/codegen.html) for details.
 
 Example `even` keyword:
 

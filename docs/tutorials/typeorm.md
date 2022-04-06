@@ -273,7 +273,7 @@ For more information about TypeORM, look its documentation [here](https://github
 ### Declare your connection as provider
 
 It is also possible to create your connection with the `useAsyncFactory` feature (
-See [custom providers](/docs/custom-provider.md))
+See [custom providers](/docs/custom-providers.md))
 This approach allows you to inject your connection as a Service to another one.
 
 To create a new connection, declare your custom provider as follows:

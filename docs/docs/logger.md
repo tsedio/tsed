@@ -23,14 +23,14 @@ Ts.ED logger supports many features, and is optimized to be used in production.
   - [File date](https://logger.tsed.io/appenders/file-date.html), with configurable log rolling based on file size or date.
   - [Stdout](https://logger.tsed.io/appenders/stdout.html).
   - [Stderr](https://logger.tsed.io/appenders/stderr.html).
-  - [Insight](https://tsed.io/appenders/insight.md).
-  - [LogEntries](https://tsed.io/appenders/logentries.md).
-  - [LogStash HTTP](https://tsed.io/appenders/logstash-http.md).
-  - [LogStash UDP](https://tsed.io/appenders/logstash-udp.md).
-  - [Loggly](https://tsed.io/appenders/loggly.md).
-  - [RabbitMQ](https://tsed.io/appenders/rabbitmq.md).
-  - [Seq](https://tsed.io/tutorials/seq.md).
-  - [Slack](https://tsed.io/tutorials/slack.md).
+  - [Insight](https://logger.tsed.io/appenders/insight.html).
+  - [LogEntries](https://logger.tsed.io/appenders/logentries.html).
+  - [LogStash HTTP](https://logger.tsed.io/appenders/logstash-http.html).
+  - [LogStash UDP](https://logger.tsed.io/appenders/logstash-udp.html).
+  - [Loggly](https://logger.tsed.io/appenders/loggly.html).
+  - [RabbitMQ](https://logger.tsed.io/appenders/rabbitmq.html).
+  - [Seq](https://tsed.io/tutorials/seq.html).
+  - [Slack](https://logger.tsed.io/appenders/slack.html).
   - [Smtp](https://logger.tsed.io/appenders/smtp.html).
 - @@ContextLogger@@, in **production** mode, caches all request logs until the response is sent to your consumer. See [request logger](/docs/logger.html#request-logger) section bellow.
 

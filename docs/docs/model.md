@@ -993,8 +993,8 @@ class MyController {
 The following advanced example will show you how you can combine the different Ts.ED features to describe Pagination.
 The used features are the following:
 
-- [Generics](/docs/models.html#generics)
-- [Function programming to declare models](/docs/models.html#using-functions)
+- [Generics](/docs/model.html#generics)
+- [Function programming to declare models](/docs/model.html#using-functions)
 - @@For@@ decorator to declare a custom model for JsonSchema, OS2 or OS3.
 - [Response Filter](/docs/response-filter.md) to manage paginated response.
 

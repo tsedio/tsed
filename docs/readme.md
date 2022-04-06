@@ -25,7 +25,7 @@ features:
     details: Choose between different plugins to create your own stack.
   - title: Class based
     icon: bx-diamond
-    details: Define class as <a class="home-link" href="/docs/controllers.html">Controller</a>, <a class="home-link" href="/docs/controllers.html">Model</a>, <a class="home-link" href="/docs/providers.html">Providers</a> (DI), <a class="home-link" href="/docs/pipes.html">Pipes</a>, <a class="home-link" href="/docs/middlewares.html">Middlewares</a>, etc...
+    details: Define class as <a class="home-link" href="/docs/controllers.html">Controller</a>, <a class="home-link" href="/docs/model.html">Model</a>, <a class="home-link" href="/docs/providers.html">Providers</a> (DI), <a class="home-link" href="/docs/pipes.html">Pipes</a>, <a class="home-link" href="/docs/middlewares.html">Middlewares</a>, etc...
   - title: Decorators
     icon: bx-paint
     details: A lot of decorators are provided to structure your code and define routes and methods.
