@@ -44,13 +44,14 @@ describe("Swagger query params", () => {
   afterEach(PlatformTest.reset);
 
   it("should generate swagger", async () => {
-    const response = await request.get("/v2/doc/swagger.json").expect(200);
+    const response = await request.get("/v3/doc/swagger.json").expect(200);
+
     expect(response.body).toEqual({
-      consumes: ["application/json"],
       info: {
-        title: "Swagger title",
-        version: "1.2.0"
+        title: "Api documentation",
+        version: "1.0.0"
       },
+      openapi: "3.0.1",
       paths: {
         "/rest/scenarios/1": {
           get: {
@@ -60,7 +61,9 @@ describe("Swagger query params", () => {
                 in: "query",
                 name: "id",
                 required: false,
-                type: "string"
+                schema: {
+                  type: "string"
+                }
               }
             ],
             responses: {
@@ -76,14 +79,15 @@ describe("Swagger query params", () => {
             operationId: "queryParamsSwaggerControllerScenario2",
             parameters: [
               {
-                collectionFormat: "multi",
                 in: "query",
-                items: {
-                  type: "string"
-                },
                 name: "ids",
                 required: false,
-                type: "array"
+                schema: {
+                  items: {
+                    type: "string"
+                  },
+                  type: "array"
+                }
               }
             ],
             responses: {
@@ -99,13 +103,15 @@ describe("Swagger query params", () => {
             operationId: "queryParamsSwaggerControllerScenario3",
             parameters: [
               {
-                additionalProperties: {
-                  type: "string"
-                },
                 in: "query",
                 name: "ids",
                 required: false,
-                type: "object"
+                schema: {
+                  additionalProperties: {
+                    type: "string"
+                  },
+                  type: "object"
+                }
               }
             ],
             responses: {
@@ -122,22 +128,28 @@ describe("Swagger query params", () => {
             parameters: [
               {
                 in: "query",
-                minLength: 1,
                 name: "name",
                 required: true,
-                type: "string"
+                schema: {
+                  minLength: 1,
+                  type: "string"
+                }
               },
               {
                 in: "query",
                 name: "duration",
                 required: false,
-                type: "number"
+                schema: {
+                  type: "number"
+                }
               },
               {
                 in: "query",
                 name: "locale",
                 required: false,
-                type: "string"
+                schema: {
+                  type: "string"
+                }
               }
             ],
             responses: {
@@ -149,8 +161,6 @@ describe("Swagger query params", () => {
           }
         }
       },
-      produces: ["application/json"],
-      swagger: "2.0",
       tags: [
         {
           name: "QueryParamsSwaggerController"

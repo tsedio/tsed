@@ -178,126 +178,162 @@ export function testAuth(options: PlatformTestOptions) {
   describe("Scenario 2: GET /swagger.json", () => {
     it("should generate the swagger.spec", async () => {
       const {body: spec} = await request.get("/doc/swagger.json").expect(200);
+
       expect(spec).to.deep.equal({
-        swagger: "2.0",
-        consumes: ["application/json"],
-        produces: ["application/json"],
+        openapi: "3.0.1",
         info: {
-          contact: {
-            email: "apiteam@swagger.io"
-          },
-          description: "Swagger description",
-          license: {
-            name: "Apache 2.0",
-            url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-          },
-          termsOfService: "http://swagger.io/terms/",
+          version: "1.0.0",
           title: "Swagger Title",
-          version: "1.0.0"
-        },
-        securityDefinitions: {
-          global_auth: {
-            authorizationUrl: "http://petstore.swagger.io/oauth/dialog",
-            flow: "implicit",
-            scopes: {
-              admin: "Admin access"
-            },
-            type: "oauth2"
-          }
+          description: "Swagger description",
+          termsOfService: "http://swagger.io/terms/",
+          contact: {email: "apiteam@swagger.io"},
+          license: {name: "Apache 2.0", url: "http://www.apache.org/licenses/LICENSE-2.0.html"}
         },
         paths: {
           "/rest/auth/authorize": {
             post: {
               operationId: "testAuthCtrlAuthorize",
-              parameters: [],
               responses: {"200": {description: "Success"}},
+              parameters: [],
               tags: ["TestAuthCtrl"]
             }
           },
           "/rest/auth/userinfo": {
             get: {
               operationId: "testAuthCtrlToken",
-              parameters: [{name: "Authorization", required: true, in: "header", type: "string"}],
               responses: {
-                "401": {description: "Unauthorized", schema: {$ref: "#/definitions/Unauthorized"}},
-                "403": {description: "Forbidden", schema: {$ref: "#/definitions/Forbidden"}}
+                "401": {
+                  content: {"application/json": {schema: {$ref: "#/components/schemas/Unauthorized"}}},
+                  description: "Unauthorized"
+                },
+                "403": {
+                  content: {"application/json": {schema: {$ref: "#/components/schemas/Forbidden"}}},
+                  description: "Forbidden"
+                }
               },
               security: [{global_auth: []}],
-              produces: ["application/json"],
+              parameters: [
+                {
+                  name: "Authorization",
+                  required: true,
+                  in: "header",
+                  schema: {type: "string"}
+                }
+              ],
               tags: ["TestAuthCtrl"]
             }
           },
           "/rest/auth/admin": {
             get: {
               operationId: "testAuthCtrlAdmin",
-              parameters: [{name: "Authorization", required: true, in: "header", type: "string"}],
               responses: {
-                "401": {description: "Unauthorized", schema: {$ref: "#/definitions/Unauthorized"}},
-                "403": {description: "Forbidden", schema: {$ref: "#/definitions/Forbidden"}}
+                "401": {
+                  content: {"application/json": {schema: {$ref: "#/components/schemas/Unauthorized"}}},
+                  description: "Unauthorized"
+                },
+                "403": {
+                  content: {"application/json": {schema: {$ref: "#/components/schemas/Forbidden"}}},
+                  description: "Forbidden"
+                }
               },
               security: [{global_auth: ["admin"]}],
-              produces: ["application/json"],
+              parameters: [
+                {
+                  name: "Authorization",
+                  required: true,
+                  in: "header",
+                  schema: {type: "string"}
+                }
+              ],
               tags: ["TestAuthCtrl"]
             }
           },
           "/rest/auth/stepUp": {
-            post: {operationId: "testAuthCtrlStepUp", parameters: [], responses: {"200": {description: "Success"}}, tags: ["TestAuthCtrl"]}
+            post: {
+              operationId: "testAuthCtrlStepUp",
+              responses: {"200": {description: "Success"}},
+              parameters: [],
+              tags: ["TestAuthCtrl"]
+            }
           }
         },
-        tags: [{name: "TestAuthCtrl"}],
-        definitions: {
-          GenericError: {
-            additionalProperties: true,
-            properties: {
-              message: {
-                description: "An error message",
-                minLength: 1,
-                type: "string"
-              },
-              name: {
-                description: "The error name",
-                minLength: 1,
-                type: "string"
+        components: {
+          securitySchemes: {
+            global_auth: {
+              type: "oauth2",
+              flows: {
+                implicit: {
+                  authorizationUrl: "http://petstore.swagger.io/oauth/dialog",
+                  scopes: {admin: "Admin access"}
+                }
               }
-            },
-            required: ["name", "message"],
-            type: "object"
+            }
           },
-          Unauthorized: {
-            type: "object",
-            properties: {
-              name: {type: "string", minLength: 1, description: "The error name", example: "UNAUTHORIZED", default: "UNAUTHORIZED"},
-              message: {type: "string", minLength: 1, description: "An error message"},
-              status: {type: "number", description: "The status code of the exception", example: 401, default: 401},
-              errors: {
-                type: "array",
-                items: {
-                  $ref: "#/definitions/GenericError"
+          schemas: {
+            Unauthorized: {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                  description: "The error name",
+                  minLength: 1,
+                  example: "UNAUTHORIZED",
+                  default: "UNAUTHORIZED"
                 },
-                description: "A list of related errors"
-              },
-              stack: {type: "string", description: "The stack trace (only in development mode)"}
-            },
-            required: ["name", "message", "status"]
-          },
-          Forbidden: {
-            type: "object",
-            properties: {
-              name: {type: "string", minLength: 1, description: "The error name", example: "FORBIDDEN", default: "FORBIDDEN"},
-              message: {type: "string", minLength: 1, description: "An error message"},
-              status: {type: "number", description: "The status code of the exception", example: 403, default: 403},
-              errors: {
-                type: "array",
-                items: {
-                  $ref: "#/definitions/GenericError"
+                message: {type: "string", description: "An error message", minLength: 1},
+                status: {
+                  type: "number",
+                  description: "The status code of the exception",
+                  example: 401,
+                  default: 401
                 },
-                description: "A list of related errors"
+                errors: {
+                  type: "array",
+                  items: {$ref: "#/components/schemas/GenericError"},
+                  description: "A list of related errors"
+                },
+                stack: {type: "string", description: "The stack trace (only in development mode)"}
               },
-              stack: {type: "string", description: "The stack trace (only in development mode)"}
+              required: ["name", "message", "status"]
             },
-            required: ["name", "message", "status"]
+            GenericError: {
+              type: "object",
+              properties: {
+                name: {type: "string", description: "The error name", minLength: 1},
+                message: {type: "string", description: "An error message", minLength: 1}
+              },
+              additionalProperties: true,
+              required: ["name", "message"]
+            },
+            Forbidden: {
+              type: "object",
+              properties: {
+                name: {
+                  type: "string",
+                  description: "The error name",
+                  minLength: 1,
+                  example: "FORBIDDEN",
+                  default: "FORBIDDEN"
+                },
+                message: {type: "string", description: "An error message", minLength: 1},
+                status: {
+                  type: "number",
+                  description: "The status code of the exception",
+                  example: 403,
+                  default: 403
+                },
+                errors: {
+                  type: "array",
+                  items: {$ref: "#/components/schemas/GenericError"},
+                  description: "A list of related errors"
+                },
+                stack: {type: "string", description: "The stack trace (only in development mode)"}
+              },
+              required: ["name", "message", "status"]
+            }
           }
-        }
+        },
+        tags: [{name: "TestAuthCtrl"}]
       });
     });
   });

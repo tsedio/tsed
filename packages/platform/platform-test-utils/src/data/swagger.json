@@ -1,5 +1,5 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.1",
   "info": {
     "version": "1.0.0",
     "description": "Swagger description",
@@ -13,13 +13,18 @@
       "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "securityDefinitions": {
-    "global_auth": {
-      "type": "oauth2",
-      "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
-      "flow": "implicit",
-      "scopes": {
-        "admin": "Admin access"
+  "components": {
+    "securitySchemes": {
+      "global_auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "http://petstore.swagger.io/oauth/dialog",
+            "scopes": {
+              "admin": "Admin access"
+            }
+          }
+        }
       }
     }
   },
