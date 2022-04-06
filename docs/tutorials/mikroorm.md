@@ -198,8 +198,8 @@ export class User {
 ```
 
 Now, the model is correctly defined and can be used with a [Controller](https://tsed.io/docs/controllers.html)
-, [AJV validation](ajv.md),
-[Swagger](swagger.md) and [MikroORM](https://mikro-orm.io/docs/defining-entities).
+, [AJV validation](/tutorials/ajv.md),
+[Swagger](/tutorials/swagger.md) and [MikroORM](https://mikro-orm.io/docs/defining-entities).
 
 We can use this model with a Controller like that:
 
