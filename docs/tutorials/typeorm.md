@@ -38,7 +38,7 @@ import {DataSource} from "typeorm";
 import {Logger} from "@tsed/logger";
 
 export const MYSQL_DATA_SOURCE = Symbol.for("MySqlDataSource");
-export const MySqlDataSource = new DataSource({
+export const MysqlDataSource = new DataSource({
   // name: "default",  if you come from v0.2.x
   type: "mysql",
   host: "localhost",
@@ -49,7 +49,7 @@ export const MySqlDataSource = new DataSource({
 });
 
 registerProvider<DataSource>({
-  provide: MySqlDataSource,
+  provide: MysqlDataSource,
   type: "typeorm:datasource",
   deps: [Logger],
   async useAsyncFactory(logger: Logger) {
@@ -57,7 +57,7 @@ registerProvider<DataSource>({
 
     logger.info("Connected with typeorm to database: MySQL");
 
-    return MySqlDataSource;
+    return MysqlDataSource;
   },
   hooks: {
     $onDestroy(dataSource) {
@@ -72,7 +72,7 @@ Finally, inject the DataSource in your controller or service:
 ```typescript
 import {Injectable} from "@tsed/di";
 import {DataSource} from "typeorm";
-import {MYSQL_DATA_SOURCE} from "../datasources/MySqlDataSource";
+import {MYSQL_DATA_SOURCE} from "../datasources/MysqlDataSource";
 
 @Injectable()
 export class MyService {
@@ -120,7 +120,7 @@ We can use this model with a Controller like that:
 ```typescript
 import {BodyParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
-import {Controller} from "@tsed/di";
+import {Controller, Inject} from "@tsed/di";
 import {MYSQL_DATA_SOURCE} from "../datasources/MySqlDataSource";
 import {User} from "../entities/User";
 
@@ -157,7 +157,7 @@ export const USER_REPOSITORY = Symbol.for("UserRepository");
 export type USER_REPOSITORY = typeof UserRepository;
 
 registerProvider({
-  token: USER_REPOSITORY,
+  provide: USER_REPOSITORY,
   useValue: UserRepository
 });
 ```
@@ -167,7 +167,7 @@ Then inject the `UserRepository` in your controller:
 ```typescript
 import {BodyParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
-import {Controller} from "@tsed/di";
+import {Controller, Inject} from "@tsed/di";
 import {USER_REPOSITORY} from "../repositories/UserRepository";
 import {User} from "../entities/User";
 
@@ -178,7 +178,7 @@ export class UsersCtrl {
 
   @Post("/")
   create(@BodyParams() user: User): Promise<User> {
-    return this.repository.create(user);
+    return this.repository.save(user);
   }
 
   @Get("/")
@@ -208,7 +208,7 @@ export const USER_REPOSITORY = Symbol.for("UserRepository");
 export type USER_REPOSITORY = typeof UserRepository;
 
 registerProvider({
-  token: USER_REPOSITORY,
+  provide: USER_REPOSITORY,
   useValue: UserRepository
 });
 ```
@@ -218,18 +218,18 @@ Then inject the `UserRepository` in your controller:
 ```typescript
 import {BodyParams} from "@tsed/platform-params";
 import {Get, Post} from "@tsed/schema";
-import {Controller} from "@tsed/di";
-import {USER_REPOSITORY} from "../repositories/UserRepository";
-import {User} from "../entities/User";
+import {Controller, Inject} from "@tsed/di";
+import {User} from "../../entities/User";
+import {USER_REPOSITORY} from "../../repositories/UserRepository";
 
 @Controller("/users")
-export class UsersCtrl {
+export class UsersController {
   @Inject(USER_REPOSITORY)
   protected repository: USER_REPOSITORY;
-
+  
   @Get("/")
-  getUsers(): Promise<User[]> {
-    return this.repository.findByName("Timber", "Saw");
+  getByName(): Promise<User[]> {
+    return this.repository.findByName("john");
   }
 }
 ```
