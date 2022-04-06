@@ -42,7 +42,7 @@ By default, the directory used is `${projetRoot}/uploads`. You can configure ano
 
 - `dest` (`string`): The destination directory for the uploaded files.
 - `storage` (`StoreEngine`): The storage engine to use for uploaded files.
-- `limits` (`Object`): An object specifying the size limits of the following optional properties. This object is passed to busboy directly, and the details of properties can be found on [https://github.com/mscdex/busboy#busboy-methods]([https://github.com/mscdex/busboy#busboy-methods).
+- `limits` (`Object`): An object specifying the size limits of the following optional properties. This object is passed to busboy directly, and the details of properties can be found on [https://github.com/mscdex/busboy](https://github.com/mscdex/busboy).
   - `fieldNameSize` (`number`): Max field name size (Default: 100 bytes).
   - `fieldSize` (`number`): Max field value size (Default: 1MB).
   - `fields` (`number`): Max number of non- file fields (Default: Infinity).

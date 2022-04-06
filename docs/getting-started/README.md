@@ -155,8 +155,8 @@ New features are available:
 
 Since <Badge text="v6.14.0" />:
 
-- [Manage Groups properties](../docs/model.md#groups).  
-- [Use functional programming to declare custom schema](/docs/models.md#using-functions).  <!--- dead link --->
+- [Manage Groups properties](/docs/model.md#groups).  
+- [Use functional programming to declare custom schema](/docs/model.md#using-functions). 
 
 :::
 
@@ -268,5 +268,4 @@ Now you can follow one of these links to develop your new application:
 - [Create your first controller](/getting-started/create-your-first-controller.md)
 - [Change server configuration](/docs/configuration.md)
 - [Load configuration from files](/docs/configuration.md) 
-<!-- - [Load configuration from files](/getting-started/configuration.md#load-configuration-from-file)  -->
 - [What is the Platform API](/docs/platform-api.md)
