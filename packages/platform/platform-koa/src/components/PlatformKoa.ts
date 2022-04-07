@@ -13,7 +13,7 @@ import {
   PlatformResponse,
   PlatformStaticsOptions
 } from "@tsed/common";
-import {Type} from "@tsed/core";
+import {isFunction, Type} from "@tsed/core";
 import Koa, {Context, Next} from "koa";
 import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
 import {PlatformKoaResponse} from "../services/PlatformKoaResponse";
@@ -24,6 +24,8 @@ import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 import send from "koa-send";
 // @ts-ignore
 import koaQs from "koa-qs";
+import koaBodyParser from "koa-bodyparser";
+import {OptionsJson} from "body-parser";
 
 declare global {
   namespace TsED {
@@ -171,5 +173,19 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
 
   statics(endpoint: string, options: PlatformStaticsOptions) {
     return staticsMiddleware(options);
+  }
+
+  bodyParser(type: string): any {
+    const opts = this.injector.settings.get(`koa.bodyParser`);
+    let parser: any = koaBodyParser;
+
+    let options: OptionsJson = {};
+
+    if (isFunction(opts)) {
+      parser = opts;
+      options = {};
+    }
+
+    return parser(options);
   }
 }
