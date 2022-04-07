@@ -1,6 +1,6 @@
 {
   "name": "@tsed/ajv",
-  "version": "6.110.1",
+  "version": "6.110.2",
   "description": "AJV package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -23,17 +23,17 @@
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@tsed/core": "6.110.1",
-    "@tsed/di": "6.110.1",
-    "@tsed/exceptions": "6.110.1",
-    "@tsed/schema": "6.110.1",
+    "@tsed/core": "6.110.2",
+    "@tsed/di": "6.110.2",
+    "@tsed/exceptions": "6.110.2",
+    "@tsed/schema": "6.110.2",
     "ajv": "8.11.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.110.1",
-    "@tsed/di": "^6.110.1",
-    "@tsed/exceptions": "^6.110.1",
-    "@tsed/schema": "^6.110.1",
+    "@tsed/core": "^6.110.2",
+    "@tsed/di": "^6.110.2",
+    "@tsed/exceptions": "^6.110.2",
+    "@tsed/schema": "^6.110.2",
     "ajv": ">=8.9.0"
   },
   "peerDependenciesMeta": {
