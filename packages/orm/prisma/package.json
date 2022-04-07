@@ -16,12 +16,10 @@
     "tsed-prisma": "lib/cjs/generator.js"
   },
   "scripts": {
-    "build": "rm -rf lib && yarn run build:esm && yarn run build:cjs && yarn run copy",
+    "build": "rm -rf lib && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "test": "cross-env NODE_ENV=test yarn jest",
-    "copy": "cp scripts/backup-index.cjs.js lib/cjs/index.js && cp scripts/backup-index.esm.js lib/esm/index.js  && cp scripts/backup-index.d.ts lib/types/index.d.ts",
-    "prepare": "cp scripts/backup-index.cjs.js lib/cjs/index.js && cp scripts/backup-index.esm.js lib/esm/index.js  && cp scripts/backup-index.d.ts lib/types/index.d.ts",
     "generate": "cd test && prisma -v && prisma generate"
   },
   "private": false,

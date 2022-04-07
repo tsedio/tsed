@@ -1,10 +1,9 @@
 import {generatorHandler} from "@prisma/generator-helper";
-import {generate} from "./prismaGenerator";
-import {join} from "path";
+import {generate, defaultOutput} from "./prismaGenerator";
 
 generatorHandler({
   onManifest: () => ({
-    defaultOutput: join(__dirname, "..", ".schema"),
+    defaultOutput,
     prettyName: "Ts.ED integration",
     requiresGenerators: ["prisma-client-js"]
   }),

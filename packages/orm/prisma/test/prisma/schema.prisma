@@ -17,7 +17,7 @@ generator tsed {
   emitDMMF                 = true
 }
 
-model User {
+model user {
   /// @TsED.Groups("!creation")
   /// Comment
   id          Int      @id @default(autoincrement())
@@ -29,8 +29,8 @@ model User {
   is18        Boolean?
   name        String?
   successorId Int?
-  successor   User?    @relation("BlogOwnerHistory", fields: [successorId], references: [id])
-  predecessor User?    @relation("BlogOwnerHistory")
+  successor   user?    @relation("BlogOwnerHistory", fields: [successorId], references: [id])
+  predecessor user?    @relation("BlogOwnerHistory")
   role        Role     @default(USER)
   posts       Post[]
   keywords    String[]
@@ -41,7 +41,7 @@ model User {
 
 model Post {
   id     Int   @id @default(autoincrement())
-  user   User? @relation(fields: [userId], references: [id])
+  user   user? @relation(fields: [userId], references: [id])
   userId Int?
 }
 

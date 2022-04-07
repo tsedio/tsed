@@ -2,6 +2,7 @@ import {DMMF} from "@prisma/generator-helper";
 import {toMap} from "@tsed/core";
 import {ImportDeclarationStructure, StructureKind} from "ts-morph";
 import {DmmfField} from "./DmmfField";
+import {pascalCase} from "change-case";
 
 export class DmmfModel {
   readonly isInputType: boolean;
@@ -61,7 +62,7 @@ export class DmmfModel {
   }
 
   static symbolName(name: string) {
-    return `${name}Model`;
+    return pascalCase(`${name}Model`);
   }
 
   addImportDeclaration(moduleSpecifier: string, name: string, isDefault = false) {
