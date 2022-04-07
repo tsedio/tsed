@@ -17,13 +17,13 @@ import {
   PlatformStaticsOptions
 } from "@tsed/common";
 import {promisify} from "util";
-import {Env, Type} from "@tsed/core";
-import {rawBodyMiddleware} from "../middlewares/rawBodyMiddleware";
+import {Env, isFunction, Type} from "@tsed/core";
 import {PlatformExpressHandler} from "../services/PlatformExpressHandler";
 import {PlatformExpressResponse} from "../services/PlatformExpressResponse";
 import {PlatformExpressRequest} from "../services/PlatformExpressRequest";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
+import {OptionsJson} from "body-parser";
 
 declare module "express" {
   export interface Request {
@@ -101,7 +101,6 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
 
     logger.debug("Mount app router");
-    app.getApp().use(rawBodyMiddleware);
     app.getApp().use(app.getRouter());
 
     return this;
@@ -207,6 +206,19 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     const {root, ...props} = options;
 
     return staticsMiddleware(root, props);
+  }
+
+  bodyParser(type: "json" | "raw" | "text", additionalOptions: any = {}): any {
+    const opts = this.injector.settings.get(`express.bodyParser.${type}`);
+    let parser: any = Express[type];
+    let options: OptionsJson = {};
+
+    if (isFunction(opts)) {
+      parser = opts;
+      options = {};
+    }
+
+    return parser({...options, ...additionalOptions});
   }
 
   private async configureViewsEngine() {

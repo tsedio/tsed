@@ -34,6 +34,12 @@ export abstract class PlatformAdapter<App = TsED.Application, Router = TsED.Rout
    * @param options
    */
   abstract multipart(options: PlatformMulterSettings): PlatformMulter;
+
+  /**
+   * Return the body parser for the given
+   * @param type
+   */
+  abstract bodyParser(type: string): any;
 }
 
 export interface PlatformBuilderSettings<App = TsED.Application, Router = TsED.Router> extends Partial<TsED.Configuration> {
