@@ -45,7 +45,7 @@ export function generateRepositories(dmmf: DMMF.Document, project: Project, base
   const repositoriesIndex = repoDirectory.createSourceFile(`index.ts`, undefined, {overwrite: true});
 
   const exportedModels = models.map((model) => {
-    const name = `${pluralize(model.name)}Repository`;
+    const name = pascalCase(`${pluralize(model.name)}Repository`);
     const modelName = model.toString();
     const sourceFile = repoDirectory.createSourceFile(`${name}.ts`, undefined, {overwrite: true});
 
@@ -191,7 +191,7 @@ export function generateRepositories(dmmf: DMMF.Document, project: Project, base
     addDelegatedMethod({
       repository,
       name: "aggregate",
-      model: model.name
+      model: pascalCase(model.name)
     });
 
     return name;

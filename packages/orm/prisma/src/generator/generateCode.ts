@@ -1,5 +1,4 @@
 import {DMMF} from "@prisma/generator-helper";
-import path from "path";
 import {CompilerOptions, ModuleKind, Project, ScriptTarget} from "ts-morph";
 import {generateEnums} from "./utils/generateEnums";
 import {generateModels} from "./utils/generateModels";
