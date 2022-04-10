@@ -72,6 +72,10 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     return this.injector.get<Platform>(Platform)!;
   }
 
+  get adapter() {
+    return this.#adapter;
+  }
+
   /**
    * Return the settings configured by the decorator @@Configuration@@.
    *

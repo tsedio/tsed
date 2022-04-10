@@ -31,7 +31,6 @@ export class Server {
     this.app
       .use(compress())
       .use(methodOverride())
-      .use(bodyParser())
       .use(
         session(
           {

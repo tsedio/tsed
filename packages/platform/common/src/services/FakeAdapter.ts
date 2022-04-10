@@ -55,4 +55,8 @@ export class FakeAdapter implements PlatformAdapter<any, any> {
   statics(endpoint: string, options: PlatformStaticsOptions): any {
     return {};
   }
+
+  bodyParser(type: string): any {
+    return () => {};
+  }
 }

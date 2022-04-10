@@ -1,8 +1,9 @@
-import {useDecorators} from "@tsed/core";
+import {isBuffer, useDecorators} from "@tsed/core";
 import {isParameterType, Name} from "@tsed/schema";
 import {ParamFn} from "./paramFn";
 import {ParamOptions} from "../domain/ParamOptions";
 import {UseParamExpression} from "./useParamExpression";
+import {PARAM_TYPES_DATA_PATH, ParamTypes} from "../domain/ParamTypes";
 
 /**
  * Get the object from request (like body, params, query, etc...).
@@ -20,9 +21,15 @@ export function UseParamType(options: ParamOptions) {
       }
 
       param.paramType = options.paramType;
-      param.dataPath = options.dataPath;
+
+      if (isBuffer(param.type) || isBuffer(options.useType) || options.paramType === ParamTypes.RAW_BODY) {
+        param.paramType = ParamTypes.RAW_BODY;
+        param.parent.operation?.consumes(["*/*"]);
+      }
+
+      param.dataPath = options.dataPath || PARAM_TYPES_DATA_PATH[param.paramType] || "$ctx";
     }),
-    UseParamExpression(options.expression),
+    options.expression && UseParamExpression(options.expression),
     options.expression && Name(options.expression)
   );
 }

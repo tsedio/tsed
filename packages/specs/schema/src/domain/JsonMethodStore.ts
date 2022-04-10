@@ -22,6 +22,14 @@ export class JsonMethodStore extends JsonEntityStore {
   public middlewares: any[] = [];
   public beforeMiddlewares: any[] = [];
   public afterMiddlewares: any[] = [];
+  /**
+   * Ref to JsonOperation when the decorated object is a method.
+   */
+  readonly operation: JsonOperation = new JsonOperation();
+  /**
+   * List of children JsonEntityStore (properties or methods or params)
+   */
+  readonly children: Map<string | number, JsonParameterStore> = new Map();
 
   constructor(options: JsonEntityStoreOptions) {
     super({
@@ -36,14 +44,6 @@ export class JsonMethodStore extends JsonEntityStore {
     this.before(beforeMiddlewares);
     this.use(middlewares);
   }
-  /**
-   * Ref to JsonOperation when the decorated object is a method.
-   */
-  readonly operation: JsonOperation = new JsonOperation();
-  /**
-   * List of children JsonEntityStore (properties or methods or params)
-   */
-  readonly children: Map<string | number, JsonParameterStore> = new Map();
 
   get params(): JsonParameterStore[] {
     return this.parameters;
@@ -73,6 +73,18 @@ export class JsonMethodStore extends JsonEntityStore {
     return this.operation.operationPaths;
   }
 
+  /**
+   * Get an endpoint.
+   * @param target
+   * @param propertyKey
+   * @param descriptor
+   */
+  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor): JsonMethodStore {
+    descriptor = descriptor || descriptorOf(prototypeOf(target), propertyKey);
+
+    return JsonEntityStore.from<JsonMethodStore>(prototypeOf(target), propertyKey, descriptor);
+  }
+
   getResponseOptions(status: number, contentType: string = "application/json"): undefined | any {
     const media = this.operation.getResponseOf(status).getMedia(contentType, false);
 
@@ -83,35 +95,6 @@ export class JsonMethodStore extends JsonEntityStore {
     }
 
     return {type: this.type};
-  }
-
-  protected build() {
-    if (!this._type) {
-      let type: any = Metadata.getReturnType(this.target, this.propertyKey);
-      type = isPromise(type) ? undefined : type;
-
-      this.buildType(type);
-    }
-
-    this._type = this._type || Object;
-
-    this.parent.children.set(this.propertyName, this);
-
-    if (isCollection(this._type)) {
-      this.collectionType = this._type;
-      // @ts-ignore
-      delete this._type;
-    }
-
-    this._schema = JsonSchema.from({
-      type: this.collectionType || this.type
-    });
-
-    if (this.collectionType) {
-      this._schema.itemSchema(this.type);
-    }
-
-    this.parent.schema.addProperty(this.propertyName, this.schema);
   }
 
   /**
@@ -152,22 +135,49 @@ export class JsonMethodStore extends JsonEntityStore {
    * @param key
    * @returns {any}
    */
-  get<T = any>(key: any): T {
+  public get<T = any>(key: any): T {
     const ctrlValue = Store.from(this.target).get(key);
 
     return deepMerge<T>(ctrlValue, this.store.get(key));
   }
 
-  /**
-   * Get an endpoint.
-   * @param target
-   * @param propertyKey
-   * @param descriptor
-   */
-  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor): JsonMethodStore {
-    descriptor = descriptor || descriptorOf(prototypeOf(target), propertyKey);
+  public getParamTypes(): Record<string, boolean> {
+    return [...this.children.values()].reduce(
+      (obj, item) => ({
+        ...obj,
+        [item.paramType]: true
+      }),
+      {}
+    );
+  }
 
-    return JsonEntityStore.from<JsonMethodStore>(prototypeOf(target), propertyKey, descriptor);
+  protected build() {
+    if (!this._type) {
+      let type: any = Metadata.getReturnType(this.target, this.propertyKey);
+      type = isPromise(type) ? undefined : type;
+
+      this.buildType(type);
+    }
+
+    this._type = this._type || Object;
+
+    this.parent.children.set(this.propertyName, this);
+
+    if (isCollection(this._type)) {
+      this.collectionType = this._type;
+      // @ts-ignore
+      delete this._type;
+    }
+
+    this._schema = JsonSchema.from({
+      type: this.collectionType || this.type
+    });
+
+    if (this.collectionType) {
+      this._schema.itemSchema(this.type);
+    }
+
+    this.parent.schema.addProperty(this.propertyName, this.schema);
   }
 }
 

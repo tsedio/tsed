@@ -46,7 +46,6 @@ export function PathParams(...args: any[]): ParameterDecorator {
 
   return UseParam({
     paramType: ParamTypes.PATH,
-    dataPath: "$ctx.request.params",
     expression,
     useType,
     useConverter,

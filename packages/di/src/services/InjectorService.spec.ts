@@ -9,7 +9,6 @@ import {
   Provider,
   ProviderScope,
   ProviderType,
-  registerFactory,
   registerProvider
 } from "@tsed/di";
 import {expect} from "chai";
@@ -605,6 +604,26 @@ describe("InjectorService", () => {
       });
     });
   });
+  describe("load()", () => {
+    it("should load DI with a rootModule", async () => {
+      // GIVEN
+      @Injectable()
+      class RootModule {}
+      const token = class Test {};
+
+      const provider = new Provider<any>(token);
+      provider.scope = ProviderScope.SINGLETON;
+      provider.deps = [InjectorService];
+
+      const injector = new InjectorService();
+      const container = new Container();
+      container.set(token, provider);
+
+      await injector.load(container, RootModule);
+
+      expect(injector.get(RootModule)).to.be.instanceof(RootModule);
+    });
+  });
 
   describe("bindInjectableProperties()", () => {
     const sandbox = Sinon.createSandbox();
@@ -847,6 +866,8 @@ describe("InjectorService", () => {
 
       // WHEN
       injector.resolveConfiguration();
+      // should load only once the configuration
+      injector.resolveConfiguration();
 
       // THEN
       expect(injector.settings.get<string>("custom")).to.eq("config");
@@ -855,6 +876,44 @@ describe("InjectorService", () => {
         provider_custom: "singleton",
         value: "singleton"
       });
+    });
+    it("should load configuration from each providers (with resolvers)", () => {
+      // GIVEN
+      const injector = new InjectorService();
+
+      injector.settings.set({
+        scopes: {
+          [ProviderType.VALUE]: ProviderScope.SINGLETON
+        }
+      });
+
+      expect(injector.settings.get("scopes")).to.deep.eq({
+        [ProviderType.VALUE]: ProviderScope.SINGLETON
+      });
+
+      injector.add(Symbol.for("TOKEN1"), {
+        configuration: {
+          custom: "config",
+          scopes: {
+            provider_custom: ProviderScope.SINGLETON
+          }
+        },
+        resolvers: [Sinon.stub() as any]
+      });
+
+      injector.add(Symbol.for("TOKEN2"), {
+        configuration: {
+          scopes: {
+            provider_custom_2: ProviderScope.SINGLETON
+          }
+        }
+      });
+
+      // WHEN
+      injector.resolveConfiguration();
+
+      // THEN
+      expect(injector.resolvers.length).to.equal(1);
     });
   });
 

@@ -40,7 +40,6 @@ export function HeaderParams(...args: any[]): ParameterDecorator {
 
   return UseParam({
     paramType: ParamTypes.HEADER,
-    dataPath: "$ctx.request.headers",
     expression,
     useType,
     useConverter,
