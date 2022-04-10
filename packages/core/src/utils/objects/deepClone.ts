@@ -21,7 +21,7 @@ export function deepClone(source: any, stack = new WeakMap()): any {
   }
 
   if (isBuffer(source)) {
-    const copy = new Buffer(source.length);
+    const copy = Buffer.alloc(source.length);
     source.copy(copy);
     return copy;
   }
