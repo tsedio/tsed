@@ -98,7 +98,7 @@ import {Stripe} from "stripe";
 @Controller("/webhooks")
 export class StripWebhookCtrl {
   @Inject()
-  stripe: Stripe;
+  protected stripe: Stripe;
 
   @Post("/callback")
   successPaymentHook(@WebhookEvent() event: Stripe.Event, @Context() ctx: Context) {

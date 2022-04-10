@@ -1,34 +1,29 @@
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
-import * as bodyParser from "body-parser";
-import * as compress from "compression";
-import * as cookieParser from "cookie-parser";
-import * as methodOverride from "method-override";
+import compress from "compression";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
 
 @Configuration({
-  acceptMimes: ["application/json"]
+  acceptMimes: ["application/json"],
+  middlewares: [cookieParser(), compress({}), methodOverride()]
 })
 export class Server {
   @Inject()
-  app: PlatformApplication;
+  protected app: PlatformApplication;
 
   @Configuration()
-  settings: Configuration;
+  protected settings: Configuration;
 
-  /**
-   * This method let you configure the express middleware required by your application to works.
-   * @returns {Server}
-   */
+  public $onInit() {
+    console.log("$onInit()");
+  }
+
   public $beforeRoutesInit(): void | Promise<any> {
-    this.app
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      );
+    console.log("$beforeRoutesInit()");
+  }
+
+  public $onReady(): void | Promise<any> {
+    console.log("$onReady");
   }
 }

@@ -54,10 +54,6 @@ import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
     cookieParser(),
     compress({}),
     methodOverride(),
-    bodyParser.json(),
-    bodyParser.urlencoded({
-      extended: true
-    }),
     AuthTokenMiddleware
   ]
 })

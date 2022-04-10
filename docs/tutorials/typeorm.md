@@ -36,11 +36,13 @@ import {Configuration, registerProvider} from "@tsed/di";
 import {createConnection} from "@tsed/typeorm";
 import {DataSource} from "typeorm";
 import {Logger} from "@tsed/logger";
+import {User} from "../entities/User";
 
 export const MYSQL_DATA_SOURCE = Symbol.for("MySqlDataSource");
 export const MysqlDataSource = new DataSource({
   // name: "default",  if you come from v0.2.x
   type: "mysql",
+  entities: [User], // add this to discover typeorm model
   host: "localhost",
   port: 3306,
   username: "test",
@@ -226,7 +228,7 @@ import {USER_REPOSITORY} from "../../repositories/UserRepository";
 export class UsersController {
   @Inject(USER_REPOSITORY)
   protected repository: USER_REPOSITORY;
-  
+
   @Get("/")
   getByName(): Promise<User[]> {
     return this.repository.findByName("john");
