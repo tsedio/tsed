@@ -17,14 +17,11 @@ describe("@BodyParams", () => {
     expect(param.paramType).to.eq(ParamTypes.BODY);
     expect(param.type).to.eq(Test);
   });
-});
-
-describe("@RawBodyParams()", () => {
   it("should create a raw body params", () => {
     @Controller("/")
     class MyCtrl {
       @Post()
-      test(@RawBodyParams() body: Buffer) {}
+      test(@BodyParams() body: Buffer) {}
     }
 
     const spec = getSpec(MyCtrl, {specType: SpecTypes.OPENAPI});
@@ -59,6 +56,50 @@ describe("@RawBodyParams()", () => {
           name: "MyCtrl"
         }
       ]
+    });
+  });
+
+  describe("RawBodyParams()", () => {
+    it("should create a raw body params", () => {
+      @Controller("/")
+      class MyCtrl {
+        @Post()
+        test(@RawBodyParams() body: Buffer) {}
+      }
+
+      const spec = getSpec(MyCtrl, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).to.deep.eq({
+        paths: {
+          "/": {
+            post: {
+              operationId: "myCtrlTest",
+              parameters: [],
+              requestBody: {
+                content: {
+                  "*/*": {
+                    schema: {
+                      type: "string"
+                    }
+                  }
+                },
+                required: false
+              },
+              responses: {
+                "200": {
+                  description: "Success"
+                }
+              },
+              tags: ["MyCtrl"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "MyCtrl"
+          }
+        ]
+      });
     });
   });
 });

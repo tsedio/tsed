@@ -11,7 +11,6 @@ export * from "./decorators/strict";
 export * from "./interfaces/PlatformExpressSettings";
 export * from "./interfaces/PlatformExpressStaticsOptions";
 export * from "./interfaces/interfaces";
-export * from "./middlewares/rawBodyMiddleware";
 export * from "./middlewares/staticsMiddleware";
 export * from "./services/PlatformExpressHandler";
 export * from "./services/PlatformExpressRequest";

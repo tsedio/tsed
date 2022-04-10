@@ -24,8 +24,7 @@ import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 import send from "koa-send";
 // @ts-ignore
 import koaQs from "koa-qs";
-import koaBodyParser from "koa-bodyparser";
-import {OptionsJson} from "body-parser";
+import koaBodyParser, {Options} from "koa-bodyparser";
 
 declare global {
   namespace TsED {
@@ -175,17 +174,17 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
     return staticsMiddleware(options);
   }
 
-  bodyParser(type: string): any {
+  bodyParser(type: "json" | "urlencoded" | "raw" | "text", additionalOptions: any = {}): any {
     const opts = this.injector.settings.get(`koa.bodyParser`);
     let parser: any = koaBodyParser;
 
-    let options: OptionsJson = {};
+    let options: Options = {};
 
     if (isFunction(opts)) {
       parser = opts;
       options = {};
     }
 
-    return parser(options);
+    return parser({...options, ...additionalOptions});
   }
 }

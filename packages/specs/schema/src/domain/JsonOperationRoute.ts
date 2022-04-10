@@ -13,13 +13,7 @@ export class JsonOperationRoute<Entity extends JsonMethodStore = JsonMethodStore
   constructor(options: Partial<JsonOperationRoute>) {
     Object.assign(this, options);
 
-    this.paramsTypes = [...this.endpoint.children.values()].reduce(
-      (obj, item) => ({
-        ...obj,
-        [item.paramType]: true
-      }),
-      {}
-    );
+    this.paramsTypes = this.endpoint.getParamTypes();
   }
 
   get url() {

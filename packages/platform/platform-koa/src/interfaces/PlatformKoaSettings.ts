@@ -1,8 +1,15 @@
-import {RouterOptions} from "@koa/router";
+import type {RouterOptions} from "@koa/router";
+import type {Middleware} from "koa";
+import type {Options} from "koa-bodyparser";
 
 export interface PlatformKoaSettings {
   /**
-   * Global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
+   * Koa router options
    */
-  router: RouterOptions;
+  router?: RouterOptions;
+  /**
+   * Body parser options
+   * @param opts
+   */
+  bodyParser?: (opts?: Options) => Middleware | Options;
 }

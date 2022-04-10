@@ -24,3 +24,14 @@ export enum ParamTypes {
   RES = "RES",
   REQ = "REQ"
 }
+
+export const PARAM_TYPES_DATA_PATH: Record<string, string> = {
+  [ParamTypes.HEADER]: "$ctx.request.headers",
+  [ParamTypes.RAW_BODY]: "$ctx.request.rawBody",
+  [ParamTypes.BODY]: "$ctx.request.body",
+  [ParamTypes.QUERY]: "$ctx.request.query",
+  [ParamTypes.PATH]: "$ctx.request.params",
+  [ParamTypes.COOKIES]: "$ctx.request.cookies",
+  [ParamTypes.SESSION]: "$ctx.request.session",
+  [ParamTypes.LOCALS]: "$ctx.response.locals"
+};

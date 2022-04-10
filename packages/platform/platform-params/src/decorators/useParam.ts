@@ -1,4 +1,4 @@
-import {isString, useDecorators} from "@tsed/core";
+import {isBuffer, isString, useDecorators} from "@tsed/core";
 import {Any} from "@tsed/schema";
 import {ParamOptions} from "../domain/ParamOptions";
 import {ParamTypes} from "../domain/ParamTypes";
@@ -51,7 +51,6 @@ export function UseParam(options: Partial<ParamOptions>): ParameterDecorator;
 export function UseParam(paramType: string, options?: Partial<ParamOptions>): ParameterDecorator;
 export function UseParam(...args: any[]): ParameterDecorator {
   const options = {
-    dataPath: "$ctx",
     ...((isString(args[0]) ? args[1] : args[0]) || {}),
     paramType: isString(args[0]) ? args[0] : args[0].paramType
   };

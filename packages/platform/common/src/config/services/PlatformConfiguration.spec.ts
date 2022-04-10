@@ -93,6 +93,7 @@ describe("PlatformConfiguration", () => {
         port: 8080,
         toString: info.toString
       });
+      expect(settings.getBestHost().toString()).to.equal("https://address:8080");
     });
 
     it("should return httpPort", () => {
@@ -103,6 +104,7 @@ describe("PlatformConfiguration", () => {
         port: 8081,
         toString: info.toString
       });
+      expect(settings.getBestHost().toString()).to.equal("https://address:8080");
     });
 
     it("should return componentsScan", () => {

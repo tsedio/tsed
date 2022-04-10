@@ -29,7 +29,9 @@
     "packages/specs/schema",
     "**/interfaces/**",
     "**/legacy/**",
-    "**/index.ts"
+    "**/index.ts",
+    "**/FakeAdapter.ts",
+    "**/PlatformTest.ts"
   ],
   "extension": [
     ".ts"
@@ -41,8 +43,8 @@
     "lcov"
   ],
   "check-coverage": true,
-  "lines": 99.48,
-  "statements": 98.48,
-  "functions": 98.73,
-  "branches": 86.66
+  "lines": 99.71,
+  "statements": 99.66,
+  "functions": 98.91,
+  "branches": 87.41
 }

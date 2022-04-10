@@ -1,9 +1,10 @@
 import "@tsed/ajv";
-import {BodyParams, Controller, HeaderParams, PlatformTest, Post, RawBodyParams} from "@tsed/common";
-import {Default, GenericOf, Generics, In, Maximum, Minimum, Nullable, Property, Required, Status} from "@tsed/schema";
+import {BodyParams, Context, Controller, HeaderParams, PlatformTest, Post, RawBodyParams} from "@tsed/common";
+import {Default, Description, GenericOf, Generics, Maximum, Minimum, Nullable, Property, Required, Status} from "@tsed/schema";
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
+import {BadRequest} from "@tsed/exceptions";
 
 enum MyEnum {
   TITLE,
@@ -57,38 +58,45 @@ class PaginationQuery<T> {
 class TestBodyParamsCtrl {
   @Post("/scenario-1")
   @Status(201)
-  scenario1(@HeaderParams("Content-type") contentType: string, @BodyParams() payload: any) {
+  @Description("retrieve body and header content-type")
+  testScenario1(@HeaderParams("Content-type") contentType: string, @BodyParams() payload: any) {
     return {payload, contentType};
   }
 
   @Post("/scenario-2")
-  testScenario1(@BodyParams("test") value: string[]): any {
+  @Description("Extract field from body payload as string[]")
+  testScenario2(@BodyParams("test") value: string[]): any {
     return {value};
   }
 
   @Post("/scenario-3")
-  testScenario2(@BodyParams() value: string[]): any {
+  @Description("Extract body payload as string[]")
+  testScenario3(@BodyParams() value: string[]): any {
     return {value};
   }
 
   @Post("/scenario-4")
+  @Description("Extract field from body payload as string[] with required annotation")
   testScenario4(@Required() @BodyParams("test") value: string[]): any {
     return {value};
   }
 
   @Post("/scenario-4b")
+  @Description("Extract field from body payload as string")
   testScenario4b(@Required() @BodyParams("test") value: string): any {
     return {value};
   }
 
   @Post("/scenario-4c")
+  @Description("Extract field from body payload as string with required annotation")
   testScenario4c(@Required() @BodyParams("test") value: number): any {
     return {value};
   }
 
   @Post("/scenario-5")
-  testScenario5(@RawBodyParams() payload: any): any {
-    return {value: payload.toString("utf8")};
+  @Description("Extract raw body payload as Buffer")
+  testScenario5(@RawBodyParams() raw: Buffer, @BodyParams() payload: any, @Context() context: Context): any {
+    return {value: raw.toString("utf8")};
   }
 
   @Post("/scenario-6")

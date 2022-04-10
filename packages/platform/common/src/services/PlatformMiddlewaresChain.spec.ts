@@ -31,6 +31,7 @@ describe("PlatformMiddlewaresChain", () => {
     const platformMiddlewaresChain = PlatformTest.get<PlatformMiddlewaresChain>(PlatformMiddlewaresChain);
     const operationRoutes = getOperationsRoutes<EndpointMetadata>(provider.token);
     const endpoint = EndpointMetadata.get(TestCtrl, "getMethod");
+    const parentsMiddlewares = [function parentControllerBefore() {}];
 
     provider.middlewares = {
       use: [function controllerUse() {}],
@@ -42,14 +43,16 @@ describe("PlatformMiddlewaresChain", () => {
     endpoint.after([function endpointAfter() {}]);
     endpoint.middlewares = [function endpointUse() {}];
 
-    const chain = platformMiddlewaresChain.get(provider, operationRoutes[1]);
+    const chain = platformMiddlewaresChain.get(provider, operationRoutes[1], parentsMiddlewares);
 
     expect(chain[0].type).to.eq("context");
-    expect(chain[1]).to.eq(endpoint.beforeMiddlewares[0]);
-    expect(chain[2]).to.eq(provider.middlewares.use[0]);
-    expect(chain[3]).to.eq(endpoint.middlewares[0]);
-    expect(chain[4]).to.eq(endpoint);
-    expect(chain[5]).to.eq(endpoint.afterMiddlewares[0]);
-    expect(chain[6]).to.eq(provider.middlewares.useAfter[0]);
+    expect(chain[1]).to.eq(parentsMiddlewares[0]);
+    expect(chain[2]).to.eq(provider.middlewares.useBefore[0]);
+    expect(chain[3]).to.eq(endpoint.beforeMiddlewares[0]);
+    expect(chain[4]).to.eq(provider.middlewares.use[0]);
+    expect(chain[5]).to.eq(endpoint.middlewares[0]);
+    expect(chain[6]).to.eq(endpoint);
+    expect(chain[7]).to.eq(endpoint.afterMiddlewares[0]);
+    expect(chain[8]).to.eq(provider.middlewares.useAfter[0]);
   });
 });

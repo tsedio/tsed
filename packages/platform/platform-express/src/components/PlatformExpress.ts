@@ -17,13 +17,13 @@ import {
   PlatformStaticsOptions
 } from "@tsed/common";
 import {promisify} from "util";
-import {Env, isFunction, Type} from "@tsed/core";
+import {Env, isFunction, nameOf, Type} from "@tsed/core";
 import {PlatformExpressHandler} from "../services/PlatformExpressHandler";
 import {PlatformExpressResponse} from "../services/PlatformExpressResponse";
 import {PlatformExpressRequest} from "../services/PlatformExpressRequest";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
-import {OptionsJson} from "body-parser";
+import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 
 declare module "express" {
   export interface Request {
@@ -93,6 +93,18 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     return PlatformBuilder.bootstrap<Express.Application, Express.Router>(module, {
       ...settings,
       adapter: PlatformExpress
+    });
+  }
+
+  onInit() {
+    this.injector.settings.middlewares = (this.injector.settings.middlewares || []).filter((middleware) => {
+      const name = nameOf(middleware);
+      if (["textParser", "jsonParser", "rawParser", "urlencodedParser"].includes(name)) {
+        this.injector.settings.set(`express.bodyParser.${name.replace("Parser", "")}`, () => middleware);
+        return false;
+      }
+
+      return true;
     });
   }
 
@@ -208,14 +220,23 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     return staticsMiddleware(root, props);
   }
 
-  bodyParser(type: "json" | "raw" | "text", additionalOptions: any = {}): any {
+  bodyParser(type: "json" | "raw" | "text" | "urlencoded", additionalOptions: any = {}): any {
     const opts = this.injector.settings.get(`express.bodyParser.${type}`);
     let parser: any = Express[type];
-    let options: OptionsJson = {};
+    let options: OptionsJson & OptionsText & OptionsUrlencoded = {};
 
     if (isFunction(opts)) {
       parser = opts;
       options = {};
+    }
+
+    switch (type) {
+      case "urlencoded":
+        options.extended = true;
+        break;
+      case "raw":
+        options.type = () => true;
+        break;
     }
 
     return parser({...options, ...additionalOptions});

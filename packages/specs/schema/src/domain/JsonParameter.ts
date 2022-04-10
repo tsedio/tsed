@@ -1,5 +1,5 @@
 import {cleanObject, toMap, Type} from "@tsed/core";
-import {OpenSpecHash, OpenSpecRef, OS2Schema, OS3Example, OS3Parameter, OS3Schema} from "@tsed/openspec";
+import {OpenSpecHash, OpenSpecRef, OS3Example, OS3Parameter, OS3Schema} from "@tsed/openspec";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics, popGenerics} from "../utils/generics";
@@ -66,12 +66,12 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
       return null;
     }
 
-    const schemasContainer = toMap<string, OS2Schema | OS3Schema>(options.schemas || {});
+    const schemasContainer = toMap<string, OS3Schema>(options.schemas || {});
 
     return this.build({...options, groups: this.groups}, schemasContainer);
   }
 
-  private build(options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema | OS2Schema>) {
+  private build(options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema>) {
     const {type, schema, ...parameter} = super.toJSON(options);
 
     const jsonSchema = execMapper("item", this.$schema, {
@@ -81,36 +81,18 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
     parameter.required = parameter.required || this.get("in") === JsonParameterTypes.PATH;
 
-    if (this.get("in") === JsonParameterTypes.FILES) {
-      const schema = {
-        type: "string",
-        format: "binary",
-        oneOf: undefined
-      };
+    switch (this.get("in")) {
+      case JsonParameterTypes.FILES:
+        return this.getFileSchema(jsonSchema, parameter);
+      case JsonParameterTypes.QUERY:
+        if (jsonSchema.$ref) {
+          if (!parameter.name) {
+            return this.refToParameters(parameter, options, schemasContainer);
+          }
 
-      if (jsonSchema.type === "array") {
-        jsonSchema.items = cleanObject({
-          ...jsonSchema.items,
-          ...schema
-        });
-
-        parameter.schema = jsonSchema;
-      } else {
-        parameter.schema = cleanObject({
-          ...jsonSchema,
-          ...schema
-        });
-      }
-
-      return parameter;
-    }
-
-    if (["query"].includes(this.get("in")) && jsonSchema.$ref) {
-      if (!parameter.name) {
-        return this.refToParameters(parameter, options, schemasContainer);
-      }
-
-      parameter.style = "deepObject";
+          parameter.style = "deepObject";
+        }
+        break;
     }
 
     parameter.schema = jsonSchema;
@@ -118,7 +100,31 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     return parameter;
   }
 
-  private refToParameters(parameter: any, options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema | OS2Schema>) {
+  private getFileSchema(jsonSchema: any, parameter: Pick<any, string | number | symbol>) {
+    const schema = {
+      type: "string",
+      format: "binary",
+      oneOf: undefined
+    };
+
+    if (jsonSchema.type === "array") {
+      jsonSchema.items = cleanObject({
+        ...jsonSchema.items,
+        ...schema
+      });
+
+      parameter.schema = jsonSchema;
+    } else {
+      parameter.schema = cleanObject({
+        ...jsonSchema,
+        ...schema
+      });
+    }
+
+    return parameter;
+  }
+
+  private refToParameters(parameter: any, options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema>) {
     const name = createRefName(this.$schema.getName(), options);
     const schema = options.schemas![name];
 

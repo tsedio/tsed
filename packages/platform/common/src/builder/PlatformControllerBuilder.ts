@@ -49,8 +49,9 @@ export function createRouter(injector: InjectorService, provider: ControllerProv
  * @ignore
  * @param injector
  * @param provider
+ * @param parentUseBefore
  */
-export function buildRouter(injector: InjectorService, provider: ControllerProvider) {
+export function buildRouter(injector: InjectorService, provider: ControllerProvider, parentUseBefore: any[] = []) {
   const {
     middlewares: {useBefore},
     children
@@ -64,15 +65,9 @@ export function buildRouter(injector: InjectorService, provider: ControllerProvi
 
     const platformMiddlewaresChain = injector.get<PlatformMiddlewaresChain>(PlatformMiddlewaresChain);
 
-    useBefore // Controller before-middleware
-      .filter((o) => typeof o === "function")
-      .forEach((middleware: any) => {
-        router.use(middleware);
-      });
-
     // build all endpoints and his middlewares
     getOperationsRoutes(provider.token).forEach((operationRoute) => {
-      const handlers = platformMiddlewaresChain?.get(provider, operationRoute);
+      const handlers = platformMiddlewaresChain?.get(provider, operationRoute, parentUseBefore);
 
       router.addRoute({
         handlers,
@@ -83,6 +78,7 @@ export function buildRouter(injector: InjectorService, provider: ControllerProvi
       });
     });
 
+    const middlewares: any[] = [...parentUseBefore, ...useBefore];
     // build children controllers
     children.forEach((child: Type<any>) => {
       const childProvider = injector.getProvider(child) as ControllerProvider;
@@ -92,7 +88,7 @@ export function buildRouter(injector: InjectorService, provider: ControllerProvi
         throw new Error("Controller component not found in the ControllerRegistry");
       }
 
-      router.use(childProvider.path, buildRouter(injector, childProvider));
+      router.use(childProvider.path, buildRouter(injector, childProvider, middlewares));
     });
   }
 

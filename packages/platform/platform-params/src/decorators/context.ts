@@ -59,7 +59,6 @@ export function Context(...args: any[]): ParameterDecorator {
 
   return UseParam({
     paramType: ParamTypes.$CTX,
-    dataPath: "$ctx",
     expression,
     useType,
     useConverter,

@@ -49,7 +49,6 @@ export function Locals(...args: any[]): ParameterDecorator {
 
   return UseParam({
     paramType: ParamTypes.LOCALS,
-    dataPath: "$ctx.response.locals",
     expression,
     useType,
     useConverter,

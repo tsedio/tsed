@@ -43,7 +43,6 @@ export function Session(...args: any[]): ParameterDecorator {
 
   return UseParam({
     paramType: ParamTypes.SESSION,
-    dataPath: "$ctx.request.session",
     expression,
     useType,
     useConverter,

@@ -64,7 +64,7 @@ export class Platform {
           provider
         });
 
-        return routes.concat(route);
+        routes = routes.concat(route);
       }
 
       return routes;
