@@ -77,6 +77,31 @@ export class Server {
 
 > See Stripe options for more details: https://www.npmjs.com/package/stripe
 
+::: warning
+Stripe needs to validate signature transaction when you received a webhook notification.
+To work properly, you have to remove bodyParser add on `$beforeRoutesInit`.
+
+```diff
+@Configuration({
++  middlewares: [
++     bodyParser.json(),
++     bodyParser.urlencoded({extended: true})
++  ]
+})
+export class Server {
+  @Inject()
+  protected app: PlatformApplication;
+
+  $beforeRoutesInit() {
+-    this.app
+-      .use(bodyParser.json())
+-      .use(bodyParser.urlencoded({extended: true}));
+  }
+}
+```
+
+::
+
 ## Inject Stripe
 
 ```typescript

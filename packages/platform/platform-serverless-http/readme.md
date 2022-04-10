@@ -82,11 +82,10 @@ Create new `Server.ts` to configure your Ts.ED application:
 ```typescript
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
-import bodyParser from "body-parser";
+import cors from "cors";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
-import cors from "cors";
 import "@tsed/ajv";
 import "@tsed/swagger";
 import {TimeslotsController} from "./controllers/TimeslotsController";
@@ -108,23 +107,10 @@ import {TimeslotsController} from "./controllers/TimeslotsController";
       ejs: "ejs"
     }
   },
-  exclude: ["**/*.spec.ts"]
+  exclude: ["**/*.spec.ts"],
+  middlewares: [cors(), compress({}), cookieParser(), methodOverride()]
 })
-export class Server {
-  $beforeRoutesInit(): void {
-    this.app
-      .use(cors())
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      );
-  }
-}
+export class Server {}
 ```
 
 Create new `handler.ts` to expose your lambda:

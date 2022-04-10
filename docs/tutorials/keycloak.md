@@ -90,37 +90,40 @@ Make sure that the KeycloakService is part of the componentsScan array of the gl
 The `KeycloakService` can then be injected in the Server class and the middleware of `express-session` and `keycloak-connect` can be called.
 
 ```typescript
+import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/common";
+import cors from "cors";
+import compress from "compress";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
+import session from "express-session";
+
+@Configuration({
+  middlewares: [
+    cors(),
+    compress({}),
+    cookieParser(),
+    methodOverride(),
+    session({
+      secret: "some secret",
+      resave: false,
+      saveUninitialized: true,
+      store: this.keycloakService.getMemoryStore()
+    })
+  ]
+})
 export class Server {
   @Inject()
-  app: PlatformApplication;
+  protected app: PlatformApplication;
 
   @Inject()
-  keycloakService: KeycloakService;
+  protected keycloakService: KeycloakService;
 
   @Configuration()
-  settings: Configuration;
+  protected settings: Configuration;
 
   $beforeRoutesInit(): void {
-    this.app
-      .use(cors())
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      )
-      .use(
-        session({
-          secret: "some secret",
-          resave: false,
-          saveUninitialized: true,
-          store: this.keycloakService.getMemoryStore()
-        })
-      )
-      .use(this.keycloakService.getKeycloakInstance().middleware());
+    this.app.use(this.keycloakService.getKeycloakInstance().middleware());
   }
 }
 ```
@@ -141,14 +144,16 @@ import {KeycloakService} from "../services/KeycloakService";
 @Middleware()
 export class KeycloakMiddleware implements MiddlewareMethods {
   @Inject()
-  keycloakService: KeycloakService;
+  protected keycloakService: KeycloakService;
 
   public use(@Context() ctx: Context) {
     const options: KeycloakAuthOptions = ctx.endpoint.store.get(KeycloakMiddleware);
     const keycloak = this.keycloakService.getKeycloakInstance();
+
     if (ctx.getRequest().kauth.grant) {
       this.keycloakService.setToken(ctx.getRequest().kauth.grant.access_token);
     }
+
     return keycloak.protect(options.role);
   }
 }

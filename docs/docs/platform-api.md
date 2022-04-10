@@ -32,27 +32,16 @@ If you use `ServerLoader`, you'll probably know this example to create a Ts.ED a
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
 import {MyMiddleware} from "./MyMiddleware";
-import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
 
 @Configuration({
-  viewsDir: `${process.cwd()}/views`
+  viewsDir: `${process.cwd()}/views`,
+  middlewares: [MyMiddleware, cookieParser(), compress({}), methodOverride()]
 })
 export class Server extends ServerLoader {
   $beforeRoutesInit() {
-    this.use(MyMiddleware)
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      );
-
     // configure express app
     this.set("views", this.settings.get("viewsDir"));
     this.engine("ejs", ejs);
@@ -66,7 +55,6 @@ With Platform API you have to inject @@PlatformApplication@@ to register a middl
 import {Configuration, PlatformApplication} from "@tsed/common";
 import {Inject, Constant} from "@tsed/di";
 import {MyMiddleware} from "./MyMiddleware";
-import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
@@ -75,27 +63,15 @@ import methodOverride from "method-override";
   views: {
     root: `${process.cwd()}/views`,
     viewEngine: "ejs"
-  }
+  },
+  middlewares: [MyMiddleware, cookieParser(), compress({}), methodOverride()]
 })
 export class Server {
   @Constant("viewsDir")
   viewsDir: string;
 
-  @Inject()
-  app: PlatformApplication<Express.Application>;
-
   $beforeRoutesInit() {
-    this.app
-      .use(MyMiddleware)
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      );
+    console.log(this.viewsDir);
   }
 }
 ```
@@ -133,7 +109,7 @@ import {MyService} from "./services/MyService";
 @Configuration({})
 export class Server {
   @Inject()
-  myService: MyService;
+  protected myService: MyService;
 
   $beforeRoutesInit() {
     this.myService.getSomething();
@@ -218,10 +194,10 @@ import {MyMiddleware} from "../middlewares/MyMiddleware";
 @Injectable()
 class MyService {
   @Inject()
-  app: PlatformApplication<Express.Application>;
+  protected app: PlatformApplication<Express.Application>;
 
   getExpressApp() {
-    return this.app.raw; // GET Express raw Application. E.g.: const app = express()
+    return this.app.getApp(); // GET Express raw Application. E.g.: const app = express()
   }
 
   $onInit() {

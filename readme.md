@@ -76,32 +76,15 @@ Here an example to create a Server with Ts.ED:
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
+import cookieParser from "cookie-parser";
+import compress from "compress";
+import methodOverride from "method-override";
 
 @Configuration({
-  port: 3000
+  port: 3000,
+  middlewares: [cookieParser(), compress(), methodOverride()]
 })
-export class Server {
-  @Inject()
-  app: PlatformApplication;
-
-  public $beforeRoutesInit() {
-    const cookieParser = require("cookie-parser"),
-      bodyParser = require("body-parser"),
-      compress = require("compression"),
-      methodOverride = require("method-override");
-
-    this.app
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      );
-  }
-}
+export class Server {}
 ```
 
 To run your server, you have to use Platform API to bootstrap your application with the expected
@@ -157,7 +140,7 @@ import {User} from "../models/User";
 @Controller("/users")
 export class UsersCtrl {
   @Inject()
-  usersService: UsersService;
+  private usersService: UsersService;
 
   @Get("/:id")
   @Summary("Get a user from his Id")

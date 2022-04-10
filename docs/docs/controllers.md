@@ -192,6 +192,29 @@ Add @@Any@@ decorator to fix the issue.
 There is no performed input validation and deserialization when using the @@RawBodyParams@@!
 :::
 
+::: warning
+To use @RawBodyParams() properly, you have to remove bodyParser add on `$beforeRoutesInit`.
+
+````diff
+@Configuration({
++  middlewares: [
++     bodyParser.json(),
++     bodyParser.urlencoded({extended: true})
++  ]
+})
+export class Server {
+  @Inject()
+  protected app: PlatformApplication;
+
+  $beforeRoutesInit() {
+-    this.app
+-      .use(bodyParser.json())
+-      .use(bodyParser.urlencoded({extended: true}));
+  }
+}
+```--
+::
+
 ### Headers
 
 @@HeaderParams@@ decorator provides you quick access to the `request.get()`:
@@ -233,7 +256,7 @@ Validation require the `@tsed/ajv` plugins to work.
 
 ```sh
 npm install --save @tsed/ajv
-```
+````
 
 :::
 

@@ -77,30 +77,14 @@ import {PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
 import Path from "path";
 import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
 import compress from "compression";
 import methodOverride from "method-override";
 
 @Configuration({
-  port: 3000
+  port: 3000,
+  middlewares: [cookieParser(), compress({}), methodOverride()]
 })
-export class Server {
-  @Inject()
-  app: PlatformApplication;
-
-  public $beforeRoutesInit() {
-    this.app
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      );
-  }
-}
+export class Server {}
 ```
 
 To run your server, you have to use Platform API to bootstrap your application with the expected
@@ -156,7 +140,7 @@ import {User} from "../models/User";
 @Controller("/users")
 export class UsersCtrl {
   @Inject()
-  usersService: UsersService;
+  protected usersService: UsersService;
 
   @Get("/:id")
   @Summary("Get a user from his Id")

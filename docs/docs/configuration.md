@@ -178,23 +178,13 @@ export class Server {
   $afterInit() {
     this.app.use(helmet({contentSecurityPolicy: false}));
   }
+
   $beforeRoutesInit() {
     if (this.env === Env.PROD) {
       this.app.use(EnsureHttpsMiddleware);
     }
 
-    this.app
-      .use(cors())
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      )
-      .use(AuthTokenMiddleware);
+    this.app.use(cors()).use(cookieParser()).use(compress({})).use(methodOverride()).use(AuthTokenMiddleware);
 
     return null;
   }
@@ -214,10 +204,6 @@ import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
     cookieParser(),
     compress({}),
     methodOverride(),
-    bodyParser.json(),
-    bodyParser.urlencoded({
-      extended: true
-    }),
     AuthTokenMiddleware
   ]
 })
@@ -313,10 +299,28 @@ These options are specific for each framework (Express.js, Koa.js, etc...):
 
 <Tabs>
   <Tab label="Express.js">
- 
+
+### express.bodyParser <Badge text="6.111.0+"/>
+
+This option let you configure the default bodyParser used by Ts.ED to parse the body request:
+
+```typescript
+@Configuration({
+  express: {
+    bodyParser: {
+      text: {},
+      json: {},
+      urlencoded: {
+        extended: true // required
+      }
+    }
+  }
+})
+```
+
 ### express.router
 
-The global configuration for the Express.Router. See express [documentation](http://expressjs.com/en/api.html#express.router).
+The global configuration for the `Express.Router`. See express [documentation](http://expressjs.com/en/api.html#express.router).
 
 ### statics
 
@@ -328,7 +332,21 @@ Object to mount all directories under an endpoint.
 
   </Tab>
   <Tab label="Koa.js">
- 
+
+### koa.bodyParser <Badge text="6.111.0+"/>
+
+This option let you configure the default bodyParser used by Ts.ED to parse the body request:
+
+```typescript
+@Configuration({
+  koa: {
+    bodyParser: {
+      // See koa-bodyparser options
+    }
+  }
+})
+```
+
 ### koa.router
 
 The global configuration for the Koa.Router.
