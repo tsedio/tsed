@@ -33,13 +33,13 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/mikro-orm
 
 Currently, `@tsed/mikro-orm` allows you:
 
-- Configure one or more MikroOrm connections via the `@Configuration` decorator. All databases will be initialized
+- Configure one or more MikroORM instances via the `@Configuration` decorator. All databases will be initialized
   when the server starts during the server's `OnInit` phase.
-- Use the Entity MikroOrm as Model for Controllers, AJV Validation and Swagger.
+- Use the Entity MikroORM as Model for Controllers, AJV Validation and Swagger.
 
 ## Installation
 
-To begin, install the MikroOrm module for TS.ED:
+To begin, install the MikroORM module for TS.ED:
 
 <Tabs class="-code">
   <Tab label="NPM">
@@ -81,7 +81,7 @@ import {MikroOrmModule} from "@tsed/mikro-orm";
       ...,
 
       entities: [
-        `${__dirname}/entity/*{.ts,.js}`
+        `./entity/*{.ts,.js}`
       ]
     },
     {
@@ -96,32 +96,32 @@ export class Server {}
 
 The `mikroOrm` options accepts the same configuration object as `init()` from the MikroORM package. Check [this page](https://mikro-orm.io/docs/configuration) for the complete configuration documentation.
 
-## Obtain a connection
+## Obtain ORM instance
 
-`@Connection` decorator lets you retrieve an instance of MikroOrm Connection.
+`@Orm` decorator lets you retrieve an instance of MikroORM.
 
 ```typescript
 import {Injectable, AfterRoutesInit} from "@tsed/common";
-import {Connection} from "@tsed/mikro-orm";
+import {Orm} from "@tsed/mikro-orm";
 import {MikroORM} from "@mikro-orm/core";
 
 @Injectable()
 export class UsersService {
-  @Connection()
-  private readonly connection!: MikroORM;
+  @Orm()
+  private readonly orm!: MikroORM;
 
   async create(user: User): Promise<User> {
     // do something
     // ...
     // Then save
-    await this.connection.em.persistAndFlush(user);
+    await this.orm.em.persistAndFlush(user);
     console.log("Saved a new user with id: " + user.id);
 
     return user;
   }
 
   async find(): Promise<User[]> {
-    const users = await this.connection.em.find(User, {});
+    const users = await this.orm.em.find(User, {});
     console.log("Loaded users: ", users);
 
     return users;
@@ -129,15 +129,15 @@ export class UsersService {
 }
 ```
 
-It's also possible to inject a connection by his name:
+It's also possible to inject an ORM by its context name:
 
 ```ts
 import {Injectable} from "@tsed/di";
 
 @Injectable()
 export class MyService {
-  @Connection("mongo")
-  private readonly connection!: MikroORM;
+  @Orm("mongo")
+  private readonly orm!: MikroORM;
 }
 ```
 
@@ -148,7 +148,7 @@ export class MyService {
 ```typescript
 import {Injectable, AfterRoutesInit} from "@tsed/common";
 import {Em} from "@tsed/mikro-orm";
-import {EntityManager} from '@mikro-orm/mysql'; // Import EntityManager from your driver package or `@mikro-orm/knex`
+import {EntityManager} from "@mikro-orm/mysql"; // Import EntityManager from your driver package or `@mikro-orm/knex`
 
 @Injectable()
 export class UsersService {
@@ -164,16 +164,16 @@ export class UsersService {
 }
 ```
 
-It's also possible to inject Entity manager by his connection name:
+It's also possible to inject Entity manager by his context name:
 
 ```typescript
 import {Injectable, AfterRoutesInit} from "@tsed/common";
 import {Em} from "@tsed/mikro-orm";
-import {EntityManager} from '@mikro-orm/mysql'; // Import EntityManager from your driver package or `@mikro-orm/knex`
+import {EntityManager} from "@mikro-orm/mysql"; // Import EntityManager from your driver package or `@mikro-orm/knex`
 
 @Injectable()
 export class UsersService {
-  @Em("connectionName")
+  @Em("contextName")
   private readonly em!: EntityManager;
 
   async create(user: User): Promise<User> {
@@ -187,7 +187,7 @@ export class UsersService {
 
 ## Use Entity with Controller
 
-To begin, we need to define an Entity MikroOrm like this and use Ts.ED Decorator to define the JSON Schema.
+To begin, we need to define an Entity MikroORM like this and use Ts.ED Decorator to define the JSON Schema.
 
 ```typescript
 import {Property, MaxLength, Required} from "@tsed/common";
@@ -195,31 +195,30 @@ import {Entity, Property, PrimaryKey, Property as Column} from "@mikro-orm/core"
 
 @Entity()
 export class User {
-
   @PrimaryKey()
   @Property()
-  id: number;
+  id!: number;
 
   @Column()
   @MaxLength(100)
   @Required()
-  firstName: string;
+  firstName!: string;
 
   @Column()
   @MaxLength(100)
   @Required()
-  lastName: string;
+  lastName!: string;
 
   @Column()
   @Mininum(0)
   @Maximum(100)
-  age: number;
+  age!: number;
 }
 ```
 
 Now, the model is correctly defined and can be used with a [Controller](https://tsed.io/docs/controllers.html)
 , [AJV validation](tutorials/ajv.md),
-[Swagger](tutorials/swagger.md) and [MikroOrm](https://mikro-orm.io/docs/defining-entities).
+[Swagger](tutorials/swagger.md) and [MikroORM](https://mikro-orm.io/docs/defining-entities).
 
 We can use this model with a Controller like that:
 
@@ -229,7 +228,7 @@ import {Controller, Post, BodyParams, Inject, Post, Get} from "@tsed/common";
 @Controller("/users")
 export class UsersCtrl {
   @Inject()
-  private usersService: UsersService;
+  private readonly usersService!: UsersService;
 
   @Post("/")
   create(@BodyParams() user: User): Promise<User> {
@@ -258,7 +257,7 @@ import {Transactional} from "@tsed/mikro-orm";
 @Controller("/users")
 export class UsersCtrl {
   @Inject()
-  private usersService: UsersService;
+  private readonly usersService!: UsersService;
 
   @Post("/")
   @Transactional()
@@ -278,8 +277,8 @@ By default, the automatic retry policy is disabled. You can implement your own t
 The `@Transactional()` decorator allows you to enable a retry policy for the particular resources. You just need to implement the `RetryStrategy` interface and use `registerProvider()` or `@OverrideProvider()` to register it in the IoC container. Below you can find an example to handle occurred optimistic locks based on [an exponential backoff retry strategy](https://en.wikipedia.org/wiki/Exponential_backoff).
 
 ```ts
-import { OptimisticLockError } from '@mikro-orm/core';
-import { RetryStrategy } from '@tsed/mikro-orm';
+import {OptimisticLockError} from "@mikro-orm/core";
+import {RetryStrategy} from "@tsed/mikro-orm";
 
 export interface ExponentialBackoffOptions {
   maxDepth: number;
@@ -290,16 +289,11 @@ export class ExponentialBackoff implements RetryStrategy {
 
   constructor(private readonly options: ExponentialBackoffOptions) {}
 
-  public async acquire<T extends (...args: unknown[]) => unknown>(
-    task: T
-  ): Promise<ReturnType<T>> {
+  public async acquire<T extends (...args: unknown[]) => unknown>(task: T): Promise<ReturnType<T>> {
     try {
       return (await task()) as ReturnType<T>;
     } catch (e) {
-      if (
-        this.shouldRetry(e as Error) &&
-        this.depth < this.options.maxDepth
-      ) {
+      if (this.shouldRetry(e as Error) && this.depth < this.options.maxDepth) {
         return this.retry(task);
       }
 
@@ -311,9 +305,7 @@ export class ExponentialBackoff implements RetryStrategy {
     return error instanceof OptimisticLockError;
   }
 
-  private async retry<T extends (...args: unknown[]) => unknown>(
-    task: T
-  ): Promise<ReturnType<T>> {
+  private async retry<T extends (...args: unknown[]) => unknown>(task: T): Promise<ReturnType<T>> {
     await this.sleep(2 ** this.depth * 50);
 
     this.depth += 1;
@@ -322,14 +314,14 @@ export class ExponentialBackoff implements RetryStrategy {
   }
 
   private sleep(milliseconds: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, milliseconds));
+    return new Promise((resolve) => setTimeout(resolve, milliseconds));
   }
 }
 
 registerProvider({
   provide: RetryStrategy,
   useFactory(): ExponentialBackoff {
-    return new ExponentialBackoff({maxDepth: 3})
+    return new ExponentialBackoff({maxDepth: 3});
   }
 });
 ```
@@ -345,7 +337,7 @@ import {Transactional} from "@tsed/mikro-orm";
 @Controller("/users")
 export class UsersCtrl {
   @Inject()
-  private usersService: UsersService;
+  private readonly usersService!: UsersService;
 
   @Post("/")
   @Transactional({retry: true})

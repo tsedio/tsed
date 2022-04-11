@@ -40,19 +40,19 @@ class FakeMiddleware {
 @Controller("/errors")
 export class ErrorsCtrl {
   @Get("/scenario-1")
-  @(Returns(500, InternalServerError).Description("Custom Bad Request"))
+  @Returns(500, InternalServerError).Description("Custom Bad Request")
   public scenario1() {
     throw new CustomBadRequest("Custom Bad Request");
   }
 
   @Get("/scenario-2")
-  @(Returns(500).Description("Internal Server Error"))
+  @Returns(500).Description("Internal Server Error")
   public scenario2() {
     throw new Error("My error");
   }
 
   @Get("/scenario-3")
-  @(Returns(400, CustomInternalError).Description("Bad request"))
+  @Returns(400, CustomInternalError).Description("Bad request")
   public scenario3() {
     throw new CustomInternalError("My custom error");
   }
@@ -64,7 +64,7 @@ export class ErrorsCtrl {
   }
 
   @Post("/scenario-5")
-  @(Returns(400, BadRequest).Description("Bad request"))
+  @Returns(400, BadRequest).Description("Bad request")
   public scenario5(
     @Required()
     @BodyParams()
@@ -76,7 +76,7 @@ export class ErrorsCtrl {
   @Post("/scenario-6")
   @Summary("Throw a Required prop if prop name is required")
   @Description(`Return a required error`)
-  @(Returns(400).Description("Bad request"))
+  @Returns(400).Description("Bad request")
   public scenario6(
     @Required()
     @BodyParams()
@@ -86,7 +86,7 @@ export class ErrorsCtrl {
   }
 
   @Get("/scenario-7")
-  @(Returns(400).Description("Bad request"))
+  @Returns(400).Description("Bad request")
   @UseAfter(FakeMiddleware)
   @UseAfter(ErrorMiddleware)
   public scenario7() {

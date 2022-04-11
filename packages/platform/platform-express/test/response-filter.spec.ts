@@ -32,10 +32,7 @@ class TestPageableCtrl {
     const raw = "...";
     // response.setHeader('Content-Type', 'image/png');
 
-    return Buffer.from(
-      raw,
-      "base64"
-    );
+    return Buffer.from(raw, "base64");
   }
 
   @Get("/scenario-2")
@@ -43,10 +40,7 @@ class TestPageableCtrl {
     const raw = "...";
     response.setHeader("Content-Type", "image/png");
 
-    return Buffer.from(
-      raw,
-      "base64"
-    );
+    return Buffer.from(raw, "base64");
   }
 }
 
@@ -54,12 +48,14 @@ const sandbox = Sinon.createSandbox();
 describe("ResponseFilter", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  beforeEach(utils.bootstrap({
-    mount: {
-      "/rest": [TestPageableCtrl]
-    },
-    responseFilters: [PlainTextFilter]
-  }));
+  beforeEach(
+    utils.bootstrap({
+      mount: {
+        "/rest": [TestPageableCtrl]
+      },
+      responseFilters: [PlainTextFilter]
+    })
+  );
   beforeEach(() => {
     sandbox.stub(PlainTextFilter.prototype, "transform");
     request = SuperTest(PlatformTest.callback());
@@ -72,13 +68,13 @@ describe("ResponseFilter", () => {
     const {headers} = await request.get("/rest/response-filter/scenario-1").expect(200);
 
     expect(headers["content-type"]).to.equal("image/png");
-    expect(PlainTextFilter.prototype.transform).to.not.have.been.called
+    expect(PlainTextFilter.prototype.transform).to.not.have.been.called;
   });
 
   it("should return png (scenario-2)", async () => {
     const {headers} = await request.get("/rest/response-filter/scenario-2").expect(200);
 
     expect(headers["content-type"]).to.equal("image/png");
-    expect(PlainTextFilter.prototype.transform).to.not.have.been.called
+    expect(PlainTextFilter.prototype.transform).to.not.have.been.called;
   });
 });

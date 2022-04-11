@@ -9,10 +9,15 @@ import {
   PlatformViewsExtensionsTypes
 } from "../domain/PlatformViewsSettings";
 
-function patchEJS(ejs: any) {
+async function patchEJS(ejs: any) {
+  if (!ejs) {
+    const mod = await import("ejs");
+    ejs = mod.default;
+  }
+
   return {
     compile(str: string, {client, ...options}: any) {
-      return (ejs || require("ejs")).compile(str, options);
+      return ejs.compile(str, options);
     }
   };
 }
@@ -79,7 +84,7 @@ export class PlatformViews {
   async loadFromConsolidate() {
     const cons = await tryImport("consolidate");
     if (cons) {
-      cons.requires.ejs = patchEJS(cons.requires.ejs);
+      cons.requires.ejs = await patchEJS(cons.requires.ejs);
 
       this.#extensions.forEach((engineType) => {
         if ((cons as any)[engineType]) {
@@ -102,7 +107,7 @@ export class PlatformViews {
     const tsed = await tryImport("@tsed/engines");
 
     if (tsed) {
-      tsed.requires.set("ejs", patchEJS(tsed.requires.get("ejs")));
+      tsed.requires.set("ejs", await patchEJS(tsed.requires.get("ejs")));
 
       this.#extensions.forEach((engineType) => {
         if (tsed.engines.has(engineType)) {

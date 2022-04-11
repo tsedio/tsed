@@ -151,7 +151,7 @@ export class OIDCClient extends OIDCBase {
 
 describe("Basic", () => {
   it("should generate the correct schema", async () => {
-    const form = await getFormioSchema(OIDCClient, { groups: ["group1"] });
+    const form = await getFormioSchema(OIDCClient, {groups: ["group1"]});
 
     expect(form).toEqual(data);
   });

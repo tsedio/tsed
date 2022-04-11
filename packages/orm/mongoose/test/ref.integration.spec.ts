@@ -3,7 +3,7 @@ import {deserialize, serialize} from "@tsed/json-mapper";
 import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import faker from "faker";
+import faker from "@faker-js/faker";
 import SuperTest from "supertest";
 import {TestProfile, TestUser} from "./helpers/models/User";
 import {Server} from "./helpers/Server";
@@ -39,7 +39,7 @@ const baseUser = {
 
 const baseProfile = {
   image: faker.image.avatar(),
-  age: faker.random.number(2)
+  age: faker.datatype.number(2)
 };
 
 describe("Mongoose", () => {
@@ -58,9 +58,7 @@ describe("Mongoose", () => {
     beforeEach(async () => {
       const repository = PlatformTest.get<ProfilesCtrl>(ProfilesCtrl)!;
 
-      currentUser = await repository.createUser(
-        deserialize<TestUser>(baseUser, {type: TestUser})
-      );
+      currentUser = await repository.createUser(deserialize<TestUser>(baseUser, {type: TestUser}));
       currentProfile = await repository.createProfile(
         deserialize<TestProfile>(
           {
@@ -91,7 +89,6 @@ describe("Mongoose", () => {
       expect(result.post).toBe("hello post");
       expect(result.pre).toBe("hello pre");
       expect(Date.parse(result.updated)).not.toBeNaN();
-
     });
 
     it("should transform mongoose instance to object", () => {

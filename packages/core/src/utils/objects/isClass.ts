@@ -1,5 +1,6 @@
 import {isArrayOrArrayClass} from "./isArray";
 import {isArrowFn} from "./isArrowFn";
+import {isBuffer} from "./isBuffer";
 import {isDate} from "./isDate";
 import {isClassObject} from "./isPlainObject";
 import {isPrimitiveOrPrimitiveClass} from "./isPrimitive";
@@ -21,6 +22,7 @@ export function isClass(target: any) {
     isClassObject(target) ||
     isDate(target) ||
     isPromise(target) ||
-    isArrayOrArrayClass(target)
+    isArrayOrArrayClass(target) ||
+    isBuffer(target)
   );
 }

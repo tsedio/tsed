@@ -1,4 +1,5 @@
-import {OpenSpecHash, OpenSpecRef} from "../common";
+import {OpenSpecHash} from "../common/OpenSpecHash";
+import {OpenSpecRef} from "../common/OpenSpecRef";
 import {OS3Example} from "./OS3Example";
 import {OS3MediaType} from "./OS3MediaType";
 import {OS3Schema} from "./OS3Schema";

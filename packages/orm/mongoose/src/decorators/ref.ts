@@ -2,7 +2,7 @@ import {isArrowFn, isObject, isString, StoreMerge, Type, useDecorators} from "@t
 import {OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
 import {ForwardGroups, JsonEntityFn, lazyRef, matchGroups, OneOf, Property, string} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
-import {MONGOOSE_SCHEMA} from "../constants";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
 import {MongooseSchemaTypes} from "../interfaces/MongooseSchemaTypes";
 import {MongooseModels} from "../registries/MongooseModels";
 

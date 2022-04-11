@@ -2,7 +2,7 @@ import {useDecorators} from "@tsed/core";
 import {Injectable} from "@tsed/di";
 import {ClassType, Resolver} from "type-graphql";
 import {AbstractClassOptions, ClassTypeResolver} from "type-graphql/dist/decorators/types";
-import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../constants";
+import {PROVIDER_TYPE_RESOLVER_SERVICE} from "../constants/constants";
 
 export function ResolverService(): ClassDecorator;
 export function ResolverService(options: AbstractClassOptions): ClassDecorator;

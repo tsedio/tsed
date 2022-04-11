@@ -6,4 +6,4 @@ const platform = PlatformServerlessHttp.bootstrap(Server, {
   adapter: PlatformExpress
 });
 
-export const handler = platform.handler()
+export const handler = platform.handler();

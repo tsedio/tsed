@@ -10,8 +10,7 @@ export class MyService {
 @Controller("/")
 @Scope(ProviderScope.SINGLETON) // SINGLETON avoid all Scope("request") annotation
 export class MyController {
-  constructor(private myService: MyService) {
-  }
+  constructor(private myService: MyService) {}
 
   @Get("/random")
   async getValue() {

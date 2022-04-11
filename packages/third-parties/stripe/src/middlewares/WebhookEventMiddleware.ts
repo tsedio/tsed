@@ -1,7 +1,9 @@
-import {Constant, Context, HeaderParams, Inject, Middleware, MiddlewareMethods, RawBodyParams} from "@tsed/common";
+import {Context, HeaderParams, RawBodyParams} from "@tsed/platform-params";
+import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
+import {Constant, Inject} from "@tsed/di";
 import {BadRequest, InternalServerError} from "@tsed/exceptions";
 import {Stripe} from "stripe";
-import {STRIPE_WEBHOOK_EVENT, STRIPE_WEBHOOK_SIGNATURE} from "../constants";
+import {STRIPE_WEBHOOK_EVENT, STRIPE_WEBHOOK_SIGNATURE} from "../constants/constants";
 import "../services/StripeFactory";
 
 export interface WebhookEventOptions {

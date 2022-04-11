@@ -1,12 +1,22 @@
-import {Constant, Inject} from "@tsed/di";
-import {Exception} from "@tsed/exceptions";
+import type {MulterError} from "multer";
+import {Constant, Inject, Value} from "@tsed/di";
+import {BadRequest} from "@tsed/exceptions";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
-import {PlatformMulterField, PlatformMulterSettings} from "../config";
+import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformApplication} from "../services/PlatformApplication";
+import {PlatformConfiguration} from "../config/services/PlatformConfiguration";
 
 export interface MulterInputOptions {
   fields: PlatformMulterField[];
+}
+
+export class MulterException extends BadRequest {
+  constructor(er: MulterError) {
+    super(er.message);
+    this.origin = er;
+    this.name = er.code;
+  }
 }
 
 /**
@@ -14,11 +24,11 @@ export interface MulterInputOptions {
  */
 @Middleware()
 export class PlatformMulterMiddleware implements MiddlewareMethods {
-  @Constant("multer", {})
-  settings: PlatformMulterSettings;
+  @Value("multer", {}) // NOTE: don't use constant to getting multer configuration. See issue #1840
+  protected settings: PlatformMulterSettings;
 
   @Inject()
-  app: PlatformApplication;
+  protected app: PlatformApplication;
 
   async use(@Context() ctx: Context) {
     try {
@@ -33,11 +43,15 @@ export class PlatformMulterMiddleware implements MiddlewareMethods {
         delete settings.dest;
       }
 
-      const middleware = this.app.multer(settings).fields(this.getFields({fields}));
+      const middleware: any = this.app.multer(settings).fields(this.getFields({fields}));
 
       return await middleware(ctx.getRequest(), ctx.getResponse());
     } catch (er) {
-      throw er.code ? new Exception(er.code, `${er.message} ${er.field || ""}`.trim()) : er;
+      if (er.code) {
+        throw new MulterException(er);
+      }
+
+      throw er;
     }
   }
 

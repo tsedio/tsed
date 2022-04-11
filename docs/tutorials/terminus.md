@@ -1,10 +1,11 @@
 ---
 meta:
-- name: description
-  content: Use Terminus with Express, TypeScript and Ts.ED. Adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications.
-- name: keywords
-  content: ts.ed express typescript terminus node.js javascript decorators
+  - name: description
+    content: Use Terminus with Express, TypeScript and Ts.ED. Adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications.
+  - name: keywords
+    content: ts.ed express typescript terminus node.js javascript decorators
 ---
+
 # Terminus
 
 Terminus is a package to adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications. This tutorial
@@ -27,10 +28,8 @@ Then import `@tsed/terminus` and add the following configuration in your `Server
 import {Configuration} from "@tsed/common";
 import "@tsed/terminus"; // import terminus Ts.ED module
 import {resolve} from "path";
-const rootDir = resolve(__dirname);
 
 @Configuration({
-  rootDir,
   terminus: {
     // ... see configuration
   }
@@ -55,18 +54,19 @@ The following the options are managed by the `@tsed/terminus` package:
 
 ```typescript
 export type TerminusSettings = Omit<
-TerminusOptions,
-"healthChecks" | "onSignal" | "onSendFailureDuringShutdown" | "onShutdown" | "beforeShutdown" | "onSigterm"
+  TerminusOptions,
+  "healthChecks" | "onSignal" | "onSendFailureDuringShutdown" | "onShutdown" | "beforeShutdown" | "onSigterm"
 >;
 ```
 
 ## Usage
+
 ### Readiness / liveness checks
 
 To create a readiness / liveness checks use the `@Health` decorator.
 
 ```ts
-import { Health } from "@tsed/terminus";
+import {Health} from "@tsed/terminus";
 
 @Controller("/mongo")
 class MongoCtrl {
@@ -81,17 +81,19 @@ class MongoCtrl {
 You can also create an `HealthCheckError` when an error appear during your check.
 
 ```ts
-import { Health } from "@tsed/terminus";
-import { HealthCheckError } from "@godaddy/terminus";
+import {Health} from "@tsed/terminus";
+import {HealthCheckError} from "@godaddy/terminus";
 
 @Controller("/redis")
 class Redis {
   @Health("/health")
   health() {
     // Here check the redis health
-    return Promise.reject(new HealthCheckError('failed', {
-      redis: 'down',
-    }));
+    return Promise.reject(
+      new HealthCheckError("failed", {
+        redis: "down"
+      })
+    );
   }
 }
 ```
@@ -107,29 +109,30 @@ Here is the list of decorators:
 - @@OnSendFailureDuringShutdown@@: called before sending each 503 during shutdowns.
 
 **Example:**
+
 ```typescript
-import { BeforeShutdown, OnSendFailureDuringShutdown, OnShutdown, OnSignal } from "@tsed/terminus";
+import {BeforeShutdown, OnSendFailureDuringShutdown, OnShutdown, OnSignal} from "@tsed/terminus";
 
 @Controller("/redis")
 class RedisCtrl {
   @BeforeShutdown()
   beforeShutdow() {
-    console.log('called before shutdown');
+    console.log("called before shutdown");
   }
 
   @OnSignal()
   OnSignal() {
-    console.log('called on signal');
+    console.log("called on signal");
   }
 
   @OnShutdown()
   OnShutdown() {
-    console.log('called on shutdown');
+    console.log("called on shutdown");
   }
 
   @OnSendFailureDuringShutdown()
   OnSendFailureDuringShutdown() {
-    console.log('on send failure during shutdown');
+    console.log("on send failure during shutdown");
   }
 }
 ```

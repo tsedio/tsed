@@ -1,7 +1,7 @@
 import {Store} from "@tsed/core";
 import {GlobalProviders} from "@tsed/di";
 import {expect} from "chai";
-import {INTERACTION_OPTIONS} from "../constants";
+import {INTERACTION_OPTIONS} from "../constants/constants";
 import {OidcInteractionMethods} from "../domain/OidcInteractionMethods";
 import {Interaction} from "./interaction";
 

@@ -8,12 +8,8 @@ const ProductSchema = object({
   title: string().required().minLength(3).example("CANON D300").description("Product title"),
   price: number().minimum(0).example(100).description("Product price"),
   description: string().description("Product description"),
-  tags: array()
-    .minItems(1)
-    .items(string().minLength(2).maxLength(10).description("Product tag"))
-    .description("Product tags")
-})
-  .label("ProductModel");
+  tags: array().minItems(1).items(string().minLength(2).maxLength(10).description("Product tag")).description("Product tags")
+}).label("ProductModel");
 
 @Controller("/")
 class MyController {

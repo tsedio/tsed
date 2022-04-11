@@ -29,7 +29,7 @@ export class MyModel {
   rate: Number = 0;
 
   @Enum(Categories)
-    // or @Enum("type1", "type2")
+  // or @Enum("type1", "type2")
   category: Categories;
 
   @Pattern(/[a-z]/) // equivalent of match field in mongoose

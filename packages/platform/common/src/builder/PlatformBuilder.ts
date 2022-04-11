@@ -1,47 +1,52 @@
 import {nameOf, Type} from "@tsed/core";
-import {colors, createContainer, InjectorService, IProvider, ProviderScope, setLoggerLevel} from "@tsed/di";
-import {importProviders} from "@tsed/components-scan";
+import {colors, createContainer, InjectorService, ProviderOpts, ProviderScope, setLoggerLevel} from "@tsed/di";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
-import {createHttpServer, createHttpsServer, createInjector, printRoutes} from "../utils";
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
 import {getStaticsOptions} from "../utils/getStaticsOptions";
 import {Route} from "../interfaces/Route";
 import {getConfiguration} from "../utils/getConfiguration";
-import {IncomingMessage, ServerResponse} from "http";
-import {PlatformAdapter, PlatformBuilderSettings} from "../interfaces/PlatformAdapter";
+import type {IncomingMessage, Server, ServerResponse} from "http";
+import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter";
+import {importProviders} from "../utils/importProviders";
+import {createInjector} from "../utils/createInjector";
+import {printRoutes} from "../utils/printRoutes";
+import {createHttpServer} from "../utils/createHttpServer";
+import {createHttpsServer} from "../utils/createHttpsServer";
+import type Https from "https";
 
 /**
  * @platform
  */
 export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
-  public static adapter: Type<PlatformAdapter>;
+  public static adapter: Type<PlatformAdapter<any, any>>;
 
   readonly name: string = "";
   protected startedAt = new Date();
   protected current = new Date();
-
-  #injector: InjectorService;
-  #rootModule: Type<any>;
+  readonly #injector: InjectorService;
+  readonly #rootModule: Type<any>;
+  readonly #adapter: PlatformAdapter<App, Router>;
   #promise: Promise<this>;
-  #adapter: PlatformAdapter<App, Router>;
-  #servers: (() => Promise<void>)[];
+  #servers: (() => Promise<Server | Https.Server>)[];
+  #listeners: (Server | Https.Server)[] = [];
 
   protected constructor(adapter: Type<PlatformAdapter<App, Router>> | undefined, module: Type, settings: Partial<TsED.Configuration>) {
     this.#rootModule = module;
-    const adapterKlass = adapter || PlatformBuilder.adapter;
+    const adapterKlass: Type<PlatformAdapter<App, Router>> = adapter || (PlatformBuilder.adapter as any);
     const name = nameOf(adapterKlass).replace("Platform", "").toLowerCase();
 
     const configuration = getConfiguration(settings, module);
     configuration.PLATFORM_NAME = name;
     this.name = name;
-    this.#adapter = new adapterKlass(this);
 
     this.#injector = createInjector({
-      settings: configuration,
-      providers: this.#adapter.providers
+      adapter: adapterKlass,
+      settings: configuration
     });
+
+    this.#adapter = this.#injector.get<PlatformAdapter<App, Router>>(PlatformAdapter)!;
 
     this.createHttpServers();
 
@@ -64,6 +69,10 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
 
   get platform() {
     return this.injector.get<Platform>(Platform)!;
+  }
+
+  get adapter() {
+    return this.#adapter;
   }
 
   /**
@@ -223,7 +232,11 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
 
   async stop() {
     await this.callHook("$onDestroy");
-    return this.injector.destroy();
+    await this.injector.destroy();
+
+    this.#listeners.map((server) => {
+      return new Promise((resolve) => server.close(() => resolve(undefined)));
+    });
   }
 
   public async ready() {
@@ -259,7 +272,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     });
   }
 
-  useProvider(token: Type<any>, settings?: Partial<IProvider>) {
+  useProvider(token: Type<any>, settings?: Partial<ProviderOpts>) {
     this.injector.addProvider(token, settings);
 
     return this;
@@ -337,7 +350,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   }
 
   protected async listenServers(): Promise<void> {
-    await Promise.all(this.#servers.map((cb) => cb && cb()));
+    this.#listeners = await Promise.all(this.#servers.map((cb) => cb && cb()));
   }
 
   protected async logRoutes() {

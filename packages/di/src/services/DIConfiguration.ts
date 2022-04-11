@@ -1,6 +1,7 @@
 import {classOf, deepMerge, getValue, proxyDelegation, setValue} from "@tsed/core";
-import {ProviderScope} from "../domain";
-import type {DIResolver, TokenProvider} from "../interfaces";
+import {ProviderScope} from "../domain/ProviderScope";
+import type {DIResolver} from "../interfaces/DIResolver";
+import type {TokenProvider} from "../interfaces/TokenProvider";
 
 export class DIConfiguration {
   readonly default: Map<string, any> = new Map();

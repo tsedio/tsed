@@ -5,6 +5,7 @@
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,15 +14,17 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "start:express": "ts-node -r tsconfig-paths/register test/app/index.express.ts",
+    "start:koa": "ts-node -r tsconfig-paths/register test/app/index.koa.ts",
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
     "@tsed/apollo": "7.0.0-beta.3",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/common": "7.0.0-beta.3",

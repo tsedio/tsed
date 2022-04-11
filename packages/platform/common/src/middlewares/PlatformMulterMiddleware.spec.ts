@@ -2,6 +2,8 @@ import {EndpointMetadata, MulterOptions, MultipartFile, PlatformApplication, Pla
 import {Exception} from "@tsed/exceptions";
 import {expect} from "chai";
 import Sinon from "sinon";
+import {MulterError} from "multer";
+import {catchAsyncError} from "@tsed/core";
 
 const sandbox = Sinon.createSandbox();
 
@@ -51,7 +53,6 @@ describe("PlatformMulterMiddleware", () => {
     expect(multer.fields).to.have.been.calledWithExactly([{maxCount: undefined, name: "file1"}]);
     expect(multerMiddleware).to.have.been.calledWithExactly(ctx.request.raw, ctx.response.raw);
   });
-
   it("should create middleware with storage", async () => {
     const {middleware, ctx, multer, app, multerMiddleware} = await build({
       storage: "storage"
@@ -65,28 +66,18 @@ describe("PlatformMulterMiddleware", () => {
     expect(multer.fields).to.have.been.calledWithExactly([{maxCount: undefined, name: "file1"}]);
     expect(multerMiddleware).to.have.been.calledWithExactly(ctx.request.raw, ctx.response.raw);
   });
-
   it("should catch error with code", async () => {
-    const {middleware, ctx, multer, app, multerMiddleware} = await build();
+    const {middleware, ctx, multerMiddleware} = await build();
+    const error = new MulterError("LIMIT_FILE_SIZE", "field");
 
-    multerMiddleware.rejects({
-      code: 400,
-      message: "message",
-      field: "field"
-    });
+    multerMiddleware.rejects(error);
 
-    let actualError: any;
-    try {
-      await middleware.use(ctx);
-    } catch (er) {
-      actualError = er;
-    }
+    const actualError: any | undefined = await catchAsyncError(() => middleware.use(ctx));
 
     expect(actualError).to.be.instanceof(Exception);
-    expect(actualError.message).to.eq("message field");
-    expect(actualError.status).to.eq(400);
+    expect(actualError?.message).to.eq("File too large");
+    expect(actualError?.status).to.eq(400);
   });
-
   it("should throw error without code", async () => {
     const {middleware, ctx, multerMiddleware} = await build();
 

@@ -1,7 +1,7 @@
 import type {ApolloServerBase, Config, ApolloServerPluginLandingPageGraphQLPlaygroundOptions} from "apollo-server-core";
 
 export type ApolloMiddlewareOptions = Record<string, any>;
-export type ApolloServer = ApolloServerBase & {applyMiddleware(settings: ApolloMiddlewareOptions): any};
+export type ApolloServer = ApolloServerBase & {getMiddleware(settings: ApolloMiddlewareOptions): any};
 export type ApolloCustomServerCB = (config: ApolloConfig) => ApolloServer;
 export type ApolloConfig = Config;
 

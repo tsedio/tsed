@@ -16,17 +16,20 @@ describe("Generics", () => {
         adjustment: UserProperty<string>;
       }
 
-      let result = deserialize({
-        adjustment: {
-          value: "2019-01-01T12:45:57.111Z"
+      let result = deserialize(
+        {
+          adjustment: {
+            value: "2019-01-01T12:45:57.111Z"
+          }
+        },
+        {
+          type: Adjustment
         }
-      }, {
-        type: Adjustment
-      });
+      );
 
       expect(result).to.deep.eq({
-        "adjustment": {
-          "value": "2019-01-01T12:45:57.111Z"
+        adjustment: {
+          value: "2019-01-01T12:45:57.111Z"
         }
       });
     });
@@ -42,17 +45,20 @@ describe("Generics", () => {
         adjustment: UserProperty<number>;
       }
 
-      let result = deserialize({
-        adjustment: {
-          value: 10
+      let result = deserialize(
+        {
+          adjustment: {
+            value: 10
+          }
+        },
+        {
+          type: Adjustment
         }
-      }, {
-        type: Adjustment
-      });
+      );
 
       expect(result).to.deep.eq({
-        "adjustment": {
-          "value": 10
+        adjustment: {
+          value: 10
         }
       });
     });
@@ -68,17 +74,20 @@ describe("Generics", () => {
         adjustment: UserProperty<Date>;
       }
 
-      let result = deserialize({
-        adjustment: {
-          value: false
+      let result = deserialize(
+        {
+          adjustment: {
+            value: false
+          }
+        },
+        {
+          type: Adjustment
         }
-      }, {
-        type: Adjustment
-      });
+      );
 
       expect(result).to.deep.eq({
-        "adjustment": {
-          "value": false
+        adjustment: {
+          value: false
         }
       });
     });
@@ -94,17 +103,20 @@ describe("Generics", () => {
         adjustment: UserProperty<Date>;
       }
 
-      let result = deserialize({
-        adjustment: {
-          value: "2019-01-01T12:45:57.111Z"
+      let result = deserialize(
+        {
+          adjustment: {
+            value: "2019-01-01T12:45:57.111Z"
+          }
+        },
+        {
+          type: Adjustment
         }
-      }, {
-        type: Adjustment
-      });
+      );
 
       expect(result).to.deep.eq({
-        "adjustment": {
-          "value": new Date("2019-01-01T12:45:57.111Z")
+        adjustment: {
+          value: new Date("2019-01-01T12:45:57.111Z")
         }
       });
     });
@@ -122,17 +134,20 @@ describe("Generics", () => {
         adjustment: UserProperty<string>;
       }
 
-      let result = deserialize({
-        adjustment: {
-          value: "2019-01-01T12:45:57.111Z"
+      let result = deserialize(
+        {
+          adjustment: {
+            value: "2019-01-01T12:45:57.111Z"
+          }
+        },
+        {
+          type: Adjustment
         }
-      }, {
-        type: Adjustment
-      });
+      );
 
       expect(result).to.deep.eq({
-        "adjustment": {
-          "value": "2019-01-01T12:45:57.111Z"
+        adjustment: {
+          value: "2019-01-01T12:45:57.111Z"
         }
       });
     });
@@ -148,17 +163,20 @@ describe("Generics", () => {
         adjustment: UserProperty<number>;
       }
 
-      let result = deserialize({
-        adjustment: {
-          value: 10
+      let result = deserialize(
+        {
+          adjustment: {
+            value: 10
+          }
+        },
+        {
+          type: Adjustment
         }
-      }, {
-        type: Adjustment
-      });
+      );
 
       expect(result).to.deep.eq({
-        "adjustment": {
-          "value": 10
+        adjustment: {
+          value: 10
         }
       });
     });
@@ -174,17 +192,20 @@ describe("Generics", () => {
         adjustment: UserProperty<Date>;
       }
 
-      let result = deserialize({
-        adjustment: {
-          value: false
+      let result = deserialize(
+        {
+          adjustment: {
+            value: false
+          }
+        },
+        {
+          type: Adjustment
         }
-      }, {
-        type: Adjustment
-      });
+      );
 
       expect(result).to.deep.eq({
-        "adjustment": {
-          "value": false
+        adjustment: {
+          value: false
         }
       });
     });
@@ -200,24 +221,27 @@ describe("Generics", () => {
         adjustment: UserProperty<Date>;
       }
 
-      let result = deserialize({
-        adjustment: {
-          value: "2019-01-01T12:45:57.111Z"
+      let result = deserialize(
+        {
+          adjustment: {
+            value: "2019-01-01T12:45:57.111Z"
+          }
+        },
+        {
+          type: Adjustment
         }
-      }, {
-        type: Adjustment
-      });
+      );
 
       expect(result).to.deep.eq({
-        "adjustment": {
-          "value": new Date("2019-01-01T12:45:57.111Z")
+        adjustment: {
+          value: new Date("2019-01-01T12:45:57.111Z")
         }
       });
     });
     it("should generate JsonSchema with 'enum' from generic object", () => {
       enum AdjustmentType {
         PRICE = "price",
-        DELAY = "delay",
+        DELAY = "delay"
       }
 
       @Generics("T")
@@ -231,17 +255,20 @@ describe("Generics", () => {
         adjustment: UserProperty<AdjustmentType>;
       }
 
-      let result = deserialize({
-        adjustment: {
-          value: "delay"
+      let result = deserialize(
+        {
+          adjustment: {
+            value: "delay"
+          }
+        },
+        {
+          type: Adjustment
         }
-      }, {
-        type: Adjustment
-      });
+      );
 
       expect(result).to.deep.eq({
-        "adjustment": {
-          "value": "delay"
+        adjustment: {
+          value: "delay"
         }
       });
     });

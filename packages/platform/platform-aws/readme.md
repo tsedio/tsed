@@ -45,16 +45,17 @@ Create a new `LambdaServer.ts` in `src` directory:
 
 ```typescript
 import {PlatformAws} from "@tsed/platform-aws";
-import "@tsed/platform-express" 
+import "@tsed/platform-express";
 // or import "@tsed/platform-koa"
 
 PlatformAws.bootstrap(Server, {
- aws: {
-   binaryMimeTypes: [ // optional
-     // mime types list 
-   ]
- },
- // additional Ts.ED options. See https://tsed.io/tutorials/aws.html
+  aws: {
+    binaryMimeTypes: [
+      // optional
+      // mime types list
+    ]
+  }
+  // additional Ts.ED options. See https://tsed.io/tutorials/aws.html
 });
 
 // Handler used by AWS
@@ -69,7 +70,7 @@ module.exports = require("./dist/LambdaServer.js");
 
 This file will be used by AWS to forward request to your application.
 
-Finally, [package and create your Lambda function](http://docs.aws.amazon.com/lambda/latest/dg/nodejs-create-deployment-pkg.html), 
+Finally, [package and create your Lambda function](http://docs.aws.amazon.com/lambda/latest/dg/nodejs-create-deployment-pkg.html),
 then configure a simple proxy API using Amazon API Gateway and integrate it with your Lambda function.
 
 See more details on [`aws-serveless-express`](https://github.com/awslabs/aws-serverless-express) project.
@@ -79,18 +80,18 @@ See more details on [`aws-serveless-express`](https://github.com/awslabs/aws-ser
 This package includes decorators to easily get the event object Lambda received from API Gateway:
 
 ```typescript
-import {Controller, Get} from "@tsed/common"; 
-import {AwsEvent, AwsContext} from "@tsed/platform-aws"; 
+import {Controller, Get} from "@tsed/common";
+import {AwsEvent, AwsContext} from "@tsed/platform-aws";
 
-@Controller('/')
+@Controller("/")
 class MyCtrl {
- @Get('/')
- get(@AwsEvent() event: any, @AwsContext() context: any) {
-   console.log("Event", apiGateway.event);
-   console.log("Context", apiGateway.context);
-   
-   return apiGateway;
- }
+  @Get("/")
+  get(@AwsEvent() event: any, @AwsContext() context: any) {
+    console.log("Event", apiGateway.event);
+    console.log("Context", apiGateway.context);
+
+    return apiGateway;
+  }
 }
 ```
 
@@ -105,7 +106,6 @@ Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

@@ -1,11 +1,11 @@
-import {$log, AfterListen, Logger} from "@tsed/common";
 import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
+import {Logger} from "@tsed/logger";
 import {ListenerFn} from "eventemitter2";
 import {EventEmitterStore} from "./interfaces/EventEmitterStore";
 import {EventEmitterService} from "./services/EventEmitterFactory";
 
 @Module()
-export class EventEmitterModule implements AfterListen {
+export class EventEmitterModule {
   @Constant("eventEmitter.disableSummary", false)
   disableSummary: boolean;
 
@@ -43,9 +43,9 @@ export class EventEmitterModule implements AfterListen {
       };
     });
 
-    this.injector.logger.info("EventEmitter events mounted:");
+    this.logger.info("EventEmitter events mounted:");
 
-    const str = $log.drawTable(list, {
+    const str = this.logger.drawTable(list, {
       padding: 1,
       header: {
         eventName: "Event name",
@@ -53,7 +53,7 @@ export class EventEmitterModule implements AfterListen {
       }
     });
 
-    this.injector.logger.info("\n" + str.trim());
+    this.logger.info("\n" + str.trim());
   }
 
   protected getProviders(): Provider<any>[] {

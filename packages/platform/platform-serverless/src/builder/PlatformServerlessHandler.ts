@@ -40,7 +40,7 @@ export class PlatformServerlessHandler {
           $ctx.response.status(500).body(er);
           const exceptions = await this.exceptionsManager;
 
-          await exceptions.catch(er, ($ctx as unknown) as BaseContext);
+          await exceptions.catch(er, $ctx as unknown as BaseContext);
         }
       });
 

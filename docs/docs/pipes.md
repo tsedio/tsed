@@ -1,6 +1,6 @@
 # Pipes
 
-A pipe is a class annotated with the @@Injectable@@ decorator. 
+A pipe is a class annotated with the @@Injectable@@ decorator.
 Pipes should implement the @@IPipe@@ interface.
 
 Pipes have two typical use cases:
@@ -41,14 +41,14 @@ to add Pipes:
   <Tab label="BodyParams">
 
 <<< @/docs/snippets/pipes/body-params.ts
-  
+
   </Tab>
   <Tab label="UseParams">
   
 <<< @/docs/snippets/pipes/use-params.ts    
   
   </Tab>
-</Tabs> 
+</Tabs>
 
 The **main idea** is, you are able to combine any pipes to reach the expected behavior !
 
@@ -57,9 +57,9 @@ Now let's build a validation pipe from scratch to understand the pipe mechanism.
 Initially, we'll have it simply take an input value and immediately return the same value, behaving like an identity function.
 
 <<< @/docs/snippets/pipes/validation-pipe-identity.ts
- 
+
 ::: tip
-`IPipe<T, R>` is a generic interface in which `T` indicates the type of the input value, and `R` indicates the return type of the `transform()` method. 
+`IPipe<T, R>` is a generic interface in which `T` indicates the type of the input value, and `R` indicates the return type of the `transform()` method.
 :::
 
 Every pipe has to provide the `transform()` method. This method has two parameters:
@@ -87,20 +87,20 @@ class ParamMetadata {
 
 These properties describe the current processed argument.
 
-Property | Description
----|---
-`target` | The parameter's class
-`propertyKey` | The parameter's method
-`index` | The position of the parameter in the method signature
-`required` | Indicates whether the parameter is required or not
-`paramType` | @@ParamTypes@@ represents the starting object used by the first pipe
-`expression` | Expression used to get the property from the object injected with paramType
-`type` | Class used to deserialize the plain object
-`collectionType` | Collection type used to deserialize a collection of plain object
-`store` | @@Store@@ contains extra options collected by the decorators used on the parameter.
+| Property         | Description                                                                         |
+| ---------------- | ----------------------------------------------------------------------------------- |
+| `target`         | The parameter's class                                                               |
+| `propertyKey`    | The parameter's method                                                              |
+| `index`          | The position of the parameter in the method signature                               |
+| `required`       | Indicates whether the parameter is required or not                                  |
+| `paramType`      | @@ParamTypes@@ represents the starting object used by the first pipe                |
+| `expression`     | Expression used to get the property from the object injected with paramType         |
+| `type`           | Class used to deserialize the plain object                                          |
+| `collectionType` | Collection type used to deserialize a collection of plain object                    |
+| `store`          | @@Store@@ contains extra options collected by the decorators used on the parameter. |
 
 ::: warning
-TypeScript interfaces disappear during transpilation. Thus, if a method parameter's `type` is declared as an interface instead of a class, the type value will be `Object`. 
+TypeScript interfaces disappear during transpilation. Thus, if a method parameter's `type` is declared as an interface instead of a class, the type value will be `Object`.
 :::
 
 ## Validation use case
@@ -143,36 +143,33 @@ class PersonModel {
       "minLength": 3
     }
   },
-  "required": [
-    "firstName",
-    "lastName"
-  ]
+  "required": ["firstName", "lastName"]
 }
 ```
 
 We want to ensure that any incoming request to the create method contains a valid body.
-So we have to validate the two members of the `PersonModel` object, used as type parameter: 
+So we have to validate the two members of the `PersonModel` object, used as type parameter:
 
 <<< @/docs/snippets/pipes/controller-model-validation.ts
 
 By using a pipe, we are able to handle the parameter, get its schema and use a validation library (here AJV)
 and throw an exception when the payload is not valid.
- 
+
 <<< @/docs/snippets/pipes/validation-pipe-with-ajv.ts
 
 The validation pipe is a very specific use case because Ts.ED uses it automatically when a parameter is handled
- by the **routing request**. The previous pipe example, in order to work, needs to be registered with the @@OverrideProvider@@ decorator instead of @@Injectable@@.
+by the **routing request**. The previous pipe example, in order to work, needs to be registered with the @@OverrideProvider@@ decorator instead of @@Injectable@@.
 
 See more details on the [validation page](/docs/validation.html).
 
 ## Transformation use case
 
-Validation isn't the sole use case for **Pipes**. 
-At the beginning of this chapter, we mentioned that a pipe can also **transform** the input data to the desired output. 
+Validation isn't the sole use case for **Pipes**.
+At the beginning of this chapter, we mentioned that a pipe can also **transform** the input data to the desired output.
 This is possible because the value returned from the transform function completely overrides the previous value of the argument.
 
-When is this useful? Consider that sometimes the data passed from the client needs to undergo some changes - *for example converting plain object javascript to class* - before it can be properly handled by the route handler method. 
-Furthermore, some required data fields may be missing, and we would like to apply default values. 
+When is this useful? Consider that sometimes the data passed from the client needs to undergo some changes - _for example converting plain object javascript to class_ - before it can be properly handled by the route handler method.
+Furthermore, some required data fields may be missing, and we would like to apply default values.
 
 Transformer pipes can perform these functions by interposing a processing function between the client request and the request handler.
 
@@ -188,13 +185,13 @@ On the previous example, we use @@RawPathParams@@ to get the raw value, without 
 
 ## Async transformation use case
 
-Pipe transformation also supports `async` and promise as a returned value. 
-This is useful when you have to get data from **database** based on an input data like an ID. 
+Pipe transformation also supports `async` and promise as a returned value.
+This is useful when you have to get data from **database** based on an input data like an ID.
 
 Given this `PersonModel`:
 
 ```typescript
-import {MinLength, Required} from "@tsed/common"; 
+import {MinLength, Required} from "@tsed/common";
 import {Property} from "./property";
 
 class PersonModel {
@@ -242,7 +239,6 @@ import {PersonPipe} from "../services/PersonPipe";
 export class PersonsController {
   @Put("/:id")
   async update(@UsePersonParam("id") person: PersonModel) {
-
     // do something
 
     return person;
@@ -272,8 +268,7 @@ import {PersonPipe} from "../services/PersonPipe";
 @Controller("/persons")
 export class PersonsController {
   @Put("/:id")
-  async update(@UsePersonParam("id", {optional: true}) person: PersonModel) {
-
+  async update(@UsePersonParam("id", {optional: true}) person: PersonModel) {
     // do something
 
     return person;

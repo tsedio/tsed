@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA_OPTIONS} from "../constants";
-import {Model} from ".";
+import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
+import {Model} from "@tsed/mongoose";
 import {DiscriminatorKey} from "./discriminatorKey";
 
 describe("@DiscriminatorKey()", () => {

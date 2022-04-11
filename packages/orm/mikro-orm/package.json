@@ -5,6 +5,7 @@
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,13 +14,14 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@mikro-orm/core": "^4.5.9",
@@ -28,7 +30,7 @@
     "@tsed/core": "7.0.0-beta.3",
     "@tsed/di": "7.0.0-beta.3",
     "@tsed/json-mapper": "7.0.0-beta.3",
-    "@tsed/logger": "^6.0.0",
+    "@tsed/logger": ">=6.1.1",
     "@tsed/schema": "7.0.0-beta.3",
     "@tsed/testing-mongoose": "7.0.0-beta.3",
     "ts-mockito": "^2.6.1"
@@ -38,6 +40,6 @@
     "@tsed/common": "^7.0.0-beta.3",
     "@tsed/core": "^7.0.0-beta.3",
     "@tsed/di": "^7.0.0-beta.3",
-    "@tsed/logger": "^6.0.0"
+    "@tsed/logger": ">=6.1.1"
   }
 }

@@ -1,15 +1,17 @@
-import {cleanObject, Type, uniqBy} from "@tsed/core";
+import {cleanObject, isArray, Type, uniqBy} from "@tsed/core";
 import {OpenSpec3} from "@tsed/openspec";
 import {SpecTypes} from "../domain/SpecTypes";
-import {JsonSchemaOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {buildPath} from "./buildPath";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 import {getOperationsStores} from "./getOperationsStores";
 import {mergeOperation} from "./mergeOperation";
 import {operationIdFormatter} from "./operationIdFormatter";
+import {mergeSpec} from "./mergeSpec";
+
+export type JsonTokenOptions = ({token: Type<any>} & Partial<SpecSerializerOptions>)[];
 
 export interface SpecSerializerOptions extends JsonSchemaOptions {
-  specType?: SpecTypes.OPENAPI;
   /**
    * Paths
    */
@@ -51,73 +53,93 @@ function get(model: Type<any>, options: any, cb: any) {
   return cache.get(key);
 }
 
+function generate(model: Type<any>, options: SpecSerializerOptions) {
+  const store = getJsonEntityStore(model);
+  const {schemas = {}, paths = {}, rootPath = "/", tags = []} = options;
+  const specType = SpecTypes.OPENAPI;
+  const ctrlPath = store.path;
+  const defaultTags = cleanObject({
+    name: store.schema.getName(),
+    description: store.schema.get("description")
+  });
+
+  const specJson: any = {paths};
+
+  getOperationsStores(model).forEach((operationStore) => {
+    if (operationStore.store.get("hidden")) {
+      return;
+    }
+
+    const operation = operationStore.operation!.toJSON({...options, specType, schemas});
+
+    operationStore.operation!.operationPaths.forEach(({path, method}: {path: string; method: string}) => {
+      if (method) {
+        mergeOperation(specJson, operation, {
+          rootPath: buildPath(rootPath + ctrlPath),
+          path,
+          method,
+          defaultTags,
+          tags,
+          specType,
+          operationId: (path: string) =>
+            options.operationIdFormatter!(
+              operationStore.parent.schema.get("name") || operationStore.parent.targetName,
+              operationStore.propertyName,
+              path
+            )
+        });
+      }
+    });
+  });
+
+  specJson.tags = uniqBy(tags, "name");
+
+  if (Object.keys(schemas).length) {
+    specJson.components = {
+      schemas
+    };
+  }
+
+  return specJson;
+}
+
 /**
  * Return the swagger or open spec for the given class.
  * @param model
  * @param options
  */
-export function getSpec(model: Type<any>, options: SpecSerializerOptions = {}): Partial<OpenSpec3> {
-  if (!options.specType) {
-    options.specType = SpecTypes.OPENAPI;
-  }
-
+export function getSpec(model: Type<any> | JsonTokenOptions, options: SpecSerializerOptions = {}): Partial<OpenSpec3> {
   options = {
     ...options,
     operationIdFormatter: options.operationIdFormatter || operationIdFormatter(options.operationIdPattern),
-    root: false,
-    specType: options.specType
+    root: false
   };
 
-  return get(model, options, () => {
-    const store = getJsonEntityStore(model);
-    const {specType = SpecTypes.OPENAPI, schemas = {}, paths = {}, rootPath = "/", tags = []} = options;
-    const ctrlPath = store.path;
-    const defaultTags = cleanObject({
-      name: store.schema.getName(),
-      description: store.schema.get("description")
-    });
+  if (isArray(model)) {
+    let finalSpec: any = {};
 
-    const specJson: any = {paths};
-
-    getOperationsStores(model).forEach((operationStore) => {
-      if (operationStore.store.get("hidden")) {
-        return;
+    options = {
+      ...options,
+      specType: SpecTypes.OPENAPI,
+      paths: {},
+      tags: [],
+      schemas: {},
+      append(spec: any) {
+        finalSpec = mergeSpec(finalSpec, spec);
       }
+    };
 
-      const operation = operationStore.operation!.toJSON({...options, specType, schemas});
-
-      operationStore.operation!.operationPaths.forEach(({path, method}: {path: string; method: string}) => {
-        if (method) {
-          mergeOperation(specJson, operation, {
-            rootPath: buildPath(rootPath + ctrlPath),
-            path,
-            method,
-            defaultTags,
-            tags,
-            specType,
-            operationId: (path: string) =>
-              options.operationIdFormatter!(
-                operationStore.parent.schema.get("name") || operationStore.parent.targetName,
-                operationStore.propertyName,
-                path
-              )
-          });
-        }
+    model.forEach(({token, ...opts}) => {
+      const spec = getSpec(token, {
+        ...options,
+        ...opts
       });
+
+      options.append(spec);
     });
 
-    specJson.tags = uniqBy(tags, "name");
+    return finalSpec;
+  }
 
-    if (Object.keys(schemas).length) {
-      if (specType === SpecTypes.OPENAPI) {
-        specJson.components = {
-          schemas
-        };
-      } else {
-        specJson.definitions = schemas;
-      }
-    }
-
-    return specJson;
-  });
+  return get(model, options, () => generate(model, options));
 }

@@ -15,20 +15,17 @@ class TeamsModel {
   teams: TeamModel[];
 }
 
-
 describe("Nested list serialization", () => {
   it("should generated schema with alias", () => {
     const data = new TeamsModel();
     const team = new TeamModel();
     team.name = "name";
-    data.teams = [
-      team
-    ];
+    data.teams = [team];
 
-    expect(serialize(data, { useAlias: true })).to.deep.eq({
-      "teams": [
+    expect(serialize(data, {useAlias: true})).to.deep.eq({
+      teams: [
         {
-          "teamName": "name"
+          teamName: "name"
         }
       ]
     });
@@ -37,14 +34,12 @@ describe("Nested list serialization", () => {
     const data = new TeamsModel();
     const team: any = {};
     team.name = "name";
-    data.teams = [
-      team
-    ];
+    data.teams = [team];
 
-    expect(serialize(data, { useAlias: true })).to.deep.eq({
-      "teams": [
+    expect(serialize(data, {useAlias: true})).to.deep.eq({
+      teams: [
         {
-          "teamName": "name"
+          teamName: "name"
         }
       ]
     });

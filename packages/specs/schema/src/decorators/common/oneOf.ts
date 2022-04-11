@@ -4,6 +4,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
 /**
  * See https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.28
  *
+ * ::: warning
+ * OneOf isn't supported by OS2
+ * :::
+ *
  * @decorator
  * @validation
  * @swagger

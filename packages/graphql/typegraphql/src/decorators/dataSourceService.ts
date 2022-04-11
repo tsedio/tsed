@@ -1,5 +1,5 @@
 import {Injectable, ProviderScope} from "@tsed/di";
-import {PROVIDER_TYPE_DATASOURCE_SERVICE} from "../constants";
+import {PROVIDER_TYPE_DATASOURCE_SERVICE} from "../constants/constants";
 
 /**
  * Create a new DataSource binded with Tsed DI.

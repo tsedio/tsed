@@ -16,6 +16,4 @@ import "@tsed/platform-express";
     }
   ]
 })
-export class Server {
-
-}
+export class Server {}

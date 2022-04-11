@@ -5,11 +5,11 @@ This framework is a result of the long road, full of sleepless nights, working a
 
 ## How can you help?
 
-Ts.ED doesn't have a company that sits behind and  is continuously paying for hours spent on the development.
+Ts.ED doesn't have a company that sits behind and is continuously paying for hours spent on the development.
 
- I fully rely on the **goodness** <BxIcon name="bx bxs-heart" /> of the community.
- However, I would love to create a team around this framework to improve and maintain it.   
- 
+I fully rely on the **goodness** <BxIcon name="bx bxs-heart" /> of the community.
+However, I would love to create a team around this framework to improve and maintain it.
+
 In order to help me, I run few supporting platforms:
 
 - become a backer or sponsor on [OpenCollective](https://opencollective.com/tsed)
@@ -19,6 +19,6 @@ In order to help me, I run few supporting platforms:
 
 <SupportOptions />
 
-If you fell in love with Ts.ED, or you run a business which is using Ts.ED, consider sponsoring its development 
-to ensure that the project which your product relies on is actively maintained and improved. 
+If you fell in love with Ts.ED, or you run a business which is using Ts.ED, consider sponsoring its development
+to ensure that the project which your product relies on is actively maintained and improved.
 Also, your support could help me and the future teams to work more on content that benefits whole Ts.ED community.

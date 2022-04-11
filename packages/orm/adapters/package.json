@@ -5,6 +5,7 @@
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,17 +14,18 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test yarn jest"
   },
   "dependencies": {
-    "@types/lowdb": "1.0.9",
-    "@types/uuid": "8.3.0",
-    "fs-extra": "9.0.1",
+    "@types/lowdb": "1.0.11",
+    "@types/uuid": "8.3.4",
+    "fs-extra": "10.0.1",
     "lowdb": "1.0.0",
-    "tslib": "2.2.0",
+    "tslib": "2.3.1",
     "uuid": "8.3.2"
   },
   "devDependencies": {
@@ -33,7 +35,7 @@
     "@tsed/di": "7.0.0-beta.3",
     "@tsed/json-mapper": "7.0.0-beta.3",
     "@tsed/schema": "7.0.0-beta.3",
-    "@types/fs-extra": "9.0.6"
+    "@types/fs-extra": "9.0.13"
   },
   "peerDependencies": {
     "@tsed/ajv": "^7.0.0-beta.3",

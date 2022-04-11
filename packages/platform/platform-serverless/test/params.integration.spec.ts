@@ -1,6 +1,6 @@
-import { Injectable } from "@tsed/di";
+import {Injectable} from "@tsed/di";
 import {PathParams, PlatformServerless} from "@tsed/platform-serverless";
-import { Delete, Get, Returns } from "@tsed/schema";
+import {Delete, Get, Returns} from "@tsed/schema";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
 
 @Injectable()
@@ -20,9 +20,11 @@ class PathParamLambda {
 }
 
 describe("Path params", () => {
-  beforeEach(PlatformServerlessTest.bootstrap(PlatformServerless,{
-    lambda: [PathParamLambda]
-  }));
+  beforeEach(
+    PlatformServerlessTest.bootstrap(PlatformServerless, {
+      lambda: [PathParamLambda]
+    })
+  );
   afterEach(() => PlatformServerlessTest.reset());
 
   describe("scenario1: Get lambda with params", () => {

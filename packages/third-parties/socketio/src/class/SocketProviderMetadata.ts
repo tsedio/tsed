@@ -1,4 +1,5 @@
-import {SocketHandlerMetadata, SocketInjectableNsp} from "../interfaces";
+import {SocketHandlerMetadata} from "../interfaces/SocketHandlerMetadata";
+import {SocketInjectableNsp} from "../interfaces/SocketInjectableNsp";
 import {SocketProviderTypes} from "../interfaces/SocketProviderTypes";
 
 export class SocketProviderMetadata {

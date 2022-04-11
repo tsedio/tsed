@@ -1,28 +1,29 @@
 ---
 meta:
- - name: description
-   content: Use Mongoose with Express, TypeScript and Ts.ED. Mongoose provides a straight-forward, schema-based solution to model your application data.
- - name: keywords
-   content: ts.ed express typescript mongoose node.js javascript decorators
-projects:   
- - title: Kit Mongoose
-   href: https://github.com/tsedio/tsed-example-mongoose
-   src: /mongoose.png   
+  - name: description
+    content: Use Mongoose with Express, TypeScript and Ts.ED. Mongoose provides a straight-forward, schema-based solution to model your application data.
+  - name: keywords
+    content: ts.ed express typescript mongoose node.js javascript decorators
+projects:
+  - title: Kit Mongoose
+    href: https://github.com/tsedio/tsed-example-mongoose
+    src: /mongoose.png
 ---
-# Mongoose 
+
+# Mongoose
 
 <Banner src="/mongoose.png" height="200" href="http://mongoosejs.com/"></Banner>
 
-This tutorial shows you how you can use mongoose package with Ts.ED. 
+This tutorial shows you how you can use mongoose package with Ts.ED.
 
 <Projects type="projects"/>
 
 ## Features
 
 Currently, [`@tsed/mongoose`](https://www.npmjs.com/package/@tsed/mongoose) allows you to:
- 
-- Configure one or more MongoDB database connections via the `@ServerSettings` configuration. 
-All databases will be initialized when the server starts during the server's `OnInit` phase.
+
+- Configure one or more MongoDB database connections via the `@ServerSettings` configuration.
+  All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Declare a Model from a class with annotation,
 - Declare inhertitated models in a single collection via `@DiscriminatorKey`
 - Add a plugin, PreHook method and PostHook on your model
@@ -44,7 +45,7 @@ npm install --save-dev @tsed/testing-mongoose
 ```
 
 ::: warning
-Since mongoose v5.11.0, the module expose his own file definition and can broke your build! 
+Since mongoose v5.11.0, the module expose his own file definition and can broke your build!
 To solve it, install @tsed/mongoose v6.14.1 and remove the `@types/mongoose` dependencies.
 :::
 
@@ -68,7 +69,7 @@ Then import `@tsed/mongoose` in your [Configuration](/docs/configuration.md):
      
 ## MongooseService
 
-@@MongooseService@@ lets you to retrieve an instance of Mongoose.Connection. 
+@@MongooseService@@ lets you to retrieve an instance of Mongoose.Connection.
 
 ```typescript
 import {Service} from "@tsed/common";
@@ -95,6 +96,7 @@ You can also use the common decorators to describe model (See [models](/docs/mod
 <ApiList query="status.includes('decorator') && status.includes('schema')" />
 
 ## Declaring a Mongoose object (schema or model)
+
 ### Declaring a Model
 
 `@tsed/mongoose` works with models which must be explicitly declared.
@@ -132,7 +134,7 @@ These decorators call automatically the @@Property@@ decorator.
 
 ### Collections
 
-Mongoose and `@tsed/mongoose` support both lists and maps. 
+Mongoose and `@tsed/mongoose` support both lists and maps.
 
 <<< @/tutorials/snippets/mongoose/collections.ts
 
@@ -153,7 +155,7 @@ Mongoose and `@tsed/mongoose` support both lists and maps.
 `@tsed/mongoose` supports `mongoose` circular references between defined models.
 When you have models that either both refer to each other, or refer to themselves there is a slightly different way to declare this inside those models.
 
-In this example a **Customer** has many **Contracts** and each **Contract** has a reference back to the **Customer**. This is declared using an arrow function. 
+In this example a **Customer** has many **Contracts** and each **Contract** has a reference back to the **Customer**. This is declared using an arrow function.
 
 ```
 () => ModelName
@@ -175,7 +177,18 @@ The same rules for Circular References apply (**See above**);
 
 This works by having a field with the referenced object model's name and a field with the referenced field.
 
+<Tabs class="-code">
+  <Tabs label="Example">
+
 <<< @/tutorials/snippets/mongoose/dynamic-references.ts
+
+  </Tab>
+  <Tab label="JsonSchema">
+
+<<< @/tutorials/snippets/mongoose/dynamic-references.json
+
+  </Tab>
+</Tabs>
 
 ### Decimal Numbers
 
@@ -191,7 +204,7 @@ Optionally a custom decimal type implementation, such as [big.js](https://www.np
 
 ## Register hook
 
-Mongoose allows the developer to add pre and post [hooks / middlewares](http://mongoosejs.com/docs/middleware.html) to the schema. 
+Mongoose allows the developer to add pre and post [hooks / middlewares](http://mongoosejs.com/docs/middleware.html) to the schema.
 With this it is possible to add document transformations and observations before or after validation, save and more.
 
 Ts.ED provides class decorator to register middlewares on the pre and post hook.
@@ -199,25 +212,25 @@ Ts.ED provides class decorator to register middlewares on the pre and post hook.
 ### Pre hook
 
 We can simply attach a @@PreHook@@ decorator to the model class and
- define the hook function like we would normally do in Mongoose.
- 
+define the hook function like we would normally do in Mongoose.
+
 <<< @/tutorials/snippets/mongoose/pre-hook.ts
 
-This will execute the pre-save hook each time a `CarModel` document is saved. 
+This will execute the pre-save hook each time a `CarModel` document is saved.
 
 ### Post hook
 
 We can simply attach a @@PostHook@@ decorator to the model class and
- define the hook function like we would normally do in Mongoose.
- 
+define the hook function like we would normally do in Mongoose.
+
 <<< @/tutorials/snippets/mongoose/post-hook.ts
 
-This will execute the post-save hook each time a `CarModel` document is saved. 
+This will execute the post-save hook each time a `CarModel` document is saved.
 
 ## Plugin
 
-Using the @@Plugin@@ decorator enables the developer to attach various Mongoose plugins to the schema. 
-Just like the regular `schema.plugin()` call, the decorator accepts 1 or 2 parameters: the plugin itself, and an optional configuration object. 
+Using the @@Plugin@@ decorator enables the developer to attach various Mongoose plugins to the schema.
+Just like the regular `schema.plugin()` call, the decorator accepts 1 or 2 parameters: the plugin itself, and an optional configuration object.
 Multiple `plugin` decorator can be used for a single model class.
 
 <<< @/tutorials/snippets/mongoose/plugin.ts
@@ -266,7 +279,7 @@ import {Product} from "./models/Product";
 
 @Injectable()
 export class MyRepository {
-  @Inject(Product) 
+  @Inject(Product)
   private model: MongooseModel<Product>;
 
   async find(query: any) {
@@ -279,7 +292,7 @@ export class MyRepository {
 }
 ```
 
-There is no proper solution currently to have the expected instance without transforming the current instance to 
+There is no proper solution currently to have the expected instance without transforming the current instance to
 the class with the @@deserialize@@ function.
 
 To simplify this, Ts.ED adds a `toClass` method to the MongooseModel to find, if necessary, an instance of type Product.
@@ -291,7 +304,7 @@ import {Product} from "./models/Product";
 
 @Injectable()
 export class MyRepository {
-  @Inject(Product) 
+  @Inject(Product)
   private model: MongooseModel<Product>;
 
   async find(query: any) {
@@ -307,7 +320,7 @@ export class MyRepository {
 
 ## Testing <Badge text="beta" type="warn"/>
 
-The package [`@tsed/testing-mongoose`](https://www.npmjs.com/package/@tsed/testing-mongoose) allows you to test your server with a memory database. 
+The package [`@tsed/testing-mongoose`](https://www.npmjs.com/package/@tsed/testing-mongoose) allows you to test your server with a memory database.
 
 ::: tip
 This package uses the amazing [mongodb-memory-server](https://www.npmjs.com/package/mongodb-memory-server) to mock the mongo database.
@@ -348,7 +361,7 @@ And create the script with the following content:
 
 ```js
 module.exports = async () => {
-  await global.__MONGOD__ && global.__MONGOD__.stop();
+  (await global.__MONGOD__) && global.__MONGOD__.stop();
 };
 ```
 
@@ -369,7 +382,7 @@ This example shows you how can test the model:
 </Tab>
 </Tabs>
 
-## Author 
+## Author
 
 <GithubContributors users="['Romakita']"/>
 

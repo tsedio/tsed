@@ -31,9 +31,7 @@ export const rootDir = __dirname;
       {
         client_id: "client_id",
         client_secret: "client_secret",
-        redirect_uris: [
-          "http://localhost:3000"
-        ],
+        redirect_uris: ["http://localhost:3000"],
         response_types: ["id_token"],
         grant_types: ["implicit"],
         token_endpoint_auth_method: "none"

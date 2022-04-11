@@ -17,18 +17,25 @@ async function createServiceFixture() {
           static countDocuments = sandbox.stub();
           static find = sandbox.stub().resolves([{_id: "form_id", machineName: "form_machine"}]);
           static findOne = sandbox.stub().returnsThis();
+          static findOneAndUpdate = sandbox.stub();
+          static updateOne = sandbox.stub().returnsThis();
           static lean = sandbox.stub().returnsThis();
           static exec = sandbox.stub();
 
           constructor(public ctrOpts: any) {}
 
           save(): any {}
+
+          toObject() {
+            return this.ctrOpts;
+          }
         },
         action: {
           find: sandbox.stub().resolves([{_id: "action_id", machineName: "action_machine"}])
         },
         submission: {
-          find: sandbox.stub()
+          find: sandbox.stub().resolves([]),
+          findOneAndUpdate: sandbox.stub().callsFake((o, o1) => ({...o, ...o1, _id: o._id || "newID"}))
         },
         token: {},
         actionItem: {}
@@ -152,7 +159,7 @@ describe("FormioDatabase", () => {
       expect(service.actionItemModel).to.deep.eq(formioService.mongoose.models.actionItem);
     });
   });
-  describe("createFormIfNotExists()", () => {
+  describe("importFormIfNotExists()", () => {
     it("should return create the form if not exists", async () => {
       const {service, formioService} = await createServiceFixture();
       const onCreate = sandbox.stub();
@@ -166,16 +173,13 @@ describe("FormioDatabase", () => {
         name: "name"
       });
 
-      sandbox.stub(formioService.mongoose.models.form.prototype, "save").resolves({
-        _id: "id",
-        name: "name"
-      });
+      const result = await service.importFormIfNotExists(form, onCreate);
 
-      await service.createFormIfNotExists(form, onCreate);
-      expect(onCreate).to.have.been.calledWithExactly({
+      expect(result).to.deep.eq({
         _id: "id",
         name: "name"
       });
+      expect(onCreate).to.have.been.calledOnce;
     });
     it("should not create form is exists", async () => {
       const {service, formioService} = await createServiceFixture();
@@ -190,7 +194,7 @@ describe("FormioDatabase", () => {
         name: "name"
       });
 
-      const result = await service.createFormIfNotExists(form, onCreate);
+      const result = await service.importFormIfNotExists(form, onCreate);
 
       expect(result).to.deep.equal({
         _id: "id",
@@ -198,7 +202,78 @@ describe("FormioDatabase", () => {
       });
     });
   });
+  describe("getSubmissions()", () => {
+    it("should return submissions", async () => {
+      const {service} = await createServiceFixture();
 
+      const result = await service.getSubmissions();
+
+      expect(result).to.deep.eq([]);
+      expect(service.submissionModel.find).to.have.been.calledWithExactly({deleted: {$eq: null}});
+    });
+    it("should return submissions with query", async () => {
+      const {service} = await createServiceFixture();
+
+      const result = await service.getSubmissions({
+        form: "id"
+      });
+
+      expect(result).to.deep.eq([]);
+      expect(service.submissionModel.find).to.have.been.calledWithExactly({deleted: {$eq: null}, form: "id"});
+    });
+  });
+  describe("saveSubmissions()", () => {
+    it("should create submission", async () => {
+      const {service} = await createServiceFixture();
+
+      const result = await service.saveSubmission({
+        data: {}
+      });
+
+      expect(result).to.deep.eq({
+        _id: "newID",
+        data: {}
+      });
+      expect(service.submissionModel.findOneAndUpdate).to.have.been.calledWithExactly(
+        {_id: undefined},
+        {data: {}},
+        {new: true, upsert: true}
+      );
+    });
+    it("should update submission", async () => {
+      const {service} = await createServiceFixture();
+
+      const result = await service.saveSubmission({
+        _id: "id",
+        data: {}
+      });
+
+      expect(result).to.deep.eq({
+        _id: "id",
+        data: {}
+      });
+      expect(service.submissionModel.findOneAndUpdate).to.have.been.calledWithExactly(
+        {_id: "id"},
+        {_id: "id", data: {}},
+        {new: true, upsert: true}
+      );
+    });
+  });
+  describe("importSubmission()", () => {
+    it("should import submission", async () => {
+      const {service} = await createServiceFixture();
+
+      Sinon.stub(service, "saveSubmission").resolves({} as any);
+
+      const result = await service.importSubmission({
+        _id: "id",
+        data: {}
+      });
+
+      expect(result).to.deep.eq({});
+      expect(service.saveSubmission).to.have.been.calledWithExactly({_id: "id", data: {}});
+    });
+  });
   describe("getForm", () => {
     it("should return form from id", async () => {
       const {service, formioService} = await createServiceFixture();
@@ -219,14 +294,13 @@ describe("FormioDatabase", () => {
       await service.getForm("name");
 
       expect(formioService.mongoose.models.form.findOne).to.have.been.calledWithExactly({
-        machineName: {$eq: "name"},
+        name: {$eq: "name"},
         deleted: {$eq: null}
       });
       expect(formioService.mongoose.models.form.lean).to.have.been.calledWithExactly();
       expect(formioService.mongoose.models.form.exec).to.have.been.calledWithExactly();
     });
   });
-
   describe("idToBson", () => {
     beforeEach(() => {});
     it("should convert id", async () => {

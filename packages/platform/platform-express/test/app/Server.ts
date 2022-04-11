@@ -1,13 +1,13 @@
 import "@tsed/ajv";
 import {Constant, PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
-import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import {Application} from "express";
 import session from "express-session";
 import methodOverride from "method-override";
 import "../../src";
+import bodyParser from "body-parser";
 
 export const rootDir = __dirname;
 
@@ -30,9 +30,6 @@ export const rootDir = __dirname;
     compress({}),
     methodOverride(),
     bodyParser.json(),
-    bodyParser.urlencoded({
-      extended: true
-    }),
     session({
       secret: "keyboard cat", // change secret key
       resave: false,
@@ -42,7 +39,8 @@ export const rootDir = __dirname;
       }
     }),
     {
-      hook: "$afterInit", use: (req: any, res: any, next: any) => {
+      hook: "$afterInit",
+      use: (req: any, res: any, next: any) => {
         next();
       }
     },

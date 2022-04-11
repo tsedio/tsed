@@ -1,8 +1,8 @@
 import {$log, AfterListen, Constant, InjectorService, Module, OnDestroy, Provider} from "@tsed/common";
-import {catchError, nameOf} from "@tsed/core";
+import {nameOf} from "@tsed/core";
 import {Server, ServerOptions} from "socket.io";
 import {SocketProviderMetadata} from "./class/SocketProviderMetadata"; // tslint:disable-line: no-unused-variable
-import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants";
+import {PROVIDER_TYPE_SOCKET_SERVICE} from "./constants/constants";
 import {IO} from "./decorators/io";
 import {SocketIOService} from "./services/SocketIOService";
 import Http from "http";
@@ -58,7 +58,7 @@ export class SocketIOModule implements AfterListen, OnDestroy {
   }
 
   $onDestroy() {
-    catchError(() => this.io.close());
+    return this.io?.close && this.io?.engine && new Promise((resolve) => this.io.close(() => resolve(undefined)));
   }
 
   /**

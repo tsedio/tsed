@@ -103,7 +103,7 @@ describe("@Description", () => {
       ]
     });
   });
-  it("should declare description on params (BODY - openapi3)", () => {
+  it("should declare description on params (BODY)", () => {
     // WHEN
     class MyModel {
       @Property()

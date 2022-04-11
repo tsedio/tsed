@@ -4,7 +4,6 @@ import {
   classOf,
   deepClone,
   deepMerge,
-  getClassOrSymbol,
   isClass,
   isFunction,
   isInheritedFrom,
@@ -13,30 +12,28 @@ import {
   prototypeOf,
   Store
 } from "@tsed/core";
-import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants";
+import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
 import {Configuration} from "../decorators/configuration";
 import {Injectable} from "../decorators/injectable";
-import {DIContext, InjectablePropertyType, ProviderScope} from "../domain";
 import {Container} from "../domain/Container";
 import {LocalsContainer} from "../domain/LocalsContainer";
 import {Provider} from "../domain/Provider";
 import {InjectionError} from "../errors/InjectionError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
-import {
-  DILogger,
-  InjectableProperties,
-  InjectablePropertyOptions,
-  InjectablePropertyValue,
-  InterceptorContext,
-  InterceptorMethods,
-  InvokeOptions,
-  IProvider,
-  TokenProvider
-} from "../interfaces";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {createContainer} from "../utils/createContainer";
 import {DIConfiguration} from "./DIConfiguration";
 import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
+import {ProviderScope} from "../domain/ProviderScope";
+import {DILogger} from "../interfaces/DILogger";
+import {TokenProvider} from "../interfaces/TokenProvider";
+import {ProviderOpts} from "../interfaces/ProviderOpts";
+import {InvokeOptions} from "../interfaces/InvokeOptions";
+import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties";
+import {InjectablePropertyType} from "../domain/InjectablePropertyType";
+import {InterceptorContext} from "../interfaces/InterceptorContext";
+import {InterceptorMethods} from "../interfaces/InterceptorMethods";
+import {DIContext} from "../domain/DIContext";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -133,6 +130,16 @@ export class InjectorService extends Container {
         }
       }
     }
+  }
+
+  /**
+   * Return all instance of the same provider type
+   * @param type
+   */
+  getAll(type: string) {
+    return this.getProviders(type).map((provider) => {
+      return this.get(provider.token);
+    });
   }
 
   /**
@@ -591,17 +598,19 @@ export class InjectorService extends Container {
     let currentDependency: any = false;
 
     try {
-      const invokeDependency = (parent?: any) => (token: any, index: number): any => {
-        currentDependency = {token, index, deps};
+      const invokeDependency =
+        (parent?: any) =>
+        (token: any, index: number): any => {
+          currentDependency = {token, index, deps};
 
-        if (token !== DI_PARAM_OPTIONS) {
-          const options = provider?.store?.get(`${DI_PARAM_OPTIONS}:${index}`);
+          if (token !== DI_PARAM_OPTIONS) {
+            const options = provider?.store?.get(`${DI_PARAM_OPTIONS}:${index}`);
 
-          locals.set(DI_PARAM_OPTIONS, options || {});
-        }
+            locals.set(DI_PARAM_OPTIONS, options || {});
+          }
 
-        return isInheritedFrom(token, Provider, 1) ? provider : this.invoke(token, locals, {parent});
-      };
+          return isInheritedFrom(token, Provider, 1) ? provider : this.invoke(token, locals, {parent});
+        };
 
       // Invoke manually imported providers
       imports.forEach(invokeDependency());
@@ -625,6 +634,12 @@ export class InjectorService extends Container {
 
     if (instance && isClass(classOf(instance))) {
       this.bindInjectableProperties(instance, locals, options);
+    }
+
+    if (instance && provider.hooks) {
+      Object.entries(provider.hooks).forEach(([key, cb]) => {
+        instance[key] = (...args: any[]) => cb(instance, ...args);
+      });
     }
 
     return instance;

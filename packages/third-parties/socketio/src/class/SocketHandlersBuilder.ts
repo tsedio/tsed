@@ -1,4 +1,4 @@
-import {InjectorService, Provider} from "@tsed/common";
+import {InjectorService, Provider} from "@tsed/di";
 import {Store} from "@tsed/core";
 import {$log} from "@tsed/logger";
 import {deserialize} from "@tsed/json-mapper";
@@ -18,7 +18,7 @@ import {SocketProviderMetadata} from "./SocketProviderMetadata";
 export class SocketHandlersBuilder {
   private socketProviderMetadata: SocketProviderMetadata;
 
-  constructor(private provider: Provider<any>, private injector: InjectorService) {
+  constructor(private provider: Provider, private injector: InjectorService) {
     this.socketProviderMetadata = new SocketProviderMetadata(this.provider.store.get("socketIO"));
   }
 
@@ -184,10 +184,10 @@ export class SocketHandlersBuilder {
 
       if (filter === SocketFilters.ARGS && useConverter) {
         value = deserialize(value, {
-          type,
-          collectionType,
           useAlias: true,
-          additionalProperties: this.injector.settings.additionalProperties
+          additionalProperties: this.injector.settings.get("converter.additionalProperties") === "accept",
+          type,
+          collectionType
         });
         scope.args[mapIndex!] = value;
       }

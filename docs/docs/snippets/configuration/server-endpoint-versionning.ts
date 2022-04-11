@@ -1,19 +1,19 @@
 import {Configuration} from "@tsed/di";
-import {resolve} from "path";
-
-const rootDir = resolve(__dirname);
+import * as v1Controllers from "./controllers/v1/index";
+import * as v0Controllers from "./controllers/v0/index";
 
 @Configuration({
-  rootDir,
   mount: {
-    "/rest/v1": [
-      `${rootDir}/controllers/v1/**/*.ts`
-    ],
-    "/rest/v0": [
-      `${rootDir}/controllers/v0/users/*.ts`,
-      `${rootDir}/controllers/v0/groups/*.ts`
-    ]
+    "/rest/v1": [...Object.values(v1Controllers)],
+    "/rest/v0": [...Object.values(v0Controllers)]
   }
 })
-export class Server {
-}
+export class Server {}
+
+// v1/index.ts
+export * from "./users/UserControllers";
+export * from "./groups/GroupsControllers";
+
+// v0/index.ts
+export * from "./users/UserControllers";
+export * from "./groups/GroupsControllers";

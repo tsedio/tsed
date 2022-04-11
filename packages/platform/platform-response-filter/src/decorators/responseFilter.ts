@@ -14,7 +14,7 @@ export function ResponseFilter(...contentTypes: ResponseFilterKey[]): ClassDecor
     });
     registerProvider({
       provide: target,
-      useClass: (target as unknown) as Type<any>
+      useClass: target as unknown as Type<any>
     });
   };
 }

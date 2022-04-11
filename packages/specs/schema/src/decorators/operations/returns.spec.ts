@@ -8,12 +8,12 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String).Description("description"))
+        @Returns(200, String).Description("description")
         method() {}
       }
 
       // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+      const spec = getSpec(Controller);
 
       expect(spec).toEqual({
         paths: {
@@ -48,12 +48,12 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String).Description("description"))
+        @Returns(200, String).Description("description")
         method() {}
       }
 
       // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+      const spec = getSpec(Controller);
 
       expect(spec).toEqual({
         paths: {
@@ -88,12 +88,12 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns().Status(200).Type(String).Description("description"))
+        @Returns().Status(200).Type(String).Description("description")
         method() {}
       }
 
       // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+      const spec = getSpec(Controller);
 
       expect(spec).toEqual({
         paths: {
@@ -128,7 +128,7 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String)
+        @Returns(200, String)
           .Description("description")
           .Header("x-token", "token")
           .Header("x-header", {
@@ -137,7 +137,7 @@ describe("@Returns", () => {
           .Examples({test: "Examples"})
           .Schema({
             minLength: 3
-          }))
+          })
         method() {}
       }
 
@@ -195,7 +195,7 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, String).Description("description").ContentType("text/html").Examples("Examples"))
+        @Returns(200, String).Description("description").ContentType("text/html").Examples("Examples")
         method() {}
       }
 
@@ -236,14 +236,14 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(400).Description("Bad request"))
+        @Returns(400).Description("Bad request")
         @Returns(401)
-        @(Returns(200).Description("Success"))
+        @Returns(200).Description("Success")
         method() {}
       }
 
       // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+      const spec = getSpec(Controller);
 
       expect(spec).toEqual({
         components: {
@@ -387,17 +387,17 @@ describe("@Returns", () => {
     });
     it("should declare error response on class", async () => {
       // WHEN
-      @(Returns(400).Description("Bad request").Header("x-token", "token"))
+      @Returns(400).Description("Bad request").Header("x-token", "token")
       @Returns(401)
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200).Description("Success"))
-        @(Returns(400).Description("Bad request2").Header("x-token", "token2"))
+        @Returns(200).Description("Success")
+        @Returns(400).Description("Bad request2").Header("x-token", "token2")
         method() {}
       }
 
       // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+      const spec = getSpec(Controller);
 
       expect(spec).toEqual({
         components: {
@@ -553,7 +553,7 @@ describe("@Returns", () => {
       try {
         class Controller {
           @OperationPath("POST", "/")
-          @(Returns(200, String).Of(Array).Description("description"))
+          @Returns(200, String).Of(Array).Description("description")
           method() {}
         }
       } catch (er) {
@@ -568,7 +568,7 @@ describe("@Returns", () => {
       try {
         class Controller {
           @OperationPath("POST", "/")
-          @(Returns(200, Array).Nested(Set).Description("description"))
+          @Returns(200, Array).Nested(Set).Description("description")
           method() {}
         }
       } catch (er) {
@@ -583,12 +583,12 @@ describe("@Returns", () => {
       // WHEN
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array).Of(String).Description("description"))
+        @Returns(200, Array).Of(String).Description("description")
         method() {}
       }
 
       // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+      const spec = getSpec(Controller);
 
       expect(spec).toEqual({
         paths: {
@@ -631,12 +631,12 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Array).Of(Model).Description("description"))
+        @Returns(200, Array).Of(Model).Description("description")
         method() {}
       }
 
       // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
+      const spec = getSpec(Controller);
 
       expect(spec).toEqual({
         components: {
@@ -709,7 +709,7 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
+        @Returns(200, Pagination)
           .Of(Submission)
           .Nested(Product)
           .Description("description")
@@ -727,136 +727,7 @@ describe("@Returns", () => {
                 }
               ]
             }
-          }))
-        async method(): Promise<Pagination<Submission<Product>> | null> {
-          return null;
-        }
-      }
-
-      // THEN
-      const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
-
-      expect(spec).toEqual({
-        components: {
-          schemas: {
-            Product: {
-              properties: {
-                title: {
-                  type: "string"
-                }
-              },
-              type: "object"
-            }
-          }
-        },
-        paths: {
-          "/": {
-            post: {
-              operationId: "controllerMethod",
-              parameters: [],
-              responses: {
-                "200": {
-                  content: {
-                    "application/json": {
-                      examples: {
-                        Example1: {
-                          value: [
-                            {
-                              data: [
-                                {
-                                  _id: "id",
-                                  data: {}
-                                }
-                              ],
-                              totalCount: 0
-                            }
-                          ]
-                        }
-                      },
-                      schema: {
-                        properties: {
-                          data: {
-                            items: {
-                              properties: {
-                                _id: {
-                                  type: "string"
-                                },
-                                data: {
-                                  $ref: "#/components/schemas/Product"
-                                }
-                              },
-                              type: "object"
-                            },
-                            type: "array"
-                          },
-                          totalCount: {
-                            type: "number"
-                          }
-                        },
-                        type: "object"
-                      }
-                    }
-                  },
-                  description: "description"
-                }
-              },
-              tags: ["Controller"]
-            }
-          }
-        },
-        tags: [
-          {
-            name: "Controller"
-          }
-        ]
-      });
-    });
-    it("should declare an Generic of Model (OS3)", async () => {
-      // WHEN
-      @Generics("T")
-      class Pagination<T> {
-        @CollectionOf("T")
-        data: T[];
-
-        @Property()
-        totalCount: number;
-      }
-
-      @Generics("T")
-      class Submission<T> {
-        @Property()
-        _id: string;
-
-        @Property("T")
-        data: T;
-      }
-
-      class Product {
-        @Property()
-        title: string;
-      }
-
-      class Controller {
-        @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
-          .Of(Submission)
-          .Nested(Product)
-          .Description("description")
-          .Examples({
-            Example1: {
-              value: [
-                {
-                  totalCount: 0,
-                  data: [
-                    {
-                      _id: "id",
-                      data: {}
-                    }
-                  ]
-                }
-              ]
-            }
-          }))
+          })
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
@@ -958,7 +829,7 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Submission).Of(MyEnum).Description("description"))
+        @Returns(200, Submission).Of(MyEnum).Description("description")
         async method(): Promise<Submission<MyEnum> | null> {
           return null;
         }
@@ -1032,7 +903,7 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination)
+        @Returns(200, Pagination)
           .Of(Submission)
           .Nested(MyEnum)
           .Description("description")
@@ -1050,7 +921,7 @@ describe("@Returns", () => {
                 }
               ]
             }
-          }))
+          })
         async method(): Promise<Pagination<Submission<MyEnum>> | null> {
           return null;
         }
@@ -1134,9 +1005,9 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Model).Description("description"))
-        @(Returns(200, String).ContentType("text/html"))
-        @(Returns(200, String).ContentType("text/xml"))
+        @Returns(200, Model).Description("description")
+        @Returns(200, String).ContentType("text/html")
+        @Returns(200, String).ContentType("text/xml")
         method() {}
       }
 
@@ -1222,7 +1093,7 @@ describe("@Returns", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        @(Returns(200, Pagination).Of(Submission).Nested(Product).Title("PaginatedSubmissionProduct").Description("description"))
+        @Returns(200, Pagination).Of(Submission).Nested(Product).Title("PaginatedSubmissionProduct").Description("description")
         async method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
@@ -1295,7 +1166,6 @@ describe("@Returns", () => {
       });
     });
   });
-
   describe("Multiple return types", () => {
     class ClassA {
       @Property()
@@ -1336,7 +1206,7 @@ describe("@Returns", () => {
 
     it("should return oneOf array schema", () => {
       class Controller {
-        @(Returns(200, Array).OneOf(ClassA, ClassB))
+        @Returns(200, Array).OneOf(ClassA, ClassB)
         @OperationPath("GET", "/")
         method() {}
       }
@@ -1360,7 +1230,7 @@ describe("@Returns", () => {
 
     it("should return allOf array schema", () => {
       class Controller {
-        @(Returns(200, Array).AllOf(ClassA, ClassB))
+        @Returns(200, Array).AllOf(ClassA, ClassB)
         @OperationPath("GET", "/")
         method() {}
       }
@@ -1384,7 +1254,7 @@ describe("@Returns", () => {
 
     it("should return allOf array schema", () => {
       class Controller {
-        @(Returns(200, Array).AnyOf(ClassA, ClassB))
+        @Returns(200, Array).AnyOf(ClassA, ClassB)
         @OperationPath("GET", "/")
         method() {}
       }

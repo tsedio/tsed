@@ -20,6 +20,7 @@ import {join, resolve} from "path";
 import Sinon from "sinon";
 import {Platform} from "../services/Platform";
 import {PlatformBuilder} from "./PlatformBuilder";
+import {FakeAdapter} from "../services/FakeAdapter";
 
 const sandbox = Sinon.createSandbox();
 
@@ -27,14 +28,16 @@ describe("PlatformBuilder", () => {
   @Controller("/")
   class RestCtrl {}
 
-  class PlatformCustom implements PlatformAdapter {
+  class PlatformCustom extends FakeAdapter {
     readonly providers = [
       {
         provide: class Test {}
       }
     ];
 
-    constructor(private platform: PlatformBuilder) {}
+    constructor(private platform: PlatformBuilder) {
+      super();
+    }
 
     static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
       return PlatformBuilder.create<any, any>(module, {

@@ -3,7 +3,6 @@ import "@tsed/platform-express";
 import "@tsed/swagger"; // import swagger Ts.ED module
 
 @Configuration({
-  rootDir: __dirname,
   swagger: [
     {
       path: "/v3/docs",
@@ -11,5 +10,4 @@ import "@tsed/swagger"; // import swagger Ts.ED module
     }
   ]
 })
-export class Server {
-}
+export class Server {}

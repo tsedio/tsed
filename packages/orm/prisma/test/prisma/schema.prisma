@@ -1,0 +1,51 @@
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "windows", "debian-openssl-1.1.x"]
+  output          = "../prisma/generated/client"
+  previewFeatures = ["orderByRelation", "napi", "selectRelationCount"]
+}
+
+generator tsed {
+  provider                 = "node ../src/cli/dev.ts"
+  output                   = "../prisma/generated/tsed"
+  emitDMMF                 = true
+}
+
+model user {
+  /// @TsED.Groups("!creation")
+  /// Comment
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  /// @TsED.Email()
+  /// @TsED.Description("User email. This email must be unique!")
+  email       String   @unique
+  weight      Float?
+  is18        Boolean?
+  name        String?
+  successorId Int?
+  successor   user?    @relation("BlogOwnerHistory", fields: [successorId], references: [id])
+  predecessor user?    @relation("BlogOwnerHistory")
+  role        Role     @default(USER)
+  posts       Post[]
+  keywords    String[]
+  biography   Json
+  /// @TsED.Ignore(ctx.endpoint === true)
+  ignored    String
+}
+
+model Post {
+  id     Int   @id @default(autoincrement())
+  user   user? @relation(fields: [userId], references: [id])
+  userId Int?
+}
+
+enum Role {
+  USER
+  ADMIN
+}

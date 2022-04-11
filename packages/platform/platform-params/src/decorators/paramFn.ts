@@ -1,5 +1,5 @@
-import {DecoratorParameters, decoratorTypeOf, DecoratorTypes, Type} from "@tsed/core";
-import {ParamMetadata} from "../domain/ParamMetadata";
+import {DecoratorParameters} from "@tsed/core";
+import {JsonEntityFn, JsonParameterStore} from "@tsed/schema";
 
 /**
  * Get the Param metadata. Use this decorator to compose your own decorator.
@@ -9,10 +9,6 @@ import {ParamMetadata} from "../domain/ParamMetadata";
  * @operation
  * @input
  */
-export function ParamFn(fn: (param: ParamMetadata, parameters: DecoratorParameters) => void): ParameterDecorator {
-  return <T>(target: Type<any>, propertyKey: string, index: number): void => {
-    if (decoratorTypeOf([target, propertyKey, index]) === DecoratorTypes.PARAM) {
-      fn(ParamMetadata.get(target!, propertyKey!, index), [target, propertyKey, index]);
-    }
-  };
+export function ParamFn(fn: (param: JsonParameterStore, parameters: DecoratorParameters) => void): ParameterDecorator {
+  return JsonEntityFn<JsonParameterStore>(fn);
 }

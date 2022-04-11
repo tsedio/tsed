@@ -22,15 +22,13 @@ describe("Mongoose", () => {
     beforeEach(TestMongooseContext.create);
     afterEach(TestMongooseContext.reset);
 
-    it(
-      "should create model with sub document",
-      () => {
-        const documentSchema = getSchema(TestModelDocument);
-        const subDocumentSchema = getSchema(TestSubDocument);
+    it("should create model with sub document", () => {
+      const documentSchema: any = getSchema(TestModelDocument);
+      const subDocumentSchema: any = getSchema(TestSubDocument);
 
-        expect(documentSchema.obj.sub.type.obj.prop.type).toBe(String)
-        expect(documentSchema.obj.sub.type).toBe(subDocumentSchema)
-        expect(subDocumentSchema.obj.prop.type).toBe(String)
-      });
+      expect(documentSchema.obj.sub.type.obj.prop.type).toBe(String);
+      expect(documentSchema.obj.sub.type).toBe(subDocumentSchema);
+      expect(subDocumentSchema.obj.prop.type).toBe(String);
+    });
   });
 });

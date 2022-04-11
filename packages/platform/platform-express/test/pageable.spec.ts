@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  PlatformContext,
-  PlatformTest,
-  QueryParams,
-  ResponseFilter,
-  ResponseFilterMethods
-} from "@tsed/common";
+import {Controller, Get, PlatformContext, PlatformTest, QueryParams, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
 import {isString} from "@tsed/core";
 import {OnDeserialize} from "@tsed/json-mapper";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
@@ -109,8 +101,8 @@ const utils = PlatformTestUtils.create({
 @Controller("/pageable")
 class TestPageableCtrl {
   @Get("/")
-  @(Returns(206, Pagination).Of(Product).Title("PaginatedProduct"))
-  @(Returns(200, Pagination).Of(Product).Title("PaginatedProduct"))
+  @Returns(206, Pagination).Of(Product).Title("PaginatedProduct")
+  @Returns(200, Pagination).Of(Product).Title("PaginatedProduct")
   async get(@QueryParams() pageableOptions: Pageable, @QueryParams("all") all: boolean) {
     return new Pagination<Product>({
       data: [
@@ -363,24 +355,24 @@ describe("Pageable", () => {
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(400);
 
     expect(body).to.deep.eq({
-      "errors": [
+      errors: [
         {
-          "data": -1,
-          "dataPath": ".page",
-          "instancePath": "/page",
-          "keyword": "minimum",
-          "message": "must be >= 0",
-          "modelName": "Pageable",
-          "params": {
-            "comparison": ">=",
-            "limit": 0
+          data: -1,
+          dataPath: ".page",
+          instancePath: "/page",
+          keyword: "minimum",
+          message: "must be >= 0",
+          modelName: "Pageable",
+          params: {
+            comparison: ">=",
+            limit: 0
           },
-          "schemaPath": "#/properties/page/minimum"
+          schemaPath: "#/properties/page/minimum"
         }
       ],
-      "message": "Bad request on parameter \"request.query\".\nPageable.page must be >= 0. Given value: -1",
-      "name": "AJV_VALIDATION_ERROR",
-      "status": 400
+      message: 'Bad request on parameter "request.query".\nPageable.page must be >= 0. Given value: -1',
+      name: "AJV_VALIDATION_ERROR",
+      status: 400
     });
   });
 });

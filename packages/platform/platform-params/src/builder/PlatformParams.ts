@@ -1,6 +1,5 @@
 import {DIContext, Inject, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
-import {JsonEntityStore, JsonParameterStore} from "@tsed/schema";
-import {ParamMetadata, PipeMethods} from "../domain/ParamMetadata";
+import {JsonEntityStore, JsonParameterStore, PipeMethods} from "@tsed/schema";
 import {ParamValidationError} from "../errors/ParamValidationError";
 import {ParseExpressionPipe} from "../pipes/ParseExpressionPipe";
 
@@ -25,7 +24,7 @@ export class PlatformParams {
   @Inject()
   protected injector: InjectorService;
 
-  async getPipes(param: ParamMetadata) {
+  async getPipes(param: JsonParameterStore) {
     const get = (pipe: TokenProvider) => {
       return this.injector.getProvider(pipe)!.priority || 0;
     };
@@ -41,7 +40,7 @@ export class PlatformParams {
     const params = JsonParameterStore.getParams(entity.target, entity.propertyKey);
 
     const argsPipes = await Promise.all(
-      params.map(async (param: ParamMetadata) => {
+      params.map(async (param) => {
         return {
           param,
           pipes: await this.getPipes(param)
@@ -58,7 +57,7 @@ export class PlatformParams {
     };
   }
 
-  async getArg(scope: ArgScope, pipes: PipeMethods[], param: ParamMetadata) {
+  async getArg(scope: ArgScope, pipes: PipeMethods[], param: JsonParameterStore) {
     return pipes.reduce(async (value, pipe) => {
       value = await value;
 

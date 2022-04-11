@@ -1,9 +1,9 @@
 import {isSerializable, Type} from "@tsed/core";
+import {serialize} from "@tsed/json-mapper";
 import {BaseContext, Constant, Inject, Injectable, InjectorService} from "@tsed/di";
 import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods";
 import {ANY_CONTENT_TYPE, getContentType} from "../utils/getContentType";
-import {serialize} from "@tsed/json-mapper";
 import {renderView} from "../utils/renderView";
 
 /**
@@ -11,16 +11,16 @@ import {renderView} from "../utils/renderView";
  */
 @Injectable()
 export class PlatformResponseFilter {
-  types: Map<ResponseFilterKey, ResponseFilterMethods> = new Map();
+  protected types: Map<ResponseFilterKey, ResponseFilterMethods> = new Map();
 
   @Inject()
-  injector: InjectorService;
+  protected injector: InjectorService;
 
   @Constant("responseFilters", [])
   protected responseFilters: Type<ResponseFilterMethods>[];
 
   @Constant("additionalProperties")
-  private additionalProperties: boolean;
+  protected additionalProperties: boolean;
 
   get contentTypes(): ResponseFilterKey[] {
     return [...this.types.keys()];
@@ -69,6 +69,7 @@ export class PlatformResponseFilter {
 
     return data;
   }
+
   /**
    * Serialize data before calling filters
    * @param data
@@ -82,9 +83,9 @@ export class PlatformResponseFilter {
         data = await renderView(data, ctx);
       } else if (isSerializable(data)) {
         data = serialize(data, {
-          ...endpoint.getResponseOptions(response.statusCode),
-          additionalProperties: this.additionalProperties,
           useAlias: true,
+          additionalProperties: this.additionalProperties,
+          ...endpoint.getResponseOptions(response.statusCode),
           endpoint: true
         });
       }

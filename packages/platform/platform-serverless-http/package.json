@@ -4,6 +4,7 @@
   "description": "Module to support Serverless HTTP function with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -12,9 +13,10 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test jest"
   },
   "private": false,
@@ -56,7 +58,7 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/common": "7.0.0-beta.3",
@@ -71,10 +73,33 @@
     "@tsed/core": "^7.0.0-beta.3",
     "@tsed/di": "^7.0.0-beta.3",
     "@tsed/json-mapper": "^7.0.0-beta.3",
-    "@tsed/logger": ">=6.0.0",
+    "@tsed/logger": ">=6.1.1",
     "@tsed/openspec": "^7.0.0-beta.3",
     "@tsed/schema": "^7.0.0-beta.3",
     "aws-lambda": ">=1.0.7",
     "serverless-http": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/common": {
+      "optional": false
+    },
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/json-mapper": {
+      "optional": false
+    },
+    "@tsed/logger": {
+      "optional": false
+    },
+    "@tsed/openspec": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    }
   }
 }

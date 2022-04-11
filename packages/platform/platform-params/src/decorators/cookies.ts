@@ -45,7 +45,6 @@ export function CookiesParams(...args: any[]): ParameterDecorator {
 
   return UseParam({
     paramType: ParamTypes.COOKIES,
-    dataPath: "$ctx.request.cookies",
     expression,
     useType,
     useConverter,

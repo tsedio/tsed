@@ -6,8 +6,8 @@ describe("JsonOperation", () => {
     it("should return the status", () => {
       class MyController {
         @OperationPath("GET", "/")
-        @(Returns(200).Header("x-token", "token"))
-        @(Returns(200).Header("x-token2", "token2"))
+        @Returns(200).Header("x-token", "token")
+        @Returns(200).Header("x-token2", "token2")
         method() {}
       }
 
@@ -16,12 +16,28 @@ describe("JsonOperation", () => {
       expect(entity.operation?.getStatus()).toBe(200);
       expect(entity.operation?.status).toBe(200);
       expect(entity.operation?.response?.toJSON()).toEqual({
+        content: {
+          "*/*": {
+            schema: {
+              type: "object"
+            }
+          }
+        },
         description: "Success",
         headers: {
-          "x-token2": {example: "token2", type: "string"},
-          "x-token": {example: "token", type: "string"}
-        },
-        schema: {type: "object"}
+          "x-token": {
+            example: "token",
+            schema: {
+              type: "string"
+            }
+          },
+          "x-token2": {
+            example: "token2",
+            schema: {
+              type: "string"
+            }
+          }
+        }
       });
       expect(entity.operation?.getHeadersOf(200)).toEqual({
         "x-token": {
@@ -56,7 +72,7 @@ describe("JsonOperation", () => {
       @Path("/")
       class MyController {
         @Get("/")
-        @(Returns(200, String).ContentType("text/html"))
+        @Returns(200, String).ContentType("text/html")
         test() {}
       }
 

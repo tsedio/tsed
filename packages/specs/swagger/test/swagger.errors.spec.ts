@@ -1,7 +1,6 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Required, Returns} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
@@ -51,95 +50,76 @@ describe("Swagger errors params", () => {
 
   it("should generate swagger", async () => {
     const response = await request.get("/v2/doc/swagger.json").expect(200);
-    expect(response.body).to.deep.eq({
-      "components": {
-        "schemas": {
-          "TestModel200": {
-            "properties": {
-              "exampleItem": {
-                "type": "number"
-              }
-            },
-            "required": [
-              "exampleItem"
-            ],
-            "type": "object"
+    expect(response.body).toEqual({
+      consumes: ["application/json"],
+      definitions: {
+        TestModel200: {
+          properties: {
+            exampleItem: {
+              type: "number"
+            }
           },
-          "TestModel400": {
-            "properties": {
-              "error": {
-                "type": "boolean"
-              }
-            },
-            "required": [
-              "error"
-            ],
-            "type": "object"
+          required: ["exampleItem"],
+          type: "object"
+        },
+        TestModel400: {
+          properties: {
+            error: {
+              type: "boolean"
+            }
           },
-          "TestModel500": {
-            "properties": {
-              "error": {
-                "type": "boolean"
-              }
-            },
-            "required": [
-              "error"
-            ],
-            "type": "object"
-          }
+          required: ["error"],
+          type: "object"
+        },
+        TestModel500: {
+          properties: {
+            error: {
+              type: "boolean"
+            }
+          },
+          required: ["error"],
+          type: "object"
         }
       },
-      "info": {
-        "title": "Swagger title",
-        "version": "1.2.0",
+      info: {
+        title: "Swagger title",
+        version: "1.2.0"
       },
-      "openapi": "3.0.1",
-      "paths": {
+      paths: {
         "/rest/scenarios": {
-          "get": {
-            "operationId": "errorsControllerExampleControllerMethod",
-            "parameters": [],
-            "responses": {
+          get: {
+            operationId: "errorsControllerExampleControllerMethod",
+            parameters: [],
+            produces: ["application/json"],
+            responses: {
               "200": {
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/TestModel200"
-                    }
-                  }
-                },
-                "description": "Success"
+                description: "Success",
+                schema: {
+                  $ref: "#/definitions/TestModel200"
+                }
               },
               "400": {
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/TestModel400"
-                    }
-                  }
-                },
-                "description": "Bad Request"
+                description: "Bad Request",
+                schema: {
+                  $ref: "#/definitions/TestModel400"
+                }
               },
               "500": {
-                "content": {
-                  "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/TestModel500"
-                    }
-                  }
-                },
-                "description": "Internal Server Error"
+                description: "Internal Server Error",
+                schema: {
+                  $ref: "#/definitions/TestModel500"
+                }
               }
             },
-            "tags": [
-              "ErrorsController"
-            ]
+            tags: ["ErrorsController"]
           }
         }
       },
-      "tags": [
+      produces: ["application/json"],
+      swagger: "2.0",
+      tags: [
         {
-          "name": "ErrorsController"
+          name: "ErrorsController"
         }
       ]
     });

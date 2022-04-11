@@ -32,7 +32,7 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/stripe.html
 ## Feature
 
 Currently, `@tsed/stripe` allows you:
- 
+
 - Configure stripe,
 - Create webhooks,
 - Use stripe API.
@@ -50,33 +50,59 @@ Then import `@tsed/stripe` in your Server:
 
 ```typescript
 import {Configuration, PlatformApplication} from "@tsed/common";
-import "@tsed/stripe"; 
+import "@tsed/stripe";
 import {Stripe} from "stripe";
 
 @Configuration({
   stripe: {
     apiKey: process.env.STRIPE_SECRET_KEY,
     webhooks: {
-      secret: process.env.STRIPE_WEBHOOK_SECRET,
+      secret: process.env.STRIPE_WEBHOOK_SECRET
     },
     // Stripe options
-    apiVersion: '2019-08-08',
-    httpProxy: new ProxyAgent(process.env.http_proxy),
+    apiVersion: "2019-08-08",
+    httpProxy: new ProxyAgent(process.env.http_proxy)
   }
 })
 export class Server {
   @Inject()
   stripe: Stripe;
-  
+
   $afterInit() {
     // do something with stripe
     // this.stripe.customers
   }
 }
 ```
+
 > See Stripe options for more details: https://www.npmjs.com/package/stripe
 
-## Inject Stripe 
+::: warning
+Stripe needs to validate signature transaction when you received a webhook notification.
+To work properly, you have to remove bodyParser add on `$beforeRoutesInit`.
+
+```diff
+@Configuration({
++  middlewares: [
++     bodyParser.json(),
++     bodyParser.urlencoded({extended: true})
++  ]
+})
+export class Server {
+  @Inject()
+  protected app: PlatformApplication;
+
+  $beforeRoutesInit() {
+-    this.app
+-      .use(bodyParser.json())
+-      .use(bodyParser.urlencoded({extended: true}));
+  }
+}
+```
+
+::
+
+## Inject Stripe
 
 ```typescript
 import {Injectable} from "@tsed/di";
@@ -85,15 +111,13 @@ import {Injectable} from "@tsed/di";
 class MyStripeService {
   @Inject()
   stripe: Stripe;
-  
+
   $onInit() {
     // do something with stripe
-    this.stripe.on('request', this.onRequest.bind(this));
+    this.stripe.on("request", this.onRequest.bind(this));
   }
- 
-  protected onRequest(request: any) {
-  
-  }
+
+  protected onRequest(request: any) {}
 }
 ```
 
@@ -102,7 +126,7 @@ class MyStripeService {
 Stripe can optionally sign the webhook events it sends to your endpoint, allowing you to validate that they were not sent by a third-party. You can read more about it [here](https://stripe.com/docs/webhooks#signatures).
 
 To register a Stripe webhook with Ts.ED, just use the `@WebhookEvent` decorator. It'll call for you the `stripe.webhooks.constructEvent` with the right parameters:
- 
+
 ```typescript
 import {RawBodyParams, HeaderParams, Controller, Context} from "@tsed/common";
 import {Stripe} from "stripe";
@@ -111,15 +135,12 @@ import {Stripe} from "stripe";
 export class StripWebhookCtrl {
   @Inject()
   stripe: Stripe;
-  
+
   @Post("/callback")
-  successPaymentHook(
-    @WebhookEvent() event: Stripe.Event,
-    @Context() ctx: Context
-  ) {
-    ctx.logger.info({name: 'Webhook success', event});
-   
-    return {received: true}
+  successPaymentHook(@WebhookEvent() event: Stripe.Event, @Context() ctx: Context) {
+    ctx.logger.info({name: "Webhook success", event});
+
+    return {received: true};
   }
 }
 ```
@@ -133,41 +154,43 @@ import {Stripe} from "stripe";
 import {PlatformTest} from "@tsed/common";
 import {StripWebhookCtrl} from "./StripWebhookCtrl";
 
-describe('StripWebhookCtrl', () => {
-  beforeEach(() => PlatformTest.create({
-     stripe: {
-       apiKey: 'fake_api_key',
-       webhooks: {
-         secret: 'whsec_test_secret',
-       },
-       // Stripe options
-       apiVersion: '2019-08-08'
-     }
-  }))
-  afterEach(PlatformTest.reset)
+describe("StripWebhookCtrl", () => {
+  beforeEach(() =>
+    PlatformTest.create({
+      stripe: {
+        apiKey: "fake_api_key",
+        webhooks: {
+          secret: "whsec_test_secret"
+        },
+        // Stripe options
+        apiVersion: "2019-08-08"
+      }
+    })
+  );
+  afterEach(PlatformTest.reset);
   it("should call event", async () => {
-     const stripe = PlatformTest.get<Stripe>(Stripe);
-     const payload = {
-       id: 'evt_test_webhook',
-       object: 'event',
-     };
-     const payloadString = JSON.stringify(payload, null, 2);
-   
-     const header = stripe.webhooks.generateTestHeaderString({
-       payload: payloadString,
-       secret: 'whsec_test_secret',
-     });
-     
-     const event = stripe.webhooks.constructEvent(payloadString, header, secret);
-     const ctx = PlatformTest.createRequestContext()
-     
-     const ctrl = await PlatformTest.invoke<StripWebhookCtrl>(StripWebhookCtrl);
-     
-     const result = ctrl.successPaymentHook(event, ctx);
-  
-     expect(result).toEqual({received: true})
+    const stripe = PlatformTest.get<Stripe>(Stripe);
+    const payload = {
+      id: "evt_test_webhook",
+      object: "event"
+    };
+    const payloadString = JSON.stringify(payload, null, 2);
+
+    const header = stripe.webhooks.generateTestHeaderString({
+      payload: payloadString,
+      secret: "whsec_test_secret"
+    });
+
+    const event = stripe.webhooks.constructEvent(payloadString, header, secret);
+    const ctx = PlatformTest.createRequestContext();
+
+    const ctrl = await PlatformTest.invoke<StripWebhookCtrl>(StripWebhookCtrl);
+
+    const result = ctrl.successPaymentHook(event, ctx);
+
+    expect(result).toEqual({received: true});
   });
-})
+});
 ```
 
 With SuperTest:
@@ -180,10 +203,9 @@ import {expect} from "chai";
 import {Stripe} from "stripe";
 import SuperTest from "supertest";
 import {StripeWebhooksCtrl} from "./StripWebhookCtrl";
-import {rootDir, Server} from "../Server";
+import {Server} from "../Server";
 
 const utils = PlatformTestUtils.create({
-  rootDir,
   platform: PlatformExpress,
   server: Server,
   logger: {
@@ -193,11 +215,13 @@ const utils = PlatformTestUtils.create({
 
 describe("Stripe", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  beforeEach(utils.bootstrap({
-    mount: {
-      "/rest": [StripWebhookCtrl]
-    }
-  }));
+  beforeEach(
+    utils.bootstrap({
+      mount: {
+        "/rest": [StripWebhookCtrl]
+      }
+    })
+  );
   beforeEach(() => {
     request = SuperTest.agent(PlatformTest.callback());
   });
@@ -217,32 +241,27 @@ describe("Stripe", () => {
       secret: "whsec_test_secret"
     });
 
-    const response = await request
-      .post("/rest/webhooks/callback")
-      .send(payloadString)
-      .set("stripe-signature", signature)
-      .expect(200);
+    const response = await request.post("/rest/webhooks/callback").send(payloadString).set("stripe-signature", signature).expect(200);
 
     expect(response.body).to.deep.eq({
-      "event": payload,
-      "received": true
+      event: payload,
+      received: true
     });
   });
 });
 ```
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

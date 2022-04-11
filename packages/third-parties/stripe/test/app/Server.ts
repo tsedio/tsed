@@ -51,12 +51,6 @@ export class Server {
       .use(cookieParser())
       .use(compress({}))
       .use(methodOverride())
-      .use(bodyParser.json())
-      .use(
-        bodyParser.urlencoded({
-          extended: true
-        })
-      )
       .use(
         session({
           secret: "keyboard cat", // change secret key

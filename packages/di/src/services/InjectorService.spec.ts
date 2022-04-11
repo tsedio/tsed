@@ -8,12 +8,13 @@ import {
   LocalsContainer,
   Provider,
   ProviderScope,
-  ProviderType
+  ProviderType,
+  registerProvider
 } from "@tsed/di";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {Configuration} from "@tsed/common";
-import {INJECTABLE_PROP} from "../constants";
+import {INJECTABLE_PROP} from "../constants/constants";
 
 class Test {
   @Inject()
@@ -41,11 +42,11 @@ class Test {
 describe("InjectorService", () => {
   describe("has()", () => {
     it("should return true", () => {
-      return expect(new InjectorService().has(InjectorService)).to.be.true;
+      expect(new InjectorService().has(InjectorService)).to.be.true;
     });
 
     it("should return false", () => {
-      return expect(new InjectorService().has(Test)).to.be.false;
+      expect(new InjectorService().has(Test)).to.be.false;
     });
   });
   describe("runInContext()", () => {
@@ -61,7 +62,19 @@ describe("InjectorService", () => {
     });
 
     it("should return undefined", () => {
-      return expect(new InjectorService().get(Test)).to.be.undefined;
+      expect(new InjectorService().get(Test)).to.be.undefined;
+    });
+  });
+  describe("getAll()", () => {
+    it("should return all instance", () => {
+      const injector = new InjectorService();
+      injector.addProvider("token", {
+        type: ProviderType.VALUE,
+        useValue: 1
+      });
+
+      expect(!!injector.getAll(ProviderType.VALUE).length).to.eq(true);
+      expect(!!injector.getAll(ProviderType.FACTORY).length).to.eq(false);
     });
   });
 
@@ -563,6 +576,26 @@ describe("InjectorService", () => {
       });
     });
   });
+  describe("load()", () => {
+    it("should load DI with a rootModule", async () => {
+      // GIVEN
+      @Injectable()
+      class RootModule {}
+      const token = class Test {};
+
+      const provider = new Provider<any>(token);
+      provider.scope = ProviderScope.SINGLETON;
+      provider.deps = [InjectorService];
+
+      const injector = new InjectorService();
+      const container = new Container();
+      container.set(token, provider);
+
+      await injector.load(container, RootModule);
+
+      expect(injector.get(RootModule)).to.be.instanceof(RootModule);
+    });
+  });
 
   describe("bindInjectableProperties()", () => {
     const sandbox = Sinon.createSandbox();
@@ -805,6 +838,8 @@ describe("InjectorService", () => {
 
       // WHEN
       injector.resolveConfiguration();
+      // should load only once the configuration
+      injector.resolveConfiguration();
 
       // THEN
       expect(injector.settings.get<string>("custom")).to.eq("config");
@@ -813,6 +848,44 @@ describe("InjectorService", () => {
         provider_custom: "singleton",
         value: "singleton"
       });
+    });
+    it("should load configuration from each providers (with resolvers)", () => {
+      // GIVEN
+      const injector = new InjectorService();
+
+      injector.settings.set({
+        scopes: {
+          [ProviderType.VALUE]: ProviderScope.SINGLETON
+        }
+      });
+
+      expect(injector.settings.get("scopes")).to.deep.eq({
+        [ProviderType.VALUE]: ProviderScope.SINGLETON
+      });
+
+      injector.add(Symbol.for("TOKEN1"), {
+        configuration: {
+          custom: "config",
+          scopes: {
+            provider_custom: ProviderScope.SINGLETON
+          }
+        },
+        resolvers: [Sinon.stub() as any]
+      });
+
+      injector.add(Symbol.for("TOKEN2"), {
+        configuration: {
+          scopes: {
+            provider_custom_2: ProviderScope.SINGLETON
+          }
+        }
+      });
+
+      // WHEN
+      injector.resolveConfiguration();
+
+      // THEN
+      expect(injector.resolvers.length).to.equal(1);
     });
   });
 
@@ -866,6 +939,27 @@ describe("InjectorService", () => {
       const value = injector.alter("$alterValue", "value");
 
       expect(service.$alterValue).to.have.been.calledWithExactly("value");
+      expect(value).to.eq("alteredValue");
+    });
+    it("should alter value (factory)", () => {
+      registerProvider({
+        provide: "TOKEN",
+        useFactory: () => {
+          return {};
+        },
+        hooks: {
+          $alterValue(instance: any, value: any) {
+            return "alteredValue";
+          }
+        }
+      });
+
+      // GIVEN
+      const injector = new InjectorService();
+      injector.invoke<any>("TOKEN");
+
+      const value = injector.alter("$alterValue", "value");
+
       expect(value).to.eq("alteredValue");
     });
   });

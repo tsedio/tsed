@@ -1,9 +1,9 @@
 ---
 meta:
- - name: description 
-   content: Documentation over Providers / DI provided by Ts.ED framework. Use providers to build your backend services.
- - name: keywords
-   content: providers di ioc ts.ed express typescript node.js javascript decorators jsonschema class models
+  - name: description
+    content: Documentation over Providers / DI provided by Ts.ED framework. Use providers to build your backend services.
+  - name: keywords
+    content: providers di ioc ts.ed express typescript node.js javascript decorators jsonschema class models
 ---
 
 # Lazy-loading provider
@@ -36,14 +36,14 @@ class MyInjectable {
     try {
       /// do something
     } catch (er) {
-      const exceptions = await this.platformExceptions
-      platformExceptions.catch(er, {})
+      const exceptions = await this.platformExceptions;
+      platformExceptions.catch(er, {});
     }
   }
 }
 ```
 
-The LazyInject decorator will load the `node_module` and invoke automatically the `PlatformException` exported class, 
+The LazyInject decorator will load the `node_module` and invoke automatically the `PlatformException` exported class,
 only when the decorated property will be used by your code.
 
 ::: tip
@@ -58,7 +58,8 @@ Create you own lazy injectable doesn't require special things, just declare a mo
 ```typescript
 import {Module} from "@tsed/di";
 
-@Module({ // works also with @Injectable
+@Module({
+  // works also with @Injectable
   imports: [] // Use the imports field if you have services to build
 })
 export class MyModule {
@@ -80,9 +81,9 @@ class MyInjectable {
   private myModule: Promise<MyModule>;
 
   async use() {
-    const myModule = await this.myModule
-     
-     myModule.doSomething();
+    const myModule = await this.myModule;
+
+    myModule.doSomething();
   }
 }
 ```
@@ -111,23 +112,22 @@ import {Injectable, Inject, InjectorService} from "@tsed/di";
 
 @Injectable()
 class MyService {
-   @Inject()
-   protected injector: InjectorService;
-   
-   async load() {
-     const {MyModule} = await import("../lazy/my-module.ts")
-     const myModule = await this.injector.lazyInvoke(MyModule);
-     
-     myModule.doSomething();
-   }
-}
+  @Inject()
+  protected injector: InjectorService;
 
+  async load() {
+    const {MyModule} = await import("../lazy/my-module.ts");
+    const myModule = await this.injector.lazyInvoke(MyModule);
+
+    myModule.doSomething();
+  }
+}
 ```
 
 ## Limitation
 
 Some providers cannot be lazy loaded:
- - Controllers,
- - Middlewares,
- - All providers that need to run a specific hook (excepted `$onInit` hook).
 
+- Controllers,
+- Middlewares,
+- All providers that need to run a specific hook (excepted `$onInit` hook).

@@ -1,15 +1,17 @@
 import {classOf, getClassOrSymbol, isClass, nameOf, Store, Type} from "@tsed/core";
-import {IProvider, TokenProvider} from "../interfaces";
+import {ProviderOpts} from "../interfaces/ProviderOpts";
+import {TokenProvider} from "../interfaces/TokenProvider";
 import {ProviderScope} from "./ProviderScope";
 import {ProviderType} from "./ProviderType";
 
-export class Provider<T = any> implements IProvider<T> {
+export class Provider<T = any> implements ProviderOpts<T> {
   public type: ProviderType | any = ProviderType.PROVIDER;
   public deps: TokenProvider[];
   public imports: any[];
   public useFactory: Function;
   public useAsyncFactory: Function;
   public useValue: any;
+  public hooks?: Record<string, (instance: T, ...args: any[]) => Promise<void> | void>;
   private _useClass: Type<T>;
   private _provide: TokenProvider;
   private _store: Store;

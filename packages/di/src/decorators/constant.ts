@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants";
-import type {InjectableProperties} from "../interfaces";
+import {INJECTABLE_PROP} from "../constants/constants";
+import type {InjectableProperties} from "../interfaces/InjectableProperties";
 import {InjectablePropertyType} from "../domain/InjectablePropertyType";
 
 /**

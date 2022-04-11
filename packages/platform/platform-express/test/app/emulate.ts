@@ -9,15 +9,15 @@ import {QueryParams} from "@tsed/platform-params";
 class HelloWorld {
   @Get("/")
   get(@QueryParams("q") query: string[]) {
-    return { test: "Hello world" };
+    return {test: "Hello world"};
   }
 }
 
 const platform = PlatformExpress.create(Server, {
-  mount: { "/rest": [HelloWorld] }
+  mount: {"/rest": [HelloWorld]}
 });
 
-const promise = platform.bootstrap()
+const promise = platform.bootstrap();
 
 const server = http.createServer(async (req, res) => {
   await promise;

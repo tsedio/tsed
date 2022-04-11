@@ -16,6 +16,7 @@
   ],
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -30,7 +31,7 @@
   },
   "dependencies": {
     "@tsed/logger-seq": ">=6.0.0",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/common": "7.0.0-beta.3",
@@ -41,8 +42,11 @@
     "@tsed/core": "^7.0.0-beta.3",
     "@tsed/di": "^7.0.0-beta.3",
     "@tsed/json-mapper": "^7.0.0-beta.3",
-    "@tsed/logger": ">=6.0.0",
+    "@tsed/logger": ">=6.1.1",
     "@tsed/openspec": "^7.0.0-beta.3",
     "@tsed/schema": "^7.0.0-beta.3"
+  },
+  "publishConfig": {
+    "tag": "deprecated"
   }
 }

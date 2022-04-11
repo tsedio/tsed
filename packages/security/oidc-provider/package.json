@@ -13,6 +13,7 @@
   ],
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -21,10 +22,11 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
@@ -33,8 +35,8 @@
     "jose2": "npm:jose@^2.0.4",
     "koa-mount": "^4.0.0",
     "koa-rewrite": "^3.0.1",
-    "lowdb": "1.0.0",
-    "tslib": "2.2.0",
+    "lowdb": "3.0.0",
+    "tslib": "2.3.1",
     "uuid": "8.3.2"
   },
   "devDependencies": {
@@ -42,20 +44,18 @@
     "@tsed/core": "7.0.0-beta.3",
     "@tsed/di": "7.0.0-beta.3",
     "@tsed/exceptions": "7.0.0-beta.3",
-    "@types/lowdb": "1.0.9",
+    "@types/lowdb": "1.0.11",
     "@types/oidc-provider": "^7.1.1",
-    "@types/uuid": "8.3.0",
-    "oidc-provider": "7.10.1"
+    "@types/uuid": "8.3.4",
+    "oidc-provider": "7.10.6"
   },
   "peerDependencies": {
     "@tsed/common": "^7.0.0-beta.3",
-    "@tsed/core": "^7.0.0-beta.3",
-    "@tsed/di": "^7.0.0-beta.3",
-    "@tsed/exceptions": "^7.0.0-beta.3",
-    "@tsed/json-mapper": "^7.0.0-beta.3",
-    "@tsed/logger": ">=6.0.0",
-    "@tsed/openspec": "^7.0.0-beta.3",
-    "@tsed/schema": "^7.0.0-beta.3",
     "oidc-provider": ">=7.3.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/common": {
+      "optional": false
+    }
   }
 }

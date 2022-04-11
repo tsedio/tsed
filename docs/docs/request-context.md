@@ -38,27 +38,27 @@ metadata when you use the middleware over a controller method. By accessing to t
 ```typescript
 import {StoreSet} from "@tsed/core";
 import {Get, Controller, Middleware, Context, EndpointInfo, Use, Returns} from "@tsed/common";
-import {Resource} from "./Resource"
+import {Resource} from "./Resource";
 
 @Middleware()
 export class MyMiddleware {
   use(@Context() ctx: Context) {
-    console.log(ctx.endpoint) // Endpoint Metadata
-    console.log(ctx.endpoint.targetName) // MyCtrl
-    console.log(ctx.endpoint.propertyKey) // getMethod
-    console.log(ctx.endpoint.type) // Resource
-    console.log(ctx.endpoint.store.get('options')) // options
+    console.log(ctx.endpoint); // Endpoint Metadata
+    console.log(ctx.endpoint.targetName); // MyCtrl
+    console.log(ctx.endpoint.propertyKey); // getMethod
+    console.log(ctx.endpoint.type); // Resource
+    console.log(ctx.endpoint.store.get("options")); // options
   }
 }
 
-@Controller('/resources')
+@Controller("/resources")
 class MyCtrl {
-  @Get('/:id')
+  @Get("/:id")
   @Use(MyMiddleware)
   @Returns(200, Resource)
-  @StoreSet('options', "options")
+  @StoreSet("options", "options")
   getMethod(): Resource {
-    return new Resource()
+    return new Resource();
   }
 }
 ```
@@ -79,20 +79,20 @@ import {Middleware, Context, Req, Res} from "@tsed/common";
 export class MyMiddleware {
   use(@Req() req: Req, @Res() res: Res, @Context() ctx: Context) {
     // abstraction
-    console.log(ctx.request) // PlatformRequest
-    console.log(ctx.response) // PlatformResponse
+    console.log(ctx.request); // PlatformRequest
+    console.log(ctx.response); // PlatformResponse
 
     // by decorator
-    console.log(req) // Express.Request
-    console.log(res) // Express.Response
+    console.log(req); // Express.Request
+    console.log(res); // Express.Response
 
     // by
-    console.log(ctx.request.raw) // Express.Request
-    console.log(ctx.response.raw) // Express.Request
+    console.log(ctx.request.raw); // Express.Request
+    console.log(ctx.response.raw); // Express.Request
 
     // by method
-    console.log(ctx.getRequest<Express.Request>()) // Express.Request
-    console.log(ctx.getResponse<Express.Response>()) // Express.Response
+    console.log(ctx.getRequest<Express.Request>()); // Express.Request
+    console.log(ctx.getResponse<Express.Response>()); // Express.Response
   }
 }
 ```
@@ -147,9 +147,7 @@ class PlatformResponse {
 
   status(status: number): this;
 
-  setHeaders(headers: {
-    [key: string]: any;
-  }): this;
+  setHeaders(headers: {[key: string]: any}): this;
 
   contentType(contentType: string): this;
 
@@ -182,7 +180,7 @@ export class MyMiddleware {
     ctx.contentType("application/json");
     ctx.status(201);
 
-    // equivalent to ctx.response.raw.send() 
+    // equivalent to ctx.response.raw.send()
     ctx.body(null);
     ctx.body(undefined);
     ctx.body(true);
@@ -197,10 +195,7 @@ export class MyMiddleware {
     ctx.body(readableStream);
 
     // use raw response
-    ctx
-      .getResponse<Express.Response>()
-      .status(201)
-      .send("Hello")
+    ctx.getResponse<Express.Response>().status(201).send("Hello");
   }
 }
 ```
@@ -214,7 +209,7 @@ example:
 @Injectable()
 export class CustomRepository {
   async findById(id: string, ctx: PlatformContext) {
-    ctx.logger.info('Where are in the repository');
+    ctx.logger.info("Where are in the repository");
     return {
       id,
       headers: this.$ctx?.request.headers
@@ -256,7 +251,7 @@ export class CustomRepository {
   $ctx?: PlatformContext;
 
   async findById(id: string) {
-    this.ctx?.logger.info('Where are in the repository');
+    this.ctx?.logger.info("Where are in the repository");
 
     return {
       id,
@@ -290,7 +285,7 @@ export class CustomRepository {
   $ctx?: PlatformContext;
 
   async findById(id: string) {
-    this.ctx?.logger.info('Where are in the repository');
+    this.ctx?.logger.info("Where are in the repository");
 
     return {
       id,
@@ -309,16 +304,16 @@ describe("CustomRepository", () => {
 
     ctx.request.headers = {
       "x-api": "api"
-    }
+    };
 
     const result = await PlatformAsyncHookContext.run(ctx, () => service.findById("id"));
-    
+
     expect(result).toEqual({
       id: "id",
       headers: {
         "x-api": "api"
       }
-    })
+    });
   });
 });
 ```

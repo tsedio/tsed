@@ -16,6 +16,9 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
   @Constant("passport.pauseStream")
   pauseStream: boolean;
 
+  @Constant("passport.disableSession", false)
+  disableSession: boolean;
+
   @Constant("PLATFORM_NAME")
   platformName: string;
 
@@ -28,12 +31,13 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
     private passportSerializer: PassportSerializerService
   ) {}
 
-  $onInit(): Promise<any> | void {
+  async $onInit(): Promise<any> {
     Passport.serializeUser(this.passportSerializer.serialize.bind(this.passportSerializer));
     Passport.deserializeUser(this.passportSerializer.deserialize.bind(this.passportSerializer));
 
-    this.protocolsService.getProtocols().forEach((provider: Provider<any>) => this.protocolsService.invoke(provider));
+    const promises = this.protocolsService.getProtocols().map((provider: Provider) => this.protocolsService.invoke(provider));
 
+    await Promise.all(promises);
     return undefined;
   }
 
@@ -42,7 +46,7 @@ export class PassportModule implements OnInit, BeforeRoutesInit {
     switch (this.platformName) {
       case "express":
         this.app.use(Passport.initialize({userProperty}));
-        this.app.use(Passport.session({pauseStream}));
+        !this.disableSession && this.app.use(Passport.session({pauseStream}));
 
         return;
 

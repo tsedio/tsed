@@ -1,8 +1,7 @@
-import {DecoratorParameters, Metadata, prototypeOf, StoreMerge, useDecorators, useMethodDecorators} from "@tsed/core";
-import {Consumes, Get, In, JsonClassStore, JsonMethodStore, JsonParameterTypes, Path, Returns} from "@tsed/schema";
+import {prototypeOf, Store} from "@tsed/core";
+import {Allow, Get, In, JsonClassStore, JsonMethodStore, JsonParameterTypes, Path, Required} from "@tsed/schema";
 import {getJsonEntityStore} from "../utils/getJsonEntityStore";
 import {JsonParameterStore} from "./JsonParameterStore";
-import {ParamTypes, UseParam} from "@tsed/common";
 
 describe("JsonParameterStore", () => {
   describe("new JsonParameterStore", () => {
@@ -55,18 +54,18 @@ describe("JsonParameterStore", () => {
       // GIVEN
       class BaseTest {
         @Get("/")
-        list(@(In("query").Name("search")) search: string) {}
+        list(@In("query").Name("search") search: string) {}
 
         @Get("/")
-        base(@(In("query").Name("base")) test: string) {}
+        base(@In("query").Name("base") test: string) {}
       }
 
       class Test extends BaseTest {
         @Get("/")
-        test(@(In("query").Name("search")) search: string) {}
+        test(@In("query").Name("search") search: string) {}
 
         @Get("/")
-        base(@(In("query").Name("test")) search: string) {}
+        base(@In("query").Name("test") search: string) {}
       }
 
       // WHEN
@@ -81,6 +80,125 @@ describe("JsonParameterStore", () => {
       expect(result3).toEqual([]);
       expect(result4.length).toEqual(1);
       expect(result4[0].token).toBe(Test);
+    });
+  });
+  describe("isRequired", () => {
+    describe("when property is required", () => {
+      it("should return the expected required state", () => {
+        class Test {
+          @Get("/")
+          test(@Required() @In(JsonParameterTypes.BODY) body: any) {}
+        }
+
+        const store = JsonParameterStore.get(Test, "test", 0);
+
+        expect(store.isRequired(0)).toEqual(false);
+        expect(store.isRequired("")).toEqual(true);
+        expect(store.isRequired(null)).toEqual(true);
+        expect(store.isRequired(undefined)).toEqual(true);
+      });
+    });
+
+    describe("when property is required and have allowed values", () => {
+      it("should validate the required values", () => {
+        class Test {
+          @Get("/")
+          test(@Required() @Allow(null) @In(JsonParameterTypes.BODY) body: any) {}
+        }
+
+        const store = JsonParameterStore.get(Test, "test", 0);
+
+        expect(store.allowedRequiredValues).toEqual([null]);
+        expect(store.isRequired(0)).toEqual(false);
+        expect(store.isRequired("")).toEqual(true);
+        expect(store.isRequired(null)).toEqual(false);
+        expect(store.isRequired(undefined)).toEqual(true);
+      });
+
+      it("should validate the required values (2)", () => {
+        class Test {
+          @Get("/")
+          test(@Required() @Allow("") @In(JsonParameterTypes.BODY) body: any) {}
+        }
+
+        const store = JsonParameterStore.get(Test, "test", 0);
+        store.required = true;
+
+        expect(store.allowedRequiredValues).toEqual([""]);
+        expect(store.isRequired(0)).toEqual(false);
+        expect(store.isRequired("")).toEqual(false);
+        expect(store.isRequired(null)).toEqual(true);
+        expect(store.isRequired(undefined)).toEqual(true);
+      });
+
+      it("should validate the required values (3)", () => {
+        class Test {
+          @Get("/")
+          test(@Required() @Allow("") @In(JsonParameterTypes.BODY) body: any) {}
+        }
+
+        const store = JsonParameterStore.get(Test, "test", 0);
+        store.required = true;
+
+        expect(store.allowedRequiredValues).toEqual([""]);
+        expect(store.isRequired(0)).toEqual(false);
+        expect(store.isRequired("")).toEqual(false);
+        expect(store.isRequired(null)).toEqual(true);
+        expect(store.isRequired(undefined)).toEqual(true);
+      });
+    });
+
+    describe("when property is not required", () => {
+      it("should validate values", () => {
+        class Test {
+          @Get("/")
+          test(@Required(false) @Allow("") @In(JsonParameterTypes.BODY) body: any) {}
+        }
+
+        const store = JsonParameterStore.get(Test, "test", 0);
+        store.required = false;
+
+        expect(store.isRequired(0)).toEqual(false);
+        expect(store.isRequired("")).toEqual(false);
+        expect(store.isRequired(null)).toEqual(false);
+        expect(store.isRequired(undefined)).toEqual(false);
+      });
+    });
+  });
+  describe("props", () => {
+    it("should return the required value", () => {
+      class Test {
+        method(arg1: any, arg2: any) {}
+      }
+
+      const paramMetadata = JsonParameterStore.get(Test, "method", 0);
+      paramMetadata.required = true;
+      paramMetadata.expression = "test";
+      paramMetadata.type = Test;
+
+      expect(paramMetadata.required).toEqual(true);
+
+      expect(paramMetadata.expression).toEqual("test");
+
+      expect(paramMetadata.collectionType).toEqual(undefined);
+      expect(paramMetadata.type).toEqual(Test);
+      expect(paramMetadata.index).toEqual(0);
+      expect(paramMetadata.store).toBeInstanceOf(Store);
+    });
+  });
+  describe("as a service", () => {
+    it("should return the service", () => {
+      class Test {
+        method(arg1: any, arg2: any) {}
+      }
+
+      const paramMetadata = JsonParameterStore.get(Test, "method", 0);
+      paramMetadata.required = true;
+      paramMetadata.expression = "test";
+      paramMetadata.type = Test;
+      paramMetadata.paramType = "ERR";
+
+      expect(paramMetadata.paramType).toEqual("ERR");
     });
   });
 });

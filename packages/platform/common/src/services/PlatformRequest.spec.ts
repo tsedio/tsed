@@ -82,12 +82,17 @@ describe("PlatformRequest", () => {
     it("should return the expected data", () => {
       const {request} = createRequest();
       request.raw.originalUrl = "/";
-      request.raw.query = request.raw.session = request.raw.cookies = request.raw.params = request.raw.body = {
-        obj: {
-          test: "testValue"
-        },
-        test: "testValue"
-      };
+      request.raw.query =
+        request.raw.session =
+        request.raw.cookies =
+        request.raw.params =
+        request.raw.body =
+          {
+            obj: {
+              test: "testValue"
+            },
+            test: "testValue"
+          };
 
       expect(request.url).to.equal("/");
       expect(request.body).to.deep.equal({

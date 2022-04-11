@@ -4,14 +4,14 @@ import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {Agenda, AgendaService, Define, Every} from "@tsed/agenda";
 import {Server} from "./helpers/Server";
 
-@Agenda({ namespace: "test-nsp" })
+@Agenda({namespace: "test-nsp"})
 class Test {
   @Every("60 seconds")
   test() {
     // test
   }
 
-  @Define({ name: "customName" })
+  @Define({name: "customName"})
   test2() {
     // test
   }
@@ -29,15 +29,13 @@ describe("Agenda integration", () => {
   describe("enabled", () => {
     beforeEach(async () => {
       await TestMongooseContext.install();
-      const { url } = await TestMongooseContext.getMongooseOptions();
+      const {url} = await TestMongooseContext.getMongooseOptions();
       const bstrp = PlatformTest.bootstrap(Server, {
         agenda: {
           enabled: true,
           db: {
             address: url,
-            options: {
-              useUnifiedTopology: true
-            }
+            options: {}
           }
         }
       });

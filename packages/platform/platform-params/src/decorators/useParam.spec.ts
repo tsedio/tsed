@@ -1,7 +1,6 @@
 import {Get} from "@tsed/common";
-import {Description, Example, getSpec, Property, Required, SpecTypes, Title} from "@tsed/schema";
+import {Description, Example, getSpec, JsonParameterStore, Property, Required, SpecTypes, Title} from "@tsed/schema";
 import {expect} from "chai";
-import {ParamMetadata} from "../domain/ParamMetadata";
 import {ParamTypes} from "../domain/ParamTypes";
 import {QueryParams} from "./queryParams";
 import {UseParam} from "./useParam";
@@ -36,7 +35,7 @@ describe("@UseParam", () => {
         ) {}
       }
 
-      const param = ParamMetadata.get(Ctrl, "test", 0);
+      const param = JsonParameterStore.get(Ctrl, "test", 0);
       expect(param.expression).to.eq("expression");
       expect(param.paramType).to.eq(ParamTypes.BODY);
       expect(param.type).to.eq(Test);

@@ -1,7 +1,7 @@
-import {cleanObject, deepMerge, Store} from "@tsed/core";
+import {deepMerge, Store} from "@tsed/core";
 import {Schema} from "mongoose";
-import {MONGOOSE_SCHEMA_OPTIONS} from "../constants";
-import {MongooseNextCB, MongoosePostHook, MongoosePreHook, MongooseSchemaOptions} from "../interfaces";
+import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
+import {MongooseNextCB, MongoosePostHook, MongoosePreHook, MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions";
 
 /**
  * @ignore

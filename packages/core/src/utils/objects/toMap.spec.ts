@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {toMap} from "./toMap";
 
 describe("toMap", () => {
@@ -9,10 +8,10 @@ describe("toMap", () => {
         test1: {top: "test1"}
       });
 
-      expect(result).to.be.instanceof(Map);
-      expect(result.size).to.equal(2);
-      expect([...result.keys()]).to.deep.equal(["test", "test1"]);
-      expect([...result.values()]).to.deep.equal([{top: "test"}, {top: "test1"}]);
+      expect(result).toBeInstanceOf(Map);
+      expect(result.size).toBe(2);
+      expect([...result.keys()]).toEqual(["test", "test1"]);
+      expect([...result.values()]).toEqual([{top: "test"}, {top: "test1"}]);
     });
     it("should create map by id", () => {
       const result = toMap(
@@ -24,10 +23,10 @@ describe("toMap", () => {
         "id"
       );
 
-      expect(result).to.be.instanceof(Map);
-      expect(result.size).to.equal(2);
-      expect([...result.keys()]).to.deep.equal(["1", "2"]);
-      expect([...result.values()]).to.deep.equal([
+      expect(result).toBeInstanceOf(Map);
+      expect(result.size).toBe(2);
+      expect([...result.keys()]).toEqual(["1", "2"]);
+      expect([...result.values()]).toEqual([
         {
           id: "1",
           top: "test"
@@ -48,10 +47,10 @@ describe("toMap", () => {
         (item) => item.id
       );
 
-      expect(result).to.be.instanceof(Map);
-      expect(result.size).to.equal(2);
-      expect([...result.keys()]).to.deep.equal(["1", "2"]);
-      expect([...result.values()]).to.deep.equal([
+      expect(result).toBeInstanceOf(Map);
+      expect(result.size).toBe(2);
+      expect([...result.keys()]).toEqual(["1", "2"]);
+      expect([...result.values()]).toEqual([
         {
           id: "1",
           top: "test"
@@ -80,10 +79,10 @@ describe("toMap", () => {
         }
       ]);
 
-      expect(result).to.be.instanceof(Map);
-      expect(result.size).to.equal(2);
-      expect([...result.keys()]).to.deep.equal(["1", "2"]);
-      expect([...result.values()]).to.deep.equal([
+      expect(result).toBeInstanceOf(Map);
+      expect(result.size).toBe(2);
+      expect([...result.keys()]).toEqual(["1", "2"]);
+      expect([...result.values()]).toEqual([
         {
           id: "1",
           top: "test"
@@ -113,10 +112,10 @@ describe("toMap", () => {
         "id"
       );
 
-      expect(result).to.be.instanceof(Map);
-      expect(result.size).to.equal(2);
-      expect([...result.keys()]).to.deep.equal(["1", "2"]);
-      expect([...result.values()]).to.deep.equal([
+      expect(result).toBeInstanceOf(Map);
+      expect(result.size).toBe(2);
+      expect([...result.keys()]).toEqual(["1", "2"]);
+      expect([...result.values()]).toEqual([
         {
           id: "1",
           top: "test"
@@ -146,10 +145,10 @@ describe("toMap", () => {
         (item) => item.id
       );
 
-      expect(result).to.be.instanceof(Map);
-      expect(result.size).to.equal(2);
-      expect([...result.keys()]).to.deep.equal(["1", "2"]);
-      expect([...result.values()]).to.deep.equal([
+      expect(result).toBeInstanceOf(Map);
+      expect(result.size).toBe(2);
+      expect([...result.keys()]).toEqual(["1", "2"]);
+      expect([...result.values()]).toEqual([
         {
           id: "1",
           top: "test"

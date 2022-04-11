@@ -8,9 +8,11 @@ describe("Session", () => {
   let agent: any;
 
   before(TestContext.bootstrap(Server));
-  before(TestContext.inject([ExpressApplication], async (expressApplication: ExpressApplication) => {
-    agent = SuperTest.agent(expressApplication);
-  }));
+  before(
+    TestContext.inject([ExpressApplication], async (expressApplication: ExpressApplication) => {
+      agent = SuperTest.agent(expressApplication);
+    })
+  );
   after(TestContext.reset);
 
   describe("Login / Logout", () => {

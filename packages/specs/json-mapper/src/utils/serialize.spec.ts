@@ -1,5 +1,5 @@
 import {deserialize} from "@tsed/json-mapper";
-import {CollectionOf, Ignore, JsonHookContext, Name, Property} from "@tsed/schema";
+import {AdditionalProperties, CollectionOf, Ignore, JsonHookContext, Name, Property} from "@tsed/schema";
 import {expect} from "chai";
 import {parse} from "querystring";
 import {Post} from "../../test/helpers/Post";
@@ -589,6 +589,64 @@ describe("serialize()", () => {
         test: {
           value: "test"
         }
+      });
+    });
+    it("should serialize model with additional object props", () => {
+      @AdditionalProperties(true)
+      class Model {
+        @Property()
+        id: string;
+
+        @Ignore(true)
+        ignored: boolean;
+
+        @Name("renamed")
+        name: string;
+
+        [type: string]: any;
+      }
+
+      const test = new Model();
+      test.id = "id";
+      test.ignored = true;
+      test.name = "myname";
+      test.additional = {foo: "bar"};
+
+      const result = serialize(test, {type: Model});
+
+      expect(result).to.deep.eq({
+        id: "id",
+        renamed: "myname",
+        additional: {
+          foo: "bar"
+        }
+      });
+    });
+    it("should not serialize model with additional object props", () => {
+      class Model {
+        @Property()
+        id: string;
+
+        @Ignore(true)
+        ignored: boolean;
+
+        @Name("renamed")
+        name: string;
+
+        [type: string]: any;
+      }
+
+      const test = new Model();
+      test.id = "id";
+      test.ignored = true;
+      test.name = "myname";
+      test.additional = {foo: "bar"};
+
+      const result = serialize(test, {type: Model});
+
+      expect(result).to.deep.eq({
+        id: "id",
+        renamed: "myname"
       });
     });
   });

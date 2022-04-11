@@ -1,5 +1,4 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {Authorize, PassportMiddleware} from "../index";
 
 describe("@Authorize", () => {
@@ -15,7 +14,7 @@ describe("@Authorize", () => {
 
     const store = Store.fromMethod(Test, "test");
 
-    expect(store.get(PassportMiddleware)).to.deep.equal({
+    expect(store.get(PassportMiddleware)).toEqual({
       method: "authorize",
       options: {
         security: {
@@ -39,7 +38,7 @@ describe("@Authorize", () => {
 
     const store = Store.fromMethod(Test, "test");
 
-    expect(store.get(PassportMiddleware)).to.deep.equal({
+    expect(store.get(PassportMiddleware)).toEqual({
       method: "authorize",
       options: {
         security: {

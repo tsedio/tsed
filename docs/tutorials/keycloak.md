@@ -1,10 +1,11 @@
 ---
 meta:
- - name: description
-   content: Use Keycloak with Express, TypeScript and Ts.ED to secure your application.
- - name: keywords
-   content: ts.ed express typescript keycloak node.js javascript decorators
+  - name: description
+    content: Use Keycloak with Express, TypeScript and Ts.ED to secure your application.
+  - name: keywords
+    content: ts.ed express typescript keycloak node.js javascript decorators
 ---
+
 # Keycloak
 
 <Banner src="/keycloak.svg" height="200" href="https://www.keycloak.org"></Banner>
@@ -17,7 +18,7 @@ Before securing the application with Keycloak, we need to install the [Keycloak 
 
 ::: tip Note
 The version of the `keycloak-connect` module should be the same version as your Keycloak instance.
-::: 
+:::
 
 ```bash
 npm install --save keycloak-connect
@@ -36,52 +37,49 @@ How exactly the file is downloaded can be found in the official [Keycloak docume
 Create a KeycloakService in `src/services` that handles the memory store, the Keycloak instance and the token.
 
 ```typescript
-import {Service} from '@tsed/di';
-import {MemoryStore} from 'express-session';
+import {Service} from "@tsed/di";
+import {MemoryStore} from "express-session";
 import {$log} from "@tsed/common";
 import {Token} from "keycloak-connect";
-import KeycloakConnect = require('keycloak-connect');
+import KeycloakConnect = require("keycloak-connect");
 
 @Service()
 export class KeycloakService {
-    private keycloak: KeycloakConnect.Keycloak;
-    private memoryStore: MemoryStore;
-    private token: Token;
+  private keycloak: KeycloakConnect.Keycloak;
+  private memoryStore: MemoryStore;
+  private token: Token;
 
-    constructor() {
-        this.initKeycloak();
-    }
+  constructor() {
+    this.initKeycloak();
+  }
 
-    public initKeycloak(): KeycloakConnect.Keycloak {
-        if (this.keycloak) {
-            $log.warn('Trying to init Keycloak again!');
-            return this.keycloak;
-        } else {
-            $log.info('Initializing Keycloak...');
-            this.memoryStore = new MemoryStore();
-            this.keycloak = new KeycloakConnect(
-                { store: this.memoryStore },
-                'src/config/keycloak/keycloak.json'
-            );
-            return this.keycloak;
-        }
+  public initKeycloak(): KeycloakConnect.Keycloak {
+    if (this.keycloak) {
+      $log.warn("Trying to init Keycloak again!");
+      return this.keycloak;
+    } else {
+      $log.info("Initializing Keycloak...");
+      this.memoryStore = new MemoryStore();
+      this.keycloak = new KeycloakConnect({store: this.memoryStore}, "src/config/keycloak/keycloak.json");
+      return this.keycloak;
     }
+  }
 
-    public getKeycloakInstance(): KeycloakConnect.Keycloak {
-        return this.keycloak;
-    }
+  public getKeycloakInstance(): KeycloakConnect.Keycloak {
+    return this.keycloak;
+  }
 
-    public getMemoryStore(): MemoryStore {
-        return this.memoryStore;
-    }
-  
-    public getToken(): Token {
-      return this.token;
-    }
+  public getMemoryStore(): MemoryStore {
+    return this.memoryStore;
+  }
 
-    public setToken(token: Token): void {
-      this.token = token;
-    }
+  public getToken(): Token {
+    return this.token;
+  }
+
+  public setToken(token: Token): void {
+    this.token = token;
+  }
 }
 ```
 
@@ -92,34 +90,41 @@ Make sure that the KeycloakService is part of the componentsScan array of the gl
 The `KeycloakService` can then be injected in the Server class and the middleware of `express-session` and `keycloak-connect` can be called.
 
 ```typescript
+import {Configuration, Inject} from "@tsed/di";
+import {PlatformApplication} from "@tsed/common";
+import cors from "cors";
+import compress from "compress";
+import cookieParser from "cookie-parser";
+import methodOverride from "method-override";
+import session from "express-session";
+
+@Configuration({
+  middlewares: [
+    cors(),
+    compress({}),
+    cookieParser(),
+    methodOverride(),
+    session({
+      secret: "some secret",
+      resave: false,
+      saveUninitialized: true,
+      store: this.keycloakService.getMemoryStore()
+    })
+  ]
+})
 export class Server {
-    @Inject()
-    app: PlatformApplication;
+  @Inject()
+  protected app: PlatformApplication;
 
-    @Inject()
-    keycloakService: KeycloakService;
+  @Inject()
+  protected keycloakService: KeycloakService;
 
-    @Configuration()
-    settings: Configuration;
+  @Configuration()
+  protected settings: Configuration;
 
-    $beforeRoutesInit(): void {
-        this.app
-            .use(cors())
-            .use(cookieParser())
-            .use(compress({}))
-            .use(methodOverride())
-            .use(bodyParser.json())
-            .use(bodyParser.urlencoded({
-                extended: true
-            }))
-            .use(session({
-                secret: 'some secret',
-                resave: false,
-                saveUninitialized: true,
-                store: this.keycloakService.getMemoryStore()
-            }))
-            .use(this.keycloakService.getKeycloakInstance().middleware());
-    }
+  $beforeRoutesInit(): void {
+    this.app.use(this.keycloakService.getKeycloakInstance().middleware());
+  }
 }
 ```
 
@@ -127,29 +132,30 @@ export class Server {
 
 To secure your routes add a KeycloakMiddleware class to `src/middlewares`.
 
-With each request the token is set to the request property `kauth`. 
+With each request the token is set to the request property `kauth`.
 
 In order to be able to use the token we set this in the KeycloakService.
 
 ```typescript
-import {Context, MiddlewareMethods, Inject, Middleware} from '@tsed/common';
-import {KeycloakAuthOptions} from '../decorators/KeycloakAuthDecorator';
-import {KeycloakService} from '../services/KeycloakService';
+import {Context, MiddlewareMethods, Inject, Middleware} from "@tsed/common";
+import {KeycloakAuthOptions} from "../decorators/KeycloakAuthDecorator";
+import {KeycloakService} from "../services/KeycloakService";
 
 @Middleware()
 export class KeycloakMiddleware implements MiddlewareMethods {
+  @Inject()
+  protected keycloakService: KeycloakService;
 
-    @Inject()
-    keycloakService: KeycloakService;
+  public use(@Context() ctx: Context) {
+    const options: KeycloakAuthOptions = ctx.endpoint.store.get(KeycloakMiddleware);
+    const keycloak = this.keycloakService.getKeycloakInstance();
 
-    public use(@Context() ctx: Context) {
-        const options: KeycloakAuthOptions = ctx.endpoint.store.get(KeycloakMiddleware);
-        const keycloak = this.keycloakService.getKeycloakInstance();
-        if (ctx.getRequest().kauth.grant) {
-          this.keycloakService.setToken(ctx.getRequest().kauth.grant.access_token);
-        }
-        return keycloak.protect(options.role);
+    if (ctx.getRequest().kauth.grant) {
+      this.keycloakService.setToken(ctx.getRequest().kauth.grant.access_token);
     }
+
+    return keycloak.protect(options.role);
+  }
 }
 ```
 
@@ -158,23 +164,19 @@ export class KeycloakMiddleware implements MiddlewareMethods {
 To protect certain routes create a KeycloakAuthDecorator at `src/decorators`.
 
 ```typescript
-import {Returns} from '@tsed/schema';
-import {UseAuth} from '@tsed/common';
-import {useDecorators} from '@tsed/core';
-import {Security} from '@tsed/schema';
-import {KeycloakMiddleware} from '../middlewares/KeycloakMiddleware';
+import {Returns} from "@tsed/schema";
+import {UseAuth} from "@tsed/common";
+import {useDecorators} from "@tsed/core";
+import {Security} from "@tsed/schema";
+import {KeycloakMiddleware} from "../middlewares/KeycloakMiddleware";
 
 export interface KeycloakAuthOptions extends Record<string, any> {
-    role?: string;
-    scopes?: string[];
+  role?: string;
+  scopes?: string[];
 }
 
 export function KeycloakAuth(options: KeycloakAuthOptions = {}): Function {
-    return useDecorators(
-        UseAuth(KeycloakMiddleware, options),
-        Security('oauth2', ...(options.scopes || [])),
-        Returns(403)
-    );
+  return useDecorators(UseAuth(KeycloakMiddleware, options), Security("oauth2", ...(options.scopes || [])), Returns(403));
 }
 ```
 
@@ -184,12 +186,12 @@ Now we can protect routes with our custom KeycloakAuth decorator.
 
 ```typescript
 import {Controller, Get} from "@tsed/common";
-import {KeycloakAuth} from '../decorators/KeycloakAuthDecorator';
+import {KeycloakAuth} from "../decorators/KeycloakAuthDecorator";
 
 @Controller("/hello-world")
 export class HelloWorldController {
   @Get("/")
-  @KeycloakAuth({ role: "realm:example-role" })
+  @KeycloakAuth({role: "realm:example-role"})
   get() {
     return "hello";
   }
@@ -204,28 +206,28 @@ Don't forget to replace `authorizationUrl`, `tokenUrl` and `refreshUrl` with you
 
 ```typescript
 swagger: [
-    {
-      path: `/v3/docs`,
-      specVersion: "3.0.1",
-      spec: {
-        components: {
-          securitySchemes: {
-            "oauth2": {
-              type: "oauth2",
-              flows: {
-                authorizationCode: {
-                  authorizationUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/auth",
-                  tokenUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/token",
-                  refreshUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/token",
-                  scopes: {openid: "openid", profile: "profile"}
-                }
+  {
+    path: `/v3/docs`,
+    specVersion: "3.0.1",
+    spec: {
+      components: {
+        securitySchemes: {
+          oauth2: {
+            type: "oauth2",
+            flows: {
+              authorizationCode: {
+                authorizationUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/auth",
+                tokenUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/token",
+                refreshUrl: "https://<keycloak-url>/auth/realms/<my-realm>/protocol/openid-connect/token",
+                scopes: {openid: "openid", profile: "profile"}
               }
             }
           }
         }
       }
     }
-]
+  }
+];
 ```
 
 ## Author

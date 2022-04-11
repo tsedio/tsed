@@ -26,11 +26,13 @@ class TestFullPayloadCtrl {
 describe("Full payload", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  beforeEach(utils.bootstrap({
-    mount: {
-      "/rest": [TestFullPayloadCtrl]
-    }
-  }));
+  beforeEach(
+    utils.bootstrap({
+      mount: {
+        "/rest": [TestFullPayloadCtrl]
+      }
+    })
+  );
   beforeEach(() => {
     request = SuperTest(PlatformTest.callback());
   });

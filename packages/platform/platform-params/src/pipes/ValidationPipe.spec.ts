@@ -1,6 +1,6 @@
-import {ParamMetadata, PlatformTest, Post} from "@tsed/common";
+import {PlatformTest, Post} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
-import {CollectionOf, getSpec, Required, SpecTypes} from "@tsed/schema";
+import {CollectionOf, getSpec, JsonParameterStore, Required, SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
 import {BodyParams} from "../decorators/bodyParams";
 import {QueryParams} from "../decorators/queryParams";
@@ -20,7 +20,7 @@ describe("ValidationPipe", () => {
     }
 
     // WHEN
-    const param = ParamMetadata.get(Test, "test", 0);
+    const param = JsonParameterStore.get(Test, "test", 0);
     const result = await validator.transform("value", param);
     // THEN
     expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).to.deep.eq({
@@ -70,7 +70,7 @@ describe("ValidationPipe", () => {
     }
 
     // WHEN
-    const param = ParamMetadata.get(Test, "test", 0);
+    const param = JsonParameterStore.get(Test, "test", 0);
 
     const result: any = await validator.transform(["test"], param);
 
@@ -122,7 +122,7 @@ describe("ValidationPipe", () => {
     }
 
     // WHEN
-    const param = ParamMetadata.get(Test, "test", 0);
+    const param = JsonParameterStore.get(Test, "test", 0);
 
     const result: any = await catchAsyncError(() => validator.transform(undefined, param));
 

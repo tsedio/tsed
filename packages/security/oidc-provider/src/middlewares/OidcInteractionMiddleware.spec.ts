@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as faker from "faker";
+import faker from "@faker-js/faker";
 import Sinon from "sinon";
 import {
   INTERACTION_CONTEXT,
@@ -9,7 +9,7 @@ import {
   INTERACTION_PROMPT,
   INTERACTION_SESSION,
   INTERACTION_UID
-} from "../constants";
+} from "../constants/constants";
 import {OidcInteractionContext} from "../services/OidcInteractionContext";
 import {OidcInteractionMiddleware} from "./OidcInteractionMiddleware";
 
@@ -18,7 +18,7 @@ describe("OidcInteractionMiddleware", () => {
   afterEach(() => PlatformTest.reset());
   it("should create interaction details and store it to the context", async () => {
     const interactionDetails = {
-      uid: faker.random.uuid(),
+      uid: faker.datatype.uuid(),
       prompt: {},
       params: {},
       session: {}

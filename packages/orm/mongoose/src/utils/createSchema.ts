@@ -3,8 +3,8 @@ import {deserialize, serialize} from "@tsed/json-mapper";
 import {getProperties, JsonEntityStore} from "@tsed/schema";
 import {pascalCase} from "change-case";
 import mongoose, {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
-import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants";
-import {MongooseSchemaOptions} from "../interfaces";
+import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
+import {MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 import {resolveRefType} from "./resolveRefType";
 import {schemaOptions} from "./schemaOptions";
@@ -189,7 +189,7 @@ export function createSchemaTypeOptions<T = any>(propEntity: JsonEntityStore): S
       throw new Error(`Invalid collection type. ${nameOf(propEntity.collectionType)} is not supported.`);
     }
 
-    return ({type: Map, of: schemaTypeOptions} as unknown) as SchemaTypeOptions<T>;
+    return {type: Map, of: schemaTypeOptions} as unknown as SchemaTypeOptions<T>;
   }
 
   return schemaTypeOptions;

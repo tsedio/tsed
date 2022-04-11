@@ -5,12 +5,7 @@ import {$log} from "@tsed/logger";
 
 @Middleware()
 export class GlobalErrorHandlerMiddleware {
-  use(
-    @Err() error: any,
-    @Req() request: Req,
-    @Res() response: Res
-  ): any {
-
+  use(@Err() error: any, @Req() request: Req, @Res() response: Res): any {
     if (response.headersSent) {
       throw error;
     }

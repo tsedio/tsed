@@ -25,9 +25,7 @@
             }
           }
         ],
-        "tags": [
-          "UsersCtrl"
-        ]
+        "tags": ["UsersCtrl"]
       }
     },
     "/": {
@@ -56,9 +54,7 @@
             }
           }
         },
-        "tags": [
-          "UsersCtrl"
-        ]
+        "tags": ["UsersCtrl"]
       }
     }
   },
@@ -94,11 +90,7 @@
             }
           }
         },
-        "required": [
-          "firstName",
-          "lastName",
-          "email"
-        ]
+        "required": ["firstName", "lastName", "email"]
       },
       "UserCreation": {
         "type": "object",
@@ -119,11 +111,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "firstName",
-          "lastName",
-          "email"
-        ]
+        "required": ["firstName", "lastName", "email"]
       }
     }
   }

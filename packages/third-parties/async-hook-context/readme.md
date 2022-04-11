@@ -31,14 +31,14 @@ Add [Async Hook context](https://nodejs.org/api/async_hooks.html#async_hooks_cla
 
 ## Usage
 
-Ts.ED provide an injectable [RequestContext] to get all request and response information during a request. 
+Ts.ED provide an injectable [RequestContext] to get all request and response information during a request.
 But, you have to inject the context from your controller and forward context instance manually to the service.
 
 ```typescript
 @Injectable()
 export class CustomRepository {
   async findById(id: string, ctx: PlatformContext) {
-    ctx.logger.info('Where are in the repository');
+    ctx.logger.info("Where are in the repository");
     return {
       id,
       headers: this.$ctx?.request.headers
@@ -67,8 +67,8 @@ export class CustomRepository {
   $ctx?: PlatformContext;
 
   async findById(id: string) {
-    this.ctx?.logger.info('Where are in the repository');
-  
+    this.ctx?.logger.info("Where are in the repository");
+
     return {
       id,
       headers: this.$ctx?.request.headers
@@ -104,19 +104,15 @@ Then import `@tsed/async-hook-context` in your Server:
 import {Configuration} from "@tsed/common";
 import "@tsed/async-hook-context";
 
-@Configuration({
-    rootDir: __dirname
-})
-export class Server {
-
-}
+@Configuration({})
+export class Server {}
 ```
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 

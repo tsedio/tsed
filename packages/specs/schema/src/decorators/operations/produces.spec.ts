@@ -1,7 +1,7 @@
 import {getSpec, OperationPath, Produces, SpecTypes} from "@tsed/schema";
 
 describe("Produces", () => {
-  it("should store metadata (openspec)", () => {
+  it("should store metadata", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Produces("text/json")

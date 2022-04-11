@@ -1,6 +1,23 @@
-import {classOf, isArray, isClassObject, isCollection, isEmpty, isFunction, isNil, MetadataTypes, objectKeys, Type} from "@tsed/core";
+import {
+  classOf,
+  isArray,
+  isClassObject,
+  isCollection,
+  isEmpty,
+  isFunction,
+  isNil,
+  MetadataTypes,
+  nameOf,
+  objectKeys,
+  Type
+} from "@tsed/core";
 import {alterIgnore, getPropertiesStores, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
-import "../components";
+import "../components/ArrayMapper";
+import "../components/DateMapper";
+import "../components/MapMapper";
+import "../components/PrimitiveMapper";
+import "../components/SetMapper";
+import "../components/SymbolMapper";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {getJsonMapperTypes} from "../domain/JsonMapperTypesContainer";
 import {JsonMapperMethods} from "../interfaces/JsonMapperMethods";
@@ -53,7 +70,12 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
 
   const entity = JsonEntityStore.from(type || obj);
 
-  return getSchemaProperties(entity, obj).reduce((newObj, [key, propStore]) => {
+  const additionalProperties = !!entity.schema.get("additionalProperties");
+  const schemaProperties = getSchemaProperties(entity, obj);
+  const properties = new Set<string>();
+  const out: any = schemaProperties.reduce((newObj, [key, propStore]) => {
+    properties.add(key as string);
+
     const schema = propStore.schema;
 
     if (alterIgnore(schema, {useAlias, ...props, self: obj})) {
@@ -63,6 +85,7 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
     let value = alterValue(schema, obj[key], {useAlias, ...props, self: obj});
     value = serialize(value, {
       useAlias,
+      self: obj,
       type: value === obj[key] ? getType(propStore, value) : undefined,
       collectionType: propStore.collectionType,
       ...props
@@ -79,6 +102,15 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
       [key]: value
     };
   }, {});
+
+  if (additionalProperties) {
+    objectKeys(obj).forEach((key: any) => {
+      if (!properties.has(key)) {
+        out[key] = obj[key];
+      }
+    });
+  }
+  return out;
 }
 
 function toObject(obj: any, options: JsonSerializerOptions): any {
@@ -116,7 +148,7 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
     return obj.toJSON(options);
   }
 
-  if (typeof obj.toJSON === "function") {
+  if (!(obj && obj?._isAMomentObject) && typeof obj.toJSON === "function") {
     return serialize(obj.toJSON(), {...options, type: classOf(obj)});
   }
 
@@ -139,10 +171,13 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
       })
   });
 
-  if (types.has(currentType)) {
-    const jsonMapper = types.get(currentType)!;
+  const mapper = types.get(currentType) || types.get(nameOf(currentType));
+  if (mapper) {
+    const jsonMapper = mapper!;
 
     return jsonMapper.serialize(obj, context);
+  } else if (obj?._isAMomentObject) {
+    return obj.toJSON();
   }
 
   if (isArray(obj)) {

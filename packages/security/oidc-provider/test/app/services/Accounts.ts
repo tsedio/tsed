@@ -14,10 +14,15 @@ export class Accounts implements OidcAccountsMethods {
     const accounts = await this.adapter.findAll();
 
     if (!accounts.length) {
-      await this.adapter.create(deserialize({
-        email: "test@test.com",
-        emailVerified: true
-      }, {useAlias: false}));
+      await this.adapter.create(
+        deserialize(
+          {
+            email: "test@test.com",
+            emailVerified: true
+          },
+          {useAlias: false}
+        )
+      );
     }
   }
 

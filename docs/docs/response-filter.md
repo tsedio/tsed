@@ -1,10 +1,11 @@
 ---
 meta:
- - name: description
-   content: Documentation over response filters provided by Ts.ED framework. Use class to transform data before returning it to your consumer.
- - name: keywords
-   content: response filter ts.ed express typescript node.js javascript decorators jsonschema class models
+  - name: description
+    content: Documentation over response filters provided by Ts.ED framework. Use class to transform data before returning it to your consumer.
+  - name: keywords
+    content: response filter ts.ed express typescript node.js javascript decorators jsonschema class models
 ---
+
 # Response Filter
 
 Ts.ED response filter provide a @@ResponseFilter@@ decorator to decorate a class and handle data returned by the endpoint before sending it to your consumer.
@@ -56,7 +57,7 @@ export class UsersCtrl {
 
 ```typescript
 import {Configuration} from "@tsed/common";
-import {XmlResponseFilter} from "./filters/XmlResponseFilter"; 
+import {XmlResponseFilter} from "./filters/XmlResponseFilter";
 
 @Configuration({
   responseFilters: [
@@ -74,7 +75,7 @@ import * as SuperTest from "supertest";
 import {UsersCtrl} from "./UsersCtrl";
 import {Server} from "../../Server";
 
-describe('UserCtrl', () => {
+describe("UserCtrl", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
   before(
@@ -96,14 +97,12 @@ describe('UserCtrl', () => {
         Accept: "text/xml"
       })
       .expect(200);
-    
+
     expect(response.text).toEqual("<xml>...</xml>");
   });
   it("should return the default format", async () => {
-    const response = await request
-      .get("/rest/users/1")
-      .expect(200);
-    
+    const response = await request.get("/rest/users/1").expect(200);
+
     expect(response.body).toEqual({id: "1"});
   });
 });
@@ -119,7 +118,7 @@ Don't forget to register your Response Filter by adding your class to `responseF
 ## Wrap responses
 
 One of the usage of the Response Filter could be to wrap all returned data into a generic object.
-To doing that, use the `application/json` Content-Type with the @@ResponseFilter@@ decorator 
+To doing that, use the `application/json` Content-Type with the @@ResponseFilter@@ decorator
 to wrap data to the expected result:
 
 <Tabs class="-code">
@@ -159,7 +158,7 @@ export class UsersCtrl {
 
 ```typescript
 import {Configuration} from "@tsed/common";
-import {WrapperResponseFilter} from "./filters/WrapperResponseFilter"; 
+import {WrapperResponseFilter} from "./filters/WrapperResponseFilter";
 
 @Configuration({
   responseFilters: [
@@ -177,7 +176,7 @@ import * as SuperTest from "supertest";
 import {UsersCtrl} from "./UsersCtrl";
 import {Server} from "../../Server";
 
-describe('UserCtrl', () => {
+describe("UserCtrl", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
   before(
@@ -193,10 +192,8 @@ describe('UserCtrl', () => {
   });
   after(PlatformTest.reset);
   it("should return the wrapped data", async () => {
-    const response = await request
-      .get("/rest/users/1")
-      .expect(200);
-    
+    const response = await request.get("/rest/users/1").expect(200);
+
     expect(response.body).toEqual({data: {id: "1"}, errors: [], links: []});
   });
 });
@@ -211,7 +208,7 @@ The wrapper won't be documented in your generated `swagger.json`!
 
 ## Handle all responses
 
-By using the `*/*`  Content-Type value given to the @@ResponseFilter@@ you can intercept all data.
+By using the `*/*` Content-Type value given to the @@ResponseFilter@@ you can intercept all data.
 
 ```typescript
 import {ResponseFilter, Context, ResponseFilterMethods} from "@tsed/common";
@@ -238,13 +235,12 @@ The used features are the following:
 <Tabs class="-code">
   <Tab label="ProductsCtrl.ts">
 
-<<< @/docs/snippets/model/pagination-ctrl.ts 
-  
+<<< @/docs/snippets/model/pagination-ctrl.ts
+
   </Tab>  
   <Tab label="Pageable.ts">
   
 <<< @/docs/snippets/model/pageable-model.ts
-
 
   </Tab>  
   <Tab label="Pagination.ts">
@@ -267,4 +263,4 @@ The used features are the following:
 <<< @/docs/snippets/model/pageable-product-model.ts
   
   </Tab>
-</Tabs>  
+</Tabs>

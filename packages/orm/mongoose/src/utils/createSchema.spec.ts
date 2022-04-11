@@ -13,7 +13,7 @@ import {
   Required
 } from "@tsed/schema";
 import {Schema as SchemaMongoose} from "mongoose";
-import {Model, ObjectID, Ref, Schema, VersionKey, VirtualRef, VirtualRefs} from "../../src/decorators";
+import {Model, ObjectID, Ref, Schema, VersionKey, VirtualRef, VirtualRefs} from "@tsed/mongoose";
 import {SchemaIgnore} from "../../src/decorators/schemaIgnore";
 import {getSchema} from "../../src/utils/createSchema";
 import {DiscriminatorKey} from "../decorators/discriminatorKey";
@@ -71,6 +71,28 @@ describe("createSchema", () => {
       }
     });
   });
+  it("should create schema with buffer", () => {
+    // GIVEN
+    @Model()
+    class Test {
+      @Name("id")
+      _id: string;
+
+      @Property(Buffer)
+      image: Buffer;
+    }
+
+    // WHEN
+    const result = getSchema(Test);
+
+    // THEN
+    expect(result.obj).toEqual({
+      image: {
+        required: false,
+        type: Buffer
+      }
+    });
+  });
   it("should create schema with required property", () => {
     // GIVEN
     @Model()
@@ -80,7 +102,7 @@ describe("createSchema", () => {
     }
 
     // WHEN
-    const result = getSchema(Test2);
+    const result: any = getSchema(Test2);
 
     // THEN
     expect(result.obj.test.required).toBeInstanceOf(Function);

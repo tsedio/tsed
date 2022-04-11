@@ -1,15 +1,12 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {indexMiddleware} from "./indexMiddleware";
 
-const sandbox = Sinon.createSandbox();
 describe("indexMiddleware and redirect", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
   it("should create a middleware", async () => {
     const ctx = PlatformTest.createRequestContext();
-    sandbox.stub(ctx.response, "render");
+    jest.spyOn(ctx.response, "render").mockResolvedValue("");
 
     const viewPath = "/swagger.ejs";
     const conf = {
@@ -23,7 +20,7 @@ describe("indexMiddleware and redirect", () => {
 
     await indexMiddleware(viewPath, conf)(ctx);
 
-    expect(ctx.response.render).to.have.been.calledWithExactly(viewPath, {
+    expect(ctx.response.render).toHaveBeenCalledWith(viewPath, {
       spec: {},
       cssPath: "/path.css",
       jsPath: "/path.js",

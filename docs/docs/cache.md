@@ -1,11 +1,13 @@
 ---
 meta:
-- name: description
-  content: Documentation over Cache management provided by Ts.ED framework. Use decorator to cache Response or returned value by a service.
-- name: keywords
-  content: cache ts.ed express koa typescript node.js javascript decorators cache-manager class controller service
+  - name: description
+    content: Documentation over Cache management provided by Ts.ED framework. Use decorator to cache Response or returned value by a service.
+  - name: keywords
+    content: cache ts.ed express koa typescript node.js javascript decorators cache-manager class controller service
 ---
+
 # Cache
+
 <Badge text="6.30.0+" />
 
 Caching is a great and simple technique that helps improve your app's performance.
@@ -37,17 +39,17 @@ export class Server {}
 
 ### Store Engines
 
-* [node-cache-manager-redis](https://github.com/dial-once/node-cache-manager-redis) (uses [sol-redis-pool](https://github.com/joshuah/sol-redis-pool))
-* [node-cache-manager-redis-store](https://github.com/dabroek/node-cache-manager-redis-store) (uses [node_redis](https://github.com/NodeRedis/node_redis))
-* [node-cache-manager-ioredis](https://github.com/dabroek/node-cache-manager-ioredis) (uses [ioredis](https://github.com/luin/ioredis))
-* [node-cache-manager-mongodb](https://github.com/v4l3r10/node-cache-manager-mongodb)
-* [node-cache-manager-mongoose](https://github.com/disjunction/node-cache-manager-mongoose)
-* [node-cache-manager-fs](https://github.com/hotelde/node-cache-manager-fs)
-* [node-cache-manager-fs-binary](https://github.com/sheershoff/node-cache-manager-fs-binary)
-* [node-cache-manager-fs-hash](https://github.com/rolandstarke/node-cache-manager-fs-hash)
-* [node-cache-manager-hazelcast](https://github.com/marudor/node-cache-manager-hazelcast)
-* [node-cache-manager-memcached-store](https://github.com/theogravity/node-cache-manager-memcached-store)
-* [node-cache-manager-memory-store](https://github.com/theogravity/node-cache-manager-memory-store)
+- [node-cache-manager-redis](https://github.com/dial-once/node-cache-manager-redis) (uses [sol-redis-pool](https://github.com/joshuah/sol-redis-pool))
+- [node-cache-manager-redis-store](https://github.com/dabroek/node-cache-manager-redis-store) (uses [node_redis](https://github.com/NodeRedis/node_redis))
+- [node-cache-manager-ioredis](https://github.com/dabroek/node-cache-manager-ioredis) (uses [ioredis](https://github.com/luin/ioredis))
+- [node-cache-manager-mongodb](https://github.com/v4l3r10/node-cache-manager-mongodb)
+- [node-cache-manager-mongoose](https://github.com/disjunction/node-cache-manager-mongoose)
+- [node-cache-manager-fs](https://github.com/hotelde/node-cache-manager-fs)
+- [node-cache-manager-fs-binary](https://github.com/sheershoff/node-cache-manager-fs-binary)
+- [node-cache-manager-fs-hash](https://github.com/rolandstarke/node-cache-manager-fs-hash)
+- [node-cache-manager-hazelcast](https://github.com/marudor/node-cache-manager-hazelcast)
+- [node-cache-manager-memcached-store](https://github.com/theogravity/node-cache-manager-memcached-store)
+- [node-cache-manager-memory-store](https://github.com/theogravity/node-cache-manager-memory-store)
 
 ### Example with mongoose
 
@@ -83,16 +85,16 @@ export class MyService {
 }
 ```
 
-The `get` method on the @@PlatformCache@@ instance is used to retrieve items from the cache. 
+The `get` method on the @@PlatformCache@@ instance is used to retrieve items from the cache.
 
 ```typescript
-const value = await this.cache.get('key');
+const value = await this.cache.get("key");
 ```
 
 To add an item to the cache, use the `set` method:
 
 ```typescript
-await this.cache.set('key', 'value');
+await this.cache.set("key", "value");
 ```
 
 The default expiration time of the cache depends on the configured TTL on Server configuration level.
@@ -100,19 +102,19 @@ The default expiration time of the cache depends on the configured TTL on Server
 You can manually specify a TTL (expiration time) for this specific key, as follows:
 
 ```typescript
-await this.cache.set('key', 'value', { ttl: 1000 });
+await this.cache.set("key", "value", {ttl: 1000});
 ```
 
 To disable the expiration of the cache, set the `ttl` configuration property to `null`:
 
 ```typescript
-await this.cache.set('key', 'value', { ttl: null });
+await this.cache.set("key", "value", {ttl: null});
 ```
 
 To remove an item from the cache, use the `del` method:
 
 ```typescript
-await this.cache.del('key');
+await this.cache.del("key");
 ```
 
 To clear the entire cache, use the `reset` method:
@@ -139,14 +141,15 @@ export class MyController {
 ```
 
 ::: tip Note
-UseCache will generate automatically a key based on the Verb and Uri of your route. If @@QueryParams@@ and/or 
-@@PathParams@@ are used on the method, the key will be generated with them. 
+UseCache will generate automatically a key based on the Verb and Uri of your route. If @@QueryParams@@ and/or
+@@PathParams@@ are used on the method, the key will be generated with them.
 According to our previous example, the generated key will be:
 
 ```
 GET:my-path:1  // if the id is 1
 GET:my-path:2  // etc...
 ```
+
 :::
 
 ::: warning
@@ -174,7 +177,6 @@ export class MyService {
 node-cache-manager serialize all data as JSON object. It means, if you want to cache a complex data like an instance of class, you have to give extra parameters
 to the UseCache decorator. Ts.ED will use @@deserialize@@ function based on the given `type` (and `collectionType`) to return the expected instance.
 
-
 ```typescript
 import {Injectable} from "@tsed/di";
 import {UseCache} from "@tsed/common";
@@ -185,13 +187,14 @@ export class MyService {
   get(id: string): MyClass {
     return new MyClass({id});
   }
-  
+
   @UseCache({type: MyClass, collectionType: Array})
   getAll(): MyClass[] {
     return [new MyClass({id: 1})];
   }
 }
 ```
+
 :::
 
 ## Configure key resolver
@@ -223,13 +226,13 @@ import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/comm
 @Controller("/my-path")
 export class MyController {
   @Get("/:id")
-  @UseCache({ key: 'key' })
+  @UseCache({key: "key"})
   get(@PathParams("id") id: string) {
     return "something with  " + id;
   }
 
   @Get("/:id")
-  @UseCache({ key: (args: any[], $ctx?: PlatformContext) => 'key' })
+  @UseCache({key: (args: any[], $ctx?: PlatformContext) => "key"})
   get(@PathParams("id") id: string) {
     return "something with  " + id;
   }
@@ -252,6 +255,39 @@ export class MyController {
   }
 }
 ```
+
+## Refresh cache keys in background <Badge text="6.103.0+" />
+
+The `caching` module support a mechanism to refresh expiring cache `keys` in background is you use `UseCache` on a Service method (not on controller method).
+This is done by adding a `refreshThreshold` option to the @@UseCache@@ decorator.
+
+If `refreshThreshold` is set and if the `ttl` method is available for the used store,
+after retrieving a value from cache TTL will be checked. If the remaining current `ttl` key is under the configured `ttl` - `refreshThreshold`, the system will spawn a background worker to update the value, following same rules as standard fetching.
+
+```typescript
+const currentTTL = cache.ttl(key);
+
+if (currentTTL < ttl - refreshThreshold) {
+  refresh();
+}
+```
+
+In the meantime, the system will return the old value until expiration.
+
+```typescript
+import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
+
+@Injectable()
+export class MyService {
+  @Get("/:id")
+  @UseCache({ttl: 3600, refreshThreshold: 900})
+  get(@PathParams("id") id: string) {
+    return "something with  " + id;
+  }
+}
+```
+
+In this example, the configured `ttl` is 1 hour and the threshold is 15 minutes. So, the key will be refreshed in background if current `ttl` is under 45 minutes.
 
 ## Multi caching
 

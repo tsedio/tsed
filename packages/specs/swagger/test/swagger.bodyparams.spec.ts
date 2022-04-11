@@ -1,7 +1,6 @@
 import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {MaxLength, MinLength} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
@@ -32,55 +31,108 @@ describe("Swagger BodyParams()", () => {
     request = SuperTest(PlatformTest.callback());
   });
   afterEach(PlatformTest.reset);
+
+  describe("OpenSpec2", () => {
+    it("should swagger spec", async () => {
+      const response = await request.get("/v2/doc/swagger.json").expect(200);
+
+      expect(response.body).toEqual({
+        consumes: ["application/json"],
+        info: {
+          title: "Swagger title",
+          version: "1.2.0"
+        },
+        paths: {
+          "/rest/customers": {
+            post: {
+              consumes: ["application/json"],
+              operationId: "customerControllerGet",
+              parameters: [
+                {
+                  in: "body",
+                  name: "body",
+                  required: false,
+                  schema: {
+                    properties: {
+                      customer_last_name: {
+                        maxLength: 100,
+                        minLength: 0,
+                        type: "string"
+                      },
+                      customer_name: {
+                        type: "string"
+                      }
+                    },
+                    type: "object"
+                  }
+                }
+              ],
+              responses: {
+                "200": {
+                  description: "Success"
+                }
+              },
+              tags: ["CustomerController"]
+            }
+          }
+        },
+        produces: ["application/json"],
+        swagger: "2.0",
+        tags: [
+          {
+            name: "CustomerController"
+          }
+        ]
+      });
+    });
+  });
   describe("OpenSpec3", () => {
     it("should swagger spec", async () => {
       const response = await request.get("/v3/doc/swagger.json").expect(200);
 
-      expect(response.body).to.deep.eq({
-        "info": {
-          "title": "Api documentation",
-          "version": "1.0.0"
+      expect(response.body).toEqual({
+        info: {
+          title: "Api documentation",
+          version: "1.0.0"
         },
-        "openapi": "3.0.1",
-        "paths": {
+        openapi: "3.0.1",
+        paths: {
           "/rest/customers": {
-            "post": {
-              "operationId": "customerControllerGet",
-              "parameters": [],
-              "requestBody": {
-                "content": {
+            post: {
+              operationId: "customerControllerGet",
+              parameters: [],
+              requestBody: {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "properties": {
-                        "customer_last_name": {
-                          "maxLength": 100,
-                          "minLength": 0,
-                          "type": "string"
+                    schema: {
+                      properties: {
+                        customer_last_name: {
+                          maxLength: 100,
+                          minLength: 0,
+                          type: "string"
                         },
-                        "customer_name": {
-                          "type": "string"
+                        customer_name: {
+                          type: "string"
                         }
                       },
-                      "type": "object"
+                      type: "object"
                     }
                   }
                 },
-                "required": false
+                required: false
               },
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "CustomerController"
-              ]
+              tags: ["CustomerController"]
             }
           }
         },
-        "tags": [
+        tags: [
           {
-            "name": "CustomerController"
+            name: "CustomerController"
           }
         ]
       });

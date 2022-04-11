@@ -6,5 +6,4 @@ import {CalendarsCtrl} from "./controllers/CalendarsCtrl";
     "/rest": [CalendarsCtrl]
   }
 })
-export class Server {
-}
+export class Server {}

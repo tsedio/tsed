@@ -1,10 +1,11 @@
 ---
 meta:
-  - name: description 
+  - name: description
     content: Use Apollo, Nexus or Type-graphql with Ts.ED framework. GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data.
   - name: keywords
     content: ts.ed express typescript mongoose node.js javascript decorators
 ---
+
 # GraphQL
 
 GraphQL is a query language for APIs and a runtime for fulfilling those queries with your existing data. GraphQL
@@ -19,6 +20,7 @@ what they need and nothing more, makes it easier to evolve APIs over time, and e
 - Support [TypeGraphQL](https://typegraphql.com/), [Nexus](https://nexusjs.org/) or standalone Apollo server.
 
 ## Apollo
+
 ### Installation
 
 <Tabs class="-code">
@@ -44,17 +46,17 @@ npm install --save-dev apollo-server-testing
 import {Configuration} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/apollo";
-import {join} from "path"
+import {join} from "path";
 
 @Configuration({
   apollo: {
-    "server1": {
+    server1: {
       // GraphQL server configuration
       path: "/",
       playground: true, // enable playground GraphQL IDE. Set false to use Apollo Studio
-      plugins: [], // Apollo plugins
+      plugins: [] // Apollo plugins
       // Give custom server instance
-      // server?: (config: Config) => ApolloServer; 
+      // server?: (config: Config) => ApolloServer;
 
       // ApolloServer options
       // ...
@@ -62,11 +64,11 @@ import {join} from "path"
     }
   }
 })
-export class Server {
-}
+export class Server {}
 ```
 
 ## Nexus
+
 ### Installation
 
 <Tabs class="-code">
@@ -96,20 +98,20 @@ Now, we can configure the Ts.ED server by importing `@tsed/apollo` in your Serve
 import {Configuration} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/apollo";
-import {schema} from "./schema"
-import {join} from "path"
+import {schema} from "./schema";
+import {join} from "path";
 
 @Configuration({
   apollo: {
-    "server1": {
+    server1: {
       // GraphQL server configuration
       path: "/",
       playground: true, // enable playground GraphQL IDE. Set false to use Apollo Studio
       schema,
-      plugins: [], // Apollo plugins
-      
+      plugins: [] // Apollo plugins
+
       // Give custom server instance
-      // server?: (config: Config) => ApolloServer; 
+      // server?: (config: Config) => ApolloServer;
 
       // ApolloServer options
       // ...
@@ -117,26 +119,26 @@ import {join} from "path"
     }
   }
 })
-export class Server {
-}
+export class Server {}
 ```
 
 Then create `schema/index.ts`:
 
 ```typescript
-import { makeSchema } from 'nexus'
-import { join } from 'path'
+import {makeSchema} from "nexus";
+import {join} from "path";
 
 export const schema = makeSchema({
   types: [], // 1
   outputs: {
-    typegen: join(__dirname, '..', '..', 'nexus-typegen.ts'), // 2
-    schema: join(__dirname, '..', '..', 'schema.graphql'), // 3
+    typegen: join(process.cwd(), "..", "..", "nexus-typegen.ts"), // 2
+    schema: join(process.cwd(), "..", "..", "schema.graphql") // 3
   }
 });
 ```
 
 ## TypeGraphQL
+
 ### Installation
 
 To begin, install the `@tsed/typegraphql` package:
@@ -146,7 +148,7 @@ To begin, install the `@tsed/typegraphql` package:
 
 ```bash
 npm install --save @tsed/typegraphql graphql apollo-server-express
-npm install --save type-graphql apollo-datasource apollo-datasource-rest 
+npm install --save type-graphql apollo-datasource apollo-datasource-rest
 npm install --save-dev apollo-server-testing
 ```
 
@@ -155,7 +157,7 @@ npm install --save-dev apollo-server-testing
 
 ```bash
 npm install --save @tsed/typegraphql graphql apollo-server-koa
-npm install --save type-graphql apollo-datasource apollo-datasource-rest 
+npm install --save type-graphql apollo-datasource apollo-datasource-rest
 npm install --save-dev apollo-server-testing
 ```
 
@@ -213,7 +215,7 @@ Then we decorate the class and its properties with decorators:
 <<< @/tutorials/snippets/graphql/recipe-type.ts
 
 The detailed rules for when to use nullable, array and others are described
-in [fields and types docs](https://19majkel94.github.io/type-graphql/docs/types-and-fields.html).
+in [fields and types docs](https://typegraphql.com/docs/types-and-fields.html).
 
 ### Resolvers
 

@@ -17,7 +17,7 @@
           "data": {
             "$ref": "#/components/schemas/Product"
           }
-        }
+        },
         "type": "object"
       }
     }
@@ -42,9 +42,7 @@
             "description": "Success"
           }
         },
-        "tags": [
-          "MyController"
-        ]
+        "tags": ["MyController"]
       }
     }
   },

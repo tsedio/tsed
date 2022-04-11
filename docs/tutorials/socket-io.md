@@ -1,17 +1,18 @@
 ---
 meta:
- - name: description
-   content: Use Socket.io with Express, TypeScript and Ts.ED. Socket.io enable real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
- - name: keywords
-   content: ts.ed express typescript socket.io websocket node.js javascript decorators
+  - name: description
+    content: Use Socket.io with Express, TypeScript and Ts.ED. Socket.io enable real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
+  - name: keywords
+    content: ts.ed express typescript socket.io websocket node.js javascript decorators
 projects:
- - title: Kit Socket.io
-   href: https://github.com/tsedio/tsed-example-socketio
-   src: /socketio.png    
+  - title: Kit Socket.io
+    href: https://github.com/tsedio/tsed-example-socketio
+    src: /socketio.png
 ---
+
 # Socket.io
 
-<Banner src="https://socket.io/css/images/logo.svg" href="https://socket.io" height="180" style="margin-left:-40px" />
+<Banner src="/socket-io.png" href="https://socket.io" height="180" style="margin-left:-40px" />
 
 Socket.io enables real-time bidirectional event-based communication. It works on every platform, browser or device, focusing equally on reliability and speed.
 
@@ -38,13 +39,13 @@ Then add the following configuration in your server [Configuration](/docs/config
 - `cors`: Cors configuration.
 - `parser`: the parser to use. Defaults to an instance of the Parser that ships with Socket.io. See [socket.io-parser](https://github.com/socketio/socket.io-parser).
 
-For more information see [Socket.io documentation](https://socket.io/docs/server-api/#)
+For more information see [Socket.io documentation](https://socket.io/docs/v4/server-api)
 
 ## Socket Service
 
 > Socket.io allows you to “namespace” your sockets, which essentially means assigning different endpoints or paths.
-This is a useful feature to minimize the number of resources (TCP connections) and at the same time separate concerns within your application
- by introducing separation between communication channels. See [namespace documentation](https://socket.io/docs/rooms-and-namespaces/#).
+> This is a useful feature to minimize the number of resources (TCP connections) and at the same time separate concerns within your application
+> by introducing separation between communication channels. See [namespace documentation](https://socket.io/docs/v4/namespaces/).
 
 All Socket service work under a namespace and you can create one Socket service per namespace.
 
@@ -105,7 +106,7 @@ Here is an example of a middleware:
 
 <<< @/tutorials/snippets/socketio/socket-use-middleware.ts
 
-::: tip 
+::: tip
 The user instance will be forwarded to the next middleware and to your decorated method.
 :::
 
@@ -126,7 +127,7 @@ The call sequence is the following for each event request:
 - Middlewares attached with @@SocketUseBefore@@ on method,
 - The method,
 - Send response if the method is decorated with @@Emit@@, @@Broadcast@@ or @@BroadcastOthers@@,
-- Middlewares attached with @@SocketUseAfter@@ on method, 
+- Middlewares attached with @@SocketUseAfter@@ on method,
 - Middlewares attached with @@SocketUseAfter@@ on class.
 
 Middlewares chain uses the `Promise` to run it. If one of this middlewares/method emits an error, the first middleware error will be called.
@@ -147,14 +148,13 @@ With this in your server configuration
 
 ```typescript
 @Configuration({
-  rootDir: __dirname,
   socketIO: {} // uses all default values
 })
 ```
+
 And this in your service
 
 <<< @/tutorials/snippets/socketio/basicSocketService.ts
-
 
 In plain javascript you could connect like this.
 
@@ -178,11 +178,9 @@ export class TestWS {
   @Inject()
   private io: SocketIOServer;
 
-  $onConnection(socket: IOSocket, nsp: Namespace) {
-  }
+  $onConnection(socket: IOSocket, nsp: Namespace) {}
 
-  $onDisconnect(socket: IOSocket, nsp: Namespace) {
-  }
+  $onDisconnect(socket: IOSocket, nsp: Namespace) {}
 
   @Input("input:scenario1")
   @Emit("output:scenario1")
@@ -192,12 +190,14 @@ export class TestWS {
 }
 
 describe("Socket integration", () => {
-  beforeAll(PlatformTest.bootstrap(Server, {
-    platform: PlatformExpress,
-    listen: true,
-    httpPort: 8999,
-    imports: [TestWS]
-  }));
+  beforeAll(
+    PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress,
+      listen: true,
+      httpPort: 8999,
+      imports: [TestWS]
+    })
+  );
   afterAll(PlatformTest.reset);
 
   describe("RoomWS: eventName", () => {
@@ -206,7 +206,7 @@ describe("Socket integration", () => {
       const client = await service.get("/test");
       const client2 = await service.get("/test");
 
-      expect(client).toEqual(client2)
+      expect(client).toEqual(client2);
 
       return new Promise((resolve) => {
         client.on("output:scenario1", (result) => {
@@ -220,6 +220,7 @@ describe("Socket integration", () => {
   });
 });
 ```
+
 </Tab>
   <Tab label="Mocha">
 
@@ -237,11 +238,9 @@ export class TestWS {
   @Inject()
   private io: SocketIOServer;
 
-  $onConnection(socket: IOSocket, nsp: Namespace) {
-  }
+  $onConnection(socket: IOSocket, nsp: Namespace) {}
 
-  $onDisconnect(socket: IOSocket, nsp: Namespace) {
-  }
+  $onDisconnect(socket: IOSocket, nsp: Namespace) {}
 
   @Input("input:scenario1")
   @Emit("output:scenario1")
@@ -251,12 +250,14 @@ export class TestWS {
 }
 
 describe("Socket integration", () => {
-  before(PlatformTest.bootstrap(Server, {
-    platform: PlatformExpress,
-    listen: true,
-    httpPort: 8999,
-    imports: [TestWS]
-  }));
+  before(
+    PlatformTest.bootstrap(Server, {
+      platform: PlatformExpress,
+      listen: true,
+      httpPort: 8999,
+      imports: [TestWS]
+    })
+  );
   after(PlatformTest.reset);
 
   describe("RoomWS: eventName", () => {
@@ -265,7 +266,7 @@ describe("Socket integration", () => {
       const client = await service.get("/test");
       const client2 = await service.get("/test");
 
-      expect(client).to.eq(client2)
+      expect(client).to.eq(client2);
 
       return new Promise((resolve) => {
         client.on("output:scenario1", (result) => {
@@ -279,10 +280,11 @@ describe("Socket integration", () => {
   });
 });
 ```
+
 </Tab>
 </Tabs>
 
-## Author 
+## Author
 
 <GithubContributors users="['Romakita', 'superkaleider']"/>
 

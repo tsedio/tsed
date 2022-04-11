@@ -1,5 +1,5 @@
 import {classOf} from "@tsed/core";
-import {DI_PARAM_OPTIONS} from "../constants";
+import {DI_PARAM_OPTIONS} from "../constants/constants";
 import {ProviderScope} from "../domain/ProviderScope";
 import {Inject} from "./inject";
 import {Scope} from "./scope";

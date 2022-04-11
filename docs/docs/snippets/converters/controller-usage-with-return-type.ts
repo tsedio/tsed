@@ -5,7 +5,6 @@ import {Person} from "../models/Person";
 
 @Controller("/")
 export class PersonsCtrl {
-
   @Post("/")
   @Returns(200, Person)
   async save1(@BodyParams() person: Person): Promise<Person> {
@@ -14,12 +13,9 @@ export class PersonsCtrl {
     return person; // will be serialized according to your annotation on Person class.
   }
 
-
   @Get("/")
   @Returns(200, Array).Of(Person)
   async getPersons(): Promise<Person[]> {
-    return [
-      new Person()
-    ];
+    return [new Person()];
   }
 }

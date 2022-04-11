@@ -1,4 +1,9 @@
-import {getStatusConstant} from "@tsed/schema";
+import {constantCase} from "change-case";
+import statuses from "statuses";
+
+function getStatusConstant(status: number) {
+  return status === 200 ? "SUCCESS" : constantCase(String(statuses(status)));
+}
 
 export class Exception extends Error {
   /**

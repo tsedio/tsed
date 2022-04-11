@@ -3,7 +3,6 @@ import {ObjectID} from "@tsed/mongoose";
 import {MergeParams, PlatformExpress} from "@tsed/platform-express";
 import {Consumes, Description, Returns} from "@tsed/schema";
 import {Docs, Hidden} from "@tsed/swagger";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Calendar} from "./app/models/Calendar";
 import {Server} from "./app/Server";
@@ -12,8 +11,7 @@ import {Server} from "./app/Server";
 @Hidden()
 class AdminCtrl {
   @Get("/")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/events")
@@ -21,8 +19,7 @@ class AdminCtrl {
 class EventCtrl {
   @Get("/")
   @Description("Events")
-  get() {
-  }
+  get() {}
 }
 
 @Controller("/admin")
@@ -30,8 +27,7 @@ class EventCtrl {
 class BackAdminCtrl {
   @Get("/")
   @Description("Admins")
-  get() {
-  }
+  get() {}
 }
 
 @Controller({
@@ -42,18 +38,18 @@ class CalendarsController {
   @Get("/:id")
   @Returns(200, Calendar)
   async get(@PathParams("id") @ObjectID() id: string): Promise<Calendar> {
-    return new Calendar({ id, name: "test" });
+    return new Calendar({id, name: "test"});
   }
 
   @Get("/")
-  @(Returns(200, Array).Of(Calendar))
+  @Returns(200, Array).Of(Calendar)
   async getAll(): Promise<Calendar[]> {
-    return [new Calendar({ id: 1, name: "name" }), new Calendar({ id: 2, name: "name" })];
+    return [new Calendar({id: 1, name: "name"}), new Calendar({id: 2, name: "name"})];
   }
 
   @Post("/csv")
   @Consumes("text/plain")
-  @(Returns(200, String).ContentType("text/plain"))
+  @Returns(200, String).ContentType("text/plain")
   async csv(@BodyParams() csvLines: string): Promise<string> {
     return "";
   }
@@ -68,7 +64,7 @@ describe("Swagger integration", () => {
         swagger: [
           {
             path: "/v2/doc",
-            specVersion: "3.0.1",
+            specVersion: "2.0",
             showExplorer: true,
             operationIdPattern: "%c_%m",
             spec: {
@@ -97,10 +93,131 @@ describe("Swagger integration", () => {
     });
     afterEach(PlatformTest.reset);
 
+    it("should swagger spec 2", async () => {
+      const response = await request.get("/v2/doc/swagger.json").expect(200);
+
+      expect(response.body).toEqual({
+        consumes: ["application/json"],
+        definitions: {
+          Calendar: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              name: {
+                minLength: 1,
+                type: "string"
+              }
+            },
+            required: ["name"],
+            type: "object"
+          }
+        },
+        info: {
+          title: "Swagger title",
+          version: "1.2.0"
+        },
+        paths: {
+          "/rest/calendars": {
+            get: {
+              operationId: "CalendarsController_getAll",
+              parameters: [],
+              produces: ["application/json"],
+              responses: {
+                "200": {
+                  description: "Success",
+                  schema: {
+                    items: {
+                      $ref: "#/definitions/Calendar"
+                    },
+                    type: "array"
+                  }
+                }
+              },
+              tags: ["CalendarsController"]
+            }
+          },
+          "/rest/calendars/csv": {
+            post: {
+              consumes: ["text/plain"],
+              operationId: "CalendarsController_csv",
+              parameters: [
+                {
+                  in: "body",
+                  name: "body",
+                  required: false,
+                  schema: {
+                    type: "string"
+                  }
+                }
+              ],
+              produces: ["text/plain"],
+              responses: {
+                "200": {
+                  description: "Success",
+                  schema: {
+                    type: "string"
+                  }
+                }
+              },
+              tags: ["CalendarsController"]
+            }
+          },
+          "/rest/calendars/events": {
+            get: {
+              description: "Events",
+              operationId: "EventCtrl_get",
+              parameters: [],
+              responses: {
+                "200": {
+                  description: "Success"
+                }
+              },
+              tags: ["EventCtrl"]
+            }
+          },
+          "/rest/calendars/{id}": {
+            get: {
+              operationId: "CalendarsController_get",
+              parameters: [
+                {
+                  description: "Mongoose ObjectId",
+                  in: "path",
+                  name: "id",
+                  pattern: "^[0-9a-fA-F]{24}$",
+                  required: true,
+                  type: "string"
+                }
+              ],
+              produces: ["application/json"],
+              responses: {
+                "200": {
+                  description: "Success",
+                  schema: {
+                    $ref: "#/definitions/Calendar"
+                  }
+                }
+              },
+              tags: ["CalendarsController"]
+            }
+          }
+        },
+        produces: ["application/json"],
+        swagger: "2.0",
+        tags: [
+          {
+            name: "EventCtrl"
+          },
+          {
+            name: "CalendarsController"
+          }
+        ]
+      });
+    });
     it("should swagger spec 3", async () => {
       const response = await request.get("/v3/doc/swagger.json").expect(200);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         components: {
           schemas: {
             Calendar: {

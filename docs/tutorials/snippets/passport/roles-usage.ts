@@ -8,7 +8,5 @@ export class CalendarController {
   @Post("/")
   @Authorize("local")
   @AcceptRoles("admin")
-  async post() {
-
-  }
+  async post() {}
 }

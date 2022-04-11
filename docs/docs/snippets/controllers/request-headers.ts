@@ -4,7 +4,6 @@ import {Controller} from "@tsed/di";
 
 @Controller("/calendars")
 export class CalendarCtrl {
-
   @Get()
   get(@HeaderParams("x-token") token: string): string {
     console.log("token", token);

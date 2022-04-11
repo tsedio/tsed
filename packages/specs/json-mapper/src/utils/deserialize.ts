@@ -1,6 +1,11 @@
 import {isArray, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
-import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonSchema} from "@tsed/schema";
-import "../components";
+import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonPropertyStore, JsonSchema} from "@tsed/schema";
+import "../components/ArrayMapper";
+import "../components/DateMapper";
+import "../components/MapMapper";
+import "../components/PrimitiveMapper";
+import "../components/SetMapper";
+import "../components/SymbolMapper";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {getJsonMapperTypes} from "../domain/JsonMapperTypesContainer";
 import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize";
@@ -70,6 +75,31 @@ function transformType<T = any>(src: any, options: JsonDeserializerOptions<any, 
   return types?.get(type)?.deserialize<T>(src, context);
 }
 
+function mapItemOptions(propStore: JsonPropertyStore, options: JsonDeserializerOptions) {
+  const itemOpts: JsonDeserializerOptions = {
+    ...options,
+    store: undefined,
+    type: propStore.computedType
+  };
+
+  if (propStore.schema.hasGenerics) {
+    itemOpts.nestedGenerics = propStore.schema.nestedGenerics;
+  } else if (propStore.schema.isGeneric && options.nestedGenerics) {
+    const [genericTypes = [], ...nestedGenerics] = options.nestedGenerics;
+    const genericLabels = propStore.parent.schema.genericLabels || [];
+
+    itemOpts.type = genericTypes[genericLabels.indexOf(propStore.schema.genericType)] || Object;
+
+    if (itemOpts.type instanceof JsonSchema) {
+      itemOpts.type = itemOpts.type.getTarget();
+    }
+
+    itemOpts.nestedGenerics = nestedGenerics;
+  }
+
+  return itemOpts;
+}
+
 /**
  * Transform given plain object to class.
  * @param src
@@ -80,13 +110,14 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
     return src;
   }
 
-  const {type, store = JsonEntityStore.from(type), ...next} = options;
-
+  const {type, store = JsonEntityStore.from(type)} = options;
   const propertiesMap = getProperties(store, {...options, withIgnoredProps: true});
 
-  let keys = objectKeys(src);
+  let keys = new Set<any>(objectKeys(src));
   const additionalProperties = propertiesMap.size ? !!store.schema.get("additionalProperties") || options.additionalProperties : true;
+
   src = alterBeforeDeserialize(src, store.schema, options);
+
   const out: any = new type(src);
 
   propertiesMap.forEach((propStore) => {
@@ -94,34 +125,20 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
       ? propStore.parent.schema.getAliasOf(propStore.propertyName) || propStore.propertyName
       : propStore.propertyName;
 
-    keys = keys.filter((k) => k !== key);
+    keys.delete(key);
 
-    next.type = propStore.computedType;
-
-    if (alterIgnore(propStore.itemSchema, options)) {
+    if (alterIgnore(propStore.schema, options)) {
       return;
     }
 
     let value = alterValue(propStore.schema, src[key], {...options, self: src});
 
-    if (propStore.schema.hasGenerics) {
-      next.nestedGenerics = propStore.schema.nestedGenerics;
-    } else if (propStore.schema.isGeneric && options.nestedGenerics) {
-      const [genericTypes = [], ...nestedGenerics] = options.nestedGenerics;
-      const genericLabels = propStore.parent.schema.genericLabels || [];
-
-      next.type = genericTypes[genericLabels.indexOf(propStore.schema.genericType)] || Object;
-
-      if (next.type instanceof JsonSchema) {
-        next.type = next.type.getTarget();
-      }
-
-      next.nestedGenerics = nestedGenerics;
-    }
+    const itemOptions = mapItemOptions(propStore, options);
 
     value = deserialize(value, {
-      ...next,
-      type: value === src[key] ? next.type : undefined,
+      ...itemOptions,
+      self: src,
+      type: value === src[key] ? itemOptions.type : undefined,
       collectionType: propStore.collectionType
     });
 

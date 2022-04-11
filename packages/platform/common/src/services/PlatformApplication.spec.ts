@@ -24,7 +24,7 @@ async function getPlatformApp() {
   const platformHandler = {
     createHandler: sandbox.stub().callsFake((o) => o)
   };
-  const platformApp = await PlatformTest.invoke<PlatformApplication>(PlatformApplication, [
+  const platformApp = await PlatformTest.invoke<PlatformApplication<any, any>>(PlatformApplication, [
     {
       token: PlatformHandler,
       use: platformHandler
@@ -61,10 +61,6 @@ describe("PlatformApplication", () => {
   });
 
   describe("use()", () => {
-    beforeEach(() => {
-      // @ts-ignore
-      sandbox.stub(PlatformRouter, "createRawRouter").returns(createDriver() as any);
-    });
     afterEach(() => {
       sandbox.restore();
     });
@@ -83,16 +79,25 @@ describe("PlatformApplication", () => {
     it("should add router to app", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
+      const router = createDriver();
+      const adapter = {
+        router() {
+          return {
+            router,
+            callback() {
+              return router;
+            }
+          };
+        }
+      };
 
       // @ts-ignore
-      const handler = new PlatformRouter(platformHandler as any);
+      const handler = new PlatformRouter(platformHandler as any, adapter);
 
       // WHEN
       platformApp.use("/", handler);
 
       // THEN
-      // @ts-ignore
-      expect(PlatformRouter.createRawRouter).to.have.been.calledWithExactly();
       expect(platformApp.rawRouter.use).to.have.been.calledWithExactly("/", handler.raw);
     });
   });

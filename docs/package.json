@@ -8,12 +8,6 @@
     "vuepress:serve": "vuepress dev .",
     "browserslist": "npx browserslist@latest --update-db"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "post-commit": "git update-index --again"
-    }
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tsedio/tsed.git"
@@ -64,10 +58,10 @@
     "millify": "^3.5.0"
   },
   "devDependencies": {
-    "@tsed/markdown-it-symbols": "3.16.1",
+    "@tsed/markdown-it-symbols": "3.19.5",
     "vue-analytics": "5.22.1",
-    "vuepress": "1.8.2",
-    "vuepress-theme-tsed": "3.16.1"
+    "vuepress": "1.9.5",
+    "vuepress-theme-tsed": "3.19.5"
   },
   "directories": {
     "packages": "packages",

@@ -18,15 +18,16 @@ export class LoginInteraction {
   @Inject()
   accounts: Accounts;
 
-  $onCreate() {
-  }
+  $onCreate() {}
 
   @View("login")
-  async $prompt(@OidcCtx() oidcCtx: OidcCtx,
-                @Prompt() prompt: Prompt,
-                @OidcSession() session: OidcSession,
-                @Params() params: Params,
-                @Uid() uid: Uid): Promise<any> {
+  async $prompt(
+    @OidcCtx() oidcCtx: OidcCtx,
+    @Prompt() prompt: Prompt,
+    @OidcSession() session: OidcSession,
+    @Params() params: Params,
+    @Uid() uid: Uid
+  ): Promise<any> {
     const client = await oidcCtx.findClient();
 
     if (!client) {
@@ -46,13 +47,14 @@ export class LoginInteraction {
 
   @Post("/login")
   @View("login")
-  async submit(@BodyParams() payload: any,
-               @Params() params: Params,
-               @Uid() uid: Uid,
-               @OidcSession() session: OidcSession,
-               @Prompt() prompt: Prompt,
-               @OidcCtx() oidcCtx: OidcCtx) {
-
+  async submit(
+    @BodyParams() payload: any,
+    @Params() params: Params,
+    @Uid() uid: Uid,
+    @OidcSession() session: OidcSession,
+    @Prompt() prompt: Prompt,
+    @OidcCtx() oidcCtx: OidcCtx
+  ) {
     if (prompt.name !== "login") {
       throw new BadRequest("Bad interaction name");
     }

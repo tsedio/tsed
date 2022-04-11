@@ -5,6 +5,7 @@
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,13 +14,14 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test yarn jest"
   },
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/ajv": "7.0.0-beta.3",
@@ -28,13 +30,7 @@
     "@tsed/json-mapper": "7.0.0-beta.3",
     "@tsed/schema": "7.0.0-beta.3",
     "knex": "^0.95.11",
-    "mssql": "^7.2.1",
-    "mysql": "^2.18.1",
-    "mysql2": "^2.3.0",
     "objection": "^2.2.15",
-    "oracledb": "^5.2.0",
-    "pg": "^8.7.1",
-    "sqlite": "^4.0.23",
     "sqlite3": "^5.0.2"
   },
   "peerDependencies": {
@@ -45,5 +41,28 @@
     "@tsed/schema": "^7.0.0-beta.3",
     "knex": ">=0.94.0",
     "objection": ">=2.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/ajv": {
+      "optional": false
+    },
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/json-mapper": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    },
+    "knex": {
+      "optional": false
+    },
+    "objection": {
+      "optional": false
+    }
   }
 }

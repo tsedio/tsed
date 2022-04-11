@@ -1,5 +1,5 @@
-import {getSpec, SpecTypes} from "../src";
-import {OperationPath, Path, Property, Returns} from "../src/decorators";
+import {generateSpec, getSpec, SpecTypes} from "../src";
+import {OperationPath, Path, Property, Returns} from "@tsed/schema";
 import {validateSpec} from "./helpers/validateSpec";
 import {QueryParams} from "@tsed/platform-params";
 
@@ -10,7 +10,7 @@ class Product {
   @Property()
   title: string;
 
-  constructor({ id, title }: Partial<Product> = {}) {
+  constructor({id, title}: Partial<Product> = {}) {
     id && (this.id = id);
     title && (this.title = title);
   }
@@ -20,95 +20,89 @@ class Product {
 class TestResponseCtrl {
   @OperationPath("GET", "/:id")
   @Returns(200, Product).Description("Product")
-  async scenario1(@QueryParams("id") id: string) {
-  }
+  async scenario1(@QueryParams("id") id: string) {}
 
   @OperationPath("POST", "/")
   @Returns(204)
-  async scenario2() {
-  }
+  async scenario2() {}
 }
 
 describe("Spec: Response", () => {
-  it("should generate the OS3", async () => {
-    const spec = getSpec(TestResponseCtrl, { specType: SpecTypes.OPENAPI });
+  it("should generate the", async () => {
+    const spec = getSpec(TestResponseCtrl);
 
     expect(spec).toEqual({
-      "components": {
-        "schemas": {
-          "Product": {
-            "properties": {
-              "id": {
-                "type": "string"
+      components: {
+        schemas: {
+          Product: {
+            properties: {
+              id: {
+                type: "string"
               },
-              "title": {
-                "type": "string"
+              title: {
+                type: "string"
               }
             },
-            "type": "object"
+            type: "object"
           }
         }
       },
-      "paths": {
+      paths: {
         "/responses": {
-          "post": {
-            "operationId": "testResponseCtrlScenario2",
-            "parameters": [],
-            "responses": {
+          post: {
+            operationId: "testResponseCtrlScenario2",
+            parameters: [],
+            responses: {
               "204": {
-                "description": "No Content"
+                description: "No Content"
               }
             },
-            "tags": [
-              "TestResponseCtrl"
-            ]
+            tags: ["TestResponseCtrl"]
           }
         },
         "/responses/{id}": {
-          "get": {
-            "operationId": "testResponseCtrlScenario1",
-            "parameters": [
+          get: {
+            operationId: "testResponseCtrlScenario1",
+            parameters: [
               {
-                "in": "path",
-                "name": "id",
-                "required": true,
-                "schema": {
-                  "type": "string"
+                in: "path",
+                name: "id",
+                required: true,
+                schema: {
+                  type: "string"
                 }
               },
               {
-                "in": "query",
-                "name": "id",
-                "required": false,
-                "schema": {
-                  "type": "string"
+                in: "query",
+                name: "id",
+                required: false,
+                schema: {
+                  type: "string"
                 }
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "content": {
+                content: {
                   "application/json": {
-                    "schema": {
-                      "$ref": "#/components/schemas/Product"
+                    schema: {
+                      $ref: "#/components/schemas/Product"
                     }
                   }
                 },
-                "description": "Product"
+                description: "Product"
               }
             },
-            "tags": [
-              "TestResponseCtrl"
-            ]
+            tags: ["TestResponseCtrl"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "TestResponseCtrl"
+          name: "TestResponseCtrl"
         }
       ]
     });
-    expect(await validateSpec(spec)).toBe(true);
+    expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
   });
 });

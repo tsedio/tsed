@@ -2,7 +2,8 @@ import {registerProvider} from "@tsed/di";
 import {Schema} from "mongoose";
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions";
 import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections";
-import {createModel, getModelToken, getSchema} from "../utils";
+import {createModel, getModelToken} from "../utils/createModel";
+import {getSchema} from "../utils/createSchema";
 import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions";
 
 /**
@@ -65,7 +66,7 @@ export function Model(options: MongooseModelOptions = {}) {
           schema,
           collectionName,
           options.collection,
-          options.skipInit,
+          options.overwriteModels,
           connections.get(options.connection),
           options.discriminatorValue
         );

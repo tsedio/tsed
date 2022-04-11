@@ -24,7 +24,7 @@ export class HeaderParamsCtrl {
   @Use(SetId)
   public scenario1(@Req() request: Req, @HeaderParams("authorization") auth: string): any {
     return {
-      user: request.user,
+      user: (request as any).user,
       token: auth
     };
   }

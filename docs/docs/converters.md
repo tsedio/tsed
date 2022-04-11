@@ -1,10 +1,11 @@
 ---
 meta:
- - name: description
-   content: Documentation over JsonMapper and decorators provided by Ts.ED framework. Use decorator to build your model and map data.
- - name: keywords
-   content: class model decorators ts.ed express typescript node.js javascript jsonschema json mapper serialization deserialization
+  - name: description
+    content: Documentation over JsonMapper and decorators provided by Ts.ED framework. Use decorator to build your model and map data.
+  - name: keywords
+    content: class model decorators ts.ed express typescript node.js javascript jsonschema json mapper serialization deserialization
 ---
+
 # JsonMapper
 
 The `@tsed/json-mapper` package is responsible to map a plain object to a model and a model to a plain object.
@@ -19,12 +20,12 @@ to a plain javascript object to your consumer.
 For v5 developer, `@tsed/json-mapper` package is the new API under the @@ConverterService@@. There are some breaking changes between the previous service implementation:
 
 - The `@Converter` decorator have been removed in favor of @@JsonMapper@@ decorator.
-- Classes like `ArrayConverter`, `SetConverter`, etc... replaced by his equivalents Types mapper: @@ArrayMapper@@, @@SetMapper@@, etc... 
-- Type mapper classes are no longer injectable services. 
+- Classes like `ArrayConverter`, `SetConverter`, etc... replaced by his equivalents Types mapper: @@ArrayMapper@@, @@SetMapper@@, etc...
+- Type mapper classes are no longer injectable services.
 - ConverterService is always available and can be injected to another provider, but now, ConverterService doesn't perform data validation. Validation is performed by [`@tsed/ajv`](/tutorials/ajv.md) package or any other validation library.
 - `PropertyDeserialize` and `PropertySerialize` have been removed and replaced by @@OnDeserialize@@ and @@OnSerialize@@.
 - Methods Signatures of Type mapper (like ArrayConverter) have changed.
-:::
+  :::
 
 ## Usage
 
@@ -72,11 +73,11 @@ It means, if you missed decorating one or more properties on your model, these p
   <Tab label="User.ts">
 
 <<< @/docs/snippets/converters/model-missing-properties.ts
-  </Tab>
-  <Tab label="Jest">
-  
+</Tab>
+<Tab label="Jest">
+
 <<< @/docs/snippets/converters/model-missing-properties.jest.ts
-  
+
   </Tab>
   <Tab label="Mocha">
 
@@ -90,7 +91,9 @@ It means, if you missed decorating one or more properties on your model, these p
 :::
 
 ## Ignore properties
+
 ### Usage
+
 @@Ignore@@ decorator can be used to ignore explicitly a property when a transformation have been performed.
 
 For example, you have a base model to create a User named `UserCreation` where the `password` is required, but
@@ -100,7 +103,7 @@ you don't want to expose this field in other cases. One of the solution is to us
   <Tab label="User.ts">
 
 <<< @/docs/snippets/converters/model-ignore-props.ts
-  
+
   </Tab>
   <Tab label="Jest">
   
@@ -143,10 +146,10 @@ class User {
 
 Here is the available options on ctx:
 
-Prop | Type | Description
----|---|---
-endpoint | boolean | It's an endpoint context
-mongoose | boolean | It's a mongoose context
+| Prop     | Type    | Description              |
+| -------- | ------- | ------------------------ |
+| endpoint | boolean | It's an endpoint context |
+| mongoose | boolean | It's a mongoose context  |
 
 ## Additional properties
 
@@ -156,7 +159,7 @@ mongoose | boolean | It's a mongoose context
   <Tab label="Person.ts">
 
 <<< @/docs/snippets/converters/model-additional-props.ts
-  
+
   </Tab>
   <Tab label="Jest">
   
@@ -172,11 +175,11 @@ mongoose | boolean | It's a mongoose context
 
 ## Alias
 
-@@Name@@ decorator lets you to rename the exposed property in your json schema. 
+@@Name@@ decorator lets you to rename the exposed property in your json schema.
 
-For example mongo db uses the `_id` property. 
+For example mongo db uses the `_id` property.
 In order not to give any indication to our consumer about the nature of the database, it's better to rename the property to `id`.
-  
+
 <<< @/docs/snippets/model/name.ts
 
 ## OnSerialize
@@ -187,7 +190,7 @@ In order not to give any indication to our consumer about the nature of the data
 import {OnSerialize} from "@tsed/schema";
 
 export class Person {
-  @OnSerialize(v => v + "Test")
+  @OnSerialize((v) => v + "Test")
   property: string;
 }
 ```
@@ -200,7 +203,7 @@ export class Person {
 import {OnDeserialize} from "@tsed/schema";
 
 export class Person {
-  @OnDeserialize(v => v + "Test")
+  @OnDeserialize((v) => v + "Test")
   property: string;
 }
 ```
@@ -209,14 +212,14 @@ export class Person {
 
 `@tsed/json-mapper` use classes to transform an input value to the expected value:
 
-Type | Mapper
----|---
-Primitives | @@PrimitiveMapper@@, 
-Symbol | @@SymbolMapper@@,
-Objects | @@DateMapper@@,
-Collections | @@ArrayMapper@@, @@MapMapper@@ and @@SetMapper@@.
+| Type        | Mapper                                             |
+| ----------- | -------------------------------------------------- |
+| Primitives  | @@PrimitiveMapper@@,                               |
+| Symbol      | @@SymbolMapper@@,                                  |
+| Objects     | @@DateMapper@@,                                    |
+| Collections |  @@ArrayMapper@@, @@MapMapper@@ and @@SetMapper@@. |
 
-It's possible to add your own type mapper by using the @@JsonMapper@@ decorator on a class. Just copy a mapper implementation 
+It's possible to add your own type mapper by using the @@JsonMapper@@ decorator on a class. Just copy a mapper implementation
 and import the mapper in your application.
 
 ### Primitives
@@ -239,26 +242,26 @@ and import the mapper in your application.
 
 #### Cheat sheet
 
-Input | Type | Output
----|---|---
-`1` | String | `"1"`
-`"1"` | String | `"1"`
-`null` | Number | `null`
-`"null"` | Number | `null`
-`"1"` | Number | `1`
-`1` | Number | `1`
-`"to1"` | Number | Throw Bad Request. This is the only case where JsonMapper throw a cast type error.
-`true` | Boolean | `true`
-`"true"` | Boolean | `true`
-`"1"` | Boolean | `true`
-`1` | Boolean | `true`
-`false` | Boolean | `false`
-`"false"` | Boolean | `false`
-`"0"` | Boolean | `false`
-`0` | Boolean | `false`
-`""` | Boolean | `false`
-`"null"` | Boolean | `null`
-`undefined` | Boolean | `undefined`
+| Input       | Type    | Output                                                                             |
+| ----------- | ------- | ---------------------------------------------------------------------------------- |
+| `1`         | String  | `"1"`                                                                              |
+| `"1"`       | String  | `"1"`                                                                              |
+| `null`      | Number  | `null`                                                                             |
+| `"null"`    | Number  | `null`                                                                             |
+| `"1"`       | Number  | `1`                                                                                |
+| `1`         | Number  | `1`                                                                                |
+| `"to1"`     | Number  | Throw Bad Request. This is the only case where JsonMapper throw a cast type error. |
+| `true`      | Boolean | `true`                                                                             |
+| `"true"`    | Boolean | `true`                                                                             |
+| `"1"`       | Boolean | `true`                                                                             |
+| `1`         | Boolean | `true`                                                                             |
+| `false`     | Boolean | `false`                                                                            |
+| `"false"`   | Boolean | `false`                                                                            |
+| `"0"`       | Boolean | `false`                                                                            |
+| `0`         | Boolean | `false`                                                                            |
+| `""`        | Boolean | `false`                                                                            |
+| `"null"`    | Boolean | `null`                                                                             |
+| `undefined` | Boolean | `undefined`                                                                        |
 
 ### Symbol
 
@@ -296,7 +299,7 @@ Input | Type | Output
 
 ### Array
 
-@@ArrayMapper@@ is responsible to map any data to an `Array`. 
+@@ArrayMapper@@ is responsible to map any data to an `Array`.
 
 <Tabs class="-code">
   <Tab label="ArrayMapper">
@@ -313,7 +316,7 @@ Input | Type | Output
 
 ### Map
 
-@@MapMapper@@ is responsible to map an `Object` to a `Map`. 
+@@MapMapper@@ is responsible to map an `Object` to a `Map`.
 
 <Tabs class="-code">
   <Tab label="SetMapper">
@@ -343,7 +346,7 @@ export class Person {
 
 ### Set
 
-@@SetMapper@@ is responsible to map an `Array` to a `Set`. 
+@@SetMapper@@ is responsible to map an `Array` to a `Set`.
 
 <Tabs class="-code">
   <Tab label="SetMapper">
@@ -372,7 +375,7 @@ export class Person {
 
 ## Create your own type mapper
 
-It's possible de to change add your own type mapper by using the @@JsonMapper@@ decorator on a class. Just copy a mapper implementation 
+It's possible de to change add your own type mapper by using the @@JsonMapper@@ decorator on a class. Just copy a mapper implementation
 and import the mapper in your application.
 
 A mapper must declare the type it must work on and implement two methods: serialize and deserialize.
@@ -389,7 +392,6 @@ export class TheTypeMapper implements JsonMapperMethods {
   serialize(data: any, ctx: JsonMapperCtx): String {
     return JSON.stringify(data) + ":serialize";
   }
-
 }
 ```
 
@@ -419,10 +421,12 @@ import {Moment} from "moment";
 import {Property} from "@tsed/schema";
 
 export class Person {
- @Property(Date)
- birthdate: Moment;
+@Property(Date) // or @Property(String) + @DateTime()
+birthdate: Moment;
 }
+
 ```
-  
+
   </Tab>
 </Tabs>
+```

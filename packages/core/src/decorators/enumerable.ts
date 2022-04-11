@@ -1,9 +1,4 @@
-/**
- * @module common/core
- */
-import {descriptorOf} from "../utils";
-
-/** */
+import {descriptorOf} from "../utils/objects/descriptorOf";
 
 export function Enumerable(value: boolean = true): Function {
   return (target: any, propertyKey: string) => {

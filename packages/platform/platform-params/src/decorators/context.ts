@@ -3,12 +3,6 @@ import {ParamTypes} from "../domain/ParamTypes";
 import {mapParamsOptions} from "../utils/mapParamsOptions";
 import {UseParam} from "./useParam";
 
-declare global {
-  namespace TsED {
-    export interface Context {}
-  }
-}
-
 /**
  * Context decorator return the @@PlatformContext@@ created by Ts.ED when request is handled by the server.
  *
@@ -65,7 +59,6 @@ export function Context(...args: any[]): ParameterDecorator {
 
   return UseParam({
     paramType: ParamTypes.$CTX,
-    dataPath: "$ctx",
     expression,
     useType,
     useConverter,

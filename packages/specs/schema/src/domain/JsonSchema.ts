@@ -1,6 +1,6 @@
 import {classOf, Hooks, isArray, isClass, isFunction, isObject, nameOf, Type, uniq, ValueOf} from "@tsed/core";
 import type {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
-import {JsonSchemaOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics} from "../utils/generics";
@@ -11,6 +11,7 @@ import {AliasMap, AliasType} from "./JsonAliasMap";
 import {JsonFormatTypes} from "./JsonFormatTypes";
 import {JsonLazyRef} from "./JsonLazyRef";
 import {JsonEntityStore} from "./JsonEntityStore";
+import {serializeEnumValues} from "../utils/serializeEnumValues";
 
 export interface JsonSchemaObject extends JSONSchema6, Record<string, any> {
   type: (any | JSONSchema6TypeName) | (any | JSONSchema6TypeName)[];
@@ -514,8 +515,11 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    *
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.23
    */
-  enum(enumValues: JSONSchema6Type[]): this {
-    super.set("enum", uniq(enumValues));
+  enum(...enumValues: any[]): this;
+  enum(enumValue: any | any[], ...enumValues: any[]): this {
+    const {values, types} = serializeEnumValues([enumValue, enumValues].flat());
+
+    super.set("enum", values).any(...types);
 
     return this;
   }

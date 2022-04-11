@@ -11,7 +11,7 @@ class Adjustment {
   adjustment: UserProperty<string>;
 }
 
-console.log(getJsonSchema(Adjustment))
+console.log(getJsonSchema(Adjustment));
 /* OUTPUT:
 {
   "properties": {

@@ -1,6 +1,8 @@
-import {DBContext, MikroOrmRegistry, RetryStrategy} from "./services";
 import {Configuration, Constant, Inject, Module, OnDestroy, OnInit, registerProvider} from "@tsed/di";
 import {Options} from "@mikro-orm/core";
+import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
+import {DBContext} from "./services/DBContext";
+import {RetryStrategy} from "./services/RetryStrategy";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -27,13 +29,13 @@ export class MikroOrmModule implements OnDestroy, OnInit {
   private readonly mikroOrmRegistry!: MikroOrmRegistry;
 
   public async $onInit(): Promise<void> {
-    const promises = this.settings.map((opts) => this.mikroOrmRegistry.createConnection(opts));
+    const promises = this.settings.map((opts) => this.mikroOrmRegistry.register(opts));
 
     await Promise.all(promises);
   }
 
   public $onDestroy(): Promise<void> {
-    return this.mikroOrmRegistry.closeConnections();
+    return this.mikroOrmRegistry.clear();
   }
 }
 

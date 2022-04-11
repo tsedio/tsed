@@ -1,6 +1,4 @@
-import {expect} from "chai";
-import Sinon from "sinon";
-import {CLASS_STORE, descriptorOf, Metadata, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, prototypeOf, Store} from "../../src";
+import {CLASS_STORE, Metadata, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "../../src";
 
 class FakeMetadata {
   attr1: any;
@@ -19,174 +17,129 @@ describe("Store", () => {
   describe("constructor", () => {
     describe("when metadata should be store on class", () => {
       let spyGet: any, store: any, store2: any, store3: any;
-      before(() => {
-        spyGet = Sinon.spy(Metadata, "getOwn");
+      beforeEach(() => {
+        spyGet = jest.spyOn(Metadata, "getOwn");
         store = Store.from(FakeMetadata);
         store2 = Store.from(FakeMetadata);
         store3 = Store.from(class {});
 
         store.set("keyTest", {test: "2"});
       });
-      after(() => {
-        spyGet.restore();
-      });
 
       it("should have been called the Metadata.get()", () => {
-        expect(spyGet).to.have.been.calledWithExactly(CLASS_STORE, FakeMetadata);
+        expect(spyGet).toHaveBeenCalledWith(CLASS_STORE, FakeMetadata);
       });
 
       it("should share the same StoreMap when the signature is equals", () => {
-        expect(store.get("keyTest")).to.eq(store2.get("keyTest"));
+        expect(store.get("keyTest")).toBe(store2.get("keyTest"));
       });
 
       it("should not share the same StoreMap when the signature is not equals", () => {
-        expect(store.get("keyTest")).not.to.eq(store3.get("keyTest"));
+        expect(store.get("keyTest")).not.toBe(store3.get("keyTest"));
       });
     });
 
     describe("when metadata should be store on method", () => {
-      let spyGet: any, store: any;
-      before(() => {
-        spyGet = Sinon.spy(Metadata, "getOwn");
-        store = Store.from(FakeMetadata, "get", {
+      it("should have been called the Metadata.get()", () => {
+        const spyGet = jest.spyOn(Metadata, "getOwn");
+        Store.from(FakeMetadata, "get", {
           value: () => {}
         });
-      });
-      after(() => {
-        spyGet.restore();
-      });
 
-      it("should have been called the Metadata.get()", () => {
-        expect(spyGet).to.have.been.calledWithExactly(METHOD_STORE, FakeMetadata, "get");
+        expect(spyGet).toHaveBeenCalledWith(METHOD_STORE, FakeMetadata, "get");
       });
     });
 
     describe("when metadata should be store on property (1)", () => {
-      let spyGet: any, store: any;
-      before(() => {
-        spyGet = Sinon.spy(Metadata, "getOwn");
-        store = Store.from(FakeMetadata, "get");
-      });
-      after(() => {
-        spyGet.restore();
-      });
-
       it("should have been called the Metadata.get()", () => {
-        expect(spyGet).to.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
+        const spyGet = jest.spyOn(Metadata, "getOwn");
+        const store = Store.from(FakeMetadata, "get");
+        expect(spyGet).toHaveBeenCalledWith(PROPERTY_STORE, FakeMetadata, "get");
       });
     });
 
     describe("when metadata should be store on property (2)", () => {
-      let spyGet: any, store: any;
-      before(() => {
-        spyGet = Sinon.spy(Metadata, "getOwn");
-        store = Store.from(FakeMetadata, "get", {
+      it("should have been called the Metadata.get()", () => {
+        const spyGet = jest.spyOn(Metadata, "getOwn");
+        Store.from(FakeMetadata, "get", {
           set: () => {}
         });
-      });
-      after(() => {
-        spyGet.restore();
-      });
 
-      it("should have been called the Metadata.get()", () => {
-        expect(spyGet).to.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
+        expect(spyGet).toHaveBeenCalledWith(PROPERTY_STORE, FakeMetadata, "get");
       });
     });
 
     describe("when metadata should be store on property (3)", () => {
-      let spyGet: any, store: any;
-      before(() => {
-        spyGet = Sinon.spy(Metadata, "getOwn");
-        store = Store.from(FakeMetadata, "get", {
+      it("should have been called the Metadata.get()", () => {
+        const spyGet = jest.spyOn(Metadata, "getOwn");
+        Store.from(FakeMetadata, "get", {
           get: () => {}
         });
-      });
-      after(() => {
-        spyGet.restore();
-      });
 
-      it("should have been called the Metadata.get()", () => {
-        expect(spyGet).to.have.been.calledWithExactly(PROPERTY_STORE, FakeMetadata, "get");
+        expect(spyGet).toHaveBeenCalledWith(PROPERTY_STORE, FakeMetadata, "get");
       });
     });
 
     describe("when metadata should be store on parameters", () => {
-      let spyGet: any, store: any;
-      before(() => {
-        spyGet = Sinon.spy(Metadata, "getOwn");
-        store = Store.from(FakeMetadata, "get", 0);
-      });
-      after(() => {
-        spyGet.restore();
-      });
-
       it("should have been called the Metadata.get()", () => {
-        expect(spyGet).to.have.been.calledWithExactly(PARAM_STORE, FakeMetadata, "get");
+        const spyGet = jest.spyOn(Metadata, "getOwn");
+        Store.from(FakeMetadata, "get", 0);
+
+        expect(spyGet).toHaveBeenCalledWith(PARAM_STORE, FakeMetadata, "get");
       });
     });
   });
 
   describe("set()", () => {
-    let store: any;
-    before(() => {
-      store = Store.from(FakeMetadata);
-      store.set("key", {});
-    });
     it("should add a metadata", () => {
-      expect(store.get("key")).to.deep.equal({});
+      const store = Store.from(FakeMetadata);
+      store.set("key", {});
+
+      expect(store.get("key")).toEqual({});
     });
   });
 
   describe("has()", () => {
-    let store: any;
-    before(() => {
-      store = Store.from(FakeMetadata);
-    });
     it("should return true if class is known", () => {
-      expect(store.has("key")).to.be.true;
+      const store = Store.from(FakeMetadata);
+      expect(store.has("key")).toBe(true);
     });
     it("should return false if class is unknown", () => {
-      expect(store.has("key2")).to.be.false;
+      const store = Store.from(FakeMetadata);
+      expect(store.has("key2")).toBe(false);
     });
   });
 
   describe("delete()", () => {
-    let store: any;
-    before(() => {
-      store = Store.from(FakeMetadata);
-    });
     it("should remove key", () => {
+      const store = Store.from(FakeMetadata);
       store.set("key", {test: true});
-      expect(store.get("key")).to.deep.equal({test: true});
+
+      expect(store.get("key")).toEqual({test: true});
+
       store.delete("key");
-      expect(store.get("key")).to.equal(undefined);
+      expect(store.get("key")).toBeUndefined();
     });
   });
 
   describe("merge()", () => {
-    let store: any;
-    before(() => {
-      store = Store.from(FakeMetadata);
+    it("should merge metadata", () => {
+      const store = Store.from(FakeMetadata);
       store.merge("key3", {attr1: 1});
       store.merge("key3", {attr2: 2});
-    });
 
-    it("should merge metadata", () => {
-      expect(store.get("key3")).to.deep.equal({attr1: 1, attr2: 2});
+      expect(store.get("key3")).toEqual({attr1: 1, attr2: 2});
     });
   });
 
   describe("inheritance", () => {
-    let r1: any, r2: any;
-    before(() => {
+    it("should haven't the same sc", () => {
       Store.from(FakeMetadata).set("sc", {test: "test"});
       Store.from(SuperFake).set("sc", {test: "test2"});
-      r1 = Store.from(SuperFake).get("sc");
-      r2 = Store.from(FakeMetadata).get("sc");
-    });
+      const r1 = Store.from(SuperFake).get("sc");
+      const r2 = Store.from(FakeMetadata).get("sc");
 
-    it("should haven't the same sc", () => {
-      expect(r1).to.not.deep.equal(r2);
+      expect(r1).not.toEqual(r2);
     });
   });
 
@@ -203,8 +156,8 @@ describe("Store", () => {
       // WHEN
       store1.set("test", "value");
 
-      expect(store2.get("test")).to.eq("value");
-      expect(store3.get("test")).to.eq(undefined);
+      expect(store2.get("test")).toBe("value");
+      expect(store3.get("test")).toBeUndefined();
     });
   });
 });

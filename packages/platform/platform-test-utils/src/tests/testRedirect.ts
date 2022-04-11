@@ -39,7 +39,7 @@ class RedirectCtrl {
   }
 
   @Get("/scenario-6")
-  @(Location("/path/to").Status(301))
+  @Location("/path/to").Status(301)
   testScenario6(@Context() ctx: Context) {
     return "Hello";
   }

@@ -82,11 +82,10 @@ Create new `Server.ts` to configure your Ts.ED application:
 ```typescript
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
-import bodyParser from "body-parser";
+import cors from "cors";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import methodOverride from "method-override";
-import cors from "cors";
 import "@tsed/ajv";
 import "@tsed/swagger";
 import {TimeslotsController} from "./controllers/TimeslotsController";
@@ -94,9 +93,7 @@ import {TimeslotsController} from "./controllers/TimeslotsController";
 @Configuration({
   acceptMimes: ["application/json"],
   mount: {
-    "/": [
-      TimeslotsController
-    ]
+    "/": [TimeslotsController]
   },
   swagger: [
     {
@@ -105,28 +102,15 @@ import {TimeslotsController} from "./controllers/TimeslotsController";
     }
   ],
   views: {
-    root: `${rootDir}/views`,
+    root: "${rootDir}/views",
     extensions: {
       ejs: "ejs"
     }
   },
-  exclude: [
-    "**/*.spec.ts"
-  ]
+  exclude: ["**/*.spec.ts"],
+  middlewares: [cors(), compress({}), cookieParser(), methodOverride()]
 })
-export class Server {
-  $beforeRoutesInit(): void {
-    this.app
-      .use(cors())
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(bodyParser.urlencoded({
-        extended: true
-      }));
-  }
-}
+export class Server {}
 ```
 
 Create new `handler.ts` to expose your lambda:
@@ -138,7 +122,7 @@ import {Server} from "./Server";
 
 const platform = PlatformServerless.bootstrap(Server, {
   adapter: PlatformExpress
-})
+});
 
 export const handler = platform.handler();
 ```
@@ -169,12 +153,12 @@ Finally, create the `serverless.yml`:
 ```yml
 service: timeslots
 
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
   name: aws
   runtime: nodejs14.x
-  lambdaHashingVersion: '20201221'
+  lambdaHashingVersion: "20201221"
 
 plugins:
   - serverless-offline
@@ -188,7 +172,7 @@ functions:
           path: /
       - http:
           method: ANY
-          path: '{proxy+}'
+          path: "{proxy+}"
 ```
 
 ## Invoke a lambda with serverless
@@ -237,21 +221,20 @@ You should see in the terminal the following result:
 This package includes decorators to easily get the event object Lambda received from API Gateway:
 
 ```typescript
-import {Controller, Get} from "@tsed/common"; 
-import {ServerlessEvent, ServerlessContext} from "@tsed/platform-serverless-http"; 
+import {Controller, Get} from "@tsed/common";
+import {ServerlessEvent, ServerlessContext} from "@tsed/platform-serverless-http";
 
 @Controller("/")
 class MyCtrl {
- @Get("/")
- get(@ServerlessEvent() event: any, @ServerlessContext() context: ServerlessContext) {
-   console.log("Event", event);
-   console.log("Context", context);
-   
-   return { event, context };
- }
+  @Get("/")
+  get(@ServerlessEvent() event: any, @ServerlessContext() context: ServerlessContext) {
+    console.log("Event", event);
+    console.log("Context", context);
+
+    return {event, context};
+  }
 }
 ```
-
 
 ## Testing
 
@@ -292,7 +275,6 @@ describe("TimeslotsController", () => {
   });
 });
 ```
-
 
 ## Contributors
 

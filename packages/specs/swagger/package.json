@@ -5,6 +5,7 @@
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,16 +14,20 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs && cp -r ./views ./lib/views",
+    "clean": "rm -rf lib",
+    "build": "yarn clean && yarn barrels && yarn run build:esm && yarn run build:cjs && cp -r ./views ./lib/views",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
-    "fs-extra": "9.0.1",
-    "micromatch": "^4.0.2",
-    "swagger-ui-dist": "^3.46.0",
-    "tslib": "2.2.0"
+    "@tsed/openspec": "7.0.0-beta.3",
+    "fs-extra": "10.0.1",
+    "micromatch": "4.0.5",
+    "swagger-ui-dist": "^4.5.2",
+    "tslib": "2.3.1"
   },
   "devDependencies": {
     "@tsed/common": "7.0.0-beta.3",
@@ -30,14 +35,15 @@
     "@tsed/di": "7.0.0-beta.3",
     "@tsed/json-mapper": "7.0.0-beta.3",
     "@tsed/openspec": "7.0.0-beta.3",
-    "@tsed/schema": "7.0.0-beta.3"
+    "@tsed/schema": "7.0.0-beta.3",
+    "@types/swagger-ui-dist": ">=3.30.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.0.0-beta.3",
-    "@tsed/core": "^7.0.0-beta.3",
-    "@tsed/di": "^7.0.0-beta.3",
-    "@tsed/json-mapper": "^7.0.0-beta.3",
-    "@tsed/openspec": "^7.0.0-beta.3",
-    "@tsed/schema": "^7.0.0-beta.3"
+    "@tsed/common": "^7.0.0-beta.3"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/common": {
+      "optional": false
+    }
   }
 }

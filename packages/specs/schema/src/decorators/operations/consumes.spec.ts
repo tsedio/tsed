@@ -1,7 +1,7 @@
 import {Consumes, getSpec, OperationPath, SpecTypes} from "@tsed/schema";
 
 describe("Consumes", () => {
-  it("should store metadata (OS3)", () => {
+  it("should store metadata", () => {
     class MyController {
       @OperationPath("POST", "/")
       @Consumes("text/json")

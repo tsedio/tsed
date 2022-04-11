@@ -5,6 +5,7 @@
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,23 +14,22 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
     "@tsed/core": "7.0.0-beta.3",
-    "@tsed/di": "7.0.0-beta.3",
     "@tsed/exceptions": "7.0.0-beta.3",
     "@tsed/json-mapper": "7.0.0-beta.3",
-    "@tsed/logger": "^6.0.0",
     "@tsed/platform-exceptions": "7.0.0-beta.3",
     "@tsed/platform-params": "7.0.0-beta.3",
     "@tsed/schema": "7.0.0-beta.3",
     "encodeurl": "^1.0.2",
     "mime": "^2.5.2",
-    "tslib": "2.2.0",
+    "tslib": "2.3.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -38,5 +38,16 @@
     "@types/encodeurl": "^1.0.0",
     "@types/mime": "^2.0.3"
   },
-  "peerDependencies": {}
+  "peerDependencies": {
+    "@tsed/di": "^7.0.0-beta.3",
+    "@tsed/logger": ">=6.1.1"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/logger": {
+      "optional": false
+    }
+  }
 }

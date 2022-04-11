@@ -1,16 +1,19 @@
 import {Type} from "@tsed/core";
+import {JsonMethodStore} from "./JsonMethodStore";
 import {JsonMethodPath, JsonOperation} from "./JsonOperation";
-import {JsonEntityStore} from "./JsonEntityStore";
 import {concatPath} from "../utils/concatPath";
 
-export class JsonOperationRoute<Entity extends JsonEntityStore = JsonEntityStore> {
+export class JsonOperationRoute<Entity extends JsonMethodStore = JsonMethodStore> {
   readonly token: Type<any>;
   readonly endpoint: Entity;
   readonly operationPath?: JsonMethodPath;
   readonly basePath?: string;
+  readonly paramsTypes: Record<string, boolean>;
 
   constructor(options: Partial<JsonOperationRoute>) {
     Object.assign(this, options);
+
+    this.paramsTypes = this.endpoint.getParamTypes();
   }
 
   get url() {
@@ -67,5 +70,9 @@ export class JsonOperationRoute<Entity extends JsonEntityStore = JsonEntityStore
 
   get operationId() {
     return this.operation.get("operationId") || this.endpoint.propertyKey;
+  }
+
+  has(key: string) {
+    return this.paramsTypes[key];
   }
 }

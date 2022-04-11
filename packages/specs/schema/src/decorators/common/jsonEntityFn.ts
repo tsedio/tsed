@@ -1,5 +1,5 @@
 import {DecoratorParameters} from "@tsed/core";
-import type {JsonEntityStore} from "../../domain";
+import type {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {getJsonEntityStore} from "../../utils/getJsonEntityStore";
 
 /**

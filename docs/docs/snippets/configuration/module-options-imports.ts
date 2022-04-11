@@ -4,13 +4,8 @@ import {MyService} from "./services/MyService";
 
 @Module({
   mount: {
-    "/rest/module1": [
-      MyController
-    ]
+    "/rest/module1": [MyController]
   },
-  imports: [
-    MyService
-  ]
+  imports: [MyService]
 })
-export class MyModule {
-}
+export class MyModule {}

@@ -2,10 +2,10 @@ import {expect} from "chai";
 import Sinon from "sinon";
 import {Injectable, PlatformTest} from "@tsed/common";
 import {Server} from "./helpers/Server";
-import { OnEvent } from "../src/decorators/onEvent";
-import { EventEmitterService } from '../src/services/EventEmitterFactory';
-import { OnAny } from "../src/decorators/onAny";
-import { EventEmitterModule } from '../src/EventEmitterModule';
+import {OnEvent} from "../src/decorators/onEvent";
+import {EventEmitterService} from "../src/services/EventEmitterFactory";
+import {OnAny} from "../src/decorators/onAny";
+import {EventEmitterModule} from "../src/EventEmitterModule";
 
 @Injectable()
 class Test {
@@ -34,9 +34,7 @@ class TestTwo {
 }
 
 describe("EventEmitter integration", () => {
-
   describe("enabled", () => {
-
     let testTestSpy: Sinon.SinonSpy;
     let testTest2Spy: Sinon.SinonSpy;
     let testTwoTest3Spy: Sinon.SinonSpy;
@@ -45,12 +43,12 @@ describe("EventEmitter integration", () => {
     let printEventsSpy: Sinon.SinonSpy;
 
     beforeEach(async () => {
-      testTestSpy = Sinon.spy(Test.prototype, 'test');
-      testTest2Spy = Sinon.spy(Test.prototype, 'test2');
-      testTwoTest3Spy = Sinon.spy(TestTwo.prototype, 'test3');
-      testTwoTest4Spy = Sinon.spy(TestTwo.prototype, 'test4');
+      testTestSpy = Sinon.spy(Test.prototype, "test");
+      testTest2Spy = Sinon.spy(Test.prototype, "test2");
+      testTwoTest3Spy = Sinon.spy(TestTwo.prototype, "test3");
+      testTwoTest4Spy = Sinon.spy(TestTwo.prototype, "test4");
 
-      printEventsSpy = Sinon.spy(EventEmitterModule.prototype, 'printEvents')
+      printEventsSpy = Sinon.spy(EventEmitterModule.prototype, "printEvents");
 
       const bstrp = PlatformTest.bootstrap(Server, {
         eventEmitter: {
@@ -69,7 +67,6 @@ describe("EventEmitter integration", () => {
     });
     afterEach(PlatformTest.reset);
 
-
     it("should have event definitions", () => {
       const eventEmitterService = PlatformTest.injector.get<EventEmitterService>(EventEmitterService)!;
       const bla = eventEmitterService.eventNames();
@@ -78,20 +75,20 @@ describe("EventEmitter integration", () => {
 
     it("should call methods with event data", () => {
       const eventEmitterService = PlatformTest.injector.get<EventEmitterService>(EventEmitterService)!;
-      expect(eventEmitterService.emit("test1", "test-data")).to.be.true
+      expect(eventEmitterService.emit("test1", "test-data")).to.be.true;
 
-      expect(testTestSpy.calledOnceWith("test-data")).to.be.true
-      expect(testTest2Spy.notCalled).to.be.true
-      expect(testTwoTest3Spy.calledOnceWith("test-data")).to.be.true
-      expect(testTwoTest4Spy.calledOnceWith('test1', 'test-data')).to.be.true
-    })
+      expect(testTestSpy.calledOnceWith("test-data")).to.be.true;
+      expect(testTest2Spy.notCalled).to.be.true;
+      expect(testTwoTest3Spy.calledOnceWith("test-data")).to.be.true;
+      expect(testTwoTest4Spy.calledOnceWith("test1", "test-data")).to.be.true;
+    });
 
     it("should call async methods and return values", async () => {
       const eventEmitterService = PlatformTest.injector.get<EventEmitterService>(EventEmitterService)!;
       const result = await eventEmitterService.emitAsync("test2");
-      expect(result).to.length(2)
-    })
-  })
+      expect(result).to.length(2);
+    });
+  });
 
   describe("disabled", () => {
     beforeEach(async () => {
@@ -107,7 +104,7 @@ describe("EventEmitter integration", () => {
 
     it("service is not available", () => {
       const eventEmitterService = PlatformTest.injector.get<EventEmitterService>(EventEmitterService)!;
-      expect(eventEmitterService).to.deep.eq({})
+      expect(eventEmitterService).to.deep.eq({});
     });
   });
 });

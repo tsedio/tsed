@@ -7,41 +7,38 @@ describe("@Returns", () => {
     // WHEN
     class Controller {
       @Get("/")
-      @(Returns(200, String).ContentType("text/plain"))
-      method() {
-      }
+      @Returns(200, String).ContentType("text/plain")
+      method() {}
     }
 
     // THEN
     const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
     expect(spec).to.deep.equal({
-      "paths": {
+      paths: {
         "/": {
-          "get": {
-            "operationId": "controllerMethod",
-            "parameters": [],
-            "responses": {
+          get: {
+            operationId: "controllerMethod",
+            parameters: [],
+            responses: {
               "200": {
-                "content": {
+                content: {
                   "text/plain": {
-                    "schema": {
-                      "type": "string"
+                    schema: {
+                      type: "string"
                     }
                   }
                 },
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "Controller"
-            ]
+            tags: ["Controller"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "Controller"
+          name: "Controller"
         }
       ]
     });

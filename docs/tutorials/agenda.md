@@ -1,10 +1,11 @@
 ---
 meta:
-- name: description
-  content: Use Agenda with Express/Koa, TypeScript and Ts.ED. Agenda, a light-weight job scheduling library for Node.js
-- name: keywords
-  content: ts.ed express typescript agenda node.js javascript decorators
+  - name: description
+    content: Use Agenda with Express/Koa, TypeScript and Ts.ED. Agenda, a light-weight job scheduling library for Node.js
+  - name: keywords
+    content: ts.ed express typescript agenda node.js javascript decorators
 ---
+
 # Agenda
 
 <Banner src="/agenda.svg" href="https://github.com/agenda/agenda" height="200" />
@@ -38,15 +39,14 @@ const mongoConnectionString = "mongodb://127.0.0.1/agenda";
 
 @Configuration({
   agenda: {
-   enabled: true, // Enable Agenda jobs for this instance.
-   // pass any options that you would normally pass to new Agenda(), e.g.
-   db: {
-     address: mongoConnectionString
-   }
+    enabled: true, // Enable Agenda jobs for this instance.
+    // pass any options that you would normally pass to new Agenda(), e.g.
+    db: {
+      address: mongoConnectionString
+    }
   }
 })
-export class Server {
-}
+export class Server {}
 ```
 
 ## Create a new Service
@@ -108,17 +108,60 @@ export class UsersService implements AfterRoutesInit {
     // do something
     // ...
     // then schedule some jobs
-    await this.agenda.now("email.sendWelcomeEmail", {user})
-    await this.agenda.schedule("in 2 hours", "email.sendFollowUpEmail", {user})
+    await this.agenda.now("email.sendWelcomeEmail", {user});
+    await this.agenda.schedule("in 2 hours", "email.sendFollowUpEmail", {user});
 
     return user;
   }
 }
 ```
 
-## Author
+## Using Agendash
 
-<GithubContributors :users="['ochrstn']"/>
+[Agendash](https://github.com/agenda/agendash) provides a job overview dashboard that makes it easy to manage, create and
+schedule your jobs.
+
+::: tip Note
+This is an optional feature and is not required to use agenda.
+:::
+
+Install the additional dependency.
+
+```shell
+npm install --save agendash
+```
+
+Afterwards create the module `agendash.module.ts` in src/modules so that the dashboard can be exposed using middleware.
+
+```typescript
+import {AfterRoutesInit, Inject, PlatformApplication} from "@tsed/common";
+import {Configuration, Module} from "@tsed/di";
+import {Agenda} from "agenda";
+
+const Agendash = require("agendash");
+
+@Module()
+export class AgendashModule implements AfterRoutesInit {
+  @Configuration()
+  config: Configuration;
+
+  @Inject()
+  agenda: Agenda;
+
+  @Inject()
+  app: PlatformApplication;
+
+  $afterRoutesInit() {
+    if (this.config.agenda?.enabled) {
+      this.app.use("/agendash", Agendash(this.agenda));
+    }
+  }
+}
+```
+
+## Authors
+
+<GithubContributors :users="['ochrstn', 'xCryzed']"/>
 
 ## Maintainers
 

@@ -4,9 +4,10 @@ import {Injectable, InjectorService, Provider} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import Passport, {Strategy} from "passport";
 import {PassportException} from "../errors/PassportException";
-import {IProtocol, ProtocolOptions} from "../interfaces";
-import {PROVIDER_TYPE_PROTOCOL} from "../contants";
+import {PROVIDER_TYPE_PROTOCOL} from "../contants/constants";
 import {promisify} from "util";
+import type {ProtocolMethods} from "../interfaces/ProtocolMethods";
+import type {ProtocolOptions} from "../interfaces/ProtocolOptions";
 
 /**
  * @ignore
@@ -18,7 +19,7 @@ export class ProtocolsService {
   constructor(private injector: InjectorService) {}
 
   public getProtocols(): Provider[] {
-    return Array.from(this.injector.getProviders(PROVIDER_TYPE_PROTOCOL));
+    return this.injector.getProviders(PROVIDER_TYPE_PROTOCOL);
   }
 
   public getProtocolsNames(): string[] {
@@ -29,9 +30,14 @@ export class ProtocolsService {
    * Invoke provider and bind it to passport.
    * @param provider
    */
-  public invoke(provider: Provider): any {
-    const {name, useStrategy: strategy, settings} = this.getOptions(provider);
-    const protocol = this.injector.get<IProtocol & any>(provider.provide)!;
+  async invoke(provider: Provider) {
+    let {name, useStrategy: strategy, settings} = this.getOptions(provider);
+    const protocol = this.injector.get<ProtocolMethods & Record<string, any>>(provider.provide)!;
+
+    if (protocol.$beforeInstall) {
+      settings = (await protocol.$beforeInstall(settings)) || settings;
+    }
+
     const instance = new strategy(settings, this.createHandler(provider));
 
     this.strategies.set(name, instance);
@@ -39,7 +45,7 @@ export class ProtocolsService {
     Passport.use(name, instance);
 
     if (protocol.$onInstall) {
-      protocol.$onInstall(instance);
+      await protocol.$onInstall(instance);
     }
 
     protocol.$strategy = instance;
@@ -134,13 +140,18 @@ export class ProtocolsService {
 
     return async (req: any, ...args: any[]) => {
       const done = args[args.length - 1];
-      req.$ctx.set("PROTOCOL_ARGS", args.slice(0, -1));
 
-      try {
-        await middleware(req.$ctx);
-        done(null, ...[].concat(req.$ctx.data));
-      } catch (err) {
-        done(err, false, {message: err.message});
+      if (req.$ctx) {
+        req.$ctx.set("PROTOCOL_ARGS", args.slice(0, -1));
+
+        try {
+          await middleware(req.$ctx);
+          done(null, ...[].concat(req.$ctx.data));
+        } catch (err) {
+          done(err, false, {message: err.message});
+        }
+      } else {
+        done(new Error("Headers already sent"), false, {message: "Headers already sent"});
       }
     };
   }

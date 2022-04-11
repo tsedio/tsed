@@ -2,11 +2,10 @@ import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
 import "@tsed/swagger";
 import Path from "path";
-
-const cookieParser = require("cookie-parser"),
-  bodyParser = require("body-parser"),
-  compress = require("compression"),
-  methodOverride = require("method-override");
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import compress from "compression";
+import methodOverride from "method-override";
 
 const rootDir = Path.resolve(__dirname);
 
@@ -17,7 +16,7 @@ const rootDir = Path.resolve(__dirname);
   swagger: [
     {
       path: "/v2/doc",
-      specVersion: "3.0.1",
+      specVersion: "2.0",
       showExplorer: true,
       spec: {
         info: {title: "Swagger title", version: "1.2.0"}

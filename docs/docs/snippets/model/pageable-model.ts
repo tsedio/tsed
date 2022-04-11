@@ -17,7 +17,7 @@ class Pageable {
 
   @For(SpecTypes.JSON, oneOf(string(), array().items(string()).maxItems(2)))
   @For(SpecTypes.OPENAPI, array().items(string()).maxItems(2))
-  @OnDeserialize((value: string | string[]) => isString(value) ? value.split(",") : value)
+  @OnDeserialize((value: string | string[]) => (isString(value) ? value.split(",") : value))
   @Description("Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
   sort: string | string[];
 

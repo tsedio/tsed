@@ -6,22 +6,18 @@ All services annotated with `@Service()` are constructed one time.
 ## Configuration
 
 You must add the `services` folder on `componentsScan` attribute in your server settings as follow :
- 
+
 ```typescript
 import {Configuration} from "@tsed/common";
 
 @Configuration({
-  rootDir: __dirname,
   mount: {
-    '/rest': `./controllers/**/**.js`
+    "/rest": `./controllers/**/**.js`
   },
-  componentsScan: [
-    `./services/**/**.js`
-  ],
+  componentsScan: [`./services/**/**.js`],
   customServiceOptions: {}
 })
-export class Server {
-}       
+export class Server {}
 ```
 
 ## Decorators
@@ -34,7 +30,7 @@ Create a new file in your services folder. Create a new Class definition and add
 
 ```typescript
 import {Configuration, Injectable, Constant} from "@tsed/di";
-import {OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady} from "@tsed/common"
+import {OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady} from "@tsed/common";
 
 @Injectable()
 export class MyService implements OnInit, BeforeRoutesInit, OnRoutesInit, AfterRoutesInit, OnServerReady {
@@ -48,33 +44,31 @@ export class MyService implements OnInit, BeforeRoutesInit, OnRoutesInit, AfterR
 ```
 
 Finally, inject the service to another service:
+
 ```typescript
 import {Injectable} from "@tsed/di";
 import {MyService} from "./MyService";
 
 @Injectable()
 export class FooService {
-  constructor(private myService: MyService) {
-  }
+  constructor(private myService: MyService) {}
 }
 ```
 
-Or to another controller: 
+Or to another controller:
 
 ```typescript
 import {Controller, Inject} from "@tsed/di";
 import {MyService} from "./MyService";
 
-@Controller('/rest') 
+@Controller("/rest")
 class MyController {
   @Inject()
   service: MyService;
-  
+
   // OR from constructor
-  constructor(private myService: MyService){
-  
-  }
-}  
+  constructor(private myService: MyService) {}
+}
 ```
 
 ## Override a Service
@@ -83,13 +77,14 @@ The decorator @@OverrideProvider@@ gives you the ability to
 override some internal Ts.ED service like the @@ParseService@@.
 
 Example usage:
+
 ```typescript
 import {OverrideProvider} from "@tsed/di";
 import {SomeService} from "@tsed/common";
 
 @OverrideProvider(SomeService)
 class CustomService extends SomeService {
-  // do something  
+  // do something
 }
 ```
 
@@ -97,7 +92,6 @@ class CustomService extends SomeService {
 
 Ts.ED 2.x introduces a new Lifecycle Hooks on the service that follows the [Hooks](/docs/hooks.md).
 This lifecycle hooks that provide visibility into these key life moments and the ability to act when they occur.
-
 
 A service that uses one of the phases of the lifecycle can add a number of things and can be completely autonomous.
 This is the case with the example of the socket server (See the section [How to integrate Socket.io](/tutorials/socket-io.md)).
@@ -118,20 +112,16 @@ export class MyService implements Hooks, OnInit {
   private settings = {};
 
   constructor(@Configuration() private configuration: Configuration) {
-    this.settings = this.configuration.get<any>('customServiceOptions');
+    this.settings = this.configuration.get<any>("customServiceOptions");
   }
 
-  $onInit(): Promise<any> | void {
-  }
+  $onInit(): Promise<any> | void {}
 
-  $beforeRoutesInit(): Promise<any> | void {
-  }
+  $beforeRoutesInit(): Promise<any> | void {}
 
-  $afterRoutesInit(): Promise<any> | void {
-  }
+  $afterRoutesInit(): Promise<any> | void {}
 
-  $onReady(): Promise<any> | void {
-  }
+  $onReady(): Promise<any> | void {}
 }
 ```
 
@@ -142,21 +132,21 @@ annotated with `@Scope('request')`:
 import {Injectable, Scope, OnDestroy} from "@tsed/di";
 
 @Injectable()
-@Scope('request')
+@Scope("request")
 export class MyService implements OnDestroy {
   $onDestroy() {
-    console.log('Service destroyed');
+    console.log("Service destroyed");
   }
 }
 ```
 
-Hook | Purpose and Timing
----|---
-$onInit | Respond after Injector has initialized all Services in the registry.
-$beforeRoutesInit | Respond before loading the controllers. The middlewares and filters are already built.
-$afterRoutesInit | Respond after the controllers build.
-$onReady | Respond when the server is ready. At this step, Http.Server or/and Https.Server object is available. The server listen the port.
-$onDestroy | Respond when a Service or Controller is destroyed (uniquely when class is annotated with `@Scope('request')`.
+| Hook               | Purpose and Timing                                                                                                               |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| \$onInit           | Respond after Injector has initialized all Services in the registry.                                                             |
+| \$beforeRoutesInit | Respond before loading the controllers. The middlewares and filters are already built.                                           |
+| \$afterRoutesInit  | Respond after the controllers build.                                                                                             |
+| \$onReady          | Respond when the server is ready. At this step, Http.Server or/and Https.Server object is available. The server listen the port. |
+| \$onDestroy        | Respond when a Service or Controller is destroyed (uniquely when class is annotated with `@Scope('request')`.                    |
 
 ::: tip Interfaces are optionals
 

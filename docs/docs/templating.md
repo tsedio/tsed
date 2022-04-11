@@ -1,10 +1,11 @@
 ---
 meta:
-- name: description
-  content: Use template engine with Ts.ED by using decorators. Ts.ED is built on top of Express/Koa and uses TypeScript language.
-- name: keywords
-  content: template engine tsed-engines ts.ed express typescript node.js javascript decorators
+  - name: description
+    content: Use template engine with Ts.ED by using decorators. Ts.ED is built on top of Express/Koa and uses TypeScript language.
+  - name: keywords
+    content: template engine tsed-engines ts.ed express typescript node.js javascript decorators
 ---
+
 # Templating
 
 @@View@@ is a decorator which can be used on a controller method (endpoint).
@@ -41,32 +42,34 @@ npm install @tsed/engines
 
 ```typescript
 export interface PlatformViewsSettings {
-   /**
-    * Views directory.
-    */
-   root?: string;
-   /**
-    * Enable cache. Ts.ED enables cache in PRODUCTION profile by default.
-    */
-   cache?: boolean;
-   /**
-    * Provide extensions mapping to match the expected engines.
-    */
-   extensions?: Partial<PlatformViewsExtensionsTypes>;
-   /**
-    * Default view engine extension.
-    * Allow omitting extension when using View decorator or render method.
-    */
-   viewEngine?: string;
-   /**
-    * Options mapping for each engine.
-    */
-   options?: Partial<PlatformViewsEngineOptions>;
+  /**
+   * Views directory.
+   */
+  root?: string;
+  /**
+   * Enable cache. Ts.ED enables cache in PRODUCTION profile by default.
+   */
+  cache?: boolean;
+  /**
+   * Provide extensions mapping to match the expected engines.
+   */
+  extensions?: Partial<PlatformViewsExtensionsTypes>;
+  /**
+   * Default view engine extension.
+   * Allow omitting extension when using View decorator or render method.
+   */
+  viewEngine?: string;
+  /**
+   * Options mapping for each engine.
+   */
+  options?: Partial<PlatformViewsEngineOptions>;
 }
 ```
 
 ## Usage
+
 ## Template Engine Instances
+
 ### With Consolidate (deprecated)
 
 Template engines are exposed via the `consolidate.requires` object, but they are not instantiated until you've called the `consolidate[engine].render()` method.
@@ -86,15 +89,14 @@ You can instantiate them manually beforehand if you want to add filters, globals
 :::
 
 ### Nunjucks
+
 ```typescript
-import { Configuration } from "@tsed/common";
+import {Configuration} from "@tsed/common";
 import nunjucks from "nunjucks";
 
-const rootDir = Path.resolve(__dirname);
-
-const nunjucksInstances = nunjucks.configure(`${rootDir}/views`);
-nunjucksInstances.addFilter('foo', function () {
-  return 'bar';
+const nunjucksInstances = nunjucks.configure("./views");
+nunjucksInstances.addFilter("foo", function () {
+  return "bar";
 });
 
 @Configuration({
@@ -102,14 +104,14 @@ nunjucksInstances.addFilter('foo', function () {
     root: `${rootDir}/views`,
     viewEngine: "nunjucks",
     extensions: {
-      "njk": "nunjucks"
+      njk: "nunjucks"
     },
     options: {
       nunjucks: {
         requires: nunjucksInstances
       }
     }
-  },
+  }
 })
 export default class ShopApp {}
 ```
@@ -128,9 +130,7 @@ Here is an example of a controller using the @@View@@ decorator:
 
 ```html
 <h1><%- name %></h1>
-<div>
-  Start: <%- startDate %>
-</div>
+<div>Start: <%- startDate %></div>
 ```
 
   </Tab>
@@ -157,9 +157,7 @@ It's also possible to render a view by injecting and using @@PlatformResponse@@ 
 
 ```html
 <h1><%- name %></h1>
-<div>
-  Start: <%- startDate %>
-</div>
+<div>Start: <%- startDate %></div>
 ```
 
   </Tab>

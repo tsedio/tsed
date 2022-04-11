@@ -14,6 +14,7 @@
   ],
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -22,32 +23,48 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@tsed/common": "7.0.0-beta.3",
     "@tsed/core": "7.0.0-beta.3",
     "@tsed/di": "7.0.0-beta.3",
-    "@tsed/json-mapper": "7.0.0-beta.3",
-    "@tsed/openspec": "7.0.0-beta.3",
+    "@tsed/exceptions": "7.0.0-beta.3",
+    "@tsed/platform-middlewares": "7.0.0-beta.3",
+    "@tsed/platform-params": "7.0.0-beta.3",
     "@tsed/schema": "7.0.0-beta.3",
     "stripe": "^8.129.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.0.0-beta.3",
-    "@tsed/core": "^7.0.0-beta.3",
-    "@tsed/di": "^7.0.0-beta.3",
-    "@tsed/json-mapper": "^7.0.0-beta.3",
-    "@tsed/openspec": "^7.0.0-beta.3",
+    "@tsed/exceptions": "^7.0.0-beta.3",
+    "@tsed/platform-middlewares": "^7.0.0-beta.3",
+    "@tsed/platform-params": "^7.0.0-beta.3",
     "@tsed/schema": "^7.0.0-beta.3",
     "@types/body-parser": "^1.19.0",
     "body-parser": "^1.19.0",
     "stripe": "^8.129.0"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/platform-middlewares": {
+      "optional": false
+    },
+    "@tsed/platform-params": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    },
+    "@tsed/exceptions": {
+      "optional": false
+    },
+    "stripe": {
+      "optional": false
+    }
   }
 }

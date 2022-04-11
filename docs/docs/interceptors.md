@@ -5,6 +5,7 @@ An interceptor is a class annotated with the @@Interceptor@@ decorator. Intercep
 Interceptors have a set of useful capabilities which are inspired by the [Aspect Oriented Programming](https://en.wikipedia.org/wiki/Aspect-oriented_programming) (AOP) technique.
 
 Creating and consuming an interceptor is a two-step process:
+
 1. Create and annotate the interceptor class that will intercept calls to service methods
 2. Decide which methods will be **intercepted** by which **interceptor**
 

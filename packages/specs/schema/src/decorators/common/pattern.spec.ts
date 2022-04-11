@@ -1,6 +1,6 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {Pattern} from "./pattern";
-import "../../components";
+import "@tsed/schema";
 
 describe("@Pattern", () => {
   it("should declare pattern value", () => {

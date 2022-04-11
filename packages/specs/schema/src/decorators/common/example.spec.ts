@@ -41,7 +41,7 @@ describe("@Example", () => {
     }
 
     // THEN
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
+    expect(getSpec(MyController)).toEqual({
       paths: {
         "/{id}": {
           get: {
@@ -53,9 +53,9 @@ describe("@Example", () => {
                 name: "id",
                 required: true,
                 schema: {
-                  type: "string",
+                  example: "5ce7ad3028890bd71749d477",
                   pattern: "^[0-9a-fA-F]{24}$",
-                  example: "5ce7ad3028890bd71749d477"
+                  type: "string"
                 }
               }
             ],

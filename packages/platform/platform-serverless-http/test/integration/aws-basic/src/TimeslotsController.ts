@@ -42,7 +42,7 @@ export class TimeslotsController {
   }
 
   @Get("/")
-  @(Returns(200, Array))
+  @Returns(200, Array)
   @Summary("Find all timeslot included in the given criteria")
   @Description(
     "Search timeslots from the given criteria. By default, the `start_date` value is the actual date and the `end_date` is `start_date + 7 days`"

@@ -13,8 +13,10 @@
     "packages/testing/**",
     "packages/**/ExpressRouter.ts",
     "packages/**/RouteService.ts",
+    "packages/core",
     "packages/platform/platform-test-utils",
     "packages/platform/platform-serverless",
+    "packages/platform/platform-cache",
     "packages/platform/platform-serverless-http",
     "packages/platform/platform-serverless-testing",
     "packages/platform/platform-log-middleware",
@@ -23,11 +25,13 @@
     "packages/graphql",
     "packages/third-parties",
     "packages/perf",
-    "packages/specs/swagger/src/decorators/{title,description,example}.ts",
+    "packages/specs/swagger",
     "packages/specs/schema",
     "**/interfaces/**",
     "**/legacy/**",
-    "**/index.ts"
+    "**/index.ts",
+    "**/FakeAdapter.ts",
+    "**/PlatformTest.ts"
   ],
   "extension": [
     ".ts"
@@ -39,8 +43,8 @@
     "lcov"
   ],
   "check-coverage": true,
-  "lines": 99.57,
-  "statements": 99.54,
-  "functions": 99.24,
-  "branches": 87.86
+  "lines": 99.7,
+  "statements": 99.66,
+  "functions": 98.78,
+  "branches": 87.41
 }

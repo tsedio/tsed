@@ -6,7 +6,7 @@ import {IdColumn} from "../../../src";
 @Entity("users")
 export class User extends Model {
   @IdColumn()
-  @Groups('!creation')
+  @Groups("!creation")
   id: number;
 
   @Required()

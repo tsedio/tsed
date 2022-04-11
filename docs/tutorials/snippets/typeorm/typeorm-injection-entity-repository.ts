@@ -8,8 +8,5 @@ export class OtherService {
   @UseConnection("db2")
   userRepository2: UserRepository;
 
-  constructor(public userRepository: UserRepository,
-              @UseConnection("db3") public userRepository3: UserRepository) {
-
-  }
+  constructor(public userRepository: UserRepository, @UseConnection("db3") public userRepository3: UserRepository) {}
 }

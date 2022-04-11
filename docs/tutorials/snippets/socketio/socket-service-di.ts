@@ -4,10 +4,7 @@ import {MySocketService} from "../services/MySocketService";
 
 @Controller("/")
 export class MyCtrl {
-
-  constructor(private mySocketService: MySocketService) {
-
-  }
+  constructor(private mySocketService: MySocketService) {}
 
   @Get("/allo")
   allo() {

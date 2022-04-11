@@ -1,10 +1,11 @@
 ---
 meta:
- - name: description 
-   content: Documentation over Models and decorators provided by Ts.ED framework. Use decorator to build your model and JsonSchema.
- - name: keywords
-   content: class model decorators ts.ed express typescript node.js javascript jsonschema
+  - name: description
+    content: Documentation over Models and decorators provided by Ts.ED framework. Use decorator to build your model and JsonSchema.
+  - name: keywords
+    content: class model decorators ts.ed express typescript node.js javascript jsonschema
 ---
+
 # Model
 
 The classes can be used as a model in your application. Ts.ED uses these models to convert JSON objects to their class
@@ -26,8 +27,7 @@ import {Configuration} from "@tsed/common";
 import "@tsed/ajv";
 
 @Configuration()
-class Server {
-}
+class Server {}
 ```
 
 Without this package, decorators like @@Email@@ won't have any effect.
@@ -185,14 +185,13 @@ export class Model {
         }
       ]
     }
-  },   
+  },
   "type": "object"
 }
 ```
 
   </Tab>
 </Tabs>
-
 
 ## Regular expressions
 
@@ -318,7 +317,7 @@ import {QueryParams, Controller} from "@tsed/common";
 @Controller("/")
 class MyController {
   @Post("/")
-  async method(@QueryParams('type') @Enum(MyEnum) type: MyEnum): Promise<any> {
+  async method(@QueryParams("type") @Enum(MyEnum) type: MyEnum): Promise<any> {
     return null;
   }
 }
@@ -448,16 +447,11 @@ import {array, number} from "@tsed/schema";
   type: "number",
   schemaType: "array",
   implements: ["exclusiveRange"],
-  metaSchema: array()
-    .items([number(), number()])
-    .minItems(2)
-    .additionalItems(false)
+  metaSchema: array().items([number(), number()]).minItems(2).additionalItems(false)
 })
 class RangeKeyword implements KeywordMethods {
   compile([min, max]: number[], parentSchema: any) {
-    return parentSchema.exclusiveRange === true
-      ? (data: any) => data > min && data < max
-      : (data: any) => data >= min && data <= max;
+    return parentSchema.exclusiveRange === true ? (data: any) => data > min && data < max : (data: any) => data >= min && data <= max;
   }
 }
 ```
@@ -497,7 +491,7 @@ export function Range(min: number, max: number) {
 export function ExclusiveRange(bool: boolean) {
   return CustomKey("exclusiveRange", bool);
 }
-```     
+```
 
   </Tab>
 </Tabs>
@@ -521,17 +515,14 @@ describe("Product", () => {
     const validate = ajv.compile(schema);
 
     expect(schema).to.deep.equal({
-      "properties": {
-        "price": {
-          "exclusiveRange": true,
-          "range": [
-            10,
-            100
-          ],
-          "type": "number"
+      properties: {
+        price: {
+          exclusiveRange: true,
+          range: [10, 100],
+          type: "number"
         }
       },
-      "type": "object"
+      type: "object"
     });
 
     expect(validate({price: 10.01})).toEqual(true);
@@ -571,13 +562,16 @@ So by using the @@deserialize@@ function with the extra groups options, we can m
 ```typescript
 import {deserialize} from "json-schema";
 
-const result = deserialize({
-  id: "id", // will be ignored because creation doesn't include `id` field
-  firstName: "firstName",
-  lastName: "lastName",
-  email: "email@tsed.io",
-  password: "password"
-}, {type: User, groups: ['creation']});
+const result = deserialize(
+  {
+    id: "id", // will be ignored because creation doesn't include `id` field
+    firstName: "firstName",
+    lastName: "lastName",
+    email: "email@tsed.io",
+    password: "password"
+  },
+  {type: User, groups: ["creation"]}
+);
 
 console.log(result); // User {firstName, lastName, email, password}
 ```
@@ -588,14 +582,17 @@ console.log(result); // User {firstName, lastName, email, password}
 ```typescript
 import {deserialize} from "json-schema";
 
-const result = deserialize({
-  id: "id",
-  firstName: "firstName",
-  lastName: "lastName",
-  email: "email@tsed.io",
-  password: "password",
-  roles: ['admin']
-}, {type: User, groups: ['group.email']});
+const result = deserialize(
+  {
+    id: "id",
+    firstName: "firstName",
+    lastName: "lastName",
+    email: "email@tsed.io",
+    password: "password",
+    roles: ["admin"]
+  },
+  {type: User, groups: ["group.email"]}
+);
 
 console.log(result); // User {id, firstName, lastName, email, password}
 ```
@@ -606,14 +603,17 @@ console.log(result); // User {id, firstName, lastName, email, password}
 ```typescript
 import {deserialize} from "json-schema";
 
-const result = deserialize({
-  id: "id",
-  firstName: "firstName",
-  lastName: "lastName",
-  email: "email@tsed.io",
-  password: "password",
-  roles: ['admin']
-}, {type: User, groups: ['group.*']});
+const result = deserialize(
+  {
+    id: "id",
+    firstName: "firstName",
+    lastName: "lastName",
+    email: "email@tsed.io",
+    password: "password",
+    roles: ["admin"]
+  },
+  {type: User, groups: ["group.*"]}
+);
 
 console.log(result); // User {id, firstName, lastName, email, password, roles}
 ```
@@ -687,7 +687,7 @@ It's also possible to define all groups on class instead of declaring it on each
 ## ForwardGroups <Badge text="6.42.0+" />
 
 Groups configuration isn't forwarded to the nested models to avoid side effect on model generation.
-With @@ForwardGroups@@ decorator, your are able to tell if a property should use or not the Groups configuration to generate correctly 
+With @@ForwardGroups@@ decorator, your are able to tell if a property should use or not the Groups configuration to generate correctly
 a nested model.
 
 ```typescript
@@ -720,6 +720,7 @@ class MyModel {
   prop4: ChildModel[];
 }
 ```
+
 Now `prop4` will have a `ChildModel` generated along to groups configuration.
 
 ## RequiredGroups <Badge text="6.34.0+"/>
@@ -760,7 +761,7 @@ import {BodyParams} from "./bodyParams";
 @Controller("/")
 class MyController {
   @Patch("/")
-  @(Returns(200, MyModel).Groups("group.*"))
+  @Returns(200, MyModel).Groups("group.*")
   async patch(@BodyParams() @Partial() payload: MyModel) {
     // ...
   }
@@ -768,72 +769,73 @@ class MyController {
 ```
 
 ## Advanced validation
+
 ### BeforeDeserialize <Badge text="6.39.0+"/>
 
 If you want to validate or manipulate data before the model has been deserialized you can use the @@BeforeDeserialize@@ decorator.
 
-::: tip Note 
+::: tip Note
 Don't forget to return the data in your callback function otherwise an error will occur.
 :::
 
 ```typescript
-import {Enum, Property} from "@tsed/schema"; 
+import {Enum, Property} from "@tsed/schema";
 import {BeforeDeserialize} from "@tsed/json-mapper";
 import {BadRequest} from "@tsed/exceptions";
 
 enum AnimalType {
-  DOG="DOG",
-  CAT="CAT"
+  DOG = "DOG",
+  CAT = "CAT"
 }
 
 @BeforeDeserialize((data: Record<string, unknown>) => {
   if (data.type !== AnimalType.DOG) {
-    throw new BadRequest("Sorry, we're only responsible for dogs")  
+    throw new BadRequest("Sorry, we're only responsible for dogs");
   } else {
     data.name = `Our dog ${data.name}`;
     return data;
   }
 })
 export class Animal {
-    @Property()
-    name: string;
-    @Enum(AnimalType)
-    type: AnimalType;
-} 
+  @Property()
+  name: string;
+  @Enum(AnimalType)
+  type: AnimalType;
+}
 ```
 
 ### AfterDeserialize <Badge text="6.39.0+"/>
 
 If you want to validate or manipulate data after the model has been deserialized you can use the @@AfterDeserialize@@ decorator.
 
-::: tip Note 
+::: tip Note
 Don't forget to return the data in your callback function otherwise an error will occur.
 :::
 
 ```typescript
-import {Enum, Property} from "@tsed/schema"; 
+import {Enum, Property} from "@tsed/schema";
 import {AfterDeserialize} from "@tsed/json-mapper";
 import {BadRequest} from "@tsed/exceptions";
 
 enum AnimalType {
-  DOG="DOG",
-  CAT="CAT"
+  DOG = "DOG",
+  CAT = "CAT"
 }
 
 @AfterDeserialize((data: Animal) => {
   if (data.type !== AnimalType.CAT) {
-    throw new BadRequest("Sorry, we're only responsible for cats")  
+    throw new BadRequest("Sorry, we're only responsible for cats");
   } else {
     data.name = `Our cat ${data.name}`;
     return data;
   }
 })
 export class Animal {
-    @Property()
-    name: string;
-    @Enum(AnimalType)
-    type: AnimalType;
-} 
+  @Property()
+  name: string;
+  @Enum(AnimalType)
+  type: AnimalType;
+}
 ```
 
 ### Custom validation decorator
@@ -841,9 +843,9 @@ export class Animal {
 Validation can quickly become complex and therefore confusing. In this case you can use your own validation decorator.
 
 ```typescript
-import {BeforeDeserialize} from "@tsed/json-mapper"; 
+import {BeforeDeserialize} from "@tsed/json-mapper";
 import {Property, JsonEntityFn} from "@tsed/schema";
-import {BadRequest} from "@tsed/exceptions"; 
+import {BadRequest} from "@tsed/exceptions";
 
 class Company {
   @Property()
@@ -866,6 +868,7 @@ function RequiredIf(cb: any): PropertyDecorator {
 ```
 
 ## Generics
+
 ### Declaring a generic model
 
 Sometimes, it might be useful to use generic models. TypeScript doesn't store the generic type in the metadata. This is
@@ -970,7 +973,6 @@ class MyController {
  </Tab>
 </Tabs>
 
-
 ### Generics with Functional API
 
 <Tabs class="-code">
@@ -991,8 +993,8 @@ class MyController {
 The following advanced example will show you how you can combine the different Ts.ED features to describe Pagination.
 The used features are the following:
 
-- [Generics](/docs/models.html#generics)
-- [Function programming to declare models](/docs/models.html#using-functions)
+- [Generics](/docs/model.html#generics)
+- [Function programming to declare models](/docs/model.html#using-functions)
 - @@For@@ decorator to declare a custom model for JsonSchema, OS2 or OS3.
 - [Response Filter](/docs/response-filter.md) to manage paginated response.
 
@@ -1005,7 +1007,6 @@ The used features are the following:
   <Tab label="Pageable.ts">
 
 <<< @/docs/snippets/model/pageable-model.ts
-
 
   </Tab>  
   <Tab label="Pagination.ts">
@@ -1039,7 +1040,7 @@ It means, a consumer can call your endpoint with the following url:
 /users?id[role]=admin&id[firstName]=Alex
 ```
 
-Ts.ED will determine automatically the appropriate `style` parameter based on the given `User` model. 
+Ts.ED will determine automatically the appropriate `style` parameter based on the given `User` model.
 Here is an example with a DeepQueryObject model:
 
 ```typescript
@@ -1057,9 +1058,7 @@ class DeepQueryObject {
 @Path("/test")
 class TestDeepObjectCtrl {
   @OperationPath("GET", "/")
-  async get(@QueryParams("s") q: DeepQueryObject) {
-
-  }
+  async get(@QueryParams("s") q: DeepQueryObject) {}
 }
 ```
 
@@ -1205,6 +1204,24 @@ Here is the list of available functions:
 
 <ApiList query="status.includes('schemaFunctional')" />
 
+## RecordOf
+
+The @@RecordOf@@ decorator constructs a json schema object type which property keys are set by a given set of keys
+and which property values are of a given type.
+
+<Tabs class="-code">
+  <Tab label="Model">
+
+<<< @/docs/snippets/model/record-of.ts
+
+  </Tab>
+  <Tab label="Json schema">
+
+<<< @/docs/snippets/model/record-of.json
+
+  </Tab>
+</Tabs>
+
 ## Get Json schema
 
 In some cases, it may be useful to retrieve the JSON Schema from a Model to use with another library. This is possible
@@ -1236,7 +1253,7 @@ import {Product} from "../models/Product";
 @Controller("/products")
 export class ProductsCtrl {
   @Get("/.schema")
-  get(@QueryParams('customKeys') customKeys: boolean, @QueryParams('groups') groups: string[]) {
+  get(@QueryParams("customKeys") customKeys: boolean, @QueryParams("groups") groups: string[]) {
     return getJsonSchema(Product, {customKeys, groups});
   }
 }

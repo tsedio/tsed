@@ -1,20 +1,22 @@
 import {Type} from "@tsed/core";
+import {JsonMethodStore} from "../domain/JsonMethodStore";
 import {getOperationsStores} from "./getOperationsStores";
 import {JsonOperationRoute} from "../domain/JsonOperationRoute";
 import {JsonEntityStore} from "../domain/JsonEntityStore";
 import {getJsonEntityStore} from "./getJsonEntityStore";
+import {concatPath} from "./concatPath";
 
 export interface GetOperationsRoutesOptions {
   withChildren?: boolean;
   basePath?: string;
 }
 
-export function getOperationsRoutes<Entity extends JsonEntityStore = JsonEntityStore>(
+export function getOperationsRoutes<Entity extends JsonMethodStore = JsonMethodStore>(
   token: Type<any> | any,
   options: GetOperationsRoutesOptions = {}
 ): JsonOperationRoute<Entity>[] {
   const store: JsonEntityStore = token.isStore ? token : getJsonEntityStore(token);
-  const basePath = ((options.basePath || "") + (store.path || "")).replace(/\/\//gi, "/");
+  const basePath = concatPath(options.basePath, store.path);
   let operationsRoutes: JsonOperationRoute<Entity>[] = [];
 
   if (options.withChildren) {

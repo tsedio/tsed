@@ -3,8 +3,8 @@ import {Inject, Injectable, InjectorService, Provider, ProviderScope} from "@tse
 import {$log} from "@tsed/logger";
 import {ArgScope, HandlerWithScope, PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
+import {EndpointMetadata} from "@tsed/schema";
 import {AnyToPromiseWithCtx} from "../domain/AnyToPromiseWithCtx";
-import {EndpointMetadata} from "../domain/EndpointMetadata";
 import {HandlerMetadata} from "../domain/HandlerMetadata";
 import {PlatformContext} from "../domain/PlatformContext";
 import {HandlerType} from "../interfaces/HandlerType";
@@ -163,26 +163,29 @@ export class PlatformHandler {
 
   protected async onError(er: Error, requestOptions: OnRequestOptions) {
     const {next, $ctx, metadata} = requestOptions;
-    $ctx.data = er;
+
+    if ($ctx) {
+      $ctx.data = er;
+    }
 
     if (!next) {
       throw er;
     }
 
     // istanbul ignore next
-    if (!$ctx || $ctx?.isDone()) {
+    if (!$ctx || $ctx.isDone()) {
       $log.warn({
         name: "HEADERS_SENT",
         message: `An error was caught after the headers were sent to the client. The error comes from the handler: ${metadata.toString()}`,
         stack: er.stack,
         origin: er,
-        request_id: $ctx.id
+        request_id: $ctx?.id
       });
 
       return;
     }
 
-    return next && next(er);
+    return next(er);
   }
 
   /**

@@ -8,16 +8,6 @@
     "declaration": true,
     "declarationDir": "./lib/types"
   },
-  "exclude": [
-    "node_modules",
-    "test",
-    "lib",
-    "benchmark",
-    "coverage",
-    "spec",
-    "**/*.benchmark.ts",
-    "**/*.spec.ts",
-    "keys",
-    "jest.config.js"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules", "test", "lib", "benchmark", "coverage", "spec", "**/*.benchmark.ts", "**/*.spec.ts", "keys", "jest.config.js"]
 }

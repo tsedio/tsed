@@ -1,7 +1,7 @@
 import {AfterListen, Logger, OnDestroy} from "@tsed/common";
 import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
 import {Processor} from "agenda";
-import {PROVIDER_TYPE_AGENDA} from "./constants/index";
+import {PROVIDER_TYPE_AGENDA} from "./constants/constants";
 import {AgendaStore} from "./interfaces/AgendaStore";
 import {AgendaService} from "./services/AgendaFactory";
 
@@ -44,7 +44,7 @@ export class AgendaModule implements OnDestroy, AfterListen {
   }
 
   protected getProviders(): Provider<any>[] {
-    return Array.from(this.injector.getProviders(PROVIDER_TYPE_AGENDA));
+    return this.injector.getProviders(PROVIDER_TYPE_AGENDA);
   }
 
   protected addAgendaDefinitionsForProvider(provider: Provider): void {

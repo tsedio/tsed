@@ -8,9 +8,7 @@ import {User} from "../models/User";
 export class UsersService implements AfterRoutesInit {
   private connection: Connection;
 
-  constructor(private typeORMService: TypeORMService) {
-
-  }
+  constructor(private typeORMService: TypeORMService) {}
 
   $afterRoutesInit() {
     this.connection = this.typeORMService.get("mongoose")!; // get connection by name
@@ -32,5 +30,4 @@ export class UsersService implements AfterRoutesInit {
 
     return users;
   }
-
 }

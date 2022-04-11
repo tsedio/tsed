@@ -1,5 +1,12 @@
 node_modules
-**/node_modules
 docs
-examples
-packages/**/{test,dist}/**/*.ts
+docs-references
+**/lib
+**/dist
+**/coverage
+**/.nyc_output
+**/node_modules
+*-lock.json
+*.lock
+benchmarks.*
+**/generated

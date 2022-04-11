@@ -1,6 +1,10 @@
-import {EndpointMetadata, PlatformContext, PlatformHandler} from "@tsed/common";
 import {Inject, InjectorService, Provider} from "@tsed/di";
+import {EndpointMetadata} from "@tsed/schema";
 import {FormioActionInfo} from "@tsed/formio-types";
+import {PlatformParams} from "@tsed/platform-params";
+import {PlatformResponseFilter} from "@tsed/platform-response-filter";
+import {AnyToPromise, AnyToPromiseStatus} from "@tsed/core";
+import {PlatformContext, setResponseHeaders} from "@tsed/common";
 import {Alter} from "../decorators/alter";
 import {AlterHook} from "../domain/AlterHook";
 import {SetActionItemMessage} from "../domain/FormioAction";
@@ -15,18 +19,25 @@ export class AlterActions implements AlterHook {
   @Inject()
   protected formio: FormioService;
 
+  @Inject()
+  protected params: PlatformParams;
+
+  @Inject()
+  protected responseFilter: PlatformResponseFilter;
+
   transform(actions: FormioActions): FormioActions {
     const {Action} = this.formio;
 
     return this.getActions().reduce((actions, provider) => {
       const instance = this.injector.invoke<any>(provider.token);
       const options = provider.store.get<FormioActionInfo>("formio:action");
-      const resolveHandler = this.createResolveHandler(provider);
+      const resolveHandler = this.createHandler(provider, "resolve");
 
       return {
         ...actions,
         [options.name]: class extends Action {
           static access = options.access;
+
           static async info(req: any, res: any, next: Function) {
             let opts = {...options};
 
@@ -53,25 +64,66 @@ export class AlterActions implements AlterHook {
     return this.injector.getProviders("formio:action");
   }
 
-  protected createResolveHandler(provider: Provider<any>) {
-    const platformHandler = this.injector.get<PlatformHandler>(PlatformHandler)!;
-    const middleware = platformHandler.createCustomHandler(provider, "resolve");
+  protected createHandler(provider: Provider, propertyKey: string | symbol) {
+    const promisedHandler = this.params.compileHandler({
+      token: provider.token,
+      propertyKey
+    });
 
-    return (
+    return async (
       action: any,
       handler: string,
       method: string,
       req: {$ctx: PlatformContext},
-      res: Response,
+      res: any,
       next: any,
       setActionItemMessage: SetActionItemMessage
     ) => {
-      req.$ctx.set("ACTION_CTX", {handler, method, setActionItemMessage, action});
-      req.$ctx.endpoint = EndpointMetadata.get(provider.useClass, "resolve");
+      const $ctx = req.$ctx;
+      $ctx.set("ACTION_CTX", {handler, method, setActionItemMessage, action});
+      $ctx.endpoint = EndpointMetadata.get(provider.useClass, "resolve");
 
-      middleware(req.$ctx)
-        .then(() => (req.$ctx.data ? platformHandler.flush(req.$ctx.data, req.$ctx) : next()))
-        .catch(next);
+      await this.injector.runInContext($ctx, async () => {
+        try {
+          const resolver = new AnyToPromise();
+          const handler = await promisedHandler;
+          const {state, data, status, headers} = await resolver.call(() => handler({$ctx}));
+          if (state === AnyToPromiseStatus.RESOLVED) {
+            if (status) {
+              $ctx.response.status(status);
+            }
+
+            if (headers) {
+              $ctx.response.setHeaders(headers);
+            }
+
+            if (data !== undefined) {
+              $ctx.data = data;
+
+              return await this.flush($ctx.data, $ctx);
+            }
+
+            next();
+          }
+        } catch (er) {
+          next(er);
+        }
+      });
     };
+  }
+
+  private async flush(data: any, $ctx: PlatformContext) {
+    const {response} = $ctx;
+
+    if (!response.isDone()) {
+      setResponseHeaders($ctx);
+
+      data = await this.responseFilter.serialize(data, $ctx);
+      data = await this.responseFilter.transform(data, $ctx);
+
+      response.body(data);
+    }
+
+    return response;
   }
 }

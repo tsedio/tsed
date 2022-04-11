@@ -1,10 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
-  "extends": [
-      "plugin:@typescript-eslint/recommended",
-      "prettier/@typescript-eslint",
-      "plugin:prettier/recommended"
-  ],
+  "extends": ["prettier", "plugin:@typescript-eslint/recommended"],
+  "plugins": ["@typescript-eslint", "workspaces"],
   "parserOptions": {
     "ecmaVersion": 2018,
     "sourceType": "module",
@@ -30,11 +27,15 @@
     "no-case-declarations": "off",
     "no-empty": "off",
     "prefer-const": "off",
-    "no-fallthrough": "off"
+    "no-fallthrough": "off",
+    "workspaces/no-absolute-imports": "error"
   },
-  "ignorePatterns": [
-      "**/lib/**/*.ts",
-      "**/test/**/*.ts",
-      "**/node_modules/**/*.ts"
+  "overrides": [
+    {
+      "files": ["**/*.spec.ts", "**/*.benchmark.ts", "**/test/**", "**/__mock__/**"],
+      "rules": {
+        "workspaces/no-absolute-imports": "off"
+      }
+    }
   ]
 }

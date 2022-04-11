@@ -7,7 +7,6 @@ import {SocketFilters} from "../interfaces/SocketFilters";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
 import {SocketHandlersBuilder} from "./SocketHandlersBuilder";
 import {SocketProviderMetadata} from "./SocketProviderMetadata";
-import {deserialize} from "@tsed/json-mapper";
 
 const metadata: any = {
   handlers: {
@@ -797,22 +796,14 @@ describe("SocketHandlersBuilder", () => {
         args: ["any"]
       };
 
-      const converterService = {
-        deserialize: Sinon.stub().returns("value")
-      };
+      const builder = new SocketHandlersBuilder(provider, PlatformTest.injector);
 
-      const builder: any = new SocketHandlersBuilder(provider, {
-        settings: {
-          additionalProperties: true
-        }
-      } as any);
-
+      // @ts-ignore
       builder.deserialize({parameters} as any, scope as any);
 
-      // expect(deserialize).to.have.been.calledWithExactly("any", {
-      //   type: String,
-      //   collectionType: Array
-      // });
+      expect(scope).to.deep.eq({
+        args: [["any"]]
+      });
     });
   });
 });

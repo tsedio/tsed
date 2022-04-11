@@ -2,8 +2,9 @@ import {Env, getHostInfoFromPort} from "@tsed/core";
 import {DIConfiguration, Injectable, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import Https from "https";
-import {EndpointDirectoriesSettings, PlatformLoggerSettings} from "../interfaces";
 import {ConverterSettings} from "../interfaces/ConverterSettings";
+import {EndpointDirectoriesSettings} from "../interfaces/EndpointDirectoriesSettings";
+import {PlatformLoggerSettings} from "../interfaces/PlatformLoggerSettings";
 
 const rootDir = process.cwd();
 

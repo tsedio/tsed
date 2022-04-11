@@ -1,13 +1,15 @@
 import {isArray, isObject, isString, toMap as tMap} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {MongooseDocument, MongooseModel} from "@tsed/mongoose";
+import type {FilterQuery} from "mongoose";
+import omit from "lodash/omit";
 import {FormioAction, FormioActionItem, FormioForm, FormioRole, FormioSubmission, FormioToken} from "@tsed/formio-types";
 import {FormioMapper} from "../builder/FormioMapper";
 import {isMongoId} from "../utils/isMongoId";
 import {FormioService} from "./FormioService";
 
 function toMap<T>(list: any[]) {
-  return tMap<string, MongooseDocument<T>>(list, (o: any) => [o._id.toString(), `$machineName:${o.machineName}`]);
+  return tMap<string, MongooseDocument<T>>(list, (o: any) => [o._id.toString(), `$machineName:${o.name || o.machineName}`]);
 }
 
 @Injectable()
@@ -68,7 +70,7 @@ export class FormioDatabase {
   }
 
   async hasForm(name: string): Promise<boolean> {
-    return !!(await this.formModel.countDocuments({machineName: {$eq: name}}));
+    return !!(await this.formModel.countDocuments({name: {$eq: name}}));
   }
 
   async getForm(nameOrId: string) {
@@ -79,15 +81,21 @@ export class FormioDatabase {
           ? {
               _id: nameOrId
             }
-          : {machineName: {$eq: nameOrId}})
+          : {name: {$eq: nameOrId}})
       })
       .lean()
       .exec();
   }
 
-  async createFormIfNotExists(form: FormioForm, onCreate?: (form: FormioForm) => any) {
+  /**
+   * Import form previously exported by export tool.
+   * This method transform alias to a real mongoose _id
+   * @param form
+   * @param onCreate
+   */
+  async importFormIfNotExists(form: FormioForm, onCreate?: (form: FormioForm) => any) {
     if (!(await this.hasForm(form.name))) {
-      const createForm = await this.saveFormDefinition(form);
+      const createForm = await this.importForm(form);
 
       onCreate && (await onCreate(createForm));
     }
@@ -95,10 +103,53 @@ export class FormioDatabase {
     return this.getForm(form.name);
   }
 
-  async saveFormDefinition(form: FormioForm) {
+  /**
+   * Import form previously exported by export tool.
+   * This method transform alias to a real mongoose _id
+   * @param form
+   */
+  async importForm(form: FormioForm) {
     const mapper = await this.getFormioMapper();
 
-    return new this.formModel(mapper.mapToImport(form)).save();
+    return this.saveForm(mapper.mapToImport(form));
+  }
+
+  async saveForm(form: FormioForm) {
+    form = omit(form, ["__v"]) as any;
+
+    return this.formModel.findOneAndUpdate({_id: form._id}, form, {upsert: true, new: true});
+  }
+
+  async getSubmissions<Data>(
+    query: FilterQuery<MongooseModel<FormioSubmission<Data>>> = {}
+  ): Promise<MongooseDocument<FormioSubmission<Data>>[]> {
+    return this.submissionModel.find({
+      ...query,
+      deleted: {$eq: null}
+    }) as any;
+  }
+
+  /**
+   * Import submission previously exported by export tool.
+   * This method transform alias to a real mongoose _id
+   * @param submission
+   */
+  async importSubmission<Data = any>(submission: Omit<Partial<FormioSubmission<Data>>, "form"> & {form?: any}) {
+    const mapper = await this.getFormioMapper();
+
+    return this.saveSubmission(mapper.mapToImport(submission));
+  }
+
+  async saveSubmission<Data = any>(submission: Partial<FormioSubmission<Data>>) {
+    submission = omit(submission, ["__v"]);
+
+    return this.submissionModel.findOneAndUpdate(
+      {
+        _id: submission._id
+      },
+      submission,
+      {new: true, upsert: true}
+    );
   }
 
   idToBson(form?: any) {

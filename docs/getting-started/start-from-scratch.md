@@ -3,12 +3,14 @@ prev: /docs/configuration.md
 next: /getting-started/create-your-first-controller.html
 otherTopics: true
 meta:
- - name: description
-   content: Start an application from scratch. Ts.ED is built on top of Express and uses TypeScript language.
- - name: keywords
-   content: file configuration getting started ts.ed express typescript node.js javascript decorators mvc class models
+  - name: description
+    content: Start an application from scratch. Ts.ED is built on top of Express and uses TypeScript language.
+  - name: keywords
+    content: file configuration getting started ts.ed express typescript node.js javascript decorators mvc class models
 ---
+
 # Create application from scratch
+
 ## Installation
 
 You can get the latest version of Ts.ED using the following npm command:
@@ -30,10 +32,10 @@ $ npm install --save express@4 @tsed/core @tsed/di @tsed/common @tsed/schema @ts
 ```
      
   </Tab>
-</Tabs>  
+</Tabs>
 
 ::: tip
-The following modules also are recommended: 
+The following modules also are recommended:
 
 <Tabs class="-code">
   <Tab label="Yarn">
@@ -58,6 +60,7 @@ $ npm install --save-dev ts-node nodemon
 ::: warning
 It is really important to keep the same version for all `@tsed/*` (excepted @tsed/logger) packages.
 To prevent errors, fix the version for each Ts.ED packages:
+
 ```json
 {
   "dependencies": {
@@ -68,14 +71,14 @@ To prevent errors, fix the version for each Ts.ED packages:
     "@tsed/plaftorm-express": "6.10.0",
     "@tsed/swagger": "6.10.0"
   }
-} 
+}
 ```
 
 :::
 
 ::: warning
-Ts.ED requires Node >= 10, Express >= 4, TypeScript >= 4.0.2 and 
-the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation 
+Ts.ED requires Node >= 10, Express >= 4, TypeScript >= 4.0.2 and
+the `experimentalDecorators`, `emitDecoratorMetadata`, `types` and `lib` compilation
 options in your `tsconfig.json` file.
 :::
 
@@ -91,11 +94,11 @@ Then use the command `npm install && npm start` to start your server.
 
 ## Create server
 
-To use Ts.ED now, use the [Platform API](/docs/platform-api.html) to create an application. Platform API gives an abstraction layer 
+To use Ts.ED now, use the [Platform API](/docs/platform-api.html) to create an application. Platform API gives an abstraction layer
 between your code written with Ts.ED and the Express code. It means a large part of your code
 isn't coupled with Express itself, and can be used with another Platform like Koa.
 
-Ts.ED provides a @@Configuration@@ decorator to declare a new application. 
+Ts.ED provides a @@Configuration@@ decorator to declare a new application.
 Just create a `server.ts` in your root project :
 
 <<< @/snippets/getting-started/server.ts
@@ -103,10 +106,10 @@ Just create a `server.ts` in your root project :
 To customize the server settings see [Configuration](configuration.md) page.
 
 Finally, create an `index.ts` file to bootstrap your server, on the same level of the `Server.ts`:
- 
+
 <<< @/docs/snippets/configuration/bootstrap.ts
 
-You should have this directory tree: 
+You should have this directory tree:
 
 ```
 .

@@ -1,0 +1,439 @@
+{
+  "model": {
+    "name": "User",
+    "isEmbedded": false,
+    "dbName": null,
+    "fields": [
+      {
+        "name": "id",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": true,
+        "isReadOnly": false,
+        "type": "Int",
+        "hasDefaultValue": true,
+        "default": {
+          "name": "autoincrement",
+          "args": []
+        },
+        "isGenerated": false,
+        "isUpdatedAt": false,
+        "documentation": "@TsED.Groups(\"!creation\")\nComment"
+      },
+      {
+        "name": "createdAt",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "DateTime",
+        "hasDefaultValue": true,
+        "default": {
+          "name": "now",
+          "args": []
+        },
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "email",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": true,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "String",
+        "hasDefaultValue": false,
+        "isGenerated": false,
+        "isUpdatedAt": false,
+        "documentation": "@TsED.Email()\n@TsED.Description(\"User email. This email must be unique!\")"
+      },
+      {
+        "name": "weight",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": false,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "Float",
+        "hasDefaultValue": false,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "is18",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": false,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "Boolean",
+        "hasDefaultValue": false,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "name",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": false,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "String",
+        "hasDefaultValue": false,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "successorId",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": false,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": true,
+        "type": "Int",
+        "hasDefaultValue": false,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "successor",
+        "kind": "object",
+        "isList": false,
+        "isRequired": false,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "User",
+        "hasDefaultValue": false,
+        "relationName": "BlogOwnerHistory",
+        "relationFromFields": ["successorId"],
+        "relationToFields": ["id"],
+        "relationOnDelete": "NONE",
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "predecessor",
+        "kind": "object",
+        "isList": false,
+        "isRequired": false,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "User",
+        "hasDefaultValue": false,
+        "relationName": "BlogOwnerHistory",
+        "relationFromFields": [],
+        "relationToFields": [],
+        "relationOnDelete": "NONE",
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "role",
+        "kind": "enum",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "Role",
+        "hasDefaultValue": true,
+        "default": "USER",
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "posts",
+        "kind": "object",
+        "isList": true,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "Post",
+        "hasDefaultValue": false,
+        "relationName": "PostToUser",
+        "relationFromFields": [],
+        "relationToFields": [],
+        "relationOnDelete": "NONE",
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "keywords",
+        "kind": "scalar",
+        "isList": true,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "String",
+        "hasDefaultValue": false,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      },
+      {
+        "name": "biography",
+        "kind": "scalar",
+        "isList": false,
+        "isRequired": true,
+        "isUnique": false,
+        "isId": false,
+        "isReadOnly": false,
+        "type": "Json",
+        "hasDefaultValue": false,
+        "isGenerated": false,
+        "isUpdatedAt": false
+      }
+    ],
+    "isGenerated": false,
+    "idFields": [],
+    "uniqueFields": [],
+    "uniqueIndexes": []
+  },
+  "modelType": {
+    "name": "User",
+    "fields": [
+      {
+        "name": "id",
+        "args": [],
+        "isNullable": false,
+        "outputType": {
+          "type": "Int",
+          "location": "scalar",
+          "isList": false
+        }
+      },
+      {
+        "name": "createdAt",
+        "args": [],
+        "isNullable": false,
+        "outputType": {
+          "type": "DateTime",
+          "location": "scalar",
+          "isList": false
+        }
+      },
+      {
+        "name": "email",
+        "args": [],
+        "isNullable": false,
+        "outputType": {
+          "type": "String",
+          "location": "scalar",
+          "isList": false
+        }
+      },
+      {
+        "name": "weight",
+        "args": [],
+        "isNullable": true,
+        "outputType": {
+          "type": "Float",
+          "location": "scalar",
+          "isList": false
+        }
+      },
+      {
+        "name": "is18",
+        "args": [],
+        "isNullable": true,
+        "outputType": {
+          "type": "Boolean",
+          "location": "scalar",
+          "isList": false
+        }
+      },
+      {
+        "name": "name",
+        "args": [],
+        "isNullable": true,
+        "outputType": {
+          "type": "String",
+          "location": "scalar",
+          "isList": false
+        }
+      },
+      {
+        "name": "successorId",
+        "args": [],
+        "isNullable": true,
+        "outputType": {
+          "type": "Int",
+          "location": "scalar",
+          "isList": false
+        }
+      },
+      {
+        "name": "successor",
+        "args": [],
+        "isNullable": true,
+        "outputType": {
+          "type": "User",
+          "namespace": "model",
+          "location": "outputObjectTypes",
+          "isList": false
+        }
+      },
+      {
+        "name": "predecessor",
+        "args": [],
+        "isNullable": true,
+        "outputType": {
+          "type": "User",
+          "namespace": "model",
+          "location": "outputObjectTypes",
+          "isList": false
+        }
+      },
+      {
+        "name": "role",
+        "args": [],
+        "isNullable": false,
+        "outputType": {
+          "type": "Role",
+          "namespace": "model",
+          "location": "enumTypes",
+          "isList": false
+        }
+      },
+      {
+        "name": "posts",
+        "args": [
+          {
+            "name": "where",
+            "isRequired": false,
+            "isNullable": false,
+            "inputTypes": [
+              {
+                "type": "PostWhereInput",
+                "namespace": "prisma",
+                "location": "inputObjectTypes",
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "orderBy",
+            "isRequired": false,
+            "isNullable": false,
+            "inputTypes": [
+              {
+                "type": "PostOrderByWithRelationInput",
+                "namespace": "prisma",
+                "location": "inputObjectTypes",
+                "isList": true
+              },
+              {
+                "type": "PostOrderByWithRelationInput",
+                "namespace": "prisma",
+                "location": "inputObjectTypes",
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "cursor",
+            "isRequired": false,
+            "isNullable": false,
+            "inputTypes": [
+              {
+                "type": "PostWhereUniqueInput",
+                "namespace": "prisma",
+                "location": "inputObjectTypes",
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "take",
+            "isRequired": false,
+            "isNullable": false,
+            "inputTypes": [
+              {
+                "type": "Int",
+                "location": "scalar",
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "skip",
+            "isRequired": false,
+            "isNullable": false,
+            "inputTypes": [
+              {
+                "type": "Int",
+                "location": "scalar",
+                "isList": false
+              }
+            ]
+          },
+          {
+            "name": "distinct",
+            "isRequired": false,
+            "isNullable": false,
+            "inputTypes": [
+              {
+                "type": "PostScalarFieldEnum",
+                "namespace": "prisma",
+                "location": "enumTypes",
+                "isList": true
+              }
+            ]
+          }
+        ],
+        "isNullable": true,
+        "outputType": {
+          "type": "Post",
+          "namespace": "model",
+          "location": "outputObjectTypes",
+          "isList": true
+        }
+      },
+      {
+        "name": "keywords",
+        "args": [],
+        "isNullable": true,
+        "outputType": {
+          "type": "String",
+          "location": "scalar",
+          "isList": true
+        }
+      },
+      {
+        "name": "biography",
+        "args": [],
+        "isNullable": false,
+        "outputType": {
+          "type": "Json",
+          "location": "scalar",
+          "isList": false
+        }
+      },
+      {
+        "name": "_count",
+        "args": [],
+        "isNullable": true,
+        "outputType": {
+          "type": "UserCountOutputType",
+          "namespace": "prisma",
+          "location": "outputObjectTypes",
+          "isList": false
+        }
+      }
+    ]
+  },
+  "isInputType": false
+}

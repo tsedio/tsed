@@ -44,24 +44,20 @@ Then add the following configuration in your Server:
 import {Configuration} from "@tsed/common";
 import "@tsed/socketio"; // import socketio Ts.ED module
 import {resolve} from "path";
-const rootDir = resolve(__dirname)
 
 @Configuration({
-    rootDir,
-    socketIO: {
-        // ... see configuration
-    }
+  socketIO: {
+    // ... see configuration
+  }
 })
-export class Server {
-
-}
+export class Server {}
 ```
 
 ## Socket Service
 
 > Socket.IO allows you to “namespace” your sockets, which essentially means assigning different endpoints or paths.
-This is a useful feature to minimize the number of resources (TCP connections) and at the same time separate concerns within your application
- by introducing separation between communication channels. See [namespace documentation](https://socket.io/docs/rooms-and-namespaces/#).
+> This is a useful feature to minimize the number of resources (TCP connections) and at the same time separate concerns within your application
+> by introducing separation between communication channels. See [namespace documentation](https://socket.io/docs/rooms-and-namespaces/#).
 
 All Socket service work under a namespace and you can create one Socket service per namespace.
 
@@ -73,31 +69,24 @@ import {SocketService, IO, Nsp, Socket, SocketSession} from "@tsed/socketio";
 
 @SocketService("/my-namespace")
 export class MySocketService {
+  @Nsp nsp: SocketIO.Namespace;
 
-    @Nsp nsp: SocketIO.Namespace; 
-    
-    @Nsp("/my-other-namespace") 
-    nspOther: SocketIO.Namespace; // communication between two namespace
+  @Nsp("/my-other-namespace")
+  nspOther: SocketIO.Namespace; // communication between two namespace
 
-    constructor(@IO private io: SocketIO.Server) {}
-    /**
-     * Triggered the namespace is created
-     */
-    $onNamespaceInit(nsp: SocketIO.Namespace) {
-
-    }
-    /**
-     * Triggered when a new client connects to the Namespace.
-     */
-    $onConnection(@Socket socket: SocketIO.Socket, @SocketSession session: SocketSession) {
-
-    }
-    /**
-     * Triggered when a client disconnects from the Namespace.
-     */
-    $onDisconnect(@Socket socket: SocketIO.Socket) {
-
-    }
+  constructor(@IO private io: SocketIO.Server) {}
+  /**
+   * Triggered the namespace is created
+   */
+  $onNamespaceInit(nsp: SocketIO.Namespace) {}
+  /**
+   * Triggered when a new client connects to the Namespace.
+   */
+  $onConnection(@Socket socket: SocketIO.Socket, @SocketSession session: SocketSession) {}
+  /**
+   * Triggered when a client disconnects from the Namespace.
+   */
+  $onDisconnect(@Socket socket: SocketIO.Socket) {}
 }
 ```
 
@@ -111,13 +100,14 @@ import {SocketService, Nsp} from "@tsed/socketio";
 
 @SocketService()
 export class MySocketService {
-     @Nsp nsp: SocketIO.Namespace;
+  @Nsp nsp: SocketIO.Namespace;
 
-     helloAll() {
-         this.nsp.emit('hi', 'everyone!');
-     }
+  helloAll() {
+    this.nsp.emit("hi", "everyone!");
+  }
 }
 ```
+
 Then, you can inject your socket service into another Service, Controller, etc... as following:
 
 ```typescript
@@ -126,16 +116,13 @@ import {MySocketService} from "../services/MySocketService";
 
 @Controller("/")
 export class MyCtrl {
-   
-    constructor(private mySocketService: MySocketService) {
-         
-    }
+  constructor(private mySocketService: MySocketService) {}
 
-    @Get("/allo")
-    allo() {
-         this.mySocketService.helloAll(); 
-         return "is sent";
-    }
+  @Get("/allo")
+  allo() {
+    this.mySocketService.helloAll();
+    return "is sent";
+  }
 }
 ```
 
@@ -148,10 +135,10 @@ import {SocketService, Input, Emit, Args, Socket, Nsp} from "@tsed/socketio";
 
 @SocketService("/my-namespace")
 export class MySocketService {
-    @Input("eventName")
-    myMethod(@Args(0) userName: string, @Socket socket: SocketIO.Socket, @Nsp nsp: SocketIO.Namespace) {
-        console.log(userName);
-    }
+  @Input("eventName")
+  myMethod(@Args(0) userName: string, @Socket socket: SocketIO.Socket, @Nsp nsp: SocketIO.Namespace) {
+    console.log(userName);
+  }
 }
 ```
 
@@ -172,13 +159,14 @@ import {SocketService, Input, Emit, Args, Socket, Nsp} from "@tsed/socketio";
 
 @SocketService("/my-namespace")
 export class MySocketService {
-    @Input("eventName")
-    @Emit("responseEventName") // or Broadcast or BroadcastOthers
-    async myMethod(@Args(0) userName: string, @Socket socket: SocketIO.Socket) {
-        return "Message " + userName;
-    }
+  @Input("eventName")
+  @Emit("responseEventName") // or Broadcast or BroadcastOthers
+  async myMethod(@Args(0) userName: string, @Socket socket: SocketIO.Socket) {
+    return "Message " + userName;
+  }
 }
 ```
+
 > The method accept a promise as returned value.
 
 ::: warning
@@ -194,17 +182,16 @@ import {SocketService, Input, Emit, Args, SocketSession} from "@tsed/socketio";
 
 @SocketService("/my-namespace")
 export class MySocketService {
-    @Input("eventName")
-    @Emit("responseEventName") // or Broadcast or BroadcastOthers
-    async myMethod(@Args(0) userName: string, @SocketSession session: SocketSession) {
+  @Input("eventName")
+  @Emit("responseEventName") // or Broadcast or BroadcastOthers
+  async myMethod(@Args(0) userName: string, @SocketSession session: SocketSession) {
+    const user = session.get("user") || {};
+    user.name = userName;
 
-        const user = session.get("user") || {}
-        user.name = userName;
+    session.set("user", user);
 
-        session.set("user", user);
-
-        return user;
-    }
+    return user;
+  }
 }
 ```
 
@@ -221,16 +208,16 @@ import {User} from "../models/User";
 
 @SocketMiddleware()
 export class UserConverterSocketMiddleware {
-    async use(@Args() args: any[]) {
-        
-        let [user] = args;
-        // update Arguments
-        user = deserialize(user, {type: User});
+  async use(@Args() args: any[]) {
+    let [user] = args;
+    // update Arguments
+    user = deserialize(user, {type: User});
 
-        return [user];
-    }
+    return [user];
+  }
 }
 ```
+
 > The user instance will be forwarded to the next middleware and to your decorated method.
 
 You can also declare a middleware to handle an error with `@SocketMiddlewareError`.
@@ -241,10 +228,10 @@ import {SocketMiddlewareError, SocketErr, Socket} from "@tsed/socketio";
 
 @SocketMiddlewareError()
 export class ErrorHandlerSocketMiddleware {
-    async use(@SocketErr err: any, @Socket socket: SocketIO.Socket) {
-        console.error(err);
-        socket.emit("error", {message: "An error has occured"})
-    }
+  async use(@SocketErr err: any, @Socket socket: SocketIO.Socket) {
+    console.error(err);
+    socket.emit("error", {message: "An error has occured"});
+  }
 }
 ```
 
@@ -260,7 +247,7 @@ The call sequences is the following for each event request:
 - Middlewares attached with `@SocketUseBefore` on method,
 - The method,
 - Send response if the method is decorated with `@Emit`, `@Broadcast` or `@BroadcastOther`,
-- Middlewares attached with `@SocketUseAfter` on method, 
+- Middlewares attached with `@SocketUseAfter` on method,
 - Middlewares attached with `@SocketUseAfter` on class.
 
 Middlewares chain use the `Promise` to run it. If one of this middlewares/method emit an error, the first middleware error will be called.
@@ -274,20 +261,18 @@ import {User} from "../models/User";
 @SocketUseBefore(UserConverterSocketMiddleware) // global version
 @SocketUseAfter(ErrorHandlerSocketMiddleware)
 export class MySocketService {
-    
-    @Input("eventName")
-    @Emit("responseEventName") // or Broadcast or BroadcastOthers
-    @SocketUseBefore(UserConverterSocketMiddleware)
-    @SocketUseAfter(ErrorHandlerSocketMiddleware)
-    async myMethod(@Args(0) userName: User) {
+  @Input("eventName")
+  @Emit("responseEventName") // or Broadcast or BroadcastOthers
+  @SocketUseBefore(UserConverterSocketMiddleware)
+  @SocketUseAfter(ErrorHandlerSocketMiddleware)
+  async myMethod(@Args(0) userName: User) {
+    const user = session.get("user") || {};
+    user.name = userName;
 
-        const user = session.get("user") || {}
-        user.name = userName;
+    session.set("user", user);
 
-        session.set("user", user);
-
-        return user;
-    }
+    return user;
+  }
 }
 ```
 
@@ -296,17 +281,16 @@ export class MySocketService {
 See our documentation https://tsed.io/#/api/index
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
-
 
 ## Sponsors
 

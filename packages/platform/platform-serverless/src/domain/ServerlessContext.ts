@@ -1,4 +1,4 @@
-import {DIContext, DIContextOptions, LocalsContainer} from "@tsed/di";
+import {DIContext, DIContextOptions} from "@tsed/di";
 import {JsonEntityStore} from "@tsed/schema";
 import {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, Context} from "aws-lambda";
 import {ServerlessRequest} from "./ServerlessRequest";

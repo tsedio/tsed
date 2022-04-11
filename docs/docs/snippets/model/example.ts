@@ -1,14 +1,4 @@
-import {
-  Default,
-  Enum,
-  Format,
-  Maximum,
-  MaxLength,
-  Minimum,
-  MinLength,
-  Pattern,
-  Required
-} from "@tsed/schema";
+import {Default, Enum, Format, Maximum, MaxLength, Minimum, MinLength, Pattern, Required} from "@tsed/schema";
 
 enum Categories {
   CAT1 = "cat1",
@@ -31,7 +21,7 @@ export class MyModel {
   rate: Number = 0;
 
   @Enum(Categories)
-    // or @Enum("type1", "type2")
+  // or @Enum("type1", "type2")
   category: Categories;
 
   @Pattern(/[a-z]/)

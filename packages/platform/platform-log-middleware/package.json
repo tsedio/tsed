@@ -5,6 +5,7 @@
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,24 +14,34 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
-    "test": "cross-env NODE_ENV=test jest"
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@tsed/core": "7.0.0-beta.3",
     "@tsed/di": "7.0.0-beta.3",
     "@tsed/platform-middlewares": "7.0.0-beta.3",
     "@tsed/platform-params": "7.0.0-beta.3"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.0.0-beta.3",
     "@tsed/di": "^7.0.0-beta.3",
     "@tsed/platform-middlewares": "^7.0.0-beta.3",
     "@tsed/platform-params": "^7.0.0-beta.3"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/platform-middlewares": {
+      "optional": false
+    },
+    "@tsed/platform-params": {
+      "optional": false
+    }
   }
 }

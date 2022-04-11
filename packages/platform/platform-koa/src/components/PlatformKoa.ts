@@ -1,19 +1,57 @@
-import KoaRouter from "@koa/router";
+import KoaRouter, {RouterOptions as KoaRouterOptions} from "@koa/router";
 import {
   createContext,
+  InjectorService,
   PlatformAdapter,
   PlatformApplication,
   PlatformBuilder,
-  PlatformExceptions,
   PlatformHandler,
+  PlatformMulter,
+  PlatformMulterSettings,
   PlatformRequest,
   PlatformResponse,
-  PlatformRouter
+  PlatformStaticsOptions
 } from "@tsed/common";
-import {Type} from "@tsed/core";
+import {PlatformExceptions} from "@tsed/platform-exceptions";
+import {isFunction, Type} from "@tsed/core";
 import Koa, {Context, Next} from "koa";
 import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
-import {PlatformKoaApplication, PlatformKoaHandler, PlatformKoaRequest, PlatformKoaResponse, PlatformKoaRouter} from "../services";
+import {PlatformKoaResponse} from "../services/PlatformKoaResponse";
+import {PlatformKoaRequest} from "../services/PlatformKoaRequest";
+import {PlatformKoaHandler} from "../services/PlatformKoaHandler";
+import {getMulter} from "../utils/multer";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware";
+import send from "koa-send";
+// @ts-ignore
+import koaQs from "koa-qs";
+import koaBodyParser, {Options} from "koa-bodyparser";
+
+declare global {
+  namespace TsED {
+    export interface Application extends Koa {}
+  }
+
+  namespace TsED {
+    export interface Router extends KoaRouter {}
+
+    export interface RouterOptions extends KoaRouterOptions {}
+
+    export interface StaticsOptions extends send.SendOptions {}
+  }
+}
+
+// @ts-ignore
+KoaRouter.prototype.$$match = KoaRouter.prototype.match;
+KoaRouter.prototype.match = function match(...args: any[]) {
+  const matched = this.$$match(...args);
+  if (matched) {
+    if (matched.path.length) {
+      matched.route = true;
+    }
+  }
+
+  return matched;
+};
 
 /**
  * @platform
@@ -32,18 +70,10 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
     {
       provide: PlatformHandler,
       useClass: PlatformKoaHandler
-    },
-    {
-      provide: PlatformRouter,
-      useClass: PlatformKoaRouter
-    },
-    {
-      provide: PlatformApplication,
-      useClass: PlatformKoaApplication
     }
   ];
 
-  constructor(private platform: PlatformBuilder<Koa, KoaRouter>) {}
+  constructor(private injector: InjectorService) {}
 
   /**
    * Create new serverless application. In this mode, the component scan are disabled.
@@ -70,7 +100,8 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
   }
 
   onInit() {
-    const {injector, app} = this.platform;
+    const injector = this.injector;
+    const app = this.injector.get<PlatformApplication>(PlatformApplication)!;
 
     const listener: any = (error: any, ctx: Koa.Context) => {
       injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, ctx.request.$ctx);
@@ -81,17 +112,20 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
   }
 
   useRouter(): this {
-    const {app} = this.platform;
-    app.getApp().use(resourceNotFoundMiddleware).use(app.getRouter().routes()).use(app.getRouter().allowedMethods());
+    const app = this.injector.get<PlatformApplication<Koa>>(PlatformApplication)!;
+
+    app.getApp().use(resourceNotFoundMiddleware);
+    app.getApp().use(app.getRouter().routes()).use(app.getRouter().allowedMethods());
 
     return this;
   }
 
   useContext(): this {
-    const {injector, app, logger} = this.platform;
+    const app = this.injector.get<PlatformApplication<Koa>>(PlatformApplication)!;
+    const {logger} = this.injector;
     logger.info("Mount app context");
 
-    const invoke = createContext(injector);
+    const invoke = createContext(this.injector);
 
     app.getApp().use(async (ctx: Context, next: Next) => {
       await invoke({
@@ -104,5 +138,53 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
     });
 
     return this;
+  }
+
+  app() {
+    const app = this.injector.settings.get("koa.app") || new Koa();
+    koaQs(app, "extended");
+
+    return {
+      app,
+      callback() {
+        return app.callback();
+      }
+    };
+  }
+
+  router(routerOptions: any = {}) {
+    const {settings} = this.injector;
+
+    const options = Object.assign({}, settings.koa?.router || {}, routerOptions);
+    const router = new KoaRouter(options) as any;
+
+    return {
+      router,
+      callback() {
+        return [router.routes(), router.allowedMethods()];
+      }
+    };
+  }
+
+  multipart(options: PlatformMulterSettings): PlatformMulter {
+    return getMulter(options);
+  }
+
+  statics(endpoint: string, options: PlatformStaticsOptions) {
+    return staticsMiddleware(options);
+  }
+
+  bodyParser(type: "json" | "urlencoded" | "raw" | "text", additionalOptions: any = {}): any {
+    const opts = this.injector.settings.get(`koa.bodyParser`);
+    let parser: any = koaBodyParser;
+
+    let options: Options = {};
+
+    if (isFunction(opts)) {
+      parser = opts;
+      options = {};
+    }
+
+    return parser({...options, ...additionalOptions});
   }
 }

@@ -12,6 +12,5 @@ export class CalendarCtrl {
     console.log(router.getRouter());
   }
 
-  myMethod(req: any, res: any, next: any) {
-  }
+  myMethod(req: any, res: any, next: any) {}
 }

@@ -1,4 +1,5 @@
-import {PlatformContext, PlatformExceptions} from "@tsed/common";
+import {PlatformContext} from "@tsed/common";
+import {PlatformExceptions} from "@tsed/platform-exceptions";
 
 /**
  * @ignore

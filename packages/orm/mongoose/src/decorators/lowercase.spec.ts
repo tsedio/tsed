@@ -1,5 +1,5 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {MONGOOSE_SCHEMA} from "../../src/constants";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
 import {Lowercase} from "./lowercase";
 
 describe("@Lowercase()", () => {

@@ -1,5 +1,5 @@
 import {isFunction} from "@tsed/core";
-import {JsonSchemaOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 
 export class JsonMap<T> extends Map<string, any> {

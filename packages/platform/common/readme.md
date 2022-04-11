@@ -31,32 +31,32 @@
 
 ## What it is
 
-Ts.ED is a framework on top of Express that helps you to write your application in TypeScript (or in ES6). It provides a lot of decorators 
+Ts.ED is a framework on top of Express that helps you to write your application in TypeScript (or in ES6). It provides a lot of decorators
 to make your code more readable and less error-prone.
 
 ## Features
 
-* Use our CLI to create a new project https://cli.tsed.io
-* Support TypeORM, Mongoose, GraphQL, Socket.io, Swagger-ui, Passport.js, etc...
-* Define class as Controller,
-* Define class as Service (IoC),
-* Define class as Middleware and MiddlewareError,
-* Define class as Converter (POJ to Model and Model to POJ),
-* Define root path for an entire controller and versioning your Rest API,
-* Define as sub-route path for a method,
-* Define routes on GET, POST, PUT, DELETE and HEAD verbs,
-* Define middlewares on routes,
-* Define required parameters,
-* Inject data from query string, path parameters, entire body, cookies, session or header,
-* Inject Request, Response, Next object from Express request,
-* Template (View),
-* Testing.
+- Use our CLI to create a new project https://cli.tsed.io
+- Support TypeORM, Mongoose, GraphQL, Socket.io, Swagger-ui, Passport.js, etc...
+- Define class as Controller,
+- Define class as Service (IoC),
+- Define class as Middleware and MiddlewareError,
+- Define class as Converter (POJ to Model and Model to POJ),
+- Define root path for an entire controller and versioning your Rest API,
+- Define as sub-route path for a method,
+- Define routes on GET, POST, PUT, DELETE and HEAD verbs,
+- Define middlewares on routes,
+- Define required parameters,
+- Inject data from query string, path parameters, entire body, cookies, session or header,
+- Inject Request, Response, Next object from Express request,
+- Template (View),
+- Testing.
 
 ## Documentation
 
 Documentation is available on [https://tsed.io](https://tsed.io)
 
-## Getting started 
+## Getting started
 
 See our [getting started here](https://tsed.io/getting-started/) to create new Ts.ED project or use
 our [CLI](https://cli.tsed.io)
@@ -65,8 +65,8 @@ our [CLI](https://cli.tsed.io)
 
 Examples are available on [https://tsed.io/tutorials/](https://tsed.io/tutorials/)
 
-
 ## Overview
+
 ### Server example
 
 Here an example to create a Server with Ts.ED:
@@ -75,37 +75,19 @@ Here an example to create a Server with Ts.ED:
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
 import "@tsed/platform-express";
-import * as Path from "path";                              
-
-export const rootDir = Path.resolve(__dirname);
+import Path from "path";
+import cookieParser from "cookie-parser";
+import compress from "compression";
+import methodOverride from "method-override";
 
 @Configuration({
-  rootDir,
-  port: 3000
+  port: 3000,
+  middlewares: [cookieParser(), compress({}), methodOverride()]
 })
-export class Server {
-  @Inject()
-  app: PlatformApplication;
-
-  public $beforeRoutesInit() {
-    const cookieParser = require('cookie-parser'),
-      bodyParser = require('body-parser'),
-      compress = require('compression'),
-      methodOverride = require('method-override');
- 
-    this.app
-      .use(cookieParser())
-      .use(compress({}))
-      .use(methodOverride())
-      .use(bodyParser.json())
-      .use(bodyParser.urlencoded({
-        extended: true
-      }));
-  }   
-}
+export class Server {}
 ```
 
-To run your server, you have to use Platform API to bootstrap your application with the expected 
+To run your server, you have to use Platform API to bootstrap your application with the expected
 platform like Express.
 
 ```typescript
@@ -137,21 +119,34 @@ This is a simple controller to expose user resource. It use decorators to build 
 ```typescript
 import {Inject} from "@tsed/di";
 import {Summary} from "@tsed/swagger";
-import {Returns, ReturnsArray, Controller, Get, QueryParams, PathParams, Delete, Post, Required, BodyParams, Status, Put} from "@tsed/common";
+import {
+  Returns,
+  ReturnsArray,
+  Controller,
+  Get,
+  QueryParams,
+  PathParams,
+  Delete,
+  Post,
+  Required,
+  BodyParams,
+  Status,
+  Put
+} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 import {UsersService} from "../services/UsersService";
-import {User} from "../models/User"; 
+import {User} from "../models/User";
 
 @Controller("/users")
 export class UsersCtrl {
   @Inject()
-  usersService: UsersService;
+  protected usersService: UsersService;
 
   @Get("/:id")
   @Summary("Get a user from his Id")
   @Returns(User)
   async getUser(@PathParams("id") id: string): Promise<User> {
-     return this.usersService.findById(id);
+    return this.usersService.findById(id);
   }
 
   @Post("/")
@@ -168,40 +163,39 @@ export class UsersCtrl {
   @Returns(User)
   async putUser(@PathParams("id") id: string, @Required() @BodyParams() user: User): Promise<User> {
     if (user.id !== id) {
-      throw new BadRequest("ID mismatch with the given payload")
+      throw new BadRequest("ID mismatch with the given payload");
     }
 
     return this.usersService.save(user);
   }
-  
+
   @Delete("/:id")
   @Summary("Remove a user")
   @Status(204)
-  async deleteUser(@PathParams("id") @Required() id: string ): Promise<User> {
-     await this.usersService.delete(user);
+  async deleteUser(@PathParams("id") @Required() id: string): Promise<User> {
+    await this.usersService.delete(user);
   }
-  
+
   @Get("/")
   @Summary("Get all users")
   @ReturnsArray(User)
-  async findUser(@QueryParams("name") name: string){
+  async findUser(@QueryParams("name") name: string) {
     return this.usersService.find({name});
   }
 }
 ```
 
 ## Contributors
+
 Please read [contributing guidelines here](./CONTRIBUTING.md).
 
 <a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/tiers/backer.svg?width=890"></a>
-
 
 ## Sponsors
 
@@ -220,4 +214,3 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [travis]: https://travis-ci.org/
-

@@ -1,13 +1,9 @@
 import {EnvTypes} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
 
-export class ConfigService {
+export class ConfigService {}
 
-}
-
-export class DevConfigService {
-
-}
+export class DevConfigService {}
 
 registerProvider({
   provide: ConfigService,

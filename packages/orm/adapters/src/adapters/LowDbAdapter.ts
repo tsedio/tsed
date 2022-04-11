@@ -1,4 +1,3 @@
-import {Type} from "@tsed/core";
 import isMatch from "lodash/isMatch";
 import low from "lowdb";
 import {v4 as uuid} from "uuid";

@@ -14,7 +14,7 @@ class TimeslotsLambdaController {
   @Inject()
   protected timeslotsService: TimeslotsService;
 
-  @(Get("/:id").Name("byID"))
+  @Get("/:id").Name("byID")
   getByID(@PathParams("id") id: string) {
     return {
       id

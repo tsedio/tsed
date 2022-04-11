@@ -1,9 +1,9 @@
 ---
 meta:
- - name: description 
-   content: Guide to deploy your Ts.ED application on AWS.
- - name: keywords
-   content: ts.ed express typescript aws node.js javascript decorators
+  - name: description
+    content: Guide to deploy your Ts.ED application on AWS.
+  - name: keywords
+    content: ts.ed express typescript aws node.js javascript decorators
 ---
 
 # Serverless HTTP
@@ -56,7 +56,6 @@ tsed init .
 ::: tip This tutorial works also with NPM package manager!
 :::
 
-
 <Tabs class="-code">
   <Tab label="Yarn">
 
@@ -107,10 +106,9 @@ Remove the http and https port configuration from `Server.ts`:
 ```typescript
 @Configuration({
   // httpPort: 8080,
-  // httpsPort: false 
+  // httpsPort: false
 })
-export class Server {
-}
+export class Server {}
 ```
 
 And add the http port for our local server directly on `index.ts` file:
@@ -143,7 +141,7 @@ import {Server} from "./Server";
 
 const platform = PlatformServerlessHttp.bootstrap(Server, {
   adapter: PlatformExpress
-})
+});
 
 export const handler = platform.handler();
 ```
@@ -153,12 +151,12 @@ Finally, create the `serverless.yml`:
 ```yml
 service: timeslots
 
-frameworkVersion: '2'
+frameworkVersion: "2"
 
 provider:
   name: aws
   runtime: nodejs14.x
-  lambdaHashingVersion: '20201221'
+  lambdaHashingVersion: "20201221"
 
 plugins:
   - serverless-offline
@@ -172,7 +170,7 @@ functions:
           path: /
       - http:
           method: ANY
-          path: '{proxy+}'
+          path: "{proxy+}"
 ```
 
 ## Invoke a lambda with serverless
@@ -231,7 +229,7 @@ class MyCtrl {
     console.log("Event", event);
     console.log("Context", context);
 
-    return { event, context };
+    return {event, context};
   }
 }
 ```

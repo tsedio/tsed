@@ -1,4 +1,4 @@
-import {OpenSpec3, OpenSpecVersions, OS3Versions} from "@tsed/openspec";
+import {OpenSpec2, OpenSpec3, OpenSpecVersions, OS2Versions, OS3Versions} from "@tsed/openspec";
 
 export interface SwaggerUIOptions {
   configUrl?: string;
@@ -79,6 +79,14 @@ export interface SwaggerSettingsBase {
   pathPatterns?: string[];
 }
 
+export interface SwaggerOS2Settings extends SwaggerSettingsBase {
+  specVersion?: OS2Versions;
+  /**
+   * OpenSpec 2
+   */
+  spec?: Partial<OpenSpec2>;
+}
+
 export interface SwaggerOS3Settings extends SwaggerSettingsBase {
   specVersion?: OS3Versions;
   /**
@@ -87,4 +95,4 @@ export interface SwaggerOS3Settings extends SwaggerSettingsBase {
   spec?: Partial<OpenSpec3>;
 }
 
-export type SwaggerSettings = SwaggerOS3Settings;
+export type SwaggerSettings = SwaggerOS2Settings | SwaggerOS3Settings;

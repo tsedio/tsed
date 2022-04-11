@@ -51,7 +51,6 @@ export function QueryParams(...args: any[]): ParameterDecorator {
 
   return UseParam({
     paramType: ParamTypes.QUERY,
-    dataPath: "$ctx.request.query",
     expression,
     useType,
     useConverter,
@@ -88,9 +87,9 @@ export function QueryParams(...args: any[]): ParameterDecorator {
  * @input
  */
 export function RawQueryParams(expression: string) {
-  return UseParam({
-    paramType: ParamTypes.QUERY,
-    dataPath: "$ctx.request.query",
-    expression
+  return QueryParams({
+    expression,
+    useConverters: false,
+    useValidation: false
   });
 }

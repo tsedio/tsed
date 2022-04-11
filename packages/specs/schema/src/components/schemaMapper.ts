@@ -11,7 +11,7 @@ import {mapNullableType} from "../utils/mapNullableType";
 /**
  * @ignore
  */
-const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics", SpecTypes.OPENAPI, SpecTypes.JSON];
+const IGNORES = ["name", "$required", "$hooks", "_nestedGenerics", SpecTypes.OPENAPI, SpecTypes.SWAGGER, SpecTypes.JSON];
 /**
  * @ignore
  */

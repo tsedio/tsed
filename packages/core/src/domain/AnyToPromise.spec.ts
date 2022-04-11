@@ -1,5 +1,4 @@
 import {catchAsyncError, isStream} from "@tsed/core";
-import {expect} from "chai";
 import {createReadStream} from "fs";
 import {of} from "rxjs";
 import {AnyToPromise, AnyToPromiseStatus} from "./AnyToPromise";
@@ -21,7 +20,7 @@ describe("AnyToPromise", () => {
       return "test";
     });
 
-    expect(result).to.deep.equal({state: "RESOLVED", data: "test", type: "DATA"});
+    expect(result).toEqual({state: "RESOLVED", data: "test", type: "DATA"});
   });
 
   it("should handle async value", async () => {
@@ -31,7 +30,7 @@ describe("AnyToPromise", () => {
       return "test";
     });
 
-    expect(result).to.deep.equal({state: "RESOLVED", data: "test", type: "DATA"});
+    expect(result).toEqual({state: "RESOLVED", data: "test", type: "DATA"});
   });
   it("should handle canceled async value", async () => {
     const resolver = new AnyToPromise();
@@ -40,7 +39,7 @@ describe("AnyToPromise", () => {
       return AnyToPromiseStatus.CANCELED;
     });
 
-    expect(result).to.deep.equal({state: "CANCELED"});
+    expect(result).toEqual({state: "CANCELED"});
   });
   it("should handle response with data", async () => {
     const resolver = new AnyToPromise();
@@ -56,7 +55,7 @@ describe("AnyToPromise", () => {
       };
     });
 
-    expect(result).to.deep.equal({
+    expect(result).toEqual({
       state: "RESOLVED",
       data: "data",
       headers: {
@@ -73,7 +72,7 @@ describe("AnyToPromise", () => {
       return undefined;
     });
 
-    expect(result).to.deep.equal({state: "RESOLVED", data: undefined, type: "DATA"});
+    expect(result).toEqual({state: "RESOLVED", data: undefined, type: "DATA"});
   });
   it("should handle observable", async () => {
     const resolver = new AnyToPromise();
@@ -82,7 +81,7 @@ describe("AnyToPromise", () => {
       return of("test");
     });
 
-    expect(result).to.deep.equal({state: "RESOLVED", data: "test", type: "DATA"});
+    expect(result).toEqual({state: "RESOLVED", data: "test", type: "DATA"});
   });
   it("should handle buffer", async () => {
     const resolver = new AnyToPromise();
@@ -91,8 +90,8 @@ describe("AnyToPromise", () => {
       return Buffer.from("test");
     });
 
-    expect(Buffer.isBuffer(result.data)).to.equal(true);
-    expect(result.type).to.equal("BUFFER");
+    expect(Buffer.isBuffer(result.data)).toBe(true);
+    expect(result.type).toBe("BUFFER");
   });
   it("should handle stream", async () => {
     const resolver = new AnyToPromise();
@@ -101,8 +100,8 @@ describe("AnyToPromise", () => {
       return createReadStream(__dirname + "/__mock__/response.txt");
     });
 
-    expect(result.type).to.equal("STREAM");
-    expect(isStream(result.data)).to.equal(true);
+    expect(result.type).toBe("STREAM");
+    expect(isStream(result.data)).toBe(true);
   });
 
   it("should catch error", async () => {
@@ -112,7 +111,7 @@ describe("AnyToPromise", () => {
       return "test";
     });
 
-    expect(result).to.deep.equal({state: "RESOLVED", data: "test", type: "DATA"});
+    expect(result).toEqual({state: "RESOLVED", data: "test", type: "DATA"});
   });
 
   it("should handle async error", async () => {
@@ -124,7 +123,7 @@ describe("AnyToPromise", () => {
       });
     });
 
-    expect(error?.message).to.deep.equal("test");
+    expect(error?.message).toEqual("test");
   });
 
   it("should handle sync error", async () => {
@@ -136,7 +135,7 @@ describe("AnyToPromise", () => {
       });
     });
 
-    expect(error?.message).to.deep.equal("test");
+    expect(error?.message).toEqual("test");
   });
 
   it("should handle next callback with error", async () => {
@@ -149,6 +148,6 @@ describe("AnyToPromise", () => {
       });
     });
 
-    expect(error?.message).to.deep.equal("test");
+    expect(error?.message).toEqual("test");
   });
 });

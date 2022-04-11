@@ -1,9 +1,9 @@
 # Middlewares
 
-@@Middleware@@ is similar to the Express middleware with the difference that it's a class and you can use the IoC 
+@@Middleware@@ is similar to the Express middleware with the difference that it's a class and you can use the IoC
 to inject other services on its constructor.
 
-All middlewares decorated by @@Middleware@@ have one method named `use()`. 
+All middlewares decorated by @@Middleware@@ have one method named `use()`.
 This method can use all parameters decorators as you could see with the [Controllers](/docs/controllers.md) and return a promise.
 
 <figure><img src="./../assets/middleware.svg" style="max-height: 300px; padding: 30px"></figure>
@@ -20,16 +20,16 @@ Then, create a new file in your middlewares folder. Create a new Class definitio
 
 You have different usecases to declare and use a middleware as following:
 
- * [Global middleware](/docs/middlewares.html#global-middleware): this middleware can be used on the Server,
- * [Endpoint middleware](/docs/middlewares.html#endpoint-middleware): this middleware can be used on a controller method,
- * [Error middleware](/docs/middlewares.html#error-middleware): this middleware can be used to handle errors.
- 
+- [Global middleware](/docs/middlewares.html#global-middleware): this middleware can be used on the Server,
+- [Endpoint middleware](/docs/middlewares.html#endpoint-middleware): this middleware can be used on a controller method,
+- [Error middleware](/docs/middlewares.html#error-middleware): this middleware can be used to handle errors.
+
 ::: tip Note
-Global middleware and endpoint middleware are similar, except that the Endpoint middleware 
-can access to the last executed endpoint information. 
+Global middleware and endpoint middleware are similar, except that the Endpoint middleware
+can access to the last executed endpoint information.
 :::
 
-## Global middleware 
+## Global middleware
 
 Global middlewares are generally used to handle requests before or after controllers.
 
@@ -48,28 +48,23 @@ import {Configuration, ProviderScope, ProviderType} from "@tsed/di";
 
 @Configuration({
   middlewares: [
-    {hook: '$afterInit', use: helmet({contentSecurityPolicy: false})},
+    {hook: "$afterInit", use: helmet({contentSecurityPolicy: false})},
     {env: Env.PROD, use: EnsureHttpsMiddleware},
     cors(),
     cookieParser(),
     compress({}),
     methodOverride(),
-    bodyParser.json(),
-    bodyParser.urlencoded({
-      extended: true
-    }),
     AuthTokenMiddleware
   ]
 })
-export class Server {
-}
+export class Server {}
 ```
 
 The middlewares added through `middlewares` options will always be registered after the middlewares registered through the hook methods!
 
 :::
 
-## Endpoint middleware 
+## Endpoint middleware
 
 Endpoint middleware is not really different from global middleware, but its goal is to handle a request before or after endpoint.
 It knows which endpoint is executed by using the @@EndpointInfo@@ decorator.
@@ -90,7 +85,7 @@ The following example, show you how to implement the middleware and use it with 
   <Tab label="Usage">
 
 <<< @/docs/snippets/middlewares/endpoint-middleware-usage.ts
-  
+
   </Tab>
 </Tabs>
   
@@ -102,7 +97,6 @@ Middleware can be used on a class controller or endpoint method with the followi
 - or routes decorators: @@Get@@, @@Post@@, @@Delete@@, @@Put@@ and @@Patch@@
 
 <<< @/docs/snippets/middlewares/endpoint-use-decorator-usage.ts
-
 
 ## Error middleware
 
@@ -121,7 +115,7 @@ import {Err, Middleware, Next} from "@tsed/common";
 @Middleware()
 export class MyMiddlewareError {
   use(@Err() err: unknown, @Next() next: Next) {
-    console.log('===> Error:', err);
+    console.log("===> Error:", err);
   }
 }
 ```
@@ -135,10 +129,10 @@ If you planed to catch errors globally see our [Exception filter](/docs/exceptio
 
 In addition, you have these specifics parameters decorators for the middlewares:
 
-Signature | Description
---- | ---
-@@Err@@ | Inject the `Express.Err` service.
-@@Context@@ | Provide all information about the called endpoint
+| Signature   | Description                                       |
+| ----------- | ------------------------------------------------- |
+| @@Err@@     | Inject the `Express.Err` service.                 |
+| @@Context@@ | Provide all information about the called endpoint |
 
 ## Call sequences
 
@@ -148,21 +142,21 @@ As you see in the previous section, a middleware can be used on different contex
 - [Controller](/docs/controllers.md),
 - [Endpoint](/docs/controllers.md).
 
-A middleware added to a controller or endpoint level has the same constraint as the endpoint method itself. 
+A middleware added to a controller or endpoint level has the same constraint as the endpoint method itself.
 It'll be played only when the url request matches with the path associated to the controller and its endpoint method.
 
 When a request is sent to the server all middlewares added in the Server, [Controller](/docs/controllers.md) or Endpoint with decorators
- will be called while a response isn't sent by one of the handlers/middlewares in the stack.
+will be called while a response isn't sent by one of the handlers/middlewares in the stack.
 
 <figure><img src="./../assets/middleware-in-sequence.svg" style="max-width:400px; padding:30px"></figure>
 
 For each executed endpoints and middlewares, Platform API store the return value to the @@Context@@. We have two scenarios:
 
-1) If a data is stored in the @@Context@@ object, the response will be immediately send to your consumer after the UseAfterEach middleware (if present).
-2) If no data is stored in the @@Context@@ object, the call sequence middlewares continue to the next endpoint (if present) or to the UseAfter then Global middlewares until a data isn't returned by a handler.
+1. If a data is stored in the @@Context@@ object, the response will be immediately send to your consumer after the UseAfterEach middleware (if present).
+2. If no data is stored in the @@Context@@ object, the call sequence middlewares continue to the next endpoint (if present) or to the UseAfter then Global middlewares until a data isn't returned by a handler.
 
 ::: tip
-The middlewares shown in the Endpoints box will be replayed as many times as it has endpoint that matches 
+The middlewares shown in the Endpoints box will be replayed as many times as it has endpoint that matches
 the request url.
 :::
 
@@ -194,7 +188,7 @@ The decorator @@OverrideProvider@@ gives you the ability to override some intern
 
 <<< @/docs/snippets/middlewares/override-middleware.ts
 
-Here we use the new [Platform API](/docs/platform-api.md) to write our middleware. 
+Here we use the new [Platform API](/docs/platform-api.md) to write our middleware.
 By using @@Context@@ decorator and @@PlatformContext@@ class we can get some information:
 
 - The data returned by the last executed endpoint,
@@ -224,9 +218,10 @@ import "./src/other/directory/CustomMiddleware";
     ...
 })
 export class Server {
- 
+
 }
 ```
+
 :::
 
 ## Provided middlewares

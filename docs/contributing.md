@@ -9,26 +9,28 @@ contributors:
     width: 45
     bgColor: white
 backers:
- type: cols
- title: Our <b>Backers</b>
- description: Thank you to all our backers who contributes to our project! 🙏
- cta:
-   label: Become Backers
-   url: https://opencollective.com/tsed#backers
+  type: cols
+  title: Our <b>Backers</b>
+  description: Thank you to all our backers who contributes to our project! 🙏
+  cta:
+    label: Become Backers
+    url: https://opencollective.com/tsed#backers
 sponsors:
- type: cols
- classes:
- title: Our <b>Sponsors / Partners</b>
- description: Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
- image:
-   src: /sponsors.svg
-   href: http://www.freepik.com
-   title: Designed by pch.vector / Freepik
- cta:
-   label: Become a sponsor
-   url: /support.html
+  type: cols
+  classes:
+  title: Our <b>Sponsors / Partners</b>
+  description: Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
+  image:
+    src: /sponsors.svg
+    href: http://www.freepik.com
+    title: Designed by pch.vector / Freepik
+  cta:
+    label: Become a sponsor
+    url: /support.html
 ---
+
 # Contributing
+
 ## Introduction
 
 First, thank you for considering contributing to Ts.ED! It is people like you that make the open source community such a great community! 😊
@@ -43,7 +45,7 @@ We welcome any type of contribution, not just code. You can help with:
 
 ## Your First Contribution
 
-Working on your first Pull Request? You can learn how from this free series: [How to Contribute to an Open Source Project on GitHub](https://egghead.io/series/how-to-contribute-to-an-open-source-project-on-github).
+Working on your first Pull Request? You can learn how from this free series: [How to Contribute to an Open Source Project on GitHub](https://app.egghead.io/playlists/how-to-contribute-to-an-open-source-project-on-github).
 
 ## Submitting code
 
@@ -69,6 +71,7 @@ We also welcome financial contributions in full transparency on our open collect
 If you have any questions, create an [issue](https://github.com/tsedio/tsed/issues) (protip: do a quick search first to see if someone else didn't ask the same question before!). You can also reach us at hello@tsed.opencollective.com.
 
 ## How to work on Ts.ED
+
 ### Setup
 
 Clone your fork of the repository:
@@ -78,12 +81,15 @@ $ git clone https://github.com/YOUR_USERNAME/tsed.git
 ```
 
 Install npm dependencies with yarn (not with NPM!):
+
 ```bash
 yarn
 ```
+
 > After installing dependencies, yarn/npm run the `postinstall` hook and mount all packages with `npm link` (e.g. `yarn run repo:bootstrap`).
 
 Compile TypeScript:
+
 ```bash
 tsc
 # or
@@ -128,9 +134,11 @@ This command rebases your branch feature from the production branch, runs the te
 ```bash
 git commit -m "feat(domain): Your message"
 ```
+
 > To write your commit message see [convention page](https://www.conventionalcommits.org/en/v1.0.0-beta.4/).
 
 Then:
+
 ```bash
 npm run test
 git fetch

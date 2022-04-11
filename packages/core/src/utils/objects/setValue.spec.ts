@@ -1,53 +1,41 @@
-import {expect} from "chai";
-import {setValue} from "../../index";
+import {setValue} from "./setValue";
 
 describe("setValue()", () => {
   describe("when map", () => {
-    let map: Map<any, any>;
-    before(() => {
-      map = new Map();
+    it("should set value", () => {
+      let map: Map<any, any> = new Map();
 
       setValue(map, "test", "value");
-    });
 
-    it("should set value", () => {
-      expect(map.get("test")).to.eq("value");
+      expect(map.get("test")).toBe("value");
     });
   });
 
   describe("when map with dep", () => {
-    let map: Map<any, any>;
-    before(() => {
-      map = new Map();
+    it("should set value", () => {
+      let map: Map<any, any> = new Map();
       map.set("test", {t1: "value"});
       setValue(map, "test.t1", "value2");
-    });
 
-    it("should set value", () => {
-      expect(map.get("test").t1).to.eq("value2");
+      expect(map.get("test").t1).toBe("value2");
     });
   });
 
   describe("when map with dep (without defined value)", () => {
-    let map: Map<any, any>;
-    before(() => {
-      map = new Map();
-      setValue(map, "test.t1", "value2");
-    });
-
     it("should set value", () => {
-      expect(map.get("test").t1).to.eq("value2");
+      let map: Map<any, any> = new Map();
+      setValue(map, "test.t1", "value2");
+
+      expect(map.get("test").t1).toBe("value2");
     });
   });
 
   describe("when object with dep (without defined value)", () => {
-    const map: any = {test: {t1: "value"}};
-    before(() => {
-      setValue(map, "test.t1", "value2");
-    });
-
     it("should set value", () => {
-      expect(map.test.t1).to.eq("value2");
+      const map: any = {test: {t1: "value"}};
+      setValue(map, "test.t1", "value2");
+
+      expect(map.test.t1).toBe("value2");
     });
   });
 
@@ -55,21 +43,18 @@ describe("setValue()", () => {
     it("should set value", () => {
       const obj = {};
       setValue(obj, "__proto__", "vulnerable");
-      expect(obj).to.deep.eq({});
-      expect(({} as any).a).to.eq(undefined);
+      expect(obj).toEqual({});
+      expect(({} as any).a).toBeUndefined();
     });
   });
 
   describe("when a function is given a value", () => {
-    let map: any;
-    before(() => {
-      map = {};
+    it("should set value", () => {
+      let map: any = {};
 
       setValue(map, "test.deep", () => {});
-    });
 
-    it("should set value", () => {
-      expect(map.test.deep).to.a("function");
+      expect(map.test.deep).toBeInstanceOf(Function);
     });
   });
 });

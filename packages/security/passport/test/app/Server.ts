@@ -11,6 +11,7 @@ import Path from "path";
 import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl";
 import {Account} from "./models/Account";
 import "./protocols/LoginLocalProtocol";
+import session from "express-session";
 
 export const rootDir = Path.resolve(__dirname);
 
@@ -42,6 +43,19 @@ export class Server {
       )
       .use(cookieParser())
       .use(compress({}))
-      .use(methodOverride());
+      .use(methodOverride())
+      .use(
+        session({
+          secret: "mysecretkey",
+          resave: true,
+          saveUninitialized: true,
+          // maxAge: 36000,
+          cookie: {
+            path: "/",
+            httpOnly: true,
+            secure: false
+          }
+        })
+      );
   }
 }

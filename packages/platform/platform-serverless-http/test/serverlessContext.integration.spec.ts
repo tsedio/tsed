@@ -11,18 +11,20 @@ class BodyLambda {
   @Get("/scenario-1")
   @Returns(200, Object)
   scenario1(@ServerlessEvent() event: any, @ServerlessContext() context: ServerlessContext) {
-    return { event, context };
+    return {event, context};
   }
 }
 
 describe("ServerlessEvent & ServerlessContext", () => {
-  beforeEach(PlatformServerlessTest.bootstrap(PlatformServerlessHttp, {
-    server: Server,
-    adapter: PlatformExpress,
-    mount: {
-      "/": [BodyLambda]
-    }
-  }));
+  beforeEach(
+    PlatformServerlessTest.bootstrap(PlatformServerlessHttp, {
+      server: Server,
+      adapter: PlatformExpress,
+      mount: {
+        "/": [BodyLambda]
+      }
+    })
+  );
   afterEach(() => PlatformServerlessTest.reset());
 
   describe("scenario1", () => {
@@ -31,41 +33,41 @@ describe("ServerlessEvent & ServerlessContext", () => {
 
       expect(response.statusCode).toBe(200);
       expect(JSON.parse(response.body)).toEqual({
-        "context": {
-          "awsRequestId": "awsRequestId",
-          "callbackWaitsForEmptyEventLoop": false,
-          "functionName": "",
-          "functionVersion": "",
-          "invokedFunctionArn": "",
-          "logGroupName": "",
-          "logStreamName": "",
-          "memoryLimitInMB": ""
+        context: {
+          awsRequestId: "awsRequestId",
+          callbackWaitsForEmptyEventLoop: false,
+          functionName: "",
+          functionVersion: "",
+          invokedFunctionArn: "",
+          logGroupName: "",
+          logStreamName: "",
+          memoryLimitInMB: ""
         },
-        "event": {
-          "body": "",
-          "headers": {},
-          "httpMethod": "GET",
-          "isBase64Encoded": false,
-          "multiValueHeaders": {},
-          "multiValueQueryStringParameters": {},
-          "path": "/scenario-1",
-          "pathParameters": {},
-          "queryStringParameters": {},
-          "requestContext": {
-            "accountId": "",
-            "apiId": "",
-            "httpMethod": "",
-            "identity": {},
-            "path": "/",
-            "protocol": "https",
-            "requestId": "requestId",
-            "requestTimeEpoch": 0,
-            "resourceId": 1,
-            "resourcePath": "/",
-            "stage": ""
+        event: {
+          body: "",
+          headers: {},
+          httpMethod: "GET",
+          isBase64Encoded: false,
+          multiValueHeaders: {},
+          multiValueQueryStringParameters: {},
+          path: "/scenario-1",
+          pathParameters: {},
+          queryStringParameters: {},
+          requestContext: {
+            accountId: "",
+            apiId: "",
+            httpMethod: "",
+            identity: {},
+            path: "/",
+            protocol: "https",
+            requestId: "requestId",
+            requestTimeEpoch: 0,
+            resourceId: 1,
+            resourcePath: "/",
+            stage: ""
           },
-          "resource": "",
-          "stageVariables": {}
+          resource: "",
+          stageVariables: {}
         }
       });
     });

@@ -1,7 +1,6 @@
 import {Controller, Get, PlatformTest, QueryParams} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {MinLength, Property, Required} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
@@ -45,133 +44,126 @@ describe("Swagger query params", () => {
   afterEach(PlatformTest.reset);
 
   it("should generate swagger", async () => {
-    const response = await request.get("/v2/doc/swagger.json").expect(200);
-    expect(response.body).to.deep.eq({
-      "info": {
-        "title": "Swagger title",
-        "version": "1.2.0"
+    const response = await request.get("/v3/doc/swagger.json").expect(200);
+
+    expect(response.body).toEqual({
+      info: {
+        title: "Api documentation",
+        version: "1.0.0"
       },
-      "openapi": "3.0.1",
-      "paths": {
+      openapi: "3.0.1",
+      paths: {
         "/rest/scenarios/1": {
-          "get": {
-            "operationId": "queryParamsSwaggerControllerScenario1",
-            "parameters": [
+          get: {
+            operationId: "queryParamsSwaggerControllerScenario1",
+            parameters: [
               {
-                "in": "query",
-                "name": "id",
-                "required": false,
-                "schema": {
-                  "type": "string"
+                in: "query",
+                name: "id",
+                required: false,
+                schema: {
+                  type: "string"
                 }
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "QueryParamsSwaggerController"
-            ]
+            tags: ["QueryParamsSwaggerController"]
           }
         },
         "/rest/scenarios/2": {
-          "get": {
-            "operationId": "queryParamsSwaggerControllerScenario2",
-            "parameters": [
+          get: {
+            operationId: "queryParamsSwaggerControllerScenario2",
+            parameters: [
               {
-                "in": "query",
-                "name": "ids",
-                "required": false,
-                "schema": {
-                  "items": {
-                    "type": "string"
+                in: "query",
+                name: "ids",
+                required: false,
+                schema: {
+                  items: {
+                    type: "string"
                   },
-                  "type": "array"
+                  type: "array"
                 }
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "QueryParamsSwaggerController"
-            ]
+            tags: ["QueryParamsSwaggerController"]
           }
         },
         "/rest/scenarios/3": {
-          "get": {
-            "operationId": "queryParamsSwaggerControllerScenario3",
-            "parameters": [
+          get: {
+            operationId: "queryParamsSwaggerControllerScenario3",
+            parameters: [
               {
-                "in": "query",
-                "name": "ids",
-                "required": false,
-                "schema": {
-                  "additionalProperties": {
-                    "type": "string"
+                in: "query",
+                name: "ids",
+                required: false,
+                schema: {
+                  additionalProperties: {
+                    type: "string"
                   },
-                  "type": "object"
+                  type: "object"
                 }
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "QueryParamsSwaggerController"
-            ]
+            tags: ["QueryParamsSwaggerController"]
           }
         },
         "/rest/scenarios/4": {
-          "get": {
-            "operationId": "queryParamsSwaggerControllerScenario4",
-            "parameters": [
+          get: {
+            operationId: "queryParamsSwaggerControllerScenario4",
+            parameters: [
               {
-                "in": "query",
-                "name": "name",
-                "required": true,
-                "schema": {
-                  "minLength": 1,
-                  "type": "string"
+                in: "query",
+                name: "name",
+                required: true,
+                schema: {
+                  minLength: 1,
+                  type: "string"
                 }
               },
               {
-                "in": "query",
-                "name": "duration",
-                "required": false,
-                "schema": {
-                  "type": "number"
+                in: "query",
+                name: "duration",
+                required: false,
+                schema: {
+                  type: "number"
                 }
               },
               {
-                "in": "query",
-                "name": "locale",
-                "required": false,
-                "schema": {
-                  "type": "string"
+                in: "query",
+                name: "locale",
+                required: false,
+                schema: {
+                  type: "string"
                 }
               }
             ],
-            "responses": {
+            responses: {
               "200": {
-                "description": "Success"
+                description: "Success"
               }
             },
-            "tags": [
-              "QueryParamsSwaggerController"
-            ]
+            tags: ["QueryParamsSwaggerController"]
           }
         }
       },
-      "tags": [
+      tags: [
         {
-          "name": "QueryParamsSwaggerController"
+          name: "QueryParamsSwaggerController"
         }
       ]
     });

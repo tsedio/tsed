@@ -9,14 +9,12 @@ describe("In", () => {
 
     // THEN
     getSpec(Controller, {
-      specType: SpecTypes.OPENAPI
+      specType: SpecTypes.SWAGGER
     });
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({
-      specType: SpecTypes.OPENAPI
-    });
+    const operation = methodSchema.operation!.toJSON({});
 
     expect(operation).toEqual({
       parameters: [
@@ -24,7 +22,9 @@ describe("In", () => {
           in: "path",
           name: "basic",
           required: true,
-          schema: {type: "string"}
+          schema: {
+            type: "string"
+          }
         }
       ],
       responses: {
@@ -37,20 +37,18 @@ describe("In", () => {
   it("should declare all schema correctly (method)", async () => {
     // WHEN
     class Controller {
-      @(In("header").Type(String).Name("Authorization").Required().Description("description"))
+      @In("header").Type(String).Name("Authorization").Required().Description("description")
       method(@In("path") @Name("basic") basic: string) {}
     }
 
     // THEN
     getSpec(Controller, {
-      specType: SpecTypes.OPENAPI
+      specType: SpecTypes.SWAGGER
     });
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({
-      specType: SpecTypes.OPENAPI
-    });
+    const operation = methodSchema.operation!.toJSON({});
 
     expect(operation).toEqual({
       parameters: [
@@ -58,14 +56,18 @@ describe("In", () => {
           in: "path",
           name: "basic",
           required: true,
-          schema: {type: "string"}
+          schema: {
+            type: "string"
+          }
         },
         {
+          description: "description",
           in: "header",
           name: "Authorization",
           required: true,
-          schema: {type: "string"},
-          description: "description"
+          schema: {
+            type: "string"
+          }
         }
       ],
       responses: {
@@ -78,20 +80,18 @@ describe("In", () => {
   it("should declare all schema correctly (class)", async () => {
     // WHEN
     class Controller {
-      @(In("header").Type(String).Name("Authorization").Required().Description("description"))
+      @In("header").Type(String).Name("Authorization").Required().Description("description")
       method(@In("path") @Name("basic") basic: string) {}
     }
 
     // THEN
     getSpec(Controller, {
-      specType: SpecTypes.OPENAPI
+      specType: SpecTypes.SWAGGER
     });
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({
-      specType: SpecTypes.OPENAPI
-    });
+    const operation = methodSchema.operation!.toJSON({});
 
     expect(operation).toEqual({
       parameters: [
@@ -99,14 +99,18 @@ describe("In", () => {
           in: "path",
           name: "basic",
           required: true,
-          schema: {type: "string"}
+          schema: {
+            type: "string"
+          }
         },
         {
+          description: "description",
           in: "header",
           name: "Authorization",
           required: true,
-          schema: {type: "string"},
-          description: "description"
+          schema: {
+            type: "string"
+          }
         }
       ],
       responses: {
@@ -119,12 +123,12 @@ describe("In", () => {
   it("should extra schema", async () => {
     // WHEN
     @Path("/:parentId")
-    @(In("path")
+    @In("path")
       .Type(String)
       .Name("parentId")
       .Required()
       .Description("description")
-      .Pattern(/^[0-9a-fA-F]{24}$/))
+      .Pattern(/^[0-9a-fA-F]{24}$/)
     class Controller {
       @OperationPath("GET", "/:path")
       method(@In("path") @Name("basic") basic: string) {}

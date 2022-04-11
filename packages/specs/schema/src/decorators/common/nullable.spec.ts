@@ -333,4 +333,108 @@ describe("@Nullable", () => {
       ]
     });
   });
+  it("should declare any prop (many Models + Nullable + OS2)", () => {
+    // WHEN
+    class Nested1 {
+      @Property()
+      id: string;
+
+      @Property()
+      top: string;
+    }
+
+    class Nested2 {
+      @Property()
+      id: string;
+
+      @Property()
+      other: string;
+    }
+
+    class Model {
+      @Nullable(Nested1, Nested2)
+      prop2: Nested1 | Nested2 | null;
+    }
+
+    @Path("/")
+    class MyController {
+      @Post("/")
+      body(@BodyParams() model: Model) {}
+    }
+
+    // THEN
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
+      components: {
+        schemas: {
+          Model: {
+            properties: {
+              prop2: {
+                oneOf: [
+                  {
+                    $ref: "#/components/schemas/Nested1"
+                  },
+                  {
+                    $ref: "#/components/schemas/Nested2"
+                  }
+                ],
+                nullable: true
+              }
+            },
+            type: "object"
+          },
+          Nested1: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              top: {
+                type: "string"
+              }
+            },
+            type: "object"
+          },
+          Nested2: {
+            properties: {
+              id: {
+                type: "string"
+              },
+              other: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        }
+      },
+      paths: {
+        "/": {
+          post: {
+            operationId: "myControllerBody",
+            parameters: [],
+            requestBody: {
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: "#/components/schemas/Model"
+                  }
+                }
+              },
+              required: false
+            },
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            tags: ["MyController"]
+          }
+        }
+      },
+      tags: [
+        {
+          name: "MyController"
+        }
+      ]
+    });
+  });
 });

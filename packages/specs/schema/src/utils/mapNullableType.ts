@@ -7,8 +7,8 @@ function hasNullable(obj: any) {
   return obj.oneOf.find((o: any) => o.type === "null");
 }
 
-export function mapNullableType(obj: any, schema: JsonSchema, options: JsonSchemaOptions) {
-  if (!schema.isNullable) {
+export function mapNullableType(obj: any, schema: JsonSchema | null, options: JsonSchemaOptions) {
+  if (!schema?.isNullable) {
     return obj;
   }
   let types: string[] = [].concat(obj.type).filter(Boolean);

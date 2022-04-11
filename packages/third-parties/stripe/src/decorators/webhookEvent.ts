@@ -1,7 +1,8 @@
-import {Context, UseBefore} from "@tsed/common";
+import {UseBefore} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/platform-params";
 import {StoreSet, useDecorators, useMethodDecorators} from "@tsed/core";
 import {In} from "@tsed/schema";
-import {STRIPE_WEBHOOK_EVENT} from "../constants";
+import {STRIPE_WEBHOOK_EVENT} from "../constants/constants";
 import {WebhookEventMiddleware, WebhookEventOptions} from "../middlewares/WebhookEventMiddleware";
 
 /**

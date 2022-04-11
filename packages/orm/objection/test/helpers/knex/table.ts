@@ -1,12 +1,12 @@
 import {Knex} from "knex";
 
 export function createTableStub() {
-  return ({
+  return {
     increments: jest.fn().mockReturnThis(),
     bigIncrements: jest.fn().mockReturnThis(),
-    primary:jest.fn().mockReturnThis(),
+    primary: jest.fn().mockReturnThis(),
     string: jest.fn().mockReturnThis(),
     decimal: jest.fn().mockReturnThis(),
     boolean: jest.fn().mockReturnThis()
-  } as unknown) as Knex.TableBuilder;
+  } as unknown as Knex.TableBuilder;
 }

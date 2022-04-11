@@ -1,11 +1,7 @@
 import {Configuration} from "@tsed/di";
-import {resolve} from "path";
 import {myContainer} from "./inversify.config";
 
-const rootDir = resolve(__dirname);
-
 @Configuration({
-  rootDir,
   resolvers: [
     {
       get(token: any) {
@@ -14,5 +10,4 @@ const rootDir = resolve(__dirname);
     }
   ]
 })
-export class Server {
-}
+export class Server {}

@@ -1,7 +1,9 @@
-import {ParamMetadata, ParamTypes, PlatformTest} from "@tsed/common";
+import {ParamTypes, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {ParseExpressionPipe} from "./ParseExpressionPipe";
+import {JsonParameterStore} from "@tsed/schema";
+import {DecoratorTypes} from "@tsed/core";
 
 const sandbox = Sinon.createSandbox();
 describe("ParseExpressionPipe", () => {
@@ -16,19 +18,20 @@ describe("ParseExpressionPipe", () => {
       // @ts-ignore
       class Test {}
 
-      const param = new ParamMetadata({
+      const param: any = new JsonParameterStore({
         index: 0,
         target: Test,
         propertyKey: "test",
         expression: "test",
         paramType: ParamTypes.REQUEST,
-        dataPath: "$ctx.request"
+        dataPath: "$ctx.request",
+        decoratorType: DecoratorTypes.PARAM
       });
       // @ts-ignore
       param._type = String;
       param.collectionType = Array;
 
-      const scope = {
+      const scope: any = {
         $ctx: {
           request: {
             test: "value"
@@ -48,19 +51,20 @@ describe("ParseExpressionPipe", () => {
       // @ts-ignore
       class Test {}
 
-      const param = new ParamMetadata({
+      const param: any = new JsonParameterStore({
         index: 0,
         target: Test,
         propertyKey: "test",
         expression: "test",
         paramType: ParamTypes.REQUEST,
-        dataPath: "$ctx.request"
+        dataPath: "$ctx.request",
+        decoratorType: DecoratorTypes.PARAM
       });
       // @ts-ignore
       param._type = String;
       param.collectionType = Array;
 
-      const scope = {
+      const scope: any = {
         $ctx: {
           request: {}
         }
@@ -78,19 +82,20 @@ describe("ParseExpressionPipe", () => {
       // @ts-ignore
       class Test {}
 
-      const param = new ParamMetadata({
+      const param: any = new JsonParameterStore({
         index: 0,
         target: Test,
         propertyKey: "test",
         expression: "Content-Type",
         paramType: ParamTypes.HEADER,
-        dataPath: "$ctx.request.headers"
+        dataPath: "$ctx.request.headers",
+        decoratorType: DecoratorTypes.PARAM
       });
       // @ts-ignore
       param._type = String;
       param.collectionType = Array;
 
-      const scope = {
+      const scope: any = {
         $ctx: {
           request: {
             headers: {
@@ -111,18 +116,19 @@ describe("ParseExpressionPipe", () => {
       // @ts-ignore
       class Test {}
 
-      const param = new ParamMetadata({
+      const param = new JsonParameterStore({
         index: 0,
         target: Test,
         propertyKey: "test",
         expression: "test",
         paramType: ParamTypes.QUERY,
-        dataPath: "$ctx.request.query"
+        dataPath: "$ctx.request.query",
+        decoratorType: DecoratorTypes.PARAM
       });
       // @ts-ignore
       param._type = Boolean;
 
-      const scope = {
+      const scope: any = {
         $ctx: {
           request: {
             query: {
@@ -144,16 +150,17 @@ describe("ParseExpressionPipe", () => {
       // @ts-ignore
       class Test {}
 
-      const param = new ParamMetadata({
+      const param = new JsonParameterStore({
         index: 0,
         target: Test,
         propertyKey: "test",
         expression: "test",
         paramType: ParamTypes.QUERY,
-        dataPath: "$ctx.request.query"
+        dataPath: "$ctx.request.query",
+        decoratorType: DecoratorTypes.PARAM
       });
 
-      const scope = {
+      const scope: any = {
         $ctx: {
           request: {
             query: {
@@ -176,18 +183,19 @@ describe("ParseExpressionPipe", () => {
       // @ts-ignore
       class Test {}
 
-      const param = new ParamMetadata({
+      const param = new JsonParameterStore({
         index: 0,
         target: Test,
         propertyKey: "test",
         expression: "test",
         paramType: ParamTypes.PATH,
-        dataPath: "$ctx.request.params"
+        dataPath: "$ctx.request.params",
+        decoratorType: DecoratorTypes.PARAM
       });
       // @ts-ignore
       param._type = Boolean;
 
-      const scope = {
+      const scope: any = {
         $ctx: {
           request: {
             params: {
@@ -208,18 +216,19 @@ describe("ParseExpressionPipe", () => {
       // @ts-ignore
       class Test {}
 
-      const param = new ParamMetadata({
+      const param = new JsonParameterStore({
         index: 0,
         target: Test,
         propertyKey: "test",
         expression: "test",
         paramType: ParamTypes.PATH,
-        dataPath: "$ctx.request.params"
+        dataPath: "$ctx.request.params",
+        decoratorType: DecoratorTypes.PARAM
       });
       // @ts-ignore
       param._type = String;
 
-      const scope = {
+      const scope: any = {
         $ctx: {
           request: {
             params: {

@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {deepClone} from "./deepClone";
 
 describe("deepClone", () => {
@@ -45,19 +44,19 @@ describe("deepClone", () => {
 
     const cloned = deepClone(original);
 
-    expect(cloned).to.deep.eq(original);
-    expect(cloned).not.to.eq(original);
+    expect(cloned).toEqual(original);
+    expect(cloned).not.toBe(original);
 
-    expect(cloned.j).instanceOf(Test);
-    expect(cloned.j.test).to.eq("test");
-    expect(cloned.j.test2).to.eq("test2");
+    expect(cloned.j).toBeInstanceOf(Test);
+    expect(cloned.j.test).toBe("test");
+    expect(cloned.j.test2).toBe("test2");
 
-    expect(cloned.k).instanceOf(Array);
-    expect(cloned.k.length).to.eq(4);
-    expect(cloned.k[0]).instanceOf(Test);
-    expect(cloned.k[3]).eq(Test);
+    expect(cloned.k).toBeInstanceOf(Array);
+    expect(cloned.k.length).toBe(4);
+    expect(cloned.k[0]).toBeInstanceOf(Test);
+    expect(cloned.k[3]).toBe(Test);
 
-    expect(deepClone(new Test("test"))).instanceOf(Test);
+    expect(deepClone(new Test("test"))).toBeInstanceOf(Test);
   });
   it("should clone object with circular obj", () => {
     const original = {
@@ -76,6 +75,22 @@ describe("deepClone", () => {
     original.posts[0].user = original.user;
     original.user.posts.push(original.posts[0]);
 
-    expect(deepClone(original)).to.deep.eq(original);
+    expect(deepClone(original)).toEqual(original);
+  });
+  it("should not change a buffer", () => {
+    class FakeStorage {
+      testBuffer: Buffer;
+
+      constructor() {
+        this.testBuffer = Buffer.from("Hello");
+      }
+
+      get() {
+        return this.testBuffer.toString("utf-8");
+      }
+    }
+
+    const result = deepClone({storage: new FakeStorage()});
+    expect(result.storage.get()).toEqual("Hello");
   });
 });

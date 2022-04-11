@@ -1,4 +1,6 @@
-import {classOf, decoratorTypeOf, nameOf} from "../utils";
+import {decoratorTypeOf} from "../utils/decorators/decoratorTypeOf";
+import {classOf} from "../utils/objects/classOf";
+import {nameOf} from "../utils/objects/nameOf";
 
 export class UnsupportedDecoratorType extends Error {
   name: "UNSUPPORTED_DECORATOR_TYPE";

@@ -34,4 +34,56 @@ describe("PlatformExpress", () => {
       });
     });
   });
+
+  describe("bodyParser()", () => {
+    afterEach(() => sandbox.restore());
+    it("should return the body parser (json) ", () => {
+      const stub = sandbox.stub().returns("body");
+
+      const platform = PlatformExpress.create(Server, {
+        express: {
+          bodyParser: {
+            json: stub
+          }
+        }
+      });
+
+      const result = platform.adapter.bodyParser("json", {strict: true});
+
+      expect(result).to.equal("body");
+      expect(stub).to.have.been.calledWithExactly({strict: true});
+    });
+    it("should return the body parser (raw) ", () => {
+      const stub = sandbox.stub().returns("body");
+
+      const platform = PlatformExpress.create(Server, {
+        express: {
+          bodyParser: {
+            raw: stub
+          }
+        }
+      });
+
+      const result = platform.adapter.bodyParser("raw", {strict: true});
+
+      expect(result).to.equal("body");
+      expect(stub).to.have.been.calledWithExactly({strict: true, type: Sinon.match.func});
+    });
+    it("should return the body parser (urlencoded) ", () => {
+      const stub = sandbox.stub().returns("body");
+
+      const platform = PlatformExpress.create(Server, {
+        express: {
+          bodyParser: {
+            urlencoded: stub
+          }
+        }
+      });
+
+      const result = platform.adapter.bodyParser("urlencoded", {strict: true});
+
+      expect(result).to.equal("body");
+      expect(stub).to.have.been.calledWithExactly({extended: true, strict: true});
+    });
+  });
 });

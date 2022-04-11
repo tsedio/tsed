@@ -14,8 +14,7 @@ import {AuthService} from "../services/auth/AuthService";
   }
 })
 export class DiscordProtocol implements OnVerify, OnInstall {
-  constructor(private authService: AuthService) {
-  }
+  constructor(private authService: AuthService) {}
 
   async $onVerify(@Req() req: Req, @Args() [accessToken, refreshToken, profile]: any) {
     profile.refreshToken = refreshToken;

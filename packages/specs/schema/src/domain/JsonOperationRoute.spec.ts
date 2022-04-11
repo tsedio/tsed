@@ -1,4 +1,5 @@
 import {Get, JsonEntityStore, JsonOperation, JsonOperationRoute, Name} from "@tsed/schema";
+import {BodyParams} from "@tsed/platform-params";
 
 describe("JsonOperationRoute", () => {
   it("should create JsonOperationRoute instance", () => {
@@ -65,5 +66,42 @@ describe("JsonOperationRoute", () => {
     expect(operationRoute.propertyName).toEqual("get");
     expect(operationRoute.operation).toBeInstanceOf(JsonOperation);
     expect(operationRoute.operationId).toBe("get");
+  });
+  it("should create operation with parameter", () => {
+    @Name("Testify")
+    class Test {
+      @Get("/")
+      @Name("getify")
+      get(@BodyParams() body: string) {}
+    }
+
+    const endpoint = JsonEntityStore.fromMethod(Test, "get");
+    const operationRoute = new JsonOperationRoute({
+      token: Test,
+      endpoint,
+      operationPath: {method: "GET", path: "/"},
+      basePath: "/base"
+    });
+
+    expect(operationRoute.operationPath).toEqual({
+      method: "GET",
+      path: "/"
+    });
+    expect(operationRoute.method).toEqual("GET");
+    expect(operationRoute.path).toEqual("/");
+    expect(operationRoute.fullPath).toEqual("/base/");
+    expect(operationRoute.url).toEqual("/base/");
+    expect(operationRoute.isFinal).toEqual(false);
+    expect(operationRoute.name).toEqual("Test.get()");
+    expect(operationRoute.className).toEqual("Test");
+    expect(operationRoute.methodClassName).toEqual("get");
+    expect(operationRoute.propertyKey).toEqual("get");
+    expect(operationRoute.propertyName).toEqual("get");
+    expect(operationRoute.operation).toBeInstanceOf(JsonOperation);
+    expect(operationRoute.operationId).toBe("get");
+    expect(operationRoute.paramsTypes).toEqual({
+      BODY: true
+    });
+    expect(operationRoute.has("BODY")).toEqual(true);
   });
 });

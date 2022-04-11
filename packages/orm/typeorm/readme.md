@@ -32,13 +32,14 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/typeorm
 ## Feature
 
 Currently, `@tsed/typeorm` allows you:
- 
+
 - Configure one or more TypeORM connections via the `@Configuration` decorator. All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Use the Entity TypeORM as Model for Controllers, AJV Validation and Swagger.
 
 ## Installation
 
 To begin, install the TypeORM module for TS.ED:
+
 ```bash
 npm install --save @tsed/typeorm
 npm install --save typeorm
@@ -58,13 +59,13 @@ import "@tsed/typeorm"; // import typeorm ts.ed module
       ...,
 
        entities: [
-         `${__dirname}/entity/*{.ts,.js}`
+         `./entity/*{.ts,.js}`
        ],
        migrations: [
-        `${__dirname}/migrations/*{.ts,.js}`
+        `./migrations/*{.ts,.js}`
        ],
        subscribers: [
-        `${__dirname}/subscriber/*{.ts,.js}`
+        `./subscriber/*{.ts,.js}`
        ]
     },
     {
@@ -132,25 +133,24 @@ import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
 
 @Entity()
 export class User {
+  @PrimaryGeneratedColumn()
+  @Property()
+  id: number;
 
-    @PrimaryGeneratedColumn()
-    @Property()
-    id: number;
+  @Column()
+  @MaxLength(100)
+  @Required()
+  firstName: string;
 
-    @Column()
-    @MaxLength(100)
-    @Required()
-    firstName: string;
+  @Column()
+  @MaxLength(100)
+  @Required()
+  lastName: string;
 
-    @Column()
-    @MaxLength(100)
-    @Required()
-    lastName: string;
-
-    @Column()
-    @Mininum(0)
-    @Maximum(100)
-    age: number;
+  @Column()
+  @Mininum(0)
+  @Maximum(100)
+  age: number;
 }
 ```
 
@@ -164,37 +164,31 @@ import {Controller, Post, BodyParams} from "@tsed/common";
 
 @Controller("/users")
 export class UsersCtrl {
+  constructor(private usersService: UsersService) {}
 
-    constructor(private usersService: UsersService) {
+  @Post("/")
+  create(@BodyParams() user: User): Promise<User> {
+    return this.usersService.create(user);
+  }
 
-    }
-
-    @Post("/")
-    create(@BodyParams() user: User): Promise<User> {
-
-        return this.usersService.create(user);
-    }
-
-    @Get("/")
-    getList(): Promise<User[]> {
-
-        return this.usersService.find();
-    }
+  @Get("/")
+  getList(): Promise<User[]> {
+    return this.usersService.find();
+  }
 }
 ```
 
 ## Contributors
+
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
-
 
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

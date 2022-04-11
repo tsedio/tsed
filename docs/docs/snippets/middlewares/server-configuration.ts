@@ -1,17 +1,9 @@
 import {Configuration} from "@tsed/di";
 
-const rootDir = __dirname;
-
 @Configuration({
-  rootDir,
   mount: {
-    "/rest": `${rootDir}/controllers/**/**.ts`
+    "/rest": `./controllers/**/**.ts`
   },
-  componentsScan: [
-    `${rootDir}/services/**/**.ts`,
-    `${rootDir}/middlewares/**/**.ts`
-  ]
+  componentsScan: [`./services/**/**.ts`, `./middlewares/**/**.ts`]
 })
-export class Server {
-
-}
+export class Server {}

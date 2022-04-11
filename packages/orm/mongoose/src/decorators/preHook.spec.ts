@@ -1,5 +1,4 @@
-import {PreHook} from "../../src/decorators";
-import {schemaOptions} from "../../src/utils/schemaOptions";
+import {PreHook, schemaOptions} from "../../src";
 
 describe("@PreHook()", () => {
   describe("when decorator is used as class decorator", () => {

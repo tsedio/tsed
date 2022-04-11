@@ -1,11 +1,12 @@
 // import "@tsed/common";
 import {
   AdditionalProperties,
-  Any,
   CollectionOf,
   Email,
+  Enum,
   GenericOf,
   Generics,
+  getJsonSchema,
   Groups,
   Ignore,
   In,
@@ -19,7 +20,7 @@ import {
   Required
 } from "@tsed/schema";
 import {expect} from "chai";
-import faker from "faker";
+import faker from "@faker-js/faker";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
 import {OnDeserialize} from "../decorators/onDeserialize";
@@ -202,6 +203,48 @@ describe("deserialize()", () => {
         mappedProp: "mappedProptest",
         password: "string",
         roles: new Map()
+      });
+    });
+    it("should do nothing when a prop is ArrayOf Number", () => {
+      class Model {
+        @CollectionOf(Number)
+        prop: number[] = [];
+      }
+
+      const result = deserialize(
+        {
+          prop: ["1", "2", "3", "5"]
+        },
+        {type: Model, additionalProperties: false}
+      );
+
+      expect(result).to.be.instanceOf(Model);
+      expect(result).to.deep.eq({
+        prop: [1, 2, 3, 5]
+      });
+    });
+    it("should do nothing when a prop is ArrayOf enum as number", () => {
+      enum TestEnum {
+        TEST = 1,
+        TEST2 = 2
+      }
+
+      class Model {
+        @Enum(TestEnum)
+        @CollectionOf(Number)
+        prop: TestEnum[] = [];
+      }
+
+      const result = deserialize(
+        {
+          prop: ["1", "2", "3", "5"]
+        },
+        {type: Model, additionalProperties: false}
+      );
+
+      expect(result).to.be.instanceOf(Model);
+      expect(result).to.deep.eq({
+        prop: [1, 2, 3, 5]
       });
     });
     it("should transform object to class (additionalProperties = false)", () => {

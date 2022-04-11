@@ -5,7 +5,6 @@ import {Hidden} from "@tsed/swagger";
 import {Server} from "./Server";
 
 if (process.env.NODE_ENV !== "test") {
-
   class QueryModel {
     @Property()
     condition: string;

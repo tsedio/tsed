@@ -1,10 +1,20 @@
 import {Type} from "@tsed/core";
-import "../components";
 import type {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
-import {JsonSchemaOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {getJsonEntityStore} from "./getJsonEntityStore";
+import "../components/anyMapper";
+import "../components/classMapper";
+import "../components/genericsMapper";
+import "../components/inheritedClassMapper";
+import "../components/itemMapper";
+import "../components/lazyRefMapper";
+import "../components/mapMapper";
+import "../components/objectMapper";
+import "../components/ofMapper";
+import "../components/propertiesMapper";
+import "../components/schemaMapper";
 
 /**
  * @ignore

@@ -1,4 +1,4 @@
-import {DecoratorTypes, descriptorOf, isCollection, isFunction, isPromise, Metadata, Store} from "@tsed/core";
+import {DecoratorTypes, deepMerge, descriptorOf, isCollection, isFunction, isPromise, Metadata, prototypeOf, Store, Type} from "@tsed/core";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore";
 import {JsonOperation} from "./JsonOperation";
 import {JsonSchema} from "./JsonSchema";
@@ -6,12 +6,30 @@ import type {JsonParameterStore} from "./JsonParameterStore";
 import type {JsonClassStore} from "./JsonClassStore";
 import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent";
 
+export interface JsonViewOptions {
+  path: string;
+  options: any;
+}
+
+export interface JsonRedirectOptions {
+  status: number | undefined;
+  url: string;
+}
+
 @JsonEntityComponent(DecoratorTypes.METHOD)
 export class JsonMethodStore extends JsonEntityStore {
   readonly parent: JsonClassStore = JsonEntityStore.from(this.target);
   public middlewares: any[] = [];
   public beforeMiddlewares: any[] = [];
   public afterMiddlewares: any[] = [];
+  /**
+   * Ref to JsonOperation when the decorated object is a method.
+   */
+  readonly operation: JsonOperation = new JsonOperation();
+  /**
+   * List of children JsonEntityStore (properties or methods or params)
+   */
+  readonly children: Map<string | number, JsonParameterStore> = new Map();
 
   constructor(options: JsonEntityStoreOptions) {
     super({
@@ -26,14 +44,26 @@ export class JsonMethodStore extends JsonEntityStore {
     this.before(beforeMiddlewares);
     this.use(middlewares);
   }
-  /**
-   * Ref to JsonOperation when the decorated object is a method.
-   */
-  readonly operation: JsonOperation = new JsonOperation();
-  /**
-   * List of children JsonEntityStore (properties or methods or params)
-   */
-  readonly children: Map<string | number, JsonParameterStore> = new Map();
+
+  get params(): JsonParameterStore[] {
+    return this.parameters;
+  }
+
+  get view(): JsonViewOptions {
+    return this.store.get("view") as JsonViewOptions;
+  }
+
+  set view(view: JsonViewOptions) {
+    this.store.set("view", view);
+  }
+
+  get acceptMimes(): string[] {
+    return this.store.get<string[]>("acceptMimes", []);
+  }
+
+  set acceptMimes(mimes: string[]) {
+    this.store.set("acceptMimes", mimes);
+  }
 
   get parameters(): JsonParameterStore[] {
     return [...this.children.values()] as JsonParameterStore[];
@@ -41,6 +71,18 @@ export class JsonMethodStore extends JsonEntityStore {
 
   get operationPaths() {
     return this.operation.operationPaths;
+  }
+
+  /**
+   * Get an endpoint.
+   * @param target
+   * @param propertyKey
+   * @param descriptor
+   */
+  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: PropertyDescriptor): JsonMethodStore {
+    descriptor = descriptor || descriptorOf(prototypeOf(target), propertyKey);
+
+    return JsonEntityStore.from<JsonMethodStore>(prototypeOf(target), propertyKey, descriptor);
   }
 
   getResponseOptions(status: number, contentType: string = "application/json"): undefined | any {
@@ -53,35 +95,6 @@ export class JsonMethodStore extends JsonEntityStore {
     }
 
     return {type: this.type};
-  }
-
-  protected build() {
-    if (!this._type) {
-      let type: any = Metadata.getReturnType(this.target, this.propertyKey);
-      type = isPromise(type) ? undefined : type;
-
-      this.buildType(type);
-    }
-
-    this._type = this._type || Object;
-
-    this.parent.children.set(this.propertyName, this);
-
-    if (isCollection(this._type)) {
-      this.collectionType = this._type;
-      // @ts-ignore
-      delete this._type;
-    }
-
-    this._schema = JsonSchema.from({
-      type: this.collectionType || this.type
-    });
-
-    if (this.collectionType) {
-      this._schema.itemSchema(this.type);
-    }
-
-    this.parent.schema.addProperty(this.propertyName, this.schema);
   }
 
   /**
@@ -115,4 +128,76 @@ export class JsonMethodStore extends JsonEntityStore {
 
     return this;
   }
+
+  /**
+   * Find the value at the controller level. Let this value be extended or overridden by the endpoint itself.
+   *
+   * @param key
+   * @returns {any}
+   */
+  public get<T = any>(key: any): T {
+    const ctrlValue = Store.from(this.target).get(key);
+
+    return deepMerge<T>(ctrlValue, this.store.get(key));
+  }
+
+  public getParamTypes(): Record<string, boolean> {
+    return [...this.children.values()].reduce(
+      (obj, item) => ({
+        ...obj,
+        [item.paramType]: true
+      }),
+      {}
+    );
+  }
+
+  protected build() {
+    if (!this._type) {
+      let type: any = Metadata.getReturnType(this.target, this.propertyKey);
+      type = isPromise(type) ? undefined : type;
+
+      this.buildType(type);
+    }
+
+    this._type = this._type || Object;
+
+    this.parent.children.set(this.propertyName, this);
+
+    if (isCollection(this._type)) {
+      this.collectionType = this._type;
+      // @ts-ignore
+      delete this._type;
+    }
+
+    this._schema = JsonSchema.from({
+      type: this.collectionType || this.type
+    });
+
+    if (this.collectionType) {
+      this._schema.itemSchema(this.type);
+    }
+
+    this.parent.schema.addProperty(this.propertyName, this.schema);
+  }
 }
+
+/**
+ * EndpointMetadata contains metadata about a controller and his method.
+ * Each annotation (@Get, @Body...) attached to a method are stored into endpoint.
+ * EndpointMetadata convert this metadata to an array which contain arguments to call an Express method.
+ *
+ * Example :
+ *```typescript
+ * @Controller("/my-path")
+ * provide MyClass {
+ *
+ *     @Get("/")
+ *     @Authenticated()
+ *     public myMethod(){}
+ * }
+ *```
+ *
+ * @alias JsonMethodStore
+ */
+export type EndpointMetadata = JsonMethodStore;
+export const EndpointMetadata = JsonMethodStore;

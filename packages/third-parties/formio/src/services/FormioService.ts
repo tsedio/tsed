@@ -10,10 +10,12 @@ import {FormioSchemas} from "../domain/FormioModels";
 import {FormioRouter} from "../domain/FormioRouter";
 import {FormioTemplate} from "../domain/FormioTemplate";
 import {FormioExportOptions} from "../domain/FormioTemplateUtil";
-
-const createRouter = require("formio");
-const swagger = require("formio/src/util/swagger.js");
-const util = require("formio/src/util/util.js");
+// @ts-ignore
+import createRouter from "formio";
+// @ts-ignore
+import swagger from "formio/src/util/swagger.js";
+// @ts-ignore
+import util from "formio/src/util/util.js";
 
 @Injectable()
 export class FormioService {

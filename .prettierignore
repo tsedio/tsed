@@ -1,5 +1,10 @@
-dist
-docs
 node_modules
+**/lib
+**/dist
+**/coverage
+**/.nyc_output
+**/node_modules
 *-lock.json
 *.lock
+benchmarks.*
+**/generated

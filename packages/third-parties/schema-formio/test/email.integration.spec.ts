@@ -1,7 +1,7 @@
 import {Email} from "@tsed/schema";
 import {getFormioSchema} from "../src";
 
-describe('Email integration', () => {
+describe("Email integration", () => {
   it("should generate email field", async () => {
     class User {
       @Email()
@@ -28,7 +28,7 @@ describe('Email integration', () => {
       type: "form",
       submissionAccess: [],
       access: [],
-      tags: [],
+      tags: []
     });
   });
-})
+});

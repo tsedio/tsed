@@ -8,6 +8,5 @@ import {CustomAuthMiddleware} from "../guards/CustomAuthMiddleware";
 class DashboardCtrl {
   @Get("/")
   @UseAuth(CustomAuthMiddleware, {role: "admin"}) // or for specific endpoints
-  public getResource() {
-  }
+  public getResource() {}
 }

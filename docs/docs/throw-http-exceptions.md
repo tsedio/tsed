@@ -9,7 +9,7 @@ Here is an example:
 <<< @/docs/snippets/controllers/response-throw-exceptions.ts
 
 ::: tip
-This example will produce a response with status code 400 and "Not a number" message. 
+This example will produce a response with status code 400 and "Not a number" message.
 `GlobalErrorHandlerMiddleware` will catch and format the error before sending it to the client.
 :::
 
@@ -22,25 +22,25 @@ import {BadRequest} from "@tsed/exceptions";
 import {ResponseErrorObject} from "@tsed/common";
 
 export class RequiredUserName extends BadRequest implements ResponseErrorObject {
-    headers = {};
-    errors = [];
+  headers = {};
+  errors = [];
 
-    constructor() {
-        super("The name is required");
-        this.headers["my-custom-header"] = "value";
+  constructor() {
+    super("The name is required");
+    this.headers["my-custom-header"] = "value";
 
-        // you can also specify errors field for functional errors (like AJV validation).
-        this.errors.push({
-             dataPath: "",
-             keyword: "required",
-             message: "should have required property 'name'",
-             modelName: "User",
-             params: {
-               missingProperty: "name"
-             },
-             schemaPath: "#/required"
-        });
-    }
+    // you can also specify errors field for functional errors (like AJV validation).
+    this.errors.push({
+      dataPath: "",
+      keyword: "required",
+      message: "should have required property 'name'",
+      modelName: "User",
+      params: {
+        missingProperty: "name"
+      },
+      schemaPath: "#/required"
+    });
+  }
 }
 ```
 
@@ -53,17 +53,13 @@ import {User} from "./models/User";
 
 @Controller("/calendars")
 export class CalendarCtrl {
-
-    @Post()
-    async create(
-        @BodyParams() user: User
-    ): any {
-
-        if (!user.name) {
-            throw(new RequiredUserName());
-        }
-
-       return user;
+  @Post()
+  async create(@BodyParams() user: User): any {
+    if (!user.name) {
+      throw new RequiredUserName();
     }
+
+    return user;
+  }
 }
 ```

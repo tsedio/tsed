@@ -14,15 +14,16 @@ import {
 } from "@tsed/common";
 import Fs from "fs";
 import {join} from "path";
-import {SwaggerSettings} from "./interfaces";
+import {SwaggerSettings} from "./interfaces/SwaggerSettings";
 import {cssMiddleware} from "./middlewares/cssMiddleware";
 import {indexMiddleware} from "./middlewares/indexMiddleware";
 import {jsMiddleware} from "./middlewares/jsMiddleware";
 import {redirectMiddleware} from "./middlewares/redirectMiddleware";
 import {SwaggerService} from "./services/SwaggerService";
 import {Env} from "@tsed/core";
+import {absolutePath} from "swagger-ui-dist";
 
-const swaggerUiPath = require("swagger-ui-dist").absolutePath();
+const swaggerUiPath = absolutePath();
 
 /**
  * @ignore
@@ -93,11 +94,11 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
 
   generateSpecFiles() {
     return Promise.all(
-      this.settings.map((conf) => {
+      this.settings.map(async (conf) => {
         const {outFile} = conf;
 
         if (this.env === Env.PROD || outFile) {
-          const spec = this.swaggerService.getOpenAPISpec(conf);
+          const spec = await this.swaggerService.getOpenAPISpec(conf);
 
           if (outFile) {
             return Fs.writeFile(outFile, JSON.stringify(spec, null, 2), {encoding: "utf8"}, () => {});
@@ -149,8 +150,8 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
   }
 
   private middlewareSwaggerJson(conf: SwaggerSettings) {
-    return (ctx: PlatformContext) => {
-      ctx.response.status(200).body(this.swaggerService.getOpenAPISpec(conf));
+    return async (ctx: PlatformContext) => {
+      ctx.response.status(200).body(await this.swaggerService.getOpenAPISpec(conf));
     };
   }
 }

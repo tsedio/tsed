@@ -121,7 +121,7 @@ describe("ExceptionSchema", () => {
     @Path("/")
     class MyController {
       @OperationPath("GET", "/")
-      @(Returns(400, BadRequest).Description("BadRequest"))
+      @Returns(400, BadRequest).Description("BadRequest")
       get() {}
     }
 

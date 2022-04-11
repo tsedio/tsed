@@ -7,7 +7,7 @@ import {
   INTERACTION_PROMPT,
   INTERACTION_SESSION,
   INTERACTION_UID
-} from "../constants";
+} from "../constants/constants";
 import {OidcInteractionContext} from "../services/OidcInteractionContext";
 import {OidcInteractions} from "../services/OidcInteractions";
 

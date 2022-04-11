@@ -1,4 +1,4 @@
-import {array, getJsonSchema, getSpec, In, oneOf, SpecTypes, string} from "../src";
+import {array, getJsonSchema, getSpec, oneOf, SpecTypes, string} from "../src";
 import {
   CollectionOf,
   Default,
@@ -12,7 +12,7 @@ import {
   Path,
   Property,
   Returns
-} from "../src/decorators";
+} from "@tsed/schema";
 import {validateSpec} from "./helpers/validateSpec";
 import {QueryParams} from "@tsed/platform-params";
 
@@ -31,6 +31,7 @@ export class Pageable {
 
   @For(SpecTypes.JSON, oneOf(string(), array().items(string()).maxItems(2)))
   @For(SpecTypes.OPENAPI, array().items(string()).maxItems(2))
+  @For(SpecTypes.SWAGGER, array().items(string()).maxItems(2))
   @Description("Sorting criteria: property(,asc|desc). Default sort order is ascending. Multiple sort criteria are supported.")
   sort: string[];
 
@@ -58,7 +59,7 @@ class Pagination<T> extends Pageable {
   @MinLength(0)
   totalCount: number = 0;
 
-  constructor({ data, totalCount, pageable }: Partial<Pagination<T>> & { pageable: Pageable }) {
+  constructor({data, totalCount, pageable}: Partial<Pagination<T>> & {pageable: Pageable}) {
     super(pageable);
     data && (this.data = data);
     totalCount && (this.totalCount = totalCount);
@@ -76,7 +77,7 @@ class Product {
   @Property()
   title: string;
 
-  constructor({ id, title }: Partial<Product> = {}) {
+  constructor({id, title}: Partial<Product> = {}) {
     id && (this.id = id);
     title && (this.title = title);
   }
@@ -85,8 +86,8 @@ class Product {
 @Path("/pageable")
 class TestPageableCtrl {
   @OperationPath("GET", "/")
-  @(Returns(206, Pagination).Of(Product).Title("PaginatedProduct"))
-  @(Returns(200, Pagination).Of(Product).Title("PaginatedProduct"))
+  @Returns(206, Pagination).Of(Product).Title("PaginatedProduct")
+  @Returns(200, Pagination).Of(Product).Title("PaginatedProduct")
   async get(@QueryParams() pageableOptions: Pageable, @QueryParams("all") all: boolean) {
     return new Pagination<Product>({
       data: [
@@ -104,6 +105,7 @@ class TestPageableCtrl {
 describe("Spec: Pageable", () => {
   it("should generate the JSON", () => {
     const schema = getJsonSchema(Pageable);
+
     expect(schema).toEqual({
       properties: {
         page: {
@@ -140,7 +142,7 @@ describe("Spec: Pageable", () => {
     });
   });
   it("should generate the OS3", async () => {
-    const spec = getSpec(TestPageableCtrl, { specType: SpecTypes.OPENAPI });
+    const spec = getSpec(TestPageableCtrl, {specType: SpecTypes.OPENAPI});
 
     expect(spec).toEqual({
       paths: {
@@ -153,7 +155,7 @@ describe("Spec: Pageable", () => {
                 required: false,
                 name: "page",
                 description: "Page number.",
-                schema: { type: "integer", default: 0, minimum: 0, multipleOf: 1 }
+                schema: {type: "integer", default: 0, minimum: 0, multipleOf: 1}
               },
               {
                 in: "query",
@@ -181,15 +183,15 @@ describe("Spec: Pageable", () => {
                   type: "array"
                 }
               },
-              { in: "query", name: "all", required: false, schema: { type: "boolean" } }
+              {in: "query", name: "all", required: false, schema: {type: "boolean"}}
             ],
             responses: {
               "200": {
-                content: { "application/json": { schema: { $ref: "#/components/schemas/PaginatedProduct" } } },
+                content: {"application/json": {schema: {$ref: "#/components/schemas/PaginatedProduct"}}},
                 description: "Success"
               },
               "206": {
-                content: { "application/json": { schema: { $ref: "#/components/schemas/PaginatedProduct" } } },
+                content: {"application/json": {schema: {$ref: "#/components/schemas/PaginatedProduct"}}},
                 description: "Partial Content"
               }
             },
@@ -197,12 +199,12 @@ describe("Spec: Pageable", () => {
           }
         }
       },
-      tags: [{ name: "TestPageableCtrl" }],
+      tags: [{name: "TestPageableCtrl"}],
       components: {
         schemas: {
           Product: {
             type: "object",
-            properties: { id: { type: "string" }, title: { type: "string" } }
+            properties: {id: {type: "string"}, title: {type: "string"}}
           },
           PaginatedProduct: {
             type: "object",
@@ -230,13 +232,13 @@ describe("Spec: Pageable", () => {
                 maxItems: 2,
                 type: "array"
               },
-              data: { type: "array", items: { $ref: "#/components/schemas/Product" } },
-              totalCount: { type: "integer", minLength: 0, multipleOf: 1 }
+              data: {type: "array", items: {$ref: "#/components/schemas/Product"}},
+              totalCount: {type: "integer", minLength: 0, multipleOf: 1}
             }
           }
         }
       }
     });
-    expect(await validateSpec(spec)).toBe(true);
+    expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
   });
 });

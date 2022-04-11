@@ -5,10 +5,7 @@ import {CalendarCtrl} from "./controllers/CalendarCtrl";
   mount: {
     "/rest": `./controllers/*.ts`, // using componentScan
     // Using manual import
-    "/manual": [
-      CalendarCtrl
-    ]
+    "/manual": [CalendarCtrl]
   }
 })
-export class Server {
-}
+export class Server {}

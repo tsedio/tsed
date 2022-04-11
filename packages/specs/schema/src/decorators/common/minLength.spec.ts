@@ -1,7 +1,7 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {CollectionOf} from "../collections/collectionOf";
 import {MinLength} from "./minLength";
-import "../../components";
+import "@tsed/schema";
 
 describe("@MinLength", () => {
   it("should declare minimum value", () => {
@@ -64,7 +64,7 @@ describe("@MinLength", () => {
     // WHEN
     class Model {
       @MinLength(0)
-      @(CollectionOf(String).MinItems(0).MaxItems(10))
+      @CollectionOf(String).MinItems(0).MaxItems(10)
       words: string[];
     }
 

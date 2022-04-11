@@ -1,4 +1,4 @@
-import {DecoratorTypes, Metadata, prototypeOf} from "@tsed/core";
+import {DecoratorTypes, Metadata, prototypeOf, Type} from "@tsed/core";
 import {JsonEntityStore} from "./JsonEntityStore";
 import {JsonSchema} from "./JsonSchema";
 import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent";
@@ -68,4 +68,14 @@ export class JsonPropertyStore extends JsonEntityStore {
 
     this._schema = schema;
   }
+
+  static get(target: Type<any>, propertyKey: string | symbol) {
+    return JsonEntityStore.from<JsonPropertyStore>(prototypeOf(target), propertyKey);
+  }
 }
+
+/**
+ * @alias JsonPropertyStore
+ */
+export type PropertyMetadata = JsonPropertyStore;
+export const PropertyMetadata = JsonPropertyStore;

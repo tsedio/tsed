@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== "test") {
       return {test: "Hello world"};
     }
 
-    @Get('/something')
+    @Get("/something")
     @Returns(204)
     public async getSomething(): Promise<void> {
       await promisify(setTimeout)(10000);

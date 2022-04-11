@@ -11,7 +11,7 @@ export class RecipeResolver {
   @Inject()
   private recipesService: RecipesService;
 
-  @Query(returns => Recipe)
+  @Query((returns) => Recipe)
   async recipe(@Arg("id") id: string) {
     const recipe = await this.recipesService.findById(id);
     if (recipe === undefined) {
@@ -21,7 +21,7 @@ export class RecipeResolver {
     return recipe;
   }
 
-  @Query(returns => [Recipe])
+  @Query((returns) => [Recipe])
   recipes(@Args() {skip, take}: RecipesArgs) {
     return this.recipesService.findAll({skip, take});
   }

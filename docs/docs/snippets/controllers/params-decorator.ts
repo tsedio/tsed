@@ -6,7 +6,6 @@ import {PayloadModel} from "../models/PayloadModel";
 
 @Controller("/calendars")
 export class CalendarCtrl {
-
   @Post()
   updatePayload(@BodyParams() payload: PayloadModel): any {
     console.log("payload", payload);

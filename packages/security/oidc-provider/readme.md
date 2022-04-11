@@ -32,7 +32,7 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/oidc-provid
 ## Feature
 
 Currently, `@tsed/oidc-provider` allows you:
- 
+
 - Configure the server with [oidc-provider](https://github.com/panva/node-oidc-provider)
 - Configure Clients and Accounts classes to manage clients and accounts
 - Configure an adapter to connect your oidc to any database
@@ -42,6 +42,7 @@ Currently, `@tsed/oidc-provider` allows you:
 ## Installation
 
 To begin, install the oidc-provider module for TS.ED:
+
 ```bash
 npm install --save @tsed/oidc-provider
 npm install --save oidc-provider
@@ -55,38 +56,33 @@ import "@tsed/oidc-provider"; // import typeorm ts.ed module
 import {Accounts} from "../services/Accounts";
 import {MemoryAdapter} from "../adapters/MemoryAdapter";
 
-export const rootDir = __dirname;
-
 @Configuration({
-   oidc: {
-     jwksPath: `${rootDir}/../keys/jwks.json`, // don't forget add this path to .gitignore 
-     Adapter: MemoryAdapter,
-     Accounts: Accounts,
-     // Clients: Clients,
-     clients: [
-       {
-         client_id: "client_id",
-         client_secret: "client_secret",
-         redirect_uris: [
-           "https://host.fr/"
-         ]
-       }
-     ],
-     options: { // Oidc-provider options See https://github.com/panva/node-oidc-provider/blob/master/docs/README.md
-       formats: {
-         AccessToken: "jwt"
-       },
-       features: {
-         encryption: {enabled: true},
-         introspection: {enabled: true},
-         revocation: {enabled: true}
-       }
-     }
-   }
+  oidc: {
+    jwksPath: `./../keys/jwks.json`, // don't forget add this path to .gitignore
+    Adapter: MemoryAdapter,
+    Accounts: Accounts,
+    // Clients: Clients,
+    clients: [
+      {
+        client_id: "client_id",
+        client_secret: "client_secret",
+        redirect_uris: ["https://host.fr/"]
+      }
+    ],
+    options: {
+      // Oidc-provider options See https://github.com/panva/node-oidc-provider/blob/master/docs/README.md
+      formats: {
+        AccessToken: "jwt"
+      },
+      features: {
+        encryption: {enabled: true},
+        introspection: {enabled: true},
+        revocation: {enabled: true}
+      }
+    }
+  }
 })
-export class Server {
-  
-}
+export class Server {}
 ```
 
 ## Contributors
@@ -95,13 +91,11 @@ Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
 
 <a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
-
 ## Backers
 
 Thank you to all our backers! 🙏 [[Become a backer](https://opencollective.com/tsed#backer)]
 
 <a href="https://opencollective.com/tsed#backers" target="_blank"><img src="https://opencollective.com/tsed/backers.svg?width=890"></a>
-
 
 ## Sponsors
 

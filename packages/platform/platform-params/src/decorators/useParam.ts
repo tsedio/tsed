@@ -1,4 +1,4 @@
-import {isString, useDecorators} from "@tsed/core";
+import {isBuffer, isString, useDecorators} from "@tsed/core";
 import {Any} from "@tsed/schema";
 import {ParamOptions} from "../domain/ParamOptions";
 import {ParamTypes} from "../domain/ParamTypes";
@@ -45,10 +45,5 @@ function mapPipes(options: Partial<ParamOptions>) {
  * @pipe
  */
 export function UseParam(options: Partial<ParamOptions>): ParameterDecorator {
-  options = {
-    dataPath: "$ctx",
-    ...options
-  };
-
   return useDecorators(UseParamType(options as any), ...mapPipes(options)) as ParameterDecorator;
 }

@@ -2,14 +2,9 @@ import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import {GlobalAcceptMimeMiddleware} from "./GlobalAcceptMimeMiddleware";
 
-const rootDir = __dirname;
-
 @Configuration({
-  rootDir,
-  componentsScan: [
-    `${rootDir}/middlewares/**/**.js`
-  ],
-  acceptMimes: ["application/json"]  // add your custom configuration here
+  componentsScan: [`./middlewares/**/**.js`],
+  acceptMimes: ["application/json"] // add your custom configuration here
 })
 export class Server {
   @Inject()

@@ -1,5 +1,4 @@
 import {Store, StoreFn, useDecorators} from "@tsed/core";
-import {expect} from "chai";
 import {AnyDecorator} from "../../interfaces/AnyDecorator";
 
 describe("useDecorators", () => {
@@ -23,7 +22,7 @@ describe("useDecorators", () => {
   class Test {}
 
   it("should apply all decorators", () => {
-    expect(Store.from(Test).get("decorator1")).to.eq("test1");
-    expect(Store.from(Test).get("decorator2")).to.eq("test2");
+    expect(Store.from(Test).get("decorator1")).toBe("test1");
+    expect(Store.from(Test).get("decorator2")).toBe("test2");
   });
 });

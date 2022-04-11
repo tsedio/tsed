@@ -4,6 +4,7 @@
   "description": "Module to support AWS function with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -62,19 +63,26 @@
   "dependencies": {
     "@types/aws-serverless-express": "^3.3.3",
     "aws-serverless-express": "^3.4.0",
-    "tslib": "2.2.0"
+    "tslib": "2.3.1"
   },
   "peerDependencies": {
     "@tsed/common": "^7.0.0-beta.3",
     "@tsed/core": "^7.0.0-beta.3",
-    "@tsed/di": "^7.0.0-beta.3",
-    "@tsed/json-mapper": "^7.0.0-beta.3",
-    "@tsed/logger": ">=6.0.0",
-    "@tsed/openspec": "^7.0.0-beta.3",
     "@tsed/schema": "^7.0.0-beta.3",
     "aws-serverless-express": "^3.4.0"
   },
   "publishConfig": {
-    "dist-tag": "deprecated"
+    "tag": "deprecated"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/common": {
+      "optional": false
+    },
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    }
   }
 }

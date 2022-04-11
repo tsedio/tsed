@@ -1,14 +1,9 @@
 import {PlatformTest, Req} from "@tsed/common";
-import {InjectorService} from "@tsed/di";
-import {expect} from "chai";
 import Passport from "passport";
-import Sinon from "sinon";
-import {stub} from "../../../../../test/helper/tools";
 import {Protocol, ProtocolsService} from "../index";
 
-const sandbox = Sinon.createSandbox();
 // tslint:disable-next-line:variable-name
-const Strategy = Sinon.stub();
+const Strategy = jest.fn();
 
 describe("ProtocolsService", () => {
   @Protocol({
@@ -20,6 +15,10 @@ describe("ProtocolsService", () => {
     }
   })
   class LocalProtocol {
+    async $beforeInstall(settings: any) {
+      return settings;
+    }
+
     $onInstall() {}
 
     $onVerify(@Req() req: Req) {
@@ -44,81 +43,92 @@ describe("ProtocolsService", () => {
   afterEach(PlatformTest.reset);
 
   beforeEach(() => {
-    sandbox.stub(LocalProtocol.prototype, "$onInstall");
-    sandbox.stub(LocalProtocol.prototype, "$onVerify");
-    sandbox.stub(Passport, "use");
-    Strategy.resetHistory();
+    jest.spyOn(LocalProtocol.prototype, "$onInstall");
+    jest.spyOn(LocalProtocol.prototype, "$onVerify");
+    jest.spyOn(LocalProtocol.prototype, "$beforeInstall");
+    jest.spyOn(Passport, "use").mockReturnValue(undefined as any);
+    Strategy.mockReset();
   });
 
-  afterEach(() => {
-    sandbox.restore();
+  it("should create a protocol", async () => {
+    const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+    // GIVEN
+    const provider = PlatformTest.injector.getProvider(LocalProtocol)!;
+
+    // WHEN
+    const result = await protocolService.invoke(provider);
+
+    // THEN
+    expect(result).toBeInstanceOf(LocalProtocol);
+    expect(result.$onInstall).toHaveBeenCalledWith(protocolService.strategies.get("local"));
+    expect(result.$beforeInstall).toHaveBeenCalledWith({
+      passReqToCallback: true,
+      prop1: "prop1",
+      prop2: "prop2-server",
+      prop3: "prop3"
+    });
+    expect(Passport.use).toHaveBeenCalledWith("local", protocolService.strategies.get("local"));
+    expect(Strategy).toHaveBeenCalledWith(
+      {
+        passReqToCallback: true,
+        prop1: "prop1",
+        prop2: "prop2-server",
+        prop3: "prop3"
+      },
+      expect.any(Function)
+    );
+    expect(protocolService.getProtocolsNames().includes("local")).toEqual(true);
   });
 
-  it(
-    "should create a protocol",
-    PlatformTest.inject([ProtocolsService, InjectorService], (protocolService: ProtocolsService, injector: InjectorService) => {
-      // GIVEN
-      const provider = injector.getProvider(LocalProtocol)!;
+  it("should call metadata", async () => {
+    const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+    // GIVEN
+    (LocalProtocol.prototype.$onVerify as any).mockReturnValue({id: 0});
+    const provider = PlatformTest.injector.getProvider(LocalProtocol)!;
+    const ctx = PlatformTest.createRequestContext();
 
-      // WHEN
-      const result = protocolService.invoke(provider);
+    // WHEN
+    const result = await protocolService.invoke(provider);
+    const resultDone: any = await new Promise((resolve) => {
+      Strategy.mock.calls[0][1](ctx.getRequest(), "test", (...args: any[]) => resolve(args));
+    });
 
-      // THEN
-      expect(result).to.be.instanceof(LocalProtocol);
-      expect(result.$onInstall).to.have.been.calledWithExactly(protocolService.strategies.get("local"));
-      expect(Passport.use).to.have.been.calledWithExactly("local", protocolService.strategies.get("local"));
-      expect(Strategy).to.have.been.calledWithExactly(
-        {
-          passReqToCallback: true,
-          prop1: "prop1",
-          prop2: "prop2-server",
-          prop3: "prop3"
-        },
-        Sinon.match.func
-      );
-      expect(protocolService.getProtocolsNames().includes("local")).to.deep.equal(true);
-    })
-  );
+    // THEN
+    expect(result.$onVerify).toHaveBeenCalledWith(ctx.getRequest(), ctx);
+    expect(resultDone).toEqual([null, {id: 0}]);
+  });
 
-  it(
-    "should call metadata",
-    PlatformTest.inject([ProtocolsService, InjectorService], async (protocolService: ProtocolsService, injector: InjectorService) => {
-      // GIVEN
-      stub(LocalProtocol.prototype.$onVerify).returns({id: 0});
-      const provider = injector.getProvider(LocalProtocol)!;
-      const ctx = PlatformTest.createRequestContext();
+  it("should call metadata and catch error", async () => {
+    const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+    // GIVEN
+    const error = new Error("message");
+    (LocalProtocol.prototype.$onVerify as any).mockRejectedValue(error);
 
-      // WHEN
-      const result = protocolService.invoke(provider);
-      const resultDone: any = await new Promise((resolve) => {
-        Strategy.args[0][1](ctx.getRequest(), "test", (...args: any[]) => resolve(args));
-      });
+    const provider = PlatformTest.injector.getProvider(LocalProtocol)!;
+    const ctx = PlatformTest.createRequestContext();
 
-      // THEN
-      expect(result.$onVerify).to.have.been.calledWithExactly(ctx.getRequest(), ctx);
-      expect(resultDone).to.deep.equal([null, {id: 0}]);
-    })
-  );
+    // WHEN
+    const result = await protocolService.invoke(provider);
+    const resultDone: any = await new Promise((resolve) => {
+      Strategy.mock.calls[0][1](ctx.getRequest(), "test", (...args: any[]) => resolve(args));
+    });
 
-  it(
-    "should call metadata and catch error",
-    PlatformTest.inject([ProtocolsService, InjectorService], async (protocolService: ProtocolsService, injector: InjectorService) => {
-      // GIVEN
-      const error = new Error("message");
-      stub(LocalProtocol.prototype.$onVerify).rejects(error);
+    // THEN
+    expect(result.$onVerify).toHaveBeenCalledWith(ctx.getRequest(), ctx);
+    expect(resultDone).toEqual([error, false, {message: "message"}]);
+  });
+  it("should call metadata and catch missing $ctx", async () => {
+    const protocolService = PlatformTest.get<ProtocolsService>(ProtocolsService);
+    // GIVEN
+    const provider = PlatformTest.injector.getProvider(LocalProtocol)!;
 
-      const provider = injector.getProvider(LocalProtocol)!;
-      const ctx = PlatformTest.createRequestContext();
+    // WHEN
+    await protocolService.invoke(provider);
+    const resultDone: any = await new Promise((resolve) => {
+      Strategy.mock.calls[0][1]({}, "test", (...args: any[]) => resolve(args));
+    });
 
-      // WHEN
-      const result = protocolService.invoke(provider);
-      const resultDone: any = await new Promise((resolve) => {
-        Strategy.args[0][1](ctx.getRequest(), "test", (...args: any[]) => resolve(args));
-      });
-
-      // THEN
-      expect(result.$onVerify).to.have.been.calledWithExactly(ctx.getRequest(), ctx);
-      expect(resultDone).to.deep.equal([error, false, {message: "message"}]);
-    })
-  );
+    // THEN
+    expect(resultDone).toEqual([new Error("Headers already sent"), false, {message: "Headers already sent"}]);
+  });
 });

@@ -5,8 +5,8 @@ import Application from "koa";
 import bodyParser from "koa-bodyparser";
 import compress from "koa-compress";
 import session from "koa-session";
-
-const methodOverride = require("koa-override");
+// @ts-ignore
+import methodOverride from "koa-override";
 
 export const rootDir = __dirname;
 
@@ -31,7 +31,6 @@ export class Server {
     this.app
       .use(compress())
       .use(methodOverride())
-      .use(bodyParser())
       .use(
         session(
           {

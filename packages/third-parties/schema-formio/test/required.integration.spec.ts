@@ -12,23 +12,23 @@ describe("Required", () => {
       const form = await getFormioSchema(Model);
 
       expect(form).toEqual({
-        "components": [
+        components: [
           {
-            "disabled": false,
-            "input": true,
-            "key": "test",
-            "label": "Test",
-            "type": "textfield",
-            "validate": {
-              "required": true
+            disabled: false,
+            input: true,
+            key: "test",
+            label: "Test",
+            type: "textfield",
+            validate: {
+              required: true
             }
           }
         ],
-        "display": "form",
-        "machineName": "model",
-        "name": "model",
-        "title": "Model",
-        "type": "form",
+        display: "form",
+        machineName: "model",
+        name: "model",
+        title: "Model",
+        type: "form",
         submissionAccess: [],
         access: [],
         tags: []
@@ -44,23 +44,23 @@ describe("Required", () => {
       const form = await getFormioSchema(Model);
 
       expect(form).toEqual({
-        "components": [
+        components: [
           {
-            "disabled": false,
-            "input": true,
-            "key": "test",
-            "label": "Test",
-            "type": "textfield",
-            "validate": {
-              "required": false
+            disabled: false,
+            input: true,
+            key: "test",
+            label: "Test",
+            type: "textfield",
+            validate: {
+              required: false
             }
           }
         ],
-        "display": "form",
-        "machineName": "model",
-        "name": "model",
-        "title": "Model",
-        "type": "form",
+        display: "form",
+        machineName: "model",
+        name: "model",
+        title: "Model",
+        type: "form",
         submissionAccess: [],
         access: [],
         tags: []
@@ -77,23 +77,23 @@ describe("Required", () => {
       const form = await getFormioSchema(Model);
 
       expect(form).toEqual({
-        "components": [
+        components: [
           {
-            "disabled": false,
-            "input": true,
-            "key": "test",
-            "label": "Test",
-            "type": "checkbox",
-            "validate": {
-              "required": false
+            disabled: false,
+            input: true,
+            key: "test",
+            label: "Test",
+            type: "checkbox",
+            validate: {
+              required: false
             }
           }
         ],
-        "display": "form",
-        "machineName": "model",
-        "name": "model",
-        "title": "Model",
-        "type": "form",
+        display: "form",
+        machineName: "model",
+        name: "model",
+        title: "Model",
+        type: "form",
         submissionAccess: [],
         access: [],
         tags: []

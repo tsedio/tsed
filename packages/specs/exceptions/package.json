@@ -5,6 +5,7 @@
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
   "exports": {
     "types": "./lib/types/index.d.ts",
@@ -13,14 +14,18 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json"
+    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\""
   },
   "dependencies": {
-    "@tsed/schema": "7.0.0-beta.3",
-    "tslib": "2.2.0"
+    "change-case": "4.1.2",
+    "statuses": ">=2.0.1",
+    "tslib": "2.3.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/statuses": "2.0.0"
+  },
   "peerDependencies": {}
 }

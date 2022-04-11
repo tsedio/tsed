@@ -1,20 +1,21 @@
 ---
 meta:
- - name: description
-   content: Use Passport.js with Express, TypeScript and Ts.ED. Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
- - name: keywords
-   content: ts.ed express typescript passport.js node.js javascript decorators
-projects:   
- - title: Kit Passport.js
-   href: https://github.com/tsedio/tsed-example-passportjs
-   src: /passportjs.png
- - title: Kit TypeORM
-   href: https://github.com/tsedio/tsed-example-typeorm
-   src: /typeorm.png
- - title: Kit Azure AD
-   href: https://github.com/tsedio/tsed-example-passport-azure-ad
-   src: /azure.png        
+  - name: description
+    content: Use Passport.js with Express, TypeScript and Ts.ED. Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
+  - name: keywords
+    content: ts.ed express typescript passport.js node.js javascript decorators
+projects:
+  - title: Kit Passport.js
+    href: https://github.com/tsedio/tsed-example-passportjs
+    src: /passportjs.png
+  - title: Kit TypeORM
+    href: https://github.com/tsedio/tsed-example-typeorm
+    src: /typeorm.png
+  - title: Kit Azure AD
+    href: https://github.com/tsedio/tsed-example-passport-azure-ad
+    src: /azure.png
 ---
+
 # Passport.js
 
 <Banner src="/passportjs.png" height="128" href="http://www.passportjs.org/"></Banner>
@@ -23,7 +24,7 @@ projects:
 
 Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
 A comprehensive set of strategies support authentication using a username and password, Facebook, Twitter, and more.
-  
+
 <Projects type="projects"/>
   
 ## Installation
@@ -48,15 +49,15 @@ By default Ts.ED use a UserInfo model to serialize and deserialize user in sessi
 import {Format, Property} from "@tsed/schema";
 
 export class UserInfo {
-   @Property()
-   id: string;
+  @Property()
+  id: string;
 
-   @Property()
-   @Format("email")
-   email: string;
+  @Property()
+  @Format("email")
+  email: string;
 
-   @Property()
-   password: string;
+  @Property()
+  password: string;
 }
 ```
 
@@ -66,14 +67,14 @@ You can set your own UserInfo model by changing the passport server configuratio
 class CustomUserInfoModel {
   @Property()
   id: string;
-  
+
   @Property()
   token: string;
 }
 
 @Configuration({
   componentsScan: [
-    `${rootDir}/protocols/*.ts` // scan protocols directory
+    `${process.cwd()}/protocols/*.ts` // scan protocols directory
   ],
   passport: {
     userInfoModel: CustomUserInfoModel
@@ -99,8 +100,8 @@ Here is an example with the PassportLocal:
   
 <<< @/tutorials/snippets/passport/LoginLocalProtocol.spec.ts
 
-  </Tab>  
-</Tabs>  
+  </Tab>
+</Tabs>
 
 ::: tip
 For signup and basic flow you can checkout one of our examples:
@@ -133,6 +134,7 @@ Then, add the protocol name on the @@Authorize@@ decorator:
 <<< @/tutorials/snippets/passport/guard-basic-auth.ts
 
 ## Advanced Auth
+
 ### JWT
 
 JWT auth scenario, for example, is different. The Strategy will produce a payload which contains data and JWT token. This information
@@ -224,14 +226,13 @@ export class PassportExceptionFilter implements ExceptionFilterMethods {
     console.log(exception.name);
   }
 }
-
 ```
 
 ## Decorators
 
 <ApiList query="module == '@tsed/passport' && symbolType === 'decorator'" />
 
-## Author 
+## Author
 
 <GithubContributors users="['Romakita']"/>
 

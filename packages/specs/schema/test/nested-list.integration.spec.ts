@@ -15,33 +15,29 @@ class TeamsModel {
 
 describe("Nested list schema", () => {
   it("should generated schema with alias", () => {
-    expect(getJsonSchema(TeamsModel, { useAlias: true })).toEqual({
-      "definitions": {
-        "TeamModel": {
-          "properties": {
-            "teamName": {
-              "minLength": 1,
-              "type": "string"
+    expect(getJsonSchema(TeamsModel, {useAlias: true})).toEqual({
+      definitions: {
+        TeamModel: {
+          properties: {
+            teamName: {
+              minLength: 1,
+              type: "string"
             }
           },
-          "required": [
-            "teamName"
-          ],
-          "type": "object"
+          required: ["teamName"],
+          type: "object"
         }
       },
-      "properties": {
-        "teams": {
-          "items": {
-            "$ref": "#/definitions/TeamModel"
+      properties: {
+        teams: {
+          items: {
+            $ref: "#/definitions/TeamModel"
           },
-          "type": "array"
+          type: "array"
         }
       },
-      "required": [
-        "teams"
-      ],
-      "type": "object"
+      required: ["teams"],
+      type: "object"
     });
   });
 });

@@ -1,12 +1,12 @@
 import {cleanObject, toMap, Type} from "@tsed/core";
 import {OpenSpecHash, OpenSpecRef, OS3Example, OS3Parameter, OS3Schema} from "@tsed/openspec";
-import {JsonSchemaOptions} from "../interfaces";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics, popGenerics} from "../utils/generics";
 import {JsonMap} from "./JsonMap";
 import {formatParameterType, isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
-import {SpecTypes} from "./SpecTypes";
+import {createRefName} from "../utils/ref";
 
 export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
   nestedGenerics: Type<any>[][] = [];
@@ -81,38 +81,18 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
     parameter.required = parameter.required || this.get("in") === JsonParameterTypes.PATH;
 
-    if (this.get("in") === JsonParameterTypes.FILES) {
-      const isOpenApi = options.specType === SpecTypes.OPENAPI;
+    switch (this.get("in")) {
+      case JsonParameterTypes.FILES:
+        return this.getFileSchema(jsonSchema, parameter);
+      case JsonParameterTypes.QUERY:
+        if (jsonSchema.$ref) {
+          if (!parameter.name) {
+            return this.refToParameters(parameter, options, schemasContainer);
+          }
 
-      const schema = {
-        type: isOpenApi ? "string" : "file",
-        format: isOpenApi ? "binary" : undefined,
-        oneOf: undefined
-      };
-
-      if (jsonSchema.type === "array") {
-        jsonSchema.items = cleanObject({
-          ...jsonSchema.items,
-          ...schema
-        });
-
-        parameter.schema = jsonSchema;
-      } else {
-        parameter.schema = cleanObject({
-          ...jsonSchema,
-          ...schema
-        });
-      }
-
-      return parameter;
-    }
-
-    if (["query"].includes(this.get("in")) && jsonSchema.$ref) {
-      if (!parameter.name) {
-        return this.refToParameters(parameter, options, schemasContainer);
-      }
-
-      parameter.style = "deepObject";
+          parameter.style = "deepObject";
+        }
+        break;
     }
 
     parameter.schema = jsonSchema;
@@ -120,28 +100,39 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
     return parameter;
   }
 
-  private refToParameters(parameter: any, options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema>) {
-    const schema = options.schemas![this.$schema.getName()];
+  private getFileSchema(jsonSchema: any, parameter: Pick<any, string | number | symbol>) {
+    const schema = {
+      type: "string",
+      format: "binary",
+      oneOf: undefined
+    };
 
-    if (options.schemas![this.$schema.getName()] && !schemasContainer.has(this.$schema.getName())) {
+    if (jsonSchema.type === "array") {
+      jsonSchema.items = cleanObject({
+        ...jsonSchema.items,
+        ...schema
+      });
+
+      parameter.schema = jsonSchema;
+    } else {
+      parameter.schema = cleanObject({
+        ...jsonSchema,
+        ...schema
+      });
+    }
+
+    return parameter;
+  }
+
+  private refToParameters(parameter: any, options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema>) {
+    const name = createRefName(this.$schema.getName(), options);
+    const schema = options.schemas![name];
+
+    if (options.schemas![name] && !schemasContainer.has(name)) {
       delete options.schemas![this.$schema.getName()];
     }
 
     return Object.entries(schema.properties || {}).reduce((params, [key, {description, ...prop}]: [string, any]) => {
-      if (options.specType === SpecTypes.OPENAPI) {
-        return [
-          ...params,
-          cleanObject({
-            ...parameter,
-            name: key,
-            required: (schema.required || []).includes(key),
-            description,
-            schema: prop,
-            style: prop.$ref ? "deepObject" : undefined
-          })
-        ];
-      }
-
       return [
         ...params,
         cleanObject({
@@ -149,7 +140,8 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
           name: key,
           required: (schema.required || []).includes(key),
           description,
-          ...prop
+          schema: prop,
+          style: prop.$ref ? "deepObject" : undefined
         })
       ];
     }, []);

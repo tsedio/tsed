@@ -1,4 +1,5 @@
-import {OpenSpecPath, OpenSpecRef} from "../common";
+import {OpenSpecPath} from "../common/OpenSpecPath";
+import {OpenSpecRef} from "../common/OpenSpecRef";
 import {OS3Operation} from "./OS3Operation";
 import {OS3Parameter} from "./OS3Parameter";
 import {OS3Schema} from "./OS3Schema";

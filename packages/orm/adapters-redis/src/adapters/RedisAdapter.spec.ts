@@ -3,7 +3,7 @@ import {RedisAdapter} from "@tsed/adapters-redis";
 import {PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
 import {Property} from "@tsed/schema";
-import * as faker from "faker";
+import faker from "@faker-js/faker";
 import IORedis from "ioredis";
 
 import IORedisMock from "ioredis-mock";
@@ -22,6 +22,7 @@ describe("RedisAdapter", () => {
   afterEach(() => PlatformTest.reset());
   beforeEach(() => {
     const locals = new Map();
+    // @ts-ignore
     locals.set(IORedis, new IORedisMock());
 
     adapter = PlatformTest.get<Adapters>(Adapters).invokeAdapter<Client>({
@@ -63,7 +64,7 @@ describe("RedisAdapter", () => {
         },
         {type: Client}
       );
-      const id = faker.random.uuid();
+      const id = faker.datatype.uuid();
 
       const client = await adapter.upsert(id, base);
       const client2 = await adapter.upsert(id, base);
@@ -175,6 +176,8 @@ describe("RedisAdapter", () => {
       expect(result[0]?.name).toBe(base.name);
     });
     it("should find all items", async () => {
+      await adapter.deleteMany({});
+
       const base = {
         name: faker.name.title()
       };

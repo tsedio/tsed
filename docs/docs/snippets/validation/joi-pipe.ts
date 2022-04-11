@@ -1,10 +1,11 @@
 import {ObjectSchema} from "@hapi/joi";
 import {Injectable} from "@tsed/di";
-import {PipeMethods, ParamMetadata, ValidationError} from "@tsed/platform-params";
+import {JsonParameterStore, PipeMethods} from "@tsed/schema";
+import {ValidationError} from "@tsed/platform-params";
 
 @Injectable()
 export class JoiValidationPipe implements PipeMethods {
-  transform(value: any, metadata: ParamMetadata) {
+  transform(value: any, metadata: JsonParameterStore) {
     const schema = metadata.store.get<ObjectSchema>(JoiValidationPipe);
 
     if (schema) {
@@ -18,4 +19,3 @@ export class JoiValidationPipe implements PipeMethods {
     return value;
   }
 }
-

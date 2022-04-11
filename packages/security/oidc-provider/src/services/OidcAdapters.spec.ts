@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import * as faker from "faker";
+import faker from "@faker-js/faker";
 import {Adapter} from "oidc-provider";
 import {OidcAdapters} from "./OidcAdapters";
 
@@ -18,7 +18,7 @@ describe("OidcAdapters", () => {
 
     describe("adapter.upsert()", () => {
       it("should call upsert", async () => {
-        const id = faker.random.uuid();
+        const id = faker.datatype.uuid();
 
         await adapter.upsert(
           id,
@@ -40,7 +40,7 @@ describe("OidcAdapters", () => {
 
     describe("adapter.findByUserCode()", () => {
       it("should find data by userCode", async () => {
-        const id = faker.random.uuid();
+        const id = faker.datatype.uuid();
 
         await adapter.upsert(
           id,
@@ -59,7 +59,7 @@ describe("OidcAdapters", () => {
     });
     describe("adapter.findByUid()", () => {
       it("should find data by uid", async () => {
-        const id = faker.random.uuid();
+        const id = faker.datatype.uuid();
 
         await adapter.upsert(
           id,
@@ -79,7 +79,7 @@ describe("OidcAdapters", () => {
 
     describe("adapter.deleteMany()", () => {
       it("should delete items", async () => {
-        const id = faker.random.uuid();
+        const id = faker.datatype.uuid();
 
         await adapter.upsert(
           id,

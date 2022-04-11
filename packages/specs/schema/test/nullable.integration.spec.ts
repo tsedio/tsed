@@ -1,5 +1,4 @@
-import {Any, getJsonSchema, getSpec, Required, SpecTypes, string} from "../src";
-import {Nullable, OperationPath, Path, Property, Returns} from "../src/decorators";
+import {Any, getJsonSchema, getSpec, Nullable, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../src";
 import {validateSpec} from "./helpers/validateSpec";
 
 class Nested {
@@ -30,8 +29,7 @@ class Product {
 class TestNullableCtrl {
   @OperationPath("GET", "/")
   @Returns(200, Product)
-  async get() {
-  }
+  async get() {}
 }
 
 describe("Spec: Nullable", () => {
@@ -59,16 +57,16 @@ describe("Spec: Nullable", () => {
           type: ["null", "string", "number"]
         },
         description: {
-          "minLength": 1,
+          minLength: 1,
           type: ["null", "string"]
         },
-        "nested": {
-          "oneOf": [
+        nested: {
+          oneOf: [
             {
-              "type": "null"
+              type: "null"
             },
             {
-              "$ref": "#/definitions/Nested"
+              $ref: "#/definitions/Nested"
             }
           ]
         }
@@ -83,13 +81,13 @@ describe("Spec: Nullable", () => {
     expect(spec).toEqual({
       components: {
         schemas: {
-          "Nested": {
-            "properties": {
-              "id": {
-                "type": "string"
+          Nested: {
+            properties: {
+              id: {
+                type: "string"
               }
             },
-            "type": "object"
+            type: "object"
           },
           Product: {
             properties: {
@@ -157,6 +155,6 @@ describe("Spec: Nullable", () => {
         }
       ]
     });
-    expect(await validateSpec(spec)).toBe(true);
+    expect(await validateSpec(spec, SpecTypes.OPENAPI)).toBe(true);
   });
 });

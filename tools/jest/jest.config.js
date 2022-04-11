@@ -20,7 +20,7 @@ module.exports = (rootDir) => ({
 
   // moduleDirectories: ["node_modules", "packages"],
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: ["index.ts", "/node_modules/", "/test/"],
+  coveragePathIgnorePatterns: ["index.ts", "/node_modules/", "/test/", "exports.ts"],
   moduleNameMapper: {
     "^@tsed/core$": fixPath(join(packageDir, "core/src")),
     "^@tsed/di$": fixPath(join(packageDir, "di/src")),
@@ -37,11 +37,14 @@ module.exports = (rootDir) => ({
     "^@tsed/objection$": fixPath(join(packageDir, "orm/objection/src")),
     "^@tsed/typeorm$": fixPath(join(packageDir, "orm/typeorm/src")),
     "^@tsed/mikro-orm": fixPath(join(packageDir, "orm/mikro-orm/src")),
+    "^@tsed/prisma": fixPath(join(packageDir, "orm/prisma/src")),
     "^@tsed/adapters$": fixPath(join(packageDir, "orm/adapters/src")),
     "^@tsed/mongoose$": fixPath(join(packageDir, "orm/mongoose/src")),
     "^@tsed/adapters-redis$": fixPath(join(packageDir, "orm/adapters-redis/src")),
     "^@tsed/schema-formio$": fixPath(join(packageDir, "third-parties/schema-formio/src")),
-    "^@tsed/components-scan$": fixPath(join(packageDir, "utils/components-scan/src"))
+    "^@tsed/components-scan$": fixPath(join(packageDir, "utils/components-scan/src")),
+    "^@tsed/passport$": fixPath(join(packageDir, "security/passport/src")),
+    "^@tsed/jwk$": fixPath(join(packageDir, "security/jwk/src"))
   },
   modulePathIgnorePatterns: ["<rootDir>/lib", "<rootDir>/dist"],
   // An object that configures minimum threshold enforcement for coverage results

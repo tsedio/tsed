@@ -1,80 +1,29 @@
 ---
 meta:
- - name: description
-   content: Use Prisma with Express, TypeScript and Ts.ED. Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
- - name: keywords
-   content: ts.ed express typescript prisma orm node.js javascript decorators
+  - name: description
+    content: Use Prisma with Express, TypeScript and Ts.ED. Passport is authentication middleware for Node.js. Extremely flexible and modular, Passport can be unobtrusively dropped in to any Express-based web application.
+  - name: keywords
+    content: ts.ed express typescript prisma orm node.js javascript decorators
 projects:
- - title: Kit Prisma
-   href: https://github.com/tsedio/tsed-example-prisma
-   src: /prisma-2.svg
+  - title: Kit Prisma
+    href: https://github.com/tsedio/tsed-example-prisma
+    src: /prisma-2.svg
 ---
+
 # Ts.ED Prisma client
 
-<Badge text="Premium sponsors" />
-
-Ts.ED Prisma client is only available for [premium sponsors](https://tsed.io/support.html).
-
-- You can read the modalities [here](https://github.com/sponsors/Romakita),
-- Or get your prisma client access ticket [here](https://github.com/sponsors/Romakita/sponsorships?sponsor=Romakita&tier_id=69644&preview=false).
-
-Then contact the [Ts.ED team](https://api.tsed.io/rest/slack/tsedio/tsed) on Slack so that we add it to the private repository.
-
-## Why should I paid for the package
+## Features
 
 Prisma Client generate only TypeScript interfaces based on the Prisma schema. Because, interfaces have no consistency in JavaScript, isn't possible to infer a Json Schema and therefore generate the Swagger documentation or perform validation on the models (without manually writing code).
 
-The Ts.ED Prisma will generates classes and enums compatible with Ts.ED decorators like @@Returns@@ but also, but it will also generate the `PrismaService` (connection to the database) but also the **repositories** for each **model** of your Prisma schema.
+The `@tsed/prisma` will generates classes and enums compatible with Ts.ED decorators like @@Returns@@ but also, but it will also generate the `PrismaService` (connection to the database) but also the **repositories** for each **model** of your Prisma schema.
 
-
-## Install the package from Github
-
-Ask Ts.ED team on [Slack](https://api.tsed.io/slack/tsedio/tsed) to get a unique personal GH_TOKEN.
-
-Then add on your project (or on profile level) a `.npmrc` file with the following content:
-
-```
-@tsedio:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=GH_TOKEN
-```
-
-Replace the `GH_TOKEN` by your token or by `${GH_TOKEN}` if you want to use env variable.
-
-If you use yarn (v1), you can also add a `.yarnrc` with the following content:
-
-```
-"@tsedio:registry" "https://npm.pkg.github.com/tsedio"
-```
-
-Then add the package to you package.json:
-
-```json
-{
-  "name": "@project/server",
-  "version": "1.0.0",
-  "description": "A Server based on Ts.ED",
-  "main": "index.js",
-  "author": "",
-  "license": "MIT",
-  "dependencies": {
-    "@tsedio/prisma": "1.0.3"
-  }
-}
-```
-
-Furthermore, `@tsedio/prisma` requires Prisma 2 to work properly, so please install Prisma dependencies if you don't have it already installed:
+## Installation
 
 ```sh
 npm i -D prisma
-npm i @prisma/client
+npm i @tsed/prisma @prisma/client
 ```
-
-::: warning 
-Be aware that `@tsedio/prisma` is designed to work with a selected version of `prisma`.
-
-Please make sure you use `prisma` and `@prisma/client` with version matching `~2.22.0`.
-Otherwise, the runtime check will report an error when you run the generator.
-:::
 
 ## Configuration
 
@@ -102,7 +51,7 @@ generator tsed {
 ```
 
 By default, when the output path contains `node_modules`, the generated code is transpiled - containing `*.js` and `*.d.ts` files that are ready to use (import) in your code.
-However, if you explicitly choose an other folder in `output` config, the generated code will be emitted as raw TS files which you can use and import as your other source code files.
+However, if you explicitly choose another folder in `output` config, the generated code will be emitted as raw TS files which you can use and import as your other source code files.
 
 You can overwrite that by explicitly setting `emitTranspiledCode` config option:
 
@@ -156,10 +105,10 @@ enum Role {
 it will generate the following UserModel:
 
 ```typescript
-import { User } from "../client";
-import { Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf } from "@tsed/schema";
-import { Role } from "../enums";
-import { PostModel } from "./PostModel";
+import {User} from "../client";
+import {Integer, Required, Property, Groups, Format, Email, Description, Allow, Enum, CollectionOf} from "@tsed/schema";
+import {Role} from "../enums";
+import {PostModel} from "./PostModel";
 
 export class UserModel implements User {
   @Property(Number)
@@ -215,7 +164,7 @@ export class UserModel implements User {
   @Property(Object)
   @Required()
   biography: any;
-  
+
   @TsED.Ignore((value: any, ctx: any) => ctx.endpoint === true)
   ignored: string;
 }
@@ -224,12 +173,12 @@ export class UserModel implements User {
 And, the following repository:
 
 ```typescript
-import { isArray } from "@tsed/core";
-import { deserialize } from "@tsed/json-mapper";
-import { Injectable, Inject } from "@tsed/di";
-import { PrismaService } from "../services/PrismaService";
-import { Prisma, User } from "../client";
-import { UserModel } from "../models";
+import {isArray} from "@tsed/core";
+import {deserialize} from "@tsed/json-mapper";
+import {Injectable, Inject} from "@tsed/di";
+import {PrismaService} from "../services/PrismaService";
+import {Prisma, User} from "../client";
+import {UserModel} from "../models";
 
 @Injectable()
 export class UsersRepository {
@@ -237,15 +186,15 @@ export class UsersRepository {
   protected prisma: PrismaService;
 
   get collection() {
-    return this.prisma.user
+    return this.prisma.user;
   }
 
   get groupBy() {
-    return this.collection.groupBy.bind(this.collection)
+    return this.collection.groupBy.bind(this.collection);
   }
 
   protected deserialize<T>(obj: null | User | User[]): T {
-    return deserialize<T>(obj, { type: UserModel, collectionType: isArray(obj) ? Array : undefined })
+    return deserialize<T>(obj, {type: UserModel, collectionType: isArray(obj) ? Array : undefined});
   }
 
   async findUnique(args: Prisma.UserFindUniqueArgs): Promise<UserModel | null> {
@@ -284,15 +233,15 @@ export class UsersRepository {
   }
 
   async deleteMany(args: Prisma.UserDeleteManyArgs) {
-    return this.collection.deleteMany(args)
+    return this.collection.deleteMany(args);
   }
 
   async updateMany(args: Prisma.UserUpdateManyArgs) {
-    return this.collection.updateMany(args)
+    return this.collection.updateMany(args);
   }
 
   async aggregate(args: Prisma.UserAggregateArgs) {
-    return this.collection.aggregate(args)
+    return this.collection.aggregate(args);
   }
 }
 ```

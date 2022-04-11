@@ -1,6 +1,5 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
@@ -20,7 +19,7 @@ export class CampaignCtrl {}
 export class OrgCtrl {}
 
 describe("Swagger integration", () => {
-  describe("OpenSpec3", () => {
+  describe("OpenSpec2", () => {
     let request: SuperTest.SuperTest<SuperTest.Test>;
     beforeEach(
       PlatformTest.bootstrap(Server, {
@@ -38,56 +37,50 @@ describe("Swagger integration", () => {
     it("should generate the right spec", async () => {
       const response = await request.get("/v2/doc/swagger.json").expect(200);
 
-      expect(response.body).to.deep.eq({
-        "info": {
-          "title": "Swagger title",
-          "version": "1.2.0"
+      expect(response.body).toEqual({
+        consumes: ["application/json"],
+        info: {
+          title: "Swagger title",
+          version: "1.2.0"
         },
-        "openapi": "3.0.1",
-        "paths": {
+        paths: {
           "/api/v1/orgs/{orgName}/campaigns/{campaignID}/polls/{pollId}": {
-            "get": {
-              "operationId": "pollCtrlGet",
-              "parameters": [
+            get: {
+              operationId: "pollCtrlGet",
+              parameters: [
                 {
-                  "in": "path",
-                  "name": "orgName",
-                  "required": true,
-                  "schema": {
-                    "type": "string"
-                  }
+                  in: "path",
+                  name: "orgName",
+                  required: true,
+                  type: "string"
                 },
                 {
-                  "in": "path",
-                  "name": "campaignID",
-                  "required": true,
-                  "schema": {
-                    "type": "string"
-                  }
+                  in: "path",
+                  name: "campaignID",
+                  required: true,
+                  type: "string"
                 },
                 {
-                  "in": "path",
-                  "name": "pollId",
-                  "required": true,
-                  "schema": {
-                    "type": "string"
-                  }
+                  in: "path",
+                  name: "pollId",
+                  required: true,
+                  type: "string"
                 }
               ],
-              "responses": {
+              responses: {
                 "200": {
-                  "description": "Success"
+                  description: "Success"
                 }
               },
-              "tags": [
-                "PollCtrl"
-              ]
+              tags: ["PollCtrl"]
             }
           }
         },
-        "tags": [
+        produces: ["application/json"],
+        swagger: "2.0",
+        tags: [
           {
-            "name": "PollCtrl"
+            name: "PollCtrl"
           }
         ]
       });

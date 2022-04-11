@@ -1,6 +1,6 @@
 import {isPlainObject, isString, Store, StoreMerge, useDecorators} from "@tsed/core";
 import {CollectionOf, Property} from "@tsed/schema";
-import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants";
+import {MONGOOSE_MODEL_NAME, MONGOOSE_SCHEMA} from "../constants/constants";
 import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions";
 import {MongooseModels} from "../registries/MongooseModels";
 
@@ -43,10 +43,6 @@ function mapToSchema(opts: any) {
  * typescript transpiler from stripping away the import statement and cause a circular
  * import in node.
  * :::
- *
- * ### Example
- *
- * <<< @/tutorials/snippets/mongoose/virtual-references.ts
  *
  * @param ref
  * @param foreignField

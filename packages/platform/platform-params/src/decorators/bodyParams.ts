@@ -1,9 +1,8 @@
-import {Type, useDecorators} from "@tsed/core";
+import {Type} from "@tsed/core";
 import {ParamOptions} from "../domain/ParamOptions";
 import {ParamTypes} from "../domain/ParamTypes";
 import {UseParam} from "./useParam";
 import {mapParamsOptions} from "../utils/mapParamsOptions";
-import {JsonEntityFn} from "@tsed/schema";
 
 /**
  * BodyParams return the value from [request.body](http://expressjs.com/en/4x/api.html#req.body) object.
@@ -52,7 +51,6 @@ export function BodyParams(...args: any[]): ParameterDecorator {
 
   return UseParam({
     paramType: ParamTypes.BODY,
-    dataPath: "$ctx.request.body",
     expression,
     useType,
     useConverter,
@@ -78,18 +76,12 @@ export function BodyParams(...args: any[]): ParameterDecorator {
  * @decorator
  * @operation
  * @input
+ * @alias BodyParams Example: @BodyParams() payload: Buffer
  */
 export function RawBodyParams(): ParameterDecorator {
-  return useDecorators(
-    UseParam({
-      paramType: ParamTypes.RAW_BODY,
-      dataPath: "$ctx.request.rawBody",
-      useType: String,
-      useConverter: false,
-      useValidation: false
-    }),
-    JsonEntityFn((entity) => {
-      entity.parent.operation?.consumes(["*/*"]);
-    })
-  );
+  return UseParam({
+    paramType: ParamTypes.RAW_BODY,
+    useConverter: false,
+    useValidation: false
+  });
 }
