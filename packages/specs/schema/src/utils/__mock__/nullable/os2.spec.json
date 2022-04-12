@@ -1,0 +1,31 @@
+{
+  "info": {
+    "version": "0.0.1",
+    "title": "test"
+  },
+  "paths": {
+    "/foo": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Foo",
+            "schema": {
+              "$ref": "#/definitions/Foo"
+            }
+          }
+        },
+        "tags": ["Foos"],
+        "operationId": "getFoo",
+        "parameters": [],
+        "produces": ["application/hal+json"]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "definitions": {
+    "Foo": {
+      "type": "string",
+      "x-nullable": true
+    }
+  }
+}

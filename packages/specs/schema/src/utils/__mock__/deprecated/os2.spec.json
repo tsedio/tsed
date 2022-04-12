@@ -1,0 +1,109 @@
+{
+  "info": {
+    "version": "0.0.1",
+    "title": "API with deprecated schemas and operations\nSee https://github.com/Azure/autorest/tree/master/Samples/test/deprecated for description of x-deprecated as supported by Autorest"
+  },
+  "paths": {
+    "/path1": {
+      "get": {
+        "deprecated": true,
+        "responses": {
+          "200": {
+            "description": "Deprecated operation 1",
+            "schema": {
+              "$ref": "#/definitions/Schema1"
+            }
+          }
+        },
+        "operationId": "getPath1",
+        "parameters": [],
+        "produces": ["application/json"]
+      }
+    },
+    "/path2": {
+      "get": {
+        "deprecated": true,
+        "x-deprecated": {
+          "description": "Deprecation info"
+        },
+        "responses": {
+          "200": {
+            "description": "Deprecated operation 2",
+            "schema": {
+              "$ref": "#/definitions/Schema2"
+            }
+          }
+        },
+        "operationId": "getPath2",
+        "parameters": [],
+        "produces": ["application/json"]
+      }
+    },
+    "/path3": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Operation 3",
+            "schema": {
+              "$ref": "#/definitions/Schema3"
+            }
+          }
+        },
+        "operationId": "getPath3",
+        "parameters": [],
+        "produces": ["application/json"]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "definitions": {
+    "Schema1": {
+      "type": "object",
+      "properties": {
+        "prop1": {
+          "x-deprecated": {
+            "description": "Prop deprecation info"
+          },
+          "type": "string"
+        },
+        "prop2": {
+          "x-deprecated": {
+            "description": "Prop also deprecated"
+          },
+          "type": "string"
+        },
+        "prop3": {
+          "type": "integer",
+          "x-deprecated": false
+        }
+      },
+      "x-deprecated": true
+    },
+    "Schema2": {
+      "x-deprecated": {
+        "replaced-by": "Schema1"
+      },
+      "type": "object",
+      "properties": {
+        "prop4": {
+          "type": "string",
+          "x-deprecated": true
+        },
+        "prop5": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "x-deprecated": true
+          }
+        }
+      }
+    },
+    "Schema3": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "x-deprecated": false
+    }
+  }
+}

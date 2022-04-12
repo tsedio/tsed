@@ -1,0 +1,39 @@
+{
+  "info": {
+    "version": "0.0.1",
+    "title": "test"
+  },
+  "paths": {
+    "/foo": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Foo",
+            "schema": {
+              "$ref": "#/definitions/Foo"
+            }
+          },
+          "default": {
+            "description": "Unexpected problem",
+            "schema": {
+              "$ref": "#/definitions/Problem"
+            }
+          }
+        },
+        "tags": ["Foos"],
+        "operationId": "getFoo",
+        "parameters": [],
+        "produces": ["application/hal+json", "application/problem+json"]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "definitions": {
+    "Foo": {
+      "type": "string"
+    },
+    "Problem": {
+      "type": "string"
+    }
+  }
+}

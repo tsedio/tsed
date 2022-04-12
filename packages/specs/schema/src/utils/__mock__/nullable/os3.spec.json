@@ -1,0 +1,14 @@
+{
+  "openapi": "3.0.0",
+  "info": {"version": "0.0.1", "title": "test"},
+  "paths": {
+    "/foo": {
+      "get": {
+        "responses": {"200": {"description": "Foo", "content": {"application/hal+json": {"schema": {"$ref": "#/components/schemas/Foo"}}}}},
+        "tags": ["Foos"],
+        "operationId": "getFoo"
+      }
+    }
+  },
+  "components": {"schemas": {"Foo": {"type": "string", "nullable": true}}}
+}

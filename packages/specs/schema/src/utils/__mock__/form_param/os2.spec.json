@@ -1,0 +1,59 @@
+{
+  "info": {
+    "version": "0.0.1",
+    "title": "test"
+  },
+  "paths": {
+    "/foo": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Foo",
+            "schema": {
+              "type": "object"
+            }
+          }
+        },
+        "tags": ["Foos"],
+        "operationId": "getFoo",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string"
+          },
+          {
+            "name": "format",
+            "in": "formData",
+            "enum": ["gif", "jpeg", "png"],
+            "type": "string",
+            "x-ms-enum": {
+              "name": "ImageType",
+              "modelAsString": true
+            }
+          },
+          {
+            "name": "image",
+            "in": "formData",
+            "required": true,
+            "format": "binary",
+            "type": "string"
+          }
+        ],
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "definitions": {
+    "ImageFormat": {
+      "type": "string",
+      "enum": ["gif", "jpeg", "png"],
+      "x-ms-enum": {
+        "name": "ImageType",
+        "modelAsString": true
+      }
+    }
+  }
+}

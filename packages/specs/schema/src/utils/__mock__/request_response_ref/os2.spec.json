@@ -1,0 +1,87 @@
+{
+  "info": {
+    "version": "0.0.1",
+    "title": "test"
+  },
+  "paths": {
+    "/foo": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Foo",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/PetName"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "x-nullable": true
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        },
+        "tags": ["Foos"],
+        "operationId": "getFoo",
+        "parameters": [
+          {
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "x-nullable": true
+                },
+                "pet": {
+                  "allOf": [
+                    {
+                      "$ref": "#/definitions/PetName"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "favorite_foods": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "x-nullable": true
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        ],
+        "consumes": ["application/json"],
+        "produces": ["application/json"]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "definitions": {
+    "PetName": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "nickname": {
+          "type": "string",
+          "x-nullable": true
+        }
+      }
+    }
+  }
+}

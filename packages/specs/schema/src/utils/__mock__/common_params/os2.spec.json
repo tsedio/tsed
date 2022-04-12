@@ -1,0 +1,22 @@
+{
+  "info": {
+    "version": "0.0.1",
+    "title": "testcommonparams"
+  },
+  "paths": {
+    "/resource/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "type": "integer",
+          "x-example": 0
+        },
+        {
+          "name": "name"
+        }
+      ]
+    }
+  },
+  "swagger": "2.0"
+}
