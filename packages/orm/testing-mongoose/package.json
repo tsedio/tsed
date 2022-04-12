@@ -1,6 +1,6 @@
 {
   "name": "@tsed/testing-mongoose",
-  "version": "7.0.0-beta.3",
+  "version": "7.0.0-beta.4",
   "description": "A TypeScript Framework on top of Express",
   "private": false,
   "source": "./src/index.ts",
@@ -24,14 +24,14 @@
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@tsed/common": "7.0.0-beta.3",
-    "@tsed/core": "7.0.0-beta.3",
-    "@tsed/mongoose": "7.0.0-beta.3"
+    "@tsed/common": "7.0.0-beta.4",
+    "@tsed/core": "7.0.0-beta.4",
+    "@tsed/mongoose": "7.0.0-beta.4"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.0.0-beta.3",
-    "@tsed/core": "^7.0.0-beta.3",
-    "@tsed/mongoose": "^7.0.0-beta.3",
+    "@tsed/common": "^7.0.0-beta.4",
+    "@tsed/core": "^7.0.0-beta.4",
+    "@tsed/mongoose": "^7.0.0-beta.4",
     "mongoose": "^6.1.7"
   }
 }
