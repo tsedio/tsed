@@ -1,0 +1,20 @@
+on: [push]
+  
+
+name: Broken Link Check
+jobs:
+  check:
+    name: Broken Link Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Broken Link Check
+        uses: technote-space/broken-link-checker-action@v2
+        inputs:
+          TARGET: https://tsed.io
+          TITLE: Broken link found
+          RECURCIVE: true
+          BODY: 
+            Broken Link Checker found a broken link on ${TARGET}
+              Target: ${URL}
+              > ${REASON}
+              [View Actions Results](https://github.com/${OWNER}/${REPO}/commit/${SHA}/checks)
