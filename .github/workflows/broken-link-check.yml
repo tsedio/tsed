@@ -12,7 +12,7 @@ jobs:
         with:
           TARGET: https://tsed.io
           TITLE: Broken link found (${URL})
-          RECURSIVE: true
+          RECURSIVE: false
           BODY: 
             Broken Link Checker found a broken link on ${TARGET}
 
