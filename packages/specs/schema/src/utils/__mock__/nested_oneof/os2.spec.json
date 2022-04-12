@@ -1,0 +1,44 @@
+{
+  "info": {
+    "version": "0.0.1",
+    "title": "test"
+  },
+  "paths": {
+    "/foo": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Foo",
+            "schema": {
+              "$ref": "#/definitions/Foo"
+            }
+          }
+        },
+        "tags": ["Foos"],
+        "operationId": "getFoo",
+        "parameters": [],
+        "produces": ["application/hal+json"]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "definitions": {
+    "SomeBar": {
+      "type": "string"
+    },
+    "OtherBar": {
+      "type": "object",
+      "properties": {
+        "other": {
+          "type": "string"
+        }
+      }
+    },
+    "Foo": {
+      "type": "object",
+      "properties": {
+        "bar": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,61 @@
+{
+  "info": {
+    "title": "test",
+    "description": "test",
+    "version": "2"
+  },
+  "paths": {
+    "/testBodyRefIsResolved": {
+      "post": {
+        "summary": "test",
+        "description": "test",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "parameters": [
+          {
+            "description": "Some content",
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "example": {}
+            }
+          }
+        ],
+        "consumes": ["application/json"]
+      }
+    },
+    "/testSameBodyRefIsResolvedAgain": {
+      "post": {
+        "summary": "test",
+        "description": "test",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        },
+        "parameters": [
+          {
+            "description": "Some content",
+            "required": true,
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "example": {}
+            }
+          }
+        ],
+        "consumes": ["application/json"]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "host": "somewhere.test",
+  "schemes": ["https"],
+  "basePath": "/"
+}

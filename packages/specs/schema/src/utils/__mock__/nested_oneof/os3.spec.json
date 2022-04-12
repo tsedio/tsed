@@ -1,0 +1,23 @@
+{
+  "openapi": "3.0.0",
+  "info": {"version": "0.0.1", "title": "test"},
+  "paths": {
+    "/foo": {
+      "get": {
+        "responses": {"200": {"description": "Foo", "content": {"application/hal+json": {"schema": {"$ref": "#/components/schemas/Foo"}}}}},
+        "tags": ["Foos"],
+        "operationId": "getFoo"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "SomeBar": {"type": "string"},
+      "OtherBar": {"type": "object", "properties": {"other": {"type": "string"}}},
+      "Foo": {
+        "type": "object",
+        "properties": {"bar": {"oneOf": [{"$ref": "#/components/schemas/SomeBar"}, {"$ref": "#/components/schemas/OtherBar"}]}}
+      }
+    }
+  }
+}

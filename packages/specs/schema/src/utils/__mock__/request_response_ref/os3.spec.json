@@ -1,0 +1,55 @@
+{
+  "openapi": "3.0.0",
+  "info": {"version": "0.0.1", "title": "test"},
+  "paths": {
+    "/foo": {
+      "post": {
+        "requestBody": {"$ref": "#/components/requestBodies/FooRequest"},
+        "responses": {"200": {"$ref": "#/components/responses/FooResponse"}},
+        "tags": ["Foos"],
+        "operationId": "getFoo"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "PetName": {"type": "object", "properties": {"name": {"type": "string"}, "nickname": {"type": "string", "nullable": true}}}
+    },
+    "requestBodies": {
+      "FooRequest": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {"type": "string", "nullable": true},
+                "pet": {
+                  "allOf": [
+                    {"$ref": "#/components/schemas/PetName"},
+                    {"type": "object", "properties": {"favorite_foods": {"type": "array", "items": {"type": "string", "nullable": true}}}}
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "responses": {
+      "FooResponse": {
+        "description": "Foo",
+        "content": {
+          "application/json": {
+            "schema": {
+              "allOf": [
+                {"$ref": "#/components/schemas/PetName"},
+                {"type": "object", "properties": {"name": {"type": "string", "nullable": true}}}
+              ]
+            }
+          }
+        }
+      }
+    }
+  }
+}
