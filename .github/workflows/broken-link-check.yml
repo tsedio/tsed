@@ -9,7 +9,7 @@ jobs:
     steps:
       - name: Broken Link Check
         uses: technote-space/broken-link-checker-action@v2
-        inputs:
+        with:
           TARGET: https://tsed.io
           TITLE: Broken link found
           RECURCIVE: true
