@@ -148,3 +148,4 @@ export * from "./utils/ref";
 export * from "./utils/serializeEnumValues";
 export * from "./utils/toJsonMapCollection";
 export * from "./utils/toJsonRegex";
+export * from "./utils/transformToOS2";
