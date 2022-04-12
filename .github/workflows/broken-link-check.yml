@@ -15,6 +15,4 @@ jobs:
           RECURCIVE: true
           BODY: 
             Broken Link Checker found a broken link on ${TARGET}
-              Target: ${URL}
-              > ${REASON}
               [View Actions Results](https://github.com/${OWNER}/${REPO}/commit/${SHA}/checks)
