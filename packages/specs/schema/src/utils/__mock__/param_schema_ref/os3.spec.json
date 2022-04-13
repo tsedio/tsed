@@ -1,0 +1,24 @@
+{
+  "openapi": "3.0.0",
+  "info": {"version": "0.0.1", "title": "testsickle"},
+  "paths": {
+    "/user/account/{accountLevel}": {
+      "post": {
+        "parameters": [{"in": "path", "name": "accountLevel", "required": true, "schema": {"$ref": "#/components/schemas/accountLevel"}}],
+        "responses": {"200": {"$ref": "#/components/responses/defaultResponse"}}
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "defaultResponse": {
+        "description": "Success",
+        "content": {"application/json": {"schema": {"$ref": "#/components/schemas/DefaultResponseObject"}}}
+      }
+    },
+    "schemas": {
+      "accountLevel": {"type": "string", "enum": ["one", "two", "three", "four"]},
+      "DefaultResponseObject": {"required": ["message"], "properties": {"message": {"type": "string"}}}
+    }
+  }
+}

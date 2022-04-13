@@ -14,9 +14,7 @@
   "version": "7.0.0-beta.4",
   "command": {
     "bootstrap": {
-      "npmClientArgs": [
-        "--no-package-lock"
-      ]
+      "npmClientArgs": ["--no-package-lock"]
     }
   }
 }

@@ -1,0 +1,24 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "testcommonparams"
+  },
+  "paths": {
+    "/resource/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "example": 0,
+          "schema": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "name"
+        }
+      ]
+    }
+  }
+}

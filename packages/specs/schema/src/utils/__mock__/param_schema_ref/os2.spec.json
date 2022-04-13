@@ -1,0 +1,45 @@
+{
+  "info": {
+    "version": "0.0.1",
+    "title": "testsickle"
+  },
+  "paths": {
+    "/user/account/{accountLevel}": {
+      "post": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "accountLevel",
+            "required": true,
+            "enum": ["one", "two", "three", "four"],
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/DefaultResponseObject"
+            }
+          }
+        },
+        "produces": ["application/json"]
+      }
+    }
+  },
+  "swagger": "2.0",
+  "definitions": {
+    "accountLevel": {
+      "type": "string",
+      "enum": ["one", "two", "three", "four"]
+    },
+    "DefaultResponseObject": {
+      "required": ["message"],
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "openapi": "3.0.0",
+  "info": {"title": "test", "description": "test", "version": "2"},
+  "paths": {
+    "/testBodyRefIsResolved": {
+      "post": {
+        "summary": "test",
+        "description": "test",
+        "responses": {"200": {"description": "ok"}},
+        "requestBody": {"$ref": "#/components/requestBodies/Value"}
+      }
+    },
+    "/testSameBodyRefIsResolvedAgain": {
+      "post": {
+        "summary": "test",
+        "description": "test",
+        "responses": {"200": {"description": "ok"}},
+        "requestBody": {"$ref": "#/components/requestBodies/Value"}
+      }
+    }
+  },
+  "servers": [{"url": "https://somewhere.test", "description": "above the clouds"}],
+  "components": {
+    "requestBodies": {
+      "Value": {
+        "content": {"application/json": {"schema": {"type": "object", "example": {}}}},
+        "description": "Some content",
+        "required": true
+      }
+    }
+  }
+}

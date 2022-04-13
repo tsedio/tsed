@@ -1,0 +1,67 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.0.1",
+    "title": "test"
+  },
+  "paths": {
+    "/foo": {
+      "post": {
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "format": {
+                    "$ref": "#/components/schemas/ImageFormat"
+                  },
+                  "uploadDate": {
+                    "type": "string",
+                    "format": "date-time",
+                    "readOnly": true
+                  },
+                  "image": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "required": ["image"]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Foo",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "tags": ["Foos"],
+        "operationId": "getFoo"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ImageFormat": {
+        "type": "string",
+        "enum": ["gif", "jpeg", "png"],
+        "x-ms-enum": {
+          "name": "ImageType",
+          "modelAsString": true
+        }
+      }
+    }
+  }
+}

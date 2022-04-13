@@ -24,6 +24,7 @@
     "packages/orm",
     "packages/graphql",
     "packages/third-parties",
+    "packages/engines",
     "packages/perf",
     "packages/specs/swagger",
     "packages/specs/schema",

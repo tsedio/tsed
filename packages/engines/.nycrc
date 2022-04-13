@@ -1,0 +1,26 @@
+{
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "**/*.d.ts",
+    "node_modules",
+    "**/interfaces/**",
+    "**/index.ts"
+  ],
+  "extension": [
+    ".ts"
+  ],
+  "require": [],
+  "reporter": [
+    "text-summary",
+    "html",
+    "lcov",
+    "json"
+  ],
+  "check-coverage": true,
+  "statements": 96.39,
+  "branches": 74.41,
+  "functions": 96.33,
+  "lines": 96.32
+}
