@@ -29,13 +29,6 @@ export class MikroOrmRegistry {
     return instance;
   }
 
-  /**
-   * @deprecated Since 2022-02-01. Use {@link register} instead
-   */
-  public createConnection<T extends DatabaseDriver>(options: Options<T>): Promise<MikroORM> {
-    return this.register(options);
-  }
-
   public get(contextName: string = "default"): MikroORM | undefined {
     return this.instances.get(contextName);
   }
