@@ -55,8 +55,3 @@ export interface ProviderOpts<T = any> {
    */
   [key: string]: any;
 }
-
-/**
- * @deprecated
- */
-export interface IProvider<T = any> extends ProviderOpts<T> {}
