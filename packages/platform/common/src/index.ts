@@ -12,8 +12,6 @@ export * from "./config/interfaces/PlatformMulterSettings";
 export * from "./config/interfaces/PlatformStaticsSettings";
 export * from "./config/services/PlatformConfiguration";
 export * from "./constants/routerOptions";
-export * from "./decorators/httpServer";
-export * from "./decorators/httpsServer";
 export * from "./decorators/multer/multerFileSize";
 export * from "./decorators/multer/multerOptions";
 export * from "./decorators/multer/multipartFile";
