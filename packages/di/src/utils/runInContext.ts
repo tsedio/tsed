@@ -13,6 +13,5 @@ export function getContext() {
 }
 
 export function runInContext(ctx: DIContext, cb: any) {
-  // istanbul ignore else
-  return AsyncLocalStorage ? getAsyncStore().run(ctx, cb) : cb();
+  return getAsyncStore().run(ctx, cb);
 }

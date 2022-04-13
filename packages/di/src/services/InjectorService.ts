@@ -27,13 +27,11 @@ import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
 import {ProviderScope} from "../domain/ProviderScope";
 import {DILogger} from "../interfaces/DILogger";
 import {TokenProvider} from "../interfaces/TokenProvider";
-import {ProviderOpts} from "../interfaces/ProviderOpts";
 import {InvokeOptions} from "../interfaces/InvokeOptions";
 import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties";
 import {InjectablePropertyType} from "../domain/InjectablePropertyType";
 import {InterceptorContext} from "../interfaces/InterceptorContext";
 import {InterceptorMethods} from "../interfaces/InterceptorMethods";
-import {DIContext} from "../domain/DIContext";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -499,16 +497,6 @@ export class InjectorService extends Container {
         next
       );
     };
-  }
-
-  /**
-   * Allow handler hack for AsyncHookContext plugin.
-   * @param ctx
-   * @param cb
-   * @protected
-   */
-  runInContext(ctx: DIContext, cb: any) {
-    return cb();
   }
 
   async lazyInvoke<T = any>(token: TokenProvider) {

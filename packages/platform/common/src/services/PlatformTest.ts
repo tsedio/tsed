@@ -7,7 +7,6 @@ import {PlatformApplication} from "./PlatformApplication";
 import {getConfiguration} from "../utils/getConfiguration";
 import {PlatformAdapter, PlatformBuilderSettings} from "./PlatformAdapter";
 import accepts from "accepts";
-import {FakeAdapter} from "./FakeAdapter";
 
 /**
  * @platform

@@ -1,4 +1,4 @@
-import {Inject, InjectorService, Provider} from "@tsed/di";
+import {Inject, InjectorService, Provider, runInContext} from "@tsed/di";
 import {EndpointMetadata} from "@tsed/schema";
 import {FormioActionInfo} from "@tsed/formio-types";
 import {PlatformParams} from "@tsed/platform-params";
@@ -83,7 +83,7 @@ export class AlterActions implements AlterHook {
       $ctx.set("ACTION_CTX", {handler, method, setActionItemMessage, action});
       $ctx.endpoint = EndpointMetadata.get(provider.useClass, "resolve");
 
-      await this.injector.runInContext($ctx, async () => {
+      await runInContext($ctx, async () => {
         try {
           const resolver = new AnyToPromise();
           const handler = await promisedHandler;

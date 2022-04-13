@@ -49,12 +49,6 @@ describe("InjectorService", () => {
       expect(new InjectorService().has(Test)).to.be.false;
     });
   });
-  describe("runInContext()", () => {
-    it("should return true", () => {
-      const injector = new InjectorService();
-      injector.runInContext({} as any, () => {});
-    });
-  });
 
   describe("get()", () => {
     it("should return element", () => {
