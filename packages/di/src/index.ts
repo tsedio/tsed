@@ -47,6 +47,7 @@ export * from "./services/DIConfiguration";
 export * from "./services/DILogger";
 export * from "./services/DITest";
 export * from "./services/InjectorService";
+export * from "./utils/runInContext";
 export * from "./utils/colors";
 export * from "./utils/createContainer";
 export * from "./utils/getConfiguration";
