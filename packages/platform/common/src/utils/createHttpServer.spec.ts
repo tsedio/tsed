@@ -1,5 +1,4 @@
 import {InjectorService} from "@tsed/di";
-import {HttpServer} from "../decorators/httpServer";
 import {createHttpServer} from "./createHttpServer";
 import {expect} from "chai";
 import Sinon from "sinon";
@@ -15,7 +14,6 @@ describe("createHttpServer", () => {
     const listener = createHttpServer(injector, fn);
 
     expect(!!injector.get(Http.Server)).to.be.eq(true);
-    expect(!!injector.get(HttpServer)).to.be.eq(true);
 
     expect(listener).to.be.a("function");
   });
@@ -29,7 +27,6 @@ describe("createHttpServer", () => {
     const listener = createHttpServer(injector, fn);
 
     expect(injector.get(Http.Server)).to.be.eq(null);
-    expect(injector.get(HttpServer)).to.be.eq(null);
 
     expect(listener).to.eq(undefined);
   });
@@ -43,7 +40,6 @@ describe("createHttpServer", () => {
     const listener = createHttpServer(injector, fn);
 
     expect(!!injector.get(Http.Server)).to.be.eq(true);
-    expect(!!injector.get(HttpServer)).to.be.eq(true);
 
     expect(listener).to.be.a("function");
   });
@@ -56,7 +52,6 @@ describe("createHttpServer", () => {
     const listener = createHttpServer(injector, fn);
 
     expect(!!injector.get(Http.Server)).to.be.eq(true);
-    expect(!!injector.get(HttpServer)).to.be.eq(true);
 
     expect(listener).to.be.a("function");
   });
