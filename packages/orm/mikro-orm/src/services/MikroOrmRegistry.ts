@@ -45,13 +45,6 @@ export class MikroOrmRegistry {
     this.instances.clear();
   }
 
-  /**
-   * @deprecated Since 2022-02-01. Use {@link clear} instead
-   */
-  public closeConnections(): Promise<void> {
-    return this.clear();
-  }
-
   private async dispose(instance: MikroORM): Promise<void> {
     if (await instance.isConnected()) {
       await instance.close(false);
