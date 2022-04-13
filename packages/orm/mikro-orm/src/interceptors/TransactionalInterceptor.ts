@@ -8,10 +8,6 @@ import {RetryStrategy} from "../services/RetryStrategy";
 export interface TransactionOptions {
   retry?: boolean;
   contextName?: string;
-  /**
-   * @deprecated Since 2022-02-01. Use {@link contextName} instead
-   */
-  connectionName?: string;
 }
 
 @Interceptor()
