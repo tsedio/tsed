@@ -1,5 +1,6 @@
 import {Env, getValue} from "@tsed/core";
 import {Constant, Module} from "@tsed/di";
+import {engines, getEngine, requires} from "@tsed/engines";
 import Fs from "fs";
 import {extname, join, resolve} from "path";
 import {
@@ -20,14 +21,6 @@ async function patchEJS(ejs: any) {
       return ejs.compile(str, options);
     }
   };
-}
-
-async function tryImport(name: string) {
-  try {
-    return await import(name);
-  } catch (er) {
-    // istanbul ignore next
-  }
 }
 
 /**
@@ -73,57 +66,27 @@ export class PlatformViews {
         })
       );
 
-      await this.loadFromConsolidate();
-      await this.loadFromTsedEngines();
+      await this.loadEngines();
     }
   }
 
-  /**
-   * @deprecated
-   */
-  async loadFromConsolidate() {
-    const cons = await tryImport("consolidate");
-    if (cons) {
-      cons.requires.ejs = await patchEJS(cons.requires.ejs);
+  async loadEngines() {
+    requires.set("ejs", await patchEJS(requires.get("ejs")));
 
-      this.#extensions.forEach((engineType) => {
-        if ((cons as any)[engineType]) {
-          const options = this.getEngineOptions(engineType);
+    this.#extensions.forEach((engineType) => {
+      if (engines.has(engineType)) {
+        const options = this.getEngineOptions(engineType);
 
-          if (options.requires) {
-            (cons.requires as any)[engineType] = options.requires;
-          }
-
-          this.registerEngine(engineType, {
-            options,
-            render: (cons as any)[engineType]
-          });
+        if (options.requires) {
+          requires.set(engineType, options.requires);
         }
-      });
-    }
-  }
 
-  async loadFromTsedEngines() {
-    const tsed = await tryImport("@tsed/engines");
-
-    if (tsed) {
-      tsed.requires.set("ejs", await patchEJS(tsed.requires.get("ejs")));
-
-      this.#extensions.forEach((engineType) => {
-        if (tsed.engines.has(engineType)) {
-          const options = this.getEngineOptions(engineType);
-
-          if (options.requires) {
-            tsed.requires.set(engineType, options.requires);
-          }
-
-          this.registerEngine(engineType, {
-            options,
-            render: tsed.getEngine(engineType)
-          });
-        }
-      });
-    }
+        this.registerEngine(engineType, {
+          options,
+          render: getEngine(engineType)
+        });
+      }
+    });
   }
 
   getEngines() {

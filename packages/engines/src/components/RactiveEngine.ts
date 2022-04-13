@@ -6,7 +6,7 @@ export class RactiveEngine extends Engine {
   protected $compile(template: string, options: EngineOptions) {
     const Engine = this.engine;
     const compile = this.engine.parse(template);
-
+    Engine.DEBUG = false;
     return (options: EngineOptions) => {
       options.template = compile;
       return new Engine(this.clean(options)).toHTML();
