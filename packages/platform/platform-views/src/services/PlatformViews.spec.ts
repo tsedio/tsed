@@ -1,3 +1,4 @@
+import {requires} from "@tsed/engines";
 import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
 import Sinon from "sinon";
@@ -23,8 +24,7 @@ describe("PlatformViews", () => {
     })
   );
   afterEach(() => {
-    delete require("consolidate").requires.ejs;
-    require("@tsed/engines").requires.delete("ejs");
+    requires.delete("ejs");
   });
   afterEach(() => PlatformTest.reset());
   afterEach(() => sandbox.restore());

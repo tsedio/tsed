@@ -1,4 +1,6 @@
-import {Context, Inject, Middleware} from "@tsed/common";
+import {Inject} from "@tsed/di";
+import {Middleware} from "@tsed/platform-middlewares";
+import {Context} from "@tsed/common";
 import {ProtocolsService} from "../services/ProtocolsService";
 import {getProtocolsFromRequest} from "../utils/getProtocolsFromRequest";
 

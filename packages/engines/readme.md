@@ -212,7 +212,7 @@ requires.get("nunjucks").addFilter("foo", () => {
 });
 ```
 
-## Implement you own engine
+## Implement your own engine
 
 `@tsed/engines` let you register your own engine by using the `@ViewEngine` decorator. Here an is example of
 pug engine implementation:
