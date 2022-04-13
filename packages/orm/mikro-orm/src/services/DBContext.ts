@@ -22,13 +22,6 @@ export class DBContext {
     return this.storage.getStore();
   }
 
-  /**
-   * @deprecated Since 2022-02-01. Use {@link entries} instead
-   */
-  public getContext(): Map<string, EntityManager> | undefined {
-    return this.entries();
-  }
-
   public get(contextName: string): EntityManager | undefined {
     const context = this.entries();
 
