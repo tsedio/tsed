@@ -42,5 +42,8 @@
     "@tsed/core": "6.112.0",
     "@tsed/di": "6.112.0"
   },
-  "peerDependencies": {}
+  "peerDependencies": {},
+  "publishConfig": {
+    "tag": "deprecated"
+  }
 }
