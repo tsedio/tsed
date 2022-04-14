@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-test-utils",
-  "version": "7.0.0-beta.6",
+  "version": "7.0.0-beta.7",
   "description": "Integration packages",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -8,9 +8,9 @@
     "start": "ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
-    "@tsed/common": "7.0.0-beta.6",
-    "@tsed/core": "7.0.0-beta.6",
-    "@tsed/di": "7.0.0-beta.6"
+    "@tsed/common": "7.0.0-beta.7",
+    "@tsed/core": "7.0.0-beta.7",
+    "@tsed/di": "7.0.0-beta.7"
   },
   "private": true,
   "devDependencies": {},
