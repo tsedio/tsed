@@ -200,7 +200,7 @@ export class MyMiddleware {
 }
 ```
 
-## AsyncHook context <Badge text="v6.26.0" />
+## AsyncHook context
 
 Inject @@PlatformContext@@ from a controller and forward the context to another service could be a pain point. See
 example:
@@ -229,26 +229,30 @@ export class AsyncHookCtrl {
 }
 ```
 
-Since v6.26.0, a new package is available to simplify the way to get the @@PlatformContext@@ directly from a Service
-called by a controller.
+Since `v6.26.0`, Ts.ED provide a way to get the @@PlatformContext@@ directly from a Service
+called by a controller, using the [`AsyncLocalStorage`](https://nodejs.org/docs/latest-v14.x/api/async_hooks.html#async_hooks_class_asynclocalstorage) provided by Node.js.
 
-This feature uses an experimental Node.js
-feature [`AsyncLocalStorage`](https://nodejs.org/docs/latest-v14.x/api/async_hooks.html#async_hooks_class_asynclocalstorage)
-which is only available from v13.10.0. So, to avoid a breaking change, you have to install
-the `@tsed/async-hook-context` package if your environment have the required Node.js version.
+This feature is experimental but in reality, the API is stable and the benefit to use it is here!
+
+If you have a Ts.ED version under v6.113.0, you have to install the `@tsed/async-hook-context` package if your environment have the required Node.js (v13+) version.
 
 ```bash
 npm install --save @tsed/async-hook-context
 ```
 
-With this package, you can inject directly the @@PlatformContext@@ in the service without injecting it in the
+Since `v6.113.0`, the [`AsyncLocalStorage`](https://nodejs.org/docs/latest-v14.x/api/async_hooks.html#async_hooks_class_asynclocalstorage) is automatically enabled.
+
+With this feature, you can inject directly the @@PlatformContext@@ in the service without injecting it in the
 controller:
 
 ```typescript
+import {Injectable, Controller, runInContext, InjectContext} from "@tsed/di";
+import {PlatformContext} from "@tsed/common";
+
 @Injectable()
 export class CustomRepository {
   @InjectContext()
-  $ctx?: PlatformContext;
+  protected $ctx?: PlatformContext;
 
   async findById(id: string) {
     this.ctx?.logger.info("Where are in the repository");
@@ -275,9 +279,8 @@ export class AsyncHookCtrl {
 To run a method with context in your unit test, you can use the @@PlatformAsyncHookContext@@.
 
 ```typescript
-import {Injectable} from "@tsed/di";
+import {Injectable, runInContext, InjectContext} from "@tsed/di";
 import {PlatformContext} from "@tsed/common";
-import {InjectContext, PlatformAsyncHookContext} from "@tsed/async-hook-context";
 
 @Injectable()
 export class CustomRepository {
@@ -306,7 +309,7 @@ describe("CustomRepository", () => {
       "x-api": "api"
     };
 
-    const result = await PlatformAsyncHookContext.run(ctx, () => service.findById("id"));
+    const result = await runInContext(ctx, () => service.findById("id"));
 
     expect(result).toEqual({
       id: "id",

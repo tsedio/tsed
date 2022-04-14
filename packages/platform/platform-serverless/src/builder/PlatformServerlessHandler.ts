@@ -1,5 +1,5 @@
 import {AnyPromiseResult, AnyToPromise, isSerializable} from "@tsed/core";
-import {BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderScope, TokenProvider} from "@tsed/di";
+import {BaseContext, Inject, Injectable, InjectorService, LazyInject, ProviderScope, runInContext, TokenProvider} from "@tsed/di";
 import {serialize} from "@tsed/json-mapper";
 import {DeserializerPipe, PlatformParams, ValidationPipe} from "@tsed/platform-params";
 import type {PlatformExceptions} from "@tsed/platform-exceptions";
@@ -29,7 +29,7 @@ export class PlatformServerlessHandler {
     return async ($ctx: ServerlessContext) => {
       await this.injector.emit("$onRequest", $ctx);
 
-      await this.injector.runInContext($ctx, async () => {
+      await runInContext($ctx, async () => {
         try {
           const resolver = new AnyToPromise();
           const handler = await promisedHandler;
