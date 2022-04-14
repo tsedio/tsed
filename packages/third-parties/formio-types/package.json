@@ -1,6 +1,6 @@
 {
   "name": "@tsed/formio-types",
-  "version": "7.0.0-beta.7",
+  "version": "7.0.0-beta.8",
   "description": "Formio types definition package for Ts.ED framework",
   "private": false,
   "keywords": [
