@@ -15,7 +15,7 @@ export class OidcModule {
   @Constant("PLATFORM_NAME")
   platformName: string;
 
-  @Constant("oidc.path", "/")
+  @Constant("oidc.path", "/oidc")
   basePath: string;
 
   @Inject()

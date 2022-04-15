@@ -51,7 +51,7 @@ describe("OIDC", () => {
   it("should display the OIDC login page then login", async () => {
     const authRes = await request
       .get(
-        "/auth?client_id=client_id&response_type=id_token&scope=openid+email&nonce=foobar&prompt=login&redirect_uri=http://localhost:3000"
+        "/oidc/auth?client_id=client_id&response_type=id_token&scope=openid+email&nonce=foobar&prompt=login&redirect_uri=http://localhost:3000"
       )
       .set({
         Origin: "http://0.0.0.0:8081",
@@ -74,7 +74,7 @@ describe("OIDC", () => {
       })
       .send("email=test%40test.com&password=admin");
 
-    expect(postResponse.headers.location).to.equal(`http://0.0.0.0:8081/auth/${id}`);
+    expect(postResponse.headers.location).to.equal(`http://0.0.0.0:8081/oidc/auth/${id}`);
 
     const headers = {
       Origin: "http://0.0.0.0:8081",
@@ -106,7 +106,7 @@ describe("OIDC", () => {
       Origin: "http://0.0.0.0:8081",
       Host: "0.0.0.0:8081"
     });
-    expect(JSON.parse(res.text).authorization_endpoint).to.be.equal("http://0.0.0.0:8081/auth");
+    expect(JSON.parse(res.text).authorization_endpoint).to.be.equal("http://0.0.0.0:8081/oidc/auth");
   });
 });
 
