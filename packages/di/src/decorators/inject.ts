@@ -1,6 +1,7 @@
 import {decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
 import type {InjectablePropertyOptions} from "../interfaces/InjectableProperties";
+import {getContext} from "../utils/runInContext";
 
 export function injectProperty(target: any, propertyKey: string, options: Partial<InjectablePropertyOptions>) {
   Store.from(target).merge(INJECTABLE_PROP, {
@@ -82,5 +83,29 @@ export function Inject(symbol?: any, onGet = (bean: any) => bean): Function {
       default:
         throw new UnsupportedDecoratorType(Inject, [target, propertyKey, descriptor]);
     }
+  };
+}
+
+/**
+ * Inject a context like PlatformContext or any BaseContext.
+ *
+ * ```typescript
+ * @Injectable()
+ * export class MyService {
+ *   @InjectContext()
+ *   ctx?: Context;
+ * }
+ * ```
+ *
+ * @returns {Function}
+ * @decorator
+ */
+export function InjectContext(): PropertyDecorator {
+  return (target: any, propertyKey: string): any | void => {
+    injectProperty(target, propertyKey, {
+      resolver() {
+        return () => getContext();
+      }
+    });
   };
 }

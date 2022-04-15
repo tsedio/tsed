@@ -29,6 +29,8 @@
 
 Add [Async Hook context](https://nodejs.org/api/async_hooks.html#async_hooks_class_asynclocalstorage) support in Ts.ED.
 
+> This package will be removed in v7 and integrated directly in `@tsed/di`.
+
 ## Usage
 
 Ts.ED provide an injectable [RequestContext] to get all request and response information during a request.
