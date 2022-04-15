@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-express",
-  "version": "7.0.0-beta.9",
+  "version": "7.0.0-beta.10",
   "description": "A TypeScript Framework on top of Express",
   "private": false,
   "source": "./src/index.ts",
@@ -61,11 +61,11 @@
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@tsed/common": "7.0.0-beta.9",
-    "@tsed/core": "7.0.0-beta.9",
-    "@tsed/di": "7.0.0-beta.9",
-    "@tsed/platform-test-utils": "7.0.0-beta.9",
-    "@tsed/platform-views": "7.0.0-beta.9",
+    "@tsed/common": "7.0.0-beta.10",
+    "@tsed/core": "7.0.0-beta.10",
+    "@tsed/di": "7.0.0-beta.10",
+    "@tsed/platform-test-utils": "7.0.0-beta.10",
+    "@tsed/platform-views": "7.0.0-beta.10",
     "@types/body-parser": "1.19.2",
     "@types/compression": "1.7.2",
     "@types/cookie-parser": "1.4.2",
@@ -81,14 +81,14 @@
     "method-override": "3.0.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.0.0-beta.9",
-    "@tsed/core": "^7.0.0-beta.9",
-    "@tsed/di": "^7.0.0-beta.9",
-    "@tsed/json-mapper": "^7.0.0-beta.9",
+    "@tsed/common": "^7.0.0-beta.10",
+    "@tsed/core": "^7.0.0-beta.10",
+    "@tsed/di": "^7.0.0-beta.10",
+    "@tsed/json-mapper": "^7.0.0-beta.10",
     "@tsed/logger": ">=6.1.1",
-    "@tsed/openspec": "^7.0.0-beta.9",
-    "@tsed/platform-views": "^7.0.0-beta.9",
-    "@tsed/schema": "^7.0.0-beta.9",
+    "@tsed/openspec": "^7.0.0-beta.10",
+    "@tsed/platform-views": "^7.0.0-beta.10",
+    "@tsed/schema": "^7.0.0-beta.10",
     "@types/multer": "^1.4.5",
     "body-parser": "1.19.0"
   },
