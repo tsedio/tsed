@@ -6,6 +6,7 @@ import {OnInit} from "../interfaces/OnInit";
 import {TokenProvider} from "../interfaces/TokenProvider";
 import {setLoggerLevel} from "../utils/setLoggerLevel";
 import {InjectorService} from "./InjectorService";
+import {DIContext} from "../domain/DIContext";
 
 export interface DITestInvokeOptions {
   token?: TokenProvider;
@@ -122,6 +123,14 @@ export class DITest {
    */
   static get<T = any>(target: TokenProvider, options: any = {}): T {
     return DITest.injector.get<T>(target, options)!;
+  }
+
+  static createDIContext() {
+    return new DIContext({
+      id: "id",
+      injector: DITest.injector,
+      logger: DITest.injector.logger
+    });
   }
 
   protected static configure(settings: Partial<TsED.Configuration> = {}): Partial<TsED.Configuration> {
