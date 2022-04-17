@@ -3,6 +3,7 @@ import {PlatformTest} from "@tsed/common";
 import {TypeGraphQLService} from "@tsed/typegraphql";
 import {expect} from "chai";
 import Sinon from "sinon";
+import {AuthResolver, RecipeResolver} from "../../test/app/graphql/index";
 
 const sandbox = Sinon.createSandbox();
 
@@ -74,38 +75,43 @@ describe("TypeGraphQLService", () => {
         expect(result1.server).to.deep.eq("server");
         expect(service.getSchema("key")).to.deep.eq("schema");
         expect(service.createSchema).to.have.been.calledOnceWithExactly({
-          resolvers: [],
+          resolvers: [AuthResolver, RecipeResolver],
           container: PlatformTest.injector
         });
       });
     });
   });
   describe("createDataSources", () => {
-    it(
-      "should return a function with all dataSources",
-      PlatformTest.inject([TypeGraphQLService], (service: any) => {
-        const dataSources = sandbox.stub().returns({
-          api: "api"
-        });
-        const serverConfigSources = sandbox.stub().returns({
-          api2: "api2"
-        });
+    it("should return a function with all dataSources", () => {
+      const dataSources = sandbox.stub().returns({
+        api: "api"
+      });
+      const serverConfigSources = sandbox.stub().returns({
+        api2: "api2"
+      });
 
-        const fn = service.createDataSources(dataSources, serverConfigSources);
+      const service = PlatformTest.get<TypeGraphQLService>(TypeGraphQLService);
 
-        expect(fn()).to.deep.eq({
-          api2: "api2",
-          api: "api"
-        });
-      })
-    );
-    it(
-      "should do nothing",
-      PlatformTest.inject([TypeGraphQLService], (service: any) => {
-        const fn = service.createDataSources();
+      // @ts-ignore
+      const fn = service.createDataSources(dataSources, serverConfigSources);
+      const result = fn();
 
-        expect(fn()).to.deep.eq({});
-      })
-    );
+      expect(result).to.deep.eq({
+        api2: "api2",
+        api: "api",
+        myDataSource: result.myDataSource
+      });
+    });
+    it("should do nothing", () => {
+      const service = PlatformTest.get<TypeGraphQLService>(TypeGraphQLService);
+
+      // @ts-ignore
+      const fn = service.createDataSources();
+      const result = fn();
+
+      expect(result).to.deep.eq({
+        myDataSource: result.myDataSource
+      });
+    });
   });
 });

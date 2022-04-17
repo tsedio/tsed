@@ -1,37 +1,38 @@
 import {Configuration, getConfiguration} from "@tsed/di";
 import {expect} from "chai";
 
+class MyController1 {}
+class MyController2 {}
+
 describe("getConfiguration", () => {
   it("should return configuration", () => {
     @Configuration({test: "test"})
     class MyModule {}
 
     expect(getConfiguration(MyModule)).to.deep.eq({
-      test: "test"
+      test: "test",
+      mount: {}
     });
   });
 
   it("should return configuration (2)", () => {
     @Configuration({
       mount: {
-        "/v1": ["/root1/*.ts"]
-      },
-      componentsScan: ["/root1-services/*.ts"]
+        "/v1": [MyController1]
+      }
     })
     class MyModule {}
 
     expect(
       getConfiguration(MyModule, {
         mount: {
-          "/v2": ["/root2/*.ts"]
-        },
-        componentsScan: ["/root2-services/*.ts"]
+          "/v2": [MyController2]
+        }
       })
     ).to.deep.eq({
-      componentsScan: ["/root1-services/*.ts", "/root2-services/*.ts"],
       mount: {
-        "/v1": ["/root1/*.ts"],
-        "/v2": ["/root2/*.ts"]
+        "/v1": [MyController1],
+        "/v2": [MyController2]
       }
     });
   });

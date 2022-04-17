@@ -12,18 +12,9 @@ export function mergeMount(m1: any = {}, m2: any = {}) {
 export function getConfiguration(module: Type<any>, configuration: any = {}) {
   const store = Store.from(module).get("configuration") || {};
 
-  const config = {
+  return {
     ...store,
-    ...configuration
+    ...configuration,
+    mount: mergeMount(store.mount, configuration.mount)
   };
-
-  if (store.mount && configuration.mount) {
-    config.mount = mergeMount(store.mount, configuration.mount);
-  }
-
-  if (store.componentsScan && configuration.componentsScan) {
-    config.componentsScan = [...store.componentsScan, ...configuration.componentsScan];
-  }
-
-  return config;
 }

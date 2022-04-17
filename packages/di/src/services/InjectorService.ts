@@ -299,17 +299,12 @@ export class InjectorService extends Container {
    * Build all providers from given container (or GlobalProviders) and emit `$onInit` event.
    *
    * @param container
-   * @param rootModule
    */
-  async load(container: Container = createContainer(), rootModule?: TokenProvider): Promise<LocalsContainer<any>> {
+  async load(container: Container = createContainer()): Promise<LocalsContainer<any>> {
     this.bootstrap(container);
 
     // build async and sync provider
     let locals = await this.loadAsync();
-
-    if (rootModule) {
-      await this.invoke(rootModule);
-    }
 
     // load sync provider
     locals = this.loadSync(locals);
