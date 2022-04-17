@@ -3,13 +3,14 @@ import {expect} from "chai";
 import {getConfiguration} from "./getConfiguration";
 import {Env} from "@tsed/core";
 
+class MyCtrl {}
+
 describe("getConfiguration()", () => {
   it("should return configuration (2)", () => {
     @Configuration({
       mount: {
-        "/v1": ["/root1/*.ts"]
-      },
-      componentsScan: ["/root1-services/*.ts"]
+        "/v1": [MyCtrl]
+      }
     })
     class MyModule {}
 
@@ -17,17 +18,14 @@ describe("getConfiguration()", () => {
       getConfiguration(
         {
           mount: {
-            "/v2": ["/root2/*.ts"]
-          },
-          componentsScan: ["/root2-services/*.ts"]
+            "/v2": [MyCtrl]
+          }
         },
         MyModule
       )
     ).to.deep.eq({
       $$resolved: true,
-      componentsScan: ["/root1-services/*.ts", "/root2-services/*.ts"],
       env: "test",
-      exclude: ["**/*.spec.ts", "**/*.spec.js"],
       httpPort: 8080,
       httpsPort: false,
       logger: {
@@ -37,8 +35,8 @@ describe("getConfiguration()", () => {
         logRequest: true
       },
       mount: {
-        "/v1": ["/root1/*.ts"],
-        "/v2": ["/root2/*.ts"]
+        "/v1": [MyCtrl],
+        "/v2": [MyCtrl]
       },
       scopes: {
         controller: "singleton"
@@ -53,9 +51,7 @@ describe("getConfiguration()", () => {
 
     expect(config).to.deep.eq({
       $$resolved: true,
-      componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: "test",
-      exclude: ["**/*.spec.ts", "**/*.spec.js"],
       httpPort: 8080,
       httpsPort: false,
       logger: {
@@ -64,9 +60,7 @@ describe("getConfiguration()", () => {
         level: "off",
         logRequest: true
       },
-      mount: {
-        "/rest": "${rootDir}/controllers/**/*.ts"
-      },
+      mount: {},
       scopes: {
         controller: "singleton"
       }
@@ -82,9 +76,7 @@ describe("getConfiguration()", () => {
 
     expect(config).to.deep.eq({
       $$resolved: true,
-      componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: Env.PROD,
-      exclude: ["**/*.spec.ts", "**/*.spec.js"],
       httpPort: 8080,
       httpsPort: false,
       logger: {
@@ -93,9 +85,7 @@ describe("getConfiguration()", () => {
         level: "info",
         logRequest: true
       },
-      mount: {
-        "/rest": "${rootDir}/controllers/**/*.ts"
-      },
+      mount: {},
       scopes: {
         controller: "singleton"
       }
@@ -120,9 +110,7 @@ describe("getConfiguration()", () => {
 
     expect(config).to.deep.eq({
       $$resolved: true,
-      componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: Env.PROD,
-      exclude: ["**/*.spec.ts", "**/*.spec.js"],
       httpPort: 8080,
       httpsPort: false,
       logger: {
@@ -155,9 +143,7 @@ describe("getConfiguration()", () => {
 
     expect(config).to.deep.eq({
       $$resolved: true,
-      componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: Env.PROD,
-      exclude: ["**/*.spec.ts", "**/*.spec.js"],
       httpPort: 8080,
       httpsPort: false,
       logger: {

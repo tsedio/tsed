@@ -6,7 +6,7 @@ export class PlatformTestUtils {
   protected constructor(private options: PlatformTestOptions) {}
 
   static create(options: PlatformTestOptions) {
-    return new PlatformTestUtils({disableComponentsScan: true, ...options});
+    return new PlatformTestUtils(options);
   }
 
   test(name: string, options: any = {}) {

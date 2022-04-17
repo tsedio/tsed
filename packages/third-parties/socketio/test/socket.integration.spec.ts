@@ -30,7 +30,6 @@ describe("Socket integration: default path", () => {
       platform: PlatformExpress,
       listen: true,
       httpPort: 8999,
-      componentsScan: [],
       mount: {},
       disableComponentScan: true,
       imports: [TestWS]
@@ -66,9 +65,7 @@ describe("Socket integration: custom path", () => {
       platform: PlatformExpress,
       listen: true,
       httpPort: 8999,
-      componentsScan: [],
       mount: {},
-      disableComponentScan: true,
       imports: [TestWS],
       socketIO: {path: CUSTOM_WS_PATH}
     })

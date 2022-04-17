@@ -174,7 +174,6 @@ describe("PlatformBuilder", () => {
 
       expect(PlatformBuilder.build).to.have.been.calledWithExactly(ServerModule, {
         adapter: {},
-        disableComponentsScan: true,
         httpPort: false,
         httpsPort: false
       });
@@ -256,7 +255,7 @@ describe("PlatformBuilder", () => {
       server.addComponents(MyClass);
 
       // THEN
-      expect(normalizePath(server.injector.settings.componentsScan)).to.include(MyClass);
+      expect(server.injector.settings.imports).to.deep.eq([HealthModule, MyClass]);
     });
   });
   describe("addControllers", () => {

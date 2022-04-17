@@ -112,8 +112,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     return this.build(module, {
       httpsPort: false,
       httpPort: false,
-      ...settings,
-      disableComponentsScan: true
+      ...settings
     });
   }
 
@@ -130,15 +129,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
    * @param settings
    */
   static async bootstrap<App = TsED.Application, Router = TsED.Router>(module: Type<any>, settings: PlatformBuilderSettings<App, Router>) {
-    const configuration = getConfiguration(settings, module);
-    const disableComponentsScan = configuration.disableComponentsScan || !!process.env.WEBPACK;
-
-    if (!disableComponentsScan) {
-      const {importProviders} = await import("@tsed/components-scan");
-      await importProviders(configuration);
-    }
-
-    return this.build<App, Router>(module, configuration).bootstrap();
+    return this.build<App, Router>(module, settings).bootstrap();
   }
 
   callback(): (req: IncomingMessage, res: ServerResponse) => void;
@@ -158,10 +149,9 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   /**
    * Add classes to the components list
    * @param classes
-   * @deprecated
    */
-  public addComponents(classes: any | any[]) {
-    this.settings.componentsScan = this.settings.componentsScan.concat(classes);
+  public addComponents(classes: Type | Type[]) {
+    this.settings.imports = this.settings.imports.concat(classes);
 
     return this;
   }

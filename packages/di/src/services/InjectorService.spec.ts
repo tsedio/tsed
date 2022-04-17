@@ -570,22 +570,21 @@ describe("InjectorService", () => {
       });
     });
   });
-  describe("load()", () => {
+  describe("loadModule()", () => {
     it("should load DI with a rootModule", async () => {
       // GIVEN
       @Injectable()
       class RootModule {}
-      const token = class Test {};
 
+      const token = class Test {};
       const provider = new Provider<any>(token);
+
       provider.scope = ProviderScope.SINGLETON;
       provider.deps = [InjectorService];
 
       const injector = new InjectorService();
-      const container = new Container();
-      container.set(token, provider);
 
-      await injector.load(container, RootModule);
+      await injector.loadModule(RootModule);
 
       expect(injector.get(RootModule)).to.be.instanceof(RootModule);
     });

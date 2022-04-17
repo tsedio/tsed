@@ -83,20 +83,6 @@ export class PlatformConfiguration extends DIConfiguration {
     this.setRaw("mount", value);
   }
 
-  /**
-   * @deprecated
-   */
-  get componentsScan(): string[] {
-    return this.resolve(this.getRaw("componentsScan"));
-  }
-
-  /**
-   * @deprecated
-   */
-  set componentsScan(value: string[]) {
-    this.setRaw("componentsScan", value);
-  }
-
   get statics(): Record<string, (any | string)[]> {
     return this.getRaw("statics") || this.getRaw("serveStatic") || {};
   }
@@ -159,14 +145,6 @@ export class PlatformConfiguration extends DIConfiguration {
         }
       });
     }
-  }
-
-  get exclude() {
-    return this.get("exclude");
-  }
-
-  set exclude(exclude: string[]) {
-    this.setRaw("exclude", exclude);
   }
 
   get additionalProperties() {

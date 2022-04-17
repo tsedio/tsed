@@ -31,11 +31,7 @@ describe("PlatformConfiguration", () => {
         errors: {
           headerName: "errors"
         },
-        mount: {
-          "/rest": "${rootDir}/controllers/**/*.ts"
-        },
-        exclude: ["**/*.spec.ts", "**/*.spec.js"],
-        componentsScan: ["${rootDir}/controllers/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/converters/**/*.ts"],
+        mount: {},
         controllerScope: ProviderScope.SINGLETON
       }).forEach(([key, value]) => {
         settings[key] = value;
@@ -48,7 +44,7 @@ describe("PlatformConfiguration", () => {
       settings.version = "1.0.0";
       settings.httpsOptions = {test: "/rest"} as any;
       settings.acceptMimes = ["application/json"];
-      settings.statics = {"/": "/publics"};
+      settings.statics = {"/": "/public"};
       settings.routers = {mergeParams: true};
       settings.exclude = ["./**/*.spec.ts"];
       settings.debug = true;
@@ -107,14 +103,6 @@ describe("PlatformConfiguration", () => {
       expect(settings.getBestHost().toString()).to.equal("https://address:8080");
     });
 
-    it("should return componentsScan", () => {
-      expect(settings.componentsScan).to.be.an("array");
-    });
-
-    it("should return mount", () => {
-      expect(settings.mount["/rest"]).to.be.a("string");
-    });
-
     it("should return httpsOptions", () => {
       expect((settings.httpsOptions as any).test).to.equal("/rest");
     });
@@ -124,7 +112,7 @@ describe("PlatformConfiguration", () => {
     });
 
     it("should return statics", () => {
-      expect(settings.statics).to.deep.equal({"/": "/publics"});
+      expect(settings.statics).to.deep.equal({"/": "/public"});
     });
 
     describe("debug", () => {
