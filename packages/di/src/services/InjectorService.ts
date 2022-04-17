@@ -300,6 +300,24 @@ export class InjectorService extends Container {
   }
 
   /**
+   * Load injector from a given module
+   * @param rootModule
+   */
+  loadModule(rootModule: TokenProvider) {
+    this.settings.set("routes", resolveControllers(this.settings));
+
+    const container = createContainer();
+    container.delete(rootModule);
+
+    container.addProvider(rootModule, {
+      type: "server:module",
+      scope: ProviderScope.SINGLETON
+    });
+
+    return this.load(container);
+  }
+
+  /**
    * Build all providers from given container (or GlobalProviders) and emit `$onInit` event.
    *
    * @param container
@@ -336,10 +354,13 @@ export class InjectorService extends Container {
     super.forEach((provider) => {
       if (provider.configuration && provider.type !== "server:module") {
         Object.entries(provider.configuration).forEach(([key, value]) => {
-          value = mergedConfiguration.has(key) ? deepMerge(mergedConfiguration.get(key), value) : deepClone(value);
-          mergedConfiguration.set(key, value);
+          if (!["resolvers", "mount", "imports"].includes(key)) {
+            value = mergedConfiguration.has(key) ? deepMerge(mergedConfiguration.get(key), value) : deepClone(value);
+            mergedConfiguration.set(key, value);
+          }
         });
       }
+
       if (provider.resolvers) {
         this.resolvers.push(...provider.resolvers);
       }
