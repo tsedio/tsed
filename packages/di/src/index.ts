@@ -50,5 +50,6 @@ export * from "./services/InjectorService";
 export * from "./utils/colors";
 export * from "./utils/createContainer";
 export * from "./utils/getConfiguration";
+export * from "./utils/resolveControllers";
 export * from "./utils/runInContext";
 export * from "./utils/setLoggerLevel";
