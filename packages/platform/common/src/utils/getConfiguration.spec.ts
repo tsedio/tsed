@@ -24,6 +24,7 @@ describe("getConfiguration()", () => {
         MyModule
       )
     ).to.deep.eq({
+      $$resolved: true,
       componentsScan: ["/root1-services/*.ts", "/root2-services/*.ts"],
       env: "test",
       exclude: ["**/*.spec.ts", "**/*.spec.js"],
@@ -51,6 +52,7 @@ describe("getConfiguration()", () => {
     const config = getConfiguration({}, App);
 
     expect(config).to.deep.eq({
+      $$resolved: true,
       componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: "test",
       exclude: ["**/*.spec.ts", "**/*.spec.js"],
@@ -79,6 +81,7 @@ describe("getConfiguration()", () => {
     const config = getConfiguration({}, App);
 
     expect(config).to.deep.eq({
+      $$resolved: true,
       componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: Env.PROD,
       exclude: ["**/*.spec.ts", "**/*.spec.js"],
@@ -116,6 +119,7 @@ describe("getConfiguration()", () => {
     );
 
     expect(config).to.deep.eq({
+      $$resolved: true,
       componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: Env.PROD,
       exclude: ["**/*.spec.ts", "**/*.spec.js"],
@@ -146,9 +150,11 @@ describe("getConfiguration()", () => {
     })
     class App {}
 
-    const config = getConfiguration({}, App);
+    let config = getConfiguration({}, App);
+    config = getConfiguration(config, App);
 
     expect(config).to.deep.eq({
+      $$resolved: true,
       componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: Env.PROD,
       exclude: ["**/*.spec.ts", "**/*.spec.js"],

@@ -6,6 +6,7 @@
     "packages/security/*/src/**/*.ts"
   ],
   "exclude": [
+    "**/__mock__/**",
     "**/*.d.ts",
     "node_modules",
     "packages/**/*.spec.ts",
