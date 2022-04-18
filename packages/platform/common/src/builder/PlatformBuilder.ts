@@ -1,5 +1,5 @@
 import {nameOf, Type} from "@tsed/core";
-import {colors, createContainer, InjectorService, ProviderOpts, ProviderScope, setLoggerLevel} from "@tsed/di";
+import {colors, InjectorService, ProviderOpts, setLoggerLevel, TokenProvider} from "@tsed/di";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
@@ -9,7 +9,6 @@ import {Route} from "../interfaces/Route";
 import {getConfiguration} from "../utils/getConfiguration";
 import type {IncomingMessage, Server, ServerResponse} from "http";
 import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter";
-import {importProviders} from "../utils/importProviders";
 import {createInjector} from "../utils/createInjector";
 import {GlobalAcceptMimesMiddleware} from "../middlewares/GlobalAcceptMimesMiddleware";
 import {printRoutes} from "../utils/printRoutes";
@@ -35,10 +34,11 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
 
   protected constructor(adapter: Type<PlatformAdapter<App, Router>> | undefined, module: Type, settings: Partial<TsED.Configuration>) {
     this.#rootModule = module;
+
+    const configuration = getConfiguration(settings, module);
     const adapterKlass: Type<PlatformAdapter<App, Router>> = adapter || (PlatformBuilder.adapter as any);
     const name = nameOf(adapterKlass).replace("Platform", "").toLowerCase();
 
-    const configuration = getConfiguration(settings, module);
     configuration.PLATFORM_NAME = name;
     this.name = name;
 
@@ -131,7 +131,15 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
    * @param settings
    */
   static async bootstrap<App = TsED.Application, Router = TsED.Router>(module: Type<any>, settings: PlatformBuilderSettings<App, Router>) {
-    return this.build<App, Router>(module, settings).bootstrap();
+    const configuration = getConfiguration(settings, module);
+    const disableComponentsScan = configuration.disableComponentsScan || !!process.env.WEBPACK;
+
+    if (!disableComponentsScan) {
+      const {importProviders} = await import("@tsed/components-scan");
+      await importProviders(configuration);
+    }
+
+    return this.build<App, Router>(module, configuration).bootstrap();
   }
 
   callback(): (req: IncomingMessage, res: ServerResponse) => void;
@@ -151,6 +159,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   /**
    * Add classes to the components list
    * @param classes
+   * @deprecated
    */
   public addComponents(classes: any | any[]) {
     this.settings.componentsScan = this.settings.componentsScan.concat(classes);
@@ -178,14 +187,15 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
    * @param {string} endpoint
    * @param {any[]} controllers
    */
-  public addControllers(endpoint: string, controllers: any | string | (any | string)[]) {
-    this.settings.mount[endpoint] = (this.settings.mount[endpoint] || []).concat(controllers);
+  public addControllers(endpoint: string, controllers: TokenProvider | TokenProvider[]) {
+    [].concat(controllers).forEach((token) => {
+      this.settings.routes.push({token, route: endpoint});
+    });
   }
 
   public async runLifecycle() {
     setLoggerLevel(this.injector);
 
-    await this.importProviders();
     await this.loadInjector();
 
     this.#adapter.useContext && this.#adapter.useContext();
@@ -201,14 +211,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     const {injector} = this;
     this.log("Build providers");
 
-    const container = createContainer();
-
-    container.addProvider(this.#rootModule, {
-      type: "server:module",
-      scope: ProviderScope.SINGLETON
-    });
-
-    await injector.load(container);
+    await injector.loadModule(this.#rootModule);
 
     this.log("Settings and injector loaded...");
 
@@ -325,16 +328,6 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     const ms = colors.yellow(`+${new Date().getTime() - this.current.getTime()}ms`);
     this.current = new Date();
     return ms;
-  }
-
-  protected async importProviders() {
-    this.injector.logger.debug("Scan components");
-
-    const providers = await importProviders(this.injector.settings, ["imports", "mount", "componentsScan"]);
-    const routes = providers.filter((provider) => !!provider.route).map(({route, token}) => ({route, token}));
-
-    this.settings.set("routes", routes);
-    this.log("Providers loaded...");
   }
 
   /**

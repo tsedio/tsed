@@ -6,6 +6,7 @@
     "packages/security/*/src/**/*.ts"
   ],
   "exclude": [
+    "**/__mock__/**",
     "**/*.d.ts",
     "node_modules",
     "packages/**/*.spec.ts",
@@ -48,5 +49,5 @@
   "lines": 99.69,
   "statements": 99.63,
   "functions": 98.84,
-  "branches": 87.05
+  "branches": 86.99
 }

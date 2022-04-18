@@ -88,7 +88,7 @@ describe("DIConfiguration", () => {
     it("ownKeys", () => {
       const configuration = new DIConfiguration();
       configuration.test = "test";
-      expect(Reflect.ownKeys(configuration)).to.deep.eq(["default", "map", "scopes", "resolvers", "imports", "test"]);
+      expect(Reflect.ownKeys(configuration)).to.deep.eq(["default", "map", "scopes", "resolvers", "imports", "routes", "test"]);
     });
 
     it("defineProperty", () => {

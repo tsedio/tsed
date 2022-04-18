@@ -41,6 +41,7 @@ export * from "./interfaces/ProviderOpts";
 export * from "./interfaces/RegistrySettings";
 export * from "./interfaces/ResolvedInvokeOptions";
 export * from "./interfaces/TokenProvider";
+export * from "./interfaces/TokenRoute";
 export * from "./registries/GlobalProviders";
 export * from "./registries/ProviderRegistry";
 export * from "./services/DIConfiguration";

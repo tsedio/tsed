@@ -34,6 +34,7 @@ import {InjectablePropertyType} from "../domain/InjectablePropertyType";
 import {InterceptorContext} from "../interfaces/InterceptorContext";
 import {InterceptorMethods} from "../interfaces/InterceptorMethods";
 import {runInContext} from "../utils/runInContext";
+import {resolveControllers} from "../utils/resolveControllers";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -304,7 +305,7 @@ export class InjectorService extends Container {
    * @param rootModule
    */
   loadModule(rootModule: TokenProvider) {
-    this.settings.set("routes", resolveControllers(this.settings));
+    this.settings.routes = this.settings.routes.concat(resolveControllers(this.settings));
 
     const container = createContainer();
     container.delete(rootModule);
