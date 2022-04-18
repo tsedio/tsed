@@ -11,7 +11,7 @@ import {resolveControllers} from "./resolveControllers";
 @Controller("/root")
 class TestCtrl {}
 
-describe("importProviders", () => {
+describe("resolveControllers", () => {
   it("should load providers and merge configuration", async () => {
     const configuration = {
       mount: {
@@ -21,8 +21,9 @@ describe("importProviders", () => {
     };
 
     const result = resolveControllers(configuration);
+    const routes = result.map((item) => ({...item, token: nameOf(item.token)}));
 
-    expect(result.map((item) => ({...item, token: nameOf(item.token)}))).to.deep.eq([
+    expect(routes).to.deep.eq([
       {
         route: "/m1",
         token: "M1Ctrl1"

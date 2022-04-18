@@ -15,6 +15,10 @@ declare global {
        * Define dependencies to build the provider
        */
       imports: TokenProvider[];
+      /**
+       * Mount controllers
+       */
+      mount: Record<string, TokenProvider[]>;
 
       [key: string]: any;
     }

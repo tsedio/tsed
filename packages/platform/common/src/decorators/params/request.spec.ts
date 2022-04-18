@@ -1,4 +1,4 @@
-import {ParamTypes, PlatformRequest} from "@tsed/common";
+import {ParamTypes, PlatformRequest, Request} from "@tsed/common";
 import {expect} from "chai";
 import {IncomingMessage} from "http";
 import {Req} from "./request";
@@ -7,7 +7,7 @@ import {JsonParameterStore} from "@tsed/schema";
 describe("@Req", () => {
   it("should register a new parameter instance with the correct property (RawRequest)", () => {
     class Ctrl {
-      test(@Req() arg: Req) {}
+      test(@Request() arg: Req) {}
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);

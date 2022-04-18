@@ -3,6 +3,7 @@ import {TokenProvider} from "../interfaces/TokenProvider";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {ProviderType} from "../domain/ProviderType";
 import {Provider} from "../domain/Provider";
+import {TokenRoute} from "../interfaces/TokenRoute";
 
 const lookupProperties = ["mount", "imports"];
 
@@ -43,7 +44,7 @@ function resolveRecursively(providers: {token: TokenProvider; route?: string}[])
  *
  * @param settings
  */
-export function resolveControllers(settings: Partial<TsED.Configuration>): {token: string; route: string}[] {
+export function resolveControllers(settings: Partial<TsED.Configuration>): TokenRoute[] {
   const providers = lookupProperties.flatMap((property) => getTokens(settings[property]));
 
   return [...resolveRecursively(providers), ...providers].filter((provider) => !!provider.route) as any[];

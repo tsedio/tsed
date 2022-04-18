@@ -5,5 +5,6 @@
 export * from "./cleanGlobPatterns";
 export * from "./importComponents";
 export * from "./importFiles";
+export * from "./importProviders";
 export * from "./isTsEnv";
 export * from "./normalizePath";

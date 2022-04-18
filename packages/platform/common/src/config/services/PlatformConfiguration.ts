@@ -1,9 +1,8 @@
 import {Env, getHostInfoFromPort} from "@tsed/core";
-import {DIConfiguration, Injectable, ProviderScope} from "@tsed/di";
+import {DIConfiguration, Injectable, ProviderScope, TokenProvider} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import Https from "https";
 import {ConverterSettings} from "../interfaces/ConverterSettings";
-import {EndpointDirectoriesSettings} from "../interfaces/EndpointDirectoriesSettings";
 import {PlatformLoggerSettings} from "../interfaces/PlatformLoggerSettings";
 
 const rootDir = process.cwd();
@@ -76,27 +75,33 @@ export class PlatformConfiguration extends DIConfiguration {
     this.setRaw("env", value);
   }
 
-  get mount(): EndpointDirectoriesSettings {
+  get mount(): Record<string, TokenProvider[]> {
     return this.get("mount");
   }
 
-  set mount(value: EndpointDirectoriesSettings) {
+  set mount(value: Record<string, TokenProvider[]>) {
     this.setRaw("mount", value);
   }
 
+  /**
+   * @deprecated
+   */
   get componentsScan(): string[] {
     return this.resolve(this.getRaw("componentsScan"));
   }
 
+  /**
+   * @deprecated
+   */
   set componentsScan(value: string[]) {
     this.setRaw("componentsScan", value);
   }
 
-  get statics(): EndpointDirectoriesSettings {
+  get statics(): Record<string, (any | string)[]> {
     return this.getRaw("statics") || this.getRaw("serveStatic") || {};
   }
 
-  set statics(value: EndpointDirectoriesSettings) {
+  set statics(value: Record<string, (any | string)[]>) {
     this.setRaw("statics", value);
   }
 
