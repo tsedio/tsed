@@ -1,7 +1,8 @@
 import isMatch from "lodash/isMatch";
-import low from "lowdb";
+import {Low, LowSync} from "lowdb";
 import {v4 as uuid} from "uuid";
 import {Adapter} from "../domain/Adapter";
+import _ from "lodash";
 
 export interface AdapterModel {
   _id: string;
@@ -10,11 +11,18 @@ export interface AdapterModel {
   [key: string]: any;
 }
 
+export interface LowModel<T> {
+  collection: T[];
+  collectionName?: string;
+  modelName?: string;
+}
+
 export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
-  protected db: low.LowdbSync<{collection: T[]}>;
+  protected db: LowSync<LowModel<T>>| Low<LowModel<T>> ;
 
   get collection() {
-    return this.db.get("collection");
+    // return this.db.get("collection");
+    return this.db.data?.collection!;
   }
 
   protected get dbFilePath() {
@@ -31,7 +39,8 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
 
     await this.validate(payload as T);
 
-    await this.collection.push(payload as T).write();
+    this.collection.push(payload as T);
+    this.db.write();
 
     return this.deserialize(payload);
   }
@@ -43,7 +52,8 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
       payload = {...payload, _id: id || uuid(), expires_at: expiresAt};
 
       await this.validate(payload as T);
-      await this.collection.push(payload as T).write();
+      this.collection.push(payload as T);
+      this.db.write();
 
       return this.deserialize(payload);
     }
@@ -56,13 +66,13 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
   }
 
   public async updateOne(predicate: Partial<T & any>, payload: T, expiresAt?: Date): Promise<T | undefined> {
-    let index = this.collection.findIndex(predicate).value();
+    let index = _.findIndex(this.collection, predicate);
 
     if (index === -1) {
       return;
     }
 
-    let item = this.collection.get(index).value();
+    let item = this.collection[index];
 
     item = {
       _id: item._id,
@@ -71,13 +81,14 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
     };
 
     await this.validate(item as T);
-    await this.collection.set(index, item).write();
+    this.collection[index] = item;
+    this.db.write();
 
     return this.deserialize(item);
   }
 
   async findOne(predicate: Partial<T & any>): Promise<T | undefined> {
-    const item = this.collection.find(predicate).value();
+    const item = _.find(this.collection, predicate);
 
     return this.deserialize(item);
   }
@@ -87,17 +98,14 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
   }
 
   public async findAll(predicate: Partial<T & any> = {}): Promise<T[]> {
-    return this.collection
-      .filter(predicate)
-      .value()
-      .map((item) => this.deserialize(item));
+    return _.filter(this.collection, predicate).map((item) => this.deserialize(item));
   }
 
   public async deleteOne(predicate: Partial<T & any>): Promise<T | undefined> {
-    const item = this.collection.find(predicate).value();
+    const item = _.find<T>(this.collection, predicate);
 
     if (item) {
-      this.collection.remove(({_id}) => _id === item._id).write();
+      _.remove(this.collection, ({_id}) => _id === item._id);
 
       return this.deserialize(item);
     }
@@ -110,15 +118,14 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
   public async deleteMany(predicate: Partial<T>): Promise<T[]> {
     let removedItems: T[] = [];
 
-    await this.collection
-      .remove((item) => {
-        if (isMatch(item, predicate)) {
-          removedItems.push(this.deserialize(item));
-          return true;
-        }
-        return false;
-      })
-      .write();
+    _.remove(this.collection, (item) => {
+      if (isMatch(item, predicate)) {
+        removedItems.push(this.deserialize(item));
+        return true;
+      }
+      return false;
+    });
+    this.db.write();
 
     return removedItems;
   }

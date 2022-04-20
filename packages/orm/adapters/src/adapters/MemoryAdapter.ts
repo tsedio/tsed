@@ -1,19 +1,18 @@
 import {Configuration, Injectable, Opts, ProviderScope, Scope} from "@tsed/di";
-import low from "lowdb";
-import Memory from "lowdb/adapters/Memory";
-import {AdapterModel, LowDbAdapter} from "./LowDbAdapter";
+import {Low, Memory} from "lowdb";
+import {AdapterModel, LowDbAdapter, LowModel} from "./LowDbAdapter";
 
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
 export class MemoryAdapter<T extends AdapterModel> extends LowDbAdapter<T> {
   constructor(@Opts options: any, @Configuration() configuration: Configuration) {
     super(options, configuration);
-
-    this.db = low(new Memory<{collection: T[]}>(this.dbFilePath));
-    this.db
-      .defaults({
+    
+    this.db = new Low(new Memory<LowModel<T>>());
+    this.db.data ||=
+      {
         collection: []
-      })
-      .write();
+      }
+      this.db.write();
   }
 }
