@@ -1,6 +1,8 @@
 name: Links
 
-on: [push]
+on: 
+  schedule:
+  - cron: "11 30 * * 5"
 
 jobs:
   linkChecker:
