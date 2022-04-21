@@ -178,7 +178,14 @@ describe("PlatformCacheInterceptor", () => {
 
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      expect(cache.setCachedObject).toHaveBeenCalledWith("Test:test:value", {data: "refreshed"}, {args: ["value"], ttl: 10000});
+      expect(cache.setCachedObject).toHaveBeenCalledWith(
+        "Test:test:value",
+        {data: "refreshed"},
+        {
+          args: ["value"],
+          ttl: 10000
+        }
+      );
     });
     it("should call the endpoint and cache the response", async () => {
       const cache = {
@@ -241,6 +248,56 @@ describe("PlatformCacheInterceptor", () => {
       );
       expect(result).toEqual({
         data: "data"
+      });
+    });
+    it("should catch and log error", async () => {
+      const cache = {
+        get: jest.fn().mockResolvedValue(false),
+        set: jest.fn().mockResolvedValue(false),
+        del: jest.fn().mockResolvedValue(true),
+        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
+        getCachedObject: jest.fn().mockResolvedValue(undefined),
+        setCachedObject: jest.fn().mockResolvedValue("test"),
+        defaultKeyResolver: () => defaultKeyResolver
+      };
+      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
+        {
+          token: PlatformCache,
+          use: cache
+        }
+      ]);
+
+      class Test {
+        test(arg: string) {
+          return "";
+        }
+      }
+
+      const next = jest.fn().mockResolvedValue({
+        data: "data"
+      });
+      const context: any = {
+        target: Test,
+        propertyKey: "test",
+        args: ["value"],
+        options: {
+          ttl: 10000,
+          refreshThreshold: 1000
+        }
+      };
+
+      const error = new Error("error");
+      jest.spyOn(interceptor, "canRefreshInBackground").mockRejectedValue(error);
+      jest.spyOn((interceptor as any).logger, "error");
+
+      await interceptor.cacheMethod(context, next);
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      expect((interceptor as any).logger.error).toHaveBeenCalledWith({
+        error,
+        event: "CACHE_ERROR",
+        method: "cacheMethod"
       });
     });
   });
