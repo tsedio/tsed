@@ -33,7 +33,7 @@ import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue
 import {InjectablePropertyType} from "../domain/InjectablePropertyType";
 import {InterceptorContext} from "../interfaces/InterceptorContext";
 import {InterceptorMethods} from "../interfaces/InterceptorMethods";
-import {DIContext} from "../domain/DIContext";
+import {runInContext} from "../utils/runInContext";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -63,6 +63,7 @@ import {DIContext} from "../domain/DIContext";
 export class InjectorService extends Container {
   public settings: TsED.Configuration & DIConfiguration = new DIConfiguration() as any;
   public logger: DILogger = console;
+  public runInContext = runInContext;
   private resolvedConfiguration: boolean = false;
   #cache = new LocalsContainer();
 
@@ -519,16 +520,6 @@ export class InjectorService extends Container {
         next
       );
     };
-  }
-
-  /**
-   * Allow handler hack for AsyncHookContext plugin.
-   * @param ctx
-   * @param cb
-   * @protected
-   */
-  runInContext(ctx: DIContext, cb: any) {
-    return cb();
   }
 
   async lazyInvoke<T = any>(token: TokenProvider) {
