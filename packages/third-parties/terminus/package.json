@@ -1,6 +1,6 @@
 {
   "name": "@tsed/terminus",
-  "version": "6.113.1",
+  "version": "6.113.2",
   "description": "Adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications.",
   "author": "Emilien Leroy <emilien1005@hotmail.fr>",
   "private": false,
@@ -26,14 +26,14 @@
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@tsed/core": "6.113.1",
-    "@tsed/di": "6.113.1",
-    "@tsed/schema": "6.113.1"
+    "@tsed/core": "6.113.2",
+    "@tsed/di": "6.113.2",
+    "@tsed/schema": "6.113.2"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.113.1",
-    "@tsed/di": "^6.113.1",
-    "@tsed/schema": "^6.113.1"
+    "@tsed/core": "^6.113.2",
+    "@tsed/di": "^6.113.2",
+    "@tsed/schema": "^6.113.2"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
