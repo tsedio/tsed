@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {CollectionOf, ForwardGroups, Name, Required} from "@tsed/schema";
 import {serialize} from "@tsed/json-mapper";
 
@@ -22,7 +21,7 @@ describe("Nested list serialization", () => {
     team.name = "name";
     data.teams = [team];
 
-    expect(serialize(data, {useAlias: true})).to.deep.eq({
+    expect(serialize(data, {useAlias: true})).toEqual({
       teams: [
         {
           teamName: "name"
@@ -36,7 +35,7 @@ describe("Nested list serialization", () => {
     team.name = "name";
     data.teams = [team];
 
-    expect(serialize(data, {useAlias: true})).to.deep.eq({
+    expect(serialize(data, {useAlias: true})).toEqual({
       teams: [
         {
           teamName: "name"

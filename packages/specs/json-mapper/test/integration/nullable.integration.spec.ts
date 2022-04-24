@@ -1,6 +1,5 @@
 import {serialize} from "@tsed/json-mapper";
 import {Name, Nullable, Required} from "@tsed/schema";
-import {expect} from "chai";
 
 export class ExtensionModel {
   @Required()
@@ -31,7 +30,7 @@ describe("Nullable integration", () => {
     user.extension.name = "ext";
 
     const obj = serialize(user, {type: UserModel});
-    expect(obj).to.deep.eq({
+    expect(obj).toEqual({
       extension: {
         extNumber: "122",
         id: "2"
@@ -53,7 +52,7 @@ describe("Nullable integration", () => {
       {type: UserModel}
     );
 
-    expect(obj).to.deep.eq({
+    expect(obj).toEqual({
       extension: {
         extNumber: "123",
         id: "2"

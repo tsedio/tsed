@@ -1,6 +1,5 @@
 import {deserialize, OnSerialize, serialize} from "@tsed/json-mapper";
 import {Minimum, Name, Required} from "@tsed/schema";
-import {expect} from "chai";
 import moment from "moment";
 
 function serializeDate(date: Date) {
@@ -41,14 +40,14 @@ describe("Date mapper", () => {
       {type: ProductCalendarParameters}
     );
 
-    expect(productCalendarParameters).to.deep.eq({
+    expect(productCalendarParameters).toEqual({
       duration: 7,
       firstDate: new Date("2020-11-13T14:48:24.651Z"),
       lastDate: new Date("2020-12-13T14:48:24.652Z"),
       numberOfAdults: 2
     });
 
-    expect(serialize(productCalendarParameters)).to.deep.eq({
+    expect(serialize(productCalendarParameters)).toEqual({
       duration: 7,
       first_date: "20201113",
       last_date: "20201213",

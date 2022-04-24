@@ -1,5 +1,4 @@
 import {Property, Required} from "@tsed/schema";
-import {expect} from "chai";
 import {serialize} from "../../src";
 
 export class Menu {
@@ -54,7 +53,7 @@ describe("Menu", () => {
     menu.label = "label";
     menu.subMenus = [submenu];
 
-    expect(serialize(menu, {type: Menu})).to.deep.eq({
+    expect(serialize(menu, {type: Menu})).toEqual({
       id: "id",
       label: "label",
       subMenus: [

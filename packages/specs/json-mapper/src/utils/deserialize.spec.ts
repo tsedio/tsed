@@ -19,7 +19,6 @@ import {
   Property,
   Required
 } from "@tsed/schema";
-import {expect} from "chai";
 import faker from "@faker-js/faker";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
@@ -27,7 +26,7 @@ import {OnDeserialize} from "../decorators/onDeserialize";
 import {deserialize, plainObjectToClass} from "./deserialize";
 
 function mapToObject(value: any): any {
-  expect(value).to.be.instanceOf(Map);
+  expect(value).toBeInstanceOf(Map);
 
   return Array.from(value.entries()).reduce((obj: any, [key, value]) => {
     return {
@@ -38,7 +37,7 @@ function mapToObject(value: any): any {
 }
 
 function setToObject(value: any): any {
-  expect(value).to.be.instanceOf(Set);
+  expect(value).toBeInstanceOf(Set);
 
   return Array.from(value.values());
 }
@@ -46,44 +45,44 @@ function setToObject(value: any): any {
 describe("deserialize()", () => {
   describe("Primitive", () => {
     it("should convert value", () => {
-      expect(deserialize(null)).to.equal(null);
-      expect(deserialize(null, {type: String})).to.equal(null);
-      expect(deserialize(undefined)).to.equal(undefined);
-      expect(deserialize(false)).to.equal(false);
-      expect(deserialize(true)).to.equal(true);
-      expect(deserialize(0)).to.equal(0);
-      expect(deserialize(1)).to.equal(1);
-      expect(deserialize("")).to.equal("");
-      expect(deserialize("1")).to.equal("1");
+      expect(deserialize(null)).toEqual(null);
+      expect(deserialize(null, {type: String})).toEqual(null);
+      expect(deserialize(undefined)).toBeUndefined();
+      expect(deserialize(false)).toEqual(false);
+      expect(deserialize(true)).toEqual(true);
+      expect(deserialize(0)).toEqual(0);
+      expect(deserialize(1)).toEqual(1);
+      expect(deserialize("")).toEqual("");
+      expect(deserialize("1")).toEqual("1");
 
-      expect(deserialize(null, {type: Boolean})).to.equal(null);
-      expect(deserialize(undefined, {type: Boolean})).to.equal(undefined);
-      expect(deserialize(null, {type: Boolean})).to.equal(null);
-      expect(deserialize(undefined, {type: Boolean})).to.equal(undefined);
-      expect(deserialize(false, {type: Boolean})).to.equal(false);
-      expect(deserialize(true, {type: Boolean})).to.equal(true);
-      expect(deserialize(0, {type: Number})).to.equal(0);
-      expect(deserialize(1, {type: Number})).to.equal(1);
-      expect(deserialize("", {type: Number})).to.equal(0);
-      expect(deserialize("0", {type: Number})).to.equal(0);
-      expect(deserialize("1", {type: Number})).to.equal(1);
-      expect(deserialize("", {type: String})).to.equal("");
-      expect(deserialize("0", {type: String})).to.equal("0");
-      expect(deserialize("1", {type: String})).to.equal("1");
-      expect(deserialize(["1"], {type: String})).to.deep.equal(["1"]);
+      expect(deserialize(null, {type: Boolean})).toEqual(null);
+      expect(deserialize(undefined, {type: Boolean})).toBeUndefined();
+      expect(deserialize(null, {type: Boolean})).toEqual(null);
+      expect(deserialize(undefined, {type: Boolean})).toBeUndefined();
+      expect(deserialize(false, {type: Boolean})).toEqual(false);
+      expect(deserialize(true, {type: Boolean})).toEqual(true);
+      expect(deserialize(0, {type: Number})).toEqual(0);
+      expect(deserialize(1, {type: Number})).toEqual(1);
+      expect(deserialize("", {type: Number})).toEqual(0);
+      expect(deserialize("0", {type: Number})).toEqual(0);
+      expect(deserialize("1", {type: Number})).toEqual(1);
+      expect(deserialize("", {type: String})).toEqual("");
+      expect(deserialize("0", {type: String})).toEqual("0");
+      expect(deserialize("1", {type: String})).toEqual("1");
+      expect(deserialize(["1"], {type: String})).toEqual(["1"]);
     });
   });
   describe("Array<primitive>", () => {
     it("should transform value", () => {
       const options = {type: String, collectionType: Array};
-      expect(deserialize(null, options)).to.equal(null);
-      expect(deserialize(undefined, options)).to.equal(undefined);
-      expect(deserialize(false, options)).to.deep.equal(["false"]);
-      expect(deserialize(true, options)).to.deep.equal(["true"]);
-      expect(deserialize(0, options)).to.deep.equal(["0"]);
-      expect(deserialize(1, options)).to.deep.equal(["1"]);
-      expect(deserialize("", options)).to.deep.equal([""]);
-      expect(deserialize("1", options)).to.deep.equal(["1"]);
+      expect(deserialize(null, options)).toEqual(null);
+      expect(deserialize(undefined, options)).toBeUndefined();
+      expect(deserialize(false, options)).toEqual(["false"]);
+      expect(deserialize(true, options)).toEqual(["true"]);
+      expect(deserialize(0, options)).toEqual(["0"]);
+      expect(deserialize(1, options)).toEqual(["1"]);
+      expect(deserialize("", options)).toEqual([""]);
+      expect(deserialize("1", options)).toEqual(["1"]);
     });
     it("should cast object to array", () => {
       expect(
@@ -94,7 +93,7 @@ describe("deserialize()", () => {
             type: Object
           }
         )
-      ).to.deep.equal([{}]);
+      ).toEqual([{}]);
     });
     it("should deserialize with custom options", () => {
       const types = new Map();
@@ -113,25 +112,25 @@ describe("deserialize()", () => {
             type: Map
           }
         )
-      ).to.deep.equal("hello");
+      ).toEqual("hello");
     });
   });
   describe("Object", () => {
     it("should transform value", () => {
-      expect(deserialize({test: "test"}, {type: Object})).to.deep.equal({test: "test"});
-      expect(deserialize({test: "test"}, {type: undefined})).to.deep.equal({test: "test"});
-      expect(deserialize({test: "test"}, {type: null})).to.deep.equal({test: "test"});
-      expect(deserialize({test: "test"}, {type: false})).to.deep.equal({test: "test"});
+      expect(deserialize({test: "test"}, {type: Object})).toEqual({test: "test"});
+      expect(deserialize({test: "test"}, {type: undefined})).toEqual({test: "test"});
+      expect(deserialize({test: "test"}, {type: null})).toEqual({test: "test"});
+      expect(deserialize({test: "test"}, {type: false})).toEqual({test: "test"});
     });
   });
   describe("Map<string, primitive>", () => {
     it("should transform value", () => {
       const options = {type: String, collectionType: Map};
-      expect(deserialize(null, options)).to.equal(null);
-      expect(deserialize(undefined, options)).to.equal(undefined);
-      expect(mapToObject(deserialize(false, options))).to.deep.equal({});
-      expect(mapToObject(deserialize(true, options))).to.deep.equal({});
-      expect(mapToObject(deserialize({test: 1}, options))).to.deep.equal({
+      expect(deserialize(null, options)).toEqual(null);
+      expect(deserialize(undefined, options)).toBeUndefined();
+      expect(mapToObject(deserialize(false, options))).toEqual({});
+      expect(mapToObject(deserialize(true, options))).toEqual({});
+      expect(mapToObject(deserialize({test: 1}, options))).toEqual({
         test: "1"
       });
     });
@@ -139,11 +138,11 @@ describe("deserialize()", () => {
   describe("Set<string, primitive>", () => {
     it("should transform value", () => {
       const options = {type: String, collectionType: Set};
-      expect(deserialize(null, options)).to.equal(null);
-      expect(deserialize(undefined, options)).to.equal(undefined);
-      expect(setToObject(deserialize(false, options))).to.deep.equal([]);
-      expect(setToObject(deserialize(true, options))).to.deep.equal([]);
-      expect(setToObject(deserialize([1], options))).to.deep.equal(["1"]);
+      expect(deserialize(null, options)).toEqual(null);
+      expect(deserialize(undefined, options)).toBeUndefined();
+      expect(setToObject(deserialize(false, options))).toEqual([]);
+      expect(setToObject(deserialize(true, options))).toEqual([]);
+      expect(setToObject(deserialize([1], options))).toEqual(["1"]);
     });
   });
   describe("Unsupported collection", () => {
@@ -157,7 +156,7 @@ describe("deserialize()", () => {
         actualError = er;
       }
 
-      expect(actualError.message).to.eq("WeakMap is not supported by JsonMapper.");
+      expect(actualError.message).toEqual("WeakMap is not supported by JsonMapper.");
     });
   });
   describe("Model", () => {
@@ -197,8 +196,8 @@ describe("deserialize()", () => {
         {type: Model, additionalProperties: false}
       );
 
-      expect(result).to.be.instanceOf(Model);
-      expect(result).to.deep.eq({
+      expect(result).toBeInstanceOf(Model);
+      expect(result).toEqual({
         id: "id",
         mappedProp: "mappedProptest",
         password: "string",
@@ -218,8 +217,8 @@ describe("deserialize()", () => {
         {type: Model, additionalProperties: false}
       );
 
-      expect(result).to.be.instanceOf(Model);
-      expect(result).to.deep.eq({
+      expect(result).toBeInstanceOf(Model);
+      expect(result).toEqual({
         prop: [1, 2, 3, 5]
       });
     });
@@ -242,8 +241,8 @@ describe("deserialize()", () => {
         {type: Model, additionalProperties: false}
       );
 
-      expect(result).to.be.instanceOf(Model);
-      expect(result).to.deep.eq({
+      expect(result).toBeInstanceOf(Model);
+      expect(result).toEqual({
         prop: [1, 2, 3, 5]
       });
     });
@@ -287,8 +286,8 @@ describe("deserialize()", () => {
         {type: Model, additionalProperties: false}
       );
 
-      expect(result).to.be.instanceOf(Model);
-      expect(result).to.deep.eq({
+      expect(result).toBeInstanceOf(Model);
+      expect(result).toEqual({
         id: "id",
         mappedProp: "mappedProptest",
         password: "string",
@@ -335,8 +334,8 @@ describe("deserialize()", () => {
         {type: Model, additionalProperties: true}
       );
 
-      expect(result).to.be.instanceOf(Model);
-      expect(result).to.deep.eq({
+      expect(result).toBeInstanceOf(Model);
+      expect(result).toEqual({
         id: "id",
         mappedProp: "mappedProptest",
         password: "string",
@@ -371,8 +370,8 @@ describe("deserialize()", () => {
         {type: Model, groups: ["update"]}
       );
 
-      expect(result).to.be.instanceOf(Model);
-      expect(result).to.deep.eq({id: "id"});
+      expect(result).toBeInstanceOf(Model);
+      expect(result).toEqual({id: "id"});
     });
     it("should transform object to class (inherited class)", () => {
       class Role {
@@ -420,8 +419,8 @@ describe("deserialize()", () => {
         {type: Model}
       );
 
-      expect(result).to.be.instanceOf(Model);
-      expect(result).to.deep.eq({
+      expect(result).toBeInstanceOf(Model);
+      expect(result).toEqual({
         id: "id",
         mappedProp: "mappedProptest",
         password: "string",
@@ -445,10 +444,10 @@ describe("deserialize()", () => {
         {type: Post}
       );
 
-      expect(result).to.be.instanceOf(Post);
-      expect(result.owner).to.be.instanceOf(User);
-      expect(result.owner.posts[0]).to.be.instanceOf(Post);
-      expect(result).to.deep.eq({
+      expect(result).toBeInstanceOf(Post);
+      expect(result.owner).toBeInstanceOf(User);
+      expect(result.owner.posts[0]).toBeInstanceOf(Post);
+      expect(result).toEqual({
         id: "id",
         owner: {
           name: "name",
@@ -472,8 +471,8 @@ describe("deserialize()", () => {
 
       const result = deserialize(product, {type: Product});
 
-      expect(result).to.be.instanceOf(Product);
-      expect(result.updated).to.be.instanceOf(Date);
+      expect(result).toBeInstanceOf(Product);
+      expect(result.updated).toBeInstanceOf(Date);
     });
     it("should transform object to class (with null values on props)", () => {
       class NullModel {
@@ -496,8 +495,8 @@ describe("deserialize()", () => {
         {type: NullModel}
       );
 
-      expect(result).to.be.instanceOf(NullModel);
-      expect(result).to.deep.equal({
+      expect(result).toBeInstanceOf(NullModel);
+      expect(result).toEqual({
         prop1: null,
         prop2: null,
         prop3: null
@@ -547,8 +546,8 @@ describe("deserialize()", () => {
         {type: Model, collectionType: Array, additionalProperties: false}
       );
 
-      expect(result[0]).to.be.instanceOf(Model);
-      expect(result).to.deep.eq([
+      expect(result[0]).toBeInstanceOf(Model);
+      expect(result).toEqual([
         {
           id: "id",
           mappedProp: "mappedProptest",
@@ -583,8 +582,8 @@ describe("deserialize()", () => {
         }
       );
 
-      expect(result[0]).to.be.instanceof(Product);
-      expect(result).to.deep.eq([
+      expect(result[0]).toBeInstanceOf(Product);
+      expect(result).toEqual([
         {
           title: "title"
         }
@@ -640,9 +639,9 @@ describe("deserialize()", () => {
         }
       );
 
-      expect(result).to.be.instanceof(Submission);
-      expect(result.data).to.be.instanceof(Product);
-      expect(result).to.deep.eq({
+      expect(result).toBeInstanceOf(Submission);
+      expect(result.data).toBeInstanceOf(Product);
+      expect(result).toEqual({
         _id: "id",
         data: {
           title: "title"
@@ -661,9 +660,9 @@ describe("deserialize()", () => {
         }
       );
 
-      expect(result2).to.be.instanceof(Submission);
-      expect(result2.data).to.be.instanceof(Article);
-      expect(result2).to.deep.eq({
+      expect(result2).toBeInstanceOf(Submission);
+      expect(result2.data).toBeInstanceOf(Article);
+      expect(result2).toEqual({
         _id: "id",
         data: {
           id: "id"
@@ -716,10 +715,10 @@ describe("deserialize()", () => {
         {store: JsonEntityStore.from(Content)}
       );
 
-      expect(result).to.be.instanceOf(Content);
-      expect(result.payload).to.be.instanceOf(Model);
-      expect(result.payload.role).to.be.instanceOf(Role);
-      expect(result).to.deep.eq({
+      expect(result).toBeInstanceOf(Content);
+      expect(result.payload).toBeInstanceOf(Model);
+      expect(result.payload.role).toBeInstanceOf(Role);
+      expect(result).toEqual({
         payload: {
           email: "email",
           id: "id",
@@ -733,7 +732,7 @@ describe("deserialize()", () => {
   });
   describe("plainObjectToClass", () => {
     it("should return undefined", () => {
-      expect(plainObjectToClass(undefined, {})).to.eq(undefined);
+      expect(plainObjectToClass(undefined, {})).toBeUndefined();
     });
   });
 });
