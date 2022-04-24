@@ -1,7 +1,8 @@
-import {deserialize} from "@tsed/json-mapper";
+import {deserialize, getJsonMapperTypes} from "@tsed/json-mapper";
 import {AdditionalProperties, CollectionOf, Ignore, JsonHookContext, Name, Property} from "@tsed/schema";
 import {expect} from "chai";
 import {parse} from "querystring";
+import {isBoolean} from "@tsed/core";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
 import "../components/ArrayMapper";
@@ -647,6 +648,48 @@ describe("serialize()", () => {
       expect(result).to.deep.eq({
         id: "id",
         renamed: "myname"
+      });
+    });
+  });
+  describe("custom date mapper", () => {
+    it("should use a custom date mapper", () => {
+      class Test {
+        @Property() myDate: Date;
+      }
+
+      class CustomDateMapper {
+        deserialize(data: string | number): Date;
+        deserialize(data: boolean | null | undefined): boolean | null | undefined;
+        deserialize(data: any): any {
+          // don't convert unexpected data. In normal case, Ajv reject unexpected data.
+          // But by default, we have to skip data deserialization and let user to apply
+          // the right mapping
+          console.log(`deserialize the date ${typeof data}: ${data}`);
+          if (isBoolean(data) || data === null || data === undefined) {
+            return data;
+          }
+
+          return new Date(data);
+        }
+
+        serialize(object: Date): any {
+          console.log(`serialize the date ${typeof object}: ${object}`);
+          console.log("new Date(object).toDateString()", new Date(object).toDateString());
+          return new Date(object).toDateString();
+        }
+      }
+
+      const obj = new Test();
+      obj.myDate = new Date("2022-10-02");
+
+      const types = new Map<any, any>(getJsonMapperTypes());
+      types.set(Date, new CustomDateMapper());
+
+      const result = serialize(obj, {
+        types
+      });
+      expect(result).to.deep.eq({
+        myDate: "Sun Oct 02 2022"
       });
     });
   });
