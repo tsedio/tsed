@@ -3,6 +3,7 @@ import {
   isArray,
   isClassObject,
   isCollection,
+  isDate,
   isEmpty,
   isFunction,
   isNil,
@@ -83,6 +84,7 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
     }
 
     let value = alterValue(schema, obj[key], {useAlias, ...props, self: obj});
+
     value = serialize(value, {
       useAlias,
       self: obj,
@@ -133,6 +135,18 @@ function getBestType(type: Type<any>, obj: any) {
   return type || Object;
 }
 
+function hasJsonMethod(obj: any) {
+  return typeof obj.toJSON === "function";
+}
+
+function isMongooseObject(obj: any) {
+  return (hasJsonMethod(obj) && obj.$isMongooseModelPrototype) || obj._bsontype;
+}
+
+function isMomentObject(obj: any) {
+  return obj && obj?._isAMomentObject;
+}
+
 export function serialize(obj: any, {type, collectionType, groups = false, ...options}: JsonSerializerOptions = {}): any {
   if (isEmpty(obj)) {
     return obj;
@@ -144,11 +158,11 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
   options.groups = groups;
 
   // FIX custom serialization function from @tsed/mongoose and bson
-  if ((typeof obj.toJSON === "function" && obj.$isMongooseModelPrototype) || obj._bsontype) {
+  if (isMongooseObject(obj)) {
     return obj.toJSON(options);
   }
 
-  if (!(obj && obj?._isAMomentObject) && typeof obj.toJSON === "function") {
+  if (hasJsonMethod(obj) && !isMomentObject(obj) && !isDate(obj)) {
     return serialize(obj.toJSON(), {...options, type: classOf(obj)});
   }
 
@@ -172,6 +186,7 @@ export function serialize(obj: any, {type, collectionType, groups = false, ...op
   });
 
   const mapper = types.get(currentType) || types.get(nameOf(currentType));
+
   if (mapper) {
     const jsonMapper = mapper!;
 
