@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {serialize} from "../../src";
 import {Enum, Property, Required} from "@tsed/schema";
 
@@ -25,6 +24,6 @@ describe("enum serialization", () => {
     nested.value = EnumValue.One;
     test.nested = nested;
 
-    expect(serialize(test)).to.deep.eq({nested: {value: "one"}});
+    expect(serialize(test)).toEqual({nested: {value: "one"}});
   });
 });

@@ -1,7 +1,6 @@
 import {catchAsyncError} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
 import {Enum, Property} from "@tsed/schema";
-import {expect} from "chai";
 import {deserialize} from "../../src";
 import {BeforeDeserialize} from "../../src/decorators/beforeDeserialize";
 import {FoodStatus} from "../helpers/FoodStatus";
@@ -23,7 +22,7 @@ class Food {
   status: FoodStatus;
 }
 
-describe("BeforeDeserialize", async () => {
+describe("BeforeDeserialize", () => {
   it("should deserialize object correctly and alter the name before deserialization", () => {
     // GIVEN
     const food: Food = {
@@ -35,7 +34,7 @@ describe("BeforeDeserialize", async () => {
     const foodAfterDeserialization = deserialize(food, {type: Food});
 
     // THEN
-    expect(foodAfterDeserialization).to.be.deep.eq({
+    expect(foodAfterDeserialization).toEqual({
       name: "The Banana is fresh",
       status: FoodStatus.FRESH
     });
@@ -52,6 +51,6 @@ describe("BeforeDeserialize", async () => {
     const badRequestError = await catchAsyncError(() => deserialize(food, {type: Food}));
 
     // THEN
-    expect(badRequestError).to.be.instanceof(BadRequest);
+    expect(badRequestError).toBeInstanceOf(BadRequest);
   });
 });

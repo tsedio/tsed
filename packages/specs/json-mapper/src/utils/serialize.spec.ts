@@ -1,6 +1,5 @@
 import {deserialize, getJsonMapperTypes} from "@tsed/json-mapper";
 import {AdditionalProperties, CollectionOf, Ignore, JsonHookContext, Name, Property} from "@tsed/schema";
-import {expect} from "chai";
 import {parse} from "querystring";
 import {isBoolean} from "@tsed/core";
 import {Post} from "../../test/helpers/Post";
@@ -17,27 +16,27 @@ function createMap(value: any) {
 describe("serialize()", () => {
   describe("Primitives", () => {
     it("should serialize values", () => {
-      expect(serialize(undefined)).to.eq(undefined);
-      expect(serialize(null)).to.eq(null);
-      expect(serialize("null")).to.eq("null");
-      expect(serialize(Symbol.for("TEST"))).to.eq("TEST");
-      expect(serialize(false)).to.eq(false);
-      expect(serialize(true)).to.eq(true);
-      expect(serialize("")).to.eq("");
-      expect(serialize("1")).to.equal("1");
-      expect(serialize(0)).to.equal(0);
-      expect(serialize(1)).to.equal(1);
+      expect(serialize(undefined)).toBeUndefined();
+      expect(serialize(null)).toEqual(null);
+      expect(serialize("null")).toEqual("null");
+      expect(serialize(Symbol.for("TEST"))).toEqual("TEST");
+      expect(serialize(false)).toEqual(false);
+      expect(serialize(true)).toEqual(true);
+      expect(serialize("")).toEqual("");
+      expect(serialize("1")).toEqual("1");
+      expect(serialize(0)).toEqual(0);
+      expect(serialize(1)).toEqual(1);
     });
   });
   describe("Object", () => {
     it("should serialize values", () => {
-      expect(serialize({test: "test"}, {type: Object})).to.deep.eq({test: "test"});
-      expect(serialize({test: "test"}, {type: false})).to.deep.eq({test: "test"});
-      expect(serialize({test: "test"}, {type: null})).to.deep.eq({test: "test"});
-      expect(serialize({test: "test"}, {type: undefined})).to.deep.eq({test: "test"});
+      expect(serialize({test: "test"}, {type: Object})).toEqual({test: "test"});
+      expect(serialize({test: "test"}, {type: false})).toEqual({test: "test"});
+      expect(serialize({test: "test"}, {type: null})).toEqual({test: "test"});
+      expect(serialize({test: "test"}, {type: undefined})).toEqual({test: "test"});
     });
     it("should serialize parsed querystring", () => {
-      expect(serialize({qs: parse("q[offset]=0&q[limit]=10&q[where][a]=0&q[where][b]=1")})).to.deep.eq({
+      expect(serialize({qs: parse("q[offset]=0&q[limit]=10&q[where][a]=0&q[where][b]=1")})).toEqual({
         qs: {
           "q[limit]": "10",
           "q[offset]": "0",
@@ -49,29 +48,29 @@ describe("serialize()", () => {
   });
   describe("Array<primitive>", () => {
     it("should serialize values", () => {
-      expect(serialize([null])).to.deep.eq([null]);
-      expect(serialize([false])).to.deep.eq([false]);
-      expect(serialize([true])).to.deep.eq([true]);
-      expect(serialize([""])).to.deep.eq([""]);
-      expect(serialize(["1"])).to.deep.equal(["1"]);
-      expect(serialize([1])).to.deep.equal([1]);
+      expect(serialize([null])).toEqual([null]);
+      expect(serialize([false])).toEqual([false]);
+      expect(serialize([true])).toEqual([true]);
+      expect(serialize([""])).toEqual([""]);
+      expect(serialize(["1"])).toEqual(["1"]);
+      expect(serialize([1])).toEqual([1]);
 
       class ArrayLike extends Array {}
 
       const arrayLike = new ArrayLike();
       arrayLike.push(1);
 
-      expect(serialize(arrayLike)).to.deep.equal([1]);
+      expect(serialize(arrayLike)).toEqual([1]);
     });
   });
   describe("Map<primitive>", () => {
     it("should serialize values", () => {
-      expect(serialize(createMap(null))).to.deep.eq({test: null});
-      expect(serialize(createMap(false))).to.deep.eq({test: false});
-      expect(serialize(createMap(true))).to.deep.eq({test: true});
-      expect(serialize(createMap(""))).to.deep.eq({test: ""});
-      expect(serialize(createMap("1"))).to.deep.equal({test: "1"});
-      expect(serialize(createMap(1))).to.deep.equal({test: 1});
+      expect(serialize(createMap(null))).toEqual({test: null});
+      expect(serialize(createMap(false))).toEqual({test: false});
+      expect(serialize(createMap(true))).toEqual({test: true});
+      expect(serialize(createMap(""))).toEqual({test: ""});
+      expect(serialize(createMap("1"))).toEqual({test: "1"});
+      expect(serialize(createMap(1))).toEqual({test: 1});
     });
   });
   describe("toJson()", () => {
@@ -82,18 +81,18 @@ describe("serialize()", () => {
         }
       });
 
-      expect(result).to.deep.equal("hello");
+      expect(result).toEqual("hello");
     });
   });
   describe("Plain Object", () => {
     it("should serialize plain object (1)", () => {
-      expect(serialize({prop: "1"})).to.deep.equal({prop: "1"});
+      expect(serialize({prop: "1"})).toEqual({prop: "1"});
 
       const result = serialize({
         prop: "1",
         roles: [{label: "Admin"}]
       });
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         prop: "1",
         roles: [
           {
@@ -103,7 +102,7 @@ describe("serialize()", () => {
       });
     });
     it("should serialize plain object (2)", () => {
-      expect(serialize({prop: "1"})).to.deep.equal({prop: "1"});
+      expect(serialize({prop: "1"})).toEqual({prop: "1"});
       const roles = new Map();
       roles.set("ro", "le");
 
@@ -111,7 +110,7 @@ describe("serialize()", () => {
         prop: "1",
         roles
       });
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         prop: "1",
         roles: {
           ro: "le"
@@ -151,7 +150,7 @@ describe("serialize()", () => {
       model.mappedProp = "hello";
       model.roles.set("olo", new Role({label: "label"}));
 
-      expect(serialize(model)).to.deep.equal({
+      expect(serialize(model)).toEqual({
         id: "id",
         password: "hellopassword",
         mapped_prop: "hellotest",
@@ -162,7 +161,7 @@ describe("serialize()", () => {
         }
       });
 
-      expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
+      expect(serialize(model, {api: true, useAlias: false})).toEqual({
         id: "id",
         mappedProp: "hellotest",
         roles: {
@@ -208,7 +207,7 @@ describe("serialize()", () => {
       model.mappedProp = "hello";
       model.roles.set("olo", new Role({label: "label"}));
 
-      expect(serialize(model, {type: ServerResponse})).to.deep.equal({
+      expect(serialize(model, {type: ServerResponse})).toEqual({
         id: "id",
         password: "hellopassword",
         mapped_prop: "hellotest",
@@ -250,7 +249,7 @@ describe("serialize()", () => {
       model.mappedProp = "hello";
       model.roles.set("olo", new Role({label: "label"}));
 
-      expect(serialize([model], {type: Model})).to.deep.equal([
+      expect(serialize([model], {type: Model})).toEqual([
         {
           id: "id",
           password: "hellopassword",
@@ -296,7 +295,7 @@ describe("serialize()", () => {
       model.mappedProp = "hello";
       model.roles.set("olo", new Role({label: "label"}));
 
-      expect(serialize(model)).to.deep.equal({
+      expect(serialize(model)).toEqual({
         id: "id",
         password: "hellopassword",
         mapped_prop: "hellotest",
@@ -307,7 +306,7 @@ describe("serialize()", () => {
         }
       });
 
-      expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
+      expect(serialize(model, {api: true, useAlias: false})).toEqual({
         id: "id",
         mappedProp: "hellotest",
         roles: {
@@ -327,7 +326,7 @@ describe("serialize()", () => {
 
       const result = serialize(post);
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         id: "id",
         owner: {
           name: "name",
@@ -364,9 +363,9 @@ describe("serialize()", () => {
 
       user3.extra = "extra";
 
-      expect(serialize(user1, {type: User})).to.deep.eq({id: "id"});
-      expect(serialize(user2, {type: User})).to.deep.eq({id: "id", test: "test"});
-      expect(serialize(user3, {type: User})).to.deep.eq({
+      expect(serialize(user1, {type: User})).toEqual({id: "id"});
+      expect(serialize(user2, {type: User})).toEqual({id: "id", test: "test"});
+      expect(serialize(user3, {type: User})).toEqual({
         extra: "extra",
         id: "id",
         test: "test"
@@ -385,7 +384,7 @@ describe("serialize()", () => {
 
       const result = serialize(t, {type: Object});
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         affected: 1,
         raw: 1
       });
@@ -435,14 +434,14 @@ describe("serialize()", () => {
         );
       };
 
-      expect(serialize(model, {type: Model})).to.deep.equal({
+      expect(serialize(model, {type: Model})).toEqual({
         id: "id",
         mapped_prop: "hellotest",
         password: "hellopassword",
         roles: {}
       });
 
-      expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
+      expect(serialize(model, {api: true, useAlias: false})).toEqual({
         id: "id",
         mappedProp: "hellotest",
         roles: {}
@@ -479,7 +478,7 @@ describe("serialize()", () => {
       model.mappedProp = "hello";
       model.roles.set("olo", new Role({label: "label"}));
 
-      expect(serialize([model], {type: Model})).to.deep.equal([
+      expect(serialize([model], {type: Model})).toEqual([
         {
           id: "id",
           password: "hellopassword",
@@ -525,7 +524,7 @@ describe("serialize()", () => {
       model.mappedProp = "hello";
       model.roles.set("olo", new Role({label: "label"}));
 
-      expect(serialize(model)).to.deep.equal({
+      expect(serialize(model)).toEqual({
         id: "id",
         password: "hellopassword",
         mapped_prop: "hellotest",
@@ -536,7 +535,7 @@ describe("serialize()", () => {
         }
       });
 
-      expect(serialize(model, {api: true, useAlias: false})).to.deep.equal({
+      expect(serialize(model, {api: true, useAlias: false})).toEqual({
         id: "id",
         mappedProp: "hellotest",
         roles: {
@@ -556,7 +555,7 @@ describe("serialize()", () => {
 
       const result = serialize(post);
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         id: "id",
         owner: {
           name: "name",
@@ -585,7 +584,7 @@ describe("serialize()", () => {
 
       const result = serialize(test, {type: Model});
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         id: "id",
         test: {
           value: "test"
@@ -615,7 +614,7 @@ describe("serialize()", () => {
 
       const result = serialize(test, {type: Model});
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         id: "id",
         renamed: "myname",
         additional: {
@@ -645,7 +644,7 @@ describe("serialize()", () => {
 
       const result = serialize(test, {type: Model});
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         id: "id",
         renamed: "myname"
       });
@@ -664,7 +663,6 @@ describe("serialize()", () => {
           // don't convert unexpected data. In normal case, Ajv reject unexpected data.
           // But by default, we have to skip data deserialization and let user to apply
           // the right mapping
-          console.log(`deserialize the date ${typeof data}: ${data}`);
           if (isBoolean(data) || data === null || data === undefined) {
             return data;
           }
@@ -673,8 +671,6 @@ describe("serialize()", () => {
         }
 
         serialize(object: Date): any {
-          console.log(`serialize the date ${typeof object}: ${object}`);
-          console.log("new Date(object).toDateString()", new Date(object).toDateString());
           return new Date(object).toDateString();
         }
       }
@@ -688,7 +684,7 @@ describe("serialize()", () => {
       const result = serialize(obj, {
         types
       });
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         myDate: "Sun Oct 02 2022"
       });
     });

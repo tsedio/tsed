@@ -1,5 +1,4 @@
 import {Ignore, Property} from "@tsed/schema";
-import {expect} from "chai";
 import {serialize} from "../../src";
 
 describe("Mapping @Ignore", () => {
@@ -28,7 +27,7 @@ describe("Mapping @Ignore", () => {
 
     const result = serialize(model, {type: Object});
 
-    expect(result).to.deep.eq({
+    expect(result).toEqual({
       foo: "foo",
       fooBase: "fooBase"
     });

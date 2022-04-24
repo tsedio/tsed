@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import Sinon from "sinon";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {SetMapper} from "./SetMapper";
@@ -17,8 +16,8 @@ describe("SetMapper", () => {
 
       const value = mapper.deserialize(["test"], ctx);
 
-      expect(value).to.be.instanceof(Set);
-      expect(Array.from(value.values())).to.deep.eq(["testMap"]);
+      expect(value).toBeInstanceOf(Set);
+      expect(Array.from(value.values())).toEqual(["testMap"]);
     });
   });
   describe("serialize()", () => {
@@ -33,7 +32,7 @@ describe("SetMapper", () => {
 
       const value = arrayMapper.serialize(new Set(["test"]), ctx);
 
-      expect(value).to.deep.eq(["testMap"]);
+      expect(value).toEqual(["testMap"]);
     });
   });
 });

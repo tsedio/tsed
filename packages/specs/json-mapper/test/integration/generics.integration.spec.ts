@@ -1,6 +1,5 @@
 import {boolean, date, GenericOf, Generics, getJsonSchema, number, Property, string} from "@tsed/schema";
 import {deserialize} from "@tsed/json-mapper";
-import {expect} from "chai";
 
 describe("Generics", () => {
   describe("using Functional api", () => {
@@ -27,7 +26,7 @@ describe("Generics", () => {
         }
       );
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         adjustment: {
           value: "2019-01-01T12:45:57.111Z"
         }
@@ -56,7 +55,7 @@ describe("Generics", () => {
         }
       );
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         adjustment: {
           value: 10
         }
@@ -85,7 +84,7 @@ describe("Generics", () => {
         }
       );
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         adjustment: {
           value: false
         }
@@ -114,7 +113,7 @@ describe("Generics", () => {
         }
       );
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         adjustment: {
           value: new Date("2019-01-01T12:45:57.111Z")
         }
@@ -145,7 +144,7 @@ describe("Generics", () => {
         }
       );
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         adjustment: {
           value: "2019-01-01T12:45:57.111Z"
         }
@@ -174,7 +173,7 @@ describe("Generics", () => {
         }
       );
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         adjustment: {
           value: 10
         }
@@ -203,7 +202,7 @@ describe("Generics", () => {
         }
       );
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         adjustment: {
           value: false
         }
@@ -232,7 +231,7 @@ describe("Generics", () => {
         }
       );
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         adjustment: {
           value: new Date("2019-01-01T12:45:57.111Z")
         }
@@ -266,7 +265,7 @@ describe("Generics", () => {
         }
       );
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         adjustment: {
           value: "delay"
         }

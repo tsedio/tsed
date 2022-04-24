@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {SymbolMapper} from "./SymbolMapper";
 
 describe("SymbolMapper", () => {
@@ -8,8 +7,8 @@ describe("SymbolMapper", () => {
 
       const value = mapper.deserialize("SYMBOL");
 
-      expect(typeof value).to.eq("symbol");
-      expect(value.toString()).to.eq("Symbol(SYMBOL)");
+      expect(typeof value).toEqual("symbol");
+      expect(value.toString()).toEqual("Symbol(SYMBOL)");
     });
   });
   describe("serialize()", () => {
@@ -18,7 +17,7 @@ describe("SymbolMapper", () => {
 
       const value = mapper.serialize(Symbol.for("SYMBOL"));
 
-      expect(value).to.eq("SYMBOL");
+      expect(value).toEqual("SYMBOL");
     });
   });
 });
