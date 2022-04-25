@@ -22,7 +22,6 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "@godaddy/terminus": "^4.7.1",
     "tslib": "2.3.1"
   },
   "devDependencies": {
@@ -31,6 +30,7 @@
     "@tsed/schema": "6.114.0"
   },
   "peerDependencies": {
+    "@godaddy/terminus": "^4.7.1",
     "@tsed/core": "^6.114.0",
     "@tsed/di": "^6.114.0",
     "@tsed/schema": "^6.114.0"
