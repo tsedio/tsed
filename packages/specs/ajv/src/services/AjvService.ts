@@ -23,15 +23,19 @@ export class AjvService {
   protected ajv: Ajv;
 
   async validate(value: any, options: AjvValidateOptions | JsonSchema): Promise<any> {
-    let {schema, type, collectionType, ...additionalOptions} = this.mapOptions(options);
+    let {schema: defaultSchema, type, collectionType, ...additionalOptions} = this.mapOptions(options);
 
-    schema = schema || getJsonSchema(type, {...additionalOptions, customKeys: true});
+    const schema = defaultSchema || getJsonSchema(type, {...additionalOptions, customKeys: true});
 
     if (schema) {
       const localValue = deepClone(value);
-      const valid = await this.ajv.validate(schema as any, localValue);
-      if (!valid && this.ajv.errors) {
-        throw this.mapErrors(this.ajv.errors || [], {
+      const validate = this.ajv.compile(schema);
+
+      const valid = await validate(localValue);
+      const {errors} = validate;
+
+      if (!valid && errors) {
+        throw this.mapErrors(errors, {
           type,
           collectionType,
           async: true,
