@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-test-utils",
-  "version": "6.114.0",
+  "version": "6.114.1",
   "description": "Integration packages",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -8,9 +8,9 @@
     "start": "ts-node -r tsconfig-paths/register src/index.ts"
   },
   "dependencies": {
-    "@tsed/common": "6.114.0",
-    "@tsed/core": "6.114.0",
-    "@tsed/di": "6.114.0"
+    "@tsed/common": "6.114.1",
+    "@tsed/core": "6.114.1",
+    "@tsed/di": "6.114.1"
   },
   "private": true,
   "devDependencies": {},
