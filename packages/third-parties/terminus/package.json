@@ -36,6 +36,9 @@
     "@tsed/schema": "^6.114.0"
   },
   "peerDependenciesMeta": {
+    "@godaddy/terminus": {
+      "optional": false
+    },
     "@tsed/core": {
       "optional": false
     },
