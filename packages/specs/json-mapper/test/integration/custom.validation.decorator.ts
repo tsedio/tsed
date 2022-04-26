@@ -1,7 +1,6 @@
 import {catchAsyncError} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
 import {JsonEntityFn, Property} from "@tsed/schema";
-import {expect} from "chai";
 import {deserialize} from "../../src";
 import {BeforeDeserialize} from "../../src/decorators/beforeDeserialize";
 
@@ -36,7 +35,7 @@ describe("CustomValidationDecorator", () => {
     const companyAfterDeserialization = deserialize(company, {type: Company});
 
     // THEN
-    expect(companyAfterDeserialization).to.be.deep.eq({
+    expect(companyAfterDeserialization).toEqual({
       name: "tsed",
       location: "Paris"
     });
@@ -52,6 +51,6 @@ describe("CustomValidationDecorator", () => {
     const badRequestError = await catchAsyncError(() => deserialize(company, {type: Company}));
 
     // THEN
-    expect(badRequestError).to.be.instanceof(BadRequest);
+    expect(badRequestError).toBeInstanceOf(BadRequest);
   });
 });

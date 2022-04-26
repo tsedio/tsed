@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import Sinon from "sinon";
 import {PrimitiveMapper} from "./PrimitiveMapper";
 
@@ -15,7 +14,7 @@ describe("PrimitiveMapper", () => {
 
       const value = mapper.deserialize(data, ctx);
 
-      expect(value).to.deep.eq("1");
+      expect(value).toEqual("1");
     });
     it("should return value (string => string)", () => {
       const mapper = new PrimitiveMapper();
@@ -28,7 +27,7 @@ describe("PrimitiveMapper", () => {
 
       const value = mapper.deserialize(data, ctx);
 
-      expect(value).to.deep.eq("1");
+      expect(value).toEqual("1");
     });
     it("should return value (null => number)", () => {
       const mapper = new PrimitiveMapper();
@@ -41,7 +40,7 @@ describe("PrimitiveMapper", () => {
 
       const value = mapper.deserialize(data, ctx);
 
-      expect(value).to.deep.eq(null);
+      expect(value).toEqual(null);
     });
     it("should return value ('null' => number)", () => {
       const mapper = new PrimitiveMapper();
@@ -54,7 +53,7 @@ describe("PrimitiveMapper", () => {
 
       const value = mapper.deserialize(data, ctx);
 
-      expect(value).to.deep.eq(null);
+      expect(value).toEqual(null);
     });
     it("should return value (string => number)", () => {
       const mapper = new PrimitiveMapper();
@@ -67,7 +66,7 @@ describe("PrimitiveMapper", () => {
 
       const value = mapper.deserialize(data, ctx);
 
-      expect(value).to.deep.eq(1);
+      expect(value).toEqual(1);
     });
     it("should return value (number => number)", () => {
       const mapper = new PrimitiveMapper();
@@ -80,7 +79,7 @@ describe("PrimitiveMapper", () => {
 
       const value = mapper.deserialize(data, ctx);
 
-      expect(value).to.deep.eq(1);
+      expect(value).toEqual(1);
     });
     it("should return value (wrong number => number)", () => {
       const mapper = new PrimitiveMapper();
@@ -98,7 +97,7 @@ describe("PrimitiveMapper", () => {
         actualError = er;
       }
 
-      expect(actualError.message).to.deep.eq("Cast error. Expression value is not a number.");
+      expect(actualError.message).toEqual("Cast error. Expression value is not a number.");
     });
     it("should return value (truthy => boolean)", () => {
       const mapper = new PrimitiveMapper();
@@ -108,10 +107,10 @@ describe("PrimitiveMapper", () => {
         next: Sinon.stub()
       };
 
-      expect(mapper.deserialize(1, ctx)).to.deep.eq(true);
-      expect(mapper.deserialize("1", ctx)).to.deep.eq(true);
-      expect(mapper.deserialize("true", ctx)).to.deep.eq(true);
-      expect(mapper.deserialize(true, ctx)).to.deep.eq(true);
+      expect(mapper.deserialize(1, ctx)).toEqual(true);
+      expect(mapper.deserialize("1", ctx)).toEqual(true);
+      expect(mapper.deserialize("true", ctx)).toEqual(true);
+      expect(mapper.deserialize(true, ctx)).toEqual(true);
     });
     it("should return value (falsy => boolean)", () => {
       const mapper = new PrimitiveMapper();
@@ -121,12 +120,12 @@ describe("PrimitiveMapper", () => {
         next: Sinon.stub()
       };
 
-      expect(mapper.deserialize(0, ctx)).to.deep.eq(false);
-      expect(mapper.deserialize("0", ctx)).to.deep.eq(false);
-      expect(mapper.deserialize("", ctx)).to.deep.eq(false);
-      expect(mapper.deserialize("false", ctx)).to.deep.eq(false);
-      expect(mapper.deserialize(false, ctx)).to.deep.eq(false);
-      expect(mapper.deserialize(undefined, ctx)).to.deep.eq(undefined);
+      expect(mapper.deserialize(0, ctx)).toEqual(false);
+      expect(mapper.deserialize("0", ctx)).toEqual(false);
+      expect(mapper.deserialize("", ctx)).toEqual(false);
+      expect(mapper.deserialize("false", ctx)).toEqual(false);
+      expect(mapper.deserialize(false, ctx)).toEqual(false);
+      expect(mapper.deserialize(undefined, ctx)).toBeUndefined();
     });
     it("should return value (null => boolean)", () => {
       const mapper = new PrimitiveMapper();
@@ -136,8 +135,8 @@ describe("PrimitiveMapper", () => {
         next: Sinon.stub()
       };
 
-      expect(mapper.deserialize(null, ctx)).to.deep.eq(null);
-      expect(mapper.deserialize("null", ctx)).to.deep.eq(null);
+      expect(mapper.deserialize(null, ctx)).toEqual(null);
+      expect(mapper.deserialize("null", ctx)).toEqual(null);
     });
   });
   describe("serialize()", () => {
@@ -146,7 +145,7 @@ describe("PrimitiveMapper", () => {
 
       const value = mapper.serialize("1");
 
-      expect(value).to.deep.eq("1");
+      expect(value).toEqual("1");
     });
   });
 });

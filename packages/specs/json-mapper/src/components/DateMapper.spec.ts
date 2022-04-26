@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {DateMapper} from "./DateMapper";
 
 describe("DateMapper", () => {
@@ -9,7 +8,7 @@ describe("DateMapper", () => {
 
       const value = mapper.deserialize(date.toISOString());
 
-      expect(value).to.deep.eq(date);
+      expect(value).toEqual(date);
     });
 
     it("should return a Date when the data is a number", () => {
@@ -18,17 +17,17 @@ describe("DateMapper", () => {
 
       const value = mapper.deserialize(date.getTime());
 
-      expect(value).to.deep.eq(date);
+      expect(value).toEqual(date);
     });
 
     it("should return value when the data is a boolean/null/undefined", () => {
       const date = new Date();
       const mapper = new DateMapper();
 
-      expect(mapper.deserialize(false)).to.eq(false);
-      expect(mapper.deserialize(true)).to.eq(true);
-      expect(mapper.deserialize(null)).to.eq(null);
-      expect(mapper.deserialize(undefined)).to.eq(undefined);
+      expect(mapper.deserialize(false)).toEqual(false);
+      expect(mapper.deserialize(true)).toEqual(true);
+      expect(mapper.deserialize(null)).toEqual(null);
+      expect(mapper.deserialize(undefined)).toBeUndefined();
     });
   });
   describe("serialize()", () => {
@@ -38,7 +37,7 @@ describe("DateMapper", () => {
 
       const value = mapper.serialize(date);
 
-      expect(value).to.deep.eq(date.toISOString());
+      expect(value).toEqual(date.toISOString());
     });
   });
 });

@@ -6,6 +6,7 @@
     "packages/security/*/src/**/*.ts"
   ],
   "exclude": [
+    "**/__mock__/**",
     "**/*.d.ts",
     "node_modules",
     "packages/**/*.spec.ts",
@@ -28,6 +29,7 @@
     "packages/perf",
     "packages/specs/swagger",
     "packages/specs/schema",
+    "packages/specs/json-mapper",
     "**/interfaces/**",
     "**/legacy/**",
     "**/index.ts",
@@ -44,8 +46,8 @@
     "lcov"
   ],
   "check-coverage": true,
-  "lines": 99.63,
-  "statements": 99.59,
-  "functions": 98.66,
-  "branches": 87.5
+  "lines": 99.6,
+  "statements": 99.55,
+  "functions": 98.58,
+  "branches": 87.29
 }

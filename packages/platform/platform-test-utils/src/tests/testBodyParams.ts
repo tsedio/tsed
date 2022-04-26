@@ -4,7 +4,6 @@ import {Default, Description, GenericOf, Generics, Maximum, Minimum, Nullable, P
 import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
-import {BadRequest} from "@tsed/exceptions";
 
 enum MyEnum {
   TITLE,
@@ -52,6 +51,16 @@ class PaginationQuery<T> {
 
   @Property("T")
   where?: T;
+}
+
+class Param1Type {
+  @Required()
+  value1!: string;
+}
+
+class Param2Type {
+  @Required()
+  value2!: string;
 }
 
 @Controller("/body-params")
@@ -117,6 +126,14 @@ class TestBodyParamsCtrl {
   @Post("/scenario-9")
   testScenario9(@BodyParams() @GenericOf(FindQuery) q: PaginationQuery<FindQuery>) {
     return {q};
+  }
+
+  @Post("/scenario-10")
+  testScenario10(
+    @Required() @BodyParams("param1", Param1Type) param1: Param1Type,
+    @Required() @BodyParams("param2", Param2Type) param2: Param2Type
+  ) {
+    return {param1, param2};
   }
 }
 
@@ -408,6 +425,32 @@ export function testBodyParams(options: PlatformTestOptions) {
         name: "AJV_VALIDATION_ERROR",
         status: 400
       });
+    });
+  });
+  describe("Scenario10: validate two payload", () => {
+    it("should throw a Bad request if body params is missing (1)", async () => {
+      await request
+        .post("/rest/body-params/scenario-10")
+        .send({param1: {}, param2: {value2: "value"}})
+        .expect(400);
+    });
+    it("should throw a Bad request if body params is missing (2)", async () => {
+      await request.post("/rest/body-params/scenario-10").send({param1: {}, param2: {}}).expect(400);
+    });
+    it("should throw a Bad request if body params is missing (3)", async () => {
+      await request
+        .post("/rest/body-params/scenario-10")
+        .send({param1: {value: "value"}, param2: {}})
+        .expect(400);
+    });
+    it("should throw a Bad request if body params is missing (4)", async () => {
+      await request.post("/rest/body-params/scenario-10").send({}).expect(400);
+    });
+    it("should validate the body params", async () => {
+      await request
+        .post("/rest/body-params/scenario-10")
+        .send({param1: {value1: "value"}, param2: {value2: "value"}})
+        .expect(200);
     });
   });
 }

@@ -22,6 +22,7 @@ import {InjectionError} from "../errors/InjectionError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {createContainer} from "../utils/createContainer";
+import {resolveControllers} from "../utils/resolveControllers";
 import {DIConfiguration} from "./DIConfiguration";
 import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
 import {ProviderScope} from "../domain/ProviderScope";
@@ -46,7 +47,7 @@ import {InterceptorMethods} from "../interfaces/InterceptorMethods";
  * import MyService2 from "./services/service2";
  * import MyService3 from "./services/service3";
  *
- * // When all services is imported you can load InjectorService.
+ * // When all services are imported, you can load InjectorService.
  * const injector = new InjectorService()
  *
  * await injector.load();
@@ -277,6 +278,24 @@ export class InjectorService extends Container {
   }
 
   /**
+   * Load injector from a given module
+   * @param rootModule
+   */
+  loadModule(rootModule: TokenProvider) {
+    this.settings.routes = this.settings.routes.concat(resolveControllers(this.settings));
+
+    const container = createContainer();
+    container.delete(rootModule);
+
+    container.addProvider(rootModule, {
+      type: "server:module",
+      scope: ProviderScope.SINGLETON
+    });
+
+    return this.load(container);
+  }
+
+  /**
    * Build all providers from given container (or GlobalProviders) and emit `$onInit` event.
    *
    * @param container
@@ -313,10 +332,13 @@ export class InjectorService extends Container {
     super.forEach((provider) => {
       if (provider.configuration && provider.type !== "server:module") {
         Object.entries(provider.configuration).forEach(([key, value]) => {
-          value = mergedConfiguration.has(key) ? deepMerge(mergedConfiguration.get(key), value) : deepClone(value);
-          mergedConfiguration.set(key, value);
+          if (!["resolvers", "mount", "imports"].includes(key)) {
+            value = mergedConfiguration.has(key) ? deepMerge(mergedConfiguration.get(key), value) : deepClone(value);
+            mergedConfiguration.set(key, value);
+          }
         });
       }
+
       if (provider.resolvers) {
         this.resolvers.push(...provider.resolvers);
       }

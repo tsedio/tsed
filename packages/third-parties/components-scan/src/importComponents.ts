@@ -1,6 +1,9 @@
 import {isArray, isClass} from "@tsed/core";
 import {importFiles} from "./importFiles";
 
+/**
+ * @deprecated
+ */
 async function resolveSymbols(item: any, excludes: string[], disableComponentsScan = false) {
   if (isClass(item)) {
     return [item];
@@ -14,6 +17,9 @@ async function resolveSymbols(item: any, excludes: string[], disableComponentsSc
   return [];
 }
 
+/**
+ * @deprecated
+ */
 export function mapConfiguration(config: any): {endpoint?: string; values: any[]}[] {
   if (isArray(config)) {
     return config.map((value: any) => {
@@ -33,6 +39,9 @@ export function mapConfiguration(config: any): {endpoint?: string; values: any[]
   }, []);
 }
 
+/**
+ * @deprecated
+ */
 export async function importComponents(
   config: any,
   excludes: string[],

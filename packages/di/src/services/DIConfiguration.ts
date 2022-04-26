@@ -2,6 +2,7 @@ import {classOf, deepMerge, getValue, proxyDelegation, setValue} from "@tsed/cor
 import {ProviderScope} from "../domain/ProviderScope";
 import type {DIResolver} from "../interfaces/DIResolver";
 import type {TokenProvider} from "../interfaces/TokenProvider";
+import {TokenRoute} from "../interfaces/TokenRoute";
 
 export class DIConfiguration {
   readonly default: Map<string, any> = new Map();
@@ -14,6 +15,7 @@ export class DIConfiguration {
       scopes: {},
       resolvers: [],
       imports: [],
+      routes: [],
       ...initialProps
     }).forEach(([key, value]) => {
       this.default.set(key, value);
@@ -48,6 +50,14 @@ export class DIConfiguration {
 
   set imports(imports: TokenProvider[]) {
     this.setRaw("imports", imports);
+  }
+
+  get routes(): TokenRoute[] {
+    return this.getRaw("routes");
+  }
+
+  set routes(routes: TokenRoute[]) {
+    this.setRaw("routes", routes);
   }
 
   /**

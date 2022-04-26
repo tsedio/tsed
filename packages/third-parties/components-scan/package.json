@@ -27,6 +27,7 @@
   },
   "devDependencies": {
     "@tsed/core": "7.0.0-beta.10",
+    "@tsed/di": "7.0.0-beta.10",
     "@types/normalize-path": "^3.0.0"
   },
   "peerDependencies": {}

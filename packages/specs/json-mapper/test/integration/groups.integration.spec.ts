@@ -1,5 +1,4 @@
 import {CollectionOf, Groups, Property} from "@tsed/schema";
-import {expect} from "chai";
 import {deserialize, serialize} from "../../src";
 
 class Product {
@@ -33,7 +32,7 @@ describe("Groups", () => {
         {type: Product}
       );
 
-      expect(product).to.deep.eq({
+      expect(product).toEqual({
         id: "id",
         label: "label",
         price: 100,
@@ -51,7 +50,7 @@ describe("Groups", () => {
         {type: Product, groups: []}
       );
 
-      expect(product).to.deep.eq({
+      expect(product).toEqual({
         id: "id",
         label: "label"
       });
@@ -67,7 +66,7 @@ describe("Groups", () => {
         {type: Product, groups: ["creation"]}
       );
 
-      expect(product).to.deep.eq({
+      expect(product).toEqual({
         label: "label"
       });
     });
@@ -82,7 +81,7 @@ describe("Groups", () => {
         {type: Product, groups: ["group.summary"]}
       );
 
-      expect(product).to.deep.eq({
+      expect(product).toEqual({
         id: "id",
         label: "label",
         price: 100
@@ -99,7 +98,7 @@ describe("Groups", () => {
         {type: Product, groups: ["group.*"]}
       );
 
-      expect(product).to.deep.eq({
+      expect(product).toEqual({
         id: "id",
         label: "label",
         price: 100,
@@ -119,7 +118,7 @@ describe("Groups", () => {
       const req = {a: "a", b: "b"};
 
       const res = deserialize(req, {type: CustomRequest, groups: ["update"]});
-      expect(res).to.deep.eq({});
+      expect(res).toEqual({});
     });
   });
   describe("serialize", () => {
@@ -134,7 +133,7 @@ describe("Groups", () => {
     );
 
     it("should serialize object without groups restriction", () => {
-      expect(serialize(product)).to.deep.eq({
+      expect(serialize(product)).toEqual({
         id: "id",
         label: "label",
         price: 100,
@@ -142,25 +141,25 @@ describe("Groups", () => {
       });
     });
     it("should serialize object with groups restriction (empty array)", () => {
-      expect(serialize(product, {groups: []})).to.deep.eq({
+      expect(serialize(product, {groups: []})).toEqual({
         id: "id",
         label: "label"
       });
     });
     it("should serialize object with groups restriction (creation)", () => {
-      expect(serialize(product, {groups: ["creation"]})).to.deep.eq({
+      expect(serialize(product, {groups: ["creation"]})).toEqual({
         label: "label"
       });
     });
     it("should serialize object  with groups restriction (groups.summary)", () => {
-      expect(serialize(product, {groups: ["group.summary"]})).to.deep.eq({
+      expect(serialize(product, {groups: ["group.summary"]})).toEqual({
         id: "id",
         label: "label",
         price: 100
       });
     });
     it("should deserialize object  with groups restriction (group.*)", () => {
-      expect(serialize(product, {groups: ["group.*"]})).to.deep.eq({
+      expect(serialize(product, {groups: ["group.*"]})).toEqual({
         id: "id",
         label: "label",
         price: 100,

@@ -52,7 +52,15 @@ export class PlatformTest extends DITest {
       settings = DITest.configure(settings);
       settings.adapter = adapter as any;
 
-      instance = await PlatformBuilder.build(mod, settings).bootstrap();
+      const configuration = getConfiguration(settings, mod);
+      const disableComponentsScan = configuration.disableComponentsScan || !!process.env.WEBPACK;
+
+      if (!disableComponentsScan) {
+        const {importProviders} = await import("@tsed/components-scan");
+        await importProviders(configuration);
+      }
+
+      instance = await PlatformBuilder.build(mod, configuration).bootstrap();
       await instance.listen(!!listen);
 
       // used by inject method

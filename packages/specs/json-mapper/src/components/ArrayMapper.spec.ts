@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import Sinon from "sinon";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
 import {ArrayMapper} from "./ArrayMapper";
@@ -17,7 +16,7 @@ describe("ArrayMapper", () => {
 
       const value = arrayMapper.deserialize(["test"], ctx);
 
-      expect(value).to.deep.eq(["testMap"]);
+      expect(value).toEqual(["testMap"]);
     });
   });
   describe("serialize()", () => {
@@ -33,7 +32,7 @@ describe("ArrayMapper", () => {
 
       const value = arrayMapper.serialize(["test"], ctx);
 
-      expect(value).to.deep.eq(["testMap"]);
+      expect(value).toEqual(["testMap"]);
     });
   });
 });

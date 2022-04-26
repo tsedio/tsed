@@ -10,13 +10,11 @@ import {
   InjectorService,
   Module,
   normalizePath,
-  OnReady,
-  PlatformAdapter
+  OnReady
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
 import {expect} from "chai";
-import {join, resolve} from "path";
 import Sinon from "sinon";
 import {Platform} from "../services/Platform";
 import {PlatformBuilder} from "./PlatformBuilder";
@@ -153,9 +151,12 @@ describe("PlatformBuilder", () => {
         adapter: {} as any
       });
 
-      expect(PlatformBuilder.build).to.have.been.calledWithExactly(ServerModule, {
-        adapter: {}
-      });
+      expect(PlatformBuilder.build).to.have.been.calledWithExactly(
+        ServerModule,
+        Sinon.match({
+          adapter: {}
+        })
+      );
     });
   });
 
@@ -255,14 +256,7 @@ describe("PlatformBuilder", () => {
       server.addComponents(MyClass);
 
       // THEN
-      expect(normalizePath(server.injector.settings.componentsScan)).to.deep.eq(
-        normalizePath([
-          resolve(join(process.cwd(), "mvc/**/*.ts")),
-          resolve(join(process.cwd(), "services/**/*.ts")),
-          resolve(join(process.cwd(), "middlewares/**/*.ts")),
-          MyClass
-        ])
-      );
+      expect(normalizePath(server.injector.settings.componentsScan)).to.include(MyClass);
     });
   });
   describe("addControllers", () => {
@@ -276,14 +270,7 @@ describe("PlatformBuilder", () => {
       server.addControllers("/test", MyClass);
 
       // THEN
-      expect(server.injector.settings.mount["/test"]).to.deep.eq([MyClass]);
-    });
-  });
-  describe("importProviders()", () => {
-    it("should import controllers from modules", async () => {
-      const server = await PlatformCustom.bootstrap(ServerModule, {});
-
-      expect(server.injector.settings.get("routes")).to.deep.eq([
+      expect(server.injector.settings.routes).to.deep.eq([
         {
           route: "/heath",
           token: HealthCtrl
@@ -291,6 +278,10 @@ describe("PlatformBuilder", () => {
         {
           route: "/rest",
           token: RestCtrl
+        },
+        {
+          route: "/test",
+          token: MyClass
         }
       ]);
     });

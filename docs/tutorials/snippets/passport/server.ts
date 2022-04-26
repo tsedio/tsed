@@ -7,10 +7,10 @@ import cookieParser from "cookie-parser";
 import session from "express-session";
 import methodOverride from "method-override";
 
+// import your protocol. Ts.ED will discover it automatically
+import "./protocols/LoginLocalProtocol";
+
 @Configuration({
-  componentsScan: [
-    `./protocols/*.ts` // scan protocols directory
-  ],
   passport: {
     /**
      * Set a custom user info model. By default Ts.ED use UserInfo. Set false to disable Ts.ED json-mapper.

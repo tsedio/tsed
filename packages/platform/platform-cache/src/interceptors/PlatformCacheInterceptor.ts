@@ -2,6 +2,7 @@ import {isClass, isString, nameOf, Store} from "@tsed/core";
 import {BaseContext, DIContext, Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {JsonEntityStore} from "@tsed/schema";
+import {Logger} from "@tsed/logger";
 import {IncomingMessage, ServerResponse} from "http";
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
 import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions";
@@ -25,6 +26,9 @@ const cleanHeaders = (headers: Record<string, unknown>) => {
 export class PlatformCacheInterceptor implements InterceptorMethods {
   @Inject()
   protected cache: PlatformCache;
+
+  @Inject()
+  protected logger: Logger;
 
   async intercept(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
     if (this.cache.disabled()) {
@@ -70,7 +74,13 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     this.canRefreshInBackground(key, {refreshThreshold, ttl}, async () => {
       const result = await next();
       await set(result);
-    });
+    }).catch((er) =>
+      this.logger.error({
+        event: "CACHE_ERROR",
+        method: "cacheMethod",
+        error: er
+      })
+    );
 
     if (cachedObject) {
       const {data} = cachedObject;
@@ -80,7 +90,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
     const result = await next();
 
-    setTimeout(() => set(result));
+    set(result);
 
     return result;
   }
