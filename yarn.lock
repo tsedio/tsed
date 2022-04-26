@@ -3523,10 +3523,10 @@
     semver "^7.3.5"
     tslib "2.3.1"
 
-"@tsed/monorepo-utils@1.20.2":
-  version "1.20.2"
-  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.20.2.tgz#c01cd7d7e472db2f49b08551cf6b8067f25fbcd0"
-  integrity sha512-TORgf6YM/vSw197IydgS9K6d4pZXC6FvZZDtE2q5XRmd5iBh0MoQOEkC2FgDo+A8exXmE5WToH5F3Gt9FQnvcQ==
+"@tsed/monorepo-utils@^1.21.0":
+  version "1.21.0"
+  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.21.0.tgz#d9de48de56fa3225b7e75b57c3cbc074385ca30a"
+  integrity sha512-9RnJCJGVrtcV3x4/AZxL0nWVzeb768aHbg+YZOawsP30NTaxmJjT6cZOWXydPFAx3MwcAlYdnSsuky6hAIf6jQ==
   dependencies:
     "@typescript-eslint/typescript-estree" "5.12.0"
     axios "0.21.1"
