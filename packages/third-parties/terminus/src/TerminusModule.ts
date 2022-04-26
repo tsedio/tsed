@@ -70,7 +70,9 @@ export class TerminusModule implements OnInit {
 
   private execShutdown(name: string) {
     return async () => {
-      this.getStore(name).forEach((func) => func());
+      for (const func of this.getStore(name)) {
+        await func();
+      }
     };
   }
 }
