@@ -23,8 +23,6 @@ import {SwaggerService} from "./services/SwaggerService";
 import {Env} from "@tsed/core";
 import {absolutePath} from "swagger-ui-dist";
 
-const swaggerUiPath = absolutePath();
-
 /**
  * @ignore
  */
@@ -147,7 +145,7 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
       }
 
       router.get("/", useCtxHandler(indexMiddleware(viewPath, {urls, ...conf})));
-      router.statics("/", {root: swaggerUiPath});
+      router.statics("/", {root: absolutePath()});
     }
 
     return router;
