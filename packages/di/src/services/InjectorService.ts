@@ -62,7 +62,7 @@ import {resolveControllers} from "../utils/resolveControllers";
   global: true
 })
 export class InjectorService extends Container {
-  public settings: TsED.Configuration & DIConfiguration = new DIConfiguration() as any;
+  public settings: DIConfiguration = new DIConfiguration();
   public logger: DILogger = console;
   public runInContext = runInContext;
   private resolvedConfiguration: boolean = false;
@@ -363,12 +363,12 @@ export class InjectorService extends Container {
       }
 
       if (provider.resolvers) {
-        this.resolvers.push(...provider.resolvers);
+        this.settings.resolvers = this.settings.resolvers.concat(provider.resolvers);
       }
     });
 
     mergedConfiguration.forEach((value, key) => {
-      this.settings[key] = deepMerge(value, this.settings[key]);
+      this.settings.set(key, deepMerge(value, this.settings.get(key)));
     });
 
     this.settings.build();

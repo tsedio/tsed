@@ -26,9 +26,6 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
   @Constant("logger.level")
   protected logLevel: string;
 
-  @Constant("debug")
-  protected debug: boolean;
-
   constructor() {
     if (this.logLevel !== "off") {
       this.$onResponse = this.onLogEnd.bind(this);
@@ -52,10 +49,10 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
    * @param ctx
    */
   protected onLogStart(ctx: Context) {
-    const {debug, logRequest, logStart} = this.settings;
+    const {logRequest, logLevel, logStart} = this.settings;
 
     if (logStart) {
-      if (debug) {
+      if (logLevel === "debug") {
         ctx.logger.debug({
           event: "request.start"
         });
@@ -71,10 +68,10 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
    * Called when the `$onResponse` is called by Ts.ED (through Express.end).
    */
   protected onLogEnd(ctx: Context) {
-    const {debug, logRequest, logEnd} = this.settings;
+    const {logRequest, logEnd, logLevel} = this.settings;
 
     if (logEnd) {
-      if (debug) {
+      if (logLevel === "debug") {
         ctx.logger.debug({
           event: "request.end",
           status: ctx.response.statusCode,

@@ -1,20 +1,20 @@
 import {nameOf, Type} from "@tsed/core";
-import {colors, InjectorService, ProviderOpts, setLoggerLevel, TokenProvider} from "@tsed/di";
+import {colors, InjectorService, ProviderOpts, setLoggerConfiguration, TokenProvider} from "@tsed/di";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
-import {Platform} from "../services/Platform";
-import {PlatformApplication} from "../services/PlatformApplication";
-import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
-import {getStaticsOptions} from "../utils/getStaticsOptions";
-import {Route} from "../interfaces/Route";
-import {getConfiguration} from "../utils/getConfiguration";
 import type {IncomingMessage, Server, ServerResponse} from "http";
-import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter";
-import {createInjector} from "../utils/createInjector";
+import type Https from "https";
+import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
+import {Route} from "../interfaces/Route";
 import {GlobalAcceptMimesMiddleware} from "../middlewares/GlobalAcceptMimesMiddleware";
-import {printRoutes} from "../utils/printRoutes";
+import {Platform} from "../services/Platform";
+import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter";
+import {PlatformApplication} from "../services/PlatformApplication";
 import {createHttpServer} from "../utils/createHttpServer";
 import {createHttpsServer} from "../utils/createHttpsServer";
-import type Https from "https";
+import {createInjector} from "../utils/createInjector";
+import {getConfiguration} from "../utils/getConfiguration";
+import {getStaticsOptions} from "../utils/getStaticsOptions";
+import {printRoutes} from "../utils/printRoutes";
 
 /**
  * @platform
@@ -106,7 +106,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   }
 
   get disableBootstrapLog() {
-    return this.settings.logger?.disableBootstrapLog;
+    return this.settings.get("logger.disableBootstrapLog");
   }
 
   static create<App = TsED.Application, Router = TsED.Router>(module: Type<any>, settings: PlatformBuilderSettings<App, Router>) {
@@ -162,7 +162,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
    * @deprecated
    */
   public addComponents(classes: any | any[]) {
-    this.settings.componentsScan = this.settings.componentsScan.concat(classes);
+    this.settings.set("componentsScan", this.settings.get("componentsScan", []).concat(classes));
 
     return this;
   }
@@ -194,7 +194,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
   }
 
   public async runLifecycle() {
-    setLoggerLevel(this.injector);
+    setLoggerConfiguration(this.injector);
 
     await this.loadInjector();
 
@@ -292,12 +292,12 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     this.#adapter.beforeLoadRoutes && (await this.#adapter.beforeLoadRoutes());
 
     // istanbul ignore next
-    if (this.settings.logger?.level !== "off") {
+    if (this.settings.get("logger.level") !== "off") {
       const {PlatformLogMiddleware} = await import("@tsed/platform-log-middleware");
       this.app.use(PlatformLogMiddleware);
     }
 
-    if (this.settings.acceptMimes?.length) {
+    if (this.settings.get("acceptMimes", []).length) {
       this.app.use(GlobalAcceptMimesMiddleware);
     }
 
@@ -356,7 +356,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
 
     this.log("Routes mounted...");
 
-    if (!this.settings.logger?.disableRoutesSummary && !this.disableBootstrapLog) {
+    if (!this.settings.get("logger.disableRoutesSummary") && !this.disableBootstrapLog) {
       logger.info(printRoutes(await this.injector.alterAsync("$logRoutes", platform.getRoutes())));
     }
   }
