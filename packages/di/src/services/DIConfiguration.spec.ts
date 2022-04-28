@@ -54,5 +54,13 @@ describe("DIConfiguration", () => {
       expect(Reflect.defineProperty(configuration, "test", {})).to.eq(true);
       expect(Reflect.deleteProperty(configuration, "test")).to.eq(false);
     });
+
+    describe("resolve()", () => {
+      it("should replace rootDir", () => {
+        const configuration = new DIConfiguration();
+        configuration.set("rootDir", "/root");
+        expect(configuration.resolve("${rootDir}")).to.eq("/root");
+      });
+    });
   });
 });
