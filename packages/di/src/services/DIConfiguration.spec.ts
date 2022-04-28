@@ -1,50 +1,7 @@
 import {expect} from "chai";
-import {DIConfiguration, ProviderScope, ProviderType} from "../../src";
+import {DIConfiguration} from "../../src";
 
 describe("DIConfiguration", () => {
-  describe("merge()", () => {
-    it("should merge object", () => {
-      // GIVEN
-      const configuration = new DIConfiguration();
-
-      configuration.set({
-        scopes: {
-          [ProviderType.VALUE]: ProviderScope.SINGLETON
-        },
-        shouldResolved: "${scopes.value}",
-        shouldResolved2: "<scopes.value>",
-        shouldResolved3: "{{scopes.value}}"
-      });
-      // WHEN
-      configuration.merge({
-        scopes: {
-          [ProviderType.VALUE]: ProviderScope.INSTANCE,
-          [ProviderType.PROVIDER]: ProviderScope.SINGLETON
-        }
-      });
-
-      // THEN
-      // @ts-ignore
-      expect(Array.from(configuration.map.entries())).to.deep.eq([
-        [
-          "scopes",
-          {
-            provider: "singleton",
-            value: "singleton"
-          }
-        ],
-        ["shouldResolved", "${scopes.value}"],
-        ["shouldResolved2", "<scopes.value>"],
-        ["shouldResolved3", "{{scopes.value}}"]
-      ]);
-
-      expect(configuration.get<any>("shouldResolved")!).to.eq("singleton");
-      expect(configuration.get<any>("shouldResolved2")!).to.eq("singleton");
-      expect(configuration.get<any>("shouldResolved3")!).to.eq("singleton");
-      expect(configuration.shouldResolved).to.eq("singleton");
-    });
-  });
-
   describe("scopes()", () => {
     it("should get scopes", () => {
       // GIVEN
@@ -79,16 +36,16 @@ describe("DIConfiguration", () => {
     it("should set and get data", () => {
       const configuration = new DIConfiguration();
 
-      configuration.test = "test";
-      expect(configuration.test).to.eq("test");
+      configuration.set("test", "test");
+      expect(configuration.get("test")).to.eq("test");
       expect("test" in configuration).to.eq(true);
       expect(configuration.get("test")).to.eq("test");
     });
 
     it("ownKeys", () => {
       const configuration = new DIConfiguration();
-      configuration.test = "test";
-      expect(Reflect.ownKeys(configuration)).to.deep.eq(["default", "map", "scopes", "resolvers", "imports", "routes", "test"]);
+      configuration.set("test", "test");
+      expect(Reflect.ownKeys(configuration)).to.deep.eq(["default", "map", "scopes", "resolvers", "imports", "routes", "logger", "test"]);
     });
 
     it("defineProperty", () => {

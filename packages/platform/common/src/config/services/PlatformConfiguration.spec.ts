@@ -222,40 +222,4 @@ describe("PlatformConfiguration", () => {
       });
     });
   });
-
-  describe("set logger format", () => {
-    before(() => {
-      settings = new PlatformConfiguration();
-      Sinon.stub($log.appenders, "set");
-
-      settings.logger = {
-        format: "format"
-      };
-    });
-
-    after(() => {
-      // @ts-ignore
-      $log.appenders.set.restore();
-    });
-
-    it("should call $log.appenders.set()", () => {
-      expect($log.appenders.set).to.have.been.calledWithExactly("stdout", {
-        type: "stdout",
-        levels: ["info", "debug"],
-        layout: {
-          type: "pattern",
-          pattern: "format"
-        }
-      });
-
-      expect($log.appenders.set).to.have.been.calledWithExactly("stderr", {
-        levels: ["trace", "fatal", "error", "warn"],
-        type: "stderr",
-        layout: {
-          type: "pattern",
-          pattern: "format"
-        }
-      });
-    });
-  });
 });

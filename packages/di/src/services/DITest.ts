@@ -4,6 +4,7 @@ import {createContainer} from "../utils/createContainer";
 import {LocalsContainer} from "../domain/LocalsContainer";
 import {OnInit} from "../interfaces/OnInit";
 import {TokenProvider} from "../interfaces/TokenProvider";
+import {setLoggerConfiguration} from "../utils/setLoggerConfiguration";
 import {setLoggerLevel} from "../utils/setLoggerLevel";
 import {InjectorService} from "./InjectorService";
 import {DIContext} from "../domain/DIContext";
@@ -75,7 +76,7 @@ export class DITest {
     // @ts-ignore
     injector.settings.set(DITest.configure(settings));
 
-    setLoggerLevel(injector);
+    setLoggerConfiguration(injector);
 
     return injector;
   }

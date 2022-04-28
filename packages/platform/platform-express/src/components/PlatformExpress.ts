@@ -97,15 +97,20 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
   }
 
   onInit() {
-    this.injector.settings.middlewares = (this.injector.settings.middlewares || []).filter((middleware) => {
-      const name = nameOf(middleware);
-      if (["textParser", "jsonParser", "rawParser", "urlencodedParser"].includes(name)) {
-        this.injector.settings.set(`express.bodyParser.${name.replace("Parser", "")}`, () => middleware);
-        return false;
-      }
+    const middlewares = this.injector.settings.get("middlewares", []);
 
-      return true;
-    });
+    this.injector.settings.set(
+      "middlewares",
+      middlewares.filter((middleware) => {
+        const name = nameOf(middleware);
+        if (["textParser", "jsonParser", "rawParser", "urlencodedParser"].includes(name)) {
+          this.injector.settings.set(`express.bodyParser.${name.replace("Parser", "")}`, () => middleware);
+          return false;
+        }
+
+        return true;
+      })
+    );
   }
 
   useRouter(): this {
@@ -200,7 +205,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
       {
         mergeParams: true
       },
-      this.injector.settings.express?.router || {},
+      this.injector.settings.get("express.router", {}),
       routerOptions
     );
 

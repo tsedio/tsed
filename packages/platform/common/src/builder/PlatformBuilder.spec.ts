@@ -256,7 +256,7 @@ describe("PlatformBuilder", () => {
       server.addComponents(MyClass);
 
       // THEN
-      expect(normalizePath(server.injector.settings.componentsScan)).to.include(MyClass);
+      expect(normalizePath(server.injector.settings.get("componentsScan"))).to.include(MyClass);
     });
   });
   describe("addControllers", () => {
