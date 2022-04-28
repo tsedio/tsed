@@ -78,7 +78,7 @@ export class DIContext extends Map<any, any> implements ContextMethods {
   }
 
   get env() {
-    return this.injector.settings.env;
+    return this.injector.settings.get("env");
   }
 
   async destroy() {

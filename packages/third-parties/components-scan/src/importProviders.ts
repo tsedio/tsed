@@ -32,7 +32,7 @@ async function resolveRecursively(items: any[], exclude: string[], rootDir: stri
  *
  * @param settings
  */
-export async function importProviders(settings: Partial<TsED.Configuration>): Promise<Partial<TsED.Configuration>> {
+export async function importProviders(settings: Record<string, any>): Promise<Partial<TsED.Configuration>> {
   const {exclude = [], rootDir} = settings;
 
   for (const property of lookup) {
