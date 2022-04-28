@@ -184,42 +184,5 @@ describe("PlatformConfiguration", () => {
         expect(settings.port).to.eq(8081);
       });
     });
-
-    describe("resolve()", () => {
-      it("should replace rootDir", () => {
-        expect(settings.resolve("${rootDir}")).to.eq(process.cwd());
-      });
-
-      it("should preserve class", () => {
-        class Storage {
-          static _path = "${rootDir}";
-        }
-
-        const store = new Storage();
-        const result = settings.resolve({
-          path: "${rootDir}",
-          storage: store
-        });
-
-        expect(result).to.deep.eq({
-          path: process.cwd(),
-          storage: new Storage()
-        });
-      });
-
-      it("should replace rootDir", () => {
-        expect(settings.resolve({other: null, resolve: "${rootDir}"})).to.deep.eq({
-          other: null,
-          resolve: process.cwd()
-        });
-      });
-
-      it("should replace rootDir", () => {
-        expect(settings.resolve({other: 808, resolve: "${rootDir}"})).to.deep.eq({
-          other: 808,
-          resolve: process.cwd()
-        });
-      });
-    });
   });
 });

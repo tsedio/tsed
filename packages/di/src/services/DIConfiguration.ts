@@ -147,10 +147,10 @@ export class DIConfiguration {
    * @returns {undefined|any}
    */
   get<T = any>(propertyKey: string, defaultValue?: T): T {
-    return this.resolve(this.getRaw(propertyKey, defaultValue));
+    return this.getRaw(propertyKey, defaultValue);
   }
 
-  getRaw(propertyKey: string, defaultValue?: any): any {
+  protected getRaw(propertyKey: string, defaultValue?: any): any {
     const value = getValue(this.map, propertyKey);
 
     if (value !== undefined) {
@@ -160,55 +160,12 @@ export class DIConfiguration {
     return getValue(this.default, propertyKey, defaultValue);
   }
 
-  // merge(obj: Partial<TsED.Configuration>) {
-  //   Object.entries(obj).forEach(([key, value]) => {
-  //     const descriptor = Object.getOwnPropertyDescriptor(DIConfiguration.prototype, key);
-  //     const originalValue = this.get(key);
-  //     value = deepMerge(value, originalValue);
-  //
-  //     if (descriptor && !["default", "set", "map", "get"].includes(key)) {
-  //       this[key] = value;
-  //     }
-  //   });
-  // }
-
   /**
    *
    * @param value
    * @returns {any}
    */
   resolve(value: any) {
-    if (typeof value === "object" && value !== null) {
-      if (![Array, Object].includes(classOf(value))) {
-        return value;
-      }
-
-      return Object.entries(value).reduce(
-        (o, [k, v]) => {
-          // @ts-ignore
-          o[k] = this.resolve(v);
-
-          return o;
-        },
-        Array.isArray(value) ? [] : {}
-      );
-    }
-
-    if (typeof value === "string") {
-      const replacer = (match: string, key: string) => getValue(this.map, key);
-      return value
-        .replace(/\${([\w.]+)}/gi, replacer)
-        .replace(/<([\w.]+)>/gi, replacer)
-        .replace(/{{([\w.]+)}}/gi, replacer);
-    }
-
-    return value;
-  }
-
-  build() {
-    this.forEach((value, key) => this.map.set(key, this.resolve(value)));
-
-    this.set = this.setRaw;
-    this.get = this.getRaw = (propertyKey: string, defaultValue?: any) => getValue(this.map, propertyKey, defaultValue);
+    return value.replace("${rootDir}", this.rootDir);
   }
 }

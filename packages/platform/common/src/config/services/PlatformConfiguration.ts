@@ -61,7 +61,7 @@ export class PlatformConfiguration extends DIConfiguration {
    * @deprecated
    */
   get componentsScan(): string[] {
-    return this.resolve(this.getRaw("componentsScan"));
+    return this.getRaw("componentsScan");
   }
 
   /**
