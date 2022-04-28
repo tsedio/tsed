@@ -371,8 +371,6 @@ export class InjectorService extends Container {
       this.settings.set(key, deepMerge(value, this.settings.get(key)));
     });
 
-    this.settings.build();
-
     this.resolvedConfiguration = true;
   }
 
