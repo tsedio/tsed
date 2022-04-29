@@ -32,7 +32,6 @@ export * from "./interfaces/DIConfigurationOptions";
 export * from "./interfaces/DILogger";
 export * from "./interfaces/DILoggerOptions";
 export * from "./interfaces/DIResolver";
-export * from "./interfaces/InjectableProperties";
 export * from "./interfaces/InterceptorContext";
 export * from "./interfaces/InterceptorMethods";
 export * from "./interfaces/InvokeOptions";

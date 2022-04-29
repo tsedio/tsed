@@ -1,7 +1,4 @@
-import {deepClone, prototypeOf, Store} from "@tsed/core";
-import {INJECTABLE_PROP} from "../constants/constants";
-import type {InjectableProperties} from "../interfaces/InjectableProperties";
-import {InjectablePropertyType} from "../domain/InjectablePropertyType";
+import {prototypeOf} from "@tsed/core";
 import {InjectorService} from "../services/InjectorService";
 
 /**
@@ -43,7 +40,7 @@ export function Value(expression: any, defaultValue?: any) {
   return (target: any, propertyKey: string) => {
     Object.defineProperty(prototypeOf(target), propertyKey, {
       get() {
-        return (this.$$injector as InjectorService).settings.get(expression) || defaultValue;
+        return (this.$$injector as InjectorService).settings.get(expression, defaultValue);
       },
       set(value: any) {
         (this.$$injector as InjectorService).settings.set(expression, value);

@@ -1,30 +1,14 @@
-import {
-  ancestorsOf,
-  catchError,
-  classOf,
-  deepClone,
-  deepMerge,
-  isClass,
-  isFunction,
-  isInheritedFrom,
-  Metadata,
-  nameOf,
-  Store
-} from "@tsed/core";
-import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
+import {catchError, classOf, deepClone, deepMerge, isClass, isFunction, isInheritedFrom, Metadata, nameOf, Store} from "@tsed/core";
+import {DI_PARAM_OPTIONS} from "../constants/constants";
 import {Configuration} from "../decorators/configuration";
 import {Injectable} from "../decorators/injectable";
 import {Container} from "../domain/Container";
-import {InjectablePropertyType} from "../domain/InjectablePropertyType";
 import {LocalsContainer} from "../domain/LocalsContainer";
 import {Provider} from "../domain/Provider";
 import {ProviderScope} from "../domain/ProviderScope";
 import {InjectionError} from "../errors/InjectionError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
 import {DILogger} from "../interfaces/DILogger";
-import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties";
-import {InterceptorContext} from "../interfaces/InterceptorContext";
-import {InterceptorMethods} from "../interfaces/InterceptorMethods";
 import {InvokeOptions} from "../interfaces/InvokeOptions";
 import {ProviderOpts} from "../interfaces/ProviderOpts";
 import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
@@ -382,52 +366,25 @@ export class InjectorService extends Container {
   public bindInjectableProperties(instance: any, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions>) {
     catchError(() =>
       Object.defineProperty(instance, "$$injector", {
+        configurable: true,
+        enumerable: false,
         get: () => this
       })
     );
 
-    const properties: InjectableProperties = ancestorsOf(classOf(instance)).reduce((properties: any, target: any) => {
-      const store = Store.from(target);
-
-      return {
-        ...properties,
-        ...(store.get(INJECTABLE_PROP) || {})
-      };
-    }, {});
-
-    Object.values(properties).forEach((definition) => {
-      switch (definition.bindingType) {
-        case InjectablePropertyType.PROPERTY:
-          this.bindProperty(instance, definition, locals, options);
-          break;
-      }
-    });
-  }
-
-  /**
-   * Create an injectable property.
-   *
-   * @param instance
-   * @param {string} propertyKey
-   * @param {any} useType
-   * @param resolver
-   * @param options
-   * @param locals
-   * @param invokeOptions
-   */
-  public bindProperty(
-    instance: any,
-    {propertyKey, resolver, options = {}}: InjectablePropertyOptions,
-    locals: Map<TokenProvider, any>,
-    invokeOptions: Partial<InvokeOptions>
-  ) {
-    let get: () => any;
-
-    get = resolver(this, locals, {...invokeOptions, options});
+    catchError(() =>
+      Object.defineProperty(instance, "$$locals", {
+        configurable: true,
+        enumerable: false,
+        get: () => locals
+      })
+    );
 
     catchError(() =>
-      Object.defineProperty(instance, propertyKey, {
-        get
+      Object.defineProperty(instance, "$$invokeOptions", {
+        configurable: true,
+        enumerable: false,
+        get: () => options
       })
     );
   }

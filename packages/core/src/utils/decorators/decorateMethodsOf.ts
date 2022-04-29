@@ -11,6 +11,7 @@ export function decorateMethodsOf(klass: any, decorator: any) {
     if (target !== classOf(klass)) {
       Object.defineProperty(proto, propertyKey, {
         writable: true,
+        configurable: true,
         value(...args: any[]) {
           return prototypeOf(target)[propertyKey].apply(this, args);
         }

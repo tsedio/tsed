@@ -5,9 +5,9 @@ module.exports = {
   ...require("@tsed/jest-config")(__dirname, "typeorm"),
   coverageThreshold: {
     global: {
-      branches: 71.43,
+      branches: 76.92,
       functions: 100,
-      lines: 94.62,
+      lines: 96.29,
       statements: 96.49
     }
   }

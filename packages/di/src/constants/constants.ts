@@ -1,3 +1,1 @@
-export const INJECTABLE_PROP = "DI:INJECTABLE_PROP";
-export const DI_PARAMS = "DI:PARAMS";
 export const DI_PARAM_OPTIONS = "DI:PARAM:OPTIONS";

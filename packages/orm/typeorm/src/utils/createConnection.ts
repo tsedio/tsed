@@ -3,10 +3,11 @@ import {Connection, ConnectionOptions, getConnectionManager} from "typeorm";
 
 export async function createConnection(connectionOptions: ConnectionOptions): Promise<Connection> {
   const connectionManager = getConnectionManager();
+
   const name = getValue<string>(connectionOptions, "name", "default");
 
   if (!connectionManager.has(name)) {
-    connectionManager.create(connectionOptions!);
+    connectionManager.create({...connectionOptions, name}!);
   }
 
   const connection = connectionManager.get(name);

@@ -1,4 +1,4 @@
-import {Store} from "@tsed/core";
+import {Configuration} from "@tsed/common";
 import {
   Container,
   GlobalProviders,
@@ -13,8 +13,6 @@ import {
 } from "@tsed/di";
 import {expect} from "chai";
 import Sinon from "sinon";
-import {Configuration} from "@tsed/common";
-import {INJECTABLE_PROP} from "../constants/constants";
 
 class Test {
   @Inject()
@@ -24,11 +22,6 @@ class Test {
   constant: any;
 
   constructor() {}
-
-  @Inject()
-  test(injectorService: InjectorService) {
-    return injectorService;
-  }
 
   test2(@Inject() injectorService: InjectorService) {
     return injectorService;
@@ -55,7 +48,6 @@ describe("InjectorService", () => {
       injector.runInContext({} as any, () => {});
     });
   });
-
   describe("get()", () => {
     it("should return element", () => {
       expect(new InjectorService().get(InjectorService)).to.be.instanceOf(InjectorService);
@@ -77,13 +69,11 @@ describe("InjectorService", () => {
       expect(!!injector.getAll(ProviderType.FACTORY).length).to.eq(false);
     });
   });
-
   describe("toArray()", () => {
     it("should return instances", () => {
       expect(new InjectorService().toArray()).to.be.instanceOf(Array);
     });
   });
-
   describe("forkProvider()", () => {
     @Injectable()
     class Test {}
@@ -111,7 +101,6 @@ describe("InjectorService", () => {
       expect(provider.provide).to.eq(Test);
     });
   });
-
   describe("invoke()", () => {
     describe("when we call invoke with rebuild options (SINGLETON)", () => {
       it("should invoke the provider from container", async () => {
@@ -609,6 +598,7 @@ describe("InjectorService", () => {
       // GIVEN
       @Injectable()
       class RootModule {}
+
       const token = class Test {};
 
       const provider = new Provider<any>(token);
@@ -624,7 +614,6 @@ describe("InjectorService", () => {
       expect(injector.get(RootModule)).to.be.instanceof(RootModule);
     });
   });
-
   describe("bindInjectableProperties()", () => {
     const sandbox = Sinon.createSandbox();
 
@@ -637,65 +626,19 @@ describe("InjectorService", () => {
     it("should bind all properties", () => {
       // GIVEN
       const injector = new InjectorService();
-      const instance = new TestBind();
-
-      sandbox.stub(injector as any, "bindProperty");
-
-      const injectableProperties = {
-        testMethod: {
-          bindingType: "method"
-        },
-        testProp: {
-          bindingType: "property"
-        },
-        testConst: {
-          bindingType: "constant"
-        },
-        testValue: {
-          bindingType: "value"
-        },
-        testInterceptor: {
-          bindingType: "interceptor"
-        }
-      };
-
-      Store.from(TestBind).set(INJECTABLE_PROP, injectableProperties);
+      const instance: any = new TestBind();
+      const locals = new Map();
+      const opts = {};
 
       // WHEN
-      injector.bindInjectableProperties(instance, new Map(), {});
+      injector.bindInjectableProperties(instance, locals, opts);
 
       // THEN
-      expect(injector.bindProperty).to.have.been.calledWithExactly(instance, injectableProperties.testProp, new Map(), {});
+      expect(instance.$$injector).to.deep.eq(injector);
+      expect(instance.$$locals).to.deep.eq(injector);
+      expect(instance.$$invokeOptions).to.deep.eq(opts);
     });
   });
-
-  describe("bindProperty()", () => {
-    const sandbox = Sinon.createSandbox();
-
-    after(() => sandbox.restore());
-
-    it("should bind the method", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindProperty(
-        instance,
-        {
-          bindingType: "property",
-          propertyKey: "prop",
-          resolver: (injector: InjectorService) => () => injector.get(InjectorService)
-        } as any,
-        new Map(),
-        {}
-      );
-
-      // THEN
-      expect(instance.prop).to.eq(injector);
-    });
-  });
-
   describe("resolveConfiguration()", () => {
     it("should load configuration from each providers", () => {
       // GIVEN
@@ -780,7 +723,6 @@ describe("InjectorService", () => {
       expect(injector.resolvers.length).to.equal(1);
     });
   });
-
   describe("resolvers", () => {
     it("should load all providers with the SINGLETON scope only", async () => {
       class ExternalService {
@@ -810,7 +752,6 @@ describe("InjectorService", () => {
       expect(injector.get<MyService>(MyService)!.externalService).to.eq("MyClass");
     });
   });
-
   describe("alter()", () => {
     it("should alter value", () => {
       @Injectable()
@@ -855,7 +796,6 @@ describe("InjectorService", () => {
       expect(value).to.eq("alteredValue");
     });
   });
-
   describe("alterAsync()", () => {
     it("should alter value", async () => {
       @Injectable()

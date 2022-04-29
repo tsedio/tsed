@@ -1,8 +1,7 @@
-import {descriptorOf, Metadata, Store} from "@tsed/core";
+import {descriptorOf, Metadata} from "@tsed/core";
 import {expect} from "chai";
 import Sinon from "sinon";
 import {Inject, Injectable, InjectorService} from "../../src";
-import {INJECTABLE_PROP} from "../constants/constants";
 
 describe("@Inject()", () => {
   describe("used on unsupported decorator type", () => {
@@ -22,36 +21,6 @@ describe("@Inject()", () => {
 
       // THEN
       expect(actualError.message).to.deep.eq("Inject cannot be used as method.static decorator on Test.test");
-    });
-  });
-
-  describe("used on method", () => {
-    before(() => {
-      Sinon.stub(Metadata, "getType").returns(String);
-    });
-
-    after(() => {
-      // @ts-ignore
-      Metadata.getType.restore();
-    });
-
-    it("should store metadata", () => {
-      // GIVEN
-      class Test {
-        test() {}
-      }
-
-      // WHEN
-      Inject()(Test.prototype, "test", descriptorOf(Test, "test"));
-
-      // THEN
-      const store = Store.from(Test).get(INJECTABLE_PROP);
-      expect(store).to.deep.eq({
-        test: {
-          bindingType: "method",
-          propertyKey: "test"
-        }
-      });
     });
   });
 

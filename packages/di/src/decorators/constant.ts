@@ -40,19 +40,10 @@ export function Constant(expression: string, defaultValue?: any): any {
   return (target: any, propertyKey: string) => {
     Object.defineProperty(prototypeOf(target), propertyKey, {
       get() {
-        const prop = "$$" + propertyKey;
-        const bean = this[prop];
-
-        if (bean !== undefined) {
-          return bean;
-        }
-
         const injector = this.$$injector as InjectorService;
         const value = injector.settings.get(expression, defaultValue);
 
-        this[prop] = Object.freeze(deepClone(value));
-
-        return this[prop];
+        return Object.freeze(deepClone(value));
       },
       enumerable: true,
       configurable: true

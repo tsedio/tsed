@@ -24,5 +24,9 @@ describe("@Value()", () => {
 
     // THEN
     expect(result).to.eq("hello");
+
+    // THEN
+    service.test = "test";
+    expect(result).to.eq("hello");
   });
 });

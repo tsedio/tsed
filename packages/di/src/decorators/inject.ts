@@ -1,14 +1,35 @@
-import {decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
-import type {InjectablePropertyOptions} from "../interfaces/InjectableProperties";
+import {decoratorTypeOf, DecoratorTypes, isPromise, Metadata, prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
+import {DI_PARAM_OPTIONS} from "../constants/constants";
+import {InvokeOptions} from "../interfaces/InvokeOptions";
+import {TokenProvider} from "../interfaces/TokenProvider";
+import {InjectorService} from "../services/InjectorService";
 import {getContext} from "../utils/runInContext";
 
-export function injectProperty(target: any, propertyKey: string, options: Partial<InjectablePropertyOptions>) {
-  Store.from(target).merge(INJECTABLE_PROP, {
-    [propertyKey]: {
-      bindingType: DecoratorTypes.PROP,
-      propertyKey,
-      ...options
+export type InjectPropertyResolver = (
+  injector: InjectorService,
+  locals: Map<TokenProvider, any>,
+  options: Partial<InvokeOptions>
+) => () => any;
+
+export function injectProperty(target: any, propertyKey: string, resolver: InjectPropertyResolver) {
+  Object.defineProperty(prototypeOf(target), propertyKey, {
+    enumerable: false,
+    configurable: true,
+    get() {
+      const key = `$$getter_${propertyKey}`;
+
+      if (!this[key]) {
+        const fn = resolver(this.$$injector, this.$$locals, this.$$invokeOptions);
+        Object.defineProperty(this, key, {
+          configurable: true,
+          enumerable: false,
+          get() {
+            return fn;
+          }
+        });
+      }
+
+      return this[key]();
     }
   });
 }
@@ -47,38 +68,29 @@ export function Inject(symbol?: any, onGet = (bean: any) => bean): Function {
         break;
 
       case DecoratorTypes.PROP:
-        injectProperty(target, propertyKey, {
-          resolver(injector, locals, {options, ...invokeOptions}) {
+        injectProperty(target, propertyKey, (injector, locals, invokeOptions) => {
+          const useType = symbol || Metadata.getType(target, propertyKey);
+
+          let bean: any;
+
+          if (!bean) {
+            const options = Store.from(target, propertyKey).get(DI_PARAM_OPTIONS);
             locals.set(DI_PARAM_OPTIONS, {...options});
 
-            let bean: any;
+            bean = injector.invoke(useType, locals, invokeOptions);
 
-            if (!bean) {
-              const useType = symbol || Metadata.getType(target, propertyKey);
-              bean = injector.invoke(useType, locals, invokeOptions);
-              locals.delete(DI_PARAM_OPTIONS);
-            }
+            locals.delete(DI_PARAM_OPTIONS);
 
             if (isPromise(bean)) {
               bean.then((result: any) => {
                 bean = result;
               });
             }
-
-            return () => onGet(bean);
           }
+
+          return () => onGet(bean);
         });
         break;
-
-      case DecoratorTypes.METHOD:
-        Store.from(target).merge(INJECTABLE_PROP, {
-          [propertyKey]: {
-            bindingType,
-            propertyKey
-          }
-        });
-
-        return descriptor;
 
       default:
         throw new UnsupportedDecoratorType(Inject, [target, propertyKey, descriptor]);
@@ -102,10 +114,6 @@ export function Inject(symbol?: any, onGet = (bean: any) => bean): Function {
  */
 export function InjectContext(): PropertyDecorator {
   return (target: any, propertyKey: string): any | void => {
-    injectProperty(target, propertyKey, {
-      resolver() {
-        return () => getContext();
-      }
-    });
+    injectProperty(target, propertyKey, () => () => getContext());
   };
 }

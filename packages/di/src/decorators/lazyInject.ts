@@ -27,26 +27,26 @@ export function LazyInject(
   {optional = false, packageName = resolver.toString()}: {optional?: boolean; packageName?: string} = {}
 ): PropertyDecorator {
   return (target: any, propertyKey: string): any | void => {
-    let bean: any, token: any;
-    injectProperty(target, propertyKey, {
-      resolver(injector) {
-        return async () => {
+    let token: any;
+
+    injectProperty(target, propertyKey, (injector) => {
+      let bean: any;
+      return async () => {
+        if (!token) {
+          const exports = await importPackage(packageName, resolver, optional);
+          token = exports[key];
+
           if (!token) {
-            const exports = await importPackage(packageName, resolver, optional);
-            token = exports[key];
-
-            if (!token) {
-              if (!optional) {
-                throw new Error(`Unable to lazy load the "${key}". The token isn\'t a valid token provider.`);
-              }
+            if (!optional) {
+              throw new Error(`Unable to lazy load the "${key}". The token isn\'t a valid token provider.`);
             }
-
-            bean = token ? await injector.lazyInvoke(token) : {};
           }
 
-          return bean;
-        };
-      }
+          bean = token ? await injector.lazyInvoke(token) : {};
+        }
+
+        return bean;
+      };
     });
   };
 }

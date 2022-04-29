@@ -1,5 +1,5 @@
 import {decoratorTypeOf, DecoratorTypes, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
+import {DI_PARAM_OPTIONS} from "../constants/constants";
 
 /**
  * Add options to invoke the Service.
@@ -50,11 +50,7 @@ export function UseOpts(options: {[key: string]: any}): Function {
         break;
 
       case DecoratorTypes.PROP:
-        Store.from(target).merge(INJECTABLE_PROP, {
-          [propertyKey as string]: {
-            options
-          }
-        });
+        Store.from(target, propertyKey).merge(DI_PARAM_OPTIONS, options);
         break;
 
       default:
