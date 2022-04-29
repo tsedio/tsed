@@ -72,7 +72,7 @@ registerProvider<DataSource>({
 Finally, inject the DataSource in your controller or service:
 
 ```typescript
-import {Injectable} from "@tsed/di";
+import {Injectable, Inject} from "@tsed/di";
 import {DataSource} from "typeorm";
 import {MYSQL_DATA_SOURCE} from "../datasources/MysqlDataSource";
 
@@ -94,7 +94,7 @@ export class MyService {
 All data sources connection can be retrieved as following:
 
 ```typescript
-import {Injectable, InjectorService} from "@tsed/di";
+import {Inject, Injectable, InjectorService} from "@tsed/di";
 
 @Injectable()
 export class DataSourcesService {
