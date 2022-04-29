@@ -639,7 +639,6 @@ describe("InjectorService", () => {
       const injector = new InjectorService();
       const instance = new TestBind();
 
-      sandbox.stub(injector as any, "bindMethod");
       sandbox.stub(injector as any, "bindProperty");
       sandbox.stub(injector as any, "bindConstant");
       sandbox.stub(injector as any, "bindValue");
@@ -669,35 +668,9 @@ describe("InjectorService", () => {
       injector.bindInjectableProperties(instance, new Map(), {});
 
       // THEN
-      expect(injector.bindMethod).to.have.been.calledWithExactly(instance, injectableProperties.testMethod);
       expect(injector.bindProperty).to.have.been.calledWithExactly(instance, injectableProperties.testProp, new Map(), {});
       expect(injector.bindConstant).to.have.been.calledWithExactly(instance, injectableProperties.testConst);
       expect(injector.bindValue).to.have.been.calledWithExactly(instance, injectableProperties.testValue);
-      expect(injector.bindInterceptor).to.have.been.calledWithExactly(instance, injectableProperties.testInterceptor);
-    });
-  });
-
-  describe("bindMethod()", () => {
-    const sandbox = Sinon.createSandbox();
-
-    after(() => sandbox.restore());
-
-    it("should bind the method", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      const spyTest2 = sandbox.spy(instance, "test2");
-      sandbox.spy(injector, "get");
-
-      // WHEN
-      injector.bindMethod(instance, {bindingType: "method", propertyKey: "test2"} as any);
-      const result = (instance as any).test2();
-
-      // THEN
-      expect(spyTest2).to.have.been.calledWithExactly(injector);
-      expect(injector.get).to.have.been.calledWithExactly(InjectorService);
-      expect(result).to.eq(injector);
     });
   });
 

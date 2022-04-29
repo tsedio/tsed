@@ -1,49 +1,74 @@
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import {Store} from "@tsed/core";
-import {InterceptorMethods, InterceptorContext, InjectablePropertyType, Intercept} from "../../src";
-import {INJECTABLE_PROP} from "../constants/constants";
+import {Injectable, Intercept, InterceptorContext, InterceptorMethods} from "../../src";
 
 describe("@Intercept", () => {
-  it("should add interceptor on method", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
+  it("should add interceptor on method", async () => {
     // GIVEN
+    @Injectable()
     class TestInterceptor implements InterceptorMethods {
       intercept(ctx: InterceptorContext<any>) {
-        return "";
+        const result = ctx.next();
+
+        return {result, options: ctx.options, args: ctx.args};
+      }
+    }
+
+    @Injectable()
+    class TestService {
+      @Intercept(TestInterceptor, {options: "options"})
+      test(...args: any[]) {
+        return `hello ${args.length}`;
       }
     }
 
     // WHEN
-    class TestService {
-      @Intercept(TestInterceptor, {options: "options"})
-      test() {}
-    }
+    await PlatformTest.invoke<TestInterceptor>(TestInterceptor);
+    const service = await PlatformTest.invoke<TestService>(TestService);
+    const result = service.test("arg1");
 
     // THEN
-    const injectableProperties = Store.from(TestService).get(INJECTABLE_PROP);
-    expect(injectableProperties.test.bindingType).to.eq(InjectablePropertyType.INTERCEPTOR);
-    expect(injectableProperties.test.useType).to.eq(TestInterceptor);
-    expect(injectableProperties.test.options).to.deep.eq({options: "options"});
-    expect(injectableProperties.test.propertyKey).to.eq("test");
+    expect(result).to.deep.equal({
+      args: ["arg1"],
+      options: {
+        options: "options"
+      },
+      result: "hello 1"
+    });
   });
-  it("should add interceptor on class and decorate all methods", () => {
+  it("should add interceptor on class and decorate all methods", async () => {
     // GIVEN
+    @Injectable()
     class TestInterceptor implements InterceptorMethods {
       intercept(ctx: InterceptorContext<any>) {
-        return "";
+        const result = ctx.next();
+
+        return {result, options: ctx.options, args: ctx.args};
       }
     }
 
     // WHEN
     @Intercept(TestInterceptor, {options: "options"})
+    @Injectable()
     class TestService {
-      test2() {}
+      test(...args: any[]) {
+        return `hello ${args.length}`;
+      }
     }
 
+    await PlatformTest.invoke<TestInterceptor>(TestInterceptor);
+    const service = await PlatformTest.invoke<TestService>(TestService);
+    const result = service.test("arg1");
+
     // THEN
-    const injectableProperties = Store.from(TestService).get(INJECTABLE_PROP);
-    expect(injectableProperties.test2.bindingType).to.eq(InjectablePropertyType.INTERCEPTOR);
-    expect(injectableProperties.test2.useType).to.eq(TestInterceptor);
-    expect(injectableProperties.test2.options).to.deep.eq({options: "options"});
-    expect(injectableProperties.test2.propertyKey).to.eq("test2");
+    expect(result).to.deep.equal({
+      args: ["arg1"],
+      options: {
+        options: "options"
+      },
+      result: "hello 1"
+    });
   });
 });

@@ -9,32 +9,31 @@ import {
   isInheritedFrom,
   Metadata,
   nameOf,
-  prototypeOf,
   Store
 } from "@tsed/core";
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
 import {Configuration} from "../decorators/configuration";
 import {Injectable} from "../decorators/injectable";
 import {Container} from "../domain/Container";
+import {InjectablePropertyType} from "../domain/InjectablePropertyType";
 import {LocalsContainer} from "../domain/LocalsContainer";
 import {Provider} from "../domain/Provider";
+import {ProviderScope} from "../domain/ProviderScope";
 import {InjectionError} from "../errors/InjectionError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
-import {GlobalProviders} from "../registries/GlobalProviders";
-import {createContainer} from "../utils/createContainer";
-import {DIConfiguration} from "./DIConfiguration";
-import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
-import {ProviderScope} from "../domain/ProviderScope";
 import {DILogger} from "../interfaces/DILogger";
-import {TokenProvider} from "../interfaces/TokenProvider";
-import {ProviderOpts} from "../interfaces/ProviderOpts";
-import {InvokeOptions} from "../interfaces/InvokeOptions";
 import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties";
-import {InjectablePropertyType} from "../domain/InjectablePropertyType";
 import {InterceptorContext} from "../interfaces/InterceptorContext";
 import {InterceptorMethods} from "../interfaces/InterceptorMethods";
-import {runInContext} from "../utils/runInContext";
+import {InvokeOptions} from "../interfaces/InvokeOptions";
+import {ProviderOpts} from "../interfaces/ProviderOpts";
+import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
+import {TokenProvider} from "../interfaces/TokenProvider";
+import {GlobalProviders} from "../registries/GlobalProviders";
+import {createContainer} from "../utils/createContainer";
 import {resolveControllers} from "../utils/resolveControllers";
+import {runInContext} from "../utils/runInContext";
+import {DIConfiguration} from "./DIConfiguration";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -381,6 +380,12 @@ export class InjectorService extends Container {
    * @param options
    */
   public bindInjectableProperties(instance: any, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions>) {
+    catchError(() =>
+      Object.defineProperty(instance, "$$injector", {
+        get: () => this
+      })
+    );
+
     const properties: InjectableProperties = ancestorsOf(classOf(instance)).reduce((properties: any, target: any) => {
       const store = Store.from(target);
 
@@ -392,9 +397,6 @@ export class InjectorService extends Container {
 
     Object.values(properties).forEach((definition) => {
       switch (definition.bindingType) {
-        case InjectablePropertyType.METHOD:
-          this.bindMethod(instance, definition);
-          break;
         case InjectablePropertyType.PROPERTY:
           this.bindProperty(instance, definition, locals, options);
           break;
@@ -404,28 +406,8 @@ export class InjectorService extends Container {
         case InjectablePropertyType.VALUE:
           this.bindValue(instance, definition);
           break;
-        case InjectablePropertyType.INTERCEPTOR:
-          this.bindInterceptor(instance, definition);
-          break;
       }
     });
-  }
-
-  /**
-   *
-   * @param instance
-   * @param {string} propertyKey
-   */
-  public bindMethod(instance: any, {propertyKey}: InjectablePropertyOptions) {
-    const target = classOf(instance);
-    const originalMethod = instance[propertyKey];
-    const deps = Metadata.getParamTypes(prototypeOf(target), propertyKey);
-
-    instance[propertyKey] = () => {
-      const services = deps.map((dependency: any) => this.get(dependency));
-
-      return originalMethod.call(instance, ...services);
-    };
   }
 
   /**
