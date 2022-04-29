@@ -400,12 +400,6 @@ export class InjectorService extends Container {
         case InjectablePropertyType.PROPERTY:
           this.bindProperty(instance, definition, locals, options);
           break;
-        case InjectablePropertyType.CONSTANT:
-          this.bindConstant(instance, definition);
-          break;
-        case InjectablePropertyType.VALUE:
-          this.bindValue(instance, definition);
-          break;
       }
     });
   }
@@ -436,92 +430,6 @@ export class InjectorService extends Container {
         get
       })
     );
-  }
-
-  /**
-   *
-   * @param instance
-   * @param {string} propertyKey
-   * @param {any} useType
-   */
-  public bindValue(instance: any, {propertyKey, expression, defaultValue}: InjectablePropertyValue) {
-    const descriptor = {
-      get: () => this.settings.get(expression) || defaultValue,
-      set: (value: any) => this.settings.set(expression, value),
-      enumerable: true,
-      configurable: true
-    };
-
-    catchError(() => Object.defineProperty(instance, propertyKey, descriptor));
-  }
-
-  /**
-   *
-   * @param instance
-   * @param {string} propertyKey
-   * @param {any} useType
-   */
-  public bindConstant(instance: any, {propertyKey, expression, defaultValue}: InjectablePropertyValue) {
-    let bean: any;
-
-    const get = () => {
-      if (bean !== undefined) {
-        return bean;
-      }
-
-      const value = this.settings.get(expression, defaultValue);
-      bean = Object.freeze(deepClone(value));
-
-      return bean;
-    };
-
-    const descriptor = {
-      get,
-      enumerable: true,
-      configurable: true
-    };
-
-    catchError(() => Object.defineProperty(instance, propertyKey, descriptor));
-  }
-
-  /**
-   *
-   * @param instance
-   * @param propertyKey
-   * @param useType
-   * @param options
-   */
-  public bindInterceptor(instance: any, {propertyKey, useType, options}: InjectablePropertyOptions) {
-    const target = classOf(instance);
-    const originalMethod = instance[propertyKey];
-
-    instance[propertyKey] = (...args: any[]) => {
-      const next = (err?: Error) => {
-        if (!err) {
-          return originalMethod.apply(instance, args);
-        }
-
-        throw err;
-      };
-
-      const context: InterceptorContext<any> = {
-        target,
-        propertyKey,
-        args,
-        options,
-        next
-      };
-
-      const interceptor = this.get<InterceptorMethods>(useType)!;
-
-      return interceptor.intercept!(
-        {
-          ...context,
-          options
-        },
-        next
-      );
-    };
   }
 
   async lazyInvoke<T = any>(token: TokenProvider) {

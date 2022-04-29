@@ -640,9 +640,6 @@ describe("InjectorService", () => {
       const instance = new TestBind();
 
       sandbox.stub(injector as any, "bindProperty");
-      sandbox.stub(injector as any, "bindConstant");
-      sandbox.stub(injector as any, "bindValue");
-      sandbox.stub(injector as any, "bindInterceptor");
 
       const injectableProperties = {
         testMethod: {
@@ -669,8 +666,6 @@ describe("InjectorService", () => {
 
       // THEN
       expect(injector.bindProperty).to.have.been.calledWithExactly(instance, injectableProperties.testProp, new Map(), {});
-      expect(injector.bindConstant).to.have.been.calledWithExactly(instance, injectableProperties.testConst);
-      expect(injector.bindValue).to.have.been.calledWithExactly(instance, injectableProperties.testValue);
     });
   });
 
@@ -698,110 +693,6 @@ describe("InjectorService", () => {
 
       // THEN
       expect(instance.prop).to.eq(injector);
-    });
-  });
-
-  describe("bindValue()", () => {
-    it("should bind a property with a value (1)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindValue(instance, {propertyKey: "value", expression: "expression"} as any);
-
-      instance.value = "test";
-      // THEN
-      expect(instance.value).to.eq("test");
-    });
-
-    it("should bind a property with a value (2)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindValue(instance, {propertyKey: "value", expression: "UNKNOW", defaultValue: "test2"} as any);
-
-      // THEN
-      expect(instance.value).to.eq("test2");
-    });
-  });
-
-  describe("bindConstant()", () => {
-    it("should bind a property with a value (1)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      injector.settings.set("expression", "constant");
-
-      // WHEN
-      injector.bindConstant(instance, {propertyKey: "constant", expression: "expression"} as any);
-
-      // THEN
-      expect(instance.constant).to.eq("constant");
-
-      let actualError: any;
-      try {
-        instance.constant = "test";
-      } catch (er) {
-        actualError = er;
-      }
-      expect(!!actualError).to.eq(true);
-    });
-
-    it("should bind a property with a value (2)", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      // WHEN
-      injector.bindConstant(instance, {propertyKey: "constant", expression: "UNKNOW", defaultValue: "test"} as any);
-
-      // THEN
-      expect(instance.constant).to.eq("test");
-    });
-  });
-
-  describe("bindInterceptor()", () => {
-    const sandbox = Sinon.createSandbox();
-
-    after(() => sandbox.restore());
-
-    it("should bind the method with intercept", async () => {
-      // GIVEN
-      class InterceptorTest {
-        intercept(ctx: any) {
-          return ctx.next() + " intercepted";
-        }
-      }
-
-      const injector = new InjectorService();
-      const container = new Container();
-      container.addProvider(InterceptorTest);
-
-      await injector.load(container);
-
-      const instance = new Test();
-      const originalMethod = instance["test"];
-
-      sandbox.spy(injector, "get");
-
-      // WHEN
-      injector.bindInterceptor(instance, {
-        bindingType: "interceptor",
-        propertyKey: "test3",
-        useType: InterceptorTest
-      } as any);
-
-      const result = (instance as any).test3("test");
-
-      // THEN
-      expect(expect(originalMethod)).to.not.eq(instance.test3);
-      expect(injector.get).to.have.been.calledWithExactly(InterceptorTest);
-
-      expect(result).to.eq("test called  intercepted");
     });
   });
 

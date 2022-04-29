@@ -1,25 +1,28 @@
+import {PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import {Store} from "@tsed/core";
-import {Constant} from "../../src";
-import {INJECTABLE_PROP} from "../constants/constants";
-
-class Test {}
+import {Constant, Injectable} from "../../src";
 
 describe("@Constant()", () => {
-  it("should store metadata", () => {
+  beforeEach(() =>
+    PlatformTest.create({
+      expression: "hello"
+    })
+  );
+  afterEach(() => PlatformTest.reset());
+
+  it("should create constant property", async () => {
+    // GIVEN
+    @Injectable()
+    class Test {
+      @Constant("expression")
+      test: string;
+    }
+
     // WHEN
-    Constant("expression")(Test, "test");
+    const service = await PlatformTest.invoke<Test>(Test);
+    const result = service.test;
 
     // THEN
-    const store = Store.from(Test).get(INJECTABLE_PROP);
-
-    expect(store).to.deep.eq({
-      test: {
-        bindingType: "constant",
-        propertyKey: "test",
-        expression: "expression",
-        defaultValue: undefined
-      }
-    });
+    expect(result).to.eq("hello");
   });
 });

@@ -1,7 +1,8 @@
-import {Store} from "@tsed/core";
+import {deepClone, prototypeOf, Store} from "@tsed/core";
 import {INJECTABLE_PROP} from "../constants/constants";
 import type {InjectableProperties} from "../interfaces/InjectableProperties";
 import {InjectablePropertyType} from "../domain/InjectablePropertyType";
+import {InjectorService} from "../services/InjectorService";
 
 /**
  * Return value from Configuration.
@@ -40,13 +41,15 @@ import {InjectablePropertyType} from "../domain/InjectablePropertyType";
  */
 export function Value(expression: any, defaultValue?: any) {
   return (target: any, propertyKey: string) => {
-    Store.from(target).merge(INJECTABLE_PROP, {
-      [propertyKey]: {
-        bindingType: InjectablePropertyType.VALUE,
-        propertyKey,
-        expression,
-        defaultValue
-      }
-    } as InjectableProperties);
+    Object.defineProperty(prototypeOf(target), propertyKey, {
+      get() {
+        return (this.$$injector as InjectorService).settings.get(expression) || defaultValue;
+      },
+      set(value: any) {
+        (this.$$injector as InjectorService).settings.set(expression, value);
+      },
+      enumerable: true,
+      configurable: true
+    });
   };
 }

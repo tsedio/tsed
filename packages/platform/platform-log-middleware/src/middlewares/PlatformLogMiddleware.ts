@@ -26,7 +26,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
   @Constant("logger.level")
   protected logLevel: string;
 
-  constructor() {
+  $onInit() {
     if (this.logLevel !== "off") {
       this.$onResponse = this.onLogEnd.bind(this);
     }
