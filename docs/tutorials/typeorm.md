@@ -51,7 +51,7 @@ export const MysqlDataSource = new DataSource({
 });
 
 registerProvider<DataSource>({
-  provide: MysqlDataSource,
+  provide: MYSQL_DATA_SOURCE,
   type: "typeorm:datasource",
   deps: [Logger],
   async useAsyncFactory(logger: Logger) {
