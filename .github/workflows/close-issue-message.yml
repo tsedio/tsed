@@ -1,0 +1,20 @@
+name: Closed Issue Message
+on:
+  issues:
+    types: [closed]
+jobs:
+  auto_comment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: aws-actions/closed-issue-message@v1
+        with:
+          # These inputs are both required
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          message: |
+            ## 🎉 Are you happy? 
+
+            If you appreciated the support, know that it is **free** and is carried out on **personal time** ;)
+
+            A support, even a little bit **makes a difference** for me and  **continues to bring you answers**!
+
+            [![github](https://img.shields.io/static/v1?label=Github%20sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/romakita) [![opencollective](https://img.shields.io/static/v1?label=OpenCollective%20sponsor&message=%E2%9D%A4&logo=OpenCollective&color=%23fe8e86)](https://opencollective.com/tsed)
