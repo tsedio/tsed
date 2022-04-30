@@ -79,21 +79,18 @@ export class PlatformParams {
 
     if (!provider || !provider.scope || provider.scope === ProviderScope.SINGLETON) {
       const instance = await this.injector.invoke<any>(token);
-      const handler = instance[propertyKey!].bind(instance);
 
       return async (scope) => {
         const args = await getArguments(scope);
 
-        return handler(...args, scope.$ctx);
+        return instance[propertyKey!].call(instance, ...args, scope.$ctx);
       };
     }
 
     return async (scope) => {
       const [instance, args] = await Promise.all([this.injector.invoke<any>(token, scope.$ctx.container), getArguments(scope)]);
 
-      const handler = instance[propertyKey!].bind(instance);
-
-      return handler(...args, scope.$ctx);
+      return instance[propertyKey].call(instance, ...args, scope.$ctx);
     };
   }
 }
