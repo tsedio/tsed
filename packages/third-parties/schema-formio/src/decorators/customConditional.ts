@@ -59,9 +59,7 @@ function sanitize(customConditional: Function) {
   let content = fn.join("=>");
 
   if (!signature.includes("{")) {
-    const reg = `${signature.trim()}\.`;
-
-    content = content.replace(new RegExp(reg, "gi"), "");
+    content = content.replace(new RegExp(`${signature.trim()}.`, "gi"), "");
   }
 
   return `show = ${content.trim()}`;
