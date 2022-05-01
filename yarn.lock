@@ -1549,6 +1549,13 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
+"@godaddy/terminus@^4.7.1":
+  version "4.10.2"
+  resolved "https://registry.yarnpkg.com/@godaddy/terminus/-/terminus-4.10.2.tgz#7ed17253fb6a24fe4e834b461a57bbeac8b00ddc"
+  integrity sha512-xzNSk6yL3tbeD/vtmHlrBbxflmmbdBKT89rM4b10H5LeaBjBFgG6CsDPTb6CdZHdwipZl1Rxn5RDH5UbCLf8Qw==
+  dependencies:
+    stoppable "^1.1.0"
+
 "@graphql-tools/merge@8.2.6":
   version "8.2.6"
   resolved "https://registry.yarnpkg.com/@graphql-tools/merge/-/merge-8.2.6.tgz#7fb615fa9c143c3151ff025e501d52bd48186d19"
@@ -24360,6 +24367,11 @@ yaml@^1.10.0, yaml@^1.10.2:
   version "1.10.2"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
+
+yaml@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.0.1.tgz#71886d6021f3da28169dbefde78d4dd0f8d83650"
+  integrity sha512-1NpAYQ3wjzIlMs0mgdBmYzLkFgWBIWrzYVDYfrixhoFNNgJ444/jT2kUT2sicRbJES3oQYRZugjB6Ro8SjKeFg==
 
 yargs-parser@20.2.4:
   version "20.2.4"
