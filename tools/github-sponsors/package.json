@@ -10,7 +10,7 @@
     "test": "__tests__"
   },
   "devDependencies": {
-    "yaml": "^1.10.2"
+    "yaml": "^2.0.1"
   },
   "dependencies": {},
   "peerDependencies": {}
