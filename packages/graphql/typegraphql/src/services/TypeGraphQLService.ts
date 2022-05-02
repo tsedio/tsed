@@ -106,7 +106,7 @@ export class TypeGraphQLService {
     return providers.reduce<Record<string, DataSource>>((map, provider) => {
       // set the first letter of the class lowercase to follow proper conventions during access
       // i.e. this.context.dataSources.userService
-      const sourceName = `${provider.name[0].toLowerCase()}${provider.name.substr(1)}`;
+      const sourceName = `${provider.name[0].toLowerCase()}${provider.name.slice(1)}`;
       map[sourceName] = this.injector.invoke(provider.provide);
 
       return map;

@@ -1,11 +1,9 @@
 import {Configuration} from "@tsed/di";
 import "@tsed/platform-express";
 import "@tsed/typegraphql";
+import "./resolvers/index"; // barrel file with all resolvers
 
 @Configuration({
-  componentsScan: [
-    `./graphql/**/*.ts` // add this pattern to scan resolvers or datasources
-  ],
   typegraphql: {
     server1: {
       // GraphQL server configuration

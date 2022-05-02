@@ -3,7 +3,6 @@ import {Configuration, Inject} from "@tsed/di";
 import {GlobalAcceptMimeMiddleware} from "./GlobalAcceptMimeMiddleware";
 
 @Configuration({
-  componentsScan: [`./middlewares/**/**.js`],
   acceptMimes: ["application/json"] // add your custom configuration here
 })
 export class Server {
