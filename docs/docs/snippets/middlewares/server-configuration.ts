@@ -1,9 +1,9 @@
 import {Configuration} from "@tsed/di";
+import {MyController} from "./controllers/rest/MyController";
 
 @Configuration({
   mount: {
-    "/rest": `./controllers/**/**.ts`
-  },
-  componentsScan: [`./services/**/**.ts`, `./middlewares/**/**.ts`]
+    "/rest": [MyController]
+  }
 })
 export class Server {}

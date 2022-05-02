@@ -6,7 +6,10 @@ import {resolve} from "path";
 import {User} from "./graphql/auth/User";
 import {HelloController} from "./controllers/HelloController";
 import {buildContext} from "graphql-passport";
-// import {buildContext} from "graphql-passport";
+import "./protocols/GraphQLProtocol";
+import "./graphql/index";
+import "./services/RecipeService";
+import "./services/UsersRepository";
 
 const rootDir = resolve(__dirname);
 
@@ -21,8 +24,6 @@ const rootDir = resolve(__dirname);
   mount: {
     "/rest": [HelloController]
   },
-  disableComponentScan: false,
-  componentsScan: ["${rootDir}/services/**/*.ts", "${rootDir}/graphql/**/*.ts", "${rootDir}/protocols/**/*.ts"],
   graphql: {
     default: {
       path: "/api/graphql",
