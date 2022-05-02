@@ -22,20 +22,24 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "@godaddy/terminus": "^4.7.1",
     "tslib": "2.3.1"
   },
   "devDependencies": {
+    "@godaddy/terminus": "^4.7.1",
     "@tsed/core": "7.0.0-beta.11",
     "@tsed/di": "7.0.0-beta.11",
     "@tsed/schema": "7.0.0-beta.11"
   },
   "peerDependencies": {
+    "@godaddy/terminus": "^4.7.1",
     "@tsed/core": "^7.0.0-beta.11",
     "@tsed/di": "^7.0.0-beta.11",
     "@tsed/schema": "^7.0.0-beta.11"
   },
   "peerDependenciesMeta": {
+    "@godaddy/terminus": {
+      "optional": false
+    },
     "@tsed/core": {
       "optional": false
     },

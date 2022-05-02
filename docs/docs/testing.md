@@ -64,7 +64,7 @@ module.exports = {
 
   </Tab>
   <Tab label="Mocha + chai">
-  
+
 Run these commands to install mocha chai and sinon:
 
 ```bash
@@ -130,7 +130,8 @@ process.on("unhandledRejection", (reason, p) => {
 
 ### Usage
 
-Ts.ED provides @@PlatformTest@@ to create a new context to inject your Services, Controllers, Middlewares, etc... registered with annotations like @@Injectable@@.
+Ts.ED provides @@PlatformTest@@ to create a new context to inject your Services, Controllers, Middlewares, etc...
+registered with annotations like @@Injectable@@.
 
 The process to test any components is the same thing:
 
@@ -243,9 +244,176 @@ If you use the PlatformTest, you'll probably get an error when you'll run the un
 Platform type is not specified. Have you added at least `import @tsed/platform-express` (or equivalent) on your Server.ts ?
 ```
 
-To solve it, just add the `import @tsed/platform-express` on your `Server.ts`. PlatformTest need this import to know on which Platform
+To solve it, just add the `import @tsed/platform-express` on your `Server.ts`. PlatformTest need this import to know on
+which Platform
 your server must be executed for integration test.
 :::
+
+### Stub a service method
+
+When you're testing your API, you have sometimes to stub a method of a service.
+
+Here is an example to do that:
+
+<Tabs class="-code">
+  <Tab label="Jest">
+
+```typescript
+import {PlatformTest} from "@tsed/common";
+import SuperTest from "supertest";
+import {Server} from "../../Server";
+import {Chapter} from "../../entity/Chapter";
+
+const entity = new Chapter();
+Object.assign(entity, {
+  id: 2,
+  bookId: 4,
+  timestamp: 1650996201,
+  name: "First Day At Work"
+});
+
+describe("ChapterController", () => {
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+
+  beforeAll(PlatformTest.bootstrap(Server));
+  beforeAll(async () => {
+    const service = PlatformTest.get(ChapterService);
+
+    jest.spyOn(service, "findChapters").mockResolvedValue([entity]);
+    request = SuperTest(PlatformTest.callback());
+  });
+  afterAll(PlatformTest.reset);
+
+  describe("GET /rest/chapter", () => {
+    it("Get All Chapters", async () => {
+      const response = await request.get("/rest/chapter").expect(200);
+      expect(typeof response.body).toEqual("object");
+    });
+  });
+});
+```
+
+  </Tab>
+  <Tab label="Mocha">
+
+```typescript
+import {PlatformTest} from "@tsed/common";
+import SuperTest from "supertest";
+import Sinon from "sinon";
+import {Server} from "../../Server";
+import {Chapter} from "../../entity/Chapter";
+
+const entity = new Chapter();
+Object.assign(entity, {
+  id: 2,
+  bookId: 4,
+  timestamp: 1650996201,
+  name: "First Day At Work"
+});
+
+const sandbox = Sinon.createSandbox();
+describe("ChapterController", () => {
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+
+  beforeAll(PlatformTest.bootstrap(Server));
+  beforeAll(async () => {
+    const service = PlatformTest.get(ChapterService);
+
+    sandbox.stub(service, "findChapters").resolves([entity]);
+    request = SuperTest(PlatformTest.callback());
+  });
+  afterAll(PlatformTest.reset);
+  afterAll(() => sandbox.restore());
+
+  describe("GET /rest/chapter", () => {
+    it("Get All Chapters", async () => {
+      const response = await request.get("/rest/chapter").expect(200);
+      expect(typeof response.body).to.eq("object");
+    });
+  });
+});
+```
+
+  </Tab>
+</Tabs>
+
+### Stub a middleware method <Badge text="6.114.3+" />
+
+When you're testing your API, you have sometimes to stub middleware to disable authentication for example.
+
+Here is an example to do that:
+
+<Tabs class="-code">
+  <Tab label="Jest">
+
+```typescript
+import {PlatformTest} from "@tsed/common";
+import SuperTest from "supertest";
+import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {HelloWorldController} from "./HelloWorldController";
+import {Server} from "../../Server";
+import {AuthMiddleware} from "../../middlewares/auth.middleware";
+
+describe("HelloWorldController", () => {
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+
+  beforeAll(TestMongooseContext.bootstrap(Server));
+  beforeAll(() => {
+    request = SuperTest(PlatformTest.callback());
+
+    const authMiddleware = PlatformTest.get<AuthMiddleware>(AuthMiddleware);
+    jest.spyOn(authMiddleware, "use").mockResolvedValue(true);
+  });
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+  afterAll(TestMongooseContext.reset);
+
+  it("should return value", async () => {
+    const response = await request.get("/rest/hello-world").expect(200);
+    expect(response.text).toEqual("hello");
+  });
+});
+```
+
+</Tab>
+<Tab label="Mocha">
+
+```typescript
+import {PlatformTest} from "@tsed/common";
+import SuperTest from "supertest";
+import Sinon from "sinon";
+import {HelloWorldController} from "./HelloWorldController";
+import {Server} from "../../Server";
+import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {AuthMiddleware} from "../../middlewares/auth.middleware";
+
+const sandbox = Sinon.createSandbox();
+
+describe("HelloWorldController", () => {
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+
+  beforeAll(TestMongooseContext.bootstrap(Server));
+  beforeAll(() => {
+    request = SuperTest(PlatformTest.callback());
+
+    const authMiddleware = PlatformTest.get<AuthMiddleware>(AuthMiddleware);
+    sandbox.stub(authMiddleware, "use").resolves(true);
+  });
+  beforeEach(() => {
+    sandbox.restore();
+  });
+  afterAll(TestMongooseContext.reset);
+
+  it("should return value", async () => {
+    const response = await request.get("/rest/hello-world").expect(200);
+    expect(response.text).to.equal("hello");
+  });
+});
+```
+
+</Tab>
+</Tabs>
 
 ### Testing session
 

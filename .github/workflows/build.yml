@@ -3,7 +3,11 @@
 
 name: Build & Release
 
-on: ["push", "pull_request"]
+on:
+  push:
+  pull_request:
+    branches: [production]
+    types: [opened, synchronize, closed]
 
 jobs:
   lint:

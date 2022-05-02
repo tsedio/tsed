@@ -11,7 +11,8 @@
 [![npm version](https://badge.fury.io/js/%40tsed%2Fcommon.svg)](https://badge.fury.io/js/%40tsed%2Fcommon)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![backers](https://opencollective.com/tsed/tiers/badge.svg)](https://opencollective.com/tsed)
+[![github](https://img.shields.io/static/v1?label=Github%20sponsor&message=%E2%9D%A4&logo=GitHub&color=%23fe8e86)](https://github.com/sponsors/romakita)
+[![opencollective](https://img.shields.io/static/v1?label=OpenCollective%20sponsor&message=%E2%9D%A4&logo=OpenCollective&color=%23fe8e86)](https://opencollective.com/tsed)
 
 </div>
 
@@ -36,12 +37,13 @@ Transform data returned by a method to a formatted response based on the stored 
 # Installation
 
 ```bash
-npm install --save @tsed/di @tsed/platform-views @tsed/schema @tsed/json-schema @tsed/platform-response-filter 
+npm install --save @tsed/di @tsed/platform-views @tsed/schema @tsed/json-schema @tsed/platform-response-filter
 ```
 
 ## Usage
 
 Define a class that return data:
+
 ```typescript
 import {Injectable} from "@tsed/di";
 import {Returns} from "@tsed/schema";
@@ -51,13 +53,13 @@ import {MyModel} from "../models/MyModel";
 class MyService {
   @Returns(200, MyModel)
   async getData() {
-    return new MyModel({ id: "id", test: "test" })
+    return new MyModel({id: "id", test: "test"});
   }
 
   @Returns(200, MyModel)
   @View("myview.ejs")
   async getDataView() {
-    return new MyModel({ id: "id", test: "test" })
+    return new MyModel({id: "id", test: "test"});
   }
 }
 ```
@@ -80,7 +82,7 @@ Then call the service in you module:
 ```typescript
 import {Module, DIContext} from "@tsed/di";
 import {ResponseFilter} from "@tsed/platform-response-filter";
-import "./filters/WrapperResponseFilter"
+import "./filters/WrapperResponseFilter";
 
 @Module()
 class MyModule {
@@ -95,36 +97,36 @@ class MyModule {
       id: uuid.v4(),
       injector: this.injector,
       logger: this.injector.logger
-    })
+    });
 
     // must implement these methods
     context.request = {
       accepts(...args: any[]) {
-        return req.accepts(...args)
+        return req.accepts(...args);
       },
       get(key: string) {
-        return req.get(key)
+        return req.get(key);
       }
-    }
+    };
     context.response = {
       contentType(contentType: string) {
-        res.contentType(contentType)
+        res.contentType(contentType);
       }
-    }
+    };
 
     const service = this.injector.get<MyService>(MyService);
-    let data = await service.getData()
+    let data = await service.getData();
 
     // serialize data (map Model to Plain object)
     data = await this.responseFilter.serialize(data, context);
 
     // call filter based on the right content type
-    data = await this.responseFilter.transform(data, context)
+    data = await this.responseFilter.transform(data, context);
 
     if (isObject(data)) {
-      res.json(data)
+      res.json(data);
     } else {
-      res.send(data)
+      res.send(data);
     }
   }
 }

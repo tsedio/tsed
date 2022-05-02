@@ -32,7 +32,7 @@ Then, select TypeORM DataSource options and follow the wizard.
 You can also create your DataSource as following in your project:
 
 ```typescript
-import {Configuration, registerProvider} from "@tsed/di";
+import {registerProvider} from "@tsed/di";
 import {createConnection} from "@tsed/typeorm";
 import {DataSource} from "typeorm";
 import {Logger} from "@tsed/logger";
@@ -51,11 +51,11 @@ export const MysqlDataSource = new DataSource({
 });
 
 registerProvider<DataSource>({
-  provide: MysqlDataSource,
+  provide: MYSQL_DATA_SOURCE,
   type: "typeorm:datasource",
   deps: [Logger],
   async useAsyncFactory(logger: Logger) {
-    await MySqlDataSource.initialize();
+    await MysqlDataSource.initialize();
 
     logger.info("Connected with typeorm to database: MySQL");
 
@@ -72,7 +72,7 @@ registerProvider<DataSource>({
 Finally, inject the DataSource in your controller or service:
 
 ```typescript
-import {Injectable} from "@tsed/di";
+import {Injectable, Inject} from "@tsed/di";
 import {DataSource} from "typeorm";
 import {MYSQL_DATA_SOURCE} from "../datasources/MysqlDataSource";
 
@@ -94,7 +94,7 @@ export class MyService {
 All data sources connection can be retrieved as following:
 
 ```typescript
-import {Injectable, InjectorService} from "@tsed/di";
+import {Inject, Injectable, InjectorService} from "@tsed/di";
 
 @Injectable()
 export class DataSourcesService {
