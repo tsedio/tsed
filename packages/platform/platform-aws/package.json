@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-aws",
-  "version": "6.114.3",
+  "version": "6.114.4",
   "description": "Module to support AWS function with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -56,9 +56,9 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "devDependencies": {
-    "@tsed/common": "6.114.3",
-    "@tsed/core": "6.114.3",
-    "@tsed/di": "6.114.3"
+    "@tsed/common": "6.114.4",
+    "@tsed/core": "6.114.4",
+    "@tsed/di": "6.114.4"
   },
   "dependencies": {
     "@types/aws-serverless-express": "^3.3.3",
@@ -66,9 +66,9 @@
     "tslib": "2.3.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.114.3",
-    "@tsed/core": "^6.114.3",
-    "@tsed/schema": "^6.114.3",
+    "@tsed/common": "^6.114.4",
+    "@tsed/core": "^6.114.4",
+    "@tsed/schema": "^6.114.4",
     "aws-serverless-express": "^3.4.0"
   },
   "publishConfig": {
