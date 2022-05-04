@@ -310,7 +310,7 @@ export class PlatformResponse<T extends Record<string, any> = any> {
   }
 
   isDone(): boolean {
-    if (!this.raw) {
+    if (this.raw.isDone) {
       return true;
     }
 
@@ -321,10 +321,13 @@ export class PlatformResponse<T extends Record<string, any> = any> {
 
   destroy() {
     // @ts-ignore
-    delete this.raw;
-    delete this.data;
-    // @ts-ignore
     delete this.request;
+    // @ts-ignore
+    this.raw = {
+      isDone: true,
+      statusCode: this.statusCode
+    };
+    delete this.data;
     // @ts-ignore
     delete this.$ctx;
   }

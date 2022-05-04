@@ -32,11 +32,11 @@ export class PlatformContext extends DIContext implements ContextMethods {
   /**
    * The current @@PlatformResponse@@.
    */
-  public response: PlatformResponse;
+  readonly response: PlatformResponse;
   /**
    * The current @@PlatformRequest@@.
    */
-  public request: PlatformRequest;
+  readonly request: PlatformRequest;
 
   private ignoreUrlPatterns: RegExp[] = [];
 
@@ -63,7 +63,6 @@ export class PlatformContext extends DIContext implements ContextMethods {
 
     this.response = new ResponseKlass(event, this);
     this.request = new RequestKlass(event, this);
-
     this.response.request = this.request;
     this.request.response = this.response;
 
@@ -96,10 +95,6 @@ export class PlatformContext extends DIContext implements ContextMethods {
 
     // @ts-ignore
     delete this.endpoint;
-    // @ts-ignore
-    delete this.response;
-    // @ts-ignore
-    delete this.request;
   }
 
   isDone() {
