@@ -159,7 +159,14 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
 
   destroy() {
     // @ts-ignore
-    delete this.raw;
+    this.raw = {
+      method: this.method,
+      url: this.url,
+      headers: this.headers,
+      body: this.body,
+      query: this.query,
+      params: this.params
+    };
     // @ts-ignore
     delete this.response;
     // @ts-ignore
