@@ -1,6 +1,6 @@
+import faker from "@faker-js/faker";
 import {PlatformApplication, PlatformRouteDetails, PlatformTest} from "@tsed/common";
 import {expect} from "chai";
-import faker from "@faker-js/faker";
 import Sinon from "sinon";
 import {FormioModule} from "./FormioModule";
 import {FormioInstaller} from "./services/FormioInstaller";
@@ -55,21 +55,16 @@ describe("FormioModule", () => {
   describe("$onRoutesInit()", () => {
     it("should run install template", async () => {
       const {service, app, installer, formio} = await createFormioModuleFixture();
+
       const template = {
         forms: {}
       };
       const root = {
         email: faker.internet.email()
       };
-      // @ts-ignore
-      delete service.template;
-      // @ts-ignore
-      delete service.root;
 
-      // @ts-ignore
-      service.template = template;
-      // @ts-ignore
-      service.root = root;
+      PlatformTest.injector.settings.set("formio.template", template);
+      PlatformTest.injector.settings.set("formio.root", root);
 
       installer.install.resolves((service as any).template);
 
@@ -92,10 +87,8 @@ describe("FormioModule", () => {
       const {service, formio} = await createFormioModuleFixture();
       const routes: PlatformRouteDetails[] = [];
 
-      // @ts-ignore
-      delete service.baseUrl;
-      // @ts-ignore
-      service.baseUrl = "/projects";
+      PlatformTest.injector.settings.set("formio.baseUrl", "/projects");
+      PlatformTest.injector.settings.set("formio.root");
 
       formio.swagger.returns({
         paths: {

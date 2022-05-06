@@ -1,4 +1,3 @@
-import * as TypeORM from "typeorm";
 import {ConnectionManager, getConnectionManager} from "typeorm";
 import * as Connection from "typeorm/connection/Connection";
 import {createConnection} from "./createConnection";
