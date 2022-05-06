@@ -1,14 +1,17 @@
+import {Store} from "../../domain/Store";
 import {classOf} from "../objects/classOf";
+import {descriptorOf} from "../objects/descriptorOf";
 import {methodsOf} from "../objects/methodsOf";
 import {prototypeOf} from "../objects/prototypeOf";
-import {descriptorOf} from "../objects/descriptorOf";
-import {Store} from "../../domain/Store";
 
 export function decorateMethodsOf(klass: any, decorator: any) {
   methodsOf(klass).forEach(({target, propertyKey}) => {
+    const proto = prototypeOf(klass);
+
     if (target !== classOf(klass)) {
-      Object.defineProperty(prototypeOf(klass), propertyKey, {
+      Object.defineProperty(proto, propertyKey, {
         writable: true,
+        configurable: true,
         value(...args: any[]) {
           return prototypeOf(target)[propertyKey].apply(this, args);
         }
@@ -17,6 +20,10 @@ export function decorateMethodsOf(klass: any, decorator: any) {
       Store.mergeStoreMethodFrom(klass, target, propertyKey);
     }
 
-    decorator(prototypeOf(klass), propertyKey, descriptorOf(klass, propertyKey));
+    const newDescriptor = decorator(proto, propertyKey, descriptorOf(klass, propertyKey));
+
+    if (newDescriptor) {
+      Object.defineProperty(proto, propertyKey, newDescriptor);
+    }
   });
 }
