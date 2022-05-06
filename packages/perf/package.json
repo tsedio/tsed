@@ -1,6 +1,6 @@
 {
   "name": "@tsed/perf",
-  "version": "6.114.7",
+  "version": "6.114.8",
   "description": "Perf module tool",
   "private": false,
   "source": "./src/index.ts",
@@ -19,7 +19,7 @@
     "build:esm": "tsc --build tsconfig.compile.esm.json"
   },
   "dependencies": {
-    "@tsed/core": "6.114.7",
+    "@tsed/core": "6.114.8",
     "chalk": "^4.1.0",
     "tslib": "2.3.1"
   },
