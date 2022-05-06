@@ -15,11 +15,7 @@ registerProvider({
     const connectionOptions = settings.find((o) => o.name === CONNECTION_NAME);
 
     if (connectionOptions) {
-      try {
-        return createConnection(connectionOptions!);
-      } catch (er) {
-        console.error(er);
-      }
+      return createConnection(connectionOptions!);
     }
 
     return {};

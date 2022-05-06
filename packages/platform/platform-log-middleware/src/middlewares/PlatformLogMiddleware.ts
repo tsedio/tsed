@@ -9,8 +9,6 @@ import type {LoggerRequestFields} from "../domain/PlatformLogMiddlewareSettings"
  */
 @Middleware()
 export class PlatformLogMiddleware implements MiddlewareMethods {
-  $onResponse: any;
-
   @Constant("logger.requestFields", ["reqId", "method", "url", "duration"])
   protected requestFields: LoggerRequestFields;
 
@@ -26,14 +24,12 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
   @Constant("logger.level")
   protected logLevel: string;
 
-  constructor() {
-    if (this.logLevel !== "off") {
-      this.$onResponse = this.onLogEnd.bind(this);
-    }
-  }
-
   get settings() {
     return this;
+  }
+
+  $onResponse(ctx: Context) {
+    return this.onLogEnd(ctx);
   }
 
   /**
