@@ -1,7 +1,7 @@
-import {NativeError, Schema, SchemaOptions} from "mongoose";
+import {Schema, SchemaOptions} from "mongoose";
 import {MongooseDocument} from "./MongooseDocument";
 
-export type MongooseNextCB = (err?: NativeError) => void;
+export type MongooseNextCB = (err?: Error) => void;
 
 export interface MongooseHookOptions {
   document?: boolean;
@@ -14,8 +14,8 @@ export type MongoosePreHookCB<T = any> =
   | ((doc: T | MongooseDocument<T>) => Promise<void> | void);
 
 export type MongoosePostHookCB<T = any> =
-  | ((doc: T | MongooseDocument<T>, error: NativeError, next: MongooseNextCB) => void)
-  | ((doc: T | MongooseDocument<T>, error: NativeError) => Promise<void> | void)
+  | ((doc: T | MongooseDocument<T>, error: Error, next: MongooseNextCB) => void)
+  | ((doc: T | MongooseDocument<T>, error: Error) => Promise<void> | void)
   | ((doc: T | MongooseDocument<T>, next: MongooseNextCB) => void)
   | ((doc: T | MongooseDocument<T>) => Promise<void> | void);
 
