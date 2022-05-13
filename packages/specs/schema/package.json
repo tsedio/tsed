@@ -1,6 +1,6 @@
 {
   "name": "@tsed/schema",
-  "version": "6.114.8",
+  "version": "6.114.9",
   "description": "JsonSchema module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -32,7 +32,7 @@
     "tsed"
   ],
   "dependencies": {
-    "@tsed/openspec": "6.114.8",
+    "@tsed/openspec": "6.114.9",
     "camel-case": "4.1.2",
     "fs-extra": "^10.0.1",
     "json-schema": "0.4.0",
@@ -43,8 +43,8 @@
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.0.3",
-    "@tsed/core": "6.114.8",
-    "@tsed/openspec": "6.114.8",
+    "@tsed/core": "6.114.9",
+    "@tsed/openspec": "6.114.9",
     "@types/fs-extra": "9.0.13",
     "@types/json-schema": "7.0.11",
     "@types/micromatch": "4.0.2",
@@ -52,8 +52,8 @@
     "api-spec-converter": "2.12.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.114.8",
-    "@tsed/openspec": "^6.114.8"
+    "@tsed/core": "^6.114.9",
+    "@tsed/openspec": "^6.114.9"
   },
   "peerDependenciesMeta": {
     "@tsed/openspec": {
