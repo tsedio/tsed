@@ -63,6 +63,12 @@ export function Ref(
   model: string | (() => Type) | any,
   options: RefOptions | MongooseSchemaTypes = MongooseSchemaTypes.OBJECT_ID
 ): PropertyDecorator {
+  if (!model) {
+    throw new Error(
+      "A model is required on `@Ref(model)` decorator. Please give a model or wrap it inside an arrow function if you have a circular reference."
+    );
+  }
+
   const getType = () => (isString(model) ? MongooseModels.get(model) : isArrowFn(model) ? model() : model);
   const populatedGroups = (isObject(options) && options.populatedGroups) || [];
 
