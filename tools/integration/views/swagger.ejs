@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>client</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet" />
+    <style>
+        body, h1 {
+            font-family: Source Sans Pro,sans-serif;
+        }
+        body:after {
+            content: "";
+            background-image: radial-gradient(#eef2f5 0,#f4f7f8 40%,transparent 75%);
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 60%;
+            height: 100%;
+            z-index: 1;
+        }
+        .container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+        .container-logo img {
+            max-width: 150px;
+            border-radius: 50%;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 40px;
+        }
+        ul li a {
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-top: .25rem;
+            padding-bottom: .25rem;
+            margin-left: 10px;
+            margin-right: 10px;
+            border: 2px solid #504747;
+            min-width: 110px;
+            border-radius: 10px;
+            text-align: center;
+            display: block;
+            border-radius: 1rem;
+            color: #504747;
+            text-decoration: none;
+            transition: all ease-in-out 0.5s;
+        }
+        ul li a:hover {
+            color: #14a5c2;
+            border-color: #14a5c2;
+        }
+        ul li a span {
+            margin: .25rem;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div>
+        <div class="container-logo">
+            <img src="https://tsed.io/tsed-og.png" alt="Ts.ED">
+        </div>
+
+        <ul>
+            <% docs.forEach((doc) => { %>
+
+                <li><a href="<%= doc.path %>"><span>OpenSpec <%= doc.specVersion %></span></a></li>
+
+            <% }) %>
+        </ul>
+    </div>
+</div>
+<!-- built files will be auto injected -->
+</body>
+</html>

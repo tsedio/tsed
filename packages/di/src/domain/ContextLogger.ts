@@ -95,9 +95,8 @@ export class ContextLogger {
 
   destroy() {
     this.flush();
-
-    this.logger = undefined;
-    this.stack = undefined;
+    this.maxStackSize = 0;
+    this.stack = [];
   }
 
   /**

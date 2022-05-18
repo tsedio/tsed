@@ -1,14 +1,14 @@
-import {InjectorService, ProviderOpts, setLoggerLevel} from "@tsed/di";
-import {$log} from "@tsed/logger";
 import {toMap, Type} from "@tsed/core";
+import {InjectorService, ProviderOpts, setLoggerConfiguration} from "@tsed/di";
+import {$log} from "@tsed/logger";
 import {PlatformConfiguration} from "../config/services/PlatformConfiguration";
+import {Platform} from "../services/Platform";
+import {PlatformAdapter} from "../services/PlatformAdapter";
+import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
+import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
 import {PlatformRouter} from "../services/PlatformRouter";
-import {PlatformApplication} from "../services/PlatformApplication";
-import {Platform} from "../services/Platform";
-import {PlatformRequest} from "../services/PlatformRequest";
-import {PlatformAdapter} from "../services/PlatformAdapter";
 
 $log.name = "TSED";
 
@@ -42,7 +42,7 @@ export function createInjector({adapter, settings = {}}: CreateInjectorOptions) 
 
   injector.invoke(PlatformAdapter);
 
-  setLoggerLevel(injector);
+  setLoggerConfiguration(injector);
 
   const instance = injector.get<PlatformAdapter>(PlatformAdapter)!;
 

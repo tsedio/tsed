@@ -128,8 +128,9 @@ export class FormioModule implements OnRoutesInit, OnReady {
 
   // istanbul ignore next
   async $onReady(): Promise<void> {
-    if (this.formio.isInit() && this.injector.settings.getBestHost) {
+    if (this.formio.isInit() && "getBestHost" in this.injector.settings) {
       const {injector} = this;
+      // @ts-ignore
       const host = injector.settings.getBestHost();
       const url = host.toString();
 

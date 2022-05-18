@@ -1,9 +1,7 @@
 import {Env, getHostInfoFromPort} from "@tsed/core";
 import {DIConfiguration, Injectable, ProviderScope, TokenProvider} from "@tsed/di";
-import {$log} from "@tsed/logger";
 import Https from "https";
 import {ConverterSettings} from "../interfaces/ConverterSettings";
-import {PlatformLoggerSettings} from "../interfaces/PlatformLoggerSettings";
 
 const rootDir = process.cwd();
 
@@ -17,22 +15,6 @@ const rootDir = process.cwd();
 export class PlatformConfiguration extends DIConfiguration {
   constructor() {
     super({rootDir});
-  }
-
-  get version() {
-    return this.getRaw("version");
-  }
-
-  set version(v: string) {
-    this.setRaw("version", v);
-  }
-
-  get rootDir() {
-    return this.getRaw("rootDir");
-  }
-
-  set rootDir(value: string) {
-    this.setRaw("rootDir", value);
   }
 
   get port(): string | number | false {
@@ -67,14 +49,6 @@ export class PlatformConfiguration extends DIConfiguration {
     this.setRaw("httpsPort", value);
   }
 
-  get env(): Env {
-    return this.getRaw("env");
-  }
-
-  set env(value: Env) {
-    this.setRaw("env", value);
-  }
-
   get mount(): Record<string, TokenProvider[]> {
     return this.get("mount");
   }
@@ -99,52 +73,12 @@ export class PlatformConfiguration extends DIConfiguration {
     this.setRaw("acceptMimes", value || []);
   }
 
-  get debug(): boolean {
-    return this.logger.level === "debug";
-  }
-
-  set debug(debug: boolean) {
-    this.logger = {...this.logger, level: debug ? "debug" : "info"};
-  }
-
   get converter(): Partial<ConverterSettings> {
     return this.get("converter") || {};
   }
 
   set converter(options: Partial<ConverterSettings>) {
     this.setRaw("converter", options);
-  }
-
-  get logger(): Partial<PlatformLoggerSettings> {
-    return this.get("logger");
-  }
-
-  set logger(value: Partial<PlatformLoggerSettings>) {
-    const logger = {...this.logger, ...value};
-    logger.debug = logger.level === "debug";
-
-    this.setRaw("logger", logger);
-    this.setRaw("debug", logger.debug);
-
-    if (logger.format) {
-      $log.appenders.set("stdout", {
-        type: "stdout",
-        levels: ["info", "debug"],
-        layout: {
-          type: "pattern",
-          pattern: logger.format
-        }
-      });
-
-      $log.appenders.set("stderr", {
-        levels: ["trace", "fatal", "error", "warn"],
-        type: "stderr",
-        layout: {
-          type: "pattern",
-          pattern: logger.format
-        }
-      });
-    }
   }
 
   get additionalProperties() {

@@ -27,6 +27,7 @@
   "devDependencies": {
     "@tsed/core": "7.0.0-beta.12",
     "@tsed/di": "7.0.0-beta.12",
+    "@tsed/engines": "7.0.0-beta.12",
     "@tsed/exceptions": "7.0.0-beta.12",
     "@tsed/schema": "7.0.0-beta.12",
     "@types/consolidate": "0.14.1",
@@ -35,6 +36,7 @@
   "peerDependencies": {
     "@tsed/core": "^7.0.0-beta.12",
     "@tsed/di": "^7.0.0-beta.12",
+    "@tsed/engines": "^7.0.0-beta.12",
     "@tsed/exceptions": "^7.0.0-beta.12",
     "@tsed/schema": "^7.0.0-beta.12"
   },

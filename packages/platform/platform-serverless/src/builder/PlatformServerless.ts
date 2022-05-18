@@ -1,12 +1,12 @@
 import {Env, Type} from "@tsed/core";
-import {createContainer, InjectorService, setLoggerLevel} from "@tsed/di";
+import {createContainer, InjectorService, setLoggerConfiguration} from "@tsed/di";
 import {$log, Logger} from "@tsed/logger";
 import {getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
-import type {HTTPMethod, Instance} from "find-my-way";
 import type {APIGatewayProxyResult, Handler} from "aws-lambda";
+import type {HTTPMethod, Instance} from "find-my-way";
 import {ServerlessContext} from "../domain/ServerlessContext";
-import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
 import {getRequestId} from "../utils/getRequestId";
+import {PlatformServerlessHandler} from "./PlatformServerlessHandler";
 
 export interface PlatformServerlessSettings extends Partial<TsED.Configuration> {
   lambda?: Type[];
@@ -165,7 +165,7 @@ export class PlatformServerless {
   protected async loadInjector() {
     const container = createContainer();
 
-    setLoggerLevel(this.injector);
+    setLoggerConfiguration(this.injector);
 
     await this.injector.emit("$beforeInit");
 

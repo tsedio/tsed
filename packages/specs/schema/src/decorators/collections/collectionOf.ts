@@ -98,12 +98,17 @@ export interface CollectionOfChainedDecorators extends MapOfChainedDecorators, A
  * @collections
  */
 export function CollectionOf(type: any, collectionType?: any): CollectionOfChainedDecorators {
+  if (!type) {
+    throw new Error(
+      "A type is required on `@CollectionOf(type)` decorator. Please give a type or wrap it inside an arrow function if you have a circular reference."
+    );
+  }
+
   const schema: any = {};
   let contains: boolean = false;
 
   const decorator = (...args: any) => {
     const store = JsonEntityStore.from(...args);
-    // const itemSchema = store.itemSchema.toJSON();
 
     if (collectionType) {
       store.collectionType = collectionType;
@@ -111,10 +116,8 @@ export function CollectionOf(type: any, collectionType?: any): CollectionOfChain
     }
 
     store.type = type;
-    // console.log(type);
     store.itemSchema.type(type);
-    // console.log(store.itemSchema.getComputedType(), schema);
-    // store.itemSchema.assign({...itemSchema, type});
+
     store.schema.assign(schema);
 
     if (store.isArray && contains) {

@@ -10,19 +10,19 @@ import {OidcProvider} from "./services/OidcProvider";
 })
 export class OidcModule {
   @Inject()
-  app: PlatformApplication;
+  protected app: PlatformApplication;
 
   @Constant("PLATFORM_NAME")
-  platformName: string;
+  protected platformName: string;
 
   @Constant("oidc.path", "/oidc")
-  basePath: string;
+  protected basePath: string;
 
   @Inject()
-  oidcProvider: OidcProvider;
+  protected oidcProvider: OidcProvider;
 
   @Inject()
-  injector: InjectorService;
+  protected injector: InjectorService;
 
   async $onInit() {
     if (this.oidcProvider.hasConfiguration()) {
@@ -53,8 +53,9 @@ export class OidcModule {
   }
 
   $onReady() {
-    if (this.oidcProvider.hasConfiguration() && this.injector.settings.getBestHost) {
+    if (this.oidcProvider.hasConfiguration() && "getBestHost" in this.injector.settings) {
       const {injector} = this;
+      // @ts-ignore
       const host = injector.settings.getBestHost();
       const url = host.toString();
 

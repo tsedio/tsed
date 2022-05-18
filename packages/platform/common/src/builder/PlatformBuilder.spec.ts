@@ -255,7 +255,7 @@ describe("PlatformBuilder", () => {
       server.addComponents(MyClass);
 
       // THEN
-      expect(server.injector.settings.imports).to.deep.eq([HealthModule, MyClass]);
+      expect(server.injector.settings.get("imports")).to.deep.eq([HealthModule, MyClass]);
     });
   });
   describe("addControllers", () => {

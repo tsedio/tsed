@@ -57,11 +57,11 @@ export class DIContext extends Map<any, any> implements ContextMethods {
   /**
    * Logger attached to the context request.
    */
-  public logger: ContextLogger;
+  readonly logger: ContextLogger;
   /**
    *
    */
-  public injector: InjectorService;
+  readonly injector: InjectorService;
 
   constructor({id, injector, logger, ignoreLog, ...options}: DIContextOptions) {
     super();
@@ -78,18 +78,15 @@ export class DIContext extends Map<any, any> implements ContextMethods {
   }
 
   get env() {
-    return this.injector.settings.env;
+    return this.injector.settings.get("env");
   }
 
   async destroy() {
     await this.container.destroy();
     this.logger.destroy();
+
     // @ts-ignore
     delete this.container;
-    // @ts-ignore
-    delete this.logger;
-    // @ts-ignore
-    delete this.injector;
   }
 
   async emit(eventName: string, ...args: any[]) {
