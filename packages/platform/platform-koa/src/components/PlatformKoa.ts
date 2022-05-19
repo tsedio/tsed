@@ -140,7 +140,7 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
     };
   }
 
-  useContext(): this {
+  useContext(): void {
     const invoke = createContext();
     const platformExceptions = inject(PlatformExceptions);
 
@@ -167,8 +167,6 @@ export class PlatformKoa extends PlatformAdapter<Koa> {
         }
       });
     });
-
-    return this;
   }
 
   createApp() {

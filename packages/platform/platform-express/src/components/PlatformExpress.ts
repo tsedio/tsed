@@ -175,7 +175,7 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
     };
   }
 
-  useContext(): this {
+  useContext(): void {
     const invoke = createContext();
     const app = application();
 
@@ -187,8 +187,6 @@ export class PlatformExpress extends PlatformAdapter<Express.Application> {
 
       return runInContext($ctx, next);
     });
-
-    return this;
   }
 
   createApp() {

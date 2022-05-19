@@ -42,7 +42,7 @@ export abstract class PlatformAdapter<App = TsED.Application> {
   /**
    * create initial context
    */
-  abstract useContext(): any;
+  abstract useContext(): Promise<void> | void;
 
   /**
    * Map router layer to the targeted framework
