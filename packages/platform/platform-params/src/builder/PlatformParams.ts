@@ -67,21 +67,27 @@ export class PlatformParams {
       };
     });
 
-    return (scope) => {
-      const promises = argsPipes.map(({param, pipes}) => this.getArg(scope, pipes, param));
+    return (scope: PlatformParamsScope<Context>) => {
+      const promises = argsPipes.map(({param, pipes}) => this.getArg<Context>(scope, pipes, param));
       return Promise.all(promises);
     };
   }
 
-  getArg<Context extends DIContext = DIContext>(scope: PlatformParamsScope, pipes: PipeMethods[], param: JsonParameterStore): Promise<any> {
-    return pipes.reduce(async (value: any | Promise<any>, pipe) => {
-      value = await value;
+  async getArg<Context extends DIContext = DIContext>(
+    scope: PlatformParamsScope<Context>,
+    pipes: PipeMethods[],
+    param: JsonParameterStore
+  ): Promise<any> {
+    try {
+      let value = scope;
 
-      try {
-        return await pipe.transform(value, param);
-      } catch (er) {
-        throw ParamValidationError.from(param, er);
+      for await (const pipe of pipes) {
+        value = await pipe.transform(value, param);
       }
-    }, scope);
+
+      return value;
+    } catch (er) {
+      throw ParamValidationError.from(param, er);
+    }
   }
 }

@@ -190,7 +190,7 @@ export class PlatformBuilder<App = TsED.Application> {
 
     // add the context middleware to the application
     this.log("Mount app context");
-    this.#adapter.useContext();
+    await this.#adapter.useContext();
 
     // init routes (controllers, middlewares, etc...)
     this.log("Load routes");
