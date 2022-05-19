@@ -1,8 +1,10 @@
 import {isFunction} from "@tsed/core";
-import {PlatformMiddlewareLoadingOptions} from "../domain/PlatformMiddlewareSettings";
+import {DIConfiguration} from "@tsed/di";
+import {PlatformMiddlewareLoadingOptions, PlatformMiddlewareSettings} from "../domain/PlatformMiddlewareSettings";
 
-export function getMiddlewaresForHook(hook: string, settings: TsED.Configuration, defaultHook = "") {
-  const {env, middlewares = []} = settings;
+export function getMiddlewaresForHook(hook: string, settings: DIConfiguration, defaultHook = "") {
+  const env = settings.env;
+  const middlewares = settings.get<PlatformMiddlewareSettings[]>("middlewares", []);
 
   return middlewares
     .map<PlatformMiddlewareLoadingOptions>((middleware) => {

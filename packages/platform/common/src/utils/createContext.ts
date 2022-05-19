@@ -15,7 +15,7 @@ const defaultReqIdBuilder = (req: any) => req.get("x-request-id") || v4().replac
 export function createContext(injector: InjectorService) {
   const ResponseKlass = injector.getProvider(PlatformResponse)?.useClass;
   const RequestKlass = injector.getProvider(PlatformRequest)?.useClass;
-  const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = injector.settings.logger || {};
+  const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = injector.settings.logger;
 
   return async (event: IncomingEvent): Promise<PlatformContext> => {
     const ctx = new PlatformContext({

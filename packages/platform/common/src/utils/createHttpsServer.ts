@@ -6,8 +6,8 @@ import {listenServer} from "./listenServer";
 
 export function createHttpsServer(injector: InjectorService, requestListener?: Http.RequestListener) {
   const {settings} = injector;
-  const httpsPort = settings.getRaw("httpsPort");
-  const httpsOptions = settings.getRaw("httpsOptions");
+  const httpsPort = settings.get("httpsPort");
+  const httpsOptions = settings.get("httpsOptions");
 
   const server = httpsPort !== false ? Https.createServer(httpsOptions, requestListener) : null;
 
@@ -23,7 +23,7 @@ export function createHttpsServer(injector: InjectorService, requestListener?: H
 
     return async () => {
       const resolvedHostInfo = await listenServer(injector, server as Https.Server, hostInfo);
-      settings.setRaw("httpsPort", `${resolvedHostInfo.address}:${resolvedHostInfo.port}`);
+      settings.set("httpsPort", `${resolvedHostInfo.address}:${resolvedHostInfo.port}`);
       return server;
     };
   }

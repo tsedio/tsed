@@ -1,7 +1,7 @@
-import {PlatformCache, PlatformCacheInterceptor} from "@tsed/platform-cache";
 import {PlatformTest} from "@tsed/common";
 import {isClass} from "@tsed/core";
 import {serialize} from "@tsed/json-mapper";
+import {PlatformCache, PlatformCacheInterceptor} from "@tsed/platform-cache";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
@@ -229,14 +229,7 @@ describe("PlatformCacheInterceptor", () => {
 
       await new Promise((resolve) => setTimeout(resolve, 100));
 
-      expect(interceptor.canRefreshInBackground).toHaveBeenCalledWith(
-        "Test:test:value",
-        {
-          refreshThreshold: 1000,
-          ttl: 10000
-        },
-        expect.any(Function)
-      );
+      expect(interceptor.canRefreshInBackground).not.toHaveBeenCalled();
       expect(cache.getCachedObject).toHaveBeenCalledWith("Test:test:value");
       expect(cache.setCachedObject).toHaveBeenCalledWith(
         "Test:test:value",
@@ -256,10 +249,11 @@ describe("PlatformCacheInterceptor", () => {
         set: jest.fn().mockResolvedValue(false),
         del: jest.fn().mockResolvedValue(true),
         calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
-        getCachedObject: jest.fn().mockResolvedValue(undefined),
+        getCachedObject: jest.fn().mockResolvedValue({data: JSON.stringify({})}),
         setCachedObject: jest.fn().mockResolvedValue("test"),
         defaultKeyResolver: () => defaultKeyResolver
       };
+
       const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
         {
           token: PlatformCache,

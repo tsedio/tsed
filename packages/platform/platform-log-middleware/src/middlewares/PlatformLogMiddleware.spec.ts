@@ -1,5 +1,4 @@
 import {PlatformTest} from "@tsed/common";
-import {levels} from "@tsed/logger";
 import {PlatformLogMiddleware} from "./PlatformLogMiddleware";
 
 async function createMiddlewareFixture() {

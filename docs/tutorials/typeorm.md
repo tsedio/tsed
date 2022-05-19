@@ -33,7 +33,6 @@ You can also create your DataSource as following in your project:
 
 ```typescript
 import {registerProvider} from "@tsed/di";
-import {createConnection} from "@tsed/typeorm";
 import {DataSource} from "typeorm";
 import {Logger} from "@tsed/logger";
 import {User} from "../entities/User";

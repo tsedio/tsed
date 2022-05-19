@@ -5,7 +5,6 @@ import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
 import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformApplication} from "../services/PlatformApplication";
-import {PlatformConfiguration} from "../config/services/PlatformConfiguration";
 
 export interface MulterInputOptions {
   fields: PlatformMulterField[];

@@ -155,7 +155,7 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
   router(routerOptions: any = {}) {
     const {settings} = this.injector;
 
-    const options = Object.assign({}, settings.koa?.router || {}, routerOptions);
+    const options = Object.assign({}, settings.get("koa.router", {}), routerOptions);
     const router = new KoaRouter(options) as any;
 
     return {

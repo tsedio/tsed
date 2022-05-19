@@ -1,9 +1,23 @@
+import {catchError} from "@tsed/core";
 import {getJsonSchema, In, MaxItems, MinItems, OperationPath, Property} from "@tsed/schema";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {CollectionContains} from "./collectionContains";
 import {ArrayOf, CollectionOf, MapOf} from "./collectionOf";
 
 describe("@CollectionOf", () => {
+  it("should declare a collection (Array of)", () => {
+    // WHEN
+    const error = catchError(() => {
+      class Model {
+        @CollectionOf(undefined)
+        num: number[];
+      }
+    });
+
+    expect(error?.message).toEqual(
+      "A type is required on `@CollectionOf(type)` decorator. Please give a type or wrap it inside an arrow function if you have a circular reference."
+    );
+  });
   it("should declare a collection (Array of)", () => {
     // WHEN
     class Model {

@@ -1,8 +1,8 @@
 import {isClass, isString, nameOf, Store} from "@tsed/core";
 import {BaseContext, DIContext, Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
-import {JsonEntityStore} from "@tsed/schema";
 import {Logger} from "@tsed/logger";
+import {JsonEntityStore} from "@tsed/schema";
 import {IncomingMessage, ServerResponse} from "http";
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
 import {PlatformCacheOptions} from "../interfaces/PlatformCacheOptions";
@@ -63,13 +63,21 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     const {type, ttl, collectionType, refreshThreshold, keyArgs, args} = this.getOptions(context);
     const key = [nameOf(context.target), context.propertyKey, keyArgs].join(":");
 
-    const cachedObject = await this.cache.getCachedObject(key);
-
     const set = (result: any) => {
       const calculatedTTL = this.cache.calculateTTL(result, ttl);
       const data = serialize(result, {type, collectionType});
       this.cache.setCachedObject(key, data, {args, ttl: calculatedTTL});
     };
+
+    const cachedObject = await this.cache.getCachedObject(key);
+
+    if (!cachedObject) {
+      const result = await next();
+
+      set(result);
+
+      return result;
+    }
 
     this.canRefreshInBackground(key, {refreshThreshold, ttl}, async () => {
       const result = await next();
@@ -82,17 +90,9 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       })
     );
 
-    if (cachedObject) {
-      const {data} = cachedObject;
+    const {data} = cachedObject;
 
-      return deserialize(JSON.parse(data), {collectionType, type});
-    }
-
-    const result = await next();
-
-    set(result);
-
-    return result;
+    return deserialize(JSON.parse(data), {collectionType, type});
   }
 
   async cacheResponse(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
