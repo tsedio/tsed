@@ -1,6 +1,6 @@
 {
   "name": "@tsed/terminus",
-  "version": "6.114.12",
+  "version": "6.114.13-rc.1",
   "description": "Adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications.",
   "author": "Emilien Leroy <emilien1005@hotmail.fr>",
   "private": false,
@@ -26,15 +26,15 @@
   },
   "devDependencies": {
     "@godaddy/terminus": "^4.7.1",
-    "@tsed/core": "6.114.12",
-    "@tsed/di": "6.114.12",
-    "@tsed/schema": "6.114.12"
+    "@tsed/core": "6.114.13-rc.1",
+    "@tsed/di": "6.114.13-rc.1",
+    "@tsed/schema": "6.114.13-rc.1"
   },
   "peerDependencies": {
     "@godaddy/terminus": "^4.7.1",
-    "@tsed/core": "^6.114.12",
-    "@tsed/di": "^6.114.12",
-    "@tsed/schema": "^6.114.12"
+    "@tsed/core": "^6.114.13-rc.1",
+    "@tsed/di": "^6.114.13-rc.1",
+    "@tsed/schema": "^6.114.13-rc.1"
   },
   "peerDependenciesMeta": {
     "@godaddy/terminus": {
