@@ -1,6 +1,6 @@
 {
   "name": "@tsed/benchmarks-apps",
-  "version": "6.114.11",
+  "version": "6.114.12",
   "main": "index.js",
   "private": true,
   "dependencies": {
