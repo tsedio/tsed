@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-express",
-  "version": "6.114.12",
+  "version": "6.114.13",
   "description": "A TypeScript Framework on top of Express",
   "private": false,
   "source": "./src/index.ts",
@@ -61,11 +61,11 @@
     "tslib": "2.3.1"
   },
   "devDependencies": {
-    "@tsed/common": "6.114.12",
-    "@tsed/core": "6.114.12",
-    "@tsed/di": "6.114.12",
-    "@tsed/platform-test-utils": "6.114.12",
-    "@tsed/platform-views": "6.114.12",
+    "@tsed/common": "6.114.13",
+    "@tsed/core": "6.114.13",
+    "@tsed/di": "6.114.13",
+    "@tsed/platform-test-utils": "6.114.13",
+    "@tsed/platform-views": "6.114.13",
     "@types/body-parser": "1.19.2",
     "@types/compression": "1.7.2",
     "@types/cookie-parser": "1.4.2",
@@ -81,14 +81,14 @@
     "method-override": "3.0.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.114.12",
-    "@tsed/core": "^6.114.12",
-    "@tsed/di": "^6.114.12",
-    "@tsed/json-mapper": "^6.114.12",
+    "@tsed/common": "^6.114.13",
+    "@tsed/core": "^6.114.13",
+    "@tsed/di": "^6.114.13",
+    "@tsed/json-mapper": "^6.114.13",
     "@tsed/logger": ">=6.1.1",
-    "@tsed/openspec": "^6.114.12",
-    "@tsed/platform-views": "^6.114.12",
-    "@tsed/schema": "^6.114.12",
+    "@tsed/openspec": "^6.114.13",
+    "@tsed/platform-views": "^6.114.13",
+    "@tsed/schema": "^6.114.13",
     "@types/multer": "^1.4.5",
     "body-parser": "^1.19.0"
   },
