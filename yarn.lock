@@ -21187,7 +21187,7 @@ sisteransi@^1.0.5:
   resolved "https://registry.yarnpkg.com/sisteransi/-/sisteransi-1.0.5.tgz#134d681297756437cc05ca01370d3a7a571075ed"
   integrity sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==
 
-slackify-markdown@^4.3.0, slackify-markdown@^4.3.1:
+slackify-markdown@^4.3.0:
   version "4.3.1"
   resolved "https://registry.yarnpkg.com/slackify-markdown/-/slackify-markdown-4.3.1.tgz#1bfaf03bc4a8d617827326e137a9316b165ba4ab"
   integrity sha512-6Uktkq4rEB6JZlRguI/dpPDF6Rak6QXZm3Gv2IM0VMeYQRSufp+TLFfOylxwINnOeMRc9ciYRhsbt1hUFD+uuQ==

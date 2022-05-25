@@ -1,58 +1,4 @@
-const getRepoInfo = require("semantic-release-slack-bot/lib/getRepoInfo");
-const slackifyMarkdown = require("slackify-markdown");
-
-function onSuccessFunction(pluginConfig, context) {
-  const {nextRelease, notes: releaseNotes, options} = context;
-  const repo = getRepoInfo(options.repositoryUrl);
-  const messageBlocks = [
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: `A new version of \`Ts.ED\` has been released!\nCurrent version is *${nextRelease.version}*`
-      }
-    }
-  ];
-
-  const slackMessage = {
-    blocks: messageBlocks
-  };
-
-  if (releaseNotes !== "") {
-    messageBlocks.push({
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: slackifyMarkdown(releaseNotes)
-      }
-    });
-  }
-
-  if (repo.path) {
-    const gitTag = nextRelease.gitTag;
-    const gitTagPrefix = repo.hostname.startsWith("gitlab") ? "/-/releases/" : "/releases/tag/";
-    const gitTagUrl = repo.URL + gitTagPrefix + gitTag;
-
-    slackMessage.attachments = [
-      {
-        color: "#2cbe4e",
-        blocks: [
-          {
-            type: "context",
-            elements: [
-              {
-                type: "mrkdwn",
-                text: `:package: *<${repo.URL}|${repo.path}>:* <${gitTagUrl}|${gitTag}>`
-              }
-            ]
-          }
-        ]
-      }
-    ];
-  }
-
-  return slackMessage;
-}
+process.env.SEMANTIC_RELEASE_PACKAGE = "Ts.ED";
 
 module.exports = {
   branches: [
@@ -78,7 +24,7 @@ module.exports = {
     [
       "semantic-release-slack-bot",
       {
-        onSuccessFunction,
+        markdownReleaseNotes: true,
         notifyOnSuccess: true
       }
     ]
