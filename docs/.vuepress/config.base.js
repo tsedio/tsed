@@ -41,9 +41,9 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
     repo: "tsedio/tsed",
     githubProxyUrl: "https://api.tsed.io/rest/github/tsedio/tsed",
     openCollective: "https://api.tsed.io/rest/opencollective",
-    slackUrl: "https://api.tsed.io/rest/slack/tsedio/tsed",
+    slackUrl: `${base}/pricing`,
     stackoverflowUrl: "https://stackoverflow.com/search?q=tsed",
-    sponsorUrl: "https://tsed.io/support.html",
+    sponsorUrl: `${base}/sponsors.html`,
     twitterUrl: "https://twitter.com/TsED_io",
     editLinks: true,
     docsDir: "docs",
@@ -256,6 +256,11 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             ].sort((a, b) => (a.text < b.text ? -1 : 1))
           },
           {
+            title: `Pricing | ${title}`,
+            text: "Pricing",
+            link: `${base}/pricing`
+          },
+          {
             icon: "bx bx-dots-horizontal-rounded text-lg",
             title: `Extras`,
             items: [
@@ -280,8 +285,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
                 link: `${base}/contributing.html`
               },
               {
-                text: "Support",
-                link: `${base}/support.html`
+                text: "Support us",
+                link: `${base}/sponsors.html`
               },
               {
                 text: "License",
@@ -405,7 +410,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "Our Team", path: base + "/team"},
               {title: "Tutorials", path: base + "/tutorials/"},
               {title: "Contributing", path: base + "/contributing"},
-              {title: "Support us", path: base + "/support"},
+              {title: "Support us", path: base + "/sponsors"},
               {title: "License", path: base + "/license"},
               {title: "API References", path: `${apiRedirectUrl}/api`}
             ]
@@ -491,12 +496,16 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               title: "Support",
               items: [
                 {
+                  label: "Pricing",
+                  url: base + "/pricing.html"
+                },
+                {
                   label: "Issues",
                   url: "https://github.com/tsedio/tsed/issues"
                 },
                 {
                   label: "Sponsoring & donations",
-                  url: base + "/support.html"
+                  url: base + "/sponsors.html"
                 }
               ]
             }

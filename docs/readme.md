@@ -10,9 +10,9 @@ gettingStartedText: Getting started
 gettingStartedUrl: /getting-started/
 messengerText: Discussions
 messengerIcon: bxl-slack
-messengerUrl: https://api.tsed.io/rest/slack/tsedio/tsed
+messengerUrl: /pricing.html
 sponsorText: Sponsor @romakita
-sponsorUrl: https://github.com/sponsors/Romakita
+sponsorUrl: /sponsor.html
 features:
   - title: Rest API
     icon: bx-server
@@ -182,8 +182,11 @@ frameworks:
 ---
 
 ::: slot hero-brand
+
+<div>
 <span class="block sm:inline mb-10 sm:mb-0 sm:text-bold text-7xl sm:text-5xl font-medium"><span class="text-blue">Ts</span>.ED</span> Framework<br/>
 <small>for <a class="text-darker-gray">Node.js</a> and <a class="text-darker-gray">TypeScript</a></small>
+</div>
 :::
 
 ::: slot hero-slogan
@@ -195,7 +198,8 @@ Build your awesome server-side **application.** <WordsSlider>#Decorators, #Rest 
 :::
 
 ::: slot testimonial-title
-Why <span class="text-blue">Ts</span>.ED?
+
+<div>Why <span class="text-blue">Ts</span>.ED?</div>
 :::
 
 ::: slot testimonial-content

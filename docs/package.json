@@ -54,11 +54,13 @@
   },
   "homepage": "http://tsed.io/",
   "dependencies": {
-    "cross-env": "7.0.3",
-    "millify": "^3.5.0"
+    "cross-env": "7.0.3"
   },
   "devDependencies": {
+    "@babel/core": "^7.18.2",
+    "@babel/preset-env": "^7.18.2",
     "@tsed/markdown-it-symbols": "3.20.4",
+<<<<<<< HEAD
     "@vuepress/plugin-google-analytics": "1.9.7",
     "@vuepress/plugin-html-redirect": "^0.1.4",
     "@vuepress/plugin-medium-zoom": "1.9.7",
@@ -66,6 +68,12 @@
     "vue-analytics": "5.22.1",
     "vuepress": "1.9.7",
     "vuepress-theme-tsed": "3.19.5"
+=======
+    "axios": "0.21.0",
+    "vue-analytics": "^5.22.1",
+    "vuepress": "1.9.7",
+    "vuepress-theme-tsed": "3.20.4"
+>>>>>>> fbeb4222f (docs: add pricing page)
   },
   "directories": {
     "packages": "packages",

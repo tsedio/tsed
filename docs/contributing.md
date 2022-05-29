@@ -8,25 +8,6 @@ contributors:
   badge:
     width: 45
     bgColor: white
-backers:
-  type: cols
-  title: Our <b>Backers</b>
-  description: Thank you to all our backers who contributes to our project! 🙏
-  cta:
-    label: Become Backers
-    url: https://opencollective.com/tsed#backers
-sponsors:
-  type: cols
-  classes:
-  title: Our <b>Sponsors / Partners</b>
-  description: Support this project by becoming a sponsor. Your logo will show up here with a link to your website.
-  image:
-    src: /sponsors.svg
-    href: http://www.freepik.com
-    title: Designed by pch.vector / Freepik
-  cta:
-    label: Become a sponsor
-    url: /support.html
 ---
 
 # Contributing
