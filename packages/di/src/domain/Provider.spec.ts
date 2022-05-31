@@ -1,5 +1,4 @@
 import {ProviderScope} from "@tsed/di";
-import {expect} from "chai";
 import {Provider} from "./Provider";
 
 class T1 {}
@@ -15,10 +14,10 @@ describe("Provider", () => {
       provider.scope = ProviderScope.REQUEST;
       provider.customProp = "test";
 
-      expect(provider.provide).to.eq(T1);
-      expect(provider.useClass).to.eq(T1);
-      expect(!!provider.store).to.eq(true);
-      expect(provider.clone()).to.deep.eq(provider);
+      expect(provider.provide).toEqual(T1);
+      expect(provider.useClass).toEqual(T1);
+      expect(!!provider.store).toEqual(true);
+      expect(provider.clone()).toEqual(provider);
     });
 
     it("should override the token provider", () => {
@@ -29,11 +28,11 @@ describe("Provider", () => {
 
       const cloned = provider.clone();
 
-      expect(provider.provide).to.eq(T1);
-      expect(provider.useClass).to.eq(T2);
-      expect(!!provider.store).to.eq(true);
-      expect(cloned.useClass).to.deep.eq(T2);
-      expect(cloned.scope).to.deep.eq(ProviderScope.REQUEST);
+      expect(provider.provide).toEqual(T1);
+      expect(provider.useClass).toEqual(T2);
+      expect(!!provider.store).toEqual(true);
+      expect(cloned.useClass).toEqual(T2);
+      expect(cloned.scope).toEqual(ProviderScope.REQUEST);
     });
   });
 
@@ -41,9 +40,9 @@ describe("Provider", () => {
     it("should wrap the token provided", () => {
       const provider = new Provider(S1);
 
-      expect(provider.provide).to.eq(S1);
-      expect(!!provider.useClass).to.eq(false);
-      expect(!!provider.store).to.eq(true);
+      expect(provider.provide).toEqual(S1);
+      expect(!!provider.useClass).toEqual(false);
+      expect(!!provider.store).toEqual(true);
     });
   });
 
@@ -51,9 +50,9 @@ describe("Provider", () => {
     it("should wrap the token provided", () => {
       const provider = new Provider("test");
 
-      expect(provider.provide).to.eq("test");
-      expect(!!provider.useClass).to.eq(false);
-      expect(!!provider.store).to.eq(true);
+      expect(provider.provide).toEqual("test");
+      expect(!!provider.useClass).toEqual(false);
+      expect(!!provider.store).toEqual(true);
     });
   });
 
@@ -67,23 +66,30 @@ describe("Provider", () => {
 
   describe("className", () => {
     it("should return the class name", () => {
-      expect(new Provider(T1).className).to.eq("T1");
+      expect(new Provider(T1).className).toEqual("T1");
     });
 
     it("should return the symbol name", () => {
-      expect(new Provider(S1).className).to.eq("S1");
+      expect(new Provider(S1).className).toEqual("S1");
     });
   });
 
   describe("name", () => {
     it("should return the class name", () => {
-      expect(new Provider(T1).name).to.eq("T1");
+      expect(new Provider(T1).name).toEqual("T1");
+    });
+  });
+  describe("path", () => {
+    it("should return set the path", () => {
+      const provider = new Provider(T1);
+      provider.path = "path";
+      expect(provider.path).toEqual("path");
     });
   });
 
   describe("toString()", () => {
     it("should return the class name", () => {
-      expect(new Provider(T1).toString()).to.eq("Token:T1:T1");
+      expect(new Provider(T1).toString()).toEqual("Token:T1:T1");
     });
   });
 
@@ -92,7 +98,7 @@ describe("Provider", () => {
       const provider = new Provider(T1);
       provider.useAsyncFactory = async () => "test";
 
-      expect(provider.isAsync()).to.eq(true);
+      expect(provider.isAsync()).toEqual(true);
     });
   });
 });

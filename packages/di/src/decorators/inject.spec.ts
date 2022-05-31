@@ -1,6 +1,4 @@
 import {descriptorOf, Metadata, Store} from "@tsed/core";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {Inject, Injectable, InjectorService} from "../../src";
 import {INJECTABLE_PROP} from "../constants/constants";
 
@@ -21,20 +19,11 @@ describe("@Inject()", () => {
       }
 
       // THEN
-      expect(actualError.message).to.deep.eq("Inject cannot be used as method.static decorator on Test.test");
+      expect(actualError.message).toEqual("Inject cannot be used as method.static decorator on Test.test");
     });
   });
 
   describe("used on method", () => {
-    before(() => {
-      Sinon.stub(Metadata, "getType").returns(String);
-    });
-
-    after(() => {
-      // @ts-ignore
-      Metadata.getType.restore();
-    });
-
     it("should store metadata", () => {
       // GIVEN
       class Test {
@@ -46,7 +35,7 @@ describe("@Inject()", () => {
 
       // THEN
       const store = Store.from(Test).get(INJECTABLE_PROP);
-      expect(store).to.deep.eq({
+      expect(store).toEqual({
         test: {
           bindingType: "method",
           propertyKey: "test"
@@ -67,8 +56,8 @@ describe("@Inject()", () => {
       const injector = new InjectorService();
       const instance = await injector.invoke<Test>(Test);
 
-      expect(instance).to.be.instanceof(Test);
-      expect(instance.test).to.be.instanceof(InjectorService);
+      expect(instance).toBeInstanceOf(Test);
+      expect(instance.test).toBeInstanceOf(InjectorService);
     });
 
     it("should store metadata", async () => {
@@ -82,19 +71,18 @@ describe("@Inject()", () => {
       const injector = new InjectorService();
       const instance = await injector.invoke<Test>(Test);
 
-      expect(instance).to.be.instanceof(Test);
-      expect(instance.test).to.be.instanceof(InjectorService);
+      expect(instance).toBeInstanceOf(Test);
+      expect(instance.test).toBeInstanceOf(InjectorService);
     });
   });
 
   describe("used on constructor/params", () => {
-    const sandbox = Sinon.createSandbox();
-    before(() => {
-      sandbox.stub(Metadata, "getParamTypes");
-      sandbox.stub(Metadata, "setParamTypes");
+    beforeAll(() => {
+      jest.spyOn(Metadata, "getParamTypes").mockReturnValue([]);
+      jest.spyOn(Metadata, "setParamTypes").mockReturnValue(undefined);
     });
-    after(() => {
-      sandbox.restore();
+    afterAll(() => {
+      jest.resetAllMocks();
     });
 
     it("should call Metadata.getParamTypes()", () => {
@@ -102,27 +90,23 @@ describe("@Inject()", () => {
       class Test {
         test() {}
       }
-
-      // @ts-ignore
-      Metadata.getParamTypes.returns([]);
 
       // WHEN
       Inject(String)(Test.prototype, undefined, 0);
 
       // THEN
-      expect(Metadata.getParamTypes).to.have.been.calledWithExactly(Test.prototype, undefined);
-      expect(Metadata.setParamTypes).to.have.been.calledWithExactly(Test.prototype, undefined, [String]);
+      expect(Metadata.getParamTypes).toBeCalledWith(Test.prototype, undefined);
+      expect(Metadata.setParamTypes).toBeCalledWith(Test.prototype, undefined, [String]);
     });
   });
 
   describe("used on method/params", () => {
-    const sandbox = Sinon.createSandbox();
-    before(() => {
-      sandbox.stub(Metadata, "getParamTypes");
-      sandbox.stub(Metadata, "setParamTypes");
+    beforeAll(() => {
+      jest.spyOn(Metadata, "getParamTypes").mockReturnValue([]);
+      jest.spyOn(Metadata, "setParamTypes").mockReturnValue(undefined);
     });
-    after(() => {
-      sandbox.restore();
+    afterAll(() => {
+      jest.resetAllMocks();
     });
 
     it("should call Metadata.getParamTypes()", () => {
@@ -131,15 +115,12 @@ describe("@Inject()", () => {
         test() {}
       }
 
-      // @ts-ignore
-      Metadata.getParamTypes.returns([]);
-
       // WHEN
       Inject(String)(Test.prototype, "propertyKey", 0);
 
       // THEN
-      expect(Metadata.getParamTypes).to.have.been.calledWithExactly(Test.prototype, "propertyKey");
-      expect(Metadata.setParamTypes).to.have.been.calledWithExactly(Test.prototype, "propertyKey", [String]);
+      expect(Metadata.getParamTypes).toBeCalledWith(Test.prototype, "propertyKey");
+      expect(Metadata.setParamTypes).toBeCalledWith(Test.prototype, "propertyKey", [String]);
     });
   });
 });

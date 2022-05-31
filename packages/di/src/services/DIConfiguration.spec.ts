@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {DIConfiguration} from "../../src";
 
 describe("DIConfiguration", () => {
@@ -8,7 +7,7 @@ describe("DIConfiguration", () => {
       const configuration = new DIConfiguration();
 
       configuration.scopes = {};
-      expect(configuration.scopes).to.deep.equal({});
+      expect(configuration.scopes).toEqual({});
     });
   });
 
@@ -18,7 +17,7 @@ describe("DIConfiguration", () => {
       const configuration = new DIConfiguration();
 
       configuration.imports = [];
-      expect(configuration.imports).to.deep.equal([]);
+      expect(configuration.imports).toEqual([]);
     });
   });
 
@@ -28,7 +27,7 @@ describe("DIConfiguration", () => {
       const configuration = new DIConfiguration();
 
       configuration.resolvers = [];
-      expect(configuration.resolvers).to.deep.equal([]);
+      expect(configuration.resolvers).toEqual([]);
     });
   });
 
@@ -37,29 +36,29 @@ describe("DIConfiguration", () => {
       const configuration = new DIConfiguration();
 
       configuration.set("test", "test");
-      expect(configuration.get("test")).to.eq("test");
-      expect("test" in configuration).to.eq(true);
-      expect(configuration.get("test")).to.eq("test");
+      expect(configuration.get("test")).toEqual("test");
+      expect("test" in configuration).toEqual(true);
+      expect(configuration.get("test")).toEqual("test");
     });
 
     it("ownKeys", () => {
       const configuration = new DIConfiguration();
       configuration.set("test", "test");
-      expect(Reflect.ownKeys(configuration)).to.deep.eq(["default", "map", "scopes", "resolvers", "imports", "routes", "logger", "test"]);
+      expect(Reflect.ownKeys(configuration)).toEqual(["default", "map", "scopes", "resolvers", "imports", "routes", "logger", "test"]);
     });
 
     it("defineProperty", () => {
       const configuration = new (class extends DIConfiguration {})();
 
-      expect(Reflect.defineProperty(configuration, "test", {})).to.eq(true);
-      expect(Reflect.deleteProperty(configuration, "test")).to.eq(false);
+      expect(Reflect.defineProperty(configuration, "test", {})).toEqual(true);
+      expect(Reflect.deleteProperty(configuration, "test")).toEqual(false);
     });
 
     describe("resolve()", () => {
       it("should replace rootDir", () => {
         const configuration = new DIConfiguration();
         configuration.set("rootDir", "/root");
-        expect(configuration.resolve("${rootDir}")).to.eq("/root");
+        expect(configuration.resolve("${rootDir}")).toEqual("/root");
       });
     });
   });

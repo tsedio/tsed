@@ -15,6 +15,7 @@ module.exports = () => ({
   spec: ["packages/**/*.spec.ts"],
   exclude: [
     "packages/core/**/*.spec.ts",
+    "packages/di/**/*.spec.ts",
     "packages/orm/**/*.spec.ts",
     "packages/graphql/**/*.spec.ts",
     "packages/security/**/*.spec.ts",

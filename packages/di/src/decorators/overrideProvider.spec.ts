@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import Sinon from "sinon";
 import {GlobalProviders, Provider} from "../../src";
 import {OverrideProvider} from "../../src/decorators/overrideProvider";
@@ -8,10 +7,10 @@ describe("OverrideProvider", () => {
 
   class Test2 {}
 
-  before(() => {
+  beforeAll(() => {
     Sinon.stub(GlobalProviders, "get");
   });
-  after(() => {
+  afterAll(() => {
     // @ts-ignore
     GlobalProviders.get.restore();
   });
@@ -26,7 +25,7 @@ describe("OverrideProvider", () => {
     OverrideProvider(Test)(Test2);
 
     // THEN
-    expect(provider.provide).to.eq(Test);
-    expect(provider.useClass).to.eq(Test2);
+    expect(provider.provide).toEqual(Test);
+    expect(provider.useClass).toEqual(Test2);
   });
 });

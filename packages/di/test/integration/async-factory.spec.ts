@@ -1,5 +1,4 @@
 import {isPromise} from "@tsed/core";
-import {expect} from "chai";
 import {Container, GlobalProviders, Inject, Injectable, InjectorService, registerProvider} from "../../src";
 
 describe("DI", () => {
@@ -27,7 +26,7 @@ describe("DI", () => {
       asyncFactory: any;
     }
 
-    after(() => {
+    afterAll(() => {
       GlobalProviders.delete(Server);
       GlobalProviders.delete(ASYNC_FACTORY);
     });
@@ -40,13 +39,13 @@ describe("DI", () => {
       container.add(Server);
 
       const server = injector.invoke<any>(Server);
-      expect(isPromise(server.asyncFactory)).to.eq(true);
+      expect(isPromise(server.asyncFactory)).toEqual(true);
 
       // WHEN
       await injector.load(container);
 
-      expect(isPromise(server.asyncFactory)).to.eq(false);
-      expect(server.asyncFactory.connection).to.deep.eq(true);
+      expect(isPromise(server.asyncFactory)).toEqual(false);
+      expect(server.asyncFactory.connection).toEqual(true);
     });
   });
 });

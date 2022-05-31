@@ -4,6 +4,7 @@ import type {TokenProvider} from "./TokenProvider";
 
 declare global {
   namespace TsED {
+    // @ts-ignore
     interface Context {}
     interface Configuration {
       scopes: {[key: string]: ProviderScope};

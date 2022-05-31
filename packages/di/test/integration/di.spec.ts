@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {
   Container,
   GlobalProviders,
@@ -35,7 +34,7 @@ describe("DI", () => {
       }
     }
 
-    after(() => {
+    afterAll(() => {
       GlobalProviders.delete(ServiceSingleton);
       GlobalProviders.delete(ServiceRequest);
       GlobalProviders.delete(ServiceInstance);
@@ -53,16 +52,16 @@ describe("DI", () => {
       await injector.load(providers);
 
       // THEN
-      expect(injector.get(ServiceSingleton)).to.equal(injector.invoke(ServiceSingleton));
-      expect(injector.get(ServiceRequest)).to.equal(undefined);
-      expect(injector.get(ServiceInstance)).to.equal(undefined);
+      expect(injector.get(ServiceSingleton)).toEqual(injector.invoke(ServiceSingleton));
+      expect(injector.get(ServiceRequest)).toBeUndefined();
+      expect(injector.get(ServiceInstance)).toBeUndefined();
 
-      expect(injector.invoke(ServiceRequest)).to.not.equal(injector.invoke(ServiceRequest));
-      expect(injector.invoke(ServiceInstance)).to.not.equal(injector.invoke(ServiceInstance));
+      expect(injector.invoke(ServiceRequest) === injector.invoke(ServiceRequest)).toEqual(false);
+      expect(injector.invoke(ServiceInstance) === injector.invoke(ServiceInstance)).toEqual(false);
 
       const locals = new LocalsContainer();
-      expect(injector.invoke(ServiceRequest, locals)).to.equal(injector.invoke(ServiceRequest, locals));
-      expect(injector.invoke(ServiceInstance, locals)).to.not.equal(injector.invoke(ServiceInstance, locals));
+      expect(injector.invoke(ServiceRequest, locals)).toEqual(injector.invoke(ServiceRequest, locals));
+      expect(injector.invoke(ServiceInstance, locals) === injector.invoke(ServiceInstance, locals)).toEqual(false);
     });
   });
 
@@ -80,7 +79,7 @@ describe("DI", () => {
     @Injectable()
     class MyService extends BaseMyService {}
 
-    after(() => {
+    afterAll(() => {
       GlobalProviders.delete(MyService);
       GlobalProviders.delete(NestedService);
     });
@@ -93,7 +92,7 @@ describe("DI", () => {
 
       await injector.load(providers);
 
-      expect(injector.get<MyService>(MyService)!.nested).to.be.instanceOf(NestedService);
+      expect(injector.get<MyService>(MyService)!.nested).toBeInstanceOf(NestedService);
     });
   });
 
@@ -111,7 +110,7 @@ describe("DI", () => {
       nested: BaseService;
     }
 
-    after(() => {
+    afterAll(() => {
       GlobalProviders.delete(MyService);
       GlobalProviders.delete(NestedService);
     });
@@ -124,7 +123,7 @@ describe("DI", () => {
 
       await injector.load(providers);
 
-      expect(injector.get<MyService>(MyService)!.nested).to.be.instanceOf(NestedService);
+      expect(injector.get<MyService>(MyService)!.nested).toBeInstanceOf(NestedService);
     });
   });
 
@@ -143,12 +142,12 @@ describe("DI", () => {
 
       const instance = injector.invoke(MyClass);
 
-      expect(instance).to.be.instanceOf(FakeMyClass);
-      expect(injector.get(MyClass)).to.be.instanceOf(FakeMyClass);
+      expect(instance).toBeInstanceOf(FakeMyClass);
+      expect(injector.get(MyClass)).toBeInstanceOf(FakeMyClass);
 
       await injector.load();
 
-      expect(injector.get(MyClass)).to.be.instanceOf(FakeMyClass);
+      expect(injector.get(MyClass)).toBeInstanceOf(FakeMyClass);
     });
   });
 });

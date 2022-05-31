@@ -1,5 +1,3 @@
-import {expect} from "chai";
-import Sinon from "sinon";
 import {LocalsContainer} from "./LocalsContainer";
 
 describe("LocalsContainer", () => {
@@ -7,15 +5,15 @@ describe("LocalsContainer", () => {
     it("should destroy container", async () => {
       // GIVEN
       const instance = {
-        $onDestroy: Sinon.stub().resolves()
+        $onDestroy: jest.fn().mockResolvedValue(undefined)
       };
       const container = new LocalsContainer<any>();
       container.set("TOKEN", instance);
 
       await container.destroy();
 
-      expect(instance.$onDestroy).to.have.been.calledWithExactly();
-      expect(container.size).to.eq(0);
+      expect(instance.$onDestroy).toBeCalledWith();
+      expect(container.size).toEqual(0);
     });
   });
 
@@ -23,15 +21,15 @@ describe("LocalsContainer", () => {
     it("should alter value", () => {
       // GIVEN
       const instance = {
-        $alterValue: Sinon.stub().returns("alteredValue")
+        $alterValue: jest.fn().mockReturnValue("alteredValue")
       };
       const container = new LocalsContainer<any>();
       container.set("TOKEN", instance);
 
       const value = container.alter("$alterValue", "value");
 
-      expect(instance.$alterValue).to.have.been.calledWithExactly("value");
-      expect(value).to.eq("alteredValue");
+      expect(instance.$alterValue).toBeCalledWith("value");
+      expect(value).toEqual("alteredValue");
     });
   });
 
@@ -39,15 +37,15 @@ describe("LocalsContainer", () => {
     it("should alter value", async () => {
       // GIVEN
       const instance = {
-        $alterValue: Sinon.stub().returns("alteredValue")
+        $alterValue: jest.fn().mockReturnValue("alteredValue")
       };
       const container = new LocalsContainer<any>();
       container.set("TOKEN", instance);
 
       const value = await container.alterAsync("$alterValue", "value");
 
-      expect(instance.$alterValue).to.have.been.calledWithExactly("value");
-      expect(value).to.eq("alteredValue");
+      expect(instance.$alterValue).toBeCalledWith("value");
+      expect(value).toEqual("alteredValue");
     });
   });
 });

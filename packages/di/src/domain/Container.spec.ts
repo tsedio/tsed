@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {Container, Provider, ProviderType} from "../../src";
 
 describe("Container", () => {
@@ -16,7 +15,7 @@ describe("Container", () => {
       const result = container.getProvider(Test);
 
       // THEN
-      expect(result!).to.instanceof(Provider);
+      expect(result!).toBeInstanceOf(Provider);
     });
   });
   describe("getProviders()", () => {
@@ -42,8 +41,8 @@ describe("Container", () => {
 
       const result = providers.find((item: any) => item.type !== ProviderType.MIDDLEWARE);
 
-      expect(providers[0].type).to.eq(ProviderType.MIDDLEWARE);
-      expect(result).to.eq(undefined);
+      expect(providers[0].type).toEqual(ProviderType.MIDDLEWARE);
+      expect(result).toBeUndefined();
     });
 
     it("should return controllers only", () => {
@@ -51,8 +50,8 @@ describe("Container", () => {
 
       const result = providers.find((item: any) => item.type !== ProviderType.CONTROLLER);
 
-      expect(providers[0].type).to.eq(ProviderType.CONTROLLER);
-      expect(result).to.eq(undefined);
+      expect(providers[0].type).toEqual(ProviderType.CONTROLLER);
+      expect(result).toBeUndefined();
     });
 
     it("should return all providers", () => {
@@ -60,9 +59,9 @@ describe("Container", () => {
       const controllers = providers.filter((item: any) => item.type === ProviderType.CONTROLLER);
       const middlewares = providers.filter((item: any) => item.type === ProviderType.MIDDLEWARE);
 
-      expect(providers.length > 0).to.eq(true);
-      expect(controllers.length > 0).to.eq(true);
-      expect(middlewares.length > 0).to.eq(true);
+      expect(providers.length > 0).toEqual(true);
+      expect(controllers.length > 0).toEqual(true);
+      expect(middlewares.length > 0).toEqual(true);
     });
   });
   describe("addProviders()", () => {
@@ -78,7 +77,7 @@ describe("Container", () => {
       container.addProviders(childContainer);
 
       // THEN
-      expect(container.getProvider(Test)!).to.instanceof(Provider);
+      expect(container.getProvider(Test)!).toBeInstanceOf(Provider);
     });
   });
 });

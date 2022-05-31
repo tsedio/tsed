@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {GlobalProviderRegistry, Provider, ProviderType} from "../../src";
 
 describe("GlobalProviderRegistry", () => {
@@ -11,7 +10,7 @@ describe("GlobalProviderRegistry", () => {
       providers.createRegistry("test", Provider, {});
 
       // THEN
-      expect(providers.getRegistrySettings("test")).to.deep.eq({
+      expect(providers.getRegistrySettings("test")).toEqual({
         model: Provider
       });
     });
@@ -31,7 +30,7 @@ describe("GlobalProviderRegistry", () => {
       const settings = providers.getRegistrySettings(Symbol.for("token"));
 
       // THEN
-      expect(settings).to.deep.eq({
+      expect(settings).toEqual({
         model: Provider
       });
     });
@@ -44,7 +43,7 @@ describe("GlobalProviderRegistry", () => {
       const settings = providers.getRegistrySettings(provider);
 
       // THEN
-      expect(settings).to.deep.eq({
+      expect(settings).toEqual({
         model: Provider
       });
     });
@@ -55,7 +54,7 @@ describe("GlobalProviderRegistry", () => {
       const clazz = class {};
 
       registry.merge(clazz, {attr1: 1});
-      expect(registry.get(clazz)?.attr1).to.equal(1);
+      expect(registry.get(clazz)?.attr1).toEqual(1);
     });
 
     it("should merge metadata", () => {
@@ -64,12 +63,12 @@ describe("GlobalProviderRegistry", () => {
       registry.merge(clazz, {attr1: 1});
       registry.merge(clazz, {attr2: 2});
 
-      expect(registry.get(clazz)?.attr1).to.equal(1);
-      expect(registry.get(clazz)?.attr2).to.equal(2);
+      expect(registry.get(clazz)?.attr1).toEqual(1);
+      expect(registry.get(clazz)?.attr2).toEqual(2);
 
       registry.delete(clazz);
 
-      expect(registry.get(clazz)).to.equal(undefined);
+      expect(registry.get(clazz)).toBeUndefined();
     });
   });
 });
