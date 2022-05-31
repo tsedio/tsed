@@ -1,6 +1,5 @@
 import {Store} from "@tsed/core";
 import {Container, GlobalProviders, Injectable, InjectorService, Provider} from "@tsed/di";
-import {expect} from "chai";
 import {Configuration} from "./configuration";
 
 describe("@Configuration", () => {
@@ -12,7 +11,7 @@ describe("@Configuration", () => {
     provider.injectable = false;
     provider.configuration = {};
 
-    expect(Store.from(Test).get("configuration")).to.deep.eq({});
+    expect(Store.from(Test).get("configuration")).toEqual({});
   });
 
   it("should inject configuration", async () => {
@@ -33,7 +32,7 @@ describe("@Configuration", () => {
 
     const instance = injector.invoke<Test>(Test);
 
-    expect(instance.config).to.eq(injector.settings);
-    expect(instance.config.get("feature")).to.eq("feature");
+    expect(instance.config).toEqual(injector.settings);
+    expect(instance.config.get("feature")).toEqual("feature");
   });
 });

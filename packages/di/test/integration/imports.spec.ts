@@ -1,7 +1,4 @@
 import {DITest, Inject, Injectable, Module} from "../../src";
-import Sinon from "sinon";
-import {expect} from "chai";
-import {PlatformTest} from "@tsed/common/src";
 
 @Injectable()
 class MyService {
@@ -25,7 +22,7 @@ describe("DITest", () => {
         {
           token: MyService,
           use: {
-            createConnection: Sinon.stub()
+            createConnection: jest.fn()
           }
         }
       ]
@@ -34,6 +31,6 @@ describe("DITest", () => {
 
   it("should create container with stubbed service", () => {
     const service = DITest.get(MyService);
-    expect(service.createConnection).to.have.been.calledWithExactly();
+    expect(service.createConnection).toBeCalledWith();
   });
 });

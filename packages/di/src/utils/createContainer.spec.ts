@@ -1,9 +1,8 @@
 import {Container, createContainer, Module} from "@tsed/di";
-import {expect} from "chai";
 
 describe("createContainer", () => {
   it("should createContainer", () => {
-    expect(createContainer()).to.instanceof(Container);
+    expect(createContainer()).toBeInstanceOf(Container);
   });
 
   it("should createContainer without rootModule", () => {
@@ -12,6 +11,6 @@ describe("createContainer", () => {
 
     const container = createContainer(MyModule);
 
-    expect(container.has(MyModule)).to.eq(false);
+    expect(container.has(MyModule)).toEqual(false);
   });
 });

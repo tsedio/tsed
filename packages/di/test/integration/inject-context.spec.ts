@@ -1,5 +1,4 @@
 import {DIContext, DITest, Injectable, InjectContext, runInContext} from "@tsed/di";
-import {expect} from "chai";
 
 @Injectable()
 class MyService {
@@ -21,6 +20,6 @@ describe("InjectContext", () => {
 
     const result = runInContext(ctx, () => service.get());
 
-    expect(result).to.equal("id");
+    expect(result).toEqual("id");
   });
 });

@@ -1,12 +1,11 @@
 import {Configuration, getConfiguration} from "@tsed/di";
-import {expect} from "chai";
 
 describe("getConfiguration", () => {
   it("should return configuration", () => {
     @Configuration({test: "test"})
     class MyModule {}
 
-    expect(getConfiguration(MyModule)).to.deep.eq({
+    expect(getConfiguration(MyModule)).toEqual({
       test: "test"
     });
   });
@@ -27,7 +26,7 @@ describe("getConfiguration", () => {
         },
         componentsScan: ["/root2-services/*.ts"]
       })
-    ).to.deep.eq({
+    ).toEqual({
       componentsScan: ["/root1-services/*.ts", "/root2-services/*.ts"],
       mount: {
         "/v1": ["/root1/*.ts"],

@@ -1,5 +1,3 @@
-import {expect} from "chai";
-import Sinon from "sinon";
 import {ContextLogger} from "./ContextLogger";
 
 function getIgnoreLogFixture(ignore: string[], url: string) {
@@ -12,11 +10,11 @@ function getIgnoreLogFixture(ignore: string[], url: string) {
 describe("ContextLogger", () => {
   it("should create a new Context and log all", () => {
     const logger = {
-      info: Sinon.stub(),
-      debug: Sinon.stub(),
-      warn: Sinon.stub(),
-      error: Sinon.stub(),
-      trace: Sinon.stub()
+      info: jest.fn(),
+      debug: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+      trace: jest.fn()
     };
 
     const requestLogger = new ContextLogger(logger, {
@@ -27,7 +25,7 @@ describe("ContextLogger", () => {
       completeRequestPicker: (o: any) => ({...o, complete: "complete"})
     });
 
-    Sinon.stub(requestLogger as any, "getDuration").returns(1);
+    jest.spyOn(requestLogger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
     requestLogger.debug({test: "test"});
@@ -40,56 +38,56 @@ describe("ContextLogger", () => {
     requestLogger.flush();
 
     // THEN
-    expect(logger.info).to.have.been.calledWithExactly({
+    expect(logger.info).toBeCalledWith({
       minimal: "minimal",
       duration: 1,
       reqId: "id",
       test: "test",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
-    expect(logger.info).to.have.been.calledWithExactly({
+    expect(logger.info).toBeCalledWith({
       minimal: "minimal",
       duration: 1,
       reqId: "id",
       message: "message",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
-    expect(logger.debug).to.have.been.calledWithExactly({
+    expect(logger.debug).toBeCalledWith({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
-    expect(logger.warn).to.have.been.calledWithExactly({
+    expect(logger.warn).toBeCalledWith({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
-    expect(logger.error).to.have.been.calledWithExactly({
+    expect(logger.error).toBeCalledWith({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
-    expect(logger.trace).to.have.been.calledWithExactly({
+    expect(logger.trace).toBeCalledWith({
       complete: "complete",
       duration: 1,
       reqId: "id",
       test: "test",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
   });
   it("should create a new Context and log all (with minimalRequestPicker)", () => {
     const logger = {
-      info: Sinon.stub(),
-      debug: Sinon.stub(),
-      warn: Sinon.stub(),
-      error: Sinon.stub(),
-      trace: Sinon.stub()
+      info: jest.fn(),
+      debug: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+      trace: jest.fn()
     };
 
     const requestLogger = new ContextLogger(logger, {
@@ -98,7 +96,7 @@ describe("ContextLogger", () => {
       ignoreLog: getIgnoreLogFixture(["/admin"], "/url")
     });
 
-    Sinon.stub(requestLogger as any, "getDuration").returns(1);
+    jest.spyOn(requestLogger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
     requestLogger.debug({test: "test"});
@@ -111,50 +109,50 @@ describe("ContextLogger", () => {
     requestLogger.flush();
 
     // THEN
-    expect(logger.info).to.have.been.calledWithExactly({
+    expect(logger.info).toBeCalledWith({
       duration: 1,
       reqId: "id",
       test: "test",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
-    expect(logger.info).to.have.been.calledWithExactly({
+    expect(logger.info).toBeCalledWith({
       duration: 1,
       reqId: "id",
       message: "message",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
-    expect(logger.debug).to.have.been.calledWithExactly({
+    expect(logger.debug).toBeCalledWith({
       duration: 1,
       reqId: "id",
       test: "test",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
-    expect(logger.warn).to.have.been.calledWithExactly({
+    expect(logger.warn).toBeCalledWith({
       duration: 1,
       reqId: "id",
       test: "test",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
-    expect(logger.error).to.have.been.calledWithExactly({
+    expect(logger.error).toBeCalledWith({
       duration: 1,
       reqId: "id",
       test: "test",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
-    expect(logger.trace).to.have.been.calledWithExactly({
+    expect(logger.trace).toBeCalledWith({
       duration: 1,
       reqId: "id",
       test: "test",
-      time: Sinon.match.instanceOf(Date)
+      time: expect.any(Date)
     });
   });
   it("should create a new Context and log nothing when pattern match with url", () => {
     const logger = {
-      info: Sinon.stub(),
-      debug: Sinon.stub(),
-      warn: Sinon.stub(),
-      error: Sinon.stub(),
-      trace: Sinon.stub()
+      info: jest.fn(),
+      debug: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+      trace: jest.fn()
     };
 
     const requestLogger = new ContextLogger(logger, {
@@ -168,22 +166,22 @@ describe("ContextLogger", () => {
       }
     });
 
-    Sinon.stub(requestLogger as any, "getDuration").returns(1);
+    jest.spyOn(requestLogger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
     requestLogger.info({test: "test"});
     requestLogger.flush();
 
     // THEN
-    return expect(logger.info).to.not.have.been.called;
+    return expect(logger.info).not.toBeCalled();
   });
   it("should create a new Context and flush log when maxStackSize is reached", () => {
     const logger = {
-      info: Sinon.stub(),
-      debug: Sinon.stub(),
-      warn: Sinon.stub(),
-      error: Sinon.stub(),
-      trace: Sinon.stub()
+      info: jest.fn(),
+      debug: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+      trace: jest.fn()
     };
 
     const requestLogger = new ContextLogger(logger, {
@@ -195,7 +193,7 @@ describe("ContextLogger", () => {
       completeRequestPicker: (o: any) => ({...o, complete: "complete"})
     });
 
-    Sinon.stub(requestLogger as any, "getDuration").returns(1);
+    jest.spyOn(requestLogger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
     requestLogger.info({test: "test"});
@@ -204,6 +202,6 @@ describe("ContextLogger", () => {
     requestLogger.info({test: "test"});
 
     // THEN
-    return expect(logger.info).to.have.been.callCount(3);
+    return expect(logger.info).toBeCalledTimes(3);
   });
 });

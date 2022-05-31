@@ -1,12 +1,9 @@
 import {Injectable} from "@tsed/di";
-import {expect} from "chai";
-import {stub, restore} from "sinon";
 import * as ProviderRegistry from "../../src/registries/ProviderRegistry";
 
 describe("@Injectable()", () => {
-  before(() => stub(ProviderRegistry, "registerProvider"));
-
-  after(() => restore());
+  beforeEach(() => jest.spyOn(ProviderRegistry, "registerProvider"));
+  afterEach(() => jest.resetAllMocks());
 
   it("should call `registerProvider` setting `provide` according to the target class", () => {
     // GIVEN
@@ -16,7 +13,7 @@ describe("@Injectable()", () => {
     Injectable()(Test);
 
     // THEN
-    expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
+    expect(ProviderRegistry.registerProvider).toBeCalledWith({
       provide: Test
     });
   });
@@ -29,7 +26,7 @@ describe("@Injectable()", () => {
     Injectable({options: "options"})(Test);
 
     // THEN
-    expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
+    expect(ProviderRegistry.registerProvider).toBeCalledWith({
       options: "options",
       provide: Test
     });
@@ -44,7 +41,7 @@ describe("@Injectable()", () => {
     Injectable({provide})(Test);
 
     // THEN
-    expect(ProviderRegistry.registerProvider).to.have.been.calledWithExactly({
+    expect(ProviderRegistry.registerProvider).toBeCalledWith({
       provide,
       useClass: Test
     });

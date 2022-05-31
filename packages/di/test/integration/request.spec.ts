@@ -1,6 +1,4 @@
-import {expect} from "chai";
-import Sinon from "sinon";
-import {LocalsContainer, Container, GlobalProviders, InjectorService, OnDestroy, ProviderScope, Scope, Service} from "@tsed/di";
+import {Container, GlobalProviders, InjectorService, LocalsContainer, OnDestroy, ProviderScope, Scope, Service} from "@tsed/di";
 
 describe("DI Request", () => {
   @Service()
@@ -24,7 +22,7 @@ describe("DI Request", () => {
     }
   }
 
-  after(() => {
+  afterAll(() => {
     GlobalProviders.delete(ServiceSingleton);
     GlobalProviders.delete(ServiceRequest);
     GlobalProviders.delete(ServiceInstance);
@@ -51,17 +49,17 @@ describe("DI Request", () => {
       const serviceSingleton1: any = injector.invoke(ServiceSingleton, locals);
       const serviceSingleton2: any = injector.get(ServiceSingleton);
 
-      Sinon.stub(result1, "$onDestroy");
+      jest.spyOn(result1, "$onDestroy").mockResolvedValue(undefined);
 
       await locals.destroy();
       // THEN
-      expect(result1).to.eq(result2);
-      expect(result1.serviceSingleton).to.eq(serviceSingleton1);
-      expect(result1.serviceInstance).to.instanceof(ServiceInstance);
+      expect(result1).toEqual(result2);
+      expect(result1.serviceSingleton).toEqual(serviceSingleton1);
+      expect(result1.serviceInstance).toBeInstanceOf(ServiceInstance);
 
-      expect(serviceSingleton1).to.eq(serviceSingleton2);
+      expect(serviceSingleton1).toEqual(serviceSingleton2);
 
-      return expect(result1.$onDestroy).to.have.been.calledWithExactly();
+      return expect(result1.$onDestroy).toBeCalledWith();
     });
   });
 });

@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {
   Container,
   GlobalProviders,
@@ -33,7 +32,7 @@ describe("DI Interceptor", () => {
     }
   }
 
-  after(() => {
+  afterAll(() => {
     GlobalProviders.delete(MyInterceptor);
     GlobalProviders.delete(ServiceTest);
   });
@@ -53,7 +52,7 @@ describe("DI Interceptor", () => {
     const result = serviceTest.exec("param data");
 
     // THEN
-    expect(result).to.deep.eq("Original data - param data - options data - intercepted");
+    expect(result).toEqual("Original data - param data - options data - intercepted");
   });
 
   it("should intercept the method and throw error", async () => {
@@ -75,6 +74,6 @@ describe("DI Interceptor", () => {
       actualError = er;
     }
     // THEN
-    expect(actualError.message).to.eq("Error message");
+    expect(actualError.message).toEqual("Error message");
   });
 });

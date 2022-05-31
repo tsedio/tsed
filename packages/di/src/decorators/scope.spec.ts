@@ -1,5 +1,4 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {Scope} from "../../src";
 
 class Test {}
@@ -9,17 +8,17 @@ describe("Scope", () => {
     it("should set metadata", () => {
       Scope("request")(Test);
 
-      expect(Store.from(Test).get("scope")).to.eq("request");
+      expect(Store.from(Test).get("scope")).toEqual("request");
     });
   });
 
   describe("when parameters is not given", () => {
-    before(() => {});
+    beforeAll(() => {});
 
     it("should set metadata", () => {
       Scope()(Test);
 
-      expect(Store.from(Test).get("scope")).to.eq("request");
+      expect(Store.from(Test).get("scope")).toEqual("request");
     });
   });
 });

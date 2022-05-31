@@ -1,5 +1,4 @@
 import {Container, InjectorService} from "@tsed/di";
-import {expect} from "chai";
 
 describe("DI Resolvers", () => {
   describe("create new injector", () => {
@@ -24,13 +23,13 @@ describe("DI Resolvers", () => {
       });
 
       // WHEN
-      expect(injector.get(ExternalService)).to.eq("MyClass");
+      expect(injector.get(ExternalService)).toEqual("MyClass");
 
       await injector.load(container);
 
       // THEN
-      expect(injector.get(MyService)).to.instanceOf(MyService);
-      expect(injector.get<MyService>(MyService)!.externalService).to.eq("MyClass");
+      expect(injector.get(MyService)).toBeInstanceOf(MyService);
+      expect(injector.get<MyService>(MyService)!.externalService).toEqual("MyClass");
     });
   });
 });
