@@ -1,6 +1,5 @@
 import {Injectable, InjectorService, LazyInject, OptionalLazyInject} from "@tsed/di";
 import type {MyLazyModule} from "./__mock__/lazy.module";
-import {expect} from "chai";
 import {catchAsyncError, classOf, nameOf} from "@tsed/core";
 
 describe("LazyInject", () => {
@@ -17,8 +16,8 @@ describe("LazyInject", () => {
 
     const lazyService = await service.lazy;
 
-    expect(nameOf(classOf(lazyService))).to.eq("MyLazyModule");
-    expect(nbProviders).to.not.eq(injector.getProviders().length);
+    expect(nameOf(classOf(lazyService))).toEqual("MyLazyModule");
+    expect(nbProviders).not.toEqual(injector.getProviders().length);
   });
 
   it("should throw an error when token isn't a valid provider", async () => {
@@ -32,7 +31,7 @@ describe("LazyInject", () => {
     const service = await injector.invoke<MyInjectable>(MyInjectable);
     const error = await catchAsyncError(() => service.lazy);
 
-    expect(error?.message).to.eq('Unable to lazy load the "TKO". The token isn\'t a valid token provider.');
+    expect(error?.message).toEqual('Unable to lazy load the "TKO". The token isn\'t a valid token provider.');
   });
 
   it("should throw an error when the module doesn't exists", async () => {
@@ -47,7 +46,7 @@ describe("LazyInject", () => {
     const service = await injector.invoke<MyInjectable>(MyInjectable);
     const error = await catchAsyncError(() => service.lazy);
 
-    expect(error?.message).to.contains("Cannot find module");
+    expect(error?.message).toContain("Cannot find module");
   });
 
   it("should lazy load optionally a module", async () => {
@@ -62,6 +61,6 @@ describe("LazyInject", () => {
     const service = await injector.invoke<MyInjectable>(MyInjectable);
     const lazyService = await service.lazy;
 
-    expect(lazyService).to.deep.eq({});
+    expect(lazyService).toEqual({});
   });
 });

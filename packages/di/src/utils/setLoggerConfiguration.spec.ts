@@ -1,7 +1,5 @@
 import {InjectorService, setLoggerConfiguration} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {expect} from "chai";
-import Sinon from "sinon";
 
 describe("setLoggerConfiguration", () => {
   it("should change the logger level depending on the configuration", () => {
@@ -11,19 +9,19 @@ describe("setLoggerConfiguration", () => {
 
     setLoggerConfiguration(injector);
 
-    expect(injector.logger.level).to.equal("info");
+    expect(injector.logger.level).toEqual("info");
   });
   it("should call $log.appenders.set()", () => {
     const injector = new InjectorService();
     injector.logger = new Logger();
 
-    Sinon.stub(injector.logger.appenders, "set");
+    jest.spyOn(injector.logger.appenders, "set").mockResolvedValue(undefined);
 
     injector.settings.set("logger.format", "format");
 
     setLoggerConfiguration(injector);
 
-    expect(injector.logger.appenders.set).to.have.been.calledWithExactly("stdout", {
+    expect(injector.logger.appenders.set).toBeCalledWith("stdout", {
       type: "stdout",
       levels: ["info", "debug"],
       layout: {
@@ -32,7 +30,7 @@ describe("setLoggerConfiguration", () => {
       }
     });
 
-    expect(injector.logger.appenders.set).to.have.been.calledWithExactly("stderr", {
+    expect(injector.logger.appenders.set).toBeCalledWith("stderr", {
       levels: ["trace", "fatal", "error", "warn"],
       type: "stderr",
       layout: {

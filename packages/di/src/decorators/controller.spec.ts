@@ -1,13 +1,12 @@
 import {Controller} from "@tsed/common";
 import {GlobalProviders, ProviderScope, ProviderType} from "@tsed/di";
-import {expect} from "chai";
 
 class Test {}
 
 class Dep {}
 
 describe("@Controller", () => {
-  after(() => {
+  afterAll(() => {
     GlobalProviders.delete(Test);
   });
   it("should register a controller with his path and Dependency", () => {
@@ -18,8 +17,8 @@ describe("@Controller", () => {
     const provider = GlobalProviders.get(Test)!;
 
     // THEN
-    expect(provider.type).to.equal(ProviderType.CONTROLLER);
-    expect(provider.path).to.equal("/test");
+    expect(provider.type).toEqual(ProviderType.CONTROLLER);
+    expect(provider.path).toEqual("/test");
   });
 
   it("should register a controller with customer provider options", () => {
@@ -34,9 +33,9 @@ describe("@Controller", () => {
     const provider = GlobalProviders.get(Test)!;
 
     // THEN
-    expect(provider.type).to.equal(ProviderType.CONTROLLER);
-    expect(provider.scope).to.equal(ProviderScope.REQUEST);
-    expect(provider.path).to.equal("/test");
-    expect(provider.children).to.deep.equal([Dep]);
+    expect(provider.type).toEqual(ProviderType.CONTROLLER);
+    expect(provider.scope).toEqual(ProviderScope.REQUEST);
+    expect(provider.path).toEqual("/test");
+    expect(provider.children).toEqual([Dep]);
   });
 });

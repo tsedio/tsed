@@ -1,9 +1,13 @@
-import {DITest, ProviderScope, Scope} from "@tsed/di";
 import {descriptorOf} from "@tsed/core";
-import {Inject, Injectable, Opts, UseOpts} from "@tsed/di";
-import {expect} from "chai";
+import {DITest, Inject, Injectable, Opts, ProviderScope, Scope, UseOpts} from "@tsed/di";
 
 describe("UseOpts", () => {
+  let testContext: any;
+
+  beforeEach(() => {
+    testContext = {};
+  });
+
   beforeEach(() => DITest.create());
   afterEach(() => DITest.reset());
   it("should inject provider with options", async () => {
@@ -12,6 +16,7 @@ describe("UseOpts", () => {
       source: any;
 
       constructor(@Opts options: any = {}) {
+        testContext.source = options.source;
         this.source = options.source;
       }
     }
@@ -29,13 +34,13 @@ describe("UseOpts", () => {
 
     const service = await DITest.invoke<MyService>(MyService);
 
-    expect(service.service2.source).to.equal("test2");
-    expect(service.service2).to.not.equal(service.service1);
+    expect(service.service2.source).toEqual("test2");
+    expect(service.service2).not.toEqual(service.service1);
 
-    expect(service.service1).to.instanceof(MyProvider);
-    expect(service.service1.source).to.equal("test1");
+    expect(service.service1).toBeInstanceOf(MyProvider);
+    expect(service.service1.source).toEqual("test1");
 
-    expect(service.service2).to.instanceof(MyProvider);
+    expect(service.service2).toBeInstanceOf(MyProvider);
   });
   it("should invoke a service which use a configurable provider", async () => {
     @Injectable()
@@ -43,7 +48,7 @@ describe("UseOpts", () => {
       source: any;
 
       constructor(@Opts options: Partial<any> = {}) {
-        this.source = options.source;
+        testContext.source = options.source;
       }
     }
 
@@ -73,6 +78,6 @@ describe("UseOpts", () => {
     }
 
     // THEN
-    expect(actualError.message).to.deep.eq("UseOpts cannot be used as method.static decorator on Test.test");
+    expect(actualError.message).toEqual("UseOpts cannot be used as method.static decorator on Test.test");
   });
 });

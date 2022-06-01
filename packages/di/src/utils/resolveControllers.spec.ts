@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {Controller} from "@tsed/di";
 
 import {Module1} from "./__mock__/module1/Module1";
@@ -23,7 +22,7 @@ describe("resolveControllers", () => {
     const result = resolveControllers(configuration);
     const routes = result.map((item) => ({...item, token: nameOf(item.token)}));
 
-    expect(routes).to.deep.eq([
+    expect(routes).toEqual([
       {
         route: "/m1",
         token: "M1Ctrl1"

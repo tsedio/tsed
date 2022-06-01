@@ -15,6 +15,7 @@
     "packages/**/ExpressRouter.ts",
     "packages/**/RouteService.ts",
     "packages/core",
+    "packages/di",
     "packages/platform/platform-test-utils",
     "packages/platform/platform-serverless",
     "packages/platform/platform-cache",
@@ -46,8 +47,8 @@
     "lcov"
   ],
   "check-coverage": true,
-  "lines": 99.6,
-  "statements": 99.55,
-  "functions": 98.56,
-  "branches": 87.26
+  "lines": 99.46,
+  "statements": 99.38,
+  "functions": 97.94,
+  "branches": 85.79
 }

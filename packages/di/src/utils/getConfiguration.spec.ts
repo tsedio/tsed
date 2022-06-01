@@ -1,5 +1,4 @@
 import {Configuration, getConfiguration} from "@tsed/di";
-import {expect} from "chai";
 
 class MyController1 {}
 class MyController2 {}
@@ -9,7 +8,7 @@ describe("getConfiguration", () => {
     @Configuration({test: "test"})
     class MyModule {}
 
-    expect(getConfiguration(MyModule)).to.deep.eq({
+    expect(getConfiguration(MyModule)).toEqual({
       test: "test",
       mount: {}
     });
@@ -29,7 +28,7 @@ describe("getConfiguration", () => {
           "/v2": [MyController2]
         }
       })
-    ).to.deep.eq({
+    ).toEqual({
       mount: {
         "/v1": [MyController1],
         "/v2": [MyController2]

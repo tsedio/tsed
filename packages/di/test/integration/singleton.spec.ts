@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {Container, GlobalProviders, InjectorService, ProviderScope, Scope, Service} from "@tsed/di";
 
 describe("DI Singleton", () => {
@@ -29,7 +28,7 @@ describe("DI Singleton", () => {
     constructor(public serviceInstance: ServiceInstance, public serviceInstance2: ServiceInstance) {}
   }
 
-  after(() => {
+  afterAll(() => {
     GlobalProviders.delete(ServiceSingleton);
     GlobalProviders.delete(ServiceRequest);
     GlobalProviders.delete(ServiceInstance);
@@ -52,7 +51,7 @@ describe("DI Singleton", () => {
       await injector.load(container);
 
       // THEN
-      expect(injector.get<ServiceSingleton>(ServiceSingleton)!).to.be.instanceof(ServiceSingleton);
+      expect(injector.get<ServiceSingleton>(ServiceSingleton)!).toBeInstanceOf(ServiceSingleton);
     });
   });
   describe("when it has a REQUEST dependency", () => {
@@ -73,15 +72,15 @@ describe("DI Singleton", () => {
       const serviceRequest = injector.get<ServiceRequest>(ServiceRequest)!;
 
       // THEN
-      expect(serviceSingletonWithReqDep).to.be.instanceof(ServiceSingletonWithRequestDep);
-      expect(serviceSingletonWithReqDep.serviceRequest).to.be.instanceof(ServiceRequest);
-      expect(serviceSingletonWithReqDep.serviceRequest2).to.be.instanceof(ServiceRequest);
+      expect(serviceSingletonWithReqDep).toBeInstanceOf(ServiceSingletonWithRequestDep);
+      expect(serviceSingletonWithReqDep.serviceRequest).toBeInstanceOf(ServiceRequest);
+      expect(serviceSingletonWithReqDep.serviceRequest2).toBeInstanceOf(ServiceRequest);
 
       // The same service injected twice or more are considered as a Singleton (REQUEST downgraded to SINGLETON)
-      expect(serviceSingletonWithReqDep.serviceRequest).to.eq(serviceSingletonWithReqDep.serviceRequest2);
+      expect(serviceSingletonWithReqDep.serviceRequest).toEqual(serviceSingletonWithReqDep.serviceRequest2);
 
       // The service isn't registered in the injectorService
-      expect(serviceRequest).to.eq(undefined);
+      expect(serviceRequest).toBeUndefined();
     });
   });
   describe("when it has a INSTANCE dependency", () => {
@@ -100,15 +99,15 @@ describe("DI Singleton", () => {
       const serviceInstance = injector.get<ServiceInstance>(ServiceInstance)!;
 
       // THEN
-      expect(serviceWithInstDep).to.be.instanceof(ServiceSingletonWithInstanceDep);
-      expect(serviceWithInstDep.serviceInstance).to.be.instanceof(ServiceInstance);
-      expect(serviceWithInstDep.serviceInstance2).to.be.instanceof(ServiceInstance);
+      expect(serviceWithInstDep).toBeInstanceOf(ServiceSingletonWithInstanceDep);
+      expect(serviceWithInstDep.serviceInstance).toBeInstanceOf(ServiceInstance);
+      expect(serviceWithInstDep.serviceInstance2).toBeInstanceOf(ServiceInstance);
 
       // A same service injected twice or more are considered as a new INSTANCE for each injection
-      expect(serviceWithInstDep.serviceInstance).to.not.eq(serviceWithInstDep.serviceInstance2);
+      expect(serviceWithInstDep.serviceInstance === serviceWithInstDep.serviceInstance2).toEqual(false);
 
       // The service isn't registered in the injectorService
-      expect(serviceInstance).to.eq(undefined);
+      expect(serviceInstance).toBeUndefined();
     });
   });
 });
