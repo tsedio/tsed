@@ -1,6 +1,5 @@
 import {MulterOptions, PlatformMulterMiddleware} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 
 describe("@MulterOptions()", () => {
   it("should store metadata", () => {
@@ -11,7 +10,7 @@ describe("@MulterOptions()", () => {
 
     const store = Store.fromMethod(Test.prototype, "test");
 
-    expect(store.get(PlatformMulterMiddleware)).to.deep.equal({
+    expect(store.get(PlatformMulterMiddleware)).toEqual({
       options: {
         dest: "/"
       }

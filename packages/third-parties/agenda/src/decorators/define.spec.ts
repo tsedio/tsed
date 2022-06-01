@@ -1,5 +1,4 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {Agenda} from "./agenda";
 import {Define} from "./define";
 
@@ -20,7 +19,7 @@ describe("@Define()", () => {
 
     const store = Store.from(Test);
 
-    expect(store.get("agenda").define).to.deep.eq({
+    expect(store.get("agenda").define).toEqual({
       testDefineDecorator: {},
       testDefineDecorator2: {}
     });
@@ -39,7 +38,7 @@ describe("@Define()", () => {
     }
 
     const store = Store.from(Test);
-    expect(store.get("agenda").define).to.deep.eq({
+    expect(store.get("agenda").define).toEqual({
       test: {
         name: "testDefineDecoratorCustomName",
         priority: 20

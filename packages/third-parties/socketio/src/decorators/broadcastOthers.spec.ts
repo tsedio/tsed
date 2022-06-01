@@ -1,17 +1,14 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {BroadcastOthers} from "../index";
 
 describe("BroadcastOthers", () => {
-  class Test {}
-
-  before(() => {
-    BroadcastOthers("eventName")(Test, "test", {} as any);
-    this.store = Store.from(Test);
-  });
-
   it("should set metadata", () => {
-    expect(this.store.get("socketIO")).to.deep.eq({
+    class Test {}
+
+    BroadcastOthers("eventName")(Test, "test", {} as any);
+    const store = Store.from(Test);
+
+    expect(store.get("socketIO")).toEqual({
       handlers: {
         test: {
           returns: {

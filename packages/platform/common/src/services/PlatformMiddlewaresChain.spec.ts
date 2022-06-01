@@ -1,11 +1,9 @@
-import {expect} from "chai";
-import {ControllerProvider, EndpointMetadata, PlatformAcceptMimesMiddleware} from "@tsed/common";
+import {ControllerProvider, EndpointMetadata} from "@tsed/common";
 import {Controller} from "@tsed/di";
 import {Use} from "@tsed/platform-middlewares";
 import {All, Get, getOperationsRoutes} from "@tsed/schema";
-import {PlatformTest} from "./PlatformTest";
 import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain";
-import Sinon from "sinon";
+import {PlatformTest} from "./PlatformTest";
 
 @Controller("/")
 class TestCtrl {
@@ -45,14 +43,14 @@ describe("PlatformMiddlewaresChain", () => {
 
     const chain = platformMiddlewaresChain.get(provider, operationRoutes[1], parentsMiddlewares);
 
-    expect(chain[0].type).to.eq("context");
-    expect(chain[1]).to.eq(parentsMiddlewares[0]);
-    expect(chain[2]).to.eq(provider.middlewares.useBefore[0]);
-    expect(chain[3]).to.eq(endpoint.beforeMiddlewares[0]);
-    expect(chain[4]).to.eq(provider.middlewares.use[0]);
-    expect(chain[5]).to.eq(endpoint.middlewares[0]);
-    expect(chain[6]).to.eq(endpoint);
-    expect(chain[7]).to.eq(endpoint.afterMiddlewares[0]);
-    expect(chain[8]).to.eq(provider.middlewares.useAfter[0]);
+    expect(chain[0].type).toEqual("context");
+    expect(chain[1]).toEqual(parentsMiddlewares[0]);
+    expect(chain[2]).toEqual(provider.middlewares.useBefore[0]);
+    expect(chain[3]).toEqual(endpoint.beforeMiddlewares[0]);
+    expect(chain[4]).toEqual(provider.middlewares.use[0]);
+    expect(chain[5]).toEqual(endpoint.middlewares[0]);
+    expect(chain[6]).toEqual(endpoint);
+    expect(chain[7]).toEqual(endpoint.afterMiddlewares[0]);
+    expect(chain[8]).toEqual(provider.middlewares.useAfter[0]);
   });
 });

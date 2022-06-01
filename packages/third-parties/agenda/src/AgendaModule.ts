@@ -28,7 +28,7 @@ export class AgendaModule implements OnDestroy, AfterListen {
       await this.agenda.start();
 
       this.logger.info("Agenda add scheduled jobs...");
-      providers.forEach((provider) => this.scheduleJobsForProvider(provider));
+      await Promise.all(providers.map((provider) => this.scheduleJobsForProvider(provider)));
     } else {
       this.logger.info("Agenda jobs disabled...");
     }
@@ -48,36 +48,35 @@ export class AgendaModule implements OnDestroy, AfterListen {
   }
 
   protected addAgendaDefinitionsForProvider(provider: Provider): void {
-    const store = provider.store.get<AgendaStore>("agenda");
+    const store = provider.store.get<AgendaStore>("agenda", {});
 
     if (!store.define) {
       return;
     }
 
-    const jobsToDefine = Object.entries(store.define);
-
-    for (const [propertyKey, {name, ...options}] of jobsToDefine) {
+    Object.entries(store.define).forEach(([propertyKey, {name, ...options}]) => {
       const instance = this.injector.get(provider.token);
 
       const jobProcessor: Processor = instance[propertyKey].bind(instance) as Processor;
       const jobName = this.getNameForJob(propertyKey, store.namespace, name);
       this.agenda.define(jobName, options, jobProcessor);
-    }
+    });
   }
 
   protected async scheduleJobsForProvider(provider: Provider<any>): Promise<void> {
-    const store = provider.store.get<AgendaStore>("agenda");
+    const store = provider.store.get<AgendaStore>("agenda", {});
+
     if (!store.every) {
       return;
     }
 
-    const jobsToSchedule = Object.entries(store.every);
-    await Promise.all(
-      jobsToSchedule.map(([propertyKey, {interval, name, ...options}]) => {
-        const jobName = this.getNameForJob(propertyKey, store.namespace, name);
-        return this.agenda.every(interval, jobName, {}, options);
-      })
-    );
+    const promises = Object.entries(store.every).map(([propertyKey, {interval, name, ...options}]) => {
+      const jobName = this.getNameForJob(propertyKey, store.namespace, name);
+
+      return this.agenda.every(interval, jobName, {}, options);
+    });
+
+    await Promise.all(promises);
   }
 
   protected getNameForJob(propertyKey: string, namespace?: string, customName?: string): string {

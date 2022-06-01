@@ -1,5 +1,4 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {Agenda} from "./agenda";
 
 describe("@Agenda()", () => {
@@ -8,16 +7,14 @@ describe("@Agenda()", () => {
     class Test {}
 
     const store = Store.from(Test);
-    expect(store.get("agenda")).to.deep.eq({
-      namespace: undefined
-    });
+    expect(store.get("agenda")).toEqual(undefined);
   });
   it("should set namespace metadata", () => {
     @Agenda({namespace: "nsp1"})
     class Test {}
 
     const store = Store.from(Test);
-    expect(store.get("agenda")).to.deep.eq({
+    expect(store.get("agenda")).toEqual({
       namespace: "nsp1"
     });
   });

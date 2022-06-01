@@ -4,7 +4,6 @@ import {createFakeHandlerContext} from "./createFakeHandlerContext";
 import {DecoratorTypes} from "@tsed/core";
 
 export interface TestPlatformParamsOptions extends ParamOptions {
-  sandbox: any;
   required?: boolean;
 }
 
@@ -12,7 +11,7 @@ export function invokePlatformParams<T extends PlatformParams>(): T {
   return PlatformTest.invoke<T>(PlatformParams) as T;
 }
 
-export async function buildPlatformParams({sandbox, expression, required, ...options}: TestPlatformParamsOptions) {
+export async function buildPlatformParams({expression, required, ...options}: TestPlatformParamsOptions) {
   const platformParams = await invokePlatformParams();
 
   class Test {

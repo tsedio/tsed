@@ -2,7 +2,6 @@ import {AjvService} from "@tsed/ajv";
 import {PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {string} from "@tsed/schema";
-import {expect} from "chai";
 
 describe("AjvService", () => {
   beforeEach(() => PlatformTest.create());
@@ -11,7 +10,7 @@ describe("AjvService", () => {
     const ajvService = PlatformTest.get<AjvService>(AjvService);
 
     const error: any = await catchAsyncError(() => ajvService.validate("test", string().minLength(5)));
-    expect(error.errors).to.deep.equal([
+    expect(error.errors).toEqual([
       {
         data: "test",
         dataPath: "",

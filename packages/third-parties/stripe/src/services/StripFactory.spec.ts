@@ -1,6 +1,5 @@
 import {PlatformTest} from "@tsed/common";
 import "@tsed/stripe";
-import {expect} from "chai";
 import {Stripe} from "stripe";
 
 describe("StripFactory", () => {
@@ -17,6 +16,6 @@ describe("StripFactory", () => {
   it("should inject the strip instance", () => {
     const stripe = PlatformTest.get<Stripe>(Stripe);
 
-    expect(stripe).to.be.instanceOf(Stripe);
+    expect(stripe).toBeInstanceOf(Stripe);
   });
 });

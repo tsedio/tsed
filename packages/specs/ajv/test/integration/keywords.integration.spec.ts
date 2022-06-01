@@ -2,7 +2,6 @@ import "@tsed/ajv";
 import {PlatformTest} from "@tsed/common";
 import {array, CustomKey, getJsonSchema, number} from "@tsed/schema";
 import Ajv, {_, KeywordCxt} from "ajv";
-import {expect} from "chai";
 import {Keyword} from "../../src/decorators/keyword";
 import {KeywordMethods} from "../../src/interfaces/KeywordMethods";
 
@@ -48,10 +47,10 @@ describe("Keywords", () => {
 
     const validate = ajv.compile(schema);
 
-    expect(validate(2.01)).to.eq(true);
-    expect(validate(3.99)).to.eq(true);
-    expect(validate(2)).to.eq(false);
-    expect(validate(4)).to.eq(false);
+    expect(validate(2.01)).toEqual(true);
+    expect(validate(3.99)).toEqual(true);
+    expect(validate(2)).toEqual(false);
+    expect(validate(4)).toEqual(false);
   });
   it("should call custom keyword validation (code)", () => {
     const ajv = PlatformTest.get<Ajv>(Ajv);
@@ -59,8 +58,8 @@ describe("Keywords", () => {
 
     const validate = ajv.compile(schema);
 
-    expect(validate(2)).to.eq(true);
-    expect(validate(3)).to.eq(false);
+    expect(validate(2)).toEqual(true);
+    expect(validate(3)).toEqual(false);
   });
 
   it("should call custom keyword validation (model)", () => {
@@ -69,7 +68,7 @@ describe("Keywords", () => {
 
     const validate = ajv.compile(schema);
 
-    expect(schema).to.deep.equal({
+    expect(schema).toEqual({
       properties: {
         price: {
           exclusiveRange: true,
@@ -79,9 +78,9 @@ describe("Keywords", () => {
       },
       type: "object"
     });
-    expect(validate({price: 10.01})).to.eq(true);
-    expect(validate({price: 99.99})).to.eq(true);
-    expect(validate({price: 10})).to.eq(false);
-    expect(validate({price: 100})).to.eq(false);
+    expect(validate({price: 10.01})).toEqual(true);
+    expect(validate({price: 99.99})).toEqual(true);
+    expect(validate({price: 10})).toEqual(false);
+    expect(validate({price: 100})).toEqual(false);
   });
 });

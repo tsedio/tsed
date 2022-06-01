@@ -3525,10 +3525,10 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
 
-"@tsed/logger-file@>=6.1.0":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@tsed/logger-file/-/logger-file-6.1.1.tgz#e51ff8f0fc3472b9b7f7d2530026562396d61aef"
-  integrity sha512-6YecHGY7WNgJprQEovVxrxl+yikp6pXdI40nOA3ik2uCsrF0oR2rtLW2tqMV4j6uQ2e18DEUqYWW2qz37tjI4w==
+"@tsed/logger-file@>=6.1.4":
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/@tsed/logger-file/-/logger-file-6.1.4.tgz#8849e09787322966f9ffac7c04a52994a77eb0d1"
+  integrity sha512-4Ov7Gizg0i8l9cnE+UECHwbXnhM75M4pLo1AXi3MyS6mY6i7CttsqGdB4jnwdPxNeAMawkdizu6yBV2AAao0xg==
   dependencies:
     streamroller "3.0.6"
     tslib "2.3.1"
@@ -3541,10 +3541,10 @@
     seq-logging "1.1.1"
     tslib "2.3.1"
 
-"@tsed/logger@>=6.0.2", "@tsed/logger@>=6.1.1":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-6.1.1.tgz#9612a4eb8d9d1ac59d9edd14fc74bba655f1b5f2"
-  integrity sha512-35uJIJJ17vjFFffFljple2bdJNFaAuEy7gtwxTlHlFPqFz0NexFQKCeN3oDHQb71jxwMYKjId2hsDplITTMZnQ==
+"@tsed/logger@>=6.1.4":
+  version "6.1.4"
+  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-6.1.4.tgz#2a6868a858ef3c2260a8a9fc44ca67f2fd07c517"
+  integrity sha512-AujC/+nRMIW852ApfvqS5mH+HjeeziWJ5ly9LCm1pf9yapu3c395fNhjdhZ+GWD+Ty9BIwuhScmpfjYrrv3R2w==
   dependencies:
     colors "1.4.0"
     date-format "^4.0.6"
@@ -7272,6 +7272,13 @@ busboy@^0.3.1:
   integrity sha512-y7tTxhGKXcyBxRKAni+awqx8uqaJKrSFSNFSeRG5CsWNdmy2BIK+6VGWEW7TZnIO/533mtMEA4rOevQV815YJw==
   dependencies:
     dicer "0.3.0"
+
+busboy@^1.0.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/busboy/-/busboy-1.6.0.tgz#966ea36a9502e43cdb9146962523b92f531f6893"
+  integrity sha512-8SFQbg/0hQ9xy3UNTB0YEnsNBbWfhf7RtnzpL7TkBiTBRfrQ9Fxcnz7VJsleJpyp6rVLvXiuORqjlHi5q+PYuA==
+  dependencies:
+    streamsearch "^1.1.0"
 
 byline@^5.0.0:
   version "5.0.0"
@@ -16891,7 +16898,7 @@ mssql@^7.3.0:
     tarn "^3.0.1"
     tedious "^11.4.0"
 
-multer@1.4.4, multer@^1.4.4:
+multer@1.4.4:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/multer/-/multer-1.4.4.tgz#e2bc6cac0df57a8832b858d7418ccaa8ebaf7d8c"
   integrity sha512-2wY2+xD4udX612aMqMcB8Ws2Voq6NIUPEtD1be6m411T4uDH/VtL9i//xvcyFlTVfRdaBsk7hV5tgrGQqhuBiw==
@@ -16902,6 +16909,19 @@ multer@1.4.4, multer@^1.4.4:
     mkdirp "^0.5.4"
     object-assign "^4.1.1"
     on-finished "^2.3.0"
+    type-is "^1.6.4"
+    xtend "^4.0.0"
+
+multer@^1.4.5-lts.1:
+  version "1.4.5-lts.1"
+  resolved "https://registry.yarnpkg.com/multer/-/multer-1.4.5-lts.1.tgz#803e24ad1984f58edffbc79f56e305aec5cfd1ac"
+  integrity sha512-ywPWvcDMeH+z9gQq5qYHCCy+ethsk4goepZ45GLD63fOu0YcNecQxi64nDs3qluZB+murG3/D4dJ7+dGctcCQQ==
+  dependencies:
+    append-field "^1.0.0"
+    busboy "^1.0.0"
+    concat-stream "^1.5.2"
+    mkdirp "^0.5.4"
+    object-assign "^4.1.1"
     type-is "^1.6.4"
     xtend "^4.0.0"
 
@@ -22040,6 +22060,11 @@ streamsearch@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-0.1.2.tgz#808b9d0e56fc273d809ba57338e929919a1a9f1a"
   integrity sha1-gIudDlb8Jz2Am6VzOOkpkZoanxo=
+
+streamsearch@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-1.1.0.tgz#404dd1e2247ca94af554e841a8ef0eaa238da764"
+  integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
 
 strftime@~0.9.2:
   version "0.9.2"

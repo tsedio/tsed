@@ -80,7 +80,7 @@
     "@koa/router": "^10.1.1",
     "encodeurl": "^1.0.2",
     "koa-send": "5.0.1",
-    "multer": "^1.4.4",
+    "multer": "^1.4.5-lts.1",
     "tslib": "2.4.0"
   },
   "peerDependencies": {
@@ -88,7 +88,7 @@
     "@tsed/core": "^6.114.15",
     "@tsed/di": "^6.114.15",
     "@tsed/json-mapper": "^6.114.15",
-    "@tsed/logger": ">=6.1.1",
+    "@tsed/logger": ">=6.1.4",
     "@tsed/openspec": "^6.114.15",
     "@tsed/schema": "^6.114.15",
     "koa": ">=2.13.0",
@@ -96,7 +96,8 @@
     "koa-compress": ">=5.0.1",
     "koa-override": ">=3.0.0",
     "koa-qs": ">=3.0.0",
-    "koa-session": ">=6.2.0"
+    "koa-session": ">=6.2.0",
+    "multer": "^1.4.5-lts.1"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {
@@ -118,6 +119,9 @@
       "optional": false
     },
     "@tsed/logger": {
+      "optional": false
+    },
+    "multer": {
       "optional": false
     }
   }

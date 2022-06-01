@@ -1,20 +1,19 @@
 import {PlatformTest} from "@tsed/common";
 import "@tsed/platform-express";
 import {PlatformExpress} from "@tsed/platform-express";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
 describe("Aws", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(Server, {
       platform: PlatformExpress
     })
   );
-  before(() => (request = SuperTest(PlatformTest.callback())));
-  after(PlatformTest.reset);
+  beforeAll(() => (request = SuperTest(PlatformTest.callback())));
+  afterAll(PlatformTest.reset);
 
   it("should return aws headers", async () => {
     const response = await request
@@ -25,7 +24,7 @@ describe("Aws", () => {
       })
       .expect(200);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       context: {
         context: "context"
       },

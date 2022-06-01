@@ -1,5 +1,4 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import "../../test/app/controllers/oidc/InteractionsCtrl";
 
 describe("@Interactions", () => {
@@ -18,6 +17,6 @@ describe("@Interactions", () => {
 
     const oidc = PlatformTest.injector.settings.get("oidc");
 
-    expect(oidc.options.claims).to.deep.equal({});
+    expect(oidc.options.claims).toEqual({});
   });
 });

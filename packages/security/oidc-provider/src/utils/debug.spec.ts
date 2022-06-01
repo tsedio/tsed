@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {debug} from "./debug";
 
 describe("debug", () => {
@@ -8,6 +7,6 @@ describe("debug", () => {
         value: undefined,
         test: "1"
       })
-    ).to.eq("<strong>test</strong>: '1'");
+    ).toEqual("<strong>test</strong>: '1'");
   });
 });

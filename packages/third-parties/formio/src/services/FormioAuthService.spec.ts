@@ -2,20 +2,16 @@ import {PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
 import {FormioService} from "@tsed/formio";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {FormioAuthService} from "./FormioAuthService";
 import {FormioHooksService} from "./FormioHooksService";
 
-const sandbox = Sinon.createSandbox();
-
 function createSubmissionModelFixture(): any {
   return class {
-    static findOne = sandbox.stub().returnsThis();
-    static updateOne = sandbox.stub().resolves({});
-    static lean = sandbox.stub().returnsThis();
-    static exec = sandbox.stub().returnsThis();
-    save = sandbox.stub().returnsThis();
+    static findOne = jest.fn().mockReturnThis();
+    static updateOne = jest.fn().mockResolvedValue({});
+    static lean = jest.fn().mockReturnThis();
+    static exec = jest.fn().mockReturnThis();
+    save = jest.fn().mockReturnThis();
 
     constructor(public ctrOptions: any) {}
 
@@ -35,29 +31,29 @@ function createSubmissionModelFixture(): any {
 
 function createFormModelFixture(): any {
   return class {
-    static findOne = sandbox.stub().returnsThis();
-    static lean = sandbox.stub().returnsThis();
-    static exec = sandbox.stub();
+    static findOne = jest.fn().mockReturnThis();
+    static lean = jest.fn().mockReturnThis();
+    static exec = jest.fn();
   };
 }
 
 function createRoleModelFixture(): any {
   return class {
-    static find = sandbox.stub().returnsThis();
-    static sort = sandbox.stub().returnsThis();
-    static lean = sandbox.stub().returnsThis();
-    static exec = sandbox.stub().resolves({});
+    static find = jest.fn().mockReturnThis();
+    static sort = jest.fn().mockReturnThis();
+    static lean = jest.fn().mockReturnThis();
+    static exec = jest.fn().mockResolvedValue({});
   };
 }
 
 async function createServiceFixture() {
   const formioService = {
-    audit: sandbox.stub(),
+    audit: jest.fn(),
     auth: {
-      tempToken: sandbox.stub(),
-      logout: sandbox.stub(),
-      currentUser: sandbox.stub().callsFake((req, res, next) => next()),
-      getToken: sandbox.stub().returns("auth_token")
+      tempToken: jest.fn(),
+      logout: jest.fn(),
+      currentUser: jest.fn().mockImplementation((req, res, next) => next()),
+      getToken: jest.fn().mockReturnValue("auth_token")
     },
     mongoose: {
       models: {
@@ -67,7 +63,7 @@ async function createServiceFixture() {
       }
     },
     util: {
-      idToBson: sandbox.stub().callsFake((f) => f),
+      idToBson: jest.fn().mockImplementation((f) => f),
       errorCodes: {
         role: {EROLESLOAD: "EROLESLOAD"}
       }
@@ -75,8 +71,8 @@ async function createServiceFixture() {
   };
 
   const formioHooksService = {
-    alter: sandbox.stub().callsFake((event: string, value: any) => value),
-    alterAsync: sandbox.stub().callsFake((event: string, value: any) => Promise.resolve(value))
+    alter: jest.fn().mockImplementation((event: string, value: any) => value),
+    alterAsync: jest.fn().mockImplementation((event: string, value: any) => Promise.resolve(value))
   };
 
   const service = await PlatformTest.invoke<FormioAuthService>(FormioAuthService, [
@@ -96,7 +92,6 @@ async function createServiceFixture() {
 describe("FormioAuthService", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(PlatformTest.reset);
-  afterEach(() => sandbox.restore());
 
   describe("createUser()", () => {
     it("should create a user submission", async () => {
@@ -109,8 +104,8 @@ describe("FormioAuthService", () => {
         }
       });
 
-      expect(submission.form).to.deep.equal("formId");
-      expect(submission.data).to.deep.equal({
+      expect(submission.form).toEqual("formId");
+      expect(submission.data).toEqual({
         fullname: "fullname"
       });
     });
@@ -127,14 +122,14 @@ describe("FormioAuthService", () => {
         }
       });
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         _id: "id",
         form: "formId",
         data: {
           fullname: "fullname"
         }
       });
-      expect(formioService.mongoose.models.submission.updateOne).to.have.been.calledWithExactly(
+      expect(formioService.mongoose.models.submission.updateOne).toHaveBeenCalledWith(
         {_id: "id"},
         {$set: {_id: "id", data: {fullname: "fullname"}, form: "formId"}}
       );
@@ -144,24 +139,24 @@ describe("FormioAuthService", () => {
     it("should return all formio roles", async () => {
       const {service, formioService} = await createServiceFixture();
 
-      formioService.mongoose.models.role.exec.resolves([{name: "administrator"}]);
+      formioService.mongoose.models.role.exec.mockResolvedValue([{name: "administrator"}]);
 
       const roles = await service.getRoles({} as any);
 
-      expect(roles).to.deep.eq([{name: "administrator"}]);
-      expect(formioService.mongoose.models.role.find).to.have.been.calledWithExactly({deleted: {$eq: null}});
-      expect(formioService.mongoose.models.role.sort).to.have.been.calledWithExactly({title: 1});
-      expect(formioService.mongoose.models.role.lean).to.have.been.calledWithExactly();
+      expect(roles).toEqual([{name: "administrator"}]);
+      expect(formioService.mongoose.models.role.find).toHaveBeenCalledWith({deleted: {$eq: null}});
+      expect(formioService.mongoose.models.role.sort).toHaveBeenCalledWith({title: 1});
+      expect(formioService.mongoose.models.role.lean).toHaveBeenCalledWith();
     });
 
     it("should throw an error", async () => {
       const {service, formioService} = await createServiceFixture();
 
-      formioService.mongoose.models.role.exec.rejects(new Error("test"));
+      (formioService.mongoose.models.role.exec as jest.Mock).mockRejectedValue(new Error("test"));
 
       const error = await catchAsyncError(() => service.getRoles({} as any));
-      expect(error).to.be.instanceof(BadRequest);
-      expect(error?.message).to.eq("EROLESLOAD");
+      expect(error).toBeInstanceOf(BadRequest);
+      expect(error?.message).toEqual("EROLESLOAD");
     });
   });
   describe("updateUserRole()", () => {
@@ -169,17 +164,17 @@ describe("FormioAuthService", () => {
       const {service, formioService, formioHooksService} = await createServiceFixture();
       const submission = {
         _id: "submissionId",
-        save: sandbox.stub()
+        save: jest.fn()
       };
 
-      formioService.mongoose.models.submission.exec = sandbox.stub().resolves(submission);
+      formioService.mongoose.models.submission.exec = jest.fn().mockResolvedValue(submission);
 
       const user = await service.updateUserRole("submissionId", "roleId", {} as any);
 
-      expect(formioHooksService.alter).to.have.been.calledWithExactly("submissionQuery", {_id: "submissionId", deleted: {$eq: null}}, {});
-      expect(formioService.mongoose.models.submission.findOne).to.have.been.calledWithExactly({_id: "submissionId", deleted: {$eq: null}});
-      expect(user.save).to.have.been.calledWithExactly();
-      expect(user.roles).to.deep.eq(["roleId"]);
+      expect(formioHooksService.alter).toHaveBeenCalledWith("submissionQuery", {_id: "submissionId", deleted: {$eq: null}}, {});
+      expect(formioService.mongoose.models.submission.findOne).toHaveBeenCalledWith({_id: "submissionId", deleted: {$eq: null}});
+      expect(user.save).toHaveBeenCalledWith();
+      expect(user.roles).toEqual(["roleId"]);
     });
 
     it("should update the role associated to the submission without save", async () => {
@@ -188,22 +183,22 @@ describe("FormioAuthService", () => {
         _id: "submissionId"
       };
 
-      formioService.mongoose.models.submission.exec = sandbox.stub().resolves(submission);
+      formioService.mongoose.models.submission.exec = jest.fn().mockResolvedValue(submission);
 
       const user = await service.updateUserRole("submissionId", "roleId", {} as any);
 
-      expect(formioHooksService.alter).to.have.been.calledWithExactly("submissionQuery", {_id: "submissionId", deleted: {$eq: null}}, {});
-      expect(formioService.mongoose.models.submission.findOne).to.have.been.calledWithExactly({_id: "submissionId", deleted: {$eq: null}});
-      expect(user.roles).to.deep.eq(["roleId"]);
+      expect(formioHooksService.alter).toHaveBeenCalledWith("submissionQuery", {_id: "submissionId", deleted: {$eq: null}}, {});
+      expect(formioService.mongoose.models.submission.findOne).toHaveBeenCalledWith({_id: "submissionId", deleted: {$eq: null}});
+      expect(user.roles).toEqual(["roleId"]);
     });
     it("should throw an error when submission doesn't exists", async () => {
       const {service, formioService} = await createServiceFixture();
 
-      formioService.mongoose.models.submission.exec = sandbox.stub().resolves(null);
+      formioService.mongoose.models.submission.exec = jest.fn().mockResolvedValue(null);
 
       const error = await catchAsyncError(() => service.updateUserRole("submissionId", "roleId", {} as any));
 
-      expect(error).to.be.instanceof(BadRequest);
+      expect(error).toBeInstanceOf(BadRequest);
     });
   });
   describe("setCurrentUser()", () => {
@@ -230,9 +225,9 @@ describe("FormioAuthService", () => {
 
       service.setCurrentUser(user as any, token, ctx);
 
-      expect(ctx.getRequest().submission).to.deep.eq({data: {}});
-      expect(ctx.getRequest().user).to.deep.eq({_id: "id", data: {}});
-      expect(ctx.getRequest().token).to.deep.eq({
+      expect(ctx.getRequest().submission).toEqual({data: {}});
+      expect(ctx.getRequest().user).toEqual({_id: "id", data: {}});
+      expect(ctx.getRequest().token).toEqual({
         form: {
           _id: "id"
         },
@@ -240,8 +235,8 @@ describe("FormioAuthService", () => {
           _id: "id"
         }
       });
-      expect(ctx.getResponse().token).to.deep.eq("token");
-      expect(ctx.getRequest()["x-jwt-token"]).to.deep.eq("token");
+      expect(ctx.getResponse().token).toEqual("token");
+      expect(ctx.getRequest()["x-jwt-token"]).toEqual("token");
     });
   });
   describe("generatePayloadToken()", () => {
@@ -266,11 +261,11 @@ describe("FormioAuthService", () => {
         }
       };
 
-      formioService.mongoose.models.form.exec.resolves(form);
+      formioService.mongoose.models.form.exec.mockResolvedValue(form);
 
       const result = await service.generatePayloadToken(user as any, ctx);
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         token: {
           decoded: payload,
           token: "auth_token"
@@ -281,10 +276,10 @@ describe("FormioAuthService", () => {
           form: "605f0d40fe971372e448bcad"
         }
       });
-      expect(formioHooksService.alter).to.have.been.calledWithExactly("token", payload, form, ctx.getRequest());
-      expect(formioHooksService.alter).to.have.been.calledWithExactly("tokenDecode", payload, ctx.getRequest());
-      expect(formioHooksService.alterAsync).to.have.been.calledWithExactly("user", user);
-      expect(formioHooksService.alterAsync).to.have.been.calledWithExactly("login", user, ctx.getRequest());
+      expect(formioHooksService.alter).toHaveBeenCalledWith("token", payload, form, ctx.getRequest());
+      expect(formioHooksService.alter).toHaveBeenCalledWith("tokenDecode", payload, ctx.getRequest());
+      expect(formioHooksService.alterAsync).toHaveBeenCalledWith("user", user);
+      expect(formioHooksService.alterAsync).toHaveBeenCalledWith("login", user, ctx.getRequest());
     });
     it("should throw error when the getForm throw error", async () => {
       const {service, formioService} = await createServiceFixture();
@@ -295,12 +290,12 @@ describe("FormioAuthService", () => {
         data: {}
       };
 
-      formioService.mongoose.models.form.exec.rejects(new Error("message"));
+      formioService.mongoose.models.form.exec.mockRejectedValue(new Error("message"));
 
       const error = await catchAsyncError(() => service.generatePayloadToken(user as any, ctx));
 
-      expect(error?.name).to.deep.eq("Error");
-      expect(formioService.audit).to.have.been.calledWithExactly(
+      expect(error?.name).toEqual("Error");
+      expect(formioService.audit).toHaveBeenCalledWith(
         "EAUTH_USERFORM",
         {...ctx.request.raw, userId: user._id},
         "605f0d40fe971372e448bcad",
@@ -316,12 +311,12 @@ describe("FormioAuthService", () => {
         data: {}
       };
 
-      formioService.mongoose.models.form.exec.resolves(null);
+      formioService.mongoose.models.form.exec.mockResolvedValue(null);
 
       const error = await catchAsyncError(() => service.generatePayloadToken(user as any, ctx));
 
-      expect(error?.name).to.deep.eq("NOT_FOUND");
-      expect(formioService.audit).to.have.been.calledWithExactly(
+      expect(error?.name).toEqual("NOT_FOUND");
+      expect(formioService.audit).toHaveBeenCalledWith(
         "EAUTH_USERFORM",
         {...ctx.request.raw, userId: user._id},
         "605f0d40fe971372e448bcad",
@@ -341,8 +336,8 @@ describe("FormioAuthService", () => {
         data: {}
       };
 
-      sandbox.stub(service, "setCurrentUser").returns(undefined as any);
-      sandbox.stub(service, "generatePayloadToken").resolves({
+      jest.spyOn(service, "setCurrentUser").mockReturnValue(undefined as any);
+      jest.spyOn(service, "generatePayloadToken").mockResolvedValue({
         user,
         token: {
           token: "token"
@@ -351,21 +346,21 @@ describe("FormioAuthService", () => {
 
       await service.generateSession(user as any, ctx);
 
-      expect(service.setCurrentUser).to.have.been.calledWithExactly(
+      expect(service.setCurrentUser).toHaveBeenCalledWith(
         user,
         {
           token: "token"
         },
         ctx
       );
-      expect(service.setCurrentUser).to.have.been.calledWithExactly(
+      expect(service.setCurrentUser).toHaveBeenCalledWith(
         user,
         {
           token: "token"
         },
         ctx
       );
-      expect(formioService.auth.currentUser).to.have.been.calledWithExactly(ctx.getRequest(), ctx.getResponse(), Sinon.match.func);
+      expect(formioService.auth.currentUser).toHaveBeenCalledWith(ctx.getRequest(), ctx.getResponse(), expect.any(Function));
     });
     it("should throw an error when an action isn't permitted", async () => {
       const {service} = await createServiceFixture();
@@ -376,25 +371,25 @@ describe("FormioAuthService", () => {
         data: {}
       };
 
-      sandbox.stub(service, "setCurrentUser").returns(undefined as any);
-      sandbox.stub(service, "generatePayloadToken").rejects(new Error("Not found"));
+      jest.spyOn(service, "setCurrentUser").mockReturnValue(undefined as any);
+      jest.spyOn(service, "generatePayloadToken").mockRejectedValue(new Error("Not found"));
 
       const error = await catchAsyncError(() => service.generateSession(user as any, ctx));
-      expect(error?.message).to.equal("Not found");
+      expect(error?.message).toEqual("Not found");
     });
   });
   describe("tempToken()", () => {
     it("should return tempToken", async () => {
       const {service, formioService} = await createServiceFixture();
 
-      expect(service.tempToken).to.deep.eq(formioService.auth.tempToken);
+      expect(service.tempToken).toEqual(formioService.auth.tempToken);
     });
   });
   describe("logout()", () => {
     it("should return logout", async () => {
       const {service, formioService} = await createServiceFixture();
 
-      expect(service.logout).to.deep.eq(formioService.auth.logout);
+      expect(service.logout).toEqual(formioService.auth.logout);
     });
   });
 });

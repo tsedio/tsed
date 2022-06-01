@@ -1,6 +1,4 @@
 import {InjectorService, PLATFORM_ROUTER_OPTIONS} from "@tsed/common";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {PlatformRouter} from "./PlatformRouter";
 
 describe("PlatformRouter", () => {
@@ -8,7 +6,7 @@ describe("PlatformRouter", () => {
     it("should create a new router", async () => {
       // GIVEN
       const injector = new InjectorService();
-      Sinon.stub(injector, "invoke");
+      jest.spyOn(injector, "invoke").mockReturnValue(undefined);
       const routerOptions: any = {
         test: "options"
       };
@@ -19,7 +17,7 @@ describe("PlatformRouter", () => {
       // THEN
       const locals = new Map();
       locals.set(PLATFORM_ROUTER_OPTIONS, routerOptions);
-      expect(injector.invoke).to.have.been.calledWith(PlatformRouter, locals);
+      expect(injector.invoke).toBeCalledWith(PlatformRouter, locals);
     });
   });
 });

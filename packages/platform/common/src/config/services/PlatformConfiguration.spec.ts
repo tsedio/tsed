@@ -1,7 +1,4 @@
 import {Env} from "@tsed/core";
-import {$log} from "@tsed/logger";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {ProviderScope, ProviderType} from "@tsed/di";
 import {PlatformConfiguration} from "./PlatformConfiguration";
 
@@ -9,7 +6,7 @@ describe("PlatformConfiguration", () => {
   let settings: any;
 
   describe("Test ENV", () => {
-    before(() => {
+    beforeAll(() => {
       settings = new PlatformConfiguration();
 
       Object.entries({
@@ -59,118 +56,118 @@ describe("PlatformConfiguration", () => {
     });
 
     it("should return rootDir", () => {
-      expect(settings.rootDir).to.equal(process.cwd());
+      expect(settings.rootDir).toEqual(process.cwd());
     });
     it("should return rootDir", () => {
-      expect(settings.rootDir).to.equal(process.cwd());
+      expect(settings.rootDir).toEqual(process.cwd());
     });
 
     it("should return custom keys", () => {
-      expect(settings.get("ownConfig")).to.equal("test");
+      expect(settings.get("ownConfig")).toEqual("test");
     });
 
     it("should return env", () => {
-      expect(settings.env).to.equal(Env.TEST);
+      expect(settings.env).toEqual(Env.TEST);
     });
 
     it("should have logging jsonIndentaion set to 2", () => {
-      expect(settings.logger.jsonIndentation).to.equal(2);
+      expect(settings.logger.jsonIndentation).toEqual(2);
     });
 
     it("should return httpsPort", () => {
-      expect(settings.httpsPort).to.equal("address:8080");
+      expect(settings.httpsPort).toEqual("address:8080");
     });
 
     it("should return httpPort", () => {
-      expect(settings.httpPort).to.equal("address:8081");
+      expect(settings.httpPort).toEqual("address:8081");
     });
 
     it("should return httpsPort", () => {
       const info = settings.getHttpsPort();
-      expect(info).to.deep.equal({
+      expect(info).toEqual({
         protocol: "https",
         address: "address",
         port: 8080,
         toString: info.toString
       });
-      expect(settings.getBestHost().toString()).to.equal("https://address:8080");
+      expect(settings.getBestHost().toString()).toEqual("https://address:8080");
     });
 
     it("should return httpPort", () => {
       const info = settings.getHttpPort();
-      expect(info).to.deep.equal({
+      expect(info).toEqual({
         protocol: "http",
         address: "address",
         port: 8081,
         toString: info.toString
       });
-      expect(settings.getBestHost().toString()).to.equal("https://address:8080");
+      expect(settings.getBestHost().toString()).toEqual("https://address:8080");
     });
 
     it("should return componentsScan", () => {
-      expect(settings.componentsScan).to.be.an("array");
+      expect(Array.isArray(settings.componentsScan)).toBe(true);
     });
 
     it("should return mount", () => {
-      expect(settings.mount["/rest"]).to.be.a("string");
+      expect(typeof settings.mount["/rest"]).toBe("string");
     });
 
     it("should return httpsOptions", () => {
-      expect((settings.httpsOptions as any).test).to.equal("/rest");
+      expect((settings.httpsOptions as any).test).toEqual("/rest");
     });
 
     it("should return acceptMimes", () => {
-      expect(settings.acceptMimes[0]).to.equal("application/json");
+      expect(settings.acceptMimes[0]).toEqual("application/json");
     });
 
     it("should return statics", () => {
-      expect(settings.statics).to.deep.equal({"/": "/publics"});
+      expect(settings.statics).toEqual({"/": "/publics"});
     });
 
     describe("debug", () => {
       it("should expose debug as initialized", () => {
-        expect(settings.debug).to.equal(true);
+        expect(settings.debug).toEqual(true);
       });
 
       it("debug should be equal to the last set value", () => {
         settings.debug = false;
-        expect(settings.debug).to.equal(false);
+        expect(settings.debug).toEqual(false);
       });
     });
 
     it("should return env", () => {
-      expect(settings.env).to.equal("test");
+      expect(settings.env).toEqual("test");
     });
 
     it("should return version", () => {
-      expect(settings.version).to.equal("1.0.0");
+      expect(settings.version).toEqual("1.0.0");
     });
 
     it("should return errors", () => {
-      expect(settings.errors).to.deep.equal({headerName: "errors"});
+      expect(settings.errors).toEqual({headerName: "errors"});
     });
 
     it("should return routers", () => {
-      expect(settings.routers).to.deep.equal({mergeParams: true});
+      expect(settings.routers).toEqual({mergeParams: true});
     });
 
     it("should return converter settings", () => {
-      expect(settings.converter).to.deep.equal({});
+      expect(settings.converter).toEqual({});
     });
 
     it("should return controllerScope", () => {
-      expect(settings.controllerScope).to.equal("singleton");
+      expect(settings.controllerScope).toEqual("singleton");
     });
 
     it("should return excluded patterns", () => {
-      expect(settings.exclude).to.deep.equal(["./**/*.spec.ts"]);
+      expect(settings.exclude).toEqual(["./**/*.spec.ts"]);
     });
 
     describe("forEach()", () => {
       it("should loop on items", () => {
         const result = [];
         settings.forEach((o: any) => result.push(o));
-        expect(!!result.length).to.eq(true);
+        expect(!!result.length).toEqual(true);
       });
     });
 
@@ -180,8 +177,8 @@ describe("PlatformConfiguration", () => {
 
         settings.set({port: 8081});
 
-        expect(settings.httpPort).to.eq(8081);
-        expect(settings.port).to.eq(8081);
+        expect(settings.httpPort).toEqual(8081);
+        expect(settings.port).toEqual(8081);
       });
     });
   });

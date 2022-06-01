@@ -1,6 +1,5 @@
 import {Controller, Get, ParamTypes} from "@tsed/common";
 import {getSpec, JsonParameterStore, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {AwsContext} from "./awsContext";
 
 describe("AwsContext", () => {
@@ -12,8 +11,8 @@ describe("AwsContext", () => {
     }
 
     const param = JsonParameterStore.get(MyController, "get", 0);
-    expect(param.expression).to.eq("x-apigateway-context");
-    expect(param.paramType).to.eq(ParamTypes.HEADER);
+    expect(param.expression).toEqual("x-apigateway-context");
+    expect(param.paramType).toEqual(ParamTypes.HEADER);
   });
 
   it("should generate the right spec", () => {
@@ -23,7 +22,7 @@ describe("AwsContext", () => {
       get(@AwsContext() event: any) {}
     }
 
-    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+    expect(getSpec(MyController, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/": {
           get: {

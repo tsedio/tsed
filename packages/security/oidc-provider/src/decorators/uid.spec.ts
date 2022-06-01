@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {INTERACTION_UID} from "../constants/constants";
 import {Uid} from "./uid";
 import {JsonParameterStore} from "@tsed/schema";
@@ -11,7 +10,7 @@ describe("@Uid", () => {
 
     const entity = JsonParameterStore.get(MyInteraction, "$prompt", 0);
 
-    expect(entity.paramType).to.equal("$CTX");
-    expect(entity.expression).to.equal(INTERACTION_UID);
+    expect(entity.paramType).toEqual("$CTX");
+    expect(entity.expression).toEqual(INTERACTION_UID);
   });
 });

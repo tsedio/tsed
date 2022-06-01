@@ -140,7 +140,6 @@ export class FormioModule implements OnRoutesInit, OnReady {
 
   protected async shouldInstall() {
     const hasForms = await this.installer.hasForms();
-
     return this.template && !(hasForms || this.skipInstall);
   }
 }

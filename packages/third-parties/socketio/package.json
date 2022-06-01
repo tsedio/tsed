@@ -26,7 +26,7 @@
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2 --testTimeout 10000"
   },
   "dependencies": {
     "tslib": "2.4.0"
@@ -46,7 +46,7 @@
   "peerDependencies": {
     "@tsed/di": "^6.114.15",
     "@tsed/json-mapper": "^6.114.15",
-    "@tsed/logger": ">=6.1.1",
+    "@tsed/logger": ">=6.1.4",
     "@tsed/platform-middlewares": "^6.114.15",
     "@tsed/schema": "^6.114.15",
     "socket.io": ">=4.0.0"

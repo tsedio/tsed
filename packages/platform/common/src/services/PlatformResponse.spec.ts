@@ -1,11 +1,7 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import {createReadStream} from "fs";
-import Sinon from "sinon";
 import {PlatformViews} from "@tsed/platform-views";
 import {PlatformResponse} from "./PlatformResponse";
-
-const sandbox = Sinon.createSandbox();
 
 function createResponse() {
   const ctx = PlatformTest.createRequestContext();
@@ -20,7 +16,7 @@ describe("PlatformResponse", () => {
   it("should create a PlatformResponse instance", () => {
     const {res, response} = createResponse();
 
-    expect(response.raw).to.eq(res);
+    expect(response.raw).toEqual(res);
   });
 
   describe("statusCode", () => {
@@ -29,16 +25,16 @@ describe("PlatformResponse", () => {
 
       res.statusCode = 201;
 
-      expect(response.statusCode).to.equal(201);
+      expect(response.statusCode).toEqual(201);
     });
   });
   describe("status()", () => {
     it("should set status code", () => {
       const {res, response} = createResponse();
-      sandbox.stub(res, "status");
+      jest.spyOn(res, "status").mockReturnValue(undefined);
       response.status(204);
 
-      expect(res.status).to.have.been.calledWithExactly(204);
+      expect(res.status).toBeCalledWith(204);
     });
   });
   describe("setHeaders()", () => {
@@ -47,7 +43,7 @@ describe("PlatformResponse", () => {
 
       response.setHeaders({"x-token": "token"});
 
-      expect(res.headers).to.deep.eq({
+      expect(res.headers).toEqual({
         "x-request-id": "id",
         "x-token": "token"
       });
@@ -59,7 +55,7 @@ describe("PlatformResponse", () => {
 
       response.contentType("application/json");
 
-      expect(res.headers).to.deep.eq({
+      expect(res.headers).toEqual({
         "content-type": "application/json",
         "x-request-id": "id"
       });
@@ -71,7 +67,7 @@ describe("PlatformResponse", () => {
 
       res.headers["content-type"] = "application/json";
 
-      expect(response.getContentType()).to.equal("application/json");
+      expect(response.getContentType()).toEqual("application/json");
     });
   });
   describe("contentLength()", () => {
@@ -80,7 +76,7 @@ describe("PlatformResponse", () => {
 
       response.contentLength(5);
 
-      expect(res.headers).to.deep.eq({"content-length": 5, "x-request-id": "id"});
+      expect(res.headers).toEqual({"content-length": 5, "x-request-id": "id"});
     });
   });
   describe("getContentLength()", () => {
@@ -89,7 +85,7 @@ describe("PlatformResponse", () => {
 
       response.contentLength(5);
 
-      expect(response.getContentLength()).to.equal(5);
+      expect(response.getContentLength()).toEqual(5);
     });
   });
   describe("redirect()", () => {
@@ -98,8 +94,8 @@ describe("PlatformResponse", () => {
 
       response.redirect(302, "/path");
 
-      expect(res.headers).to.deep.equal({location: "/path", "x-request-id": "id"});
-      expect(res.statusCode).to.equal(302);
+      expect(res.headers).toEqual({location: "/path", "x-request-id": "id"});
+      expect(res.statusCode).toEqual(302);
     });
   });
   describe("render()", () => {
@@ -107,17 +103,17 @@ describe("PlatformResponse", () => {
       const {response, platformViews} = createResponse();
 
       response.locals.locale = "fr-FR";
-      sandbox.stub(platformViews, "render").resolves("HTML");
+      jest.spyOn(platformViews, "render").mockResolvedValue("HTML");
 
       const result = await response.render("view", {
         test: "test"
       });
 
-      expect(platformViews.render).to.have.been.calledWithExactly("view", {
+      expect(platformViews.render).toBeCalledWith("view", {
         locale: "fr-FR",
         test: "test"
       });
-      expect(result).to.eq("HTML");
+      expect(result).toEqual("HTML");
     });
   });
   describe("location()", () => {
@@ -126,7 +122,7 @@ describe("PlatformResponse", () => {
 
       response.location("/path");
 
-      expect(res.headers).to.deep.eq({
+      expect(res.headers).toEqual({
         location: "/path",
         "x-request-id": "id"
       });
@@ -138,24 +134,24 @@ describe("PlatformResponse", () => {
 
       response.body(undefined);
 
-      expect(res.data).to.equal(undefined);
+      expect(res.data).toBeUndefined();
     });
     it("should call body with string", () => {
       const {res, response} = createResponse();
 
       response.body("string");
 
-      expect(res.data).to.eq("string");
-      expect(response.getBody()).to.eq("string");
+      expect(res.data).toEqual("string");
+      expect(response.getBody()).toEqual("string");
     });
     it("should call body with stream", () => {
       const {res, response} = createResponse();
       const stream = createReadStream(__dirname + "/__mock__/data.txt");
-      sandbox.stub(stream, "pipe");
+      jest.spyOn(stream, "pipe").mockReturnValue(undefined as any);
 
       response.body(stream);
 
-      expect(stream.pipe).to.have.been.calledWithExactly(res);
+      expect(stream.pipe).toBeCalledWith(res);
     });
     it("should call body with buffer", () => {
       const {res, response} = createResponse();
@@ -163,8 +159,8 @@ describe("PlatformResponse", () => {
 
       response.body(buffer);
 
-      expect(res.data).to.eq(buffer);
-      expect(res.headers).to.deep.eq({
+      expect(res.data).toEqual(buffer);
+      expect(res.headers).toEqual({
         "content-length": 6,
         "content-type": "application/octet-stream",
         "x-request-id": "id"
@@ -175,18 +171,18 @@ describe("PlatformResponse", () => {
 
       response.body({});
 
-      expect(res.data).to.deep.eq({});
+      expect(res.data).toEqual({});
     });
   });
   describe("destroy()", () => {
     it("should destroy response", async () => {
       const {response} = createResponse();
 
-      expect(response.isDone()).to.eq(false);
+      expect(response.isDone()).toEqual(false);
 
       response.destroy();
 
-      expect(response.isDone()).to.eq(true);
+      expect(response.isDone()).toEqual(true);
     });
   });
   describe("getHeaders()", () => {
@@ -195,7 +191,7 @@ describe("PlatformResponse", () => {
 
       res.headers["content-type"] = "application/json";
 
-      expect(response.getHeaders()).to.deep.equal({
+      expect(response.getHeaders()).toEqual({
         "content-type": "application/json",
         "x-request-id": "id"
       });

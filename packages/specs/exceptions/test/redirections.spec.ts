@@ -1,5 +1,4 @@
 import {catchError} from "@tsed/core";
-import {expect} from "chai";
 import {
   MovedPermanently,
   MovedTemporarily,
@@ -20,8 +19,8 @@ describe("Redirections", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(301);
-      expect(err.toString()).to.equal("MOVED_PERMANENTLY(301): message");
+      expect(err.status).toEqual(301);
+      expect(err.toString()).toEqual("MOVED_PERMANENTLY(301): message");
     });
   });
 
@@ -33,8 +32,8 @@ describe("Redirections", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(302);
-      expect(err.toString()).to.equal("MOVED_TEMPORARILY(302): message");
+      expect(err.status).toEqual(302);
+      expect(err.toString()).toEqual("MOVED_TEMPORARILY(302): message");
     });
   });
 
@@ -46,8 +45,8 @@ describe("Redirections", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(300);
-      expect(err.toString()).to.equal("MULTIPLE_CHOICES(300): message");
+      expect(err.status).toEqual(300);
+      expect(err.toString()).toEqual("MULTIPLE_CHOICES(300): message");
     });
   });
 
@@ -59,8 +58,8 @@ describe("Redirections", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(304);
-      expect(err.toString()).to.equal("NOT_MODIFIED(304): message");
+      expect(err.status).toEqual(304);
+      expect(err.toString()).toEqual("NOT_MODIFIED(304): message");
     });
   });
 
@@ -72,8 +71,8 @@ describe("Redirections", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(308);
-      expect(err.toString()).to.equal("PERMANENT_REDIRECT(308): message");
+      expect(err.status).toEqual(308);
+      expect(err.toString()).toEqual("PERMANENT_REDIRECT(308): message");
     });
   });
 
@@ -85,8 +84,8 @@ describe("Redirections", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(303);
-      expect(err.toString()).to.equal("SEE_OTHER(303): message");
+      expect(err.status).toEqual(303);
+      expect(err.toString()).toEqual("SEE_OTHER(303): message");
     });
   });
 
@@ -98,8 +97,8 @@ describe("Redirections", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(307);
-      expect(err.toString()).to.equal("TEMPORARY_REDIRECT(307): message");
+      expect(err.status).toEqual(307);
+      expect(err.toString()).toEqual("TEMPORARY_REDIRECT(307): message");
     });
   });
 
@@ -111,8 +110,8 @@ describe("Redirections", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(305);
-      expect(err.toString()).to.equal("USE_PROXY(305): message");
+      expect(err.status).toEqual(305);
+      expect(err.toString()).toEqual("USE_PROXY(305): message");
     });
   });
 });

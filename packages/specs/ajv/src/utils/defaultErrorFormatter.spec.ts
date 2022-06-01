@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {defaultErrorFormatter} from "./defaultErrorFormatter";
 
 describe("defaultErrorFormatter", () => {
@@ -13,7 +12,7 @@ describe("defaultErrorFormatter", () => {
         data: 251,
         modelName: "RandomStringModel"
       } as any)
-    ).to.deep.equal("RandomStringModel.length should be <= 250. Given value: 251");
+    ).toEqual("RandomStringModel.length should be <= 250. Given value: 251");
   });
   it("should etract data and format error(2)", () => {
     expect(
@@ -26,6 +25,6 @@ describe("defaultErrorFormatter", () => {
         data: {length: 251},
         modelName: "RandomStringModel"
       } as any)
-    ).to.deep.equal('RandomStringModel.length must be <= 250. Given value: {"length":251}');
+    ).toEqual('RandomStringModel.length must be <= 250. Given value: {"length":251}');
   });
 });

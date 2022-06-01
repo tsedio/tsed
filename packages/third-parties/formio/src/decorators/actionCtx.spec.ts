@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {ActionCtx} from "./actionCtx";
 import {JsonParameterStore} from "@tsed/schema";
 
@@ -10,7 +9,7 @@ describe("@ActionCtx", () => {
 
     const param = JsonParameterStore.get(CustomAction, "resolve", 0);
 
-    expect(param.expression).to.equal("ACTION_CTX");
+    expect(param.expression).toEqual("ACTION_CTX");
   });
 
   it("should inject ActionCtx (with expression)", () => {
@@ -20,6 +19,6 @@ describe("@ActionCtx", () => {
 
     const param = JsonParameterStore.get(CustomAction, "resolve", 0);
 
-    expect(param.expression).to.equal("ACTION_CTX.handler");
+    expect(param.expression).toEqual("ACTION_CTX.handler");
   });
 });

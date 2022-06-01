@@ -1,9 +1,6 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {OidcSecureMiddleware} from "./OidcSecureMiddleware";
 
-const sandbox = Sinon.createSandbox();
 describe("OidcSecureMiddleware", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
@@ -24,11 +21,11 @@ describe("OidcSecureMiddleware", () => {
         request
       }
     });
-    sandbox.stub(ctx.response, "redirect");
+    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
 
     middleware.use(ctx);
 
-    expect(ctx.response.redirect).to.have.been.calledWithExactly(302, "https://host/path");
+    expect(ctx.response.redirect).toBeCalledWith(302, "https://host/path");
   });
 
   it("should check if the request is not secure on HEAD verb", async () => {
@@ -46,11 +43,11 @@ describe("OidcSecureMiddleware", () => {
       }
     });
 
-    sandbox.stub(ctx.response, "redirect");
+    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
 
     middleware.use(ctx);
 
-    expect(ctx.response.redirect).to.have.been.calledWithExactly(302, "https://host/path");
+    expect(ctx.response.redirect).toBeCalledWith(302, "https://host/path");
   });
 
   it("should check if the request is not secure on POST verb", async () => {
@@ -75,9 +72,9 @@ describe("OidcSecureMiddleware", () => {
       actualError = er;
     }
 
-    expect(actualError.status).to.equal(400);
-    expect(actualError.message).to.equal("InvalidRequest");
-    expect(actualError.body).to.deep.equal({
+    expect(actualError.status).toEqual(400);
+    expect(actualError.message).toEqual("InvalidRequest");
+    expect(actualError.body).toEqual({
       error: "invalid_request",
       error_description: "Do yourself a favor and only use https"
     });
@@ -99,10 +96,10 @@ describe("OidcSecureMiddleware", () => {
       }
     });
 
-    sandbox.stub(ctx.response, "redirect");
+    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
 
     middleware.use(ctx);
 
-    expect(ctx.response.redirect).to.not.have.been.called;
+    expect(ctx.response.redirect).not.toBeCalled();
   });
 });

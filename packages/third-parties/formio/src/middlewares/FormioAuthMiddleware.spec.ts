@@ -2,10 +2,6 @@ import {PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {Unauthorized} from "@tsed/exceptions";
 import {FormioAuthMiddleware, FormioService} from "@tsed/formio";
-import {expect} from "chai";
-import Sinon from "sinon";
-
-const sandbox = Sinon.createSandbox();
 
 describe("FormioAuthMiddleware", () => {
   beforeEach(() => PlatformTest.create());
@@ -14,7 +10,7 @@ describe("FormioAuthMiddleware", () => {
   it("should authorize user", async () => {
     const formio = {
       middleware: {
-        tokenHandler: sandbox.stub().callsFake((request: any, response: any, next: any) => {
+        tokenHandler: jest.fn().mockImplementation((request: any, response: any, next: any) => {
           request.token = {
             user: {
               _id: "id"
@@ -36,12 +32,12 @@ describe("FormioAuthMiddleware", () => {
 
     await middleware.use(ctx);
 
-    expect(formio.middleware.tokenHandler).to.have.been.calledWithExactly(ctx.getRequest(), ctx.getResponse(), Sinon.match.func);
+    expect(formio.middleware.tokenHandler).toHaveBeenCalledWith(ctx.getRequest(), ctx.getResponse(), expect.any(Function));
   });
   it("should throw error", async () => {
     const formio = {
       middleware: {
-        tokenHandler: sandbox.stub().callsFake((request: any, response: any, next: any) => {
+        tokenHandler: jest.fn().mockImplementation((request: any, response: any, next: any) => {
           next();
         })
       }
@@ -58,6 +54,6 @@ describe("FormioAuthMiddleware", () => {
 
     const error = await catchAsyncError(() => middleware.use(ctx));
 
-    expect(error).to.be.instanceof(Unauthorized);
+    expect(error).toBeInstanceOf(Unauthorized);
   });
 });

@@ -11,7 +11,6 @@ import {
   ServiceUnvailable,
   VariantAlsoNegotiates
 } from "@tsed/exceptions";
-import {expect} from "chai";
 
 describe("ServerErrors", () => {
   describe("BadGateway", () => {
@@ -22,8 +21,8 @@ describe("ServerErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(502);
-      expect(err.toString()).to.equal("BAD_GATEWAY(502): message");
+      expect(err.status).toEqual(502);
+      expect(err.toString()).toEqual("BAD_GATEWAY(502): message");
     });
   });
 
@@ -35,8 +34,8 @@ describe("ServerErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(509);
-      expect(err.toString()).to.equal("BANDWIDTH_LIMIT_EXCEEDED(509): message");
+      expect(err.status).toEqual(509);
+      expect(err.toString()).toEqual("BANDWIDTH_LIMIT_EXCEEDED(509): message");
     });
   });
 
@@ -48,8 +47,8 @@ describe("ServerErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(504);
-      expect(err.toString()).to.equal("GATEWAY_TIMEOUT(504): message");
+      expect(err.status).toEqual(504);
+      expect(err.toString()).toEqual("GATEWAY_TIMEOUT(504): message");
     });
   });
 
@@ -61,8 +60,8 @@ describe("ServerErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(500);
-      expect(err.toString()).to.equal("INTERNAL_SERVER_ERROR(500): message");
+      expect(err.status).toEqual(500);
+      expect(err.toString()).toEqual("INTERNAL_SERVER_ERROR(500): message");
     });
   });
 
@@ -74,8 +73,8 @@ describe("ServerErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(511);
-      expect(err.toString()).to.equal("NETWORK_AUTHENTICATION_REQUIRED(511): message");
+      expect(err.status).toEqual(511);
+      expect(err.toString()).toEqual("NETWORK_AUTHENTICATION_REQUIRED(511): message");
     });
   });
 
@@ -87,8 +86,8 @@ describe("ServerErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(510);
-      expect(err.toString()).to.equal("NOT_EXTENDED(510): message");
+      expect(err.status).toEqual(510);
+      expect(err.toString()).toEqual("NOT_EXTENDED(510): message");
     });
   });
 
@@ -100,8 +99,8 @@ describe("ServerErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(501);
-      expect(err.toString()).to.equal("NOT_IMPLEMENTED(501): message");
+      expect(err.status).toEqual(501);
+      expect(err.toString()).toEqual("NOT_IMPLEMENTED(501): message");
     });
   });
 
@@ -113,8 +112,8 @@ describe("ServerErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(502);
-      expect(err.toString()).to.equal("PROXY_ERROR(502): message");
+      expect(err.status).toEqual(502);
+      expect(err.toString()).toEqual("PROXY_ERROR(502): message");
     });
   });
 
@@ -126,8 +125,8 @@ describe("ServerErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(503);
-      expect(err.toString()).to.equal("SERVICE_UNAVAILABLE(503): message");
+      expect(err.status).toEqual(503);
+      expect(err.toString()).toEqual("SERVICE_UNAVAILABLE(503): message");
     });
   });
 
@@ -139,8 +138,8 @@ describe("ServerErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(506);
-      expect(err.toString()).to.equal("VARIANT_ALSO_NEGOTIATES(506): message");
+      expect(err.status).toEqual(506);
+      expect(err.toString()).toEqual("VARIANT_ALSO_NEGOTIATES(506): message");
     });
   });
 });

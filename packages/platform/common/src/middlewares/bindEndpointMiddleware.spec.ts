@@ -1,5 +1,4 @@
 import {bindEndpointMiddleware, EndpointMetadata, PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 
 class Test {
   test() {}
@@ -12,12 +11,12 @@ describe("bindEndpointMiddleware", () => {
     const endpoint = new EndpointMetadata({
       target: Test,
       propertyKey: "test"
-    });
+    } as any);
 
     const ctx = PlatformTest.createRequestContext({endpoint});
 
     bindEndpointMiddleware(endpoint)(ctx);
 
-    expect(ctx.endpoint).to.equal(endpoint);
+    expect(ctx.endpoint).toEqual(endpoint);
   });
 });

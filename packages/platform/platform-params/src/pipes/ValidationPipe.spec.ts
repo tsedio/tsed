@@ -1,7 +1,6 @@
 import {PlatformTest, Post} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {CollectionOf, getSpec, JsonParameterStore, Required, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {BodyParams} from "../decorators/bodyParams";
 import {QueryParams} from "../decorators/queryParams";
 import {ValidationPipe} from "./ValidationPipe";
@@ -23,7 +22,7 @@ describe("ValidationPipe", () => {
     const param = JsonParameterStore.get(Test, "test", 0);
     const result = await validator.transform("value", param);
     // THEN
-    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/": {
           post: {
@@ -57,7 +56,7 @@ describe("ValidationPipe", () => {
         }
       ]
     });
-    expect(result).to.deep.eq("value");
+    expect(result).toEqual("value");
   });
   it("should return value (Query required)", async () => {
     const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
@@ -75,7 +74,7 @@ describe("ValidationPipe", () => {
     const result: any = await validator.transform(["test"], param);
 
     // THEN
-    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/": {
           post: {
@@ -109,7 +108,7 @@ describe("ValidationPipe", () => {
       ]
     });
 
-    expect(result).to.deep.eq(["test"]);
+    expect(result).toEqual(["test"]);
   });
   it("should throw an error (Query required)", async () => {
     const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
@@ -127,7 +126,7 @@ describe("ValidationPipe", () => {
     const result: any = await catchAsyncError(() => validator.transform(undefined, param));
 
     // THEN
-    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+    expect(getSpec(Test, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/": {
           post: {
@@ -161,6 +160,6 @@ describe("ValidationPipe", () => {
       ]
     });
 
-    expect(result.message).to.deep.eq("It should have required parameter 'test'");
+    expect(result.message).toEqual("It should have required parameter 'test'");
   });
 });

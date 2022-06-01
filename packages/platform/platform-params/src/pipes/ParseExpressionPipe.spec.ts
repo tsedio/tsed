@@ -1,17 +1,11 @@
 import {ParamTypes, PlatformTest} from "@tsed/common";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {ParseExpressionPipe} from "./ParseExpressionPipe";
 import {JsonParameterStore} from "@tsed/schema";
 import {DecoratorTypes} from "@tsed/core";
 
-const sandbox = Sinon.createSandbox();
 describe("ParseExpressionPipe", () => {
   beforeEach(PlatformTest.create);
   beforeEach(PlatformTest.reset);
-  afterEach(() => {
-    sandbox.restore();
-  });
   it(
     "should parse expression",
     PlatformTest.inject([ParseExpressionPipe], (pipe: ParseExpressionPipe) => {
@@ -42,7 +36,7 @@ describe("ParseExpressionPipe", () => {
       // WHEN
       const value = pipe.transform(scope, param);
 
-      expect(value).to.deep.eq("value");
+      expect(value).toEqual("value");
     })
   );
   it(
@@ -73,7 +67,7 @@ describe("ParseExpressionPipe", () => {
       // WHEN
       const value = pipe.transform(scope, param);
 
-      expect(value).to.deep.eq(undefined);
+      expect(value).toEqual(undefined);
     })
   );
   it(
@@ -107,7 +101,7 @@ describe("ParseExpressionPipe", () => {
       // WHEN
       const value = pipe.transform(scope, param);
 
-      expect(value).to.deep.eq("application/json");
+      expect(value).toEqual("application/json");
     })
   );
   it(
@@ -141,7 +135,7 @@ describe("ParseExpressionPipe", () => {
       // WHEN
       const value = pipe.transform(scope, param);
 
-      expect(value).to.deep.eq(undefined);
+      expect(value).toEqual(undefined);
     })
   );
   it(
@@ -174,7 +168,7 @@ describe("ParseExpressionPipe", () => {
       // WHEN
       const value = pipe.transform(scope, param);
 
-      expect(value).to.deep.eq("");
+      expect(value).toEqual("");
     })
   );
   it(
@@ -207,7 +201,7 @@ describe("ParseExpressionPipe", () => {
       // WHEN
       const value = pipe.transform(scope, param);
 
-      expect(value).to.deep.eq(undefined);
+      expect(value).toEqual(undefined);
     })
   );
   it(
@@ -240,7 +234,7 @@ describe("ParseExpressionPipe", () => {
       // WHEN
       const value = pipe.transform(scope, param);
 
-      expect(value).to.deep.eq("");
+      expect(value).toEqual("");
     })
   );
 });

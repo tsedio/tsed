@@ -1,7 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
-import {expect} from "chai";
 import {Stripe} from "stripe";
 import SuperTest from "supertest";
 import {StripeWebhooksCtrl} from "./app/controllers/rest/StripeWebhooksCtrl";
@@ -46,7 +45,7 @@ describe("Stripe", () => {
 
     const response = await request.post("/rest/webhooks/callback").send(payloadString).set("stripe-signature", signature).expect(200);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       event: payload,
       received: true
     });
@@ -66,7 +65,7 @@ describe("Stripe", () => {
 
     const response = await request.post("/rest/webhooks/callback2").send(payloadString).set("stripe-signature", signature).expect(200);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       event: payload,
       received: true
     });
@@ -86,7 +85,7 @@ describe("Stripe", () => {
 
     const response = await request.post("/rest/webhooks/callback").send(payloadString).set("stripe-signature", signature).expect(400);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       errors: [],
       message:
         "Stripe webhook error: No signatures found matching the expected signature for payload. Are you passing the raw request body you received from Stripe? https://github.com/stripe/stripe-node#webhook-signing, innerException: No signatures found matching the expected signature for payload. Are you passing the raw request body you received from Stripe? https://github.com/stripe/stripe-node#webhook-signing",

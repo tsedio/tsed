@@ -2,7 +2,6 @@ import {MemoryAdapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {rootDir} from "../../../platform/platform-express/test/app/Server";
 import {InteractionsCtrl} from "./app/controllers/oidc/InteractionsCtrl";
@@ -62,7 +61,7 @@ describe("OIDC", () => {
 
     const response = await followRedirection(authRes);
 
-    expect(response.text).to.includes("Sign-in");
+    expect(response.text).toContain("Sign-in");
 
     const postResponse = await request
       .post(`${authRes.headers.location}/login`)
@@ -74,7 +73,7 @@ describe("OIDC", () => {
       })
       .send("email=test%40test.com&password=admin");
 
-    expect(postResponse.headers.location).to.equal(`http://0.0.0.0:8081/auth/${id}`);
+    expect(postResponse.headers.location).toEqual(`http://0.0.0.0:8081/auth/${id}`);
 
     const headers = {
       Origin: "http://0.0.0.0:8081",
@@ -98,7 +97,7 @@ describe("OIDC", () => {
       headers
     );
 
-    expect(confirmResponse.headers.location).to.contain("http://localhost:3000#id_token=");
+    expect(confirmResponse.headers.location).toContain("http://localhost:3000#id_token=");
   });
 
   it("should display the discovery page on /.well-known/openid-configuration", async () => {
@@ -106,7 +105,7 @@ describe("OIDC", () => {
       Origin: "http://0.0.0.0:8081",
       Host: "0.0.0.0:8081"
     });
-    expect(JSON.parse(res.text).authorization_endpoint).to.be.equal("http://0.0.0.0:8081/auth");
+    expect(JSON.parse(res.text).authorization_endpoint).toEqual("http://0.0.0.0:8081/auth");
   });
 });
 
@@ -178,7 +177,7 @@ describe("OIDC on a different path", () => {
 
     const response = await followRedirection(authRes);
 
-    expect(response.text).to.includes("Sign-in");
+    expect(response.text).toContain("Sign-in");
 
     const postResponse = await request
       .post(`${authRes.headers.location}/login`)
@@ -190,7 +189,7 @@ describe("OIDC on a different path", () => {
       })
       .send("email=test%40test.com&password=admin");
 
-    expect(postResponse.headers.location).to.equal(`http://0.0.0.0:8081/oidc/auth/${id}`);
+    expect(postResponse.headers.location).toEqual(`http://0.0.0.0:8081/oidc/auth/${id}`);
 
     const headers = {
       Origin: "http://0.0.0.0:8081",
@@ -214,7 +213,7 @@ describe("OIDC on a different path", () => {
       headers
     );
 
-    expect(confirmResponse.headers.location).to.contain("http://localhost:3000#id_token=");
+    expect(confirmResponse.headers.location).toContain("http://localhost:3000#id_token=");
   });
 
   it("should display the discovery page on /.well-known/openid-configuration", async () => {
@@ -222,6 +221,6 @@ describe("OIDC on a different path", () => {
       Origin: "http://0.0.0.0:8081",
       Host: "0.0.0.0:8081"
     });
-    expect(JSON.parse(res.text).authorization_endpoint).to.be.equal("http://0.0.0.0:8081/oidc/auth");
+    expect(JSON.parse(res.text).authorization_endpoint).toEqual("http://0.0.0.0:8081/oidc/auth");
   });
 });

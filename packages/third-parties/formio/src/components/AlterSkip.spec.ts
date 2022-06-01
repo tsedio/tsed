@@ -1,9 +1,5 @@
 import {PlatformTest} from "@tsed/common";
 import {AlterSkip} from "./AlterSkip";
-import {expect} from "chai";
-import Sinon from "sinon";
-
-const sandbox = Sinon.createSandbox();
 
 describe("AlterSkip", () => {
   beforeEach(() => PlatformTest.create());
@@ -18,7 +14,7 @@ describe("AlterSkip", () => {
 
     const result = alterSkip.transform(false, ctx);
 
-    expect(result).to.eq(true);
+    expect(result).toEqual(true);
   });
 
   it("should transform skip and return false", async () => {
@@ -30,7 +26,7 @@ describe("AlterSkip", () => {
 
     const result = alterSkip.transform(false, ctx);
 
-    expect(result).to.eq(false);
+    expect(result).toEqual(false);
   });
 
   it("should not transform skip", async () => {
@@ -42,6 +38,6 @@ describe("AlterSkip", () => {
 
     const result = alterSkip.transform(true, ctx);
 
-    expect(result).to.eq(true);
+    expect(result).toEqual(true);
   });
 });

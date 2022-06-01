@@ -1,7 +1,6 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Nsp, SocketService} from "@tsed/socketio";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
@@ -29,7 +28,7 @@ export class HelloCtrl {
 describe("SocketIO", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(Server, {
       platform: PlatformExpress,
       mount: {
@@ -37,12 +36,14 @@ describe("SocketIO", () => {
       }
     })
   );
-  before(() => (request = SuperTest(PlatformTest.callback())));
-  after(PlatformTest.reset);
+  beforeAll(() => {
+    request = SuperTest(PlatformTest.callback());
+  });
+  afterAll(PlatformTest.reset);
 
   it("should render index page", async () => {
     const response = await request.get("/socket").expect(200);
 
-    expect(response.text).to.contains("/socket/socket.io.js");
+    expect(response.text).toContain("/socket/socket.io.js");
   });
 });
