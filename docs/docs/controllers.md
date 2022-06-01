@@ -195,7 +195,8 @@ There is no performed input validation and deserialization when using the @@RawB
 ::: warning
 To use @RawBodyParams() properly, you have to remove bodyParser add on `$beforeRoutesInit`.
 
-````diff
+```diff
+
 @Configuration({
 +  middlewares: [
 +     bodyParser.json(),
@@ -212,7 +213,7 @@ export class Server {
 -      .use(bodyParser.urlencoded({extended: true}));
   }
 }
-``
+```                                       
 :::
 
 ### Headers
