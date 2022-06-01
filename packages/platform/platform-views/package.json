@@ -31,7 +31,7 @@
     "@tsed/exceptions": "6.114.15",
     "@tsed/schema": "6.114.15",
     "@types/consolidate": "0.14.1",
-    "@types/ejs": "3.1.0"
+    "@types/ejs": "3.1.1"
   },
   "peerDependencies": {
     "@tsed/core": "^6.114.15",
