@@ -63,7 +63,7 @@
   "dependencies": {
     "@types/aws-serverless-express": "^3.3.3",
     "aws-serverless-express": "^3.4.0",
-    "tslib": "2.3.1"
+    "tslib": "2.4.0"
   },
   "peerDependencies": {
     "@tsed/common": "^6.114.15",

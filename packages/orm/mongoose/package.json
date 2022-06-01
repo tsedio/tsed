@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "change-case": "4.1.2",
-    "tslib": "2.3.1"
+    "tslib": "2.4.0"
   },
   "devDependencies": {
     "@tsed/ajv": "6.114.15",

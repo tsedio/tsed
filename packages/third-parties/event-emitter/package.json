@@ -25,7 +25,7 @@
     "test": "cross-env NODE_ENV=test nyc mocha"
   },
   "dependencies": {
-    "tslib": "2.3.1"
+    "tslib": "2.4.0"
   },
   "private": false,
   "devDependencies": {
