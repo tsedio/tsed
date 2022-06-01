@@ -22,7 +22,7 @@
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
     "tslib": "2.4.0"

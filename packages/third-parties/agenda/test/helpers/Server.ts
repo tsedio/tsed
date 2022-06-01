@@ -1,8 +1,7 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
 import Path from "path";
 import "@tsed/platform-express";
-import "../../src/AgendaModule";
-
+import "@tsed/agenda";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import compress from "compression";

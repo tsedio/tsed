@@ -1,14 +1,11 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import Sinon from "sinon";
 import {FormioDatabase} from "../services/FormioDatabase";
 import {AlterTemplateExportSteps} from "./AlterTemplateExportSteps";
 
-const sandbox = Sinon.createSandbox();
-
 async function createServiceFixture() {
   const mapper = {
-    mapToExport: sandbox.stub().callsFake((data) => {
+    mapToExport: jest.fn().mockImplementation((data) => {
       if (data === "form_id") {
         return "machineName";
       }
@@ -18,11 +15,11 @@ async function createServiceFixture() {
 
   const database = {
     submissionModel: {
-      deleteMany: sandbox.stub(),
-      create: sandbox.stub(),
-      find: sandbox.stub()
+      deleteMany: jest.fn(),
+      create: jest.fn(),
+      find: jest.fn()
     },
-    getFormioMapper: sandbox.stub().resolves(mapper)
+    getFormioMapper: jest.fn().mockResolvedValue(mapper)
   };
 
   const service = await PlatformTest.invoke<AlterTemplateExportSteps>(AlterTemplateExportSteps, [
@@ -38,7 +35,6 @@ async function createServiceFixture() {
 describe("AlterTemplateExportSteps", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(PlatformTest.reset);
-  afterEach(() => sandbox.restore());
 
   it("should export submission", async () => {
     const {service, database} = await createServiceFixture();
@@ -57,7 +53,7 @@ describe("AlterTemplateExportSteps", () => {
       }
     };
 
-    database.submissionModel.find.resolves([
+    database.submissionModel.find.mockResolvedValue([
       {
         toObject() {
           return {
@@ -79,11 +75,11 @@ describe("AlterTemplateExportSteps", () => {
 
     queue = service.transform(queue, template, map, options);
 
-    expect(queue.length).to.eq(1);
+    expect(queue.length).toEqual(1);
 
     const result = await new Promise((resolve) => queue[0]((err: any, template: any) => resolve(template)));
 
-    expect(result).to.deep.eq({
+    expect(result).toEqual({
       submissions: {
         machineName: [
           {
@@ -97,7 +93,7 @@ describe("AlterTemplateExportSteps", () => {
         ]
       }
     });
-    expect(database.getFormioMapper).to.have.been.calledWithExactly();
-    expect(database.submissionModel.find).to.have.been.calledWithExactly({deleted: {$eq: null}});
+    expect(database.getFormioMapper).toHaveBeenCalledWith();
+    expect(database.submissionModel.find).toHaveBeenCalledWith({deleted: {$eq: null}});
   });
 });

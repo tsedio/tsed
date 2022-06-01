@@ -1,5 +1,4 @@
 import {getSpec, Returns, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import {Get} from "../../src";
 
 describe("@Returns", () => {
@@ -14,7 +13,7 @@ describe("@Returns", () => {
     // THEN
     const spec = getSpec(Controller, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).to.deep.equal({
+    expect(spec).toEqual({
       paths: {
         "/": {
           get: {

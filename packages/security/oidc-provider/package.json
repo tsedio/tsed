@@ -27,7 +27,7 @@
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
     "@tsed/adapters": "6.114.15",

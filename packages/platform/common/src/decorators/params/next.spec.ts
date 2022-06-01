@@ -1,6 +1,5 @@
 import {ParamTypes} from "@tsed/platform-params";
 import {JsonParameterStore} from "@tsed/schema";
-import {expect} from "chai";
 import {Next} from "./next";
 
 describe("@Next", () => {
@@ -10,6 +9,6 @@ describe("@Next", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.NEXT_FN);
+    expect(param.paramType).toEqual(ParamTypes.NEXT_FN);
   });
 });

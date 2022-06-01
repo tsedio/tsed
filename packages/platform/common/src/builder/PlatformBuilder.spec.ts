@@ -14,13 +14,9 @@ import {
 } from "@tsed/common";
 import {Type} from "@tsed/core";
 import {Configuration} from "@tsed/di";
-import {expect} from "chai";
-import Sinon from "sinon";
+import {FakeAdapter} from "../services/FakeAdapter";
 import {Platform} from "../services/Platform";
 import {PlatformBuilder} from "./PlatformBuilder";
-import {FakeAdapter} from "../services/FakeAdapter";
-
-const sandbox = Sinon.createSandbox();
 
 describe("PlatformBuilder", () => {
   @Controller("/")
@@ -119,68 +115,55 @@ describe("PlatformBuilder", () => {
     }
   }
 
-  beforeEach(() => {
-    sandbox.stub(ServerModule.prototype, "$beforeRoutesInit");
-    sandbox.stub(ServerModule.prototype, "$afterRoutesInit");
-    sandbox.stub(ServerModule.prototype, "$afterInit");
-    sandbox.stub(ServerModule.prototype, "$afterListen");
-    sandbox.stub(ServerModule.prototype, "$beforeInit");
-    sandbox.stub(ServerModule.prototype, "$beforeListen");
-    sandbox.stub(ServerModule.prototype, "$onReady");
-    sandbox.stub(PlatformBuilder.prototype, "loadStatics");
-    // @ts-ignore
-    sandbox.spy(PlatformBuilder.prototype, "listenServers");
-    sandbox.stub(InjectorService.prototype, "emit");
-    sandbox.stub(Platform.prototype, "addRoutes");
-  });
-  afterEach(() => {
-    sandbox.restore();
-  });
-
   describe("static boostrap()", () => {
-    beforeEach(() => {
-      sandbox.stub(PlatformBuilder, "build").returns({
-        bootstrap: sandbox.stub()
-      } as any);
-    });
-    afterEach(() => {
-      sandbox.restore();
+    beforeAll(() => {
+      jest.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
+      jest.spyOn(PlatformBuilder.prototype, "loadStatics").mockResolvedValue(undefined);
+      // @ts-ignore
+      jest.spyOn(PlatformBuilder.prototype, "listenServers");
+      jest.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
+      jest.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
     });
     it("should boostrap a custom platform", async () => {
-      await PlatformBuilder.bootstrap(ServerModule, {
-        adapter: {} as any
+      const result = await PlatformBuilder.bootstrap(ServerModule, {
+        adapter: FakeAdapter
       });
 
-      expect(PlatformBuilder.build).to.have.been.calledWithExactly(
-        ServerModule,
-        Sinon.match({
-          adapter: {}
-        })
-      );
+      expect(result).toBeInstanceOf(PlatformBuilder);
     });
   });
-
   describe("static create()", () => {
     beforeEach(() => {
-      sandbox.stub(PlatformBuilder, "build");
+      jest.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
+      jest.spyOn(PlatformBuilder.prototype, "loadStatics").mockResolvedValue(undefined);
+      // @ts-ignore
+      jest.spyOn(PlatformBuilder.prototype, "listenServers");
+      jest.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
+      jest.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
     });
-    afterEach(() => {
-      sandbox.restore();
-    });
+    afterAll(() => jest.resetAllMocks());
     it("should boostrap a custom platform", () => {
-      PlatformBuilder.create(ServerModule, {
-        adapter: {} as any
+      const platform = PlatformBuilder.create(ServerModule, {
+        adapter: FakeAdapter
       });
 
-      expect(PlatformBuilder.build).to.have.been.calledWithExactly(ServerModule, {
-        adapter: {},
-        disableComponentsScan: true,
-        httpPort: false,
-        httpsPort: false
-      });
+      expect(platform.settings.get("disableComponentsScan")).toEqual(true);
+      expect(platform.settings.get("httpPort")).toEqual(false);
+      expect(platform.settings.get("httpsPort")).toEqual(false);
     });
   });
-
   describe("bootstrap()", () => {
     it("should bootstrap platform", async () => {
       // WHEN
@@ -192,26 +175,27 @@ describe("PlatformBuilder", () => {
 
       // THEN
       await server.listen();
+
       // THEN
       // @ts-ignore
-      expect(server.listenServers).to.have.been.calledWithExactly();
-      expect(server.loadStatics).to.have.been.calledWithExactly("$beforeRoutesInit");
-      expect(server.loadStatics).to.have.been.calledWithExactly("$afterRoutesInit");
-      expect(server.injector.emit).to.have.been.calledWithExactly("$afterInit");
-      expect(server.injector.emit).to.have.been.calledWithExactly("$beforeRoutesInit");
-      expect(server.injector.emit).to.have.been.calledWithExactly("$afterRoutesInit");
-      expect(server.injector.emit).to.have.been.calledWithExactly("$afterListen");
-      expect(server.injector.emit).to.have.been.calledWithExactly("$beforeListen");
-      expect(server.injector.emit).to.have.been.calledWithExactly("$onServerReady");
-      expect(server.injector.emit).to.have.been.calledWithExactly("$onReady");
+      expect(server.listenServers).toBeCalledWith();
+      expect(server.loadStatics).toBeCalledWith("$beforeRoutesInit");
+      expect(server.loadStatics).toBeCalledWith("$afterRoutesInit");
+      expect(server.injector.emit).toBeCalledWith("$afterInit");
+      expect(server.injector.emit).toBeCalledWith("$beforeRoutesInit");
+      expect(server.injector.emit).toBeCalledWith("$afterRoutesInit");
+      expect(server.injector.emit).toBeCalledWith("$afterListen");
+      expect(server.injector.emit).toBeCalledWith("$beforeListen");
+      expect(server.injector.emit).toBeCalledWith("$onServerReady");
+      expect(server.injector.emit).toBeCalledWith("$onReady");
 
       // THEN
-      expect(server.rootModule).to.be.instanceof(ServerModule);
-      expect(stub).to.have.been.calledOnceWithExactly();
-      expect(server.name).to.eq("custom");
+      expect(server.rootModule).toBeInstanceOf(ServerModule);
+      expect(stub).toHaveBeenCalled();
+      expect(server.name).toEqual("custom");
 
       await server.stop();
-      expect(server.injector.emit).to.have.been.calledWithExactly("$onDestroy");
+      expect(server.injector.emit).toBeCalledWith("$onDestroy");
     });
   });
   describe("callback()", () => {
@@ -222,7 +206,7 @@ describe("PlatformBuilder", () => {
         httpsPort: false
       });
 
-      expect(server.callback()).to.deep.eq(server.app.raw);
+      expect(server.callback()).toEqual(server.app.raw);
 
       server.callback({} as any, {} as any);
     });
@@ -242,7 +226,7 @@ describe("PlatformBuilder", () => {
 
       await server.bootstrap();
 
-      expect(server.injector.get(Token)).to.be.instanceof(Token);
+      expect(server.injector.get(Token)).toBeInstanceOf(Token);
     });
   });
   describe("addComponents", () => {
@@ -256,7 +240,7 @@ describe("PlatformBuilder", () => {
       server.addComponents(MyClass);
 
       // THEN
-      expect(normalizePath(server.injector.settings.get("componentsScan"))).to.include(MyClass);
+      expect(normalizePath(server.injector.settings.get("componentsScan"))).toEqual(expect.arrayContaining([MyClass]));
     });
   });
   describe("addControllers", () => {
@@ -270,7 +254,7 @@ describe("PlatformBuilder", () => {
       server.addControllers("/test", MyClass);
 
       // THEN
-      expect(server.injector.settings.routes).to.deep.eq([
+      expect(server.injector.settings.routes).toEqual([
         {
           route: "/heath",
           token: HealthCtrl

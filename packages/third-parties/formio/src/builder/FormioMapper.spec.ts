@@ -1,7 +1,6 @@
 import {toMap as tMap} from "@tsed/core";
 import {FormioMapper} from "@tsed/formio";
 import {MongooseDocument} from "@tsed/mongoose";
-import {expect} from "chai";
 
 function toMap<T>(list: any[]) {
   return tMap<string, MongooseDocument<T>>(list, (o: any) => [o._id.toString(), `$machineName:${o.machineName}`]);
@@ -23,7 +22,7 @@ describe("FormioMapper", () => {
 
     const result = mapper.mapToImport(data);
 
-    expect(result).to.deep.eq({
+    expect(result).toEqual({
       ...data,
       form: "form_id"
     });
@@ -42,7 +41,7 @@ describe("FormioMapper", () => {
     };
     const result = mapper.mapToImport([data]);
 
-    expect(result).to.deep.eq([
+    expect(result).toEqual([
       {
         ...data,
         form: "form_id"
@@ -64,7 +63,7 @@ describe("FormioMapper", () => {
 
     const result = mapper.mapToExport(data);
 
-    expect(result).to.deep.eq({
+    expect(result).toEqual({
       ...data,
       form: "$machineName:form_machine"
     });
@@ -83,7 +82,7 @@ describe("FormioMapper", () => {
     };
     const result = mapper.mapToExport([data]);
 
-    expect(result).to.deep.eq([
+    expect(result).toEqual([
       {
         ...data,
         form: "$machineName:form_machine"

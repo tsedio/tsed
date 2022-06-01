@@ -1,5 +1,4 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import {PlatformRequest} from "./PlatformRequest";
 import {createSandbox} from "sinon";
 
@@ -21,7 +20,7 @@ describe("PlatformRequest", () => {
       }
     });
 
-    expect($ctx.request.raw).to.eq(request);
+    expect($ctx.request.raw).toEqual(request);
   });
 
   describe("secure()", () => {
@@ -30,13 +29,13 @@ describe("PlatformRequest", () => {
 
       $ctx.request.request.secure = false;
 
-      expect($ctx.request.secure).to.equal(false);
+      expect($ctx.request.secure).toEqual(false);
     });
     it("should return the secure request state (true)", () => {
       const $ctx = PlatformTest.createRequestContext();
 
       $ctx.request.request.secure = true;
-      expect($ctx.request.secure).to.equal(true);
+      expect($ctx.request.secure).toEqual(true);
     });
   });
 
@@ -46,13 +45,13 @@ describe("PlatformRequest", () => {
 
       $ctx.request.request.protocol = "http";
 
-      expect($ctx.request.protocol).to.equal("http");
+      expect($ctx.request.protocol).toEqual("http");
     });
     it("should return the protocol request state (https)", () => {
       const {req, request} = createRequest();
 
       req.protocol = "https";
-      expect(request.protocol).to.equal("https");
+      expect(request.protocol).toEqual("https");
     });
   });
 
@@ -62,7 +61,7 @@ describe("PlatformRequest", () => {
 
       request.raw.headers["host"] = "host";
 
-      expect(request.host).to.equal("host");
+      expect(request.host).toEqual("host");
     });
   });
 
@@ -70,11 +69,11 @@ describe("PlatformRequest", () => {
     it("should set the accepts header", () => {
       const {req, request} = createRequest();
 
-      sandbox.spy(req, "accepts");
+      jest.spyOn(req, "accepts");
 
       request.accepts("application/json");
 
-      expect(req.accepts).to.have.been.calledWithExactly("application/json");
+      expect(req.accepts).toBeCalledWith("application/json");
     });
   });
 
@@ -94,32 +93,32 @@ describe("PlatformRequest", () => {
             test: "testValue"
           };
 
-      expect(request.url).to.equal("/");
-      expect(request.body).to.deep.equal({
+      expect(request.url).toEqual("/");
+      expect(request.body).toEqual({
         obj: {
           test: "testValue"
         },
         test: "testValue"
       });
-      expect(request.params).to.deep.equal({
+      expect(request.params).toEqual({
         obj: {
           test: "testValue"
         },
         test: "testValue"
       });
-      expect(request.query).to.deep.equal({
+      expect(request.query).toEqual({
         obj: {
           test: "testValue"
         },
         test: "testValue"
       });
-      expect(request.cookies).to.deep.equal({
+      expect(request.cookies).toEqual({
         obj: {
           test: "testValue"
         },
         test: "testValue"
       });
-      expect(request.session).to.deep.equal({
+      expect(request.session).toEqual({
         obj: {
           test: "testValue"
         },

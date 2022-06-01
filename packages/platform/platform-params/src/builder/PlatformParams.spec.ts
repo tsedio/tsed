@@ -2,10 +2,7 @@ import {PlatformTest, ProviderScope} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {ParamTypes, PathParams, QueryParams} from "@tsed/platform-params";
 import {expect} from "chai";
-import Sinon from "sinon";
 import {buildPlatformParams, invokePlatformParams} from "../../../../../test/helper/buildPlatformParams";
-
-const sandbox = Sinon.createSandbox();
 
 describe("PlatformParams", () => {
   beforeEach(() => PlatformTest.create());
@@ -14,7 +11,6 @@ describe("PlatformParams", () => {
     it("should return REQUEST (node)", async () => {
       // GIVEN
       const {param, $ctx, h, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.NODE_REQUEST,
         dataPath: "$ctx.request.req"
       });
@@ -29,7 +25,6 @@ describe("PlatformParams", () => {
     it("should return REQUEST (framework)", async () => {
       // GIVEN
       const {param, $ctx, h, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.REQUEST,
         dataPath: "$ctx.request.request"
       });
@@ -44,7 +39,6 @@ describe("PlatformParams", () => {
     it("should return REQUEST (platform)", async () => {
       // GIVEN
       const {param, h, $ctx, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.PLATFORM_REQUEST,
         dataPath: "$ctx.request"
       });
@@ -59,7 +53,6 @@ describe("PlatformParams", () => {
     it("should return RESPONSE (node)", async () => {
       // GIVEN
       const {param, $ctx, h, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.NODE_RESPONSE,
         dataPath: "$ctx.response.res"
       });
@@ -74,7 +67,6 @@ describe("PlatformParams", () => {
     it("should return RESPONSE (framework)", async () => {
       // GIVEN
       const {param, $ctx, h, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.RESPONSE,
         dataPath: "$ctx.response.response"
       });
@@ -89,7 +81,6 @@ describe("PlatformParams", () => {
     it("should return RESPONSE (platform)", async () => {
       // GIVEN
       const {param, $ctx, h, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.PLATFORM_RESPONSE,
         dataPath: "$ctx.response"
       });
@@ -104,7 +95,6 @@ describe("PlatformParams", () => {
     it("should return NEXT", async () => {
       // GIVEN
       const {param, h, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.NEXT_FN,
         dataPath: "next"
       });
@@ -119,7 +109,6 @@ describe("PlatformParams", () => {
     it("should return ERR", async () => {
       // GIVEN
       const {param, h, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.ERR,
         dataPath: "err"
       });
@@ -135,7 +124,6 @@ describe("PlatformParams", () => {
     it("should return $CTX", async () => {
       // GIVEN
       const {param, h, $ctx, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.$CTX,
         dataPath: "$ctx"
       });
@@ -151,7 +139,6 @@ describe("PlatformParams", () => {
     it("should return RESPONSE_DATA", async () => {
       // GIVEN
       const {param, h, $ctx, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.RESPONSE_DATA,
         dataPath: "$ctx.data"
       });
@@ -166,7 +153,6 @@ describe("PlatformParams", () => {
     it("should return ENDPOINT_INFO", async () => {
       // GIVEN
       const {param, h, $ctx, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.ENDPOINT_INFO,
         dataPath: "$ctx.endpoint"
       });
@@ -184,7 +170,6 @@ describe("PlatformParams", () => {
     it("should return BODY", async () => {
       // GIVEN
       const {param, h, $ctx, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.BODY,
         dataPath: "$ctx.request.body"
       });
@@ -199,7 +184,6 @@ describe("PlatformParams", () => {
     it("should return PATH", async () => {
       // GIVEN
       const {param, h, $ctx, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.PATH,
         dataPath: "$ctx.request.params"
       });
@@ -214,7 +198,6 @@ describe("PlatformParams", () => {
     it("should return QUERY", async () => {
       // GIVEN
       const {param, h, $ctx, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.QUERY,
         dataPath: "$ctx.request.query"
       });
@@ -229,7 +212,6 @@ describe("PlatformParams", () => {
     it("should return HEADER", async () => {
       // GIVEN
       const {param, h, platformParams, ctx} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.HEADER,
         dataPath: "$ctx.request.headers"
       });
@@ -250,7 +232,6 @@ describe("PlatformParams", () => {
     it("should return COOKIES", async () => {
       // GIVEN
       const {param, h, $ctx, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.COOKIES,
         dataPath: "$ctx.request.cookies"
       });
@@ -265,7 +246,6 @@ describe("PlatformParams", () => {
     it("should return SESSION", async () => {
       // GIVEN
       const {param, h, $ctx, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.SESSION,
         dataPath: "$ctx.request.session"
       });
@@ -280,7 +260,6 @@ describe("PlatformParams", () => {
     it("should return LOCALS", async () => {
       // GIVEN
       const {param, h, $ctx, platformParams} = await buildPlatformParams({
-        sandbox,
         paramType: ParamTypes.LOCALS,
         dataPath: "$ctx.response.locals"
       });

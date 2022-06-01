@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {mapReturnedResponse} from "../index";
 
 describe("mapReturnedResponse", () => {
@@ -10,7 +9,7 @@ describe("mapReturnedResponse", () => {
         collection: "collection",
         headers: "headers"
       })
-    ).to.deep.eq({
+    ).toEqual({
       description: "description",
       type: "type",
       collectionType: "collection",
@@ -26,7 +25,7 @@ describe("mapReturnedResponse", () => {
         collection: "collection",
         headers: "headers"
       })
-    ).to.deep.eq({
+    ).toEqual({
       description: "description",
       type: "use",
       collectionType: "collection",

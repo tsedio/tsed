@@ -28,7 +28,6 @@ import {
   UpgradeRequired,
   ExpectationFailed
 } from "@tsed/exceptions";
-import {expect} from "chai";
 
 describe("ClientErrors", () => {
   describe("BadMapping", () => {
@@ -39,8 +38,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(421);
-      expect(err.toString()).to.equal("BAD_MAPPING(421): message");
+      expect(err.status).toEqual(421);
+      expect(err.toString()).toEqual("BAD_MAPPING(421): message");
     });
   });
 
@@ -52,8 +51,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(400);
-      expect(err.toString()).to.equal("BAD_REQUEST(400): message");
+      expect(err.status).toEqual(400);
+      expect(err.toString()).toEqual("BAD_REQUEST(400): message");
     });
   });
 
@@ -65,8 +64,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(409);
-      expect(err.toString()).to.equal("CONFLICT(409): message");
+      expect(err.status).toEqual(409);
+      expect(err.toString()).toEqual("CONFLICT(409): message");
     });
   });
 
@@ -78,8 +77,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(417);
-      expect(err.toString()).to.equal("EXPECTATION_FAILED(417): message");
+      expect(err.status).toEqual(417);
+      expect(err.toString()).toEqual("EXPECTATION_FAILED(417): message");
     });
   });
 
@@ -91,8 +90,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(403);
-      expect(err.toString()).to.equal("FORBIDDEN(403): message");
+      expect(err.status).toEqual(403);
+      expect(err.toString()).toEqual("FORBIDDEN(403): message");
     });
   });
 
@@ -104,8 +103,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(410);
-      expect(err.toString()).to.equal("GONE(410): message");
+      expect(err.status).toEqual(410);
+      expect(err.toString()).toEqual("GONE(410): message");
     });
   });
 
@@ -117,8 +116,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(418);
-      expect(err.toString()).to.equal("IM_A_TEAPOT(418): message");
+      expect(err.status).toEqual(418);
+      expect(err.toString()).toEqual("IM_A_TEAPOT(418): message");
     });
   });
 
@@ -130,8 +129,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(411);
-      expect(err.toString()).to.equal("LENGTH_REQUIRED(411): message");
+      expect(err.status).toEqual(411);
+      expect(err.toString()).toEqual("LENGTH_REQUIRED(411): message");
     });
   });
 
@@ -143,8 +142,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(405);
-      expect(err.toString()).to.equal("METHOD_NOT_ALLOWED(405): message");
+      expect(err.status).toEqual(405);
+      expect(err.toString()).toEqual("METHOD_NOT_ALLOWED(405): message");
     });
   });
 
@@ -156,8 +155,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(421);
-      expect(err.toString()).to.equal("MISDIRECTED_REQUEST(421): message");
+      expect(err.status).toEqual(421);
+      expect(err.toString()).toEqual("MISDIRECTED_REQUEST(421): message");
     });
   });
 
@@ -169,8 +168,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(406);
-      expect(err.toString()).to.equal("NOT_ACCEPTABLE(406): You must accept content-type message");
+      expect(err.status).toEqual(406);
+      expect(err.toString()).toEqual("NOT_ACCEPTABLE(406): You must accept content-type message");
     });
   });
 
@@ -182,8 +181,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(404);
-      expect(err.toString()).to.equal("NOT_FOUND(404): message");
+      expect(err.status).toEqual(404);
+      expect(err.toString()).toEqual("NOT_FOUND(404): message");
     });
   });
 
@@ -195,8 +194,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(402);
-      expect(err.toString()).to.equal("PAYMENT_REQUIRED(402): message");
+      expect(err.status).toEqual(402);
+      expect(err.toString()).toEqual("PAYMENT_REQUIRED(402): message");
     });
   });
 
@@ -208,8 +207,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(412);
-      expect(err.toString()).to.equal("PRECONDITION_FAILED(412): message");
+      expect(err.status).toEqual(412);
+      expect(err.toString()).toEqual("PRECONDITION_FAILED(412): message");
     });
   });
 
@@ -221,8 +220,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(428);
-      expect(err.toString()).to.equal("PRECONDITION_REQUIRED(428): message");
+      expect(err.status).toEqual(428);
+      expect(err.toString()).toEqual("PRECONDITION_REQUIRED(428): message");
     });
   });
 
@@ -234,8 +233,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(407);
-      expect(err.toString()).to.equal("PROXY_AUTHENTICATION_REQUIRED(407): message");
+      expect(err.status).toEqual(407);
+      expect(err.toString()).toEqual("PROXY_AUTHENTICATION_REQUIRED(407): message");
     });
   });
 
@@ -247,8 +246,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(416);
-      expect(err.toString()).to.equal("RANGE_NOT_SATISFIABLE(416): message");
+      expect(err.status).toEqual(416);
+      expect(err.toString()).toEqual("RANGE_NOT_SATISFIABLE(416): message");
     });
   });
 
@@ -260,8 +259,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(413);
-      expect(err.toString()).to.equal("PAYLOAD_TOO_LARGE(413): message");
+      expect(err.status).toEqual(413);
+      expect(err.toString()).toEqual("PAYLOAD_TOO_LARGE(413): message");
     });
   });
 
@@ -273,8 +272,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(431);
-      expect(err.toString()).to.equal("REQUEST_HEADER_FIELDS_TOO_LARGE(431): message");
+      expect(err.status).toEqual(431);
+      expect(err.toString()).toEqual("REQUEST_HEADER_FIELDS_TOO_LARGE(431): message");
     });
   });
 
@@ -286,8 +285,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(408);
-      expect(err.toString()).to.equal("REQUEST_TIMEOUT(408): message");
+      expect(err.status).toEqual(408);
+      expect(err.toString()).toEqual("REQUEST_TIMEOUT(408): message");
     });
   });
 
@@ -299,8 +298,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(414);
-      expect(err.toString()).to.equal("URI_TOO_LONG(414): message");
+      expect(err.status).toEqual(414);
+      expect(err.toString()).toEqual("URI_TOO_LONG(414): message");
     });
   });
 
@@ -312,8 +311,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(429);
-      expect(err.toString()).to.equal("TOO_MANY_REQUESTS(429): message");
+      expect(err.status).toEqual(429);
+      expect(err.toString()).toEqual("TOO_MANY_REQUESTS(429): message");
     });
   });
 
@@ -325,8 +324,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(401);
-      expect(err.toString()).to.equal("UNAUTHORIZED(401): message");
+      expect(err.status).toEqual(401);
+      expect(err.toString()).toEqual("UNAUTHORIZED(401): message");
     });
   });
 
@@ -338,8 +337,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(451);
-      expect(err.toString()).to.equal("UNAVAILABLE_FOR_LEGAL_REASONS(451): message");
+      expect(err.status).toEqual(451);
+      expect(err.toString()).toEqual("UNAVAILABLE_FOR_LEGAL_REASONS(451): message");
     });
   });
 
@@ -351,8 +350,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(415);
-      expect(err.toString()).to.equal("UNSUPPORTED_MEDIA_TYPE(415): message");
+      expect(err.status).toEqual(415);
+      expect(err.toString()).toEqual("UNSUPPORTED_MEDIA_TYPE(415): message");
     });
   });
 
@@ -364,8 +363,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(426);
-      expect(err.toString()).to.equal("UPGRADE_REQUIRED(426): message");
+      expect(err.status).toEqual(426);
+      expect(err.toString()).toEqual("UPGRADE_REQUIRED(426): message");
     });
   });
 
@@ -377,8 +376,8 @@ describe("ClientErrors", () => {
         throw err;
       });
 
-      expect(err.status).to.equal(422);
-      expect(err.toString()).to.equal("UNPROCESSABLE_ENTITY(422): message");
+      expect(err.status).toEqual(422);
+      expect(err.toString()).toEqual("UNPROCESSABLE_ENTITY(422): message");
     });
   });
 });

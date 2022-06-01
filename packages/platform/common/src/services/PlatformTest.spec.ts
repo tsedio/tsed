@@ -1,5 +1,4 @@
 import {Configuration, Controller, Get, InjectorService, PlatformTest, PlatformContext} from "@tsed/common";
-import {expect} from "chai";
 
 @Configuration({})
 class Server {}
@@ -13,16 +12,22 @@ class MyController {
 }
 
 describe("PlatformTest", () => {
+  let testContext: any;
+
+  beforeEach(() => {
+    testContext = {};
+  });
+
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
 
   it("should get symbol from injector", () => {
-    expect(PlatformTest.get(InjectorService)).to.be.instanceOf(InjectorService);
+    expect(PlatformTest.get(InjectorService)).toBeInstanceOf(InjectorService);
   });
 
   describe("createRequestContext", () => {
     it("should return request context", () => {
-      expect(PlatformTest.createRequestContext()).to.be.instanceOf(PlatformContext);
+      expect(PlatformTest.createRequestContext()).toBeInstanceOf(PlatformContext);
     });
   });
 
@@ -36,7 +41,7 @@ describe("PlatformTest", () => {
         }
       }
 
-      expect(await PlatformTest.invoke(Test)).to.deep.eq({called: true});
+      expect(await PlatformTest.invoke(Test)).toEqual({called: true});
     });
   });
 });

@@ -1,6 +1,5 @@
 import {All, Delete, EndpointMetadata, Get, Head, Options, Patch, Post, Put} from "@tsed/common";
 import {OperationMethods} from "@tsed/schema";
-import {expect} from "chai";
 import Sinon from "sinon";
 
 const middleware: any = Sinon.stub();
@@ -21,13 +20,13 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.ALL,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toEqual("test");
     });
   });
 
@@ -42,13 +41,13 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.GET,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toEqual("test");
     });
     it("should register route and middleware (2)", () => {
       const middleware = () => {};
@@ -62,14 +61,14 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.GET,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
-      expect(endpoint.middlewares).to.deep.equal([middleware]);
+      expect(endpoint.propertyKey).toEqual("test");
+      expect(endpoint.middlewares).toEqual([middleware]);
     });
   });
 
@@ -84,13 +83,13 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.POST,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toEqual("test");
     });
   });
 
@@ -105,13 +104,13 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.PUT,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toEqual("test");
     });
   });
 
@@ -126,13 +125,13 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.DELETE,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toEqual("test");
     });
   });
 
@@ -147,13 +146,13 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.HEAD,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toEqual("test");
     });
   });
 
@@ -168,13 +167,13 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.PATCH,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toEqual("test");
     });
   });
 
@@ -189,13 +188,13 @@ describe("Route decorators", () => {
       const endpoint = EndpointMetadata.get(Test, "test");
 
       // THEN
-      expect([...endpoint.operationPaths.values()]).to.deep.eq([
+      expect([...endpoint.operationPaths.values()]).toEqual([
         {
           method: OperationMethods.OPTIONS,
           path: "/"
         }
       ]);
-      expect(endpoint.propertyKey).to.equal("test");
+      expect(endpoint.propertyKey).toEqual("test");
     });
   });
 });

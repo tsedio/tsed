@@ -1,6 +1,5 @@
 import {PlatformTest} from "@tsed/common";
 import Ajv from "ajv";
-import {expect} from "chai";
 
 describe("Ajv", () => {
   beforeEach(() => PlatformTest.create());
@@ -8,7 +7,7 @@ describe("Ajv", () => {
   it("should create a new Ajv instance", async () => {
     const ajv = await PlatformTest.invoke<Ajv>(Ajv);
 
-    expect(ajv).to.instanceof(Ajv);
+    expect(ajv).toBeInstanceOf(Ajv);
     expect(
       ajv.validate(
         {
@@ -16,7 +15,7 @@ describe("Ajv", () => {
         },
         {}
       )
-    ).to.equal(true);
+    ).toEqual(true);
 
     ajv.validate(
       {
@@ -25,7 +24,7 @@ describe("Ajv", () => {
       []
     );
 
-    expect(ajv.errors).to.deep.equal([
+    expect(ajv.errors).toEqual([
       {
         instancePath: "",
         keyword: "type",

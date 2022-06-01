@@ -1,9 +1,5 @@
 import {Context, EndpointMetadata, Err, Get, HandlerMetadata, HandlerType, Middleware, PlatformTest, QueryParams} from "@tsed/common";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {PlatformHandler} from "./PlatformHandler";
-
-const sandbox = Sinon.createSandbox();
 
 class Test {
   @Get("/")
@@ -27,13 +23,13 @@ describe("PlatformHandler", () => {
   });
   afterEach(PlatformTest.reset);
   afterEach(() => {
-    sandbox.restore();
+    jest.resetAllMocks();
   });
 
   describe("createHandler", () => {
     it("should return a native handler (success middleware)", async () => {
       // GIVEN
-      sandbox.stub(Test.prototype, "get").callsFake((o) => o);
+      jest.spyOn(Test.prototype, "get").mockImplementation((o) => o);
 
       const handlerMetadata = new HandlerMetadata({
         token: Test,
@@ -49,12 +45,12 @@ describe("PlatformHandler", () => {
       const handler = platformHandler.createHandler(handlerMetadata);
 
       // THEN
-      expect(handler).to.be.a("function");
+      expect(handler).toBeInstanceOf(Function);
     });
     it("should return a native metadata (from native metadata)", async () => {
       // GIVEN
       const platformHandler = await PlatformTest.invoke<PlatformHandler>(PlatformHandler);
-      sandbox.stub(Test.prototype, "get").callsFake((o) => o);
+      jest.spyOn(Test.prototype, "get").mockImplementation((o) => o);
 
       const nativeHandler = (req: any, res: any, next: any) => {};
 
@@ -62,7 +58,7 @@ describe("PlatformHandler", () => {
       const handler = platformHandler.createHandler(nativeHandler);
 
       // THEN
-      expect(nativeHandler).to.eq(handler);
+      expect(nativeHandler).toEqual(handler);
     });
     it("should do nothing when request is aborted", async () => {
       // GIVEN
@@ -82,16 +78,16 @@ describe("PlatformHandler", () => {
 
       // WHEN
       const handler = platformHandler.createHandler(handlerMetadata);
-      const next = Sinon.stub();
+      const next = jest.fn();
 
       await handler($ctx.getRequest(), $ctx.getResponse(), next);
 
       // THEN
-      return expect(next).to.not.have.been.called;
+      return expect(next).not.toBeCalled();
     });
     it("should call returned function", async () => {
       // GIVEN
-      const internalMiddleware = sandbox.stub().returns("hello");
+      const internalMiddleware = jest.fn().mockReturnValue("hello");
 
       @Middleware()
       class Test {
@@ -104,7 +100,7 @@ describe("PlatformHandler", () => {
       await PlatformTest.invoke<Test>(Test);
 
       const ctx = PlatformTest.createRequestContext();
-      const next = sandbox.stub();
+      const next = jest.fn();
 
       const handlerMetadata = new HandlerMetadata({
         token: Test,
@@ -118,7 +114,7 @@ describe("PlatformHandler", () => {
 
       await handler(ctx.getRequest(), ctx.getResponse(), next);
       // THEN
-      expect(internalMiddleware).to.have.been.calledWithExactly(ctx.getRequest(), ctx.getResponse(), next);
+      expect(internalMiddleware).toBeCalledWith(ctx.getRequest(), ctx.getResponse(), next);
     });
   });
 });

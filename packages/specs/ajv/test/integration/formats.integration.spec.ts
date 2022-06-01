@@ -1,6 +1,5 @@
 import {PlatformTest} from "@tsed/common";
 import {Format, getJsonSchema} from "@tsed/schema";
-import {expect} from "chai";
 import {AjvService} from "../../src";
 import {Formats} from "../../src/decorators/formats";
 import {FormatsMethods} from "../../src/interfaces/FormatsMethods";
@@ -29,7 +28,7 @@ describe("Formats", () => {
     const service = PlatformTest.get<AjvService>(AjvService);
     const jsonSchema = getJsonSchema(MyModel);
 
-    expect(jsonSchema).to.deep.equal({
+    expect(jsonSchema).toEqual({
       properties: {
         uri: {
           format: "optional-uri",
@@ -41,6 +40,6 @@ describe("Formats", () => {
 
     const result = await service.validate({uri: ""}, {type: MyModel});
 
-    expect(result).to.deep.eq({uri: ""});
+    expect(result).toEqual({uri: ""});
   });
 });

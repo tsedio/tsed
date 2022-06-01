@@ -1,7 +1,5 @@
 import {PlatformApplication, PlatformTest} from "@tsed/common";
 import {nameOf} from "@tsed/core";
-import {expect} from "chai";
-import sinon from "sinon";
 import {PlatformContext} from "./PlatformContext";
 
 describe("PlatformContext", () => {
@@ -18,28 +16,28 @@ describe("PlatformContext", () => {
       },
       id: "id",
       logger: {
-        info: sinon.stub()
+        info: jest.fn()
       },
       maxStackSize: 0,
       injector: PlatformTest.injector,
       ignoreUrlPatterns: ["/admin", /\/admin2/]
     });
 
-    expect(context.id).to.eq("id");
-    expect(context.dateStart).to.be.instanceof(Date);
-    expect(context.container).to.be.instanceof(Map);
-    expect(context.env).to.be.equal("test");
-    expect(context.getRequest()).to.eq(context.request.raw);
-    expect(context.getResponse()).to.eq(context.response.raw);
-    expect(context.getReq()).to.eq(context.request.raw);
-    expect(context.getRes()).to.eq(context.response.raw);
-    expect(context.app).to.be.instanceof(PlatformApplication);
-    expect(nameOf(context.getApp())).to.eq("FakeRawDriver");
+    expect(context.id).toEqual("id");
+    expect(context.dateStart).toBeInstanceOf(Date);
+    expect(context.container).toBeInstanceOf(Map);
+    expect(context.env).toEqual("test");
+    expect(context.getRequest()).toEqual(context.request.raw);
+    expect(context.getResponse()).toEqual(context.response.raw);
+    expect(context.getReq()).toEqual(context.request.raw);
+    expect(context.getRes()).toEqual(context.response.raw);
+    expect(context.app).toBeInstanceOf(PlatformApplication);
+    expect(nameOf(context.getApp())).toEqual("FakeRawDriver");
 
     context.logger.info("test");
 
     // @ts-ignore
-    return expect(context.logger.logger.info).to.not.have.been.called;
+    expect(context.logger.logger.info).not.toBeCalled();
   });
   it("should create a new Context and log event", () => {
     // @ts-ignore
@@ -52,23 +50,23 @@ describe("PlatformContext", () => {
         })
       },
       logger: {
-        info: sinon.stub()
+        info: jest.fn()
       },
       injector: PlatformTest.injector,
       maxStackSize: 0,
       ignoreUrlPatterns: ["/admin"]
     });
 
-    expect(context.id).to.eq("id");
-    expect(context.dateStart).to.be.instanceof(Date);
-    expect(context.container).to.be.instanceof(Map);
-    expect(context.env).to.be.equal("test");
-    expect(context.app).to.be.instanceof(PlatformApplication);
-    expect(nameOf(context.getApp())).to.eq("FakeRawDriver");
+    expect(context.id).toEqual("id");
+    expect(context.dateStart).toBeInstanceOf(Date);
+    expect(context.container).toBeInstanceOf(Map);
+    expect(context.env).toEqual("test");
+    expect(context.app).toBeInstanceOf(PlatformApplication);
+    expect(nameOf(context.getApp())).toEqual("FakeRawDriver");
 
     context.logger.info("test");
 
     // @ts-ignore
-    return expect(context.logger.logger.info).to.have.been.called;
+    expect(context.logger.logger.info).toBeCalled();
   });
 });

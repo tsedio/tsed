@@ -1,7 +1,6 @@
 import {Controller, Get, Inject, Injectable, PathParams, PlatformContext, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
-import {expect} from "chai";
 import faker from "@faker-js/faker";
 import SuperTest from "supertest";
 import {InjectContext} from "../src";
@@ -40,16 +39,16 @@ const utils = PlatformTestUtils.create({
 describe("AsyncHookContext", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     utils.bootstrap({
       mount: {
         "/rest": [AsyncHookCtrl]
       }
     })
   );
-  after(utils.reset);
+  afterAll(utils.reset);
 
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
 
@@ -60,7 +59,7 @@ describe("AsyncHookContext", () => {
       const {body} = await request.get(`/rest/async-hooks/${id}`).set("x-agent-id", agentId).expect(200);
 
       if (require("async_hooks").AsyncLocalStorage) {
-        expect(body).to.deep.eq({
+        expect(body).toEqual({
           id,
           agentId
         });

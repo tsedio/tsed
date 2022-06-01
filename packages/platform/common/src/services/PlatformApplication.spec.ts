@@ -1,28 +1,24 @@
 import {PlatformRouter, PlatformTest} from "@tsed/common";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformHandler} from "./PlatformHandler";
 
-const sandbox = Sinon.createSandbox();
-
 function createDriver() {
   return {
-    use: sandbox.stub(),
-    all: sandbox.stub(),
-    get: sandbox.stub(),
-    post: sandbox.stub(),
-    put: sandbox.stub(),
-    delete: sandbox.stub(),
-    patch: sandbox.stub(),
-    head: sandbox.stub(),
-    options: sandbox.stub()
+    use: jest.fn(),
+    all: jest.fn(),
+    get: jest.fn(),
+    post: jest.fn(),
+    put: jest.fn(),
+    delete: jest.fn(),
+    patch: jest.fn(),
+    head: jest.fn(),
+    options: jest.fn()
   };
 }
 
 async function getPlatformApp() {
   const platformHandler = {
-    createHandler: sandbox.stub().callsFake((o) => o)
+    createHandler: jest.fn().mockImplementation((o) => o)
   };
   const platformApp = await PlatformTest.invoke<PlatformApplication<any, any>>(PlatformApplication, [
     {
@@ -47,7 +43,7 @@ describe("PlatformApplication", () => {
       const {platformApp} = await getPlatformApp();
 
       // WHEN
-      expect(platformApp.getApp()).to.eq(platformApp.raw);
+      expect(platformApp.getApp()).toEqual(platformApp.raw);
     });
   });
   describe("getRouter()", () => {
@@ -56,25 +52,25 @@ describe("PlatformApplication", () => {
       const {platformApp} = await getPlatformApp();
 
       // WHEN
-      expect(platformApp.getRouter()).to.eq(platformApp.rawRouter);
+      expect(platformApp.getRouter()).toEqual(platformApp.rawRouter);
     });
   });
 
   describe("use()", () => {
     afterEach(() => {
-      sandbox.restore();
+      jest.resetAllMocks();
     });
     it("should create a PlatformApplication and add handler", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
-      const handler = sandbox.stub();
+      const handler = jest.fn();
 
       // WHEN
       platformApp.use("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {isFinal: false});
-      expect(platformApp.rawRouter.use).to.have.been.calledWithExactly("/", handler);
+      expect(platformHandler.createHandler).toBeCalledWith(handler, {isFinal: false});
+      expect(platformApp.rawRouter.use).toBeCalledWith("/", handler);
     });
     it("should add router to app", async () => {
       // GIVEN
@@ -98,151 +94,151 @@ describe("PlatformApplication", () => {
       platformApp.use("/", handler);
 
       // THEN
-      expect(platformApp.rawRouter.use).to.have.been.calledWithExactly("/", handler.raw);
+      expect(platformApp.rawRouter.use).toBeCalledWith("/", handler.raw);
     });
   });
   describe("get()", () => {
     it("should create a PlatformApplication and add handler", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
-      const handler = sandbox.stub();
+      const handler = jest.fn();
 
       // WHEN
       platformApp.get("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+      expect(platformHandler.createHandler).toBeCalledWith(handler, {
         isFinal: true,
         method: "get",
         path: "/"
       });
-      expect(platformApp.rawRouter.get).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.get).toBeCalledWith("/", handler);
     });
   });
   describe("all()", () => {
     it("should create a PlatformApplication and add handler", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
-      const handler = sandbox.stub();
+      const handler = jest.fn();
 
       // WHEN
       platformApp.all("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+      expect(platformHandler.createHandler).toBeCalledWith(handler, {
         isFinal: true,
         method: "all",
         path: "/"
       });
-      expect(platformApp.rawRouter.all).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.all).toBeCalledWith("/", handler);
     });
   });
   describe("post()", () => {
     it("should create a PlatformApplication and add handler", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
-      const handler = sandbox.stub();
+      const handler = jest.fn();
 
       // WHEN
       platformApp.post("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+      expect(platformHandler.createHandler).toBeCalledWith(handler, {
         isFinal: true,
         method: "post",
         path: "/"
       });
-      expect(platformApp.rawRouter.post).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.post).toBeCalledWith("/", handler);
     });
   });
   describe("put()", () => {
     it("should create a PlatformApplication and add handler", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
-      const handler = sandbox.stub();
+      const handler = jest.fn();
 
       // WHEN
       platformApp.put("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+      expect(platformHandler.createHandler).toBeCalledWith(handler, {
         isFinal: true,
         method: "put",
         path: "/"
       });
-      expect(platformApp.rawRouter.put).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.put).toBeCalledWith("/", handler);
     });
   });
   describe("patch()", () => {
     it("should create a PlatformApplication and add handler", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
-      const handler = sandbox.stub();
+      const handler = jest.fn();
 
       // WHEN
       platformApp.patch("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+      expect(platformHandler.createHandler).toBeCalledWith(handler, {
         isFinal: true,
         method: "patch",
         path: "/"
       });
-      expect(platformApp.rawRouter.patch).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.patch).toBeCalledWith("/", handler);
     });
   });
   describe("head()", () => {
     it("should create a PlatformApplication and add handler", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
-      const handler = sandbox.stub();
+      const handler = jest.fn();
 
       // WHEN
       platformApp.head("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+      expect(platformHandler.createHandler).toBeCalledWith(handler, {
         isFinal: true,
         method: "head",
         path: "/"
       });
-      expect(platformApp.rawRouter.head).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.head).toBeCalledWith("/", handler);
     });
   });
   describe("delete()", () => {
     it("should create a PlatformApplication and add handler", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
-      const handler = sandbox.stub();
+      const handler = jest.fn();
 
       // WHEN
       platformApp.delete("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+      expect(platformHandler.createHandler).toBeCalledWith(handler, {
         isFinal: true,
         method: "delete",
         path: "/"
       });
-      expect(platformApp.rawRouter.delete).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.delete).toBeCalledWith("/", handler);
     });
   });
   describe("options()", () => {
     it("should create a PlatformApplication and add handler", async () => {
       // GIVEN
       const {platformApp, platformHandler} = await getPlatformApp();
-      const handler = sandbox.stub();
+      const handler = jest.fn();
 
       // WHEN
       platformApp.options("/", handler);
 
       // THEN
-      expect(platformHandler.createHandler).to.have.been.calledWithExactly(handler, {
+      expect(platformHandler.createHandler).toBeCalledWith(handler, {
         isFinal: true,
         method: "options",
         path: "/"
       });
-      expect(platformApp.rawRouter.options).to.have.been.calledWithExactly("/", handler);
+      expect(platformApp.rawRouter.options).toBeCalledWith("/", handler);
     });
   });
   describe("statics()", () => {
@@ -250,7 +246,7 @@ describe("PlatformApplication", () => {
       // GIVEN
       const {platformApp} = await getPlatformApp();
 
-      sandbox.stub(console, "warn");
+      jest.spyOn(console, "warn");
 
       // WHEN
       platformApp.statics("/", {root: "/root"});

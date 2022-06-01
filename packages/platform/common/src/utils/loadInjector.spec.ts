@@ -1,12 +1,9 @@
 import {Container, Injectable, InjectorService, LocalsContainer} from "@tsed/di";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {stub} from "../../../../../test/helper/tools";
 import {loadInjector} from "./loadInjector";
 
-const sandbox = Sinon.createSandbox();
 describe("loadInjector", () => {
-  after(() => sandbox.restore());
+  afterAll(() => jest.resetAllMocks());
   it("should load injector", () => {
     // GIVEN
     @Injectable()
@@ -17,10 +14,10 @@ describe("loadInjector", () => {
 
     const injector = new InjectorService();
 
-    sandbox.spy(injector, "addProviders");
-    sandbox.spy(injector, "invoke");
-    sandbox.stub(injector.logger, "debug");
-    sandbox.stub(injector, "load").resolves(new LocalsContainer());
+    jest.spyOn(injector, "addProviders");
+    jest.spyOn(injector, "invoke");
+    jest.spyOn(injector.logger, "debug");
+    jest.spyOn(injector, "load").mockResolvedValue(new LocalsContainer());
 
     injector.add(TestService);
 
@@ -33,9 +30,7 @@ describe("loadInjector", () => {
     loadInjector(injector, container);
 
     // THEN
-    expect(stub(injector.addProviders)).to.have.been.calledWithExactly(container);
-    expect(stub(injector.load)).to.have.been.calledWithExactly(container);
-
-    stub(injector.logger.debug).restore();
+    expect(stub(injector.addProviders)).toBeCalledWith(container);
+    expect(stub(injector.load)).toBeCalledWith(container);
   });
 });

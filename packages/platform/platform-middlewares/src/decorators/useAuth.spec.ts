@@ -1,6 +1,5 @@
 import {EndpointMetadata} from "@tsed/common";
 import {decoratorArgs, prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {expect} from "chai";
 import {UseAuth} from "./useAuth";
 
 class Guard {
@@ -33,8 +32,8 @@ describe("UseAuth()", () => {
       // @ts-ignore
       const endpoint = EndpointMetadata.get(...args);
 
-      expect(endpoint.beforeMiddlewares).to.deep.equal([Guard]);
-      expect(store.get("responses")).to.deep.eq({
+      expect(endpoint.beforeMiddlewares).toEqual([Guard]);
+      expect(store.get("responses")).toEqual({
         "200": {
           description: "Success"
         }
@@ -68,9 +67,9 @@ describe("UseAuth()", () => {
       // @ts-ignore
       const endpoint = EndpointMetadata.get(...args);
 
-      expect(endpoint.beforeMiddlewares).to.deep.equal([Guard]);
+      expect(endpoint.beforeMiddlewares).toEqual([Guard]);
 
-      expect(store.get("responses")).to.deep.eq({
+      expect(store.get("responses")).toEqual({
         "200": {
           description: "Success"
         }
@@ -97,13 +96,13 @@ describe("UseAuth()", () => {
       const storeTest2 = Store.from(...decoratorArgs(prototypeOf(Test), "test2"));
       // @ts-ignore
       const endpoint = EndpointMetadata.get(Test, "test");
-      expect(endpoint.beforeMiddlewares).to.deep.equal([Guard]);
+      expect(endpoint.beforeMiddlewares).toEqual([Guard]);
 
       const endpoint2 = EndpointMetadata.get(Test, "test2");
-      expect(endpoint2.beforeMiddlewares).to.deep.equal([Guard]);
+      expect(endpoint2.beforeMiddlewares).toEqual([Guard]);
 
-      expect(storeTest.get(Guard)).to.deep.eq({role: "test2", defaultRole: "test"});
-      expect(storeTest2.get(Guard)).to.deep.eq({defaultRole: "test"});
+      expect(storeTest.get(Guard)).toEqual({role: "test2", defaultRole: "test"});
+      expect(storeTest2.get(Guard)).toEqual({defaultRole: "test"});
     });
   });
   describe("when the decorator is use in another way", () => {
@@ -119,8 +118,8 @@ describe("UseAuth()", () => {
       }
 
       // THEN
-      expect(actualError).to.be.instanceOf(UnsupportedDecoratorType);
-      expect(actualError.message).to.eq("UseAuth cannot be used as property.static decorator on Test.property");
+      expect(actualError).toBeInstanceOf(UnsupportedDecoratorType);
+      expect(actualError.message).toEqual("UseAuth cannot be used as property.static decorator on Test.property");
     });
   });
 });

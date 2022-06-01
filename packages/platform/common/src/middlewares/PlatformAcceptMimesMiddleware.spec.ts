@@ -1,7 +1,5 @@
 import {AcceptMime, EndpointMetadata, Get, PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware";
 
 describe("PlatformMimesMiddleware", () => {
@@ -30,13 +28,13 @@ describe("PlatformMimesMiddleware", () => {
         endpoint
       });
 
-      Sinon.spy(request, "accepts");
+      jest.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
 
       middleware.use(ctx);
 
-      expect(request.accepts).to.have.been.calledWithExactly(["application/json", "text"]);
+      expect(request.accepts).toBeCalledWith(["application/json", "text"]);
     });
     it("should accept type (text)", async () => {
       class Test {
@@ -55,12 +53,12 @@ describe("PlatformMimesMiddleware", () => {
         event: {request},
         endpoint
       });
-      Sinon.spy(request, "accepts");
+      jest.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
 
-      expect(request.accepts).to.have.been.calledWithExactly(["text", "application/json"]);
+      expect(request.accepts).toBeCalledWith(["text", "application/json"]);
     });
     it("should accept type (text) without endpoint", async () => {
       class Test {
@@ -77,12 +75,12 @@ describe("PlatformMimesMiddleware", () => {
       const ctx = PlatformTest.createRequestContext({
         event: {request}
       });
-      Sinon.spy(request, "accepts");
+      jest.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
 
-      expect(request.accepts).to.have.been.calledWithExactly(["application/json", "text"]);
+      expect(request.accepts).toBeCalledWith(["application/json", "text"]);
     });
     it("should refuse type", async () => {
       class Test {
@@ -105,7 +103,7 @@ describe("PlatformMimesMiddleware", () => {
 
       const error: any = catchError(() => middleware.use(ctx));
 
-      expect(error.message).to.equal("You must accept content-type application/json, text");
+      expect(error.message).toEqual("You must accept content-type application/json, text");
     });
   });
   describe("when server hasn't configuration", () => {
@@ -127,12 +125,12 @@ describe("PlatformMimesMiddleware", () => {
         event: {request},
         endpoint
       });
-      Sinon.spy(request, "accepts");
+      jest.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
 
-      return expect(request.accepts).to.not.have.been.called;
+      return expect(request.accepts).not.toBeCalled();
     });
     it("should accept type (application/json)", async () => {
       class Test {
@@ -151,12 +149,12 @@ describe("PlatformMimesMiddleware", () => {
         event: {request},
         endpoint
       });
-      Sinon.spy(request, "accepts");
+      jest.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
 
-      expect(request.accepts).to.have.been.calledWithExactly(["application/json"]);
+      expect(request.accepts).toBeCalledWith(["application/json"]);
     });
     it("should accept type (text)", async () => {
       class Test {
@@ -177,12 +175,12 @@ describe("PlatformMimesMiddleware", () => {
         },
         endpoint
       });
-      Sinon.spy(request, "accepts");
+      jest.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
       middleware.use(ctx);
 
-      expect(request.accepts).to.have.been.calledWithExactly(["text"]);
+      expect(request.accepts).toBeCalledWith(["text"]);
     });
     it("should refuse type", async () => {
       class Test {
@@ -202,13 +200,13 @@ describe("PlatformMimesMiddleware", () => {
         endpoint
       });
 
-      Sinon.spy(request, "accepts");
+      jest.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);
 
       const error: any = catchError(() => middleware.use(ctx));
 
-      expect(error.message).to.equal("You must accept content-type application/json");
+      expect(error.message).toEqual("You must accept content-type application/json");
     });
   });
 });

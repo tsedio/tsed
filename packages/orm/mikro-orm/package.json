@@ -30,7 +30,7 @@
     "@tsed/core": "6.114.15",
     "@tsed/di": "6.114.15",
     "@tsed/json-mapper": "6.114.15",
-    "@tsed/logger": ">=6.1.1",
+    "@tsed/logger": ">=6.1.4",
     "@tsed/schema": "6.114.15",
     "@tsed/testing-mongoose": "6.114.15",
     "ts-mockito": "^2.6.1"
@@ -40,6 +40,6 @@
     "@tsed/common": "^6.114.15",
     "@tsed/core": "^6.114.15",
     "@tsed/di": "^6.114.15",
-    "@tsed/logger": ">=6.1.1"
+    "@tsed/logger": ">=6.1.4"
   }
 }

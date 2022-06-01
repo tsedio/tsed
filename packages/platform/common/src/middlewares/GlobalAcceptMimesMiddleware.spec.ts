@@ -1,5 +1,4 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import {GlobalAcceptMimesMiddleware} from "./GlobalAcceptMimesMiddleware";
 
 describe("GlobalAcceptMimesMiddleware", () => {
@@ -19,7 +18,7 @@ describe("GlobalAcceptMimesMiddleware", () => {
 
       const middleware = new GlobalAcceptMimesMiddleware();
 
-      expect(middleware.use(context)).to.eq(undefined);
+      expect(middleware.use(context)).toBeUndefined();
     });
   });
 });

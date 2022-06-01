@@ -1,11 +1,8 @@
 import {PlatformTest, ValidationError} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {PlatformExceptions} from "./PlatformExceptions";
 
-const sandbox = Sinon.createSandbox();
 describe("PlatformExceptions", () => {
   describe("Env.TEST", () => {
     beforeEach(() => PlatformTest.create());
@@ -15,25 +12,25 @@ describe("PlatformExceptions", () => {
       const platformExceptions = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      sandbox.stub(ctx.response, "body").returnsThis();
-      sandbox.stub(ctx.response, "setHeaders").returnsThis();
-      sandbox.stub(ctx.response, "status").returnsThis();
-      sandbox.stub(ctx.response, "contentType").returnsThis();
+      jest.spyOn(ctx.response, "body").mockReturnThis();
+      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      jest.spyOn(ctx.response, "status").mockReturnThis();
+      jest.spyOn(ctx.response, "contentType").mockReturnThis();
 
       const error = "MyError";
 
       platformExceptions.catch(error, ctx);
 
-      expect(ctx.response.body).to.have.been.calledWithExactly("MyError");
+      expect(ctx.response.body).toBeCalledWith("MyError");
     });
     it("should map exception", () => {
       const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      sandbox.stub(ctx.response, "body").returnsThis();
-      sandbox.stub(ctx.response, "setHeaders").returnsThis();
-      sandbox.stub(ctx.response, "status").returnsThis();
-      sandbox.stub(ctx.response, "contentType").returnsThis();
+      jest.spyOn(ctx.response, "body").mockReturnThis();
+      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      jest.spyOn(ctx.response, "status").mockReturnThis();
+      jest.spyOn(ctx.response, "contentType").mockReturnThis();
 
       const origin = new ValidationError("wrong ID", [
         {
@@ -49,8 +46,8 @@ describe("PlatformExceptions", () => {
 
       middleware.catch(error, ctx);
 
-      expect(ctx.response.setHeaders).to.have.been.calledWithExactly({"x-path": "id"});
-      expect(ctx.response.body).to.have.been.calledWithExactly({
+      expect(ctx.response.setHeaders).toBeCalledWith({"x-path": "id"});
+      expect(ctx.response.body).toBeCalledWith({
         errors: [
           {
             error: "format",
@@ -67,10 +64,10 @@ describe("PlatformExceptions", () => {
       const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      sandbox.stub(ctx.response, "body").returnsThis();
-      sandbox.stub(ctx.response, "setHeaders").returnsThis();
-      sandbox.stub(ctx.response, "status").returnsThis();
-      sandbox.stub(ctx.response, "contentType").returnsThis();
+      jest.spyOn(ctx.response, "body").mockReturnThis();
+      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      jest.spyOn(ctx.response, "status").mockReturnThis();
+      jest.spyOn(ctx.response, "contentType").mockReturnThis();
 
       class Custom extends Error {}
 
@@ -78,8 +75,8 @@ describe("PlatformExceptions", () => {
 
       middleware.catch(error, ctx);
 
-      expect(ctx.response.setHeaders).to.have.been.calledWithExactly({});
-      expect(ctx.response.body).to.have.been.calledWithExactly({
+      expect(ctx.response.setHeaders).toBeCalledWith({});
+      expect(ctx.response.body).toBeCalledWith({
         errors: [],
         message: "My message",
         name: "Error",
@@ -91,10 +88,10 @@ describe("PlatformExceptions", () => {
       const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      sandbox.stub(ctx.response, "body").returnsThis();
-      sandbox.stub(ctx.response, "setHeaders").returnsThis();
-      sandbox.stub(ctx.response, "status").returnsThis();
-      sandbox.stub(ctx.response, "contentType").returnsThis();
+      jest.spyOn(ctx.response, "body").mockReturnThis();
+      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      jest.spyOn(ctx.response, "status").mockReturnThis();
+      jest.spyOn(ctx.response, "contentType").mockReturnThis();
 
       class MongooseError extends Error {}
 
@@ -102,8 +99,8 @@ describe("PlatformExceptions", () => {
 
       middleware.catch(error, ctx);
 
-      expect(ctx.response.setHeaders).to.have.been.calledWithExactly({});
-      expect(ctx.response.body).to.have.been.calledWithExactly({
+      expect(ctx.response.setHeaders).toBeCalledWith({});
+      expect(ctx.response.body).toBeCalledWith({
         errors: [],
         message: "My message, innerException: My message",
         name: "Error",
@@ -115,10 +112,10 @@ describe("PlatformExceptions", () => {
       const platformExceptions = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      sandbox.stub(ctx.response, "body").returnsThis();
-      sandbox.stub(ctx.response, "setHeaders").returnsThis();
-      sandbox.stub(ctx.response, "status").returnsThis();
-      sandbox.stub(ctx.response, "contentType").returnsThis();
+      jest.spyOn(ctx.response, "body").mockReturnThis();
+      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      jest.spyOn(ctx.response, "status").mockReturnThis();
+      jest.spyOn(ctx.response, "contentType").mockReturnThis();
 
       const error = {
         status: 413,
@@ -128,7 +125,7 @@ describe("PlatformExceptions", () => {
 
       platformExceptions.catch(error, ctx);
 
-      expect(ctx.response.body).to.have.been.calledWithExactly({
+      expect(ctx.response.body).toBeCalledWith({
         errors: [],
         message: "request entity too large",
         name: "PayloadTooLargeError",
@@ -149,17 +146,47 @@ describe("PlatformExceptions", () => {
       const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
 
       const ctx = PlatformTest.createRequestContext();
-      sandbox.stub(ctx.response, "body").returnsThis();
-      sandbox.stub(ctx.response, "setHeaders").returnsThis();
-      sandbox.stub(ctx.response, "status").returnsThis();
-      sandbox.stub(ctx.response, "contentType").returnsThis();
+      jest.spyOn(ctx.response, "body").mockReturnThis();
+      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      jest.spyOn(ctx.response, "status").mockReturnThis();
+      jest.spyOn(ctx.response, "contentType").mockReturnThis();
 
       const error = new Error("My message");
 
       middleware.catch(error, ctx);
 
-      expect(ctx.response.setHeaders).to.have.been.calledWithExactly({});
-      expect(ctx.response.body).to.have.been.calledWithExactly("InternalServerError");
+      expect(ctx.response.setHeaders).toBeCalledWith({});
+      expect(ctx.response.body).toBeCalledWith("InternalServerError");
+    });
+  });
+  describe("resourceNotFound()", () => {
+    beforeEach(() =>
+      PlatformTest.create({
+        env: Env.PROD
+      })
+    );
+    afterEach(() => PlatformTest.reset());
+    it("should map error return internal error in prod profile", () => {
+      const middleware = PlatformTest.get<PlatformExceptions>(PlatformExceptions);
+
+      const ctx = PlatformTest.createRequestContext();
+      ctx.request.raw.url = "url";
+
+      jest.spyOn(ctx.response, "body").mockReturnThis();
+      jest.spyOn(ctx.response, "setHeaders").mockReturnThis();
+      jest.spyOn(ctx.response, "status").mockReturnThis();
+      jest.spyOn(ctx.response, "contentType").mockReturnThis();
+
+      middleware.resourceNotFound(ctx);
+
+      expect(ctx.response.setHeaders).toBeCalledWith({});
+      expect(ctx.response.body).toBeCalledWith({
+        errors: [],
+        message: 'Resource "url" not found',
+        name: "NOT_FOUND",
+        stack: undefined,
+        status: 404
+      });
     });
   });
 });

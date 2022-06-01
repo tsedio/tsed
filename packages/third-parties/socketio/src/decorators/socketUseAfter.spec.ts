@@ -1,36 +1,34 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {SocketUseAfter} from "../index";
 
 describe("@SocketUseAfter", () => {
   describe("when the decorator is used on a class", () => {
-    class Test {}
-
-    before(() => {
-      this.middleware = () => {};
-      SocketUseAfter(this.middleware)(Test);
-    });
+    beforeAll(() => {});
 
     it("should store metadata", () => {
-      expect(Store.from(Test).get("socketIO")).to.deep.eq({
-        useAfter: [this.middleware]
+      class Test {}
+
+      const middleware: any = () => {};
+      SocketUseAfter(middleware)(Test);
+
+      expect(Store.from(Test).get("socketIO")).toEqual({
+        useAfter: [middleware]
       });
     });
   });
 
   describe("when the decorator is used on a method", () => {
-    class Test {}
-
-    before(() => {
-      this.middleware = () => {};
-      SocketUseAfter(this.middleware)(Test, "test", {});
-    });
-
     it("should store metadata", () => {
-      expect(Store.from(Test).get("socketIO")).to.deep.eq({
+      class Test {}
+
+      const middleware: any = () => {};
+
+      SocketUseAfter(middleware)(Test, "test", {});
+
+      expect(Store.from(Test).get("socketIO")).toEqual({
         handlers: {
           test: {
-            useAfter: [this.middleware]
+            useAfter: [middleware]
           }
         }
       });

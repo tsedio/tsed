@@ -20,7 +20,5 @@ export function getMiddlewaresForHook(hook: string, settings: DIConfiguration, d
             ...middleware
           };
     })
-    .filter((options) => {
-      return options.use && options.env === env && options.hook === hook;
-    });
+    .filter((options) => options.use && options.env === env && options.hook === hook);
 }

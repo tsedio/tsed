@@ -1,5 +1,4 @@
 import {Configuration} from "@tsed/di";
-import {expect} from "chai";
 import {getConfiguration} from "./getConfiguration";
 import {Env} from "@tsed/core";
 
@@ -23,7 +22,7 @@ describe("getConfiguration()", () => {
         },
         MyModule
       )
-    ).to.deep.eq({
+    ).toEqual({
       $$resolved: true,
       componentsScan: ["/root1-services/*.ts", "/root2-services/*.ts"],
       env: "test",
@@ -51,7 +50,7 @@ describe("getConfiguration()", () => {
 
     const config = getConfiguration({}, App);
 
-    expect(config).to.deep.eq({
+    expect(config).toEqual({
       $$resolved: true,
       componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: "test",
@@ -80,7 +79,7 @@ describe("getConfiguration()", () => {
 
     const config = getConfiguration({}, App);
 
-    expect(config).to.deep.eq({
+    expect(config).toEqual({
       $$resolved: true,
       componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: Env.PROD,
@@ -118,7 +117,7 @@ describe("getConfiguration()", () => {
       App
     );
 
-    expect(config).to.deep.eq({
+    expect(config).toEqual({
       $$resolved: true,
       componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: Env.PROD,
@@ -153,7 +152,7 @@ describe("getConfiguration()", () => {
     let config = getConfiguration({}, App);
     config = getConfiguration(config, App);
 
-    expect(config).to.deep.eq({
+    expect(config).toEqual({
       $$resolved: true,
       componentsScan: ["${rootDir}/mvc/**/*.ts", "${rootDir}/services/**/*.ts", "${rootDir}/middlewares/**/*.ts"],
       env: Env.PROD,

@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "express": "^4.18.1",
-    "multer": "^1.4.4",
+    "multer": "^1.4.5-lts.1",
     "tslib": "2.4.0"
   },
   "devDependencies": {
@@ -85,12 +85,13 @@
     "@tsed/core": "^6.114.15",
     "@tsed/di": "^6.114.15",
     "@tsed/json-mapper": "^6.114.15",
-    "@tsed/logger": ">=6.1.1",
+    "@tsed/logger": ">=6.1.4",
     "@tsed/openspec": "^6.114.15",
     "@tsed/platform-views": "^6.114.15",
     "@tsed/schema": "^6.114.15",
     "@types/multer": "^1.4.5",
-    "body-parser": "^1.19.0"
+    "body-parser": "^1.19.0",
+    "multer": "^1.4.5-lts.1"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {
@@ -115,6 +116,9 @@
       "optional": false
     },
     "@tsed/logger": {
+      "optional": false
+    },
+    "multer": {
       "optional": false
     }
   }

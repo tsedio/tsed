@@ -1,11 +1,7 @@
+import faker from "@faker-js/faker";
 import {PlatformTest} from "@tsed/common";
 import {FormioService} from "@tsed/formio";
-import {expect} from "chai";
-import faker from "@faker-js/faker";
-import Sinon from "sinon";
 import {FormioInstaller} from "./FormioInstaller";
-
-const sandbox = Sinon.createSandbox();
 
 async function createFormioInstallerFixture(options: any = {}) {
   const {
@@ -19,22 +15,26 @@ async function createFormioInstallerFixture(options: any = {}) {
   } = options;
 
   const collections = {
-    estimatedDocumentCount: sandbox.stub().callsArgWith(0, errorCount, count)
+    estimatedDocumentCount: jest.fn().mockImplementation((cb) => {
+      cb(errorCount, count);
+    })
   };
   const formioService = {
     db: {
-      collection: sandbox.stub().returns(collections)
+      collection: jest.fn().mockReturnValue(collections)
     },
     formio: {},
-    encrypt: sandbox.stub().resolves("hash"),
+    encrypt: jest.fn().mockResolvedValue("hash"),
     resources: {
       submission: {
         model: {
-          create: sandbox.stub().callsArgWith(1, errorSubmission, submission)
+          create: jest.fn().mockImplementation((_, cb) => {
+            cb(errorSubmission, submission);
+          })
         }
       }
     },
-    importTemplate: sandbox.stub().callsFake((o) => o)
+    importTemplate: jest.fn().mockImplementation((o) => o)
   };
   const service = await PlatformTest.invoke<FormioInstaller>(FormioInstaller, [
     {
@@ -71,21 +71,21 @@ describe("FormioImporter", () => {
         password: faker.internet.password(12)
       };
 
-      expect(await service.createRootUser(user, template as any)).to.deep.eq({
+      expect(await service.createRootUser(user, template as any)).toEqual({
         _id: "id",
         data: {}
       });
-      expect(formioService.resources.submission.model.create).to.have.been.calledWithExactly(
+      expect(formioService.resources.submission.model.create).toHaveBeenCalledWith(
         {
           data: {email: user.email, password: "hash"},
           form: template.resources.admin._id,
           roles: [template.roles.administrator._id]
         },
-        Sinon.match.func
+        expect.any(Function)
       );
     });
     it("should throw error", async () => {
-      const {service, formioService} = await createFormioInstallerFixture({errorSubmission: new Error("message")});
+      const {service} = await createFormioInstallerFixture({errorSubmission: new Error("message")});
       const template = {
         resources: {
           admin: {
@@ -110,7 +110,7 @@ describe("FormioImporter", () => {
       } catch (er) {
         actualError = er;
       }
-      expect(actualError.message).to.deep.eq("message");
+      expect(actualError.message).toEqual("message");
     });
   });
   describe("install()", () => {
@@ -134,12 +134,12 @@ describe("FormioImporter", () => {
         password: faker.internet.password(12)
       };
 
-      sandbox.stub(service, "createRootUser");
+      jest.spyOn(service, "createRootUser");
 
       await service.install(template as any, user);
 
-      expect(formioService.importTemplate).to.have.been.calledWithExactly(template);
-      expect(service.createRootUser).to.have.been.calledWithExactly(user, template);
+      expect(formioService.importTemplate).toHaveBeenCalledWith(template);
+      expect(service.createRootUser).toHaveBeenCalledWith(user, template);
     });
   });
 });

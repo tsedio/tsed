@@ -1,32 +1,28 @@
 import faker from "@faker-js/faker";
 import {PlatformApplication, PlatformRouteDetails, PlatformTest} from "@tsed/common";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {FormioModule} from "./FormioModule";
 import {FormioInstaller} from "./services/FormioInstaller";
 import {FormioService} from "./services/FormioService";
 
-const sandbox = Sinon.createSandbox();
-
 async function createFormioModuleFixture() {
   const formio = {
-    swagger: sandbox.stub(),
-    router: sandbox.stub(),
+    swagger: jest.fn(),
+    router: jest.fn(),
     middleware: {
-      restrictRequestTypes: sandbox.stub()
+      restrictRequestTypes: jest.fn()
     },
-    isInit: sandbox.stub().returns(true),
-    init: sandbox.stub()
+    isInit: jest.fn().mockReturnValue(true),
+    init: jest.fn()
   };
 
   const installer = {
-    hasForms: sandbox.stub().returns(false),
-    install: sandbox.stub()
+    hasForms: jest.fn().mockReturnValue(false),
+    install: jest.fn()
   };
 
   const app = {
-    use: sandbox.stub(),
-    getRouter: sandbox.stub().returnsThis()
+    use: jest.fn(),
+    getRouter: jest.fn().mockReturnThis()
   };
 
   const service = await PlatformTest.invoke<FormioModule>(FormioModule, [
@@ -50,7 +46,6 @@ async function createFormioModuleFixture() {
 describe("FormioModule", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(PlatformTest.reset);
-  afterEach(() => sandbox.restore());
 
   describe("$onRoutesInit()", () => {
     it("should run install template", async () => {
@@ -66,20 +61,21 @@ describe("FormioModule", () => {
       PlatformTest.injector.settings.set("formio.template", template);
       PlatformTest.injector.settings.set("formio.root", root);
 
-      installer.install.resolves((service as any).template);
+      installer.install.mockResolvedValue((service as any).template);
 
       await service.$onRoutesInit();
 
-      expect(app.getRouter).to.have.been.calledWithExactly();
-      expect(app.use).to.have.been.calledWithExactly("/", formio.middleware.restrictRequestTypes, formio.router);
-      expect(installer.install).to.have.been.calledWithExactly(template, root);
+      expect(app.getRouter).toHaveBeenCalledWith();
+      expect(app.use).toHaveBeenCalledWith("/", formio.middleware.restrictRequestTypes, formio.router);
+      expect(installer.install).toHaveBeenCalledWith(template, root);
     });
     it("should skip install", async () => {
       const {service, installer} = await createFormioModuleFixture();
+      PlatformTest.injector.settings.set("formio.template", {});
 
       await service.$onRoutesInit();
 
-      expect(installer.install).to.not.have.been.called;
+      expect(installer.install).toHaveBeenCalled();
     });
   });
   describe("$logRoutes()", () => {
@@ -90,7 +86,7 @@ describe("FormioModule", () => {
       PlatformTest.injector.settings.set("formio.baseUrl", "/projects");
       PlatformTest.injector.settings.set("formio.root");
 
-      formio.swagger.returns({
+      formio.swagger.mockReturnValue({
         paths: {
           "/path/to": {
             get: {
@@ -102,7 +98,7 @@ describe("FormioModule", () => {
 
       const results = await service.$logRoutes(routes);
 
-      expect(results.map((o) => o.toJSON())).to.deep.eq([
+      expect(results.map((o) => o.toJSON())).toEqual([
         {
           className: "formio",
           method: "get",

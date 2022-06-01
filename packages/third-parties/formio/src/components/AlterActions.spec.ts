@@ -10,7 +10,6 @@ import {
   FormioComponent,
   FormioService
 } from "@tsed/formio";
-import {expect} from "chai";
 
 async function getActionsFixture(formio: any) {
   const ctx = PlatformTest.createRequestContext();
@@ -87,8 +86,8 @@ describe("AlterActions", () => {
 
     await new Promise((r) => setTimeout(r, 200));
 
-    expect(instance).to.be.instanceOf(formio.Action);
-    expect(info).to.deep.eq({
+    expect(instance).toBeInstanceOf(formio.Action);
+    expect(info).toEqual({
       defaults: {
         handler: [],
         method: []
@@ -98,8 +97,8 @@ describe("AlterActions", () => {
       priority: 0,
       title: "My custom Action"
     });
-    expect(settings).to.deep.eq([{}]);
-    expect(ctx.response.raw.data).to.deep.eq({
+    expect(settings).toEqual([{}]);
+    expect(ctx.response.raw.data).toEqual({
       handler: "handler",
       method: "method",
       setActionItemMessage: "setActionItemMessage",
@@ -167,8 +166,8 @@ describe("AlterActions", () => {
 
     await new Promise((r) => setTimeout(r, 200));
 
-    expect(instance).to.be.instanceOf(formio.Action);
-    expect(info).to.deep.eq({
+    expect(instance).toBeInstanceOf(formio.Action);
+    expect(info).toEqual({
       defaults: {
         handler: [],
         method: []
@@ -178,8 +177,8 @@ describe("AlterActions", () => {
       priority: 0,
       title: "My custom Action"
     });
-    expect(settings).to.deep.eq([{}]);
-    expect(ctx.response.raw.data).to.deep.eq({
+    expect(settings).toEqual([{}]);
+    expect(ctx.response.raw.data).toEqual({
       handler: "handler",
       method: "method",
       setActionItemMessage: "setActionItemMessage",
@@ -234,7 +233,7 @@ describe("AlterActions", () => {
         "setActionItemMessage" as any
       );
     });
-    expect(result).to.eq(undefined);
+    expect(result).toEqual(undefined);
   });
   it("should create the new actions and call next with error", async () => {
     @Action({
@@ -288,7 +287,7 @@ describe("AlterActions", () => {
         "setActionItemMessage" as any
       );
     });
-    expect(result.message).to.eq("bad request");
+    expect(result.message).toEqual("bad request");
   });
   it("should create the new actions and call next (with status and headers)", async () => {
     @Action({
@@ -356,8 +355,8 @@ describe("AlterActions", () => {
 
     await new Promise((r) => setTimeout(r, 200));
 
-    expect(instance).to.be.instanceOf(formio.Action);
-    expect(info).to.deep.eq({
+    expect(instance).toBeInstanceOf(formio.Action);
+    expect(info).toEqual({
       defaults: {
         handler: [],
         method: []
@@ -367,8 +366,8 @@ describe("AlterActions", () => {
       priority: 0,
       title: "My custom Action"
     });
-    expect(settings).to.deep.eq([{}]);
-    expect(ctx.response.raw.data).to.deep.eq({
+    expect(settings).toEqual([{}]);
+    expect(ctx.response.raw.data).toEqual({
       hello: "world"
     });
   });

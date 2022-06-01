@@ -1,7 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import faker from "@faker-js/faker";
-import Sinon from "sinon";
 import {
   INTERACTION_CONTEXT,
   INTERACTION_DETAILS,
@@ -24,7 +22,7 @@ describe("OidcInteractionMiddleware", () => {
       session: {}
     };
     const oidcInteractionContext = {
-      interactionDetails: Sinon.stub().resolves(interactionDetails)
+      interactionDetails: jest.fn().mockReturnValue(interactionDetails)
     };
     const ctx = PlatformTest.createRequestContext();
     ctx.container.set(OidcInteractionContext, oidcInteractionContext);
@@ -33,12 +31,12 @@ describe("OidcInteractionMiddleware", () => {
 
     await middleware.use(ctx);
 
-    expect(oidcInteractionContext.interactionDetails).to.have.been.calledWithExactly();
-    expect(ctx.get(INTERACTION_CONTEXT)).to.eq(oidcInteractionContext);
-    expect(ctx.get(INTERACTION_DETAILS)).to.eq(interactionDetails);
-    expect(ctx.get(INTERACTION_UID)).to.eq(interactionDetails.uid);
-    expect(ctx.get(INTERACTION_PROMPT)).to.eq(interactionDetails.prompt);
-    expect(ctx.get(INTERACTION_PARAMS)).to.eq(interactionDetails.params);
-    expect(ctx.get(INTERACTION_SESSION)).to.eq(interactionDetails.session);
+    expect(oidcInteractionContext.interactionDetails).toBeCalledWith();
+    expect(ctx.get(INTERACTION_CONTEXT)).toEqual(oidcInteractionContext);
+    expect(ctx.get(INTERACTION_DETAILS)).toEqual(interactionDetails);
+    expect(ctx.get(INTERACTION_UID)).toEqual(interactionDetails.uid);
+    expect(ctx.get(INTERACTION_PROMPT)).toEqual(interactionDetails.prompt);
+    expect(ctx.get(INTERACTION_PARAMS)).toEqual(interactionDetails.params);
+    expect(ctx.get(INTERACTION_SESSION)).toEqual(interactionDetails.session);
   });
 });

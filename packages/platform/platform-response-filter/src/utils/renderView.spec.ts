@@ -1,10 +1,6 @@
 import {EndpointMetadata, Get, PlatformTest, View} from "@tsed/common";
 import {Ignore, Property, Returns} from "@tsed/schema";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {renderView} from "./renderView";
-
-const sandbox = Sinon.createSandbox();
 
 describe("renderView", () => {
   beforeEach(() => PlatformTest.create());
@@ -29,13 +25,13 @@ describe("renderView", () => {
     const ctx = PlatformTest.createRequestContext();
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-    sandbox.stub(ctx.response, "render").resolves("HTML");
+    jest.spyOn(ctx.response, "render").mockResolvedValue("HTML");
 
     ctx.data = {data: "data"};
 
     await renderView(ctx.data, ctx);
 
-    expect(ctx.response.render).to.have.been.calledWithExactly("view", {
+    expect(ctx.response.render).toBeCalledWith("view", {
       $ctx: ctx,
       data: "data",
       options: "options"
@@ -51,9 +47,7 @@ describe("renderView", () => {
     const ctx = PlatformTest.createRequestContext();
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-    sandbox.stub(ctx.response, "render").callsFake(() => {
-      throw new Error("parser error");
-    });
+    jest.spyOn(ctx.response, "render").mockRejectedValue(new Error("parser error"));
 
     ctx.data = {data: "data"};
 
@@ -64,6 +58,6 @@ describe("renderView", () => {
       actualError = er;
     }
 
-    expect(actualError.message).to.equal("Template rendering error: Test.test()\nError: parser error");
+    expect(actualError.message).toEqual("Template rendering error: Test.test()\nError: parser error");
   });
 });

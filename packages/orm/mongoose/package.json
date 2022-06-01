@@ -36,7 +36,7 @@
     "@tsed/core": "6.114.15",
     "@tsed/di": "6.114.15",
     "@tsed/json-mapper": "6.114.15",
-    "@tsed/logger": ">=6.1.1",
+    "@tsed/logger": ">=6.1.4",
     "@tsed/schema": "6.114.15",
     "mongoose": "^6.1.7"
   },
@@ -45,7 +45,7 @@
     "@tsed/core": "^6.114.15",
     "@tsed/di": "^6.114.15",
     "@tsed/json-mapper": "^6.114.15",
-    "@tsed/logger": ">=6.1.1",
+    "@tsed/logger": ">=6.1.4",
     "@tsed/schema": "^6.114.15",
     "mongoose": ">=6.0.0"
   }

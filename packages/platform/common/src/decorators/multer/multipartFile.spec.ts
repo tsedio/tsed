@@ -1,16 +1,12 @@
 import {MultipartFile, ParamTypes, PlatformMulterMiddleware, Post} from "@tsed/common";
 import {descriptorOf, Metadata, Store} from "@tsed/core";
-import {generateSpec, getSpec, JsonParameterStore, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
-import Sinon from "sinon";
+import {getSpec, JsonParameterStore, SpecTypes} from "@tsed/schema";
 
 class Test {
   test() {}
 }
 
 describe("@MultipartFile()", () => {
-  const sandbox = Sinon.createSandbox();
-
   describe("one file", () => {
     // WHEN
     class TestController {
@@ -23,7 +19,7 @@ describe("@MultipartFile()", () => {
     const param = JsonParameterStore.get(TestController, "test", 0);
 
     it("should set params properly", () => {
-      expect(store.get(PlatformMulterMiddleware)).to.deep.eq({
+      expect(store.get(PlatformMulterMiddleware)).toEqual({
         fields: [
           {
             maxCount: 1,
@@ -31,12 +27,12 @@ describe("@MultipartFile()", () => {
           }
         ]
       });
-      expect(param.expression).to.eq("file1.0");
-      expect(param.paramType).to.eq(ParamTypes.FILES);
+      expect(param.expression).toEqual("file1.0");
+      expect(param.paramType).toEqual(ParamTypes.FILES);
     });
 
     it("should set endpoint metadata - OS3", () => {
-      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).toEqual({
         paths: {
           "/": {
             post: {
@@ -128,7 +124,7 @@ describe("@MultipartFile()", () => {
     const param = JsonParameterStore.get(TestController, "test", 0);
 
     it("should set params properly", () => {
-      expect(store.get(PlatformMulterMiddleware)).to.deep.eq({
+      expect(store.get(PlatformMulterMiddleware)).toEqual({
         fields: [
           {
             maxCount: 4,
@@ -136,12 +132,12 @@ describe("@MultipartFile()", () => {
           }
         ]
       });
-      expect(param.expression).to.eq("file1");
-      expect(param.paramType).to.eq(ParamTypes.FILES);
+      expect(param.expression).toEqual("file1");
+      expect(param.paramType).toEqual(ParamTypes.FILES);
     });
 
     it("should set endpoint metadata - OS3", () => {
-      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+      expect(getSpec(TestController, {specType: SpecTypes.OPENAPI})).toEqual({
         paths: {
           "/": {
             post: {
@@ -226,36 +222,22 @@ describe("@MultipartFile()", () => {
   });
 
   describe("multiple files", () => {
-    before(() => {
-      sandbox.stub(Metadata, "getParamTypes");
-      sandbox.stub(Store, "fromMethod");
+    afterAll(() => {
+      jest.clearAllMocks();
     });
 
-    after(() => {
-      sandbox.restore();
-    });
-
-    let store: Store;
-    before(() => {
-      store = Store.from(Test.prototype, "test", descriptorOf(Test.prototype, "test"));
+    it("should set params metadata", () => {
+      const store = Store.from(Test.prototype, "test", descriptorOf(Test.prototype, "test"));
       store.delete("multipartAdded");
 
       // @ts-ignore
       store.delete(PlatformMulterMiddleware);
-      // @ts-ignore
-      Store.fromMethod.returns(store);
-      // @ts-ignore
-      Metadata.getParamTypes.returns([Array]);
+      jest.spyOn(Store, "fromMethod").mockReturnValue(store);
+      jest.spyOn(Metadata, "getParamTypes").mockReturnValue([Array]);
 
       MultipartFile("file1", 8)(Test.prototype, "test", 0);
-    });
 
-    after(() => {
-      sandbox.reset();
-    });
-
-    it("should set endpoint metadata", () => {
-      expect(store.get(PlatformMulterMiddleware)).to.deep.eq({
+      expect(store.get(PlatformMulterMiddleware)).toEqual({
         fields: [
           {
             maxCount: 8,
@@ -263,12 +245,10 @@ describe("@MultipartFile()", () => {
           }
         ]
       });
-    });
 
-    it("should set params metadata", () => {
       const param = JsonParameterStore.get(Test, "test", 0);
-      expect(param.expression).to.eq("file1");
-      expect(param.paramType).to.eq(ParamTypes.FILES);
+      expect(param.expression).toEqual("file1");
+      expect(param.paramType).toEqual(ParamTypes.FILES);
     });
   });
 });

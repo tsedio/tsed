@@ -2,7 +2,6 @@ import {EndpointMetadata, PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import "@tsed/stripe";
 import {STRIPE_WEBHOOK_EVENT, STRIPE_WEBHOOK_SIGNATURE, WebhookEventMiddleware} from "@tsed/stripe";
-import {expect} from "chai";
 import {Stripe} from "stripe";
 
 class Ctrl {
@@ -44,8 +43,8 @@ describe("WebhookEventMiddleware", () => {
 
     middleware.use(signature, Buffer.from(payloadString), ctx);
 
-    expect(ctx.get(STRIPE_WEBHOOK_EVENT)).to.deep.eq(payload);
-    expect(ctx.get(STRIPE_WEBHOOK_SIGNATURE)).to.eq(signature);
+    expect(ctx.get(STRIPE_WEBHOOK_EVENT)).toEqual(payload);
+    expect(ctx.get(STRIPE_WEBHOOK_SIGNATURE)).toEqual(signature);
   });
   it("should construct event based on endpoint options", async () => {
     const stripe = PlatformTest.get<Stripe>(Stripe);
@@ -71,8 +70,8 @@ describe("WebhookEventMiddleware", () => {
 
     middleware.use(signature, Buffer.from(payloadString), ctx);
 
-    expect(ctx.get(STRIPE_WEBHOOK_EVENT)).to.deep.eq(payload);
-    expect(ctx.get(STRIPE_WEBHOOK_SIGNATURE)).to.eq(signature);
+    expect(ctx.get(STRIPE_WEBHOOK_EVENT)).toEqual(payload);
+    expect(ctx.get(STRIPE_WEBHOOK_SIGNATURE)).toEqual(signature);
   });
   it("should throw error when signature isn't valid", async () => {
     const stripe = PlatformTest.get<Stripe>(Stripe);
@@ -94,7 +93,7 @@ describe("WebhookEventMiddleware", () => {
 
     const actualError: any = catchError(() => middleware.use(signature, Buffer.from(payloadString), ctx));
 
-    expect(actualError.message).to.deep.eq(
+    expect(actualError.message).toEqual(
       "Stripe webhook error: No signatures found matching the expected signature for payload. Are you passing the raw request body you received from Stripe? https://github.com/stripe/stripe-node#webhook-signing, innerException: No signatures found matching the expected signature for payload. Are you passing the raw request body you received from Stripe? https://github.com/stripe/stripe-node#webhook-signing"
     );
   });
@@ -120,7 +119,7 @@ describe("WebhookEventMiddleware", () => {
 
     const actualError: any = catchError(() => middleware.use(signature, Buffer.from(payloadString), ctx));
 
-    expect(actualError.message).to.deep.eq(
+    expect(actualError.message).toEqual(
       "Missing Stripe webhooks secret key. You can get this in your dashboard. See: https://dashboard.stripe.com/webhooks."
     );
   });

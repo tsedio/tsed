@@ -1,23 +1,21 @@
-import {expect} from "chai";
 import {PlatformTest} from "@tsed/common";
-import Sinon from "sinon";
 import {SocketIOService} from "../index";
 import {Server} from "./SocketIOServer";
 
 async function createServiceFixture() {
   const namespace = {
-    on: Sinon.stub()
+    on: jest.fn()
   };
   const ioStub = {
-    of: Sinon.stub().returns(namespace)
+    of: jest.fn().mockReturnValue(namespace)
   };
   const instance = {
-    onConnection: Sinon.stub(),
-    onDisconnect: Sinon.stub()
+    onConnection: jest.fn(),
+    onDisconnect: jest.fn()
   };
 
   const socket = {
-    on: Sinon.stub()
+    on: jest.fn()
   };
 
   const service = await PlatformTest.invoke(SocketIOService, [
@@ -41,14 +39,14 @@ describe("SocketIOService", () => {
       const nspConf = service.getNsp("/");
       nspConf.instances.push(instance);
 
-      namespace.on.getCall(0).args[1](socket);
-      socket.on.getCall(0).args[1]();
+      namespace.on.mock.calls[0][1](socket);
+      socket.on.mock.calls[0][1]();
 
-      expect(ioStub.of).to.have.been.calledWithExactly("/");
-      expect(namespace.on).to.have.been.calledWithExactly("connection", Sinon.match.func);
-      expect(instance.onConnection).to.have.been.calledWithExactly(socket, namespace);
-      expect(socket.on).to.have.been.calledWithExactly("disconnect", Sinon.match.func);
-      expect(instance.onDisconnect).to.have.been.calledWithExactly(socket, namespace);
+      expect(ioStub.of).toBeCalledWith("/");
+      expect(namespace.on).toBeCalledWith("connection", expect.any(Function));
+      expect(instance.onConnection).toBeCalledWith(socket, namespace);
+      expect(socket.on).toBeCalledWith("disconnect", expect.any(Function));
+      expect(instance.onDisconnect).toBeCalledWith(socket, namespace);
     });
   });
 });

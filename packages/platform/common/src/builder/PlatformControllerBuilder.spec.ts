@@ -1,8 +1,6 @@
 import {All, buildRouter, ControllerProvider, Get, Use} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
 import {EndpointMetadata, OperationMethods} from "@tsed/schema";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {Platform} from "../services/Platform";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
@@ -23,7 +21,7 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
     use2() {}
   }
 
-  const use = Sinon.stub();
+  const use = jest.fn();
   const router = {
     get: use,
     use,
@@ -63,19 +61,18 @@ function getControllerBuilder({propertyKey = "test", withMiddleware = true}: any
   return {endpoint, router, provider, injector, TestCtrl};
 }
 
-const sandbox = Sinon.createSandbox();
 describe("buildRouter()", () => {
   beforeEach(() => {
     // @ts-ignore
-    sandbox.stub(PlatformRouter, "create").callsFake(() => ({
+    jest.spyOn(PlatformRouter, "create").mockImplementation(() => ({
       $class: "PlatformRouter",
-      addRoute: Sinon.stub(),
-      get: Sinon.stub(),
-      use: Sinon.stub()
+      addRoute: jest.fn(),
+      get: jest.fn(),
+      use: jest.fn()
     }));
   });
   afterEach(() => {
-    sandbox.restore();
+    jest.resetAllMocks();
   });
 
   it("should build controller with single endpoint", () => {
@@ -88,9 +85,9 @@ describe("buildRouter()", () => {
     const result: any = buildRouter(injector, provider);
 
     // THEN
-    expect(result.$class).to.eq("PlatformRouter");
+    expect(result.$class).toEqual("PlatformRouter");
 
     // ENDPOINT
-    expect(result.addRoute).to.have.been.callCount(3);
+    expect(result.addRoute).toBeCalledTimes(3);
   });
 });

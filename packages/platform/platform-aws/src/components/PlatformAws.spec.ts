@@ -3,10 +3,6 @@ import {BYNARY_MIME_TYPES, PlatformAws} from "@tsed/platform-aws";
 import "@tsed/platform-express";
 import {PlatformExpress} from "@tsed/platform-express";
 import aws from "aws-serverless-express";
-import {expect} from "chai";
-import Sinon from "sinon";
-
-const sandbox = Sinon.createSandbox();
 
 class Server {}
 
@@ -15,14 +11,14 @@ describe("PlatformAws", () => {
   afterEach(PlatformTest.reset);
 
   beforeEach(() => {
-    sandbox.stub(aws, "createServer").callsFake((app: any, cb: any) => {
+    jest.spyOn(aws, "createServer").mockImplementation((app: any, cb: any) => {
       cb();
 
       return {server: "serve"} as any;
     });
-    sandbox.stub(aws, "proxy").returns(Promise.resolve() as any);
+    jest.spyOn(aws, "proxy").mockResolvedValue(undefined as never);
   });
-  afterEach(() => sandbox.restore());
+  afterEach(() => jest.resetAllMocks());
   it("should create aws server", async () => {
     PlatformAws.bootstrap(Server, {
       platform: PlatformExpress,
@@ -31,12 +27,12 @@ describe("PlatformAws", () => {
 
     await PlatformAws.promise;
 
-    expect(aws.createServer).to.have.been.calledWithExactly(PlatformAws.platform.app.callback(), Sinon.match.func, BYNARY_MIME_TYPES);
+    expect(aws.createServer).toBeCalledWith(PlatformAws.platform.app.callback(), expect.any(Function), BYNARY_MIME_TYPES);
 
     const handler = PlatformAws.callback();
 
     await handler({event: "event"}, {context: "context"});
 
-    expect(aws.proxy).to.have.been.calledWithExactly({server: "serve"}, {event: "event"}, {context: "context"}, "PROMISE");
+    expect(aws.proxy).toBeCalledWith({server: "serve"}, {event: "event"}, {context: "context"}, "PROMISE");
   });
 });

@@ -1,5 +1,4 @@
 import {HttpServer, HttpsServer} from "@tsed/common";
-import {expect} from "chai";
 
 describe("HttpServer", () => {
   it("should inject HttpServer", () => {
@@ -8,6 +7,6 @@ describe("HttpServer", () => {
     }
 
     // @ts-ignore
-    expect(MyModule).to.be.a("function");
+    expect(MyModule).toBeInstanceOf(Function);
   });
 });

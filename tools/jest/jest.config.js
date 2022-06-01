@@ -25,6 +25,7 @@ module.exports = (rootDir) => ({
     "^@tsed/core$": fixPath(join(packageDir, "core/src")),
     "^@tsed/di$": fixPath(join(packageDir, "di/src")),
     "^@tsed/perf$": fixPath(join(packageDir, "perf/src")),
+    "^@tsed/engines": fixPath(join(packageDir, "engines/src")),
     "^@tsed/common$": fixPath(join(packageDir, "platform/common/src")),
     "^@tsed/schema$": fixPath(join(packageDir, "specs/schema/src")),
     "^@tsed/ajv$": fixPath(join(packageDir, "specs/ajv/src")),
@@ -41,10 +42,17 @@ module.exports = (rootDir) => ({
     "^@tsed/adapters$": fixPath(join(packageDir, "orm/adapters/src")),
     "^@tsed/mongoose$": fixPath(join(packageDir, "orm/mongoose/src")),
     "^@tsed/adapters-redis$": fixPath(join(packageDir, "orm/adapters-redis/src")),
-    "^@tsed/schema-formio$": fixPath(join(packageDir, "third-parties/schema-formio/src")),
+    "^@tsed/agenda$": fixPath(join(packageDir, "third-parties/agenda/src")),
     "^@tsed/components-scan$": fixPath(join(packageDir, "third-parties/components-scan/src")),
+    "^@tsed/formio$": fixPath(join(packageDir, "third-parties/formio/src")),
+    "^@tsed/formio-types$": fixPath(join(packageDir, "third-parties/formio-types/src")),
+    "^@tsed/schema-formio$": fixPath(join(packageDir, "third-parties/schema-formio/src")),
+    "^@tsed/stripe$": fixPath(join(packageDir, "third-parties/stripe/src")),
+    "^@tsed/socketio$": fixPath(join(packageDir, "third-parties/socketio/src")),
+    "^@tsed/socketio-testing$": fixPath(join(packageDir, "third-parties/socketio-testing/src")),
     "^@tsed/passport$": fixPath(join(packageDir, "security/passport/src")),
-    "^@tsed/jwk$": fixPath(join(packageDir, "security/jwk/src"))
+    "^@tsed/jwks$": fixPath(join(packageDir, "security/jwks/src")),
+    "^@tsed/oidc-provider$": fixPath(join(packageDir, "security/oidc-provider/src"))
   },
   modulePathIgnorePatterns: ["<rootDir>/lib", "<rootDir>/dist"],
   // An object that configures minimum threshold enforcement for coverage results

@@ -1,6 +1,5 @@
 import {PlatformResponse} from "@tsed/common";
 import {ParamTypes} from "@tsed/platform-params";
-import {expect} from "chai";
 import {ServerResponse} from "http";
 import {Response} from "./response";
 import {JsonParameterStore} from "@tsed/schema";
@@ -12,8 +11,8 @@ describe("@Res", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.RESPONSE);
-    expect(param.type).to.eq(Response);
+    expect(param.paramType).toEqual(ParamTypes.RESPONSE);
+    expect(param.type).toEqual(Object);
   });
   it("should register a new parameter instance with the correct property (PlatformResponse)", () => {
     class Ctrl {
@@ -21,8 +20,8 @@ describe("@Res", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.PLATFORM_RESPONSE);
-    expect(param.type).to.eq(PlatformResponse);
+    expect(param.paramType).toEqual(ParamTypes.PLATFORM_RESPONSE);
+    expect(param.type).toEqual(PlatformResponse);
   });
   it("should register a new parameter instance with the correct property (ServerResponse)", () => {
     class Ctrl {
@@ -30,7 +29,7 @@ describe("@Res", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.NODE_RESPONSE);
-    expect(param.type).to.eq(ServerResponse);
+    expect(param.paramType).toEqual(ParamTypes.NODE_RESPONSE);
+    expect(param.type).toEqual(ServerResponse);
   });
 });
