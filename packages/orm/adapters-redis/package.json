@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "@tsed/adapters": "6.114.15",
-    "tslib": "2.3.1"
+    "tslib": "2.4.0"
   },
   "devDependencies": {
     "@tsed/core": "6.114.15",

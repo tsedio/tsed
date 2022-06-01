@@ -21,7 +21,7 @@
     "test": "cross-env NODE_ENV=test yarn jest"
   },
   "dependencies": {
-    "tslib": "2.3.1"
+    "tslib": "2.4.0"
   },
   "devDependencies": {
     "@tsed/ajv": "6.114.15",
