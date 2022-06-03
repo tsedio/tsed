@@ -1,6 +1,5 @@
 import {PlatformTest} from "@tsed/common";
 import {PlatformKoaRequest} from "@tsed/platform-koa";
-import {expect} from "chai";
 
 function createRequest() {
   const request = PlatformTest.createRequest();
@@ -37,7 +36,7 @@ describe("PlatformKoaRequest", () => {
   it("should create a PlatformRequest instance", () => {
     const {req, request} = createRequest();
 
-    expect(request.raw).to.eq(req);
+    expect(request.raw).toEqual(req);
   });
 
   describe("secure", () => {
@@ -45,7 +44,7 @@ describe("PlatformKoaRequest", () => {
       const {req, request} = createRequest();
       req.ctx.request.secure = true;
 
-      expect(request.secure).to.deep.eq(true);
+      expect(request.secure).toEqual(true);
     });
   });
 
@@ -55,14 +54,14 @@ describe("PlatformKoaRequest", () => {
 
       req.ctx.request.protocol = "http";
 
-      expect(request.protocol).to.equal("http");
+      expect(request.protocol).toEqual("http");
     });
     it("should return the protocol request state (https)", () => {
       const {req, request} = createRequest();
 
       req.ctx.request.protocol = "https";
 
-      expect(request.protocol).to.equal("https");
+      expect(request.protocol).toEqual("https");
     });
   });
 
@@ -72,7 +71,7 @@ describe("PlatformKoaRequest", () => {
 
       req.ctx.request.host = "host";
 
-      expect(request.host).to.equal("host");
+      expect(request.host).toEqual("host");
     });
   });
 
@@ -82,19 +81,19 @@ describe("PlatformKoaRequest", () => {
 
       req.ctx.cookie = null;
 
-      expect(request.cookies).to.deep.eq({test: "test"});
+      expect(request.cookies).toEqual({test: "test"});
     });
     it("should get cookies from cookie", () => {
       const {request} = createRequest();
 
-      expect(request.cookies).to.deep.eq({test: "test"});
+      expect(request.cookies).toEqual({test: "test"});
     });
   });
   describe("session", () => {
     it("should get session", () => {
       const {req, request} = createRequest();
 
-      expect(request.session).to.deep.eq({test: "test"});
+      expect(request.session).toEqual({test: "test"});
     });
   });
   describe("getReq()", () => {
@@ -102,7 +101,7 @@ describe("PlatformKoaRequest", () => {
       const {req, request} = createRequest();
       req.req = {};
 
-      expect(request.getReq()).to.deep.eq({});
+      expect(request.getReq()).toEqual({});
     });
   });
 });

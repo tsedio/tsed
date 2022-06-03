@@ -1,6 +1,5 @@
 import {Controller, Get, Head, Inject, PathParams, PlatformCache, PlatformTest, Post, QueryParams, UseCache} from "@tsed/common";
 import {Property} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -103,14 +102,14 @@ export function testCache(options: PlatformTestOptions) {
         const response = await request.get("/rest/caches/scenario-1").expect(200);
         const response2 = await request.get("/rest/caches/scenario-1").expect(200);
 
-        expect(response.text).to.contains("hello world");
-        expect(response.headers["cache-control"]).to.match(/max-age=300/);
-        expect(response.headers["x-cached"]).to.equal(undefined);
+        expect(response.text).toContain("hello world");
+        expect(response.headers["cache-control"]).toMatch(/max-age=300/);
+        expect(response.headers["x-cached"]).toBeUndefined();
 
-        expect(response2.text).to.contains("hello world");
-        expect(response2.headers["cache-control"]).to.match(/max-age=300/);
-        expect(response2.headers["x-cached"]).to.equal("true");
-        expect(response2.headers["etag"]).to.equal(response.headers["etag"]);
+        expect(response2.text).toContain("hello world");
+        expect(response2.headers["cache-control"]).toMatch(/max-age=300/);
+        expect(response2.headers["x-cached"]).toEqual("true");
+        expect(response2.headers["etag"]).toEqual(response.headers["etag"]);
       });
 
       it("should return 304 when content isn't modified", async () => {
@@ -129,10 +128,10 @@ export function testCache(options: PlatformTestOptions) {
         await request.get("/rest/caches/scenario-1").expect(200);
         const response2 = await request.get("/rest/caches/scenario-1").set("cache-control", "no-cache").expect(200);
 
-        expect(response2.text).to.contains("hello world");
-        expect(response2.headers["cache-control"]).to.match(/max-age=300/);
-        expect(response2.headers["x-cached"]).to.equal(undefined);
-        expect(response2.headers["etag"]).to.equal(response2.headers["etag"]);
+        expect(response2.text).toContain("hello world");
+        expect(response2.headers["cache-control"]).toMatch(/max-age=300/);
+        expect(response2.headers["x-cached"]).toBeUndefined();
+        expect(response2.headers["etag"]).toEqual(response2.headers["etag"]);
       });
     });
     describe("scenario 2: GET /rest/caches/scenario-2", () => {
@@ -140,14 +139,14 @@ export function testCache(options: PlatformTestOptions) {
         const response = await request.get("/rest/caches/scenario-2").expect(200);
         const response2 = await request.get("/rest/caches/scenario-2").expect(200);
 
-        expect(response.body).to.deep.equal({info: "hello child"});
-        expect(response.headers["cache-control"]).to.match(/max-age=400/);
-        expect(response.headers["x-cached"]).to.equal(undefined);
+        expect(response.body).toEqual({info: "hello child"});
+        expect(response.headers["cache-control"]).toMatch(/max-age=400/);
+        expect(response.headers["x-cached"]).toBeUndefined();
 
-        expect(response2.body).to.deep.equal({info: "hello child"});
-        expect(response2.headers["cache-control"]).to.match(/max-age=400/);
-        expect(response2.headers["x-cached"]).to.equal("true");
-        expect(response2.headers["etag"]).to.equal(response.headers["etag"]);
+        expect(response2.body).toEqual({info: "hello child"});
+        expect(response2.headers["cache-control"]).toMatch(/max-age=400/);
+        expect(response2.headers["x-cached"]).toEqual("true");
+        expect(response2.headers["etag"]).toEqual(response.headers["etag"]);
       });
     });
     describe("scenario 4: POST /rest/caches/scenario-4", () => {
@@ -155,18 +154,18 @@ export function testCache(options: PlatformTestOptions) {
         const response = await request.post("/rest/caches/scenario-4").expect(200);
         const response2 = await request.post("/rest/caches/scenario-4").expect(200);
 
-        expect(response.body).to.deep.equal({
+        expect(response.body).toEqual({
           info: "hello child"
         });
-        expect(response.headers["cache-control"]).to.equal(undefined);
-        expect(response.headers["x-cached"]).to.equal(undefined);
+        expect(response.headers["cache-control"]).toBeUndefined();
+        expect(response.headers["x-cached"]).toBeUndefined();
 
-        expect(response2.body).to.deep.equal({
+        expect(response2.body).toEqual({
           info: "hello child"
         });
-        expect(response.headers["cache-control"]).to.equal(undefined);
-        expect(response2.headers["x-cached"]).to.equal(undefined);
-        expect(response2.headers["etag"]).to.equal(response.headers["etag"]);
+        expect(response.headers["cache-control"]).toBeUndefined();
+        expect(response2.headers["x-cached"]).toBeUndefined();
+        expect(response2.headers["etag"]).toEqual(response.headers["etag"]);
       });
     });
     describe("scenario 5: GET /rest/caches/scenario-5", () => {
@@ -177,36 +176,36 @@ export function testCache(options: PlatformTestOptions) {
         const response4 = await request.get("/rest/caches/scenario-5/2?name=2").expect(200);
         const response5 = await request.get("/rest/caches/scenario-5/2?name=3").expect(200);
 
-        expect(response.body).to.deep.eq({
+        expect(response.body).toEqual({
           id: "1",
           info: "hello child",
           name: "1"
         });
-        expect(response2.body).to.deep.eq({
+        expect(response2.body).toEqual({
           id: "1",
           info: "hello child",
           name: "1"
         });
-        expect(response.headers["x-cached"]).to.equal(undefined);
-        expect(response2.headers["x-cached"]).to.equal("true");
-        expect(response.body).to.deep.equal(response2.body);
+        expect(response.headers["x-cached"]).toBeUndefined();
+        expect(response2.headers["x-cached"]).toEqual("true");
+        expect(response.body).toEqual(response2.body);
 
-        expect(response3.body).to.deep.eq({
+        expect(response3.body).toEqual({
           id: "2",
           info: "hello child",
           name: "2"
         });
-        expect(response4.body).to.deep.eq({
+        expect(response4.body).toEqual({
           id: "2",
           info: "hello child",
           name: "2"
         });
-        expect(response3.headers["x-cached"]).to.equal(undefined);
-        expect(response4.headers["x-cached"]).to.equal("true");
-        expect(response3.body).to.deep.equal(response4.body);
+        expect(response3.headers["x-cached"]).toBeUndefined();
+        expect(response4.headers["x-cached"]).toEqual("true");
+        expect(response3.body).toEqual(response4.body);
 
-        expect(response2.body).to.not.deep.eq(response4);
-        expect(response5.body).to.not.deep.eq(response4);
+        expect(response2.body).not.toEqual(response4);
+        expect(response5.body).not.toEqual(response4);
       });
     });
     describe("scenario 6: GET /rest/caches/scenario-6", () => {
@@ -214,11 +213,11 @@ export function testCache(options: PlatformTestOptions) {
         const response = await request.get("/rest/caches/scenario-6/1").expect(200);
         const response2 = await request.get("/rest/caches/scenario-6/2").expect(200);
 
-        expect(response.body).to.deep.eq({id: "one:1"});
-        expect(response2.body).to.deep.eq({id: "one:1"});
-        expect(response.headers["x-cached"]).to.equal(undefined);
-        expect(response2.headers["x-cached"]).to.equal(undefined);
-        expect(response.body).to.deep.equal(response2.body);
+        expect(response.body).toEqual({id: "one:1"});
+        expect(response2.body).toEqual({id: "one:1"});
+        expect(response.headers["x-cached"]).toBeUndefined();
+        expect(response2.headers["x-cached"]).toBeUndefined();
+        expect(response.body).toEqual(response2.body);
       });
     });
     describe("scenario 7: GET /rest/caches/scenario-7", () => {
@@ -227,14 +226,14 @@ export function testCache(options: PlatformTestOptions) {
         const response2 = await request.get("/rest/caches/scenario-7/2").expect(200);
         const response3 = await request.get("/rest/caches/scenario-7/2").expect(200);
 
-        expect(response.body).to.deep.eq({id: "one:1"});
-        expect(response2.body).to.deep.eq({
+        expect(response.body).toEqual({id: "one:1"});
+        expect(response2.body).toEqual({
           id: "one:2"
         });
-        expect(response3.body).to.deep.eq({
+        expect(response3.body).toEqual({
           id: "one:2"
         });
-        expect(response.body).to.not.deep.equal(response2.body);
+        expect(response.body).not.toEqual(response2.body);
       });
     });
   });
@@ -259,11 +258,11 @@ export function testCache(options: PlatformTestOptions) {
         const response = await request.get("/rest/caches/scenario-1").expect(200);
         const response2 = await request.get("/rest/caches/scenario-1").expect(200);
 
-        expect(response.text).to.contains("hello world");
-        expect(response.headers["x-cached"]).to.equal(undefined);
+        expect(response.text).toContain("hello world");
+        expect(response.headers["x-cached"]).toBeUndefined();
 
-        expect(response2.text).to.contains("hello world");
-        expect(response2.headers["x-cached"]).to.equal(undefined);
+        expect(response2.text).toContain("hello world");
+        expect(response2.headers["x-cached"]).toBeUndefined();
       });
     });
   });

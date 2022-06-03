@@ -27,7 +27,7 @@ jobs:
       - name: Run lint
         run: yarn test:lint
 
-  test-integration:
+  test:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -53,7 +53,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:integration
+        run: yarn test:core
+        env:
+          FORCE_COLOR: true
       - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
@@ -61,7 +63,7 @@ jobs:
           flag-name: run-${{ matrix.test_number }}
           parallel: true
 
-  test-core:
+  test-packages:
     runs-on: ubuntu-latest
 
     strategy:
@@ -77,118 +79,10 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:core
-
-  test-platform:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
-      - name: Run test
-        run: yarn test:platform
-
-  test-graphql:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
-      - name: Run test
-        run: yarn test:graphql
-
-  test-orm:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
-      - name: Run test
-        run: yarn test:orm
-
-  test-specs:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
-      - name: Run test
-        run: yarn test:specs
-
-  test-security:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
-      - name: Run test
-        run: yarn test:security
-
-  test-third-parties:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
-      - name: Run test
-        run: yarn test:third-parties
+        run: yarn test:packages
 
   coveralls:
-    needs: test-integration
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Coveralls Finished
@@ -254,7 +148,7 @@ jobs:
 
   deploy-packages:
     runs-on: ubuntu-latest
-    needs: [lint, test-integration, test-core, test-specs, test-platform, test-graphql, test-security, test-orm, test-third-parties, build]
+    needs: [lint, test, test-packages, build]
     if: github.event_name != 'pull_request' && contains('
       refs/heads/production
       refs/heads/alpha

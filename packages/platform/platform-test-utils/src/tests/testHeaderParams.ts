@@ -1,5 +1,4 @@
 import {Context, Controller, Get, HeaderParams, Locals, Middleware, PlatformTest, Post, Req, Use} from "@tsed/common";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -37,7 +36,7 @@ export class HeaderParamsCtrl {
 
 export function testHeaderParams(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -45,12 +44,12 @@ export function testHeaderParams(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
-  describe("Scenario 1: GET /rest/header-params/scenario-1", async () => {
+  describe("Scenario 1: GET /rest/header-params/scenario-1", () => {
     it("should return a response with the extracted authorization from the request headers", async () => {
       const {body}: any = await request
         .get("/rest/header-params/scenario-1")
@@ -59,8 +58,8 @@ export function testHeaderParams(options: PlatformTestOptions) {
         })
         .expect(200);
 
-      expect(body.user).to.equal(1);
-      expect(body.token).to.equal("tokenauth");
+      expect(body.user).toEqual(1);
+      expect(body.token).toEqual("tokenauth");
     });
   });
 
@@ -73,7 +72,7 @@ export function testHeaderParams(options: PlatformTestOptions) {
         })
         .expect(200);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         contentType: "application/json"
       });
     });

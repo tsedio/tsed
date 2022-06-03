@@ -1,5 +1,4 @@
 import {ParamTypes} from "@tsed/common";
-import {expect} from "chai";
 import {State} from "./state";
 import {JsonParameterStore} from "@tsed/schema";
 
@@ -10,7 +9,7 @@ describe("@State", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("expression");
-    expect(param.paramType).to.eq(ParamTypes.LOCALS);
+    expect(param.expression).toEqual("expression");
+    expect(param.paramType).toEqual(ParamTypes.LOCALS);
   });
 });

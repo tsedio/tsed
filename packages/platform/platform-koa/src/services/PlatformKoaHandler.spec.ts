@@ -1,17 +1,10 @@
 import {HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
 import {PlatformKoaHandler} from "@tsed/platform-koa";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {invokePlatformHandler} from "../../../../../test/helper/invokePlatformHandler";
-
-const sandbox = Sinon.createSandbox();
 
 describe("PlatformKoaHandler", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   describe("createHandler", () => {
     describe("$CTX", () => {
@@ -35,8 +28,8 @@ describe("PlatformKoaHandler", () => {
         const handler = platformHandler.createHandler(handlerMetadata);
 
         // THEN
-        expect(handler).to.not.eq(handlerMetadata.handler);
-        expect(handler.length).to.eq(2);
+        expect(handler).not.toEqual(handlerMetadata.handler);
+        expect(handler.length).toEqual(2);
       });
       it("should catch error from handler", async () => {
         // GIVEN
@@ -51,13 +44,13 @@ describe("PlatformKoaHandler", () => {
         PlatformTest.invoke(Test);
 
         const $ctx = PlatformTest.createRequestContext();
-        const next = sandbox.stub();
+        const next = jest.fn();
         const ctx = {
           request: $ctx.getRequest(),
           response: $ctx.getResponse()
         };
         $ctx.getRequest().ctx = ctx;
-        $ctx.getApp().emit = sandbox.stub();
+        $ctx.getApp().emit = jest.fn();
 
         const handlerMetadata = new HandlerMetadata({
           token: Test,
@@ -71,12 +64,12 @@ describe("PlatformKoaHandler", () => {
         const handler = platformHandler.createHandler(handlerMetadata);
 
         // THEN
-        expect(handler).to.not.eq(handlerMetadata.handler);
-        expect(handler.length).to.eq(2);
+        expect(handler).not.toEqual(handlerMetadata.handler);
+        expect(handler.length).toEqual(2);
 
         await handler(ctx, next);
 
-        expect($ctx.getApp().emit).to.have.been.calledWithExactly("error", error, ctx);
+        expect($ctx.getApp().emit).toBeCalledWith("error", error, ctx);
       });
     });
   });

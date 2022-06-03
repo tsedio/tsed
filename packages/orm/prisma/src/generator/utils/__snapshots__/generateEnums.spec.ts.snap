@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`generateEnums should generate filese 1`] = `
+"
+export enum Role {
+  USER = \\"USER\\",
+  ADMIN = \\"ADMIN\\"
+}
+"
+`;

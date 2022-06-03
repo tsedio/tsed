@@ -1,5 +1,4 @@
 import {Controller, Get, PathParams, PlatformTest, ProviderScope, Scope, Service} from "@tsed/common";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -50,7 +49,7 @@ export class ScopeRequestCtrl {
 export function testScopeRequest(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -58,10 +57,10 @@ export function testScopeRequest(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("GET /rest/scopes-request/:id", () => {
     const send = (id: string) =>
@@ -86,7 +85,7 @@ export function testScopeRequest(options: PlatformTestOptions) {
       promises.push(send("2"));
 
       return Promise.all(promises).then((responses) => {
-        expect(responses).to.deep.eq([
+        expect(responses).toEqual([
           {
             id: "0",
             idCtrl: "0",

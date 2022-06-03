@@ -1,43 +1,34 @@
-import {expect} from "chai";
 import Express from "express";
-import Sinon from "sinon";
-import {stub} from "../../../../../test/helper/tools";
 import {staticsMiddleware} from "./staticsMiddleware";
 
-const sandbox = Sinon.createSandbox();
-
 describe("staticsMiddleware", () => {
-  beforeEach(async () => {
-    sandbox.stub(Express, "static");
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+  beforeEach(() => {
+    jest.restoreAllMocks();
   });
   it("should call middleware", () => {
-    const middlewareServeStatic = sandbox.stub();
-    stub(Express.static).returns(middlewareServeStatic);
+    const middlewareServeStatic = jest.fn();
+    jest.spyOn(Express, "static").mockReturnValue(middlewareServeStatic);
     const req = {};
     const res = {};
-    const next = sandbox.stub();
+    const next = jest.fn();
 
     const middleware = staticsMiddleware("/path", {root: "/publics", test: "test"});
     middleware(req, res, next);
 
-    expect(middlewareServeStatic).to.have.been.calledWithExactly(req, res, next);
+    expect(middlewareServeStatic).toBeCalledWith(req, res, next);
   });
   it("should call next when headers is sent", () => {
-    const middlewareServeStatic = sandbox.stub();
-    stub(Express.static).returns(middlewareServeStatic);
+    const middlewareServeStatic = jest.fn();
+    jest.spyOn(Express, "static").mockReturnValue(middlewareServeStatic);
     const req = {};
     const res = {
       headersSent: true
     };
-    const next = sandbox.stub();
+    const next = jest.fn();
 
     const middleware = staticsMiddleware("/path", {root: "/publics", test: "test"});
     middleware(req, res, next);
 
-    expect(next).to.have.been.called;
+    expect(next).toBeCalled();
   });
 });

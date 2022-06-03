@@ -1,38 +1,30 @@
 import {PlatformAdapter, PlatformHandler, PlatformRouter} from "@tsed/common";
 import {InjectorService} from "@tsed/di";
-import {expect} from "chai";
-import Express from "express";
-import Sinon from "sinon";
-import {stub} from "../../../../../test/helper/tools";
 import {PlatformExpress} from "@tsed/platform-express";
+import Express from "express";
 
-const sandbox = Sinon.createSandbox();
+jest.mock("express");
+
 describe("PlatformExpressRouter", () => {
-  beforeEach(() => {
-    sandbox.stub(Express, "Router");
-  });
-  afterEach(() => {
-    sandbox.restore();
-  });
   describe("create()", () => {
     it("should create a new router", async () => {
       // GIVEN
       const nativeDriver = {
-        use: sandbox.stub(),
-        all: sandbox.stub(),
-        get: sandbox.stub(),
-        post: sandbox.stub(),
-        put: sandbox.stub(),
-        delete: sandbox.stub(),
-        patch: sandbox.stub(),
-        head: sandbox.stub(),
-        options: sandbox.stub()
+        use: jest.fn(),
+        all: jest.fn(),
+        get: jest.fn(),
+        post: jest.fn(),
+        put: jest.fn(),
+        delete: jest.fn(),
+        patch: jest.fn(),
+        head: jest.fn(),
+        options: jest.fn()
       };
 
-      stub(Express.Router).returns(nativeDriver);
+      (Express.Router as jest.Mock).mockReturnValue(nativeDriver);
 
       const platformHandler = {
-        createHandler: sandbox.stub().callsFake((o) => o)
+        createHandler: jest.fn().mockImplementation((o) => o)
       };
 
       const injector = new InjectorService();
@@ -47,11 +39,11 @@ describe("PlatformExpressRouter", () => {
         } as any)
       });
 
-      injector.settings.express = {
+      injector.settings.set("express", {
         router: {
           mergeParams: true
         }
-      };
+      });
 
       const routerOptions: any = {
         test: "options"
@@ -61,9 +53,9 @@ describe("PlatformExpressRouter", () => {
       const router = PlatformRouter.create(injector, routerOptions);
 
       // THEN
-      expect(Express.Router).to.have.been.calledWithExactly({...injector.settings.express.router, ...routerOptions});
+      expect(Express.Router).toBeCalledWith({...injector.settings.get("express.router"), ...routerOptions});
 
-      expect(router.raw).to.deep.eq(nativeDriver);
+      expect(router.raw).toEqual(nativeDriver);
     });
   });
 });

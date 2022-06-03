@@ -19,7 +19,6 @@ import {
   SpecTypes,
   string
 } from "@tsed/schema";
-import {expect} from "chai";
 import qs from "querystring";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
@@ -135,7 +134,7 @@ class PaginationFilter implements ResponseFilterMethods {
 describe("Pageable", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     utils.bootstrap({
       mount: {
         "/rest": [TestPageableCtrl]
@@ -153,15 +152,15 @@ describe("Pageable", () => {
       ]
     })
   );
-  after(utils.reset);
+  afterAll(utils.reset);
 
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
 
   it("should generate spec", async () => {
     const spec = getSpec(TestPageableCtrl, {specType: SpecTypes.OPENAPI});
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       paths: {
         "/pageable": {
           get: {
@@ -263,7 +262,7 @@ describe("Pageable", () => {
 
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(206);
 
-    expect(body).to.deep.eq({
+    expect(body).toEqual({
       data: [
         {
           id: "100",
@@ -285,7 +284,7 @@ describe("Pageable", () => {
 
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(206);
 
-    expect(body).to.deep.eq({
+    expect(body).toEqual({
       data: [
         {
           id: "100",
@@ -306,7 +305,7 @@ describe("Pageable", () => {
 
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(200);
 
-    expect(body).to.deep.eq({
+    expect(body).toEqual({
       data: [{id: "100", title: "CANON D3000"}],
       totalCount: 1,
       page: 0,
@@ -322,7 +321,7 @@ describe("Pageable", () => {
 
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(206);
 
-    expect(body).to.deep.eq({
+    expect(body).toEqual({
       data: [
         {
           id: "100",
@@ -340,7 +339,7 @@ describe("Pageable", () => {
 
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(206);
 
-    expect(body).to.deep.eq({
+    expect(body).toEqual({
       data: [{id: "100", title: "CANON D3000"}],
       totalCount: 100,
       page: 0,
@@ -355,7 +354,7 @@ describe("Pageable", () => {
 
     const {body} = await request.get("/rest/pageable?" + qs.stringify(options)).expect(400);
 
-    expect(body).to.deep.eq({
+    expect(body).toEqual({
       errors: [
         {
           data: -1,

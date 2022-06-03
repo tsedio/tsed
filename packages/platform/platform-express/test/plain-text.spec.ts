@@ -1,7 +1,6 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {getSpec, Returns, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
@@ -52,8 +51,8 @@ describe("PlainText", () => {
     it("should return a plain text", async () => {
       const response = await request.get("/rest/plain-text/scenario-1");
 
-      expect(response.headers["content-type"]).to.equal("text/plain; charset=utf-8");
-      expect(response.text).to.equal('{"id":"id"}');
+      expect(response.headers["content-type"]).toEqual("text/plain; charset=utf-8");
+      expect(response.text).toEqual('{"id":"id"}');
     });
   });
   describe("scenario 2", () => {
@@ -64,8 +63,8 @@ describe("PlainText", () => {
         .set("Content-Type", "application/json")
         .expect(200);
 
-      expect(response.headers["content-type"]).to.equal("application/json; charset=utf-8");
-      expect(response.body).to.deep.equal({
+      expect(response.headers["content-type"]).toEqual("application/json; charset=utf-8");
+      expect(response.body).toEqual({
         jsonexample: 1
       });
     });

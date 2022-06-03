@@ -1,5 +1,4 @@
 import {Container, Injectable, InjectorService, LocalsContainer} from "@tsed/di";
-import {stub} from "../../../../../test/helper/tools";
 import {loadInjector} from "./loadInjector";
 
 describe("loadInjector", () => {
@@ -30,7 +29,7 @@ describe("loadInjector", () => {
     loadInjector(injector, container);
 
     // THEN
-    expect(stub(injector.addProviders)).toBeCalledWith(container);
-    expect(stub(injector.load)).toBeCalledWith(container);
+    expect(injector.addProviders).toBeCalledWith(container);
+    expect(injector.load).toBeCalledWith(container);
   });
 });

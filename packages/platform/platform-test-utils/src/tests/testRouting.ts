@@ -1,10 +1,8 @@
 import {Controller, Get, PlatformTest, Put} from "@tsed/common";
-import {expect} from "chai";
-import Sinon from "sinon";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
-const stub = Sinon.stub();
+const stub = jest.fn();
 
 @Controller("/routing")
 export class TestRoutingController {
@@ -33,7 +31,7 @@ export class TestRoutingController {
 export function testRouting(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -41,27 +39,27 @@ export function testRouting(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
-  afterEach(() => stub.resetHistory());
+  afterAll(PlatformTest.reset);
+  afterEach(() => jest.resetAllMocks());
 
   it("Scenario1: should call scenario1 only", async () => {
     const {text} = await request.get("/rest/routing/1").expect(200);
-    expect(text).to.equal("test1");
-    expect(stub).to.have.been.calledOnceWithExactly("scenario1");
+    expect(text).toEqual("test1");
+    expect(stub).toHaveBeenCalledWith("scenario1");
   });
 
   it("Scenario2: should call scenario2 only", async () => {
     const {text} = await request.put("/rest/routing/").expect(200);
-    expect(text).to.equal("shouldNotRun");
-    expect(stub).to.have.been.calledOnceWithExactly("scenario2");
+    expect(text).toEqual("shouldNotRun");
+    expect(stub).toHaveBeenCalledWith("scenario2");
   });
 
   it("Scenario3: should call scenario3 only", async () => {
     const {text} = await request.get("/rest/routing/3").expect(200);
-    expect(text).to.equal("test3");
-    expect(stub).to.have.been.calledOnceWithExactly("scenario3");
+    expect(text).toEqual("test3");
+    expect(stub).toHaveBeenCalledWith("scenario3");
   });
 }

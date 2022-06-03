@@ -1,6 +1,5 @@
 import {Controller, Get, PathParams, PlatformTest, QueryParams} from "@tsed/common";
 import {getSpec, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -34,7 +33,7 @@ export class TestChildController extends TestBaseController {
 export function testCtrlInheritance(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -42,30 +41,30 @@ export function testCtrlInheritance(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   it("Scenario1: should call inherited method", async () => {
     const {body} = await request.get("/rest/test/?search=test").expect(200);
-    expect(body).to.deep.equal({
+    expect(body).toEqual({
       search: "test"
     });
   });
 
   it("Scenario2: should the Child method", async () => {
     const {body} = await request.get("/rest/test/1").expect(200);
-    expect(body).to.deep.equal({id: "1"});
+    expect(body).toEqual({id: "1"});
   });
 
   it("Scenario2: should call the Child method and not the base method", async () => {
     const {body} = await request.get("/rest/test/1").expect(200);
-    expect(body).to.deep.equal({id: "1"});
+    expect(body).toEqual({id: "1"});
   });
 
   it("should generate swagger json", () => {
-    expect(getSpec(TestChildController, {specType: SpecTypes.OPENAPI})).to.deep.eq({
+    expect(getSpec(TestChildController, {specType: SpecTypes.OPENAPI})).toEqual({
       paths: {
         "/test": {
           get: {

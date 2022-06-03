@@ -1,5 +1,4 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -42,7 +41,7 @@ export function testChildrenControllers(options: PlatformTestOptions) {
     it("should return a response from method", async () => {
       const response = await request.get("/rest/controllers/scenario-1").expect(200);
 
-      expect(response.text).to.equal("hello world");
+      expect(response.text).toEqual("hello world");
     });
   });
 
@@ -50,7 +49,7 @@ export function testChildrenControllers(options: PlatformTestOptions) {
     it("should return a response from method", async () => {
       const response = await request.get("/rest/controllers/children/scenario-2").expect(200);
 
-      expect(response.text).to.equal("hello child");
+      expect(response.text).toEqual("hello child");
     });
   });
 }

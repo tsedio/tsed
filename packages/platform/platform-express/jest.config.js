@@ -2,13 +2,13 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  ...require("@tsed/jest-config")(__dirname, "common"),
+  ...require("@tsed/jest-config")(__dirname, "platform-express"),
   coverageThreshold: {
     global: {
-      statements: 90.71,
-      branches: 73.86,
-      functions: 84.22,
-      lines: 90.76
+      statements: 100,
+      branches: 78.94,
+      functions: 100,
+      lines: 100
     }
   }
 };

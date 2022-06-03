@@ -1,7 +1,5 @@
+import {join} from "path";
 import {ModuleKind, Project, ScriptTarget} from "ts-morph";
-import {ensureDirSync, existsSync} from "fs-extra";
-import {dirname, join} from "path";
-import {readFileSync, writeFileSync} from "fs";
 
 const SNAPSHOT_DIR = `${__dirname}/../../test/snapshots`;
 
@@ -31,17 +29,10 @@ export function createProjectFixture(dir = "/") {
       sourceFile.formatText({indentSize: 2});
       const actualValue = sourceFile.getFullText();
 
-      if (!existsSync(absolutePath)) {
-        ensureDirSync(dirname(absolutePath));
-        writeFileSync(absolutePath, actualValue, {encoding: "utf8"});
-      }
-
-      const expectedValue = readFileSync(absolutePath, {encoding: "utf8"});
-
       return {
         ...expect(actualValue),
-        toEqualSnapshot() {
-          expect(actualValue).toEqual(expectedValue);
+        toMatchSnapshot() {
+          expect(actualValue).toMatchSnapshot();
         }
       };
     }
