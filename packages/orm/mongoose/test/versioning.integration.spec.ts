@@ -38,7 +38,7 @@ describe("Mongoose", () => {
 
       const testObject = await versionModel.create({tags: []});
       expect(testObject.tags.length).toBe(0);
-      expect(testObject).not.toEqual(expect.arrayContaining(["version"]));
+      expect(testObject).not.toContain("version");
       expect(testObject.version).toBe(0);
 
       testObject.tags.push("awesome");

@@ -1,6 +1,5 @@
 import "@tsed/ajv";
 import {Context, Controller, Get, Middleware, PlatformTest, Use, UseAfter, UseBefore} from "@tsed/common";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -72,7 +71,7 @@ class TestMiddlewaresCtrl {
 export function testMiddlewares(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -80,16 +79,16 @@ export function testMiddlewares(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("Scenario 1: GET /rest/middlewares/scenario-1", () => {
     it("should call all middlewares", async () => {
       const response = await request.get("/rest/middlewares/scenario-1").expect(200);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         stacks: [
           "UseBefore - Ctrl",
           "UseBefore - endpoint",

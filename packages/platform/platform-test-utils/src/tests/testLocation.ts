@@ -1,5 +1,4 @@
 import {Controller, Get, Location, PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -15,7 +14,7 @@ class LocationCtrl {
 export function testLocation(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -23,15 +22,15 @@ export function testLocation(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   it("Scenario1: GET /rest/location/scenario-1", async () => {
     const response = await request.get("/rest/location/scenario-1").expect(200);
 
-    expect(response.text).to.deep.equal("Hello");
-    expect(response.header.location).to.deep.equal("/test");
+    expect(response.text).toEqual("Hello");
+    expect(response.header.location).toEqual("/test");
   });
 }

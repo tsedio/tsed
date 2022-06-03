@@ -6,7 +6,7 @@ declare global {
   namespace TsED {
     // @ts-ignore
     interface Context {}
-    interface Configuration {
+    interface Configuration extends Record<string, any> {
       scopes: {[key: string]: ProviderScope};
       /**
        * Define a list of resolvers (it can be an external DI).
@@ -20,8 +20,6 @@ declare global {
        * Mount controllers
        */
       mount: Record<string, TokenProvider[]>;
-
-      [key: string]: any;
     }
   }
 }

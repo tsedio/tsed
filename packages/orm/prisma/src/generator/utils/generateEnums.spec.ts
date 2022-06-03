@@ -10,6 +10,6 @@ describe("generateEnums", () => {
 
     generateEnums(dmmf, project, baseDir);
 
-    render("/enums/Role.ts").toEqualSnapshot();
+    render("/enums/Role.ts").toMatchSnapshot();
   });
 });

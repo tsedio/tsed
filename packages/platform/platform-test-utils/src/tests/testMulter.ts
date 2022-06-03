@@ -1,9 +1,7 @@
 import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest, Post} from "@tsed/common";
 import {CollectionOf, Property, Required, Status} from "@tsed/schema";
-import {expect} from "chai";
 import {Request} from "express";
 import multer, {FileFilterCallback} from "multer";
-import Sinon from "sinon";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -24,9 +22,11 @@ export class Event {
   tasks: Task[];
 }
 
-const fileFilter = Sinon.stub().callsFake((req: Request, file: PlatformMulterFile, callback: FileFilterCallback) => {
+const fileFilterStub = jest.fn();
+const fileFilter = (req: Request, file: PlatformMulterFile, callback: FileFilterCallback) => {
+  fileFilterStub();
   callback(null, true);
-});
+};
 
 function getFileConfig(): any {
   return {
@@ -36,7 +36,7 @@ function getFileConfig(): any {
         cb(null, path);
       }
     }),
-    fileFilter: fileFilter
+    fileFilter
   };
 }
 
@@ -72,7 +72,7 @@ export class TestMulterController {
 export function testMulter(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -80,22 +80,22 @@ export function testMulter(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
-  before(() => fileFilter.resetHistory());
+  afterAll(PlatformTest.reset);
+  beforeAll(() => jest.resetAllMocks());
   describe("Scenario 1: POST /rest/multer/scenario-1", () => {
     it("should upload file with multer", async () => {
       const result = await request.post("/rest/multer/scenario-1").attach("media", `${__dirname}/../data/file.txt`).expect(201);
 
-      expect(result.text).to.eq("file.txt");
+      expect(result.text).toEqual("file.txt");
     });
 
     it("should throw an exception when there is no file", async () => {
       const result = await request.post("/rest/multer/scenario-1").expect(400);
 
-      expect(result.body).to.deep.eq({
+      expect(result.body).toEqual({
         name: "REQUIRED_VALIDATION_ERROR",
         message: "Bad request on parameter \"request.files.media.0\".\nIt should have required parameter 'media.0'",
         status: 400,
@@ -122,19 +122,19 @@ export function testMulter(options: PlatformTestOptions) {
         })
         .expect(201);
 
-      expect(result.body).to.deep.eq({file: "file.txt", formId: "form_id"});
+      expect(result.body).toEqual({file: "file.txt", formId: "form_id"});
     });
   });
   describe("Scenario 3: POST /rest/multer/scenario-3", () => {
     it("should upload file with multer", async () => {
-      const result = await request.post("/rest/multer/scenario-3").attach("media", `${__dirname}/../data/file.txt`).expect(201);
+      const result = await request.post("/rest/multer/scenario-3").attach("media", `${__dirname}/../data/file.txt`).field({}).expect(201);
 
-      expect(result.body).to.deep.eq({
+      expect(result.body).toEqual({
         file: "file.txt"
       });
 
       // filterFilter is called
-      return expect(fileFilter).to.have.been.called;
+      expect(fileFilterStub).toBeCalled();
     });
   });
 }

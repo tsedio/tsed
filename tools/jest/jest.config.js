@@ -20,7 +20,7 @@ module.exports = (rootDir) => ({
 
   // moduleDirectories: ["node_modules", "packages"],
   // An array of regexp pattern strings used to skip coverage collection
-  coveragePathIgnorePatterns: ["index.ts", "/node_modules/", "/test/", "exports.ts", "__mock__"],
+  coveragePathIgnorePatterns: ["index.ts", "/node_modules/", "/test/", "exports.ts", "__mock__", "platform-test-utils", "engines"],
   moduleNameMapper: {
     "^@tsed/core$": fixPath(join(packageDir, "core/src")),
     "^@tsed/di$": fixPath(join(packageDir, "di/src")),
@@ -33,6 +33,8 @@ module.exports = (rootDir) => ({
     "^@tsed/json-mapper$": fixPath(join(packageDir, "specs/json-mapper/src")),
     "^@tsed/openspec$": fixPath(join(packageDir, "specs/openspec/src")),
     "^@tsed/swagger$": fixPath(join(packageDir, "specs/swagger/src")),
+    "^@tsed/apollo": fixPath(join(packageDir, "graphql/apollo/src")),
+    "^@tsed/typegraphql": fixPath(join(packageDir, "graphql/typegraphql/src")),
     "^@tsed/platform-(.*)$": fixPath(join(packageDir, "platform/platform-$1/src")),
     "^@tsed/testing-mongoose$": fixPath(join(packageDir, "orm/testing-mongoose/src")),
     "^@tsed/objection$": fixPath(join(packageDir, "orm/objection/src")),
@@ -54,8 +56,8 @@ module.exports = (rootDir) => ({
     "^@tsed/jwks$": fixPath(join(packageDir, "security/jwks/src")),
     "^@tsed/oidc-provider$": fixPath(join(packageDir, "security/oidc-provider/src"))
   },
-  modulePathIgnorePatterns: ["<rootDir>/lib", "<rootDir>/dist"],
-  // An object that configures minimum threshold enforcement for coverage results
+  testPathIgnorePatterns: ["node_modules", "/docs/", "/docs-references/", "/engines/"],
+  modulePathIgnorePatterns: ["<rootDir>/lib", "<rootDir>/dist"], // An object that configures minimum threshold enforcement for coverage results
   coverageThreshold: {
     global: {
       branches: 70,

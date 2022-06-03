@@ -36,7 +36,7 @@ describe("Agenda integration", () => {
 
     it("should have job definitions", async () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
-      expect(Object.keys(agenda._definitions)).toEqual(expect.arrayContaining(["test3"]));
+      expect(Object.keys(agenda._definitions)).toContain("test3");
     });
 
     it("should schedule cron-like jobs", async () => {

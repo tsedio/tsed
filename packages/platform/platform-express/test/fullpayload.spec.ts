@@ -1,7 +1,6 @@
 import {BodyParams, Controller, Get, PlatformTest, Post} from "@tsed/common";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {getSpec, Returns, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
@@ -42,8 +41,8 @@ describe("Full payload", () => {
     it("should accept a large payload", async () => {
       const response = await request.post("/rest/full/scenario-1").send(require("./data/largePayload.json"));
 
-      expect(response.status).to.equal(413);
-      expect(response.body).to.deep.equal({
+      expect(response.status).toEqual(413);
+      expect(response.body).toEqual({
         errors: [],
         message: "request entity too large",
         name: "PayloadTooLargeError",

@@ -1,7 +1,6 @@
 import {Controller, Get, PathParams, PlatformTest} from "@tsed/common";
 import {MergeParams, PlatformExpress} from "@tsed/platform-express";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {rootDir, Server} from "./app/Server";
 
@@ -26,23 +25,23 @@ class TestMergeParamsCtrl {
 describe("MergeParams", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     utils.bootstrap({
       mount: {
         "/rest": [TestMergeParamsCtrl]
       }
     })
   );
-  after(utils.reset);
+  afterAll(utils.reset);
 
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
 
   it("should merge params", async () => {
     const {body} = await request.get("/rest/merge-params/parentID/ID").expect(200);
 
-    expect(body).to.deep.eq({
+    expect(body).toEqual({
       id: "ID",
       parentId: "parentID"
     });

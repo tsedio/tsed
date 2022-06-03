@@ -3,7 +3,6 @@ import {BodyParams, Controller, Get, PathParams, PlatformTest, Post, Put} from "
 import {deserialize} from "@tsed/json-mapper";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {getSpec, Groups, Property, Returns, SpecTypes} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
@@ -45,7 +44,7 @@ class TestGroupsCtrl {
   @Put("/:id")
   @Returns(200, Product)
   async update(@BodyParams() @Groups("group.*") payload: Product, @PathParams("id") id: string) {
-    expect(payload.id).to.be.a("string");
+    expect(typeof payload.id).toBe("string");
 
     return payload;
   }
@@ -68,7 +67,7 @@ class TestGroupsCtrl {
 describe("Groups", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     utils.bootstrap({
       mount: {
         "/rest": [TestGroupsCtrl]
@@ -85,16 +84,16 @@ describe("Groups", () => {
       ]
     })
   );
-  after(utils.reset);
+  afterAll(utils.reset);
 
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
 
   it("should generate spec", async () => {
     const spec = getSpec(TestGroupsCtrl, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       components: {
         schemas: {
           Product: {
@@ -263,7 +262,7 @@ describe("Groups", () => {
         })
         .expect(201);
 
-      expect(body).to.deep.eq({
+      expect(body).toEqual({
         id: "newId",
         label: "label"
       });
@@ -279,7 +278,7 @@ describe("Groups", () => {
         })
         .expect(201);
 
-      expect(body).to.deep.eq({
+      expect(body).toEqual({
         id: "newId",
         label: "label"
       });
@@ -290,7 +289,7 @@ describe("Groups", () => {
     it("should get product with only summary group fields", async () => {
       const {body} = await request.get("/rest/groups/1").expect(200);
 
-      expect(body).to.deep.eq({
+      expect(body).toEqual({
         id: "1",
         label: "label",
         price: 100

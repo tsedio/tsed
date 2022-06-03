@@ -1,5 +1,4 @@
 import {Controller, Get, Locals, Middleware, PlatformTest, UseBefore, View} from "@tsed/common";
-import {expect} from "chai";
 import {EOL} from "os";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -34,7 +33,7 @@ class ViewCtrl {
 export function testView(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -42,17 +41,17 @@ export function testView(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("Scenario1: GET /rest/views/scenario-1", () => {
     it("should render a view", async () => {
       const response = await request.get("/rest/views/scenario-1").expect(200);
 
-      expect(response.headers["content-type"]).to.deep.equal("text/html; charset=utf-8");
-      expect(response.text).to.deep.equal(`<p>Hello world with opts and ID local-10909</p>${EOL}`);
+      expect(response.headers["content-type"]).toEqual("text/html; charset=utf-8");
+      expect(response.text).toEqual(`<p>Hello world with opts and ID local-10909</p>${EOL}`);
     });
   });
 
@@ -60,9 +59,9 @@ export function testView(options: PlatformTestOptions) {
     it("should throw an error when extension is not defined", async () => {
       const response = await request.get("/rest/views/scenario-2").expect(500);
 
-      expect(response.body.name).to.deep.equal("TEMPLATE_RENDER_ERROR");
-      expect(response.body.message).to.contain("Template rendering error: ViewCtrl.testScenario2()");
-      expect(response.body.status).to.eq(500);
+      expect(response.body.name).toEqual("TEMPLATE_RENDER_ERROR");
+      expect(response.body.message).toContain("Template rendering error: ViewCtrl.testScenario2()");
+      expect(response.body.status).toEqual(500);
     });
   });
 }

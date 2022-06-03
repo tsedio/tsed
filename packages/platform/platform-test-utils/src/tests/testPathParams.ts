@@ -1,6 +1,5 @@
 import {Context, Controller, Get, PathParams, PlatformTest, Post} from "@tsed/common";
 import {Pattern} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -9,7 +8,7 @@ class TestPathParamsCtrl {
   @Get("/scenario-1/:scope/:scopeId")
   async testScenario1(@PathParams("scope") scope: string) {
     // Here scope will be {0: 'a', 1: 'b', 2: 'c'} instead of 'abc' in version 5.47.0
-    expect(scope).to.eq("abc");
+    expect(scope).toEqual("abc");
 
     return scope;
   }
@@ -17,14 +16,14 @@ class TestPathParamsCtrl {
   @Get("/scenario-2/:scope/:scopeId")
   async testScenario2(@PathParams("scope") scope: any) {
     // This way it works in version 5.47.0
-    expect(scope).to.eq("abc");
+    expect(scope).toEqual("abc");
 
     return scope;
   }
 
   @Post("/scenario-3/:scope/:scopeId")
   async testScenario3(@PathParams("scope") scope: string): Promise<any[]> {
-    expect(scope).to.eq("abc");
+    expect(scope).toEqual("abc");
 
     // Here the function will return  {0: 'a', 1: 'b', 2: 'c'} instead of ['a','b','c']  in version 5.44.13
     return ["a", "b", "c"];
@@ -32,7 +31,7 @@ class TestPathParamsCtrl {
 
   @Post("/scenario-4/:scope/:scopeId")
   async testScenario4(@PathParams("scope") scope: string, @Context() ctx: Context) {
-    expect(scope).to.eq("abc");
+    expect(scope).toEqual("abc");
 
     // This way it works  in version 5.44.13
     ctx.response.body(["a", "b", "c"]);
@@ -52,7 +51,7 @@ class TestPathParamsCtrl {
 export function testPathParams(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -60,39 +59,39 @@ export function testPathParams(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   it("Scenario 1: GET /rest/path-params/scenario-1/scope/scopeId", async () => {
     const response = await request.get("/rest/path-params/scenario-1/abc/1").expect(200);
 
-    expect(response.text).to.deep.equal("abc");
+    expect(response.text).toEqual("abc");
   });
 
   it("Scenario 2: GET /rest/path-params/scenario-2/scopeId", async () => {
     const response = await request.get("/rest/path-params/scenario-2/abc/1").expect(200);
 
-    expect(response.text).to.deep.equal("abc");
+    expect(response.text).toEqual("abc");
   });
 
   it("Scenario 3: POST /rest/path-params/scenario-3/scope/scopeId", async () => {
     const response = await request.post("/rest/path-params/scenario-3/abc/1").expect(200);
 
-    expect(response.body).to.deep.equal(["a", "b", "c"]);
+    expect(response.body).toEqual(["a", "b", "c"]);
   });
 
   it("Scenario 4: POST /rest/path-params/scenario-4/scope/scopeId", async () => {
     const response = await request.post("/rest/path-params/scenario-4/abc/1").expect(200);
 
-    expect(response.body).to.deep.equal(["a", "b", "c"]);
+    expect(response.body).toEqual(["a", "b", "c"]);
   });
 
   it("Scenario 5 a: GET /rest/path-params/scenario-5/scopeId", async () => {
     const response = await request.get("/rest/path-params/scenario-5/1").expect(400);
 
-    expect(response.body).to.deep.equal({
+    expect(response.body).toEqual({
       errors: [
         {
           data: "1",
@@ -118,6 +117,6 @@ export function testPathParams(options: PlatformTestOptions) {
   it("Scenario 6: GET /rest/path-params/scenario-6/id", async () => {
     const response = await request.get("/rest/path-params/scenario-6/1").expect(200);
 
-    expect(response.body).to.deep.equal({id: 1});
+    expect(response.body).toEqual({id: 1});
   });
 }

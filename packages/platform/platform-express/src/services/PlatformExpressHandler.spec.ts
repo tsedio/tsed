@@ -1,17 +1,10 @@
 import {Err, HandlerMetadata, HandlerType, PlatformTest} from "@tsed/common";
 import {PlatformExpressHandler} from "@tsed/platform-express";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {invokePlatformHandler} from "../../../../../test/helper/invokePlatformHandler";
-
-const sandbox = Sinon.createSandbox();
 
 describe("PlatformExpressHandler", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
-  afterEach(() => {
-    sandbox.restore();
-  });
 
   describe("createHandler", () => {
     describe("ENDPOINT", () => {
@@ -36,8 +29,8 @@ describe("PlatformExpressHandler", () => {
         const handler = platformHandler.createHandler(handlerMetadata);
 
         // THEN
-        expect(handler).to.not.eq(handlerMetadata.handler);
-        expect(handler.length).to.eq(3);
+        expect(handler).not.toEqual(handlerMetadata.handler);
+        expect(handler.length).toEqual(3);
       });
     });
     describe("MIDDLEWARE", () => {
@@ -62,8 +55,8 @@ describe("PlatformExpressHandler", () => {
         const handler = platformHandler.createHandler(handlerMetadata);
 
         // THEN
-        expect(handler).to.not.eq(handlerMetadata.handler);
-        expect(handler.length).to.eq(3);
+        expect(handler).not.toEqual(handlerMetadata.handler);
+        expect(handler.length).toEqual(3);
       });
       it("should return a native handler with 4 params", async () => {
         // GIVEN
@@ -86,9 +79,9 @@ describe("PlatformExpressHandler", () => {
         const handler = platformHandler.createHandler(metadata);
 
         // THEN
-        expect(metadata.hasErrorParam).to.eq(true);
-        expect(handler).to.not.eq(metadata.handler);
-        expect(handler.length).to.eq(4);
+        expect(metadata.hasErrorParam).toEqual(true);
+        expect(handler).not.toEqual(metadata.handler);
+        expect(handler.length).toEqual(4);
       });
     });
     describe("$CTX", () => {
@@ -112,8 +105,8 @@ describe("PlatformExpressHandler", () => {
         const handler = platformHandler.createHandler(handlerMetadata);
 
         // THEN
-        expect(handler).to.not.eq(handlerMetadata.handler);
-        expect(handler.length).to.eq(3);
+        expect(handler).not.toEqual(handlerMetadata.handler);
+        expect(handler.length).toEqual(3);
       });
       it("should catch error from handler", async () => {
         // GIVEN
@@ -140,14 +133,14 @@ describe("PlatformExpressHandler", () => {
         const handler = platformHandler.createHandler(handlerMetadata);
 
         // THEN
-        expect(handler).to.not.eq(handlerMetadata.handler);
-        expect(handler.length).to.eq(3);
+        expect(handler).not.toEqual(handlerMetadata.handler);
+        expect(handler.length).toEqual(3);
 
-        const next = sandbox.stub();
+        const next = jest.fn();
 
         await handler($ctx.getRequest(), $ctx.getResponse(), next);
 
-        expect(next).to.have.been.calledWithExactly(error);
+        expect(next).toBeCalledWith(error);
       });
     });
     describe("FUNCTION", () => {
@@ -171,7 +164,7 @@ describe("PlatformExpressHandler", () => {
         const handler = platformHandler.createHandler(handlerMetadata);
 
         // THEN
-        expect(handler).to.eq(handlerMetadata.handler);
+        expect(handler).toEqual(handlerMetadata.handler);
       });
     });
   });

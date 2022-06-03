@@ -3,7 +3,6 @@ import {BodyParams, Controller, Err, Get, Middleware, PlatformTest, Post, UseAft
 import {Env} from "@tsed/core";
 import {BadRequest, InternalServerError} from "@tsed/exceptions";
 import {Description, Name, Required, Returns, Summary} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {CustomBadRequest} from "../errors/CustomBadRequest";
 import {CustomInternalError} from "../errors/CustomInternalError";
@@ -96,7 +95,7 @@ export class ErrorsCtrl {
 
 export function testErrors(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       env: Env.TEST,
@@ -105,16 +104,16 @@ export function testErrors(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   it("Scenario 1: GET /rest/errors/scenario-1", async () => {
     const response: any = await request.get("/rest/errors/scenario-1").expect(400);
 
-    expect(response.headers["x-header-error"]).to.eq("deny");
-    expect(response.body).to.deep.eq({
+    expect(response.headers["x-header-error"]).toEqual("deny");
+    expect(response.body).toEqual({
       name: "CUSTOM_BAD_REQUEST",
       message: "Custom Bad Request",
       status: 400,
@@ -125,7 +124,7 @@ export function testErrors(options: PlatformTestOptions) {
   it("Scenario 2: GET /rest/errors/scenario-2", async () => {
     const response: any = await request.get("/rest/errors/scenario-2").expect(500);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       errors: [],
       message: "My error",
       name: "Error",
@@ -136,8 +135,8 @@ export function testErrors(options: PlatformTestOptions) {
   it("Scenario 3: GET /rest/errors/scenario-3", async () => {
     const response: any = await request.get("/rest/errors/scenario-3").expect(500);
 
-    expect(response.headers["x-header-error"]).to.eq("deny");
-    expect(response.body).to.deep.eq({
+    expect(response.headers["x-header-error"]).toEqual("deny");
+    expect(response.body).toEqual({
       name: "CUSTOM_INTERNAL_SERVER_ERROR",
       message: "My custom error",
       status: 500,
@@ -148,7 +147,7 @@ export function testErrors(options: PlatformTestOptions) {
   it("Scenario 4: POST /rest/errors/scenario-4", async () => {
     const response: any = await request.post("/rest/errors/scenario-4").expect(400);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       errors: [
         {
           dataPath: "",
@@ -170,7 +169,7 @@ export function testErrors(options: PlatformTestOptions) {
   it("Scenario 5: POST /rest/errors/scenario-5", async () => {
     const response: any = await request.post("/rest/errors/scenario-5").expect(400);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       errors: [
         {
           dataPath: "",
@@ -193,7 +192,7 @@ export function testErrors(options: PlatformTestOptions) {
   it("Scenario 6: POST /rest/errors/scenario-6", async () => {
     const response: any = await request.post(`/rest/errors/scenario-6`).send({}).expect(400);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       errors: [
         {
           dataPath: "",
@@ -217,7 +216,7 @@ export function testErrors(options: PlatformTestOptions) {
   it("Scenario 7: GET /rest/errors/scenario-7", async () => {
     const response: any = await request.get("/rest/errors/scenario-7").expect(200);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       message: "no error"
     });
   });

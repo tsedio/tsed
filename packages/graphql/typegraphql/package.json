@@ -20,7 +20,7 @@
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "start:express": "ts-node -r tsconfig-paths/register test/app/index.express.ts",
     "start:koa": "ts-node -r tsconfig-paths/register test/app/index.koa.ts",
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
     "@tsed/apollo": "6.114.16",

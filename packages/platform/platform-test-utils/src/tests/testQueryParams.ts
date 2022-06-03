@@ -1,7 +1,6 @@
 import "@tsed/ajv";
 import {Controller, Get, PlatformTest, QueryParams} from "@tsed/common";
 import {Default, GenericOf, Generics, Maximum, Minimum, Property, Required} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -82,7 +81,7 @@ class TestQueryParamsCtrl {
 export function testQueryParams(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       ajv: {
@@ -93,82 +92,82 @@ export function testQueryParams(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
   describe("Scenario1: Boolean value", () => {
     it("should return true when query is true", async () => {
       const response = await request.get("/rest/query-params/scenario-1?test=true").expect(200);
 
-      expect(response.body).to.deep.equal({value: true});
+      expect(response.body).toEqual({value: true});
     });
     it("should return true when query is 1", async () => {
       const response = await request.get("/rest/query-params/scenario-1?test=1").expect(200);
 
-      expect(response.body).to.deep.equal({value: true});
+      expect(response.body).toEqual({value: true});
     });
     it("should return false when query is false", async () => {
       const response = await request.get("/rest/query-params/scenario-1?test=false").expect(200);
 
-      expect(response.body).to.deep.equal({value: false});
+      expect(response.body).toEqual({value: false});
     });
     it("should return false when query is 0", async () => {
       const response = await request.get("/rest/query-params/scenario-1?test=0").expect(200);
 
-      expect(response.body).to.deep.equal({value: false});
+      expect(response.body).toEqual({value: false});
     });
     it("should return false when query is null", async () => {
       const response = await request.get("/rest/query-params/scenario-1?test=null").expect(200);
 
-      expect(response.body).to.deep.equal({value: null});
+      expect(response.body).toEqual({value: null});
     });
     it("should return undefined when query is empty", async () => {
       const response = await request.get("/rest/query-params/scenario-1?test=").expect(200);
 
-      expect(response.body).to.deep.equal({});
+      expect(response.body).toEqual({});
     });
     it("should return undefined when no query", async () => {
       const response = await request.get("/rest/query-params/scenario-1").expect(200);
 
-      expect(response.body).to.deep.equal({});
+      expect(response.body).toEqual({});
     });
   });
   describe("Scenario2: Boolean value with default value", () => {
     it("should return true when query is true", async () => {
       const response = await request.get("/rest/query-params/scenario-2?test=true").expect(200);
 
-      expect(response.body).to.deep.equal({value: true});
+      expect(response.body).toEqual({value: true});
     });
     it("should return true when query is 1", async () => {
       const response = await request.get("/rest/query-params/scenario-2?test=1").expect(200);
 
-      expect(response.body).to.deep.equal({value: true});
+      expect(response.body).toEqual({value: true});
     });
     it("should return false when query is false", async () => {
       const response = await request.get("/rest/query-params/scenario-2?test=false").expect(200);
 
-      expect(response.body).to.deep.equal({value: false});
+      expect(response.body).toEqual({value: false});
     });
     it("should return false when query is 0", async () => {
       const response = await request.get("/rest/query-params/scenario-2?test=0").expect(200);
 
-      expect(response.body).to.deep.equal({value: false});
+      expect(response.body).toEqual({value: false});
     });
     it("should return false when query is null", async () => {
       const response = await request.get("/rest/query-params/scenario-2?test=null").expect(200);
 
-      expect(response.body).to.deep.equal({value: null});
+      expect(response.body).toEqual({value: null});
     });
     it("should return undefined when query is empty", async () => {
       const response = await request.get("/rest/query-params/scenario-2?test=").expect(200);
 
-      expect(response.body).to.deep.equal({value: true});
+      expect(response.body).toEqual({value: true});
     });
     it("should return undefined when no query", async () => {
       const response = await request.get("/rest/query-params/scenario-2").expect(200);
 
-      expect(response.body).to.deep.equal({value: true});
+      expect(response.body).toEqual({value: true});
     });
   });
   describe("Scenario3: Number value", () => {
@@ -176,21 +175,21 @@ export function testQueryParams(options: PlatformTestOptions) {
     it("should return 0 when query is 0", async () => {
       const response = await request.get(`${endpoint}?test=0`).expect(200);
 
-      expect(response.body).to.deep.equal({value: 0});
+      expect(response.body).toEqual({value: 0});
     });
     it("should return 1 when query is 1", async () => {
       const response = await request.get(`${endpoint}?test=1`).expect(200);
 
-      expect(response.body).to.deep.equal({value: 1});
+      expect(response.body).toEqual({value: 1});
     });
     it("should return 0.1 when query is 0.1", async () => {
       const response = await request.get(`${endpoint}?test=0.1`).expect(200);
 
-      expect(response.body).to.deep.equal({value: 0.1});
+      expect(response.body).toEqual({value: 0.1});
     });
     it("should throw bad request", async () => {
       const response = await request.get(`${endpoint}?test=error`).expect(400);
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         name: "AJV_VALIDATION_ERROR",
         message: 'Bad request on parameter "request.query.test".\nValue must be number. Given value: "error"',
         status: 400,
@@ -210,17 +209,17 @@ export function testQueryParams(options: PlatformTestOptions) {
     it("should return undefined when query is empty", async () => {
       const response = await request.get(`${endpoint}?test=null`).expect(200);
 
-      expect(response.body).to.deep.equal({value: null});
+      expect(response.body).toEqual({value: null});
     });
     it("should return undefined when query is empty", async () => {
       const response = await request.get(`${endpoint}?test=`).expect(200);
 
-      expect(response.body).to.deep.equal({});
+      expect(response.body).toEqual({});
     });
     it("should return undefined when no query", async () => {
       const response = await request.get(`${endpoint}`).expect(200);
 
-      expect(response.body).to.deep.equal({});
+      expect(response.body).toEqual({});
     });
   });
   describe("Scenario4: String value", () => {
@@ -228,27 +227,27 @@ export function testQueryParams(options: PlatformTestOptions) {
     it("should return 0 when query is 0", async () => {
       const response = await request.get(`${endpoint}?test=0`).expect(200);
 
-      expect(response.body).to.deep.equal({value: "0"});
+      expect(response.body).toEqual({value: "0"});
     });
     it("should return 1 when query is 1", async () => {
       const response = await request.get(`${endpoint}?test=1`).expect(200);
 
-      expect(response.body).to.deep.equal({value: "1"});
+      expect(response.body).toEqual({value: "1"});
     });
     it("should return 0.1 when query is 0.1", async () => {
       const response = await request.get(`${endpoint}?test=0.1`).expect(200);
 
-      expect(response.body).to.deep.equal({value: "0.1"});
+      expect(response.body).toEqual({value: "0.1"});
     });
     it("should return undefined when query is empty", async () => {
       const response = await request.get(`${endpoint}?test=`).expect(200);
 
-      expect(response.body).to.deep.equal({value: ""});
+      expect(response.body).toEqual({value: ""});
     });
     it("should return undefined when no query", async () => {
       const response = await request.get(`${endpoint}`).expect(200);
 
-      expect(response.body).to.deep.equal({});
+      expect(response.body).toEqual({});
     });
   });
   describe("Scenario6: DeepObject", () => {
@@ -256,7 +255,7 @@ export function testQueryParams(options: PlatformTestOptions) {
     it("should return 0 when query is 0", async () => {
       const response = await request.get(`${endpoint}?offset=0&limit=10&where[a]=0&where[b]=1`).expect(200);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         q: {
           limit: 10,
           offset: 0,
@@ -273,7 +272,7 @@ export function testQueryParams(options: PlatformTestOptions) {
     it("should return the query value", async () => {
       const response = await request.get(`${endpoint}?q[offset]=0&q[limit]=10&q[where][a]=0&q[where][b]=1`).expect(200);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         q: {
           limit: 10,
           offset: 0,
@@ -287,7 +286,7 @@ export function testQueryParams(options: PlatformTestOptions) {
     it("should throw a bad request", async () => {
       const response = await request.get(`${endpoint}?q[offset]=0&q[limit]=10&q[where][a]=ca&q[where][b]=1`).expect(400);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         errors: [
           {
             data: "ca",
@@ -313,12 +312,12 @@ export function testQueryParams(options: PlatformTestOptions) {
     it("should return 0 when query is 0", async () => {
       const response = await request.get(`${endpoint}?test=0`).expect(200);
 
-      expect(response.body).to.deep.equal({value: ["0"]});
+      expect(response.body).toEqual({value: ["0"]});
     });
     it("should return 1 when query is 1", async () => {
       const response = await request.get(`${endpoint}?test=1&test=2`).expect(200);
 
-      expect(response.body).to.deep.equal({value: ["1", "2"]});
+      expect(response.body).toEqual({value: ["1", "2"]});
     });
   });
 }

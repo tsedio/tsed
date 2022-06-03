@@ -1,11 +1,9 @@
 import {ApolloService} from "@tsed/apollo";
 import {PlatformTest} from "@tsed/common";
 import {TypeGraphQLService} from "@tsed/typegraphql";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {AuthResolver, RecipeResolver} from "../../test/app/graphql/index";
 
-const sandbox = Sinon.createSandbox();
+const noop = () => {};
 
 function createApolloServiceFixture() {
   const server = {
@@ -38,7 +36,6 @@ describe("TypeGraphQLService", () => {
   );
   afterEach(() => {
     PlatformTest.reset();
-    sandbox.restore();
   });
 
   describe("createServer()", () => {
@@ -53,28 +50,19 @@ describe("TypeGraphQLService", () => {
           }
         ]);
 
-        sandbox.stub(service, "createSchema");
+        jest.spyOn(service as any, "createSchema").mockReturnValue({schema: "schema"});
 
-        // @ts-ignore
-        sandbox.stub(service, "createDataSources");
-
-        const noop = () => ({});
-        // GIVEN
-        // @ts-ignore
-        service.createSchema.returns({schema: "schema"});
-        // @ts-ignore
-        service.createDataSources.returns(noop);
-        // WHEN
+        jest.spyOn(service as any, "createDataSources").mockReturnValue(noop);
 
         const result1 = await service.createServer("key", {
           path: "/path"
         } as any);
         const result2 = await service.createServer("key", {path: "/path"} as any);
 
-        expect(result2).to.deep.eq(result1);
-        expect(result1.server).to.deep.eq("server");
-        expect(service.getSchema("key")).to.deep.eq("schema");
-        expect(service.createSchema).to.have.been.calledOnceWithExactly({
+        expect(result2).toEqual(result1);
+        expect(result1.server).toEqual("server");
+        expect(service.getSchema("key")).toEqual("schema");
+        expect(service.createSchema).toHaveBeenCalledWith({
           resolvers: [AuthResolver, RecipeResolver],
           container: PlatformTest.injector
         });
@@ -83,10 +71,10 @@ describe("TypeGraphQLService", () => {
   });
   describe("createDataSources", () => {
     it("should return a function with all dataSources", () => {
-      const dataSources = sandbox.stub().returns({
+      const dataSources = jest.fn().mockReturnValue({
         api: "api"
       });
-      const serverConfigSources = sandbox.stub().returns({
+      const serverConfigSources = jest.fn().mockReturnValue({
         api2: "api2"
       });
 
@@ -96,7 +84,7 @@ describe("TypeGraphQLService", () => {
       const fn = service.createDataSources(dataSources, serverConfigSources);
       const result = fn();
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         api2: "api2",
         api: "api",
         myDataSource: result.myDataSource
@@ -109,7 +97,7 @@ describe("TypeGraphQLService", () => {
       const fn = service.createDataSources();
       const result = fn();
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         myDataSource: result.myDataSource
       });
     });

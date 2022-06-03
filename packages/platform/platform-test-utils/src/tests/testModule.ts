@@ -1,5 +1,4 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 import {FeatureModule} from "../modules/feature/FeatureModule";
@@ -15,7 +14,7 @@ class TestRootCtrl {
 export function testModule(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -24,16 +23,16 @@ export function testModule(options: PlatformTestOptions) {
       imports: [FeatureModule]
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("Scenario1: GET /rest/root", () => {
     it("should get content from root controller", async () => {
       const response = await request.get("/rest/root").expect(200);
 
-      expect(response.text).to.deep.equal("From root");
+      expect(response.text).toEqual("From root");
     });
   });
 
@@ -41,7 +40,7 @@ export function testModule(options: PlatformTestOptions) {
     it("should get content from a module with his controller", async () => {
       const response = await request.get("/rest/features").expect(200);
 
-      expect(response.text).to.deep.equal("From feature");
+      expect(response.text).toEqual("From feature");
     });
   });
 }

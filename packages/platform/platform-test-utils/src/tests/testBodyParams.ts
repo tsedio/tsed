@@ -1,7 +1,6 @@
 import "@tsed/ajv";
 import {BodyParams, Context, Controller, HeaderParams, PlatformTest, Post, RawBodyParams} from "@tsed/common";
 import {Default, Description, GenericOf, Generics, Maximum, Minimum, Nullable, Property, Required, Status} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -140,7 +139,7 @@ class TestBodyParamsCtrl {
 export function testBodyParams(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -148,10 +147,10 @@ export function testBodyParams(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("Scenario 1: POST /rest/body-params/scenario-1", () => {
     it("should return a 201 response", async () => {
@@ -165,7 +164,7 @@ export function testBodyParams(options: PlatformTestOptions) {
         })
         .expect(201);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         contentType: "application/json",
         payload: {
           id: "id"
@@ -182,29 +181,29 @@ export function testBodyParams(options: PlatformTestOptions) {
         })
         .expect(200);
 
-      expect(response.body).to.deep.equal({value: ["value"]});
+      expect(response.body).toEqual({value: ["value"]});
     });
     it("should return an empty array (1)", async () => {
       const response = await request.post("/rest/body-params/scenario-2").send().expect(200);
 
-      expect(response.body).to.deep.equal({});
+      expect(response.body).toEqual({});
     });
     it("should return an empty value (2)", async () => {
       const response = await request.post("/rest/body-params/scenario-2").send({}).expect(200);
 
-      expect(response.body).to.deep.equal({});
+      expect(response.body).toEqual({});
     });
   });
   describe("Scenario3: without expression Array<string>", () => {
     it("should return value", async () => {
       const response = await request.post("/rest/body-params/scenario-3").send(["value"]).expect(200);
 
-      expect(response.body).to.deep.equal({value: ["value"]});
+      expect(response.body).toEqual({value: ["value"]});
     });
     it("should return an empty array (1)", async () => {
       const response = await request.post("/rest/body-params/scenario-3").send().expect(200);
 
-      expect(response.body).to.deep.equal({value: [{}]});
+      expect(response.body).toEqual({value: [{}]});
     });
   });
   describe("Scenario4: with expression required Array<string>", () => {
@@ -214,12 +213,12 @@ export function testBodyParams(options: PlatformTestOptions) {
         .send({test: ["value"]})
         .expect(200);
 
-      expect(response.body).to.deep.equal({value: ["value"]});
+      expect(response.body).toEqual({value: ["value"]});
     });
     it("should throw an exception", async () => {
       const response = await request.post("/rest/body-params/scenario-4").send().expect(400);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         name: "REQUIRED_VALIDATION_ERROR",
         message: "Bad request on parameter \"request.body.test\".\nIt should have required parameter 'test'",
         status: 400,
@@ -241,12 +240,12 @@ export function testBodyParams(options: PlatformTestOptions) {
     it("should return value", async () => {
       const response = await request.post("/rest/body-params/scenario-4b").send({test: "value"}).expect(200);
 
-      expect(response.body).to.deep.equal({value: "value"});
+      expect(response.body).toEqual({value: "value"});
     });
     it("should throw an exception when nothing is sent", async () => {
       const response = await request.post("/rest/body-params/scenario-4b").send().expect(400);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         name: "REQUIRED_VALIDATION_ERROR",
         message: "Bad request on parameter \"request.body.test\".\nIt should have required parameter 'test'",
         status: 400,
@@ -265,7 +264,7 @@ export function testBodyParams(options: PlatformTestOptions) {
     it("should throw an exception when nothing is an empty string is sent", async () => {
       const response = await request.post("/rest/body-params/scenario-4b").send({test: ""}).expect(400);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         name: "REQUIRED_VALIDATION_ERROR",
         message: "Bad request on parameter \"request.body.test\".\nIt should have required parameter 'test'",
         status: 400,
@@ -286,17 +285,17 @@ export function testBodyParams(options: PlatformTestOptions) {
     it("should return value (with 1)", async () => {
       const response = await request.post("/rest/body-params/scenario-4c").send({test: 1}).expect(200);
 
-      expect(response.body).to.deep.equal({value: 1});
+      expect(response.body).toEqual({value: 1});
     });
     it("should return value (with 0)", async () => {
       const response = await request.post("/rest/body-params/scenario-4c").send({test: 0}).expect(200);
 
-      expect(response.body).to.deep.equal({value: 0});
+      expect(response.body).toEqual({value: 0});
     });
     it("should throw an exception when nothing is sent", async () => {
       const response = await request.post("/rest/body-params/scenario-4b").send().expect(400);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         name: "REQUIRED_VALIDATION_ERROR",
         message: "Bad request on parameter \"request.body.test\".\nIt should have required parameter 'test'",
         status: 400,
@@ -317,7 +316,7 @@ export function testBodyParams(options: PlatformTestOptions) {
     it("should return value", async () => {
       const response = await request.post("/rest/body-params/scenario-5").send('{"test": ["value"]}').expect(200);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         value: '{"test": ["value"]}'
       });
     });
@@ -329,7 +328,7 @@ export function testBodyParams(options: PlatformTestOptions) {
         type: "TITLE"
       });
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         type: "TITLE"
       });
     });
@@ -341,7 +340,7 @@ export function testBodyParams(options: PlatformTestOptions) {
         test: null
       });
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         value: null
       });
     });
@@ -356,7 +355,7 @@ export function testBodyParams(options: PlatformTestOptions) {
         prop4: null
       });
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         model: {
           prop1: null,
           prop2: null,
@@ -381,7 +380,7 @@ export function testBodyParams(options: PlatformTestOptions) {
         })
         .expect(200);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         q: {
           limit: 10,
           offset: 0,
@@ -405,7 +404,7 @@ export function testBodyParams(options: PlatformTestOptions) {
         })
         .expect(400);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         errors: [
           {
             data: 0,

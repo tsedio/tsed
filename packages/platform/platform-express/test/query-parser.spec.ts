@@ -3,7 +3,6 @@ import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {PlatformExpress} from "../src";
 import SuperTest from "supertest";
 import {Configuration, Controller, Get, Inject, PlatformApplication, PlatformTest, QueryParams} from "@tsed/common";
-import {expect} from "chai";
 import {parse} from "querystring";
 
 @Configuration({
@@ -57,7 +56,7 @@ describe("QueryParser", () => {
     it("should return the query value", async () => {
       const response = await request.get(`${endpoint}?q[offset]=0&q[limit]=10&q[where][a]=0&q[where][b]=1`).expect(200);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         qs: {
           "q[limit]": "10",
           "q[offset]": "0",
