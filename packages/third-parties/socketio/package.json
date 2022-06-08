@@ -26,7 +26,7 @@
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
-    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2 --testTimeout 10000"
+    "test": "cross-env NODE_ENV=test yarn jest --runInBand --testTimeout 10000"
   },
   "dependencies": {
     "tslib": "2.4.0"

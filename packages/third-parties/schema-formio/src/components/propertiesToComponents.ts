@@ -1,11 +1,11 @@
 import {cleanObject, isFunction} from "@tsed/core";
-import {sentenceCase} from "change-case";
 import {FormioComponent, FormioForm} from "@tsed/formio-types";
+import {sentenceCase} from "change-case";
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer";
 
 function bindResolvers(component: FormioComponent, options: any) {
   if (component.data) {
-    const data = component.data;
+    const data = {...component.data};
 
     Object.entries(data).forEach(([key, resolver]) => {
       if (isFunction(resolver)) {
@@ -14,7 +14,14 @@ function bindResolvers(component: FormioComponent, options: any) {
         });
       }
     });
+
+    return {
+      ...component,
+      data
+    };
   }
+
+  return component;
 }
 
 function mapValidation(key: string, base: FormioComponent, schema: any, propSchema: any) {
@@ -60,14 +67,14 @@ export function propertiesToComponents(schema: any, options: any): any[] {
     const tabsOptions = propSchema["x-formiotabs"];
     const base = execMapper("any", propSchema, {parentKey: key, ...options});
 
-    const component = cleanObject({
+    let component = cleanObject({
       key,
       ...base,
       label: base.label == false ? undefined : base.label || propSchema.title || sentenceCase(key),
       validate: mapValidation(key, base, schema, propSchema)
     });
 
-    bindResolvers(component, options);
+    component = bindResolvers(component, options);
 
     if (tabsOptions) {
       if (!tabs.pushed) {
