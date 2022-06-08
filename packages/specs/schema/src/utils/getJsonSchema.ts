@@ -1,9 +1,4 @@
 import {Type} from "@tsed/core";
-import type {JsonEntityStore} from "../domain/JsonEntityStore";
-import {SpecTypes} from "../domain/SpecTypes";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper} from "../registries/JsonSchemaMapperContainer";
-import {getJsonEntityStore} from "./getJsonEntityStore";
 import "../components/anyMapper";
 import "../components/classMapper";
 import "../components/genericsMapper";
@@ -15,6 +10,11 @@ import "../components/objectMapper";
 import "../components/ofMapper";
 import "../components/propertiesMapper";
 import "../components/schemaMapper";
+import type {JsonEntityStore} from "../domain/JsonEntityStore";
+import {SpecTypes} from "../domain/SpecTypes";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
+import {execMapper} from "../registries/JsonSchemaMapperContainer";
+import {getJsonEntityStore} from "./getJsonEntityStore";
 
 /**
  * @ignore
