@@ -58,7 +58,7 @@ import {MikroOrmModule} from "@tsed/mikro-orm";
   mikroOrm: [
     {
       contextName: 'default',
-      type: 'postgres',
+      type: 'postgresql',
       ...,
 
       entities: [
