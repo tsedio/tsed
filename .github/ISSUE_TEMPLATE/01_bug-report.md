@@ -12,8 +12,8 @@ assignees: Romakita
 /!\ IMPORTANT: Before opening issue
 
 - Please update all of your packages. I won't investigate on the issue if you are on an old version.
-- Please check that you have the version for all Ts.ED dependencies (expected the logger). Many issues are related to a misconfigured packages.
-- Please provide a reproducible example. The stack trace isn't enough to investigate.
+- Please check that you have the same version for all Ts.ED dependencies (expected the logger). Many issues are related to a misconfigured packages.
+- Please provide a reproducible example (avoid screenshot, prefer copy/pasted code). The stack trace isn't enough to investigate.
 
 If theses requirements aren't checked, I WON'T INVESTIGATE (excepted if you are a PREMIUM SPONSORS!) and issue will be CLOSED!
 --> 
