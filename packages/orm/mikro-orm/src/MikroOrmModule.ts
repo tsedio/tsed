@@ -1,8 +1,10 @@
-import {Configuration, Constant, Inject, Module, OnDestroy, OnInit, registerProvider} from "@tsed/di";
+import "./services/MikroOrmFactory";
+import {Constant, Inject, Module, OnDestroy, OnInit, registerProvider} from "@tsed/di";
 import {Options} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
-import {DBContext} from "./services/DBContext";
 import {RetryStrategy} from "./services/RetryStrategy";
+import {MikroOrmContextMiddleware} from "./middlewares/MikroOrmContextMiddleware";
+import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -18,8 +20,8 @@ declare global {
 }
 
 @Module({
-  imports: [DBContext, MikroOrmRegistry],
-  deps: [Configuration, MikroOrmRegistry]
+  responseFilters: [OptimisticLockErrorFilter],
+  middlewares: [{hook: "$beforeRoutesInit", use: MikroOrmContextMiddleware}]
 })
 export class MikroOrmModule implements OnDestroy, OnInit {
   @Constant("mikroOrm", [])

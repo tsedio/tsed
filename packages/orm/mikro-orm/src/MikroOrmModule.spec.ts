@@ -1,7 +1,7 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformApplication, PlatformTest} from "@tsed/common";
 import {MikroORM, Options} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
-import {deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
+import {anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
 import {MikroOrmModule} from "./MikroOrmModule";
 
 describe("MikroOrmModule", () => {
@@ -11,11 +11,16 @@ describe("MikroOrmModule", () => {
     clientUrl: "mongo://localhost"
   };
   const mockMikroOrmRegistry = mock<MikroOrmRegistry>();
+  const mockPlatformApplication = mock<PlatformApplication>();
 
   beforeEach(() =>
     PlatformTest.create({
       mikroOrm: [config],
       imports: [
+        {
+          token: PlatformApplication,
+          use: instance(mockPlatformApplication)
+        },
         {
           token: MikroOrmRegistry,
           use: instance(mockMikroOrmRegistry)
@@ -25,7 +30,7 @@ describe("MikroOrmModule", () => {
   );
 
   afterEach(() => {
-    reset(mockMikroOrmRegistry);
+    reset<PlatformApplication | MikroOrmRegistry>(mockMikroOrmRegistry, mockPlatformApplication);
 
     return PlatformTest.reset();
   });

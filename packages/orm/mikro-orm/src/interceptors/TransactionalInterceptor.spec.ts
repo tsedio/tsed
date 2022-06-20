@@ -5,7 +5,7 @@ import {Logger} from "@tsed/logger";
 import {EntityManager, MikroORM, OptimisticLockError} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
 import {RetryStrategy} from "../services/RetryStrategy";
-import {DBContext} from "../services/DBContext";
+import {MikroOrmEntityManagers} from "../services/MikroOrmEntityManagers";
 
 describe("TransactionalInterceptor", () => {
   const mikroOrmRegistryMock = mock<MikroOrmRegistry>();
@@ -15,13 +15,13 @@ describe("TransactionalInterceptor", () => {
   } = mock(EntityManager);
   const loggerMock = mock<Logger>();
   const retryStrategyMock = mock<RetryStrategy>();
-  const dbContext = new DBContext();
+  const dbContext = new MikroOrmEntityManagers();
   const next = (() => {
     // noop
   }) as InterceptorNext;
 
   afterEach(() =>
-    reset<MikroOrmRegistry | MikroORM | EntityManager | Logger | RetryStrategy | DBContext>(
+    reset<MikroOrmRegistry | MikroORM | EntityManager | Logger | RetryStrategy | MikroOrmEntityManagers>(
       mikroOrmRegistryMock,
       mikroOrm,
       entityManagerMock,

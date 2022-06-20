@@ -1,9 +1,8 @@
 import {Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
-import {EntityManager} from "@mikro-orm/core";
 import {Logger} from "@tsed/logger";
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
-import {DBContext} from "../services/DBContext";
 import {RetryStrategy} from "../services/RetryStrategy";
+import {MikroOrmEntityManagers} from "../services/MikroOrmEntityManagers";
 
 export interface TransactionOptions {
   retry?: boolean;
@@ -18,7 +17,7 @@ export interface TransactionOptions {
 export class TransactionalInterceptor implements InterceptorMethods {
   constructor(
     @Inject() private readonly registry: MikroOrmRegistry,
-    @Inject() private readonly context: DBContext,
+    @Inject() private readonly entityManagers: MikroOrmEntityManagers,
     @Inject() private readonly logger: Logger,
     @Inject(RetryStrategy)
     private readonly retryStrategy?: RetryStrategy
@@ -31,26 +30,10 @@ export class TransactionalInterceptor implements InterceptorMethods {
       this.logger.warn(`To retry a transaction you have to implement a "${RetryStrategy.description}" interface`);
     }
 
-    const ctx = this.context.entries();
-
-    if (!ctx) {
-      return this.runWithinNewCtx(next, options);
-    }
-
-    if (ctx.has(options.contextName!)) {
-      return next();
-    }
-
-    return this.runUnderCtx(next, ctx, options);
+    return this.runWithinNewCtx(next, options);
   }
 
   private runWithinNewCtx(next: InterceptorNext, options: TransactionOptions): Promise<unknown> | unknown {
-    const ctx = new Map<string, EntityManager>();
-
-    return this.runUnderCtx(next, ctx, options);
-  }
-
-  private runUnderCtx(next: InterceptorNext, ctx: Map<string, EntityManager>, options: TransactionOptions): Promise<unknown> | unknown {
     const orm = this.registry.get(options.contextName);
 
     if (!orm) {
@@ -59,26 +42,19 @@ export class TransactionalInterceptor implements InterceptorMethods {
       );
     }
 
-    /**
-     * The fork method signature has been changed since v5.x,
-     * which might lead to unexpected behavior while using the @Transactional() decorator.
-     *
-     * ```diff
-     * - fork(clear = true, useContext = false): D[typeof EntityManagerType]
-     * + fork(options: ForkOptions = {}): D[typeof EntityManagerType] {
-     * ```
-     *
-     * To ensure backward compatibility with v4.x and add support for v5.x, provided the following workaround:
-     */
-    const em = (
-      orm.em.fork as (clearOrForkOptions?: boolean | {clear?: boolean; useContext?: boolean}, useContext?: boolean) => EntityManager
-    )({clear: true, useContext: true}, true);
+    const {em} = orm;
 
-    ctx.set(em.name, em);
+    if (!this.entityManagers.has(em.name)) {
+      this.entityManagers.set(em);
+    }
 
-    const runInTransaction = () => this.executeInTransaction(options.contextName!, next);
+    return this.runInTransaction(next, options);
+  }
 
-    return this.context.run(ctx, () => (options.retry ? this.retryStrategy?.acquire(runInTransaction) : runInTransaction()));
+  private runInTransaction(next: InterceptorNext, options: TransactionOptions): Promise<unknown | undefined> {
+    const callback = () => this.executeInTransaction(options.contextName!, next);
+
+    return options.retry && this.retryStrategy ? this.retryStrategy.acquire(callback) : callback();
   }
 
   private extractContextName(context: InterceptorContext<unknown>): TransactionOptions {
@@ -106,7 +82,7 @@ export class TransactionalInterceptor implements InterceptorMethods {
   }
 
   private async executeInTransaction(contextName: string, next: InterceptorNext): Promise<unknown> {
-    const em = this.context.get(contextName);
+    const em = this.entityManagers.get(contextName);
 
     const result = await next();
 

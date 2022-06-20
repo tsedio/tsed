@@ -6,12 +6,13 @@ import {Logger} from "@tsed/logger";
 
 @Injectable()
 export class MikroOrmRegistry {
+  private readonly DEFAULT_CONTEXT_NAME = "default";
   private readonly instances = new Map<string, MikroORM>();
 
   constructor(@Inject() private readonly logger: Logger, @Inject() private readonly mikroOrmFactory: MikroOrmFactory) {}
 
   public async register<T extends DatabaseDriver>(options: Options<T>): Promise<MikroORM> {
-    const contextName = getValue<string>(options, "contextName", "default");
+    const contextName = getValue<string>(options, "contextName", this.DEFAULT_CONTEXT_NAME);
 
     if (this.has(contextName)) {
       return this.get(contextName)!;
@@ -36,12 +37,16 @@ export class MikroOrmRegistry {
     return this.register(options);
   }
 
-  public get(contextName: string = "default"): MikroORM | undefined {
-    return this.instances.get(contextName);
+  public get(contextName?: string): MikroORM | undefined {
+    return this.instances.get(contextName ?? this.DEFAULT_CONTEXT_NAME);
   }
 
-  public has(contextName: string = "default"): boolean {
-    return this.instances.has(contextName);
+  public has(contextName?: string): boolean {
+    return this.instances.has(contextName ?? this.DEFAULT_CONTEXT_NAME);
+  }
+
+  public values(): IterableIterator<MikroORM> {
+    return this.instances.values();
   }
 
   public async clear(): Promise<void> {
