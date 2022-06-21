@@ -23,7 +23,7 @@ export class MikroOrmEntityManagers {
   constructor(@Inject() private readonly logger: Logger) {}
 
   public set(em: EntityManager | EntityManager[]): this {
-    const managers = Array.isArray(em) ? em : [em];
+    const managers = ([] as EntityManager[]).concat(em);
 
     if (this.context) {
       const forks = new Map(managers.map((em) => [em.name, this.fork(em)]));
