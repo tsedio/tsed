@@ -1,25 +1,49 @@
 import {PlatformTest} from "@tsed/common";
 import {MikroOrmContextMiddleware} from "./MikroOrmContextMiddleware";
-import {anything, reset, spy, verify} from "ts-mockito";
-import {RequestContext} from "@mikro-orm/core";
+import {deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
+import {MikroOrmEntityManagers} from "../services/MikroOrmEntityManagers";
+import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
+import {EntityManager, MikroORM} from "@mikro-orm/core";
 
 describe("MikroOrmContextMiddleware", () => {
-  const next = jest.fn();
-  const spiedRequestContext = spy(RequestContext);
+  const mockedManagers = mock<MikroOrmEntityManagers>();
+  const mockedMikroOrmRegistry = mock<MikroOrmRegistry>();
+  const mockedMikroORM = mock<MikroORM>();
 
-  beforeEach(() => PlatformTest.create());
+  beforeEach(() =>
+    PlatformTest.create({
+      imports: [
+        {
+          token: MikroOrmRegistry,
+          use: instance(mockedMikroOrmRegistry)
+        },
+        {
+          token: MikroOrmEntityManagers,
+          use: instance(mockedManagers)
+        }
+      ]
+    })
+  );
+
   afterEach(() => {
-    next.mockReset();
-    reset(spiedRequestContext);
+    reset<MikroOrmEntityManagers | MikroOrmRegistry | MikroORM>(mockedManagers, mockedMikroOrmRegistry, mockedMikroORM);
 
     return PlatformTest.reset();
   });
 
   it("should create context", async () => {
+    // arrange
+    const expected = {name: "context1"} as unknown as EntityManager;
     const middleware = PlatformTest.get<MikroOrmContextMiddleware>(MikroOrmContextMiddleware);
+    const ctx = PlatformTest.createRequestContext();
 
-    await middleware.use(next);
+    when(mockedMikroOrmRegistry.values()).thenReturn([instance(mockedMikroORM)] as unknown as IterableIterator<MikroORM>);
+    when(mockedMikroORM.em).thenReturn(expected);
 
-    verify(spiedRequestContext.createAsync(anything(), next)).once();
+    // act
+    await middleware.use(ctx);
+
+    // assert
+    verify(mockedManagers.set(deepEqual([expected]))).once();
   });
 });
