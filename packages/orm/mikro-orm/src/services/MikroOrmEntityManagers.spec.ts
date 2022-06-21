@@ -8,14 +8,23 @@ import {anything, instance, mock, objectContaining, reset, verify, when} from "t
 describe("MikroOrmEntityManagers", () => {
   const mockedEntityManager = mock<EntityManagerCompat>();
   const mockedLogger = mock<Logger>();
+
   let entityManager!: EntityManager;
   let store!: MikroOrmEntityManagers;
 
-  beforeEach(() => {
-    store = new MikroOrmEntityManagers(instance(mockedLogger));
+  beforeEach(async () => {
     entityManager = instance(mockedEntityManager);
 
-    return PlatformTest.create();
+    await PlatformTest.create({
+      imports: [
+        {
+          token: Logger,
+          use: instance(mockedLogger)
+        }
+      ]
+    });
+
+    store = PlatformTest.get<MikroOrmEntityManagers>(MikroOrmEntityManagers);
   });
   afterEach(() => {
     reset(mockedEntityManager);
@@ -35,10 +44,9 @@ describe("MikroOrmEntityManagers", () => {
     it("should return entity manager if context is initialized", async () => {
       // arrange
       const ctx = PlatformTest.createRequestContext();
-      const expected = {} as unknown as EntityManager;
 
       when(mockedEntityManager.name).thenReturn("context1");
-      when(mockedEntityManager.fork(anything(), anything())).thenReturn(expected);
+      when(mockedEntityManager.fork(anything(), anything())).thenReturn(entityManager);
 
       expect.assertions(1);
 
@@ -49,7 +57,7 @@ describe("MikroOrmEntityManagers", () => {
         const result = store.get("context1");
 
         // assert
-        expect(result).toEqual(expected);
+        expect(result).toBe(entityManager);
       });
     });
   });
@@ -104,37 +112,6 @@ describe("MikroOrmEntityManagers", () => {
 
         // assert
         expect(result).toBe(true);
-      });
-    });
-  });
-
-  describe("entries", () => {
-    it("should return undefined if context is not initialized", () => {
-      // act
-      const result = store.entries();
-
-      // assert
-      expect(result).toBeUndefined();
-    });
-
-    it("should return entity managers if context is initialized", async () => {
-      // arrange
-      const ctx = PlatformTest.createRequestContext();
-      const expected = {} as unknown as EntityManager;
-
-      when(mockedEntityManager.name).thenReturn("context1");
-      when(mockedEntityManager.fork(anything(), anything())).thenReturn(expected);
-
-      expect.assertions(1);
-
-      await runInContext(ctx, () => {
-        store.set(entityManager);
-
-        // act
-        const result = store.entries();
-
-        // assert
-        expect(result).toEqual(new Map([["context1", expected]]));
       });
     });
   });
