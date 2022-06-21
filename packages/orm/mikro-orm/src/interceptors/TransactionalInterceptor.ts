@@ -3,6 +3,7 @@ import {Logger} from "@tsed/logger";
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
 import {RetryStrategy} from "../services/RetryStrategy";
 import {MikroOrmEntityManagers} from "../services/MikroOrmEntityManagers";
+import {EntityManager} from "@mikro-orm/core";
 
 export interface TransactionOptions {
   retry?: boolean;
@@ -30,10 +31,10 @@ export class TransactionalInterceptor implements InterceptorMethods {
       this.logger.warn(`To retry a transaction you have to implement a "${RetryStrategy.description}" interface`);
     }
 
-    return this.runWithinNewCtx(next, options);
+    return this.runWithinCtx(next, options);
   }
 
-  private runWithinNewCtx(next: InterceptorNext, options: TransactionOptions): Promise<unknown> | unknown {
+  private runWithinCtx(next: InterceptorNext, options: TransactionOptions): Promise<unknown> | unknown {
     const orm = this.registry.get(options.contextName);
 
     if (!orm) {
@@ -44,11 +45,15 @@ export class TransactionalInterceptor implements InterceptorMethods {
 
     const {em} = orm;
 
+    this.forkIfNoSuchEntityManager(em);
+
+    return this.runInTransaction(next, options);
+  }
+
+  private forkIfNoSuchEntityManager(em: EntityManager): void {
     if (!this.managers.has(em.name)) {
       this.managers.set(em);
     }
-
-    return this.runInTransaction(next, options);
   }
 
   private runInTransaction(next: InterceptorNext, options: TransactionOptions): Promise<unknown | undefined> {
