@@ -6,12 +6,12 @@ import {MikroOrmEntityManagers} from "../services/MikroOrmEntityManagers";
 
 @Middleware()
 export class MikroOrmContextMiddleware implements MiddlewareMethods {
-  constructor(@Inject() private readonly store: MikroOrmEntityManagers, @Inject() private readonly registry: MikroOrmRegistry) {}
+  constructor(@Inject() private readonly managers: MikroOrmEntityManagers, @Inject() private readonly registry: MikroOrmRegistry) {}
 
   public use(@Context() ctx: Context): void {
     const instances = [...this.registry.values()];
-    const entityManagers = instances.map((orm) => orm.em);
+    const managers = instances.map((orm) => orm.em);
 
-    this.store.set(entityManagers);
+    this.managers.set(managers);
   }
 }

@@ -4,12 +4,12 @@ import {MikroOrmEntityManagers} from "./MikroOrmEntityManagers";
 
 @Injectable()
 export class MikroOrmFactory {
-  constructor(@Inject() private readonly entityManagerStore: MikroOrmEntityManagers) {}
+  constructor(@Inject() private readonly managers: MikroOrmEntityManagers) {}
 
   public create(options: Options): Promise<MikroORM> {
     return MikroORM.init({
       ...options,
-      context: (name: string) => this.entityManagerStore.get(name)
+      context: (name: string) => this.managers.get(name)
     });
   }
 }

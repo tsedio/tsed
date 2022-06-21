@@ -32,7 +32,7 @@ export class MikroOrmEntityManagers {
   }
 
   public set(em: EntityManager | EntityManager[]): this {
-    const entityManagers = Array.isArray(em) ? em : [em];
+    const managers = Array.isArray(em) ? em : [em];
 
     if (this.context) {
       /**
@@ -46,7 +46,7 @@ export class MikroOrmEntityManagers {
        *
        * To ensure backward compatibility with v4.x and add support for v5.x, provided the following workaround:
        */
-      const forks = new Map(entityManagers.map((em) => [em.name, (em as EntityManagerCompat).fork({clear: true, useContext: true}, true)]));
+      const forks = new Map(managers.map((em) => [em.name, (em as EntityManagerCompat).fork({clear: true, useContext: true}, true)]));
 
       this.logger.debug("Forking the following entity managers: %s.", forks.keys());
 

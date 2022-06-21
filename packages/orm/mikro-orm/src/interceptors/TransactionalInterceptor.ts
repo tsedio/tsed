@@ -17,7 +17,7 @@ export interface TransactionOptions {
 export class TransactionalInterceptor implements InterceptorMethods {
   constructor(
     @Inject() private readonly registry: MikroOrmRegistry,
-    @Inject() private readonly entityManagers: MikroOrmEntityManagers,
+    @Inject() private readonly managers: MikroOrmEntityManagers,
     @Inject() private readonly logger: Logger,
     @Inject(RetryStrategy)
     private readonly retryStrategy?: RetryStrategy
@@ -44,8 +44,8 @@ export class TransactionalInterceptor implements InterceptorMethods {
 
     const {em} = orm;
 
-    if (!this.entityManagers.has(em.name)) {
-      this.entityManagers.set(em);
+    if (!this.managers.has(em.name)) {
+      this.managers.set(em);
     }
 
     return this.runInTransaction(next, options);
@@ -82,7 +82,7 @@ export class TransactionalInterceptor implements InterceptorMethods {
   }
 
   private async executeInTransaction(contextName: string, next: InterceptorNext): Promise<unknown> {
-    const em = this.entityManagers.get(contextName);
+    const em = this.managers.get(contextName);
 
     const result = await next();
 
