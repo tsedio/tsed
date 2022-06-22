@@ -55,7 +55,7 @@ describe("TransactionalInterceptor", () => {
       verify(mockedEntityManager.flush()).once();
     });
 
-    it("should fork an entity manger", async () => {
+    it("should fork an entity manager", async () => {
       // arrange
       const context = {} as InterceptorContext;
       const entityManger = instance(mockedEntityManager);
