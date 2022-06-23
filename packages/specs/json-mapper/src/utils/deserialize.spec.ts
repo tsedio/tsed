@@ -685,7 +685,7 @@ describe("deserialize()", () => {
 
       class Model<T> extends Base<T> {
         @MinLength(0)
-        email: string;
+        declare email: string;
 
         @Property()
         name: string;

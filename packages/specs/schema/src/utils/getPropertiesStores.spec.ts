@@ -11,7 +11,7 @@ class Base {
 
 class Child extends Base {
   @Required()
-  id: string;
+  declare id: string;
 
   @Property()
   name: string;
@@ -42,24 +42,24 @@ describe("getProperties()", () => {
 
     class Children extends Parent {
       @Property()
-      id: string;
+      declare id: string;
 
       @Property()
       test: string;
 
       @Ignore()
-      categoryId: string;
+      declare categoryId: string;
     }
 
     class Children2 extends Parent {
       @Property()
-      id: string;
+      declare id: string;
 
       @Property()
       test: string;
 
       @Property()
-      categoryId: string;
+      declare categoryId: string;
     }
 
     describe("when is the Children class", () => {

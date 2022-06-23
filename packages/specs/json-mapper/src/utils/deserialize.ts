@@ -114,6 +114,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   const propertiesMap = getProperties(store, {...options, withIgnoredProps: true});
 
   let keys = new Set<any>(objectKeys(src));
+
   const additionalProperties = propertiesMap.size ? !!store.schema.get("additionalProperties") || options.additionalProperties : true;
 
   src = alterBeforeDeserialize(src, store.schema, options);

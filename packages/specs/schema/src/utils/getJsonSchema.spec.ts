@@ -592,7 +592,7 @@ describe("getJsonSchema", () => {
 
     class Model extends Base {
       @MinLength(0)
-      email: string;
+      declare email: string;
 
       @Property()
       name: string;

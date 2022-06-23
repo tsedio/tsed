@@ -46,15 +46,15 @@ class Test2 extends Parent1 {
 describe("Enumerable", () => {
   it("should have some keys with Test1", () => {
     expect(getEnumerableKeys(new Test1())).toEqual(["test", "name"]);
-    expect(Object.keys(new Test1())).toEqual(["test"]);
-    expect(Object.getOwnPropertyNames(new Test1())).toEqual(["test"]);
-    expect(Reflect.ownKeys(new Test2())).toEqual(["prop", "test", "_privateTest"]);
+    expect(Object.keys(new Test1())).toEqual(["test", "name"]);
+    expect(Object.getOwnPropertyNames(new Test1())).toEqual(["test", "name"]);
+    expect(Reflect.ownKeys(new Test2())).toEqual(["parentProp", "prop", "test", "name", "_privateTest"]);
   });
 
   it("should have some keys with Test2", () => {
-    expect(getEnumerableKeys(new Test2())).toEqual(["prop", "test", "first", "privateTest", "name", "parentProp"]);
-    expect(Object.keys(new Test2())).toEqual(["prop", "test", "_privateTest"]);
-    expect(Object.getOwnPropertyNames(new Test2())).toEqual(["prop", "test", "_privateTest"]);
-    expect(Reflect.ownKeys(new Test2())).toEqual(["prop", "test", "_privateTest"]);
+    expect(getEnumerableKeys(new Test2())).toEqual(["parentProp", "prop", "test", "name", "first", "privateTest"]);
+    expect(Object.keys(new Test2())).toEqual(["parentProp", "prop", "test", "name", "_privateTest"]);
+    expect(Object.getOwnPropertyNames(new Test2())).toEqual(["parentProp", "prop", "test", "name", "_privateTest"]);
+    expect(Reflect.ownKeys(new Test2())).toEqual(["parentProp", "prop", "test", "name", "_privateTest"]);
   });
 });

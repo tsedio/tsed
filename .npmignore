@@ -1,6 +1,8 @@
 test
 src/**/*.js
 src/**/*.js.map
+__mock__
+*.spec.js
 coverage
 tsconfig.json
 tsconfig.compile.json

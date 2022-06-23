@@ -1,8 +1,9 @@
+import faker from "@faker-js/faker";
 import {Adapter, Adapters, MemoryAdapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
-import {Format, Name, Property} from "@tsed/schema";
-import faker from "@faker-js/faker";
+import {getSchema} from "@tsed/mongoose";
+import {Format, getJsonSchema, Name, Property} from "@tsed/schema";
 
 class BaseClient {
   @Format("date-time")
@@ -26,6 +27,25 @@ describe("MemoryAdapter", () => {
       collectionName: "clients",
       model: Client,
       adapter: MemoryAdapter
+    });
+  });
+  describe("getSchema", () => {
+    it("should", () => {
+      expect(getJsonSchema(Client)).toEqual({
+        properties: {
+          createdAt: {
+            format: "date-time",
+            type: "string"
+          },
+          id: {
+            type: "string"
+          },
+          name: {
+            type: "string"
+          }
+        },
+        type: "object"
+      });
     });
   });
 

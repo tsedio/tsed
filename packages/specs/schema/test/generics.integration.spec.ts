@@ -40,7 +40,7 @@ describe("Generics", () => {
 
         class Model<T> extends Base<T> {
           @MinLength(0)
-          email: string;
+          declare email: string;
 
           @Property()
           name: string;
@@ -108,7 +108,7 @@ describe("Generics", () => {
 
         class Model<T> extends Base<T> {
           @MinLength(0)
-          email: string;
+          declare email: string;
 
           @Property()
           name: string;
