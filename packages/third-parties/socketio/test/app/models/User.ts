@@ -31,5 +31,5 @@ export class User extends UserCreation {
   @MinLength(6)
   @Allow(null)
   @Ignore()
-  password: string;
+  declare password: string;
 }

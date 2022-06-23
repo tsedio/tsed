@@ -14,6 +14,7 @@ describe("RequiredValidationError", () => {
       status: 400,
       headers: {},
       type: "HTTP_EXCEPTION",
+      message: "It should have required parameter 'expression'",
       errors: [
         {
           dataPath: "",

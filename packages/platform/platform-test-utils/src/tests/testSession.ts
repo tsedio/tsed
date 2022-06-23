@@ -25,7 +25,7 @@ export class UserCreation {
 
 export class User extends UserCreation {
   @Ignore()
-  password: string;
+  declare password: string;
 }
 
 @Controller("/session")

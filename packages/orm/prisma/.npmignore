@@ -3,3 +3,5 @@ test
 tsconfig.compile.json
 tsconfig.json
 jest.config.js
+__mock__
+*.spec.js

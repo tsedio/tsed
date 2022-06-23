@@ -21,7 +21,7 @@ import "../components/stringToComponent";
 export async function getFormioSchema(
   model: string | any | undefined,
   options: JsonSchemaOptions = {}
-): Promise<Omit<FormioForm, "components" | "_id" | "deleted" | "owner"> | undefined> {
+): Promise<Omit<FormioForm, "_id" | "deleted" | "owner"> | undefined> {
   if (!model) {
     return undefined;
   }
