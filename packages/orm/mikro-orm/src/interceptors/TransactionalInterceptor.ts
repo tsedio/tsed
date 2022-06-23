@@ -1,9 +1,8 @@
 import {Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
 import {RetryStrategy} from "../services/RetryStrategy";
-import {MikroOrmEntityManagers} from "../services/MikroOrmEntityManagers";
-import {EntityManager} from "@mikro-orm/core";
+import {MikroOrmContext} from "../services/MikroOrmContext";
+import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
 
 export interface TransactionOptions {
   retry?: boolean;
@@ -14,11 +13,13 @@ export interface TransactionOptions {
   connectionName?: string;
 }
 
+type TransactionSettings = Required<Omit<TransactionOptions, "connectionName">>;
+
 @Interceptor()
 export class TransactionalInterceptor implements InterceptorMethods {
   constructor(
     @Inject() private readonly registry: MikroOrmRegistry,
-    @Inject() private readonly managers: MikroOrmEntityManagers,
+    @Inject() private readonly context: MikroOrmContext,
     @Inject() private readonly logger: Logger,
     @Inject(RetryStrategy)
     private readonly retryStrategy?: RetryStrategy
@@ -31,10 +32,20 @@ export class TransactionalInterceptor implements InterceptorMethods {
       this.logger.warn(`To retry a transaction you have to implement a "${RetryStrategy.description}" interface`);
     }
 
-    return this.runWithinCtx(next, options);
+    if (this.context.has(options.contextName)) {
+      return this.runWithinCtx(next, options);
+    }
+
+    return this.runWithinNewCtx(next, options);
   }
 
-  private runWithinCtx(next: InterceptorNext, options: TransactionOptions): Promise<unknown> | unknown {
+  private runWithinCtx(next: InterceptorNext, options: TransactionSettings): Promise<unknown> | unknown {
+    const callback = () => this.executeInTransaction(options.contextName, next);
+
+    return options.retry && this.retryStrategy ? this.retryStrategy.acquire(callback) : callback();
+  }
+
+  private runWithinNewCtx(next: InterceptorNext, options: TransactionSettings): Promise<unknown> | unknown {
     const orm = this.registry.get(options.contextName);
 
     if (!orm) {
@@ -43,27 +54,11 @@ export class TransactionalInterceptor implements InterceptorMethods {
       );
     }
 
-    const {em} = orm;
-
-    this.forkIfNoSuchEntityManager(em);
-
-    return this.runInTransaction(next, options);
+    return this.context.run([orm.em], () => this.runWithinCtx(next, options));
   }
 
-  private forkIfNoSuchEntityManager(em: EntityManager): void {
-    if (!this.managers.has(em.name)) {
-      this.managers.set(em);
-    }
-  }
-
-  private runInTransaction(next: InterceptorNext, options: TransactionOptions): Promise<unknown | undefined> {
-    const callback = () => this.executeInTransaction(options.contextName!, next);
-
-    return options.retry && this.retryStrategy ? this.retryStrategy.acquire(callback) : callback();
-  }
-
-  private extractContextName(context: InterceptorContext<unknown>): TransactionOptions {
-    const options = context.options || ({} as Partial<TransactionOptions> | string);
+  private extractContextName(context: InterceptorContext<unknown>): TransactionSettings {
+    const options = context.options || ({} as TransactionOptions | string);
 
     let contextName: string | undefined;
     let retry: boolean | undefined;
@@ -87,11 +82,11 @@ export class TransactionalInterceptor implements InterceptorMethods {
   }
 
   private async executeInTransaction(contextName: string, next: InterceptorNext): Promise<unknown> {
-    const em = this.managers.get(contextName);
+    const manager = this.context.get(contextName);
 
     const result = await next();
 
-    await em?.flush();
+    await manager?.flush();
 
     return result;
   }

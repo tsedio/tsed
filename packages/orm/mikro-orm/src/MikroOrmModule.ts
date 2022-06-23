@@ -3,8 +3,9 @@ import {Constant, Inject, Module, OnDestroy, OnInit, registerProvider} from "@ts
 import {Options} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
 import {RetryStrategy} from "./services/RetryStrategy";
-import {MikroOrmContextMiddleware} from "./middlewares/MikroOrmContextMiddleware";
 import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter";
+import {BeforeRoutesInit, Next, PlatformApplication, Req, Res} from "@tsed/common";
+import {MikroOrmContext} from "./services/MikroOrmContext";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -20,24 +21,45 @@ declare global {
 }
 
 @Module({
-  responseFilters: [OptimisticLockErrorFilter],
-  middlewares: [{hook: "$beforeRoutesInit", use: MikroOrmContextMiddleware}]
+  responseFilters: [OptimisticLockErrorFilter]
 })
-export class MikroOrmModule implements OnDestroy, OnInit {
+export class MikroOrmModule implements OnDestroy, OnInit, BeforeRoutesInit {
   @Constant("mikroOrm", [])
   private readonly settings!: Options[];
 
   @Inject()
-  private readonly mikroOrmRegistry!: MikroOrmRegistry;
+  private readonly registry!: MikroOrmRegistry;
+
+  @Inject()
+  private readonly context!: MikroOrmContext;
+
+  @Inject()
+  private readonly app: PlatformApplication;
 
   public async $onInit(): Promise<void> {
-    const promises = this.settings.map((opts) => this.mikroOrmRegistry.register(opts));
+    const promises = this.settings.map((opts) => this.registry.register(opts));
 
     await Promise.all(promises);
   }
 
   public $onDestroy(): Promise<void> {
-    return this.mikroOrmRegistry.clear();
+    return this.registry.clear();
+  }
+
+  public $beforeRoutesInit(): void {
+    /**
+     * Use a raw middleware to create an async context,
+     * since {@link PlatformHandler} is losing a context created by {@link RequestContext}.
+     * For details see https://github.com/tsedio/tsed/issues/1289
+     */
+    this.app.use((req: Req, res: Res, next: Next) => this.createContext(next));
+  }
+
+  private createContext(next: Next): unknown {
+    const instances = [...this.registry.values()];
+    const managers = instances.map((orm) => orm.em);
+
+    return this.context.run(managers, next as any);
   }
 }
 

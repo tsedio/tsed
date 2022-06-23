@@ -1,15 +1,15 @@
 import {MikroORM, Options} from "@mikro-orm/core";
 import {Inject, Injectable} from "@tsed/di";
-import {MikroOrmEntityManagers} from "./MikroOrmEntityManagers";
+import {MikroOrmContext} from "./MikroOrmContext";
 
 @Injectable()
 export class MikroOrmFactory {
-  constructor(@Inject() private readonly managers: MikroOrmEntityManagers) {}
+  constructor(@Inject() private readonly context: MikroOrmContext) {}
 
   public create(options: Options): Promise<MikroORM> {
     return MikroORM.init({
       ...options,
-      context: (name: string) => this.managers.get(name)
+      context: (name: string) => this.context.get(name)
     });
   }
 }
