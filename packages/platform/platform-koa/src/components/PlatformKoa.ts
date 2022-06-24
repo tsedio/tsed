@@ -11,7 +11,8 @@ import {
   PlatformMulterSettings,
   PlatformRequest,
   PlatformResponse,
-  PlatformStaticsOptions
+  PlatformStaticsOptions,
+  runInContext
 } from "@tsed/common";
 import {isFunction, Type} from "@tsed/core";
 import Koa, {Context, Next} from "koa";
@@ -128,13 +129,13 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
     const invoke = createContext(this.injector);
 
     app.getApp().use(async (ctx: Context, next: Next) => {
-      await invoke({
+      const $ctx = await invoke({
         request: ctx.request as any,
         response: ctx.response as any,
         ctx
       });
 
-      return next();
+      return $ctx.runInContext(next);
     });
 
     return this;

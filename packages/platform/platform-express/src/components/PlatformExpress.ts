@@ -14,7 +14,8 @@ import {
   PlatformMulterSettings,
   PlatformRequest,
   PlatformResponse,
-  PlatformStaticsOptions
+  PlatformStaticsOptions,
+  runInContext
 } from "@tsed/common";
 import {promisify} from "util";
 import {Env, isFunction, nameOf, Type} from "@tsed/core";
@@ -157,9 +158,9 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
 
     app.getApp().use(async (request: any, response: any, next: any) => {
-      await invoke({request, response});
+      const $ctx = await invoke({request, response});
 
-      return next();
+      return $ctx.runInContext(next);
     });
 
     return this;
