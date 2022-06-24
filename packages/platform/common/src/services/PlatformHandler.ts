@@ -1,5 +1,5 @@
 import {AnyToPromiseStatus, isFunction, isStream} from "@tsed/core";
-import {Inject, Injectable, InjectorService, Provider, ProviderScope, runInContext} from "@tsed/di";
+import {Inject, Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {ArgScope, HandlerWithScope, PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
@@ -135,30 +135,28 @@ export class PlatformHandler {
 
     const resolver = new AnyToPromiseWithCtx({$ctx, err});
 
-    return runInContext($ctx, async () => {
-      try {
-        const {state, data, status, headers} = await resolver.call(handler);
+    try {
+      const {state, data, status, headers} = await resolver.call(handler);
 
-        if (state === AnyToPromiseStatus.RESOLVED) {
-          if (status) {
-            $ctx.response.status(status);
-          }
-
-          if (headers) {
-            $ctx.response.setHeaders(headers);
-          }
-
-          if (data !== undefined) {
-            $ctx.data = data;
-          }
-
-          // Can be canceled by the handler itself
-          return await this.onSuccess($ctx.data, requestOptions);
+      if (state === AnyToPromiseStatus.RESOLVED) {
+        if (status) {
+          $ctx.response.status(status);
         }
-      } catch (er) {
-        return this.onError(er, requestOptions);
+
+        if (headers) {
+          $ctx.response.setHeaders(headers);
+        }
+
+        if (data !== undefined) {
+          $ctx.data = data;
+        }
+
+        // Can be canceled by the handler itself
+        return await this.onSuccess($ctx.data, requestOptions);
       }
-    });
+    } catch (er) {
+      return this.onError(er, requestOptions);
+    }
   }
 
   protected async onError(er: Error, requestOptions: OnRequestOptions) {

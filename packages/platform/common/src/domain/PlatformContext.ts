@@ -1,6 +1,6 @@
 import {ContextMethods, DIContext, DIContextOptions} from "@tsed/di";
-import {IncomingMessage, ServerResponse} from "http";
 import {EndpointMetadata} from "@tsed/schema";
+import {IncomingMessage, ServerResponse} from "http";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
