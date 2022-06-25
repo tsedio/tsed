@@ -1,9 +1,10 @@
-import {PlatformApplication, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {EntityManager, MikroORM, Options} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
 import {anyFunction, anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
 import {MikroOrmModule} from "./MikroOrmModule";
 import {MikroOrmContext} from "./services/MikroOrmContext";
+import {DIContext} from "@tsed/di";
 
 describe("MikroOrmModule", () => {
   const config: Options = {
@@ -15,9 +16,9 @@ describe("MikroOrmModule", () => {
   const mockedMikroOrmContext = mock<MikroOrmContext>();
   const mockedMikroORM = mock<MikroORM>();
   const mockedEntityManager = mock<EntityManager>();
+  const mockedDIContext = mock<DIContext>();
 
   let mikroOrmModule!: MikroOrmModule;
-  let spiedUseMethod!: jest.SpyInstance;
 
   beforeEach(async () => {
     await PlatformTest.create({
@@ -35,19 +36,17 @@ describe("MikroOrmModule", () => {
     });
 
     mikroOrmModule = PlatformTest.get<MikroOrmModule>(MikroOrmModule);
-    const app = PlatformTest.get<PlatformApplication>(PlatformApplication);
-
-    spiedUseMethod = jest.spyOn(app, "use");
   });
 
   afterEach(() => {
     jest.resetAllMocks();
 
-    reset<MikroOrmRegistry | EntityManager | MikroORM | MikroOrmContext>(
+    reset<MikroOrmRegistry | EntityManager | MikroORM | MikroOrmContext | DIContext>(
       mockedMikroOrmRegistry,
       mockedMikroOrmContext,
       mockedMikroORM,
-      mockedEntityManager
+      mockedEntityManager,
+      mockedDIContext
     );
 
     return PlatformTest.reset();
@@ -78,31 +77,34 @@ describe("MikroOrmModule", () => {
     });
   });
 
-  describe("$beforeRoutesInit", () => {
-    it("should register a raw middleware", async () => {
+  describe("$alterRunInContext", () => {
+    it("should return a function", async () => {
+      // arrange
+      const next = jest.fn();
+      const diContext = instance(mockedDIContext);
+
       // act
-      await mikroOrmModule.$beforeRoutesInit();
+      const result = mikroOrmModule.$alterRunInContext(next, diContext);
 
       // assert
-      expect(spiedUseMethod).toHaveBeenCalledWith(expect.any(Function));
+      expect(result).toBeInstanceOf(Function);
     });
 
-    it("should make a middleware create a context", async () => {
+    it("should make a function create a context", async () => {
       // arrange
-      const mockedNext = jest.fn();
+      const next = jest.fn();
       const manager = instance(mockedEntityManager);
+      const diContext = instance(mockedDIContext);
 
       when(mockedMikroOrmRegistry.values()).thenReturn([instance(mockedMikroORM)] as unknown as IterableIterator<MikroORM>);
       when(mockedMikroORM.em).thenReturn(manager);
       when(mockedMikroOrmContext.run(anything(), anything())).thenReturn();
-      spiedUseMethod.mockImplementation((callback) => callback(undefined, undefined, mockedNext));
 
       // act
-      await mikroOrmModule.$beforeRoutesInit();
+      mikroOrmModule.$alterRunInContext(next, diContext)();
 
       // assert
-      expect(spiedUseMethod).toHaveBeenCalled();
-      verify(mockedMikroOrmContext.run(deepEqual([manager]), anyFunction())).once();
+      verify(mockedMikroOrmContext.run(deepEqual([manager]), next)).once();
     });
   });
 });
