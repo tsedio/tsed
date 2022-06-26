@@ -102,6 +102,12 @@ describe("PlatformConfiguration", () => {
         toString: info.toString
       });
       expect(settings.getBestHost().toString()).toEqual("https://address:8080");
+
+      settings.set("httpsPort", false);
+      expect(settings.getBestHost().toString()).toEqual("http://address:8081");
+
+      settings.set("httpPort", false);
+      expect(settings.getBestHost().toString()).toEqual("/");
     });
 
     it("should return componentsScan", () => {

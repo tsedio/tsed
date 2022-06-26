@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
-import {PlatformRequest} from "./PlatformRequest";
 import {createSandbox} from "sinon";
+import {PlatformRequest} from "./PlatformRequest";
 
 function createRequest() {
   const $ctx = PlatformTest.createRequestContext();
@@ -74,6 +74,40 @@ describe("PlatformRequest", () => {
       request.accepts("application/json");
 
       expect(req.accepts).toBeCalledWith("application/json");
+    });
+  });
+
+  describe("rawBody()", () => {
+    it("should return the rawBody", () => {
+      const {req, request} = createRequest();
+      req.rawBody = "raw";
+      const raw = request.rawBody;
+
+      expect(raw).toEqual("raw");
+    });
+    it("should return the body", () => {
+      const {req, request} = createRequest();
+      req.body = "raw";
+      const raw = request.rawBody;
+
+      expect(raw).toEqual("raw");
+    });
+  });
+
+  describe("files()", () => {
+    it("should return the files", () => {
+      const {req, request} = createRequest();
+      req.files = "files";
+
+      expect(request.files).toEqual("files");
+    });
+  });
+
+  describe("getReq()", () => {
+    it("should return req", () => {
+      const {req, request} = createRequest();
+
+      expect(request.req).toEqual(req);
     });
   });
 

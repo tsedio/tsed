@@ -1,14 +1,19 @@
-import {Platform, PlatformTest} from "@tsed/common";
 import {printRoutes} from "./printRoutes";
 
 describe("printRoutes()", () => {
-  it(
-    "should return routes",
-    PlatformTest.inject([Platform], (platform: Platform) => {
-      const routes = platform.getRoutes();
+  it("should return routes", () => {
+    const routes = [
+      {
+        method: "GET",
+        url: "/",
+        name: "name",
+        toJSON() {
+          return this;
+        }
+      }
+    ];
 
-      // tslint:disable-next-line: no-unused-variable
-      expect(typeof printRoutes(routes)).toBe("string");
-    })
-  );
+    // tslint:disable-next-line: no-unused-variable
+    expect(typeof printRoutes(routes as any)).toBe("string");
+  });
 });

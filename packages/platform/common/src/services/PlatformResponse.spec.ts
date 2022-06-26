@@ -197,4 +197,48 @@ describe("PlatformResponse", () => {
       });
     });
   });
+  describe("response()", () => {
+    it("should return the response framework", () => {
+      const {res, response} = createResponse();
+
+      expect(response.response).toEqual(res);
+    });
+  });
+  describe("getRes()", () => {
+    it("should return the response framework", () => {
+      const {res, response} = createResponse();
+
+      expect(response.getRes()).toEqual(res);
+    });
+  });
+  describe("res()", () => {
+    it("should return the response framework", () => {
+      const {res, response} = createResponse();
+
+      expect(response.res).toEqual(res);
+    });
+  });
+  describe("attachment()", () => {
+    it("should set attachment", () => {
+      const {res, response} = createResponse();
+
+      res.attachment = jest.fn();
+
+      response.attachment("filename");
+
+      expect(res.attachment).toHaveBeenCalledWith("filename");
+    });
+  });
+  describe("onEnd()", () => {
+    it("should listen onEnd event", () => {
+      const {res, response} = createResponse();
+      const cb = jest.fn();
+
+      jest.spyOn(PlatformResponse, "onFinished").mockReturnValue();
+
+      response.onEnd(cb);
+
+      expect(PlatformResponse.onFinished).toHaveBeenCalledWith(res, cb);
+    });
+  });
 });
