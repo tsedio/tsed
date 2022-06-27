@@ -2,18 +2,11 @@ import {ParamTypes} from "@tsed/platform-params";
 import {EndpointMetadata, JsonOperationRoute} from "@tsed/schema";
 import {ControllerProvider} from "./ControllerProvider";
 
-export interface PlatformRouterDetailsOptions {
-  provider: ControllerProvider;
-  endpoint: EndpointMetadata;
-  method: string;
-  url: string;
-}
-
 export class PlatformRouteDetails extends JsonOperationRoute<EndpointMetadata> {
   readonly rawBody: boolean;
   readonly provider: ControllerProvider;
 
-  constructor(options: Partial<PlatformRouteDetails> = {}) {
+  constructor(options: Partial<PlatformRouteDetails>) {
     super(options);
     this.rawBody = !!this.endpoint.parameters.find((param) => param.paramType === ParamTypes.RAW_BODY);
   }

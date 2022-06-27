@@ -68,7 +68,6 @@ export * from "./utils/createHttpsServer";
 export * from "./utils/createInjector";
 export * from "./utils/getStaticsOptions";
 export * from "./utils/listenServer";
-export * from "./utils/loadInjector";
 export * from "./utils/mapReturnedResponse";
 export * from "./utils/printRoutes";
 export * from "./utils/setResponseHeaders";
