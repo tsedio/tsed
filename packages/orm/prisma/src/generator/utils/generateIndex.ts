@@ -7,9 +7,6 @@ export function generateIndex(project: Project, baseDirPath: string, hasEnum: bo
   project.createSourceFile(indexFile, undefined, {overwrite: true}).addExportDeclarations(
     [
       {
-        moduleSpecifier: "./client"
-      },
-      {
         moduleSpecifier: "./interfaces"
       },
       hasEnum && {

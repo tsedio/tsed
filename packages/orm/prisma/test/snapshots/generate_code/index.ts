@@ -1,4 +1,3 @@
-export * from "./client";
 export * from "./interfaces";
 export * from "./enums";
 export * from "./models";
