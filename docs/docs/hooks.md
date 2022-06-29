@@ -29,11 +29,11 @@ class Server implements BeforeInit {
 or on your @@Module@@ or @@Service@@:
 
 ```typescript
-import {Module, BeforeInit} from "@tsed/common";
+import {Module, OnInit} from "@tsed/common";
 
 @Module()
-export class MyModule implements BeforeInit {
-  async $beforeInit(): Promise<any> {}
+export class MyModule implements OnInit {
+  async $onInit(): Promise<any> {}
 }
 ```
 
