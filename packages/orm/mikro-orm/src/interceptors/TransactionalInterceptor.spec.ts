@@ -1,63 +1,85 @@
 import {TransactionalInterceptor} from "./TransactionalInterceptor";
-import {anything, instance, mock, reset, spy, verify, when} from "ts-mockito";
-import {InterceptorContext, InterceptorNext} from "@tsed/di";
+import {anyFunction, anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
+import {InterceptorContext} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {EntityManager, MikroORM, OptimisticLockError} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
 import {RetryStrategy} from "../services/RetryStrategy";
-import {DBContext} from "../services/DBContext";
+import {MikroOrmContext} from "../services/MikroOrmContext";
 
 describe("TransactionalInterceptor", () => {
-  const mikroOrmRegistryMock = mock<MikroOrmRegistry>();
-  const mikroOrm = mock(MikroORM);
-  const entityManagerMock: EntityManager & {
-    fork(clearOrForkOptions?: boolean | {clear?: boolean; useContext?: boolean}, useContext?: boolean): EntityManager;
-  } = mock(EntityManager);
-  const loggerMock = mock<Logger>();
-  const retryStrategyMock = mock<RetryStrategy>();
-  const dbContext = new DBContext();
-  const next = (() => {
-    // noop
-  }) as InterceptorNext;
+  const mockedMikroOrmRegistry = mock<MikroOrmRegistry>();
+  const mockedMikroOrm = mock<MikroORM>();
+  const mockedEntityManager = mock<EntityManager>();
+  const mockedLogger = mock<Logger>();
+  const mockedRetryStrategy = mock<RetryStrategy>();
+  const mockedMikroOrmContext = mock<MikroOrmContext>();
+  const next = jest.fn();
 
-  afterEach(() =>
-    reset<MikroOrmRegistry | MikroORM | EntityManager | Logger | RetryStrategy | DBContext>(
-      mikroOrmRegistryMock,
-      mikroOrm,
-      entityManagerMock,
-      loggerMock,
-      retryStrategyMock
-    )
-  );
+  let transactionalInterceptor!: TransactionalInterceptor;
+
+  afterEach(() => {
+    next.mockReset();
+    reset<MikroOrmRegistry | MikroORM | EntityManager | Logger | RetryStrategy | MikroOrmContext>(
+      mockedMikroOrmRegistry,
+      mockedMikroOrm,
+      mockedEntityManager,
+      mockedLogger,
+      mockedMikroOrmContext,
+      mockedRetryStrategy
+    );
+  });
   beforeEach(() => {
-    when(mikroOrm.em).thenReturn(instance(entityManagerMock));
-    when(entityManagerMock.fork(anything(), anything())).thenReturn(instance(entityManagerMock));
+    when(mockedMikroOrm.em).thenReturn(instance(mockedEntityManager));
+
+    transactionalInterceptor = new TransactionalInterceptor(
+      instance(mockedMikroOrmRegistry),
+      instance(mockedMikroOrmContext),
+      instance(mockedLogger)
+    );
   });
 
   describe("intercept", () => {
-    it("should run within a new context", async () => {
+    it("should run within a existing context", async () => {
       // arrange
-      const transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext, instance(loggerMock));
       const context = {} as InterceptorContext;
 
-      when(mikroOrmRegistryMock.get(anything())).thenReturn(instance(mikroOrm));
-      when(entityManagerMock.name).thenReturn("default");
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
+      when(mockedMikroOrmContext.has(anything())).thenReturn(true);
+      when(mockedMikroOrmContext.get(anything())).thenReturn(instance(mockedEntityManager));
 
       // act
       await transactionalInterceptor.intercept(context, next);
 
       // assert
-      verify(mikroOrmRegistryMock.get(anything())).once();
-      verify(entityManagerMock.fork(anything(), anything())).once();
-      verify(entityManagerMock.flush()).once();
+      verify(mockedEntityManager.flush()).once();
+    });
+
+    it("should run within a new context", async () => {
+      // arrange
+      const context = {} as InterceptorContext;
+      const entityManger = instance(mockedEntityManager);
+
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
+      when(mockedMikroOrmContext.has(anything())).thenReturn(false);
+      when(mockedMikroOrmContext.get(anything())).thenReturn(entityManger);
+      when(mockedMikroOrmContext.run(anything(), anything())).thenCall((_: EntityManager[], func: (...args: unknown[]) => unknown) =>
+        func()
+      );
+
+      // act
+      await transactionalInterceptor.intercept(context, next);
+
+      // assert
+      verify(mockedMikroOrmContext.run(deepEqual([entityManger]), anyFunction())).once();
+      verify(mockedEntityManager.flush()).once();
     });
 
     it("should throw an error if no such context", async () => {
       // arrange
-      const transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext, instance(loggerMock));
       const context = {} as InterceptorContext;
 
-      when(mikroOrmRegistryMock.get(anything())).thenReturn();
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn();
 
       // act
       const result = transactionalInterceptor.intercept(context, next);
@@ -68,101 +90,55 @@ describe("TransactionalInterceptor", () => {
 
     it("should throw an optimistic lock exception immediately if no retry strategy", async () => {
       // arrange
-      const transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext, instance(loggerMock));
       const context = {} as InterceptorContext;
 
-      when(mikroOrmRegistryMock.get(anything())).thenReturn(instance(mikroOrm));
-      when(entityManagerMock.name).thenReturn("default");
-      when(entityManagerMock.flush()).thenReject(OptimisticLockError.lockFailed("Lock"));
+      when(mockedMikroOrmContext.has(anything())).thenReturn(true);
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
+      when(mockedEntityManager.flush()).thenReject(OptimisticLockError.lockFailed("Lock"));
+      when(mockedMikroOrmContext.get(anything())).thenReturn(instance(mockedEntityManager));
 
       // act
-      await expect(transactionalInterceptor.intercept(context, next)).rejects.toThrowError("Lock");
+      const result = transactionalInterceptor.intercept(context, next);
 
       // assert
-      verify(mikroOrmRegistryMock.get(anything())).once();
-      verify(entityManagerMock.fork(anything(), anything())).once();
-      verify(entityManagerMock.flush()).times(1);
+      await expect(result).rejects.toThrowError("Lock");
+      verify(mockedEntityManager.flush()).times(1);
     });
 
     it("should apply a retry mechanism if retry is enabled", async () => {
       // arrange
-      const transactionalInterceptor = new TransactionalInterceptor(
-        instance(mikroOrmRegistryMock),
-        dbContext,
-        instance(loggerMock),
-        instance(retryStrategyMock)
+      transactionalInterceptor = new TransactionalInterceptor(
+        instance(mockedMikroOrmRegistry),
+        instance(mockedMikroOrmContext),
+        instance(mockedLogger),
+        instance(mockedRetryStrategy)
       );
       const context = {options: {retry: true}} as InterceptorContext;
 
-      const spiedDbContext = spy(dbContext);
-
-      when(retryStrategyMock.acquire(anything())).thenResolve();
-      when(mikroOrmRegistryMock.get(anything())).thenReturn(instance(mikroOrm));
-      when(entityManagerMock.name).thenReturn("default");
-      when(entityManagerMock.flush()).thenReject(OptimisticLockError.lockFailed("Lock"));
+      when(mockedMikroOrmContext.has(anything())).thenReturn(true);
+      when(mockedRetryStrategy.acquire(anything())).thenResolve();
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
+      when(mockedEntityManager.flush()).thenReject(OptimisticLockError.lockFailed("Lock"));
+      when(mockedMikroOrmContext.get(anything())).thenReturn(instance(mockedEntityManager));
 
       // act
       await transactionalInterceptor.intercept(context, next);
 
       // assert
-      verify(retryStrategyMock.acquire(anything())).calledAfter(spiedDbContext.run(anything(), anything()));
+      verify(mockedRetryStrategy.acquire(anything())).once();
     });
 
     it("should log a warning if the retry is enabled, while a retry strategy is not resolved", async () => {
       // arrange
-      const transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext, instance(loggerMock));
       const context = {options: {retry: true}} as InterceptorContext;
 
-      when(mikroOrmRegistryMock.get(anything())).thenReturn(instance(mikroOrm));
-      when(entityManagerMock.name).thenReturn("default");
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
 
       // act
       await transactionalInterceptor.intercept(context, next);
 
       // assert
-      verify(loggerMock.warn(`To retry a transaction you have to implement a "${RetryStrategy.description}" interface`)).once();
-    });
-
-    it("should run under existing context", async () => {
-      // arrange
-      const transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext, instance(loggerMock));
-      const existingCtx = new Map([["default", instance(entityManagerMock)]]);
-      const context = {} as InterceptorContext;
-
-      const spiedDbContext = spy(dbContext);
-
-      when(spiedDbContext.entries()).thenReturn(existingCtx);
-
-      // act
-      await transactionalInterceptor.intercept(context, next);
-
-      // assert
-      verify(mikroOrmRegistryMock.get(anything())).never();
-      verify(entityManagerMock.fork(anything(), anything())).never();
-      verify(entityManagerMock.flush()).never();
-    });
-
-    it("should run under existing context using different context", async () => {
-      // arrange
-      const transactionalInterceptor = new TransactionalInterceptor(instance(mikroOrmRegistryMock), dbContext, instance(loggerMock));
-      const existingCtx = new Map([["default", instance(entityManagerMock)]]);
-      const context = {
-        options: "mydb"
-      } as InterceptorContext;
-
-      const spiedDbContext = spy(dbContext);
-
-      when(spiedDbContext.entries()).thenReturn(existingCtx);
-      when(mikroOrmRegistryMock.get("mydb")).thenReturn(instance(mikroOrm));
-      when(entityManagerMock.name).thenReturn("mydb");
-
-      // act
-      await transactionalInterceptor.intercept(context, next);
-
-      // assert
-      verify(mikroOrmRegistryMock.get("mydb")).once();
-      verify(entityManagerMock.fork(anything(), anything())).once();
-      verify(entityManagerMock.flush()).once();
+      verify(mockedLogger.warn(`To retry a transaction you have to implement a "${RetryStrategy.description}" interface`)).once();
     });
   });
 });

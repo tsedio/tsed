@@ -105,4 +105,16 @@ describe("MikroOrmRegistry", () => {
       expect(mikroOrmRegistry.has("mydb10")).toBeFalsy();
     });
   });
+
+  describe("values", () => {
+    it("should return corresponded instances", async () => {
+      // arrange
+      Object.values(fixtures).forEach((options: Options) => when(mikroOrmFactoryMock.create(options)).thenResolve(instance(mikroOrm)));
+      await mikroOrmRegistry.register(fixtures.none);
+      await mikroOrmRegistry.register(fixtures.mydb);
+
+      // act & assert
+      expect([...mikroOrmRegistry.values()]).toMatchObject([instance(mikroOrm), instance(mikroOrm)]);
+    });
+  });
 });

@@ -1,16 +1,15 @@
-import {DBContext} from "./DBContext";
 import {MikroORM, Options} from "@mikro-orm/core";
 import {Inject, Injectable} from "@tsed/di";
+import {MikroOrmContext} from "./MikroOrmContext";
 
 @Injectable()
 export class MikroOrmFactory {
-  @Inject()
-  private readonly dbContext!: DBContext;
+  constructor(@Inject() private readonly context: MikroOrmContext) {}
 
   public create(options: Options): Promise<MikroORM> {
     return MikroORM.init({
       ...options,
-      context: (name: string) => this.dbContext.get(name)
+      context: (name: string) => this.context.get(name)
     });
   }
 }
