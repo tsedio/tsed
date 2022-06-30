@@ -1,5 +1,5 @@
-import {isArray, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
-import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonPropertyStore, JsonSchema} from "@tsed/schema";
+import {isArray, isBoolean, isClass, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
+import {alterIgnore, getProperties, JsonClassStore, JsonEntityStore, JsonHookContext, JsonPropertyStore, JsonSchema} from "@tsed/schema";
 import "../components/ArrayMapper";
 import "../components/DateMapper";
 import "../components/MapMapper";
@@ -100,6 +100,24 @@ function mapItemOptions(propStore: JsonPropertyStore, options: JsonDeserializerO
   return itemOpts;
 }
 
+function getAdditionalProperties(
+  nbProps: number,
+  store: JsonEntityStore,
+  options: JsonDeserializerOptions<any, any>
+): boolean | JsonSchema {
+  const additionalProperties = store.schema.get("additionalProperties");
+
+  if (isBoolean(additionalProperties) || isClass(additionalProperties)) {
+    return additionalProperties;
+  }
+
+  if (nbProps === 0) {
+    return true;
+  }
+
+  return !!options.additionalProperties;
+}
+
 /**
  * Transform given plain object to class.
  * @param src
@@ -115,8 +133,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
 
   let keys = new Set<any>(objectKeys(src));
 
-  const additionalProperties = propertiesMap.size ? !!store.schema.get("additionalProperties") || options.additionalProperties : true;
-
+  const additionalProperties = getAdditionalProperties(propertiesMap.size, store, options);
   src = alterBeforeDeserialize(src, store.schema, options);
 
   const out: any = new type(src);
@@ -149,9 +166,19 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   });
 
   if (additionalProperties) {
-    keys.forEach((key) => {
-      out[key] = src[key];
-    });
+    if (isBoolean(additionalProperties)) {
+      keys.forEach((key) => {
+        out[key] = src[key];
+      });
+    } else {
+      const type = additionalProperties.getComputedType();
+      keys.forEach((key) => {
+        out[key] = deserialize(src[key], {
+          ...options,
+          type
+        });
+      });
+    }
   }
 
   return alterAfterDeserialize(out, store.schema, options);
