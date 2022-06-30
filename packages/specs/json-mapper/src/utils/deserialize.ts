@@ -111,11 +111,7 @@ function getAdditionalProperties(
     return additionalProperties;
   }
 
-  if (nbProps === 0) {
-    return true;
-  }
-
-  return !!options.additionalProperties;
+  return nbProps === 0 || !!options.additionalProperties;
 }
 
 /**

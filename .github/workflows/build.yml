@@ -56,12 +56,12 @@ jobs:
         run: yarn test:core
         env:
           FORCE_COLOR: true
-  #      - name: Coveralls
-  #        uses: coverallsapp/github-action@master
-  #        with:
-  #          github-token: ${{ secrets.GITHUB_TOKEN }}
-  #          flag-name: run-${{ matrix.test_number }}
-  #          parallel: true
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-${{ matrix.test_number }}
+          parallel: true
 
   test-packages:
     runs-on: ubuntu-latest
