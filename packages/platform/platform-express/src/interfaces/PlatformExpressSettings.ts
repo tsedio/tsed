@@ -16,9 +16,9 @@ export interface PlatformExpressSettings {
    * body parser configuration
    */
   bodyParser?: {
-    json?: (opts?: OptionsJson) => NextHandleFunction | OptionsJson;
-    text?: (opts?: OptionsText) => NextHandleFunction | OptionsText;
-    raw?: (opts?: Options) => NextHandleFunction | Options;
-    urlencoded?: (opts?: OptionsUrlencoded) => NextHandleFunction | OptionsUrlencoded;
+    json?: ((opts?: OptionsJson) => NextHandleFunction) | OptionsJson;
+    text?: ((opts?: OptionsText) => NextHandleFunction) | OptionsText;
+    raw?: ((opts?: Options) => NextHandleFunction) | Options;
+    urlencoded?: ((opts?: OptionsUrlencoded) => NextHandleFunction) | OptionsUrlencoded;
   };
 }
