@@ -1,4 +1,4 @@
-// import "@tsed/common";
+import faker from "@faker-js/faker";
 import {
   AdditionalProperties,
   CollectionOf,
@@ -6,7 +6,6 @@ import {
   Enum,
   GenericOf,
   Generics,
-  getJsonSchema,
   Groups,
   Ignore,
   In,
@@ -19,9 +18,9 @@ import {
   Property,
   Required
 } from "@tsed/schema";
-import faker from "@faker-js/faker";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
+import {BeforeDeserialize} from "../decorators/beforeDeserialize";
 import {OnDeserialize} from "../decorators/onDeserialize";
 import {deserialize, plainObjectToClass} from "./deserialize";
 
@@ -373,6 +372,45 @@ describe("deserialize()", () => {
       expect(result).toBeInstanceOf(Model);
       expect(result).toEqual({id: "id"});
     });
+    it("should transform object to class (additionalProperties = model)", () => {
+      class SubModel {
+        @Property()
+        id: string;
+      }
+
+      @AdditionalProperties(SubModel)
+      class Model {
+        [key: string]: SubModel;
+      }
+
+      class Container {
+        @CollectionOf(Model)
+        list: Model[];
+      }
+
+      const result = deserialize({test: {id: "1"}}, {type: Model});
+
+      expect(result).toEqual({
+        test: {
+          id: "1"
+        }
+      });
+      expect(result.test).toBeInstanceOf(SubModel);
+      expect(result.test.id).toEqual("1");
+
+      const result2 = deserialize(
+        {
+          list: [{test: {id: "1"}}]
+        },
+        {type: Container}
+      );
+
+      expect(result2).toBeInstanceOf(Container);
+      expect(result2.list).toBeInstanceOf(Array);
+      expect(result2.list[0].test).toBeInstanceOf(SubModel);
+      expect(result2.list[0].test.id).toEqual("1");
+    });
+
     it("should transform object to class (inherited class)", () => {
       class Role {
         @Property()
