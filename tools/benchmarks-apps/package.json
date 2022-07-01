@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "@nestjs/common": "8.4.3",
-    "@nestjs/core": "8.4.3",
+    "@nestjs/core": "8.4.7",
     "@nestjs/platform-express": "8.4.3",
     "@nestjs/platform-fastify": "8.4.3",
     "fastify": "3.27.4"
