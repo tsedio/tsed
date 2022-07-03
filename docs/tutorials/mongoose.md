@@ -57,7 +57,6 @@ Then import `@tsed/mongoose` in your [Configuration](/docs/configuration.md):
 <<< @/tutorials/snippets/mongoose/configuration.ts
 
   </Tab>
-  </Tab>
   <Tab label="CodeSandbox" icon="bxl-codepen">
 <iframe src="https://codesandbox.io/embed/tsed-mongoose-example-omkbm?fontsize=14&hidenavigation=1&theme=dark" 
      style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;" 
@@ -178,7 +177,7 @@ The same rules for Circular References apply (**See above**);
 This works by having a field with the referenced object model's name and a field with the referenced field.
 
 <Tabs class="-code">
-  <Tabs label="Example">
+  <Tab label="Example">
 
 <<< @/tutorials/snippets/mongoose/dynamic-references.ts
 
@@ -318,7 +317,7 @@ export class MyRepository {
 }
 ```
 
-## Testing <Badge text="beta" type="warn"/>
+## Testing
 
 The package [`@tsed/testing-mongoose`](https://www.npmjs.com/package/@tsed/testing-mongoose) allows you to test your server with a memory database.
 
@@ -331,16 +330,16 @@ This package uses the amazing [mongodb-memory-server](https://www.npmjs.com/pack
 This example shows you how you can test your Rest API with superagent and a mocked Mongo database:
 
 <Tabs class="-code">
-<Tab label="Jest">
+  <Tab label="Jest">
 
 <<< @/tutorials/snippets/mongoose/testing-api.jest.ts
 
-</Tab>
-<Tab label="Mocha">
+  </Tab>
+  <Tab label="Mocha">
 
 <<< @/tutorials/snippets/mongoose/testing-api.mocha.ts
 
-</Tab>
+  </Tab>
 </Tabs>
 
 ::: tip
@@ -384,11 +383,11 @@ This example shows you how can test the model:
 
 ## Author
 
-<GithubContributors users="['Romakita']"/>
+<GithubContributors :users="['Romakita']"/>
 
 ## Maintainers
 
-<GithubContributors users="['Romakita']"/>
+<GithubContributors :users="['Romakita']"/>
 
 <div class="flex items-center justify-center p-5">
 <Button href="/contributing.html" class="rounded-medium">
