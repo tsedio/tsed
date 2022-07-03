@@ -93,7 +93,7 @@ export function Ref(
 
       return serialize(value, {...ctx, type});
     }),
-    OneOf(string().example("5ce7ad3028890bd71749d477").description("Mongoose Ref ObjectId"), lazyRef(getType)),
+    OneOf(string().example("5ce7ad3028890bd71749d477").description("A reference ObjectID"), lazyRef(getType)),
     populatedGroups.length && PopulateGroups(populatedGroups)
   ) as PropertyDecorator;
 }

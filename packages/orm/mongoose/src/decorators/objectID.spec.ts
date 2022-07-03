@@ -11,7 +11,7 @@ describe("ObjectID", () => {
     expect(getJsonSchema(MyModelTest)).toEqual({
       properties: {
         id: {
-          description: "Mongoose ObjectId",
+          description: "An ObjectID",
           examples: ["5ce7ad3028890bd71749d477"],
           pattern: "^[0-9a-fA-F]{24}$",
           type: "string"

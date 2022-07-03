@@ -104,7 +104,7 @@ describe("Swagger AnyOf()", () => {
               operationId: "listTasksControllerGet",
               parameters: [
                 {
-                  description: "Mongoose ObjectId",
+                  description: "An ObjectID",
                   in: "path",
                   name: "id",
                   required: true,
