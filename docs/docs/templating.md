@@ -11,14 +11,30 @@ meta:
 @@View@@ is a decorator which can be used on a controller method (endpoint).
 This decorator will use the data returned by the method, and the configured view to create the response.
 
-<figure style="background:white"><img src="./../assets/templating-engine.png" style="max-height: 300px; padding:20px;"></figure>
+<figure><img src="./../assets/templating-engine.png" style="max-height: 500px; padding:20px; background: white"></figure>
 
 ## Configuration
 
-Ts.ED is using by default [consolidate](https://github.com/tj/consolidate.js) under the hood.
+Install the Ts.ED engines:
+
+<Tabs class="-code">
+  <Tab label="Yarn">
+
+```bash
+$ yarn add @tsed/engines
+```
+
+  </Tab>
+  <Tab label="Npm">
+
+```bash
+$ npm install --save @tsed/engines
+```
+
+  </Tab>
+</Tabs>
 
 The default template engine installed with Ts.ED is [EJS](https://ejs.co/).
-If you want to use another engine, please refer to the engine documentation and [consolidate](https://github.com/tj/consolidate.js) to install the engine correctly.
 
 <<< @/docs/snippets/templating/configuration.ts
 
@@ -26,17 +42,15 @@ If you want to use another engine, please refer to the engine documentation and 
 Supported engines is available [here](https://github.com/tsedio/tsed-engines/blob/production/packages/engines/readme.md#supported-template-engines).
 :::
 
+## Use consolidate (deprecated)
+
+Ts.ED is using by default [consolidate](https://github.com/tj/consolidate.js) under the hood, but the usage of this module is now deprecated.
+
+You can use it by uninstalling `@tsed/engines` module. Ts.ED will fallback automatically to consolidate.
+
 ::: warning
 Ts.ED v7 will switch on [`@tsed/engines`](https://github.com/tsedio/tsed-engines) implementation. Consolidate will be removed from dependencies.
 :::
-
-### Use @tsed/engines
-
-To enable the new view engine feature, you have to install the `@tsed/engines` packages:
-
-```
-npm install @tsed/engines
-```
 
 ## Options
 
@@ -68,7 +82,14 @@ export interface PlatformViewsSettings {
 
 ## Usage
 
-## Template Engine Instances
+### With @tsed/engines
+
+Template engines are exposed via the `requires` Map, but they are not instantiated until you've called the `getEngine(engine).render()` method.
+You can instantiate them manually beforehand if you want to add filters, globals, mixins, or other engine features.
+
+::: tip Reference
+[Template Engine Instances](https://github.com/tsedio/tsed-engines/blob/production/packages/engines/readme.md#template-engine-instances).
+:::
 
 ### With Consolidate (deprecated)
 
@@ -77,15 +98,6 @@ You can instantiate them manually beforehand if you want to add filters, globals
 
 ::: tip Reference
 [Template Engine Instances](https://github.com/tj/consolidate.js#template-engine-instances).
-:::
-
-### With @tsed/engines
-
-Template engines are exposed via the `requires` Map, but they are not instantiated until you've called the `getEngine(engine).render()` method.
-You can instantiate them manually beforehand if you want to add filters, globals, mixins, or other engine features.
-
-::: tip Reference
-[Template Engine Instances](https://github.com/tsedio/tsed-engines/blob/production/packages/engines/readme.md#template-engine-instances).
 :::
 
 ### Nunjucks

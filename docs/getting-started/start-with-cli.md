@@ -107,6 +107,8 @@ To prevent errors, fix the version for each Ts.ED packages:
 }
 ```
 
+:::
+
 ## Project examples
 
 Alternatively, you can check out one of these projects:
