@@ -21,11 +21,11 @@ describe("@DynamicRef()", () => {
     expect(getJsonSchema(Test)).toEqual({
       properties: {
         test: {
-          description: "Mongoose Ref ObjectId",
+          description: "A reference ObjectID",
           examples: ["5ce7ad3028890bd71749d477"],
           oneOf: [
             {
-              description: "Mongoose Ref ObjectId",
+              description: "A reference ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               type: "string"
             }

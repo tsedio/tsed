@@ -249,7 +249,7 @@ describe("createSchema", () => {
               type: "string"
             },
             id: {
-              description: "Mongoose ObjectId",
+              description: "An ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               pattern: "^[0-9a-fA-F]{24}$",
               type: "string"
@@ -274,7 +274,7 @@ describe("createSchema", () => {
         test: {
           oneOf: [
             {
-              description: "Mongoose Ref ObjectId",
+              description: "A reference ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               type: "string"
             },
@@ -293,7 +293,7 @@ describe("createSchema", () => {
           type: "string"
         },
         id: {
-          description: "Mongoose ObjectId",
+          description: "An ObjectID",
           examples: ["5ce7ad3028890bd71749d477"],
           pattern: "^[0-9a-fA-F]{24}$",
           type: "string"

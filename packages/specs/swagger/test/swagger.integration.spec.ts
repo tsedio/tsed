@@ -175,7 +175,7 @@ describe("Swagger integration", () => {
               operationId: "calendarsControllerGet",
               parameters: [
                 {
-                  description: "Mongoose ObjectId",
+                  description: "An ObjectID",
                   in: "path",
                   name: "id",
                   pattern: "^[0-9a-fA-F]{24}$",
@@ -257,7 +257,7 @@ describe("Swagger integration", () => {
               operationId: "calendarsControllerGet",
               parameters: [
                 {
-                  description: "Mongoose ObjectId",
+                  description: "An ObjectID",
                   in: "path",
                   name: "id",
                   required: true,

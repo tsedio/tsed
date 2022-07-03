@@ -49,7 +49,7 @@ export function DynamicRef(refPath: string, ...types: Type<any>[]): PropertyDeco
   return useDecorators(
     Property(Object),
     Example("5ce7ad3028890bd71749d477"),
-    Description("Mongoose Ref ObjectId"),
+    Description("A reference ObjectID"),
     StoreMerge(MONGOOSE_SCHEMA, {
       type: MongooseSchema.Types.ObjectId,
       refPath
@@ -68,7 +68,7 @@ export function DynamicRef(refPath: string, ...types: Type<any>[]): PropertyDeco
 
       return serialize(value, {...ctx, type: getType(refPath, ctx)});
     }),
-    OneOf(string().example("5ce7ad3028890bd71749d477").description("Mongoose Ref ObjectId"), ...types)
+    OneOf(string().example("5ce7ad3028890bd71749d477").description("A reference ObjectID"), ...types)
   ) as PropertyDecorator;
 }
 

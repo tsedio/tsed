@@ -4,12 +4,7 @@ import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Example} from "./example";
 
 function ObjectID(name?: string) {
-  return useDecorators(
-    name && Name(name),
-    Pattern(/^[0-9a-fA-F]{24}$/),
-    Description("Mongoose ObjectId"),
-    Example("5ce7ad3028890bd71749d477")
-  );
+  return useDecorators(name && Name(name), Pattern(/^[0-9a-fA-F]{24}$/), Description("An ObjectID"), Example("5ce7ad3028890bd71749d477"));
 }
 
 describe("@Example", () => {
@@ -48,7 +43,7 @@ describe("@Example", () => {
             operationId: "myControllerGetMethod",
             parameters: [
               {
-                description: "Mongoose ObjectId",
+                description: "An ObjectID",
                 in: "path",
                 name: "id",
                 required: true,

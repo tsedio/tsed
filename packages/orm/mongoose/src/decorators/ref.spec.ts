@@ -52,7 +52,7 @@ describe("@Ref()", () => {
           test: {
             oneOf: [
               {
-                description: "Mongoose Ref ObjectId",
+                description: "A reference ObjectID",
                 examples: ["5ce7ad3028890bd71749d477"],
                 type: "string"
               },
@@ -105,7 +105,7 @@ describe("@Ref()", () => {
             additionalProperties: {
               oneOf: [
                 {
-                  description: "Mongoose Ref ObjectId",
+                  description: "A reference ObjectID",
                   examples: ["5ce7ad3028890bd71749d477"],
                   type: "string"
                 },
@@ -159,7 +159,7 @@ describe("@Ref()", () => {
           test: {
             oneOf: [
               {
-                description: "Mongoose Ref ObjectId",
+                description: "A reference ObjectID",
                 examples: ["5ce7ad3028890bd71749d477"],
                 type: "string"
               },
@@ -205,7 +205,7 @@ describe("@Ref()", () => {
           test: {
             oneOf: [
               {
-                description: "Mongoose Ref ObjectId",
+                description: "A reference ObjectID",
                 examples: ["5ce7ad3028890bd71749d477"],
                 type: "string"
               },
@@ -278,7 +278,7 @@ describe("@Ref()", () => {
           child2: {
             oneOf: [
               {
-                description: "Mongoose Ref ObjectId",
+                description: "A reference ObjectID",
                 examples: ["5ce7ad3028890bd71749d477"],
                 type: "string"
               }
@@ -287,7 +287,7 @@ describe("@Ref()", () => {
           child3: {
             oneOf: [
               {
-                description: "Mongoose Ref ObjectId",
+                description: "A reference ObjectID",
                 examples: ["5ce7ad3028890bd71749d477"],
                 type: "string"
               },
@@ -323,7 +323,7 @@ describe("@Ref()", () => {
           child1: {
             oneOf: [
               {
-                description: "Mongoose Ref ObjectId",
+                description: "A reference ObjectID",
                 examples: ["5ce7ad3028890bd71749d477"],
                 type: "string"
               }
@@ -332,7 +332,7 @@ describe("@Ref()", () => {
           child2: {
             oneOf: [
               {
-                description: "Mongoose Ref ObjectId",
+                description: "A reference ObjectID",
                 examples: ["5ce7ad3028890bd71749d477"],
                 type: "string"
               }
@@ -341,7 +341,7 @@ describe("@Ref()", () => {
           child3: {
             oneOf: [
               {
-                description: "Mongoose Ref ObjectId",
+                description: "A reference ObjectID",
                 examples: ["5ce7ad3028890bd71749d477"],
                 type: "string"
               },
