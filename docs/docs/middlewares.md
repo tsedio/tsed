@@ -6,7 +6,7 @@ to inject other services on its constructor.
 All middlewares decorated by @@Middleware@@ have one method named `use()`.
 This method can use all parameters decorators as you could see with the [Controllers](/docs/controllers.md) and return a promise.
 
-<figure><img src="./../assets/middleware.svg" style="max-height: 300px; padding: 30px"></figure>
+<figure><img src="./../assets/middleware.png" style="max-height: 300px; padding: 10px; background: white"></figure>
 
 ## Configuration
 
