@@ -1,6 +1,6 @@
 {
   "name": "@tsed/openspec",
-  "version": "6.116.3",
+  "version": "6.116.4",
   "description": "OpenSpec2 and OpenSpec3 interfaces declarations for TypeScript application",
   "private": false,
   "source": "./src/index.ts",
