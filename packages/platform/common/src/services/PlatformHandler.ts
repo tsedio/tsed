@@ -133,30 +133,32 @@ export class PlatformHandler {
       return;
     }
 
-    const resolver = new AnyToPromiseWithCtx({$ctx, err});
+    return $ctx.runInContext(async () => {
+      const resolver = new AnyToPromiseWithCtx({$ctx, err});
 
-    try {
-      const {state, data, status, headers} = await resolver.call(handler);
+      try {
+        const {state, data, status, headers} = await resolver.call(handler);
 
-      if (state === AnyToPromiseStatus.RESOLVED) {
-        if (status) {
-          $ctx.response.status(status);
+        if (state === AnyToPromiseStatus.RESOLVED) {
+          if (status) {
+            $ctx.response.status(status);
+          }
+
+          if (headers) {
+            $ctx.response.setHeaders(headers);
+          }
+
+          if (data !== undefined) {
+            $ctx.data = data;
+          }
+
+          // Can be canceled by the handler itself
+          return await this.onSuccess($ctx.data, requestOptions);
         }
-
-        if (headers) {
-          $ctx.response.setHeaders(headers);
-        }
-
-        if (data !== undefined) {
-          $ctx.data = data;
-        }
-
-        // Can be canceled by the handler itself
-        return await this.onSuccess($ctx.data, requestOptions);
+      } catch (er) {
+        return this.onError(er, requestOptions);
       }
-    } catch (er) {
-      return this.onError(er, requestOptions);
-    }
+    });
   }
 
   protected async onError(er: Error, requestOptions: OnRequestOptions) {
