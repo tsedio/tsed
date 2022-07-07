@@ -73,7 +73,7 @@ export class PlatformMiddlewaresChain {
         ACCEPT_MIMES: this.hasAcceptMimes(operationRoute),
         FILE: operationRoute.has(ParamTypes.FILES),
         RAW_BODY: operationRoute.has(ParamTypes.RAW_BODY),
-        BODY: operationRoute.has(ParamTypes.BODY)
+        BODY: operationRoute.has(ParamTypes.BODY) || operationRoute.method === "ALL"
       }
     );
   }
