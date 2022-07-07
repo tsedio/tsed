@@ -24,8 +24,8 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@mikro-orm/core": "^5.1.5",
-    "@mikro-orm/mongodb": "^5.1.5",
+    "@mikro-orm/core": "^5.2.2",
+    "@mikro-orm/mongodb": "^5.2.2",
     "@tsed/common": "6.116.4",
     "@tsed/core": "6.116.4",
     "@tsed/di": "6.116.4",
