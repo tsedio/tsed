@@ -40,7 +40,7 @@
   },
   "peerDependencies": {
     "@tsed/di": "^6.116.4",
-    "@tsed/logger": ">=6.1.4"
+    "@tsed/logger": ">=6.2.0"
   },
   "peerDependenciesMeta": {
     "@tsed/di": {
