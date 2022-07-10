@@ -158,7 +158,6 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
   }
 
   destroy() {
-    // @ts-ignore
     this.raw = {
       method: this.method,
       url: this.url,
@@ -166,11 +165,10 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
       body: this.body,
       query: this.query,
       params: this.params
-    };
-    // @ts-ignore
-    delete this.response;
-    // @ts-ignore
-    delete this.$ctx;
+    } as any;
+
+    this.response = undefined as any;
+    this.$ctx = undefined as any;
   }
 
   /**

@@ -63,7 +63,7 @@ export function AuthOptions(guardAuth: Type<any>, options: IAuthOptions = {}): F
           if (options.responses) {
             const {responses} = options;
             store.merge("responses", responses, true);
-            delete options.responses;
+            options.responses = undefined;
           }
 
           if (options.security) {
@@ -74,7 +74,7 @@ export function AuthOptions(guardAuth: Type<any>, options: IAuthOptions = {}): F
               });
             });
 
-            delete options.security;
+            options.security = undefined;
           }
 
           store.merge(guardAuth, options, true);

@@ -88,13 +88,14 @@ export class PlatformContext extends DIContext implements ContextMethods {
   async destroy() {
     await super.destroy();
 
-    delete this.request?.request?.$ctx;
+    if (this.request?.request?.$ctx) {
+      this.request.request.$ctx = undefined as any;
+    }
 
     this.response.destroy();
     this.request.destroy();
 
-    // @ts-ignore
-    delete this.endpoint;
+    this.endpoint = undefined as any;
   }
 
   isDone() {

@@ -16,7 +16,7 @@ export class PassportSerializerService {
       const obj = serialize(user, {type: this.model});
 
       // remove password from serialized object
-      delete obj.password;
+      obj.password = undefined;
 
       done(null, JSON.stringify(obj));
     } catch (er) {
