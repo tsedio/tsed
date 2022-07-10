@@ -109,43 +109,6 @@ jobs:
       - name: Run build
         run: yarn build
 
-  benchmarks:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install wrk
-        run: sh .github/workflows/install-wrk.sh
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000
-      - name: Run build
-        run: yarn build
-      - name: Run benchmarks
-        run: yarn benchmarks
-      - uses: actions/github-script@v4
-        if: github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            context.issue.number && github.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: require('fs').readFileSync('./tools/benchmarks/dist/benchmarks.md', {encoding: 'utf8'})
-            })
-      - uses: actions/upload-artifact@v2
-        with:
-          name: benchmarks
-          path: |
-            tools/benchmarks/dist
-
   deploy-packages:
     runs-on: ubuntu-latest
     needs: [lint, test, test-packages, build]

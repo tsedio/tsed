@@ -51,8 +51,9 @@
     "prettier": "prettier '**/*.{ts,js,json,md,yml,yaml}' --write",
     "release": "semantic-release",
     "release:dryRun": "semantic-release --dry-run",
-    "benchmarks": "lerna run benchmarks --stream --no-prefix",
-    "benchmarks:tsed": "cross-env LIBS=tsed,express lerna run benchmarks --stream --no-prefix",
+    "benchmarks:prepare": "yarn build && rimraf ./benchmarks/node_modules/@tsed && cp -rf ./dist ./benchmarks/node_modules/@tsed",
+    "benchmarks:run": "cd benchmarks && yarn benchmarks",
+    "benchmarks": "yarn benchmarks:prepare && yarn benchmarks:run",
     "prepare": "is-ci || husky install"
   },
   "keywords": [
@@ -155,7 +156,7 @@
     "ts-node": "10.8.1",
     "tsconfig-paths": "4.0.0",
     "tslib": "2.4.0",
-    "typescript": "4.7.4"
+    "typescript": "^4.7.4"
   },
   "directories": {
     "packages": "packages",

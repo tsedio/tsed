@@ -36,7 +36,8 @@
     "@tsed/platform-serverless-testing": "6.116.5",
     "@types/aws-lambda": "^8.10.83",
     "@types/encodeurl": "^1.0.0",
-    "@types/mime": "^2.0.3"
+    "@types/mime": "^2.0.3",
+    "find-my-way": "^7.0.0"
   },
   "peerDependencies": {
     "@tsed/di": "^6.116.5",
@@ -48,6 +49,9 @@
     },
     "@tsed/logger": {
       "optional": false
+    },
+    "find-my-way": {
+      "optional": true
     }
   }
 }
