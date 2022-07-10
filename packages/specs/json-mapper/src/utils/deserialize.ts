@@ -188,8 +188,7 @@ function buildOptions(options: JsonDeserializerOptions<any, any>): any {
 
     options.type = options.store.computedType;
     options.collectionType = options.store.collectionType;
-
-    delete options.store;
+    options.store = undefined;
   }
 
   return {

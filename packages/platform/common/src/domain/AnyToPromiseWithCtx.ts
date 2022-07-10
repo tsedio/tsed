@@ -30,8 +30,7 @@ export class AnyToPromiseWithCtx extends AnyToPromise {
   }
 
   destroy() {
-    // @ts-ignore
-    delete this.$ctx;
+    this.$ctx = null as any;
   }
 
   isCanceledResponse(process: any) {

@@ -320,16 +320,13 @@ export class PlatformResponse<T extends Record<string, any> = any> {
   }
 
   destroy() {
-    // @ts-ignore
-    delete this.request;
-    // @ts-ignore
+    this.request = undefined as any;
     this.raw = {
       isDone: true,
       statusCode: this.statusCode
-    };
-    delete this.data;
-    // @ts-ignore
-    delete this.$ctx;
+    } as any;
+    this.data = undefined;
+    this.$ctx = undefined as any;
   }
 
   isHeadersSent() {
