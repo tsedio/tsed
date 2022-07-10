@@ -21,7 +21,7 @@
     "noEmit": true,
     "allowJs": true,
     "skipLibCheck": true,
-    "lib": ["ES2019", "esnext.asynciterable"],
+    "lib": ["ES2021", "esnext.asynciterable"],
     "typeRoots": ["./node_modules/@types"]
   },
   "exclude": ["docs", "integration", "examples/**", "coverage", ".nyc_output"]
