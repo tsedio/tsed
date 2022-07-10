@@ -1,0 +1,52 @@
+{
+  "name": "@tsed/benchmarks",
+  "version": "6.115.0",
+  "description": "Benchmarks for Ts.ED",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node bin/benchmark.js",
+    "compare": "node bin/benchmark.js compare --",
+    "benchmarks": "node bin/benchmark.js y 100 10 40 && yarn compare -t && yarn compare -u",
+    "benchmarks:tsed": "node bin/benchmark.js n 100 10 5  && yarn compare -t && yarn compare -u"
+  },
+  "bin": {
+    "benchmark": "bin/benchmark.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/hapi": "^20.0.1",
+    "autocannon": "^7.0.1",
+    "autocannon-compare": "^0.4.0",
+    "benchmark": "^2.1.4",
+    "chalk": "^4.1.2",
+    "cli-table": "^0.3.1",
+    "commander": "^9.0.0",
+    "connect": "^3.6.6",
+    "cors": "^2.8.5",
+    "dns-prefetch-control": "^0.3.0",
+    "express": "^4.16.4",
+    "fastify": "^3.0.0",
+    "frameguard": "^4.0.0",
+    "hide-powered-by": "^1.0.0",
+    "hsts": "^2.1.0",
+    "ienoopen": "^1.0.0",
+    "inquirer": "^8.0.0",
+    "koa": "^2.7.0",
+    "koa-isomorphic-router": "^1.0.0",
+    "koa-router": "^10.0.0",
+    "make-promises-safe": "^5.1.0",
+    "micro": "^9.3.3",
+    "micro-route": "^2.5.0",
+    "microrouter": "^3.1.3",
+    "restify": "^8.0.0",
+    "router": "^1.3.3",
+    "x-xss-protection": "^2.0.0",
+    "@nestjs/common": "8.4.3",
+    "@nestjs/core": "8.4.3",
+    "@nestjs/platform-express": "8.4.3",
+    "@nestjs/platform-fastify": "8.4.3"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}
