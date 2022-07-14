@@ -3,9 +3,11 @@ import {Logger} from "@tsed/logger";
 import {RetryStrategy} from "../services/RetryStrategy";
 import {MikroOrmContext} from "../services/MikroOrmContext";
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
+import {IsolationLevel} from "@mikro-orm/core";
 
 export interface TransactionOptions {
   retry?: boolean;
+  isolationLevel?: IsolationLevel;
   contextName?: string;
   /**
    * @deprecated Since 2022-02-01. Use {@link contextName} instead
@@ -40,7 +42,7 @@ export class TransactionalInterceptor implements InterceptorMethods {
   }
 
   private runWithinCtx(next: InterceptorNext, options: TransactionSettings): Promise<unknown> | unknown {
-    const callback = () => this.executeInTransaction(options.contextName, next);
+    const callback = () => this.executeInTransaction(next, options);
 
     return options.retry && this.retryStrategy ? this.retryStrategy.acquire(callback) : callback();
   }
@@ -60,6 +62,7 @@ export class TransactionalInterceptor implements InterceptorMethods {
   private extractContextName(context: InterceptorContext<unknown>): TransactionSettings {
     const options = context.options || ({} as TransactionOptions | string);
 
+    let isolationLevel: IsolationLevel | undefined;
     let contextName: string | undefined;
     let retry: boolean | undefined;
 
@@ -67,6 +70,7 @@ export class TransactionalInterceptor implements InterceptorMethods {
       contextName = options;
     } else if (options) {
       contextName = options.contextName ?? options.connectionName;
+      isolationLevel = options.isolationLevel;
       retry = options.retry;
     }
 
@@ -78,16 +82,18 @@ export class TransactionalInterceptor implements InterceptorMethods {
       retry = false;
     }
 
-    return {contextName, retry};
+    if (!isolationLevel) {
+      isolationLevel = IsolationLevel.READ_COMMITTED;
+    }
+
+    return {contextName, isolationLevel, retry};
   }
 
-  private async executeInTransaction(contextName: string, next: InterceptorNext): Promise<unknown> {
-    const manager = this.context.get(contextName);
+  private async executeInTransaction(next: InterceptorNext, options: TransactionSettings): Promise<unknown> {
+    const manager = this.context.get(options.contextName)!;
 
-    const result = await next();
-
-    await manager?.flush();
-
-    return result;
+    return manager.transactional(() => next(), {
+      isolationLevel: options.isolationLevel
+    });
   }
 }
