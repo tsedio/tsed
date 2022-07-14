@@ -61,6 +61,9 @@ sponsors:
         - title: Zenika
           href: https://www.zenika.com
           src: https://zenika-website.cdn.prismic.io/zenika-website/4e73b102-9045-4cff-b098-a0625f7d10f8_logo_light.svg
+        - title: Medayo
+          href: https://www.medayo.com
+          src: https://avatars.githubusercontent.com/u/40989284?v=4
         - title: Weseek
           href: https://weseek.co.jp/
           src: https://avatars.githubusercontent.com/u/6468105?v=4
