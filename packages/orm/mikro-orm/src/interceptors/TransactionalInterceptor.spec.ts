@@ -1,8 +1,8 @@
 import {TransactionalInterceptor} from "./TransactionalInterceptor";
-import {anyFunction, anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
+import {anyFunction, anything, deepEqual, instance, mock, objectContaining, reset, verify, when} from "ts-mockito";
 import {InterceptorContext} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {EntityManager, MikroORM, OptimisticLockError} from "@mikro-orm/core";
+import {EntityManager, IsolationLevel, MikroORM, OptimisticLockError} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
 import {RetryStrategy} from "../services/RetryStrategy";
 import {MikroOrmContext} from "../services/MikroOrmContext";
@@ -43,16 +43,49 @@ describe("TransactionalInterceptor", () => {
     it("should run within a existing context", async () => {
       // arrange
       const context = {} as InterceptorContext;
+      const entityManger = instance(mockedEntityManager);
 
       when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
       when(mockedMikroOrmContext.has(anything())).thenReturn(true);
-      when(mockedMikroOrmContext.get(anything())).thenReturn(instance(mockedEntityManager));
+      when(mockedMikroOrmContext.get(anything())).thenReturn(entityManger);
 
       // act
       await transactionalInterceptor.intercept(context, next);
 
       // assert
-      verify(mockedEntityManager.flush()).once();
+      verify(mockedEntityManager.transactional(anyFunction(), objectContaining({}))).once();
+    });
+
+    it("should set an isolation level", async () => {
+      // arrange
+      const context = {options: {isolationLevel: IsolationLevel.SERIALIZABLE}} as InterceptorContext;
+      const entityManger = instance(mockedEntityManager);
+
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
+      when(mockedMikroOrmContext.has(anything())).thenReturn(true);
+      when(mockedMikroOrmContext.get(anything())).thenReturn(entityManger);
+
+      // act
+      await transactionalInterceptor.intercept(context, next);
+
+      // assert
+      verify(mockedEntityManager.transactional(anyFunction(), objectContaining({isolationLevel: IsolationLevel.SERIALIZABLE}))).once();
+    });
+
+    it("should set an isolation level by default", async () => {
+      // arrange
+      const context = {options: {}} as InterceptorContext;
+      const entityManger = instance(mockedEntityManager);
+
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
+      when(mockedMikroOrmContext.has(anything())).thenReturn(true);
+      when(mockedMikroOrmContext.get(anything())).thenReturn(entityManger);
+
+      // act
+      await transactionalInterceptor.intercept(context, next);
+
+      // assert
+      verify(mockedEntityManager.transactional(anyFunction(), objectContaining({isolationLevel: IsolationLevel.READ_COMMITTED}))).once();
     });
 
     it("should run within a new context", async () => {
@@ -72,7 +105,24 @@ describe("TransactionalInterceptor", () => {
 
       // assert
       verify(mockedMikroOrmContext.run(deepEqual([entityManger]), anyFunction())).once();
-      verify(mockedEntityManager.flush()).once();
+      verify(mockedEntityManager.transactional(anyFunction(), objectContaining({}))).once();
+    });
+
+    it("should perform a task within a transaction", async () => {
+      // arrange
+      const context = {} as InterceptorContext;
+      const entityManger = instance(mockedEntityManager);
+
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
+      when(mockedMikroOrmContext.has(anything())).thenReturn(true);
+      when(mockedMikroOrmContext.get(anything())).thenReturn(entityManger);
+      when(mockedEntityManager.transactional(anything(), anything())).thenCall((func: (...args: unknown[]) => unknown) => func());
+
+      // act
+      await transactionalInterceptor.intercept(context, next);
+
+      // assert
+      expect(next).toHaveBeenCalled();
     });
 
     it("should throw an error if no such context", async () => {
@@ -94,7 +144,7 @@ describe("TransactionalInterceptor", () => {
 
       when(mockedMikroOrmContext.has(anything())).thenReturn(true);
       when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
-      when(mockedEntityManager.flush()).thenReject(OptimisticLockError.lockFailed("Lock"));
+      when(mockedEntityManager.transactional(anything(), anything())).thenReject(OptimisticLockError.lockFailed("Lock"));
       when(mockedMikroOrmContext.get(anything())).thenReturn(instance(mockedEntityManager));
 
       // act
@@ -102,7 +152,7 @@ describe("TransactionalInterceptor", () => {
 
       // assert
       await expect(result).rejects.toThrowError("Lock");
-      verify(mockedEntityManager.flush()).times(1);
+      verify(mockedEntityManager.transactional(anyFunction(), objectContaining({}))).times(1);
     });
 
     it("should apply a retry mechanism if retry is enabled", async () => {
@@ -118,7 +168,7 @@ describe("TransactionalInterceptor", () => {
       when(mockedMikroOrmContext.has(anything())).thenReturn(true);
       when(mockedRetryStrategy.acquire(anything())).thenResolve();
       when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
-      when(mockedEntityManager.flush()).thenReject(OptimisticLockError.lockFailed("Lock"));
+      when(mockedEntityManager.transactional(anything(), anything())).thenReject(OptimisticLockError.lockFailed("Lock"));
       when(mockedMikroOrmContext.get(anything())).thenReturn(instance(mockedEntityManager));
 
       // act

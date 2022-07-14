@@ -353,6 +353,20 @@ export class UsersCtrl {
 }
 ```
 
+## Transaction isolation levels
+
+By default, `IsolationLevel.READ_COMMITTED` is used. You can override it, specifying the isolation level for the transaction by supplying it as the `isolationLevel` parameter in the `@Transactional` decorator:
+
+```typescript
+@Post("/")
+@Transactional({isolationLevel: IsolationLevel.SERIALIZABLE})
+create(@BodyParams() user: User): Promise<User> {
+  return this.usersService.create(user);
+}
+```
+
+The MikroORM supports the standard isolation levels such as `SERIALIZABLE` or `REPEATABLE READ`, the full list of available options see [here](https://mikro-orm.io/docs/transactions#isolation-levels).
+
 ## Contributors
 
 Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
