@@ -57,6 +57,7 @@ export function createSchema(target: Type<any>, options: MongooseSchemaOptions =
   schema.methods.toClass = function toClass() {
     return deserialize(
       this.toObject({
+        virtuals: true,
         versionKey: outputVersionKey,
         flattenMaps: true
       }),

@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Mongoose Ref should return the json-schema of the given model 1`] = `
+Object {
+  "definitions": Object {
+    "GalaxiesModel": Object {
+      "properties": Object {
+        "id": Object {
+          "description": "An ObjectID",
+          "examples": Array [
+            "5ce7ad3028890bd71749d477",
+          ],
+          "pattern": "^[0-9a-fA-F]{24}$",
+          "type": "string",
+        },
+        "name": Object {
+          "minLength": 1,
+          "type": "string",
+        },
+        "spaceId": Object {
+          "type": "string",
+        },
+      },
+      "required": Array [
+        "name",
+      ],
+      "type": "object",
+    },
+  },
+  "properties": Object {
+    "galaxies": Object {
+      "items": Object {
+        "$ref": "#/definitions/GalaxiesModel",
+      },
+      "type": "array",
+    },
+    "galaxyCount": Object {
+      "multipleOf": 1,
+      "type": "number",
+    },
+    "id": Object {
+      "description": "An ObjectID",
+      "examples": Array [
+        "5ce7ad3028890bd71749d477",
+      ],
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "type": "string",
+    },
+    "name": Object {
+      "minLength": 1,
+      "type": "string",
+    },
+  },
+  "required": Array [
+    "name",
+  ],
+  "type": "object",
+}
+`;
