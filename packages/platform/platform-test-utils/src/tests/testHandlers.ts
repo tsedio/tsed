@@ -1,6 +1,5 @@
 import {Context, Controller, Get, PathParams, PlatformTest} from "@tsed/common";
 import {Property, Required, Title} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -55,7 +54,7 @@ export class HandlersCtrl {
 
 export function testHandlers(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -63,28 +62,28 @@ export function testHandlers(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
   it("Scenario 1: GET /rest/handlers/scenario-1/:id", async () => {
     const {body}: any = await request.get("/rest/handlers/scenario-1/1").expect(200);
 
-    expect(body.id).to.equal("1");
-    expect(body.name).to.equal("test");
+    expect(body.id).toEqual("1");
+    expect(body.name).toEqual("test");
   });
 
   it("Scenario 2: GET /rest/handlers/scenario-2/:id", async () => {
     const {body}: any = await request.get("/rest/handlers/scenario-2/1").expect(202);
 
-    expect(body.id).to.equal("1");
-    expect(body.name).to.equal("test");
+    expect(body.id).toEqual("1");
+    expect(body.name).toEqual("test");
   });
 
   it("Scenario 3: GET /rest/handlers/scenario-3/:id", async () => {
     const {body}: any = await request.get("/rest/handlers/scenario-3/1").expect(200);
 
-    expect(body.id).to.equal("1");
-    expect(body.name).to.equal("test");
+    expect(body.id).toEqual("1");
+    expect(body.name).toEqual("test");
   });
 }

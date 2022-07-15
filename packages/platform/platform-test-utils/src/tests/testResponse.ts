@@ -1,7 +1,6 @@
 import {Context, Controller, Get, Next, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
 import {CollectionOf, ContentType, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";
-import {expect} from "chai";
 import {createReadStream} from "fs";
 import {join} from "path";
 import {of} from "rxjs";
@@ -249,7 +248,7 @@ class TestResponseParamsCtrl {
 export function testResponse(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -257,17 +256,17 @@ export function testResponse(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("Scenario1: when multiple endpoint for the same path (classic)", () => {
     describe("GET /rest/response/scenario1/:id", () => {
       it("should return the id + test", async () => {
         const response = await request.get("/rest/response/scenario1/10").expect(200);
 
-        expect(response.text).to.equal("10value");
+        expect(response.text).toEqual("10value");
       });
     });
   });
@@ -277,7 +276,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return the id + test", async () => {
         const response = await request.get("/rest/response/scenario2/10").expect(200);
 
-        expect(response.text).to.equal("10value");
+        expect(response.text).toEqual("10value");
       });
     });
   });
@@ -287,13 +286,13 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return nothing with a 204 status", async () => {
         const response = await request.post("/rest/response/scenario3/10").expect(204);
 
-        expect(response.text).to.equal("");
+        expect(response.text).toEqual("");
       });
 
       it("should return a body", async () => {
         const response = await request.post("/rest/response/scenario3").expect(201);
 
-        expect(response.body).to.deep.equal({id: 1});
+        expect(response.body).toEqual({id: 1});
       });
     });
   });
@@ -303,7 +302,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.get("/rest/response/scenario5");
 
-        expect(response.body).to.deep.equal({id: 1});
+        expect(response.body).toEqual({id: 1});
       });
     });
   });
@@ -313,7 +312,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.get("/rest/response/scenario6");
 
-        expect(response.body).to.deep.equal({id: 1});
+        expect(response.body).toEqual({id: 1});
       });
     });
 
@@ -321,7 +320,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.get("/rest/response/scenario6b");
 
-        expect(response.body).to.deep.equal({id: 1});
+        expect(response.body).toEqual({id: 1});
       });
     });
   });
@@ -331,7 +330,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.get("/rest/response/scenario7");
 
-        expect(response.body).to.deep.equal({id: "1"});
+        expect(response.body).toEqual({id: "1"});
       });
     });
 
@@ -339,7 +338,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.get("/rest/response/scenario7b");
 
-        expect(response.body).to.deep.equal({id: "1"});
+        expect(response.body).toEqual({id: "1"});
       });
     });
   });
@@ -349,7 +348,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return the test", async () => {
         const response = await request.get("/rest/response/scenario9/static").expect(200);
 
-        expect(response.text).to.equal("value");
+        expect(response.text).toEqual("value");
       });
     });
 
@@ -357,7 +356,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return the test + id", async () => {
         const response = await request.get("/rest/response/scenario9/10").expect(200);
 
-        expect(response.text).to.equal("value10");
+        expect(response.text).toEqual("value10");
       });
     });
 
@@ -365,7 +364,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should throw a badRequest when path params isn't set as number", async () => {
         const response = await request.get("/rest/response/scenario9/kkk").expect(400);
 
-        expect(response.body).to.deep.equal({
+        expect(response.body).toEqual({
           errors: [
             {
               data: "kkk",
@@ -391,7 +390,7 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return a body", async () => {
       const response = await request.get("/rest/response/scenario10");
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         foo: "foo",
         fooBase: "fooBase"
       });
@@ -402,7 +401,7 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return a body", async () => {
       const response = await request.get("/rest/response/scenario11");
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         affected: 1,
         raw: 1
       });
@@ -413,10 +412,10 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return a body", async () => {
       const response = await request.get("/rest/response/scenario12");
 
-      expect(response.headers["content-disposition"]).to.equal('attachment; filename="filename"');
-      expect(response.headers["content-type"]).to.contains("application/octet-stream");
-      expect(response.headers["content-length"]).to.equal("5");
-      expect(response.body.toString()).to.deep.equal("Hello");
+      expect(response.headers["content-disposition"]).toEqual('attachment; filename="filename"');
+      expect(response.headers["content-type"]).toContain("application/octet-stream");
+      expect(response.headers["content-length"]).toEqual("5");
+      expect(response.body.toString()).toEqual("Hello");
     });
   });
 
@@ -424,9 +423,9 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return image", async () => {
       const response = await request.get("/rest/response/scenario13");
 
-      expect(response.headers["content-disposition"]).to.equal("inline;filename=googlelogo_color_272x92dp.png;");
-      expect(response.headers["content-type"]).to.contains("image/png");
-      expect(response.headers["content-length"]).to.equal("5969");
+      expect(response.headers["content-disposition"]).toEqual("inline;filename=googlelogo_color_272x92dp.png;");
+      expect(response.headers["content-type"]).toContain("image/png");
+      expect(response.headers["content-length"]).toEqual("5969");
     });
   });
 
@@ -438,8 +437,8 @@ export function testResponse(options: PlatformTestOptions) {
         .set("Content-Type", "application/json")
         .expect(200);
 
-      expect(response.headers["content-type"]).to.equal("application/json; charset=utf-8");
-      expect(response.body).to.deep.equal({
+      expect(response.headers["content-type"]).toEqual("application/json; charset=utf-8");
+      expect(response.body).toEqual({
         jsonexample: 1
       });
     });
@@ -448,13 +447,13 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return the response (200)", async () => {
       const response = await request.get("/rest/response/scenario15a").expect(200);
 
-      expect(response.headers["content-type"]).to.equal("application/json; charset=utf-8");
+      expect(response.headers["content-type"]).toEqual("application/json; charset=utf-8");
     });
 
     it("should return the response (401)", async () => {
       const response = await request.get("/rest/response/scenario15b").expect(401);
 
-      expect(response.headers["content-type"]).to.equal("application/json; charset=utf-8");
+      expect(response.headers["content-type"]).toEqual("application/json; charset=utf-8");
     });
   });
 
@@ -462,7 +461,7 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return the response (200)", async () => {
       const response = await request.get("/rest/response/scenario16").expect(200);
 
-      expect(response.body).to.deep.equal({nested: {value: "one"}});
+      expect(response.body).toEqual({nested: {value: "one"}});
     });
   });
 
@@ -470,7 +469,7 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return the response (200)", async () => {
       const response = await request.get("/rest/response/scenario17").expect(201);
 
-      expect(response.body).to.deep.equal({id: "id"});
+      expect(response.body).toEqual({id: "id"});
     });
   });
 
@@ -478,7 +477,7 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return the response (200)", async () => {
       const response = await request.get("/rest/response/scenario18").expect(200);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         teams: [
           {
             teamName: "name"

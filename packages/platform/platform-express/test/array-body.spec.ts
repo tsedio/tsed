@@ -2,7 +2,6 @@ import "@tsed/ajv";
 import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {CollectionOf, Property, Any} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
@@ -54,7 +53,7 @@ class TestArrayBodyCtrl {
 describe("Array Body", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     utils.bootstrap({
       mount: {
         "/rest": [TestArrayBodyCtrl]
@@ -67,9 +66,9 @@ describe("Array Body", () => {
       ]
     })
   );
-  after(utils.reset);
+  afterAll(utils.reset);
 
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
 
@@ -77,7 +76,7 @@ describe("Array Body", () => {
     it("should return the swagger (OS3)", async () => {
       const {body} = await request.get("/v3/docs/swagger.json").expect(200);
 
-      expect(body).to.deep.eq({
+      expect(body).toEqual({
         components: {
           schemas: {
             MyModel: {
@@ -317,7 +316,7 @@ describe("Array Body", () => {
         .send([{test: "test"}])
         .expect(200);
 
-      expect(body).to.deep.eq([
+      expect(body).toEqual([
         {
           test: "test"
         }
@@ -331,7 +330,7 @@ describe("Array Body", () => {
         .send([{test: 1}])
         .expect(200);
 
-      expect(body).to.deep.eq([
+      expect(body).toEqual([
         {
           test: 1
         }
@@ -343,7 +342,7 @@ describe("Array Body", () => {
     it("should return list", async () => {
       const {body} = await request.post("/rest/array/3").send([1]).expect(200);
 
-      expect(body).to.deep.eq([1]);
+      expect(body).toEqual([1]);
     });
   });
 
@@ -354,7 +353,7 @@ describe("Array Body", () => {
         .send([{test: "1"}])
         .expect(200);
 
-      expect(body).to.deep.eq([
+      expect(body).toEqual([
         {
           test: "1"
         }
@@ -368,7 +367,7 @@ describe("Array Body", () => {
         .send([{test: "1"}])
         .expect(400);
 
-      expect(body).to.deep.eq({
+      expect(body).toEqual({
         errors: [
           {
             data: [

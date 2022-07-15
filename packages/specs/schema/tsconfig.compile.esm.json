@@ -2,7 +2,8 @@
   "extends": "./tsconfig.compile.json",
   "compilerOptions": {
     "baseUrl": ".",
-    "module": "ES2020",
+    "target": "esnext",
+    "module": "esnext",
     "rootDir": "src",
     "outDir": "./lib/esm",
     "declaration": true,

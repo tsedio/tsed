@@ -1,6 +1,5 @@
 import {Controller, Get, PlatformContext, PlatformTest, ResponseFilter, ResponseFilterMethods} from "@tsed/common";
 import {Property, Returns} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -36,7 +35,7 @@ class AnyResponseFilter implements ResponseFilterMethods {
 export function testResponseFilter(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -45,10 +44,10 @@ export function testResponseFilter(options: PlatformTestOptions) {
       responseFilters: [XmlResponseFilter, AnyResponseFilter]
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("Scenario1: when have multiple contentType", () => {
     describe("GET /rest/response/scenario1/:id", () => {
@@ -60,7 +59,7 @@ export function testResponseFilter(options: PlatformTestOptions) {
           })
           .expect(200);
 
-        expect(response.text).to.equal("<xml>test</xml>");
+        expect(response.text).toEqual("<xml>test</xml>");
       });
       it("should return the xml format when Accept text/xml and application/json", async () => {
         const response = await request
@@ -70,7 +69,7 @@ export function testResponseFilter(options: PlatformTestOptions) {
           })
           .expect(200);
 
-        expect(response.text).to.equal("<xml>test</xml>");
+        expect(response.text).toEqual("<xml>test</xml>");
       });
       it("should return the json format", async () => {
         const response = await request
@@ -80,7 +79,7 @@ export function testResponseFilter(options: PlatformTestOptions) {
           })
           .expect(200);
 
-        expect(response.body).to.deep.equal({
+        expect(response.body).toEqual({
           data: {
             id: "id"
           },
@@ -90,7 +89,7 @@ export function testResponseFilter(options: PlatformTestOptions) {
       it("should return the json format by default", async () => {
         const response = await request.get("/rest/response-filter/scenario1/10").expect(200);
 
-        expect(response.body).to.deep.equal({
+        expect(response.body).toEqual({
           data: {
             id: "id"
           },

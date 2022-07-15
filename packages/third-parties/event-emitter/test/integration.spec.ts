@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import Sinon from "sinon";
 import {Injectable, PlatformTest} from "@tsed/common";
 import {Server} from "./helpers/Server";
@@ -70,23 +69,23 @@ describe("EventEmitter integration", () => {
     it("should have event definitions", () => {
       const eventEmitterService = PlatformTest.injector.get<EventEmitterService>(EventEmitterService)!;
       const bla = eventEmitterService.eventNames();
-      expect(bla).to.contain("test1", "test2");
+      expect(bla).toEqual(expect.arrayContaining(["test1", "test2"]));
     });
 
     it("should call methods with event data", () => {
       const eventEmitterService = PlatformTest.injector.get<EventEmitterService>(EventEmitterService)!;
-      expect(eventEmitterService.emit("test1", "test-data")).to.be.true;
+      expect(eventEmitterService.emit("test1", "test-data")).toBe(true);
 
-      expect(testTestSpy.calledOnceWith("test-data")).to.be.true;
-      expect(testTest2Spy.notCalled).to.be.true;
-      expect(testTwoTest3Spy.calledOnceWith("test-data")).to.be.true;
-      expect(testTwoTest4Spy.calledOnceWith("test1", "test-data")).to.be.true;
+      expect(testTestSpy.calledOnceWith("test-data")).toBe(true);
+      expect(testTest2Spy.notCalled).toBe(true);
+      expect(testTwoTest3Spy.calledOnceWith("test-data")).toBe(true);
+      expect(testTwoTest4Spy.calledOnceWith("test1", "test-data")).toBe(true);
     });
 
     it("should call async methods and return values", async () => {
       const eventEmitterService = PlatformTest.injector.get<EventEmitterService>(EventEmitterService)!;
       const result = await eventEmitterService.emitAsync("test2");
-      expect(result).to.length(2);
+      expect(result).toHaveLength(2);
     });
   });
 
@@ -104,7 +103,7 @@ describe("EventEmitter integration", () => {
 
     it("service is not available", () => {
       const eventEmitterService = PlatformTest.injector.get<EventEmitterService>(EventEmitterService)!;
-      expect(eventEmitterService).to.deep.eq({});
+      expect(eventEmitterService).toEqual({});
     });
   });
 });

@@ -1,8 +1,10 @@
-import {Configuration, Constant, Inject, Module, OnDestroy, OnInit, registerProvider} from "@tsed/di";
+import "./services/MikroOrmFactory";
+import {AlterRunInContext, Constant, DIContext, Inject, Module, OnDestroy, OnInit, registerProvider} from "@tsed/di";
 import {Options} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
-import {DBContext} from "./services/DBContext";
 import {RetryStrategy} from "./services/RetryStrategy";
+import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter";
+import {MikroOrmContext} from "./services/MikroOrmContext";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -18,24 +20,37 @@ declare global {
 }
 
 @Module({
-  imports: [DBContext, MikroOrmRegistry],
-  deps: [Configuration, MikroOrmRegistry]
+  responseFilters: [OptimisticLockErrorFilter]
 })
-export class MikroOrmModule implements OnDestroy, OnInit {
+export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
   @Constant("mikroOrm", [])
   private readonly settings!: Options[];
 
   @Inject()
-  private readonly mikroOrmRegistry!: MikroOrmRegistry;
+  private readonly registry!: MikroOrmRegistry;
+
+  @Inject()
+  private readonly context!: MikroOrmContext;
 
   public async $onInit(): Promise<void> {
-    const promises = this.settings.map((opts) => this.mikroOrmRegistry.register(opts));
+    const promises = this.settings.map((opts) => this.registry.register(opts));
 
     await Promise.all(promises);
   }
 
   public $onDestroy(): Promise<void> {
-    return this.mikroOrmRegistry.clear();
+    return this.registry.clear();
+  }
+
+  public $alterRunInContext(next: (...args: unknown[]) => unknown, _: DIContext): () => unknown | Promise<() => unknown> {
+    return () => this.createContext(next);
+  }
+
+  private createContext(next: (...args: unknown[]) => unknown): unknown {
+    const instances = [...this.registry.values()];
+    const managers = instances.map((orm) => orm.em);
+
+    return this.context.run(managers, next);
   }
 }
 

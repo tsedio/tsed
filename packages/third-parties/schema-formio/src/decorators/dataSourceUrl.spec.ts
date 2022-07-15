@@ -44,11 +44,44 @@ describe("@DataSourceUrl", () => {
       test: string;
     }
 
-    expect(await getFormioSchema(Model, {env: "integ"})).toEqual({
+    const schema1 = await getFormioSchema(Model, {env: "integ"});
+
+    expect(schema1).toEqual({
       components: [
         {
           data: {
             url: "/datasource?env=integ"
+          },
+          dataSrc: "url",
+          disabled: false,
+          input: true,
+          label: "Test",
+          key: "test",
+          selectThreshold: 0.3,
+          type: "select",
+          validate: {
+            required: false
+          },
+          widget: "choicesjs"
+        }
+      ],
+      display: "form",
+      machineName: "model",
+      name: "model",
+      title: "Model",
+      type: "form",
+      submissionAccess: [],
+      access: [],
+      tags: []
+    });
+
+    const schema2 = await getFormioSchema(Model, {env: "staging"});
+
+    expect(schema2).toEqual({
+      components: [
+        {
+          data: {
+            url: "/datasource?env=staging"
           },
           dataSrc: "url",
           disabled: false,

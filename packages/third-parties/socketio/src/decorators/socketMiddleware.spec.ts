@@ -1,5 +1,4 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {SocketMiddleware, SocketProviderTypes} from "../index";
 
 describe("@SocketMiddleware", () => {
@@ -9,7 +8,7 @@ describe("@SocketMiddleware", () => {
       use() {}
     }
 
-    expect(Store.from(Test).get("socketIO")).to.deep.eq({
+    expect(Store.from(Test).get("socketIO")).toEqual({
       type: SocketProviderTypes.MIDDLEWARE,
       handlers: {
         use: {

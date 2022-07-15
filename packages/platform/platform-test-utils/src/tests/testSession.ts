@@ -2,7 +2,6 @@ import {BodyParams, Constant, Controller, Get, PlatformTest, Post, Req, Session}
 import {NotFound} from "@tsed/exceptions";
 import {Indexed, Unique} from "@tsed/mongoose";
 import {Allow, Email, Ignore, MinLength, Property, Required, Returns} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {promisify} from "util";
 import {PlatformTestOptions} from "../interfaces";
@@ -26,7 +25,7 @@ export class UserCreation {
 
 export class User extends UserCreation {
   @Ignore()
-  password: string;
+  declare password: string;
 }
 
 @Controller("/session")
@@ -67,7 +66,7 @@ export class SessionCtrl {
 
 export function testSession(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -75,10 +74,10 @@ export function testSession(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest.agent(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("Scenario1: POST /rest/session/connected", () => {
     it("should keep connected user in session and destroy session", async () => {
@@ -93,7 +92,7 @@ export function testSession(options: PlatformTestOptions) {
       // @ts-ignore
       const response = await request.get("/rest/session/userinfo").expect(200);
 
-      expect(response.body).to.deep.eq({
+      expect(response.body).toEqual({
         email: "test@test.fr",
         name: "name"
       });

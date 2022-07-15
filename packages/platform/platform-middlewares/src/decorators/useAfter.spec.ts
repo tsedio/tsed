@@ -1,5 +1,4 @@
 import {Store, UnsupportedDecoratorType} from "@tsed/core";
-import {expect} from "chai";
 import {EndpointMetadata} from "@tsed/common";
 import {UseAfter} from "./useAfter";
 
@@ -24,7 +23,7 @@ describe("UseAfter()", () => {
       // THEN
       const store = Store.from(Test).get("middlewares");
 
-      expect(store).to.deep.eq({useAfter: [CustomMiddleware, CustomMiddleware2]});
+      expect(store).toEqual({useAfter: [CustomMiddleware, CustomMiddleware2]});
     });
   });
   describe("when the decorator is use on a method", () => {
@@ -38,7 +37,7 @@ describe("UseAfter()", () => {
 
       // THEN
       const endpoint = EndpointMetadata.get(Test, "test");
-      expect(endpoint.afterMiddlewares).to.deep.equal([CustomMiddleware, CustomMiddleware2]);
+      expect(endpoint.afterMiddlewares).toEqual([CustomMiddleware, CustomMiddleware2]);
     });
   });
   describe("when the decorator is use in another way", () => {
@@ -56,8 +55,8 @@ describe("UseAfter()", () => {
       }
 
       // THEN
-      expect(actualError).to.be.instanceOf(UnsupportedDecoratorType);
-      expect(actualError.message).to.eq("UseAfter cannot be used as property.static decorator on Test.property");
+      expect(actualError).toBeInstanceOf(UnsupportedDecoratorType);
+      expect(actualError.message).toEqual("UseAfter cannot be used as property.static decorator on Test.property");
     });
   });
 });

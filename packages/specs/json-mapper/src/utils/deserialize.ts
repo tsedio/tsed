@@ -1,5 +1,5 @@
-import {isArray, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
-import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonPropertyStore, JsonSchema} from "@tsed/schema";
+import {isArray, isBoolean, isClass, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
+import {alterIgnore, getProperties, JsonClassStore, JsonEntityStore, JsonHookContext, JsonPropertyStore, JsonSchema} from "@tsed/schema";
 import "../components/ArrayMapper";
 import "../components/DateMapper";
 import "../components/MapMapper";
@@ -100,6 +100,20 @@ function mapItemOptions(propStore: JsonPropertyStore, options: JsonDeserializerO
   return itemOpts;
 }
 
+function getAdditionalProperties(
+  nbProps: number,
+  store: JsonEntityStore,
+  options: JsonDeserializerOptions<any, any>
+): boolean | JsonSchema {
+  const additionalProperties = store.schema.get("additionalProperties");
+
+  if (isBoolean(additionalProperties) || isClass(additionalProperties)) {
+    return additionalProperties;
+  }
+
+  return nbProps === 0 || !!options.additionalProperties;
+}
+
 /**
  * Transform given plain object to class.
  * @param src
@@ -114,8 +128,8 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   const propertiesMap = getProperties(store, {...options, withIgnoredProps: true});
 
   let keys = new Set<any>(objectKeys(src));
-  const additionalProperties = propertiesMap.size ? !!store.schema.get("additionalProperties") || options.additionalProperties : true;
 
+  const additionalProperties = getAdditionalProperties(propertiesMap.size, store, options);
   src = alterBeforeDeserialize(src, store.schema, options);
 
   const out: any = new type(src);
@@ -148,9 +162,19 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   });
 
   if (additionalProperties) {
-    keys.forEach((key) => {
-      out[key] = src[key];
-    });
+    if (isBoolean(additionalProperties)) {
+      keys.forEach((key) => {
+        out[key] = src[key];
+      });
+    } else {
+      const type = additionalProperties.getComputedType();
+      keys.forEach((key) => {
+        out[key] = deserialize(src[key], {
+          ...options,
+          type
+        });
+      });
+    }
   }
 
   return alterAfterDeserialize(out, store.schema, options);
@@ -164,8 +188,7 @@ function buildOptions(options: JsonDeserializerOptions<any, any>): any {
 
     options.type = options.store.computedType;
     options.collectionType = options.store.collectionType;
-
-    delete options.store;
+    options.store = undefined;
   }
 
   return {

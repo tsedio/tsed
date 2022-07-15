@@ -21,7 +21,7 @@
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
-    "tslib": "2.3.1"
+    "tslib": "2.4.0"
   },
   "devDependencies": {
     "@tsed/core": "7.0.0-beta.13",

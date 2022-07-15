@@ -1,5 +1,4 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {OnHook} from "../domain/OnHook";
 import {On} from "./on";
 
@@ -11,6 +10,6 @@ describe("@On", () => {
     }
 
     const store = Store.from(CustomEvent);
-    expect(store.get("formio:on:name")).to.equal("custom");
+    expect(store.get("formio:on:name")).toEqual("custom");
   });
 });

@@ -29,7 +29,7 @@
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
   },
   "dependencies": {
-    "tslib": "2.3.1"
+    "tslib": "2.4.0"
   },
   "peerDependencies": {
     "formiojs": ">=4.0.0"

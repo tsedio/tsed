@@ -1,7 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {OidcProvider} from "@tsed/oidc-provider";
-import {expect} from "chai";
 import "../../test/app/controllers/oidc/InteractionsCtrl";
 
 describe("OidcProvider", () => {
@@ -21,7 +20,7 @@ describe("OidcProvider", () => {
       const oidcProvider = PlatformTest.get<OidcProvider>(OidcProvider);
 
       // @ts-ignore
-      expect(oidcProvider.getInteractionsUrl()({}, {uid: "uid"})).to.deep.eq("/interaction/uid");
+      expect(oidcProvider.getInteractionsUrl()({}, {uid: "uid"})).toEqual("/interaction/uid");
     });
   });
 });

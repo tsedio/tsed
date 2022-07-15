@@ -1,14 +1,10 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {FormioDatabase} from "../services/FormioDatabase";
 import {AlterTemplateImportSteps} from "./AlterTemplateImportSteps";
 
-const sandbox = Sinon.createSandbox();
-
 async function createServiceFixture() {
   const mapper = {
-    mapToImport: sandbox.stub().callsFake((data) => {
+    mapToImport: jest.fn().mockImplementation((data) => {
       if (data && data.data) {
         return {
           form: "form_id",
@@ -22,10 +18,10 @@ async function createServiceFixture() {
 
   const database = {
     submissionModel: {
-      deleteMany: sandbox.stub(),
-      create: sandbox.stub()
+      deleteMany: jest.fn(),
+      create: jest.fn()
     },
-    getFormioMapper: sandbox.stub().resolves(mapper)
+    getFormioMapper: jest.fn().mockResolvedValue(mapper)
   };
 
   const service = await PlatformTest.invoke<AlterTemplateImportSteps>(AlterTemplateImportSteps, [
@@ -41,7 +37,6 @@ async function createServiceFixture() {
 describe("AlterTemplateImportSteps", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(PlatformTest.reset);
-  afterEach(() => sandbox.restore());
 
   it("should import submission", async () => {
     const {service, database} = await createServiceFixture();
@@ -58,14 +53,14 @@ describe("AlterTemplateImportSteps", () => {
       }
     };
 
-    queue = service.transform(queue, sandbox.stub(), template);
+    queue = service.transform(queue, jest.fn(), template);
 
-    expect(queue.length).to.eq(1);
+    expect(queue.length).toEqual(1);
 
     await new Promise((resolve) => queue[0](resolve));
 
-    expect(database.submissionModel.deleteMany).to.have.been.calledWithExactly({});
-    expect(database.submissionModel.create).to.have.been.calledWithExactly({
+    expect(database.submissionModel.deleteMany).toHaveBeenCalledWith({});
+    expect(database.submissionModel.create).toHaveBeenCalledWith({
       form: "form_id",
       data: {},
       roles: ["admin"]

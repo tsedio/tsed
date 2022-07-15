@@ -1,5 +1,4 @@
 import {Context, Controller, Get, Locals, Middleware, Next, PlatformContext, PlatformTest, Req, Request, Res, Use} from "@tsed/common";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -24,7 +23,7 @@ class LocalsCtrl {
 
 export function testLocals(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -32,16 +31,16 @@ export function testLocals(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("Scenario 1: GET /rest/locals/scenario-1", () => {
     it("should call middleware and set a id in locals", async () => {
       const {body}: any = await request.get("/rest/locals/scenario-1").expect(200);
 
-      expect(body.id).to.equal("local-10909-ctx-10909");
+      expect(body.id).toEqual("local-10909-ctx-10909");
     });
   });
 }

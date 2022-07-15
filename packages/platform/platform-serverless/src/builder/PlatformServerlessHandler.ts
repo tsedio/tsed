@@ -27,9 +27,9 @@ export class PlatformServerlessHandler {
     });
 
     return async ($ctx: ServerlessContext) => {
-      await this.injector.emit("$onRequest", $ctx);
+      await $ctx.runInContext(async () => {
+        await this.injector.emit("$onRequest", $ctx);
 
-      await runInContext($ctx as any, async () => {
         try {
           const resolver = new AnyToPromise();
           const handler = await promisedHandler;
@@ -42,11 +42,11 @@ export class PlatformServerlessHandler {
 
           await exceptions.catch(er, $ctx as unknown as BaseContext);
         }
+
+        await this.injector.emit("$onResponse", $ctx);
+
+        return this.flush($ctx);
       });
-
-      await this.injector.emit("$onResponse", $ctx);
-
-      return this.flush($ctx);
     };
   }
 

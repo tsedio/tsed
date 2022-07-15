@@ -2,7 +2,6 @@ import {Inject, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import {Emit, Input, SocketIOServer, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
 import {SocketClientService} from "@tsed/socketio-testing";
-import {expect} from "chai";
 import {Namespace, Socket as IOSocket} from "socket.io";
 import {ConverterUserSocketMiddleware} from "./app/middlewares/ConverterUserSocketMiddleware";
 import {Server} from "./app/Server";
@@ -25,7 +24,7 @@ export class TestWS {
 }
 
 describe("Socket integration: default path", () => {
-  before(
+  beforeAll(
     PlatformTest.bootstrap(Server, {
       platform: PlatformExpress,
       listen: true,
@@ -35,7 +34,7 @@ describe("Socket integration: default path", () => {
       imports: [TestWS]
     })
   );
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("RoomWS: eventName", () => {
     it("should return the data", async () => {
@@ -43,11 +42,11 @@ describe("Socket integration: default path", () => {
       const client = await service.get("/test");
       const client2 = await service.get("/test");
 
-      expect(client).to.eq(client2);
+      expect(client).toEqual(client2);
 
       return new Promise((resolve: any) => {
         client.on("output:scenario1", (result) => {
-          expect(result).to.eq("my Message test2");
+          expect(result).toEqual("my Message test2");
           resolve();
         });
 
@@ -60,7 +59,7 @@ describe("Socket integration: default path", () => {
 describe("Socket integration: custom path", () => {
   const CUSTOM_WS_PATH = "/ws";
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(Server, {
       platform: PlatformExpress,
       listen: true,
@@ -70,7 +69,7 @@ describe("Socket integration: custom path", () => {
       socketIO: {path: CUSTOM_WS_PATH}
     })
   );
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("RoomWS: eventName", () => {
     it("should return the data", async () => {
@@ -79,7 +78,7 @@ describe("Socket integration: custom path", () => {
 
       return new Promise((resolve: any) => {
         client.on("output:scenario1", (result) => {
-          expect(result).to.eq("my Message test2");
+          expect(result).toEqual("my Message test2");
           resolve();
         });
 

@@ -1,6 +1,5 @@
 import {EndpointMetadata} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {Use} from "./use";
 
 describe("Use()", () => {
@@ -14,7 +13,7 @@ describe("Use()", () => {
       }
 
       const endpoint = EndpointMetadata.get(Test, "test");
-      expect(endpoint.middlewares).to.deep.eq([middleware]);
+      expect(endpoint.middlewares).toEqual([middleware]);
     });
   });
 
@@ -28,8 +27,8 @@ describe("Use()", () => {
       }
 
       const store = Store.from(Test).get("middlewares");
-      expect(store.use[0]).to.be.a("function");
-      expect(store.use[0]).to.deep.eq(middleware);
+      expect(store.use[0]).toBeInstanceOf(Function);
+      expect(store.use[0]).toEqual(middleware);
     });
   });
 
@@ -47,7 +46,7 @@ describe("Use()", () => {
         actualError = er;
       }
 
-      expect(actualError.message).to.eq("Use cannot be used as property decorator on Test.test");
+      expect(actualError.message).toEqual("Use cannot be used as property decorator on Test.test");
     });
   });
 });

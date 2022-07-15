@@ -1,5 +1,4 @@
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 import {Nsp} from "../index";
 
 describe("Nsp", () => {
@@ -10,7 +9,7 @@ describe("Nsp", () => {
       Nsp(Test, "test", 0);
       const store = Store.from(Test);
 
-      expect(store.get("socketIO")).to.deep.eq({
+      expect(store.get("socketIO")).toEqual({
         handlers: {
           test: {
             parameters: {
@@ -28,13 +27,13 @@ describe("Nsp", () => {
   describe("when it used as property decorator", () => {
     class Test {}
 
-    before(() => {});
+    beforeAll(() => {});
 
     it("should set metadata", () => {
       Nsp(Test.prototype, "test");
 
       const store = Store.from(Test);
-      expect(store.get("socketIO")).to.deep.eq({
+      expect(store.get("socketIO")).toEqual({
         injectNamespaces: [{propertyKey: "test"}]
       });
     });
@@ -48,7 +47,7 @@ describe("Nsp", () => {
       }
 
       const store = Store.from(Test);
-      expect(store.get("socketIO")).to.deep.eq({
+      expect(store.get("socketIO")).toEqual({
         injectNamespaces: [{propertyKey: "property", nsp: "/test"}]
       });
     });

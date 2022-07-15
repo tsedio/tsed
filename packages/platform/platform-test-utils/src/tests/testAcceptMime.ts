@@ -1,6 +1,5 @@
 import {AcceptMime, Controller, Get, HeaderParams, PlatformTest, Post} from "@tsed/common";
 import {ContentType} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -25,7 +24,7 @@ class TestAcceptMimeCtrl {
 export function testAcceptMime(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -33,10 +32,10 @@ export function testAcceptMime(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
   describe("Scenario 1: POST /rest/accept-mime/scenario-1", () => {
     it('should return a 200 response when Accept header match with @AcceptMime("application/json")', async () => {
       const response = await request
@@ -46,7 +45,7 @@ export function testAcceptMime(options: PlatformTestOptions) {
         })
         .expect(200);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         accept: "application/json"
       });
     });
@@ -58,7 +57,7 @@ export function testAcceptMime(options: PlatformTestOptions) {
         })
         .expect(406);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         name: "NOT_ACCEPTABLE",
         message: "You must accept content-type application/json",
         status: 406,
@@ -75,7 +74,7 @@ export function testAcceptMime(options: PlatformTestOptions) {
         })
         .expect(200);
 
-      expect(response.text).to.equal("pong");
+      expect(response.text).toEqual("pong");
     });
     it('should return a 406 response when Accept header doesn\'t match with @AcceptMime("text")', async () => {
       const response = await request
@@ -85,7 +84,7 @@ export function testAcceptMime(options: PlatformTestOptions) {
         })
         .expect(406);
 
-      expect(response.body).to.deep.equal({
+      expect(response.body).toEqual({
         name: "NOT_ACCEPTABLE",
         message: "You must accept content-type text",
         status: 406,

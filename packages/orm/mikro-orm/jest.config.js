@@ -5,10 +5,10 @@ module.exports = {
   ...require("@tsed/jest-config")(__dirname, "mikro-orm"),
   coverageThreshold: {
     global: {
-      branches: 90.38,
-      functions: 91.42,
-      lines: 96.52,
-      statements: 97.1
+      branches: 95.83,
+      functions: 94.73,
+      lines: 97.43,
+      statements: 97.88
     }
   }
 };

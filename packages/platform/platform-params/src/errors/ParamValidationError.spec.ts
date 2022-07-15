@@ -27,9 +27,11 @@ describe("ParseExpressionError", () => {
       requestType: "name",
       status: 400,
       type: "HTTP_EXCEPTION",
+      message: 'Bad request on parameter "request.name.expression".\nmessage',
       origin: {
         errors: [],
         headers: {},
+        message: "message",
         name: "VALIDATION_ERROR",
         status: 400,
         type: "HTTP_EXCEPTION"
@@ -52,6 +54,7 @@ describe("ParseExpressionError", () => {
       dataPath: "expression",
       headers: {},
       name: "PARAM_VALIDATION_ERROR",
+      message: "Bad request on parameter \"request.name.expression\".\nIt should have required parameter 'expression'",
       origin: {
         errors: [
           {
@@ -67,6 +70,7 @@ describe("ParseExpressionError", () => {
         ],
         headers: {},
         name: "REQUIRED_VALIDATION_ERROR",
+        message: "It should have required parameter 'expression'",
         status: 400,
         type: "HTTP_EXCEPTION"
       },
@@ -102,10 +106,12 @@ describe("ParseExpressionError", () => {
           }
         ],
         headers: {},
+        message: "It should have 1 item",
         name: "VALIDATION_ERROR",
         status: 400,
         type: "HTTP_EXCEPTION"
       },
+      message: 'Bad request on parameter "request.name.expression".\nIt should have 1 item',
       requestType: "name",
       status: 400,
       type: "HTTP_EXCEPTION"

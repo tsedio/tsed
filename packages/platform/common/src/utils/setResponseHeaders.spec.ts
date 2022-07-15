@@ -1,10 +1,6 @@
 import {EndpointMetadata, Get, PlatformTest} from "@tsed/common";
 import {Redirect, Returns} from "@tsed/schema";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {setResponseHeaders} from "./setResponseHeaders";
-
-const sandbox = Sinon.createSandbox();
 
 describe("setResponseHeaders", () => {
   beforeEach(() => PlatformTest.create());
@@ -24,8 +20,8 @@ describe("setResponseHeaders", () => {
     await setResponseHeaders(ctx);
 
     // THEN
-    expect(ctx.response.getHeaders()).to.deep.equal({"x-request-id": "id", "x-header": "test"});
-    expect(ctx.response.statusCode).to.deep.eq(200);
+    expect(ctx.response.getHeaders()).toEqual({"x-request-id": "id", "x-header": "test"});
+    expect(ctx.response.statusCode).toEqual(200);
   });
 
   it("should redirect", async () => {
@@ -38,13 +34,13 @@ describe("setResponseHeaders", () => {
     const ctx = PlatformTest.createRequestContext();
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-    Sinon.stub(ctx.response, "redirect");
+    jest.spyOn(ctx.response, "redirect").mockReturnValue(undefined as any);
 
     // WHEN
     await setResponseHeaders(ctx);
 
     // THEN
-    expect(ctx.response.redirect).to.have.been.calledWithExactly(301, "/path");
+    expect(ctx.response.redirect).toBeCalledWith(301, "/path");
   });
 
   it("should do nothing when headers is already sent", async () => {
@@ -59,12 +55,12 @@ describe("setResponseHeaders", () => {
 
     ctx.endpoint = EndpointMetadata.get(Test, "test");
 
-    sandbox.stub(ctx.response.raw, "set");
+    jest.spyOn(ctx.response.raw, "set");
 
     // WHEN
     await setResponseHeaders(ctx);
 
     // THEN
-    return expect(ctx.response.raw.set).to.not.have.been.called;
+    return expect(ctx.response.raw.set).not.toBeCalled();
   });
 });

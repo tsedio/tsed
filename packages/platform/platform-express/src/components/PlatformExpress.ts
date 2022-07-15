@@ -1,6 +1,3 @@
-import type multer from "multer";
-import Express, {RouterOptions} from "express";
-import type {PlatformViews} from "@tsed/platform-views";
 import {
   createContext,
   InjectorService,
@@ -16,14 +13,17 @@ import {
   PlatformResponse,
   PlatformStaticsOptions
 } from "@tsed/common";
-import {promisify} from "util";
 import {Env, isFunction, nameOf, Type} from "@tsed/core";
-import {PlatformExpressHandler} from "../services/PlatformExpressHandler";
-import {PlatformExpressResponse} from "../services/PlatformExpressResponse";
-import {PlatformExpressRequest} from "../services/PlatformExpressRequest";
-import {staticsMiddleware} from "../middlewares/staticsMiddleware";
-import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
+import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
+import Express, {RouterOptions} from "express";
+import type multer from "multer";
+import {promisify} from "util";
+import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware";
+import {PlatformExpressHandler} from "../services/PlatformExpressHandler";
+import {PlatformExpressRequest} from "../services/PlatformExpressRequest";
+import {PlatformExpressResponse} from "../services/PlatformExpressResponse";
 
 declare module "express" {
   export interface Request {

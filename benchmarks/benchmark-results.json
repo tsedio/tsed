@@ -1,0 +1,15 @@
+[
+  {"name": "tsed-no-context", "version": "6.115.0", "hasRouter": true, "requests": "18338.4", "latency": "59.82", "throughput": "3.06"},
+  {"name": "express", "version": "4.18.1", "hasRouter": true, "requests": "17173.6", "latency": "63.32", "throughput": "3.06"},
+  {"name": "tsed-no-events", "version": "6.115.0", "hasRouter": true, "requests": "15212.0", "latency": "73.77", "throughput": "2.54"},
+  {
+    "name": "tsed-express-crypto-uuid",
+    "version": "6.115.0",
+    "hasRouter": true,
+    "requests": "10152.0",
+    "latency": "110.56",
+    "throughput": "2.20"
+  },
+  {"name": "tsed-express", "version": "6.115.0", "hasRouter": true, "requests": "10022.0", "latency": "111.67", "throughput": "1.84"},
+  {"name": "tsed-express-uuid", "version": "6.115.0", "hasRouter": true, "requests": "8144.8", "latency": "121.29", "throughput": "1.73"}
+]

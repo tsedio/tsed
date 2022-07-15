@@ -1,6 +1,5 @@
 import {PlatformTest} from "@tsed/common";
 import {PlatformExpressResponse} from "@tsed/platform-express";
-import {expect} from "chai";
 import "./PlatformExpressResponse";
 
 describe("PlatformExpressResponse", () => {
@@ -15,6 +14,6 @@ describe("PlatformExpressResponse", () => {
       ResponseKlass: PlatformExpressResponse
     });
 
-    expect(ctx.response.raw).to.eq(response);
+    expect(ctx.response.raw).toEqual(response);
   });
 });

@@ -1,5 +1,4 @@
 import {Configuration} from "@tsed/di";
-import {expect} from "chai";
 import {getConfiguration} from "./getConfiguration";
 import {Env} from "@tsed/core";
 
@@ -23,7 +22,7 @@ describe("getConfiguration()", () => {
         },
         MyModule
       )
-    ).to.deep.eq({
+    ).toEqual({
       $$resolved: true,
       env: "test",
       httpPort: 8080,
@@ -49,7 +48,7 @@ describe("getConfiguration()", () => {
 
     const config = getConfiguration({}, App);
 
-    expect(config).to.deep.eq({
+    expect(config).toEqual({
       $$resolved: true,
       env: "test",
       httpPort: 8080,
@@ -74,7 +73,7 @@ describe("getConfiguration()", () => {
 
     const config = getConfiguration({}, App);
 
-    expect(config).to.deep.eq({
+    expect(config).toEqual({
       $$resolved: true,
       env: Env.PROD,
       httpPort: 8080,
@@ -108,7 +107,7 @@ describe("getConfiguration()", () => {
       App
     );
 
-    expect(config).to.deep.eq({
+    expect(config).toEqual({
       $$resolved: true,
       env: Env.PROD,
       httpPort: 8080,
@@ -141,7 +140,7 @@ describe("getConfiguration()", () => {
     let config = getConfiguration({}, App);
     config = getConfiguration(config, App);
 
-    expect(config).to.deep.eq({
+    expect(config).toEqual({
       $$resolved: true,
       env: Env.PROD,
       httpPort: 8080,

@@ -1,0 +1,64 @@
+name: Benchmarks
+on:
+  workflow_dispatch:
+  pull_request:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 0 * * 1'
+
+jobs:
+  benchmarks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: | 
+          yarn install --frozen-lockfile --network-timeout 500000
+          cd benchmarks
+          yarn install --frozen-lockfile --network-timeout 500000
+
+      - name: run benchmarks
+        run: yarn benchmarks
+
+#      - name: commit and push updated results
+#        uses: github-actions-x/commit@v2.9
+#        if: github.event_name != 'pull_request' && contains('
+#          refs/heads/production
+#          refs/heads/alpha
+#          refs/heads/beta
+#          refs/heads/rc
+#          ', github.ref)
+#        with:
+#          github-token: ${{ secrets.GITHUB_TOKEN }}
+#          push-branch: 'production'
+#          commit-message: 'chore: update benchmark results [skip]'
+#          force-add: 'true'
+#          files: tools/benchmarks/benchmark-results.json tools/benchmarks/README.md
+#          name: Github Actions
+#          email: <>
+
+      - uses: actions/github-script@v4
+        if: github.event_name == 'pull_request' && !github.event.pull_request.head.repo.fork
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            context.issue.number && github.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: require('fs').readFileSync('./benchmarks/ISSUE_COMMENT.md', {encoding: 'utf8'})
+            })
+      - uses: actions/upload-artifact@v2
+        with:
+          name: benchmarks
+          path: |
+            tools/benchmarks/dist

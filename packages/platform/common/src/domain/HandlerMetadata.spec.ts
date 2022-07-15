@@ -1,5 +1,4 @@
 import {Controller, Err, Get, HandlerType, Middleware, Next, Req} from "@tsed/common";
-import {expect} from "chai";
 import {useCtxHandler} from "../utils/useCtxHandler";
 import {HandlerMetadata} from "./HandlerMetadata";
 
@@ -15,11 +14,11 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      expect(handlerMetadata.injectable).to.eq(false);
-      expect(handlerMetadata.type).to.eq(HandlerType.CTX_FN);
-      expect(handlerMetadata.hasNextFunction).to.eq(false);
-      expect(handlerMetadata.hasErrorParam).to.eq(false);
-      expect(handlerMetadata.toString()).to.eq("");
+      expect(handlerMetadata.injectable).toEqual(false);
+      expect(handlerMetadata.type).toEqual(HandlerType.CTX_FN);
+      expect(handlerMetadata.hasNextFunction).toEqual(false);
+      expect(handlerMetadata.hasErrorParam).toEqual(false);
+      expect(handlerMetadata.toString()).toEqual("");
     });
   });
   describe("from function", () => {
@@ -32,11 +31,11 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      expect(handlerMetadata.injectable).to.eq(false);
-      expect(handlerMetadata.type).to.eq(HandlerType.RAW_FN);
-      expect(handlerMetadata.hasNextFunction).to.eq(true);
-      expect(handlerMetadata.hasErrorParam).to.eq(false);
-      expect(handlerMetadata.toString()).to.eq("");
+      expect(handlerMetadata.injectable).toEqual(false);
+      expect(handlerMetadata.type).toEqual(HandlerType.RAW_FN);
+      expect(handlerMetadata.hasNextFunction).toEqual(true);
+      expect(handlerMetadata.hasErrorParam).toEqual(false);
+      expect(handlerMetadata.toString()).toEqual("");
     });
   });
   describe("from function err", () => {
@@ -49,12 +48,12 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      expect(handlerMetadata.injectable).to.eq(false);
-      expect(handlerMetadata.type).to.eq(HandlerType.RAW_ERR_FN);
-      expect(handlerMetadata.hasNextFunction).to.eq(true);
-      expect(handlerMetadata.hasErrorParam).to.eq(true);
-      expect(handlerMetadata.propertyKey).to.eq(undefined);
-      expect(handlerMetadata.toString()).to.eq("");
+      expect(handlerMetadata.injectable).toEqual(false);
+      expect(handlerMetadata.type).toEqual(HandlerType.RAW_ERR_FN);
+      expect(handlerMetadata.hasNextFunction).toEqual(true);
+      expect(handlerMetadata.hasErrorParam).toEqual(true);
+      expect(handlerMetadata.propertyKey).toBeUndefined();
+      expect(handlerMetadata.toString()).toEqual("");
     });
   });
   describe("from function without nextFn", () => {
@@ -68,12 +67,12 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      expect(handlerMetadata.injectable).to.eq(false);
-      expect(handlerMetadata.type).to.eq(HandlerType.RAW_FN);
-      expect(handlerMetadata.hasNextFunction).to.eq(false);
-      expect(handlerMetadata.hasErrorParam).to.eq(false);
-      expect(handlerMetadata.propertyKey).to.eq(undefined);
-      expect(handlerMetadata.toString()).to.eq("");
+      expect(handlerMetadata.injectable).toEqual(false);
+      expect(handlerMetadata.type).toEqual(HandlerType.RAW_FN);
+      expect(handlerMetadata.hasNextFunction).toEqual(false);
+      expect(handlerMetadata.hasErrorParam).toEqual(false);
+      expect(handlerMetadata.propertyKey).toBeUndefined();
+      expect(handlerMetadata.toString()).toEqual("");
     });
   });
   describe("from endpoint/middleware without injection", () => {
@@ -94,12 +93,12 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      expect(handlerMetadata.injectable).to.eq(false);
-      expect(handlerMetadata.type).to.eq(HandlerType.ENDPOINT);
-      expect(handlerMetadata.hasNextFunction).to.eq(true);
-      expect(handlerMetadata.hasErrorParam).to.eq(false);
-      expect(handlerMetadata.propertyKey).to.eq("test");
-      expect(handlerMetadata.toString()).to.eq("Test.test");
+      expect(handlerMetadata.injectable).toEqual(false);
+      expect(handlerMetadata.type).toEqual(HandlerType.ENDPOINT);
+      expect(handlerMetadata.hasNextFunction).toEqual(true);
+      expect(handlerMetadata.hasErrorParam).toEqual(false);
+      expect(handlerMetadata.propertyKey).toEqual("test");
+      expect(handlerMetadata.toString()).toEqual("Test.test");
     });
   });
   describe("from endpoint/middleware with injection", () => {
@@ -120,15 +119,15 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      expect(handlerMetadata.injectable).to.eq(true);
-      expect(handlerMetadata.type).to.eq(HandlerType.ENDPOINT);
-      expect(handlerMetadata.hasNextFunction).to.eq(true);
-      expect(handlerMetadata.hasErrorParam).to.eq(false);
-      expect(handlerMetadata.propertyKey).to.eq("test");
-      expect(handlerMetadata.toString()).to.eq("Test.test");
+      expect(handlerMetadata.injectable).toEqual(true);
+      expect(handlerMetadata.type).toEqual(HandlerType.ENDPOINT);
+      expect(handlerMetadata.hasNextFunction).toEqual(true);
+      expect(handlerMetadata.hasErrorParam).toEqual(false);
+      expect(handlerMetadata.propertyKey).toEqual("test");
+      expect(handlerMetadata.toString()).toEqual("Test.test");
 
-      expect(handlerMetadata.getParams()[0].paramType).to.deep.eq("REQUEST");
-      expect(handlerMetadata.getParams()[1].paramType).to.deep.eq("NEXT_FN");
+      expect(handlerMetadata.getParams()[0].paramType).toEqual("REQUEST");
+      expect(handlerMetadata.getParams()[1].paramType).toEqual("NEXT_FN");
     });
   });
   describe("from middleware without injection and error", () => {
@@ -148,12 +147,12 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      expect(handlerMetadata.injectable).to.eq(false);
-      expect(handlerMetadata.type).to.eq(HandlerType.RAW_ERR_FN);
-      expect(handlerMetadata.hasNextFunction).to.eq(true);
-      expect(handlerMetadata.hasErrorParam).to.eq(true);
-      expect(handlerMetadata.propertyKey).to.eq("use");
-      expect(handlerMetadata.toString()).to.eq("Test.use");
+      expect(handlerMetadata.injectable).toEqual(false);
+      expect(handlerMetadata.type).toEqual(HandlerType.RAW_ERR_FN);
+      expect(handlerMetadata.hasNextFunction).toEqual(true);
+      expect(handlerMetadata.hasErrorParam).toEqual(true);
+      expect(handlerMetadata.propertyKey).toEqual("use");
+      expect(handlerMetadata.toString()).toEqual("Test.use");
     });
   });
   describe("from middleware with injection and error", () => {
@@ -173,12 +172,12 @@ describe("HandlerMetadata", () => {
       const handlerMetadata = new HandlerMetadata(options);
 
       // THEN
-      expect(handlerMetadata.injectable).to.eq(true);
-      expect(handlerMetadata.type).to.eq(HandlerType.ERR_MIDDLEWARE);
-      expect(handlerMetadata.hasNextFunction).to.eq(true);
-      expect(handlerMetadata.hasErrorParam).to.eq(true);
-      expect(handlerMetadata.propertyKey).to.eq("use");
-      expect(handlerMetadata.toString()).to.eq("Test.use");
+      expect(handlerMetadata.injectable).toEqual(true);
+      expect(handlerMetadata.type).toEqual(HandlerType.ERR_MIDDLEWARE);
+      expect(handlerMetadata.hasNextFunction).toEqual(true);
+      expect(handlerMetadata.hasErrorParam).toEqual(true);
+      expect(handlerMetadata.propertyKey).toEqual("use");
+      expect(handlerMetadata.toString()).toEqual("Test.use");
     });
   });
 });

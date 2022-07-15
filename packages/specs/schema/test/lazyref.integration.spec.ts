@@ -7,7 +7,7 @@ function Ref(model: string | (() => Type) | any): PropertyDecorator {
   return useDecorators(
     Property(Object),
     JsonEntityFn(async (store) => {
-      store.itemSchema.oneOf([string().example("5ce7ad3028890bd71749d477").description("Mongoose Ref ObjectId"), lazyRef(getType)]);
+      store.itemSchema.oneOf([string().example("5ce7ad3028890bd71749d477").description("A reference ObjectID"), lazyRef(getType)]);
 
       store.type = Object;
     })
@@ -41,7 +41,7 @@ describe("LazyRef", () => {
         model: {
           oneOf: [
             {
-              description: "Mongoose Ref ObjectId",
+              description: "A reference ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               type: "string"
             },

@@ -1,21 +1,20 @@
 import {PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
 import "@tsed/platform-express";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {Server} from "./app/Server";
 
 describe("GraphQL", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
-  before(
+  beforeAll(
     PlatformTest.bootstrap(Server, {
       platform: PlatformExpress
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   it("should try login", async () => {
     const response = await request
@@ -27,7 +26,7 @@ describe("GraphQL", () => {
       })
       .expect(200);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       data: {
         login: {
           email: "test@test.com",
@@ -47,7 +46,7 @@ describe("GraphQL", () => {
       })
       .expect(200);
 
-    expect(response.body).to.deep.eq({
+    expect(response.body).toEqual({
       data: null,
       errors: [
         {
@@ -55,6 +54,7 @@ describe("GraphQL", () => {
             code: "INTERNAL_SERVER_ERROR",
             exception: {
               headers: {},
+              message: "Wrong credentials",
               name: "UNAUTHORIZED",
               status: 401,
               type: "HTTP_EXCEPTION"

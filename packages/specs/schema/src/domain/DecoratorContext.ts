@@ -1,5 +1,5 @@
 import {DecoratorParameters, DecoratorTypes} from "@tsed/core";
-import {pascalCase} from "pascal-case";
+import {pascalCase} from "change-case";
 import {JsonEntityStore} from "./JsonEntityStore";
 
 /**

@@ -51,8 +51,8 @@ describe("RedisAdapter", () => {
 
       const keys = await adapter.db.keys("*");
 
-      expect(keys).toEqual(expect.arrayContaining(["clients:" + client._id]));
-      expect(keys).toEqual(expect.arrayContaining([`$idx:clients:${client._id}:name(${base.name})`]));
+      expect(keys).toContain("clients:" + client._id);
+      expect(keys).toContain(`$idx:clients:${client._id}:name(${base.name})`);
     });
   });
 
@@ -76,8 +76,8 @@ describe("RedisAdapter", () => {
 
       const keys = await adapter.db.keys("*");
 
-      expect(keys).toEqual(expect.arrayContaining(["clients:" + client._id]));
-      expect(keys).toEqual(expect.arrayContaining([`$idx:clients:${client._id}:name(${base.name})`]));
+      expect(keys).toContain("clients:" + client._id);
+      expect(keys).toContain(`$idx:clients:${client._id}:name(${base.name})`);
     });
   });
 

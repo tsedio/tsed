@@ -1,6 +1,6 @@
 import {ContextMethods, DIContext, DIContextOptions} from "@tsed/di";
-import {IncomingMessage, ServerResponse} from "http";
 import {EndpointMetadata} from "@tsed/schema";
+import {IncomingMessage, ServerResponse} from "http";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
@@ -88,13 +88,14 @@ export class PlatformContext extends DIContext implements ContextMethods {
   async destroy() {
     await super.destroy();
 
-    delete this.request?.request?.$ctx;
+    if (this.request?.request?.$ctx) {
+      this.request.request.$ctx = undefined as any;
+    }
 
     this.response.destroy();
     this.request.destroy();
 
-    // @ts-ignore
-    delete this.endpoint;
+    this.endpoint = undefined as any;
   }
 
   isDone() {

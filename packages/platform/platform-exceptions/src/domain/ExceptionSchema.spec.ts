@@ -2,7 +2,6 @@ import SwaggerParser from "@apidevtools/swagger-parser";
 import {BadRequest, Exception} from "@tsed/exceptions";
 import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
 import Ajv from "ajv";
-import {expect} from "chai";
 import {unlinkSync, writeJsonSync} from "fs-extra";
 import "./ExceptionSchema";
 
@@ -51,7 +50,7 @@ describe("ExceptionSchema", () => {
   it("should generate the right json schema", () => {
     const schema = getJsonSchema(Exception);
 
-    expect(schema).to.deep.eq({
+    expect(schema).toEqual({
       definitions: {
         GenericError: {
           additionalProperties: true,
@@ -104,7 +103,7 @@ describe("ExceptionSchema", () => {
 
     const ajv = getAjv();
     ajv.validate(schema, {status: 400});
-    expect(ajv.errors).to.deep.eq([
+    expect(ajv.errors).toEqual([
       {
         instancePath: "",
         keyword: "required",
@@ -126,7 +125,7 @@ describe("ExceptionSchema", () => {
     }
 
     const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       components: {
         schemas: {
           GenericError: {
@@ -210,6 +209,6 @@ describe("ExceptionSchema", () => {
         }
       ]
     });
-    expect(await validateSpec(spec)).to.deep.eq(true);
+    expect(await validateSpec(spec)).toEqual(true);
   });
 });

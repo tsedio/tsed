@@ -1,5 +1,4 @@
 import {decoratorArgs, prototypeOf, Store, UnsupportedDecoratorType} from "@tsed/core";
-import {expect} from "chai";
 import {AuthOptions} from "./authOptions";
 
 class Guard {
@@ -29,7 +28,7 @@ describe("AuthOptions()", () => {
 
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
-      expect(store.get(Guard)).to.deep.eq({
+      expect(store.get(Guard)).toEqual({
         security: [
           {
             auth: ["email"]
@@ -65,7 +64,7 @@ describe("AuthOptions()", () => {
 
       // THEN
       const store = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
-      expect(store.get(Guard)).to.deep.eq({
+      expect(store.get(Guard)).toEqual({
         security: [
           {
             auth: ["email"]
@@ -96,8 +95,8 @@ describe("AuthOptions()", () => {
       // THEN
       const storeTest = Store.from(...decoratorArgs(prototypeOf(Test), "test"));
       const storeTest2 = Store.from(...decoratorArgs(prototypeOf(Test), "test2"));
-      expect(storeTest.get(Guard)).to.deep.eq({role: "test2"});
-      expect(storeTest2.get(Guard)).to.deep.eq({role: "test"});
+      expect(storeTest.get(Guard)).toEqual({role: "test2"});
+      expect(storeTest2.get(Guard)).toEqual({role: "test"});
     });
   });
   describe("when the decorator is use in another way", () => {
@@ -115,8 +114,8 @@ describe("AuthOptions()", () => {
       }
 
       // THEN
-      expect(actualError).to.be.instanceOf(UnsupportedDecoratorType);
-      expect(actualError.message).to.eq("AuthOptions cannot be used as property.static decorator on Test.property");
+      expect(actualError).toBeInstanceOf(UnsupportedDecoratorType);
+      expect(actualError.message).toEqual("AuthOptions cannot be used as property.static decorator on Test.property");
     });
   });
 });

@@ -1,5 +1,4 @@
 import {descriptorOf, Store} from "@tsed/core";
-import {expect} from "chai";
 import {Agenda} from "./agenda";
 import {Every} from "./every";
 
@@ -20,12 +19,12 @@ describe("@Every()", () => {
 
     const store = Store.from(Test);
 
-    expect(store.get("agenda").define).to.deep.eq({
+    expect(store.get("agenda").define).toEqual({
       testEveryDecorator: {},
       testEveryDecorator2: {}
     });
 
-    expect(store.get("agenda").every).to.deep.eq({
+    expect(store.get("agenda").every).toEqual({
       testEveryDecorator: {
         interval: "60 seconds"
       },

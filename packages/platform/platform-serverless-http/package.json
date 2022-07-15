@@ -58,7 +58,7 @@
     "url": "git+https://github.com/tsedio/tsed.git"
   },
   "dependencies": {
-    "tslib": "2.3.1"
+    "tslib": "2.4.0"
   },
   "devDependencies": {
     "@tsed/common": "7.0.0-beta.13",
@@ -73,7 +73,7 @@
     "@tsed/core": "^7.0.0-beta.13",
     "@tsed/di": "^7.0.0-beta.13",
     "@tsed/json-mapper": "^7.0.0-beta.13",
-    "@tsed/logger": ">=6.1.1",
+    "@tsed/logger": ">=6.2.0",
     "@tsed/openspec": "^7.0.0-beta.13",
     "@tsed/schema": "^7.0.0-beta.13",
     "aws-lambda": ">=1.0.7",

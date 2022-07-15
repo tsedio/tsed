@@ -1,3 +1,4 @@
+import {cleanObject} from "@tsed/core";
 import isMatch from "lodash/isMatch";
 import low from "lowdb";
 import {v4 as uuid} from "uuid";
@@ -56,7 +57,7 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
   }
 
   public async updateOne(predicate: Partial<T & any>, payload: T, expiresAt?: Date): Promise<T | undefined> {
-    let index = this.collection.findIndex(predicate).value();
+    let index = this.collection.findIndex(cleanObject(predicate)).value();
 
     if (index === -1) {
       return;
@@ -77,7 +78,7 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
   }
 
   async findOne(predicate: Partial<T & any>): Promise<T | undefined> {
-    const item = this.collection.find(predicate).value();
+    const item = this.collection.find(cleanObject(predicate)).value();
 
     return this.deserialize(item);
   }
@@ -88,13 +89,13 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
 
   public async findAll(predicate: Partial<T & any> = {}): Promise<T[]> {
     return this.collection
-      .filter(predicate)
+      .filter(cleanObject(predicate))
       .value()
       .map((item) => this.deserialize(item));
   }
 
   public async deleteOne(predicate: Partial<T & any>): Promise<T | undefined> {
-    const item = this.collection.find(predicate).value();
+    const item = this.collection.find(cleanObject(predicate)).value();
 
     if (item) {
       this.collection.remove(({_id}) => _id === item._id).write();
@@ -112,7 +113,7 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
 
     await this.collection
       .remove((item) => {
-        if (isMatch(item, predicate)) {
+        if (isMatch(item, cleanObject(predicate))) {
           removedItems.push(this.deserialize(item));
           return true;
         }

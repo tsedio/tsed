@@ -33,7 +33,7 @@ describe("Circular Ref", () => {
         SelfUser: {
           properties: {
             _id: {
-              description: "Mongoose ObjectId",
+              description: "An ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               pattern: "^[0-9a-fA-F]{24}$",
               type: "string"
@@ -41,7 +41,7 @@ describe("Circular Ref", () => {
             createdBy: {
               oneOf: [
                 {
-                  description: "Mongoose Ref ObjectId",
+                  description: "A reference ObjectID",
                   examples: ["5ce7ad3028890bd71749d477"],
                   type: "string"
                 },
@@ -56,7 +56,7 @@ describe("Circular Ref", () => {
         TestClient: {
           properties: {
             _id: {
-              description: "Mongoose ObjectId",
+              description: "An ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               pattern: "^[0-9a-fA-F]{24}$",
               type: "string"
@@ -64,7 +64,7 @@ describe("Circular Ref", () => {
             users: {
               oneOf: [
                 {
-                  description: "Mongoose Ref ObjectId",
+                  description: "A reference ObjectID",
                   examples: ["5ce7ad3028890bd71749d477"],
                   type: "string"
                 },
@@ -79,7 +79,7 @@ describe("Circular Ref", () => {
         TestContract: {
           properties: {
             _id: {
-              description: "Mongoose ObjectId",
+              description: "An ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               pattern: "^[0-9a-fA-F]{24}$",
               type: "string"
@@ -87,7 +87,7 @@ describe("Circular Ref", () => {
             customer: {
               oneOf: [
                 {
-                  description: "Mongoose Ref ObjectId",
+                  description: "A reference ObjectID",
                   examples: ["5ce7ad3028890bd71749d477"],
                   type: "string"
                 },
@@ -102,7 +102,7 @@ describe("Circular Ref", () => {
         TestCustomer: {
           properties: {
             _id: {
-              description: "Mongoose ObjectId",
+              description: "An ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               pattern: "^[0-9a-fA-F]{24}$",
               type: "string"
@@ -110,7 +110,7 @@ describe("Circular Ref", () => {
             client: {
               oneOf: [
                 {
-                  description: "Mongoose Ref ObjectId",
+                  description: "A reference ObjectID",
                   examples: ["5ce7ad3028890bd71749d477"],
                   type: "string"
                 },
@@ -123,7 +123,7 @@ describe("Circular Ref", () => {
               items: {
                 oneOf: [
                   {
-                    description: "Mongoose Ref ObjectId",
+                    description: "A reference ObjectID",
                     examples: ["5ce7ad3028890bd71749d477"],
                     type: "string"
                   },
@@ -140,7 +140,7 @@ describe("Circular Ref", () => {
       },
       properties: {
         _id: {
-          description: "Mongoose ObjectId",
+          description: "An ObjectID",
           examples: ["5ce7ad3028890bd71749d477"],
           pattern: "^[0-9a-fA-F]{24}$",
           type: "string"
@@ -148,7 +148,7 @@ describe("Circular Ref", () => {
         customer: {
           oneOf: [
             {
-              description: "Mongoose Ref ObjectId",
+              description: "A reference ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               type: "string"
             },
@@ -171,7 +171,7 @@ describe("Circular Ref", () => {
         SelfUser: {
           properties: {
             _id: {
-              description: "Mongoose ObjectId",
+              description: "An ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               pattern: "^[0-9a-fA-F]{24}$",
               type: "string"
@@ -179,7 +179,7 @@ describe("Circular Ref", () => {
             createdBy: {
               oneOf: [
                 {
-                  description: "Mongoose Ref ObjectId",
+                  description: "A reference ObjectID",
                   examples: ["5ce7ad3028890bd71749d477"],
                   type: "string"
                 },
@@ -194,7 +194,7 @@ describe("Circular Ref", () => {
       },
       properties: {
         _id: {
-          description: "Mongoose ObjectId",
+          description: "An ObjectID",
           examples: ["5ce7ad3028890bd71749d477"],
           pattern: "^[0-9a-fA-F]{24}$",
           type: "string"
@@ -202,7 +202,7 @@ describe("Circular Ref", () => {
         createdBy: {
           oneOf: [
             {
-              description: "Mongoose Ref ObjectId",
+              description: "A reference ObjectID",
               examples: ["5ce7ad3028890bd71749d477"],
               type: "string"
             },

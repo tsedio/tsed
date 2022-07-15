@@ -1,8 +1,6 @@
 import {Context, Controller, Get, PlatformTest, Res, ResponseFilter} from "@tsed/common";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {Returns} from "@tsed/schema";
-import {expect} from "chai";
-import * as Sinon from "sinon";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
@@ -44,7 +42,6 @@ class TestPageableCtrl {
   }
 }
 
-const sandbox = Sinon.createSandbox();
 describe("ResponseFilter", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
@@ -57,24 +54,24 @@ describe("ResponseFilter", () => {
     })
   );
   beforeEach(() => {
-    sandbox.stub(PlainTextFilter.prototype, "transform");
+    jest.spyOn(PlainTextFilter.prototype, "transform").mockReturnValue(undefined);
     request = SuperTest(PlatformTest.callback());
   });
 
   afterEach(utils.reset);
-  afterEach(() => sandbox.restore());
+  afterEach(() => jest.resetAllMocks());
 
   it("should return png (scenario-1)", async () => {
     const {headers} = await request.get("/rest/response-filter/scenario-1").expect(200);
 
-    expect(headers["content-type"]).to.equal("image/png");
-    expect(PlainTextFilter.prototype.transform).to.not.have.been.called;
+    expect(headers["content-type"]).toEqual("image/png");
+    expect(PlainTextFilter.prototype.transform).not.toBeCalled();
   });
 
   it("should return png (scenario-2)", async () => {
     const {headers} = await request.get("/rest/response-filter/scenario-2").expect(200);
 
-    expect(headers["content-type"]).to.equal("image/png");
-    expect(PlainTextFilter.prototype.transform).to.not.have.been.called;
+    expect(headers["content-type"]).toEqual("image/png");
+    expect(PlainTextFilter.prototype.transform).not.toBeCalled();
   });
 });

@@ -1,26 +1,22 @@
 import {PlatformTest} from "@tsed/common";
 import {FormioService} from "@tsed/formio";
-import {expect} from "chai";
-import Sinon from "sinon";
 import {FormioDatabase} from "./FormioDatabase";
-
-const sandbox = Sinon.createSandbox();
 
 async function createServiceFixture() {
   const formioService = {
     mongoose: {
       models: {
         role: {
-          find: sandbox.stub().resolves([{_id: "role_id", machineName: "role_machine"}])
+          find: jest.fn().mockResolvedValue([{_id: "role_id", machineName: "role_machine"}])
         },
         form: class {
-          static countDocuments = sandbox.stub();
-          static find = sandbox.stub().resolves([{_id: "form_id", machineName: "form_machine"}]);
-          static findOne = sandbox.stub().returnsThis();
-          static findOneAndUpdate = sandbox.stub();
-          static updateOne = sandbox.stub().returnsThis();
-          static lean = sandbox.stub().returnsThis();
-          static exec = sandbox.stub();
+          static countDocuments = jest.fn();
+          static find = jest.fn().mockResolvedValue([{_id: "form_id", machineName: "form_machine"}]);
+          static findOne = jest.fn().mockReturnThis();
+          static findOneAndUpdate = jest.fn();
+          static updateOne = jest.fn().mockReturnThis();
+          static lean = jest.fn().mockReturnThis();
+          static exec = jest.fn();
 
           constructor(public ctrOpts: any) {}
 
@@ -31,18 +27,18 @@ async function createServiceFixture() {
           }
         },
         action: {
-          find: sandbox.stub().resolves([{_id: "action_id", machineName: "action_machine"}])
+          find: jest.fn().mockResolvedValue([{_id: "action_id", machineName: "action_machine"}])
         },
         submission: {
-          find: sandbox.stub().resolves([]),
-          findOneAndUpdate: sandbox.stub().callsFake((o, o1) => ({...o, ...o1, _id: o._id || "newID"}))
+          find: jest.fn().mockResolvedValue([]),
+          findOneAndUpdate: jest.fn().mockImplementation((o, o1) => ({...o, ...o1, _id: o._id || "newID"}))
         },
         token: {},
         actionItem: {}
       }
     },
     util: {
-      idToBson: sandbox.stub()
+      idToBson: jest.fn()
     }
   };
   const service = await PlatformTest.invoke<FormioDatabase>(FormioDatabase, [
@@ -58,7 +54,6 @@ async function createServiceFixture() {
 describe("FormioDatabase", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(PlatformTest.reset);
-  afterEach(() => sandbox.restore());
 
   describe("getFormioMapper()", () => {
     it("should return the mapper", async () => {
@@ -66,7 +61,7 @@ describe("FormioDatabase", () => {
 
       const mapper = await service.getFormioMapper();
 
-      expect([...mapper.ctxData.forms.entries()]).to.deep.eq([
+      expect([...mapper.ctxData.forms.entries()]).toEqual([
         [
           "form_id",
           {
@@ -82,7 +77,7 @@ describe("FormioDatabase", () => {
           }
         ]
       ]);
-      expect([...mapper.ctxData.actions.entries()]).to.deep.eq([
+      expect([...mapper.ctxData.actions.entries()]).toEqual([
         [
           "action_id",
           {
@@ -98,7 +93,7 @@ describe("FormioDatabase", () => {
           }
         ]
       ]);
-      expect([...mapper.ctxData.roles.entries()]).to.deep.eq([
+      expect([...mapper.ctxData.roles.entries()]).toEqual([
         [
           "role_id",
           {
@@ -115,13 +110,13 @@ describe("FormioDatabase", () => {
         ]
       ]);
 
-      expect(formioService.mongoose.models.form.find).to.have.been.calledWithExactly({
+      expect(formioService.mongoose.models.form.find).toHaveBeenCalledWith({
         deleted: {$eq: null}
       });
-      expect(formioService.mongoose.models.role.find).to.have.been.calledWithExactly({
+      expect(formioService.mongoose.models.role.find).toHaveBeenCalledWith({
         deleted: {$eq: null}
       });
-      expect(formioService.mongoose.models.action.find).to.have.been.calledWithExactly({
+      expect(formioService.mongoose.models.action.find).toHaveBeenCalledWith({
         deleted: {$eq: null}
       });
     });
@@ -129,74 +124,74 @@ describe("FormioDatabase", () => {
   describe("hasForm()", () => {
     it("should return true when database contain forms", async () => {
       const {service, formioService} = await createServiceFixture();
-      formioService.mongoose.models.form.countDocuments.resolves(6);
+      formioService.mongoose.models.form.countDocuments.mockResolvedValue(6);
 
-      expect(await service.hasForms()).to.eq(true);
+      expect(await service.hasForms()).toEqual(true);
     });
 
     it("should return false when database has no forms", async () => {
       const {service, formioService} = await createServiceFixture();
-      formioService.mongoose.models.form.countDocuments.resolves(0);
+      formioService.mongoose.models.form.countDocuments.mockResolvedValue(0);
 
-      expect(await service.hasForms()).to.eq(false);
+      expect(await service.hasForms()).toEqual(false);
     });
   });
   describe("submissionModel()", () => {
     it("should return the submissionModel", async () => {
       const {service, formioService} = await createServiceFixture();
-      expect(service.submissionModel).to.deep.eq(formioService.mongoose.models.submission);
+      expect(service.submissionModel).toEqual(formioService.mongoose.models.submission);
     });
   });
   describe("tokenModel()", () => {
     it("should return the tokenModel", async () => {
       const {service, formioService} = await createServiceFixture();
-      expect(service.tokenModel).to.deep.eq(formioService.mongoose.models.token);
+      expect(service.tokenModel).toEqual(formioService.mongoose.models.token);
     });
   });
   describe("actionItemModel()", () => {
     it("should return the actionItemModel", async () => {
       const {service, formioService} = await createServiceFixture();
-      expect(service.actionItemModel).to.deep.eq(formioService.mongoose.models.actionItem);
+      expect(service.actionItemModel).toEqual(formioService.mongoose.models.actionItem);
     });
   });
   describe("importFormIfNotExists()", () => {
     it("should return create the form if not exists", async () => {
       const {service, formioService} = await createServiceFixture();
-      const onCreate = sandbox.stub();
+      const onCreate = jest.fn();
       const form: any = {
         name: "name"
       };
 
-      formioService.mongoose.models.form.countDocuments.resolves(false);
-      formioService.mongoose.models.form.exec.resolves({
+      formioService.mongoose.models.form.countDocuments.mockResolvedValue(false);
+      formioService.mongoose.models.form.exec.mockResolvedValue({
         _id: "id",
         name: "name"
       });
 
       const result = await service.importFormIfNotExists(form, onCreate);
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         _id: "id",
         name: "name"
       });
-      expect(onCreate).to.have.been.calledOnce;
+      expect(onCreate).toHaveBeenCalledTimes(1);
     });
     it("should not create form is exists", async () => {
       const {service, formioService} = await createServiceFixture();
-      const onCreate = sandbox.stub();
+      const onCreate = jest.fn();
       const form: any = {
         name: "name"
       };
 
-      formioService.mongoose.models.form.countDocuments.resolves(true);
-      formioService.mongoose.models.form.exec.resolves({
+      formioService.mongoose.models.form.countDocuments.mockResolvedValue(true);
+      formioService.mongoose.models.form.exec.mockResolvedValue({
         _id: "id",
         name: "name"
       });
 
       const result = await service.importFormIfNotExists(form, onCreate);
 
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         _id: "id",
         name: "name"
       });
@@ -208,8 +203,8 @@ describe("FormioDatabase", () => {
 
       const result = await service.getSubmissions();
 
-      expect(result).to.deep.eq([]);
-      expect(service.submissionModel.find).to.have.been.calledWithExactly({deleted: {$eq: null}});
+      expect(result).toEqual([]);
+      expect(service.submissionModel.find).toHaveBeenCalledWith({deleted: {$eq: null}});
     });
     it("should return submissions with query", async () => {
       const {service} = await createServiceFixture();
@@ -218,8 +213,8 @@ describe("FormioDatabase", () => {
         form: "id"
       });
 
-      expect(result).to.deep.eq([]);
-      expect(service.submissionModel.find).to.have.been.calledWithExactly({deleted: {$eq: null}, form: "id"});
+      expect(result).toEqual([]);
+      expect(service.submissionModel.find).toHaveBeenCalledWith({deleted: {$eq: null}, form: "id"});
     });
   });
   describe("saveSubmissions()", () => {
@@ -230,15 +225,11 @@ describe("FormioDatabase", () => {
         data: {}
       });
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         _id: "newID",
         data: {}
       });
-      expect(service.submissionModel.findOneAndUpdate).to.have.been.calledWithExactly(
-        {_id: undefined},
-        {data: {}},
-        {new: true, upsert: true}
-      );
+      expect(service.submissionModel.findOneAndUpdate).toHaveBeenCalledWith({_id: undefined}, {data: {}}, {new: true, upsert: true});
     });
     it("should update submission", async () => {
       const {service} = await createServiceFixture();
@@ -248,30 +239,26 @@ describe("FormioDatabase", () => {
         data: {}
       });
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         _id: "id",
         data: {}
       });
-      expect(service.submissionModel.findOneAndUpdate).to.have.been.calledWithExactly(
-        {_id: "id"},
-        {_id: "id", data: {}},
-        {new: true, upsert: true}
-      );
+      expect(service.submissionModel.findOneAndUpdate).toHaveBeenCalledWith({_id: "id"}, {_id: "id", data: {}}, {new: true, upsert: true});
     });
   });
   describe("importSubmission()", () => {
     it("should import submission", async () => {
       const {service} = await createServiceFixture();
 
-      Sinon.stub(service, "saveSubmission").resolves({} as any);
+      jest.spyOn(service, "saveSubmission").mockResolvedValue({} as any);
 
       const result = await service.importSubmission({
         _id: "id",
         data: {}
       });
 
-      expect(result).to.deep.eq({});
-      expect(service.saveSubmission).to.have.been.calledWithExactly({_id: "id", data: {}});
+      expect(result).toEqual({});
+      expect(service.saveSubmission).toHaveBeenCalledWith({_id: "id", data: {}});
     });
   });
   describe("getForm", () => {
@@ -280,12 +267,12 @@ describe("FormioDatabase", () => {
 
       await service.getForm("605f0d40fe971372e448bcad");
 
-      expect(formioService.mongoose.models.form.findOne).to.have.been.calledWithExactly({
+      expect(formioService.mongoose.models.form.findOne).toHaveBeenCalledWith({
         _id: "605f0d40fe971372e448bcad",
         deleted: {$eq: null}
       });
-      expect(formioService.mongoose.models.form.lean).to.have.been.calledWithExactly();
-      expect(formioService.mongoose.models.form.exec).to.have.been.calledWithExactly();
+      expect(formioService.mongoose.models.form.lean).toHaveBeenCalledWith();
+      expect(formioService.mongoose.models.form.exec).toHaveBeenCalledWith();
     });
 
     it("should return form from machineName", async () => {
@@ -293,23 +280,23 @@ describe("FormioDatabase", () => {
 
       await service.getForm("name");
 
-      expect(formioService.mongoose.models.form.findOne).to.have.been.calledWithExactly({
+      expect(formioService.mongoose.models.form.findOne).toHaveBeenCalledWith({
         name: {$eq: "name"},
         deleted: {$eq: null}
       });
-      expect(formioService.mongoose.models.form.lean).to.have.been.calledWithExactly();
-      expect(formioService.mongoose.models.form.exec).to.have.been.calledWithExactly();
+      expect(formioService.mongoose.models.form.lean).toHaveBeenCalledWith();
+      expect(formioService.mongoose.models.form.exec).toHaveBeenCalledWith();
     });
   });
   describe("idToBson", () => {
     beforeEach(() => {});
     it("should convert id", async () => {
       const {service, formioService} = await createServiceFixture();
-      formioService.util.idToBson.returns({bson: "bson"});
-      expect(service.idToBson("id")).to.deep.equal({bson: "bson"});
-      expect(service.idToBson(["id"])).to.deep.equal({$in: [{bson: "bson"}]});
-      expect(service.idToBson({_id: "id"})).to.deep.equal({bson: "bson"});
-      expect(service.idToBson()).to.deep.equal(undefined);
+      formioService.util.idToBson.mockReturnValue({bson: "bson"});
+      expect(service.idToBson("id")).toEqual({bson: "bson"});
+      expect(service.idToBson(["id"])).toEqual({$in: [{bson: "bson"}]});
+      expect(service.idToBson({_id: "id"})).toEqual({bson: "bson"});
+      expect(service.idToBson()).toEqual(undefined);
     });
   });
 });

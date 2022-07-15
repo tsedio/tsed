@@ -18,7 +18,8 @@
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
+    "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2 --testTimeout 10000"
   },
   "keywords": [
     "Koa",
@@ -80,15 +81,15 @@
     "@koa/router": "^10.1.1",
     "encodeurl": "^1.0.2",
     "koa-send": "5.0.1",
-    "multer": "^1.4.2",
-    "tslib": "2.3.1"
+    "multer": "^1.4.5-lts.1",
+    "tslib": "2.4.0"
   },
   "peerDependencies": {
     "@tsed/common": "^7.0.0-beta.13",
     "@tsed/core": "^7.0.0-beta.13",
     "@tsed/di": "^7.0.0-beta.13",
     "@tsed/json-mapper": "^7.0.0-beta.13",
-    "@tsed/logger": ">=6.1.1",
+    "@tsed/logger": ">=6.2.0",
     "@tsed/openspec": "^7.0.0-beta.13",
     "@tsed/schema": "^7.0.0-beta.13",
     "koa": ">=2.13.0",
@@ -96,7 +97,8 @@
     "koa-compress": ">=5.0.1",
     "koa-override": ">=3.0.0",
     "koa-qs": ">=3.0.0",
-    "koa-session": ">=6.2.0"
+    "koa-session": ">=6.2.0",
+    "multer": "^1.4.5-lts.1"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {
@@ -118,6 +120,9 @@
       "optional": false
     },
     "@tsed/logger": {
+      "optional": false
+    },
+    "multer": {
       "optional": false
     }
   }

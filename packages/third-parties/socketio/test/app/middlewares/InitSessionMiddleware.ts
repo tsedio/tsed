@@ -13,7 +13,7 @@ declare global {
 export class InitSessionMiddleware {
   use(@Request() request: Express.Request) {
     if (request.session) {
-      request.session.user = request.session.user || {};
+      (request.session as any).user = (request.session as any).user || {};
     }
   }
 }

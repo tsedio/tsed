@@ -1,5 +1,4 @@
 import {Exception} from "@tsed/exceptions";
-import {expect} from "chai";
 
 describe("Exception", () => {
   it("should use origin", () => {
@@ -7,43 +6,43 @@ describe("Exception", () => {
 
     exception.setHeader("key", "value");
 
-    expect(exception.headers).to.deep.equal({
+    expect(exception.headers).toEqual({
       key: "value"
     });
-    expect(exception.status).to.equal(500);
-    expect(exception.toString()).to.equal("INTERNAL_SERVER_ERROR(500): test, innerException: test");
+    expect(exception.status).toEqual(500);
+    expect(exception.toString()).toEqual("INTERNAL_SERVER_ERROR(500): test, innerException: test");
   });
 
   it("should use origin", () => {
     const exception = new Exception(203, "test", new Error("test"));
     exception.setHeaders({key: "value"});
 
-    expect(exception.headers).to.deep.equal({
+    expect(exception.headers).toEqual({
       key: "value"
     });
-    expect(exception.status).to.equal(203);
-    expect(exception.toString()).to.equal("NON_AUTHORITATIVE_INFORMATION(203): test, innerException: test");
+    expect(exception.status).toEqual(203);
+    expect(exception.toString()).toEqual("NON_AUTHORITATIVE_INFORMATION(203): test, innerException: test");
   });
 
   it("should use origin as string", () => {
     const exception = new Exception(203, "test", "test");
 
-    expect(exception.status).to.equal(203);
-    expect(exception.toString()).to.equal("NON_AUTHORITATIVE_INFORMATION(203): test, innerException: test");
+    expect(exception.status).toEqual(203);
+    expect(exception.toString()).toEqual("NON_AUTHORITATIVE_INFORMATION(203): test, innerException: test");
   });
 
   it("should use origin as string", () => {
     const exception = new Exception(203, "test", {});
 
-    expect(exception.status).to.equal(203);
-    expect(exception.toString()).to.equal("NON_AUTHORITATIVE_INFORMATION(203): test");
-    expect(exception.body).to.deep.equal({});
+    expect(exception.status).toEqual(203);
+    expect(exception.toString()).toEqual("NON_AUTHORITATIVE_INFORMATION(203): test");
+    expect(exception.body).toEqual({});
   });
 
   it("should return empty message when message parameters is undefined", () => {
     const exception = new Exception(203, undefined);
 
-    expect(exception.status).to.equal(203);
-    expect(exception.toString()).to.equal("NON_AUTHORITATIVE_INFORMATION(203):");
+    expect(exception.status).toEqual(203);
+    expect(exception.toString()).toEqual("NON_AUTHORITATIVE_INFORMATION(203):");
   });
 });

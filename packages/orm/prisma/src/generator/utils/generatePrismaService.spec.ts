@@ -7,6 +7,6 @@ describe("generatePrismaService", () => {
 
     generatePrismaService(project, baseDir);
 
-    render("/services/PrismaService.ts").toEqualSnapshot();
+    render("/services/PrismaService.ts").toMatchSnapshot();
   });
 });

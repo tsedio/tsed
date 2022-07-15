@@ -179,7 +179,7 @@ export class UsersCtrl {
 
   @Get("/")
   @Summary("Get all users")
-  @ReturnsArray(User)
+  @Returns(200, Array).Of(User)
   async findUser(@QueryParams("name") name: string) {
     return this.usersService.find({name});
   }

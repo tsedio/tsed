@@ -17,7 +17,8 @@
     "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
-    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\" -e \"getConfiguration\""
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\" -e \"getConfiguration\"",
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "keywords": [
     "Express",
@@ -71,8 +72,8 @@
     "@tsed/di": "7.0.0-beta.13",
     "@tsed/exceptions": "7.0.0-beta.13",
     "@tsed/json-mapper": "7.0.0-beta.13",
-    "@tsed/logger": ">=6.1.1",
-    "@tsed/logger-file": ">=6.1.0",
+    "@tsed/logger": ">=6.2.0",
+    "@tsed/logger-file": ">=6.2.0",
     "@tsed/perf": "7.0.0-beta.13",
     "@tsed/platform-cache": "7.0.0-beta.13",
     "@tsed/platform-exceptions": "7.0.0-beta.13",
@@ -85,12 +86,12 @@
     "@types/json-schema": "7.0.11",
     "@types/on-finished": "2.3.1",
     "on-finished": "2.4.1",
-    "tslib": "2.3.1",
+    "tslib": "2.4.0",
     "uuid": "8.3.2"
   },
   "peerDependencies": {
-    "@tsed/logger": ">=6.1.1",
-    "@tsed/logger-file": ">=6.1.0"
+    "@tsed/logger": ">=6.2.0",
+    "@tsed/logger-file": ">=6.2.0"
   },
   "peerDependenciesMeta": {
     "@tsed/logger": {

@@ -11,22 +11,36 @@ meta:
 @@View@@ is a decorator which can be used on a controller method (endpoint).
 This decorator will use the data returned by the method, and the configured view to create the response.
 
-<figure style="background:white"><img src="./../assets/templating-engine.png" style="max-height: 300px; padding:20px;"></figure>
+<figure><img src="./../assets/templating-engine.png" style="max-height: 500px; padding:20px; background: white"></figure>
 
 ## Configuration
 
+Install the Ts.ED engines:
+
+<Tabs class="-code">
+  <Tab label="Yarn">
+
+```bash
+$ yarn add @tsed/engines
+```
+
+  </Tab>
+  <Tab label="Npm">
+
+```bash
+$ npm install --save @tsed/engines
+```
+
+  </Tab>
+</Tabs>
+
 The default template engine installed with Ts.ED is [EJS](https://ejs.co/).
-If you want to use another engine, please refer to the engine documentation and [consolidate](https://github.com/tj/consolidate.js) to install the engine correctly.
 
 <<< @/docs/snippets/templating/configuration.ts
 
-## Installation
-
-To enable the new view engine feature, you have to install the `@tsed/engines` packages:
-
-```sh
-npm install @tsed/engines
-```
+::: tip
+Supported engines is available [here](https://github.com/tsedio/tsed-engines/blob/production/packages/engines/readme.md#supported-template-engines).
+:::
 
 ## Options
 
@@ -109,7 +123,7 @@ You must still install the engines you wish to use, add them to your package.jso
 
 ## Usage
 
-## Template Engine Instances
+### Template Engine Instances
 
 Template engines are exposed via the `requires` Map, but they are not instantiated until you've called the `getEngine(engine).render()` method.
 You can instantiate them manually beforehand if you want to add filters, globals, mixins, or other engine features.

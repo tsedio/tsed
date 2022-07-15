@@ -2,7 +2,6 @@ import {Injectable, PlatformTest} from "@tsed/common";
 import {FormioDatabase} from "@tsed/formio";
 import {FormioRepository} from "./FormioRepository";
 import sinon from "sinon";
-import {expect} from "chai";
 
 @Injectable()
 class PackagesRepository extends FormioRepository {
@@ -17,11 +16,11 @@ describe("FormioRepository", () => {
     it("should create submission", async () => {
       const database = {
         formModel: {
-          findOne: sinon.stub().resolves({
+          findOne: jest.fn().mockResolvedValue({
             _id: "id"
           })
         },
-        saveSubmission: sinon.stub().callsFake((o) => o)
+        saveSubmission: jest.fn().mockImplementation((o) => o)
       };
 
       const service = await PlatformTest.invoke<PackagesRepository>(PackagesRepository, [
@@ -37,13 +36,13 @@ describe("FormioRepository", () => {
         }
       });
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         data: {
           label: "label"
         },
         form: "id"
       });
-      expect(database.saveSubmission).to.have.been.calledWithExactly({
+      expect(database.saveSubmission).toHaveBeenCalledWith({
         data: {
           label: "label"
         },
@@ -55,11 +54,11 @@ describe("FormioRepository", () => {
     it("should get all saved submissions", async () => {
       const database = {
         formModel: {
-          findOne: sinon.stub().resolves({
+          findOne: jest.fn().mockResolvedValue({
             _id: "id"
           })
         },
-        getSubmissions: sinon.stub().resolves([])
+        getSubmissions: jest.fn().mockResolvedValue([])
       };
 
       const service = await PlatformTest.invoke<PackagesRepository>(PackagesRepository, [
@@ -71,25 +70,25 @@ describe("FormioRepository", () => {
 
       const submissions = await service.getSubmissions();
 
-      expect(submissions).to.deep.eq([]);
-      expect(database.formModel.findOne).to.have.been.calledWithExactly({
+      expect(submissions).toEqual([]);
+      expect(database.formModel.findOne).toHaveBeenCalledWith({
         name: {
           $eq: "package"
         }
       });
-      expect(database.getSubmissions).to.have.been.calledWithExactly({form: "id"});
+      expect(database.getSubmissions).toHaveBeenCalledWith({form: "id"});
     });
   });
   describe("findOneSubmission()", () => {
     it("should find on submission", async () => {
       const database = {
         formModel: {
-          findOne: sinon.stub().resolves({
+          findOne: jest.fn().mockResolvedValue({
             _id: "id"
           })
         },
         submissionModel: {
-          findOne: sinon.stub().resolves({_id: "id"})
+          findOne: jest.fn().mockResolvedValue({_id: "id"})
         }
       };
 
@@ -102,13 +101,13 @@ describe("FormioRepository", () => {
 
       const submission = await service.findOneSubmission({});
 
-      expect(submission).to.deep.equal({_id: "id"});
-      expect(database.formModel.findOne).to.have.been.calledWithExactly({
+      expect(submission).toEqual({_id: "id"});
+      expect(database.formModel.findOne).toHaveBeenCalledWith({
         name: {
           $eq: "package"
         }
       });
-      expect(database.submissionModel.findOne).to.have.been.calledWithExactly({deleted: null, form: "id"});
+      expect(database.submissionModel.findOne).toHaveBeenCalledWith({deleted: null, form: "id"});
     });
   });
 });

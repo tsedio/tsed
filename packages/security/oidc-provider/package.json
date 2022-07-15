@@ -27,7 +27,7 @@
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "test": "cross-env NODE_ENV=test nyc mocha"
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
     "@tsed/adapters": "7.0.0-beta.13",
@@ -35,7 +35,7 @@
     "jose2": "npm:jose@^2.0.4",
     "koa-mount": "^4.0.0",
     "koa-rewrite": "^3.0.1",
-    "tslib": "2.3.1",
+    "tslib": "2.4.0",
     "uuid": "8.3.2"
   },
   "devDependencies": {

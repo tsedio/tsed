@@ -2,7 +2,6 @@ import "@tsed/ajv";
 import {BodyParams, ParamTypes, ParamValidationError, PlatformTest, Post, QueryParams, UseParam, ValidationPipe} from "@tsed/common";
 import {BadRequest} from "@tsed/exceptions";
 import {getJsonSchema, JsonParameterStore, MinLength, Property, Required, Schema} from "@tsed/schema";
-import {expect} from "chai";
 
 async function validate(value: any, metadata: any) {
   const pipe: ValidationPipe = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
@@ -37,7 +36,7 @@ describe("AjvValidationPipe", () => {
       const value = {};
       const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
-      expect(result).to.deep.equal(value);
+      expect(result).toEqual(value);
     });
 
     it("should throw an error", async () => {
@@ -49,12 +48,12 @@ describe("AjvValidationPipe", () => {
       const value: any[] = [];
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).to.deep.eq({
+      expect(getJsonSchema(metadata)).toEqual({
         type: "object"
       });
 
-      expect(error?.message).to.deep.equal('Bad request on parameter "request.body".\nValue must be object. Given value: []');
-      expect(error?.origin?.errors).to.deep.equal([
+      expect(error?.message).toEqual('Bad request on parameter "request.body".\nValue must be object. Given value: []');
+      expect(error?.origin?.errors).toEqual([
         {
           data: [],
           dataPath: "",
@@ -80,7 +79,7 @@ describe("AjvValidationPipe", () => {
       }
 
       const metadata = JsonParameterStore.get(Ctrl, "get", 0);
-      expect(await validate("test", metadata)).to.deep.equal("test");
+      expect(await validate("test", metadata)).toEqual("test");
     });
     it("should validate value (array)", async () => {
       class Ctrl {
@@ -89,14 +88,14 @@ describe("AjvValidationPipe", () => {
 
       const metadata = JsonParameterStore.get(Ctrl, "get", 0);
 
-      expect(getJsonSchema(metadata, {useAlias: true})).to.deep.eq({
+      expect(getJsonSchema(metadata, {useAlias: true})).toEqual({
         type: "array",
         items: {
           type: "string"
         }
       });
 
-      expect(await validate(["test"], metadata)).to.deep.equal(["test"]);
+      expect(await validate(["test"], metadata)).toEqual(["test"]);
     });
   });
   describe("With QueryParam with boolean", () => {
@@ -107,10 +106,10 @@ describe("AjvValidationPipe", () => {
 
       const metadata = JsonParameterStore.get(Ctrl, "get", 0);
 
-      expect(await validate("true", metadata)).to.deep.equal(true);
-      expect(await validate("false", metadata)).to.deep.equal(false);
-      expect(await validate("null", metadata)).to.deep.equal(null);
-      expect(await validate(undefined, metadata)).to.deep.equal(undefined);
+      expect(await validate("true", metadata)).toEqual(true);
+      expect(await validate("false", metadata)).toEqual(false);
+      expect(await validate("null", metadata)).toEqual(null);
+      expect(await validate(undefined, metadata)).toBeUndefined();
     });
   });
   describe("With model", () => {
@@ -130,7 +129,7 @@ describe("AjvValidationPipe", () => {
       };
       const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
-      expect(result).to.deep.equal(value);
+      expect(result).toEqual(value);
     });
     it("should throw an error", async () => {
       class Model {
@@ -148,7 +147,7 @@ describe("AjvValidationPipe", () => {
 
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).to.deep.eq({
+      expect(getJsonSchema(metadata)).toEqual({
         type: "object",
         properties: {
           id: {
@@ -159,10 +158,8 @@ describe("AjvValidationPipe", () => {
         required: ["id"]
       });
 
-      expect(error?.message).to.deep.equal(
-        "Bad request on parameter \"request.body\".\nModel must have required property 'id'. Given value: {}"
-      );
-      expect(error?.origin.errors).to.deep.equal([
+      expect(error?.message).toEqual("Bad request on parameter \"request.body\".\nModel must have required property 'id'. Given value: {}");
+      expect(error?.origin.errors).toEqual([
         {
           data: {},
           dataPath: "",
@@ -213,7 +210,7 @@ describe("AjvValidationPipe", () => {
 
       const error = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
-      expect(error?.message).to.deep.equal(
+      expect(error?.message).toEqual(
         "Bad request on parameter \"request.body\".\nModel.user must have required property 'id'. Given value: {}"
       );
     });
@@ -240,7 +237,7 @@ describe("AjvValidationPipe", () => {
 
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).to.deep.eq({
+      expect(getJsonSchema(metadata)).toEqual({
         properties: {
           id: {
             minLength: 1,
@@ -255,7 +252,7 @@ describe("AjvValidationPipe", () => {
         type: "object"
       });
 
-      expect(error?.origin.errors).to.deep.equal([
+      expect(error?.origin.errors).toEqual([
         {
           data: "[REDACTED]",
           dataPath: ".password",
@@ -295,7 +292,7 @@ describe("AjvValidationPipe", () => {
       ];
       const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
-      expect(result).to.deep.equal(value);
+      expect(result).toEqual(value);
     });
     it("should throw an error", async () => {
       class Model {
@@ -312,7 +309,7 @@ describe("AjvValidationPipe", () => {
       const value: any = [{}];
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).to.deep.eq({
+      expect(getJsonSchema(metadata)).toEqual({
         definitions: {
           Model: {
             properties: {
@@ -330,7 +327,7 @@ describe("AjvValidationPipe", () => {
         },
         type: "array"
       });
-      expect(error?.message).to.deep.equal(
+      expect(error?.message).toEqual(
         "Bad request on parameter \"request.body\".\nModel[0] must have required property 'id'. Given value: {}"
       );
     });
@@ -361,7 +358,7 @@ describe("AjvValidationPipe", () => {
         }
       ];
 
-      expect(getJsonSchema(metadata)).to.deep.eq({
+      expect(getJsonSchema(metadata)).toEqual({
         definitions: {
           Model: {
             properties: {
@@ -395,7 +392,7 @@ describe("AjvValidationPipe", () => {
 
       const error = await validate(value, metadata);
 
-      expect(error?.message).to.deep.equal(
+      expect(error?.message).toEqual(
         "Bad request on parameter \"request.body\".\nModel[0].user must have required property 'id'. Given value: {}"
       );
     });
@@ -419,7 +416,7 @@ describe("AjvValidationPipe", () => {
       };
       const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
-      expect(result).to.deep.equal(value);
+      expect(result).toEqual(value);
     });
     it("should throw an error", async () => {
       class Model {
@@ -436,7 +433,7 @@ describe("AjvValidationPipe", () => {
 
       const error = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
-      expect(error?.message).to.deep.equal(
+      expect(error?.message).toEqual(
         "Bad request on parameter \"request.body\".\nMap<key1, Model> must have required property 'id'. Given value: {}"
       );
     });
@@ -468,7 +465,7 @@ describe("AjvValidationPipe", () => {
       const metadata = JsonParameterStore.get(Ctrl, "get", 0);
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).to.deep.eq({
+      expect(getJsonSchema(metadata)).toEqual({
         additionalProperties: {
           $ref: "#/definitions/Model"
         },
@@ -500,7 +497,7 @@ describe("AjvValidationPipe", () => {
         type: "object"
       });
 
-      expect(error?.message).to.deep.equal(
+      expect(error?.message).toEqual(
         "Bad request on parameter \"request.body\".\nMap<key1, Model>.user must have required property 'id'. Given value: {}"
       );
     });
@@ -525,7 +522,7 @@ describe("AjvValidationPipe", () => {
 
       const result = await validate(value, JsonParameterStore.get(Ctrl, "get", 0));
 
-      expect(result).to.deep.equal(value);
+      expect(result).toEqual(value);
     });
     it("should throw an error", async () => {
       class Model {
@@ -542,7 +539,7 @@ describe("AjvValidationPipe", () => {
       const value: any = [{}];
       const error = await validate(value, metadata);
 
-      expect(getJsonSchema(metadata)).to.deep.eq({
+      expect(getJsonSchema(metadata)).toEqual({
         definitions: {
           Model: {
             properties: {
@@ -562,7 +559,7 @@ describe("AjvValidationPipe", () => {
         uniqueItems: true
       });
 
-      expect(error?.message).to.deep.equal(
+      expect(error?.message).toEqual(
         "Bad request on parameter \"request.body\".\nSet<0, Model> must have required property 'id'. Given value: {}"
       );
     });
@@ -594,7 +591,7 @@ describe("AjvValidationPipe", () => {
       const metadata = JsonParameterStore.get(Ctrl, "get", 0);
       const error = await validate(value, metadata);
 
-      expect(error?.message).to.deep.equal(
+      expect(error?.message).toEqual(
         "Bad request on parameter \"request.body\".\nSet<0, Model>.user must have required property 'id'. Given value: {}"
       );
     });

@@ -1,6 +1,5 @@
 import {ParamTypes} from "@tsed/platform-params";
 import {Err} from "./error";
-import {expect} from "chai";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Err", () => {
@@ -10,6 +9,6 @@ describe("@Err", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.ERR);
+    expect(param.paramType).toEqual(ParamTypes.ERR);
   });
 });

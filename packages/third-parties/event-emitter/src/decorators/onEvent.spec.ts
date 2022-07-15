@@ -1,5 +1,4 @@
-import {descriptorOf, Store} from "@tsed/core";
-import {expect} from "chai";
+import {Store} from "@tsed/core";
 import {OnEvent} from "../decorators/onEvent";
 
 describe("@OnEvent()", () => {
@@ -18,7 +17,7 @@ describe("@OnEvent()", () => {
 
     const store = Store.from(Test);
 
-    expect(store.get("eventEmitter")).to.deep.eq({
+    expect(store.get("eventEmitter")).toEqual({
       onEvent: {
         testEventListener1: {
           event: "testEvent",

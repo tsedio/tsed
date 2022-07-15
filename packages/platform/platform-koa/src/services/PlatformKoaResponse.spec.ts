@@ -1,9 +1,5 @@
 import {PlatformTest} from "@tsed/common";
 import {PlatformKoaResponse} from "@tsed/platform-koa";
-import {expect} from "chai";
-import Sinon from "sinon";
-
-const sandbox = Sinon.createSandbox();
 
 function createResponse() {
   const response = PlatformTest.createResponse();
@@ -32,7 +28,7 @@ describe("PlatformKoaResponse", () => {
   it("should create a PlatformResponse instance", () => {
     const {res, response} = createResponse();
 
-    expect(response.raw).to.eq(res);
+    expect(response.raw).toEqual(res);
   });
 
   describe("getRes()", () => {
@@ -42,7 +38,7 @@ describe("PlatformKoaResponse", () => {
 
       const result = await response.getRes();
 
-      expect(result).to.eq(res.res);
+      expect(result).toEqual(res.res);
     });
   });
   describe("statusCode", () => {
@@ -51,7 +47,7 @@ describe("PlatformKoaResponse", () => {
 
       response.status(302);
 
-      expect(response.statusCode).to.eq(302);
+      expect(response.statusCode).toEqual(302);
     });
   });
   describe("hasStatus", () => {
@@ -59,11 +55,11 @@ describe("PlatformKoaResponse", () => {
       const {response} = createResponse();
 
       response.status(404);
-      expect(response.statusCode).to.eq(404);
-      expect(response.hasStatus()).to.eq(false);
+      expect(response.statusCode).toEqual(404);
+      expect(response.hasStatus()).toEqual(false);
 
       response.status(201);
-      expect(response.hasStatus()).to.eq(true);
+      expect(response.hasStatus()).toEqual(true);
     });
   });
   describe("contentType()", () => {
@@ -72,7 +68,7 @@ describe("PlatformKoaResponse", () => {
 
       response.contentType("text/html");
 
-      expect(res.type).to.equal("text/html");
+      expect(res.type).toEqual("text/html");
     });
   });
   describe("body()", () => {
@@ -81,7 +77,7 @@ describe("PlatformKoaResponse", () => {
 
       response.body("body");
 
-      expect(res.body).to.equal("body");
+      expect(res.body).toEqual("body");
     });
   });
   describe("location", () => {
@@ -90,7 +86,7 @@ describe("PlatformKoaResponse", () => {
 
       response.location("https://location");
 
-      expect(res.headers).to.deep.eq({
+      expect(res.headers).toEqual({
         location: "https://location",
         "x-request-id": "id"
       });
@@ -103,7 +99,7 @@ describe("PlatformKoaResponse", () => {
 
       await response.location("back");
 
-      expect(res.headers).to.deep.eq({
+      expect(res.headers).toEqual({
         location: "https://location/back",
         "x-request-id": "id"
       });
@@ -114,7 +110,7 @@ describe("PlatformKoaResponse", () => {
 
       await response.location("back");
 
-      expect(res.headers).to.deep.eq({
+      expect(res.headers).toEqual({
         location: "/",
         "x-request-id": "id"
       });
@@ -126,36 +122,36 @@ describe("PlatformKoaResponse", () => {
 
       res.headers["location"] = "https://location";
       response.request.raw.method = "HEAD";
-      res.res = {end: sandbox.stub()};
+      res.res = {end: jest.fn()};
 
       await response.redirect(301, "https://location");
 
-      expect(res.body).to.equal("Moved Permanently. Redirecting to https://location");
-      expect(response.statusCode).to.equal(301);
-      expect(res.headers).to.deep.eq({
+      expect(res.body).toEqual("Moved Permanently. Redirecting to https://location");
+      expect(response.statusCode).toEqual(301);
+      expect(res.headers).toEqual({
         "content-length": 50,
         location: "https://location",
         "x-request-id": "id"
       });
-      expect(res.res.end).to.have.been.calledWithExactly();
+      expect(res.res.end).toBeCalledWith();
     });
     it("should set header location (POST)", async () => {
       const {res, response} = createResponse();
 
       res.headers["location"] = "https://location";
       response.request.raw.method = "POST";
-      res.res = {end: sandbox.stub()};
+      res.res = {end: jest.fn()};
 
       await response.redirect(301, "https://location");
 
-      expect(res.body).to.equal("Moved Permanently. Redirecting to https://location");
-      expect(response.statusCode).to.equal(301);
-      expect(res.headers).to.deep.eq({
+      expect(res.body).toEqual("Moved Permanently. Redirecting to https://location");
+      expect(response.statusCode).toEqual(301);
+      expect(res.headers).toEqual({
         "content-length": 50,
         location: "https://location",
         "x-request-id": "id"
       });
-      expect(res.res.end).to.have.been.calledWithExactly("Moved Permanently. Redirecting to https://location");
+      expect(res.res.end).toBeCalledWith("Moved Permanently. Redirecting to https://location");
     });
   });
   describe("getHeaders()", () => {
@@ -166,7 +162,7 @@ describe("PlatformKoaResponse", () => {
 
       const result = response.getHeaders();
 
-      expect(result).to.deep.eq({contentType: "application/json"});
+      expect(result).toEqual({contentType: "application/json"});
     });
   });
 });

@@ -21,7 +21,7 @@
   "dependencies": {
     "mongodb-memory-server": "^8.0.2",
     "semver": "^7.3.5",
-    "tslib": "2.3.1"
+    "tslib": "2.4.0"
   },
   "devDependencies": {
     "@tsed/common": "7.0.0-beta.13",

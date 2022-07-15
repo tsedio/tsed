@@ -1,5 +1,4 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import Sinon from "sinon";
 import "../components/AlterAudit";
 import {AlterAudit} from "../components/AlterAudit";
@@ -11,13 +10,13 @@ const sandbox = Sinon.createSandbox();
 async function createFormioFixture(routerOpts: any = {}) {
   const service = await PlatformTest.invoke<FormioService>(FormioService, []);
   const router = {
-    init: sandbox.stub().returnsThis(),
+    init: jest.fn().mockReturnThis(),
     ...routerOpts,
     formio: {
       ...(routerOpts.formio || {}),
       util: {
-        log: sandbox.stub(),
-        error: sandbox.stub()
+        log: jest.fn(),
+        error: jest.fn()
       }
     }
   };
@@ -42,7 +41,7 @@ async function createFormioFixture(routerOpts: any = {}) {
     }
   ]);
 
-  sandbox.stub(service, "createRouter").returns(router);
+  jest.spyOn(service, "createRouter").mockReturnValue(router);
 
   return {router, config, service};
 }
@@ -57,10 +56,10 @@ describe("FormioService", () => {
 
     const result = await service.init(config);
 
-    expect(service.createRouter).to.have.been.calledWithExactly(config);
-    expect(result).to.deep.eq(router);
-    expect(config.mongo).to.deep.eq("mongoose://url");
-    expect(config.mongoConfig).to.deep.eq('{"useNewUrlParser":true}');
+    expect(service.createRouter).toHaveBeenCalledWith(config);
+    expect(result).toEqual(router);
+    expect(config.mongo).toEqual("mongoose://url");
+    expect(config.mongoConfig).toEqual('{"useNewUrlParser":true}');
   });
   it("should call hook", async () => {
     const {router, service, config} = await createFormioFixture();
@@ -69,13 +68,13 @@ describe("FormioService", () => {
 
     // hooks
     const ctx = PlatformTest.createRequestContext();
-    const hooks = router.init.getCall(0).args[0];
+    const hooks = router.init.mock.calls[0][0];
 
-    sandbox.stub(AlterAudit.prototype, "transform").returns(false);
+    jest.spyOn(AlterAudit.prototype, "transform").mockReturnValue(false);
 
     hooks.alter.audit({$ctx: ctx}, "test");
 
-    expect(AlterAudit.prototype.transform).to.have.been.calledWithExactly(ctx, "test");
+    expect(AlterAudit.prototype.transform).toHaveBeenCalledWith(ctx, "test");
   });
 
   describe("isInit()", () => {
@@ -83,7 +82,7 @@ describe("FormioService", () => {
       const {service, config} = await createFormioFixture();
 
       await service.init(config);
-      expect(service.isInit()).to.eq(true);
+      expect(service.isInit()).toEqual(true);
     });
 
     it("should return true", async () => {
@@ -91,14 +90,14 @@ describe("FormioService", () => {
 
       await service.init({} as any);
 
-      expect(service.isInit()).to.eq(false);
+      expect(service.isInit()).toEqual(false);
     });
   });
   describe("encrypt()", () => {
     it("should encrypt password", async () => {
       const routeOpts = {
         formio: {
-          encrypt: sandbox.stub().callsFake((text, cb) => {
+          encrypt: jest.fn().mockImplementation((text, cb) => {
             cb(null, "hash");
           })
         }
@@ -109,12 +108,12 @@ describe("FormioService", () => {
 
       const result = await service.encrypt("text");
 
-      expect(result).to.eq("hash");
+      expect(result).toEqual("hash");
     });
     it("should throw error", async () => {
       const routeOpts = {
         formio: {
-          encrypt: sandbox.stub().callsFake((text, cb) => {
+          encrypt: jest.fn().mockImplementation((text, cb) => {
             cb(new Error("error"));
           })
         }
@@ -130,7 +129,7 @@ describe("FormioService", () => {
         actualError = er;
       }
 
-      expect(actualError.message).to.eq("error");
+      expect(actualError.message).toEqual("error");
     });
   });
   describe("Action", () => {
@@ -144,7 +143,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.Action).to.eq(routeOpts.formio.Action);
+      expect(service.Action).toEqual(routeOpts.formio.Action);
     });
   });
   describe("util", () => {
@@ -158,7 +157,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.util).to.eq(router.formio.util);
+      expect(service.util).toEqual(router.formio.util);
     });
   });
   describe("hook", () => {
@@ -172,7 +171,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.hook).to.eq(routeOpts.formio.hook);
+      expect(service.hook).toEqual(routeOpts.formio.hook);
     });
   });
   describe("auth", () => {
@@ -186,7 +185,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.auth).to.eq(routeOpts.formio.auth);
+      expect(service.auth).toEqual(routeOpts.formio.auth);
     });
   });
   describe("audit", () => {
@@ -200,7 +199,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.audit).to.eq(routeOpts.formio.audit);
+      expect(service.audit).toEqual(routeOpts.formio.audit);
     });
     it("should return empty fn", async () => {
       const routeOpts = {
@@ -210,8 +209,8 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(typeof service.audit).to.eq("function");
-      expect(service.audit("test")).to.eq(undefined);
+      expect(typeof service.audit).toEqual("function");
+      expect(service.audit("test")).toEqual(undefined);
     });
   });
   describe("formio", () => {
@@ -225,7 +224,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.formio).to.eq(router.formio);
+      expect(service.formio).toEqual(router.formio);
     });
   });
   describe("schemas", () => {
@@ -239,7 +238,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.schemas).to.eq(routeOpts.formio.schemas);
+      expect(service.schemas).toEqual(routeOpts.formio.schemas);
     });
   });
   describe("middleware", () => {
@@ -253,7 +252,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.middleware).to.eq(routeOpts.formio.middleware);
+      expect(service.middleware).toEqual(routeOpts.formio.middleware);
     });
   });
   describe("mongoose", () => {
@@ -267,7 +266,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.mongoose).to.eq(routeOpts.formio.mongoose);
+      expect(service.mongoose).toEqual(routeOpts.formio.mongoose);
     });
   });
   describe("resources", () => {
@@ -281,7 +280,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.resources).to.eq(routeOpts.formio.resources);
+      expect(service.resources).toEqual(routeOpts.formio.resources);
     });
   });
   describe("db", () => {
@@ -295,7 +294,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.db).to.eq(routeOpts.formio.db);
+      expect(service.db).toEqual(routeOpts.formio.db);
     });
   });
   describe("config", () => {
@@ -309,7 +308,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.config).to.eq(routeOpts.formio.config);
+      expect(service.config).toEqual(routeOpts.formio.config);
     });
   });
   describe("exportTemplate()", () => {
@@ -329,7 +328,7 @@ describe("FormioService", () => {
 
       const result = await service.exportTemplate(config);
 
-      expect(result).to.eq("ok");
+      expect(result).toEqual("ok");
     });
   });
   describe("importTemplate()", () => {
@@ -351,7 +350,7 @@ describe("FormioService", () => {
 
       const result = await service.importTemplate(config);
 
-      expect(result).to.eq("ok");
+      expect(result).toEqual("ok");
     });
   });
   describe("template", () => {
@@ -365,7 +364,7 @@ describe("FormioService", () => {
 
       await service.init(config);
 
-      expect(service.template).to.eq(routeOpts.formio.template);
+      expect(service.template).toEqual(routeOpts.formio.template);
     });
   });
 });

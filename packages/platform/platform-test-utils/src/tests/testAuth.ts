@@ -2,7 +2,6 @@ import {Context, Controller, Get, Inject, Injectable, Middleware, PlatformTest, 
 import {useDecorators} from "@tsed/core";
 import {BadRequest, Forbidden, Unauthorized} from "@tsed/exceptions";
 import {In, Returns, Security} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import baseSpec from "../data/swagger.json";
 import {PlatformTestOptions} from "../interfaces";
@@ -104,7 +103,7 @@ class TestAuthCtrl {
 export function testAuth(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -118,10 +117,10 @@ export function testAuth(options: PlatformTestOptions) {
       ]
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest.agent(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("Scenario 1: Create token, test token and stepup token", () => {
     it("should create a token, call /userinfo to get userinfo and try admin route", async () => {
@@ -135,7 +134,7 @@ export function testAuth(options: PlatformTestOptions) {
 
       const {body} = await request.post("/rest/auth/authorize").expect(200);
 
-      expect(body.access_token).to.equal("access_token");
+      expect(body.access_token).toEqual("access_token");
 
       const {body: userInfo} = await request
         .get("/rest/auth/userinfo")
@@ -144,7 +143,7 @@ export function testAuth(options: PlatformTestOptions) {
         })
         .expect(200);
 
-      expect(userInfo).to.deep.eq({
+      expect(userInfo).toEqual({
         id: "id",
         name: "name"
       });
@@ -160,7 +159,7 @@ export function testAuth(options: PlatformTestOptions) {
         body: {access_token}
       } = await request.post("/rest/auth/stepUp").expect(200);
 
-      expect(access_token).to.equal("admin_token");
+      expect(access_token).toEqual("admin_token");
 
       const {body: result} = await request
         .get("/rest/auth/admin")
@@ -169,7 +168,7 @@ export function testAuth(options: PlatformTestOptions) {
         })
         .expect(200);
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         granted: true
       });
     });
@@ -179,7 +178,7 @@ export function testAuth(options: PlatformTestOptions) {
     it("should generate the swagger.spec", async () => {
       const {body: spec} = await request.get("/doc/swagger.json").expect(200);
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         openapi: "3.0.1",
         info: {
           version: "1.0.0",

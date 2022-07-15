@@ -1,5 +1,4 @@
 import {ParamTypes, PlatformRequest, Request} from "@tsed/common";
-import {expect} from "chai";
 import {IncomingMessage} from "http";
 import {Req} from "./request";
 import {JsonParameterStore} from "@tsed/schema";
@@ -11,8 +10,8 @@ describe("@Req", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.REQUEST);
-    expect(param.type).to.eq(Req);
+    expect(param.paramType).toEqual(ParamTypes.REQUEST);
+    expect(param.type).toEqual(Object);
   });
 
   it("should register a new parameter instance with the correct property (RawRequest with expression)", () => {
@@ -21,9 +20,9 @@ describe("@Req", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.REQUEST);
-    expect(param.expression).to.eq("user");
-    expect(param.type).to.eq(Req);
+    expect(param.paramType).toEqual(ParamTypes.REQUEST);
+    expect(param.expression).toEqual("user");
+    expect(param.type).toEqual(Object);
   });
 
   it("should register a new parameter instance with the correct property (PlatformRequest)", () => {
@@ -32,8 +31,8 @@ describe("@Req", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.PLATFORM_REQUEST);
-    expect(param.type).to.eq(PlatformRequest);
+    expect(param.paramType).toEqual(ParamTypes.PLATFORM_REQUEST);
+    expect(param.type).toEqual(PlatformRequest);
   });
 
   it("should register a new parameter instance with the correct property (IncomingMessage)", () => {
@@ -42,7 +41,7 @@ describe("@Req", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.paramType).to.eq(ParamTypes.NODE_REQUEST);
-    expect(param.type).to.eq(IncomingMessage);
+    expect(param.paramType).toEqual(ParamTypes.NODE_REQUEST);
+    expect(param.type).toEqual(IncomingMessage);
   });
 });

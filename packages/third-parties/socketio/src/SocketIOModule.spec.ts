@@ -1,109 +1,95 @@
-import {HttpServer, HttpsServer, PlatformConfiguration, PlatformTest} from "@tsed/common";
-import {expect} from "chai";
-import Sinon from "sinon";
-import {SocketIOModule, SocketIOServer, SocketIOService} from "./index";
+import {PlatformConfiguration, PlatformTest} from "@tsed/common";
 import Http from "http";
 import Https from "https";
+import {SocketIOModule, SocketIOServer, SocketIOService} from "./index";
+
+async function createModuleFixture() {
+  const serverSettingsService = PlatformTest.get<PlatformConfiguration>(PlatformConfiguration);
+  // GIVEN
+  const socketIOServer = {attach: jest.fn(), adapter: jest.fn()};
+  const httpServer = {type: "http", get: jest.fn().mockReturnValue("httpServer")};
+  const httpsServer = {type: "https", get: jest.fn().mockReturnValue("httpsServer")};
+  const socketIOService = {addSocketProvider: jest.fn()};
+  const socketIOModule = await PlatformTest.invoke<SocketIOModule>(SocketIOModule, [
+    {token: Http.Server, use: httpServer},
+    {token: Https.Server, use: httpsServer},
+    {token: SocketIOServer, use: socketIOServer},
+    {token: SocketIOService, use: socketIOService}
+  ]);
+
+  jest.spyOn(socketIOModule as any, "getWebsocketServices").mockReturnValue([{provider: "provider"}]);
+  jest.spyOn(socketIOModule as any, "printSocketEvents").mockReturnValue(undefined);
+
+  return {
+    socketIOModule,
+    serverSettingsService,
+    httpServer,
+    httpsServer,
+    socketIOService,
+    socketIOServer
+  };
+}
 
 describe("SocketIOModule", () => {
-  let getWebsocketServicesStub: any, printSocketEventsStub: any;
   describe("$afterListen()", () => {
     describe("with http server", () => {
-      before(() =>
+      beforeAll(() =>
         PlatformTest.create({
           httpsPort: 8081
         })
       );
-      before(() => {
-        getWebsocketServicesStub = Sinon.stub(SocketIOModule.prototype as any, "getWebsocketServices");
-        printSocketEventsStub = Sinon.stub(SocketIOModule.prototype as any, "printSocketEvents");
-      });
-      after(() => {
+      beforeAll(() => {});
+      afterAll(() => {
         PlatformTest.reset();
-        getWebsocketServicesStub.restore();
-        printSocketEventsStub.restore();
       });
 
       it("should call attach method", async () => {
-        const serverSettingsService = PlatformTest.get<PlatformConfiguration>(PlatformConfiguration);
-        // GIVEN
-        const socketIOServer = {attach: Sinon.stub(), adapter: Sinon.stub()};
-        const httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
-        const httpsServer = {type: "https", get: Sinon.stub().returns("httpsServer")};
-        const socketIOService = {addSocketProvider: Sinon.stub()};
-
+        const {serverSettingsService, socketIOModule, httpServer, httpsServer, socketIOService, socketIOServer} =
+          await createModuleFixture();
         serverSettingsService.set("socketIO", {config: "config", adapter: "adapter"});
 
-        const socketIOModule = await PlatformTest.invoke(SocketIOModule, [
-          {token: Http.Server, use: httpServer},
-          {token: Https.Server, use: httpsServer},
-          {token: SocketIOServer, use: socketIOServer},
-          {token: SocketIOService, use: socketIOService}
-        ]);
-
-        getWebsocketServicesStub.returns([{provider: "provider"}]);
         // WHEN
         await socketIOModule.$afterListen();
 
-        expect(socketIOServer.attach).to.have.been.calledWithExactly(httpServer, {
+        expect(socketIOServer.attach).toBeCalledWith(httpServer, {
           adapter: "adapter",
           config: "config"
         });
-        expect(socketIOServer.attach).to.have.been.calledWithExactly(httpsServer, {
+        expect(socketIOServer.attach).toBeCalledWith(httpsServer, {
           adapter: "adapter",
           config: "config"
         });
 
-        expect(getWebsocketServicesStub).to.have.been.calledWithExactly();
-        expect(socketIOServer.adapter).to.have.been.calledWithExactly("adapter");
-        expect(socketIOService.addSocketProvider).to.have.been.calledWithExactly({provider: "provider"});
+        expect((socketIOModule as any).getWebsocketServices).toBeCalledWith();
+        expect(socketIOServer.adapter).toBeCalledWith("adapter");
+        expect(socketIOService.addSocketProvider).toBeCalledWith({provider: "provider"});
       });
     });
     describe("with https server", () => {
-      before(() =>
+      beforeAll(() =>
         PlatformTest.create({
           httpsPort: 8081
         })
       );
-      before(() => {
-        getWebsocketServicesStub = Sinon.stub(SocketIOModule.prototype as any, "getWebsocketServices");
-        printSocketEventsStub = Sinon.stub(SocketIOModule.prototype as any, "printSocketEvents");
-      });
-      after(() => {
+
+      afterAll(() => {
         PlatformTest.reset();
-        getWebsocketServicesStub.restore();
-        printSocketEventsStub.restore();
       });
 
       it("should call attach method", async () => {
-        const serverSettingsService = PlatformTest.get<PlatformConfiguration>(PlatformConfiguration);
-
-        // GIVEN
-        const socketIOServer = {attach: Sinon.stub(), adapter: Sinon.stub()};
-        const httpServer = {type: "http", get: Sinon.stub().returns("httpServer")};
-        const httpsServer = {type: "https", get: Sinon.stub().returns("httpsServer")};
-        const socketIOService = {addSocketProvider: Sinon.stub()};
-
-        serverSettingsService.set("socketIO", {config: "config"});
+        const {socketIOModule, httpsServer, serverSettingsService, socketIOService, socketIOServer} = await createModuleFixture();
         serverSettingsService.set("http", false);
+        serverSettingsService.set("socketIO", {config: "config"});
 
-        const socketIOModule = await PlatformTest.invoke(SocketIOModule, [
-          {token: Http.Server, use: httpServer},
-          {token: Https.Server, use: httpsServer},
-          {token: SocketIOServer, use: socketIOServer},
-          {token: SocketIOService, use: socketIOService}
-        ]);
-
-        getWebsocketServicesStub.returns([{provider: "provider"}]);
         // WHEN
         await socketIOModule.$afterListen();
 
-        expect(socketIOServer.attach).to.have.been.calledWithExactly(httpsServer, {
+        expect(socketIOServer.attach).toBeCalledWith(httpsServer, {
           config: "config"
         });
 
-        expect(getWebsocketServicesStub).to.have.been.calledWithExactly();
-        expect(socketIOService.addSocketProvider).to.have.been.calledWithExactly({provider: "provider"});
+        expect((socketIOModule as any).getWebsocketServices).toBeCalledWith();
+        expect(socketIOService.addSocketProvider).toBeCalledWith({provider: "provider"});
       });
     });
   });

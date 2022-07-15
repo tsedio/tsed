@@ -11,5 +11,5 @@ export interface PlatformKoaSettings {
    * Body parser options
    * @param opts
    */
-  bodyParser?: (opts?: Options) => Middleware | Options;
+  bodyParser?: ((opts?: Options) => Middleware) | Options;
 }

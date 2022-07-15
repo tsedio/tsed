@@ -1,6 +1,5 @@
 import {EndpointMetadata} from "@tsed/common";
 import {UnsupportedDecoratorType} from "@tsed/core";
-import {expect} from "chai";
 import {UseBeforeEach} from "./useBeforeEach";
 
 class CustomMiddleware {
@@ -17,7 +16,7 @@ describe("UseBeforeEach()", () => {
 
       const endpoint = EndpointMetadata.get(Test, "test");
       // THEN
-      expect(endpoint.beforeMiddlewares).to.deep.eq([CustomMiddleware]);
+      expect(endpoint.beforeMiddlewares).toEqual([CustomMiddleware]);
     });
   });
   describe("when the decorator is use on a method", () => {
@@ -30,7 +29,7 @@ describe("UseBeforeEach()", () => {
 
       // THEN
       const endpoint = EndpointMetadata.get(Test, "test");
-      expect(endpoint.beforeMiddlewares).to.deep.eq([CustomMiddleware]);
+      expect(endpoint.beforeMiddlewares).toEqual([CustomMiddleware]);
     });
   });
 
@@ -49,8 +48,8 @@ describe("UseBeforeEach()", () => {
       }
 
       // THEN
-      expect(actualError).to.be.instanceOf(UnsupportedDecoratorType);
-      expect(actualError.message).to.eq("UseBeforeEach cannot be used as property.static decorator on Test.property");
+      expect(actualError).toBeInstanceOf(UnsupportedDecoratorType);
+      expect(actualError.message).toEqual("UseBeforeEach cannot be used as property.static decorator on Test.property");
     });
   });
 });

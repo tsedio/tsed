@@ -1,5 +1,5 @@
 import {AnyToPromiseStatus, isFunction, isStream} from "@tsed/core";
-import {Inject, Injectable, InjectorService, Provider, ProviderScope, runInContext} from "@tsed/di";
+import {Inject, Injectable, InjectorService, Provider, ProviderScope} from "@tsed/di";
 import {$log} from "@tsed/logger";
 import {ArgScope, HandlerWithScope, PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
@@ -133,9 +133,9 @@ export class PlatformHandler {
       return;
     }
 
-    const resolver = new AnyToPromiseWithCtx({$ctx, err});
+    return $ctx.runInContext(async () => {
+      const resolver = new AnyToPromiseWithCtx({$ctx, err});
 
-    return runInContext($ctx, async () => {
       try {
         const {state, data, status, headers} = await resolver.call(handler);
 

@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {ErrorFilter} from "./ErrorFilter";
 
 describe("ErrorFilter", () => {
@@ -26,6 +25,6 @@ describe("ErrorFilter", () => {
         "Recipe validation failed: ingredients.0.product: Cast to ObjectId failed for value \"{\n  id: '5e9a0c1d5575346932e090f0',\n  label: 'Artichauts',\n  shelf: 'produce',\n  minimumQuantity: 0,\n  users: []\n}\" at path \"product\""
     };
     const errorFilterInstance = new ErrorFilter();
-    expect(errorFilterInstance.mapError(error).errors).to.deep.equal([error.errors]);
+    expect(errorFilterInstance.mapError(error).errors).toEqual([error.errors]);
   });
 });

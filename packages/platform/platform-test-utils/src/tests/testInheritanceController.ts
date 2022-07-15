@@ -1,7 +1,6 @@
 import {BodyParams, Controller, Get, Middleware, PathParams, PlatformTest, Post, UseAuth} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
 import {Description, MaxLength, MinLength, Property, Returns, Summary} from "@tsed/schema";
-import {expect} from "chai";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 
@@ -95,7 +94,7 @@ export class FindingsController extends AttachmentController {
 export function testInheritanceController(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -103,22 +102,22 @@ export function testInheritanceController(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   describe("Scenario 1:", () => {
     it("should return list", async () => {
       const {body} = await request.get("/rest/resources").expect(200);
 
-      expect(body).to.deep.eq([{id: "1", name: "John"}]);
+      expect(body).toEqual([{id: "1", name: "John"}]);
     });
 
     it("should return a resource", async () => {
       const {body} = await request.get("/rest/resources/1").expect(200);
 
-      expect(body).to.deep.eq({
+      expect(body).toEqual({
         id: "1",
         name: "John hello You!"
       });
@@ -132,12 +131,12 @@ export function testInheritanceController(options: PlatformTestOptions) {
         })
         .expect(201);
 
-      expect(body.name).to.deep.eq("july");
-      expect(body.id).to.be.a("string");
+      expect(body.name).toEqual("july");
+      expect(typeof body.id).toBe("string");
 
       const {body: resource} = await request.get(`/rest/resources/${body.id}`).expect(200);
 
-      expect(resource.id).to.deep.eq(body.id);
+      expect(resource.id).toEqual(body.id);
     });
   });
 
@@ -145,13 +144,13 @@ export function testInheritanceController(options: PlatformTestOptions) {
     it("should call /rest/findings/:parentID/attachments", async () => {
       const {text} = await request.get("/rest/findings/1/attachments").expect(200);
 
-      expect(text).to.deep.eq("All attachments of 1");
+      expect(text).toEqual("All attachments of 1");
     });
 
     it("should call /rest/findings/", async () => {
       const {text} = await request.get("/rest/findings").expect(200);
 
-      expect(text).to.deep.eq("hello Finding");
+      expect(text).toEqual("hello Finding");
     });
   });
 }

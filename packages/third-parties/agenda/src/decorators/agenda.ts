@@ -20,7 +20,7 @@ interface AgendaOptions {
 
 export function Agenda(options?: AgendaOptions): ClassDecorator {
   return useDecorators(
-    StoreMerge("agenda", {namespace: options?.namespace}),
+    options?.namespace && StoreMerge("agenda", options),
     Injectable({
       type: PROVIDER_TYPE_AGENDA
     })

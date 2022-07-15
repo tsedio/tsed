@@ -10,7 +10,7 @@ meta:
 
 Controllers are responsible for handling incoming **requests** and returning **responses** to the client.
 
-<figure><img src="./../assets/client-controllers.png" style="max-height: 300px"></figure>
+<figure><img src="./../assets/client-controllers.png" style="max-height: 300px; padding: 10px; background: white"></figure>
 
 A controller is here to handle a specific request for a given HTTP verb and Route. The routing service is responsible for
 managing and dispatching request to the right Controller.
@@ -195,7 +195,8 @@ There is no performed input validation and deserialization when using the @@RawB
 ::: warning
 To use @RawBodyParams() properly, you have to remove bodyParser add on `$beforeRoutesInit`.
 
-````diff
+```diff
+
 @Configuration({
 +  middlewares: [
 +     bodyParser.json(),
@@ -212,8 +213,9 @@ export class Server {
 -      .use(bodyParser.urlencoded({extended: true}));
   }
 }
-```--
-::
+```
+
+:::
 
 ### Headers
 
@@ -256,7 +258,7 @@ Validation require the `@tsed/ajv` plugins to work.
 
 ```sh
 npm install --save @tsed/ajv
-````
+```
 
 :::
 

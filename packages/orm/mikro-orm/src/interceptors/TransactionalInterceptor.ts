@@ -1,20 +1,23 @@
 import {Inject, Interceptor, InterceptorContext, InterceptorMethods, InterceptorNext} from "@tsed/di";
-import {EntityManager} from "@mikro-orm/core";
 import {Logger} from "@tsed/logger";
-import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
-import {DBContext} from "../services/DBContext";
 import {RetryStrategy} from "../services/RetryStrategy";
+import {MikroOrmContext} from "../services/MikroOrmContext";
+import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
+import {IsolationLevel} from "@mikro-orm/core";
 
 export interface TransactionOptions {
   retry?: boolean;
+  isolationLevel?: IsolationLevel;
   contextName?: string;
 }
+
+type TransactionSettings = Required<Omit<TransactionOptions, "connectionName">>;
 
 @Interceptor()
 export class TransactionalInterceptor implements InterceptorMethods {
   constructor(
     @Inject() private readonly registry: MikroOrmRegistry,
-    @Inject() private readonly context: DBContext,
+    @Inject() private readonly context: MikroOrmContext,
     @Inject() private readonly logger: Logger,
     @Inject(RetryStrategy)
     private readonly retryStrategy?: RetryStrategy
@@ -27,26 +30,20 @@ export class TransactionalInterceptor implements InterceptorMethods {
       this.logger.warn(`To retry a transaction you have to implement a "${RetryStrategy.description}" interface`);
     }
 
-    const ctx = this.context.entries();
-
-    if (!ctx) {
-      return this.runWithinNewCtx(next, options);
+    if (this.context.has(options.contextName)) {
+      return this.runWithinCtx(next, options);
     }
 
-    if (ctx.has(options.contextName!)) {
-      return next();
-    }
-
-    return this.runUnderCtx(next, ctx, options);
+    return this.runWithinNewCtx(next, options);
   }
 
-  private runWithinNewCtx(next: InterceptorNext, options: TransactionOptions): Promise<unknown> | unknown {
-    const ctx = new Map<string, EntityManager>();
+  private runWithinCtx(next: InterceptorNext, options: TransactionSettings): Promise<unknown> | unknown {
+    const callback = () => this.executeInTransaction(next, options);
 
-    return this.runUnderCtx(next, ctx, options);
+    return options.retry && this.retryStrategy ? this.retryStrategy.acquire(callback) : callback();
   }
 
-  private runUnderCtx(next: InterceptorNext, ctx: Map<string, EntityManager>, options: TransactionOptions): Promise<unknown> | unknown {
+  private runWithinNewCtx(next: InterceptorNext, options: TransactionSettings): Promise<unknown> | unknown {
     const orm = this.registry.get(options.contextName);
 
     if (!orm) {
@@ -55,31 +52,13 @@ export class TransactionalInterceptor implements InterceptorMethods {
       );
     }
 
-    /**
-     * The fork method signature has been changed since v5.x,
-     * which might lead to unexpected behavior while using the @Transactional() decorator.
-     *
-     * ```diff
-     * - fork(clear = true, useContext = false): D[typeof EntityManagerType]
-     * + fork(options: ForkOptions = {}): D[typeof EntityManagerType] {
-     * ```
-     *
-     * To ensure backward compatibility with v4.x and add support for v5.x, provided the following workaround:
-     */
-    const em = (
-      orm.em.fork as (clearOrForkOptions?: boolean | {clear?: boolean; useContext?: boolean}, useContext?: boolean) => EntityManager
-    )({clear: true, useContext: true}, true);
-
-    ctx.set(em.name, em);
-
-    const runInTransaction = () => this.executeInTransaction(options.contextName!, next);
-
-    return this.context.run(ctx, () => (options.retry ? this.retryStrategy?.acquire(runInTransaction) : runInTransaction()));
+    return this.context.run([orm.em], () => this.runWithinCtx(next, options));
   }
 
-  private extractContextName(context: InterceptorContext<unknown>): TransactionOptions {
-    const options = context.options || ({} as Partial<TransactionOptions> | string);
+  private extractContextName(context: InterceptorContext<unknown>): TransactionSettings {
+    const options = context.options || ({} as TransactionOptions | string);
 
+    let isolationLevel: IsolationLevel | undefined;
     let contextName: string | undefined;
     let retry: boolean | undefined;
 
@@ -87,6 +66,7 @@ export class TransactionalInterceptor implements InterceptorMethods {
       contextName = options;
     } else if (options) {
       contextName = options.contextName ?? options.connectionName;
+      isolationLevel = options.isolationLevel;
       retry = options.retry;
     }
 
@@ -98,16 +78,18 @@ export class TransactionalInterceptor implements InterceptorMethods {
       retry = false;
     }
 
-    return {contextName, retry};
+    if (!isolationLevel) {
+      isolationLevel = IsolationLevel.READ_COMMITTED;
+    }
+
+    return {contextName, isolationLevel, retry};
   }
 
-  private async executeInTransaction(contextName: string, next: InterceptorNext): Promise<unknown> {
-    const em = this.context.get(contextName);
+  private async executeInTransaction(next: InterceptorNext, options: TransactionSettings): Promise<unknown> {
+    const manager = this.context.get(options.contextName)!;
 
-    const result = await next();
-
-    await em?.flush();
-
-    return result;
+    return manager.transactional(() => next(), {
+      isolationLevel: options.isolationLevel
+    });
   }
 }

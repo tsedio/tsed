@@ -1,5 +1,4 @@
 import {PlatformTest} from "@tsed/common";
-import {expect} from "chai";
 import faker from "@faker-js/faker";
 import {Adapter} from "oidc-provider";
 import {OidcAdapters} from "./OidcAdapters";
@@ -30,9 +29,9 @@ describe("OidcAdapters", () => {
 
         const obj: any = await adapter.find(id);
 
-        expect(obj._id).to.deep.equal(id);
-        expect(obj.client_id).to.deep.equal(id);
-        expect(obj.expires_at).to.be.a("date");
+        expect(obj._id).toEqual(id);
+        expect(obj.client_id).toEqual(id);
+        expect(obj.expires_at).toBeInstanceOf(Date);
 
         await adapter.destroy(id);
       });
@@ -52,9 +51,9 @@ describe("OidcAdapters", () => {
 
         const obj: any = await adapter.findByUserCode(id);
 
-        expect(obj._id).to.deep.equal(id);
-        expect(obj.userCode).to.deep.equal(id);
-        expect(obj.expires_at).to.be.a("date");
+        expect(obj._id).toEqual(id);
+        expect(obj.userCode).toEqual(id);
+        expect(obj.expires_at).toBeInstanceOf(Date);
       });
     });
     describe("adapter.findByUid()", () => {
@@ -71,9 +70,9 @@ describe("OidcAdapters", () => {
 
         const obj: any = await adapter.findByUid(id);
 
-        expect(obj._id).to.deep.equal(id);
-        expect(obj.uid).to.deep.equal(id);
-        expect(obj.expires_at).to.be.a("date");
+        expect(obj._id).toEqual(id);
+        expect(obj.uid).toEqual(id);
+        expect(obj.expires_at).toBeInstanceOf(Date);
       });
     });
 
@@ -93,8 +92,8 @@ describe("OidcAdapters", () => {
         const obj: any = await adapter.find(id);
         await adapter.revokeByGrantId(id);
 
-        expect(obj._id).to.deep.equal(id);
-        expect(obj.grantId).to.deep.equal(id);
+        expect(obj._id).toEqual(id);
+        expect(obj.grantId).toEqual(id);
       });
     });
   });

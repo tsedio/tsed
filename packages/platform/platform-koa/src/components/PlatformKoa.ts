@@ -15,16 +15,16 @@ import {
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {isFunction, Type} from "@tsed/core";
 import Koa, {Context, Next} from "koa";
-import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
-import {PlatformKoaResponse} from "../services/PlatformKoaResponse";
-import {PlatformKoaRequest} from "../services/PlatformKoaRequest";
-import {PlatformKoaHandler} from "../services/PlatformKoaHandler";
-import {getMulter} from "../utils/multer";
-import {staticsMiddleware} from "../middlewares/staticsMiddleware";
-import send from "koa-send";
+import koaBodyParser, {Options} from "koa-bodyparser";
 // @ts-ignore
 import koaQs from "koa-qs";
-import koaBodyParser, {Options} from "koa-bodyparser";
+import send from "koa-send";
+import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
+import {staticsMiddleware} from "../middlewares/staticsMiddleware";
+import {PlatformKoaHandler} from "../services/PlatformKoaHandler";
+import {PlatformKoaRequest} from "../services/PlatformKoaRequest";
+import {PlatformKoaResponse} from "../services/PlatformKoaResponse";
+import {getMulter} from "../utils/multer";
 
 declare global {
   namespace TsED {

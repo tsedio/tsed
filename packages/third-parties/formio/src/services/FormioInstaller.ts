@@ -3,13 +3,9 @@ import {Logger} from "@tsed/logger";
 import {FormioSubmission} from "../domain/FormioModels";
 import {FormioTemplate} from "../domain/FormioTemplate";
 import {FormioDatabase} from "./FormioDatabase";
-import {FormioService} from "./FormioService";
 
 @Injectable()
 export class FormioInstaller extends FormioDatabase {
-  @Inject()
-  protected formio: FormioService;
-
   @Inject()
   protected logger: Logger;
 

@@ -2,6 +2,7 @@ import type {Env} from "@tsed/core";
 import {InjectorService} from "../services/InjectorService";
 import {ContextLogger, ContextLoggerOptions} from "./ContextLogger";
 import {LocalsContainer} from "./LocalsContainer";
+import {runInContext} from "../utils/runInContext";
 
 export interface ContextMethods extends Map<any, any> {
   readonly id: string;
@@ -91,6 +92,13 @@ export class DIContext extends Map<any, any> implements ContextMethods {
 
   async emit(eventName: string, ...args: any[]) {
     return this.injector?.emit(eventName, ...args);
+  }
+
+  async runInContext(next: Function) {
+    return runInContext(this, async () => {
+      next = (await this.injector?.alterAsync("$alterRunInContext", next, this)) || next;
+      return next();
+    });
   }
 }
 

@@ -28,6 +28,7 @@ export * from "./domain/ProviderScope";
 export * from "./domain/ProviderType";
 export * from "./errors/InjectionError";
 export * from "./errors/UndefinedTokenError";
+export * from "./interfaces/AlterRunInContext";
 export * from "./interfaces/DIConfigurationOptions";
 export * from "./interfaces/DILogger";
 export * from "./interfaces/DILoggerOptions";

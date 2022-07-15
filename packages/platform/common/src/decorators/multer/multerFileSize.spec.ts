@@ -1,6 +1,5 @@
 import {MulterFileSize, PlatformMulterMiddleware} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {expect} from "chai";
 
 describe("MulterFileSize", () => {
   it("should set the file size", () => {
@@ -10,7 +9,7 @@ describe("MulterFileSize", () => {
     }
 
     const store = Store.fromMethod(Test, "file");
-    expect(store.get(PlatformMulterMiddleware)).to.deep.eq({
+    expect(store.get(PlatformMulterMiddleware)).toEqual({
       options: {
         limits: {
           fileSize: 100

@@ -55,7 +55,7 @@ class RedirectCtrl {
 export function testRedirect(options: PlatformTestOptions) {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  before(
+  beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
       mount: {
@@ -63,64 +63,64 @@ export function testRedirect(options: PlatformTestOptions) {
       }
     })
   );
-  before(() => {
+  beforeAll(() => {
     request = SuperTest(PlatformTest.callback());
   });
-  after(PlatformTest.reset);
+  afterAll(PlatformTest.reset);
 
   it("Scenario1: GET /rest/redirect/scenario-1", async () => {
     const response = await request.get("/rest/redirect/scenario-1").expect(302);
 
-    expect(response.text).to.deep.equal("Found. Redirecting to /test");
-    expect(response.header.location).to.deep.equal("/test");
+    expect(response.text).toEqual("Found. Redirecting to /test");
+    expect(response.header.location).toEqual("/test");
   });
 
   it("Scenario1: HEAD /rest/redirect/scenario-1", async () => {
     const response = await request.head("/rest/redirect/scenario-1").expect(302);
 
-    expect(response.text).to.deep.equal(undefined);
-    expect(response.header.location).to.deep.equal("/test");
+    expect(response.text).toBeUndefined();
+    expect(response.header.location).toEqual("/test");
   });
 
   it("Scenario2: GET /rest/redirect/scenario-2", async () => {
     const response = await request.get("/rest/redirect/scenario-2").expect(301);
 
-    expect(response.text).to.deep.equal("Moved Permanently. Redirecting to /test");
-    expect(response.header.location).to.deep.equal("/test");
+    expect(response.text).toEqual("Moved Permanently. Redirecting to /test");
+    expect(response.header.location).toEqual("/test");
   });
 
   it("Scenario3: GET /rest/redirect/scenario-3", async () => {
     const response = await request.get("/rest/redirect/scenario-3").expect(302);
 
-    expect(response.header.location).to.deep.equal("/another/path");
-    expect(response.text).to.deep.equal("Found. Redirecting to /another/path");
+    expect(response.header.location).toEqual("/another/path");
+    expect(response.text).toEqual("Found. Redirecting to /another/path");
   });
 
   it("Scenario4: GET /rest/redirect/scenario-4 with referer", async () => {
     const response = await request.get("/rest/redirect/scenario-4").set("Referrer", "https://referrer.com").expect(302);
 
-    expect(response.text).to.deep.equal("Found. Redirecting to https://referrer.com");
-    expect(response.header.location).to.deep.equal("https://referrer.com");
+    expect(response.text).toEqual("Found. Redirecting to https://referrer.com");
+    expect(response.header.location).toEqual("https://referrer.com");
   });
 
   it("Scenario5: GET /rest/redirect/scenario-5", async () => {
     const response = await request.get("/rest/redirect/scenario-5").set("Referrer", "https://referrer.com").expect(200);
 
-    expect(response.text).to.deep.equal("Hello");
-    expect(response.header.location).to.deep.equal("https://referrer.com");
+    expect(response.text).toEqual("Hello");
+    expect(response.header.location).toEqual("https://referrer.com");
   });
 
   it("Scenario6: GET /rest/redirect/scenario-6", async () => {
     const response = await request.get("/rest/redirect/scenario-6").set("Referrer", "https://referrer.com").expect(301);
 
-    expect(response.text).to.deep.equal("Hello");
-    expect(response.header.location).to.deep.equal("/path/to");
+    expect(response.text).toEqual("Hello");
+    expect(response.header.location).toEqual("/path/to");
   });
 
   it("Scenario7: GET /rest/redirect/scenario-7", async () => {
     const response = await request.get("/rest/redirect/scenario-7").set("Referrer", "https://referrer.com").expect(200);
 
-    expect(response.text).to.deep.equal("Hello");
-    expect(response.header.location).to.deep.equal("/another/path");
+    expect(response.text).toEqual("Hello");
+    expect(response.header.location).toEqual("/another/path");
   });
 }
