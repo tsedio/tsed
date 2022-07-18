@@ -128,7 +128,6 @@ describe("InjectorService", () => {
 
         jest.spyOn(injector as any, "resolve");
         jest.spyOn(injector as any, "invoke");
-        jest.spyOn(injector, "get");
         jest.spyOn(injector, "getProvider");
 
         const locals = new Map();
@@ -141,7 +140,7 @@ describe("InjectorService", () => {
         // THEN
         expect(result1 !== result2).toEqual(true);
         expect(injector.getProvider).toBeCalledWith(token);
-        expect(injector.get).toBeCalledWith(token);
+
         expect((injector as any).resolve).toBeCalledWith(token, locals, {rebuild: true});
         expect((injector as any).invoke).toBeCalledWith(InjectorService, locals, {
           parent: token
@@ -163,7 +162,6 @@ describe("InjectorService", () => {
         await injector.load(container);
 
         jest.spyOn(injector as any, "resolve");
-        jest.spyOn(injector, "get");
         jest.spyOn(injector, "getProvider");
 
         const locals = new Map();
@@ -175,8 +173,6 @@ describe("InjectorService", () => {
 
         // THEN
         expect(result1).toEqual(result2);
-        expect(injector.getProvider).toBeCalledWith(token);
-        expect(injector.get).toBeCalledWith(token);
 
         return expect((injector as any).resolve).not.toBeCalled();
       });

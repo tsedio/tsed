@@ -64,6 +64,9 @@ import {DIConfiguration} from "./DIConfiguration";
 export class InjectorService extends Container {
   public settings: DIConfiguration = new DIConfiguration();
   public logger: DILogger = console;
+  /**
+   * @deprecated
+   */
   public runInContext = runInContext;
   private resolvedConfiguration: boolean = false;
   #cache = new LocalsContainer();
@@ -136,7 +139,7 @@ export class InjectorService extends Container {
    * @param options
    * @returns {boolean}
    */
-  get<T = any>(token: TokenProvider, options: any = {}): T | undefined {
+  get<T = any>(token: TokenProvider<T>, options: any = {}): T | undefined {
     const instance = this.getInstance(token);
 
     if (instance !== undefined) {
@@ -194,23 +197,34 @@ export class InjectorService extends Container {
    * @param options
    * @returns {T} The class constructed.
    */
-  public invoke<T>(
+  public invoke<T = any>(
     token: TokenProvider,
     locals: Map<TokenProvider, any> = new LocalsContainer(),
     options: Partial<InvokeOptions<T>> = {}
   ): T {
-    const provider = this.ensureProvider(token);
-    let instance: any = undefined;
+    let instance: any;
 
-    !locals.has(Configuration) && locals.set(Configuration, this.settings);
+    if (token === Configuration) {
+      return this.settings as unknown as T;
+    }
 
-    if (locals.has(token)) {
-      return locals.get(token);
+    instance = locals.get(token);
+
+    if (instance !== undefined) {
+      return instance;
+    }
+
+    instance = !options.rebuild ? this.getInstance(token) : undefined;
+
+    if (instance != undefined) {
+      return instance;
     }
 
     if (token === DI_PARAM_OPTIONS) {
       return {} as T;
     }
+
+    const provider = this.ensureProvider(token);
 
     if (!provider || options.rebuild) {
       instance = this.resolve(token, locals, options);
@@ -222,14 +236,10 @@ export class InjectorService extends Container {
       return instance;
     }
 
+    instance = this.resolve(token, locals, options);
+
     switch (this.scopeOf(provider)) {
       case ProviderScope.SINGLETON:
-        if (this.has(token)) {
-          return this.get<T>(token)!;
-        }
-
-        instance = this.resolve(token, locals, options);
-
         if (!provider.isAsync()) {
           this.#cache.set(token, instance);
           return instance;
@@ -247,12 +257,8 @@ export class InjectorService extends Container {
         return instance;
 
       case ProviderScope.REQUEST:
-        instance = this.resolve(token, locals, options);
         locals.set(token, instance);
         return instance;
-
-      case ProviderScope.INSTANCE:
-        return this.resolve(provider.provide, locals, options) as any;
     }
 
     return instance;
