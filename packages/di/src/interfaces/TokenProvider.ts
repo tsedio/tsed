@@ -1,3 +1,3 @@
 import type {Type} from "@tsed/core";
 
-export type TokenProvider = string | symbol | Type | Function | any;
+export type TokenProvider<T = any> = string | symbol | Type<T> | Function | any;

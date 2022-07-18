@@ -33,6 +33,8 @@ describe("Provider", () => {
       expect(!!provider.store).toEqual(true);
       expect(cloned.useClass).toEqual(T2);
       expect(cloned.scope).toEqual(ProviderScope.REQUEST);
+      expect(provider.hasChildren()).toEqual(false);
+      expect(provider.hasParent()).toEqual(false);
     });
   });
 
