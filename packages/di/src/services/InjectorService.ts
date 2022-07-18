@@ -202,16 +202,14 @@ export class InjectorService extends Container {
     locals: Map<TokenProvider, any> = new LocalsContainer(),
     options: Partial<InvokeOptions<T>> = {}
   ): T {
-    let instance: any;
-
-    if (token === Configuration) {
-      return this.settings as unknown as T;
-    }
-
-    instance = locals.get(token);
+    let instance: any = locals.get(token);
 
     if (instance !== undefined) {
       return instance;
+    }
+
+    if (token === Configuration) {
+      return this.settings as unknown as T;
     }
 
     instance = !options.rebuild ? this.getInstance(token) : undefined;
