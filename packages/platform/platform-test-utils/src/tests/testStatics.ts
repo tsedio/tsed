@@ -20,9 +20,6 @@ export function testStatics(options: PlatformTestOptions) {
   beforeEach(
     PlatformTest.bootstrap(options.server, {
       ...options,
-      logger: {
-        level: "info"
-      },
       mount: {
         "/rest": [CustomStaticsCtrl]
       }

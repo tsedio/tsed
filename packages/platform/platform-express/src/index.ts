@@ -4,10 +4,6 @@
 
 export * from "./exports";
 export * from "./components/PlatformExpress";
-export * from "./decorators/caseSensitive";
-export * from "./decorators/mergeParams";
-export * from "./decorators/routerSettings";
-export * from "./decorators/strict";
 export * from "./interfaces/PlatformExpressSettings";
 export * from "./interfaces/PlatformExpressStaticsOptions";
 export * from "./interfaces/interfaces";

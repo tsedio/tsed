@@ -44,16 +44,6 @@ export class FakeAdapter implements PlatformAdapter<any> {
     return {} as any;
   }
 
-  router(routerOptions: any): {router: any; callback(): any} {
-    const router = FakeAdapter.createFakeRawDriver();
-    return {
-      router,
-      callback() {
-        return router;
-      }
-    };
-  }
-
   statics(endpoint: string, options: PlatformStaticsOptions): any {
     return {};
   }
