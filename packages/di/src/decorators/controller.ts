@@ -14,7 +14,6 @@ export interface ControllerMiddlewares {
 export interface ControllerOptions extends Partial<ProviderOpts<any>> {
   path?: PathType;
   children?: Type<any>[];
-  routerOptions?: any;
   middlewares?: Partial<ControllerMiddlewares>;
 }
 

@@ -33,10 +33,6 @@ describe("ControllerProvider", () => {
     expect(controllerProvider.scope).toEqual("request");
   });
 
-  it("should get routerOptions", () => {
-    expect(controllerProvider.routerOptions).toBeInstanceOf(Object);
-  });
-
   it("should have children", () => {
     expect(controllerProvider.hasChildren()).toEqual(false);
   });
