@@ -8,7 +8,6 @@ generator client {
   provider        = "prisma-client-js"
   binaryTargets   = ["native", "windows", "debian-openssl-1.1.x"]
   output          = "../prisma/generated/client"
-  previewFeatures = ["orderByRelation", "napi", "selectRelationCount"]
 }
 
 generator tsed {
@@ -28,7 +27,7 @@ model user {
   weight      Float?
   is18        Boolean?
   name        String?
-  successorId Int?
+  successorId Int?     @unique
   successor   user?    @relation("BlogOwnerHistory", fields: [successorId], references: [id])
   predecessor user?    @relation("BlogOwnerHistory")
   role        Role     @default(USER)
