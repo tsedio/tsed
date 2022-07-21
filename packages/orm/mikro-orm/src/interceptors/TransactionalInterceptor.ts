@@ -3,11 +3,13 @@ import {Logger} from "@tsed/logger";
 import {RetryStrategy} from "../services/RetryStrategy";
 import {MikroOrmContext} from "../services/MikroOrmContext";
 import {MikroOrmRegistry} from "../services/MikroOrmRegistry";
-import {IsolationLevel} from "@mikro-orm/core";
+import {FlushMode, IsolationLevel} from "@mikro-orm/core";
 
 export interface TransactionOptions {
   retry?: boolean;
+  disabled?: boolean;
   isolationLevel?: IsolationLevel;
+  flushMode?: FlushMode;
   contextName?: string;
   /**
    * @deprecated Since 2022-02-01. Use {@link contextName} instead
@@ -15,7 +17,7 @@ export interface TransactionOptions {
   connectionName?: string;
 }
 
-type TransactionSettings = Required<Omit<TransactionOptions, "connectionName">>;
+type TransactionSettings = Required<Omit<TransactionOptions, "connectionName" | "flushMode">> & {flushMode?: FlushMode};
 
 @Interceptor()
 export class TransactionalInterceptor implements InterceptorMethods {
@@ -60,10 +62,12 @@ export class TransactionalInterceptor implements InterceptorMethods {
   }
 
   private extractContextName(context: InterceptorContext<unknown>): TransactionSettings {
-    const options = context.options || ({} as TransactionOptions | string);
+    const options = (context.options || {}) as TransactionOptions | string;
 
     let isolationLevel: IsolationLevel | undefined;
+    let disabled: boolean | undefined;
     let contextName: string | undefined;
+    let flushMode: FlushMode | undefined;
     let retry: boolean | undefined;
 
     if (typeof options === "string") {
@@ -72,27 +76,34 @@ export class TransactionalInterceptor implements InterceptorMethods {
       contextName = options.contextName ?? options.connectionName;
       isolationLevel = options.isolationLevel;
       retry = options.retry;
+      disabled = options.disabled;
+      flushMode = options.flushMode;
     }
 
-    if (!contextName) {
-      contextName = "default";
-    }
-
-    if (!retry) {
-      retry = false;
-    }
-
-    if (!isolationLevel) {
-      isolationLevel = IsolationLevel.READ_COMMITTED;
-    }
-
-    return {contextName, isolationLevel, retry};
+    return {
+      flushMode,
+      retry: retry ?? false,
+      disabled: disabled ?? false,
+      contextName: contextName ?? "default",
+      isolationLevel: isolationLevel ?? IsolationLevel.READ_COMMITTED
+    };
   }
 
   private async executeInTransaction(next: InterceptorNext, options: TransactionSettings): Promise<unknown> {
-    const manager = this.context.get(options.contextName)!;
+    const manager = this.context.get(options.contextName);
+
+    if (!manager) {
+      throw new Error(
+        `No such context: ${options.contextName}. Please check if the async context is lost in one of the asynchronous operations.`
+      );
+    }
+
+    if (options.disabled) {
+      return next();
+    }
 
     return manager.transactional(() => next(), {
+      flushMode: options.flushMode,
       isolationLevel: options.isolationLevel
     });
   }
