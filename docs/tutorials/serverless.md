@@ -153,7 +153,7 @@ export class TimeslotsLambda {
 Create new `handler.ts` to expose your lambda:
 
 ```typescript
-import {PlatformServerless} from "@tsed/serverless";
+import {PlatformServerless} from "@tsed/platform-serverless";
 import {TimeslotsLambda} from "./lambda/TimeslotsLambda";
 
 const platform = PlatformServerless.bootstrap({
