@@ -48,6 +48,10 @@ export class PlatformKoaRequest extends PlatformRequest<Koa.Request> {
     return this.#ctx.session;
   }
 
+  get route() {
+    return this.#ctx._matchedRoute;
+  }
+
   getReq(): IncomingMessage {
     return this.raw.req;
   }
