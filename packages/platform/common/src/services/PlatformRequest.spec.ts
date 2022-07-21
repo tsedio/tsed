@@ -1,5 +1,4 @@
 import {PlatformTest} from "@tsed/common";
-import {createSandbox} from "sinon";
 import {PlatformRequest} from "./PlatformRequest";
 
 function createRequest() {
@@ -8,7 +7,6 @@ function createRequest() {
   return {req: $ctx.request.request, request: $ctx.request};
 }
 
-const sandbox = createSandbox();
 describe("PlatformRequest", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
@@ -36,6 +34,16 @@ describe("PlatformRequest", () => {
 
       $ctx.request.request.secure = true;
       expect($ctx.request.secure).toEqual(true);
+    });
+  });
+
+  describe("route()", () => {
+    it("should return route", () => {
+      const $ctx = PlatformTest.createRequestContext();
+
+      $ctx.request.raw.route = {path: "/id"};
+
+      expect($ctx.request.route).toEqual("/id");
     });
   });
 

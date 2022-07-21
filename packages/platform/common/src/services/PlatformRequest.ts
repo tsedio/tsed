@@ -110,6 +110,10 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
     return this.raw.files;
   }
 
+  get route() {
+    return this.raw?.route?.path;
+  }
+
   /**
    * Return the original request framework instance
    */

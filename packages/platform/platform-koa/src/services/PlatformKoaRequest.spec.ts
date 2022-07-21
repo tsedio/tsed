@@ -3,7 +3,7 @@ import {PlatformKoaRequest} from "@tsed/platform-koa";
 
 function createRequest() {
   const request = PlatformTest.createRequest();
-  const koaCtx = {
+  const koaCtx: any = {
     request: {
       protocol: "http",
       req: request
@@ -27,7 +27,7 @@ function createRequest() {
     RequestKlass: PlatformKoaRequest
   });
 
-  return {req: request, request: ctx.request};
+  return {req: request, request: ctx.request, koaCtx};
 }
 
 describe("PlatformKoaRequest", () => {
@@ -75,6 +75,16 @@ describe("PlatformKoaRequest", () => {
     });
   });
 
+  describe("route()", () => {
+    it("should return the host", () => {
+      const {req, koaCtx, request} = createRequest();
+
+      koaCtx._matchedRoute = "/id";
+
+      expect(request.route).toEqual("/id");
+    });
+  });
+
   describe("cookies", () => {
     it("should get cookies from cookies", () => {
       const {req, request} = createRequest();
@@ -91,7 +101,7 @@ describe("PlatformKoaRequest", () => {
   });
   describe("session", () => {
     it("should get session", () => {
-      const {req, request} = createRequest();
+      const {request} = createRequest();
 
       expect(request.session).toEqual({test: "test"});
     });

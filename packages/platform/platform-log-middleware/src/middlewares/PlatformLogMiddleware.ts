@@ -9,7 +9,7 @@ import type {LoggerRequestFields} from "../domain/PlatformLogMiddlewareSettings"
  */
 @Middleware()
 export class PlatformLogMiddleware implements MiddlewareMethods {
-  @Constant("logger.requestFields", ["reqId", "method", "url", "duration"])
+  @Constant("logger.requestFields", ["reqId", "method", "url", "duration", "route"])
   protected requestFields: LoggerRequestFields;
 
   @Constant("logger.logRequest", true)
@@ -103,6 +103,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
     return {
       method: request.method,
       url: request.url,
+      route: request.route,
       headers: request.headers,
       body: request.body,
       query: request.query,

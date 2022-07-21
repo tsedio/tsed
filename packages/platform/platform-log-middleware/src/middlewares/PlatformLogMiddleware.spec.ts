@@ -42,7 +42,8 @@ describe("PlatformLogMiddleware", () => {
       it("should configure request and create context logger", async () => {
         // GIVEN
         const {request, ctx, middleware} = await createMiddlewareFixture();
-        request.originalUrl = "originalUrl";
+        request.originalUrl = "/originalUrl";
+        ctx.request.raw.route = {path: "/:id"};
         // WHEN
         middleware.use(ctx);
 
@@ -55,7 +56,8 @@ describe("PlatformLogMiddleware", () => {
             event: "request.start",
             method: "GET",
             reqId: "id",
-            url: "originalUrl"
+            url: "/originalUrl",
+            route: "/:id"
           })
         );
         expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
@@ -63,7 +65,8 @@ describe("PlatformLogMiddleware", () => {
             event: "request.end",
             method: "GET",
             reqId: "id",
-            url: "originalUrl",
+            url: "/originalUrl",
+            route: "/:id",
             status: 200
           })
         );
