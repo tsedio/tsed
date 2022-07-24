@@ -179,5 +179,57 @@ describe("PlatformLogMiddleware", () => {
         );
       });
     });
+    describe("when no debug, log error", () => {
+      beforeEach(() =>
+        PlatformTest.create({
+          logger: {debug: false, logRequest: true}
+        })
+      );
+      afterEach(() => PlatformTest.reset());
+      it("should log error", async () => {
+        // GIVEN
+        const {request, ctx, middleware} = await createMiddlewareFixture();
+        request.originalUrl = "originalUrl";
+        // WHEN
+        middleware.use(ctx);
+
+        // THEN
+        // middleware.$onResponse(request.$ctx);
+        ctx.logger.error({
+          event: "event"
+        });
+        // THEN
+        expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith(
+          expect.objectContaining({
+            event: "event",
+            method: "GET",
+            reqId: "id",
+            url: "originalUrl"
+          })
+        );
+      });
+      it("should log debug without request", async () => {
+        // GIVEN
+        const {request, ctx, middleware} = await createMiddlewareFixture();
+        request.originalUrl = "originalUrl";
+        // WHEN
+        middleware.use(ctx);
+
+        // THEN
+        ctx.logger.debug(
+          {
+            event: "event"
+          },
+          false
+        );
+        // THEN
+        expect(PlatformTest.injector.logger.debug).toHaveBeenCalledWith(
+          expect.objectContaining({
+            event: "event",
+            reqId: "id"
+          })
+        );
+      });
+    });
   });
 });

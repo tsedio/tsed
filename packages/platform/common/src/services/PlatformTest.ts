@@ -1,12 +1,12 @@
-import {DITest, DITestOptions, InjectorService} from "@tsed/di";
 import {Type} from "@tsed/core";
+import {DITest, DITestOptions, InjectorService} from "@tsed/di";
+import accepts from "accepts";
 import {PlatformBuilder} from "../builder/PlatformBuilder";
 import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext";
 import {createInjector} from "../utils/createInjector";
-import {PlatformApplication} from "./PlatformApplication";
 import {getConfiguration} from "../utils/getConfiguration";
 import {PlatformAdapter, PlatformBuilderSettings} from "./PlatformAdapter";
-import accepts from "accepts";
+import {PlatformApplication} from "./PlatformApplication";
 
 /**
  * @platform
@@ -119,6 +119,7 @@ export class PlatformTest extends DITest {
   static createRequest(options: any = {}): any {
     return {
       headers: {},
+      method: "GET",
       get(key: string) {
         return this.headers[key.toLowerCase()];
       },
