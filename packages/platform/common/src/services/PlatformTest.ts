@@ -161,10 +161,17 @@ export class PlatformTest extends DITest {
         this.headers[key.toLowerCase()] = value;
         return this;
       },
+      setHeader(key: string, value: any) {
+        this.headers[key.toLowerCase()] = value;
+        return this;
+      },
       send(data: any) {
         this.data = data;
       },
       json(data: any) {
+        this.data = data;
+      },
+      end(data: any) {
         this.data = data;
       },
       ...options
@@ -173,11 +180,12 @@ export class PlatformTest extends DITest {
 
   static createRequestContext(options: Partial<PlatformContextOptions & any> = {}) {
     const event = {
+      ...options.event,
       request: options?.request?.request || options?.event?.request || PlatformTest.createRequest(),
       response: options?.response?.response || options?.event?.response || PlatformTest.createResponse()
     };
 
-    return new PlatformContext({
+    const $ctx = new PlatformContext({
       id: "id",
       injector: DITest.injector,
       logger: DITest.injector.logger,
@@ -185,5 +193,11 @@ export class PlatformTest extends DITest {
       ...options,
       event
     });
+
+    if (options.endpoint) {
+      $ctx.endpoint = options.endpoint;
+    }
+
+    return $ctx;
   }
 }

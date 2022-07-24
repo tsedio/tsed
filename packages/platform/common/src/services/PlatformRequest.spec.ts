@@ -10,15 +10,21 @@ function createRequest() {
 describe("PlatformRequest", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
+
   it("should create a PlatformRequest instance", () => {
     const request = PlatformTest.createRequest();
+    const response = PlatformTest.createResponse();
     const $ctx = PlatformTest.createRequestContext({
       event: {
-        request
+        request,
+        response
       }
     });
 
     expect($ctx.request.raw).toEqual(request);
+    expect($ctx.request.response).toEqual($ctx.response);
+    expect($ctx.request.headers).toEqual({});
+    expect($ctx.request.method).toEqual("GET");
   });
 
   describe("secure()", () => {
