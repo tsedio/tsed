@@ -1,6 +1,6 @@
 import type {Env} from "@tsed/core";
 import {InjectorService} from "../services/InjectorService";
-import {runInContext} from "../utils/runInContext";
+import {bindContext, runInContext} from "../utils/runInContext";
 import {ContextLogger, ContextLoggerOptions} from "./ContextLogger";
 import {LocalsContainer} from "./LocalsContainer";
 
