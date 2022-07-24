@@ -197,12 +197,8 @@ export class InjectorService extends Container {
    * @param options
    * @returns {T} The class constructed.
    */
-  public invoke<T = any>(
-    token: TokenProvider,
-    locals: Map<TokenProvider, any> = new LocalsContainer(),
-    options: Partial<InvokeOptions<T>> = {}
-  ): T {
-    let instance: any = locals.get(token);
+  public invoke<T = any>(token: TokenProvider, locals?: Map<TokenProvider, any>, options: Partial<InvokeOptions<T>> = {}): T {
+    let instance: any = locals ? locals.get(token) : undefined;
 
     if (instance !== undefined) {
       return instance;
@@ -255,7 +251,7 @@ export class InjectorService extends Container {
         return instance;
 
       case ProviderScope.REQUEST:
-        locals.set(token, instance);
+        locals && locals.set(token, instance);
         return instance;
     }
 
@@ -611,7 +607,11 @@ export class InjectorService extends Container {
    * @param options
    * @private
    */
-  private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions<T>> = {}): T | Promise<T> {
+  private resolve<T>(
+    target: TokenProvider,
+    locals: Map<TokenProvider, any> = new LocalsContainer(),
+    options: Partial<InvokeOptions<T>> = {}
+  ): T | Promise<T> {
     const resolvedOpts = this.mapInvokeOptions(target, locals, options);
     const {token, deps, construct, imports, provider} = resolvedOpts;
 
