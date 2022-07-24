@@ -1,102 +1,106 @@
+import {Hooks} from "@tsed/core";
 import {levels, LogLevel} from "@tsed/logger";
+import {DILogger} from "../interfaces/DILogger";
+import type {DIContext} from "./DIContext";
 
 export interface ContextLoggerOptions extends Record<string, any> {
   id: string;
-  url?: string;
-  dateStart?: Date;
+  logger?: DILogger;
   level?: "debug" | "info" | "warn" | "error" | "off" | "all";
   maxStackSize?: number;
-  minimalRequestPicker?: (o: any) => any;
-  completeRequestPicker?: (o: any) => any;
-  ignoreLog?: (data: any) => boolean;
   additionalProps?: Record<any, any>;
 }
 
-export class ContextLogger {
-  id: string;
-  url: string;
-  minimalRequestPicker: Function;
-  completeRequestPicker: Function;
-  maxStackSize: number;
-  private readonly additionalProps: Record<string, unknown>;
-  private readonly dateStart: Date;
-  private readonly ignoreLog: (data: any) => boolean;
-  private stack: any = [];
-  private level: LogLevel;
+const LEVELS: Record<string, LogLevel> = levels();
 
-  constructor(
-    private logger: any,
-    {
-      id,
-      url = "",
-      dateStart = new Date(),
-      ignoreUrlPatterns = [],
-      minimalRequestPicker,
-      completeRequestPicker,
-      level = "all",
-      maxStackSize = 30,
-      ignoreLog,
-      additionalProps
-    }: ContextLoggerOptions
-  ) {
-    this.id = id;
-    this.url = url;
-    this.additionalProps = additionalProps || {};
+export class ContextLogger {
+  readonly dateStart: Date;
+  readonly #additionalProps?: Record<string, unknown>;
+
+  #hooks?: Hooks;
+  #maxStackSize: number;
+  #stack?: any[];
+  #level: LogLevel;
+  #logger: any;
+
+  constructor(readonly $ctx: DIContext) {
+    const {logger, dateStart = new Date(), level = "all", maxStackSize = 30, additionalProps} = $ctx.opts;
     this.dateStart = dateStart;
-    this.ignoreLog = ignoreLog || (() => false);
-    this.minimalRequestPicker = minimalRequestPicker || ((l: any) => l);
-    this.completeRequestPicker = completeRequestPicker || ((l: any) => l);
-    // @ts-ignore
-    this.level = levels()[level.toUpperCase()] || levels().ALL;
-    this.maxStackSize = maxStackSize;
+    this.#logger = logger;
+    this.#additionalProps = additionalProps;
+    this.#level = (LEVELS[level.toUpperCase()] || LEVELS.ALL) as LogLevel;
+    this.#maxStackSize = maxStackSize;
+  }
+
+  get id() {
+    return this.$ctx.id;
+  }
+
+  set maxStackSize(maxStackSize: number) {
+    this.#maxStackSize = maxStackSize;
+  }
+
+  get hooks() {
+    return (this.#hooks = this.#hooks || new Hooks());
+  }
+
+  private get stack() {
+    return (this.#stack = this.#stack || []);
+  }
+
+  alterLog(cb: (data: any, level: "debug" | "info" | "warn" | "error" | "off" | "all", withRequest: boolean) => any) {
+    return this.hooks.on("log", cb);
+  }
+
+  alterIgnoreLog(cb: (ignore: boolean, data: any) => boolean) {
+    return this.hooks.on("ignore", cb);
   }
 
   info(obj: any) {
-    this.run(levels().INFO, obj, (obj) => this.minimalRequestPicker(this.getData(obj)));
+    this.run(levels().INFO, obj);
     return this;
   }
 
   debug(obj: any, withRequest: boolean = true) {
-    this.run(levels().DEBUG, obj, (obj) => {
-      obj = this.getData(obj);
-      return withRequest ? this.completeRequestPicker(obj) : obj;
-    });
+    this.run(levels().DEBUG, obj, withRequest);
     return this;
   }
 
   warn(obj: any) {
-    this.run(levels().WARN, obj, (obj) => this.completeRequestPicker(this.getData(obj)));
+    this.run(levels().WARN, obj);
     return this;
   }
 
   error(obj: any) {
-    this.run(levels().ERROR, obj, (obj) => this.completeRequestPicker(this.getData(obj)));
+    this.run(levels().ERROR, obj);
     return this;
   }
 
   trace(obj: any) {
-    this.run(levels().TRACE, obj, (obj) => this.completeRequestPicker(this.getData(obj)));
+    this.run(levels().TRACE, obj);
     return this;
   }
 
   public flush() {
     if (this.stack.length) {
       this.stack.forEach(({level, data}: any) => {
-        this.logger[level](data);
+        this.#logger[level](data);
       });
 
-      this.stack = [];
+      this.#stack = [];
     }
   }
 
   public isLevelEnabled(otherLevel: string | LogLevel) {
-    return this.level.isLessThanOrEqualTo(otherLevel);
+    return this.#level.isLessThanOrEqualTo(otherLevel);
   }
 
   destroy() {
     this.flush();
-    this.maxStackSize = 0;
-    this.stack = [];
+    this.#maxStackSize = 0;
+    this.#stack = [];
+    this.#logger = null;
+    this.#hooks?.destroy();
   }
 
   /**
@@ -112,19 +116,25 @@ export class ContextLogger {
       obj = {message: obj};
     }
 
-    return {...this.additionalProps, reqId: this.id, time: new Date(), duration: this.getDuration(), ...obj};
+    return {...this.#additionalProps, reqId: this.id, time: new Date(), duration: this.getDuration(), ...obj};
   }
 
-  protected run(level: LogLevel, obj: any, mapper: (data: any) => any) {
+  protected run(level: LogLevel, obj: any, withRequest?: boolean) {
     if (!this.isLevelEnabled(level)) {
       return;
     }
 
-    if (!this.ignoreLog(obj)) {
-      this.stack.push({level: level.levelStr.toLowerCase(), data: mapper(obj)});
+    const ignore = this.#hooks?.alter("ignore", false, [obj]);
+
+    if (!ignore) {
+      const levelStr = level.levelStr.toLowerCase();
+
+      obj = this.hooks.alter("log", this.getData(obj), [levelStr, withRequest]);
+
+      this.stack.push({level: levelStr, data: obj});
     }
 
-    if (this.maxStackSize < this.stack.length) {
+    if (this.#maxStackSize < this.stack.length) {
       this.flush();
     }
   }
