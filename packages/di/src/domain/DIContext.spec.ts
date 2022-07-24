@@ -6,6 +6,9 @@ describe("DIContext", () => {
   afterEach(() => PlatformTest.reset());
   describe("constructor", () => {
     it("should create a new Context and skip log", () => {
+      const logger = {
+        info: jest.fn()
+      };
       const context = new DIContext({
         event: {
           response: PlatformTest.createResponse(),
@@ -14,12 +17,9 @@ describe("DIContext", () => {
           })
         },
         id: "id",
-        logger: {
-          info: jest.fn()
-        },
+        logger,
         maxStackSize: 0,
-        injector: PlatformTest.injector,
-        ignoreUrlPatterns: ["/admin", /\/admin2/]
+        injector: PlatformTest.injector
       });
 
       expect(context.id).toEqual("id");
@@ -29,12 +29,15 @@ describe("DIContext", () => {
 
       context.logger.info("test");
 
-      expect((context.logger as any).logger.info).toHaveBeenCalled();
+      expect(logger.info).toHaveBeenCalled();
 
       context.destroy();
     });
     it("should create a new Context and log event", () => {
-      // @ts-ignore
+      const logger = {
+        info: jest.fn()
+      };
+
       const context = new DIContext({
         id: "id",
         event: {
@@ -43,12 +46,9 @@ describe("DIContext", () => {
             url: "/"
           })
         },
-        logger: {
-          info: jest.fn()
-        },
+        logger,
         injector: PlatformTest.injector,
-        maxStackSize: 0,
-        ignoreUrlPatterns: ["/admin"]
+        maxStackSize: 0
       });
 
       expect(context.id).toEqual("id");
@@ -58,7 +58,7 @@ describe("DIContext", () => {
 
       context.logger.info("test");
 
-      expect((context.logger as any).logger.info).toHaveBeenCalled();
+      expect(logger.info).toHaveBeenCalled();
     });
   });
 
