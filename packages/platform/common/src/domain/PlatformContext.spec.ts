@@ -19,10 +19,12 @@ describe("PlatformContext", () => {
       id: "id",
       logger,
       maxStackSize: 0,
+      ignoreUrlPatterns: ["/admin", /\/admin2/],
       injector: PlatformTest.injector
     });
 
     context.endpoint = {} as any;
+    context.logger.info("test");
 
     expect(context.id).toEqual("id");
     expect(context.dateStart).toBeInstanceOf(Date);
@@ -51,8 +53,11 @@ describe("PlatformContext", () => {
       },
       logger,
       injector: PlatformTest.injector,
-      maxStackSize: 0
+      maxStackSize: 0,
+      ignoreUrlPatterns: ["/admin", /\/admin2/]
     });
+
+    context.logger.info("test");
 
     expect(context.id).toEqual("id");
     expect(context.dateStart).toBeInstanceOf(Date);

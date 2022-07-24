@@ -15,6 +15,7 @@ async function createMiddlewareFixture() {
         statusCode: 200
       })
     },
+    endpoint: new Map(),
     logger: PlatformTest.injector.logger
   });
 
@@ -43,7 +44,7 @@ describe("PlatformLogMiddleware", () => {
         // GIVEN
         const {request, ctx, middleware} = await createMiddlewareFixture();
         request.originalUrl = "/originalUrl";
-        ctx.request.raw.route = {path: "/:id"};
+        ctx.endpoint.set("route", "/:id");
         // WHEN
         middleware.use(ctx);
 

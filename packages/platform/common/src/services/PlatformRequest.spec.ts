@@ -46,8 +46,8 @@ describe("PlatformRequest", () => {
   describe("route()", () => {
     it("should return route", () => {
       const $ctx = PlatformTest.createRequestContext();
-
-      $ctx.request.raw.route = {path: "/id"};
+      $ctx.endpoint = new Map() as any;
+      $ctx.endpoint.set("route", "/id");
 
       expect($ctx.request.route).toEqual("/id");
     });

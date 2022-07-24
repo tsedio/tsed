@@ -9,6 +9,9 @@ export class PlatformRouteDetails extends JsonOperationRoute<EndpointMetadata> {
   constructor(options: Partial<PlatformRouteDetails>) {
     super(options);
     this.rawBody = !!this.endpoint.parameters.find((param) => param.paramType === ParamTypes.RAW_BODY);
+
+    // TMP FIX
+    this.endpoint.set("route", this.url);
   }
 
   toJSON() {

@@ -115,7 +115,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   }
 
   get route() {
-    return this.raw?.route?.path;
+    return this.$ctx.endpoint?.get("route");
   }
 
   /**
