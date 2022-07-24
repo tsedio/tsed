@@ -84,7 +84,7 @@ export class Hooks {
    * @param args
    * @param callThis
    */
-  async asyncAlter(event: string, value: any, args: string[] = [], callThis: any = null): Promise<any> {
+  async asyncAlter(event: string, value: any, args: any[] = [], callThis: any = null): Promise<any> {
     if (this.listeners.has(event)) {
       for (const cb of this.listeners.get(event)!) {
         value = await cb.call(callThis, value, ...args);
