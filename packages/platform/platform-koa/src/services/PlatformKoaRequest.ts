@@ -44,10 +44,6 @@ export class PlatformKoaRequest extends PlatformRequest<Koa.Request> {
     return this.ctx.session;
   }
 
-  get route() {
-    return this.ctx._matchedRoute;
-  }
-
   getReq() {
     return this.ctx.request.req;
   }

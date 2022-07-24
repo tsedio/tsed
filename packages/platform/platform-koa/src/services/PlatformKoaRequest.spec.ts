@@ -80,16 +80,6 @@ describe("PlatformKoaRequest", () => {
     });
   });
 
-  describe("route()", () => {
-    it("should return the host", () => {
-      const {req, koaCtx, request} = createRequest();
-
-      koaCtx._matchedRoute = "/id";
-
-      expect(request.route).toEqual("/id");
-    });
-  });
-
   describe("cookies", () => {
     it("should get cookies from cookies", () => {
       const {koaCtx, request} = createRequest();

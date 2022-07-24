@@ -12,16 +12,23 @@ describe("createContext", () => {
     const response = PlatformTest.createResponse();
     //     response.req = request;
 
+    injector.settings.logger.level = "info";
+    injector.settings.logger.ignoreUrlPatterns = ["/admin", /\/admin2/];
+
     jest.spyOn(injector, "emit").mockResolvedValue(undefined);
+    jest.spyOn(injector.logger, "info").mockReturnValue(undefined);
     jest.spyOn(PlatformResponse.prototype, "onEnd").mockResolvedValue(undefined as never);
 
     // WHEN
     const invoke = createContext(injector);
     const ctx = await invoke({request, response});
 
+    ctx.logger.info({event: "test"});
+    ctx.logger.flush();
+
     // THEN
-    expect(request.$ctx).toEqual(ctx);
     expect(injector.emit).toBeCalledWith("$onRequest", ctx);
+    expect(injector.logger.info).toHaveBeenCalled();
     expect(ctx.response.onEnd).toBeCalledWith(expect.any(Function));
     await (ctx.response.onEnd as jest.Mock).mock.calls[0][0](ctx);
 

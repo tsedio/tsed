@@ -64,7 +64,7 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
   /**
    * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
    */
-  get endpoint() {
+  get endpoint(): EndpointMetadata {
     return this.get(EndpointMetadata);
   }
 
