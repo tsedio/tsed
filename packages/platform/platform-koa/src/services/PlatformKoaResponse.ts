@@ -15,11 +15,8 @@ declare global {
  * @koa
  */
 export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
-  #ctx: Koa.Context;
-
-  constructor(event: IncomingEvent, $ctx: PlatformContext) {
-    super(event, $ctx);
-    this.#ctx = this.raw.ctx;
+  get ctx() {
+    return this.raw.ctx;
   }
 
   get statusCode() {
@@ -27,7 +24,7 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
   }
 
   get locals() {
-    return this.#ctx.state;
+    return this.ctx.state;
   }
 
   /**

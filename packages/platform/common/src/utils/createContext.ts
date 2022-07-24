@@ -5,7 +5,7 @@ import {PlatformResponse} from "../services/PlatformResponse";
 import {IncomingEvent} from "../interfaces/IncomingEvent";
 import {v4} from "uuid";
 
-const defaultReqIdBuilder = (req: any) => req.get("x-request-id") || v4().replace(/-/gi, "");
+const defaultReqIdBuilder = (req: any) => req.get("x-request-id") || v4().split("-").join("");
 
 /**
  * Create the TsED context to wrap request, response, injector, etc...
