@@ -1,24 +1,35 @@
 import {PlatformTest} from "@tsed/common";
-import {createReadStream} from "fs";
 import {PlatformViews} from "@tsed/platform-views";
+import {createReadStream} from "fs";
+import onFinished from "on-finished";
 import {PlatformResponse} from "./PlatformResponse";
+
+jest.mock("on-finished");
 
 function createResponse() {
   const ctx = PlatformTest.createRequestContext();
   const platformViews = PlatformTest.get(PlatformViews);
 
-  return {res: ctx.response.raw, response: ctx.response, platformViews};
+  return {res: ctx.response.raw, response: ctx.response, platformViews, ctx};
 }
 
 describe("PlatformResponse", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
   it("should create a PlatformResponse instance", () => {
-    const {res, response} = createResponse();
+    const {res, response, ctx} = createResponse();
 
     expect(response.raw).toEqual(res);
+    expect(response.request).toEqual(ctx.request);
   });
+  describe("onFinished", () => {
+    it("should return status code", () => {
+      const stub = jest.fn();
+      PlatformResponse.onFinished({}, stub);
 
+      expect(onFinished).toHaveBeenCalledWith({}, stub);
+    });
+  });
   describe("statusCode", () => {
     it("should return status code", () => {
       const {res, response} = createResponse();
@@ -176,11 +187,11 @@ describe("PlatformResponse", () => {
   });
   describe("destroy()", () => {
     it("should destroy response", async () => {
-      const {response} = createResponse();
+      const {response, ctx} = createResponse();
 
       expect(response.isDone()).toEqual(false);
 
-      response.destroy();
+      await ctx.destroy();
 
       expect(response.isDone()).toEqual(true);
     });

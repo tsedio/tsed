@@ -10,7 +10,7 @@ describe("createContext", () => {
     const injector = PlatformTest.injector;
     const request = PlatformTest.createRequest();
     const response = PlatformTest.createResponse();
-    response.req = request;
+    //     response.req = request;
 
     jest.spyOn(injector, "emit").mockResolvedValue(undefined);
     jest.spyOn(PlatformResponse.prototype, "onEnd").mockResolvedValue(undefined as never);
@@ -23,11 +23,9 @@ describe("createContext", () => {
     expect(request.$ctx).toEqual(ctx);
     expect(injector.emit).toBeCalledWith("$onRequest", ctx);
     expect(ctx.response.onEnd).toBeCalledWith(expect.any(Function));
-
     await (ctx.response.onEnd as jest.Mock).mock.calls[0][0](ctx);
 
     expect(injector.emit).toBeCalledWith("$onResponse", ctx);
-    expect(request.$ctx).toBeUndefined();
   });
 
   it("should add a x-request-id header to the response", async () => {

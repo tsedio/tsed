@@ -8,6 +8,9 @@ declare global {
     // @ts-ignore
     export interface Request {
       id: string;
+      /**
+       * @deprecated
+       */
       $ctx: PlatformContext;
     }
   }

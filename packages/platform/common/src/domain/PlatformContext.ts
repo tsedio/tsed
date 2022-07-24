@@ -43,35 +43,17 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
   private ignoreUrlPatterns: RegExp[] = [];
   #isDestroyed: boolean = false;
 
-  constructor({
-    event,
-    endpoint,
-    ignoreUrlPatterns = [],
-    ResponseKlass = PlatformResponse,
-    RequestKlass = PlatformRequest,
-    ...options
-  }: PlatformContextOptions) {
-    super({
-      ...options,
-      ignoreLog: () => {
-        return this.ignoreUrlPatterns.find((reg) => !!this.url.match(reg));
-      }
-    });
+  constructor(options: PlatformContextOptions) {
+    super(options);
 
-    endpoint && (this.endpoint = endpoint);
+    options.endpoint && (this.endpoint = options.endpoint);
 
-    this.ignoreUrlPatterns = ignoreUrlPatterns.map((pattern: string | RegExp) =>
-      typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern
-    );
-
-    this.event = event;
-    this.response = new ResponseKlass(this);
-    this.request = new RequestKlass(this);
+    this.event = options.event;
+    this.response = new (options.ResponseKlass || PlatformResponse)(this);
+    this.request = new (options.RequestKlass || PlatformRequest)(this);
 
     this.request.request.$ctx = this;
     this.request.request.id = this.id;
-    this.logger.url = this.url;
-
     this.container.set(PlatformResponse, this.response);
     this.container.set(PlatformRequest, this.request);
     this.container.set(PlatformContext, this);
@@ -115,10 +97,6 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
         params: this.params
       }
     } as any);
-
-    if (this.request?.request?.$ctx) {
-      this.request.request.$ctx = undefined as any;
-    }
 
     this.response.destroy();
     this.request.destroy();
