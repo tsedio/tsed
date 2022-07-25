@@ -78,6 +78,47 @@ describe("Rest", () => {
 To increase mocha timeout from 2000ms to 10000ms use option `--timeout 10000`.
 :::
 
+### Testing server with Replica set
+
+A [ReplicaSet](https://github.com/nodkz/mongodb-memory-server#replica-set-start) can be easily started with:
+
+```typescript
+import {PlatformTest} from "@tsed/common";
+import {PlatformExpress} from "@tsed/platform-express";
+import {TestMongooseContext} from "@tsed/testing-mongoose";
+import {expect} from "chai";
+import * as SuperTest from "supertest";
+import {Server} from "../Server";
+
+describe("Rest", () => {
+  // bootstrap your Server to load all endpoints before run your test
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+
+  before(
+    TestMongooseContext.bootstrap(Server, {
+      platform: PlatformExpress,
+      mongod: {
+        replicaSet: true
+      }
+    })
+  ); // Create a server with mocked database
+  before((done) => {
+    request = SuperTest(PlatformTest.callback());
+    done();
+  });
+
+  after(TestMongooseContext.reset); // reset database and injector
+
+  describe("GET /rest/calendars", () => {
+    it("should do something", async () => {
+      const response = await request.get("/rest/calendars").expect(200);
+
+      expect(response.body).to.be.an("array");
+    });
+  });
+});
+```
+
 ## Jest additional setup
 
 Add a script to close connection after all unit test. In your jest configuration file add the following line:
