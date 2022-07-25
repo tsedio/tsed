@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {ParamTypes} from "../domain/ParamTypes";
 import {PathParams, RawPathParams} from "./pathParams";
 import {JsonParameterStore} from "@tsed/schema";
@@ -12,9 +11,9 @@ describe("@PathParams", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("expression");
-    expect(param.paramType).to.eq(ParamTypes.PATH);
-    expect(param.type).to.eq(Test);
+    expect(param.expression).toEqual("expression");
+    expect(param.paramType).toEqual(ParamTypes.PATH);
+    expect(param.type).toEqual(Test);
   });
   it("should call ParamFilter.useParam method with the correct parameters (raw)", () => {
     class Ctrl {
@@ -22,7 +21,7 @@ describe("@PathParams", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("expression");
-    expect(param.paramType).to.eq(ParamTypes.PATH);
+    expect(param.expression).toEqual("expression");
+    expect(param.paramType).toEqual(ParamTypes.PATH);
   });
 });

@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {ParamTypes} from "../domain/ParamTypes";
 import {Cookies} from "./cookies";
 import {JsonParameterStore} from "@tsed/schema";
@@ -12,8 +11,8 @@ describe("@Cookies", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("expression");
-    expect(param.paramType).to.eq(ParamTypes.COOKIES);
-    expect(param.type).to.eq(Test);
+    expect(param.expression).toEqual("expression");
+    expect(param.paramType).toEqual(ParamTypes.COOKIES);
+    expect(param.type).toEqual(Test);
   });
 });

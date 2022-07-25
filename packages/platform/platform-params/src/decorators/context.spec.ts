@@ -1,5 +1,4 @@
 import {ParamTypes} from "@tsed/platform-params";
-import {expect} from "chai";
 import {Context} from "./context";
 import {JsonParameterStore} from "@tsed/schema";
 
@@ -10,7 +9,7 @@ describe("@Context ", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("expression");
-    expect(param.paramType).to.eq(ParamTypes.$CTX);
+    expect(param.expression).toEqual("expression");
+    expect(param.paramType).toEqual(ParamTypes.$CTX);
   });
 });
