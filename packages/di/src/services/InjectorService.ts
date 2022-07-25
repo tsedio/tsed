@@ -22,18 +22,17 @@ import {Provider} from "../domain/Provider";
 import {ProviderScope} from "../domain/ProviderScope";
 import {InjectionError} from "../errors/InjectionError";
 import {UndefinedTokenError} from "../errors/UndefinedTokenError";
+import {DILogger} from "../interfaces/DILogger";
+import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties";
+import {InterceptorContext} from "../interfaces/InterceptorContext";
+import {InterceptorMethods} from "../interfaces/InterceptorMethods";
+import {InvokeOptions} from "../interfaces/InvokeOptions";
+import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
+import {TokenProvider} from "../interfaces/TokenProvider";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {createContainer} from "../utils/createContainer";
 import {resolveControllers} from "../utils/resolveControllers";
 import {DIConfiguration} from "./DIConfiguration";
-import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
-import {ProviderScope} from "../domain/ProviderScope";
-import {DILogger} from "../interfaces/DILogger";
-import {TokenProvider} from "../interfaces/TokenProvider";
-import {InvokeOptions} from "../interfaces/InvokeOptions";
-import {InjectableProperties, InjectablePropertyOptions, InjectablePropertyValue} from "../interfaces/InjectableProperties";
-import {InterceptorContext} from "../interfaces/InterceptorContext";
-import {InterceptorMethods} from "../interfaces/InterceptorMethods";
 
 /**
  * This service contain all services collected by `@Service` or services declared manually with `InjectorService.factory()` or `InjectorService.service()`.
@@ -114,7 +113,7 @@ export class InjectorService extends Container {
    * @param options
    * @returns {boolean}
    */
-  get<T = any>(token: TokenProvider, options: any = {}): T | undefined {
+  get<T = any>(token: TokenProvider<T>, options: any = {}): T | undefined {
     const instance = this.getInstance(token);
 
     if (instance !== undefined) {
@@ -172,23 +171,28 @@ export class InjectorService extends Container {
    * @param options
    * @returns {T} The class constructed.
    */
-  public invoke<T>(
-    token: TokenProvider,
-    locals: Map<TokenProvider, any> = new LocalsContainer(),
-    options: Partial<InvokeOptions<T>> = {}
-  ): T {
-    const provider = this.ensureProvider(token);
-    let instance: any = undefined;
+  public invoke<T = any>(token: TokenProvider, locals?: Map<TokenProvider, any>, options: Partial<InvokeOptions<T>> = {}): T {
+    let instance: any = locals ? locals.get(token) : undefined;
 
-    !locals.has(Configuration) && locals.set(Configuration, this.settings);
+    if (instance !== undefined) {
+      return instance;
+    }
 
-    if (locals.has(token)) {
-      return locals.get(token);
+    if (token === Configuration) {
+      return this.settings as unknown as T;
+    }
+
+    instance = !options.rebuild ? this.getInstance(token) : undefined;
+
+    if (instance != undefined) {
+      return instance;
     }
 
     if (token === DI_PARAM_OPTIONS) {
       return {} as T;
     }
+
+    const provider = this.ensureProvider(token);
 
     if (!provider || options.rebuild) {
       instance = this.resolve(token, locals, options);
@@ -200,14 +204,10 @@ export class InjectorService extends Container {
       return instance;
     }
 
+    instance = this.resolve(token, locals, options);
+
     switch (this.scopeOf(provider)) {
       case ProviderScope.SINGLETON:
-        if (this.has(token)) {
-          return this.get<T>(token)!;
-        }
-
-        instance = this.resolve(token, locals, options);
-
         if (!provider.isAsync()) {
           this.#cache.set(token, instance);
           return instance;
@@ -225,12 +225,8 @@ export class InjectorService extends Container {
         return instance;
 
       case ProviderScope.REQUEST:
-        instance = this.resolve(token, locals, options);
-        locals.set(token, instance);
+        locals && locals.set(token, instance);
         return instance;
-
-      case ProviderScope.INSTANCE:
-        return this.resolve(provider.provide, locals, options) as any;
     }
 
     return instance;
@@ -580,7 +576,11 @@ export class InjectorService extends Container {
    * @param options
    * @private
    */
-  private resolve<T>(target: TokenProvider, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions<T>> = {}): T | Promise<T> {
+  private resolve<T>(
+    target: TokenProvider,
+    locals: Map<TokenProvider, any> = new LocalsContainer(),
+    options: Partial<InvokeOptions<T>> = {}
+  ): T | Promise<T> {
     const resolvedOpts = this.mapInvokeOptions(target, locals, options);
     const {token, deps, construct, imports, provider} = resolvedOpts;
 

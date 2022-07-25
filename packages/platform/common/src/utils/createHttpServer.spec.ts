@@ -1,4 +1,5 @@
 import {InjectorService} from "@tsed/di";
+import Http from "http";
 import {createHttpServer} from "./createHttpServer";
 
 describe("createHttpServer", () => {
@@ -12,13 +13,20 @@ describe("createHttpServer", () => {
     const listener: any = createHttpServer(injector, fn);
 
     expect(!!injector.get(Http.Server)).toEqual(true);
-    expect(!!injector.get(HttpServer)).toEqual(true);
 
     expect(listener).toBeInstanceOf(Function);
 
     const server = injector.get(Http.Server);
 
-    expect(!!injector.get(Http.Server)).to.be.eq(true);
+    jest.spyOn(injector.logger, "info").mockReturnValue(undefined);
+    jest.spyOn(injector.logger, "debug").mockReturnValue(undefined);
+    jest.spyOn(server, "listen").mockReturnValue(undefined);
+    jest.spyOn(server, "address").mockReturnValue({port: 8089});
+    jest.spyOn(server, "on").mockImplementation((event: string, cb: any) => {
+      if (event === "listening") {
+        cb();
+      }
+    });
 
     await listener();
 
@@ -34,7 +42,7 @@ describe("createHttpServer", () => {
 
     const listener = createHttpServer(injector, fn);
 
-    expect(injector.get(Http.Server)).to.be.eq(null);
+    expect(injector.get(Http.Server)).toEqual(null);
 
     expect(listener).toBeUndefined();
   });
@@ -47,7 +55,7 @@ describe("createHttpServer", () => {
 
     const listener = createHttpServer(injector, fn);
 
-    expect(!!injector.get(Http.Server)).to.be.eq(true);
+    expect(!!injector.get(Http.Server)).toEqual(true);
 
     expect(listener).toBeInstanceOf(Function);
   });
@@ -59,7 +67,7 @@ describe("createHttpServer", () => {
 
     const listener = createHttpServer(injector, fn);
 
-    expect(!!injector.get(Http.Server)).to.be.eq(true);
+    expect(!!injector.get(Http.Server)).toEqual(true);
 
     expect(listener).toBeInstanceOf(Function);
   });

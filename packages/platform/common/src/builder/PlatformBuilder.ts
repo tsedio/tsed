@@ -236,7 +236,6 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     const {startedAt} = this;
 
     await this.callHook("$onReady");
-    await this.injector.emit("$onReady");
     await this.injector.emit("$onServerReady");
 
     this.log(`Started in ${new Date().getTime() - startedAt.getTime()} ms`);

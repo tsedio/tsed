@@ -23,18 +23,20 @@ export type HeaderValue = Array<boolean | number | string> | boolean | number | 
  */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
-export class PlatformResponse<T extends Record<string, any> = any> {
+export class PlatformResponse<Res extends Record<string, any> = any> {
+  data: any;
+
+  constructor(readonly $ctx: PlatformContext) {}
+
   /**
    * The current @@PlatformRequest@@.
    */
-  public request: PlatformRequest;
+  get request(): PlatformRequest {
+    return this.$ctx.request;
+  }
 
-  data: any;
-
-  raw: T;
-
-  constructor({response}: IncomingEvent, protected $ctx: PlatformContext) {
-    this.raw = response as any;
+  get raw(): Res {
+    return this.$ctx.event.response as any;
   }
 
   /**
@@ -91,7 +93,7 @@ export class PlatformResponse<T extends Record<string, any> = any> {
   /**
    * Return the Framework response object (express, koa, etc...)
    */
-  getResponse<Res = T>(): Res {
+  getResponse<R = Res>(): R {
     return this.raw as any;
   }
 
@@ -321,13 +323,7 @@ export class PlatformResponse<T extends Record<string, any> = any> {
   }
 
   destroy() {
-    this.request = undefined as any;
-    this.raw = {
-      isDone: true,
-      statusCode: this.statusCode
-    } as any;
     this.data = undefined;
-    this.$ctx = undefined as any;
   }
 
   isHeadersSent() {

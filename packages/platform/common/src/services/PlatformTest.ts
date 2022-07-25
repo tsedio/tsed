@@ -1,12 +1,12 @@
-import {DITest, DITestOptions, InjectorService} from "@tsed/di";
 import {Type} from "@tsed/core";
+import {DITest, DITestOptions, InjectorService} from "@tsed/di";
+import accepts from "accepts";
 import {PlatformBuilder} from "../builder/PlatformBuilder";
 import {PlatformContext, PlatformContextOptions} from "../domain/PlatformContext";
 import {createInjector} from "../utils/createInjector";
-import {PlatformApplication} from "./PlatformApplication";
 import {getConfiguration} from "../utils/getConfiguration";
 import {PlatformAdapter, PlatformBuilderSettings} from "./PlatformAdapter";
-import accepts from "accepts";
+import {PlatformApplication} from "./PlatformApplication";
 
 /**
  * @platform
@@ -119,6 +119,7 @@ export class PlatformTest extends DITest {
   static createRequest(options: any = {}): any {
     return {
       headers: {},
+      method: "GET",
       get(key: string) {
         return this.headers[key.toLowerCase()];
       },
@@ -161,10 +162,17 @@ export class PlatformTest extends DITest {
         this.headers[key.toLowerCase()] = value;
         return this;
       },
+      setHeader(key: string, value: any) {
+        this.headers[key.toLowerCase()] = value;
+        return this;
+      },
       send(data: any) {
         this.data = data;
       },
       json(data: any) {
+        this.data = data;
+      },
+      end(data: any) {
         this.data = data;
       },
       ...options
@@ -173,11 +181,12 @@ export class PlatformTest extends DITest {
 
   static createRequestContext(options: Partial<PlatformContextOptions & any> = {}) {
     const event = {
+      ...options.event,
       request: options?.request?.request || options?.event?.request || PlatformTest.createRequest(),
       response: options?.response?.response || options?.event?.response || PlatformTest.createResponse()
     };
 
-    return new PlatformContext({
+    const $ctx = new PlatformContext({
       id: "id",
       injector: DITest.injector,
       logger: DITest.injector.logger,
@@ -185,5 +194,11 @@ export class PlatformTest extends DITest {
       ...options,
       event
     });
+
+    if (options.endpoint) {
+      $ctx.endpoint = options.endpoint;
+    }
+
+    return $ctx;
   }
 }

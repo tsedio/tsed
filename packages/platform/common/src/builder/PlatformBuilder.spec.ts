@@ -9,7 +9,6 @@ import {
   Injectable,
   InjectorService,
   Module,
-  normalizePath,
   OnReady
 } from "@tsed/common";
 import {Type} from "@tsed/core";
@@ -239,7 +238,7 @@ describe("PlatformBuilder", () => {
       server.addComponents(MyClass);
 
       // THEN
-      expect(server.injector.settings.get("imports")).to.deep.eq([HealthModule, MyClass]);
+      expect(server.injector.settings.get("imports")).toEqual([HealthModule, MyClass]);
     });
   });
   describe("addControllers", () => {

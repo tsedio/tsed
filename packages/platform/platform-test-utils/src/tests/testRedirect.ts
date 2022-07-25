@@ -1,6 +1,4 @@
-import {Context, Controller, Get, PlatformTest} from "@tsed/common";
-import {Redirect, Location} from "@tsed/schema";
-import {expect} from "chai";
+import {Context, Controller, Get, Location, PlatformTest, Redirect} from "@tsed/common";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
 

@@ -395,7 +395,20 @@ export class TheTypeMapper implements JsonMapperMethods {
 }
 ```
 
-Then import your new mapper in your Server.ts
+Then import your new mapper in your Server.ts as following:
+
+```typescript
+import {Configuration} from "@tsed/di";
+
+import "./mappers/TheTypeMapper";
+
+@Configuration({
+  mount: {
+    "/rest": []
+  }
+})
+export class Server {}
+```
 
 ### Moment
 
@@ -429,4 +442,5 @@ birthdate: Moment;
 
   </Tab>
 </Tabs>
+
 ```

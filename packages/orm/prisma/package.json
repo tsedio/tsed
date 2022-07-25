@@ -24,8 +24,8 @@
   },
   "private": false,
   "dependencies": {
-    "@prisma/generator-helper": "^3.10.0",
-    "@prisma/sdk": "^3.10.0",
+    "@prisma/generator-helper": "^4.0.0",
+    "@prisma/sdk": "^4.0.0",
     "change-case": "^4.1.2",
     "pluralize": "^8.0.0",
     "ts-morph": "^12.0.0",
@@ -39,10 +39,10 @@
     "@tsed/schema": "7.0.0-beta.13",
     "@types/change-case": "^2.3.1",
     "@types/pluralize": "0.0.29",
-    "prisma": "^3.10.0"
+    "prisma": "^4.0.0"
   },
   "peerDependencies": {
-    "@prisma/client": "^2 || ^3",
+    "@prisma/client": "4.0.0",
     "@tsed/core": "^7.0.0-beta.13",
     "@tsed/di": "^7.0.0-beta.13",
     "@tsed/json-mapper": "^7.0.0-beta.13",

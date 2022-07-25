@@ -6,7 +6,9 @@ describe("PlatformContext", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
   it("should create a new Context and skip log", () => {
-    // @ts-ignore
+    const logger = {
+      info: jest.fn()
+    };
     const context = new PlatformContext({
       event: {
         response: PlatformTest.createResponse(),
@@ -15,13 +17,14 @@ describe("PlatformContext", () => {
         })
       },
       id: "id",
-      logger: {
-        info: jest.fn()
-      },
+      logger,
       maxStackSize: 0,
-      injector: PlatformTest.injector,
-      ignoreUrlPatterns: ["/admin", /\/admin2/]
+      ignoreUrlPatterns: ["/admin", /\/admin2/],
+      injector: PlatformTest.injector
     });
+
+    context.endpoint = {} as any;
+    context.logger.info("test");
 
     expect(context.id).toEqual("id");
     expect(context.dateStart).toBeInstanceOf(Date);
@@ -32,15 +35,38 @@ describe("PlatformContext", () => {
     expect(context.getReq()).toEqual(context.request.raw);
     expect(context.getRes()).toEqual(context.response.raw);
     expect(context.app).toBeInstanceOf(PlatformApplication);
+    expect(context.endpoint).toEqual({});
     expect(nameOf(context.getApp())).toEqual("FakeRawDriver");
+  });
+  it("should create a new Context and log event", () => {
+    const logger = {
+      info: jest.fn()
+    };
+
+    const context = new PlatformContext({
+      id: "id",
+      event: {
+        response: PlatformTest.createResponse(),
+        request: PlatformTest.createRequest({
+          url: "/"
+        })
+      },
+      logger,
+      injector: PlatformTest.injector,
+      maxStackSize: 0,
+      ignoreUrlPatterns: ["/admin", /\/admin2/]
+    });
 
     context.logger.info("test");
 
-    // @ts-ignore
-    expect(context.logger.logger.info).not.toBeCalled();
+    expect(context.id).toEqual("id");
+    expect(context.dateStart).toBeInstanceOf(Date);
+    expect(context.container).toBeInstanceOf(Map);
+    expect(context.env).toEqual("test");
+    expect(context.app).toBeInstanceOf(PlatformApplication);
+    expect(nameOf(context.getApp())).toEqual("FakeRawDriver");
   });
-  it("should create a new Context and log event", () => {
-    // @ts-ignore
+  it("should return done when the response is empty", async () => {
     const context = new PlatformContext({
       id: "id",
       event: {
@@ -57,16 +83,10 @@ describe("PlatformContext", () => {
       ignoreUrlPatterns: ["/admin"]
     });
 
-    expect(context.id).toEqual("id");
-    expect(context.dateStart).toBeInstanceOf(Date);
-    expect(context.container).toBeInstanceOf(Map);
-    expect(context.env).toEqual("test");
-    expect(context.app).toBeInstanceOf(PlatformApplication);
-    expect(nameOf(context.getApp())).toEqual("FakeRawDriver");
+    expect(context.isDone()).toEqual(false);
 
-    context.logger.info("test");
+    await context.destroy();
 
-    // @ts-ignore
-    expect(context.logger.logger.info).toBeCalled();
+    expect(context.isDone()).toEqual(true);
   });
 });

@@ -125,6 +125,38 @@ describe("TransactionalInterceptor", () => {
       expect(next).toHaveBeenCalled();
     });
 
+    it("should disable an explicit transaction", async () => {
+      // arrange
+      const context = {options: {disabled: true}} as InterceptorContext;
+      const entityManger = instance(mockedEntityManager);
+
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
+      when(mockedMikroOrmContext.has(anything())).thenReturn(true);
+      when(mockedMikroOrmContext.get(anything())).thenReturn(entityManger);
+
+      // act
+      await transactionalInterceptor.intercept(context, next);
+
+      // assert
+      expect(next).toHaveBeenCalled();
+      verify(mockedEntityManager.transactional(anything(), anything())).never();
+    });
+
+    it("should throw an error if context is lost", async () => {
+      // arrange
+      const context = {} as InterceptorContext;
+
+      when(mockedMikroOrmRegistry.get(anything())).thenReturn(instance(mockedMikroOrm));
+      when(mockedMikroOrmContext.has(anything())).thenReturn(true);
+      when(mockedEntityManager.transactional(anything(), anything())).thenCall((func: (...args: unknown[]) => unknown) => func());
+
+      // act
+      const result = transactionalInterceptor.intercept(context, next);
+
+      // assert
+      await expect(result).rejects.toThrow("No such context");
+    });
+
     it("should throw an error if no such context", async () => {
       // arrange
       const context = {} as InterceptorContext;

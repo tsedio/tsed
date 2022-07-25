@@ -27,7 +27,7 @@ jobs:
       - name: Run lint
         run: yarn test:lint
 
-  test:
+  test-integration:
     runs-on: ${{ matrix.os }}
 
     strategy:
@@ -46,6 +46,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -53,17 +55,11 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:core
+        run: yarn test:integration
         env:
           FORCE_COLOR: true
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          flag-name: run-${{ matrix.test_number }}
-          parallel: true
 
-  test-packages:
+  test-core:
     runs-on: ubuntu-latest
 
     strategy:
@@ -72,6 +68,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
@@ -79,17 +77,151 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:packages
-
-  coveralls:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - name: Coveralls Finished
+        run: yarn test:core && yarn coverage
+      - name: Coveralls
         uses: coverallsapp/github-action@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
+
+  test-specs:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run test
+        run: yarn test:specs
+
+  test-platform:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run test
+        run: yarn test:platform
+
+  test-orm:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run test
+        run: yarn test:orm
+
+  test-graphql:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run test
+        run: yarn test:graphql
+
+  test-security:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run test
+        run: yarn test:security
+
+  test-third-parties:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run test
+        run: yarn test:third-parties
+
+  test-formio:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run test
+        run: yarn test:formio
 
   build:
     runs-on: ubuntu-latest
@@ -111,7 +243,20 @@ jobs:
 
   deploy-packages:
     runs-on: ubuntu-latest
-    needs: [lint, test, test-packages, build, test-packages]
+    needs:
+      [
+        lint,
+        test-core,
+        test-specs,
+        test-platform,
+        test-integration,
+        test-orm,
+        test-security,
+        test-graphql,
+        test-third-parties,
+        test-formio,
+        build
+      ]
     if: github.event_name != 'pull_request' && contains('
       refs/heads/production
       refs/heads/alpha

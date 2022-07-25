@@ -52,6 +52,8 @@ describe("Hooks", () => {
       expect(fn).toHaveBeenCalledWith("value", "arg1");
 
       hooks.off("event", fn);
+
+      hooks.destroy();
     });
   });
 });

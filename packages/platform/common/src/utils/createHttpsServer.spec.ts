@@ -12,8 +12,8 @@ describe("createHttpsServer", () => {
 
     const listener = createHttpsServer(injector, fn)!;
 
-    expect(!!injector.get(Https.Server)).to.be.eq(true);
-    expect(listener).to.be.a("function");
+    expect(!!injector.get(Https.Server)).toEqual(true);
+    expect(listener).toBeInstanceOf(Function);
 
     const server = injector.get(Https.Server);
 
@@ -41,7 +41,7 @@ describe("createHttpsServer", () => {
 
     const listener = createHttpsServer(injector, fn);
 
-    expect(injector.get(Https.Server)).to.be.eq(null);
+    expect(injector.get(Https.Server)).toEqual(null);
 
     expect(listener).toBeUndefined();
   });
@@ -54,7 +54,7 @@ describe("createHttpsServer", () => {
 
     const listener = createHttpsServer(injector, fn);
 
-    expect(!!injector.get(Https.Server)).to.be.eq(true);
+    expect(!!injector.get(Https.Server)).toEqual(true);
 
     expect(listener).toBeInstanceOf(Function);
   });
@@ -66,7 +66,7 @@ describe("createHttpsServer", () => {
 
     const listener = createHttpsServer(injector, fn);
 
-    expect(!!injector.get(Https.Server)).to.be.eq(true);
+    expect(!!injector.get(Https.Server)).toEqual(true);
 
     expect(listener).toBeInstanceOf(Function);
   });

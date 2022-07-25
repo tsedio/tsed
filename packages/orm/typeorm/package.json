@@ -28,7 +28,7 @@
     "@tsed/di": "7.0.0-beta.13",
     "@tsed/json-mapper": "7.0.0-beta.13",
     "@tsed/schema": "7.0.0-beta.13",
-    "typeorm": "^0.2.26"
+    "typeorm": "^0.2.45"
   },
   "peerDependencies": {
     "@tsed/core": "^7.0.0-beta.13",

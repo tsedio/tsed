@@ -1,7 +1,6 @@
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
 import {IncomingHttpHeaders, IncomingMessage} from "http";
 import type {PlatformContext} from "../domain/PlatformContext";
-import {IncomingEvent} from "../interfaces/IncomingEvent";
 import type {PlatformResponse} from "./PlatformResponse";
 
 declare global {
@@ -9,6 +8,9 @@ declare global {
     // @ts-ignore
     export interface Request {
       id: string;
+      /**
+       * @deprecated
+       */
       $ctx: PlatformContext;
     }
   }
@@ -20,16 +22,18 @@ declare global {
  */
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
-export class PlatformRequest<T extends {[key: string]: any} = any> {
-  public raw: T;
+export class PlatformRequest<Req extends {[key: string]: any} = any> {
+  constructor(readonly $ctx: PlatformContext) {}
 
   /**
    * The current @@PlatformResponse@@.
    */
-  public response: PlatformResponse;
+  get response(): PlatformResponse {
+    return this.$ctx.response;
+  }
 
-  constructor({request}: IncomingEvent, protected $ctx: PlatformContext) {
-    this.raw = request as any;
+  get raw(): Req {
+    return this.$ctx.event.request as any;
   }
 
   get secure(): boolean {
@@ -110,6 +114,10 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
     return this.raw.files;
   }
 
+  get route() {
+    return this.$ctx.endpoint?.get("route");
+  }
+
   /**
    * Return the original request framework instance
    */
@@ -157,24 +165,12 @@ export class PlatformRequest<T extends {[key: string]: any} = any> {
     return this.raw.aborted;
   }
 
-  destroy() {
-    this.raw = {
-      method: this.method,
-      url: this.url,
-      headers: this.headers,
-      body: this.body,
-      query: this.query,
-      params: this.params
-    } as any;
-
-    this.response = undefined as any;
-    this.$ctx = undefined as any;
-  }
+  destroy() {}
 
   /**
    * Return the Framework response object (express, koa, etc...)
    */
-  getRequest<Req = T>(): Req {
+  getRequest<R = Req>(): R {
     return this.raw as any;
   }
 

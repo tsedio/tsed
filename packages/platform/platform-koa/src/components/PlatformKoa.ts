@@ -130,8 +130,7 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
     app.getApp().use(async (ctx: Context, next: Next) => {
       await invoke({
         request: ctx.request as any,
-        response: ctx.response as any,
-        ctx
+        response: ctx.response as any
       });
 
       return next();

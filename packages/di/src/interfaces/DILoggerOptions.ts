@@ -14,7 +14,7 @@ export interface DILoggerOptions {
   /**
    * List of regexp to ignore log.
    */
-  ignoreUrlPatterns?: string[];
+  ignoreUrlPatterns?: (string | RegExp)[];
   /**
    * The number of space characters to use as white space in JSON output. Default is 2 (0 in production).
    */

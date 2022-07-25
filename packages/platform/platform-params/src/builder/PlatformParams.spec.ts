@@ -1,7 +1,6 @@
 import {PlatformTest, ProviderScope} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {ParamTypes, PathParams, QueryParams} from "@tsed/platform-params";
-import {expect} from "chai";
 import {buildPlatformParams, invokePlatformParams} from "../../../../../test/helper/buildPlatformParams";
 
 describe("PlatformParams", () => {
@@ -20,7 +19,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.getReq());
+      expect(value).toEqual($ctx.getReq());
     });
     it("should return REQUEST (framework)", async () => {
       // GIVEN
@@ -34,7 +33,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.getRequest());
+      expect(value).toEqual($ctx.getRequest());
     });
     it("should return REQUEST (platform)", async () => {
       // GIVEN
@@ -48,7 +47,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.request);
+      expect(value).toEqual($ctx.request);
     });
     it("should return RESPONSE (node)", async () => {
       // GIVEN
@@ -62,7 +61,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.getRes());
+      expect(value).toEqual($ctx.getRes());
     });
     it("should return RESPONSE (framework)", async () => {
       // GIVEN
@@ -76,7 +75,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.getResponse());
+      expect(value).toEqual($ctx.getResponse());
     });
     it("should return RESPONSE (platform)", async () => {
       // GIVEN
@@ -90,7 +89,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.response);
+      expect(value).toEqual($ctx.response);
     });
     it("should return NEXT", async () => {
       // GIVEN
@@ -104,7 +103,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.be.a("function");
+      expect(value).toBeInstanceOf(Function);
     });
     it("should return ERR", async () => {
       // GIVEN
@@ -119,7 +118,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq(h.err);
+      expect(value).toEqual(h.err);
     });
     it("should return $CTX", async () => {
       // GIVEN
@@ -134,7 +133,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx);
+      expect(value).toEqual($ctx);
     });
     it("should return RESPONSE_DATA", async () => {
       // GIVEN
@@ -148,7 +147,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.data);
+      expect(value).toEqual($ctx.data);
     });
     it("should return ENDPOINT_INFO", async () => {
       // GIVEN
@@ -165,7 +164,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.endpoint);
+      expect(value).toEqual($ctx.endpoint);
     });
     it("should return BODY", async () => {
       // GIVEN
@@ -179,7 +178,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.getRequest().body);
+      expect(value).toEqual($ctx.getRequest().body);
     });
     it("should return PATH", async () => {
       // GIVEN
@@ -193,7 +192,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.getRequest().params);
+      expect(value).toEqual($ctx.getRequest().params);
     });
     it("should return QUERY", async () => {
       // GIVEN
@@ -207,7 +206,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.getRequest().query);
+      expect(value).toEqual($ctx.getRequest().query);
     });
     it("should return HEADER", async () => {
       // GIVEN
@@ -224,7 +223,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq({
+      expect(value).toEqual({
         accept: "application/json",
         "content-type": "application/json"
       });
@@ -241,7 +240,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.getRequest().cookies);
+      expect(value).toEqual($ctx.getRequest().cookies);
     });
     it("should return SESSION", async () => {
       // GIVEN
@@ -255,7 +254,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.request.session);
+      expect(value).toEqual($ctx.request.session);
     });
     it("should return LOCALS", async () => {
       // GIVEN
@@ -270,7 +269,7 @@ describe("PlatformParams", () => {
       const value = await platformParams.getArg(h, pipes, param);
 
       // THEN
-      expect(value).to.deep.eq($ctx.getResponse().locals);
+      expect(value).toEqual($ctx.getResponse().locals);
     });
   });
   describe("compileHandler()", () => {
@@ -306,7 +305,7 @@ describe("PlatformParams", () => {
         $ctx
       });
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         query: {
           test: "test"
         },
@@ -349,7 +348,7 @@ describe("PlatformParams", () => {
         $ctx
       });
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         query: {
           test: "test"
         },
@@ -390,7 +389,7 @@ describe("PlatformParams", () => {
         $ctx
       });
 
-      expect(result).to.deep.eq("test");
+      expect(result).toEqual("test");
     });
     it("should with default args", async () => {
       const platformParams = await invokePlatformParams();
@@ -427,7 +426,7 @@ describe("PlatformParams", () => {
         $ctx
       });
 
-      expect(result).to.deep.eq({
+      expect(result).toEqual({
         params: {
           s: "s"
         },

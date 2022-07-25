@@ -1,5 +1,4 @@
 import {PlatformTest} from "@tsed/common";
-import {createSandbox} from "sinon";
 import {PlatformRequest} from "./PlatformRequest";
 
 function createRequest() {
@@ -8,19 +7,24 @@ function createRequest() {
   return {req: $ctx.request.request, request: $ctx.request};
 }
 
-const sandbox = createSandbox();
 describe("PlatformRequest", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
+
   it("should create a PlatformRequest instance", () => {
     const request = PlatformTest.createRequest();
+    const response = PlatformTest.createResponse();
     const $ctx = PlatformTest.createRequestContext({
       event: {
-        request
+        request,
+        response
       }
     });
 
     expect($ctx.request.raw).toEqual(request);
+    expect($ctx.request.response).toEqual($ctx.response);
+    expect($ctx.request.headers).toEqual({});
+    expect($ctx.request.method).toEqual("GET");
   });
 
   describe("secure()", () => {
@@ -36,6 +40,16 @@ describe("PlatformRequest", () => {
 
       $ctx.request.request.secure = true;
       expect($ctx.request.secure).toEqual(true);
+    });
+  });
+
+  describe("route()", () => {
+    it("should return route", () => {
+      const $ctx = PlatformTest.createRequestContext();
+      $ctx.endpoint = new Map() as any;
+      $ctx.endpoint.set("route", "/id");
+
+      expect($ctx.request.route).toEqual("/id");
     });
   });
 
