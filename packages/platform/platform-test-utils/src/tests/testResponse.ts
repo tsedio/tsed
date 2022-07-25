@@ -1,5 +1,27 @@
-import {Context, Controller, Get, getContext, Next, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
-import {CollectionOf, ContentType, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
+import {
+  Context,
+  Controller,
+  Get,
+  getContext,
+  PathParams,
+  PlatformResponse,
+  PlatformTest,
+  Post,
+  Res
+} from "@tsed/common";
+import {
+  CollectionOf,
+  ContentType,
+  Enum,
+  ForwardGroups,
+  Groups,
+  Ignore,
+  Name,
+  Property,
+  Required,
+  Returns,
+  Status
+} from "@tsed/schema";
 import axios from "axios";
 import {createReadStream} from "fs";
 import {join} from "path";
@@ -89,26 +111,8 @@ class AllowedModel {
 @Controller("/response")
 class TestResponseParamsCtrl {
   @Get("/scenario1/:id")
-  public testScenario1Assert(@PathParams("id") id: number, @Context() ctx: Context) {
-    ctx.set("test", "value");
-  }
-
-  @Get("/scenario1/:id")
-  public testScenario1Get(@PathParams("id") id: number, @Context() ctx: Context) {
-    return id + ctx.get("test");
-  }
-
-  @Get("/scenario2/:id")
-  public testScenario2Assert(@PathParams("id") id: number, @Next() next: Next, @Context() ctx: Context) {
-    setTimeout(() => {
-      ctx.set("test", "value");
-      next();
-    }, 100);
-  }
-
-  @Get("/scenario2/:id")
-  public testScenario2Get(@PathParams("id") id: number, @Context() ctx: Context) {
-    return id + ctx.get("test");
+  public testScenario1Get(@PathParams("id") id: number) {
+    return `hello-${id}`;
   }
 
   @Post("/scenario3/:id?")
@@ -138,12 +142,12 @@ class TestResponseParamsCtrl {
 
   @Get("/scenario6")
   testScenario6Observable() {
-    return of({id: 1});
+    return of({ id: 1 });
   }
 
   @Get("/scenario6b")
   async testScenario6bObservable() {
-    return of({id: 1});
+    return of({ id: 1 });
   }
 
   @Get("/scenario7")
@@ -278,7 +282,7 @@ class TestResponseParamsCtrl {
   async testScenario20() {
     const $ctx = getContext();
 
-    return {id: $ctx?.request.query.id};
+    return { id: $ctx?.request.query.id };
   }
 }
 
@@ -298,22 +302,12 @@ export function testResponse(options: PlatformTestOptions) {
   });
   afterAll(PlatformTest.reset);
 
-  describe("Scenario1: when multiple endpoint for the same path (classic)", () => {
+  describe("Scenario1: return the id (classic)", () => {
     describe("GET /rest/response/scenario1/:id", () => {
       it("should return the id + test", async () => {
         const response = await request.get("/rest/response/scenario1/10").expect(200);
 
-        expect(response.text).toEqual("10value");
-      });
-    });
-  });
-
-  describe("Scenario2: when multiple endpoint for the same path (with next)", () => {
-    describe("GET /rest/response/scenario1/:id", () => {
-      it("should return the id + test", async () => {
-        const response = await request.get("/rest/response/scenario2/10").expect(200);
-
-        expect(response.text).toEqual("10value");
+        expect(response.text).toEqual("hello-10");
       });
     });
   });
@@ -329,7 +323,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.post("/rest/response/scenario3").expect(201);
 
-        expect(response.body).toEqual({id: 1});
+        expect(response.body).toEqual({ id: 1 });
       });
     });
   });
@@ -339,7 +333,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.get("/rest/response/scenario5");
 
-        expect(response.body).toEqual({id: 1});
+        expect(response.body).toEqual({ id: 1 });
       });
     });
   });
@@ -349,7 +343,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.get("/rest/response/scenario6");
 
-        expect(response.body).toEqual({id: 1});
+        expect(response.body).toEqual({ id: 1 });
       });
     });
 
@@ -357,7 +351,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.get("/rest/response/scenario6b");
 
-        expect(response.body).toEqual({id: 1});
+        expect(response.body).toEqual({ id: 1 });
       });
     });
   });
@@ -367,7 +361,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.get("/rest/response/scenario7");
 
-        expect(response.body).toEqual({id: "1"});
+        expect(response.body).toEqual({ id: "1" });
       });
     });
 
@@ -375,7 +369,7 @@ export function testResponse(options: PlatformTestOptions) {
       it("should return a body", async () => {
         const response = await request.get("/rest/response/scenario7b");
 
-        expect(response.body).toEqual({id: "1"});
+        expect(response.body).toEqual({ id: "1" });
       });
     });
   });
@@ -415,7 +409,7 @@ export function testResponse(options: PlatformTestOptions) {
               schemaPath: "#/type"
             }
           ],
-          message: 'Bad request on parameter "request.path.id".\nValue must be number. Given value: "kkk"',
+          message: "Bad request on parameter \"request.path.id\".\nValue must be number. Given value: \"kkk\"",
           name: "AJV_VALIDATION_ERROR",
           status: 400
         });
@@ -449,7 +443,7 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return a body", async () => {
       const response = await request.get("/rest/response/scenario12");
 
-      expect(response.headers["content-disposition"]).toEqual('attachment; filename="filename"');
+      expect(response.headers["content-disposition"]).toEqual("attachment; filename=\"filename\"");
       expect(response.headers["content-type"]).toContain("application/octet-stream");
       expect(response.headers["content-length"]).toEqual("5");
       expect(response.body.toString()).toEqual("Hello");
@@ -498,7 +492,7 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return the response (200)", async () => {
       const response = await request.get("/rest/response/scenario16").expect(200);
 
-      expect(response.body).toEqual({nested: {value: "one"}});
+      expect(response.body).toEqual({ nested: { value: "one" } });
     });
   });
 
@@ -506,7 +500,7 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return the response (200)", async () => {
       const response = await request.get("/rest/response/scenario17").expect(201);
 
-      expect(response.body).toEqual({id: "id"});
+      expect(response.body).toEqual({ id: "id" });
     });
   });
 
@@ -580,7 +574,7 @@ export function testResponse(options: PlatformTestOptions) {
     it("should return the response (200)", async () => {
       const response = await request.get("/rest/response/scenario20?id=id").expect(200);
 
-      expect(response.body).toEqual({id: "id"});
+      expect(response.body).toEqual({ id: "id" });
     });
   });
 }

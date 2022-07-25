@@ -133,6 +133,10 @@ describe("PlatformConfiguration", () => {
       expect(settings.env).toEqual("test");
     });
 
+    it("should return additionalProperties", () => {
+      expect(settings.additionalProperties).toEqual(false);
+    });
+
     it("should return version", () => {
       expect(settings.version).toEqual("1.0.0");
     });

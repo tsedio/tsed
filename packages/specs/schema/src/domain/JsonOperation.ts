@@ -14,7 +14,6 @@ import {JsonSchema} from "./JsonSchema";
 export interface JsonMethodPath {
   path: string | RegExp;
   method: string;
-  isFinal?: boolean;
 
   [key: string]: any;
 }

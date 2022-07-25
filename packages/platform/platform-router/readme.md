@@ -96,6 +96,7 @@ class MyController {
 }
 
 const injector = new InjectorService();
+
 const expressApp = express();
 
 injector.addProvider(MyController);
@@ -107,24 +108,24 @@ appRouter.use("/rest", MyController);
 
 // transform handlerMetadata to a compatible handler for the targeted framework (Express.js, Koa.js, etc...)
 PlatformRouter.hooks.on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
-  const handler = handlerMetadata.compileHandler(injector);
+  if (!handlerMetadata.isInjectable()) {
+    return handlerMetadata.handler;
+  }
+
+  const handler = this.platformParams.compileHandler(handlerMetadata);
 
   switch (handlerMetadata.type) {
-    default:
-    case PlatformHandlerType.RAW_FN: // native express.js/koa.js handler
-      return handler;
-    case PlatformHandlerType.MIDDLEWARE:
+    case PlatformHandlerType.DEFAULT:
     case PlatformHandlerType.ENDPOINT:
+    case PlatformHandlerType.MIDDLEWARE:
+      const handler = platformParams.compileHandler(handlerMetadata);
+
       return (req, res, next) => {
-        return next();
+        return handler({$ctx: {next, request: req, response: res}});
       };
     case PlatformHandlerType.ERR_MIDDLEWARE:
       return (error: unknown, req, res, next) => {
-        return next();
-      };
-    case PlatformHandlerType.CUSTOM:
-      return (req, res, next) => {
-        return next();
+        return handler({$ctx: {error, next, request: req, response: res}});
       };
   }
 });

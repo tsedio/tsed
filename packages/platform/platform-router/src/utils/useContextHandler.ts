@@ -13,3 +13,9 @@ export function useContextHandler(fn: PlatformContextHandler & {type?: PlatformH
 
   return fn;
 }
+
+export function useResponseHandler(fn: PlatformContextHandler & {type?: PlatformHandlerType}) {
+  fn.type = PlatformHandlerType.RESPONSE_FN;
+
+  return fn;
+}

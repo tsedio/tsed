@@ -35,11 +35,17 @@ export class PlatformParams {
    */
   compileHandler<Context extends DIContext = DIContext>({
     propertyKey,
-    token
+    token,
+    handler
   }: {
-    propertyKey: string | symbol;
-    token: any;
+    propertyKey?: string | symbol;
+    token?: any;
+    handler?: any;
   }): PlatformParamsCallback<Context> {
+    if (!token || !propertyKey) {
+      return (scope: PlatformParamsScope) => handler(scope.$ctx);
+    }
+
     const store = JsonMethodStore.fromMethod(token, propertyKey);
     const getArguments = this.compile<Context>(store);
     const provider = this.injector.getProvider(token)!;

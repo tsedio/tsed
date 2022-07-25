@@ -32,10 +32,6 @@ export class JsonOperationRoute<Entity extends JsonMethodStore = JsonMethodStore
     return this.operationPath?.method || "USE";
   }
 
-  get isFinal() {
-    return !!this.operationPath?.isFinal;
-  }
-
   get name() {
     return `${this.endpoint.targetName}.${this.methodClassName}()`;
   }

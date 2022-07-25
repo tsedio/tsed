@@ -24,7 +24,6 @@ describe("JsonOperationRoute", () => {
     expect(operationRoute.path).toEqual("/");
     expect(operationRoute.fullPath).toEqual("/base");
     expect(operationRoute.url).toEqual("/base");
-    expect(operationRoute.isFinal).toEqual(false);
     expect(operationRoute.name).toEqual("Test.get()");
     expect(operationRoute.className).toEqual("Test");
     expect(operationRoute.methodClassName).toEqual("get");
@@ -58,7 +57,6 @@ describe("JsonOperationRoute", () => {
     expect(operationRoute.path).toEqual("/");
     expect(operationRoute.fullPath).toEqual("/base");
     expect(operationRoute.url).toEqual("/base");
-    expect(operationRoute.isFinal).toEqual(false);
     expect(operationRoute.name).toEqual("Test.get()");
     expect(operationRoute.className).toEqual("Test");
     expect(operationRoute.methodClassName).toEqual("get");
@@ -91,7 +89,6 @@ describe("JsonOperationRoute", () => {
     expect(operationRoute.path).toEqual("/");
     expect(operationRoute.fullPath).toEqual("/base");
     expect(operationRoute.url).toEqual("/base");
-    expect(operationRoute.isFinal).toEqual(false);
     expect(operationRoute.name).toEqual("Test.get()");
     expect(operationRoute.className).toEqual("Test");
     expect(operationRoute.methodClassName).toEqual("get");

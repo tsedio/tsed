@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformHandlerMetadata, PlatformParamsScope, PlatformTest} from "@tsed/common";
 import {Controller, DIContext, InjectorService} from "@tsed/di";
 import {UseBefore} from "@tsed/platform-middlewares";
 import {Context, PlatformParams} from "@tsed/platform-params";
@@ -23,6 +23,16 @@ function createAppRouterFixture() {
   const appRouter = injector.invoke<PlatformRouter>(PlatformRouter);
 
   injector.addProvider(MyController, {});
+
+  platformRouters.hooks.on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
+    if (handlerMetadata.isRawMiddleware() || handlerMetadata.isResponseFn()) {
+      return handlerMetadata.handler;
+    }
+
+    return handlerMetadata.isCtxFn()
+      ? (scope: PlatformParamsScope) => handlerMetadata.handler(scope.$ctx)
+      : platformParams.compileHandler(handlerMetadata);
+  });
 
   return {injector, appRouter, platformRouters, platformParams};
 }

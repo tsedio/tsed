@@ -1,13 +1,12 @@
 import {isPrimitive, nameOf, Type} from "@tsed/core";
 import {Provider} from "@tsed/di";
-import {PlatformParamsCallback} from "@tsed/platform-params";
+import type {PlatformParamsCallback} from "@tsed/platform-params";
 import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata";
 import type {PlatformRouter} from "./PlatformRouter";
 import {SinglePathType} from "./SinglePathType";
 
 export interface PlatformLayerOptions extends Record<string, any> {
   token?: Type<any>;
-  isFinal?: boolean;
 }
 
 export interface PlatformLayerProps {
