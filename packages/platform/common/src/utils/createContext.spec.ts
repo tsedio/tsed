@@ -42,14 +42,12 @@ describe("createContext", () => {
     const response = PlatformTest.createResponse();
     response.req = request;
 
-    jest.spyOn(PlatformResponse.prototype, "setHeader");
-
     // WHEN
     const invoke = createContext(injector);
     const ctx = await invoke({request, response});
 
     // THEN
-    expect(ctx.response.setHeader).toBeCalledWith("x-request-id", expect.any(String));
+    expect(ctx.response.raw.headers["x-request-id"]).toBeDefined();
   });
 
   it("should use an existing x-request-id request header for the response x-request-id header", async () => {
@@ -71,6 +69,6 @@ describe("createContext", () => {
     const ctx = await invoke({request, response});
 
     // THEN
-    expect(ctx.response.setHeader).toBeCalledWith("x-request-id", "test-id");
+    expect(ctx.response.raw.headers["x-request-id"]).toEqual("test-id");
   });
 });

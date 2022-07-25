@@ -1,22 +1,12 @@
 import {AnyPromiseResult, AnyToPromise} from "@tsed/core";
 import {PlatformContext} from "./PlatformContext";
 
-/**
- * @ignore
- */
-export interface HandlerContextOptions {
-  $ctx: PlatformContext;
-  err?: any;
-}
-
 export class AnyToPromiseWithCtx extends AnyToPromise {
   public $ctx: PlatformContext;
-  public err: unknown;
 
-  constructor({$ctx, err}: HandlerContextOptions) {
+  constructor($ctx: PlatformContext) {
     super();
     this.$ctx = $ctx;
-    this.err = err;
   }
 
   isDone(): boolean {
@@ -30,7 +20,7 @@ export class AnyToPromiseWithCtx extends AnyToPromise {
   }
 
   destroy() {
-    this.$ctx = null as any;
+    (this.$ctx as any) = null;
   }
 
   isCanceledResponse(process: any) {

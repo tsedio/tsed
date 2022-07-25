@@ -1,9 +1,11 @@
 import {ProviderOpts} from "@tsed/di";
-import {PlatformAdapter} from "./PlatformAdapter";
+import {PlatformContextHandler, PlatformLayer} from "@tsed/platform-router";
 import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings";
+import {PlatformContext} from "../domain/PlatformContext";
+import {PlatformAdapter} from "./PlatformAdapter";
 
-export class FakeAdapter implements PlatformAdapter<any, any> {
+export class FakeAdapter implements PlatformAdapter<any> {
   providers: ProviderOpts[] = [];
 
   static createFakeRawDriver() {
@@ -59,4 +61,12 @@ export class FakeAdapter implements PlatformAdapter<any, any> {
   bodyParser(type: string): any {
     return () => {};
   }
+
+  mapLayers(layers: PlatformLayer[]) {}
+
+  mapHandler(handler: PlatformContextHandler<PlatformContext>) {
+    return handler;
+  }
+
+  useContext() {}
 }

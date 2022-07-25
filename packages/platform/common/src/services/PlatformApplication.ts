@@ -1,6 +1,8 @@
-import {Injectable, ProviderScope} from "@tsed/di";
-import {PlatformHandler} from "./PlatformHandler";
-import {PlatformRouter} from "./PlatformRouter";
+import {Injectable, InjectorService, ProviderScope} from "@tsed/di";
+import {PlatformRouter} from "@tsed/platform-router";
+import {IncomingMessage, ServerResponse} from "http";
+import {PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
+import {createContext} from "../utils/createContext";
 import {PlatformAdapter} from "./PlatformAdapter";
 
 declare global {
@@ -18,20 +20,39 @@ declare global {
 @Injectable({
   scope: ProviderScope.SINGLETON
 })
-export class PlatformApplication<App = TsED.Application, Router = TsED.Router> extends PlatformRouter<App, Router> {
-  raw: App;
+export class PlatformApplication<App = TsED.Application> extends PlatformRouter {
   rawApp: App;
-  declare rawRouter: Router;
+  rawCallback: () => any;
 
-  constructor(platformHandler: PlatformHandler, adapter: PlatformAdapter<App, Router>) {
-    super(platformHandler, adapter);
+  constructor(public adapter: PlatformAdapter<App>, public injector: InjectorService) {
+    super(injector);
     const {app, callback} = adapter.app();
 
-    this.rawApp = this.raw = app;
-    this.callback = callback;
+    this.rawApp = app;
+    this.rawCallback = callback;
   }
 
   getApp(): App {
-    return this.raw;
+    return this.rawApp;
+  }
+
+  multer(options: PlatformMulterSettings) {
+    return this.adapter.multipart(options);
+  }
+
+  callback(): (req: IncomingMessage, res: ServerResponse) => any;
+  callback(req: IncomingMessage, res: ServerResponse): any;
+  callback(req?: IncomingMessage, res?: ServerResponse) {
+    if (req && res) {
+      return this.callback()(req, res);
+    }
+
+    const invoke = createContext(this.injector);
+
+    return (req: IncomingMessage, res: ServerResponse) => {
+      const cb = this.rawCallback();
+
+      return invoke({request: req, response: res}).then(($ctx) => $ctx.runInContext(() => cb(req, res)));
+    };
   }
 }

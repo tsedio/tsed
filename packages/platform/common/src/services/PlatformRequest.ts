@@ -8,10 +8,6 @@ declare global {
     // @ts-ignore
     export interface Request {
       id: string;
-      /**
-       * @deprecated
-       */
-      $ctx: PlatformContext;
     }
   }
 }
@@ -115,7 +111,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
   }
 
   get route() {
-    return this.$ctx.endpoint?.get("route");
+    return this.$ctx.handlerMetadata?.path;
   }
 
   /**
@@ -178,6 +174,6 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
    * Return the Node.js response object
    */
   getReq(): IncomingMessage {
-    return this.raw as any;
+    return this.$ctx.event.request;
   }
 }

@@ -17,103 +17,153 @@ import {FakeAdapter} from "../services/FakeAdapter";
 import {Platform} from "../services/Platform";
 import {PlatformBuilder} from "./PlatformBuilder";
 
+@Controller("/")
+class RestCtrl {}
+
+class PlatformCustom extends FakeAdapter {
+  readonly providers = [
+    {
+      provide: class Test {}
+    }
+  ];
+
+  constructor(private platform: PlatformBuilder) {
+    super();
+  }
+
+  static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+    return PlatformBuilder.create<any>(module, {
+      ...settings,
+      adapter: PlatformCustom
+    });
+  }
+
+  static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+    return PlatformBuilder.build(module, {
+      ...settings,
+      adapter: PlatformCustom
+    }).bootstrap();
+  }
+
+  afterLoadRoutes(): Promise<any> {
+    return Promise.resolve(undefined);
+  }
+
+  beforeLoadRoutes(): Promise<any> {
+    return Promise.resolve(undefined);
+  }
+
+  useContext(): any {}
+
+  useRouter(): any {}
+}
+
+@Controller("/")
+class HealthCtrl {}
+
+@Module({
+  mount: {
+    "/heath": [HealthCtrl]
+  }
+})
+class HealthModule {}
+
+const settings = {
+  logger: {
+    level: "off"
+  },
+  mount: {
+    "/rest": [RestCtrl]
+  },
+  acceptMimes: ["application/json"],
+  imports: [HealthModule]
+};
+
+@Configuration(settings as any)
+class ServerModule implements BeforeInit, AfterInit, BeforeRoutesInit, AfterRoutesInit, BeforeListen, AfterListen, OnReady {
+  constructor() {}
+
+  $beforeRoutesInit(): void | Promise<any> {
+    return undefined;
+  }
+
+  $afterRoutesInit(): void | Promise<any> {
+    return undefined;
+  }
+
+  $afterInit(): void | Promise<any> {
+    return undefined;
+  }
+
+  $afterListen(): void | Promise<any> {
+    return undefined;
+  }
+
+  $beforeInit(): void | Promise<any> {
+    return undefined;
+  }
+
+  $beforeListen(): void | Promise<any> {
+    return undefined;
+  }
+
+  $onReady(): void | Promise<any> {
+    return undefined;
+  }
+}
+
 describe("PlatformBuilder", () => {
-  @Controller("/")
-  class RestCtrl {}
-
-  class PlatformCustom extends FakeAdapter {
-    readonly providers = [
-      {
-        provide: class Test {}
-      }
-    ];
-
-    constructor(private platform: PlatformBuilder) {
-      super();
-    }
-
-    static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-      return PlatformBuilder.create<any, any>(module, {
-        ...settings,
-        adapter: PlatformCustom
+  describe("loadStatics()", () => {
+    it("should loadStatics", async () => {
+      // WHEN
+      const platform = await PlatformCustom.bootstrap(ServerModule, {
+        httpPort: false,
+        httpsPort: false,
+        statics: {
+          "/": ["/root", {root: "/root2", test: "test", hook: "$beforeRoutesInit"}]
+        }
       });
-    }
 
-    static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-      return PlatformBuilder.build(module, {
-        ...settings,
-        adapter: PlatformCustom
-      }).bootstrap();
-    }
+      jest.spyOn(platform.app, "statics").mockReturnValue(undefined as any);
 
-    afterLoadRoutes(): Promise<any> {
-      return Promise.resolve(undefined);
-    }
+      await platform.loadStatics("$beforeRoutesInit");
 
-    beforeLoadRoutes(): Promise<any> {
-      return Promise.resolve(undefined);
-    }
+      expect(platform.app.statics).toHaveBeenCalledWith("/", {
+        hook: "$beforeRoutesInit",
+        root: "/root2",
+        test: "test"
+      });
+    });
+  });
+  describe("loadMiddlewaresFor()", () => {
+    it("should load middlewares", async () => {
+      const middlewares: any[] = [
+        {
+          hook: "$beforeRoutesInit",
+          use: jest.fn()
+        },
+        {
+          hook: "$afterRoutesInit",
+          use: jest.fn()
+        },
+        jest.fn()
+      ];
+      // WHEN
+      const platform = await PlatformCustom.bootstrap(ServerModule, {
+        httpPort: false,
+        httpsPort: false,
+        middlewares
+      });
 
-    useContext(): any {}
+      jest.spyOn(platform.app, "use").mockReturnValue(undefined as any);
 
-    useRouter(): any {}
-  }
+      // @ts-ignore
+      platform.loadMiddlewaresFor("$beforeRoutesInit");
 
-  @Controller("/")
-  class HealthCtrl {}
-
-  @Module({
-    mount: {
-      "/heath": [HealthCtrl]
-    }
-  })
-  class HealthModule {}
-
-  const settings = {
-    logger: {
-      level: "off"
-    },
-    mount: {
-      "/rest": [RestCtrl]
-    },
-    acceptMimes: ["application/json"],
-    imports: [HealthModule]
-  };
-
-  @Configuration(settings as any)
-  class ServerModule implements BeforeInit, AfterInit, BeforeRoutesInit, AfterRoutesInit, BeforeListen, AfterListen, OnReady {
-    constructor() {}
-
-    $beforeRoutesInit(): void | Promise<any> {
-      return undefined;
-    }
-
-    $afterRoutesInit(): void | Promise<any> {
-      console.log("$afterRoutesInit");
-      return undefined;
-    }
-
-    $afterInit(): void | Promise<any> {
-      return undefined;
-    }
-
-    $afterListen(): void | Promise<any> {
-      return undefined;
-    }
-
-    $beforeInit(): void | Promise<any> {
-      return undefined;
-    }
-
-    $beforeListen(): void | Promise<any> {
-      return undefined;
-    }
-
-    $onReady(): void | Promise<any> {
-      return undefined;
-    }
-  }
-
+      expect(platform.app.use).toHaveBeenCalledWith(middlewares[0].use);
+      expect(platform.app.use).toHaveBeenCalledWith(middlewares[2]);
+    });
+  });
   describe("static boostrap()", () => {
     beforeAll(() => {
       jest.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
@@ -123,7 +173,7 @@ describe("PlatformBuilder", () => {
       jest.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
       jest.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
       jest.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
-      jest.spyOn(PlatformBuilder.prototype, "loadStatics").mockResolvedValue(undefined);
+      jest.spyOn(PlatformBuilder.prototype, "loadStatics");
       // @ts-ignore
       jest.spyOn(PlatformBuilder.prototype, "listenServers");
       jest.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
@@ -146,7 +196,7 @@ describe("PlatformBuilder", () => {
       jest.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
       jest.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
       jest.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
-      jest.spyOn(PlatformBuilder.prototype, "loadStatics").mockResolvedValue(undefined);
+      jest.spyOn(PlatformBuilder.prototype, "loadStatics");
       // @ts-ignore
       jest.spyOn(PlatformBuilder.prototype, "listenServers");
       jest.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
@@ -196,19 +246,30 @@ describe("PlatformBuilder", () => {
       expect(server.injector.emit).toBeCalledWith("$onDestroy");
     });
   });
-  describe("callback()", () => {
-    it("should return the callback", async () => {
-      // WHEN
-      const server = await PlatformCustom.bootstrap(ServerModule, {
-        httpPort: false,
-        httpsPort: false
+  describe("adapter()", () => {
+    beforeAll(() => {
+      jest.spyOn(ServerModule.prototype, "$beforeRoutesInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$afterRoutesInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$afterInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$afterListen").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$beforeInit").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$beforeListen").mockReturnValue(undefined);
+      jest.spyOn(ServerModule.prototype, "$onReady").mockReturnValue(undefined);
+      jest.spyOn(PlatformBuilder.prototype, "loadStatics").mockResolvedValue(undefined);
+      // @ts-ignore
+      jest.spyOn(PlatformBuilder.prototype, "listenServers");
+      jest.spyOn(InjectorService.prototype, "emit").mockResolvedValue(undefined);
+      jest.spyOn(Platform.prototype, "addRoutes").mockReturnValue(undefined);
+    });
+    it("should boostrap a custom platform", async () => {
+      const platformBuilder = await PlatformBuilder.bootstrap(ServerModule, {
+        adapter: FakeAdapter
       });
 
-      expect(server.callback()).toEqual(server.app.raw);
-
-      server.callback({} as any, {} as any);
+      expect(platformBuilder.adapter).toBeInstanceOf(FakeAdapter);
     });
   });
+
   describe("useProvider()", () => {
     it("should add provider", async () => {
       // WHEN

@@ -152,14 +152,14 @@ export class PlatformServerlessTest extends DITest {
   static request = LambdaClientRequest;
 
   static bootstrap(
-    serverless: {bootstrap: (server: Type<any>, settings: PlatformBuilderSettings<any, any>) => PlatformBuilder},
-    {server, ...settings}: PlatformBuilderSettings<any, any> & {server: Type<any>}
+    serverless: {bootstrap: (server: Type<any>, settings: PlatformBuilderSettings<any>) => PlatformBuilder},
+    {server, ...settings}: PlatformBuilderSettings<any> & {server: Type<any>}
   ): () => Promise<any>;
   static bootstrap(
     serverless: {bootstrap: (settings: Partial<TsED.Configuration> & {lambda?: Type[]}) => any},
-    {server, ...settings}: PlatformBuilderSettings<any, any>
+    {server, ...settings}: PlatformBuilderSettings<any>
   ): () => Promise<any>;
-  static bootstrap(serverless: any, {server, ...settings}: PlatformBuilderSettings<any, any>) {
+  static bootstrap(serverless: any, {server, ...settings}: PlatformBuilderSettings<any>) {
     return async function before(): Promise<void> {
       settings = DITest.configure(settings);
 

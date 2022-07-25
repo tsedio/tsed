@@ -21,6 +21,7 @@ import {RouterSettings} from "./routerSettings";
  * @returns {Function}
  * @decorator
  * @express
+ * @deprecated
  */
 export function MergeParams(mergeParams: boolean = true) {
   return RouterSettings({mergeParams});

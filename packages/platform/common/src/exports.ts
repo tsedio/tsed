@@ -9,6 +9,7 @@ export * from "@tsed/platform-cache";
 export * from "@tsed/platform-middlewares";
 export * from "@tsed/components-scan";
 export * from "@tsed/platform-log-middleware";
+export * from "@tsed/platform-router";
 
 export {$log, Logger} from "@tsed/logger";
 

@@ -8,21 +8,22 @@ export function printRoutes(routes: PlatformRouteDetails[]) {
     PUT: "blue",
     DELETE: "red",
     PATCH: "magenta",
-    ALL: "cyan"
+    ALL: "cyan",
+    STATICS: "white"
   };
 
   const list = routes.map((route) => {
-    const obj = route.toJSON();
-    const method = obj.method.toUpperCase();
+    const method = route.method.toUpperCase();
 
-    obj.method = {
-      length: method.length,
-      toString: () => {
-        return colorize(method, mapColor[method]);
+    return {
+      ...route,
+      method: {
+        length: method.length,
+        toString: () => {
+          return colorize(method, mapColor[method]);
+        }
       }
-    } as any;
-
-    return obj;
+    };
   });
 
   const str = $log.drawTable(list, {

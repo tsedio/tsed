@@ -1,9 +1,11 @@
 import {nameOf, Type} from "@tsed/core";
 import {colors, InjectorService, ProviderOpts, setLoggerConfiguration, TokenProvider} from "@tsed/di";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
+import {PlatformLayer} from "@tsed/platform-router";
 import type {IncomingMessage, Server, ServerResponse} from "http";
 import type Https from "https";
 import {PlatformStaticsSettings} from "../config/interfaces/PlatformStaticsSettings";
+import {PlatformRouteDetails} from "../domain/PlatformRouteDetails";
 import {Route} from "../interfaces/Route";
 import {Platform} from "../services/Platform";
 import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter";
@@ -18,24 +20,24 @@ import {printRoutes} from "../utils/printRoutes";
 /**
  * @platform
  */
-export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
-  public static adapter: Type<PlatformAdapter<any, any>>;
+export class PlatformBuilder<App = TsED.Application> {
+  public static adapter: Type<PlatformAdapter<any>>;
 
   readonly name: string = "";
   protected startedAt = new Date();
   protected current = new Date();
   readonly #injector: InjectorService;
   readonly #rootModule: Type<any>;
-  readonly #adapter: PlatformAdapter<App, Router>;
+  readonly #adapter: PlatformAdapter<App>;
   #promise: Promise<this>;
   #servers: (() => Promise<Server | Https.Server>)[];
   #listeners: (Server | Https.Server)[] = [];
 
-  protected constructor(adapter: Type<PlatformAdapter<App, Router>> | undefined, module: Type, settings: Partial<TsED.Configuration>) {
+  protected constructor(adapter: Type<PlatformAdapter<App>> | undefined, module: Type, settings: Partial<TsED.Configuration>) {
     this.#rootModule = module;
 
     const configuration = getConfiguration(settings, module);
-    const adapterKlass: Type<PlatformAdapter<App, Router>> = adapter || (PlatformBuilder.adapter as any);
+    const adapterKlass: Type<PlatformAdapter<App>> = adapter || (PlatformBuilder.adapter as any);
     const name = nameOf(adapterKlass).replace("Platform", "").toLowerCase();
 
     configuration.PLATFORM_NAME = name;
@@ -46,7 +48,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
       settings: configuration
     });
 
-    this.#adapter = this.#injector.get<PlatformAdapter<App, Router>>(PlatformAdapter)!;
+    this.#adapter = this.#injector.get<PlatformAdapter<App>>(PlatformAdapter)!;
 
     this.createHttpServers();
 
@@ -63,8 +65,8 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     return this.#injector.get(this.#rootModule);
   }
 
-  get app(): PlatformApplication<App, Router> {
-    return this.injector.get<PlatformApplication<App, Router>>(PlatformApplication)!;
+  get app(): PlatformApplication<App> {
+    return this.injector.get<PlatformApplication<App>>(PlatformApplication)!;
   }
 
   get platform() {
@@ -108,7 +110,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     return this.settings.get("logger.disableBootstrapLog");
   }
 
-  static create<App = TsED.Application, Router = TsED.Router>(module: Type<any>, settings: PlatformBuilderSettings<App, Router>) {
+  static create<App = TsED.Application>(module: Type<any>, settings: PlatformBuilderSettings<App>) {
     return this.build(module, {
       httpsPort: false,
       httpPort: false,
@@ -116,10 +118,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     });
   }
 
-  static build<App = TsED.Application, Router = TsED.Router>(
-    module: Type<any>,
-    {adapter, ...settings}: PlatformBuilderSettings<App, Router>
-  ) {
+  static build<App = TsED.Application>(module: Type<any>, {adapter, ...settings}: PlatformBuilderSettings<App>) {
     return new PlatformBuilder(adapter, module, settings);
   }
 
@@ -128,18 +127,14 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
    * @param module
    * @param settings
    */
-  static async bootstrap<App = TsED.Application, Router = TsED.Router>(module: Type<any>, settings: PlatformBuilderSettings<App, Router>) {
-    return this.build<App, Router>(module, settings).bootstrap();
+  static async bootstrap<App = TsED.Application>(module: Type<any>, settings: PlatformBuilderSettings<App>) {
+    return this.build<App>(module, settings).bootstrap();
   }
 
-  callback(): (req: IncomingMessage, res: ServerResponse) => void;
-  callback(req: IncomingMessage, res: ServerResponse): void;
+  callback(): (req: IncomingMessage, res: ServerResponse) => any;
+  callback(req: IncomingMessage, res: ServerResponse): any;
   callback(req?: IncomingMessage, res?: ServerResponse) {
-    if (req && res) {
-      return this.app.callback()(req, res);
-    }
-
-    return this.app.callback();
+    return this.app.callback(req!, res!);
   }
 
   log(...data: any[]) {
@@ -187,11 +182,9 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
 
     await this.loadInjector();
 
-    this.#adapter.useContext && this.#adapter.useContext();
-    this.#adapter.useRouter && this.#adapter.useRouter();
+    this.#adapter.useContext();
 
     await this.loadRoutes();
-    await this.logRoutes();
 
     return this;
   }
@@ -307,6 +300,16 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     await this.callHook("$afterRoutesInit");
 
     this.#adapter.afterLoadRoutes && (await this.#adapter.afterLoadRoutes());
+
+    await this.mapRouters();
+  }
+
+  protected async mapRouters() {
+    const layers = this.platform.getLayers();
+
+    this.#adapter.mapLayers(layers);
+
+    return this.logRoutes(layers.filter((layer) => layer.isProvider()));
   }
 
   protected diff() {
@@ -336,13 +339,23 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
     this.#listeners = await Promise.all(this.#servers.map((cb) => cb && cb()));
   }
 
-  protected async logRoutes() {
-    const {logger, platform} = this;
+  protected async logRoutes(layers: PlatformLayer[]) {
+    const {logger} = this;
 
     this.log("Routes mounted...");
 
     if (!this.settings.get("logger.disableRoutesSummary") && !this.disableBootstrapLog) {
-      logger.info(printRoutes(await this.injector.alterAsync("$logRoutes", platform.getRoutes())));
+      const routes: PlatformRouteDetails[] = layers.map((layer) => {
+        return {
+          url: layer.path,
+          method: layer.method,
+          name: layer.opts.name || `${layer.provider.className}.constructor()`,
+          className: layer.opts.className || layer.provider.className,
+          methodClassName: layer.opts.methodClassName || ""
+        } as PlatformRouteDetails;
+      });
+
+      logger.info(printRoutes(await this.injector.alterAsync("$logRoutes", routes)));
     }
   }
 }

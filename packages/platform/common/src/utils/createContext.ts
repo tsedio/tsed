@@ -1,12 +1,12 @@
 import {InjectorService} from "@tsed/di";
+import {v4} from "uuid";
 import {PlatformContext} from "../domain/PlatformContext";
+import {IncomingEvent} from "../interfaces/IncomingEvent";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
-import {IncomingEvent} from "../interfaces/IncomingEvent";
-import {v4} from "uuid";
 
 function defaultReqIdBuilder(req: any) {
-  return req.get("x-request-id") || v4().split("-").join("");
+  return req.headers["x-request-id"] || v4().split("-").join("");
 }
 
 function mapIgnoreUrlPatterns(ignoreUrlPatterns: any[]) {

@@ -74,13 +74,15 @@ describe("AlterActions", () => {
     const instance = new actions.custom(info as any, ctx.getRequest(), ctx.getResponse());
 
     new Promise((resolve) => {
-      instance.resolve(
-        "handler",
-        "method",
-        ctx.getRequest(),
-        ctx.getResponse(),
-        (err: any, result: any) => resolve(result),
-        "setActionItemMessage" as any
+      ctx.runInContext(() =>
+        instance.resolve(
+          "handler",
+          "method",
+          ctx.getRequest(),
+          ctx.getResponse(),
+          (err: any, result: any) => resolve(result),
+          "setActionItemMessage" as any
+        )
       );
     });
 
@@ -154,13 +156,15 @@ describe("AlterActions", () => {
     const instance = new actions.custom(info as any, ctx.getRequest(), ctx.getResponse());
 
     new Promise((resolve) => {
-      instance.resolve(
-        "handler",
-        "method",
-        ctx.getRequest(),
-        ctx.getResponse(),
-        (err: any, result: any) => resolve(result),
-        "setActionItemMessage" as any
+      ctx.runInContext(() =>
+        instance.resolve(
+          "handler",
+          "method",
+          ctx.getRequest(),
+          ctx.getResponse(),
+          (err: any, result: any) => resolve(result),
+          "setActionItemMessage" as any
+        )
       );
     });
 
@@ -224,13 +228,15 @@ describe("AlterActions", () => {
     const instance = new actions.custom(info as any, ctx.getRequest(), ctx.getResponse());
 
     const result = await new Promise((resolve) => {
-      instance.resolve(
-        "handler",
-        "method",
-        ctx.getRequest(),
-        ctx.getResponse(),
-        (err: any, result: any) => resolve(result),
-        "setActionItemMessage" as any
+      ctx.runInContext(() =>
+        instance.resolve(
+          "handler",
+          "method",
+          ctx.getRequest(),
+          ctx.getResponse(),
+          (err: any, result: any) => resolve(result),
+          "setActionItemMessage" as any
+        )
       );
     });
     expect(result).toEqual(undefined);
@@ -276,15 +282,17 @@ describe("AlterActions", () => {
     const instance = new actions.custom(info as any, ctx.getRequest(), ctx.getResponse());
 
     const result: any = await new Promise((resolve) => {
-      instance.resolve(
-        "handler",
-        "method",
-        ctx.getRequest(),
-        ctx.getResponse(),
-        (err: any, result: any) => {
-          return resolve(err);
-        },
-        "setActionItemMessage" as any
+      ctx.runInContext(() =>
+        instance.resolve(
+          "handler",
+          "method",
+          ctx.getRequest(),
+          ctx.getResponse(),
+          (err: any, result: any) => {
+            return resolve(err);
+          },
+          "setActionItemMessage" as any
+        )
       );
     });
     expect(result.message).toEqual("bad request");
@@ -333,7 +341,7 @@ describe("AlterActions", () => {
     actions = alterActions.transform(actions);
 
     const info: FormioActionInfo = await new Promise((resolve) => {
-      actions.custom.info(ctx.getRequest(), ctx.getResponse(), (err, info) => resolve(info));
+      ctx.runInContext(() => actions.custom.info(ctx.getRequest(), ctx.getResponse(), (err, info) => resolve(info)));
     });
 
     const settings: FormioComponent[] = await new Promise((resolve) => {
@@ -343,13 +351,15 @@ describe("AlterActions", () => {
     const instance = new actions.custom(info as any, ctx.getRequest(), ctx.getResponse());
 
     new Promise((resolve) => {
-      instance.resolve(
-        "handler",
-        "method",
-        ctx.getRequest(),
-        ctx.getResponse(),
-        (err: any, result: any) => resolve(result),
-        "setActionItemMessage" as any
+      ctx.runInContext(() =>
+        instance.resolve(
+          "handler",
+          "method",
+          ctx.getRequest(),
+          ctx.getResponse(),
+          (err: any, result: any) => resolve(result),
+          "setActionItemMessage" as any
+        )
       );
     });
 

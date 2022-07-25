@@ -1,6 +1,5 @@
 import {BodyParams, Controller, Get, PlatformTest, Post} from "@tsed/common";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
-import {getSpec, Returns, SpecTypes} from "@tsed/schema";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";

@@ -1,15 +1,8 @@
-import {PlatformContext} from "../domain/PlatformContext";
-import {HandlerType} from "../interfaces/HandlerType";
-
-export type PlatformCtxHandler = ($ctx: PlatformContext) => any | Promise<any>;
+import {useContextHandler} from "@tsed/platform-router";
 
 /**
  * Create Ts.ED context handler
  * @param fn
- * @ignore
+ * @deprecated Use useContextHandler from "@tsed/platform-router"
  */
-export function useCtxHandler(fn: PlatformCtxHandler & {type?: HandlerType}) {
-  fn.type = HandlerType.CTX_FN;
-
-  return fn;
-}
+export const useCtxHandler = useContextHandler;

@@ -1,13 +1,10 @@
+import {isClass} from "@tsed/core";
 import {Constant, Inject, Injectable} from "@tsed/di";
 import {ParamTypes} from "@tsed/platform-params";
 import {JsonEntityStore, JsonOperationRoute} from "@tsed/schema";
-import {ControllerProvider} from "../domain/ControllerProvider";
-import {bindEndpointMiddleware} from "../middlewares/bindEndpointMiddleware";
 import {PlatformAcceptMimesMiddleware} from "../middlewares/PlatformAcceptMimesMiddleware";
 import {PlatformMulterMiddleware} from "../middlewares/PlatformMulterMiddleware";
-import {useCtxHandler} from "../utils/useCtxHandler";
 import {PlatformAdapter} from "../services/PlatformAdapter";
-import {isClass} from "@tsed/core";
 
 @Injectable()
 export class PlatformMiddlewaresChain {
@@ -17,29 +14,10 @@ export class PlatformMiddlewaresChain {
   @Inject()
   protected adapter: PlatformAdapter;
 
-  get(provider: ControllerProvider, operationRoute: JsonOperationRoute, parentMiddlewares: any[] = []) {
-    const {endpoint} = operationRoute;
-    const {beforeMiddlewares, middlewares: mldwrs, afterMiddlewares} = endpoint;
-
-    const {
-      middlewares: {useBefore, use, useAfter}
-    } = provider;
-
-    const allMiddlewares = [
-      ...parentMiddlewares,
-      ...useBefore,
-      ...beforeMiddlewares,
-      ...use,
-      ...mldwrs,
-      endpoint,
-      ...afterMiddlewares,
-      ...useAfter
-    ];
-
+  get(allMiddlewares: any[], operationRoute: JsonOperationRoute) {
     const {ACCEPT_MIMES, FILE, RAW_BODY, BODY} = this.getParamTypes(allMiddlewares, operationRoute);
 
     return [
-      useCtxHandler(bindEndpointMiddleware(endpoint)),
       ACCEPT_MIMES && PlatformAcceptMimesMiddleware,
       FILE && PlatformMulterMiddleware,
       !FILE && RAW_BODY && this.adapter.bodyParser("raw"),

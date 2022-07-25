@@ -1,5 +1,4 @@
-import {TokenProvider} from "@tsed/di";
-import {ControllerProvider} from "../domain/ControllerProvider";
+import {Provider, TokenProvider} from "@tsed/di";
 
 export interface Route extends Record<string, any> {
   route: string;
@@ -8,5 +7,5 @@ export interface Route extends Record<string, any> {
 
 export interface RouteController {
   route: string;
-  provider: ControllerProvider;
+  provider: Provider;
 }

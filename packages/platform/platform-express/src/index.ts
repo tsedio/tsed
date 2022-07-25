@@ -12,6 +12,3 @@ export * from "./interfaces/PlatformExpressSettings";
 export * from "./interfaces/PlatformExpressStaticsOptions";
 export * from "./interfaces/interfaces";
 export * from "./middlewares/staticsMiddleware";
-export * from "./services/PlatformExpressHandler";
-export * from "./services/PlatformExpressRequest";
-export * from "./services/PlatformExpressResponse";

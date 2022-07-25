@@ -1,10 +1,11 @@
 import KoaRouter, {RouterOptions as KoaRouterOptions} from "@koa/router";
 import {
-  createContext,
+  getContext,
   InjectorService,
   PlatformAdapter,
   PlatformApplication,
   PlatformBuilder,
+  PlatformContext,
   PlatformHandler,
   PlatformMulter,
   PlatformMulterSettings,
@@ -14,6 +15,7 @@ import {
 } from "@tsed/common";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {isFunction, Type} from "@tsed/core";
+import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import Koa, {Context, Next} from "koa";
 import koaBodyParser, {Options} from "koa-bodyparser";
 // @ts-ignore
@@ -32,7 +34,7 @@ declare global {
   }
 
   namespace TsED {
-    export interface Router extends KoaRouter {}
+    // export interface Router extends KoaRouter {}
 
     export interface RouterOptions extends KoaRouterOptions {}
 
@@ -57,7 +59,7 @@ KoaRouter.prototype.match = function match(...args: any[]) {
  * @platform
  * @koa
  */
-export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
+export class PlatformKoa implements PlatformAdapter<Koa> {
   readonly providers = [
     {
       provide: PlatformResponse,
@@ -81,7 +83,7 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
    * @param settings
    */
   static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return PlatformBuilder.create<Koa, KoaRouter>(module, {
+    return PlatformBuilder.create<Koa>(module, {
       ...settings,
       adapter: PlatformKoa
     });
@@ -93,7 +95,7 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
    * @param settings
    */
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return PlatformBuilder.bootstrap<Koa, KoaRouter>(module, {
+    return PlatformBuilder.bootstrap<Koa>(module, {
       ...settings,
       adapter: PlatformKoa
     });
@@ -101,37 +103,65 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
 
   onInit() {
     const injector = this.injector;
-    const app = this.injector.get<PlatformApplication>(PlatformApplication)!;
+    const app = this.getPlatformApplication();
 
     const listener: any = (error: any, ctx: Koa.Context) => {
-      injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, ctx.request.$ctx);
+      const $ctx = getContext<PlatformContext>()!;
+      injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, $ctx);
     };
 
     app.getApp().silent = true;
     app.getApp().on("error", listener);
   }
 
-  useRouter(): this {
+  async beforeLoadRoutes() {
     const app = this.injector.get<PlatformApplication<Koa>>(PlatformApplication)!;
 
-    app.getApp().use(resourceNotFoundMiddleware);
-    app.getApp().use(app.getRouter().routes()).use(app.getRouter().allowedMethods());
+    this.useContext();
 
-    return this;
+    app.use(resourceNotFoundMiddleware);
+  }
+
+  mapLayers(layers: PlatformLayer[]) {
+    const {settings} = this.injector;
+    const app = this.getPlatformApplication();
+    const options = settings.get("koa.router", {});
+    const rawRouter = new KoaRouter(options) as any;
+
+    layers.forEach((layer) => {
+      switch (layer.method) {
+        case "statics":
+          rawRouter.use(layer.path, this.statics(layer.path as string, layer.opts as any));
+          break;
+
+        default:
+          rawRouter[layer.method](...layer.getArgs());
+      }
+    });
+
+    app.getApp().use(rawRouter.routes()).use(rawRouter.allowedMethods());
+  }
+
+  mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
+    if (metadata.isRawMiddleware()) {
+      return handler;
+    }
+
+    return async (koaContext: Koa.Context, next: Koa.Next) => {
+      const $ctx = getContext<PlatformContext>()!;
+      $ctx.next = next;
+
+      await handler($ctx);
+    };
   }
 
   useContext(): this {
-    const app = this.injector.get<PlatformApplication<Koa>>(PlatformApplication)!;
-    const {logger} = this.injector;
-    logger.info("Mount app context");
+    const app = this.getPlatformApplication();
 
-    const invoke = createContext(this.injector);
+    app.use(async (koaContext: Context, next: Next) => {
+      const $ctx = getContext<PlatformContext<PlatformKoaRequest, PlatformKoaResponse>>()!;
 
-    app.getApp().use(async (ctx: Context, next: Next) => {
-      await invoke({
-        request: ctx.request as any,
-        response: ctx.response as any
-      });
+      $ctx.upgrade({request: koaContext.request as any, response: koaContext.response as any, koaContext});
 
       return next();
     });
@@ -147,20 +177,6 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
       app,
       callback() {
         return app.callback();
-      }
-    };
-  }
-
-  router(routerOptions: any = {}) {
-    const {settings} = this.injector;
-
-    const options = Object.assign({}, settings.get("koa.router", {}), routerOptions);
-    const router = new KoaRouter(options) as any;
-
-    return {
-      router,
-      callback() {
-        return [router.routes(), router.allowedMethods()];
       }
     };
   }
@@ -185,5 +201,9 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
     }
 
     return parser({...options, ...additionalOptions});
+  }
+
+  private getPlatformApplication() {
+    return this.injector.get<PlatformApplication>(PlatformApplication)!;
   }
 }

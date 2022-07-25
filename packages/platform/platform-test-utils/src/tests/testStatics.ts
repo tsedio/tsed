@@ -1,6 +1,7 @@
-import {Controller, PlatformRouter, PlatformTest} from "@tsed/common";
+import {Controller, PlatformTest} from "@tsed/common";
 import {getValue} from "@tsed/core";
 import {Configuration} from "@tsed/di";
+import {PlatformRouter} from "@tsed/platform-router";
 import {readFileSync} from "fs";
 import SuperTest from "supertest";
 import {PlatformTestOptions} from "../interfaces";
@@ -19,6 +20,9 @@ export function testStatics(options: PlatformTestOptions) {
   beforeEach(
     PlatformTest.bootstrap(options.server, {
       ...options,
+      logger: {
+        level: "info"
+      },
       mount: {
         "/rest": [CustomStaticsCtrl]
       }

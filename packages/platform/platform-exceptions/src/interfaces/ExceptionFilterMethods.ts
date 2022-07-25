@@ -1,5 +1,5 @@
-import {BaseContext} from "@tsed/di";
+import {DIContext} from "@tsed/di";
 
 export interface ExceptionFilterMethods<T = unknown> {
-  catch(error: T, ctx: BaseContext): void;
+  catch(error: T, ctx: DIContext): void;
 }

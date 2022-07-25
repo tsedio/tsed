@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformHandlerMetadata, PlatformTest} from "@tsed/common";
 import {PlatformRequest} from "./PlatformRequest";
 
 function createRequest() {
@@ -46,8 +46,10 @@ describe("PlatformRequest", () => {
   describe("route()", () => {
     it("should return route", () => {
       const $ctx = PlatformTest.createRequestContext();
-      $ctx.endpoint = new Map() as any;
-      $ctx.endpoint.set("route", "/id");
+      $ctx.handlerMetadata = new PlatformHandlerMetadata({
+        handler: () => {}
+      });
+      $ctx.handlerMetadata.path = "/id";
 
       expect($ctx.request.route).toEqual("/id");
     });

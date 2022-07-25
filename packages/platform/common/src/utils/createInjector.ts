@@ -8,7 +8,6 @@ import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformHandler} from "../services/PlatformHandler";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
-import {PlatformRouter} from "../services/PlatformRouter";
 
 $log.name = "TSED";
 
@@ -16,13 +15,12 @@ const DEFAULT_PROVIDERS = [
   {provide: PlatformHandler},
   {provide: PlatformResponse},
   {provide: PlatformRequest},
-  {provide: PlatformRouter},
   {provide: PlatformApplication},
   {provide: Platform}
 ];
 
 interface CreateInjectorOptions {
-  adapter?: Type<PlatformAdapter<any, any>>;
+  adapter?: Type<PlatformAdapter<any>>;
   settings?: Partial<TsED.Configuration>;
 }
 

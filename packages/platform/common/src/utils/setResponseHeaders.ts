@@ -19,7 +19,7 @@ export function setResponseHeaders(ctx: PlatformContext) {
   const statusCode = response.statusCode;
   const headers = operation.getHeadersOf(statusCode);
 
-  Object.entries(headers).forEach(([key, item]) => {
+  Object.entries(headers).forEach(([key, item]: any[]) => {
     if (!response.get(key)) {
       response.setHeader(key, String(item.example));
     }

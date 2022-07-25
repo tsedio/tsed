@@ -1,10 +1,10 @@
-import {Inject, InjectorService, Provider, runInContext} from "@tsed/di";
-import {EndpointMetadata} from "@tsed/schema";
+import {PlatformContext, setResponseHeaders} from "@tsed/common";
+import {AnyToPromise, AnyToPromiseStatus} from "@tsed/core";
+import {getContext, Inject, InjectorService, Provider} from "@tsed/di";
 import {FormioActionInfo} from "@tsed/formio-types";
 import {PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
-import {AnyToPromise, AnyToPromiseStatus} from "@tsed/core";
-import {PlatformContext, setResponseHeaders} from "@tsed/common";
+import {EndpointMetadata} from "@tsed/schema";
 import {Alter} from "../decorators/alter";
 import {AlterHook} from "../domain/AlterHook";
 import {SetActionItemMessage} from "../domain/FormioAction";
@@ -65,7 +65,7 @@ export class AlterActions implements AlterHook {
   }
 
   protected createHandler(provider: Provider, propertyKey: string | symbol) {
-    const promisedHandler = this.params.compileHandler({
+    const compiledHandler = this.params.compileHandler({
       token: provider.token,
       propertyKey
     });
@@ -74,42 +74,49 @@ export class AlterActions implements AlterHook {
       action: any,
       handler: string,
       method: string,
-      req: {$ctx: PlatformContext},
+      req: any,
       res: any,
       next: any,
       setActionItemMessage: SetActionItemMessage
     ) => {
-      const $ctx = req.$ctx;
-      $ctx.set("ACTION_CTX", {handler, method, setActionItemMessage, action});
-      $ctx.endpoint = EndpointMetadata.get(provider.useClass, "resolve");
+      const $ctx = getContext<PlatformContext>();
 
-      await runInContext($ctx, async () => {
+      if ($ctx) {
+        $ctx.set("ACTION_CTX", {handler, method, setActionItemMessage, action});
+        $ctx.endpoint = EndpointMetadata.get(provider.useClass, "resolve");
+
         try {
-          const resolver = new AnyToPromise();
-          const handler = await promisedHandler;
-          const {state, data, status, headers} = await resolver.call(() => handler({$ctx}));
-          if (state === AnyToPromiseStatus.RESOLVED) {
-            if (status) {
-              $ctx.response.status(status);
-            }
-
-            if (headers) {
-              $ctx.response.setHeaders(headers);
-            }
-
-            if (data !== undefined) {
-              $ctx.data = data;
-
-              return await this.flush($ctx.data, $ctx);
-            }
-
+          if (await this.onRequest(compiledHandler, $ctx)) {
             next();
           }
         } catch (er) {
           next(er);
         }
-      });
+      }
     };
+  }
+
+  private async onRequest(handler: any, $ctx: PlatformContext) {
+    const resolver = new AnyToPromise();
+    const {state, data, status, headers} = await resolver.call(() => handler({$ctx}));
+
+    if (state === AnyToPromiseStatus.RESOLVED) {
+      if (status) {
+        $ctx.response.status(status);
+      }
+
+      if (headers) {
+        $ctx.response.setHeaders(headers);
+      }
+
+      if (data !== undefined) {
+        $ctx.data = data;
+
+        return await this.flush($ctx.data, $ctx);
+      }
+
+      return true;
+    }
   }
 
   private async flush(data: any, $ctx: PlatformContext) {
@@ -118,8 +125,8 @@ export class AlterActions implements AlterHook {
     if (!response.isDone()) {
       setResponseHeaders($ctx);
 
-      data = await this.responseFilter.serialize(data, $ctx);
-      data = await this.responseFilter.transform(data, $ctx);
+      data = await this.responseFilter.serialize(data, $ctx as any);
+      data = await this.responseFilter.transform(data, $ctx as any);
 
       response.body(data);
     }

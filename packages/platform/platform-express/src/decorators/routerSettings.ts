@@ -23,6 +23,7 @@ import {RouterOptions} from "express";
  * @decorator
  * @param routerOptions
  * @express
+ * @deprecated
  */
 export function RouterSettings(routerOptions: RouterOptions): Function {
   return StoreMerge(ROUTER_OPTIONS, routerOptions);

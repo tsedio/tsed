@@ -1,6 +1,7 @@
 import {Context, Controller, Get, PlatformTest, Res, ResponseFilter} from "@tsed/common";
 import {PlatformTestUtils} from "@tsed/platform-test-utils";
 import {Returns} from "@tsed/schema";
+import {ServerResponse} from "http";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
@@ -34,7 +35,7 @@ class TestPageableCtrl {
   }
 
   @Get("/scenario-2")
-  async scenario2(@Res() response: Res) {
+  async scenario2(@Res() response: ServerResponse) {
     const raw = "...";
     response.setHeader("Content-Type", "image/png");
 

@@ -1,11 +1,9 @@
-import {Type} from "@tsed/core";
-import {Injectable, InjectorService, ProviderScope, ProviderType, TokenProvider} from "@tsed/di";
-import {concatPath, EndpointMetadata, getJsonEntityStore, getOperationsRoutes, JsonEntityStore} from "@tsed/schema";
-import {buildRouter, createRouter, getRouter} from "../builder/PlatformControllerBuilder";
-import {ControllerProvider} from "../domain/ControllerProvider";
-import {PlatformRouteDetails} from "../domain/PlatformRouteDetails";
+import {Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
+import {PlatformHandlerMetadata, PlatformRouters} from "@tsed/platform-router";
+import {ControllerProvider} from "@tsed/di";
 import {Route, RouteController} from "../interfaces/Route";
 import {PlatformApplication} from "./PlatformApplication";
+import {PlatformHandler} from "./PlatformHandler";
 import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain";
 
 /**
@@ -15,22 +13,32 @@ import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain";
  */
 @Injectable({
   scope: ProviderScope.SINGLETON,
-  imports: [PlatformMiddlewaresChain]
+  imports: []
 })
 export class Platform {
-  private _routes: PlatformRouteDetails[] = [];
-  private _controllers: RouteController[] = [];
+  #controllers: Map<string, RouteController> = new Map();
 
-  constructor(readonly injector: InjectorService, readonly platformApplication: PlatformApplication) {
-    this.createRouters();
+  constructor(
+    readonly injector: InjectorService,
+    readonly platformApplication: PlatformApplication,
+    readonly platformRouters: PlatformRouters,
+    readonly platformHandler: PlatformHandler,
+    readonly platformMiddlewaresChain: PlatformMiddlewaresChain
+  ) {
+    // configure the router module
+    platformRouters.hooks
+      .on("alterEndpointHandlers", platformMiddlewaresChain.get.bind(platformMiddlewaresChain))
+      .on("alterHandler", (handler: Function, handlerMetadata: PlatformHandlerMetadata) => {
+        handler = handlerMetadata.isRawMiddleware() ? handler : this.platformHandler.createHandler(handler as any, handlerMetadata);
+
+        return platformApplication.adapter.mapHandler(handler, handlerMetadata);
+      });
+
+    platformRouters.prebuild();
   }
 
   get app() {
     return this.platformApplication;
-  }
-
-  get routes(): PlatformRouteDetails[] {
-    return this._routes;
   }
 
   public addRoutes(routes: Route[]) {
@@ -39,46 +47,33 @@ export class Platform {
     });
   }
 
-  public addRoute(basePath: string, token: TokenProvider) {
-    const {injector} = this;
-    const provider = injector.getProvider(token) as ControllerProvider;
+  public addRoute(route: string, token: TokenProvider) {
+    const provider = this.injector.getProvider(token) as ControllerProvider;
 
     if (!provider || provider.hasParent()) {
-      return;
+      return this;
     }
 
-    this._controllers.push(...this.getAllControllers(basePath, token));
+    const router = this.platformRouters.from(provider.token);
 
-    const ctrlPath = concatPath(basePath, JsonEntityStore.from(provider.token).path);
-
-    this.app.use(ctrlPath, ...[].concat(getRouter(injector, provider).callback()));
-
-    this._routes = getOperationsRoutes<EndpointMetadata>(provider.token, {
-      withChildren: true,
-      basePath
-    }).reduce((routes, operationRoute) => {
-      if (injector.hasProvider(token)) {
-        const provider = injector.getProvider(operationRoute.token) as ControllerProvider;
-        const route = new PlatformRouteDetails({
-          ...operationRoute,
-          provider
-        });
-
-        routes = routes.concat(route);
-      }
-
-      return routes;
-    }, this._routes);
+    this.app.use(route, router);
 
     return this;
   }
 
-  /**
-   * Get all routes built by TsExpressDecorators and mounted on Express application.
-   * @returns {PlatformRouteDetails[]}
-   */
-  public getRoutes(): PlatformRouteDetails[] {
-    return this._routes;
+  public getLayers() {
+    this.#controllers = new Map();
+
+    return this.platformRouters.getLayers(this.app).map((layer) => {
+      if (layer.isProvider()) {
+        this.#controllers.set(layer.provider.token, {
+          route: String(layer.path).split(layer.provider.path)[0],
+          provider: layer.provider
+        });
+      }
+
+      return layer;
+    });
   }
 
   /**
@@ -86,58 +81,6 @@ export class Platform {
    * @returns  {RouteController[]}
    */
   public getMountedControllers(): RouteController[] {
-    return this._controllers;
-  }
-
-  protected $onInit() {
-    this.buildControllers();
-  }
-
-  /**
-   * Create routers from the collected controllers.
-   * @private
-   */
-  private createRouters() {
-    const {injector} = this;
-
-    injector.getProviders(ProviderType.CONTROLLER).map((provider: ControllerProvider) => {
-      createRouter(injector, provider);
-    });
-  }
-
-  /**
-   * Get all router controllers from the controller token.
-   * @private
-   */
-  private getAllControllers(basePath: string, token: Type<any> | any): RouteController[] {
-    const store: JsonEntityStore = token.isStore ? token : getJsonEntityStore(token);
-    const ctrlPath = concatPath(basePath, JsonEntityStore.from(token).path);
-    const children = store.get<Type[]>("childrenControllers", []);
-
-    return children
-      .reduce<RouteController[]>((controllers, token) => {
-        const childBasePath = concatPath(basePath, store.path);
-        return controllers.concat(this.getAllControllers(childBasePath, token));
-      }, [])
-      .concat([
-        {
-          route: ctrlPath,
-          provider: this.injector.getProvider(token) as ControllerProvider
-        }
-      ]);
-  }
-
-  /**
-   * Create controllers from DI
-   * @private
-   */
-  private buildControllers() {
-    const {injector} = this;
-
-    injector.getProviders(ProviderType.CONTROLLER).map((provider: ControllerProvider) => {
-      if (!provider.hasParent()) {
-        return buildRouter(injector, provider);
-      }
-    });
+    return [...this.#controllers.values()];
   }
 }
