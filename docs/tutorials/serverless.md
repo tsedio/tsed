@@ -170,7 +170,7 @@ Finally, create the `serverless.yml`:
 ```yml
 service: timeslots
 
-frameworkVersion: "2"
+frameworkVersion: "3.21.0"
 
 provider:
   name: aws

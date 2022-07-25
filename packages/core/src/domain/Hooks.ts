@@ -1,5 +1,5 @@
 export class Hooks {
-  private listeners: Map<string, Function[]> = new Map();
+  #listeners: Map<string, Function[]> = new Map();
 
   /**
    * Listen a hook event
@@ -7,11 +7,11 @@ export class Hooks {
    * @param cb
    */
   on(event: string, cb: Function) {
-    if (!this.listeners.has(event)) {
-      this.listeners.set(event, []);
+    if (!this.#listeners.has(event)) {
+      this.#listeners.set(event, []);
     }
 
-    this.listeners.get(event)!.push(cb);
+    this.#listeners.get(event)!.push(cb);
 
     return this;
   }
@@ -22,10 +22,10 @@ export class Hooks {
    * @param cb
    */
   off(event: string, cb: Function) {
-    if (this.listeners.has(event)) {
-      this.listeners.set(
+    if (this.#listeners.has(event)) {
+      this.#listeners.set(
         event,
-        this.listeners.get(event)!.filter((item) => item === cb)
+        this.#listeners.get(event)!.filter((item) => item === cb)
       );
     }
 
@@ -39,8 +39,8 @@ export class Hooks {
    * @param callThis
    */
   emit(event: string, args: any[] = [], callThis: any = null): void {
-    if (this.listeners.has(event)) {
-      for (const cb of this.listeners.get(event)!) {
+    if (this.#listeners.has(event)) {
+      for (const cb of this.#listeners.get(event)!) {
         cb.call(callThis, ...args);
       }
     }
@@ -54,8 +54,8 @@ export class Hooks {
    * @param callThis
    */
   alter(event: string, value: any, args: any[] = [], callThis: any = null): any {
-    if (this.listeners.has(event)) {
-      for (const cb of this.listeners.get(event)!) {
+    if (this.#listeners.has(event)) {
+      for (const cb of this.#listeners.get(event)!) {
         value = cb.call(callThis, value, ...args);
       }
     }
@@ -70,8 +70,8 @@ export class Hooks {
    * @param callThis
    */
   async asyncEmit(event: string, args: any[] = [], callThis: any = null): Promise<void> {
-    if (this.listeners.has(event)) {
-      for (const cb of this.listeners.get(event)!) {
+    if (this.#listeners.has(event)) {
+      for (const cb of this.#listeners.get(event)!) {
         await cb.call(callThis, ...args);
       }
     }
@@ -84,13 +84,17 @@ export class Hooks {
    * @param args
    * @param callThis
    */
-  async asyncAlter(event: string, value: any, args: string[] = [], callThis: any = null): Promise<any> {
-    if (this.listeners.has(event)) {
-      for (const cb of this.listeners.get(event)!) {
+  async asyncAlter(event: string, value: any, args: any[] = [], callThis: any = null): Promise<any> {
+    if (this.#listeners.has(event)) {
+      for (const cb of this.#listeners.get(event)!) {
         value = await cb.call(callThis, value, ...args);
       }
     }
 
     return value;
+  }
+
+  destroy() {
+    this.#listeners.clear();
   }
 }

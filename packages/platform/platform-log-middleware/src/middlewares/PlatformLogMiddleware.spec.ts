@@ -15,6 +15,7 @@ async function createMiddlewareFixture() {
         statusCode: 200
       })
     },
+    endpoint: new Map(),
     logger: PlatformTest.injector.logger
   });
 
@@ -42,7 +43,8 @@ describe("PlatformLogMiddleware", () => {
       it("should configure request and create context logger", async () => {
         // GIVEN
         const {request, ctx, middleware} = await createMiddlewareFixture();
-        request.originalUrl = "originalUrl";
+        request.originalUrl = "/originalUrl";
+        ctx.endpoint.set("route", "/:id");
         // WHEN
         middleware.use(ctx);
 
@@ -55,7 +57,8 @@ describe("PlatformLogMiddleware", () => {
             event: "request.start",
             method: "GET",
             reqId: "id",
-            url: "originalUrl"
+            url: "/originalUrl",
+            route: "/:id"
           })
         );
         expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
@@ -63,7 +66,8 @@ describe("PlatformLogMiddleware", () => {
             event: "request.end",
             method: "GET",
             reqId: "id",
-            url: "originalUrl",
+            url: "/originalUrl",
+            route: "/:id",
             status: 200
           })
         );
@@ -172,6 +176,58 @@ describe("PlatformLogMiddleware", () => {
             reqId: "id",
             url: "url",
             status: 200
+          })
+        );
+      });
+    });
+    describe("when no debug, log error", () => {
+      beforeEach(() =>
+        PlatformTest.create({
+          logger: {debug: false, logRequest: true}
+        })
+      );
+      afterEach(() => PlatformTest.reset());
+      it("should log error", async () => {
+        // GIVEN
+        const {request, ctx, middleware} = await createMiddlewareFixture();
+        request.originalUrl = "originalUrl";
+        // WHEN
+        middleware.use(ctx);
+
+        // THEN
+        // middleware.$onResponse(request.$ctx);
+        ctx.logger.error({
+          event: "event"
+        });
+        // THEN
+        expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith(
+          expect.objectContaining({
+            event: "event",
+            method: "GET",
+            reqId: "id",
+            url: "originalUrl"
+          })
+        );
+      });
+      it("should log debug without request", async () => {
+        // GIVEN
+        const {request, ctx, middleware} = await createMiddlewareFixture();
+        request.originalUrl = "originalUrl";
+        // WHEN
+        middleware.use(ctx);
+
+        // THEN
+        ctx.logger.debug(
+          {
+            event: "event"
+          },
+          false
+        );
+        // THEN
+        expect(PlatformTest.injector.logger.debug).toHaveBeenCalledWith(
+          expect.objectContaining({
+            event: "event",
+            reqId: "id"
           })
         );
       });

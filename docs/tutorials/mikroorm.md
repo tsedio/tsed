@@ -112,7 +112,7 @@ export class UsersService {
 
 It's also possible to inject an ORM by its context name:
 
-```ts
+```typescript
 import {Injectable} from "@tsed/di";
 
 @Injectable()
@@ -253,11 +253,47 @@ export class UsersCtrl {
 }
 ```
 
+## Retry policy
+
+By default, `IsolationLevel.READ_COMMITTED` is used. You can override it, specifying the isolation level for the transaction by supplying it as the `isolationLevel` parameter in the `@Transactional` decorator:
+
+```typescript
+@Post("/")
+@Transactional({isolationLevel: IsolationLevel.SERIALIZABLE})
+create(@BodyParams() user: User): Promise<User> {
+  return this.usersService.create(user);
+}
+```
+
+The MikroORM supports the standard isolation levels such as `SERIALIZABLE` or `REPEATABLE READ`, the full list of available options see [here](https://mikro-orm.io/docs/transactions#isolation-levels).
+
+You can also set the [flushing strategy](https://mikro-orm.io/docs/unit-of-work#flush-modes) for the transaction by setting the `flushMode`:
+
+```typescript
+@Post("/")
+@Transactional({flushMode: FlushMode.AUTO})
+create(@BodyParams() user: User): Promise<User> {
+  return this.usersService.create(user);
+}
+```
+
+In some cases, you might need to avoid an explicit transaction, but preserve an async context to prevent the usage of the global identity map. For example, starting with v3.4, the MongoDB driver supports transactions. Yet, you have to use a replica set, otherwise, the driver will raise an exception.
+
+To prevent `@Transactional()` use of an explicit transaction, you just need to set the `disabled` field to `true`:
+
+```typescript
+@Post("/")
+@Transactional({disabled: true})
+create(@BodyParams() user: User): Promise<User> {
+  return this.usersService.create(user);
+}
+```
+
 By default, the automatic retry policy is disabled. You can implement your own to match the business requirements and the nature of the failure. For some noncritical operations, it is better to fail as soon as possible rather than retry a coupe of times. For example, in an interactive web application, it is better to fail right after a smaller number of retries with only a short delay between retry attempts, and display a message to the user (for example, "please try again later").
 
 The `@Transactional()` decorator allows you to enable a retry policy for the particular resources. You just need to implement the `RetryStrategy` interface and use `registerProvider()` or `@OverrideProvider()` to register it in the IoC container. Below you can find an example to handle occurred optimistic locks based on [an exponential backoff retry strategy](https://en.wikipedia.org/wiki/Exponential_backoff).
 
-```ts
+```typescript
 import {OptimisticLockError} from "@mikro-orm/core";
 import {RetryStrategy} from "@tsed/mikro-orm";
 
@@ -332,20 +368,6 @@ export class UsersCtrl {
   }
 }
 ```
-
-## Transaction isolation levels
-
-By default, `IsolationLevel.READ_COMMITTED` is used. You can override it, specifying the isolation level for the transaction by supplying it as the `isolationLevel` parameter in the `@Transactional` decorator:
-
-```typescript
-@Post("/")
-@Transactional({isolationLevel: IsolationLevel.SERIALIZABLE})
-create(@BodyParams() user: User): Promise<User> {
-  return this.usersService.create(user);
-}
-```
-
-The MikroORM supports the standard isolation levels such as `SERIALIZABLE` or `REPEATABLE READ`, the full list of available options see [here](https://mikro-orm.io/docs/transactions#isolation-levels).
 
 ## Author
 

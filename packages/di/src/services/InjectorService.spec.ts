@@ -615,6 +615,19 @@ describe("InjectorService", () => {
       expect(injector.get(RootModule)).toBeInstanceOf(RootModule);
     });
   });
+  describe("loadModule()", () => {
+    it("should load DI with a rootModule", async () => {
+      // GIVEN
+      @Injectable()
+      class RootModule {}
+
+      const injector = new InjectorService();
+
+      await injector.loadModule(RootModule);
+
+      expect(injector.get(RootModule)).toBeInstanceOf(RootModule);
+    });
+  });
 
   describe("bindInjectableProperties()", () => {
     class TestBind {}
@@ -744,6 +757,8 @@ describe("InjectorService", () => {
       injector.bindConstant(instance, {propertyKey: "constant", expression: "expression"} as any);
 
       // THEN
+      expect(instance.constant).toEqual("constant");
+      // should be the same
       expect(instance.constant).toEqual("constant");
 
       let actualError: any;

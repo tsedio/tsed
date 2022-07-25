@@ -1,44 +1,63 @@
 import {PlatformTest} from "@tsed/common";
-import {PlatformKoaResponse} from "@tsed/platform-koa";
+import {PlatformKoaRequest, PlatformKoaResponse} from "@tsed/platform-koa";
 
 function createResponse() {
-  const response = PlatformTest.createResponse();
-  const koaCtx = {
-    response: {
-      res: response
+  const res = PlatformTest.createResponse();
+  const req = PlatformTest.createRequest();
+
+  const koaResponse: any = {
+    ...res,
+    res,
+    get ctx() {
+      return koaContext;
     }
   };
 
-  response.ctx = koaCtx;
+  const koaRequest: any = {
+    ...req,
+    req,
+    get ctx() {
+      return koaContext;
+    }
+  };
+
+  const koaContext: any = {
+    response: koaResponse
+  };
 
   const ctx = PlatformTest.createRequestContext({
     event: {
-      response,
-      ctx: koaCtx
+      response: res,
+      request: req
     },
-    ResponseKlass: PlatformKoaResponse
+    ResponseKlass: PlatformKoaResponse,
+    RequestKlass: PlatformKoaRequest
   });
 
-  return {res: response, response: ctx.response};
+  ctx.upgrade({
+    response: koaResponse,
+    request: koaRequest
+  } as any);
+
+  return {res, response: ctx.response as PlatformKoaResponse, ctx, koaResponse, koaRequest};
 }
 
 describe("PlatformKoaResponse", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
   it("should create a PlatformResponse instance", () => {
-    const {res, response} = createResponse();
+    const {koaResponse, response} = createResponse();
 
-    expect(response.raw).toEqual(res);
+    expect(response.raw).toEqual(koaResponse);
   });
 
   describe("getRes()", () => {
     it("return res", async () => {
       const {res, response} = createResponse();
-      res.res = {};
 
       const result = await response.getRes();
 
-      expect(result).toEqual(res.res);
+      expect(result).toEqual(res);
     });
   });
   describe("statusCode", () => {
@@ -64,20 +83,20 @@ describe("PlatformKoaResponse", () => {
   });
   describe("contentType()", () => {
     it("should set contentType", async () => {
-      const {res, response} = createResponse();
+      const {ctx, koaResponse} = createResponse();
 
-      response.contentType("text/html");
+      ctx.response.contentType("text/html");
 
-      expect(res.type).toEqual("text/html");
+      expect(koaResponse.type).toEqual("text/html");
     });
   });
   describe("body()", () => {
     it("should set body", async () => {
-      const {res, response} = createResponse();
+      const {response, koaResponse} = createResponse();
 
       response.body("body");
 
-      expect(res.body).toEqual("body");
+      expect(koaResponse.body).toEqual("body");
     });
   });
   describe("location", () => {
@@ -118,51 +137,52 @@ describe("PlatformKoaResponse", () => {
   });
   describe("redirect", () => {
     it("should set header location (HEAD)", async () => {
-      const {res, response} = createResponse();
+      const {res, response, koaRequest, koaResponse} = createResponse();
 
       res.headers["location"] = "https://location";
-      response.request.raw.method = "HEAD";
-      res.res = {end: jest.fn()};
+      koaRequest.method = "HEAD";
 
       await response.redirect(301, "https://location");
 
-      expect(res.body).toEqual("Moved Permanently. Redirecting to https://location");
+      expect(koaResponse.body).toEqual("Moved Permanently. Redirecting to https://location");
       expect(response.statusCode).toEqual(301);
       expect(res.headers).toEqual({
         "content-length": 50,
         location: "https://location",
         "x-request-id": "id"
       });
-      expect(res.res.end).toBeCalledWith();
+      expect(res.data).toEqual(undefined);
     });
     it("should set header location (POST)", async () => {
-      const {res, response} = createResponse();
+      const {res, response, koaRequest, koaResponse, ctx} = createResponse();
 
       res.headers["location"] = "https://location";
-      response.request.raw.method = "POST";
-      res.res = {end: jest.fn()};
+      koaRequest.method = "POST";
 
       await response.redirect(301, "https://location");
 
-      expect(res.body).toEqual("Moved Permanently. Redirecting to https://location");
+      expect(koaResponse.body).toEqual("Moved Permanently. Redirecting to https://location");
       expect(response.statusCode).toEqual(301);
       expect(res.headers).toEqual({
         "content-length": 50,
         location: "https://location",
         "x-request-id": "id"
       });
-      expect(res.res.end).toBeCalledWith("Moved Permanently. Redirecting to https://location");
+      expect((ctx.getRes() as any).data).toEqual("Moved Permanently. Redirecting to https://location");
     });
   });
   describe("getHeaders()", () => {
     it("should get headers", () => {
-      const {res, response} = createResponse();
+      const {ctx} = createResponse();
 
-      res.headers = {contentType: "application/json"};
+      ctx.response.setHeader("contentType", "application/json");
 
-      const result = response.getHeaders();
+      const result = ctx.response.getHeaders();
 
-      expect(result).toEqual({contentType: "application/json"});
+      expect(result).toEqual({
+        contenttype: "application/json",
+        "x-request-id": "id"
+      });
     });
   });
 });
