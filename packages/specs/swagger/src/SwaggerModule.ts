@@ -8,20 +8,19 @@ import {
   normalizePath,
   OnReady,
   PlatformApplication,
-  PlatformContext,
-  PlatformRouter,
-  useCtxHandler
+  PlatformContext
 } from "@tsed/common";
+import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
 import Fs from "fs";
 import {join} from "path";
+import {Env} from "@tsed/core";
+import {absolutePath} from "swagger-ui-dist";
 import {SwaggerSettings} from "./interfaces/SwaggerSettings";
 import {cssMiddleware} from "./middlewares/cssMiddleware";
 import {indexMiddleware} from "./middlewares/indexMiddleware";
 import {jsMiddleware} from "./middlewares/jsMiddleware";
 import {redirectMiddleware} from "./middlewares/redirectMiddleware";
 import {SwaggerService} from "./services/SwaggerService";
-import {Env} from "@tsed/core";
-import {absolutePath} from "swagger-ui-dist";
 
 /**
  * @ignore
@@ -62,7 +61,7 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
     this.settings.forEach((conf: SwaggerSettings) => {
       const {path = "/"} = conf;
 
-      this.app.get(path, useCtxHandler(redirectMiddleware(path)));
+      this.app.get(path, useContextHandler(redirectMiddleware(path)));
       this.app.use(path, this.createRouter(conf, urls));
     });
 
@@ -125,22 +124,22 @@ export class SwaggerModule implements OnRoutesInit, OnReady {
    */
   private createRouter(conf: SwaggerSettings, urls: string[]) {
     const {disableSpec = false, fileName = "swagger.json", cssPath, jsPath, viewPath = join(__dirname, "../views/index.ejs")} = conf;
-    const router = PlatformRouter.create(this.injector);
+    const router = new PlatformRouter(this.injector);
 
     if (!disableSpec) {
-      router.get(normalizePath("/", fileName), useCtxHandler(this.middlewareSwaggerJson(conf)));
+      router.get(normalizePath("/", fileName), useContextHandler(this.middlewareSwaggerJson(conf)));
     }
 
     if (viewPath) {
       if (cssPath) {
-        router.get("/main.css", useCtxHandler(cssMiddleware(cssPath)));
+        router.get("/main.css", useContextHandler(cssMiddleware(cssPath)));
       }
 
       if (jsPath) {
-        router.get("/main.js", useCtxHandler(jsMiddleware(jsPath)));
+        router.get("/main.js", useContextHandler(jsMiddleware(jsPath)));
       }
 
-      router.get("/", useCtxHandler(indexMiddleware(viewPath, {urls, ...conf})));
+      router.get("/", useContextHandler(indexMiddleware(viewPath, {urls, ...conf})));
       router.statics("/", {root: absolutePath()});
     }
 

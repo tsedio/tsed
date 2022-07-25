@@ -53,6 +53,7 @@ describe("PlatformMimesMiddleware", () => {
         event: {request},
         endpoint
       });
+
       jest.spyOn(request, "accepts");
 
       const middleware = await PlatformTest.invoke<PlatformAcceptMimesMiddleware>(PlatformAcceptMimesMiddleware);

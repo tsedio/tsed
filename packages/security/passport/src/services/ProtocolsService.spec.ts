@@ -85,17 +85,20 @@ describe("ProtocolsService", () => {
     // GIVEN
     (LocalProtocol.prototype.$onVerify as any).mockReturnValue({id: 0});
     const provider = PlatformTest.injector.getProvider(LocalProtocol)!;
-    const ctx = PlatformTest.createRequestContext();
+    const $ctx = PlatformTest.createRequestContext();
 
     // WHEN
-    const result = await protocolService.invoke(provider);
+    const protocol = await protocolService.invoke(provider);
+
     const resultDone: any = await new Promise((resolve) => {
-      Strategy.mock.calls[0][1](ctx.getRequest(), "test", (...args: any[]) => resolve(args));
+      const verify = Strategy.mock.calls[0][1];
+
+      return $ctx.runInContext(() => verify($ctx.getRequest(), "test", (...args: any[]) => resolve(args)));
     });
 
     // THEN
-    expect(result.$onVerify).toHaveBeenCalledWith(ctx.getRequest(), ctx);
     expect(resultDone).toEqual([null, {id: 0}]);
+    expect(protocol.$onVerify).toHaveBeenCalledWith($ctx.getRequest(), $ctx);
   });
 
   it("should call metadata and catch error", async () => {
@@ -105,16 +108,18 @@ describe("ProtocolsService", () => {
     (LocalProtocol.prototype.$onVerify as any).mockRejectedValue(error);
 
     const provider = PlatformTest.injector.getProvider(LocalProtocol)!;
-    const ctx = PlatformTest.createRequestContext();
+    const $ctx = PlatformTest.createRequestContext();
 
     // WHEN
     const result = await protocolService.invoke(provider);
     const resultDone: any = await new Promise((resolve) => {
-      Strategy.mock.calls[0][1](ctx.getRequest(), "test", (...args: any[]) => resolve(args));
+      const verify = Strategy.mock.calls[0][1];
+
+      return $ctx.runInContext(() => verify($ctx.getRequest(), "test", (...args: any[]) => resolve(args)));
     });
 
     // THEN
-    expect(result.$onVerify).toHaveBeenCalledWith(ctx.getRequest(), ctx);
+    expect(result.$onVerify).toHaveBeenCalledWith($ctx.getRequest(), $ctx);
     expect(resultDone).toEqual([error, false, {message: "message"}]);
   });
   it("should call metadata and catch missing $ctx", async () => {

@@ -1,11 +1,11 @@
 import {PlatformContext, PlatformHandler} from "@tsed/common";
 import {ancestorsOf} from "@tsed/core";
-import {Injectable, InjectorService, Provider} from "@tsed/di";
+import {getContext, Inject, Injectable, InjectorService, Provider} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import Passport, {Strategy} from "passport";
-import {PassportException} from "../errors/PassportException";
-import {PROVIDER_TYPE_PROTOCOL} from "../contants/constants";
 import {promisify} from "util";
+import {PROVIDER_TYPE_PROTOCOL} from "../contants/constants";
+import {PassportException} from "../errors/PassportException";
 import type {ProtocolMethods} from "../interfaces/ProtocolMethods";
 import type {ProtocolOptions} from "../interfaces/ProtocolOptions";
 
@@ -16,7 +16,11 @@ import type {ProtocolOptions} from "../interfaces/ProtocolOptions";
 export class ProtocolsService {
   readonly strategies: Map<string, Strategy> = new Map();
 
-  constructor(private injector: InjectorService) {}
+  @Inject()
+  protected platformHandler: PlatformHandler;
+
+  @Inject()
+  private injector: InjectorService;
 
   public getProtocols(): Provider[] {
     return this.injector.getProviders(PROVIDER_TYPE_PROTOCOL);
@@ -134,19 +138,20 @@ export class ProtocolsService {
    * @param provider
    * @private
    */
-  private createHandler(provider: Provider<any>) {
-    const platformHandler = this.injector.get<PlatformHandler>(PlatformHandler)!;
-    const middleware = platformHandler.createCustomHandler(provider, "$onVerify");
+  private createHandler(provider: Provider) {
+    const middleware = this.platformHandler.createCustomHandler(provider, "$onVerify");
 
     return async (req: any, ...args: any[]) => {
+      const $ctx = getContext<PlatformContext>();
       const done = args[args.length - 1];
 
-      if (req.$ctx) {
-        req.$ctx.set("PROTOCOL_ARGS", args.slice(0, -1));
+      if ($ctx) {
+        $ctx.set("PROTOCOL_ARGS", args.slice(0, -1));
 
         try {
-          await middleware(req.$ctx);
-          done(null, ...[].concat(req.$ctx.data));
+          await middleware($ctx);
+
+          done(null, ...[].concat($ctx.data));
         } catch (err) {
           done(err, false, {message: err.message});
         }

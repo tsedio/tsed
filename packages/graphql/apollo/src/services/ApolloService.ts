@@ -1,6 +1,6 @@
+import {PlatformApplication} from "@tsed/common";
 import {Constant, Inject, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
-import {PlatformApplication} from "@tsed/common";
 import type {Config} from "apollo-server-core";
 import {
   ApolloServerBase,
@@ -9,10 +9,10 @@ import {
   ApolloServerPluginLandingPageGraphQLPlayground
 } from "apollo-server-core";
 import type {GraphQLSchema} from "graphql";
-import type {ApolloServer, ApolloSettings} from "../interfaces/ApolloSettings";
-import {ApolloCustomServerCB} from "../interfaces/ApolloSettings";
 import Http from "http";
 import Https from "https";
+import type {ApolloServer, ApolloSettings} from "../interfaces/ApolloSettings";
+import {ApolloCustomServerCB} from "../interfaces/ApolloSettings";
 
 @Service()
 export class ApolloService {
@@ -36,7 +36,7 @@ export class ApolloService {
   > = new Map();
 
   @Inject()
-  private app: PlatformApplication<any, any>;
+  private app: PlatformApplication<any>;
 
   @Inject(Http.Server)
   private httpServer: Http.Server | null;
@@ -76,7 +76,7 @@ export class ApolloService {
           ...middlewareOptions
         });
 
-        this.app.getRouter().use(middleware);
+        this.app.use(middleware);
 
         return server;
       }

@@ -21,7 +21,7 @@ declare global {
  */
 export class PlatformKoaRequest extends PlatformRequest<Koa.Request> {
   get ctx(): Koa.Context {
-    return this.raw.ctx;
+    return this.$ctx.event.koaContext as Koa.Context;
   }
 
   get protocol(): string {

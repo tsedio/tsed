@@ -1,8 +1,8 @@
-import type {MulterError} from "multer";
-import {Constant, Inject, Value} from "@tsed/di";
+import {Inject, Value} from "@tsed/di";
 import {BadRequest} from "@tsed/exceptions";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
+import type {MulterError} from "multer";
 import {PlatformMulterField, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformApplication} from "../services/PlatformApplication";
 

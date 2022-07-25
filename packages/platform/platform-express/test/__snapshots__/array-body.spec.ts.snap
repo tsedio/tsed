@@ -1,0 +1,246 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Array Body swagger should return the swagger (OS3) 1`] = `
+Object {
+  "components": Object {
+    "schemas": Object {
+      "MyModel": Object {
+        "properties": Object {
+          "test": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+    },
+  },
+  "info": Object {
+    "title": "Api documentation",
+    "version": "1.0.0",
+  },
+  "openapi": "3.0.1",
+  "paths": Object {
+    "/rest/array/1": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario1",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "items": Object {
+                  "nullable": true,
+                  "oneOf": Array [
+                    Object {
+                      "type": "integer",
+                    },
+                    Object {
+                      "type": "number",
+                    },
+                    Object {
+                      "type": "string",
+                    },
+                    Object {
+                      "type": "boolean",
+                    },
+                    Object {
+                      "type": "array",
+                    },
+                    Object {
+                      "type": "object",
+                    },
+                  ],
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/rest/array/2": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario2",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "items": Object {
+                  "nullable": true,
+                  "oneOf": Array [
+                    Object {
+                      "type": "integer",
+                    },
+                    Object {
+                      "type": "number",
+                    },
+                    Object {
+                      "type": "string",
+                    },
+                    Object {
+                      "type": "boolean",
+                    },
+                    Object {
+                      "type": "array",
+                    },
+                    Object {
+                      "type": "object",
+                    },
+                  ],
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/rest/array/3": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario3",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "items": Object {
+                  "type": "number",
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/rest/array/4": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario4",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "items": Object {
+                  "$ref": "#/components/schemas/MyModel",
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/rest/array/5": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario5",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "type": "object",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/rest/array/6": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario6",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "nullable": true,
+                "oneOf": Array [
+                  Object {
+                    "type": "integer",
+                  },
+                  Object {
+                    "type": "number",
+                  },
+                  Object {
+                    "type": "string",
+                  },
+                  Object {
+                    "type": "boolean",
+                  },
+                  Object {
+                    "type": "array",
+                  },
+                  Object {
+                    "type": "object",
+                  },
+                ],
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "TestArrayBodyCtrl",
+    },
+  ],
+}
+`;

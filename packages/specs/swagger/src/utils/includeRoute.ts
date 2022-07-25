@@ -1,8 +1,8 @@
-import {ControllerProvider} from "@tsed/common";
-import {matchPath} from "./matchPath";
+import {Provider} from "@tsed/di";
 import {SwaggerSettings} from "../interfaces/SwaggerSettings";
+import {matchPath} from "./matchPath";
 
-export function includeRoute(route: string, provider: ControllerProvider, conf: SwaggerSettings): boolean {
+export function includeRoute(route: string, provider: Provider, conf: SwaggerSettings): boolean {
   const hidden = provider.store.get("hidden");
   const docs = provider.store.get("docs") || [];
   const {doc, pathPatterns} = conf;

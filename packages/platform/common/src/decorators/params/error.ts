@@ -9,7 +9,7 @@ import {ParamTypes, UseParam} from "@tsed/platform-params";
 export function Err(): Function {
   return UseParam({
     paramType: ParamTypes.ERR,
-    dataPath: "err",
+    dataPath: "$ctx.error",
     useValidation: false,
     useConverter: false
   });

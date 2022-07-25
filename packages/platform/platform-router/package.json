@@ -1,0 +1,62 @@
+{
+  "name": "@tsed/platform-router",
+  "version": "7.0.0-beta.13",
+  "description": "Router",
+  "private": false,
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
+    "build:cjs": "tsc --build tsconfig.compile.json",
+    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
+  },
+  "dependencies": {
+    "tslib": "2.4.0"
+  },
+  "devDependencies": {
+    "@tsed/core": "7.0.0-beta.13",
+    "@tsed/di": "7.0.0-beta.13",
+    "@tsed/exceptions": "7.0.0-beta.13",
+    "@tsed/json-mapper": "7.0.0-beta.13",
+    "@tsed/platform-params": "7.0.0-beta.13",
+    "@tsed/schema": "7.0.0-beta.13"
+  },
+  "peerDependencies": {
+    "@tsed/core": "^7.0.0-beta.13",
+    "@tsed/di": "^7.0.0-beta.13",
+    "@tsed/exceptions": "^7.0.0-beta.13",
+    "@tsed/json-mapper": "^7.0.0-beta.13",
+    "@tsed/platform-params": "7.0.0-beta.13",
+    "@tsed/schema": "^7.0.0-beta.13"
+  },
+  "peerDependenciesMeta": {
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/exceptions": {
+      "optional": false
+    },
+    "@tsed/json-mapper": {
+      "optional": false
+    },
+    "@tsed/schema": {
+      "optional": false
+    },
+    "@tsed/platform-params": {
+      "optional": false
+    }
+  }
+}

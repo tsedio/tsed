@@ -20,6 +20,7 @@ export * from "./decorators/useOpts";
 export * from "./decorators/value";
 export * from "./domain/Container";
 export * from "./domain/ContextLogger";
+export * from "./domain/ControllerProvider";
 export * from "./domain/DIContext";
 export * from "./domain/InjectablePropertyType";
 export * from "./domain/LocalsContainer";

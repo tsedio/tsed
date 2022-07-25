@@ -1,11 +1,12 @@
 import {Type} from "@tsed/core";
 import {InjectorService, ProviderOpts, registerProvider} from "@tsed/di";
+import {PlatformContextHandler, PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings";
-import {RouterOptions} from "express";
+import {PlatformContext} from "../domain/PlatformContext";
 import {FakeAdapter} from "./FakeAdapter";
 
-export abstract class PlatformAdapter<App = TsED.Application, Router = TsED.Router> {
+export abstract class PlatformAdapter<App = TsED.Application> {
   /**
    * Load providers in top priority
    */
@@ -16,12 +17,24 @@ export abstract class PlatformAdapter<App = TsED.Application, Router = TsED.Rout
   onInit?: () => any;
   beforeLoadRoutes?: () => Promise<any>;
   afterLoadRoutes?: () => Promise<any>;
-  useRouter?: () => any;
-  useContext?: () => any;
+  /**
+   * create initial context
+   */
+  abstract useContext: () => any;
+  /**
+   * Map router layer to the targeted framework
+   */
+  abstract mapLayers: (layer: PlatformLayer[]) => void;
+  /**
+   * Map handler to the targeted framework
+   */
+  abstract mapHandler: (handler: Function, layer: PlatformHandlerMetadata) => Function;
 
+  /**
+   * Return the app instance
+   */
   abstract app(): {app: App; callback(): any};
 
-  abstract router(routerOptions?: Partial<RouterOptions>): {router: Router; callback(): any};
   /**
    * Return the statics middlewares
    * @param endpoint
@@ -43,8 +56,8 @@ export abstract class PlatformAdapter<App = TsED.Application, Router = TsED.Rout
   abstract bodyParser(type: string, opts?: Record<string, any>): any;
 }
 
-export interface PlatformBuilderSettings<App = TsED.Application, Router = TsED.Router> extends Partial<TsED.Configuration> {
-  adapter?: Type<PlatformAdapter<App, Router>>;
+export interface PlatformBuilderSettings<App = TsED.Application> extends Partial<TsED.Configuration> {
+  adapter?: Type<PlatformAdapter<App>>;
 }
 
 registerProvider({

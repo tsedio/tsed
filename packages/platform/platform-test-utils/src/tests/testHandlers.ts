@@ -16,9 +16,9 @@ export class MyModel {
 @Controller("/handlers")
 export class HandlersCtrl {
   @Get("/scenario-1/:id") // Express style
-  public scenario1(request: any, response: any): MyModel {
+  public scenario1(@PathParams("id") id: string): MyModel {
     const model = new MyModel();
-    model.id = request.params.id;
+    model.id = id;
     model.name = "test";
 
     return model;
@@ -57,6 +57,9 @@ export function testHandlers(options: PlatformTestOptions) {
   beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
+      logger: {
+        leve: "info"
+      },
       mount: {
         "/rest": [HandlersCtrl]
       }

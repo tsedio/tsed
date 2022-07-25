@@ -79,9 +79,7 @@ export class FormioModule implements OnRoutesInit, OnReady {
 
   async $onRoutesInit() {
     if (this.formio.isInit()) {
-      const router: any = this.app.getRouter();
-
-      router.use(this.baseUrl, this.formio.middleware.restrictRequestTypes, this.formio.router);
+      this.app.use(this.baseUrl, this.formio.middleware.restrictRequestTypes, this.formio.router);
 
       if (await this.shouldInstall()) {
         await this.installer.install(this.template!, this.root);
@@ -107,18 +105,12 @@ export class FormioModule implements OnRoutesInit, OnReady {
       Object.entries(spec.paths).forEach(([path, methods]: [string, any]) => {
         Object.entries(methods).forEach(([method, operation]: [string, any]) => {
           routes.push({
-            toJSON() {
-              return {
-                method,
-                name: operation.operationId,
-                url: normalizePath(baseUrl, path.replace(/\/{(.*)}/gi, "/:$1")),
-                className: "formio",
-                methodClassName: operation.operationId,
-                parameters: [],
-                rawBody: false
-              };
-            }
-          } as any);
+            method,
+            name: operation.operationId,
+            url: normalizePath(baseUrl, path.replace(/\/{(.*)}/gi, "/:$1")),
+            className: "formio",
+            methodClassName: operation.operationId
+          });
         });
       });
     }

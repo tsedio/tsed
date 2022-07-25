@@ -1,71 +1,35 @@
-import {HandlerMetadata, HandlerType, OnRequestOptions, PlatformContext, PlatformHandler} from "@tsed/common";
-import Koa from "koa";
+import {PlatformContext, PlatformHandler, PlatformParamsCallback} from "@tsed/common";
+import {isStream} from "@tsed/core";
+import {PlatformContextHandler} from "@tsed/platform-router";
 import "./PlatformKoaRequest";
 
-const OVERRIDE_TYPES = [HandlerType.ENDPOINT, HandlerType.MIDDLEWARE, HandlerType.ERR_MIDDLEWARE, HandlerType.CTX_FN];
-
 export class PlatformKoaHandler extends PlatformHandler {
-  public async flush(data: any, ctx: PlatformContext): Promise<void> {
-    if (data === undefined && ctx.getResponse().body) {
-      data = ctx.getResponse().body;
+  public async flush($ctx: PlatformContext) {
+    if ($ctx.data === undefined && $ctx.getResponse().body) {
+      $ctx.data = $ctx.getResponse().body;
     }
 
-    return super.flush(data, ctx);
+    return super.flush($ctx);
   }
 
-  protected createRawHandler(metadata: HandlerMetadata) {
-    if (OVERRIDE_TYPES.includes(metadata.type)) {
-      const handler = this.compileHandler(metadata);
-      return async (ctx: Koa.Context, next: Koa.Next) => handler({next, $ctx: ctx.request.$ctx});
-    }
-
-    return super.createRawHandler(metadata);
-  }
-
-  protected async onRequest(requestOptions: OnRequestOptions): Promise<any> {
-    const {metadata, $ctx} = requestOptions;
-
-    if ($ctx.data instanceof Error) {
-      if (metadata.hasErrorParam) {
-        requestOptions.err = $ctx.data;
-      } else {
-        return this.onError($ctx.data, requestOptions);
-      }
-    }
-
-    return super.onRequest(requestOptions);
-  }
-
-  protected onError(error: unknown, requestOptions: OnRequestOptions) {
-    const {next, $ctx, metadata} = requestOptions;
-
-    // istanbul ignore next
-    if ($ctx.isDone()) {
+  async onRequest(handler: PlatformParamsCallback, $ctx: PlatformContext): Promise<any> {
+    if ($ctx.error instanceof Error && !$ctx.handlerMetadata.hasErrorParam) {
       return;
     }
 
-    $ctx.data = error;
+    return super.onRequest(handler, $ctx);
+  }
 
-    if (!next || metadata.isFinal()) {
-      this.throwError(error, $ctx);
-
+  public next(error: unknown, next: any, $ctx: PlatformContext) {
+    if (isStream($ctx.data) || $ctx.isDone()) {
       return;
     }
 
-    return next();
-  }
-
-  protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {
-    const {$ctx} = requestOptions;
-
-    try {
-      return await super.onCtxRequest(requestOptions);
-    } catch (error) {
-      this.throwError(error, $ctx);
+    if (error && !($ctx.handlerMetadata.isEndpoint() && !$ctx.handlerMetadata.isFinal())) {
+      $ctx.getApp().emit("error", error, $ctx.getRequest().ctx);
+      return;
     }
-  }
 
-  protected throwError(error: any, $ctx: PlatformContext) {
-    $ctx.getApp().emit("error", error, $ctx.getRequest().ctx);
+    return !$ctx.handlerMetadata.isFinal() && next();
   }
 }

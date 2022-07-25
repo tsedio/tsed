@@ -82,6 +82,7 @@
     "@tsed/platform-params": "7.0.0-beta.13",
     "@tsed/platform-response-filter": "7.0.0-beta.13",
     "@tsed/platform-views": "7.0.0-beta.13",
+    "@tsed/platform-router": "7.0.0-beta.13",
     "@tsed/schema": "7.0.0-beta.13",
     "@types/json-schema": "7.0.11",
     "@types/on-finished": "2.3.1",

@@ -1,5 +1,6 @@
 import {PlatformApplication, PlatformTest} from "@tsed/common";
 import {nameOf} from "@tsed/core";
+import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {PlatformContext} from "./PlatformContext";
 
 describe("PlatformContext", () => {
@@ -26,6 +27,9 @@ describe("PlatformContext", () => {
     context.endpoint = {} as any;
     context.logger.info("test");
 
+    context.handlerMetadata = {} as any;
+    context.endpoint = {} as any;
+
     expect(context.id).toEqual("id");
     expect(context.dateStart).toBeInstanceOf(Date);
     expect(context.container).toBeInstanceOf(Map);
@@ -35,6 +39,7 @@ describe("PlatformContext", () => {
     expect(context.getReq()).toEqual(context.request.raw);
     expect(context.getRes()).toEqual(context.response.raw);
     expect(context.app).toBeInstanceOf(PlatformApplication);
+    expect(context.handlerMetadata).toEqual({});
     expect(context.endpoint).toEqual({});
     expect(nameOf(context.getApp())).toEqual("FakeRawDriver");
   });
@@ -67,6 +72,30 @@ describe("PlatformContext", () => {
     expect(nameOf(context.getApp())).toEqual("FakeRawDriver");
   });
   it("should return done when the response is empty", async () => {
+    const context = new PlatformContext({
+      id: "id",
+      event: {
+        response: PlatformTest.createResponse(),
+        request: PlatformTest.createRequest({
+          url: "/"
+        })
+      },
+      logger: {
+        info: jest.fn()
+      },
+      injector: PlatformTest.injector,
+      maxStackSize: 0,
+      ignoreUrlPatterns: ["/admin"]
+    });
+
+    expect(context.isDone()).toEqual(false);
+
+    await context.destroy();
+
+    expect(context.isDone()).toEqual(true);
+  });
+  it("should return done when the response is empty", async () => {
+    // @ts-ignore
     const context = new PlatformContext({
       id: "id",
       event: {

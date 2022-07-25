@@ -1,4 +1,4 @@
-import {PlatformTest} from "@tsed/common";
+import {PlatformHandlerMetadata, PlatformTest} from "@tsed/common";
 import {PlatformLogMiddleware} from "./PlatformLogMiddleware";
 
 async function createMiddlewareFixture() {
@@ -17,6 +17,10 @@ async function createMiddlewareFixture() {
     },
     endpoint: new Map(),
     logger: PlatformTest.injector.logger
+  });
+
+  ctx.handlerMetadata = new PlatformHandlerMetadata({
+    handler: () => {}
   });
 
   jest.spyOn(PlatformTest.injector.logger, "info").mockResolvedValue(undefined);
@@ -44,12 +48,13 @@ describe("PlatformLogMiddleware", () => {
         // GIVEN
         const {request, ctx, middleware} = await createMiddlewareFixture();
         request.originalUrl = "/originalUrl";
-        ctx.endpoint.set("route", "/:id");
+        ctx.handlerMetadata.path = "/:id";
+
         // WHEN
         middleware.use(ctx);
 
         // THEN
-        middleware.$onResponse(request.$ctx);
+        middleware.$onResponse(ctx);
 
         // THEN
         expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
@@ -92,13 +97,13 @@ describe("PlatformLogMiddleware", () => {
 
       it("should configure request and create context logger (debug, logRequest)", async () => {
         // GIVEN
-        const {request, ctx, middleware} = await createMiddlewareFixture();
+        const {ctx, middleware} = await createMiddlewareFixture();
 
         // WHEN
         middleware.use(ctx);
 
         // THEN
-        middleware.$onResponse(request.$ctx as any);
+        middleware.$onResponse(ctx as any);
 
         // THEN
         expect(PlatformTest.injector.logger.debug).toHaveBeenCalledWith(
@@ -137,7 +142,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        middleware.$onResponse(request.$ctx as any);
+        middleware.$onResponse(ctx as any);
 
         // THEN
         expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
@@ -160,13 +165,13 @@ describe("PlatformLogMiddleware", () => {
       afterEach(() => PlatformTest.reset());
       it("should configure request and create context logger (no debug, logRequest, logStart)", async () => {
         // GIVEN
-        const {request, ctx, middleware} = await createMiddlewareFixture();
+        const {ctx, middleware} = await createMiddlewareFixture();
 
         // WHEN
         middleware.use(ctx);
 
         // THEN
-        middleware.$onResponse(request.$ctx as any);
+        middleware.$onResponse(ctx as any);
 
         // THEN
         expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(

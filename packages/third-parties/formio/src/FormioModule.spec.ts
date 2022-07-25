@@ -65,7 +65,6 @@ describe("FormioModule", () => {
 
       await service.$onRoutesInit();
 
-      expect(app.getRouter).toHaveBeenCalledWith();
       expect(app.use).toHaveBeenCalledWith("/", formio.middleware.restrictRequestTypes, formio.router);
       expect(installer.install).toHaveBeenCalledWith(template, root);
     });
@@ -98,14 +97,12 @@ describe("FormioModule", () => {
 
       const results = await service.$logRoutes(routes);
 
-      expect(results.map((o) => o.toJSON())).toEqual([
+      expect(results).toEqual([
         {
           className: "formio",
           method: "get",
           methodClassName: "operationId",
           name: "operationId",
-          parameters: [],
-          rawBody: false,
           url: "/projects/path/to"
         }
       ]);

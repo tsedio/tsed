@@ -21,6 +21,7 @@ import {RouterSettings} from "./routerSettings";
  * @returns {Function}
  * @decorator
  * @express
+ * @deprecated
  */
 export function CaseSensitive(caseSensitive: boolean) {
   return RouterSettings({caseSensitive});

@@ -1,7 +1,7 @@
-import {PlatformTest} from "@tsed/common";
+import {jest} from "@jest/globals";
+import {PlatformApplication, PlatformTest} from "@tsed/common";
 import {ApolloServer} from "apollo-server-express";
 import {ApolloService} from "./ApolloService";
-import {jest} from "@jest/globals";
 
 jest.mock("apollo-server-express");
 
@@ -19,7 +19,14 @@ describe("ApolloService", () => {
     describe("when server options isn't given", () => {
       it("should create a server", async () => {
         // GIVEN
-        const service = PlatformTest.get(ApolloService);
+        const service = PlatformTest.get<ApolloService>(ApolloService);
+        const app = PlatformTest.get(PlatformApplication);
+
+        const middleware = function middleware() {};
+        // @ts-ignore
+        ApolloServer.prototype.getMiddleware = jest.fn().mockReturnValue(middleware);
+
+        jest.spyOn(app, "use").mockReturnThis();
 
         // WHEN
         const result1 = await service.createServer("key", {
@@ -35,6 +42,7 @@ describe("ApolloService", () => {
         expect(result1.getMiddleware).toHaveBeenCalledWith({
           path: "/path"
         });
+        expect(app.use).toHaveBeenCalledWith(middleware);
       });
     });
   });

@@ -2,20 +2,15 @@ import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
 import {OutgoingHttpHeaders, ServerResponse} from "http";
 import onFinished from "on-finished";
-import {IncomingEvent} from "../interfaces/IncomingEvent";
-import type {PlatformRequest} from "./PlatformRequest";
 import type {PlatformContext} from "../domain/PlatformContext";
+import {PlatformRequest} from "./PlatformRequest";
 
 declare global {
   namespace TsED {
     // @ts-ignore
-    export interface Response {
-      // req: any;
-    }
+    export interface Response {}
   }
 }
-
-export type HeaderValue = Array<boolean | number | string> | boolean | number | string;
 
 /**
  * Platform Response abstraction layer.
@@ -101,7 +96,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * Return the Node.js response object
    */
   getRes(): ServerResponse {
-    return this.raw as any;
+    return this.$ctx.event.response;
   }
 
   hasStatus() {
@@ -307,7 +302,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param cb
    */
   onEnd(cb: (er: Error | null, message: string) => void): this {
-    PlatformResponse.onFinished(this.getRes(), cb);
+    PlatformResponse.onFinished(this.$ctx.event.response, cb);
 
     return this;
   }

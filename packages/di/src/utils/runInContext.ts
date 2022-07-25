@@ -16,5 +16,13 @@ export function runInContext(ctx: DIContext, cb: any) {
 }
 
 export function bindContext(cb: any) {
-  return AsyncResource.bind(cb);
+  let localArgs: any;
+  const newCB: any = AsyncResource.bind(() => cb(...localArgs));
+
+  // FIXME: remove this hack when the support of v14 will be removed
+  // see issue: https://github.com/nodejs/node/issues/36051
+  return (...args: any) => {
+    localArgs = args;
+    return newCB(...args);
+  };
 }

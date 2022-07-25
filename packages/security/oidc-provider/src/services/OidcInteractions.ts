@@ -52,10 +52,10 @@ export class OidcInteractions {
     const interaction = this.getInteractionProvider(name);
 
     if (interaction) {
+      const endpoint = EndpointMetadata.get(interaction.useClass, "$prompt");
       return (ctx: PlatformContext) => {
         // Add current endpoint metadata to ctx
-        ctx.endpoint = EndpointMetadata.get(interaction.useClass, "$prompt");
-
+        ctx.endpoint = endpoint;
         return interaction.store.get("$prompt")(ctx);
       };
     }

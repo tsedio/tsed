@@ -22,7 +22,7 @@ export class OidcInteractionContext {
   protected oidcInteractions: OidcInteractions;
 
   @Inject()
-  protected context: PlatformContext;
+  protected $ctx: PlatformContext;
 
   protected raw: OidcInteraction;
 
@@ -50,26 +50,26 @@ export class OidcInteractionContext {
     const handler = this.oidcInteractions.getInteractionHandler(name);
 
     if (handler) {
-      await handler(this.context);
+      await handler(this.$ctx);
     }
   }
 
   async interactionDetails(): Promise<OidcInteraction> {
-    this.raw = await this.oidcProvider.get().interactionDetails(this.context.getReq(), this.context.getRes());
+    this.raw = await this.oidcProvider.get().interactionDetails(this.$ctx.getReq(), this.$ctx.getRes());
 
     return this.raw;
   }
 
   async interactionFinished(result: InteractionResults, options: {mergeWithLastSubmission?: boolean} = {mergeWithLastSubmission: false}) {
-    return this.oidcProvider.get().interactionFinished(this.context.getReq(), this.context.getRes(), result, options);
+    return this.oidcProvider.get().interactionFinished(this.$ctx.getReq(), this.$ctx.getRes(), result, options);
   }
 
   async interactionResult(result: InteractionResults, options: {mergeWithLastSubmission?: boolean} = {mergeWithLastSubmission: false}) {
-    return this.oidcProvider.get().interactionResult(this.context.getReq(), this.context.getRes(), result, options);
+    return this.oidcProvider.get().interactionResult(this.$ctx.getReq(), this.$ctx.getRes(), result, options);
   }
 
   async render(view: string, result: any): Promise<string> {
-    return this.context.response.render(view, result);
+    return this.$ctx.response.render(view, result);
   }
 
   async save(ttl: number): Promise<string> {

@@ -1,29 +1,25 @@
 import {
-  createContext,
+  bindContext,
+  getContext,
   InjectorService,
   PlatformAdapter,
   PlatformApplication,
   PlatformBuilder,
   PlatformContext,
   PlatformExceptions,
-  PlatformHandler,
   PlatformMulter,
   PlatformMulterSettings,
-  PlatformRequest,
-  PlatformResponse,
   PlatformStaticsOptions
 } from "@tsed/common";
 import {Env, isFunction, nameOf, Type} from "@tsed/core";
+import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
-import Express, {RouterOptions} from "express";
+import Express from "express";
 import type multer from "multer";
 import {promisify} from "util";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
-import {PlatformExpressHandler} from "../services/PlatformExpressHandler";
-import {PlatformExpressRequest} from "../services/PlatformExpressRequest";
-import {PlatformExpressResponse} from "../services/PlatformExpressResponse";
 
 declare module "express" {
   export interface Request {
@@ -34,7 +30,7 @@ declare module "express" {
 
 declare global {
   namespace TsED {
-    export interface Router extends Express.Router {}
+    // export interface Router extends Express.Router {}
 
     export interface Application extends Express.Application {}
 
@@ -51,21 +47,8 @@ declare global {
  * @platform
  * @express
  */
-export class PlatformExpress implements PlatformAdapter<Express.Application, Express.Router> {
-  readonly providers = [
-    {
-      provide: PlatformHandler,
-      useClass: PlatformExpressHandler
-    },
-    {
-      provide: PlatformResponse,
-      useClass: PlatformExpressResponse
-    },
-    {
-      provide: PlatformRequest,
-      useClass: PlatformExpressRequest
-    }
-  ];
+export class PlatformExpress implements PlatformAdapter<Express.Application> {
+  readonly providers = [];
   #multer: typeof multer;
 
   constructor(protected injector: InjectorService) {
@@ -78,7 +61,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
    * @param settings
    */
   static create(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return PlatformBuilder.create<Express.Application, Express.Router>(module, {
+    return PlatformBuilder.create<Express.Application>(module, {
       ...settings,
       adapter: PlatformExpress
     });
@@ -90,7 +73,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
    * @param settings
    */
   static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
-    return PlatformBuilder.bootstrap<Express.Application, Express.Router>(module, {
+    return PlatformBuilder.bootstrap<Express.Application>(module, {
       ...settings,
       adapter: PlatformExpress
     });
@@ -113,16 +96,6 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     );
   }
 
-  useRouter(): this {
-    const {logger} = this.injector;
-    const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
-
-    logger.debug("Mount app router");
-    app.getApp().use(app.getRouter());
-
-    return this;
-  }
-
   async beforeLoadRoutes() {
     const injector = this.injector;
     const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
@@ -131,38 +104,88 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     injector.settings.get("env") === Env.PROD && app.getApp().disable("x-powered-by");
 
     await this.configureViewsEngine();
+    this.useContext();
   }
 
   async afterLoadRoutes() {
-    const injector = this.injector;
     const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
+    const platformExceptions = this.injector.get<PlatformExceptions>(PlatformExceptions)!;
 
     // NOT FOUND
     app.use((req: any, res: any, next: any) => {
-      !res.headersSent && injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound(req.$ctx);
+      const $ctx = getContext()!;
+      !$ctx.isDone() && platformExceptions.resourceNotFound($ctx);
     });
 
     // EXCEPTION FILTERS
     app.use((err: any, req: any, res: any, next: any) => {
-      !res.headersSent && injector.get<PlatformExceptions>(PlatformExceptions)?.catch(err, req.$ctx);
+      const $ctx = getContext()!;
+
+      !$ctx.isDone() && platformExceptions.catch(err, $ctx);
     });
   }
 
+  mapLayers(layers: PlatformLayer[]) {
+    const app = this.getPlatformApplication();
+    const rawApp: any = app.getApp();
+
+    layers.forEach((layer) => {
+      switch (layer.method) {
+        case "statics":
+          rawApp.use(layer.path, this.statics(layer.path as string, layer.opts as any));
+          return;
+      }
+
+      rawApp[layer.method](...layer.getArgs());
+    });
+  }
+
+  mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
+    switch (metadata.type) {
+      case PlatformHandlerType.RAW_ERR_FN:
+        return (error: unknown, req: any, res: any, next: any) => handler(error, req, res, bindContext(next));
+      case PlatformHandlerType.RAW_FN:
+        return (req: any, res: any, next: any) => handler(req, res, bindContext(next));
+      case PlatformHandlerType.ERR_MIDDLEWARE:
+        return async (error: unknown, req: any, res: any, next: any) => {
+          const $ctx = getContext<PlatformContext>()!;
+          $ctx.next = next;
+          $ctx.error = error;
+
+          await handler($ctx);
+        };
+      default:
+        return async (req: any, res: any, next: any) => {
+          const $ctx = getContext<PlatformContext>()!;
+          $ctx.next = next;
+
+          await handler($ctx);
+        };
+    }
+  }
+
   useContext(): this {
-    const {logger} = this.injector;
+    const app = this.getPlatformApplication();
 
-    logger.debug("Mount app context");
+    app.use(async (request: any, response: any, next: any) => {
+      const $ctx = getContext<PlatformContext>()!;
 
-    const invoke = createContext(this.injector);
-    const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
-
-    app.getApp().use(async (request: any, response: any, next: any) => {
-      await invoke({request, response});
+      $ctx.upgrade({request, response});
 
       return next();
     });
 
     return this;
+  }
+
+  app() {
+    const app = this.injector.settings.get("express.app") || Express();
+    return {
+      app,
+      callback() {
+        return app;
+      }
+    };
   }
 
   multipart(options: PlatformMulterSettings): PlatformMulter {
@@ -188,35 +211,6 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     makePromise(m, "single");
 
     return m;
-  }
-
-  app() {
-    const app = this.injector.settings.get("express.app") || Express();
-    return {
-      app,
-      callback() {
-        return app;
-      }
-    };
-  }
-
-  router(routerOptions: Partial<RouterOptions> = {}) {
-    const options = Object.assign(
-      {
-        mergeParams: true
-      },
-      this.injector.settings.get("express.router", {}),
-      routerOptions
-    );
-
-    const router = Express.Router(options);
-
-    return {
-      router,
-      callback() {
-        return router;
-      }
-    };
   }
 
   statics(endpoint: string, options: PlatformStaticsOptions) {
@@ -245,6 +239,10 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     }
 
     return parser({...options, ...additionalOptions});
+  }
+
+  private getPlatformApplication() {
+    return this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
   }
 
   private async configureViewsEngine() {

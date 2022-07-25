@@ -4,11 +4,8 @@
 
 export * from "./exports";
 export * from "./components/PlatformKoa";
-export * from "./decorators/caseSensitive";
 export * from "./decorators/ctx";
-export * from "./decorators/routerSettings";
 export * from "./decorators/state";
-export * from "./decorators/strict";
 export * from "./interfaces/PlatformKoaSettings";
 export * from "./interfaces/interfaces";
 export * from "./middlewares/resourceNotFoundMiddleware";

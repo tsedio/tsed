@@ -1,4 +1,5 @@
 import {ContextMethods, DIContext, DIContextOptions} from "@tsed/di";
+import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {EndpointMetadata} from "@tsed/schema";
 import {IncomingMessage, ServerResponse} from "http";
 import {IncomingEvent} from "../interfaces/IncomingEvent";
@@ -32,6 +33,10 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
    */
   public error?: unknown;
   /**
+   *
+   */
+  public next?: any;
+  /**
    * The current @@PlatformResponse@@.
    */
   readonly response: PRes;
@@ -58,18 +63,32 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
     this.container.set(PlatformRequest, this.request);
     this.container.set(PlatformContext, this);
 
-    this.response.setHeader("x-request-id", this.id);
+    this.event.response.setHeader("x-request-id", this.id);
   }
 
   /**
    * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
    */
-  get endpoint(): EndpointMetadata {
+  get endpoint() {
     return this.get(EndpointMetadata);
   }
 
   set endpoint(endpoint: EndpointMetadata) {
     this.set(EndpointMetadata, endpoint);
+  }
+
+  /**
+   * The current @@PlatformHandlerMetadata@@ resolved by Ts.ED during the request.
+   */
+  get handlerMetadata() {
+    return this.get(PlatformHandlerMetadata);
+  }
+
+  /**
+   * The current @@PlatformHandlerMetadata@@ resolved by Ts.ED during the request.
+   */
+  set handlerMetadata(metadata: PlatformHandlerMetadata) {
+    this.set(PlatformHandlerMetadata, metadata);
   }
 
   get url() {

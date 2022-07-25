@@ -51,11 +51,14 @@ describe("DIContext", () => {
         maxStackSize: 0
       });
 
+      context.next = jest.fn();
+
       expect(context.id).toEqual("id");
       expect(context.dateStart).toBeInstanceOf(Date);
       expect(context.container).toBeInstanceOf(Map);
       expect(context.env).toEqual("test");
 
+      context.next();
       context.logger.info("test");
 
       expect(logger.info).toHaveBeenCalled();

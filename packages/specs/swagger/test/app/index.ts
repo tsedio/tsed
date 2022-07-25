@@ -13,7 +13,18 @@ if (process.env.NODE_ENV !== "test") {
     value: string;
   }
 
-  @Controller("/hello")
+  @Controller("/nested")
+  class HelloWorld3 {
+    @Get("/")
+    get() {
+      return {test: "Hello world"};
+    }
+  }
+
+  @Controller({
+    path: "/hello",
+    children: [HelloWorld3]
+  })
   class HelloWorld {
     @Get("/")
     get() {
