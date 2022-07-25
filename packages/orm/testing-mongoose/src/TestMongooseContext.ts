@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {MongooseService} from "@tsed/mongoose";
-import {MongoMemoryServer} from "mongodb-memory-server";
+import {MongoMemoryReplSet, MongoMemoryServer} from "mongodb-memory-server";
 import {resolve} from "path";
 import {version} from "mongoose";
 import semver from "semver";
@@ -9,18 +9,18 @@ import {MongoMemoryServerStates} from "mongodb-memory-server-core/lib/MongoMemor
 const downloadDir = resolve(`${require.resolve("mongodb-memory-server")}/../../.cache/mongodb-memory-server/mongodb-binaries`);
 
 export class TestMongooseContext extends PlatformTest {
-  static getMongo(): MongoMemoryServer {
+  static getMongo(): MongoMemoryServer | MongoMemoryReplSet {
     // @ts-ignore
     return global.__MONGOD__;
   }
 
-  static async install(options: any = {binary: {}}) {
+  static async install({replicaSet, ...opts}: {replicaSet?: boolean} & Record<string, any> = {}) {
     if (!TestMongooseContext.getMongo()) {
       // @ts-ignore
-      global.__MONGOD__ = new MongoMemoryServer({
-        ...options,
+      global.__MONGOD__ = new (replicaSet ? MongoMemoryReplSet : MongoMemoryServer)({
+        ...opts,
         binary: {
-          ...(options.binary || {}),
+          ...(opts.binary || {}),
           downloadDir
         }
       });
