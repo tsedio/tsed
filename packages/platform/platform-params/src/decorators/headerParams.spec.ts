@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {ParamTypes} from "../domain/ParamTypes";
 import {HeaderParams} from "./headerParams";
 import {JsonParameterStore} from "@tsed/schema";
@@ -10,7 +9,7 @@ describe("@HeaderParams", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("expression");
-    expect(param.paramType).to.eq(ParamTypes.HEADER);
+    expect(param.expression).toEqual("expression");
+    expect(param.paramType).toEqual(ParamTypes.HEADER);
   });
 });

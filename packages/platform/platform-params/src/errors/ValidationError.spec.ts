@@ -1,5 +1,4 @@
 import {ValidationError} from "@tsed/common";
-import {expect} from "chai";
 
 describe("ValidationError", () => {
   it("should return error", () => {
@@ -9,11 +8,11 @@ describe("ValidationError", () => {
       }
     ]);
 
-    expect(error.errors).to.deep.eq([
+    expect(error.errors).toEqual([
       {
         dataPath: "hello"
       }
     ]);
-    expect(error.message).to.eq("should have required property");
+    expect(error.message).toEqual("should have required property");
   });
 });

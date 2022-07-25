@@ -114,7 +114,7 @@ export class PlatformServerless {
 
   protected callback(token: Type<any>, propertyKey: string): Handler {
     const entity = JsonEntityStore.fromMethod(token, propertyKey);
-    let handler: ($ctx: ServerlessContext) => Promise<any>;
+    let handler: ($ctx: ServerlessContext) => Promise<APIGatewayProxyResult>;
 
     return async (event, context) => {
       await this.init();

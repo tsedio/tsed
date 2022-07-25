@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {ParamTypes} from "../domain/ParamTypes";
 import {QueryParams, RawQueryParams} from "./queryParams";
 import {JsonParameterStore} from "@tsed/schema";
@@ -12,9 +11,9 @@ describe("@QueryParams", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("expression");
-    expect(param.paramType).to.eq(ParamTypes.QUERY);
-    expect(param.type).to.eq(Test);
+    expect(param.expression).toEqual("expression");
+    expect(param.paramType).toEqual(ParamTypes.QUERY);
+    expect(param.type).toEqual(Test);
   });
 
   it("should call ParamFilter.useParam method with the correct parameters (rawQueryParams)", () => {
@@ -23,7 +22,7 @@ describe("@QueryParams", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("expression");
-    expect(param.paramType).to.eq(ParamTypes.QUERY);
+    expect(param.expression).toEqual("expression");
+    expect(param.paramType).toEqual(ParamTypes.QUERY);
   });
 });

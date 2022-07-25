@@ -1,10 +1,9 @@
 import {RequiredValidationError, ValidationError} from "@tsed/common";
-import {expect} from "chai";
 import {ParamValidationError} from "./ParamValidationError";
 
 describe("ParseExpressionError", () => {
   it("should return error without transformation", () => {
-    expect(ParamValidationError.from({} as any, new Error("error")).message).to.eq("error");
+    expect(ParamValidationError.from({} as any, new Error("error")).message).toEqual("error");
   });
   it("should return error", () => {
     const validationError = new ValidationError("message");
@@ -16,11 +15,11 @@ describe("ParseExpressionError", () => {
       } as any,
       validationError
     );
-    expect(error.message).to.equal('Bad request on parameter "request.name.expression".\nmessage');
-    expect(error.name).to.equal("PARAM_VALIDATION_ERROR");
-    expect(error.dataPath).to.equal("expression");
-    expect(error.requestType).to.equal("name");
-    expect(JSON.parse(JSON.stringify(error))).to.deep.equal({
+    expect(error.message).toEqual('Bad request on parameter "request.name.expression".\nmessage');
+    expect(error.name).toEqual("PARAM_VALIDATION_ERROR");
+    expect(error.dataPath).toEqual("expression");
+    expect(error.requestType).toEqual("name");
+    expect(JSON.parse(JSON.stringify(error))).toEqual({
       dataPath: "expression",
       headers: {},
       name: "PARAM_VALIDATION_ERROR",
@@ -46,11 +45,11 @@ describe("ParseExpressionError", () => {
     const origin = RequiredValidationError.from(metadata);
 
     const error = ParamValidationError.from(metadata, origin);
-    expect(error.message).to.equal("Bad request on parameter \"request.name.expression\".\nIt should have required parameter 'expression'");
-    expect(error.dataPath).to.equal("expression");
-    expect(error.requestType).to.equal("name");
+    expect(error.message).toEqual("Bad request on parameter \"request.name.expression\".\nIt should have required parameter 'expression'");
+    expect(error.dataPath).toEqual("expression");
+    expect(error.requestType).toEqual("name");
 
-    expect(JSON.parse(JSON.stringify(error))).to.deep.equal({
+    expect(JSON.parse(JSON.stringify(error))).toEqual({
       dataPath: "expression",
       headers: {},
       name: "PARAM_VALIDATION_ERROR",
@@ -91,11 +90,11 @@ describe("ParseExpressionError", () => {
     ]);
 
     const error = ParamValidationError.from(metadata, origin);
-    expect(error.message).to.equal('Bad request on parameter "request.name.expression".\nIt should have 1 item');
-    expect(error.dataPath).to.equal("expression");
-    expect(error.requestType).to.equal("name");
+    expect(error.message).toEqual('Bad request on parameter "request.name.expression".\nIt should have 1 item');
+    expect(error.dataPath).toEqual("expression");
+    expect(error.requestType).toEqual("name");
 
-    expect(JSON.parse(JSON.stringify(error))).to.deep.equal({
+    expect(JSON.parse(JSON.stringify(error))).toEqual({
       dataPath: "expression",
       headers: {},
       name: "PARAM_VALIDATION_ERROR",

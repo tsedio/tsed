@@ -1,6 +1,5 @@
 import {Get} from "@tsed/common";
 import {Description, Example, getSpec, JsonParameterStore, Property, Required, SpecTypes, Title} from "@tsed/schema";
-import {expect} from "chai";
 import {ParamTypes} from "../domain/ParamTypes";
 import {QueryParams} from "./queryParams";
 import {UseParam} from "./useParam";
@@ -36,9 +35,9 @@ describe("@UseParam", () => {
       }
 
       const param = JsonParameterStore.get(Ctrl, "test", 0);
-      expect(param.expression).to.eq("expression");
-      expect(param.paramType).to.eq(ParamTypes.BODY);
-      expect(param.type).to.eq(Test);
+      expect(param.expression).toEqual("expression");
+      expect(param.paramType).toEqual(ParamTypes.BODY);
+      expect(param.type).toEqual(Test);
     });
   });
   describe("when is a Query param with boolean", () => {
@@ -50,7 +49,7 @@ describe("@UseParam", () => {
 
       const spec = getSpec(Ctrl, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.equal({
+      expect(spec).toEqual({
         paths: {
           "/": {
             get: {

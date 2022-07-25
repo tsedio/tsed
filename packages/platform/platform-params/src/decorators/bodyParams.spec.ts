@@ -1,4 +1,3 @@
-import {expect} from "chai";
 import {Controller} from "@tsed/di";
 import {getSpec, JsonParameterStore, Post, SpecTypes} from "@tsed/schema";
 import {ParamTypes} from "../domain/ParamTypes";
@@ -13,9 +12,9 @@ describe("@BodyParams", () => {
     }
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
-    expect(param.expression).to.eq("expression");
-    expect(param.paramType).to.eq(ParamTypes.BODY);
-    expect(param.type).to.eq(Test);
+    expect(param.expression).toEqual("expression");
+    expect(param.paramType).toEqual(ParamTypes.BODY);
+    expect(param.type).toEqual(Test);
   });
   it("should create a raw body params", () => {
     @Controller("/")
@@ -26,7 +25,7 @@ describe("@BodyParams", () => {
 
     const spec = getSpec(MyCtrl, {specType: SpecTypes.OPENAPI});
 
-    expect(spec).to.deep.eq({
+    expect(spec).toEqual({
       paths: {
         "/": {
           post: {
@@ -69,7 +68,7 @@ describe("@BodyParams", () => {
 
       const spec = getSpec(MyCtrl, {specType: SpecTypes.OPENAPI});
 
-      expect(spec).to.deep.eq({
+      expect(spec).toEqual({
         paths: {
           "/": {
             post: {

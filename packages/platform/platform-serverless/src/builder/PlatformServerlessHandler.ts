@@ -44,9 +44,9 @@ export class PlatformServerlessHandler {
         }
 
         await this.injector.emit("$onResponse", $ctx);
-
-        return this.flush($ctx);
       });
+
+      return this.flush($ctx);
     };
   }
 
