@@ -7,7 +7,6 @@ import {SinglePathType} from "./SinglePathType";
 
 export interface PlatformHandlerMetadataOpts extends Record<string, any> {
   token?: TokenProvider;
-  isFinal?: boolean;
 }
 
 export interface PlatformHandlerMetadataProps {
@@ -119,12 +118,12 @@ export class PlatformHandlerMetadata {
     return this.getParams().findIndex((p) => p.paramType === paramType) > -1;
   }
 
-  public isFinal() {
-    return this.opts?.isFinal || false;
+  public isInjectable() {
+    return !(this.isRawMiddleware() || this.isResponseFn());
   }
 
   public isRawMiddleware() {
-    return [PlatformHandlerType.RAW_ERR_FN, PlatformHandlerType.RAW_FN].includes(this.type);
+    return this.type === PlatformHandlerType.RAW_ERR_FN || this.type === PlatformHandlerType.RAW_FN;
   }
 
   public isEndpoint() {
@@ -133,6 +132,10 @@ export class PlatformHandlerMetadata {
 
   public isCtxFn() {
     return this.type === PlatformHandlerType.CTX_FN;
+  }
+
+  public isResponseFn() {
+    return this.type === PlatformHandlerType.RESPONSE_FN;
   }
 
   toString() {

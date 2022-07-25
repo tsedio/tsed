@@ -47,7 +47,6 @@ module.exports = (rootDir) => ({
     "^@tsed/platform-(.*)$": fixPath(join(packageDir, "platform/platform-$1/src")),
     "^@tsed/testing-mongoose$": fixPath(join(packageDir, "orm/testing-mongoose/src")),
     "^@tsed/objection$": fixPath(join(packageDir, "orm/objection/src")),
-    "^@tsed/engines": fixPath(join(packageDir, "engines/src")),
     "^@tsed/typeorm$": fixPath(join(packageDir, "orm/typeorm/src")),
     "^@tsed/mikro-orm": fixPath(join(packageDir, "orm/mikro-orm/src")),
     "^@tsed/prisma": fixPath(join(packageDir, "orm/prisma/src")),

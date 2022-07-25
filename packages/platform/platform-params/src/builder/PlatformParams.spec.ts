@@ -398,5 +398,31 @@ describe("PlatformParams", () => {
 
       expect(result).toEqual("test");
     });
+    it("should return handler", async () => {
+      const platformParams = await invokePlatformParams();
+
+      const $ctx = PlatformTest.createRequestContext({
+        event: {
+          request: {
+            query: {
+              test: "test"
+            },
+            params: {
+              s: "s"
+            }
+          }
+        }
+      });
+
+      const handler = await platformParams.compileHandler({
+        handler: ($ctx: any) => $ctx.request.query.test
+      });
+
+      const result = await handler({
+        $ctx
+      });
+
+      expect(result).toEqual("test");
+    });
   });
 });

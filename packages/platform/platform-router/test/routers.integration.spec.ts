@@ -1,4 +1,4 @@
-import {PlatformContext, PlatformTest} from "@tsed/common";
+import {PlatformContext, PlatformHandlerMetadata, PlatformParamsScope, PlatformTest, useResponseHandler} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {Controller, InjectorService} from "@tsed/di";
 import {UseBefore} from "@tsed/platform-middlewares";
@@ -66,6 +66,22 @@ function createAppRouterFixture() {
 
   injector.addProvider(NestedController, {});
 
+  platformRouters.hooks.on("alterEndpointHandlers", (allMiddlewares: any[]) => {
+    return [
+      ...allMiddlewares,
+      useResponseHandler(() => {
+        return "hello";
+      })
+    ];
+  });
+  platformRouters.hooks.on("alterHandler", (handlerMetadata: PlatformHandlerMetadata) => {
+    if (handlerMetadata.isInjectable()) {
+      return platformParams.compileHandler(handlerMetadata);
+    }
+
+    return handlerMetadata.handler;
+  });
+
   return {injector, appRouter, platformRouters, platformParams};
 }
 
@@ -107,7 +123,7 @@ describe("routers integration", () => {
       const args = layers[0].getArgs();
       expect(layers[0].isProvider()).toEqual(true);
       expect(args[0]).toEqual("/rest/controller");
-      expect(layers[0].getArgs().length).toEqual(4);
+      expect(layers[0].getArgs().length).toEqual(5);
 
       const $ctx = PlatformTest.createRequestContext();
       const result = await (args[3] as any)!({$ctx});
@@ -152,9 +168,7 @@ describe("routers integration", () => {
         {
           handlers: ["h"],
           method: "get",
-          opts: {
-            isFinal: true
-          },
+          opts: {},
           path: "/hello"
         }
       ]);
@@ -170,9 +184,7 @@ describe("routers integration", () => {
         {
           handlers: ["h"],
           method: "post",
-          opts: {
-            isFinal: true
-          },
+          opts: {},
           path: "/hello"
         }
       ]);
@@ -188,9 +200,7 @@ describe("routers integration", () => {
         {
           handlers: ["h"],
           method: "put",
-          opts: {
-            isFinal: true
-          },
+          opts: {},
           path: "/hello"
         }
       ]);
@@ -206,9 +216,7 @@ describe("routers integration", () => {
         {
           handlers: ["h"],
           method: "patch",
-          opts: {
-            isFinal: true
-          },
+          opts: {},
           path: "/hello"
         }
       ]);
@@ -224,9 +232,7 @@ describe("routers integration", () => {
         {
           handlers: ["h"],
           method: "head",
-          opts: {
-            isFinal: true
-          },
+          opts: {},
           path: "/hello"
         }
       ]);
@@ -242,9 +248,7 @@ describe("routers integration", () => {
         {
           handlers: ["h"],
           method: "delete",
-          opts: {
-            isFinal: true
-          },
+          opts: {},
           path: "/hello"
         }
       ]);
@@ -260,9 +264,7 @@ describe("routers integration", () => {
         {
           handlers: ["h"],
           method: "options",
-          opts: {
-            isFinal: true
-          },
+          opts: {},
           path: "/hello"
         }
       ]);
@@ -278,9 +280,7 @@ describe("routers integration", () => {
         {
           handlers: ["h"],
           method: "all",
-          opts: {
-            isFinal: true
-          },
+          opts: {},
           path: "/hello"
         }
       ]);

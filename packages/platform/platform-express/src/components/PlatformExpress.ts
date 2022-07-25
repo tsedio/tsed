@@ -6,13 +6,14 @@ import {
   PlatformBuilder,
   PlatformContext,
   PlatformExceptions,
+  PlatformHandlerType,
   PlatformMulter,
   PlatformMulterSettings,
   PlatformStaticsOptions,
   runInContext
 } from "@tsed/common";
 import {Env, isFunction, nameOf, Type} from "@tsed/core";
-import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
+import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
@@ -140,9 +141,8 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
 
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
     switch (metadata.type) {
-      case PlatformHandlerType.RAW_ERR_FN:
-        return handler;
       case PlatformHandlerType.RAW_FN:
+      case PlatformHandlerType.RAW_ERR_FN:
         return handler;
       case PlatformHandlerType.ERR_MIDDLEWARE:
         return async (error: unknown, req: any, res: any, next: any) => {

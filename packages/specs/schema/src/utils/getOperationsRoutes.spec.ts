@@ -10,8 +10,7 @@ function getData(operationRoute: JsonOperationRoute) {
     path: operationRoute.path,
     fullPath: operationRoute.fullPath,
     method: operationRoute.method,
-    storeValue: operationRoute.store.get("test"),
-    isFinal: operationRoute.isFinal
+    storeValue: operationRoute.store.get("test")
   };
 }
 
@@ -63,8 +62,7 @@ describe("getOperationsRoutes()", () => {
         propertyKey: "method",
         storeValue: "Test",
         target: Test,
-        token: Test,
-        isFinal: false
+        token: Test
       },
       {
         fullPath: "/test",
@@ -73,8 +71,7 @@ describe("getOperationsRoutes()", () => {
         propertyKey: "method3",
         storeValue: "Test",
         target: Test,
-        token: Test,
-        isFinal: false
+        token: Test
       },
       {
         fullPath: "/test/all",
@@ -83,8 +80,7 @@ describe("getOperationsRoutes()", () => {
         propertyKey: "all",
         storeValue: undefined,
         target: Test,
-        token: Test,
-        isFinal: true
+        token: Test
       },
       {
         fullPath: "/test",
@@ -93,8 +89,7 @@ describe("getOperationsRoutes()", () => {
         propertyKey: "method2",
         storeValue: "Test1",
         target: Test1,
-        token: Test,
-        isFinal: false
+        token: Test
       },
       {
         fullPath: "/test",
@@ -103,8 +98,7 @@ describe("getOperationsRoutes()", () => {
         propertyKey: "method1",
         storeValue: "Test2",
         target: Test2,
-        token: Test,
-        isFinal: true
+        token: Test
       }
     ]);
   });
@@ -156,7 +150,6 @@ describe("getOperationsRoutes()", () => {
     expect(operationsRoutes.map(getData)).toEqual([
       {
         fullPath: "/test/children/deep",
-        isFinal: true,
         method: "GET",
         path: "/",
         propertyKey: "method",
@@ -166,7 +159,6 @@ describe("getOperationsRoutes()", () => {
       },
       {
         fullPath: "/test/children",
-        isFinal: true,
         method: "GET",
         path: "/",
         propertyKey: "method",
@@ -176,7 +168,6 @@ describe("getOperationsRoutes()", () => {
       },
       {
         fullPath: "/test",
-        isFinal: false,
         method: "GET",
         path: "/",
         propertyKey: "method",
@@ -186,7 +177,6 @@ describe("getOperationsRoutes()", () => {
       },
       {
         fullPath: "/test",
-        isFinal: true,
         method: "GET",
         path: "/",
         propertyKey: "method3",
@@ -196,7 +186,6 @@ describe("getOperationsRoutes()", () => {
       },
       {
         fullPath: "/test/all",
-        isFinal: true,
         method: "ALL",
         path: "/all",
         propertyKey: "all",
@@ -242,7 +231,6 @@ describe("getOperationsRoutes()", () => {
     expect(operationsRoutes.map(getData)).toEqual([
       {
         fullPath: "/rest/test/children/deep",
-        isFinal: true,
         method: "GET",
         path: "/",
         propertyKey: "method",
@@ -252,7 +240,6 @@ describe("getOperationsRoutes()", () => {
       },
       {
         fullPath: "/rest/test/children",
-        isFinal: true,
         method: "GET",
         path: "/",
         propertyKey: "method",
@@ -262,7 +249,6 @@ describe("getOperationsRoutes()", () => {
       },
       {
         fullPath: "/rest/test",
-        isFinal: false,
         method: "GET",
         path: "/",
         propertyKey: "method",
@@ -272,7 +258,6 @@ describe("getOperationsRoutes()", () => {
       },
       {
         fullPath: "/rest/test",
-        isFinal: true,
         method: "GET",
         path: "/",
         propertyKey: "method3",
@@ -282,7 +267,6 @@ describe("getOperationsRoutes()", () => {
       },
       {
         fullPath: "/rest/test/all",
-        isFinal: true,
         method: "ALL",
         path: "/all",
         propertyKey: "all",

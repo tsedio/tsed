@@ -113,7 +113,6 @@ describe("PlatformHandlerMetadata", () => {
       expect(handlerMetadata.scope).toEqual("singleton");
       expect(handlerMetadata.toString()).toEqual("Test.test");
       expect(handlerMetadata.store).toBeInstanceOf(JsonMethodStore);
-      expect(handlerMetadata.isFinal()).toEqual(false);
 
       expect(handlerMetadata.getParams()[0].paramType).toEqual("REQUEST");
       expect(handlerMetadata.getParams()[1].paramType).toEqual("NEXT_FN");

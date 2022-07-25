@@ -1,10 +1,8 @@
-import {Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
-import {PlatformHandlerMetadata, PlatformRouters} from "@tsed/platform-router";
-import {ControllerProvider} from "@tsed/di";
+import {ControllerProvider, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
+import {PlatformRouters} from "@tsed/platform-router";
 import {Route, RouteController} from "../interfaces/Route";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformHandler} from "./PlatformHandler";
-import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain";
 
 /**
  * `Platform` is used to provide all routes collected by annotation `@Controller`.
@@ -13,7 +11,7 @@ import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain";
  */
 @Injectable({
   scope: ProviderScope.SINGLETON,
-  imports: []
+  imports: [PlatformHandler]
 })
 export class Platform {
   #controllers: Map<string, RouteController> = new Map();
@@ -21,19 +19,8 @@ export class Platform {
   constructor(
     readonly injector: InjectorService,
     readonly platformApplication: PlatformApplication,
-    readonly platformRouters: PlatformRouters,
-    readonly platformHandler: PlatformHandler,
-    readonly platformMiddlewaresChain: PlatformMiddlewaresChain
+    readonly platformRouters: PlatformRouters
   ) {
-    // configure the router module
-    platformRouters.hooks
-      .on("alterEndpointHandlers", platformMiddlewaresChain.get.bind(platformMiddlewaresChain))
-      .on("alterHandler", (handler: Function, handlerMetadata: PlatformHandlerMetadata) => {
-        handler = handlerMetadata.isRawMiddleware() ? handler : this.platformHandler.createHandler(handler as any, handlerMetadata);
-
-        return platformApplication.adapter.mapHandler(handler, handlerMetadata);
-      });
-
     platformRouters.prebuild();
   }
 

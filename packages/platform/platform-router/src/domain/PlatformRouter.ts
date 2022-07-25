@@ -54,10 +54,8 @@ export class PlatformRouter {
       provider: this.provider,
       method: formatMethod(method),
       path,
-      handlers: handlers.map((input, index, handlers) => {
-        const isFinal = opts.isFinal ? index === handlers.length - 1 : false;
-
-        return PlatformHandlerMetadata.from(this.injector, input, {...opts, isFinal});
+      handlers: handlers.map((input) => {
+        return PlatformHandlerMetadata.from(this.injector, input, opts);
       }),
       opts
     });
@@ -68,35 +66,35 @@ export class PlatformRouter {
   }
 
   all(path: SinglePathType, ...handlers: any[]) {
-    return this.addRoute("all", path, handlers, {isFinal: true});
+    return this.addRoute("all", path, handlers);
   }
 
   get(path: SinglePathType, ...handlers: any[]) {
-    return this.addRoute("get", path, handlers, {isFinal: true});
+    return this.addRoute("get", path, handlers);
   }
 
   post(path: SinglePathType, ...handlers: any[]) {
-    return this.addRoute("post", path, handlers, {isFinal: true});
+    return this.addRoute("post", path, handlers);
   }
 
   put(path: SinglePathType, ...handlers: any[]) {
-    return this.addRoute("put", path, handlers, {isFinal: true});
+    return this.addRoute("put", path, handlers);
   }
 
   delete(path: SinglePathType, ...handlers: any[]) {
-    return this.addRoute("delete", path, handlers, {isFinal: true});
+    return this.addRoute("delete", path, handlers);
   }
 
   patch(path: SinglePathType, ...handlers: any[]) {
-    return this.addRoute("patch", path, handlers, {isFinal: true});
+    return this.addRoute("patch", path, handlers);
   }
 
   head(path: SinglePathType, ...handlers: any[]) {
-    return this.addRoute("head", path, handlers, {isFinal: true});
+    return this.addRoute("head", path, handlers);
   }
 
   options(path: SinglePathType, ...handlers: any[]) {
-    return this.addRoute("options", path, handlers, {isFinal: true});
+    return this.addRoute("options", path, handlers);
   }
 
   statics(path: string, options: any) {

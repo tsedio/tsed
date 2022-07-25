@@ -7,6 +7,7 @@ Array [
       "",
       "useBefore",
       "MyController.get",
+      "",
     ],
     "method": "get",
     "opts": Object {
@@ -23,6 +24,7 @@ Array [
       "",
       "useBefore",
       "MyController.post",
+      "",
     ],
     "method": "post",
     "opts": Object {
@@ -39,6 +41,7 @@ Array [
       "",
       "useBefore",
       "MyController.put",
+      "",
     ],
     "method": "put",
     "opts": Object {
@@ -55,6 +58,7 @@ Array [
       "",
       "useBefore",
       "MyController.delete",
+      "",
     ],
     "method": "delete",
     "opts": Object {
@@ -71,6 +75,7 @@ Array [
       "",
       "useBefore",
       "MyController.head",
+      "",
     ],
     "method": "head",
     "opts": Object {
@@ -87,6 +92,7 @@ Array [
       "",
       "useBefore",
       "MyController.option",
+      "",
     ],
     "method": "options",
     "opts": Object {
@@ -103,6 +109,7 @@ Array [
       "",
       "useBefore",
       "MyController.patch",
+      "",
     ],
     "method": "patch",
     "opts": Object {
@@ -119,6 +126,7 @@ Array [
       "",
       "useBefore",
       "NestedController.get",
+      "",
     ],
     "method": "get",
     "opts": Object {
@@ -135,6 +143,7 @@ Array [
       "",
       "useBefore",
       "NestedController.post",
+      "",
     ],
     "method": "post",
     "opts": Object {
@@ -151,6 +160,7 @@ Array [
       "",
       "useBefore",
       "NestedController.put",
+      "",
     ],
     "method": "put",
     "opts": Object {
@@ -167,6 +177,7 @@ Array [
       "",
       "useBefore",
       "NestedController.delete",
+      "",
     ],
     "method": "delete",
     "opts": Object {
@@ -183,6 +194,7 @@ Array [
       "",
       "useBefore",
       "NestedController.head",
+      "",
     ],
     "method": "head",
     "opts": Object {
@@ -199,6 +211,7 @@ Array [
       "",
       "useBefore",
       "NestedController.option",
+      "",
     ],
     "method": "options",
     "opts": Object {
@@ -215,6 +228,7 @@ Array [
       "",
       "useBefore",
       "NestedController.patch",
+      "",
     ],
     "method": "patch",
     "opts": Object {
@@ -236,6 +250,7 @@ Array [
       "",
       "useBefore",
       "MyController.get",
+      "",
     ],
     "method": "get",
     "opts": Object {
@@ -252,6 +267,7 @@ Array [
       "",
       "useBefore",
       "MyController.post",
+      "",
     ],
     "method": "post",
     "opts": Object {
@@ -268,6 +284,7 @@ Array [
       "",
       "useBefore",
       "MyController.put",
+      "",
     ],
     "method": "put",
     "opts": Object {
@@ -284,6 +301,7 @@ Array [
       "",
       "useBefore",
       "MyController.delete",
+      "",
     ],
     "method": "delete",
     "opts": Object {
@@ -300,6 +318,7 @@ Array [
       "",
       "useBefore",
       "MyController.head",
+      "",
     ],
     "method": "head",
     "opts": Object {
@@ -316,6 +335,7 @@ Array [
       "",
       "useBefore",
       "MyController.option",
+      "",
     ],
     "method": "options",
     "opts": Object {
@@ -332,6 +352,7 @@ Array [
       "",
       "useBefore",
       "MyController.patch",
+      "",
     ],
     "method": "patch",
     "opts": Object {

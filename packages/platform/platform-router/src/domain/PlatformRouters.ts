@@ -1,7 +1,6 @@
 import {getValue, Hooks, Type} from "@tsed/core";
 import {ControllerProvider, GlobalProviders, Injectable, InjectorService, Provider, ProviderType, TokenProvider} from "@tsed/di";
-import {PlatformParams, PlatformParamsScope} from "@tsed/platform-params";
-import {concatPath, EndpointMetadata, getOperationsRoutes} from "@tsed/schema";
+import {concatPath, getOperationsRoutes} from "@tsed/schema";
 import {useContextHandler} from "../utils/useContextHandler";
 import {PlatformLayer} from "./PlatformLayer";
 import {PlatformRouter} from "./PlatformRouter";
@@ -44,7 +43,7 @@ GlobalProviders.createRegistry(ProviderType.CONTROLLER, ControllerProvider, {
 export class PlatformRouters {
   readonly hooks = new Hooks();
 
-  constructor(protected readonly injector: InjectorService, protected readonly platformParams: PlatformParams) {}
+  constructor(protected readonly injector: InjectorService) {}
 
   prebuild() {
     this.injector.getProviders(ProviderType.CONTROLLER).forEach((provider: ControllerProvider) => {
@@ -137,17 +136,7 @@ export class PlatformRouters {
           // set path on handler metadata to retrieve it later in $ctx
           handlerMetadata.path = layer.path;
 
-          let handler: any;
-
-          if (handlerMetadata.isRawMiddleware()) {
-            handler = handlerMetadata.handler;
-          } else {
-            handler = handlerMetadata.isCtxFn()
-              ? (scope: PlatformParamsScope) => handlerMetadata.handler(scope.$ctx)
-              : this.platformParams.compileHandler(handlerMetadata);
-          }
-
-          return this.hooks.alter("alterHandler", handler, [handlerMetadata]);
+          return this.hooks.alter("alterHandler", handlerMetadata);
         });
 
         layer.set(handlers);
