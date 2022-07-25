@@ -9,7 +9,7 @@ import type {LoggerRequestFields} from "../domain/PlatformLogMiddlewareSettings"
  */
 @Middleware()
 export class PlatformLogMiddleware implements MiddlewareMethods {
-  @Constant("logger.requestFields", ["reqId", "method", "url", "duration"])
+  @Constant("logger.requestFields", ["reqId", "method", "url", "duration", "route"])
   protected requestFields: LoggerRequestFields;
 
   @Constant("logger.logRequest", true)
@@ -88,8 +88,16 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
    * Attach all information that will be necessary to log the request. Attach a new `request.log` object.
    */
   protected configureRequest(ctx: Context) {
-    ctx.logger.minimalRequestPicker = (obj: any) => ({...this.minimalRequestPicker(ctx), ...obj});
-    ctx.logger.completeRequestPicker = (obj: any) => ({...this.requestToObject(ctx), ...obj});
+    ctx.logger.alterLog((obj: any, level, withRequest) => {
+      switch (level) {
+        case "info":
+          return {...this.minimalRequestPicker(ctx), ...obj};
+        case "debug":
+          return withRequest ? {...this.requestToObject(ctx), ...obj} : obj;
+        default:
+          return {...this.requestToObject(ctx), ...obj};
+      }
+    });
   }
 
   /**
@@ -103,6 +111,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
     return {
       method: request.method,
       url: request.url,
+      route: request.route,
       headers: request.headers,
       body: request.body,
       query: request.query,

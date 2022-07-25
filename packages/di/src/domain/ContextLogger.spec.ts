@@ -1,8 +1,9 @@
+import {DIContext, InjectorService} from "@tsed/di";
 import {ContextLogger} from "./ContextLogger";
 
 function getIgnoreLogFixture(ignore: string[], url: string) {
   const ignoreReg = ignore.map((pattern: string | RegExp) => (typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern));
-  return () => {
+  return (ignore: boolean, data: any) => {
     return !!ignoreReg.find((reg) => !!url.match(reg));
   };
 }
@@ -17,25 +18,38 @@ describe("ContextLogger", () => {
       trace: jest.fn()
     };
 
-    const requestLogger = new ContextLogger(logger, {
+    const $ctx = new DIContext({
+      event: {
+        request: {},
+        response: {}
+      },
+      logger,
       id: "id",
       dateStart: new Date("2019-01-01"),
-      ignoreLog: getIgnoreLogFixture(["/admin"], "/"),
-      minimalRequestPicker: (o: any) => ({...o, minimal: "minimal"}),
-      completeRequestPicker: (o: any) => ({...o, complete: "complete"})
+      injector: new InjectorService()
     });
 
-    jest.spyOn(requestLogger as any, "getDuration").mockReturnValue(1);
+    $ctx.logger.alterIgnoreLog(getIgnoreLogFixture(["/admin"], "/"));
+    $ctx.logger.alterLog((o: any, level: "debug" | "info" | "warn" | "error" | "off" | "all", withRequest: boolean) => {
+      switch (level) {
+        case "info":
+          return {...o, minimal: "minimal"};
+        default:
+          return {...o, complete: "complete"};
+      }
+    });
+
+    jest.spyOn($ctx.logger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
-    requestLogger.debug({test: "test"});
-    requestLogger.info({test: "test"});
-    requestLogger.info("message");
-    requestLogger.warn({test: "test"});
-    requestLogger.error({test: "test"});
-    requestLogger.trace({test: "test"});
+    $ctx.logger.debug({test: "test"});
+    $ctx.logger.info({test: "test"});
+    $ctx.logger.info("message");
+    $ctx.logger.warn({test: "test"});
+    $ctx.logger.error({test: "test"});
+    $ctx.logger.trace({test: "test"});
 
-    requestLogger.flush();
+    $ctx.logger.flush();
 
     // THEN
     expect(logger.info).toBeCalledWith({
@@ -90,23 +104,30 @@ describe("ContextLogger", () => {
       trace: jest.fn()
     };
 
-    const requestLogger = new ContextLogger(logger, {
+    const $ctx = new DIContext({
+      event: {
+        request: {},
+        response: {}
+      },
+      logger,
       id: "id",
       startDate: new Date("2019-01-01"),
-      ignoreLog: getIgnoreLogFixture(["/admin"], "/url")
+      injector: new InjectorService()
     });
 
-    jest.spyOn(requestLogger as any, "getDuration").mockReturnValue(1);
+    $ctx.logger.alterIgnoreLog(getIgnoreLogFixture(["/admin"], "/url"));
+
+    jest.spyOn($ctx.logger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
-    requestLogger.debug({test: "test"});
-    requestLogger.info({test: "test"});
-    requestLogger.info("message");
-    requestLogger.warn({test: "test"});
-    requestLogger.error({test: "test"});
-    requestLogger.trace({test: "test"});
+    $ctx.logger.debug({test: "test"});
+    $ctx.logger.info({test: "test"});
+    $ctx.logger.info("message");
+    $ctx.logger.warn({test: "test"});
+    $ctx.logger.error({test: "test"});
+    $ctx.logger.trace({test: "test"});
 
-    requestLogger.flush();
+    $ctx.logger.flush();
 
     // THEN
     expect(logger.info).toBeCalledWith({
@@ -155,22 +176,27 @@ describe("ContextLogger", () => {
       trace: jest.fn()
     };
 
-    const requestLogger = new ContextLogger(logger, {
+    const $ctx = new DIContext({
+      logger,
+      event: {
+        request: {},
+        response: {}
+      },
       id: "id",
       startDate: new Date("2019-01-01"),
-      ignoreLog: getIgnoreLogFixture(["/admin"], "/admin"),
-      minimalRequestPicker: (o: any) => ({...o, minimal: "minimal"}),
-      completeRequestPicker: (o: any) => ({...o, complete: "complete"}),
       additionalProps: {
         url: "/"
-      }
+      },
+      injector: new InjectorService()
     });
 
-    jest.spyOn(requestLogger as any, "getDuration").mockReturnValue(1);
+    $ctx.logger.alterIgnoreLog(getIgnoreLogFixture(["/admin"], "/admin"));
+
+    jest.spyOn($ctx.logger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
-    requestLogger.info({test: "test"});
-    requestLogger.flush();
+    $ctx.logger.info({test: "test"});
+    $ctx.logger.flush();
 
     // THEN
     return expect(logger.info).not.toBeCalled();
@@ -184,24 +210,65 @@ describe("ContextLogger", () => {
       trace: jest.fn()
     };
 
-    const requestLogger = new ContextLogger(logger, {
+    const $ctx = new DIContext({
+      logger,
+      event: {
+        request: {},
+        response: {}
+      },
       id: "id",
       startDate: new Date("2019-01-01"),
-      url: "/admin",
       maxStackSize: 2,
-      minimalRequestPicker: (o: any) => ({...o, minimal: "minimal"}),
-      completeRequestPicker: (o: any) => ({...o, complete: "complete"})
+      injector: new InjectorService()
     });
 
-    jest.spyOn(requestLogger as any, "getDuration").mockReturnValue(1);
+    $ctx.logger.maxStackSize = 2;
+
+    jest.spyOn($ctx.logger as any, "getDuration").mockReturnValue(1);
 
     // WHEN
-    requestLogger.info({test: "test"});
-    requestLogger.info({test: "test"});
-    requestLogger.info({test: "test"});
-    requestLogger.info({test: "test"});
+    $ctx.logger.info({test: "test"});
+    $ctx.logger.info({test: "test"});
+    $ctx.logger.info({test: "test"});
+    $ctx.logger.info({test: "test"});
 
     // THEN
     return expect(logger.info).toBeCalledTimes(3);
+  });
+  it("should do nothing when the log level is off", () => {
+    const logger = {
+      info: jest.fn(),
+      debug: jest.fn(),
+      warn: jest.fn(),
+      error: jest.fn(),
+      trace: jest.fn()
+    };
+
+    const $ctx = new DIContext({
+      event: {
+        request: {},
+        response: {}
+      },
+      logger,
+      id: "id",
+      dateStart: new Date("2019-01-01"),
+      injector: new InjectorService(),
+      level: "off"
+    });
+
+    jest.spyOn($ctx.logger as any, "getDuration").mockReturnValue(1);
+
+    // WHEN
+    $ctx.logger.debug({test: "test"});
+    $ctx.logger.info({test: "test"});
+    $ctx.logger.info("message");
+    $ctx.logger.warn({test: "test"});
+    $ctx.logger.error({test: "test"});
+    $ctx.logger.trace({test: "test"});
+
+    $ctx.logger.flush();
+
+    // THEN
+    expect(logger.info).not.toBeCalled();
   });
 });

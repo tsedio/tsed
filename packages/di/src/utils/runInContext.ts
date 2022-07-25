@@ -1,4 +1,4 @@
-import {AsyncLocalStorage} from "async_hooks";
+import {AsyncLocalStorage, AsyncResource} from "async_hooks";
 import {DIContext} from "../domain/DIContext";
 
 const storage: AsyncLocalStorage<DIContext> = new AsyncLocalStorage();
@@ -8,9 +8,13 @@ export function getAsyncStore() {
 }
 
 export function getContext<Context = DIContext>(): Context | undefined {
-  return storage.getStore() as any;
+  return getAsyncStore().getStore() as any;
 }
 
 export function runInContext(ctx: DIContext, cb: any) {
   return storage.run(ctx, cb);
+}
+
+export function bindContext(cb: any) {
+  return AsyncResource.bind(cb);
 }

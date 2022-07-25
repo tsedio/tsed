@@ -1,6 +1,7 @@
 import {ContextMethods, DIContext, DIContextOptions} from "@tsed/di";
 import {EndpointMetadata} from "@tsed/schema";
 import {IncomingMessage, ServerResponse} from "http";
+import {IncomingEvent} from "../interfaces/IncomingEvent";
 import {PlatformApplication} from "../services/PlatformApplication";
 import {PlatformRequest} from "../services/PlatformRequest";
 import {PlatformResponse} from "../services/PlatformResponse";
@@ -12,69 +13,63 @@ declare global {
 }
 
 export interface PlatformContextOptions extends DIContextOptions {
-  event: {
-    response?: ServerResponse;
-    request?: IncomingMessage;
-  };
+  event: IncomingEvent;
   ignoreUrlPatterns?: any[];
   endpoint?: EndpointMetadata;
 }
 
-export class PlatformContext extends DIContext implements ContextMethods {
-  /**
-   * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
-   */
-  public endpoint: EndpointMetadata;
+export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRes extends PlatformResponse = PlatformResponse>
+  extends DIContext
+  implements ContextMethods
+{
+  public event: IncomingEvent;
   /**
    * The data return by the previous endpoint if you use multiple handler on the same route. By default data is empty.
    */
   public data: any;
   /**
+   * The error caught by the current handler
+   */
+  public error?: unknown;
+  /**
    * The current @@PlatformResponse@@.
    */
-  readonly response: PlatformResponse;
+  readonly response: PRes;
   /**
    * The current @@PlatformRequest@@.
    */
-  readonly request: PlatformRequest;
+  readonly request: PReq;
 
   private ignoreUrlPatterns: RegExp[] = [];
+  #isDestroyed: boolean = false;
 
-  constructor({
-    event,
-    endpoint,
-    ignoreUrlPatterns = [],
-    ResponseKlass = PlatformResponse,
-    RequestKlass = PlatformRequest,
-    ...options
-  }: PlatformContextOptions) {
-    super({
-      ...options,
-      ignoreLog: () => {
-        return this.ignoreUrlPatterns.find((reg) => !!this.url.match(reg));
-      }
-    });
+  constructor(options: PlatformContextOptions) {
+    super(options);
 
-    endpoint && (this.endpoint = endpoint);
+    options.endpoint && (this.endpoint = options.endpoint);
 
-    this.ignoreUrlPatterns = ignoreUrlPatterns.map((pattern: string | RegExp) =>
-      typeof pattern === "string" ? new RegExp(pattern, "gi") : pattern
-    );
-
-    this.response = new ResponseKlass(event, this);
-    this.request = new RequestKlass(event, this);
-    this.response.request = this.request;
-    this.request.response = this.response;
+    this.event = options.event;
+    this.response = new (options.ResponseKlass || PlatformResponse)(this);
+    this.request = new (options.RequestKlass || PlatformRequest)(this);
 
     this.request.request.$ctx = this;
     this.request.request.id = this.id;
-    this.logger.url = this.url;
-
     this.container.set(PlatformResponse, this.response);
     this.container.set(PlatformRequest, this.request);
     this.container.set(PlatformContext, this);
 
     this.response.setHeader("x-request-id", this.id);
+  }
+
+  /**
+   * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
+   */
+  get endpoint(): EndpointMetadata {
+    return this.get(EndpointMetadata);
+  }
+
+  set endpoint(endpoint: EndpointMetadata) {
+    this.set(EndpointMetadata, endpoint);
   }
 
   get url() {
@@ -88,26 +83,28 @@ export class PlatformContext extends DIContext implements ContextMethods {
   async destroy() {
     await super.destroy();
 
-    if (this.request?.request?.$ctx) {
-      this.request.request.$ctx = undefined as any;
-    }
+    this.upgrade({
+      response: {
+        isDone: true,
+        statusCode: this.statusCode
+      },
+      request: {
+        method: this.method,
+        url: this.url,
+        headers: this.headers,
+        body: this.body,
+        query: this.query,
+        params: this.params
+      }
+    } as any);
 
     this.response.destroy();
     this.request.destroy();
-
-    this.endpoint = undefined as any;
+    this.#isDestroyed = true;
   }
 
   isDone() {
-    if (!this.request || !this.response) {
-      return true;
-    }
-
-    if (this.request?.isAborted()) {
-      return true;
-    }
-
-    return this.response?.isDone();
+    return this.request?.isAborted() || this.response?.isDone() || this.#isDestroyed;
   }
 
   /**
@@ -143,5 +140,9 @@ export class PlatformContext extends DIContext implements ContextMethods {
    */
   getApp<T = any>(): T {
     return this.app.getApp() as any;
+  }
+
+  upgrade(event: IncomingEvent) {
+    this.event = event;
   }
 }
