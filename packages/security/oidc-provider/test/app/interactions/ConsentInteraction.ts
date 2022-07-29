@@ -1,6 +1,5 @@
 import {Inject, Post} from "@tsed/common";
-import {BadRequest} from "@tsed/exceptions";
-import {Interaction, OidcCtx, OidcProvider, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
+import {Interaction, OidcCtx, OidcProvider, Prompt} from "@tsed/oidc-provider";
 import {Name} from "@tsed/schema";
 import {View} from "@tsed/platform-views";
 
@@ -13,30 +12,16 @@ export class ConsentInteraction {
   oidc: OidcProvider;
 
   @View("interaction")
-  async $prompt(
-    @OidcCtx() oidcCtx: OidcCtx,
-    @Prompt() prompt: Prompt,
-    @OidcSession() session: OidcSession,
-    @Params() params: Params,
-    @Uid() uid: Uid
-  ): Promise<any> {
-    const client = await oidcCtx.findClient();
-
-    return {
-      client,
-      uid,
-      details: prompt.details,
-      params,
+  async $prompt(@OidcCtx() oidcCtx: OidcCtx): Promise<any> {
+    return oidcCtx.interactionPrompt({
       title: "Authorize",
-      ...oidcCtx.debug()
-    };
+      flash: false
+    });
   }
 
   @Post("/confirm")
   async confirm(@OidcCtx() oidcCtx: OidcCtx, @Prompt() prompt: Prompt) {
-    if (prompt.name !== "consent") {
-      throw new BadRequest("Bad interaction name");
-    }
+    oidcCtx.checkInteractionName("consent");
 
     const grant = await oidcCtx.getGrant();
     const details = prompt.details as {
