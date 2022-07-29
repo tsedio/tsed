@@ -23,7 +23,7 @@ export class ContextLogger {
   #level: LogLevel;
   #logger: any;
 
-  constructor(readonly $ctx: DIContext) {
+  constructor(protected readonly $ctx: DIContext) {
     const {logger, dateStart = new Date(), level = "all", maxStackSize = 30, additionalProps} = $ctx.opts;
     this.dateStart = dateStart;
     this.#logger = logger;

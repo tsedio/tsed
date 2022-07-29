@@ -120,6 +120,7 @@ export class PlatformTest extends DITest {
     return {
       headers: {},
       method: "GET",
+      url: "/",
       get(key: string) {
         return this.headers[key.toLowerCase()];
       },

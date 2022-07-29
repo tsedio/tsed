@@ -31,7 +31,7 @@
     "test:lint": "eslint '**/*.{ts,js}'",
     "test:lint:fix": "yarn test:lint --fix",
     "test:core": "lerna run test --scope \"@tsed/{core,di,common,engines}\" --stream --concurrency 2",
-    "test:platform": "lerna run test --ignore \"@tsed/platform-{express,koa}\" --scope \"@tsed/platform-*\" --stream --concurrency 2",
+    "test:platform": "lerna run test --scope \"@tsed/platform-*\" --ignore \"@tsed/platform-{express,koa}\"--stream --concurrency 2",
     "test:integration": "lerna run test --scope \"@tsed/platform-{express,koa}\" --stream --concurrency 2",
     "test:orm": "lerna run test --scope \"@tsed/{adapters,adapters-redis,mikro-orm,mongoose,objection,prisma,typeorm}\" --stream --concurrency 4",
     "test:graphql": "lerna run test --scope \"@tsed/{apollo,typegraphql}\" --stream",
