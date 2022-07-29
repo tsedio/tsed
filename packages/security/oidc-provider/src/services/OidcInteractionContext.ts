@@ -1,10 +1,13 @@
 import {Constant, PlatformContext, ProviderScope, Scope} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
+import {Unauthorized} from "@tsed/exceptions";
 import {Account, InteractionResults, PromptDetail, Provider} from "oidc-provider";
 import {OidcSession} from "../decorators/oidcSession";
 import {OidcClient} from "../domain/interfaces";
+import {OidcBadInteractionName} from "../domain/OidcBadInteractionName";
 import {OidcInteraction} from "../domain/OidcInteraction";
+import {OidcInteractionPromptProps} from "../domain/OidcInteractionPromptProps";
 import {debug} from "../utils/debug";
 import {OidcInteractions} from "./OidcInteractions";
 import {OidcProvider} from "./OidcProvider";
@@ -68,6 +71,23 @@ export class OidcInteractionContext {
     return this.oidcProvider.get().interactionResult(this.context.getReq(), this.context.getRes(), result, options);
   }
 
+  async interactionPrompt(options: Record<string, any>): Promise<OidcInteractionPromptProps> {
+    const client = await this.findClient();
+
+    return {
+      client,
+      uid: this.uid,
+      grantId: this.grantId,
+      details: this.prompt.details,
+      params: {
+        ...this.params,
+        ...options.params
+      },
+      ...options,
+      ...this.debug()
+    };
+  }
+
   async render(view: string, result: any): Promise<string> {
     return this.context.response.render(view, result);
   }
@@ -77,7 +97,12 @@ export class OidcInteractionContext {
   }
 
   async findClient(clientId: string = this.params.client_id): Promise<OidcClient | undefined> {
-    return this.oidcProvider.get().Client.find(clientId);
+    const key = `$client:${clientId}`;
+    if (!this.context.has(key)) {
+      this.context.set(key, await this.oidcProvider.get().Client.find(clientId));
+    }
+
+    return this.context.get(key);
   }
 
   async findAccount(sub?: string, token?: any): Promise<Account | undefined> {
@@ -105,6 +130,20 @@ export class OidcInteractionContext {
       accountId: this.session?.accountId,
       clientId: this.params.client_id
     });
+  }
+
+  checkInteractionName(name: string) {
+    if (this.prompt.name !== name) {
+      throw new OidcBadInteractionName("Bad interaction name");
+    }
+  }
+
+  async checkClientId(clientId = this.params.client_id) {
+    const client = await this.findClient(clientId);
+
+    if (!client) {
+      throw new Unauthorized(`Unknown client_id ${clientId}`);
+    }
   }
 
   debug(obj?: any): any {

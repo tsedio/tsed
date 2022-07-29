@@ -1,4 +1,5 @@
 import {PlatformContext, PlatformTest} from "@tsed/common";
+import {catchAsyncError, catchError} from "@tsed/core";
 import {OidcInteractionContext, OidcProvider} from "@tsed/oidc-provider";
 
 async function createOidcInteractionContextFixture(grantId: any = "grantId") {
@@ -71,6 +72,27 @@ describe("OidcInteractionContext", () => {
       const {oidcCtx} = await createOidcInteractionContextFixture();
 
       expect(oidcCtx.uid).toEqual("uid");
+    });
+  });
+
+  describe("checkInteractionName()", () => {
+    it("should throw error", async () => {
+      const {oidcCtx} = await createOidcInteractionContextFixture();
+
+      const error: any = catchError(() => oidcCtx.checkInteractionName("test"));
+
+      expect(error?.message).toEqual("Bad interaction name");
+    });
+  });
+
+  describe("checkClientId()", () => {
+    it("should throw error", async () => {
+      const {oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      oidcProvider.Client.find.mockResolvedValue(undefined);
+
+      const error: any = await catchAsyncError(() => oidcCtx.checkClientId());
+
+      expect(error?.message).toEqual("Unknown client_id client_id");
     });
   });
 
