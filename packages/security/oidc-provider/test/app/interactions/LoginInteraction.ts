@@ -1,7 +1,6 @@
 import {BodyParams, Inject, Post, View} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Constant} from "@tsed/di";
-import {BadRequest, Unauthorized} from "@tsed/exceptions";
 import {Interaction, OidcCtx, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
 import {Name} from "@tsed/schema";
 import {Accounts} from "../services/Accounts";
@@ -27,54 +26,29 @@ export class LoginInteraction {
     @Params() params: Params,
     @Uid() uid: Uid
   ): Promise<any> {
-    const client = await oidcCtx.findClient();
+    await oidcCtx.checkClientId();
 
-    if (!client) {
-      throw new Unauthorized(`Unknown client_id ${params.client_id}`);
-    }
-
-    return {
-      client,
-      uid,
-      details: prompt.details,
-      params,
+    return oidcCtx.interactionPrompt({
       title: "Sign-in",
-      flash: false,
-      ...oidcCtx.debug()
-    };
+      flash: false
+    });
   }
 
   @Post("/login")
   @View("login")
-  async submit(
-    @BodyParams() payload: any,
-    @Params() params: Params,
-    @Uid() uid: Uid,
-    @OidcSession() session: OidcSession,
-    @Prompt() prompt: Prompt,
-    @OidcCtx() oidcCtx: OidcCtx
-  ) {
-    if (prompt.name !== "login") {
-      throw new BadRequest("Bad interaction name");
-    }
-
-    const client = await oidcCtx.findClient();
+  async submit(@BodyParams() payload: any, @OidcCtx() oidcCtx: OidcCtx) {
+    oidcCtx.checkInteractionName("login");
 
     const account = await this.accounts.authenticate(payload.email, payload.password);
 
     if (!account) {
-      return {
-        client,
-        uid,
-        details: prompt.details,
+      return oidcCtx.interactionPrompt({
         params: {
-          ...params,
           login_hint: payload.email
         },
         title: "Sign-in",
-        flash: "Invalid email or password.",
-        ...oidcCtx.debug()
-      };
+        flash: "Invalid email or password."
+      });
     }
 
     return oidcCtx.interactionFinished({
