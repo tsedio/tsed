@@ -77,11 +77,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:core && yarn coverage
-      - name: Coveralls
-        uses: coverallsapp/github-action@master
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn test:core --since origin/production
 
   test-specs:
     runs-on: ubuntu-latest
@@ -101,7 +97,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:specs
+        run: yarn test:specs --since origin/production
 
   test-platform:
     runs-on: ubuntu-latest
@@ -121,7 +117,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:platform
+        run: yarn test:platform --since origin/production
 
   test-orm:
     runs-on: ubuntu-latest
@@ -141,7 +137,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:orm
+        run: yarn test:orm --since origin/production
 
   test-graphql:
     runs-on: ubuntu-latest
@@ -161,7 +157,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:graphql
+        run: yarn test:graphql --since origin/production
 
   test-security:
     runs-on: ubuntu-latest
@@ -181,7 +177,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:security
+        run: yarn test:security --since origin/production
 
   test-third-parties:
     runs-on: ubuntu-latest
@@ -201,7 +197,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:third-parties
+        run: yarn test:third-parties --since origin/production
 
   test-formio:
     runs-on: ubuntu-latest
@@ -221,7 +217,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
       - name: Run test
-        run: yarn test:formio
+        run: yarn test:formio --since origin/production
 
   build:
     runs-on: ubuntu-latest
