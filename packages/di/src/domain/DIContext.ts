@@ -23,6 +23,8 @@ export interface DIContextOptions extends Omit<ContextLoggerOptions, "dateStart"
 export class DIContext extends Map<any, any> implements ContextMethods {
   [x: string]: any;
 
+  opts: DIContextOptions;
+
   /**
    * The request container used by the Ts.ED DI. It contain all services annotated with `@Scope(ProviderScope.REQUEST)`
    */
@@ -81,7 +83,9 @@ export class DIContext extends Map<any, any> implements ContextMethods {
   async destroy() {
     await this.container.destroy();
     this.logger.destroy();
-    this.opts = null as any;
+    this.opts = {
+      id: this.opts.id
+    } as any;
     this.container = null as any;
   }
 
