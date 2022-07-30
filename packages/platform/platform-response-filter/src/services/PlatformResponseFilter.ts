@@ -55,16 +55,19 @@ export class PlatformResponseFilter {
    */
   async transform(data: unknown, ctx: BaseContext) {
     const {response} = ctx;
-    const bestContentType = this.getBestContentType(data, ctx);
 
-    bestContentType && response.contentType(bestContentType);
+    if (ctx.endpoint?.operation) {
+      const bestContentType = this.getBestContentType(data, ctx);
 
-    if (this.types.has(bestContentType)) {
-      return this.types.get(bestContentType)!.transform(data, ctx);
-    }
+      bestContentType && response.contentType(bestContentType);
 
-    if (this.types.has(ANY_CONTENT_TYPE)) {
-      return this.types.get(ANY_CONTENT_TYPE)!.transform(data, ctx);
+      if (this.types.has(bestContentType)) {
+        return this.types.get(bestContentType)!.transform(data, ctx);
+      }
+
+      if (this.types.has(ANY_CONTENT_TYPE)) {
+        return this.types.get(ANY_CONTENT_TYPE)!.transform(data, ctx);
+      }
     }
 
     return data;
