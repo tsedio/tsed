@@ -100,7 +100,6 @@ export class ContextLogger {
     this.#maxStackSize = 0;
     this.#stack = [];
     this.#logger = null;
-    this.#hooks?.destroy();
   }
 
   /**
