@@ -66,8 +66,8 @@ export class PlatformHandler {
     const {response} = $ctx;
 
     if (!response.isDone()) {
-      let data = await this.responseFilter.serialize($ctx.data, $ctx);
-      data = await this.responseFilter.transform(data, $ctx);
+      let data = await this.responseFilter.serialize($ctx.data, $ctx as any);
+      data = await this.responseFilter.transform(data, $ctx as any);
       response.body(data);
     }
 
