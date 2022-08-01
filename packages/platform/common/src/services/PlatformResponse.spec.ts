@@ -22,14 +22,6 @@ describe("PlatformResponse", () => {
     expect(response.raw).toEqual(res);
     expect(response.request).toEqual(ctx.request);
   });
-  describe("onFinished", () => {
-    it("should return status code", () => {
-      const stub = jest.fn();
-      PlatformResponse.onFinished({}, stub);
-
-      expect(onFinished).toHaveBeenCalledWith({}, stub);
-    });
-  });
   describe("statusCode", () => {
     it("should return status code", () => {
       const {res, response} = createResponse();
@@ -191,7 +183,7 @@ describe("PlatformResponse", () => {
 
       expect(response.isDone()).toEqual(false);
 
-      await ctx.destroy();
+      await ctx.finish();
 
       expect(response.isDone()).toEqual(true);
     });
@@ -245,11 +237,9 @@ describe("PlatformResponse", () => {
       const {res, response} = createResponse();
       const cb = jest.fn();
 
-      jest.spyOn(PlatformResponse, "onFinished").mockReturnValue();
-
       response.onEnd(cb);
 
-      expect(PlatformResponse.onFinished).toHaveBeenCalledWith(res, cb);
+      expect(onFinished).toHaveBeenCalledWith(res, cb);
     });
   });
 });

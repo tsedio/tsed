@@ -64,10 +64,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
     return this.getRes();
   }
 
-  static onFinished(res: any, cb: (er: Error | null, message: string) => void) {
-    onFinished(res, cb);
-  }
-
   /**
    * Returns the HTTP response header specified by field. The match is case-insensitive.
    *
@@ -252,7 +248,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * Send any data to your consumer.
    *
    * This method accept a ReadableStream, a plain object, boolean, string, number, null and undefined data.
-   * It choose the better way to send the data.
+   * It chooses the better way to send the data.
    *
    * @param data
    */
@@ -302,8 +298,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * @param cb
    */
   onEnd(cb: (er: Error | null, message: string) => void): this {
-    PlatformResponse.onFinished(this.$ctx.event.response, cb);
-
+    onFinished(this.getRes(), cb as any);
     return this;
   }
 
