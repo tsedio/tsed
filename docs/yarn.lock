@@ -1073,10 +1073,10 @@
   resolved "https://registry.yarnpkg.com/@tsed/markdown-it-symbols/-/markdown-it-symbols-2.15.0.tgz#0e1a1f0b72d6ae5e655228913befe617a5407dad"
   integrity sha512-0l8P4k6bcRqwxzy8piMoDdS3fqgTw2gMO0xyI/woIqHm7yhbpmrleh2OAmc0bi5SJrrZv1aDUyeyeFoYP8B53g==
 
-"@tsed/markdown-it-symbols@3.19.5":
-  version "3.19.5"
-  resolved "https://registry.yarnpkg.com/@tsed/markdown-it-symbols/-/markdown-it-symbols-3.19.5.tgz#8407e71bd97d7109d0dcafa2a5289878c31d994f"
-  integrity sha512-jIysFkc/+xzMdAKZK1j9QbsdOv2mEpQCDk3hyNccuFamQY2uCawkvnVI+fikv/wbLVl4uMEjV54NTM3x/OcevQ==
+"@tsed/markdown-it-symbols@3.20.4":
+  version "3.20.4"
+  resolved "https://registry.yarnpkg.com/@tsed/markdown-it-symbols/-/markdown-it-symbols-3.20.4.tgz#150708290db4880cf752a1aab717b8c602c65d04"
+  integrity sha512-c6E8P5Z6BHq79I//lSfmNxOSdEvqZ+WPKrc3BMcxE8/qjIq/czWruSvaVYya5ihiSJqZvHdmJWP8plJbENUcYA==
 
 "@tsed/vuepress-common@3.19.5":
   version "3.19.5"
