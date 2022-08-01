@@ -48,7 +48,7 @@
     "@tsed/schema": "^6.122.3",
     "@types/body-parser": "^1.19.0",
     "body-parser": "^1.19.0",
-    "stripe": "^8.129.0"
+    "stripe": "^9.16.0"
   },
   "peerDependenciesMeta": {
     "@tsed/platform-middlewares": {
