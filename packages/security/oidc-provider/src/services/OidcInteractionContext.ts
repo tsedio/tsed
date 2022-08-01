@@ -98,11 +98,11 @@ export class OidcInteractionContext {
 
   async findClient(clientId: string = this.params.client_id): Promise<OidcClient | undefined> {
     const key = `$client:${clientId}`;
-    if (!this.context.has(key)) {
-      this.context.set(key, await this.oidcProvider.get().Client.find(clientId));
+    if (!this.$ctx.has(key)) {
+      this.$ctx.set(key, await this.oidcProvider.get().Client.find(clientId));
     }
 
-    return this.context.get(key);
+    return this.$ctx.get(key);
   }
 
   async findAccount(sub?: string, token?: any): Promise<Account | undefined> {

@@ -40,19 +40,10 @@ export function createContext(injector: InjectorService) {
   };
 
   return async function invokeContext(event: IncomingEvent) {
-    const ctx = new PlatformContext({
+    return new PlatformContext({
       ...opts,
       event,
       id: reqIdBuilder(event.request)
     });
-
-    ctx.response.onEnd(async () => {
-      await ctx.emit("$onResponse", ctx);
-      await ctx.destroy();
-    });
-
-    await ctx.emit("$onRequest", ctx);
-
-    return ctx;
   };
 }

@@ -1,6 +1,5 @@
 import {PlatformApplication, PlatformTest} from "@tsed/common";
 import {nameOf} from "@tsed/core";
-import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {PlatformContext} from "./PlatformContext";
 
 describe("PlatformContext", () => {
@@ -112,9 +111,11 @@ describe("PlatformContext", () => {
       ignoreUrlPatterns: ["/admin"]
     });
 
+    await context.start();
+
     expect(context.isDone()).toEqual(false);
 
-    await context.destroy();
+    await context.finish();
 
     expect(context.isDone()).toEqual(true);
   });

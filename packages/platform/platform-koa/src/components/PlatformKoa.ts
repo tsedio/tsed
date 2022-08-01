@@ -1,5 +1,6 @@
 import KoaRouter, {RouterOptions as KoaRouterOptions} from "@koa/router";
 import {
+  createContext,
   getContext,
   InjectorService,
   PlatformAdapter,
@@ -13,15 +14,14 @@ import {
   PlatformResponse,
   PlatformStaticsOptions
 } from "@tsed/common";
-import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {isFunction, Type} from "@tsed/core";
+import {PlatformExceptions} from "@tsed/platform-exceptions";
 import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import Koa, {Context, Next} from "koa";
 import koaBodyParser, {Options} from "koa-bodyparser";
 // @ts-ignore
 import koaQs from "koa-qs";
 import send from "koa-send";
-import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 import {PlatformKoaHandler} from "../services/PlatformKoaHandler";
 import {PlatformKoaRequest} from "../services/PlatformKoaRequest";
@@ -34,10 +34,6 @@ declare global {
   }
 
   namespace TsED {
-    // export interface Router extends KoaRouter {}
-
-    export interface RouterOptions extends KoaRouterOptions {}
-
     export interface StaticsOptions extends send.SendOptions {}
   }
 }
@@ -102,24 +98,9 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
   }
 
   onInit() {
-    const injector = this.injector;
     const app = this.getPlatformApplication();
 
-    const listener: any = (error: any, ctx: Koa.Context) => {
-      const $ctx = getContext<PlatformContext>()!;
-      injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, $ctx);
-    };
-
     app.getApp().silent = true;
-    app.getApp().on("error", listener);
-  }
-
-  async beforeLoadRoutes() {
-    const app = this.injector.get<PlatformApplication<Koa>>(PlatformApplication)!;
-
-    this.useContext();
-
-    app.use(resourceNotFoundMiddleware);
   }
 
   mapLayers(layers: PlatformLayer[]) {
@@ -157,13 +138,28 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
 
   useContext(): this {
     const app = this.getPlatformApplication();
+    const invoke = createContext(this.injector);
 
     app.use(async (koaContext: Context, next: Next) => {
-      const $ctx = getContext<PlatformContext<PlatformKoaRequest, PlatformKoaResponse>>()!;
+      const $ctx = await invoke({
+        request: koaContext.request as any,
+        response: koaContext.response as any,
+        koaContext
+      });
 
-      $ctx.upgrade({request: koaContext.request as any, response: koaContext.response as any, koaContext});
+      try {
+        await $ctx.start();
+        await $ctx.runInContext(next);
+        const status = koaContext.status || 404;
 
-      return next();
+        if (status === 404 && !$ctx.isDone()) {
+          this.injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound($ctx);
+        }
+      } catch (error) {
+        this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, $ctx);
+      } finally {
+        await $ctx.finish();
+      }
     });
 
     return this;

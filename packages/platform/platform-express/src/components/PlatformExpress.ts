@@ -1,5 +1,6 @@
 import {
   bindContext,
+  createContext,
   getContext,
   InjectorService,
   PlatformAdapter,
@@ -17,6 +18,7 @@ import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
 import type multer from "multer";
+import onFinished from "on-finished";
 import {promisify} from "util";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
@@ -166,13 +168,19 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
 
   useContext(): this {
     const app = this.getPlatformApplication();
+    const invoke = createContext(this.injector);
 
     app.use(async (request: any, response: any, next: any) => {
-      const $ctx = getContext<PlatformContext>()!;
+      const $ctx = await invoke({
+        request,
+        response
+      });
 
-      $ctx.upgrade({request, response});
+      await $ctx.start();
 
-      return next();
+      onFinished(response, () => $ctx.finish());
+
+      return $ctx.runInContext(next);
     });
 
     return this;

@@ -63,7 +63,9 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
     this.container.set(PlatformRequest, this.request);
     this.container.set(PlatformContext, this);
 
-    this.event.response.setHeader("x-request-id", this.id);
+    try {
+      this.response.setHeader("x-request-id", this.id);
+    } catch (er) {}
   }
 
   /**
@@ -99,9 +101,17 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
     return this.injector.get<PlatformApplication>(PlatformApplication)!;
   }
 
+  async start() {
+    return this.emit("$onRequest", this);
+  }
+
+  async finish() {
+    await this.emit("$onResponse", this);
+    await this.destroy();
+  }
+
   async destroy() {
     await super.destroy();
-
     this.upgrade({
       response: {
         isDone: true,

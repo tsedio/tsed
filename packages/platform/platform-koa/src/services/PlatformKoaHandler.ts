@@ -1,6 +1,5 @@
 import {PlatformContext, PlatformHandler, PlatformParamsCallback} from "@tsed/common";
 import {isStream} from "@tsed/core";
-import {PlatformContextHandler} from "@tsed/platform-router";
 import "./PlatformKoaRequest";
 
 export class PlatformKoaHandler extends PlatformHandler {
@@ -26,8 +25,7 @@ export class PlatformKoaHandler extends PlatformHandler {
     }
 
     if (error && !($ctx.handlerMetadata.isEndpoint() && !$ctx.handlerMetadata.isFinal())) {
-      $ctx.getApp().emit("error", error, $ctx.getRequest().ctx);
-      return;
+      throw error;
     }
 
     return !$ctx.handlerMetadata.isFinal() && next();
