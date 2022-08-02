@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-params",
-  "version": "6.123.0",
+  "version": "6.123.1",
   "description": "Params module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -24,18 +24,18 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.123.0",
-    "@tsed/di": "6.123.0",
-    "@tsed/exceptions": "6.123.0",
-    "@tsed/json-mapper": "6.123.0",
-    "@tsed/schema": "6.123.0"
+    "@tsed/core": "6.123.1",
+    "@tsed/di": "6.123.1",
+    "@tsed/exceptions": "6.123.1",
+    "@tsed/json-mapper": "6.123.1",
+    "@tsed/schema": "6.123.1"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.123.0",
-    "@tsed/di": "^6.123.0",
-    "@tsed/exceptions": "^6.123.0",
-    "@tsed/json-mapper": "^6.123.0",
-    "@tsed/schema": "^6.123.0"
+    "@tsed/core": "^6.123.1",
+    "@tsed/di": "^6.123.1",
+    "@tsed/exceptions": "^6.123.1",
+    "@tsed/json-mapper": "^6.123.1",
+    "@tsed/schema": "^6.123.1"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
