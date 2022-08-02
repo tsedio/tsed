@@ -39,8 +39,11 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
    * The current @@PlatformRequest@@.
    */
   readonly request: PReq;
+  /**
+   * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
+   */
+  endpoint: EndpointMetadata;
 
-  private ignoreUrlPatterns: RegExp[] = [];
   #isDestroyed: boolean = false;
 
   constructor(options: PlatformContextOptions) {
@@ -54,22 +57,9 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
 
     this.request.request.$ctx = this;
     this.request.request.id = this.id;
-    this.container.set(PlatformResponse, this.response);
-    this.container.set(PlatformRequest, this.request);
     this.container.set(PlatformContext, this);
 
     this.response.setHeader("x-request-id", this.id);
-  }
-
-  /**
-   * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
-   */
-  get endpoint(): EndpointMetadata {
-    return this.get(EndpointMetadata);
-  }
-
-  set endpoint(endpoint: EndpointMetadata) {
-    this.set(EndpointMetadata, endpoint);
   }
 
   get url() {
@@ -83,7 +73,7 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
   async destroy() {
     await super.destroy();
 
-    this.upgrade({
+    this.event = {
       response: {
         isDone: true,
         statusCode: this.statusCode
@@ -96,7 +86,7 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
         query: this.query,
         params: this.params
       }
-    } as any);
+    } as any;
 
     this.response.destroy();
     this.request.destroy();
@@ -140,9 +130,5 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
    */
   getApp<T = any>(): T {
     return this.app.getApp() as any;
-  }
-
-  upgrade(event: IncomingEvent) {
-    this.event = event;
   }
 }
