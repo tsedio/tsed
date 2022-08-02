@@ -1,4 +1,3 @@
-import {PlatformContext} from "@tsed/common";
 import {Provider, Account} from "oidc-provider";
 
 export type AuthorizationCode = InstanceType<Provider["AuthorizationCode"]>;
@@ -9,7 +8,6 @@ export type BackchannelAuthenticationRequest = InstanceType<Provider["Backchanne
 export interface OidcAccountsMethods {
   findAccount(
     id: string,
-    token: AuthorizationCode | AccessToken | DeviceCode | BackchannelAuthenticationRequest | undefined,
-    ctx: PlatformContext
+    token: AuthorizationCode | AccessToken | DeviceCode | BackchannelAuthenticationRequest | undefined
   ): Promise<Account | undefined>;
 }

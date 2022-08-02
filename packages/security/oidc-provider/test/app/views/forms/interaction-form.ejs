@@ -3,6 +3,8 @@
     <% } %>
 </div>
 
+<h3>Welcome <%= account.email%>,</h3>
+
 <ul>
     <% if ([details.missingOIDCScope, details.missingOIDClaims, details.missingResourceScopes].filter(Boolean).length === 0) { %>
         <li>the client is asking you to confirm previously given authorization</li>

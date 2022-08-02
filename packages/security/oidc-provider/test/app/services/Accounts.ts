@@ -26,7 +26,7 @@ export class Accounts implements OidcAccountsMethods {
     }
   }
 
-  async findAccount(id: string, token: AuthorizationCode | AccessToken | DeviceCode | undefined, ctx: PlatformContext) {
+  async findAccount(id: string, token: AuthorizationCode | AccessToken | DeviceCode | undefined) {
     return this.adapter.findById(id);
   }
 
