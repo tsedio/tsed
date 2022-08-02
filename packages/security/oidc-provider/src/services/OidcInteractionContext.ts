@@ -1,8 +1,17 @@
-import {Constant, PlatformContext, ProviderScope, Scope} from "@tsed/common";
+import {Constant, InjectContext, PlatformContext} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import {Account, InteractionResults, PromptDetail, Provider} from "oidc-provider";
+import {
+  INTERACTION_CONTEXT,
+  INTERACTION_DETAILS,
+  INTERACTION_GRANT_ID,
+  INTERACTION_PARAMS,
+  INTERACTION_PROMPT,
+  INTERACTION_SESSION,
+  INTERACTION_UID
+} from "../constants/constants";
 import {OidcSession} from "../decorators/oidcSession";
 import {OidcClient} from "../domain/interfaces";
 import {OidcBadInteractionName} from "../domain/OidcBadInteractionName";
@@ -13,7 +22,6 @@ import {OidcInteractions} from "./OidcInteractions";
 import {OidcProvider} from "./OidcProvider";
 
 @Injectable()
-@Scope(ProviderScope.REQUEST)
 export class OidcInteractionContext {
   @Constant("env")
   env: Env;
@@ -24,10 +32,12 @@ export class OidcInteractionContext {
   @Inject()
   protected oidcInteractions: OidcInteractions;
 
-  @Inject()
-  protected context: PlatformContext;
+  @InjectContext()
+  protected $ctx: PlatformContext;
 
-  protected raw: OidcInteraction;
+  get raw(): OidcInteraction {
+    return this.$ctx.get(INTERACTION_DETAILS)!;
+  }
 
   get session(): OidcSession | undefined {
     return this.raw.session as any;
@@ -53,22 +63,32 @@ export class OidcInteractionContext {
     const handler = this.oidcInteractions.getInteractionHandler(name);
 
     if (handler) {
-      await handler(this.context);
+      await handler(this.$ctx);
     }
   }
 
   async interactionDetails(): Promise<OidcInteraction> {
-    this.raw = await this.oidcProvider.get().interactionDetails(this.context.getReq(), this.context.getRes());
+    const raw = await this.oidcProvider.get().interactionDetails(this.$ctx.getReq(), this.$ctx.getRes());
 
-    return this.raw;
+    const {uid, prompt, params, session, grantId} = raw as any;
+
+    this.$ctx.set(INTERACTION_CONTEXT, this);
+    this.$ctx.set(INTERACTION_DETAILS, raw);
+    this.$ctx.set(INTERACTION_UID, uid);
+    this.$ctx.set(INTERACTION_PROMPT, prompt);
+    this.$ctx.set(INTERACTION_PARAMS, params);
+    this.$ctx.set(INTERACTION_GRANT_ID, grantId);
+    this.$ctx.set(INTERACTION_SESSION, session);
+
+    return raw;
   }
 
   async interactionFinished(result: InteractionResults, options: {mergeWithLastSubmission?: boolean} = {mergeWithLastSubmission: false}) {
-    return this.oidcProvider.get().interactionFinished(this.context.getReq(), this.context.getRes(), result, options);
+    return this.oidcProvider.get().interactionFinished(this.$ctx.getReq(), this.$ctx.getRes(), result, options);
   }
 
   async interactionResult(result: InteractionResults, options: {mergeWithLastSubmission?: boolean} = {mergeWithLastSubmission: false}) {
-    return this.oidcProvider.get().interactionResult(this.context.getReq(), this.context.getRes(), result, options);
+    return this.oidcProvider.get().interactionResult(this.$ctx.getReq(), this.$ctx.getRes(), result, options);
   }
 
   async interactionPrompt(options: Record<string, any>): Promise<OidcInteractionPromptProps> {
@@ -89,7 +109,7 @@ export class OidcInteractionContext {
   }
 
   async render(view: string, result: any): Promise<string> {
-    return this.context.response.render(view, result);
+    return this.$ctx.response.render(view, result);
   }
 
   async save(ttl: number): Promise<string> {
@@ -98,11 +118,8 @@ export class OidcInteractionContext {
 
   async findClient(clientId: string = this.params.client_id): Promise<OidcClient | undefined> {
     const key = `$client:${clientId}`;
-    if (!this.context.has(key)) {
-      this.context.set(key, await this.oidcProvider.get().Client.find(clientId));
-    }
 
-    return this.context.get(key);
+    return this.$ctx.cacheAsync(key, () => this.oidcProvider.get().Client.find(clientId));
   }
 
   async findAccount(sub?: string, token?: any): Promise<Account | undefined> {
@@ -114,7 +131,11 @@ export class OidcInteractionContext {
       return;
     }
 
-    return this.oidcProvider.get().Account.findAccount(undefined as any, sub!, token);
+    const key = `$account:${sub}`;
+
+    return this.$ctx.cacheAsync<Account | undefined>(key, (() => {
+      return this.oidcProvider.get().Account.findAccount(undefined as any, sub!, token);
+    }) as any);
   }
 
   async getGrant(): Promise<InstanceType<Provider["Grant"]>> {
