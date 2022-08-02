@@ -24,15 +24,12 @@ export class DIContext extends Map<any, any> implements ContextMethods {
   [x: string]: any;
 
   opts: DIContextOptions;
-
-  /**
-   * The request container used by the Ts.ED DI. It contain all services annotated with `@Scope(ProviderScope.REQUEST)`
-   */
-  public container = new LocalsContainer<any>();
   /**
    * Logger attached to the context request.
    */
   readonly logger: ContextLogger;
+
+  #container: LocalsContainer;
 
   constructor(readonly options: DIContextOptions) {
     super();
@@ -80,13 +77,20 @@ export class DIContext extends Map<any, any> implements ContextMethods {
     return this.injector.settings.get("env");
   }
 
+  /**
+   * The request container used by the Ts.ED DI. It contain all services annotated with `@Scope(ProviderScope.REQUEST)`
+   */
+  get container() {
+    return (this.#container = this.#container || new LocalsContainer<any>());
+  }
+
   async destroy() {
-    await this.container.destroy();
+    await this.#container?.destroy();
     this.logger.destroy();
     this.opts = {
       id: this.opts.id
     } as any;
-    this.container = null as any;
+    this.#container = null as any;
   }
 
   async emit(eventName: string, ...args: any[]) {
@@ -97,6 +101,22 @@ export class DIContext extends Map<any, any> implements ContextMethods {
     next = (await this.injector?.alterAsync("$alterRunInContext", next, this)) || next;
 
     return runInContext(this, next);
+  }
+
+  cache<Value = any>(key: string, cb: () => Value): Value {
+    if (!this.has(key)) {
+      this.set(key, cb());
+    }
+
+    return this.get(key);
+  }
+
+  async cacheAsync<Value = any>(key: string, cb: () => Promise<Value>): Promise<Value> {
+    if (!this.has(key)) {
+      this.set(key, await cb());
+    }
+
+    return this.get(key);
   }
 }
 

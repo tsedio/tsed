@@ -57,7 +57,6 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
 
     this.request.request.$ctx = this;
     this.request.request.id = this.id;
-    this.container.set(PlatformContext, this);
 
     this.response.setHeader("x-request-id", this.id);
   }
