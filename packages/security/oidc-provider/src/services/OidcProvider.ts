@@ -65,8 +65,7 @@ export class OidcProvider {
     };
 
     if (Accounts) {
-      configuration.findAccount = (ctx, id, token) =>
-        this.injector.get<OidcAccountsMethods>(Accounts)!.findAccount(id, token, (ctx.req as any).$ctx);
+      configuration.findAccount = (ctx, id, token) => this.injector.get<OidcAccountsMethods>(Accounts)!.findAccount(id, token);
     }
 
     if (this.env === Env.PROD) {

@@ -13,8 +13,10 @@ export class ConsentInteraction {
 
   @View("interaction")
   async $prompt(@OidcCtx() oidcCtx: OidcCtx): Promise<any> {
+    const account = await oidcCtx.findAccount();
     return oidcCtx.interactionPrompt({
       title: "Authorize",
+      account,
       flash: false
     });
   }

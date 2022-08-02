@@ -44,8 +44,15 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
    * The current @@PlatformRequest@@.
    */
   readonly request: PReq;
+  /**
+   * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
+   */
+  endpoint: EndpointMetadata;
+  /**
+   * The current @@PlatformHandlerMetadata@@ resolved by Ts.ED during the request.
+   */
+  handlerMetadata: PlatformHandlerMetadata;
 
-  private ignoreUrlPatterns: RegExp[] = [];
   #isDestroyed: boolean = false;
 
   constructor(options: PlatformContextOptions) {
@@ -59,38 +66,9 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
 
     this.request.request.$ctx = this;
     this.request.request.id = this.id;
-    this.container.set(PlatformResponse, this.response);
-    this.container.set(PlatformRequest, this.request);
     this.container.set(PlatformContext, this);
 
-    try {
-      this.response.setHeader("x-request-id", this.id);
-    } catch (er) {}
-  }
-
-  /**
-   * The current @@EndpointMetadata@@ resolved by Ts.ED during the request.
-   */
-  get endpoint() {
-    return this.get(EndpointMetadata);
-  }
-
-  set endpoint(endpoint: EndpointMetadata) {
-    this.set(EndpointMetadata, endpoint);
-  }
-
-  /**
-   * The current @@PlatformHandlerMetadata@@ resolved by Ts.ED during the request.
-   */
-  get handlerMetadata() {
-    return this.get(PlatformHandlerMetadata);
-  }
-
-  /**
-   * The current @@PlatformHandlerMetadata@@ resolved by Ts.ED during the request.
-   */
-  set handlerMetadata(metadata: PlatformHandlerMetadata) {
-    this.set(PlatformHandlerMetadata, metadata);
+    this.response.setHeader("x-request-id", this.id);
   }
 
   get url() {
@@ -112,7 +90,8 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
 
   async destroy() {
     await super.destroy();
-    this.upgrade({
+
+    this.event = {
       response: {
         isDone: true,
         statusCode: this.statusCode
@@ -125,7 +104,7 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
         query: this.query,
         params: this.params
       }
-    } as any);
+    } as any;
 
     this.response.destroy();
     this.request.destroy();
@@ -169,9 +148,5 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
    */
   getApp<T = any>(): T {
     return this.app.getApp() as any;
-  }
-
-  upgrade(event: IncomingEvent) {
-    this.event = event;
   }
 }
