@@ -4,11 +4,6 @@
 module.exports = {
   ...require("@tsed/jest-config")(__dirname, "platform-router"),
   coverageThreshold: {
-    global: {
-      statements: 100,
-      branches: 78.26,
-      functions: 100,
-      lines: 100
-    }
+    global: require("./coverage.json")
   }
 };

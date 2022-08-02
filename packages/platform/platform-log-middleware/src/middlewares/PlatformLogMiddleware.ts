@@ -47,7 +47,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
   protected onLogStart(ctx: Context) {
     const {logRequest, logLevel, logStart} = this.settings;
 
-    ctx.set(PlatformLogMiddleware, true);
+    ctx.logStarted = true;
 
     if (logStart) {
       if (logLevel === "debug") {
@@ -67,7 +67,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
    */
   protected onLogEnd(ctx: Context) {
     const {logRequest, logEnd, logLevel} = this.settings;
-    const started = ctx.get(PlatformLogMiddleware);
+    const started = (ctx.logStarted = false);
 
     if (logEnd && started) {
       if (logLevel === "debug") {

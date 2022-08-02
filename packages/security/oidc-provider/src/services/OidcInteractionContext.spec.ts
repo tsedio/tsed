@@ -1,9 +1,9 @@
-import {PlatformContext, PlatformTest} from "@tsed/common";
+import {PlatformTest} from "@tsed/common";
 import {catchAsyncError, catchError} from "@tsed/core";
 import {OidcInteractionContext, OidcProvider} from "@tsed/oidc-provider";
 
 async function createOidcInteractionContextFixture(grantId: any = "grantId") {
-  const context = PlatformTest.createRequestContext();
+  const $ctx = PlatformTest.createRequestContext();
 
   const session = {
     accountId: "accountId"
@@ -45,10 +45,6 @@ async function createOidcInteractionContextFixture(grantId: any = "grantId") {
   };
   const oidcCtx = await PlatformTest.invoke<OidcInteractionContext>(OidcInteractionContext, [
     {
-      token: PlatformContext,
-      use: context
-    },
-    {
       token: OidcProvider,
       use: {
         get() {
@@ -58,9 +54,9 @@ async function createOidcInteractionContextFixture(grantId: any = "grantId") {
     }
   ]);
 
-  await oidcCtx.interactionDetails();
+  await $ctx.runInContext(() => oidcCtx.interactionDetails());
 
-  return {context, oidcCtx, oidcProvider, session, interactionDetails};
+  return {$ctx, oidcCtx, oidcProvider, session, interactionDetails};
 }
 
 describe("OidcInteractionContext", () => {
@@ -69,210 +65,237 @@ describe("OidcInteractionContext", () => {
 
   describe("uid()", () => {
     it("should return uid", async () => {
-      const {oidcCtx} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx} = await createOidcInteractionContextFixture();
 
-      expect(oidcCtx.uid).toEqual("uid");
+      await $ctx.runInContext(() => {
+        expect(oidcCtx.uid).toEqual("uid");
+      });
     });
   });
 
   describe("checkInteractionName()", () => {
     it("should throw error", async () => {
-      const {oidcCtx} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx} = await createOidcInteractionContextFixture();
 
-      const error: any = catchError(() => oidcCtx.checkInteractionName("test"));
+      await $ctx.runInContext(() => {
+        const error: any = catchError(() => oidcCtx.checkInteractionName("test"));
 
-      expect(error?.message).toEqual("Bad interaction name");
+        expect(error?.message).toEqual("Bad interaction name");
+      });
     });
   });
 
   describe("checkClientId()", () => {
     it("should throw error", async () => {
-      const {oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
       oidcProvider.Client.find.mockResolvedValue(undefined);
 
-      const error: any = await catchAsyncError(() => oidcCtx.checkClientId());
+      await $ctx.runInContext(async () => {
+        const error: any = await catchAsyncError(() => oidcCtx.checkClientId());
 
-      expect(error?.message).toEqual("Unknown client_id client_id");
+        expect(error?.message).toEqual("Unknown client_id client_id");
+      });
     });
   });
 
   describe("grantId()", () => {
     it("should return uid", async () => {
-      const {oidcCtx} = await createOidcInteractionContextFixture();
-
-      expect(oidcCtx.grantId).toEqual("grantId");
+      const {$ctx, oidcCtx} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        expect(oidcCtx.grantId).toEqual("grantId");
+      });
     });
   });
 
   describe("session()", () => {
     it("should return session", async () => {
-      const {oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
-
-      expect(oidcCtx.session).toEqual(interactionDetails.session);
+      const {$ctx, oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        expect(oidcCtx.session).toEqual(interactionDetails.session);
+      });
     });
   });
 
   describe("prompt()", () => {
     it("should return prompt", async () => {
-      const {oidcCtx} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx} = await createOidcInteractionContextFixture();
 
-      expect(oidcCtx.prompt).toEqual({
-        name: "login"
+      await $ctx.runInContext(async () => {
+        expect(oidcCtx.prompt).toEqual({
+          name: "login"
+        });
       });
     });
   });
 
   describe("params()", () => {
     it("should return params", async () => {
-      const {oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
-
-      expect(oidcCtx.params).toEqual(interactionDetails.params);
+      const {$ctx, oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        expect(oidcCtx.params).toEqual(interactionDetails.params);
+      });
     });
   });
 
   describe("interactionFinished()", () => {
     it("should return call interactionFinished", async () => {
-      const {context, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
 
-      await oidcCtx.interactionFinished({login: {accountId: "string"}}, {mergeWithLastSubmission: false});
+      await $ctx.runInContext(async () => {
+        await oidcCtx.interactionFinished({login: {accountId: "string"}}, {mergeWithLastSubmission: false});
 
-      expect(oidcProvider.interactionFinished).toBeCalledWith(
-        context.getReq(),
-        context.getRes(),
-        {login: {accountId: "string"}},
-        {mergeWithLastSubmission: false}
-      );
+        expect(oidcProvider.interactionFinished).toBeCalledWith(
+          $ctx.getReq(),
+          $ctx.getRes(),
+          {login: {accountId: "string"}},
+          {mergeWithLastSubmission: false}
+        );
+      });
     });
   });
 
   describe("interactionResult()", () => {
     it("should return call interactionResult", async () => {
-      const {context, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        await oidcCtx.interactionResult({login: {accountId: "string"}}, {mergeWithLastSubmission: false});
 
-      await oidcCtx.interactionResult({login: {accountId: "string"}}, {mergeWithLastSubmission: false});
-
-      expect(oidcProvider.interactionResult).toBeCalledWith(
-        context.getReq(),
-        context.getRes(),
-        {login: {accountId: "string"}},
-        {mergeWithLastSubmission: false}
-      );
+        expect(oidcProvider.interactionResult).toBeCalledWith(
+          $ctx.getReq(),
+          $ctx.getRes(),
+          {login: {accountId: "string"}},
+          {mergeWithLastSubmission: false}
+        );
+      });
     });
     it("should return call interactionResult (default)", async () => {
-      const {context, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        await oidcCtx.interactionResult({login: {accountId: "string"}});
 
-      await oidcCtx.interactionResult({login: {accountId: "string"}});
-
-      expect(oidcProvider.interactionResult).toBeCalledWith(
-        context.getReq(),
-        context.getRes(),
-        {login: {accountId: "string"}},
-        {mergeWithLastSubmission: false}
-      );
+        expect(oidcProvider.interactionResult).toBeCalledWith(
+          $ctx.getReq(),
+          $ctx.getRes(),
+          {login: {accountId: "string"}},
+          {mergeWithLastSubmission: false}
+        );
+      });
     });
   });
 
   describe("render()", () => {
     it("should return call render", async () => {
-      const {context, oidcCtx} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        jest.spyOn($ctx.response, "render").mockResolvedValue("");
 
-      jest.spyOn(context.response, "render").mockResolvedValue("");
+        await oidcCtx.render("login", {});
 
-      await oidcCtx.render("login", {});
-
-      expect(context.response.render).toBeCalledWith("login", {});
+        expect($ctx.response.render).toBeCalledWith("login", {});
+      });
     });
   });
 
   describe("save()", () => {
     it("should return call save", async () => {
-      const {oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        await oidcCtx.save(2000);
 
-      await oidcCtx.save(2000);
-
-      expect(interactionDetails.save).toBeCalledWith(2000);
+        expect(interactionDetails.save).toBeCalledWith(2000);
+      });
     });
 
     it("should return call save (default)", async () => {
-      const {oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        await oidcCtx.save(100);
 
-      await oidcCtx.save(100);
-
-      expect(interactionDetails.save).toBeCalledWith(100);
+        expect(interactionDetails.save).toBeCalledWith(100);
+      });
     });
   });
 
   describe("findClient()", () => {
     it("should return call findClient", async () => {
-      const {oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        const result = await oidcCtx.findClient("client_id");
 
-      const result = await oidcCtx.findClient("client_id");
-
-      expect(result).toEqual({
-        client_id: "client_id"
+        expect(result).toEqual({
+          client_id: "client_id"
+        });
+        expect(oidcProvider.Client.find).toBeCalledWith("client_id");
       });
-      expect(oidcProvider.Client.find).toBeCalledWith("client_id");
     });
 
     it("should return call findClient (default)", async () => {
-      const {oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
 
-      const result = await oidcCtx.findClient();
+      await $ctx.runInContext(async () => {
+        const result = await oidcCtx.findClient();
 
-      expect(result).toEqual({
-        client_id: "client_id"
+        expect(result).toEqual({
+          client_id: "client_id"
+        });
+        expect(oidcProvider.Client.find).toBeCalledWith("client_id");
       });
-      expect(oidcProvider.Client.find).toBeCalledWith("client_id");
     });
   });
 
   describe("findAccount()", () => {
     it("should return call findAccount", async () => {
-      const {oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        const result = await oidcCtx.findAccount(undefined, "token");
 
-      const result = await oidcCtx.findAccount(undefined, "token");
-
-      expect(oidcProvider.Account.findAccount).toBeCalledWith(undefined, "accountId", "token");
-      expect(result).toEqual({
-        accountId: "accountId"
+        expect(oidcProvider.Account.findAccount).toBeCalledWith(undefined, "accountId", "token");
+        expect(result).toEqual({
+          accountId: "accountId"
+        });
       });
     });
 
     it("should return call findAccount (with accountId)", async () => {
-      const {oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, oidcProvider} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        const result = await oidcCtx.findAccount("accountId", "token");
 
-      const result = await oidcCtx.findAccount("accountId", "token");
-
-      expect(oidcProvider.Account.findAccount).toBeCalledWith(undefined, "accountId", "token");
-      expect(result).toEqual({
-        accountId: "accountId"
+        expect(oidcProvider.Account.findAccount).toBeCalledWith(undefined, "accountId", "token");
+        expect(result).toEqual({
+          accountId: "accountId"
+        });
       });
     });
 
     it("should return call findAccount (without session/accountId)", async () => {
-      const {oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
+      const {$ctx, oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
 
-      interactionDetails.session.accountId = undefined;
+      await $ctx.runInContext(async () => {
+        interactionDetails.session.accountId = undefined;
 
-      const result = await oidcCtx.findAccount(undefined, "token");
+        const result = await $ctx.runInContext(() => oidcCtx.findAccount(undefined, "token"));
 
-      expect(result).toBeUndefined();
+        expect(result).toBeUndefined();
+      });
     });
   });
 
   describe("getGrant()", () => {
     it("should return call grant from grantId", async () => {
-      const {oidcCtx} = await createOidcInteractionContextFixture();
-
-      const result = await oidcCtx.getGrant();
-      expect(result).toEqual("grant");
+      const {$ctx, oidcCtx} = await createOidcInteractionContextFixture();
+      await $ctx.runInContext(async () => {
+        const result = await oidcCtx.getGrant();
+        expect(result).toEqual("grant");
+      });
     });
 
     it("should create grant", async () => {
-      const {oidcCtx} = await createOidcInteractionContextFixture(null);
-
-      const result = await oidcCtx.getGrant();
-      expect(result).toEqual({});
+      const {$ctx, oidcCtx} = await createOidcInteractionContextFixture(null);
+      await $ctx.runInContext(async () => {
+        const result = await oidcCtx.getGrant();
+        expect(result).toEqual({});
+      });
     });
   });
 });

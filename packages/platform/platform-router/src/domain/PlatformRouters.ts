@@ -99,7 +99,7 @@ export class PlatformRouters {
         operationRoute.path || "",
         [
           useContextHandler(($ctx) => {
-            $ctx.set(EndpointMetadata, operationRoute.endpoint);
+            $ctx.endpoint = operationRoute.endpoint;
           }),
           ...handlers
         ],

@@ -27,17 +27,12 @@ function createResponse() {
 
   const ctx = PlatformTest.createRequestContext({
     event: {
-      response: res,
-      request: req
+      response: koaResponse,
+      request: koaRequest
     },
     ResponseKlass: PlatformKoaResponse,
     RequestKlass: PlatformKoaRequest
   });
-
-  ctx.upgrade({
-    response: koaResponse,
-    request: koaRequest
-  } as any);
 
   return {res, response: ctx.response as PlatformKoaResponse, ctx, koaResponse, koaRequest};
 }

@@ -65,6 +65,58 @@ describe("DIContext", () => {
     });
   });
 
+  describe("cache()", () => {
+    it("should cache data", async () => {
+      const context = new DIContext({
+        event: {
+          response: PlatformTest.createResponse(),
+          request: PlatformTest.createRequest({
+            url: "/admin"
+          })
+        },
+        id: "id",
+        logger: {
+          info: jest.fn()
+        },
+        maxStackSize: 0,
+        injector: {emit: jest.fn()} as any,
+        ignoreUrlPatterns: ["/admin", /\/admin2/]
+      });
+      const resolver = jest.fn().mockReturnValue("test");
+
+      const result = context.cache("key", resolver);
+      const result2 = context.cache("key", resolver);
+
+      expect(result).toEqual(result2);
+      expect(resolver).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe("cacheAsync()", () => {
+    it("should cache data", async () => {
+      const context = new DIContext({
+        event: {
+          response: PlatformTest.createResponse(),
+          request: PlatformTest.createRequest({
+            url: "/admin"
+          })
+        },
+        id: "id",
+        logger: {
+          info: jest.fn()
+        },
+        maxStackSize: 0,
+        injector: {emit: jest.fn()} as any,
+        ignoreUrlPatterns: ["/admin", /\/admin2/]
+      });
+      const resolver = jest.fn().mockResolvedValue("test");
+
+      const result = await context.cacheAsync("key", resolver);
+      const result2 = await context.cacheAsync("key", resolver);
+
+      expect(result).toEqual(result2);
+      expect(resolver).toHaveBeenCalledTimes(1);
+    });
+  });
   describe("emit()", () => {
     it("should emit event", async () => {
       const context = new DIContext({

@@ -52,9 +52,9 @@ describe("routers with alter handlers", () => {
 
     expect(layers.length).toEqual(1);
 
-    const $ctx = new Map();
+    const $ctx: any = {};
     await (layers[0].getArgs() as any)[1]({$ctx});
 
-    expect($ctx.get(EndpointMetadata)).toBeDefined();
+    expect($ctx.endpoint).toBeDefined();
   });
 });

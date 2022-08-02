@@ -1,5 +1,5 @@
-import {PlatformTest} from "@tsed/common";
 import faker from "@faker-js/faker";
+import {PlatformTest} from "@tsed/common";
 import {
   INTERACTION_CONTEXT,
   INTERACTION_DETAILS,
@@ -24,19 +24,16 @@ describe("OidcInteractionMiddleware", () => {
     const oidcInteractionContext = {
       interactionDetails: jest.fn().mockReturnValue(interactionDetails)
     };
-    const ctx = PlatformTest.createRequestContext();
-    ctx.container.set(OidcInteractionContext, oidcInteractionContext);
 
-    const middleware = await PlatformTest.invoke<OidcInteractionMiddleware>(OidcInteractionMiddleware);
+    const middleware = await PlatformTest.invoke<OidcInteractionMiddleware>(OidcInteractionMiddleware, [
+      {
+        token: OidcInteractionContext,
+        use: oidcInteractionContext
+      }
+    ]);
 
-    await middleware.use(ctx);
+    await middleware.use();
 
     expect(oidcInteractionContext.interactionDetails).toBeCalledWith();
-    expect(ctx.get(INTERACTION_CONTEXT)).toEqual(oidcInteractionContext);
-    expect(ctx.get(INTERACTION_DETAILS)).toEqual(interactionDetails);
-    expect(ctx.get(INTERACTION_UID)).toEqual(interactionDetails.uid);
-    expect(ctx.get(INTERACTION_PROMPT)).toEqual(interactionDetails.prompt);
-    expect(ctx.get(INTERACTION_PARAMS)).toEqual(interactionDetails.params);
-    expect(ctx.get(INTERACTION_SESSION)).toEqual(interactionDetails.session);
   });
 });

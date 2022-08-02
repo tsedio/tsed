@@ -50,7 +50,7 @@ export class PlatformHandler {
     const handler = this.platformParams.compileHandler(metadata.store);
 
     return async ($ctx: PlatformContext) => {
-      $ctx.set(PlatformHandlerMetadata, metadata);
+      $ctx.handlerMetadata = metadata;
 
       // @ts-ignore
       return this.onRequest(handler, $ctx);
