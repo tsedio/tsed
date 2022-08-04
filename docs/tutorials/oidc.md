@@ -140,6 +140,18 @@ environment.
 })
 ```
 
+## Secure cookies
+
+By default, Ts.ED disable the secureCookies options in `development` mode and enable it in `production` mode. But, sometimes this options in `integration` environment because your server isn't under a Https protocol.
+
+```typescript
+@Configuration({
+  oidc: {
+    secureCookies: false
+  }
+})
+```
+
 ## TLS proxy
 
 The OpenID Connect specification does not allow unsecured HTTP requests and oidc-provider blocks them by default. While there is a [workaround](https://github.com/panva/node-oidc-provider/blob/main/recipes/implicit_http_localhost.md), the proper way is to use a TLS offloading proxy in front of your app.
