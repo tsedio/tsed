@@ -5,6 +5,10 @@ import {OidcAccountsMethods} from "./OidcAccountsMethods";
 
 export interface OidcSettings extends Configuration {
   /**
+   * force the secure cookie. By default, in dev mode it's disabled and in production it's enabled.
+   */
+  secureCookies?: boolean;
+  /**
    * Path on which the oidc-provider instance is mounted.
    */
   path?: string;
