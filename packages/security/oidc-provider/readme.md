@@ -62,6 +62,7 @@ import {MemoryAdapter} from "../adapters/MemoryAdapter";
     jwksPath: `./../keys/jwks.json`, // don't forget add this path to .gitignore
     Adapter: MemoryAdapter,
     Accounts: Accounts,
+    allowHttpLocalhost: false, // by default. true in dev mode and false in production
     // Clients: Clients,
     clients: [
       {

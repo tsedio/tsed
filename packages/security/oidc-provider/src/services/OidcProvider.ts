@@ -107,11 +107,11 @@ export class OidcProvider {
    * Create a new instance of OidcProvider
    */
   async create(): Promise<void | OIDCProvider> {
-    const {proxy, secureKey} = this.oidc;
+    const {proxy = this.env === Env.PROD, secureKey, allowHttpLocalhost = this.env !== Env.PROD} = this.oidc;
     const configuration = await this.getConfiguration();
     const oidcProvider = new OIDCProvider(this.getIssuer(), configuration);
 
-    if (proxy || this.env === Env.PROD) {
+    if (proxy) {
       // istanbul ignore next
       switch (this.platformName) {
         default:
@@ -130,7 +130,7 @@ export class OidcProvider {
 
     this.raw = oidcProvider;
 
-    if (this.env !== Env.PROD) {
+    if (allowHttpLocalhost) {
       this.allowHttpLocalhost();
     }
 
