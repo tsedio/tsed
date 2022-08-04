@@ -1,6 +1,6 @@
 {
   "name": "@tsed/async-hook-context",
-  "version": "6.123.1",
+  "version": "6.124.0",
   "description": "Add Async Hook context support in Ts.ED",
   "private": false,
   "source": "./src/index.ts",
@@ -39,8 +39,8 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.123.1",
-    "@tsed/di": "6.123.1"
+    "@tsed/core": "6.124.0",
+    "@tsed/di": "6.124.0"
   },
   "publishConfig": {
     "tag": "deprecated"
