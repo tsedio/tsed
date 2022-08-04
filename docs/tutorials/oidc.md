@@ -84,6 +84,7 @@ import {InteractionsCtrl} from "./controllers/oidc/InteractionsCtrl";
     // path: "/oidc",
     Accounts: Accounts,
     jwksPath: join(process.cwd(), "..", "..", "keys", "jwks.json"),
+    // allowHttpLocalhost: false, // by default. true in dev mode and false in production
     clients: [
       {
         client_id: "client_id",
@@ -125,6 +126,19 @@ Documentation on other options properties can be found on the [oidc-provider](ht
 ::: warning
 It is advised to set `path` to `/oidc` to prevent oidc-provider becoming the default exception handler on all routes. In future versions of Ts.ED this will be the default value.
 :::
+
+## Allow HTTP & localhost
+
+By default, Ts.ED enable HTTP and localhost domain as a valid redirect uri for your OIDC project. But, sometimes you want to allow also HTTP and localhost domain in your `integration` or `QA`
+environment.
+
+```typescript
+@Configuration({
+  oidc: {
+    allowHttpLocalhost: true
+  }
+})
+```
 
 ## TLS proxy
 

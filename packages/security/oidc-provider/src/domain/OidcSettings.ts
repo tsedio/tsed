@@ -9,7 +9,7 @@ export interface OidcSettings extends Configuration {
    */
   path?: string;
   /**
-   * Issuer URI. By default Ts.ED create issuer with http://localhost:${httpPort}
+   * Issuer URI. By default, Ts.ED create issuer with http://localhost:${httpPort}
    */
   issuer?: string;
   /**
@@ -29,13 +29,13 @@ export interface OidcSettings extends Configuration {
    */
   proxy?: boolean;
   /**
+   * Allow redirect_uri on HTTP protocol and localhost domain.
+   */
+  allowHttpLocalhost?: boolean;
+  /**
    * Injectable service to manage accounts.
    */
   Accounts?: Type<OidcAccountsMethods>;
-  /**
-   * Injectable service to manage clients.
-   */
-  // Clients?: Type<OidcClientsMethods>;
 }
 
 declare global {
