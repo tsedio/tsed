@@ -183,7 +183,7 @@
     ]
   },
   "resolutions": {
-    "mongoose": "6.2.9"
+    "mongoose": "6.5.1"
   },
   "collective": {
     "type": "opencollective",
