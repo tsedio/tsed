@@ -1,6 +1,6 @@
 import {GeneratorOptions} from "@prisma/generator-helper";
 import {parseEnvValue} from "@prisma/sdk";
-import {promises as asyncFs} from "fs";
+import fs from "fs-extra";
 import {generateCode} from "../generator/generateCode";
 import removeDir from "../generator/utils/removeDir";
 import path, {join} from "path";
@@ -18,7 +18,7 @@ function toUnixPath(maybeWindowsPath: string) {
 
 export async function generate(options: GeneratorOptions) {
   const outputDir = parseEnvValue(options.generator.output!);
-  await asyncFs.mkdir(outputDir, {recursive: true});
+  await fs.mkdir(outputDir, {recursive: true});
   await removeDir(outputDir, true);
 
   const generatorConfig = options.generator.config;
@@ -32,9 +32,9 @@ export async function generate(options: GeneratorOptions) {
   });
 
   if (outputDir === defaultOutput) {
-    await asyncFs.cp(join(packageDir, "scripts", "backup-index.cjs.js"), join(packageDir, "lib", "cjs", "index.js"));
-    await asyncFs.cp(join(packageDir, "scripts", "backup-index.esm.js"), join(packageDir, "lib", "esm", "index.js"));
-    await asyncFs.cp(join(packageDir, "scripts", "backup-index.d.ts"), join(packageDir, "lib", "types", "index.d.ts"));
+    await fs.copy(join(packageDir, "scripts", "backup-index.cjs.js"), join(packageDir, "lib", "cjs", "index.js"));
+    await fs.copy(join(packageDir, "scripts", "backup-index.esm.js"), join(packageDir, "lib", "esm", "index.js"));
+    await fs.copy(join(packageDir, "scripts", "backup-index.d.ts"), join(packageDir, "lib", "types", "index.d.ts"));
   }
 
   return "";

@@ -76,25 +76,12 @@ yarn test
 npm run test
 ```
 
-### Gflow (optional)
-
-[Gflow](https://www.npmjs.com/package/gflow) is a command line tool to help developers with the Git process used in Ts.ED.
-
-Gflow helps you create a branch from production, rebase and run the tests before pushing your branch on your remote repository.
-
-```bash
-npm install -g gflow
-```
-
 ### Start a feature branch
 
 ```bash
 git fetch
 git checkout --no-track -b feat-branch-name origin/production  # !IMPORTANT
 yarn
-
-## OR
-gflow new feat name_of_feat
 ```
 
 ### Commit & Push a feature
@@ -112,9 +99,6 @@ npm run test
 git fetch
 git rebase origin/production
 git push -f
-
-# OR using gflow (run fetch, rebase and push for you)
-gflow push
 ```
 
 When your feature is ready to review, you can open a PR on Ts.ED github.
