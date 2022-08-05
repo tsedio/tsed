@@ -3,7 +3,7 @@
 </p>
 
 <div align="center">
-   <h1>OIDC Provider</h1>
+   <h1>Vite SSR plugin</h1>
 
 [![Build & Release](https://github.com/tsedio/tsed/workflows/Build%20&%20Release/badge.svg)](https://github.com/tsedio/tsed/actions?query=workflow%3A%22Build+%26+Release%22)
 [![PR Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/tsedio/tsed/blob/master/CONTRIBUTING.md)
@@ -28,63 +28,18 @@
 
 <hr />
 
-A package of Ts.ED framework. See website: https://tsed.io/tutorials/oidc-provider
+A package of Ts.ED framework. See website: https://tsed.io/tutorials/vite-ssr-plugin
 
 ## Feature
 
-Currently, `@tsed/oidc-provider` allows you:
-
-- Configure the server with [oidc-provider](https://github.com/panva/node-oidc-provider)
-- Configure Clients and Accounts classes to manage clients and accounts
-- Configure an adapter to connect your oidc to any database
-- Add interactions
-- Generate the jwk keys automatically
+- Render page using @View with Vite
 
 ## Installation
 
 To begin, install the oidc-provider module for TS.ED:
 
 ```bash
-npm install --save @tsed/oidc-provider
-npm install --save oidc-provider
-```
-
-Then import `@tsed/oidc-provider` in your Server:
-
-```typescript
-import {Configuration} from "@tsed/common";
-import "@tsed/oidc-provider"; // import typeorm ts.ed module
-import {Accounts} from "../services/Accounts";
-import {MemoryAdapter} from "../adapters/MemoryAdapter";
-
-@Configuration({
-  oidc: {
-    jwksPath: `./../keys/jwks.json`, // don't forget add this path to .gitignore
-    Adapter: MemoryAdapter,
-    Accounts: Accounts,
-    allowHttpLocalhost: false, // by default. true in dev mode and false in production
-    // Clients: Clients,
-    clients: [
-      {
-        client_id: "client_id",
-        client_secret: "client_secret",
-        redirect_uris: ["https://host.fr/"]
-      }
-    ],
-    options: {
-      // Oidc-provider options See https://github.com/panva/node-oidc-provider/blob/master/docs/README.md
-      formats: {
-        AccessToken: "jwt"
-      },
-      features: {
-        encryption: {enabled: true},
-        introspection: {enabled: true},
-        revocation: {enabled: true}
-      }
-    }
-  }
-})
-export class Server {}
+npm install --save @tsed/vite-ssr-plugin vite@3 vite-ssr-plugin
 ```
 
 ## Contributors

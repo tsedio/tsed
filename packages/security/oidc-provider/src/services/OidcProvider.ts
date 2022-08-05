@@ -1,13 +1,13 @@
+import {PlatformApplication} from "@tsed/common";
 import {Env, setValue} from "@tsed/core";
 import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
-import {Provider as OIDCProvider, Configuration, interactionPolicy} from "oidc-provider";
+import {Configuration, interactionPolicy, Provider as OIDCProvider} from "oidc-provider";
 import {INTERACTIONS} from "../constants/constants";
+import {OidcAccountsMethods} from "../domain/OidcAccountsMethods";
+import {OidcSettings} from "../domain/OidcSettings";
 import {OidcAdapters} from "./OidcAdapters";
 import {OidcInteractions} from "./OidcInteractions";
 import {OidcJwks} from "./OidcJwks";
-import {PlatformApplication} from "@tsed/common";
-import {OidcSettings} from "../domain/OidcSettings";
-import {OidcAccountsMethods} from "../domain/OidcAccountsMethods";
 
 @Injectable()
 export class OidcProvider {
@@ -52,7 +52,7 @@ export class OidcProvider {
 
   async getConfiguration(): Promise<Configuration> {
     const [jwks, adapter] = await Promise.all([this.oidcJwks.getJwks(), this.adapters.createAdapterClass()]);
-    const {issuer, jwksPath, secureKey, proxy, Accounts, ...options} = this.oidc;
+    const {issuer, jwksPath, secureKey, proxy, Accounts, secureCookies = this.env == Env.PROD, ...options} = this.oidc;
 
     const configuration: Configuration = {
       interactions: {
@@ -68,7 +68,7 @@ export class OidcProvider {
       configuration.findAccount = (ctx, id, token) => this.injector.get<OidcAccountsMethods>(Accounts)!.findAccount(id, token);
     }
 
-    if (this.env === Env.PROD) {
+    if (secureCookies) {
       setValue(configuration, "cookies.short.secure", true);
       setValue(configuration, "cookies.long.secure", true);
     }
@@ -107,11 +107,11 @@ export class OidcProvider {
    * Create a new instance of OidcProvider
    */
   async create(): Promise<void | OIDCProvider> {
-    const {proxy, secureKey} = this.oidc;
+    const {proxy = this.env === Env.PROD, secureKey, allowHttpLocalhost = this.env !== Env.PROD} = this.oidc;
     const configuration = await this.getConfiguration();
     const oidcProvider = new OIDCProvider(this.getIssuer(), configuration);
 
-    if (proxy || this.env === Env.PROD) {
+    if (proxy) {
       // istanbul ignore next
       switch (this.platformName) {
         default:
@@ -130,7 +130,7 @@ export class OidcProvider {
 
     this.raw = oidcProvider;
 
-    if (this.env !== Env.PROD) {
+    if (allowHttpLocalhost) {
       this.allowHttpLocalhost();
     }
 

@@ -7,6 +7,8 @@ import {
   isClass,
   isFunction,
   isInheritedFrom,
+  isObject,
+  isPromise,
   Metadata,
   nameOf,
   prototypeOf,
@@ -630,10 +632,19 @@ export class InjectorService extends Container {
       this.bindInjectableProperties(instance, locals, options);
     }
 
-    if (instance && provider.hooks) {
-      Object.entries(provider.hooks).forEach(([key, cb]) => {
-        instance[key] = (...args: any[]) => cb(instance, ...args);
-      });
+    const bind = (instance: any) => {
+      if (isObject(instance) && provider.hooks) {
+        Object.entries(provider.hooks!).forEach(([key, cb]) => {
+          (instance as any)[key] = (...args: any[]) => cb(instance, ...args);
+        });
+      }
+      return instance;
+    };
+
+    if (isPromise(instance)) {
+      instance.then(bind);
+    } else {
+      bind(instance);
     }
 
     return instance;

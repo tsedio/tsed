@@ -2,7 +2,7 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  ...require("@tsed/jest-config")(__dirname, "oidc-provider"),
+  ...require("@tsed/jest-config")(__dirname, "vite-ssr-plugin"),
   coverageThreshold: {
     global: require("./coverage.json")
   }

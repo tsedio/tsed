@@ -338,10 +338,12 @@ describe("InjectorService", () => {
         const provider = new Provider<any>(token);
         provider.deps = [tokenChild];
         provider.useAsyncFactory = async (dep: any) => ({factory: dep + " factory"});
+        provider.hooks = {$onDestroy: () => {}};
 
         const tokenSync = Symbol.for("TokenSyncFactory");
         const providerSync = new Provider<any>(tokenSync);
         providerSync.deps = [token];
+        providerSync.hooks = {$onDestroy: () => {}};
         providerSync.useFactory = (asyncInstance: any) => asyncInstance.factory;
 
         const injector = new InjectorService();
@@ -357,7 +359,7 @@ describe("InjectorService", () => {
         const result2: any = injector.invoke(tokenSync);
 
         // THEN
-        expect(result).toEqual({factory: "test async factory"});
+        expect(result).toEqual({factory: "test async factory", $onDestroy: expect.any(Function)});
         expect(result2).toEqual("test async factory");
       });
       it("should invoke the provider from container with nested async factory", async () => {

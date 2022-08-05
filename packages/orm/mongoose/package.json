@@ -38,7 +38,7 @@
     "@tsed/json-mapper": "7.0.0-beta.16",
     "@tsed/logger": ">=6.2.0",
     "@tsed/schema": "7.0.0-beta.16",
-    "mongoose": "^6.1.7"
+    "mongoose": "6.5.1"
   },
   "peerDependencies": {
     "@tsed/ajv": "^7.0.0-beta.16",

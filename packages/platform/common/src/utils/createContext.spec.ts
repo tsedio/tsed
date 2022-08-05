@@ -55,6 +55,33 @@ describe("createContext", () => {
     expect(injector.logger.info).toHaveBeenCalledTimes(0);
   });
 
+  it("should ignore logs", async () => {
+    // GIVEN
+    const injector = PlatformTest.injector;
+    const request = PlatformTest.createRequest({
+      url: "/admin",
+      originalUrl: "/admin"
+    });
+    const response = PlatformTest.createResponse();
+
+    injector.settings.logger.level = "info";
+    injector.settings.logger.ignoreUrlPatterns = ["/admin", /\/admin2/];
+
+    jest.spyOn(injector, "emit").mockResolvedValue(undefined);
+    jest.spyOn(injector.logger, "info").mockReturnValue(undefined);
+    jest.spyOn(PlatformResponse.prototype, "onEnd").mockResolvedValue(undefined as never);
+
+    // WHEN
+    const invoke = createContext(injector);
+    const ctx = await invoke({request, response});
+
+    ctx.logger.info({event: "test"});
+    ctx.logger.flush();
+
+    // THEN
+    expect(injector.logger.info).toHaveBeenCalledTimes(0);
+  });
+
   it("should add a x-request-id header to the response", async () => {
     // GIVEN
     const injector = PlatformTest.injector;
