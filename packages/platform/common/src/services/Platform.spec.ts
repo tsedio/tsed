@@ -1,10 +1,10 @@
 import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
+import {ControllerProvider} from "../domain/ControllerProvider";
 import {Platform} from "./Platform";
 import {PlatformApplication} from "./PlatformApplication";
-import {PlatformTest} from "./PlatformTest";
-import {Get} from "@tsed/schema";
 import {PlatformRouter} from "./PlatformRouter";
-import {ControllerProvider} from "../domain/ControllerProvider";
+import {PlatformTest} from "./PlatformTest";
 
 @Controller("/my-route")
 class MyCtrl {
@@ -45,7 +45,7 @@ describe("Platform", () => {
       const router = PlatformTest.get<PlatformRouter>(provider.tokenRouter);
 
       // THEN
-      expect(platform.getMountedControllers()).toEqual([{provider, route: "/test/my-route"}]);
+      expect(platform.getMountedControllers()).toEqual([{provider, rootPath: "/test", route: "/test/my-route"}]);
       expect(platform.app.use).toBeCalledWith("/test/my-route", router.raw);
     });
     it("should add nested controllers", async () => {
@@ -62,8 +62,8 @@ describe("Platform", () => {
 
       // THEN
       expect(platform.getMountedControllers()).toEqual([
-        {provider: subProvider, route: "/test/my-route/my-sub-route"},
-        {provider: nestedProvider, route: "/test/my-route"}
+        {provider: subProvider, rootPath: "/test/my-route", route: "/test/my-route/my-sub-route"},
+        {provider: nestedProvider, rootPath: "/test", route: "/test/my-route"}
       ]);
       expect(platform.app.use).toBeCalledWith("/test/my-route", router.raw);
     });
@@ -100,7 +100,7 @@ describe("Platform", () => {
           name: "MyCtrl.get()",
           parameters: [],
           rawBody: false,
-          url: "/test/my-route/"
+          url: "/test/my-route"
         }
       ]);
 
@@ -113,7 +113,7 @@ describe("Platform", () => {
           name: "MyCtrl.get()",
           parameters: [],
           rawBody: false,
-          url: "/test/my-route/"
+          url: "/test/my-route"
         }
       ]);
     });

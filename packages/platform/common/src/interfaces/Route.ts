@@ -8,5 +8,6 @@ export interface Route extends Record<string, any> {
 
 export interface RouteController {
   route: string;
+  rootPath: string;
   provider: ControllerProvider;
 }

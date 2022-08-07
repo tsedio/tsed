@@ -12,6 +12,7 @@ describe("SwaggerService", () => {
       const result2 = await swaggerService.getOpenAPISpec({specVersion: "3.0.1"} as any);
 
       expect(result1).toEqual(result2);
+      expect(result1).toMatchSnapshot();
     });
   });
 });

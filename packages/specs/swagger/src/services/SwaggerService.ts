@@ -29,7 +29,7 @@ export class SwaggerService {
       const tokens = this.platform
         .getMountedControllers()
         .filter(({route, provider}) => includeRoute(route, provider, conf))
-        .map(({route, provider}) => ({token: provider.token, rootPath: route.replace(provider.path, "")}));
+        .map(({rootPath, provider}) => ({token: provider.token, rootPath: rootPath}));
 
       const spec = await generateSpec({
         tokens,

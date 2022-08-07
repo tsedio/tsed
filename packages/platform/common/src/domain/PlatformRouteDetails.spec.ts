@@ -23,7 +23,7 @@ describe("PlatformRouteDetails", () => {
       methodClassName: "get",
       name: "Test.get()",
       rawBody: false,
-      url: "/base/"
+      url: "/base"
     });
   });
 });
