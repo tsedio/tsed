@@ -121,6 +121,7 @@ export class Platform {
       }, [])
       .concat([
         {
+          rootPath: basePath,
           route: ctrlPath,
           provider: this.injector.getProvider(token) as ControllerProvider
         }

@@ -57,7 +57,7 @@ describe("getOperationsRoutes()", () => {
 
     expect(operationsRoutes.map(getData)).toEqual([
       {
-        fullPath: "/test/",
+        fullPath: "/test",
         method: "GET",
         path: "/",
         propertyKey: "method",
@@ -67,7 +67,7 @@ describe("getOperationsRoutes()", () => {
         isFinal: false
       },
       {
-        fullPath: "/test/",
+        fullPath: "/test",
         method: "GET",
         path: "/",
         propertyKey: "method3",
@@ -87,7 +87,7 @@ describe("getOperationsRoutes()", () => {
         isFinal: true
       },
       {
-        fullPath: "/test/",
+        fullPath: "/test",
         method: "GET",
         path: "/",
         propertyKey: "method2",
@@ -97,7 +97,7 @@ describe("getOperationsRoutes()", () => {
         isFinal: false
       },
       {
-        fullPath: "/test/",
+        fullPath: "/test",
         method: "GET",
         path: "/",
         propertyKey: "method1",
@@ -155,7 +155,7 @@ describe("getOperationsRoutes()", () => {
 
     expect(operationsRoutes.map(getData)).toEqual([
       {
-        fullPath: "/test/children/deep/",
+        fullPath: "/test/children/deep",
         isFinal: true,
         method: "GET",
         path: "/",
@@ -165,7 +165,7 @@ describe("getOperationsRoutes()", () => {
         token: TestChild2
       },
       {
-        fullPath: "/test/children/",
+        fullPath: "/test/children",
         isFinal: true,
         method: "GET",
         path: "/",
@@ -175,7 +175,7 @@ describe("getOperationsRoutes()", () => {
         token: TestChild
       },
       {
-        fullPath: "/test/",
+        fullPath: "/test",
         isFinal: false,
         method: "GET",
         path: "/",
@@ -185,7 +185,7 @@ describe("getOperationsRoutes()", () => {
         token: Test
       },
       {
-        fullPath: "/test/",
+        fullPath: "/test",
         isFinal: true,
         method: "GET",
         path: "/",
@@ -241,7 +241,7 @@ describe("getOperationsRoutes()", () => {
 
     expect(operationsRoutes.map(getData)).toEqual([
       {
-        fullPath: "/rest/test/children/deep/",
+        fullPath: "/rest/test/children/deep",
         isFinal: true,
         method: "GET",
         path: "/",
@@ -251,7 +251,7 @@ describe("getOperationsRoutes()", () => {
         token: TestChild2
       },
       {
-        fullPath: "/rest/test/children/",
+        fullPath: "/rest/test/children",
         isFinal: true,
         method: "GET",
         path: "/",
@@ -261,7 +261,7 @@ describe("getOperationsRoutes()", () => {
         token: TestChild
       },
       {
-        fullPath: "/rest/test/",
+        fullPath: "/rest/test",
         isFinal: false,
         method: "GET",
         path: "/",
@@ -271,7 +271,7 @@ describe("getOperationsRoutes()", () => {
         token: Test
       },
       {
-        fullPath: "/rest/test/",
+        fullPath: "/rest/test",
         isFinal: true,
         method: "GET",
         path: "/",
