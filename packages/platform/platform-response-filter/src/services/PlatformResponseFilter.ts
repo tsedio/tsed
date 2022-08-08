@@ -1,6 +1,6 @@
 import {isSerializable, Type} from "@tsed/core";
-import {serialize} from "@tsed/json-mapper";
 import {BaseContext, Constant, Inject, Injectable, InjectorService} from "@tsed/di";
+import {serialize} from "@tsed/json-mapper";
 import {ResponseFilterKey, ResponseFiltersContainer} from "../domain/ResponseFiltersContainer";
 import {ResponseFilterMethods} from "../interfaces/ResponseFilterMethods";
 import {ANY_CONTENT_TYPE, getContentType} from "../utils/getContentType";
@@ -85,15 +85,27 @@ export class PlatformResponseFilter {
       if (endpoint.view) {
         data = await renderView(data, ctx);
       } else if (isSerializable(data)) {
+        const responseOpts = endpoint.getResponseOptions(response.statusCode, {
+          includes: this.getIncludes(ctx)
+        });
+
         data = serialize(data, {
           useAlias: true,
           additionalProperties: this.additionalProperties === "accept",
-          ...endpoint.getResponseOptions(response.statusCode),
+          ...responseOpts,
           endpoint: true
         });
       }
     }
 
     return data;
+  }
+
+  private getIncludes(ctx: BaseContext) {
+    if (ctx.request.query.includes) {
+      return [].concat(ctx.request.query.includes).flatMap((include: string) => include.split(","));
+    }
+
+    return undefined;
   }
 }

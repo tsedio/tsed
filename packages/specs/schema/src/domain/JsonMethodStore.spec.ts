@@ -1,4 +1,5 @@
 import {StoreSet} from "@tsed/core";
+import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 import {
   EndpointMetadata,
   Get,
@@ -11,7 +12,6 @@ import {
   Property,
   Returns
 } from "@tsed/schema";
-import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
 
 describe("JsonMethodStore", () => {
   describe("endpoint declaration", () => {
@@ -177,79 +177,126 @@ describe("JsonMethodStore", () => {
       expect(endpoint.get("test")).toEqual("Test");
     });
   });
-  it("should create JsonEntityStore", () => {
-    class Model {
-      @Property()
-      id: string;
 
-      @Get("/")
-      @Returns(200, Object)
-      method(@In("path") param: string) {}
-    }
+  describe("getResponseOptions()", () => {
+    it("should return the response options (200/201)", () => {
+      class MyController {
+        @Get("/")
+        @Returns(200, Object)
+        method(@In("path") param: string) {}
+      }
 
-    // CLASS
-    const storeClass = JsonEntityStore.from(Model);
-    expect(storeClass).toBeInstanceOf(JsonEntityStore);
-    expect(storeClass.decoratorType).toBe("class");
-    expect(storeClass.propertyName).toBe("undefined");
-    expect(storeClass.propertyKey).toBeUndefined();
-    expect(storeClass.index).toBeUndefined();
-    expect(storeClass.parent).toBe(storeClass);
+      // METHOD
+      const storeMethod = JsonEntityStore.from(MyController).children.get("method");
 
-    // PROPERTY
-    const storeProp = JsonEntityStore.from(Model).children.get("id");
-    expect(storeProp).toBeInstanceOf(JsonEntityStore);
-    expect(storeProp?.decoratorType).toBe("property");
-    expect(storeProp?.propertyKey).toBe("id");
-    expect(storeProp?.propertyName).toBe("id");
-    expect(storeProp?.index).toBeUndefined();
-    expect(storeProp?.parameter).toBeUndefined();
-    expect(storeProp?.operation).toBeUndefined();
-    expect(storeProp?.nestedGenerics).toEqual([]);
-    expect(storeProp?.parent).toEqual(storeClass);
-
-    // METHOD
-    const storeMethod = JsonEntityStore.from(Model).children.get("method");
-    expect(storeMethod).toBeInstanceOf(JsonEntityStore);
-    expect(storeMethod?.propertyKey).toBe("method");
-    expect(storeMethod?.propertyName).toBe("method");
-    expect(storeMethod?.decoratorType).toBe("method");
-    expect(storeMethod?.index).toBeUndefined();
-    expect(storeMethod?.parameters.length).toEqual(1);
-    expect(storeMethod?.params.length).toEqual(1);
-
-    expect([...storeMethod?.operationPaths.entries()]).toEqual([
-      [
-        "GET/",
-        {
-          method: "GET",
-          path: "/"
-        }
-      ]
-    ]);
-    expect(storeMethod?.getResponseOptions(200)).toEqual({
-      groups: undefined,
-      type: Object
+      expect(storeMethod?.getResponseOptions(200)).toEqual({
+        groups: undefined,
+        type: Object
+      });
+      expect(storeMethod?.getResponseOptions(201)).toEqual({
+        type: Object
+      });
     });
-    expect(storeMethod?.getResponseOptions(201)).toEqual({
-      type: Object
+    it("should return the response options (200 + includes)", () => {
+      class MyController {
+        @Get("/")
+        @Returns(200, Object).AllowedGroups("summary")
+        method(@In("path") param: string) {}
+      }
+
+      // METHOD
+      const storeMethod = JsonEntityStore.from(MyController).children.get("method");
+
+      expect(storeMethod?.getResponseOptions(200, {includes: undefined})).toEqual({
+        groups: undefined,
+        type: Object
+      });
+      expect(storeMethod?.getResponseOptions(200, {includes: []})).toEqual({
+        groups: [],
+        type: Object
+      });
+      expect(storeMethod?.getResponseOptions(200, {includes: ["summary", "admin"]})).toEqual({
+        groups: ["summary"],
+        type: Object
+      });
     });
-    expect(storeMethod?.operation).toBeInstanceOf(JsonOperation);
-    expect(storeMethod?.nestedGenerics).toEqual([]);
-    expect(storeProp?.parent).toEqual(storeClass);
+  });
 
-    // PARAMETERS
-    const storeParam = JsonEntityStore.from(Model).children.get("method")?.children.get(0);
+  describe("stores", () => {
+    it("should return all stores", () => {
+      class Model {
+        @Property()
+        id: string;
 
-    expect(storeParam).toBeInstanceOf(JsonEntityStore);
-    expect(storeParam?.propertyKey).toBe("method");
-    expect(storeParam?.propertyName).toBe("method");
-    expect(storeParam?.index).toBe(0);
-    expect(storeParam?.decoratorType).toBe("parameter");
-    expect(storeParam?.parameter).toBeInstanceOf(JsonParameter);
-    expect(storeParam?.operation).toBeUndefined();
-    expect(storeParam?.nestedGenerics).toEqual([]);
-    expect(storeParam?.nestedGenerics).toEqual([]);
-    expect(storeParam?.parent).toEqual(storeMethod);
+        @Get("/")
+        @Returns(200, Object)
+        method(@In("path") param: string) {}
+      }
+
+      // CLASS
+      const storeClass = JsonEntityStore.from(Model);
+      expect(storeClass).toBeInstanceOf(JsonEntityStore);
+      expect(storeClass.decoratorType).toBe("class");
+      expect(storeClass.propertyName).toBe("undefined");
+      expect(storeClass.propertyKey).toBeUndefined();
+      expect(storeClass.index).toBeUndefined();
+      expect(storeClass.parent).toBe(storeClass);
+
+      // PROPERTY
+      const storeProp = JsonEntityStore.from(Model).children.get("id");
+      expect(storeProp).toBeInstanceOf(JsonEntityStore);
+      expect(storeProp?.decoratorType).toBe("property");
+      expect(storeProp?.propertyKey).toBe("id");
+      expect(storeProp?.propertyName).toBe("id");
+      expect(storeProp?.index).toBeUndefined();
+      expect(storeProp?.parameter).toBeUndefined();
+      expect(storeProp?.operation).toBeUndefined();
+      expect(storeProp?.nestedGenerics).toEqual([]);
+      expect(storeProp?.parent).toEqual(storeClass);
+
+      // METHOD
+      const storeMethod = JsonEntityStore.from(Model).children.get("method");
+      expect(storeMethod).toBeInstanceOf(JsonEntityStore);
+      expect(storeMethod?.propertyKey).toBe("method");
+      expect(storeMethod?.propertyName).toBe("method");
+      expect(storeMethod?.decoratorType).toBe("method");
+      expect(storeMethod?.index).toBeUndefined();
+      expect(storeMethod?.parameters.length).toEqual(1);
+      expect(storeMethod?.params.length).toEqual(1);
+
+      expect([...storeMethod?.operationPaths.entries()]).toEqual([
+        [
+          "GET/",
+          {
+            method: "GET",
+            path: "/"
+          }
+        ]
+      ]);
+      expect(storeMethod?.getResponseOptions(200)).toEqual({
+        groups: undefined,
+        type: Object
+      });
+      expect(storeMethod?.getResponseOptions(201)).toEqual({
+        type: Object
+      });
+      expect(storeMethod?.operation).toBeInstanceOf(JsonOperation);
+      expect(storeMethod?.nestedGenerics).toEqual([]);
+      expect(storeProp?.parent).toEqual(storeClass);
+
+      // PARAMETERS
+      const storeParam = JsonEntityStore.from(Model).children.get("method")?.children.get(0);
+
+      expect(storeParam).toBeInstanceOf(JsonEntityStore);
+      expect(storeParam?.propertyKey).toBe("method");
+      expect(storeParam?.propertyName).toBe("method");
+      expect(storeParam?.index).toBe(0);
+      expect(storeParam?.decoratorType).toBe("parameter");
+      expect(storeParam?.parameter).toBeInstanceOf(JsonParameter);
+      expect(storeParam?.operation).toBeUndefined();
+      expect(storeParam?.nestedGenerics).toEqual([]);
+      expect(storeParam?.nestedGenerics).toEqual([]);
+      expect(storeParam?.parent).toEqual(storeMethod);
+    });
   });
 });
