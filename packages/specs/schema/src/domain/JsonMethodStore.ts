@@ -1,10 +1,10 @@
 import {DecoratorTypes, deepMerge, descriptorOf, isCollection, isFunction, isPromise, Metadata, prototypeOf, Store, Type} from "@tsed/core";
+import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent";
+import type {JsonClassStore} from "./JsonClassStore";
 import {JsonEntityStore, JsonEntityStoreOptions} from "./JsonEntityStore";
 import {JsonOperation} from "./JsonOperation";
-import {JsonSchema} from "./JsonSchema";
 import type {JsonParameterStore} from "./JsonParameterStore";
-import type {JsonClassStore} from "./JsonClassStore";
-import {JsonEntityComponent} from "../decorators/config/jsonEntityComponent";
+import {JsonSchema} from "./JsonSchema";
 
 export interface JsonViewOptions {
   path: string;
@@ -85,13 +85,21 @@ export class JsonMethodStore extends JsonEntityStore {
     return JsonEntityStore.from<JsonMethodStore>(prototypeOf(target), propertyKey, descriptor);
   }
 
-  getResponseOptions(status: number, contentType: string = "application/json"): undefined | any {
+  getResponseOptions(
+    status: number,
+    {contentType = "application/json", includes}: {contentType?: string; includes?: string[]} = {}
+  ): undefined | any {
     const media = this.operation.getResponseOf(status).getMedia(contentType, false);
 
     if (media && media.has("schema")) {
       const schema = media.get("schema") as JsonSchema;
+      let groups = media.groups;
 
-      return {type: schema.getComputedItemType(), groups: media.groups};
+      if (includes && media.allowedGroups?.size) {
+        groups = [...(groups || []), ...includes.filter((include) => media.allowedGroups!.has(include))];
+      }
+
+      return {type: schema.getComputedItemType(), groups};
     }
 
     return {type: this.type};

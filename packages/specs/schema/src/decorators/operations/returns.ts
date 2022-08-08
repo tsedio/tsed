@@ -11,9 +11,10 @@ import {
   Type
 } from "@tsed/core";
 import {OS3Example} from "@tsed/openspec";
-import {getStatusMessage, HTTP_STATUS_MESSAGES} from "../../constants/httpStatusMessages";
+import {getStatusMessage} from "../../constants/httpStatusMessages";
 import {DecoratorContext} from "../../domain/DecoratorContext";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
+import {JsonParameter} from "../../domain/JsonParameter";
 import {JsonResponse} from "../../domain/JsonResponse";
 import {JsonSchema, JsonSchemaObject} from "../../domain/JsonSchema";
 import {JsonHeader, JsonHeaders} from "../../interfaces/JsonOpenSpec";
@@ -124,11 +125,17 @@ export interface ReturnsChainedDecorators {
   Title(title: string): this;
 
   /**
-   *
+   * Use group to filter model
    * @param groups
-   * @constructor
    */
   Groups(...groups: string[]): this;
+
+  /**
+   * Add a list of allowed groups to filter dynamically fields. Listed groups can be used by the consumer to change
+   * the mapped response.
+   * @param allowedGroups
+   */
+  AllowedGroups(...allowedGroups: string[]): this;
 
   [key: string]: any;
 }
@@ -169,6 +176,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     "schema",
     "title",
     "groups",
+    "allowedGroups",
     "location"
   ];
 
@@ -228,6 +236,11 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
   groups(...groups: string[]) {
     this.set("groups", groups);
+    return this;
+  }
+
+  allowedGroups(...allowedGroups: string[]) {
+    this.set("allowedGroups", new Set(allowedGroups));
     return this;
   }
 
@@ -399,6 +412,9 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     const model = this.get("model");
     const media = response.getMedia(contentType || "*/*");
     const schema = media.get("schema") || new JsonSchema({type: model});
+    const groups = this.get("groups");
+    const allowedGroups = this.get("allowedGroups");
+    const operation = this.entity.operation!;
 
     if (model) {
       if (isArray(model)) {
@@ -412,7 +428,25 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
 
     media.schema(schema);
 
-    media.groups = this.get("groups");
+    media.groups = groups;
+
+    if (allowedGroups) {
+      media.allowedGroups = allowedGroups;
+
+      const jsonParameter = new JsonParameter();
+      jsonParameter.in("query").name("includes");
+      jsonParameter.schema(
+        JsonSchema.from({
+          type: "array",
+          items: {
+            type: "string",
+            enum: [...allowedGroups]
+          }
+        })
+      );
+
+      operation.addParameter(-1, jsonParameter);
+    }
 
     const examples = this.get("examples");
 

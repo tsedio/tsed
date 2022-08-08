@@ -69,6 +69,23 @@ class TeamsModel {
   teams: TeamModel[];
 }
 
+class AllowedModel {
+  @Property()
+  id: string;
+
+  @Property()
+  description: string;
+
+  @Groups("summary")
+  prop1: string; // not display by default
+
+  @Groups("details")
+  prop2: string; // not display by default
+
+  @Groups("admin")
+  sensitiveProp: string; // not displayed because it's a sensitive props
+}
+
 @Controller("/response")
 class TestResponseParamsCtrl {
   @Get("/scenario1/:id")
@@ -242,6 +259,19 @@ class TestResponseParamsCtrl {
     data.teams = [team];
 
     return data;
+  }
+
+  @Get("/scenario19")
+  @Returns(200, AllowedModel).Groups("!admin").AllowedGroups("summary", "details")
+  async testScenario19(): Promise<AllowedModel> {
+    const model = new AllowedModel();
+    model.id = "id";
+    model.prop1 = "prop1";
+    model.description = "description";
+    model.prop2 = "prop2";
+    model.sensitiveProp = "sensitiveProp";
+
+    return model;
   }
 }
 
@@ -483,6 +513,58 @@ export function testResponse(options: PlatformTestOptions) {
             teamName: "name"
           }
         ]
+      });
+    });
+  });
+
+  describe("Scenario19: includes options", () => {
+    it("should return the response (200)", async () => {
+      const response = await request.get("/rest/response/scenario19").expect(200);
+
+      expect(response.body).toEqual({
+        description: "description",
+        id: "id",
+        prop1: "prop1",
+        prop2: "prop2"
+      });
+    });
+    it("should return the response (200 + [summary])", async () => {
+      const response = await request.get("/rest/response/scenario19?includes=summary").expect(200);
+
+      expect(response.body).toEqual({
+        description: "description",
+        id: "id",
+        prop1: "prop1"
+      });
+    });
+    it("should return the response (200 + [summary, details])", async () => {
+      const response = await request.get("/rest/response/scenario19?includes=summary&includes=details").expect(200);
+
+      expect(response.body).toEqual({
+        description: "description",
+        id: "id",
+        prop2: "prop2",
+        prop1: "prop1"
+      });
+    });
+    it("should return the response (200 + [summary, details, admin])", async () => {
+      const response = await request.get("/rest/response/scenario19?includes=summary&includes=details&includes=admin").expect(200);
+
+      expect(response.body).toEqual({
+        description: "description",
+        id: "id",
+        prop2: "prop2",
+        prop1: "prop1"
+      });
+    });
+    it("should return the response (200 + 'summary,details,admin')", async () => {
+      const response = await request.get("/rest/response/scenario19?includes=summary,details,admin").expect(200);
+
+      expect(response.body).toEqual({
+        description: "description",
+        id: "id",
+        prop2: "prop2",
+        prop1: "prop1"
       });
     });
   });

@@ -201,9 +201,31 @@ describe("PlatformResponseFilter", () => {
       const ctx = PlatformTest.createRequestContext();
       ctx.endpoint = EndpointMetadata.get(Test, "test");
 
+      jest.spyOn(ctx.endpoint, "getResponseOptions");
+
       const result = await platformResponseFilter.serialize({test: "test"}, ctx);
 
       expect(result).toEqual({test: "test"});
+      expect(ctx.endpoint.getResponseOptions).toHaveBeenCalledWith(200, {includes: undefined});
+    });
+    it("should transform value (endpoint + includes)", async () => {
+      class Test {
+        @Get("/")
+        test() {}
+      }
+
+      const platformResponseFilter = PlatformTest.get<PlatformResponseFilter>(PlatformResponseFilter);
+      const ctx = PlatformTest.createRequestContext();
+      ctx.endpoint = EndpointMetadata.get(Test, "test");
+
+      jest.spyOn(ctx.endpoint, "getResponseOptions");
+
+      ctx.request.query.includes = [];
+
+      const result = await platformResponseFilter.serialize({test: "test"}, ctx);
+
+      expect(result).toEqual({test: "test"});
+      expect(ctx.endpoint.getResponseOptions).toHaveBeenCalledWith(200, {includes: []});
     });
     it("should transform value (endpoint - view)", async () => {
       class Test {
