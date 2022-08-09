@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Mongoose: ReadOnly should generate json schema 1`] = `
+Object {
+  "properties": Object {
+    "created_at": Object {
+      "readOnly": true,
+      "type": "number",
+    },
+    "id": Object {
+      "description": "An ObjectID",
+      "examples": Array [
+        "5ce7ad3028890bd71749d477",
+      ],
+      "minLength": 1,
+      "pattern": "^[0-9a-fA-F]{24}$",
+      "type": "string",
+    },
+    "test": Object {
+      "readOnly": true,
+      "type": "object",
+    },
+    "updated_at": Object {
+      "readOnly": true,
+      "type": "number",
+    },
+  },
+  "required": Array [
+    "id",
+    "created_at",
+    "updated_at",
+  ],
+  "type": "object",
+}
+`;
