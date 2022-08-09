@@ -20,7 +20,6 @@ import {
 } from "@tsed/schema";
 import {Post} from "../../test/helpers/Post";
 import {User} from "../../test/helpers/User";
-import {BeforeDeserialize} from "../decorators/beforeDeserialize";
 import {OnDeserialize} from "../decorators/onDeserialize";
 import {deserialize, plainObjectToClass} from "./deserialize";
 
