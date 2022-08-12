@@ -52,6 +52,7 @@ tools/**/dist
 /dist
 .tmp
 .vscode
+.clinic
 /reports
 
 /.nyc_output
