@@ -3,7 +3,7 @@ import common from "@nestjs/common";
 
 class AppController {
   root() {
-    return "Hello world!";
+    return {hello: "world"};
   }
 }
 

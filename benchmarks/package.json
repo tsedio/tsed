@@ -7,8 +7,14 @@
   "scripts": {
     "start": "node bin/benchmark.js",
     "compare": "node bin/benchmark.js compare --",
-    "benchmarks": "node bin/benchmark.js y 100 10 40 && yarn compare -t && yarn compare -u",
-    "benchmarks:tsed": "node bin/benchmark.js n 100 10 5  && yarn compare -t && yarn compare -u"
+    "benchmarks": "node bin/benchmark.js --all -c 100 -p 10 -d 40 && yarn compare -t && yarn compare -u",
+    "benchmarks:tsed": "node bin/benchmark.js -c 100 -p 10 -d 5  && yarn compare -t && yarn compare -u",
+    "benchmarks:tsed:clinic": "node bin/benchmark.js -c 100 -p 10 -d 5",
+    "clinic:express:injector": "clinic doctor --on-port 'autocannon localhost:3000'  -- node ./frameworks/express-injector.js",
+    "clinic:tsed": "clinic doctor --on-port 'autocannon localhost:3000'  -- node ./frameworks/tsed-express.js",
+    "clinic:tsed:flame": "clinic flame --on-port 'autocannon localhost:3000'  -- node ./frameworks/tsed-express.js",
+    "clinic:express:flame": "clinic flame --on-port 'autocannon localhost:3000'  -- node ./frameworks/express-injector-test.js",
+    "clinic:expressv:flame": "clinic flame --on-port 'autocannon localhost:3000'  -- node ./frameworks/express-injector-vanilla.js"
   },
   "bin": {
     "benchmark": "bin/benchmark.js"
@@ -16,6 +22,7 @@
   "license": "MIT",
   "dependencies": {
     "@hapi/hapi": "^20.0.1",
+    "clinic": "^11.1.2",
     "execa": "^6.1.0",
     "autocannon": "^7.0.1",
     "autocannon-compare": "^0.4.0",
