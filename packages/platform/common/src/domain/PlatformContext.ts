@@ -1,4 +1,4 @@
-import {ContextMethods, DIContext, DIContextOptions} from "@tsed/di";
+import {DIContext, DIContextOptions} from "@tsed/di";
 import {EndpointMetadata} from "@tsed/schema";
 import {IncomingMessage, ServerResponse} from "http";
 import {IncomingEvent} from "../interfaces/IncomingEvent";
@@ -18,10 +18,10 @@ export interface PlatformContextOptions extends DIContextOptions {
   endpoint?: EndpointMetadata;
 }
 
-export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRes extends PlatformResponse = PlatformResponse>
-  extends DIContext
-  implements ContextMethods
-{
+export class PlatformContext<
+  PReq extends PlatformRequest = PlatformRequest,
+  PRes extends PlatformResponse = PlatformResponse
+> extends DIContext {
   public event: IncomingEvent;
   /**
    * The data return by the previous endpoint if you use multiple handler on the same route. By default data is empty.

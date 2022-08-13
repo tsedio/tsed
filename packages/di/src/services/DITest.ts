@@ -51,7 +51,7 @@ export class DITest {
   static async create(settings: DITestOptions = {}) {
     DITest.injector = DITest.createInjector(settings);
 
-    await this.createContainer(settings);
+    await DITest.createContainer(settings);
   }
 
   static async createContainer(settings: DITestOptions = {}) {

@@ -1,5 +1,5 @@
 import {InjectorService} from "../services/InjectorService";
-import {runInContext} from "../utils/runInContext";
+import {runInContext} from "../utils/asyncHookContext";
 import {ContextLogger, ContextLoggerOptions} from "./ContextLogger";
 import {LocalsContainer} from "./LocalsContainer";
 
@@ -89,8 +89,6 @@ export class DIContext {
   }
 
   async runInContext(next: Function) {
-    next = (await this.injector?.alterAsync("$alterRunInContext", next, this)) || next;
-
     return runInContext(this, next);
   }
 

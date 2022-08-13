@@ -35,7 +35,7 @@ import {TokenProvider} from "../interfaces/TokenProvider";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {createContainer} from "../utils/createContainer";
 import {resolveControllers} from "../utils/resolveControllers";
-import {runInContext} from "../utils/runInContext";
+import {runInContext} from "../utils/asyncHookContext";
 import {DIConfiguration} from "./DIConfiguration";
 
 /**

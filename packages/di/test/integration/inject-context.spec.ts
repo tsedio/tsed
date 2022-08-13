@@ -14,11 +14,11 @@ describe("InjectContext", () => {
   beforeEach(() => DITest.create());
   afterEach(() => DITest.reset());
 
-  it("should inject context", () => {
+  it("should inject context", async () => {
     const ctx = DITest.createDIContext();
     const service = DITest.get<MyService>(MyService);
 
-    const result = runInContext(ctx, () => service.get());
+    const result = await runInContext(ctx, () => service.get());
 
     expect(result).toEqual("id");
   });
