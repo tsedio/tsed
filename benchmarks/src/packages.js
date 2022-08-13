@@ -19,16 +19,18 @@ const packages = {
   },
   "express-injector": {
     checked: true,
-    hasRouter: true,
     package: "express"
   },
-  "express-route-prefix": {extra: true, package: "express", hasRouter: true},
-  "express-with-middlewares": {
-    extra: true,
-    package: "express",
-    hasRouter: true
+  "express-injector-async-hook": {
+    checked: true,
+    package: "express"
+  },
+  "express-injector-http-hook": {
+    checked: true,
+    package: "express"
   },
   fastify: {hasRouter: true},
+  "fastify-injector": {hasRouter: true, package: "fastify", checked: true},
   "fastify-big-json": {extra: true, package: "fastify", hasRouter: true},
   // hapi: {hasRouter: true, package: "@hapi/hapi"},
   koa: {},

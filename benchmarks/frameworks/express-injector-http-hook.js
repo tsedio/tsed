@@ -1,14 +1,18 @@
 import express from "express";
-import {InjectorService, setContext} from "@tsed/di";
+import {InjectorService, runInContext, setContext} from "@tsed/di";
 import {PlatformContext, PlatformRequest, PlatformResponse} from "@tsed/common";
 import {v4} from "uuid";
+import http from "http";
 
+const injector = new InjectorService();
 const app = express();
+const server = http.createServer({}, (req, res) => {
+  runInContext(undefined, () => app(req, res), injector);
+});
 
 app.disable("etag");
 app.disable("x-powered-by");
 
-const injector = new InjectorService();
 const ResponseKlass = injector.getProvider(PlatformResponse)?.useClass;
 const RequestKlass = injector.getProvider(PlatformRequest)?.useClass;
 
@@ -25,14 +29,14 @@ app.use(async (req, res, next) => {
     id: v4()
   });
 
-  // setContext(ctx);
+  setContext(ctx);
 
-  // ctx.response.onEnd(async () => {
-  //   await ctx.emit("$onResponse", ctx);
-  //   await ctx.destroy();
-  // });
-  //
-  // await ctx.emit("$onRequest", ctx);
+  ctx.response.onEnd(async () => {
+    await ctx.emit("$onResponse", ctx);
+    await ctx.destroy();
+  });
+
+  await ctx.emit("$onRequest", ctx);
 
   return next();
 });
@@ -43,5 +47,5 @@ app.get("/", function (req, res) {
 
 (async function boostrap() {
   await injector.load();
-  app.listen(3000);
+  server.listen(3000);
 })();

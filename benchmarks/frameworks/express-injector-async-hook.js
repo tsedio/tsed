@@ -1,5 +1,5 @@
 import express from "express";
-import {InjectorService, setContext} from "@tsed/di";
+import {InjectorService} from "@tsed/di";
 import {PlatformContext, PlatformRequest, PlatformResponse} from "@tsed/common";
 import {v4} from "uuid";
 
@@ -27,14 +27,14 @@ app.use(async (req, res, next) => {
 
   // setContext(ctx);
 
-  // ctx.response.onEnd(async () => {
-  //   await ctx.emit("$onResponse", ctx);
-  //   await ctx.destroy();
-  // });
-  //
-  // await ctx.emit("$onRequest", ctx);
+  ctx.response.onEnd(async () => {
+    await ctx.emit("$onResponse", ctx);
+    await ctx.destroy();
+  });
 
-  return next();
+  await ctx.emit("$onRequest", ctx);
+
+  return ctx.runInContext(next);
 });
 
 app.get("/", function (req, res) {

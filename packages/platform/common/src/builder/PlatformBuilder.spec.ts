@@ -206,7 +206,7 @@ describe("PlatformBuilder", () => {
         httpsPort: false
       });
 
-      expect(server.callback()).toEqual(server.app.raw);
+      expect(server.callback()).toBeInstanceOf(Function);
 
       server.callback({} as any, {} as any);
     });

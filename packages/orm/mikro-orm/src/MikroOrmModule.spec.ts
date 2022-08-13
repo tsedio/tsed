@@ -84,7 +84,7 @@ describe("MikroOrmModule", () => {
       const diContext = instance(mockedDIContext);
 
       // act
-      const result = mikroOrmModule.$alterRunInContext(next, diContext);
+      const result = mikroOrmModule.$alterRunInContext(next);
 
       // assert
       expect(result).toBeInstanceOf(Function);
@@ -101,7 +101,7 @@ describe("MikroOrmModule", () => {
       when(mockedMikroOrmContext.run(anything(), anything())).thenReturn();
 
       // act
-      mikroOrmModule.$alterRunInContext(next, diContext)();
+      mikroOrmModule.$alterRunInContext(next)();
 
       // assert
       verify(mockedMikroOrmContext.run(deepEqual([manager]), next)).once();
