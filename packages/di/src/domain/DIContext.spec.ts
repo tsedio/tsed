@@ -86,6 +86,7 @@ describe("DIContext", () => {
 
       expect(result).toEqual(result2);
       expect(resolver).toHaveBeenCalledTimes(1);
+      expect(context.delete("key")).toEqual(true);
     });
   });
   describe("cacheAsync()", () => {

@@ -15,29 +15,23 @@ const LEVELS: Record<string, LogLevel> = levels();
 
 export class ContextLogger {
   readonly dateStart: Date;
+  readonly id: string;
   readonly #additionalProps?: Record<string, unknown>;
 
+  maxStackSize: number;
+  level: LogLevel;
+
   #hooks?: Hooks;
-  #maxStackSize: number;
   #stack?: any[];
-  #level: LogLevel;
   #logger: any;
 
-  constructor(protected readonly $ctx: DIContext) {
-    const {logger, dateStart = new Date(), level = "all", maxStackSize = 30, additionalProps} = $ctx.opts;
+  constructor({id, logger, dateStart = new Date(), level = "all", maxStackSize = 30, additionalProps}: ContextLoggerOptions) {
     this.dateStart = dateStart;
+    this.id = id;
     this.#logger = logger;
     this.#additionalProps = additionalProps;
-    this.#level = (LEVELS[level.toUpperCase()] || LEVELS.ALL) as LogLevel;
-    this.#maxStackSize = maxStackSize;
-  }
-
-  get id() {
-    return this.$ctx.id;
-  }
-
-  set maxStackSize(maxStackSize: number) {
-    this.#maxStackSize = maxStackSize;
+    this.level = (LEVELS[level.toUpperCase()] || LEVELS.ALL) as LogLevel;
+    this.maxStackSize = maxStackSize;
   }
 
   get hooks() {
@@ -92,12 +86,12 @@ export class ContextLogger {
   }
 
   public isLevelEnabled(otherLevel: string | LogLevel) {
-    return this.#level.isLessThanOrEqualTo(otherLevel);
+    return this.level.isLessThanOrEqualTo(otherLevel);
   }
 
   destroy() {
     this.flush();
-    this.#maxStackSize = 0;
+    this.maxStackSize = 0;
     this.#stack = [];
     this.#logger = null;
   }
@@ -133,7 +127,7 @@ export class ContextLogger {
       this.stack.push({level: levelStr, data: obj});
     }
 
-    if (this.#maxStackSize < this.stack.length) {
+    if (this.maxStackSize < this.stack.length) {
       this.flush();
     }
   }
