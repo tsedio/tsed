@@ -27,7 +27,7 @@ describe("PlatformAws", () => {
 
     await PlatformAws.promise;
 
-    expect(aws.createServer).toBeCalledWith(PlatformAws.platform.app.callback(), expect.any(Function), BYNARY_MIME_TYPES);
+    expect(aws.createServer).toBeCalledWith(expect.any(Function), expect.any(Function), BYNARY_MIME_TYPES);
 
     const handler = PlatformAws.callback();
 

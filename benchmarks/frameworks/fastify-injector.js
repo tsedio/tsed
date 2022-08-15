@@ -1,5 +1,5 @@
 import Fastify from "fastify";
-import {InjectorService, getContext, runInContext} from "@tsed/di";
+import {InjectorService, runInContext} from "@tsed/di";
 import {PlatformContext} from "@tsed/common";
 import {v4} from "uuid";
 

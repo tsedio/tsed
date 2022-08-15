@@ -28,16 +28,14 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
     return this;
   }
 
-  $onResponse(ctx: Context) {
-    return this.onLogEnd(ctx);
-  }
-
   /**
    * Handle the request.
    */
   public use(@Context() ctx: Context): void {
     this.configureRequest(ctx);
     this.onLogStart(ctx);
+
+    ctx.response.onEnd(() => this.onLogEnd(ctx));
   }
 
   /**
@@ -65,7 +63,7 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
   /**
    * Called when the `$onResponse` is called by Ts.ED (through Express.end).
    */
-  protected onLogEnd(ctx: Context) {
+  onLogEnd(ctx: Context) {
     const {logRequest, logEnd, logLevel} = this.settings;
     const started = ctx.get(PlatformLogMiddleware);
 

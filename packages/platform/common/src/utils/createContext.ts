@@ -53,7 +53,7 @@ export function createContext(injector: InjectorService) {
 
     ctx.response.onEnd(async () => {
       await ctx.emit("$onResponse", ctx);
-      await ctx.destroy();
+      // await ctx.destroy();
     });
 
     await ctx.emit("$onRequest", ctx);
