@@ -1,4 +1,4 @@
-import {Inject, Injectable, InjectorService, PathType, ProviderScope} from "@tsed/di";
+import {Inject, Injectable, InjectorService, LocalsContainer, PathType, ProviderScope} from "@tsed/di";
 import {PlatformHandler} from "./PlatformHandler";
 import {PlatformRouteOptions, PlatformRouteWithoutHandlers} from "../interfaces/PlatformRouteOptions";
 import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings";
@@ -52,7 +52,7 @@ export class PlatformRouter<App = TsED.Application, Router = TsED.Router> {
    * @param routerOptions
    */
   static create(injector: InjectorService, routerOptions: any = {}) {
-    const locals = new Map();
+    const locals = new LocalsContainer();
     locals.set(PLATFORM_ROUTER_OPTIONS, routerOptions);
 
     return injector.invoke<PlatformRouter>(PlatformRouter, locals);

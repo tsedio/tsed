@@ -1,4 +1,5 @@
 import {InjectorService, PLATFORM_ROUTER_OPTIONS} from "@tsed/common";
+import {LocalsContainer} from "@tsed/di";
 import {PlatformRouter} from "./PlatformRouter";
 
 describe("PlatformRouter", () => {
@@ -15,7 +16,7 @@ describe("PlatformRouter", () => {
       PlatformRouter.create(injector, routerOptions);
 
       // THEN
-      const locals = new Map();
+      const locals = new LocalsContainer();
       locals.set(PLATFORM_ROUTER_OPTIONS, routerOptions);
       expect(injector.invoke).toBeCalledWith(PlatformRouter, locals);
     });

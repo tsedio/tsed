@@ -67,10 +67,10 @@ export class DIContext {
   }
 
   /**
-   * The request container used by the Ts.ED DI. It contain all services annotated with `@Scope(ProviderScope.REQUEST)`
+   * The request container used by the Ts.ED DI. It contains all services annotated with `@Scope(ProviderScope.REQUEST)`
    */
   get container() {
-    return (this.#container = this.#container || new LocalsContainer<any>());
+    return (this.#container = this.#container || new LocalsContainer());
   }
 
   async destroy() {
