@@ -39,8 +39,10 @@ export class Hooks {
    * @param callThis
    */
   emit(event: string, args: any[] = [], callThis: any = null): void {
-    if (this.#listeners.has(event)) {
-      for (const cb of this.#listeners.get(event)!) {
+    const listeners = this.#listeners.get(event);
+
+    if (listeners?.length) {
+      for (const cb of listeners) {
         cb.call(callThis, ...args);
       }
     }
@@ -54,8 +56,10 @@ export class Hooks {
    * @param callThis
    */
   alter(event: string, value: any, args: any[] = [], callThis: any = null): any {
-    if (this.#listeners.has(event)) {
-      for (const cb of this.#listeners.get(event)!) {
+    const listeners = this.#listeners.get(event);
+
+    if (listeners?.length) {
+      for (const cb of listeners) {
         value = cb.call(callThis, value, ...args);
       }
     }
@@ -70,10 +74,12 @@ export class Hooks {
    * @param callThis
    */
   async asyncEmit(event: string, args: any[] = [], callThis: any = null): Promise<void> {
-    if (this.#listeners.has(event)) {
-      for (const cb of this.#listeners.get(event)!) {
-        await cb.call(callThis, ...args);
-      }
+    const listeners = this.#listeners.get(event);
+
+    if (listeners?.length) {
+      const promises = listeners.map((cb) => cb.call(callThis, ...args));
+
+      await Promise.all(promises);
     }
   }
 
@@ -85,8 +91,10 @@ export class Hooks {
    * @param callThis
    */
   async asyncAlter(event: string, value: any, args: any[] = [], callThis: any = null): Promise<any> {
-    if (this.#listeners.has(event)) {
-      for (const cb of this.#listeners.get(event)!) {
+    const listeners = this.#listeners.get(event);
+
+    if (listeners?.length) {
+      for (const cb of listeners) {
         value = await cb.call(callThis, value, ...args);
       }
     }

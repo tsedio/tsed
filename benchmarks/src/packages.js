@@ -11,8 +11,6 @@ function readJSON(file) {
 const {dependencies} = readJSON("package.json");
 
 const packages = {
-  // connect: {},
-  // "connect-router": {extra: true, package: "router", hasRouter: true},
   express: {
     checked: true,
     hasRouter: true
@@ -34,8 +32,6 @@ const packages = {
   "fastify-big-json": {extra: true, package: "fastify", hasRouter: true},
   // hapi: {hasRouter: true, package: "@hapi/hapi"},
   koa: {},
-  "koa-isomorphic-router": {extra: true, hasRouter: true},
-  "koa-router": {extra: true, hasRouter: true},
   // micro: {extra: true},
   // microrouter: {extra: true, hasRouter: true},
   // "micro-route": {extra: true, hasRouter: true},
@@ -57,16 +53,6 @@ const packages = {
     package: "@tsed/platform-koa",
     hasRouter: true
   }
-  // "tsed-no-context": {
-  //   checked: true,
-  //   package: "@tsed/platform-express",
-  //   hasRouter: true
-  // },
-  // "tsed-no-events": {
-  //   checked: true,
-  //   package: "@tsed/platform-express",
-  //   hasRouter: true
-  // }
 };
 
 const _choices = [];
