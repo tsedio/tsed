@@ -1,7 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {PlatformViews} from "@tsed/platform-views";
 import {createReadStream} from "fs";
-import onFinished from "on-finished";
 import {PlatformResponse} from "./PlatformResponse";
 
 jest.mock("on-finished");
@@ -21,14 +20,6 @@ describe("PlatformResponse", () => {
 
     expect(response.raw).toEqual(res);
     expect(response.request).toEqual(ctx.request);
-  });
-  describe("onFinished", () => {
-    it("should return status code", () => {
-      const stub = jest.fn();
-      PlatformResponse.onFinished({}, stub);
-
-      expect(onFinished).toHaveBeenCalledWith({}, stub);
-    });
   });
   describe("statusCode", () => {
     it("should return status code", () => {
@@ -245,11 +236,11 @@ describe("PlatformResponse", () => {
       const {res, response} = createResponse();
       const cb = jest.fn();
 
-      jest.spyOn(PlatformResponse, "onFinished").mockReturnValue();
+      res.on = jest.fn();
 
       response.onEnd(cb);
 
-      expect(PlatformResponse.onFinished).toHaveBeenCalledWith(res, cb);
+      expect(res.on).toHaveBeenCalledWith("finish", cb);
     });
   });
 });

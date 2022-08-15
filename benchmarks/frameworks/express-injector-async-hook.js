@@ -25,8 +25,6 @@ app.use(async (req, res, next) => {
     id: v4()
   });
 
-  // setContext(ctx);
-
   ctx.response.onEnd(async () => {
     await ctx.emit("$onResponse", ctx);
     await ctx.destroy();

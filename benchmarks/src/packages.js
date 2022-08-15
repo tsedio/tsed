@@ -15,6 +15,10 @@ const packages = {
     checked: true,
     hasRouter: true
   },
+  "express-morgan": {
+    checked: true,
+    package: "express"
+  },
   "express-injector": {
     checked: true,
     package: "express"
@@ -24,6 +28,14 @@ const packages = {
     package: "express"
   },
   "express-injector-http-hook": {
+    checked: true,
+    package: "express"
+  },
+  "express-injector-without-destroy": {
+    checked: true,
+    package: "express"
+  },
+  "express-injector-without-events": {
     checked: true,
     package: "express"
   },

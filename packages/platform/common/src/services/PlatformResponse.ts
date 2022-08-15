@@ -2,9 +2,8 @@ import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
 import {OutgoingHttpHeaders, ServerResponse} from "http";
 import onFinished from "on-finished";
-import {IncomingEvent} from "../interfaces/IncomingEvent";
-import type {PlatformRequest} from "./PlatformRequest";
 import type {PlatformContext} from "../domain/PlatformContext";
+import type {PlatformRequest} from "./PlatformRequest";
 
 declare global {
   namespace TsED {
@@ -67,10 +66,6 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    */
   get res() {
     return this.getRes();
-  }
-
-  static onFinished(res: any, cb: (er: Error | null, message: string) => void) {
-    onFinished(res, cb);
   }
 
   /**
@@ -305,8 +300,10 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * Add a listener to handler the end of the request/response.
    * @param cb
    */
-  onEnd(cb: (er: Error | null, message: string) => void): this {
-    PlatformResponse.onFinished(this.getRes(), cb);
+  onEnd(cb: () => Promise<void> | void): this {
+    const res: any = this.getRes();
+
+    res.on("finish", cb);
 
     return this;
   }
