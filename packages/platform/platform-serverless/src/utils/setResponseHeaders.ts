@@ -19,7 +19,7 @@ export function setResponseHeaders(ctx: ServerlessContext) {
   const {response, endpoint} = ctx;
   const operation = endpoint.operation!;
 
-  if (response.isDone()) {
+  if (ctx.isDone()) {
     return;
   }
 

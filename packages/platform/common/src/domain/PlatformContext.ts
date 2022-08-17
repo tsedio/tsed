@@ -44,7 +44,7 @@ export class PlatformContext<
    */
   endpoint: EndpointMetadata;
 
-  #isDestroyed: boolean = false;
+  #isFinished: boolean = false;
 
   constructor(options: PlatformContextOptions) {
     super(options);
@@ -69,31 +69,21 @@ export class PlatformContext<
     return this.injector.get<PlatformApplication>(PlatformApplication)!;
   }
 
-  async destroy() {
-    await super.destroy();
+  async start() {
+    return this.emit("$onRequest", this);
+  }
 
-    this.event = {
-      response: {
-        isDone: true,
-        statusCode: this.statusCode
-      },
-      request: {
-        method: this.method,
-        url: this.url,
-        headers: this.headers,
-        body: this.body,
-        query: this.query,
-        params: this.params
-      }
-    } as any;
+  async finish() {
+    await Promise.all([this.emit("$onResponse", this), this.destroy()]);
+    this.#isFinished = true;
+  }
 
-    this.response.destroy();
-    this.request.destroy();
-    this.#isDestroyed = true;
+  isFinished() {
+    return this.#isFinished;
   }
 
   isDone() {
-    return this.request?.isAborted() || this.response?.isDone() || this.#isDestroyed;
+    return this.request?.isAborted() || this.response?.isDone() || this.isFinished();
   }
 
   /**

@@ -85,7 +85,7 @@ describe("PlatformContext", () => {
 
     expect(context.isDone()).toEqual(false);
 
-    await context.destroy();
+    await context.finish();
 
     expect(context.isDone()).toEqual(true);
   });

@@ -11,7 +11,6 @@ export * from "./decorators/state";
 export * from "./decorators/strict";
 export * from "./interfaces/PlatformKoaSettings";
 export * from "./interfaces/interfaces";
-export * from "./middlewares/resourceNotFoundMiddleware";
 export * from "./middlewares/staticsMiddleware";
 export * from "./services/PlatformKoaHandler";
 export * from "./services/PlatformKoaRequest";

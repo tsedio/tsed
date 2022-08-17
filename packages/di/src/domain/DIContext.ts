@@ -73,15 +73,8 @@ export class DIContext {
     return (this.#container = this.#container || new LocalsContainer());
   }
 
-  async destroy() {
-    await this.#container?.destroy();
-    this.#logger?.destroy();
-
-    this.opts = {
-      id: this.opts.id
-    } as any;
-
-    this.#container = null as any;
+  async destroy(): Promise<any> {
+    return Promise.all([this.#container?.destroy(), this.#logger?.flush()]);
   }
 
   async emit(eventName: string, ...args: any[]) {

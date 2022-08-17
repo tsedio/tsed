@@ -31,8 +31,6 @@ export class ServerlessContext extends DIContext {
 
   async destroy() {
     await super.destroy();
-
-    this.request.destroy();
     this.response.destroy();
   }
 }

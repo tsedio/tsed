@@ -115,11 +115,11 @@ export class AlterActions implements AlterHook {
   private async flush(data: any, $ctx: PlatformContext) {
     const {response} = $ctx;
 
-    if (!response.isDone()) {
+    if (!$ctx.isDone()) {
       setResponseHeaders($ctx);
 
-      data = await this.responseFilter.serialize(data, $ctx);
-      data = await this.responseFilter.transform(data, $ctx);
+      data = await this.responseFilter.serialize(data, $ctx as any);
+      data = await this.responseFilter.transform(data, $ctx as any);
 
       response.body(data);
     }

@@ -6,6 +6,5 @@ export class LocalsContainer extends Map<TokenProvider, any> {
 
   async destroy() {
     await this.hooks.asyncEmit("$onDestroy");
-    this.clear();
   }
 }

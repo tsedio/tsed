@@ -15,7 +15,6 @@ describe("LocalsContainer", () => {
       await container.destroy();
 
       expect(instance.$onDestroy).toBeCalledWith();
-      expect(container.size).toEqual(0);
     });
   });
 });
