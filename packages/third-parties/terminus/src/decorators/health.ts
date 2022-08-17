@@ -20,11 +20,9 @@ import {Store} from "@tsed/core";
  * @terminus
  */
 export function Health(name: string): MethodDecorator {
-  return <Function>(target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<Function>) => {
-    if (descriptor.value) {
-      Store.from(target).merge("terminus", {
-        [name]: descriptor.value
-      });
-    }
+  return <Function>(target: Object, propertyKey: string) => {
+    Store.from(target).merge(`terminus:health`, {
+      [propertyKey]: {name}
+    });
   };
 }
