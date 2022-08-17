@@ -176,13 +176,13 @@ describe("PlatformResponse", () => {
       expect(res.data).toEqual({});
     });
   });
-  describe("destroy()", () => {
-    it("should destroy response", async () => {
+  describe("finish()", () => {
+    it("should finish context", async () => {
       const {response, ctx} = createResponse();
 
       expect(response.isDone()).toEqual(false);
 
-      await ctx.destroy();
+      await ctx.finish();
 
       expect(response.isDone()).toEqual(true);
     });

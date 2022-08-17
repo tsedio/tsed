@@ -31,10 +31,6 @@ const packages = {
     checked: true,
     package: "express"
   },
-  "express-injector-without-destroy": {
-    checked: true,
-    package: "express"
-  },
   "express-injector-without-events": {
     checked: true,
     package: "express"

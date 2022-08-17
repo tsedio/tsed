@@ -89,6 +89,4 @@ export class ServerlessRequest {
   get(name: string) {
     return getValue(this.raw.headers, name);
   }
-
-  destroy() {}
 }

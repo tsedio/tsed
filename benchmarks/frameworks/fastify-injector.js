@@ -1,5 +1,5 @@
 import Fastify from "fastify";
-import {InjectorService, runInContext} from "@tsed/di";
+import {InjectorService, runInContext, getContext} from "@tsed/di";
 import {PlatformContext} from "@tsed/common";
 import {v4} from "uuid";
 
@@ -36,8 +36,15 @@ fastify.addHook("onRequest", (request, reply, done) => {
     id: v4()
   });
 
-  // Some code
-  runInContext(ctx, done);
+  ctx.start().then(() => {
+    runInContext(ctx, done);
+  });
+});
+
+fastify.addHook("onResponse", (request, reply, done) => {
+  const ctx = getContext();
+  ctx.finish();
+  done();
 });
 
 fastify.get("/", schema, function (req, reply) {

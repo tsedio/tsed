@@ -76,7 +76,7 @@ export class PlatformHandler {
   async flush(data: any, ctx: PlatformContext) {
     const {response} = ctx;
 
-    if (!response.isDone()) {
+    if (!ctx.isDone()) {
       data = await this.responseFilter.serialize(data, ctx as any);
       data = await this.responseFilter.transform(data, ctx as any);
       response.body(data);
@@ -259,7 +259,7 @@ export class PlatformHandler {
   protected next(requestOptions: OnRequestOptions) {
     const {$ctx, next} = requestOptions;
 
-    return !$ctx.response.isDone() && next && next();
+    return !$ctx.isDone() && next && next();
   }
 
   protected getDefaultArgs(metadata: HandlerMetadata) {

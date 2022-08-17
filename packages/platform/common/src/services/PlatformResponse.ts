@@ -1,7 +1,6 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
 import {OutgoingHttpHeaders, ServerResponse} from "http";
-import onFinished from "on-finished";
 import type {PlatformContext} from "../domain/PlatformContext";
 import type {PlatformRequest} from "./PlatformRequest";
 
@@ -309,17 +308,13 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
   }
 
   isDone(): boolean {
-    if (this.raw.isDone) {
+    if (this.$ctx.isFinished()) {
       return true;
     }
 
     const res = this.getRes();
 
     return Boolean(this.isHeadersSent() || res.writableEnded || res.writableFinished);
-  }
-
-  destroy() {
-    this.data = undefined;
   }
 
   isHeadersSent() {

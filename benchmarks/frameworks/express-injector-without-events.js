@@ -31,12 +31,6 @@ app.use(async (req, res, next) => {
 
   setContext(ctx);
 
-  // ctx.response.onEnd(async () => {
-  //   await ctx.emit("$onResponse", ctx);
-  // });
-
-  await ctx.emit("$onRequest", ctx);
-
   return next();
 });
 

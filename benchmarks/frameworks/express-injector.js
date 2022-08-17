@@ -25,13 +25,9 @@ app.use(async (req, res, next) => {
     id: v4()
   });
 
-  res.on("finish", () => {
-    $ctx.emit("$onResponse", $ctx);
-  });
+  $ctx.response.onEnd(() => $ctx.finish());
 
-  res.$hooks.on("$onResponse", async () => $ctx.emit("$onResponse", $ctx));
-
-  await $ctx.emit("$onRequest", $ctx);
+  await $ctx.start();
 
   return next();
 });

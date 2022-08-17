@@ -11,7 +11,8 @@ import {
   PlatformMulterSettings,
   PlatformRequest,
   PlatformResponse,
-  PlatformStaticsOptions
+  PlatformStaticsOptions,
+  setContext
 } from "@tsed/common";
 import {isFunction, Type} from "@tsed/core";
 import Koa, {Context, Next} from "koa";
@@ -19,7 +20,6 @@ import koaBodyParser, {Options} from "koa-bodyparser";
 // @ts-ignore
 import koaQs from "koa-qs";
 import send from "koa-send";
-import {resourceNotFoundMiddleware} from "../middlewares/resourceNotFoundMiddleware";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 import {PlatformKoaHandler} from "../services/PlatformKoaHandler";
 import {PlatformKoaRequest} from "../services/PlatformKoaRequest";
@@ -101,7 +101,7 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
 
   onInit() {
     const injector = this.injector;
-    const app = this.injector.get<PlatformApplication>(PlatformApplication)!;
+    const app = this.getPlatformApplication();
 
     const listener: any = (error: any, ctx: Koa.Context) => {
       injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, ctx.request.$ctx);
@@ -114,26 +114,37 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
   useRouter(): this {
     const app = this.injector.get<PlatformApplication<Koa>>(PlatformApplication)!;
 
-    app.getApp().use(resourceNotFoundMiddleware);
     app.getApp().use(app.getRouter().routes()).use(app.getRouter().allowedMethods());
 
     return this;
   }
 
   useContext(): this {
-    const app = this.injector.get<PlatformApplication<Koa>>(PlatformApplication)!;
-    const {logger} = this.injector;
-    logger.info("Mount app context");
-
+    const app = this.getPlatformApplication();
     const invoke = createContext(this.injector);
 
-    app.getApp().use(async (ctx: Context, next: Next) => {
-      await invoke({
-        request: ctx.request as any,
-        response: ctx.response as any
+    this.injector.logger.debug("Mount app context");
+
+    app.getApp().use(async (koaContext: Context, next: Next) => {
+      const $ctx = await invoke({
+        request: koaContext.request as any,
+        response: koaContext.response as any,
+        koaContext
       });
 
-      return next();
+      try {
+        await $ctx.start();
+        await next();
+        const status = koaContext.status || 404;
+
+        if (status === 404 && !$ctx.isDone()) {
+          this.injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound($ctx);
+        }
+      } catch (error) {
+        this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, $ctx);
+      } finally {
+        await $ctx.finish();
+      }
     });
 
     return this;
@@ -185,5 +196,9 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
     }
 
     return parser({...options, ...additionalOptions});
+  }
+
+  private getPlatformApplication() {
+    return this.injector.get<PlatformApplication<Koa>>(PlatformApplication)!;
   }
 }

@@ -89,13 +89,6 @@ export class ContextLogger {
     return this.level.isLessThanOrEqualTo(otherLevel);
   }
 
-  destroy() {
-    this.flush();
-    this.maxStackSize = 0;
-    this.#stack = [];
-    this.#logger = null;
-  }
-
   /**
    * Return the duration between the time when LogIncomingRequest has handle the request and now.
    * @returns {number}

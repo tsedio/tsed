@@ -6,10 +6,9 @@ describe("ServerlessResponse", () => {
   afterEach(() => PlatformServerlessTest.reset());
   describe("onEnd", () => {
     it("should push callback", () => {
-      const context = createServerlessContext({
+      createServerlessContext({
         endpoint: {} as any
       });
-      context.response.onEnd(() => {});
     });
   });
   describe("isHeadersSent", () => {

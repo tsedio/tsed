@@ -41,23 +41,16 @@ export function createContext(injector: InjectorService) {
   const ignoreLog = buildIgnoreLog(loggerOptions.ignoreUrlPatterns);
 
   return async function invokeContext(event: IncomingEvent) {
-    const ctx = new PlatformContext({
+    const $ctx = new PlatformContext({
       ...opts,
       event,
       id: reqIdBuilder(event.request)
     });
 
-    ignoreLog && ctx.logger.alterIgnoreLog((ignore, data) => ignoreLog(ignore, data, ctx.url));
+    setContext($ctx);
 
-    setContext(ctx);
+    ignoreLog && $ctx.logger.alterIgnoreLog((ignore, data) => ignoreLog(ignore, data, $ctx.url));
 
-    ctx.response.onEnd(async () => {
-      await ctx.emit("$onResponse", ctx);
-      // await ctx.destroy();
-    });
-
-    await ctx.emit("$onRequest", ctx);
-
-    return ctx;
+    return $ctx;
   };
 }

@@ -1,4 +1,4 @@
-import {getValue} from "@tsed/core";
+import {getValue, Hooks} from "@tsed/core";
 import {getStatusMessage} from "@tsed/schema";
 import type {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, Context} from "aws-lambda";
 import encodeUrl from "encodeurl";
@@ -25,7 +25,6 @@ export class ServerlessResponse {
   #headers: Record<string, HeaderValue> = {};
   #locals: Record<string, any> = {};
   #isHeadersSent = false;
-  #endListeners: Function[] = [];
 
   constructor({event, request}: ServerlessResponseOptions) {
     this.event = event;
@@ -220,14 +219,7 @@ export class ServerlessResponse {
     return this.#isHeadersSent;
   }
 
-  onEnd(cb: Function) {
-    this.#endListeners.push(cb);
-
-    return this;
-  }
-
   destroy() {
-    this.#endListeners.forEach((cb: Function) => cb());
     this.#isHeadersSent = true;
   }
 }

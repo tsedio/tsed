@@ -149,45 +149,21 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
   }
 
   useContext(): this {
-    const {logger} = this.injector;
-
-    logger.debug("Mount app context");
-
+    const app = this.getPlatformApplication();
     const invoke = createContext(this.injector);
-    const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
+
+    this.injector.logger.debug("Mount app context");
 
     app.getApp().use(async (request: any, response: any, next: any) => {
-      await invoke({request, response});
+      const $ctx = await invoke({request, response});
+      await $ctx.start();
+
+      $ctx.response.getRes().on("finish", () => $ctx.finish());
 
       return next();
     });
 
     return this;
-  }
-
-  multipart(options: PlatformMulterSettings): PlatformMulter {
-    const m = this.#multer(options);
-
-    const makePromise = (multer: any, name: string) => {
-      // istanbul ignore next
-      if (!multer[name]) return;
-
-      const fn = multer[name];
-
-      multer[name] = function apply(...args: any[]) {
-        const middleware = Reflect.apply(fn, this, args);
-
-        return (req: any, res: any) => promisify(middleware)(req, res);
-      };
-    };
-
-    makePromise(m, "any");
-    makePromise(m, "array");
-    makePromise(m, "fields");
-    makePromise(m, "none");
-    makePromise(m, "single");
-
-    return m;
   }
 
   app() {
@@ -219,6 +195,31 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     };
   }
 
+  multipart(options: PlatformMulterSettings): PlatformMulter {
+    const m = this.#multer(options);
+
+    const makePromise = (multer: any, name: string) => {
+      // istanbul ignore next
+      if (!multer[name]) return;
+
+      const fn = multer[name];
+
+      multer[name] = function apply(...args: any[]) {
+        const middleware = Reflect.apply(fn, this, args);
+
+        return (req: any, res: any) => promisify(middleware)(req, res);
+      };
+    };
+
+    makePromise(m, "any");
+    makePromise(m, "array");
+    makePromise(m, "fields");
+    makePromise(m, "none");
+    makePromise(m, "single");
+
+    return m;
+  }
+
   statics(endpoint: string, options: PlatformStaticsOptions) {
     const {root, ...props} = options;
 
@@ -245,6 +246,10 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
     }
 
     return parser({...options, ...additionalOptions});
+  }
+
+  private getPlatformApplication() {
+    return this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
   }
 
   private async configureViewsEngine() {
