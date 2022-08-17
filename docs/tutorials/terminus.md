@@ -1,12 +1,9 @@
 ---
 meta:
-
-- name: description
-  content: Use Terminus with Express, TypeScript and Ts.ED. Adds graceful shutdown and Kubernetes readiness / liveliness
-  checks for any HTTP applications.
-- name: keywords
-  content: ts.ed express typescript terminus node.js javascript decorators
-
+  - name: description
+    content: Use Terminus with Express, TypeScript and Ts.ED. Adds graceful shutdown and Kubernetes readiness / liveliness checks for any HTTP applications.
+  - name: keywords
+    content: ts.ed express typescript terminus node.js javascript decorators
 ---
 
 # Terminus
