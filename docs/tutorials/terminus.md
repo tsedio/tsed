@@ -1,14 +1,18 @@
 ---
 meta:
-  - name: description
-    content: Use Terminus with Express, TypeScript and Ts.ED. Adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications.
-  - name: keywords
-    content: ts.ed express typescript terminus node.js javascript decorators
+
+- name: description
+  content: Use Terminus with Express, TypeScript and Ts.ED. Adds graceful shutdown and Kubernetes readiness / liveliness
+  checks for any HTTP applications.
+- name: keywords
+  content: ts.ed express typescript terminus node.js javascript decorators
+
 ---
 
 # Terminus
 
-Terminus is a package to adds graceful shutdown and Kubernetes readiness / liveness checks for any HTTP applications. This tutorial
+Terminus is a package to adds graceful shutdown and Kubernetes readiness / liveliness checks for any HTTP applications.
+This tutorial
 will show you how to install and use Terminus with Ts.ED.
 
 ## Installation
@@ -31,6 +35,7 @@ import {resolve} from "path";
 
 @Configuration({
   terminus: {
+    path: "/health"
     // ... see configuration
   }
 })
@@ -42,7 +47,8 @@ export class Server {}
 
 ### Options
 
-`terminus` configuration options waiting the same option description in the official Terminus documentation [here](https://github.com/godaddy/terminus).
+`terminus` configuration options waiting the same option description in the official Terminus
+documentation [here](https://github.com/godaddy/terminus).
 The following the options are managed by the `@tsed/terminus` package:
 
 - healthChecks
@@ -61,19 +67,20 @@ export type TerminusSettings = Omit<
 
 ## Usage
 
-### Readiness / liveness checks
+### Readiness / liveliness checks
 
-To create a readiness / liveness checks use the `@Health` decorator.
+To create a readiness / liveliness checks use the `@Health` decorator.
 
 ```ts
 import {Health} from "@tsed/terminus";
+import {Injectable, Inject} from "@tsed/di";
 
-@Controller("/mongo")
+@Injectable()
 class MongoCtrl {
-  @Health("/health")
-  health() {
+  @Health("mongo")
+  async check() {
     // Here check the mongo health
-    return Promise.resolve();
+    return "ok";
   }
 }
 ```
@@ -82,19 +89,50 @@ You can also create an `HealthCheckError` when an error appear during your check
 
 ```ts
 import {Health} from "@tsed/terminus";
+import {Injectable, Inject} from "@tsed/di";
 import {HealthCheckError} from "@godaddy/terminus";
+import {REDIS_CONNECTION} from "./RedisConnection";
 
-@Controller("/redis")
-class Redis {
-  @Health("/health")
-  health() {
+@Injectable()
+class RedisClient {
+  @Inject(REDIS_CONNECTION)
+  protected redisConnection: REDIS_CONNECTION;
+
+  @Health("redis")
+  async check() {
+    if (this.redisConnection.status === "ready") {
+      return "ok";
+    }
+
     // Here check the redis health
-    return Promise.reject(
-      new HealthCheckError("failed", {
-        redis: "down"
-      })
-    );
+    throw new HealthCheckError("failed", {
+      redis: this.redisConnection.status
+    });
   }
+}
+```
+
+Expected result when calling the "/health":
+
+```json
+{
+  "status": "ok",
+  "info": [
+    {
+      "mongo": "ok"
+    },
+    {
+      "redis": "ok"
+    }
+  ],
+  "details": [
+    {
+      "mongo": "ok"
+    },
+    {
+      "redis": "ok"
+    }
+  ]
 }
 ```
 
@@ -103,35 +141,32 @@ class Redis {
 `@tsed/terminus` package give some decorators to handle Terminus hooks. These hooks allow you to adds graceful shutdown.
 Here is the list of decorators:
 
-- @@BeforeShutdown@@: Use this hook if you deploy your application with Kubernetes (see more details [here](https://github.com/godaddy/terminus#how-to-set-terminus-up-with-kubernetes)),
-- @@OnSignal@@: cleanup hook, returning a promise (used to be onSigterm),
-- @@OnShutdown@@: called right before exiting,
-- @@OnSendFailureDuringShutdown@@: called before sending each 503 during shutdowns.
+- `$beforeShutdown`: Use this hook if you deploy your application with Kubernetes (see more
+  details [here](https://github.com/godaddy/terminus#how-to-set-terminus-up-with-kubernetes)),
+- `$onSignal`: cleanup hook, returning a promise (used to be onSigterm),
+- `$onShutdown`: called right before exiting,
+- `$onSendFailureDuringShutdown`: called before sending each 503 during shutdowns.
 
 **Example:**
 
 ```typescript
-import {BeforeShutdown, OnSendFailureDuringShutdown, OnShutdown, OnSignal} from "@tsed/terminus";
+import {Injectable} from "@tsed/di";
 
-@Controller("/redis")
+@Injectable()
 class RedisCtrl {
-  @BeforeShutdown()
-  beforeShutdow() {
+  $beforeShutdown() {
     console.log("called before shutdown");
   }
 
-  @OnSignal()
-  OnSignal() {
+  $onSignal() {
     console.log("called on signal");
   }
 
-  @OnShutdown()
-  OnShutdown() {
+  $onShutdown() {
     console.log("called on shutdown");
   }
 
-  @OnSendFailureDuringShutdown()
-  OnSendFailureDuringShutdown() {
+  $onSendFailureDuringShutdown() {
     console.log("on send failure during shutdown");
   }
 }
@@ -143,7 +178,7 @@ class RedisCtrl {
 
 ## Maintainers
 
-<GithubContributors users="['EmilienLeroy']"/>
+<GithubContributors users="['Romakita']"/>
 
 <div class="flex items-center justify-center p-5">
 <Button href="/contributing.html" class="rounded-medium">

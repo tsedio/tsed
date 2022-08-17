@@ -1,13 +1,8 @@
-import {Store} from "@tsed/core";
-
-function register(name: string) {
-  return <Function>(target: Object, propertyKey: string, descriptor: TypedPropertyDescriptor<Function>) => {
-    if (descriptor.value) {
-      const store = Store.from(target);
-      const values = store.get(name) || [];
-
-      store.merge(name, [...values, descriptor.value]);
-    }
+export function register(event: string) {
+  return <Function>(target: Object, propertyKey: string, description: PropertyDescriptor) => {
+    Object.defineProperty(target, `$${event}`, {
+      value: description.value
+    });
   };
 }
 
@@ -16,6 +11,7 @@ function register(name: string) {
  *
  * @decorator
  * @terminus
+ * @deprecated Use $BeforeShutdown hook
  */
 export function BeforeShutdown(): MethodDecorator {
   return register("beforeShutdown");
@@ -26,6 +22,7 @@ export function BeforeShutdown(): MethodDecorator {
  *
  * @decorator
  * @terminus
+ * @deprecated Use $onSignal hook
  */
 export function OnSignal(): MethodDecorator {
   return register("onSignal");
@@ -36,6 +33,7 @@ export function OnSignal(): MethodDecorator {
  *
  * @decorator
  * @terminus
+ * @deprecated Use $onShutdown hook
  */
 export function OnShutdown(): MethodDecorator {
   return register("onShutdown");
@@ -46,7 +44,8 @@ export function OnShutdown(): MethodDecorator {
  *
  * @decorator
  * @terminus
+ * @deprecated Use $onSendFailureDuringShutdown hook
  */
 export function OnSendFailureDuringShutdown(): MethodDecorator {
-  return register("onSendFailureDuringShutdown");
+  return register("OnSendFailureDuringShutdown");
 }

@@ -1,12 +1,17 @@
 import {createTerminus} from "@godaddy/terminus";
-import {Configuration, Inject, InjectorService, Module, OnInit} from "@tsed/di";
-import Https from "https";
+import {Constant, Inject, InjectorService, Module, OnInit, Provider} from "@tsed/di";
+import {concatPath} from "@tsed/schema";
 import Http from "http";
+import Https from "https";
+import {TerminusSettings} from "./interfaces/TerminusSettings";
 
 @Module()
 export class TerminusModule implements OnInit {
-  @Configuration()
-  private configuration: Configuration;
+  @Constant("terminus", {})
+  private settings: TerminusSettings;
+
+  @Constant("terminus.path", "/health")
+  private basePath: string;
 
   @Inject()
   private injector: InjectorService;
@@ -21,17 +26,54 @@ export class TerminusModule implements OnInit {
     this.mount();
   }
 
-  private mount() {
-    const {terminus} = this.configuration;
-    const terminusConfig = {
-      logger: this.injector.logger as any,
+  getConfiguration() {
+    const {path, ...props} = this.settings;
+
+    return {
+      logger: (event: string, error: any) =>
+        this.injector.logger.info({
+          event: event.toUpperCase(),
+          error_message: error.message
+        }),
       healthChecks: this.getHealths(),
-      onSignal: this.execShutdown("onSignal"),
-      onShutdown: this.execShutdown("onShutdown"),
-      beforeShutdown: this.execShutdown("beforeShutdown"),
-      onSendFailureDuringShutdown: this.execShutdown("onSendFailureDuringShutdown"),
-      ...terminus
+      onSignal: this.createEmitter("$onSignal"),
+      onShutdown: this.createEmitter("$onShutdown"),
+      beforeShutdown: this.createEmitter("$beforeShutdown"),
+      onSendFailureDuringShutdown: this.createEmitter("$onSendFailureDuringShutdown"),
+      ...props
     };
+  }
+
+  async $logRoutes(routes: any[]): Promise<any[]> {
+    return [
+      ...routes,
+      {
+        toJSON: () => {
+          return {
+            method: "GET",
+            name: `TerminusModule.dispatch`,
+            url: this.basePath
+          };
+        }
+      },
+      ...this.getAll<{name: string}>("health").map(({provider, propertyKey, options}) => {
+        const path = this.getPath(provider, options.name);
+
+        return {
+          toJSON() {
+            return {
+              method: "GET",
+              name: `${provider.className}.${propertyKey}`,
+              url: path
+            };
+          }
+        } as any;
+      })
+    ];
+  }
+
+  private mount() {
+    const terminusConfig = this.getConfiguration();
 
     if (this.httpServer) {
       createTerminus(this.httpServer, terminusConfig);
@@ -42,37 +84,66 @@ export class TerminusModule implements OnInit {
     }
   }
 
-  private getProviders(name: string) {
-    return this.injector.getProviders().filter((provider) => {
-      return provider.store.get(name);
-    });
-  }
+  private getAll<Opts = any>(
+    name: string
+  ): {
+    provider: Provider;
+    propertyKey: string;
+    options: Opts;
+  }[] {
+    return this.injector.getProviders().flatMap((provider) => {
+      const metadata = provider.store.get(`terminus:${name}`);
 
-  private getStore(name: string) {
-    return this.injector
-      .getProviders()
-      .map((provider) => provider.store.get(name))
-      .filter((x) => !!x)
-      .flat();
+      if (metadata) {
+        return Object.entries(metadata).map(([propertyKey, options]: [string, Opts]) => {
+          return {
+            provider,
+            propertyKey,
+            options
+          };
+        });
+      }
+      return [];
+    });
   }
 
   private getHealths() {
-    const healths: {[k: string]: () => Promise<any>} = {};
+    const subHealths = this.getAll<{name: string}>("health").reduce((healths, {provider, propertyKey, options: {name}}) => {
+      const instance = this.injector.get<any>(provider.token)!;
+      const callback = async (...args: any[]) => {
+        const result = await instance[propertyKey](...args);
 
-    this.getProviders("terminus").forEach((provider) => {
-      Object.keys(provider.store.get("terminus")).forEach((name) => {
-        healths[`${provider.path}${name}`] = provider.store.get("terminus")[name];
-      });
-    });
+        return {[name]: result};
+      };
+
+      let path = this.getPath(provider, name);
+
+      return {
+        ...healths,
+        [path]: callback
+      };
+    }, {} as Record<string, (state: any) => Promise<any>>);
+
+    const healths: Record<string, any> = {
+      ...subHealths,
+      [this.basePath]: (state: any) => {
+        const promises = Object.entries(subHealths).map(([path, callback]) => callback(state));
+
+        return Promise.all(promises);
+      }
+    };
 
     return healths;
   }
 
-  private execShutdown(name: string) {
-    return async () => {
-      for (const func of this.getStore(name)) {
-        await func();
-      }
+  private getPath(provider: Provider<any>, name: string) {
+    let path = concatPath(provider.path, name);
+    return path.includes("health") ? path : concatPath(path, this.basePath);
+  }
+
+  private createEmitter(name: string) {
+    return async (...args: any[]) => {
+      return this.injector.emit(`$${name}`, ...args);
     };
   }
 }
