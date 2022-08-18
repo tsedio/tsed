@@ -21,8 +21,8 @@
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\""
   },
   "dependencies": {
-    "@types/cache-manager": ">=4.0.1",
-    "cache-manager": "=>4.1.0",
+    "@types/cache-manager": "^4.0.1",
+    "cache-manager": "^4.1.0",
     "micromatch": "4.0.5",
     "tslib": "2.4.0"
   },
