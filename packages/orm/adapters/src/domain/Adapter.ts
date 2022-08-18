@@ -36,8 +36,8 @@ function pluralize(name: string) {
   return name.slice(-1) === "y" ? `${name.slice(0, name.length - 1)}ies` : name + "s";
 }
 
-export abstract class Adapter<T = any> {
-  readonly model: Type<T> | Object;
+export abstract class Adapter<Model = any> {
+  readonly model: Type<Model> | Object;
   readonly collectionName: string;
   readonly indexes: {propertyKey: string; options: any}[];
 
@@ -57,7 +57,7 @@ export abstract class Adapter<T = any> {
     this.indexes = indexes;
   }
 
-  async validate(value: T): Promise<void> {
+  async validate(value: Model): Promise<void> {
     if (this.getModel()) {
       await this.ajvService.validate(this.serialize(value), {
         type: this.model
@@ -65,25 +65,25 @@ export abstract class Adapter<T = any> {
     }
   }
 
-  abstract create(value: Partial<Omit<T, "_id">>, expiresAt?: Date): Promise<T>;
+  abstract create(value: Partial<Omit<Model, "_id">>, expiresAt?: Date): Promise<Model>;
 
-  abstract update(id: string, value: T, expiresAt?: Date): Promise<T | undefined>;
+  abstract update(id: string, value: Model, expiresAt?: Date): Promise<Model | undefined>;
 
-  abstract updateOne(predicate: Partial<T>, value: Partial<T>, expiresAt?: Date): Promise<T | undefined>;
+  abstract updateOne(predicate: Partial<Model>, value: Partial<Model>, expiresAt?: Date): Promise<Model | undefined>;
 
-  abstract upsert(id: string, value: T, expiresAt?: Date): Promise<T>;
+  abstract upsert(id: string, value: Model, expiresAt?: Date): Promise<Model>;
 
-  abstract findOne(predicate: Partial<T>): Promise<T | undefined>;
+  abstract findOne(predicate: Partial<Model>): Promise<Model | undefined>;
 
-  abstract findById(id: string): Promise<T | undefined>;
+  abstract findById(id: string): Promise<Model | undefined>;
 
-  abstract findAll(predicate?: Partial<T>): Promise<T[]>;
+  abstract findAll(predicate?: Partial<Model>): Promise<Model[]>;
 
-  abstract deleteOne(predicate: Partial<T>): Promise<T | undefined>;
+  abstract deleteOne(predicate: Partial<Model>): Promise<Model | undefined>;
 
-  abstract deleteMany(predicate: Partial<T>): Promise<T[]>;
+  abstract deleteMany(predicate: Partial<Model>): Promise<Model[]>;
 
-  abstract deleteById(id: string): Promise<T | undefined>;
+  abstract deleteById(id: string): Promise<Model | undefined>;
 
   getModel() {
     return (this.model as unknown) !== Object ? this.model : undefined;
