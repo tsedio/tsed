@@ -131,6 +131,13 @@ import redisStore from "cache-manager-ioredis";
 export class Server {}
 ```
 
+::: tip
+
+This example works for a single redis connection. If you look for a complete example with Redis Cluster and Redis single connection, go to this example:
+https://gist.github.com/Romakita/432b1a8afaa726b41d0baf2456b205aa
+
+:::
+
 ## Interacting with the cache store
 
 To interact with the cache manager instance, inject it to your class using the @@PlatformCache@@ token, as follows:
