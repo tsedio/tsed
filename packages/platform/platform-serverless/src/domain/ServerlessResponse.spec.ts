@@ -4,13 +4,7 @@ import {createServerlessContext} from "../../test/utils/createServerlessContext"
 describe("ServerlessResponse", () => {
   beforeEach(() => PlatformServerlessTest.create());
   afterEach(() => PlatformServerlessTest.reset());
-  describe("onEnd", () => {
-    it("should push callback", () => {
-      createServerlessContext({
-        endpoint: {} as any
-      });
-    });
-  });
+
   describe("isHeadersSent", () => {
     it("should push callback", () => {
       const context = createServerlessContext({

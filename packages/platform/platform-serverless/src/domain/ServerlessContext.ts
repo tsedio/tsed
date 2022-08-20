@@ -24,13 +24,17 @@ export class ServerlessContext extends DIContext {
     });
     this.context = context;
     this.event = event;
-    this.request = new ServerlessRequest({event, context});
-    this.response = new ServerlessResponse({event, context, request: this.request});
+    this.request = new ServerlessRequest(this);
+    this.response = new ServerlessResponse(this);
     this.endpoint = endpoint;
   }
 
   async destroy() {
     await super.destroy();
     this.response.destroy();
+  }
+
+  isDone() {
+    return this.response.isDone();
   }
 }
