@@ -1,7 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {PlatformViews} from "@tsed/platform-views";
 import {createReadStream} from "fs";
-import onFinished from "on-finished";
 import {PlatformResponse} from "./PlatformResponse";
 
 jest.mock("on-finished");
@@ -177,8 +176,8 @@ describe("PlatformResponse", () => {
       expect(res.data).toEqual({});
     });
   });
-  describe("destroy()", () => {
-    it("should destroy response", async () => {
+  describe("finish()", () => {
+    it("should finish context", async () => {
       const {response, ctx} = createResponse();
 
       expect(response.isDone()).toEqual(false);
@@ -237,9 +236,11 @@ describe("PlatformResponse", () => {
       const {res, response} = createResponse();
       const cb = jest.fn();
 
+      res.on = jest.fn();
+
       response.onEnd(cb);
 
-      expect(onFinished).toHaveBeenCalledWith(res, cb);
+      expect(res.on).toHaveBeenCalledWith("finish", cb);
     });
   });
 });

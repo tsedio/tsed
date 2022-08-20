@@ -4,11 +4,10 @@ import {
   classOf,
   deepClone,
   deepMerge,
+  Hooks,
   isClass,
   isFunction,
   isInheritedFrom,
-  isObject,
-  isPromise,
   Metadata,
   nameOf,
   prototypeOf,
@@ -32,6 +31,7 @@ import {InvokeOptions} from "../interfaces/InvokeOptions";
 import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
 import {TokenProvider} from "../interfaces/TokenProvider";
 import {GlobalProviders} from "../registries/GlobalProviders";
+import {runInContext} from "../utils/asyncHookContext";
 import {createContainer} from "../utils/createContainer";
 import {resolveControllers} from "../utils/resolveControllers";
 import {DIConfiguration} from "./DIConfiguration";
@@ -65,7 +65,9 @@ export class InjectorService extends Container {
   public settings: DIConfiguration = new DIConfiguration();
   public logger: DILogger = console;
   private resolvedConfiguration: boolean = false;
+
   #cache = new LocalsContainer();
+  #hooks = new Hooks();
 
   constructor() {
     super();
@@ -92,7 +94,7 @@ export class InjectorService extends Container {
    * Return a list of instance build by the injector.
    */
   public toArray(): any[] {
-    return this.#cache.toArray();
+    return [...this.#cache.values()];
   }
 
   /**
@@ -173,7 +175,7 @@ export class InjectorService extends Container {
    * @param options
    * @returns {T} The class constructed.
    */
-  public invoke<T = any>(token: TokenProvider, locals?: Map<TokenProvider, any>, options: Partial<InvokeOptions<T>> = {}): T {
+  public invoke<T = any>(token: TokenProvider, locals?: LocalsContainer, options: Partial<InvokeOptions<T>> = {}): T {
     let instance: any = locals ? locals.get(token) : undefined;
 
     if (instance !== undefined) {
@@ -210,6 +212,10 @@ export class InjectorService extends Container {
 
     switch (this.scopeOf(provider)) {
       case ProviderScope.SINGLETON:
+        if (provider.hooks && !options.rebuild) {
+          this.registerHooks(provider);
+        }
+
         if (!provider.isAsync()) {
           this.#cache.set(token, instance);
           return instance;
@@ -227,7 +233,14 @@ export class InjectorService extends Container {
         return instance;
 
       case ProviderScope.REQUEST:
-        locals && locals.set(token, instance);
+        if (locals) {
+          locals.set(token, instance);
+
+          if (provider.hooks && provider.hooks.$onDestroy) {
+            locals.hooks.on("$onDestroy", (...args: any[]) => provider.hooks!.$onDestroy(instance, ...args));
+          }
+        }
+
         return instance;
     }
 
@@ -341,7 +354,7 @@ export class InjectorService extends Container {
    * @param locals
    * @param options
    */
-  public bindInjectableProperties(instance: any, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions>) {
+  public bindInjectableProperties(instance: any, locals: LocalsContainer, options: Partial<InvokeOptions>) {
     const properties: InjectableProperties = ancestorsOf(classOf(instance)).reduce((properties: any, target: any) => {
       const store = Store.from(target);
 
@@ -373,7 +386,6 @@ export class InjectorService extends Container {
   }
 
   /**
-   *
    * @param instance
    * @param {string} propertyKey
    */
@@ -403,7 +415,7 @@ export class InjectorService extends Container {
   public bindProperty(
     instance: any,
     {propertyKey, resolver, options = {}}: InjectablePropertyOptions,
-    locals: Map<TokenProvider, any>,
+    locals: LocalsContainer,
     invokeOptions: Partial<InvokeOptions>
   ) {
     let get: () => any;
@@ -520,11 +532,11 @@ export class InjectorService extends Container {
   /**
    * Emit an event to all service. See service [lifecycle hooks](/docs/services.md#lifecycle-hooks).
    * @param eventName The event name to emit at all services.
-   * @param args List of the parameters to give to each services.
+   * @param args List of the parameters to give to each service.
    * @returns {Promise<any[]>} A list of promises.
    */
   public async emit(eventName: string, ...args: any[]) {
-    return this.#cache.emit(eventName, ...args);
+    return this.#hooks.asyncEmit(eventName, args);
   }
 
   /**
@@ -533,7 +545,7 @@ export class InjectorService extends Container {
    * @param args
    */
   public alter<T = any>(eventName: string, value: any, ...args: any[]): T {
-    return this.#cache.alter(eventName, value, ...args);
+    return this.#hooks.alter(eventName, value, args);
   }
 
   /**
@@ -542,11 +554,13 @@ export class InjectorService extends Container {
    * @param args
    */
   public async alterAsync<T = any>(eventName: string, value: any, ...args: any[]): Promise<T> {
-    return this.#cache.alterAsync(eventName, value, ...args);
+    return this.#hooks.asyncAlter(eventName, value, args);
   }
 
   async destroy() {
-    await this.#cache.destroy();
+    await this.emit("$onDestroy");
+    this.#cache.clear();
+    this.#hooks.destroy();
   }
 
   protected ensureProvider(token: TokenProvider): Provider | undefined {
@@ -580,7 +594,7 @@ export class InjectorService extends Container {
    */
   private resolve<T>(
     target: TokenProvider,
-    locals: Map<TokenProvider, any> = new LocalsContainer(),
+    locals: LocalsContainer = new LocalsContainer(),
     options: Partial<InvokeOptions<T>> = {}
   ): T | Promise<T> {
     const resolvedOpts = this.mapInvokeOptions(target, locals, options);
@@ -630,21 +644,6 @@ export class InjectorService extends Container {
 
     if (instance && isClass(classOf(instance))) {
       this.bindInjectableProperties(instance, locals, options);
-    }
-
-    const bind = (instance: any) => {
-      if (isObject(instance) && provider.hooks) {
-        Object.entries(provider.hooks!).forEach(([key, cb]) => {
-          (instance as any)[key] = (...args: any[]) => cb(instance, ...args);
-        });
-      }
-      return instance;
-    };
-
-    if (isPromise(instance)) {
-      instance.then(bind);
-    } else {
-      bind(instance);
     }
 
     return instance;
@@ -709,5 +708,15 @@ export class InjectorService extends Container {
       construct,
       provider
     };
+  }
+
+  private registerHooks(provider: Provider) {
+    if (provider.hooks) {
+      Object.entries(provider.hooks).forEach(([event, cb]) => {
+        const callback = (...args: any[]) => cb(this.get(provider.token), ...args);
+
+        this.#hooks.on(event, callback);
+      });
+    }
   }
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import {fork} from "child_process";
+import {execa} from "execa";
 import ora from "ora";
 import path from "path";
 import {fire} from "./autocannon.js";
@@ -9,7 +9,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const doBench = async (opts, handler) => {
   const spinner = ora(`Started ${handler}`).start();
-  const forked = fork(path.join(__dirname, "..", "frameworks", handler));
+  const modPath = path.join(__dirname, "..", "frameworks", handler);
+
+  const abortController = new AbortController();
+  const subprocess = execa("node", [modPath], {signal: abortController.signal});
+
   try {
     spinner.color = "magenta";
     spinner.text = `Warming ${handler}`;
@@ -23,7 +27,17 @@ const doBench = async (opts, handler) => {
 
   try {
     await fire(opts, handler, true);
-    forked.kill("SIGINT");
+    abortController.abort();
+    try {
+      await subprocess;
+    } catch (error) {
+      if (!subprocess.killed) {
+        subprocess.kill("SIGTERM", {
+          forceKillAfterTimeout: 2000
+        });
+      }
+    }
+    // forked.kill("SIGINT");
     spinner.text = `Results saved for ${handler}`;
     spinner.succeed();
     return true;

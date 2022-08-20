@@ -1,4 +1,5 @@
 import type {InjectablePropertyType} from "../domain/InjectablePropertyType";
+import type {LocalsContainer} from "../domain/LocalsContainer";
 import type {TokenProvider} from "./TokenProvider";
 import type {InjectorService} from "../services/InjectorService";
 import type {InvokeOptions} from "./InvokeOptions";
@@ -11,7 +12,7 @@ export interface InjectablePropertyOptions extends InjectableProperty {
   bindingType: InjectablePropertyType.METHOD | InjectablePropertyType.PROPERTY | InjectablePropertyType.INTERCEPTOR;
   propertyType: string;
   useType?: TokenProvider;
-  resolver: (injector: InjectorService, locals: Map<TokenProvider, any>, options: Partial<InvokeOptions> & {options: any}) => () => any;
+  resolver: (injector: InjectorService, locals: LocalsContainer, options: Partial<InvokeOptions> & {options: any}) => () => any;
   options?: any;
 }
 

@@ -118,7 +118,7 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
     // Keeping the Mongoose Schema separate so it can overwrite everything once schema has been built.
     const schemaTypeOptions: any = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
 
-    if (schemaTypeOptions.schemaIgnore) {
+    if (schemaTypeOptions.schemaIgnore || propertyMetadata.schema.isReadOnly) {
       return;
     }
 

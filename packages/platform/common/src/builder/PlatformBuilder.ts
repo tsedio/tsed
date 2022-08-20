@@ -1,5 +1,5 @@
 import {nameOf, Type} from "@tsed/core";
-import {colors, InjectorService, ProviderOpts, setLoggerConfiguration, TokenProvider} from "@tsed/di";
+import {colors, InjectorService, ProviderOpts, runInContext, setLoggerConfiguration, TokenProvider} from "@tsed/di";
 import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
 import {PlatformLayer} from "@tsed/platform-router";
 import type {IncomingMessage, Server, ServerResponse} from "http";
@@ -131,10 +131,18 @@ export class PlatformBuilder<App = TsED.Application> {
     return this.build<App>(module, settings).bootstrap();
   }
 
-  callback(): (req: IncomingMessage, res: ServerResponse) => any;
-  callback(req: IncomingMessage, res: ServerResponse): any;
+  callback(): (req: IncomingMessage, res: ServerResponse) => void;
+  callback(req: IncomingMessage, res: ServerResponse): void;
   callback(req?: IncomingMessage, res?: ServerResponse) {
-    return this.app.callback(req!, res!);
+    if (req && res) {
+      return this.callback()(req, res);
+    }
+
+    const cb = this.app.callback();
+
+    return (req: IncomingMessage, res: ServerResponse) => {
+      runInContext(undefined, () => cb(req, res), this.injector);
+    };
   }
 
   log(...data: any[]) {

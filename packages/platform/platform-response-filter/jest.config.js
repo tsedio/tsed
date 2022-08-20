@@ -4,11 +4,6 @@
 module.exports = {
   ...require("@tsed/jest-config")(__dirname, "platform-response-filter"),
   coverageThreshold: {
-    global: {
-      statements: 96.47,
-      branches: 84,
-      functions: 89.47,
-      lines: 96.25
-    }
+    global: require("./coverage.json")
   }
 };

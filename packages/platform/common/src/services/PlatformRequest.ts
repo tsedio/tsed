@@ -161,8 +161,6 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
     return this.raw.aborted;
   }
 
-  destroy() {}
-
   /**
    * Return the Framework response object (express, koa, etc...)
    */

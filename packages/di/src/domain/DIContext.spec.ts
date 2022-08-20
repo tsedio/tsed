@@ -89,6 +89,7 @@ describe("DIContext", () => {
 
       expect(result).toEqual(result2);
       expect(resolver).toHaveBeenCalledTimes(1);
+      expect(context.delete("key")).toEqual(true);
     });
   });
   describe("cacheAsync()", () => {
@@ -167,7 +168,7 @@ describe("DIContext", () => {
       await context.runInContext(stub);
 
       expect(stub).toHaveBeenCalledWith();
-      expect(context.injector.alterAsync).toHaveBeenCalledWith("$alterRunInContext", stub, context);
+      expect(context.injector.alterAsync).toHaveBeenCalledWith("$alterRunInContext", stub);
     });
     it("should run handler in a context + bind", async () => {
       const context = new DIContext({
@@ -194,11 +195,11 @@ describe("DIContext", () => {
 
       await context.runInContext(() => {
         bindContext(stub)();
-        expect(getAsyncStore().getStore()).toEqual(context);
+        expect(getAsyncStore().getStore()).toEqual({current: context});
       });
 
       expect(stub).toHaveBeenCalledWith();
-      expect(context.injector.alterAsync).toHaveBeenCalledWith("$alterRunInContext", expect.any(Function), context);
+      expect(context.injector.alterAsync).toHaveBeenCalledWith("$alterRunInContext", expect.any(Function));
     });
     it("should run handler in a context and fallback to next", async () => {
       const context = new DIContext({
@@ -226,7 +227,7 @@ describe("DIContext", () => {
       await context.runInContext(stub);
 
       expect(stub).toHaveBeenCalledWith();
-      expect(context.injector.alterAsync).toHaveBeenCalledWith("$alterRunInContext", stub, context);
+      expect(context.injector.alterAsync).toHaveBeenCalledWith("$alterRunInContext", stub);
     });
   });
 });

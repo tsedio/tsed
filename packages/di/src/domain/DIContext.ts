@@ -1,18 +1,7 @@
-import type {Env} from "@tsed/core";
 import {InjectorService} from "../services/InjectorService";
-import {runInContext} from "../utils/runInContext";
+import {runInContext} from "../utils/asyncHookContext";
 import {ContextLogger, ContextLoggerOptions} from "./ContextLogger";
 import {LocalsContainer} from "./LocalsContainer";
-
-export interface ContextMethods extends Map<any, any> {
-  readonly id: string;
-  readonly logger: ContextLogger;
-  readonly injector: InjectorService;
-  readonly container: LocalsContainer;
-  readonly env: Env;
-
-  destroy(): any;
-}
 
 export interface DIContextOptions extends Omit<ContextLoggerOptions, "dateStart"> {
   id: string;
@@ -20,21 +9,21 @@ export interface DIContextOptions extends Omit<ContextLoggerOptions, "dateStart"
   logger: any;
 }
 
-export class DIContext extends Map<any, any> implements ContextMethods {
+export class DIContext {
   [x: string]: any;
 
-  opts: DIContextOptions;
+  #container?: LocalsContainer;
+  #cache?: Map<any, any>;
+  #logger?: ContextLogger;
+
+  constructor(public opts: DIContextOptions) {}
+
   /**
    * Logger attached to the context request.
    */
-  readonly logger: ContextLogger;
-
-  #container: LocalsContainer;
-
-  constructor(readonly options: DIContextOptions) {
-    super();
-    this.opts = options;
-    this.logger = new ContextLogger(this);
+  get logger() {
+    this.#logger = this.#logger || new ContextLogger(this.opts);
+    return this.#logger;
   }
 
   /**
@@ -78,19 +67,14 @@ export class DIContext extends Map<any, any> implements ContextMethods {
   }
 
   /**
-   * The request container used by the Ts.ED DI. It contain all services annotated with `@Scope(ProviderScope.REQUEST)`
+   * The request container used by the Ts.ED DI. It contains all services annotated with `@Scope(ProviderScope.REQUEST)`
    */
   get container() {
-    return (this.#container = this.#container || new LocalsContainer<any>());
+    return (this.#container = this.#container || new LocalsContainer());
   }
 
-  async destroy() {
-    await this.#container?.destroy();
-    this.logger.destroy();
-    this.opts = {
-      id: this.opts.id
-    } as any;
-    this.#container = null as any;
+  async destroy(): Promise<any> {
+    return Promise.all([this.#container?.destroy(), this.#logger?.flush()]);
   }
 
   async emit(eventName: string, ...args: any[]) {
@@ -98,8 +82,6 @@ export class DIContext extends Map<any, any> implements ContextMethods {
   }
 
   async runInContext(next: Function) {
-    next = (await this.injector?.alterAsync("$alterRunInContext", next, this)) || next;
-
     return runInContext(this, next);
   }
 
@@ -117,6 +99,23 @@ export class DIContext extends Map<any, any> implements ContextMethods {
     }
 
     return this.get(key);
+  }
+
+  delete(key: any): boolean {
+    return !!this.#cache?.delete(key);
+  }
+
+  get<T = any>(key: any): T {
+    return this.#cache?.get(key);
+  }
+
+  has(key: any): boolean {
+    return !!this.#cache?.has(key);
+  }
+
+  set(key: any, value: any): this {
+    this.#cache = this.#cache || new Map<any, any>().set(key, value);
+    return this;
   }
 }
 

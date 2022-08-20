@@ -59,6 +59,7 @@ module.exports = (rootDir) => ({
     "^@tsed/formio$": fixPath(join(packageDir, "third-parties/formio/src")),
     "^@tsed/formio-types$": fixPath(join(packageDir, "third-parties/formio-types/src")),
     "^@tsed/schema-formio$": fixPath(join(packageDir, "third-parties/schema-formio/src")),
+    "^@tsed/terminus$": fixPath(join(packageDir, "third-parties/terminus/src")),
     "^@tsed/stripe$": fixPath(join(packageDir, "third-parties/stripe/src")),
     "^@tsed/socketio$": fixPath(join(packageDir, "third-parties/socketio/src")),
     "^@tsed/socketio-testing$": fixPath(join(packageDir, "third-parties/socketio-testing/src")),

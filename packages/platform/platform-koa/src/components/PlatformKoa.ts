@@ -1,12 +1,10 @@
-import KoaRouter, {RouterOptions as KoaRouterOptions} from "@koa/router";
+import KoaRouter from "@koa/router";
 import {
   createContext,
-  getContext,
   InjectorService,
   PlatformAdapter,
   PlatformApplication,
   PlatformBuilder,
-  PlatformContext,
   PlatformHandler,
   PlatformMulter,
   PlatformMulterSettings,
@@ -129,7 +127,7 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
     }
 
     return async (koaContext: Koa.Context, next: Koa.Next) => {
-      const $ctx = getContext<PlatformContext>()!;
+      const {$ctx} = koaContext.request;
       $ctx.next = next;
 
       await handler($ctx);
@@ -139,6 +137,9 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
   useContext(): this {
     const app = this.getPlatformApplication();
     const invoke = createContext(this.injector);
+    const platformExceptions = this.injector.get<PlatformExceptions>(PlatformExceptions);
+
+    this.injector.logger.debug("Mount app context");
 
     app.use(async (koaContext: Context, next: Next) => {
       const $ctx = await invoke({
@@ -149,14 +150,14 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
 
       try {
         await $ctx.start();
-        await $ctx.runInContext(next);
+        await next();
         const status = koaContext.status || 404;
 
         if (status === 404 && !$ctx.isDone()) {
-          this.injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound($ctx);
+          platformExceptions?.resourceNotFound($ctx);
         }
       } catch (error) {
-        this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, $ctx);
+        platformExceptions?.catch(error, $ctx);
       } finally {
         await $ctx.finish();
       }
@@ -200,6 +201,6 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
   }
 
   private getPlatformApplication() {
-    return this.injector.get<PlatformApplication>(PlatformApplication)!;
+    return this.injector.get<PlatformApplication<Koa>>(PlatformApplication)!;
   }
 }

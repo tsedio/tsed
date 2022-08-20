@@ -73,6 +73,71 @@ const mongooseStore = require("cache-manager-mongoose");
 export class Server {}
 ```
 
+### Sharing IORedis instance
+
+```typescript
+import {Configuration, registerProvider} from "@tsed/di";
+import {Logger} from "@tsed/logger";
+import Redis from "ioredis";
+
+export const REDIS_CONNECTION = Symbol("redis:connection");
+export type REDIS_CONNECTION = Redis;
+
+registerProvider({
+  provide: REDIS_CONNECTION,
+  deps: [Configuration, Logger],
+  async useAsyncFactory(configuration: Configuration, logger: Logger) {
+    const cacheSettings = configuration.get("cache");
+    const redisSettings = configuration.get("redis");
+    const connection = new Redis({...redisSettings, lazyConnect: true});
+
+    cacheSettings.redisInstance = connection;
+
+    try {
+      await connection.connect();
+      logger.info("Connected to redis database...");
+    } catch (error) {
+      logger.error({
+        event: "REDIS_ERROR",
+        error
+      });
+    }
+
+    return connection;
+  },
+  hooks: {
+    $onDestroy(connection: Redis) {
+      return connection.disconnect();
+    }
+  }
+});
+```
+
+Then:
+
+```typescript
+import {Configuration} from "@tsed/common";
+import redisStore from "cache-manager-ioredis";
+
+@Configuration({
+  cache: {
+    ttl: 300, // default TTL
+    store: redisStore
+  },
+  redis: {
+    port: 6379
+  }
+})
+export class Server {}
+```
+
+::: tip
+
+This example works for a single redis connection. If you look for a complete example with Redis Cluster and Redis single connection, go to this example:
+https://gist.github.com/Romakita/432b1a8afaa726b41d0baf2456b205aa
+
+:::
+
 ## Interacting with the cache store
 
 To interact with the cache manager instance, inject it to your class using the @@PlatformCache@@ token, as follows:

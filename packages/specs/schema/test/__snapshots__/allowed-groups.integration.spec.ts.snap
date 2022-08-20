@@ -1,0 +1,145 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@AllowedGroups should generate the expected schema without group 1`] = `
+Object {
+  "components": Object {
+    "schemas": Object {
+      "MyModel": Object {
+        "properties": Object {
+          "description": Object {
+            "type": "string",
+          },
+          "id": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+    },
+  },
+  "paths": Object {
+    "/controllers/{id}": Object {
+      "get": Object {
+        "operationId": "myControllerGet",
+        "parameters": Array [
+          Object {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": Object {
+              "type": "string",
+            },
+          },
+          Object {
+            "in": "query",
+            "name": "includes",
+            "required": false,
+            "schema": Object {
+              "items": Object {
+                "enum": Array [
+                  "summary",
+                  "details",
+                ],
+                "type": "string",
+              },
+              "type": "array",
+            },
+          },
+        ],
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "application/json": Object {
+                "schema": Object {
+                  "$ref": "#/components/schemas/MyModel",
+                },
+              },
+            },
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "MyController",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "MyController",
+    },
+  ],
+}
+`;
+
+exports[`@AllowedGroups should generate the schema with allowed group and filter unexpected group 1`] = `
+Object {
+  "components": Object {
+    "schemas": Object {
+      "MyModel": Object {
+        "properties": Object {
+          "description": Object {
+            "type": "string",
+          },
+          "id": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+    },
+  },
+  "paths": Object {
+    "/controllers/{id}": Object {
+      "get": Object {
+        "operationId": "myControllerGet",
+        "parameters": Array [
+          Object {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": Object {
+              "type": "string",
+            },
+          },
+          Object {
+            "in": "query",
+            "name": "includes",
+            "required": false,
+            "schema": Object {
+              "items": Object {
+                "enum": Array [
+                  "summary",
+                  "details",
+                ],
+                "type": "string",
+              },
+              "type": "array",
+            },
+          },
+        ],
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "application/json": Object {
+                "schema": Object {
+                  "$ref": "#/components/schemas/MyModel",
+                },
+              },
+            },
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "MyController",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "MyController",
+    },
+  ],
+}
+`;

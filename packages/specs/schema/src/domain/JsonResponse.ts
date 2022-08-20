@@ -1,4 +1,3 @@
-import {cleanObject} from "@tsed/core";
 import {OS3MediaType, OS3Response} from "@tsed/openspec";
 import {JsonHeader} from "../interfaces/JsonOpenSpec";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
@@ -6,12 +5,12 @@ import {mapHeaders} from "../utils/mapHeaders";
 import {toJsonMapCollection} from "../utils/toJsonMapCollection";
 import {JsonMap} from "./JsonMap";
 import {JsonSchema} from "./JsonSchema";
-import {SpecTypes} from "./SpecTypes";
 
 export type JsonResponseOptions = OS3Response<JsonSchema, string | JsonHeader>;
 
 export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
   groups: string[] = [];
+  allowedGroups?: Set<string>;
 
   schema(schema: JsonSchema) {
     this.set("schema", schema);
@@ -26,7 +25,9 @@ export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
   }
 
   toJSON(options: JsonSchemaOptions = {}): any {
-    return super.toJSON({...options, groups: this.groups});
+    let groups = [...(this.groups || [])];
+
+    return super.toJSON({...options, groups});
   }
 }
 

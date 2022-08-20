@@ -7,7 +7,7 @@ export function setResponseHeaders(ctx: PlatformContext) {
   const {response, endpoint} = ctx;
   const {operation} = endpoint;
 
-  if (response.isDone()) {
+  if (ctx.isDone()) {
     return;
   }
 

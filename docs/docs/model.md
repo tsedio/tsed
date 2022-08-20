@@ -749,6 +749,135 @@ class MyModel {
 }
 ```
 
+## AllowedGroups <Badge text="v6.126.0+"/>
+
+This feature let your API consumer to define which field he wants to consume. The server will filter automatically fields based on the @@Groups@@
+strategy.
+
+```typescript
+class MyModel {
+  @Property()
+  id: string;
+
+  @Property()
+  description: string;
+
+  @Groups("summary")
+  prop1: string; // not display by default
+
+  @Groups("details")
+  prop2: string; // not display by default
+
+  @Groups("admin")
+  sensitiveProp: string; // not displayed because it's a sensitive props
+}
+
+@Controller("/controllers")
+class MyController {
+  @Get("/:id")
+  @Returns(200, MyModel).Groups("!admin").AllowedGroups("summary", "details")
+  get() {
+    return {
+      id: "id",
+      description: "description",
+      prop1: "prop1",
+      prop2: "prop2",
+      sensitiveProp: "sensitiveProp"
+    };
+  }
+}
+```
+
+The AllowedGroups is enabled while `includes` query params is given in the request. Here the different scenario with this parameter:
+
+<Tabs>
+ <Tab label="Basic usage">
+
+Request:
+
+```
+GET http://host/rest/controllers/1?includes=summary
+```
+
+The response will be:
+
+```json
+{
+  "id": "id",
+  "description": "description",
+  "prop1": "prop1"
+}
+```
+
+ </Tab>
+ <Tab label="Multiple includes">
+
+Request:
+
+```
+GET http://host/rest/controllers/1?includes=summary&includes=details
+
+OR
+
+GET http://host/rest/controllers/1?includes=summary,details
+```
+
+Expected json:
+
+```json
+{
+  "id": "id",
+  "description": "description",
+  "prop1": "prop1",
+  "prop2": "prop2"
+}
+```
+
+ </Tab>
+ <Tab label="Without includes">
+
+Request:
+
+```
+GET http://host/rest/controllers/1
+```
+
+Expected json:
+
+```json
+{
+  "id": "id",
+  "description": "description",
+  "prop1": "prop1",
+  "prop2": "prop2"
+}
+```
+
+ </Tab>
+ <Tab label="Unexpected includes">
+
+If a given value isn't listed in the allowed groups, the value will be ignored!
+
+Request:
+
+```
+GET http://host/rest/controllers/1?includes=admin
+```
+
+Expected json:
+
+```json
+{
+  "id": "id",
+  "description": "description",
+  "prop1": "prop1",
+  "prop2": "prop2"
+}
+```
+
+ </Tab>
+</Tabs>
+
 ## Partial <Badge text="6.58.0+"/>
 
 Partial allow you to create a Partial model on an endpoint:

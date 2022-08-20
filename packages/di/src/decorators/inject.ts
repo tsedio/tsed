@@ -1,7 +1,7 @@
 import {decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
 import type {InjectablePropertyOptions} from "../interfaces/InjectableProperties";
-import {getContext} from "../utils/runInContext";
+import {getContext} from "../utils/asyncHookContext";
 
 export function injectProperty(target: any, propertyKey: string, options: Partial<InjectablePropertyOptions>) {
   Store.from(target).merge(INJECTABLE_PROP, {

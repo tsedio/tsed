@@ -1,15 +1,13 @@
 import express from "express";
+import morgan from "morgan";
 
 const app = express();
 
 app.disable("etag");
 app.disable("x-powered-by");
-
-const router = express.Router();
-
-router.get("/hello", function (req, res) {
+app.use(morgan("tiny"));
+app.get("/", function (req, res) {
   res.json({hello: "world"});
 });
 
-app.use("/greet", router);
 app.listen(3000);

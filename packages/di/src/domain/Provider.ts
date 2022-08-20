@@ -1,8 +1,10 @@
-import {classOf, getClassOrSymbol, isClass, nameOf, Store, Type} from "@tsed/core";
+import {classOf, getClassOrSymbol, isClass, methodsOf, nameOf, Store, Type} from "@tsed/core";
 import {ProviderOpts} from "../interfaces/ProviderOpts";
 import {TokenProvider} from "../interfaces/TokenProvider";
 import {ProviderScope} from "./ProviderScope";
 import {ProviderType} from "./ProviderType";
+
+export type ProviderHookCallback<T = any> = (instance: T, ...args: any[]) => Promise<void> | void;
 
 export class Provider<T = any> implements ProviderOpts<T> {
   public type: ProviderType | any = ProviderType.PROVIDER;
@@ -11,7 +13,7 @@ export class Provider<T = any> implements ProviderOpts<T> {
   public useFactory: Function;
   public useAsyncFactory: Function;
   public useValue: any;
-  public hooks?: Record<string, (instance: T, ...args: any[]) => Promise<void> | void>;
+  public hooks?: Record<string, ProviderHookCallback<T>>;
   private _useClass: Type<T>;
   private _provide: TokenProvider;
   private _store: Store;
@@ -53,6 +55,16 @@ export class Provider<T = any> implements ProviderOpts<T> {
     if (isClass(value)) {
       this._useClass = classOf(value);
       this._store = Store.from(value);
+
+      this.hooks = methodsOf(this._useClass).reduce((hooks, {propertyKey}) => {
+        if (String(propertyKey).startsWith("$")) {
+          return {
+            ...hooks,
+            [propertyKey]: (instance: any, ...args: any[]) => instance[propertyKey](...args)
+          };
+        }
+        return hooks;
+      }, {} as any);
     }
   }
 

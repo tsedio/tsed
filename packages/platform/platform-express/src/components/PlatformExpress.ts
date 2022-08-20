@@ -1,7 +1,6 @@
 import {
   bindContext,
   createContext,
-  getContext,
   InjectorService,
   PlatformAdapter,
   PlatformApplication,
@@ -18,7 +17,6 @@ import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
 import type multer from "multer";
-import onFinished from "on-finished";
 import {promisify} from "util";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
 import {staticsMiddleware} from "../middlewares/staticsMiddleware";
@@ -106,7 +104,6 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
     injector.settings.get("env") === Env.PROD && app.getApp().disable("x-powered-by");
 
     await this.configureViewsEngine();
-    this.useContext();
   }
 
   async afterLoadRoutes() {
@@ -115,15 +112,14 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
 
     // NOT FOUND
     app.use((req: any, res: any, next: any) => {
-      const $ctx = getContext()!;
-      !$ctx.isDone() && platformExceptions.resourceNotFound($ctx);
+      const {$ctx} = req;
+      !$ctx.isDone() && platformExceptions?.resourceNotFound(req.$ctx);
     });
 
     // EXCEPTION FILTERS
     app.use((err: any, req: any, res: any, next: any) => {
-      const $ctx = getContext()!;
-
-      !$ctx.isDone() && platformExceptions.catch(err, $ctx);
+      const {$ctx} = req;
+      !$ctx.isDone() && platformExceptions?.catch(err, $ctx);
     });
   }
 
@@ -145,23 +141,22 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
   mapHandler(handler: Function, metadata: PlatformHandlerMetadata) {
     switch (metadata.type) {
       case PlatformHandlerType.RAW_ERR_FN:
-        return (error: unknown, req: any, res: any, next: any) => handler(error, req, res, bindContext(next));
+        return handler;
       case PlatformHandlerType.RAW_FN:
-        return (req: any, res: any, next: any) => handler(req, res, bindContext(next));
+        return handler;
       case PlatformHandlerType.ERR_MIDDLEWARE:
         return async (error: unknown, req: any, res: any, next: any) => {
-          const $ctx = getContext<PlatformContext>()!;
+          const {$ctx} = req.$ctx;
+
           $ctx.next = next;
           $ctx.error = error;
 
           await handler($ctx);
         };
       default:
-        return async (req: any, res: any, next: any) => {
-          const $ctx = getContext<PlatformContext>()!;
-          $ctx.next = next;
-
-          await handler($ctx);
+        return (req: any, res: any, next: any) => {
+          req.$ctx.next = next;
+          handler(req.$ctx);
         };
     }
   }
@@ -170,17 +165,15 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
     const app = this.getPlatformApplication();
     const invoke = createContext(this.injector);
 
-    app.use(async (request: any, response: any, next: any) => {
-      const $ctx = await invoke({
-        request,
-        response
-      });
+    this.injector.logger.debug("Mount app context");
 
+    app.getApp().use(async (request: any, response: any, next: any) => {
+      const $ctx = await invoke({request, response});
       await $ctx.start();
 
-      onFinished(response, () => $ctx.finish());
+      $ctx.response.getRes().on("finish", () => $ctx.finish());
 
-      return $ctx.runInContext(next);
+      return next();
     });
 
     return this;

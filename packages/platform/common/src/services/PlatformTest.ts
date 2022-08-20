@@ -121,6 +121,7 @@ export class PlatformTest extends DITest {
       headers: {},
       method: "GET",
       url: "/",
+      query: {},
       get(key: string) {
         return this.headers[key.toLowerCase()];
       },

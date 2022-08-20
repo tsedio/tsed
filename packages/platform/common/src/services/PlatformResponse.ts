@@ -1,9 +1,8 @@
 import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
 import {OutgoingHttpHeaders, ServerResponse} from "http";
-import onFinished from "on-finished";
 import type {PlatformContext} from "../domain/PlatformContext";
-import {PlatformRequest} from "./PlatformRequest";
+import type {PlatformRequest} from "./PlatformRequest";
 
 declare global {
   namespace TsED {
@@ -92,7 +91,7 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * Return the Node.js response object
    */
   getRes(): ServerResponse {
-    return this.$ctx.event.response;
+    return this.raw as any;
   }
 
   hasStatus() {
@@ -297,23 +296,22 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
    * Add a listener to handler the end of the request/response.
    * @param cb
    */
-  onEnd(cb: (er: Error | null, message: string) => void): this {
-    onFinished(this.getRes(), cb as any);
+  onEnd(cb: () => Promise<void> | void): this {
+    const res: any = this.getRes();
+
+    res.on("finish", cb);
+
     return this;
   }
 
   isDone(): boolean {
-    if (this.raw.isDone) {
+    if (this.$ctx.isFinished()) {
       return true;
     }
 
     const res = this.getRes();
 
     return Boolean(this.isHeadersSent() || res.writableEnded || res.writableFinished);
-  }
-
-  destroy() {
-    this.data = undefined;
   }
 
   isHeadersSent() {

@@ -266,6 +266,8 @@ describe("PlatformBuilder", () => {
         adapter: FakeAdapter
       });
 
+      expect(platformBuilder.callback()).toBeInstanceOf(Function);
+
       expect(platformBuilder.adapter).toBeInstanceOf(FakeAdapter);
     });
   });

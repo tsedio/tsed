@@ -147,7 +147,7 @@ export class RedisAdapter<T extends AdapterModel> extends Adapter<T> {
   protected async insert(payload: Partial<T>, expiresAt?: Date) {
     const id = (payload._id = payload._id || uuid());
 
-    const expiresIn = expiresAt ? Date.now() - expiresAt.getTime() : null;
+    const expiresIn = expiresAt ? expiresAt.getTime() - Date.now() : null;
 
     await this.validate(payload as T);
 

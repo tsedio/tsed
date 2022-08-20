@@ -96,7 +96,7 @@ describe("InjectorService", () => {
         jest.spyOn(injector as any, "invoke");
         jest.spyOn(injector, "getProvider");
 
-        const locals = new Map();
+        const locals = new LocalsContainer();
 
         // WHEN
 
@@ -130,7 +130,7 @@ describe("InjectorService", () => {
         jest.spyOn(injector as any, "resolve");
         jest.spyOn(injector, "getProvider");
 
-        const locals = new Map();
+        const locals = new LocalsContainer();
 
         // WHEN
 
@@ -161,8 +161,8 @@ describe("InjectorService", () => {
         jest.spyOn(injector, "get");
         jest.spyOn(injector, "getProvider");
 
-        const locals = new Map(); // LocalContainer for the first request
-        const locals2 = new Map(); // LocalContainer for the second request
+        const locals = new LocalsContainer(); // LocalContainer for the first request
+        const locals2 = new LocalsContainer(); // LocalContainer for the second request
 
         // WHEN REQ1
         const result1: any = injector.invoke(token, locals);
@@ -201,7 +201,7 @@ describe("InjectorService", () => {
         jest.spyOn(injector, "get");
         jest.spyOn(injector, "getProvider");
 
-        const locals = new Map(); // LocalContainer for the first request
+        const locals = new LocalsContainer(); // LocalContainer for the first request
 
         // WHEN REQ1
         const result1: any = injector.invoke(token, locals);
@@ -338,12 +338,14 @@ describe("InjectorService", () => {
         const provider = new Provider<any>(token);
         provider.deps = [tokenChild];
         provider.useAsyncFactory = async (dep: any) => ({factory: dep + " factory"});
-        provider.hooks = {$onDestroy: () => {}};
+        provider.hooks = {
+          $onDestroy: () => {}
+        };
 
         const tokenSync = Symbol.for("TokenSyncFactory");
         const providerSync = new Provider<any>(tokenSync);
         providerSync.deps = [token];
-        providerSync.hooks = {$onDestroy: () => {}};
+        providerSync.hooks = {$onDestroy: jest.fn(), $onInit: jest.fn()};
         providerSync.useFactory = (asyncInstance: any) => asyncInstance.factory;
 
         const injector = new InjectorService();
@@ -359,8 +361,12 @@ describe("InjectorService", () => {
         const result2: any = injector.invoke(tokenSync);
 
         // THEN
-        expect(result).toEqual({factory: "test async factory", $onDestroy: expect.any(Function)});
+        expect(result).toEqual({factory: "test async factory"});
         expect(result2).toEqual("test async factory");
+
+        await injector.emit("$onInit");
+
+        expect(providerSync.hooks.$onInit).toHaveBeenCalledWith("test async factory");
       });
       it("should invoke the provider from container with nested async factory", async () => {
         // GIVEN
@@ -630,11 +636,11 @@ describe("InjectorService", () => {
       Store.from(TestBind).set(INJECTABLE_PROP, injectableProperties);
 
       // WHEN
-      injector.bindInjectableProperties(instance, new Map(), {});
+      injector.bindInjectableProperties(instance, new LocalsContainer(), {});
 
       // THEN
       expect(injector.bindMethod).toBeCalledWith(instance, injectableProperties.testMethod);
-      expect(injector.bindProperty).toBeCalledWith(instance, injectableProperties.testProp, new Map(), {});
+      expect(injector.bindProperty).toBeCalledWith(instance, injectableProperties.testProp, new LocalsContainer(), {});
       expect(injector.bindConstant).toBeCalledWith(instance, injectableProperties.testConst);
       expect(injector.bindValue).toBeCalledWith(instance, injectableProperties.testValue);
       expect(injector.bindInterceptor).toBeCalledWith(instance, injectableProperties.testInterceptor);
@@ -675,7 +681,7 @@ describe("InjectorService", () => {
           propertyKey: "prop",
           resolver: (injector: InjectorService) => () => injector.get(InjectorService)
         } as any,
-        new Map(),
+        new LocalsContainer(),
         {}
       );
 

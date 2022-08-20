@@ -75,7 +75,6 @@ describe("OidcAdapters", () => {
         expect(obj.expires_at).toBeInstanceOf(Date);
       });
     });
-
     describe("adapter.deleteMany()", () => {
       it("should delete items", async () => {
         const id = faker.datatype.uuid();

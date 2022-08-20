@@ -32,6 +32,8 @@ async function createMiddlewareFixture() {
   ctx.logger.maxStackSize = 0;
   ctx.data = "test";
 
+  ctx.response.getRes().on = jest.fn();
+
   return {request: ctx.request.raw, ctx, middleware};
 }
 
@@ -54,7 +56,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        middleware.$onResponse(ctx);
+        middleware.onLogEnd(request.$ctx);
 
         // THEN
         expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
@@ -103,7 +105,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        middleware.$onResponse(ctx as any);
+        middleware.onLogEnd(ctx as any);
 
         // THEN
         expect(PlatformTest.injector.logger.debug).toHaveBeenCalledWith(
@@ -142,7 +144,7 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        middleware.$onResponse(ctx as any);
+        middleware.onLogEnd(request.$ctx as any);
 
         // THEN
         expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
@@ -171,7 +173,8 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        middleware.$onResponse(ctx as any);
+        (ctx.response.getRes().on as jest.Mock).mock.calls[0][1]();
+        //  middleware.onLogEnd(request.$ctx as any);
 
         // THEN
         expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
@@ -200,7 +203,6 @@ describe("PlatformLogMiddleware", () => {
         middleware.use(ctx);
 
         // THEN
-        // middleware.$onResponse(request.$ctx);
         ctx.logger.error({
           event: "event"
         });

@@ -11,6 +11,7 @@ describe("concatPath", () => {
     expect(concatPath("/", "/")).toEqual("/");
     expect(concatPath("/", undefined)).toEqual("/");
     expect(concatPath(undefined, "/")).toEqual("/");
+    expect(concatPath("tests/", "/test")).toEqual("tests/test");
   });
   it("should concat regexp", () => {
     expect(concatPath(/\/(.*)/, /\/test(.*)/).source).toEqual("\\/(.*)\\/test(.*)");

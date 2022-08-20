@@ -310,6 +310,54 @@ export class InteractionsCtrl {
 }
 ```
 
+## Implement your own adapter
+
+```typescript
+import {OidcAdapterMethods} from "@tsed/oidc-provider";
+import {Adapter} from "@tsed/adapters";
+
+export class CustomAdapter<Model extends AdapterModel> extends Adapter<Model> implements OidcAdapterMethods {
+  //
+  // implement all required methods
+  //
+  create(value: Partial<Omit<Model, "_id">>, expiresAt?: Date): Promise<Model> {}
+
+  update(id: string, value: Model, expiresAt?: Date): Promise<Model | undefined> {}
+
+  updateOne(predicate: Partial<Model>, value: Partial<Model>, expiresAt?: Date): Promise<Model | undefined> {}
+
+  upsert(id: string, value: Model, expiresAt?: Date): Promise<Model> {}
+
+  findOne(predicate: Partial<Model>): Promise<Model | undefined> {}
+
+  findById(id: string): Promise<Model | undefined> {}
+
+  findAll(predicate?: Partial<Model>): Promise<Model[]> {}
+
+  deleteOne(predicate: Partial<Model>): Promise<Model | undefined> {}
+
+  deleteMany(predicate: Partial<Model>): Promise<Model[]> {}
+
+  deleteById(id: string): Promise<Model | undefined> {}
+  //
+  // if you use redis implement also the following methods
+  //
+  async findByUserCode(userCode: string) {}
+
+  async findByUid(uid: string) {}
+
+  async destroy(id: string) {}
+
+  async revokeByGrantId(grantId: string) {}
+
+  async consume(grantId: string) {}
+}
+```
+
+::: tip
+You can find original adapters from oidc-provider project here: https://github.com/panva/node-oidc-provider/blob/main/example/adapters
+:::
+
 ## Debug
 
 Use `DEBUG=oidc-provider:*` for debugging oidc-provider.

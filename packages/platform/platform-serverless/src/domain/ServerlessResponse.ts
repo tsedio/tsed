@@ -1,15 +1,8 @@
 import {getValue} from "@tsed/core";
 import {getStatusMessage} from "@tsed/schema";
-import type {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, Context} from "aws-lambda";
 import encodeUrl from "encodeurl";
 import * as mime from "mime";
-import type {ServerlessRequest} from "./ServerlessRequest";
-
-export interface ServerlessResponseOptions {
-  event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>;
-  context: Context;
-  request: ServerlessRequest;
-}
+import {ServerlessContext} from "./ServerlessContext";
 
 export type HeaderValue = boolean | number | string;
 
@@ -17,19 +10,24 @@ export type HeaderValue = boolean | number | string;
  * @platform
  */
 export class ServerlessResponse {
-  readonly event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>;
-  readonly request: ServerlessRequest;
-
   #status: number = 200;
   #body: any = undefined;
   #headers: Record<string, HeaderValue> = {};
   #locals: Record<string, any> = {};
   #isHeadersSent = false;
-  #endListeners: Function[] = [];
 
-  constructor({event, request}: ServerlessResponseOptions) {
-    this.event = event;
-    this.request = request;
+  constructor(protected $ctx: ServerlessContext) {}
+
+  get event() {
+    return this.$ctx.event;
+  }
+
+  get raw() {
+    return this.event;
+  }
+
+  get request() {
+    return this.$ctx.request;
   }
 
   /**
@@ -220,14 +218,7 @@ export class ServerlessResponse {
     return this.#isHeadersSent;
   }
 
-  onEnd(cb: Function) {
-    this.#endListeners.push(cb);
-
-    return this;
-  }
-
   destroy() {
-    this.#endListeners.forEach((cb: Function) => cb());
     this.#isHeadersSent = true;
   }
 }

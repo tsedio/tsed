@@ -55,9 +55,18 @@ function updateFile(file, result) {
 * __Machine:__ ${machineInfo}
 * __Node:__ \`${process.version}\`
 * __Run:__ ${new Date()}
-* __Method:__ \`autocannon -c 100 -d 40 -p 10 localhost:3000\` (two rounds; one to warm-up, one to measure)
+* __Method:__ \`autocannon -c 100 -d 10 -p 10 localhost:3000\` (two rounds; one to warm-up, one to measure)
 
 ${result}
+
+## Explanation
+
+The benchmark shows a performance difference between the frameworks. We note that Ts.ED is often last. In fact, Ts.ED uses features useful to a production application which reduce its performance.
+
+For example, Ts.ED initializes a sandbox (async_hook) for each request in order to work in an isolated context if necessary.
+It also initializes the elements necessary for monitoring requests in a log manager.
+
+All this at a necessary cost that reflects the reality of a production application ;)
 `;
   const md = readFileSync(file, "utf8");
   writeFileSync(file, md.split("# Benchmarks")[0] + benchmarkMd, "utf8");

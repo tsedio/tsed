@@ -1,4 +1,4 @@
-import {ContextMethods, DIContext, DIContextOptions} from "@tsed/di";
+import {DIContext, DIContextOptions} from "@tsed/di";
 import {PlatformHandlerMetadata} from "@tsed/platform-router";
 import {EndpointMetadata} from "@tsed/schema";
 import {IncomingMessage, ServerResponse} from "http";
@@ -19,10 +19,10 @@ export interface PlatformContextOptions extends DIContextOptions {
   endpoint?: EndpointMetadata;
 }
 
-export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRes extends PlatformResponse = PlatformResponse>
-  extends DIContext
-  implements ContextMethods
-{
+export class PlatformContext<
+  PReq extends PlatformRequest = PlatformRequest,
+  PRes extends PlatformResponse = PlatformResponse
+> extends DIContext {
   public event: IncomingEvent;
   /**
    * The data return by the previous endpoint if you use multiple handler on the same route. By default data is empty.
@@ -53,7 +53,7 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
    */
   handlerMetadata: PlatformHandlerMetadata;
 
-  #isDestroyed: boolean = false;
+  #isFinished: boolean = false;
 
   constructor(options: PlatformContextOptions) {
     super(options);
@@ -83,35 +83,16 @@ export class PlatformContext<PReq extends PlatformRequest = PlatformRequest, PRe
   }
 
   async finish() {
-    await this.emit("$onResponse", this);
-    await this.destroy();
+    await Promise.all([this.emit("$onResponse", this), this.destroy()]);
+    this.#isFinished = true;
   }
 
-  async destroy() {
-    await super.destroy();
-
-    this.event = {
-      response: {
-        isDone: true,
-        statusCode: this.statusCode
-      },
-      request: {
-        method: this.method,
-        url: this.url,
-        headers: this.headers,
-        body: this.body,
-        query: this.query,
-        params: this.params
-      }
-    } as any;
-
-    this.response.destroy();
-    this.request.destroy();
-    this.#isDestroyed = true;
+  isFinished() {
+    return this.#isFinished;
   }
 
   isDone() {
-    return this.request?.isAborted() || this.response?.isDone() || this.#isDestroyed;
+    return this.request?.isAborted() || this.response?.isDone() || this.isFinished();
   }
 
   /**

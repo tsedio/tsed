@@ -42,7 +42,7 @@ export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
     return this.registry.clear();
   }
 
-  public $alterRunInContext(next: (...args: unknown[]) => unknown, _: DIContext): () => unknown | Promise<() => unknown> {
+  public $alterRunInContext(next: (...args: unknown[]) => unknown): () => unknown | Promise<() => unknown> {
     return () => this.createContext(next);
   }
 
