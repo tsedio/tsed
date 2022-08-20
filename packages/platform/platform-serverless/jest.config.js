@@ -4,11 +4,6 @@
 module.exports = {
   ...require("@tsed/jest-config")(__dirname, "platform-serverless"),
   coverageThreshold: {
-    global: {
-      branches: 83.33,
-      functions: 98.61,
-      lines: 99.28,
-      statements: 98.93
-    }
+    global: require("./coverage.json")
   }
 };

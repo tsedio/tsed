@@ -23,18 +23,6 @@ const packages = {
     checked: true,
     package: "express"
   },
-  "express-injector-async-hook": {
-    checked: true,
-    package: "express"
-  },
-  "express-injector-http-hook": {
-    checked: true,
-    package: "express"
-  },
-  "express-injector-without-events": {
-    checked: true,
-    package: "express"
-  },
   fastify: {hasRouter: true},
   "fastify-injector": {hasRouter: true, package: "fastify", checked: true},
   "fastify-big-json": {extra: true, package: "fastify", hasRouter: true},

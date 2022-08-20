@@ -1,18 +1,22 @@
-import type {APIGatewayEventDefaultAuthorizerContext, APIGatewayProxyEventBase, Context} from "aws-lambda";
 import {getValue} from "@tsed/core";
+import {ServerlessContext} from "./ServerlessContext";
 
-export interface ServerlessRequestOptions {
-  event: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>;
-  context: Context;
-}
 /**
  * @platform
  */
 export class ServerlessRequest {
-  readonly raw: APIGatewayProxyEventBase<APIGatewayEventDefaultAuthorizerContext>;
+  constructor(protected $ctx: ServerlessContext) {}
 
-  constructor({event}: ServerlessRequestOptions) {
-    this.raw = event;
+  get event() {
+    return this.$ctx.event;
+  }
+
+  get raw() {
+    return this.event;
+  }
+
+  get response() {
+    return this.$ctx.response;
   }
 
   get secure(): boolean {
@@ -33,15 +37,15 @@ export class ServerlessRequest {
    * Is equivalent of `express.response.originalUrl || express.response.url`.
    */
   get url(): string {
-    return this.raw.path;
+    return this.event.path;
   }
 
   get headers() {
-    return this.raw.headers;
+    return this.event.headers;
   }
 
   get method(): string {
-    return this.raw.httpMethod;
+    return this.event.httpMethod;
   }
 
   /**
@@ -50,14 +54,14 @@ export class ServerlessRequest {
    */
   get body(): any {
     try {
-      return this.raw.body ? JSON.parse(this.raw.body) : {};
+      return this.event.body ? JSON.parse(this.event.body) : {};
     } catch (er) {
-      return this.raw.body;
+      return this.event.body;
     }
   }
 
   get rawBody(): any {
-    return this.raw.body;
+    return this.event.body;
   }
 
   /**
@@ -66,7 +70,7 @@ export class ServerlessRequest {
    * This object defaults to `{}`.
    */
   get params(): {[key: string]: any} {
-    return this.raw.pathParameters || {};
+    return this.event.pathParameters || {};
   }
 
   /**
@@ -74,7 +78,7 @@ export class ServerlessRequest {
    * When query parser is set to disabled, it is an empty object `{}`, otherwise it is the result of the configured query parser.
    */
   get query(): {[key: string]: any} {
-    return this.raw.queryStringParameters || {};
+    return this.event.queryStringParameters || {};
   }
 
   /**
@@ -87,6 +91,6 @@ export class ServerlessRequest {
    * @param name
    */
   get(name: string) {
-    return getValue(this.raw.headers, name);
+    return getValue(this.event.headers, name);
   }
 }
