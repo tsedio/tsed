@@ -1,4 +1,4 @@
-import {HandlerMetadata, HandlerType, OnRequestOptions, PlatformHandler} from "@tsed/common";
+import {HandlerMetadata, HandlerType, OnRequestOptions, PlatformHandler, runInContext} from "@tsed/common";
 
 /**
  * @platform
@@ -6,17 +6,32 @@ import {HandlerMetadata, HandlerType, OnRequestOptions, PlatformHandler} from "@
  */
 export class PlatformExpressHandler extends PlatformHandler {
   protected createRawHandler(metadata: HandlerMetadata): Function {
+    if ([HandlerType.RAW_ERR_FN, HandlerType.RAW_FN].includes(metadata.type)) {
+      return metadata.handler;
+    }
+
+    const handler = this.compileHandler(metadata);
+
     if (metadata.type === HandlerType.ERR_MIDDLEWARE) {
       const handler = this.compileHandler(metadata);
       return async (err: any, req: any, res: any, next: any) =>
-        handler({
-          err,
-          next,
-          $ctx: req.$ctx
-        });
+        runInContext(req.$ctx, () =>
+          handler({
+            err,
+            next,
+            $ctx: req.$ctx
+          })
+        );
     }
 
-    return super.createRawHandler(metadata);
+    return async (req: any, res: any, next: any) => {
+      return runInContext(req.$ctx, () =>
+        handler({
+          next,
+          $ctx: req.$ctx
+        })
+      );
+    };
   }
 
   protected async onCtxRequest(requestOptions: OnRequestOptions): Promise<any> {

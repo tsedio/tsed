@@ -170,11 +170,10 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
 
   app() {
     const app = this.injector.settings.get("express.app") || Express();
-    const requestHandler = (req: IncomingMessage, res: ServerResponse) => runInContext(undefined, () => app(req, res), this.injector);
 
     return {
       app,
-      callback: () => requestHandler
+      callback: () => app
     };
   }
 
