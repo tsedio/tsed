@@ -164,7 +164,7 @@ describe("PlatformExpressHandler", () => {
         const handler = platformHandler.createHandler(handlerMetadata);
 
         // THEN
-        expect(handler).toEqual(handlerMetadata.handler);
+        expect(handler).toEqual(expect.any(Function));
       });
     });
   });

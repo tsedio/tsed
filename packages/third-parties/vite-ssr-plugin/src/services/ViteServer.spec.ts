@@ -34,9 +34,6 @@ describe("ViteServer", () => {
           middlewareMode: true
         }
       });
-
-      // @ts-ignore
-      await viteDevServer.$onDestroy();
     });
     it("should load and close server", async () => {
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
@@ -50,8 +47,8 @@ describe("ViteServer", () => {
         }
       });
 
-      // @ts-ignore
-      await viteDevServer.$onDestroy();
+      await PlatformTest.injector.destroy();
+
       expect(viteDevServer.close).toHaveBeenCalledWith();
     });
   });
