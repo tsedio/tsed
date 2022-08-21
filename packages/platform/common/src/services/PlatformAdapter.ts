@@ -1,5 +1,6 @@
 import {Type} from "@tsed/core";
 import {InjectorService, ProviderOpts, registerProvider} from "@tsed/di";
+import {IncomingMessage, ServerResponse} from "http";
 import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings";
 import {RouterOptions} from "express";
@@ -19,7 +20,7 @@ export abstract class PlatformAdapter<App = TsED.Application, Router = TsED.Rout
   useRouter?: () => any;
   useContext?: () => any;
 
-  abstract app(): {app: App; callback(): any};
+  abstract app(): {app: App; callback(): (req: IncomingMessage, res: ServerResponse) => void};
 
   abstract router(routerOptions?: Partial<RouterOptions>): {router: Router; callback(): any};
   /**

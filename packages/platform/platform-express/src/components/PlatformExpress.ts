@@ -11,12 +11,14 @@ import {
   PlatformMulterSettings,
   PlatformRequest,
   PlatformResponse,
-  PlatformStaticsOptions
+  PlatformStaticsOptions,
+  runInContext
 } from "@tsed/common";
 import {Env, isFunction, nameOf, Type} from "@tsed/core";
 import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express, {RouterOptions} from "express";
+import {IncomingMessage, ServerResponse} from "http";
 import type multer from "multer";
 import {promisify} from "util";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
@@ -168,11 +170,11 @@ export class PlatformExpress implements PlatformAdapter<Express.Application, Exp
 
   app() {
     const app = this.injector.settings.get("express.app") || Express();
+    const requestHandler = (req: IncomingMessage, res: ServerResponse) => runInContext(undefined, () => app(req, res), this.injector);
+
     return {
       app,
-      callback() {
-        return app;
-      }
+      callback: () => requestHandler
     };
   }
 
