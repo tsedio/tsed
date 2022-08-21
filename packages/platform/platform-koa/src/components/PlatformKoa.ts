@@ -1,6 +1,7 @@
 import KoaRouter, {RouterOptions as KoaRouterOptions} from "@koa/router";
 import {
   createContext,
+  getContext,
   InjectorService,
   PlatformAdapter,
   PlatformApplication,
@@ -12,9 +13,10 @@ import {
   PlatformRequest,
   PlatformResponse,
   PlatformStaticsOptions,
-  setContext
+  runInContext
 } from "@tsed/common";
 import {isFunction, Type} from "@tsed/core";
+import {IncomingMessage, ServerResponse} from "http";
 import Koa, {Context, Next} from "koa";
 import koaBodyParser, {Options} from "koa-bodyparser";
 // @ts-ignore
@@ -132,19 +134,21 @@ export class PlatformKoa implements PlatformAdapter<Koa, KoaRouter> {
         koaContext
       });
 
-      try {
-        await $ctx.start();
-        await next();
-        const status = koaContext.status || 404;
+      return runInContext($ctx, async () => {
+        try {
+          await $ctx.start();
+          await next();
+          const status = koaContext.status || 404;
 
-        if (status === 404 && !$ctx.isDone()) {
-          this.injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound($ctx);
+          if (status === 404 && !$ctx.isDone()) {
+            this.injector.get<PlatformExceptions>(PlatformExceptions)?.resourceNotFound($ctx);
+          }
+        } catch (error) {
+          this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, $ctx);
+        } finally {
+          await $ctx.finish();
         }
-      } catch (error) {
-        this.injector.get<PlatformExceptions>(PlatformExceptions)?.catch(error, $ctx);
-      } finally {
-        await $ctx.finish();
-      }
+      });
     });
 
     return this;

@@ -149,11 +149,7 @@ export class PlatformBuilder<App = TsED.Application, Router = TsED.Router> {
       return this.callback()(req, res);
     }
 
-    const cb = this.app.callback();
-
-    return (req: IncomingMessage, res: ServerResponse) => {
-      runInContext(undefined, () => cb(req, res), this.injector);
-    };
+    return this.app.callback();
   }
 
   log(...data: any[]) {

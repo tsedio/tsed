@@ -1,4 +1,4 @@
-import {Context, Controller, Get, Next, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
+import {Context, Controller, Get, getContext, Next, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
 import {CollectionOf, ContentType, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";
 import {createReadStream} from "fs";
@@ -272,6 +272,13 @@ class TestResponseParamsCtrl {
     model.sensitiveProp = "sensitiveProp";
 
     return model;
+  }
+
+  @Get("/scenario20")
+  async testScenario20() {
+    const $ctx = getContext();
+
+    return {id: $ctx?.request.query.id};
   }
 }
 
@@ -566,6 +573,14 @@ export function testResponse(options: PlatformTestOptions) {
         prop2: "prop2",
         prop1: "prop1"
       });
+    });
+  });
+
+  describe("Scenario20: should return query data from Context", () => {
+    it("should return the response (200)", async () => {
+      const response = await request.get("/rest/response/scenario20?id=id").expect(200);
+
+      expect(response.body).toEqual({id: "id"});
     });
   });
 }
