@@ -1,6 +1,6 @@
 import {PlatformContext, PlatformHandler} from "@tsed/common";
 import {ancestorsOf} from "@tsed/core";
-import {getContext, Inject, Injectable, InjectorService, Provider} from "@tsed/di";
+import {Inject, Injectable, InjectorService, Provider} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import Passport, {Strategy} from "passport";
 import {promisify} from "util";
@@ -142,16 +142,15 @@ export class ProtocolsService {
     const middleware = this.platformHandler.createCustomHandler(provider, "$onVerify");
 
     return async (req: any, ...args: any[]) => {
-      const $ctx = getContext<PlatformContext>();
       const done = args[args.length - 1];
 
-      if ($ctx) {
-        $ctx.set("PROTOCOL_ARGS", args.slice(0, -1));
+      if (req.$ctx) {
+        req.$ctx.set("PROTOCOL_ARGS", args.slice(0, -1));
 
         try {
-          await middleware($ctx);
+          await middleware(req.$ctx);
 
-          done(null, ...[].concat($ctx.data));
+          done(null, ...[].concat(req.$ctx.data));
         } catch (err) {
           done(err, false, {message: err.message});
         }

@@ -1,9 +1,9 @@
 import {Type} from "@tsed/core";
 import {InjectorService, ProviderOpts, registerProvider} from "@tsed/di";
-import {PlatformContextHandler, PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
+import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
+import {IncomingMessage, ServerResponse} from "http";
 import {PlatformMulter, PlatformMulterSettings} from "../config/interfaces/PlatformMulterSettings";
 import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettings";
-import {PlatformContext} from "../domain/PlatformContext";
 import {FakeAdapter} from "./FakeAdapter";
 
 export abstract class PlatformAdapter<App = TsED.Application> {
@@ -33,7 +33,7 @@ export abstract class PlatformAdapter<App = TsED.Application> {
   /**
    * Return the app instance
    */
-  abstract app(): {app: App; callback(): any};
+  abstract app(): {app: App; callback(): (req: IncomingMessage, res: ServerResponse) => void};
 
   /**
    * Return the statics middlewares

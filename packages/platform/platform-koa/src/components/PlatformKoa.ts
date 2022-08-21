@@ -10,7 +10,8 @@ import {
   PlatformMulterSettings,
   PlatformRequest,
   PlatformResponse,
-  PlatformStaticsOptions
+  PlatformStaticsOptions,
+  runInContext
 } from "@tsed/common";
 import {isFunction, Type} from "@tsed/core";
 import {PlatformExceptions} from "@tsed/platform-exceptions";
@@ -148,19 +149,21 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
         koaContext
       });
 
-      try {
-        await $ctx.start();
-        await next();
-        const status = koaContext.status || 404;
+      return runInContext($ctx, async () => {
+        try {
+          await $ctx.start();
+          await next();
+          const status = koaContext.status || 404;
 
-        if (status === 404 && !$ctx.isDone()) {
-          platformExceptions?.resourceNotFound($ctx);
+          if (status === 404 && !$ctx.isDone()) {
+            platformExceptions?.resourceNotFound($ctx);
+          }
+        } catch (error) {
+          platformExceptions?.catch(error, $ctx);
+        } finally {
+          await $ctx.finish();
         }
-      } catch (error) {
-        platformExceptions?.catch(error, $ctx);
-      } finally {
-        await $ctx.finish();
-      }
+      });
     });
 
     return this;

@@ -1,6 +1,6 @@
 import {PlatformContext, setResponseHeaders} from "@tsed/common";
 import {AnyToPromise, AnyToPromiseStatus} from "@tsed/core";
-import {getContext, Inject, InjectorService, Provider} from "@tsed/di";
+import {Inject, InjectorService, Provider} from "@tsed/di";
 import {FormioActionInfo} from "@tsed/formio-types";
 import {PlatformParams} from "@tsed/platform-params";
 import {PlatformResponseFilter} from "@tsed/platform-response-filter";
@@ -79,7 +79,7 @@ export class AlterActions implements AlterHook {
       next: any,
       setActionItemMessage: SetActionItemMessage
     ) => {
-      const $ctx = getContext<PlatformContext>();
+      const $ctx = req;
 
       if ($ctx) {
         $ctx.set("ACTION_CTX", {handler, method, setActionItemMessage, action});

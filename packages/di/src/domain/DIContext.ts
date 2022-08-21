@@ -106,6 +106,7 @@ export class DIContext {
   }
 
   get<T = any>(key: any): T {
+    console.log(this.#cache);
     return this.#cache?.get(key);
   }
 
@@ -114,7 +115,8 @@ export class DIContext {
   }
 
   set(key: any, value: any): this {
-    this.#cache = this.#cache || new Map<any, any>().set(key, value);
+    this.#cache = this.#cache || new Map<any, any>();
+    this.#cache.set(key, value);
     return this;
   }
 }

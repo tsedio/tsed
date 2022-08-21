@@ -69,7 +69,6 @@ export class OidcInteractionContext {
 
   async interactionDetails(): Promise<OidcInteraction> {
     const raw = await this.oidcProvider.get().interactionDetails(this.$ctx.getReq(), this.$ctx.getRes());
-
     const {uid, prompt, params, session, grantId} = raw as any;
 
     this.$ctx.set(INTERACTION_CONTEXT, this);

@@ -1,5 +1,4 @@
 import {
-  bindContext,
   createContext,
   InjectorService,
   PlatformAdapter,
@@ -9,13 +8,15 @@ import {
   PlatformExceptions,
   PlatformMulter,
   PlatformMulterSettings,
-  PlatformStaticsOptions
+  PlatformStaticsOptions,
+  runInContext
 } from "@tsed/common";
 import {Env, isFunction, nameOf, Type} from "@tsed/core";
 import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed/platform-router";
 import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
+import {IncomingMessage, ServerResponse} from "http";
 import type multer from "multer";
 import {promisify} from "util";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
@@ -146,7 +147,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
         return handler;
       case PlatformHandlerType.ERR_MIDDLEWARE:
         return async (error: unknown, req: any, res: any, next: any) => {
-          const {$ctx} = req.$ctx;
+          const {$ctx} = req;
 
           $ctx.next = next;
           $ctx.error = error;
@@ -167,7 +168,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
 
     this.injector.logger.debug("Mount app context");
 
-    app.getApp().use(async (request: any, response: any, next: any) => {
+    app.use(async (request: any, response: any, next: any) => {
       const $ctx = await invoke({request, response});
       await $ctx.start();
 
@@ -181,11 +182,11 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
 
   app() {
     const app = this.injector.settings.get("express.app") || Express();
+    const requestHandler = (req: IncomingMessage, res: ServerResponse) => runInContext(undefined, () => app(req, res), this.injector);
+
     return {
       app,
-      callback() {
-        return app;
-      }
+      callback: () => requestHandler
     };
   }
 
