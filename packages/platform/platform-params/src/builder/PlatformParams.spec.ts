@@ -284,6 +284,8 @@ describe("PlatformParams", () => {
         }
       }
 
+      PlatformTest.injector.addProvider(MyCtrTest);
+
       const handler = await platformParams.compileHandler({
         token: MyCtrTest,
         propertyKey: "get"
@@ -340,6 +342,8 @@ describe("PlatformParams", () => {
         }
       });
 
+      PlatformTest.injector.addProvider(MyCtrTest);
+
       const handler = await platformParams.compileHandler({
         token: MyCtrTest,
         propertyKey: "get"
@@ -367,6 +371,8 @@ describe("PlatformParams", () => {
           return "test";
         }
       }
+
+      PlatformTest.injector.addProvider(MyCtrTest);
 
       const $ctx = PlatformTest.createRequestContext({
         event: {

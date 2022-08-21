@@ -16,7 +16,6 @@ import {PlatformHandlerMetadata, PlatformHandlerType, PlatformLayer} from "@tsed
 import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
-import {IncomingMessage, ServerResponse} from "http";
 import type multer from "multer";
 import {promisify} from "util";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";
@@ -147,17 +146,21 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
         return handler;
       case PlatformHandlerType.ERR_MIDDLEWARE:
         return async (error: unknown, req: any, res: any, next: any) => {
-          const {$ctx} = req;
+          return runInContext(req.$ctx, () => {
+            const {$ctx} = req;
 
-          $ctx.next = next;
-          $ctx.error = error;
+            $ctx.next = next;
+            $ctx.error = error;
 
-          await handler($ctx);
+            return handler($ctx);
+          });
         };
       default:
         return (req: any, res: any, next: any) => {
-          req.$ctx.next = next;
-          handler(req.$ctx);
+          return runInContext(req.$ctx, () => {
+            req.$ctx.next = next;
+            handler(req.$ctx);
+          });
         };
     }
   }
@@ -174,7 +177,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
 
       $ctx.response.getRes().on("finish", () => $ctx.finish());
 
-      return next();
+      return runInContext($ctx, next);
     });
 
     return this;
@@ -182,11 +185,10 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
 
   app() {
     const app = this.injector.settings.get("express.app") || Express();
-    const requestHandler = (req: IncomingMessage, res: ServerResponse) => runInContext(undefined, () => app(req, res), this.injector);
 
     return {
       app,
-      callback: () => requestHandler
+      callback: () => app
     };
   }
 

@@ -79,7 +79,7 @@ export class AlterActions implements AlterHook {
       next: any,
       setActionItemMessage: SetActionItemMessage
     ) => {
-      const $ctx = req;
+      const {$ctx} = req;
 
       if ($ctx) {
         $ctx.set("ACTION_CTX", {handler, method, setActionItemMessage, action});

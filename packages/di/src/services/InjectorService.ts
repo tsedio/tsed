@@ -213,7 +213,7 @@ export class InjectorService extends Container {
     switch (this.scopeOf(provider)) {
       case ProviderScope.SINGLETON:
         if (provider.hooks && !options.rebuild) {
-          this.registerHooks(provider);
+          this.registerHooks(provider, instance);
         }
 
         if (!provider.isAsync()) {
@@ -559,8 +559,6 @@ export class InjectorService extends Container {
 
   async destroy() {
     await this.emit("$onDestroy");
-    this.#cache.clear();
-    this.#hooks.destroy();
   }
 
   protected ensureProvider(token: TokenProvider): Provider | undefined {
@@ -710,10 +708,10 @@ export class InjectorService extends Container {
     };
   }
 
-  private registerHooks(provider: Provider) {
+  private registerHooks(provider: Provider, instance: any) {
     if (provider.hooks) {
       Object.entries(provider.hooks).forEach(([event, cb]) => {
-        const callback = (...args: any[]) => cb(this.get(provider.token), ...args);
+        const callback = (...args: any[]) => cb(this.get(provider.token) || instance, ...args);
 
         this.#hooks.on(event, callback);
       });

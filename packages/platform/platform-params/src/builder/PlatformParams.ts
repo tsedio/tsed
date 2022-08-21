@@ -42,9 +42,11 @@ export class PlatformParams {
   }): PlatformParamsCallback<Context> {
     const store = JsonMethodStore.fromMethod(token, propertyKey);
     const getArguments = this.compile<Context>(store);
+    const provider = this.injector.getProvider(token)!;
 
     return async (scope: PlatformParamsScope) => {
-      const [instance, args] = await Promise.all([this.injector.invoke<any>(token, scope.$ctx.container), getArguments(scope)]);
+      const container = provider.scope === ProviderScope.REQUEST ? scope.$ctx.container : undefined;
+      const [instance, args] = await Promise.all([this.injector.invoke<any>(token, container), getArguments(scope)]);
 
       return instance[propertyKey].call(instance, ...args, scope.$ctx);
     };

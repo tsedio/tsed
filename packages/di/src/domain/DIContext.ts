@@ -106,7 +106,6 @@ export class DIContext {
   }
 
   get<T = any>(key: any): T {
-    console.log(this.#cache);
     return this.#cache?.get(key);
   }
 

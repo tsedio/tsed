@@ -1,4 +1,4 @@
-import {InjectorService, setContext} from "@tsed/di";
+import {InjectorService} from "@tsed/di";
 import {v4} from "uuid";
 import {PlatformContext} from "../domain/PlatformContext";
 import {IncomingEvent} from "../interfaces/IncomingEvent";
@@ -46,8 +46,6 @@ export function createContext(injector: InjectorService) {
       event,
       id: reqIdBuilder(event.request)
     });
-
-    setContext($ctx);
 
     ignoreLog && $ctx.logger.alterIgnoreLog((ignore, data) => ignoreLog(ignore, data, $ctx.url));
 
