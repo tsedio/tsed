@@ -1,5 +1,6 @@
 import {decoratorTypeOf, DecoratorTypes, isPromise, Metadata, Store, UnsupportedDecoratorType} from "@tsed/core";
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
+import {InvalidPropertyTokenError} from "../errors/InvalidPropertyTokenError";
 import type {InjectablePropertyOptions} from "../interfaces/InjectableProperties";
 import {getContext} from "../utils/asyncHookContext";
 
@@ -47,6 +48,12 @@ export function Inject(symbol?: any, onGet = (bean: any) => bean): Function {
         break;
 
       case DecoratorTypes.PROP:
+        const useType = symbol || Metadata.getType(target, propertyKey);
+
+        if (useType === Object) {
+          throw new InvalidPropertyTokenError(target, propertyKey);
+        }
+
         injectProperty(target, propertyKey, {
           resolver(injector, locals, {options, ...invokeOptions}) {
             locals.set(DI_PARAM_OPTIONS, {...options});
@@ -54,7 +61,6 @@ export function Inject(symbol?: any, onGet = (bean: any) => bean): Function {
             let bean: any;
 
             if (!bean) {
-              const useType = symbol || Metadata.getType(target, propertyKey);
               bean = injector.invoke(useType, locals, invokeOptions);
               locals.delete(DI_PARAM_OPTIONS);
             }

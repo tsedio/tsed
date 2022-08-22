@@ -1,4 +1,5 @@
-import {descriptorOf, Metadata, Store} from "@tsed/core";
+import {catchError, descriptorOf, Metadata, Store} from "@tsed/core";
+import {Required} from "@tsed/schema";
 import {Inject, Injectable, InjectorService} from "../../src";
 import {INJECTABLE_PROP} from "../constants/constants";
 
@@ -45,7 +46,7 @@ describe("@Inject()", () => {
   });
 
   describe("used on property", () => {
-    it("should store metadata", async () => {
+    it("should store metadata from inferred type", async () => {
       // GIVEN
       @Injectable()
       class Test {
@@ -59,8 +60,7 @@ describe("@Inject()", () => {
       expect(instance).toBeInstanceOf(Test);
       expect(instance.test).toBeInstanceOf(InjectorService);
     });
-
-    it("should store metadata", async () => {
+    it("should store metadata from given type", async () => {
       // GIVEN
       @Injectable()
       class Test {
@@ -73,6 +73,20 @@ describe("@Inject()", () => {
 
       expect(instance).toBeInstanceOf(Test);
       expect(instance.test).toBeInstanceOf(InjectorService);
+    });
+    it("should catch error when an object is given as token provider", async () => {
+      // GIVEN
+      @Injectable()
+      class Test {
+        @Required()
+        test: Object;
+      }
+
+      const error = catchError(() => {
+        Inject()(Test.prototype, "test");
+      });
+
+      expect(error?.message).toMatchSnapshot();
     });
   });
 
