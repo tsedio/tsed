@@ -1,12 +1,13 @@
 import {AjvService} from "@tsed/ajv";
-import {isArray, isObject, nameOf, Type} from "@tsed/core";
+import {isArray, nameOf, Type} from "@tsed/core";
 import {Configuration, Inject, Opts} from "@tsed/di";
-import {deserialize, serialize} from "@tsed/json-mapper";
+import {deserialize, JsonDeserializerOptions, JsonSerializerOptions, serialize} from "@tsed/json-mapper";
 import {getPropertiesStores} from "@tsed/schema";
 
 export interface AdapterConstructorOptions<T = any> {
   model: Type<T> | Object;
   collectionName?: string;
+  useAlias?: string;
   indexes?: {
     [propertyKey: string]: Record<string, any>;
   };
@@ -42,7 +43,7 @@ export abstract class Adapter<Model = any> {
   readonly indexes: {propertyKey: string; options: any}[];
 
   @Inject()
-  private ajvService: AjvService;
+  protected ajvService: AjvService;
 
   constructor(@Opts options: AdapterConstructorOptions, @Configuration() protected configuration: Configuration) {
     this.model = options.model;
@@ -60,6 +61,7 @@ export abstract class Adapter<Model = any> {
   async validate(value: Model): Promise<void> {
     if (this.getModel()) {
       await this.ajvService.validate(this.serialize(value), {
+        useAlias: false,
         type: this.model
       });
     }
@@ -100,16 +102,19 @@ export abstract class Adapter<Model = any> {
     return item;
   }
 
-  protected deserialize(obj: any) {
+  protected deserialize(obj: any, opts?: JsonDeserializerOptions) {
     return deserialize(obj, {
-      type: this.getModel(),
-      useAlias: false
+      useAlias: false,
+      ...opts,
+      type: this.getModel()
     });
   }
 
-  protected serialize(obj: any) {
+  protected serialize(obj: any, opts?: JsonSerializerOptions) {
     return serialize(obj, {
-      useAlias: false
+      useAlias: false,
+      ...opts,
+      type: this.getModel()
     });
   }
 }
