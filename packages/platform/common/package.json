@@ -75,7 +75,6 @@
     "@tsed/logger": ">=6.2.0",
     "@tsed/logger-file": ">=6.2.0",
     "@tsed/perf": "7.0.0-rc.1",
-    "@tsed/platform-cache": "7.0.0-rc.1",
     "@tsed/platform-exceptions": "7.0.0-rc.1",
     "@tsed/platform-log-middleware": "7.0.0-rc.1",
     "@tsed/platform-middlewares": "7.0.0-rc.1",
@@ -85,8 +84,6 @@
     "@tsed/platform-views": "7.0.0-rc.1",
     "@tsed/schema": "7.0.0-rc.1",
     "@types/json-schema": "7.0.11",
-    "@types/on-finished": "2.3.1",
-    "on-finished": "2.4.1",
     "tslib": "2.4.0",
     "uuid": "8.3.2"
   },

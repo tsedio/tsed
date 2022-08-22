@@ -28,6 +28,7 @@ export * from "./domain/Provider";
 export * from "./domain/ProviderScope";
 export * from "./domain/ProviderType";
 export * from "./errors/InjectionError";
+export * from "./errors/InvalidPropertyTokenError";
 export * from "./errors/UndefinedTokenError";
 export * from "./interfaces/AlterRunInContext";
 export * from "./interfaces/DIConfigurationOptions";
