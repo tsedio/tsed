@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-serverless-http",
-  "version": "7.0.0-rc.1",
+  "version": "7.0.0-rc.2",
   "description": "Module to support Serverless HTTP function with Ts.ED",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -61,21 +61,21 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.0.0-rc.1",
-    "@tsed/core": "7.0.0-rc.1",
-    "@tsed/di": "7.0.0-rc.1",
-    "@tsed/platform-serverless-testing": "7.0.0-rc.1",
+    "@tsed/common": "7.0.0-rc.2",
+    "@tsed/core": "7.0.0-rc.2",
+    "@tsed/di": "7.0.0-rc.2",
+    "@tsed/platform-serverless-testing": "7.0.0-rc.2",
     "aws-lambda": "^1.0.7",
     "serverless-http": "^2.7.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.0.0-rc.1",
-    "@tsed/core": "^7.0.0-rc.1",
-    "@tsed/di": "^7.0.0-rc.1",
-    "@tsed/json-mapper": "^7.0.0-rc.1",
+    "@tsed/common": "^7.0.0-rc.2",
+    "@tsed/core": "^7.0.0-rc.2",
+    "@tsed/di": "^7.0.0-rc.2",
+    "@tsed/json-mapper": "^7.0.0-rc.2",
     "@tsed/logger": ">=6.2.0",
-    "@tsed/openspec": "^7.0.0-rc.1",
-    "@tsed/schema": "^7.0.0-rc.1",
+    "@tsed/openspec": "^7.0.0-rc.2",
+    "@tsed/schema": "^7.0.0-rc.2",
     "aws-lambda": ">=1.0.7",
     "serverless-http": ">=2.0.0"
   },

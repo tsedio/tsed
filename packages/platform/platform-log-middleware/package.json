@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-log-middleware",
-  "version": "7.0.0-rc.1",
+  "version": "7.0.0-rc.2",
   "description": "Log request middleware module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -24,14 +24,14 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/di": "7.0.0-rc.1",
-    "@tsed/platform-middlewares": "7.0.0-rc.1",
-    "@tsed/platform-params": "7.0.0-rc.1"
+    "@tsed/di": "7.0.0-rc.2",
+    "@tsed/platform-middlewares": "7.0.0-rc.2",
+    "@tsed/platform-params": "7.0.0-rc.2"
   },
   "peerDependencies": {
-    "@tsed/di": "^7.0.0-rc.1",
-    "@tsed/platform-middlewares": "^7.0.0-rc.1",
-    "@tsed/platform-params": "^7.0.0-rc.1"
+    "@tsed/di": "^7.0.0-rc.2",
+    "@tsed/platform-middlewares": "^7.0.0-rc.2",
+    "@tsed/platform-params": "^7.0.0-rc.2"
   },
   "peerDependenciesMeta": {
     "@tsed/di": {
