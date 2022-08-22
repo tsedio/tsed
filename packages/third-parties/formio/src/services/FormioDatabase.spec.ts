@@ -18,7 +18,9 @@ async function createServiceFixture() {
           static lean = jest.fn().mockReturnThis();
           static exec = jest.fn();
 
-          constructor(public ctrOpts: any) {}
+          constructor(public ctrOpts: any) {
+            Object.assign(this, ctrOpts);
+          }
 
           save(): any {}
 
@@ -29,9 +31,16 @@ async function createServiceFixture() {
         action: {
           find: jest.fn().mockResolvedValue([{_id: "action_id", machineName: "action_machine"}])
         },
-        submission: {
-          find: jest.fn().mockResolvedValue([]),
-          findOneAndUpdate: jest.fn().mockImplementation((o, o1) => ({...o, ...o1, _id: o._id || "newID"}))
+        submission: class {
+          static find = jest.fn().mockResolvedValue([]);
+          static findOneAndUpdate = jest.fn().mockImplementation((o, o1) => ({...o, ...o1}));
+
+          constructor(o: any) {
+            Object.assign(this, {
+              ...o,
+              _id: o._id || "newID"
+            });
+          }
         },
         token: {},
         actionItem: {}
@@ -229,7 +238,14 @@ describe("FormioDatabase", () => {
         _id: "newID",
         data: {}
       });
-      expect(service.submissionModel.findOneAndUpdate).toHaveBeenCalledWith({_id: undefined}, {data: {}}, {new: true, upsert: true});
+      expect(service.submissionModel.findOneAndUpdate).toHaveBeenCalledWith(
+        {_id: "newID"},
+        {_id: "newID", data: {}},
+        {
+          new: true,
+          upsert: true
+        }
+      );
     });
     it("should update submission", async () => {
       const {service} = await createServiceFixture();
@@ -243,7 +259,14 @@ describe("FormioDatabase", () => {
         _id: "id",
         data: {}
       });
-      expect(service.submissionModel.findOneAndUpdate).toHaveBeenCalledWith({_id: "id"}, {_id: "id", data: {}}, {new: true, upsert: true});
+      expect(service.submissionModel.findOneAndUpdate).toHaveBeenCalledWith(
+        {_id: "id"},
+        {
+          _id: "id",
+          data: {}
+        },
+        {new: true, upsert: true}
+      );
     });
   });
   describe("importSubmission()", () => {

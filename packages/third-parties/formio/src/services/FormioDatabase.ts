@@ -115,7 +115,7 @@ export class FormioDatabase {
   }
 
   async saveForm(form: FormioForm) {
-    form = omit(form, ["__v"]) as any;
+    form = new this.formModel(omit(form, ["__v"]) as any);
 
     return this.formModel.findOneAndUpdate({_id: form._id}, form, {upsert: true, new: true});
   }
@@ -141,7 +141,7 @@ export class FormioDatabase {
   }
 
   async saveSubmission<Data = any>(submission: Partial<FormioSubmission<Data>>) {
-    submission = omit(submission, ["__v"]);
+    submission = new this.submissionModel(omit(submission, ["__v"]));
 
     return this.submissionModel.findOneAndUpdate(
       {
