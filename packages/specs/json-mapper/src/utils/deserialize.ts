@@ -132,7 +132,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   const additionalProperties = getAdditionalProperties(propertiesMap.size, store, options);
   src = alterBeforeDeserialize(src, store.schema, options);
 
-  const out: any = new type(src);
+  const out: any = new type({});
 
   propertiesMap.forEach((propStore) => {
     const key = options.useAlias
