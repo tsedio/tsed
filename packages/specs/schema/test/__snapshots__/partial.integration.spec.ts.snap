@@ -1,0 +1,135 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Partial should generate spec 1`] = `
+Object {
+  "components": Object {
+    "schemas": Object {
+      "Model": Object {
+        "properties": Object {
+          "id": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "items": Object {
+            "items": Object {
+              "$ref": "#/components/schemas/Product",
+            },
+            "type": "array",
+          },
+          "title": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+        },
+        "required": Array [
+          "id",
+          "title",
+        ],
+        "type": "object",
+      },
+      "ModelPartial": Object {
+        "properties": Object {
+          "items": Object {
+            "items": Object {
+              "$ref": "#/components/schemas/Product",
+            },
+            "type": "array",
+          },
+          "title": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+      "Product": Object {
+        "properties": Object {
+          "id": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "title": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+        },
+        "required": Array [
+          "id",
+          "title",
+        ],
+        "type": "object",
+      },
+    },
+  },
+  "paths": Object {
+    "/{id}": Object {
+      "patch": Object {
+        "operationId": "myControllerPatch",
+        "parameters": Array [
+          Object {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": Object {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "$ref": "#/components/schemas/ModelPartial",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "MyController",
+        ],
+      },
+      "post": Object {
+        "operationId": "myControllerPost",
+        "parameters": Array [
+          Object {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": Object {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "$ref": "#/components/schemas/Model",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "MyController",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "MyController",
+    },
+  ],
+}
+`;

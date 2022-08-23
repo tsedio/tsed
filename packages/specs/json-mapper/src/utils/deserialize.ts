@@ -1,5 +1,5 @@
 import {isArray, isBoolean, isClass, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
-import {alterIgnore, getProperties, JsonClassStore, JsonEntityStore, JsonHookContext, JsonPropertyStore, JsonSchema} from "@tsed/schema";
+import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonPropertyStore, JsonSchema} from "@tsed/schema";
 import "../components/ArrayMapper";
 import "../components/DateMapper";
 import "../components/MapMapper";
@@ -156,8 +156,12 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
       collectionType: propStore.collectionType
     });
 
-    if (value !== undefined && !propStore.schema.isReadOnly) {
-      out[propStore.propertyName] = value;
+    if (!propStore.schema.isReadOnly) {
+      if (value !== undefined) {
+        out[propStore.propertyName] = value;
+      } else if (options.partial) {
+        delete out[propStore.propertyName];
+      }
     }
   });
 
@@ -195,6 +199,7 @@ function buildOptions(options: JsonDeserializerOptions<any, any>): any {
     groups: false,
     useAlias: true,
     ...options,
+    partial: options.groups ? options.groups.includes("partial") : false,
     type: options.type ? options.type : undefined,
     types: options.types ? options.types : getJsonMapperTypes()
   };
