@@ -1,6 +1,6 @@
 {
   "name": "@tsed/formio",
-  "version": "6.128.4",
+  "version": "6.128.5",
   "description": "Formio package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -30,14 +30,14 @@
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
-    "@tsed/formio-types": "6.128.4",
+    "@tsed/formio-types": "6.128.5",
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.128.4",
-    "@tsed/core": "6.128.4",
-    "@tsed/di": "6.128.4",
-    "@tsed/mongoose": "6.128.4",
+    "@tsed/common": "6.128.5",
+    "@tsed/core": "6.128.5",
+    "@tsed/di": "6.128.5",
+    "@tsed/mongoose": "6.128.5",
     "@types/async": "3.2.12",
     "express": "^4.17.1",
     "formio": "^2.0.0",
@@ -45,7 +45,7 @@
     "mongoose": "^6.1.7"
   },
   "peerDependencies": {
-    "@tsed/common": "^6.128.4",
+    "@tsed/common": "^6.128.5",
     "express": "^4.17.1",
     "formio": "^2.0.0",
     "lodash": "^4.17.21",
