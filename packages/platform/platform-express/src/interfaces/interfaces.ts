@@ -1,4 +1,4 @@
-import Express from "express";
+import {NextFunction as ENext, Request as EReq, Response as ERes} from "express";
 import {PlatformExpressSettings} from "./PlatformExpressSettings";
 
 declare global {
@@ -10,6 +10,9 @@ declare global {
       express: PlatformExpressSettings;
     }
 
-    export interface NextFunction extends Express.NextFunction {}
+    export interface NextFunction extends ENext {}
+
+    export interface Response extends ERes {}
+    export interface Request extends EReq {}
   }
 }
