@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-serverless",
-  "version": "7.0.0-beta.19",
+  "version": "7.0.0-beta.20",
   "description": "Platform serverless module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -21,26 +21,26 @@
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
-    "@tsed/core": "7.0.0-beta.19",
-    "@tsed/exceptions": "7.0.0-beta.19",
-    "@tsed/json-mapper": "7.0.0-beta.19",
-    "@tsed/platform-exceptions": "7.0.0-beta.19",
-    "@tsed/platform-params": "7.0.0-beta.19",
-    "@tsed/schema": "7.0.0-beta.19",
+    "@tsed/core": "7.0.0-beta.20",
+    "@tsed/exceptions": "7.0.0-beta.20",
+    "@tsed/json-mapper": "7.0.0-beta.20",
+    "@tsed/platform-exceptions": "7.0.0-beta.20",
+    "@tsed/platform-params": "7.0.0-beta.20",
+    "@tsed/schema": "7.0.0-beta.20",
     "encodeurl": "^1.0.2",
     "mime": "^2.5.2",
     "tslib": "2.4.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@tsed/platform-serverless-testing": "7.0.0-beta.19",
+    "@tsed/platform-serverless-testing": "7.0.0-beta.20",
     "@types/aws-lambda": "^8.10.83",
     "@types/encodeurl": "^1.0.0",
     "@types/mime": "^2.0.3",
     "find-my-way": "^7.0.0"
   },
   "peerDependencies": {
-    "@tsed/di": "^7.0.0-beta.19",
+    "@tsed/di": "^7.0.0-beta.20",
     "@tsed/logger": ">=6.2.0"
   },
   "peerDependenciesMeta": {

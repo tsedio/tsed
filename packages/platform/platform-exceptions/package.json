@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-exceptions",
-  "version": "7.0.0-beta.19",
+  "version": "7.0.0-beta.20",
   "description": "Platform exceptions module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -24,16 +24,16 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.0.0-beta.19",
-    "@tsed/di": "7.0.0-beta.19",
-    "@tsed/exceptions": "7.0.0-beta.19",
-    "@tsed/schema": "7.0.0-beta.19"
+    "@tsed/core": "7.0.0-beta.20",
+    "@tsed/di": "7.0.0-beta.20",
+    "@tsed/exceptions": "7.0.0-beta.20",
+    "@tsed/schema": "7.0.0-beta.20"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.0.0-beta.19",
-    "@tsed/di": "^7.0.0-beta.19",
-    "@tsed/exceptions": "^7.0.0-beta.19",
-    "@tsed/schema": "^7.0.0-beta.19"
+    "@tsed/core": "^7.0.0-beta.20",
+    "@tsed/di": "^7.0.0-beta.20",
+    "@tsed/exceptions": "^7.0.0-beta.20",
+    "@tsed/schema": "^7.0.0-beta.20"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
