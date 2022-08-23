@@ -73,7 +73,7 @@
     "@tsed/core": "^6.128.4",
     "@tsed/di": "^6.128.4",
     "@tsed/json-mapper": "^6.128.4",
-    "@tsed/logger": ">=6.2.0",
+    "@tsed/logger": ">=6.2.2",
     "@tsed/openspec": "^6.128.4",
     "@tsed/schema": "^6.128.4",
     "aws-lambda": ">=1.0.7",

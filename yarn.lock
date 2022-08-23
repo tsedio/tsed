@@ -3652,26 +3652,26 @@
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
 
-"@tsed/logger-file@>=6.2.0":
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/@tsed/logger-file/-/logger-file-6.2.0.tgz#d0e56f5fc658b81f0b8123197530c987fb445978"
-  integrity sha512-yDiHQ54pC/BJkC6F5vgbuoyty89LoBU+IGlELwPNzUWM0N5kxcd9XAZEwEecPf4M+yAXwuyOjbnhqLNtYM7guQ==
+"@tsed/logger-file@>=6.2.2":
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/@tsed/logger-file/-/logger-file-6.2.2.tgz#ffd1f9ab1a0e09160433676976c370a0800ba674"
+  integrity sha512-LLoHK5JYcKNTG/kB7OVbo73crLBl27R3xBOyuyULqwuQD0NJHFE99hseH4EoqZ1lRblVstbP4YpJqKuDx2xqzA==
   dependencies:
     streamroller "3.0.6"
     tslib "2.3.1"
 
-"@tsed/logger-seq@>=6.2.0":
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/@tsed/logger-seq/-/logger-seq-6.2.0.tgz#683da5597a340ba3bafbb2aaec73e526eafc29b3"
-  integrity sha512-ejfyeUMY5wSM0USLUJK19fsJXK37D3NHsUaF9nOtJGEyusbM57XcMXO5Yql9or7N7krw3w7ilKIXsewvYJdE6g==
+"@tsed/logger-seq@>=6.2.2":
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/@tsed/logger-seq/-/logger-seq-6.2.2.tgz#c2ed22c413484a40c6a4dbbd66dbf5ebcf827685"
+  integrity sha512-qI8f6y1RL1padfStzKWnjmCGALJ/TmCm3uak9ar6n0kKdsp0rzCnqQ44vWFNRM3mWzGefjbGCav1js763GeC0A==
   dependencies:
     seq-logging "1.1.1"
     tslib "2.3.1"
 
-"@tsed/logger@>=6.2.0":
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-6.2.0.tgz#37c6dd0c2e83e372942dd8923c93997caad2205f"
-  integrity sha512-K9AjG58c8o9kWOVYHeB3dCCfWUTrOnuUBKOkolDOTxSdqCN9iIaWGpqyWLuEH++xrjt1HwDV3ZQOJjeZwCSYxw==
+"@tsed/logger@>=6.2.2":
+  version "6.2.2"
+  resolved "https://registry.yarnpkg.com/@tsed/logger/-/logger-6.2.2.tgz#debf9f053b450d0e6c6c6ec995684aed511a4056"
+  integrity sha512-V3iZVZVPWunhRtRR7qvjTiuvGRSEVOA4ALAUzR69QIRihucZ7EnrFRwUJE5dz5GlzmfkbzbiMIrxp3e5BhBF6Q==
   dependencies:
     colors "1.4.0"
     date-format "^4.0.6"

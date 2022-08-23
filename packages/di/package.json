@@ -25,12 +25,12 @@
   },
   "devDependencies": {
     "@tsed/core": "6.128.4",
-    "@tsed/logger": ">=6.2.0",
+    "@tsed/logger": ">=6.2.2",
     "@tsed/schema": "6.128.4"
   },
   "peerDependencies": {
     "@tsed/core": "^6.128.4",
-    "@tsed/logger": ">=6.2.0",
+    "@tsed/logger": ">=6.2.2",
     "@tsed/schema": "^6.128.4"
   },
   "peerDependenciesMeta": {
