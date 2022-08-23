@@ -40,6 +40,6 @@
     "@tsed/common": "^7.0.0-rc.3",
     "@tsed/core": "^7.0.0-rc.3",
     "@tsed/di": "^7.0.0-rc.3",
-    "@tsed/logger": ">=6.2.0"
+    "@tsed/logger": ">=6.2.2"
   }
 }

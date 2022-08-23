@@ -89,7 +89,7 @@
     "@tsed/core": "^7.0.0-rc.3",
     "@tsed/di": "^7.0.0-rc.3",
     "@tsed/json-mapper": "^7.0.0-rc.3",
-    "@tsed/logger": ">=6.2.0",
+    "@tsed/logger": ">=6.2.2",
     "@tsed/openspec": "^7.0.0-rc.3",
     "@tsed/schema": "^7.0.0-rc.3",
     "koa": ">=2.13.0",

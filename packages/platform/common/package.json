@@ -72,8 +72,8 @@
     "@tsed/di": "7.0.0-rc.3",
     "@tsed/exceptions": "7.0.0-rc.3",
     "@tsed/json-mapper": "7.0.0-rc.3",
-    "@tsed/logger": ">=6.2.0",
-    "@tsed/logger-file": ">=6.2.0",
+    "@tsed/logger": ">=6.2.2",
+    "@tsed/logger-file": ">=6.2.2",
     "@tsed/perf": "7.0.0-rc.3",
     "@tsed/platform-exceptions": "7.0.0-rc.3",
     "@tsed/platform-log-middleware": "7.0.0-rc.3",
@@ -88,8 +88,8 @@
     "uuid": "8.3.2"
   },
   "peerDependencies": {
-    "@tsed/logger": ">=6.2.0",
-    "@tsed/logger-file": ">=6.2.0"
+    "@tsed/logger": ">=6.2.2",
+    "@tsed/logger-file": ">=6.2.2"
   },
   "peerDependenciesMeta": {
     "@tsed/logger": {
