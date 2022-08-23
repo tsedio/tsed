@@ -1,6 +1,6 @@
 {
   "name": "@tsed/socketio",
-  "version": "6.128.3",
+  "version": "6.128.4",
   "description": "Socket.io package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -32,23 +32,23 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/common": "6.128.3",
-    "@tsed/core": "6.128.3",
-    "@tsed/di": "6.128.3",
-    "@tsed/json-mapper": "6.128.3",
-    "@tsed/openspec": "6.128.3",
-    "@tsed/platform-middlewares": "6.128.3",
-    "@tsed/schema": "6.128.3",
+    "@tsed/common": "6.128.4",
+    "@tsed/core": "6.128.4",
+    "@tsed/di": "6.128.4",
+    "@tsed/json-mapper": "6.128.4",
+    "@tsed/openspec": "6.128.4",
+    "@tsed/platform-middlewares": "6.128.4",
+    "@tsed/schema": "6.128.4",
     "express": "^4.17.1",
     "socket.io": "4.4.1",
     "socket.io-client": "^4.1.2"
   },
   "peerDependencies": {
-    "@tsed/di": "^6.128.3",
-    "@tsed/json-mapper": "^6.128.3",
+    "@tsed/di": "^6.128.4",
+    "@tsed/json-mapper": "^6.128.4",
     "@tsed/logger": ">=6.2.0",
-    "@tsed/platform-middlewares": "^6.128.3",
-    "@tsed/schema": "^6.128.3",
+    "@tsed/platform-middlewares": "^6.128.4",
+    "@tsed/schema": "^6.128.4",
     "socket.io": ">=4.0.0"
   },
   "peerDependenciesMeta": {
