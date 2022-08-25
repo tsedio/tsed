@@ -113,13 +113,6 @@ export abstract class Adapter<Model = any> {
   }
 
   protected serialize(obj: any, opts?: JsonSerializerOptions) {
-    console.log(
-      serialize(obj, {
-        useAlias: this.useAlias,
-        ...opts,
-        type: this.getModel()
-      })
-    );
     return serialize(obj, {
       useAlias: this.useAlias,
       ...opts,
