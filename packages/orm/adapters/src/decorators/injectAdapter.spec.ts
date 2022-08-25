@@ -1,6 +1,7 @@
 import {Adapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {Injectable} from "@tsed/di";
+import {Name, Property} from "@tsed/schema";
 import {MemoryAdapter} from "../adapters/MemoryAdapter";
 import {InjectAdapter} from "./injectAdapter";
 
@@ -8,7 +9,13 @@ describe("InjectAdapter", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.create());
   it("should inject adapter (model and collectionName)", async () => {
-    class Client {}
+    class Client {
+      @Property()
+      _id: string;
+
+      @Name("client_id")
+      clientId: string;
+    }
 
     const stub = jest.fn();
 
@@ -28,6 +35,61 @@ describe("InjectAdapter", () => {
     expect(stub).toHaveBeenCalledWith();
     expect(clients.adapter.collectionName).toBe("client");
     expect(clients.adapter.model).toBe(Client);
+
+    const client = new Client();
+    client.clientId = "test";
+
+    await clients.adapter.create(client);
+
+    const items = (clients.adapter as MemoryAdapter<Client>).collection.value();
+    expect(items).toEqual([
+      {
+        _id: expect.any(String),
+        clientId: "test"
+      }
+    ]);
+  });
+  it("should inject adapter (model, collectionName and useAlias true)", async () => {
+    class Client {
+      @Property()
+      _id: string;
+
+      @Name("client_id")
+      clientId: string;
+    }
+
+    const stub = jest.fn();
+
+    @Injectable()
+    class Clients {
+      @InjectAdapter("client", Client, {useAlias: true})
+      adapter: Adapter<Client>;
+
+      $onInit() {
+        stub();
+      }
+    }
+
+    const clients = await PlatformTest.invoke<Clients>(Clients);
+
+    expect(clients.adapter).toBeInstanceOf(MemoryAdapter);
+    expect(stub).toHaveBeenCalledWith();
+    expect(clients.adapter.collectionName).toBe("client");
+    expect(clients.adapter.model).toBe(Client);
+    expect(clients.adapter.useAlias).toEqual(true);
+
+    const client = new Client();
+    client.clientId = "test";
+
+    await clients.adapter.create(client);
+
+    const items = (clients.adapter as MemoryAdapter<Client>).collection.value();
+    expect(items).toEqual([
+      {
+        _id: expect.any(String),
+        client_id: "test"
+      }
+    ]);
   });
   it("should inject adapter (model only)", async () => {
     class Client {}

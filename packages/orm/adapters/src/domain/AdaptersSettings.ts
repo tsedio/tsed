@@ -16,8 +16,6 @@ export interface AdaptersSettings {
 
 declare global {
   namespace TsED {
-    interface AdaptersOptions extends AdaptersSettings {}
-
     interface Configuration {
       adapters: AdaptersSettings;
     }

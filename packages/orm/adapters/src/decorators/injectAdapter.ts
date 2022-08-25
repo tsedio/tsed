@@ -23,8 +23,12 @@ function mapOptions(args: any[]): AdapterInvokeOptions {
 }
 
 export function InjectAdapter(options: AdapterInvokeOptions): PropertyDecorator;
-export function InjectAdapter(model: Type<any>, options?: Partial<AdapterInvokeOptions>): PropertyDecorator;
-export function InjectAdapter(collectionName: string, model: Type<any>, options?: Partial<AdapterInvokeOptions>): PropertyDecorator;
+export function InjectAdapter(model: Type<any>, options?: Partial<Omit<AdapterInvokeOptions, "client">>): PropertyDecorator;
+export function InjectAdapter(
+  collectionName: string,
+  model: Type<any>,
+  options?: Partial<Omit<AdapterInvokeOptions, "collectionName" | "client">>
+): PropertyDecorator;
 export function InjectAdapter(...args: any[]): PropertyDecorator {
   const options: AdapterInvokeOptions = mapOptions(args);
 
