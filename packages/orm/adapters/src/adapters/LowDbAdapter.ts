@@ -2,6 +2,7 @@ import {cleanObject} from "@tsed/core";
 import isMatch from "lodash/isMatch";
 import low from "lowdb";
 import {v4 as uuid} from "uuid";
+import {deserialize} from "v8";
 import {Adapter} from "../domain/Adapter";
 
 export interface AdapterModel {
@@ -63,12 +64,13 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
       return;
     }
 
-    let item = this.collection.get(index).value();
+    let item = this.deserialize(this.collection.get(index).value());
 
     item = {
-      _id: item._id,
       expires_at: expiresAt || item.expires_at,
-      ...this.updateInstance(item, payload)
+      ...item,
+      ...payload,
+      _id: item._id
     };
 
     await this.validate(item as T);

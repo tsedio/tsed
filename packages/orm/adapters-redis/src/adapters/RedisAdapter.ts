@@ -44,7 +44,8 @@ export class RedisAdapter<T extends AdapterModel> extends Adapter<T> {
 
     return this.insert(
       {
-        ...this.updateInstance(item, payload),
+        ...item,
+        ...payload,
         _id: item._id
       },
       expiresAt
