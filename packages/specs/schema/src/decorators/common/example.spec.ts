@@ -1,5 +1,5 @@
 import {descriptorOf, useDecorators} from "@tsed/core";
-import {Description, getSpec, In, Name, OperationPath, Path, Pattern, SpecTypes} from "@tsed/schema";
+import {CollectionOf, Description, getSpec, In, Name, OperationPath, Path, Pattern, SpecTypes} from "@tsed/schema";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Example} from "./example";
 
@@ -84,6 +84,30 @@ describe("@Example", () => {
         method: {
           examples: ["Examples"],
           type: "string"
+        }
+      },
+      type: "object"
+    });
+  });
+
+  it("should declare description on collection property", () => {
+    // WHEN
+
+    class Model {
+      @Example("Examples")
+      @CollectionOf(String)
+      collection: string[];
+    }
+
+    // THEN
+    expect(getJsonSchema(Model)).toEqual({
+      properties: {
+        collection: {
+          items: {
+            examples: ["Examples"],
+            type: "string"
+          },
+          type: "array"
         }
       },
       type: "object"

@@ -13,6 +13,6 @@ import {JsonEntityFn} from "./jsonEntityFn";
  */
 export function Example(...examples: any[]): Function {
   return JsonEntityFn((store: JsonEntityStore) => {
-    store.schema.examples(examples);
+    store.itemSchema.examples(examples);
   });
 }
