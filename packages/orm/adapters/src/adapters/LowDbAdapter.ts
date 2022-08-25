@@ -32,7 +32,7 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
 
     await this.validate(payload as T);
 
-    await this.collection.push(payload as T).write();
+    await this.collection.push(this.serialize(payload) as T).write();
 
     return this.deserialize(payload);
   }
@@ -44,7 +44,7 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
       payload = {...payload, _id: id || uuid(), expires_at: expiresAt};
 
       await this.validate(payload as T);
-      await this.collection.push(payload as T).write();
+      await this.collection.push(this.serialize(payload) as T).write();
 
       return this.deserialize(payload);
     }

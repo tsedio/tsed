@@ -41,6 +41,7 @@ export abstract class Adapter<Model = any> {
   readonly model: Type<Model> | Object;
   readonly collectionName: string;
   readonly indexes: {propertyKey: string; options: any}[];
+  readonly useAlias: boolean = false;
 
   @Inject()
   protected ajvService: AjvService;
@@ -56,12 +57,13 @@ export abstract class Adapter<Model = any> {
     }
 
     this.indexes = indexes;
+    this.useAlias = !!options.useAlias;
   }
 
   async validate(value: Model): Promise<void> {
     if (this.getModel()) {
       await this.ajvService.validate(this.serialize(value), {
-        useAlias: false,
+        useAlias: this.useAlias,
         type: this.model
       });
     }
@@ -104,15 +106,22 @@ export abstract class Adapter<Model = any> {
 
   protected deserialize(obj: any, opts?: JsonDeserializerOptions) {
     return deserialize(obj, {
-      useAlias: false,
+      useAlias: this.useAlias,
       ...opts,
       type: this.getModel()
     });
   }
 
   protected serialize(obj: any, opts?: JsonSerializerOptions) {
+    console.log(
+      serialize(obj, {
+        useAlias: this.useAlias,
+        ...opts,
+        type: this.getModel()
+      })
+    );
     return serialize(obj, {
-      useAlias: false,
+      useAlias: this.useAlias,
       ...opts,
       type: this.getModel()
     });
