@@ -93,17 +93,6 @@ export abstract class Adapter<Model = any> {
     return (this.model as unknown) !== Object ? this.model : undefined;
   }
 
-  protected updateInstance(src: any, payload: any) {
-    const item = Object.assign({
-      ...this.serialize(src),
-      ...this.serialize(payload)
-    });
-
-    item.expires_at = item.expires_at ? new Date(item.expires_at) : item.expires_at;
-
-    return item;
-  }
-
   protected deserialize(obj: any, opts?: JsonDeserializerOptions) {
     return deserialize(obj, {
       useAlias: this.useAlias,
