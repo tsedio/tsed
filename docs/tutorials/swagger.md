@@ -44,8 +44,8 @@ Then add the following configuration in your Server:
 ::: tip
 The path option for Swagger will be used to expose the documentation:
 
-- OAS2: [http://localhost:8000/v2/doc](http://localhost:8000/v2/doc)
-- OAS3: [http://localhost:8000/v3/doc](http://localhost:8000/v3/doc)
+- OAS2: `http://localhost:8000/v2/doc`
+- OAS3: `http://localhost:8000/v3/doc`
 
 Ts.ED will print the swagger-ui url in the console.
 :::

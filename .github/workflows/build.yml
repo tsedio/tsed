@@ -283,27 +283,5 @@ jobs:
   publish-docs:
     runs-on: ubuntu-latest
     needs: deploy-packages
-    strategy:
-      matrix:
-        node-version: [16.x]
-
     steps:
-      - uses: actions/checkout@v2
-        with:
-          ref: "beta"
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000
-      - name: Build pages
-        env:
-          CI: true
-        run: yarn api:build && yarn vuepress:docs:build
-      - name: Publish pages
-        env:
-          CI: true
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: yarn docs:publish
+      - run: gh workflow run website.yml --ref $GITHUB_REF_NAME

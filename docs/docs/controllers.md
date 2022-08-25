@@ -323,7 +323,7 @@ class MyCtrl {
 }
 ```
 
-Redirects can be relative to the current URL. For example, from http://example.com/blog/admin/ (notice the trailing slash), the following would redirect to the URL http://example.com/blog/admin/post/new.
+Redirects can be relative to the current URL. For example, from `http://example.com/blog/admin/` (notice the trailing slash), the following would redirect to the URL `http://example.com/blog/admin/post/new`.
 
 ```typescript
 @Controller("/")
@@ -333,11 +333,11 @@ class MyCtrl {
 }
 ```
 
-Redirecting to post/new from http://example.com/blog/admin (no trailing slash), will redirect to http://example.com/blog/post/new.
+Redirecting to post/new from `http://example.com/blog/admin` (no trailing slash), will redirect to `http://example.com/blog/post/new`.
 
 If you found the above behavior confusing, think of path segments as directories (with trailing slashes) and files, it will start to make sense.
 
-Path-relative redirects are also possible. If you were on http://example.com/admin/post/new, the following would redirect to http//example.com/admin/post:
+Path-relative redirects are also possible. If you were on `http://example.com/admin/post/new`, the following would redirect to `http//example.com/admin/post`:
 
 ```typescript
 @Controller("/")

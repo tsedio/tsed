@@ -71,8 +71,8 @@ Then, you can inject your socket service into another Service, Controller, etc. 
 
 - @@Args@@ &lt;any|any[]&gt;: List of the parameters sent by the input event.
 - @@Socket@@ &lt;SocketIO.Socket&gt;: Socket instance.
-- @@Namespace@@ &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
-- @@Nps@@ &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
+- @@Namespace@@ &lt;[SocketIO.Namespace](https://socket.io/docs/v4/namespaces/)&gt;: Namespace instance.
+- @@Nps@@ &lt;[SocketIO.Namespace](https://socket.io/docs/v4/namespaces/)&gt;: Namespace instance.
 
 ### Send a response
 

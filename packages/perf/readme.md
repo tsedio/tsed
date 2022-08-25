@@ -72,9 +72,9 @@ Will output:
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html).
+Please read [contributing guidelines here](https://tsed.io/contributing.html).
 
-<a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
+<a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
 ## Backers
 

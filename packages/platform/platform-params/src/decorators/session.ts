@@ -28,7 +28,7 @@ import {UseParam} from "./useParam";
  *    }
  * }
  * ```
- * > For more information on deserialization see [converters](/docs/converters.md) page.
+ * > For more information on deserialization see [converters](/docs/json-mapper.md) page.
  *
  * @param expression The path of the property to get.
  * @decorator

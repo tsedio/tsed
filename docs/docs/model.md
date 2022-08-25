@@ -13,7 +13,7 @@ equivalents.
 
 The classes models can be used in the following cases:
 
-- Data serialization and deserialization ([Json mapping](/docs/converters.md)),
+- Data serialization and deserialization with the ([Json mapper](/docs/json-mapper.md)),
 - Data validation with [AJV](/tutorials/ajv.md) or any library compatible with [JsonSchema](https://json-schema.org/),
 - Generating documentation with [Swagger](/tutorials/swagger.md).
 

@@ -1,4 +1,3 @@
-import VueAnalytics from "vue-analytics";
 import VueTsED from "vuepress-theme-tsed/src/install";
 import "./styles/style.css";
 import "prismjs/components/prism-groovy";
@@ -11,11 +10,6 @@ export default ({
 }) => {
   try {
     Vue.use(VueTsED);
-    //     Vue.component("ReleaseNote", ReleaseNote);
-    Vue.use(VueAnalytics, {
-      id: siteData.themeConfig.plugins["@vuepress/google-analytics"].ga,
-      router
-    });
   } catch (er) {
     console.warn("====", er);
   }

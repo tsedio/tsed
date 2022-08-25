@@ -76,6 +76,11 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             title: `Getting started | ${title}`
           },
           {
+            text: "Migration",
+            link: `${base}/getting-started/migration-from-v6`,
+            title: `Migrate from v6 | ${title}`
+          },
+          {
             text: "Documentation",
             link: `${base}/docs/controllers.html`,
             title: `Documentation | ${title}`,
@@ -98,7 +103,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               },
               {
                 text: "Json Mapper",
-                link: `${base}/docs/converters.html`
+                link: `${base}/docs/json-mapper.html`
               },
               {
                 text: "Middlewares",
@@ -312,8 +317,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             collapsable: true,
             children: [
               {
-                title: "Migrate from v5",
-                path: `${base}/getting-started/migration-from-v5`
+                title: "Migrate from v6",
+                path: `${base}/getting-started/migration-from-v6`
               },
               {
                 title: "Migrate from Express.js",
@@ -329,7 +334,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "Controllers", path: base + "/docs/controllers"},
               {title: "Providers", path: base + "/docs/providers"},
               {title: "Models", path: base + "/docs/model"},
-              {title: "Json Mapper", path: base + "/docs/converters"},
+              {title: "Json Mapper", path: base + "/docs/json-mapper"},
               {title: "Middlewares", path: base + "/docs/middlewares"},
               {title: "Pipes", path: base + "/docs/pipes"},
               {title: "Interceptors", path: base + "/docs/interceptors"},
@@ -421,7 +426,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
           base + "/docs/controllers",
           base + "/docs/providers",
           base + "/docs/model",
-          base + "/docs/converters",
+          base + "/docs/json-mapper",
           base + "/docs/middlewares",
           base + "/docs/pipes",
           base + "/docs/interceptors",
@@ -488,20 +493,25 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
         }
       }
     },
-    plugins: {
-      "@vuepress/google-analytics": {
-        ga: "UA-35240348-1"
-      },
-      "@vuepress/medium-zoom": {
-        selector: "figure img",
-        // medium-zoom options here
-        // See: https://github.com/francoischalifour/medium-zoom#options
-        options: {
-          margin: 16
-        }
-      }
-    },
     ...themeConfig
+  },
+  plugins: {
+    "@vuepress/html-redirect": {},
+    "@vuepress/pwa": {
+      serviceWorker: true,
+      updatePopup: true
+    },
+    "@vuepress/google-analytics": {
+      ga: "UA-35240348-1"
+    },
+    "@vuepress/plugin-medium-zoom": {
+      selector: "figure img",
+      // medium-zoom options here
+      // See: https://github.com/francoischalifour/medium-zoom#options
+      options: {
+        margin: 16
+      }
+    }
   },
   markdown: {
     lineNumbers: true,

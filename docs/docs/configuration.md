@@ -514,7 +514,7 @@ export class Server {}
 
 The configuration can be reused throughout your application in different ways.
 
-- With dependency injection in [Service](/docs/services.md), [Controller](/docs/controllers.md), [Middleware](/docs/middlewares.md), [Filter](/docs/filters.md) or [Converter](/docs/converters.md).
+- With dependency injection in [Controller](/docs/controllers.md), [Middleware](/docs/middlewares.md), [Pipe](/docs/pipes.md) or any [Injectable](/docs/services.md) services.
 - With the decorators @@Constant@@ and @@Value@@.
 
 ### From service (DI)

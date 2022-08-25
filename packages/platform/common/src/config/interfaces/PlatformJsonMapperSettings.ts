@@ -1,6 +1,6 @@
 export interface PlatformJsonMapperSettings {
   /**
-   * JsonMapper additional property policy. (see [JsonMapper](/docs/converters.md))
+   * JsonMapper additional property policy. (see [JsonMapper](/docs/json-mapper.md))
    */
   additionalProperties?: "error" | "accept" | "ignore" | boolean;
   /**

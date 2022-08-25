@@ -130,7 +130,7 @@ export class MyCtrl {
 
 ### Declaring an Input Event
 
-[@Input](https://tsed.io/api/socketio/decorators/Input.html) decorator declare a method as a new handler for a specific `event`.
+@Input decorator declare a method as a new handler for a specific `event`.
 
 ```typescript
 import {SocketService, Input, Emit, Args, Socket, Nsp} from "@tsed/socketio";
@@ -144,15 +144,15 @@ export class MySocketService {
 }
 ```
 
-- [@Args](https://tsed.io/api/socketio/args.html) &lt;any|any[]&gt;: List of the parameters sent by the input event.
-- [@Socket](https://tsed.io/api/socketio/socket.html) &lt;SocketIO.Socket&gt;: Socket instance.
-- [@Nsp](https://tsed.io/api/socketio/nsp.html) &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
+- @Args &lt;any|any[]&gt;: List of the parameters sent by the input event.
+- @Socket &lt;SocketIO.Socket&gt;: Socket instance.
+- @Nsp &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
 
 ### Send a response
 
 You have a many choice to send a response to your client. Ts.ED offer some decorators to send a response:
 
-![socketio](https://tsed.io/_media/socketio.png)
+![socketio](https://tsed.io/socketio.png)
 
 Example:
 
@@ -284,9 +284,9 @@ See our documentation https://tsed.io/#/api/index
 
 ## Contributors
 
-Please read [contributing guidelines here](https://tsed.io/CONTRIBUTING.html)
+Please read [contributing guidelines here](https://tsed.io/contributing.html)
 
-<a href="https://github.com/tsedio/ts-express-decorators/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
+<a href="https://github.com/tsedio/tsed/graphs/contributors"><img src="https://opencollective.com/tsed/contributors.svg?width=890" /></a>
 
 ## Backers
 

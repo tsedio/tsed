@@ -33,7 +33,7 @@ import {mapParamsOptions} from "../utils/mapParamsOptions";
  *    }
  * }
  * ```
- * > For more information on deserialization see [converters](/docs/converters.md) page.
+ * > For more information on deserialization see [converters](/docs/json-mapper.md) page.
  *
  * @param expression The path of the property to get.
  * @param useType The type of the class that to be used to deserialize the data.
