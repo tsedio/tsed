@@ -6,12 +6,6 @@ import {deserialize, JsonDeserializerOptions, JsonSerializerOptions, serialize} 
  */
 @Injectable()
 export class ConverterService {
-  private readonly _additionalProperties: string;
-
-  constructor(private injectorService: InjectorService, @Configuration() configuration: Configuration) {
-    this._additionalProperties = configuration.get<string>("converter.additionalProperties");
-  }
-
   /**
    * Convert instance to plainObject.
    *
@@ -21,7 +15,6 @@ export class ConverterService {
   serialize(obj: any, options: JsonSerializerOptions = {}): any {
     return serialize(obj, {
       useAlias: true,
-      additionalProperties: this._additionalProperties === "accept",
       ...options
     });
   }
@@ -41,7 +34,6 @@ export class ConverterService {
   deserialize(obj: any, options: JsonDeserializerOptions = {}): any {
     return deserialize(obj, {
       useAlias: true,
-      additionalProperties: this._additionalProperties === "accept",
       ...options
     });
   }

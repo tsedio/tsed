@@ -6,7 +6,7 @@ export * from "./PlatformModule";
 export * from "./exports";
 export * from "./builder/PlatformBuilder";
 export * from "./builder/PlatformControllerBuilder";
-export * from "./config/interfaces/ConverterSettings";
+export * from "./config/interfaces/PlatformJsonMapperSettings";
 export * from "./config/interfaces/PlatformLoggerSettings";
 export * from "./config/interfaces/PlatformMulterSettings";
 export * from "./config/interfaces/PlatformStaticsSettings";

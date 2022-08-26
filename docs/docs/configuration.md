@@ -293,6 +293,41 @@ A list of response filters must be called before returning a response to the con
 
 Object configure Multer. See more on [Upload file](/tutorials/serve-static-files.md).
 
+## jsonMapper
+
+```typescript
+@Configuration({
+  jsonMapper: {
+    additionalProperties: false,
+    disableUnsecureConstructor: false,
+  }
+})
+```
+
+### jsonMapper.additionalProperties
+
+Enable additional properties on model. By default, `false`. Enable this option is dangerous and may be a potential security issue.
+
+### jsonMapper.disableUnsecureConstructor
+
+Pass the plain object to the model constructor. By default, `false`.
+
+It may be a potential security issue if you have as constructor with this followings code:
+
+```typescript
+class MyModel {
+  constructor(obj: any = {}) {
+    Object.assign(this, obj); // potential prototype pollution
+  }
+}
+```
+
+::: tip Note
+Recommended: Set this options to `true` in your new project.
+
+In v7 this option will be set to true by default.
+:::
+
 ## Platform Options
 
 These options are specific for each framework (Express.js, Koa.js, etc...):

@@ -16,16 +16,40 @@ It uses all decorators from `@tsed/schema` package and TypeScript metadata to wo
 Ts.ED use this package to transform any input parameters sent by your consumer to a class and transform returned value by your endpoint
 to a plain javascript object to your consumer.
 
-::: warning Breaking change
-For v5 developer, `@tsed/json-mapper` package is the new API under the @@ConverterService@@. There are some breaking changes between the previous service implementation:
+## Configuration
 
-- The `@Converter` decorator have been removed in favor of @@JsonMapper@@ decorator.
-- Classes like `ArrayConverter`, `SetConverter`, etc... replaced by his equivalents Types mapper: @@ArrayMapper@@, @@SetMapper@@, etc...
-- Type mapper classes are no longer injectable services.
-- ConverterService is always available and can be injected to another provider, but now, ConverterService doesn't perform data validation. Validation is performed by [`@tsed/ajv`](/tutorials/ajv.md) package or any other validation library.
-- `PropertyDeserialize` and `PropertySerialize` have been removed and replaced by @@OnDeserialize@@ and @@OnSerialize@@.
-- Methods Signatures of Type mapper (like ArrayConverter) have changed.
-  :::
+```typescript
+@Configuration({
+  jsonMapper: {
+    additionalProperties: false,
+    disableUnsecureConstructor: false,
+  }
+})
+```
+
+### jsonMapper.additionalProperties
+
+Enable additional properties on model. By default, `false`. Enable this option is dangerous and may be a potential security issue.
+
+### jsonMapper.disableUnsecureConstructor
+
+Pass the plain object to the model constructor. By default, `false`.
+
+It may be a potential security issue if you have as constructor with this followings code:
+
+```typescript
+class MyModel {
+  constructor(obj: any = {}) {
+    Object.assign(this, obj); // potential prototype pollution
+  }
+}
+```
+
+::: tip Note
+Recommended: Set this options to `true` in your new project.
+
+In v7 this option will be set to true by default.
+:::
 
 ## Usage
 
@@ -396,12 +420,11 @@ export class TheTypeMapper implements JsonMapperMethods {
 ```
 
 Then import your new mapper in your Server.ts as following:
-    
+
 ```typescript
 import {Configuration} from "@tsed/di";
 
-import "./mappers/TheTypeMapper";   
-
+import "./mappers/TheTypeMapper";
 
 @Configuration({
   mount: {
@@ -409,13 +432,13 @@ import "./mappers/TheTypeMapper";
   }
 })
 export class Server {}
-```   
+```
 
 ### Moment
 
 [Moment.js](https://momentjs.com) is a powerful library to transform any formatted date string to a Moment instance.
 
-You can change the Date converter behavior to transform string to a Moment instance.
+You can change the Date mapper behavior to transform string to a Moment instance.
 
 <Tabs class="-code">
   <Tab label="MomentMapper">
@@ -444,3 +467,4 @@ birthdate: Moment;
   </Tab>
 </Tabs>
 
+```
