@@ -143,7 +143,7 @@ export class OidcInteractionContext {
     if (this.grantId) {
       // we'll be modifying existing grant in existing session
       // @ts-ignore
-      return await (this.oidcProvider.get().find || Grant.find)(this.grantId);
+      return await Grant.find(this.grantId);
     }
 
     return new Grant({
