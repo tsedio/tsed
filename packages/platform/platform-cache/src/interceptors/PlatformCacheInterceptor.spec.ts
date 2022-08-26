@@ -289,9 +289,13 @@ describe("PlatformCacheInterceptor", () => {
       await new Promise((resolve) => setTimeout(resolve, 100));
 
       expect((interceptor as any).logger.error).toHaveBeenCalledWith({
-        error,
         event: "CACHE_ERROR",
-        method: "cacheMethod"
+        method: "cacheMethod",
+        class_name: "Test",
+        property_key: "test",
+        concerned_key: "Test:test:value",
+        error_description: "error",
+        stack: error.stack
       });
     });
   });
