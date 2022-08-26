@@ -30,7 +30,7 @@ async function createOidcInteractionContextFixture(grantId: any = "grantId") {
     setProviderSession: jest.fn().mockResolvedValue(undefined),
     find: jest.fn().mockResolvedValue("grant"),
     Grant: class {
-      static find = jest.fn().mockResolvedValue(undefined);
+      static find = jest.fn().mockResolvedValue("grant");
     },
     Client: {
       find: jest.fn().mockResolvedValue({

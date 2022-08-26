@@ -211,7 +211,7 @@ The controller Interactions exposes the routes to display any interaction. Here 
 The `uid` is the unique session id used by oidc-provider to identify the current user flow.
 :::
 
-Now that we have our interactions controller, we can create our first interaction.
+Now that we have our interaction controller, we can create our first interaction.
 
 Create a new directory `interactions`. We will store all custom interactions in this directory.
 
@@ -279,6 +279,51 @@ http://localhost:8083/auth?client_id=client_id&response_type=id_token&scope=open
 ```
 
 <figure><img alt="Oidc login page" src="./../assets/oidc/signin-page.png" style="max-height: 400px"></figure>
+
+## Alter configuration
+
+Some part of the OIDC provider configuration needs function to work. And ideally these functions should have access to our Ts.ED Services.
+
+It's possible to do that by listening the `$alterOidcConfiguration` hook and inject the expected functions in the configuration:
+
+```typescript
+import {Module} from "@tsed/oidc-provider";
+import {OidcSettings, OidcProviderContext} from "@tsed/oidc-provider";
+import {set} from "lodash";
+
+@Module()
+class OidcResourceIndicatorsModule {
+  @InjectContext()
+  protected $ctx: PlatformContext; // retrieve the Ts.ED context
+
+  async $alterOidcConfiguration(config: OidcSettings): Promise<OidcSettings> {
+    // example with the
+    config.features.resourceIndicators = {
+      enabled: true,
+      defaultResource: this.defaultResource.bind(this),
+      getResourceServerInfo: this.getResourceServerInfo.bind(this),
+      useGrantedResource: this.useGrantedResource.bind(this)
+    };
+
+    return config;
+  }
+
+  protected async defaultResource(ctx: KoaContextWithOIDC) {
+    ///
+  }
+
+  protected async getResourceServerInfo(ctx: KoaContextWithOIDC, resourceIndicator: string, client: Client): Promise<string | string[]> {
+    ///
+  }
+
+  protected async useGrantedResource(
+    ctx: KoaContextWithOIDC,
+    model: AuthorizationCode | RefreshToken | DeviceCode | BackchannelAuthenticationRequest
+  ): Promise<Boolean> {
+    return true;
+  }
+}
+```
 
 ## Alter OIDC policy
 
