@@ -65,6 +65,7 @@ export function createSchema(target: Type<any>, options: MongooseSchemaOptions =
         type: target,
         useAlias: false,
         additionalProperties: true,
+        disabledUnsecureConstructor: false,
         groups: false
       }
     );

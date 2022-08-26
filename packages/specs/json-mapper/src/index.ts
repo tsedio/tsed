@@ -14,6 +14,7 @@ export * from "./decorators/jsonMapper";
 export * from "./decorators/onDeserialize";
 export * from "./decorators/onSerialize";
 export * from "./domain/JsonMapperContext";
+export * from "./domain/JsonMapperSettings";
 export * from "./domain/JsonMapperTypesContainer";
 export * from "./hooks/alterAfterDeserialize";
 export * from "./hooks/alterBeforeDeserialize";
