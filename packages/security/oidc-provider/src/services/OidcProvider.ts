@@ -109,6 +109,9 @@ export class OidcProvider {
   async create(): Promise<void | OIDCProvider> {
     const {proxy = this.env === Env.PROD, secureKey, allowHttpLocalhost = this.env !== Env.PROD} = this.oidc;
     const configuration = await this.getConfiguration();
+
+    await this.injector.alterAsync("$alterOidcConfiguration", configuration);
+
     const oidcProvider = new OIDCProvider(this.getIssuer(), configuration);
 
     if (proxy) {
