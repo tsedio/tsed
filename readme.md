@@ -43,7 +43,7 @@ It provides a lot of decorators and guideline to make your code more readable an
 - Define class as Controller,
 - Define class as Service (IoC),
 - Define class as Middleware and MiddlewareError,
-- Define class as Converter (POJ to Model and Model to POJ),
+- Define class as Json Mapper (POJ to Model and Model to POJ),
 - Define root path for an entire controller and versioning your Rest API,
 - Define as sub-route path for a method,
 - Define routes on GET, POST, PUT, DELETE and HEAD verbs,

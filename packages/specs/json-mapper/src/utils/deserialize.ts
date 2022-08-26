@@ -1,4 +1,4 @@
-import {isArray, isBoolean, isClass, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
+import {getValue, isArray, isBoolean, isClass, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
 import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonPropertyStore, JsonSchema} from "@tsed/schema";
 import "../components/ArrayMapper";
 import "../components/DateMapper";
@@ -7,6 +7,7 @@ import "../components/PrimitiveMapper";
 import "../components/SetMapper";
 import "../components/SymbolMapper";
 import {JsonMapperContext} from "../domain/JsonMapperContext";
+import {JsonMapperSettings} from "../domain/JsonMapperSettings";
 import {getJsonMapperTypes} from "../domain/JsonMapperTypesContainer";
 import {alterAfterDeserialize} from "../hooks/alterAfterDeserialize";
 import {alterBeforeDeserialize} from "../hooks/alterBeforeDeserialize";
@@ -25,6 +26,10 @@ export interface JsonDeserializerOptions<T = any, C = any> extends MetadataTypes
    * Accept additionalProperties or ignore it
    */
   additionalProperties?: boolean;
+  /**
+   *
+   */
+  disableUnsecureConstructor?: boolean;
   /**
    * Use the store which have all metadata to deserialize correctly the model. This
    * property is useful when you deal with metadata parameters.
@@ -132,7 +137,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   const additionalProperties = getAdditionalProperties(propertiesMap.size, store, options);
   src = alterBeforeDeserialize(src, store.schema, options);
 
-  const out: any = new type({});
+  const out: any = new type(options.disableUnsecureConstructor ? {} : src);
 
   propertiesMap.forEach((propStore) => {
     const key = options.useAlias
@@ -199,6 +204,8 @@ function buildOptions(options: JsonDeserializerOptions<any, any>): any {
     groups: false,
     useAlias: true,
     ...options,
+    additionalProperties: getValue(options, "additionalProperties", JsonMapperSettings.additionalProperties),
+    disableUnsecureConstructor: getValue(options, "disableUnsecureConstructor", JsonMapperSettings.disableUnsecureConstructor),
     partial: options.groups ? options.groups.includes("partial") : false,
     type: options.type ? options.type : undefined,
     types: options.types ? options.types : getJsonMapperTypes()

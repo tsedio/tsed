@@ -2,7 +2,6 @@ import {cleanObject} from "@tsed/core";
 import isMatch from "lodash/isMatch";
 import low from "lowdb";
 import {v4 as uuid} from "uuid";
-import {deserialize} from "v8";
 import {Adapter} from "../domain/Adapter";
 
 export interface AdapterModel {
@@ -42,10 +41,14 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
     let item = await this.findById(id);
 
     if (!item) {
-      payload = {...payload, _id: id || uuid(), expires_at: expiresAt};
+      payload = {...payload, _id: id || uuid()};
 
       await this.validate(payload as T);
-      await this.collection.push(this.serialize(payload) as T).write();
+
+      const item = this.serialize(payload);
+      item.expires_at = expiresAt;
+
+      await this.collection.push(item).write();
 
       return this.deserialize(payload);
     }
@@ -67,13 +70,15 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
     let item = this.deserialize(this.collection.get(index).value());
 
     item = {
-      expires_at: expiresAt || item.expires_at,
       ...item,
       ...payload,
       _id: item._id
     };
 
     await this.validate(item as T);
+
+    item.expires_at = expiresAt || item.expires_at;
+
     await this.collection.set(index, item).write();
 
     return this.deserialize(item);

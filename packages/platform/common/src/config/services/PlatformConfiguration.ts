@@ -1,7 +1,8 @@
-import {Env, getHostInfoFromPort} from "@tsed/core";
+import {getHostInfoFromPort, isBoolean} from "@tsed/core";
 import {DIConfiguration, Injectable, ProviderScope, TokenProvider} from "@tsed/di";
+import {JsonMapperSettings} from "@tsed/json-mapper";
 import Https from "https";
-import {ConverterSettings} from "../interfaces/ConverterSettings";
+import {PlatformJsonMapperSettings} from "../interfaces/PlatformJsonMapperSettings";
 
 const rootDir = process.cwd();
 
@@ -73,12 +74,32 @@ export class PlatformConfiguration extends DIConfiguration {
     this.setRaw("acceptMimes", value || []);
   }
 
-  get converter(): Partial<ConverterSettings> {
-    return this.get("converter") || {};
+  /**
+   * @deprecated
+   */
+  get converter(): Partial<PlatformJsonMapperSettings> {
+    return this.jsonMapper;
   }
 
-  set converter(options: Partial<ConverterSettings>) {
-    this.setRaw("converter", options);
+  /**
+   * @deprecated
+   */
+  // istanbul ignore next
+  set converter(options: Partial<PlatformJsonMapperSettings>) {
+    this.jsonMapper = options;
+  }
+
+  get jsonMapper(): Partial<PlatformJsonMapperSettings> {
+    return this.get("jsonMapper") || {};
+  }
+
+  set jsonMapper(options: Partial<PlatformJsonMapperSettings>) {
+    this.setRaw("jsonMapper", options);
+
+    JsonMapperSettings.disableUnsecureConstructor = Boolean(options.disableUnsecureConstructor);
+    JsonMapperSettings.additionalProperties = Boolean(
+      isBoolean(options.additionalProperties) ? options.additionalProperties : options.additionalProperties === "accept"
+    );
   }
 
   get additionalProperties() {

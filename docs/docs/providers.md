@@ -19,7 +19,7 @@ handle HTTP requests and delegate complex tasks to the **providers**.
 
 The providers are plain javascript class and use one of these decorators on top of them. Here the list:
 
-<ApiList query="['Injectable', 'Module', 'Service', 'Controller', 'Interceptor', 'Converter', 'Middleware', 'Filter', 'Protocol'].indexOf(symbolName) > -1" />
+<ApiList query="['Injectable', 'Module', 'Service', 'Controller', 'Interceptor', 'JsonMapper', 'Middleware', 'Filter', 'Protocol'].indexOf(symbolName) > -1" />
 
 ## Services
 
@@ -102,8 +102,7 @@ These decorators can be used with:
 - [Service](/docs/services.md),
 - [Controller](/docs/controllers.md),
 - [Middleware](/docs/middlewares.md),
-- [Filter](/docs/filters.md)
-- [Converter](/docs/converters.md).
+- [Filter](/docs/filters.md).
 
 @@Constant@@ and @@Value@@ accept an expression as parameter to inspect the configuration object and return the value.
 
