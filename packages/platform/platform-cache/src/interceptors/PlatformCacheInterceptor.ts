@@ -86,7 +86,11 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       this.logger.error({
         event: "CACHE_ERROR",
         method: "cacheMethod",
-        error: er
+        concerned_key: key,
+        class_name: nameOf(context.target),
+        property_key: context.propertyKey,
+        error_description: er.message,
+        stack: er.stack
       })
     );
 

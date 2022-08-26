@@ -1,4 +1,5 @@
 import {Adapter, AdapterModel} from "@tsed/adapters";
+import {cleanObject} from "@tsed/core";
 import {Inject} from "@tsed/di";
 import IoRedis from "ioredis";
 import type {Redis} from "ioredis";
@@ -14,7 +15,7 @@ export class RedisAdapter<T extends AdapterModel> extends Adapter<T> {
   }
 
   public async create(payload: Partial<T>, expiresAt?: Date): Promise<T> {
-    payload._id = uuid();
+    delete payload._id;
 
     return this.insert(payload, expiresAt);
   }
@@ -45,7 +46,7 @@ export class RedisAdapter<T extends AdapterModel> extends Adapter<T> {
     return this.insert(
       {
         ...item,
-        ...payload,
+        ...cleanObject(payload),
         _id: item._id
       },
       expiresAt
