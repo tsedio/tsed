@@ -4,6 +4,5 @@
 
 export * from "./TerminusModule";
 export * from "./decorators/health";
-export * from "./decorators/shutdown";
 export * from "./interfaces/TerminusSettings";
 export * from "./interfaces/interfaces";

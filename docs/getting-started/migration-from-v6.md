@@ -443,3 +443,8 @@ The following Ts.ED packages are removed:
 ### @tsed/mongoose
 
 - Remove `MongooseVirtualRefOptions.type`. Use Remove `MongooseVirtualRefOptions.ref` instead.
+
+### @tsed/terminus
+
+- Remove BeforeShutdown, OnSignal, OnShutdown, OnSendFailureDuringShutdown decorators. Use followings instead `$beforeShutdown`, `$onSignal`, `$onSignal`, `$onShutdown` or `$onSendFailureDuringShutdown`.
+
