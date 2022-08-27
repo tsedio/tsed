@@ -67,7 +67,6 @@
     }
   ],
   "dependencies": {
-    "@tsed/components-scan": "7.0.0-rc.3",
     "@tsed/core": "7.0.0-rc.3",
     "@tsed/di": "7.0.0-rc.3",
     "@tsed/exceptions": "7.0.0-rc.3",

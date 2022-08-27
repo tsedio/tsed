@@ -246,7 +246,7 @@ With this feature, you can inject directly the @@PlatformContext@@ in the servic
 controller:
 
 ```typescript
-import {Injectable, Controller, runInContext, InjectContext} from "@tsed/di";
+import {Injectable, Controller, InjectContext} from "@tsed/di";
 import {PlatformContext} from "@tsed/common";
 
 @Injectable()
@@ -279,23 +279,9 @@ export class AsyncHookCtrl {
 To run a method with context in your unit test, you can use the @@PlatformAsyncHookContext@@.
 
 ```typescript
-import {Injectable, runInContext, InjectContext} from "@tsed/di";
+import {runInContext} from "@tsed/di";
 import {PlatformContext} from "@tsed/common";
-
-@Injectable()
-export class CustomRepository {
-  @InjectContext()
-  $ctx?: PlatformContext;
-
-  async findById(id: string) {
-    this.ctx?.logger.info("Where are in the repository");
-
-    return {
-      id,
-      headers: this.$ctx?.request.headers
-    };
-  }
-}
+import {CustomRepository} from "./CustomRepository";
 
 describe("CustomRepository", () => {
   beforeEach(() => PlatformTest.create());

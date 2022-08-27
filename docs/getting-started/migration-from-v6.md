@@ -13,23 +13,24 @@ meta:
 
 ## What's new ?
 
-| Topics                                                                      | Migration note                                    | Issue                                               |
-| --------------------------------------------------------------------------- | ------------------------------------------------- | --------------------------------------------------- | --- |
-| Use virtual router instead of Express or Koa router                         | [See](#virtual-router)                            | [#1987](https://github.com/tsedio/tsed/pull/1987)   |
-| Remove componentsScan options and any glob pattern to discover services     | [See](#components-scan)                           |                                                     |
-| Use [@tsed/engines](/docs/templating.md) instead of Consolidate             | [See](#template-engines)                          |                                                     |
-| Remove possibility to register twice handler with the same path + http verb | [See](#register-twice-handler-for-the-same-route) | [#1793](https://github.com/tsedio/tsed/issues/1793) |     |
-| Remove `ConverterService`                                                   | [See]()                                           |                                                     |
-| Remove `export * from @tsed/platform-cache` in `@tsed/common`               | [See]()                                           | [#1657](https://github.com/tsedio/tsed/pull/1657)   |
-| Remove `@tsed/async_hook_pa`                                                | [See]()                                           | [#1860](https://github.com/tsedio/tsed/pull/1860)   |
-| OIDC: use `/oidc` basePath by default                                       |                                                   | [#1490](https://github.com/tsedio/tsed/pull/1490)   |
-| Remove deprecated code/decorators/functions in v6                           | [See]()                                           |                                                     |
+| Topics                                                                        | Migration note                                    | Issue                                               |
+| ----------------------------------------------------------------------------- | ------------------------------------------------- | --------------------------------------------------- |
+| Use virtual router instead of Express or Koa router                           | [See](#virtual-router)                            | [#1987](https://github.com/tsedio/tsed/pull/1987)   |
+| Remove componentsScan options and any glob pattern to discover services       | [See](#components-scan)                           | [#1503](https://github.com/tsedio/tsed/issues/1503) |
+| Use [@tsed/engines](/docs/templating.md) instead of Consolidate               | [See](#template-engines)                          | [#1503](https://github.com/tsedio/tsed/issues/1503) |
+| Remove possibility to register twice handler with the same path + http verb   | [See](#register-twice-handler-for-the-same-route) | [#1793](https://github.com/tsedio/tsed/issues/1793) |
+| Change the default value of `jsonMapper.disableUnsecureConstructor` to `true` | [See](#jsonmapper-options)                        | [#1942](https://github.com/tsedio/tsed/issues/1942) |
+| Remove `ConverterService`                                                     | [See](#converterservice)                          |                                                     |
+| Remove `export * from @tsed/platform-cache` in `@tsed/common`                 | [See](#platform-cache)                            | [#1657](https://github.com/tsedio/tsed/pull/1657)   |
+| Remove `@tsed/async_hook_context`                                             | [See](#async-hook-context)                        | [#1860](https://github.com/tsedio/tsed/pull/1860)   |
+| OIDC: use `/oidc` basePath by default                                         |                                                   | [#1490](https://github.com/tsedio/tsed/pull/1490)   |
+| Remove deprecated code/decorators/functions in v6                             | [See](#other-breaking-changes)                    |                                                     |
 
 ## Workflow to migrate your app
 
 <figure><img src="/getting-started/migration-workflow.png" style="padding: 20px; background: white;" alt="migration guide"></figure>
 
-This graph will help you to migrate your application to the v7. Don't hesitate to give us feedback!
+This graph will help you to migrate your application to the v7. Don't hesitate to give us feedback on [github issues](https://github.com/tsedio/tsed/issues)!
 
 ## Virtual router
 
@@ -234,7 +235,26 @@ class MyController {
 
 But this principle leads to unexpected behavior and causes a regression when using an Error type middleware with UseAfter. This problem is reported in the [#1793](https://github.com/tsedio/tsed/issues/1793).
 
-With v7, adding more handlers for the same path and http verb is no longer possible. Also this behavior is specific to Express and Koa but doesn't seem to be possible with Fastify and Hapi.js.
+With v7, adding more handlers for the same path and http verb is no longer possible. Also, this behavior is specific to Express and Koa but doesn't seem to be possible with Fastify and Hapi.js.
+
+## JsonMapper options
+
+Introduced recently in v6, the `jsonMapper.disableInsecureConstructor` option let you remove an insecure behavior in the `deserialize` function used by Ts.ED. This problem is described in [#1942](https://github.com/tsedio/tsed/issues/1942) issue.
+
+This security issue is only available if you implement a constructor in your model like this:
+
+```typescript
+class MyModel {
+  constructor(obj: any = {}) {
+    Object.assign(this, obj); // potential prototype pollution
+  }
+}
+```
+
+This constructor expose you app to a potential prototype pollution hacking!
+
+Since v6, it's recommended to set `jsonMapper.disableInsecureConstructor` to `true`. In v7, this option is by default to `true`,
+but you can revert it, in order to allow you the possibility of migrating smoothly your application.
 
 ## ConverterService
 
@@ -278,3 +298,148 @@ class MyClass {
   }
 }
 ```
+
+## Platform Cache
+
+In v6, all decorators from `@tsed/platform-cache` are re-exported under `@tsed/common`. But most of the time you don't use this part.
+
+In v7, you need to install `@tsed/platform-cache` as a dependency of your project and make the following replacements:
+
+```diff
+import {Injectable} from "@tsed/di";
+- import {UseCache} from "@tsed/common";
++ import {UseCache} from "@tsed/platform-cache";
+
+@Injectable()
+export class MyService {
+  @UseCache()
+  method() {}
+}
+```
+
+## Async hook context
+
+The [`@tsed/async-hook-context`](/docs/request-context.html#asynchook-context) was introduced in v6 to support a context Request injectable everywhere in your code.
+
+The module is now stable and is directly integrated into the `@tsed/di` module. The changes are as follows:
+
+```diff
+- import {Injectable, Controller} from "@tsed/di";
+- import {InjectContext} from "@tsed/async-hook-context";
++ import {Injectable, Controller, runInContext, InjectContext} from "@tsed/di";
+import {PlatformContext} from "@tsed/common";
+
+@Injectable()
+export class CustomRepository {
+  @InjectContext()
+  protected $ctx?: PlatformContext;
+
+  async findById(id: string) {
+    this.ctx?.logger.info("Where are in the repository");
+
+    return {
+      id,
+      headers: this.$ctx?.request.headers
+    };
+  }
+}
+```
+
+And in your test:
+
+```diff
+- import {runInContext} from "@tsed/async-hook-context";
++ import {runInContext} from "@tsed/di";
+import {PlatformContext} from "@tsed/common";
+import {CustomRepository} from "./CustomRepository";
+
+describe("CustomRepository", () => {
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
+
+  it("should run method with the ctx", async () => {
+    const ctx = PlatformTest.createRequestContext();
+    const service = PlatformTest.get<CustomRepository>(CustomRepository);
+
+    ctx.request.headers = {
+      "x-api": "api"
+    };
+
+    const result = await runInContext(ctx, () => service.findById("id"));
+
+    expect(result).toEqual({
+      id: "id",
+      headers: {
+        "x-api": "api"
+      }
+    });
+  });
+});
+```
+
+## Removed packages
+
+The following Ts.ED packages are removed:
+
+- @tsed/graphql: Use @tsed/typegraphql instead.
+- @tsed/seq: Use the @tsed/logger-seq instead.
+- @tsed/aws: Use @tsed/serverless-http instead.
+
+## Other breaking changes
+
+### @tsed/core
+
+- Remove `deepExtends` util. Use `deepMerge` instead.
+
+### @tsed/common
+
+- Remove Node.js 12 support.
+- Rename `useCtxHandler` function. Use `useContextHandler` instead. It's an internal feature used by official Ts.ED plugin.
+- Remove `HttpsServer` symbol and use `Https.Server` from `https` module as injectable type instead.
+- Remove `HttpServer` symbol and use `Http.Server` from `https` module as injectable type instead.
+- Remove `PropertyMetadata`. Use `JsonEntityStore` instead from `@tsed/schema`.
+- Remove `UseParam(paramType, options)` signature. Use `UseParam{{paramType: 'BODY', ...}}` signature instead.
+- Remove `ResponseData` decorator. Use `@Context() $ctx: Context` then `$ctx.data`.
+- Remove `EndpointInfo` decorator. Use `@context() $ctx: Context` then `$ctx.endpoint` to retrieve endpoint information.
+- Remove `Remove GlobalAcceptMimesMiddleware` and `AcceptMimesMiddleware`. Use `PlatformAcceptMimesMiddleware` instead.
+
+### @tsed/di
+
+- Remove `registerFactory`. Use `registerProvider` instead.
+- Remove `loadInjector` util. Use `injector.load(container, module)` instead.
+
+### @tsed/schema
+
+- Remove IAuth interface on AuthOptions. Use `@Security()` and `@Returns()` instead to configuration authorization option for swagger documentation.
+
+### @tsed/platform-middlewares
+
+- Remove `IMiddleware`. Use `MiddlewareMethods` instead.
+
+### @tsed/platform-express
+
+- Remove `CaseSensitive`, `MergeParams`, `RouterSettings` and `Strict` decorators. Those decorators no longer make sense with Ts.ED's Virtual Router.
+
+### @tsed/components-scan
+
+- Remove importComponent function.
+
+### @tsed/oidc-provider
+
+- Default value for `oidc.path` is `/oidc`.
+
+### @tsed/passport
+
+- Remove `IProtocol`. Use `ProtocolMethods` instead.
+
+### @tsed/mikro-orm
+
+- Remove `MikroOrmRegistry.closeConnections()`. Use `MikroOrmRegistry.clear()` instead.
+- Remove `MikroOrmRegistry.createConnection()`. Use `MikroOrmRegistry.register()` instead.
+- Remove `DBContext.getContext()`. Use `DBContext.entries()` instead.
+- Remove `TransactionOptions.connectionName` property. Use `TransactionOptions.contextName` instead.
+- Remove `@Connection` decorator. Use `@Orm` instead.
+
+### @tsed/mongoose
+
+- Remove `MongooseVirtualRefOptions.type`. Use Remove `MongooseVirtualRefOptions.ref` instead.
