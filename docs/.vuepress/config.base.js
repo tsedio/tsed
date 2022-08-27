@@ -294,12 +294,16 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             position: "right",
             items: [
               {
-                text: "v4 (obsolete)",
-                link: "http://v4.tsed.io"
+                text: "v6 (current)",
+                link: "http://tsed.io"
               },
               {
-                text: "v5 (maintenance)",
+                text: "v5 (obsolete)",
                 link: "http://v5.tsed.io"
+              },
+              {
+                text: "v4 (obsolete)",
+                link: "http://v4.tsed.io"
               }
             ]
           }

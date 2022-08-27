@@ -319,7 +319,7 @@ export class MyService {
 
 ## Async hook context
 
-The [`@tsed/async-hook-context`](/docs/request-context.html#asynchook-context) was introduced in v6 to support a context Request injectable everywhere in your code.
+The [`@tsed/async-hook-context`](/docs/request-context.md#asynchook-context) was introduced in v6 to support a context Request injectable everywhere in your code.
 
 The module is now stable and is directly integrated into the `@tsed/di` module. The changes are as follows:
 
@@ -381,9 +381,9 @@ describe("CustomRepository", () => {
 
 The following Ts.ED packages are removed:
 
-- @tsed/graphql: Use @tsed/typegraphql instead.
-- @tsed/seq: Use the @tsed/logger-seq instead.
-- @tsed/aws: Use @tsed/serverless-http instead.
+- `@tsed/graphql`: Use `@tsed/typegraphql` instead.
+- `@tsed/seq`: Use the `@tsed/logger-seq` instead.
+- `@tsed/aws`: Use `@tsed/serverless-http` instead.
 
 ## Other breaking changes
 
@@ -398,7 +398,7 @@ The following Ts.ED packages are removed:
 - Remove `HttpsServer` symbol and use `Https.Server` from `https` module as injectable type instead.
 - Remove `HttpServer` symbol and use `Http.Server` from `https` module as injectable type instead.
 - Remove `PropertyMetadata`. Use `JsonEntityStore` instead from `@tsed/schema`.
-- Remove `UseParam(paramType, options)` signature. Use `UseParam{{paramType: 'BODY', ...}}` signature instead.
+- Remove `UseParam(paramType, options)` signature. Use `UseParam({paramType: 'BODY', ...options})` signature instead.
 - Remove `ResponseData` decorator. Use `@Context() $ctx: Context` then `$ctx.data`.
 - Remove `EndpointInfo` decorator. Use `@context() $ctx: Context` then `$ctx.endpoint` to retrieve endpoint information.
 - Remove `Remove GlobalAcceptMimesMiddleware` and `AcceptMimesMiddleware`. Use `PlatformAcceptMimesMiddleware` instead.
@@ -410,7 +410,7 @@ The following Ts.ED packages are removed:
 
 ### @tsed/schema
 
-- Remove IAuth interface on AuthOptions. Use `@Security()` and `@Returns()` instead to configuration authorization option for swagger documentation.
+- Remove `IAuth` interface on `AuthOptions`. Use `@Security()` and `@Returns()` instead to configuration authorization option for swagger documentation.
 
 ### @tsed/platform-middlewares
 
@@ -447,4 +447,3 @@ The following Ts.ED packages are removed:
 ### @tsed/terminus
 
 - Remove BeforeShutdown, OnSignal, OnShutdown, OnSendFailureDuringShutdown decorators. Use followings instead `$beforeShutdown`, `$onSignal`, `$onSignal`, `$onShutdown` or `$onSendFailureDuringShutdown`.
-
