@@ -1,4 +1,4 @@
 export const JsonMapperSettings = {
-  disableUnsecureConstructor: false,
+  disableUnsecureConstructor: true,
   additionalProperties: false
 };

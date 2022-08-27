@@ -74,28 +74,13 @@ export class PlatformConfiguration extends DIConfiguration {
     this.setRaw("acceptMimes", value || []);
   }
 
-  /**
-   * @deprecated
-   */
-  get converter(): Partial<PlatformJsonMapperSettings> {
-    return this.jsonMapper;
-  }
-
-  /**
-   * @deprecated
-   */
-  // istanbul ignore next
-  set converter(options: Partial<PlatformJsonMapperSettings>) {
-    this.jsonMapper = options;
-  }
-
   get jsonMapper(): Partial<PlatformJsonMapperSettings> {
-    return this.get("jsonMapper") || {};
+    return {
+      ...JsonMapperSettings
+    };
   }
 
   set jsonMapper(options: Partial<PlatformJsonMapperSettings>) {
-    this.setRaw("jsonMapper", options);
-
     JsonMapperSettings.disableUnsecureConstructor = Boolean(options.disableUnsecureConstructor);
     JsonMapperSettings.additionalProperties = Boolean(
       isBoolean(options.additionalProperties) ? options.additionalProperties : options.additionalProperties === "accept"

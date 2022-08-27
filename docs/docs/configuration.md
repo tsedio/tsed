@@ -299,7 +299,7 @@ Object configure Multer. See more on [Upload file](/tutorials/serve-static-files
 @Configuration({
   jsonMapper: {
     additionalProperties: false,
-    disableUnsecureConstructor: false,
+    disableUnsecureConstructor: true
   }
 })
 ```
@@ -310,7 +310,7 @@ Enable additional properties on model. By default, `false`. Enable this option i
 
 ### jsonMapper.disableUnsecureConstructor
 
-Pass the plain object to the model constructor. By default, `false`.
+Pass the plain object to the model constructor. By default, `true`.
 
 It may be a potential security issue if you have as constructor with this followings code:
 

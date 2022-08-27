@@ -185,7 +185,6 @@ export class SocketHandlersBuilder {
       if (filter === SocketFilters.ARGS && useConverter) {
         value = deserialize(value, {
           useAlias: true,
-          additionalProperties: this.injector.settings.get("converter.additionalProperties") === "accept",
           type,
           collectionType
         });
