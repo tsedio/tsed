@@ -1,7 +1,7 @@
 {
-  "name": "@tsed/adapters-redis",
+  "name": "@tsed/ioredis",
   "version": "6.128.10",
-  "description": "Redis adapter for Ts.ED",
+  "description": "IO Redis connection for Ts.ED",
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -21,20 +21,19 @@
     "test": "cross-env NODE_ENV=test yarn jest"
   },
   "dependencies": {
-    "@tsed/adapters": "6.128.10",
-    "@tsed/ioredis": "6.128.10",
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.128.10"
+    "@tsed/core": "6.128.10",
+    "@tsed/di": "6.128.10",
+    "@types/ioredis-mock": "^5.6.0",
+    "ioredis": "5.2.3",
+    "ioredis-mock": "8.2.2"
   },
   "peerDependencies": {
-    "@tsed/adapters": "^6.128.10",
-    "@tsed/common": "^6.128.10",
-    "@tsed/core": "^6.128.10",
-    "@tsed/di": "^6.128.10",
+    "@tsed/core": "^6.128.9",
+    "@tsed/di": "^6.128.9",
     "ioredis": ">=5.2.3",
-    "ioredis-mock": ">=8.2.2",
-    "uuid": "8.3.2"
+    "ioredis-mock": ">=8.2.2"
   }
 }

@@ -10,6 +10,10 @@ export interface AdaptersSettings {
    *
    */
   lowdbDir?: string;
+  /**
+   * Use the connection name for the RedisAdapter.
+   */
+  connectionName?: string;
 
   [key: string]: any;
 }
