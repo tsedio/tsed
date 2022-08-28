@@ -1,7 +1,7 @@
 import type {Type} from "@tsed/core";
+import type {ProviderType} from "../domain/ProviderType";
 import type {DIResolver} from "./DIResolver";
 import type {ProviderScope} from "../domain/ProviderScope";
-import type {ProviderType} from "../domain/ProviderType";
 import type {TokenProvider} from "./TokenProvider";
 
 export interface ProviderOpts<T = any> {
@@ -12,7 +12,7 @@ export interface ProviderOpts<T = any> {
   /**
    * Provider type
    */
-  type?: ProviderType | string;
+  type?: TokenProvider | ProviderType;
   /**
    * Instance build by the injector
    */

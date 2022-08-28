@@ -23,15 +23,6 @@ class Test {
 
   constructor() {}
 
-  @Inject()
-  test(injectorService: InjectorService) {
-    return injectorService;
-  }
-
-  test2(@Inject() injectorService: InjectorService) {
-    return injectorService;
-  }
-
   test3(o: any) {
     return o + " called ";
   }
@@ -57,7 +48,7 @@ describe("InjectorService", () => {
       expect(new InjectorService().get(Test)).toBeUndefined();
     });
   });
-  describe("getAll()", () => {
+  describe("getMany()", () => {
     it("should return all instance", () => {
       const injector = new InjectorService();
       injector.addProvider("token", {
@@ -65,8 +56,8 @@ describe("InjectorService", () => {
         useValue: 1
       });
 
-      expect(!!injector.getAll(ProviderType.VALUE).length).toEqual(true);
-      expect(!!injector.getAll(ProviderType.FACTORY).length).toEqual(false);
+      expect(!!injector.getMany(ProviderType.VALUE).length).toEqual(true);
+      expect(!!injector.getMany(ProviderType.FACTORY).length).toEqual(false);
     });
   });
 
@@ -609,7 +600,6 @@ describe("InjectorService", () => {
       const injector = new InjectorService();
       const instance = new TestBind();
 
-      jest.spyOn(injector as any, "bindMethod").mockReturnValue(undefined);
       jest.spyOn(injector as any, "bindProperty").mockReturnValue(undefined);
       jest.spyOn(injector as any, "bindConstant").mockReturnValue(undefined);
       jest.spyOn(injector as any, "bindValue").mockReturnValue(undefined);
@@ -639,31 +629,10 @@ describe("InjectorService", () => {
       injector.bindInjectableProperties(instance, new LocalsContainer(), {});
 
       // THEN
-      expect(injector.bindMethod).toBeCalledWith(instance, injectableProperties.testMethod);
       expect(injector.bindProperty).toBeCalledWith(instance, injectableProperties.testProp, new LocalsContainer(), {});
       expect(injector.bindConstant).toBeCalledWith(instance, injectableProperties.testConst);
       expect(injector.bindValue).toBeCalledWith(instance, injectableProperties.testValue);
       expect(injector.bindInterceptor).toBeCalledWith(instance, injectableProperties.testInterceptor);
-    });
-  });
-
-  describe("bindMethod()", () => {
-    it("should bind the method", () => {
-      // GIVEN
-      const injector = new InjectorService();
-      const instance = new Test();
-
-      const spyTest2 = jest.spyOn(instance, "test2");
-      jest.spyOn(injector, "get");
-
-      // WHEN
-      injector.bindMethod(instance, {bindingType: "method", propertyKey: "test2"} as any);
-      const result = (instance as any).test2();
-
-      // THEN
-      expect(spyTest2).toBeCalledWith(injector);
-      expect(injector.get).toBeCalledWith(InjectorService);
-      expect(result).toEqual(injector);
     });
   });
 
@@ -771,7 +740,6 @@ describe("InjectorService", () => {
       await injector.load(container);
 
       const instance = new Test();
-      const originalMethod = instance["test"];
 
       jest.spyOn(injector, "get");
 
@@ -785,7 +753,6 @@ describe("InjectorService", () => {
       const result = (instance as any).test3("test");
 
       // THEN
-      expect(expect(originalMethod)).not.toEqual(instance.test3);
       expect(injector.get).toBeCalledWith(InterceptorTest);
 
       expect(result).toEqual("test called  intercepted");

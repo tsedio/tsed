@@ -7,7 +7,10 @@ import {ProviderType} from "./ProviderType";
 export type ProviderHookCallback<T = any> = (instance: T, ...args: any[]) => Promise<void> | void;
 
 export class Provider<T = any> implements ProviderOpts<T> {
-  public type: ProviderType | any = ProviderType.PROVIDER;
+  /**
+   * Token group provider to retrieve all provider from the same type
+   */
+  public type: TokenProvider | ProviderType = ProviderType.PROVIDER;
   public deps: TokenProvider[];
   public imports: any[];
   public useFactory: Function;

@@ -11,7 +11,8 @@ import {
   Metadata,
   nameOf,
   prototypeOf,
-  Store
+  Store,
+  isArray
 } from "@tsed/core";
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
 import {Configuration} from "../decorators/configuration";
@@ -138,11 +139,11 @@ export class InjectorService extends Container {
   /**
    * Return all instance of the same provider type
    * @param type
+   * @param locals
+   * @param options
    */
-  getAll(type: string) {
-    return this.getProviders(type).map((provider) => {
-      return this.get(provider.token);
-    });
+  getMany<Type = any>(type: string, locals?: LocalsContainer, options?: Partial<InvokeOptions<Type>>): Type[] {
+    return this.getProviders(type).map((provider) => this.invoke(provider.token, locals, options)!);
   }
 
   /**
@@ -366,9 +367,6 @@ export class InjectorService extends Container {
 
     Object.values(properties).forEach((definition) => {
       switch (definition.bindingType) {
-        case InjectablePropertyType.METHOD:
-          this.bindMethod(instance, definition);
-          break;
         case InjectablePropertyType.PROPERTY:
           this.bindProperty(instance, definition, locals, options);
           break;
@@ -383,22 +381,6 @@ export class InjectorService extends Container {
           break;
       }
     });
-  }
-
-  /**
-   * @param instance
-   * @param {string} propertyKey
-   */
-  public bindMethod(instance: any, {propertyKey}: InjectablePropertyOptions) {
-    const target = classOf(instance);
-    const originalMethod = instance[propertyKey];
-    const deps = Metadata.getParamTypes(prototypeOf(target), propertyKey);
-
-    instance[propertyKey] = () => {
-      const services = deps.map((dependency: any) => this.get(dependency));
-
-      return originalMethod.call(instance, ...services);
-    };
   }
 
   /**
@@ -608,13 +590,17 @@ export class InjectorService extends Container {
     try {
       const invokeDependency =
         (parent?: any) =>
-        (token: any, index: number): any => {
+        (token: TokenProvider | [TokenProvider], index: number): any => {
           currentDependency = {token, index, deps};
 
           if (token !== DI_PARAM_OPTIONS) {
             const options = provider?.store?.get(`${DI_PARAM_OPTIONS}:${index}`);
 
             locals.set(DI_PARAM_OPTIONS, options || {});
+          }
+
+          if (isArray(token)) {
+            return this.getMany(token[0], locals, options);
           }
 
           return isInheritedFrom(token, Provider, 1) ? provider : this.invoke(token, locals, {parent});
@@ -686,9 +672,9 @@ export class InjectorService extends Container {
     if (provider.useValue !== undefined) {
       construct = () => (isFunction(provider.useValue) ? provider.useValue() : provider.useValue);
     } else if (provider.useFactory) {
-      construct = (deps: TokenProvider[]) => provider.useFactory(...deps);
+      construct = (deps: any[]) => provider.useFactory(...deps);
     } else if (provider.useAsyncFactory) {
-      construct = async (deps: TokenProvider[]) => {
+      construct = async (deps: any[]) => {
         deps = await Promise.all(deps);
         return provider.useAsyncFactory(...deps);
       };

@@ -1,7 +1,5 @@
-import {catchError, descriptorOf, Metadata, Store} from "@tsed/core";
-import {Required} from "@tsed/schema";
-import {Inject, Injectable, InjectorService} from "../../src";
-import {INJECTABLE_PROP} from "../constants/constants";
+import {descriptorOf} from "@tsed/core";
+import {Inject, Injectable, InjectorService, registerProvider} from "../../src";
 
 describe("@Inject()", () => {
   describe("used on unsupported decorator type", () => {
@@ -24,29 +22,8 @@ describe("@Inject()", () => {
     });
   });
 
-  describe("used on method", () => {
-    it("should store metadata", () => {
-      // GIVEN
-      class Test {
-        test() {}
-      }
-
-      // WHEN
-      Inject()(Test.prototype, "test", descriptorOf(Test, "test"));
-
-      // THEN
-      const store = Store.from(Test).get(INJECTABLE_PROP);
-      expect(store).toEqual({
-        test: {
-          bindingType: "method",
-          propertyKey: "test"
-        }
-      });
-    });
-  });
-
-  describe("used on property", () => {
-    it("should store metadata from inferred type", async () => {
+  describe("@property", () => {
+    it("should inject service", async () => {
       // GIVEN
       @Injectable()
       class Test {
@@ -60,7 +37,7 @@ describe("@Inject()", () => {
       expect(instance).toBeInstanceOf(Test);
       expect(instance.test).toBeInstanceOf(InjectorService);
     });
-    it("should store metadata from given type", async () => {
+    it("should inject service with the given type", async () => {
       // GIVEN
       @Injectable()
       class Test {
@@ -74,67 +51,135 @@ describe("@Inject()", () => {
       expect(instance).toBeInstanceOf(Test);
       expect(instance.test).toBeInstanceOf(InjectorService);
     });
-    it("should catch error when an object is given as token provider", async () => {
-      // GIVEN
-      @Injectable()
-      class Test {
-        @Required()
-        test: Object;
+    it("should inject many services", async () => {
+      const TOKEN_GROUPS = Symbol.for("groups:1");
+
+      interface InterfaceGroup {
+        type: string;
       }
 
-      const error = catchError(() => {
-        Inject()(Test.prototype, "test");
+      @Injectable({
+        type: TOKEN_GROUPS
+      })
+      class MyService1 implements InterfaceGroup {
+        readonly type: string = "service1";
+
+        constructor(@Inject(InjectorService) readonly injector: InjectorService) {}
+      }
+
+      @Injectable({
+        type: TOKEN_GROUPS
+      })
+      class MyService2 implements InterfaceGroup {
+        readonly type: string = "service2";
+
+        constructor(@Inject(InjectorService) readonly injector: InjectorService) {}
+      }
+
+      const TokenAsync = Symbol.for("MyService2");
+
+      registerProvider({
+        provide: TokenAsync,
+        type: TOKEN_GROUPS,
+        deps: [],
+        async useAsyncFactory() {
+          return {
+            type: "async"
+          };
+        }
       });
 
-      expect(error?.message).toMatchSnapshot();
+      @Injectable()
+      class MyInjectable {
+        @Inject(TOKEN_GROUPS)
+        instances: InterfaceGroup[];
+      }
+
+      const injector = new InjectorService();
+
+      await injector.load();
+
+      const instance = await injector.invoke<MyInjectable>(MyInjectable);
+
+      expect(instance.instances).toBeInstanceOf(Array);
+      expect(instance.instances).toHaveLength(3);
+      expect(instance.instances[0].type).toEqual("service1");
+      expect(instance.instances[1].type).toEqual("service2");
+      expect(instance.instances[2].type).toEqual("async");
     });
   });
 
-  describe("used on constructor/params", () => {
-    beforeAll(() => {
-      jest.spyOn(Metadata, "getParamTypes").mockReturnValue([]);
-      jest.spyOn(Metadata, "setParamTypes").mockReturnValue(undefined);
-    });
-    afterAll(() => {
-      jest.resetAllMocks();
-    });
+  describe("@constructorParameters", () => {
+    describe("when token is given on constructor", () => {
+      it("should inject the expected provider", async () => {
+        @Injectable()
+        class MyInjectable {
+          constructor(@Inject(InjectorService) readonly injector: InjectorService) {}
+        }
 
-    it("should call Metadata.getParamTypes()", () => {
-      // GIVEN
-      class Test {
-        test() {}
-      }
+        const injector = new InjectorService();
+        const instance = await injector.invoke<MyInjectable>(MyInjectable);
 
-      // WHEN
-      Inject(String)(Test.prototype, undefined, 0);
-
-      // THEN
-      expect(Metadata.getParamTypes).toBeCalledWith(Test.prototype, undefined);
-      expect(Metadata.setParamTypes).toBeCalledWith(Test.prototype, undefined, [String]);
-    });
-  });
-
-  describe("used on method/params", () => {
-    beforeAll(() => {
-      jest.spyOn(Metadata, "getParamTypes").mockReturnValue([]);
-      jest.spyOn(Metadata, "setParamTypes").mockReturnValue(undefined);
-    });
-    afterAll(() => {
-      jest.resetAllMocks();
+        expect(instance.injector).toBeInstanceOf(InjectorService);
+      });
     });
 
-    it("should call Metadata.getParamTypes()", () => {
-      // GIVEN
-      class Test {
-        test() {}
-      }
+    describe("when a group token is given on constructor", () => {
+      it("should inject the expected provider", async () => {
+        const TOKEN_GROUPS = Symbol.for("groups:2");
 
-      // WHEN
-      Inject(String)(Test.prototype, "propertyKey", 0);
+        interface InterfaceGroup {
+          type: string;
+        }
 
-      // THEN
-      expect(Metadata.getParamTypes).toBeCalledWith(Test.prototype, "propertyKey");
-      expect(Metadata.setParamTypes).toBeCalledWith(Test.prototype, "propertyKey", [String]);
+        @Injectable({
+          type: TOKEN_GROUPS
+        })
+        class MyService1 implements InterfaceGroup {
+          readonly type: string = "service1";
+
+          constructor(@Inject(InjectorService) readonly injector: InjectorService) {}
+        }
+
+        @Injectable({
+          type: TOKEN_GROUPS
+        })
+        class MyService2 implements InterfaceGroup {
+          readonly type: string = "service2";
+
+          constructor(@Inject(InjectorService) readonly injector: InjectorService) {}
+        }
+
+        const TokenAsync = Symbol.for("MyService1");
+
+        registerProvider({
+          provide: TokenAsync,
+          type: TOKEN_GROUPS,
+          deps: [],
+          async useAsyncFactory() {
+            return {
+              type: "async"
+            };
+          }
+        });
+
+        @Injectable()
+        class MyInjectable {
+          constructor(@Inject(TOKEN_GROUPS) readonly instances: InterfaceGroup[]) {}
+        }
+
+        const injector = new InjectorService();
+
+        await injector.load();
+
+        const instance = await injector.invoke<MyInjectable>(MyInjectable);
+
+        expect(instance.instances).toBeInstanceOf(Array);
+        expect(instance.instances).toHaveLength(3);
+        expect(instance.instances[0].type).toEqual("service1");
+        expect(instance.instances[1].type).toEqual("service2");
+        expect(instance.instances[2].type).toEqual("async");
+      });
     });
   });
 });
