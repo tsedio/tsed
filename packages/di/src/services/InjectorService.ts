@@ -10,7 +10,7 @@ import {
   isInheritedFrom,
   Metadata,
   nameOf,
-  prototypeOf,
+  isPromise,
   Store,
   isArray
 } from "@tsed/core";
@@ -217,7 +217,7 @@ export class InjectorService extends Container {
           this.registerHooks(provider, instance);
         }
 
-        if (!provider.isAsync()) {
+        if (!provider.isAsync() || !isPromise(instance)) {
           this.#cache.set(token, instance);
           return instance;
         }

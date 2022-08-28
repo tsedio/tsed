@@ -65,7 +65,8 @@ module.exports = (rootDir) => ({
     "^@tsed/passport$": fixPath(join(packageDir, "security/passport/src")),
     "^@tsed/jwks$": fixPath(join(packageDir, "security/jwks/src")),
     "^@tsed/oidc-provider$": fixPath(join(packageDir, "security/oidc-provider/src")),
-    "^@tsed/vite-ssr-plugin$": fixPath(join(packageDir, "third-parties/vite-ssr-plugin/src"))
+    "^@tsed/vite-ssr-plugin$": fixPath(join(packageDir, "third-parties/vite-ssr-plugin/src")),
+    "^@tsed/ioredis$": fixPath(join(packageDir, "orm/ioredis/src"))
   },
   testPathIgnorePatterns: ["node_modules", "/docs/", "/docs-references/", "/engines/"],
   modulePathIgnorePatterns: ["<rootDir>/lib", "<rootDir>/dist"], // An object that configures minimum threshold enforcement for coverage results

@@ -127,6 +127,71 @@ Documentation on other options properties can be found on the [oidc-provider](ht
 It is advised to set `path` to `/oidc` to prevent oidc-provider becoming the default exception handler on all routes. In future versions of Ts.ED this will be the default value.
 :::
 
+## Use Redis <Badge text="6.129.0+"/>
+
+Ts.ED provide a Redis adapter for OIDC provider. You just have to install `@tsed/adapters-redis` and configure a redis connection to store
+all OIDC provider data in Redis.
+
+```shell
+npm i --save @tsed/redis-adapters @tsed/ioredis ioredis
+npm i --save-dev ioredis-mock
+```
+
+Then create a new `RedisConnection.ts` for your new redis connection:
+
+```typescript
+import Redis from "ioredis";
+import {registerConnectionProvider} from "@tsed/ioredis";
+
+export const REDIS_CONNECTION = Symbol.for("REDIS_CONNECTION");
+export type REDIS_CONNECTION = Redis;
+
+registerConnectionProvider({
+  provide: REDIS_CONNECTION,
+  name: "default" // you can change this name at your conveniance
+});
+```
+
+::: tip Note
+
+You can find more details on [@tsed/ioredis documentation](/tutorials/ioredis.md).
+
+:::
+
+Then edit the Server settings:
+
+```typescript
+import {OIDCRedisAdapter, RedisAdapter} from "@tsed/adapters-redis";
+import {Configuration} from "@tsed/di";
+import {Accounts} from "./services/Accounts";
+import {InteractionsCtrl} from "./controllers/oidc/InteractionsCtrl";
+
+@Configuration({
+  httpPort: 8083,
+  mount: {
+    "/": [InteractionsCtrl]
+  },
+  redis: [
+    {
+      name: "default"
+      // add redis configuration
+    }
+  ],
+  adapters: {
+    Adapter: RedisAdapter,
+    connectionName: "default"
+  },
+  oidc: {
+    Adapter: OIDCRedisAdapter,
+    connectionName: "default"
+    /// other options
+  }
+})
+export class Server {}
+```
+
+That all!
+
 ## Allow HTTP & localhost
 
 By default, Ts.ED enable HTTP and localhost domain as a valid redirect uri for your OIDC project. But, sometimes you want to allow also HTTP and localhost domain in your `integration` or `QA`

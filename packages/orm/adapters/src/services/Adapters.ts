@@ -5,8 +5,6 @@ import {Adapter, AdapterConstructorOptions} from "../domain/Adapter";
 
 export interface AdapterInvokeOptions<T = any> extends AdapterConstructorOptions<T> {
   adapter?: Type<Adapter<T>>;
-
-  [key: string]: any;
 }
 
 @Injectable()

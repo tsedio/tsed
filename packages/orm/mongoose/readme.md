@@ -30,14 +30,14 @@
 
 A package of Ts.ED framework. See website: https://tsed.io/tutorials/mongoose.html
 
-## Feature
+## Features
 
 Currently, `@tsed/mongoose` allows you:
 
-- Configure one or more MongoDB database connections via the `@ServerSettings` configuration.
+- Configure one or more MongoDB database connections via the `@Configuration` configuration.
   All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Declare a Model from a class with annotation.
-- Declare inhertitated models in a single collection via `@DiscriminatorKey`.
+- Declare inherited models in a single collection via `@DiscriminatorKey`.
 - Add a plugin, PreHook method and PostHook on your model.
 - Inject a Model to a Service, Controller, Middleware, etc...
 

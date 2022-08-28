@@ -22,10 +22,10 @@ This tutorial shows you how you can use mongoose package with Ts.ED.
 
 Currently, [`@tsed/mongoose`](https://www.npmjs.com/package/@tsed/mongoose) allows you to:
 
-- Configure one or more MongoDB database connections via the `@ServerSettings` configuration.
+- Configure one or more MongoDB database connections via the `@Configuration` configuration.
   All databases will be initialized when the server starts during the server's `OnInit` phase.
 - Declare a Model from a class with annotation,
-- Declare inhertitated models in a single collection via `@DiscriminatorKey`
+- Declare inherited models in a single collection via `@DiscriminatorKey`
 - Add a plugin, PreHook method and PostHook on your model
 - Inject a Model to a Service, Controller, Middleware, etc.
 - Create and manage multiple connections

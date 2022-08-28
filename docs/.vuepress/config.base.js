@@ -218,6 +218,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
                 link: `${base}/tutorials/objection.html`
               },
               {
+                text: "IORedis",
+                link: `${base}/tutorials/ioredis.html`
+              },
+              {
                 text: "GraphQL",
                 link: `${base}/tutorials/graphql.html`
               },
@@ -321,6 +325,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             collapsable: true,
             children: [
               {
+                title: "Migrate to v7",
+                path: `https://v7.tsed.io/getting-started/migration-from-v6`
+              },
+              {
                 title: "Migrate from v6",
                 path: `${base}/getting-started/migration-from-v6`
               },
@@ -390,8 +398,9 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "Stripe", path: base + "/tutorials/stripe"},
               {title: "Agenda", path: base + "/tutorials/agenda"},
               {title: "Terminus", path: base + "/tutorials/terminus"},
-              {title: "Serverless", path: base + "/tutorials/serverless"}
-            ]
+              {title: "Serverless", path: base + "/tutorials/serverless"},
+              {title: "IORedis", path: base + "/tutorials/ioredis"}
+            ].sort((a, b) => (a.title < b.title ? -1 : 1))
           },
           {
             title: "Extras",
@@ -427,6 +436,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
           base + "/tutorials/agenda",
           base + "/tutorials/terminus",
           base + "/tutorials/serverless",
+          base + "/tutorials/ioredis",
           base + "/docs/controllers",
           base + "/docs/providers",
           base + "/docs/model",

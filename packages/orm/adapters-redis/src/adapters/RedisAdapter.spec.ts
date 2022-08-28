@@ -1,12 +1,14 @@
-import {Adapters, Indexed} from "@tsed/adapters";
+import {AdapterModel, Adapters, Indexed} from "@tsed/adapters";
 import {RedisAdapter} from "@tsed/adapters-redis";
-import {PlatformTest} from "@tsed/common";
+import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
 import {deserialize} from "@tsed/json-mapper";
-import {Property} from "@tsed/schema";
-import faker from "@faker-js/faker";
-import IORedis from "ioredis";
+import {Property, Required} from "@tsed/schema";
 
-import IORedisMock from "ioredis-mock";
+const REDIS_CONNECTION = Symbol.for("redis_connection");
+
+registerConnectionProvider({
+  provide: REDIS_CONNECTION
+});
 
 class Client {
   @Property()
@@ -14,33 +16,37 @@ class Client {
 
   @Indexed()
   name: string;
+
+  @Property()
+  @Required()
+  secret: string;
+}
+
+async function createAdapterFixture<Model extends AdapterModel = Client>({
+  collectionName = "client",
+  model = Client
+}: {collectionName?: string; model?: any} = {}) {
+  const adapter = IORedisTest.get<Adapters>(Adapters).invokeAdapter<Model>({
+    collectionName,
+    model,
+    adapter: RedisAdapter,
+    useHash: collectionName === "AuthorizationCode"
+  }) as RedisAdapter<Model>;
+
+  return {adapter};
 }
 
 describe("RedisAdapter", () => {
-  let adapter: RedisAdapter<Client>;
-  beforeEach(() => PlatformTest.create({}));
-  afterEach(() => PlatformTest.reset());
-  beforeEach(() => {
-    const locals = new Map();
-    // @ts-ignore
-    locals.set(IORedis, new IORedisMock());
-
-    adapter = PlatformTest.get<Adapters>(Adapters).invokeAdapter<Client>({
-      collectionName: "clients",
-      model: Client,
-      adapter: RedisAdapter,
-      locals
-    }) as RedisAdapter<Client>;
-  });
-
-  afterAll(async () => {
-    await adapter.deleteMany({});
-  });
+  beforeEach(() => IORedisTest.create());
+  afterEach(() => IORedisTest.reset());
 
   describe("create()", () => {
     it("should create a new instance", async () => {
+      const {adapter} = await createAdapterFixture();
+
       const base = {
-        name: faker.name.title()
+        name: "name",
+        secret: "secret"
       };
 
       const client = await adapter.create(base, new Date(Date.now() + 3000));
@@ -51,20 +57,22 @@ describe("RedisAdapter", () => {
 
       const keys = await adapter.db.keys("*");
 
-      expect(keys).toContain("clients:" + client._id);
-      expect(keys).toContain(`$idx:clients:${client._id}:name(${base.name})`);
+      expect(keys).toContain("client:" + client._id);
+      expect(keys).toContain(`$idx:client:${client._id}:name(${base.name})`);
     });
   });
-
   describe("upsert()", () => {
     it("should upsert a new instance", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = deserialize<Client>(
         {
-          name: faker.name.title()
+          name: "name",
+          secret: "secret"
         },
         {type: Client}
       );
-      const id = faker.datatype.uuid();
+      const id = "uuid";
 
       const client = await adapter.upsert(id, base);
       const client2 = await adapter.upsert(id, base);
@@ -76,15 +84,17 @@ describe("RedisAdapter", () => {
 
       const keys = await adapter.db.keys("*");
 
-      expect(keys).toContain("clients:" + client._id);
-      expect(keys).toContain(`$idx:clients:${client._id}:name(${base.name})`);
+      expect(keys).toContain("client:" + client._id);
+      expect(keys).toContain(`$idx:client:${client._id}:name(${base.name})`);
     });
   });
-
   describe("findById()", () => {
-    it("should create a new instance", async () => {
+    it("should find item by id (get)", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = {
-        name: faker.name.title()
+        name: "name",
+        secret: "secret"
       };
 
       const client = await adapter.create(base);
@@ -94,12 +104,29 @@ describe("RedisAdapter", () => {
       expect(result?._id).toBe(client._id);
       expect(result?.name).toBe(base.name);
     });
-  });
+    it("should find item by id (hgetall)", async () => {
+      const {adapter} = await createAdapterFixture<any>({
+        collectionName: "AuthorizationCode",
+        model: Object
+      });
 
+      const base = {
+        key: "value"
+      };
+
+      const token = await adapter.create(base);
+      const result = await adapter.findById(token._id);
+
+      expect(result.key).toEqual(token.key);
+    });
+  });
   describe("findOne()", () => {
     it("should find instance", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = {
-        name: faker.name.title()
+        name: "name",
+        secret: "secret"
       };
 
       const client = await adapter.create(base);
@@ -109,12 +136,15 @@ describe("RedisAdapter", () => {
       });
 
       expect(result).toBeInstanceOf(Client);
-      expect(result?._id).toBe(client._id);
       expect(result?.name).toBe(base.name);
+      expect(result?._id).toBe(client._id);
     });
     it("should find instance by id", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = {
-        name: faker.name.title()
+        name: "name",
+        secret: "secret"
       };
 
       const client = await adapter.create(base);
@@ -129,12 +159,15 @@ describe("RedisAdapter", () => {
       expect(result?.name).toBe(base.name);
     });
     it("should not find data", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = {
-        name: faker.name.title(),
-        otherProp: faker.name.title()
+        name: "name",
+        secret: "secret",
+        otherProp: "name"
       };
 
-      const client = await adapter.create(base);
+      await adapter.create(base);
 
       const result = await adapter.findOne({
         name: base.name,
@@ -146,8 +179,11 @@ describe("RedisAdapter", () => {
   });
   describe("findAll()", () => {
     it("should find all data (one prop)", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = {
-        name: faker.name.title()
+        name: "name",
+        secret: "secret"
       };
 
       const client = await adapter.create(base);
@@ -161,8 +197,11 @@ describe("RedisAdapter", () => {
       expect(result[0]?.name).toBe(base.name);
     });
     it("should find all by id (one prop)", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = {
-        name: faker.name.title()
+        name: "name",
+        secret: "secret"
       };
 
       const client = await adapter.create(base);
@@ -176,10 +215,11 @@ describe("RedisAdapter", () => {
       expect(result[0]?.name).toBe(base.name);
     });
     it("should find all items", async () => {
-      await adapter.deleteMany({});
+      const {adapter} = await createAdapterFixture({});
 
       const base = {
-        name: faker.name.title()
+        name: "name",
+        secret: "secret"
       };
 
       const client = await adapter.create(base);
@@ -191,9 +231,12 @@ describe("RedisAdapter", () => {
       expect(result[0]?.name).toBe(base.name);
     });
     it("should not find data when predicate has an unknown prop", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = {
-        name: faker.name.title(),
-        otherProp: faker.name.title()
+        name: "name",
+        secret: "secret",
+        otherProp: "name"
       };
 
       await adapter.create(base);
@@ -207,10 +250,20 @@ describe("RedisAdapter", () => {
     });
   });
   describe("updateOne()", () => {
-    it("should update one item", async () => {
+    it("should update one item and merge props (undefined props are filtered)", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = deserialize<Client>(
         {
-          name: faker.name.title()
+          name: "name",
+          secret: "secret"
+        },
+        {type: Client}
+      );
+
+      const majItem = deserialize<Client>(
+        {
+          name: "name"
         },
         {type: Client}
       );
@@ -220,18 +273,22 @@ describe("RedisAdapter", () => {
         {
           name: base.name
         },
-        base
+        majItem
       );
 
       expect(client).toBeInstanceOf(Client);
       expect(typeof client._id).toBe("string");
       expect(client._id).toBe(result?._id);
       expect(client.name).toBe(base.name);
+      expect(client.secret).toBe("secret");
     });
     it("should not update item", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = deserialize<Client>(
         {
-          name: faker.name.title()
+          name: "name",
+          secret: "secret"
         },
         {type: Client}
       );
@@ -250,9 +307,12 @@ describe("RedisAdapter", () => {
   });
   describe("deleteOne()", () => {
     it("should remove one item", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = deserialize<Client>(
         {
-          name: faker.name.title()
+          name: "name",
+          secret: "secret"
         },
         {type: Client}
       );
@@ -268,9 +328,12 @@ describe("RedisAdapter", () => {
       expect(client.name).toBe(base.name);
     });
     it("should not remove item", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = deserialize<Client>(
         {
-          name: faker.name.title()
+          name: "name",
+          secret: "secret"
         },
         {type: Client}
       );
@@ -286,9 +349,12 @@ describe("RedisAdapter", () => {
   });
   describe("deleteById()", () => {
     it("should remove one item", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = deserialize<Client>(
         {
-          name: faker.name.title()
+          name: "name",
+          secret: "secret"
         },
         {type: Client}
       );
@@ -304,9 +370,12 @@ describe("RedisAdapter", () => {
   });
   describe("deleteMany()", () => {
     it("should remove items", async () => {
+      const {adapter} = await createAdapterFixture({});
+
       const base = deserialize<Client>(
         {
-          name: faker.name.title()
+          name: "name",
+          secret: "secret"
         },
         {type: Client}
       );

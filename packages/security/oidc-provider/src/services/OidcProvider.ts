@@ -52,7 +52,17 @@ export class OidcProvider {
 
   async getConfiguration(): Promise<Configuration> {
     const [jwks, adapter] = await Promise.all([this.oidcJwks.getJwks(), this.adapters.createAdapterClass()]);
-    const {issuer, jwksPath, secureKey, proxy, Accounts, secureCookies = this.env == Env.PROD, ...options} = this.oidc;
+    const {
+      issuer,
+      jwksPath,
+      secureKey,
+      proxy,
+      Accounts,
+      secureCookies = this.env == Env.PROD,
+      Adapter,
+      connectionName,
+      ...options
+    } = this.oidc;
 
     const configuration: Configuration = {
       interactions: {
