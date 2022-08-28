@@ -1,7 +1,8 @@
-import {Type} from "@tsed/core";
-import {JwksKeyParameters} from "@tsed/jwks";
-import {Configuration} from "oidc-provider";
-import {OidcAccountsMethods} from "./OidcAccountsMethods";
+import type {Type} from "@tsed/core";
+import type {JwksKeyParameters} from "@tsed/jwks";
+import type {Configuration} from "oidc-provider";
+import type {Adapter} from "@tsed/adapters";
+import type {OidcAccountsMethods} from "./OidcAccountsMethods";
 
 export interface OidcSettings extends Configuration {
   /**
@@ -40,6 +41,14 @@ export interface OidcSettings extends Configuration {
    * Injectable service to manage accounts.
    */
   Accounts?: Type<OidcAccountsMethods>;
+  /**
+   * Injectable adapter to manage database connexion.
+   */
+  Adapter?: Type<Adapter>;
+  /**
+   * Use the connection name for the OIDCRedisAdapter.
+   */
+  connectionName?: string;
 }
 
 declare global {

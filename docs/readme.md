@@ -122,6 +122,9 @@ frameworks:
   - title: TypeORM
     href: /tutorials/typeorm.html
     src: /typeorm.png
+  - title: IORedis
+    href: /tutorials/ioredis.html
+    src: /ioredis.svg
   - title: Apollo
     href: /tutorials/graphql.html#apollo
     src: /apollo-graphql-compact.svg
