@@ -39,7 +39,8 @@ describe("deepClone", () => {
       h: Infinity,
       i: externalObject,
       j: new Test("test"),
-      k: [new Test("test"), false, 1, Test]
+      k: [new Test("test"), false, 1, Test],
+      l: new RegExp(/test/i)
     };
 
     const cloned = deepClone(original);
@@ -55,6 +56,10 @@ describe("deepClone", () => {
     expect(cloned.k.length).toBe(4);
     expect(cloned.k[0]).toBeInstanceOf(Test);
     expect(cloned.k[3]).toBe(Test);
+
+    expect(cloned.l).toBeInstanceOf(RegExp);
+    expect(cloned.l.source).toBe("test");
+    expect(cloned.l.flags).toBe("i");
 
     expect(deepClone(new Test("test"))).toBeInstanceOf(Test);
   });

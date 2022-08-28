@@ -5,6 +5,7 @@ import {isNil} from "./isNil";
 import {isPrimitive} from "./isPrimitive";
 import {isSymbol} from "./isSymbol";
 import {isBuffer} from "./isBuffer";
+import {isRegExp} from "./isRegExp";
 
 const isBasicType = (source: any) => isNil(source) || isPrimitive(source) || isSymbol(source) || isFunction(source);
 
@@ -28,6 +29,10 @@ export function deepClone(source: any, stack = new WeakMap()): any {
 
   if (isDate(source)) {
     return new Date(source);
+  }
+
+  if (isRegExp(source)) {
+    return new RegExp(source);
   }
 
   const stacked = stack.get(source);
