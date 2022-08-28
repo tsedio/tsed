@@ -383,7 +383,11 @@ describe("SocketHandlersBuilder", () => {
               filter: SocketFilters.NSP
             }
           },
-          {nsp: "nsp"}
+          {
+            socket: {
+              nsp: "nsp"
+            }
+          }
         );
 
         expect(result).toEqual(["nsp"]);

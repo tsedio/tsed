@@ -26,4 +26,18 @@ describe("SocketService", () => {
       });
     });
   });
+  describe("case 3", () => {
+    class Test {}
+    it("should set metadata", () => {
+      const regexp = new RegExp(/test/);
+
+      SocketService(regexp)(Test);
+      const store = Store.from(Test);
+
+      expect(store.get("socketIO")).toEqual({
+        namespace: regexp,
+        type: "service"
+      });
+    });
+  });
 });

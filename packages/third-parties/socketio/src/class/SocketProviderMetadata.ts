@@ -4,7 +4,7 @@ import {SocketProviderTypes} from "../interfaces/SocketProviderTypes";
 
 export class SocketProviderMetadata {
   public type: SocketProviderTypes;
-  public namespace: string;
+  public namespace: string | RegExp;
   public error: boolean = false;
   public injectNamespaces: SocketInjectableNsp[] = [];
   public useBefore: any[] = [];
