@@ -40,7 +40,7 @@ describe("Nsp", () => {
   });
 
   describe("when it used as property decorator with parameters", () => {
-    it("should set metadata", () => {
+    it("should set metadata (string)", () => {
       class Test {
         @Nsp("/test")
         property: any;
@@ -49,6 +49,20 @@ describe("Nsp", () => {
       const store = Store.from(Test);
       expect(store.get("socketIO")).toEqual({
         injectNamespaces: [{propertyKey: "property", nsp: "/test"}]
+      });
+    });
+
+    it("should set metadata (RegExp)", () => {
+      const regexp = new RegExp(/test/);
+
+      class Test {
+        @Nsp(regexp)
+        property: any;
+      }
+
+      const store = Store.from(Test);
+      expect(store.get("socketIO")).toEqual({
+        injectNamespaces: [{propertyKey: "property", nsp: regexp}]
       });
     });
   });
