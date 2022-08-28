@@ -68,6 +68,7 @@ export * from "./utils/objects/isPlainObject";
 export * from "./utils/objects/isPrimitive";
 export * from "./utils/objects/isPromise";
 export * from "./utils/objects/isProtectedKey";
+export * from "./utils/objects/isRegExp";
 export * from "./utils/objects/isSerializable";
 export * from "./utils/objects/isStream";
 export * from "./utils/objects/isString";
