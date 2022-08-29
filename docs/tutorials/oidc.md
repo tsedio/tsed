@@ -352,9 +352,10 @@ Some part of the OIDC provider configuration needs function to work. And ideally
 It's possible to do that by listening the `$alterOidcConfiguration` hook and inject the expected functions in the configuration:
 
 ```typescript
-import {Module} from "@tsed/oidc-provider";
-import {OidcSettings, OidcProviderContext} from "@tsed/oidc-provider";
-import {set} from "lodash";
+import {PlatformContext} from "@tsed/common";
+import {InjectContext, Module} from "@tsed/di";
+import {AuthorizationCode, BackchannelAuthenticationRequest, DeviceCode, RefreshToken, Client, OidcSettings} from "@tsed/oidc-provider";
+import {KoaContextWithOIDC, Provider, ResourceServer} from "oidc-provider";
 
 @Module()
 class OidcResourceIndicatorsModule {
@@ -363,7 +364,7 @@ class OidcResourceIndicatorsModule {
 
   async $alterOidcConfiguration(config: OidcSettings): Promise<OidcSettings> {
     // example with the
-    config.features.resourceIndicators = {
+    config.features!.resourceIndicators = {
       enabled: true,
       defaultResource: this.defaultResource.bind(this),
       getResourceServerInfo: this.getResourceServerInfo.bind(this),
@@ -373,18 +374,20 @@ class OidcResourceIndicatorsModule {
     return config;
   }
 
-  protected async defaultResource(ctx: KoaContextWithOIDC) {
+  protected async defaultResource(ctx: KoaContextWithOIDC): Promise<string | string[]> {
     ///
+    return "https://mydomain.com";
   }
 
-  protected async getResourceServerInfo(ctx: KoaContextWithOIDC, resourceIndicator: string, client: Client): Promise<string | string[]> {
+  protected async getResourceServerInfo(ctx: KoaContextWithOIDC, resourceIndicator: string, client: Client): Promise<ResourceServer> {
     ///
+    return {};
   }
 
   protected async useGrantedResource(
     ctx: KoaContextWithOIDC,
     model: AuthorizationCode | RefreshToken | DeviceCode | BackchannelAuthenticationRequest
-  ): Promise<Boolean> {
+  ): Promise<boolean> {
     return true;
   }
 }
