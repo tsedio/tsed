@@ -44,7 +44,7 @@ and populate the directory with the initial core Ts.ED files and supporting modu
 Creating a new project with the CLI is recommended for first-time users.
 
 ```bash
-npm install -g @tsed/cli@4
+npm install -g @tsed/cli@4.0.0-rc.1
 tsed init .
 ```
 
