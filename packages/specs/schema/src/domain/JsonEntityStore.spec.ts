@@ -53,6 +53,7 @@ describe("JsonEntityStore", () => {
     expect(storeProp.isPrimitive).toBe(true);
     expect(storeProp.isObject).toBe(false);
     expect(storeProp.isClass).toBe(false);
+    expect(storeProp.isGetterOnly()).toBeFalsy();
 
     // METHOD
     const storeMethod = JsonEntityStore.from(Model).children.get("method") as JsonMethodStore;
@@ -92,6 +93,7 @@ describe("JsonEntityStore", () => {
     expect(storeParam.isPrimitive).toBe(true);
     expect(storeParam.isObject).toBe(false);
     expect(storeParam.isClass).toBe(false);
+    expect(storeParam.isGetterOnly()).toBe(false);
   });
   it("should manage enum from babel", () => {
     enum MyEnum {
@@ -109,5 +111,35 @@ describe("JsonEntityStore", () => {
     const store = JsonEntityStore.from(Model, "test");
 
     expect(store.type).toEqual(String);
+  });
+
+  describe("isGetterOnly()", () => {
+    it("should create JsonEntityStore on getter", () => {
+      class Model {
+        @Property()
+        get id() {
+          return "id";
+        }
+      }
+
+      // CLASS
+      // PROPERTY
+      const storeProp = JsonEntityStore.from(Model).children.get("id") as JsonPropertyStore;
+      expect(storeProp.isGetterOnly()).toBeTruthy();
+    });
+    it("should create JsonEntityStore on getter/setter", () => {
+      class Model {
+        @Property()
+        get id() {
+          return "id";
+        }
+        set id(id: string) {}
+      }
+
+      // CLASS
+      // PROPERTY
+      const storeProp = JsonEntityStore.from(Model).children.get("id") as JsonPropertyStore;
+      expect(storeProp.isGetterOnly()).toBeFalsy();
+    });
   });
 });

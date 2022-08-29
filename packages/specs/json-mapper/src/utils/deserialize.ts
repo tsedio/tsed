@@ -161,7 +161,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
       collectionType: propStore.collectionType
     });
 
-    if (!propStore.schema.isReadOnly) {
+    if (!propStore.isGetterOnly()) {
       if (value !== undefined) {
         out[propStore.propertyName] = value;
       } else if (options.partial) {

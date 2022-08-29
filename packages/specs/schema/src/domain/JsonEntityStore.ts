@@ -57,7 +57,7 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
   /**
    * Method's descriptor
    */
-  readonly descriptor: number;
+  readonly descriptor: PropertyDescriptor;
   /**
    * Decorator type used to declare the JsonSchemaStore.
    */
@@ -95,6 +95,9 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     this.parent = this;
   }
 
+  isGetterOnly() {
+    return isObject(this.descriptor) && !this.descriptor.value && this.descriptor.get && !this.descriptor.set;
+  }
   /**
    * Return the class name of the entity.
    * @returns {string}
