@@ -63,6 +63,12 @@ Then, you can inject your socket service into another Service, Controller, etc. 
 
 <<< @/tutorials/snippets/socketio/socket-service-di.ts
 
+### Dynamic Namespaces
+
+> Socket.io [dynamic namespaces](https://socket.io/docs/v4/namespaces/#dynamic-namespaces) can be implemented using @@SocketService@@, @@Namespace@@ and @@Nsp@@
+
+<<< @/tutorials/snippets/socketio/socket-service-dynamic-nsp.ts
+
 ### Declaring an Input Event
 
 @@Input@@ decorator declares a method as a new handler for a specific `event`.
@@ -72,7 +78,8 @@ Then, you can inject your socket service into another Service, Controller, etc. 
 - @@Args@@ &lt;any|any[]&gt;: List of the parameters sent by the input event.
 - @@Socket@@ &lt;SocketIO.Socket&gt;: Socket instance.
 - @@Namespace@@ &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
-- @@Nps@@ &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
+- @@Nsp@@ &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance.
+- @@SocketNsp@@ &lt;[SocketIO.Namespace](https://socket.io/docs/rooms-and-namespaces/#)&gt;: Namespace instance from socket.
 
 ### Send a response
 
