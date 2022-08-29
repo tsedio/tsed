@@ -116,10 +116,10 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
       return;
     }
 
-    // Keeping the Mongoose Schema separate so it can overwrite everything once schema has been built.
+    // Keeping the Mongoose Schema separate, so it can overwrite everything once schema has been built.
     const schemaTypeOptions: any = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
 
-    if (schemaTypeOptions.schemaIgnore || propertyMetadata.schema.isReadOnly) {
+    if (schemaTypeOptions.schemaIgnore || propertyMetadata.isGetterOnly()) {
       return;
     }
 

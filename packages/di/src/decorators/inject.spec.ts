@@ -1,4 +1,5 @@
-import {descriptorOf} from "@tsed/core";
+import {catchError, descriptorOf} from "@tsed/core";
+import {Required} from "@tsed/schema";
 import {Inject, Injectable, InjectorService, registerProvider} from "../../src";
 
 describe("@Inject()", () => {
@@ -106,6 +107,20 @@ describe("@Inject()", () => {
       expect(instance.instances[0].type).toEqual("service1");
       expect(instance.instances[1].type).toEqual("service2");
       expect(instance.instances[2].type).toEqual("async");
+    });
+    it("should catch error when an object is given as token provider", async () => {
+      // GIVEN
+      @Injectable()
+      class Test {
+        @Required()
+        test: Object;
+      }
+
+      const error = catchError(() => {
+        Inject()(Test.prototype, "test");
+      });
+
+      expect(error?.message).toMatchSnapshot();
     });
   });
 

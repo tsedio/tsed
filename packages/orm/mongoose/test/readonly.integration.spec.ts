@@ -1,7 +1,7 @@
 import {Inject, Injectable, PlatformTest} from "@tsed/common";
 import {getJsonSchema, Groups, Name, Property, ReadOnly, Required} from "@tsed/schema";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {Immutable, Model, MongooseModel, ObjectID} from "../src/index";
+import {Immutable, Model, MongooseModel, ObjectID, SchemaIgnore} from "../src/index";
 
 class BaseModel {
   @ObjectID("id")
@@ -12,12 +12,14 @@ class BaseModel {
   @Required()
   @Immutable()
   @ReadOnly()
+  @SchemaIgnore()
   @Name("created_at")
   @Groups("!create", "!update")
   createdAt: number = Date.now();
 
   @Required()
   @ReadOnly()
+  @SchemaIgnore()
   @Name("updated_at")
   @Groups("!create", "!update")
   updatedAt: number = Date.now();
