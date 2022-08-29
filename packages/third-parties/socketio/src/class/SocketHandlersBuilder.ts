@@ -243,7 +243,7 @@ export class SocketHandlersBuilder {
           return scope.socket;
 
         case SocketFilters.NSP:
-          return scope.socket.nsp;
+          return scope.nsp;
 
         case SocketFilters.ERR:
           return scope.error;
@@ -251,6 +251,9 @@ export class SocketHandlersBuilder {
         case SocketFilters.SESSION:
           const instance = this.injector.get(this.provider.token);
           return instance._nspSession.get(scope.socket.id);
+
+        case SocketFilters.SOCKET_NSP:
+          return scope.socket.nsp;
       }
     });
   }
