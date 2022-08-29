@@ -7,5 +7,6 @@ export enum SocketFilters {
   EVENT_NAME = "eventName",
   NSP = "nsp",
   SESSION = "session",
-  ERR = "error"
+  ERR = "error",
+  SOCKET_NSP = "socket_nsp"
 }

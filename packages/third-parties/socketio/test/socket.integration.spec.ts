@@ -1,6 +1,6 @@
 import {Inject, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Emit, Input, Nsp, SocketIOServer, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
+import {Emit, Input, Nsp, SocketNsp, SocketIOServer, SocketService, SocketSession, SocketUseBefore} from "@tsed/socketio";
 import {SocketClientService} from "@tsed/socketio-testing";
 import {Namespace, Socket as IOSocket} from "socket.io";
 import {ConverterUserSocketMiddleware} from "./app/middlewares/ConverterUserSocketMiddleware";
@@ -37,7 +37,7 @@ export class TestWS2 {
   @Input("input:scenario2")
   @Emit("output:scenario2")
   @SocketUseBefore(ConverterUserSocketMiddleware)
-  async scenario2(@Nsp nsp: Nsp) {
+  async scenario2(@SocketNsp nsp: SocketNsp) {
     return "namespace:" + nsp.name;
   }
 }

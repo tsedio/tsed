@@ -22,6 +22,7 @@ export * from "./decorators/socketEventName";
 export * from "./decorators/socketFilter";
 export * from "./decorators/socketMiddleware";
 export * from "./decorators/socketMiddlewareError";
+export * from "./decorators/socketNsp";
 export * from "./decorators/socketReturns";
 export * from "./decorators/socketService";
 export * from "./decorators/socketSession";
