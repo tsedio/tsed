@@ -43,8 +43,8 @@ To scaffold the project with the CLI, run the following commands. This will crea
 and populate the directory with the initial core Ts.ED files and supporting modules, creating a conventional base structure for your project.
 Creating a new project with the CLI is recommended for first-time users.
 
-```bash
-npm install -g @tsed/cli@4.0.0-rc.1
+```shell
+npm install -g @tsed/cli@4.0.0-rc.2
 tsed init .
 ```
 

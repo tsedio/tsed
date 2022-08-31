@@ -102,6 +102,7 @@ Here are the plugins provided by Ts.ED and the compatibility with the different 
 | [Prisma](/tutorials/prisma.html)          | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  |
 | [TypeORM](/tutorials/typeorm.html)        | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  |
 | [Mongoose](/tutorials/mongoose.html)      | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  |
+| [IORedis](/tutorials/ioredis.html)        | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  |
 | [Objection.js](/tutorials/objection.html) | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/valid.svg" width="15" alt="yes"/>  |
 | [GraphQL](/tutorials/graphql.html)        | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="no"/>   | <img src="../assets/invalid.svg" width="15" alt="no"/> | <img src="../assets/invalid.svg" width="15" alt="no"/> |
 | [Socket.io](/tutorials/socket-io.html)    | <img src="../assets/valid.svg" width="15" alt="yes"/> | <img src="../assets/valid.svg" width="15" alt="yes"/>  | <img src="../assets/invalid.svg" width="15" alt="no"/> | <img src="../assets/invalid.svg" width="15" alt="no"/> |
@@ -111,80 +112,6 @@ Here are the plugins provided by Ts.ED and the compatibility with the different 
 
 </div>
 
-## What's new ?
-
-<ReleaseNote style="max-height: 500px" class="overflow-auto mb-5" />
-
-### Platform API
-
-V6 marks a major evolution of the Ts.ED framework.
-A lot of work has been done on the internal Ts.ED code since v5 in order to prepare the arrival of this new version.
-This work was mainly oriented on the creation of an abstraction layer between the Ts.ED framework and Express.js.
-
-The v5 introduced the [Platform API](/docs/platform-api.md)
-and the v6 is the confirmation of this API which allows supporting [Express.js](https://expressjs.com/) and [Koa.js](https://koajs.com/) and many more in the future.
-
-We are glad this work resulted in the creation of the [@tsed/platform-express](https://www.npmjs.com/package/@tsed/platform-express) and
-[@tsed/platform-koa](https://www.npmjs.com/package/@tsed/platform-koa).
-
-::: tip See also
-
-- Template engine: [Configure template engine with Platform API](/docs/templating.md).
-- Statics files: [Configure statics files with Platform API](/docs/serve-files.md).
-- Upload files: [Multer is now a part of @tsed/common](/docs/serve-files.md).
-
-:::
-
-### Schema and OpenSpec
-
-This release finally adds support for [OpenSpec 3](https://swagger.io/docs/specification/about/) while supporting
-the previous version [Swagger2](https://swagger.io/docs/specification/2-0/basic-structure/).
-The management of OpenSpec is at the heart of the framework as is [JsonSchema](https://json-schema.org/).
-
-All decorators related to the declaration of schema, routes and endpoints are now integrated in a single module [`@tsed/schema`](https://www.npmjs.com/package/@tsed/schema).
-This module has been designed to be used independently of the Ts.ED framework.
-You can therefore use it for your projects without installing the whole framework!
-
-::: tip See also
-New features are available:
-
-- [Manage models using Typescript generics](/docs/controllers.md#generics).
-- [Add validation decorator on endpoint parameters](/docs/controllers.md#validation)
-- [Manage response models by content-type and status code (OAS3)](/tutorials/swagger.md).
-- [Configure Swagger to generate OpenSpec3](/tutorials/swagger.md).
-
-Since <Badge text="v6.14.0" />:
-
-- [Manage Groups properties](/docs/model.md#groups).
-- [Use functional programming to declare custom schema](/docs/model.md#using-functions).
-
-:::
-
-### JsonMapper
-
-In the same idea, the convertersService code was taken out of the [`@tsed/common`](https://www.npmjs.com/package/@tsed/common) module
-to the new [`@tsed/json-mapper`](https://www.npmjs.com/package/@tsed/json-mapper) module.
-It's based on the [`@tsed/schema`](https://www.npmjs.com/package/@tsed/schema) module to perform the mapping of your classes
-to a Plain Object JavaScript object and vice versa.
-
-You can therefore use it for your projects without installing the whole framework!
-
-::: tip See also
-
-- @@Ignore@@ decorator accepts a callback to define when the property should be ignored.
-- @@serialize@@ and @@deserialize@@ function can be used in place of @@ConverterService@@.
-- `@Converter` has been replaced in favor of @@JsonMapper@@. See our [migration guide](/gettings-started/migration-from-v5.md#jsonMapper).
-
-:::
-
-See our [migration guide](migration-from-v6.md) for more details.
-
-### Cache
-
-Ts.ED provide now, a unified cache manager solution based on the awesome [`cache-manager`](https://www.npmjs.com/package/cache-manager).
-
-See our dedicated page on [Cache](/docs/cache.md).
-
 ## Installation
 
 To get started, you can either scaffold the project with the Ts.ED CLI, or clone a starter project.
@@ -192,6 +119,11 @@ To get started, you can either scaffold the project with the Ts.ED CLI, or clone
 To scaffold the project with the CLI, run the following commands. This will create a new project directory,
 and populate the directory with the initial core Ts.ED files and supporting modules, creating a conventional base structure for your project.
 Creating a new project with the CLI is recommended for first-time users.
+
+```shell
+npm install -g @tsed/cli@4.0.0-rc.2
+tsed init .
+```
 
 By using the CLI, you will be able to choose between different options to generate your first application:
 
