@@ -336,7 +336,7 @@ United States for export reasons:
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/snippets/model/constant-values.ts
+<<< @/docs/snippets/model/constant-values.json
 
   </Tab>
 </Tabs>
