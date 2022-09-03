@@ -78,6 +78,92 @@ export class User extends Model {
 }
 ```
 
+## Relationships
+
+Ts.ED enables you to define relationships between models on properties directly, using decorators such as @@BelongsToOne@@, @@HasMany@@, @@HasOne@@, @@HasOneThroughRelationship@@, @@ManyToMany@@ or @@RelatesTo@@.
+
+You can supply a configuration object via (@@RelationshipOpts@@) into the decorator factor to override the default join keys and configure a relationship like you normally would via `relationMappings`. For collection-type relationships, you must also specify the model you wish to use and we will also apply the @@CollectionOf@@ decorator for you automatically.
+
+This expressive usage ensures that your domain models are correctly typed for usage alongside [Objection.js's Graph API](https://vincit.github.io/objection.js/api/query-builder/eager-methods.html).
+
+```typescript
+/**
+ * All work in a similar manner:
+ * - @HasMany, @HasOne, @HasOneThroughRelation, @ManyToMany, @RelatesTo
+ */
+import {Entity, BelongsToOne} from "@tsed/objection";
+
+@Entity("user")
+class User extends Model {
+  @IdColumn()
+  id!: string;
+}
+
+@Entity("movie")
+class Movie extends Model {
+  @IdColumn()
+  id!: string;
+
+  ownerId!: string;
+
+  @BelongsToOne()
+  owner?: User;
+}
+
+// Retrieve the related user
+const owner = await Movie.relatedQuery("owner").for(1);
+
+// Retrieve the movie with their owner
+const movie = await Movie.query().for(1).withGraphFetched("owner");
+```
+
+### Default joining keys
+
+When used in conjunction with @@Entity@@ and @@IdColumn@@, Ts.ED attempts to provide you with a sensible default for your join keys out of the box, reducing the amount of boilerplate you need to write.
+
+In the instance of @@BelongsToOne@@, the default join keys will be:
+
+```json
+{
+  "from": "<sourceModelTable>.<foreignModelProperty>Id",
+  "to": "<foreignModelTable>.<foreignModelIdColumn>"
+}
+```
+
+::: tip
+An example of the keys outputted above could be `movie.ownerId` and `user.id` respectively.
+:::
+
+In the instances of @@HasMany@@ and @@HasOne@@, the default join keys will be:
+
+```json
+{
+  "from": "<sourceModelTable>.<sourceModelIdColumn>",
+  "to": "<foreignModelTable>.<sourceModelTable>Id"
+}
+```
+
+::: tip
+An example of the keys outputted above could be `user.id` and `authentication.userId` respectively.
+:::
+
+In the instances of @@ManyToMany@@ and @@HasOneThroughRelation@@, the default join key will be:
+
+```json
+{
+  "from": "<sourceModelTable>.<sourceModelIdColumn>",
+  "through": {
+    "from": "<sourceModelTable>_<foreignModelTable>.<sourceModelTable>Id",
+    "to": "<sourceModelTable>_<foreignModelTable>.<foreignModelTable>Id"
+  },
+  "to": "<foreignModelTable>.<foreignModelIdColumn>"
+}
+```
+
+::: tip
+An example of the keys outputted above could be `user.id`, `user_authentication.userId`, `user_authentication.authenticationId` and `authentication.id` respectively.
+:::
+
 ## Get connection
 
 ```typescript
