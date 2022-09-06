@@ -1,6 +1,7 @@
 import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "../common/jsonEntityFn";
-import {JsonParameterStore, JsonPropertyStore} from "@tsed/schema";
+import {JsonPropertyStore} from "../../domain/JsonPropertyStore";
+import {JsonParameterStore} from "../../domain/JsonParameterStore";
 
 /**
  * Add deprecated metadata on the decorated element.
