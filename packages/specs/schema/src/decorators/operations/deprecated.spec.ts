@@ -1,4 +1,5 @@
-import {Deprecated, getSpec, OperationPath, SpecTypes} from "@tsed/schema";
+import {Deprecated, getSpec, OperationPath, Returns, SpecTypes} from "@tsed/schema";
+import {QueryParams} from "@tsed/platform-params";
 
 describe("Deprecated", () => {
   it("should store metadata (swagger)", () => {
@@ -105,18 +106,106 @@ describe("Deprecated", () => {
       }
     });
   });
-  it("should throw error for unsupported usage", () => {
-    class Test {
-      test() {}
+  it("should store metadata (param)", () => {
+    class MyController {
+      @OperationPath("GET", "/")
+      get(@QueryParams("param") @Deprecated(true) param: string) {}
     }
 
-    let actualError: any;
-    try {
-      Deprecated()(Test.prototype, "test", 0);
-    } catch (er) {
-      actualError = er;
+    expect(getSpec(MyController)).toEqual({
+      tags: [
+        {
+          name: "MyController"
+        }
+      ],
+      paths: {
+        "/": {
+          get: {
+            operationId: "myControllerGet",
+            parameters: [
+              {
+                deprecated: true,
+                in: "query",
+                name: "param",
+                required: false,
+                schema: {
+                  type: "string"
+                }
+              }
+            ],
+            responses: {
+              "200": {
+                description: "Success"
+              }
+            },
+            tags: ["MyController"]
+          }
+        }
+      }
+    });
+  });
+  it("should store metadata (prop)", () => {
+    class MyModel {
+      @Deprecated()
+      myProp: string;
     }
 
-    expect(actualError.message).toEqual("Deprecated cannot be used as parameter decorator on Test.test.[0]");
+    class MyController {
+      @OperationPath("GET", "/")
+      @Returns(200, MyModel)
+      get(@QueryParams("param") @Deprecated(true) param: string) {}
+    }
+
+    expect(getSpec(MyController)).toEqual({
+      tags: [
+        {
+          name: "MyController"
+        }
+      ],
+      paths: {
+        "/": {
+          get: {
+            operationId: "myControllerGet",
+            parameters: [
+              {
+                deprecated: true,
+                in: "query",
+                name: "param",
+                required: false,
+                schema: {
+                  type: "string"
+                }
+              }
+            ],
+            responses: {
+              "200": {
+                description: "Success",
+                content: {
+                  "application/json": {
+                    schema: {
+                      $ref: "#/components/schemas/MyModel"
+                    }
+                  }
+                }
+              }
+            },
+            tags: ["MyController"]
+          }
+        }
+      },
+      components: {
+        schemas: {
+          MyModel: {
+            type: "object",
+            properties: {
+              myProp: {
+                type: "string",
+                deprecated: true
+              }
+            }
+          }
+        }
+      }
+    });
   });
 });
