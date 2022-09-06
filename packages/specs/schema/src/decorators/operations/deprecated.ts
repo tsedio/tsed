@@ -1,5 +1,6 @@
 import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "../common/jsonEntityFn";
+import {JsonParameterStore, JsonPropertyStore} from "@tsed/schema";
 
 /**
  * Add deprecated metadata on the decorated element.
@@ -31,6 +32,12 @@ export function Deprecated(deprecated: boolean = true) {
         break;
       case DecoratorTypes.CLASS:
         decorateMethodsOf(args[0], Deprecated(deprecated));
+        break;
+      case DecoratorTypes.PARAM:
+        (store as JsonParameterStore).parameter.set("deprecated", deprecated);
+        break;
+      case DecoratorTypes.PROP:
+        (store as JsonPropertyStore).schema.set("deprecated", deprecated);
         break;
 
       default:
