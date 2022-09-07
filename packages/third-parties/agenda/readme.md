@@ -90,7 +90,7 @@ import {Job} from "agenda";
 export class EmailJobService {
   @Every("60 minutes", {
     name: "maintenanceJob",
-    /* ... and any option you would normally pass to agenda.every/define */ }
+    /* ... and any option you would normally pass to agenda.every/define */
   })
   async sendAdminStatistics(job: Job) {
     // implement something here
