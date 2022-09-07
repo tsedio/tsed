@@ -394,7 +394,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {title: "Agenda", path: base + "/tutorials/agenda"},
               {title: "Terminus", path: base + "/tutorials/terminus"},
               {title: "Serverless", path: base + "/tutorials/serverless"},
-              {title: "IORedis", path: base + "/tutorials/ioredis"}
+              {title: "IORedis", path: base + "/tutorials/ioredis"},
+              {title: "Objection.js", path: base + "/tutorials/objection"}
             ].sort((a, b) => (a.title < b.title ? -1 : 1))
           },
           {
