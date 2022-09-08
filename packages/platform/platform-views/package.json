@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-views",
-  "version": "6.131.1",
+  "version": "6.132.0",
   "description": "Views module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -26,20 +26,20 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "6.131.1",
-    "@tsed/di": "6.131.1",
-    "@tsed/engines": "6.131.1",
-    "@tsed/exceptions": "6.131.1",
-    "@tsed/schema": "6.131.1",
+    "@tsed/core": "6.132.0",
+    "@tsed/di": "6.132.0",
+    "@tsed/engines": "6.132.0",
+    "@tsed/exceptions": "6.132.0",
+    "@tsed/schema": "6.132.0",
     "@types/consolidate": "0.14.1",
     "@types/ejs": "3.1.1"
   },
   "peerDependencies": {
-    "@tsed/core": "^6.131.1",
-    "@tsed/di": "^6.131.1",
-    "@tsed/engines": "^6.131.1",
-    "@tsed/exceptions": "^6.131.1",
-    "@tsed/schema": "^6.131.1"
+    "@tsed/core": "^6.132.0",
+    "@tsed/di": "^6.132.0",
+    "@tsed/engines": "^6.132.0",
+    "@tsed/exceptions": "^6.132.0",
+    "@tsed/schema": "^6.132.0"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
