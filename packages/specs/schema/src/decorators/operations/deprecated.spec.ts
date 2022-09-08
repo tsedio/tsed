@@ -1,5 +1,6 @@
 import {Deprecated, getSpec, OperationPath, Returns, SpecTypes} from "@tsed/schema";
 import {QueryParams} from "@tsed/platform-params";
+import {catchError} from "@tsed/core";
 
 describe("Deprecated", () => {
   it("should store metadata (swagger)", () => {
@@ -207,5 +208,15 @@ describe("Deprecated", () => {
         }
       }
     });
+  });
+  it("should throw an error when the decorator is as static func decorator", () => {
+    const error = catchError(() => {
+      class Model {
+        @Deprecated(true)
+        static myStaticFunc() {}
+      }
+    });
+
+    expect(error?.message).toEqual("Deprecated cannot be used as method.static decorator on Model.myStaticFunc");
   });
 });
