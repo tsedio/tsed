@@ -1,4 +1,4 @@
-import {decorateMethodsOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
+import {decorateMethodsOf, decoratorTypeOf, DecoratorTypes, UnsupportedDecoratorType} from "@tsed/core";
 import {JsonEntityFn} from "../common/jsonEntityFn";
 import {JsonPropertyStore} from "../../domain/JsonPropertyStore";
 import {JsonParameterStore} from "../../domain/JsonParameterStore";
@@ -27,7 +27,7 @@ import {JsonParameterStore} from "../../domain/JsonParameterStore";
  */
 export function Deprecated(deprecated: boolean = true) {
   return JsonEntityFn((store, args) => {
-    switch (store.decoratorType) {
+    switch (decoratorTypeOf(args)) {
       case DecoratorTypes.METHOD:
         store.operation!.deprecated(deprecated);
         break;
