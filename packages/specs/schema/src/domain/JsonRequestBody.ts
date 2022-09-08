@@ -24,11 +24,12 @@ export class JsonRequestBody extends JsonMap<JsonRequestBodyOptions> {
     return this;
   }
 
-  addContent(mediaType: string, schema: JsonSchema) {
+  addContent(mediaType: string, schema: JsonSchema, examples?: any) {
     const content = this.get("content");
     const mediaContent = new JsonMap();
 
     mediaContent.set("schema", schema);
+    examples && mediaContent.set("examples", examples);
 
     content.set(mediaType, mediaContent);
 
