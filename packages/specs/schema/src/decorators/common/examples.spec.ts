@@ -61,22 +61,22 @@ describe("@Examples", () => {
             requestBody: {
               content: {
                 "application/json": {
+                  examples: {
+                    Example1: {
+                      description: "Example with hello1",
+                      value: {
+                        test: "hello1"
+                      }
+                    },
+                    Example2: {
+                      description: "Example with hello2",
+                      value: {
+                        test: "hello2"
+                      }
+                    }
+                  },
                   schema: {
                     $ref: "#/components/schemas/MyModel"
-                  }
-                }
-              },
-              examples: {
-                Example1: {
-                  description: "Example with hello1",
-                  value: {
-                    test: "hello1"
-                  }
-                },
-                Example2: {
-                  description: "Example with hello2",
-                  value: {
-                    test: "hello2"
                   }
                 }
               },

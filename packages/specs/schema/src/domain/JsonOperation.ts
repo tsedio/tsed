@@ -254,13 +254,13 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
   }
 }
 
-function toRequestBody(operation: JsonOperation, {schema, in: _, ...props}: any) {
+function toRequestBody(operation: JsonOperation, {schema, examples, in: _, ...props}: any) {
   const requestBody = new JsonRequestBody(props);
 
   const consumes = operation.get("consumes")?.length ? operation.get("consumes") : ["application/json"];
 
   consumes.forEach((consume: string) => {
-    requestBody.addContent(consume, schema);
+    requestBody.addContent(consume, schema, examples);
   });
 
   return requestBody;

@@ -1,5 +1,5 @@
 import {OpenSpecHash, OpenSpecRef, OS3Example} from "@tsed/openspec";
-import {JsonEntityStore} from "../../domain/JsonEntityStore";
+import {JsonParameterStore} from "../../domain/JsonParameterStore";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -13,7 +13,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @classDecorator
  */
 export function Examples(examples: OpenSpecHash<OS3Example | OpenSpecRef>): ParameterDecorator {
-  return JsonEntityFn((store: JsonEntityStore) => {
+  return JsonEntityFn((store: JsonParameterStore) => {
     store.parameter!.examples(examples);
   });
 }
