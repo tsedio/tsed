@@ -13,6 +13,8 @@ class MyService {
   redis() {
     return Promise.resolve("OK");
   }
+
+  $beforeShutdown() {}
 }
 
 describe("TerminusModule", () => {
@@ -70,5 +72,18 @@ describe("TerminusModule", () => {
     ]);
 
     await props.onSignal();
+  });
+
+  it("should emit event", async () => {
+    const terminusModule = PlatformTest.get<TerminusModule>(TerminusModule);
+    const service = PlatformTest.get<MyService>(MyService);
+
+    jest.spyOn(service, "$beforeShutdown");
+
+    const {beforeShutdown} = terminusModule.getConfiguration();
+
+    await beforeShutdown();
+
+    expect(service.$beforeShutdown).toHaveBeenCalledWith();
   });
 });
