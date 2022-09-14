@@ -17,6 +17,7 @@ import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
 import Express from "express";
+import {IncomingMessage, ServerResponse} from "http";
 import type multer from "multer";
 import {promisify} from "util";
 import {PlatformExpressStaticsOptions} from "../interfaces/PlatformExpressStaticsOptions";

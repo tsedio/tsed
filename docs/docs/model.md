@@ -331,12 +331,12 @@ United States for export reasons:
 <Tabs class="-code">
   <Tab label="Model">
 
-<<< @/docs/snippets/model/required-properties.ts
+<<< @/docs/snippets/model/constant-values.ts
 
   </Tab>
   <Tab label="Json schema">
 
-<<< @/docs/snippets/model/required-properties.json
+<<< @/docs/snippets/model/constant-values.json
 
   </Tab>
 </Tabs>

@@ -32,7 +32,7 @@ describe("SocketIOService", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
 
-  describe("getNsp()", () => {
+  describe("getNsp(string)", () => {
     it("should call io.of and create namespace", async () => {
       const {service, namespace, ioStub, socket, instance} = await createServiceFixture();
 
@@ -43,6 +43,25 @@ describe("SocketIOService", () => {
       socket.on.mock.calls[0][1]();
 
       expect(ioStub.of).toBeCalledWith("/");
+      expect(namespace.on).toBeCalledWith("connection", expect.any(Function));
+      expect(instance.onConnection).toBeCalledWith(socket, namespace);
+      expect(socket.on).toBeCalledWith("disconnect", expect.any(Function));
+      expect(instance.onDisconnect).toBeCalledWith(socket, namespace);
+    });
+  });
+
+  describe("getNsp(RegExp)", () => {
+    it("should call io.of and create namespace", async () => {
+      const {service, namespace, ioStub, socket, instance} = await createServiceFixture();
+      const regexp = new RegExp(/test/);
+
+      const nspConf = service.getNsp(regexp);
+      nspConf.instances.push(instance);
+
+      namespace.on.mock.calls[0][1](socket);
+      socket.on.mock.calls[0][1]();
+
+      expect(ioStub.of).toBeCalledWith(regexp);
       expect(namespace.on).toBeCalledWith("connection", expect.any(Function));
       expect(instance.onConnection).toBeCalledWith(socket, namespace);
       expect(socket.on).toBeCalledWith("disconnect", expect.any(Function));

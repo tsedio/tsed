@@ -52,7 +52,7 @@ export class SocketHandlersBuilder {
    *
    * @returns {any}
    */
-  public build(nsps: Map<string, Namespace>) {
+  public build(nsps: Map<string | RegExp, Namespace>) {
     const instance = this.injector.get(this.provider.token);
     const {injectNamespaces, namespace} = this.socketProviderMetadata;
     const nsp = nsps.get(namespace);
@@ -250,6 +250,9 @@ export class SocketHandlersBuilder {
         case SocketFilters.SESSION:
           const instance = this.injector.get(this.provider.token);
           return instance._nspSession.get(scope.socket.id);
+
+        case SocketFilters.SOCKET_NSP:
+          return scope.socket.nsp;
       }
     });
   }

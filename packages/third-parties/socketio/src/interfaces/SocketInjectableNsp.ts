@@ -1,4 +1,4 @@
 export interface SocketInjectableNsp {
   propertyKey: string;
-  nsp?: string;
+  nsp?: string | RegExp;
 }

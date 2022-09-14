@@ -9,11 +9,11 @@ import {PROVIDER_TYPE_SOCKET_SERVICE} from "../constants/constants";
  *
  * > `@SocketService()` use the `reflect-metadata` to collect and inject service on controllers or other services.
  *
- * @param {string} namespace
+ * @param namespace
  * @returns {Function}
  * @decorator
  */
-export function SocketService(namespace = "/") {
+export function SocketService(namespace: string | RegExp = "/") {
   return useDecorators(
     StoreMerge("socketIO", {namespace, type: SocketProviderTypes.SERVICE}),
     Injectable({

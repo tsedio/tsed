@@ -13,7 +13,7 @@ export class SocketIOService {
    *
    * @type {Map<any, any>}
    */
-  private namespaces: Map<string, {nsp: SocketIO.Namespace; instances: any}> = new Map();
+  private namespaces: Map<string | RegExp, {nsp: SocketIO.Namespace; instances: any}> = new Map();
 
   constructor(private injector: InjectorService, @IO private io: SocketIO.Server) {}
 
@@ -22,7 +22,7 @@ export class SocketIOService {
    * @param {string} namespace
    * @returns {SocketIO.Namespace}
    */
-  public getNsp(namespace: string = "/"): {nsp: SocketIO.Namespace; instances: any[]} {
+  public getNsp(namespace: string | RegExp = "/"): {nsp: SocketIO.Namespace; instances: any[]} {
     if (!this.namespaces.has(namespace)) {
       const conf = {nsp: this.io.of(namespace), instances: []};
 

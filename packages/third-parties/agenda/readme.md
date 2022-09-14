@@ -86,18 +86,18 @@ programmatically via the AgendaService and Agenda instance access.
 import {Agenda, Every, Define} from "@tsed/agenda";
 import {Job} from "agenda";
 
-@Agenda({ namespace: "email" })
+@Agenda({namespace: "email"})
 export class EmailJobService {
   @Every("60 minutes", {
-    name: "maintenanceJob",
-    /* ... and any option you would normally pass to agenda.every/define */ }
+    name: "maintenanceJob"
+    /* ... and any option you would normally pass to agenda.every/define */
   })
   async sendAdminStatistics(job: Job) {
     // implement something here
   }
 
   @Define({
-    name: "sendWelcomeEmail",
+    name: "sendWelcomeEmail"
     /*  ... and any option you would normally pass to agenda.define(...) */
   })
   async sendWelcomeEmail(job: Job) {

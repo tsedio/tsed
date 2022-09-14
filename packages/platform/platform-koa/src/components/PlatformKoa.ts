@@ -1,6 +1,7 @@
 import KoaRouter from "@koa/router";
 import {
   createContext,
+  getContext,
   InjectorService,
   PlatformAdapter,
   PlatformApplication,

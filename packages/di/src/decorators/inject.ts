@@ -59,6 +59,7 @@ export function Inject(token?: TokenProvider | (() => TokenProvider), onGet = (b
 
         injectProperty(target, propertyKey, {
           resolver(injector, locals, {options, ...invokeOptions}) {
+            const originalType = Metadata.getType(target, propertyKey);
             locals.set(DI_PARAM_OPTIONS, {...options});
 
             if (originalType === Array) {

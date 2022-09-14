@@ -108,20 +108,6 @@ describe("@Inject()", () => {
       expect(instance.instances[1].type).toEqual("service2");
       expect(instance.instances[2].type).toEqual("async");
     });
-    it("should catch error when an object is given as token provider", async () => {
-      // GIVEN
-      @Injectable()
-      class Test {
-        @Required()
-        test: Object;
-      }
-
-      const error = catchError(() => {
-        Inject()(Test.prototype, "test");
-      });
-
-      expect(error?.message).toMatchSnapshot();
-    });
   });
 
   describe("@constructorParameters", () => {

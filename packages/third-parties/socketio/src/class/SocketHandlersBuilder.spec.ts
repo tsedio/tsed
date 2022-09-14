@@ -444,6 +444,23 @@ describe("SocketHandlersBuilder", () => {
         expect(result[0]).toBeInstanceOf(Map);
       });
     });
+
+    describe("when SOCKET_NSP", () => {
+      it("should return a list of parameters", () => {
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.SOCKET_NSP
+            }
+          },
+          {socket: {nsp: "socket_nsp"}}
+        );
+
+        expect(result).toEqual(["socket_nsp"]);
+      });
+    });
   });
   describe("bindResponseMiddleware()", () => {
     describe("when BROADCAST", () => {
