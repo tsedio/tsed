@@ -6,7 +6,6 @@ export * from "@tsed/platform-params";
 export * from "@tsed/platform-exceptions";
 export * from "@tsed/platform-response-filter";
 export * from "@tsed/platform-middlewares";
-export * from "@tsed/components-scan";
 export * from "@tsed/platform-log-middleware";
 export * from "@tsed/platform-router";
 
