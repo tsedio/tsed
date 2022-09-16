@@ -22,8 +22,11 @@
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13",
+    "normalize-path": "3.0.0",
     "tslib": "2.4.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@types/normalize-path": "^3.0.0"
+  },
   "peerDependencies": {}
 }

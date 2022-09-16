@@ -45,7 +45,7 @@ describe("PlatformConfiguration", () => {
       settings.routers = {mergeParams: true};
       settings.exclude = ["./**/*.spec.ts"];
       settings.debug = true;
-      settings.jsonMapper = {};
+      //settings.jsonMapper = {};
 
       settings.setHttpPort({address: "address", port: 8081});
       settings.setHttpsPort({address: "address", port: 8080});
@@ -157,7 +157,7 @@ describe("PlatformConfiguration", () => {
     });
 
     it("should return jsonMapper settings", () => {
-      expect(settings.jsonMapper).toEqual({});
+      expect(settings.jsonMapper).toEqual({additionalProperties: false, disableUnsecureConstructor: true});
     });
 
     it("should return controllerScope", () => {

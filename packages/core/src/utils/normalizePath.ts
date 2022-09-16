@@ -1,6 +1,7 @@
-import {isArray, isString} from "@tsed/core";
 import {join} from "path";
 import fixPath from "normalize-path";
+import {isString} from "./objects/isString";
+import {isArray} from "./objects/isArray";
 
 export function normalizePath(item: string, ...paths: string[]): string;
 export function normalizePath(item: (string | any)[]): (string | any)[];

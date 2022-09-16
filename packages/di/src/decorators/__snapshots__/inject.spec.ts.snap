@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`@Inject() @property should catch error when an object is given as token provider 1`] = `
-"Object isn't a valid token. Please check the token set on Test.test.
-- Check that it is not a circular reference.
-- Check that the token (class or symbol) exists"
-`;

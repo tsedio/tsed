@@ -6,4 +6,3 @@ export * from "./cleanGlobPatterns";
 export * from "./importFiles";
 export * from "./importProviders";
 export * from "./isTsEnv";
-export * from "./normalizePath";

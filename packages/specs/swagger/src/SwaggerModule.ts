@@ -5,7 +5,6 @@ import {
   Inject,
   InjectorService,
   Module,
-  normalizePath,
   OnReady,
   PlatformApplication,
   PlatformContext
@@ -13,7 +12,7 @@ import {
 import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
 import Fs from "fs";
 import {join} from "path";
-import {Env} from "@tsed/core";
+import {Env, normalizePath} from "@tsed/core";
 import {absolutePath} from "swagger-ui-dist";
 import {SwaggerSettings} from "./interfaces/SwaggerSettings";
 import {cssMiddleware} from "./middlewares/cssMiddleware";
