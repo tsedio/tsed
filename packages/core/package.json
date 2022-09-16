@@ -1,6 +1,6 @@
 {
   "name": "@tsed/core",
-  "version": "7.0.0-rc.5",
+  "version": "7.0.0-rc.6",
   "description": "Core module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -21,8 +21,8 @@
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
-    "reflect-metadata": "^0.1.13",
     "normalize-path": "3.0.0",
+    "reflect-metadata": "^0.1.13",
     "tslib": "2.4.0"
   },
   "devDependencies": {
