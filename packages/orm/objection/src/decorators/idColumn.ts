@@ -1,7 +1,7 @@
-import {useDecorators} from "@tsed/core";
+import {ColumnOptions} from "./columnOptions";
 import {Property} from "@tsed/schema";
 import {defineStaticGetter} from "../utils/defineStaticGetter";
-import {ColumnOptions} from "./columnOptions";
+import {useDecorators} from "@tsed/core";
 
 /**
  *
@@ -9,7 +9,7 @@ import {ColumnOptions} from "./columnOptions";
  * @decorator
  * @objection
  */
-export function IdColumn(type: "increments" | "bigIncrements" = "increments"): PropertyDecorator {
+export function IdColumn(type: "uuid" | "increments" | "bigIncrements" = "increments"): PropertyDecorator {
   return useDecorators(
     Property(),
     ColumnOptions({

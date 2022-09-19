@@ -1,6 +1,7 @@
 import {Entity, IdColumn} from "@tsed/objection";
-import {createTableStub} from "../../test/helpers/knex/table";
+
 import {createColumns} from "../utils/createColumns";
+import {createTableStub} from "../../test/helpers/knex/table";
 
 describe("createIdColumn", () => {
   it("should create table from a given class (bigIncrements)", async () => {
@@ -27,5 +28,18 @@ describe("createIdColumn", () => {
     createColumns(table, User);
 
     expect(table.increments).toHaveBeenCalledWith("id");
+  });
+
+  it("should create table from a given class (uuid)", async () => {
+    @Entity("users")
+    class User {
+      @IdColumn("uuid")
+      id: string;
+    }
+
+    const table = createTableStub();
+    createColumns(table, User);
+
+    expect(table.uuid).toHaveBeenCalledWith("id");
   });
 });
