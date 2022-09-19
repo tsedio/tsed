@@ -80,7 +80,7 @@ export class User extends Model {
 
 ## Relationships
 
-Ts.ED enables you to define relationships between models on properties directly, using decorators such as @@BelongsToOne@@, @@HasMany@@, @@HasOne@@, @@HasOneThroughRelationship@@, @@ManyToMany@@ or @@RelatesTo@@.
+Ts.ED enables you to define relationships between models on properties directly, using decorators such as @@BelongsToOne@@, @@HasMany@@, @@HasOne@@, @@HasOneThroughRelation@@, @@ManyToMany@@ or @@RelatesTo@@.
 
 You can supply a configuration object via (@@RelationshipOpts@@) into the decorator factor to override the default join keys and configure a relationship like you normally would via `relationMappings`. For collection-type relationships, you must also specify the model you wish to use and we will also apply the @@CollectionOf@@ decorator for you automatically.
 

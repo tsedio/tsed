@@ -1,15 +1,21 @@
-import type {Knex} from "knex";
-import {ColumnTypesContainer} from "../services/ColumnTypesContainer";
 import {ColumnCtx} from "../utils/getColumnCtx";
+import {ColumnTypesContainer} from "../services/ColumnTypesContainer";
+import type {Knex} from "knex";
+import {randomUUID} from "crypto";
 
 /**
  * @ignore
  */
 export function createIdColumn(table: Knex.TableBuilder, {entity, options}: ColumnCtx) {
-  if (options.type === "bigIncrements") {
-    table.bigIncrements(entity.propertyName).primary();
-  } else {
-    table.increments(entity.propertyName).primary();
+  switch (options.type) {
+    case "bigIncrements":
+      table.bigIncrements(entity.propertyName).primary();
+      break;
+    case "increments":
+      table.increments(entity.propertyName).primary();
+      break;
+    case "uuid":
+      table.uuid(entity.propertyName).primary().defaultTo(randomUUID());
   }
 }
 
