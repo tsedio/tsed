@@ -1,6 +1,6 @@
 {
   "name": "@tsed/mongoose",
-  "version": "6.132.1",
+  "version": "6.133.0",
   "description": "Mongoose package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -32,21 +32,21 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/ajv": "6.132.1",
-    "@tsed/core": "6.132.1",
-    "@tsed/di": "6.132.1",
-    "@tsed/json-mapper": "6.132.1",
+    "@tsed/ajv": "6.133.0",
+    "@tsed/core": "6.133.0",
+    "@tsed/di": "6.133.0",
+    "@tsed/json-mapper": "6.133.0",
     "@tsed/logger": ">=6.2.2",
-    "@tsed/schema": "6.132.1",
+    "@tsed/schema": "6.133.0",
     "mongoose": "6.5.1"
   },
   "peerDependencies": {
-    "@tsed/ajv": "^6.132.1",
-    "@tsed/core": "^6.132.1",
-    "@tsed/di": "^6.132.1",
-    "@tsed/json-mapper": "^6.132.1",
+    "@tsed/ajv": "^6.133.0",
+    "@tsed/core": "^6.133.0",
+    "@tsed/di": "^6.133.0",
+    "@tsed/json-mapper": "^6.133.0",
     "@tsed/logger": ">=6.2.2",
-    "@tsed/schema": "^6.132.1",
+    "@tsed/schema": "^6.133.0",
     "mongoose": ">=6.0.0"
   }
 }
