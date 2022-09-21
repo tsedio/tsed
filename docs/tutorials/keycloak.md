@@ -103,13 +103,7 @@ import session from "express-session";
     cors(),
     compress({}),
     cookieParser(),
-    methodOverride(),
-    session({
-      secret: "some secret",
-      resave: false,
-      saveUninitialized: true,
-      store: this.keycloakService.getMemoryStore()
-    })
+    methodOverride()
   ]
 })
 export class Server {
@@ -123,6 +117,12 @@ export class Server {
   protected settings: Configuration;
 
   $beforeRoutesInit(): void {
+    this.app.use(session({
+      secret: "thisShouldBeLongAndSecret",
+      resave: false,
+      saveUninitialized: true,
+      store: this.keycloakService.getMemoryStore()
+    }));
     this.app.use(this.keycloakService.getKeycloakInstance().middleware());
   }
 }
