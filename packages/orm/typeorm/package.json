@@ -28,13 +28,13 @@
     "@tsed/di": "6.133.0",
     "@tsed/json-mapper": "6.133.0",
     "@tsed/schema": "6.133.0",
-    "typeorm": "0.2.45"
+    "typeorm": "0.3.10"
   },
   "peerDependencies": {
     "@tsed/core": "^6.133.0",
     "@tsed/di": "^6.133.0",
     "@tsed/json-mapper": "^6.133.0",
     "@tsed/schema": "^6.133.0",
-    "typeorm": "^0.2.26"
+    "typeorm": "^0.3.10"
   }
 }
