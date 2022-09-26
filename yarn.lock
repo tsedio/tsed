@@ -2306,13 +2306,6 @@
   dependencies:
     tslib "1.11.0"
 
-"@tsed/servestatic@5.62.5":
-  version "5.62.5"
-  resolved "https://registry.yarnpkg.com/@tsed/servestatic/-/servestatic-5.62.5.tgz#91032172f4cd7ab13f16ee5188ecb833b5455b3f"
-  integrity sha512-JdcdPYR+tH7FwHW0iuBBhGDLugVvDlK/BVDgkFKZkBZWgBbDfNcFxacprt6R/Cqw42g5qGkomYRsSoWAJtPaEw==
-  dependencies:
-    tslib "1.11.0"
-
 "@tsed/swagger@5.62.5":
   version "5.62.5"
   resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.62.5.tgz#8f140ca89ec30b95484d500a5a958288b7ded2db"
@@ -9647,6 +9640,11 @@ json-schema@^0.2.3:
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.2.5.tgz#97997f50972dd0500214e208c407efa4b5d7063b"
   integrity sha512-gWJOWYFrhQ8j7pVm0EM8Slr+EPVq1Phf6lvzvD/WCeqkrx/f2xBI0xOsRRS9xCn3I4vKtP519dvs3TP09r24wQ==
+
+json-schema@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/json-schema/-/json-schema-0.4.0.tgz#f7de4cf6efab838ebaeb3236474cbba5a1930ab5"
+  integrity sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==
 
 json-stable-stringify-without-jsonify@^1.0.1:
   version "1.0.1"

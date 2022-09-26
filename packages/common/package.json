@@ -49,7 +49,7 @@
     "@tsed/logger": "5.5.3",
     "@types/json-schema": "7.0.6",
     "globby": "11.0.1",
-    "json-schema": "^0.2.3",
+    "json-schema": "^0.4.0",
     "normalize-path": "3.0.0",
     "on-finished": "2.3.0",
     "rxjs": "^6.5.2",
