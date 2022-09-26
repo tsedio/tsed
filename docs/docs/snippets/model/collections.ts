@@ -7,7 +7,7 @@ class User {
   @CollectionOf(Role)
   roles: Role[];
 
-  @CollectionOf(String)
+  @CollectionOf(Security)
   securities: Map<string, Security>;
 
   @CollectionOf(String)
