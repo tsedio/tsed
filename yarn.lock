@@ -2306,13 +2306,6 @@
   dependencies:
     tslib "1.11.0"
 
-"@tsed/servestatic@5.62.5":
-  version "5.62.5"
-  resolved "https://registry.yarnpkg.com/@tsed/servestatic/-/servestatic-5.62.5.tgz#91032172f4cd7ab13f16ee5188ecb833b5455b3f"
-  integrity sha512-JdcdPYR+tH7FwHW0iuBBhGDLugVvDlK/BVDgkFKZkBZWgBbDfNcFxacprt6R/Cqw42g5qGkomYRsSoWAJtPaEw==
-  dependencies:
-    tslib "1.11.0"
-
 "@tsed/swagger@5.62.5":
   version "5.62.5"
   resolved "https://registry.yarnpkg.com/@tsed/swagger/-/swagger-5.62.5.tgz#8f140ca89ec30b95484d500a5a958288b7ded2db"

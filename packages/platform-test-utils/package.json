@@ -17,7 +17,6 @@
     "@tsed/multipartfiles": "5.62.5",
     "@tsed/passport": "5.62.5",
     "@tsed/seq": "5.62.5",
-    "@tsed/servestatic": "5.62.5",
     "@tsed/swagger": "5.62.5",
     "@tsed/testing-mongoose": "5.62.5",
     "@tsed/typeorm": "5.62.5"
