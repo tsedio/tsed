@@ -26,6 +26,7 @@ describe("serialize()", () => {
       expect(serialize("1")).toEqual("1");
       expect(serialize(0)).toEqual(0);
       expect(serialize(1)).toEqual(1);
+      expect(serialize(BigInt(1n))).toEqual(BigInt(1));
     });
   });
   describe("Object", () => {
