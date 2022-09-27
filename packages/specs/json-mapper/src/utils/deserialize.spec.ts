@@ -70,6 +70,12 @@ describe("deserialize()", () => {
       expect(deserialize(["1"], {type: String})).toEqual(["1"]);
     });
   });
+  describe("BigInt", () => {
+    it("should deserialize a big int", () => {
+      expect(deserialize(1n, {type: BigInt})).toEqual(BigInt(1n));
+      expect(deserialize(null, {type: BigInt})).toEqual(null);
+    });
+  });
   describe("Array<primitive>", () => {
     it("should transform value", () => {
       const options = {type: String, collectionType: Array};
