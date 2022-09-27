@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-test-utils",
-  "version": "5.67.1",
+  "version": "5.67.2",
   "description": "Integration packages",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",

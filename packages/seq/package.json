@@ -1,6 +1,6 @@
 {
   "name": "@tsed/seq",
-  "version": "5.67.1",
+  "version": "5.67.2",
   "description": "Seq package for Ts.ED framework",
   "main": "./lib/index.js",
   "typings": "./src/index.ts",
@@ -29,8 +29,8 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "5.67.1",
-    "@tsed/core": "5.67.1",
+    "@tsed/common": "5.67.2",
+    "@tsed/core": "5.67.2",
     "@types/bunyan": "1.8.6",
     "@types/bunyan-seq": "0.2.2"
   }
