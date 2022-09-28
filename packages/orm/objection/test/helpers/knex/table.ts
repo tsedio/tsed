@@ -7,6 +7,8 @@ export function createTableStub() {
     primary: jest.fn().mockReturnThis(),
     string: jest.fn().mockReturnThis(),
     decimal: jest.fn().mockReturnThis(),
-    boolean: jest.fn().mockReturnThis()
+    boolean: jest.fn().mockReturnThis(),
+    uuid: jest.fn().mockReturnThis(),
+    defaultTo: jest.fn().mockReturnThis()
   } as unknown as Knex.TableBuilder;
 }

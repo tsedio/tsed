@@ -143,7 +143,7 @@ export class TerminusModule implements OnInit {
 
   private createEmitter(name: string) {
     return async (...args: any[]) => {
-      return this.injector.emit(`$${name}`, ...args);
+      return this.injector.emit(name, ...args);
     };
   }
 }

@@ -99,18 +99,7 @@ import methodOverride from "method-override";
 import session from "express-session";
 
 @Configuration({
-  middlewares: [
-    cors(),
-    compress({}),
-    cookieParser(),
-    methodOverride(),
-    session({
-      secret: "some secret",
-      resave: false,
-      saveUninitialized: true,
-      store: this.keycloakService.getMemoryStore()
-    })
-  ]
+  middlewares: [cors(), compress({}), cookieParser(), methodOverride()]
 })
 export class Server {
   @Inject()
@@ -123,6 +112,14 @@ export class Server {
   protected settings: Configuration;
 
   $beforeRoutesInit(): void {
+    this.app.use(
+      session({
+        secret: "thisShouldBeLongAndSecret",
+        resave: false,
+        saveUninitialized: true,
+        store: this.keycloakService.getMemoryStore()
+      })
+    );
     this.app.use(this.keycloakService.getKeycloakInstance().middleware());
   }
 }
