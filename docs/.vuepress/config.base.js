@@ -293,8 +293,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             position: "right",
             items: [
               {
-                text: "v7 (next)",
-                link: "http://v7.tsed.io"
+                text: "v7 (current)",
+                link: "http://tsed.io"
               },
               {
                 text: "v5 (obsolete)",
@@ -321,7 +321,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             children: [
               {
                 title: "Migrate to v7",
-                path: `https://v7.tsed.io/getting-started/migration-from-v6`
+                path: `https://tsed.io/getting-started/migration-from-v6`
               },
               {
                 title: "Migrate from v5",

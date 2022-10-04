@@ -193,8 +193,8 @@
     }
   },
   "monorepo": {
-    "productionBranch": "production",
-    "developBranch": "production",
+    "productionBranch": "6.x",
+    "developBranch": "6.x",
     "npmAccess": "public",
     "ignoreSyncDependencies": [
       "express",
@@ -203,15 +203,9 @@
     "ghpages": [
       {
         "dir": "./docs/.vuepress/dist",
-        "url": "https://github.com/tsedio/tsed.git",
-        "branch": "gh-pages",
-        "cname": "tsed.io"
-      },
-      {
-        "dir": "./docs-references/.vuepress/dist",
-        "url": "https://github.com/tsedio/api-docs.tsed.io.git",
+        "url": "https://github.com/tsedio/v6.tsed.io.git",
         "branch": "main",
-        "cname": "api-docs.tsed.io"
+        "cname": "v6.tsed.io"
       }
     ],
     "examples": {

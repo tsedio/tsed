@@ -3,6 +3,7 @@ process.env.SEMANTIC_RELEASE_PACKAGE = "Ts.ED";
 module.exports = {
   branches: [
     "production",
+    "6.x",
     {name: "alpha", prerelease: true, channel: "alpha"},
     {name: "beta", prerelease: true, channel: "beta"},
     {name: "rc", prerelease: true, channel: "rc"}
