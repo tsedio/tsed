@@ -298,8 +298,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             position: "right",
             items: [
               {
-                text: "v6 (current)",
-                link: "http://tsed.io"
+                text: "v6 (maintenance)",
+                link: "https://v6.tsed.io"
               },
               {
                 text: "v5 (obsolete)",
@@ -325,8 +325,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             collapsable: true,
             children: [
               {
-                title: "Migrate to v7",
-                path: `https://v7.tsed.io/getting-started/migration-from-v6`
+                title: "Migrate from v6",
+                path: `https://tsed.io/getting-started/migration-from-v6`
               },
               {
                 title: "Migrate from Express.js",

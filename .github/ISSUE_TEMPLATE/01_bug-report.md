@@ -19,7 +19,7 @@ If theses requirements aren't checked, I WON'T INVESTIGATE (excepted if you are 
 
 ## Information
 
-- **Version:** 6.x
+- **Version:** 7.x
 - Packages:
 
 A few sentences describing the overall goals of the issue.
