@@ -203,8 +203,8 @@
     "ghpages": [
       {
         "dir": "./docs/.vuepress/dist",
-        "url": "https://github.com/tsedio/tsed.io",
-        "branch": "main",
+        "url": "https://github.com/tsedio/tsed",
+        "branch": "gh-pages",
         "cname": "tsed.io"
       },
       {

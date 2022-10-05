@@ -3,6 +3,9 @@ projects:
   - title: Kit basic
     href: https://github.com/tsedio/tsed-getting-started
     src: /tsed.png
+  - title: Kit production-ready template
+    href: https://github.com/borjapazr/express-typescript-skeleton
+    src: /tsed.png
   - title: Kit React
     href: https://github.com/tsedio/tsed-example-react
     src: /react.png
