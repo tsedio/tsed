@@ -1,4 +1,5 @@
 import {createTerminus} from "@godaddy/terminus";
+import type {PlatformRouteDetails} from "@tsed/common";
 import {Constant, Inject, InjectorService, Module, OnInit, Provider} from "@tsed/di";
 import {concatPath} from "@tsed/schema";
 import Http from "http";
@@ -44,29 +45,21 @@ export class TerminusModule implements OnInit {
     };
   }
 
-  async $logRoutes(routes: any[]): Promise<any[]> {
+  async $logRoutes(routes: PlatformRouteDetails[]): Promise<PlatformRouteDetails[]> {
     return [
       ...routes,
       {
-        toJSON: () => {
-          return {
-            method: "GET",
-            name: `TerminusModule.dispatch`,
-            url: this.basePath
-          };
-        }
+        url: this.basePath,
+        method: "GET",
+        name: `TerminusModule.dispatch()`
       },
       ...this.getAll<{name: string}>("health").map(({provider, propertyKey, options}) => {
         const path = this.getPath(provider, options.name);
 
         return {
-          toJSON() {
-            return {
-              method: "GET",
-              name: `${provider.className}.${propertyKey}`,
-              url: path
-            };
-          }
+          method: "GET",
+          name: `${provider.className}.${propertyKey}()`,
+          url: path
         } as any;
       })
     ];

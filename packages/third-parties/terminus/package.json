@@ -29,12 +29,14 @@
     "@godaddy/terminus": "^4.7.1",
     "@tsed/core": "7.0.0",
     "@tsed/di": "7.0.0",
+    "@tsed/common": "7.0.0",
     "@tsed/schema": "7.0.0"
   },
   "peerDependencies": {
     "@godaddy/terminus": "^4.7.1",
     "@tsed/core": "^7.0.0",
     "@tsed/di": "^7.0.0",
+    "@tsed/common": "^7.0.0",
     "@tsed/schema": "^7.0.0"
   },
   "peerDependenciesMeta": {

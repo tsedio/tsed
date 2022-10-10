@@ -53,20 +53,20 @@ describe("TerminusModule", () => {
 
     logger("event", {message: "message"});
 
-    expect((await terminusModule.$logRoutes([])).map((o) => o.toJSON())).toEqual([
+    expect(await terminusModule.$logRoutes([])).toEqual([
       {
         method: "GET",
-        name: "TerminusModule.dispatch",
+        name: "TerminusModule.dispatch()",
         url: "/health"
       },
       {
         method: "GET",
-        name: "MyService.mongo",
+        name: "MyService.mongo()",
         url: "/mongo/health"
       },
       {
         method: "GET",
-        name: "MyService.redis",
+        name: "MyService.redis()",
         url: "/redis/health"
       }
     ]);
