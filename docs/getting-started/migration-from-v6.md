@@ -32,6 +32,10 @@ meta:
 
 This graph will help you to migrate your application to the v7. Don't hesitate to give us feedback on [github issues](https://github.com/tsedio/tsed/issues)!
 
+## Update CLI
+
+If you use Ts.ED CLI on your project, don't forget to update all CLI v3 dependencies to v4!
+
 ## Virtual router
 
 Ts.ED replace the Express.Router and Koa.Router by his own Router. In most cases this will be transparent to you as you are using the Ts.ED controllers and Platform API.
