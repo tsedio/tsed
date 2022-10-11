@@ -67,6 +67,8 @@ export class UserInfo {
 You can set your own UserInfo model by changing the passport server configuration:
 
 ```typescript
+import * as protocols from "./protocols";
+
 class CustomUserInfoModel {
   @Property()
   id: string;
@@ -76,9 +78,7 @@ class CustomUserInfoModel {
 }
 
 @Configuration({
-  componentsScan: [
-    `${process.cwd()}/protocols/*.ts` // scan protocols directory
-  ],
+  componentsScan: [...Object.values(protocols)],
   passport: {
     userInfoModel: CustomUserInfoModel
   }
