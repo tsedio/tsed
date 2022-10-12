@@ -76,9 +76,6 @@ class CustomUserInfoModel {
 }
 
 @Configuration({
-  componentsScan: [
-    `${process.cwd()}/protocols/*.ts` // scan protocols directory
-  ],
   passport: {
     userInfoModel: CustomUserInfoModel
   }
