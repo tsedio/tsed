@@ -1,4 +1,4 @@
-import {classOf, Hooks, isArray, isClass, isFunction, isObject, nameOf, Type, uniq, ValueOf} from "@tsed/core";
+import {classOf, Hooks, isArray, isClass, isFunction, isObject, nameOf, Type, uniq, ValueOf, isPrimitiveClass} from "@tsed/core";
 import type {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback";
@@ -50,6 +50,10 @@ function mapToJsonSchema(item: any): any {
 
   if (isObject(item)) {
     return JsonSchema.from(item as any);
+  }
+
+  if (isPrimitiveClass(item)) {
+    return JsonSchema.from({type: item});
   }
 
   return item;
