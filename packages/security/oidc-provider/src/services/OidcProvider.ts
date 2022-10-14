@@ -182,14 +182,17 @@ export class OidcProvider {
 
     if (interactions.length) {
       interactions.forEach((provider) => {
-        const {name, ...options} = provider.store.get("interactionOptions");
+        const {name, checks, ...options} = provider.store.get("interactionOptions");
 
         if (!policy.get(name)) {
           policy.add(
-            new interactionPolicy.Prompt({
-              name,
-              ...options
-            })
+            new interactionPolicy.Prompt(
+              {
+                name,
+                ...options
+              },
+              checks
+            )
           );
         }
 
