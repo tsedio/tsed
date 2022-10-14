@@ -21,6 +21,16 @@ describe("parseDocumentationAttributes", () => {
     ]);
   });
 
+  it("should parse @TsED.Ignore()", () => {
+    expect(parseDocumentationAttributes("/// @TsED.Ignore()")).toEqual([
+      {
+        arguments: [],
+        content: "@TsED.Ignore()",
+        name: "Ignore"
+      }
+    ]);
+  });
+
   it('should parse @TsED.Groups("!creation")', () => {
     expect(parseDocumentationAttributes('/// @TsED.Groups("!creation")')).toEqual([
       {
