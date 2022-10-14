@@ -55,7 +55,7 @@ export function parseDocumentationAttributes(documentation: string | undefined):
 
         return {
           ...options,
-          arguments: [`(value: any, ctx: any) => ${args}`]
+          arguments: args.length > 0 ? [`(value: any, ctx: any) => ${args}`] : []
         };
       }
       return options;
