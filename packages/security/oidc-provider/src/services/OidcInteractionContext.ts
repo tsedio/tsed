@@ -59,8 +59,8 @@ export class OidcInteractionContext {
     return (this.raw as any).grantId;
   }
 
-  async runInteraction(name: string = this.prompt.name) {
-    const handler = this.oidcInteractions.getInteractionHandler(name);
+  async runInteraction(name?: string) {
+    const handler = this.oidcInteractions.getInteractionHandler(name || this.prompt.name);
 
     if (handler) {
       await handler(this.$ctx);

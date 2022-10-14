@@ -1,4 +1,4 @@
-import {Get} from "@tsed/common";
+import {Get, PathParams} from "@tsed/common";
 import {Interactions, OidcCtx} from "@tsed/oidc-provider";
 import {Name} from "@tsed/schema";
 import {ConsentInteraction} from "../../interactions/ConsentInteraction";
@@ -11,8 +11,8 @@ import {LoginInteraction} from "../../interactions/LoginInteraction";
   children: [LoginInteraction, ConsentInteraction, CustomInteraction]
 })
 export class InteractionsCtrl {
-  @Get("/")
-  async promptInteraction(@OidcCtx() oidcCtx: OidcCtx) {
-    return oidcCtx.runInteraction();
+  @Get("/:interaction?")
+  async prompt(@PathParams("interaction") interaction: string, @OidcCtx() oidcCtx: OidcCtx) {
+    return oidcCtx.runInteraction(interaction);
   }
 }

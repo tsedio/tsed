@@ -1,13 +1,16 @@
 ---
 meta:
-  - name: description
-    content: Use oidc-provider with Express.js/Koa.js, TypeScript and Ts.ED. oidc-provider is an OAuth 2.0 Authorization Server with OpenID Connect and many additional features and standards implemented.
-  - name: keywords
-    content: ts.ed express koa oidc typescript node.js javascript decorators
-projects:
-  - title: Kit OIDC
-    href: https://github.com/tsedio/tsed-example-oidc
-    src: https://oauth.net/images/oauth-logo-square.png
+
+- name: description
+  content: Use oidc-provider with Express.js/Koa.js, TypeScript and Ts.ED. oidc-provider is an OAuth 2.0 Authorization
+  Server with OpenID Connect and many additional features and standards implemented.
+- name: keywords
+  content: ts.ed express koa oidc typescript node.js javascript decorators
+  projects:
+- title: Kit OIDC
+  href: https://github.com/tsedio/tsed-example-oidc
+  src: https://oauth.net/images/oauth-logo-square.png
+
 ---
 
 # OIDC
@@ -16,10 +19,13 @@ projects:
 
 <Banner src="https://oauth.net/images/oauth-logo-square.png" height="100" href="https://github.com/panva/node-oidc-provider"></Banner>
 
-[oidc-provider](https://github.com/panva/node-oidc-provider) is an OAuth 2.0 Authorization Server with OpenID Connect and many additional features and standards implemented.
+[oidc-provider](https://github.com/panva/node-oidc-provider) is an OAuth 2.0 Authorization Server with OpenID Connect
+and many additional features and standards implemented.
 
 ::: tip Certification
-Filip Skokan has [certified](https://openid.net/certification/) that [oidc-provider](https://github.com/panva/node-oidc-provider) conforms to the following profiles of the OpenID Connect™ protocol
+Filip Skokan has [certified](https://openid.net/certification/)
+that [oidc-provider](https://github.com/panva/node-oidc-provider) conforms to the following profiles of the OpenID
+Connect™ protocol
 
 - OP Basic, Implicit, Hybrid, Config, Dynamic, Form Post, and 3rd Party-Init
 - OP Front-Channel Logout, Back-Channel Logout, RP-Initiated Logout, and Session Management
@@ -39,7 +45,8 @@ Ts.ED provides decorators and services to create an OIDC provider with your Ts.E
 
 ## Installation
 
-Before using the `@tsed/oidc-provider` package, we need to install the [oidc-provider](https://www.npmjs.com/package/oidc-provider) module.
+Before using the `@tsed/oidc-provider` package, we need to install
+the [oidc-provider](https://www.npmjs.com/package/oidc-provider) module.
 
 ```bash
 npm install --save oidc-provider
@@ -54,7 +61,8 @@ Then we need to follow these steps:
 - Create our first Login interaction and views,
 
 ::: tip
-Select "OpenID Connect provider" upon initialization with the Ts.ED CLI and the following will be automatically generated.
+Select "OpenID Connect provider" upon initialization with the Ts.ED CLI and the following will be automatically
+generated.
 :::
 
 ## Configuration
@@ -121,15 +129,18 @@ class Server {}
 
 <<< @/../packages/security/oidc-provider/src/domain/OidcSettings.ts
 
-Documentation on other options properties can be found on the [oidc-provider](https://github.com/panva/node-oidc-provider/blob/master/docs/README.md) documentation page.
+Documentation on other options properties can be found on
+the [oidc-provider](https://github.com/panva/node-oidc-provider/blob/master/docs/README.md) documentation page.
 
 ::: warning
-It is advised to set `path` to `/oidc` to prevent oidc-provider becoming the default exception handler on all routes. In future versions of Ts.ED this will be the default value.
+It is advised to set `path` to `/oidc` to prevent oidc-provider becoming the default exception handler on all routes. In
+future versions of Ts.ED this will be the default value.
 :::
 
 ## Use Redis <Badge text="6.129.0+"/>
 
-Ts.ED provide a Redis adapter for OIDC provider. You just have to install `@tsed/adapters-redis` and configure a redis connection to store
+Ts.ED provide a Redis adapter for OIDC provider. You just have to install `@tsed/adapters-redis` and configure a redis
+connection to store
 all OIDC provider data in Redis.
 
 ```shell
@@ -194,7 +205,8 @@ That all!
 
 ## Allow HTTP & localhost
 
-By default, Ts.ED enable HTTP and localhost domain as a valid redirect uri for your OIDC project. But, sometimes you want to allow also HTTP and localhost domain in your `integration` or `QA`
+By default, Ts.ED enable HTTP and localhost domain as a valid redirect uri for your OIDC project. But, sometimes you
+want to allow also HTTP and localhost domain in your `integration` or `QA`
 environment.
 
 ```typescript
@@ -207,7 +219,8 @@ environment.
 
 ## Secure cookies
 
-By default, Ts.ED disable the secureCookies options in `development` mode and enable it in `production` mode. But, sometimes this options in `integration` environment because your server isn't under a Https protocol.
+By default, Ts.ED disable the secureCookies options in `development` mode and enable it in `production` mode. But,
+sometimes this options in `integration` environment because your server isn't under a Https protocol.
 
 ```typescript
 @Configuration({
@@ -219,8 +232,11 @@ By default, Ts.ED disable the secureCookies options in `development` mode and en
 
 ## TLS proxy
 
-The OpenID Connect specification does not allow unsecured HTTP requests and oidc-provider blocks them by default. While there is a [workaround](https://github.com/panva/node-oidc-provider/blob/main/recipes/implicit_http_localhost.md), the proper way is to use a TLS offloading proxy in front of your app.
-When developing, the easiest way is to use [Caddy](https://caddyserver.com/). To use it, set `proxy: true` in your [options](#Options) and then run:
+The OpenID Connect specification does not allow unsecured HTTP requests and oidc-provider blocks them by default. While
+there is a [workaround](https://github.com/panva/node-oidc-provider/blob/main/recipes/implicit_http_localhost.md), the
+proper way is to use a TLS offloading proxy in front of your app.
+When developing, the easiest way is to use [Caddy](https://caddyserver.com/). To use it, set `proxy: true` in
+your [options](#Options) and then run:
 
 ```
 caddy reverse-proxy --from localhost:8443 --to localhost:8083
@@ -228,7 +244,8 @@ caddy reverse-proxy --from localhost:8443 --to localhost:8083
 
 ## Accounts
 
-oidc-provider requires an Account model to find an account during an interaction. The model can be used in conjunction with the adapter to fetch an account.
+oidc-provider requires an Account model to find an account during an interaction. The model can be used in conjunction
+with the adapter to fetch an account.
 
 <Tabs class="-code">
   <Tab label="models/Account.ts">
@@ -253,7 +270,8 @@ We use the `$onInit` hook to create the first account automatically. You can ada
 
 ## Interactions
 
-Interactions are the user flows in oidc-provider. For example, the login page is considered by oidc-provider as an interaction.
+Interactions are the user flows in oidc-provider. For example, the login page is considered by oidc-provider as an
+interaction.
 We can define many interactions during the authentication flow, for example:
 
 - Login,
@@ -271,7 +289,8 @@ In your controller's directory, create the `oidc/InteractionsCtrl.ts` file and c
 <<< @/../packages/security/oidc-provider/test/app/controllers/oidc/InteractionsCtrl.ts
 
 ::: tip Note
-The controller Interactions exposes the routes to display any interaction. Here we expose the route GET `/interation/:uid`
+The controller Interactions exposes the routes to display any interaction. Here we expose the route
+GET `/interation/:uid`
 
 The `uid` is the unique session id used by oidc-provider to identify the current user flow.
 :::
@@ -306,7 +325,8 @@ has been correctly exposed:
 
 Try also to open the link in your browser!
 
-Now, we need to add the Views to display our login page. Create a views directory on root level and create the following files:
+Now, we need to add the Views to display our login page. Create a views directory on root level and create the following
+files:
 
 <Tabs class="-code">
   <Tab label="login.ejs">
@@ -320,9 +340,9 @@ Now, we need to add the Views to display our login page. Create a views director
 
   </Tab>
   <Tab label="partials/header.ejs">
-   
-<<< @/../packages/security/oidc-provider/test/app/views/partials/header.ejs      
-      
+
+<<< @/../packages/security/oidc-provider/test/app/views/partials/header.ejs
+
   </Tab>
   <Tab label="partials/footer.ejs">
 
@@ -330,9 +350,9 @@ Now, we need to add the Views to display our login page. Create a views director
 
   </Tab>
   <Tab label="partials/login-help.ejs">
-  
-<<< @/../packages/security/oidc-provider/test/app/views/partials/login-help.ejs   
-  
+
+<<< @/../packages/security/oidc-provider/test/app/views/partials/login-help.ejs
+
   </Tab>
 </Tabs>
 
@@ -347,9 +367,11 @@ http://localhost:8083/auth?client_id=client_id&response_type=id_token&scope=open
 
 ## Alter configuration
 
-Some part of the OIDC provider configuration needs function to work. And ideally these functions should have access to our Ts.ED Services.
+Some part of the OIDC provider configuration needs function to work. And ideally these functions should have access to
+our Ts.ED Services.
 
-It's possible to do that by listening the `$alterOidcConfiguration` hook and inject the expected functions in the configuration:
+It's possible to do that by listening the `$alterOidcConfiguration` hook and inject the expected functions in the
+configuration:
 
 ```typescript
 import {PlatformContext} from "@tsed/common";
@@ -395,11 +417,12 @@ class OidcResourceIndicatorsModule {
 
 ## Alter OIDC policy
 
-Ts.ED emits a special `$alterOidcPolicy` event when @tsed/oidc-provider links interactions with OIDC policy. You can change the policy configuration
+Ts.ED emits a special `$alterOidcPolicy` event when @tsed/oidc-provider links interactions with OIDC policy. You can
+change the policy configuration
 by adding `$alterOidcPolicy` on InteractionsCtrl:
 
 ```typescript
-import {Get} from "@tsed/common";
+import {Get, PathParams} from "@tsed/common";
 import {Interactions, OidcCtx, DefaultPolicy} from "@tsed/oidc-provider";
 import {LoginInteraction} from "../../interactions/LoginInteraction";
 
@@ -410,9 +433,9 @@ import {LoginInteraction} from "../../interactions/LoginInteraction";
   ]
 })
 export class InteractionsCtrl {
-  @Get("/")
-  async promptInteraction(@OidcCtx() oidcCtx: OidcCtx) {
-    return oidcCtx.runInteraction();
+  @Get("/:name?")
+  async promptInteraction(@PathParams("name") name: string | undefined, @OidcCtx() oidcCtx: OidcCtx) {
+    return oidcCtx.runInteraction(name);
   }
 
   $alterOidcPolicy(policy: DefaultPolicy) {
@@ -452,6 +475,7 @@ export class CustomAdapter<Model extends AdapterModel> extends Adapter<Model> im
   deleteMany(predicate: Partial<Model>): Promise<Model[]> {}
 
   deleteById(id: string): Promise<Model | undefined> {}
+
   //
   // if you use redis implement also the following methods
   //
@@ -468,7 +492,8 @@ export class CustomAdapter<Model extends AdapterModel> extends Adapter<Model> im
 ```
 
 ::: tip
-You can find original adapters from oidc-provider project here: https://github.com/panva/node-oidc-provider/blob/main/example/adapters
+You can find original adapters from oidc-provider project
+here: https://github.com/panva/node-oidc-provider/blob/main/example/adapters
 :::
 
 ## Debug
@@ -477,7 +502,8 @@ Use `DEBUG=oidc-provider:*` for debugging oidc-provider.
 
 ## Support oidc-provider
 
-If you or your business uses [oidc-provider](https://github.com/panva/node-oidc-provider), please consider becoming a sponsor, so we can continue maintaining it and adding new features carefree.
+If you or your business uses [oidc-provider](https://github.com/panva/node-oidc-provider), please consider becoming a
+sponsor, so we can continue maintaining it and adding new features carefree.
 
 ## Author
 
