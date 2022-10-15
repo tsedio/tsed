@@ -38,7 +38,7 @@
     "@tsed/core": "7.1.1",
     "@tsed/di": "7.1.1",
     "@tsed/mongoose": "7.1.1",
-    "@types/async": "3.2.12",
+    "@types/async": "3.2.15",
     "express": "^4.17.1",
     "formio": "^2.0.0",
     "mongodb": "*",
