@@ -1,4 +1,4 @@
-import {AdditionalProperties, CollectionOf, getJsonSchema, Property} from "@tsed/schema";
+import {AdditionalProperties, CollectionOf, getJsonSchema, Property, string} from "@tsed/schema";
 
 describe("AdditionalProperties", () => {
   it("should declare additional properties", () => {
@@ -20,6 +20,73 @@ describe("AdditionalProperties", () => {
       type: "object"
     });
   });
+
+  it("should declare additional properties with String Model", () => {
+    @AdditionalProperties(string())
+    class Model {
+      @Property()
+      id: string;
+
+      [key: string]: any;
+    }
+
+    expect(getJsonSchema(Model)).toEqual({
+      additionalProperties: {
+        type: "string"
+      },
+      properties: {
+        id: {
+          type: "string"
+        }
+      },
+      type: "object"
+    });
+  });
+
+  it("should declare additional properties with String Type", () => {
+    @AdditionalProperties(String)
+    class Model {
+      @Property()
+      id: string;
+
+      [key: string]: any;
+    }
+
+    expect(getJsonSchema(Model)).toEqual({
+      additionalProperties: {
+        type: "string"
+      },
+      properties: {
+        id: {
+          type: "string"
+        }
+      },
+      type: "object"
+    });
+  });
+
+  it("should declare additional properties with Number Type", () => {
+    @AdditionalProperties(Number)
+    class Model {
+      @Property()
+      id: string;
+
+      [key: string]: any;
+    }
+
+    expect(getJsonSchema(Model)).toEqual({
+      additionalProperties: {
+        type: "number"
+      },
+      properties: {
+        id: {
+          type: "string"
+        }
+      },
+      type: "object"
+    });
+  });
+
   it("should declare additional properties with model", () => {
     class SubModel {
       @Property()
