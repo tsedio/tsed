@@ -54,18 +54,20 @@ It provides a lot of decorators and guideline to make your code more readable an
 - Template (View),
 - Testing.
 
-## Documentation
+## Links
 
-Documentation is available on [https://tsed.io](https://tsed.io)
+- [Board/Roadmap](https://github.com/orgs/tsedio/projects/4/views/1)
+- [Documentation](https://tsed.io)
+- [Guideline](./CONTRIBUTING.md)
+- [Tutorials](https://tsed.io/tutorials/)
+- [Community Slack](https://api.tsed.io/rest/slack/tsedio/tsed)
+- [Support us](https://github.com/sponsors/romakita)
+- [Team](https://tsed.io/team.html)
 
 ## Getting started
 
 See our [getting started here](https://tsed.io/getting-started) to create new Ts.ED project or use
 our [CLI](https://cli.tsed.io)
-
-## Examples
-
-Examples are available on [https://tsed.io/tutorials/](https://tsed.io/tutorials/)
 
 ## Overview
 
