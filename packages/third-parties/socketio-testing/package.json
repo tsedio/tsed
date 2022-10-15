@@ -1,6 +1,6 @@
 {
   "name": "@tsed/socketio-testing",
-  "version": "7.0.2",
+  "version": "7.1.0",
   "description": "Socket.io testing package for Ts.ED framework",
   "private": false,
   "source": "./src/index.ts",
@@ -23,15 +23,15 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.0.2",
-    "@tsed/di": "7.0.2",
+    "@tsed/common": "7.1.0",
+    "@tsed/di": "7.1.0",
     "socket.io-client": "^4.1.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.0.2",
-    "@tsed/core": "^7.0.2",
-    "@tsed/di": "^7.0.2",
-    "@tsed/socketio": "^7.0.2",
+    "@tsed/common": "^7.1.0",
+    "@tsed/core": "^7.1.0",
+    "@tsed/di": "^7.1.0",
+    "@tsed/socketio": "^7.1.0",
     "socket.io-client": "^4.0.1"
   }
 }

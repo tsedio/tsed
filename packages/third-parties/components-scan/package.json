@@ -1,6 +1,6 @@
 {
   "name": "@tsed/components-scan",
-  "version": "7.0.2",
+  "version": "7.1.0",
   "description": "Components scan utilities for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -25,8 +25,8 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.0.2",
-    "@tsed/di": "7.0.2"
+    "@tsed/core": "7.1.0",
+    "@tsed/di": "7.1.0"
   },
   "peerDependencies": {}
 }
