@@ -95,5 +95,9 @@ module.exports = (rootDir) => ({
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
   setupFiles: [],
-  reporters: ["default"]
+  reporters: ["default"],
+  snapshotFormat: {
+    escapeString: true,
+    printBasicPrototype: true
+  }
 });
