@@ -28,7 +28,7 @@
     "@tsed/platform-params": "7.1.1",
     "@tsed/schema": "7.1.1",
     "encodeurl": "^1.0.2",
-    "mime": "^2.5.2",
+    "mime": "^3.0.0",
     "tslib": "2.4.0",
     "uuid": "^8.3.2"
   },
@@ -36,7 +36,7 @@
     "@tsed/platform-serverless-testing": "7.1.1",
     "@types/aws-lambda": "^8.10.83",
     "@types/encodeurl": "^1.0.0",
-    "@types/mime": "^2.0.3",
+    "@types/mime": "^3.0.1",
     "find-my-way": "^7.0.0"
   },
   "peerDependencies": {
