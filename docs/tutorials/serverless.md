@@ -357,7 +357,7 @@ describe("TimeslotsLambdaController", () => {
       expect(JSON.parse(response.body)).toEqual([]);
     });
 
-    it("should call getAll Lambda", async () => {
+    it("should call getById Lambda", async () => {
       const response = await PlatformServerlessTest.request
         .call("getById")
         .params({
