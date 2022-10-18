@@ -92,6 +92,12 @@
                 <li><a href="<%= doc.path %>"><span>OpenSpec <%= doc.specVersion %></span></a></li>
 
             <% }) %>
+
+            <li>
+                <a href="/oidc/auth?client_id=client_id&response_type=id_token&scope=openid+email&nonce=foobar&prompt=login&redirect_uri=http://localhost:3000">
+                    <span>Start OIDC</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>
