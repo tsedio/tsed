@@ -1,13 +1,13 @@
-import {Inject, Post} from "@tsed/common";
-import {Interaction, OidcCtx, OidcProvider, Prompt} from "@tsed/oidc-provider";
-import {Name} from "@tsed/schema";
+import {Inject} from "@tsed/common";
+import {Interaction, OidcCtx, OidcProvider, InteractionMethods} from "@tsed/oidc-provider";
 import {View} from "@tsed/platform-views";
+import {Name} from "@tsed/schema";
 
 @Interaction({
   name: "abort"
 })
 @Name("Oidc")
-export class AbortInteraction {
+export class AbortInteraction implements InteractionMethods {
   @Inject()
   oidc: OidcProvider;
 

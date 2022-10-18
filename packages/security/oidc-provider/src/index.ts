@@ -20,6 +20,7 @@ export * from "./domain/OidcInteractionMethods";
 export * from "./domain/OidcInteractionOptions";
 export * from "./domain/OidcInteractionPromptProps";
 export * from "./domain/OidcSettings";
+export * from "./domain/InteractionMethods";
 export * from "./domain/interfaces";
 export * from "./middlewares/OidcInteractionMiddleware";
 export * from "./middlewares/OidcNoCacheMiddleware";
