@@ -5,6 +5,7 @@ import {Configuration, interactionPolicy, Provider as OIDCProvider} from "oidc-p
 import {INTERACTIONS} from "../constants/constants";
 import {InteractionMethods} from "../domain/InteractionMethods";
 import {OidcAccountsMethods} from "../domain/OidcAccountsMethods";
+import {OidcInteractionOptions} from "../domain/OidcInteractionOptions";
 import {OidcSettings} from "../domain/OidcSettings";
 import {OidcAdapters} from "./OidcAdapters";
 import {OidcInteractions} from "./OidcInteractions";
@@ -153,6 +154,13 @@ export class OidcProvider {
     return this.raw;
   }
 
+  public createPrompt(instance: InteractionMethods, options: OidcInteractionOptions) {
+    const {checks: originalChecks = [], details, ...promptOptions} = options;
+    const checks = [...(instance.checks ? instance.checks() : originalChecks)].filter(Boolean);
+
+    return new interactionPolicy.Prompt(promptOptions, instance.details ? instance.details.bind(instance) : details, ...checks);
+  }
+
   private getInteractionsUrl() {
     const provider = this.injector.getProviders().find((provider) => provider.subType === INTERACTIONS);
 
@@ -184,24 +192,16 @@ export class OidcProvider {
     if (interactions.length) {
       interactions.forEach((provider) => {
         const instance = this.injector.get<InteractionMethods>(provider.token)!;
-        const {name, checks = [], details} = provider.store.get("interactionOptions");
+        const options = provider.store.get("interactionOptions");
 
-        if (!policy.get(name)) {
-          policy.add(
-            new interactionPolicy.Prompt(
-              {
-                name,
-                ...[instance.details ? instance.details.bind(instance) : details, ...(instance.checks ? instance.checks() : checks)].filter(
-                  Boolean
-                )
-              },
-              checks
-            )
-          );
+        if (!policy.get(options.name)) {
+          const prompt = this.createPrompt(instance, options);
+
+          policy.add(prompt);
         }
 
         if (instance.$onCreate) {
-          instance.$onCreate(policy.get(name)!);
+          instance.$onCreate(policy.get(options.name)!);
         }
       });
     }
