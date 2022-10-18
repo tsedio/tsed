@@ -1,16 +1,17 @@
 import {BodyParams, Inject, Post} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Constant} from "@tsed/di";
-import {Interaction, OidcCtx, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
+import {Interaction, InteractionMethods, OidcCtx, OidcSession, Params, Prompt, Uid} from "@tsed/oidc-provider";
 import {View} from "@tsed/platform-views";
 import {Name} from "@tsed/schema";
 import {Accounts} from "../services/Accounts";
 
 @Interaction({
-  name: "login"
+  name: "login",
+  requestable: true
 })
 @Name("Oidc")
-export class LoginInteraction {
+export class LoginInteraction implements InteractionMethods {
   @Constant("env")
   env: Env;
 

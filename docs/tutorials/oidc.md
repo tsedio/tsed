@@ -307,6 +307,11 @@ Create a new directory `interactions`. We will store all custom interactions in 
 <<< @/../packages/security/oidc-provider/test/app/interactions/ConsentInteraction.ts
 
   </Tab>
+  <Tab label="AbortInteraction.ts">
+
+<<< @/../packages/security/oidc-provider/test/app/interactions/AbortInteraction.ts
+
+  </Tab>
 </Tabs>
 
 ::: tip
@@ -361,6 +366,14 @@ http://localhost:8083/auth?client_id=client_id&response_type=id_token&scope=open
 ```
 
 <figure><img alt="Oidc login page" src="./../assets/oidc/signin-page.png" style="max-height: 400px"></figure>
+
+## Create custom interaction
+
+Here a custom interaction with extra methods to configure checks precondition and details information:
+
+<<< @/../packages/security/oidc-provider/test/app/interactions/CustomInteraction.ts
+
+See more details on: https://github.com/panva/node-oidc-provider/blob/main/docs/README.md#interactionspolicy
 
 ## Alter configuration
 

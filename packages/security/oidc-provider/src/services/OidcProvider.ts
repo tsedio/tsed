@@ -3,6 +3,7 @@ import {Env, setValue} from "@tsed/core";
 import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
 import {Configuration, interactionPolicy, Provider as OIDCProvider} from "oidc-provider";
 import {INTERACTIONS} from "../constants/constants";
+import {InteractionMethods} from "../domain/InteractionMethods";
 import {OidcAccountsMethods} from "../domain/OidcAccountsMethods";
 import {OidcSettings} from "../domain/OidcSettings";
 import {OidcAdapters} from "./OidcAdapters";
@@ -182,24 +183,25 @@ export class OidcProvider {
 
     if (interactions.length) {
       interactions.forEach((provider) => {
-        const {name, checks, ...options} = provider.store.get("interactionOptions");
+        const instance = this.injector.get<InteractionMethods>(provider.token)!;
+        const {name, checks = [], details} = provider.store.get("interactionOptions");
 
         if (!policy.get(name)) {
           policy.add(
             new interactionPolicy.Prompt(
               {
                 name,
-                ...options
+                ...[instance.details ? instance.details.bind(instance) : details, ...(instance.checks ? instance.checks() : checks)].filter(
+                  Boolean
+                )
               },
               checks
             )
           );
         }
 
-        const instance = this.injector.get(provider.token);
-
         if (instance.$onCreate) {
-          instance.$onCreate(policy.get(name));
+          instance.$onCreate(policy.get(name)!);
         }
       });
     }

@@ -1,13 +1,14 @@
 import {Inject, Post} from "@tsed/common";
-import {Interaction, OidcCtx, OidcProvider, Prompt} from "@tsed/oidc-provider";
+import {Interaction, InteractionMethods, OidcCtx, OidcProvider, Prompt} from "@tsed/oidc-provider";
 import {Name} from "@tsed/schema";
 import {View} from "@tsed/platform-views";
 
 @Interaction({
-  name: "consent"
+  name: "consent",
+  requestable: true
 })
 @Name("Oidc")
-export class ConsentInteraction {
+export class ConsentInteraction implements InteractionMethods {
   @Inject()
   oidc: OidcProvider;
 
