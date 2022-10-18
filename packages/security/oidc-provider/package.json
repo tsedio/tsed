@@ -1,6 +1,6 @@
 {
   "name": "@tsed/oidc-provider",
-  "version": "7.2.0",
+  "version": "7.2.1",
   "description": "OIDC provider package for Ts.ED framework",
   "private": false,
   "contributors": [
@@ -30,7 +30,7 @@
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
-    "@tsed/adapters": "7.2.0",
+    "@tsed/adapters": "7.2.1",
     "express-urlrewrite": "^1.4.0",
     "jose2": "npm:jose@^2.0.4",
     "koa-mount": "^4.0.0",
@@ -39,10 +39,10 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@tsed/common": "7.2.0",
-    "@tsed/core": "7.2.0",
-    "@tsed/di": "7.2.0",
-    "@tsed/exceptions": "7.2.0",
+    "@tsed/common": "7.2.1",
+    "@tsed/core": "7.2.1",
+    "@tsed/di": "7.2.1",
+    "@tsed/exceptions": "7.2.1",
     "@types/lowdb": "1.0.11",
     "@types/oidc-provider": "^7.1.1",
     "@types/uuid": "8.3.4",
@@ -50,7 +50,7 @@
     "oidc-provider": "7.11.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.2.0",
+    "@tsed/common": "^7.2.1",
     "oidc-provider": ">=7.3.0"
   },
   "peerDependenciesMeta": {
