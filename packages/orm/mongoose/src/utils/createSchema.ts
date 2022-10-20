@@ -9,8 +9,6 @@ import {MongooseVirtualRefOptions} from "../interfaces/MongooseVirtualRefOptions
 import {resolveRefType} from "./resolveRefType";
 import {schemaOptions} from "./schemaOptions";
 
-const MONGOOSE_RESERVED_KEYS = ["_id"];
-
 export interface MongooseSchemaMetadata {
   schema: SchemaDefinition;
   virtuals: Map<string, MongooseVirtualRefOptions>;
@@ -112,10 +110,6 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
   const schema: MongooseSchemaMetadata = {schema: {}, virtuals: new Map()};
 
   properties.forEach((propertyMetadata, key) => {
-    if (MONGOOSE_RESERVED_KEYS.includes(key as string)) {
-      return;
-    }
-
     // Keeping the Mongoose Schema separate, so it can overwrite everything once schema has been built.
     const schemaTypeOptions: any = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
 
