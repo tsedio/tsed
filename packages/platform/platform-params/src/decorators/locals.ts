@@ -45,13 +45,13 @@ import {UseParam} from "./useParam";
 export function Locals(expression: string): ParameterDecorator;
 export function Locals(): ParameterDecorator;
 export function Locals(...args: any[]): ParameterDecorator {
-  const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
+  const {expression, useType, useMapper = false, useValidation = false} = mapParamsOptions(args);
 
   return UseParam({
     paramType: ParamTypes.LOCALS,
     expression,
     useType,
-    useConverter,
+    useMapper,
     useValidation
   });
 }

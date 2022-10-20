@@ -42,13 +42,13 @@ export function PathParams(useType: Type<any>): ParameterDecorator;
 export function PathParams(options: Partial<ParamOptions>): ParameterDecorator;
 export function PathParams(): ParameterDecorator;
 export function PathParams(...args: any[]): ParameterDecorator {
-  const {expression, useType, useConverter = true, useValidation = true} = mapParamsOptions(args);
+  const {expression, useType, useMapper = true, useValidation = true} = mapParamsOptions(args);
 
   return UseParam({
     paramType: ParamTypes.PATH,
     expression,
     useType,
-    useConverter,
+    useMapper,
     useValidation
   });
 }

@@ -179,10 +179,10 @@ export class SocketHandlersBuilder {
   private deserialize(handlerMetadata: SocketHandlerMetadata, scope: any) {
     const {parameters} = handlerMetadata;
     Object.keys(parameters || []).forEach((index: any) => {
-      const {filter, useConverter, mapIndex, type, collectionType} = parameters![index];
+      const {filter, useMapper, mapIndex, type, collectionType} = parameters![index];
       let value = scope.args[mapIndex!];
 
-      if (filter === SocketFilters.ARGS && useConverter) {
+      if (filter === SocketFilters.ARGS && useMapper) {
         value = deserialize(value, {
           useAlias: true,
           type,

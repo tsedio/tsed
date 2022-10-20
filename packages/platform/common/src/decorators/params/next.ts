@@ -11,7 +11,7 @@ export function Next(): ParameterDecorator {
   return UseParam({
     paramType: ParamTypes.NEXT_FN,
     dataPath: "next",
-    useConverter: false,
+    useMapper: false,
     useValidation: false
   });
 }

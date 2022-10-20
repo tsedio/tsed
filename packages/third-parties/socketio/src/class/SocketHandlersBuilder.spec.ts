@@ -758,7 +758,7 @@ describe("SocketHandlersBuilder", () => {
       const parameters: any[] = [
         {
           filter: SocketFilters.ARGS,
-          useConverter: true,
+          useMapper: true,
           mapIndex: 0,
           type: String,
           collectionType: Array

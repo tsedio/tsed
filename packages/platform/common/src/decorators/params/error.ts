@@ -11,6 +11,6 @@ export function Err(): Function {
     paramType: ParamTypes.ERR,
     dataPath: "$ctx.error",
     useValidation: false,
-    useConverter: false
+    useMapper: false
   });
 }

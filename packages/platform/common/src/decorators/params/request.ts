@@ -49,7 +49,7 @@ export function Req(useType: Type<any>): ParameterDecorator;
 export function Req(options: Partial<ParamOptions>): ParameterDecorator;
 export function Req(): ParameterDecorator;
 export function Req(...args: any[]): ParameterDecorator {
-  const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
+  const {expression, useType, useMapper = false, useValidation = false} = mapParamsOptions(args);
 
   return (target, propertyKey, parameterIndex) => {
     const {paramType, dataPath} = getParamType(target, propertyKey, parameterIndex);
@@ -59,7 +59,7 @@ export function Req(...args: any[]): ParameterDecorator {
       dataPath,
       expression,
       useType,
-      useConverter,
+      useMapper,
       useValidation
     })(target, propertyKey, parameterIndex);
   };

@@ -13,7 +13,7 @@ import {UseValidation} from "./useValidation";
  * @param options
  */
 function mapPipes(options: Partial<ParamOptions>) {
-  const {paramType, useType, expression, useValidation, useConverter, ...props} = options;
+  const {paramType, useType, expression, useValidation, useMapper, ...props} = options;
 
   return [
     useType
@@ -24,7 +24,7 @@ function mapPipes(options: Partial<ParamOptions>) {
           }
         }),
     useValidation && UseValidation(),
-    useConverter && UseDeserialization(props)
+    useMapper && UseDeserialization(props)
   ];
 }
 

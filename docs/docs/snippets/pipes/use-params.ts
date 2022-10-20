@@ -6,6 +6,6 @@ export function UseParam(options: ParamOptions<any>): ParameterDecorator {
     UseParamType(options),
     options.useType && UseType(options.useType),
     options.useValidation && UseValidation(),
-    options.useConverter && UseDeserialization()
+    options.useMapper && UseDeserialization()
   ) as ParameterDecorator;
 }

@@ -47,13 +47,13 @@ export function QueryParams(useType: Type<any>): ParameterDecorator;
 export function QueryParams(options: Partial<ParamOptions>): ParameterDecorator;
 export function QueryParams(): ParameterDecorator;
 export function QueryParams(...args: any[]): ParameterDecorator {
-  const {expression, useType, useConverter = true, useValidation = true} = mapParamsOptions(args);
+  const {expression, useType, useMapper = true, useValidation = true} = mapParamsOptions(args);
 
   return UseParam({
     paramType: ParamTypes.QUERY,
     expression,
     useType,
-    useConverter,
+    useMapper,
     useValidation
   });
 }
