@@ -12,10 +12,10 @@ import {
   Property,
   Required
 } from "@tsed/schema";
-import {Schema as SchemaMongoose} from "mongoose";
+import {Schema as SchemaMongoose, Types} from "mongoose";
 import {Model, ObjectID, Ref, Schema, VersionKey, VirtualRef, VirtualRefs} from "@tsed/mongoose";
-import {SchemaIgnore} from "../../src/decorators/schemaIgnore";
-import {getSchema} from "../../src/utils/createSchema";
+import {SchemaIgnore} from "../decorators/schemaIgnore";
+import {getSchema} from "./createSchema";
 import {DiscriminatorKey} from "../decorators/discriminatorKey";
 
 describe("createSchema", () => {
@@ -50,6 +50,10 @@ describe("createSchema", () => {
 
     // THEN
     expect(result.obj).toEqual({
+      _id: {
+        required: false,
+        type: String
+      },
       enum: {
         enum: ["v1", "v2"],
         required: false,
@@ -87,6 +91,10 @@ describe("createSchema", () => {
 
     // THEN
     expect(result.obj).toEqual({
+      _id: {
+        required: false,
+        type: String
+      },
       image: {
         required: false,
         type: Buffer
@@ -152,6 +160,10 @@ describe("createSchema", () => {
     });
 
     expect(childrenSchema.obj).toEqual({
+      _id: {
+        required: false,
+        type: String
+      },
       enum: {
         enum: ["v1", "v2"],
         required: false,
@@ -219,6 +231,11 @@ describe("createSchema", () => {
     });
 
     expect(childrenSchema.obj).toEqual({
+      _id: {
+        auto: true,
+        required: false,
+        type: Types.ObjectId
+      },
       enum: {
         enum: ["v1", "v2"],
         required: false,
@@ -451,6 +468,10 @@ describe("createSchema", () => {
     });
 
     expect(childrenSchema.obj).toEqual({
+      _id: {
+        required: false,
+        type: String
+      },
       enum: {
         enum: ["v1", "v2"],
         required: false,
@@ -612,6 +633,10 @@ describe("createSchema", () => {
     });
 
     expect(childrenSchema.obj).toEqual({
+      _id: {
+        required: false,
+        type: String
+      },
       enum: {
         enum: ["v1", "v2"],
         required: false,

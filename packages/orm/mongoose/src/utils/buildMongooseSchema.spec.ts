@@ -1,6 +1,7 @@
 import {JsonEntityStore, Property} from "@tsed/schema";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
+import {Types} from "mongoose";
 import {buildMongooseSchema} from "../../src/utils/createSchema";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
 
 describe("buildMongooseSchema", () => {
   describe("when mongoose schema hasn't ref", () => {
@@ -18,6 +19,10 @@ describe("buildMongooseSchema", () => {
 
       // THEN
       expect(result.schema).toEqual({
+        _id: {
+          required: false,
+          type: String
+        },
         test: {
           required: false,
           type: String
@@ -43,7 +48,6 @@ describe("buildMongooseSchema", () => {
         foreignField: "foreignField"
       });
 
-      JsonEntityStore.get(Test, "_id");
       // WHEN
       const result = buildMongooseSchema(Test);
 
