@@ -55,13 +55,13 @@ import {UseParam} from "./useParam";
 export function Context(expression: string): ParameterDecorator;
 export function Context(): ParameterDecorator;
 export function Context(...args: any[]): ParameterDecorator {
-  const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
+  const {expression, useType, useMapper = false, useValidation = false} = mapParamsOptions(args);
 
   return UseParam({
     paramType: ParamTypes.$CTX,
     expression,
     useType,
-    useConverter,
+    useMapper,
     useValidation
   });
 }

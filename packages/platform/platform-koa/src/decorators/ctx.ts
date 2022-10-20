@@ -12,7 +12,7 @@ export function KoaCtx(): ParameterDecorator {
   return UseParam({
     paramType: "KOA_CTX",
     dataPath: "$ctx.request.ctx",
-    useConverter: false,
+    useMapper: false,
     useValidation: false
   });
 }

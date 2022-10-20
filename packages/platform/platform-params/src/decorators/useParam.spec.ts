@@ -25,7 +25,7 @@ describe("@UseParam", () => {
         test(
           @UseParam({
             expression: "expression",
-            useConverter: true,
+            useMapper: true,
             useValidation: true,
             paramType: ParamTypes.BODY,
             useType: Test

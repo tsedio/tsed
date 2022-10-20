@@ -5,6 +5,10 @@ export interface ParamOptions<T = any> {
   paramType: string;
   expression?: string;
   useType?: Type<T>;
+  useMapper?: boolean;
+  /**
+   * @deprecated Since 10-2022. Use ParamOptions.useMapper.
+   */
   useConverter?: boolean;
   useValidation?: boolean;
 

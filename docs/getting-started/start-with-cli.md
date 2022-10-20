@@ -120,7 +120,7 @@ Alternatively, you can check out one of these projects:
 
 If none of previous solutions are satisfying maybe you are in these cases:
 
-- [I want to migrate my application from Ts.ED v5](/getting-started/migration-from-v5.md)
+- [I want to migrate my application from Ts.ED v6](/getting-started/migration-from-v6.md)
 - [I want to migrate my application from Express.js](/getting-started/migrate-from-express.md)
 
 ## What's next?

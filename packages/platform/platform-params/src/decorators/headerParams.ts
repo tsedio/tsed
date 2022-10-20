@@ -36,13 +36,13 @@ export function HeaderParams(useType: Type<any>): ParameterDecorator;
 export function HeaderParams(options: Partial<ParamOptions>): ParameterDecorator;
 export function HeaderParams(): ParameterDecorator;
 export function HeaderParams(...args: any[]): ParameterDecorator {
-  const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
+  const {expression, useType, useMapper = false, useValidation = false} = mapParamsOptions(args);
 
   return UseParam({
     paramType: ParamTypes.HEADER,
     expression,
     useType,
-    useConverter,
+    useMapper,
     useValidation
   });
 }

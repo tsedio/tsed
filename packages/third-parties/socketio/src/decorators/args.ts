@@ -34,13 +34,13 @@ export function Args(mapIndex?: number, useType?: any): any {
     const type = Metadata.getParamTypes(target, propertyKey)[index];
     const param = {
       filter: SocketFilters.ARGS,
-      useConverter: false
+      useMapper: false
     };
 
     if (mapIndex !== undefined) {
       Object.assign(param, {
         mapIndex,
-        useConverter: true,
+        useMapper: true,
         type: useType || type,
         collectionType: isCollection(type) ? type : undefined
       });

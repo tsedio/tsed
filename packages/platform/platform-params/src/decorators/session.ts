@@ -39,13 +39,13 @@ export function Session(expression: string): ParameterDecorator;
 export function Session(options: Partial<ParamOptions>): ParameterDecorator;
 export function Session(): ParameterDecorator;
 export function Session(...args: any[]): ParameterDecorator {
-  const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
+  const {expression, useType, useMapper = false, useValidation = false} = mapParamsOptions(args);
 
   return UseParam({
     paramType: ParamTypes.SESSION,
     expression,
     useType,
-    useConverter,
+    useMapper,
     useValidation
   });
 }

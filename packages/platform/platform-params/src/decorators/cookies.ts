@@ -41,13 +41,13 @@ export function CookiesParams(): ParameterDecorator;
 export function CookiesParams(expression: string | any): ParameterDecorator;
 export function CookiesParams(options: ParamOptions<any>): ParameterDecorator;
 export function CookiesParams(...args: any[]): ParameterDecorator {
-  const {expression, useType, useConverter = false, useValidation = false} = mapParamsOptions(args);
+  const {expression, useType, useMapper = false, useValidation = false} = mapParamsOptions(args);
 
   return UseParam({
     paramType: ParamTypes.COOKIES,
     expression,
     useType,
-    useConverter,
+    useMapper,
     useValidation
   });
 }

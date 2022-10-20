@@ -18,8 +18,11 @@ export function mapParamsOptions(args: any[]): Partial<ParamOptions<any>> {
       };
     }
 
+    const opts = args[0] as ParamOptions;
+
     return {
-      ...args[0]
+      ...opts,
+      useMapper: opts.useMapper || opts.useConverter
     };
   }
 

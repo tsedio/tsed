@@ -18,7 +18,7 @@ describe("Args", () => {
             parameters: {
               "0": {
                 filter: "args",
-                useConverter: false
+                useMapper: false
               }
             }
           }
@@ -45,7 +45,7 @@ describe("Args", () => {
                 filter: "args",
                 mapIndex: 1,
                 type: undefined,
-                useConverter: true
+                useMapper: true
               }
             }
           }

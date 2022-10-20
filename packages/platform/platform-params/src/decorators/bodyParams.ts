@@ -47,13 +47,13 @@ export function BodyParams(useType: Type<any>): ParameterDecorator;
 export function BodyParams(options: Partial<ParamOptions>): ParameterDecorator;
 export function BodyParams(): ParameterDecorator;
 export function BodyParams(...args: any[]): ParameterDecorator {
-  const {expression, useType, useConverter = true, useValidation = true} = mapParamsOptions(args);
+  const {expression, useType, useMapper = true, useValidation = true} = mapParamsOptions(args);
 
   return UseParam({
     paramType: ParamTypes.BODY,
     expression,
     useType,
-    useConverter,
+    useMapper,
     useValidation
   });
 }
@@ -81,7 +81,7 @@ export function BodyParams(...args: any[]): ParameterDecorator {
 export function RawBodyParams(): ParameterDecorator {
   return UseParam({
     paramType: ParamTypes.RAW_BODY,
-    useConverter: false,
+    useMapper: false,
     useValidation: false
   });
 }

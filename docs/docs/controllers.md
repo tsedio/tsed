@@ -12,10 +12,12 @@ Controllers are responsible for handling incoming **requests** and returning **r
 
 <figure><img src="./../assets/client-controllers.png" style="max-height: 300px; padding: 10px; background: white"></figure>
 
-A controller is here to handle a specific request for a given HTTP verb and Route. The routing service is responsible for
+A controller is here to handle a specific request for a given HTTP verb and Route. The routing service is responsible
+for
 managing and dispatching request to the right Controller.
 
-In order to create a basic controller, we use classes and **decorators**. Decorators associate classes with required metadata and enable Ts.ED to create a routing map.
+In order to create a basic controller, we use classes and **decorators**. Decorators associate classes with required
+metadata and enable Ts.ED to create a routing map.
 
 ## Routing
 
@@ -27,7 +29,8 @@ We'll specify a path for the controller which will be used by the routing mechan
 <<< @/docs/snippets/controllers/basic-controller.ts
 
 The @@Get@@ decorator before the `findAll()` method tells Ts.ED to create an endpoint for this particular route path and
-map every corresponding request to this handler. Since we've declared a prefix for every route (`/calendars`), Ts.ED will map every `GET /calendars` request to this method.
+map every corresponding request to this handler. Since we've declared a prefix for every route (`/calendars`), Ts.ED
+will map every `GET /calendars` request to this method.
 
 ### Decorators
 
@@ -35,22 +38,26 @@ Ts.ED provides a decorator for each HTTP verb which can be used to handle a requ
 
 <ApiList query="tags:decorator AND tags:httpMethod" />
 
-Other decorators are provided to describe your route with OpenSpec, adding middlewares, adding some constraints or adding headers:
+Other decorators are provided to describe your route with OpenSpec, adding middlewares, adding some constraints or
+adding headers:
 
 <ApiList query="status.includes('decorator') && status.includes('operation') && !status.includes('input') && !status.includes('httpMethod')" />
 
 ### Configuration
 
-You can add your controller by adding glob pattern on `mount` ServerSettings attributes or by importing manually your controller.
+You can add your controller by adding glob pattern on `mount` ServerSettings attributes or by importing manually your
+controller.
 Here an example:
 
 <<< @/docs/snippets/controllers/routing.ts
 
 ### Create multiple versions of your API
 
-As you have seen in the previous example, the `mount` attribute is an object that let you provide the global endpoint for all your controllers under the `controllers` folder.
+As you have seen in the previous example, the `mount` attribute is an object that let you provide the global endpoint
+for all your controllers under the `controllers` folder.
 
-You can add more configurations to mount different endpoints associated to a folder. Here is another configuration example:
+You can add more configurations to mount different endpoints associated to a folder. Here is another configuration
+example:
 
 <<< @/docs/snippets/controllers/routing-with-version.ts
 
@@ -73,7 +80,8 @@ Also, Ts.ED support function that return `Observable`, `Stream` or `Buffer`.
 ### Axios response
 
 Sometime, you just want call another API to proxy a webservice.
-Axios is an excellent library to call API in Node.js and Ts.ED is able to handle Axios response to wrap it into an Express.js response.
+Axios is an excellent library to call API in Node.js and Ts.ED is able to handle Axios response to wrap it into an
+Express.js response.
 
 <<< @/docs/snippets/controllers/axios-controller.ts
 
@@ -105,14 +113,32 @@ In order to avoid such side-effects, simply move `findAll()` method above `findO
 
 ### Input parameters
 
-Getting parameters from Express Request can be done by using the following decorators:
+Getting parameters from Request can be done by using the following decorators:
 
-- @@BodyParams@@: `Express.request.body`
-- @@RawBodyParams@@: `Express.request.rawBody`
-- @@PathParams@@: `Express.request.params`
-- @@RawPathParams@@: `Express.request.params` without transformation and validation,
-- @@QueryParams@@: `Express.request.query`
-- @@RawQueryParams@@: `Express.request.query` without transformation and validation,
+| Decorator      | Validation | Json Mapper | Configurable |
+| -------------- | ---------- | ----------- | ------------ |
+| HeaderParams   | no         | no          | yes          |
+| BodyParams     | yes        | yes         | yes          |
+| RawBodyParams  | no         | no          | no           |
+| PathParams     | yes        | yes         | yes          |
+| RawPathParams  | no         | no          | no           |
+| QueryParams    | yes        | yes         | yes          |
+| RawQueryParams | no         | no          | no           |
+| Session        | no         | no          | yes          |
+| Cookies        | no         | no          | yes          |
+| Locals         | no         | no          | yes          |
+| Context        | no         | no          | no           |
+
+::: tip
+
+Some decorators run automatically `validator` and `json-mapper`. This behavior can be changed (if the decorator is flagged as configurable)
+like this:
+
+```typescript
+@HeaderParams({expression: "x-header",  useValidator: true, useMapper: true })
+```
+
+:::
 
 <Tabs class="-code">
   <Tab label="Example">
@@ -147,7 +173,7 @@ Finally, @@BodyParams@@ accepts to give a @@ParamOptions@@ object as parameter t
 <<< @/docs/snippets/controllers/params-advanced-usage.ts
 
 ::: tip
-Since v5.51.0+, @@QueryParams@@ decorator accept a model to transform `Express.request.query` plain object to a Class.
+@@QueryParams@@ decorator accept a model to transform `Express.request.query` plain object to a Class.
 
 ```typescript
 import {Controller, Get, QueryParams} from "@tsed/common";
@@ -173,7 +199,8 @@ class QueryController {
 
 ::: warning
 
-Since v6.0.0, use `any` as type for a body parameter, will be translated as type `Object`. It means, if you use `@tsed/ajv`, the validation
+Since v6.0.0, use `any` as type for a body parameter, will be translated as type `Object`. It means, if you
+use `@tsed/ajv`, the validation
 will fail if you send a different type as expected in the payload.
 
 <<< @/docs/snippets/controllers/params-post-any.ts
@@ -223,9 +250,20 @@ export class Server {
 
 <<< @/docs/snippets/controllers/request-headers.ts
 
+::: warning
+By default, the validator/json-mapper aren't executed on header parameters.
+You have to add extra parameter to enable it:
+
+```typescript
+@HeaderParams({expression: "x-header", useValidator: true, useMapper: true })
+```
+
+:::
+
 ### Session/Cookies/Locals/Context
 
-For the session, cookies, locals or context data attached on the request, it works the same way as seen before. Use the following decorators to get the data:
+For the session, cookies, locals or context data attached on the request, it works the same way as seen before. Use the
+following decorators to get the data:
 
 - @@Session@@
 - @@Cookies@@
@@ -292,7 +330,8 @@ You can set the response header with the @@Header@@ decorator:
 
 ### Redirect
 
-Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an HTTP status code . If not specified, status defaults to “302 “Found”.
+Redirects to the URL derived from the specified path, with specified status, a positive integer that corresponds to an
+HTTP status code . If not specified, status defaults to “302 “Found”.
 
 ```typescript
 @Controller("/")
@@ -313,7 +352,8 @@ class MyCtrl {
 }
 ```
 
-Redirects can be relative to the root of the host name. For example, if the application is on http://example.com/admin/post/new, the following would redirect to the URL http://example.com/admin:
+Redirects can be relative to the root of the host name. For example, if the application is
+on http://example.com/admin/post/new, the following would redirect to the URL http://example.com/admin:
 
 ```typescript
 @Controller("/")
@@ -323,7 +363,8 @@ class MyCtrl {
 }
 ```
 
-Redirects can be relative to the current URL. For example, from `http://example.com/blog/admin/` (notice the trailing slash), the following would redirect to the URL `http://example.com/blog/admin/post/new`.
+Redirects can be relative to the current URL. For example, from `http://example.com/blog/admin/` (notice the trailing
+slash), the following would redirect to the URL `http://example.com/blog/admin/post/new`.
 
 ```typescript
 @Controller("/")
@@ -333,11 +374,14 @@ class MyCtrl {
 }
 ```
 
-Redirecting to post/new from `http://example.com/blog/admin` (no trailing slash), will redirect to `http://example.com/blog/post/new`.
+Redirecting to post/new from `http://example.com/blog/admin` (no trailing slash), will redirect
+to `http://example.com/blog/post/new`.
 
-If you found the above behavior confusing, think of path segments as directories (with trailing slashes) and files, it will start to make sense.
+If you found the above behavior confusing, think of path segments as directories (with trailing slashes) and files, it
+will start to make sense.
 
-Path-relative redirects are also possible. If you were on `http://example.com/admin/post/new`, the following would redirect to `http//example.com/admin/post`:
+Path-relative redirects are also possible. If you were on `http://example.com/admin/post/new`, the following would
+redirect to `http//example.com/admin/post`:
 
 ```typescript
 @Controller("/")
@@ -376,7 +420,8 @@ One of the new usage allowed by the @@Returns@@ is the support of the Generics f
 
 This feature is basically there to meet the need to generate correct Swagger documentation when using generic templates.
 
-For example, you want to return a generic `Document` payload which contains a data (Product) and links to allow a commuter to discover your endpoints linked to this data.
+For example, you want to return a generic `Document` payload which contains a data (Product) and links to allow a
+commuter to discover your endpoints linked to this data.
 
 With @@Returns@@ you can document correctly your endpoint to reflect the correct model:
 
@@ -399,11 +444,12 @@ With @@Returns@@ you can document correctly your endpoint to reflect the correct
   <Tab label="CodeSandbox" icon="bxl-codepen">
 
 <iframe src="https://codesandbox.io/embed/tsed-swagger-example-ripfl?fontsize=14&hidenavigation=1&theme=dark"
-     style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
-     title="tsed-swagger-example"
-     allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
-     sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
-     
+style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+title="tsed-swagger-example"
+allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi;
+payment; usb; vr; xr-spatial-tracking"
+sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"></iframe>
+
   </Tab>
 </Tabs>
 
@@ -428,10 +474,12 @@ See our guide on [HttpExceptions to throw customer HttpExceptions](/docs/throw-h
 
 ## Inject Request and Response
 
-You can use a decorator to inject the Request in order to retrieve information from the request that you cannot get through decorators.
+You can use a decorator to inject the Request in order to retrieve information from the request that you cannot get
+through decorators.
 In the same way you can inject the Response instance in order to modify some of its information.
 
-This is not recommended, however, because your will potentially be specific to the platform you are using (Express.js, Koa.js, etc ...)
+This is not recommended, however, because your will potentially be specific to the platform you are using (Express.js,
+Koa.js, etc ...)
 
 You can with the Req and Request decorators retrieve the originals request and response as follows:
 
@@ -447,14 +495,16 @@ Finally, it is also possible to retrieve the request and response in Node.js ver
 
 ## Inject next
 
-Use @@Next@@ decorator isn't recommended because Ts.ED use Promise/Observable to return a response, but something it's required to get next function
+Use @@Next@@ decorator isn't recommended because Ts.ED use Promise/Observable to return a response, but something it's
+required to get next function
 to chain middlewares.
 
 <<< @/docs/snippets/controllers/inject-next.ts
 
 ## Inject router
 
-Each controller has a @@PlatformRouter@@ which wrap the original router from [Express.Router](http://expressjs.com/en/guide/routing.html
+Each controller has a @@PlatformRouter@@ which wrap the original router
+from [Express.Router](http://expressjs.com/en/guide/routing.html
 or KoaRouter.
 You can inject @@PlatformRouter@@ in your controller to add anything related to the current Router controller.
 
@@ -466,7 +516,8 @@ All of these routes added by this way won't be discovered by Ts.ED to produce Sw
 
 ## Templating
 
-A template engine like [EJS](https://ejs.co/) or [Handlebars](https://handlebarsjs.com/) can be used to change the response returned by your endpoint.
+A template engine like [EJS](https://ejs.co/) or [Handlebars](https://handlebarsjs.com/) can be used to change the
+response returned by your endpoint.
 Like Express.js, you need to configure the templating engine so that you can use it later with the @@View@@ decorator.
 
 Here is an example of a controller which uses the @@View@@ decorator:
@@ -481,13 +532,15 @@ And its view:
 ```
 
 ::: tip
-To configure a template engine with Ts.ED, see our guide to [install the engine rendering](/tutorials/templating.md) with Ts.ED.
+To configure a template engine with Ts.ED, see our guide to [install the engine rendering](/tutorials/templating.md)
+with Ts.ED.
 :::
 
 ## Middlewares
 
 The middleware is a function which is called before the route handler.
-Middleware functions have access to the request and response objects, and the next middleware function in the application’s request-response cycle.
+Middleware functions have access to the request and response objects, and the next middleware function in the
+application’s request-response cycle.
 The next middleware function is commonly denoted by a variable named next.
 
 ::: tip
@@ -515,7 +568,8 @@ See [middlewares section](/docs/middlewares.md) for more information.
 
 ## Nested controllers
 
-A controller can have one or more nested controllers. This feature allows you to combine your controllers with each other to define your routes.
+A controller can have one or more nested controllers. This feature allows you to combine your controllers with each
+other to define your routes.
 One controller can be added to multiple controllers, so you can easily reuse the same controller.
 
 <Tabs class="-code">
