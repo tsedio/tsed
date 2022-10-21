@@ -197,7 +197,7 @@ export class OidcProvider {
         if (!policy.get(options.name)) {
           const prompt = this.createPrompt(instance, options);
 
-          policy.add(prompt);
+          policy.add(prompt, options.priority);
         }
 
         if (instance.$onCreate) {
