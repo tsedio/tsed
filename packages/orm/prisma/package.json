@@ -25,7 +25,7 @@
   "private": false,
   "dependencies": {
     "@prisma/generator-helper": "^4.0.0",
-    "@prisma/sdk": "^4.0.0",
+    "@prisma/internals": "^4.0.0",
     "change-case": "^4.1.2",
     "fs-extra": "^10.1.0",
     "pluralize": "^8.0.0",

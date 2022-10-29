@@ -1,5 +1,5 @@
 import {GeneratorOptions} from "@prisma/generator-helper";
-import {parseEnvValue} from "@prisma/sdk";
+import {parseEnvValue} from "@prisma/internals";
 import fs from "fs-extra";
 import {generateCode} from "../generator/generateCode";
 import removeDir from "../generator/utils/removeDir";
