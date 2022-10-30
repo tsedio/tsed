@@ -1,6 +1,6 @@
 {
   "name": "@tsed/github-sponsors",
-  "version": "7.2.3",
+  "version": "7.2.4",
   "private": true,
   "scripts": {
     "sponsors": "node ./bin/github-sponsors.js"
