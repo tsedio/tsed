@@ -65,7 +65,7 @@
     "@vuepress/plugin-pwa": "1.9.7",
     "vue-analytics": "5.22.1",
     "vuepress": "1.9.7",
-    "vuepress-theme-tsed": "3.19.5"
+    "vuepress-theme-tsed": "3.20.5"
   },
   "directories": {
     "packages": "packages",
