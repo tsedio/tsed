@@ -51,7 +51,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
       const currentTTL = await this.cache.ttl(key);
       const calculatedTTL = this.cache.calculateTTL(currentTTL, ttl);
 
-      if (currentTTL < calculatedTTL - refreshThreshold) {
+      if (currentTTL === undefined || currentTTL < calculatedTTL - refreshThreshold) {
         await next();
       }
 

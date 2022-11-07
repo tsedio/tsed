@@ -1,114 +1,125 @@
-import {Store} from "cache-manager";
-import Redis, {Cluster} from "ioredis";
-import {Callback} from "ioredis/built/types";
+import type {Config, FactoryConfig, Store} from "cache-manager";
+import Redis, {Cluster, ClusterNode, ClusterOptions, RedisOptions} from "ioredis";
 
-async function handle<Response = any>(next: () => Promise<Response>, parse: boolean, cb?: Callback<Response | null>) {
-  try {
-    let result = await next();
-
-    if (parse) {
-      result = result && JSON.parse(result as any);
-    }
-
-    if (!cb) {
-      return result;
-    }
-
-    cb(null, result);
-  } catch (er) {
-    if (!cb) {
-      throw er;
-    }
-
-    cb(er, null);
-  }
+export interface RedisClusterConfig {
+  nodes: ClusterNode[];
+  options?: ClusterOptions;
 }
+
+const getVal = (value: unknown) => JSON.stringify(value) || '"undefined"';
 
 export class IORedisStore implements Store {
   public name = "redis";
+  /**
+   * @deprecated
+   */
   public isCacheableValue;
+  public isCacheable;
   private redisCache: Redis | Cluster;
   private storeArgs: any;
 
-  constructor(...args: any[]) {
-    if (args.length > 0 && args[0].redisInstance) {
-      this.redisCache = args[0].redisInstance;
-    } else if (args.length > 0 && args[0].clusterConfig) {
-      const {nodes, options} = args[0].clusterConfig;
+  constructor(options?: (RedisOptions | {clusterConfig: RedisClusterConfig}) & Config) {
+    options ||= {};
 
-      this.redisCache = new Redis.Cluster(nodes, options || {});
-    } else {
-      this.redisCache = new (Redis as any)(...args);
-    }
+    this.redisCache =
+      "clusterConfig" in options ? new Redis.Cluster(options.clusterConfig.nodes, options.clusterConfig.options) : new Redis(options);
 
     this.storeArgs = this.redisCache.options;
-    this.isCacheableValue = this.storeArgs.isCacheableValue || ((value: any) => value !== undefined && value !== null);
+    this.isCacheable = this.isCacheableValue =
+      this.storeArgs.isCacheable || this.storeArgs.isCacheableValue || ((value: any) => value !== undefined && value !== null);
+  }
+
+  get client() {
+    return this.redisCache;
   }
 
   getClient() {
     return this.redisCache;
   }
 
-  set(key: string, value: any, options: any, cb?: Callback<"OK">) {
-    if (typeof options === "function") {
-      cb = options;
-      options = {};
+  async set(key: string, value: any, ttl?: number) {
+    this.assertCacheable(value);
+
+    ttl = this.getTtl(ttl);
+
+    const val = getVal(value);
+
+    if (ttl) {
+      await this.redisCache.setex(key, ttl, val);
+      return;
     }
 
-    options = options || {};
-
-    return handle<"OK">(
-      async () => {
-        if (!this.isCacheableValue(value)) {
-          throw new Error(`"${value}" is not a cacheable value`);
-        }
-
-        const ttl = options.ttl || options.ttl === 0 ? options.ttl : this.storeArgs.ttl;
-        const val = JSON.stringify(value) || '"undefined"';
-
-        if (ttl) {
-          return this.redisCache.setex(key, ttl, val);
-        }
-
-        return this.redisCache.set(key, val);
-      },
-      false,
-      cb
-    );
+    await this.redisCache.set(key, val);
   }
 
-  get(key: string, options?: any, cb?: Callback<string | null>) {
-    if (typeof options === "function") {
-      cb = options;
+  async get<T = any>(key: string, options?: any) {
+    const val = await this.redisCache.get(key);
+
+    if (val === undefined || val === null) {
+      return undefined;
     }
 
-    return handle(() => this.redisCache.get(key), true, cb);
+    return JSON.parse(val) as T;
   }
 
-  del(key: string, options: any, cb?: Callback<number>) {
-    if (typeof options === "function") {
-      cb = options;
+  async del(key: string) {
+    await this.redisCache.del(key);
+  }
+
+  async mset(args: [string, unknown][], ttl?: number) {
+    ttl = this.getTtl(ttl);
+
+    if (ttl) {
+      const multi = this.redisCache.multi();
+
+      for (const [key, value] of args) {
+        this.assertCacheable(value);
+
+        multi.setex(key, ttl / 1000, getVal(value));
+      }
+
+      await multi.exec();
+    } else
+      await this.redisCache.mset(
+        args.flatMap(([key, value]) => {
+          this.assertCacheable(value);
+
+          return [key, getVal(value)] as [string, string];
+        })
+      );
+  }
+
+  async mget(...args: string[]) {
+    const x = await this.redisCache.mget(args);
+
+    return x.map((x) => (x === null || x === undefined ? undefined : (JSON.parse(x) as unknown)));
+  }
+
+  async mdel(...args: string[]) {
+    await this.redisCache.del(args);
+  }
+
+  async reset() {
+    await this.redisCache.flushall();
+  }
+
+  keys(pattern: string = "*") {
+    return this.redisCache.keys(pattern);
+  }
+
+  ttl(key: string) {
+    return this.redisCache.ttl(key);
+  }
+
+  private getTtl(ttl?: number) {
+    return ttl === undefined ? this.storeArgs.ttl : ttl;
+  }
+
+  private assertCacheable(value: any) {
+    if (!this.isCacheable(value)) {
+      throw new Error(`"${getVal(value)}" is not a cacheable value`);
     }
-
-    return handle(() => this.redisCache.del(key), false, cb);
-  }
-
-  reset(cb?: Callback<"OK">) {
-    return handle(() => this.redisCache.flushdb(), false, cb);
-  }
-
-  keys(pattern: string, cb: Callback<string[]>) {
-    if (typeof pattern === "function") {
-      cb = pattern;
-      pattern = "*";
-    }
-
-    return handle<string[]>(() => this.redisCache.keys(pattern), false, cb);
-  }
-
-  ttl(key: string, cb?: Callback<number>) {
-    return handle<number>(() => this.redisCache.ttl(key), false, cb);
   }
 }
 
-export const ioRedisStore = {create: (...args: any[]) => new IORedisStore(...args)};
+export const ioRedisStore = (config?: FactoryConfig<any>) => new IORedisStore(config);

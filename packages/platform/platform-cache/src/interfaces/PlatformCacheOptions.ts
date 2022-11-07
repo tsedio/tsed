@@ -1,9 +1,9 @@
 import {MetadataTypes} from "@tsed/core";
 import {BaseContext} from "@tsed/di";
-import type {TtlFunction} from "cache-manager";
+import type {Ttl} from "../services/PlatformCache";
 
 export interface PlatformCacheOptions extends MetadataTypes {
-  ttl?: number | TtlFunction;
+  ttl?: Ttl;
   key?: string | ((args: any[], ctx?: BaseContext) => string);
   refreshThreshold?: number;
 }
