@@ -118,7 +118,9 @@ describe("RedisConnection", () => {
     it("should create redis connection", () => {
       const connection = DITest.get<REDIS_CONNECTION>(REDIS_CONNECTION);
 
-      expect(connection).toEqual({});
+      expect(connection).toEqual({
+        name: "default"
+      });
     });
   });
 });

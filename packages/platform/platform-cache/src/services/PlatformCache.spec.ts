@@ -1,5 +1,5 @@
 import {PlatformTest} from "@tsed/common";
-import cacheManager from "cache-manager";
+import {caching as cacheManager, multiCaching} from "cache-manager";
 import {PlatformCache} from "./PlatformCache";
 
 function createCacheFixture() {
@@ -30,13 +30,61 @@ function createCacheFixture() {
   };
 }
 
+jest.mock("cache-manager");
+
 describe("PlatformCache", () => {
+  describe("with legacy single cache", () => {
+    let caching: ReturnType<typeof createCacheFixture>;
+
+    beforeEach(async () => {
+      caching = createCacheFixture();
+
+      (cacheManager as jest.Mock).mockReturnValue(caching as any);
+
+      await PlatformTest.create({
+        cache: {
+          store: {create: () => caching},
+          ttl: 300
+        }
+      });
+    });
+
+    afterEach(() => {
+      return PlatformTest.reset();
+    });
+
+    it("should create single cache", async () => {
+      const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
+
+      expect(cacheManager.disabled()).toEqual(false);
+
+      await cacheManager.set("key", "value");
+      await cacheManager.set("key2", "value2");
+      expect(await cacheManager.get("key")).toBe("value");
+      expect(await cacheManager.get("key2")).toBe("value2");
+
+      await cacheManager.del("key2");
+
+      expect(await cacheManager.get("key2")).toBeUndefined();
+
+      await cacheManager.reset();
+
+      expect(await cacheManager.get("key")).toBeUndefined();
+
+      const result = await cacheManager.wrap("key", async () => {
+        return "valuePromised";
+      });
+
+      expect(result).toBe("valuePromised");
+    });
+  });
   describe("with single cache", () => {
     let caching: ReturnType<typeof createCacheFixture>;
 
     beforeEach(async () => {
       caching = createCacheFixture();
-      jest.spyOn(cacheManager, "caching").mockReturnValue(caching as any);
+
+      (cacheManager as jest.Mock).mockReturnValue(caching as any);
 
       await PlatformTest.create({
         cache: {
@@ -183,7 +231,9 @@ describe("PlatformCache", () => {
     let caching: ReturnType<typeof createCacheFixture>;
     beforeEach(() => {
       caching = createCacheFixture();
-      jest.spyOn(cacheManager, "multiCaching").mockReturnValue(caching as any);
+
+      (multiCaching as jest.Mock).mockReturnValue(caching as any);
+
       return PlatformTest.create({
         cache: {
           caches: [{}, {}] as any[],

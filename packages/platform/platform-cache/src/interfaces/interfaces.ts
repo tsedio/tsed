@@ -1,17 +1,18 @@
 import type {BaseContext} from "@tsed/di";
-import type {Cache, CacheOptions, CachingConfig, Store} from "cache-manager";
+import type {Cache, CachingConfig, Store} from "cache-manager";
+import {FactoryStore} from "cache-manager/dist/caching";
 import type {CacheManager} from "../services/PlatformCache";
 
-export interface PlatformCacheSettings extends CacheOptions, CachingConfig {
+/**
+ * @deprecated Since 2022-11. Use FactoryStore instead.
+ */
+export type PlatformCacheLegacyStoreFactory = {
+  create(...args: any[]): Promise<Store | any> | Store | any;
+};
+
+export type PlatformCacheSettings<Config extends object = any, S extends Store = any> = CachingConfig<Config> & {
   caches?: Cache[];
-  store?:
-    | "memory"
-    | "none"
-    | Store
-    | {
-        create(...args: any[]): Store;
-      }
-    | (() => any);
+  store?: "memory" | Store | PlatformCacheLegacyStoreFactory | FactoryStore<S, Config>;
   max?: number;
   keyResolver?: (args: any[], ctx: BaseContext) => string;
 
@@ -20,7 +21,7 @@ export interface PlatformCacheSettings extends CacheOptions, CachingConfig {
    * otherwise they will be ignored.
    */
   [key: string]: any;
-}
+};
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace

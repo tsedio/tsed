@@ -1,16 +1,17 @@
-import {isClass, isFunction} from "@tsed/core";
+import {isClass, isFunction, isString} from "@tsed/core";
 import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
-import type {Cache, CachingConfig, MultiCache, TtlFunction} from "cache-manager";
-import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
-import {PlatformCacheSettings} from "../interfaces/interfaces";
 import {Logger} from "@tsed/logger";
+import type {Cache, CachingConfig, MultiCache} from "cache-manager";
+import {PlatformCacheSettings} from "../interfaces/interfaces";
+import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
 };
 
 export type CacheManager = Cache | MultiCache;
+export type Ttl = number | ((result: any) => number);
 
 /**
  * @platform
@@ -51,10 +52,10 @@ export class PlatformCache {
   }
 
   defaultTtl() {
-    return this.settings.get<number | TtlFunction>("cache.ttl");
+    return this.settings.get<Ttl>("cache.ttl");
   }
 
-  calculateTTL(result?: any, currentTtl?: number | TtlFunction) {
+  calculateTTL(result?: any, currentTtl?: Ttl): number {
     const ttl = currentTtl === undefined ? this.defaultTtl() : currentTtl;
 
     return isFunction(ttl) ? ttl(result) : ttl;
@@ -66,20 +67,21 @@ export class PlatformCache {
     }
   }
 
-  wrap<T>(key: string, fetch: () => Promise<T>, options?: CachingConfig): Promise<T> {
+  wrap<T>(key: string, fetch: () => Promise<T>, ttl?: number): Promise<T> {
     if (!this.cache) {
       return fetch();
     }
 
-    return this.cache?.wrap<T>(key, fetch, options as any);
+    return this.cache?.wrap<T>(key, fetch, ttl);
   }
 
   async get<T>(key: string, options: JsonDeserializerOptions = {}): Promise<T | undefined> {
     return deserialize(this.cache?.get<T>(key), options);
   }
 
-  async set<T>(key: string, value: any, options?: CachingConfig): Promise<T | undefined> {
-    return this.cache?.set<T>(key, value, options);
+  async set<T>(key: string, value: any, options?: CachingConfig<T>): Promise<T | undefined> {
+    await this.cache?.set(key, value, options?.ttl);
+    return;
   }
 
   async getCachedObject(key: string) {
@@ -150,14 +152,27 @@ export class PlatformCache {
   protected async createCacheManager(settings: PlatformCacheSettings) {
     const {caches, store = "memory", ttl, ...props} = settings;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const {default: cacheManager} = await import("cache-manager");
+    const {multiCaching, caching} = await import("cache-manager");
 
     return caches?.length
-      ? cacheManager.multiCaching(caches, {...props})
-      : cacheManager.caching({
+      ? multiCaching(caches)
+      : caching(await this.mapStore(store), {
           ...props,
-          ttl,
-          store: isFunction(store) ? await store() : store
+          ttl
         });
+  }
+
+  private async mapStore(store: string | Function | {create: Function}) {
+    if (!isString(store)) {
+      if ("create" in store) {
+        store = store.create;
+      }
+
+      if (isFunction(store)) {
+        return await store();
+      }
+    }
+
+    return store;
   }
 }
