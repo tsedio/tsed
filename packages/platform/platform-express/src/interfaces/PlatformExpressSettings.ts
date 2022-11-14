@@ -21,4 +21,6 @@ export interface PlatformExpressSettings {
     raw?: ((opts?: Options) => NextHandleFunction) | Options;
     urlencoded?: ((opts?: OptionsUrlencoded) => NextHandleFunction) | OptionsUrlencoded;
   };
+
+  useRawBody?: boolean;
 }

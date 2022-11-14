@@ -15,16 +15,9 @@ export class PlatformMiddlewaresChain {
   protected adapter: PlatformAdapter;
 
   get(allMiddlewares: any[], operationRoute: JsonOperationRoute) {
-    const {ACCEPT_MIMES, FILE, RAW_BODY, BODY} = this.getParamTypes(allMiddlewares, operationRoute);
+    const {ACCEPT_MIMES, FILE} = this.getParamTypes(allMiddlewares, operationRoute);
 
-    return [
-      ACCEPT_MIMES && PlatformAcceptMimesMiddleware,
-      FILE && PlatformMulterMiddleware,
-      !FILE && RAW_BODY && this.adapter.bodyParser("raw"),
-      !FILE && !RAW_BODY && BODY && this.adapter.bodyParser("json"),
-      !FILE && !RAW_BODY && BODY && this.adapter.bodyParser("urlencoded"),
-      ...allMiddlewares
-    ].filter(Boolean);
+    return [ACCEPT_MIMES && PlatformAcceptMimesMiddleware, FILE && PlatformMulterMiddleware, ...allMiddlewares].filter(Boolean);
   }
 
   protected hasAcceptMimes(operationRoute: JsonOperationRoute) {

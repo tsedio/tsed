@@ -84,9 +84,10 @@ To work properly, you have to remove bodyParser add on `$beforeRoutesInit`.
 
 ```diff
 @Configuration({
++  rawBody: true,
 +  middlewares: [
-+     bodyParser.json(),
-+     bodyParser.urlencoded({extended: true})
++     {use: 'json-parser'},
++     {use: 'urlencoded-parser', options: {extended: true})
 +  ]
 })
 export class Server {

@@ -12,7 +12,7 @@ import {
   PlatformStaticsOptions,
   runInContext
 } from "@tsed/common";
-import {Env, isFunction, nameOf, Type} from "@tsed/core";
+import {Env, isFunction, Type} from "@tsed/core";
 import {PlatformHandlerMetadata, PlatformLayer} from "@tsed/platform-router";
 import type {PlatformViews} from "@tsed/platform-views";
 import {OptionsJson, OptionsText, OptionsUrlencoded} from "body-parser";
@@ -81,22 +81,22 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
     });
   }
 
-  onInit() {
-    const middlewares = this.injector.settings.get("middlewares", []);
-
-    this.injector.settings.set(
-      "middlewares",
-      middlewares.filter((middleware) => {
-        const name = nameOf(middleware);
-        if (["textParser", "jsonParser", "rawParser", "urlencodedParser"].includes(name)) {
-          this.injector.settings.set(`express.bodyParser.${name.replace("Parser", "")}`, () => middleware);
-          return false;
-        }
-
-        return true;
-      })
-    );
-  }
+  // onInit() {
+  //   const middlewares = this.injector.settings.get("middlewares", []);
+  //
+  //   this.injector.settings.set(
+  //     "middlewares"
+  //     // middlewares.filter((middleware) => {
+  //     //   const name = nameOf(middleware);
+  //     //   if (["textParser", "jsonParser", "rawParser", "urlencodedParser"].includes(name)) {
+  //     //     this.injector.settings.set(`express.bodyParser.${name.replace("Parser", "")}`, () => middleware);
+  //     //     return false;
+  //     //   }
+  //     //
+  //     //   return true;
+  //     // })
+  //   );
+  // }
 
   async beforeLoadRoutes() {
     const injector = this.injector;
@@ -224,8 +224,9 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
     return staticsMiddleware(root, props);
   }
 
-  bodyParser(type: "json" | "raw" | "text" | "urlencoded", additionalOptions: any = {}): any {
+  bodyParser(type: "json" | "text" | "urlencoded", additionalOptions: any = {}): any {
     const opts = this.injector.settings.get(`express.bodyParser.${type}`);
+
     let parser: any = Express[type];
     let options: OptionsJson & OptionsText & OptionsUrlencoded = {};
 
@@ -234,14 +235,19 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
       options = {};
     }
 
-    switch (type) {
-      case "urlencoded":
-        options.extended = true;
-        break;
-      case "raw":
-        options.type = () => true;
-        break;
+    if (type === "urlencoded") {
+      options.extended = true;
     }
+
+    options.verify = (req: IncomingMessage & {rawBody: Buffer}, _res: ServerResponse, buffer: Buffer) => {
+      const rawBody = this.injector.settings.get(`rawBody`);
+
+      if (rawBody) {
+        req.rawBody = buffer;
+      }
+
+      return true;
+    };
 
     return parser({...options, ...additionalOptions});
   }

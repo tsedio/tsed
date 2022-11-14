@@ -7,7 +7,6 @@ import {Application} from "express";
 import session from "express-session";
 import methodOverride from "method-override";
 import "../../src";
-import bodyParser from "body-parser";
 
 export const rootDir = __dirname;
 
@@ -26,10 +25,11 @@ export const rootDir = __dirname;
     }
   },
   middlewares: [
-    cookieParser(),
+    "cookie-parser",
     compress({}),
-    methodOverride(),
-    bodyParser.json(),
+    "method-override",
+    {use: "json-parser"},
+    {use: "urlencoded-parser"},
     session({
       secret: "keyboard cat", // change secret key
       resave: false,

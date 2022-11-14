@@ -1,24 +1,9 @@
-import {isFunction} from "@tsed/core";
 import {DIConfiguration} from "@tsed/di";
-import {PlatformMiddlewareLoadingOptions, PlatformMiddlewareSettings} from "../domain/PlatformMiddlewareSettings";
+import {PlatformMiddlewareLoadingOptions} from "../domain/PlatformMiddlewareSettings";
 
 export function getMiddlewaresForHook(hook: string, settings: DIConfiguration, defaultHook = "") {
   const env = settings.env;
-  const middlewares = settings.get<PlatformMiddlewareSettings[]>("middlewares", []);
+  const middlewares = settings.get<PlatformMiddlewareLoadingOptions[]>("middlewares", []);
 
-  return middlewares
-    .map<PlatformMiddlewareLoadingOptions>((middleware) => {
-      return isFunction(middleware)
-        ? {
-            env,
-            hook: defaultHook,
-            use: middleware
-          }
-        : {
-            env,
-            hook: defaultHook,
-            ...middleware
-          };
-    })
-    .filter((options) => options.use && options.env === env && options.hook === hook);
+  return middlewares.filter((options) => options.use && options.env === env && options.hook === hook);
 }
