@@ -8,6 +8,8 @@ export interface RedisClusterConfig {
 
 const getVal = (value: unknown) => JSON.stringify(value) || '"undefined"';
 
+export type IORedisStoreCtrOptions = (RedisOptions | {clusterConfig: RedisClusterConfig}) & Config & {redisInstance?: Redis | Cluster};
+
 export class IORedisStore implements Store {
   public name = "redis";
   /**
@@ -18,11 +20,12 @@ export class IORedisStore implements Store {
   private redisCache: Redis | Cluster;
   private storeArgs: any;
 
-  constructor(options?: (RedisOptions | {clusterConfig: RedisClusterConfig}) & Config) {
+  constructor(options?: IORedisStoreCtrOptions) {
     options ||= {};
 
     this.redisCache =
-      "clusterConfig" in options ? new Redis.Cluster(options.clusterConfig.nodes, options.clusterConfig.options) : new Redis(options);
+      options.redisInstance ||
+      ("clusterConfig" in options ? new Redis.Cluster(options.clusterConfig.nodes, options.clusterConfig.options) : new Redis(options));
 
     this.storeArgs = this.redisCache.options;
     this.isCacheable = this.isCacheableValue =
