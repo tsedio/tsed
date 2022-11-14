@@ -1,5 +1,5 @@
 import {TokenProvider} from "@tsed/di";
-import {ClusterOptions, RedisOptions} from "ioredis";
+import Redis, {Cluster, ClusterOptions, RedisOptions} from "ioredis";
 
 export type ClusterConfiguration = {nodes: string[]} & ClusterOptions;
 
@@ -8,7 +8,7 @@ export interface BaseIORedisConfiguration {
   cache?: boolean;
 }
 
-export type IORedisConfiguration = BaseIORedisConfiguration & (RedisOptions | ClusterConfiguration);
+export type IORedisConfiguration = BaseIORedisConfiguration & (RedisOptions | ClusterConfiguration) & {redisInstance?: Redis | Cluster};
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
