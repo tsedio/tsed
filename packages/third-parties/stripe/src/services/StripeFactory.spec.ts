@@ -2,7 +2,7 @@ import {PlatformTest} from "@tsed/common";
 import "@tsed/stripe";
 import {Stripe} from "stripe";
 
-describe("StripFactory", () => {
+describe("StripeFactory", () => {
   beforeEach(() =>
     PlatformTest.create({
       stripe: {

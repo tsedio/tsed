@@ -1,7 +1,7 @@
 import {Env, Type} from "@tsed/core";
 
-export type PlatformMiddlewareLoadingOptions = {env?: Env; use: Function | Type<any>; hook?: string};
-export type PlatformMiddlewareSettings = Function | Type<any> | PlatformMiddlewareLoadingOptions | any;
+export type PlatformMiddlewareLoadingOptions = {env?: Env; use: Function | Type<any> | string; hook?: string; options?: any};
+export type PlatformMiddlewareSettings = Function | Type<any> | PlatformMiddlewareLoadingOptions | string | any;
 
 declare global {
   namespace TsED {

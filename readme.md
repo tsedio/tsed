@@ -85,7 +85,7 @@ import methodOverride from "method-override";
 
 @Configuration({
   port: 3000,
-  middlewares: [cookieParser(), compress(), methodOverride()]
+  middlewares: ["cookie-parser", "compression", "method-override", "json-parser", "urlencoded-parser"]
 })
 export class Server {}
 ```

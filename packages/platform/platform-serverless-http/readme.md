@@ -108,8 +108,7 @@ import {TimeslotsController} from "./controllers/TimeslotsController";
       ejs: "ejs"
     }
   },
-  exclude: ["**/*.spec.ts"],
-  middlewares: [cors(), compress({}), cookieParser(), methodOverride()]
+  middlewares: ["cors", "cookie-parser", "compression", "method-override", "json-parser", "urlencoded-parser"]
 })
 export class Server {}
 ```

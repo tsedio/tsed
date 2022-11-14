@@ -20,6 +20,7 @@ export class WebhookEventMiddleware implements MiddlewareMethods {
   protected webhooks: WebhookEventOptions;
 
   use(@HeaderParams("stripe-signature") signature: string, @RawBodyParams() body: Buffer, @Context() ctx: Context): any {
+    console.log(Buffer);
     const {secret, tolerance}: WebhookEventOptions = {
       ...this.webhooks,
       ...ctx.endpoint.store.get(WebhookEventMiddleware)

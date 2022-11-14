@@ -34,23 +34,7 @@ describe("PlatformExpress", () => {
       const result = platform.adapter.bodyParser("json", {strict: true});
 
       expect(result).toEqual("body");
-      expect(stub).toBeCalledWith({strict: true});
-    });
-    it("should return the body parser (raw) ", () => {
-      const stub = jest.fn().mockReturnValue("body");
-
-      const platform = PlatformExpress.create(Server, {
-        express: {
-          bodyParser: {
-            raw: stub
-          }
-        }
-      });
-
-      const result = platform.adapter.bodyParser("raw", {strict: true});
-
-      expect(result).toEqual("body");
-      expect(stub).toBeCalledWith({strict: true, type: expect.anything()});
+      expect(stub).toBeCalledWith({strict: true, verify: expect.any(Function)});
     });
     it("should return the body parser (urlencoded) ", () => {
       const stub = jest.fn().mockReturnValue("body");
@@ -66,7 +50,7 @@ describe("PlatformExpress", () => {
       const result = platform.adapter.bodyParser("urlencoded", {strict: true});
 
       expect(result).toEqual("body");
-      expect(stub).toBeCalledWith({extended: true, strict: true});
+      expect(stub).toBeCalledWith({extended: true, strict: true, verify: expect.any(Function)});
     });
   });
 });

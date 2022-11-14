@@ -1,6 +1,6 @@
-import {nameOf, Type} from "@tsed/core";
-import {colors, InjectorService, ProviderOpts, runInContext, setLoggerConfiguration, TokenProvider} from "@tsed/di";
-import {getMiddlewaresForHook} from "@tsed/platform-middlewares";
+import {isFunction, isString, nameOf, Type} from "@tsed/core";
+import {colors, InjectorService, ProviderOpts, setLoggerConfiguration, TokenProvider} from "@tsed/di";
+import {getMiddlewaresForHook, PlatformMiddlewareLoadingOptions} from "@tsed/platform-middlewares";
 import {PlatformLayer} from "@tsed/platform-router";
 import type {IncomingMessage, Server, ServerResponse} from "http";
 import type Https from "https";
@@ -184,6 +184,8 @@ export class PlatformBuilder<App = TsED.Application> {
   public async runLifecycle() {
     setLoggerConfiguration(this.injector);
 
+    await this.mapTokenMiddlewares();
+
     await this.loadInjector();
 
     this.#adapter.useContext();
@@ -313,6 +315,14 @@ export class PlatformBuilder<App = TsED.Application> {
 
     this.#adapter.mapLayers(layers);
 
+    const rawBody =
+      this.settings.get("rawBody") ||
+      layers.some(({handlers}) => {
+        return handlers.some((handler) => handler.opts?.paramsTypes?.RAW_BODY);
+      });
+
+    this.settings.set("rawBody", rawBody);
+
     return this.logRoutes(layers.filter((layer) => layer.isProvider()));
   }
 
@@ -361,5 +371,47 @@ export class PlatformBuilder<App = TsED.Application> {
 
       logger.info(printRoutes(await this.injector.alterAsync("$logRoutes", routes)));
     }
+  }
+
+  protected async mapTokenMiddlewares() {
+    let middlewares = this.injector.settings.get<PlatformMiddlewareLoadingOptions[]>("middlewares", []);
+    const {env} = this.injector.settings;
+    const defaultHook = "$beforeRoutesInit";
+
+    const promises = middlewares.map(async (middleware: PlatformMiddlewareLoadingOptions): Promise<PlatformMiddlewareLoadingOptions> => {
+      if (isFunction(middleware)) {
+        return {
+          env,
+          hook: defaultHook,
+          use: middleware
+        };
+      }
+
+      if (isString(middleware)) {
+        middleware = {env, use: middleware, hook: defaultHook};
+      }
+
+      let {use, options} = middleware;
+
+      if (isString(use)) {
+        if (["text-parser", "raw-parser", "json-parser", "urlencoded-parser"].includes(use)) {
+          use = this.adapter.bodyParser(use.replace("-parser", ""), options);
+        } else {
+          const mod = await import(use);
+          use = (mod.default || mod)(options);
+        }
+      }
+
+      return {
+        env,
+        hook: defaultHook,
+        ...middleware,
+        use
+      };
+    });
+
+    middlewares = await Promise.all(promises);
+
+    this.injector.settings.set("middlewares", middlewares);
   }
 }

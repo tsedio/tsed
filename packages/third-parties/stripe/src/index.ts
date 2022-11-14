@@ -4,6 +4,6 @@
 
 export * from "./constants/constants";
 export * from "./decorators/webhookEvent";
-export * from "./domain/StripSettings";
+export * from "./domain/StripeSettings";
 export * from "./middlewares/WebhookEventMiddleware";
 export * from "./services/StripeFactory";

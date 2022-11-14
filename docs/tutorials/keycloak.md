@@ -92,14 +92,10 @@ The `KeycloakService` can then be injected in the Server class and the middlewar
 ```typescript
 import {Configuration, Inject} from "@tsed/di";
 import {PlatformApplication} from "@tsed/common";
-import cors from "cors";
-import compress from "compress";
-import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
 import session from "express-session";
 
 @Configuration({
-  middlewares: [cors(), compress({}), cookieParser(), methodOverride()]
+  middlewares: ["cors", "compression", "cookie-parser", "method-override", "json-parser", "urlencoded-parser"]
 })
 export class Server {
   @Inject()

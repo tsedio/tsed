@@ -32,13 +32,10 @@ If you use `ServerLoader`, you'll probably know this example to create a Ts.ED a
 ```typescript
 import {ServerLoader, ServerSettings} from "@tsed/common";
 import {MyMiddleware} from "./MyMiddleware";
-import compress from "compression";
-import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
 
 @Configuration({
   viewsDir: `${process.cwd()}/views`,
-  middlewares: [MyMiddleware, cookieParser(), compress({}), methodOverride()]
+  middlewares: [MyMiddleware, "cookie-parser", "compression", "method-override"]
 })
 export class Server extends ServerLoader {
   $beforeRoutesInit() {
@@ -55,16 +52,13 @@ With Platform API you have to inject @@PlatformApplication@@ to register a middl
 import {Configuration, PlatformApplication} from "@tsed/common";
 import {Inject, Constant} from "@tsed/di";
 import {MyMiddleware} from "./MyMiddleware";
-import compress from "compression";
-import cookieParser from "cookie-parser";
-import methodOverride from "method-override";
 
 @Configuration({
   views: {
     root: `${process.cwd()}/views`,
     viewEngine: "ejs"
   },
-  middlewares: [MyMiddleware, cookieParser(), compress({}), methodOverride()]
+  middlewares: [MyMiddleware, "cookie-parser", "compression", "method-override"]
 })
 export class Server {
   @Constant("viewsDir")
