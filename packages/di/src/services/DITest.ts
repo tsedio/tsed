@@ -1,34 +1,19 @@
 import {Env, getValue, setValue} from "@tsed/core";
 import {$log} from "@tsed/logger";
-import {createContainer} from "../utils/createContainer";
+import {DIContext} from "../domain/DIContext";
 import {LocalsContainer} from "../domain/LocalsContainer";
 import {OnInit} from "../interfaces/OnInit";
-import {TokenProvider} from "../interfaces/TokenProvider";
+import {TokenProviderOpts, TokenProvider} from "../interfaces/TokenProvider";
+import {createContainer} from "../utils/createContainer";
 import {setLoggerConfiguration} from "../utils/setLoggerConfiguration";
-import {setLoggerLevel} from "../utils/setLoggerLevel";
 import {InjectorService} from "./InjectorService";
-import {DIContext} from "../domain/DIContext";
-
-export interface DITestInvokeOptions {
-  token?: TokenProvider;
-  use: any;
-}
-
-export interface DITestOptions extends Partial<TsED.Configuration> {
-  imports?: DITestInvokeOptions[];
-}
 
 /**
  * Tool to run test with lightweight DI sandbox.
  */
 export class DITest {
+  static options: Partial<TsED.Configuration> = {};
   protected static _injector: InjectorService | null = null;
-
-  static options: DITestOptions = {};
-
-  static set(key: string, value: any) {
-    setValue(DITest.options, key, value);
-  }
 
   static get injector(): InjectorService {
     if (DITest._injector) {
@@ -50,11 +35,15 @@ export class DITest {
     DITest._injector = injector;
   }
 
+  static set(key: string, value: any) {
+    setValue(DITest.options, key, value);
+  }
+
   static hasInjector() {
     return !!DITest._injector;
   }
 
-  static async create(settings: DITestOptions = {}) {
+  static async create(settings: Partial<TsED.Configuration> = {}) {
     settings = {
       ...DITest.options,
       ...settings
@@ -62,21 +51,11 @@ export class DITest {
 
     DITest.injector = DITest.createInjector(settings);
 
-    await DITest.createContainer(settings);
+    await DITest.createContainer();
   }
 
-  static async createContainer(settings: DITestOptions = {}) {
-    const container = createContainer();
-
-    settings.imports?.forEach(({token, use}) => {
-      container.addProvider(token, {
-        useAsyncFactory: undefined,
-        useFactory: undefined,
-        useValue: use
-      });
-    });
-
-    await DITest.injector.load(container);
+  static async createContainer() {
+    await DITest.injector.load(createContainer());
   }
 
   /**
@@ -109,7 +88,7 @@ export class DITest {
    * @param target
    * @param providers
    */
-  static invoke<T = any>(target: TokenProvider, providers: DITestInvokeOptions[] = []): T | Promise<T> {
+  static invoke<T = any>(target: TokenProvider, providers: TokenProviderOpts[] = []): T | Promise<T> {
     const locals = new LocalsContainer();
     providers.forEach((p) => {
       locals.set(p.token, p.use);

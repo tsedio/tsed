@@ -1,11 +1,13 @@
-import type {DIResolver} from "./DIResolver";
 import type {ProviderScope} from "../domain/ProviderScope";
+import type {DIResolver} from "./DIResolver";
 import type {TokenProvider} from "./TokenProvider";
+import {TokenProviderOpts} from "./TokenProvider";
 
 declare global {
   namespace TsED {
     // @ts-ignore
     interface Context {}
+
     interface Configuration extends Record<string, any> {
       scopes: {[key: string]: ProviderScope};
       /**
@@ -15,7 +17,7 @@ declare global {
       /**
        * Define dependencies to build the provider
        */
-      imports: TokenProvider[];
+      imports: (TokenProvider | TokenProviderOpts)[];
       /**
        * Mount controllers
        */
