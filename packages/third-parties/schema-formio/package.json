@@ -1,6 +1,6 @@
 {
   "name": "@tsed/schema-formio",
-  "version": "7.3.1",
+  "version": "7.4.0",
   "description": "Transform Ts.ED Schema & JsonSchema to a valid Formio schema",
   "private": false,
   "source": "./src/index.ts",
@@ -33,19 +33,19 @@
     "tsed"
   ],
   "dependencies": {
-    "@tsed/formio-types": "7.3.1",
+    "@tsed/formio-types": "7.4.0",
     "change-case": "4.1.2",
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.3.1",
-    "@tsed/openspec": "7.3.1",
-    "@tsed/schema": "7.3.1"
+    "@tsed/core": "7.4.0",
+    "@tsed/openspec": "7.4.0",
+    "@tsed/schema": "7.4.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.3.1",
-    "@tsed/openspec": "^7.3.1",
-    "@tsed/schema": "^7.3.1",
+    "@tsed/core": "^7.4.0",
+    "@tsed/openspec": "^7.4.0",
+    "@tsed/schema": "^7.4.0",
     "formiojs": ">=4.0.0",
     "lodash": ">=4.0.0",
     "moment": ">=2.0.0"
