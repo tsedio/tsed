@@ -106,7 +106,8 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
 
     const item = this.useHash ? await this.db.hgetall(key) : await this.db.get(key);
 
-    if (!item) {
+    // hgetall returns an empty object when there are no results, so we need to check for that.
+    if (!item || (this.useHash && Object.keys(item).length === 0 && item.constructor === Object)) {
       return undefined;
     }
 

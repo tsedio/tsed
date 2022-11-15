@@ -104,6 +104,13 @@ describe("RedisAdapter", () => {
       expect(result?._id).toBe(client._id);
       expect(result?.name).toBe(base.name);
     });
+    it("should handle no item found by id (get)", async () => {
+      const {adapter} = await createAdapterFixture({});
+
+      const result = await adapter.findById("does not exist");
+
+      expect(result).toBeFalsy();
+    });
     it("should find item by id (hgetall)", async () => {
       const {adapter} = await createAdapterFixture<any>({
         collectionName: "AuthorizationCode",
@@ -118,6 +125,16 @@ describe("RedisAdapter", () => {
       const result = await adapter.findById(token._id);
 
       expect(result.key).toEqual(token.key);
+    });
+    it("should handle no item found by id (hgetall)", async () => {
+      const {adapter} = await createAdapterFixture<any>({
+        collectionName: "AuthorizationCode",
+        model: Object
+      });
+
+      const result = await adapter.findById("does not exist");
+
+      expect(result).toBeFalsy();
     });
   });
   describe("findOne()", () => {
