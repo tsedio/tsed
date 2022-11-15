@@ -164,6 +164,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {
                 text: "Session & Cookies",
                 link: `${base}/tutorials/session.html`
+              },
+              {
+                text: "Testing",
+                link: `${base}/docs/testing.html`
               }
             ]
           },

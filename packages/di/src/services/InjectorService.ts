@@ -5,14 +5,14 @@ import {
   deepClone,
   deepMerge,
   Hooks,
+  isArray,
   isClass,
   isFunction,
   isInheritedFrom,
+  isPromise,
   Metadata,
   nameOf,
-  isPromise,
-  Store,
-  isArray
+  Store
 } from "@tsed/core";
 import {DI_PARAM_OPTIONS, INJECTABLE_PROP} from "../constants/constants";
 import {Configuration} from "../decorators/configuration";
@@ -32,7 +32,6 @@ import {InvokeOptions} from "../interfaces/InvokeOptions";
 import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
 import {TokenProvider} from "../interfaces/TokenProvider";
 import {GlobalProviders} from "../registries/GlobalProviders";
-import {runInContext} from "../utils/asyncHookContext";
 import {createContainer} from "../utils/createContainer";
 import {resolveControllers} from "../utils/resolveControllers";
 import {DIConfiguration} from "./DIConfiguration";
@@ -278,6 +277,28 @@ export class InjectorService extends Container {
 
     // Resolve all configuration
     this.resolveConfiguration();
+
+    // allow mocking or changing provider instance before loading injector
+    this.settings.imports = this.settings.imports
+      ?.map((meta) => {
+        if ("token" in meta && "use" in meta) {
+          const {token, use} = meta;
+          const provider = this.getProvider(token);
+
+          if (provider) {
+            provider.useValue = use;
+            // @ts-ignore
+            provider.useFactory = undefined;
+            // @ts-ignore
+            provider.useAsyncFactory = undefined;
+            // @ts-ignore
+            provider.useClass = undefined;
+            return;
+          }
+        }
+        return meta;
+      })
+      .filter(Boolean);
 
     return this;
   }

@@ -2,6 +2,7 @@ import {classOf, Env, getValue, proxyDelegation, setValue} from "@tsed/core";
 import type {ProviderScope} from "../domain/ProviderScope";
 import type {DILoggerOptions} from "../interfaces/DILoggerOptions";
 import type {DIResolver} from "../interfaces/DIResolver";
+import {TokenProviderOpts} from "../interfaces/TokenProvider";
 import type {TokenProvider} from "../interfaces/TokenProvider";
 import type {TokenRoute} from "../interfaces/TokenRoute";
 
@@ -68,11 +69,11 @@ export class DIConfiguration {
     this.map.set("resolvers", resolvers);
   }
 
-  get imports(): TokenProvider[] {
+  get imports(): (TokenProvider | TokenProviderOpts)[] {
     return this.get("imports");
   }
 
-  set imports(imports: TokenProvider[]) {
+  set imports(imports: (TokenProvider | TokenProviderOpts)[]) {
     this.map.set("imports", imports);
   }
 

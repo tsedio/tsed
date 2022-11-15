@@ -415,7 +415,7 @@ describe("HelloWorldController", () => {
 </Tab>
 </Tabs>
 
-### Testing session
+## Testing session
 
 To install session with Ts.ED see our [tutorial](/tutorials/session.md).
 
@@ -431,3 +431,70 @@ To install session with Ts.ED see our [tutorial](/tutorials/session.md).
 
 </Tab>
 </Tabs>
+
+## Testing with mocked service <Badge text="v7.4.0" />
+
+One inconvenient with `PlatformTest.bootstrap()` and `PlatformTest.create()`
+is that they will always call the hooks of your service like for example `$onInit()`.
+
+::: tip Note
+`PlatformTest.create()` call only the `$onInit()` hook while `PlatformTest.bootstrap()` call all hooks.
+:::
+
+This is going to be a problem when you want to test your application, and it uses `$onInit` to initialize your database or something else.
+
+Since v7.4.0, You can now mock one or more services as soon as the PlatformTest context is created (like is possible with `PlatformTest.invoke`).
+
+Here is an example:
+
+```typescript
+import {MyCtrl} from "../controllers/MyCtrl";
+import {DbService} from "../services/DbService";
+
+describe("MyCtrl", () => {
+  // bootstrap your Server to load all endpoints before run your test
+  beforeEach(() =>
+    PlatformTest.create({
+      imports: [
+        {
+          token: DbService,
+          use: {
+            getData: () => {
+              return "test";
+            }
+          }
+        }
+      ]
+    })
+  );
+  afterEach(() => PlatformTest.reset());
+});
+```
+
+It's also possible to do that with `PlatformTest.bootstrap()`:
+
+```typescript
+import {PlatformTest} from "@tsed/common";
+import SuperTest from "supertest";
+import {Server} from "../../Server";
+
+describe("SomeIntegrationTestWithDB", () => {
+  let request: SuperTest.SuperTest<SuperTest.Test>;
+
+  beforeAll(
+    PlatformTest.bootstrap(Server, {
+      imports: [
+        {
+          token: DbService,
+          use: {
+            getData: () => {
+              return "test";
+            }
+          }
+        }
+      ]
+    })
+  );
+  afterAll(PlatformTest.reset);
+});
+```
