@@ -3,7 +3,7 @@ import {mockConnections} from "../utils/mockConnections";
 
 export class IORedisTest extends DITest {
   static async create(options?: Partial<TsED.Configuration>) {
-    const imports = mockConnections();
+    const imports = await mockConnections();
 
     await Promise.all(imports.map(({use}) => use.flushall()));
 
