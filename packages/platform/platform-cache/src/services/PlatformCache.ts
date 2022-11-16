@@ -156,21 +156,15 @@ export class PlatformCache {
 
     return caches?.length
       ? multiCaching(caches)
-      : caching(await this.mapStore(store), {
+      : caching(this.mapStore(store), {
           ...props,
           ttl
         });
   }
 
-  private async mapStore(store: string | Function | {create: Function}) {
-    if (!isString(store)) {
-      if ("create" in store) {
-        store = store.create;
-      }
-
-      if (isFunction(store)) {
-        return await store();
-      }
+  private mapStore(store: "memory" | Function | {create: Function}): any {
+    if (!isString(store) && "create" in store) {
+      return store.create;
     }
 
     return store;
