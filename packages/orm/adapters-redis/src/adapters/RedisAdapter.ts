@@ -1,5 +1,5 @@
 import {Adapter, AdapterConstructorOptions, AdapterModel} from "@tsed/adapters";
-import {cleanObject, Hooks, isString} from "@tsed/core";
+import {cleanObject, Hooks, isObject, isString} from "@tsed/core";
 import {Configuration, Inject, Opts} from "@tsed/di";
 import {IORedis, IOREDIS_CONNECTIONS} from "@tsed/ioredis";
 import type {ChainableCommander, Redis} from "ioredis";
@@ -107,7 +107,7 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     const item = this.useHash ? await this.db.hgetall(key) : await this.db.get(key);
 
     // hgetall returns an empty object when there are no results, so we need to check for that.
-    if (!item || (this.useHash && Object.keys(item).length === 0 && item.constructor === Object)) {
+    if (!item || (this.useHash && isObject(item) && Object.keys(item).length === 0)) {
       return undefined;
     }
 
