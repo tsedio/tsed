@@ -1,4 +1,4 @@
-import {Adapter, AdapterConstructorOptions, AdapterModel} from "@tsed/adapters";
+import {Adapter, AdapterConstructorOptions, AdapterModel, RevisionAdapterModel} from "@tsed/adapters";
 import {cleanObject, Hooks, isObject, isString} from "@tsed/core";
 import {Configuration, Inject, Opts} from "@tsed/di";
 import {IORedis, IOREDIS_CONNECTIONS} from "@tsed/ioredis";
@@ -68,6 +68,13 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     if (!item) {
       return undefined;
     }
+
+    if (item instanceof RevisionAdapterModel) {
+      payload.created = item.created;
+      payload.modified = Date.now();
+    }
+
+    payload = await this.hooks.asyncAlter("update", payload);
 
     return this.insert(
       {

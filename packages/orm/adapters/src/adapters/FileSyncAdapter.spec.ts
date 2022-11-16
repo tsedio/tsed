@@ -1,9 +1,9 @@
-import {Adapter, Adapters, FileSyncAdapter} from "@tsed/adapters";
+import {Adapter, Adapters, FileSyncAdapter, RevisionAdapterModel} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {Property} from "@tsed/schema";
 import faker from "@faker-js/faker";
 
-class Client {
+class Client extends RevisionAdapterModel {
   @Property()
   _id: string;
 

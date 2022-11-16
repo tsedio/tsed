@@ -8,5 +8,6 @@ export * from "./adapters/MemoryAdapter";
 export * from "./decorators/indexed";
 export * from "./decorators/injectAdapter";
 export * from "./domain/Adapter";
+export * from "./domain/RevisionAdapterModel";
 export * from "./domain/AdaptersSettings";
 export * from "./services/Adapters";
