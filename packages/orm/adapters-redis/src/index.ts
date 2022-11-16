@@ -4,4 +4,5 @@
 
 export * from "./adapters/OIDCRedisAdapter";
 export * from "./adapters/RedisAdapter";
+export * from "./adapters/RedisAdapterV2";
 export * from "./domain/RedisAdaptersSettings";

@@ -1,89 +1,23 @@
-import {Adapter, AdapterConstructorOptions, AdapterModel, RevisionAdapterModel} from "@tsed/adapters";
-import {cleanObject, Hooks, isObject, isString} from "@tsed/core";
+import {AdapterModel} from "@tsed/adapters";
+import {isString} from "@tsed/core";
 import {Configuration, Inject, Opts} from "@tsed/di";
 import {IORedis, IOREDIS_CONNECTIONS} from "@tsed/ioredis";
-import type {ChainableCommander, Redis} from "ioredis";
+import {ChainableCommander} from "ioredis";
 import {v4 as uuid} from "uuid";
+import {RedisAdapter, RedisAdapterConstructorOptions} from "./RedisAdapter";
 
 const getId = (key: string) => key.split(":")[2];
 const flatKeys = (keys: [Error | null, string[]][]): string[] => {
   return keys.flatMap(([, result]) => result).filter(Boolean);
 };
 
-export interface RedisAdapterConstructorOptions extends AdapterConstructorOptions {
-  connectionName?: string;
-  useHash?: boolean;
-}
-
-export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
-  readonly hooks = new Hooks();
-  readonly connectionName: string;
-  readonly connection: IORedis;
-  protected useHash: boolean = false;
-
+export class RedisAdapterV2<Model extends AdapterModel> extends RedisAdapter<Model> {
   constructor(
     @Opts options: RedisAdapterConstructorOptions,
     @Inject(IOREDIS_CONNECTIONS) connections: IORedis[],
     @Configuration() protected configuration: Configuration
   ) {
-    super(options, configuration);
-
-    this.useHash = Boolean(options.useHash);
-    this.connectionName = options.connectionName || "default";
-    this.connection = connections.find((connection) => connection.name === this.connectionName)!; // || connections[0];
-  }
-
-  get db(): Redis {
-    return this.connection;
-  }
-
-  key(id: string) {
-    return `${this.collectionName}:${id}`;
-  }
-
-  public async create(payload: Partial<Model>, expiresAt?: Date): Promise<Model> {
-    delete payload._id;
-    return this.insert(payload, expiresAt);
-  }
-
-  public async upsert(id: string, payload: Model, expiresAt?: Date): Promise<Model> {
-    const item = await this.findById(id);
-
-    if (!item) {
-      payload = {...payload, _id: id};
-
-      return await this.insert(payload, expiresAt);
-    }
-
-    return (await this.update(id, payload, expiresAt)) as Model;
-  }
-
-  public async update(id: string, payload: Model, expiresAt?: Date): Promise<Model | undefined> {
-    return this.updateOne({_id: id}, payload, expiresAt);
-  }
-
-  public async updateOne(predicate: Partial<Model & any>, payload: Model, expiresAt?: Date): Promise<Model | undefined> {
-    const item = await this.findOne(predicate);
-
-    if (!item) {
-      return undefined;
-    }
-
-    if (item instanceof RevisionAdapterModel) {
-      payload.created = item.created;
-      payload.modified = Date.now();
-    }
-
-    payload = await this.hooks.asyncAlter("update", payload);
-
-    return this.insert(
-      {
-        ...item,
-        ...cleanObject(payload),
-        _id: item._id
-      },
-      expiresAt
-    );
+    super({...options, useHash: options.useHash === undefined ? true : options.useHash}, connections, configuration);
   }
 
   async findOne(predicate: Partial<Model & any>): Promise<Model | undefined> {
@@ -100,6 +34,10 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
       return undefined;
     }
 
+    if (this.useHash) {
+      return this.findById(foundKeys[0]);
+    }
+
     const getId = (key: string) => key.split(":")[2];
     const id = getId(foundKeys[0]);
 
@@ -111,10 +49,9 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
   async findById(_id: string): Promise<Model | undefined> {
     const key = this.key(_id);
 
-    const item = this.useHash ? await this.db.hgetall(key) : await this.db.get(key);
+    const item = this.useHash ? await this.db.hget(this.collectionName, _id) : await this.db.get(key);
 
-    // hgetall returns an empty object when there are no results, so we need to check for that.
-    if (!item || (this.useHash && isObject(item) && Object.keys(item).length === 0)) {
+    if (!item) {
       return undefined;
     }
 
@@ -122,6 +59,7 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
       return this.deserialize(JSON.parse(item));
     }
 
+    // @ts-ignore
     const {payload, ...rest} = item;
 
     return {
@@ -130,31 +68,26 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     };
   }
 
-  public async findAll(predicate: Partial<Model & any> = {}): Promise<Model[]> {
-    const {_id, ...props} = predicate;
-
-    if (_id) {
-      const item = await this.findById(_id);
-      return item ? [item] : [];
-    }
-
-    const keys = Object.keys(props);
-
-    if (keys.length === 0) {
-      return this.getAll();
-    }
-
-    return this.findAllBy(props);
-  }
-
   public async deleteOne(predicate: Partial<Model & any>): Promise<Model | undefined> {
     const item = await this.findOne(predicate);
 
     if (item) {
-      const id = this.key(item._id);
-      const indexIds = await this.getAllIndex(item._id);
+      if (this.useHash) {
+        const pipeline = this.db.pipeline();
+        const indexIds = await this.getAllIndex(item._id);
 
-      await this.db.del([id, ...indexIds]);
+        pipeline.hdel(this.collectionName, item._id);
+        indexIds.forEach((index) => {
+          pipeline.hdel(index, item[index.split(":")[1]]);
+        });
+
+        await pipeline.exec();
+      } else {
+        const id = this.key(item._id);
+        const indexIds = await this.getAllIndex(item._id);
+
+        await this.db.del([id, ...indexIds]);
+      }
 
       return this.deserialize(item);
     }
@@ -166,6 +99,11 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
 
   public async deleteMany(predicate: Partial<Model>): Promise<Model[]> {
     const items = await this.findAll(predicate);
+
+    if (this.useHash) {
+      await Promise.all(items.map((item) => this.deleteOne({_id: item._id})));
+      return items;
+    }
 
     const pipeline = this.db.pipeline();
     const ids: string[] = [];
@@ -185,30 +123,40 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     return results;
   }
 
-  protected async insert(payload: Partial<Model>, expiresAt?: Date) {
+  public async insert(payload: Partial<Model>, expiresAt?: Date) {
     const id = (payload._id = payload._id || uuid());
 
-    const expiresIn = expiresAt ? expiresAt.getTime() - Date.now() : null;
+    const expiresIn = expiresAt ? Math.round((expiresAt.getTime() - Date.now()) / 1000) : null;
 
     await this.validate(payload as Model);
 
     const multi = this.db.multi();
-    const key = this.key(id);
-
     const strPayload = JSON.stringify(this.serialize(payload));
 
-    this.useHash ? await multi.hset(key, {payload: strPayload}) : await multi.set(key, strPayload);
+    if (this.useHash) {
+      multi.hset(this.collectionName, id, strPayload);
+    } else {
+      const key = this.key(id);
+      multi.set(key, strPayload);
 
-    if (expiresIn) {
-      multi.expire(key, expiresIn);
+      if (expiresIn) {
+        multi.expire(key, expiresIn);
+      }
     }
 
     this.indexes.forEach(({propertyKey}) => {
       const value = payload[propertyKey];
-      const indexedKey = this.getIndexedKey(id, propertyKey, value);
 
-      multi.set(indexedKey, id);
-      expiresIn && multi.expire(indexedKey, expiresIn);
+      if (this.useHash) {
+        const key = this.collectionName + ":" + propertyKey;
+
+        multi.hset(key, value!, id);
+      } else {
+        const indexedKey = this.getIndexedKey(id, propertyKey, value);
+
+        multi.set(indexedKey, id);
+        expiresIn && multi.expire(indexedKey, expiresIn);
+      }
     });
 
     await this.hooks.asyncAlter("insert", multi, [payload, expiresIn]);
@@ -230,9 +178,13 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
       .filter(({propertyKey}) => keys.includes(propertyKey))
       .forEach(({propertyKey}) => {
         const value = props[propertyKey];
-        const patterns = this.getIndexedKey("*", propertyKey, value);
+        if (this.useHash) {
+          pipeline.hget(this.collectionName + ":" + propertyKey, value);
+        } else {
+          const patterns = this.getIndexedKey("*", propertyKey, value);
 
-        pipeline.keys(patterns);
+          pipeline.keys(patterns);
+        }
       });
 
     const results = await pipeline.exec();
@@ -243,6 +195,11 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
   protected getAllIndex(id: string): Promise<string[]>;
   protected getAllIndex(id: string, pipeline: ChainableCommander): ChainableCommander;
   protected getAllIndex(id: string, pipeline?: ChainableCommander) {
+    if (this.useHash) {
+      return this.indexes.map((index) => {
+        return this.collectionName + ":" + index.propertyKey;
+      });
+    }
     const key = ["$idx", this.key(id), "*"].join(":");
 
     return (pipeline || this.db).keys(key);
@@ -254,6 +211,14 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
   }
 
   protected async getAll(): Promise<Model[]> {
+    if (this.useHash) {
+      const data = await this.db.hgetall(this.collectionName);
+
+      return Object.values(data)
+        .map((item) => this.deserialize(JSON.parse(item)))
+        .filter(Boolean);
+    }
+
     const keys = await this.db.keys(`${this.collectionName}:*`);
     const pipeline = this.db.pipeline();
 
@@ -262,6 +227,7 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     });
 
     const result = await pipeline.exec();
+
     return (result || []).map(([, data]: [any, string]) => this.deserialize(JSON.parse(data))).filter(Boolean);
   }
 
@@ -271,6 +237,11 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
 
     if (foundKeys.length < keys.length) {
       return [];
+    }
+
+    if (this.useHash) {
+      const result = await Promise.all(foundKeys.map((key) => this.findById(key)));
+      return result as Model[];
     }
 
     const map = foundKeys.reduce((map: Map<string, number>, key) => {
