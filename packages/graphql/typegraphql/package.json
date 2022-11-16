@@ -1,6 +1,6 @@
 {
   "name": "@tsed/typegraphql",
-  "version": "7.4.2",
+  "version": "7.4.3",
   "description": "TypeGraphQL package for Ts.ED framework, based on Apollo-server-core and Type-graphql",
   "private": false,
   "source": "./src/index.ts",
@@ -23,12 +23,12 @@
     "test": "cross-env NODE_ENV=test jest"
   },
   "dependencies": {
-    "@tsed/apollo": "7.4.2",
+    "@tsed/apollo": "7.4.3",
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.4.2",
-    "@tsed/core": "7.4.2",
+    "@tsed/common": "7.4.3",
+    "@tsed/core": "7.4.3",
     "@types/graphql": "^14.5.0",
     "class-validator": "~0.13.1",
     "graphql-passport": "0.6.3",
