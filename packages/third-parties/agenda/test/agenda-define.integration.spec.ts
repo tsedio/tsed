@@ -52,6 +52,15 @@ describe("Agenda integration", () => {
 
       expect(job1?.attrs.repeatInterval).toEqual("60 seconds");
     });
+
+    it("should schedule defined job and run it", async () => {
+      const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
+
+      const job = await agenda.now("test-nsp.customName", {});
+      const runnedJob = await agenda.jobs({_id: job.attrs._id});
+      expect(runnedJob[0].attrs._id).toStrictEqual(job.attrs._id);
+      expect(runnedJob[0].attrs.lastRunAt).toBeDefined();
+    });
   });
 
   describe("disabled", () => {
@@ -70,6 +79,48 @@ describe("Agenda integration", () => {
     it("should not have job definitions", async () => {
       const agenda = PlatformTest.injector.get(AgendaService)!;
       expect(agenda._definitions).toBeUndefined();
+    });
+
+    it("should fail to schedule a job", async () => {
+      const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
+      await expect(async () => agenda.now("test-nsp.customName", {})).rejects.toThrowError(TypeError);
+    });
+  });
+
+  describe("enabled but job processing is disabled", () => {
+    beforeAll(async () => {
+      await TestMongooseContext.install();
+      const {url} = await TestMongooseContext.getMongooseOptions();
+      const bstrp = PlatformTest.bootstrap(Server, {
+        agenda: {
+          enabled: true,
+          disableJobProcessing: true,
+          db: {
+            address: url,
+            options: {}
+          }
+        }
+      });
+
+      await bstrp();
+    });
+    afterAll(async () => {
+      const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
+      await TestMongooseContext.reset();
+      await agenda._db.close();
+    });
+
+    it("should not have job definitions", async () => {
+      const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
+      expect(Object.keys(agenda._definitions)).toEqual([]);
+    });
+
+    it("should schedule job but not run it", async () => {
+      const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
+
+      const job = await agenda.now("test-nsp.customName", {});
+      const runnedJob = await agenda.jobs({_id: job.attrs._id});
+      expect(runnedJob[0].attrs.lastRunAt).toBeUndefined();
     });
   });
 });

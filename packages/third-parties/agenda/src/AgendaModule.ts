@@ -19,18 +19,26 @@ export class AgendaModule implements OnDestroy, AfterListen {
   @Constant("agenda.enabled", false)
   private loadAgenda: boolean;
 
+  @Constant("agenda.disableJobProcessing", false)
+  private disableJobProcessing: boolean;
+
   async $afterListen(): Promise<any> {
     if (this.loadAgenda) {
       const providers = this.getProviders();
-      providers.forEach((provider) => this.addAgendaDefinitionsForProvider(provider));
 
-      this.logger.info("Agenda add definitions...");
+      if (!this.disableJobProcessing) {
+        this.logger.info("Agenda add definitions...");
+        providers.forEach((provider) => this.addAgendaDefinitionsForProvider(provider));
+      }
+
       await this.agenda.start();
 
-      this.logger.info("Agenda add scheduled jobs...");
-      await Promise.all(providers.map((provider) => this.scheduleJobsForProvider(provider)));
+      if (!this.disableJobProcessing) {
+        this.logger.info("Agenda add scheduled jobs...");
+        await Promise.all(providers.map((provider) => this.scheduleJobsForProvider(provider)));
+      }
     } else {
-      this.logger.info("Agenda jobs disabled...");
+      this.logger.info("Agenda disabled...");
     }
   }
 
@@ -39,7 +47,7 @@ export class AgendaModule implements OnDestroy, AfterListen {
       await this.agenda.stop();
       await this.agenda.close({force: true});
 
-      this.logger.info("Agenda jobs stopped...");
+      this.logger.info("Agenda stopped...");
     }
   }
 
