@@ -1,4 +1,3 @@
-import {Type} from "@tsed/core";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 
 export interface ArrayOfChainedDecorators {

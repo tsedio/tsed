@@ -245,6 +245,21 @@ export class Server {
 
 :::
 
+## Integer parameter
+
+The @@Integer@@ decorator is used to set integer type for integral numbers.
+
+```typescript
+@Controller("/")
+class ExampleCtrl {
+  @Get("/")
+  @Returns(200, Array).OfInteger()
+  async get(@BodyParams() @Integer() list: number[]) {
+    return list;
+  }
+}
+```
+
 ### Headers
 
 @@HeaderParams@@ decorator provides you quick access to the `request.get()`:

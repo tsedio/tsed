@@ -1,0 +1,410 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Integration: BodyParams any should generate the right spec (File) 1`] = `
+Object {
+  "components": Object {
+    "schemas": Object {
+      "BadRequest": Object {
+        "properties": Object {
+          "errors": Object {
+            "description": "A list of related errors",
+            "items": Object {
+              "$ref": "#/components/schemas/GenericError",
+            },
+            "type": "array",
+          },
+          "message": Object {
+            "description": "An error message",
+            "minLength": 1,
+            "type": "string",
+          },
+          "name": Object {
+            "default": "BAD_REQUEST",
+            "description": "The error name",
+            "example": "BAD_REQUEST",
+            "minLength": 1,
+            "type": "string",
+          },
+          "stack": Object {
+            "description": "The stack trace (only in development mode)",
+            "type": "string",
+          },
+          "status": Object {
+            "default": 400,
+            "description": "The status code of the exception",
+            "example": 400,
+            "type": "number",
+          },
+        },
+        "required": Array [
+          "name",
+          "message",
+          "status",
+        ],
+        "type": "object",
+      },
+      "GenericError": Object {
+        "additionalProperties": true,
+        "properties": Object {
+          "message": Object {
+            "description": "An error message",
+            "minLength": 1,
+            "type": "string",
+          },
+          "name": Object {
+            "description": "The error name",
+            "minLength": 1,
+            "type": "string",
+          },
+        },
+        "required": Array [
+          "name",
+          "message",
+        ],
+        "type": "object",
+      },
+    },
+  },
+  "paths": Object {
+    "/array": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlTest",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "multipart/form-data": Object {
+              "schema": Object {
+                "properties": Object {
+                  "file1": Object {
+                    "items": Object {
+                      "format": "binary",
+                      "type": "string",
+                    },
+                    "type": "array",
+                  },
+                },
+                "type": "object",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "400": Object {
+            "content": Object {
+              "application/json": Object {
+                "schema": Object {
+                  "$ref": "#/components/schemas/BadRequest",
+                },
+              },
+            },
+            "description": "<File too long | Too many parts | Too many files | Field name too long | Field value too long | Too many fields | Unexpected field>  [fieldName] Example: File too long file1",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "TestArrayBodyCtrl",
+    },
+  ],
+}
+`;
+
+exports[`Integration: BodyParams any should generate the right spec (MyModel[]) 1`] = `
+Object {
+  "components": Object {
+    "schemas": Object {
+      "MyModel": Object {
+        "properties": Object {
+          "test": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
+    },
+  },
+  "paths": Object {
+    "/array/1": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario1",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "items": Object {
+                  "$ref": "#/components/schemas/MyModel",
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "TestArrayBodyCtrl",
+    },
+  ],
+}
+`;
+
+exports[`Integration: BodyParams any should generate the right spec (any[]) 1`] = `
+Object {
+  "paths": Object {
+    "/array/1": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "items": Object {
+                  "nullable": true,
+                  "oneOf": Array [
+                    Object {
+                      "type": "integer",
+                    },
+                    Object {
+                      "type": "number",
+                    },
+                    Object {
+                      "type": "string",
+                    },
+                    Object {
+                      "type": "boolean",
+                    },
+                    Object {
+                      "type": "array",
+                    },
+                    Object {
+                      "type": "object",
+                    },
+                  ],
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/array/2": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario2",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "type": "object",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/array/3": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario3",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "nullable": true,
+                "oneOf": Array [
+                  Object {
+                    "type": "integer",
+                  },
+                  Object {
+                    "type": "number",
+                  },
+                  Object {
+                    "type": "string",
+                  },
+                  Object {
+                    "type": "boolean",
+                  },
+                  Object {
+                    "type": "array",
+                  },
+                  Object {
+                    "type": "object",
+                  },
+                ],
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "TestArrayBodyCtrl",
+    },
+  ],
+}
+`;
+
+exports[`Integration: BodyParams any should generate the right spec (number[]) 1`] = `
+Object {
+  "paths": Object {
+    "/array/1": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "type": "number",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/array/2": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario2",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "items": Object {
+                  "type": "number",
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/array/3": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario3",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "multipleOf": 1,
+                "type": "integer",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+    "/array/4": Object {
+      "post": Object {
+        "operationId": "testArrayBodyCtrlScenario4",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "items": Object {
+                  "multipleOf": 1,
+                  "type": "integer",
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestArrayBodyCtrl",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "TestArrayBodyCtrl",
+    },
+  ],
+}
+`;
