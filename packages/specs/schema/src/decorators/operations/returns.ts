@@ -72,6 +72,11 @@ export interface ReturnsChainedDecorators {
   Of(...types: GenericValue[]): this;
 
   /**
+   * For the integer type
+   */
+  OfInteger(): this;
+
+  /**
    * Add the nested types
    * @param types
    */
@@ -167,6 +172,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     "type",
     "status",
     "of",
+    "ofInteger",
     "oneOf",
     "allOf",
     "anyOf",
@@ -271,6 +277,10 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     });
 
     return this;
+  }
+
+  ofInteger() {
+    return this.of("integer");
   }
 
   oneOf(...types: (Type<any> | any)[]) {

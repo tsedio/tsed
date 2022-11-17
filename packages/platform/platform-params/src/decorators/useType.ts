@@ -1,17 +1,26 @@
 import {Type} from "@tsed/core";
-import {CollectionOf} from "@tsed/schema";
+import {Any, CollectionOf} from "@tsed/schema";
+import {ParamFn} from "./paramFn";
 
 /**
- * Set the type of the item colllection.
+ * Set the type of the item collection.
  *
  * Prefer @@CollectionOf@@ usage.
  *
- * @param type
+ * @param useType
  * @decorator
  * @operation
  * @input
  * @alias CollectionOf
  */
-export function UseType(type: any | Type<any>) {
-  return CollectionOf(type);
+export function UseType(useType: undefined | any | Type<any>) {
+  return ParamFn((entity, parameters) => {
+    if (useType) {
+      return CollectionOf(useType);
+    }
+
+    if (entity.isCollection && entity.type === Object && [undefined, "object"].includes(entity.itemSchema.get("type"))) {
+      Any()(...parameters);
+    }
+  });
 }
