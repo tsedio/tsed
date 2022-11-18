@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-middlewares",
-  "version": "7.5.0",
+  "version": "7.5.1",
   "description": "Middlewares module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -24,14 +24,14 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.5.0",
-    "@tsed/di": "7.5.0",
-    "@tsed/schema": "7.5.0"
+    "@tsed/core": "7.5.1",
+    "@tsed/di": "7.5.1",
+    "@tsed/schema": "7.5.1"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.5.0",
-    "@tsed/di": "^7.5.0",
-    "@tsed/schema": "^7.5.0"
+    "@tsed/core": "^7.5.1",
+    "@tsed/di": "^7.5.1",
+    "@tsed/schema": "^7.5.1"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
