@@ -2668,15 +2668,16 @@ fastify@3.27.4:
     semver "^7.3.2"
     tiny-lru "^8.0.1"
 
-fastify@^3.0.0:
-  version "3.29.1"
-  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.29.1.tgz#0d44d0f1d2d17d22b7bc068a45706290a36eebb8"
-  integrity sha512-UhGmh0/J0YQetqULYfv/utvut0R6ICQvO6Oh81JvG75UbjVgueqoE6EPChB3gR5aF3dVKpT/qFTgc7zvpGTYNg==
+fastify@^3.29.4:
+  version "3.29.4"
+  resolved "https://registry.yarnpkg.com/fastify/-/fastify-3.29.4.tgz#294e33017b55f3cb72f315c41cf51431bc9b7a34"
+  integrity sha512-BEyKidZQvscNaiF1BLh+YLE7AzHH03NexhPzrwZP6KBQ+jG2czdgq72X+RFB5rK9hbqdaafVb5yiWN+hCvHfYg==
   dependencies:
     "@fastify/ajv-compiler" "^1.0.0"
     "@fastify/error" "^2.0.0"
     abstract-logging "^2.0.0"
     avvio "^7.1.2"
+    content-type "^1.0.4"
     fast-json-stringify "^2.5.2"
     find-my-way "^4.5.0"
     flatstr "^1.0.12"
