@@ -14,6 +14,7 @@ describe("ContextLogger", () => {
       debug: jest.fn(),
       warn: jest.fn(),
       error: jest.fn(),
+      fatal: jest.fn(),
       trace: jest.fn()
     };
 
@@ -46,6 +47,7 @@ describe("ContextLogger", () => {
     contextLogger.info("message");
     contextLogger.warn({test: "test"});
     contextLogger.error({test: "test"});
+    contextLogger.fatal({test: "test"});
     contextLogger.trace({test: "test"});
 
     contextLogger.flush();
@@ -80,6 +82,13 @@ describe("ContextLogger", () => {
       time: expect.any(Date)
     });
     expect(logger.error).toBeCalledWith({
+      complete: "complete",
+      duration: 1,
+      reqId: "id",
+      test: "test",
+      time: expect.any(Date)
+    });
+    expect(logger.fatal).toBeCalledWith({
       complete: "complete",
       duration: 1,
       reqId: "id",

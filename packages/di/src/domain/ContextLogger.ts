@@ -70,6 +70,11 @@ export class ContextLogger {
     return this;
   }
 
+  fatal(obj: any) {
+    this.run(levels().FATAL, obj);
+    return this;
+  }
+
   trace(obj: any) {
     this.run(levels().TRACE, obj);
     return this;
