@@ -6,4 +6,5 @@ export interface PlatformCacheOptions extends MetadataTypes {
   ttl?: Ttl;
   key?: string | ((args: any[], ctx?: BaseContext) => string);
   refreshThreshold?: number;
+  canCache?: ((item: any) => boolean) | "no-nullish";
 }

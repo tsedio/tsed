@@ -243,6 +243,52 @@ describe("PlatformCacheInterceptor", () => {
         data: "data"
       });
     });
+    it("should doesn't cache nullish result", async () => {
+      const cache = {
+        get: jest.fn().mockResolvedValue(false),
+        set: jest.fn().mockResolvedValue(false),
+        del: jest.fn().mockResolvedValue(true),
+        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
+        getCachedObject: jest.fn().mockResolvedValue(undefined),
+        setCachedObject: jest.fn().mockResolvedValue("test"),
+        defaultKeyResolver: () => defaultKeyResolver
+      };
+      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
+        {
+          token: PlatformCache,
+          use: cache
+        }
+      ]);
+
+      class Test {
+        test(arg: string) {
+          return null;
+        }
+      }
+
+      const next = jest.fn().mockResolvedValue(null);
+      const context: any = {
+        target: Test,
+        propertyKey: "test",
+        args: ["value"],
+        options: {
+          ttl: 10000,
+          canCache: "no-nullish",
+          refreshThreshold: 1000
+        }
+      };
+
+      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+
+      const result = await interceptor.cacheMethod(context, next);
+
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      expect(interceptor.canRefreshInBackground).not.toHaveBeenCalled();
+      expect(cache.getCachedObject).toHaveBeenCalledWith("Test:test:value");
+      expect(cache.setCachedObject).not.toHaveBeenCalled();
+      expect(result).toEqual(null);
+    });
     it("should catch and log error", async () => {
       const cache = {
         get: jest.fn().mockResolvedValue(false),
