@@ -8,15 +8,15 @@ meta:
 
 # Cache
 
-<Badge text="6.30.0+" />
-
 Caching is a great and simple technique that helps improve your app's performance.
 It acts as a temporary data store providing high performance data access.
 
-Ts.ED provides a unified system caching by using the popular [`cache-manager`](https://www.npmjs.com/package/cache-manager) Node.js module.
+Ts.ED provides a unified system caching by using the
+popular [`cache-manager`](https://www.npmjs.com/package/cache-manager) Node.js module.
 Cache-manager provides various storage to cache content like Redis, MongoDB, etc... and multi caching!
 
-By using the @@UseCache@@ on endpoint methods or on service methods, you'll be able to cache the response returned by the Ts.ED server
+By using the @@UseCache@@ on endpoint methods or on service methods, you'll be able to cache the response returned by
+the Ts.ED server
 or the result returned by a Service.
 
 ## Configuration
@@ -39,9 +39,12 @@ export class Server {}
 
 ### Store Engines
 
-- [node-cache-manager-redis](https://github.com/dial-once/node-cache-manager-redis) (uses [sol-redis-pool](https://github.com/joshuah/sol-redis-pool))
-- [node-cache-manager-redis-store](https://github.com/dabroek/node-cache-manager-redis-store) (uses [node_redis](https://github.com/NodeRedis/node_redis))
-- [node-cache-manager-ioredis](https://github.com/dabroek/node-cache-manager-ioredis) (uses [ioredis](https://github.com/luin/ioredis))
+- [node-cache-manager-redis](https://github.com/dial-once/node-cache-manager-redis) (
+  uses [sol-redis-pool](https://github.com/joshuah/sol-redis-pool))
+- [node-cache-manager-redis-store](https://github.com/dabroek/node-cache-manager-redis-store) (
+  uses [node_redis](https://github.com/NodeRedis/node_redis))
+- [node-cache-manager-ioredis](https://github.com/dabroek/node-cache-manager-ioredis) (
+  uses [ioredis](https://github.com/luin/ioredis))
 - [node-cache-manager-mongodb](https://github.com/v4l3r10/node-cache-manager-mongodb)
 - [node-cache-manager-mongoose](https://github.com/disjunction/node-cache-manager-mongoose)
 - [node-cache-manager-fs](https://github.com/hotelde/node-cache-manager-fs)
@@ -133,7 +136,8 @@ export class Server {}
 
 ::: tip
 
-This example works for a single redis connection. If you look for a complete example with Redis Cluster and Redis single connection, go to this example:
+This example works for a single redis connection. If you look for a complete example with Redis Cluster and Redis single
+connection, go to this example:
 https://gist.github.com/Romakita/432b1a8afaa726b41d0baf2456b205aa
 
 :::
@@ -218,12 +222,14 @@ GET:my-path:2  // etc...
 :::
 
 ::: warning
-Only `GET` endpoints are cached. Also, HTTP server routes that use the native response object (@@Res@@) cannot use the @@PlatformCacheInterceptor@@.
+Only `GET` endpoints are cached. Also, HTTP server routes that use the native response object (@@Res@@) cannot use the
+@@PlatformCacheInterceptor@@.
 :::
 
 ## Cache a value
 
-Because @@UseCache@@ uses @@PlatformCacheInterceptor@@ and not a middleware, you can also apply the decorator on any Service/Provider.
+Because @@UseCache@@ uses @@PlatformCacheInterceptor@@ and not a middleware, you can also apply the decorator on any
+Service/Provider.
 
 ```typescript
 import {Injectable} from "@tsed/di";
@@ -239,8 +245,10 @@ export class MyService {
 ```
 
 ::: warning
-node-cache-manager serialize all data as JSON object. It means, if you want to cache a complex data like an instance of class, you have to give extra parameters
-to the UseCache decorator. Ts.ED will use @@deserialize@@ function based on the given `type` (and `collectionType`) to return the expected instance.
+node-cache-manager serialize all data as JSON object. It means, if you want to cache a complex data like an instance of
+class, you have to give extra parameters
+to the UseCache decorator. Ts.ED will use @@deserialize@@ function based on the given `type` (and `collectionType`) to
+return the expected instance.
 
 ```typescript
 import {Injectable} from "@tsed/di";
@@ -264,8 +272,10 @@ export class MyService {
 
 ## Configure key resolver
 
-By default, Ts.ED uses the request VERB & URL (in an HTTP app) or cache key (for other Service and Provider) to associate cache records with your endpoints.
-Nevertheless, sometimes you might want to set up the generated key based on different factors, for example, using HTTP headers (e.g. Authorization to properly identify profile endpoints).
+By default, Ts.ED uses the request VERB & URL (in an HTTP app) or cache key (for other Service and Provider) to
+associate cache records with your endpoints.
+Nevertheless, sometimes you might want to set up the generated key based on different factors, for example, using HTTP
+headers (e.g. Authorization to properly identify profile endpoints).
 
 There are two ways to do that. The first one is to configure it globally on the Server:
 
@@ -321,13 +331,51 @@ export class MyController {
 }
 ```
 
+## Define when a value can be cached <Badge text="7.6.0+" />
+
+Sometimes, you don't want to store in cache a value because isn't consistant to have it.
+For example, you can avoid caching data when the result is nullish:
+
+```typescript
+import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
+
+@Controller("/my-path")
+export class MyController {
+  @Get("/:id")
+  @UseCache({ttl: 500, canCache: "non-nullish"})
+  get(@PathParams("id") id: string) {
+    return null;
+  }
+}
+```
+
+In this case, the UseCache interceptor will ignore result that `undefined` or `null`.
+
+You can also provide a custom function to ignore result:
+
+```typescript
+import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
+
+@Controller("/my-path")
+export class MyController {
+  @Get("/:id")
+  @UseCache({ttl: 500, canCache: (item: any) => item !== null})
+  get(@PathParams("id") id: string) {
+    return null;
+  }
+}
+```
+
 ## Refresh cache keys in background <Badge text="6.103.0+" />
 
-The `caching` module support a mechanism to refresh expiring cache `keys` in background is you use `UseCache` on a Service method (not on controller method).
+The `caching` module support a mechanism to refresh expiring cache `keys` in background is you use `UseCache` on a
+Service method (not on controller method).
 This is done by adding a `refreshThreshold` option to the @@UseCache@@ decorator.
 
 If `refreshThreshold` is set and if the `ttl` method is available for the used store,
-after retrieving a value from cache TTL will be checked. If the remaining current `ttl` key is under the configured `ttl` - `refreshThreshold`, the system will spawn a background worker to update the value, following same rules as standard fetching.
+after retrieving a value from cache TTL will be checked. If the remaining current `ttl` key is under the
+configured `ttl` - `refreshThreshold`, the system will spawn a background worker to update the value, following same
+rules as standard fetching.
 
 ```typescript
 const currentTTL = cache.ttl(key);
@@ -352,7 +400,8 @@ export class MyService {
 }
 ```
 
-In this example, the configured `ttl` is 1 hour and the threshold is 15 minutes. So, the key will be refreshed in background if current `ttl` is under 45 minutes.
+In this example, the configured `ttl` is 1 hour and the threshold is 15 minutes. So, the key will be refreshed in
+background if current `ttl` is under 45 minutes.
 
 ## Multi caching
 
@@ -373,7 +422,8 @@ export class Server {}
 
 ## Disable cache for test
 
-It can sometimes be useful during unit tests to disable the cache. You can do this by setting the `cache` option to `false`:
+It can sometimes be useful during unit tests to disable the cache. You can do this by setting the `cache` option
+to `false`:
 
 ```typescript
 describe("MyCtrl", () => {

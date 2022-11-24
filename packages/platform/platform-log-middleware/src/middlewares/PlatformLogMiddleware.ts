@@ -72,12 +72,14 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
         ctx.logger.debug({
           event: "request.end",
           status: ctx.response.statusCode,
+          status_code: String(ctx.response.statusCode),
           data: ctx.data
         });
       } else if (logRequest) {
         ctx.logger.info({
           event: "request.end",
-          status: ctx.response.statusCode
+          status: ctx.response.statusCode,
+          status_code: String(ctx.response.statusCode)
         });
       }
     }

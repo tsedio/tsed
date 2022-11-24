@@ -60,13 +60,15 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
   }
 
   async cacheMethod(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
-    const {type, ttl, collectionType, refreshThreshold, keyArgs, args} = this.getOptions(context);
+    const {type, ttl, collectionType, refreshThreshold, keyArgs, args, canCache} = this.getOptions(context);
     const key = [nameOf(context.target), context.propertyKey, keyArgs].join(":");
 
     const set = (result: any) => {
-      const calculatedTTL = this.cache.calculateTTL(result, ttl);
-      const data = serialize(result, {type, collectionType});
-      this.cache.setCachedObject(key, data, {args, ttl: calculatedTTL});
+      if (!canCache || (canCache && canCache(result))) {
+        const calculatedTTL = this.cache.calculateTTL(result, ttl);
+        const data = serialize(result, {type, collectionType});
+        this.cache.setCachedObject(key, data, {args, ttl: calculatedTTL});
+      }
     };
 
     const cachedObject = await this.cache.getCachedObject(key);
@@ -81,6 +83,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
     this.canRefreshInBackground(key, {refreshThreshold, ttl}, async () => {
       const result = await next();
+
       await set(result);
     }).catch((er) =>
       this.logger.error({
@@ -152,11 +155,16 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
   protected getOptions(context: InterceptorContext<any, PlatformCacheOptions>) {
     const {ttl, type, collectionType, key: k = this.cache.defaultKeyResolver(), refreshThreshold} = context.options || {};
+    let {canCache} = context.options || {};
 
     const args = this.getArgs(context);
     const keyArgs = isString(k) ? k : k(args);
 
-    return {refreshThreshold, ttl, type, args, collectionType, keyArgs};
+    if (canCache && canCache === "no-nullish") {
+      canCache = (item: any) => ![null, undefined].includes(item);
+    }
+
+    return {refreshThreshold, ttl, type, args, collectionType, keyArgs, canCache};
   }
 
   protected isEndpoint({target, propertyKey}: InterceptorContext<any, PlatformCacheOptions>) {
