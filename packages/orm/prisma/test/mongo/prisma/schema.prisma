@@ -1,0 +1,34 @@
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  binaryTargets   = ["native", "windows", "debian-openssl-1.1.x"]
+  previewFeatures = ["interactiveTransactions"]
+  output          = "../prisma/generated/client"
+}
+
+generator tsed {
+  provider                 = "node ../../src/cli/dev.ts"
+  output                   = "../prisma/generated/tsed"
+  emitDMMF                 = true
+}
+
+model User {
+  /// @TsED.Groups("!creation")
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  /// @TsED.Email()
+  email     String   @unique
+  info      Info
+  /// @TsED.Groups("!creation")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+type Info {
+  firstName String
+  lastName  String
+}

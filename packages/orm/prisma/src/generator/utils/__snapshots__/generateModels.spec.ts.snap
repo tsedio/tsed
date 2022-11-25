@@ -1,5 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`generateModels should generate models (info) 1`] = `
+"import { Info } from \\"../client\\";
+import { Required, Property } from \\"@tsed/schema\\";
+
+export class InfoModel implements Info {
+  @Property(String)
+  @Required()
+  firstName: string;
+
+  @Property(String)
+  @Required()
+  lastName: string;
+}
+
+"
+`;
+
 exports[`generateModels should generate models (post) 1`] = `
 "import { Post } from \\"../client\\";
 import { Integer, Required, Property, Allow } from \\"@tsed/schema\\";
