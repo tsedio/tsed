@@ -11,7 +11,7 @@ generator client {
 }
 
 generator tsed {
-  provider                 = "node ../src/cli/dev.ts"
+  provider                 = "node ../../src/cli/dev.ts"
   output                   = "../prisma/generated/tsed"
   emitDMMF                 = true
 }

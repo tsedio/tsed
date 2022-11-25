@@ -36,27 +36,26 @@ export class DmmfModel {
     return [...this.#imports.values()];
   }
 
-  static getModels(dmmf: DMMF.Document, modelsMap: Map<string, DMMF.Model>) {
+  static getModels(dmmf: DMMF.Document, modelsMap: Map<string, DMMF.Model>, typesMap?: Map<string, DMMF.Model>): DmmfModel[] {
     const inputObjectsTypes = dmmf.schema.inputObjectTypes.model || [];
     const outputObjectTypes = dmmf.schema.outputObjectTypes.model || [];
 
-    const inputs = inputObjectsTypes.map(
-      (modelType) =>
-        new DmmfModel({
-          modelType,
-          model: modelsMap.get(modelType.name),
-          isInputType: true
-        })
-    );
+    const factory = (isInputType: boolean) => (modelType: DMMF.InputType | DMMF.OutputType) => {
+      let model = modelsMap.get(modelType.name) || typesMap?.get(modelType.name);
 
-    const outputs = outputObjectTypes.map(
-      (modelType) =>
-        new DmmfModel({
+      if (model) {
+        return new DmmfModel({
           modelType,
-          model: modelsMap.get(modelType.name),
-          isInputType: false
-        })
-    );
+          model,
+          isInputType
+        });
+      }
+
+      return undefined;
+    };
+
+    const inputs: DmmfModel[] = inputObjectsTypes.map(factory(true)).filter(Boolean) as DmmfModel[];
+    const outputs: DmmfModel[] = outputObjectTypes.map(factory(false)).filter(Boolean) as DmmfModel[];
 
     return [...inputs, ...outputs];
   }

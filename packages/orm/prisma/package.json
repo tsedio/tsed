@@ -20,7 +20,8 @@
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "test": "cross-env NODE_ENV=test yarn jest",
-    "generate": "cd test && prisma -v && prisma generate"
+    "generate:postgres": "cd test/postgres && prisma -v && prisma generate",
+    "generate:mongo": "cd test/mongo && prisma -v && prisma generate"
   },
   "private": false,
   "dependencies": {

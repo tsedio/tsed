@@ -1,6 +1,6 @@
 import {createProjectFixture} from "../../__mock__/createProjectFixture";
 import {generateModels} from "./generateModels";
-import {createDmmfFixture} from "../../__mock__/createDmmfFixture";
+import {createDmmfFixture, createDmmfWithTypesFixture} from "../../__mock__/createDmmfFixture";
 
 describe("generateModels", () => {
   it("should generate models (post)", () => {
@@ -18,5 +18,13 @@ describe("generateModels", () => {
     generateModels(dmmf, project, baseDir);
 
     render("/models/UserModel.ts").toMatchSnapshot();
+  });
+  it("should generate models (info)", () => {
+    const {project, render, baseDir} = createProjectFixture("generate_models");
+    const dmmf = createDmmfWithTypesFixture();
+
+    generateModels(dmmf, project, baseDir);
+
+    render("/models/InfoModel.ts").toMatchSnapshot();
   });
 });
