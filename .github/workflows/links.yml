@@ -2,7 +2,7 @@ name: Links
 
 on:
   schedule:
-    - cron: "23 23 * * 0"
+    - cron: "0 0 1 1/1 *"
 jobs:
   linkChecker:
     runs-on: ubuntu-latest
