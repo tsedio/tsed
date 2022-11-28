@@ -32,6 +32,16 @@ export class JsonPropertyStore extends JsonEntityStore {
     return this.schema.$allow;
   }
 
+  discriminatorKey() {
+    this.parent.schema.discriminatorKey(String(this.propertyKey));
+    this.itemSchema.isDiscriminatorKey = true;
+    return this;
+  }
+
+  isDiscriminatorKey() {
+    return this.itemSchema.isDiscriminatorKey;
+  }
+
   /**
    * Check precondition between value, required and allowedRequiredValues to know if the entity is required.
    * @param value

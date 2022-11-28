@@ -1,4 +1,5 @@
 import {
+  ancestorOf,
   classOf,
   decoratorTypeOf,
   DecoratorTypes,
@@ -15,11 +16,11 @@ import {
   Store,
   Type
 } from "@tsed/core";
-import type {JsonSchema} from "./JsonSchema";
-import type {JsonMethodStore} from "./JsonMethodStore";
 import type {JsonClassStore} from "./JsonClassStore";
-import type {JsonPropertyStore} from "./JsonPropertyStore";
+import type {JsonMethodStore} from "./JsonMethodStore";
 import type {JsonParameterStore} from "./JsonParameterStore";
+import type {JsonPropertyStore} from "./JsonPropertyStore";
+import type {JsonSchema} from "./JsonSchema";
 
 /**
  * @ignore
@@ -95,9 +96,6 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     this.parent = this;
   }
 
-  isGetterOnly() {
-    return isObject(this.descriptor) && !this.descriptor.value && this.descriptor.get && !this.descriptor.set;
-  }
   /**
    * Return the class name of the entity.
    * @returns {string}
@@ -120,6 +118,12 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
    */
   get isArray() {
     return isArrayOrArrayClass(this.collectionType);
+  }
+
+  get ancestor() {
+    const ancestor = ancestorOf(this.target);
+
+    return nameOf(ancestor) ? JsonEntityStore.from(ancestor) : null;
   }
 
   /**
@@ -206,14 +210,19 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
    * @param target
    */
   static from<T extends JsonClassStore = JsonClassStore>(target: Type<any>): T;
+
   static from<T extends JsonPropertyStore = JsonPropertyStore>(target: Type<any> | any, propertyKey: string | symbol): T;
+
   static from<T extends JsonParameterStore = JsonParameterStore>(target: Type<any> | any, propertyKey: string | symbol, index: number): T;
+
   static from<T extends JsonMethodStore = JsonMethodStore>(
     target: Type<any> | any,
     propertyKey: string | symbol,
     descriptor: PropertyDescriptor
   ): T;
+
   static from<T extends JsonEntityStore = JsonEntityStore>(...args: any[]): T;
+
   static from<T extends JsonEntityStore = JsonEntityStore>(...args: any[]): T {
     if (args[0].isStore) {
       return args[0] as T;
@@ -257,12 +266,24 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     return this.from<T>(target, propertyKey, descriptorOf(target, propertyKey));
   }
 
+  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: any) {
+    return JsonEntityStore.from(prototypeOf(target), propertyKey, descriptor);
+  }
+
+  isGetterOnly() {
+    return isObject(this.descriptor) && !this.descriptor.value && this.descriptor.get && !this.descriptor.set;
+  }
+
   get<T = any>(key: string, defaultValue?: any) {
     return this.store.get<T>(key, defaultValue);
   }
 
   set(key: string, value?: any) {
     return this.store.set(key, value);
+  }
+
+  toString() {
+    return [this.targetName, this.propertyName, this.index].filter((o) => o !== undefined).join(":");
   }
 
   protected abstract build(): void;
@@ -278,13 +299,5 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
         this._type = String;
       }
     }
-  }
-
-  toString() {
-    return [this.targetName, this.propertyName, this.index].filter((o) => o !== undefined).join(":");
-  }
-
-  static get(target: Type<any>, propertyKey: string | symbol, descriptor?: any) {
-    return JsonEntityStore.from(prototypeOf(target), propertyKey, descriptor);
   }
 }

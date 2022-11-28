@@ -62,6 +62,7 @@ registerProvider({
       coerceTypes: true,
       strict: false,
       keywords: [...keywords, ...bindKeywords(injector)],
+      discriminator: true,
       ...props
     };
 

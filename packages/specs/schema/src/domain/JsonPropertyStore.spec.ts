@@ -18,6 +18,7 @@ describe("JsonParameterStore", () => {
     expect(entity.required).toBe(true);
     expect(entity.isRequired("")).toBe(true);
     expect(entity.allowedRequiredValues).toEqual([]);
+    expect(entity.isDiscriminatorKey()).toEqual(false);
 
     entity.required = false;
     expect(entity.required).toBe(false);

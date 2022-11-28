@@ -1,17 +1,31 @@
-import {classOf, Hooks, isArray, isClass, isFunction, isObject, nameOf, Type, uniq, ValueOf, isPrimitiveClass} from "@tsed/core";
+import {
+  ancestorOf,
+  classOf,
+  Hooks,
+  isArray,
+  isClass,
+  isFunction,
+  isObject,
+  isPrimitiveClass,
+  nameOf,
+  Type,
+  uniq,
+  ValueOf
+} from "@tsed/core";
 import type {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback";
+import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics} from "../utils/generics";
 import {getComputedType} from "../utils/getComputedType";
 import {getJsonType} from "../utils/getJsonType";
+import {serializeEnumValues} from "../utils/serializeEnumValues";
 import {toJsonRegex} from "../utils/toJsonRegex";
 import {AliasMap, AliasType} from "./JsonAliasMap";
+import {Discriminator} from "./JsonDiscriminator";
+import {JsonEntityStore} from "./JsonEntityStore";
 import {JsonFormatTypes} from "./JsonFormatTypes";
 import {JsonLazyRef} from "./JsonLazyRef";
-import {JsonEntityStore} from "./JsonEntityStore";
-import {serializeEnumValues} from "../utils/serializeEnumValues";
 
 export interface JsonSchemaObject extends JSONSchema6, Record<string, any> {
   type: (any | JSONSchema6TypeName) | (any | JSONSchema6TypeName)[];
@@ -67,7 +81,11 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   public $selfRequired: boolean;
   public $forwardGroups: boolean = false;
 
+  public isDiscriminatorKey = false;
+  public isDiscriminator = false;
+
   #nullable: boolean = false;
+  #discriminator: null | Discriminator = null;
   #genericLabels: string[];
   #nestedGenerics: Type<any>[][] = [];
   #alias: AliasMap = new Map();
@@ -121,6 +139,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    */
   get isGeneric() {
     return this.#isGeneric;
+  }
+
+  get ancestor() {
+    return JsonEntityStore.from(ancestorOf(this.#target)).schema;
   }
 
   /**
@@ -263,6 +285,50 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    */
   description(description: string) {
     super.set("description", description);
+
+    return this;
+  }
+
+  discriminator() {
+    this.isDiscriminator = true;
+    return (this.#discriminator =
+      this.#discriminator ||
+      new Discriminator({
+        base: this.#target
+      }));
+  }
+
+  discriminatorKey(propertyName: string) {
+    this.discriminator().propertyName = propertyName;
+    this.isDiscriminator = true;
+
+    return this;
+  }
+
+  discriminatorValue(...values: string[]) {
+    const discriminator = this.ancestor.discriminator();
+    discriminator.add(this.#target, values);
+
+    this.isDiscriminator = true;
+
+    const properties = this.get("properties") || {};
+    const schema: JsonSchema =
+      properties[discriminator.propertyName] ||
+      new JsonSchema({
+        type: "string"
+      });
+
+    if (values.length === 1) {
+      schema.const(values[0]);
+      schema.examples([values[0]]);
+    } else {
+      schema.enum(...values);
+      schema.examples(values);
+    }
+
+    properties[discriminator.propertyName] = schema;
+
+    this.set("properties", properties);
 
     return this;
   }
@@ -555,11 +621,33 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this;
   }
 
-  /**
+  /*
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.28
    */
   oneOf(oneOf: AnyJsonSchema[]) {
-    super.set("oneOf", oneOf.map(mapToJsonSchema));
+    let resolvedOneOf = oneOf.map(mapToJsonSchema);
+
+    if (resolvedOneOf.length === 1 && !(oneOf[0] instanceof JsonSchema)) {
+      if (!resolvedOneOf[0].#discriminator) {
+        return this.type(oneOf[0]);
+      }
+
+      const children = resolvedOneOf[0].discriminator().children();
+
+      resolvedOneOf = children.map(mapToJsonSchema);
+    }
+
+    super.set("oneOf", resolvedOneOf);
+
+    const jsonSchema: JsonSchema = resolvedOneOf[0];
+
+    if (jsonSchema.isDiscriminator) {
+      const discriminator = jsonSchema.ancestor.discriminator();
+      const {propertyName} = discriminator;
+      super.set("discriminator", {propertyName});
+      this.isDiscriminator = true;
+      this.#discriminator = discriminator;
+    }
 
     return this;
   }
@@ -843,10 +931,15 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
     if (obj instanceof JsonSchema) {
       this.$selfRequired = obj.$selfRequired;
+      this.$allow.push(...obj.$allow);
 
       obj.$required.forEach((key) => {
         this.$required.add(key);
       });
+
+      this.#discriminator = this.#discriminator ? new Discriminator(this.#discriminator) : null;
+      this.isDiscriminator = obj.isDiscriminator;
+      this.isDiscriminatorKey = obj.isDiscriminatorKey;
 
       this.#ref = obj.#ref;
       this.#alias = new Map(this.#alias.entries());
