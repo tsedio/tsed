@@ -2,7 +2,7 @@ import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
- * Add a example metadata on the decorated element.
+ * Add an example metadata on the decorated element.
  *
  * @decorator
  * @swagger

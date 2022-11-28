@@ -284,39 +284,15 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
   }
 
   oneOf(...types: (Type<any> | any)[]) {
-    const model = this.get("model");
-
-    this.addAction(() => {
-      const schema = this.get("schema") as JsonSchema;
-      schema.type(model);
-      schema.itemSchema({oneOf: types.map((type) => ({type}))});
-    });
-
-    return this;
+    return this.manyOf("oneOf", types);
   }
 
   allOf(...types: (Type<any> | any)[]) {
-    const model = this.get("model");
-
-    this.addAction(() => {
-      const schema = this.get("schema") as JsonSchema;
-      schema.type(model);
-      schema.itemSchema({allOf: types.map((type) => ({type}))});
-    });
-
-    return this;
+    return this.manyOf("allOf", types);
   }
 
   anyOf(...types: (Type<any> | any)[]) {
-    const model = this.get("model");
-
-    this.addAction(() => {
-      const schema = this.get("schema") as JsonSchema;
-      schema.type(model);
-      schema.itemSchema({anyOf: types.map((type) => ({type}))});
-    });
-
-    return this;
+    return this.manyOf("anyOf", types);
   }
 
   schema(partial: Partial<JsonSchemaObject>) {
@@ -465,6 +441,24 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     }
 
     return media;
+  }
+
+  private manyOf(kind: string, types: any[]) {
+    const model = this.get("model");
+
+    this.addAction(() => {
+      const schema = this.get("schema") as JsonSchema;
+
+      if (isCollection(model)) {
+        schema.type(model || Object);
+
+        schema.itemSchema().set(kind, types);
+      } else {
+        schema.set(kind, types);
+      }
+    });
+
+    return this;
   }
 }
 

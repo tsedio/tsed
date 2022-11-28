@@ -1,6 +1,6 @@
-import {$log, Controller, Get, QueryParams} from "@tsed/common";
+import {$log, BodyParams, Controller, Get, PathParams, Post, Put, QueryParams} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {Property} from "@tsed/schema";
+import {DiscriminatorKey, DiscriminatorValue, OneOf, Property, Required, Returns} from "@tsed/schema";
 import {Hidden} from "@tsed/swagger";
 import {Server} from "./Server";
 
@@ -52,11 +52,63 @@ if (process.env.NODE_ENV !== "test") {
     }
   }
 
+  class Event {
+    @DiscriminatorKey() // declare this property a discriminator key
+    type: string;
+
+    @Property()
+    value: string;
+  }
+
+  @DiscriminatorValue("page_view") // or @DiscriminatorValue() value can be inferred by the class name
+  class PageView extends Event {
+    @Required()
+    url: string;
+  }
+
+  @DiscriminatorValue("action", "click_action")
+  class Action extends Event {
+    @Required()
+    event: string;
+  }
+
+  @DiscriminatorValue()
+  class CustomAction extends Event {
+    @Required()
+    event: string;
+
+    @Property()
+    meta: string;
+  }
+
+  type OneOfEvents = PageView | Action | CustomAction;
+
+  @Controller("/one-of")
+  class HelloOneOf {
+    @Post("/")
+    @Returns(200, Array).OneOf(Event)
+    post(@BodyParams() @OneOf(Event) events: OneOfEvents[]) {
+      return [];
+    }
+
+    @Put("/:id")
+    @Returns(200).OneOf(Event)
+    put(@PathParams(":id") id: string, @BodyParams() @OneOf(Event) event: OneOfEvents) {
+      return [];
+    }
+
+    @Get("/:id")
+    @Returns(200).OneOf(Event)
+    get(@PathParams(":id") id: string) {
+      return [];
+    }
+  }
+
   async function bootstrap() {
     try {
       $log.debug("Start server...");
       const platform = await PlatformExpress.bootstrap(Server, {
-        mount: {"/rest": [HelloWorld, HelloWorld2]}
+        mount: {"/rest": [HelloWorld, HelloWorld2, HelloOneOf]}
       });
 
       await platform.listen();

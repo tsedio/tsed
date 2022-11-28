@@ -70,6 +70,10 @@ export function getRequiredProperties(obj: any, schema: JsonSchema, options: Jso
 
   required = uniq(required).reduce(mapRequiredProps(obj, schema, options), []);
 
+  if (obj.discriminator) {
+    required.push(obj.discriminator.propertyName);
+  }
+
   if (required.length) {
     return {
       ...obj,
