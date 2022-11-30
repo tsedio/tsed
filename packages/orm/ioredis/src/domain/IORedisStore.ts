@@ -21,7 +21,7 @@ export class IORedisStore implements Store {
   private storeArgs: any;
 
   constructor(options?: IORedisStoreCtrOptions) {
-    options ||= {};
+    options = options || {};
 
     this.redisCache =
       options.redisInstance ||
