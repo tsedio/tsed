@@ -996,6 +996,121 @@ function RequiredIf(cb: any): PropertyDecorator {
 }
 ```
 
+## Discriminator <Badge text="v7.8.0+" />
+
+The discriminator feature allows polymorphism with JsonSchema and OpenAPI.
+Although @@OneOf@@ already allows polymorphism in terms of validation, the latter doesn't allow the `@tsed/json-mapper` to render the correct class type during the deserialization (plain object to class).
+
+By declaring a discriminatorKey, `@tsed/json-mapper` will be able to determine the correct class which should be used.
+
+Here is an example:
+
+```typescript
+import {Discriminator, DiscriminatorKey, DiscriminatorValue, Property, Required, OneOf} from "@tsed/schema";
+
+export class Event {
+  @DiscriminatorKey() // declare this property as discriminator key
+  type: string;
+
+  @Property()
+  value: string;
+}
+
+@DiscriminatorValue("page_view")
+// or @DiscriminatorValue() value can be inferred by the class name (ex: "page_view")
+export class PageView extends Event {
+  @Required()
+  url: string;
+}
+
+@DiscriminatorValue("action", "click_action")
+export class Action extends Event {
+  @Required()
+  event: string;
+}
+
+export class Tracking {
+  @OneOf(Action, PageView)
+  data: Action | PageView;
+}
+```
+
+And now we can use `deserialize` to map plain object to a class:
+
+```typescript
+import {deserialize} from "@tsed/json-mapper";
+import {Tracking} from "./Tracking";
+
+const list = {
+  data: [
+    {
+      type: "page_view",
+      value: "value",
+      url: "https://url"
+    },
+    {
+      type: "action",
+      value: "value",
+      event: "event"
+    },
+    {
+      type: "click_action",
+      value: "value",
+      event: "event"
+    }
+  ]
+};
+
+const result = deserialize(list, {
+  type: Tracking
+});
+
+expect(result.data[0]).toBeInstanceOf(PageView);
+expect(result.data[1]).toBeInstanceOf(Action);
+expect(result.data[2]).toBeInstanceOf(Action);
+expect(result.data[3]).toBeInstanceOf(CustomAction);
+```
+
+::: tip Shortcut
+
+Declaring each time the list of children class using @@OneOf@@ decorator can be a pain point, so Ts.ED provide a way to simplify your code:
+
+Instead of declaring all classes:
+
+```ts
+export class Tracking {
+  @OneOf(Action, PageView)
+  data: Action | PageView;
+}
+```
+
+Give the parent class to `OneOf` decorator:
+
+```typescript
+export type EventsType = Action | PageView;
+
+export class Tracking {
+  @OneOf(Event)
+  data: EventsType;
+}
+```
+
+Ts.ED will automatically infer the children classes!
+:::
+
+Discriminator model can be used also on controller:
+
+```typescript
+@Controller("/")
+class Test {
+  @Put("/:id")
+  @Returns(200).OneOf(Event)
+  put(@PathParams(":id") id: string, @BodyParams() @OneOf(Event) event: EventsType) {
+    return [];
+  }
+}
+```
+
 ## Generics
 
 ### Declaring a generic model
@@ -1305,7 +1420,7 @@ schema `self-documenting`.
 
 ## Alias
 
-@@Name@@ decorator lets you to rename the exposed property in your json schema.
+@@Name@@ decorator lets you rename the exposed property in your json schema.
 
 For example mongo db uses the `_id` property. In order not to give any indication to our consumer about the nature of
 the database, it's better to rename the property to `id`.

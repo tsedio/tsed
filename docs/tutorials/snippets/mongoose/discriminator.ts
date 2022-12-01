@@ -1,5 +1,5 @@
-import {Required} from "@tsed/schema";
-import {Model, ObjectID, DiscriminatorKey} from "@tsed/mongoose";
+import {DiscriminatorValue, DiscriminatorKey, Required} from "@tsed/schema";
+import {Model, ObjectID} from "@tsed/mongoose";
 
 @Model()
 class EventModel {
@@ -19,7 +19,8 @@ class ClickedLinkEventModel extends EventModel {
   url: string;
 }
 
-@Model({discriminatorValue: "signUpEvent"})
+@Model()
+@DiscriminatorValue("sign_up_event")
 class SignedUpEventModel extends EventModel {
   @Required()
   user: string;
