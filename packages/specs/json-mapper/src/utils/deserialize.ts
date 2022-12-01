@@ -1,5 +1,14 @@
 import {getValue, isArray, isBoolean, isClass, isEmpty, isNil, MetadataTypes, nameOf, objectKeys, Type} from "@tsed/core";
-import {alterIgnore, getProperties, JsonEntityStore, JsonHookContext, JsonPropertyStore, JsonSchema} from "@tsed/schema";
+import {
+  alterIgnore,
+  Discriminator,
+  getProperties,
+  JsonEntityStore,
+  JsonHookContext,
+  JsonParameterStore,
+  JsonPropertyStore,
+  JsonSchema
+} from "@tsed/schema";
 import "../components/ArrayMapper";
 import "../components/DateMapper";
 import "../components/MapMapper";
@@ -80,31 +89,6 @@ function transformType<T = any>(src: any, options: JsonDeserializerOptions<any, 
   return types?.get(type)?.deserialize<T>(src, context);
 }
 
-function mapItemOptions(propStore: JsonPropertyStore, options: JsonDeserializerOptions) {
-  const itemOpts: JsonDeserializerOptions = {
-    ...options,
-    store: undefined,
-    type: propStore.computedType
-  };
-
-  if (propStore.schema.hasGenerics) {
-    itemOpts.nestedGenerics = propStore.schema.nestedGenerics;
-  } else if (propStore.schema.isGeneric && options.nestedGenerics) {
-    const [genericTypes = [], ...nestedGenerics] = options.nestedGenerics;
-    const genericLabels = propStore.parent.schema.genericLabels || [];
-
-    itemOpts.type = genericTypes[genericLabels.indexOf(propStore.schema.genericType)] || Object;
-
-    if (itemOpts.type instanceof JsonSchema) {
-      itemOpts.type = itemOpts.type.getTarget();
-    }
-
-    itemOpts.nestedGenerics = nestedGenerics;
-  }
-
-  return itemOpts;
-}
-
 function getAdditionalProperties(
   nbProps: number,
   store: JsonEntityStore,
@@ -130,6 +114,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   }
 
   const {type, store = JsonEntityStore.from(type)} = options;
+
   const propertiesMap = getProperties(store, {...options, withIgnoredProps: true});
 
   let keys = new Set<any>(objectKeys(src));
@@ -152,14 +137,15 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
 
     let value = alterValue(propStore.schema, src[key], {...options, self: src});
 
-    const itemOptions = mapItemOptions(propStore, options);
-
-    value = deserialize(value, {
-      ...itemOptions,
-      self: src,
-      type: value === src[key] ? itemOptions.type : undefined,
-      collectionType: propStore.collectionType
-    });
+    value =
+      value === src[key]
+        ? deserialize(value, {
+            ...options,
+            store: propStore,
+            self: src,
+            collectionType: propStore.collectionType
+          })
+        : value;
 
     if (!propStore.isGetterOnly()) {
       if (value !== undefined) {
@@ -189,15 +175,65 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
   return alterAfterDeserialize(out, store.schema, options);
 }
 
-function buildOptions(options: JsonDeserializerOptions<any, any>): any {
-  if (options.store instanceof JsonEntityStore) {
-    if (options.store.parameter && options.store.parameter.nestedGenerics.length) {
-      options.nestedGenerics = options.store.parameter.nestedGenerics;
+function mapPropStoreOptions(store: JsonPropertyStore, options: JsonDeserializerOptions) {
+  const itemOpts: JsonDeserializerOptions = {
+    ...options,
+    store: undefined,
+    type: store.computedType
+  };
+
+  if (store.schema.isDiscriminator) {
+    itemOpts.type = store.schema.discriminator();
+  }
+
+  if (store.schema.hasGenerics) {
+    itemOpts.nestedGenerics = store.schema.nestedGenerics;
+  } else if (store.schema.isGeneric && options.nestedGenerics) {
+    const [genericTypes = [], ...nestedGenerics] = options.nestedGenerics;
+    const genericLabels = store.parent.schema.genericLabels || [];
+
+    itemOpts.type = genericTypes[genericLabels.indexOf(store.schema.genericType)] || Object;
+
+    if (itemOpts.type instanceof JsonSchema) {
+      itemOpts.type = itemOpts.type.getTarget();
     }
 
+    itemOpts.nestedGenerics = nestedGenerics;
+  }
+
+  return itemOpts;
+}
+
+function mapParamStoreOptions(store: JsonParameterStore, options: JsonDeserializerOptions) {
+  return {
+    ...options,
+    store: undefined,
+    type: store.itemSchema.isDiscriminator ? store.itemSchema.discriminator() : store.type,
+    collectionType: store.collectionType,
+    groups: store.parameter.groups,
+    genericTypes: store.nestedGenerics[0],
+    nestedGenerics: store.nestedGenerics
+  };
+}
+
+function buildOptions(options: JsonDeserializerOptions<any, any>): any {
+  if (options.store instanceof JsonPropertyStore) {
+    return buildOptions(mapPropStoreOptions(options.store, options));
+  }
+
+  if (options.store instanceof JsonParameterStore) {
+    return buildOptions(mapParamStoreOptions(options.store, options));
+  }
+
+  if (options.store instanceof JsonEntityStore) {
     options.type = options.store.computedType;
     options.collectionType = options.store.collectionType;
     options.store = undefined;
+  } else if (isClass(options.type)) {
+    const store = JsonEntityStore.from(options.type);
+    if (store.schema.isDiscriminator) {
+      options.type = JsonEntityStore.from(options.type).schema.discriminator();
+    }
   }
 
   return {
@@ -239,6 +275,14 @@ export function deserialize<T = any>(src: any, options: JsonDeserializerOptions 
 
   if (options.types?.has(options.type)) {
     return transformType(src, options);
+  }
+
+  if (options.type instanceof Discriminator) {
+    const discriminator = options.type;
+    const discriminatorValue = src[discriminator.propertyName];
+    const type = discriminator.getType(discriminatorValue);
+
+    return plainObjectToClass(src, {...options, type});
   }
 
   // class converter

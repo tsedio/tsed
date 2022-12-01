@@ -74,6 +74,7 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
   const additionalProperties = !!entity.schema.get("additionalProperties");
   const schemaProperties = getSchemaProperties(entity, obj);
   const properties = new Set<string>();
+
   const out: any = schemaProperties.reduce((newObj, [key, propStore]) => {
     properties.add(key as string);
 
@@ -104,6 +105,14 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
       [key]: value
     };
   }, {});
+
+  if (entity.ancestor?.schema.isDiscriminator) {
+    const discriminator = entity.ancestor.schema.discriminator();
+
+    if (!out[discriminator.propertyName]) {
+      out[discriminator.propertyName] = discriminator.getDefaultValue(entity.target);
+    }
+  }
 
   if (additionalProperties) {
     objectKeys(obj).forEach((key: any) => {

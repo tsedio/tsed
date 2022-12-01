@@ -6,6 +6,7 @@ import {
   Get,
   getJsonSchema,
   getSpec,
+  JsonEntityStore,
   OneOf,
   Post,
   Property,
@@ -232,6 +233,98 @@ describe("Discriminator", () => {
           }
         },
         type: "object"
+      });
+    });
+    it("should generate the json schema from endpoint", () => {
+      @Controller("/")
+      class MyTest {
+        @Post("/")
+        @Returns(200, Array).OneOf(Event)
+        post(@BodyParams() @OneOf(Event) events: OneOfEvents[]) {
+          return [];
+        }
+      }
+
+      const metadata = JsonEntityStore.from(MyTest, "post", 0);
+
+      expect(getJsonSchema(metadata)).toEqual({
+        definitions: {
+          Action: {
+            properties: {
+              event: {
+                minLength: 1,
+                type: "string"
+              },
+              type: {
+                enum: ["action", "click_action"],
+                examples: ["action", "click_action"],
+                type: "string"
+              },
+              value: {
+                type: "string"
+              }
+            },
+            required: ["event"],
+            type: "object"
+          },
+          CustomAction: {
+            properties: {
+              event: {
+                minLength: 1,
+                type: "string"
+              },
+              meta: {
+                type: "string"
+              },
+              type: {
+                const: "custom_action",
+                examples: ["custom_action"],
+                type: "string"
+              },
+              value: {
+                type: "string"
+              }
+            },
+            required: ["event"],
+            type: "object"
+          },
+          PageView: {
+            properties: {
+              type: {
+                const: "page_view",
+                examples: ["page_view"],
+                type: "string"
+              },
+              url: {
+                minLength: 1,
+                type: "string"
+              },
+              value: {
+                type: "string"
+              }
+            },
+            required: ["url"],
+            type: "object"
+          }
+        },
+        items: {
+          discriminator: {
+            propertyName: "type"
+          },
+          oneOf: [
+            {
+              $ref: "#/definitions/PageView"
+            },
+            {
+              $ref: "#/definitions/Action"
+            },
+            {
+              $ref: "#/definitions/CustomAction"
+            }
+          ],
+          required: ["type"]
+        },
+        type: "array"
       });
     });
   });
