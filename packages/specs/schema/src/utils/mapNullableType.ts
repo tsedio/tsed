@@ -16,14 +16,16 @@ export function mapNullableType(obj: any, schema: JsonSchema | null, options: Js
   switch (options.specType) {
     default:
     case SpecTypes.JSON:
-      if (obj.oneOf) {
-        if (!hasNullable(obj)) {
-          obj.oneOf.unshift({
-            type: "null"
-          });
+      if (!obj.discriminator) {
+        if (obj.oneOf) {
+          if (!hasNullable(obj)) {
+            obj.oneOf.unshift({
+              type: "null"
+            });
+          }
+        } else {
+          obj.type = uniq(["null", ...types]);
         }
-      } else {
-        obj.type = uniq(["null", ...types]);
       }
       break;
 

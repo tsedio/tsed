@@ -7,11 +7,7 @@ export class DeserializerPipe implements PipeMethods {
   transform(value: any, param: JsonParameterStore) {
     return deserialize(value, {
       useAlias: true,
-      type: param.type,
-      collectionType: param.collectionType,
-      groups: param.parameter.groups,
-      genericTypes: param.nestedGenerics[0],
-      nestedGenerics: param.nestedGenerics,
+      store: param,
       ...(param.store.get(DeserializerPipe) || {})
     });
   }
