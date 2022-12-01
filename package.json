@@ -45,7 +45,7 @@
     "sync:packages": "monorepo sync packages",
     "api:build": "lerna run build && tsdoc",
     "docs:install": "sh ./scripts/docs/install.sh",
-    "docs:serve": "yarn api:build && yarn vuepress:serve",
+    "docs:serve": "yarn api:build && yarn vuepress:docs:serve",
     "docs:build": "yarn api:build && yarn docs:install && yarn vuepress:build",
     "docs:publish": "CI=1 monorepo publish ghpages",
     "examples:sync": "monorepo sync examples",

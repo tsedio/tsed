@@ -4,7 +4,7 @@ import {BodyParams, PathParams} from "@tsed/platform-params";
 import {DiscriminatorKey, DiscriminatorValue, getSpec, JsonParameterStore, OneOf, Property, Put, Required, Returns} from "@tsed/schema";
 
 class Event {
-  @DiscriminatorKey() // declare this property a discriminator key
+  @DiscriminatorKey() // declare this property as discriminator key
   type: string;
 
   @Property()
