@@ -1,4 +1,6 @@
+import {nameOf, useDecorators} from "@tsed/core";
 import {registerProvider} from "@tsed/di";
+import {DiscriminatorValue} from "@tsed/schema";
 import {Schema} from "mongoose";
 import {MongooseModelOptions} from "../interfaces/MongooseModelOptions";
 import {MONGOOSE_CONNECTIONS} from "../services/MongooseConnections";
@@ -44,8 +46,9 @@ import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions";
  * @class
  */
 export function Model(options: MongooseModelOptions = {}) {
-  return (target: any) => {
+  return useDecorators((target: any) => {
     const {token, collectionName} = getModelToken(target, options);
+    DiscriminatorValue(options.discriminatorValue || nameOf(target))(target);
 
     registerProvider({
       provide: token,
@@ -67,10 +70,9 @@ export function Model(options: MongooseModelOptions = {}) {
           collectionName,
           options.collection,
           options.overwriteModels,
-          connections.get(options.connection),
-          options.discriminatorValue
+          connections.get(options.connection)
         );
       }
     });
-  };
+  });
 }

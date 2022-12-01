@@ -5,10 +5,10 @@ module.exports = {
   ...require("@tsed/jest-config")(__dirname, "mongoose"),
   coverageThreshold: {
     global: {
-      branches: 93.45,
-      functions: 98.9,
-      lines: 98.9,
-      statements: 98.93
+      statements: 99.25,
+      branches: 94.87,
+      functions: 98.97,
+      lines: 99.22
     }
   }
 };

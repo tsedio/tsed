@@ -43,8 +43,13 @@ function hasVersionField(schema: mongoose.Schema, versionKey?: string | boolean)
 }
 
 export function createSchema(target: Type<any>, options: MongooseSchemaOptions = {}): mongoose.Schema {
-  const schemaOptionsFromStore = Store.from(target).get(MONGOOSE_SCHEMA_OPTIONS) || {};
+  const entity = JsonEntityStore.from(target);
+  const schemaOptionsFromStore = entity.store.get(MONGOOSE_SCHEMA_OPTIONS) || {};
   options.schemaOptions = {...options.schemaOptions, ...schemaOptionsFromStore};
+
+  if (entity.schema.isDiscriminator) {
+    options.schemaOptions!.discriminatorKey = entity.schema.discriminator().propertyName;
+  }
 
   const schema = setUpSchema(buildMongooseSchema(target), options.schemaOptions);
 
@@ -113,7 +118,7 @@ export function buildMongooseSchema(target: any): MongooseSchemaMetadata {
     // Keeping the Mongoose Schema separate, so it can overwrite everything once schema has been built.
     const schemaTypeOptions: any = propertyMetadata.store.get(MONGOOSE_SCHEMA) || {};
 
-    if (schemaTypeOptions.schemaIgnore || propertyMetadata.isGetterOnly()) {
+    if (schemaTypeOptions.schemaIgnore || propertyMetadata.isDiscriminatorKey() || propertyMetadata.isGetterOnly()) {
       return;
     }
 
