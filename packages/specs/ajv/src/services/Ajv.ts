@@ -1,6 +1,7 @@
 import {cleanObject} from "@tsed/core";
 import {Configuration, InjectorService, ProviderScope, registerProvider} from "@tsed/di";
-import Ajv, {Format, KeywordDefinition, Vocabulary} from "ajv";
+import Ajv, {Format, KeywordDefinition, Options, Vocabulary} from "ajv";
+import AjvErrors from "ajv-errors";
 import AjvFormats from "ajv-formats";
 import {FormatsMethods} from "../interfaces/FormatsMethods";
 import {IAjvSettings} from "../interfaces/IAjvSettings";
@@ -57,16 +58,20 @@ registerProvider({
   scope: ProviderScope.SINGLETON,
   useFactory(configuration: Configuration, injector: InjectorService) {
     const {errorFormatter, keywords = [], ...props} = configuration.get<IAjvSettings>("ajv") || {};
-    const options = {
+    const options: Options = {
       verbose: false,
       coerceTypes: true,
       strict: false,
       keywords: [...keywords, ...bindKeywords(injector)],
       discriminator: true,
+      allErrors: true,
       ...props
     };
 
     const ajv = new Ajv(options);
+
+    // add support for custom error messages
+    AjvErrors(ajv);
 
     AjvFormats(ajv as any);
 
