@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "ajv-formats": "2.1.1",
+    "ajv-errors": "3.0.0",
     "tslib": "2.4.0"
   },
   "devDependencies": {
@@ -35,7 +36,8 @@
     "@tsed/di": "^7.10.1",
     "@tsed/exceptions": "^7.10.1",
     "@tsed/schema": "^7.10.1",
-    "ajv": ">=8.9.0"
+    "ajv": ">=8.9.0",
+    "ajv-errors": ">=3.0.0"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

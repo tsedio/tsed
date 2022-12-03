@@ -96,7 +96,7 @@ class TestBodyParamsCtrl {
   }
 
   @Post("/scenario-4c")
-  @Description("Extract field from body payload as string with required annotation")
+  @Description("Extract field from body payload as number with required annotation")
   testScenario4c(@Required() @BodyParams("test") value: number): any {
     return {value};
   }

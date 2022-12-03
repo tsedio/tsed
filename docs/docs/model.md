@@ -369,7 +369,80 @@ Ts.ED provides others related collection decorators:
 ## Required properties
 
 By default, the properties defined with a decorator are not `required`. However, one can use @@Required@@ decorator to
-add a required property to the json schema.
+add a required property to the json schema:
+
+```typescript
+import {Required} from "@tsed/schema";
+
+class MyModel {
+  id: string;
+
+  @Required()
+  prop1: string;
+}
+```
+
+You can also add a custom ajv error message with the `.Error(msg)` function
+
+```typescript
+import {Required} from "@tsed/schema";
+
+class MyModel {
+  id: string;
+
+  @Required().Error("custom message")
+  prop1: string;
+}
+```
+
+## Custom AJV error messages
+
+If you don't like AJV's default error messages, you can customize them with these decorators:
+
+### DefaultMsg
+
+This is a class decorator @@DefaultMsg@@ that is used to define a default message as the name suggests:
+
+```typescript
+import {DefaultMsg} from "@tsed/schema";
+
+@DefaultMsg("an error occured")
+class MyModel {
+  id: string;
+
+  prop1: string;
+}
+```
+
+### TypeError
+
+This is a property decorator @@TypeError@@ that is used to define a custom error message for a specific type:
+
+```typescript
+import {TypeError} from "@tsed/schema";
+
+class MyModel {
+  id: string;
+
+  @TypeError("prop1 should be a string")
+  prop1: string;
+}
+```
+
+### ErrorMsg
+
+If none of the above work for you, you can use the @@ErrorMsg@@ decorator to define your own custom error message schema using the [ajv-errors documentation](https://ajv.js.org/packages/ajv-errors.html#ajv-errors):
+
+```typescript
+import {ErrorMsg} from "@tsed/schema";
+
+class MyModel {
+  id: string;
+
+  @ErrorMsg({type: "prop1 should be a string"})
+  prop1: string;
+}
+```
 
 ## Additional properties
 

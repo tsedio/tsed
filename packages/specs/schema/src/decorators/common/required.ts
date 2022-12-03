@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {Allow} from "./allow";
 import {Optional} from "./optional";
 
@@ -44,6 +45,6 @@ import {Optional} from "./optional";
  * @schema
  * @input
  */
-export function Required(required: boolean = true, ...allowedRequiredValues: any[]) {
+export const Required = withErrorMsg("required", (required: boolean = true, ...allowedRequiredValues: any[]) => {
   return required ? Allow(...allowedRequiredValues) : Optional();
-}
+});

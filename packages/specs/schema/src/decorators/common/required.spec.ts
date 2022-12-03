@@ -91,4 +91,28 @@ describe("@Required", () => {
     expect(validate({allow: null})).toBe(true);
     expect(validate({})).toBe(false);
   });
+
+  it("should declare required field with custom error message", () => {
+    // WHEN
+    class Model {
+      @Required().Error("custom message")
+      num: number;
+    }
+
+    // THEN
+    const schema = getJsonSchema(Model, {customKeys: true});
+
+    expect(schema).toEqual({
+      properties: {
+        num: {
+          type: "number"
+        }
+      },
+      required: ["num"],
+      type: "object",
+      errorMessage: {
+        required: "custom message"
+      }
+    });
+  });
 });
