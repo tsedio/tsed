@@ -23,7 +23,6 @@ export function getModelToken(target: Type<any>, options: any) {
  * @param collection (optional, induced from model name)
  * @param overwriteModels
  * @param connection
- * @param discriminatorValue
  * @returns {Model<T extends Document>}
  */
 export function createModel<T>(
@@ -36,12 +35,11 @@ export function createModel<T>(
 ) {
   const entity = JsonEntityStore.from(target);
 
-  if (entity.schema.isDiscriminator) {
-    if (entity.ancestor) {
-      const discriminatorName = entity.ancestor.schema.discriminator().getDefaultValue(target);
-      const ancestorModel = entity.ancestor.get(MONGOOSE_MODEL);
-      return ancestorModel.discriminator(discriminatorName, schema);
-    }
+  if (entity.isDiscriminatorChild) {
+    const discriminatorName = entity.discriminatorAncestor!.schema.discriminator().getDefaultValue(target);
+    const ancestorModel = entity.discriminatorAncestor!.get(MONGOOSE_MODEL);
+
+    return ancestorModel.discriminator(discriminatorName, schema);
   }
 
   const opts = overwriteModels ? {overwriteModels} : undefined;

@@ -50,7 +50,6 @@ class TestDiscriminator {
   @Post("/scenario-2")
   @Returns(200, Array).OneOf(Event)
   scenario2(@BodyParams() @OneOf(Event) events: EventTypes[]) {
-    console.log(events);
     expect(events[0]).toBeInstanceOf(PageView);
     expect(events[1]).toBeInstanceOf(Action);
     expect(events[2]).toBeInstanceOf(Action);
@@ -62,10 +61,7 @@ class TestDiscriminator {
 const utils = PlatformTestUtils.create({
   rootDir,
   platform: PlatformExpress,
-  server: Server,
-  logger: {
-    level: "info"
-  }
+  server: Server
 });
 describe("Discriminator", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
@@ -153,7 +149,7 @@ describe("Discriminator", () => {
 
   describe("POST /rest/discriminator: scenario 2", () => {
     it("should map correctly the data", async () => {
-      await request
+      const result = await request
         .post("/rest/discriminator/scenario-2")
         .send([
           {
@@ -179,6 +175,30 @@ describe("Discriminator", () => {
           }
         ])
         .expect(200);
+
+      expect(result.body).toEqual([
+        {
+          type: "page_view",
+          url: "https://url",
+          value: "value"
+        },
+        {
+          event: "event",
+          type: "action",
+          value: "value"
+        },
+        {
+          event: "event",
+          type: "click_action",
+          value: "value"
+        },
+        {
+          event: "event",
+          meta: "meta",
+          type: "custom_action",
+          value: "custom"
+        }
+      ]);
     });
   });
 });

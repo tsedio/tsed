@@ -45,8 +45,7 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
 export function DiscriminatorValue(value?: string, ...values: string[]): ClassDecorator {
   return JsonEntityFn((store) => {
     value = value || snakeCase(store.targetName);
-
-    if (store.ancestor && store.ancestor?.schema.isDiscriminator) {
+    if (store.discriminatorAncestor) {
       store.schema.discriminatorValue(value, ...values);
     }
   });

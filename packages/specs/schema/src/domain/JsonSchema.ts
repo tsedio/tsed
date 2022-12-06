@@ -1,5 +1,5 @@
 import {
-  ancestorOf,
+  ancestorsOf,
   classOf,
   Hooks,
   isArray,
@@ -141,8 +141,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this.#isGeneric;
   }
 
-  get ancestor() {
-    return JsonEntityStore.from(ancestorOf(this.#target)).schema;
+  get discriminatorAncestor() {
+    const ancestors = ancestorsOf(this.#target);
+    const ancestor = ancestors.find((ancestor) => JsonEntityStore.from(ancestor).schema.isDiscriminator);
+    return ancestor && JsonEntityStore.from(ancestor).schema;
   }
 
   /**
@@ -306,12 +308,12 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   discriminatorValue(...values: string[]) {
-    const discriminator = this.ancestor.discriminator();
+    const discriminator = this.discriminatorAncestor.discriminator();
     discriminator.add(this.#target, values);
 
     this.isDiscriminator = true;
 
-    const properties = this.get("properties") || {};
+    const properties = this.get("properties");
     const schema: JsonSchema =
       properties[discriminator.propertyName] ||
       new JsonSchema({
@@ -642,7 +644,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     const jsonSchema: JsonSchema = resolvedOneOf[0];
 
     if (jsonSchema.isDiscriminator) {
-      const discriminator = jsonSchema.ancestor.discriminator();
+      const discriminator = jsonSchema.discriminatorAncestor.discriminator();
       const {propertyName} = discriminator;
       super.set("discriminator", {propertyName});
       this.isDiscriminator = true;

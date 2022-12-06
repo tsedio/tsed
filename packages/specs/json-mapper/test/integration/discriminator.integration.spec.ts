@@ -11,14 +11,19 @@ class Event {
   value: string;
 }
 
+class SubEvent extends Event {
+  @Property()
+  metaSub: string;
+}
+
 @DiscriminatorValue("page_view") // or @DiscriminatorValue() value can be inferred by the class name
-class PageView extends Event {
+class PageView extends SubEvent {
   @Required()
   url: string;
 }
 
 @DiscriminatorValue("action", "click_action")
-class Action extends Event {
+class Action extends SubEvent {
   @Required()
   event: string;
 }
@@ -47,7 +52,8 @@ describe("Discriminator", () => {
           {
             type: "page_view",
             value: "value",
-            url: "https://url"
+            url: "https://url",
+            metaSub: "sub"
           },
           {
             type: "action",
@@ -75,6 +81,7 @@ describe("Discriminator", () => {
         data: [
           {
             type: "page_view",
+            metaSub: "sub",
             url: "https://url",
             value: "value"
           },
