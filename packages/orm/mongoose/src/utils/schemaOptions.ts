@@ -1,7 +1,14 @@
 import {deepMerge, Store} from "@tsed/core";
 import {Schema} from "mongoose";
 import {MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
-import {MongooseNextCB, MongoosePostHook, MongoosePreHook, MongooseSchemaOptions} from "../interfaces/MongooseSchemaOptions";
+import {
+  MongooseHookPromised,
+  MongooseNextCB,
+  MongoosePostHook,
+  MongoosePreHook,
+  MongoosePreHookCB,
+  MongooseSchemaOptions
+} from "../interfaces/MongooseSchemaOptions";
 
 /**
  * @ignore
@@ -27,13 +34,13 @@ function mapHookArgs(hook: MongoosePreHook | MongoosePostHook): [string | RegExp
 /**
  * @ignore
  */
-export function buildPreHook(fn: Function) {
-  return fn.length === 2
-    ? function (next: MongooseNextCB) {
-        return fn(this, next);
+export function buildPreHook(fn: MongoosePreHookCB) {
+  return fn.length === 1
+    ? function () {
+        return (fn as MongooseHookPromised)(this);
       }
-    : function (next: MongooseNextCB, options: any) {
-        return fn(this, next, options);
+    : function (next: MongooseNextCB) {
+        return fn(this, next);
       };
 }
 

@@ -1,10 +1,35 @@
-import {PreHook, schemaOptions} from "../../src";
+import {MongooseNextCB, PreHook, schemaOptions} from "../../src";
 
 describe("@PreHook()", () => {
   describe("when decorator is used as class decorator", () => {
     it("should call applySchemaOptions", () => {
       // GIVEN
       const fn = jest.fn();
+
+      // WHEN
+      @PreHook("method", fn, {query: true})
+      class Test {}
+
+      // THEN
+      const options = schemaOptions(Test);
+
+      expect(options).toEqual({
+        pre: [
+          {
+            method: "method",
+            fn,
+            options: {
+              query: true
+            }
+          }
+        ]
+      });
+    });
+    it("should call applySchemaOptions with more options", () => {
+      // GIVEN
+      const fn: any = jest.fn((instance: any, next: MongooseNextCB, options: any) => {
+        return instance;
+      });
 
       // WHEN
       @PreHook("method", fn, {query: true})
