@@ -106,8 +106,8 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
     };
   }, {});
 
-  if (entity.ancestor?.schema.isDiscriminator) {
-    const discriminator = entity.ancestor.schema.discriminator();
+  if (entity.discriminatorAncestor) {
+    const discriminator = entity.discriminatorAncestor.schema.discriminator();
 
     if (!out[discriminator.propertyName]) {
       out[discriminator.propertyName] = discriminator.getDefaultValue(entity.target);

@@ -23,14 +23,19 @@ class Event {
   value: string;
 }
 
+class SubEvent extends Event {
+  @Property()
+  meta: string;
+}
+
 @DiscriminatorValue("page_view") // or @DiscriminatorValue() value can be inferred by the class name
-class PageView extends Event {
+class PageView extends SubEvent {
   @Required()
   url: string;
 }
 
 @DiscriminatorValue("action", "click_action")
-class Action extends Event {
+class Action extends SubEvent {
   @Required()
   event: string;
 }
@@ -62,6 +67,9 @@ describe("Discriminator", () => {
                 minLength: 1,
                 type: "string"
               },
+              meta: {
+                type: "string"
+              },
               type: {
                 enum: ["action", "click_action"],
                 examples: ["action", "click_action"],
@@ -79,6 +87,9 @@ describe("Discriminator", () => {
               type: {
                 const: "page_view",
                 examples: ["page_view"],
+                type: "string"
+              },
+              meta: {
                 type: "string"
               },
               url: {
@@ -126,6 +137,9 @@ describe("Discriminator", () => {
                 minLength: 1,
                 type: "string"
               },
+              meta: {
+                type: "string"
+              },
               type: {
                 enum: ["action", "click_action"],
                 examples: ["action", "click_action"],
@@ -164,6 +178,9 @@ describe("Discriminator", () => {
               type: {
                 const: "page_view",
                 examples: ["page_view"],
+                type: "string"
+              },
+              meta: {
                 type: "string"
               },
               url: {
@@ -214,6 +231,9 @@ describe("Discriminator", () => {
                 minLength: 1,
                 type: "string"
               },
+              meta: {
+                type: "string"
+              },
               type: {
                 enum: ["action", "click_action"],
                 examples: ["action", "click_action"],
@@ -255,6 +275,9 @@ describe("Discriminator", () => {
                 minLength: 1,
                 type: "string"
               },
+              meta: {
+                type: "string"
+              },
               type: {
                 enum: ["action", "click_action"],
                 examples: ["action", "click_action"],
@@ -293,6 +316,9 @@ describe("Discriminator", () => {
               type: {
                 const: "page_view",
                 examples: ["page_view"],
+                type: "string"
+              },
+              meta: {
                 type: "string"
               },
               url: {
@@ -348,6 +374,9 @@ describe("Discriminator", () => {
                   minLength: 1,
                   type: "string"
                 },
+                meta: {
+                  type: "string"
+                },
                 type: {
                   enum: ["action", "click_action"],
                   example: "action",
@@ -384,6 +413,9 @@ describe("Discriminator", () => {
               properties: {
                 type: {
                   example: "page_view",
+                  type: "string"
+                },
+                meta: {
                   type: "string"
                 },
                 url: {
@@ -491,6 +523,9 @@ describe("Discriminator", () => {
                   minLength: 1,
                   type: "string"
                 },
+                meta: {
+                  type: "string"
+                },
                 type: {
                   enum: ["action", "click_action"],
                   example: "action",
@@ -527,6 +562,9 @@ describe("Discriminator", () => {
               properties: {
                 type: {
                   example: "page_view",
+                  type: "string"
+                },
+                meta: {
                   type: "string"
                 },
                 url: {
@@ -636,6 +674,9 @@ describe("Discriminator", () => {
                   minLength: 1,
                   type: "string"
                 },
+                meta: {
+                  type: "string"
+                },
                 type: {
                   enum: ["action", "click_action"],
                   example: "action",
@@ -672,6 +713,9 @@ describe("Discriminator", () => {
               properties: {
                 type: {
                   example: "page_view",
+                  type: "string"
+                },
+                meta: {
                   type: "string"
                 },
                 url: {
@@ -737,6 +781,14 @@ describe("Discriminator", () => {
           }
         ]
       });
+    });
+  });
+  describe("isDiscriminatorChild", () => {
+    it("should return true when it's a child discriminator", () => {
+      expect(JsonEntityStore.from(CustomAction).isDiscriminatorChild).toEqual(true);
+    });
+    it("should return false when isn't a child discriminator", () => {
+      expect(JsonEntityStore.from(Event).isDiscriminatorChild).toEqual(false);
     });
   });
 });

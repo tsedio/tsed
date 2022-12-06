@@ -1,8 +1,8 @@
 import {AjvService} from "@tsed/ajv";
-import {isArray, nameOf, Type} from "@tsed/core";
+import {classOf, isArray, isPlainObject, nameOf, Type} from "@tsed/core";
 import {Configuration, Inject, Opts} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, JsonSerializerOptions, serialize} from "@tsed/json-mapper";
-import {getPropertiesStores} from "@tsed/schema";
+import {getPropertiesStores, JsonEntityStore} from "@tsed/schema";
 
 export interface AdapterConstructorOptions<T = any> extends Record<string, any> {
   model: Type<T> | Object;
@@ -105,7 +105,7 @@ export abstract class Adapter<Model = any> {
     return serialize(obj, {
       useAlias: this.useAlias,
       ...opts,
-      type: this.getModel()
+      type: isPlainObject(obj) ? this.getModel() : classOf(obj)
     });
   }
 }

@@ -1,5 +1,5 @@
 import {
-  ancestorOf,
+  ancestorsOf,
   classOf,
   decoratorTypeOf,
   DecoratorTypes,
@@ -104,55 +104,32 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     return nameOf(this.token);
   }
 
-  /**
-   *
-   * @returns {boolean}
-   */
   get isCollection(): boolean {
     return !!this.collectionType;
   }
 
-  /**
-   *
-   * @returns {boolean}
-   */
   get isArray() {
     return isArrayOrArrayClass(this.collectionType);
   }
 
-  get ancestor() {
-    const ancestor = ancestorOf(this.target);
-
-    return nameOf(ancestor) ? JsonEntityStore.from(ancestor) : null;
+  get discriminatorAncestor(): JsonEntityStore | undefined {
+    const ancestors = ancestorsOf(this.target);
+    const ancestor = ancestors.find((ancestor) => JsonEntityStore.from(ancestor).schema.isDiscriminator);
+    return ancestor && JsonEntityStore.from(ancestor);
   }
 
-  /**
-   *
-   * @returns {boolean}
-   */
   get isPrimitive() {
     return isPrimitiveOrPrimitiveClass(this._type);
   }
 
-  /**
-   *
-   * @returns {boolean}
-   */
   get isDate() {
     return isDate(this.computedType);
   }
 
-  /**
-   *
-   * @returns {boolean}
-   */
   get isObject() {
     return isObject(this.computedType);
   }
 
-  /**
-   *
-   */
   get isClass() {
     return isClass(this.computedType);
   }
@@ -172,10 +149,6 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     this.schema.nestedGenerics = nestedGenerics;
   }
 
-  /**
-   *
-   * @returns {Type<any>}
-   */
   get type(): Type<any> | any {
     return this._type;
   }
@@ -205,10 +178,10 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
     return this.parent.schema;
   }
 
-  /**
-   *
-   * @param target
-   */
+  get isDiscriminatorChild() {
+    return this.schema.isDiscriminator && this.discriminatorAncestor?.schema.discriminator().base !== this.target;
+  }
+
   static from<T extends JsonClassStore = JsonClassStore>(target: Type<any>): T;
 
   static from<T extends JsonPropertyStore = JsonPropertyStore>(target: Type<any> | any, propertyKey: string | symbol): T;
