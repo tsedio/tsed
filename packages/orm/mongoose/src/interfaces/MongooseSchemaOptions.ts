@@ -9,15 +9,15 @@ export interface MongooseHookOptions {
   parallel?: boolean;
 }
 
-export type MongoosePreHookCB<T = any> =
-  | ((doc: T | MongooseDocument<T>, next: MongooseNextCB) => void)
-  | ((doc: T | MongooseDocument<T>) => Promise<void> | void);
+export type MongooseHookPromised<T = any> = (doc: T | MongooseDocument<T>) => Promise<void> | void;
+
+export type MongoosePreHookCB<T = any> = ((doc: T | MongooseDocument<T>, next: MongooseNextCB) => void) | MongooseHookPromised;
 
 export type MongoosePostHookCB<T = any> =
   | ((doc: T | MongooseDocument<T>, error: Error, next: MongooseNextCB) => void)
   | ((doc: T | MongooseDocument<T>, error: Error) => Promise<void> | void)
   | ((doc: T | MongooseDocument<T>, next: MongooseNextCB) => void)
-  | ((doc: T | MongooseDocument<T>) => Promise<void> | void);
+  | MongooseHookPromised;
 
 export interface MongoosePreHook<T = any> {
   method: string | RegExp;
