@@ -50,7 +50,7 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     const item = await this.findById(id);
 
     if (!item) {
-      payload = {...payload, _id: id};
+      payload._id = id;
 
       return await this.insert(payload, expiresAt);
     }
@@ -69,14 +69,11 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
       return undefined;
     }
 
-    return this.insert(
-      {
-        ...item,
-        ...cleanObject(payload),
-        _id: item._id
-      },
-      expiresAt
-    );
+    Object.assign(item, cleanObject(payload), {
+      _id: item._id
+    });
+
+    return this.insert(item, expiresAt);
   }
 
   async findOne(predicate: Partial<Model & any>): Promise<Model | undefined> {

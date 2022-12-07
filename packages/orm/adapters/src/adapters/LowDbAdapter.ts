@@ -41,7 +41,7 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
     let item = await this.findById(id);
 
     if (!item) {
-      payload = {...payload, _id: id || uuid()};
+      payload._id = id || uuid();
 
       await this.validate(payload as T);
 
@@ -69,11 +69,7 @@ export class LowDbAdapter<T extends AdapterModel> extends Adapter<T> {
 
     let item = this.deserialize(this.collection.get(index).value());
 
-    item = {
-      ...item,
-      ...payload,
-      _id: item._id
-    };
+    Object.assign(item, payload, {_id: item._id});
 
     await this.validate(item as T);
 

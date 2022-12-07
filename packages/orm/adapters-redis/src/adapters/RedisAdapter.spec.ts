@@ -280,7 +280,8 @@ describe("RedisAdapter", () => {
 
       const majItem = deserialize<Client>(
         {
-          name: "name"
+          name: "name",
+          secret: "secret2"
         },
         {type: Client}
       );
