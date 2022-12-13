@@ -62,10 +62,11 @@
     "@vuepress/plugin-html-redirect": "^0.1.4",
     "@vuepress/plugin-medium-zoom": "1.9.7",
     "@vuepress/plugin-pwa": "1.9.7",
+    "vuepress-plugin-sitemap": "2.3.1",
     "vue-analytics": "5.22.1",
     "axios": "0.27.2",
     "vuepress": "1.9.7",
-    "vuepress-theme-tsed": "3.20.5"
+    "vuepress-theme-tsed": "3.20.6"
   },
   "directories": {
     "packages": "packages",

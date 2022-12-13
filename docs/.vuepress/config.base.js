@@ -2,6 +2,12 @@ const markdown = require("@tsed/markdown-it-symbols");
 const team = require("../../team.json");
 const {version} = require("../../package");
 
+const ALGOLIA = {
+  apiKey: "f8a038207e461aaac0e2fd16403c2b01",
+  indexName: "ts_ed",
+  appId: "DH8VVM2E1E"
+};
+
 module.exports = ({title, description, base = "", url, apiRedirectUrl = "", themeConfig}) => ({
   title,
   description,
@@ -25,7 +31,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
     ["meta", {property: "og:image:height", content: "1024"}],
     ["meta", {name: "twitter:title", content: title}],
     ["meta", {name: "twitter:description", content: description}],
-    ["meta", {name: "twitter:card", content: "summary"}]
+    ["meta", {name: "twitter:card", content: "summary"}],
+    ["link", {rel: "preconnect", href: `https://${ALGOLIA.appId}-dsn.algolia.net`, crossOrigin: true}]
   ],
   themeConfig: {
     shortTitle: "Ts.ED",
@@ -53,11 +60,7 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
     apiRedirectUrl,
     smoothScroll: true,
     lastUpdated: "Last updated",
-    algolia: {
-      apiKey: "f8a038207e461aaac0e2fd16403c2b01",
-      indexName: "ts_ed",
-      appId: "DH8VVM2E1E"
-    },
+    algolia: ALGOLIA,
     locales: {
       "/": {
         label: "English",
@@ -527,6 +530,9 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
       options: {
         margin: 16
       }
+    },
+    sitemap: {
+      hostname: url
     }
   },
   markdown: {
