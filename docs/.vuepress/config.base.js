@@ -55,7 +55,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
     lastUpdated: "Last updated",
     algolia: {
       apiKey: "f8a038207e461aaac0e2fd16403c2b01",
-      indexName: "ts_ed"
+      indexName: "ts_ed",
+      appId: "DH8VVM2E1E"
     },
     locales: {
       "/": {
