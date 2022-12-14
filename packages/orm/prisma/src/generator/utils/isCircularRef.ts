@@ -22,7 +22,8 @@ function hasModelInFields(model: DMMF.Model, relation: string, ctx: TransformCon
       const nextModel = ctx.modelsMap.get(field.type);
 
       if (nextModel) {
-        return hasModelInFields(nextModel, relation, ctx, [...inspected, field.type]);
+        inspected = [...inspected, field.type];
+        return hasModelInFields(nextModel, relation, ctx, inspected);
       }
     }
 
