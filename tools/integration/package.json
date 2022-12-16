@@ -1,21 +1,21 @@
 {
   "name": "@tsed/integration",
-  "version": "7.8.3",
+  "version": "7.9.0",
   "main": "index.js",
   "private": true,
   "scripts": {
     "build": "yarn run tsc --project tsconfig.compile.json"
   },
   "devDependencies": {
-    "@tsed/common": "7.8.3",
-    "@tsed/di": "7.8.3",
-    "@tsed/exceptions": "7.8.3",
-    "@tsed/json-mapper": "7.8.3",
-    "@tsed/platform-exceptions": "7.8.3",
-    "@tsed/platform-express": "7.8.3",
-    "@tsed/platform-views": "7.8.3",
-    "@tsed/schema": "7.8.3",
-    "@tsed/swagger": "7.8.3"
+    "@tsed/common": "7.9.0",
+    "@tsed/di": "7.9.0",
+    "@tsed/exceptions": "7.9.0",
+    "@tsed/json-mapper": "7.9.0",
+    "@tsed/platform-exceptions": "7.9.0",
+    "@tsed/platform-express": "7.9.0",
+    "@tsed/platform-views": "7.9.0",
+    "@tsed/schema": "7.9.0",
+    "@tsed/swagger": "7.9.0"
   },
   "dependencies": {},
   "peerDependencies": {}
