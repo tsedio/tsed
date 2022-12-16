@@ -388,20 +388,63 @@ if (currentTTL < ttl - refreshThreshold) {
 In the meantime, the system will return the old value until expiration.
 
 ```typescript
-import {Controller, UseCache, Get, PathParams, PlatformContext} from "@tsed/common";
+import {Controller, UseCache, PathParams, PlatformContext} from "@tsed/common";
 
 @Injectable()
 export class MyService {
-  @Get("/:id")
   @UseCache({ttl: 3600, refreshThreshold: 900})
-  get(@PathParams("id") id: string) {
-    return "something with  " + id;
+  get(id: string) {
+    return "something with " + id;
   }
 }
 ```
 
 In this example, the configured `ttl` is 1 hour and the threshold is 15 minutes. So, the key will be refreshed in
 background if current `ttl` is under 45 minutes.
+
+## Refresh cached value <Badge text="7.9.0+" />
+
+A service method response can be cached by using the `@UseCache` decorator. Sometimes, we need to explicitly refresh the cached data,
+because the consumed data backend state has changed. By implementing a notifications service, the backend data can trigger an event to tell your API that
+the data has changed.
+
+Here is short example:
+
+```typescript
+import {Injectable} from "@tsed/di";
+import {PlatformCache, UseCache} from "@tsed/platform-cache";
+import {Controller, Get, PathParams, PlatformContext} from "@tsed/common";
+
+@Injectable()
+export class ProductsService {
+  @Inject()
+  protected pimClient: PimClient;
+
+  @UseCache({ttl: 3600})
+  async get(id: string) {
+    return this.pimClient.get("/products/" + id);
+  }
+}
+
+@Injectable()
+export class NotificationsService {
+  @Inject()
+  protected cache: PlatformCache;
+
+  @Inject()
+  protected productsService: ProductsService;
+
+  refreshProductId(id: string) {
+    return this.cache.refresh(() => this.productsService.get(id));
+  }
+}
+```
+
+This small example will force the data refresh.
+
+::: tip
+If you have several cached method calls, then the refresh will also be done on all of these methods called by the function passed to `PlatformCache.refresh()`.
+:::
 
 ## Multi caching
 

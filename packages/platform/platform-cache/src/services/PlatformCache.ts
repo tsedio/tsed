@@ -1,7 +1,8 @@
 import {isClass, isFunction, isString} from "@tsed/core";
-import {Configuration, Inject, InjectorService, Module} from "@tsed/di";
+import {Configuration, DIContext, Inject, InjectorService, Module, runInContext} from "@tsed/di";
 import {deserialize, JsonDeserializerOptions, serialize} from "@tsed/json-mapper";
 import {Logger} from "@tsed/logger";
+import {AsyncLocalStorage} from "async_hooks";
 import type {Cache, CachingConfig, MultiCache} from "cache-manager";
 import {PlatformCacheSettings} from "../interfaces/interfaces";
 import {PlatformCachedObject} from "../interfaces/PlatformCachedObject";
@@ -13,6 +14,7 @@ const defaultKeyResolver = (args: any[]) => {
 export type CacheManager = Cache | MultiCache;
 export type Ttl = number | ((result: any) => number);
 
+const storage: AsyncLocalStorage<{forceRefresh: boolean}> = new AsyncLocalStorage();
 /**
  * @platform
  */
@@ -168,5 +170,13 @@ export class PlatformCache {
     }
 
     return store;
+  }
+
+  refresh(callback: () => Promise<any>) {
+    return storage.run({forceRefresh: true}, callback);
+  }
+
+  isForceRefresh() {
+    return !!storage.getStore()?.forceRefresh;
   }
 }
