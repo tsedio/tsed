@@ -7,6 +7,26 @@ const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");
 };
 
+async function getInterceptorFixture(opts: any = {}) {
+  const cache: any = {
+    get: jest.fn().mockResolvedValue(false),
+    set: jest.fn().mockResolvedValue(false),
+    del: jest.fn().mockResolvedValue(true),
+    ttl: jest.fn().mockResolvedValue(opts.ttl || 6999),
+    calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
+    isForceRefresh: jest.fn().mockReturnValue(opts.forceRefresh)
+  };
+
+  const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
+    {
+      token: PlatformCache,
+      use: cache
+    }
+  ]);
+
+  return {cache, interceptor};
+}
+
 describe("PlatformCacheInterceptor", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
@@ -78,19 +98,7 @@ describe("PlatformCacheInterceptor", () => {
   });
   describe("canRefreshInBackground()", () => {
     it("should refresh key in background", async () => {
-      const cache = {
-        get: jest.fn().mockResolvedValue(false),
-        set: jest.fn().mockResolvedValue(false),
-        del: jest.fn().mockResolvedValue(true),
-        ttl: jest.fn().mockResolvedValue(6999),
-        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl)
-      };
-      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
-        {
-          token: PlatformCache,
-          use: cache
-        }
-      ]);
+      const {cache, interceptor} = await getInterceptorFixture();
 
       const next = jest.fn();
 
@@ -103,19 +111,9 @@ describe("PlatformCacheInterceptor", () => {
       expect(next).toHaveBeenCalledWith();
     });
     it("should not refresh key in background", async () => {
-      const cache = {
-        get: jest.fn().mockResolvedValue(false),
-        set: jest.fn().mockResolvedValue(false),
-        del: jest.fn().mockResolvedValue(true),
-        ttl: jest.fn().mockResolvedValue(9700),
-        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl)
-      };
-      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
-        {
-          token: PlatformCache,
-          use: cache
-        }
-      ]);
+      const {cache, interceptor} = await getInterceptorFixture({
+        ttl: 9700
+      });
 
       const next = jest.fn();
 
@@ -130,23 +128,12 @@ describe("PlatformCacheInterceptor", () => {
   });
   describe("cacheMethod()", () => {
     it("should return the cached response", async () => {
-      const cache = {
-        get: jest.fn().mockResolvedValue(false),
-        set: jest.fn().mockResolvedValue(false),
-        del: jest.fn().mockResolvedValue(true),
-        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
-        getCachedObject: jest.fn().mockResolvedValue({
-          data: JSON.stringify({data: "data"})
-        }),
-        setCachedObject: jest.fn().mockResolvedValue("test"),
-        defaultKeyResolver: () => defaultKeyResolver
-      };
-      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
-        {
-          token: PlatformCache,
-          use: cache
-        }
-      ]);
+      const {cache, interceptor} = await getInterceptorFixture();
+      cache.getCachedObject = jest.fn().mockResolvedValue({
+        data: JSON.stringify({data: "data"})
+      });
+      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
         test(arg: string) {
@@ -187,22 +174,56 @@ describe("PlatformCacheInterceptor", () => {
         }
       );
     });
-    it("should call the endpoint and cache the response", async () => {
-      const cache = {
-        get: jest.fn().mockResolvedValue(false),
-        set: jest.fn().mockResolvedValue(false),
-        del: jest.fn().mockResolvedValue(true),
-        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
-        getCachedObject: jest.fn().mockResolvedValue(undefined),
-        setCachedObject: jest.fn().mockResolvedValue("test"),
-        defaultKeyResolver: () => defaultKeyResolver
-      };
-      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
-        {
-          token: PlatformCache,
-          use: cache
+    it("should force the refresh data", async () => {
+      const {cache, interceptor} = await getInterceptorFixture({
+        forceRefresh: true
+      });
+      cache.getCachedObject = jest.fn().mockResolvedValue({
+        data: JSON.stringify({data: "data"})
+      });
+      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.defaultKeyResolver = () => defaultKeyResolver;
+
+      class Test {
+        test(arg: string) {
+          return "";
         }
-      ]);
+      }
+
+      const next = jest.fn().mockReturnValue({data: "refreshed"});
+      const context: any = {
+        target: Test,
+        propertyKey: "test",
+        args: ["value"],
+        options: {
+          ttl: 10000,
+          refreshThreshold: 1000
+        }
+      };
+
+      jest.spyOn(interceptor, "canRefreshInBackground").mockResolvedValue();
+
+      const result = await interceptor.cacheMethod(context, next);
+
+      expect(cache.getCachedObject).toHaveBeenCalledWith("Test:test:value");
+      expect(result).toEqual({
+        data: "refreshed"
+      });
+      expect(interceptor.canRefreshInBackground).not.toBeCalled();
+      expect(cache.setCachedObject).toHaveBeenCalledWith(
+        "Test:test:value",
+        {data: "refreshed"},
+        {
+          args: ["value"],
+          ttl: 10000
+        }
+      );
+    });
+    it("should call the endpoint and cache the response", async () => {
+      const {cache, interceptor} = await getInterceptorFixture();
+      cache.getCachedObject = jest.fn().mockResolvedValue(undefined);
+      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
         test(arg: string) {
@@ -244,21 +265,10 @@ describe("PlatformCacheInterceptor", () => {
       });
     });
     it("should doesn't cache nullish result", async () => {
-      const cache = {
-        get: jest.fn().mockResolvedValue(false),
-        set: jest.fn().mockResolvedValue(false),
-        del: jest.fn().mockResolvedValue(true),
-        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
-        getCachedObject: jest.fn().mockResolvedValue(undefined),
-        setCachedObject: jest.fn().mockResolvedValue("test"),
-        defaultKeyResolver: () => defaultKeyResolver
-      };
-      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
-        {
-          token: PlatformCache,
-          use: cache
-        }
-      ]);
+      const {cache, interceptor} = await getInterceptorFixture();
+      cache.getCachedObject = jest.fn().mockResolvedValue(undefined);
+      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
         test(arg: string) {
@@ -290,22 +300,10 @@ describe("PlatformCacheInterceptor", () => {
       expect(result).toEqual(null);
     });
     it("should catch and log error", async () => {
-      const cache = {
-        get: jest.fn().mockResolvedValue(false),
-        set: jest.fn().mockResolvedValue(false),
-        del: jest.fn().mockResolvedValue(true),
-        calculateTTL: jest.fn().mockImplementation((result: any, ttl: any) => ttl),
-        getCachedObject: jest.fn().mockResolvedValue({data: JSON.stringify({})}),
-        setCachedObject: jest.fn().mockResolvedValue("test"),
-        defaultKeyResolver: () => defaultKeyResolver
-      };
-
-      const interceptor = await PlatformTest.invoke<PlatformCacheInterceptor>(PlatformCacheInterceptor, [
-        {
-          token: PlatformCache,
-          use: cache
-        }
-      ]);
+      const {cache, interceptor} = await getInterceptorFixture();
+      cache.getCachedObject = jest.fn().mockResolvedValue({data: JSON.stringify({})});
+      cache.setCachedObject = jest.fn().mockResolvedValue("test");
+      cache.defaultKeyResolver = () => defaultKeyResolver;
 
       class Test {
         test(arg: string) {

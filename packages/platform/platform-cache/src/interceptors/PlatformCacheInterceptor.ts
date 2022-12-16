@@ -73,10 +73,12 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
 
     const cachedObject = await this.cache.getCachedObject(key);
 
-    if (!cachedObject) {
+    if (!cachedObject || this.cache.isForceRefresh()) {
       const result = await next();
 
-      set(result);
+      if (!(!cachedObject && this.cache.isForceRefresh())) {
+        set(result);
+      }
 
       return result;
     }

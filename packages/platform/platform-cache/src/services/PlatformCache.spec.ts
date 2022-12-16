@@ -226,6 +226,19 @@ describe("PlatformCache", () => {
         });
       });
     });
+    describe("refresh()", () => {
+      it("should set the call context with forceRefresh to true", async () => {
+        const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
+
+        expect(cacheManager.isForceRefresh()).toEqual(false);
+
+        await cacheManager.refresh(async () => {
+          expect(cacheManager.isForceRefresh()).toEqual(true);
+        });
+
+        expect(cacheManager.isForceRefresh()).toEqual(false);
+      });
+    });
   });
   describe("with multiple cache", () => {
     let caching: ReturnType<typeof createCacheFixture>;
