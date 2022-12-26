@@ -32,6 +32,7 @@ module.exports = (rootDir) => ({
   ],
   moduleNameMapper: {
     "^@tsed/core$": fixPath(join(packageDir, "core/src")),
+    "^@tsed/normalize-path$": fixPath(join(packageDir, "utils/normalize-path/src")),
     "^@tsed/di$": fixPath(join(packageDir, "di/src")),
     "^@tsed/perf$": fixPath(join(packageDir, "perf/src")),
     "^@tsed/engines": fixPath(join(packageDir, "engines/src")),
