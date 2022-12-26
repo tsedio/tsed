@@ -7,17 +7,20 @@
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
+  "browser": "./lib/browser/main.js",
   "exports": {
     "types": "./lib/types/index.d.ts",
+    "browser": "./lib/browser/main.js",
     "import": "./lib/esm/index.js",
     "require": "./lib/cjs/index.js",
     "default": "./lib/esm/index.js"
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "yarn clean && yarn barrels && yarn run build:esm && yarn run build:cjs",
+    "build": "yarn clean && yarn barrels && yarn run build:esm && yarn run build:cjs && yarn run build:browser",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "build:browser": "webpack",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
@@ -48,7 +51,10 @@
     "@types/json-schema": "7.0.11",
     "@types/micromatch": "4.0.2",
     "@types/statuses": "2.0.0",
-    "api-spec-converter": "2.12.0"
+    "ts-loader": "^9.4.2",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-remove-code-blocks": "^0.1.5"
   },
   "peerDependencies": {
     "@tsed/core": "^7.10.0-rc.1",
