@@ -1,17 +1,15 @@
 module.exports = {
-  mode: "development",
+  mode: "production",
   devtool: "source-map",
   stats: {warnings: false},
   entry: {
     main: "./src/index.ts"
   },
   output: {
-    path: __dirname + "/lib/browser/"
-  },
-  devServer: {
-    devMiddleware: {
-      writeToDisk: true
-    }
+    path: __dirname + "/lib/browser/",
+    filename: "schema.umd.min.js",
+    library: "schema",
+    libraryTarget: "umd"
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js"]
@@ -48,8 +46,5 @@ module.exports = {
     ]
   },
   plugins: [],
-  optimization: {
-    minimize: true,
-    concatenateModules: true
-  }
+  optimization: {}
 };
