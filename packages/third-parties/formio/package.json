@@ -30,6 +30,7 @@
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
+    "@tsed/normalize-path": "7.9.0",
     "@tsed/formio-types": "7.9.0",
     "tslib": "2.4.0"
   },
