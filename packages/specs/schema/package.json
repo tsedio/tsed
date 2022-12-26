@@ -7,10 +7,10 @@
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
-  "browser": "./lib/browser/main.js",
+  "browser": "./lib/browser/schema.umd.min.js",
   "exports": {
     "types": "./lib/types/index.d.ts",
-    "browser": "./lib/browser/main.js",
+    "browser": "./lib/browser/schema.umd.min.js",
     "import": "./lib/esm/index.js",
     "require": "./lib/cjs/index.js",
     "default": "./lib/esm/index.js"
