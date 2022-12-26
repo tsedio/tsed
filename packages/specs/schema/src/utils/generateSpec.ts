@@ -1,11 +1,10 @@
-import fs from "fs-extra";
 import {getValue} from "@tsed/core";
 import {OpenSpec2, OpenSpec3} from "@tsed/openspec";
-import {mapOpenSpec} from "./mapOpenSpec";
+import {SpecTypes} from "../domain/SpecTypes";
 import {getSpec, JsonTokenOptions, SpecSerializerOptions} from "./getSpec";
 import {getSpecTypeFromSpec} from "./getSpecType";
+import {mapOpenSpec} from "./mapOpenSpec";
 import {mergeSpec} from "./mergeSpec";
-import {SpecTypes} from "../domain/SpecTypes";
 import {transformToOS2} from "./transformToOS2";
 
 export interface GenerateSpecOptions extends Omit<SpecSerializerOptions, "specType"> {
@@ -18,6 +17,7 @@ export interface GenerateSpecOptions extends Omit<SpecSerializerOptions, "specTy
 }
 
 async function readSpec(path: string) {
+  const {default: fs} = await import("fs-extra");
   if (fs.existsSync(path)) {
     try {
       return await fs.readJSON(path, {encoding: "utf8"});
