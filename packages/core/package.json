@@ -21,7 +21,6 @@
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
-    "normalize-path": "3.0.0",
     "reflect-metadata": "^0.1.13",
     "tslib": "2.4.0"
   },

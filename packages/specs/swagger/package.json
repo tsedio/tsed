@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@tsed/openspec": "7.9.0",
+    "@tsed/normalize-path": "7.9.0",
     "fs-extra": "10.0.1",
     "micromatch": "4.0.5",
     "swagger-ui-dist": "^4.5.2",

@@ -1,6 +1,6 @@
 import {resolve} from "path";
 import {isTsEnv} from "./isTsEnv";
-import {normalizePath} from "@tsed/core";
+import {normalizePath} from "@tsed/normalize-path";
 
 function mapExcludes(excludes: string[]) {
   return excludes.map((s: string) => `!${s.replace(/!/gi, "")}`);
