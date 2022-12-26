@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
-    "barrels": "yarn barrelsby --delete -d src -e \\\"\\\\.spec\\\\.ts\\\"",
+    "barrels": "yarn barrelsby --delete -d src -e \"\\.spec\\.ts\"",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
