@@ -39,8 +39,6 @@ export function deepClone(source: any, stack = new WeakMap()): any {
 
   if (stacked) {
     // See issue #1619
-    // istanbul ignore next
-    process.env.TSED_TRACK_CIRCULAR_REF && console.trace("Circular ref detected on deepClone", stacked);
     return stacked;
   }
 
