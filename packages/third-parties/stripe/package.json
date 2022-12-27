@@ -1,6 +1,6 @@
 {
   "name": "@tsed/stripe",
-  "version": "7.10.0-rc.6",
+  "version": "7.10.0-rc.7",
   "description": "Stripe package for Ts.ED framework",
   "private": false,
   "keywords": [
@@ -33,19 +33,19 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.10.0-rc.6",
-    "@tsed/di": "7.10.0-rc.6",
-    "@tsed/exceptions": "7.10.0-rc.6",
-    "@tsed/platform-middlewares": "7.10.0-rc.6",
-    "@tsed/platform-params": "7.10.0-rc.6",
-    "@tsed/schema": "7.10.0-rc.6",
+    "@tsed/core": "7.10.0-rc.7",
+    "@tsed/di": "7.10.0-rc.7",
+    "@tsed/exceptions": "7.10.0-rc.7",
+    "@tsed/platform-middlewares": "7.10.0-rc.7",
+    "@tsed/platform-params": "7.10.0-rc.7",
+    "@tsed/schema": "7.10.0-rc.7",
     "stripe": "^8.129.0"
   },
   "peerDependencies": {
-    "@tsed/exceptions": "^7.10.0-rc.6",
-    "@tsed/platform-middlewares": "^7.10.0-rc.6",
-    "@tsed/platform-params": "^7.10.0-rc.6",
-    "@tsed/schema": "^7.10.0-rc.6",
+    "@tsed/exceptions": "^7.10.0-rc.7",
+    "@tsed/platform-middlewares": "^7.10.0-rc.7",
+    "@tsed/platform-params": "^7.10.0-rc.7",
+    "@tsed/schema": "^7.10.0-rc.7",
     "@types/body-parser": "^1.19.0",
     "body-parser": "^1.19.0",
     "stripe": "^9.16.0"
