@@ -51,11 +51,7 @@
     "@types/json-schema": "7.0.11",
     "@types/picomatch": "2.3.0",
     "@types/statuses": "2.0.0",
-    "path-browserify": "^1.0.1",
-    "ts-loader": "^9.4.2",
-    "webpack": "^5.75.0",
-    "webpack-cli": "^5.0.1",
-    "webpack-remove-code-blocks": "^0.1.5"
+    "picomatch-browser": "https://github.com/silverwind/picomatch#ee6ebcc5570a8846d81610c11ebb92a9e199b145"
   },
   "peerDependencies": {
     "@tsed/core": "^7.10.0-rc.4",
