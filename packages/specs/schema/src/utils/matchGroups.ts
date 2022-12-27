@@ -1,5 +1,4 @@
 import picomatch from "picomatch";
-import {options} from "superagent";
 
 function micromatch(list: string[], patterns: string[]) {
   patterns = ([] as string[]).concat(patterns);
@@ -15,7 +14,7 @@ function micromatch(list: string[], patterns: string[]) {
   };
 
   for (let i = 0; i < patterns.length; i++) {
-    let isMatch: any = picomatch(String(patterns[i]), {...options, onResult}, true);
+    let isMatch: any = picomatch(String(patterns[i]), {onResult}, true);
     let negated = isMatch.state.negated || isMatch.state.negatedExtglob;
 
     if (negated) {
