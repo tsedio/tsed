@@ -1,33 +1,44 @@
-import micromatch from "micromatch";
 import picomatch from "picomatch";
+import {options} from "superagent";
 
-/**
- * @ignore
- */
-function matcher(patterns: string[], expected: string[]) {
-  const isMatch = picomatch(patterns);
+function micromatch(list: string[], patterns: string[]) {
+  patterns = ([] as string[]).concat(patterns);
+  list = ([] as string[]).concat(list);
 
-  return expected.some((pattern) => isMatch(pattern));
-}
+  let omit = new Set();
+  let keep = new Set();
+  let items = new Set();
+  let negatives = 0;
 
-export function _matchGroups(groups: string[], compareWith: string[] = []) {
-  const groupsExcludes = groups.filter((group) => group.startsWith("!")).map((group) => group.replace("!", ""));
-  const groupsIncludes = groups.filter((group) => !group.startsWith("!"));
+  let onResult = (state: any) => {
+    items.add(state.output);
+  };
 
-  if (groupsExcludes.length) {
-    if (compareWith.length && micromatch(groupsExcludes, compareWith).length) {
-      return true;
+  for (let i = 0; i < patterns.length; i++) {
+    let isMatch: any = picomatch(String(patterns[i]), {...options, onResult}, true);
+    let negated = isMatch.state.negated || isMatch.state.negatedExtglob;
+
+    if (negated) {
+      negatives++;
+    }
+
+    for (let item of list) {
+      let matched = isMatch(item, true);
+
+      let match = negated ? !matched.isMatch : matched.isMatch;
+      if (!match) continue;
+
+      if (negated) {
+        omit.add(matched.output);
+      } else {
+        omit.delete(matched.output);
+        keep.add(matched.output);
+      }
     }
   }
 
-  if (groupsIncludes.length) {
-    return !micromatch(
-      groups.filter((group) => !group.startsWith("!")),
-      compareWith
-    ).length;
-  }
-
-  return false;
+  let result = negatives === patterns.length ? [...items] : [...keep];
+  return !!result.filter((item) => !omit.has(item)).length;
 }
 
 /**
@@ -38,15 +49,15 @@ export function matchGroups(groups: string[], compareWith: string[] = []) {
   const groupsIncludes = groups.filter((group) => !group.startsWith("!"));
 
   if (groupsExcludes.length) {
-    if (compareWith.length && matcher(compareWith, groupsExcludes)) {
+    if (compareWith.length && micromatch(groupsExcludes, compareWith)) {
       return true;
     }
   }
 
   if (groupsIncludes.length) {
-    return !matcher(
-      compareWith,
-      groups.filter((group) => !group.startsWith("!"))
+    return !micromatch(
+      groups.filter((group) => !group.startsWith("!")),
+      compareWith
     );
   }
 

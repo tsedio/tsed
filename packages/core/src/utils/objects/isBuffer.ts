@@ -8,6 +8,6 @@ export function isBuffer(target: any): target is Buffer {
   if (typeof Buffer !== "undefined") {
     return target === Buffer || target instanceof Buffer;
   }
-
+  // istanbul ignore next
   return false;
 }

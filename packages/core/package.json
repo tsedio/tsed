@@ -7,25 +7,26 @@
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
+  "browser": "./lib/browser/core.umd.min.js",
   "exports": {
     "types": "./lib/types/index.d.ts",
+    "browser": "./lib/browser/core.umd.min.js",
     "import": "./lib/esm/index.js",
     "require": "./lib/cjs/index.js",
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs && yarn run build:browser",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\"",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "build:browser": "webpack",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13",
     "tslib": "2.4.0"
   },
-  "devDependencies": {
-    "@types/normalize-path": "^3.0.0"
-  },
+  "devDependencies": {},
   "peerDependencies": {}
 }
