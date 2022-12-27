@@ -1,5 +1,7 @@
+const webpack = require("webpack");
+
 module.exports = {
-  mode: "production",
+  mode: "development",
   devtool: "source-map",
   stats: {warnings: false},
   entry: {
@@ -12,7 +14,10 @@ module.exports = {
     libraryTarget: "umd"
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".js"]
+    extensions: [".tsx", ".ts", ".js"],
+    fallback: {
+      path: require.resolve("path-browserify")
+    }
   },
   module: {
     rules: [
@@ -45,6 +50,13 @@ module.exports = {
       }
     ]
   },
-  plugins: [],
+  plugins: [
+    new webpack.ProvidePlugin({
+      // Make a global `process` variable that points to the `process` package,
+      // because the `util` package expects there to be a global variable named `process`.
+      // Thanks to https://stackoverflow.com/a/65018686/14239942
+      process: "process/browser"
+    })
+  ],
   optimization: {}
 };
