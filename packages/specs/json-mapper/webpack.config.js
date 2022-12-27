@@ -1,9 +1,11 @@
+const webpack = require("webpack");
+
 module.exports = require("@tsed/webpack-config").create({
   root: __dirname,
-  name: "schema",
+  name: "json-mapper",
   externals: {
     "@tsed/core": "@tsed/core",
-    "change-case": "change-case"
+    "@tsed/schema": "@tsed/schema"
   },
   resolve: {
     alias: {

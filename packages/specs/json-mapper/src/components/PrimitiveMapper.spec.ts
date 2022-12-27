@@ -1,3 +1,4 @@
+import {catchError} from "@tsed/core";
 import Sinon from "sinon";
 import {PrimitiveMapper} from "./PrimitiveMapper";
 
@@ -90,12 +91,7 @@ describe("PrimitiveMapper", () => {
         next: Sinon.stub()
       };
 
-      let actualError: any;
-      try {
-        mapper.deserialize(data, ctx);
-      } catch (er) {
-        actualError = er;
-      }
+      let actualError: any = catchError(() => mapper.deserialize(data, ctx));
 
       expect(actualError.message).toEqual("Cast error. Expression value is not a number.");
     });
