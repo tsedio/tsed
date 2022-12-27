@@ -1,9 +1,16 @@
-import {BadRequest} from "@tsed/exceptions";
 import {JsonMapper} from "../decorators/jsonMapper";
 import {JsonMapperCtx, JsonMapperMethods} from "../interfaces/JsonMapperMethods";
 
 function isNullish(data: any) {
   return [null, "null"].includes(data);
+}
+
+export class CastError extends Error {
+  name = "CAST_ERROR";
+
+  constructor(message: string) {
+    super(`Cast error. ${message}`);
+  }
 }
 
 /**
@@ -29,7 +36,7 @@ export class PrimitiveMapper implements JsonMapperMethods {
         const n = +data;
 
         if (isNaN(n)) {
-          throw new BadRequest("Cast error. Expression value is not a number.");
+          throw new CastError("Expression value is not a number.");
         }
 
         return n;

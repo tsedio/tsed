@@ -12,42 +12,42 @@ const utils = PlatformTestUtils.create({
 });
 
 describe("PlatformExpress", () => {
-  // describe("Handlers", () => {
-  //   utils.test("handlers");
-  // });
-  // describe("Children controllers", () => {
-  //   utils.test("childrenControllers");
-  // });
-  // describe("Inheritance controllers", () => {
-  //   utils.test("inheritanceController");
-  // });
-  // describe("Middlewares", () => {
-  //   utils.test("middlewares");
-  // });
-  // describe("Scope Request", () => {
-  //   utils.test("scopeRequest");
-  // });
-  // describe("Headers", () => {
-  //   utils.test("headers");
-  // });
-  // describe("Statics files", () => {
-  //   utils.test("statics");
-  // });
-  // describe("Cookies", () => {
-  //   utils.test("cookies");
-  // });
-  // describe("Session", () => {
-  //   utils.test("session");
-  // });
-  // describe("AcceptMime", () => {
-  //   utils.test("acceptMime");
-  // });
-  // describe("HeaderParams", () => {
-  //   utils.test("headerParams");
-  // });
-  // describe("PathParams", () => {
-  //   utils.test("pathParams");
-  // });
+  describe("Handlers", () => {
+    utils.test("handlers");
+  });
+  describe("Children controllers", () => {
+    utils.test("childrenControllers");
+  });
+  describe("Inheritance controllers", () => {
+    utils.test("inheritanceController");
+  });
+  describe("Middlewares", () => {
+    utils.test("middlewares");
+  });
+  describe("Scope Request", () => {
+    utils.test("scopeRequest");
+  });
+  describe("Headers", () => {
+    utils.test("headers");
+  });
+  describe("Statics files", () => {
+    utils.test("statics");
+  });
+  describe("Cookies", () => {
+    utils.test("cookies");
+  });
+  describe("Session", () => {
+    utils.test("session");
+  });
+  describe("AcceptMime", () => {
+    utils.test("acceptMime");
+  });
+  describe("HeaderParams", () => {
+    utils.test("headerParams");
+  });
+  describe("PathParams", () => {
+    utils.test("pathParams");
+  });
   describe("QueryParams", () => {
     utils.test("queryParams");
   });
