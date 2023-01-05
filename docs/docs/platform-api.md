@@ -37,7 +37,7 @@ import {MyMiddleware} from "./MyMiddleware";
   viewsDir: `${process.cwd()}/views`,
   middlewares: [MyMiddleware, "cookie-parser", "compression", "method-override"]
 })
-export class Server extends ServerLoader {
+export class Server  {
   $beforeRoutesInit() {
     // configure express app
     this.set("views", this.settings.get("viewsDir"));
@@ -73,6 +73,26 @@ export class Server {
 ::: tip
 With Platform API, the Server class is considered as a @@Provider@@. It means that you can use decorators like @@Constant@@ and @@Inject@@ to get any configuration, provider or service from the DI registry.
 :::
+
+## Set variable to Express application
+
+PlatformApplication let you access to the original application instance like Express.Application. So when you have to set variable like `trust proxy` with Express application, just inject, PlatformApplication on your Server (or any other injectable service) as following:
+
+```typescript
+import {Application} from "express";
+import {Configuration, Inject} from "@tsed/di";
+
+
+@Configuration({}}
+export class Server {
+  @Inject()
+  protected app: PlatformApplication<Application>;
+  
+  $onInit() {
+    this.app.getApp().set("trust proxy", true);
+  }
+}
+```
 
 ## Inject service in the Server
 
