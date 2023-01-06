@@ -291,6 +291,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this;
   }
 
+  get hasDiscriminator() {
+    return !!this.#discriminator;
+  }
+
   discriminator() {
     this.isDiscriminator = true;
     return (this.#discriminator =
@@ -630,7 +634,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     let resolvedOneOf = oneOf.map(mapToJsonSchema);
 
     if (resolvedOneOf.length === 1 && !(oneOf[0] instanceof JsonSchema)) {
-      if (!resolvedOneOf[0].#discriminator) {
+      if (!resolvedOneOf[0].hasDiscriminator) {
         return this.type(oneOf[0]);
       }
 
