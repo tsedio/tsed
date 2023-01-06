@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-views",
-  "version": "7.9.0",
+  "version": "7.10.0-rc.8",
   "description": "Views module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -21,24 +21,24 @@
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
-    "@tsed/engines": "7.9.0",
+    "@tsed/engines": "7.10.0-rc.8",
     "ejs": "^3.1.5",
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.9.0",
-    "@tsed/di": "7.9.0",
-    "@tsed/engines": "7.9.0",
-    "@tsed/exceptions": "7.9.0",
-    "@tsed/schema": "7.9.0",
+    "@tsed/core": "7.10.0-rc.8",
+    "@tsed/di": "7.10.0-rc.8",
+    "@tsed/engines": "7.10.0-rc.8",
+    "@tsed/exceptions": "7.10.0-rc.8",
+    "@tsed/schema": "7.10.0-rc.8",
     "@types/ejs": "3.1.1"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.9.0",
-    "@tsed/di": "^7.9.0",
-    "@tsed/engines": "^7.9.0",
-    "@tsed/exceptions": "^7.9.0",
-    "@tsed/schema": "^7.9.0"
+    "@tsed/core": "^7.10.0-rc.8",
+    "@tsed/di": "^7.10.0-rc.8",
+    "@tsed/engines": "^7.10.0-rc.8",
+    "@tsed/exceptions": "^7.10.0-rc.8",
+    "@tsed/schema": "^7.10.0-rc.8"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {

@@ -1,7 +1,6 @@
 import {Hooks} from "@tsed/core";
 import {levels, LogLevel} from "@tsed/logger";
 import {DILogger} from "../interfaces/DILogger";
-import type {DIContext} from "./DIContext";
 
 export interface ContextLoggerOptions extends Record<string, any> {
   id: string;

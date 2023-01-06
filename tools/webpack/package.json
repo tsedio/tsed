@@ -1,0 +1,10 @@
+{
+  "name": "@tsed/webpack-config",
+  "version": "7.10.0-rc.8",
+  "private": true,
+  "main": "webpack.config.js",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {}
+}

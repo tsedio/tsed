@@ -1,6 +1,6 @@
 {
   "name": "@tsed/swagger",
-  "version": "7.9.0",
+  "version": "7.10.0-rc.8",
   "description": "Swagger package for Ts.ED framework",
   "private": false,
   "source": "./src/index.ts",
@@ -23,23 +23,24 @@
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
-    "@tsed/openspec": "7.9.0",
+    "@tsed/normalize-path": "7.10.0-rc.8",
+    "@tsed/openspec": "7.10.0-rc.8",
     "fs-extra": "10.0.1",
     "micromatch": "4.0.5",
     "swagger-ui-dist": "^4.5.2",
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.9.0",
-    "@tsed/core": "7.9.0",
-    "@tsed/di": "7.9.0",
-    "@tsed/json-mapper": "7.9.0",
-    "@tsed/openspec": "7.9.0",
-    "@tsed/schema": "7.9.0",
+    "@tsed/common": "7.10.0-rc.8",
+    "@tsed/core": "7.10.0-rc.8",
+    "@tsed/di": "7.10.0-rc.8",
+    "@tsed/json-mapper": "7.10.0-rc.8",
+    "@tsed/openspec": "7.10.0-rc.8",
+    "@tsed/schema": "7.10.0-rc.8",
     "@types/swagger-ui-dist": ">=3.30.1"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.9.0"
+    "@tsed/common": "^7.10.0-rc.8"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {

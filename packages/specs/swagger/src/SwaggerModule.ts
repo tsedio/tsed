@@ -12,7 +12,8 @@ import {
 import {PlatformRouter, useContextHandler} from "@tsed/platform-router";
 import Fs from "fs";
 import {join} from "path";
-import {Env, normalizePath} from "@tsed/core";
+import {Env} from "@tsed/core";
+import {normalizePath} from "@tsed/normalize-path";
 import {absolutePath} from "swagger-ui-dist";
 import {SwaggerSettings} from "./interfaces/SwaggerSettings";
 import {cssMiddleware} from "./middlewares/cssMiddleware";

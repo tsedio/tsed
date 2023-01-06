@@ -1,5 +1,5 @@
 import {Constant, PlatformContext} from "@tsed/common";
-import {normalizePath} from "@tsed/core";
+import {normalizePath} from "@tsed/normalize-path";
 import {Alter} from "../decorators/alter";
 import {AlterHook} from "../domain/AlterHook";
 

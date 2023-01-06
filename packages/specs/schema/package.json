@@ -1,23 +1,26 @@
 {
   "name": "@tsed/schema",
-  "version": "7.9.0",
+  "version": "7.10.0-rc.8",
   "description": "JsonSchema module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
   "module": "./lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
+  "browser": "./lib/browser/schema.umd.min.js",
   "exports": {
     "types": "./lib/types/index.d.ts",
+    "browser": "./lib/browser/schema.umd.min.js",
     "import": "./lib/esm/index.js",
     "require": "./lib/cjs/index.js",
     "default": "./lib/esm/index.js"
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "yarn clean && yarn barrels && yarn run build:esm && yarn run build:cjs",
+    "build": "yarn clean && yarn barrels && yarn run build:esm && yarn run build:cjs && yarn run build:browser",
     "build:cjs": "tsc --build tsconfig.compile.json",
     "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "build:browser": "webpack",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
@@ -32,27 +35,27 @@
     "tsed"
   ],
   "dependencies": {
-    "@tsed/openspec": "7.9.0",
+    "@tsed/openspec": "7.10.0-rc.8",
     "change-case": "^4.1.2",
     "fs-extra": "^10.0.1",
     "json-schema": "0.4.0",
-    "micromatch": "4.0.5",
+    "picomatch": "2.3.1",
     "statuses": ">=2.0.1",
     "tslib": "2.4.0"
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.0.3",
-    "@tsed/core": "7.9.0",
-    "@tsed/openspec": "7.9.0",
+    "@tsed/core": "7.10.0-rc.8",
+    "@tsed/openspec": "7.10.0-rc.8",
     "@types/fs-extra": "9.0.13",
     "@types/json-schema": "7.0.11",
-    "@types/micromatch": "4.0.2",
+    "@types/picomatch": "2.3.0",
     "@types/statuses": "2.0.0",
-    "api-spec-converter": "2.12.0"
+    "picomatch-browser": "https://github.com/silverwind/picomatch#ee6ebcc5570a8846d81610c11ebb92a9e199b145"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.9.0",
-    "@tsed/openspec": "^7.9.0"
+    "@tsed/core": "^7.10.0-rc.8",
+    "@tsed/openspec": "^7.10.0-rc.8"
   },
   "peerDependenciesMeta": {
     "@tsed/openspec": {

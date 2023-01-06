@@ -26,7 +26,6 @@ export * from "./interfaces/HashOf";
 export * from "./interfaces/MetadataTypes";
 export * from "./interfaces/ValueOf";
 export * from "./utils/catchError";
-export * from "./utils/normalizePath";
 export * from "./utils/proxyDelegation";
 export * from "./utils/uniq";
 export * from "./utils/decorators/decorateMethodsOf";
