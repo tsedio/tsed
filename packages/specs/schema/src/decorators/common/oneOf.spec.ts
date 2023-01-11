@@ -28,6 +28,39 @@ describe("@OneOf", () => {
       type: "object"
     });
   });
+  it("should declare return schema for only one model", () => {
+    // WHEN
+    class Nested {
+      @Property()
+      id: string;
+    }
+    class Model {
+      @OneOf(Nested)
+      num: string;
+    }
+
+    // THEN
+    const schema = getJsonSchema(Model);
+
+    expect(schema).toEqual({
+      definitions: {
+        Nested: {
+          properties: {
+            id: {
+              type: "string"
+            }
+          },
+          type: "object"
+        }
+      },
+      properties: {
+        num: {
+          $ref: "#/definitions/Nested"
+        }
+      },
+      type: "object"
+    });
+  });
   it("should declare two models", () => {
     class One1 {
       @Property()
