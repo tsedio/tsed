@@ -29,7 +29,7 @@
     "@tsed/di": "7.10.0",
     "@tsed/json-mapper": "7.10.0",
     "@tsed/schema": "7.10.0",
-    "knex": "^0.95.11",
+    "knex": "^2.4.0",
     "objection": "^2.2.15",
     "sqlite3": "^5.0.2"
   },
