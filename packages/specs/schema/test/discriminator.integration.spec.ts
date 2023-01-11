@@ -14,6 +14,7 @@ import {
   Required,
   Returns
 } from "@tsed/schema";
+import Base = Mocha.reporters.Base;
 
 class Event {
   @DiscriminatorKey() // declare this property a discriminator key
@@ -765,6 +766,77 @@ describe("Discriminator", () => {
                           }
                         ],
                         required: ["type"]
+                      }
+                    }
+                  },
+                  description: "Success"
+                }
+              },
+              tags: ["MyTest"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "MyTest"
+          }
+        ]
+      });
+    });
+    it("should generate the spec (return no item)", () => {
+      class Base {
+        @DiscriminatorKey() // declare this property a discriminator key
+        type: string;
+
+        @Property()
+        value: string;
+      }
+
+      @Controller("/")
+      class MyTest {
+        @Get("/:id")
+        @Returns(200).OneOf(Base)
+        get(@PathParams(":id") id: string) {
+          return [];
+        }
+      }
+
+      expect(getSpec(MyTest)).toEqual({
+        components: {
+          schemas: {
+            Base: {
+              properties: {
+                type: {
+                  type: "string"
+                },
+                value: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            }
+          }
+        },
+        paths: {
+          "/{id}": {
+            get: {
+              operationId: "myTestGet",
+              parameters: [
+                {
+                  in: "path",
+                  name: "id",
+                  required: true,
+                  schema: {
+                    type: "string"
+                  }
+                }
+              ],
+              responses: {
+                "200": {
+                  content: {
+                    "*/*": {
+                      schema: {
+                        $ref: "#/components/schemas/Base"
                       }
                     }
                   },

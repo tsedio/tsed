@@ -640,6 +640,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
       const children = resolvedOneOf[0].discriminator().children();
 
+      if (!children.length) {
+        return this.type(oneOf[0]);
+      }
+
       resolvedOneOf = children.map(mapToJsonSchema);
     }
 
