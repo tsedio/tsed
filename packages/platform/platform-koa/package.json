@@ -60,7 +60,7 @@
     "@tsed/common": "7.11.0",
     "@tsed/core": "7.11.0",
     "@tsed/di": "7.11.0",
-    "@tsed/platform-test-utils": "7.11.0",
+    "@tsed/platform-test-sdk": "7.11.0",
     "@types/koa": "2.13.4",
     "@types/koa-bodyparser": "4.3.7",
     "@types/koa-compose": "3.2.5",

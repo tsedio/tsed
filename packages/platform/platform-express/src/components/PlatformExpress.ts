@@ -1,6 +1,7 @@
 import {
   createContext,
   InjectorService,
+  PlatformProvider,
   PlatformAdapter,
   PlatformApplication,
   PlatformBuilder,
@@ -49,6 +50,7 @@ declare global {
  * @platform
  * @express
  */
+@PlatformProvider()
 export class PlatformExpress implements PlatformAdapter<Express.Application> {
   readonly providers = [];
   #multer: typeof multer;

@@ -1,7 +1,7 @@
 import "@tsed/ajv";
 import {Configuration, Controller, Get, PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {PlatformTestUtils} from "@tsed/platform-test-utils";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
@@ -28,7 +28,7 @@ class TestHelloWorld {
 })
 export class Server {}
 
-const utils = PlatformTestUtils.create({
+const utils = PlatformTestSdk.create({
   rootDir: __dirname,
   platform: PlatformExpress,
   server: Server,

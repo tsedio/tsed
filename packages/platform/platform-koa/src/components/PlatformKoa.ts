@@ -1,7 +1,6 @@
 import KoaRouter from "@koa/router";
 import {
   createContext,
-  getContext,
   InjectorService,
   PlatformAdapter,
   PlatformApplication,
@@ -9,6 +8,7 @@ import {
   PlatformHandler,
   PlatformMulter,
   PlatformMulterSettings,
+  PlatformProvider,
   PlatformRequest,
   PlatformResponse,
   PlatformStaticsOptions,
@@ -55,6 +55,7 @@ KoaRouter.prototype.match = function match(...args: any[]) {
  * @platform
  * @koa
  */
+@PlatformProvider()
 export class PlatformKoa implements PlatformAdapter<Koa> {
   readonly providers = [
     {

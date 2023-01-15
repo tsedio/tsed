@@ -1,6 +1,6 @@
 import "@tsed/ajv";
 import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
-import {PlatformTestUtils} from "@tsed/platform-test-utils";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {DiscriminatorKey, DiscriminatorValue, OneOf, Property, Required, Returns} from "@tsed/schema";
 import "@tsed/swagger";
 import SuperTest from "supertest";
@@ -58,7 +58,7 @@ class TestDiscriminator {
   }
 }
 
-const utils = PlatformTestUtils.create({
+const utils = PlatformTestSdk.create({
   rootDir,
   platform: PlatformExpress,
   server: Server

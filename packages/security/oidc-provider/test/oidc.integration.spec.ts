@@ -1,7 +1,7 @@
 import {MemoryAdapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {PlatformExpress} from "@tsed/platform-express";
-import {PlatformTestUtils} from "@tsed/platform-test-utils";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import SuperTest from "supertest";
 import {rootDir} from "../../../platform/platform-express/test/app/Server";
 import {InteractionsCtrl} from "./app/controllers/oidc/InteractionsCtrl";
@@ -10,7 +10,7 @@ import {Server} from "./app/Server";
 import {join} from "path";
 import {Accounts} from "./app/services/Accounts";
 
-const utils = PlatformTestUtils.create({
+const utils = PlatformTestSdk.create({
   rootDir,
   platform: PlatformExpress,
   server: Server,
