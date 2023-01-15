@@ -3,7 +3,7 @@ prev: true
 next: true
 ---
 
-# Request context
+# Context
 
 Ts.ED provides an util to get request, response, to store and share data along all middlewares/endpoints during a
 request with @@PlatformContext@@. This context is created by Ts.ED when the request is handled by the server.
@@ -110,11 +110,15 @@ class PlatformRequest<T = Req> {
 
   get url(): string;
 
+  get route(): string;
+
   get headers(): IncomingHttpHeaders;
 
   get method(): string;
 
   get body(): {[key: string]: any};
+
+  get rawBody(): {[key: string]: any};
 
   get cookies(): {[key: string]: any};
 
@@ -125,7 +129,43 @@ class PlatformRequest<T = Req> {
   get session(): {[key: string]: any} | undefined;
 
   get(name: string): string | undefined; // get header
+  getHeader(name: string): string | undefined; // get header
   accepts(mime?: string | string[]): string | string[] | false;
+  isAborted(): boolean;
+}
+```
+
+### Get request headers
+
+```typescript
+import {Controller, Context} from "@tsed/common";
+
+@Controller("/")
+export class MyController {
+  @Get("/")
+  get(@Context() ctx: Context) {
+    ctx.request.headers; // return all headers
+    ctx.get("host"); // return host header
+    ctx.getHeader("host"); // return host header
+  }
+}
+```
+
+### Get request params/body/query/cookies/session
+
+```typescript
+import {Controller, Context} from "@tsed/common";
+
+@Controller("/")
+export class MyController {
+  @Get("/")
+  get(@Context() ctx: Context) {
+    ctx.request.body; // return body payload
+    ctx.request.params; // return path params
+    ctx.request.query; // return query params
+    ctx.request.cookies; // return cookies
+    ctx.request.session; // return session
+  }
 }
 ```
 
@@ -164,37 +204,105 @@ class PlatformResponse {
   onEnd(cb: Function): void;
 
   destroy(): void;
+
+  cookie(name: string, value: string | null, opts?: TsED.SetCookieOpts): this;
 }
 ```
 
-Example:
+### Set response headers
 
 ```typescript
-import {Middleware, Context} from "@tsed/common";
+import {Controller, Context} from "@tsed/common";
 
-@Middleware()
-export class MyMiddleware {
-  use(@Context() ctx: Context) {
+@Controller("/")
+export class MyController {
+  @Get("/")
+  get(@Context() ctx: Context) {
     // set headers, content-type and status
-    ctx.setHeaders({"x-header": "header"});
-    ctx.contentType("application/json");
-    ctx.status(201);
+    ctx.response.setHeaders({"x-header": "header"});
+    ctx.response.contentType("application/json");
+    ctx.response.status(201);
+  }
+}
+```
 
-    // equivalent to ctx.response.raw.send()
-    ctx.body(null);
-    ctx.body(undefined);
-    ctx.body(true);
-    ctx.body(false);
+Can be also done by returning a response like object:
 
-    // equivalent to ctx.response.raw.json()
-    ctx.body({});
-    ctx.body([]);
-    ctx.body(new Date());
+```typescript
+import {Controller, Context} from "@tsed/common";
+
+@Controller("/")
+export class MyController {
+  @Get("/")
+  get(@Context() ctx: Context) {
+    return {
+      statusText: "OK",
+      status: 200,
+      headers: {},
+      data: {}
+    };
+  }
+}
+```
+
+### Set response cookie
+
+```typescript
+import {Controller, Context} from "@tsed/common";
+
+@Controller("/")
+export class MyController {
+  @Get("/")
+  get(@Context() ctx: Context) {
+    // set
+    ctx.response.cookie("locale", "fr-FR");
+
+    // clear
+    ctx.response.cookie("locale", null);
+  }
+}
+```
+
+### Set response body
+
+```typescript
+import {Controller, Context} from "@tsed/common";
+
+@Controller("/")
+export class MyController {
+  @Get("/")
+  get(@Context() ctx: Context) {
+    // equivalent to ctx.getResponse().send()
+    ctx.response.body(null);
+    ctx.response.body(undefined);
+    ctx.response.body(true);
+    ctx.response.body(false);
+
+    // equivalent to ctx.getResponse().json()
+    ctx.response.body({});
+    ctx.response.body([]);
+    ctx.response.body(new Date());
 
     // equivalent to readableStream.pipe(ctx.response.raw)
-    ctx.body(readableStream);
+    ctx.response.body(readableStream);
+  }
+}
+```
 
-    // use raw response
+But prefer returning payload from your method! Ts.ED will handle all data type (Buffer/Stream/Data/Promise/Observable).
+
+### Manipulate original response
+
+You can retrieve the Express\Koa response by using `ctx.getResponse()` method:
+
+```typescript
+import {Controller, Context} from "@tsed/common";
+
+@Controller("/")
+export class MyController {
+  @Get("/")
+  get(@Context() ctx: Context) {
+    // Express.js
     ctx.getResponse<Express.Response>().status(201).send("Hello");
   }
 }

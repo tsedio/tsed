@@ -1,4 +1,4 @@
-import {isBoolean, isNumber, isStream, isString} from "@tsed/core";
+import {isArray, isBoolean, isNumber, isStream, isString} from "@tsed/core";
 import {Injectable, ProviderScope, Scope} from "@tsed/di";
 import {OutgoingHttpHeaders, ServerResponse} from "http";
 import type {PlatformContext} from "../domain/PlatformContext";
@@ -8,6 +8,18 @@ declare global {
   namespace TsED {
     // @ts-ignore
     export interface Response {}
+
+    export interface SetCookieOpts extends Record<string, unknown> {
+      maxAge?: number | undefined;
+      signed?: boolean | undefined;
+      expires?: Date | undefined;
+      httpOnly?: boolean | undefined;
+      path?: string | undefined;
+      domain?: string | undefined;
+      secure?: boolean | undefined;
+      encode?: ((val: string) => string) | undefined;
+      sameSite?: boolean | "lax" | "strict" | "none" | undefined;
+    }
   }
 }
 
@@ -316,5 +328,22 @@ export class PlatformResponse<Res extends Record<string, any> = any> {
 
   isHeadersSent() {
     return this.getRes().headersSent;
+  }
+
+  cookie(name: string, value: string | null, opts?: TsED.SetCookieOpts) {
+    if (value === null) {
+      this.raw.clearCookie(name);
+      return this;
+    }
+
+    this.raw.cookie(name, value, opts);
+
+    const cookie = this.raw.get("set-cookie");
+
+    if (!isArray(value)) {
+      this.raw.set("set-cookie", [].concat(cookie));
+    }
+
+    return this;
   }
 }

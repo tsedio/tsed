@@ -51,10 +51,30 @@
   },
   "peerDependencies": {
     "@tsed/common": "^7.12.0",
+    "@tsed/ajv": "^7.12.0",
+    "@tsed/core": "^7.12.0",
+    "@tsed/di": "^7.12.0",
+    "@tsed/json-mapper": "^7.12.0",
+    "@tsed/schema": "^7.12.0",
     "oidc-provider": ">=7.3.0"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {
+      "optional": false
+    },
+    "@tsed/ajv": {
+      "optional": false
+    },
+    "@tsed/core": {
+      "optional": false
+    },
+    "@tsed/di": {
+      "optional": false
+    },
+    "@tsed/json-mapper": {
+      "optional": false
+    },
+    "@tsed/schema": {
       "optional": false
     }
   }

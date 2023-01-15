@@ -1,8 +1,8 @@
-import {IncomingEvent, PlatformContext, PlatformResponse} from "@tsed/common";
-import {ServerResponse} from "http";
-import Koa from "koa";
+import {PlatformResponse} from "@tsed/common";
 import {getStatusMessage} from "@tsed/schema";
 import encodeUrl from "encodeurl";
+import {ServerResponse} from "http";
+import Koa from "koa";
 
 declare global {
   namespace TsED {
@@ -117,6 +117,15 @@ export class PlatformKoaResponse extends PlatformResponse<Koa.Response> {
     // set location
     this.raw.set("Location", encodeUrl(location));
 
+    return this;
+  }
+
+  cookie(name: string, value: string | null, opts?: TsED.SetCookieOpts) {
+    if (value === null) {
+      this.ctx.cookies.set(name);
+    } else {
+      this.ctx.cookies.set(name, value, opts);
+    }
     return this;
   }
 }
