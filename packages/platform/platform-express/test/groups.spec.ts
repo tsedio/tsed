@@ -1,7 +1,7 @@
 import "@tsed/ajv";
 import {BodyParams, Controller, Get, PathParams, PlatformTest, Post, Put} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
-import {PlatformTestUtils} from "@tsed/platform-test-utils";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {getSpec, Groups, Property, Returns, SpecTypes} from "@tsed/schema";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
@@ -21,7 +21,7 @@ class Product {
   description: string;
 }
 
-const utils = PlatformTestUtils.create({
+const utils = PlatformTestSdk.create({
   rootDir,
   platform: PlatformExpress,
   server: Server

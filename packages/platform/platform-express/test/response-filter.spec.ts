@@ -1,5 +1,5 @@
 import {Context, Controller, Get, PlatformTest, Res, ResponseFilter} from "@tsed/common";
-import {PlatformTestUtils} from "@tsed/platform-test-utils";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {Returns} from "@tsed/schema";
 import {ServerResponse} from "http";
 import SuperTest from "supertest";
@@ -14,7 +14,7 @@ class PlainTextFilter {
   }
 }
 
-const utils = PlatformTestUtils.create({
+const utils = PlatformTestSdk.create({
   rootDir,
   platform: PlatformExpress,
   server: Server,

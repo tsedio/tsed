@@ -1,5 +1,5 @@
 import {rootDir} from "./app/Server";
-import {PlatformTestUtils} from "@tsed/platform-test-utils";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {PlatformExpress} from "../src";
 import SuperTest from "supertest";
 import {Configuration, Controller, Get, Inject, PlatformApplication, PlatformTest, QueryParams} from "@tsed/common";
@@ -27,7 +27,7 @@ class TestQueryParamsCtrl {
   }
 }
 
-const utils = PlatformTestUtils.create({
+const utils = PlatformTestSdk.create({
   rootDir,
   platform: PlatformExpress,
   server: CustomServer,

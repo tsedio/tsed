@@ -1,10 +1,10 @@
-import {BodyParams, Controller, Get, PlatformTest, Post} from "@tsed/common";
-import {PlatformTestUtils} from "@tsed/platform-test-utils";
+import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
+import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src";
 import {rootDir, Server} from "./app/Server";
 
-const utils = PlatformTestUtils.create({
+const utils = PlatformTestSdk.create({
   rootDir,
   platform: PlatformExpress,
   server: Server,

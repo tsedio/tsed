@@ -1,0 +1,37 @@
+{
+  "name": "@tsed/platform-test-sdk",
+  "version": "7.11.0",
+  "description": "Package to test platform adapter integration with Ts.ED",
+  "private": false,
+  "source": "./src/index.ts",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "typings": "./lib/types/index.d.ts",
+  "exports": {
+    "types": "./lib/types/index.d.ts",
+    "import": "./lib/esm/index.js",
+    "require": "./lib/cjs/index.js",
+    "default": "./lib/esm/index.js"
+  },
+  "scripts": {
+    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
+    "build:cjs": "tsc --build tsconfig.compile.json",
+    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "barrels": "yarn barrelsby --delete -d ./src -d ./src/interfaces -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\""
+  },
+  "keywords": [
+    "Ts.ED",
+    "Testing",
+    "sdk",
+    "Platform",
+    "Adapter"
+  ],
+  "dependencies": {
+    "@tsed/common": "7.11.0",
+    "@tsed/swagger": "7.11.0",
+    "@tsed/core": "7.11.0",
+    "@tsed/di": "7.11.0"
+  },
+  "devDependencies": {},
+  "peerDependencies": {}
+}
