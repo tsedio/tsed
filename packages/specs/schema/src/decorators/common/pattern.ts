@@ -1,4 +1,5 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -92,9 +93,10 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  * @input
+ * @ajv-errors
  */
-export function Pattern(pattern: string | RegExp) {
+export const Pattern = withErrorMsg("pattern", (pattern: string | RegExp) => {
   return JsonEntityFn((store: JsonEntityStore) => {
     store.itemSchema.pattern(pattern);
   });
-}
+});

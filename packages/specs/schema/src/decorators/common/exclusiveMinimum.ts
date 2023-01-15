@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {Minimum} from "./minimum";
 
 /**
@@ -67,7 +68,8 @@ import {Minimum} from "./minimum";
  * @swagger
  * @schema
  * @input
+ * @ajv-errors
  */
-export function ExclusiveMinimum(minimum: number, exclusiveMinimum: boolean = true) {
+export const ExclusiveMinimum = withErrorMsg("exclusiveMinimum", (minimum: number, exclusiveMinimum: boolean = true) => {
   return Minimum(minimum, exclusiveMinimum);
-}
+});

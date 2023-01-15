@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "../common/jsonEntityFn";
 
 /**
@@ -45,8 +46,9 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * @schema
  * @input
  * @collections
+ * @ajv-errors
  */
-export function MaxItems(maxItems: number) {
+export const MaxItems = withErrorMsg("maxItems", (maxItems: number) => {
   if (maxItems < 0) {
     throw new Error("The value of maxItems MUST be a non-negative integer.");
   }
@@ -54,4 +56,4 @@ export function MaxItems(maxItems: number) {
   return JsonEntityFn((storedJson) => {
     storedJson.schema.maxItems(maxItems);
   });
-}
+});

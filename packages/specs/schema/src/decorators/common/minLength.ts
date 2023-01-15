@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -75,8 +76,9 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  * @input
+ * @ajv-errors
  */
-export function MinLength(minLength: number) {
+export const MinLength = withErrorMsg("minLength", (minLength: number) => {
   if (minLength < 0) {
     throw new Error("The value of minLength MUST be a non-negative integer.");
   }
@@ -84,4 +86,4 @@ export function MinLength(minLength: number) {
   return JsonEntityFn((store) => {
     store.itemSchema.minLength(minLength);
   });
-}
+});

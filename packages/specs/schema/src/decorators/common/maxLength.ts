@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -74,8 +75,9 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  * @input
+ * @ajv-errors
  */
-export function MaxLength(maxLength: number) {
+export const MaxLength = withErrorMsg("maxLength", (maxLength: number) => {
   if (maxLength < 0) {
     throw new Error("The value of maxLength MUST be a non-negative integer.");
   }
@@ -83,4 +85,4 @@ export function MaxLength(maxLength: number) {
   return JsonEntityFn((store) => {
     store.itemSchema.maxLength(maxLength);
   });
-}
+});

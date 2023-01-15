@@ -1,4 +1,5 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "../common/jsonEntityFn";
 
 /**
@@ -49,9 +50,10 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * @schema
  * @input
  * @collections
+ * @ajv-errors
  */
-export function UniqueItems(uniqueItems: boolean = true) {
+export const UniqueItems = withErrorMsg("uniqueItems", (uniqueItems: boolean = true) => {
   return JsonEntityFn((store: JsonEntityStore) => {
     store.schema.uniqueItems(uniqueItems);
   });
-}
+});

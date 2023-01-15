@@ -1,7 +1,8 @@
+import "@tsed/schema";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
+import {getJsonSchema} from "../../utils/getJsonSchema";
 import {CollectionOf} from "../collections/collectionOf";
 import {MinLength} from "./minLength";
-import "@tsed/schema";
 
 describe("@MinLength", () => {
   it("should declare minimum value", () => {
@@ -81,6 +82,36 @@ describe("@MinLength", () => {
           },
           maxItems: 10,
           minItems: 0
+        }
+      },
+      type: "object"
+    });
+  });
+
+  it("should declare minLength field with custom error message", () => {
+    // WHEN
+    class Model {
+      @MinLength(2).Error("Require at least 2 characters")
+      @CollectionOf(String).MinItems(0).MaxItems(10)
+      words: string[];
+    }
+
+    // THEN
+    const schema = getJsonSchema(Model, {customKeys: true});
+
+    expect(schema).toEqual({
+      errorMessage: {
+        minLength: "Require at least 2 characters"
+      },
+      properties: {
+        words: {
+          items: {
+            minLength: 2,
+            type: "string"
+          },
+          maxItems: 10,
+          minItems: 0,
+          type: "array"
         }
       },
       type: "object"

@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -66,8 +67,9 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  * @input
+ * @ajv-errors
  */
-export function MultipleOf(multipleOf: number) {
+export const MultipleOf = withErrorMsg("multipleOf", (multipleOf: number) => {
   if (multipleOf <= 0) {
     throw new Error("The value of multipleOf MUST be a number, strictly greater than 0.");
   }
@@ -75,4 +77,4 @@ export function MultipleOf(multipleOf: number) {
   return JsonEntityFn((store) => {
     store.itemSchema.multipleOf(multipleOf);
   });
-}
+});
