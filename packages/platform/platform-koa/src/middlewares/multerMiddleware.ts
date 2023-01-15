@@ -1,8 +1,8 @@
 import Koa from "koa";
 import {promisify} from "util";
 
-let multer: any;
-import("multer").then(({default: m}) => (multer = m));
+let multerModule: any;
+import("multer").then(({default: m}) => (multerModule = m));
 
 /**
  * @ignore
@@ -52,8 +52,8 @@ function makePromise(multer: any, name: string) {
 /**
  * @ignore
  */
-export function getMulter(options: any) {
-  const m = multer(options);
+export function multerMiddleware(options: any) {
+  const m = multerModule(options);
 
   makePromise(m, "any");
   makePromise(m, "array");

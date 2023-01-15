@@ -172,6 +172,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {
                 text: "Testing",
                 link: `${base}/docs/testing.html`
+              },
+              {
+                text: "Create Platform",
+                link: `${base}/docs/create-platform-adapter.html`
               }
             ]
           },
