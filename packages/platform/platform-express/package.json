@@ -107,9 +107,6 @@
     "@tsed/json-mapper": {
       "optional": false
     },
-    "@tsed/openspec": {
-      "optional": false
-    },
     "@tsed/platform-views": {
       "optional": true
     },

@@ -141,6 +141,10 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
     return this.raw.get(name);
   }
 
+  getHeader(name: string) {
+    return this.get(name);
+  }
+
   /**
    * Checks if the specified content types are acceptable, based on the request’s Accept HTTP header field. The method returns the best match, or if none of the specified content types is acceptable, returns false (in which case, the application should respond with 406 "Not Acceptable").
    *

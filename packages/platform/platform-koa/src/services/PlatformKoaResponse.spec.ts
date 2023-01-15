@@ -34,7 +34,7 @@ function createResponse() {
     RequestKlass: PlatformKoaRequest
   });
 
-  return {res, response: ctx.response as PlatformKoaResponse, ctx, koaResponse, koaRequest};
+  return {res, response: ctx.response as PlatformKoaResponse, ctx, koaResponse, koaRequest, koaContext};
 }
 
 describe("PlatformKoaResponse", () => {
@@ -176,6 +176,45 @@ describe("PlatformKoaResponse", () => {
 
       expect(result).toEqual({
         contenttype: "application/json",
+        "x-request-id": "id"
+      });
+    });
+  });
+  describe("cookie()", () => {
+    it("should manipulate cookies", () => {
+      const {res, response, koaContext} = createResponse();
+      koaContext.cookies = {};
+      koaContext.cookies.set = (...args: any[]) => {
+        if (!args[1]) {
+          res.headers["set-cookie"] = res.headers["set-cookie"].filter((cookie: string) => cookie.startsWith(args[0] + "="));
+          return;
+        }
+
+        let value = `${args[0]}=${args[1]}`;
+
+        if (!res.headers["set-cookie"]) {
+          res.headers["set-cookie"] = [value];
+        } else {
+          res.headers["set-cookie"] = [].concat(res.headers["set-cookie"], value as any);
+        }
+      };
+
+      response.cookie("locale", "fr-FR");
+      expect(res.headers).toEqual({
+        "set-cookie": ["locale=fr-FR"],
+        "x-request-id": "id"
+      });
+
+      response.cookie("filename", "test");
+      expect(res.headers).toEqual({
+        "set-cookie": ["locale=fr-FR", "filename=test"],
+        "x-request-id": "id"
+      });
+
+      response.cookie("filename", null);
+
+      expect(res.headers).toEqual({
+        "set-cookie": ["filename=test"],
         "x-request-id": "id"
       });
     });

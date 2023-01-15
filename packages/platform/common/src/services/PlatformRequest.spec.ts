@@ -24,6 +24,8 @@ describe("PlatformRequest", () => {
     expect($ctx.request.raw).toEqual(request);
     expect($ctx.request.response).toEqual($ctx.response);
     expect($ctx.request.headers).toEqual({});
+    expect($ctx.request.get("host")).toEqual(undefined);
+    expect($ctx.request.getHeader("host")).toEqual(undefined);
     expect($ctx.request.method).toEqual("GET");
   });
 

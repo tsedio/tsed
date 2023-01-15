@@ -83,23 +83,6 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
     });
   }
 
-  // onInit() {
-  //   const middlewares = this.injector.settings.get("middlewares", []);
-  //
-  //   this.injector.settings.set(
-  //     "middlewares"
-  //     // middlewares.filter((middleware) => {
-  //     //   const name = nameOf(middleware);
-  //     //   if (["textParser", "jsonParser", "rawParser", "urlencodedParser"].includes(name)) {
-  //     //     this.injector.settings.set(`express.bodyParser.${name.replace("Parser", "")}`, () => middleware);
-  //     //     return false;
-  //     //   }
-  //     //
-  //     //   return true;
-  //     // })
-  //   );
-  // }
-
   async beforeLoadRoutes() {
     const injector = this.injector;
     const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;

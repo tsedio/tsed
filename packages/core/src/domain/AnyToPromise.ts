@@ -1,3 +1,4 @@
+import {isObject} from "../utils/objects/isObject";
 import {isObservable} from "../utils/objects/isObservable";
 import {isPromise} from "../utils/objects/isPromise";
 import {isStream} from "../utils/objects/isStream";
@@ -6,7 +7,7 @@ import {isStream} from "../utils/objects/isStream";
  * @ignore
  */
 function isResponse(obj: any) {
-  return obj.data && obj.headers && obj.status && obj.statusText;
+  return isObject(obj) && "data" in obj && "headers" in obj && "status" in obj && "statusText" in obj;
 }
 
 /**
