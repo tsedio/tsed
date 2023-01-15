@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -68,12 +69,13 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  * @input
+ * @ajv-errors
  */
-export function Minimum(minimum: number, exclusive: boolean = false) {
+export const Minimum = withErrorMsg("minimum", (minimum: number, exclusive: boolean = false) => {
   return JsonEntityFn((store) => {
     exclusive ? store.itemSchema.exclusiveMinimum(minimum) : store.itemSchema.minimum(minimum);
   });
-}
+});
 
 /**
  * The value of `minimum` MUST be a number, representing an inclusive upper limit for a numeric instance.
@@ -140,6 +142,4 @@ export function Minimum(minimum: number, exclusive: boolean = false) {
  * @schema
  * @input
  */
-export function Min(minimum: number, exclusive: boolean = false) {
-  return Minimum(minimum, exclusive);
-}
+export const Min = Minimum;

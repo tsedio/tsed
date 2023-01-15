@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {Maximum} from "./maximum";
 
 /**
@@ -67,7 +68,8 @@ import {Maximum} from "./maximum";
  * @swagger
  * @schema
  * @input
+ * @ajv-errors
  */
-export function ExclusiveMaximum(maximum: number, exclusiveMaximum: boolean = true) {
+export const ExclusiveMaximum = withErrorMsg("exclusiveMaximum", (maximum: number, exclusiveMaximum: boolean = true) => {
   return Maximum(maximum, exclusiveMaximum);
-}
+});

@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "../common/jsonEntityFn";
 
 /**
@@ -49,8 +50,9 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * @schema
  * @input
  * @collections
+ * @ajv-errors
  */
-export function MinItems(minItems: number) {
+export const MinItems = withErrorMsg("minItems", (minItems: number) => {
   if (minItems < 0) {
     throw new Error("The value of minItems MUST be a non-negative integer.");
   }
@@ -58,4 +60,4 @@ export function MinItems(minItems: number) {
   return JsonEntityFn((storedJson) => {
     storedJson.schema.minItems(minItems);
   });
-}
+});

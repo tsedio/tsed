@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "../common/jsonEntityFn";
 
 /**
@@ -67,8 +68,9 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * @schema
  * @input
  * @collections
+ * @ajv-errors
  */
-export function MinProperties(minProperties: number) {
+export const MinProperties = withErrorMsg("minProperties", (minProperties: number) => {
   if (minProperties < 0) {
     throw new Error("The value of minProperties MUST be a non-negative integer.");
   }
@@ -76,4 +78,4 @@ export function MinProperties(minProperties: number) {
   return JsonEntityFn((store) => {
     store.isCollection ? store.schema.minProperties(minProperties) : store.itemSchema.minProperties(minProperties);
   });
-}
+});

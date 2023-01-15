@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -67,12 +68,13 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  * @input
+ * @ajv-errors
  */
-export function Maximum(maximum: number, exclusive: boolean = false) {
+export const Maximum = withErrorMsg("maximum", (maximum: number, exclusive: boolean = false) => {
   return JsonEntityFn((store) => {
     exclusive ? store.itemSchema.exclusiveMaximum(maximum) : store.itemSchema.maximum(maximum);
   });
-}
+});
 /**
  * The value of `maximum` MUST be a number, representing an inclusive upper limit for a numeric instance.
  *
@@ -141,6 +143,4 @@ export function Maximum(maximum: number, exclusive: boolean = false) {
  * @schema
  * @input
  */
-export function Max(maximum: number, exclusive: boolean = false) {
-  return Maximum(maximum, exclusive);
-}
+export const Max = Maximum;

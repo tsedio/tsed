@@ -1,3 +1,4 @@
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "../common/jsonEntityFn";
 
 /**
@@ -68,8 +69,9 @@ import {JsonEntityFn} from "../common/jsonEntityFn";
  * @schema
  * @input
  * @collections
+ * @ajv-errors
  */
-export function MaxProperties(maxProperties: number) {
+export const MaxProperties = withErrorMsg("maxProperties", (maxProperties: number) => {
   if (maxProperties < 0) {
     throw new Error("The value of maxProperties MUST be a non-negative integer.");
   }
@@ -77,4 +79,4 @@ export function MaxProperties(maxProperties: number) {
   return JsonEntityFn((store) => {
     store.isCollection ? store.schema.maxProperties(maxProperties) : store.itemSchema.maxProperties(maxProperties);
   });
-}
+});

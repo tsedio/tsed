@@ -1,5 +1,6 @@
 import {ValueOf} from "@tsed/core";
 import {JsonFormatTypes} from "../../domain/JsonFormatTypes";
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "./jsonEntityFn";
 
 /**
@@ -74,12 +75,13 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  * @input
+ * @ajv-errors
  */
-export function Format(format: JsonFormatTypes | ValueOf<JsonFormatTypes>) {
+export const Format = withErrorMsg("format", (format: JsonFormatTypes | ValueOf<JsonFormatTypes>) => {
   return JsonEntityFn((store) => {
     store.itemSchema.format(format);
   });
-}
+});
 
 /**
  * Apply an email validation on property.
@@ -146,10 +148,11 @@ export function Format(format: JsonFormatTypes | ValueOf<JsonFormatTypes>) {
  * @schema
  * @swagger
  * @input
+ * @ajv-errors
  */
-export function Email() {
+export const Email = withErrorMsg("format", () => {
   return Format(JsonFormatTypes.EMAIL);
-}
+});
 
 /**
  * Apply a date-time validation on property.
@@ -213,10 +216,11 @@ export function Email() {
  * @parameter
  * @schema
  * @auto-map The data will be stored on the right place according to the type and collectionType (primitive or collection).
+ * @ajv-errors
  */
-export function DateTime() {
+export const DateTime = withErrorMsg("format", () => {
   return Format(JsonFormatTypes.DATE_TIME);
-}
+});
 
 /**
  * Apply a time validation on property.
@@ -279,10 +283,11 @@ export function DateTime() {
  * @property
  * @parameter
  * @schema
+ * @ajv-errors
  */
-export function DateFormat() {
+export const DateFormat = withErrorMsg("format", () => {
   return Format(JsonFormatTypes.DATE);
-}
+});
 
 /**
  * Apply a time validation on property.
@@ -345,10 +350,11 @@ export function DateFormat() {
  * @property
  * @parameter
  * @schema
+ * @ajv-errors
  */
-export function TimeFormat() {
+export const TimeFormat = withErrorMsg("format", () => {
   return Format(JsonFormatTypes.TIME);
-}
+});
 
 /**
  * Apply a uri validation on property.
@@ -411,10 +417,11 @@ export function TimeFormat() {
  * @property
  * @parameter
  * @schema
+ * @ajv-errors
  */
-export function Uri() {
+export const Uri = withErrorMsg("format", () => {
   return Format(JsonFormatTypes.URI);
-}
+});
 
 /**
  * Apply a url validation on property.
@@ -477,7 +484,8 @@ export function Uri() {
  * @property
  * @parameter
  * @schema
+ * @ajv-errors
  */
-export function Url() {
+export const Url = withErrorMsg("format", () => {
   return Format(JsonFormatTypes.URL);
-}
+});

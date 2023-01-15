@@ -1,5 +1,13 @@
 import type {JSONSchema6Type} from "json-schema";
+import {withErrorMsg} from "../../utils/withErrorMsg";
 import {JsonEntityFn} from "./jsonEntityFn";
+
+function EnumFn(...enumValues: (JSONSchema6Type | any)[]): Function;
+function EnumFn(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
+  return JsonEntityFn((store) => {
+    store.itemSchema.enum(enumValue, ...enumValues);
+  });
+}
 
 /**
  * The enum keyword is used to restrict a value to a fixed set of values.
@@ -96,10 +104,7 @@ import {JsonEntityFn} from "./jsonEntityFn";
  * @swagger
  * @schema
  * @input
+ * @ajv-errors
  */
-export function Enum(...enumValues: (JSONSchema6Type | any)[]): Function;
-export function Enum(enumValue: JSONSchema6Type | any, ...enumValues: JSONSchema6Type[]) {
-  return JsonEntityFn((store) => {
-    store.itemSchema.enum(enumValue, ...enumValues);
-  });
-}
+
+export const Enum = withErrorMsg("enum", EnumFn);
