@@ -1,6 +1,6 @@
 {
   "name": "@tsed/objection",
-  "version": "7.10.1",
+  "version": "7.11.0",
   "description": "Objection.js package for Ts.ED framework",
   "private": false,
   "source": "./src/index.ts",
@@ -24,21 +24,21 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/ajv": "7.10.1",
-    "@tsed/core": "7.10.1",
-    "@tsed/di": "7.10.1",
-    "@tsed/json-mapper": "7.10.1",
-    "@tsed/schema": "7.10.1",
+    "@tsed/ajv": "7.11.0",
+    "@tsed/core": "7.11.0",
+    "@tsed/di": "7.11.0",
+    "@tsed/json-mapper": "7.11.0",
+    "@tsed/schema": "7.11.0",
     "knex": "^2.4.0",
     "objection": "^2.2.15",
     "sqlite3": "^5.0.2"
   },
   "peerDependencies": {
-    "@tsed/ajv": "^7.10.1",
-    "@tsed/core": "^7.10.1",
-    "@tsed/di": "^7.10.1",
-    "@tsed/json-mapper": "^7.10.1",
-    "@tsed/schema": "^7.10.1",
+    "@tsed/ajv": "^7.11.0",
+    "@tsed/core": "^7.11.0",
+    "@tsed/di": "^7.11.0",
+    "@tsed/json-mapper": "^7.11.0",
+    "@tsed/schema": "^7.11.0",
     "knex": ">=0.94.0",
     "objection": ">=2.0.0"
   },
