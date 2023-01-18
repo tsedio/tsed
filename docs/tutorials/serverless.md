@@ -35,7 +35,9 @@ It supports:
 
 ## Unsupported features
 
-::: warning Some features that you can use with the Express.js or Koa.js platforms are not available with the Serverless
+::: warning
+
+Some features that you can use with the Express.js or Koa.js platforms are not available with the Serverless
 platform.
 (See also our [table feature capabilities](/getting-started/#platform-features-support)).
 :::
@@ -65,7 +67,9 @@ The goal of lambda isn't to expose static files. We do not plan to support this 
 
 ## Rule
 
-::: warning By convention, try to not import something from `@tsed/common`. `@tsed/common` embed a lot of codes designed
+::: warning
+
+By convention, try to not import something from `@tsed/common`. `@tsed/common` embed a lot of codes designed
 for the Full server platform which are not necessary in the Serverless context and aren't optimized for it.
 
 The recent version of Ts.ED expose all necessary decorators from `@tsed/schema`, `@tsed/platform-params` or `@tsed/di`.

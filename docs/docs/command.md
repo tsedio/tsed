@@ -30,7 +30,8 @@ yarn add  @tsed/cli-core
 
 > Note: You have to install the @tsed/cli-core
 
-::: tip If you start your project from scratch, you can use Ts.ED cli v3 to bootstrap your project with the Command
+::: tip
+If you start your project from scratch, you can use Ts.ED cli v3 to bootstrap your project with the Command
 feature.
 :::
 

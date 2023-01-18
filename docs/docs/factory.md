@@ -36,7 +36,8 @@ export default class OtherService {
 }
 ```
 
-::: tip Note TypeScript transforms and stores `MyFooFactory` as `Function` type in the metadata. So to inject a factory,
+::: tip
+Note TypeScript transforms and stores `MyFooFactory` as `Function` type in the metadata. So to inject a factory,
 you must use the @@Inject@@ decorator.
 :::
 

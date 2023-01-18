@@ -46,7 +46,9 @@ Finally, we can load the injector and use it:
 
 <<< @/docs/snippets/providers/getting-started-serverloader.ts
 
-::: tip NOTE You'll notice that we only import the CalendarsCtrl and not the CalendarsService as that would be the case
+::: tip NOTE
+
+You'll notice that we only import the CalendarsCtrl and not the CalendarsService as that would be the case
 with other DIs (Angular / inversify). Ts.ED will discover automatically services/providers as soon as it is imported
 into your application via an import ES6.
 
@@ -108,10 +110,14 @@ These decorators can be used with:
 
 <<< @/docs/snippets/providers/binding-configuration.ts
 
-::: warning @@Constant@@ returns an Object.freeze() value.
+::: warning
+
+@@Constant@@ returns an Object.freeze() value.
 :::
 
-::: tip NOTE The values for the decorated properties aren't available on constructor. Use \$onInit() hook to use the
+::: tip NOTE
+
+The values for the decorated properties aren't available on constructor. Use \$onInit() hook to use the
 value.
 :::
 
@@ -129,7 +135,9 @@ This is possible with the combination of @@Opts@@ and @@UseOpts@@ decorators.
 
 <<< @/docs/snippets/providers/configurable-provider.ts
 
-::: warning Using @@Opts@@ decorator on a constructor parameter changes the scope of the provider
+::: warning
+
+Using @@Opts@@ decorator on a constructor parameter changes the scope of the provider
 to `ProviderScope.INSTANCE`.
 :::
 
