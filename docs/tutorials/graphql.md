@@ -248,7 +248,9 @@ documentation [here](https://www.apollographql.com/docs/apollo-server/api/apollo
 
 Here is an example to create a test server based on TypeGraphQL and run a query:
 
-::: tip The unit example is also available to test any Apollo Server!
+::: tip
+
+The unit example is also available to test any Apollo Server!
 :::
 
 <Tabs class="-code">

@@ -79,7 +79,9 @@ The goal of lambda isn't to expose static files. We do not plan to support this 
 
 ## Rule
 
-::: warning By convention, try to not import something from `@tsed/common`. `@tsed/common` embed a lot of codes designed
+::: warning
+
+By convention, try to not import something from `@tsed/common`. `@tsed/common` embed a lot of codes designed
 for the Full server platform which are not necessary in the Serverless context and aren't optimized for it.
 
 The recent version of Ts.ED expose all necessary decorators from `@tsed/schema`, `@tsed/platform-params` or `@tsed/di`.

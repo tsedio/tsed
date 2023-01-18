@@ -36,7 +36,8 @@ bootstrap();
 
 All providers are called by the emitted `event` and any provider can also emit his own `event`.
 
-::: tip By convention
+::: tip
+By convention
 
 - A hook is always prefixed by `$`,
 - A hook is emitted from a module,
