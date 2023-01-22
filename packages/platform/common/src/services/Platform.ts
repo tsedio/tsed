@@ -1,5 +1,5 @@
 import {ControllerProvider, Injectable, InjectorService, ProviderScope, TokenProvider} from "@tsed/di";
-import {PlatformRouters} from "@tsed/platform-router";
+import {PlatformLayer, PlatformRouters} from "@tsed/platform-router";
 import {Route, RouteController} from "../interfaces/Route";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformHandler} from "./PlatformHandler";
@@ -14,7 +14,7 @@ import {PlatformHandler} from "./PlatformHandler";
   imports: [PlatformHandler]
 })
 export class Platform {
-  #controllers: Map<string, RouteController> = new Map();
+  #layers: PlatformLayer[];
 
   constructor(
     readonly injector: InjectorService,
@@ -49,25 +49,27 @@ export class Platform {
   }
 
   public getLayers() {
-    this.#controllers = new Map();
+    this.#layers = this.#layers || this.platformRouters.getLayers(this.app);
 
-    return this.platformRouters.getLayers(this.app).map((layer) => {
-      if (layer.isProvider()) {
-        this.#controllers.set(layer.provider.token, {
-          route: String(layer.path).split(layer.provider.path)[0],
-          provider: layer.provider
-        });
-      }
-
-      return layer;
-    });
+    return this.#layers;
   }
 
   /**
    * Get all controllers mounted on the application.
    * @returns  {RouteController[]}
    */
-  public getMountedControllers(): RouteController[] {
-    return [...this.#controllers.values()];
+  public getMountedControllers() {
+    const controllers = this.getLayers().reduce((controllers, layer) => {
+      if (layer.isProvider()) {
+        controllers.set(layer.provider.token, {
+          route: String(layer.getBasePath()),
+          provider: layer.provider
+        });
+      }
+
+      return controllers;
+    }, new Map<string, RouteController>());
+
+    return [...controllers.values()];
   }
 }

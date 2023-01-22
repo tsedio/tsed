@@ -13,36 +13,43 @@ function printHandler(handler: any) {
 @Injectable()
 @Scope(ProviderScope.INSTANCE)
 export class PlatformRouter {
-  #isBuilt = false;
-
   readonly layers: PlatformLayer[] = [];
-
   provider: Provider;
+  #isBuilt = false;
 
   constructor(protected readonly injector: InjectorService) {}
 
   use(...handlers: any[]) {
-    const layer = handlers.reduce((layer: PlatformLayer, item) => {
-      if (isString(item) || item instanceof RegExp) {
-        layer.path = item;
-      } else {
-        if (item instanceof PlatformRouter) {
-          layer.router = item;
-
-          if (!this.provider && item.provider) {
-            layer.path = concatPath(layer.path, item.provider.path);
-          } else {
-            layer.path = layer.path || item.provider.path;
-          }
+    const layer = handlers.reduce(
+      (layer: PlatformLayer, item) => {
+        if (isString(item) || item instanceof RegExp) {
+          layer.path = item;
+          layer.basePath = item;
         } else {
-          item = PlatformHandlerMetadata.from(this.injector, item);
+          if (item instanceof PlatformRouter) {
+            layer.router = item;
+            layer.setLayers(item.layers);
+
+            if (!this.provider && item.provider) {
+              layer.path = concatPath(layer.path, item.provider.path);
+            } else {
+              layer.path = layer.path || item.provider.path;
+            }
+          } else {
+            item = PlatformHandlerMetadata.from(this.injector, item);
+          }
+
+          layer.handlers.push(item);
         }
 
-        layer.handlers.push(item);
-      }
-
-      return layer;
-    }, new PlatformLayer({method: "use", provider: this.provider}));
+        return layer;
+      },
+      new PlatformLayer({
+        method: "use",
+        basePath: this.provider?.path || "/",
+        provider: this.provider
+      })
+    );
 
     this.layers.push(layer);
 
