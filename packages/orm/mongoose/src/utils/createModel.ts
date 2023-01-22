@@ -36,10 +36,11 @@ export function createModel<T>(
   const entity = JsonEntityStore.from(target);
 
   if (entity.isDiscriminatorChild) {
-    const discriminatorName = entity.discriminatorAncestor!.schema.discriminator().getDefaultValue(target);
+    const discriminatorName = entity.discriminatorAncestor!.schema.discriminator().getDefaultValue(target)!;
     const ancestorModel = entity.discriminatorAncestor!.get(MONGOOSE_MODEL);
 
-    return ancestorModel.discriminator(discriminatorName, schema);
+    // check if discriminator is already registered on model before creating it
+    return ancestorModel.discriminators?.[discriminatorName] || ancestorModel.discriminator(discriminatorName, schema);
   }
 
   const opts = overwriteModels ? {overwriteModels} : undefined;
