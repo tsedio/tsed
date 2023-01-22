@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-exceptions",
-  "version": "7.13.0",
+  "version": "7.13.1",
   "description": "Platform exceptions module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -24,16 +24,16 @@
     "tslib": "2.4.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.13.0",
-    "@tsed/di": "7.13.0",
-    "@tsed/exceptions": "7.13.0",
-    "@tsed/schema": "7.13.0"
+    "@tsed/core": "7.13.1",
+    "@tsed/di": "7.13.1",
+    "@tsed/exceptions": "7.13.1",
+    "@tsed/schema": "7.13.1"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.13.0",
-    "@tsed/di": "^7.13.0",
-    "@tsed/exceptions": "^7.13.0",
-    "@tsed/schema": "^7.13.0"
+    "@tsed/core": "^7.13.1",
+    "@tsed/di": "^7.13.1",
+    "@tsed/exceptions": "^7.13.1",
+    "@tsed/schema": "^7.13.1"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
