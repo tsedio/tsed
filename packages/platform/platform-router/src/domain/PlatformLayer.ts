@@ -1,6 +1,8 @@
 import {isPrimitive, nameOf, Type} from "@tsed/core";
 import {Provider} from "@tsed/di";
 import type {PlatformParamsCallback} from "@tsed/platform-params";
+import {concatPath} from "@tsed/schema";
+
 import {PlatformHandlerMetadata} from "./PlatformHandlerMetadata";
 import type {PlatformRouter} from "./PlatformRouter";
 import {SinglePathType} from "./SinglePathType";
@@ -10,8 +12,10 @@ export interface PlatformLayerOptions extends Record<string, any> {
 }
 
 export interface PlatformLayerProps {
+  parent: PlatformLayer;
   provider: Provider;
   path: SinglePathType;
+  basePath: SinglePathType;
   method: string;
   handlers: any[];
   router: PlatformRouter;
@@ -26,10 +30,18 @@ export class PlatformLayer {
   public router?: PlatformRouter;
   public opts: PlatformLayerOptions = {};
 
+  public layers: PlatformLayer[] = [];
+
+  public parent?: PlatformLayer;
+  basePath: SinglePathType;
   #args: PlatformParamsCallback[];
 
   constructor(props: Partial<PlatformLayerProps> = {}) {
     Object.assign(this, props);
+
+    this.layers.forEach((layer) => {
+      layer.parent = this;
+    });
   }
 
   set(args: PlatformParamsCallback[]) {
@@ -56,5 +68,18 @@ export class PlatformLayer {
         };
       }, {})
     };
+  }
+
+  getBasePath(): string {
+    return concatPath(this.parent?.getBasePath(), this.basePath);
+  }
+
+  setLayers(layers: PlatformLayer[]) {
+    this.layers = layers.map((layer) => {
+      return new PlatformLayer({
+        ...layer,
+        parent: this
+      });
+    });
   }
 }

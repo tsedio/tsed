@@ -1,5 +1,6 @@
+import {nameOf} from "@tsed/core";
 import {Controller} from "@tsed/di";
-import {Get} from "@tsed/schema";
+import {Get, Post} from "@tsed/schema";
 import {Platform} from "./Platform";
 import {PlatformTest} from "./PlatformTest";
 
@@ -24,6 +25,33 @@ class MyNestedCtrl {
   get() {}
 }
 
+@Controller("/")
+export class FlaggedCommentController {
+  @Get("/flag")
+  async list() {}
+
+  @Post("/:commentID/flag")
+  async create() {}
+}
+
+@Controller({
+  path: "/comments",
+  children: [FlaggedCommentController]
+})
+export class CommentController {
+  @Get("/")
+  get() {}
+}
+
+@Controller({
+  path: "/domain/:contextID",
+  children: [CommentController]
+})
+export class DomainController {
+  @Get("/")
+  get() {}
+}
+
 describe("Platform", () => {
   beforeEach(PlatformTest.create);
   afterEach(PlatformTest.reset);
@@ -39,7 +67,7 @@ describe("Platform", () => {
       // WHEN
       platform.addRoutes([{route: "/test", token: MyCtrl}]);
     });
-    it("should add nested controllers", async () => {
+    it("should add nested controllers (1)", async () => {
       // GIVEN
       const platform = await PlatformTest.get<Platform>(Platform);
 
@@ -56,6 +84,35 @@ describe("Platform", () => {
       expect(result.length).toEqual(2);
       expect(result[0].route).toEqual("/rest");
       expect(result[1].route).toEqual("/rest/my-route");
+    });
+    it("should add nested controllers (2)", async () => {
+      // GIVEN
+      const platform = await PlatformTest.get<Platform>(Platform);
+
+      jest.spyOn(platform.app, "use");
+
+      // WHEN
+      platform.addRoutes([{route: "/rest", token: DomainController}]);
+      platform.getLayers();
+
+      const result = platform.getMountedControllers();
+
+      // THEN
+      const data = result.map((c) => ({route: c.route, name: nameOf(c.provider)}));
+      expect(data).toEqual([
+        {
+          name: "Token:DomainController:DomainController",
+          route: "/rest"
+        },
+        {
+          name: "Token:CommentController:CommentController",
+          route: "/rest/domain/:contextID"
+        },
+        {
+          name: "Token:FlaggedCommentController:FlaggedCommentController",
+          route: "/rest/domain/:contextID/comments"
+        }
+      ]);
     });
   });
 });

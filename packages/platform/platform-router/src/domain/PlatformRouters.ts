@@ -118,10 +118,14 @@ export class PlatformRouters {
   }
 
   getLayers(router: PlatformRouter): PlatformLayer[] {
-    return router.layers
+    return this.flatMapLayers(router.layers);
+  }
+
+  private flatMapLayers(layers: PlatformLayer[]): PlatformLayer[] {
+    return layers
       .flatMap((layer) => {
         if (layer.router) {
-          return this.getLayers(layer.router).map((subLayer: PlatformLayer) => {
+          return this.flatMapLayers(layer.layers).map((subLayer: PlatformLayer) => {
             return new PlatformLayer({
               ...subLayer,
               path: concatPath(layer.path, subLayer.path)
