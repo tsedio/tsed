@@ -1,6 +1,6 @@
 {
   "name": "@tsed/oidc-provider",
-  "version": "7.13.1",
+  "version": "7.13.2",
   "description": "OIDC provider package for Ts.ED framework",
   "private": false,
   "contributors": [
@@ -30,7 +30,7 @@
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
   },
   "dependencies": {
-    "@tsed/adapters": "7.13.1",
+    "@tsed/adapters": "7.13.2",
     "express-urlrewrite": "^1.4.0",
     "jose2": "npm:jose@^2.0.4",
     "koa-mount": "^4.0.0",
@@ -39,10 +39,10 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@tsed/common": "7.13.1",
-    "@tsed/core": "7.13.1",
-    "@tsed/di": "7.13.1",
-    "@tsed/exceptions": "7.13.1",
+    "@tsed/common": "7.13.2",
+    "@tsed/core": "7.13.2",
+    "@tsed/di": "7.13.2",
+    "@tsed/exceptions": "7.13.2",
     "@types/lowdb": "1.0.11",
     "@types/oidc-provider": "^7.1.1",
     "@types/uuid": "8.3.4",
@@ -50,12 +50,12 @@
     "oidc-provider": "7.11.1"
   },
   "peerDependencies": {
-    "@tsed/ajv": "^7.13.1",
-    "@tsed/common": "^7.13.1",
-    "@tsed/core": "^7.13.1",
-    "@tsed/di": "^7.13.1",
-    "@tsed/json-mapper": "^7.13.1",
-    "@tsed/schema": "^7.13.1",
+    "@tsed/ajv": "^7.13.2",
+    "@tsed/common": "^7.13.2",
+    "@tsed/core": "^7.13.2",
+    "@tsed/di": "^7.13.2",
+    "@tsed/json-mapper": "^7.13.2",
+    "@tsed/schema": "^7.13.2",
     "oidc-provider": ">=7.3.0"
   },
   "peerDependenciesMeta": {
