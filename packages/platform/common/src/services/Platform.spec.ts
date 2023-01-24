@@ -39,7 +39,7 @@ export class FlaggedCommentController {
   children: [FlaggedCommentController]
 })
 export class CommentController {
-  @Get("/")
+  @Get("/all")
   get() {}
 }
 
@@ -48,6 +48,14 @@ export class CommentController {
   children: [CommentController]
 })
 export class DomainController {
+  @Get("/all")
+  get() {}
+}
+@Controller({
+  path: "/platform/:platform",
+  children: [CommentController]
+})
+export class PlatformController {
   @Get("/")
   get() {}
 }
@@ -93,10 +101,12 @@ describe("Platform", () => {
 
       // WHEN
       platform.addRoutes([{route: "/rest", token: DomainController}]);
+      platform.addRoutes([{route: "/rest", token: PlatformController}]);
+
       platform.getLayers();
 
       const result = platform.getMountedControllers();
-
+      console.log(result);
       // THEN
       const data = result.map((c) => ({route: c.route, name: nameOf(c.provider)}));
       expect(data).toEqual([
@@ -111,6 +121,18 @@ describe("Platform", () => {
         {
           name: "Token:FlaggedCommentController:FlaggedCommentController",
           route: "/rest/domain/:contextID/comments"
+        },
+        {
+          name: "Token:PlatformController:PlatformController",
+          route: "/rest"
+        },
+        {
+          name: "Token:CommentController:CommentController",
+          route: "/rest/platform/:platform"
+        },
+        {
+          name: "Token:FlaggedCommentController:FlaggedCommentController",
+          route: "/rest/platform/:platform/comments"
         }
       ]);
     });

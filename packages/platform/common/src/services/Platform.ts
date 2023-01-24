@@ -61,10 +61,15 @@ export class Platform {
   public getMountedControllers() {
     const controllers = this.getLayers().reduce((controllers, layer) => {
       if (layer.isProvider()) {
-        controllers.set(layer.provider.token, {
-          route: String(layer.getBasePath()),
-          provider: layer.provider
-        });
+        const route = String(layer.getBasePath());
+        const key = `${layer.provider.toString()}:${route}`;
+
+        if (!controllers.has(key)) {
+          controllers.set(key, {
+            route,
+            provider: layer.provider
+          });
+        }
       }
 
       return controllers;

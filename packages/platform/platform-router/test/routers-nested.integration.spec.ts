@@ -32,6 +32,15 @@ export class DomainController {
   get() {}
 }
 
+@Controller({
+  path: "/platform/:platform",
+  children: [CommentController]
+})
+export class PlatformController {
+  @Get("/")
+  get() {}
+}
+
 function createAppRouterFixture() {
   const injector = new InjectorService();
   const platformRouters = injector.invoke<PlatformRouters>(PlatformRouters);
@@ -41,6 +50,7 @@ function createAppRouterFixture() {
   injector.addProvider(FlaggedCommentController, {});
   injector.addProvider(CommentController, {});
   injector.addProvider(DomainController, {});
+  injector.addProvider(PlatformController, {});
 
   return {injector, appRouter, platformRouters, platformParams};
 }
@@ -54,9 +64,8 @@ describe("routers integration", () => {
 
       platformRouters.prebuild();
 
-      const router = platformRouters.from(DomainController);
-
-      appRouter.use("/rest", router);
+      appRouter.use("/rest", platformRouters.from(DomainController));
+      appRouter.use("/rest", platformRouters.from(PlatformController));
 
       const layers = platformRouters.getLayers(appRouter);
 
@@ -68,14 +77,27 @@ describe("routers integration", () => {
         "/rest/domain/:contextID",
         "/rest/domain/:contextID/comments",
         "/rest/domain/:contextID/comments/flag",
-        "/rest/domain/:contextID/comments/:commentID/flag"
+        "/rest/domain/:contextID/comments/:commentID/flag",
+        "/rest/platform/:platform",
+        "/rest/platform/:platform/comments",
+        "/rest/platform/:platform/comments/flag",
+        "/rest/platform/:platform/comments/:commentID/flag"
       ]);
 
       expect(
         layers.map((layer) => {
           return layer.getBasePath();
         })
-      ).toEqual(["/rest", "/rest/domain/:contextID", "/rest/domain/:contextID/comments", "/rest/domain/:contextID/comments"]);
+      ).toEqual([
+        "/rest",
+        "/rest/domain/:contextID",
+        "/rest/domain/:contextID/comments",
+        "/rest/domain/:contextID/comments",
+        "/rest",
+        "/rest/platform/:platform",
+        "/rest/platform/:platform/comments",
+        "/rest/platform/:platform/comments"
+      ]);
     });
   });
 });
