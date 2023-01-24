@@ -1,4 +1,4 @@
-import {PlatformContext, PlatformHandlerMetadata, PlatformParamsScope, PlatformTest, useResponseHandler} from "@tsed/common";
+import {PlatformContext, PlatformHandlerMetadata, PlatformTest, useResponseHandler} from "@tsed/common";
 import {catchError} from "@tsed/core";
 import {Controller, InjectorService} from "@tsed/di";
 import {UseBefore} from "@tsed/platform-middlewares";
@@ -150,6 +150,7 @@ describe("routers integration", () => {
 
       expect(router.inspect()).toEqual([
         {
+          basePath: "/hello",
           handlers: ["h"],
           method: "use",
           opts: {},
@@ -166,6 +167,7 @@ describe("routers integration", () => {
 
       expect(appRouter.inspect()).toEqual([
         {
+          basePath: "",
           handlers: ["h"],
           method: "get",
           opts: {},
@@ -182,6 +184,7 @@ describe("routers integration", () => {
 
       expect(appRouter.inspect()).toEqual([
         {
+          basePath: "",
           handlers: ["h"],
           method: "post",
           opts: {},
@@ -198,6 +201,7 @@ describe("routers integration", () => {
 
       expect(appRouter.inspect()).toEqual([
         {
+          basePath: "",
           handlers: ["h"],
           method: "put",
           opts: {},
@@ -214,6 +218,7 @@ describe("routers integration", () => {
 
       expect(appRouter.inspect()).toEqual([
         {
+          basePath: "",
           handlers: ["h"],
           method: "patch",
           opts: {},
@@ -230,6 +235,7 @@ describe("routers integration", () => {
 
       expect(appRouter.inspect()).toEqual([
         {
+          basePath: "",
           handlers: ["h"],
           method: "head",
           opts: {},
@@ -246,6 +252,7 @@ describe("routers integration", () => {
 
       expect(appRouter.inspect()).toEqual([
         {
+          basePath: "",
           handlers: ["h"],
           method: "delete",
           opts: {},
@@ -262,6 +269,7 @@ describe("routers integration", () => {
 
       expect(appRouter.inspect()).toEqual([
         {
+          basePath: "",
           handlers: ["h"],
           method: "options",
           opts: {},
@@ -278,6 +286,7 @@ describe("routers integration", () => {
 
       expect(appRouter.inspect()).toEqual([
         {
+          basePath: "",
           handlers: ["h"],
           method: "all",
           opts: {},
@@ -294,6 +303,7 @@ describe("routers integration", () => {
 
       expect(appRouter.inspect()).toEqual([
         {
+          basePath: "",
           handlers: [],
           method: "statics",
           opts: {

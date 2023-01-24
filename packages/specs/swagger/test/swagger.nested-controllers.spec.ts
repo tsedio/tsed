@@ -30,6 +30,15 @@ export class DomainController {
   get() {}
 }
 
+@Controller({
+  path: "/platform/:platform",
+  children: [CommentController]
+})
+export class PlatformController {
+  @Get("/")
+  get() {}
+}
+
 describe("Swagger - nested controllers", () => {
   describe("OpenSpec3", () => {
     let request: SuperTest.SuperTest<SuperTest.Test>;
@@ -37,7 +46,7 @@ describe("Swagger - nested controllers", () => {
       PlatformTest.bootstrap(Server, {
         platform: PlatformExpress,
         mount: {
-          "/rest": [DomainController, CommentController, FlaggedCommentController]
+          "/rest": [DomainController, CommentController, FlaggedCommentController, PlatformController]
         }
       })
     );

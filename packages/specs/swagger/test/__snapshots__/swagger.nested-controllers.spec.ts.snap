@@ -108,6 +108,106 @@ Object {
         ],
       },
     },
+    "/rest/platform/{platform}": Object {
+      "get": Object {
+        "operationId": "platformControllerGet",
+        "parameters": Array [
+          Object {
+            "in": "path",
+            "name": "platform",
+            "required": true,
+            "schema": Object {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "PlatformController",
+        ],
+      },
+    },
+    "/rest/platform/{platform}/comments": Object {
+      "get": Object {
+        "operationId": "commentControllerGetByPlatform",
+        "parameters": Array [
+          Object {
+            "in": "path",
+            "name": "platform",
+            "required": true,
+            "schema": Object {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "CommentController",
+        ],
+      },
+    },
+    "/rest/platform/{platform}/comments/flag": Object {
+      "get": Object {
+        "operationId": "flaggedCommentControllerListByPlatform",
+        "parameters": Array [
+          Object {
+            "in": "path",
+            "name": "platform",
+            "required": true,
+            "schema": Object {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "FlaggedCommentController",
+        ],
+      },
+    },
+    "/rest/platform/{platform}/comments/{commentID}/flag": Object {
+      "post": Object {
+        "operationId": "flaggedCommentControllerCreateByPlatformCommentId",
+        "parameters": Array [
+          Object {
+            "in": "path",
+            "name": "platform",
+            "required": true,
+            "schema": Object {
+              "type": "string",
+            },
+          },
+          Object {
+            "in": "path",
+            "name": "commentID",
+            "required": true,
+            "schema": Object {
+              "type": "string",
+            },
+          },
+        ],
+        "responses": Object {
+          "200": Object {
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "FlaggedCommentController",
+        ],
+      },
+    },
   },
   "tags": Array [
     Object {
@@ -118,6 +218,9 @@ Object {
     },
     Object {
       "name": "FlaggedCommentController",
+    },
+    Object {
+      "name": "PlatformController",
     },
   ],
 }

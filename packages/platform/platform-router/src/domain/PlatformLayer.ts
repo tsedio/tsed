@@ -39,8 +39,11 @@ export class PlatformLayer {
   constructor(props: Partial<PlatformLayerProps> = {}) {
     Object.assign(this, props);
 
-    this.layers.forEach((layer) => {
-      layer.parent = this;
+    this.layers = this.layers.map((layer) => {
+      return new PlatformLayer({
+        ...layer,
+        parent: this
+      });
     });
   }
 
@@ -58,6 +61,7 @@ export class PlatformLayer {
 
   inspect() {
     return {
+      basePath: this.getBasePath(),
       path: this.path,
       method: this.method,
       handlers: this.handlers.map((item: any) => String(item)),

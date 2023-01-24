@@ -3,6 +3,7 @@
 exports[`routers integration getLayers() should declare router - appRouter 1`] = `
 Array [
   Object {
+    "basePath": "/rest",
     "handlers": Array [
       "",
       "useBefore",
@@ -20,6 +21,7 @@ Array [
     "path": "/rest/controller",
   },
   Object {
+    "basePath": "/rest",
     "handlers": Array [
       "",
       "useBefore",
@@ -37,6 +39,7 @@ Array [
     "path": "/rest/controller",
   },
   Object {
+    "basePath": "/rest",
     "handlers": Array [
       "",
       "useBefore",
@@ -54,6 +57,7 @@ Array [
     "path": "/rest/controller/:id",
   },
   Object {
+    "basePath": "/rest",
     "handlers": Array [
       "",
       "useBefore",
@@ -71,6 +75,7 @@ Array [
     "path": "/rest/controller/:id",
   },
   Object {
+    "basePath": "/rest",
     "handlers": Array [
       "",
       "useBefore",
@@ -88,6 +93,7 @@ Array [
     "path": "/rest/controller/:id",
   },
   Object {
+    "basePath": "/rest",
     "handlers": Array [
       "",
       "useBefore",
@@ -105,6 +111,7 @@ Array [
     "path": "/rest/controller/:id",
   },
   Object {
+    "basePath": "/rest",
     "handlers": Array [
       "",
       "useBefore",
@@ -122,6 +129,7 @@ Array [
     "path": "/rest/controller/:id",
   },
   Object {
+    "basePath": "/rest/controller",
     "handlers": Array [
       "",
       "useBefore",
@@ -139,6 +147,7 @@ Array [
     "path": "/rest/controller/nested",
   },
   Object {
+    "basePath": "/rest/controller",
     "handlers": Array [
       "",
       "useBefore",
@@ -156,6 +165,7 @@ Array [
     "path": "/rest/controller/nested",
   },
   Object {
+    "basePath": "/rest/controller",
     "handlers": Array [
       "",
       "useBefore",
@@ -173,6 +183,7 @@ Array [
     "path": "/rest/controller/nested/:id",
   },
   Object {
+    "basePath": "/rest/controller",
     "handlers": Array [
       "",
       "useBefore",
@@ -190,6 +201,7 @@ Array [
     "path": "/rest/controller/nested/:id",
   },
   Object {
+    "basePath": "/rest/controller",
     "handlers": Array [
       "",
       "useBefore",
@@ -207,6 +219,7 @@ Array [
     "path": "/rest/controller/nested/:id",
   },
   Object {
+    "basePath": "/rest/controller",
     "handlers": Array [
       "",
       "useBefore",
@@ -224,6 +237,7 @@ Array [
     "path": "/rest/controller/nested/:id",
   },
   Object {
+    "basePath": "/rest/controller",
     "handlers": Array [
       "",
       "useBefore",
@@ -246,6 +260,7 @@ Array [
 exports[`routers integration getLayers() should declare router 1`] = `
 Array [
   Object {
+    "basePath": "",
     "handlers": Array [
       "",
       "useBefore",
@@ -263,6 +278,7 @@ Array [
     "path": "/controller",
   },
   Object {
+    "basePath": "",
     "handlers": Array [
       "",
       "useBefore",
@@ -280,6 +296,7 @@ Array [
     "path": "/controller",
   },
   Object {
+    "basePath": "",
     "handlers": Array [
       "",
       "useBefore",
@@ -297,6 +314,7 @@ Array [
     "path": "/controller/:id",
   },
   Object {
+    "basePath": "",
     "handlers": Array [
       "",
       "useBefore",
@@ -314,6 +332,7 @@ Array [
     "path": "/controller/:id",
   },
   Object {
+    "basePath": "",
     "handlers": Array [
       "",
       "useBefore",
@@ -331,6 +350,7 @@ Array [
     "path": "/controller/:id",
   },
   Object {
+    "basePath": "",
     "handlers": Array [
       "",
       "useBefore",
@@ -348,6 +368,7 @@ Array [
     "path": "/controller/:id",
   },
   Object {
+    "basePath": "",
     "handlers": Array [
       "",
       "useBefore",
@@ -365,6 +386,7 @@ Array [
     "path": "/controller/:id",
   },
   Object {
+    "basePath": "/controller",
     "handlers": Array [
       "[object Object]",
     ],
