@@ -199,6 +199,38 @@ describe("Discriminator", () => {
 
       expect(result).toBeInstanceOf(PageView);
     });
+    it("should deserialize object according to the discriminator key (endpoint - only base class resolved)", () => {
+      class Base {
+        @DiscriminatorKey() // declare this property as discriminator key
+        type: string;
+
+        @Property()
+        value: string;
+      }
+      @Controller("/")
+      class Test {
+        @Put("/:id")
+        @Returns(200).OneOf(Event)
+        put(@PathParams(":id") id: string, @BodyParams() @OneOf(Base) Base: any) {
+          return [];
+        }
+      }
+
+      const param = JsonParameterStore.get(Test, "put", 1);
+
+      const result = deserialize(
+        {
+          type: "page_view",
+          value: "value",
+          url: "https://url"
+        },
+        {
+          store: param
+        }
+      );
+
+      expect(result).toBeInstanceOf(Base);
+    });
     it("should deserialize object according to the discriminator key (endpoint - list)", () => {
       @Controller("/")
       class Test {
