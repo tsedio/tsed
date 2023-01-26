@@ -1,7 +1,7 @@
 import "@tsed/ajv";
-import {BodyParams, Controller, PlatformTest, Post} from "@tsed/common";
+import {BodyParams, Controller, Patch, PlatformTest, Post} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {DiscriminatorKey, DiscriminatorValue, OneOf, Property, Required, Returns} from "@tsed/schema";
+import {DiscriminatorKey, DiscriminatorValue, OneOf, Partial, Property, Required, Returns} from "@tsed/schema";
 import "@tsed/swagger";
 import SuperTest from "supertest";
 import {PlatformExpress} from "../src/index";
@@ -55,6 +55,13 @@ class TestDiscriminator {
     expect(events[2]).toBeInstanceOf(Action);
     expect(events[3]).toBeInstanceOf(CustomAction);
     return events;
+  }
+
+  @Patch("/scenario-3")
+  @Returns(200).OneOf(Event)
+  scenario3(@BodyParams() @OneOf(Event) @Partial() event: EventTypes) {
+    expect(event).toBeInstanceOf(PageView);
+    return event;
   }
 }
 
@@ -199,6 +206,17 @@ describe("Discriminator", () => {
           value: "custom"
         }
       ]);
+    });
+  });
+
+  describe("PATCH /rest/discriminator: scenario 3", () => {
+    it("should map correctly the data", async () => {
+      const result = await request.patch("/rest/discriminator/scenario-3").send({
+        type: "page_view",
+        value: "value",
+        url: "https://url"
+      });
+      expect(result.body).toEqual({type: "page_view", url: "https://url", value: "value"});
     });
   });
 });

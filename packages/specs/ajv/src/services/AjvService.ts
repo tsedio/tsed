@@ -14,7 +14,9 @@ export interface AjvValidateOptions extends Record<string, any> {
   collectionType?: Type<any> | any;
 }
 
-@Injectable()
+@Injectable({
+  type: "validator:service"
+})
 export class AjvService {
   @Constant("ajv.errorFormatter", defaultErrorFormatter)
   protected errorFormatter: ErrorFormatter;
