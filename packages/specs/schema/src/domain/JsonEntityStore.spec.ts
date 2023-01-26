@@ -38,6 +38,7 @@ describe("JsonEntityStore", () => {
     expect(storeClass.isObject).toBe(false);
     expect(storeClass.isClass).toBe(true);
     expect(storeClass.isDiscriminatorChild).toBe(false);
+    expect(storeClass.getBestType()).toBe(Model);
 
     // PROPERTY
     const storeProp = JsonEntityStore.from(Model).children.get("id") as JsonPropertyStore;

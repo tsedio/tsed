@@ -208,7 +208,7 @@ function mapParamStoreOptions(store: JsonParameterStore, options: JsonDeserializ
   return {
     ...options,
     store: undefined,
-    type: store.itemSchema.isDiscriminator ? store.itemSchema.discriminator() : store.type,
+    type: store.getBestType(),
     collectionType: store.collectionType,
     groups: store.parameter.groups,
     genericTypes: store.nestedGenerics[0],
@@ -231,6 +231,7 @@ function buildOptions(options: JsonDeserializerOptions<any, any>): any {
     options.store = undefined;
   } else if (isClass(options.type)) {
     const store = JsonEntityStore.from(options.type);
+
     if (store.schema.isDiscriminator) {
       options.type = JsonEntityStore.from(options.type).schema.discriminator();
     }

@@ -6,6 +6,7 @@ import {
   descriptorOf,
   isArrayOrArrayClass,
   isClass,
+  isClassObject,
   isCollection,
   isDate,
   isObject,
@@ -272,5 +273,13 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
         this._type = String;
       }
     }
+  }
+
+  getBestType() {
+    return this.itemSchema.isDiscriminator
+      ? this.itemSchema.discriminator()
+      : isClassObject(this.type)
+      ? this.itemSchema.getTarget()
+      : this.type;
   }
 }
