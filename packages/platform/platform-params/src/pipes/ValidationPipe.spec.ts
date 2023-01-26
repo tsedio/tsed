@@ -8,6 +8,7 @@ import {ValidationPipe} from "./ValidationPipe";
 describe("ValidationPipe", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
+
   it("should return value (Body)", async () => {
     const validator = await PlatformTest.invoke<ValidationPipe>(ValidationPipe);
     // @ts-ignore

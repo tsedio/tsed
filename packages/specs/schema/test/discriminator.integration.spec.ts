@@ -8,13 +8,14 @@ import {
   getSpec,
   JsonEntityStore,
   OneOf,
+  Partial,
+  Patch,
   Post,
   Property,
   Put,
   Required,
   Returns
 } from "@tsed/schema";
-import Base = Mocha.reporters.Base;
 
 class Event {
   @DiscriminatorKey() // declare this property a discriminator key
@@ -354,6 +355,95 @@ describe("Discriminator", () => {
         type: "array"
       });
     });
+    it("should generate the json schema from endpoint - partial", () => {
+      @Controller("/")
+      class MyTest {
+        @Patch("/")
+        @Returns(200, Array).OneOf(Event)
+        patch(@BodyParams() @OneOf(Event) @Partial() event: OneOfEvents) {
+          return [];
+        }
+      }
+
+      const metadata = JsonEntityStore.from(MyTest, "patch", 0);
+
+      expect(getJsonSchema(metadata)).toEqual({
+        definitions: {
+          ActionPartial: {
+            properties: {
+              event: {
+                type: "string"
+              },
+              meta: {
+                type: "string"
+              },
+              type: {
+                enum: ["action", "click_action"],
+                examples: ["action", "click_action"],
+                type: "string"
+              },
+              value: {
+                type: "string"
+              }
+            },
+            type: "object"
+          },
+          CustomActionPartial: {
+            properties: {
+              event: {
+                type: "string"
+              },
+              meta: {
+                type: "string"
+              },
+              type: {
+                const: "custom_action",
+                examples: ["custom_action"],
+                type: "string"
+              },
+              value: {
+                type: "string"
+              }
+            },
+            type: "object"
+          },
+          PageViewPartial: {
+            properties: {
+              meta: {
+                type: "string"
+              },
+              type: {
+                const: "page_view",
+                examples: ["page_view"],
+                type: "string"
+              },
+              url: {
+                type: "string"
+              },
+              value: {
+                type: "string"
+              }
+            },
+            type: "object"
+          }
+        },
+        discriminator: {
+          propertyName: "type"
+        },
+        required: ["type"],
+        oneOf: [
+          {
+            $ref: "#/definitions/PageViewPartial"
+          },
+          {
+            $ref: "#/definitions/ActionPartial"
+          },
+          {
+            $ref: "#/definitions/CustomActionPartial"
+          }
+        ]
+      });
+    });
   });
   describe("os3", () => {
     it("should generate the spec (array)", () => {
@@ -361,7 +451,7 @@ describe("Discriminator", () => {
       class MyTest {
         @Post("/")
         @Returns(200, Array).OneOf(Event)
-        post(@BodyParams() @OneOf(Event) events: OneOfEvents[]) {
+        post(@BodyParams() @OneOf(Event) @Partial() events: OneOfEvents[]) {
           return [];
         }
       }
@@ -390,6 +480,25 @@ describe("Discriminator", () => {
               required: ["event"],
               type: "object"
             },
+            ActionPartial: {
+              properties: {
+                event: {
+                  type: "string"
+                },
+                meta: {
+                  type: "string"
+                },
+                type: {
+                  enum: ["action", "click_action"],
+                  example: "action",
+                  type: "string"
+                },
+                value: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            },
             CustomAction: {
               properties: {
                 event: {
@@ -410,13 +519,31 @@ describe("Discriminator", () => {
               required: ["event"],
               type: "object"
             },
-            PageView: {
+            CustomActionPartial: {
               properties: {
-                type: {
-                  example: "page_view",
+                event: {
                   type: "string"
                 },
                 meta: {
+                  type: "string"
+                },
+                type: {
+                  example: "custom_action",
+                  type: "string"
+                },
+                value: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            },
+            PageView: {
+              properties: {
+                meta: {
+                  type: "string"
+                },
+                type: {
+                  example: "page_view",
                   type: "string"
                 },
                 url: {
@@ -428,6 +555,24 @@ describe("Discriminator", () => {
                 }
               },
               required: ["url"],
+              type: "object"
+            },
+            PageViewPartial: {
+              properties: {
+                meta: {
+                  type: "string"
+                },
+                type: {
+                  example: "page_view",
+                  type: "string"
+                },
+                url: {
+                  type: "string"
+                },
+                value: {
+                  type: "string"
+                }
+              },
               type: "object"
             }
           }
@@ -448,13 +593,13 @@ describe("Discriminator", () => {
                         nullable: true,
                         oneOf: [
                           {
-                            $ref: "#/components/schemas/PageView"
+                            $ref: "#/components/schemas/PageViewPartial"
                           },
                           {
-                            $ref: "#/components/schemas/Action"
+                            $ref: "#/components/schemas/ActionPartial"
                           },
                           {
-                            $ref: "#/components/schemas/CustomAction"
+                            $ref: "#/components/schemas/CustomActionPartial"
                           }
                         ],
                         required: ["type"]
@@ -611,6 +756,212 @@ describe("Discriminator", () => {
                         },
                         {
                           $ref: "#/components/schemas/CustomAction"
+                        }
+                      ],
+                      required: ["type"]
+                    }
+                  }
+                },
+                required: false
+              },
+              responses: {
+                "200": {
+                  content: {
+                    "*/*": {
+                      schema: {
+                        discriminator: {
+                          propertyName: "type"
+                        },
+                        oneOf: [
+                          {
+                            $ref: "#/components/schemas/PageView"
+                          },
+                          {
+                            $ref: "#/components/schemas/Action"
+                          },
+                          {
+                            $ref: "#/components/schemas/CustomAction"
+                          }
+                        ],
+                        required: ["type"]
+                      }
+                    }
+                  },
+                  description: "Success"
+                }
+              },
+              tags: ["MyTest"]
+            }
+          }
+        },
+        tags: [
+          {
+            name: "MyTest"
+          }
+        ]
+      });
+    });
+    it("should generate the spec (partial - input one item)", () => {
+      @Controller("/")
+      class MyTest {
+        @Put("/:id")
+        @Returns(200).OneOf(Event)
+        put(@PathParams(":id") id: string, @BodyParams() @Partial() @OneOf(Event) event: OneOfEvents) {
+          return [];
+        }
+      }
+
+      expect(getSpec(MyTest)).toEqual({
+        components: {
+          schemas: {
+            Action: {
+              properties: {
+                event: {
+                  minLength: 1,
+                  type: "string"
+                },
+                meta: {
+                  type: "string"
+                },
+                type: {
+                  enum: ["action", "click_action"],
+                  example: "action",
+                  type: "string"
+                },
+                value: {
+                  type: "string"
+                }
+              },
+              required: ["event"],
+              type: "object"
+            },
+            ActionPartial: {
+              properties: {
+                event: {
+                  type: "string"
+                },
+                meta: {
+                  type: "string"
+                },
+                type: {
+                  enum: ["action", "click_action"],
+                  example: "action",
+                  type: "string"
+                },
+                value: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            },
+            CustomAction: {
+              properties: {
+                event: {
+                  minLength: 1,
+                  type: "string"
+                },
+                meta: {
+                  type: "string"
+                },
+                type: {
+                  example: "custom_action",
+                  type: "string"
+                },
+                value: {
+                  type: "string"
+                }
+              },
+              required: ["event"],
+              type: "object"
+            },
+            CustomActionPartial: {
+              properties: {
+                event: {
+                  type: "string"
+                },
+                meta: {
+                  type: "string"
+                },
+                type: {
+                  example: "custom_action",
+                  type: "string"
+                },
+                value: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            },
+            PageView: {
+              properties: {
+                meta: {
+                  type: "string"
+                },
+                type: {
+                  example: "page_view",
+                  type: "string"
+                },
+                url: {
+                  minLength: 1,
+                  type: "string"
+                },
+                value: {
+                  type: "string"
+                }
+              },
+              required: ["url"],
+              type: "object"
+            },
+            PageViewPartial: {
+              properties: {
+                meta: {
+                  type: "string"
+                },
+                type: {
+                  example: "page_view",
+                  type: "string"
+                },
+                url: {
+                  type: "string"
+                },
+                value: {
+                  type: "string"
+                }
+              },
+              type: "object"
+            }
+          }
+        },
+        paths: {
+          "/{id}": {
+            put: {
+              operationId: "myTestPut",
+              parameters: [
+                {
+                  in: "path",
+                  name: "id",
+                  required: true,
+                  schema: {
+                    type: "string"
+                  }
+                }
+              ],
+              requestBody: {
+                content: {
+                  "application/json": {
+                    schema: {
+                      discriminator: {
+                        propertyName: "type"
+                      },
+                      oneOf: [
+                        {
+                          $ref: "#/components/schemas/PageViewPartial"
+                        },
+                        {
+                          $ref: "#/components/schemas/ActionPartial"
+                        },
+                        {
+                          $ref: "#/components/schemas/CustomActionPartial"
                         }
                       ],
                       required: ["type"]

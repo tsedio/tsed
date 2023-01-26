@@ -1,9 +1,8 @@
-import {nameOf} from "@tsed/core";
-import {Injectable, InjectorService} from "@tsed/di";
+import {Inject, Injectable} from "@tsed/di";
 import {deserialize} from "@tsed/json-mapper";
 import {getJsonSchema, JsonParameterStore, PipeMethods} from "@tsed/schema";
-import {RequiredValidationError} from "../errors/RequiredValidationError";
 import {ParamTypes} from "../domain/ParamTypes";
+import {RequiredValidationError} from "../errors/RequiredValidationError";
 
 function cast(value: any, metadata: JsonParameterStore) {
   try {
@@ -15,18 +14,16 @@ function cast(value: any, metadata: JsonParameterStore) {
   }
 }
 
+export type ValidatorServiceMethods = {validate(value: any, options: any): Promise<any>};
+
 @Injectable({
   type: "validator"
 })
 export class ValidationPipe implements PipeMethods {
-  private validator: {validate(value: any, options: any): Promise<any>};
+  private validator: ValidatorServiceMethods;
 
-  constructor(injector: InjectorService) {
-    const provider = injector.getProviders().find((provider) => nameOf(provider.token) === "AjvService");
-
-    if (provider) {
-      this.validator = injector.invoke<any>(provider.token);
-    }
+  constructor(@Inject("validator:service") validators: ValidatorServiceMethods[]) {
+    this.validator = validators[0];
   }
 
   coerceTypes(value: any, metadata: JsonParameterStore) {

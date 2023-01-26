@@ -106,7 +106,7 @@ describe("Platform", () => {
       platform.getLayers();
 
       const result = platform.getMountedControllers();
-      console.log(result);
+
       // THEN
       const data = result.map((c) => ({route: c.route, name: nameOf(c.provider)}));
       expect(data).toEqual([

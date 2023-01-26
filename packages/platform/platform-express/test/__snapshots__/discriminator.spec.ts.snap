@@ -27,6 +27,25 @@ Object {
         ],
         "type": "object",
       },
+      "ActionPartial": Object {
+        "properties": Object {
+          "event": Object {
+            "type": "string",
+          },
+          "type": Object {
+            "enum": Array [
+              "action",
+              "click_action",
+            ],
+            "example": "action",
+            "type": "string",
+          },
+          "value": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
       "CustomAction": Object {
         "properties": Object {
           "event": Object {
@@ -49,6 +68,24 @@ Object {
         ],
         "type": "object",
       },
+      "CustomActionPartial": Object {
+        "properties": Object {
+          "event": Object {
+            "type": "string",
+          },
+          "meta": Object {
+            "type": "string",
+          },
+          "type": Object {
+            "example": "custom_action",
+            "type": "string",
+          },
+          "value": Object {
+            "type": "string",
+          },
+        },
+        "type": "object",
+      },
       "PageView": Object {
         "properties": Object {
           "type": Object {
@@ -66,6 +103,21 @@ Object {
         "required": Array [
           "url",
         ],
+        "type": "object",
+      },
+      "PageViewPartial": Object {
+        "properties": Object {
+          "type": Object {
+            "example": "page_view",
+            "type": "string",
+          },
+          "url": Object {
+            "type": "string",
+          },
+          "value": Object {
+            "type": "string",
+          },
+        },
         "type": "object",
       },
     },
@@ -198,6 +250,69 @@ Object {
                     ],
                   },
                   "type": "array",
+                },
+              },
+            },
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "TestDiscriminator",
+        ],
+      },
+    },
+    "/rest/discriminator/scenario-3": Object {
+      "patch": Object {
+        "operationId": "testDiscriminatorScenario3",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "discriminator": Object {
+                  "propertyName": "type",
+                },
+                "oneOf": Array [
+                  Object {
+                    "$ref": "#/components/schemas/PageViewPartial",
+                  },
+                  Object {
+                    "$ref": "#/components/schemas/ActionPartial",
+                  },
+                  Object {
+                    "$ref": "#/components/schemas/CustomActionPartial",
+                  },
+                ],
+                "required": Array [
+                  "type",
+                ],
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "*/*": Object {
+                "schema": Object {
+                  "discriminator": Object {
+                    "propertyName": "type",
+                  },
+                  "oneOf": Array [
+                    Object {
+                      "$ref": "#/components/schemas/PageView",
+                    },
+                    Object {
+                      "$ref": "#/components/schemas/Action",
+                    },
+                    Object {
+                      "$ref": "#/components/schemas/CustomAction",
+                    },
+                  ],
+                  "required": Array [
+                    "type",
+                  ],
                 },
               },
             },
