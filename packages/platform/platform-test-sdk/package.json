@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-test-sdk",
-  "version": "7.13.2",
+  "version": "7.13.3",
   "description": "Package to test platform adapter integration with Ts.ED",
   "private": false,
   "source": "./src/index.ts",
@@ -27,10 +27,10 @@
     "Adapter"
   ],
   "dependencies": {
-    "@tsed/common": "7.13.2",
-    "@tsed/core": "7.13.2",
-    "@tsed/di": "7.13.2",
-    "@tsed/swagger": "7.13.2"
+    "@tsed/common": "7.13.3",
+    "@tsed/core": "7.13.3",
+    "@tsed/di": "7.13.3",
+    "@tsed/swagger": "7.13.3"
   },
   "devDependencies": {},
   "peerDependencies": {}
