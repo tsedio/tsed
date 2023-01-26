@@ -30,7 +30,7 @@
     "@tsed/common": "7.13.3",
     "@tsed/core": "7.13.3",
     "@types/graphql": "^14.5.0",
-    "class-validator": "~0.13.1",
+    "class-validator": "~0.14.0",
     "graphql-passport": "0.6.3",
     "type-graphql": "^1.1.1"
   },
