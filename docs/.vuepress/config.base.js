@@ -516,10 +516,6 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
   },
   plugins: {
     "@vuepress/html-redirect": {},
-    "@vuepress/pwa": {
-      serviceWorker: true,
-      updatePopup: true
-    },
     "@vuepress/google-analytics": {
       ga: "UA-35240348-1"
     },

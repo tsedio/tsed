@@ -75,6 +75,7 @@ tools/**/dist
 /docs-references/.vuepress/scripts
 /docs-references/.vuepress/enhanceApp.js
 /docs-references/.vuepress/config.base.js
+/docs-references/.vuepress/window-boot.js
 /docs-references/assets
 /docs-references/docs
 /docs-references/api
