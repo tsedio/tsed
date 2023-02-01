@@ -18,7 +18,7 @@ describe("Mongoose", () => {
       type: string;
     }
 
-    @Model()
+    @Model({discriminatorValue: "ClickedLinkEventModel"})
     class ClickedLinkEventModel extends EventModel {
       @Required()
       url: string;

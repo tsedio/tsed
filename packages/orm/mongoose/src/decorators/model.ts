@@ -48,7 +48,8 @@ import {applySchemaOptions, schemaOptions} from "../utils/schemaOptions";
 export function Model(options: MongooseModelOptions = {}) {
   return useDecorators((target: any) => {
     const {token, collectionName} = getModelToken(target, options);
-    DiscriminatorValue(options.discriminatorValue || nameOf(target))(target);
+
+    options.discriminatorValue && DiscriminatorValue(options.discriminatorValue)(target);
 
     registerProvider({
       provide: token,
