@@ -51,9 +51,6 @@
     "@tsed/core": {
       "optional": false
     },
-    "@tsed/exceptions": {
-      "optional": false
-    },
     "@tsed/schema": {
       "optional": false
     }
