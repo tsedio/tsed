@@ -23,6 +23,7 @@ cp -R -f "$PWD/docs/.vuepress/styles" "$PWD/docs-references/.vuepress/styles"
 cp -R -f "$PWD/docs/.vuepress/public" "$PWD/docs-references/.vuepress/public"
 cp -f "$PWD/docs/.vuepress/enhanceApp.js" "$PWD/docs-references/.vuepress"
 cp -f "$PWD/docs/.vuepress/config.base.js" "$PWD/docs-references/.vuepress"
+cp -f "$PWD/docs/.vuepress/window-boot.js" "$PWD/docs-references/.vuepress"
 
 mkdir "$PWD/docs-references/docs/"
 mkdir "$PWD/docs-references/docs/getting-started/"
