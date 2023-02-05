@@ -12,93 +12,99 @@ class DocsCtrl {}
 class PlainCtrl {}
 
 describe("includeRoute", () => {
-  it("should return false if controller has hidden decorator", () => {
-    const provider = new ControllerProvider(HiddenCtrl);
-    expect(
-      includeRoute("/test", provider, {
+  it.each([
+    {
+      label: "a simple configuration + HiddenCtrl are given",
+      expected: false,
+      route: "/test",
+      conf: {
         path: "/swagger"
-      })
-    ).toBe(false);
-  });
-
-  it("should return false if controller docs does not include doc", () => {
-    const provider = new ControllerProvider(DocsCtrl);
-    expect(
-      includeRoute("/test", provider, {
+      },
+      controller: HiddenCtrl
+    },
+    {
+      label: "a simple configuration + PlainCtrl are given",
+      expected: true,
+      route: "/test",
+      conf: {
+        path: "/swagger"
+      },
+      controller: PlainCtrl
+    },
+    {
+      label: "a given configuration with doc property doesn't match route",
+      expected: false,
+      route: "/test",
+      conf: {
         path: "/swagger",
         doc: "notmatch"
-      })
-    ).toBe(false);
-  });
-
-  it("should return true if controller docs include doc", () => {
-    const provider = new ControllerProvider(DocsCtrl);
-    expect(
-      includeRoute("/test", provider, {
+      },
+      controller: DocsCtrl
+    },
+    {
+      label: "a given configuration with doc property matching route",
+      expected: true,
+      route: "/test",
+      conf: {
         path: "/swagger",
         doc: "test"
-      })
-    ).toBe(true);
-  });
-
-  it("should return true if patternMatch matches to route", () => {
-    const provider = new ControllerProvider(PlainCtrl);
-    expect(
-      includeRoute("/should/match", provider, {
+      },
+      controller: DocsCtrl
+    },
+    {
+      label: "a given configuration with pathPatterns property matching route",
+      expected: true,
+      route: "/should/match",
+      conf: {
         path: "/swagger",
         pathPatterns: ["/should/**"]
-      })
-    ).toBe(true);
-  });
-
-  it("should return false if patternMatch does not match to route", () => {
-    const provider = new ControllerProvider(PlainCtrl);
-    expect(
-      includeRoute("/shouldnot/match", provider, {
+      },
+      controller: PlainCtrl
+    },
+    {
+      label: "a given configuration with pathPatterns property doesn't match route",
+      expected: false,
+      route: "/shouldnot/match",
+      conf: {
         path: "/swagger",
         pathPatterns: ["/notmatch/**"]
-      })
-    ).toBe(false);
-  });
-
-  it("should return false if patternMatch is negation and matches to route", () => {
-    const provider = new ControllerProvider(PlainCtrl);
-    expect(
-      includeRoute("/should/match", provider, {
+      },
+      controller: PlainCtrl
+    },
+    {
+      label: "a given configuration with pathPatterns property doesn't match route - negation on pathPatterns",
+      expected: false,
+      route: "/should/match",
+      conf: {
         path: "/swagger",
         pathPatterns: ["!/should/**"]
-      })
-    ).toBe(false);
-  });
-
-  it("should return true if neither doc nor pathPattern is not defined", () => {
-    const provider = new ControllerProvider(PlainCtrl);
-    expect(
-      includeRoute("/test", provider, {
-        path: "/swagger"
-      })
-    ).toBe(true);
-  });
-
-  it("should return true if doc and pathPattern defined and only doc matches", () => {
-    const provider = new ControllerProvider(DocsCtrl);
-    expect(
-      includeRoute("/shouldnot/match", provider, {
+      },
+      controller: PlainCtrl
+    },
+    {
+      label: "a given configuration with pathPatterns/doc properties but only doc match",
+      expected: true,
+      route: "/shouldnot/match",
+      conf: {
         path: "/swagger",
         doc: "test",
         pathPatterns: ["/notmatch/**"]
-      })
-    ).toBe(true);
-  });
-
-  it("should return true if doc and pathPattern defined and only pathPattern matches", () => {
-    const provider = new ControllerProvider(DocsCtrl);
-    expect(
-      includeRoute("/should/match", provider, {
+      },
+      controller: DocsCtrl
+    },
+    {
+      label: "a given configuration with pathPatterns/doc properties but only pathPattern match",
+      expected: true,
+      route: "/should/match",
+      conf: {
         path: "/swagger",
         doc: "nomatch",
         pathPatterns: ["/should/**"]
-      })
-    ).toBe(true);
+      },
+      controller: DocsCtrl
+    }
+  ])("should return $expected when $label ($route)", ({expected, conf, route, controller}) => {
+    const provider = new ControllerProvider(controller);
+    expect(includeRoute(route, provider, conf as any)).toBe(expected);
   });
 });

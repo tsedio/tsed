@@ -67,9 +67,12 @@ export class Platform {
         if (!controllers.has(key)) {
           controllers.set(key, {
             route,
+            routes: new Set(),
             provider: layer.provider
           });
         }
+
+        controllers.get(key)!.routes.add(String(layer.path));
       }
 
       return controllers;
