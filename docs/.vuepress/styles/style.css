@@ -24,6 +24,10 @@
   }
 }
 
+.dropdown-wrapper .nav-dropdown {
+  max-height: 90vh;
+}
+
 .home-link {
   @apply underline transition-all;
   &:hover {
