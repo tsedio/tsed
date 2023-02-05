@@ -7,5 +7,6 @@ export interface Route extends Record<string, any> {
 
 export interface RouteController {
   route: string;
+  routes: Set<string>;
   provider: Provider;
 }

@@ -83,6 +83,7 @@
     "@tsed/platform-views": "7.13.4",
     "@tsed/schema": "7.13.4",
     "@types/json-schema": "7.0.11",
+    "accepts": "^1.3.8",
     "tslib": "2.4.0",
     "uuid": "8.3.2"
   },
