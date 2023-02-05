@@ -1,19 +1,15 @@
 import {BodyParams, Constant, Controller, Get, PlatformTest, Post, Req, Session} from "@tsed/common";
 import {NotFound} from "@tsed/exceptions";
-import {Indexed, Unique} from "@tsed/mongoose";
 import {Allow, Email, Ignore, MinLength, Property, Required, Returns} from "@tsed/schema";
 import SuperTest from "supertest";
 import {promisify} from "util";
 import {PlatformTestingSdkOpts} from "../interfaces";
-
 export class UserCreation {
   @Property()
   name: string;
 
-  @Indexed()
   @Required()
   @Email()
-  @Unique()
   @Allow(null)
   email: string;
 
