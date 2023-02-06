@@ -10,7 +10,6 @@ import {Route} from "../interfaces/Route";
 import {Platform} from "../services/Platform";
 import {PlatformAdapter, PlatformBuilderSettings} from "../services/PlatformAdapter";
 import {PlatformApplication} from "../services/PlatformApplication";
-import {PlatformTest} from "../services/PlatformTest";
 import {createHttpServer} from "../utils/createHttpServer";
 import {createHttpsServer} from "../utils/createHttpsServer";
 import {createInjector} from "../utils/createInjector";
