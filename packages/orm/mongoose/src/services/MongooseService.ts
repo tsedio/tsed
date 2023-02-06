@@ -40,7 +40,12 @@ export class MongooseService {
       return connection;
     } catch (er) {
       /* istanbul ignore next */
-      this.logger.error(er);
+      this.logger.error({
+        event: "MONGO_CONNECTION_ERROR",
+        error_name: er.name,
+        message: er.message,
+        stack: er.stack
+      });
       /* istanbul ignore next */
       process.exit();
     }

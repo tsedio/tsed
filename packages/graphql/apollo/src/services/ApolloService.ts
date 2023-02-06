@@ -80,9 +80,14 @@ export class ApolloService {
 
         return server;
       }
-    } catch (err) {
+    } catch (er) {
       /* istanbul ignore next */
-      this.logger.error(err);
+      this.logger.error({
+        event: "APOLLO_BOOTSTRAP_ERROR",
+        error_name: er.name,
+        message: er.message,
+        stack: er.stack
+      });
       /* istanbul ignore next */
       process.exit(-1);
     }

@@ -68,9 +68,14 @@ export class TypeGraphQLService {
         dataSources: this.createDataSources(dataSources, serverConfig.dataSources),
         schema
       });
-    } catch (err) {
+    } catch (er) {
       /* istanbul ignore next */
-      this.logger.error(err);
+      this.logger.error({
+        event: "TYPEGRAPHQL_BOOTSTRAP_ERROR",
+        error_name: er.name,
+        message: er.message,
+        stack: er.stack
+      });
       /* istanbul ignore next */
       process.exit(-1);
     }
