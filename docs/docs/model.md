@@ -608,7 +608,7 @@ describe("Product", () => {
 });
 ```
 
-## Groups <Badge text="6.14.0+"/>
+## Groups
 
 @@Groups@@ decorator allows you to manage your serialized/deserialized fields by using group label. For example, with a
 CRUD controller, you can have many methods like `POST`, `PUT`, `GET` or `PATCH` to manage `creation`, `update`
@@ -731,7 +731,65 @@ You can combine different group labels or use a glob pattern to match multiple g
 to use negation by prefixing the group label with `!`.
 :::
 
-## Groups class definition <Badge text="6.48.0+" />
+## Groups Name
+
+By default, Groups decorator generate automatically a name for each model impacted by the given groups list.
+If you use a typed client http generator based on Swagger (OAS3) to generate the client code, this behavior can be a constraint for your consumer when change the group list.
+
+```ts
+import {BodyParams, PathParams} from "@tsed/platform-params";
+import {Get, Groups, Post, Returns} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+import {User} from "../models/User";
+
+@Controller("/")
+export class UsersCtrl {
+  @Get("/:id")
+  @Returns(200, User).Groups("group.*")
+  async get(@PathParams("id") id: string) {}
+
+  @Post("/")
+  @Returns(201, User).Groups("group.*")
+  async post(@BodyParams() @Groups("creation", "summary") user: User) {}
+}
+```
+
+In this example, the Groups annotation `@Groups("creation", "summary") user: User` will generate a new model name `UserCreationSummary`.
+If you change the groups list by this one:
+
+```
+ @Groups("creation", "summary", "extra") user: User
+```
+
+The new model name will be `UserCreationSummaryExtra`. This change will break the entire consumer code by removing the `UserCreationSummary` type and giving a new `UserCreationSummaryExtra` type.
+In fact, `UserCreationSummaryExtra` and `UserCreationSummaryExtra` are the same model with more fields!
+
+In order to minimize the impact of this kind of change Ts.ED allows to configure the postfix added to each model impacted by the groups.
+
+Here is an example with a configured GroupsName:
+
+```ts
+import {BodyParams, PathParams} from "@tsed/platform-params";
+import {Get, Groups, Post, Returns} from "@tsed/schema";
+import {Controller} from "@tsed/di";
+import {User} from "../models/User";
+
+@Controller("/")
+export class UsersCtrl {
+  @Get("/:id")
+  @Returns(200, User).Groups("Details", ["group.*"])
+  async get(@PathParams("id") id: string) {}
+
+  @Post("/")
+  @Returns(201, User).Groups("Details", ["group.*"])
+  async post(@BodyParams() @Groups("Creation", ["creation", "summary"]) user: User) {}
+}
+```
+
+Now, `@Groups("Creation", ["creation", "summary"]) user: User` will generate a `UserCreation` type and
+`@Returns(200, User).Groups("Details", ["group.*"])` will generate a `UserDetails` type.
+
+## Groups class definition
 
 It's also possible to define all groups on class instead of declaring it on each property.
 
@@ -763,10 +821,10 @@ It's also possible to define all groups on class instead of declaring it on each
 </Tab>
 </Tabs>
 
-## ForwardGroups <Badge text="6.42.0+" />
+## ForwardGroups
 
 Groups configuration isn't forwarded to the nested models to avoid side effect on model generation.
-With @@ForwardGroups@@ decorator, your are able to tell if a property should use or not the Groups configuration to generate correctly
+With @@ForwardGroups@@ decorator, you are able to tell if a property should use or not the Groups configuration to generate correctly
 a nested model.
 
 ```typescript

@@ -135,6 +135,8 @@ export interface ReturnsChainedDecorators {
    */
   Groups(...groups: string[]): this;
 
+  Groups(groupName: string, groups: string[]): this;
+
   /**
    * Add a list of allowed groups to filter dynamically fields. Listed groups can be used by the consumer to change
    * the mapped response.
@@ -240,8 +242,16 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     return this;
   }
 
-  groups(...groups: string[]) {
-    this.set("groups", groups);
+  groups(groupName: string, groups: string[]): this;
+  groups(...groups: string[]): this;
+  groups(...groups: string[] | [string, string[]]) {
+    if (groups.length === 2 && isArray(groups[1])) {
+      this.set("groupsName", groups[0]);
+      this.set("groups", groups[1]);
+    } else {
+      this.set("groups", groups);
+    }
+
     return this;
   }
 
@@ -399,6 +409,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     const media = response.getMedia(contentType || "*/*");
     const schema = media.get("schema") || new JsonSchema({type: model});
     const groups = this.get("groups");
+    const groupsName = this.get("groupsName");
     const allowedGroups = this.get("allowedGroups");
     const operation = this.entity.operation!;
 
@@ -415,6 +426,7 @@ class ReturnDecoratorContext extends DecoratorContext<ReturnsChainedDecorators> 
     media.schema(schema);
 
     media.groups = groups;
+    media.groupsName = groupsName;
 
     if (allowedGroups) {
       media.allowedGroups = allowedGroups;
