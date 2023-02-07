@@ -10,6 +10,7 @@ export type JsonResponseOptions = OS3Response<JsonSchema, string | JsonHeader>;
 
 export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
   groups: string[] = [];
+  groupsName: string;
   allowedGroups?: Set<string>;
 
   schema(schema: JsonSchema) {
@@ -27,7 +28,7 @@ export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
   toJSON(options: JsonSchemaOptions = {}): any {
     let groups = [...(this.groups || [])];
 
-    return super.toJSON({...options, groups});
+    return super.toJSON({...options, groups, groupsName: this.groupsName});
   }
 }
 

@@ -583,6 +583,26 @@ describe("@Groups", () => {
         ]
       });
     });
+    it("should display fields when a group match with - body and a group name (OS3)", () => {
+      @Path("/")
+      class MyController {
+        @OperationPath("POST", "/")
+        @Returns(201, MyModel).Groups("group.*")
+        async create(@In("body") @Groups("CreatePayload", ["creation"]) payload: MyModel) {
+          return new MyModel();
+        }
+
+        @OperationPath("PUT", "/:id")
+        @Returns(200, MyModel)
+        async update(@In("body") @Groups("Complete", "group.*") payload: MyModel, @In("path") @Name("id") id: string) {
+          return new MyModel();
+        }
+      }
+
+      const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).toMatchSnapshot();
+    });
     it("should display fields when a group match with - query (OS3)", () => {
       @Path("/")
       class MyController {
@@ -875,6 +895,20 @@ describe("@Groups", () => {
           }
         ]
       });
+    });
+    it("should display fields when a group match with (array & groups - OS3)", () => {
+      @Path("/")
+      class MyController {
+        @OperationPath("POST", "/")
+        @Returns(201, Array).Of(MyModel).Groups("Details", ["group.*"])
+        async createWithArray(@In("body") @Groups("Create", ["creation"]) @CollectionOf(MyModel) payload: MyModel[]) {
+          return [new MyModel()];
+        }
+      }
+
+      const spec = getSpec(MyController, {specType: SpecTypes.OPENAPI});
+
+      expect(spec).toMatchSnapshot();
     });
   });
 });

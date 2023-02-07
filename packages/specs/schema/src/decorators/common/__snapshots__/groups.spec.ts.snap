@@ -1,0 +1,321 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@Groups OpenSpec should display fields when a group match with (array & groups - OS3) 1`] = `
+Object {
+  "components": Object {
+    "schemas": Object {
+      "ChildModel": Object {
+        "properties": Object {
+          "id": Object {
+            "type": "string",
+          },
+          "prop1": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+        },
+        "required": Array [
+          "prop1",
+        ],
+        "type": "object",
+      },
+      "MyModelCreate": Object {
+        "properties": Object {
+          "prop3": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop4": Object {
+            "items": Object {
+              "$ref": "#/components/schemas/ChildModel",
+            },
+            "type": "array",
+          },
+        },
+        "required": Array [
+          "prop3",
+        ],
+        "type": "object",
+      },
+      "MyModelDetails": Object {
+        "properties": Object {
+          "id": Object {
+            "type": "string",
+          },
+          "prop1": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop2": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop3": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop4": Object {
+            "items": Object {
+              "$ref": "#/components/schemas/ChildModel",
+            },
+            "type": "array",
+          },
+        },
+        "required": Array [
+          "prop1",
+          "prop2",
+          "prop3",
+        ],
+        "type": "object",
+      },
+    },
+  },
+  "paths": Object {
+    "/": Object {
+      "post": Object {
+        "operationId": "myControllerCreateWithArray",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "items": Object {
+                  "$ref": "#/components/schemas/MyModelCreate",
+                },
+                "type": "array",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "201": Object {
+            "content": Object {
+              "application/json": Object {
+                "schema": Object {
+                  "items": Object {
+                    "$ref": "#/components/schemas/MyModelDetails",
+                  },
+                  "type": "array",
+                },
+              },
+            },
+            "description": "Created",
+          },
+        },
+        "tags": Array [
+          "MyController",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "MyController",
+    },
+  ],
+}
+`;
+
+exports[`@Groups OpenSpec should display fields when a group match with - body and a group name (OS3) 1`] = `
+Object {
+  "components": Object {
+    "schemas": Object {
+      "ChildModel": Object {
+        "properties": Object {
+          "id": Object {
+            "type": "string",
+          },
+          "prop1": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+        },
+        "required": Array [
+          "prop1",
+        ],
+        "type": "object",
+      },
+      "MyModel": Object {
+        "properties": Object {
+          "id": Object {
+            "type": "string",
+          },
+          "prop3": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop4": Object {
+            "items": Object {
+              "$ref": "#/components/schemas/ChildModel",
+            },
+            "type": "array",
+          },
+        },
+        "required": Array [
+          "prop3",
+        ],
+        "type": "object",
+      },
+      "MyModelCompleteGroup": Object {
+        "properties": Object {
+          "id": Object {
+            "type": "string",
+          },
+          "prop1": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop2": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop3": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop4": Object {
+            "items": Object {
+              "$ref": "#/components/schemas/ChildModel",
+            },
+            "type": "array",
+          },
+        },
+        "required": Array [
+          "prop1",
+          "prop2",
+          "prop3",
+        ],
+        "type": "object",
+      },
+      "MyModelCreatePayload": Object {
+        "properties": Object {
+          "prop3": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop4": Object {
+            "items": Object {
+              "$ref": "#/components/schemas/ChildModel",
+            },
+            "type": "array",
+          },
+        },
+        "required": Array [
+          "prop3",
+        ],
+        "type": "object",
+      },
+      "MyModelGroup": Object {
+        "properties": Object {
+          "id": Object {
+            "type": "string",
+          },
+          "prop1": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop2": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop3": Object {
+            "minLength": 1,
+            "type": "string",
+          },
+          "prop4": Object {
+            "items": Object {
+              "$ref": "#/components/schemas/ChildModel",
+            },
+            "type": "array",
+          },
+        },
+        "required": Array [
+          "prop1",
+          "prop2",
+          "prop3",
+        ],
+        "type": "object",
+      },
+    },
+  },
+  "paths": Object {
+    "/": Object {
+      "post": Object {
+        "operationId": "myControllerCreate",
+        "parameters": Array [],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "$ref": "#/components/schemas/MyModelCreatePayload",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "201": Object {
+            "content": Object {
+              "application/json": Object {
+                "schema": Object {
+                  "$ref": "#/components/schemas/MyModelGroup",
+                },
+              },
+            },
+            "description": "Created",
+          },
+        },
+        "tags": Array [
+          "MyController",
+        ],
+      },
+    },
+    "/{id}": Object {
+      "put": Object {
+        "operationId": "myControllerUpdate",
+        "parameters": Array [
+          Object {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": Object {
+              "type": "string",
+            },
+          },
+        ],
+        "requestBody": Object {
+          "content": Object {
+            "application/json": Object {
+              "schema": Object {
+                "$ref": "#/components/schemas/MyModelCompleteGroup",
+              },
+            },
+          },
+          "required": false,
+        },
+        "responses": Object {
+          "200": Object {
+            "content": Object {
+              "application/json": Object {
+                "schema": Object {
+                  "$ref": "#/components/schemas/MyModel",
+                },
+              },
+            },
+            "description": "Success",
+          },
+        },
+        "tags": Array [
+          "MyController",
+        ],
+      },
+    },
+  },
+  "tags": Array [
+    Object {
+      "name": "MyController",
+    },
+  ],
+}
+`;

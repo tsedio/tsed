@@ -1,4 +1,4 @@
-import {DecoratorTypes} from "@tsed/core";
+import {DecoratorTypes, isArray} from "@tsed/core";
 import type {JsonClassStore} from "../../domain/JsonClassStore";
 import type {JsonParameterStore} from "../../domain/JsonParameterStore";
 import {matchGroups} from "../../utils/matchGroups";
@@ -12,7 +12,7 @@ function groupsClass(groups: any, entity: JsonClassStore) {
 
   entity.children.forEach((propEntity) => {
     const groups = entries.filter(([, props]) => props.includes(propEntity.propertyName)).map(([key]) => key);
-    const decorator = Groups(...groups);
+    const decorator: any = Groups(...groups);
 
     decorator(propEntity.target, propEntity.propertyKey);
   });
@@ -28,6 +28,7 @@ function groupsClass(groups: any, entity: JsonClassStore) {
  * @input
  */
 export function Groups<T>(groupsDefinition: Record<string, (keyof T)[]>): ClassDecorator;
+export function Groups<T>(groupName: string, groups: string[]): ParameterDecorator;
 export function Groups(...groups: string[]): Function;
 export function Groups(...groups: any): any {
   return JsonEntityFn((entity) => {
@@ -47,7 +48,15 @@ export function Groups(...groups: any): any {
         });
         break;
       case DecoratorTypes.PARAM:
+        let groupsName = "";
+
+        if (groups.length == 2 && isArray(groups[1])) {
+          groupsName = groups[0];
+          groups = groups[1];
+        }
+
         (entity as JsonParameterStore).parameter.groups = groups;
+        (entity as JsonParameterStore).parameter.groupsName = groupsName;
         break;
     }
   });

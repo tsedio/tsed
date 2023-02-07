@@ -3,14 +3,15 @@ import {OpenSpecHash, OpenSpecRef, OS3Example, OS3Parameter, OS3Schema} from "@t
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics, popGenerics} from "../utils/generics";
+import {createRefName} from "../utils/ref";
 import {JsonMap} from "./JsonMap";
 import {formatParameterType, isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
-import {createRefName} from "../utils/ref";
 
 export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
   nestedGenerics: Type<any>[][] = [];
   groups: string[];
+  groupsName: string;
   $schema: JsonSchema;
   expression: string;
 
@@ -68,7 +69,7 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
 
     const schemasContainer = toMap<string, OS3Schema>(options.schemas || {});
 
-    return this.build({...options, groups: this.groups}, schemasContainer);
+    return this.build({...options, groups: this.groups, groupsName: this.groupsName}, schemasContainer);
   }
 
   private build(options: JsonSchemaOptions, schemasContainer: Map<string, OS3Schema>) {
