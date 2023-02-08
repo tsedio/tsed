@@ -762,7 +762,7 @@ If you change the groups list by this one:
 ```
 
 The new model name will be `UserCreationSummaryExtra`. This change will break the entire consumer code by removing the `UserCreationSummary` type and giving a new `UserCreationSummaryExtra` type.
-In fact, `UserCreationSummaryExtra` and `UserCreationSummaryExtra` are the same model with more fields!
+In fact, `UserCreationSummary` and `UserCreationSummaryExtra` are the same model with more fields!
 
 In order to minimize the impact of this kind of change Ts.ED allows to configure the postfix added to each model impacted by the groups.
 
