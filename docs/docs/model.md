@@ -734,7 +734,7 @@ to use negation by prefixing the group label with `!`.
 ## Groups Name
 
 By default, Groups decorator generate automatically a name for each model impacted by the given groups list.
-If you use a typed client http generator based on Swagger (OAS3) to generate the client code, this behavior can be a constraint for your consumer when change the group list.
+If you use a typed client http generator based on Swagger (OAS3) to generate the client code, this behavior can be a constraint for your consumer when you change the group list.
 
 ```ts
 import {BodyParams, PathParams} from "@tsed/platform-params";
