@@ -125,6 +125,79 @@ describe("Discriminator", () => {
         type: "object"
       });
     });
+    it("should generate the json schema as expected (strict declaration - array)", () => {
+      class Tracking {
+        @OneOf(PageView, Action)
+        data: (PageView | Action)[];
+      }
+
+      expect(getJsonSchema(Tracking)).toEqual({
+        definitions: {
+          Action: {
+            properties: {
+              event: {
+                minLength: 1,
+                type: "string"
+              },
+              meta: {
+                type: "string"
+              },
+              type: {
+                enum: ["action", "click_action"],
+                examples: ["action", "click_action"],
+                type: "string"
+              },
+              value: {
+                type: "string"
+              }
+            },
+            required: ["event"],
+            type: "object"
+          },
+          PageView: {
+            properties: {
+              type: {
+                const: "page_view",
+                examples: ["page_view"],
+                type: "string"
+              },
+              meta: {
+                type: "string"
+              },
+              url: {
+                minLength: 1,
+                type: "string"
+              },
+              value: {
+                type: "string"
+              }
+            },
+            required: ["url"],
+            type: "object"
+          }
+        },
+        properties: {
+          data: {
+            items: {
+              discriminator: {
+                propertyName: "type"
+              },
+              oneOf: [
+                {
+                  $ref: "#/definitions/PageView"
+                },
+                {
+                  $ref: "#/definitions/Action"
+                }
+              ],
+              required: ["type"]
+            },
+            type: "array"
+          }
+        },
+        type: "object"
+      });
+    });
     it("should generate the json schema as expected (automatic introspection on children classes)", () => {
       class Tracking {
         @OneOf(Event)

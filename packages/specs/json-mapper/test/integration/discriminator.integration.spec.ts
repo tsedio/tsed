@@ -1,7 +1,17 @@
 import {Controller} from "@tsed/di";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {BodyParams, PathParams} from "@tsed/platform-params";
-import {DiscriminatorKey, DiscriminatorValue, getSpec, JsonParameterStore, OneOf, Property, Put, Required, Returns} from "@tsed/schema";
+import {
+  CollectionOf,
+  DiscriminatorKey,
+  DiscriminatorValue,
+  JsonParameterStore,
+  OneOf,
+  Property,
+  Put,
+  Required,
+  Returns
+} from "@tsed/schema";
 
 class Event {
   @DiscriminatorKey() // declare this property as discriminator key
@@ -44,9 +54,37 @@ class Tracking {
   data: PageView | Action;
 }
 
+class TrackingWithArray {
+  @OneOf(PageView, Action)
+  data: (PageView | Action)[];
+}
+
 describe("Discriminator", () => {
   describe("deserialize()", () => {
     it("should deserialize object according to the discriminator key (model with property discriminator)", () => {
+      const list = {
+        data: {
+          type: "page_view",
+          value: "value",
+          url: "https://url",
+          metaSub: "sub"
+        }
+      };
+      const result = deserialize(list, {
+        type: Tracking
+      });
+
+      expect(result).toEqual({
+        data: {
+          type: "page_view",
+          metaSub: "sub",
+          url: "https://url",
+          value: "value"
+        }
+      });
+      expect(result.data).toBeInstanceOf(PageView);
+    });
+    it("should deserialize object according to the discriminator key (model with property discriminator - array)", () => {
       const list = {
         data: [
           {
@@ -74,7 +112,7 @@ describe("Discriminator", () => {
         ]
       };
       const result = deserialize(list, {
-        type: Tracking
+        type: TrackingWithArray
       });
 
       expect(result).toEqual({
@@ -207,6 +245,7 @@ describe("Discriminator", () => {
         @Property()
         value: string;
       }
+
       @Controller("/")
       class Test {
         @Put("/:id")
