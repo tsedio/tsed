@@ -182,8 +182,8 @@ function mapPropStoreOptions(store: JsonPropertyStore, options: JsonDeserializer
     type: store.computedType
   };
 
-  if (store.schema.isDiscriminator) {
-    itemOpts.type = store.schema.discriminator();
+  if (store.itemSchema.isDiscriminator) {
+    itemOpts.type = store.itemSchema.discriminator();
   }
 
   if (store.schema.hasGenerics) {
