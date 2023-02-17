@@ -1,12 +1,13 @@
-import {PlatformApplication} from "@tsed/common";
+import {InjectContext, PlatformApplication, PlatformContext} from "@tsed/common";
 import {Env, setValue} from "@tsed/core";
 import {Constant, Inject, Injectable, InjectorService} from "@tsed/di";
-import {Configuration, interactionPolicy, Provider as OIDCProvider} from "oidc-provider";
+import {Configuration, interactionPolicy, KoaContextWithOIDC, Provider as OIDCProvider} from "oidc-provider";
 import {INTERACTIONS} from "../constants/constants";
 import {InteractionMethods} from "../domain/InteractionMethods";
 import {OidcAccountsMethods} from "../domain/OidcAccountsMethods";
 import {OidcInteractionOptions} from "../domain/OidcInteractionOptions";
 import {OidcSettings} from "../domain/OidcSettings";
+import {OIDC_ERROR_EVENTS} from "../utils/events";
 import {OidcAdapters} from "./OidcAdapters";
 import {OidcInteractions} from "./OidcInteractions";
 import {OidcJwks} from "./OidcJwks";
@@ -47,6 +48,9 @@ export class OidcProvider {
 
   @Inject()
   protected app: PlatformApplication;
+
+  @InjectContext()
+  protected $ctx?: PlatformContext;
 
   hasConfiguration() {
     return !!this.oidc;
@@ -149,9 +153,34 @@ export class OidcProvider {
       this.allowHttpLocalhost();
     }
 
+    OIDC_ERROR_EVENTS.map((event) => {
+      this.raw.on(event, this.createErrorHandler(event));
+    });
+
     await this.injector.emit("$onCreateOIDC", this.raw);
 
     return this.raw;
+  }
+
+  private createErrorHandler(event: string) {
+    return (ctx: KoaContextWithOIDC, error: any, accountId?: string, sid?: string) => {
+      this.logger.error({
+        event: "OIDC_ERROR",
+        type: event,
+        error: {
+          error_name: error.error,
+          error_description: error.error_description,
+          error_detail: error.error_detail
+        },
+        account_id: accountId,
+        params: ctx.oidc.params,
+        headers: ctx.headers,
+        sid
+      });
+
+      // TODO see if we need to call platformExceptions
+      // this.platformExceptions.catch(error, ctx.request.$ctx);
+    };
   }
 
   public createPrompt(instance: InteractionMethods, options: OidcInteractionOptions) {
@@ -207,5 +236,9 @@ export class OidcProvider {
     }
 
     return this.injector.alter("$alterOidcPolicy", policy);
+  }
+
+  get logger() {
+    return this.$ctx?.logger || this.injector.logger;
   }
 }
