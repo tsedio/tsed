@@ -31,3 +31,4 @@ export * from "./services/OidcInteractions";
 export * from "./services/OidcJwks";
 export * from "./services/OidcProvider";
 export * from "./utils/debug";
+export * from "./utils/events";
