@@ -7,6 +7,7 @@ export interface ViteRenderContext<Data = Record<string, unknown>, Session = Rec
   protocol: string;
   method: string;
   url: string;
+  urlOriginal: string;
   secure: boolean;
   headers: IncomingHttpHeaders;
   session?: Session;
