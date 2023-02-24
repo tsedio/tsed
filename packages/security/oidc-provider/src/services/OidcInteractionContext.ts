@@ -2,6 +2,7 @@ import {Constant, InjectContext, PlatformContext} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
+import {serialize} from "@tsed/json-mapper";
 import {Account, InteractionResults, PromptDetail, Provider} from "oidc-provider";
 import {
   INTERACTION_CONTEXT,
@@ -98,11 +99,14 @@ export class OidcInteractionContext {
     return this.oidcProvider.get().interactionResult(this.$ctx.getReq(), this.$ctx.getRes(), result, options);
   }
 
-  async interactionPrompt(options: Record<string, any>): Promise<OidcInteractionPromptProps> {
-    const client = await this.findClient();
+  async interactionPrompt({client, ...options}: Record<string, any>): Promise<OidcInteractionPromptProps> {
+    client = client || (await this.findClient());
+
+    // remove client secret from
+    delete client.clientSecret;
 
     return {
-      client,
+      client: serialize(client, {useAlias: false, groups: ["render"]}),
       uid: this.uid,
       grantId: this.grantId,
       details: this.prompt.details,
