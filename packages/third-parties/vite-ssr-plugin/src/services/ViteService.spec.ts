@@ -29,7 +29,7 @@ async function getServiceFixture(httpResponse: any) {
 
   (renderPage as jest.Mock).mockResolvedValue(pageContext);
 
-  return {service, $ctx, pageContext, stateSnapshot: PlatformTest.injector.settings.get("stateSnapshot")};
+  return {renderPage, service, $ctx, pageContext, stateSnapshot: PlatformTest.injector.settings.get("stateSnapshot")};
 }
 
 describe("ViteService", () => {
@@ -73,9 +73,11 @@ describe("ViteService", () => {
           secure: true,
           session: {},
           stateSnapshot: {state: "state"},
-          url: "/"
+          url: "/",
+          urlOriginal: "/"
         },
-        url: "/"
+        url: "/",
+        urlOriginal: "/"
       });
       expect($ctx.response.status).toHaveBeenCalledWith(200);
       expect($ctx.response.setHeader).toHaveBeenCalledWith("Content-Type", "text/html");
@@ -109,13 +111,33 @@ describe("ViteService", () => {
           secure: true,
           session: {},
           stateSnapshot: {state: "state"},
-          url: "/"
+          url: "/",
+          urlOriginal: "/"
         },
-        url: "/"
+        url: "/",
+        urlOriginal: "/"
       });
       expect($ctx.response.status).not.toHaveBeenCalled();
       expect($ctx.response.setHeader).not.toHaveBeenCalled();
       expect($ctx.response.body).not.toHaveBeenCalled();
+    });
+    it("should log render error", async () => {
+      const {$ctx, service, renderPage} = await getServiceFixture(null);
+
+      jest.spyOn($ctx.logger, "error").mockReturnThis();
+
+      (renderPage as any).mockResolvedValue({
+        httpResponse: {},
+        errorWhileRendering: new Error("")
+      });
+
+      jest.spyOn($ctx.response, "status").mockReturnThis();
+      jest.spyOn($ctx.response, "body").mockReturnThis();
+      jest.spyOn($ctx.response, "setHeader").mockReturnThis();
+
+      await service.render("vue.vite", $ctx);
+
+      expect($ctx.logger.error).toHaveBeenCalled();
     });
   });
 });

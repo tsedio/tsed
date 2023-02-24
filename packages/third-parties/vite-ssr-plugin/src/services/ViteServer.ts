@@ -13,7 +13,7 @@ registerProvider({
   provide: VITE_SERVER,
   deps: [Configuration, Logger],
   async useAsyncFactory(settings: Configuration, logger: Logger) {
-    const config = settings.get<ViteConfig>("vite", {});
+    const {enableStream, ...config} = settings.get<ViteConfig>("vite", {});
     const level = settings.logger.level;
 
     if (settings.env !== Env.PROD) {

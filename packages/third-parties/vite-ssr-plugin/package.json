@@ -33,13 +33,13 @@
     "@tsed/core": "7.14.2",
     "@tsed/di": "7.14.2",
     "@tsed/exceptions": "7.14.2",
-    "vite": "3.0.4",
-    "vite-plugin-ssr": "0.4.12"
+    "vite": "3.2.5",
+    "vite-plugin-ssr": "0.4.87"
   },
   "peerDependencies": {
     "@tsed/common": "^7.14.2",
     "vite": ">=3",
-    "vite-plugin-ssr": ">=0.4.12"
+    "vite-plugin-ssr": ">=0.4.87"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {

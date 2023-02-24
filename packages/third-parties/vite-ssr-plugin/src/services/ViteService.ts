@@ -1,4 +1,4 @@
-import {Constant, PlatformContext} from "@tsed/common";
+import {Constant, PlatformContext, PlatformRequest, PlatformResponse} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {renderPage} from "vite-plugin-ssr";
 
@@ -11,7 +11,22 @@ export class ViteService {
   protected config: ViteConfig;
 
   async render(viewPath: string, $ctx: PlatformContext) {
-    const url = $ctx.request.url;
+    const pageContext = await this.renderPage(viewPath, $ctx);
+
+    if (pageContext.httpResponse) {
+      const {
+        httpResponse: {body, contentType}
+      } = pageContext;
+
+      $ctx.response.setHeader("Content-Type", contentType);
+      $ctx.response.status(pageContext.httpResponse?.statusCode);
+
+      return body;
+    }
+  }
+
+  async renderPage(viewPath: string, $ctx: PlatformContext<PlatformRequest, PlatformResponse>) {
+    const urlOriginal = $ctx.request.url;
 
     const {data} = $ctx;
     const view = viewPath.replace(".vite", "");
@@ -27,7 +42,8 @@ export class ViteService {
       host: $ctx.request.host,
       protocol: $ctx.request.protocol,
       method: $ctx.request.method,
-      url,
+      url: urlOriginal,
+      urlOriginal,
       secure: $ctx.request.secure,
       headers: $ctx.request.headers,
       session: $ctx.request.session,
@@ -36,19 +52,19 @@ export class ViteService {
     };
 
     const pageContext = await renderPage({
-      url,
+      url: urlOriginal,
+      urlOriginal,
       pageProps,
       contextProps
     });
 
-    if (pageContext.httpResponse) {
-      const {
-        httpResponse: {body, statusCode, contentType}
-      } = pageContext;
-
-      $ctx.response.status(statusCode).setHeader("Content-Type", contentType);
-
-      return body;
+    if (pageContext.errorWhileRendering) {
+      $ctx.logger.error({
+        event: "VITE_RENDER_ERROR",
+        error: pageContext.errorWhileRendering
+      });
     }
+
+    return pageContext;
   }
 }
