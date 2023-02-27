@@ -1,4 +1,5 @@
 import {BaseContext} from "@tsed/di";
+import {Writable} from "stream";
 
 export const PLATFORM_VIEWS_EXTENSIONS = {
   atpl: "atpl",
@@ -54,10 +55,14 @@ export interface PlatformRenderOptions extends Record<string, unknown> {
   $ctx: BaseContext;
 }
 
+export interface PlatformViewWritableStream {
+  pipe(stream: Writable): void;
+}
+
 export interface PlatformViewEngine {
   options: PlatformViewsEngineOptions;
 
-  render(path: string, options: PlatformRenderOptions): Promise<string>;
+  render(path: string, options: PlatformRenderOptions): Promise<string | PlatformViewWritableStream>;
 }
 
 export interface PlatformViewsSettings {

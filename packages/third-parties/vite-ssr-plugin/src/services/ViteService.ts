@@ -10,16 +10,23 @@ export class ViteService {
   @Constant("vite", {})
   protected config: ViteConfig;
 
+  @Constant("vite.enableStream", false)
+  private enableStream: boolean;
+
   async render(viewPath: string, $ctx: PlatformContext) {
     const pageContext = await this.renderPage(viewPath, $ctx);
 
     if (pageContext.httpResponse) {
       const {
-        httpResponse: {body, contentType}
+        httpResponse,
+        httpResponse: {statusCode, body, contentType}
       } = pageContext;
 
-      $ctx.response.setHeader("Content-Type", contentType);
-      $ctx.response.status(pageContext.httpResponse?.statusCode);
+      $ctx.response.contentType(contentType).status(statusCode);
+
+      if (this.enableStream) {
+        return httpResponse;
+      }
 
       return body;
     }

@@ -33,66 +33,33 @@ async function getServiceFixture(httpResponse: any) {
 }
 
 describe("ViteService", () => {
-  beforeEach(() => {
-    jest.resetAllMocks();
-    return PlatformTest.create({
-      vite: {root: "./path/to/client", stateSnapshot: jest.fn().mockReturnValue({state: "state"})}
-    });
-  });
-  afterEach(() => PlatformTest.reset());
   describe("render()", () => {
-    it("should render the page", async () => {
-      const {$ctx, service} = await getServiceFixture({
-        statusCode: 200,
-        contentType: "text/html",
-        body: "html"
+    describe("when the enableStream: false", () => {
+      beforeEach(() => {
+        jest.resetAllMocks();
+        return PlatformTest.create({
+          vite: {root: "./path/to/client", stateSnapshot: jest.fn().mockReturnValue({state: "state"})}
+        });
       });
+      afterEach(() => PlatformTest.reset());
 
-      jest.spyOn($ctx.response, "status").mockReturnThis();
-      jest.spyOn($ctx.response, "setHeader").mockReturnThis();
+      it("should render the page", async () => {
+        const {$ctx, service} = await getServiceFixture({
+          statusCode: 200,
+          contentType: "text/html",
+          body: "html"
+        });
 
-      const result = await service.render("*", $ctx);
+        jest.spyOn($ctx.response, "status").mockReturnThis();
+        jest.spyOn($ctx.response, "contentType").mockReturnThis();
 
-      expect(result).toEqual("html");
-      expect(renderPage).toHaveBeenCalledWith({
-        view: "*",
-        pageProps: {
-          view: "*"
-        },
-        contextProps: {
-          headers: {
-            host: "host",
-            "x-header": "x-header"
-          },
-          host: "host",
-          method: "GET",
-          protocol: "https",
-          secure: true,
-          session: {},
-          stateSnapshot: {state: "state"},
-          url: "/"
-        },
-        url: "/",
-        urlOriginal: "/"
-      });
-      expect($ctx.response.status).toHaveBeenCalledWith(200);
-      expect($ctx.response.setHeader).toHaveBeenCalledWith("Content-Type", "text/html");
-    });
-    it("should return empty content if the page doesn't contains jsx content", async () => {
-      const {$ctx, service} = await getServiceFixture(null);
+        const result = await service.render("*", $ctx);
 
-      jest.spyOn($ctx.response, "status").mockReturnThis();
-      jest.spyOn($ctx.response, "body").mockReturnThis();
-      jest.spyOn($ctx.response, "setHeader").mockReturnThis();
-
-      const result = await service.render("vue.vite", $ctx);
-
-      expect(result).toEqual(undefined);
-      expect(renderPage).toHaveBeenCalledWith(
-        expect.objectContaining({
-          view: "vue",
+        expect(result).toEqual("html");
+        expect(renderPage).toHaveBeenCalledWith({
+          view: "*",
           pageProps: {
-            view: "vue"
+            view: "*"
           },
           contextProps: {
             headers: {
@@ -109,29 +76,113 @@ describe("ViteService", () => {
           },
           url: "/",
           urlOriginal: "/"
-        })
-      );
-      expect($ctx.response.status).not.toHaveBeenCalled();
-      expect($ctx.response.setHeader).not.toHaveBeenCalled();
-      expect($ctx.response.body).not.toHaveBeenCalled();
-    });
-    it("should log render error", async () => {
-      const {$ctx, service, renderPage} = await getServiceFixture(null);
-
-      jest.spyOn($ctx.logger, "error").mockReturnThis();
-
-      (renderPage as any).mockResolvedValue({
-        httpResponse: {},
-        errorWhileRendering: new Error("")
+        });
+        expect($ctx.response.status).toHaveBeenCalledWith(200);
+        expect($ctx.response.contentType).toHaveBeenCalledWith("text/html");
       });
+      it("should return empty content if the page doesn't contains jsx content", async () => {
+        const {$ctx, service} = await getServiceFixture(null);
 
-      jest.spyOn($ctx.response, "status").mockReturnThis();
-      jest.spyOn($ctx.response, "body").mockReturnThis();
-      jest.spyOn($ctx.response, "setHeader").mockReturnThis();
+        jest.spyOn($ctx.response, "status").mockReturnThis();
+        jest.spyOn($ctx.response, "body").mockReturnThis();
+        jest.spyOn($ctx.response, "contentType").mockReturnThis();
 
-      await service.render("vue.vite", $ctx);
+        const result = await service.render("vue.vite", $ctx);
 
-      expect($ctx.logger.error).toHaveBeenCalled();
+        expect(result).toEqual(undefined);
+        expect(renderPage).toHaveBeenCalledWith(
+          expect.objectContaining({
+            view: "vue",
+            pageProps: {
+              view: "vue"
+            },
+            contextProps: {
+              headers: {
+                host: "host",
+                "x-header": "x-header"
+              },
+              host: "host",
+              method: "GET",
+              protocol: "https",
+              secure: true,
+              session: {},
+              stateSnapshot: {state: "state"},
+              url: "/"
+            },
+            url: "/",
+            urlOriginal: "/"
+          })
+        );
+        expect($ctx.response.status).not.toHaveBeenCalled();
+        expect($ctx.response.contentType).not.toHaveBeenCalled();
+        expect($ctx.response.body).not.toHaveBeenCalled();
+      });
+      it("should log render error", async () => {
+        const {$ctx, service, renderPage} = await getServiceFixture(null);
+
+        jest.spyOn($ctx.logger, "error").mockReturnThis();
+
+        (renderPage as any).mockResolvedValue({
+          httpResponse: {},
+          errorWhileRendering: new Error("")
+        });
+
+        jest.spyOn($ctx.response, "status").mockReturnThis();
+        jest.spyOn($ctx.response, "body").mockReturnThis();
+        jest.spyOn($ctx.response, "setHeader").mockReturnThis();
+
+        await service.render("vue.vite", $ctx);
+
+        expect($ctx.logger.error).toHaveBeenCalled();
+      });
+    });
+
+    describe("when the enableStream: true", () => {
+      beforeEach(() => {
+        jest.resetAllMocks();
+        return PlatformTest.create({
+          vite: {enableStream: true, root: "./path/to/client", stateSnapshot: jest.fn().mockReturnValue({state: "state"})}
+        });
+      });
+      afterEach(() => PlatformTest.reset());
+
+      it("should render the page", async () => {
+        const {$ctx, service} = await getServiceFixture({
+          statusCode: 200,
+          contentType: "text/html",
+          body: "html"
+        });
+
+        jest.spyOn($ctx.response, "status").mockReturnThis();
+        jest.spyOn($ctx.response, "contentType").mockReturnThis();
+
+        const result = await service.render("*", $ctx);
+
+        expect(result).toEqual({body: "html", contentType: "text/html", statusCode: 200});
+        expect(renderPage).toHaveBeenCalledWith({
+          view: "*",
+          pageProps: {
+            view: "*"
+          },
+          contextProps: {
+            headers: {
+              host: "host",
+              "x-header": "x-header"
+            },
+            host: "host",
+            method: "GET",
+            protocol: "https",
+            secure: true,
+            session: {},
+            stateSnapshot: {state: "state"},
+            url: "/"
+          },
+          url: "/",
+          urlOriginal: "/"
+        });
+        expect($ctx.response.status).toHaveBeenCalledWith(200);
+        expect($ctx.response.contentType).toHaveBeenCalledWith("text/html");
+      });
     });
   });
 });
