@@ -55,14 +55,11 @@ describe("ViteService", () => {
 
       expect(result).toEqual("html");
       expect(renderPage).toHaveBeenCalledWith({
+        view: "*",
         pageProps: {
           view: "*"
         },
         contextProps: {
-          data: {
-            view: "*"
-          },
-          view: "*",
           headers: {
             host: "host",
             "x-header": "x-header"
@@ -73,8 +70,7 @@ describe("ViteService", () => {
           secure: true,
           session: {},
           stateSnapshot: {state: "state"},
-          url: "/",
-          urlOriginal: "/"
+          url: "/"
         },
         url: "/",
         urlOriginal: "/"
@@ -92,31 +88,29 @@ describe("ViteService", () => {
       const result = await service.render("vue.vite", $ctx);
 
       expect(result).toEqual(undefined);
-      expect(renderPage).toHaveBeenCalledWith({
-        pageProps: {
-          view: "vue"
-        },
-        contextProps: {
-          data: {
+      expect(renderPage).toHaveBeenCalledWith(
+        expect.objectContaining({
+          view: "vue",
+          pageProps: {
             view: "vue"
           },
-          headers: {
+          contextProps: {
+            headers: {
+              host: "host",
+              "x-header": "x-header"
+            },
             host: "host",
-            "x-header": "x-header"
+            method: "GET",
+            protocol: "https",
+            secure: true,
+            session: {},
+            stateSnapshot: {state: "state"},
+            url: "/"
           },
-          view: "vue",
-          host: "host",
-          method: "GET",
-          protocol: "https",
-          secure: true,
-          session: {},
-          stateSnapshot: {state: "state"},
           url: "/",
           urlOriginal: "/"
-        },
-        url: "/",
-        urlOriginal: "/"
-      });
+        })
+      );
       expect($ctx.response.status).not.toHaveBeenCalled();
       expect($ctx.response.setHeader).not.toHaveBeenCalled();
       expect($ctx.response.body).not.toHaveBeenCalled();
