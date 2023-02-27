@@ -38,20 +38,18 @@ export class ViteService {
     };
 
     const contextProps: ViteRenderContext = {
-      view,
       host: $ctx.request.host,
       protocol: $ctx.request.protocol,
       method: $ctx.request.method,
       url: urlOriginal,
-      urlOriginal,
       secure: $ctx.request.secure,
       headers: $ctx.request.headers,
       session: $ctx.request.session,
-      stateSnapshot: this.config.stateSnapshot && this.config.stateSnapshot(),
-      data: pageProps
+      stateSnapshot: this.config.stateSnapshot && this.config.stateSnapshot()
     };
 
     const pageContext = await renderPage({
+      view,
       url: urlOriginal,
       urlOriginal,
       pageProps,
