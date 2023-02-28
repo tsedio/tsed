@@ -17,18 +17,15 @@ export class ViteService {
     const pageContext = await this.renderPage(viewPath, $ctx);
 
     if (pageContext.httpResponse) {
-      const {
-        httpResponse,
-        httpResponse: {statusCode, body, contentType}
-      } = pageContext;
+      const {httpResponse} = pageContext;
 
-      $ctx.response.contentType(contentType).status(statusCode);
+      $ctx.response.contentType(httpResponse.contentType).status(httpResponse.statusCode);
 
       if (this.enableStream) {
         return httpResponse;
       }
 
-      return body;
+      return httpResponse.body;
     }
   }
 
