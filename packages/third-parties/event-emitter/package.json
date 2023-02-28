@@ -1,6 +1,6 @@
 {
   "name": "@tsed/event-emitter",
-  "version": "7.16.0",
+  "version": "7.16.1",
   "description": "EventEmitter package for Ts.ED framework",
   "contributors": [
     {
@@ -29,9 +29,9 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "7.16.0",
-    "@tsed/core": "7.16.0",
-    "@tsed/di": "7.16.0",
+    "@tsed/common": "7.16.1",
+    "@tsed/core": "7.16.1",
+    "@tsed/di": "7.16.1",
     "eventemitter2": "^6.4.4"
   },
   "peerDependencies": {

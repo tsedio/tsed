@@ -1,6 +1,6 @@
 {
   "name": "@tsed/adapters",
-  "version": "7.16.0",
+  "version": "7.16.1",
   "description": "Database adapters for Ts.ED",
   "private": false,
   "source": "./src/index.ts",
@@ -31,21 +31,21 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@tsed/ajv": "7.16.0",
-    "@tsed/common": "7.16.0",
-    "@tsed/core": "7.16.0",
-    "@tsed/di": "7.16.0",
-    "@tsed/json-mapper": "7.16.0",
-    "@tsed/schema": "7.16.0",
+    "@tsed/ajv": "7.16.1",
+    "@tsed/common": "7.16.1",
+    "@tsed/core": "7.16.1",
+    "@tsed/di": "7.16.1",
+    "@tsed/json-mapper": "7.16.1",
+    "@tsed/schema": "7.16.1",
     "@types/fs-extra": "9.0.13"
   },
   "peerDependencies": {
-    "@tsed/ajv": "^7.16.0",
-    "@tsed/common": "^7.16.0",
-    "@tsed/core": "^7.16.0",
-    "@tsed/di": "^7.16.0",
-    "@tsed/json-mapper": "^7.16.0",
-    "@tsed/schema": "^7.16.0"
+    "@tsed/ajv": "^7.16.1",
+    "@tsed/common": "^7.16.1",
+    "@tsed/core": "^7.16.1",
+    "@tsed/di": "^7.16.1",
+    "@tsed/json-mapper": "^7.16.1",
+    "@tsed/schema": "^7.16.1"
   },
   "peerDependenciesMeta": {
     "@tsed/ajv": {
