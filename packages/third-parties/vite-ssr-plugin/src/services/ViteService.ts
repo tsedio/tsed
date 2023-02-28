@@ -1,5 +1,6 @@
-import {Constant, PlatformContext, PlatformRequest, PlatformResponse} from "@tsed/common";
+import {Constant, PlatformContext} from "@tsed/common";
 import {Injectable} from "@tsed/di";
+import {Writable} from "stream";
 import {renderPage} from "vite-plugin-ssr";
 
 import {ViteConfig} from "../interfaces/ViteConfig";
@@ -13,7 +14,7 @@ export class ViteService {
   @Constant("vite.enableStream", false)
   private enableStream: boolean;
 
-  async render(viewPath: string, $ctx: PlatformContext) {
+  async render(viewPath: string, $ctx: PlatformContext): Promise<string | {pipe(stream: Writable): void} | undefined> {
     const pageContext = await this.renderPage(viewPath, $ctx);
 
     if (pageContext.httpResponse) {
@@ -29,7 +30,7 @@ export class ViteService {
     }
   }
 
-  async renderPage(viewPath: string, $ctx: PlatformContext<PlatformRequest, PlatformResponse>) {
+  async renderPage(viewPath: string, $ctx: PlatformContext) {
     const urlOriginal = $ctx.request.url;
 
     const {data} = $ctx;
