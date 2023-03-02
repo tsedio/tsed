@@ -13,7 +13,7 @@ registerProvider({
   provide: VITE_SERVER,
   deps: [Configuration, Logger],
   async useAsyncFactory(settings: Configuration, logger: Logger) {
-    const {enableStream, ...config} = settings.get<ViteConfig>("vite", {});
+    const {enableStream, statics: staticsOpts = {}, ...config} = settings.get<ViteConfig>("vite", {});
     const level = settings.logger.level;
 
     if (settings.env !== Env.PROD) {
@@ -31,7 +31,13 @@ registerProvider({
 
     logger.info("Initialize statics vite application");
 
-    return {middlewares: sirv(`${config.root || ""}/dist/client`)};
+    return {
+      middlewares: sirv(`${config.root || ""}/dist/client`, {
+        dotfiles: false,
+        ...staticsOpts,
+        dev: false
+      })
+    };
   },
   hooks: {
     $onDestroy(viteDevServer: Partial<ViteDevServer>): Promise<any> | void {
