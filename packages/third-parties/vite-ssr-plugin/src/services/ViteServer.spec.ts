@@ -95,7 +95,10 @@ describe("ViteServer", () => {
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
 
       expect(viteDevServer.middlewares).toEqual("sirv");
-      expect(sirv).toHaveBeenCalledWith("/dist/client");
+      expect(sirv).toHaveBeenCalledWith("/dist/client", {
+        dev: false,
+        dotfiles: false
+      });
     });
   });
   describe("with defined options - prod mode", () => {
@@ -116,7 +119,7 @@ describe("ViteServer", () => {
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
 
       expect(viteDevServer.middlewares).toEqual("sirv");
-      expect(sirv).toHaveBeenCalledWith("/root/dist/client");
+      expect(sirv).toHaveBeenCalledWith("/root/dist/client", {dev: false, dotfiles: false});
     });
   });
 });
