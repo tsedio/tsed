@@ -1,6 +1,6 @@
 {
   "name": "@tsed/jest-config",
-  "version": "7.16.2",
+  "version": "7.17.0",
   "private": true,
   "main": "jest.config.js",
   "scripts": {},
