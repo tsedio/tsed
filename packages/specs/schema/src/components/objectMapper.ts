@@ -21,6 +21,7 @@ export function objectMapper(input: any, options: JsonSchemaOptions) {
           ...options,
           groups: input?.$forwardGroups || value?.$forwardGroups ? options.groups : undefined
         };
+
         // remove groups to avoid bad schema generation over children models
         obj[key] = execMapper("item", value, opts);
         obj[key] = mapNullableType(obj[key], value, opts);

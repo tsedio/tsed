@@ -3,6 +3,7 @@ import {JsonEntityStore} from "../domain/JsonEntityStore";
 import {JsonFormatTypes} from "../domain/JsonFormatTypes";
 import {JsonLazyRef} from "../domain/JsonLazyRef";
 import {JsonSchema} from "../domain/JsonSchema";
+import {enumsRegistry} from "../registries/enumRegistries";
 import {getJsonEntityStore} from "./getJsonEntityStore";
 
 /**
@@ -270,4 +271,10 @@ export function lazyRef(cb: () => Type<any>) {
   } catch (er) {}
 
   return new JsonLazyRef(cb);
+}
+export function enums(e: Record<string, any>) {
+  const schema = string().enum(e);
+  enumsRegistry.set(e, schema);
+
+  return schema;
 }

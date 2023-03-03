@@ -15,6 +15,7 @@ import {
 import type {JSONSchema6, JSONSchema6Definition, JSONSchema6Type, JSONSchema6TypeName, JSONSchema6Version} from "json-schema";
 import {IgnoreCallback} from "../interfaces/IgnoreCallback";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
+import {enumsRegistry} from "../registries/enumRegistries";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {NestedGenerics} from "../utils/generics";
 import {getComputedType} from "../utils/getComputedType";
@@ -178,6 +179,10 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     return this.get("writeOnly");
   }
 
+  get hasDiscriminator() {
+    return !!this.#discriminator;
+  }
+
   static from(obj: Partial<JsonSchemaObject> = {}) {
     return new JsonSchema(obj);
   }
@@ -289,10 +294,6 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
     super.set("description", description);
 
     return this;
-  }
-
-  get hasDiscriminator() {
-    return !!this.#discriminator;
   }
 
   discriminator() {
@@ -592,10 +593,23 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * @see https://tools.ietf.org/html/draft-wright-json-schema-validation-01#section-6.23
    */
   enum(...enumValues: any[]): this;
-  enum(enumValue: any | any[], ...enumValues: any[]): this {
-    const {values, types} = serializeEnumValues([enumValue, enumValues].flat());
+  enum(enumSchema: JsonSchema): this;
+  enum(enumValue: any | any[] | JsonSchema, ...enumValues: any[]): this {
+    if (enumsRegistry.has(enumValue)) {
+      return this.enum(enumsRegistry.get(enumValue));
+    }
 
-    super.set("enum", values).any(...types);
+    if (enumValue instanceof JsonSchema) {
+      if (enumValue.getName()) {
+        super.set("enum", enumValue);
+      } else {
+        super.set("enum", enumValue.get("enum")).any(...enumValue.getJsonType());
+      }
+    } else {
+      const {values, types} = serializeEnumValues([enumValue, enumValues].flat());
+
+      super.set("enum", values).any(...types);
+    }
 
     return this;
   }
@@ -857,7 +871,6 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
         })
       );
     } else {
-      // TODO when OS3 will the only minimal supported version, we'll can remove this code
       if (types.length) {
         types = uniq(types).map(getJsonType);
 
@@ -1004,7 +1017,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
    * Get the symbolic name of the entity
    */
   getName() {
-    return this.get("name") || (this.#target ? nameOf(classOf(this.getComputedType())) : "");
+    return this.get("name") || (isClass(this.#target) ? nameOf(classOf(this.getComputedType())) : "");
   }
 
   clone() {

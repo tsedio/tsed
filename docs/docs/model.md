@@ -112,7 +112,7 @@ json type or when you use a mixed TypeScript types.
   </Tab>
 </Tabs>
 
-## Nullable <Badge text="6.25.0+"/>
+## Nullable
 
 The @@Nullable@@ decorator is used allow a null value on a field while preserving the original Typescript type.
 
@@ -326,6 +326,48 @@ class MyController {
 }
 ```
 
+### Set label to an enum <Badge text="7.17.0+"/>
+
+With OpenSpec 3 it's now possible to create shared enum for many models in `components.schemas` instead of having its inlined values in
+each model.
+
+Ts.ED introduce a new function `enums()` to declare the enum schema as follows:
+
+```ts
+import {enums} from "@tsed/schema";
+
+enum ProductTypes {
+  ALL = "ALL",
+  ASSETS = "ASSETS",
+  FOOD = "FOOD"
+}
+
+enums(ProductTypes).label("ProductTypes");
+
+// in models
+class Product {
+  @Property()
+  title: string;
+
+  @Enum(ProductTypes)
+  type: ProductTypes;
+}
+
+// in controller
+
+import {Enum} from "@tsed/schema";
+import {QueryParams, Controller} from "@tsed/common";
+
+@Controller("/products")
+class ProductsController {
+  @Get("/:type")
+  @Returns(200, Array).Of(Product)
+  async get(@PathParams("type") @Enum(ProductTypes) type: ProductTypes): Promise<Product> {
+    return [new Product()];
+  }
+}
+```
+
 ## Constant values
 
 The @@Const@@ decorator is used to restrict a value to a single value. For example, if you only support shipping to the
@@ -504,7 +546,7 @@ Circular reference can be resolved by using arrow with a @@Property@@ and @@Coll
 
 <<< @/docs/snippets/model/circular-references.ts
 
-## Custom Keys <Badge text="6.17.0+"/>
+## Custom Keys
 
 Ts.ED introduces the @@Keyword@@ decorator to declare a new custom validator for Ajv. Combined with the @@CustomKey@@
 decorator to add keywords to a property of your class, you can use more complex scenarios than what basic JsonSchema
@@ -860,7 +902,7 @@ class MyModel {
 
 Now `prop4` will have a `ChildModel` generated along to groups configuration.
 
-## RequiredGroups <Badge text="6.34.0+"/>
+## RequiredGroups
 
 As @@Groups@@ decorator, @@RequiredGroups@@ allow you to define when a field is `required` depending on the given groups strategy.
 
@@ -886,7 +928,7 @@ class MyModel {
 }
 ```
 
-## AllowedGroups <Badge text="v6.126.0+"/>
+## AllowedGroups
 
 This feature let your API consumer to define which field he wants to consume. The server will filter automatically fields based on the @@Groups@@
 strategy.
@@ -1015,7 +1057,7 @@ Expected json:
  </Tab>
 </Tabs>
 
-## Partial <Badge text="6.58.0+"/>
+## Partial
 
 Partial allow you to create a Partial model on an endpoint:
 
@@ -1036,7 +1078,7 @@ class MyController {
 
 ## Advanced validation
 
-### BeforeDeserialize <Badge text="6.39.0+"/>
+### BeforeDeserialize
 
 If you want to validate or manipulate data before the model has been deserialized you can use the @@BeforeDeserialize@@ decorator.
 
@@ -1070,7 +1112,7 @@ export class Animal {
 }
 ```
 
-### AfterDeserialize <Badge text="6.39.0+"/>
+### AfterDeserialize
 
 If you want to validate or manipulate data after the model has been deserialized you can use the @@AfterDeserialize@@ decorator.
 
@@ -1412,7 +1454,7 @@ The used features are the following:
   </Tab>
 </Tabs>
 
-## Deep object on query <Badge text="6.64.2+"/>
+## Deep object on query
 
 With OpenAPI 3, it's possible to describe and use a [deepObject](https://swagger.io/docs/specification/serialization/#query) `style` as Query params.
 It means, a consumer can call your endpoint with the following url:
@@ -1575,7 +1617,7 @@ You can declare schema by using the @@JsonSchemaObject@@ interface:
 
 <<< @/docs/snippets/model/raw-schema-controller.ts
 
-### Using functions <Badge text="6.14.0+"/>
+### Using functions
 
 It's also possible to write a valid JsonSchema by using the functional approach (Joi like):
 
