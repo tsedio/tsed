@@ -65,7 +65,7 @@ export function createRef(name: string, schema: JsonSchema, options: JsonSchemaO
 export function toRef(value: JsonSchema, schema: any, options: JsonSchemaOptions) {
   const name = createRefName(value.getName(), options);
 
-  options.schemas![value.getName()] = schema;
+  options.schemas![name] = schema;
 
   return createRef(name, value, options);
 }

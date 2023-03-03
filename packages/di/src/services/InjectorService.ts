@@ -141,7 +141,7 @@ export class InjectorService extends Container {
    * @param locals
    * @param options
    */
-  getMany<Type = any>(type: string, locals?: LocalsContainer, options?: Partial<InvokeOptions<Type>>): Type[] {
+  getMany<Type = any>(type: any, locals?: LocalsContainer, options?: Partial<InvokeOptions<Type>>): Type[] {
     return this.getProviders(type).map((provider) => this.invoke(provider.token, locals, options)!);
   }
 

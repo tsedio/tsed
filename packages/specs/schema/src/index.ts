@@ -119,6 +119,7 @@ export * from "./interfaces/JsonHookContext";
 export * from "./interfaces/JsonOpenSpec";
 export * from "./interfaces/JsonSchemaOptions";
 export * from "./registries/JsonSchemaMapperContainer";
+export * from "./registries/enumRegistries";
 export * from "./utils/buildPath";
 export * from "./utils/concatParameters";
 export * from "./utils/concatPath";
