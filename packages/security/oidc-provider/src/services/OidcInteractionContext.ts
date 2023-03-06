@@ -102,11 +102,13 @@ export class OidcInteractionContext {
   async interactionPrompt({client, ...options}: Record<string, any>): Promise<OidcInteractionPromptProps> {
     client = client || (await this.findClient());
 
+    const newClient = serialize(client, {useAlias: false, groups: ["render"]});
+
     // remove client secret from
-    delete client.clientSecret;
+    delete newClient.clientSecret;
 
     return {
-      client: serialize(client, {useAlias: false, groups: ["render"]}),
+      client: newClient,
       uid: this.uid,
       grantId: this.grantId,
       details: this.prompt.details,
