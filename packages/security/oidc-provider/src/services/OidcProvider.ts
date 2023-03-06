@@ -12,6 +12,15 @@ import {OidcAdapters} from "./OidcAdapters";
 import {OidcInteractions} from "./OidcInteractions";
 import {OidcJwks} from "./OidcJwks";
 
+function mapError(error: any) {
+  return Object.getOwnPropertyNames(error).reduce((obj: any, key) => {
+    return {
+      ...obj,
+      [key]: error[key]
+    };
+  }, {});
+}
+
 @Injectable()
 export class OidcProvider {
   raw: OIDCProvider;
@@ -167,11 +176,7 @@ export class OidcProvider {
       this.logger.error({
         event: "OIDC_ERROR",
         type: event,
-        error: {
-          error_name: error.error,
-          error_description: error.error_description,
-          error_detail: error.error_detail
-        },
+        error: mapError(error),
         account_id: accountId,
         params: ctx.oidc.params,
         headers: ctx.headers,
