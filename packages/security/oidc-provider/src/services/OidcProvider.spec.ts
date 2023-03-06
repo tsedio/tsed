@@ -58,7 +58,7 @@ describe("OidcProvider", () => {
 
       expect((oidcProvider as any).injector.logger.error).toHaveBeenCalledWith({
         account_id: "account_id",
-        error: {error_description: "error_description", error_detail: "error_detail", error_name: "error"},
+        error: {error_description: "error_description", error_detail: "error_detail", error: "error"},
         event: "OIDC_ERROR",
         headers: {
           origin: "origin"
@@ -96,7 +96,7 @@ describe("OidcProvider", () => {
 
       expect(ctx.logger.error).toHaveBeenCalledWith({
         account_id: "account_id",
-        error: {error_description: "error_description", error_detail: "error_detail", error_name: "error"},
+        error: {error_description: "error_description", error_detail: "error_detail", error: "error"},
         event: "OIDC_ERROR",
         headers: {
           origin: "origin"
