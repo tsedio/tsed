@@ -1,4 +1,4 @@
-import {Exception} from "@tsed/exceptions";
+import {Exception, HTTPException} from "@tsed/exceptions";
 
 describe("Exception", () => {
   it("should use origin", () => {
@@ -44,5 +44,19 @@ describe("Exception", () => {
 
     expect(exception.status).toEqual(203);
     expect(exception.toString()).toEqual("NON_AUTHORITATIVE_INFORMATION(203):");
+  });
+
+  it("should allow declaring custom status", () => {
+    class GatewayUserNotFoundError extends HTTPException {
+      public static readonly STATUS = 524;
+
+      constructor(message: string, origin?: Error | string | any) {
+        super(GatewayUserNotFoundError.STATUS, message, origin);
+      }
+    }
+
+    const error = new GatewayUserNotFoundError("test");
+
+    expect(error.name).toEqual("GATEWAY_USER_NOT_FOUND_ERROR");
   });
 });
