@@ -1,9 +1,6 @@
+import {classOf, nameOf} from "@tsed/core";
 import {constantCase} from "change-case";
 import statuses from "statuses";
-
-function getStatusConstant(status: number) {
-  return status === 200 ? "SUCCESS" : constantCase(String(statuses(status)));
-}
 
 export class Exception extends Error {
   /**
@@ -45,7 +42,7 @@ export class Exception extends Error {
 
     this.status = status;
     this.message = message;
-    this.name = getStatusConstant(status);
+    this.name = this.#getStatusConstant();
 
     this.setOrigin(origin);
   }
@@ -81,6 +78,14 @@ export class Exception extends Error {
 
   toString() {
     return `${this.name}(${this.status}): ${this.message} `.trim();
+  }
+
+  #getStatusConstant() {
+    try {
+      return this.status === 200 ? "SUCCESS" : constantCase(String(statuses(this.status)));
+    } catch (er) {
+      return constantCase(nameOf(classOf(this)));
+    }
   }
 }
 
