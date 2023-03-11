@@ -3,7 +3,7 @@ const team = require("../../team.json");
 const {version} = require("../../package");
 
 const ALGOLIA = {
-  apiKey: "f8a038207e461aaac0e2fd16403c2b01",
+  apiKey: "84b4eabc816051781755933d966be755",
   indexName: "ts_ed",
   appId: "DH8VVM2E1E"
 };
@@ -302,6 +302,8 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
             ]
           },
           {
+            title: "Current version",
+            tag: "version",
             text: `v${version}`,
             position: "right",
             items: [
