@@ -6,6 +6,7 @@ import "@tsed/swagger";
 import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
+import filedirname from "filedirname";
 import methodOverride from "method-override";
 import Path from "path";
 import {AuthCtrl} from "./controllers/rest/auth/AuthCtrl";
@@ -13,14 +14,16 @@ import {Account} from "./models/Account";
 import "./protocols/LoginLocalProtocol";
 import session from "express-session";
 
-export const rootDir = Path.resolve(__dirname);
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
+export {rootDir};
 
 @Configuration({
   rootDir,
   port: 8001,
   adapters: {
     Adapter: MemoryAdapter,
-    lowdbDir: `${__dirname}/../../.db`
+    lowdbDir: `${rootDir}/../../.db`
   },
   mount: {
     "/": [AuthCtrl]

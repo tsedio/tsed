@@ -1,10 +1,14 @@
 import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest} from "@tsed/common";
 import {CollectionOf, Post, Property, Required, Status} from "@tsed/schema";
+import filedirname from "filedirname";
 import multer, {FileFilterCallback} from "multer";
 import {dirname, join} from "path";
 import readPkgUp from "read-pkg-up";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 export class Task {
   @Property()
@@ -33,7 +37,7 @@ function getFileConfig(): any {
   return {
     storage: multer.diskStorage({
       destination: (req: any, _fileItem, cb) => {
-        const path = `${__dirname}/../.tmp`;
+        const path = `${rootDir}/../.tmp`;
         cb(null, path);
       }
     }),
@@ -45,14 +49,14 @@ function getFileConfig(): any {
 export class TestMulterController {
   @Post("/scenario-1")
   @Status(201)
-  @MulterOptions({dest: `${__dirname}/../.tmp`})
+  @MulterOptions({dest: `${rootDir}/../.tmp`})
   uploadWithName(@Required() @MultipartFile("media") media: PlatformMulterFile) {
     return media.originalname;
   }
 
   @Post("/scenario-2")
   @Status(201)
-  @MulterOptions({dest: `${__dirname}/../.tmp`})
+  @MulterOptions({dest: `${rootDir}/../.tmp`})
   uploadWithPayload(@MultipartFile("media") media: PlatformMulterFile, @BodyParams("form_id") formId: string) {
     return {
       file: media.originalname,

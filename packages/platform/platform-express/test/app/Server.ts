@@ -4,9 +4,13 @@ import {Configuration, Inject} from "@tsed/di";
 import compress from "compression";
 import {Application} from "express";
 import session from "express-session";
+
+import filedirname from "filedirname";
 import "../../src/index";
 
-export const rootDir = __dirname;
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
+export {rootDir};
 
 @Configuration({
   port: 8081,

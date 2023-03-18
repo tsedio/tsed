@@ -1,6 +1,10 @@
-import {join} from "path";
 import {expect} from "chai";
+import filedirname from "filedirname";
+import {join} from "path";
 import {getEngine, getEngines} from "./getEngines";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 describe("getEngines", () => {
   describe("getEngine()", () => {
@@ -10,7 +14,7 @@ describe("getEngines", () => {
 
         const result = await new Promise((resolve, reject) => {
           render(
-            join(__dirname, "../../test/fixtures/ejs/user.ejs"),
+            join(rootDir, "../../test/fixtures/ejs/user.ejs"),
             {
               user: {
                 name: "Tobi"
@@ -29,7 +33,7 @@ describe("getEngines", () => {
 
         const error: any = await new Promise((resolve) => {
           render(
-            join(__dirname, "../../test/fixtures/ejs/user2.ejs"),
+            join(rootDir, "../../test/fixtures/ejs/user2.ejs"),
             {
               user: {
                 name: "Tobi"

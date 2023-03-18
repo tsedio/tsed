@@ -1,10 +1,12 @@
-import {join} from "path";
-import {engines} from "../src/index";
+import filedirname from "filedirname";
 import fs from "fs";
 import sinon from "sinon";
-import {Engine} from "../src/components/Engine";
 
-const rootDir = join(__dirname);
+import {Engine} from "../src/components/Engine";
+import {engines} from "../src/index";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 interface EngineFixtureOptions {
   token: string | typeof Engine;

@@ -7,8 +7,11 @@ import cookieParser from "cookie-parser";
 import {Application} from "express";
 import "./services/MongoClient";
 import "./services/RedisClient";
+import filedirname from "filedirname";
 
-export const rootDir = __dirname;
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
+export {rootDir};
 
 @Configuration({
   port: 8081,

@@ -1,12 +1,15 @@
 import {GeneratorOptions} from "@prisma/generator-helper";
 import {parseEnvValue} from "@prisma/internals";
+import filedirname from "filedirname";
 import fs from "fs-extra";
 import {generateCode} from "../generator/generateCode";
 import removeDir from "../generator/utils/removeDir";
 import path, {join} from "path";
 
-export const defaultOutput = join(__dirname, "..", ".schema");
-export const packageDir = join(__dirname, "..", "..", "..");
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
+export const defaultOutput = join(rootDir, "..", ".schema");
+export const packageDir = join(rootDir, "..", "..", "..");
 
 function parseStringBoolean(stringBoolean: string | undefined) {
   return Boolean(stringBoolean ? stringBoolean === "true" : undefined);

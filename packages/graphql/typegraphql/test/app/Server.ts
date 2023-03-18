@@ -2,6 +2,7 @@ import "@tsed/ajv";
 import {Configuration, Constant, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/typegraphql";
 import "@tsed/passport";
+import filedirname from "filedirname";
 import {resolve} from "path";
 import {User} from "./graphql/auth/User";
 import {HelloController} from "./controllers/HelloController";
@@ -11,7 +12,8 @@ import "./graphql/index";
 import "./services/RecipeService";
 import "./services/UsersRepository";
 
-const rootDir = resolve(__dirname);
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 @Configuration({
   rootDir,
@@ -28,7 +30,7 @@ const rootDir = resolve(__dirname);
     default: {
       path: "/api/graphql",
       buildSchemaOptions: {
-        emitSchemaFile: resolve(__dirname, "../resources/schema.gql")
+        emitSchemaFile: resolve(rootDir, "../resources/schema.gql")
       },
       serverConfig: {
         context({req, res}: any) {

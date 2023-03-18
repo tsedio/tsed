@@ -1,14 +1,18 @@
 import {PlatformTest} from "@tsed/common";
+import filedirname from "filedirname";
 
 import {ViteService} from "../services/ViteService";
 import {ViteRendererMiddleware} from "./ViteRendererMiddleware";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 describe("ViteRenderMiddleware", () => {
   describe("use()", () => {
     beforeEach(() =>
       PlatformTest.create({
         vite: {
-          root: __dirname
+          root: rootDir
         }
       })
     );

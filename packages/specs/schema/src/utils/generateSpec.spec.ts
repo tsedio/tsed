@@ -13,6 +13,10 @@ import {Path} from "../decorators/operations/path";
 import {Returns} from "../decorators/operations/returns";
 import {SpecTypes} from "../domain/SpecTypes";
 import {generateSpec} from "./generateSpec";
+import filedirname from "filedirname";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 describe("generateSpec()", () => {
   describe("OS 3.0.1", () => {
@@ -36,7 +40,7 @@ describe("generateSpec()", () => {
           {token: Controller2, rootPath: "/rest"}
         ],
         specVersion: "3.0.1",
-        specPath: join(__dirname, "__mock__", "spec.json")
+        specPath: join(rootDir, "__mock__", "spec.json")
       });
 
       expect(result).toEqual({
@@ -154,7 +158,7 @@ describe("generateSpec()", () => {
           {token: Controller1, rootPath: "/rest"},
           {token: Controller2, rootPath: "/rest"}
         ],
-        specPath: join(__dirname, "__mock__", "spec.json")
+        specPath: join(rootDir, "__mock__", "spec.json")
       });
 
       expect(result).toEqual({

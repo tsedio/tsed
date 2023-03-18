@@ -9,11 +9,14 @@ import bodyParser from "body-parser";
 import compress from "compression";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import filedirname from "filedirname";
 import methodOverride from "method-override";
 import {join} from "path";
 import {Accounts} from "./services/Accounts";
 
-export const rootDir = __dirname;
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
+export {rootDir};
 
 @Configuration({
   port: 8081,
@@ -26,7 +29,7 @@ export const rootDir = __dirname;
   },
   oidc: {
     Accounts: Accounts,
-    jwksPath: join(__dirname, "..", "..", "keys", "jwks.json"),
+    jwksPath: join(rootDir, "..", "..", "keys", "jwks.json"),
     clients: [
       {
         client_id: "client_id",

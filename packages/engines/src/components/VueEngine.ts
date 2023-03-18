@@ -1,8 +1,11 @@
-import {Engine, EngineOptions, ViewEngineOptions} from "./Engine";
-import {ViewEngine} from "../decorators/viewEngine";
-import {getCachedEngine, importEngine} from "../utils/cache";
+import filedirname from "filedirname";
 import {join, resolve} from "path";
 import {promisify} from "util";
+import {ViewEngine} from "../decorators/viewEngine";
+import {getCachedEngine, importEngine} from "../utils/cache";
+import {Engine, EngineOptions} from "./Engine";
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 function requireFromString(src: string, filename: string) {
   const Module: any = module.constructor;
@@ -26,16 +29,6 @@ function hashCode(str: string) {
 export class VueEngine extends Engine {
   #renderToString: any;
 
-  async $onInit() {
-    await super.$onInit();
-    await importEngine("vue-pronto/lib/index", "pronto");
-    await importEngine("vueify");
-    await importEngine("vue-server-renderer");
-    const ssrRenderer = this.vueServerRenderer.createRenderer();
-
-    this.#renderToString = promisify(ssrRenderer.renderToString.bind(this));
-  }
-
   get pronto() {
     return getCachedEngine("pronto");
   }
@@ -48,8 +41,18 @@ export class VueEngine extends Engine {
     return getCachedEngine("vue-server-renderer");
   }
 
+  async $onInit() {
+    await super.$onInit();
+    await importEngine("vue-pronto/lib/index", "pronto");
+    await importEngine("vueify");
+    await importEngine("vue-server-renderer");
+    const ssrRenderer = this.vueServerRenderer.createRenderer();
+
+    this.#renderToString = promisify(ssrRenderer.renderToString.bind(this));
+  }
+
   protected $cacheOptions(template: string, options: EngineOptions, fromFile?: boolean): EngineOptions {
-    const fullPath = join(__dirname, `/${hashCode(template)}`);
+    const fullPath = join(rootDir, `/${hashCode(template)}`);
 
     if (!fromFile) {
       return {
@@ -63,7 +66,7 @@ export class VueEngine extends Engine {
 
   protected $compile(template: string, options: EngineOptions) {
     // make up a fake path
-    const fullPath = join(__dirname, `/${hashCode(template)}`);
+    const fullPath = join(rootDir, `/${hashCode(template)}`);
     const promise = this.getComponent(fullPath, template, options);
 
     return async (options: EngineOptions) => {
@@ -74,7 +77,7 @@ export class VueEngine extends Engine {
   protected async $compileFile(file: string, options: EngineOptions) {
     // prontoRenderer assume that the filepath is relative to a passed "rootpath"
     // and if you don't pass a rootpath it will try to find one
-    // based on its current __dirname
+    // based on its current rootDir
     // https://github.com/express-vue/vue-pronto/blob/c88e380fee8656bc3ed21c7d3adb2ef331be07d5/lib/utils/findPaths.js#L10-L18
     const fullPath = resolve(file);
     const rootPath = process.cwd();

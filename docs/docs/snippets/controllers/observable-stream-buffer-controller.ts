@@ -1,8 +1,12 @@
 import {PlatformResponse, Res} from "@tsed/common";
-import {Get} from "@tsed/schema";
 import {Controller} from "@tsed/di";
+import {Get} from "@tsed/schema";
+import filedirname from "filedirname";
 import {createReadStream, ReadStream} from "fs";
 import {Observable, of} from "rxjs";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 @Controller("/")
 export class KindOfResponseCtrl {
@@ -13,7 +17,7 @@ export class KindOfResponseCtrl {
 
   @Get("/stream")
   stream(): ReadStream {
-    return createReadStream(__dirname + "/response.txt");
+    return createReadStream(rootDir + "/response.txt");
   }
 
   @Get("/buffer")
