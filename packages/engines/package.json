@@ -22,7 +22,8 @@
   "private": false,
   "dependencies": {
     "fs-extra": "10.0.1",
-    "tslib": "2.4.0"
+    "tslib": "2.4.0",
+    "filedirname": "^2.7.0"
   },
   "devDependencies": {
     "@types/fs-extra": "^9.0.13",

@@ -2,13 +2,14 @@ import "@tsed/ajv";
 import {Constant, PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import compress from "compression";
-import cookieParser from "cookie-parser";
 import {Application} from "express";
 import session from "express-session";
-import methodOverride from "method-override";
-import "../../src";
 
-export const rootDir = __dirname;
+import filedirname from "filedirname";
+import "../../src";
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
+export {rootDir};
 
 @Configuration({
   port: 8081,

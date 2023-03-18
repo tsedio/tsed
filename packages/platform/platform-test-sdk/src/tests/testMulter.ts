@@ -1,9 +1,13 @@
 import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest, Post} from "@tsed/common";
 import {CollectionOf, Property, Required, Status} from "@tsed/schema";
 import {Request} from "express";
+import filedirname from "filedirname";
 import multer, {FileFilterCallback} from "multer";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 export class Task {
   @Property()
@@ -32,7 +36,7 @@ function getFileConfig(): any {
   return {
     storage: multer.diskStorage({
       destination: (req: Express.Request, _fileItem, cb) => {
-        const path = `${__dirname}/../.tmp`;
+        const path = `${rootDir}/../.tmp`;
         cb(null, path);
       }
     }),
@@ -44,14 +48,14 @@ function getFileConfig(): any {
 export class TestMulterController {
   @Post("/scenario-1")
   @Status(201)
-  @MulterOptions({dest: `${__dirname}/../.tmp`})
+  @MulterOptions({dest: `${rootDir}/../.tmp`})
   uploadWithName(@Required() @MultipartFile("media") media: PlatformMulterFile) {
     return media.originalname;
   }
 
   @Post("/scenario-2")
   @Status(201)
-  @MulterOptions({dest: `${__dirname}/../.tmp`})
+  @MulterOptions({dest: `${rootDir}/../.tmp`})
   uploadWithPayload(@MultipartFile("media") media: PlatformMulterFile, @BodyParams("form_id") formId: string) {
     return {
       file: media.originalname,
@@ -87,7 +91,7 @@ export function testMulter(options: PlatformTestingSdkOpts) {
   beforeAll(() => jest.resetAllMocks());
   describe("Scenario 1: POST /rest/multer/scenario-1", () => {
     it("should upload file with multer", async () => {
-      const result = await request.post("/rest/multer/scenario-1").attach("media", `${__dirname}/../data/file.txt`).expect(201);
+      const result = await request.post("/rest/multer/scenario-1").attach("media", `${rootDir}/../data/file.txt`).expect(201);
 
       expect(result.text).toEqual("file.txt");
     });
@@ -116,7 +120,7 @@ export function testMulter(options: PlatformTestingSdkOpts) {
     it("should upload file with multer", async () => {
       const result = await request
         .post("/rest/multer/scenario-2")
-        .attach("media", `${__dirname}/../data/file.txt`)
+        .attach("media", `${rootDir}/../data/file.txt`)
         .field({
           form_id: "form_id"
         })
@@ -127,7 +131,7 @@ export function testMulter(options: PlatformTestingSdkOpts) {
   });
   describe("Scenario 3: POST /rest/multer/scenario-3", () => {
     it("should upload file with multer", async () => {
-      const result = await request.post("/rest/multer/scenario-3").attach("media", `${__dirname}/../data/file.txt`).field({}).expect(201);
+      const result = await request.post("/rest/multer/scenario-3").attach("media", `${rootDir}/../data/file.txt`).field({}).expect(201);
 
       expect(result.body).toEqual({
         file: "file.txt"

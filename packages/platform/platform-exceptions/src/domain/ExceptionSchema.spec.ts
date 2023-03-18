@@ -2,8 +2,12 @@ import SwaggerParser from "@apidevtools/swagger-parser";
 import {BadRequest, Exception} from "@tsed/exceptions";
 import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
 import Ajv from "ajv";
+import filedirname from "filedirname";
 import {unlinkSync, writeJsonSync} from "fs-extra";
 import "./ExceptionSchema";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 function getAjv() {
   return new Ajv({
@@ -13,7 +17,7 @@ function getAjv() {
 }
 
 const validateSpec = async (spec: any) => {
-  const file = __dirname + "/spec.json";
+  const file = rootDir + "/spec.json";
   spec = {
     ...spec
   };

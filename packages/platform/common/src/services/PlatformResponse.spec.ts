@@ -1,8 +1,11 @@
 import {PlatformTest} from "@tsed/common";
-import {isArray} from "@tsed/core";
 import {PlatformViews} from "@tsed/platform-views";
+import filedirname from "filedirname";
 import {createReadStream} from "fs";
 import {PlatformResponse} from "./PlatformResponse";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 jest.mock("on-finished");
 
@@ -149,7 +152,7 @@ describe("PlatformResponse", () => {
     });
     it("should call body with stream", () => {
       const {res, response} = createResponse();
-      const stream = createReadStream(__dirname + "/__mock__/data.txt");
+      const stream = createReadStream(rootDir + "/__mock__/data.txt");
       jest.spyOn(stream, "pipe").mockReturnValue(undefined as any);
 
       response.body(stream);

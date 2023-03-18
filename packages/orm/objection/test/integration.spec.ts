@@ -1,8 +1,12 @@
 import {PlatformTest} from "@tsed/common";
+import filedirname from "filedirname";
 import {Knex} from "knex";
 import {serialize} from "@tsed/json-mapper";
 import {OBJECTION_CONNECTION} from "@tsed/objection";
 import {User} from "./helpers/models/User";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 describe("Objection integrations", () => {
   beforeAll(() => {
@@ -11,10 +15,10 @@ describe("Objection integrations", () => {
         client: "sqlite3",
         connection: ":memory:",
         migrations: {
-          directory: `${__dirname}/helpers/migrations`
+          directory: `${rootDir}/helpers/migrations`
         },
         seeds: {
-          directory: `${__dirname}/helpers/seeds`
+          directory: `${rootDir}/helpers/seeds`
         }
       }
     });

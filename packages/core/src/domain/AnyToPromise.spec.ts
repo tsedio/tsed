@@ -1,7 +1,11 @@
 import {catchAsyncError, isStream} from "@tsed/core";
+import filedirname from "filedirname";
 import {createReadStream} from "fs";
 import {of} from "rxjs";
 import {AnyToPromise, AnyToPromiseStatus} from "./AnyToPromise";
+
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 describe("AnyToPromise", () => {
   it("should handle sync value", async () => {
@@ -97,7 +101,7 @@ describe("AnyToPromise", () => {
     const resolver = new AnyToPromise();
 
     const result = await resolver.call(() => {
-      return createReadStream(__dirname + "/__mock__/response.txt");
+      return createReadStream(rootDir + "/__mock__/response.txt");
     });
 
     expect(result.type).toBe("STREAM");

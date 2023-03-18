@@ -1,8 +1,11 @@
+import filedirname from "filedirname";
 import {removeSync} from "fs-extra";
 import {join} from "path";
 import {generateJwks, getJwks} from "./getJwks";
 
-const rootDir = join(__dirname, "__mocks__");
+// FIXME remove when esm is ready
+const [, dir] = filedirname();
+const rootDir = join(dir, "__mocks__");
 
 describe("GetJwks", () => {
   beforeEach(() => {

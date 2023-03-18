@@ -1,9 +1,12 @@
 import {engines} from "@tsed/engines";
+import filedirname from "filedirname";
 import fs from "fs";
 import {expect} from "chai";
 import {join} from "path";
 
-const rootDir = join(__dirname, "..");
+// FIXME remove when esm is ready
+const [, dir] = filedirname();
+const rootDir = join(dir, "..");
 
 export function test(name: string) {
   const engine = engines.get(name)!;

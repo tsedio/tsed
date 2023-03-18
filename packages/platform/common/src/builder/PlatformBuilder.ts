@@ -82,7 +82,6 @@ export class PlatformBuilder<App = TsED.Application> {
    *
    * ```typescript
    * @Configuration({
-   *    rootDir: Path.resolve(__dirname),
    *    port: 8000,
    *    httpsPort: 8080,
    *    mount: {

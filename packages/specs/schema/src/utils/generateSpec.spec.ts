@@ -3,7 +3,6 @@ import {
   Consumes,
   Description,
   generateSpec,
-  getSpec,
   In,
   Min,
   Name,
@@ -14,9 +13,11 @@ import {
   Returns,
   SpecTypes
 } from "@tsed/schema";
+import filedirname from "filedirname";
 import {join} from "path";
 import {validateSpec} from "../../test/helpers/validateSpec";
-
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 describe("generateSpec()", () => {
   describe("OS 3.0.1", () => {
     it("should generate spec with options", async () => {
@@ -39,7 +40,7 @@ describe("generateSpec()", () => {
           {token: Controller2, rootPath: "/rest"}
         ],
         specVersion: "3.0.1",
-        specPath: join(__dirname, "__mock__", "spec.json")
+        specPath: join(rootDir, "__mock__", "spec.json")
       });
 
       expect(result).toEqual({
@@ -157,7 +158,7 @@ describe("generateSpec()", () => {
           {token: Controller1, rootPath: "/rest"},
           {token: Controller2, rootPath: "/rest"}
         ],
-        specPath: join(__dirname, "__mock__", "spec.json")
+        specPath: join(rootDir, "__mock__", "spec.json")
       });
 
       expect(result).toEqual({

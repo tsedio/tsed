@@ -1,9 +1,12 @@
 import {engines, requires} from "@tsed/engines";
 import {expect} from "chai";
+import filedirname from "filedirname";
 import fs from "fs";
 import {join} from "path";
 
-const rootDir = join(__dirname, "..");
+// FIXME remove when esm is ready
+const [, dir] = filedirname();
+const rootDir = join(dir, "..");
 
 const readFile = fs.readFile;
 const readFileSync = fs.readFileSync;
