@@ -116,7 +116,7 @@
     "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
     "@faker-js/faker": "6.1.1",
-    "@tsed/monorepo-utils": "^1.22.6",
+    "@tsed/monorepo-utils": "^1.23.0",
     "@tsed/ts-doc": "4.0.14",
     "@types/axios": "0.14.0",
     "@types/chai": "4.3.0",

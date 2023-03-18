@@ -3964,10 +3964,10 @@
     semver "^7.3.5"
     tslib "2.3.1"
 
-"@tsed/monorepo-utils@^1.22.6":
-  version "1.22.6"
-  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.22.6.tgz#82f037fb0053a9d5bd20c52014c61a8c3e183716"
-  integrity sha512-T+ngaGVZas/eadHD2EtsCLPaNqhvfe0cBqkZ8wedU/9DVDHZTV+0B4y6cRCEUN3FJ7kM8RLf8SXKppekAB9EHg==
+"@tsed/monorepo-utils@^1.23.0":
+  version "1.23.0"
+  resolved "https://registry.yarnpkg.com/@tsed/monorepo-utils/-/monorepo-utils-1.23.0.tgz#c5ace097923a9a0f660d1471ca4f08cc09f92475"
+  integrity sha512-JOoP5i6wMPKnLRId7+uIIErHM8FgHxGcsIb6e54kYJv4vTC1Gj0NuZODGGs/XZa1x9jXoWCwQfAHOfhodpCFPw==
   dependencies:
     axios "0.27.2"
     chalk "4.1.2"
