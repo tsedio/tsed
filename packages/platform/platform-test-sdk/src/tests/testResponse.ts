@@ -1,12 +1,15 @@
 import {Context, Controller, Get, getContext, PathParams, PlatformResponse, PlatformTest, Post, Res} from "@tsed/common";
 import {CollectionOf, ContentType, Enum, ForwardGroups, Groups, Ignore, Name, Property, Required, Returns, Status} from "@tsed/schema";
 import axios from "axios";
+import filedirname from "filedirname";
 import {createReadStream} from "fs";
 import {join} from "path";
 import {of} from "rxjs";
 import {agent, SuperAgentStatic} from "superagent";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces";
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 class Base {
   @Ignore()
@@ -131,13 +134,13 @@ class TestResponseParamsCtrl {
   @Get("/scenario7")
   @ContentType("application/json")
   testScenario7Stream() {
-    return createReadStream(join(__dirname, "../data/response.data.json"));
+    return createReadStream(join(rootDir, "../data/response.data.json"));
   }
 
   @Get("/scenario7b")
   @ContentType("application/json")
   async testScenario7bStream() {
-    return createReadStream(join(__dirname, "../data/response.data.json"));
+    return createReadStream(join(rootDir, "../data/response.data.json"));
   }
 
   @Get("/scenario9/static")

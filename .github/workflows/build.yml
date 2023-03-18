@@ -252,7 +252,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x]
+        node-version: [16.x]
 
     steps:
       - uses: actions/checkout@v3
@@ -261,7 +261,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000
+        run: yarn install --frozen-lockfile --ignore-engines --network-timeout 500000
       - name: Release packages
         env:
           CI: true
@@ -286,7 +286,7 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000
+        run: yarn install --frozen-lockfile --ignore-engines --network-timeout 500000
       - name: Build pages
         env:
           CI: true

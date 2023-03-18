@@ -1,12 +1,14 @@
 import {engines} from "../../src/index";
+import filedirname from "filedirname";
 import handlebars from "handlebars";
 import fs from "fs";
 import {expect} from "chai";
 import {join} from "path";
 
 const Sqrl = require("squirrelly");
-
-const rootDir = join(__dirname, "..");
+// FIXME remove when esm is ready
+const [, dir] = filedirname();
+const rootDir = join(dir, "..");
 
 const readFile = fs.readFile;
 const readFileSync = fs.readFileSync;

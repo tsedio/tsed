@@ -3,8 +3,11 @@ import "@tsed/ajv";
 import {Configuration} from "@tsed/di";
 import "@tsed/stripe";
 import "@tsed/swagger";
+import filedirname from "filedirname";
 
-export const rootDir = __dirname;
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
+export {rootDir};
 
 @Configuration({
   port: 8081,

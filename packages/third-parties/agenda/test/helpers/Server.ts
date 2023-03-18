@@ -1,4 +1,5 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
+import filedirname from "filedirname";
 import Path from "path";
 import "@tsed/platform-express";
 import "@tsed/agenda";
@@ -7,7 +8,8 @@ import bodyParser from "body-parser";
 import compress from "compression";
 import methodOverride from "method-override";
 
-const rootDir = Path.resolve(__dirname);
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 @Configuration({
   rootDir,

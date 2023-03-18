@@ -215,13 +215,15 @@
         "dir": "./docs/.vuepress/dist",
         "url": "https://github.com/tsedio/tsed",
         "branch": "gh-pages",
-        "cname": "tsed.io"
+        "cname": "tsed.io",
+        "if": "production"
       },
       {
         "dir": "./docs-references/.vuepress/dist",
         "url": "https://github.com/tsedio/api-docs.tsed.io.git",
         "branch": "main",
-        "cname": "api-docs.tsed.io"
+        "cname": "api-docs.tsed.io",
+        "if": "production"
       }
     ],
     "examples": {

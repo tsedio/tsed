@@ -1,7 +1,11 @@
+import filedirname from "filedirname";
 import {join} from "path";
 import {ModuleKind, Project, ScriptTarget} from "ts-morph";
 
-const SNAPSHOT_DIR = `${__dirname}/../../test/snapshots`;
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
+
+const SNAPSHOT_DIR = `${rootDir}/../../test/snapshots`;
 
 export function createProjectFixture(dir = "/") {
   const baseDir = join(SNAPSHOT_DIR, dir);

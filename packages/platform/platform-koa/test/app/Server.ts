@@ -1,10 +1,13 @@
 import "@tsed/ajv";
 import {PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
+import filedirname from "filedirname";
 import Application from "koa";
 import session from "koa-session";
 
-export const rootDir = __dirname;
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
+export {rootDir};
 
 @Configuration({
   port: 8083,

@@ -1,14 +1,15 @@
 import {Configuration, Inject, PlatformApplication} from "@tsed/common";
-import Path from "path";
-import "@tsed/platform-express";
 import "@tsed/objection";
-
-import cookieParser from "cookie-parser";
+import "@tsed/platform-express";
 import bodyParser from "body-parser";
 import compress from "compression";
+
+import cookieParser from "cookie-parser";
+import filedirname from "filedirname";
 import methodOverride from "method-override";
 
-const rootDir = Path.resolve(__dirname);
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 @Configuration({
   rootDir,

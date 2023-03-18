@@ -1,14 +1,17 @@
 import {nameOf} from "@tsed/core";
 import {resolveControllers} from "@tsed/di";
+import filedirname from "filedirname";
 import {importProviders} from "./importProviders";
+// FIXME remove when esm is ready
+const [, rootDir] = filedirname();
 
 describe("importProviders", () => {
   it("should load providers and merge configuration", async () => {
     const configuration = {
       mount: {
-        "/rest": [`${__dirname}/__mock__/controllers/**/*.ts`]
+        "/rest": [`${rootDir}/__mock__/controllers/**/*.ts`]
       },
-      imports: [`${__dirname}/__mock__/**/Module*.ts`]
+      imports: [`${rootDir}/__mock__/**/Module*.ts`]
     };
 
     const result = await importProviders(configuration);
