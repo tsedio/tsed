@@ -41,7 +41,7 @@ exports.create = ({root, name, externals = {}, resolve = {}}) => {
             {
               loader: "ts-loader",
               options: {
-                configFile: "tsconfig.compile.esm.json"
+                configFile: "tsconfig.esm.json"
               }
             }
           ],

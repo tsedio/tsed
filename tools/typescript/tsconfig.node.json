@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "esnext",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "moduleResolution": "node",
+    "isolatedModules": false,
+    "suppressImplicitAnyIndexErrors": false,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "resolveJsonModule": true,
+    "newLine": "LF",
+    "skipLibCheck": true,
+    "lib": ["ES2021", "esnext.asynciterable"],
+    "declaration": true,
+    "noResolve": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "noEmit": false
+  }
+}

@@ -1,10 +1,11 @@
 {
   "name": "@tsed/integration",
   "version": "7.18.2",
-  "main": "index.js",
+  "source": "src/index.ts",
+  "main": "src/index.js",
   "private": true,
   "scripts": {
-    "build": "yarn run tsc --project tsconfig.compile.json"
+    "build": "tsc --build tsconfig.json"
   },
   "devDependencies": {
     "@tsed/common": "7.18.2",
@@ -15,7 +16,8 @@
     "@tsed/platform-express": "7.18.2",
     "@tsed/platform-views": "7.18.2",
     "@tsed/schema": "7.18.2",
-    "@tsed/swagger": "7.18.2"
+    "@tsed/swagger": "7.18.2",
+    "@tsed/typescript": "7.18.2"
   },
   "dependencies": {},
   "peerDependencies": {}

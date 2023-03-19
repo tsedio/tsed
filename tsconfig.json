@@ -1,19 +1,173 @@
 {
-  "extends": "./tsconfig.base.json",
+  "files": [],
   "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@tsed/*": [
-        "packages/*/src",
-        "packages/platform/*/src",
-        "packages/security/*/src",
-        "packages/specs/*/src",
-        "packages/orm/*/src",
-        "packages/graphql/*/src",
-        "packages/third-parties/*/src",
-        "packages/utils/*/src"
-      ]
-    }
+    "module": "ES2020",
+    "target": "ES2020",
+    "noEmit": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "moduleResolution": "node"
   },
-  "exclude": ["node_modules", "**/node_modules", "**/dist", "**/.*/"]
+  "references": [
+    {
+      "path": "./packages/engines"
+    },
+    {
+      "path": "./packages/di"
+    },
+    {
+      "path": "./packages/platform/platform-params"
+    },
+    {
+      "path": "./packages/platform/platform-router"
+    },
+    {
+      "path": "./packages/specs/openspec"
+    },
+    {
+      "path": "./packages/utils/normalize-path"
+    },
+    {
+      "path": "./packages/third-parties/components-scan"
+    },
+    {
+      "path": "./packages/platform/platform-log-middleware"
+    },
+    {
+      "path": "./packages/platform/common"
+    },
+    {
+      "path": "./packages/graphql/apollo"
+    },
+    {
+      "path": "./packages/platform/platform-response-filter"
+    },
+    {
+      "path": "./packages/platform/platform-middlewares"
+    },
+    {
+      "path": "./packages/graphql/typegraphql"
+    },
+    {
+      "path": "./packages/orm/ioredis"
+    },
+    {
+      "path": "./packages/orm/mongoose"
+    },
+    {
+      "path": "./packages/orm/adapters"
+    },
+    {
+      "path": "./packages/orm/mikro-orm"
+    },
+    {
+      "path": "./packages/specs/ajv"
+    },
+    {
+      "path": "./packages/specs/exceptions"
+    },
+    {
+      "path": "./packages/orm/prisma"
+    },
+    {
+      "path": "./packages/platform/platform-cache"
+    },
+    {
+      "path": "./packages/specs/schema"
+    },
+    {
+      "path": "./packages/orm/objection"
+    },
+    {
+      "path": "./packages/orm/adapters-redis"
+    },
+    {
+      "path": "./packages/specs/json-mapper"
+    },
+    {
+      "path": "./packages/platform/platform-express"
+    },
+    {
+      "path": "./packages/platform/platform-exceptions"
+    },
+    {
+      "path": "./packages/orm/testing-mongoose"
+    },
+    {
+      "path": "./packages/platform/platform-koa"
+    },
+    {
+      "path": "./packages/platform/platform-test-sdk"
+    },
+    {
+      "path": "./packages/security/passport"
+    },
+    {
+      "path": "./packages/third-parties/agenda"
+    },
+    {
+      "path": "./packages/platform/platform-views"
+    },
+    {
+      "path": "./packages/platform/platform-serverless-http"
+    },
+    {
+      "path": "./packages/third-parties/formio"
+    },
+    {
+      "path": "./packages/specs/swagger"
+    },
+    {
+      "path": "./packages/platform/platform-serverless"
+    },
+    {
+      "path": "./packages/security/jwks"
+    },
+    {
+      "path": "./packages/security/oidc-provider"
+    },
+    {
+      "path": "./packages/third-parties/socketio-testing"
+    },
+    {
+      "path": "./packages/platform/platform-serverless-testing"
+    },
+    {
+      "path": "./packages/third-parties/vite-ssr-plugin"
+    },
+    {
+      "path": "./packages/third-parties/stripe"
+    },
+    {
+      "path": "./packages/third-parties/schema-formio"
+    },
+    {
+      "path": "./packages/third-parties/socketio"
+    },
+    {
+      "path": "./tools/integration"
+    },
+    {
+      "path": "./packages/third-parties/event-emitter"
+    },
+    {
+      "path": "./packages/third-parties/formio-types"
+    },
+    {
+      "path": "./packages/perf"
+    },
+    {
+      "path": "./packages/orm/typeorm"
+    },
+    {
+      "path": "./packages/third-parties/terminus"
+    },
+    {
+      "path": "./packages/core"
+    }
+  ],
+  "exclude": ["node_modules", "docs", "docs-references"]
 }

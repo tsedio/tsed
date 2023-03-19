@@ -22,12 +22,13 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
-    "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "build": "yarn barrels && yarn build:ts",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
-    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
+    "start": "ts-node test/app/index.ts",
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
+    "build:ts": "tsc --build tsconfig.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "@tsed/formio-types": "7.18.2",
@@ -43,7 +44,10 @@
     "express": "^4.17.1",
     "formio": "^2.0.0",
     "mongodb": "*",
-    "mongoose": "^6.1.7"
+    "mongoose": "^6.1.7",
+    "@tsed/typescript": "7.18.2",
+    "@tsed/eslint": "7.18.2",
+    "eslint": "^8.12.0"
   },
   "peerDependencies": {
     "@tsed/common": "^7.18.2",

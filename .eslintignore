@@ -10,3 +10,5 @@ docs-references
 *.lock
 benchmarks.*
 **/generated
+
+*/**/*.js

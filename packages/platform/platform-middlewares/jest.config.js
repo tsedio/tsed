@@ -2,7 +2,7 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  ...require("@tsed/jest-config")(__dirname, "platform-middlewares"),
+  ...require("@tsed/jest-config"),
   coverageThreshold: {
     global: {
       statements: 100,

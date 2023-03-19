@@ -14,10 +14,11 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
-    "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json",
-    "barrels": "yarn barrelsby --delete -d ./src -d ./src/interfaces -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\""
+    "build": "yarn barrels && yarn build:ts",
+    "barrels": "yarn barrelsby --delete -d ./src -d ./src/interfaces -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
+    "build:ts": "tsc --build tsconfig.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "keywords": [
     "Ts.ED",
@@ -42,6 +43,10 @@
     "ajv": "^8.12.0",
     "axios": "^1.3.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@tsed/typescript": "7.18.2",
+    "@tsed/eslint": "7.18.2",
+    "eslint": "^8.12.0"
+  },
   "peerDependencies": {}
 }

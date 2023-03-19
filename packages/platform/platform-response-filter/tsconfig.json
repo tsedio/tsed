@@ -1,0 +1,18 @@
+{
+  "files": [],
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "composite": true
+  },
+  "exclude": ["node_modules", "lib", "benchmark", "coverage", "spec", "keys", "jest.config.js", "webpack.config.js"],
+  "references": [
+    {
+      "path": "./tsconfig.esm.json"
+    },
+    {
+      "path": "./tsconfig.cjs.json"
+    }
+  ]
+}

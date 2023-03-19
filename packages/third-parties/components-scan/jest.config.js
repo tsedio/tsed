@@ -2,7 +2,7 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  ...require("@tsed/jest-config")(__dirname, "platform-serverless"),
+  ...require("@tsed/jest-config"),
   coverageThreshold: {
     global: {
       branches: 71.05,

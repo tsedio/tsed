@@ -54,6 +54,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run build
+        run: yarn build
+        env:
+          FORCE_COLOR: true
       - name: Run test
         run: yarn test:integration
         env:
@@ -76,6 +80,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run build
+        run: yarn tsc --build
       - name: Run test
         run: yarn test:core --since origin/production
 
@@ -96,6 +102,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run build
+        run: yarn tsc --build
       - name: Run test
         run: yarn test:specs --since origin/production
 
@@ -116,6 +124,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run build
+        run: yarn tsc --build
       - name: Run test
         run: yarn test:platform --since origin/production
 
@@ -136,6 +146,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run build
+        run: yarn tsc --build
       - name: Run test
         run: yarn test:orm --since origin/production
 
@@ -156,6 +168,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run build
+        run: yarn tsc --build
       - name: Run test
         run: yarn test:graphql --since origin/production
 
@@ -176,6 +190,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run build
+        run: yarn tsc --build
       - name: Run test
         run: yarn test:security --since origin/production
 
@@ -196,6 +212,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run build
+        run: yarn tsc --build
       - name: Run test
         run: yarn test:third-parties --since origin/production
 
@@ -216,43 +234,15 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install --frozen-lockfile --network-timeout 500000 --ignore-engines
+      - name: Run build
+        run: yarn tsc --build
       - name: Run test
         run: yarn test:formio --since origin/production
-
-  build:
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile --network-timeout 500000
-      - name: Run build
-        run: yarn build
 
   deploy-packages:
     runs-on: ubuntu-latest
     needs:
-      [
-        lint,
-        test-core,
-        test-specs,
-        test-platform,
-        test-integration,
-        test-orm,
-        test-security,
-        test-graphql,
-        test-third-parties,
-        test-formio,
-        build
-      ]
+      [lint, test-core, test-specs, test-platform, test-integration, test-orm, test-security, test-graphql, test-third-parties, test-formio]
     if: github.event_name != 'pull_request' && contains('
       refs/heads/production
       refs/heads/alpha
