@@ -14,10 +14,11 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
-    "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts"
+    "build": "yarn build:ts",
+    "start": "ts-node test/app/index.ts",
+    "build:ts": "tsc --build tsconfig.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "tslib": "2.4.0"
@@ -25,13 +26,15 @@
   "devDependencies": {
     "@tsed/common": "7.18.2",
     "@tsed/di": "7.18.2",
-    "socket.io-client": "^4.1.2"
+    "socket.io-client": "^4.1.2",
+    "@tsed/typescript": "7.18.2",
+    "@tsed/eslint": "7.18.2",
+    "eslint": "^8.12.0"
   },
   "peerDependencies": {
     "@tsed/common": "^7.18.2",
     "@tsed/core": "^7.18.2",
     "@tsed/di": "^7.18.2",
-    "@tsed/socketio": "^7.18.2",
     "socket.io-client": "^4.0.1"
   }
 }

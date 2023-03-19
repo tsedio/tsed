@@ -1,0 +1,36 @@
+{
+  "extends": "@tsed/typescript/tsconfig.node.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "module": "ES2020",
+    "rootDir": "src",
+    "outDir": "./lib/esm",
+    "declaration": true,
+    "declarationDir": "./lib/types",
+    "composite": true,
+    "noEmit": false
+  },
+  "include": ["src", "src/**/*.json"],
+  "exclude": [
+    "node_modules",
+    "test",
+    "lib",
+    "benchmark",
+    "coverage",
+    "spec",
+    "**/*.benchmark.ts",
+    "**/*.spec.ts",
+    "keys",
+    "jest.config.js",
+    "**/__mock__/**",
+    "webpack.config.js"
+  ],
+  "references": [
+    {
+      "path": "../../core"
+    },
+    {
+      "path": "../schema"
+    }
+  ]
+}

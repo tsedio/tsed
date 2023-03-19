@@ -14,11 +14,12 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
-    "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "build": "yarn barrels && yarn build:ts",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
+    "build:ts": "tsc --build tsconfig.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "tslib": "2.4.0"
@@ -26,7 +27,10 @@
   "devDependencies": {
     "@tsed/di": "7.18.2",
     "@tsed/platform-middlewares": "7.18.2",
-    "@tsed/platform-params": "7.18.2"
+    "@tsed/platform-params": "7.18.2",
+    "@tsed/typescript": "7.18.2",
+    "@tsed/eslint": "7.18.2",
+    "eslint": "^8.12.0"
   },
   "peerDependencies": {
     "@tsed/di": "^7.18.2",

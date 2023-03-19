@@ -15,12 +15,13 @@
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "yarn clean && yarn barrels && yarn run build:esm && yarn run build:cjs && cp -r ./views ./lib/views",
-    "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "build": "yarn clean && yarn barrels && yarn build:ts && cp -r ./views ./lib/views",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "start": "ts-node -r tsconfig-paths/register test/app/index.ts",
-    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
+    "start": "ts-node test/app/index.ts",
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
+    "build:ts": "tsc --build tsconfig.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "@tsed/normalize-path": "7.18.2",
@@ -37,7 +38,10 @@
     "@tsed/json-mapper": "7.18.2",
     "@tsed/openspec": "7.18.2",
     "@tsed/schema": "7.18.2",
-    "@types/swagger-ui-dist": ">=3.30.1"
+    "@types/swagger-ui-dist": ">=3.30.1",
+    "@tsed/typescript": "7.18.2",
+    "@tsed/eslint": "7.18.2",
+    "eslint": "^8.12.0"
   },
   "peerDependencies": {
     "@tsed/common": "^7.18.2"

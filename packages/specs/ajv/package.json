@@ -13,11 +13,12 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn barrels && yarn run build:esm && yarn run build:cjs",
-    "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "build": "yarn barrels && yarn build:ts",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
+    "build:ts": "tsc --build tsconfig.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "ajv-errors": "3.0.0",
@@ -29,7 +30,10 @@
     "@tsed/di": "7.18.2",
     "@tsed/exceptions": "7.18.2",
     "@tsed/schema": "7.18.2",
-    "ajv": "8.11.0"
+    "ajv": "8.11.0",
+    "@tsed/typescript": "7.18.2",
+    "@tsed/eslint": "7.18.2",
+    "eslint": "^8.12.0"
   },
   "peerDependencies": {
     "@tsed/core": "^7.18.2",

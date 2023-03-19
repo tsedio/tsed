@@ -74,6 +74,9 @@ export function testMulter(options: PlatformTestingSdkOpts) {
   beforeAll(
     PlatformTest.bootstrap(options.server, {
       ...options,
+      logger: {
+        level: "info"
+      },
       mount: {
         "/rest": [TestMulterController]
       }

@@ -1,8 +1,10 @@
+const jestConfig = require("@tsed/jest-config");
+
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  ...require("@tsed/jest-config")(__dirname, "root"),
+  ...jestConfig,
   coverageThreshold: {
     global: {
       statements: 99.26,

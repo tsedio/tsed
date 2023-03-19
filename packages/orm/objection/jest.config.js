@@ -2,7 +2,11 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  ...require("@tsed/jest-config")(__dirname, "objection"),
+  ...require("@tsed/jest-config"),
+  roots: ["<rootDir>/src", "<rootDir>/test"],
+  moduleNameMapper: {
+    "@tsed/objection": "<rootDir>/src/index.ts"
+  },
   coverageThreshold: {
     global: {
       branches: 68.75,

@@ -17,12 +17,13 @@
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "yarn clean && yarn barrels && yarn run build:esm && yarn run build:cjs && yarn run build:browser",
-    "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "build": "yarn clean && yarn barrels && yarn build:ts && yarn run build:browser",
     "build:browser": "webpack",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
-    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2"
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
+    "build:ts": "tsc --build tsconfig.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "keywords": [
     "TypeScript",
@@ -51,7 +52,10 @@
     "@types/json-schema": "7.0.11",
     "@types/picomatch": "2.3.0",
     "@types/statuses": "2.0.0",
-    "picomatch-browser": "https://github.com/silverwind/picomatch#ee6ebcc5570a8846d81610c11ebb92a9e199b145"
+    "picomatch-browser": "https://github.com/silverwind/picomatch#ee6ebcc5570a8846d81610c11ebb92a9e199b145",
+    "@tsed/typescript": "7.18.2",
+    "@tsed/eslint": "7.18.2",
+    "eslint": "^8.12.0"
   },
   "peerDependencies": {
     "@tsed/core": "^7.18.2",

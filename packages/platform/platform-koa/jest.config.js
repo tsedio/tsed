@@ -2,7 +2,11 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  ...require("@tsed/jest-config")(__dirname, "platform-koa"),
+  ...require("@tsed/jest-config"),
+  roots: ["<rootDir>/src", "<rootDir>/test"],
+  moduleNameMapper: {
+    "^@tsed/platform-koa$": "<rootDir>/src/index.ts"
+  },
   coverageThreshold: {
     global: require("./coverage.json")
   }

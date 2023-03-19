@@ -14,12 +14,13 @@
   },
   "scripts": {
     "clean": "rm -rf lib",
-    "build": "yarn clean && yarn barrels && yarn run build:esm && yarn run build:cjs",
-    "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json",
+    "build": "yarn clean && yarn barrels && yarn build:ts",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "build:ts": "tsc --build tsconfig.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "tslib": "2.4.0"
@@ -36,7 +37,10 @@
     "passport": "0.5.2",
     "passport-http": "0.3.0",
     "passport-local": "1.0.0",
-    "passport-strategy": "1.0.0"
+    "passport-strategy": "1.0.0",
+    "@tsed/typescript": "7.18.2",
+    "@tsed/eslint": "7.18.2",
+    "eslint": "^8.12.0"
   },
   "peerDependencies": {
     "@tsed/common": "^7.18.2",

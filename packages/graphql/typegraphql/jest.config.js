@@ -2,7 +2,11 @@
 // https://jestjs.io/docs/en/configuration.html
 
 module.exports = {
-  ...require("@tsed/jest-config")(__dirname, "typegraphql"),
+  ...require("@tsed/jest-config"),
+  roots: ["<rootDir>/src", "<rootDir>/test"],
+  moduleNameMapper: {
+    "@tsed/typegraphql": "<rootDir>/src/index.ts"
+  },
   coverageThreshold: {
     global: {
       statements: 100,

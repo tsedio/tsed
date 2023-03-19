@@ -1,0 +1,15 @@
+{
+  "name": "@tsed/eslint",
+  "version": "7.18.2",
+  "description": "Util to compile source",
+  "private": true,
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./node.js": "./node.js"
+  },
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {},
+  "peerDependencies": {}
+}

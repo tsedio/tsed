@@ -13,9 +13,10 @@
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn run build:esm && yarn run build:cjs",
-    "build:cjs": "tsc --build tsconfig.compile.json",
-    "build:esm": "tsc --build tsconfig.compile.esm.json"
+    "build": "yarn build:ts",
+    "build:ts": "tsc --build tsconfig.json",
+    "lint": "eslint '**/*.{ts,js}'",
+    "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "private": false,
   "keywords": [
@@ -59,7 +60,10 @@
     "@tsed/common": "7.18.2",
     "@tsed/core": "7.18.2",
     "@tsed/di": "7.18.2",
-    "@tsed/schema": "7.18.2"
+    "@tsed/schema": "7.18.2",
+    "@tsed/typescript": "7.18.2",
+    "@tsed/eslint": "7.18.2",
+    "eslint": "^8.12.0"
   },
   "dependencies": {
     "aws-lambda": "^1.0.7",
