@@ -1,4 +1,5 @@
-import {CLASS_STORE, Metadata, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "../../src";
+import {Metadata} from "./Metadata";
+import {CLASS_STORE, METHOD_STORE, PARAM_STORE, PROPERTY_STORE, Store} from "./Store";
 
 class FakeMetadata {
   attr1: any;

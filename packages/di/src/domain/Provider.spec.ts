@@ -1,4 +1,4 @@
-import {ProviderScope} from "@tsed/di";
+import {ProviderScope} from "./ProviderScope";
 import {Provider} from "./Provider";
 
 class T1 {}

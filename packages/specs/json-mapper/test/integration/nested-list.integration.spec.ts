@@ -1,5 +1,5 @@
 import {CollectionOf, ForwardGroups, Name, Required} from "@tsed/schema";
-import {serialize} from "@tsed/json-mapper";
+import {serialize} from "../../src/utils/serialize";
 
 class TeamModel {
   @Required()

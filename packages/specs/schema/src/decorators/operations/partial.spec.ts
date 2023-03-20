@@ -12,7 +12,7 @@ import {
   RequiredGroups,
   Returns,
   SpecTypes
-} from "@tsed/schema";
+} from "../../index";
 import {Partial} from "./partial";
 
 class ChildModel {

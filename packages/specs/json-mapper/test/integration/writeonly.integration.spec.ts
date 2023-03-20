@@ -1,4 +1,5 @@
-import {deserialize, serialize} from "@tsed/json-mapper";
+import {serialize} from "../../src/utils/serialize";
+import {deserialize} from "../../src/utils/deserialize";
 import {Groups, Property, Required, WriteOnly} from "@tsed/schema";
 
 class DataSourceModel {

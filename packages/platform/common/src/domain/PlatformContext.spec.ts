@@ -1,5 +1,6 @@
-import {PlatformApplication, PlatformTest} from "@tsed/common";
 import {nameOf} from "@tsed/core";
+import {PlatformApplication} from "../services/PlatformApplication";
+import {PlatformTest} from "../services/PlatformTest";
 import {PlatformContext} from "./PlatformContext";
 
 describe("PlatformContext", () => {

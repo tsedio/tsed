@@ -1,4 +1,4 @@
-import {Model, ObjectID, Ref} from "../../../src";
+import {Model, ObjectID, Ref} from "../../../src/index";
 import {TestCustomer} from "./Customer";
 
 @Model({name: "testContract", schemaOptions: {timestamps: true}})

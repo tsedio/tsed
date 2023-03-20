@@ -1,4 +1,4 @@
-import {AdditionalProperties, CollectionOf, getJsonSchema, Property, string} from "@tsed/schema";
+import {AdditionalProperties, CollectionOf, getJsonSchema, Property, string} from "../../index";
 
 describe("AdditionalProperties", () => {
   it("should declare additional properties", () => {

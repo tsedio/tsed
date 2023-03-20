@@ -1,5 +1,5 @@
 import Ajv from "ajv";
-import {JsonSchema} from "@tsed/schema";
+import {JsonSchema} from "./JsonSchema";
 
 describe("JsonSchema", () => {
   describe("extra Props", () => {

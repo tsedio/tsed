@@ -1,6 +1,6 @@
 import {PlatformRouter, PlatformTest} from "@tsed/common";
 import Fs from "fs";
-import {SwaggerModule} from "./index";
+import {SwaggerModule} from "./SwaggerModule";
 
 describe("SwaggerModule", () => {
   beforeEach(() =>

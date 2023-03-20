@@ -1,4 +1,4 @@
-import {generateSpec, getSpec, OperationPath, Path, SpecTypes} from "@tsed/schema";
+import {generateSpec, getSpec, OperationPath, Path, SpecTypes} from "../../index";
 import {InFile} from "./inFile";
 
 describe("@File()", () => {

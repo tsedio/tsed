@@ -21,7 +21,7 @@ import {
 } from "@tsed/schema";
 import qs from "querystring";
 import SuperTest from "supertest";
-import {PlatformExpress} from "../src";
+import {PlatformExpress} from "../src/index";
 import {rootDir, Server} from "./app/Server";
 
 class Pageable {

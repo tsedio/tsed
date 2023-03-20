@@ -1,5 +1,4 @@
 import {Adapters} from "@tsed/adapters";
-import {LocalsContainer, PlatformTest} from "@tsed/common";
 import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
 import Redis from "ioredis";
 // @ts-ignore

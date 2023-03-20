@@ -1,5 +1,5 @@
 import {Perf} from "@tsed/perf";
-import {mergeSpec} from "@tsed/schema";
+import {mergeSpec} from "./mergeSpec";
 
 describe("MergeSpec", () => {
   it("should merge spec", async () => {

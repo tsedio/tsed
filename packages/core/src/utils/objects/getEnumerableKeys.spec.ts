@@ -1,4 +1,5 @@
-import {Enumerable, getEnumerableKeys} from "@tsed/core";
+import {Enumerable} from "../../decorators/enumerable";
+import {getEnumerableKeys} from "./getEnumerableKeys";
 
 describe("getEnumerableKeys", () => {
   it("should return enumerable keys", () => {

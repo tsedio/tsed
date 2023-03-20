@@ -1,5 +1,8 @@
-import {getJsonSchema, In, OperationPath, SpecTypes} from "@tsed/schema";
+import {SpecTypes} from "../../domain/SpecTypes";
+import {getJsonSchema} from "../../utils/getJsonSchema";
 import {getSpec} from "../../utils/getSpec";
+import {In} from "../operations/in";
+import {OperationPath} from "../operations/operationPath";
 import {MinProperties} from "./minProperties";
 
 describe("@MinProperties", () => {

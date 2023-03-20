@@ -1,5 +1,4 @@
-import {getFormioSchema} from "@tsed/schema-formio";
-import {CustomClass} from "./customClass";
+import {getFormioSchema} from "../utils/getFormioSchema";
 import {HideWhen, ShowWhen} from "./conditional";
 
 describe("@Conditional", () => {

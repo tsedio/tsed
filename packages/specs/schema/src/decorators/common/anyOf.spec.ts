@@ -1,4 +1,4 @@
-import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "@tsed/schema";
+import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {number, string} from "../../utils/from";
 import {AnyOf} from "./anyOf";

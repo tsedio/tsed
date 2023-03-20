@@ -1,5 +1,7 @@
-import {Store, StoreFn, useDecorators} from "@tsed/core";
+import {StoreFn} from "../../decorators/storeFn";
+import {useDecorators} from "./useDecorators";
 import {AnyDecorator} from "../../interfaces/AnyDecorator";
+import {Store} from "../../domain/Store";
 
 describe("useDecorators", () => {
   function decorator1(value: any) {

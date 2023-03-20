@@ -1,10 +1,10 @@
-import {Default, Format, getJsonSchema, getSpec, Post, Property, ReadOnly, Returns, SpecTypes} from "@tsed/schema";
 import {Store} from "@tsed/core";
-import {Model} from "@tsed/mongoose";
-import {MONGOOSE_SCHEMA} from "../constants/constants";
-import {VirtualRef, VirtualRefs} from "./virtualRef";
 import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
+import {Format, getJsonSchema, getSpec, Post, Property, ReadOnly, Returns, SpecTypes} from "@tsed/schema";
+import {MONGOOSE_SCHEMA} from "../constants/constants";
+import {Model} from "./model";
+import {VirtualRef, VirtualRefs} from "./virtualRef";
 
 describe("@VirtualRef()", () => {
   describe("when type and foreign value are given", () => {

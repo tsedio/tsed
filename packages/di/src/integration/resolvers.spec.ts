@@ -1,4 +1,5 @@
-import {Container, InjectorService} from "@tsed/di";
+import {Container} from "../domain/Container";
+import {InjectorService} from "../services/InjectorService";
 
 describe("DI Resolvers", () => {
   describe("create new injector", () => {

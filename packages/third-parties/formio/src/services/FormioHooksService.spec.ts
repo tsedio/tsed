@@ -1,7 +1,7 @@
 import {PlatformTest, Provider} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {FormioService} from "@tsed/formio";
 import {FormioHooksService} from "./FormioHooksService";
+import {FormioService} from "./FormioService";
 
 describe("FormioHooksService", () => {
   beforeEach(PlatformTest.create);

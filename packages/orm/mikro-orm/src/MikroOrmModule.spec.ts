@@ -1,10 +1,10 @@
-import {PlatformTest} from "@tsed/common";
 import {EntityManager, MikroORM, Options} from "@mikro-orm/core";
-import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
-import {anyFunction, anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
+import {PlatformTest} from "@tsed/common";
+import {DIContext} from "@tsed/di";
+import {anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
 import {MikroOrmModule} from "./MikroOrmModule";
 import {MikroOrmContext} from "./services/MikroOrmContext";
-import {DIContext} from "@tsed/di";
+import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
 
 describe("MikroOrmModule", () => {
   const config: Options = {

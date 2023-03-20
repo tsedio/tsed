@@ -1,10 +1,11 @@
+import {CollectionOf} from "../decorators/collections/collectionOf";
+import {Property} from "../decorators/common/property";
 import {
   allOf,
   any,
   anyOf,
   array,
   boolean,
-  CollectionOf,
   date,
   datetime,
   email,
@@ -14,13 +15,12 @@ import {
   map,
   number,
   object,
-  Property,
   set,
   string,
   time,
   uri,
   url
-} from "@tsed/schema";
+} from "./from";
 
 describe("from", () => {
   it("should declare a model", () => {

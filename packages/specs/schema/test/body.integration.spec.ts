@@ -1,4 +1,4 @@
-import {OperationPath, Path, getSpec, SpecTypes} from "@tsed/schema";
+import {OperationPath, Path, getSpec, SpecTypes} from "../src/index";
 import {BodyParams, RawBodyParams} from "@tsed/platform-params";
 import {validateSpec} from "./helpers/validateSpec";
 

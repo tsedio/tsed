@@ -1,4 +1,4 @@
-import {getJsonType} from "@tsed/schema";
+import {getJsonType} from "./getJsonType";
 
 describe("getJsonType", () => {
   it("should return file", () => {

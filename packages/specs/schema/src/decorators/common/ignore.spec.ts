@@ -1,5 +1,6 @@
-import {getJsonSchema, Property} from "@tsed/schema";
+import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Ignore} from "./ignore";
+import {Property} from "./property";
 
 describe("@Ignore", () => {
   it("should declare prop", () => {

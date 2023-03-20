@@ -180,7 +180,6 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
 
   multipart(options: PlatformMulterSettings): PlatformMulter {
     const m = this.#multer(options);
-
     const makePromise = (multer: any, name: string) => {
       // istanbul ignore next
       if (!multer[name]) return;
@@ -188,7 +187,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
       const fn = multer[name];
 
       multer[name] = function apply(...args: any[]) {
-        const middleware = Reflect.apply(fn, this, args);
+        const middleware: any = Reflect.apply(fn, this, args);
 
         return (req: any, res: any) => promisify(middleware)(req, res);
       };

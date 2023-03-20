@@ -1,5 +1,5 @@
-import {SpecTypes} from "@tsed/schema";
 import {expect} from "chai";
+import {SpecTypes} from "../domain/SpecTypes";
 import {getSpecType, getSpecTypeFromSpec} from "./getSpecType";
 
 describe("getSpecType", () => {

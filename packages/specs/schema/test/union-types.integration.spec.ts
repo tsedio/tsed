@@ -1,6 +1,5 @@
-import {AdditionalProperties, AnyOf, array, Enum, string} from "../src";
-import {getJsonSchema} from "@tsed/schema";
 import Ajv from "ajv";
+import {AdditionalProperties, AnyOf, array, Enum, getJsonSchema, string} from "../src/index";
 
 describe("Union on model", () => {
   it("should return the expected schema", () => {

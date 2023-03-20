@@ -1,5 +1,5 @@
-import {requires} from "@tsed/engines";
 import {PlatformTest} from "@tsed/common";
+import {requires} from "@tsed/engines";
 import {PlatformViews} from "./PlatformViews";
 
 describe("PlatformViews", () => {

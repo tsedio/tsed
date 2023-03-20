@@ -13,8 +13,13 @@ import {
   Required
 } from "@tsed/schema";
 import {Schema as SchemaMongoose, Types} from "mongoose";
-import {Model, ObjectID, Ref, Schema, VersionKey, VirtualRef, VirtualRefs} from "@tsed/mongoose";
+import {Model} from "../decorators/model";
+import {ObjectID} from "../decorators/objectID";
+import {Ref} from "../decorators/ref";
+import {Schema} from "../decorators/schema";
 import {SchemaIgnore} from "../decorators/schemaIgnore";
+import {VersionKey} from "../decorators/versionKey";
+import {VirtualRef, VirtualRefs} from "../decorators/virtualRef";
 import {getSchema} from "./createSchema";
 import {DiscriminatorKey} from "../decorators/discriminatorKey";
 

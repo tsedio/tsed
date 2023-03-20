@@ -1,21 +1,18 @@
-import {
-  CollectionOf,
-  Consumes,
-  Description,
-  generateSpec,
-  getSpec,
-  In,
-  Min,
-  Name,
-  OperationPath,
-  Path,
-  Property,
-  Required,
-  Returns,
-  SpecTypes
-} from "@tsed/schema";
 import {join} from "path";
 import {validateSpec} from "../../test/helpers/validateSpec";
+import {CollectionOf} from "../decorators/collections/collectionOf";
+import {Description} from "../decorators/common/description";
+import {Min} from "../decorators/common/minimum";
+import {Name} from "../decorators/common/name";
+import {Property} from "../decorators/common/property";
+import {Required} from "../decorators/common/required";
+import {Consumes} from "../decorators/operations/consumes";
+import {In} from "../decorators/operations/in";
+import {OperationPath} from "../decorators/operations/operationPath";
+import {Path} from "../decorators/operations/path";
+import {Returns} from "../decorators/operations/returns";
+import {SpecTypes} from "../domain/SpecTypes";
+import {generateSpec} from "./generateSpec";
 
 describe("generateSpec()", () => {
   describe("OS 3.0.1", () => {

@@ -1,4 +1,4 @@
-import {Get, getSpec, JsonMethodStore, SpecTypes} from "@tsed/schema";
+import {Get, getSpec, JsonMethodStore, SpecTypes} from "../../index";
 import {AcceptMime} from "./acceptMime";
 
 describe("AcceptMime", () => {

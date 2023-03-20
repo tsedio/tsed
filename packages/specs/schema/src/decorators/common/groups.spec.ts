@@ -1,19 +1,17 @@
-import {
-  CollectionOf,
-  getJsonSchema,
-  getSpec,
-  In,
-  Name,
-  OperationPath,
-  Path,
-  Property,
-  Required,
-  RequiredGroups,
-  Returns,
-  SpecTypes
-} from "@tsed/schema";
-import {Groups} from "./groups";
 import {QueryParams} from "@tsed/platform-params";
+import {SpecTypes} from "../../domain/SpecTypes";
+import {getJsonSchema} from "../../utils/getJsonSchema";
+import {getSpec} from "../../utils/getSpec";
+import {CollectionOf} from "../collections/collectionOf";
+import {In} from "../operations/in";
+import {OperationPath} from "../operations/operationPath";
+import {Path} from "../operations/path";
+import {Returns} from "../operations/returns";
+import {Groups} from "./groups";
+import {Name} from "./name";
+import {Property} from "./property";
+import {Required} from "./required";
+import {RequiredGroups} from "./requiredGroups";
 
 class ChildModel {
   @Groups("!creation")
@@ -608,7 +606,7 @@ describe("@Groups", () => {
       class MyController {
         @OperationPath("GET", "/")
         @Returns(201, MyModel).Groups("group.*")
-        async get(@QueryParams() @Groups("creation") payload: MyModel) {
+        async get(@In("query") @Groups("creation") payload: MyModel) {
           return new MyModel();
         }
 

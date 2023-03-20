@@ -1,7 +1,9 @@
 import {catchError} from "@tsed/core";
-import {Decimal, Entity, IdColumn} from "@tsed/objection";
 import {MaxLength, Property} from "@tsed/schema";
 import {createTableStub} from "../../test/helpers/knex/table";
+import {Decimal} from "../decorators/decimal";
+import {Entity} from "../decorators/entity";
+import {IdColumn} from "../decorators/idColumn";
 import {createColumns} from "./createColumns";
 
 describe("createTable", () => {

@@ -1,7 +1,6 @@
 import {Injectable, PlatformTest} from "@tsed/common";
-import {FormioDatabase} from "@tsed/formio";
+import {FormioDatabase} from "./FormioDatabase";
 import {FormioRepository} from "./FormioRepository";
-import sinon from "sinon";
 
 @Injectable()
 class PackagesRepository extends FormioRepository {

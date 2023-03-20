@@ -1,4 +1,4 @@
-import {getSpec, In, JsonEntityStore, Name, OperationPath, Path, SpecTypes} from "@tsed/schema";
+import {getSpec, In, JsonEntityStore, Name, OperationPath, Path, SpecTypes} from "../../index";
 
 describe("In", () => {
   it("should declare all schema correctly (param)", async () => {

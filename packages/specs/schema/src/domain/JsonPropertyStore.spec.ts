@@ -1,5 +1,5 @@
 import {prototypeOf} from "@tsed/core";
-import {Allow, JsonClassStore, JsonPropertyStore, Required} from "@tsed/schema";
+import {Allow, JsonClassStore, JsonPropertyStore, Required} from "../index";
 import {getJsonEntityStore} from "../utils/getJsonEntityStore";
 
 describe("JsonParameterStore", () => {

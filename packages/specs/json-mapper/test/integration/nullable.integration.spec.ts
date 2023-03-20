@@ -1,4 +1,4 @@
-import {serialize} from "@tsed/json-mapper";
+import {serialize} from "../../src/utils/serialize";
 import {Name, Nullable, Required} from "@tsed/schema";
 
 export class ExtensionModel {

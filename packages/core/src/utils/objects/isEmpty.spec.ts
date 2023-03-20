@@ -1,4 +1,4 @@
-import {isEmpty} from "@tsed/core";
+import {isEmpty} from "./isEmpty";
 
 describe("isEmpty", () => {
   it("should return true", () => {

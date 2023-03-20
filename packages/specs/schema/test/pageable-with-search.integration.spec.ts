@@ -1,4 +1,4 @@
-import {array, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../src";
+import {array, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, Required, Returns, SpecTypes} from "../src/index";
 import {validateSpec} from "./helpers/validateSpec";
 import {Pageable} from "./pageable.integration.spec";
 

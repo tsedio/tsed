@@ -1,5 +1,5 @@
 import {PlatformApplication, PlatformTest} from "@tsed/common";
-import "@tsed/passport";
+import "../src/index";
 import {PassportModule} from "./PassportModule";
 import Passport from "passport";
 

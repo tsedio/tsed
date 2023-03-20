@@ -1,6 +1,8 @@
-import {deserialize, OnSerialize, serialize} from "@tsed/json-mapper";
 import {Minimum, Name, Required} from "@tsed/schema";
 import moment from "moment";
+import {OnSerialize} from "../../src/decorators/onSerialize";
+import {deserialize} from "../../src/utils/deserialize";
+import {serialize} from "../../src/utils/serialize";
 
 function serializeDate(date: Date) {
   return date && moment(date).format("YYYYMMDD");

@@ -1,6 +1,8 @@
-import {Configuration, getConfiguration} from "@tsed/di";
+import {Configuration} from "../decorators/configuration";
+import {getConfiguration} from "./getConfiguration";
 
 class MyController1 {}
+
 class MyController2 {}
 
 describe("getConfiguration", () => {

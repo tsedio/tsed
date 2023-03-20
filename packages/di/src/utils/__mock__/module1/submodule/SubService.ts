@@ -1,4 +1,4 @@
-import {Injectable} from "@tsed/di";
+import {Injectable} from "../../../../decorators/injectable";
 
 @Injectable()
 export class SubService {}

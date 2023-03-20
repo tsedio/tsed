@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {Decimal} from "@tsed/objection";
 import {getJsonSchema} from "@tsed/schema";
+import {Decimal} from "./decimal";
 
 describe("@Decimal", () => {
   it("should set metadata", () => {

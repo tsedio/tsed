@@ -1,4 +1,4 @@
-import {JsonMap} from "@tsed/schema";
+import {JsonMap} from "./JsonMap";
 
 describe("JsonMap", () => {
   it("should serialize a JsonMap", () => {

@@ -1,4 +1,4 @@
-import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "@tsed/schema";
+import {AllOf, getJsonSchema, getSpec, In, OneOf, OperationPath, Path, Property, SpecTypes} from "../../index";
 import {number, string} from "../../utils/from";
 
 describe("@OneOf", () => {

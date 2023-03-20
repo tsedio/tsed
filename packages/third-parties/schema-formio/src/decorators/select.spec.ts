@@ -1,5 +1,6 @@
-import {getFormioSchema, Select} from "@tsed/schema-formio";
 import {Enum} from "@tsed/schema";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {Select} from "./select";
 
 describe("Select", () => {
   it("should declare a model with select field", async () => {

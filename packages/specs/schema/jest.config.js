@@ -5,5 +5,6 @@ module.exports = {
   ...require("@tsed/jest-config")(__dirname, "schema"),
   coverageThreshold: {
     global: require("./coverage.json")
-  }
+  },
+  setupFiles: ["./test/helpers/setup.ts"]
 };

@@ -32,7 +32,11 @@
   },
   "overrides": [
     {
-      "files": ["**/*.spec.ts", "**/*.benchmark.ts", "**/test/**", "**/__mock__/**"],
+      "files": [
+        "**/*.benchmark.ts",
+        "**/test/**",
+        "**/__mock__/**"
+      ],
       "rules": {
         "workspaces/no-absolute-imports": "off"
       }

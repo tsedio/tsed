@@ -1,5 +1,5 @@
 import {descriptorOf, useDecorators} from "@tsed/core";
-import {Description, getSpec, In, Name, OperationPath, Path, Pattern, SpecTypes} from "@tsed/schema";
+import {Description, getSpec, In, Name, OperationPath, Path, Pattern, SpecTypes} from "../../index";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Example} from "./example";
 

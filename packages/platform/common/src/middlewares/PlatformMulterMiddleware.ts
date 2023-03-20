@@ -44,7 +44,9 @@ export class PlatformMulterMiddleware implements MiddlewareMethods {
 
       const middleware: any = this.app.multer(settings).fields(this.getFields({fields}));
 
-      return await middleware(ctx.getRequest(), ctx.getResponse());
+      const result = await middleware(ctx.getRequest(), ctx.getResponse());
+      // debug: console.log(ctx.request.files);
+      return result;
     } catch (er) {
       if (er.code) {
         throw new MulterException(er);

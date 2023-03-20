@@ -1,5 +1,5 @@
-import {getFormioSchema, ModalEdit} from "@tsed/schema-formio";
-import {Tooltip} from "./tooltip";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {ModalEdit} from "./modalEdit";
 
 describe("@ModalEdit", () => {
   it("should transform field to editable modal", async () => {

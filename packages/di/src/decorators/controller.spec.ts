@@ -1,5 +1,7 @@
-import {Controller} from "@tsed/common";
-import {GlobalProviders, ProviderScope, ProviderType} from "@tsed/di";
+import {ProviderScope} from "../domain/ProviderScope";
+import {ProviderType} from "../domain/ProviderType";
+import {GlobalProviders} from "../registries/GlobalProviders";
+import {Controller} from "./controller";
 
 class Test {}
 

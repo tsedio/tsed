@@ -1,5 +1,6 @@
-import {MulterFileSize, PlatformMulterMiddleware} from "@tsed/common";
 import {Store} from "@tsed/core";
+import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware";
+import {MulterFileSize} from "./multerFileSize";
 
 describe("MulterFileSize", () => {
   it("should set the file size", () => {

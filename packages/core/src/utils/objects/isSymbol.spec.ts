@@ -1,4 +1,4 @@
-import {isSymbol, isSymbolOrSymbolClass} from "@tsed/core";
+import {isSymbol, isSymbolOrSymbolClass} from "./isSymbol";
 
 describe("isSymbol()", () => {
   it("should validate value", () => {

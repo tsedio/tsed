@@ -100,7 +100,7 @@ export class PlatformRequest<Req extends {[key: string]: any} = any> {
 
   /**
    * This property is an object containing a property for each session attributes set by any code.
-   * It require to install a middleware like express-session to work.
+   * It requires to install a middleware like express-session to work.
    */
   get session(): {[key: string]: any} {
     return this.raw.session as any;

@@ -1,6 +1,7 @@
-import {Entity, HasOneThroughRelation, IdColumn} from "@tsed/objection";
-
 import {Model} from "objection";
+import {Entity} from "./entity";
+import {HasOneThroughRelation} from "./hasOneThroughRelation";
+import {IdColumn} from "./idColumn";
 
 describe("@HasOneThroughRelation", () => {
   it("should set metadata", () => {
@@ -10,6 +11,7 @@ describe("@HasOneThroughRelation", () => {
       id!: string;
       userId?: string;
     }
+
     @Entity("user")
     class User extends Model {
       @IdColumn()

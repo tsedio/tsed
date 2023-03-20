@@ -1,7 +1,7 @@
 import {Injectable} from "@tsed/di";
-import {PlatformServerless, QueryParams} from "@tsed/platform-serverless";
 import {Get} from "@tsed/schema";
 import {PlatformServerlessTest} from "@tsed/platform-serverless-testing";
+import {PlatformServerless, QueryParams} from "../src/index";
 
 @Injectable()
 class QueryLambda {

@@ -1,5 +1,5 @@
-import {Entity, IdColumn} from "@tsed/objection";
-
+import {Entity} from "../decorators/entity";
+import {IdColumn} from "../decorators/idColumn";
 import {createColumns} from "../utils/createColumns";
 import {createTableStub} from "../../test/helpers/knex/table";
 

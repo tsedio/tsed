@@ -1,4 +1,5 @@
-import {Currency, getFormioSchema} from "@tsed/schema-formio";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {Currency} from "./currency";
 
 describe("Currency", () => {
   it("should declare currency", async () => {

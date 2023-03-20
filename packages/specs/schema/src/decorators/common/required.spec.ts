@@ -1,4 +1,4 @@
-import {getJsonSchema} from "@tsed/schema";
+import {getJsonSchema} from "../../index";
 import Ajv from "ajv";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {Required} from "./required";

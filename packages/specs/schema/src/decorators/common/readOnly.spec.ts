@@ -1,4 +1,4 @@
-import {Format, getJsonSchema, getSpec, In, Path, Post, Property, Returns, SpecTypes} from "@tsed/schema";
+import {Format, getJsonSchema, getSpec, In, Path, Post, Property, Returns, SpecTypes} from "../../index";
 import {ReadOnly} from "./readOnly";
 
 describe("@ReadOnly", () => {

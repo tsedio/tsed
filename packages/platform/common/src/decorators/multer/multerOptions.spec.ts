@@ -1,5 +1,6 @@
-import {MulterOptions, PlatformMulterMiddleware} from "@tsed/common";
 import {Store} from "@tsed/core";
+import {PlatformMulterMiddleware} from "../../middlewares/PlatformMulterMiddleware";
+import {MulterOptions} from "./multerOptions";
 
 describe("@MulterOptions()", () => {
   it("should store metadata", () => {

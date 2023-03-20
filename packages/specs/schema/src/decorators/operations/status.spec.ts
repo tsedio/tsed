@@ -1,6 +1,11 @@
-import {CollectionOf, Generics, OperationPath, Property, Status, SpecTypes} from "@tsed/schema";
 import "@tsed/platform-exceptions";
+import {SpecTypes} from "../../domain/SpecTypes";
 import {getSpec} from "../../utils/getSpec";
+import {CollectionOf} from "../collections/collectionOf";
+import {Property} from "../common/property";
+import {Generics} from "../generics/generics";
+import {OperationPath} from "./operationPath";
+import {Status} from "./status";
 
 describe("@Status", () => {
   it("should declare a return type", async () => {

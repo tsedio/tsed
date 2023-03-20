@@ -1,4 +1,4 @@
-import {In, OperationPath, Property, SpecTypes} from "@tsed/schema";
+import {In, OperationPath, Property, SpecTypes} from "../../index";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {getSpec} from "../../utils/getSpec";
 import {Description} from "./description";

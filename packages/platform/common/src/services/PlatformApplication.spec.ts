@@ -1,6 +1,7 @@
-import {createContext, PlatformTest} from "@tsed/common";
+import {createContext} from "../utils/createContext";
 import {PlatformApplication} from "./PlatformApplication";
 import {PlatformHandler} from "./PlatformHandler";
+import {PlatformTest} from "./PlatformTest";
 
 jest.mock("../utils/createContext");
 

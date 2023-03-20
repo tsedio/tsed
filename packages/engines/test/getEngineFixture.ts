@@ -1,5 +1,5 @@
 import {join} from "path";
-import {engines} from "../src";
+import {engines} from "../src/index";
 import fs from "fs";
 import sinon from "sinon";
 import {Engine} from "../src/components/Engine";

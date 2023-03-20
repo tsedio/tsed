@@ -4,8 +4,8 @@ import {User} from "./helpers/entity/User";
 import {Server} from "./helpers/Server";
 import {UserService} from "./helpers/services/UserService";
 import {MikroORM} from "@mikro-orm/core";
-import {MikroOrmModule, TransactionalInterceptor} from "../src";
 import {anything, spy, verify} from "ts-mockito";
+import {MikroOrmModule, TransactionalInterceptor} from "../src/index";
 
 describe("MikroOrm integration", () => {
   beforeEach(async () => {

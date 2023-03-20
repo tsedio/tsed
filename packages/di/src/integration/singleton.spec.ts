@@ -1,4 +1,9 @@
-import {Container, GlobalProviders, InjectorService, ProviderScope, Scope, Service} from "@tsed/di";
+import {Scope} from "../decorators/scope";
+import {Service} from "../decorators/service";
+import {Container} from "../domain/Container";
+import {ProviderScope} from "../domain/ProviderScope";
+import {GlobalProviders} from "../registries/GlobalProviders";
+import {InjectorService} from "../services/InjectorService";
 
 describe("DI Singleton", () => {
   @Service()

@@ -1,7 +1,12 @@
-import {EndpointMetadata, MulterOptions, MultipartFile, PlatformApplication, PlatformMulterMiddleware, PlatformTest} from "@tsed/common";
 import {Exception} from "@tsed/exceptions";
 import {MulterError} from "multer";
 import {catchAsyncError} from "@tsed/core";
+import {MulterOptions} from "../decorators/multer/multerOptions";
+import {MultipartFile} from "../decorators/multer/multipartFile";
+import {EndpointMetadata} from "../domain/EndpointMetadata";
+import {PlatformApplication} from "../services/PlatformApplication";
+import {PlatformTest} from "../services/PlatformTest";
+import {PlatformMulterMiddleware} from "./PlatformMulterMiddleware";
 
 async function build(options = {}) {
   class Test {

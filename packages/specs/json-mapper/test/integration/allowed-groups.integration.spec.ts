@@ -1,6 +1,6 @@
 import {Controller} from "@tsed/di";
-import {serialize} from "@tsed/json-mapper";
 import {EndpointMetadata, Get, Groups, Property, Returns} from "@tsed/schema";
+import {serialize} from "../../src/utils/serialize";
 
 class MyModel {
   @Property()

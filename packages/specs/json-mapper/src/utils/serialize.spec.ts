@@ -1,4 +1,3 @@
-import {deserialize, getJsonMapperTypes} from "@tsed/json-mapper";
 import {AdditionalProperties, CollectionOf, Ignore, JsonHookContext, Name, Property} from "@tsed/schema";
 import {parse} from "querystring";
 import {isBoolean} from "@tsed/core";
@@ -7,6 +6,8 @@ import {User} from "../../test/helpers/User";
 import "../components/ArrayMapper";
 import "../components/PrimitiveMapper";
 import {OnSerialize} from "../decorators/onSerialize";
+import {getJsonMapperTypes} from "../domain/JsonMapperTypesContainer";
+import {deserialize} from "./deserialize";
 import {serialize} from "./serialize";
 
 function createMap(value: any) {

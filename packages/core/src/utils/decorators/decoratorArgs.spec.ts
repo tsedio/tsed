@@ -1,4 +1,6 @@
-import {decoratorArgs, descriptorOf, prototypeOf} from "@tsed/core";
+import {descriptorOf} from "../objects/descriptorOf";
+import {prototypeOf} from "../objects/prototypeOf";
+import {decoratorArgs} from "./decoratorArgs";
 
 describe("decoratorArgs", () => {
   it("should return decorator arguments", () => {

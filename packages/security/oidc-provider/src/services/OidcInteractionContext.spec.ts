@@ -1,6 +1,7 @@
 import {PlatformTest} from "@tsed/common";
 import {catchAsyncError, catchError} from "@tsed/core";
-import {OidcInteractionContext, OidcProvider} from "@tsed/oidc-provider";
+import {OidcInteractionContext} from "./OidcInteractionContext";
+import {OidcProvider} from "./OidcProvider";
 
 async function createOidcInteractionContextFixture(grantId: any = "grantId") {
   const $ctx = PlatformTest.createRequestContext();

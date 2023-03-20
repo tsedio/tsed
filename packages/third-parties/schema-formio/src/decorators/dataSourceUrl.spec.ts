@@ -1,4 +1,6 @@
-import {DataSourceUrl, getFormioSchema, Select} from "@tsed/schema-formio";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {DataSourceUrl} from "./dataSourceUrl";
+import {Select} from "./select";
 
 describe("@DataSourceUrl", () => {
   it("should declare datasource url", async () => {

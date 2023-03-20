@@ -1,4 +1,4 @@
-import {Module} from "@tsed/di";
+import {Module} from "../../../../decorators/module";
 import {SubService} from "./SubService";
 
 @Module({

@@ -1,4 +1,4 @@
-import {CustomKeys, getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
+import {CustomKeys, getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "../../index";
 import {CustomKey} from "./customKey";
 
 describe("@CustomKey", () => {

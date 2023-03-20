@@ -9,7 +9,7 @@ import {
   Property,
   Required,
   Allow
-} from "@tsed/schema";
+} from "../index";
 
 describe("JsonEntityStore", () => {
   it("should create JsonEntityStore", () => {

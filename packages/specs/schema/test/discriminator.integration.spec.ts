@@ -15,7 +15,7 @@ import {
   Put,
   Required,
   Returns
-} from "@tsed/schema";
+} from "../src/index";
 
 class Event {
   @DiscriminatorKey() // declare this property a discriminator key

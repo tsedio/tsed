@@ -1,4 +1,5 @@
-import {getFormioSchema, Textarea} from "@tsed/schema-formio";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {Textarea} from "./textarea";
 
 describe("Textarea", () => {
   it("should declare a model with Textarea field", async () => {

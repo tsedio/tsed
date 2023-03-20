@@ -1,7 +1,7 @@
 import {catchAsyncError} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
 import {Enum, Property} from "@tsed/schema";
-import {deserialize} from "../../src";
+import {deserialize} from "../../src/utils/deserialize";
 import {AfterDeserialize} from "../../src/decorators/afterDeserialize";
 import {FoodStatus} from "../helpers/FoodStatus";
 

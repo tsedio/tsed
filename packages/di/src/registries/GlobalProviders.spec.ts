@@ -1,12 +1,9 @@
-import {
-  GlobalProviderRegistry,
-  GlobalProviders,
-  InjectorService,
-  LocalsContainer,
-  Provider,
-  ProviderType,
-  registerProvider
-} from "../../src";
+import {LocalsContainer} from "../domain/LocalsContainer";
+import {Provider} from "../domain/Provider";
+import {ProviderType} from "../domain/ProviderType";
+import {InjectorService} from "../services/InjectorService";
+import {GlobalProviderRegistry, GlobalProviders} from "./GlobalProviders";
+import {registerProvider} from "./ProviderRegistry";
 
 describe("GlobalProviderRegistry", () => {
   describe("createRegistry()", () => {

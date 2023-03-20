@@ -1,4 +1,4 @@
-import {isClass} from "@tsed/core";
+import {isClass} from "./isClass";
 
 describe("isClass", () => {
   it("should test if a value is a class", () => {

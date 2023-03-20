@@ -1,6 +1,9 @@
 import {DateFormat} from "@tsed/schema";
 import moment, {Moment} from "moment";
-import {getJsonMapperTypes, JsonMapper, JsonMapperMethods, serialize} from "../../src";
+import {getJsonMapperTypes} from "../../src/domain/JsonMapperTypesContainer";
+import {serialize} from "../../src/utils/serialize";
+import {JsonMapper} from "../../src/decorators/jsonMapper";
+import {JsonMapperMethods} from "../../src/interfaces/JsonMapperMethods";
 
 class MyModel {
   @DateFormat()

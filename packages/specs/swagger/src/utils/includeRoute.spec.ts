@@ -1,6 +1,6 @@
 import {ControllerProvider} from "@tsed/common";
 import {Hidden} from "@tsed/schema";
-import {Docs} from "@tsed/swagger";
+import {Docs} from "../decorators/docs";
 import {includeRoute} from "./includeRoute";
 
 @Hidden()

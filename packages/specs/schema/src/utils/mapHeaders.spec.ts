@@ -1,4 +1,4 @@
-import {mapHeaders} from "@tsed/schema";
+import {mapHeaders} from "./mapHeaders";
 
 describe("mapHeaders", () => {
   it("should map headers", () => {

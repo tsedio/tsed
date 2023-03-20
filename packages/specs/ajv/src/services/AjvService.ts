@@ -5,8 +5,8 @@ import Ajv, {ErrorObject} from "ajv";
 import {AjvValidationError} from "../errors/AjvValidationError";
 import {AjvErrorObject, ErrorFormatter} from "../interfaces/IAjvSettings";
 import {defaultErrorFormatter} from "../utils/defaultErrorFormatter";
-import "./Ajv";
 import {getPath} from "../utils/getPath";
+import "./Ajv";
 
 export interface AjvValidateOptions extends Record<string, any> {
   schema?: JsonSchema | Partial<JsonSchemaObject>;

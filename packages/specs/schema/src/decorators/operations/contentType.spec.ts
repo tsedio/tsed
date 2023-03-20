@@ -1,4 +1,4 @@
-import {ContentType, getSpec, OperationPath, SpecTypes} from "@tsed/schema";
+import {ContentType, getSpec, OperationPath, SpecTypes} from "../../index";
 
 describe("ContentType", () => {
   it("should create middleware", () => {

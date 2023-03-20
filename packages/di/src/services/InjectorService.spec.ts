@@ -1,18 +1,16 @@
-import {Configuration} from "@tsed/common";
 import {Store} from "@tsed/core";
-import {
-  Container,
-  GlobalProviders,
-  Inject,
-  Injectable,
-  InjectorService,
-  LocalsContainer,
-  Provider,
-  ProviderScope,
-  ProviderType,
-  registerProvider
-} from "@tsed/di";
 import {INJECTABLE_PROP} from "../constants/constants";
+import {Configuration} from "../decorators/configuration";
+import {Inject} from "../decorators/inject";
+import {Injectable} from "../decorators/injectable";
+import {Container} from "../domain/Container";
+import {LocalsContainer} from "../domain/LocalsContainer";
+import {Provider} from "../domain/Provider";
+import {ProviderScope} from "../domain/ProviderScope";
+import {ProviderType} from "../domain/ProviderType";
+import {GlobalProviders} from "../registries/GlobalProviders";
+import {registerProvider} from "../registries/ProviderRegistry";
+import {InjectorService} from "../services/InjectorService";
 
 class Test {
   @Inject()

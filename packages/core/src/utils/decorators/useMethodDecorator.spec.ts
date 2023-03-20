@@ -1,4 +1,7 @@
-import {Store, StoreFn, useDecorators, useMethodDecorator, useMethodDecorators} from "@tsed/core";
+import {StoreFn} from "../../decorators/storeFn";
+import {Store} from "../../domain/Store";
+import {useDecorators} from "./useDecorators";
+import {useMethodDecorator, useMethodDecorators} from "./useMethodDecorators";
 
 describe("useMethodDecorators", () => {
   it("should apply all decorators", () => {

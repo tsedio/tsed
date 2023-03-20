@@ -1,4 +1,4 @@
-import {PlatformExpress} from "@tsed/platform-express";
+import {PlatformExpress} from "./PlatformExpress";
 
 class Server {}
 

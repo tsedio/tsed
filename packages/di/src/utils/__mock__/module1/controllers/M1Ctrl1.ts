@@ -1,4 +1,4 @@
-import {Controller} from "@tsed/di";
+import {Controller} from "../../../../decorators/controller";
 import {M1Service} from "../services/M1Service";
 
 @Controller("/m1")

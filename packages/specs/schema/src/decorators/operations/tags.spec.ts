@@ -1,4 +1,4 @@
-import {getSpec, OperationPath} from "@tsed/schema";
+import {getSpec, OperationPath} from "../../index";
 import {Tags} from "./tags";
 
 describe("Tags", () => {

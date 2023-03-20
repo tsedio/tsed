@@ -1,9 +1,10 @@
 import faker from "@faker-js/faker";
-import {Adapter, Adapters, MemoryAdapter} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {deserialize} from "@tsed/json-mapper";
-import {getSchema} from "@tsed/mongoose";
 import {Format, getJsonSchema, Name, Property} from "@tsed/schema";
+import {Adapter} from "../domain/Adapter";
+import {Adapters} from "../services/Adapters";
+import {MemoryAdapter} from "./MemoryAdapter";
 
 class BaseClient {
   @Format("date-time")

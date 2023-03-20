@@ -1,6 +1,6 @@
-import {getEngine, getEngines} from "@tsed/engines";
 import {join} from "path";
 import {expect} from "chai";
+import {getEngine, getEngines} from "./getEngines";
 
 describe("getEngines", () => {
   describe("getEngine()", () => {

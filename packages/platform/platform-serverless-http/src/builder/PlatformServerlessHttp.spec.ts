@@ -1,7 +1,7 @@
-import {PlatformServerlessHttp} from "@tsed/platform-serverless-http";
 import {PlatformExpress} from "@tsed/platform-express";
 import {PlatformBuilder} from "@tsed/common";
 import serverless from "serverless-http";
+import {PlatformServerlessHttp} from "./PlatformServerlessHttp";
 
 jest.mock("serverless-http");
 

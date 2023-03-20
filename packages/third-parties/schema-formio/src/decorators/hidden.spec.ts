@@ -1,4 +1,5 @@
-import {getFormioSchema, Hidden} from "@tsed/schema-formio";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {Hidden} from "./hidden";
 
 describe("Hidden", () => {
   it("should declare a model with Hidden field", async () => {

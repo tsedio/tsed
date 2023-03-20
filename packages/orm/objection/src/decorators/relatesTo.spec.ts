@@ -1,6 +1,7 @@
-import {Entity, IdColumn, RelatesTo} from "@tsed/objection";
-
 import {Model} from "objection";
+import {Entity} from "./entity";
+import {IdColumn} from "./idColumn";
+import {RelatesTo} from "./relatesTo";
 
 describe("@RelatesTo", () => {
   it("should set metadata", () => {
@@ -9,6 +10,7 @@ describe("@RelatesTo", () => {
       @IdColumn()
       id!: string;
     }
+
     @Entity("movie")
     class Movie extends Model {
       @IdColumn()

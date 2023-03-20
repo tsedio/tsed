@@ -1,5 +1,5 @@
-import {boolean, date, GenericOf, Generics, getJsonSchema, number, Property, string} from "@tsed/schema";
-import {deserialize} from "@tsed/json-mapper";
+import {boolean, date, GenericOf, Generics, number, Property, string} from "@tsed/schema";
+import {deserialize} from "../../src/utils/deserialize";
 
 describe("Generics", () => {
   describe("using Functional api", () => {

@@ -1,4 +1,4 @@
-import {getJsonSchema, Title} from "@tsed/schema";
+import {getJsonSchema, Title} from "../../index";
 
 describe("Title()", () => {
   it("should store data", () => {

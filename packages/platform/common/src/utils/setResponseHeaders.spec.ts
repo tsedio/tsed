@@ -1,5 +1,5 @@
-import {EndpointMetadata, Get, PlatformTest} from "@tsed/common";
-import {Redirect, Returns} from "@tsed/schema";
+import {EndpointMetadata, Get, Redirect, Returns} from "@tsed/schema";
+import {PlatformTest} from "../services/PlatformTest";
 import {setResponseHeaders} from "./setResponseHeaders";
 
 describe("setResponseHeaders", () => {

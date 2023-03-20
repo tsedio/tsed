@@ -18,7 +18,7 @@ import {
   Returns,
   SpecTypes,
   string
-} from "../src";
+} from "../src/index";
 import {validateSpec} from "./helpers/validateSpec";
 
 describe("Generics", () => {

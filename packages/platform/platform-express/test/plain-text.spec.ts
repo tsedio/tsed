@@ -1,8 +1,8 @@
 import {Controller, Get, PlatformTest} from "@tsed/common";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
-import {getSpec, Returns, SpecTypes} from "@tsed/schema";
+import {Returns} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformExpress} from "../src";
+import {PlatformExpress} from "../src/index";
 import {rootDir, Server} from "./app/Server";
 
 const utils = PlatformTestSdk.create({

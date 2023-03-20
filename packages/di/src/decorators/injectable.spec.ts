@@ -1,5 +1,5 @@
-import {Injectable} from "@tsed/di";
-import * as ProviderRegistry from "../../src/registries/ProviderRegistry";
+import {Injectable} from "../decorators/injectable";
+import * as ProviderRegistry from "../registries/ProviderRegistry";
 
 describe("@Injectable()", () => {
   beforeEach(() => jest.spyOn(ProviderRegistry, "registerProvider"));

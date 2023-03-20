@@ -1,4 +1,5 @@
-import {PostHook, schemaOptions} from "@tsed/mongoose";
+import {schemaOptions} from "../utils/schemaOptions";
+import {PostHook} from "./postHook";
 
 describe("@PostHook()", () => {
   describe("when decorator is used as class decorator", () => {

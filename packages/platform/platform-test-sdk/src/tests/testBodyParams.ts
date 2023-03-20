@@ -1,6 +1,6 @@
 import "@tsed/ajv";
-import {BodyParams, Context, Controller, HeaderParams, PlatformTest, Post, RawBodyParams} from "@tsed/common";
-import {Default, Description, GenericOf, Generics, Maximum, Minimum, Nullable, Property, Required, Status} from "@tsed/schema";
+import {BodyParams, Context, Controller, HeaderParams, PlatformTest, RawBodyParams} from "@tsed/common";
+import {Post, Default, Description, GenericOf, Generics, Maximum, Minimum, Nullable, Property, Required, Status} from "@tsed/schema";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces";
 

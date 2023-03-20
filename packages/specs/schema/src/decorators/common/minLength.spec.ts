@@ -1,4 +1,4 @@
-import "@tsed/schema";
+import "../../index";
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {CollectionOf} from "../collections/collectionOf";

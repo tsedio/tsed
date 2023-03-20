@@ -1,4 +1,4 @@
-import {getSpec, In, Name, OperationPath, Optional, SpecTypes} from "@tsed/schema";
+import {getSpec, In, Name, OperationPath, Optional, SpecTypes} from "../../index";
 import {Path} from "../operations/path";
 
 describe("Optional", () => {
