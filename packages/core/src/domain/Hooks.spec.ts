@@ -1,4 +1,4 @@
-import {Hooks} from "@tsed/core";
+import {Hooks} from "./Hooks";
 
 describe("Hooks", () => {
   describe("emit", () => {

@@ -1,6 +1,7 @@
-import {catchAsyncError, isStream} from "@tsed/core";
 import {createReadStream} from "fs";
 import {of} from "rxjs";
+import {catchAsyncError} from "../utils/catchError";
+import {isStream} from "../utils/objects/isStream";
 import {AnyToPromise, AnyToPromiseStatus} from "./AnyToPromise";
 
 describe("AnyToPromise", () => {

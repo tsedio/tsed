@@ -1,4 +1,4 @@
-import {getSpec, Location, OperationPath, SpecTypes} from "@tsed/schema";
+import {getSpec, Location, OperationPath, SpecTypes} from "../../index";
 
 describe("Location", () => {
   it("should set Header", () => {

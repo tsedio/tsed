@@ -1,13 +1,11 @@
-import {
-  Container,
-  GlobalProviders,
-  InterceptorContext,
-  InjectorService,
-  Intercept,
-  Interceptor,
-  Service,
-  InterceptorMethods
-} from "@tsed/di";
+import {Intercept} from "../decorators/intercept";
+import {Interceptor} from "../decorators/interceptor";
+import {Service} from "../decorators/service";
+import {Container} from "../domain/Container";
+import {InterceptorContext} from "../interfaces/InterceptorContext";
+import {InterceptorMethods} from "../interfaces/InterceptorMethods";
+import {GlobalProviders} from "../registries/GlobalProviders";
+import {InjectorService} from "../services/InjectorService";
 
 describe("DI Interceptor", () => {
   @Interceptor()

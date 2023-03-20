@@ -1,4 +1,4 @@
-import {isSerializable} from "@tsed/core";
+import {isSerializable} from "./isSerializable";
 
 describe("isSerializable()", () => {
   it("should return the expected value", () => {

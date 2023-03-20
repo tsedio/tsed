@@ -1,4 +1,7 @@
-import {DITest, Inject, Injectable, Module} from "../../src";
+import {Inject} from "../decorators/inject";
+import {Injectable} from "../decorators/injectable";
+import {Module} from "../decorators/module";
+import {DITest} from "../services/DITest";
 
 @Injectable()
 class MyService {

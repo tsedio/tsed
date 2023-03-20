@@ -1,7 +1,8 @@
 import {PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {Unauthorized} from "@tsed/exceptions";
-import {FormioAuthMiddleware, FormioService} from "@tsed/formio";
+import {FormioService} from "../services/FormioService";
+import {FormioAuthMiddleware} from "./FormioAuthMiddleware";
 
 describe("FormioAuthMiddleware", () => {
   beforeEach(() => PlatformTest.create());

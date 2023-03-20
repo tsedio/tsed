@@ -1,5 +1,5 @@
-import {serialize} from "../../src";
 import {Enum, Property, Required} from "@tsed/schema";
+import {serialize} from "../../src/utils/serialize";
 
 export enum EnumValue {
   One = "one",

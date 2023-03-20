@@ -1,4 +1,4 @@
-import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "@tsed/schema";
+import {getJsonSchema, getSpec, OperationPath, Path, Returns, SpecTypes} from "../../index";
 import {WriteOnly} from "./writeOnly";
 
 describe("@WriteOnly", () => {

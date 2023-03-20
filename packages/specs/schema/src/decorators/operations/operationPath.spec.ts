@@ -1,4 +1,4 @@
-import {getSpec, OperationMethods, OperationPath} from "@tsed/schema";
+import {getSpec, OperationMethods, OperationPath} from "../../index";
 
 describe("OperationPath", () => {
   it("should store metadata", () => {

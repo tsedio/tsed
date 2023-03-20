@@ -1,4 +1,7 @@
-import {GlobalProviders, ProviderScope, ProviderType, registerProvider, registerValue} from "../../src";
+import {ProviderScope} from "../domain/ProviderScope";
+import {ProviderType} from "../domain/ProviderType";
+import {GlobalProviders} from "./GlobalProviders";
+import {registerProvider, registerValue} from "./ProviderRegistry";
 
 describe("ProviderRegistry", () => {
   describe("registerProvider()", () => {

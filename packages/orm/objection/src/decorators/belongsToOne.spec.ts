@@ -1,6 +1,7 @@
-import {BelongsToOne, Entity, IdColumn} from "@tsed/objection";
-
 import {Model} from "objection";
+import {BelongsToOne} from "./belongsToOne";
+import {Entity} from "./entity";
+import {IdColumn} from "./idColumn";
 
 describe("@BelongsToOne", () => {
   it("should set metadata", () => {
@@ -9,6 +10,7 @@ describe("@BelongsToOne", () => {
       @IdColumn()
       id!: string;
     }
+
     @Entity("movie")
     class Movie extends Model {
       @IdColumn()

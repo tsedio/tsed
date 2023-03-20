@@ -1,9 +1,14 @@
 import {PlatformTest} from "@tsed/common";
-import {PlatformKoaRequest, PlatformKoaResponse} from "@tsed/platform-koa";
+import {PlatformKoaRequest} from "./PlatformKoaRequest";
+import {PlatformKoaResponse} from "./PlatformKoaResponse";
 
 function createResponse() {
   const res = PlatformTest.createResponse();
   const req = PlatformTest.createRequest();
+
+  const koaContext: any = {
+    response: {}
+  };
 
   const koaResponse: any = {
     ...res,
@@ -21,9 +26,7 @@ function createResponse() {
     }
   };
 
-  const koaContext: any = {
-    response: koaResponse
-  };
+  koaContext.response = koaResponse;
 
   const ctx = PlatformTest.createRequestContext({
     event: {

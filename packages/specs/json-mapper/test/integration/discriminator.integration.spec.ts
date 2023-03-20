@@ -1,17 +1,8 @@
 import {Controller} from "@tsed/di";
-import {deserialize, serialize} from "@tsed/json-mapper";
 import {BodyParams, PathParams} from "@tsed/platform-params";
-import {
-  CollectionOf,
-  DiscriminatorKey,
-  DiscriminatorValue,
-  JsonParameterStore,
-  OneOf,
-  Property,
-  Put,
-  Required,
-  Returns
-} from "@tsed/schema";
+import {DiscriminatorKey, DiscriminatorValue, JsonParameterStore, OneOf, Property, Put, Required, Returns} from "@tsed/schema";
+import {deserialize} from "../../src/utils/deserialize";
+import {serialize} from "../../src/utils/serialize";
 
 class Event {
   @DiscriminatorKey() // declare this property as discriminator key

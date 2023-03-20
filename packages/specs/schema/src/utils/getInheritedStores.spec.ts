@@ -1,5 +1,5 @@
 import {StoreSet} from "@tsed/core";
-import {OperationPath} from "@tsed/schema";
+import {OperationPath} from "../decorators/operations/operationPath";
 import {getInheritedStores} from "./getInheritedStores";
 
 describe("getInheritedStores", () => {

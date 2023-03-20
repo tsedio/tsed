@@ -1,5 +1,5 @@
 import {CollectionOf} from "@tsed/schema";
-import {Model, ObjectID, Ref} from "../../../src";
+import {Model, ObjectID, Ref} from "../../../src/index";
 import {SelfUser} from "./User";
 
 @Model({schemaOptions: {timestamps: true}})

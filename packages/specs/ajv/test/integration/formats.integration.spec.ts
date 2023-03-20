@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {Format, getJsonSchema} from "@tsed/schema";
-import {AjvService} from "../../src";
+import {AjvService} from "../../src/services/AjvService";
 import {Formats} from "../../src/decorators/formats";
 import {FormatsMethods} from "../../src/interfaces/FormatsMethods";
 

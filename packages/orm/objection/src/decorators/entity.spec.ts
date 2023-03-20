@@ -1,4 +1,4 @@
-import {Entity} from "@tsed/objection";
+import {Entity} from "./entity";
 
 describe("@Entity", () => {
   it("should set metadata", () => {

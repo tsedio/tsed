@@ -1,4 +1,4 @@
-import {proxyDelegation} from "@tsed/core";
+import {proxyDelegation} from "./proxyDelegation";
 
 describe("proxyDelegation", () => {
   it("should create proxy delegation with internal map", () => {

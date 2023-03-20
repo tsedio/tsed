@@ -1,4 +1,4 @@
-import {Injectable} from "@tsed/di";
+import {Injectable} from "../injectable";
 
 @Injectable()
 export class MyLazyModule {

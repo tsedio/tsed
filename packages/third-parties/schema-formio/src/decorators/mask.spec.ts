@@ -1,4 +1,4 @@
-import {getFormioSchema} from "@tsed/schema-formio";
+import {getFormioSchema} from "../utils/getFormioSchema";
 import {Mask, Masks} from "./mask";
 
 describe("@Mask", () => {

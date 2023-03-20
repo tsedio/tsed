@@ -1,7 +1,9 @@
-import {createInjector, PlatformAdapter, PlatformConfiguration} from "@tsed/common";
 import {Env} from "@tsed/core";
 import {$log} from "@tsed/logger";
+import {PlatformConfiguration} from "../config/services/PlatformConfiguration";
 import {FakeAdapter} from "../services/FakeAdapter";
+import {PlatformAdapter} from "../services/PlatformAdapter";
+import {createInjector} from "./createInjector";
 
 describe("createInjector", () => {
   beforeEach(() => {

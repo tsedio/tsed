@@ -1,4 +1,5 @@
-import {ErrorLabel, getFormioSchema} from "@tsed/schema-formio";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {ErrorLabel} from "./errorLabel";
 
 describe("@ErrorLabel", () => {
   it("should set the error label", async () => {

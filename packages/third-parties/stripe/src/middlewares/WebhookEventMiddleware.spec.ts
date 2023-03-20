@@ -1,8 +1,9 @@
 import {EndpointMetadata, PlatformTest} from "@tsed/common";
 import {catchError} from "@tsed/core";
-import "@tsed/stripe";
-import {STRIPE_WEBHOOK_EVENT, STRIPE_WEBHOOK_SIGNATURE, WebhookEventMiddleware} from "@tsed/stripe";
+import "../index";
 import {Stripe} from "stripe";
+import {STRIPE_WEBHOOK_EVENT, STRIPE_WEBHOOK_SIGNATURE} from "../constants/constants";
+import {WebhookEventMiddleware} from "./WebhookEventMiddleware";
 
 class Ctrl {
   get() {}

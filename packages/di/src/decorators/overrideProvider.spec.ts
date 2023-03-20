@@ -1,6 +1,7 @@
 import Sinon from "sinon";
-import {GlobalProviders, Provider} from "../../src";
-import {OverrideProvider} from "../../src/decorators/overrideProvider";
+import {OverrideProvider} from "./overrideProvider";
+import {Provider} from "../domain/Provider";
+import {GlobalProviders} from "../registries/GlobalProviders";
 
 describe("OverrideProvider", () => {
   class Test {}

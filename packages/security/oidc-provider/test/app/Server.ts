@@ -1,6 +1,6 @@
 import {FileSyncAdapter} from "@tsed/adapters";
 import "@tsed/ajv";
-import "@tsed/engines";
+import "../../src/index";
 import {Constant, PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import "@tsed/oidc-provider";

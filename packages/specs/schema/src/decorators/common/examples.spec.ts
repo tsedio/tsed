@@ -1,4 +1,4 @@
-import {getSpec, In, OperationPath, Path, Property, SpecTypes} from "@tsed/schema";
+import {getSpec, In, OperationPath, Path, Property, SpecTypes} from "../../index";
 import {Examples} from "./examples";
 
 class MyModel {

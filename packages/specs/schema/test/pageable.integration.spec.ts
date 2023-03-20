@@ -1,20 +1,26 @@
-import {array, getJsonSchema, getSpec, oneOf, SpecTypes, string} from "../src";
 import {
+  array,
   CollectionOf,
   Default,
   Description,
   For,
   Generics,
+  getJsonSchema,
+  getSpec,
+  In,
   Integer,
+  Name,
   Min,
   MinLength,
+  oneOf,
   OperationPath,
   Path,
   Property,
-  Returns
-} from "@tsed/schema";
+  Returns,
+  SpecTypes,
+  string
+} from "../src/index";
 import {validateSpec} from "./helpers/validateSpec";
-import {QueryParams} from "@tsed/platform-params";
 
 export class Pageable {
   @Integer()
@@ -88,7 +94,7 @@ class TestPageableCtrl {
   @OperationPath("GET", "/")
   @Returns(206, Pagination).Of(Product).Title("PaginatedProduct")
   @Returns(200, Pagination).Of(Product).Title("PaginatedProduct")
-  async get(@QueryParams() pageableOptions: Pageable, @QueryParams("all") all: boolean) {
+  async get(@In("query") pageableOptions: Pageable, @In("query") @Name("all") all: boolean) {
     return new Pagination<Product>({
       data: [
         new Product({

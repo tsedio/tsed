@@ -1,8 +1,8 @@
 import {AdapterModel, Adapters, Indexed} from "@tsed/adapters";
-import {RedisAdapter} from "@tsed/adapters-redis";
 import {IORedisTest, registerConnectionProvider} from "@tsed/ioredis";
 import {deserialize} from "@tsed/json-mapper";
 import {Property, Required} from "@tsed/schema";
+import {RedisAdapter} from "./RedisAdapter";
 
 const REDIS_CONNECTION = Symbol.for("redis_connection");
 

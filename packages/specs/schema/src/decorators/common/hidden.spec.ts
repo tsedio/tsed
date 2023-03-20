@@ -1,6 +1,6 @@
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Hidden} from "./hidden";
-import {Get, getSpec, Path, SpecTypes} from "@tsed/schema";
+import {Get, getSpec, Path, SpecTypes} from "../../index";
 
 describe("@Hidden", () => {
   it("should generate the right json schema", () => {

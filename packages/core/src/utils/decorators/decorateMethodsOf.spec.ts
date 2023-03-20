@@ -1,4 +1,7 @@
-import {descriptorOf, Store, StoreMerge, StoreSet} from "@tsed/core";
+import {StoreMerge} from "../../decorators/storeMerge";
+import {StoreSet} from "../../decorators/storeSet";
+import {Store} from "../../domain/Store";
+import {descriptorOf} from "../objects/descriptorOf";
 import {decorateMethodsOf} from "./decorateMethodsOf";
 
 describe("decorateMethodsOf", () => {

@@ -1,10 +1,9 @@
-import {Controller} from "@tsed/di";
-
+import {nameOf} from "@tsed/core";
+import {Controller} from "../decorators/controller";
 import {Module1} from "./__mock__/module1/Module1";
 import {Module2} from "./__mock__/module2/Module2";
 import {M1Ctrl1} from "./__mock__/module1/controllers/M1Ctrl1";
 import {M2Ctrl} from "./__mock__/module2/controllers/M2Ctrl";
-import {nameOf} from "@tsed/core";
 import {resolveControllers} from "./resolveControllers";
 
 @Controller("/root")

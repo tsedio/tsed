@@ -1,4 +1,4 @@
-import {InjectionError} from "../../src/errors/InjectionError";
+import {InjectionError} from "./InjectionError";
 
 describe("InjectionError", () => {
   it("should create new instance of InjectionError (1)", () => {

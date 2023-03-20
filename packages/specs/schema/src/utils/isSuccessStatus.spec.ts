@@ -1,4 +1,4 @@
-import {isRedirectionStatus, isSuccessStatus} from "@tsed/schema";
+import {isRedirectionStatus, isSuccessStatus} from "./isSuccessStatus";
 
 describe("isSuccessStatus", () => {
   it("should be a valid success status", () => {

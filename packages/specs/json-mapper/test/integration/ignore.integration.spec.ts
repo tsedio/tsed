@@ -1,5 +1,5 @@
 import {Ignore, Property} from "@tsed/schema";
-import {serialize} from "../../src";
+import {serialize} from "../../src/utils/serialize";
 
 describe("Mapping @Ignore", () => {
   it("should serialize model", () => {

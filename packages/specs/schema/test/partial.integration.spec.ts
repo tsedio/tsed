@@ -1,6 +1,6 @@
 import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
-import {CollectionOf, Groups, Partial, Patch, Required, Post, getSpec} from "@tsed/schema";
+import {CollectionOf, Groups, Partial, Patch, Required, Post, getSpec} from "../src/index";
 
 class Product {
   @Required()

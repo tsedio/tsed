@@ -1,6 +1,7 @@
-import {Decimal, Entity} from "@tsed/objection";
 import {Property} from "@tsed/schema";
 import {createTableStub} from "../../test/helpers/knex/table";
+import {Decimal} from "../decorators/decimal";
+import {Entity} from "../decorators/entity";
 import {createColumns} from "../utils/createColumns";
 
 describe("createNumberColumn", () => {

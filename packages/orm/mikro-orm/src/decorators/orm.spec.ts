@@ -1,6 +1,6 @@
 import {DecoratorTypes, Store} from "@tsed/core";
 import {Controller, INJECTABLE_PROP} from "@tsed/di";
-import {Orm} from "@tsed/mikro-orm";
+import {Orm} from "./orm";
 import {MikroORM} from "@mikro-orm/core";
 
 @Controller("/users")

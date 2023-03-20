@@ -1,6 +1,6 @@
-import {getFormioSchema} from "@tsed/schema-formio";
 import {JsonEntityStore, Property} from "@tsed/schema";
 import {Form} from "../decorators/form";
+import {getFormioSchema} from "../utils/getFormioSchema";
 
 const schema = {
   access: [],

@@ -1,4 +1,4 @@
-import {engines} from "@tsed/engines";
+import {engines} from "../../src/index";
 import {expect} from "chai";
 import fs from "fs";
 import sinon from "sinon";

@@ -4,7 +4,7 @@ import {deserialize} from "@tsed/json-mapper";
 import {PlatformTestSdk} from "@tsed/platform-test-sdk";
 import {getSpec, Groups, Property, Returns, SpecTypes} from "@tsed/schema";
 import SuperTest from "supertest";
-import {PlatformExpress} from "../src";
+import {PlatformExpress} from "../src/index";
 import {rootDir, Server} from "./app/Server";
 
 class Product {

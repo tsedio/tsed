@@ -1,4 +1,4 @@
-import {SpecTypes} from "@tsed/schema";
+import {SpecTypes} from "../../domain/SpecTypes";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Const} from "./const";
 

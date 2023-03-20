@@ -1,4 +1,4 @@
-import {isNil} from "@tsed/core";
+import {isNil} from "./isNil";
 
 describe("isNil", () => {
   it("should return true", () => {

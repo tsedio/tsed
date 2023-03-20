@@ -1,7 +1,6 @@
-import {generateSpec, getSpec, SpecTypes} from "../src";
-import {OperationPath, Path, Property, Returns} from "@tsed/schema";
-import {validateSpec} from "./helpers/validateSpec";
 import {QueryParams} from "@tsed/platform-params";
+import {getSpec, OperationPath, Path, Property, Returns, SpecTypes} from "../src/index";
+import {validateSpec} from "./helpers/validateSpec";
 
 class Product {
   @Property()

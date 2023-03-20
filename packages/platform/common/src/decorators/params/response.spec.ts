@@ -1,6 +1,6 @@
-import {PlatformResponse} from "@tsed/common";
 import {ParamTypes} from "@tsed/platform-params";
 import {ServerResponse} from "http";
+import {PlatformResponse} from "../../services/PlatformResponse";
 import {Response} from "./response";
 import {JsonParameterStore} from "@tsed/schema";
 

@@ -1,4 +1,4 @@
-import {JsonEntityStore, OperationMethods} from "@tsed/schema";
+import {JsonEntityStore, OperationMethods} from "../../index";
 import {All, Delete, Get, Head, Options, Patch, Post, Put} from "./route";
 import Sinon from "sinon";
 

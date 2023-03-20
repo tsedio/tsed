@@ -1,6 +1,6 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {ExclusiveMinimum} from "./exclusiveMinimum";
-import "@tsed/schema";
+import "../../index";
 
 describe("@ExclusiveMinimum", () => {
   it("should declare exclusiveMinimum value", () => {

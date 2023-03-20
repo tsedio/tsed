@@ -1,7 +1,8 @@
 import {PlatformTest} from "@tsed/common";
 import {isClass} from "@tsed/core";
 import {serialize} from "@tsed/json-mapper";
-import {PlatformCache, PlatformCacheInterceptor} from "@tsed/platform-cache";
+import {PlatformCache} from "../services/PlatformCache";
+import {PlatformCacheInterceptor} from "./PlatformCacheInterceptor";
 
 const defaultKeyResolver = (args: any[]) => {
   return args.map((arg: any) => (isClass(arg) ? JSON.stringify(serialize(arg)) : arg)).join(":");

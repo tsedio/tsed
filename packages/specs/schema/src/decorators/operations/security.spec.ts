@@ -1,4 +1,4 @@
-import {getSpec, OperationPath, SpecTypes} from "@tsed/schema";
+import {getSpec, OperationPath, SpecTypes} from "../../index";
 import {Security} from "./security";
 
 describe("Security", () => {

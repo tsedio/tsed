@@ -98,7 +98,7 @@ export class TransactionalInterceptor implements InterceptorMethods {
       return next();
     }
 
-    return manager.transactional(() => next(), {
+    return manager.transactional(async () => next(), {
       flushMode: options.flushMode,
       isolationLevel: options.isolationLevel
     });

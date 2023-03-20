@@ -1,4 +1,5 @@
-import {getFormioSchema, TableView} from "@tsed/schema-formio";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {TableView} from "./tableView";
 
 describe("@TableView", () => {
   it("should change the table view option", async () => {

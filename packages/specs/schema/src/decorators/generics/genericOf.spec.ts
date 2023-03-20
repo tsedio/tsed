@@ -1,4 +1,4 @@
-import {CollectionOf, getJsonSchema, Property, string} from "@tsed/schema";
+import {CollectionOf, getJsonSchema, Property, string} from "../../index";
 import {GenericOf} from "./genericOf";
 import {Generics} from "./generics";
 

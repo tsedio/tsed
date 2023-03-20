@@ -1,4 +1,8 @@
-import {DIContext, DITest, Injectable, InjectContext, runInContext} from "@tsed/di";
+import {InjectContext} from "../decorators/inject";
+import {Injectable} from "../decorators/injectable";
+import {DIContext} from "../domain/DIContext";
+import {DITest} from "../services/DITest";
+import {runInContext} from "../utils/asyncHookContext";
 
 @Injectable()
 class MyService {

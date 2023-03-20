@@ -1,4 +1,4 @@
-import {getJsonSchema, Required} from "@tsed/schema";
+import {getJsonSchema, Required} from "../../index";
 import {Groups} from "./groups";
 import {RequiredGroups} from "./requiredGroups";
 

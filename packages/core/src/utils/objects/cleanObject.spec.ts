@@ -1,4 +1,4 @@
-import {cleanObject} from "@tsed/core";
+import {cleanObject} from "./cleanObject";
 
 describe("cleanObject", () => {
   it("should clean undefined value from object", () => {

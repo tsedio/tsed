@@ -1,4 +1,6 @@
-import {DataSourceJson, getFormioSchema, Select} from "@tsed/schema-formio";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {DataSourceJson} from "./dataSourceJson";
+import {Select} from "./select";
 
 describe("DataSourceJson", () => {
   it("should declare datasource", async () => {

@@ -1,5 +1,4 @@
-import {getFormioSchema} from "@tsed/schema-formio";
-import {Tooltip} from "./tooltip";
+import {getFormioSchema} from "../utils/getFormioSchema";
 import {TextCase} from "./textCase";
 
 describe("@TextCase", () => {

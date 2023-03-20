@@ -1,6 +1,9 @@
 import {Store} from "@tsed/core";
-import {InterceptorMethods, InterceptorContext, InjectablePropertyType, Intercept} from "../../src";
 import {INJECTABLE_PROP} from "../constants/constants";
+import {InjectablePropertyType} from "../domain/InjectablePropertyType";
+import {InterceptorContext} from "../interfaces/InterceptorContext";
+import {InterceptorMethods} from "../interfaces/InterceptorMethods";
+import {Intercept} from "./intercept";
 
 describe("@Intercept", () => {
   it("should add interceptor on method", () => {

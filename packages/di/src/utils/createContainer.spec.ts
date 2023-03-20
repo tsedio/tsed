@@ -1,4 +1,6 @@
-import {Container, createContainer, Module} from "@tsed/di";
+import {Module} from "../decorators/module";
+import {Container} from "../domain/Container";
+import {createContainer} from "./createContainer";
 
 describe("createContainer", () => {
   it("should createContainer", () => {

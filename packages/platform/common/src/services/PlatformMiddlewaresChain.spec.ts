@@ -1,7 +1,6 @@
-import {ControllerProvider, EndpointMetadata} from "@tsed/common";
-import {Controller} from "@tsed/di";
+import {Controller, ControllerProvider} from "@tsed/di";
 import {Use} from "@tsed/platform-middlewares";
-import {All, Get, getOperationsRoutes} from "@tsed/schema";
+import {All, EndpointMetadata, Get, getOperationsRoutes} from "@tsed/schema";
 import {PlatformMiddlewaresChain} from "./PlatformMiddlewaresChain";
 import {PlatformTest} from "./PlatformTest";
 

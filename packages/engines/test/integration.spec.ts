@@ -1,5 +1,5 @@
-import "@tsed/engines";
-import * as sharedTest from "./shared";
+import "../src/index";
+import * as sharedTest from "./shared/index";
 import * as sharedFiltersTest from "./shared/filters";
 import * as sharedIncludesTest from "./shared/includes";
 import * as sharedPartialsTest from "./shared/partials";

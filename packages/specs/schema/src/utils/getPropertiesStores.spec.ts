@@ -1,4 +1,7 @@
-import {Email, Ignore, Property, Required} from "../index";
+import {Email} from "../decorators/common/format";
+import {Ignore} from "../decorators/common/ignore";
+import {Property} from "../decorators/common/property";
+import {Required} from "../decorators/common/required";
 import {getProperties, getPropertiesStores} from "./getPropertiesStores";
 
 class Base {

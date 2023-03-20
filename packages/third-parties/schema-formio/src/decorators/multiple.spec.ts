@@ -1,4 +1,5 @@
-import {getFormioSchema, Multiple} from "@tsed/schema-formio";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {Multiple} from "./multiple";
 
 describe("Multiple", () => {
   it("should declare a model with multiple field", async () => {

@@ -1,5 +1,5 @@
 import {SubModule} from "./submodule/SubModule";
-import {Module} from "@tsed/di";
+import {Module} from "../../../decorators/module";
 import {M1Ctrl1} from "./controllers/M1Ctrl1";
 
 @Module({

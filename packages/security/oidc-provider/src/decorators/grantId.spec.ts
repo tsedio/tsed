@@ -1,6 +1,6 @@
-import {GrantId} from "@tsed/oidc-provider";
 import {INTERACTION_GRANT_ID} from "../constants/constants";
 import {JsonParameterStore} from "@tsed/schema";
+import {GrantId} from "./grantId";
 
 describe("@GrandId", () => {
   it("should inject grantId", () => {

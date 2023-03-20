@@ -1,4 +1,5 @@
-import {getFormioSchema, InputTags} from "@tsed/schema-formio";
+import {getFormioSchema} from "../utils/getFormioSchema";
+import {InputTags} from "./inputTags";
 
 describe("InputTags", () => {
   it("should declare a model with Tags field", async () => {

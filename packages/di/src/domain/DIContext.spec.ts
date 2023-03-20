@@ -1,9 +1,10 @@
-import {bindContext, getAsyncStore, PlatformTest} from "@tsed/common";
+import {DITest} from "../services/DITest";
+import {bindContext, getAsyncStore} from "../utils/asyncHookContext";
 import {DIContext} from "./DIContext";
 
 describe("DIContext", () => {
-  beforeEach(() => PlatformTest.create());
-  afterEach(() => PlatformTest.reset());
+  beforeEach(() => DITest.create());
+  afterEach(() => DITest.reset());
   describe("constructor", () => {
     it("should create a new Context and skip log", () => {
       const logger = {
@@ -11,15 +12,15 @@ describe("DIContext", () => {
       };
       const context = new DIContext({
         event: {
-          response: PlatformTest.createResponse(),
-          request: PlatformTest.createRequest({
+          response: {},
+          request: {
             url: "/admin"
-          })
+          }
         },
         id: "id",
         logger,
         maxStackSize: 0,
-        injector: PlatformTest.injector
+        injector: DITest.injector
       });
 
       expect(context.id).toEqual("id");
@@ -41,13 +42,11 @@ describe("DIContext", () => {
       const context = new DIContext({
         id: "id",
         event: {
-          response: PlatformTest.createResponse(),
-          request: PlatformTest.createRequest({
-            url: "/"
-          })
+          response: {},
+          request: {url: "/"}
         },
         logger,
-        injector: PlatformTest.injector,
+        injector: DITest.injector,
         maxStackSize: 0
       });
 
@@ -69,10 +68,8 @@ describe("DIContext", () => {
     it("should cache data", async () => {
       const context = new DIContext({
         event: {
-          response: PlatformTest.createResponse(),
-          request: PlatformTest.createRequest({
-            url: "/admin"
-          })
+          response: {},
+          request: {url: "/admin"}
         },
         id: "id",
         logger: {
@@ -96,10 +93,8 @@ describe("DIContext", () => {
     it("should cache data", async () => {
       const context = new DIContext({
         event: {
-          response: PlatformTest.createResponse(),
-          request: PlatformTest.createRequest({
-            url: "/admin"
-          })
+          response: {},
+          request: {url: "/admin"}
         },
         id: "id",
         logger: {
@@ -122,10 +117,8 @@ describe("DIContext", () => {
     it("should emit event", async () => {
       const context = new DIContext({
         event: {
-          response: PlatformTest.createResponse(),
-          request: PlatformTest.createRequest({
-            url: "/admin"
-          })
+          response: {},
+          request: {url: "/admin"}
         },
         id: "id",
         logger: {
@@ -145,10 +138,8 @@ describe("DIContext", () => {
     it("should run handler in a context", async () => {
       const context = new DIContext({
         event: {
-          response: PlatformTest.createResponse(),
-          request: PlatformTest.createRequest({
-            url: "/admin"
-          })
+          response: {},
+          request: {url: "/admin"}
         },
         id: "id",
         logger: {
@@ -173,10 +164,8 @@ describe("DIContext", () => {
     it("should run handler in a context + bind", async () => {
       const context = new DIContext({
         event: {
-          response: PlatformTest.createResponse(),
-          request: PlatformTest.createRequest({
-            url: "/admin"
-          })
+          response: {},
+          request: {url: "/admin"}
         },
         id: "id",
         logger: {
@@ -204,10 +193,8 @@ describe("DIContext", () => {
     it("should run handler in a context and fallback to next", async () => {
       const context = new DIContext({
         event: {
-          response: PlatformTest.createResponse(),
-          request: PlatformTest.createRequest({
-            url: "/admin"
-          })
+          response: {},
+          request: {url: "/admin"}
         },
         id: "id",
         logger: {

@@ -1,6 +1,6 @@
 import {toMap as tMap} from "@tsed/core";
-import {FormioMapper} from "@tsed/formio";
 import {MongooseDocument} from "@tsed/mongoose";
+import {FormioMapper} from "./FormioMapper";
 
 function toMap<T>(list: any[]) {
   return tMap<string, MongooseDocument<T>>(list, (o: any) => [o._id.toString(), `$machineName:${o.machineName}`]);

@@ -1,4 +1,4 @@
-import {isParameterType} from "@tsed/schema";
+import {isParameterType} from "../index";
 
 describe("JsonParameterType", () => {
   describe("isParameterType", () => {

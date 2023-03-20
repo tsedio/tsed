@@ -1,6 +1,5 @@
-import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest, Post} from "@tsed/common";
-import {CollectionOf, Property, Required, Status} from "@tsed/schema";
-import {Request} from "express";
+import {BodyParams, Controller, MulterOptions, MultipartFile, PlatformMulterFile, PlatformTest} from "@tsed/common";
+import {Post, CollectionOf, Property, Required, Status} from "@tsed/schema";
 import multer, {FileFilterCallback} from "multer";
 import SuperTest from "supertest";
 import {PlatformTestingSdkOpts} from "../interfaces";
@@ -23,7 +22,7 @@ export class Event {
 }
 
 const fileFilterStub = jest.fn();
-const fileFilter = (req: Request, file: PlatformMulterFile, callback: FileFilterCallback) => {
+const fileFilter = (req: any, file: PlatformMulterFile, callback: FileFilterCallback) => {
   fileFilterStub();
   callback(null, true);
 };
@@ -31,7 +30,7 @@ const fileFilter = (req: Request, file: PlatformMulterFile, callback: FileFilter
 function getFileConfig(): any {
   return {
     storage: multer.diskStorage({
-      destination: (req: Express.Request, _fileItem, cb) => {
+      destination: (req: any, _fileItem, cb) => {
         const path = `${__dirname}/../.tmp`;
         cb(null, path);
       }

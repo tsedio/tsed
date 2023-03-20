@@ -1,4 +1,7 @@
-import {Configuration, Controller, Get, InjectorService, PlatformTest, PlatformContext} from "@tsed/common";
+import {Configuration, Controller, InjectorService} from "@tsed/di";
+import {Get} from "@tsed/schema";
+import {PlatformContext} from "../domain/PlatformContext";
+import {PlatformTest} from "./PlatformTest";
 
 @Configuration({})
 class Server {}

@@ -1,4 +1,4 @@
-import {isPrimitive, isPrimitiveClass} from "@tsed/core";
+import {isPrimitive, isPrimitiveClass} from "./isPrimitive";
 
 describe("isPrimitive", () => {
   it("should test if an variable content is a primitive", () => {

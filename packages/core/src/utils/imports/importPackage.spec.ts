@@ -1,5 +1,5 @@
+import {catchAsyncError} from "../catchError";
 import {importPackage} from "./importPackage";
-import {catchAsyncError} from "@tsed/core";
 
 describe("importPackage", () => {
   it("should load package util", async () => {

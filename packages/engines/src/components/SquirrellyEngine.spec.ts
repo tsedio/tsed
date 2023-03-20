@@ -1,7 +1,7 @@
 import {expect} from "chai";
 import {getEngineFixture} from "../../test/getEngineFixture";
+import {requires} from "../utils/cache";
 import {SquirrellyEngine} from "./SquirrellyEngine";
-import {requires} from "@tsed/engines";
 import {join} from "path";
 
 describe("SquirrellyEngine", () => {

@@ -1,4 +1,4 @@
-import {Ctx} from "@tsed/platform-koa";
+import {Ctx} from "./ctx";
 import {JsonParameterStore} from "@tsed/schema";
 
 describe("@Ctx", () => {

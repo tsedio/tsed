@@ -2,11 +2,9 @@ import "@tsed/ajv";
 import {Constant, PlatformApplication} from "@tsed/common";
 import {Configuration, Inject} from "@tsed/di";
 import compress from "compression";
-import cookieParser from "cookie-parser";
 import {Application} from "express";
 import session from "express-session";
-import methodOverride from "method-override";
-import "../../src";
+import "../../src/index";
 
 export const rootDir = __dirname;
 

@@ -1,5 +1,5 @@
-import {CollectionOf, getJsonSchema} from "@tsed/schema";
-import {MinItems} from "./minItems";
+import {getJsonSchema} from "../../utils/getJsonSchema";
+import {CollectionOf} from "./collectionOf";
 import {UniqueItems} from "./uniqueItems";
 
 describe("@UniqueItems", () => {

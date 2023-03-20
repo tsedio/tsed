@@ -1,4 +1,4 @@
-import {Consumes, getSpec, OperationPath, SpecTypes} from "@tsed/schema";
+import {Consumes, getSpec, OperationPath, SpecTypes} from "../../index";
 
 describe("Consumes", () => {
   it("should store metadata", () => {

@@ -1,5 +1,5 @@
 import {$log, Controller, Get} from "@tsed/common";
-import {PlatformKoa} from "../../src/index";
+import {PlatformKoa} from "@tsed/platform-koa";
 import {Server} from "./Server";
 
 if (process.env.NODE_ENV !== "test") {

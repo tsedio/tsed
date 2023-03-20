@@ -1,4 +1,4 @@
-import {getSpec, OperationPath, Path} from "@tsed/schema";
+import {getSpec, OperationPath, Path} from "../../index";
 
 describe("Path", () => {
   it("should declare a path", () => {

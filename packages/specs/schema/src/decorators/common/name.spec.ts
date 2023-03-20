@@ -1,4 +1,4 @@
-import {Consumes, getSpec, OperationPath, Path} from "@tsed/schema";
+import {Consumes, getSpec, OperationPath, Path} from "../../index";
 import {getJsonSchema} from "../../utils/getJsonSchema";
 import {Name} from "./name";
 

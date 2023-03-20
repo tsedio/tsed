@@ -1,5 +1,5 @@
-import {ProviderScope} from "@tsed/di";
 import {ControllerProvider} from "./ControllerProvider";
+import {ProviderScope} from "./ProviderScope";
 
 class Test {}
 

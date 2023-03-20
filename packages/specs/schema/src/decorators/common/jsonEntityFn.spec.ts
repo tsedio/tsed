@@ -1,4 +1,4 @@
-import {JsonEntityFn} from "@tsed/schema";
+import {JsonEntityFn} from "../../index";
 import Sinon from "sinon";
 
 describe("JsonSchemaStoreFn", () => {

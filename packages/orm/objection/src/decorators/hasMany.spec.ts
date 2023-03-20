@@ -1,6 +1,7 @@
-import {Entity, HasMany, IdColumn} from "@tsed/objection";
-
 import {Model} from "objection";
+import {Entity} from "./entity";
+import {HasMany} from "./hasMany";
+import {IdColumn} from "./idColumn";
 
 describe("@HasMany", () => {
   it("should set metadata", () => {
@@ -10,6 +11,7 @@ describe("@HasMany", () => {
       id!: string;
       userId?: string;
     }
+
     @Entity("user")
     class User extends Model {
       @IdColumn()

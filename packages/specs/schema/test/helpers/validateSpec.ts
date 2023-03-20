@@ -1,6 +1,6 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
 import {unlinkSync, writeJsonSync} from "fs-extra";
-import {SpecTypes} from "@tsed/schema";
+import {SpecTypes} from "../../src/index";
 import {v4} from "uuid";
 
 export const validateSpec = async (spec: any, version = SpecTypes.SWAGGER) => {

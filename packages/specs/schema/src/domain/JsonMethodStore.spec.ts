@@ -1,17 +1,14 @@
 import {StoreSet} from "@tsed/core";
 import {Use, UseAfter, UseBefore} from "@tsed/platform-middlewares";
-import {
-  EndpointMetadata,
-  Get,
-  In,
-  JsonEntityStore,
-  JsonMethodStore,
-  JsonOperation,
-  JsonParameter,
-  OperationMethods,
-  Property,
-  Returns
-} from "@tsed/schema";
+import {OperationMethods} from "../constants/httpMethods";
+import {Property} from "../decorators/common/property";
+import {In} from "../decorators/operations/in";
+import {Returns} from "../decorators/operations/returns";
+import {Get} from "../decorators/operations/route";
+import {JsonEntityStore} from "./JsonEntityStore";
+import {EndpointMetadata, JsonMethodStore} from "./JsonMethodStore";
+import {JsonOperation} from "./JsonOperation";
+import {JsonParameter} from "./JsonParameter";
 
 describe("JsonMethodStore", () => {
   describe("endpoint declaration", () => {

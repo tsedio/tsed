@@ -1,8 +1,9 @@
-import {Adapter, Indexed} from "@tsed/adapters";
 import {PlatformTest} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {Property} from "@tsed/schema";
 import {MemoryAdapter} from "../adapters/MemoryAdapter";
+import {Adapter} from "../domain/Adapter";
+import {Indexed} from "./indexed";
 import {InjectAdapter} from "./injectAdapter";
 
 describe("Indexed", () => {

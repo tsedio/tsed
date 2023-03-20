@@ -1,6 +1,10 @@
 import {Store} from "@tsed/core";
-import {Container, GlobalProviders, Injectable, InjectorService, Provider} from "@tsed/di";
+import {Container} from "../domain/Container";
+import {Provider} from "../domain/Provider";
+import {GlobalProviders} from "../registries/GlobalProviders";
+import {InjectorService} from "../services/InjectorService";
 import {Configuration} from "./configuration";
+import {Injectable} from "./injectable";
 
 describe("@Configuration", () => {
   it("should declare a new provider with custom configuration", () => {

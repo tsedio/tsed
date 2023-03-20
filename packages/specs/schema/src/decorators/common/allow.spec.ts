@@ -1,4 +1,4 @@
-import {getJsonSchema} from "@tsed/schema";
+import {getJsonSchema} from "../../index";
 import Ajv from "ajv";
 import {Allow} from "./allow";
 import {Property} from "./property";

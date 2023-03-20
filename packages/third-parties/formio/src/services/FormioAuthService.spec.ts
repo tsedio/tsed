@@ -1,9 +1,9 @@
 import {PlatformTest} from "@tsed/common";
 import {catchAsyncError} from "@tsed/core";
 import {BadRequest} from "@tsed/exceptions";
-import {FormioService} from "@tsed/formio";
 import {FormioAuthService} from "./FormioAuthService";
 import {FormioHooksService} from "./FormioHooksService";
+import {FormioService} from "./FormioService";
 
 function createSubmissionModelFixture(): any {
   return class {

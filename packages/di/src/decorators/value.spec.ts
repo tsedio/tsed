@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {Value} from "../../src";
+import {Value} from "./value";
 import {INJECTABLE_PROP} from "../constants/constants";
 
 describe("@Value()", () => {

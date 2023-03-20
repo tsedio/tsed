@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {SocketService} from "@tsed/socketio";
+import {SocketService} from "./socketService";
 
 describe("SocketService", () => {
   describe("case 1", () => {

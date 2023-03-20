@@ -1,4 +1,4 @@
-import {JsonMethodStore, View} from "@tsed/schema";
+import {JsonMethodStore, View} from "../../index";
 
 describe("@View", () => {
   it("should set metadata", () => {

@@ -1,4 +1,4 @@
-import {ParamTypes} from "@tsed/platform-params";
+import {ParamTypes} from "../domain/ParamTypes";
 import {Context} from "./context";
 import {JsonParameterStore} from "@tsed/schema";
 

@@ -1,7 +1,7 @@
 import {ApolloService} from "@tsed/apollo";
 import {PlatformTest} from "@tsed/common";
-import {TypeGraphQLService} from "@tsed/typegraphql";
 import {AuthResolver, RecipeResolver} from "../../test/app/graphql/index";
+import {TypeGraphQLService} from "./TypeGraphQLService";
 
 const noop = () => {};
 

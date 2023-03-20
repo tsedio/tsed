@@ -1,6 +1,6 @@
 import {JsonEntityStore} from "../../domain/JsonEntityStore";
 import {CollectionOf} from "../collections/collectionOf";
-import "@tsed/schema";
+import "../../index";
 import {Max} from "./maximum";
 
 describe("@Maximum", () => {

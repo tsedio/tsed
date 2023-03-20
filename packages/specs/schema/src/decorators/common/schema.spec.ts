@@ -1,4 +1,4 @@
-import {getJsonSchema} from "@tsed/schema";
+import {getJsonSchema} from "../../index";
 import {Schema} from "./schema";
 
 describe("Schema()", () => {

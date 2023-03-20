@@ -1,8 +1,7 @@
-import {PlatformTest} from "@tsed/common";
-import {isArray} from "@tsed/core";
 import {PlatformViews} from "@tsed/platform-views";
 import {createReadStream} from "fs";
 import {PlatformResponse} from "./PlatformResponse";
+import {PlatformTest} from "./PlatformTest";
 
 jest.mock("on-finished");
 

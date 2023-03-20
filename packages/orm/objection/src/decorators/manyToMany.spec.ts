@@ -1,6 +1,7 @@
-import {Entity, IdColumn, ManyToMany} from "@tsed/objection";
-
 import {Model} from "objection";
+import {Entity} from "./entity";
+import {IdColumn} from "./idColumn";
+import {ManyToMany} from "./manyToMany";
 
 describe("@ManyToMany", () => {
   it("should set metadata", () => {
@@ -10,6 +11,7 @@ describe("@ManyToMany", () => {
       id!: string;
       userId?: string;
     }
+
     @Entity("user")
     class User extends Model {
       @IdColumn()

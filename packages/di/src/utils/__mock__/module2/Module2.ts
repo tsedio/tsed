@@ -1,4 +1,4 @@
-import {Module} from "@tsed/di";
+import {Module} from "../../../decorators/module";
 import {M2Ctrl} from "./controllers/M2Ctrl";
 
 @Module({

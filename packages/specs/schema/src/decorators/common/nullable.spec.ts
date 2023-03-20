@@ -1,7 +1,14 @@
-import {getSpec, Nullable, Path, Post, Property, Required, SpecTypes} from "@tsed/schema";
-import {getJsonSchema} from "../../utils/getJsonSchema";
 import {BodyParams} from "@tsed/platform-params";
 import Ajv from "ajv";
+import {SpecTypes} from "../../domain/SpecTypes";
+import {getJsonSchema} from "../../utils/getJsonSchema";
+import {getSpec} from "../../utils/getSpec";
+import {In} from "../operations/in";
+import {Path} from "../operations/path";
+import {Post} from "../operations/route";
+import {Nullable} from "./nullable";
+import {Property} from "./property";
+import {Required} from "./required";
 
 describe("@Nullable", () => {
   it("should declare any prop (Required + Nullable)", () => {
@@ -179,6 +186,7 @@ describe("@Nullable", () => {
       @Nullable(Nested1, Nested2)
       prop2: Nested1 | Nested2 | null;
     }
+
     const schema = getJsonSchema(Model);
     const ajv = new Ajv({strict: true});
 
@@ -359,7 +367,7 @@ describe("@Nullable", () => {
     @Path("/")
     class MyController {
       @Post("/")
-      body(@BodyParams() model: Model) {}
+      body(@In("body") model: Model) {}
     }
 
     // THEN

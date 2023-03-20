@@ -1,5 +1,4 @@
-import {Exception, HTTPException} from "@tsed/exceptions";
-
+import {Exception, HTTPException} from "./Exception";
 describe("Exception", () => {
   it("should use origin", () => {
     const exception = new Exception(undefined, "test", new Error("test"));

@@ -1,5 +1,5 @@
 import {Property} from "@tsed/schema";
-import {Model, ObjectID} from "../../../src";
+import {Model, ObjectID} from "../../../src/index";
 
 @Model({schemaOptions: {timestamps: true}})
 export class TestAvatar {

@@ -1,8 +1,8 @@
+import {Post} from "@tsed/common";
 import {Store} from "@tsed/core";
 import {Controller, INJECTABLE_PROP} from "@tsed/di";
-import {Post} from "@tsed/common";
+import {TransactionalInterceptor} from "../interceptors/TransactionalInterceptor";
 import {Transactional} from "./transactional";
-import {TransactionalInterceptor} from "@tsed/mikro-orm";
 
 @Controller("/users")
 export class UsersCtrl {

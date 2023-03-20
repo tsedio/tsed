@@ -3,7 +3,6 @@ import {Constant, Module} from "@tsed/di";
 import {engines, getEngine, requires} from "@tsed/engines";
 import Fs from "fs";
 import {extname, join, resolve} from "path";
-import {Writable} from "stream";
 import {
   PLATFORM_VIEWS_EXTENSIONS,
   PlatformViewEngine,

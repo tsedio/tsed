@@ -1,5 +1,10 @@
 import {isPromise} from "@tsed/core";
-import {Container, GlobalProviders, Inject, Injectable, InjectorService, registerProvider} from "../../src";
+import {Inject} from "../decorators/inject";
+import {Injectable} from "../decorators/injectable";
+import {Container} from "../domain/Container";
+import {GlobalProviders} from "../registries/GlobalProviders";
+import {registerProvider} from "../registries/ProviderRegistry";
+import {InjectorService} from "../services/InjectorService";
 
 describe("DI", () => {
   describe("create new injector", () => {

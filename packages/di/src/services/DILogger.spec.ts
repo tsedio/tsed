@@ -1,5 +1,8 @@
-import {Container, Inject, Injectable, InjectorService} from "@tsed/di";
 import {Logger} from "@tsed/logger";
+import {Inject} from "../decorators/inject";
+import {Injectable} from "../decorators/injectable";
+import {Container} from "../domain/Container";
+import {InjectorService} from "./InjectorService";
 
 describe("DILogger", () => {
   it("should inject logger in another service", async () => {
@@ -10,11 +13,13 @@ describe("DILogger", () => {
     }
 
     const injector = new InjectorService();
+    injector.logger = new Logger();
     const container = new Container();
     container.add(MyService);
 
     await injector.load(container);
+    const logger = injector.get(MyService).logger;
 
-    expect(injector.get(MyService).logger).toEqual(injector.logger);
+    expect(logger).toEqual(injector.logger);
   });
 });

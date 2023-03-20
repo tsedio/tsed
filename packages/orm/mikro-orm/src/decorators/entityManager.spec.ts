@@ -1,7 +1,7 @@
 import {DecoratorTypes, Store} from "@tsed/core";
 import {Controller, INJECTABLE_PROP} from "@tsed/di";
-import {EntityManager} from "@tsed/mikro-orm";
 import {MongoEntityManager} from "@mikro-orm/mongodb";
+import {EntityManager} from "./entityManager";
 
 @Controller("/users")
 export class UsersCtrl {

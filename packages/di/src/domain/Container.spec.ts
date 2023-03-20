@@ -1,4 +1,6 @@
-import {Container, Provider, ProviderType} from "../../src";
+import {Container} from "./Container";
+import {Provider} from "./Provider";
+import {ProviderType} from "./ProviderType";
 
 describe("Container", () => {
   describe("getProvider()", () => {

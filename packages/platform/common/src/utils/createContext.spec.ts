@@ -1,4 +1,5 @@
-import {PlatformResponse, PlatformTest} from "@tsed/common";
+import {PlatformResponse} from "../services/PlatformResponse";
+import {PlatformTest} from "../services/PlatformTest";
 import {createContext} from "./createContext";
 
 async function createContextFixture(reqOpts?: any) {

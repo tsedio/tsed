@@ -1,5 +1,9 @@
-import {Get, JsonEntityStore, JsonOperation, JsonOperationRoute, Name} from "@tsed/schema";
 import {BodyParams} from "@tsed/platform-params";
+import {Name} from "../decorators/common/name";
+import {Get} from "../decorators/operations/route";
+import {JsonEntityStore} from "./JsonEntityStore";
+import {JsonOperation} from "./JsonOperation";
+import {JsonOperationRoute} from "./JsonOperationRoute";
 
 describe("JsonOperationRoute", () => {
   it("should create JsonOperationRoute instance", () => {

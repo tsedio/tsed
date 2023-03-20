@@ -1,15 +1,13 @@
-import {
-  Container,
-  GlobalProviders,
-  Inject,
-  Injectable,
-  InjectorService,
-  LocalsContainer,
-  OnDestroy,
-  ProviderScope,
-  Scope,
-  Service
-} from "@tsed/di";
+import {Inject} from "../decorators/inject";
+import {Injectable} from "../decorators/injectable";
+import {Scope} from "../decorators/scope";
+import {Service} from "../decorators/service";
+import {Container} from "../domain/Container";
+import {LocalsContainer} from "../domain/LocalsContainer";
+import {ProviderScope} from "../domain/ProviderScope";
+import {OnDestroy} from "../interfaces/OnDestroy";
+import {GlobalProviders} from "../registries/GlobalProviders";
+import {InjectorService} from "../services/InjectorService";
 
 describe("DI", () => {
   describe("create new injector", () => {

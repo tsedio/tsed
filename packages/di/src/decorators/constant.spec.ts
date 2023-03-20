@@ -1,6 +1,6 @@
 import {Store} from "@tsed/core";
-import {Constant} from "../../src";
 import {INJECTABLE_PROP} from "../constants/constants";
+import {Constant} from "./constant";
 
 class Test {}
 
