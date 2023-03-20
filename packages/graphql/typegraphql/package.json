@@ -19,13 +19,13 @@
     "start:express": "ts-node test/app/index.express.ts",
     "start:koa": "ts-node test/app/index.koa.ts",
     "test": "cross-env NODE_ENV=test jest",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "@tsed/apollo": "7.18.2",
-    "tslib": "2.4.0"
+    "tslib": "2.5.0"
   },
   "devDependencies": {
     "@tsed/common": "7.18.2",

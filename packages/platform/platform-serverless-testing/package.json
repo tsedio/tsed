@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "yarn build:ts",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
@@ -67,7 +67,7 @@
   },
   "dependencies": {
     "aws-lambda": "^1.0.7",
-    "tslib": "2.4.0"
+    "tslib": "2.5.0"
   },
   "peerDependencies": {
     "@tsed/common": "^7.18.2",

@@ -16,14 +16,14 @@
     "build": "yarn build:ts",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
     "start": "ts-node test/app/index.ts",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "fs-extra": "^10.0.1",
     "jose2": "npm:jose@^2.0.4",
-    "tslib": "2.4.0"
+    "tslib": "2.5.0"
   },
   "devDependencies": {
     "@tsed/typescript": "7.18.2",

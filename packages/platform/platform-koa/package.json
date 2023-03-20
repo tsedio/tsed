@@ -18,7 +18,7 @@
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "start": "ts-node test/app/index.ts",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2 --testTimeout 10000",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
@@ -86,7 +86,7 @@
     "encodeurl": "^1.0.2",
     "koa-send": "5.0.1",
     "multer": "^1.4.5-lts.1",
-    "tslib": "2.4.0"
+    "tslib": "2.5.0"
   },
   "peerDependencies": {
     "@tsed/common": "^7.18.2",

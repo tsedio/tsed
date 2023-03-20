@@ -21,7 +21,7 @@
     "build:browser": "webpack",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
@@ -42,7 +42,7 @@
     "json-schema": "0.4.0",
     "picomatch": "2.3.1",
     "statuses": ">=2.0.1",
-    "tslib": "2.4.0"
+    "tslib": "2.5.0"
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.0.3",

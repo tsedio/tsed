@@ -20,7 +20,7 @@
     "test": "cross-env NODE_ENV=test yarn jest",
     "generate:postgres": "cd test/postgres && prisma -v && prisma generate",
     "generate:mongo": "cd test/mongo && prisma -v && prisma generate",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
@@ -32,7 +32,7 @@
     "fs-extra": "^10.1.0",
     "pluralize": "^8.0.0",
     "ts-morph": "^12.0.0",
-    "tslib": "2.4.0"
+    "tslib": "2.5.0"
   },
   "devDependencies": {
     "@prisma/client": "^4.0.0",

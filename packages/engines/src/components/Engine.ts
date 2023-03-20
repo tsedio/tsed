@@ -71,16 +71,14 @@ export class Engine {
     return this.$compile(template, options);
   }
 
-  protected importEngine(name: string, options: ViewEngineOptions) {
+  protected async importEngine(name: string, options: ViewEngineOptions) {
     const reqs = ([] as string[]).concat(options.requires || [name]);
 
-    const promises = reqs.map(async (req: string) => {
+    for (const req of reqs) {
       try {
         await importEngine(req, name);
         this.driverName = req;
       } catch (er) {}
-    });
-
-    return Promise.all(promises);
+    }
   }
 }

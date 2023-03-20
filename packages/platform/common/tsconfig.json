@@ -1,18 +1,69 @@
 {
-  "files": [],
+  "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "composite": true
+    "baseUrl": ".",
+    "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "./lib/cjs",
+    "declaration": true,
+    "declarationDir": "./lib/types",
+    "composite": true,
+    "noEmit": false
   },
-  "exclude": ["node_modules", "lib", "benchmark", "coverage", "spec", "keys", "jest.config.js", "webpack.config.js"],
+  "include": ["src", "src/**/*.json"],
+  "exclude": [
+    "node_modules",
+    "test",
+    "lib",
+    "benchmark",
+    "coverage",
+    "spec",
+    "**/*.benchmark.ts",
+    "**/*.spec.ts",
+    "keys",
+    "jest.config.js",
+    "**/__mock__/**",
+    "webpack.config.js"
+  ],
   "references": [
     {
-      "path": "./tsconfig.esm.json"
+      "path": "../../third-parties/components-scan"
     },
     {
-      "path": "./tsconfig.cjs.json"
+      "path": "../../core"
+    },
+    {
+      "path": "../../di"
+    },
+    {
+      "path": "../../specs/exceptions"
+    },
+    {
+      "path": "../../specs/json-mapper"
+    },
+    {
+      "path": "../platform-exceptions"
+    },
+    {
+      "path": "../platform-log-middleware"
+    },
+    {
+      "path": "../platform-middlewares"
+    },
+    {
+      "path": "../platform-params"
+    },
+    {
+      "path": "../platform-response-filter"
+    },
+    {
+      "path": "../platform-router"
+    },
+    {
+      "path": "../platform-views"
+    },
+    {
+      "path": "../../specs/schema"
     }
   ]
 }

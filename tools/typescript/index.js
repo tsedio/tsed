@@ -13,7 +13,6 @@ async function main() {
 
   const tsConfigTemplate = await readJson(join(scriptDir, "./tsconfig.template.json"));
   const tsConfigEsmTemplate = await readJson(join(scriptDir, "./tsconfig.template.esm.json"));
-  const tsConfigCjsTemplate = await readJson(join(scriptDir, "./tsconfig.template.cjs.json"));
 
   const tsConfigRootPath = join(monoRepo.rootDir, "tsconfig.json");
   const tsConfigRoot = await readJson(tsConfigRootPath);
@@ -34,8 +33,6 @@ async function main() {
     if (pkg.pkg.source && pkg.pkg.source.endsWith(".ts")) {
       const tsConfig = cloneDeep(tsConfigTemplate);
       const tsConfigPath = join(path, "tsconfig.json");
-      const tsConfigCjs = cloneDeep(tsConfigCjsTemplate);
-      const tsConfigCjsPath = join(path, "tsconfig.cjs.json");
       const tsConfigEsm = cloneDeep(tsConfigEsmTemplate);
       const tsConfigEsmPath = join(path, "tsconfig.esm.json");
 
@@ -48,7 +45,7 @@ async function main() {
           return packagesRefsMap.has(peer);
         })
         .map((peer) => {
-          tsConfigCjs.references.push({
+          tsConfig.references.push({
             path: relative(dirname(pkg.path), packagesRefsMap.get(peer))
           });
           tsConfigEsm.references.push({
@@ -58,7 +55,6 @@ async function main() {
 
       await writeJson(tsConfigPath, tsConfig, {spaces: 2});
       await writeJson(tsConfigEsmPath, tsConfigEsm, {spaces: 2});
-      await writeJson(tsConfigCjsPath, tsConfigCjs, {spaces: 2});
 
       tsConfigRoot.references.push({
         path: `./${relative(process.cwd(), path)}`
@@ -66,17 +62,18 @@ async function main() {
 
       if (pkg.pkg.scripts["build:cjs"]) {
         pkg.pkg.scripts["build"] = pkg.pkg.scripts["build"].replace("yarn run build:esm && yarn run build:cjs", "yarn build:ts");
-        pkg.pkg.scripts["build:ts"] = "tsc --build tsconfig.json";
         delete pkg.pkg.scripts["build:cjs"];
         delete pkg.pkg.scripts["build:esm"];
       }
 
+      pkg.pkg.scripts["build:ts"] = "tsc --build tsconfig.json && tsc --build tsconfig.esm.json";
       pkg.pkg.devDependencies["@tsed/typescript"] = pkg.pkg.version;
 
       await writeJson(pkg.path, pkg.pkg, {spaces: 2});
       try {
         removeSync(join(path, "tsconfig.compile.esm.json"));
         removeSync(join(path, "tsconfig.compile.json"));
+        removeSync(join(path, "tsconfig.cjs.json"));
       } catch {}
     }
   });
