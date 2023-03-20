@@ -20,13 +20,13 @@
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\"",
     "build:browser": "webpack",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "reflect-metadata": "^0.1.13",
-    "tslib": "2.4.0"
+    "tslib": "2.5.0"
   },
   "devDependencies": {
     "@tsed/typescript": "7.18.2",

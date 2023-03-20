@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "private": true,
   "scripts": {
-    "build": "tsc --build tsconfig.json"
+    "build": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json"
   },
   "devDependencies": {
     "@tsed/common": "7.18.2",

@@ -17,12 +17,12 @@
     "build": "yarn barrels && yarn build:ts",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\" -e \".benchmark.ts\"",
     "test": "cross-env NODE_ENV=test yarn jest",
-    "build:ts": "tsc --build tsconfig.json",
+    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "tslib": "2.4.0"
+    "tslib": "2.5.0"
   },
   "devDependencies": {
     "@tsed/core": "7.18.2",
