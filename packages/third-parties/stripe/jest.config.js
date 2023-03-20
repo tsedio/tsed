@@ -1,7 +1,6 @@
 // For a detailed explanation regarding each configuration property, visit:
 // https://jestjs.io/docs/en/configuration.html
 
-const {getModuleNameMapper} = require("@tsed/jest-config/moduleNameMapper.js");
 module.exports = {
   ...require("@tsed/jest-config"),
   roots: ["<rootDir>/src", "<rootDir>/test"],
