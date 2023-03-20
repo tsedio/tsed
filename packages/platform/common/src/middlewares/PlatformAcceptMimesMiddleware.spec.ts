@@ -1,6 +1,5 @@
 import {catchError} from "@tsed/core";
-import {Get} from "@tsed/schema";
-import {EndpointMetadata} from "../domain/EndpointMetadata";
+import {EndpointMetadata, Get} from "@tsed/schema";
 import {AcceptMime} from "../exports";
 import {PlatformTest} from "../services/PlatformTest";
 import {PlatformAcceptMimesMiddleware} from "./PlatformAcceptMimesMiddleware";

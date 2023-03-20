@@ -88,7 +88,6 @@ describe("getEngines", () => {
   describe("getEngines()", () => {
     it("should return engines", () => {
       const engines = getEngines();
-
       expect(Object.keys(engines)).to.deep.eq([
         "atpl",
         "bracket",

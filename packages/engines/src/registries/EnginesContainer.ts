@@ -30,7 +30,13 @@ export class EnginesContainer {
   }
 
   getSupportedEngines(): string[] {
-    return [...this.#providers.keys()].filter((key) => typeof key === "string") as string[];
+    const keys: string[] = [];
+
+    this.#providers.forEach((value, key) => {
+      typeof key === "string" && keys.push(key);
+    });
+
+    return keys;
   }
 }
 
