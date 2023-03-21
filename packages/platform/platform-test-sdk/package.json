@@ -40,6 +40,7 @@
     "@tsed/platform-views": "7.18.2",
     "@tsed/schema": "7.18.2",
     "@tsed/swagger": "7.18.2",
+    "read-pkg-up": "7.0.1",
     "ajv": "^8.12.0",
     "axios": "^1.3.0"
   },
