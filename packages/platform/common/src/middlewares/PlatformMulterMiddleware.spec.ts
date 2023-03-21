@@ -28,7 +28,7 @@ async function build(options = {}) {
       use: app
     }
   ]);
-  const ctx = PlatformTest.createRequestContext();
+  const ctx: any = PlatformTest.createRequestContext();
   ctx.endpoint = EndpointMetadata.get(Test, "upload");
 
   return {middleware, ctx, multer, app, multerMiddleware};
