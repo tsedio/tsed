@@ -1,8 +1,8 @@
 import {Injectable} from "../decorators/injectable";
+import {GlobalProviders} from "../registries/GlobalProviders";
 import * as ProviderRegistry from "../registries/ProviderRegistry";
 
 describe("@Injectable()", () => {
-  beforeEach(() => jest.spyOn(ProviderRegistry, "registerProvider"));
   afterEach(() => jest.resetAllMocks());
 
   it("should call `registerProvider` setting `provide` according to the target class", () => {
@@ -13,9 +13,7 @@ describe("@Injectable()", () => {
     Injectable()(Test);
 
     // THEN
-    expect(ProviderRegistry.registerProvider).toBeCalledWith({
-      provide: Test
-    });
+    expect(GlobalProviders.get(Test)?.useClass).toEqual(Test);
   });
 
   it("should call `registerProvider` passing an additional options", () => {
@@ -26,10 +24,8 @@ describe("@Injectable()", () => {
     Injectable({options: "options"})(Test);
 
     // THEN
-    expect(ProviderRegistry.registerProvider).toBeCalledWith({
-      options: "options",
-      provide: Test
-    });
+    expect(GlobalProviders.get(Test)?.useClass).toEqual(Test);
+    expect(GlobalProviders.get(Test)?.options).toEqual("options");
   });
 
   it("should override `provide`", () => {
@@ -41,9 +37,6 @@ describe("@Injectable()", () => {
     Injectable({provide})(Test);
 
     // THEN
-    expect(ProviderRegistry.registerProvider).toBeCalledWith({
-      provide,
-      useClass: Test
-    });
+    expect(GlobalProviders.get("custom")?.useClass).toEqual(Test);
   });
 });

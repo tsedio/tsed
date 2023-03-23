@@ -52,6 +52,8 @@ declare global {
  */
 @PlatformProvider()
 export class PlatformExpress implements PlatformAdapter<Express.Application> {
+  static readonly NAME = "express";
+
   readonly providers = [];
   #multer: typeof multer;
 

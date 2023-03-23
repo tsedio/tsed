@@ -3,6 +3,7 @@
 
 module.exports = {
   ...require("@tsed/jest-config"),
+  coverageProvider: "babel",
   roots: ["<rootDir>/src", "<rootDir>/test"],
   moduleNameMapper: {
     "@tsed/oidc-provider": "<rootDir>/src/index.ts"

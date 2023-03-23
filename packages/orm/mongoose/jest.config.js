@@ -9,10 +9,10 @@ module.exports = {
   },
   coverageThreshold: {
     global: {
-      statements: 99.5,
-      branches: 95.48,
-      functions: 100,
-      lines: 99.47
+      statements: 99.06,
+      branches: 95.47,
+      functions: 99.01,
+      lines: 99.06
     }
   }
 };

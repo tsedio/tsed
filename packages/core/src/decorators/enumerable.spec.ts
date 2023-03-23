@@ -4,7 +4,7 @@ class Test1 {
   test: string = "test";
 
   @Enumerable()
-  name: string;
+  name: string = undefined;
 
   get first() {
     return this.test + " " + this.name;
@@ -23,7 +23,7 @@ class Test2 extends Parent1 {
   test: string = "test";
 
   @Enumerable()
-  name: string;
+  name: string = "";
 
   @NotEnumerable()
   private _privateTest: string = "private";

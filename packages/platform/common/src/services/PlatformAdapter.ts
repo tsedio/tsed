@@ -7,6 +7,7 @@ import {PlatformStaticsOptions} from "../config/interfaces/PlatformStaticsSettin
 import {FakeAdapter} from "./FakeAdapter";
 
 export abstract class PlatformAdapter<App = TsED.Application> {
+  static readonly NAME: string;
   /**
    * Load providers in top priority
    */

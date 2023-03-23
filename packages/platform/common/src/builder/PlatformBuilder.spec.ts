@@ -15,6 +15,7 @@ import {PlatformBuilder} from "./PlatformBuilder";
 class RestCtrl {}
 
 class PlatformCustom extends FakeAdapter {
+  static readonly NAME = "custom";
   readonly providers = [
     {
       provide: class Test {}

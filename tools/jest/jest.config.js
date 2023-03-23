@@ -13,6 +13,7 @@ module.exports = {
   // collectCoverageFrom: undefined,
 
   // The directory where Jest should output its coverage files
+  coverageProvider: "v8",
   coverageDirectory: "coverage",
   coverageReporters: ["clover", "json", "lcov", "text", "json-summary"],
   // moduleDirectories: ["node_modules", "packages"],
@@ -33,14 +34,9 @@ module.exports = {
   testPathIgnorePatterns: ["node_modules", "/docs/", "/docs-references/", "/engines/"],
   // A map from regular expressions to paths to transformers
   transform: {
-    "^.+\\.tsx?$": [
-      "ts-jest",
-      {
-        tsconfig: "<rootDir>/tsconfig.json"
-      }
-    ]
+    "^.+\\.(t|j)sx?$": ["@swc/jest", require("./swc.node.json")]
   },
-  preset: "ts-jest",
+
   transformIgnorePatterns: ["[/\\\\]node_modules[/\\\\].+\\.(js|jsx|mjs|cjs|ts|tsx)$", "^.+\\.module\\.(css|sass|scss)$"],
   modulePaths: ["<rootDir>/src"],
   moduleNameMapper: {},

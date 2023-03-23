@@ -37,11 +37,10 @@ export class PlatformBuilder<App = TsED.Application> {
     this.#rootModule = module;
 
     const configuration = getConfiguration(settings, module);
-    const adapterKlass: Type<PlatformAdapter<App>> = adapter || (PlatformBuilder.adapter as any);
-    const name = nameOf(adapterKlass).replace("Platform", "").toLowerCase();
+    const adapterKlass: Type<PlatformAdapter<App>> & {NAME: string} = adapter || (PlatformBuilder.adapter as any);
 
-    configuration.PLATFORM_NAME = name;
-    this.name = name;
+    configuration.PLATFORM_NAME = adapterKlass.NAME;
+    this.name = adapterKlass.NAME;
 
     this.#injector = createInjector({
       adapter: adapterKlass,

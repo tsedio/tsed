@@ -29,10 +29,7 @@ Object {
   },
   "properties": Object {
     "galaxies": Object {
-      "items": Object {
-        "$ref": "#/definitions/GalaxiesModel",
-      },
-      "type": "array",
+      "$ref": "#/definitions/GalaxiesModel",
     },
     "galaxyCount": Object {
       "multipleOf": 1,

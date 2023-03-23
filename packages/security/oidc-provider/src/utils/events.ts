@@ -1,3 +1,6 @@
+/**
+ * Exports all OIDC providers events
+ */
 export const OIDC_EVENTS = [
   "access_token.destroyed",
   "access_token.saved",
