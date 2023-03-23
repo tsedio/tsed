@@ -66,4 +66,7 @@ export function VirtualRef(options: string | MongooseVirtualRefOptions, foreignF
 }
 
 export type VirtualRef<T> = T | null;
+/**
+ * @deprecated Use T[] instead
+ */
 export type VirtualRefs<T> = T[];

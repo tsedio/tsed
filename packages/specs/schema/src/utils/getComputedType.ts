@@ -5,6 +5,7 @@ import {
   isClassObject,
   isCollection,
   isDate,
+  isFunction,
   isPrimitiveOrPrimitiveClass,
   isPromise,
   isSymbol,
@@ -15,7 +16,7 @@ import {
  * @ignore
  */
 export function getComputedType(target: any): Type<any> {
-  if (isPromise(target)) {
+  if (isPromise(target) || target === Function) {
     return Object;
   }
 

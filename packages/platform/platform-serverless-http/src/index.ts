@@ -3,6 +3,5 @@
  */
 
 export * from "./builder/PlatformServerlessHttp";
-export * from "./constants/constants";
 export * from "./decorators/serverlessContext";
 export * from "./decorators/serverlessEvent";

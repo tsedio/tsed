@@ -8,6 +8,11 @@ module.exports = {
     "^@tsed/platform-serverless$": "<rootDir>/src/index.ts"
   },
   coverageThreshold: {
-    global: require("./coverage.json")
+    global: {
+      statements: 97.95,
+      branches: 87.23,
+      functions: 100,
+      lines: 97.95
+    }
   }
 };

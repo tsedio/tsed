@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`schema: ReadOnly should generate json schema 1`] = `
+Object {
+  "properties": Object {
+    "test": Object {
+      "readOnly": true,
+      "type": "object",
+    },
+    "updated_at": Object {
+      "readOnly": true,
+      "type": "number",
+    },
+  },
+  "required": Array [
+    "updated_at",
+  ],
+  "type": "object",
+}
+`;

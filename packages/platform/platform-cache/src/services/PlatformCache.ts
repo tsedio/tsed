@@ -133,7 +133,6 @@ export class PlatformCache {
       return this.cache.store.keys(...args);
     }
 
-    // istanbul ignore next
     return [];
   }
 

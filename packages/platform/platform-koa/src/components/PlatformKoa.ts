@@ -57,6 +57,8 @@ KoaRouter.prototype.match = function match(...args: any[]) {
  */
 @PlatformProvider()
 export class PlatformKoa implements PlatformAdapter<Koa> {
+  static readonly NAME = "koa";
+
   readonly providers = [
     {
       provide: PlatformResponse,

@@ -12,7 +12,7 @@ describe("@Req", () => {
 
     const param = JsonParameterStore.get(Ctrl, "test", 0);
     expect(param.paramType).toEqual(ParamTypes.REQUEST);
-    expect(param.type).toEqual(Object);
+    expect(param.type).toEqual(Req);
   });
 
   it("should register a new parameter instance with the correct property (RawRequest with expression)", () => {
@@ -23,7 +23,7 @@ describe("@Req", () => {
     const param = JsonParameterStore.get(Ctrl, "test", 0);
     expect(param.paramType).toEqual(ParamTypes.REQUEST);
     expect(param.expression).toEqual("user");
-    expect(param.type).toEqual(Object);
+    expect(param.type).toEqual(Req);
   });
 
   it("should register a new parameter instance with the correct property (PlatformRequest)", () => {

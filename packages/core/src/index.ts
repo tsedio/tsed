@@ -22,7 +22,6 @@ export * from "./domain/Type";
 export * from "./errors/UnsupportedDecoratorType";
 export * from "./interfaces/AnyDecorator";
 export * from "./interfaces/DecoratorParameters";
-export * from "./interfaces/HashOf";
 export * from "./interfaces/MetadataTypes";
 export * from "./interfaces/ValueOf";
 export * from "./utils/catchError";

@@ -292,7 +292,7 @@ describe("@VirtualRef()", () => {
           count: false,
           options: {}
         })
-        members: VirtualRefs<VirtualRefStringTestPerson>;
+        members: VirtualRefStringTestPerson[];
 
         @VirtualRef({
           ref: "VirtualRefStringTestPerson",

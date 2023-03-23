@@ -81,7 +81,6 @@ export class ApolloService {
         return server;
       }
     } catch (er) {
-      /* istanbul ignore next */
       this.logger.error({
         event: "APOLLO_BOOTSTRAP_ERROR",
         error_name: er.name,
@@ -126,7 +125,17 @@ export class ApolloService {
 
     // istanbul ignore next
     try {
-      const {ApolloServer: Server} = await import(`apollo-server-${this.platformName || "express"}`);
+      const importServer = async () => {
+        switch (this.platformName) {
+          default:
+          case "express":
+            return (await import("apollo-server-express")).ApolloServer;
+          case "koa":
+            return (await import("apollo-server-koa")).ApolloServer;
+        }
+      };
+
+      const Server = await importServer();
 
       return new Server(options);
     } catch (er) {

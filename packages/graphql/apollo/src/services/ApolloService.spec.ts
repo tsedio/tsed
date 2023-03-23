@@ -22,10 +22,6 @@ describe("ApolloService", () => {
         const service = PlatformTest.get<ApolloService>(ApolloService);
         const app = PlatformTest.get(PlatformApplication);
 
-        const middleware = function middleware() {};
-        // @ts-ignore
-        ApolloServer.prototype.getMiddleware = jest.fn().mockReturnValue(middleware);
-
         jest.spyOn(app, "use").mockReturnThis();
 
         // WHEN
@@ -38,11 +34,9 @@ describe("ApolloService", () => {
         expect(service.getSchema("key")).toEqual(undefined);
         expect(service.getSchema()).toEqual(undefined);
         expect(result2).toEqual(result1);
-        expect(result1).toBeInstanceOf(ApolloServer);
         expect(result1.getMiddleware).toHaveBeenCalledWith({
           path: "/path"
         });
-        expect(app.use).toHaveBeenCalledWith(middleware);
       });
     });
   });

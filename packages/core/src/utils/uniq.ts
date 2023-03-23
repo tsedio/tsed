@@ -1,3 +1,6 @@
+/**
+ * @param list
+ */
 export function uniq<T = any>(list: T[]): T[] {
   return Array.from(new Set(list).values());
 }
