@@ -8,6 +8,11 @@ module.exports = {
     "^@tsed/platform-koa$": "<rootDir>/src/index.ts"
   },
   coverageThreshold: {
-    global: require("./coverage.json")
+    global: {
+      statements: 99.51,
+      branches: 93.61,
+      functions: 100,
+      lines: 99.51
+    }
   }
 };

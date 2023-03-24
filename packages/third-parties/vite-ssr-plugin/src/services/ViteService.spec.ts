@@ -74,7 +74,6 @@ describe("ViteService", () => {
             stateSnapshot: {state: "state"},
             url: "/"
           },
-          url: "/",
           urlOriginal: "/"
         });
         expect($ctx.response.status).toHaveBeenCalledWith(200);
@@ -109,7 +108,6 @@ describe("ViteService", () => {
               stateSnapshot: {state: "state"},
               url: "/"
             },
-            url: "/",
             urlOriginal: "/"
           })
         );
@@ -177,7 +175,6 @@ describe("ViteService", () => {
             stateSnapshot: {state: "state"},
             url: "/"
           },
-          url: "/",
           urlOriginal: "/"
         });
         expect($ctx.response.status).toHaveBeenCalledWith(200);

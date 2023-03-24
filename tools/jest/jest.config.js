@@ -50,7 +50,7 @@ module.exports = {
     "jsx",
     "node"
   ],
-  extensionsToTreatAsEsm: [".ts"],
+  extensionsToTreatAsEsm: [".ts", ".tsx"],
   reporters: ["default"],
   snapshotFormat: {
     escapeString: true,

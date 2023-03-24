@@ -118,29 +118,24 @@ export class ApolloService {
   }
 
   protected async createInstance(options: Config, server?: ApolloCustomServerCB): Promise<ApolloServer | undefined> {
-    // istanbul ignore next
     if (server) {
       return server(options);
     }
 
-    // istanbul ignore next
-    try {
-      const importServer = async () => {
-        switch (this.platformName) {
-          default:
-          case "express":
-            return (await import("apollo-server-express")).ApolloServer;
-          case "koa":
-            return (await import("apollo-server-koa")).ApolloServer;
-        }
-      };
+    const importServer = async () => {
+      switch (this.platformName) {
+        default:
+          this.logger.error(`Platform "${this.platformName}" not supported by @tsed/apollo`);
+        case "express":
+          return (await import("apollo-server-express")).ApolloServer;
+        case "koa":
+          return (await import("apollo-server-koa")).ApolloServer;
+      }
+    };
 
-      const Server = await importServer();
+    const Server = await importServer();
 
-      return new Server(options);
-    } catch (er) {
-      this.logger.error(`Platform "${this.platformName}" not supported by @tsed/apollo`);
-    }
+    return new Server(options);
   }
 
   private getPlugins(serverSettings: ApolloSettings): any[] {
