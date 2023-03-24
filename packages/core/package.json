@@ -19,7 +19,7 @@
     "build": "yarn barrels && yarn build:ts && yarn run build:browser",
     "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\"",
     "build:browser": "webpack",
-    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2",
+    "test": "cross-env NODE_ENV=test yarn jest --max-workers=2 && jest-coverage-thresholds-bumper",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"

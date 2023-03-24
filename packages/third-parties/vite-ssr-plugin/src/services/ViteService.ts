@@ -38,7 +38,6 @@ export class ViteService {
 
     const pageContext = await renderPage({
       view,
-      url: urlOriginal,
       urlOriginal,
       pageProps,
       contextProps

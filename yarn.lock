@@ -14525,6 +14525,13 @@ jest-config@^29.2.0:
     slash "^3.0.0"
     strip-json-comments "^3.1.1"
 
+jest-coverage-thresholds-bumper@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/jest-coverage-thresholds-bumper/-/jest-coverage-thresholds-bumper-1.1.0.tgz#caca024458079f91febdb4d53cd01f6d84674f65"
+  integrity sha512-tdr2vpSFo2gPZ68oM14uq2ShfO9qY9WKo113EAK2xBT9sXW9gaMNQlr1Vo//bF6Dr6K9t144JPGnwJPRxtJlxA==
+  dependencies:
+    yargs "^17.3.1"
+
 jest-diff@^29.2.0:
   version "29.2.0"
   resolved "https://registry.yarnpkg.com/jest-diff/-/jest-diff-29.2.0.tgz#b1e11ac1a1401fc4792ef8ba406b48f1ae7d2bc5"

@@ -1,8 +1,9 @@
 {
   "sourceMaps": "inline",
   "jsc": {
-    "target": "es2022",
+    "target": "es2021",
     "externalHelpers": true,
+    "keepClassNames": true,
     "parser": {
       "syntax": "typescript",
       "tsx": true,

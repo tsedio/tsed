@@ -8,6 +8,11 @@ module.exports = {
     "^@tsed/common$": "<rootDir>/src/index.ts"
   },
   coverageThreshold: {
-    global: require("./coverage.json")
+    global: {
+      statements: 92.25,
+      branches: 77.65,
+      functions: 88.81,
+      lines: 92.24
+    }
   }
 };

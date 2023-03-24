@@ -9,6 +9,11 @@ module.exports = {
     "@tsed/oidc-provider": "<rootDir>/src/index.ts"
   },
   coverageThreshold: {
-    global: require("./coverage.json")
+    global: {
+      statements: 99.44,
+      branches: 77.87,
+      functions: 98.16,
+      lines: 99.69
+    }
   }
 };
