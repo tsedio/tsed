@@ -1,6 +1,6 @@
 import {EntityManager, MikroORM} from "@mikro-orm/core";
 import {Injectable} from "@tsed/di";
-import {Em, Orm, Transactional} from "../../../src/index";
+import {Em, Orm, Transactional} from "../../../src";
 import {User} from "../entity/User";
 
 @Injectable()

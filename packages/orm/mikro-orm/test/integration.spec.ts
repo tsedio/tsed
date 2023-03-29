@@ -1,11 +1,14 @@
 import {PlatformTest} from "@tsed/common";
+import {Logger} from "@tsed/logger";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {User} from "./helpers/entity/User";
 import {Server} from "./helpers/Server";
 import {UserService} from "./helpers/services/UserService";
 import {MikroORM} from "@mikro-orm/core";
 import {anything, spy, verify} from "ts-mockito";
-import {MikroOrmModule, TransactionalInterceptor} from "../src/index";
+import {UnmanagedEventSubscriber1} from "./helpers/services/UnmanagedEventSubscriber1";
+import {UnmanagedEventSubscriber2} from "./helpers/services/UnmanagedEventSubscriber2";
+import {MikroOrmModule, TransactionalInterceptor} from "../src";
 
 describe("MikroOrm integration", () => {
   beforeEach(async () => {
@@ -18,7 +21,8 @@ describe("MikroOrm integration", () => {
         {
           clientUrl,
           type: "mongo",
-          entities: [User]
+          entities: [User],
+          subscribers: [UnmanagedEventSubscriber1, new UnmanagedEventSubscriber2()]
         },
         {
           clientUrl,
@@ -66,5 +70,15 @@ describe("MikroOrm integration", () => {
     await service.create({email: "test@example.com"});
 
     verify(spiedTransactionalInterceptor.intercept(anything(), anything())).once();
+  });
+
+  it("should resolve the configured subscribers", async () => {
+    const service = PlatformTest.injector.get<UserService>(UserService)!;
+    const logger = PlatformTest.injector.get<Logger>(Logger)!;
+    const spiedLogger = spy(logger);
+
+    await service.create({email: "test@example.com"});
+
+    verify(spiedLogger.info("Changes has been flushed.")).thrice();
   });
 });

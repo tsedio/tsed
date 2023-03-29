@@ -389,6 +389,34 @@ export class UsersCtrl {
 }
 ```
 
+## Managing Lifecycle of Subscribers
+
+With Ts.ED, managing the lifecycle of subscribers registered with Mikro-ORM using the IoC container is simple. To automatically resolve a subscriber's dependencies, you can use the `@Subscriber` decorator as follows:
+
+```typescript
+import {EventSubscriber} from "@mikro-orm/core";
+import {Subscriber} from "@tsed/mikro-orm";
+
+@Subscriber()
+export class SomeSubscriber implements EventSubscriber {
+  // ...
+}
+```
+
+In this example, we register the `SomeSubscriber` subscriber, which is automatically instantiated by the module using the IoC container, allowing you to easily manage the dependencies of your subscribers.
+
+You can also specify the context name for a subscriber to tie it to a particular instance of the ORM:
+
+```typescript
+import {EventSubscriber} from "@mikro-orm/core";
+import {Subscriber} from "@tsed/mikro-orm";
+
+@Subscriber({contextName: "mongodb"})
+export class SomeSubscriber implements EventSubscriber {
+  // ...
+}
+```
+
 ## Contributors
 
 Please read [contributing guidelines here](https://tsed.io/contributing.html)
