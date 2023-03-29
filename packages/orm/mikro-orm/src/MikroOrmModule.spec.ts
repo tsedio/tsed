@@ -60,6 +60,7 @@ describe("MikroOrmModule", () => {
       // act
       await mikroOrmModule.$onInit();
 
+      // assert
       verify(mockedMikroOrmRegistry.register(deepEqual(config))).called();
     });
   });
@@ -81,7 +82,6 @@ describe("MikroOrmModule", () => {
     it("should return a function", () => {
       // arrange
       const next = jest.fn();
-      const diContext = instance(mockedDIContext);
 
       // act
       const result = mikroOrmModule.$alterRunInContext(next);
@@ -94,7 +94,6 @@ describe("MikroOrmModule", () => {
       // arrange
       const next = jest.fn();
       const manager = instance(mockedEntityManager);
-      const diContext = instance(mockedDIContext);
 
       when(mockedMikroOrmRegistry.values()).thenReturn([instance(mockedMikroORM)] as unknown as IterableIterator<MikroORM>);
       when(mockedMikroORM.em).thenReturn(manager);
