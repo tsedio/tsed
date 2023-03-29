@@ -369,6 +369,32 @@ export class UsersCtrl {
 }
 ```
 
+## Managing Lifecycle of Subscribers
+
+The Ts.ED provides an easy way to manage the lifecycle of subscribers registered with Mikro-ORM using the IoC container. You can pass a class to the `subscribers` field along with their instances to resolve their dependencies automatically.
+
+```typescript
+import {Configuration} from "@tsed/di";
+import {MikroOrmModule} from "@tsed/mikro-orm";
+import {SimpleSubscriber} from "./SimpleSubscriber";
+import {ComplexSubscriber} from "./ComplexSubscriber";
+
+@Configuration({
+  imports: [MikroOrmModule],
+  mikroOrm: [
+    {
+      // ...
+      subscribers: [ComplexSubscriber, new SimpleSubscriber()]
+    }
+  ]
+})
+export class Server {}
+```
+
+In this example, we are registering two subscribers: `ComplexSubscriber` and `SimpleSubscriber`. The `subscribers` field is an array that accepts either a class or an instance of a subscriber.
+
+By passing a class to the `subscribers` field, the module will automatically resolve an instance of that class using the IoC container, allowing you to easily manage the dependencies of your subscribers.
+
 ## Author
 
 <GithubContributors :users="['derevnjuk']"/>
