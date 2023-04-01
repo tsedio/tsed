@@ -10,7 +10,7 @@
     "serverless": "^2.67.0",
     "serverless-offline": "^8.2.0",
     "ts-loader": "^9.2.6",
-    "webpack": "^5.64.0",
+    "webpack": "^5.76.0",
     "webpack-cli": "^4.9.1",
     "webpack-node-externals": "^3.0.0",
     "terser-webpack-plugin": "^5.2.5",
