@@ -1,6 +1,6 @@
 {
   "name": "@tsed/openspec",
-  "version": "7.18.2",
+  "version": "7.18.3",
   "description": "OpenSpec2 and OpenSpec3 interfaces declarations for TypeScript application",
   "private": false,
   "source": "./src/index.ts",
@@ -30,11 +30,11 @@
     "OAS2",
     "JsonSchema"
   ],
-  "dependencies": {},
   "devDependencies": {
-    "@tsed/typescript": "7.18.2",
-    "@tsed/eslint": "7.18.2",
+    "@tsed/eslint": "7.18.3",
+    "@tsed/typescript": "7.18.3",
     "eslint": "^8.12.0"
   },
+  "dependencies": {},
   "peerDependencies": {}
 }

@@ -1,6 +1,6 @@
 {
   "name": "@tsed/typegraphql",
-  "version": "7.18.2",
+  "version": "7.18.3",
   "description": "TypeGraphQL package for Ts.ED framework, based on Apollo-server-core and Type-graphql",
   "private": false,
   "source": "./src/index.ts",
@@ -24,19 +24,19 @@
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "@tsed/apollo": "7.18.2",
+    "@tsed/apollo": "7.18.3",
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.18.2",
-    "@tsed/core": "7.18.2",
+    "@tsed/common": "7.18.3",
+    "@tsed/core": "7.18.3",
+    "@tsed/eslint": "7.18.3",
+    "@tsed/typescript": "7.18.3",
     "@types/graphql": "^14.5.0",
     "class-validator": "~0.14.0",
+    "eslint": "^8.12.0",
     "graphql-passport": "0.6.3",
-    "type-graphql": "^1.1.1",
-    "@tsed/typescript": "7.18.2",
-    "@tsed/eslint": "7.18.2",
-    "eslint": "^8.12.0"
+    "type-graphql": "^1.1.1"
   },
   "peerDependencies": {
     "apollo-datasource": ">=3.0.0",
