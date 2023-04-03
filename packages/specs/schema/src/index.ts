@@ -139,6 +139,7 @@ export * from "./utils/getPropertiesStores";
 export * from "./utils/getRequiredProperties";
 export * from "./utils/getSpec";
 export * from "./utils/getSpecType";
+export * from "./utils/inlineEnums";
 export * from "./utils/isSuccessStatus";
 export * from "./utils/mapHeaders";
 export * from "./utils/mapNullableType";
