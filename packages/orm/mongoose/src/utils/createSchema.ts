@@ -1,6 +1,6 @@
 import {cleanObject, nameOf, Store, Type} from "@tsed/core";
 import {deserialize, serialize} from "@tsed/json-mapper";
-import {getProperties, JsonEntityStore} from "@tsed/schema";
+import {getProperties, JsonEntityStore, JsonSchema} from "@tsed/schema";
 import {pascalCase} from "change-case";
 import mongoose, {Schema, SchemaDefinition, SchemaOptions, SchemaTypeOptions} from "mongoose";
 import {MONGOOSE_SCHEMA, MONGOOSE_SCHEMA_OPTIONS} from "../constants/constants";
@@ -170,7 +170,7 @@ export function createSchemaTypeOptions<T = any>(propEntity: JsonEntityStore): S
       max,
       minlength,
       maxlength,
-      enum: jsonSchema["enum"],
+      enum: /*jsonSchema["enum"] instanceof JsonSchema ? jsonSchema["enum"].toJSON().enum :*/ jsonSchema["enum"],
       default: jsonSchema["default"]
     };
   } else if (!rawMongooseSchema.ref) {

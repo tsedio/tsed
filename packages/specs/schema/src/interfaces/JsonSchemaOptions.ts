@@ -28,5 +28,7 @@ export interface JsonSchemaOptions {
    */
   customKeys?: boolean;
 
+  inlineEnums?: boolean;
+
   [key: string]: any;
 }

@@ -6,6 +6,7 @@ import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper, hasMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
 import {getRequiredProperties} from "../utils/getRequiredProperties";
 import {alterOneOf} from "../hooks/alterOneOf";
+import {inlineEnums} from "../utils/inlineEnums";
 import {mapNullableType} from "../utils/mapNullableType";
 
 /**
@@ -107,6 +108,7 @@ export function schemaMapper(schema: JsonSchema, options: JsonSchemaOptions): an
   obj = getRequiredProperties(obj, schema, {...options, useAlias});
   obj = mapNullableType(obj, schema, options);
   obj = alterOneOf(obj, schema, options);
+  obj = inlineEnums(obj, schema, options);
 
   return obj;
 }
