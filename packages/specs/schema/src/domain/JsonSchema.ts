@@ -934,7 +934,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
 
     if (!options) {
       addDef = true;
-      options = {schemas: {}};
+      options = {schemas: {}, inlineEnums: true};
     }
 
     const schema = execMapper("schema", this, options);
