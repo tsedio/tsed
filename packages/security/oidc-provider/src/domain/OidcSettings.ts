@@ -1,5 +1,6 @@
 import type {Type} from "@tsed/core";
 import type {JwksKeyParameters} from "@tsed/jwks";
+// @ts-ignore
 import type {Configuration} from "oidc-provider";
 import type {Adapter} from "@tsed/adapters";
 import type {OidcAccountsMethods} from "./OidcAccountsMethods";

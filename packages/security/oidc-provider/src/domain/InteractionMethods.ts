@@ -1,4 +1,5 @@
-import {CanBePromise, interactionPolicy, KoaContextWithOIDC, UnknownObject} from "oidc-provider";
+// @ts-ignore
+import type {CanBePromise, interactionPolicy, KoaContextWithOIDC, UnknownObject} from "oidc-provider";
 
 export interface InteractionMethods {
   details?: (ctx: KoaContextWithOIDC) => CanBePromise<UnknownObject>;

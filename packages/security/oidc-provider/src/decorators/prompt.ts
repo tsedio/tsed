@@ -1,6 +1,7 @@
 import {Context} from "@tsed/common";
 import {useDecorators} from "@tsed/core";
-import {PromptDetail as P} from "oidc-provider";
+// @ts-ignore
+import type {PromptDetail as P} from "oidc-provider";
 import {INTERACTION_PROMPT} from "../constants/constants";
 
 export function Prompt(): ParameterDecorator {

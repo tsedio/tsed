@@ -1,4 +1,5 @@
-import {Provider, Account} from "oidc-provider";
+// @ts-ignore
+import type {default as Provider, Account} from "oidc-provider";
 
 export type AuthorizationCode = InstanceType<Provider["AuthorizationCode"]>;
 export type AccessToken = InstanceType<Provider["AccessToken"]>;

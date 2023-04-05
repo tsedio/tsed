@@ -1,6 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import faker from "@faker-js/faker";
-import {Adapter} from "oidc-provider";
+import type {Adapter} from "oidc-provider";
 import {OidcAdapters} from "./OidcAdapters";
 
 describe("OidcAdapters", () => {

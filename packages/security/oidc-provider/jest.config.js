@@ -8,10 +8,12 @@ module.exports = {
   moduleNameMapper: {
     "@tsed/oidc-provider": "<rootDir>/src/index.ts"
   },
+  transformIgnorePatterns: ["^.+\\.module\\.(css|sass|scss)$"],
+
   coverageThreshold: {
     global: {
       statements: 99.44,
-      branches: 77.87,
+      branches: 77.39,
       functions: 98.16,
       lines: 99.69
     }

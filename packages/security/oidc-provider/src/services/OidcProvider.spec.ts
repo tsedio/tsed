@@ -118,7 +118,7 @@ describe("OidcProvider", () => {
       })
     );
     afterEach(() => PlatformTest.reset());
-    it("should bind options to prompt instance", () => {
+    it("should bind options to prompt instance", async () => {
       const oidcProvider = PlatformTest.get<OidcProvider>(OidcProvider);
       const instance = {};
       const options = {
@@ -128,14 +128,14 @@ describe("OidcProvider", () => {
         checks: []
       };
 
-      const prompt = oidcProvider.createPrompt(instance, options);
+      const prompt = await oidcProvider.createPrompt(instance, options);
 
       expect(prompt.details).toEqual(options.details);
       expect(prompt.name).toEqual(options.name);
       expect(prompt.requestable).toEqual(options.requestable);
     });
 
-    it("should bind methods from instance to prompt instance", () => {
+    it("should bind methods from instance to prompt instance", async () => {
       const oidcProvider = PlatformTest.get<OidcProvider>(OidcProvider);
       const instance = {
         details: jest.fn(),
@@ -146,7 +146,7 @@ describe("OidcProvider", () => {
         requestable: true
       };
 
-      const prompt = oidcProvider.createPrompt(instance, options);
+      const prompt = await oidcProvider.createPrompt(instance, options);
 
       expect(prompt.details).toBeDefined();
       expect(prompt.name).toEqual(options.name);
