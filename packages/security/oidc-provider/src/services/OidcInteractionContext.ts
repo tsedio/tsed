@@ -3,7 +3,8 @@ import {Env} from "@tsed/core";
 import {Inject, Injectable} from "@tsed/di";
 import {Unauthorized} from "@tsed/exceptions";
 import {serialize} from "@tsed/json-mapper";
-import {Account, InteractionResults, PromptDetail, Provider} from "oidc-provider";
+// @ts-ignore
+import type {Account, InteractionResults, PromptDetail, default as Provider} from "oidc-provider";
 import {
   INTERACTION_CONTEXT,
   INTERACTION_DETAILS,

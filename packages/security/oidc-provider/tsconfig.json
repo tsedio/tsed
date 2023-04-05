@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "commonjs",
+    "moduleResolution": "Node16",
     "rootDir": "src",
     "outDir": "./lib/cjs",
     "declaration": true,

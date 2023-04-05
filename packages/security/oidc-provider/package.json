@@ -48,11 +48,11 @@
     "@tsed/jwks": "7.19.0",
     "@tsed/typescript": "7.19.0",
     "@types/lowdb": "1.0.11",
-    "@types/oidc-provider": "^7.1.1",
+    "@types/oidc-provider": "8.1.1",
     "@types/uuid": "8.3.4",
     "eslint": "^8.12.0",
     "lowdb": "3.0.0",
-    "oidc-provider": "7.11.1"
+    "oidc-provider": "8.1.1"
   },
   "peerDependencies": {
     "@tsed/ajv": "^7.19.0",
