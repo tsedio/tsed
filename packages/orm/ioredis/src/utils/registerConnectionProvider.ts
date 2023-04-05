@@ -22,6 +22,10 @@ export function registerConnectionProvider({provide, name = "default"}: CreateCo
     async useAsyncFactory(configuration: Configuration, logger: Logger) {
       const items = configuration.get<IORedisConfiguration[]>("ioredis", []);
       const item = items.find((item) => item.name === name);
+      const retryStrategy = (times: number) => {
+        logger.fatal({event: "REDIS_ERROR", message: `Redis is not responding - Retry count: ${times}`});
+        return 2000;
+      };
 
       if (item) {
         const {name, cache, ...redisOptions} = item;
@@ -38,16 +42,22 @@ export function registerConnectionProvider({provide, name = "default"}: CreateCo
         if ("nodes" in redisOptions) {
           const {nodes, ...clusterOptions} = redisOptions;
 
-          const clusterRetryStrategy = (times: number) => {
-            logger.fatal({event: "REDIS_ERROR", message: `Redis is not responding - Retry count: ${times}`});
-            return 2000;
-          };
-
-          setValue(clusterOptions, "clusterRetryStrategy", clusterRetryStrategy);
+          setValue(clusterOptions, "clusterRetryStrategy", retryStrategy);
           setValue(clusterOptions, "redisOptions.reconnectOnError", reconnectOnError);
 
           connection = new Redis.Cluster(nodes, {
             ...clusterOptions,
+            lazyConnect: true
+          });
+        } else if ("sentinels" in redisOptions) {
+          const {sentinels, sentinelName = name, ...sentinelsOptions} = redisOptions;
+
+          setValue(sentinelsOptions, "sentinelRetryStrategy", retryStrategy);
+          setValue(sentinelsOptions, "redisOptions.reconnectOnError", reconnectOnError);
+          connection = new Redis({
+            name: sentinelName,
+            sentinels,
+            ...sentinelsOptions,
             lazyConnect: true
           });
         } else {
