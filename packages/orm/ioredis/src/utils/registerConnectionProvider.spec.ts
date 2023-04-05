@@ -106,6 +106,39 @@ describe("RedisConnection", () => {
       (connection as any).options.redisOptions.reconnectOnError();
     });
   });
+  describe("Sentinel", () => {
+    beforeEach(() =>
+      DITest.create({
+        ioredis: [
+          {
+            name: "default",
+            cache: true,
+            sentinels: [],
+            sentinelName: "sentinelName",
+            redisOptions: {},
+            value: "value"
+          } as any
+        ],
+        cache: {} as any
+      })
+    );
+    afterEach(() => DITest.reset());
+
+    it("should create redis connection", () => {
+      const connection = DITest.get<REDIS_CONNECTION>(REDIS_CONNECTION);
+      const cacheSettings = DITest.injector.settings.get("cache");
+
+      expect((connection as any).options).toMatchObject({
+        value: "value",
+        lazyConnect: true
+      });
+      expect((connection as any).options.sentinels).toEqual([]);
+      expect((connection as any).options.name).toEqual("sentinelName");
+      expect(cacheSettings.redisInstance).toEqual(connection);
+
+      (connection as any).options.sentinelRetryStrategy();
+    });
+  });
   describe("Disabled connection", () => {
     beforeEach(() =>
       DITest.create({

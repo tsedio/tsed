@@ -150,6 +150,42 @@ import "@tsed/ioredis";
 class MyModule {}
 ```
 
+## Sentinel configuration
+
+```typescript
+import {Configuration} from "@tsed/di";
+import "@tsed/platform-cache"; // add this module if you want to use cache
+import "@tsed/ioredis";
+
+@Configuration({
+  ioredis: [
+    {
+      name: "default",
+      // share the redis connection with @tsed/platform-cache
+      cache: true,
+      // sentinel master name
+      sentinelName: "redis-master",
+      // sentinels nodes
+      sentinels: ["..."],
+      redisOptions: {
+        noDelay: true,
+        connectTimeout: 15000,
+        autoResendUnfulfilledCommands: true,
+        maxRetriesPerRequest: 5,
+        enableAutoPipelining: true,
+        autoPipeliningIgnoredCommands: ["scan"]
+      }
+      //
+    }
+  ],
+  // cache options
+  cache: {
+    ttl: 300
+  }
+})
+class MyModule {}
+```
+
 ## Testing
 
 Ts.ED provides a utility that allows you to test a service that consumes a Redis connection.
