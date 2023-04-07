@@ -1,22 +1,27 @@
-import {EntityManager, MikroORM, Options} from "@mikro-orm/core";
+import {EntityManager, EventSubscriber, MikroORM, Options} from "@mikro-orm/core";
 import {PlatformTest} from "@tsed/common";
-import {DIContext} from "@tsed/di";
-import {anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
+import {anyOfClass, anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
 import {MikroOrmModule} from "./MikroOrmModule";
 import {MikroOrmContext} from "./services/MikroOrmContext";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
+import {Subscriber} from "./decorators/subscriber";
+
+export class Subscriber1 implements EventSubscriber {}
+
+@Subscriber()
+export class Subscriber2 implements EventSubscriber {}
 
 describe("MikroOrmModule", () => {
   const config: Options = {
     type: "mongo",
     entities: [],
-    clientUrl: "mongo://localhost"
+    clientUrl: "mongo://localhost",
+    subscribers: [new Subscriber1()]
   };
   const mockedMikroOrmRegistry = mock<MikroOrmRegistry>();
   const mockedMikroOrmContext = mock<MikroOrmContext>();
   const mockedMikroORM = mock<MikroORM>();
   const mockedEntityManager = mock<EntityManager>();
-  const mockedDIContext = mock<DIContext>();
 
   let mikroOrmModule!: MikroOrmModule;
 
@@ -41,12 +46,11 @@ describe("MikroOrmModule", () => {
   afterEach(() => {
     jest.resetAllMocks();
 
-    reset<MikroOrmRegistry | EntityManager | MikroORM | MikroOrmContext | DIContext>(
+    reset<MikroOrmRegistry | EntityManager | MikroORM | MikroOrmContext>(
       mockedMikroOrmRegistry,
       mockedMikroOrmContext,
       mockedMikroORM,
-      mockedEntityManager,
-      mockedDIContext
+      mockedEntityManager
     );
 
     return PlatformTest.reset();
@@ -54,22 +58,18 @@ describe("MikroOrmModule", () => {
 
   describe("$onInit", () => {
     it("should register the corresponding instances", async () => {
-      // arrange
-      when(mockedMikroOrmRegistry.register(config)).thenResolve({} as unknown as MikroORM);
-
       // act
       await mikroOrmModule.$onInit();
 
       // assert
-      verify(mockedMikroOrmRegistry.register(deepEqual(config))).called();
+      verify(
+        mockedMikroOrmRegistry.register(deepEqual({...config, subscribers: [anyOfClass(Subscriber1), anyOfClass(Subscriber2)]}))
+      ).called();
     });
   });
 
   describe("$onDestroy", () => {
     it("should destroy the corresponding instances", async () => {
-      // arrange
-      when(mockedMikroOrmRegistry.clear()).thenResolve();
-
       // act
       await mikroOrmModule.$onDestroy();
 
