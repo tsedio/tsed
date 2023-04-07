@@ -6,8 +6,7 @@ import {Server} from "./helpers/Server";
 import {UserService} from "./helpers/services/UserService";
 import {MikroORM} from "@mikro-orm/core";
 import {anything, spy, verify} from "ts-mockito";
-import {ComplexSubscriber} from "./helpers/services/ComplexSubscriber";
-import {SimpleSubscriber} from "./helpers/services/SimpleSubscriber";
+import {EventSubscriber2} from "./helpers/services/EventSubscriber2";
 import {MikroOrmModule, TransactionalInterceptor} from "../src";
 
 describe("MikroOrm integration", () => {
@@ -22,7 +21,7 @@ describe("MikroOrm integration", () => {
           clientUrl,
           type: "mongo",
           entities: [User],
-          subscribers: [ComplexSubscriber, new SimpleSubscriber()]
+          subscribers: [new EventSubscriber2()]
         },
         {
           clientUrl,

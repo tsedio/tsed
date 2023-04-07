@@ -3,10 +3,10 @@ import {Configuration, Inject} from "@tsed/di";
 import "@tsed/platform-express";
 import bodyParser from "body-parser";
 import compress from "compression";
-
 import cookieParser from "cookie-parser";
 import filedirname from "filedirname";
 import methodOverride from "method-override";
+import "./services/EventSubscriber1";
 
 // FIXME remove when esm is ready
 const [, rootDir] = filedirname();
