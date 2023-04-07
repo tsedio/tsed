@@ -21,7 +21,9 @@ Here is an example:
 
 <<< @/docs/snippets/request-context/context-example.ts
 
-::: tip @@ContextLogger@@ is attached to the context `ctx.logger`. The ContextLogger stores all logs and Ts.ED prints (
+::: tip
+
+@@ContextLogger@@ is attached to the context `ctx.logger`. The ContextLogger stores all logs and Ts.ED prints (
 flushes) all logs after the response is sent by the server. The approach optimizes performance by first sending in the
 response and then printing all logs.
 :::
