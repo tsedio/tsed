@@ -3,10 +3,12 @@ import {Logger} from "@tsed/logger";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
 import {User} from "./helpers/entity/User";
 import {Server} from "./helpers/Server";
+import {EventSubscriber1} from "./helpers/services/EventSubscriber1";
 import {UserService} from "./helpers/services/UserService";
 import {MikroORM} from "@mikro-orm/core";
 import {anything, spy, verify} from "ts-mockito";
 import {EventSubscriber2} from "./helpers/services/EventSubscriber2";
+import "./helpers/services/EventSubscriber3";
 import {MikroOrmModule, TransactionalInterceptor} from "../src";
 
 describe("MikroOrm integration", () => {
@@ -21,7 +23,7 @@ describe("MikroOrm integration", () => {
           clientUrl,
           type: "mongo",
           entities: [User],
-          subscribers: [new EventSubscriber2()]
+          subscribers: [EventSubscriber1, new EventSubscriber2()]
         },
         {
           clientUrl,
@@ -78,6 +80,6 @@ describe("MikroOrm integration", () => {
 
     await service.create({email: "test@example.com"});
 
-    verify(spiedLogger.info("Changes has been flushed.")).twice();
+    verify(spiedLogger.info("Changes has been flushed.")).thrice();
   });
 });

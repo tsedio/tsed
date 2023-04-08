@@ -6,7 +6,6 @@ export * from "./MikroOrmModule";
 export * from "./constants";
 export * from "./decorators/entityManager";
 export * from "./decorators/orm";
-export * from "./decorators/subscriber";
 export * from "./decorators/transactional";
 export * from "./filters/OptimisticLockErrorFilter";
 export * from "./interceptors/TransactionalInterceptor";
