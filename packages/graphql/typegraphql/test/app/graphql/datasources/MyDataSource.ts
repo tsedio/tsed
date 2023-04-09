@@ -1,7 +1,7 @@
-import {DataSourceService} from "@tsed/typegraphql";
+import {DataSource} from "@tsed/typegraphql";
 import {RESTDataSource} from "apollo-datasource-rest";
 
-@DataSourceService()
+@DataSource()
 export class MyDataSource extends RESTDataSource {
   constructor() {
     super();
