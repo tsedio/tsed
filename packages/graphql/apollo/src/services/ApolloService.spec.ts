@@ -1,5 +1,7 @@
 import {jest} from "@jest/globals";
 import {PlatformApplication, PlatformTest} from "@tsed/common";
+import {RESTDataSource} from "apollo-datasource-rest";
+import {DataSource} from "../decorators/dataSource";
 import {ApolloService} from "./ApolloService";
 
 jest.mock("apollo-server-express", () => {
@@ -7,6 +9,8 @@ jest.mock("apollo-server-express", () => {
     ApolloServer: class {
       start = jest.fn();
       getMiddleware = jest.fn();
+
+      constructor(public opts: any) {}
     }
   };
 });
@@ -15,9 +19,43 @@ jest.mock("apollo-server-koa", () => {
     ApolloServer: class {
       start = jest.fn();
       getMiddleware = jest.fn();
+
+      constructor(public opts: any) {}
     }
   };
 });
+
+@DataSource()
+export class MyDataSource extends RESTDataSource {
+  constructor() {
+    super();
+    this.baseURL = "http://localhost:8001";
+  }
+
+  willSendRequest(request: any) {
+    request.headers.set("Authorization", this.context.token);
+  }
+
+  getMyData(id: string) {
+    return this.get(`/rest/calendars/${id}`);
+  }
+}
+
+@DataSource("myName")
+export class MyDataSource2 extends RESTDataSource {
+  constructor() {
+    super();
+    this.baseURL = "http://localhost:8001";
+  }
+
+  willSendRequest(request: any) {
+    request.headers.set("Authorization", this.context.token);
+  }
+
+  getMyData(id: string) {
+    return this.get(`/rest/calendars/${id}`);
+  }
+}
 
 describe("ApolloService", () => {
   describe("when platform is express", () => {
@@ -52,6 +90,8 @@ describe("ApolloService", () => {
           expect(result1.getMiddleware).toHaveBeenCalledWith({
             path: "/path"
           });
+
+          expect(typeof (result1 as any).opts.dataSources).toEqual("function");
         });
       });
     });

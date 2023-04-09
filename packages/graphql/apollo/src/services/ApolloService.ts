@@ -1,6 +1,8 @@
 import {PlatformApplication} from "@tsed/common";
+import {classOf, nameOf, Store} from "@tsed/core";
 import {Constant, Inject, Service} from "@tsed/di";
 import {Logger} from "@tsed/logger";
+import {DataSource} from "apollo-datasource";
 import type {Config} from "apollo-server-core";
 import {
   ApolloServerBase,
@@ -11,6 +13,7 @@ import {
 import type {GraphQLSchema} from "graphql";
 import Http from "http";
 import Https from "https";
+import {DATASOURCES_PROVIDERS} from "../constants/constants";
 import type {ApolloServer, ApolloSettings} from "../interfaces/ApolloSettings";
 import {ApolloCustomServerCB} from "../interfaces/ApolloSettings";
 
@@ -44,52 +47,53 @@ export class ApolloService {
   @Inject(Https.Server)
   private httpsServer: Https.Server | null;
 
-  async createServer(id: string, settings: ApolloSettings): Promise<any> {
-    if (this.has(id)) {
-      return this.get(id)!;
-    }
+  constructor(@Inject(DATASOURCES_PROVIDERS) protected dataSources: any[]) {}
 
-    try {
-      const {path, middlewareOptions = {}, server: customServer, ...config} = settings;
+  async createServer(id: string, settings: ApolloSettings): Promise<ApolloServer> {
+    if (!this.has(id)) {
+      try {
+        const {dataSources, path, middlewareOptions = {}, server: customServer, ...config} = settings;
 
-      this.logger.info(`Create server with Apollo for: ${id}`);
-      this.logger.debug(`options: ${JSON.stringify({path})}`);
+        this.logger.info(`Create server with Apollo for: ${id}`);
+        this.logger.debug(`options: ${JSON.stringify({path})}`);
 
-      const server = await this.createInstance(
-        {
-          ...config,
-          plugins: this.getPlugins(settings)
-        },
-        customServer
-      );
+        const server = await this.createInstance(
+          {
+            ...config,
+            plugins: this.getPlugins(settings),
+            dataSources: this.createDataSources(dataSources)
+          },
+          customServer
+        );
 
-      if (server) {
-        this.servers.set(id || "default", {
-          instance: server,
-          schema: settings.schema
+        if (server) {
+          this.servers.set(id || "default", {
+            instance: server,
+            schema: settings.schema
+          });
+
+          await server.start();
+
+          const middleware = server.getMiddleware({
+            path: settings.path,
+            ...middlewareOptions
+          });
+
+          this.app.use(middleware);
+        }
+      } catch (er) {
+        this.logger.error({
+          event: "APOLLO_BOOTSTRAP_ERROR",
+          error_name: er.name,
+          message: er.message,
+          stack: er.stack
         });
-
-        await server.start();
-
-        const middleware = server.getMiddleware({
-          path: settings.path,
-          ...middlewareOptions
-        });
-
-        this.app.use(middleware);
-
-        return server;
+        /* istanbul ignore next */
+        process.exit(-1);
       }
-    } catch (er) {
-      this.logger.error({
-        event: "APOLLO_BOOTSTRAP_ERROR",
-        error_name: er.name,
-        message: er.message,
-        stack: er.stack
-      });
-      /* istanbul ignore next */
-      process.exit(-1);
     }
+
+    return this.get(id) as ApolloServer;
   }
 
   /**
@@ -136,6 +140,33 @@ export class ApolloService {
     const Server = await importServer();
 
     return new Server(options);
+  }
+
+  /**
+   * create a new dataSources function to use with apollo server config
+   * @param dataSources
+   * @param serverConfigSources
+   */
+  protected createDataSources(dataSources: Function | undefined) {
+    const dataSourcesHash = this.dataSources.reduce((map, instance) => {
+      const klass = classOf(instance);
+      const store = Store.from(klass);
+      let {name} = store.get(DATASOURCES_PROVIDERS);
+
+      name = name || nameOf(klass);
+
+      const sourceName = `${name[0].toLowerCase()}${name.slice(1)}`;
+      map[sourceName] = instance;
+
+      return map;
+    }, {});
+
+    return () => {
+      return {
+        ...dataSourcesHash,
+        ...(dataSources ? dataSources() : {})
+      };
+    };
   }
 
   private getPlugins(serverSettings: ApolloSettings): any[] {
