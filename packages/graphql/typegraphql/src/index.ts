@@ -3,9 +3,9 @@
  */
 
 export * from "./TypeGraphQLModule";
+export * from "./exports";
 export * from "./constants/constants";
-export * from "./decorators/dataSourceService";
-export * from "./decorators/resolverService";
+export * from "./decorators/resolver";
 export * from "./interfaces/TypeGraphQLSettings";
 export * from "./interfaces/interfaces";
 export * from "./services/TypeGraphQLService";

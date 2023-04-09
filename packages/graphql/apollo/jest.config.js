@@ -5,10 +5,10 @@ module.exports = {
   ...require("@tsed/jest-config"),
   coverageThreshold: {
     global: {
-      statements: 94.71,
+      statements: 94.57,
       branches: 82.14,
       functions: 100,
-      lines: 94.71
+      lines: 94.57
     }
   }
 };

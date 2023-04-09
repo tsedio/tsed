@@ -147,12 +147,12 @@ After that we want to create typical crud queries and mutation. To do that we cr
 
 ```typescript
 import {Resolver, Query, Arg, Args, Mutation, Authorized, Ctx} from "type-graphql";
-import {ResolverService} from "@tsed/typegraphql";
+import {ResolverController} from "@tsed/typegraphql";
 import {Recipe} from "../types/Recipe";
 import {RecipeService} from "../services/RecipeService";
 import {RecipeNotFoundError} from "../errors/RecipeNotFoundError";
 
-@ResolverService(Recipe)
+@ResolverController(Recipe)
 export class RecipeResolver {
   constructor(private recipeService: RecipeService) {}
 

@@ -1,12 +1,12 @@
 import {Inject} from "@tsed/di";
-import {ResolverService} from "@tsed/typegraphql";
+import {ResolverController} from "@tsed/typegraphql";
 import {Arg, Args, Query} from "type-graphql";
 import {RecipeNotFoundError} from "../errors/RecipeNotFoundError";
 import {RecipesService} from "../services/RecipesService";
 import {Recipe} from "../types/Recipe";
 import {RecipesArgs} from "../types/RecipesArgs";
 
-@ResolverService(Recipe)
+@ResolverController(Recipe)
 export class RecipeResolver {
   @Inject()
   private recipesService: RecipesService;
