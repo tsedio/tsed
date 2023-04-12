@@ -124,7 +124,7 @@ export class ContextLogger {
       this.stack.push({level: levelStr, data: obj});
     }
 
-    if (this.maxStackSize < this.stack.length) {
+    if (this.maxStackSize < this.stack.length || [levels().FATAL, levels().ERROR].includes(level)) {
       this.flush();
     }
   }
