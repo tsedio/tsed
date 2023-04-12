@@ -1,6 +1,6 @@
 {
   "name": "@tsed/event-emitter",
-  "version": "7.21.1",
+  "version": "7.22.0",
   "description": "EventEmitter package for Ts.ED framework",
   "contributors": [
     {
@@ -30,11 +30,11 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "7.21.1",
-    "@tsed/core": "7.21.1",
-    "@tsed/di": "7.21.1",
-    "@tsed/eslint": "7.21.1",
-    "@tsed/typescript": "7.21.1",
+    "@tsed/common": "7.22.0",
+    "@tsed/core": "7.22.0",
+    "@tsed/di": "7.22.0",
+    "@tsed/eslint": "7.22.0",
+    "@tsed/typescript": "7.22.0",
     "eslint": "^8.12.0",
     "eventemitter2": "^6.4.4"
   },
