@@ -91,6 +91,7 @@ export function classToPlainObject(obj: any, options: JsonSerializerOptions<any,
       self: obj,
       type: value === obj[key] ? getType(propStore, value) : undefined,
       collectionType: propStore.collectionType,
+      format: propStore.itemSchema.get("format"),
       ...props
     });
 

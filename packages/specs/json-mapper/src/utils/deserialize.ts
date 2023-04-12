@@ -142,6 +142,7 @@ export function plainObjectToClass<T = any>(src: any, options: JsonDeserializerO
         ? deserialize(value, {
             ...options,
             store: propStore,
+            format: propStore.itemSchema.get("format"),
             self: src,
             collectionType: propStore.collectionType
           })

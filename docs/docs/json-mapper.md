@@ -304,16 +304,60 @@ and import the mapper in your application.
 
 <Tabs class="-code">
   <Tab label="DateMapper">
-  
+
 <<< @/../packages/specs/json-mapper/src/components/DateMapper.ts
 
   </Tab>
   <Tab label="Spec">
- 
+
 <<< @/../packages/specs/json-mapper/src/components/DateMapper.spec.ts
-  
+
   </Tab>
 </Tabs>
+
+::: warn
+Ts.ED doesn't transform Date to date format or hours format because it depends on each project guidelines.
+
+But you can easily implement a Date mapper for each format with the Date API or moment:
+
+```typescript
+import {isBoolean} from "@tsed/core";
+import {DateFormat} from "@tsed/schema";
+import {serialize, JsonMapper, JsonMapperContext, JsonMapperMethods} from "../../src/index";
+
+@JsonMapper(Date)
+export class DateMapper implements JsonMapperMethods {
+  deserialize(data: string | number, ctx: JsonMapperContext): Date;
+  deserialize(data: boolean | null | undefined, ctx: JsonMapperContext): boolean | null | undefined;
+  deserialize(data: any, ctx: JsonMapperContext): any {
+    // don't convert unexpected data. In normal case, Ajv reject unexpected data.
+    // But by default, we have to skip data deserialization and let user to apply
+    // the right mapping
+    if (isBoolean(data) || data === null || data === undefined) {
+      return data;
+    }
+
+    return new Date(data);
+  }
+
+  serialize(object: Date, ctx: JsonMapperContext): any {
+    const date = new Date(object);
+
+    switch (ctx.options.format) {
+      case "date":
+        const y = date.getUTCFullYear();
+        const m = ("0" + (date.getUTCMonth() + 1)).slice(-2);
+        const d = ("0" + date.getUTCDate()).slice(-2);
+
+        return `${y}-${m}-${d}`;
+      default:
+        return new Date(object).toISOString();
+    }
+  }
+}
+```
+
+:::
 
 ### Array
 
@@ -321,7 +365,7 @@ and import the mapper in your application.
 
 <Tabs class="-code">
   <Tab label="ArrayMapper">
-  
+
 <<< @/../packages/specs/json-mapper/src/components/ArrayMapper.ts
 
   </Tab>
@@ -446,19 +490,20 @@ You can change the Date mapper behavior to transform string to a Moment instance
 
   </Tab>
   <Tab label="Example">
-  
+
 ```typescript
 import {Moment} from "moment";
 import {Property} from "@tsed/schema";
 
 export class Person {
-@Property(Date) // or @Property(String) + @DateTime()
-birthdate: Moment;
+  @Property(Date) // or @Property(String) + @DateTime()
+  birthdate: Moment;
 }
-
 ```
 
   </Tab>
 </Tabs>
+
+```
 
 ```
