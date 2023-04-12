@@ -8,13 +8,13 @@ import {OidcSettings} from "../domain/OidcSettings";
 @Injectable()
 export class OidcInteractions {
   @Inject()
-  injector: InjectorService;
+  protected injector: InjectorService;
 
   @Constant("env")
-  env: Env;
+  protected env: Env;
 
   @Constant("oidc")
-  oidcSettings: OidcSettings;
+  protected oidcSettings: OidcSettings;
 
   protected interactions: Map<string, Provider> = new Map();
 

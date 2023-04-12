@@ -61,7 +61,7 @@
     "@tsed/di": "^7.20.0",
     "@tsed/json-mapper": "^7.20.0",
     "@tsed/schema": "^7.20.0",
-    "oidc-provider": ">=7.3.0"
+    "oidc-provider": ">=8.0.0"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {
