@@ -50,10 +50,14 @@ export interface OidcSettings extends Configuration {
    * Use the connection name for the OIDCRedisAdapter.
    */
   connectionName?: string;
+
+  plugins?: TsED.OIDCPluginSettings;
 }
 
 declare global {
   namespace TsED {
+    interface OIDCPluginSettings {}
+
     interface Configuration {
       oidc: OidcSettings;
     }

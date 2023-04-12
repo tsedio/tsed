@@ -15,9 +15,8 @@ import {
   INTERACTION_UID
 } from "../constants/constants";
 import {OidcSession} from "../decorators/oidcSession";
-import {OidcClient} from "../domain/interfaces";
+import {OidcClient, OidcInteraction} from "../domain/interfaces";
 import {OidcBadInteractionName} from "../domain/OidcBadInteractionName";
-import {OidcInteraction} from "../domain/OidcInteraction";
 import {OidcInteractionPromptProps} from "../domain/OidcInteractionPromptProps";
 import {debug} from "../utils/debug";
 import {OidcInteractions} from "./OidcInteractions";
