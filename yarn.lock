@@ -2160,14 +2160,6 @@
   resolved "https://registry.yarnpkg.com/@josephg/resolvable/-/resolvable-1.0.1.tgz#69bc4db754d79e1a2f17a650d3466e038d94a5eb"
   integrity sha512-CtzORUwWTTOTqfVtHaKRJ0I1kNQd1bpn3sUh8I3nJDVY+5/M/Oe1DnEWzPQvqq/xPIIkzzzIP7mfCoAjFRvDhg==
 
-"@joshuajaco/get-monorepo-packages@^1.2.1":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@joshuajaco/get-monorepo-packages/-/get-monorepo-packages-1.2.1.tgz#070bdc4268f5e14d2dd593b02f32bc4c5601d06d"
-  integrity sha512-3I32bp/UB4UmLqEj/yrBEWTYuCzojn8nR34PZ9Jwb2OeHV95l4Kw0ax1xnnA4yYWU1E1krM2RIWghP3U725dGQ==
-  dependencies:
-    globby "^7.1.1"
-    load-json-file "^4.0.0"
-
 "@jridgewell/gen-mapping@^0.3.0":
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/@jridgewell/gen-mapping/-/gen-mapping-0.3.1.tgz#cf92a983c83466b8c0ce9124fadeaf09f7c66ea9"
@@ -10179,13 +10171,6 @@ dir-glob@2.0.0:
     arrify "^1.0.1"
     path-type "^3.0.0"
 
-dir-glob@^2.0.0:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/dir-glob/-/dir-glob-2.2.2.tgz#fa09f0694153c8918b18ba0deafae94769fc50c4"
-  integrity sha512-f9LBi5QWzIW3I6e//uxZoLBlUt9kcp66qo0sSCxL6YZKc75R1c4MFCoe/LaZiBGmgujvQdxc5Bn3QhfyvK5Hsw==
-  dependencies:
-    path-type "^3.0.0"
-
 dir-glob@^3.0.0, dir-glob@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/dir-glob/-/dir-glob-3.0.1.tgz#56dbf73d992a4a93ba1584f4534063fd2e41717f"
@@ -10895,12 +10880,12 @@ eslint-plugin-vue@^5.2.3:
   dependencies:
     vue-eslint-parser "^5.0.0"
 
-eslint-plugin-workspaces@0.7.0:
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-workspaces/-/eslint-plugin-workspaces-0.7.0.tgz#be97fad9d25ab7430074c526f046b0e5c037633f"
-  integrity sha512-1+qzAM/iFFJ4MR3IOSY7n6Kw9XW/Fc+eVzWfN9nCcneDHr21rccZWUtGyMesk35bFnOWyp9dmJbYL0v5KYZ14w==
+eslint-plugin-workspaces@0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-workspaces/-/eslint-plugin-workspaces-0.8.0.tgz#e723a1333a8ddddbc416220a9e03578603de0f85"
+  integrity sha512-8BhKZaGFpl0xAVo7KHaWffaBvvroaOeLuqLkVsMNZvMaN6ZHKYx7QZoaXC/Y299tG3wvN6v7hu27VBHmyg4q4g==
   dependencies:
-    "@joshuajaco/get-monorepo-packages" "^1.2.1"
+    find-workspaces "^0.1.0"
 
 eslint-scope@5.1.1, eslint-scope@^5.0.0, eslint-scope@^5.1.1:
   version "5.1.1"
@@ -11537,6 +11522,17 @@ fast-glob@^3.1.1, fast-glob@^3.2.11, fast-glob@^3.2.7, fast-glob@^3.2.9:
     merge2 "^1.3.0"
     micromatch "^4.0.4"
 
+fast-glob@^3.2.12:
+  version "3.2.12"
+  resolved "https://registry.yarnpkg.com/fast-glob/-/fast-glob-3.2.12.tgz#7f39ec99c2e6ab030337142da9e0c18f37afae80"
+  integrity sha512-DVj4CQIYYow0BlaelwK1pHl5n5cRSJfM60UA0zK891sVInoPri2Ekj7+e1CT3/3qxXenpI+nBBmQAcJPJgaj4w==
+  dependencies:
+    "@nodelib/fs.stat" "^2.0.2"
+    "@nodelib/fs.walk" "^1.2.3"
+    glob-parent "^5.1.2"
+    merge2 "^1.3.0"
+    micromatch "^4.0.4"
+
 fast-json-patch@^3.1.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/fast-json-patch/-/fast-json-patch-3.1.1.tgz#85064ea1b1ebf97a3f7ad01e23f9337e72c66947"
@@ -11817,6 +11813,15 @@ find-versions@^4.0.0:
   integrity sha512-wgpWy002tA+wgmO27buH/9KzyEOQnKsG/R0yrcjPT9BOFm0zRBVQbZ95nRGXWMywS8YR5knRbpohio0bcJABxQ==
   dependencies:
     semver-regex "^3.1.2"
+
+find-workspaces@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/find-workspaces/-/find-workspaces-0.1.0.tgz#c01ddc81a1814b2c18927b26adb82afc97b63cea"
+  integrity sha512-DmHumOdSCtwY6qW6Syx3a/W6ZGYLhGiwqWCiPOsld4sxP9yeRh3LraKeu+G3l5ilgt8jOUAgjDHT4MOFZ8dQ3Q==
+  dependencies:
+    fast-glob "^3.2.12"
+    type-fest "^3.2.0"
+    yaml "^2.1.3"
 
 find@^0.3.0:
   version "0.3.0"
@@ -12691,18 +12696,6 @@ globby@8.0.2:
     array-union "^1.0.1"
     dir-glob "2.0.0"
     fast-glob "^2.0.2"
-    glob "^7.1.2"
-    ignore "^3.3.5"
-    pify "^3.0.0"
-    slash "^1.0.0"
-
-globby@^7.1.1:
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/globby/-/globby-7.1.1.tgz#fb2ccff9401f8600945dfada97440cca972b8680"
-  integrity sha1-+yzP+UAfhgCUXfral0QMypcrhoA=
-  dependencies:
-    array-union "^1.0.1"
-    dir-glob "^2.0.0"
     glob "^7.1.2"
     ignore "^3.3.5"
     pify "^3.0.0"
@@ -23385,6 +23378,11 @@ type-fest@^1.0.2:
   resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-1.4.0.tgz#e9fb813fe3bf1744ec359d55d1affefa76f14be1"
   integrity sha512-yGSza74xk0UG8k+pLh5oeoYirvIiWo5t0/o3zHHAO2tRDiZcxWP7fywNlXhqb6/r6sWvwi+RsyQMWhVLe4BVuA==
 
+type-fest@^3.2.0:
+  version "3.8.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.8.0.tgz#ce80d1ca7c7d11c5540560999cbd410cb5b3a385"
+  integrity sha512-FVNSzGQz9Th+/9R6Lvv7WIAkstylfHN2/JYxkyhhmKFYh9At2DST8t6L6Lref9eYO8PXFTfG9Sg1Agg0K3vq3Q==
+
 type-graphql@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/type-graphql/-/type-graphql-1.1.1.tgz#dc0710d961713b92d3fee927981fa43bf71667a4"
@@ -24526,7 +24524,7 @@ wide-align@^1.1.0, wide-align@^1.1.2, wide-align@^1.1.5:
   dependencies:
     string-width "^1.0.2 || 2 || 3 || 4"
 
-wildcard@^2.0.0:
+wildcard@2.0.0, wildcard@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/wildcard/-/wildcard-2.0.0.tgz#a77d20e5200c6faaac979e4b3aadc7b3dd7f8fec"
   integrity sha512-JcKqAHLPxcdb9KM49dufGXn2x3ssnfjbcaQdLlfZsL9rH9wgDQjUtDxbo8NE0F6SFvydeu1VhZe7hZuHsB2/pw==
@@ -24792,7 +24790,7 @@ yaml@^1.10.0, yaml@^1.10.2:
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-1.10.2.tgz#2301c5ffbf12b467de8da2333a459e29e7920e4b"
   integrity sha512-r3vXyErRCYJ7wg28yvBY5VSoAF8ZvlcW9/BwUzEtUsjvX/DKs24dIkuwjtuprwJJHsbyUbLApepYTR1BN4uHrg==
 
-yaml@^2.0.1:
+yaml@^2.0.1, yaml@^2.1.3:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/yaml/-/yaml-2.2.1.tgz#3014bf0482dcd15147aa8e56109ce8632cd60ce4"
   integrity sha512-e0WHiYql7+9wr4cWMx3TVQrNwejKaEe7/rHNmQmqRjazfOP5W8PB6Jpebb5o6fIapbz9o9+2ipcaTM2ZwDI6lw==

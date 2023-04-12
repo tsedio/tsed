@@ -1,6 +1,5 @@
 // @ts-ignore
 import type {CanBePromise, interactionPolicy, KoaContextWithOIDC, UnknownObject} from "oidc-provider";
-
 export interface OidcInteractionOptions {
   name: string;
   requestable?: boolean | undefined;
