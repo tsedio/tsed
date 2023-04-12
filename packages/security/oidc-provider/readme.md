@@ -30,6 +30,14 @@
 
 A package of Ts.ED framework. See website: https://tsed.io/tutorials/oidc-provider
 
+## OIDC compatibility
+
+- For OIDC v7, use @tsed/oidc-provider v7.19 and under
+- For OIDC v8, use @tsed/oidc-provider v7.20 and higher
+
+Since the v8, have changed the exported Provider (named by default) and the entire is under ESM convention, Ts.ED isn't
+able to maintain the v7 and v8 at the same time.
+
 ## Feature
 
 Currently, `@tsed/oidc-provider` allows you:

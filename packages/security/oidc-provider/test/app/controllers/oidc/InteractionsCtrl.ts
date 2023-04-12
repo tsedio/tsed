@@ -9,6 +9,8 @@ import {LoginInteraction} from "../../interactions/LoginInteraction";
 @Name("Oidc")
 @Interactions({
   path: "/interaction/:uid",
+
+  // this list define the priority of each interaction!
   children: [LoginInteraction, ConsentInteraction, CustomInteraction, AbortInteraction]
 })
 export class InteractionsCtrl {
