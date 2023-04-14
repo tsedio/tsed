@@ -2,7 +2,7 @@ import {Constant, Inject, Module} from "@tsed/di";
 import {Logger} from "@tsed/logger";
 import {OIDC_PROVIDER_NODE_MODULE, OidcSettings} from "@tsed/oidc-provider";
 // @ts-ignore
-import type Provider, {KoaContextWithOIDC} from "oidc-provider";
+import type {default as Provider, KoaContextWithOIDC} from "oidc-provider";
 // @ts-ignore
 import psl from "psl";
 import {wildcardRedirectUriAllowed} from "./utils/wildcardRedirectUriAllowed";
