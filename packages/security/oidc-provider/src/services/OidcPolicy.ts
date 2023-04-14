@@ -33,7 +33,7 @@ export class OidcPolicy {
           instance.$onCreate(policy.get(name)!);
         }
       }
-      console.log(usePriority);
+
       // reordering interactions by interactions index
       if (!usePriority) {
         policy = policy.sort((a, b) => (interactions.get(a.name)!.order < interactions.get(b.name)!.order ? -1 : 1));
