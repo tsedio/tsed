@@ -6,5 +6,9 @@ export function inlineEnums(obj: any, schema: JsonSchema, options: JsonSchemaOpt
     obj.enum = obj.enum.toJSON().enum;
   }
 
+  if (obj.enum) {
+    obj.type = obj.type === "object" || obj.type === undefined ? "string" : obj.type;
+  }
+
   return obj;
 }
