@@ -52,12 +52,13 @@ function get(entity: JsonEntityStore, options: any) {
 
 export function getJsonSchema(model: Type<any> | any, options: JsonSchemaOptions = {}) {
   const entity = getJsonEntityStore(model);
-
+  const specType = options.specType || SpecTypes.JSON;
   options = {
     endpoint: true,
     groups: [],
+    inlineEnums: specType === SpecTypes.JSON,
     ...options,
-    specType: options.specType || SpecTypes.JSON,
+    specType,
     schemas: {}
   };
 
