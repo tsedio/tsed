@@ -24,7 +24,13 @@ export function toMap<K extends keyof any = any, V = any>(input: Record<K, V> | 
     return input.reduce((map, value, index) => {
       const ids = ([] as string[]).concat(identity(value, index));
 
-      ids.forEach((id) => map.set(id, value));
+      ids.forEach((id) => {
+        const item = map.get(id);
+
+        value = item?.merge?.(value) || value;
+
+        map.set(id, value);
+      });
 
       return map;
     }, new Map());

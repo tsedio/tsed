@@ -1,7 +1,7 @@
 import {toMap} from "./toMap";
 
 describe("toMap", () => {
-  describe("from Array", () => {
+  describe("from Object", () => {
     it("should create map", () => {
       const result = toMap({
         test: {top: "test"},
@@ -62,7 +62,7 @@ describe("toMap", () => {
       ]);
     });
   });
-  describe("from Object", () => {
+  describe("from Array", () => {
     it("should create map", () => {
       const result = toMap([
         {
@@ -156,6 +156,54 @@ describe("toMap", () => {
         {
           id: "2",
           top: "test1"
+        }
+      ]);
+    });
+    it("should create map by fn id + merge", () => {
+      class Data {
+        id: string;
+        count: string;
+
+        constructor(opts: any) {
+          this.id = opts.id;
+          this.count = opts.count;
+        }
+
+        merge(d: Data) {
+          this.count += d.count;
+          return this;
+        }
+      }
+
+      const result = toMap(
+        [
+          new Data({
+            id: "1",
+            count: 5
+          }),
+          new Data({
+            id: "2",
+            count: 5
+          }),
+          new Data({
+            id: "1",
+            count: 10
+          })
+        ],
+        (item) => item.id
+      );
+
+      expect(result).toBeInstanceOf(Map);
+      expect(result.size).toBe(2);
+      expect([...result.keys()]).toEqual(["1", "2"]);
+      expect([...result.values()]).toEqual([
+        {
+          count: 15,
+          id: "1"
+        },
+        {
+          count: 5,
+          id: "2"
         }
       ]);
     });
