@@ -81,7 +81,9 @@ ComponentsScan is an option to import services using a glob pattern. It's pretty
 
 But this option can cause some issues or misunderstood:
 
-- When you change a location for a Controller/Service/Modules, the code isn't discovered as expected. It's normal, the server have default configuration like `**/services/**/*.ts`. if the code is outside of this pattern, the won't be loaded.
+- When you change a location for a Controller/Service/Modules, the code isn't discovered as expected. It's normal, they
+  server have default configuration like `**/services/**/*.ts`. if the code is outside of this pattern, the won't be
+  loaded.
 - Performance issue. The global pattern have a huge impact on the server bootstrap!
 - Isn't compatible with Webpack or any bundler because the code imported dynamically.
 - Importing dynamically code using glob pattern in production may be a breach exploitable by hackers to inject code.
@@ -160,9 +162,9 @@ async function bootstrap() {
   try {
     const scannedProviders = await importProviders({
       mount: {
-        "/rest": ["**/controllers/**/*.ts"]
+        "/rest": [__dirname + "/**/controllers/**/*.ts"]
       },
-      imports: ["**/services/**/*.ts", "**/protocols/**/*.ts"]
+      imports: [__dirname + "/**/services/**/*.ts", __dirname + "/**/protocols/**/*.ts"]
     });
 
     const platform = await PlatformExpress.bootstrap(Server, {

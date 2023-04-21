@@ -2,6 +2,7 @@
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
     "baseUrl": ".",
+    "moduleResolution": "Node16",
     "module": "commonjs",
     "rootDir": "src",
     "outDir": "./lib/cjs",

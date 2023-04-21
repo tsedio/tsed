@@ -13,22 +13,37 @@
   },
   "references": [
     {
-      "path": "./packages/engines"
+      "path": "./packages/core"
     },
     {
-      "path": "./packages/core"
+      "path": "./packages/specs/schema"
+    },
+    {
+      "path": "./packages/di"
+    },
+    {
+      "path": "./packages/engines"
     },
     {
       "path": "./packages/specs/exceptions"
     },
     {
+      "path": "./packages/platform/platform-exceptions"
+    },
+    {
+      "path": "./packages/perf"
+    },
+    {
       "path": "./packages/specs/json-mapper"
+    },
+    {
+      "path": "./packages/specs/openspec"
     },
     {
       "path": "./packages/platform/platform-router"
     },
     {
-      "path": "./packages/perf"
+      "path": "./packages/platform/platform-log-middleware"
     },
     {
       "path": "./packages/platform/platform-params"
@@ -37,58 +52,52 @@
       "path": "./packages/utils/normalize-path"
     },
     {
-      "path": "./packages/platform/platform-views"
-    },
-    {
-      "path": "./packages/platform/platform-response-filter"
-    },
-    {
-      "path": "./packages/graphql/apollo"
+      "path": "./packages/platform/platform-middlewares"
     },
     {
       "path": "./packages/third-parties/components-scan"
     },
     {
-      "path": "./packages/graphql/typegraphql"
-    },
-    {
       "path": "./packages/platform/common"
     },
     {
-      "path": "./packages/orm/adapters-redis"
-    },
-    {
-      "path": "./packages/specs/ajv"
-    },
-    {
-      "path": "./packages/orm/adapters"
-    },
-    {
-      "path": "./packages/orm/ioredis"
-    },
-    {
-      "path": "./packages/orm/mikro-orm"
+      "path": "./packages/graphql/apollo"
     },
     {
       "path": "./packages/orm/mongoose"
     },
     {
-      "path": "./packages/orm/prisma"
+      "path": "./packages/specs/ajv"
     },
     {
-      "path": "./packages/platform/platform-log-middleware"
+      "path": "./packages/graphql/typegraphql"
+    },
+    {
+      "path": "./packages/platform/platform-response-filter"
+    },
+    {
+      "path": "./packages/orm/adapters-redis"
+    },
+    {
+      "path": "./packages/platform/platform-views"
+    },
+    {
+      "path": "./packages/orm/adapters"
+    },
+    {
+      "path": "./packages/platform/platform-test-sdk"
+    },
+    {
+      "path": "./packages/orm/ioredis"
     },
     {
       "path": "./packages/orm/testing-mongoose"
     },
     {
-      "path": "./packages/platform/platform-exceptions"
+      "path": "./packages/platform/platform-cache"
     },
     {
-      "path": "./packages/platform/platform-middlewares"
-    },
-    {
-      "path": "./packages/platform/platform-test-sdk"
+      "path": "./packages/orm/prisma"
     },
     {
       "path": "./packages/specs/swagger"
@@ -97,37 +106,28 @@
       "path": "./packages/platform/platform-koa"
     },
     {
+      "path": "./packages/security/oidc-provider"
+    },
+    {
+      "path": "./packages/security/passport"
+    },
+    {
+      "path": "./packages/third-parties/agenda"
+    },
+    {
+      "path": "./packages/orm/mikro-orm"
+    },
+    {
+      "path": "./packages/orm/typeorm"
+    },
+    {
       "path": "./packages/platform/platform-serverless-testing"
     },
     {
       "path": "./packages/platform/platform-express"
     },
     {
-      "path": "./packages/platform/platform-serverless"
-    },
-    {
-      "path": "./packages/platform/platform-serverless-http"
-    },
-    {
-      "path": "./packages/security/passport"
-    },
-    {
-      "path": "./packages/security/oidc-provider-plugin-wildcard-redirect-uri"
-    },
-    {
-      "path": "./packages/specs/schema"
-    },
-    {
-      "path": "./packages/security/jwks"
-    },
-    {
-      "path": "./packages/platform/platform-cache"
-    },
-    {
-      "path": "./packages/orm/typeorm"
-    },
-    {
-      "path": "./packages/third-parties/socketio-testing"
+      "path": "./packages/orm/objection"
     },
     {
       "path": "./packages/third-parties/formio-types"
@@ -136,40 +136,40 @@
       "path": "./packages/third-parties/schema-formio"
     },
     {
-      "path": "./packages/third-parties/formio"
-    },
-    {
-      "path": "./packages/specs/openspec"
-    },
-    {
-      "path": "./packages/third-parties/event-emitter"
-    },
-    {
-      "path": "./packages/orm/objection"
+      "path": "./packages/third-parties/socketio-testing"
     },
     {
       "path": "./packages/third-parties/stripe"
     },
     {
-      "path": "./packages/di"
-    },
-    {
-      "path": "./packages/third-parties/agenda"
-    },
-    {
-      "path": "./packages/security/oidc-provider"
+      "path": "./packages/third-parties/formio"
     },
     {
       "path": "./packages/third-parties/socketio"
     },
     {
+      "path": "./packages/third-parties/vite-ssr-plugin"
+    },
+    {
       "path": "./packages/third-parties/terminus"
+    },
+    {
+      "path": "./packages/platform/platform-serverless"
+    },
+    {
+      "path": "./packages/platform/platform-serverless-http"
+    },
+    {
+      "path": "./packages/security/jwks"
+    },
+    {
+      "path": "./packages/third-parties/event-emitter"
     },
     {
       "path": "./tools/integration"
     },
     {
-      "path": "./packages/third-parties/vite-ssr-plugin"
+      "path": "./packages/security/oidc-provider-plugin-wildcard-redirect-uri"
     }
   ],
   "exclude": ["node_modules", "docs", "docs-references"]
