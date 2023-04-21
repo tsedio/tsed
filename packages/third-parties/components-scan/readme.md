@@ -30,6 +30,25 @@
 
 A package of Ts.ED framework. See website: https://tsed.io/
 
+## Introduction
+
+⚠️⚠️⚠️ DON'T USE THIS PLUGIN in PRODUCTION MODE ⚠️⚠️⚠️
+
+ComponentsScan is an option to import services using a glob pattern. It's pretty useful when you start new application.
+
+But this option can cause some issues or misunderstood:
+
+- When you change a location for a Controller/Service/Modules, the code isn't discovered as expected. It's normal, the
+  server have default configuration like `**/services/**/*.ts`. if the code is outside of this pattern, they won't be
+  loaded.
+- Performance issue. The global pattern have a huge impact on the server bootstrap!
+- Isn't compatible with Webpack or any bundler because the code imported dynamically.
+- Importing dynamically code using glob pattern in production may be a breach exploitable by hackers to inject code.
+
+## When I can use this package
+
+For development purpose (mock server, test server, dev server, etc...)
+
 # Installation
 
 ```bash
