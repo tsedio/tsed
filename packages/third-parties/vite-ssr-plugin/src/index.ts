@@ -3,6 +3,7 @@
  */
 
 export * from "./ViteModule";
+export * from "./decorators/vite";
 export * from "./interfaces/ViteConfig";
 export * from "./interfaces/ViteRenderContext";
 export * from "./interfaces/interfaces";
