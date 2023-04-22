@@ -1,7 +1,7 @@
 import {Constant, PlatformContext} from "@tsed/common";
 import {Injectable} from "@tsed/di";
 import {Writable} from "stream";
-import {renderPage} from "vite-plugin-ssr";
+import {renderPage} from "vite-plugin-ssr/server";
 import {ViteConfig} from "../interfaces/ViteConfig";
 import {ViteRenderContext} from "../interfaces/ViteRenderContext";
 

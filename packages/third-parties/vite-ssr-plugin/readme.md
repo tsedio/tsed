@@ -39,7 +39,7 @@ A package of Ts.ED framework. See website: https://tsed.io/tutorials/vite-ssr-pl
 To begin, install the oidc-provider module for TS.ED:
 
 ```bash
-npm install --save @tsed/vite-ssr-plugin vite@3 vite-ssr-plugin
+npm install --save @tsed/vite-ssr-plugin vite@4 vite-ssr-plugin
 ```
 
 ## Contributors

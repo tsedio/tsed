@@ -6,7 +6,7 @@ import {VITE_SERVER} from "./services/ViteServer";
 import {ViteService} from "./services/ViteService";
 import {ViteModule} from "./ViteModule";
 
-jest.mock("vite-plugin-ssr");
+jest.mock("vite-plugin-ssr/server");
 jest.mock("vite");
 
 async function getModuleFixture() {

@@ -1,9 +1,9 @@
 import {PlatformTest} from "@tsed/common";
-import {renderPage} from "vite-plugin-ssr";
+import {renderPage} from "vite-plugin-ssr/server";
 
 import {ViteService} from "./ViteService";
 
-jest.mock("vite-plugin-ssr");
+jest.mock("vite-plugin-ssr/server");
 
 async function getServiceFixture(httpResponse: any) {
   const $ctx = PlatformTest.createRequestContext();
