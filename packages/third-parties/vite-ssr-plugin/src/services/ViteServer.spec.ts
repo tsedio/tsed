@@ -5,7 +5,7 @@ import {createServer} from "vite";
 
 import {VITE_SERVER} from "./ViteServer";
 
-jest.mock("vite-plugin-ssr");
+jest.mock("vite-plugin-ssr/server");
 jest.mock("vite");
 jest.mock("sirv");
 
