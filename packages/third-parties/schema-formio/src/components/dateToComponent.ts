@@ -1,3 +1,4 @@
+import {getValue} from "@tsed/core";
 import {execMapper, registerFormioMapper} from "../registries/FormioMappersContainer";
 
 function dateToComponent(schema: any, options: any) {
@@ -8,7 +9,8 @@ function dateToComponent(schema: any, options: any) {
     enableMinDateInput: false,
     datePicker: {
       disableWeekends: false,
-      disableWeekdays: false
+      disableWeekdays: false,
+      ...getValue(component, "datePicker")
     },
     enableMaxDateInput: false,
     enableTime: false,
@@ -27,7 +29,8 @@ function dateToComponent(schema: any, options: any) {
       minDate: null,
       disableWeekends: false,
       disableWeekdays: false,
-      maxDate: null
+      maxDate: null,
+      ...getValue(component, "widget")
     }
   };
 
@@ -47,11 +50,13 @@ function dateToComponent(schema: any, options: any) {
   return {
     ...base,
     timePicker: {
-      showMeridian: false
+      showMeridian: false,
+      ...getValue(component, "timePicker")
     },
     widget: {
       enableTime: true,
-      time_24hr: true
+      time_24hr: true,
+      ...getValue(component, "widget")
     }
   };
 }
