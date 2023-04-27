@@ -1,6 +1,6 @@
 {
   "name": "@tsed/oidc-provider-plugin-wildcard-redirect-uri",
-  "version": "7.26.2",
+  "version": "7.26.3",
   "description": "A plugin to support wildcard in the redirect uri whitelist",
   "private": false,
   "contributors": [
@@ -31,19 +31,19 @@
     "wildcard": "2.0.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.26.2",
-    "@tsed/di": "7.26.2",
-    "@tsed/eslint": "7.26.2",
-    "@tsed/oidc-provider": "7.26.2",
-    "@tsed/typescript": "7.26.2",
+    "@tsed/core": "7.26.3",
+    "@tsed/di": "7.26.3",
+    "@tsed/eslint": "7.26.3",
+    "@tsed/oidc-provider": "7.26.3",
+    "@tsed/typescript": "7.26.3",
     "@types/uuid": "8.3.4",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.26.2",
-    "@tsed/di": "^7.26.2",
+    "@tsed/core": "^7.26.3",
+    "@tsed/di": "^7.26.3",
     "@tsed/logger": ">=6.2.2",
-    "@tsed/oidc-provider": "^7.26.2",
+    "@tsed/oidc-provider": "^7.26.3",
     "oidc-provider": ">=8.0.0"
   },
   "peerDependenciesMeta": {
