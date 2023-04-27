@@ -209,15 +209,33 @@ It's also possible to render a view by injecting and using @@PlatformResponse@@ 
 
 ### With PlatformViews
 
-Ts.ED provides the @@PlatformViews@@ service to render views. In fact, @@View@@ decorator uses `PlatformResponse.render()` method which itself uses the `PlatformViews.render()` method.
+Ts.ED provides the @@PlatformViews@@ service to render views. In fact, @@View@@ decorator
+uses `PlatformResponse.render()` method which itself uses the `PlatformViews.render()` method.
 It is useful if you want to render a template from a service.
 
 <<< @/docs/snippets/templating/template-platform-views.ts
 
+## Alter render options
+
+You can alter the render options before rendering the view. Listen the `$alterRenderOptions` hook to inject
+data:
+
+```typescript
+@Injectable()
+class AlterOptions {
+  async $alterRenderOptions(options: any) {
+    // only called when the response.render is called by your code
+    options.alter = "alter";
+    return options;
+  }
+}
+```
+
 ## Caching
 
 To enable caching, simply pass `{ cache: true }` to the @@View@@ decorator.
-All engines that `consolidate.js` / [`@tsed/engines`](https://github.com/tsedio/tsed-engines) implements I/O for, will cache the file contents, ideal for production environments.
+All engines that `consolidate.js` / [`@tsed/engines`](https://github.com/tsedio/tsed-engines) implements I/O for, will
+cache the file contents, ideal for production environments.
 
 <<< @/docs/snippets/templating/template-cache.ts
 
