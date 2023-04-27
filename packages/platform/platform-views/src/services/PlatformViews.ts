@@ -1,5 +1,5 @@
 import {Env, getValue} from "@tsed/core";
-import {Constant, Module} from "@tsed/di";
+import {Constant, Inject, InjectorService, Module} from "@tsed/di";
 import {engines, getEngine, requires} from "@tsed/engines";
 import Fs from "fs";
 import {extname, join, resolve} from "path";
@@ -53,6 +53,9 @@ export class PlatformViews {
 
   @Constant("views.options", {})
   protected engineOptions: Record<string, PlatformViewsEngineOptions>;
+
+  @Inject()
+  protected injector: InjectorService;
 
   #extensions: Map<string, string>;
   #engines = new Map<string, PlatformViewEngine>();
@@ -116,6 +119,8 @@ export class PlatformViews {
   }
 
   async render(viewPath: string, options: any = {}): Promise<string | PlatformViewWritableStream> {
+    options = await this.injector.alterAsync("$alterRenderOptions", options);
+
     const {path, extension} = this.#cachePaths.get(viewPath) || this.#cachePaths.set(viewPath, this.resolve(viewPath)).get(viewPath)!;
     const engine = this.getEngine(extension);
 
