@@ -119,7 +119,8 @@ export class PlatformViews {
   }
 
   async render(viewPath: string, options: any = {}): Promise<string | PlatformViewWritableStream> {
-    options = await this.injector.alterAsync("$alterRenderOptions", options);
+    const {$ctx} = options;
+    options = await this.injector.alterAsync("$alterRenderOptions", options, $ctx);
 
     const {path, extension} = this.#cachePaths.get(viewPath) || this.#cachePaths.set(viewPath, this.resolve(viewPath)).get(viewPath)!;
     const engine = this.getEngine(extension);
@@ -128,7 +129,7 @@ export class PlatformViews {
       throw new Error(`Engine not found to render the following "${viewPath}"`);
     }
 
-    const finalOpts = Object.assign({cache: this.cache || this.env === Env.PROD}, engine.options, options);
+    const finalOpts = Object.assign({cache: this.cache || this.env === Env.PROD}, engine.options, options, {$ctx});
 
     return engine.render(path, finalOpts);
   }

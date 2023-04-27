@@ -221,9 +221,11 @@ You can alter the render options before rendering the view. Listen the `$alterRe
 data:
 
 ```typescript
+import {Injectable, DIContext} from "@tsed/di";
+
 @Injectable()
 class AlterOptions {
-  async $alterRenderOptions(options: any) {
+  async $alterRenderOptions(options: Record<string, any>, $ctx: DIContext) {
     // only called when the response.render is called by your code
     options.alter = "alter";
     return options;

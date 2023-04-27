@@ -53,7 +53,7 @@ describe("ViteService", () => {
         jest.spyOn($ctx.response, "status").mockReturnThis();
         jest.spyOn($ctx.response, "contentType").mockReturnThis();
 
-        const result = await service.render("*", $ctx);
+        const result = await service.render("*", {$ctx});
 
         expect(result).toEqual("html");
         expect(renderPage).toHaveBeenCalledWith({
@@ -86,14 +86,15 @@ describe("ViteService", () => {
         jest.spyOn($ctx.response, "body").mockReturnThis();
         jest.spyOn($ctx.response, "contentType").mockReturnThis();
 
-        const result = await service.render("vue.vite", $ctx);
+        const result = await service.render("vue.vite", {$ctx, valueOpt: "valueOpt"});
 
         expect(result).toEqual(undefined);
         expect(renderPage).toHaveBeenCalledWith(
           expect.objectContaining({
             view: "vue",
             pageProps: {
-              view: "vue"
+              view: "vue",
+              valueOpt: "valueOpt"
             },
             contextProps: {
               headers: {
@@ -129,7 +130,7 @@ describe("ViteService", () => {
         jest.spyOn($ctx.response, "body").mockReturnThis();
         jest.spyOn($ctx.response, "setHeader").mockReturnThis();
 
-        await service.render("vue.vite", $ctx);
+        await service.render("vue.vite", {$ctx});
 
         expect($ctx.logger.error).toHaveBeenCalled();
       });
@@ -154,7 +155,7 @@ describe("ViteService", () => {
         jest.spyOn($ctx.response, "status").mockReturnThis();
         jest.spyOn($ctx.response, "contentType").mockReturnThis();
 
-        const result = await service.render("*", $ctx);
+        const result = await service.render("*", {$ctx});
 
         expect(result).toEqual({body: "html", contentType: "text/html", statusCode: 200});
         expect(renderPage).toHaveBeenCalledWith({

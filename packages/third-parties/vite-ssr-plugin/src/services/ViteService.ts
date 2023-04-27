@@ -13,7 +13,10 @@ export class ViteService {
   @Constant("vite.enableStream", false)
   private enableStream: boolean;
 
-  async render(viewPath: string, $ctx: PlatformContext): Promise<string | {pipe(stream: Writable): void} | undefined> {
+  async render(
+    viewPath: string,
+    {$ctx, ...opts}: {$ctx: PlatformContext} & Record<string, any>
+  ): Promise<string | {pipe(stream: Writable): void} | undefined> {
     const urlOriginal = $ctx.request.url;
 
     const {data} = $ctx;
@@ -22,6 +25,7 @@ export class ViteService {
     const pageProps = {
       view,
       ...$ctx.response.locals,
+      ...opts,
       ...data
     };
 

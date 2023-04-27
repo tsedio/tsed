@@ -58,7 +58,7 @@ describe("ViteModule", () => {
       const result = await platformViews.registerEngine.mock.calls[0][1].render("path.vite", {$ctx: {}});
 
       expect(result).toEqual("html");
-      expect(viteService.render).toHaveBeenCalledWith("path.vite", {});
+      expect(viteService.render).toHaveBeenCalledWith("path.vite", {$ctx: {}});
     });
 
     it("should render empty content", async () => {
@@ -71,7 +71,7 @@ describe("ViteModule", () => {
       const result = await platformViews.registerEngine.mock.calls[0][1].render("path.vite", {$ctx: {}});
 
       expect(result).toEqual("");
-      expect(viteService.render).toHaveBeenCalledWith("path.vite", {});
+      expect(viteService.render).toHaveBeenCalledWith("path.vite", {$ctx: {}});
     });
   });
   describe("$afterInit()", () => {
