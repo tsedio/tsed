@@ -9,7 +9,7 @@ export class ViteRendererMiddleware {
   protected viteService: ViteService;
 
   async use(@Context() $ctx: Context) {
-    const response = await this.viteService.render("*", $ctx);
+    const response = await this.viteService.render("*", {$ctx});
 
     response && $ctx.response.body(response);
   }

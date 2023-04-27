@@ -36,7 +36,7 @@ describe("ViteRenderMiddleware", () => {
 
       await middleware.use($ctx);
 
-      expect(viteService.render).toHaveBeenCalledWith("*", $ctx);
+      expect(viteService.render).toHaveBeenCalledWith("*", {$ctx});
       expect($ctx.response.body).toHaveBeenCalledWith("result");
     });
   });
