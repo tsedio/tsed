@@ -20,7 +20,8 @@
     "test": "cross-env NODE_ENV=test yarn jest && jest-coverage-thresholds-bumper",
     "generate:postgres": "cd test/postgres && prisma -v && prisma generate",
     "generate:mongo": "cd test/mongo && prisma -v && prisma generate",
-    "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
+    "build:ts": "tsc --build tsconfig.json && yarn build:esm",
+    "build:esm": "tsc --build tsconfig.esm.json && babel --out-dir lib/esm --plugins transform-dirname-filename --extensions .js lib/esm ",
     "lint": "eslint '**/*.{ts,js}'",
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
