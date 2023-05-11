@@ -32,8 +32,8 @@ function mapValidation(key: string, base: FormioComponent, schema: any, propSche
     pattern: propSchema.pattern,
     minLength: !required || (required && propSchema.minLength > 1) ? propSchema.minLength : undefined,
     maxLength: propSchema.maxLength,
-    min: propSchema.minimum,
-    max: propSchema.maximum
+    min: propSchema.minimum || propSchema.minItems,
+    max: propSchema.maximum || propSchema.maxItems
   };
 
   switch (propSchema.type) {

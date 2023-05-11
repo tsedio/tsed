@@ -115,8 +115,6 @@
     "uuid": "8.3.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.21.5",
-    "@babel/core": "^7.21.5",
     "@commitlint/cli": "^16.1.0",
     "@commitlint/config-conventional": "^16.0.0",
     "@faker-js/faker": "6.1.1",
@@ -139,7 +137,6 @@
     "@types/supertest": "2.0.12",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.11.0",
-    "babel-plugin-transform-dirname-filename": "^1.1.0",
     "chai": "4.2.0",
     "chai-as-promised": "7.1.1",
     "chalk": "4.1.0",

@@ -1,4 +1,4 @@
-import {CollectionOf, Property} from "@tsed/schema";
+import {CollectionOf, MaxItems, MinItems, Property} from "@tsed/schema";
 import {getFormioSchema} from "../src";
 import {OpenWhenEmpty} from "../src/decorators/openWhenEmpty";
 
@@ -49,6 +49,21 @@ describe("EditGrid integration", () => {
       access: [],
       tags: []
     });
+  });
+  it("should generate form with minItems/maxItems", async () => {
+    class Nested {
+      @Property()
+      id: string;
+    }
+
+    class Model {
+      @CollectionOf(Nested)
+      @MinItems(1)
+      @MaxItems(10)
+      test: Nested[];
+    }
+
+    expect(await getFormioSchema(Model)).toMatchSnapshot();
   });
   it("should generate form with openWhenEmpty", async () => {
     class Nested {
