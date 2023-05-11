@@ -14,12 +14,12 @@ export function enumToComponent(schema: any, options: any) {
     return cleanObject({
       ...component,
       data: {
-        json: JSON.stringify(values)
+        json: component.data?.json || JSON.stringify(values)
       },
       dataSrc: "json",
       idPath: "value",
       valueProperty: "value",
-      template: "<span>{{ item.label }}</span>"
+      template: component.template || "<span>{{ item.label }}</span>"
     });
   }
 
