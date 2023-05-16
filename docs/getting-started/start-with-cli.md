@@ -84,7 +84,7 @@ When it's done, run one of this command:
 ```sh
 yarn start
 npm start
-pnm start
+pnpm start
 ```
 
 <figure><img src="/getting-started/server-start.png" style="max-height: 400px; padding: 0"></figure>
