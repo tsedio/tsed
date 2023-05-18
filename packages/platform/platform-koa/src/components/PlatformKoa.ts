@@ -26,7 +26,7 @@ import {staticsMiddleware} from "../middlewares/staticsMiddleware";
 import {PlatformKoaHandler} from "../services/PlatformKoaHandler";
 import {PlatformKoaRequest} from "../services/PlatformKoaRequest";
 import {PlatformKoaResponse} from "../services/PlatformKoaResponse";
-import {getMulter} from "../utils/multer";
+import {multerMiddleware} from "../middlewares/multerMiddleware";
 
 declare global {
   namespace TsED {
@@ -186,7 +186,7 @@ export class PlatformKoa implements PlatformAdapter<Koa> {
   }
 
   multipart(options: PlatformMulterSettings): PlatformMulter {
-    return getMulter(options);
+    return multerMiddleware(options);
   }
 
   statics(endpoint: string, options: PlatformStaticsOptions) {

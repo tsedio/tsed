@@ -11,4 +11,4 @@ export * from "./middlewares/staticsMiddleware";
 export * from "./services/PlatformKoaHandler";
 export * from "./services/PlatformKoaRequest";
 export * from "./services/PlatformKoaResponse";
-export * from "./utils/multer";
+export * from "./middlewares/multerMiddleware";

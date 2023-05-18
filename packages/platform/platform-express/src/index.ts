@@ -6,4 +6,5 @@ export * from "./components/PlatformExpress";
 export * from "./interfaces/PlatformExpressSettings";
 export * from "./interfaces/PlatformExpressStaticsOptions";
 export * from "./interfaces/interfaces";
+export * from "./middlewares/multerMiddleware";
 export * from "./middlewares/staticsMiddleware";
