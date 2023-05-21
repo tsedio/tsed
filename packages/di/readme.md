@@ -118,18 +118,24 @@ export class CalendarCtrl {
 Finally, we can load the injector and use:
 
 ```typescript
-import {InjectorService} from "@tsed/di";
+import {InjectorService, attachLogger} from "@tsed/di";
+import {$log} from "@tsed/logger";
 import {CalendarCtrl} from "./CalendarCtrl";
 
 async function bootstrap() {
   const injector = new InjectorService();
 
+  // configure the default logger
+  attachLogger(injector, $log);
+
   // Load all providers registered via @Injectable decorator
   await injector.load();
 
   const calendarController = injector.get<CalendarCtrl>();
-
   await calendarController.create(new Calendar());
+
+  // emit event to trigger actions for third parties modules
+  await injector.emit("$onReady");
 
   // And finally destroy injector and his instances (see injector hooks)
   await injector.destroy();
