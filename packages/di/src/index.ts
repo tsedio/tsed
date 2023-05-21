@@ -53,6 +53,7 @@ export * from "./services/DILogger";
 export * from "./services/DITest";
 export * from "./services/InjectorService";
 export * from "./utils/asyncHookContext";
+export * from "./utils/attachLogger";
 export * from "./utils/colors";
 export * from "./utils/createContainer";
 export * from "./utils/getConfiguration";
