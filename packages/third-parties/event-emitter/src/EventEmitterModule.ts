@@ -7,7 +7,7 @@ import {EventEmitterService} from "./services/EventEmitterFactory";
 @Module()
 export class EventEmitterModule {
   @Constant("eventEmitter.disableSummary", false)
-  disableSummary: boolean;
+  private disableSummary: boolean;
 
   @Inject()
   protected logger: Logger;
@@ -21,10 +21,15 @@ export class EventEmitterModule {
   @Constant("eventEmitter.enabled", false)
   private loadEventEmitter: boolean;
 
-  async $afterListen(): Promise<any> {
+  $onInit() {
     if (this.loadEventEmitter) {
-      const providers = this.getProviders();
-      providers.forEach((provider) => this.addEventListenerForProvider(provider));
+      const providers = this.injector.getProviders();
+      providers.forEach((provider) => this.bindEventListeners(provider));
+    }
+  }
+
+  async $onReady(): Promise<any> {
+    if (this.loadEventEmitter) {
       if (!this.disableSummary) {
         this.printEvents();
       }
@@ -37,6 +42,7 @@ export class EventEmitterModule {
   public printEvents() {
     const list = this.eventEmitter.eventNames().map((eventName) => {
       const listenerCount = this.eventEmitter.listenerCount(eventName).toString();
+
       return {
         eventName,
         listenerCount
@@ -56,28 +62,33 @@ export class EventEmitterModule {
     this.logger.info("\n" + str.trim());
   }
 
-  protected getProviders(): Provider<any>[] {
-    return Array.from(this.injector.getProviders());
+  private bindEventListeners(provider: Provider<any>) {
+    this.bindOn(provider);
+    this.bindOnAny(provider);
   }
 
-  private addEventListenerForProvider(provider: Provider<any>) {
+  private getListener(provider: Provider<any>, propertyKey: string) {
+    const instance = this.injector.get(provider.token);
+    return instance[propertyKey].bind(instance) as ListenerFn;
+  }
+
+  private bindOn(provider: Provider) {
     const store = provider.store.get<EventEmitterStore | undefined>("eventEmitter");
 
-    const eventListenerDefinitions = Object.entries(store?.onEvent || {});
+    Object.entries(store?.onEvent || {}).forEach(([propertyKey, {event, options}]) => {
+      const listenerFn = this.getListener(provider, propertyKey);
 
-    for (const [propertyKey, {event, options}] of eventListenerDefinitions) {
-      const instance = this.injector.get(provider.token);
-
-      const listenerFn: ListenerFn = instance[propertyKey].bind(instance) as ListenerFn;
       this.eventEmitter.on(event, listenerFn, options);
-    }
+    });
+  }
 
-    const anyEventListenerDefinitions = Object.keys(store?.onAny || {});
-    for (const propertyKey of anyEventListenerDefinitions) {
-      const instance = this.injector.get(provider.token);
+  private bindOnAny(provider: Provider) {
+    const store = provider.store.get<EventEmitterStore | undefined>("eventEmitter");
 
-      const listenerFn: ListenerFn = instance[propertyKey].bind(instance) as ListenerFn;
+    Object.keys(store?.onAny || {}).forEach((propertyKey) => {
+      const listenerFn = this.getListener(provider, propertyKey);
+
       this.eventEmitter.onAny(listenerFn);
-    }
+    });
   }
 }
