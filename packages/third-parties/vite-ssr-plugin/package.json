@@ -1,6 +1,6 @@
 {
   "name": "@tsed/vite-ssr-plugin",
-  "version": "7.28.0",
+  "version": "7.29.0",
   "description": "Vite SSR plugin package for Ts.ED framework",
   "private": false,
   "contributors": [
@@ -30,18 +30,18 @@
     "sirv": ">=2.0.2"
   },
   "devDependencies": {
-    "@tsed/common": "7.28.0",
-    "@tsed/core": "7.28.0",
-    "@tsed/di": "7.28.0",
-    "@tsed/eslint": "7.28.0",
-    "@tsed/exceptions": "7.28.0",
-    "@tsed/typescript": "7.28.0",
+    "@tsed/common": "7.29.0",
+    "@tsed/core": "7.29.0",
+    "@tsed/di": "7.29.0",
+    "@tsed/eslint": "7.29.0",
+    "@tsed/exceptions": "7.29.0",
+    "@tsed/typescript": "7.29.0",
     "eslint": "^8.12.0",
     "vite": "4.3.1",
     "vite-plugin-ssr": "0.4.114"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.28.0",
+    "@tsed/common": "^7.29.0",
     "vite": ">=4",
     "vite-plugin-ssr": ">=0.4.114"
   },

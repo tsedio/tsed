@@ -1,6 +1,6 @@
 {
   "name": "@tsed/engines",
-  "version": "7.28.0",
+  "version": "7.29.0",
   "description": "Template engines library. Provide an API to adding custom engines from decorators.",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -27,8 +27,8 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/eslint": "7.28.0",
-    "@tsed/typescript": "7.28.0",
+    "@tsed/eslint": "7.29.0",
+    "@tsed/typescript": "7.29.0",
     "@types/fs-extra": "^9.0.13",
     "@types/semver": "^7.3.9",
     "arc-templates": "^0.5.3",
