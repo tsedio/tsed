@@ -8,7 +8,7 @@ meta:
 
 # MikroORM
 
-<Banner src="https://raw.githubusercontent.com/mikro-orm/mikro-orm/master/docs/static/img/logo-readme.svg?sanitize=true" href="https://typeorm.io/" height="200" />
+<Banner src="https://raw.githubusercontent.com/mikro-orm/mikro-orm/master/docs/static/img/logo-readme.svg?sanitize=true" href="https://mikro-orm.io/" height="200" />
 
 ## Features
 
