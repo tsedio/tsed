@@ -23,6 +23,8 @@ module.exports = {
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-unused-vars": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "require-await": "error",
+    "no-return-await": "error",
     "no-case-declarations": "off",
     "no-empty": "off",
     "prefer-const": "off",
@@ -31,11 +33,7 @@ module.exports = {
   },
   overrides: [
     {
-      files: [
-        "**/*.benchmark.ts",
-        "**/test/**",
-        "**/__mock__/**"
-      ],
+      files: ["**/*.benchmark.ts", "**/test/**", "**/__mock__/**"],
       rules: {
         "workspaces/no-absolute-imports": "off"
       }

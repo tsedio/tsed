@@ -65,7 +65,7 @@ describe("DIContext", () => {
   });
 
   describe("cache()", () => {
-    it("should cache data", async () => {
+    it("should cache data", () => {
       const context = new DIContext({
         event: {
           response: {},

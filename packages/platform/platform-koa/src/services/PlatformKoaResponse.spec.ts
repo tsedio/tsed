@@ -59,7 +59,7 @@ describe("PlatformKoaResponse", () => {
     });
   });
   describe("statusCode", () => {
-    it("return statusCode", async () => {
+    it("return statusCode", () => {
       const {response} = createResponse();
 
       response.status(302);
@@ -68,7 +68,7 @@ describe("PlatformKoaResponse", () => {
     });
   });
   describe("hasStatus", () => {
-    it("return hasStatus", async () => {
+    it("return hasStatus", () => {
       const {response} = createResponse();
 
       response.status(404);
@@ -80,7 +80,7 @@ describe("PlatformKoaResponse", () => {
     });
   });
   describe("contentType()", () => {
-    it("should set contentType", async () => {
+    it("should set contentType", () => {
       const {ctx, koaResponse} = createResponse();
 
       ctx.response.contentType("text/html");
@@ -89,7 +89,7 @@ describe("PlatformKoaResponse", () => {
     });
   });
   describe("body()", () => {
-    it("should set body", async () => {
+    it("should set body", () => {
       const {response, koaResponse} = createResponse();
 
       response.body("body");

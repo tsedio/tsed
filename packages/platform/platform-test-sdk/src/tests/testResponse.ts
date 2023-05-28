@@ -127,8 +127,8 @@ class TestResponseParamsCtrl {
   }
 
   @Get("/scenario6b")
-  async testScenario6bObservable() {
-    return of({id: 1});
+  testScenario6bObservable() {
+    return Promise.resolve(of({id: 1}));
   }
 
   @Get("/scenario7")
@@ -139,8 +139,8 @@ class TestResponseParamsCtrl {
 
   @Get("/scenario7b")
   @ContentType("application/json")
-  async testScenario7bStream() {
-    return createReadStream(join(rootDir, "../data/response.data.json"));
+  testScenario7bStream() {
+    return Promise.resolve(createReadStream(join(rootDir, "../data/response.data.json")));
   }
 
   @Get("/scenario9/static")
@@ -210,29 +210,30 @@ class TestResponseParamsCtrl {
   }
 
   @Get("/scenario15b")
-  async testScenario15b() {
+  testScenario15b() {
     return axios.get(`https://api.tsed.io/rest/github/typed/test`, {
       responseType: "json"
     });
   }
 
   @Get("/scenario16")
-  async testScenario16(): Promise<TestNestedEnum> {
+  testScenario16(): Promise<TestNestedEnum> {
     const test = new TestNestedEnum();
     const nested = new NestedEnum();
     nested.value = EnumValue.One;
     test.nested = nested;
-    return test;
+
+    return Promise.resolve(test);
   }
 
   @Get("/scenario17")
   @Returns(201, ModelGroup).Groups("creation")
-  async testScenario17(): Promise<ModelGroup> {
+  testScenario17(): Promise<ModelGroup> {
     const model = new ModelGroup();
     model.id = "id";
     model.groups = "groups";
 
-    return model;
+    return Promise.resolve(model);
   }
 
   @Get("/scenario18")
@@ -248,7 +249,7 @@ class TestResponseParamsCtrl {
 
   @Get("/scenario19")
   @Returns(200, AllowedModel).Groups("!admin").AllowedGroups("summary", "details")
-  async testScenario19(): Promise<AllowedModel> {
+  testScenario19(): Promise<AllowedModel> {
     const model = new AllowedModel();
     model.id = "id";
     model.prop1 = "prop1";
@@ -256,11 +257,11 @@ class TestResponseParamsCtrl {
     model.prop2 = "prop2";
     model.sensitiveProp = "sensitiveProp";
 
-    return model;
+    return Promise.resolve(model);
   }
 
   @Get("/scenario20")
-  async testScenario20() {
+  testScenario20() {
     const $ctx = getContext();
 
     return {id: $ctx?.request.query.id};

@@ -58,7 +58,7 @@ class SpacesController {
   galaxies: MongooseModel<GalaxiesModel>;
 
   @Get("/")
-  async getSpaces() {
+  getSpaces() {
     return this.spaces.find({}, {}, {populate: ["galaxies", "galaxyCount"]});
   }
 }

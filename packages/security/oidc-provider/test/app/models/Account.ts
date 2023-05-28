@@ -17,11 +17,11 @@ export class Account {
     return this._id;
   }
 
-  async claims() {
-    return {
+  claims() {
+    return Promise.resolve({
       sub: this._id,
       email: this.email,
       email_verified: this.emailVerified
-    };
+    });
   }
 }

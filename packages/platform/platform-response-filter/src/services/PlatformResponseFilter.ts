@@ -53,7 +53,7 @@ export class PlatformResponseFilter {
    * @param data
    * @param ctx
    */
-  async transform(data: unknown, ctx: BaseContext) {
+  transform(data: unknown, ctx: BaseContext) {
     const {response} = ctx;
 
     if (ctx.endpoint?.operation) {

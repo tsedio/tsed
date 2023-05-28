@@ -4,9 +4,9 @@ import {PlatformViews} from "./PlatformViews";
 
 @Injectable()
 class AlterOptions {
-  async $alterRenderOptions(options: any) {
+  $alterRenderOptions(options: any) {
     options.alter = "alter";
-    return options;
+    return Promise.resolve(options);
   }
 }
 

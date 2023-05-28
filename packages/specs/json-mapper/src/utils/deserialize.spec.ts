@@ -610,7 +610,7 @@ describe("deserialize()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        async method(@In("body") @CollectionOf(Product) products: Product[]) {
+        method(@In("body") @CollectionOf(Product) products: Product[]) {
           return null;
         }
       }
@@ -659,14 +659,14 @@ describe("deserialize()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        async method(@In("body") @GenericOf(Product) product: Submission<Product>) {
+        method(@In("body") @GenericOf(Product) product: Submission<Product>) {
           return null;
         }
       }
 
       class Controller2 {
         @OperationPath("POST", "/")
-        async method(@In("body") @GenericOf(Article) product: Submission<Article>) {
+        method(@In("body") @GenericOf(Article) product: Submission<Article>) {
           return null;
         }
       }

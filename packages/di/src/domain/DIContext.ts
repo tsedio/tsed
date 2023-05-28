@@ -73,15 +73,15 @@ export class DIContext {
     return (this.#container = this.#container || new LocalsContainer());
   }
 
-  async destroy(): Promise<any> {
+  destroy(): Promise<any> {
     return Promise.all([this.#container?.destroy(), this.#logger?.flush()]);
   }
 
-  async emit(eventName: string, ...args: any[]) {
+  emit(eventName: string, ...args: any[]) {
     return this.injector?.emit(eventName, ...args);
   }
 
-  async runInContext(next: Function) {
+  runInContext(next: Function) {
     return runInContext(this, next);
   }
 

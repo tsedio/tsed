@@ -11,12 +11,12 @@ jest.mock("ioredis", () => {
         this.connector.options = options;
       }
 
-      async connect() {
-        return undefined;
+      connect() {
+        return Promise.resolve(undefined);
       }
 
-      async disconnect() {
-        return undefined;
+      disconnect() {
+        return Promise.resolve(undefined);
       }
     };
     connector: any = {};
@@ -25,12 +25,12 @@ jest.mock("ioredis", () => {
       this.connector.options = options;
     }
 
-    async connect() {
-      return undefined;
+    connect() {
+      return Promise.resolve(undefined);
     }
 
-    async disconnect() {
-      return undefined;
+    disconnect() {
+      return Promise.resolve(undefined);
     }
   }
 

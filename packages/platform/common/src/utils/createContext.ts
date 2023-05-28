@@ -25,7 +25,7 @@ export function buildIgnoreLog(ignoreUrlPatterns: any[] | undefined) {
  * @param injector
  * @ignore
  */
-export function createContext(injector: InjectorService) {
+export function createContext(injector: InjectorService): (event: IncomingEvent) => PlatformContext {
   const ResponseKlass = injector.getProvider(PlatformResponse)?.useClass;
   const RequestKlass = injector.getProvider(PlatformRequest)?.useClass;
   const {reqIdBuilder = defaultReqIdBuilder, ...loggerOptions} = injector.settings.logger;
@@ -40,7 +40,7 @@ export function createContext(injector: InjectorService) {
 
   const ignoreLog = buildIgnoreLog(loggerOptions.ignoreUrlPatterns);
 
-  return async function invokeContext(event: IncomingEvent) {
+  return function invokeContext(event: IncomingEvent) {
     const $ctx = new PlatformContext({
       ...opts,
       event,

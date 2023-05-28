@@ -4,7 +4,7 @@ import {createColumns} from "../utils/createColumns";
 import {createTableStub} from "../../test/helpers/knex/table";
 
 describe("createIdColumn", () => {
-  it("should create table from a given class (bigIncrements)", async () => {
+  it("should create table from a given class (bigIncrements)", () => {
     @Entity("users")
     class User {
       @IdColumn("bigIncrements")
@@ -17,7 +17,7 @@ describe("createIdColumn", () => {
     expect(table.bigIncrements).toHaveBeenCalledWith("id");
   });
 
-  it("should create table from a given class (increments)", async () => {
+  it("should create table from a given class (increments)", () => {
     @Entity("users")
     class User {
       @IdColumn("increments")
@@ -30,7 +30,7 @@ describe("createIdColumn", () => {
     expect(table.increments).toHaveBeenCalledWith("id");
   });
 
-  it("should create table from a given class (uuid)", async () => {
+  it("should create table from a given class (uuid)", () => {
     @Entity("users")
     class User {
       @IdColumn("uuid")

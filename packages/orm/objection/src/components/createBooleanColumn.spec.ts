@@ -4,7 +4,7 @@ import {Entity} from "../decorators/entity";
 import {createColumns} from "../utils/createColumns";
 
 describe("createBooleanColumn", () => {
-  it("should create table from a given class", async () => {
+  it("should create table from a given class", () => {
     @Entity("users")
     class User {
       @Property()

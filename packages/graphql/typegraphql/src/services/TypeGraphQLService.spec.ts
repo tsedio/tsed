@@ -11,12 +11,12 @@ async function createApolloServiceFixture() {
   const map = new Map();
 
   const apolloService = {
-    createServer: jest.fn(async (key: string, options: any) => {
+    createServer: jest.fn((key: string, options: any) => {
       map.set(key, {
         instance: server,
         options
       });
-      return server;
+      return Promise.resolve(server);
     }),
     get: (key: string) => map.get(key)?.instance,
     getSchema: (key: string) => "schema",

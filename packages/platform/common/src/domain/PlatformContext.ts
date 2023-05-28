@@ -78,7 +78,7 @@ export class PlatformContext<
     return this.injector.get<PlatformApplication>(PlatformApplication)!;
   }
 
-  async start() {
+  start() {
     return this.emit("$onRequest", this);
   }
 

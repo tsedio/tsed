@@ -18,7 +18,7 @@ const utils = PlatformTestSdk.create({
 @Controller("/enums")
 class TestEnumsCtrl {
   @Get("/")
-  async get(@QueryParams("env") @Enum(Env) @Default(Env.TEST) env: Env = Env.TEST) {
+  get(@QueryParams("env") @Enum(Env) @Default(Env.TEST) env: Env = Env.TEST) {
     return {env};
   }
 }
@@ -45,7 +45,7 @@ describe("Enums", () => {
     request = SuperTest(PlatformTest.callback());
   });
 
-  it("should generate spec", async () => {
+  it("should generate spec", () => {
     const spec = getSpec(TestEnumsCtrl, {specType: SpecTypes.OPENAPI});
 
     expect(spec).toEqual({

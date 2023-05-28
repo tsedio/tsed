@@ -47,49 +47,49 @@ jest.mock("ioredis", () => {
       await Promise.all(([] as string[]).concat(keys).map((key) => this.cache.delete(key)));
     }
 
-    async mdel(keys: string[]) {
-      return;
+    mdel(keys: string[]) {
+      return Promise.resolve();
     }
 
-    async flushdb() {
+    flushdb() {
       this.cache.clear();
-      return "OK";
+      return Promise.resolve("OK");
     }
 
-    async flushall() {
+    flushall() {
       this.cache.clear();
-      return "OK";
+      return Promise.resolve("OK");
     }
 
-    async reset() {
-      return;
+    reset() {
+      return Promise.resolve();
     }
 
-    async setex(key: string, ttl: any, value: any) {
+    setex(key: string, ttl: any, value: any) {
       this.cache.set(key, {value, ttl});
-      return "OK";
+      return Promise.resolve("OK");
     }
 
-    async set(key: string, value: any) {
+    set(key: string, value: any) {
       this.cache.set(key, {value, ttl: -1});
-      return "OK";
+      return Promise.resolve("OK");
     }
 
-    async get(key: string) {
+    get(key: string) {
       const cached = this.cache.get(key);
 
       if (!cached) {
         throw new Error("missing key");
       }
-      return cached.value;
+      return Promise.resolve(cached.value);
     }
 
-    async mget(keys: string[]) {
-      return keys.map((key) => this.cache.get(key)?.value);
+    mget(keys: string[]) {
+      return Promise.resolve(keys.map((key) => this.cache.get(key)?.value));
     }
 
-    async mset(keys: [string, unknown][]) {
-      return keys.map(([key, value]) => this.cache.set(key, value));
+    mset(keys: [string, unknown][]) {
+      return Promise.resolve(keys.map(([key, value]) => this.cache.set(key, value)));
     }
 
     multi() {
@@ -98,13 +98,13 @@ jest.mock("ioredis", () => {
 
     exec() {}
 
-    async ttl(key: string) {
+    ttl(key: string) {
       const cached = this.cache.get(key);
-      return cached?.ttl || -1;
+      return Promise.resolve(cached?.ttl || -1);
     }
 
-    async end() {
-      return this;
+    end() {
+      return Promise.resolve(this);
     }
 
     keys() {
@@ -177,7 +177,7 @@ describe("RedisStore", () => {
 
       expect((redisPwdCache.store as any).getClient().options.password).toEqual(config.password);
     });
-    it("should create redis store", async () => {
+    it("should create redis store", () => {
       const redisStore = new IORedisStore({
         host: config.host,
         port: config.port,

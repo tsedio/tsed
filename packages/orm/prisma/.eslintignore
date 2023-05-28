@@ -9,5 +9,6 @@ coverage
 *.lock
 benchmarks.*
 **/generated
+**/generate_code
 
 **/*.js

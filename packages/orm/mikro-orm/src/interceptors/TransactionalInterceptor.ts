@@ -25,7 +25,7 @@ export class TransactionalInterceptor implements InterceptorMethods {
     private readonly retryStrategy?: RetryStrategy
   ) {}
 
-  public async intercept(context: InterceptorContext<unknown>, next: InterceptorNext): Promise<unknown> {
+  public intercept(context: InterceptorContext<unknown>, next: InterceptorNext) {
     const options = this.extractContextName(context);
 
     if (options.retry && !this.retryStrategy) {
@@ -49,8 +49,10 @@ export class TransactionalInterceptor implements InterceptorMethods {
     const orm = this.registry.get(options.contextName);
 
     if (!orm) {
-      throw new Error(
-        `No such context: ${options.contextName}. Please register a corresponding MikroOrm instance using '@Configuration()' decorator.`
+      return Promise.reject(
+        new Error(
+          `No such context: ${options.contextName}. Please register a corresponding MikroOrm instance using '@Configuration()' decorator.`
+        )
       );
     }
 
@@ -85,12 +87,14 @@ export class TransactionalInterceptor implements InterceptorMethods {
     };
   }
 
-  private async executeInTransaction(next: InterceptorNext, options: TransactionSettings): Promise<unknown> {
+  private executeInTransaction(next: InterceptorNext, options: TransactionSettings): Promise<unknown> | unknown {
     const manager = this.context.get(options.contextName);
 
     if (!manager) {
-      throw new Error(
-        `No such context: ${options.contextName}. Please check if the async context is lost in one of the asynchronous operations.`
+      return Promise.reject(
+        new Error(
+          `No such context: ${options.contextName}. Please check if the async context is lost in one of the asynchronous operations.`
+        )
       );
     }
 
@@ -98,7 +102,7 @@ export class TransactionalInterceptor implements InterceptorMethods {
       return next();
     }
 
-    return manager.transactional(async () => next(), {
+    return manager.transactional(() => Promise.resolve(next()), {
       flushMode: options.flushMode,
       isolationLevel: options.isolationLevel
     });

@@ -63,10 +63,12 @@ export class PlatformCache {
     return isFunction(ttl) ? ttl(result) : ttl;
   }
 
-  async ttl(key: string) {
+  ttl(key: string) {
     if (this.cache && "store" in this.cache && this.cache.store.ttl) {
       return this.cache.store.ttl(key);
     }
+
+    return Promise.resolve();
   }
 
   wrap<T>(key: string, fetch: () => Promise<T>, ttl?: number): Promise<T> {
@@ -77,8 +79,8 @@ export class PlatformCache {
     return this.cache?.wrap<T>(key, fetch, ttl);
   }
 
-  async get<T>(key: string, options: JsonDeserializerOptions = {}): Promise<T | undefined> {
-    return deserialize(this.cache?.get<T>(key), options);
+  get<T>(key: string, options: JsonDeserializerOptions = {}): Promise<T | undefined> {
+    return Promise.resolve(deserialize(this.cache?.get<T>(key), options));
   }
 
   async set<T>(key: string, value: any, options?: CachingConfig<T>): Promise<T | undefined> {
@@ -128,12 +130,12 @@ export class PlatformCache {
     await this.cache?.reset();
   }
 
-  async keys(...args: any[]): Promise<string[]> {
+  keys(...args: any[]): Promise<string[]> {
     if (this.cache && "store" in this.cache && this.cache.store.keys) {
       return this.cache.store.keys(...args);
     }
 
-    return [];
+    return Promise.resolve([]);
   }
 
   async getMatchingKeys(patterns: string): Promise<string[]> {
@@ -171,7 +173,7 @@ export class PlatformCache {
     return store;
   }
 
-  refresh(callback: () => Promise<any>) {
+  refresh(callback: () => Promise<any> | any) {
     return storage.run({forceRefresh: true}, callback);
   }
 

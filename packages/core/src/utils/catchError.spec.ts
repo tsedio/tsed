@@ -12,12 +12,6 @@ describe("catchError", () => {
 
 describe("catchAsyncError", () => {
   it("should catch error", async () => {
-    expect(
-      (
-        await catchAsyncError(async () => {
-          throw new Error("message");
-        })
-      )?.message
-    ).toEqual("message");
+    expect((await catchAsyncError(() => Promise.reject(new Error("message"))))?.message).toEqual("message");
   });
 });

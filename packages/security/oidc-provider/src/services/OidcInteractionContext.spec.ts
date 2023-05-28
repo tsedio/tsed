@@ -102,7 +102,7 @@ describe("OidcInteractionContext", () => {
   describe("grantId()", () => {
     it("should return uid", async () => {
       const {$ctx, oidcCtx} = await createOidcInteractionContextFixture();
-      await $ctx.runInContext(async () => {
+      await $ctx.runInContext(() => {
         expect(oidcCtx.grantId).toEqual("grantId");
       });
     });
@@ -111,7 +111,7 @@ describe("OidcInteractionContext", () => {
   describe("session()", () => {
     it("should return session", async () => {
       const {$ctx, oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
-      await $ctx.runInContext(async () => {
+      await $ctx.runInContext(() => {
         expect(oidcCtx.session).toEqual(interactionDetails.session);
       });
     });
@@ -121,7 +121,7 @@ describe("OidcInteractionContext", () => {
     it("should return prompt", async () => {
       const {$ctx, oidcCtx} = await createOidcInteractionContextFixture();
 
-      await $ctx.runInContext(async () => {
+      await $ctx.runInContext(() => {
         expect(oidcCtx.prompt).toEqual({
           name: "login"
         });
@@ -132,7 +132,7 @@ describe("OidcInteractionContext", () => {
   describe("params()", () => {
     it("should return params", async () => {
       const {$ctx, oidcCtx, interactionDetails} = await createOidcInteractionContextFixture();
-      await $ctx.runInContext(async () => {
+      await $ctx.runInContext(() => {
         expect(oidcCtx.params).toEqual(interactionDetails.params);
       });
     });

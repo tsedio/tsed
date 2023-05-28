@@ -20,32 +20,32 @@ class MyModel {
 @Controller("/array")
 class TestArrayBodyCtrl {
   @Post("/1")
-  async scenario1(@BodyParams() list: any[]) {
+  scenario1(@BodyParams() list: any[]) {
     return list;
   }
 
   @Post("/2")
-  async scenario2(@BodyParams() list: number[]) {
+  scenario2(@BodyParams() list: number[]) {
     return list;
   }
 
   @Post("/3")
-  async scenario3(@BodyParams() @CollectionOf(Number) list: number[]) {
+  scenario3(@BodyParams() @CollectionOf(Number) list: number[]) {
     return list;
   }
 
   @Post("/4")
-  async scenario4(@BodyParams() @CollectionOf(MyModel) list: MyModel[]) {
+  scenario4(@BodyParams() @CollectionOf(MyModel) list: MyModel[]) {
     return list;
   }
 
   @Post("/5")
-  async scenario5(@BodyParams() list: any) {
+  scenario5(@BodyParams() list: any) {
     return list;
   }
 
   @Post("/6")
-  async scenario6(@BodyParams() @Any() list: any) {
+  scenario6(@BodyParams() @Any() list: any) {
     return list;
   }
 }

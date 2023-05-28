@@ -30,7 +30,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
   @Inject()
   protected logger: Logger;
 
-  async intercept(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
+  intercept(context: InterceptorContext<any, PlatformCacheOptions>, next: InterceptorNext) {
     if (this.cache.disabled()) {
       return next();
     }
@@ -130,7 +130,7 @@ export class PlatformCacheInterceptor implements InterceptorMethods {
     });
 
     // cache final response with his headers and body
-    response.onEnd(async () => {
+    response.onEnd(() => {
       this.cache.setCachedObject(key, response.getBody(), {
         ttl: calculatedTTL,
         args,

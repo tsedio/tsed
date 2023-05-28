@@ -9,11 +9,11 @@ import {Server} from "./app/Server";
 })
 class CustomerController {
   @Post("/")
-  async get(
+  get(
     @BodyParams("customer_name") customerName: string,
     @BodyParams("customer_last_name") @MinLength(0) @MaxLength(100) customerLastName: string
   ): Promise<string> {
-    return "";
+    return Promise.resolve("");
   }
 }
 

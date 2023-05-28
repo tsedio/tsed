@@ -107,9 +107,9 @@ export async function read(path: string, options: any): Promise<string> {
  * @param {String} options
  * @api private
  */
-export async function readPartials(path: string, options: any): Promise<Record<string, string> | void> {
+export function readPartials(path: string, options: any): Promise<Record<string, string> | void> {
   if (!options.partials) {
-    return;
+    return Promise.resolve();
   }
 
   const keys = Object.keys(options.partials);

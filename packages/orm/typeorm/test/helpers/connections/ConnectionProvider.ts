@@ -10,7 +10,7 @@ const CONNECTION_NAME = "default"; // change the name according to your server c
 registerProvider({
   provide: CONNECTION,
   deps: [Configuration],
-  async useAsyncFactory(configuration: Configuration) {
+  useAsyncFactory(configuration: Configuration) {
     const settings = configuration.get<ConnectionOptions[]>("typeorm")! || [];
     const connectionOptions = settings.find((o) => o.name === CONNECTION_NAME);
 
@@ -18,6 +18,6 @@ registerProvider({
       return createConnection(connectionOptions!);
     }
 
-    return {};
+    return Promise.resolve({});
   }
 });

@@ -94,7 +94,7 @@ class TestPageableCtrl {
   @OperationPath("GET", "/")
   @Returns(206, Pagination).Of(Product).Title("PaginatedProduct")
   @Returns(200, Pagination).Of(Product).Title("PaginatedProduct")
-  async get(@In("query") pageableOptions: Pageable, @In("query") @Name("all") all: boolean) {
+  get(@In("query") pageableOptions: Pageable, @In("query") @Name("all") all: boolean) {
     return new Pagination<Product>({
       data: [
         new Product({

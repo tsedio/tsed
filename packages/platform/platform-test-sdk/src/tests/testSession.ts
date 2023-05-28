@@ -4,6 +4,7 @@ import {Allow, Email, Ignore, MinLength, Property, Required, Returns} from "@tse
 import SuperTest from "supertest";
 import {promisify} from "util";
 import {PlatformTestingSdkOpts} from "../interfaces";
+
 export class UserCreation {
   @Property()
   name: string;
@@ -30,33 +31,35 @@ export class SessionCtrl {
   platformName: string;
 
   @Post("/connect")
-  async connect(@Session() session: any, @BodyParams() user: UserCreation) {
+  connect(@Session() session: any, @BodyParams() user: UserCreation) {
     session.user = user;
 
-    return user;
+    return Promise.resolve(user);
   }
 
   @Get("/userinfo")
   @Returns(200, User)
-  async userInfo(@Session("user") user: User): Promise<User> {
+  userInfo(@Session("user") user: User): Promise<User> {
     if (!user) {
-      throw new NotFound("User not found");
+      return Promise.reject(new NotFound("User not found"));
     }
 
-    return user;
+    return Promise.resolve(user);
   }
 
   @Get("/logout")
   @Returns(204)
-  async logout(@Req() req: any) {
+  logout(@Req() req: any) {
     switch (this.platformName) {
       case "koa":
-        return (req.ctx.session = null);
+        return Promise.resolve((req.ctx.session = null));
       case "express":
         delete req.session.user;
 
         return promisify(req.session.destroy.bind(req.session))();
     }
+
+    return Promise.resolve();
   }
 }
 

@@ -43,12 +43,12 @@ export class HandlersCtrl {
   }
 
   @Get("/scenario-3/:id") // Ts.ED style
-  public async scenario3(@PathParams("id") id: string): Promise<any> {
+  public scenario3(@PathParams("id") id: string): Promise<any> {
     const model = new MyModel();
     model.id = id;
     model.name = "test";
 
-    return model;
+    return Promise.resolve(model);
   }
 }
 

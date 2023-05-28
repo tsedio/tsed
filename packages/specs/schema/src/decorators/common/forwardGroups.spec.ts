@@ -74,14 +74,14 @@ describe("@ForwardGroups", () => {
       class MyController {
         @OperationPath("POST", "/")
         @Returns(201, MyModel).Groups("group.*")
-        async create(@In("body") @Groups("creation") payload: MyModel) {
-          return new MyModel();
+        create(@In("body") @Groups("creation") payload: MyModel) {
+          return Promise.resolve(new MyModel());
         }
 
         @OperationPath("PUT", "/:id")
         @Returns(200, MyModel)
-        async update(@In("body") @Groups("group.*") payload: MyModel, @In("path") @Name("id") id: string) {
-          return new MyModel();
+        update(@In("body") @Groups("group.*") payload: MyModel, @In("path") @Name("id") id: string) {
+          return Promise.resolve(new MyModel());
         }
       }
 

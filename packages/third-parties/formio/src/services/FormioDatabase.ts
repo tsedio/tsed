@@ -73,7 +73,7 @@ export class FormioDatabase {
     return !!(await this.formModel.countDocuments({name: {$eq: name}}));
   }
 
-  async getForm(nameOrId: string) {
+  getForm(nameOrId: string) {
     return this.formModel
       .findOne({
         deleted: {$eq: null},
@@ -114,13 +114,13 @@ export class FormioDatabase {
     return this.saveForm(mapper.mapToImport(form));
   }
 
-  async saveForm(form: FormioForm) {
+  saveForm(form: FormioForm) {
     form = new this.formModel(omit(form, ["__v"]) as any);
 
     return this.formModel.findOneAndUpdate({_id: form._id}, form, {upsert: true, new: true});
   }
 
-  async getSubmissions<Data>(
+  getSubmissions<Data>(
     query: FilterQuery<MongooseModel<FormioSubmission<Data>>> = {}
   ): Promise<MongooseDocument<FormioSubmission<Data>>[]> {
     return this.submissionModel.find({
@@ -140,7 +140,7 @@ export class FormioDatabase {
     return this.saveSubmission(mapper.mapToImport(submission));
   }
 
-  async saveSubmission<Data = any>(submission: Partial<FormioSubmission<Data>>) {
+  saveSubmission<Data = any>(submission: Partial<FormioSubmission<Data>>) {
     submission = new this.submissionModel(omit(submission, ["__v"]));
 
     return this.submissionModel.findOneAndUpdate(

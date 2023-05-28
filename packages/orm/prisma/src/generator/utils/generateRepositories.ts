@@ -1,11 +1,11 @@
 import {DMMF} from "@prisma/generator-helper";
-import {ClassDeclaration, Project, Scope} from "ts-morph";
 import {toMap} from "@tsed/core";
+import {camelCase, pascalCase} from "change-case";
 import path from "path";
+import pluralize from "pluralize";
+import {ClassDeclaration, Project, Scope} from "ts-morph";
 import {DmmfModel} from "../domain/DmmfModel";
 import {generateOutputsBarrelFile} from "./generateOutputsBarrelFile";
-import pluralize from "pluralize";
-import {pascalCase, camelCase} from "change-case";
 
 interface MethodOptions {
   repository: ClassDeclaration;
@@ -13,12 +13,13 @@ interface MethodOptions {
   model: string;
   returnType?: string | undefined;
   hasQuestionToken?: boolean;
+  isAsync?: boolean;
 }
 
-function addDelegatedMethod({name, hasQuestionToken, repository, model, returnType}: MethodOptions) {
+function addDelegatedMethod({name, hasQuestionToken, repository, model, returnType, isAsync = true}: MethodOptions) {
   const method = repository.addMethod({
     name: name,
-    isAsync: true,
+    isAsync,
     returnType: returnType ? `Promise<${returnType}>` : undefined,
     parameters: [
       {
@@ -179,19 +180,22 @@ export function generateRepositories(dmmf: DMMF.Document, project: Project, base
     addDelegatedMethod({
       repository,
       name: "deleteMany",
-      model: model.name
+      model: model.name,
+      isAsync: false
     });
 
     addDelegatedMethod({
       repository,
       name: "updateMany",
-      model: model.name
+      model: model.name,
+      isAsync: false
     });
 
     addDelegatedMethod({
       repository,
       name: "aggregate",
-      model: pascalCase(model.name)
+      model: pascalCase(model.name),
+      isAsync: false
     });
 
     return name;

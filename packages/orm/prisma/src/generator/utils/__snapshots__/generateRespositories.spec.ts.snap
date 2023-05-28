@@ -60,15 +60,15 @@ export class PostsRepository {
     return this.deserialize<PostModel>(obj);
   }
 
-  async deleteMany(args: Prisma.PostDeleteManyArgs) {
+  deleteMany(args: Prisma.PostDeleteManyArgs) {
     return this.collection.deleteMany(args)
   }
 
-  async updateMany(args: Prisma.PostUpdateManyArgs) {
+  updateMany(args: Prisma.PostUpdateManyArgs) {
     return this.collection.updateMany(args)
   }
 
-  async aggregate(args: Prisma.PostAggregateArgs) {
+  aggregate(args: Prisma.PostAggregateArgs) {
     return this.collection.aggregate(args)
   }
 }
@@ -135,15 +135,15 @@ export class UsersRepository {
     return this.deserialize<UserModel>(obj);
   }
 
-  async deleteMany(args: Prisma.UserDeleteManyArgs) {
+  deleteMany(args: Prisma.UserDeleteManyArgs) {
     return this.collection.deleteMany(args)
   }
 
-  async updateMany(args: Prisma.UserUpdateManyArgs) {
+  updateMany(args: Prisma.UserUpdateManyArgs) {
     return this.collection.updateMany(args)
   }
 
-  async aggregate(args: Prisma.UserAggregateArgs) {
+  aggregate(args: Prisma.UserAggregateArgs) {
     return this.collection.aggregate(args)
   }
 }

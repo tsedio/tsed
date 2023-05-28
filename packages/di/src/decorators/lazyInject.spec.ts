@@ -25,7 +25,7 @@ describe("LazyInject", () => {
   it("should throw an error when token isn't a valid provider", async () => {
     @Injectable()
     class MyInjectable {
-      @LazyInject("TKO", async () => await import("./__mock__/lazy.nodefault.module"))
+      @LazyInject("TKO", () => import("./__mock__/lazy.nodefault.module"))
       lazy?: Promise<MyLazyModule>;
     }
 

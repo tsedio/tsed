@@ -33,7 +33,7 @@ class PlatformCustom extends FakeAdapter {
     });
   }
 
-  static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+  static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     return PlatformBuilder.build(module, {
       ...settings,
       adapter: PlatformCustom

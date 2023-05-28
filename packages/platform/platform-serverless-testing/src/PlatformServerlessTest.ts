@@ -160,7 +160,7 @@ export class PlatformServerlessTest extends DITest {
     {server, ...settings}: PlatformBuilderSettings<any>
   ): () => Promise<any>;
   static bootstrap(serverless: any, {server, ...settings}: PlatformBuilderSettings<any>) {
-    return async function before(): Promise<void> {
+    return function before(): Promise<void> {
       settings = DITest.configure(settings);
 
       const isServerlessHttp = nameOf(serverless).includes("Http");

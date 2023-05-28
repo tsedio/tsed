@@ -34,7 +34,7 @@ describe("Agenda integration", () => {
       await agenda._db.close();
     });
 
-    it("should have job definitions", async () => {
+    it("should have job definitions", () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
       expect(Object.keys(agenda._definitions)).toContain("test3");
     });
@@ -62,7 +62,7 @@ describe("Agenda integration", () => {
     });
     afterAll(() => TestMongooseContext.reset());
 
-    it("should not have job definitions", async () => {
+    it("should not have job definitions", () => {
       const agenda = PlatformTest.injector.get(AgendaService)!;
       expect(agenda._definitions).toBeUndefined();
     });

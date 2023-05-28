@@ -15,7 +15,7 @@ export class AnyToPromiseWithCtx extends AnyToPromise {
     return $ctx?.isDone() || super.isDone();
   }
 
-  async call(cb: Function): Promise<AnyPromiseResult<any>> {
+  call(cb: Function): Promise<AnyPromiseResult<any>> {
     return super.call(() => cb(this));
   }
 

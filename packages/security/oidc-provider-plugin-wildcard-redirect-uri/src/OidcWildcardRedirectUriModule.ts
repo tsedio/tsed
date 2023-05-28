@@ -27,7 +27,7 @@ export class OidcWildcardRedirectUriModule {
 
   constructor(@Inject(OIDC_PROVIDER_NODE_MODULE) protected module: OIDC_PROVIDER_NODE_MODULE) {}
 
-  async $onCreateOIDC(provider: Provider) {
+  $onCreateOIDC(provider: Provider) {
     if (this.enabled) {
       const {redirectUriAllowed} = provider.Client.prototype;
       provider.Client.prototype.redirectUriAllowed = wildcardRedirectUriAllowed(redirectUriAllowed);
@@ -36,7 +36,7 @@ export class OidcWildcardRedirectUriModule {
     }
   }
 
-  async $alterOidcConfiguration(config: OidcSettings): Promise<OidcSettings> {
+  $alterOidcConfiguration(config: OidcSettings): Promise<OidcSettings> {
     if (this.enabled) {
       const actualProperties = config?.extraClientMetadata?.properties || [];
 
@@ -46,7 +46,7 @@ export class OidcWildcardRedirectUriModule {
       };
     }
 
-    return config;
+    return Promise.resolve(config);
   }
 
   validator(ctx: KoaContextWithOIDC, key: string, value: any) {

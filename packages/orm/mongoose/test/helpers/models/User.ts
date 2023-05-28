@@ -29,8 +29,9 @@ export class UserModuleData {
 
   next();
 })
-@PreHook("save", async (user: TestUser) => {
+@PreHook("save", (user: TestUser) => {
   user.pre = "hello pre";
+  return Promise.resolve();
 })
 @PostHook("save", (user: TestUser, next: MongooseNextCB): void => {
   user.post = "hello post";

@@ -8,7 +8,7 @@ export type OBJECTION_CONNECTION = Knex<any, unknown[]>;
 registerProvider({
   provide: OBJECTION_CONNECTION,
   deps: [Configuration],
-  async useAsyncFactory(configuration: Configuration) {
+  useAsyncFactory(configuration: Configuration) {
     const connectionOptions = configuration.get<Knex.Config>("knex")!;
 
     if (connectionOptions) {
@@ -20,6 +20,6 @@ registerProvider({
       }
     }
 
-    return {};
+    return Promise.resolve({});
   }
 });

@@ -538,7 +538,7 @@ export class InjectorService extends Container {
    * @param args List of the parameters to give to each service.
    * @returns {Promise<any[]>} A list of promises.
    */
-  public async emit(eventName: string, ...args: any[]) {
+  public emit(eventName: string, ...args: any[]) {
     return this.#hooks.asyncEmit(eventName, args);
   }
 
@@ -556,12 +556,12 @@ export class InjectorService extends Container {
    * @param value
    * @param args
    */
-  public async alterAsync<T = any>(eventName: string, value: any, ...args: any[]): Promise<T> {
+  public alterAsync<T = any>(eventName: string, value: any, ...args: any[]): Promise<T> {
     return this.#hooks.asyncAlter(eventName, value, args);
   }
 
-  async destroy() {
-    await this.emit("$onDestroy");
+  destroy() {
+    return this.emit("$onDestroy");
   }
 
   protected ensureProvider(token: TokenProvider): Provider | undefined {

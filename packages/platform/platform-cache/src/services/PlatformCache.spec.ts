@@ -71,8 +71,8 @@ describe("PlatformCache", () => {
 
       expect(await cacheManager.get("key")).toBeUndefined();
 
-      const result = await cacheManager.wrap("key", async () => {
-        return "valuePromised";
+      const result = await cacheManager.wrap("key", () => {
+        return Promise.resolve("valuePromised");
       });
 
       expect(result).toBe("valuePromised");
@@ -116,14 +116,14 @@ describe("PlatformCache", () => {
 
       expect(await cacheManager.get("key")).toBeUndefined();
 
-      const result = await cacheManager.wrap("key", async () => {
-        return "valuePromised";
+      const result = await cacheManager.wrap("key", () => {
+        return Promise.resolve("valuePromised");
       });
 
       expect(result).toBe("valuePromised");
     });
 
-    it("should return the calculated calculateTTL", async () => {
+    it("should return the calculated calculateTTL", () => {
       const cacheManager = PlatformTest.get<PlatformCache>(PlatformCache);
 
       expect(cacheManager.calculateTTL({}, 400)).toBe(400);
@@ -180,6 +180,15 @@ describe("PlatformCache", () => {
         const result = await cacheManager.ttl("test");
         expect(result).toEqual(10);
       });
+
+      it("return undefined when store isn't defined", async () => {
+        const cacheManager: any = PlatformTest.get<PlatformCache>(PlatformCache);
+
+        delete cacheManager.cache.store.ttl;
+
+        const result = await cacheManager.ttl("test");
+        expect(result).toEqual(undefined);
+      });
     });
     describe("getCachedObject()", () => {
       it("should get key from cache", async () => {
@@ -232,7 +241,7 @@ describe("PlatformCache", () => {
 
         expect(cacheManager.isForceRefresh()).toEqual(false);
 
-        await cacheManager.refresh(async () => {
+        await cacheManager.refresh(() => {
           expect(cacheManager.isForceRefresh()).toEqual(true);
         });
 
@@ -275,8 +284,8 @@ describe("PlatformCache", () => {
 
       expect(await cacheManager.get("key")).toBeUndefined();
 
-      const result = await cacheManager.wrap("key", async () => {
-        return "valuePromised";
+      const result = await cacheManager.wrap("key", () => {
+        return Promise.resolve("valuePromised");
       });
 
       expect(result).toBe("valuePromised");
@@ -307,9 +316,10 @@ describe("PlatformCache", () => {
       await cacheManager.reset();
 
       expect(await cacheManager.get("key")).toBeUndefined();
+      expect(await cacheManager.keys()).toEqual([]);
 
-      const result = await cacheManager.wrap("key", async () => {
-        return "valuePromised";
+      const result = await cacheManager.wrap("key", () => {
+        return Promise.resolve("valuePromised");
       });
 
       expect(result).toBe("valuePromised");

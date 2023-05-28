@@ -74,7 +74,7 @@ export class VueEngine extends Engine {
     };
   }
 
-  protected async $compileFile(file: string, options: EngineOptions) {
+  protected $compileFile(file: string, options: EngineOptions) {
     // prontoRenderer assume that the filepath is relative to a passed "rootpath"
     // and if you don't pass a rootpath it will try to find one
     // based on its current rootDir
@@ -119,7 +119,7 @@ export class VueEngine extends Engine {
       };
     }
 
-    return (options: EngineOptions) => {
+    return Promise.resolve((options: EngineOptions) => {
       return prontoRenderer.RenderToString(
         filepath,
         {},
@@ -127,7 +127,7 @@ export class VueEngine extends Engine {
           propsData: options
         }
       );
-    };
+    });
   }
 
   private async getComponent(fullPath: string, template: string, options: EngineOptions) {
@@ -147,10 +147,10 @@ export class VueEngine extends Engine {
     };
   }
 
-  private async renderComponent(Component: any, options: EngineOptions) {
+  private renderComponent(Component: any, options: EngineOptions) {
     let Factory = this.engine.extend(Component);
     let instance = new Factory({propsData: options});
 
-    return this.#renderToString(instance);
+    return Promise.resolve(this.#renderToString(instance));
   }
 }

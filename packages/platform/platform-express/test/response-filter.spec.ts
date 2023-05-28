@@ -27,19 +27,19 @@ const utils = PlatformTestSdk.create({
 class TestPageableCtrl {
   @Get("/scenario-1")
   @Returns(200).ContentType("image/png")
-  async scenario1() {
+  scenario1() {
     const raw = "...";
     // response.setHeader('Content-Type', 'image/png');
 
-    return Buffer.from(raw, "base64");
+    return Promise.resolve(Buffer.from(raw, "base64"));
   }
 
   @Get("/scenario-2")
-  async scenario2(@Res() response: ServerResponse) {
+  scenario2(@Res() response: ServerResponse) {
     const raw = "...";
     response.setHeader("Content-Type", "image/png");
 
-    return Buffer.from(raw, "base64");
+    return Promise.resolve(Buffer.from(raw, "base64"));
   }
 }
 

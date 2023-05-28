@@ -27,8 +27,8 @@ export class ListTasks {
 class ListTasksController {
   @Get("/:id")
   @Returns(200, ListTasks)
-  async get(@PathParams("id") @ObjectID() id: string): Promise<ListTasks> {
-    return new ListTasks();
+  get(@PathParams("id") @ObjectID() id: string): Promise<ListTasks> {
+    return Promise.resolve(new ListTasks());
   }
 }
 

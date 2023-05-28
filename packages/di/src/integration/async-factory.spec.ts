@@ -12,11 +12,12 @@ describe("DI", () => {
 
     registerProvider({
       provide: ASYNC_FACTORY,
+      // eslint-disable-next-line require-await
       useAsyncFactory() {
-        return Promise.resolve({
+        return {
           connection: true,
           close() {}
-        });
+        };
       },
       hooks: {
         $onDestroy(instance: any) {

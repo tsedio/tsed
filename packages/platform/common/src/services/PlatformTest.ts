@@ -92,7 +92,7 @@ export class PlatformTest extends DITest {
         deps.push(injector.has(target) ? injector.get(target) : await injector.invoke(target));
       }
 
-      return await func(...deps);
+      return func(...deps);
     };
   }
 

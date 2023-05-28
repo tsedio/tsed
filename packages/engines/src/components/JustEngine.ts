@@ -12,12 +12,12 @@ export class JustEngine extends Engine {
     return (options: any) => compile("page", options);
   }
 
-  protected async $compileFile(file: string, options: any) {
+  protected $compileFile(file: string, options: any) {
     const JUST = this.engine;
     const engine = new JUST(options);
     engine.configure({useCache: options.cache});
     const compile = promisify(engine.render.bind(engine));
 
-    return (options: any) => compile(file, options);
+    return Promise.resolve((options: any) => compile(file, options));
   }
 }

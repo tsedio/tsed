@@ -38,22 +38,22 @@ class MyErrorModel {
 @Controller("/ajv-errors")
 class TestAjvErrors {
   @Post("/required-error")
-  async scenario1(@BodyParams() model: MyModel) {
+  scenario1(@BodyParams() model: MyModel) {
     return model;
   }
 
   @Post("/type-error")
-  async scenario2(@Required() @BodyParams(MyTypeErrorModel) model: MyTypeErrorModel) {
+  scenario2(@Required() @BodyParams(MyTypeErrorModel) model: MyTypeErrorModel) {
     return model;
   }
 
   @Post("/default-error")
-  async scenario3(@BodyParams(MyModel) model: MyModel) {
+  scenario3(@BodyParams(MyModel) model: MyModel) {
     return model;
   }
 
   @Post("/error-msg")
-  async scenario4(@BodyParams(MyErrorModel) model: MyErrorModel) {
+  scenario4(@BodyParams(MyErrorModel) model: MyErrorModel) {
     return model;
   }
 }

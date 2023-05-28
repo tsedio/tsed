@@ -86,7 +86,7 @@ export class TypeGraphQLService {
    * Create a new type-graphql Schema and bind it with Ts.ED injector.
    * @param buildSchemaOptions
    */
-  async createSchema(buildSchemaOptions: BuildSchemaOptions) {
+  createSchema(buildSchemaOptions: BuildSchemaOptions) {
     return buildSchema(buildSchemaOptions);
   }
 

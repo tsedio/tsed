@@ -112,7 +112,7 @@ export class AlterActions implements AlterHook {
       if (data !== undefined) {
         $ctx.data = data;
 
-        return await this.flush($ctx.data, $ctx);
+        return this.flush($ctx.data, $ctx);
       }
 
       return true;

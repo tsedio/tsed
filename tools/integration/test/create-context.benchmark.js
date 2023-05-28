@@ -31,7 +31,7 @@ async function bootstrap() {
   perf.start();
 
   for (let i = 0; i < 100000; i++) {
-    await invokeContext(createEvent());
+    invokeContext(createEvent());
     // perf.log("Iteration -", i);
   }
 

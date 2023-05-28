@@ -692,7 +692,7 @@ describe("generateSpec()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        async method(@In("body") @CollectionOf(Product) products: Product[]) {
+        method(@In("body") @CollectionOf(Product) products: Product[]) {
           return null;
         }
       }
@@ -761,7 +761,7 @@ describe("generateSpec()", () => {
 
       class Controller {
         @OperationPath("POST", "/")
-        async method(@In("body") @CollectionOf(Product) products: Map<string, Product>) {
+        method(@In("body") @CollectionOf(Product) products: Map<string, Product>) {
           return null;
         }
       }

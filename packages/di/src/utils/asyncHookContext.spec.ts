@@ -8,8 +8,8 @@ describe("asyncHookContext", () => {
     const req = {type: "req"};
     const res = {type: "res"};
 
-    async function next(res: any, req: any) {
-      return getContext();
+    function next(res: any, req: any) {
+      return Promise.resolve(getContext());
     }
 
     function nextContext(res: any, req: any, next: any) {
@@ -44,8 +44,8 @@ describe("asyncHookContext", () => {
     const req = {type: "req"};
     const res = {type: "res"};
 
-    async function next(res: any, req: any) {
-      return getContext();
+    function next(res: any, req: any) {
+      return Promise.resolve(getContext());
     }
 
     function nextContext(res: any, req: any, next: any) {
@@ -78,7 +78,7 @@ describe("asyncHookContext", () => {
     const req = {type: "req"};
     const res = {type: "res"};
 
-    async function next(res: any, req: any) {
+    function next(res: any, req: any) {
       return new Promise((resolve) => {
         setTimeout(() => {
           resolve(getContext());

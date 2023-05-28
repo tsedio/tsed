@@ -15,7 +15,7 @@ import {LoginInteraction} from "../../interactions/LoginInteraction";
 })
 export class InteractionsCtrl {
   @Get("/:interaction?")
-  async prompt(@PathParams("interaction") interaction: string, @OidcCtx() oidcCtx: OidcCtx) {
+  prompt(@PathParams("interaction") interaction: string, @OidcCtx() oidcCtx: OidcCtx) {
     return oidcCtx.runInteraction(interaction);
   }
 }

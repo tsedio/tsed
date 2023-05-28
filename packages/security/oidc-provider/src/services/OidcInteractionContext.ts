@@ -91,11 +91,21 @@ export class OidcInteractionContext {
     return raw;
   }
 
-  async interactionFinished(result: InteractionResults, options: {mergeWithLastSubmission?: boolean} = {mergeWithLastSubmission: false}) {
+  interactionFinished(
+    result: InteractionResults,
+    options: {
+      mergeWithLastSubmission?: boolean;
+    } = {mergeWithLastSubmission: false}
+  ) {
     return this.oidcProvider.get().interactionFinished(this.$ctx.getReq(), this.$ctx.getRes(), result, options);
   }
 
-  async interactionResult(result: InteractionResults, options: {mergeWithLastSubmission?: boolean} = {mergeWithLastSubmission: false}) {
+  interactionResult(
+    result: InteractionResults,
+    options: {
+      mergeWithLastSubmission?: boolean;
+    } = {mergeWithLastSubmission: false}
+  ) {
     return this.oidcProvider.get().interactionResult(this.$ctx.getReq(), this.$ctx.getRes(), result, options);
   }
 
@@ -105,7 +115,7 @@ export class OidcInteractionContext {
     const newClient = serialize(client, {useAlias: false, groups: ["render"]});
 
     // remove client secret from
-    delete newClient.clientSecret;
+    delete (newClient as any).clientSecret;
 
     return {
       client: newClient,
@@ -121,27 +131,27 @@ export class OidcInteractionContext {
     };
   }
 
-  async render(view: string, result: any): Promise<string> {
+  render(view: string, result: any): Promise<string> {
     return this.$ctx.response.render(view, result);
   }
 
-  async save(ttl: number): Promise<string> {
+  save(ttl: number): Promise<string> {
     return this.raw.save(ttl);
   }
 
-  async findClient(clientId: string = this.params.client_id): Promise<OidcClient | undefined> {
+  findClient(clientId: string = this.params.client_id): Promise<OidcClient | undefined> {
     const key = `$client:${clientId}`;
 
     return this.$ctx.cacheAsync(key, () => this.oidcProvider.get().Client.find(clientId));
   }
 
-  async findAccount(sub?: string, token?: any): Promise<Account | undefined> {
+  findAccount(sub?: string, token?: any): Promise<Account | undefined> {
     if (!sub && this.session) {
       sub = this.session?.accountId as any;
     }
 
     if (!sub) {
-      return;
+      return Promise.resolve(undefined);
     }
 
     const key = `$account:${sub}`;
@@ -151,19 +161,21 @@ export class OidcInteractionContext {
     }) as any);
   }
 
-  async getGrant(): Promise<InstanceType<Provider["Grant"]>> {
+  getGrant(): Promise<InstanceType<Provider["Grant"]>> {
     const {Grant} = this.oidcProvider.get() as any;
 
     if (this.grantId) {
       // we'll be modifying existing grant in existing session
       // @ts-ignore
-      return await Grant.find(this.grantId);
+      return Grant.find(this.grantId);
     }
 
-    return new Grant({
-      accountId: this.session?.accountId,
-      clientId: this.params.client_id
-    });
+    return Promise.resolve(
+      new Grant({
+        accountId: this.session?.accountId,
+        clientId: this.params.client_id
+      })
+    );
   }
 
   checkInteractionName(name: string) {

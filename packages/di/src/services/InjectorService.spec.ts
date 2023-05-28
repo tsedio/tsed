@@ -213,7 +213,7 @@ describe("InjectorService", () => {
       afterAll(() => {
         jest.resetAllMocks();
       });
-      it("should invoke the provider from container", async () => {
+      it("should invoke the provider from container", () => {
         // GIVEN
         const token = class Test {};
         const provider = new Provider<any>(token);
@@ -321,12 +321,12 @@ describe("InjectorService", () => {
         // GIVEN
         const tokenChild = Symbol.for("TokenChildFactory");
         const providerChild = new Provider<any>(tokenChild);
-        providerChild.useAsyncFactory = async (dep: any) => "test async";
+        providerChild.useAsyncFactory = (dep: any) => Promise.resolve("test async");
 
         const token = Symbol.for("TokenFactory");
         const provider = new Provider<any>(token);
         provider.deps = [tokenChild];
-        provider.useAsyncFactory = async (dep: any) => ({factory: dep + " factory"});
+        provider.useAsyncFactory = (dep: any) => Promise.resolve({factory: dep + " factory"});
         provider.hooks = {
           $onDestroy: () => {}
         };
@@ -361,18 +361,18 @@ describe("InjectorService", () => {
         // GIVEN
         const tokenChild = Symbol.for("TokenChildFactory");
         const providerChild = new Provider<any>(tokenChild);
-        providerChild.useAsyncFactory = async (dep: any) => "test async";
+        providerChild.useAsyncFactory = (dep: any) => Promise.resolve("test async");
 
         const token = Symbol.for("TokenFactory");
         const provider = new Provider<any>(token);
         provider.deps = [tokenChild];
-        provider.useAsyncFactory = async (dep: any) => ({factory: dep + " factory"});
+        provider.useAsyncFactory = (dep: any) => Promise.resolve({factory: dep + " factory"});
 
         const token2 = Symbol.for("TokenFactory2");
         const provider2 = new Provider<any>(token2);
         provider2.deps = [token];
-        provider2.useAsyncFactory = async (dep: any) => {
-          return {factory: dep.factory + " factory2"};
+        provider2.useAsyncFactory = (dep: any) => {
+          return Promise.resolve({factory: dep.factory + " factory2"});
         };
 
         const injector = new InjectorService();
@@ -391,7 +391,7 @@ describe("InjectorService", () => {
       });
     });
     describe("when provider is an unknown provider", () => {
-      it("should invoke the class from given parameter", async () => {
+      it("should invoke the class from given parameter", () => {
         // GIVEN
         const token = class {};
 
@@ -405,7 +405,7 @@ describe("InjectorService", () => {
       });
     });
     describe("when one of dependencies is undefined", () => {
-      it("should throw InjectionError > UndefinedTokenError", async () => {
+      it("should throw InjectionError > UndefinedTokenError", () => {
         // GIVEN
         const token2 = class Ctrl {
           constructor() {}
@@ -440,7 +440,7 @@ describe("InjectorService", () => {
           "Injection failed on Test\nOrigin: Unable to inject dependency. Given token is undefined. Have you enabled emitDecoratorMetadata in your tsconfig.json or decorated your class with @Injectable, @Service, ... decorator ?"
         );
       });
-      it("should throw InjectionError > Object", async () => {
+      it("should throw InjectionError > Object", () => {
         // GIVEN
         const token2 = class Ctrl {
           constructor() {}
@@ -475,7 +475,7 @@ describe("InjectorService", () => {
       });
     });
     describe("when error occur", () => {
-      it("should throw InjectionError", async () => {
+      it("should throw InjectionError", () => {
         // GIVEN
         const token1 = Symbol.for("TokenValue");
         const token2 = Symbol.for("TokenFactory");
@@ -921,8 +921,8 @@ describe("InjectorService", () => {
     it("should alter value", async () => {
       @Injectable()
       class Test {
-        async $alterValue(value: any) {
-          return "alteredValue";
+        $alterValue(value: any) {
+          return Promise.resolve("alteredValue");
         }
       }
 

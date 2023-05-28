@@ -17,14 +17,14 @@ describe("ViteServer", () => {
   });
 
   describe("with default options - dev mode", () => {
-    beforeEach(async () =>
+    beforeEach(() =>
       PlatformTest.create({
         vite: {}
       })
     );
-    afterEach(async () => PlatformTest.reset());
+    afterEach(() => PlatformTest.reset());
 
-    it("should load vite dev server", async () => {
+    it("should load vite dev server", () => {
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
 
       expect(viteDevServer.middlewares).toEqual("middlewares");
@@ -53,7 +53,7 @@ describe("ViteServer", () => {
     });
   });
   describe("with defined options - dev mode", () => {
-    beforeEach(async () =>
+    beforeEach(() =>
       PlatformTest.create({
         vite: {
           logLevel: "error",
@@ -64,7 +64,7 @@ describe("ViteServer", () => {
         }
       })
     );
-    afterEach(async () => PlatformTest.reset());
+    afterEach(() => PlatformTest.reset());
 
     it("should load vite dev server", () => {
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
@@ -80,7 +80,7 @@ describe("ViteServer", () => {
     });
   });
   describe("with default options - prod mode", () => {
-    beforeEach(async () =>
+    beforeEach(() =>
       PlatformTest.create({
         env: Env.PROD,
         vite: {},
@@ -89,7 +89,7 @@ describe("ViteServer", () => {
         }
       })
     );
-    afterEach(async () => PlatformTest.reset());
+    afterEach(() => PlatformTest.reset());
 
     it("should load sirv to expose statics files", () => {
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);
@@ -102,7 +102,7 @@ describe("ViteServer", () => {
     });
   });
   describe("with defined options - prod mode", () => {
-    beforeEach(async () =>
+    beforeEach(() =>
       PlatformTest.create({
         env: Env.PROD,
         logger: {
@@ -113,7 +113,7 @@ describe("ViteServer", () => {
         }
       })
     );
-    afterEach(async () => PlatformTest.reset());
+    afterEach(() => PlatformTest.reset());
 
     it("should load sirv to expose statics files", () => {
       const viteDevServer = PlatformTest.get<VITE_SERVER>(VITE_SERVER);

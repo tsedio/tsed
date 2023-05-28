@@ -104,7 +104,7 @@ export class PlatformServerless {
     return this.injector.destroy();
   }
 
-  public async init() {
+  public init() {
     if (!this._promise) {
       this._promise = this.loadInjector().then(() => this.ready());
     }

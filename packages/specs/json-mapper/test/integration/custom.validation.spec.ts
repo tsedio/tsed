@@ -24,7 +24,7 @@ function RequiredIf(cb: any): PropertyDecorator {
 }
 
 describe("CustomValidationDecorator", () => {
-  it("should deserialize object correctly", async () => {
+  it("should deserialize object correctly", () => {
     // GIVEN
     const company = {
       name: "tsed",

@@ -10,7 +10,7 @@ import {resolveControllers} from "./resolveControllers";
 class TestCtrl {}
 
 describe("resolveControllers", () => {
-  it("should load providers and merge configuration", async () => {
+  it("should load providers and merge configuration", () => {
     const configuration = {
       mount: {
         "/rest": [TestCtrl]

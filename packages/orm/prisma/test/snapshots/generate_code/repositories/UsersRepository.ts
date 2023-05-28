@@ -1,9 +1,9 @@
-import { isArray } from "@tsed/core";
-import { deserialize } from "@tsed/json-mapper";
-import { Injectable, Inject } from "@tsed/di";
-import { PrismaService } from "../services/PrismaService";
-import { Prisma, User } from "../client";
-import { UserModel } from "../models";
+import {isArray} from "@tsed/core";
+import {deserialize} from "@tsed/json-mapper";
+import {Injectable, Inject} from "@tsed/di";
+import {PrismaService} from "../services/PrismaService";
+import {Prisma, User} from "../client";
+import {UserModel} from "../models";
 
 @Injectable()
 export class UsersRepository {
@@ -11,15 +11,15 @@ export class UsersRepository {
   protected prisma: PrismaService;
 
   get collection() {
-    return this.prisma.user
+    return this.prisma.user;
   }
 
   get groupBy() {
-    return this.collection.groupBy.bind(this.collection)
+    return this.collection.groupBy.bind(this.collection);
   }
 
-  protected deserialize<T>(obj: null | User | User[]): T {
-    return deserialize<T>(obj, { type: UserModel, collectionType: isArray(obj) ? Array : undefined })
+  deleteMany(args: Prisma.UserDeleteManyArgs) {
+    return this.collection.deleteMany(args);
   }
 
   async findUnique(args: Prisma.UserFindUniqueArgs): Promise<UserModel | null> {
@@ -57,15 +57,15 @@ export class UsersRepository {
     return this.deserialize<UserModel>(obj);
   }
 
-  async deleteMany(args: Prisma.UserDeleteManyArgs) {
-    return this.collection.deleteMany(args)
+  protected deserialize<T>(obj: null | User | User[]): T {
+    return deserialize<T>(obj, {type: UserModel, collectionType: isArray(obj) ? Array : undefined});
   }
 
-  async updateMany(args: Prisma.UserUpdateManyArgs) {
-    return this.collection.updateMany(args)
+  updateMany(args: Prisma.UserUpdateManyArgs) {
+    return this.collection.updateMany(args);
   }
 
-  async aggregate(args: Prisma.UserAggregateArgs) {
-    return this.collection.aggregate(args)
+  aggregate(args: Prisma.UserAggregateArgs) {
+    return this.collection.aggregate(args);
   }
 }
