@@ -6,15 +6,15 @@ import {PlatformTestingSdkOpts} from "../interfaces";
 @Controller("/path-params")
 class TestPathParamsCtrl {
   @Get("/scenario-1/:scope/:scopeId")
-  async testScenario1(@PathParams("scope") scope: string) {
+  testScenario1(@PathParams("scope") scope: string) {
     // Here scope will be {0: 'a', 1: 'b', 2: 'c'} instead of 'abc' in version 5.47.0
     expect(scope).toEqual("abc");
 
-    return scope;
+    return Promise.resolve(scope);
   }
 
   @Get("/scenario-2/:scope/:scopeId")
-  async testScenario2(@PathParams("scope") scope: any) {
+  testScenario2(@PathParams("scope") scope: any) {
     // This way it works in version 5.47.0
     expect(scope).toEqual("abc");
 
@@ -22,15 +22,15 @@ class TestPathParamsCtrl {
   }
 
   @Post("/scenario-3/:scope/:scopeId")
-  async testScenario3(@PathParams("scope") scope: string): Promise<any[]> {
+  testScenario3(@PathParams("scope") scope: string): Promise<any[]> {
     expect(scope).toEqual("abc");
 
     // Here the function will return  {0: 'a', 1: 'b', 2: 'c'} instead of ['a','b','c']  in version 5.44.13
-    return ["a", "b", "c"];
+    return Promise.resolve(["a", "b", "c"]);
   }
 
   @Post("/scenario-4/:scope/:scopeId")
-  async testScenario4(@PathParams("scope") scope: string, @Context() ctx: Context) {
+  testScenario4(@PathParams("scope") scope: string, @Context() ctx: Context) {
     expect(scope).toEqual("abc");
 
     // This way it works  in version 5.44.13
@@ -38,12 +38,12 @@ class TestPathParamsCtrl {
   }
 
   @Get("/scenario-5/:scopeId")
-  async testScenario5(@PathParams("scopeId") @Pattern(/^[0-9a-fA-F]{24}$/) scopeId: string, @Context() ctx: Context) {
+  testScenario5(@PathParams("scopeId") @Pattern(/^[0-9a-fA-F]{24}$/) scopeId: string, @Context() ctx: Context) {
     return "test";
   }
 
   @Get("/scenario-6/:id")
-  async testScenario6(@PathParams("id") id: number) {
+  testScenario6(@PathParams("id") id: number) {
     return {id};
   }
 }

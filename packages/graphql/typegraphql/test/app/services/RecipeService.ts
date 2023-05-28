@@ -13,11 +13,11 @@ export class RecipeService {
     })
   ];
 
-  async findById(id: string) {
-    return this.recipes.find((item) => item.id === id);
+  findById(id: string) {
+    return Promise.resolve(this.recipes.find((item) => item.id === id));
   }
 
-  async findAll(options: any) {
-    return this.recipes;
+  findAll(options: any) {
+    return Promise.resolve(this.recipes);
   }
 }

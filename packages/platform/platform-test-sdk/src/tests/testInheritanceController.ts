@@ -19,7 +19,7 @@ export class BaseController<T extends {id: string}> {
 
   @Get("/:id")
   @Summary("Return an element by his resource")
-  async get(
+  get(
     @Description("Id of the resource")
     @PathParams("id")
     id: string
@@ -27,16 +27,16 @@ export class BaseController<T extends {id: string}> {
     const resource = this.resources.find((resource) => resource.id === id);
 
     if (!resource) {
-      throw new NotFound("Not found");
+      return Promise.reject(new NotFound("Not found"));
     }
 
-    return resource;
+    return Promise.resolve(resource);
   }
 
   @Get("/")
   @Summary("Return all elements from a service")
-  async list(): Promise<any[]> {
-    return this.resources;
+  list(): Promise<any[]> {
+    return Promise.resolve(this.resources);
   }
 }
 
@@ -60,7 +60,7 @@ export class ResourcesCtrl extends BaseController<Resource> {
 
   @Post("/")
   @Returns(201).Type(Resource)
-  async post(@BodyParams() resource: Resource) {
+  post(@BodyParams() resource: Resource) {
     resource.id = require("uuid").v4();
     this.resources.push(resource);
 

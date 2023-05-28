@@ -36,21 +36,21 @@ class BackAdminCtrl {
 class CalendarsController {
   @Get("/:id")
   @Returns(200, Calendar)
-  async get(@PathParams("id") @ObjectID() id: string): Promise<Calendar> {
-    return new Calendar({id, name: "test"});
+  get(@PathParams("id") @ObjectID() id: string): Promise<Calendar> {
+    return Promise.resolve(new Calendar({id, name: "test"}));
   }
 
   @Get("/")
   @Returns(200, Array).Of(Calendar)
-  async getAll(): Promise<Calendar[]> {
-    return [new Calendar({id: 1, name: "name"}), new Calendar({id: 2, name: "name"})];
+  getAll(): Promise<Calendar[]> {
+    return Promise.resolve([new Calendar({id: 1, name: "name"}), new Calendar({id: 2, name: "name"})]);
   }
 
   @Post("/csv")
   @Consumes("text/plain")
   @Returns(200, String).ContentType("text/plain")
-  async csv(@BodyParams() csvLines: string): Promise<string> {
-    return "";
+  csv(@BodyParams() csvLines: string): Promise<string> {
+    return Promise.resolve("");
   }
 
   @Get("/hidden")

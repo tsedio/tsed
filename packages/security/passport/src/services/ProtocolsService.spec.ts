@@ -15,8 +15,8 @@ describe("ProtocolsService", () => {
     }
   })
   class LocalProtocol {
-    async $beforeInstall(settings: any) {
-      return settings;
+    $beforeInstall(settings: any) {
+      return Promise.resolve(settings);
     }
 
     $onInstall() {}

@@ -39,7 +39,7 @@ describe("Agenda integration", () => {
       await agenda._db.close();
     });
 
-    it("should have job definitions", async () => {
+    it("should have job definitions", () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
       expect(Object.keys(agenda._definitions)).toEqual(["test-nsp.test", "test-nsp.customName"]);
     });
@@ -76,14 +76,14 @@ describe("Agenda integration", () => {
     });
     afterAll(() => TestMongooseContext.reset());
 
-    it("should not have job definitions", async () => {
+    it("should not have job definitions", () => {
       const agenda = PlatformTest.injector.get(AgendaService)!;
       expect(agenda._definitions).toBeUndefined();
     });
 
     it("should fail to schedule a job", async () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
-      await expect(async () => agenda.now("test-nsp.customName", {})).rejects.toThrowError(TypeError);
+      await expect(() => agenda.now("test-nsp.customName", {})).rejects.toThrowError(TypeError);
     });
   });
 
@@ -110,7 +110,7 @@ describe("Agenda integration", () => {
       await agenda._db.close();
     });
 
-    it("should not have job definitions", async () => {
+    it("should not have job definitions", () => {
       const agenda = PlatformTest.get<AgendaService>(AgendaService)!;
       expect(Object.keys(agenda._definitions)).toEqual([]);
     });

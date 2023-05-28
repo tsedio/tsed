@@ -4,7 +4,7 @@ import {Health} from "@tsed/terminus";
 @Injectable()
 class MongoClient {
   @Health("mongo")
-  async health() {
-    return "ok";
+  health() {
+    return Promise.resolve("ok");
   }
 }

@@ -61,7 +61,7 @@ class ResourcesCtrl {
 
   @Post("/")
   @Returns(201, TestUser).Groups("!creation")
-  async create(@BodyParams() @Groups("creation") user: TestUser) {
+  create(@BodyParams() @Groups("creation") user: TestUser) {
     return this.repository.create(user);
   }
 

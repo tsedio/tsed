@@ -15,7 +15,7 @@ export async function mockConnection(token: TokenProvider, name: string) {
   };
 }
 
-export async function mockConnections() {
+export function mockConnections() {
   return Promise.all(
     [...GlobalProviders.values()]
       .filter((provider) => provider.type === IOREDIS_CONNECTIONS)

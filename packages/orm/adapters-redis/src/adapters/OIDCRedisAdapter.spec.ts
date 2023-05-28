@@ -12,8 +12,7 @@ const REDIS_CONNECTION = Symbol.for("redis_connection");
 registerConnectionProvider({
   provide: REDIS_CONNECTION
 });
-
-async function createAdapterFixture(collectionName: string) {
+function createAdapterFixture(collectionName: string) {
   const adapter = IORedisTest.get<Adapters>(Adapters).invokeAdapter({
     collectionName,
     model: Object,

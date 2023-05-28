@@ -82,8 +82,8 @@ describe("PlatformHandler", () => {
       @Injectable()
       class TestService {
         @View("test")
-        async use() {
-          return "hello";
+        use() {
+          return Promise.resolve("hello");
         }
       }
 
@@ -207,8 +207,8 @@ describe("PlatformHandler", () => {
       @Injectable()
       class TestService {
         @Get("/")
-        async use() {
-          return "hello";
+        use() {
+          return Promise.resolve("hello");
         }
       }
 
@@ -245,8 +245,8 @@ describe("PlatformHandler", () => {
       @Injectable()
       class TestService {
         @Get("/")
-        async use() {
-          return "hello";
+        use() {
+          return Promise.resolve("hello");
         }
       }
 
@@ -275,8 +275,8 @@ describe("PlatformHandler", () => {
       @Injectable()
       class TestService {
         @Get("/")
-        async use() {
-          return "hello";
+        use() {
+          return Promise.resolve("hello");
         }
       }
 

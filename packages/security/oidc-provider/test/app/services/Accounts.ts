@@ -26,11 +26,11 @@ export class Accounts implements OidcAccountsMethods {
     }
   }
 
-  async findAccount(id: string, token: AuthorizationCode | AccessToken | DeviceCode | undefined) {
+  findAccount(id: string, token: AuthorizationCode | AccessToken | DeviceCode | undefined) {
     return this.adapter.findById(id);
   }
 
-  async authenticate(email: string, password: string) {
+  authenticate(email: string, password: string) {
     return this.adapter.findOne({email});
   }
 }

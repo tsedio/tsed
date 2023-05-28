@@ -65,7 +65,7 @@ export class FormioModule implements OnRoutesInit, OnReady {
     return this.init(deepClone(this.settings));
   }
 
-  async init(options: FormioConfig) {
+  init(options: FormioConfig) {
     return this.formio.init(options, this.hooks.getHooks());
   }
 
@@ -111,7 +111,7 @@ export class FormioModule implements OnRoutesInit, OnReady {
   }
 
   // istanbul ignore next
-  async $onReady(): Promise<void> {
+  $onReady() {
     if (this.formio.isInit() && "getBestHost" in this.injector.settings) {
       const {injector} = this;
       // @ts-ignore

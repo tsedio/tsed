@@ -412,13 +412,13 @@ describe("@Groups", () => {
       class MyController {
         @OperationPath("POST", "/")
         @Returns(201, MyModel).Groups("group.*")
-        async create(@In("body") @Groups("creation") payload: MyModel) {
+        create(@In("body") @Groups("creation") payload: MyModel) {
           return new MyModel();
         }
 
         @OperationPath("PUT", "/:id")
         @Returns(200, MyModel)
-        async update(@In("body") @Groups("group.*") payload: MyModel, @In("path") @Name("id") id: string) {
+        update(@In("body") @Groups("group.*") payload: MyModel, @In("path") @Name("id") id: string) {
           return new MyModel();
         }
       }
@@ -586,13 +586,13 @@ describe("@Groups", () => {
       class MyController {
         @OperationPath("POST", "/")
         @Returns(201, MyModel).Groups("group.*")
-        async create(@In("body") @Groups("CreatePayload", ["creation"]) payload: MyModel) {
+        create(@In("body") @Groups("CreatePayload", ["creation"]) payload: MyModel) {
           return new MyModel();
         }
 
         @OperationPath("PUT", "/:id")
         @Returns(200, MyModel)
-        async update(@In("body") @Groups("Complete", "group.*") payload: MyModel, @In("path") @Name("id") id: string) {
+        update(@In("body") @Groups("Complete", "group.*") payload: MyModel, @In("path") @Name("id") id: string) {
           return new MyModel();
         }
       }
@@ -606,13 +606,13 @@ describe("@Groups", () => {
       class MyController {
         @OperationPath("GET", "/")
         @Returns(201, MyModel).Groups("group.*")
-        async get(@In("query") @Groups("creation") payload: MyModel) {
+        get(@In("query") @Groups("creation") payload: MyModel) {
           return new MyModel();
         }
 
         @OperationPath("GET", "/all")
         @Returns(201, MyModel).Groups("group.*")
-        async getWithout(@QueryParams() payload: MyModel) {
+        getWithout(@QueryParams() payload: MyModel) {
           return new MyModel();
         }
       }
@@ -782,7 +782,7 @@ describe("@Groups", () => {
       class MyController {
         @OperationPath("POST", "/")
         @Returns(201, Array).Of(MyModel).Groups("group.*")
-        async createWithArray(@In("body") @Groups("creation") @CollectionOf(MyModel) payload: MyModel[]) {
+        createWithArray(@In("body") @Groups("creation") @CollectionOf(MyModel) payload: MyModel[]) {
           return [new MyModel()];
         }
       }
@@ -899,7 +899,7 @@ describe("@Groups", () => {
       class MyController {
         @OperationPath("POST", "/")
         @Returns(201, Array).Of(MyModel).Groups("Details", ["group.*"])
-        async createWithArray(@In("body") @Groups("Create", ["creation"]) @CollectionOf(MyModel) payload: MyModel[]) {
+        createWithArray(@In("body") @Groups("Create", ["creation"]) @CollectionOf(MyModel) payload: MyModel[]) {
           return [new MyModel()];
         }
       }

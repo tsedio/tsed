@@ -39,8 +39,10 @@ describe("PlatformTest", () => {
       class Test {
         called: boolean;
 
-        async $onInit() {
+        $onInit() {
           this.called = true;
+
+          return Promise.resolve();
         }
       }
 

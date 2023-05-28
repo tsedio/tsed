@@ -25,7 +25,7 @@ export class UsersRepository {
     }
   }
 
-  async authenticate(email: string, password: string) {
+  authenticate(email: string, password: string) {
     return this.adapter.findOne({email, password});
   }
 }

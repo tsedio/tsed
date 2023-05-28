@@ -73,7 +73,7 @@ export class PlatformParams {
     };
   }
 
-  async getArg<Context extends DIContext = DIContext>(scope: PlatformParamsScope, pipes: PipeMethods[], param: JsonParameterStore) {
+  getArg<Context extends DIContext = DIContext>(scope: PlatformParamsScope, pipes: PipeMethods[], param: JsonParameterStore): Promise<any> {
     return pipes.reduce(async (value: any | Promise<any>, pipe) => {
       value = await value;
 

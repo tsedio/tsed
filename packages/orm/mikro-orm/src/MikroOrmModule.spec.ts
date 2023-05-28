@@ -78,7 +78,7 @@ describe("MikroOrmModule", () => {
   });
 
   describe("$alterRunInContext", () => {
-    it("should return a function", async () => {
+    it("should return a function", () => {
       // arrange
       const next = jest.fn();
       const diContext = instance(mockedDIContext);
@@ -90,7 +90,7 @@ describe("MikroOrmModule", () => {
       expect(result).toBeInstanceOf(Function);
     });
 
-    it("should make a function create a context", async () => {
+    it("should make a function create a context", () => {
       // arrange
       const next = jest.fn();
       const manager = instance(mockedEntityManager);

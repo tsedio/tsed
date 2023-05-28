@@ -38,12 +38,12 @@ describe("AlterActions", () => {
       }
     })
     class CustomAction implements ActionMethods {
-      async resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {
-        return actionCtx;
+      resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {
+        return Promise.resolve(actionCtx);
       }
 
-      async settingsForm() {
-        return [{} as any];
+      settingsForm() {
+        return Promise.resolve([{} as any]);
       }
     }
 
@@ -114,16 +114,16 @@ describe("AlterActions", () => {
       }
     })
     class CustomAction implements ActionMethods {
-      async resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {
-        return actionCtx;
+      resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {
+        return Promise.resolve(actionCtx);
       }
 
       info(opts: any) {
         return opts;
       }
 
-      async settingsForm() {
-        return [{} as any];
+      settingsForm() {
+        return Promise.resolve([{} as any]);
       }
     }
 
@@ -194,10 +194,12 @@ describe("AlterActions", () => {
       }
     })
     class CustomAction implements ActionMethods {
-      async resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {}
+      resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {
+        return Promise.resolve();
+      }
 
-      async settingsForm() {
-        return [{} as any];
+      settingsForm() {
+        return Promise.resolve([{} as any]);
       }
     }
 
@@ -244,12 +246,12 @@ describe("AlterActions", () => {
       }
     })
     class CustomAction implements ActionMethods {
-      async resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {
-        throw new BadRequest("bad request");
+      resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {
+        return Promise.reject(new BadRequest("bad request"));
       }
 
-      async settingsForm() {
-        return [{} as any];
+      settingsForm() {
+        return Promise.resolve([{} as any]);
       }
     }
 
@@ -298,8 +300,8 @@ describe("AlterActions", () => {
       }
     })
     class CustomAction implements ActionMethods {
-      async resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {
-        return {
+      resolve(@ActionCtx() actionCtx: ActionCtx, @Context() ctx: PlatformContext) {
+        return Promise.resolve({
           statusText: "Created",
           status: 201,
           headers: {
@@ -308,11 +310,11 @@ describe("AlterActions", () => {
           data: {
             hello: "world"
           }
-        };
+        });
       }
 
-      async settingsForm() {
-        return [{} as any];
+      settingsForm() {
+        return Promise.resolve([{} as any]);
       }
     }
 

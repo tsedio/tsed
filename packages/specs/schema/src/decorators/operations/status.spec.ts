@@ -8,7 +8,7 @@ import {OperationPath} from "./operationPath";
 import {Status} from "./status";
 
 describe("@Status", () => {
-  it("should declare a return type", async () => {
+  it("should declare a return type", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
@@ -48,7 +48,7 @@ describe("@Status", () => {
       ]
     });
   });
-  it("should declare a return type (Status().Type())", async () => {
+  it("should declare a return type (Status().Type())", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
@@ -88,7 +88,7 @@ describe("@Status", () => {
       ]
     });
   });
-  it("should declare a return type with headers", async () => {
+  it("should declare a return type with headers", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
@@ -155,7 +155,7 @@ describe("@Status", () => {
       ]
     });
   });
-  it("should declare a return type with content-type", async () => {
+  it("should declare a return type with content-type", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
@@ -196,7 +196,7 @@ describe("@Status", () => {
       }
     });
   });
-  it("should declare error response", async () => {
+  it("should declare error response", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
@@ -349,7 +349,7 @@ describe("@Status", () => {
       ]
     });
   });
-  it("should throw an error when using of with String", async () => {
+  it("should throw an error when using of with String", () => {
     // WHEN
     let actualError: any;
     try {
@@ -364,7 +364,7 @@ describe("@Status", () => {
 
     expect(actualError.message).toBe("Returns.Of cannot be used with the following primitive classes: String, Number, Boolean");
   });
-  it("should throw an error when using of with Collection", async () => {
+  it("should throw an error when using of with Collection", () => {
     // WHEN
     let actualError: any;
     try {
@@ -379,7 +379,7 @@ describe("@Status", () => {
 
     expect(actualError.message).toBe("Returns.Nested cannot be used with the following classes: Map, Set, Array, String, Number, Boolean");
   });
-  it("should declare an Array of string", async () => {
+  it("should declare an Array of string", () => {
     // WHEN
     class Controller {
       @OperationPath("POST", "/")
@@ -422,7 +422,7 @@ describe("@Status", () => {
       ]
     });
   });
-  it("should declare an Array of Model", async () => {
+  it("should declare an Array of Model", () => {
     // WHEN
     class Model {
       @Property()
@@ -482,7 +482,7 @@ describe("@Status", () => {
       ]
     });
   });
-  it("should declare an Generic of Model", async () => {
+  it("should declare an Generic of Model", () => {
     // WHEN
     @Generics("T")
     class Pagination<T> {
@@ -510,7 +510,7 @@ describe("@Status", () => {
     class Controller {
       @OperationPath("POST", "/")
       @Status(200, Pagination).Of(Submission).Nested(Product).Description("description")
-      async method(): Promise<Pagination<Submission<Product>> | null> {
+      method(): Promise<Pagination<Submission<Product>> | null> {
         return null;
       }
     }

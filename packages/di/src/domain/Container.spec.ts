@@ -23,7 +23,7 @@ describe("Container", () => {
   describe("getProviders()", () => {
     let container: Container;
 
-    beforeEach(async () => {
+    beforeEach(() => {
       class MyMiddleware {}
 
       class MyService {}

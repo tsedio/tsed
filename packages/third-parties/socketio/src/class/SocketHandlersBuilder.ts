@@ -135,7 +135,7 @@ export class SocketHandlersBuilder {
     });
   }
 
-  private async runQueue(handlerMetadata: SocketHandlerMetadata, args: any[], socket: Socket, nsp: Namespace) {
+  private runQueue(handlerMetadata: SocketHandlerMetadata, args: any[], socket: Socket, nsp: Namespace) {
     let promise: any = Promise.resolve(args);
     const instance = this.injector.get(this.provider.token);
     const {useBefore, useAfter} = this.socketProviderMetadata;
@@ -217,10 +217,10 @@ export class SocketHandlersBuilder {
     return promise;
   }
 
-  private async invoke(instance: any, handlerMetadata: SocketHandlerMetadata, scope: any): Promise<any> {
+  private invoke(instance: any, handlerMetadata: SocketHandlerMetadata, scope: any): Promise<any> {
     const {methodClassName, parameters} = handlerMetadata;
 
-    return await instance[methodClassName](...this.buildParameters(parameters!, scope));
+    return instance[methodClassName](...this.buildParameters(parameters!, scope));
   }
 
   private buildParameters(parameters: {[key: number]: SocketParamMetadata}, scope: any): any[] {

@@ -548,7 +548,7 @@ describe("Generics", () => {
 
         class Controller1 {
           @OperationPath("POST", "/")
-          async method(@In("body") @GenericOf(Product) submission: Submission<Product>) {
+          method(@In("body") @GenericOf(Product) submission: Submission<Product>) {
             return null;
           }
         }
@@ -611,7 +611,7 @@ describe("Generics", () => {
           ]
         });
       });
-      it("should declare a nested Generics of Model (openspec3)", async () => {
+      it("should declare a nested Generics of Model (openspec3)", () => {
         // WHEN
         @Generics("T")
         class Pagination<T> {
@@ -639,7 +639,7 @@ describe("Generics", () => {
         class Controller {
           @OperationPath("POST", "/")
           @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
-          async method(): Promise<Pagination<Submission<Product>> | null> {
+          method(): Promise<Pagination<Submission<Product>> | null> {
             return null;
           }
         }
@@ -736,7 +736,7 @@ describe("Generics", () => {
       class MyController {
         @OperationPath("POST", "/")
         @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
-        async method(): Promise<Pagination<Submission<Product>> | null> {
+        method(): Promise<Pagination<Submission<Product>> | null> {
           return null;
         }
       }
@@ -807,7 +807,7 @@ describe("Generics", () => {
       });
     });
     describe("Pagination<Product>", () => {
-      it("should generate", async () => {
+      it("should generate", () => {
         // WHEN
         @Generics("T")
         class Pagination<T> {
@@ -835,7 +835,7 @@ describe("Generics", () => {
         class Controller {
           @OperationPath("POST", "/")
           @Returns(200, Pagination).Of(Submission).Nested(Product).Description("description")
-          async method(): Promise<Pagination<Submission<Product>> | null> {
+          method(): Promise<Pagination<Submission<Product>> | null> {
             return null;
           }
         }

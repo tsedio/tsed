@@ -125,7 +125,7 @@ export class PlatformBuilder<App = TsED.Application> {
    * @param module
    * @param settings
    */
-  static async bootstrap<App = TsED.Application>(module: Type<any>, settings: PlatformBuilderSettings<App>) {
+  static bootstrap<App = TsED.Application>(module: Type<any>, settings: PlatformBuilderSettings<App>) {
     return this.build<App>(module, settings).bootstrap();
   }
 
@@ -252,7 +252,7 @@ export class PlatformBuilder<App = TsED.Application> {
     await injector.emit(hook, ...args);
   }
 
-  async loadStatics(hook: string): Promise<void> {
+  loadStatics(hook: string) {
     const statics = this.settings.get<PlatformStaticsSettings>("statics");
 
     getStaticsOptions(statics).forEach(({path, options}) => {
@@ -268,7 +268,7 @@ export class PlatformBuilder<App = TsED.Application> {
     return this;
   }
 
-  async bootstrap() {
+  bootstrap(): Promise<this> {
     this.#promise = this.#promise || this.runLifecycle();
 
     return this.#promise;
@@ -308,7 +308,7 @@ export class PlatformBuilder<App = TsED.Application> {
     await this.mapRouters();
   }
 
-  protected async mapRouters() {
+  protected mapRouters() {
     const layers = this.platform.getLayers();
 
     this.#adapter.mapLayers(layers);

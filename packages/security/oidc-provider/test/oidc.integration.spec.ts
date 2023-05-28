@@ -26,13 +26,13 @@ const utils = PlatformTestSdk.create({
 describe("OIDC", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  async function followRedirection(response: any, headers: any = {}) {
+  function followRedirection(response: any, headers: any = {}) {
     if (response.headers.location) {
       const url = response.headers.location.replace("http://0.0.0.0:8081", "");
       return request.get(url).set("Origin", "http://0.0.0.0:8081").set("Host", "0.0.0.0:8081").set(headers);
     }
 
-    return response;
+    return Promise.resolve(response);
   }
 
   beforeEach(
@@ -116,13 +116,13 @@ describe("OIDC", () => {
 describe("OIDC on a different path", () => {
   let request: SuperTest.SuperTest<SuperTest.Test>;
 
-  async function followRedirection(response: any, headers: any = {}) {
+  function followRedirection(response: any, headers: any = {}) {
     if (response.headers.location) {
       const url = response.headers.location.replace("http://0.0.0.0:8081", "");
       return request.get(url).set("Origin", "http://0.0.0.0:8081").set("Host", "0.0.0.0:8081").set(headers);
     }
 
-    return response;
+    return Promise.resolve(response);
   }
 
   beforeEach(

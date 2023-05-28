@@ -81,11 +81,11 @@ export class FormioService {
     return this.formio.Action;
   }
 
-  async exportTemplate(options: Partial<FormioExportOptions> = {}): Promise<FormioTemplate> {
+  exportTemplate(options: Partial<FormioExportOptions> = {}): Promise<FormioTemplate> {
     return promisify(this.formio.template.export)(options);
   }
 
-  async importTemplate(template: FormioTemplate): Promise<FormioTemplate> {
+  importTemplate(template: FormioTemplate): Promise<FormioTemplate> {
     return promisify(this.formio.template.import.template)(template);
   }
 

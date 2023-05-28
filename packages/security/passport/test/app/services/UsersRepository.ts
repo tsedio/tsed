@@ -23,7 +23,7 @@ export class UsersRepository {
     }
   }
 
-  async findByEmail(email: string) {
+  findByEmail(email: string) {
     return this.adapter.findOne({email});
   }
 }

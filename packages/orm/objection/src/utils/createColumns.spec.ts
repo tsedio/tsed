@@ -7,7 +7,7 @@ import {IdColumn} from "../decorators/idColumn";
 import {createColumns} from "./createColumns";
 
 describe("createTable", () => {
-  it("should create table from a given class (columns doesn't exists)", async () => {
+  it("should create table from a given class (columns doesn't exists)", () => {
     @Entity("users")
     class User {
       @IdColumn()

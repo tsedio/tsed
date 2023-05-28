@@ -4,8 +4,8 @@ import {Health} from "@tsed/terminus";
 @Injectable()
 class RedisClient {
   @Health("redis")
-  async health() {
-    return "ok";
+  health() {
+    return Promise.resolve("ok");
   }
 
   $beforeShutdown() {

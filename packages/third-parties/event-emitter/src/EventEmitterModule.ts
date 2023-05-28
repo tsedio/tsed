@@ -28,7 +28,7 @@ export class EventEmitterModule {
     }
   }
 
-  async $onReady(): Promise<any> {
+  $onReady() {
     if (this.loadEventEmitter) {
       if (!this.disableSummary) {
         this.printEvents();

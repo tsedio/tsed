@@ -19,7 +19,7 @@ describe("MikroOrmContext", () => {
   let entityManager!: EntityManager;
   let context!: MikroOrmContext;
 
-  beforeEach(async () => {
+  beforeEach(() => {
     spiedRequestContext = spy(RequestContext);
     entityManager = instance(mockedEntityManager);
     context = new MikroOrmContext();
@@ -35,7 +35,7 @@ describe("MikroOrmContext", () => {
       expect(result).toBeUndefined();
     });
 
-    it("should return entity manager if context is initialized", async () => {
+    it("should return entity manager if context is initialized", () => {
       // arrange
       when(spiedRequestContext.getEntityManager("context1")).thenReturn(entityManager);
 
@@ -80,7 +80,7 @@ describe("MikroOrmContext", () => {
       expect(result).toBeFalsy();
     });
 
-    it("should return true if context is initialized", async () => {
+    it("should return true if context is initialized", () => {
       // arrange
       when(spiedRequestContext.getEntityManager("context1")).thenReturn(entityManager);
 

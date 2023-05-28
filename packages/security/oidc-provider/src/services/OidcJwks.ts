@@ -12,7 +12,7 @@ export class OidcJwks {
 
   keys: string;
 
-  async $onInit() {
+  $onInit() {
     return this.getJwks();
   }
 

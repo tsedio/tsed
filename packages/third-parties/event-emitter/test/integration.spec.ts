@@ -14,7 +14,7 @@ class Test {
   }
 
   @OnEvent("test2", {async: true})
-  async test2() {
+  test2() {
     return Promise.resolve(23);
   }
 }

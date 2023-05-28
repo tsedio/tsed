@@ -35,7 +35,7 @@ function createAppRouterFixture() {
 describe("routers with middlewares", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
-  it("should declare router", async () => {
+  it("should declare router", () => {
     const {appRouter, platformRouters} = createAppRouterFixture();
 
     const router = platformRouters.from(MyController);

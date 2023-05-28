@@ -22,7 +22,7 @@ class Client {
   secret: string;
 }
 
-async function createAdapterFixture<Model extends AdapterModel = Client>({
+function createAdapterFixture<Model extends AdapterModel = Client>({
   collectionName = "client",
   model = Client
 }: {collectionName?: string; model?: any} = {}) {

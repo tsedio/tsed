@@ -41,7 +41,7 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     return `${this.collectionName}:${id}`;
   }
 
-  public async create(payload: Partial<Model>, expiresAt?: Date): Promise<Model> {
+  public create(payload: Partial<Model>, expiresAt?: Date): Promise<Model> {
     delete payload._id;
     return this.insert(payload, expiresAt);
   }
@@ -52,13 +52,13 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     if (!item) {
       payload._id = id;
 
-      return await this.insert(payload, expiresAt);
+      return this.insert(payload, expiresAt);
     }
 
-    return (await this.update(id, payload, expiresAt)) as Model;
+    return this.update(id, payload, expiresAt) as unknown as Promise<Model>;
   }
 
-  public async update(id: string, payload: Model, expiresAt?: Date): Promise<Model | undefined> {
+  public update(id: string, payload: Model, expiresAt?: Date): Promise<Model | undefined> {
     return this.updateOne({_id: id}, payload, expiresAt);
   }
 
@@ -150,7 +150,7 @@ export class RedisAdapter<Model extends AdapterModel> extends Adapter<Model> {
     }
   }
 
-  public async deleteById(_id: string): Promise<Model | undefined> {
+  public deleteById(_id: string): Promise<Model | undefined> {
     return this.deleteOne({_id} as any);
   }
 

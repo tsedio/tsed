@@ -540,7 +540,7 @@ sponsor, so we can continue maintaining it and adding new features carefree.
 
 ## Maintainers
 
-<GithubContributors users="['Romakita']"/>
+<GithubContributors users="['Romakita', 'camfou']"/>
 
 <div class="flex items-center justify-center p-5">
 <Button href="/contributing.html" class="rounded-medium">

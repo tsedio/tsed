@@ -1,7 +1,7 @@
 [
   {
     "title": "Romain Lenzotti",
-    "job": "Tech Lead",
+    "job": "Tech Lead Fullstack",
     "src": "https://avatars3.githubusercontent.com/u/1763311?v=4",
     "github": "Romakita",
     "twitter": "RomainLenzotti",
@@ -20,13 +20,31 @@
     "role": "Framework"
   },
   {
+    "title": "Camfou",
+    "job": "Tech lead Fullstack",
+    "src": "https://avatars.githubusercontent.com/u/282491?v=4",
+    "github": "Camfou",
+    "country": "France",
+    "city": "Paris",
+    "role": "Framework - OIDC expert"
+  },
+  {
+    "title": "Artem Derevnjuk",
+    "job": "Developer",
+    "src": "https://avatars.githubusercontent.com/u/38690835?v=4",
+    "github": "derevnjuk",
+    "country": "USA",
+    "city": "NoWhere",
+    "role": "Framework - Mikro ORM expert"
+  },
+  {
     "title": "Nino Bergen",
     "job": "Developer Fullstack",
     "src": "https://avatars.githubusercontent.com/u/39458340?v=4",
     "github": "xCryzed",
     "country": "Germany",
     "city": "Aachen",
-    "role": "Framework"
+    "role": "Framework - Keycloak expert"
   },
   {
     "title": "Emilien Leroy",
@@ -43,15 +61,6 @@
     "src": "https://avatars.githubusercontent.com/u/25102041?v=4",
     "github": "ochrstn",
     "country": "Germany",
-    "city": "NoWhere",
-    "role": "Contributor"
-  },
-  {
-    "title": "Artem Derevnjuk",
-    "job": "Developer",
-    "src": "https://avatars.githubusercontent.com/u/38690835?v=4",
-    "github": "derevnjuk",
-    "country": "USA",
     "city": "NoWhere",
     "role": "Contributor"
   }

@@ -17,13 +17,13 @@ class ControllerTest {
 }
 
 describe("ViteDecorator", () => {
-  it("should return attached View with *.vite with empty path", async () => {
+  it("should return attached View with *.vite with empty path", () => {
     const metadata = Store.fromMethod(ControllerTest, "post").get("view");
 
     expect(metadata.path).toEqual("*.vite");
   });
 
-  it("should return attached View with {path}.vite", async () => {
+  it("should return attached View with {path}.vite", () => {
     const metadata = Store.fromMethod(ControllerTest, "postWithView").get("view");
 
     expect(metadata.path).toEqual("nice-view.vite");

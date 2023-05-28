@@ -98,7 +98,7 @@ describe("Provider", () => {
   describe("isAsync()", () => {
     it("should return true", () => {
       const provider = new Provider(T1);
-      provider.useAsyncFactory = async () => "test";
+      provider.useAsyncFactory = () => Promise.resolve("test");
 
       expect(provider.isAsync()).toEqual(true);
     });

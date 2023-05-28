@@ -36,7 +36,7 @@ export class OidcModule {
     }
   }
 
-  async $afterRoutesInit() {
+  $afterRoutesInit() {
     if (this.oidcProvider.hasConfiguration()) {
       const provider = this.oidcProvider.get();
 

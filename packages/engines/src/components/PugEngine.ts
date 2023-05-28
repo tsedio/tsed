@@ -9,7 +9,7 @@ export class PugEngine extends Engine {
     return this.engine.compile(template, options);
   }
 
-  protected async $compileFile(file: string, options: any) {
+  protected $compileFile(file: string, options: any) {
     return this.engine.compileFile(file, options);
   }
 }

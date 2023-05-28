@@ -23,7 +23,7 @@ export class ViteModule {
   @Inject(VITE_SERVER)
   protected viteServer: VITE_SERVER;
 
-  async $onInit() {
+  $onInit() {
     this.platformView.registerEngine("vite", {
       options: {},
       render: async (path: string, options: PlatformRenderOptions) => {

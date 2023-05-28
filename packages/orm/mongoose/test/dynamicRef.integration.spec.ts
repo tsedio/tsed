@@ -1,9 +1,9 @@
+import {deserialize, serialize} from "@tsed/json-mapper";
 import {Enum, getJsonSchema, Required} from "@tsed/schema";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import {deserialize, serialize} from "@tsed/json-mapper";
-import {Server} from "./helpers/Server";
-import {DynamicRef, MongooseModel, ObjectID} from "../src/index";
 import {Model} from "../src/decorators/model";
+import {DynamicRef, MongooseModel, ObjectID} from "../src/index";
+import {Server} from "./helpers/Server";
 
 describe("DynamicRef Integration", () => {
   @Model()
@@ -144,7 +144,7 @@ describe("DynamicRef Integration", () => {
     });
   });
   describe("deserialize()", () => {
-    it("should serialize (clickedEvent)", async () => {
+    it("should serialize (clickedEvent)", () => {
       const result = deserialize<EventModel>(
         {
           id: "6229a38b4e23ac98aad216d6",

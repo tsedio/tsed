@@ -7,6 +7,9 @@ describe("PlatformExceptions", () => {
   describe("Env.TEST", () => {
     beforeEach(() => PlatformTest.create());
     afterEach(() => PlatformTest.reset());
+    beforeEach(() => {
+      jest.spyOn(PlatformTest.injector.logger, "error").mockReturnValue(undefined);
+    });
 
     it("should map string error", () => {
       const platformExceptions = PlatformTest.get<PlatformExceptions>(PlatformExceptions);

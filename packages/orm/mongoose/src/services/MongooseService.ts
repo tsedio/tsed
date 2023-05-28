@@ -22,7 +22,7 @@ export class MongooseService {
    */
   async connect(id: string, url: string, connectionOptions: ConnectOptions, isDefault = false): Promise<any> {
     if (this.has(id)) {
-      return await this.get(id)!;
+      return this.get(id)!;
     }
 
     this.logger.info(`Connect to mongo database: ${id}`);

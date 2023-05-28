@@ -1,7 +1,7 @@
 import {getSpec, In, JsonEntityStore, Name, OperationPath, Path, SpecTypes} from "../../index";
 
 describe("In", () => {
-  it("should declare all schema correctly (param)", async () => {
+  it("should declare all schema correctly (param)", () => {
     // WHEN
     class Controller {
       method(@In("path") @Name("basic") basic: string) {}
@@ -34,50 +34,7 @@ describe("In", () => {
       }
     });
   });
-  it("should declare all schema correctly (method)", async () => {
-    // WHEN
-    class Controller {
-      @In("header").Type(String).Name("Authorization").Required().Description("description")
-      method(@In("path") @Name("basic") basic: string) {}
-    }
-
-    // THEN
-    getSpec(Controller, {
-      specType: SpecTypes.SWAGGER
-    });
-
-    const paramSchema = JsonEntityStore.from(Controller, "method", 0);
-    const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({});
-
-    expect(operation).toEqual({
-      parameters: [
-        {
-          in: "path",
-          name: "basic",
-          required: true,
-          schema: {
-            type: "string"
-          }
-        },
-        {
-          description: "description",
-          in: "header",
-          name: "Authorization",
-          required: true,
-          schema: {
-            type: "string"
-          }
-        }
-      ],
-      responses: {
-        "200": {
-          description: "Success"
-        }
-      }
-    });
-  });
-  it("should declare all schema correctly (class)", async () => {
+  it("should declare all schema correctly (method)", () => {
     // WHEN
     class Controller {
       @In("header").Type(String).Name("Authorization").Required().Description("description")
@@ -120,7 +77,50 @@ describe("In", () => {
       }
     });
   });
-  it("should extra schema", async () => {
+  it("should declare all schema correctly (class)", () => {
+    // WHEN
+    class Controller {
+      @In("header").Type(String).Name("Authorization").Required().Description("description")
+      method(@In("path") @Name("basic") basic: string) {}
+    }
+
+    // THEN
+    getSpec(Controller, {
+      specType: SpecTypes.SWAGGER
+    });
+
+    const paramSchema = JsonEntityStore.from(Controller, "method", 0);
+    const methodSchema = paramSchema.parent;
+    const operation = methodSchema.operation!.toJSON({});
+
+    expect(operation).toEqual({
+      parameters: [
+        {
+          in: "path",
+          name: "basic",
+          required: true,
+          schema: {
+            type: "string"
+          }
+        },
+        {
+          description: "description",
+          in: "header",
+          name: "Authorization",
+          required: true,
+          schema: {
+            type: "string"
+          }
+        }
+      ],
+      responses: {
+        "200": {
+          description: "Success"
+        }
+      }
+    });
+  });
+  it("should extra schema", () => {
     // WHEN
     @Path("/:parentId")
     @In("path")

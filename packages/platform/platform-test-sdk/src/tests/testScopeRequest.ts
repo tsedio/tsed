@@ -20,7 +20,7 @@ export class ScopeRequestCtrl {
   }
 
   @Get("/:id")
-  async testPerRequest(@PathParams("id") userId: string): Promise<any> {
+  testPerRequest(@PathParams("id") userId: string): Promise<any> {
     this.scopeRequestService.user = userId;
     this.userId = userId;
 

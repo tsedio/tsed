@@ -76,6 +76,28 @@ describe("FileSyncAdapter", () => {
         expect(result?.name).toBe(base.name);
       });
     });
+    describe("deleteOne()", () => {
+      it("should delete instance", async () => {
+        const base = {
+          name: faker.name.title()
+        };
+
+        const client = await adapter.create(base);
+
+        const result = await adapter.deleteOne({
+          name: base.name
+        });
+
+        expect(result).toBeInstanceOf(Client);
+        expect(result?._id).toBe(client._id);
+        expect(result?.name).toBe(base.name);
+
+        const result2 = await adapter.deleteOne({
+          name: base.name
+        });
+        expect(result2).toBeUndefined();
+      });
+    });
   });
   describe("readOnly", () => {
     let adapter: Adapter<Client>;

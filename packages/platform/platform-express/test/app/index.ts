@@ -36,7 +36,7 @@ if (process.env.NODE_ENV !== "test") {
 
     @Post("/")
     @Returns(200)
-    async postPayload(@BodyParams() body: any[]) {
+    postPayload(@BodyParams() body: any[]) {
       return {body};
     }
   }

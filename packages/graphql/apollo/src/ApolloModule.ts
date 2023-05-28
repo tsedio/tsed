@@ -22,7 +22,7 @@ export class ApolloModule implements OnRoutesInit, AfterListen {
     const {settings} = this;
 
     if (settings) {
-      const promises = Object.entries(settings).map(async ([key, options]) => {
+      const promises = Object.entries(settings).map(([key, options]) => {
         return this.service.createServer(key, options);
       });
 
@@ -42,7 +42,7 @@ export class ApolloModule implements OnRoutesInit, AfterListen {
     const {settings} = this;
 
     if (settings) {
-      Object.entries(settings).map(async ([key, options]) => {
+      Object.entries(settings).map(([key, options]) => {
         const {path} = options;
 
         displayLog(key, path);

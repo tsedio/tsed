@@ -26,10 +26,10 @@ class ErrorsController {
   @Returns(200, TestModel200)
   @Returns(400, TestModel400)
   @Returns(500, TestModel500)
-  public async exampleControllerMethod() {
-    return {
+  public exampleControllerMethod() {
+    return Promise.resolve({
       exampleItem: 1
-    };
+    });
   }
 }
 

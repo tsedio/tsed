@@ -85,10 +85,10 @@ describe("@Inject()", () => {
         provide: TokenAsync,
         type: TOKEN_GROUPS,
         deps: [],
-        async useAsyncFactory() {
-          return {
+        useAsyncFactory() {
+          return Promise.resolve({
             type: "async"
-          };
+          });
         }
       });
 
@@ -159,10 +159,10 @@ describe("@Inject()", () => {
           provide: TokenAsync,
           type: TOKEN_GROUPS,
           deps: [],
-          async useAsyncFactory() {
-            return {
+          useAsyncFactory() {
+            return Promise.resolve({
               type: "async"
-            };
+            });
           }
         });
 

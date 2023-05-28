@@ -2,8 +2,8 @@ import {PlatformTest} from "@tsed/common";
 import {StringErrorFilter} from "./StringErrorFilter";
 
 describe("StringErrorFilter", () => {
-  beforeEach(async () => PlatformTest.create());
-  afterEach(async () => PlatformTest.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
   it("should map message", () => {
     const instance = new StringErrorFilter();
     const ctx = PlatformTest.createRequestContext();

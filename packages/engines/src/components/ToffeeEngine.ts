@@ -10,9 +10,9 @@ export class ToffeeEngine extends Engine {
     return (options: any) => compile(template, options);
   }
 
-  protected async $compileFile(file: string, options: any) {
+  protected $compileFile(file: string, options: any) {
     const compile = promisify(this.engine.__consolidate_engine_render.bind(this.engine));
 
-    return (options: any) => compile(file, options);
+    return Promise.resolve((options: any) => compile(file, options));
   }
 }

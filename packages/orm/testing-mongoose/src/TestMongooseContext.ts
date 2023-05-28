@@ -14,7 +14,7 @@ export class TestMongooseContext extends PlatformTest {
     return global.__MONGOD__;
   }
 
-  static async install({replicaSet, ...opts}: {replicaSet?: boolean} & Record<string, any> = {}) {
+  static install({replicaSet, ...opts}: {replicaSet?: boolean} & Record<string, any> = {}) {
     if (!TestMongooseContext.getMongo()) {
       // @ts-ignore
       global.__MONGOD__ = new (replicaSet ? MongoMemoryReplSet : MongoMemoryServer)({

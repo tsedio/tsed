@@ -45,8 +45,8 @@ export class TerminusModule implements OnInit {
     };
   }
 
-  async $logRoutes(routes: PlatformRouteDetails[]): Promise<PlatformRouteDetails[]> {
-    return [
+  $logRoutes(routes: PlatformRouteDetails[]): Promise<PlatformRouteDetails[]> {
+    return Promise.resolve([
       ...routes,
       {
         url: this.basePath,
@@ -62,7 +62,7 @@ export class TerminusModule implements OnInit {
           url: path
         } as any;
       })
-    ];
+    ]);
   }
 
   private mount() {
@@ -135,7 +135,7 @@ export class TerminusModule implements OnInit {
   }
 
   private createEmitter(name: string) {
-    return async (...args: any[]) => {
+    return (...args: any[]) => {
       return this.injector.emit(name, ...args);
     };
   }

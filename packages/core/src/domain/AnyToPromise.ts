@@ -72,9 +72,9 @@ export class AnyToPromise<T = any> {
   /**
    *
    */
-  async call(cb: Function): Promise<AnyPromiseResult<T>> {
+  call(cb: Function): Promise<AnyPromiseResult<T>> {
     if (this.isDone()) {
-      return this as any;
+      return Promise.resolve(this as any);
     }
 
     try {

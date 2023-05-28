@@ -14,7 +14,7 @@ export class MarkoEngine extends Engine {
     return options;
   }
 
-  async $compileFile(file: string, options: EngineOptions) {
+  $compileFile(file: string, options: EngineOptions) {
     const $cmp = this.engine.load(file, options);
 
     return promisify($cmp.renderToString.bind($cmp)) as any;

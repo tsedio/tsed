@@ -78,7 +78,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
    * @param module
    * @param settings
    */
-  static async bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
+  static bootstrap(module: Type<any>, settings: Partial<TsED.Configuration> = {}) {
     return PlatformBuilder.bootstrap<Express.Application>(module, {
       ...settings,
       adapter: PlatformExpress
@@ -95,7 +95,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
     await this.configureViewsEngine();
   }
 
-  async afterLoadRoutes() {
+  afterLoadRoutes() {
     const app = this.injector.get<PlatformApplication<Express.Application>>(PlatformApplication)!;
     const platformExceptions = this.injector.get<PlatformExceptions>(PlatformExceptions)!;
 
@@ -110,6 +110,8 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
       const {$ctx} = req;
       !$ctx.isDone() && platformExceptions?.catch(err, $ctx);
     });
+
+    return Promise.resolve();
   }
 
   mapLayers(layers: PlatformLayer[]) {
@@ -133,7 +135,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
       case PlatformHandlerType.RAW_ERR_FN:
         return handler;
       case PlatformHandlerType.ERR_MIDDLEWARE:
-        return async (error: unknown, req: any, res: any, next: any) => {
+        return (error: unknown, req: any, res: any, next: any) => {
           return runInContext(req.$ctx, () => {
             const {$ctx} = req;
 
@@ -160,7 +162,7 @@ export class PlatformExpress implements PlatformAdapter<Express.Application> {
     this.injector.logger.debug("Mount app context");
 
     app.use(async (request: any, response: any, next: any) => {
-      const $ctx = await invoke({request, response});
+      const $ctx = invoke({request, response});
       await $ctx.start();
 
       $ctx.response.getRes().on("finish", () => $ctx.finish());

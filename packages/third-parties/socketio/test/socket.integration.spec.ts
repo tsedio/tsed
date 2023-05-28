@@ -18,8 +18,8 @@ export class TestWS {
   @Input("input:scenario1")
   @Emit("output:scenario1")
   @SocketUseBefore(ConverterUserSocketMiddleware)
-  async scenario1(@SocketSession session: Map<any, any>) {
-    return "my Message " + session.get("test");
+  scenario1(@SocketSession session: Map<any, any>) {
+    return Promise.resolve("my Message " + session.get("test"));
   }
 }
 
@@ -37,8 +37,8 @@ export class TestWS2 {
   @Input("input:scenario2")
   @Emit("output:scenario2")
   @SocketUseBefore(ConverterUserSocketMiddleware)
-  async scenario2(@SocketNsp nsp: SocketNsp) {
-    return "namespace:" + nsp.name;
+  scenario2(@SocketNsp nsp: SocketNsp) {
+    return Promise.resolve("namespace:" + nsp.name);
   }
 }
 

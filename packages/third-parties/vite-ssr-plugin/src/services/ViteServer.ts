@@ -12,7 +12,7 @@ export type VITE_SERVER = ViteDevServer;
 registerProvider({
   provide: VITE_SERVER,
   deps: [Configuration, Logger],
-  async useAsyncFactory(settings: Configuration, logger: Logger) {
+  useAsyncFactory(settings: Configuration, logger: Logger) {
     const {enableStream, statics: staticsOpts = {}, ...config} = settings.get<ViteConfig>("vite", {});
     const level = settings.logger.level;
 
@@ -31,13 +31,13 @@ registerProvider({
 
     logger.info("Initialize statics vite application");
 
-    return {
+    return Promise.resolve({
       middlewares: sirv(`${config.root || ""}/dist/client`, {
         dotfiles: false,
         ...staticsOpts,
         dev: false
       })
-    };
+    });
   },
   hooks: {
     $onDestroy(viteDevServer: Partial<ViteDevServer>): Promise<any> | void {

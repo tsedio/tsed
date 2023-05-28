@@ -46,8 +46,8 @@ async function getModuleFixture() {
 }
 
 describe("ViteModule", () => {
-  beforeEach(async () => PlatformTest.create());
-  afterEach(async () => PlatformTest.reset());
+  beforeEach(() => PlatformTest.create());
+  afterEach(() => PlatformTest.reset());
 
   describe("$onInit()", () => {
     it("should render html", async () => {

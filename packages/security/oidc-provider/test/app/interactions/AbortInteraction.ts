@@ -12,7 +12,7 @@ export class AbortInteraction implements InteractionMethods {
   oidc: OidcProvider;
 
   @View("interaction")
-  async $prompt(@OidcCtx() oidcCtx: OidcCtx): Promise<any> {
+  $prompt(@OidcCtx() oidcCtx: OidcCtx): Promise<any> {
     return oidcCtx.interactionFinished(
       {
         error: "access_denied",

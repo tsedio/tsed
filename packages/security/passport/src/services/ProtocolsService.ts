@@ -63,7 +63,7 @@ export class ProtocolsService {
    * @param options
    * @param ctx
    */
-  public async authenticate(protocols: string | string[], options: Record<string, any>, ctx: PlatformContext) {
+  public authenticate(protocols: string | string[], options: Record<string, any>, ctx: PlatformContext) {
     return this.call("authenticate", protocols, options, ctx);
   }
 
@@ -73,7 +73,7 @@ export class ProtocolsService {
    * @param options
    * @param ctx
    */
-  public async authorize(protocols: string | string[], options: Record<string, any>, ctx: PlatformContext) {
+  public authorize(protocols: string | string[], options: Record<string, any>, ctx: PlatformContext) {
     return this.call("authorize", protocols, options, ctx);
   }
 

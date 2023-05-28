@@ -40,11 +40,11 @@ export class OidcAdapters {
         await this.adapter.upsert(id, payload, expiresAt);
       }
 
-      async find(id: string) {
+      find(id: string) {
         return this.adapter.findById(id);
       }
 
-      async findByUserCode(userCode: string) {
+      findByUserCode(userCode: string) {
         // istanbul ignore next
         if (this.adapter.findByUserCode) {
           return this.adapter.findByUserCode(userCode);
@@ -55,7 +55,7 @@ export class OidcAdapters {
         });
       }
 
-      async findByUid(uid: string) {
+      findByUid(uid: string) {
         // istanbul ignore next
         if (this.adapter.findByUid) {
           return this.adapter.findByUid(uid);

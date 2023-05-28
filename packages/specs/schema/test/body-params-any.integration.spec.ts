@@ -13,17 +13,17 @@ describe("Integration: BodyParams any", () => {
     @Controller("/array")
     class TestArrayBodyCtrl {
       @Post("/1")
-      async scenario(@BodyParams() list: any[]) {
+      scenario(@BodyParams() list: any[]) {
         return list;
       }
 
       @Post("/2")
-      async scenario2(@BodyParams() list: any) {
+      scenario2(@BodyParams() list: any) {
         return list;
       }
 
       @Post("/3")
-      async scenario3(@BodyParams() @Any() list: any) {
+      scenario3(@BodyParams() @Any() list: any) {
         return list;
       }
     }
@@ -34,22 +34,22 @@ describe("Integration: BodyParams any", () => {
     @Controller("/array")
     class TestArrayBodyCtrl {
       @Post("/1")
-      async scenario(@BodyParams() list: number) {
+      scenario(@BodyParams() list: number) {
         return list;
       }
 
       @Post("/2")
-      async scenario2(@BodyParams(Number) list: number[]) {
+      scenario2(@BodyParams(Number) list: number[]) {
         return list;
       }
 
       @Post("/3")
-      async scenario3(@BodyParams() @Integer() list: number) {
+      scenario3(@BodyParams() @Integer() list: number) {
         return list;
       }
 
       @Post("/4")
-      async scenario4(@BodyParams() @Integer() list: number[]) {
+      scenario4(@BodyParams() @Integer() list: number[]) {
         return list;
       }
     }
@@ -60,7 +60,7 @@ describe("Integration: BodyParams any", () => {
     @Controller("/array")
     class TestArrayBodyCtrl {
       @Post("/1")
-      async scenario1(@BodyParams() @CollectionOf(MyModel) list: MyModel[]) {
+      scenario1(@BodyParams() @CollectionOf(MyModel) list: MyModel[]) {
         return list;
       }
     }
@@ -71,7 +71,7 @@ describe("Integration: BodyParams any", () => {
     @Controller("/array")
     class TestArrayBodyCtrl {
       @Post("/")
-      async scenario(@MultipartFile("file") name: PlatformMulterFile) {
+      scenario(@MultipartFile("file") name: PlatformMulterFile) {
         return undefined;
       }
 
