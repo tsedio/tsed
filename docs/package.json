@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "vuepress:build": "sh .vuepress/scripts/build.sh",
-    "vuepress:serve": "vuepress dev .",
+    "vuepress:serve": "cross-env NODE_OPTIONS=--openssl-legacy-provider vuepress dev .",
     "browserslist": "npx browserslist@latest --update-db"
   },
   "repository": {
