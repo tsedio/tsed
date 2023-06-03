@@ -105,7 +105,7 @@ export class IndexController {
 
 And his React component:
 
-```tsx
+```ts
 import React from "react";
 import {PageContext} from "../../renderer/types";
 import type {SwaggerSettings} from "@tsed/swagger"; // ! keep type import
