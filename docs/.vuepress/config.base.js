@@ -280,6 +280,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
                 link: "http://logger.tsed.io"
               },
               {
+                text: "Ts.ED Formio.js",
+                link: "http://formio.tsed.io"
+              },
+              {
                 text: "Team",
                 link: `${base}/team.html`
               },
@@ -294,6 +298,10 @@ module.exports = ({title, description, base = "", url, apiRedirectUrl = "", them
               {
                 text: "Support",
                 link: `${base}/support.html`
+              },
+              {
+                text: "Contact",
+                link: `${base}/contact.html`
               },
               {
                 text: "License",

@@ -38,21 +38,11 @@
     <ul class="reset-list flex justify-center align-center p-3 mb-5">
       <li class="p-2">
         <Button
-            data-mode="popup"
-            class="typeform-share"
-            href="https://form.typeform.com/to/uJLP7anG">
+          class="typeform-share"
+          data-mode="popup"
+          href="/contact">
           <BxIcon name="bx-message-alt-dots" class="mr-1" />
-          Reach me directly
-        </Button>
-      </li>
-      <li class="p-2">
-        <Button
-            bg-color="button-white"
-            color="blue"
-            title="Contact us by e-mail"
-            href="mailto:contact@tsed.io">
-          <BxIcon name="bx-envelope" class="mr-1" />
-          By e-mail
+          Contact us directly
         </Button>
       </li>
     </ul>
