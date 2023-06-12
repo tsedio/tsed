@@ -1,6 +1,6 @@
 {
   "name": "@tsed/swagger",
-  "version": "7.29.1",
+  "version": "7.30.0",
   "description": "Swagger package for Ts.ED framework",
   "private": false,
   "source": "./src/index.ts",
@@ -24,8 +24,8 @@
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "@tsed/normalize-path": "7.29.1",
-    "@tsed/openspec": "7.29.1",
+    "@tsed/normalize-path": "7.30.0",
+    "@tsed/openspec": "7.30.0",
     "filedirname": "^2.7.0",
     "fs-extra": "10.0.1",
     "micromatch": "4.0.5",
@@ -33,19 +33,19 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/common": "7.29.1",
-    "@tsed/core": "7.29.1",
-    "@tsed/di": "7.29.1",
-    "@tsed/eslint": "7.29.1",
-    "@tsed/json-mapper": "7.29.1",
-    "@tsed/openspec": "7.29.1",
-    "@tsed/schema": "7.29.1",
-    "@tsed/typescript": "7.29.1",
+    "@tsed/common": "7.30.0",
+    "@tsed/core": "7.30.0",
+    "@tsed/di": "7.30.0",
+    "@tsed/eslint": "7.30.0",
+    "@tsed/json-mapper": "7.30.0",
+    "@tsed/openspec": "7.30.0",
+    "@tsed/schema": "7.30.0",
+    "@tsed/typescript": "7.30.0",
     "@types/swagger-ui-dist": ">=3.30.1",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.29.1"
+    "@tsed/common": "^7.30.0"
   },
   "peerDependenciesMeta": {
     "@tsed/common": {
