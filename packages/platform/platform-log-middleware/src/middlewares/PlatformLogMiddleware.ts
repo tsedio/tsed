@@ -1,3 +1,4 @@
+import {cleanObject} from "@tsed/core";
 import {Constant} from "@tsed/di";
 import {Middleware, MiddlewareMethods} from "@tsed/platform-middlewares";
 import {Context} from "@tsed/platform-params";
@@ -39,6 +40,52 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
   }
 
   /**
+   * Called when the `$onResponse` is called by Ts.ED (through Express.end).
+   */
+  onLogEnd(ctx: Context) {
+    const {logRequest, logEnd, logLevel} = this.settings;
+    const started = ctx.logStarted;
+
+    if (logEnd && started) {
+      if (ctx.response.statusCode >= 400) {
+        ctx.logger.error({
+          event: "request.end",
+          status: ctx.response.statusCode,
+          status_code: String(ctx.response.statusCode),
+          state: "KO",
+          ...cleanObject({
+            error_name: ctx.error?.name,
+            error_message: ctx.error?.message,
+            error_errors: ctx.error?.errors,
+            error_stack: ctx.error?.stack,
+            error_body: ctx.error?.body,
+            error_headers: ctx.error?.headers
+          })
+        });
+      } else {
+        if (logLevel === "debug") {
+          ctx.logger.debug({
+            event: "request.end",
+            status: ctx.response.statusCode,
+            status_code: String(ctx.response.statusCode),
+            data: ctx.data,
+            state: "OK"
+          });
+        } else if (logRequest) {
+          ctx.logger.info({
+            event: "request.end",
+            status: ctx.response.statusCode,
+            status_code: String(ctx.response.statusCode),
+            state: "OK"
+          });
+        }
+      }
+    }
+
+    ctx.logger.flush();
+  }
+
+  /**
    * The separate onLogStart() function will allow developer to overwrite the initial request log.
    * @param ctx
    */
@@ -58,33 +105,6 @@ export class PlatformLogMiddleware implements MiddlewareMethods {
         });
       }
     }
-  }
-
-  /**
-   * Called when the `$onResponse` is called by Ts.ED (through Express.end).
-   */
-  onLogEnd(ctx: Context) {
-    const {logRequest, logEnd, logLevel} = this.settings;
-    const started = ctx.logStarted;
-
-    if (logEnd && started) {
-      if (logLevel === "debug") {
-        ctx.logger.debug({
-          event: "request.end",
-          status: ctx.response.statusCode,
-          status_code: String(ctx.response.statusCode),
-          data: ctx.data
-        });
-      } else if (logRequest) {
-        ctx.logger.info({
-          event: "request.end",
-          status: ctx.response.statusCode,
-          status_code: String(ctx.response.statusCode)
-        });
-      }
-    }
-
-    ctx.logger.flush();
   }
 
   /**
