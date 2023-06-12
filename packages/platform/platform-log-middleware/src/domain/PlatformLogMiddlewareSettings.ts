@@ -1,3 +1,5 @@
+import {Context} from "@tsed/platform-params";
+
 export type LoggerRequestFields = ("reqId" | "method" | "url" | "headers" | "body" | "query" | "params" | "duration" | string)[];
 
 export interface PlatformLogMiddlewareSettings {
@@ -6,15 +8,15 @@ export interface PlatformLogMiddlewareSettings {
    */
   requestFields?: LoggerRequestFields;
   /**
-   * Log all incoming request. By default is true and print the configured `logger.requestFields`.
+   * Log all incoming request. By default, is true and print the configured `logger.requestFields`.
    */
   logRequest?: boolean;
   /**
-   * Log start of all incoming request. By default is true
+   * Log start of all incoming request. By default, is false
    */
   logStart?: boolean;
   /**
-   * Log end of all incoming request. By default is true
+   * Log end of all incoming request. By default, is true
    */
   logEnd?: boolean;
 }

@@ -1,7 +1,7 @@
 import {PlatformHandlerMetadata, PlatformTest} from "@tsed/common";
 import {PlatformLogMiddleware} from "./PlatformLogMiddleware";
 
-async function createMiddlewareFixture() {
+async function createMiddlewareFixture({statusCode = 200, error}: {statusCode?: number; error?: any} = {}) {
   const middleware = await PlatformTest.invoke<PlatformLogMiddleware>(PlatformLogMiddleware);
 
   const ctx = PlatformTest.createRequestContext({
@@ -12,12 +12,15 @@ async function createMiddlewareFixture() {
         originalUrl: undefined
       }),
       response: PlatformTest.createResponse({
-        statusCode: 200
+        statusCode,
+        error
       })
     },
     endpoint: new Map(),
     logger: PlatformTest.injector.logger
   });
+
+  ctx.error = error;
 
   ctx.handlerMetadata = new PlatformHandlerMetadata({
     handler: () => {}
@@ -75,7 +78,8 @@ describe("PlatformLogMiddleware", () => {
             reqId: "id",
             url: "/originalUrl",
             route: "/:id",
-            status: 200
+            status: 200,
+            state: "OK"
           })
         );
         expect(PlatformTest.injector.logger.info).toHaveBeenCalledWith(
@@ -123,7 +127,8 @@ describe("PlatformLogMiddleware", () => {
             reqId: "id",
             url: "url",
             status: 200,
-            data: "test"
+            data: "test",
+            state: "OK"
           })
         );
       });
@@ -184,6 +189,33 @@ describe("PlatformLogMiddleware", () => {
             reqId: "id",
             url: "url",
             status: 200
+          })
+        );
+      });
+      it("should configure request and create context logger (error)", async () => {
+        // GIVEN
+        const {ctx, middleware} = await createMiddlewareFixture({
+          statusCode: 400,
+          error: new Error("Test")
+        });
+
+        // WHEN
+        middleware.use(ctx);
+
+        // THEN
+        (ctx.response.getRes().on as jest.Mock).mock.calls[0][1]();
+        //  middleware.onLogEnd(request.$ctx as any);
+
+        // THEN
+        expect(PlatformTest.injector.logger.error).toHaveBeenCalledWith(
+          expect.objectContaining({
+            event: "request.end",
+            method: "GET",
+            reqId: "id",
+            url: "url",
+            status: 400,
+            error_name: "Error",
+            error_message: "Test"
           })
         );
       });
