@@ -199,7 +199,7 @@ import {DataSource} from "typeorm";
 import {MySqlDataSource} from "../datasources/MySqlDataSource";
 import {User} from "../entities/User";
 
-export const UserRepository = MySqlDataSource.getRepository(User).extends({
+export const UserRepository = MySqlDataSource.getRepository(User).extend({
   findByName(firstName: string, lastName: string) {
     return this.createQueryBuilder("user")
       .where("user.firstName = :firstName", {firstName})
