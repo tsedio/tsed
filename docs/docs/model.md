@@ -677,9 +677,9 @@ So by using the @@deserialize@@ function with the extra groups options, we can m
 <Tab label="Creation">
 
 ```typescript
-import {deserialize} from "json-schema";
+import { deserialize } from '@tsed/json-mapper';
 
-const result = deserialize(
+const result = deserialize<User>(
   {
     id: "id", // will be ignored because creation doesn't include `id` field
     firstName: "firstName",
@@ -697,9 +697,9 @@ console.log(result); // User {firstName, lastName, email, password}
 <Tab label="With group">
 
 ```typescript
-import {deserialize} from "json-schema";
+import { deserialize } from '@tsed/json-mapper';
 
-const result = deserialize(
+const result = deserialize<User>(
   {
     id: "id",
     firstName: "firstName",
@@ -718,9 +718,9 @@ console.log(result); // User {id, firstName, lastName, email, password}
 <Tab label="With glob pattern">
 
 ```typescript
-import {deserialize} from "json-schema";
+import { deserialize } from '@tsed/json-mapper';
 
-const result = deserialize(
+const result = deserialize<User>(
   {
     id: "id",
     firstName: "firstName",
