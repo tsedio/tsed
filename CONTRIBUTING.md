@@ -56,24 +56,32 @@ Install npm dependencies with yarn (not with NPM!):
 
 ```bash
 yarn
+yarn tsc --build
 ```
 
-> After installing dependencies, yarn/npm run the `postinstall` hook and mounted all packages with `npm link` (e.g. `yarn run repo:bootstrap`).
+::: tip
+For developers that use `Intellij`, you have to enable the "Recompile on change" option in `Languages & Frameworks` > `TypeScript`.
+:::
 
-Compile TypeScript:
+
+### Recompile source
+
+```bash
+yarn tsc --build
+```
+
+### Prepare packages
+
+Compile all packages to publish it on NPM registry. It generate a `./dist` directory on root repository:
 
 ```bash
 yarn build
-// or
-npm run build
 ```
 
 ### Test
 
 ```bash
 yarn test
-# or
-npm run test
 ```
 
 ### Start a feature branch
