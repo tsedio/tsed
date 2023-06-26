@@ -25,6 +25,7 @@ export * from "./interfaces/DecoratorParameters";
 export * from "./interfaces/MetadataTypes";
 export * from "./interfaces/ValueOf";
 export * from "./utils/catchError";
+export * from "./utils/proxyDelegation";
 export * from "./utils/uniq";
 export * from "./utils/decorators/decorateMethodsOf";
 export * from "./utils/decorators/decoratorArgs";

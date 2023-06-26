@@ -1,9 +1,8 @@
-import {Env, getValue, setValue} from "@tsed/core";
+import {Env, getValue, proxyDelegation, setValue} from "@tsed/core";
 import type {ProviderScope} from "../domain/ProviderScope";
 import type {DILoggerOptions} from "../interfaces/DILoggerOptions";
 import type {DIResolver} from "../interfaces/DIResolver";
-import type {TokenProvider} from "../interfaces/TokenProvider";
-import type {TokenProviderOpts} from "../interfaces/TokenProvider";
+import type {TokenProvider, TokenProviderOpts} from "../interfaces/TokenProvider";
 import type {TokenRoute} from "../interfaces/TokenRoute";
 
 export class DIConfiguration {
@@ -20,6 +19,12 @@ export class DIConfiguration {
       ...initialProps
     }).forEach(([key, value]) => {
       this.default.set(key, value);
+    });
+
+    return proxyDelegation<DIConfiguration>(this, {
+      ownKeys(target) {
+        return [...target.default.keys(), ...target.map.keys()];
+      }
     });
   }
 
