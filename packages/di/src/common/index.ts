@@ -46,6 +46,7 @@ export * from "./interfaces/TokenRoute";
 export * from "./registries/GlobalProviders";
 export * from "./registries/ProviderRegistry";
 export * from "./services/DIConfiguration";
+export * from "./services/DILogger";
 export * from "./services/InjectorService";
 export * from "./utils/colors";
 export * from "./utils/createContainer";
