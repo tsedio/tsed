@@ -1,5 +1,5 @@
 import {isArrowFn, isObject, isString, StoreMerge, Type, useDecorators} from "@tsed/core";
-import {OnDeserialize, OnSerialize, serialize} from "@tsed/json-mapper";
+import {OnDeserialize, OnSerialize, serialize, deserialize} from "@tsed/json-mapper";
 import {ForwardGroups, JsonEntityFn, lazyRef, matchGroups, OneOf, Property, string} from "@tsed/schema";
 import {Schema as MongooseSchema} from "mongoose";
 import {MONGOOSE_SCHEMA} from "../constants/constants";
@@ -83,7 +83,7 @@ export function Ref(
         return value.toString();
       }
 
-      return value;
+      return deserialize(value, {type: getType(), useAlias: false});
     }),
     OnSerialize((value: any, ctx) => {
       if (isRef(value)) {
