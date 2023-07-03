@@ -1,6 +1,6 @@
 {
   "name": "@tsed/platform-test-sdk",
-  "version": "7.30.2",
+  "version": "7.30.3",
   "description": "Package to test platform adapter integration with Ts.ED",
   "private": false,
   "source": "./src/index.ts",
@@ -28,25 +28,25 @@
     "Adapter"
   ],
   "dependencies": {
-    "@tsed/ajv": "7.30.2",
-    "@tsed/common": "7.30.2",
-    "@tsed/core": "7.30.2",
-    "@tsed/di": "7.30.2",
-    "@tsed/json-mapper": "7.30.2",
+    "@tsed/ajv": "7.30.3",
+    "@tsed/common": "7.30.3",
+    "@tsed/core": "7.30.3",
+    "@tsed/di": "7.30.3",
+    "@tsed/json-mapper": "7.30.3",
     "@tsed/logger": "6.2.2",
-    "@tsed/platform-cache": "7.30.2",
-    "@tsed/platform-params": "7.30.2",
-    "@tsed/platform-router": "7.30.2",
-    "@tsed/platform-views": "7.30.2",
-    "@tsed/schema": "7.30.2",
-    "@tsed/swagger": "7.30.2",
+    "@tsed/platform-cache": "7.30.3",
+    "@tsed/platform-params": "7.30.3",
+    "@tsed/platform-router": "7.30.3",
+    "@tsed/platform-views": "7.30.3",
+    "@tsed/schema": "7.30.3",
+    "@tsed/swagger": "7.30.3",
     "ajv": "^8.12.0",
     "axios": "^1.3.0",
     "read-pkg-up": "7.0.1"
   },
   "devDependencies": {
-    "@tsed/eslint": "7.30.2",
-    "@tsed/typescript": "7.30.2",
+    "@tsed/eslint": "7.30.3",
+    "@tsed/typescript": "7.30.3",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {}
