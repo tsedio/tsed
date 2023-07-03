@@ -1,5 +1,6 @@
 import {PlatformTest} from "@tsed/common";
 import {Env} from "@tsed/core";
+import {ConsentInteraction} from "../../test/app/interactions/ConsentInteraction";
 import {Interaction} from "../decorators/interaction";
 import {OidcInteractions} from "./OidcInteractions";
 import {OidcPolicy} from "./OidcPolicy";
@@ -15,7 +16,6 @@ describe("OidcPolicy", () => {
     })
   );
   afterEach(() => PlatformTest.reset());
-
   describe("createPrompt()", () => {
     it("should bind options to prompt instance", async () => {
       const oidcProvider = PlatformTest.get<OidcPolicy>(OidcPolicy);
@@ -53,78 +53,103 @@ describe("OidcPolicy", () => {
     });
   });
   describe("getPolicy()", () => {
-    @Interaction({
-      name: "test"
-    })
-    class TestInteraction {}
+    describe('when there is interactions with "priority" property', () => {
+      @Interaction({
+        name: "test"
+      })
+      class TestInteraction {}
 
-    @Interaction({
-      name: "test2"
-    })
-    class Test2Interaction {}
+      @Interaction({
+        name: "test2"
+      })
+      class Test2Interaction {}
 
-    @Interaction({
-      name: "login"
-    })
-    class LoginInteraction {}
+      @Interaction({
+        name: "login"
+      })
+      class LoginInteraction {}
 
-    @Interaction({
-      name: "consent"
-    })
-    class ConsentInteraction {}
+      @Interaction({
+        name: "consent"
+      })
+      class ConsentInteraction {}
 
-    @Interaction({
-      name: "test3",
-      priority: 0
-    })
-    class Test3Interaction {}
+      @Interaction({
+        name: "test3",
+        priority: 0
+      })
+      class Test3Interaction {}
 
-    it("should load policy (without priority)", async () => {
-      const oidcInteractions = {
-        getInteractions: jest
-          .fn()
-          .mockReturnValue([
-            PlatformTest.injector.getProvider(Test2Interaction),
-            PlatformTest.injector.getProvider(LoginInteraction),
-            PlatformTest.injector.getProvider(ConsentInteraction),
-            PlatformTest.injector.getProvider(TestInteraction)
-          ])
-      };
+      it("should load policy (without priority)", async () => {
+        const oidcInteractions = {
+          getInteractions: jest
+            .fn()
+            .mockReturnValue([
+              PlatformTest.injector.getProvider(Test2Interaction),
+              PlatformTest.injector.getProvider(LoginInteraction),
+              PlatformTest.injector.getProvider(ConsentInteraction),
+              PlatformTest.injector.getProvider(TestInteraction)
+            ])
+        };
 
-      const oidcProvider = await PlatformTest.invoke<OidcPolicy>(OidcPolicy, [
-        {
-          token: OidcInteractions,
-          use: oidcInteractions
-        }
-      ]);
+        const oidcProvider = await PlatformTest.invoke<OidcPolicy>(OidcPolicy, [
+          {
+            token: OidcInteractions,
+            use: oidcInteractions
+          }
+        ]);
 
-      const policy = oidcProvider.getPolicy();
+        const policy = oidcProvider.getPolicy();
 
-      expect(policy.map(({name}) => name)).toEqual(["test2", "login", "consent", "test"]);
+        expect(policy.map(({name}) => name)).toEqual(["test2", "login", "consent", "test"]);
+      });
+      it("should load policy (with priority)", async () => {
+        const oidcInteractions = {
+          getInteractions: jest
+            .fn()
+            .mockReturnValue([
+              PlatformTest.injector.getProvider(Test2Interaction),
+              PlatformTest.injector.getProvider(LoginInteraction),
+              PlatformTest.injector.getProvider(ConsentInteraction),
+              PlatformTest.injector.getProvider(TestInteraction),
+              PlatformTest.injector.getProvider(Test3Interaction)
+            ])
+        };
+
+        const oidcProvider = await PlatformTest.invoke<OidcPolicy>(OidcPolicy, [
+          {
+            token: OidcInteractions,
+            use: oidcInteractions
+          }
+        ]);
+
+        const policy = oidcProvider.getPolicy();
+
+        expect(policy.map(({name}) => name)).toEqual(["test3", "login", "consent", "test2", "test"]);
+      });
     });
-    it("should load policy (with priority)", async () => {
-      const oidcInteractions = {
-        getInteractions: jest
-          .fn()
-          .mockReturnValue([
-            PlatformTest.injector.getProvider(Test2Interaction),
-            PlatformTest.injector.getProvider(LoginInteraction),
-            PlatformTest.injector.getProvider(ConsentInteraction),
-            PlatformTest.injector.getProvider(TestInteraction),
-            PlatformTest.injector.getProvider(Test3Interaction)
-          ])
-      };
+    describe("when there is no interactions without usePriority", () => {
+      it("should load policy", async () => {
+        const oidcInteractions = {
+          getInteractions: jest.fn().mockReturnValue([])
+        };
 
-      const oidcProvider = await PlatformTest.invoke<OidcPolicy>(OidcPolicy, [
-        {
-          token: OidcInteractions,
-          use: oidcInteractions
-        }
-      ]);
+        const oidcPolicy = await PlatformTest.invoke<OidcPolicy>(OidcPolicy, [
+          {
+            token: OidcInteractions,
+            use: oidcInteractions
+          }
+        ]);
 
-      const policy = oidcProvider.getPolicy();
+        jest.spyOn(oidcPolicy as any, "getInteractions").mockReturnValue({
+          usePriority: false,
+          interactions: new Map([["login", {name: "login", instance: {}} as any]])
+        });
 
-      expect(policy.map(({name}) => name)).toEqual(["test3", "login", "consent", "test2", "test"]);
+        const policy = oidcPolicy.getPolicy();
+
+        expect(policy.map(({name}) => name)).toEqual(["login", "consent"]);
+      });
     });
   });
 });
