@@ -1,9 +1,9 @@
+import faker from "@faker-js/faker";
 import {BodyParams, Controller, Get, Inject, PlatformTest, Post, QueryParams} from "@tsed/common";
 import {deserialize, serialize} from "@tsed/json-mapper";
 import {MongooseModel} from "@tsed/mongoose";
 import {PlatformExpress} from "@tsed/platform-express";
 import {TestMongooseContext} from "@tsed/testing-mongoose";
-import faker from "@faker-js/faker";
 import SuperTest from "supertest";
 import {TestProfile, TestUser} from "./helpers/models/User";
 import {Server} from "./helpers/Server";
@@ -76,6 +76,31 @@ describe("Mongoose", () => {
     });
 
     afterEach(TestMongooseContext.reset);
+
+    it("should deserialize class with ref", () => {
+      const result = deserialize(
+        {
+          image: "url",
+          age: 12,
+          user: {
+            email: "test@test.com",
+            password: "password"
+          }
+        },
+        {type: TestProfile}
+      );
+
+      expect(result).toEqual({
+        age: 12,
+        image: "url",
+        user: {
+          alwaysIgnored: "hello ignore",
+          email: "test@test.com",
+          password: "password"
+        }
+      });
+      expect(result.user).toBeInstanceOf(TestUser);
+    });
 
     it("should transform mongoose instance to class", () => {
       const result = currentUser.toClass();

@@ -593,7 +593,7 @@ export class InjectorService extends Container {
    * @param options
    * @private
    */
-  private resolve<T>(
+  protected resolve<T>(
     target: TokenProvider,
     locals: LocalsContainer = new LocalsContainer(),
     options: Partial<InvokeOptions<T>> = {}

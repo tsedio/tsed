@@ -36,7 +36,12 @@ export class OidcPolicy {
 
       // reordering interactions by interactions index
       if (!usePriority) {
-        policy = policy.sort((a, b) => (interactions.get(a.name)!.order < interactions.get(b.name)!.order ? -1 : 1));
+        policy = policy.sort((a, b) => {
+          const o1 = interactions.get(a.name)?.order || 0;
+          const o2 = interactions.get(b.name)?.order || 0;
+
+          return o1 < o2 ? -1 : 1;
+        });
       }
     }
 
@@ -55,23 +60,35 @@ export class OidcPolicy {
 
     const interactions = this.oidcInteractions.getInteractions();
 
-    const map = interactions.reduce((map, provider, index) => {
-      const instance = this.injector.get<InteractionMethods>(provider.token)!;
+    const map = interactions.reduce(
+      (map, provider, index) => {
+        const instance = this.injector.get<InteractionMethods>(provider.token)!;
 
-      const options = provider.store.get("interactionOptions");
+        const options = provider.store.get("interactionOptions");
 
-      if (options.priority !== undefined) {
-        usePriority = true;
-      }
+        if (options.priority !== undefined) {
+          usePriority = true;
+        }
 
-      return map.set(options.name, {
-        order: index,
-        name: options.name,
-        provider,
-        instance,
-        options
-      });
-    }, new Map<string, {order: number; provider: Provider; instance: any; options: OidcInteractionOptions; name: string}>());
+        return map.set(options.name, {
+          order: index,
+          name: options.name,
+          provider,
+          instance,
+          options
+        });
+      },
+      new Map<
+        string,
+        {
+          order: number;
+          provider: Provider;
+          instance: any;
+          options: OidcInteractionOptions;
+          name: string;
+        }
+      >()
+    );
 
     return {
       interactions: map,
