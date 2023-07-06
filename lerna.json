@@ -11,10 +11,12 @@
     "packages/third-parties/*",
     "docs"
   ],
-  "version": "7.30.3",
+  "version": "7.31.0",
   "command": {
     "bootstrap": {
-      "npmClientArgs": ["--no-package-lock"]
+      "npmClientArgs": [
+        "--no-package-lock"
+      ]
     }
   }
 }
