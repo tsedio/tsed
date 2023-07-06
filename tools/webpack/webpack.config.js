@@ -1,11 +1,12 @@
-exports.create = ({root, name, externals = {}, resolve = {}}) => {
+exports.create = ({root, name, entry, externals = {}, resolve = {}}) => {
   return {
     mode: "production",
     devtool: "source-map",
     stats: {warnings: false},
     target: "web",
     entry: {
-      main: "./src/index.ts"
+      main: "./src/index.ts",
+      ...entry
     },
     output: {
       path: `${root}/lib/browser/`,

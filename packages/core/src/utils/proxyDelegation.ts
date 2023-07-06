@@ -1,4 +1,5 @@
 import {uniq} from "./uniq";
+
 /**
  * @ignore
  */
@@ -15,6 +16,7 @@ export type ProxyDelegationSetter<T = any> = (target: T, property: PropertyKey, 
  * @ignore
  */
 export type ProxyDelegationOwnKeys<T = any> = (target: T) => (string | symbol)[];
+
 /**
  * @ignore
  */

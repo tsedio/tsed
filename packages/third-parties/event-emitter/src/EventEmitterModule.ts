@@ -1,22 +1,21 @@
-import {Constant, Inject, InjectorService, Module, Provider} from "@tsed/di";
-import {Logger} from "@tsed/logger";
+import {Constant, Inject, InjectorService, LOGGER, Module, Provider} from "@tsed/di";
 import {ListenerFn} from "eventemitter2";
 import {EventEmitterStore} from "./interfaces/EventEmitterStore";
 import {EventEmitterService} from "./services/EventEmitterFactory";
 
 @Module()
 export class EventEmitterModule {
-  @Constant("eventEmitter.disableSummary", false)
-  private disableSummary: boolean;
-
-  @Inject()
-  protected logger: Logger;
+  @Inject(LOGGER)
+  protected logger: LOGGER;
 
   @Inject()
   protected injector: InjectorService;
 
   @Inject()
   protected eventEmitter: EventEmitterService;
+
+  @Constant("eventEmitter.disableSummary", false)
+  private disableSummary: boolean;
 
   @Constant("eventEmitter.enabled", false)
   private loadEventEmitter: boolean;

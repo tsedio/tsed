@@ -9,7 +9,7 @@ export class Server {
   @Inject()
   app: PlatformApplication;
 
-  $beforeRoutesInits() {
+  $beforeRoutesInit() {
     this.app.use(GlobalAcceptMimeMiddleware);
   }
 

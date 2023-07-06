@@ -1,7 +1,7 @@
 {
   "extends": "@tsed/typescript/tsconfig.node.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "./",
     "module": "commonjs",
     "rootDir": "src",
     "outDir": "./lib/cjs",
@@ -26,6 +26,9 @@
     "webpack.config.js"
   ],
   "references": [
+    {
+      "path": "../core"
+    },
     {
       "path": "../core"
     },

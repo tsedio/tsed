@@ -4,22 +4,25 @@
   "description": "DI module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
-  "main": "./lib/cjs/index.js",
-  "module": "./lib/esm/index.js",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
   "typings": "./lib/types/index.d.ts",
+  "browser": "./lib/browser/di.umd.min.js",
   "exports": {
     "types": "./lib/types/index.d.ts",
+    "browser": "./lib/browser/di.umd.min.js",
     "import": "./lib/esm/index.js",
     "require": "./lib/cjs/index.js",
     "default": "./lib/esm/index.js"
   },
   "scripts": {
-    "build": "yarn barrels && yarn build:ts",
-    "barrels": "yarn barrelsby --delete -d ./src -e \"\\.spec\\.ts\" -e \"__mock__\"",
+    "build": "yarn barrels && yarn build:ts && yarn run build:browser",
+    "build:browser": "webpack",
+    "barrels": "yarn barrelsby --config .barrelsby.json",
     "test": "cross-env NODE_ENV=test yarn jest --max-workers=2 && jest-coverage-thresholds-bumper",
     "build:ts": "tsc --build tsconfig.json && tsc --build tsconfig.esm.json",
-    "lint": "eslint '**/*.{ts,js}'",
-    "lint:fix": "eslint '**/*.{ts,js}' --fix"
+    "lint": "node_modules/.bin/eslint '**/*.{ts,js}'",
+    "lint:fix": "node_modules/.bin/eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
     "tslib": "2.5.0"
