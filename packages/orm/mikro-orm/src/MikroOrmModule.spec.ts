@@ -6,10 +6,10 @@ import {MikroOrmContext} from "./services/MikroOrmContext";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
 import {Subscriber} from "./decorators/subscriber";
 
-export class Subscriber1 implements EventSubscriber {}
+class Subscriber1 implements EventSubscriber {}
 
 @Subscriber()
-export class Subscriber2 implements EventSubscriber {}
+class Subscriber2 implements EventSubscriber {}
 
 describe("MikroOrmModule", () => {
   const config: Options = {
@@ -57,7 +57,7 @@ describe("MikroOrmModule", () => {
   });
 
   describe("$onInit", () => {
-    it("should register the corresponding instances", async () => {
+    it("should register the subscribers", async () => {
       // act
       await mikroOrmModule.$onInit();
 

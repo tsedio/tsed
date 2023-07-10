@@ -4,10 +4,11 @@ import {Logger} from "@tsed/logger";
 import {Subscriber} from "../../../src";
 
 @Subscriber()
-export class EventSubscriber1 implements EventSubscriber {
+export class ManagedEventSubscriber implements EventSubscriber {
   constructor(@Inject() private readonly logger: Logger) {}
 
-  public async afterFlush(_: TransactionEventArgs): Promise<void> {
+  public afterFlush(_: TransactionEventArgs): Promise<void> {
     this.logger.info("Changes has been flushed.");
+    return Promise.resolve();
   }
 }

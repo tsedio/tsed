@@ -6,7 +6,8 @@ import {Server} from "./helpers/Server";
 import {UserService} from "./helpers/services/UserService";
 import {MikroORM} from "@mikro-orm/core";
 import {anything, spy, verify} from "ts-mockito";
-import {EventSubscriber2} from "./helpers/services/EventSubscriber2";
+import {UnmanagedEventSubscriber1} from "./helpers/services/UnmanagedEventSubscriber1";
+import {UnmanagedEventSubscriber2} from "./helpers/services/UnmanagedEventSubscriber2";
 import {MikroOrmModule, TransactionalInterceptor} from "../src";
 
 describe("MikroOrm integration", () => {
@@ -21,7 +22,7 @@ describe("MikroOrm integration", () => {
           clientUrl,
           type: "mongo",
           entities: [User],
-          subscribers: [new EventSubscriber2()]
+          subscribers: [UnmanagedEventSubscriber1, new UnmanagedEventSubscriber2()]
         },
         {
           clientUrl,
@@ -78,6 +79,6 @@ describe("MikroOrm integration", () => {
 
     await service.create({email: "test@example.com"});
 
-    verify(spiedLogger.info("Changes has been flushed.")).twice();
+    verify(spiedLogger.info("Changes has been flushed.")).thrice();
   });
 });
