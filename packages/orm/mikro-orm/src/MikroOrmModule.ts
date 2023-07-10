@@ -13,7 +13,7 @@ import {
 } from "@tsed/di";
 import {EventSubscriber, Options} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
-import {RetryStrategy} from "./services/RetryStrategy";
+import {RetryStrategy} from "./interfaces/RetryStrategy";
 import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter";
 import {MikroOrmContext} from "./services/MikroOrmContext";
 import {classOf, isFunction, Store} from "@tsed/core";
