@@ -1,23 +1,22 @@
-import {EntityManager, EventSubscriber, MikroORM, Options, Subscriber} from "@mikro-orm/core";
+import {EntityManager, EventSubscriber, MikroORM, Options} from "@mikro-orm/core";
 import {PlatformTest} from "@tsed/common";
 import {anyOfClass, anything, deepEqual, instance, mock, reset, verify, when} from "ts-mockito";
 import {MikroOrmModule} from "./MikroOrmModule";
 import {MikroOrmContext} from "./services/MikroOrmContext";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
+import {Subscriber} from "./decorators/subscriber";
 
 export class Subscriber1 implements EventSubscriber {}
 
-export class Subscriber2 implements EventSubscriber {}
-
 @Subscriber()
-export class Subscriber3 implements EventSubscriber {}
+export class Subscriber2 implements EventSubscriber {}
 
 describe("MikroOrmModule", () => {
   const config: Options = {
     type: "mongo",
     entities: [],
     clientUrl: "mongo://localhost",
-    subscribers: [new Subscriber1(), Subscriber2]
+    subscribers: [new Subscriber1()]
   };
   const mockedMikroOrmRegistry = mock<MikroOrmRegistry>();
   const mockedMikroOrmContext = mock<MikroOrmContext>();

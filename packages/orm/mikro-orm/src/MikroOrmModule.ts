@@ -1,27 +1,12 @@
-import {EventSubscriber, MetadataStorage, Options} from "@mikro-orm/core";
-import {isClass, isFunction, Type} from "@tsed/core";
-import {
-  AlterRunInContext,
-  Constant,
-  Inject,
-  InjectorService,
-  LocalsContainer,
-  Module,
-  OnDestroy,
-  OnInit,
-  ProviderScope,
-  registerProvider
-} from "@tsed/di";
-import {instance} from "ts-mockito";
-import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter";
-import {MikroOrmContext} from "./services/MikroOrmContext";
 import "./services/MikroOrmFactory";
+import {AlterRunInContext, Constant, Inject, Module, OnDestroy, OnInit, registerProvider} from "@tsed/di";
+import {EventSubscriber, Options} from "@mikro-orm/core";
 import {MikroOrmRegistry} from "./services/MikroOrmRegistry";
 import {RetryStrategy} from "./services/RetryStrategy";
-
-export interface MikroOrmOptions extends Omit<Options, "subscribers"> {
-  subscribers?: (EventSubscriber | Type<EventSubscriber>)[];
-}
+import {OptimisticLockErrorFilter} from "./filters/OptimisticLockErrorFilter";
+import {MikroOrmContext} from "./services/MikroOrmContext";
+import {classOf, Store} from "@tsed/core";
+import {DEFAULT_CONTEXT_NAME, SUBSCRIBER_INJECTION_TYPE} from "./constants";
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/no-namespace
@@ -31,7 +16,7 @@ declare global {
        * The ORM configuration, entity metadata.
        * If you omit the `options` parameter, your CLI config will be used.
        */
-      mikroOrm?: MikroOrmOptions[];
+      mikroOrm?: Options[];
     }
   }
 }
@@ -41,7 +26,7 @@ declare global {
 })
 export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
   @Constant("mikroOrm", [])
-  private readonly settings!: MikroOrmOptions[];
+  private readonly settings!: Options[];
 
   @Inject()
   private readonly registry!: MikroOrmRegistry;
@@ -49,38 +34,16 @@ export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
   @Inject()
   private readonly context!: MikroOrmContext;
 
-  @Inject()
-  private readonly injector: InjectorService;
+  constructor(@Inject(SUBSCRIBER_INJECTION_TYPE) private subscribers: EventSubscriber[]) {}
 
   public async $onInit(): Promise<void> {
-    const subscribers = MetadataStorage.getSubscriberMetadata();
-    const container = new LocalsContainer();
-    const diOpts = {scope: ProviderScope.INSTANCE};
-
-    Object.values(subscribers).forEach((instance) => {
-      // try to make all subscribers decorated with @Subscriber to be injectable (in this case,
-      this.injector.bindInjectableProperties(instance, container, diOpts);
-    });
-
     await Promise.all(
-      this.settings.map(async (opts) => {
-        opts.subscribers = opts.subscribers ?? [];
-
-        const subscribers = opts.subscribers.map((subscriber) => {
-          if (isFunction(subscriber)) {
-            return this.injector.invoke(subscriber, container, diOpts);
-          }
-
-          this.injector.bindInjectableProperties(instance, container, diOpts);
-
-          return subscriber;
-        });
-
-        return this.registry.register({
+      this.settings.map(async (opts) =>
+        this.registry.register({
           ...opts,
-          subscribers
-        });
-      })
+          subscribers: [...(opts.subscribers ?? []), ...this.getSubscribers(opts.contextName)]
+        })
+      )
     );
   }
 
@@ -90,6 +53,10 @@ export class MikroOrmModule implements OnDestroy, OnInit, AlterRunInContext {
 
   public $alterRunInContext(next: (...args: unknown[]) => unknown): () => unknown | Promise<() => unknown> {
     return () => this.createContext(next);
+  }
+
+  private getSubscribers(contextName: string = DEFAULT_CONTEXT_NAME): EventSubscriber[] {
+    return this.subscribers.filter((instance) => Store.from(classOf(instance)).get(SUBSCRIBER_INJECTION_TYPE)?.contextName === contextName);
   }
 
   private createContext(next: (...args: unknown[]) => unknown): unknown {
