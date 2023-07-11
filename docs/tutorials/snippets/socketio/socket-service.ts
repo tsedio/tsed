@@ -1,4 +1,4 @@
-import {IO, Nsp, Socket, SocketService, SocketSession} from "@tsed/socketio";
+import {IO, Nsp, Socket, SocketService, SocketSession, Reason} from "@tsed/socketio";
 import * as SocketIO from "socket.io";
 
 @SocketService("/my-namespace")
@@ -23,5 +23,5 @@ export class MySocketService {
   /**
    * Triggered when a client disconnects from the Namespace.
    */
-  $onDisconnect(@Socket socket: SocketIO.Socket) {}
+  $onDisconnect(@Socket socket: SocketIO.Socket, @Reason reason: string) {}
 }

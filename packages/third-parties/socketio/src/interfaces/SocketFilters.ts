@@ -8,5 +8,6 @@ export enum SocketFilters {
   NSP = "nsp",
   SESSION = "session",
   ERR = "error",
-  SOCKET_NSP = "socket_nsp"
+  SOCKET_NSP = "socket_nsp",
+  REASON = "reason"
 }

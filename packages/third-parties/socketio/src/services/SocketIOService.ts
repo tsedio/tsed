@@ -33,9 +33,9 @@ export class SocketIOService {
           builder.onConnection(socket, conf.nsp);
         });
 
-        socket.on("disconnect", () => {
+        socket.on("disconnect", (reason: string) => {
           conf.instances.forEach((builder: SocketHandlersBuilder) => {
-            builder.onDisconnect(socket, conf.nsp);
+            builder.onDisconnect(socket, conf.nsp, reason);
           });
         });
       });

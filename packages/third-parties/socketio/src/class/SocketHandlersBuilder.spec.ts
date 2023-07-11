@@ -197,6 +197,50 @@ describe("SocketHandlersBuilder", () => {
         }
       );
     });
+
+    it("should pass the disconnection reason", () => {
+      const instance = {
+        $onDisconnect: jest.fn()
+      };
+
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue({
+            injectNamespace: "nsp",
+            handlers: {
+              $onDisconnect: {
+                eventName: "onDisconnect"
+              }
+            }
+          })
+        }
+      };
+      const nspStub: any = {nsp: "nsp"};
+      const reason = "transport error";
+      const socketStub: any = {
+        on: jest.fn()
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {
+        get() {
+          return instance;
+        }
+      } as any);
+      const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
+      jest.spyOn(builder, "destroySession").mockReturnValue(undefined);
+
+      builder.onDisconnect(socketStub, nspStub, reason);
+
+      expect(invokeStub).toBeCalledWith(
+        instance,
+        {eventName: "onDisconnect"},
+        {
+          reason,
+          socket: socketStub,
+          nsp: nspStub
+        }
+      );
+    });
   });
   describe("createSession()", () => {
     it("should create session for the socket", () => {
@@ -387,6 +431,23 @@ describe("SocketHandlersBuilder", () => {
         );
 
         expect(result).toEqual(["nsp"]);
+      });
+    });
+
+    describe("when REASON", () => {
+      it("should return a disconnect reason", () => {
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.REASON
+            }
+          },
+          {reason: "transport error"}
+        );
+
+        expect(result).toEqual(["transport error"]);
       });
     });
 

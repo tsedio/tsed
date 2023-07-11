@@ -16,6 +16,7 @@ export * from "./decorators/inputAndBroadcastOthers";
 export * from "./decorators/inputAndEmit";
 export * from "./decorators/io";
 export * from "./decorators/nsp";
+export * from "./decorators/reason";
 export * from "./decorators/socket";
 export * from "./decorators/socketErr";
 export * from "./decorators/socketEventName";
