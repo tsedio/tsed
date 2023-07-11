@@ -67,7 +67,7 @@ Example:
 
 ```typescript
 import * as SocketIO from "socket.io";
-import {SocketService, IO, Nsp, Socket, SocketSession} from "@tsed/socketio";
+import {SocketService, IO, Nsp, Socket, SocketSession, Reason} from "@tsed/socketio";
 
 @SocketService("/my-namespace")
 export class MySocketService {
@@ -88,7 +88,7 @@ export class MySocketService {
   /**
    * Triggered when a client disconnects from the Namespace.
    */
-  $onDisconnect(@Socket socket: SocketIO.Socket) {}
+  $onDisconnect(@Socket socket: SocketIO.Socket, @Reason reason: string) {}
 }
 ```
 

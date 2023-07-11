@@ -92,12 +92,12 @@ export class SocketHandlersBuilder {
     }
   }
 
-  public onDisconnect(socket: Socket, nsp: Namespace) {
+  public onDisconnect(socket: Socket, nsp: Namespace, reason?: string) {
     const instance = this.injector.get(this.provider.token);
     const {socketProviderMetadata} = this;
 
     if (instance.$onDisconnect) {
-      this.invoke(instance, socketProviderMetadata.$onDisconnect, {socket, nsp});
+      this.invoke(instance, socketProviderMetadata.$onDisconnect, {socket, nsp, reason});
     }
 
     this.destroySession(socket);
@@ -253,6 +253,9 @@ export class SocketHandlersBuilder {
 
         case SocketFilters.SOCKET_NSP:
           return scope.socket.nsp;
+
+        case SocketFilters.REASON:
+          return scope.reason;
       }
     });
   }

@@ -24,48 +24,30 @@ async function createServiceFixture() {
       use: ioStub
     }
   ]);
+  const reason = "transport error";
 
-  return {namespace, ioStub, service, instance, socket};
+  return {namespace, ioStub, service, instance, socket, reason};
 }
 
 describe("SocketIOService", () => {
   beforeEach(() => PlatformTest.create());
   afterEach(() => PlatformTest.reset());
 
-  describe("getNsp(string)", () => {
-    it("should call io.of and create namespace", async () => {
-      const {service, namespace, ioStub, socket, instance} = await createServiceFixture();
+  describe("getNsp", () => {
+    it.each([{input: "/"}, {input: /test/}])("should call io.of with $input and create namespace", async ({input}) => {
+      const {service, namespace, ioStub, socket, instance, reason} = await createServiceFixture();
 
-      const nspConf = service.getNsp("/");
+      const nspConf = service.getNsp(input);
       nspConf.instances.push(instance);
 
       namespace.on.mock.calls[0][1](socket);
-      socket.on.mock.calls[0][1]();
+      socket.on.mock.calls[0][1](reason);
 
-      expect(ioStub.of).toBeCalledWith("/");
+      expect(ioStub.of).toBeCalledWith(input);
       expect(namespace.on).toBeCalledWith("connection", expect.any(Function));
       expect(instance.onConnection).toBeCalledWith(socket, namespace);
       expect(socket.on).toBeCalledWith("disconnect", expect.any(Function));
-      expect(instance.onDisconnect).toBeCalledWith(socket, namespace);
-    });
-  });
-
-  describe("getNsp(RegExp)", () => {
-    it("should call io.of and create namespace", async () => {
-      const {service, namespace, ioStub, socket, instance} = await createServiceFixture();
-      const regexp = new RegExp(/test/);
-
-      const nspConf = service.getNsp(regexp);
-      nspConf.instances.push(instance);
-
-      namespace.on.mock.calls[0][1](socket);
-      socket.on.mock.calls[0][1]();
-
-      expect(ioStub.of).toBeCalledWith(regexp);
-      expect(namespace.on).toBeCalledWith("connection", expect.any(Function));
-      expect(instance.onConnection).toBeCalledWith(socket, namespace);
-      expect(socket.on).toBeCalledWith("disconnect", expect.any(Function));
-      expect(instance.onDisconnect).toBeCalledWith(socket, namespace);
+      expect(instance.onDisconnect).toBeCalledWith(socket, namespace, reason);
     });
   });
 });
