@@ -80,7 +80,7 @@ export class SocketHandlersBuilder {
    * @param {Socket} socket
    * @param {Namespace} nsp
    */
-  public onConnection(socket: Socket, nsp: Namespace) {
+  public async onConnection(socket: Socket, nsp: Namespace) {
     const {socketProviderMetadata} = this;
     const instance = this.injector.get(this.provider.token);
 
@@ -88,16 +88,16 @@ export class SocketHandlersBuilder {
     this.createSession(socket);
 
     if (instance.$onConnection) {
-      this.invoke(instance, socketProviderMetadata.$onConnection, {socket, nsp});
+      await this.invoke(instance, socketProviderMetadata.$onConnection, {socket, nsp});
     }
   }
 
-  public onDisconnect(socket: Socket, nsp: Namespace, reason?: string) {
+  public async onDisconnect(socket: Socket, nsp: Namespace, reason?: string) {
     const instance = this.injector.get(this.provider.token);
     const {socketProviderMetadata} = this;
 
     if (instance.$onDisconnect) {
-      this.invoke(instance, socketProviderMetadata.$onDisconnect, {socket, nsp, reason});
+      await this.invoke(instance, socketProviderMetadata.$onDisconnect, {socket, nsp, reason});
     }
 
     this.destroySession(socket);
@@ -136,7 +136,6 @@ export class SocketHandlersBuilder {
   }
 
   private runQueue(handlerMetadata: SocketHandlerMetadata, args: any[], socket: Socket, nsp: Namespace) {
-    let promise: any = Promise.resolve(args);
     const instance = this.injector.get(this.provider.token);
     const {useBefore, useAfter} = this.socketProviderMetadata;
     const scope = {
@@ -146,7 +145,7 @@ export class SocketHandlersBuilder {
       eventName: handlerMetadata.eventName
     };
 
-    promise = promise.then(() => this.deserialize(handlerMetadata, scope));
+    let promise = Promise.resolve().then(() => this.deserialize(handlerMetadata, scope));
 
     if (useBefore) {
       useBefore.forEach((target: any) => (promise = this.bindMiddleware(target, scope, promise)));

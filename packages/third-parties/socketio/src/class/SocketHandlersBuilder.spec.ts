@@ -109,7 +109,7 @@ describe("SocketHandlersBuilder", () => {
     });
   });
   describe("onConnection()", () => {
-    it("should build handler and invoke onConnection instance method", () => {
+    it("should build handler and invoke onConnection instance method", async () => {
       const instance = {
         $onConnection: jest.fn()
       };
@@ -140,7 +140,7 @@ describe("SocketHandlersBuilder", () => {
       const buildHandlersStub = jest.spyOn(builder, "buildHandlers").mockReturnValue(undefined);
       const createSessionStub = jest.spyOn(builder, "createSession").mockReturnValue(undefined);
 
-      builder.onConnection(socketStub, nspStub);
+      await builder.onConnection(socketStub, nspStub);
 
       expect(buildHandlersStub).toBeCalledWith(socketStub, nspStub);
       expect(createSessionStub).toBeCalledWith(socketStub);
@@ -155,7 +155,7 @@ describe("SocketHandlersBuilder", () => {
     });
   });
   describe("onDisconnect()", () => {
-    it("should call the createSession method and create the $onDisconnect method if is missing", () => {
+    it("should call the createSession method and create the $onDisconnect method if is missing", async () => {
       const instance = {
         $onDisconnect: jest.fn()
       };
@@ -185,7 +185,7 @@ describe("SocketHandlersBuilder", () => {
       const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
       const destroySessionStub = jest.spyOn(builder, "destroySession").mockReturnValue(undefined);
 
-      builder.onDisconnect(socketStub, nspStub);
+      await builder.onDisconnect(socketStub, nspStub);
 
       expect(destroySessionStub).toBeCalledWith(socketStub);
       expect(invokeStub).toBeCalledWith(
@@ -198,7 +198,7 @@ describe("SocketHandlersBuilder", () => {
       );
     });
 
-    it("should pass the disconnection reason", () => {
+    it("should pass the disconnection reason", async () => {
       const instance = {
         $onDisconnect: jest.fn()
       };
@@ -229,7 +229,7 @@ describe("SocketHandlersBuilder", () => {
       const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
       jest.spyOn(builder, "destroySession").mockReturnValue(undefined);
 
-      builder.onDisconnect(socketStub, nspStub, reason);
+      await builder.onDisconnect(socketStub, nspStub, reason);
 
       expect(invokeStub).toBeCalledWith(
         instance,
@@ -240,6 +240,41 @@ describe("SocketHandlersBuilder", () => {
           nsp: nspStub
         }
       );
+    });
+
+    it("should destroy the session only when $onDisconnect is completed invocation", async () => {
+      const instance = {
+        $onDisconnect: jest.fn()
+      };
+
+      const provider: any = {
+        store: {
+          get: jest.fn().mockReturnValue({
+            injectNamespace: "nsp",
+            handlers: {
+              $onDisconnect: {
+                eventName: "onDisconnect"
+              }
+            }
+          })
+        }
+      };
+      const nspStub: any = {nsp: "nsp"};
+      const socketStub: any = {
+        on: jest.fn()
+      };
+
+      const builder: any = new SocketHandlersBuilder(provider, {
+        get() {
+          return instance;
+        }
+      } as any);
+      const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
+      const destroySessionStub = jest.spyOn(builder, "destroySession").mockReturnValue(undefined);
+
+      await builder.onDisconnect(socketStub, nspStub);
+
+      expect(destroySessionStub.mock.invocationCallOrder[0]).toBeGreaterThan(invokeStub.mock.invocationCallOrder[0]);
     });
   });
   describe("createSession()", () => {
