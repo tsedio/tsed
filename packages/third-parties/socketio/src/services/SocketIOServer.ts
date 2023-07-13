@@ -1,4 +1,4 @@
-import {registerProvider} from "@tsed/di";
+import {Configuration, registerProvider} from "@tsed/di";
 import {Server} from "socket.io";
 
 export type SocketIOServer = Server;
@@ -10,7 +10,8 @@ export {Server};
 
 registerProvider({
   provide: Server,
-  useFactory() {
-    return new Server();
+  deps: [Configuration],
+  useFactory(config: Configuration) {
+    return new Server(config.socketIO);
   }
 });
