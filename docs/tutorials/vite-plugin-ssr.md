@@ -21,6 +21,11 @@ technology, deploy environment, Vite plugin, ...).
 
 With `vite-plugin-ssr`, you integrate tools manually and keep `architectural control`.
 
+::: tip
+You can read also this article over Ts.ED + Vite-plugin-ssr on Medium:
+https://romainlenzotti.medium.com/use-vite-and-ts-ed-to-build-your-website-84fb4c0d8079
+:::
+
 ## Features
 
 - Use `@Vite` decorator to generate a page using `vite-plugin-ssr`
