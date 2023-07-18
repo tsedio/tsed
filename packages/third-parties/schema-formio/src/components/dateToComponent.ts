@@ -6,7 +6,6 @@ function dateToComponent(schema: any, options: any) {
 
   const base = {
     enableMinDateInput: false,
-    enableTime: false,
     enableMaxDateInput: false,
     input: true,
     ...component,

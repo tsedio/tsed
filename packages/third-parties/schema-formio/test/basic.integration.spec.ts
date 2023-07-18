@@ -14,8 +14,6 @@ import {
 } from "@tsed/schema";
 import {getFormioSchema, InputTags, TableView} from "../src";
 
-import data from "./data/basic.json";
-
 export enum OIDCResponseTypes {
   CODE = "code",
   ID_TOKEN_TOKEN = "id_token token",
@@ -153,6 +151,6 @@ describe("Basic", () => {
   it("should generate the correct schema", async () => {
     const form = await getFormioSchema(OIDCClient, {groups: ["group1"]});
 
-    expect(form).toEqual(data);
+    expect(form).toMatchSnapshot();
   });
 });

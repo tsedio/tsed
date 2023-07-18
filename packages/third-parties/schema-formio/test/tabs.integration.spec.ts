@@ -15,7 +15,6 @@ import {
 } from "@tsed/schema";
 import {getFormioSchema, InputTags, TableView} from "../src";
 import {Tabs} from "../src/decorators/tabs";
-import data from "./data/tabs.json";
 
 export enum OIDCResponseTypes {
   CODE = "code",
@@ -180,6 +179,6 @@ describe("Tabs integration", () => {
   it("should generate the correct schema", async () => {
     const form = await getFormioSchema(OIDCClient, {groups: ["group1"]});
 
-    expect(form).toEqual(data);
+    expect(form).toMatchSnapshot();
   });
 });
