@@ -9,55 +9,7 @@ describe("Date integration", () => {
     }
 
     const form = await getFormioSchema(Model);
-    expect(form).toEqual({
-      access: [],
-      components: [
-        {
-          datePicker: {
-            disableWeekdays: false,
-            disableWeekends: false
-          },
-          disabled: false,
-          enableMaxDateInput: false,
-          enableMinDateInput: false,
-          enableTime: false,
-          input: true,
-          key: "test",
-          label: "Test",
-          timePicker: {
-            showMeridian: false
-          },
-          type: "datetime",
-          validate: {
-            required: false
-          },
-          widget: {
-            allowInput: true,
-            disableWeekdays: false,
-            disableWeekends: false,
-            displayInTimezone: "viewer",
-            enableTime: true,
-            hourIncrement: 1,
-            locale: "en",
-            maxDate: null,
-            minDate: null,
-            minuteIncrement: 1,
-            mode: "single",
-            noCalendar: false,
-            time_24hr: true,
-            type: "calendar",
-            useLocaleSettings: false
-          }
-        }
-      ],
-      display: "form",
-      machineName: "model",
-      name: "model",
-      submissionAccess: [],
-      tags: [],
-      title: "Model",
-      type: "form"
-    });
+    expect(form).toMatchSnapshot();
   });
   it("should generate date field", async () => {
     class Model {
