@@ -10,6 +10,7 @@ describe("Date integration", () => {
 
     const form = await getFormioSchema(Model);
     expect(form).toEqual({
+      access: [],
       components: [
         {
           datePicker: {
@@ -31,19 +32,31 @@ describe("Date integration", () => {
             required: false
           },
           widget: {
+            allowInput: true,
+            disableWeekdays: false,
+            disableWeekends: false,
+            displayInTimezone: "viewer",
             enableTime: true,
-            time_24hr: true
+            hourIncrement: 1,
+            locale: "en",
+            maxDate: null,
+            minDate: null,
+            minuteIncrement: 1,
+            mode: "single",
+            noCalendar: false,
+            time_24hr: true,
+            type: "calendar",
+            useLocaleSettings: false
           }
         }
       ],
       display: "form",
       machineName: "model",
       name: "model",
-      title: "Model",
-      type: "form",
       submissionAccess: [],
-      access: [],
-      tags: []
+      tags: [],
+      title: "Model",
+      type: "form"
     });
   });
   it("should generate date field", async () => {

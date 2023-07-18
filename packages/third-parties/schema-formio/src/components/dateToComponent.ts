@@ -5,17 +5,17 @@ function dateToComponent(schema: any, options: any) {
   const component = execMapper("default", schema, options);
 
   const base = {
-    ...component,
     enableMinDateInput: false,
+    enableTime: false,
+    enableMaxDateInput: false,
+    input: true,
+    ...component,
+    type: "datetime",
     datePicker: {
       disableWeekends: false,
       disableWeekdays: false,
       ...getValue(component, "datePicker")
     },
-    enableMaxDateInput: false,
-    enableTime: false,
-    type: "datetime",
-    input: true,
     widget: {
       type: "calendar",
       displayInTimezone: "viewer",
@@ -42,7 +42,8 @@ function dateToComponent(schema: any, options: any) {
       widget: {
         ...base.widget,
         enableTime: false,
-        format: "yyyy-MM-dd"
+        format: "yyyy-MM-dd",
+        ...getValue(component, "widget")
       }
     };
   }
@@ -54,6 +55,7 @@ function dateToComponent(schema: any, options: any) {
       ...getValue(component, "timePicker")
     },
     widget: {
+      ...base.widget,
       enableTime: true,
       time_24hr: true,
       ...getValue(component, "widget")
