@@ -1,130 +1,153 @@
 {
-  "machineName": "oidc-client",
-  "name": "oidc-client",
-  "title": "OIDCClient",
-  "type": "form",
-  "display": "form",
-  "submissionAccess": [],
   "access": [],
-  "tags": [],
   "components": [
     {
+      "datePicker": {
+        "disableWeekdays": false,
+        "disableWeekends": false
+      },
+      "disabled": true,
+      "enableMaxDateInput": false,
+      "enableMinDateInput": false,
+      "enableTime": false,
+      "input": true,
       "key": "created",
       "label": "Created",
-      "disabled": true,
-      "enableMinDateInput": false,
-      "datePicker": {
-        "disableWeekends": false,
-        "disableWeekdays": false
-      },
-      "enableMaxDateInput": false,
-      "enableTime": false,
-      "type": "datetime",
-      "input": true,
-      "widget": {
-        "enableTime": true,
-        "time_24hr": true
-      },
       "timePicker": {
         "showMeridian": false
       },
+      "type": "datetime",
       "validate": {
         "required": false
+      },
+      "widget": {
+        "allowInput": true,
+        "disableWeekdays": false,
+        "disableWeekends": false,
+        "displayInTimezone": "viewer",
+        "enableTime": true,
+        "hourIncrement": 1,
+        "locale": "en",
+        "maxDate": null,
+        "minDate": null,
+        "minuteIncrement": 1,
+        "mode": "single",
+        "noCalendar": false,
+        "time_24hr": true,
+        "type": "calendar",
+        "useLocaleSettings": false
       }
     },
     {
+      "datePicker": {
+        "disableWeekdays": false,
+        "disableWeekends": false
+      },
+      "disabled": true,
+      "enableMaxDateInput": false,
+      "enableMinDateInput": false,
+      "enableTime": false,
+      "input": true,
       "key": "modified",
       "label": "Modified",
-      "disabled": true,
-      "enableMinDateInput": false,
-      "datePicker": {
-        "disableWeekends": false,
-        "disableWeekdays": false
-      },
-      "enableMaxDateInput": false,
-      "enableTime": false,
-      "type": "datetime",
-      "input": true,
-      "widget": {
-        "enableTime": true,
-        "time_24hr": true
-      },
       "timePicker": {
         "showMeridian": false
       },
+      "type": "datetime",
       "validate": {
         "required": false
+      },
+      "widget": {
+        "allowInput": true,
+        "disableWeekdays": false,
+        "disableWeekends": false,
+        "displayInTimezone": "viewer",
+        "enableTime": true,
+        "hourIncrement": 1,
+        "locale": "en",
+        "maxDate": null,
+        "minDate": null,
+        "minuteIncrement": 1,
+        "mode": "single",
+        "noCalendar": false,
+        "time_24hr": true,
+        "type": "calendar",
+        "useLocaleSettings": false
       }
     },
     {
+      "disabled": false,
+      "input": true,
       "key": "clientName",
       "label": "Client name",
-      "input": true,
-      "type": "textfield",
       "tableView": true,
-      "disabled": false,
+      "type": "textfield",
       "validate": {
         "required": true
       }
     },
     {
+      "disabled": true,
+      "input": true,
       "key": "clientId",
       "label": "Client id",
-      "input": true,
-      "type": "textfield",
       "tableView": true,
-      "disabled": true,
+      "type": "textfield",
       "validate": {
         "required": true
       }
     },
     {
+      "disabled": true,
+      "input": true,
       "key": "clientSecret",
       "label": "Client secret",
-      "input": true,
       "type": "textfield",
-      "disabled": true,
       "validate": {
         "required": true
       }
     },
     {
+      "defaultValue": false,
+      "disabled": false,
+      "input": true,
       "key": "trusted",
       "label": "Trusted",
-      "disabled": false,
-      "defaultValue": false,
-      "input": true,
       "type": "checkbox",
       "validate": {
         "required": false
       }
     },
     {
+      "disabled": false,
+      "input": true,
       "key": "clientUri",
       "label": "Client uri",
-      "input": true,
-      "disabled": false,
       "type": "url",
       "validate": {
         "required": false
       }
     },
     {
+      "disabled": false,
+      "input": true,
       "key": "logoUri",
       "label": "Logo uri",
-      "input": true,
       "tableView": true,
-      "disabled": false,
       "type": "url",
       "validate": {
         "required": false
       }
     },
     {
+      "defaultValue": "web",
+      "disabled": false,
       "key": "applicationType",
       "label": "Application type",
-      "disabled": false,
-      "defaultValue": "web",
+      "type": "radio",
+      "validate": {
+        "required": true
+      },
       "values": [
         {
           "label": "web",
@@ -141,27 +164,28 @@
           "shortcut": "",
           "value": "service"
         }
-      ],
-      "type": "radio",
-      "validate": {
-        "required": true
-      }
+      ]
     },
     {
+      "disabled": false,
+      "input": true,
       "key": "redirectUris",
       "label": "Redirect uris",
-      "input": true,
-      "disabled": false,
-      "type": "url",
       "multiple": true,
+      "type": "url",
       "validate": {
         "required": false
       }
     },
     {
+      "disabled": false,
+      "inline": false,
       "key": "responseTypes",
       "label": "Response types",
-      "disabled": false,
+      "type": "selectboxes",
+      "validate": {
+        "required": false
+      },
       "values": [
         {
           "label": "code",
@@ -188,17 +212,17 @@
           "shortcut": "",
           "value": "none"
         }
-      ],
+      ]
+    },
+    {
+      "disabled": false,
       "inline": false,
+      "key": "grantTypes",
+      "label": "Grant types",
       "type": "selectboxes",
       "validate": {
         "required": false
-      }
-    },
-    {
-      "key": "grantTypes",
-      "label": "Grant types",
-      "disabled": false,
+      },
       "values": [
         {
           "label": "authorization_code",
@@ -220,18 +244,17 @@
           "shortcut": "",
           "value": "client_credentials"
         }
-      ],
-      "inline": false,
-      "type": "selectboxes",
-      "validate": {
-        "required": false
-      }
+      ]
     },
     {
+      "defaultValue": "client_secret_basic",
+      "disabled": false,
       "key": "tokenEndpointAuthMethod",
       "label": "Token endpoint auth method",
-      "disabled": false,
-      "defaultValue": "client_secret_basic",
+      "type": "radio",
+      "validate": {
+        "required": false
+      },
       "values": [
         {
           "label": "client_secret_post",
@@ -258,20 +281,16 @@
           "shortcut": "",
           "value": "none"
         }
-      ],
-      "type": "radio",
-      "validate": {
-        "required": false
-      }
+      ]
     },
     {
-      "key": "defaultMaxAge",
-      "label": "Default max age",
-      "disabled": false,
       "defaultValue": 3600,
       "delimiter": false,
+      "disabled": false,
       "input": true,
       "inputFormat": "plain",
+      "key": "defaultMaxAge",
+      "label": "Default max age",
       "mask": false,
       "requireDecimal": false,
       "type": "number",
@@ -280,34 +299,38 @@
       }
     },
     {
+      "disabled": false,
+      "input": true,
       "key": "postLogoutRedirectUris",
       "label": "Post logout redirect uris",
-      "input": true,
-      "disabled": false,
-      "type": "url",
       "multiple": true,
+      "type": "url",
       "validate": {
         "required": false
       }
     },
     {
+      "disabled": false,
+      "input": true,
       "key": "scopes",
       "label": "Scopes",
-      "input": true,
-      "type": "tags",
-      "tableView": true,
       "storeas": "array",
-      "disabled": false,
+      "tableView": true,
+      "type": "tags",
       "validate": {
         "required": false
       }
     },
     {
+      "defaultValue": "clubmed",
+      "description": "Change the template display on OIDC group1",
+      "disabled": false,
       "key": "theme",
       "label": "Theme",
-      "disabled": false,
-      "description": "Change the template display on OIDC group1",
-      "defaultValue": "clubmed",
+      "type": "radio",
+      "validate": {
+        "required": false
+      },
       "values": [
         {
           "label": "clubmed",
@@ -319,47 +342,50 @@
           "shortcut": "",
           "value": "myclubmed"
         }
-      ],
-      "type": "radio",
-      "validate": {
-        "required": false
-      }
+      ]
     },
     {
+      "defaultValue": true,
+      "description": "Import Google tags scripts for this client on OIDC group1 Login page",
+      "disabled": false,
+      "input": true,
       "key": "enableGoogleAd",
       "label": "Enable Google Tags",
-      "disabled": false,
-      "description": "Import Google tags scripts for this client on OIDC group1 Login page",
-      "defaultValue": true,
-      "input": true,
       "type": "checkbox",
       "validate": {
         "required": false
       }
     },
     {
+      "defaultValue": true,
+      "description": "Display socials login buttons for this client on OIDC group1 Login page",
+      "disabled": false,
+      "input": true,
       "key": "enableConnectionProvider",
       "label": "Enable Social Login",
-      "disabled": false,
-      "description": "Display socials login buttons for this client on OIDC group1 Login page",
-      "defaultValue": true,
-      "input": true,
       "type": "checkbox",
       "validate": {
         "required": false
       }
     },
     {
+      "defaultValue": false,
+      "description": "Disable the account creation link on OIDC group1",
+      "disabled": false,
+      "input": true,
       "key": "hideAccountCreation",
       "label": "Hide account creation link",
-      "disabled": false,
-      "description": "Disable the account creation link on OIDC group1",
-      "defaultValue": false,
-      "input": true,
       "type": "checkbox",
       "validate": {
         "required": false
       }
     }
-  ]
+  ],
+  "display": "form",
+  "machineName": "oidc-client",
+  "name": "oidc-client",
+  "submissionAccess": [],
+  "tags": [],
+  "title": "OIDCClient",
+  "type": "form"
 }
