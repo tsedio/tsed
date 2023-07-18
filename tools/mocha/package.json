@@ -1,6 +1,6 @@
 {
   "name": "@tsed/mocha-config",
-  "version": "7.33.2",
+  "version": "7.33.3",
   "private": true,
   "main": "mocha.config.js",
   "scripts": {},
