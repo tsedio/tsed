@@ -1,6 +1,6 @@
 {
   "name": "@tsed/schema",
-  "version": "7.33.3",
+  "version": "7.33.4",
   "description": "JsonSchema module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -36,7 +36,7 @@
     "tsed"
   ],
   "dependencies": {
-    "@tsed/openspec": "7.33.3",
+    "@tsed/openspec": "7.33.4",
     "change-case": "^4.1.2",
     "fs-extra": "^10.0.1",
     "json-schema": "0.4.0",
@@ -46,10 +46,10 @@
   },
   "devDependencies": {
     "@apidevtools/swagger-parser": "10.0.3",
-    "@tsed/core": "7.33.3",
-    "@tsed/eslint": "7.33.3",
-    "@tsed/openspec": "7.33.3",
-    "@tsed/typescript": "7.33.3",
+    "@tsed/core": "7.33.4",
+    "@tsed/eslint": "7.33.4",
+    "@tsed/openspec": "7.33.4",
+    "@tsed/typescript": "7.33.4",
     "@types/fs-extra": "9.0.13",
     "@types/json-schema": "7.0.11",
     "@types/picomatch": "2.3.0",
@@ -58,8 +58,8 @@
     "picomatch-browser": "https://github.com/silverwind/picomatch#ee6ebcc5570a8846d81610c11ebb92a9e199b145"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.33.3",
-    "@tsed/openspec": "^7.33.3"
+    "@tsed/core": "^7.33.4",
+    "@tsed/openspec": "^7.33.4"
   },
   "peerDependenciesMeta": {
     "@tsed/openspec": {
