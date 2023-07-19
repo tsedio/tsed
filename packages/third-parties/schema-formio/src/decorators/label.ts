@@ -1,3 +1,4 @@
+import {CustomKey, JsonEntityFn} from "@tsed/schema";
 import {Component} from "./component";
 
 /**
@@ -9,7 +10,11 @@ import {Component} from "./component";
  * @param label
  */
 export function Label(label: string) {
-  return Component({
-    label
+  return JsonEntityFn((entity) => {
+    return entity.decoratorType === "property"
+      ? Component({
+          label
+        })
+      : CustomKey("x-formio-label", label);
   });
 }

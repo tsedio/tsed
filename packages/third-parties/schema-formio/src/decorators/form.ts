@@ -1,8 +1,9 @@
 import {nameOf, StoreSet, useDecorators} from "@tsed/core";
-import {Name} from "@tsed/schema";
 import {FormioForm} from "@tsed/formio-types";
+import {Name} from "@tsed/schema";
 import {paramCase} from "change-case";
 import {FormsContainer} from "../registries/FormsContainer";
+import {Label} from "./label";
 
 /**
  * Expose the model as Formio Form.
@@ -17,6 +18,7 @@ export function Form(form: Partial<Omit<FormioForm, "components" | "_id">> = {})
       FormsContainer.set(machineName, target as any);
     },
     form.name && Name(form.name),
+    form.label && Label(form.label),
     form && StoreSet("formio:form", form)
   );
 }
