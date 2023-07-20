@@ -316,15 +316,13 @@ The `@Transactional()` decorator allows you to enable a retry policy for the par
 ```typescript
 import {OptimisticLockError} from "@mikro-orm/core";
 import {RetryStrategy} from "@tsed/mikro-orm";
+import {OverrideProvider} from "@tsed/di";
+import {setTimeout} from "timers/promises";
 
-export interface ExponentialBackoffOptions {
-  maxDepth: number;
-}
-
+@OverrideProvider(RetryStrategy)
 export class ExponentialBackoff implements RetryStrategy {
+  private readonly maxDepth = 3;
   private depth = 0;
-
-  constructor(private readonly options: ExponentialBackoffOptions) {}
 
   public async acquire<T extends (...args: unknown[]) => unknown>(task: T): Promise<ReturnType<T>> {
     try {
@@ -343,24 +341,13 @@ export class ExponentialBackoff implements RetryStrategy {
   }
 
   private async retry<T extends (...args: unknown[]) => unknown>(task: T): Promise<ReturnType<T>> {
-    await this.sleep(2 ** this.depth * 50);
+    await setTimeout(2 ** this.depth * 50);
 
     this.depth += 1;
 
     return this.acquire(task);
   }
-
-  private sleep(milliseconds: number): Promise<void> {
-    return new Promise((resolve) => setTimeout(resolve, milliseconds));
-  }
 }
-
-registerProvider({
-  provide: RetryStrategy,
-  useFactory(): ExponentialBackoff {
-    return new ExponentialBackoff({maxDepth: 3});
-  }
-});
 ```
 
 `ExponentialBackoff` invokes passed function recursively is contained in a try/catch block. The method returns control to the interceptor if the call to the `task` function succeeds without throwing an exception. If the `task` method fails, the catch block examines the reason for the failure. If it's optimistic locking the code waits for a short delay before retrying the operation.
@@ -416,6 +403,54 @@ export class SomeSubscriber implements EventSubscriber {
   // ...
 }
 ```
+
+## Transaction Hooks
+
+The transaction hooks allow you to customize the default transaction behavior. These hooks enable you to execute custom code before and after committing data to the database. These transaction hooks provide a flexible way to extend the default transaction behavior and implement advanced patterns such as the Inbox pattern or domain event dispatching.
+
+### BeforeTransactionCommit Hook
+
+The `BeforeTransactionCommit` interface allows you to define hooks that are executed right before committing data to the database. This hook provides a way to modify data within the same transaction context and perform additional operations before the transaction is committed.
+
+To use the `BeforeTransactionCommit` hook, first, you have to implement the `BeforeTransactionCommit` interface:
+
+```typescript
+import {BeforeTransactionCommit} from "@tsed/mikro-orm";
+import {EntityManager} from "@mikro-orm/core";
+import {Injectable} from "@tsed/di";
+
+@Injectable()
+export class Hooks implements BeforeTransactionCommit {
+  $beforeTransactionCommit(em: EntityManager): Promise<unknown> | unknown {
+    // Custom code executed before committing data
+  }
+}
+```
+
+Then just write your code inside the `$beforeTransactionCommit` method. This code will be executed before the transaction is committed.
+
+### AfterTransactionCommit Hook
+
+The `AfterTransactionCommit` interface allows you to define hooks that are executed right after committing data to the database. This hook enables you to execute code after the data is committed, making multiple transactions.
+
+To use the `AfterTransactionCommit` hook, you have to implement the `AfterTransactionCommit` interface:
+
+```typescript
+import {AfterTransactionCommit} from "@tsed/mikro-orm";
+import {EntityManager} from "@mikro-orm/core";
+import {Injectable} from "@tsed/di";
+
+@Injectable()
+export class Hooks implements AfterTransactionCommit {
+  $afterTransactionCommit(em: EntityManager): Promise<unknown> | unknown {
+    // Custom code executed after committing data
+  }
+}
+```
+
+::: tip Note
+When using the `AfterTransactionCommit` hook, you need to handle eventual consistency and compensatory actions in case of failures on your own.
+:::
 
 ## Contributors
 

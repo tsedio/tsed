@@ -28,6 +28,6 @@ export class UserService {
 
   @Transactional()
   create(data: {email: string}): Promise<User> {
-    return this.orm.em.create(User, data);
+    return Promise.resolve(this.orm.em.create(User, data));
   }
 }
