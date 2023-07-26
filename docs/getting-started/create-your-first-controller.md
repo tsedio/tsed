@@ -32,7 +32,13 @@ See [Controllers](/docs/controllers.md) section for more details
 You have to configure [engine rendering](/tutorials/templating) if you want to use the decorator @@Render@@.
 :::
 
-To test your method, just run your `server.ts` and send an HTTP request on `/rest/calendars/1`.
+The `CalendarCtrl` you just added needs to be connected by exporting it. Find a `index.ts` in my case in the `/rest/` folder and add the following line:
+
+```
+export * from "./CalendarCtrl";
+```
+
+To test your method, just run your `server.ts` and send an HTTP request on `/rest/calendars/`.
 
 ### Ready for More?
 
