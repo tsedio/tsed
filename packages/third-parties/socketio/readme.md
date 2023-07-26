@@ -197,6 +197,33 @@ export class MySocketService {
 }
 ```
 
+The session represents an arbitrary object that facilitates the storage of session data, allowing the sharing of information between Socket.IO servers.
+
+In the event of an unexpected disconnection (i.e., when the socket is not manually disconnected using `socket.disconnect()`), the server will store the session of the socket. Upon reconnection, the server will make an attempt to restore the previous session.
+
+To enable this behavior, you need to configure the [Connection state recovery](https://socket.io/docs/v4/connection-state-recovery) as follows:
+
+```ts
+import {Configuration} from "@tsed/di";
+import "@tsed/platform-express";
+import "@tsed/socketio";
+
+@Configuration({
+  socketIO: {
+    // ... see configuration
+    connectionStateRecovery: {
+      // the backup duration of the sessions and the packets
+      maxDisconnectionDuration: 2 * 60 * 1000,
+      // whether to skip middlewares upon successful recovery
+      skipMiddlewares: true
+    }
+  }
+})
+export class Server {}
+```
+
+> By default, Ts.ED uses the built-in in-memory adapter for session management. However, for production environments, it is recommended to use [the persistent adapters](https://socket.io/docs/v4/connection-state-recovery#compatibility-with-existing-adapters) to enhance reliability.
+
 ### Middlewares
 
 A middleware can be also used on a `SocketService` either on a class or on a method.
@@ -258,6 +285,7 @@ Middlewares chain use the `Promise` to run it. If one of this middlewares/method
 import {SocketService, SocketUseAfter, SocketUseBefore, Emit, Input, Args, SocketSession} from "@tsed/socketio";
 import {UserConverterSocketMiddleware, ErrorHandlerSocketMiddleware} from "../middlewares";
 import {User} from "../models/User";
+import {SocketSessionData} from "@tsed/socketio/lib/cjs";
 
 @SocketService("/my-namespace")
 @SocketUseBefore(UserConverterSocketMiddleware) // global version
@@ -267,7 +295,7 @@ export class MySocketService {
   @Emit("responseEventName") // or Broadcast or BroadcastOthers
   @SocketUseBefore(UserConverterSocketMiddleware)
   @SocketUseAfter(ErrorHandlerSocketMiddleware)
-  async myMethod(@Args(0) userName: User) {
+  async myMethod(@Args(0) userName: User, @SocketSessionData session: SocketSessionData) {
     const user = session.get("user") || {};
     user.name = userName;
 

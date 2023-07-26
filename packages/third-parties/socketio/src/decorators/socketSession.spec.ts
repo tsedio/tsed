@@ -1,5 +1,5 @@
 import {Store} from "@tsed/core";
-import {SocketSession} from "../index";
+import {RawSocketSession, SocketFilters, SocketSession} from "../index";
 
 describe("SocketSession", () => {
   it("should set metadata", () => {
@@ -13,7 +13,29 @@ describe("SocketSession", () => {
         test: {
           parameters: {
             "0": {
-              filter: "session",
+              filter: SocketFilters.SESSION,
+              mapIndex: undefined
+            }
+          }
+        }
+      }
+    });
+  });
+});
+
+describe("RawSocketSession", () => {
+  it("should set metadata", () => {
+    class Test {}
+
+    RawSocketSession(Test, "test", 0);
+    const store = Store.from(Test);
+
+    expect(store.get("socketIO")).toEqual({
+      handlers: {
+        test: {
+          parameters: {
+            "0": {
+              filter: SocketFilters.RAW_SESSION,
               mapIndex: undefined
             }
           }

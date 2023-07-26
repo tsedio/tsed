@@ -5,6 +5,7 @@
 export * from "./SocketIOModule";
 export * from "./class/SocketHandlersBuilder";
 export * from "./class/SocketProviderMetadata";
+export * from "./class/SocketSessionData";
 export * from "./constants/constants";
 export * from "./decorators/args";
 export * from "./decorators/broadcast";
@@ -37,6 +38,5 @@ export * from "./interfaces/SocketParamMetadata";
 export * from "./interfaces/SocketProviderTypes";
 export * from "./interfaces/SocketReturnsTypes";
 export * from "./interfaces/interfaces";
-export * from "./registries/NspSessionRegistry";
 export * from "./services/SocketIOServer";
 export * from "./services/SocketIOService";
