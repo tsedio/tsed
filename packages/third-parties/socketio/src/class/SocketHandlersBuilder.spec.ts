@@ -102,11 +102,6 @@ describe("SocketHandlersBuilder", () => {
       const {instance} = createServiceFixture();
       expect(instance.nsp).toEqual("namespace1");
     });
-
-    it("should init the nspSession", () => {
-      const {instance} = createServiceFixture();
-      expect(instance._nspSession).toBeInstanceOf(Map);
-    });
   });
   describe("onConnection()", () => {
     it("should build handler and invoke onConnection instance method", async () => {
@@ -138,12 +133,10 @@ describe("SocketHandlersBuilder", () => {
 
       const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
       const buildHandlersStub = jest.spyOn(builder, "buildHandlers").mockReturnValue(undefined);
-      const createSessionStub = jest.spyOn(builder, "createSession").mockReturnValue(undefined);
 
       await builder.onConnection(socketStub, nspStub);
 
       expect(buildHandlersStub).toBeCalledWith(socketStub, nspStub);
-      expect(createSessionStub).toBeCalledWith(socketStub);
       expect(invokeStub).toBeCalledWith(
         instance,
         {eventName: "onConnection"},
@@ -155,7 +148,7 @@ describe("SocketHandlersBuilder", () => {
     });
   });
   describe("onDisconnect()", () => {
-    it("should call the createSession method and create the $onDisconnect method if is missing", async () => {
+    it("should create the $onDisconnect method if is missing", async () => {
       const instance = {
         $onDisconnect: jest.fn()
       };
@@ -183,11 +176,9 @@ describe("SocketHandlersBuilder", () => {
         }
       } as any);
       const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
-      const destroySessionStub = jest.spyOn(builder, "destroySession").mockReturnValue(undefined);
 
       await builder.onDisconnect(socketStub, nspStub);
 
-      expect(destroySessionStub).toBeCalledWith(socketStub);
       expect(invokeStub).toBeCalledWith(
         instance,
         {eventName: "onDisconnect"},
@@ -227,7 +218,6 @@ describe("SocketHandlersBuilder", () => {
         }
       } as any);
       const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
-      jest.spyOn(builder, "destroySession").mockReturnValue(undefined);
 
       await builder.onDisconnect(socketStub, nspStub, reason);
 
@@ -241,87 +231,8 @@ describe("SocketHandlersBuilder", () => {
         }
       );
     });
-
-    it("should destroy the session only when $onDisconnect is completed invocation", async () => {
-      const instance = {
-        $onDisconnect: jest.fn()
-      };
-
-      const provider: any = {
-        store: {
-          get: jest.fn().mockReturnValue({
-            injectNamespace: "nsp",
-            handlers: {
-              $onDisconnect: {
-                eventName: "onDisconnect"
-              }
-            }
-          })
-        }
-      };
-      const nspStub: any = {nsp: "nsp"};
-      const socketStub: any = {
-        on: jest.fn()
-      };
-
-      const builder: any = new SocketHandlersBuilder(provider, {
-        get() {
-          return instance;
-        }
-      } as any);
-      const invokeStub = jest.spyOn(builder, "invoke").mockReturnValue(undefined);
-      const destroySessionStub = jest.spyOn(builder, "destroySession").mockReturnValue(undefined);
-
-      await builder.onDisconnect(socketStub, nspStub);
-
-      expect(destroySessionStub.mock.invocationCallOrder[0]).toBeGreaterThan(invokeStub.mock.invocationCallOrder[0]);
-    });
   });
-  describe("createSession()", () => {
-    it("should create session for the socket", () => {
-      const instance = {
-        _nspSession: new Map()
-      };
-      const provider: any = {
-        store: {
-          get: jest.fn()
-        }
-      };
 
-      const builder: any = new SocketHandlersBuilder(provider, {
-        get() {
-          return instance;
-        }
-      } as any);
-      builder.createSession({id: "id"});
-
-      expect(instance._nspSession.get("id")).toBeInstanceOf(Map);
-    });
-  });
-  describe("destroySession()", () => {
-    it("should destroy session for the socket", () => {
-      const instance = {
-        _nspSession: new Map()
-      };
-      const provider: any = {
-        store: {
-          get: jest.fn()
-        }
-      };
-
-      instance._nspSession.set("id", new Map());
-
-      const builder: any = new SocketHandlersBuilder(provider, {
-        get() {
-          return instance;
-        }
-      } as any);
-
-      builder.destroySession({id: "id"});
-
-      expect(instance._nspSession.get("id")).toBeUndefined();
-    });
-  });
   describe("buildHandlers()", () => {
     it("should call socket.on() method", async () => {
       const metadata = {
@@ -521,12 +432,9 @@ describe("SocketHandlersBuilder", () => {
 
     describe("when SESSION", () => {
       it("should return a list of parameters", () => {
-        const map = new Map();
-        map.set("id", new Map());
+        const data = {id: "id"};
 
-        const {builder, instance, provider} = createFixture();
-
-        instance._nspSession = map;
+        const {builder} = createFixture();
 
         const result = builder.buildParameters(
           {
@@ -534,10 +442,29 @@ describe("SocketHandlersBuilder", () => {
               filter: SocketFilters.SESSION
             }
           },
-          {socket: {id: "id"}}
+          {socket: {data, id: "id"}}
         );
 
-        expect(result[0]).toBeInstanceOf(Map);
+        expect(new Map(result[0])).toEqual(new Map(Object.entries(data)));
+      });
+    });
+
+    describe("when RAW_SESSION", () => {
+      it("should return a list of parameters", () => {
+        const data = {id: "id"};
+
+        const {builder} = createFixture();
+
+        const result = builder.buildParameters(
+          {
+            0: {
+              filter: SocketFilters.RAW_SESSION
+            }
+          },
+          {socket: {data, id: "id"}}
+        );
+
+        expect(result[0]).toEqual(data);
       });
     });
 

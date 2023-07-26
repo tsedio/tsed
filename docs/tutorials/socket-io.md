@@ -105,6 +105,18 @@ Ts.ED creates a new session for each socket.
 
 <<< @/tutorials/snippets/socketio/socket-session.ts
 
+The session represents an arbitrary object that facilitates the storage of session data, allowing the sharing of information between Socket.IO servers.
+
+In the event of an unexpected disconnection (i.e., when the socket is not manually disconnected using `socket.disconnect()`), the server will store the session of the socket. Upon reconnection, the server will make an attempt to restore the previous session.
+
+To enable this behavior, you need to configure the [Connection state recovery](https://socket.io/docs/v4/connection-state-recovery) as follows:
+
+<<< @/tutorials/snippets/socketio/connection-state-recovery-configuration.ts
+
+::: tip
+By default, Ts.ED uses the built-in in-memory adapter for session management. However, for production environments, it is recommended to use [the persistent adapters](https://socket.io/docs/v4/connection-state-recovery#compatibility-with-existing-adapters) to enhance reliability.
+:::
+
 ### Middlewares
 
 A middleware can also be used on a @@SocketService@@ either on a class or on a method.

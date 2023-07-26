@@ -24,7 +24,7 @@ export class RoomWS {
   @Input("eventName")
   @Emit("eventTest")
   @SocketUseBefore(ConverterUserSocketMiddleware)
-  myMethod(@SocketSession session: Map<any, any>) {
+  myMethod(@SocketSession session: SocketSession) {
     console.log("session", session.get("test"));
 
     return Promise.resolve("my Message " + session.get("test"));
@@ -34,8 +34,7 @@ export class RoomWS {
   @Emit("eventUserReturn")
   user(
     @Args(0)
-    user: User,
-    @SocketSession session: Map<any, any>
+    user: User
   ): User {
     console.log("user", nameOf(getClass(user)), user);
 

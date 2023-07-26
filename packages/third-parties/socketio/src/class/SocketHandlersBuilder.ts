@@ -9,14 +9,14 @@ import {SocketInjectableNsp} from "../interfaces/SocketInjectableNsp";
 import {SocketParamMetadata} from "../interfaces/SocketParamMetadata";
 import {SocketProviderTypes} from "../interfaces/SocketProviderTypes";
 import {SocketReturnsTypes} from "../interfaces/SocketReturnsTypes";
-import {getNspSession} from "../registries/NspSessionRegistry";
 import {SocketProviderMetadata} from "./SocketProviderMetadata";
+import {SocketSessionData} from "./SocketSessionData";
 
 /**
  * @ignore
  */
 export class SocketHandlersBuilder {
-  private socketProviderMetadata: SocketProviderMetadata;
+  private readonly socketProviderMetadata: SocketProviderMetadata;
 
   constructor(private provider: Provider, private injector: InjectorService) {
     this.socketProviderMetadata = new SocketProviderMetadata(this.provider.store.get("socketIO"));
@@ -60,8 +60,6 @@ export class SocketHandlersBuilder {
     instance.$onConnection && this.socketProviderMetadata.createHook("$onConnection", "connection");
     instance.$onDisconnect && this.socketProviderMetadata.createHook("$onDisconnect", "disconnect");
 
-    instance._nspSession = getNspSession(namespace);
-
     injectNamespaces.forEach((setting: SocketInjectableNsp) => {
       instance[setting.propertyKey] = nsps.get(setting.nsp || namespace);
     });
@@ -85,7 +83,6 @@ export class SocketHandlersBuilder {
     const instance = this.injector.get(this.provider.token);
 
     this.buildHandlers(socket, nsp);
-    this.createSession(socket);
 
     if (instance.$onConnection) {
       await this.invoke(instance, socketProviderMetadata.$onConnection, {socket, nsp});
@@ -99,26 +96,6 @@ export class SocketHandlersBuilder {
     if (instance.$onDisconnect) {
       await this.invoke(instance, socketProviderMetadata.$onDisconnect, {socket, nsp, reason});
     }
-
-    this.destroySession(socket);
-  }
-
-  /**
-   *
-   * @param {Socket} socket
-   */
-  private createSession(socket: Socket) {
-    const instance = this.injector.get(this.provider.token);
-    instance._nspSession.set(socket.id, new Map());
-  }
-
-  /**
-   *
-   * @param {Socket} socket
-   */
-  private destroySession(socket: Socket) {
-    const instance = this.injector.get(this.provider.token);
-    instance._nspSession.delete(socket.id);
   }
 
   private buildHandlers(socket: Socket, nsp: Namespace) {
@@ -183,9 +160,9 @@ export class SocketHandlersBuilder {
 
       if (filter === SocketFilters.ARGS && useMapper) {
         value = deserialize(value, {
-          useAlias: true,
           type,
-          collectionType
+          collectionType,
+          useAlias: true
         });
         scope.args[mapIndex!] = value;
       }
@@ -247,8 +224,10 @@ export class SocketHandlersBuilder {
           return scope.error;
 
         case SocketFilters.SESSION:
-          const instance = this.injector.get(this.provider.token);
-          return instance._nspSession.get(scope.socket.id);
+          return new SocketSessionData(scope.socket.data);
+
+        case SocketFilters.RAW_SESSION:
+          return scope.socket.data;
 
         case SocketFilters.SOCKET_NSP:
           return scope.socket.nsp;
