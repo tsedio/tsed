@@ -44,7 +44,7 @@ import {Scope} from "./scope";
  * @param index
  * @decorator
  */
-export function Opts(target: any, propertyKey: string | symbol, index: number) {
+export function Opts(target: any, propertyKey: string | symbol | undefined, index: number) {
   Scope(ProviderScope.INSTANCE)(classOf(target));
   Inject(DI_PARAM_OPTIONS)(target, propertyKey, index);
 }

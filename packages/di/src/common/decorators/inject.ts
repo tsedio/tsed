@@ -33,7 +33,7 @@ export function injectProperty(target: any, propertyKey: string, options: Partia
  * @decorator
  */
 export function Inject(token?: TokenProvider | (() => TokenProvider), onGet = (bean: any) => bean): Function {
-  return (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any | void => {
+  return (target: any, propertyKey: string | symbol | undefined, descriptor: TypedPropertyDescriptor<Function> | number): any | void => {
     const bindingType = decoratorTypeOf([target, propertyKey, descriptor]);
 
     switch (bindingType) {
@@ -44,7 +44,7 @@ export function Inject(token?: TokenProvider | (() => TokenProvider), onGet = (b
 
           paramTypes[descriptor as number] = type === Array ? [token] : token;
 
-          Metadata.setParamTypes(target, propertyKey, paramTypes);
+          Metadata.setParamTypes(target, propertyKey!, paramTypes);
         }
         break;
 
@@ -53,10 +53,10 @@ export function Inject(token?: TokenProvider | (() => TokenProvider), onGet = (b
         const originalType = Metadata.getType(target, propertyKey);
 
         if (useType === Object) {
-          throw new InvalidPropertyTokenError(target, propertyKey);
+          throw new InvalidPropertyTokenError(target, String(propertyKey));
         }
 
-        injectProperty(target, propertyKey, {
+        injectProperty(target, String(propertyKey), {
           resolver(injector, locals, {options, ...invokeOptions}) {
             const originalType = Metadata.getType(target, propertyKey);
             locals.set(DI_PARAM_OPTIONS, {...options});
