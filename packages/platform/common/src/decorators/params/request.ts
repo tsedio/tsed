@@ -2,7 +2,7 @@ import {isClass, Metadata, nameOf, Type} from "@tsed/core";
 import {IncomingMessage} from "http";
 import {mapParamsOptions, ParamOptions, ParamTypes, UseParam} from "@tsed/platform-params";
 
-function getParamType(target: Object, propertyKey: string | symbol, parameterIndex: number) {
+function getParamType(target: Object, propertyKey: string | symbol | undefined, parameterIndex: number) {
   const type = Metadata.getOwnParamTypes(target, propertyKey)[parameterIndex];
 
   if (isClass(type)) {

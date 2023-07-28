@@ -20,8 +20,12 @@ import {Server} from "../services/SocketIOServer";
  * @decorator
  */
 export function IO(): (...args: any[]) => any;
-export function IO(target: Type<any>, targetKey: string, descriptor: TypedPropertyDescriptor<Function> | number): any;
-export function IO(target?: Type<any>, targetKey?: string, descriptor?: TypedPropertyDescriptor<Function> | number): any {
+export function IO(target: Type<any>, targetKey: string | symbol | undefined, descriptor: TypedPropertyDescriptor<Function> | number): any;
+export function IO(
+  target?: Type<any>,
+  targetKey?: string | symbol | undefined,
+  descriptor?: TypedPropertyDescriptor<Function> | number
+): any {
   if (target) {
     return Inject(Server)(target, targetKey, descriptor);
   }
