@@ -1,6 +1,6 @@
 {
   "name": "@tsed/root",
-  "version": "7.34.1",
+  "version": "7.34.2",
   "description": "A TypeScript Framework on top of Express",
   "private": true,
   "author": "Romain Lenzotti",
