@@ -19,8 +19,8 @@ import {
   Returns,
   SpecTypes,
   string
-} from "../src/index";
-import {validateSpec} from "./helpers/validateSpec";
+} from "../../src/index";
+import {validateSpec} from "../helpers/validateSpec";
 
 export class Pageable {
   @Integer()

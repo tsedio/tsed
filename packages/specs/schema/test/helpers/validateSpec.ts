@@ -1,7 +1,7 @@
 import SwaggerParser from "@apidevtools/swagger-parser";
 import filedirname from "filedirname";
 import {unlinkSync, writeJsonSync} from "fs-extra";
-import {SpecTypes} from "../../src/index";
+import {SpecTypes} from "@tsed/schema";
 import {v4} from "uuid";
 
 // FIXME remove when esm is ready

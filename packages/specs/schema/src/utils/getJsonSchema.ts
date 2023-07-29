@@ -8,6 +8,7 @@ import "../components/lazyRefMapper";
 import "../components/mapMapper";
 import "../components/objectMapper";
 import "../components/ofMapper";
+import "../components/parameterMapper";
 import "../components/propertiesMapper";
 import "../components/schemaMapper";
 import type {JsonEntityStore} from "../domain/JsonEntityStore";

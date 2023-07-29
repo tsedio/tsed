@@ -1,5 +1,4 @@
-import {CollectionOf} from "../../src/decorators/collections/collectionOf";
-import {Property} from "../../src/decorators/common/property";
+import {CollectionOf, Property} from "@tsed/schema";
 import {Post} from "./Post";
 
 export class User {

@@ -1,1 +1,1 @@
-import "../../src/index";
+import "@tsed/schema";

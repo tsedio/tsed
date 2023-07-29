@@ -1,6 +1,6 @@
-import {OperationPath, Path, getSpec, SpecTypes} from "../src/index";
+import {OperationPath, Path, getSpec, SpecTypes} from "../../src/index";
 import {BodyParams, RawBodyParams} from "@tsed/platform-params";
-import {validateSpec} from "./helpers/validateSpec";
+import {validateSpec} from "../helpers/validateSpec";
 
 @Path("/body")
 class TestBodyCtrl {
