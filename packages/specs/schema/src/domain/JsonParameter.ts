@@ -1,14 +1,15 @@
-import {cleanObject, toMap, Type} from "@tsed/core";
-import {OpenSpecHash, OpenSpecRef, OS3Example, OS3Parameter, OS3Schema} from "@tsed/openspec";
+import {Type} from "@tsed/core";
+import {OpenSpecHash, OpenSpecRef, OS3Example, OS3Parameter} from "@tsed/openspec";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper} from "../registries/JsonSchemaMapperContainer";
-import {NestedGenerics, popGenerics} from "../utils/generics";
-import {createRefName} from "../utils/ref";
+import {NestedGenerics} from "../utils/generics";
 import {JsonMap} from "./JsonMap";
-import {formatParameterType, isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
+import {formatParameterType} from "./JsonParameterTypes";
 import {JsonSchema} from "./JsonSchema";
 
 export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements NestedGenerics {
+  kind = "operationInParameter";
+
   nestedGenerics: Type<any>[][] = [];
   groups: string[];
   groupsName: string;
@@ -63,6 +64,6 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
   }
 
   toJSON(options?: JsonSchemaOptions) {
-    return execMapper("operationParameter", this, options);
+    return execMapper("operationInParameter", this, options);
   }
 }

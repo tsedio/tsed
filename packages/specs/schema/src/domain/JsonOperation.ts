@@ -1,13 +1,9 @@
 import {deepMerge, uniq, uniqBy} from "@tsed/core";
 import {OpenSpecSecurity, OpenSpecTag, OS3Operation} from "@tsed/openspec";
-import {getStatusMessage} from "../constants/httpStatusMessages";
 import {JsonHeader} from "../interfaces/JsonOpenSpec";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {isRedirectionStatus, isSuccessStatus} from "../utils/isSuccessStatus";
 import {JsonMap} from "./JsonMap";
 import {JsonParameter} from "./JsonParameter";
-import {isParameterType, JsonParameterTypes} from "./JsonParameterTypes";
-import {JsonRequestBody} from "./JsonRequestBody";
 import {JsonResponse} from "./JsonResponse";
 import {JsonSchema} from "./JsonSchema";
 
@@ -24,6 +20,8 @@ export interface JsonOperationOptions extends OS3Operation<JsonSchema, JsonParam
 }
 
 export class JsonOperation extends JsonMap<JsonOperationOptions> {
+  kind: string = "operation";
+
   readonly operationPaths: Map<string, JsonMethodPath> = new Map();
   #status: number;
   #redirection: boolean = false;
@@ -209,106 +207,4 @@ export class JsonOperation extends JsonMap<JsonOperationOptions> {
 
     return this;
   }
-
-  toJSON(options: JsonSchemaOptions = {}): any {
-    const operation = super.toJSON({...options, ignore: ["parameters"]});
-    const bodyParameters: JsonParameter[] = [];
-    const parameters: any[] = [];
-
-    if (operation.security) {
-      operation.security = [].concat(operation.security);
-    }
-
-    this.get("parameters").forEach((parameter: JsonParameter) => {
-      if (!isParameterType(this.get("in"))) {
-        if (parameter.get("in")) {
-          if ([JsonParameterTypes.BODY, JsonParameterTypes.FILES].includes(parameter.get("in"))) {
-            bodyParameters.push(parameter);
-          } else {
-            parameters.push(...[].concat(parameter.toJSON(options)));
-          }
-        }
-      }
-    });
-
-    operation.parameters = parameters.filter(Boolean);
-
-    if (this.get("responses").size === 0) {
-      operation.responses = {
-        "200": {
-          description: getStatusMessage(200)
-        }
-      };
-    }
-
-    if (bodyParameters.length) {
-      const parameter = buildSchemaFromBodyParameters(bodyParameters, options);
-      operation.requestBody = toRequestBody(this, parameter).toJSON(options);
-    }
-
-    delete operation.consumes;
-    delete operation.produces;
-
-    return operation;
-  }
-}
-
-function toRequestBody(operation: JsonOperation, {schema, examples, in: _, ...props}: any) {
-  const requestBody = new JsonRequestBody(props);
-
-  const consumes = operation.get("consumes")?.length ? operation.get("consumes") : ["application/json"];
-
-  consumes.forEach((consume: string) => {
-    requestBody.addContent(consume, schema, examples);
-  });
-
-  return requestBody;
-}
-
-function buildSchemaFromBodyParameters(parameters: JsonParameter[], options: JsonSchemaOptions) {
-  let schema = new JsonSchema();
-  const props: any = {};
-  const refs: JsonSchema[] = [];
-  let propsLength = 0;
-
-  parameters.forEach((parameter) => {
-    const name = parameter.getName();
-
-    Array.from(parameter.entries())
-      .filter(([key]) => !["in", "name"].includes(key))
-      .forEach(([key, value]) => {
-        if (props[key] === undefined) {
-          props[key] = value;
-        }
-      });
-
-    const jsonParameter = parameter.toJSON(options);
-
-    if (name) {
-      schema.addProperty(
-        name,
-        jsonParameter.schema || {
-          type: jsonParameter.type
-        }
-      );
-
-      if (parameter.get("required")) {
-        schema.addRequired(name);
-      }
-
-      propsLength++;
-    } else {
-      refs.push(jsonParameter);
-    }
-  });
-
-  if (!propsLength) {
-    if (refs.length === 1) {
-      return refs[0];
-    }
-  }
-
-  schema.type("object");
-
-  return {schema: schema.toJSON(options), required: false, ...props};
 }

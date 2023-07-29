@@ -75,6 +75,8 @@ function mapToJsonSchema(item: any): any {
 }
 
 export class JsonSchema extends Map<string, any> implements NestedGenerics {
+  kind: string = "schema";
+
   readonly isJsonSchema = true;
   readonly $hooks = new Hooks();
   readonly $required: Set<string> = new Set();

@@ -9,7 +9,7 @@ import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapp
  * @param options
  * @ignore
  */
-export function mapMapper(input: Map<string, any>, {ignore = [], ...options}: JsonSchemaOptions): any {
+export function mapMapper(input: Map<string, any>, {ignore = [], ...options}: JsonSchemaOptions = {}): any {
   options = mapGenericsOptions(options);
 
   return Array.from(input.entries()).reduce((obj: any, [key, value]) => {
