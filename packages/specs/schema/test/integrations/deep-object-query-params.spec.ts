@@ -1,4 +1,4 @@
-import {Default, GenericOf, Generics, getSpec, In, Maximum, Minimum, OperationPath, Path, Property, SpecTypes} from "../src/index";
+import {Default, GenericOf, Generics, getSpec, In, Maximum, Minimum, OperationPath, Path, Property, SpecTypes} from "../../src/index";
 import {QueryParams} from "@tsed/platform-params";
 
 describe("Deep Object QueryParams", () => {

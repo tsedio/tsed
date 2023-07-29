@@ -1,7 +1,7 @@
 import {MultipartFile, PlatformMulterFile} from "@tsed/common";
 import {Controller} from "@tsed/di";
 import {BodyParams} from "@tsed/platform-params";
-import {Any, CollectionOf, getSpec, Integer, Post, Property} from "../src/index";
+import {Any, CollectionOf, getSpec, Integer, Post, Property} from "../../src/index";
 
 class MyModel {
   @Property()

@@ -1,4 +1,4 @@
-import {CollectionOf, ForwardGroups, getJsonSchema, Name, Required} from "../src/index";
+import {CollectionOf, ForwardGroups, getJsonSchema, Name, Required} from "../../src/index";
 
 class TeamModel {
   @Required()

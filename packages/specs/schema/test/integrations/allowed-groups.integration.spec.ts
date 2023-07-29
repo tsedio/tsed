@@ -1,5 +1,5 @@
 import {Controller} from "@tsed/di";
-import {Get, getSpec, Groups, Property, Returns} from "../src/index";
+import {Get, getSpec, Groups, Property, Returns} from "../../src/index";
 
 class MyModel {
   @Property()

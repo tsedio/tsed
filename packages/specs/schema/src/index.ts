@@ -11,6 +11,7 @@ export * from "./components/lazyRefMapper";
 export * from "./components/mapMapper";
 export * from "./components/objectMapper";
 export * from "./components/ofMapper";
+export * from "./components/parameterMapper";
 export * from "./components/propertiesMapper";
 export * from "./components/schemaMapper";
 export * from "./constants/httpMethods";
