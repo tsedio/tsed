@@ -1,5 +1,5 @@
 import {descriptorOf} from "@tsed/core";
-import {Get, getSpec, In, JsonEntityStore, OperationPath, Path, Redirect, Returns, SpecTypes} from "../index";
+import {execMapper, Get, getSpec, In, JsonEntityStore, OperationPath, Path, Redirect, Returns, SpecTypes} from "../index";
 
 describe("JsonOperation", () => {
   describe("getStatus()", () => {
@@ -15,7 +15,7 @@ describe("JsonOperation", () => {
 
       expect(entity.operation?.getStatus()).toBe(200);
       expect(entity.operation?.status).toBe(200);
-      expect(entity.operation?.response?.toJSON()).toEqual({
+      expect(execMapper("operationResponse", entity.operation?.response, {})).toEqual({
         content: {
           "*/*": {
             schema: {

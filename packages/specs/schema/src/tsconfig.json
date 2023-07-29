@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "module": "commonjs",
-    "rootDir": "..",
+    "rootDir": ".",
     "declaration": false,
     "composite": true,
     "noEmit": true

@@ -1,21 +1,21 @@
 import {JsonLazyRef} from "../domain/JsonLazyRef";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
+import {execMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
 import {mapGenericsOptions} from "../utils/generics";
 import {createRef, toRef} from "../utils/ref";
 
-export function lazyRefMapper(input: JsonLazyRef, options: JsonSchemaOptions) {
-  const name = input.name;
+export function lazyRefMapper(jsonLazyRef: JsonLazyRef, options: JsonSchemaOptions) {
+  const name = jsonLazyRef.name;
 
-  if (options.$refs?.find((t: any) => t === input.target)) {
-    return createRef(name, input.schema, options);
+  if (options.$refs?.find((t: any) => t === jsonLazyRef.target)) {
+    return createRef(name, jsonLazyRef.schema, options);
   }
 
-  options.$refs = [...(options.$refs || []), input.target];
+  options.$refs = [...(options.$refs || []), jsonLazyRef.target];
 
-  const schema = input.toJSON(mapGenericsOptions(options));
+  const schema = jsonLazyRef.getType() && execMapper("schema", jsonLazyRef.schema, mapGenericsOptions(options));
 
-  return toRef(input.schema, schema, options);
+  return toRef(jsonLazyRef.schema, schema, options);
 }
 
 registerJsonSchemaMapper("lazyRef", lazyRefMapper);

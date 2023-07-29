@@ -2,7 +2,7 @@ import {OS3Schema} from "@tsed/openspec";
 import {camelCase} from "change-case";
 import type {JSONSchema6} from "json-schema";
 import {JsonParameter} from "../domain/JsonParameter";
-import {isParameterType, JsonParameterTypes} from "../domain/JsonParameterTypes";
+import {JsonParameterTypes} from "../domain/JsonParameterTypes";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
 import {execMapper, hasMapper, registerJsonSchemaMapper} from "../registries/JsonSchemaMapperContainer";
 import {popGenerics} from "../utils/generics";
@@ -21,11 +21,7 @@ function mapOptions(parameter: JsonParameter, options: JsonSchemaOptions = {}) {
   };
 }
 
-export function operationParameterMapper(jsonParameter: JsonParameter, opts?: JsonSchemaOptions) {
-  if (!isParameterType(jsonParameter.get("in"))) {
-    return null;
-  }
-
+export function operationInParameterMapper(jsonParameter: JsonParameter, opts?: JsonSchemaOptions) {
   const options = mapOptions(jsonParameter, opts);
   const schemas = {...(options.schemas || {})};
 
@@ -56,4 +52,4 @@ export function operationParameterMapper(jsonParameter: JsonParameter, opts?: Js
   return parameter;
 }
 
-registerJsonSchemaMapper("operationParameter", operationParameterMapper);
+registerJsonSchemaMapper("operationInParameter", operationInParameterMapper);
