@@ -63,6 +63,6 @@ export class JsonParameter extends JsonMap<OS3Parameter<JsonSchema>> implements 
   }
 
   toJSON(options?: JsonSchemaOptions) {
-    return execMapper("parameter", this, options);
+    return execMapper("operationParameter", this, options);
   }
 }
