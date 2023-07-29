@@ -1,4 +1,5 @@
 import {isObject} from "@tsed/core";
+import {options} from "superagent";
 import {mapAliasedProperties} from "../domain/JsonAliasMap";
 import {JsonSchema} from "../domain/JsonSchema";
 import {SpecTypes} from "../domain/SpecTypes";
@@ -47,7 +48,14 @@ function isExample(key: string, value: any, options: JsonSchemaOptions) {
   return key === "examples" && isObject(value) && SpecTypes.OPENAPI === options.specType!;
 }
 
-export function schemaMapper(schema: JsonSchema, options: JsonSchemaOptions): any {
+function mapOptions(options: JsonSchemaOptions) {
+  let addDef = false;
+
+  if (!options) {
+    addDef = true;
+    options = {schemas: {}, inlineEnums: true};
+  }
+
   const {useAlias = true, schemas = {}} = options;
   options = {
     ...options,
@@ -55,7 +63,16 @@ export function schemaMapper(schema: JsonSchema, options: JsonSchemaOptions): an
     schemas
   };
 
-  let obj: any = [...schema.keys()]
+  return {
+    addDef,
+    options
+  };
+}
+
+function mapKeys(schema: JsonSchema, options: JsonSchemaOptions) {
+  const {useAlias} = options;
+
+  return [...schema.keys()]
     .filter((key) => !shouldSkipKey(key, options))
     .reduce((item: any, key) => {
       let value = schema.get(key);
@@ -81,7 +98,7 @@ export function schemaMapper(schema: JsonSchema, options: JsonSchemaOptions): an
           return item;
         }
 
-        if (shouldMapAlias(key, value, useAlias)) {
+        if (shouldMapAlias(key, value, useAlias!)) {
           value = mapAliasedProperties(value, schema.alias);
         }
       }
@@ -91,12 +108,23 @@ export function schemaMapper(schema: JsonSchema, options: JsonSchemaOptions): an
         [key]: value
       };
     }, {});
+}
+
+function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
+  let obj: any = mapKeys(schema, options);
 
   if (schema.isClass) {
-    obj = execMapper("inheritedClass", obj, {...options, root: false, schemas, target: schema.getComputedType()});
+    obj = execMapper("inheritedClass", obj, {
+      ...options,
+      root: false,
+      target: schema.getComputedType()
+    });
   }
 
-  obj = execMapper("generics", obj, {...options, root: false, schemas} as any);
+  obj = execMapper("generics", obj, {
+    ...options,
+    root: false
+  } as any);
 
   if (schema.has(options.specType as string)) {
     obj = {
@@ -105,10 +133,26 @@ export function schemaMapper(schema: JsonSchema, options: JsonSchemaOptions): an
     };
   }
 
-  obj = getRequiredProperties(obj, schema, {...options, useAlias});
+  obj = getRequiredProperties(obj, schema, options);
   obj = mapNullableType(obj, schema, options);
   obj = alterOneOf(obj, schema, options);
   obj = inlineEnums(obj, schema, options);
+
+  return obj;
+}
+
+export function schemaMapper(schema: JsonSchema, opts: JsonSchemaOptions): any {
+  const {
+    options,
+    options: {useAlias, schemas},
+    addDef
+  } = mapOptions(opts);
+
+  const obj = serializeSchema(schema, options);
+
+  if (addDef && options.schemas && Object.keys(options.schemas).length) {
+    obj.definitions = options.schemas;
+  }
 
   return obj;
 }

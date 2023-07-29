@@ -930,20 +930,7 @@ export class JsonSchema extends Map<string, any> implements NestedGenerics {
   }
 
   toJSON(options?: JsonSchemaOptions) {
-    let addDef = false;
-
-    if (!options) {
-      addDef = true;
-      options = {schemas: {}, inlineEnums: true};
-    }
-
-    const schema = execMapper("schema", this, options);
-
-    if (addDef && options.schemas && Object.keys(options.schemas).length) {
-      schema.definitions = options.schemas;
-    }
-
-    return schema;
+    return execMapper("schema", this, options);
   }
 
   assign(obj: JsonSchema | Partial<JsonSchemaObject> = {}) {
