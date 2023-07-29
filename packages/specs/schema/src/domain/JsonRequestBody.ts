@@ -6,6 +6,8 @@ import {JsonSchema} from "./JsonSchema";
 export type JsonRequestBodyOptions = OS3RequestBody<JsonSchema>;
 
 export class JsonRequestBody extends JsonMap<JsonRequestBodyOptions> {
+  kind = "operationRequestBody";
+
   constructor(obj: Partial<JsonRequestBodyOptions> = {}) {
     super(obj);
 

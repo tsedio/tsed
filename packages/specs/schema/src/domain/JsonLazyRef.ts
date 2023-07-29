@@ -1,6 +1,4 @@
 import {nameOf, Type} from "@tsed/core";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {getJsonEntityStore} from "../utils/getJsonEntityStore";
 
 export class JsonLazyRef {
@@ -18,9 +16,5 @@ export class JsonLazyRef {
 
   get name() {
     return nameOf(this.getType());
-  }
-
-  toJSON(options?: JsonSchemaOptions) {
-    return this.getType() && execMapper("schema", this.schema, options);
   }
 }

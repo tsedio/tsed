@@ -38,3 +38,7 @@ export function execMapper(type: string, schema: any, options: any, parent?: any
 export function hasMapper(type: string) {
   return JsonSchemaMappersContainer.has(type);
 }
+
+export function oneOfMapper(...types: string[]): string {
+  return types.find((type) => JsonSchemaMappersContainer.has(type))!;
+}

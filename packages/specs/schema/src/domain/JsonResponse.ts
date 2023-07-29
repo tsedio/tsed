@@ -1,39 +1,16 @@
 import {OS3MediaType, OS3Response} from "@tsed/openspec";
 import {JsonHeader} from "../interfaces/JsonOpenSpec";
-import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
-import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {mapHeaders} from "../utils/mapHeaders";
 import {toJsonMapCollection} from "../utils/toJsonMapCollection";
 import {JsonMap} from "./JsonMap";
+import {JsonMedia} from "./JsonMedia";
 import {JsonSchema} from "./JsonSchema";
 
 export type JsonResponseOptions = OS3Response<JsonSchema, string | JsonHeader>;
 
-export class JsonMedia extends JsonMap<OS3MediaType<JsonSchema>> {
-  groups: string[] = [];
-  groupsName: string;
-  allowedGroups?: Set<string>;
-
-  schema(schema: JsonSchema) {
-    this.set("schema", schema);
-
-    return this;
-  }
-
-  examples(examples: any) {
-    this.set("examples", examples);
-
-    return this;
-  }
-
-  toJSON(options: JsonSchemaOptions = {}): any {
-    let groups = [...(this.groups || [])];
-
-    return super.toJSON({...options, groups, groupsName: this.groupsName});
-  }
-}
-
 export class JsonResponse extends JsonMap<JsonResponseOptions> {
+  kind: string = "operationResponse";
+
   status: number;
 
   constructor(obj: Partial<JsonResponseOptions> = {}) {
@@ -78,9 +55,5 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
     }
 
     return this;
-  }
-
-  toJSON(options?: JsonSchemaOptions): any {
-    return execMapper("operationResponse", this, options);
   }
 }

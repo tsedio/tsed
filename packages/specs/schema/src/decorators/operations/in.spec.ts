@@ -1,4 +1,4 @@
-import {getSpec, In, JsonEntityStore, Name, OperationPath, Path, SpecTypes} from "../../index";
+import {execMapper, getSpec, In, JsonEntityStore, Name, OperationPath, Path, SpecTypes} from "../../index";
 
 describe("In", () => {
   it("should declare all schema correctly (param)", () => {
@@ -14,7 +14,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({});
+    const operation = execMapper("operation", methodSchema.operation, {});
 
     expect(operation).toEqual({
       parameters: [
@@ -48,7 +48,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({});
+    const operation = execMapper("operation", methodSchema.operation, {});
 
     expect(operation).toEqual({
       parameters: [
@@ -91,7 +91,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({});
+    const operation = execMapper("operation", methodSchema.operation, {});
 
     expect(operation).toEqual({
       parameters: [
@@ -141,7 +141,7 @@ describe("In", () => {
 
     const paramSchema = JsonEntityStore.from(Controller, "method", 0);
     const methodSchema = paramSchema.parent;
-    const operation = methodSchema.operation!.toJSON({
+    const operation = execMapper("operation", methodSchema.operation!, {
       specType: SpecTypes.OPENAPI
     });
 

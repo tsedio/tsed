@@ -142,11 +142,7 @@ function serializeSchema(schema: JsonSchema, options: JsonSchemaOptions) {
 }
 
 export function schemaMapper(schema: JsonSchema, opts: JsonSchemaOptions): any {
-  const {
-    options,
-    options: {useAlias, schemas},
-    addDef
-  } = mapOptions(opts);
+  const {options, addDef} = mapOptions(opts);
 
   const obj = serializeSchema(schema, options);
 
