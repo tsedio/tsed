@@ -1,6 +1,7 @@
 import {OS3MediaType, OS3Response} from "@tsed/openspec";
 import {JsonHeader} from "../interfaces/JsonOpenSpec";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
+import {execMapper} from "../registries/JsonSchemaMapperContainer";
 import {mapHeaders} from "../utils/mapHeaders";
 import {toJsonMapCollection} from "../utils/toJsonMapCollection";
 import {JsonMap} from "./JsonMap";
@@ -79,24 +80,7 @@ export class JsonResponse extends JsonMap<JsonResponseOptions> {
     return this;
   }
 
-  toJSON(options: JsonSchemaOptions = {}): any {
-    const response = super.toJSON(options);
-
-    if (this.status === 204) {
-      delete response.content;
-    }
-
-    if (response.headers) {
-      Object.entries(response.headers).forEach(([key, {type, ...props}]: [string, any]) => {
-        response.headers[key] = {
-          ...props,
-          schema: {
-            type
-          }
-        };
-      });
-    }
-
-    return response;
+  toJSON(options?: JsonSchemaOptions): any {
+    return execMapper("operationResponse", this, options);
   }
 }
