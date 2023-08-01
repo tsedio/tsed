@@ -51,4 +51,5 @@ export * from "./services/InjectorService";
 export * from "./utils/colors";
 export * from "./utils/createContainer";
 export * from "./utils/getConfiguration";
+export * from "./utils/getConstructorDependencies";
 export * from "./utils/resolveControllers";

@@ -67,7 +67,7 @@ describe("@Inject()", () => {
       class MyService1 implements InterfaceGroup {
         readonly type: string = "service1";
 
-        constructor(@Inject(InjectorService) readonly injector: InjectorService) {}
+        constructor(@Inject(InjectorService) readonly injector: any) {}
       }
 
       @Injectable({
@@ -76,7 +76,7 @@ describe("@Inject()", () => {
       class MyService2 implements InterfaceGroup {
         readonly type: string = "service2";
 
-        constructor(@Inject(InjectorService) readonly injector: InjectorService) {}
+        constructor(@Inject(InjectorService) readonly injector: any) {}
       }
 
       const TokenAsync = Symbol.for("MyService2");
