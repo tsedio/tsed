@@ -33,6 +33,7 @@ import {ResolvedInvokeOptions} from "../interfaces/ResolvedInvokeOptions";
 import {TokenProvider} from "../interfaces/TokenProvider";
 import {GlobalProviders} from "../registries/GlobalProviders";
 import {createContainer} from "../utils/createContainer";
+import {getConstructorDependencies} from "../utils/getConstructorDependencies";
 import {resolveControllers} from "../utils/resolveControllers";
 import {DIConfiguration} from "./DIConfiguration";
 
@@ -701,7 +702,7 @@ export class InjectorService extends Container {
       };
     } else {
       // useClass
-      deps = deps || Metadata.getParamTypes(provider.useClass);
+      deps = deps || getConstructorDependencies(provider.useClass);
       construct = (deps: TokenProvider[]) => new provider.useClass(...deps);
     }
 

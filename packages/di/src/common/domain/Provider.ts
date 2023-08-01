@@ -1,4 +1,4 @@
-import {classOf, getClassOrSymbol, isClass, methodsOf, nameOf, Store, Type} from "@tsed/core";
+import {classOf, getClassOrSymbol, isClass, Metadata, methodsOf, nameOf, Store, Type} from "@tsed/core";
 import {ProviderOpts} from "../interfaces/ProviderOpts";
 import {TokenProvider} from "../interfaces/TokenProvider";
 import {ProviderScope} from "./ProviderScope";
