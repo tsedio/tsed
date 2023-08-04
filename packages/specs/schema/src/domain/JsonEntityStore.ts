@@ -5,6 +5,7 @@ import {
   DecoratorTypes,
   descriptorOf,
   isArrayOrArrayClass,
+  isArrowFn,
   isClass,
   isClassObject,
   isCollection,
@@ -280,6 +281,8 @@ export abstract class JsonEntityStore implements JsonEntityStoreOptions {
       ? this.itemSchema.discriminator()
       : isClassObject(this.type)
       ? this.itemSchema.getTarget()
+      : isArrowFn(this.type)
+      ? this.type()
       : this.type;
   }
 }
