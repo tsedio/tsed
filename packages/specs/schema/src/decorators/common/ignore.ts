@@ -61,6 +61,7 @@ const defaultCB = (value: any, ctx: any) => ctx.mongoose !== true;
  * @validation
  * @swagger
  * @schema
+ * @deprecated Since v7. Use @Groups decorator instead of.
  */
 export function Ignore(cb: boolean | IgnoreCallback = defaultCB) {
   return JsonEntityFn((store) => {
