@@ -5,6 +5,7 @@ import {deserialize} from "../../src/utils/deserialize";
 import {serialize} from "../../src/utils/serialize";
 
 function serializeDate(date: Date) {
+  console.log("===>", date);
   return date && moment(date).format("YYYYMMDD");
 }
 

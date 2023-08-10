@@ -18,7 +18,11 @@ export class Writer {
   }
 
   static mapper(mapperId: string, key: string, options: string) {
-    return `options.mappers['${mapperId}'](${key}, ${options})`;
+    return `execMapper('${mapperId}', ${key}, ${options})`;
+  }
+
+  static mapperFrom(key: string, options: string) {
+    return `execMapper(nameOf(classOf(${key})), ${key}, ${options})`;
   }
 
   static options(...args: string[]) {
@@ -26,8 +30,11 @@ export class Writer {
     return !args.length ? "options" : Writer.object.assign("...options", ...args);
   }
 
-  add(...lines: (string | Writer)[]) {
-    this.body.push(...lines);
+  add(...lines: (undefined | string | Writer)[]) {
+    lines = lines.filter((line) => line !== undefined);
+
+    lines.length && this.body.push(...(lines as string | Writer[]));
+
     return this;
   }
 
@@ -66,14 +73,10 @@ export class Writer {
     return writer;
   }
 
-  if(condition: string, line?: string) {
+  if(condition: string) {
     const writer = new IfWriter(condition, this);
 
     this.add(writer);
-
-    if (line) {
-      writer.add(line);
-    }
 
     return writer;
   }

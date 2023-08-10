@@ -1,8 +1,8 @@
 import {DateFormat} from "@tsed/schema";
 import moment, {Moment} from "moment";
-import {getJsonMapperTypes} from "../../src/domain/JsonMapperTypesContainer";
-import {serialize} from "../../src/utils/serialize";
 import {JsonMapper} from "../../src/decorators/jsonMapper";
+import {getJsonMapperTypes} from "../../src/domain/JsonMapperTypesContainer";
+import {JsonSerializer} from "../../src/index";
 import {JsonMapperMethods} from "../../src/interfaces/JsonMapperMethods";
 
 class MyModel {
@@ -34,14 +34,23 @@ describe("Moment", () => {
     const data = new MyModel();
     data.date = moment("2022-01-01");
 
-    expect(serialize(data.date)).toEqual("20220101");
-    expect(serialize(data)).toEqual({
+    const serializer = new JsonSerializer();
+
+    expect(serializer.map(data.date)).toEqual("20220101");
+    expect(serializer.map(data)).toEqual({
       date: "20220101"
     });
 
-    getJsonMapperTypes().delete("Moment");
+    serializer.removeTypeMapper("Moment");
 
-    expect(serialize(data)).toEqual({
+    const types = getJsonMapperTypes();
+    types.delete("Moment");
+
+    expect(
+      serializer.map(data, {
+        types
+      })
+    ).toEqual({
       date: moment("2022-01-01").toJSON()
     });
   });

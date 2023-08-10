@@ -1,102 +1,224 @@
-import {isCollection, nameOf, objectKeys, Type} from "@tsed/core";
-import {alterIgnore} from "@tsed/schema";
-import {getRandomComponentId} from "../utils/getRandomComponentId";
-import {getJsonMapperTypes} from "./JsonMapperTypesContainer";
+import {
+  ancestorsOf,
+  classOf,
+  getRandomId,
+  hasJsonMethod,
+  isClass,
+  isCollection,
+  isDate,
+  isMomentObject,
+  isMongooseObject,
+  isNil,
+  isObject,
+  nameOf,
+  objectKeys,
+  Type
+} from "@tsed/core";
+import {JsonSchema} from "@tsed/schema";
 
 export type JsonMapperCallback<Options> = (input: any, options?: Options) => any;
 export type CachedJsonMapper<Options> = {
   id: string;
   fn: JsonMapperCallback<Options>;
-  source: string;
 };
 
-export abstract class JsonMapperCompiler<Options = any> {
-  cache = new Map<Type<any>, CachedJsonMapper<Options>>();
-  mappers: Record<string, JsonMapperCallback<Options>> = {};
-  schemes: Record<string, any> = {};
+export type CachedGroupsJsonMapper<Options> = Map<string, CachedJsonMapper<Options>>;
 
-  abstract alterValue(schemaId: string, value: any, options: Options): any;
-  abstract createMapper(model: Type<any>, id: string): string;
+export abstract class JsonMapperCompiler<Options extends Record<string, any> = any> {
+  /**
+   * Cached mappers metadata
+   * @protected
+   */
+  protected cache = new Map<Type<any> | string, CachedGroupsJsonMapper<Options>>();
+  /**
+   * Cached executable mappers by his id
+   * @protected
+   */
+  protected mappers: Record<string, JsonMapperCallback<Options>> = {};
+  /**
+   * Cached schemas
+   * @protected
+   */
+  protected schemes: Record<string, any> = {};
+  /**
+   * Global variables available in the mapper
+   * @protected
+   */
+  protected globals: Record<string, any> = {
+    isCollection,
+    isClass,
+    isObject,
+    classOf,
+    nameOf,
+    hasJsonMethod,
+    isMongooseObject,
+    isNil,
+    isDate,
+    objectKeys,
+    isMomentObject
+  };
 
-  set(model: Type<any>, mapper: CachedJsonMapper<Options>) {
-    this.cache.set(model, mapper);
-    this.mappers[mapper.id] = mapper.fn;
+  constructor() {
+    this.addGlobal("alterIgnore", this.alterIgnore.bind(this));
+    this.addGlobal("alterValue", this.alterValue.bind(this));
+    this.addGlobal("execMapper", this.execMapper.bind(this));
   }
 
-  get(model: Type<any>) {
-    return this.cache.get(model);
-  }
+  addTypeMapper(model: Type<any> | string, fn: any) {
+    const id = nameOf(model);
 
-  has(model: Type<any>) {
-    return this.cache.has(model);
-  }
+    this.cache.set(
+      model,
+      new Map().set("typeMapper", {
+        id,
+        fn
+      })
+    );
 
-  addTypeMapper(model: Type<any>, fn: any) {
-    this.cache.set(model, {
-      id: nameOf(model),
-      source: "",
-      fn
-    });
-    this.mappers[nameOf(model)] = fn;
+    this.mappers[id] = fn;
 
     return this;
   }
 
-  eval(id: string, model: Type<any>, mapper: string) {
-    const {cache} = this;
-    eval(`cache.set(model, { fn: ${mapper} })`);
+  removeTypeMapper(model: Type<any> | string) {
+    const store = this.cache.get(model);
 
-    const serializer = this.cache.get(model)!;
-    serializer.source = mapper;
-    serializer.id = id;
+    if (store) {
+      const {id} = store.get("typeMapper")!;
 
-    this.mappers[id] = serializer.fn;
+      delete this.mappers[id];
+      this.cache.delete(model);
+    }
+  }
 
-    return serializer.fn;
+  addGlobal(key: string, value: any) {
+    this.globals[key] = value;
+
+    return this;
+  }
+
+  eval(mapper: string, {id, groupsId, model}: {id: string; model: Type<any>; groupsId: string}) {
+    this.addGlobal("cache", this.cache);
+
+    const {globals} = this;
+
+    const injectGlobals = Object.keys(globals)
+      .map((name) => {
+        return `const ${name} = globals.${name};`;
+      })
+      .join("\n");
+
+    eval(`${injectGlobals};
+
+    cache.get(model).set(groupsId, { id: '${id}', fn: ${mapper} })`);
+
+    const store = this.cache.get(model)!.get(groupsId)!;
+
+    this.mappers[id] = store.fn;
+
+    return store;
   }
 
   createContext(options: Options) {
+    const {mappers, globals, cache} = this;
+
     return {
       ...options,
-      alterIgnore: (id: string, options: Options) => {
-        return alterIgnore(this.schemes[id], options);
-      },
-      alterValue: (id: string, value: any, options: Options) => {
-        return this.alterValue(id, value, options);
-      },
-      objectKeys,
-      cache: this.cache,
-      mappers: this.mappers
+      cache
     };
   }
 
-  compile(model: Type<any>): CachedJsonMapper<Options> {
-    if (!this.has(model)) {
-      const types = getJsonMapperTypes();
+  compile(model: Type<any>, groups: false | string[]): CachedJsonMapper<Options> {
+    model = this.getType(model);
 
-      if (types.has(model) && !isCollection(model)) {
-        const mapper = types.get(model);
+    const groupsId = this.getGroupsId(groups);
+    let storeGroups = this.cache.get(model) || this.cache.get(nameOf(model));
 
-        if (mapper) {
-          this.addTypeMapper(model, mapper.serialize.bind(mapper));
-        }
+    if (!storeGroups) {
+      storeGroups = new Map();
+      this.cache.set(model, storeGroups);
+    }
 
-        return this.get(model)!;
-      }
+    if (storeGroups.has("typeMapper")) {
+      return storeGroups.get("typeMapper")!;
+    }
 
-      const id = `${nameOf(model)}:${getRandomComponentId()}`;
-      this.cache.set(model, {id} as any);
+    // generate mapper for the given groups
+    if (!storeGroups.has(groupsId)) {
+      const id = this.getId(model, groupsId);
 
-      const mapper = this.createMapper(model, id);
+      // prevent circular dependencies
+      storeGroups.set(groupsId, {
+        id
+      } as any);
+
+      const mapper = this.createMapper(model, id, groups);
 
       try {
-        this.eval(id, model, mapper);
+        return this.eval(mapper, {id, model, groupsId});
       } catch (err) {
-        console.log(mapper);
         throw new Error(`Fail to compile mapper for ${nameOf(model)}. See the error above: ${err.message}.\n${mapper}`);
       }
     }
 
-    return this.get(model)!;
+    return storeGroups!.get(groupsId)!;
+  }
+
+  protected execMapper(id: string, value: any, options: Options) {
+    return this.mappers[id](value, options);
+  }
+
+  protected abstract map(input: any, options: Options): any;
+
+  protected abstract alterValue(schemaId: string, value: any, options: Options): any;
+
+  protected abstract createMapper(model: Type<any>, id: string, groups: false | string[]): string;
+
+  protected getType(model: Type<any>) {
+    if (!model) {
+      return Object;
+    }
+
+    if (isClass(model) && !isCollection(model)) {
+      const type = [Array, Map, Set].find((t) => ancestorsOf(model).includes(t));
+
+      if (type) {
+        return type;
+      }
+    }
+
+    return model;
+  }
+
+  protected alterIgnore(id: string, options: Options) {
+    let result = this.schemes[id]?.$hooks?.alter("ignore", false, [options]);
+
+    if (result) {
+      return result;
+    }
+  }
+
+  protected alterGroups(schema: JsonSchema, groups: false | string[]) {
+    if (groups !== false) {
+      return schema.$hooks.alter("groups", false, [groups]);
+    }
+
+    return false;
+  }
+
+  protected getGroupsId(groups: false | string[]) {
+    if (groups === false) {
+      return "default";
+    }
+
+    if (groups.length === 0) {
+      return "-";
+    }
+
+    return groups.join(",");
+  }
+
+  protected getId(model: Type<any>, groupsId: string) {
+    return `${nameOf(model)}:${getRandomId()}:${groupsId}`;
   }
 }
