@@ -1,6 +1,6 @@
 {
   "name": "@tsed/di",
-  "version": "7.34.2",
+  "version": "7.35.0-beta.1",
   "description": "DI module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -28,17 +28,17 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.34.2",
-    "@tsed/eslint": "7.34.2",
+    "@tsed/core": "7.35.0-beta.1",
+    "@tsed/eslint": "7.35.0-beta.1",
     "@tsed/logger": ">=6.2.2",
-    "@tsed/schema": "7.34.2",
-    "@tsed/typescript": "7.34.2",
+    "@tsed/schema": "7.35.0-beta.1",
+    "@tsed/typescript": "7.35.0-beta.1",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {
-    "@tsed/core": "^7.34.2",
+    "@tsed/core": "^7.35.0-beta.1",
     "@tsed/logger": ">=6.2.2",
-    "@tsed/schema": "^7.34.2"
+    "@tsed/schema": "^7.35.0-beta.1"
   },
   "peerDependenciesMeta": {
     "@tsed/core": {
