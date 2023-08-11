@@ -1,4 +1,16 @@
-import {classOf, hasJsonMethod, isClassObject, isDate, isMomentObject, isMongooseObject, isNil, isObject, nameOf, Type} from "@tsed/core";
+import {
+  classOf,
+  hasJsonMethod,
+  isClassObject,
+  isCollection,
+  isDate,
+  isMomentObject,
+  isMongooseObject,
+  isNil,
+  isObject,
+  nameOf,
+  Type
+} from "@tsed/core";
 import {getPropertiesStores, JsonClassStore, JsonEntityStore, JsonPropertyStore} from "@tsed/schema";
 import {alterOnSerialize} from "../hooks/alterOnSerialize";
 import {getObjectProperties} from "../utils/getObjectProperties";
@@ -38,7 +50,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     const model = getBestType(options.type, input);
 
     const mapper = this.compile(model, options.groups);
-
+    console.log(input, model);
     return mapper.fn(input, this.createContext(options));
   }
 
@@ -52,6 +64,8 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     const schemaProperties = [...getPropertiesStores(entity).values()];
 
     const writer = new Writer().arrow("input", "options");
+
+    writer.if("isNil(input)").return("input");
 
     // prepare options
     writer.const("obj", "{}");
@@ -198,6 +212,10 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
   }
 
   private mapObject(input: any, {type, ...options}: JsonSerializerOptions) {
+    if (input && isCollection(input)) {
+      return this.execMapper(nameOf(classOf(input)), input, options);
+    }
+
     if (hasJsonMethod(input)) {
       return this.mapJSON(input, options);
     }

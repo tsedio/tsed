@@ -155,6 +155,7 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
       const mapper = this.createMapper(model, id, groups);
 
       try {
+        console.log(mapper);
         return this.eval(mapper, {id, model, groupsId});
       } catch (err) {
         throw new Error(`Fail to compile mapper for ${nameOf(model)}. See the error above: ${err.message}.\n${mapper}`);

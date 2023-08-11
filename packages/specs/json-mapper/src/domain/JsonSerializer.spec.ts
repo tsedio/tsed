@@ -7,6 +7,7 @@ import {
   Ignore,
   JsonHookContext,
   Name,
+  Nullable,
   Property,
   Required
 } from "@tsed/schema";
@@ -327,7 +328,6 @@ describe("JsonSerializer", () => {
         }
       });
     });
-
     it("should serialize model with alias property", () => {
       class Role {
         @Property()
@@ -586,6 +586,42 @@ describe("JsonSerializer", () => {
         extra: "extra",
         id: "id",
         test: "test"
+      });
+    });
+    it("should serialize model with null values", () => {
+      class NestedModel {
+        @Property()
+        id: string;
+      }
+      class NullModel {
+        @Property()
+        prop1: string;
+
+        @Property()
+        prop2: number;
+
+        @Property()
+        prop3: Date;
+
+        @Nullable(NestedModel)
+        prop4: NestedModel;
+      }
+
+      expect(
+        serialize(
+          {
+            prop1: null,
+            prop2: null,
+            prop3: null,
+            prop4: null
+          },
+          {type: NullModel}
+        )
+      ).toEqual({
+        prop1: null,
+        prop2: null,
+        prop3: null,
+        prop4: null
       });
     });
   });
