@@ -1,6 +1,6 @@
 {
   "name": "@tsed/apollo",
-  "version": "7.34.4",
+  "version": "7.34.5",
   "description": "Apollo package for Ts.ED framework",
   "source": "./src/index.ts",
   "main": "./lib/cjs/index.js",
@@ -25,12 +25,12 @@
   },
   "private": false,
   "devDependencies": {
-    "@tsed/common": "7.34.4",
-    "@tsed/core": "7.34.4",
-    "@tsed/di": "7.34.4",
-    "@tsed/eslint": "7.34.4",
+    "@tsed/common": "7.34.5",
+    "@tsed/core": "7.34.5",
+    "@tsed/di": "7.34.5",
+    "@tsed/eslint": "7.34.5",
     "@tsed/logger": ">=6.2.2",
-    "@tsed/typescript": "7.34.4",
+    "@tsed/typescript": "7.34.5",
     "@types/graphql": "14.5.0",
     "apollo-datasource": "^3.2.0",
     "apollo-datasource-rest": "^3.3.0",
@@ -42,9 +42,9 @@
     "graphql": "15.7.2"
   },
   "peerDependencies": {
-    "@tsed/common": "^7.34.4",
-    "@tsed/core": "^7.34.4",
-    "@tsed/di": "^7.34.4",
+    "@tsed/common": "^7.34.5",
+    "@tsed/core": "^7.34.5",
+    "@tsed/di": "^7.34.5",
     "@tsed/logger": ">=6.2.2",
     "apollo-datasource": ">=3.0.0",
     "apollo-datasource-rest": ">=3.0.0",
