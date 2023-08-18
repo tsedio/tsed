@@ -50,7 +50,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     const model = getBestType(options.type, input);
 
     const mapper = this.compile(model, options.groups);
-    console.log(input, model);
+
     return mapper.fn(input, this.createContext(options));
   }
 
