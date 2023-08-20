@@ -1,5 +1,5 @@
 import {Type} from "@tsed/core";
-import "../components";
+import "../components/index";
 import type {JsonEntityStore} from "../domain/JsonEntityStore";
 import {SpecTypes} from "../domain/SpecTypes";
 import {JsonSchemaOptions} from "../interfaces/JsonSchemaOptions";
