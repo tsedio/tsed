@@ -1,6 +1,6 @@
 {
   "name": "@tsed/components-scan",
-  "version": "7.35.0-beta.1",
+  "version": "7.35.0-beta.2",
   "description": "Components scan utilities for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -22,15 +22,15 @@
     "lint:fix": "eslint '**/*.{ts,js}' --fix"
   },
   "dependencies": {
-    "@tsed/normalize-path": "7.35.0-beta.1",
+    "@tsed/normalize-path": "7.35.0-beta.2",
     "globby": "11.0.3",
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/core": "7.35.0-beta.1",
-    "@tsed/di": "7.35.0-beta.1",
-    "@tsed/eslint": "7.35.0-beta.1",
-    "@tsed/typescript": "7.35.0-beta.1",
+    "@tsed/core": "7.35.0-beta.2",
+    "@tsed/di": "7.35.0-beta.2",
+    "@tsed/eslint": "7.35.0-beta.2",
+    "@tsed/typescript": "7.35.0-beta.2",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {
