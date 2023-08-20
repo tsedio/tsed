@@ -1,11 +1,14 @@
-import {isBoolean} from "@tsed/core";
+import {Unique} from "@faker-js/faker/unique";
+import {isBoolean, isObjectID} from "@tsed/core";
 import {
   AdditionalProperties,
   CollectionOf,
   DiscriminatorKey,
   DiscriminatorValue,
+  Groups,
   Ignore,
   JsonHookContext,
+  MinLength,
   Name,
   Nullable,
   Property,
@@ -28,6 +31,16 @@ const serialize = (...args: any[]) => (serializer.map as any)(...args);
 
 function createMap(value: any) {
   return new Map([["test", value]]);
+}
+
+class ObjectId {
+  _bsontype = true;
+
+  constructor(public id: string) {}
+
+  toString() {
+    return this.id;
+  }
 }
 
 describe("JsonSerializer", () => {
@@ -593,6 +606,7 @@ describe("JsonSerializer", () => {
         @Property()
         id: string;
       }
+
       class NullModel {
         @Property()
         prop1: string;
@@ -731,6 +745,77 @@ describe("JsonSerializer", () => {
               label: "label"
             }
           }
+        }
+      ]);
+    });
+    it("should serialize model with nested model and not populated data (mongoose)", () => {
+      class Workspace {
+        @Property()
+        _id: string;
+
+        @Property()
+        name: string;
+      }
+
+      class MyWorkspace {
+        @Property()
+        workspaceId: Workspace;
+
+        @Property()
+        title: string;
+      }
+
+      class UserWorkspace {
+        @Property()
+        _id: string;
+
+        @CollectionOf(MyWorkspace)
+        workspaces: MyWorkspace[];
+      }
+
+      const userWorkspace = new UserWorkspace();
+      userWorkspace._id = new ObjectId("64e061ba7356daf00a66c130") as unknown as string;
+      userWorkspace.workspaces = [new MyWorkspace()];
+      userWorkspace.workspaces[0].title = "MyTest";
+      userWorkspace.workspaces[0].workspaceId = new ObjectId("64e061ba7356daf00a66c130") as unknown as Workspace;
+
+      expect(serialize(userWorkspace, {type: UserWorkspace})).toEqual({
+        _id: "64e061ba7356daf00a66c130",
+        workspaces: [
+          {
+            title: "MyTest",
+            workspaceId: "64e061ba7356daf00a66c130"
+          }
+        ]
+      });
+    });
+    it("should serialize model with nested model and not populated data (Ref mongoose)", () => {
+      class TestUser {
+        @Required()
+        email: string;
+
+        @Required()
+        @MinLength(6)
+        @Groups("creation")
+        password: string;
+      }
+      class TestProfile {
+        @OnSerialize((value, ctx) => {
+          if (isObjectID(value)) {
+            return value.toString();
+          }
+
+          return serialize(value, {...ctx, type: TestUser});
+        })
+        user: any;
+      }
+
+      const profile = new TestProfile();
+      profile.user = new ObjectId("64e061ba7356daf00a66c130");
+
+      expect(serialize([profile])).toEqual([
+        {
+          user: "64e061ba7356daf00a66c130"
         }
       ]);
     });

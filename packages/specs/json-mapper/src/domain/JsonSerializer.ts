@@ -8,6 +8,7 @@ import {
   isMongooseObject,
   isNil,
   isObject,
+  isPrimitive,
   nameOf,
   Type
 } from "@tsed/core";
@@ -38,6 +39,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
     this.addTypeMapper(Map, this.mapMap.bind(this));
     this.addTypeMapper(Set, this.mapSet.bind(this));
     this.addGlobal("mapJSON", this.mapJSON.bind(this));
+    this.addTypeMapper("ObjectId", (value: any) => String(value));
   }
 
   map(input: any, options: JsonSerializerOptions = {}) {
@@ -212,6 +214,11 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
   }
 
   private mapObject(input: any, {type, ...options}: JsonSerializerOptions) {
+    if (input && isPrimitive(input)) {
+      // prevent mongoose mapping error
+      return input;
+    }
+
     if (input && isCollection(input)) {
       return this.execMapper(nameOf(classOf(input)), input, options);
     }

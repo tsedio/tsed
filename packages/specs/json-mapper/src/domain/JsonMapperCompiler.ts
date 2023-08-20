@@ -10,6 +10,7 @@ import {
   isMongooseObject,
   isNil,
   isObject,
+  isObjectID,
   nameOf,
   objectKeys,
   Type
@@ -165,6 +166,10 @@ export abstract class JsonMapperCompiler<Options extends Record<string, any> = a
   }
 
   protected execMapper(id: string, value: any, options: Options) {
+    if (isObjectID(value)) {
+      return value.toString();
+    }
+
     return this.mappers[id](value, options);
   }
 
