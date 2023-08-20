@@ -214,7 +214,7 @@ export class JsonSerializer extends JsonMapperCompiler<JsonSerializerOptions> {
   }
 
   private mapObject(input: any, {type, ...options}: JsonSerializerOptions) {
-    if (input && isPrimitive(input)) {
+    if ((input && isPrimitive(input)) || !input) {
       // prevent mongoose mapping error
       return input;
     }
