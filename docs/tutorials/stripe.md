@@ -4,6 +4,10 @@ meta:
     content: Use Stripe with Express, TypeScript and Ts.ED. The Stripe Node library provides convenient access to the Stripe API from applications written in server-side JavaScript.
   - name: keywords
     content: ts.ed express typescript stripe node.js javascript decorators
+projects:
+  - title: Kit Stripe
+    href: https://github.com/tsedio/tsed-stripe-example
+    src: /stripe.svg
 ---
 
 # Stripe
@@ -15,6 +19,8 @@ This tutorial shows you how you can use Stripe package with Ts.ED.
 The Stripe Node library provides convenient access to the Stripe API from applications written in server-side JavaScript.
 
 For collecting customer and payment information in the browser, use [Stripe.js](https://stripe.com/docs/stripe.js).
+
+<Projects type="projects"/>
 
 ## Features
 
@@ -64,6 +70,20 @@ export class Server {
 
 ::: tip
 See Stripe options for more details: https://www.npmjs.com/package/stripe
+:::
+
+`STRIPE_SECRET_KEY` can be retrieved on the Stripe Dashboard here: https://dashboard.stripe.com/test/apikeys
+
+And the `STRIPE_WEBHOOK_SECRET` can be retrieved by using the `stripe listen` or `stripe forward`:
+
+```sh
+stripe listen
+
+> Ready! You are using Stripe API Version [2020-08-27]. Your webhook signing secret is whsec_*****************************
+```
+
+::: note
+You have to install the `stripe-cli` to run `stripe listen`. See https://stripe.com/docs/stripe-cli.
 :::
 
 ## Inject Stripe
@@ -223,6 +243,16 @@ describe("Stripe", () => {
   });
 });
 ```
+
+### Known issue
+
+If you have the followings message, it means you have an issue with your STRIPE_WEBHOOK_SECRET.
+
+```sh
+Error message: No signatures found matching the expected signature for payload. Are you passing the raw request body you received from Stripe?
+```
+
+Please double-check your configuration!
 
 ## Author
 
