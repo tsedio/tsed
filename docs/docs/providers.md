@@ -38,7 +38,7 @@ Example with @@Injectable@:
 
 :::
 
-Now we have the service class already done, let's use it inside the `CalendarCtrl`:
+Now we have the service class already done, let's use it inside the `CalendarsController`:
 
 <<< @/docs/snippets/providers/getting-started-controller.ts
 
@@ -48,7 +48,7 @@ Finally, we can load the injector and use it:
 
 ::: tip NOTE
 
-You'll notice that we only import the CalendarsCtrl and not the CalendarsService as that would be the case
+You'll notice that we only import the CalendarsController and not the CalendarsService as that would be the case
 with other DIs (Angular / inversify). Ts.ED will discover automatically services/providers as soon as it is imported
 into your application via an import ES6.
 
