@@ -1,6 +1,6 @@
 {
   "name": "@tsed/core",
-  "version": "7.34.6",
+  "version": "7.34.7",
   "description": "Core module for Ts.ED Framework",
   "private": false,
   "source": "./src/index.ts",
@@ -29,8 +29,8 @@
     "tslib": "2.5.0"
   },
   "devDependencies": {
-    "@tsed/eslint": "7.34.6",
-    "@tsed/typescript": "7.34.6",
+    "@tsed/eslint": "7.34.7",
+    "@tsed/typescript": "7.34.7",
     "eslint": "^8.12.0"
   },
   "peerDependencies": {}
